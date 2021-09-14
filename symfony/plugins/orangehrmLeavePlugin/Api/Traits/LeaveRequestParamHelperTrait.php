@@ -290,6 +290,37 @@ trait LeaveRequestParamHelperTrait
                 }
             ]),
         );
+        $partialOptionParamRule = new ParamRule(
+            LeaveCommonParams::PARAMETER_PARTIAL_OPTION,
+            new Rule(Rules::CALLBACK, [
+                function ($partialOption) {
+                    $fromDate = $this->getFromDateParam();
+                    $toDate = $this->getToDateParam();
+
+                    // partial day options should not define for single day
+                    if ($fromDate == $toDate && !is_null($partialOption)) {
+                        return false;
+                    }
+
+                    // validating partial day options
+                    if (!in_array(
+                        $partialOption,
+                        [
+                            null,
+                            LeaveParameterObject::PARTIAL_OPTION_NONE,
+                            LeaveParameterObject::PARTIAL_OPTION_ALL,
+                            LeaveParameterObject::PARTIAL_OPTION_START,
+                            LeaveParameterObject::PARTIAL_OPTION_END,
+                            LeaveParameterObject::PARTIAL_OPTION_START_END,
+                        ]
+                    )) {
+                        return false;
+                    }
+
+                    return true;
+                }
+            ]),
+        );
         return new ParamRuleCollection(
             new ParamRule(LeaveCommonParams::PARAMETER_LEAVE_TYPE_ID, new Rule(LeaveTypeIdRule::class)),
             new ParamRule(
@@ -307,20 +338,7 @@ trait LeaveRequestParamHelperTrait
             ),
             $durationRule,
             $endDurationRule,
-            $this->getValidationDecorator()->notRequiredParamRule(
-                new ParamRule(
-                    LeaveCommonParams::PARAMETER_PARTIAL_OPTION,
-                    new Rule(Rules::IN, [
-                        [
-                            LeaveParameterObject::PARTIAL_OPTION_NONE,
-                            LeaveParameterObject::PARTIAL_OPTION_ALL,
-                            LeaveParameterObject::PARTIAL_OPTION_START,
-                            LeaveParameterObject::PARTIAL_OPTION_END,
-                            LeaveParameterObject::PARTIAL_OPTION_START_END,
-                        ]
-                    ])
-                )
-            ),
+            $partialOptionParamRule,
         );
     }
 

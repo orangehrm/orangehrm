@@ -36,8 +36,10 @@ use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
 use OrangeHRM\Entity\Leave;
+use OrangeHRM\Entity\LeaveType;
 use OrangeHRM\Leave\Api\Model\LeaveBalanceModel;
 use OrangeHRM\Leave\Api\Model\LeavePeriodModel;
+use OrangeHRM\Leave\Api\Model\LeaveTypeModel;
 use OrangeHRM\Leave\Api\Traits\LeaveRequestParamHelperTrait;
 use OrangeHRM\Leave\Dto\LeavePeriod;
 use OrangeHRM\Leave\Service\LeaveApplicationService;
@@ -169,10 +171,23 @@ class LeaveBalanceAPI extends Endpoint implements ResourceEndpoint
             new ParameterBag(
                 [
                     self::META_PARAMETER_EMPLOYEE => $this->getEmployeeService()->getEmployeeAsArray($empNumber),
-                    self::META_PARAMETER_LEAVE_TYPE => $this->getLeaveTypeService()->getLeaveTypeAsArray($leaveTypeId),
+                    self::META_PARAMETER_LEAVE_TYPE => $this->getLeaveTypeAsArray($leaveTypeId),
                 ]
             )
         );
+    }
+
+    /**
+     * @param int $leaveTypeId
+     * @return array|null
+     */
+    private function getLeaveTypeAsArray(int $leaveTypeId): ?array
+    {
+        $leaveType = $this->getLeaveTypeService()->getLeaveTypeDao()->getLeaveTypeById($leaveTypeId);
+        if (!$leaveType instanceof LeaveType) {
+            return null;
+        }
+        return $this->getNormalizerService()->normalize(LeaveTypeModel::class, $leaveType);
     }
 
     /**
