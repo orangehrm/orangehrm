@@ -17,7 +17,6 @@
             <directory>symfony/web</directory>
             <directory>symfony/vendor</directory>
             <directory>symfony/test</directory>
-            <directory>symfony/plugins</directory>
         </exclude>
     </coverage>
     <testsuites>

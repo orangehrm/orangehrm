@@ -1,86 +1,86 @@
 {
-  "name": "orangehrm/orangehrm",
-  "description": "OrangeHRM open source",
-  "keywords": [
-    "orangehrm"
-  ],
-  "type": "project",
-  "license": "GPL-2.0-only",
-  "require": {
-    "php": "^7.4|^8.0",
-    "ext-pdo": "*",
-    "ext-curl": "*",
-    "ext-json": "*",
-    "ext-mbstring": "*",
-    "ext-zip": "*",
-    "ext-dom": "*",
-    "ext-xml": "*",
-    "symfony/http-foundation": "~4.4.19",
-    "symfony/routing": "~4.4.19",
-    "symfony/http-kernel": "~4.4.19",
-    "symfony/event-dispatcher": "~4.4.19",
-    "respect/validation": "^2.2",
-    "symfony/monolog-bundle": "^3.6",
-    "bshaffer/oauth2-server-php": "^1.11",
-    "doctrine/orm": "~2.8.2",
-    "symfony/yaml": "^5.2",
-    "twig/twig": "^3.0",
-    "symfony/error-handler": "^4.4",
-    "symfony/dependency-injection": "^5.2",
-    "symfony/cache": "^5.3",
-    "swiftmailer/swiftmailer": "~5.2"
-  },
-  "require-dev": {
-    "phpunit/phpunit": "^9.5",
-    "doctrine/migrations": "^3.1"
-  },
-  "autoload": {
-    "psr-4": {
-      "OrangeHRM\\ORM\\": "./lib/orm",
-      "OrangeHRM\\Framework\\": "./lib/framework",
-      "OrangeHRM\\Config\\": "./lib/config",
-      "OrangeHRM\\Admin\\": "./plugins/orangehrmAdminPlugin",
-      "OrangeHRM\\Attendance\\": "./plugins/orangehrmAttendancePlugin",
-      "OrangeHRM\\Authentication\\": "./plugins/orangehrmAuthenticationPlugin",
-      "OrangeHRM\\Buzz\\": "./plugins/orangehrmBuzzPlugin",
-      "OrangeHRM\\OAuth\\": "./plugins/orangehrmCoreOAuthPlugin",
-      "OrangeHRM\\Core\\": "./plugins/orangehrmCorePlugin",
-      "OrangeHRM\\CorporateDirectory\\": "./plugins/orangehrmCorporateDirectoryPlugin",
-      "OrangeHRM\\Dashboard\\": "./plugins/orangehrmDashboardPlugin",
-      "OrangeHRM\\Help\\": "./plugins/orangehrmHelpPlugin",
-      "OrangeHRM\\Leave\\": "./plugins/orangehrmLeavePlugin",
-      "OrangeHRM\\Maintenance\\": "./plugins/orangehrmMaintenancePlugin",
-      "OrangeHRM\\MarketPlace\\": "./plugins/orangehrmMarketPlacePlugin",
-      "OrangeHRM\\OpenidAuthentication\\": "./plugins/orangehrmOpenidAuthenticationPlugin",
-      "OrangeHRM\\Performance\\": "./plugins/orangehrmPerformancePlugin",
-      "OrangeHRM\\PerformanceTracker\\": "./plugins/orangehrmPerformanceTrackerPlugin",
-      "OrangeHRM\\Pim\\": "./plugins/orangehrmPimPlugin",
-      "OrangeHRM\\Recruitment\\": "./plugins/orangehrmRecruitmentPlugin",
-      "OrangeHRM\\Time\\": "./plugins/orangehrmTimePlugin",
-      "OrangeHRM\\Entity\\": [
-        "./plugins/orangehrmAdminPlugin/entity",
-        "./plugins/orangehrmPerformancePlugin/entity",
-        "./plugins/orangehrmPimPlugin/entity",
-        "./plugins/orangehrmLeavePlugin/entity",
-        "./plugins/orangehrmCorePlugin/entity",
-        "./plugins/orangehrmCoreOAuthPlugin/entity",
-        "./plugins/orangehrmTimePlugin/entity"
-      ]
+    "name": "orangehrm/orangehrm",
+    "description": "OrangeHRM open source",
+    "keywords": [
+        "orangehrm"
+    ],
+    "type": "project",
+    "license": "GPL-2.0-only",
+    "require": {
+        "php": "^7.4|^8.0",
+        "ext-pdo": "*",
+        "ext-curl": "*",
+        "ext-json": "*",
+        "ext-mbstring": "*",
+        "ext-zip": "*",
+        "ext-dom": "*",
+        "ext-xml": "*",
+        "symfony/http-foundation": "~4.4.19",
+        "symfony/routing": "~4.4.19",
+        "symfony/http-kernel": "~4.4.19",
+        "symfony/event-dispatcher": "~4.4.19",
+        "respect/validation": "^2.2",
+        "symfony/monolog-bundle": "^3.6",
+        "bshaffer/oauth2-server-php": "^1.11",
+        "doctrine/orm": "~2.8.2",
+        "symfony/yaml": "^5.2",
+        "twig/twig": "^3.0",
+        "symfony/error-handler": "^4.4",
+        "symfony/dependency-injection": "^5.2",
+        "symfony/cache": "^5.3",
+        "swiftmailer/swiftmailer": "~5.2"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5",
+        "doctrine/migrations": "^3.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "OrangeHRM\\ORM\\": "./lib/orm",
+            "OrangeHRM\\Framework\\": "./lib/framework",
+            "OrangeHRM\\Config\\": "./lib/config",
+            "OrangeHRM\\Admin\\": "./plugins/orangehrmAdminPlugin",
+            "OrangeHRM\\Attendance\\": "./plugins/orangehrmAttendancePlugin",
+            "OrangeHRM\\Authentication\\": "./plugins/orangehrmAuthenticationPlugin",
+            "OrangeHRM\\Buzz\\": "./plugins/orangehrmBuzzPlugin",
+            "OrangeHRM\\OAuth\\": "./plugins/orangehrmCoreOAuthPlugin",
+            "OrangeHRM\\Core\\": "./plugins/orangehrmCorePlugin",
+            "OrangeHRM\\CorporateDirectory\\": "./plugins/orangehrmCorporateDirectoryPlugin",
+            "OrangeHRM\\Dashboard\\": "./plugins/orangehrmDashboardPlugin",
+            "OrangeHRM\\Help\\": "./plugins/orangehrmHelpPlugin",
+            "OrangeHRM\\Leave\\": "./plugins/orangehrmLeavePlugin",
+            "OrangeHRM\\Maintenance\\": "./plugins/orangehrmMaintenancePlugin",
+            "OrangeHRM\\MarketPlace\\": "./plugins/orangehrmMarketPlacePlugin",
+            "OrangeHRM\\OpenidAuthentication\\": "./plugins/orangehrmOpenidAuthenticationPlugin",
+            "OrangeHRM\\Performance\\": "./plugins/orangehrmPerformancePlugin",
+            "OrangeHRM\\PerformanceTracker\\": "./plugins/orangehrmPerformanceTrackerPlugin",
+            "OrangeHRM\\Pim\\": "./plugins/orangehrmPimPlugin",
+            "OrangeHRM\\Recruitment\\": "./plugins/orangehrmRecruitmentPlugin",
+            "OrangeHRM\\Time\\": "./plugins/orangehrmTimePlugin",
+            "OrangeHRM\\Entity\\": [
+                "./plugins/orangehrmAdminPlugin/entity",
+                "./plugins/orangehrmPerformancePlugin/entity",
+                "./plugins/orangehrmPimPlugin/entity",
+                "./plugins/orangehrmLeavePlugin/entity",
+                "./plugins/orangehrmCorePlugin/entity",
+                "./plugins/orangehrmCoreOAuthPlugin/entity",
+                "./plugins/orangehrmTimePlugin/entity"
+            ]
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "OrangeHRM\\Tests\\": "./test/phpunit",
+            "OrangeHRM\\Tests\\Admin\\": "./plugins/orangehrmAdminPlugin/test",
+            "OrangeHRM\\Tests\\Authentication\\": "./plugins/orangehrmAuthenticationPlugin/test",
+            "OrangeHRM\\Tests\\Core\\": "./plugins/orangehrmCorePlugin/test",
+            "OrangeHRM\\Tests\\Leave\\": "./plugins/orangehrmLeavePlugin/test",
+            "OrangeHRM\\Tests\\Pim\\": "./plugins/orangehrmPimPlugin/test",
+            "OrangeHRM\\Tests\\OAuth\\": "./plugins/orangehrmCoreOAuthPlugin/test",
+            "OrangeHRM\\Tests\\Time\\": "./plugins/orangehrmTimePlugin/test"
+        }
+    },
+    "scripts": {
+        "test": "cd ../ && phpunit"
     }
-  },
-  "autoload-dev": {
-    "psr-4": {
-      "OrangeHRM\\Tests\\": "./test/phpunit",
-      "OrangeHRM\\Tests\\Admin\\": "./plugins/orangehrmAdminPlugin/test",
-      "OrangeHRM\\Tests\\Authentication\\": "./plugins/orangehrmAuthenticationPlugin/test",
-      "OrangeHRM\\Tests\\Core\\": "./plugins/orangehrmCorePlugin/test",
-      "OrangeHRM\\Tests\\Leave\\": "./plugins/orangehrmLeavePlugin/test",
-      "OrangeHRM\\Tests\\Pim\\": "./plugins/orangehrmPimPlugin/test",
-      "OrangeHRM\\Tests\\OAuth\\": "./plugins/orangehrmCoreOAuthPlugin/test",
-      "OrangeHRM\\Tests\\Time\\": "./plugins/orangehrmTimePlugin/test"
-    }
-  },
-  "scripts": {
-    "test": "cd ../ && phpunit"
-  }
 }
