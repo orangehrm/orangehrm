@@ -185,6 +185,8 @@ export default {
             ${this.$t('general.to').toLowerCase()}
             ${meta.currentLeavePeriod.endDate}
           `;
+      } else {
+        this.leavePeriodDefined = false;
       }
     },
   },

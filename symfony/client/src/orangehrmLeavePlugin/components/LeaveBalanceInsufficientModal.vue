@@ -140,7 +140,7 @@ export default {
       return [];
     },
     leaveType() {
-      return this.meta?.leaveType?.label;
+      return this.meta?.leaveType?.name;
     },
     employeeName() {
       const employee = this.meta?.employee;

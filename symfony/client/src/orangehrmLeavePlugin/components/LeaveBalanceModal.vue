@@ -40,7 +40,10 @@
             {{ employeeName }}
           </oxd-text>
         </oxd-input-group>
-        <oxd-input-group :label="$t('leave.leave_type')">
+        <oxd-input-group
+          class="--offset-column-1"
+          :label="$t('leave.leave_type')"
+        >
           <oxd-text class="orangehrm-leave-balance-text" tag="p">
             {{ leaveType }}
           </oxd-text>
@@ -138,7 +141,7 @@ export default {
       return this.data?.asAtDate;
     },
     leaveType() {
-      return this.meta?.leaveType?.label;
+      return this.meta?.leaveType?.name;
     },
     employeeName() {
       const employee = this.meta?.employee;
