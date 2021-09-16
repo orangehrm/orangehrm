@@ -853,7 +853,6 @@ class LeaveRequestDaoTest extends KernelTestCase
         $leaveRequest->setLeaveType($this->getEntityReference(LeaveType::class, 1));
         $leaveRequest->setDateApplied(new DateTime('2010-09-01'));
         $leaveRequest->setEmployee($this->getEntityReference(Employee::class, 1));
-        $leaveRequest->setComment('Testing comment i add');
 
         $leave1 = new Leave();
         $leave1->setLengthHours(8);
@@ -988,6 +987,11 @@ class LeaveRequestDaoTest extends KernelTestCase
         $entitlementAssignmentIds = $this->getEntitlementAssignmentIdsFromDb();
 
         $savedEntitlements = $this->getEntitlementsFromDb();
+        // to avoid update Doctrine unit of work
+        $savedEntitlements = array_map(
+            fn(LeaveEntitlement $leaveEntitlement) => clone $leaveEntitlement,
+            $savedEntitlements
+        );
 
         // Verify all entitlements in fixture retrieved.
         $this->assertCount(4, $savedEntitlements);
@@ -1095,6 +1099,11 @@ class LeaveRequestDaoTest extends KernelTestCase
         $entitlementAssignmentIds = $this->getEntitlementAssignmentIdsFromDb();
 
         $savedEntitlements = $this->getEntitlementsFromDb();
+        // to avoid update Doctrine unit of work
+        $savedEntitlements = array_map(
+            fn(LeaveEntitlement $leaveEntitlement) => clone $leaveEntitlement,
+            $savedEntitlements
+        );
 
         // Verify all entitlements in fixture retrieved.
         $this->assertEquals(4, count($savedEntitlements));
@@ -1854,17 +1863,18 @@ class LeaveRequestDaoTest extends KernelTestCase
         $this->assertEquals([5], $this->getEmployeesInSubUnits([5]));
     }
 
-    public function xtestChangeLeaveStatusNoEntitlementChanges() {
+    public function testChangeLeaveStatusNoEntitlementChanges(): void
+    {
         $leaves = $this->getLeave([1]);
-        $this->assertEquals(1, count($leaves));
+        $this->assertCount(1, $leaves);
         $savedEntitlements = $this->getEntitlementsFromDb();
 
         $leave = $leaves[0];
         $leave->setStatus(Leave::LEAVE_STATUS_LEAVE_CANCELLED);
-        $this->leaveRequestDao->changeLeaveStatus($leave, [], false);
+        $this->leaveRequestDao->changeLeaveStatus($leave, null, false);
 
         $leavesAfterChange = $this->getLeave([1]);
-        $this->assertEquals(1, count($leavesAfterChange));
+        $this->assertCount(1, $leavesAfterChange);
         $leaveAfterChange = $leavesAfterChange[0];
 
         // Verify status changed
@@ -1872,21 +1882,26 @@ class LeaveRequestDaoTest extends KernelTestCase
 
         // Verify no entitlement changes
         $savedEntitlementsAfter = $this->getEntitlementsFromDb();
-        $this->assertEquals(count($savedEntitlements), count($savedEntitlementsAfter));
+        $this->assertCount(count($savedEntitlements), $savedEntitlementsAfter);
 
         for ($i = 0; $i < count($savedEntitlements); $i++) {
             $this->compareEntitlement($savedEntitlements[$i], $savedEntitlementsAfter[$i]);
         }
-
     }
 
-    public function xtestChangeLeaveStatusNoEntitlementChangesRemoveLinked() {
+    public function testChangeLeaveStatusNoEntitlementChangesRemoveLinked(): void
+    {
         $leaveId = 1;
         $leaves = $this->getLeave([$leaveId]);
         $this->assertEquals(1, count($leaves));
         $leave = $leaves[0];
 
         $savedEntitlements = $this->getEntitlementsFromDb();
+        // to avoid update Doctrine unit of work
+        $savedEntitlements = array_map(
+            fn(LeaveEntitlement $leaveEntitlement) => clone $leaveEntitlement,
+            $savedEntitlements
+        );
 
         $thisLeaveEntitlementAssignments = $this->getEntitlementAssignmentsForLeave($leaveId);
         $this->assertEquals(2, count($thisLeaveEntitlementAssignments));
@@ -1894,10 +1909,10 @@ class LeaveRequestDaoTest extends KernelTestCase
         $entitlementAssignmentIds = $this->getEntitlementAssignmentIdsFromDb();
 
         $leave->setStatus(Leave::LEAVE_STATUS_LEAVE_CANCELLED);
-        $this->leaveRequestDao->changeLeaveStatus($leave, [], true);
+        $this->leaveRequestDao->changeLeaveStatus($leave, null, true);
 
         $leavesAfterChange = $this->getLeave([1]);
-        $this->assertEquals(1, count($leavesAfterChange));
+        $this->assertCount(1, $leavesAfterChange);
         $leaveAfterChange = $leavesAfterChange[0];
 
         // Verify status changed
@@ -1905,24 +1920,25 @@ class LeaveRequestDaoTest extends KernelTestCase
 
         // Verify entitlement links to leave removed
         $thisLeaveEntitlementIdsAfter = $this->getEntitlementAssignmentsForLeave(1);
-        $this->assertEquals(0, count($thisLeaveEntitlementIdsAfter));
+        $this->assertCount(0, $thisLeaveEntitlementIdsAfter);
 
         $entitlementAssignmentIdsAfter = $this->getEntitlementAssignmentIdsFromDb();
-        $this->assertEquals(count($entitlementAssignmentIds) - count($thisLeaveEntitlementAssignments), count($entitlementAssignmentIdsAfter));
+        $this->assertCount(
+            count($entitlementAssignmentIds) - count($thisLeaveEntitlementAssignments),
+            $entitlementAssignmentIdsAfter
+        );
 
         // Verify entitlement changes
         $savedEntitlementsAfter = $this->getEntitlementsFromDb();
 
-        $this->assertEquals(count($savedEntitlements), count($savedEntitlementsAfter));
+        $this->assertCount(count($savedEntitlements), $savedEntitlementsAfter);
 
         for ($i = 0; $i < count($savedEntitlements); $i++) {
-
             $savedEntitlement = $savedEntitlements[$i];
 
             foreach ($thisLeaveEntitlementAssignments as $assignment) {
-
-                if ($assignment->getEntitlementId() == $savedEntitlement['id']) {
-                    $savedEntitlement['days_used'] -= $assignment->getLengthDays();
+                if ($assignment->getEntitlement()->getId() == $savedEntitlement->getId()) {
+                    $savedEntitlement->setDaysUsed($savedEntitlement->getDaysUsed() - $assignment->getLengthDays());
                 }
             }
 
@@ -1930,13 +1946,19 @@ class LeaveRequestDaoTest extends KernelTestCase
         }
     }
 
-    public function xtestChangeLeaveStatusEntitlementChangesRemoveLinked() {
+    public function testChangeLeaveStatusEntitlementChangesRemoveLinked(): void
+    {
         $leaveId = 1;
         $leaves = $this->getLeave([$leaveId]);
         $this->assertEquals(1, count($leaves));
         $leave = $leaves[0];
 
         $savedEntitlements = $this->getEntitlementsFromDb();
+        // to avoid update Doctrine unit of work
+        $savedEntitlements = array_map(
+            fn(LeaveEntitlement $leaveEntitlement) => clone $leaveEntitlement,
+            $savedEntitlements
+        );
 
         $thisLeaveEntitlementAssignments = $this->getEntitlementAssignmentsForLeave($leaveId);
         $this->assertEquals(2, count($thisLeaveEntitlementAssignments));
@@ -1944,14 +1966,11 @@ class LeaveRequestDaoTest extends KernelTestCase
         $entitlementAssignmentIds = $this->getEntitlementAssignmentIdsFromDb();
 
         // entitlements to be assigned to leave
-        $entitlements = [
-            'current' => [],
-                'change' => [
-                    34 => [2 => 1, 3 => 0.4, 4 => 1], // new entitlements for leave without any
-                    2 => [4 => 1, 3 => 0.5, 2 => 1], // no changes to existing, new ones added
-                    4 => [] // additions to existing, new ones
-                ]
-        ];
+        $entitlements = new CurrentAndChangeEntitlement([], [
+            34 => [2 => 1, 3 => 0.4, 4 => 1], // new entitlements for leave without any
+            2 => [4 => 1, 3 => 0.5, 2 => 1], // no changes to existing, new ones added
+            4 => [] // additions to existing, new ones
+        ]);
 
         //
         // Before: entitlement id: days: days_used
@@ -1999,9 +2018,7 @@ class LeaveRequestDaoTest extends KernelTestCase
         // 4
         //
 
-
         $leave->setStatus(Leave::LEAVE_STATUS_LEAVE_CANCELLED);
-
 
         $this->leaveRequestDao->changeLeaveStatus($leave, $entitlements, true);
 
@@ -2019,34 +2036,33 @@ class LeaveRequestDaoTest extends KernelTestCase
         $entitlementAssignmentIdsAfter = $this->getEntitlementAssignmentIdsFromDb();
 
         $newlyInsertedAssignments = 5;
-        $this->assertEquals(count($entitlementAssignmentIds) - count($thisLeaveEntitlementAssignments) + $newlyInsertedAssignments,
-                count($entitlementAssignmentIdsAfter));
+        $this->assertEquals(
+            count($entitlementAssignmentIds) - count($thisLeaveEntitlementAssignments) + $newlyInsertedAssignments,
+            count($entitlementAssignmentIdsAfter)
+        );
 
         // Verify entitlement changes
         $savedEntitlementsAfter = $this->getEntitlementsFromDb();
 
         $this->assertEquals(count($savedEntitlements), count($savedEntitlementsAfter));
         for ($i = 0; $i < count($savedEntitlements); $i++) {
-
             $savedEntitlement = $savedEntitlements[$i];
 
             // Apply changes due to removing links for changed leave
             foreach ($thisLeaveEntitlementAssignments as $assignment) {
-                if ($assignment->getEntitlementId() == $savedEntitlement['id']) {
-                    $savedEntitlement['days_used'] -= $assignment->getLengthDays();
+                if ($assignment->getEntitlement()->getId() == $savedEntitlement->getId()) {
+                    $savedEntitlement->setDaysUsed($savedEntitlement->getDaysUsed() - $assignment->getLengthDays());
                 }
             }
 
             // apply changes due to specified entitlement changes
-            foreach ($entitlements['change'] as $change) {
+            foreach ($entitlements->getChange() as $change) {
                 foreach ($change as $entitlementId => $length) {
-                    if ($entitlementId == $savedEntitlement['id']) {
-                        $savedEntitlement['days_used'] += $length;
+                    if ($entitlementId == $savedEntitlement->getId()) {
+                        $savedEntitlement->setDaysUsed($savedEntitlement->getDaysUsed() + $length);
                     }
                 }
             }
-
-            //print_r($savedEntitlement['id'] . ': ' . $savedEntitlement['no_of_days'] . ': ' . $savedEntitlement['days_used']); echo "\n";
 
             $this->compareEntitlement($savedEntitlement, $savedEntitlementsAfter[$i]);
         }
@@ -2058,18 +2074,17 @@ class LeaveRequestDaoTest extends KernelTestCase
         ];
 
         foreach ($expectedEntitlementAssignments as $leaveId => $assignments) {
-            $actualAssignments = $this->getEntitlementAssignmentsForLeave($leaveId, 'l.entitlement_id ASC');
+            $actualAssignments = $this->getEntitlementAssignmentsForLeave($leaveId, 'l.entitlement');
             $this->assertEquals(count($assignments), count($actualAssignments));
 
             $i = 0;
             foreach ($assignments as $entitlementId => $length) {
                 $actualAssignment = $actualAssignments[$i++];
-                $this->assertEquals($entitlementId, $actualAssignment->getEntitlementId());
+                $this->assertEquals($entitlementId, $actualAssignment->getEntitlement()->getId());
                 $this->assertEquals($length, $actualAssignment->getLengthDays());
             }
         }
     }
-
 
     /**
      * Get Employees under given subunit
@@ -2152,28 +2167,6 @@ class LeaveRequestDaoTest extends KernelTestCase
         }
     }
 
-    protected function sortLeaveRequestsByDate($leaveRequests) {
-        $this->assertTrue(usort($leaveRequests, [$this, 'compareByDate']));
-        return $leaveRequests;
-    }
-
-    protected function compareByDate($request1, $request2) {
-        $date1 = $request1['date_applied'];
-        $date2 = $request2['date_applied'];
-
-        $time1 = strtotime($date1);
-        $time2 = strtotime($date2);
-
-        $cmp = 0;
-        if ($time1 < $time2) {
-            $cmp = -1;
-        } else if ($time1 > $time2) {
-            $cmp = 1;
-        }
-
-        return $cmp;
-    }
-
     /**
      * @return int[]
      */
@@ -2208,15 +2201,6 @@ class LeaveRequestDaoTest extends KernelTestCase
             ->createQueryBuilder('le')
             ->select('le.id');
         return array_column($q->getQuery()->getScalarResult(), 'id');
-    }
-
-    protected function getEntitlementIdsFromAssignmentIds($assignmentIds) {
-        $assignments = $this->getEntitlementAssignments($assignmentIds);
-        $entitlementIds = [];
-        foreach ($assignments as $assignment) {
-            $entitlementIds[] = $assignment->getEntitlementId();
-        }
-        return $entitlementIds;
     }
 
     /**
@@ -2362,7 +2346,6 @@ class LeaveRequestDaoTest extends KernelTestCase
         $this->assertEquals($expected->getLeaveType()->getId(), $result->getLeaveType()->getId());
         $this->assertEquals($expected->getDateApplied(), $result->getDateApplied());
         $this->assertEquals($expected->getEmployee()->getEmpNumber(), $result->getEmployee()->getEmpNumber());
-        $this->assertEquals($expected->getComment(), $result->getComment());
     }
 
     /**
@@ -2385,7 +2368,6 @@ class LeaveRequestDaoTest extends KernelTestCase
         $this->assertEquals($expected->getLeaveType()->getId(), $result->getLeaveType()->getId());
         $this->assertEquals($expected->getDate(), $result->getDate());
         $this->assertEquals($expected->getEmployee()->getEmpNumber(), $result->getEmployee()->getEmpNumber());
-        $this->assertEquals($expected->getComment(), $result->getComment());
         $this->assertEquals($expected->getLengthHours(), $result->getLengthHours());
         $this->assertEquals($expected->getLengthDays(), $result->getLengthDays());
         $this->assertEquals($expected->getStatus(), $result->getStatus());

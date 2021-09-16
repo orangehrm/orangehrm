@@ -21,38 +21,24 @@ namespace OrangeHRM\Core\Authorization\Service;
 
 use Exception;
 use OrangeHRM\Admin\Service\UserService;
-use OrangeHRM\Authentication\Service\AuthenticationService;
 use OrangeHRM\Core\Authorization\Manager\AbstractUserRoleManager;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Exception\ServiceException;
+use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\ClassHelperTrait;
+use OrangeHRM\Core\Traits\LoggerTrait;
 use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Entity\User;
-use OrangeHRM\Framework\Logger;
 use OrangeHRM\Framework\Services;
 
 class UserRoleManagerService
 {
     use ClassHelperTrait;
     use ConfigServiceTrait;
+    use AuthUserTrait;
+    use LoggerTrait;
 
-    public const KEY_USER_ROLE_MANAGER_CLASS = "authorize_user_role_manager_class";
-
-    /**
-     * @var AuthenticationService|null
-     */
-    protected ?AuthenticationService $authenticationService = null;
-
-    /**
-     * @return AuthenticationService
-     */
-    public function getAuthenticationService(): AuthenticationService
-    {
-        if (!$this->authenticationService instanceof AuthenticationService) {
-            $this->authenticationService = new AuthenticationService();
-        }
-        return $this->authenticationService;
-    }
+    public const KEY_USER_ROLE_MANAGER_CLASS = 'authorize_user_role_manager_class';
 
     /**
      * @return UserService
@@ -78,10 +64,7 @@ class UserRoleManagerService
      */
     public function getUserRoleManager(): ?AbstractUserRoleManager
     {
-        $logger = Logger::getLogger('core.UserRoleManagerService');
-
         $class = $this->getUserRoleManagerClassName();
-
         $manager = null;
 
         $fallbackNamespace = 'OrangeHRM\\Core\\Authorization\\Manager\\';
@@ -103,7 +86,7 @@ class UserRoleManagerService
         }
 
         // Set System User object in manager
-        $userId = $this->getAuthenticationService()->getLoggedInUserId();
+        $userId = $this->getAuthUser()->getUserId();
         if (is_null($userId)) {
             throw new ServiceException('No logged in user found.');
         }
@@ -112,7 +95,7 @@ class UserRoleManagerService
         if ($systemUser instanceof User) {
             $manager->setUser($systemUser);
         } else {
-            $logger->info('No logged in system user when creating UserRoleManager');
+            $this->getLogger()->info('No logged in system user when creating UserRoleManager');
         }
 
         return $manager;

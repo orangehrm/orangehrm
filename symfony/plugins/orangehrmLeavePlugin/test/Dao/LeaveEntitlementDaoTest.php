@@ -20,6 +20,7 @@
 namespace OrangeHRM\Tests\Leave\Dao;
 
 use DateTime;
+use Generator;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\LeaveEntitlement;
@@ -29,6 +30,7 @@ use OrangeHRM\Entity\User;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Leave\Dao\LeaveEntitlementDao;
 use OrangeHRM\Leave\Dto\LeaveEntitlementSearchFilterParams;
+use OrangeHRM\Leave\Dto\LeaveWithDaysLeft;
 use OrangeHRM\Leave\Service\LeaveConfigurationService;
 use OrangeHRM\ORM\ListSorter;
 use OrangeHRM\Tests\Util\KernelTestCase;
@@ -52,8 +54,13 @@ class LeaveEntitlementDaoTest extends KernelTestCase
     protected function setUp(): void
     {
         $this->dao = new LeaveEntitlementDao();
-        $this->fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmLeavePlugin/test/fixtures/LeaveEntitlement.yml';
+        $this->fixture = $this->getFixturePath();
         TestDataService::populate($this->fixture);
+    }
+
+    private function getFixturePath(): string
+    {
+        return Config::get(Config::PLUGINS_DIR) . '/orangehrmLeavePlugin/test/fixtures/LeaveEntitlement.yml';
     }
 
     public function testSearchLeaveEntitlementsWithNoFilters(): void
@@ -657,5 +664,103 @@ class LeaveEntitlementDaoTest extends KernelTestCase
             $this->assertEquals($leaveId, $results[0]['leave_id']);
             $this->assertEquals(1, $results[0]['length_days']);
         }    
+    }
+
+    /**
+     * @dataProvider dataProviderForGetEntitlementUsageForLeave
+     */
+    public function testGetEntitlementUsageForLeave(
+        int $leaveId,
+        array $leaveLeaveEntitlements,
+        array $expectedDaysUsed,
+        array $expectedNoOfDays
+    ): void {
+        $result = $this->dao->getEntitlementUsageForLeave($leaveId);
+        $this->assertCount(count($leaveLeaveEntitlements), $result);
+        foreach ($leaveLeaveEntitlements as $i => $leaveLeaveEntitlement) {
+            $this->assertEquals($leaveLeaveEntitlement->getLengthDays(), $result[$i]->getLengthDays());
+            $this->assertEquals($expectedDaysUsed[$i], $result[$i]->getDaysUsed());
+            $this->assertEquals($expectedNoOfDays[$i], $result[$i]->getNoOfDays());
+        }
+    }
+
+    public function dataProviderForGetEntitlementUsageForLeave(): Generator
+    {
+        $leaveLeaveEntitlements = TestDataService::loadObjectList(
+            'LeaveLeaveEntitlement',
+            $this->getFixturePath(),
+            'LeaveLeaveEntitlement'
+        );
+        yield [1, [$leaveLeaveEntitlements[0], $leaveLeaveEntitlements[1]], [0, 1], [3, 4]];
+        yield [5, [$leaveLeaveEntitlements[5]], [0], [3]];
+        yield [7, [$leaveLeaveEntitlements[6]], [0], [3]];
+        yield [8, [$leaveLeaveEntitlements[7]], [2], [5]];
+
+        // check with deleted entitlement
+        yield [2, [], [], []];
+    }
+
+    /**
+     * @dataProvider dataProviderForGetLeaveWithoutEntitlements
+     */
+    public function testGetLeaveWithoutEntitlements(
+        array $empNumbers,
+        int $leaveTypeId,
+        DateTime $fromDate,
+        DateTime $toDate,
+        array $expected
+    ): void {
+        $result = $this->dao->getLeaveWithoutEntitlements($empNumbers, $leaveTypeId, $fromDate, $toDate);
+        $this->assertCount(count($expected), $result);
+        foreach ($expected as $i => $leaveLeaveEntitlement) {
+            $this->assertEquals($leaveLeaveEntitlement, $result[$i]);
+        }
+    }
+
+    public function dataProviderForGetLeaveWithoutEntitlements(): Generator
+    {
+        yield [[1], 1, new DateTime('2010-01-01'), new DateTime('2010-12-31'), []];
+        yield [[1], 1, new DateTime('2011-01-01'), new DateTime('2011-12-31'), []];
+        yield [[1], 1, new DateTime('2012-01-01'), new DateTime('2012-12-31'), []];
+        yield [[1], 1, new DateTime('2013-01-01'), new DateTime('2013-12-31'), []];
+        yield [[1], 1, new DateTime('2014-01-01'), new DateTime('2014-12-31'), []];
+
+        yield [[], 1, new DateTime('2014-01-01'), new DateTime('2014-12-31'), []];
+
+        yield [[7], 1, new DateTime('2010-01-01'), new DateTime('2010-12-31'), []];
+        yield [[7], 1, new DateTime('2011-01-01'), new DateTime('2011-12-31'), []];
+        yield [
+            [7],
+            1,
+            new DateTime('2012-01-01'),
+            new DateTime('2012-12-31'),
+            [new LeaveWithDaysLeft(10, new DateTime('2012-08-21'), 8, 1, 2, 1, 7, 1)]
+        ];
+        yield [
+            [7],
+            1,
+            new DateTime('2013-01-01'),
+            new DateTime('2013-12-31'),
+            [new LeaveWithDaysLeft(13, new DateTime('2013-03-05'), 8, 1, 2, 1, 7, 1)]
+        ];
+        yield [
+            [7],
+            1,
+            new DateTime('2014-01-01'),
+            new DateTime('2014-12-31'),
+            [
+                new LeaveWithDaysLeft(11, new DateTime('2014-01-03'), 8, 1, 2, 1, 7, 1),
+                new LeaveWithDaysLeft(12, new DateTime('2014-01-04'), 8, 1, 2, 1, 7, 1)
+            ]
+        ];
+
+        // multiple employees
+        yield [
+            [7, 1],
+            1,
+            new DateTime('2012-01-01'),
+            new DateTime('2012-12-31'),
+            [new LeaveWithDaysLeft(10, new DateTime('2012-08-21'), 8, 1, 2, 1, 7, 1)]
+        ];
     }
 }

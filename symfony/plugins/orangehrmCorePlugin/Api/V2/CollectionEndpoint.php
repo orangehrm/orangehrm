@@ -19,7 +19,9 @@
 
 namespace OrangeHRM\Core\Api\V2;
 
+use OrangeHRM\Core\Api\V2\Exception\ForbiddenException;
 use OrangeHRM\Core\Api\V2\Exception\NotImplementedException;
+use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
 use OrangeHRM\Core\Api\V2\Serializer\NormalizeException;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 
@@ -30,6 +32,8 @@ interface CollectionEndpoint
      * @return EndpointResult
      * @throws NormalizeException
      * @throws NotImplementedException
+     * @throws RecordNotFoundException
+     * @throws ForbiddenException
      */
     public function getAll(): EndpointResult;
 
@@ -45,6 +49,8 @@ interface CollectionEndpoint
      * @return EndpointResult
      * @throws NormalizeException
      * @throws NotImplementedException
+     * @throws RecordNotFoundException
+     * @throws ForbiddenException
      */
     public function create(): EndpointResult;
 
@@ -60,6 +66,8 @@ interface CollectionEndpoint
      * @return EndpointResult
      * @throws NormalizeException
      * @throws NotImplementedException
+     * @throws RecordNotFoundException
+     * @throws ForbiddenException
      */
     public function delete(): EndpointResult;
 

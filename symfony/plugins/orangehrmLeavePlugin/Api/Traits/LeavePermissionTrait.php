@@ -23,23 +23,23 @@ use LogicException;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\Employee;
-use OrangeHRM\Entity\LeaveRequest;
+use OrangeHRM\Entity\Leave;
 
-trait LeaveRequestPermissionTrait
+trait LeavePermissionTrait
 {
     use UserRoleManagerTrait;
 
     /**
-     * @param LeaveRequest $leaveRequest
+     * @param Leave $leave
      */
-    protected function checkLeaveRequestAccessible(LeaveRequest $leaveRequest): void
+    protected function checkLeaveAccessible(Leave $leave): void
     {
         if (!$this instanceof Endpoint) {
             throw new LogicException(
                 self::class . ' should use in instanceof' . Endpoint::class
             );
         }
-        $empNumber = $leaveRequest->getEmployee()->getEmpNumber();
+        $empNumber = $leave->getEmployee()->getEmpNumber();
         if (!($this->getUserRoleManager()->isEntityAccessible(Employee::class, $empNumber) ||
             $this->getUserRoleManagerHelper()->isSelfByEmpNumber($empNumber))) {
             throw $this->getForbiddenException();

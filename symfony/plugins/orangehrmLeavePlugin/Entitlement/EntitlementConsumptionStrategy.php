@@ -20,16 +20,12 @@
 namespace OrangeHRM\Leave\Entitlement;
 
 use DateTime;
+use OrangeHRM\Entity\Leave;
 use OrangeHRM\Leave\Dto\CurrentAndChangeEntitlement;
 use OrangeHRM\Leave\Dto\LeavePeriod;
 
 interface EntitlementConsumptionStrategy
 {
-    /**
-     * @deprecated
-     */
-    public function getAvailableEntitlements($empNumber, $leaveType, $leaveDates, $allowNoEntitlements = false);
-
     /**
      * @param int $empNumber
      * @param int $leaveTypeId
@@ -44,7 +40,7 @@ interface EntitlementConsumptionStrategy
         bool $allowNoEntitlements = false
     ): ?CurrentAndChangeEntitlement;
 
-    public function handleLeaveCancel($leave);
+    public function handleLeaveCancel(Leave $leave): CurrentAndChangeEntitlement;
 
     public function handleEntitlementStatusChange();
 

@@ -124,4 +124,39 @@ class BasicWorkScheduleTest extends TestCase
 
         $this->assertEquals($expectResult, $basicWorkSchedule->getWorkShiftStartEndTime());
     }
+
+    public function testGetWorkShiftLength(): void
+    {
+        $employeeWorkShift = new EmployeeWorkShift();
+        $workShift = new WorkShift();
+        $workShift->setStartTime(new DateTime('18:00'));
+        $workShift->setEndTime(new DateTime('23:45'));
+        $workShift->setHoursPerDay(5.75);
+        $employeeWorkShift->setWorkShift($workShift);
+
+        $employeeDao = $this->getMockBuilder(EmployeeDao::class)
+            ->onlyMethods(['getEmployeeWorkShift'])
+            ->getMock();
+        $employeeDao->expects($this->once())
+            ->method('getEmployeeWorkShift')
+            ->with(1)
+            ->willReturn($employeeWorkShift);
+
+        $employeeService = $this->getMockBuilder(EmployeeService::class)
+            ->onlyMethods(['getEmployeeDao'])
+            ->getMock();
+        $employeeService->expects($this->once())
+            ->method('getEmployeeDao')
+            ->willReturn($employeeDao);
+
+        $basicWorkSchedule = $this->getMockBuilder(BasicWorkSchedule::class)
+            ->onlyMethods(['getEmployeeService'])
+            ->getMock();
+        $basicWorkSchedule->expects($this->once())
+            ->method('getEmployeeService')
+            ->willReturn($employeeService);
+        $basicWorkSchedule->setEmpNumber(1);
+
+        $this->assertEquals(5.75, $basicWorkSchedule->getWorkShiftLength());
+    }
 }

@@ -40,7 +40,6 @@ class LeaveRequestModel implements Normalizable
                 ['getLeaveType', 'getName'],
                 ['getLeaveType', 'isDeleted'],
                 ['getDecorator', 'getDateApplied'],
-                'comment',
             ]
         );
         $this->setAttributeNames(
@@ -50,7 +49,6 @@ class LeaveRequestModel implements Normalizable
                 ['leaveType', 'name'],
                 ['leaveType', 'deleted'],
                 'dateApplied',
-                'comment',
             ]
         );
     }
