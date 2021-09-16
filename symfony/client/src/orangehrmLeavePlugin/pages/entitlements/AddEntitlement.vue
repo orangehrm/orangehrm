@@ -295,28 +295,30 @@ export default {
           }
         });
     },
+    async fetchEmployeeCount() {
+      this.http
+        .request({
+          method: 'GET',
+          url: 'api/v2/pim/employees/count',
+          params: {
+            locationId: this.leaveEntitlement.location?.id,
+            subunitId: this.leaveEntitlement.subunit?.id,
+          },
+        })
+        .then(response => {
+          const {data} = response.data;
+          this.empMatchCount = parseInt(data.count);
+        });
+    },
   },
 
   watch: {
-    leaveEntitlement: {
-      handler(data) {
-        if (data.bulkAssign != 1) return;
-        this.http
-          .request({
-            method: 'GET',
-            url: 'api/v2/pim/employees/count',
-            params: {
-              locationId: data.location?.id,
-              subunitId: data.subunit?.id,
-            },
-          })
-          .then(response => {
-            const {data} = response.data;
-            this.empMatchCount = parseInt(data.count);
-          });
-      },
-      deep: true,
-    },
+    'leaveEntitlement.location': 'fetchEmployeeCount',
+    'leaveEntitlement.subunit': 'fetchEmployeeCount',
+  },
+
+  beforeMount() {
+    this.fetchEmployeeCount();
   },
 };
 </script>

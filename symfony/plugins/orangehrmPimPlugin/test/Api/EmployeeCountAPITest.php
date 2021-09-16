@@ -73,7 +73,8 @@ class EmployeeCountAPITest extends EndpointTestCase
         $this->assertTrue($this->validate([EmployeeAPI::FILTER_EMPLOYEE_ID => str_repeat('00001', 10)], $rules));
         $this->assertInvalidParamException(
         // maximum 50 allowed in the rule
-            fn() => $this->validate([EmployeeAPI::FILTER_EMPLOYEE_ID => str_repeat('00001', 10) . '1'], $rules)
+            fn() => $this->validate([EmployeeAPI::FILTER_EMPLOYEE_ID => str_repeat('00001', 10) . '1'], $rules),
+            [EmployeeAPI::FILTER_EMPLOYEE_ID]
         );
 
         $this->assertTrue($this->validate([EmployeeAPI::FILTER_INCLUDE_EMPLOYEES => 1], $rules));
@@ -83,44 +84,52 @@ class EmployeeCountAPITest extends EndpointTestCase
         $this->assertTrue($this->validate([EmployeeAPI::FILTER_INCLUDE_EMPLOYEES => 'onlyPast'], $rules));
         $this->assertTrue($this->validate([EmployeeAPI::FILTER_INCLUDE_EMPLOYEES => 'currentAndPast'], $rules));
         $this->assertInvalidParamException(
-            fn() => $this->validate([EmployeeAPI::FILTER_INCLUDE_EMPLOYEES => 'invalid'], $rules)
+            fn() => $this->validate([EmployeeAPI::FILTER_INCLUDE_EMPLOYEES => 'invalid'], $rules),
+            [EmployeeAPI::FILTER_INCLUDE_EMPLOYEES]
         );
 
         $this->assertTrue($this->validate([EmployeeAPI::FILTER_NAME => 'Kayla'], $rules));
         $this->assertTrue($this->validate([EmployeeAPI::FILTER_NAME => str_repeat('Kayla', 20)], $rules));
         $this->assertInvalidParamException(
         // maximum 100 allowed in the rule
-            fn() => $this->validate([EmployeeAPI::FILTER_NAME => str_repeat('ස්ටීව්', 17)], $rules)
+            fn() => $this->validate([EmployeeAPI::FILTER_NAME => str_repeat('ස්ටීව්', 17)], $rules),
+            [EmployeeAPI::FILTER_NAME]
         );
 
         $this->assertTrue($this->validate([EmployeeAPI::FILTER_NAME_OR_ID => '0002'], $rules));
         $this->assertTrue($this->validate([EmployeeAPI::FILTER_NAME_OR_ID => str_repeat('Kayla', 20)], $rules));
         $this->assertInvalidParamException(
         // maximum 100 allowed in the rule
-            fn() => $this->validate([EmployeeAPI::FILTER_NAME_OR_ID => str_repeat('Kyla ', 20) . 'a'], $rules)
+            fn() => $this->validate([EmployeeAPI::FILTER_NAME_OR_ID => str_repeat('Kyla ', 20) . 'a'], $rules),
+            [EmployeeAPI::FILTER_NAME_OR_ID]
         );
 
         $this->assertTrue($this->validate([EmployeeAPI::FILTER_EMP_STATUS_ID => 1], $rules));
         $this->assertInvalidParamException(
-            fn() => $this->validate([EmployeeAPI::FILTER_EMP_STATUS_ID => 0], $rules)
+            fn() => $this->validate([EmployeeAPI::FILTER_EMP_STATUS_ID => 0], $rules),
+            [EmployeeAPI::FILTER_EMP_STATUS_ID]
         );
         $this->assertInvalidParamException(
-            fn() => $this->validate([EmployeeAPI::FILTER_EMP_STATUS_ID => 'invalid'], $rules)
+            fn() => $this->validate([EmployeeAPI::FILTER_EMP_STATUS_ID => 'invalid'], $rules),
+            [EmployeeAPI::FILTER_EMP_STATUS_ID]
         );
 
         $this->assertTrue($this->validate([EmployeeAPI::FILTER_JOB_TITLE_ID => 1], $rules));
         $this->assertInvalidParamException(
-            fn() => $this->validate([EmployeeAPI::FILTER_JOB_TITLE_ID => 0], $rules)
+            fn() => $this->validate([EmployeeAPI::FILTER_JOB_TITLE_ID => 0], $rules),
+            [EmployeeAPI::FILTER_JOB_TITLE_ID]
         );
 
         $this->assertTrue($this->validate([EmployeeAPI::FILTER_SUBUNIT_ID => 1], $rules));
         $this->assertInvalidParamException(
-            fn() => $this->validate([EmployeeAPI::FILTER_SUBUNIT_ID => 0], $rules)
+            fn() => $this->validate([EmployeeAPI::FILTER_SUBUNIT_ID => 0], $rules),
+            [EmployeeAPI::FILTER_SUBUNIT_ID]
         );
 
         $this->assertTrue($this->validate([EmployeeCountAPI::FILTER_LOCATION_ID => 1], $rules));
         $this->assertInvalidParamException(
-            fn() => $this->validate([EmployeeCountAPI::FILTER_LOCATION_ID => 0], $rules)
+            fn() => $this->validate([EmployeeCountAPI::FILTER_LOCATION_ID => 0], $rules),
+            [EmployeeCountAPI::FILTER_LOCATION_ID]
         );
     }
 

@@ -92,18 +92,16 @@ abstract class EndpointTestCase extends KernelTestCase
      * @param Closure $closure
      * @param array|null $invalidOnly
      */
-    protected function assertInvalidParamException(Closure $closure, ?array $invalidOnly = null): void
+    protected function assertInvalidParamException(Closure $closure, array $invalidOnly = []): void
     {
         try {
             $closure();
             $this->fail('Given validation closure not throwing ' . InvalidParamException::class);
         } catch (InvalidParamException $e) {
-            if ($invalidOnly) {
-                sort($invalidOnly);
-                $invalidParamKeys = array_keys($e->getErrorBag());
-                sort($invalidParamKeys);
-                $this->assertEquals($invalidOnly, $invalidParamKeys);
-            }
+            sort($invalidOnly);
+            $invalidParamKeys = array_keys($e->getErrorBag());
+            sort($invalidParamKeys);
+            $this->assertEquals($invalidOnly, $invalidParamKeys);
         }
     }
 }

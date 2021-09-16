@@ -29,6 +29,7 @@ use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Leave\Api\Model\LeaveRequestDetailedModel;
 use OrangeHRM\Leave\Api\Model\LeaveRequestModel;
 use OrangeHRM\Leave\Dto\LeaveRequestSearchFilterParams;
+use OrangeHRM\Leave\Exception\LeaveAllocationServiceException;
 use OrangeHRM\Leave\Service\LeaveApplicationService;
 use OrangeHRM\Leave\Traits\Service\LeaveRequestServiceTrait;
 
@@ -124,7 +125,11 @@ class MyLeaveRequestAPI extends EmployeeLeaveRequestAPI
     {
         $empNumber = $this->getAuthUser()->getEmpNumber();
         $leaveRequestParams = $this->getLeaveRequestParams($empNumber);
-        $leaveRequest = $this->getLeaveApplicationService()->applyLeave($leaveRequestParams);
+        try {
+            $leaveRequest = $this->getLeaveApplicationService()->applyLeave($leaveRequestParams);
+        } catch (LeaveAllocationServiceException $e) {
+            throw $this->getBadRequestException($e->getMessage());
+        }
         return new EndpointResourceResult(
             LeaveRequestModel::class,
             $leaveRequest,
