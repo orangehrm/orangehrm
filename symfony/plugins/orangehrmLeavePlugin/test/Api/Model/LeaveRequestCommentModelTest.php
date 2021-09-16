@@ -59,7 +59,6 @@ class LeaveRequestCommentModelTest extends KernelTestCase
 
         $leaveRequest = new LeaveRequest();
         $leaveRequest->setId(1);
-        $leaveRequest->setComment('test comment');
         $dateTime = new DateTime('2020-12-25 07:20:21');
         $leaveRequest->setDateApplied($dateTime);
 

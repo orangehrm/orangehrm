@@ -44,11 +44,11 @@ class LeaveRequestCommentDao extends BaseDao
     /**
      * Get Count of Search Query
      *
-     * @param LeaveRequestCommentsearchFilterParams $leaveRequestCommentSearchParams
+     * @param LeaveRequestCommentSearchFilterParams $leaveRequestCommentSearchParams
      * @return int
      */
     public function getSearchLeaveRequestCommentsCount(
-        LeaveRequestCommentsearchFilterParams $leaveRequestCommentSearchParams
+        LeaveRequestCommentSearchFilterParams $leaveRequestCommentSearchParams
     ): int {
         $paginator = $this->getSearchLeaveRequestCommentPaginator($leaveRequestCommentSearchParams);
         return $paginator->count();
@@ -85,7 +85,8 @@ class LeaveRequestCommentDao extends BaseDao
 
     /**
      * @param int $leaveRequestId
-     * @return LeaveRequest|null|object
+     * @return LeaveRequest|null
+     * @deprecated
      */
     public function getLeaveRequestById(int $leaveRequestId): ?LeaveRequest
     {
@@ -106,11 +107,11 @@ class LeaveRequestCommentDao extends BaseDao
     /**
      * Get Count of Search Query
      *
-     * @param LeaveCommentsearchFilterParams $leaveCommentSearchParams
+     * @param LeaveCommentSearchFilterParams $leaveCommentSearchParams
      * @return int
      */
     public function getSearchLeaveCommentsCount(
-        LeaveCommentsearchFilterParams $leaveCommentSearchParams
+        LeaveCommentSearchFilterParams $leaveCommentSearchParams
     ): int {
         $paginator = $this->getSearchLeaveCommentPaginator($leaveCommentSearchParams);
         return $paginator->count();
@@ -147,7 +148,8 @@ class LeaveRequestCommentDao extends BaseDao
 
     /**
      * @param int $leaveId
-     * @return object|null|Leave
+     * @return null|Leave
+     * @deprecated
      */
     public function getLeaveById(int $leaveId): ?Leave
     {

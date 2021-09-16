@@ -12,7 +12,7 @@ TerminationReason:
   0: {id: 1, name: 'Resign'}
 
 EmployeeTerminationRecord:
-  0: {id: 1, reasonId: 1, date: '2011-11-20'}
+  0: {id: 1, reason_id: 1, date: '2011-11-20'}
     
 Employee:
   0: {empNumber: 1, firstName: 'Kayla', lastName: 'Shneider', termination_id: 1}
