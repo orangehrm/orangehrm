@@ -68,13 +68,6 @@ class LeaveRequest
     private Employee $employee;
 
     /**
-     * @var string|null
-     *
-     * @ORM\Column(name="comments", type="string", length=255, nullable=true)
-     */
-    private ?string $comment;
-
-    /**
      * @var Leave[]
      *
      * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\Leave", mappedBy="leaveRequest")
@@ -148,22 +141,6 @@ class LeaveRequest
     public function setEmployee(Employee $employee): void
     {
         $this->employee = $employee;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getComment(): ?string
-    {
-        return $this->comment;
-    }
-
-    /**
-     * @param string|null $comment
-     */
-    public function setComment(?string $comment): void
-    {
-        $this->comment = $comment;
     }
 
     /**

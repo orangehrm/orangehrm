@@ -853,7 +853,6 @@ class LeaveRequestDaoTest extends KernelTestCase
         $leaveRequest->setLeaveType($this->getEntityReference(LeaveType::class, 1));
         $leaveRequest->setDateApplied(new DateTime('2010-09-01'));
         $leaveRequest->setEmployee($this->getEntityReference(Employee::class, 1));
-        $leaveRequest->setComment('Testing comment i add');
 
         $leave1 = new Leave();
         $leave1->setLengthHours(8);
@@ -988,6 +987,11 @@ class LeaveRequestDaoTest extends KernelTestCase
         $entitlementAssignmentIds = $this->getEntitlementAssignmentIdsFromDb();
 
         $savedEntitlements = $this->getEntitlementsFromDb();
+        // to avoid update Doctrine unit of work
+        $savedEntitlements = array_map(
+            fn(LeaveEntitlement $leaveEntitlement) => clone $leaveEntitlement,
+            $savedEntitlements
+        );
 
         // Verify all entitlements in fixture retrieved.
         $this->assertCount(4, $savedEntitlements);
@@ -1095,6 +1099,11 @@ class LeaveRequestDaoTest extends KernelTestCase
         $entitlementAssignmentIds = $this->getEntitlementAssignmentIdsFromDb();
 
         $savedEntitlements = $this->getEntitlementsFromDb();
+        // to avoid update Doctrine unit of work
+        $savedEntitlements = array_map(
+            fn(LeaveEntitlement $leaveEntitlement) => clone $leaveEntitlement,
+            $savedEntitlements
+        );
 
         // Verify all entitlements in fixture retrieved.
         $this->assertEquals(4, count($savedEntitlements));
@@ -2337,7 +2346,6 @@ class LeaveRequestDaoTest extends KernelTestCase
         $this->assertEquals($expected->getLeaveType()->getId(), $result->getLeaveType()->getId());
         $this->assertEquals($expected->getDateApplied(), $result->getDateApplied());
         $this->assertEquals($expected->getEmployee()->getEmpNumber(), $result->getEmployee()->getEmpNumber());
-        $this->assertEquals($expected->getComment(), $result->getComment());
     }
 
     /**
@@ -2360,7 +2368,6 @@ class LeaveRequestDaoTest extends KernelTestCase
         $this->assertEquals($expected->getLeaveType()->getId(), $result->getLeaveType()->getId());
         $this->assertEquals($expected->getDate(), $result->getDate());
         $this->assertEquals($expected->getEmployee()->getEmpNumber(), $result->getEmployee()->getEmpNumber());
-        $this->assertEquals($expected->getComment(), $result->getComment());
         $this->assertEquals($expected->getLengthHours(), $result->getLengthHours());
         $this->assertEquals($expected->getLengthDays(), $result->getLengthDays());
         $this->assertEquals($expected->getStatus(), $result->getStatus());

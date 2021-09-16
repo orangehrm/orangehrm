@@ -87,13 +87,6 @@ class Leave
     private int $status;
 
     /**
-     * @var string|null
-     *
-     * @ORM\Column(name="comments", type="string", length=256, nullable=true)
-     */
-    private ?string $comment = null;
-
-    /**
      * @var LeaveRequest
      *
      * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\LeaveRequest", inversedBy="leaves")
@@ -228,22 +221,6 @@ class Leave
     public function setStatus(int $status): void
     {
         $this->status = $status;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getComment(): ?string
-    {
-        return $this->comment;
-    }
-
-    /**
-     * @param string|null $comment
-     */
-    public function setComment(?string $comment): void
-    {
-        $this->comment = $comment;
     }
 
     /**

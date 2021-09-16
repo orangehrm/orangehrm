@@ -67,6 +67,7 @@ class ParamRuleCollection
 
     /**
      * @param ParamRule $paramValidation
+     * @noinspection PhpDocMissingThrowsInspection
      */
     public function addParamValidation(ParamRule $paramValidation): void
     {

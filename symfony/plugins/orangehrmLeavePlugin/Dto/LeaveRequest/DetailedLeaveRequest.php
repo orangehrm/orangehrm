@@ -20,6 +20,7 @@
 namespace OrangeHRM\Leave\Dto\LeaveRequest;
 
 use DateTime;
+use InvalidArgumentException;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Entity\Leave;
 use OrangeHRM\Entity\LeaveRequest;
@@ -144,9 +145,7 @@ class DetailedLeaveRequest
      */
     public function fetchLeaves(): void
     {
-        foreach ($this->getLeaveRequest()->getLeaves() as $leave) {
-            $this->addLeave($leave);
-        }
+        $this->setLeaves($this->getLeaveRequest()->getLeaves());
     }
 
     /**
@@ -159,6 +158,19 @@ class DetailedLeaveRequest
             $this->sortedLeaves = true;
         }
         return $this->leaves;
+    }
+
+    /**
+     * @param Leave[] $leaves
+     */
+    public function setLeaves(iterable $leaves): void
+    {
+        foreach ($leaves as $leave) {
+            if (!$leave instanceof Leave) {
+                throw new InvalidArgumentException();
+            }
+            $this->addLeave($leave);
+        }
     }
 
     /**

@@ -59,6 +59,14 @@ class EmployeeLeaveRequestAPI extends Endpoint implements CrudEndpoint
     public const FILTER_SUBUNIT_ID = 'subunitId';
     public const FILTER_STATUSES = 'statuses';
     public const FILTER_INCLUDE_EMPLOYEES = 'includeEmployees';
+    public const FILTER_MODEL = 'model';
+
+    public const MODEL_DEFAULT = 'default';
+    public const MODEL_DETAILED = 'detailed';
+    public const MODEL_MAP = [
+        self::MODEL_DEFAULT => LeaveRequestModel::class,
+        self::MODEL_DETAILED => LeaveRequestDetailedModel::class,
+    ];
 
     /**
      * @inheritDoc
@@ -296,7 +304,13 @@ class EmployeeLeaveRequestAPI extends Endpoint implements CrudEndpoint
         $workflow = $detailedLeaveRequest->getWorkflowForAction($action);
         $this->getLeaveRequestService()->changeLeaveRequestStatus($detailedLeaveRequest, $workflow->getResultingState());
 
-        return new EndpointResourceResult(LeaveRequestModel::class, $leaveRequest);
+        $model = $this->getRequestParams()->getString(
+            RequestParams::PARAM_TYPE_QUERY,
+            self::FILTER_MODEL,
+            self::MODEL_DEFAULT
+        );
+        $data = $model === self::MODEL_DETAILED ? $detailedLeaveRequest : $leaveRequest;
+        return new EndpointResourceResult(self::MODEL_MAP[$model], $data);
     }
 
     /**
@@ -307,6 +321,9 @@ class EmployeeLeaveRequestAPI extends Endpoint implements CrudEndpoint
         return new ParamRuleCollection(
             new ParamRule(self::PARAMETER_LEAVE_REQUEST_ID, new Rule(Rules::POSITIVE)),
             new ParamRule(self::PARAMETER_ACTION, new Rule(Rules::STRING_TYPE)),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(self::FILTER_MODEL, new Rule(Rules::IN, [array_keys(self::MODEL_MAP)])),
+            ),
         );
     }
 

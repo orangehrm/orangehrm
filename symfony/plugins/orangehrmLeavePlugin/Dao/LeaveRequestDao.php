@@ -63,7 +63,7 @@ class LeaveRequestDao extends BaseDao
         $this->beginTransaction();
 
         try {
-            $this->persist($leaveRequest);
+            $this->getEntityManager()->persist($leaveRequest);
             $current = $entitlements->getCurrent();
 
             foreach ($leaveList as $leave) {
@@ -71,7 +71,7 @@ class LeaveRequestDao extends BaseDao
                 $leave->setLeaveType($leaveRequest->getLeaveType());
                 $leave->setEmployee($leaveRequest->getEmployee());
 
-                $this->persist($leave);
+                $this->getEntityManager()->persist($leave);
 
                 if (isset($current[$leave->getDate()->format('Y-m-d')])) {
                     $entitlementsForDate = $current[$leave->getDate()->format('Y-m-d')];
@@ -80,19 +80,18 @@ class LeaveRequestDao extends BaseDao
                         $le->setLeave($leave);
                         $le->getDecorator()->setLeaveEntitlementById($entitlementId);
                         $le->setLengthDays($length);
-                        $this->persist($le);
+                        $this->getEntityManager()->persist($le);
 
-                        $q = $this->createQueryBuilder(LeaveEntitlement::class, 'e');
-                        $q->update()
-                            ->set('e.daysUsed', $q->expr()->sum('e.daysUsed', ':daysUsed'))
-                            ->setParameter('daysUsed', $length)
-                            ->where('e.id = :entitlementId')
-                            ->setParameter('entitlementId', $entitlementId)
-                            ->getQuery()
-                            ->execute();
+                        /** @var LeaveEntitlement|null $leaveEntitlement */
+                        $leaveEntitlement = $this->getRepository(LeaveEntitlement::class)->find($entitlementId);
+                        if ($leaveEntitlement instanceof LeaveEntitlement) {
+                            $leaveEntitlement->setDaysUsed($leaveEntitlement->getDaysUsed() + $length);
+                        }
+                        $this->getEntityManager()->persist($leaveEntitlement);
                     }
                 }
             }
+            $this->getEntityManager()->flush();
 
             if (!empty($entitlements->getChange())) {
                 // TODO: Need to update days_used here
@@ -113,12 +112,14 @@ class LeaveRequestDao extends BaseDao
                         $le->getDecorator()->setLeaveById($leaveId);
                         $le->getDecorator()->setLeaveEntitlementById($entitlementId);
                         $le->setLengthDays($length);
-                        $this->persist($le);
+                        $this->getEntityManager()->persist($le);
                     }
+                    $this->getEntityManager()->flush();
                 }
             }
 
             $this->commitTransaction();
+            $leaveRequest->setLeaves($leaveList);
             return $leaveRequest;
         } catch (Exception $e) {
             $this->rollBackTransaction();

@@ -55,7 +55,6 @@ class LeaveCommentAPITest extends EndpointTestCase
 
         $leave = new Leave();
         $leave->setId(1);
-        $leave->setComment('test comment');
 
         $employeeTerminationRecord = new EmployeeTerminationRecord();
         $employeeTerminationRecord->setId(1);
@@ -219,7 +218,6 @@ class LeaveCommentAPITest extends EndpointTestCase
     {
         $leave = new Leave();
         $leave->setId(1);
-        $leave->setComment('test comment');
 
         $employeeTerminationRecord = new EmployeeTerminationRecord();
         $employeeTerminationRecord->setId(1);

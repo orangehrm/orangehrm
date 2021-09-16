@@ -103,7 +103,8 @@ class FIFOEntitlementConsumptionStrategy implements EntitlementConsumptionStrate
                 // TODO Get currently assigned leave dates and add to $leaveDates
                 $entitlements = [];
                 foreach ($newEntitlements as $entitlement) {
-                    $entitlements[] = $entitlement;
+                    // use clone to avoid update Doctrine unit of work
+                    $entitlements[] = clone $entitlement;
                 }
 
                 reset($leaveDates);
