@@ -141,6 +141,8 @@ class LeaveBalanceAPITest extends EndpointTestCase
                 Services::NORMALIZER_SERVICE => new NormalizerService(),
                 Services::CLASS_HELPER => new ClassHelper(),
                 Services::LEAVE_REQUEST_SERVICE => new LeaveRequestService(),
+                Services::EMPLOYEE_SERVICE => new EmployeeService(),
+                Services::LEAVE_TYPE_SERVICE => new LeaveTypeService(),
             ]
         );
         /** @var MockObject&LeaveBalanceAPI $api */
@@ -168,7 +170,22 @@ class LeaveBalanceAPITest extends EndpointTestCase
                     'endDate' => '2021-12-31',
                 ]
             ],
-            [CommonParams::PARAMETER_EMP_NUMBER => 1],
+            [
+                'employee' => [
+                    'empNumber' => 1,
+                    'firstName' => 'Kayla',
+                    'lastName' => 'Abbey',
+                    'middleName' => 'T',
+                    'employeeId' => '0001',
+                    'terminationId' => null
+                ],
+                'leaveType' => [
+                    'id' => 1,
+                    'name' => 'Casual',
+                    'deleted' => false,
+                    'situational' => false,
+                ]
+            ],
             [
                 RequestParams::PARAM_TYPE_ATTRIBUTE => [
                     LeaveCommonParams::PARAMETER_LEAVE_TYPE_ID => 1
@@ -190,7 +207,22 @@ class LeaveBalanceAPITest extends EndpointTestCase
                     'endDate' => '2021-12-31'
                 ]
             ],
-            [CommonParams::PARAMETER_EMP_NUMBER => 1],
+            [
+                'employee' => [
+                    'empNumber' => 1,
+                    'firstName' => 'Kayla',
+                    'lastName' => 'Abbey',
+                    'middleName' => 'T',
+                    'employeeId' => '0001',
+                    'terminationId' => null
+                ],
+                'leaveType' => [
+                    'id' => 2,
+                    'name' => 'Medical',
+                    'deleted' => false,
+                    'situational' => false,
+                ]
+            ],
             [
                 RequestParams::PARAM_TYPE_ATTRIBUTE => [
                     LeaveCommonParams::PARAMETER_LEAVE_TYPE_ID => 2
@@ -214,7 +246,22 @@ class LeaveBalanceAPITest extends EndpointTestCase
                     'endDate' => '2021-12-31'
                 ]
             ],
-            [CommonParams::PARAMETER_EMP_NUMBER => 1],
+            [
+                'employee' => [
+                    'empNumber' => 1,
+                    'firstName' => 'Kayla',
+                    'lastName' => 'Abbey',
+                    'middleName' => 'T',
+                    'employeeId' => '0001',
+                    'terminationId' => null
+                ],
+                'leaveType' => [
+                    'id' => 3,
+                    'name' => 'Company',
+                    'deleted' => true,
+                    'situational' => false,
+                ]
+            ],
             [
                 RequestParams::PARAM_TYPE_ATTRIBUTE => [
                     LeaveCommonParams::PARAMETER_LEAVE_TYPE_ID => 3
@@ -238,7 +285,22 @@ class LeaveBalanceAPITest extends EndpointTestCase
                     'endDate' => '2021-12-31'
                 ]
             ],
-            [CommonParams::PARAMETER_EMP_NUMBER => 2],
+            [
+                'employee' => [
+                    'empNumber' => 2,
+                    'firstName' => 'Ashley',
+                    'lastName' => 'Abel',
+                    'middleName' => 'ST',
+                    'employeeId' => '0002',
+                    'terminationId' => null
+                ],
+                'leaveType' => [
+                    'id' => 1,
+                    'name' => 'Casual',
+                    'deleted' => false,
+                    'situational' => false,
+                ]
+            ],
             [
                 RequestParams::PARAM_TYPE_ATTRIBUTE => [
                     LeaveCommonParams::PARAMETER_LEAVE_TYPE_ID => 1
@@ -262,7 +324,15 @@ class LeaveBalanceAPITest extends EndpointTestCase
                     'endDate' => '2021-12-31'
                 ]
             ],
-            [CommonParams::PARAMETER_EMP_NUMBER => 100],
+            [
+                'employee' => null,
+                'leaveType' => [
+                    'id' => 1,
+                    'name' => 'Casual',
+                    'deleted' => false,
+                    'situational' => false,
+                ]
+            ],
             [
                 RequestParams::PARAM_TYPE_ATTRIBUTE => [
                     LeaveCommonParams::PARAMETER_LEAVE_TYPE_ID => 1
@@ -321,6 +391,7 @@ class LeaveBalanceAPITest extends EndpointTestCase
                 Services::NORMALIZER_SERVICE => new NormalizerService(),
                 Services::CLASS_HELPER => new ClassHelper(),
                 Services::LEAVE_REQUEST_SERVICE => new LeaveRequestService(),
+                Services::LEAVE_TYPE_SERVICE => new LeaveTypeService(),
             ]
         );
         /** @var MockObject&LeaveBalanceAPI $api */
@@ -370,7 +441,22 @@ class LeaveBalanceAPITest extends EndpointTestCase
                     ]
                 ],
             ],
-            [CommonParams::PARAMETER_EMP_NUMBER => 1],
+            [
+                'employee' => [
+                    'empNumber' => 1,
+                    'firstName' => 'Kayla',
+                    'lastName' => 'Abbey',
+                    'middleName' => 'T',
+                    'employeeId' => '0001',
+                    'terminationId' => null
+                ],
+                'leaveType' => [
+                    'id' => 1,
+                    'name' => 'Casual',
+                    'deleted' => false,
+                    'situational' => false,
+                ]
+            ],
             [
                 RequestParams::PARAM_TYPE_ATTRIBUTE => [
                     LeaveCommonParams::PARAMETER_LEAVE_TYPE_ID => 1,
@@ -409,7 +495,22 @@ class LeaveBalanceAPITest extends EndpointTestCase
                     ]
                 ],
             ],
-            [CommonParams::PARAMETER_EMP_NUMBER => 1],
+            [
+                'employee' => [
+                    'empNumber' => 1,
+                    'firstName' => 'Kayla',
+                    'lastName' => 'Abbey',
+                    'middleName' => 'T',
+                    'employeeId' => '0001',
+                    'terminationId' => null
+                ],
+                'leaveType' => [
+                    'id' => 2,
+                    'name' => 'Medical',
+                    'deleted' => false,
+                    'situational' => false,
+                ]
+            ],
             [
                 RequestParams::PARAM_TYPE_ATTRIBUTE => [
                     LeaveCommonParams::PARAMETER_LEAVE_TYPE_ID => 2,
@@ -452,7 +553,22 @@ class LeaveBalanceAPITest extends EndpointTestCase
         // Employee 1 does not have entitlement for leave type id 3
         yield [
             $zeroBalanceResult,
-            [CommonParams::PARAMETER_EMP_NUMBER => 1],
+            [
+                'employee' => [
+                    'empNumber' => 1,
+                    'firstName' => 'Kayla',
+                    'lastName' => 'Abbey',
+                    'middleName' => 'T',
+                    'employeeId' => '0001',
+                    'terminationId' => null
+                ],
+                'leaveType' => [
+                    'id' => 3,
+                    'name' => 'Company',
+                    'deleted' => true,
+                    'situational' => false,
+                ]
+            ],
             [
                 RequestParams::PARAM_TYPE_ATTRIBUTE => [
                     LeaveCommonParams::PARAMETER_LEAVE_TYPE_ID => 3
@@ -468,7 +584,22 @@ class LeaveBalanceAPITest extends EndpointTestCase
         // Employee 2 does not have entitlement for leave type id 1
         yield [
             $zeroBalanceResult,
-            [CommonParams::PARAMETER_EMP_NUMBER => 2],
+            [
+                'employee' => [
+                    'empNumber' => 2,
+                    'firstName' => 'Ashley',
+                    'lastName' => 'Abel',
+                    'middleName' => 'ST',
+                    'employeeId' => '0002',
+                    'terminationId' => null
+                ],
+                'leaveType' => [
+                    'id' => 1,
+                    'name' => 'Casual',
+                    'deleted' => false,
+                    'situational' => false,
+                ]
+            ],
             [
                 RequestParams::PARAM_TYPE_ATTRIBUTE => [
                     LeaveCommonParams::PARAMETER_LEAVE_TYPE_ID => 1
@@ -484,7 +615,15 @@ class LeaveBalanceAPITest extends EndpointTestCase
         // Employee 100 does not exist
         yield [
             $zeroBalanceResult,
-            [CommonParams::PARAMETER_EMP_NUMBER => 100],
+            [
+                'employee' => null,
+                'leaveType' => [
+                    'id' => 1,
+                    'name' => 'Casual',
+                    'deleted' => false,
+                    'situational' => false,
+                ]
+            ],
             [
                 RequestParams::PARAM_TYPE_ATTRIBUTE => [
                     LeaveCommonParams::PARAMETER_LEAVE_TYPE_ID => 1
@@ -527,7 +666,22 @@ class LeaveBalanceAPITest extends EndpointTestCase
                     ]
                 ],
             ],
-            [CommonParams::PARAMETER_EMP_NUMBER => 1],
+            [
+                'employee' => [
+                    'empNumber' => 1,
+                    'firstName' => 'Kayla',
+                    'lastName' => 'Abbey',
+                    'middleName' => 'T',
+                    'employeeId' => '0001',
+                    'terminationId' => null
+                ],
+                'leaveType' => [
+                    'id' => 1,
+                    'name' => 'Casual',
+                    'deleted' => false,
+                    'situational' => false,
+                ]
+            ],
             [
                 RequestParams::PARAM_TYPE_ATTRIBUTE => [
                     LeaveCommonParams::PARAMETER_LEAVE_TYPE_ID => 1,
@@ -573,7 +727,22 @@ class LeaveBalanceAPITest extends EndpointTestCase
                     ]
                 ],
             ],
-            [CommonParams::PARAMETER_EMP_NUMBER => 1],
+            [
+                'employee' => [
+                    'empNumber' => 1,
+                    'firstName' => 'Kayla',
+                    'lastName' => 'Abbey',
+                    'middleName' => 'T',
+                    'employeeId' => '0001',
+                    'terminationId' => null
+                ],
+                'leaveType' => [
+                    'id' => 1,
+                    'name' => 'Casual',
+                    'deleted' => false,
+                    'situational' => false,
+                ]
+            ],
             [
                 RequestParams::PARAM_TYPE_ATTRIBUTE => [
                     LeaveCommonParams::PARAMETER_LEAVE_TYPE_ID => 1,
@@ -619,7 +788,22 @@ class LeaveBalanceAPITest extends EndpointTestCase
                     ]
                 ],
             ],
-            [CommonParams::PARAMETER_EMP_NUMBER => 1],
+            [
+                'employee' => [
+                    'empNumber' => 1,
+                    'firstName' => 'Kayla',
+                    'lastName' => 'Abbey',
+                    'middleName' => 'T',
+                    'employeeId' => '0001',
+                    'terminationId' => null
+                ],
+                'leaveType' => [
+                    'id' => 1,
+                    'name' => 'Casual',
+                    'deleted' => false,
+                    'situational' => false,
+                ]
+            ],
             [
                 RequestParams::PARAM_TYPE_ATTRIBUTE => [
                     LeaveCommonParams::PARAMETER_LEAVE_TYPE_ID => 1,
@@ -664,7 +848,22 @@ class LeaveBalanceAPITest extends EndpointTestCase
                     ]
                 ],
             ],
-            [CommonParams::PARAMETER_EMP_NUMBER => 1],
+            [
+                'employee' => [
+                    'empNumber' => 1,
+                    'firstName' => 'Kayla',
+                    'lastName' => 'Abbey',
+                    'middleName' => 'T',
+                    'employeeId' => '0001',
+                    'terminationId' => null
+                ],
+                'leaveType' => [
+                    'id' => 1,
+                    'name' => 'Casual',
+                    'deleted' => false,
+                    'situational' => false,
+                ]
+            ],
             [
                 RequestParams::PARAM_TYPE_ATTRIBUTE => [
                     LeaveCommonParams::PARAMETER_LEAVE_TYPE_ID => 1,
@@ -715,7 +914,22 @@ class LeaveBalanceAPITest extends EndpointTestCase
                     ]
                 ],
             ],
-            [CommonParams::PARAMETER_EMP_NUMBER => 1],
+            [
+                'employee' => [
+                    'empNumber' => 1,
+                    'firstName' => 'Kayla',
+                    'lastName' => 'Abbey',
+                    'middleName' => 'T',
+                    'employeeId' => '0001',
+                    'terminationId' => null
+                ],
+                'leaveType' => [
+                    'id' => 1,
+                    'name' => 'Casual',
+                    'deleted' => false,
+                    'situational' => false,
+                ]
+            ],
             [
                 RequestParams::PARAM_TYPE_ATTRIBUTE => [
                     LeaveCommonParams::PARAMETER_LEAVE_TYPE_ID => 1,
@@ -761,7 +975,22 @@ class LeaveBalanceAPITest extends EndpointTestCase
                     ]
                 ],
             ],
-            [CommonParams::PARAMETER_EMP_NUMBER => 1],
+            [
+                'employee' => [
+                    'empNumber' => 1,
+                    'firstName' => 'Kayla',
+                    'lastName' => 'Abbey',
+                    'middleName' => 'T',
+                    'employeeId' => '0001',
+                    'terminationId' => null
+                ],
+                'leaveType' => [
+                    'id' => 1,
+                    'name' => 'Casual',
+                    'deleted' => false,
+                    'situational' => false,
+                ]
+            ],
             [
                 RequestParams::PARAM_TYPE_ATTRIBUTE => [
                     LeaveCommonParams::PARAMETER_LEAVE_TYPE_ID => 1,
@@ -810,7 +1039,22 @@ class LeaveBalanceAPITest extends EndpointTestCase
                     ]
                 ],
             ],
-            [CommonParams::PARAMETER_EMP_NUMBER => 1],
+            [
+                'employee' => [
+                    'empNumber' => 1,
+                    'firstName' => 'Kayla',
+                    'lastName' => 'Abbey',
+                    'middleName' => 'T',
+                    'employeeId' => '0001',
+                    'terminationId' => null
+                ],
+                'leaveType' => [
+                    'id' => 1,
+                    'name' => 'Casual',
+                    'deleted' => false,
+                    'situational' => false,
+                ]
+            ],
             [
                 RequestParams::PARAM_TYPE_ATTRIBUTE => [
                     LeaveCommonParams::PARAMETER_LEAVE_TYPE_ID => 1,
@@ -856,7 +1100,22 @@ class LeaveBalanceAPITest extends EndpointTestCase
                     ]
                 ],
             ],
-            [CommonParams::PARAMETER_EMP_NUMBER => 1],
+            [
+                'employee' => [
+                    'empNumber' => 1,
+                    'firstName' => 'Kayla',
+                    'lastName' => 'Abbey',
+                    'middleName' => 'T',
+                    'employeeId' => '0001',
+                    'terminationId' => null
+                ],
+                'leaveType' => [
+                    'id' => 1,
+                    'name' => 'Casual',
+                    'deleted' => false,
+                    'situational' => false,
+                ]
+            ],
             [
                 RequestParams::PARAM_TYPE_ATTRIBUTE => [
                     LeaveCommonParams::PARAMETER_LEAVE_TYPE_ID => 1,
@@ -921,6 +1180,7 @@ class LeaveBalanceAPITest extends EndpointTestCase
                 Services::NORMALIZER_SERVICE => new NormalizerService(),
                 Services::CLASS_HELPER => new ClassHelper(),
                 Services::LEAVE_REQUEST_SERVICE => new LeaveRequestService(),
+                Services::LEAVE_TYPE_SERVICE => new LeaveTypeService(),
             ]
         );
         /** @var MockObject&LeaveBalanceAPI $api */
@@ -997,7 +1257,22 @@ class LeaveBalanceAPITest extends EndpointTestCase
                     ]
                 ],
             ],
-            [CommonParams::PARAMETER_EMP_NUMBER => 1],
+            [
+                'employee' => [
+                    'empNumber' => 1,
+                    'firstName' => 'Kayla',
+                    'lastName' => 'Abbey',
+                    'middleName' => 'T',
+                    'employeeId' => '0001',
+                    'terminationId' => null
+                ],
+                'leaveType' => [
+                    'id' => 1,
+                    'name' => 'Casual',
+                    'deleted' => false,
+                    'situational' => false,
+                ]
+            ],
             [
                 RequestParams::PARAM_TYPE_ATTRIBUTE => [
                     LeaveCommonParams::PARAMETER_LEAVE_TYPE_ID => 1,
@@ -1068,7 +1343,22 @@ class LeaveBalanceAPITest extends EndpointTestCase
                     ]
                 ],
             ],
-            [CommonParams::PARAMETER_EMP_NUMBER => 1],
+            [
+                'employee' => [
+                    'empNumber' => 1,
+                    'firstName' => 'Kayla',
+                    'lastName' => 'Abbey',
+                    'middleName' => 'T',
+                    'employeeId' => '0001',
+                    'terminationId' => null
+                ],
+                'leaveType' => [
+                    'id' => 1,
+                    'name' => 'Casual',
+                    'deleted' => false,
+                    'situational' => false,
+                ]
+            ],
             [
                 RequestParams::PARAM_TYPE_ATTRIBUTE => [
                     LeaveCommonParams::PARAMETER_LEAVE_TYPE_ID => 1,
@@ -1142,7 +1432,22 @@ class LeaveBalanceAPITest extends EndpointTestCase
                     ]
                 ],
             ],
-            [CommonParams::PARAMETER_EMP_NUMBER => 1],
+            [
+                'employee' => [
+                    'empNumber' => 1,
+                    'firstName' => 'Kayla',
+                    'lastName' => 'Abbey',
+                    'middleName' => 'T',
+                    'employeeId' => '0001',
+                    'terminationId' => null
+                ],
+                'leaveType' => [
+                    'id' => 1,
+                    'name' => 'Casual',
+                    'deleted' => false,
+                    'situational' => false,
+                ]
+            ],
             [
                 RequestParams::PARAM_TYPE_ATTRIBUTE => [
                     LeaveCommonParams::PARAMETER_LEAVE_TYPE_ID => 1,
@@ -1216,7 +1521,22 @@ class LeaveBalanceAPITest extends EndpointTestCase
                     ]
                 ],
             ],
-            [CommonParams::PARAMETER_EMP_NUMBER => 1],
+            [
+                'employee' => [
+                    'empNumber' => 1,
+                    'firstName' => 'Kayla',
+                    'lastName' => 'Abbey',
+                    'middleName' => 'T',
+                    'employeeId' => '0001',
+                    'terminationId' => null
+                ],
+                'leaveType' => [
+                    'id' => 1,
+                    'name' => 'Casual',
+                    'deleted' => false,
+                    'situational' => false,
+                ]
+            ],
             [
                 RequestParams::PARAM_TYPE_ATTRIBUTE => [
                     LeaveCommonParams::PARAMETER_LEAVE_TYPE_ID => 1,
@@ -1290,7 +1610,22 @@ class LeaveBalanceAPITest extends EndpointTestCase
                     ]
                 ],
             ],
-            [CommonParams::PARAMETER_EMP_NUMBER => 1],
+            [
+                'employee' => [
+                    'empNumber' => 1,
+                    'firstName' => 'Kayla',
+                    'lastName' => 'Abbey',
+                    'middleName' => 'T',
+                    'employeeId' => '0001',
+                    'terminationId' => null
+                ],
+                'leaveType' => [
+                    'id' => 1,
+                    'name' => 'Casual',
+                    'deleted' => false,
+                    'situational' => false,
+                ]
+            ],
             [
                 RequestParams::PARAM_TYPE_ATTRIBUTE => [
                     LeaveCommonParams::PARAMETER_LEAVE_TYPE_ID => 1,
@@ -1349,7 +1684,22 @@ class LeaveBalanceAPITest extends EndpointTestCase
                     ]
                 ],
             ],
-            [CommonParams::PARAMETER_EMP_NUMBER => 1],
+            [
+                'employee' => [
+                    'empNumber' => 1,
+                    'firstName' => 'Kayla',
+                    'lastName' => 'Abbey',
+                    'middleName' => 'T',
+                    'employeeId' => '0001',
+                    'terminationId' => null
+                ],
+                'leaveType' => [
+                    'id' => 1,
+                    'name' => 'Casual',
+                    'deleted' => false,
+                    'situational' => false,
+                ]
+            ],
             [
                 RequestParams::PARAM_TYPE_ATTRIBUTE => [
                     LeaveCommonParams::PARAMETER_LEAVE_TYPE_ID => 1,
@@ -1399,7 +1749,22 @@ class LeaveBalanceAPITest extends EndpointTestCase
                     ]
                 ],
             ],
-            [CommonParams::PARAMETER_EMP_NUMBER => 1],
+            [
+                'employee' => [
+                    'empNumber' => 1,
+                    'firstName' => 'Kayla',
+                    'lastName' => 'Abbey',
+                    'middleName' => 'T',
+                    'employeeId' => '0001',
+                    'terminationId' => null
+                ],
+                'leaveType' => [
+                    'id' => 1,
+                    'name' => 'Casual',
+                    'deleted' => false,
+                    'situational' => false,
+                ]
+            ],
             [
                 RequestParams::PARAM_TYPE_ATTRIBUTE => [
                     LeaveCommonParams::PARAMETER_LEAVE_TYPE_ID => 1,
@@ -1445,7 +1810,22 @@ class LeaveBalanceAPITest extends EndpointTestCase
                     ]
                 ],
             ],
-            [CommonParams::PARAMETER_EMP_NUMBER => 1],
+            [
+                'employee' => [
+                    'empNumber' => 1,
+                    'firstName' => 'Kayla',
+                    'lastName' => 'Abbey',
+                    'middleName' => 'T',
+                    'employeeId' => '0001',
+                    'terminationId' => null
+                ],
+                'leaveType' => [
+                    'id' => 1,
+                    'name' => 'Casual',
+                    'deleted' => false,
+                    'situational' => false,
+                ]
+            ],
             [
                 RequestParams::PARAM_TYPE_ATTRIBUTE => [
                     LeaveCommonParams::PARAMETER_LEAVE_TYPE_ID => 1,
@@ -1531,7 +1911,22 @@ class LeaveBalanceAPITest extends EndpointTestCase
                     ]
                 ],
             ],
-            [CommonParams::PARAMETER_EMP_NUMBER => 1],
+            [
+                'employee' => [
+                    'empNumber' => 1,
+                    'firstName' => 'Kayla',
+                    'lastName' => 'Abbey',
+                    'middleName' => 'T',
+                    'employeeId' => '0001',
+                    'terminationId' => null
+                ],
+                'leaveType' => [
+                    'id' => 1,
+                    'name' => 'Casual',
+                    'deleted' => false,
+                    'situational' => false,
+                ]
+            ],
             [
                 RequestParams::PARAM_TYPE_ATTRIBUTE => [
                     LeaveCommonParams::PARAMETER_LEAVE_TYPE_ID => 1,
@@ -1634,7 +2029,11 @@ class LeaveBalanceAPITest extends EndpointTestCase
         $this->assertInvalidParamException(
         // if defined only from date, to date also need to define
             fn() => $this->validate($queryParams, $rules),
-            [LeaveCommonParams::PARAMETER_TO_DATE, LeaveCommonParams::PARAMETER_FROM_DATE]
+            [
+                LeaveCommonParams::PARAMETER_TO_DATE,
+                LeaveCommonParams::PARAMETER_FROM_DATE,
+                LeaveCommonParams::PARAMETER_DURATION
+            ]
         );
 
         $queryParams = [
@@ -1659,7 +2058,7 @@ class LeaveBalanceAPITest extends EndpointTestCase
         $this->assertInvalidParamException(
         // from date < to date
             fn() => $this->validate($queryParams, $rules),
-            [LeaveCommonParams::PARAMETER_FROM_DATE]
+            [LeaveCommonParams::PARAMETER_FROM_DATE, LeaveCommonParams::PARAMETER_DURATION]
         );
 
         $queryParams = [

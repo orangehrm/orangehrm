@@ -25,7 +25,6 @@ use OrangeHRM\Core\Api\V2\CollectionEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
-use OrangeHRM\Core\Api\V2\Exception\ForbiddenException;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
@@ -35,20 +34,19 @@ use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
-use OrangeHRM\Core\Traits\UserRoleManagerTrait;
-use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\LeaveRequest;
 use OrangeHRM\Entity\LeaveRequestComment;
 use OrangeHRM\Leave\Api\Model\LeaveRequestCommentModel;
+use OrangeHRM\Leave\Api\Traits\LeaveRequestPermissionTrait;
 use OrangeHRM\Leave\Dto\LeaveRequestCommentSearchFilterParams;
 use OrangeHRM\Leave\Service\LeaveRequestCommentService;
 
 class LeaveRequestCommentAPI extends Endpoint implements CollectionEndpoint
 {
     use DateTimeHelperTrait;
-    use UserRoleManagerTrait;
     use EntityManagerHelperTrait;
     use AuthUserTrait;
+    use LeaveRequestPermissionTrait;
 
     public const PARAMETER_LEAVE_REQUEST_ID = 'leaveRequestId';
     public const PARAMETER_COMMENT = 'comment';
@@ -82,7 +80,7 @@ class LeaveRequestCommentAPI extends Endpoint implements CollectionEndpoint
     }
 
     /**
-     *  @inheritdoc
+     * @inheritdoc
      */
     public function getAll(): EndpointCollectionResult
     {
@@ -220,18 +218,5 @@ class LeaveRequestCommentAPI extends Endpoint implements CollectionEndpoint
     public function getValidationRuleForDelete(): ParamRuleCollection
     {
         throw $this->getNotImplementedException();
-    }
-
-    /**
-     * @param LeaveRequest $leaveRequest
-     * @throws ForbiddenException
-     */
-    protected function checkLeaveRequestAccessible(LeaveRequest $leaveRequest): void
-    {
-        $empNumber = $leaveRequest->getEmployee()->getEmpNumber();
-        if (!($this->getUserRoleManager()->isEntityAccessible(Employee::class, $empNumber) ||
-            $this->getUserRoleManagerHelper()->isSelfByEmpNumber($empNumber))) {
-            throw $this->getForbiddenException();
-        }
     }
 }

@@ -14,12 +14,18 @@
 // if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 // Boston, MA  02110-1301, USA
 
+@import '@orangehrm/oxd/styles/_mixins.scss';
+
 .oxd-overlay {
   z-index: 1100 !important;
 }
 .orangehrm-leave-balance-text {
   font-size: $oxd-input-control-font-size;
+  margin-bottom: 0.25rem;
 }
 .orangehrm-container {
   padding: 0.5rem 0;
+  max-height: 165px;
+  overflow-y: auto;
+  @include oxd-scrollbar();
 }
