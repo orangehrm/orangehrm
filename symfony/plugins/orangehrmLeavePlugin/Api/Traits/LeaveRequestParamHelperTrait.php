@@ -341,6 +341,63 @@ trait LeaveRequestParamHelperTrait
             $partialOptionParamRule,
         );
     }
+//
+//    /**
+//     * @return ParamRuleCollection
+//     */
+//    protected function getCommonParamRuleCollectionApplyLeave(): ParamRuleCollection
+//    {
+//        if (!$this instanceof Endpoint) {
+//            throw $this->getEndpointLogicException();
+//        }
+//        return new ParamRuleCollection(
+//            new ParamRule(LeaveCommonParams::PARAMETER_EMP_NO, new Rule(Rules::INT_TYPE), new Rule(Rules::REQUIRED)),
+//            new ParamRule(LeaveCommonParams::PARAMETER_LEAVE_TYPE_ID, new Rule(LeaveTypeIdRule::class)),
+//            new ParamRule(
+//                LeaveCommonParams::PARAMETER_FROM_DATE,
+//                new Rule(Rules::API_DATE),
+//                new Rule(Rules::LESS_THAN_OR_EQUAL, [
+//                    function () {
+//                        return $this->getToDateParam();
+//                    }
+//                ])
+//            ),
+//            new ParamRule(LeaveCommonParams::PARAMETER_TO_DATE, new Rule(Rules::API_DATE)),
+//            $this->getValidationDecorator()->notRequiredParamRule(
+//                new ParamRule(
+//                    LeaveCommonParams::PARAMETER_COMMENT,
+//                    new Rule(Rules::STRING_TYPE),
+//                    new Rule(Rules::LENGTH, [null, 255])
+//                )
+//            ),
+//            $this->getValidationDecorator()->notRequiredParamRule(
+//                new ParamRule(
+//                    LeaveCommonParams::PARAMETER_DURATION,
+//                    new Rule(Rules::ARRAY_TYPE)
+//                )
+//            ),
+//            $this->getValidationDecorator()->notRequiredParamRule(
+//                new ParamRule(
+//                    LeaveCommonParams::PARAMETER_END_DURATION,
+//                    new Rule(Rules::ARRAY_TYPE)
+//                )
+//            ),
+//            $this->getValidationDecorator()->notRequiredParamRule(
+//                new ParamRule(
+//                    LeaveCommonParams::PARAMETER_PARTIAL_OPTION,
+//                    new Rule(Rules::IN, [
+//                        [
+//                            LeaveParameterObject::PARTIAL_OPTION_NONE,
+//                            LeaveParameterObject::PARTIAL_OPTION_ALL,
+//                            LeaveParameterObject::PARTIAL_OPTION_START,
+//                            LeaveParameterObject::PARTIAL_OPTION_END,
+//                            LeaveParameterObject::PARTIAL_OPTION_START_END,
+//                        ]
+//                    ])
+//                )
+//            ),
+//        );
+//    }
 
     /**
      * @return LogicException

@@ -43,6 +43,8 @@ use OrangeHRM\Leave\Api\Traits\LeaveRequestParamHelperTrait;
 use OrangeHRM\Leave\Api\Traits\LeaveRequestPermissionTrait;
 use OrangeHRM\Leave\Dto\LeaveRequest\DetailedLeaveRequest;
 use OrangeHRM\Leave\Dto\LeaveRequestSearchFilterParams;
+use OrangeHRM\Leave\Service\LeaveApplicationService;
+use OrangeHRM\Leave\Service\LeaveAssignmentService;
 use OrangeHRM\Leave\Traits\Service\LeaveRequestServiceTrait;
 
 class EmployeeLeaveRequestAPI extends Endpoint implements CrudEndpoint
@@ -56,6 +58,8 @@ class EmployeeLeaveRequestAPI extends Endpoint implements CrudEndpoint
     public const PARAMETER_ACTION = 'action';
     public const PARAMETER_LEAVE_REQUEST_ID = 'leaveRequestId';
 
+    public const PARAMETER_EMP_NO = 'empNumber';
+
     public const FILTER_SUBUNIT_ID = 'subunitId';
     public const FILTER_STATUSES = 'statuses';
     public const FILTER_INCLUDE_EMPLOYEES = 'includeEmployees';
@@ -67,6 +71,21 @@ class EmployeeLeaveRequestAPI extends Endpoint implements CrudEndpoint
         self::MODEL_DEFAULT => LeaveRequestModel::class,
         self::MODEL_DETAILED => LeaveRequestDetailedModel::class,
     ];
+
+    protected ?LeaveApplicationService $leaveApplicationService = null;
+    protected ?LeaveAssignmentService $leaveAssignmentService = null;
+
+    /**
+     * @return LeaveAssignmentService
+     */
+    public function getLeaveAssignmentService(): LeaveAssignmentService
+    {
+
+        if (!$this->leaveAssignmentService instanceof LeaveAssignmentService) {
+            $this->leaveAssignmentService = new LeaveAssignmentService();
+        }
+        return $this->leaveAssignmentService;
+    }
 
     /**
      * @inheritDoc
@@ -266,7 +285,14 @@ class EmployeeLeaveRequestAPI extends Endpoint implements CrudEndpoint
      */
     public function create(): EndpointResult
     {
-        throw $this->getNotImplementedException();
+        $empNumber = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_EMP_NO);
+        $leaveRequestParams = $this->getLeaveRequestParams($empNumber);
+        $leaveRequest = $this->getLeaveAssignmentService()->assignLeave($leaveRequestParams);
+        return new EndpointResourceResult(
+            LeaveRequestModel::class,
+            $leaveRequest,
+            new ParameterBag([CommonParams::PARAMETER_EMP_NUMBER => $empNumber])
+        );
     }
 
     /**
@@ -274,7 +300,11 @@ class EmployeeLeaveRequestAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForCreate(): ParamRuleCollection
     {
-        throw $this->getNotImplementedException();
+        $paramRules = $this->getCommonParamRuleCollection();
+        $paramRules->addParamValidation(
+            new ParamRule(CommonParams::PARAMETER_EMP_NUMBER, new Rule(Rules::IN_ACCESSIBLE_EMP_NUMBERS)),
+        );
+        return $paramRules;
     }
 
     /**

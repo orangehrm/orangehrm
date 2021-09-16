@@ -62,4 +62,12 @@ class LeaveAllocationServiceException extends Exception
     {
         return new self('Failed to Submit: No Working Days Selected');
     }
+
+    /**
+     * @return static
+     */
+    public static function invalidEmployeeSelected(): self
+    {
+        return new self('Invalid Employee');
+    }
 }
