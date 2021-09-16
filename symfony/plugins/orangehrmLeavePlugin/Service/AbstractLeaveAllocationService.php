@@ -315,7 +315,6 @@ abstract class AbstractLeaveAllocationService
         $leaveRequest->getDecorator()->setLeaveTypeById($leaveAssignmentData->getLeaveType());
         $leaveRequest->setDateApplied($leaveAssignmentData->getFromDate());
         $leaveRequest->getDecorator()->setEmployeeByEmpNumber($leaveAssignmentData->getEmployeeNumber());
-        $leaveRequest->setComment($leaveAssignmentData->getComment());
 
         return $leaveRequest;
     }

@@ -23,6 +23,7 @@ use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
+use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
@@ -30,11 +31,17 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\Employee;
+use OrangeHRM\Entity\LeaveRequest;
 use OrangeHRM\Entity\Subunit;
+use OrangeHRM\Entity\WorkflowStateMachine;
 use OrangeHRM\Leave\Api\Model\LeaveRequestDetailedModel;
+use OrangeHRM\Leave\Api\Model\LeaveRequestModel;
 use OrangeHRM\Leave\Api\Traits\LeaveRequestParamHelperTrait;
+use OrangeHRM\Leave\Api\Traits\LeaveRequestPermissionTrait;
+use OrangeHRM\Leave\Dto\LeaveRequest\DetailedLeaveRequest;
 use OrangeHRM\Leave\Dto\LeaveRequestSearchFilterParams;
 use OrangeHRM\Leave\Traits\Service\LeaveRequestServiceTrait;
 
@@ -43,10 +50,23 @@ class EmployeeLeaveRequestAPI extends Endpoint implements CrudEndpoint
     use LeaveRequestParamHelperTrait;
     use LeaveRequestServiceTrait;
     use UserRoleManagerTrait;
+    use AuthUserTrait;
+    use LeaveRequestPermissionTrait;
+
+    public const PARAMETER_ACTION = 'action';
+    public const PARAMETER_LEAVE_REQUEST_ID = 'leaveRequestId';
 
     public const FILTER_SUBUNIT_ID = 'subunitId';
     public const FILTER_STATUSES = 'statuses';
     public const FILTER_INCLUDE_EMPLOYEES = 'includeEmployees';
+    public const FILTER_MODEL = 'model';
+
+    public const MODEL_DEFAULT = 'default';
+    public const MODEL_DETAILED = 'detailed';
+    public const MODEL_MAP = [
+        self::MODEL_DEFAULT => LeaveRequestModel::class,
+        self::MODEL_DETAILED => LeaveRequestDetailedModel::class,
+    ];
 
     /**
      * @inheritDoc
@@ -262,7 +282,35 @@ class EmployeeLeaveRequestAPI extends Endpoint implements CrudEndpoint
      */
     public function update(): EndpointResult
     {
-        throw $this->getNotImplementedException();
+        $leaveRequestId = $this->getRequestParams()->getInt(
+            RequestParams::PARAM_TYPE_ATTRIBUTE,
+            self::PARAMETER_LEAVE_REQUEST_ID
+        );
+        $leaveRequest = $this->getLeaveRequestService()->getLeaveRequestDao()->getLeaveRequestById($leaveRequestId);
+        $this->throwRecordNotFoundExceptionIfNotExist($leaveRequest, LeaveRequest::class);
+        $this->checkLeaveRequestAccessible($leaveRequest);
+
+        $detailedLeaveRequest = new DetailedLeaveRequest($leaveRequest);
+        $detailedLeaveRequest->fetchLeaves();
+        if ($detailedLeaveRequest->hasMultipleStatus()) {
+            throw $this->getBadRequestException('Leave request have multiple status');
+        }
+
+        $action = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_ACTION);
+        if (!$detailedLeaveRequest->isActionAllowed($action)) {
+            throw $this->getBadRequestException('Performed action not allowed');
+        }
+
+        $workflow = $detailedLeaveRequest->getWorkflowForAction($action);
+        $this->getLeaveRequestService()->changeLeaveRequestStatus($detailedLeaveRequest, $workflow->getResultingState());
+
+        $model = $this->getRequestParams()->getString(
+            RequestParams::PARAM_TYPE_QUERY,
+            self::FILTER_MODEL,
+            self::MODEL_DEFAULT
+        );
+        $data = $model === self::MODEL_DETAILED ? $detailedLeaveRequest : $leaveRequest;
+        return new EndpointResourceResult(self::MODEL_MAP[$model], $data);
     }
 
     /**
@@ -270,7 +318,13 @@ class EmployeeLeaveRequestAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
-        throw $this->getNotImplementedException();
+        return new ParamRuleCollection(
+            new ParamRule(self::PARAMETER_LEAVE_REQUEST_ID, new Rule(Rules::POSITIVE)),
+            new ParamRule(self::PARAMETER_ACTION, new Rule(Rules::STRING_TYPE)),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(self::FILTER_MODEL, new Rule(Rules::IN, [array_keys(self::MODEL_MAP)])),
+            ),
+        );
     }
 
     /**

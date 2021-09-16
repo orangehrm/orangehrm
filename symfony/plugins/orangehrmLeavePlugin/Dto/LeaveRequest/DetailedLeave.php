@@ -73,13 +73,27 @@ class DetailedLeave
      */
     private ?array $allowedActions = null;
 
-    private function resetCache(): void
+    /**
+     * @var WorkflowStateMachine[]|null
+     */
+    private ?array $allowedWorkflows = null;
+
+    /**
+     * @param Leave $leave
+     */
+    public function __construct(Leave $leave)
+    {
+        $this->setLeave($leave);
+    }
+
+    private function reset(): void
     {
         $this->dateDetail = null;
         $this->leavePeriod = null;
         $this->status = null;
         $this->leaveBalance = null;
         $this->allowedActions = null;
+        $this->allowedWorkflows = null;
     }
 
     /**
@@ -95,7 +109,7 @@ class DetailedLeave
      */
     public function setLeave(Leave $leave): void
     {
-        $this->resetCache();
+        $this->reset();
         $this->leave = $leave;
     }
 
@@ -104,6 +118,7 @@ class DetailedLeave
      */
     public function setLeaves(array $leaves): void
     {
+        $this->reset();
         $this->leaves = $leaves;
     }
 
@@ -124,32 +139,14 @@ class DetailedLeave
             return $this->dateDetail;
         }
         $datesDetail = new LeaveRequestDatesDetail($this->getLeave()->getDate());
-        $leaveDuration = $this->getLeaveDuration($this->getLeave());
+        $duration = $this->getLeave()->getDecorator()->getLeaveDuration();
         $datesDetail->setDurationTypeId($this->getLeave()->getDurationType());
-        $datesDetail->setDurationType($leaveDuration->getType());
-        if ($leaveDuration->isTypeSpecifyTime()) {
-            $datesDetail->setStartTime($leaveDuration->getFromTime());
-            $datesDetail->setEndTime($leaveDuration->getToTime());
+        $datesDetail->setDurationType($duration);
+        if ($duration !== LeaveDuration::FULL_DAY) {
+            $datesDetail->setStartTime($this->getLeave()->getStartTime());
+            $datesDetail->setEndTime($this->getLeave()->getEndTime());
         }
         return $this->dateDetail = $datesDetail;
-    }
-
-    /**
-     * @param Leave $leave
-     * @return LeaveDuration|null
-     */
-    private function getLeaveDuration(Leave $leave): ?LeaveDuration
-    {
-        $duration = $leave->getDecorator()->getLeaveDuration();
-        if ($duration) {
-            $leaveDuration = new LeaveDuration($duration);
-            if ($leaveDuration->isTypeSpecifyTime()) {
-                $leaveDuration->setFromTime($leave->getStartTime());
-                $leaveDuration->setToTime($leave->getEndTime());
-            }
-            return $leaveDuration;
-        }
-        return null;
     }
 
     /**
@@ -227,17 +224,63 @@ class DetailedLeave
             return $this->allowedActions;
         }
         $leaveStatus = $this->getLeave()->getDecorator()->getLeaveStatusName();
-        $allowedWorkflows = $this->getLeaveRequestService()->getLeaveRequestAllowedWorkflows(
-            $this->getLeave()->getEmployee(),
-            $this->getLeave()->getLeaveType(),
-            $leaveStatus,
-            $this->getAuthUser()->getEmpNumber()
-        );
+        $allowedWorkflows = $this->getAllowedWorkflows($leaveStatus);
         return $this->allowedActions = array_values(
             array_map(
                 fn(WorkflowStateMachine $workflow) => $workflow->getAction(),
                 $allowedWorkflows
             )
         );
+    }
+
+    /**
+     * @param string $leaveStatus e.g. 'PENDING APPROVAL', 'SCHEDULED', 'TAKEN'
+     * @return WorkflowStateMachine[]
+     */
+    private function getAllowedWorkflows(string $leaveStatus): array
+    {
+        if (is_null($this->allowedWorkflows)) {
+            $this->allowedWorkflows = $this->getLeaveRequestService()->getLeaveRequestAllowedWorkflows(
+                $this->getLeave()->getEmployee(),
+                $this->getLeave()->getLeaveType(),
+                $leaveStatus,
+                $this->getAuthUser()->getEmpNumber()
+            );
+        }
+        return $this->allowedWorkflows;
+    }
+
+    /**
+     * @param string $action e.g. 'APPROVE', 'REJECT', 'CANCEL'
+     * @return bool
+     */
+    public function isActionAllowed(string $action): bool
+    {
+        $leaveStatus = $this->getLeave()->getDecorator()->getLeaveStatusName();
+        return $this->getLeaveRequestService()->isLeaveRequestActionAllowed(
+            $this->getLeave()->getEmployee(),
+            $this->getLeave()->getLeaveType(),
+            $leaveStatus,
+            $action,
+            $this->getAuthUser()->getEmpNumber()
+        );
+    }
+
+    /**
+     * @param string $action e.g. 'APPROVE', 'REJECT', 'CANCEL'
+     * @return WorkflowStateMachine|null
+     */
+    public function getWorkflowForAction(string $action): ?WorkflowStateMachine
+    {
+        $leaveStatus = $this->getLeave()->getDecorator()->getLeaveStatusName();
+        $allowedWorkflows = $this->getAllowedWorkflows($leaveStatus);
+        $workflow = null;
+        foreach ($allowedWorkflows as $allowedWorkflow) {
+            if ($allowedWorkflow->getAction() === $action) {
+                $workflow = $allowedWorkflow;
+                break;
+            }
+        }
+        return $workflow;
     }
 }

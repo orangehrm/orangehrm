@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" bootstrap="symfony/test/phpunit/Util/bootstrap.php" colors="true"
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" bootstrap="symfony/test/phpunit/Util/bootstrap.php"
+         colors="true"
          convertErrorsToExceptions="true" convertNoticesToExceptions="true" convertWarningsToExceptions="true"
          beStrictAboutOutputDuringTests="true"
          xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd">
@@ -42,6 +43,7 @@
       <directory>symfony/plugins/orangehrmLeavePlugin/test/Dao</directory>
       <directory>symfony/plugins/orangehrmLeavePlugin/test/Api</directory>
       <directory>symfony/plugins/orangehrmLeavePlugin/test/Entity</directory>
+      <directory>symfony/plugins/orangehrmLeavePlugin/test/Entitlement</directory>
     </testsuite>
     <testsuite name="Pim">
       <directory>symfony/plugins/orangehrmPimPlugin/test/Service</directory>

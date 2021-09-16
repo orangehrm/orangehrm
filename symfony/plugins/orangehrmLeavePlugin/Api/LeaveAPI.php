@@ -23,8 +23,8 @@ use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
+use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
-use OrangeHRM\Core\Api\V2\Exception\ForbiddenException;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
@@ -34,11 +34,15 @@ use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\Employee;
+use OrangeHRM\Entity\Leave;
 use OrangeHRM\Entity\LeaveRequest;
 use OrangeHRM\Leave\Api\Model\LeaveDetailedModel;
+use OrangeHRM\Leave\Api\Model\LeaveModel;
+use OrangeHRM\Leave\Api\Traits\LeavePermissionTrait;
 use OrangeHRM\Leave\Api\Traits\LeaveRequestParamHelperTrait;
+use OrangeHRM\Leave\Api\Traits\LeaveRequestPermissionTrait;
+use OrangeHRM\Leave\Dto\LeaveRequest\DetailedLeave;
 use OrangeHRM\Leave\Dto\LeaveSearchFilterParams;
-use OrangeHRM\Leave\Service\LeaveRequestCommentService;
 use OrangeHRM\Leave\Traits\Service\LeaveRequestServiceTrait;
 use OrangeHRM\Pim\Api\Model\EmployeeModel;
 
@@ -48,25 +52,15 @@ class LeaveAPI extends Endpoint implements CrudEndpoint
     use LeaveRequestServiceTrait;
     use UserRoleManagerTrait;
     use NormalizerServiceTrait;
+    use LeaveRequestPermissionTrait;
+    use LeavePermissionTrait;
 
     public const FILTER_LEAVE_REQUEST_ID = 'leaveRequestId';
+
+    public const PARAMETER_LEAVE_ID = 'leaveId';
+    public const PARAMETER_ACTION = 'action';
+
     public const META_PARAMETER_EMPLOYEE = 'employee';
-
-    /**
-     * @var null|LeaveRequestCommentService
-     */
-    protected ?LeaveRequestCommentService $leaveRequestCommentService = null;
-
-    /**
-     * @return LeaveRequestCommentService
-     */
-    public function getLeaveRequestCommentService(): LeaveRequestCommentService
-    {
-        if (is_null($this->leaveRequestCommentService)) {
-            $this->leaveRequestCommentService = new LeaveRequestCommentService();
-        }
-        return $this->leaveRequestCommentService;
-    }
 
     /**
      * @inheritDoc
@@ -92,12 +86,12 @@ class LeaveAPI extends Endpoint implements CrudEndpoint
         $leaveSearchFilterParams = $this->getLeaveSearchFilterParams();
 
         /** @var LeaveRequest|null $leaveRequest */
-        $leaveRequest = $this->getLeaveRequestCommentService()->getLeaveRequestCommentDao()
+        $leaveRequest = $this->getLeaveRequestService()
+            ->getLeaveRequestDao()
             ->getLeaveRequestById($leaveSearchFilterParams->getLeaveRequestId());
 
         $this->throwRecordNotFoundExceptionIfNotExist($leaveRequest, LeaveRequest::class);
-
-        $this->checkLeaveRequestAccessible($leaveSearchFilterParams);
+        $this->checkLeaveRequestAccessible($leaveRequest);
 
         $leaves = $this->getLeaveRequestService()
             ->getLeaveRequestDao()
@@ -156,11 +150,7 @@ class LeaveAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(
-                self::FILTER_LEAVE_REQUEST_ID,
-                new Rule(Rules::POSITIVE),
-                new Rule(Rules::ENTITY_ID_EXISTS, [LeaveRequest::class])
-            ),
+            new ParamRule(self::FILTER_LEAVE_REQUEST_ID, new Rule(Rules::POSITIVE)),
             ...$this->getSortingAndPaginationParamsRules()
         );
     }
@@ -186,7 +176,25 @@ class LeaveAPI extends Endpoint implements CrudEndpoint
      */
     public function update(): EndpointResult
     {
-        throw $this->getNotImplementedException();
+        $leaveId = $this->getRequestParams()->getInt(
+            RequestParams::PARAM_TYPE_ATTRIBUTE,
+            self::PARAMETER_LEAVE_ID
+        );
+        $leave = $this->getLeaveRequestService()->getLeaveRequestDao()->getLeaveById($leaveId);
+        $this->throwRecordNotFoundExceptionIfNotExist($leave, Leave::class);
+        $this->checkLeaveAccessible($leave);
+
+        $detailedLeave = new DetailedLeave($leave);
+
+        $action = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_ACTION);
+        if (!$detailedLeave->isActionAllowed($action)) {
+            throw $this->getBadRequestException('Performed action not allowed');
+        }
+
+        $workflow = $detailedLeave->getWorkflowForAction($action);
+        $this->getLeaveRequestService()->changeLeaveStatus($leave, $workflow->getResultingState());
+
+        return new EndpointResourceResult(LeaveModel::class, $leave);
     }
 
     /**
@@ -194,7 +202,10 @@ class LeaveAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
-        throw $this->getNotImplementedException();
+        return new ParamRuleCollection(
+            new ParamRule(self::PARAMETER_LEAVE_ID, new Rule(Rules::POSITIVE)),
+            new ParamRule(self::PARAMETER_ACTION, new Rule(Rules::STRING_TYPE)),
+        );
     }
 
     /**
@@ -211,20 +222,5 @@ class LeaveAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForDelete(): ParamRuleCollection
     {
         throw $this->getNotImplementedException();
-    }
-
-    /**
-     * @param LeaveSearchFilterParams $leaveSearchFilterParams
-     * @throws ForbiddenException
-     */
-    protected function checkLeaveRequestAccessible(LeaveSearchFilterParams $leaveSearchFilterParams): void
-    {
-        $empNumber = $this->getLeaveRequestCommentService()->getLeaveRequestCommentDao()
-            ->getLeaveRequestById($leaveSearchFilterParams->getLeaveRequestId())
-            ->getEmployee()->getEmpNumber();
-        if (!($this->getUserRoleManager()->isEntityAccessible(Employee::class, $empNumber) ||
-            $this->getUserRoleManagerHelper()->isSelfByEmpNumber($empNumber))) {
-            throw $this->getForbiddenException();
-        }
     }
 }

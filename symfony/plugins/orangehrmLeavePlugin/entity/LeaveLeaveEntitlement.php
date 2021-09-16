@@ -45,7 +45,7 @@ class LeaveLeaveEntitlement
     /**
      * @var Leave
      *
-     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Leave")
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Leave", inversedBy="leaveLeaveEntitlements")
      * @ORM\JoinColumn(name="leave_id", referencedColumnName="id")
      */
     private Leave $leave;
@@ -53,7 +53,7 @@ class LeaveLeaveEntitlement
     /**
      * @var LeaveEntitlement
      *
-     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\LeaveEntitlement")
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\LeaveEntitlement", inversedBy="leaveLeaveEntitlements")
      * @ORM\JoinColumn(name="entitlement_id", referencedColumnName="id")
      */
     private LeaveEntitlement $entitlement;
