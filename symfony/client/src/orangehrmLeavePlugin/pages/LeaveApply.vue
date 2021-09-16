@@ -251,33 +251,39 @@ export default {
         fromDate: this.leave.fromDate,
         toDate: this.leave.toDate,
         comment: this.leave.comment ? this.leave.comment : null,
-        duration: {
-          type: this.leave.duration.type?.key,
-          fromTime:
-            this.leave.duration.type?.id === 4
-              ? this.leave.duration.fromTime
-              : null,
-          toTime:
-            this.leave.duration.type?.id === 4
-              ? this.leave.duration.toTime
-              : null,
-        },
-        partialOption: 'none',
-        endDuration: null,
       };
-      if (this.leave.partialOptions?.id) {
-        payload.partialOption = this.leave.partialOptions.key;
-        payload.endDuration = {
-          type: this.leave.endDuration.type?.key,
-          fromTime:
-            this.leave.endDuration.type?.id === 4
-              ? this.leave.endDuration.fromTime
-              : null,
-          toTime:
-            this.leave.endDuration.type?.id === 4
-              ? this.leave.endDuration.toTime
-              : null,
+
+      if (this.leave.duration.type) {
+        const duration = {
+          type: this.leave.duration.type?.key,
         };
+        if (duration.type === 'specify_time') {
+          if (this.leave.duration.fromTime) {
+            duration.fromTime = this.leave.duration.fromTime;
+          }
+          if (this.leave.duration.toTime) {
+            duration.toTime = this.leave.duration.toTime;
+          }
+        }
+        payload.duration = duration;
+      }
+
+      if (this.appliedLeaveDuration > 1 && this.leave.partialOptions) {
+        payload.partialOption = this.leave.partialOptions?.key;
+        if (payload.partialOption === 'start_end') {
+          if (this.leave.endDuration.type) {
+            const endDuration = {
+              type: this.leave.endDuration.type?.key,
+            };
+            if (this.leave.endDuration.fromTime) {
+              endDuration.fromTime = this.leave.endDuration.fromTime;
+            }
+            if (this.leave.endDuration.toTime) {
+              endDuration.toTime = this.leave.endDuration.toTime;
+            }
+            payload.endDuration = endDuration;
+          }
+        }
       }
 
       this.checkLeaveOverlap(payload)
@@ -300,7 +306,13 @@ export default {
           this.$toast.saveSuccess();
           this.leave = {...leaveModel};
         })
-        .catch(e => void e)
+        .catch(() => {
+          this.showLeaveConflict &&
+            this.$toast.warn({
+              title: 'Warn',
+              message: 'Failed to Submit',
+            });
+        })
         .finally(() => {
           this.isLoading = false;
         });

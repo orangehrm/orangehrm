@@ -36,20 +36,31 @@ use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
 use OrangeHRM\Entity\Leave;
+use OrangeHRM\Entity\LeaveType;
 use OrangeHRM\Leave\Api\Model\LeaveBalanceModel;
 use OrangeHRM\Leave\Api\Model\LeavePeriodModel;
+use OrangeHRM\Leave\Api\Model\LeaveTypeModel;
 use OrangeHRM\Leave\Api\Traits\LeaveRequestParamHelperTrait;
 use OrangeHRM\Leave\Dto\LeavePeriod;
 use OrangeHRM\Leave\Service\LeaveApplicationService;
 use OrangeHRM\Leave\Traits\Service\LeaveEntitlementServiceTrait;
+use OrangeHRM\Leave\Traits\Service\LeaveTypeServiceTrait;
+use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
 
 class LeaveBalanceAPI extends Endpoint implements ResourceEndpoint
 {
     use LeaveRequestParamHelperTrait;
     use LeaveEntitlementServiceTrait;
+    use LeaveTypeServiceTrait;
+    use EmployeeServiceTrait;
     use NormalizerServiceTrait;
     use DateTimeHelperTrait;
     use AuthUserTrait;
+
+    public const PARAMETER_BALANCE = 'balance';
+
+    public const META_PARAMETER_LEAVE_TYPE = 'leaveType';
+    public const META_PARAMETER_EMPLOYEE = 'employee';
 
     private ?LeaveApplicationService $leaveApplicationService = null;
 
@@ -150,15 +161,33 @@ class LeaveBalanceAPI extends Endpoint implements ResourceEndpoint
             );
 
             $result = [
-                'balance' => $this->getNormalizerService()->normalize(LeaveBalanceModel::class, $balance),
+                self::PARAMETER_BALANCE => $this->getNormalizerService()->normalize(LeaveBalanceModel::class, $balance),
             ];
         }
 
         return new EndpointResourceResult(
             ArrayModel::class,
             $result,
-            new ParameterBag([CommonParams::PARAMETER_EMP_NUMBER => $empNumber])
+            new ParameterBag(
+                [
+                    self::META_PARAMETER_EMPLOYEE => $this->getEmployeeService()->getEmployeeAsArray($empNumber),
+                    self::META_PARAMETER_LEAVE_TYPE => $this->getLeaveTypeAsArray($leaveTypeId),
+                ]
+            )
         );
+    }
+
+    /**
+     * @param int $leaveTypeId
+     * @return array|null
+     */
+    private function getLeaveTypeAsArray(int $leaveTypeId): ?array
+    {
+        $leaveType = $this->getLeaveTypeService()->getLeaveTypeDao()->getLeaveTypeById($leaveTypeId);
+        if (!$leaveType instanceof LeaveType) {
+            return null;
+        }
+        return $this->getNormalizerService()->normalize(LeaveTypeModel::class, $leaveType);
     }
 
     /**

@@ -202,7 +202,7 @@ abstract class AbstractRestController extends AbstractController
 
             $response->setContent(
                 Response::formatError(
-                    ['error' => ['status' => '400', 'message' => 'Bad Request']]
+                    ['error' => ['status' => '400', 'message' => $e->getMessage()]]
                 )
             );
             $response->setStatusCode(400);

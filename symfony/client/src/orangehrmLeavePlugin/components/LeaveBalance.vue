@@ -45,6 +45,7 @@
     "
     v-if="showModal"
     :data="data"
+    :meta="meta"
     @close="onModalClose"
   ></component>
 </template>
@@ -72,6 +73,7 @@ export default {
   setup(props) {
     const state = reactive({
       data: null,
+      meta: null,
       balance: 0,
       showModal: false,
     });
@@ -129,7 +131,8 @@ export default {
       if (props.leaveData.type?.id) {
         http.get(props.leaveData.type.id, payload).then(response => {
           if (response.status !== 200) return;
-          const {data} = response.data;
+          const {data, meta} = response.data;
+          state.meta = meta;
           if (data.balance) {
             // response sends balance directly when no duration defined
             state.data = data.balance;

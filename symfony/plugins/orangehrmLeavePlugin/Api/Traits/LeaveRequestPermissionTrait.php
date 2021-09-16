@@ -17,49 +17,33 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Leave\Exception;
+namespace OrangeHRM\Leave\Api\Traits;
 
-use Exception;
+use LogicException;
+use OrangeHRM\Core\Api\V2\Endpoint;
+use OrangeHRM\Core\Traits\UserRoleManagerTrait;
+use OrangeHRM\Entity\Employee;
+use OrangeHRM\Entity\LeaveEntitlement;
+use OrangeHRM\Entity\LeaveRequest;
 
-class LeaveAllocationServiceException extends Exception
+trait LeaveRequestPermissionTrait
 {
-    /**
-     * @return static
-     */
-    public static function overlappingLeavesFound(): self
-    {
-        return new self('Overlapping Leave Request Found');
-    }
+    use UserRoleManagerTrait;
 
     /**
-     * @return static
+     * @param LeaveRequest $leaveRequest
      */
-    public static function workShiftLengthExceeded(): self
+    protected function checkLeaveRequestAccessible(LeaveRequest $leaveRequest): void
     {
-        return new self('Work Shift Length Exceeded');
-    }
-
-    /**
-     * @return static
-     */
-    public static function leaveBalanceExceeded(): self
-    {
-        return new self('Leave Balance Exceeded');
-    }
-
-    /**
-     * @return static
-     */
-    public static function leaveQuotaWillExceed(): self
-    {
-        return new self('Leave Quota will Exceed');
-    }
-
-    /**
-     * @return static
-     */
-    public static function noWorkingDaysSelected(): self
-    {
-        return new self('Failed to Submit: No Working Days Selected');
+        if (!$this instanceof Endpoint) {
+            throw new LogicException(
+                self::class . ' should use in instanceof' . Endpoint::class
+            );
+        }
+        $empNumber = $leaveRequest->getEmployee()->getEmpNumber();
+        if (!($this->getUserRoleManager()->isEntityAccessible(Employee::class, $empNumber) ||
+            $this->getUserRoleManagerHelper()->isSelfByEmpNumber($empNumber))) {
+            throw $this->getForbiddenException();
+        }
     }
 }
