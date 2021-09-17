@@ -165,6 +165,8 @@ class DetailedLeaveRequest
      */
     public function setLeaves(iterable $leaves): void
     {
+        $this->leaveDates = [];
+        $this->leaves = [];
         foreach ($leaves as $leave) {
             if (!$leave instanceof Leave) {
                 throw new InvalidArgumentException();

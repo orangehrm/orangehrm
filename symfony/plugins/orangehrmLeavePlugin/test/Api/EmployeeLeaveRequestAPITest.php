@@ -20,7 +20,7 @@
 namespace OrangeHRM\Tests\Leave\Api;
 
 use OrangeHRM\Framework\Services;
-use OrangeHRM\Leave\Api\MyLeaveRequestAPI;
+use OrangeHRM\Leave\Api\EmployeeLeaveRequestAPI;
 use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
 use OrangeHRM\Tests\Util\Integration\TestCaseParams;
 
@@ -28,70 +28,65 @@ use OrangeHRM\Tests\Util\Integration\TestCaseParams;
  * @group Leave
  * @group APIv2
  */
-class MyLeaveRequestAPITest extends EndpointIntegrationTestCase
+class EmployeeLeaveRequestAPITest extends EndpointIntegrationTestCase
 {
-    /**
-     * @dataProvider dataProviderForTestCreate
-     */
-    public function testCreate(TestCaseParams $testCaseParams): void
-    {
-        $this->populateFixtures('MyLeaveRequestAPITest.yaml');
-        $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
-
-        $this->registerServices($testCaseParams);
-        $this->registerMockDateTimeHelper($testCaseParams);
-        $api = $this->getApiEndpointMock(MyLeaveRequestAPI::class, $testCaseParams);
-        $this->assertValidTestCase($api, 'create', $testCaseParams);
-    }
-
-    public function dataProviderForTestCreate(): array
-    {
-        return $this->getTestCases('MyLeaveRequestAPITest.yaml', 'Create');
-    }
-
     /**
      * @dataProvider dataProviderForTestUpdate
      */
     public function testUpdate(TestCaseParams $testCaseParams): void
     {
-        $this->populateFixtures('MyLeaveRequestAPITest.yaml');
+        $this->populateFixtures('EmployeeLeaveRequestAPITest.yaml');
         $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
 
         $this->registerServices($testCaseParams);
-        $api = $this->getApiEndpointMock(MyLeaveRequestAPI::class, $testCaseParams);
+        $api = $this->getApiEndpointMock(EmployeeLeaveRequestAPI::class, $testCaseParams);
         $this->assertValidTestCase($api, 'update', $testCaseParams);
     }
 
     public function dataProviderForTestUpdate(): array
     {
-        return $this->getTestCases('MyLeaveRequestAPITest.yaml', 'Update');
+        return $this->getTestCases('EmployeeLeaveRequestAPITest.yaml', 'Update');
     }
 
     public function testDelete(): void
     {
-        $api = new MyLeaveRequestAPI($this->getRequest());
+        $api = new EmployeeLeaveRequestAPI($this->getRequest());
         $this->expectNotImplementedException();
         $api->delete();
     }
 
     public function testGetValidationRuleForDelete(): void
     {
-        $api = new MyLeaveRequestAPI($this->getRequest());
+        $api = new EmployeeLeaveRequestAPI($this->getRequest());
         $this->expectNotImplementedException();
         $api->getValidationRuleForDelete();
     }
 
     public function testGetOne(): void
     {
-        $api = new MyLeaveRequestAPI($this->getRequest());
+        $api = new EmployeeLeaveRequestAPI($this->getRequest());
         $this->expectNotImplementedException();
         $api->getOne();
     }
 
     public function testGetValidationRuleForGetOne(): void
     {
-        $api = new MyLeaveRequestAPI($this->getRequest());
+        $api = new EmployeeLeaveRequestAPI($this->getRequest());
         $this->expectNotImplementedException();
         $api->getValidationRuleForGetOne();
+    }
+
+    public function testCreate(): void
+    {
+        $api = new EmployeeLeaveRequestAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->create();
+    }
+
+    public function testGetValidationRuleForCreate(): void
+    {
+        $api = new EmployeeLeaveRequestAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->getValidationRuleForCreate();
     }
 }
