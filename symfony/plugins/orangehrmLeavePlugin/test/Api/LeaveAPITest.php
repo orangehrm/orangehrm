@@ -46,6 +46,6 @@ class LeaveAPITest extends EndpointIntegrationTestCase
 
     public function dataProviderForTestCreate(): array
     {
-        return $this->getTestCases('LeaveAPITest.yaml', 'GetAll');
+        return $this->getTestCases('LeaveAPITestCase.yaml', 'GetAll');
     }
 }
