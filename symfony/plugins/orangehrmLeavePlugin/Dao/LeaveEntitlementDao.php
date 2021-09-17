@@ -246,8 +246,8 @@ class LeaveEntitlementDao extends BaseDao
             );
 
             $q = $this->createQueryBuilder(LeaveLeaveEntitlement::class, 'l')
-                ->andWhere('l.leave', ':leaveId')
-                ->andWhere('l.entitlement', ':entitlementId')
+                ->andWhere('l.leave = :leaveId')
+                ->andWhere('l.entitlement = :entitlementId')
                 ->setParameter('entitlementId', $entitlementId);
 
             foreach ($leaveList as $leave) {
