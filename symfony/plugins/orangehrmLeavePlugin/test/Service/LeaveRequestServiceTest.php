@@ -332,6 +332,6 @@ class LeaveRequestServiceTest extends TestCase
             $detailedLeave->setLeaves($leaves);
             $detailedLeaves[] = $detailedLeave;
         }
-        $this->assertEquals($detailedLeaves, $service->getDetailedLeaves($leaves));
+        $this->assertEquals($detailedLeaves, $service->getDetailedLeaves($leaves,$leaves));
     }
 }
