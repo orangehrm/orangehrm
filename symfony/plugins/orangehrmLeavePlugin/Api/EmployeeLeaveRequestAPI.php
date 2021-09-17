@@ -309,8 +309,15 @@ class EmployeeLeaveRequestAPI extends Endpoint implements CrudEndpoint
             self::FILTER_MODEL,
             self::MODEL_DEFAULT
         );
-        $data = $model === self::MODEL_DETAILED ? $detailedLeaveRequest : $leaveRequest;
-        return new EndpointResourceResult(self::MODEL_MAP[$model], $data);
+        if ($model === self::MODEL_DETAILED) {
+            $detailedLeaveRequest->setLeaves(
+                $this->getLeaveRequestService()
+                    ->getLeaveRequestDao()
+                    ->getLeavesByLeaveRequestId($leaveRequest->getId())
+            );
+            $leaveRequest = $detailedLeaveRequest;
+        }
+        return new EndpointResourceResult(self::MODEL_MAP[$model], $leaveRequest);
     }
 
     /**
