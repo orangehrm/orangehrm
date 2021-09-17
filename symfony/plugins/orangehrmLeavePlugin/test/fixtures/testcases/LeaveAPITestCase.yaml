@@ -19,7 +19,6 @@ GetAll:
   'get leaves':
     userId: 1
     services:
-      leave.leave_type_service: \OrangeHRM\Leave\Service\LeaveTypeService
       leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
       core.config_service: \OrangeHRM\Core\Service\ConfigService
@@ -224,16 +223,7 @@ GetAll:
           id: 1
           name: "Pending Approval"
           lengthDays: 0.5
-        allowedActions:
-          0:
-            action: APPROVE
-            name: Approve
-          1:
-            action: CANCEL
-            name: Cancel
-          2:
-            action: REJECT
-            name: Reject
+        allowedActions: []
         leaveType:
           id: 6
           name: "Medical"
