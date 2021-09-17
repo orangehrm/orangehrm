@@ -234,6 +234,9 @@ class FIFOEntitlementConsumptionStrategy implements EntitlementConsumptionStrate
             // reduce entitlement usage for this leave
 
             foreach ($entitlementArray as $entitlementItem) {
+                // use clone to avoid update Doctrine unit of work
+                $entitlementItem = clone $entitlementItem;
+
                 $entitlementItem->setDaysUsed($entitlementItem->getDaysUsed() - $entitlementItem->getLengthDays());
                 if ($entitlementItem->getDaysUsed() < 0) {
                     $entitlementItem->setDaysUsed(0);
