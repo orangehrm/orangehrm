@@ -48,4 +48,46 @@ class LeaveAPITest extends EndpointIntegrationTestCase
     {
         return $this->getTestCases('LeaveAPITestCase.yaml', 'GetAll');
     }
+
+    public function testCreate(): void
+    {
+        $api = new LeaveAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->create();
+    }
+
+    public function testGetValidationRuleForCreate(): void
+    {
+        $api = new LeaveAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->getValidationRuleForCreate();
+    }
+
+    public function testGetOne(): void
+    {
+        $api = new LeaveAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->getOne();
+    }
+
+    public function testGetValidationRuleForGetOne(): void
+    {
+        $api = new LeaveAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->getValidationRuleForGetOne();
+    }
+
+    public function testGetDelete(): void
+    {
+        $api = new LeaveAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->delete();
+    }
+
+    public function testGetValidationRuleForDelete(): void
+    {
+        $api = new LeaveAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->getValidationRuleForDelete();
+    }
 }

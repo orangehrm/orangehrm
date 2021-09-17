@@ -66,11 +66,11 @@ class LeaveDetailedModelTest extends KernelTestCase
                 ],
                 "balance" => [
                     "entitled" => 0.0,
-                    "used" => 1.0,
-                    "scheduled" => 1.0,
+                    "used" => 0.0,
+                    "scheduled" => 0.0,
                     "pending" => 0.0,
                     "taken" => 0.0,
-                    "balance" => -1.0,
+                    "balance" => 0.0,
                     "asAtDate" => "2021-08-01",
                     "endDate" => "2021-12-31"
                 ]

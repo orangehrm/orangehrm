@@ -2551,7 +2551,6 @@ class LeaveRequestDaoTest extends KernelTestCase
         $this->assertEquals(1, $this->leaveRequestDao->getLeaveRequestById(1)->getLeaveType()->getId());
         $this->assertEquals('2010-08-30', $this->leaveRequestDao->getLeaveRequestById(1)->getDateApplied()->format('Y-m-d'));
         $this->assertEquals(1, $this->leaveRequestDao->getLeaveRequestById(1)->getEmployee()->getEmpNumber());
-        $this->assertEquals('my comment1', $this->leaveRequestDao->getLeaveRequestById(1)->getComment());
 
         $this->assertEquals(null, $this->leaveRequestDao->getLeaveRequestById(22));
     }
