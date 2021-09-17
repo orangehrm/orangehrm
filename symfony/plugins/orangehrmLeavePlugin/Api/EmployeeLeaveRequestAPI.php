@@ -57,7 +57,6 @@ class EmployeeLeaveRequestAPI extends Endpoint implements CrudEndpoint
 
     public const PARAMETER_ACTION = 'action';
     public const PARAMETER_LEAVE_REQUEST_ID = 'leaveRequestId';
-    public const PARAMETER_EMP_NO = 'empNumber';
 
     public const FILTER_SUBUNIT_ID = 'subunitId';
     public const FILTER_STATUSES = 'statuses';
@@ -71,13 +70,12 @@ class EmployeeLeaveRequestAPI extends Endpoint implements CrudEndpoint
         self::MODEL_DETAILED => LeaveRequestDetailedModel::class,
     ];
 
-    protected ?LeaveApplicationService $leaveApplicationService = null;
     protected ?LeaveAssignmentService $leaveAssignmentService = null;
 
     /**
      * @return LeaveAssignmentService
      */
-    public function getLeaveAssignmentService(): LeaveAssignmentService
+    protected  function getLeaveAssignmentService(): LeaveAssignmentService
     {
         if (!$this->leaveAssignmentService instanceof LeaveAssignmentService) {
             $this->leaveAssignmentService = new LeaveAssignmentService();
@@ -283,7 +281,7 @@ class EmployeeLeaveRequestAPI extends Endpoint implements CrudEndpoint
      */
     public function create(): EndpointResult
     {
-        $empNumber = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_EMP_NO);
+        $empNumber = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_EMP_NUMBER);
         $leaveRequestParams = $this->getLeaveRequestParams($empNumber);
         $leaveRequest = $this->getLeaveAssignmentService()->assignLeave($leaveRequestParams);
         return new EndpointResourceResult(

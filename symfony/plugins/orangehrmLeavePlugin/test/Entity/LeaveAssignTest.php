@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\Tests\Leave\Entity;
 
-
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\Leave;
@@ -39,6 +38,7 @@ class LeaveAssignTest extends EntityTestCase
 {
 
     use DateTimeHelperTrait;
+
     protected function setUp(): void
     {
         TestDataService::truncateSpecificTables([Employee::class]);
@@ -88,7 +88,5 @@ class LeaveAssignTest extends EntityTestCase
         $this->assertEquals(1, $leave->getLeaveRequest()->getId());
         $this->assertEquals(1, $leave->getLeaveType()->getId());
         $this->assertEquals(1, $leave->getEmployee()->getEmpNumber());
-
     }
-
 }

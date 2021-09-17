@@ -94,11 +94,6 @@ class LeaveAssignmentService extends AbstractLeaveAllocationService
      */
     public function assignLeave(LeaveParameterObject $leaveAssignmentData)
     {
-        $employeeId = $leaveAssignmentData->getEmployeeNumber();
-        /* Check whether employee exists */
-        if (empty($employeeId)) {
-            throw LeaveAllocationServiceException::invalidEmployeeSelected();
-        }
         if ($this->hasOverlapLeaves($leaveAssignmentData)) {
             throw LeaveAllocationServiceException::overlappingLeavesFound();
         }
@@ -122,17 +117,9 @@ class LeaveAssignmentService extends AbstractLeaveAllocationService
         $leaveType = $this->getLeaveTypeService()->getLeaveTypeDao()->getLeaveTypeById(
             $leaveAssignmentData->getLeaveType()
         );
-//        $leaveRequest->setLeaveTypeName($leaveType->getLeaveTypeName());
-//        if (is_null($leaveRequest->getLeavePeriodId())) {
-//            if ($this->getLeavePeriodService()->isWithinNextLeavePeriod(strtotime($leaveRequest->getDateApplied()))) {
-//                $nextLeavePeriod = $this->getLeavePeriodService()->createNextLeavePeriod($leaveRequest->getDateApplied());
-//                $leaveRequest->setLeavePeriodId($nextLeavePeriod->getLeavePeriodId());
-//            }
-//        }
         $leaveDays = $this->createLeaveObjectListForAppliedRange($leaveAssignmentData);
         $empNumber = $leaveAssignmentData->getEmployeeNumber();
         $nonHolidayLeaveDays = [];
-
         $holidayCount = 0;
         $holidays = array(Leave::LEAVE_STATUS_LEAVE_WEEKEND, Leave::LEAVE_STATUS_LEAVE_HOLIDAY);
         foreach ($leaveDays as $k => $leave) {
