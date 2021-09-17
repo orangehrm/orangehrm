@@ -50,13 +50,16 @@ abstract class EndpointIntegrationTestCase extends EndpointTestCase
     }
 
     /**
-     * @param string $fixture
+     * @param string $testCasesFilePath
      * @param string $testCaseKey
      * @param string|null $pathToTestCasesDir
      * @return array<string, Integration\TestCaseParams[]>
      */
-    protected function getTestCases(string $fixture, string $testCaseKey, string $pathToTestCasesDir = null): array
-    {
+    protected function getTestCases(
+        string $testCasesFilePath,
+        string $testCaseKey,
+        string $pathToTestCasesDir = null
+    ): array {
         if (is_null($pathToTestCasesDir)) {
             $reflection = new ReflectionClass($this);
             $pathToTestCasesDir = realpath(dirname($reflection->getFileName()) . '/../../test/fixtures/testcases');
@@ -65,7 +68,10 @@ abstract class EndpointIntegrationTestCase extends EndpointTestCase
             }
         }
 
-        $testCases = TestDataService::loadFixtures($pathToTestCasesDir . DIRECTORY_SEPARATOR . $fixture, $testCaseKey);
+        $testCases = TestDataService::loadFixtures(
+            $pathToTestCasesDir . DIRECTORY_SEPARATOR . $testCasesFilePath,
+            $testCaseKey
+        );
 
         return array_map(function (array $params) {
             $testCaseParams = new TestCaseParams();
@@ -144,6 +150,45 @@ abstract class EndpointIntegrationTestCase extends EndpointTestCase
             $this->assertEquals(
                 $testCaseParams->getResultMeta(),
                 $result->getMeta()->all()
+            );
+        }
+
+        $this->assertServicesInitialized($testCaseParams);
+    }
+
+    /**
+     * @param TestCaseParams $testCaseParams
+     */
+    private function assertServicesInitialized(TestCaseParams $testCaseParams): void
+    {
+        if (!is_null($testCaseParams->getServices())) {
+            $definedServices = array_keys($testCaseParams->getServices());
+            $initializedServices = [];
+            foreach ($testCaseParams->getServices() as $serviceId => $class) {
+                if ($this->getContainer()->initialized($serviceId)) {
+                    $initializedServices[] = $serviceId;
+                }
+            }
+            $notUsedServices = implode('`, `', array_diff($definedServices, $initializedServices));
+            $this->assertEquals(
+                $initializedServices,
+                $definedServices,
+                "Services `$notUsedServices` not used."
+            );
+        }
+        if (!is_null($testCaseParams->getFactories())) {
+            $definedFactories = array_keys($testCaseParams->getFactories());
+            $initializedFactories = [];
+            foreach ($testCaseParams->getFactories() as $serviceId => $class) {
+                if ($this->getContainer()->initialized($serviceId)) {
+                    $initializedFactories[] = $serviceId;
+                }
+            }
+            $notUsedServices = implode('`, `', array_diff($definedFactories, $initializedFactories));
+            $this->assertEquals(
+                $initializedFactories,
+                $definedFactories,
+                "Services factory `$notUsedServices` not used."
             );
         }
     }
