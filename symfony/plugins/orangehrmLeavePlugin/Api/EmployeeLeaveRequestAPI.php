@@ -57,7 +57,6 @@ class EmployeeLeaveRequestAPI extends Endpoint implements CrudEndpoint
 
     public const PARAMETER_ACTION = 'action';
     public const PARAMETER_LEAVE_REQUEST_ID = 'leaveRequestId';
-
     public const PARAMETER_EMP_NO = 'empNumber';
 
     public const FILTER_SUBUNIT_ID = 'subunitId';
@@ -80,7 +79,6 @@ class EmployeeLeaveRequestAPI extends Endpoint implements CrudEndpoint
      */
     public function getLeaveAssignmentService(): LeaveAssignmentService
     {
-
         if (!$this->leaveAssignmentService instanceof LeaveAssignmentService) {
             $this->leaveAssignmentService = new LeaveAssignmentService();
         }
