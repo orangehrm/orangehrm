@@ -61,16 +61,7 @@ GetAll:
           id: 1
           name: "Pending Approval"
           lengthDays: 0.5
-        allowedActions:
-          0:
-            action: APPROVE
-            name: Approve
-          1:
-            action: CANCEL
-            name: Cancel
-          2:
-            action: REJECT
-            name: Reject
+        allowedActions: []
         leaveType:
           id: 6
           name: "Medical"
@@ -104,16 +95,7 @@ GetAll:
           id: 1
           name: "Pending Approval"
           lengthDays: 0.5
-        allowedActions:
-          0:
-            action: APPROVE
-            name: Approve
-          1:
-            action: CANCEL
-            name: Cancel
-          2:
-            action: REJECT
-            name: Reject
+        allowedActions: []
         leaveType:
           id: 6
           name: "Medical"
@@ -181,16 +163,7 @@ GetAll:
           id: 1
           name: "Pending Approval"
           lengthDays: 1.0
-        allowedActions:
-          0:
-            action: APPROVE
-            name: Approve
-          1:
-            action: CANCEL
-            name: Cancel
-          2:
-            action: REJECT
-            name: Reject
+        allowedActions: []
         leaveType:
           id: 6
           name: "Medical"
