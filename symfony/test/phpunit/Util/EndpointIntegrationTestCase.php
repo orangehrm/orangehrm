@@ -241,7 +241,8 @@ abstract class EndpointIntegrationTestCase extends EndpointTestCase
             $dateTimeHelper = $this->getMockBuilder(DateTimeHelperService::class)
                 ->onlyMethods(['getNow'])
                 ->getMock();
-            $dateTimeHelper->method('getNow')
+            $dateTimeHelper->expects($this->atLeastOnce())
+                ->method('getNow')
                 ->willReturn($testCaseParams->getNow());
 
             $this->getContainer()->set(Services::DATETIME_HELPER_SERVICE, $dateTimeHelper);

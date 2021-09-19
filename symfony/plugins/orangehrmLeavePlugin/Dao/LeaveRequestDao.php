@@ -44,7 +44,7 @@ class LeaveRequestDao extends BaseDao
     use DateTimeHelperTrait;
     use LeaveRequestServiceTrait;
 
-    private static bool $doneMarkingApprovedLeaveAsTaken = false;
+    private bool $doneMarkingApprovedLeaveAsTaken = false;
 
     /**
      * Save leave request
@@ -708,7 +708,7 @@ class LeaveRequestDao extends BaseDao
 
     private function _markApprovedLeaveAsTaken(): void
     {
-        if (self::$doneMarkingApprovedLeaveAsTaken) {
+        if ($this->doneMarkingApprovedLeaveAsTaken) {
             return;
         }
         $now = $this->getDateTimeHelper()->getNow();
@@ -724,7 +724,7 @@ class LeaveRequestDao extends BaseDao
         $affectedRows = $q->getQuery()->execute();
         // TODO
         if ($affectedRows > 1) {
-            self::$doneMarkingApprovedLeaveAsTaken = true;
+            $this->doneMarkingApprovedLeaveAsTaken = true;
         }
     }
 
@@ -1032,6 +1032,7 @@ class LeaveRequestDao extends BaseDao
             $q->andWhere($q->expr()->in('leave.status', ':statuses'))
                 ->setParameter('statuses', $statuses);
         }
+        $q->addGroupBy('leaveRequest.id');
 
         return $this->getPaginator($q);
     }

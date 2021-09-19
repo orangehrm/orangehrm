@@ -27,10 +27,10 @@ class FilterParams
     public const DEFAULT_LIMIT = 50;
     public const DEFAULT_OFFSET = 0;
 
-    protected string $sortOrder = ListSorter::ASCENDING;
-    protected ?string $sortField = null;
-    protected int $limit = self::DEFAULT_LIMIT;
-    protected int $offset = self::DEFAULT_OFFSET;
+    private string $sortOrder = ListSorter::ASCENDING;
+    private ?string $sortField = null;
+    private int $limit = self::DEFAULT_LIMIT;
+    private int $offset = self::DEFAULT_OFFSET;
 
     /**
      * @return string
