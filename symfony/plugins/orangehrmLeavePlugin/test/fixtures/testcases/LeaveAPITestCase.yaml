@@ -31,6 +31,8 @@ GetAll:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getUserRoleManager' ]
     attributes:
       leaveRequestId: 3
+    now:
+      datetime: '2021-09-15'
     data:
       0:
         id: 6
@@ -194,6 +196,8 @@ GetAll:
     query:
       offset: 1
       limit: 2
+    now:
+      datetime: '2021-09-15'
     data:
       0:
         id: 7
