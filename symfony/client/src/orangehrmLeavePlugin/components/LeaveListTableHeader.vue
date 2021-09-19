@@ -20,24 +20,27 @@
 
 <template>
   <div class="orangehrm-header-container">
-    <div class="actions" v-if="selected > 0">
+    <div class="actions" v-if="bulkActions && selected > 0">
       <oxd-text tag="span">
         {{ itemSelectedText }}
       </oxd-text>
       <oxd-button
+        v-if="bulkActions.APPROVE"
         label="Approve"
         displayType="label-success"
-        @click="$emit('approve', $event)"
+        @click="$emit('onActionClick', 'APPROVE')"
       />
       <oxd-button
+        v-if="bulkActions.REJECT"
         label="Reject"
         displayType="label-danger"
-        @click="$emit('reject', $event)"
+        @click="$emit('onActionClick', 'REJECT')"
       />
       <oxd-button
+        v-if="bulkActions.CANCEL"
         label="Cancel"
         displayType="label-warn"
-        @click="$emit('cancel', $event)"
+        @click="$emit('onActionClick', 'CANCEL')"
       />
     </div>
     <oxd-text tag="span" v-else>{{ itemCountText }}</oxd-text>
@@ -49,6 +52,8 @@ import {computed} from 'vue';
 
 export default {
   name: 'leave-list-table-header',
+
+  emits: ['onActionClick'],
 
   props: {
     loading: {
@@ -62,6 +67,10 @@ export default {
     total: {
       type: Number,
       required: true,
+    },
+    bulkActions: {
+      type: Object,
+      required: false,
     },
   },
 

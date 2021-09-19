@@ -31,6 +31,7 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\Employee;
@@ -54,6 +55,7 @@ class LeaveAPI extends Endpoint implements CrudEndpoint
     use NormalizerServiceTrait;
     use LeaveRequestPermissionTrait;
     use LeavePermissionTrait;
+    use DateTimeHelperTrait;
 
     public const FILTER_LEAVE_REQUEST_ID = 'leaveRequestId';
 
@@ -61,6 +63,8 @@ class LeaveAPI extends Endpoint implements CrudEndpoint
     public const PARAMETER_ACTION = 'action';
 
     public const META_PARAMETER_EMPLOYEE = 'employee';
+    public const META_PARAMETER_LEAVE_START_DATE = 'startDate';
+    public const META_PARAMETER_LEAVE_END_DATE = 'endDate';
 
     /**
      * @inheritDoc
@@ -99,7 +103,9 @@ class LeaveAPI extends Endpoint implements CrudEndpoint
         $total = $this->getLeaveRequestService()
             ->getLeaveRequestDao()
             ->getLeavesCount($leaveSearchFilterParams);
-        $detailedLeaves = $this->getLeaveRequestService()->getDetailedLeaves($leaves);
+        $allLeavesOfLeaveRequest = $this->getLeaveRequestService()->getLeaveRequestDao()
+            ->getLeavesByLeaveRequestIds([$leaveRequest->getId()]);
+        $detailedLeaves = $this->getLeaveRequestService()->getDetailedLeaves($leaves, $allLeavesOfLeaveRequest);
 
         $employee = $leaveRequest->getEmployee();
 
@@ -109,7 +115,9 @@ class LeaveAPI extends Endpoint implements CrudEndpoint
             new ParameterBag(
                 [
                     CommonParams::PARAMETER_TOTAL => $total,
-                    self::META_PARAMETER_EMPLOYEE => $this->getNormalizedEmployee($employee)
+                    self::META_PARAMETER_EMPLOYEE => $this->getNormalizedEmployee($employee),
+                    self::META_PARAMETER_LEAVE_START_DATE => $this->getDateTimeHelper()->formatDateTimeToYmd($allLeavesOfLeaveRequest[0]->getDate()),
+                    self::META_PARAMETER_LEAVE_END_DATE => $this->getDateTimeHelper()->formatDateTimeToYmd(end($allLeavesOfLeaveRequest)->getDate()),
                 ]
             )
         );
