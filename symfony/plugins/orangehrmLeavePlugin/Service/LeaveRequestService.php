@@ -510,14 +510,15 @@ class LeaveRequestService
 
     /**
      * @param Leave[] $leaves
+     * @param Leave[] $allLeavesOfLeaveRequest
      * @return DetailedLeave[]
      */
-    public function getDetailedLeaves(array $leaves): array
+    public function getDetailedLeaves(array $leaves, array $allLeavesOfLeaveRequest): array
     {
         $detailedLeaves = [];
         foreach ($leaves as $leave) {
             $detailedLeave = new DetailedLeave($leave);
-            $detailedLeave->setLeaves($leaves);
+            $detailedLeave->setLeaves($allLeavesOfLeaveRequest);
             $detailedLeaves[] = $detailedLeave;
         }
         return $detailedLeaves;
