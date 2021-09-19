@@ -125,7 +125,7 @@ Create:
   'single day - full day':
     userId: 1
     now:
-      datetime: '2021-09-15'
+      datetime: '2021-09-15 10:15:00'
     services:
       leave.leave_type_service: \OrangeHRM\Leave\Service\LeaveTypeService
       leave.work_schedule_service: \OrangeHRM\Leave\Service\WorkScheduleService
@@ -200,7 +200,7 @@ Create:
   'single day - half day morning':
     userId: 1
     now:
-      datetime: '2021-09-15'
+      datetime: '2021-09-15 10:15:00'
     services:
       leave.leave_type_service: \OrangeHRM\Leave\Service\LeaveTypeService
       leave.work_schedule_service: \OrangeHRM\Leave\Service\WorkScheduleService
@@ -275,7 +275,7 @@ Create:
   'single day - half day afternoon':
     userId: 1
     now:
-      datetime: '2021-09-15'
+      datetime: '2021-09-15 10:15:00'
     services:
       leave.leave_type_service: \OrangeHRM\Leave\Service\LeaveTypeService
       leave.work_schedule_service: \OrangeHRM\Leave\Service\WorkScheduleService
@@ -1248,8 +1248,6 @@ Update:
       message: 'Leave request have multiple status'
     query:
       model: detailed
-    now:
-      datetime: '2021-09-15'
 
   'admin - cancel not owned leave request':
     userId: 1
@@ -1271,8 +1269,6 @@ Update:
       message: 'Unauthorized'
     query:
       model: detailed
-    now:
-      datetime: '2021-09-15'
 
   'admin - approve when not allowed to approve own':
     userId: 1
@@ -1294,8 +1290,6 @@ Update:
       message: 'Performed action not allowed'
     query:
       model: detailed
-    now:
-      datetime: '2021-09-15'
 
   'admin - reject when not allowed to reject own':
     userId: 1
@@ -1317,8 +1311,6 @@ Update:
       message: 'Performed action not allowed'
     query:
       model: detailed
-    now:
-      datetime: '2021-09-15'
 
   'admin - perform invalid action':
     userId: 1
@@ -1340,8 +1332,6 @@ Update:
       message: 'Performed action not allowed'
     query:
       model: detailed
-    now:
-      datetime: '2021-09-15'
 
   'admin - cancel own leave request':
     userId: 1
@@ -1408,8 +1398,6 @@ Update:
       lastComment: null
     meta:
       empNumber: 4
-    now:
-      datetime: '2021-09-15'
 
   'ess - cancel own multi period leave request':
     userId: 3
@@ -1488,8 +1476,6 @@ Update:
       lastComment: null
     meta:
       empNumber: 4
-    now:
-      datetime: '2021-09-15'
 
   'ess - not allowed to reject':
     userId: 3
@@ -1509,8 +1495,6 @@ Update:
     exception:
       class: '\OrangeHRM\Core\Api\V2\Exception\BadRequestException'
       message: 'Performed action not allowed'
-    now:
-      datetime: '2021-09-15'
 
   'ess - not allowed to approve':
     userId: 3
@@ -1532,8 +1516,6 @@ Update:
       message: 'Performed action not allowed'
     query:
       model: detailed
-    now:
-      datetime: '2021-09-15'
 
   'ess - perform invalid action':
     userId: 3
@@ -1555,5 +1537,1746 @@ Update:
       message: 'Performed action not allowed'
     query:
       model: detailed
+
+GetAll:
+  'without query params':
+    userId: 2
     now:
-      datetime: '2021-09-15'
+      datetime: '2021-09-19'
+    services:
+      leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      leave.leave_request_service: \OrangeHRM\Leave\Service\LeaveRequestService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      leave.leave_entitlement_service: \OrangeHRM\Leave\Service\LeaveEntitlementService
+      leave.leave_period_service: \OrangeHRM\Leave\Service\LeavePeriodService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    data: [
+      {
+        "id": 17,
+        "dates": {
+          "fromDate": "2021-11-04",
+          "toDate": "2021-11-05",
+          "durationType": {
+            "id": null,
+            "type": null
+          },
+          "startTime": null,
+          "endTime": null
+        },
+        "noOfDays": 1.5,
+        "leaveBalances": [
+          {
+            "period": {
+              "startDate": "2021-01-01",
+              "endDate": "2021-12-31"
+            },
+            "balance": {
+              "entitled": 20.0,
+              "used": 12.5,
+              "scheduled": 1.5,
+              "pending": 9.0,
+              "taken": 2.0,
+              "balance": 7.5,
+              "asAtDate": "2021-11-04",
+              "endDate": "2021-12-31"
+            }
+          }
+        ],
+        "multiPeriod": false,
+        "leaveBreakdown": [
+          {
+            "id": 2,
+            "name": "Scheduled",
+            "lengthDays": 1.5
+          }
+        ],
+        "allowedActions": [
+          {
+            "action": "CANCEL",
+            "name": "Cancel"
+          }
+        ],
+        "hasMultipleStatus": false,
+        "employee": {
+          "empNumber": 1,
+          "lastName": "Adalwin",
+          "firstName": "Odis",
+          "middleName": "",
+          "employeeId": "0001",
+          "terminationId": null
+        },
+        "leaveType": {
+          "id": 2,
+          "name": "US - Vacation",
+          "deleted": false
+        },
+        "lastComment": {
+          "id": 4,
+          "comment": "Assign",
+          "date": "2021-09-15",
+          "time": "20:53"
+        }
+      },
+      {
+        "id": 16,
+        "dates": {
+          "fromDate": "2021-11-03",
+          "toDate": null,
+          "durationType": {
+            "id": 0,
+            "type": "full_day"
+          },
+          "startTime": null,
+          "endTime": null
+        },
+        "noOfDays": 1.0,
+        "leaveBalances": [
+          {
+            "period": {
+              "startDate": "2021-01-01",
+              "endDate": "2021-12-31"
+            },
+            "balance": {
+              "entitled": 0,
+              "used": 1,
+              "scheduled": 1,
+              "pending": 0,
+              "taken": 0,
+              "balance": -1,
+              "asAtDate": "2021-11-03",
+              "endDate": "2021-12-31"
+            }
+          }
+        ],
+        "multiPeriod": false,
+        "leaveBreakdown": [
+          {
+            "id": 2,
+            "name": "Scheduled",
+            "lengthDays": 1
+          }
+        ],
+        "allowedActions": [
+          {
+            "action": "CANCEL",
+            "name": "Cancel"
+          }
+        ],
+        "hasMultipleStatus": false,
+        "employee": {
+          "empNumber": 1,
+          "lastName": "Adalwin",
+          "firstName": "Odis",
+          "middleName": "",
+          "employeeId": "0001",
+          "terminationId": null
+        },
+        "leaveType": {
+          "id": 1,
+          "name": "US - Personal",
+          "deleted": false
+        },
+        "lastComment": {
+          "id": 3,
+          "comment": "Assign",
+          "date": "2021-09-15",
+          "time": "20:53"
+        }
+      },
+      {
+        "id": 10,
+        "dates": {
+          "fromDate": "2021-10-29",
+          "toDate": "2021-10-31",
+          "durationType": {
+            "id": null,
+            "type": null
+          },
+          "startTime": null,
+          "endTime": null
+        },
+        "noOfDays": 1.0,
+        "leaveBalances": [
+          {
+            "period": {
+              "startDate": "2021-01-01",
+              "endDate": "2021-12-31"
+            },
+            "balance": {
+              "entitled": 20.0,
+              "used": 12.5,
+              "scheduled": 1.5,
+              "pending": 9.0,
+              "taken": 2.0,
+              "balance": 7.5,
+              "asAtDate": "2021-10-29",
+              "endDate": "2021-12-31"
+            }
+          }
+        ],
+        "multiPeriod": false,
+        "leaveBreakdown": [
+          {
+            "id": 1,
+            "name": "Pending Approval",
+            "lengthDays": 1
+          }
+        ],
+        "allowedActions": [
+          {
+            "action": "CANCEL",
+            "name": "Cancel"
+          }
+        ],
+        "hasMultipleStatus": false,
+        "employee": {
+          "empNumber": 1,
+          "lastName": "Adalwin",
+          "firstName": "Odis",
+          "middleName": "",
+          "employeeId": "0001",
+          "terminationId": null
+        },
+        "leaveType": {
+          "id": 2,
+          "name": "US - Vacation",
+          "deleted": false
+        },
+        "lastComment": null
+      },
+      {
+        "id": 9,
+        "dates": {
+          "fromDate": "2021-10-27",
+          "toDate": "2021-10-28",
+          "durationType": {
+            "id": null,
+            "type": null
+          },
+          "startTime": null,
+          "endTime": null
+        },
+        "noOfDays": 1.5,
+        "leaveBalances": [
+          {
+            "period": {
+              "startDate": "2021-01-01",
+              "endDate": "2021-12-31"
+            },
+            "balance": {
+              "entitled": 20.0,
+              "used": 12.5,
+              "scheduled": 1.5,
+              "pending": 9.0,
+              "taken": 2.0,
+              "balance": 7.5,
+              "asAtDate": "2021-10-27",
+              "endDate": "2021-12-31"
+            }
+          }
+        ],
+        "multiPeriod": false,
+        "leaveBreakdown": [
+          {
+            "id": 0,
+            "name": "Cancelled",
+            "lengthDays": 1
+          },
+          {
+            "id": 1,
+            "name": "Pending Approval",
+            "lengthDays": 0.5
+          }
+        ],
+        "allowedActions": [],
+        "hasMultipleStatus": true,
+        "employee": {
+          "empNumber": 1,
+          "lastName": "Adalwin",
+          "firstName": "Odis",
+          "middleName": "",
+          "employeeId": "0001",
+          "terminationId": null
+        },
+        "leaveType": {
+          "id": 2,
+          "name": "US - Vacation",
+          "deleted": false
+        },
+        "lastComment": null
+      },
+      {
+        "id": 8,
+        "dates": {
+          "fromDate": "2021-10-25",
+          "toDate": "2021-10-26",
+          "durationType": {
+            "id": null,
+            "type": null
+          },
+          "startTime": null,
+          "endTime": null
+        },
+        "noOfDays": 1.5,
+        "leaveBalances": [
+          {
+            "period": {
+              "startDate": "2021-01-01",
+              "endDate": "2021-12-31"
+            },
+            "balance": {
+              "entitled": 20.0,
+              "used": 12.5,
+              "scheduled": 1.5,
+              "pending": 9.0,
+              "taken": 2.0,
+              "balance": 7.5,
+              "asAtDate": "2021-10-25",
+              "endDate": "2021-12-31"
+            }
+          }
+        ],
+        "multiPeriod": false,
+        "leaveBreakdown": [
+          {
+            "id": 1,
+            "name": "Pending Approval",
+            "lengthDays": 0.5
+          },
+          {
+            "id": -1,
+            "name": "Rejected",
+            "lengthDays": 1
+          }
+        ],
+        "allowedActions": [],
+        "hasMultipleStatus": true,
+        "employee": {
+          "empNumber": 1,
+          "lastName": "Adalwin",
+          "firstName": "Odis",
+          "middleName": "",
+          "employeeId": "0001",
+          "terminationId": null
+        },
+        "leaveType": {
+          "id": 2,
+          "name": "US - Vacation",
+          "deleted": false
+        },
+        "lastComment": null
+      },
+      {
+        "id": 7,
+        "dates": {
+          "fromDate": "2021-10-12",
+          "toDate": null,
+          "durationType": {
+            "id": 1,
+            "type": "half_day_morning"
+          },
+          "startTime": "09:00",
+          "endTime": "13:00"
+        },
+        "noOfDays": 0.5,
+        "leaveBalances": [
+          {
+            "period": {
+              "startDate": "2021-01-01",
+              "endDate": "2021-12-31"
+            },
+            "balance": {
+              "entitled": 7,
+              "used": 3.875,
+              "scheduled": 0.5,
+              "pending": 2.375,
+              "taken": 1,
+              "balance": 3.125,
+              "asAtDate": "2021-10-12",
+              "endDate": "2021-12-31"
+            }
+          }
+        ],
+        "multiPeriod": false,
+        "leaveBreakdown": [
+          {
+            "id": 2,
+            "name": "Scheduled",
+            "lengthDays": 0.5
+          }
+        ],
+        "allowedActions": [
+          {
+            "action": "CANCEL",
+            "name": "Cancel"
+          }
+        ],
+        "hasMultipleStatus": false,
+        "employee": {
+          "empNumber": 1,
+          "lastName": "Adalwin",
+          "firstName": "Odis",
+          "middleName": "",
+          "employeeId": "0001",
+          "terminationId": null
+        },
+        "leaveType": {
+          "id": 6,
+          "name": "Medical",
+          "deleted": false
+        },
+        "lastComment": {
+          "id": 1,
+          "comment": "Clinic day",
+          "date": "2021-09-15",
+          "time": "19:29"
+        }
+      },
+      {
+        "id": 5,
+        "dates": {
+          "fromDate": "2021-09-30",
+          "toDate": null,
+          "durationType": {
+            "id": 3,
+            "type": "specify_time"
+          },
+          "startTime": "09:00",
+          "endTime": "14:00"
+        },
+        "noOfDays": 0.625,
+        "leaveBalances": [
+          {
+            "period": {
+              "startDate": "2021-01-01",
+              "endDate": "2021-12-31"
+            },
+            "balance": {
+              "entitled": 7,
+              "used": 3.875,
+              "scheduled": 0.5,
+              "pending": 2.375,
+              "taken": 1,
+              "balance": 3.125,
+              "asAtDate": "2021-09-30",
+              "endDate": "2021-12-31"
+            }
+          }
+        ],
+        "multiPeriod": false,
+        "leaveBreakdown": [
+          {
+            "id": 1,
+            "name": "Pending Approval",
+            "lengthDays": 0.625
+          }
+        ],
+        "allowedActions": [
+          {
+            "action": "CANCEL",
+            "name": "Cancel"
+          }
+        ],
+        "hasMultipleStatus": false,
+        "employee": {
+          "empNumber": 1,
+          "lastName": "Adalwin",
+          "firstName": "Odis",
+          "middleName": "",
+          "employeeId": "0001",
+          "terminationId": null
+        },
+        "leaveType": {
+          "id": 6,
+          "name": "Medical",
+          "deleted": false
+        },
+        "lastComment": null
+      },
+      {
+        "id": 4,
+        "dates": {
+          "fromDate": "2021-09-02",
+          "toDate": "2021-09-16",
+          "durationType": {
+            "id": null,
+            "type": null
+          },
+          "startTime": null,
+          "endTime": null
+        },
+        "noOfDays": 11.0,
+        "leaveBalances": [
+          {
+            "period": {
+              "startDate": "2021-01-01",
+              "endDate": "2021-12-31"
+            },
+            "balance": {
+              "entitled": 20.0,
+              "used": 12.5,
+              "scheduled": 1.5,
+              "pending": 9.0,
+              "taken": 2.0,
+              "balance": 7.5,
+              "asAtDate": "2021-09-02",
+              "endDate": "2021-12-31"
+            }
+          }
+        ],
+        "multiPeriod": false,
+        "leaveBreakdown": [
+          {
+            "id": 3,
+            "name": "Taken",
+            "lengthDays": 2.0
+          },
+          {
+            "id": 1,
+            "name": "Pending Approval",
+            "lengthDays": 7.0
+          },
+          {
+            "id": 0,
+            "name": "Cancelled",
+            "lengthDays": 1
+          },
+          {
+            "id": -1,
+            "name": "Rejected",
+            "lengthDays": 1
+          }
+        ],
+        "allowedActions": [],
+        "hasMultipleStatus": true,
+        "employee": {
+          "empNumber": 1,
+          "lastName": "Adalwin",
+          "firstName": "Odis",
+          "middleName": "",
+          "employeeId": "0001",
+          "terminationId": null
+        },
+        "leaveType": {
+          "id": 2,
+          "name": "US - Vacation",
+          "deleted": false
+        },
+        "lastComment": null
+      },
+      {
+        "id": 6,
+        "dates": {
+          "fromDate": "2021-08-24",
+          "toDate": "2021-08-25",
+          "durationType": {
+            "id": null,
+            "type": null
+          },
+          "startTime": null,
+          "endTime": null
+        },
+        "noOfDays": 0.75,
+        "leaveBalances": [
+          {
+            "period": {
+              "startDate": "2021-01-01",
+              "endDate": "2021-12-31"
+            },
+            "balance": {
+              "entitled": 7,
+              "used": 3.875,
+              "scheduled": 0.5,
+              "pending": 2.375,
+              "taken": 1,
+              "balance": 3.125,
+              "asAtDate": "2021-08-24",
+              "endDate": "2021-12-31"
+            }
+          }
+        ],
+        "multiPeriod": false,
+        "leaveBreakdown": [
+          {
+            "id": 1,
+            "name": "Pending Approval",
+            "lengthDays": 0.75
+          }
+        ],
+        "allowedActions": [
+          {
+            "action": "CANCEL",
+            "name": "Cancel"
+          }
+        ],
+        "hasMultipleStatus": false,
+        "employee": {
+          "empNumber": 1,
+          "lastName": "Adalwin",
+          "firstName": "Odis",
+          "middleName": "",
+          "employeeId": "0001",
+          "terminationId": null
+        },
+        "leaveType": {
+          "id": 6,
+          "name": "Medical",
+          "deleted": false
+        },
+        "lastComment": null
+      },
+      {
+        "id": 13,
+        "dates": {
+          "fromDate": "2021-07-05",
+          "toDate": null,
+          "durationType": {
+            "id": 0,
+            "type": "full_day"
+          },
+          "startTime": null,
+          "endTime": null
+        },
+        "noOfDays": 1,
+        "leaveBalances": [
+          {
+            "period": {
+              "startDate": "2021-01-01",
+              "endDate": "2021-12-31"
+            },
+            "balance": {
+              "entitled": 7,
+              "used": 3.875,
+              "scheduled": 0.5,
+              "pending": 2.375,
+              "taken": 1,
+              "balance": 3.125,
+              "asAtDate": "2021-07-05",
+              "endDate": "2021-12-31"
+            }
+          }
+        ],
+        "multiPeriod": false,
+        "leaveBreakdown": [
+          {
+            "id": 1,
+            "name": "Pending Approval",
+            "lengthDays": 1
+          }
+        ],
+        "allowedActions": [
+          {
+            "action": "CANCEL",
+            "name": "Cancel"
+          }
+        ],
+        "hasMultipleStatus": false,
+        "employee": {
+          "empNumber": 1,
+          "lastName": "Adalwin",
+          "firstName": "Odis",
+          "middleName": "",
+          "employeeId": "0001",
+          "terminationId": null
+        },
+        "leaveType": {
+          "id": 6,
+          "name": "Medical",
+          "deleted": false
+        },
+        "lastComment": null
+      },
+      {
+        "id": 12,
+        "dates": {
+          "fromDate": "2021-06-07",
+          "toDate": "2021-06-09",
+          "durationType": {
+            "id": null,
+            "type": null
+          },
+          "startTime": null,
+          "endTime": null
+        },
+        "noOfDays": 3.0,
+        "leaveBalances": [
+          {
+            "period": {
+              "startDate": "2021-01-01",
+              "endDate": "2021-12-31"
+            },
+            "balance": {
+              "entitled": 20.0,
+              "used": 12.5,
+              "scheduled": 1.5,
+              "pending": 9.0,
+              "taken": 2.0,
+              "balance": 7.5,
+              "asAtDate": "2021-06-07",
+              "endDate": "2021-12-31"
+            }
+          }
+        ],
+        "multiPeriod": false,
+        "leaveBreakdown": [
+          {
+            "id": -1,
+            "name": "Rejected",
+            "lengthDays": 3
+          }
+        ],
+        "allowedActions": [],
+        "hasMultipleStatus": false,
+        "employee": {
+          "empNumber": 1,
+          "lastName": "Adalwin",
+          "firstName": "Odis",
+          "middleName": "",
+          "employeeId": "0001",
+          "terminationId": null
+        },
+        "leaveType": {
+          "id": 2,
+          "name": "US - Vacation",
+          "deleted": false
+        },
+        "lastComment": null
+      },
+      {
+        "id": 11,
+        "dates": {
+          "fromDate": "2021-06-01",
+          "toDate": null,
+          "durationType": {
+            "id": 0,
+            "type": "full_day"
+          },
+          "startTime": null,
+          "endTime": null
+        },
+        "noOfDays": 1,
+        "leaveBalances": [
+          {
+            "period": {
+              "startDate": "2021-01-01",
+              "endDate": "2021-12-31"
+            },
+            "balance": {
+              "entitled": 7,
+              "used": 3.875,
+              "scheduled": 0.5,
+              "pending": 2.375,
+              "taken": 1,
+              "balance": 3.125,
+              "asAtDate": "2021-06-01",
+              "endDate": "2021-12-31"
+            }
+          }
+        ],
+        "multiPeriod": false,
+        "leaveBreakdown": [
+          {
+            "id": 3,
+            "name": "Taken",
+            "lengthDays": 1
+          }
+        ],
+        "allowedActions": [],
+        "hasMultipleStatus": false,
+        "employee": {
+          "empNumber": 1,
+          "lastName": "Adalwin",
+          "firstName": "Odis",
+          "middleName": "",
+          "employeeId": "0001",
+          "terminationId": null
+        },
+        "leaveType": {
+          "id": 6,
+          "name": "Medical",
+          "deleted": false
+        },
+        "lastComment": null
+      }
+    ]
+    meta:
+      empNumber: 1
+      total: 12
+
+  'with limit':
+    userId: 2
+    now:
+      datetime: '2021-09-19'
+    services:
+      leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      leave.leave_request_service: \OrangeHRM\Leave\Service\LeaveRequestService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      leave.leave_entitlement_service: \OrangeHRM\Leave\Service\LeaveEntitlementService
+      leave.leave_period_service: \OrangeHRM\Leave\Service\LeavePeriodService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      limit: 10
+    data: [
+      {
+        "id": 17,
+        "dates": {
+          "fromDate": "2021-11-04",
+          "toDate": "2021-11-05",
+          "durationType": {
+            "id": null,
+            "type": null
+          },
+          "startTime": null,
+          "endTime": null
+        },
+        "noOfDays": 1.5,
+        "leaveBalances": [
+          {
+            "period": {
+              "startDate": "2021-01-01",
+              "endDate": "2021-12-31"
+            },
+            "balance": {
+              "entitled": 20.0,
+              "used": 12.5,
+              "scheduled": 1.5,
+              "pending": 9.0,
+              "taken": 2.0,
+              "balance": 7.5,
+              "asAtDate": "2021-11-04",
+              "endDate": "2021-12-31"
+            }
+          }
+        ],
+        "multiPeriod": false,
+        "leaveBreakdown": [
+          {
+            "id": 2,
+            "name": "Scheduled",
+            "lengthDays": 1.5
+          }
+        ],
+        "allowedActions": [
+          {
+            "action": "CANCEL",
+            "name": "Cancel"
+          }
+        ],
+        "hasMultipleStatus": false,
+        "employee": {
+          "empNumber": 1,
+          "lastName": "Adalwin",
+          "firstName": "Odis",
+          "middleName": "",
+          "employeeId": "0001",
+          "terminationId": null
+        },
+        "leaveType": {
+          "id": 2,
+          "name": "US - Vacation",
+          "deleted": false
+        },
+        "lastComment": {
+          "id": 4,
+          "comment": "Assign",
+          "date": "2021-09-15",
+          "time": "20:53"
+        }
+      },
+      {
+        "id": 16,
+        "dates": {
+          "fromDate": "2021-11-03",
+          "toDate": null,
+          "durationType": {
+            "id": 0,
+            "type": "full_day"
+          },
+          "startTime": null,
+          "endTime": null
+        },
+        "noOfDays": 1.0,
+        "leaveBalances": [
+          {
+            "period": {
+              "startDate": "2021-01-01",
+              "endDate": "2021-12-31"
+            },
+            "balance": {
+              "entitled": 0,
+              "used": 1,
+              "scheduled": 1,
+              "pending": 0,
+              "taken": 0,
+              "balance": -1,
+              "asAtDate": "2021-11-03",
+              "endDate": "2021-12-31"
+            }
+          }
+        ],
+        "multiPeriod": false,
+        "leaveBreakdown": [
+          {
+            "id": 2,
+            "name": "Scheduled",
+            "lengthDays": 1
+          }
+        ],
+        "allowedActions": [
+          {
+            "action": "CANCEL",
+            "name": "Cancel"
+          }
+        ],
+        "hasMultipleStatus": false,
+        "employee": {
+          "empNumber": 1,
+          "lastName": "Adalwin",
+          "firstName": "Odis",
+          "middleName": "",
+          "employeeId": "0001",
+          "terminationId": null
+        },
+        "leaveType": {
+          "id": 1,
+          "name": "US - Personal",
+          "deleted": false
+        },
+        "lastComment": {
+          "id": 3,
+          "comment": "Assign",
+          "date": "2021-09-15",
+          "time": "20:53"
+        }
+      },
+      {
+        "id": 10,
+        "dates": {
+          "fromDate": "2021-10-29",
+          "toDate": "2021-10-31",
+          "durationType": {
+            "id": null,
+            "type": null
+          },
+          "startTime": null,
+          "endTime": null
+        },
+        "noOfDays": 1.0,
+        "leaveBalances": [
+          {
+            "period": {
+              "startDate": "2021-01-01",
+              "endDate": "2021-12-31"
+            },
+            "balance": {
+              "entitled": 20.0,
+              "used": 12.5,
+              "scheduled": 1.5,
+              "pending": 9.0,
+              "taken": 2.0,
+              "balance": 7.5,
+              "asAtDate": "2021-10-29",
+              "endDate": "2021-12-31"
+            }
+          }
+        ],
+        "multiPeriod": false,
+        "leaveBreakdown": [
+          {
+            "id": 1,
+            "name": "Pending Approval",
+            "lengthDays": 1
+          }
+        ],
+        "allowedActions": [
+          {
+            "action": "CANCEL",
+            "name": "Cancel"
+          }
+        ],
+        "hasMultipleStatus": false,
+        "employee": {
+          "empNumber": 1,
+          "lastName": "Adalwin",
+          "firstName": "Odis",
+          "middleName": "",
+          "employeeId": "0001",
+          "terminationId": null
+        },
+        "leaveType": {
+          "id": 2,
+          "name": "US - Vacation",
+          "deleted": false
+        },
+        "lastComment": null
+      },
+      {
+        "id": 9,
+        "dates": {
+          "fromDate": "2021-10-27",
+          "toDate": "2021-10-28",
+          "durationType": {
+            "id": null,
+            "type": null
+          },
+          "startTime": null,
+          "endTime": null
+        },
+        "noOfDays": 1.5,
+        "leaveBalances": [
+          {
+            "period": {
+              "startDate": "2021-01-01",
+              "endDate": "2021-12-31"
+            },
+            "balance": {
+              "entitled": 20.0,
+              "used": 12.5,
+              "scheduled": 1.5,
+              "pending": 9.0,
+              "taken": 2.0,
+              "balance": 7.5,
+              "asAtDate": "2021-10-27",
+              "endDate": "2021-12-31"
+            }
+          }
+        ],
+        "multiPeriod": false,
+        "leaveBreakdown": [
+          {
+            "id": 0,
+            "name": "Cancelled",
+            "lengthDays": 1
+          },
+          {
+            "id": 1,
+            "name": "Pending Approval",
+            "lengthDays": 0.5
+          }
+        ],
+        "allowedActions": [],
+        "hasMultipleStatus": true,
+        "employee": {
+          "empNumber": 1,
+          "lastName": "Adalwin",
+          "firstName": "Odis",
+          "middleName": "",
+          "employeeId": "0001",
+          "terminationId": null
+        },
+        "leaveType": {
+          "id": 2,
+          "name": "US - Vacation",
+          "deleted": false
+        },
+        "lastComment": null
+      },
+      {
+        "id": 8,
+        "dates": {
+          "fromDate": "2021-10-25",
+          "toDate": "2021-10-26",
+          "durationType": {
+            "id": null,
+            "type": null
+          },
+          "startTime": null,
+          "endTime": null
+        },
+        "noOfDays": 1.5,
+        "leaveBalances": [
+          {
+            "period": {
+              "startDate": "2021-01-01",
+              "endDate": "2021-12-31"
+            },
+            "balance": {
+              "entitled": 20.0,
+              "used": 12.5,
+              "scheduled": 1.5,
+              "pending": 9.0,
+              "taken": 2.0,
+              "balance": 7.5,
+              "asAtDate": "2021-10-25",
+              "endDate": "2021-12-31"
+            }
+          }
+        ],
+        "multiPeriod": false,
+        "leaveBreakdown": [
+          {
+            "id": 1,
+            "name": "Pending Approval",
+            "lengthDays": 0.5
+          },
+          {
+            "id": -1,
+            "name": "Rejected",
+            "lengthDays": 1
+          }
+        ],
+        "allowedActions": [],
+        "hasMultipleStatus": true,
+        "employee": {
+          "empNumber": 1,
+          "lastName": "Adalwin",
+          "firstName": "Odis",
+          "middleName": "",
+          "employeeId": "0001",
+          "terminationId": null
+        },
+        "leaveType": {
+          "id": 2,
+          "name": "US - Vacation",
+          "deleted": false
+        },
+        "lastComment": null
+      },
+      {
+        "id": 7,
+        "dates": {
+          "fromDate": "2021-10-12",
+          "toDate": null,
+          "durationType": {
+            "id": 1,
+            "type": "half_day_morning"
+          },
+          "startTime": "09:00",
+          "endTime": "13:00"
+        },
+        "noOfDays": 0.5,
+        "leaveBalances": [
+          {
+            "period": {
+              "startDate": "2021-01-01",
+              "endDate": "2021-12-31"
+            },
+            "balance": {
+              "entitled": 7,
+              "used": 3.875,
+              "scheduled": 0.5,
+              "pending": 2.375,
+              "taken": 1,
+              "balance": 3.125,
+              "asAtDate": "2021-10-12",
+              "endDate": "2021-12-31"
+            }
+          }
+        ],
+        "multiPeriod": false,
+        "leaveBreakdown": [
+          {
+            "id": 2,
+            "name": "Scheduled",
+            "lengthDays": 0.5
+          }
+        ],
+        "allowedActions": [
+          {
+            "action": "CANCEL",
+            "name": "Cancel"
+          }
+        ],
+        "hasMultipleStatus": false,
+        "employee": {
+          "empNumber": 1,
+          "lastName": "Adalwin",
+          "firstName": "Odis",
+          "middleName": "",
+          "employeeId": "0001",
+          "terminationId": null
+        },
+        "leaveType": {
+          "id": 6,
+          "name": "Medical",
+          "deleted": false
+        },
+        "lastComment": {
+          "id": 1,
+          "comment": "Clinic day",
+          "date": "2021-09-15",
+          "time": "19:29"
+        }
+      },
+      {
+        "id": 5,
+        "dates": {
+          "fromDate": "2021-09-30",
+          "toDate": null,
+          "durationType": {
+            "id": 3,
+            "type": "specify_time"
+          },
+          "startTime": "09:00",
+          "endTime": "14:00"
+        },
+        "noOfDays": 0.625,
+        "leaveBalances": [
+          {
+            "period": {
+              "startDate": "2021-01-01",
+              "endDate": "2021-12-31"
+            },
+            "balance": {
+              "entitled": 7,
+              "used": 3.875,
+              "scheduled": 0.5,
+              "pending": 2.375,
+              "taken": 1,
+              "balance": 3.125,
+              "asAtDate": "2021-09-30",
+              "endDate": "2021-12-31"
+            }
+          }
+        ],
+        "multiPeriod": false,
+        "leaveBreakdown": [
+          {
+            "id": 1,
+            "name": "Pending Approval",
+            "lengthDays": 0.625
+          }
+        ],
+        "allowedActions": [
+          {
+            "action": "CANCEL",
+            "name": "Cancel"
+          }
+        ],
+        "hasMultipleStatus": false,
+        "employee": {
+          "empNumber": 1,
+          "lastName": "Adalwin",
+          "firstName": "Odis",
+          "middleName": "",
+          "employeeId": "0001",
+          "terminationId": null
+        },
+        "leaveType": {
+          "id": 6,
+          "name": "Medical",
+          "deleted": false
+        },
+        "lastComment": null
+      },
+      {
+        "id": 4,
+        "dates": {
+          "fromDate": "2021-09-02",
+          "toDate": "2021-09-16",
+          "durationType": {
+            "id": null,
+            "type": null
+          },
+          "startTime": null,
+          "endTime": null
+        },
+        "noOfDays": 11.0,
+        "leaveBalances": [
+          {
+            "period": {
+              "startDate": "2021-01-01",
+              "endDate": "2021-12-31"
+            },
+            "balance": {
+              "entitled": 20.0,
+              "used": 12.5,
+              "scheduled": 1.5,
+              "pending": 9.0,
+              "taken": 2.0,
+              "balance": 7.5,
+              "asAtDate": "2021-09-02",
+              "endDate": "2021-12-31"
+            }
+          }
+        ],
+        "multiPeriod": false,
+        "leaveBreakdown": [
+          {
+            "id": 3,
+            "name": "Taken",
+            "lengthDays": 2.0
+          },
+          {
+            "id": 1,
+            "name": "Pending Approval",
+            "lengthDays": 7.0
+          },
+          {
+            "id": 0,
+            "name": "Cancelled",
+            "lengthDays": 1
+          },
+          {
+            "id": -1,
+            "name": "Rejected",
+            "lengthDays": 1
+          }
+        ],
+        "allowedActions": [],
+        "hasMultipleStatus": true,
+        "employee": {
+          "empNumber": 1,
+          "lastName": "Adalwin",
+          "firstName": "Odis",
+          "middleName": "",
+          "employeeId": "0001",
+          "terminationId": null
+        },
+        "leaveType": {
+          "id": 2,
+          "name": "US - Vacation",
+          "deleted": false
+        },
+        "lastComment": null
+      },
+      {
+        "id": 6,
+        "dates": {
+          "fromDate": "2021-08-24",
+          "toDate": "2021-08-25",
+          "durationType": {
+            "id": null,
+            "type": null
+          },
+          "startTime": null,
+          "endTime": null
+        },
+        "noOfDays": 0.75,
+        "leaveBalances": [
+          {
+            "period": {
+              "startDate": "2021-01-01",
+              "endDate": "2021-12-31"
+            },
+            "balance": {
+              "entitled": 7,
+              "used": 3.875,
+              "scheduled": 0.5,
+              "pending": 2.375,
+              "taken": 1,
+              "balance": 3.125,
+              "asAtDate": "2021-08-24",
+              "endDate": "2021-12-31"
+            }
+          }
+        ],
+        "multiPeriod": false,
+        "leaveBreakdown": [
+          {
+            "id": 1,
+            "name": "Pending Approval",
+            "lengthDays": 0.75
+          }
+        ],
+        "allowedActions": [
+          {
+            "action": "CANCEL",
+            "name": "Cancel"
+          }
+        ],
+        "hasMultipleStatus": false,
+        "employee": {
+          "empNumber": 1,
+          "lastName": "Adalwin",
+          "firstName": "Odis",
+          "middleName": "",
+          "employeeId": "0001",
+          "terminationId": null
+        },
+        "leaveType": {
+          "id": 6,
+          "name": "Medical",
+          "deleted": false
+        },
+        "lastComment": null
+      },
+      {
+        "id": 13,
+        "dates": {
+          "fromDate": "2021-07-05",
+          "toDate": null,
+          "durationType": {
+            "id": 0,
+            "type": "full_day"
+          },
+          "startTime": null,
+          "endTime": null
+        },
+        "noOfDays": 1,
+        "leaveBalances": [
+          {
+            "period": {
+              "startDate": "2021-01-01",
+              "endDate": "2021-12-31"
+            },
+            "balance": {
+              "entitled": 7,
+              "used": 3.875,
+              "scheduled": 0.5,
+              "pending": 2.375,
+              "taken": 1,
+              "balance": 3.125,
+              "asAtDate": "2021-07-05",
+              "endDate": "2021-12-31"
+            }
+          }
+        ],
+        "multiPeriod": false,
+        "leaveBreakdown": [
+          {
+            "id": 1,
+            "name": "Pending Approval",
+            "lengthDays": 1
+          }
+        ],
+        "allowedActions": [
+          {
+            "action": "CANCEL",
+            "name": "Cancel"
+          }
+        ],
+        "hasMultipleStatus": false,
+        "employee": {
+          "empNumber": 1,
+          "lastName": "Adalwin",
+          "firstName": "Odis",
+          "middleName": "",
+          "employeeId": "0001",
+          "terminationId": null
+        },
+        "leaveType": {
+          "id": 6,
+          "name": "Medical",
+          "deleted": false
+        },
+        "lastComment": null
+      }
+    ],
+    meta:
+      empNumber: 1
+      total: 12
+
+  'with offset':
+    userId: 2
+    now:
+      datetime: '2021-09-19'
+    services:
+      leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      leave.leave_request_service: \OrangeHRM\Leave\Service\LeaveRequestService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      leave.leave_entitlement_service: \OrangeHRM\Leave\Service\LeaveEntitlementService
+      leave.leave_period_service: \OrangeHRM\Leave\Service\LeavePeriodService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      offset: 10
+    data: [
+      {
+        "id": 12,
+        "dates": {
+          "fromDate": "2021-06-07",
+          "toDate": "2021-06-09",
+          "durationType": {
+            "id": null,
+            "type": null
+          },
+          "startTime": null,
+          "endTime": null
+        },
+        "noOfDays": 3.0,
+        "leaveBalances": [
+          {
+            "period": {
+              "startDate": "2021-01-01",
+              "endDate": "2021-12-31"
+            },
+            "balance": {
+              "entitled": 20.0,
+              "used": 12.5,
+              "scheduled": 1.5,
+              "pending": 9.0,
+              "taken": 2.0,
+              "balance": 7.5,
+              "asAtDate": "2021-06-07",
+              "endDate": "2021-12-31"
+            }
+          }
+        ],
+        "multiPeriod": false,
+        "leaveBreakdown": [
+          {
+            "id": -1,
+            "name": "Rejected",
+            "lengthDays": 3
+          }
+        ],
+        "allowedActions": [ ],
+        "hasMultipleStatus": false,
+        "employee": {
+          "empNumber": 1,
+          "lastName": "Adalwin",
+          "firstName": "Odis",
+          "middleName": "",
+          "employeeId": "0001",
+          "terminationId": null
+        },
+        "leaveType": {
+          "id": 2,
+          "name": "US - Vacation",
+          "deleted": false
+        },
+        "lastComment": null
+      },
+      {
+        "id": 11,
+        "dates": {
+          "fromDate": "2021-06-01",
+          "toDate": null,
+          "durationType": {
+            "id": 0,
+            "type": "full_day"
+          },
+          "startTime": null,
+          "endTime": null
+        },
+        "noOfDays": 1,
+        "leaveBalances": [
+          {
+            "period": {
+              "startDate": "2021-01-01",
+              "endDate": "2021-12-31"
+            },
+            "balance": {
+              "entitled": 7,
+              "used": 3.875,
+              "scheduled": 0.5,
+              "pending": 2.375,
+              "taken": 1,
+              "balance": 3.125,
+              "asAtDate": "2021-06-01",
+              "endDate": "2021-12-31"
+            }
+          }
+        ],
+        "multiPeriod": false,
+        "leaveBreakdown": [
+          {
+            "id": 3,
+            "name": "Taken",
+            "lengthDays": 1
+          }
+        ],
+        "allowedActions": [ ],
+        "hasMultipleStatus": false,
+        "employee": {
+          "empNumber": 1,
+          "lastName": "Adalwin",
+          "firstName": "Odis",
+          "middleName": "",
+          "employeeId": "0001",
+          "terminationId": null
+        },
+        "leaveType": {
+          "id": 6,
+          "name": "Medical",
+          "deleted": false
+        },
+        "lastComment": null
+      }
+    ]
+    meta:
+      empNumber: 1
+      total: 12
+
+  'scheduled status changed to taken if date passes':
+    userId: 2
+    now:
+      datetime: '2021-09-19'
+    services:
+      leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
+      leave.leave_request_service: \OrangeHRM\Leave\Service\LeaveRequestService
+      leave.leave_entitlement_service: \OrangeHRM\Leave\Service\LeaveEntitlementService
+      leave.leave_period_service: \OrangeHRM\Leave\Service\LeavePeriodService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+    query:
+      offset: 7
+      limit: 1
+    data: [
+      {
+        "id": 4,
+        "dates": {
+          "fromDate": "2021-09-02",
+          "toDate": "2021-09-16",
+          "durationType": {
+            "id": null,
+            "type": null
+          },
+          "startTime": null,
+          "endTime": null
+        },
+        "noOfDays": 11.0,
+        "leaveBalances": [
+          {
+            "period": {
+              "startDate": "2021-01-01",
+              "endDate": "2021-12-31"
+            },
+            "balance": {
+              "entitled": 20.0,
+              "used": 12.5,
+              "scheduled": 1.5,
+              "pending": 9.0,
+              "taken": 2.0,
+              "balance": 7.5,
+              "asAtDate": "2021-09-02",
+              "endDate": "2021-12-31"
+            }
+          }
+        ],
+        "multiPeriod": false,
+        "leaveBreakdown": [
+          {
+            "id": 3,
+            "name": "Taken",
+            "lengthDays": 2.0
+          },
+          {
+            "id": 1,
+            "name": "Pending Approval",
+            "lengthDays": 7.0
+          },
+          {
+            "id": 0,
+            "name": "Cancelled",
+            "lengthDays": 1.0
+          },
+          {
+            "id": -1,
+            "name": "Rejected",
+            "lengthDays": 1.0
+          }
+        ],
+        "allowedActions": [],
+        "hasMultipleStatus": true,
+        "employee": {
+          "empNumber": 1,
+          "lastName": "Adalwin",
+          "firstName": "Odis",
+          "middleName": "",
+          "employeeId": "0001",
+          "terminationId": null
+        },
+        "leaveType": {
+          "id": 2,
+          "name": "US - Vacation",
+          "deleted": false
+        },
+        "lastComment": null
+      }
+    ]
+    meta:
+      empNumber: 1
+      total: 12
+
+  'scheduled status changed to taken if current date equals':
+    userId: 2
+    now:
+      datetime: '2021-09-02'
+    services:
+      leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
+      leave.leave_request_service: \OrangeHRM\Leave\Service\LeaveRequestService
+      leave.leave_entitlement_service: \OrangeHRM\Leave\Service\LeaveEntitlementService
+      leave.leave_period_service: \OrangeHRM\Leave\Service\LeavePeriodService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+    query:
+      offset: 7
+      limit: 1
+    data: [
+      {
+        "id": 4,
+        "dates": {
+          "fromDate": "2021-09-02",
+          "toDate": "2021-09-16",
+          "durationType": {
+            "id": null,
+            "type": null
+          },
+          "startTime": null,
+          "endTime": null
+        },
+        "noOfDays": 11.0,
+        "leaveBalances": [
+          {
+            "period": {
+              "startDate": "2021-01-01",
+              "endDate": "2021-12-31"
+            },
+            "balance": {
+              "entitled": 20.0,
+              "used": 12.5,
+              "scheduled": 3.5,
+              "pending": 9.0,
+              "taken": 0.0,
+              "balance": 7.5,
+              "asAtDate": "2021-09-02",
+              "endDate": "2021-12-31"
+            }
+          }
+        ],
+        "multiPeriod": false,
+        "leaveBreakdown": [
+          {
+            "id": 2,
+            "name": "Scheduled",
+            "lengthDays": 2.0
+          },
+          {
+            "id": 1,
+            "name": "Pending Approval",
+            "lengthDays": 7.0
+          },
+          {
+            "id": 0,
+            "name": "Cancelled",
+            "lengthDays": 1
+          },
+          {
+            "id": -1,
+            "name": "Rejected",
+            "lengthDays": 1
+          }
+        ],
+        "allowedActions": [],
+        "hasMultipleStatus": true,
+        "employee": {
+          "empNumber": 1,
+          "lastName": "Adalwin",
+          "firstName": "Odis",
+          "middleName": "",
+          "employeeId": "0001",
+          "terminationId": null
+        },
+        "leaveType": {
+          "id": 2,
+          "name": "US - Vacation",
+          "deleted": false
+        },
+        "lastComment": null
+      }
+    ]
+    meta:
+      empNumber: 1
+      total: 12
+

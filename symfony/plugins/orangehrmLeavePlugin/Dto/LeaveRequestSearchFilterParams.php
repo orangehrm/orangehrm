@@ -20,6 +20,7 @@
 namespace OrangeHRM\Leave\Dto;
 
 use InvalidArgumentException;
+use OrangeHRM\ORM\ListSorter;
 use OrangeHRM\Pim\Dto\Traits\SubunitIdChainTrait;
 
 class LeaveRequestSearchFilterParams extends DateRangeSearchFilterParams
@@ -74,6 +75,7 @@ class LeaveRequestSearchFilterParams extends DateRangeSearchFilterParams
     public function __construct()
     {
         $this->setSortField('leave.date');
+        $this->setSortOrder(ListSorter::DESCENDING);
     }
 
     /**
