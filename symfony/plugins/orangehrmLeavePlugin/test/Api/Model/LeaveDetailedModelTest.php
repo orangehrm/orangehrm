@@ -20,10 +20,9 @@
 namespace OrangeHRM\Tests\Leave\Api\Model;
 
 use DateTime;
-use OrangeHRM\Authentication\Auth\User;
-use OrangeHRM\Core\Authorization\Manager\BasicUserRoleManager;
 use OrangeHRM\Core\Service\DateTimeHelperService;
 use OrangeHRM\Core\Service\NormalizerService;
+use OrangeHRM\Entity\Decorator\LeaveDecorator;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\EmployeeTerminationRecord;
 use OrangeHRM\Entity\Leave;
@@ -31,7 +30,12 @@ use OrangeHRM\Entity\LeaveRequest;
 use OrangeHRM\Entity\LeaveType;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Leave\Api\Model\LeaveDetailedModel;
+use OrangeHRM\Leave\Dto\LeavePeriod;
 use OrangeHRM\Leave\Dto\LeaveRequest\DetailedLeave;
+use OrangeHRM\Leave\Dto\LeaveRequest\LeaveBalanceWithLeavePeriod;
+use OrangeHRM\Leave\Dto\LeaveRequest\LeaveRequestDatesDetail;
+use OrangeHRM\Leave\Dto\LeaveRequest\LeaveStatusWithLengthDays;
+use OrangeHRM\Leave\Entitlement\LeaveBalance;
 use OrangeHRM\Leave\Service\LeaveConfigurationService;
 use OrangeHRM\Leave\Service\LeaveEntitlementService;
 use OrangeHRM\Leave\Service\LeavePeriodService;
@@ -81,6 +85,18 @@ class LeaveDetailedModelTest extends KernelTestCase
                 "lengthDays" => 1
             ],
             "allowedActions" => [
+                0 => [
+                    'name' => "Approve",
+                    'action' => "APPROVE"
+                ],
+                1 => [
+                    'name' => "Reject",
+                    'action' => "REJECT"
+                ],
+                2 => [
+                    'name' => "Cancel",
+                    'action' => "CANCEL"
+                ]
             ],
             "leaveType" => [
                 "id" => 1,
@@ -92,7 +108,6 @@ class LeaveDetailedModelTest extends KernelTestCase
         $leaveRequest1 = new LeaveRequest();
         $leaveRequest1->setId(1);
         $leave1 = new Leave();
-        $leave1->setId(1);
         $leave1->setLeaveRequest($leaveRequest1);
         $leave1->setDate(new DateTime('2021-08-01'));
         $leave2 = new Leave();
@@ -110,31 +125,55 @@ class LeaveDetailedModelTest extends KernelTestCase
         $employee->setLastName('Abbey');
         $employee->setEmployeeTerminationRecord($employeeTerminationRecord);
 
-        $leave1->setEmployee($employee);
+        $leave = $this->getMockBuilder(Leave::class)
+            ->onlyMethods(['getDecorator'])
+            ->getMock();
+        $leave->setId(1);
+        $leave->setStatus(1);
+        $leave->setDate(new DateTime('2021-08-01'));
+        $leave->setEmployee($employee);
         $leaveType = new LeaveType();
         $leaveType->setId(1);
         $leaveType->setName("Medical");
-        $leave1->setLeaveType($leaveType);
+        $leave->setLeaveType($leaveType);
 
-        $leave1->setStatus(1);
-        $leave1->setLengthHours(8);
-        $leave1->setLengthDays(1);
+        $leave->setStatus(1);
+        $leave->setLengthHours(8);
+        $leave->setLengthDays(1);
 
-        $detailedLeave = new DetailedLeave($leave1);
+        $leaveDecorator = $this->getMockBuilder(LeaveDecorator::class)
+            ->setConstructorArgs([$leave])
+            ->onlyMethods(['getLeaveStatus', 'getLeaveStatusName'])
+            ->getMock();
+
+        $leave->expects($this->any())
+            ->method('getDecorator')
+            ->willReturn($leaveDecorator);
+
+
+        $detailedLeave = $this->getMockBuilder(DetailedLeave::class)
+            ->setConstructorArgs([$leave])
+            ->onlyMethods(['getDatesDetail', 'getLeaveStatus', 'getLeaveBalance', 'getAllowedActions'])
+            ->getMock();
         $detailedLeave->setLeaves([$leave1, $leave2, $leave3]);
 
-        $leaveDetailedModel = new LeaveDetailedModel($detailedLeave);
-        $authUser = $this->getMockBuilder(User::class)
-            ->onlyMethods(['getEmpNumber'])
-            ->disableOriginalConstructor()
-            ->getMock();
-        $authUser->expects($this->exactly(1))
-            ->method('getEmpNumber')
-            ->willReturn(1);
+        $datesDetail = new LeaveRequestDatesDetail($leave->getDate());
+        $duration = 'full_day';
+        $datesDetail->setDurationTypeId(0);
+        $datesDetail->setDurationType($duration);
 
-        $userRoleManager = $this->getMockBuilder(BasicUserRoleManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $detailedLeave->expects($this->once())
+            ->method('getDatesDetail')
+            ->willReturn($datesDetail);
+
+        $leaveStatus = new LeaveStatusWithLengthDays(
+            1,
+            'Pending Approval',
+            1
+        );
+        $detailedLeave->expects($this->any())
+            ->method('getLeaveStatus')
+            ->willReturn($leaveStatus);
 
         $this->createKernelWithMockServices(
             [
@@ -144,10 +183,24 @@ class LeaveDetailedModelTest extends KernelTestCase
                 Services::LEAVE_CONFIG_SERVICE => new LeaveConfigurationService(),
                 Services::LEAVE_PERIOD_SERVICE => new LeavePeriodService(),
                 Services::NORMALIZER_SERVICE => new NormalizerService(),
-                Services::AUTH_USER => $authUser,
-                Services::USER_ROLE_MANAGER => $userRoleManager,
             ]
         );
+        $leavePeriod = new LeavePeriod(new DateTime('2021-01-01'), new DateTime('2021-12-31'));
+        $leaveBalance = new LeaveBalance();
+        $leaveBalance->setAsAtDate(new DateTime('2021-08-01'));
+        $leaveBalance->setEndDate(new DateTime('2021-12-31'));
+        $leaveBalanceWithLeavePeriod = new LeaveBalanceWithLeavePeriod($leaveBalance, $leavePeriod);
+
+        $detailedLeave->expects($this->once())
+            ->method('getLeaveBalance')
+            ->willReturn($leaveBalanceWithLeavePeriod);
+
+        $detailedLeave->expects($this->once())
+            ->method('getAllowedActions')
+            ->willReturn(array('APPROVE', 'REJECT', 'CANCEL'));
+
+        $leaveDetailedModel = new LeaveDetailedModel($detailedLeave);
+
         $this->assertEquals($resultArray, $leaveDetailedModel->toArray());
     }
 }
