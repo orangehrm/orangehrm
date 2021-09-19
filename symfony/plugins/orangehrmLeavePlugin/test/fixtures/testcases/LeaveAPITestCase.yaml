@@ -179,6 +179,8 @@ GetAll:
         middleName: 'Jane'
         employeeId: '0002'
         terminationId: null
+      startDate: '2021-12-30'
+      endDate: '2022-01-02'
 
   'get leaves with offset & limit':
     userId: 1
@@ -276,4 +278,6 @@ GetAll:
         middleName: 'Jane'
         employeeId: '0002'
         terminationId: null
+      startDate: '2021-12-30'
+      endDate: '2022-01-02'
 
