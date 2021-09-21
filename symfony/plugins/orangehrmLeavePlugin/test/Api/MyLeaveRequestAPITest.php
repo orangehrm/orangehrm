@@ -46,7 +46,7 @@ class MyLeaveRequestAPITest extends EndpointIntegrationTestCase
 
     public function dataProviderForTestCreate(): array
     {
-        return $this->getTestCases('MyLeaveRequestAPITest.yaml', 'Create');
+        return $this->getTestCases('MyLeaveRequestAPITestCases.yaml', 'Create');
     }
 
     /**
@@ -58,13 +58,33 @@ class MyLeaveRequestAPITest extends EndpointIntegrationTestCase
         $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
 
         $this->registerServices($testCaseParams);
+        $this->registerMockDateTimeHelper($testCaseParams);
         $api = $this->getApiEndpointMock(MyLeaveRequestAPI::class, $testCaseParams);
         $this->assertValidTestCase($api, 'update', $testCaseParams);
     }
 
     public function dataProviderForTestUpdate(): array
     {
-        return $this->getTestCases('MyLeaveRequestAPITest.yaml', 'Update');
+        return $this->getTestCases('MyLeaveRequestAPITestCases.yaml', 'Update');
+    }
+
+    /**
+     * @dataProvider dataProviderForTestGetAll
+     */
+    public function testGetAll(TestCaseParams $testCaseParams): void
+    {
+        $this->populateFixtures('MyLeaveRequestAPITest.yaml');
+        $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
+
+        $this->registerServices($testCaseParams);
+        $this->registerMockDateTimeHelper($testCaseParams);
+        $api = $this->getApiEndpointMock(MyLeaveRequestAPI::class, $testCaseParams);
+        $this->assertValidTestCase($api, 'getAll', $testCaseParams);
+    }
+
+    public function dataProviderForTestGetAll(): array
+    {
+        return $this->getTestCases('MyLeaveRequestAPITestCases.yaml', 'GetAll');
     }
 
     public function testDelete(): void
