@@ -33,9 +33,11 @@ use OrangeHRM\Entity\LeaveType;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Leave\Dao\LeaveRequestDao;
 use OrangeHRM\Leave\Dto\CurrentAndChangeEntitlement;
+use OrangeHRM\Leave\Dto\LeaveSearchFilterParams;
 use OrangeHRM\ORM\Exception\TransactionException;
 use OrangeHRM\Tests\Util\KernelTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
+use OrangeHRM\Entity\LeaveStatus;
 
 /**
  * @group Leave
@@ -2507,6 +2509,175 @@ class LeaveRequestDaoTest extends KernelTestCase
 
         $result = $this->leaveRequestDao->getLeavesByLeaveRequestIds([1000]);
         $this->assertEmpty($result);
+    }
+
+    public function testGetAllLeaveStatuses()
+    {
+        $status1 = new LeaveStatus();
+        $status1->setId(1);
+        $status1->setStatus(-1);
+        $status1->setName('REJECTED');
+        $status2 = new LeaveStatus();
+        $status2->setId(2);
+        $status2->setStatus(0);
+        $status2->setName('CANCELLED');
+        $status3 = new LeaveStatus();
+        $status3->setId(3);
+        $status3->setStatus(1);
+        $status3->setName('PENDING APPROVAL');
+        $status4 = new LeaveStatus();
+        $status4->setId(4);
+        $status4->setStatus(2);
+        $status4->setName('SCHEDULED');
+        $status5 = new LeaveStatus();
+        $status5->setId(5);
+        $status5->setStatus(3);
+        $status5->setName('TAKEN');
+        $status6 = new LeaveStatus();
+        $status6->setId(6);
+        $status6->setStatus(4);
+        $status6->setName('WEEKEND');
+        $status7 = new LeaveStatus();
+        $status7->setId(7);
+        $status7->setStatus(5);
+        $status7->setName('HOLIDAY');
+        $result = [$status1,$status2,$status3,$status4,$status5,$status6,$status7];
+        $this->assertEquals($result,$this->leaveRequestDao->getAllLeaveStatuses());
+    }
+
+    public function testGetLeaveRequestById()
+    {
+        $this->assertEquals(1, $this->leaveRequestDao->getLeaveRequestById(1)->getId());
+        $this->assertEquals(1, $this->leaveRequestDao->getLeaveRequestById(1)->getLeaveType()->getId());
+        $this->assertEquals('2010-08-30', $this->leaveRequestDao->getLeaveRequestById(1)->getDateApplied()->format('Y-m-d'));
+        $this->assertEquals(1, $this->leaveRequestDao->getLeaveRequestById(1)->getEmployee()->getEmpNumber());
+
+        $this->assertEquals(null, $this->leaveRequestDao->getLeaveRequestById(22));
+    }
+
+    public function testGetLeavesByLeaveRequestId()
+    {
+        $leaveRequestIds = $this->getLeaveRequestIdsFromDb();
+        $allLeaves = $this->getAllLeaves();
+        foreach ($leaveRequestIds as $leaveRequestId){
+            $leaves = $this->leaveRequestDao->getLeavesByLeaveRequestId($leaveRequestId);
+            foreach ($leaves as $leave){
+                $this->assertEquals($leaveRequestId,$leave->getLeaveRequest()->getId());
+            }
+            foreach ($allLeaves as $leave){
+                if(!in_array($leave,$leaves)){
+                    $this->assertNotEquals($leaveRequestId, $leave->getLeaveRequest()->getId());
+                }
+            }
+        }
+    }
+
+    /**
+     * @return Leave[]
+     */
+    protected function getAllLeaves(): array
+    {
+        $q = $this->getEntityManager()
+            ->getRepository(Leave::class)
+            ->createQueryBuilder('l');
+        return $q->getQuery()->execute();
+    }
+
+    public function testGetLeaves()
+    {
+        //check leave request id
+        $leaveRequestIds = $this->getLeaveRequestIdsFromDb();
+        $allLeaves = $this->getAllLeaves();
+        foreach ($leaveRequestIds as $leaveRequestId){
+            $leaveSearchFilterParams = new LeaveSearchFilterParams();
+            $leaveSearchFilterParams->setLeaveRequestId($leaveRequestId);
+            $leaves = $this->leaveRequestDao->getLeaves($leaveSearchFilterParams);
+            foreach ($leaves as $leave){
+                $this->assertEquals($leaveRequestId,$leave->getLeaveRequest()->getId());
+            }
+            foreach ($allLeaves as $leave){
+                if(!in_array($leave,$leaves)){
+                    $this->assertNotEquals($leaveRequestId, $leave->getLeaveRequest()->getId());
+                }
+            }
+        }
+
+        //check limit
+        $leaveSearchFilterParams = new LeaveSearchFilterParams();
+        $leaveSearchFilterParams->setLimit(5);
+        $leaves = $this->leaveRequestDao->getLeaves($leaveSearchFilterParams);
+        $this->assertCount(5,$leaves);
+        $ids = [];
+        foreach ($leaves as $leave){
+            array_push($ids, $leave->getId());
+        }
+        $this->assertEquals([29,30,14,15,16],$ids);
+
+        //check limit & offset 0
+        $leaveSearchFilterParams = new LeaveSearchFilterParams();
+        $leaveSearchFilterParams->setOffset(0);
+        $leaveSearchFilterParams->setLimit(5);
+        $leaves = $this->leaveRequestDao->getLeaves($leaveSearchFilterParams);
+        $this->assertCount(5,$leaves);
+        $ids = [];
+        foreach ($leaves as $leave){
+            array_push($ids, $leave->getId());
+        }
+        $this->assertEquals([29,30,14,15,16],$ids);
+
+        //check limit & offset 1
+        $leaveSearchFilterParams = new LeaveSearchFilterParams();
+        $leaveSearchFilterParams->setOffset(1);
+        $leaveSearchFilterParams->setLimit(5);
+        $leaves = $this->leaveRequestDao->getLeaves($leaveSearchFilterParams);
+        $this->assertCount(5,$leaves);
+        $ids = [];
+        foreach ($leaves as $leave){
+            array_push($ids, $leave->getId());
+        }
+        $this->assertEquals([30,14,15,16,17],$ids);
+
+        //check limit & offset 2
+        $leaveSearchFilterParams = new LeaveSearchFilterParams();
+        $leaveSearchFilterParams->setOffset(2);
+        $leaveSearchFilterParams->setLimit(5);
+        $leaves = $this->leaveRequestDao->getLeaves($leaveSearchFilterParams);
+        $this->assertCount(5,$leaves);
+        $ids = [];
+        foreach ($leaves as $leave){
+            array_push($ids, $leave->getId());
+        }
+        $this->assertEquals([14,15,16,17,18],$ids);
+    }
+
+    public function testGetLeavesCount()
+    {
+        $leaveSearchFilterParams = new LeaveSearchFilterParams();
+        $leaveSearchFilterParams->setLeaveRequestId(4);
+        $result = $this->leaveRequestDao->getLeavesCount($leaveSearchFilterParams);
+        $this->assertEquals(1,$result);
+
+        $leaveSearchFilterParams->setLeaveRequestId(5);
+        $result = $this->leaveRequestDao->getLeavesCount($leaveSearchFilterParams);
+        $this->assertEquals(3,$result);
+    }
+
+    public function testGetLeaveRequestsByLeaveRequestIds()
+    {
+        $leaveRequestIds = [1,4,3];
+        $leaveRequests = $this->leaveRequestDao->getLeaveRequestsByLeaveRequestIds($leaveRequestIds);
+        $this->assertEquals($this->getLeaveRequests($leaveRequestIds),$leaveRequests);
+    }
+
+    public function testGetLeavesByLeaveIds()
+    {
+        $allLeaves = $this->getAllLeaves();
+        $leaveIds = [1,4,3];
+        $leaves = $this->leaveRequestDao->getLeavesByLeaveIds($leaveIds);
+        foreach ($allLeaves as $leave){
+            $this->assertTrue(!in_array($leave,$leaves)||in_array($leave->getId(),$leaveIds));
+            $this->assertTrue(in_array($leave,$leaves)||!in_array($leave->getId(),$leaveIds));
+        }
     }
 }
 
