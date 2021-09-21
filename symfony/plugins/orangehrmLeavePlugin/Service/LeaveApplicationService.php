@@ -40,7 +40,7 @@ class LeaveApplicationService extends AbstractLeaveAllocationService
     use AuthUserTrait;
 
     protected $dispatcher;
-    protected $applyWorkflowItem = null;
+    protected ?WorkflowStateMachine $applyWorkflowItem = null;
 
     /**
      * Set dispatcher.

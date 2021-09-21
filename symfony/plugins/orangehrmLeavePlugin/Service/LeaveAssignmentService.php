@@ -41,7 +41,7 @@ class LeaveAssignmentService extends AbstractLeaveAllocationService
     use AuthUserTrait;
 
     protected $dispatcher;
-    protected $assignWorkflowItem = null;
+    protected ?WorkflowStateMachine $assignWorkflowItem = null;
 
     /**
      * Get LeaveEntitlementService

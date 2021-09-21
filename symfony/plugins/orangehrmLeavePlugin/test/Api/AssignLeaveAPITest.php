@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\Tests\Leave\Api;
 
-use http\Message;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Leave\Api\EmployeeLeaveRequestAPI;
 use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
