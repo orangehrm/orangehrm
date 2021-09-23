@@ -191,6 +191,21 @@ apiv2_leave_bulk_leaves:
   defaults:
     _api: OrangeHRM\Leave\Api\BulkLeaveAPI
 
+apiv2_leave_reports:
+  path: /api/v2/leave/reports
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Leave\Api\LeaveReportAPI
+    _key: name
+
+apiv2_leave_reports_data:
+  path: /api/v2/leave/reports/data
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Leave\Api\LeaveReportDataAPI
+
 ##########################
 #        Screens
 ##########################
