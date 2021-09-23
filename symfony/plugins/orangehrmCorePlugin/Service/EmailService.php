@@ -363,7 +363,7 @@ class EmailService
         $message->setSubject($this->messageSubject);
         $message->setFrom($this->messageFrom);
         $message->setTo($this->messageTo);
-        $message->setBody($this->messageBody);
+        $message->setMailBody($this->messageBody);
 
         if (!empty($this->messageCc)) {
             $message->setCc($this->messageCc);

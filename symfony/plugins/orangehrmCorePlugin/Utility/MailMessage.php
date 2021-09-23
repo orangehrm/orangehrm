@@ -54,7 +54,7 @@ class MailMessage extends Email
      * @param string $subject
      * @return $this
      */
-    final public function setBody(string $subject): MailMessage
+    public function setMailBody(string $subject): MailMessage
     {
         return $this->text($subject);
     }
