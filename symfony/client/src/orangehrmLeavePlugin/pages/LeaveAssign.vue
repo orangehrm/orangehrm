@@ -378,12 +378,14 @@ export default {
       if (!employee) {
         return;
       }
-      this.http.request({method: 'GET', url: `api/v2/pim/employees/${employee.id}/work-shift`,
-          })
-          .then(response => {
-            const {data} = response.data;
-            this.workShift = data;
-          });
+      this.http.request({
+        method: 'GET',
+        url: `api/v2/pim/employees/${employee.id}/work-shift`,
+       })
+       .then(response => {
+        const {data} = response.data;
+        this.workShift = data;
+       });
     },
   },
 };
