@@ -19,6 +19,8 @@
 
 namespace OrangeHRM\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -64,6 +66,18 @@ class LeaveType
      * @ORM\JoinColumn(name="operational_country_id", referencedColumnName="id", nullable=true)
      */
     private ?OperationalCountry $operationalCountry = null;
+
+    /**
+     * @var Collection|LeaveEntitlement[]
+     *
+     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\LeaveEntitlement", mappedBy="leaveType")
+     */
+    private iterable $leaveEntitlement;
+
+    public function __construct()
+    {
+        $this->leaveEntitlement = new ArrayCollection();
+    }
 
     /**
      * @return int

@@ -29,10 +29,12 @@ use OrangeHRM\Entity\WorkflowStateMachine;
 use OrangeHRM\Leave\Dao\LeaveRequestDao;
 use OrangeHRM\Leave\Dto\LeaveRequest\DetailedLeave;
 use OrangeHRM\Leave\Dto\LeaveRequest\DetailedLeaveRequest;
+use OrangeHRM\Leave\Traits\Service\LeaveEntitlementServiceTrait;
 
 class LeaveRequestService
 {
     use UserRoleManagerTrait;
+    use LeaveEntitlementServiceTrait;
 
     public const WORKFLOW_LEAVE_TYPE_DELETED_STATUS_PREFIX = 'LEAVE TYPE DELETED';
 
@@ -40,11 +42,6 @@ class LeaveRequestService
      * @var LeaveRequestDao|null
      */
     private ?LeaveRequestDao $leaveRequestDao = null;
-    private $leaveTypeService;
-    private $leaveEntitlementService;
-    private $leavePeriodService;
-    private $holidayService;
-    private $accessFlowStateMachineService;
 
     /**
      * @var array|null
@@ -62,9 +59,6 @@ class LeaveRequestService
 
     private $dispatcher;
 
-    const LEAVE_CHANGE_TYPE_LEAVE = 'change_leave';
-    const LEAVE_CHANGE_TYPE_LEAVE_REQUEST = 'change_leave_request';
-
     /**
      * @return LeaveRequestDao
      */
@@ -76,140 +70,12 @@ class LeaveRequestService
         return $this->leaveRequestDao;
     }
 
-    /**
-     * @return LeaveEntitlementService
-     */
-    public function getLeaveEntitlementService() {
-        // TODO
-        if(is_null($this->leaveEntitlementService)) {
-            $this->leaveEntitlementService = new LeaveEntitlementService();
-        }
-        return $this->leaveEntitlementService;
-    }
-
-    /**
-     * @return LeaveTypeService
-     */
-    public function getLeaveTypeService() {
-        // TODO
-        if(is_null($this->leaveTypeService)) {
-            $this->leaveTypeService = new LeaveTypeService();
-        }
-        return $this->leaveTypeService;
-    }
-
-    /**
-     * Returns LeavePeriodService
-     * @return LeavePeriodService
-     */
-    public function getLeavePeriodService() {
-        // TODO
-        if(is_null($this->leavePeriodService)) {
-            $this->leavePeriodService = new LeavePeriodService();
-            $this->leavePeriodService->setLeavePeriodDao(new LeavePeriodDao());
-        }
-        return $this->leavePeriodService;
-    }
-
-    /**
-     * Returns HolidayService
-     * @return HolidayService
-     */
-    public function getHolidayService() {
-        // TODO
-        if(is_null($this->holidayService)) {
-            $this->holidayService = new HolidayService();
-        }
-        return $this->holidayService;
-    }
-
-    /**
-     * Sets HolidayService
-     * @param HolidayService $holidayService
-     */
-    public function setHolidayService(HolidayService $holidayService) {
-        // TODO
-        $this->holidayService = $holidayService;
-    }
-
-    /**
-     * Set dispatcher.
-     *
-     * @param $dispatcher
-     */
-    public function setDispatcher($dispatcher) {
-        // TODO
-        $this->dispatcher = $dispatcher;
-    }
-
     public function getDispatcher() {
         // TODO
         if(is_null($this->dispatcher)) {
             $this->dispatcher = sfContext::getInstance()->getEventDispatcher();
         }
         return $this->dispatcher;
-    }
-
-    public function getAccessFlowStateMachineService() {
-        // TODO
-        if (is_null($this->accessFlowStateMachineService)) {
-            $this->accessFlowStateMachineService = new AccessFlowStateMachineService();
-        }
-        return $this->accessFlowStateMachineService;
-    }
-
-    public function setAccessFlowStateMachineService($accessFlowStateMachineService) {
-        // TODO
-        $this->accessFlowStateMachineService = $accessFlowStateMachineService;
-    }
-
-    /**
-     *
-     * @param Employee $employee
-     * @return LeaveType Collection
-     */
-    public function getEmployeeAllowedToApplyLeaveTypes(Employee $employee) {
-        // TODO
-        try {
-            $leaveEntitlementService    = $this->getLeaveEntitlementService();                $strategy = $this->getLeaveEntitlementService()->getLeaveEntitlementStrategy();
-
-            $leaveTypeService           = $this->getLeaveTypeService();
-
-            $leaveTypes     = $leaveTypeService->getLeaveTypeList();
-            $leaveTypeList  = array();
-
-            foreach($leaveTypes as $leaveType) {
-                $balance = $leaveEntitlementService->getLeaveBalance($employee->getEmpNumber(), $leaveType->getId());
-
-                if($balance->getEntitled() > 0) {
-                    array_push($leaveTypeList, $leaveType);
-                }
-            }
-            return $leaveTypeList;
-        } catch(Exception $e) {
-            throw new LeaveServiceException($e->getMessage());
-        }
-    }
-
-    /**
-     * Get Leave Request Status
-     * @param $day
-     * @return unknown_type
-     */
-    public function getLeaveRequestStatus( $day ) {
-        // TODO
-        try {
-            $holidayService = $this->getHolidayService();
-            $holiday = $holidayService->readHolidayByDate($day);
-            if ($holiday != null) {
-                return Leave::LEAVE_STATUS_LEAVE_HOLIDAY;
-            }
-
-            return Leave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL;
-
-        } catch (Exception $e) {
-            throw new LeaveServiceException($e->getMessage());
-        }
     }
 
     /**

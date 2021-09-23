@@ -32,11 +32,12 @@ use OrangeHRM\Entity\WorkflowStateMachine;
 use OrangeHRM\Leave\Dto\LeaveParameterObject;
 use OrangeHRM\Leave\Exception\LeaveAllocationServiceException;
 use OrangeHRM\Leave\Traits\Service\LeaveEntitlementServiceTrait;
+use OrangeHRM\Leave\Traits\Service\LeaveRequestServiceTrait;
 
 class LeaveApplicationService extends AbstractLeaveAllocationService
 {
     use LeaveEntitlementServiceTrait;
-    use EntityManagerHelperTrait;
+    use LeaveRequestServiceTrait;
     use AuthUserTrait;
 
     protected $dispatcher;
@@ -199,13 +200,7 @@ class LeaveApplicationService extends AbstractLeaveAllocationService
             $workFlowItem = $this->getWorkflowItemForApplyAction($leaveAssignmentData);
             $status = Leave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL;
             if ($workFlowItem instanceof WorkflowStateMachine) {
-                /** @var LeaveStatus|null $leaveStatus */
-                $leaveStatus = $this->getRepository(LeaveStatus::class)->findOneBy(
-                    ['name' => $workFlowItem->getResultingState()]
-                );
-                if ($leaveStatus instanceof LeaveStatus) {
-                    $status = $leaveStatus->getStatus();
-                }
+                $status = $this->getLeaveRequestService()->getLeaveStatusByName($workFlowItem->getResultingState());
             }
         }
 

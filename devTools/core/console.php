@@ -37,6 +37,9 @@ require_once $pathToDevAutoload;
 
 use OrangeHRM\DevTools\Command\AddDataGroupCommand;
 use OrangeHRM\DevTools\Command\AddRolePermissionCommand;
+use OrangeHRM\Framework\ServiceContainer;
+use OrangeHRM\Framework\Services;
+use OrangeHRM\ORM\Doctrine;
 use Symfony\Component\Console\Application;
 
 $application = new Application();
@@ -44,4 +47,6 @@ $application = new Application();
 $application->add(new AddDataGroupCommand());
 $application->add(new AddRolePermissionCommand());
 
+ServiceContainer::getContainer()->register(Services::DOCTRINE)
+    ->setFactory([Doctrine::class, 'getEntityManager']);
 $application->run();
