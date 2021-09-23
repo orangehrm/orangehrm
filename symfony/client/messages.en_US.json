@@ -86,6 +86,11 @@
           "target": "Apply",
           "description": "Apply for leave/Job vacancy"
         },
+        "assign": {
+          "source": "Assign",
+          "target": "Assign",
+          "description": "Assign for leave"
+        },
         "from": {
           "source": "From",
           "target": "From",
