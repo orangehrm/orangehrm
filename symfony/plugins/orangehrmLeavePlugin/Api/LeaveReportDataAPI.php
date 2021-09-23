@@ -22,32 +22,41 @@ namespace OrangeHRM\Leave\Api;
 use OrangeHRM\Core\Api\Rest\ReportDataAPI;
 use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
+use OrangeHRM\Core\Api\V2\Exception\BadRequestException;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
-use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
-use OrangeHRM\Leave\Dto\EmployeeLeaveEntitlementUsageReportSearchFilterParams;
-use OrangeHRM\Leave\Report\EmployeeLeaveEntitlementUsageReport;
+use OrangeHRM\Core\Report\Api\EndpointAwareReport;
 
 class LeaveReportDataAPI extends ReportDataAPI
 {
-    use AuthUserTrait;
-
     /**
      * @inheritDoc
      */
     public function getAll(): EndpointResult
     {
-        $this->getReportName();
+        $report = $this->getReport();
+        $filterParams = $report->prepareFilterParams($this);
+        $data = $report->getData($filterParams);
 
-        // TODO:: move to factory based on report name
-        $employeeLeaveEntitlementUsageReport = new EmployeeLeaveEntitlementUsageReport();
-        // TODO:: handle from to date
-        $filterParams = new EmployeeLeaveEntitlementUsageReportSearchFilterParams();
-        $filterParams->setEmpNumber($this->getAuthUser()->getEmpNumber());
-        $this->setSortingAndPaginationParams($filterParams);
+        return new EndpointCollectionResult(
+            ArrayModel::class,
+            $data->normalize(),
+            $data->getMeta()
+        );
+    }
 
-        $data = $employeeLeaveEntitlementUsageReport->getData($filterParams);
-        return new EndpointCollectionResult(ArrayModel::class, $data->normalize(), $data->getMeta());
+    /**
+     * @return EndpointAwareReport
+     * @throws BadRequestException
+     */
+    protected function getReport(): EndpointAwareReport
+    {
+        $reportName = $this->getReportName();
+        if (!isset(LeaveReportAPI::LEAVE_REPORT_MAP[$reportName])) {
+            throw $this->getBadRequestException('Invalid report name');
+        }
+        $reportClass = LeaveReportAPI::LEAVE_REPORT_MAP[$reportName];
+        return new $reportClass();
     }
 
     /**

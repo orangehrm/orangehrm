@@ -22,26 +22,45 @@ namespace OrangeHRM\Leave\Api;
 use OrangeHRM\Core\Api\Rest\ReportAPI;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
+use OrangeHRM\Core\Api\V2\Exception\BadRequestException;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
+use OrangeHRM\Core\Report\Api\EndpointAwareReport;
 use OrangeHRM\Leave\Report\EmployeeLeaveEntitlementUsageReport;
 
 class LeaveReportAPI extends ReportAPI
 {
+    public const LEAVE_REPORT_MAP = [
+        'leave_entitlements_and_usage' => EmployeeLeaveEntitlementUsageReport::class
+    ];
+
     /**
      * @inheritDoc
      */
     public function getOne(): EndpointResult
     {
-        $this->getReportName();
-
-        // TODO:: move to factory based on report name
-        $employeeLeaveEntitlementUsageReport = new EmployeeLeaveEntitlementUsageReport();
+        $report = $this->getReport();
+        $header = $report->getHeaderDefinition();
 
         return new EndpointResourceResult(
             ArrayModel::class,
-            $employeeLeaveEntitlementUsageReport->getHeaderDefinition()->normalize()
+            $header->normalize(),
+            $header->getMeta()
         );
+    }
+
+    /**
+     * @return EndpointAwareReport
+     * @throws BadRequestException
+     */
+    protected function getReport(): EndpointAwareReport
+    {
+        $reportName = $this->getReportName();
+        if (!isset(LeaveReportAPI::LEAVE_REPORT_MAP[$reportName])) {
+            throw $this->getBadRequestException('Invalid report name');
+        }
+        $reportClass = LeaveReportAPI::LEAVE_REPORT_MAP[$reportName];
+        return new $reportClass();
     }
 
     /**

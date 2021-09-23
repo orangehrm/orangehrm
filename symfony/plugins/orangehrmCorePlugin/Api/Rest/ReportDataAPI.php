@@ -20,15 +20,15 @@
 namespace OrangeHRM\Core\Api\Rest;
 
 use OrangeHRM\Core\Api\V2\CollectionEndpoint;
-use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointResult;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Core\Report\Api\EndpointProxy;
 
-abstract class ReportDataAPI extends Endpoint implements CollectionEndpoint
+abstract class ReportDataAPI extends EndpointProxy implements CollectionEndpoint
 {
     /**
      * @return string

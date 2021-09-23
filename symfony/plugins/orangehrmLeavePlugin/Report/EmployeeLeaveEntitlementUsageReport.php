@@ -19,14 +19,24 @@
 
 namespace OrangeHRM\Leave\Report;
 
+use OrangeHRM\Core\Api\CommonParams;
+use OrangeHRM\Core\Api\V2\RequestParams;
+use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Dto\FilterParams;
+use OrangeHRM\Core\Report\Api\EndpointAwareReport;
+use OrangeHRM\Core\Report\Api\EndpointProxy;
 use OrangeHRM\Core\Report\Header\Column;
 use OrangeHRM\Core\Report\Header\Header;
-use OrangeHRM\Core\Report\Report;
+use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
+use OrangeHRM\Leave\Api\LeaveCommonParams;
 use OrangeHRM\Leave\Dto\EmployeeLeaveEntitlementUsageReportSearchFilterParams;
+use OrangeHRM\Leave\Traits\Service\LeavePeriodServiceTrait;
 
-class EmployeeLeaveEntitlementUsageReport implements Report
+class EmployeeLeaveEntitlementUsageReport implements EndpointAwareReport
 {
+    use AuthUserTrait;
+    use LeavePeriodServiceTrait;
+
     public const PARAMETER_LEAVE_TYPE_NAME = 'leaveTypeName';
     public const PARAMETER_ENTITLEMENT_DAYS = 'entitlementDays';
     public const PARAMETER_PENDING_APPROVAL_DAYS = 'pendingApprovalDays';
@@ -58,14 +68,52 @@ class EmployeeLeaveEntitlementUsageReport implements Report
 
     /**
      * @param EmployeeLeaveEntitlementUsageReportSearchFilterParams $filterParams
+     * @return EmployeeLeaveEntitlementUsageReportData
      */
     public function getData(FilterParams $filterParams): EmployeeLeaveEntitlementUsageReportData
     {
         return new EmployeeLeaveEntitlementUsageReportData($filterParams);
     }
 
-    public function getValidationRule()
+    /**
+     * @inheritDoc
+     */
+    public function prepareFilterParams(EndpointProxy $endpoint): FilterParams
     {
-        // TODO: Implement getValidationRule() method.
+        $filterParams = new EmployeeLeaveEntitlementUsageReportSearchFilterParams();
+        $filterParams->setEmpNumber(
+            $endpoint->getRequestParams()->getInt(
+                RequestParams::PARAM_TYPE_QUERY,
+                CommonParams::PARAMETER_EMP_NUMBER,
+                $this->getAuthUser()->getEmpNumber()
+            )
+        );
+        $endpoint->setSortingAndPaginationParams($filterParams);
+        $leavePeriod = $this->getLeavePeriodService()->getCurrentLeavePeriod();
+        $filterParams->setFromDate(
+            $endpoint->getRequestParams()->getDateTime(
+                RequestParams::PARAM_TYPE_QUERY,
+                LeaveCommonParams::PARAMETER_DURATION_FROM_TIME,
+                null,
+                $leavePeriod->getStartDate()
+            )
+        );
+        $filterParams->setToDate(
+            $endpoint->getRequestParams()->getDateTime(
+                RequestParams::PARAM_TYPE_QUERY,
+                LeaveCommonParams::PARAMETER_DURATION_TO_TIME,
+                null,
+                $leavePeriod->getEndDate()
+            )
+        );
+        return $filterParams;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getValidationRule(EndpointProxy $endpoint): ParamRuleCollection
+    {
+        return new ParamRuleCollection();
     }
 }

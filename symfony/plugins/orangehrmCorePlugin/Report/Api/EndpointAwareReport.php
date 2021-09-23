@@ -17,30 +17,27 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Core\Report;
+namespace OrangeHRM\Core\Report\Api;
 
+use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Dto\FilterParams;
-use OrangeHRM\Core\Report\Header\HeaderDefinition;
+use OrangeHRM\Core\Report\Report;
 
-interface Report
+interface EndpointAwareReport extends Report
 {
     /**
-     * Get normalizable table header definition
+     * Prepare specific FilterParams object from request params
      *
-     * @return HeaderDefinition
+     * @param EndpointProxy $endpoint
+     * @return FilterParams
      */
-    public function getHeaderDefinition(): HeaderDefinition;
+    public function prepareFilterParams(EndpointProxy $endpoint): FilterParams;
 
     /**
-     * @todo
-     */
-    public function getFilterDefinition();
-
-    /**
-     * Get report resulting date for given filter params
+     * Get param validation rule collection to validate filter parameters
      *
-     * @param FilterParams $filterParams
-     * @return ReportData
+     * @param EndpointProxy $endpoint
+     * @return ParamRuleCollection
      */
-    public function getData(FilterParams $filterParams): ReportData;
+    public function getValidationRule(EndpointProxy $endpoint): ParamRuleCollection;
 }
