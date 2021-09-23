@@ -10,6 +10,7 @@ LeaveType:
   - { id: 6, name: 'Wesak', deleted: 0 }
   - { id: 7, name: 'Christmas', deleted: 0 }
   - { id: 8, name: 'Other', deleted: 0 }
+  - { id: 9, name: 'Maternity', deleted: 0, situational: 1 }
 
 TerminationReason:
   - { id: 1, name: 'Resign' }
@@ -37,6 +38,7 @@ LeaveEntitlement:
   - { id: 4, leave_type_id: 2, emp_number: 1, no_of_days: 2, fromDate: '2013-01-01', toDate: '2013-12-31', creditedDate: '2012-02-01', note: '', entitlement_type: 1, deleted: 0 }
   - { id: 5, leave_type_id: 1, emp_number: 5, no_of_days: 5, fromDate: '2012-06-06', toDate: '2012-09-01', creditedDate: '2012-01-01', note: '', entitlement_type: 1, deleted: 1 }
   - { id: 6, leave_type_id: 1, emp_number: 7, no_of_days: 5, days_used: 2, fromDate: '2013-01-01', toDate: '2013-12-31', creditedDate: '2013-01-01', note: '', entitlement_type: 2, deleted: 0 }
+  - { id: 7, leave_type_id: 9, emp_number: 7, no_of_days: 5, days_used: 0, fromDate: '2014-01-01', toDate: '2014-12-31', creditedDate: '2014-01-01', note: '', entitlement_type: 1, deleted: 0 }
 
 LeaveRequest:
   - { id: 1, leave_type_id: 1, dateApplied: '2010-08-30', emp_number: 1, comments: 'my comment1' }

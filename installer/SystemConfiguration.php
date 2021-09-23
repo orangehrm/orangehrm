@@ -18,7 +18,7 @@
  *
  */
 
-include_once(realpath(dirname(__FILE__)) . '/../symfony/plugins/orangehrmCorePlugin/lib/utility/PasswordHash.php');
+include_once(realpath(dirname(__FILE__)) . '/../symfony/plugins/orangehrmCorePlugin/Utility/PasswordHash.php');
 
 class SystemConfiguration
 {
@@ -142,7 +142,7 @@ class SystemConfiguration
      */
     public function createAdminUser($userName, $password)
     {
-        $passwordHasher = new PasswordHash();
+        $passwordHasher = new OrangeHRM\Core\Utility\PasswordHash();
         $hash = $passwordHasher->hash($password);
 
         $query = "INSERT INTO `ohrm_user` (`user_role_id`, `emp_number`, `user_name`, `user_password`) VALUES ('1', '1', ?, ?)";

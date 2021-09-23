@@ -193,68 +193,6 @@ class LeaveRequestServiceTest extends PHPUnit_Framework_TestCase {
 
     }
 
-    public function xtestGetEmployeeAllowedToApplyLeaveTypes() {
-        $leaveTypes = TestDataService::loadObjectList('LeaveType', $this->fixture, 'set5');
-
-        //mocking LeaveTypeService
-        $leaveTypeService = $this->getMockBuilder('LeaveTypeService')
-			->setMethods( array('getLeaveTypeList'))
-			->getMock();
-        $leaveTypeService->expects($this->once())
-                ->method('getLeaveTypeList')
-                ->will($this->returnValue($leaveTypes));
-        $this->leaveRequestService->setLeaveTypeService($leaveTypeService);
-
-        //mocking LeaveEntitlementService
-        $leaveEntitlementService = $this->getMockBuilder('LeaveEntitlementService')
-			->setMethods( array('getLeaveBalance'))
-			->getMock();
-        $leaveEntitlementService->expects($this->any())
-                ->method('getLeaveBalance')
-                ->will($this->returnValue(2));
-        $this->leaveRequestService->setLeaveEntitlementService($leaveEntitlementService);
-
-        //mocking LeavePeriodService
-        $leavePeriod = new LeavePeriod();
-        $leavePeriod->setStartDate("2010-01-01");
-        $leavePeriod->setEndDate("2010-12-31");
-        $leavePeriod->setLeavePeriodId(1);
-        $leavePeriodService = $this->getMockBuilder('LeavePeriodService')
-			->setMethods( array('getCurrentLeavePeriod'))
-			->getMock();
-        $leavePeriodService->expects($this->exactly(2))
-                ->method('getCurrentLeavePeriod')
-                ->will($this->returnValue($leavePeriod));
-        $this->leaveRequestService->setLeavePeriodService($leavePeriodService);
-
-        $employee = new Employee();
-        $employee->setEmployeeId('0001');
-        $result = $this->leaveRequestService->getEmployeeAllowedToApplyLeaveTypes($employee);
-
-        $this->assertTrue(is_array($result));
-        foreach($result as $leaveType) {
-            $this->assertTrue($leaveType instanceof LeaveType);
-        }
-
-        // Test handling of exceptions
-        // Replace LeaveTypeService with mock that throws an exception
-        $leaveTypeService = $this->getMockBuilder('LeaveTypeService')
-			->setMethods( array('getLeaveTypeList'))
-			->getMock();
-        $leaveTypeService->expects($this->once())
-                ->method('getLeaveTypeList')
-                ->will($this->throwException(new LeaveServiceException()));
-        $this->leaveRequestService->setLeaveTypeService($leaveTypeService);
-
-        try {
-            $this->leaveRequestService->getEmployeeAllowedToApplyLeaveTypes($employee);
-            $this->fail("Expected exception");
-        } catch (LeaveServiceException $e) {
-            // expected
-        }
-
-    }
-
     public function testGetOverlappingLeave() {
 
         $leaveList = TestDataService::loadObjectList('Leave', $this->fixture, 'set4');
@@ -332,55 +270,6 @@ class LeaveRequestServiceTest extends PHPUnit_Framework_TestCase {
     public function testGetHolidayService() {
         $service = $this->leaveRequestService->getHolidayService();
         $this->assertTrue(is_a($service, 'HolidayService') );
-    }
-
-    public function testGetLeaveRequestStatus() {
-
-        $leaveDate = '2010-03-29';
-        $holidayService = $this->getMockBuilder('HolidayService')
-			->setMethods( array('readHolidayByDate'))
-			->getMock();
-        $holidayService->expects($this->once())
-                ->method('readHolidayByDate')
-                ->with($leaveDate)
-                ->will($this->returnValue(null));
-
-        $this->leaveRequestService->setHolidayService($holidayService);
-        $status = $this->leaveRequestService->getLeaveRequestStatus($leaveDate);
-
-        $this->assertEquals($status, Leave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL);
-
-        $holidayService = $this->getMockBuilder('HolidayService')
-			->setMethods( array('readHolidayByDate'))
-			->getMock();
-        $holidayService->expects($this->once())
-                ->method('readHolidayByDate')
-                ->with($leaveDate)
-                ->will($this->returnValue(new Holiday()));
-
-        $status = $this->leaveRequestService->setHolidayService($holidayService);
-        $status = $this->leaveRequestService->getLeaveRequestStatus($leaveDate);
-
-        $this->assertEquals($status, Leave::LEAVE_STATUS_LEAVE_HOLIDAY);
-
-        // Test exception case
-        $holidayService = $this->getMockBuilder('HolidayService')
-			->setMethods( array('readHolidayByDate'))
-			->getMock();
-        $holidayService->expects($this->once())
-                ->method('readHolidayByDate')
-                ->with($leaveDate)
-                ->will($this->throwException(new LeaveServiceException()));
-
-        $status = $this->leaveRequestService->setHolidayService($holidayService);
-
-        try {
-            $status = $this->leaveRequestService->getLeaveRequestStatus($leaveDate);
-            $this->fail("Expected exception");
-        } catch (LeaveServiceException $e) {
-            // Expected
-        }
-
     }
 
        public function testGetTotalLeaveDuration() {

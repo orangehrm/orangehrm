@@ -29,6 +29,7 @@ use OrangeHRM\Entity\LeaveType;
 use OrangeHRM\Entity\User;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Leave\Dao\LeaveEntitlementDao;
+use OrangeHRM\Leave\Dto\EmployeeLeaveEntitlementUsageReportSearchFilterParams;
 use OrangeHRM\Leave\Dto\LeaveEntitlementSearchFilterParams;
 use OrangeHRM\Leave\Dto\LeaveWithDaysLeft;
 use OrangeHRM\Leave\Service\LeaveConfigurationService;
@@ -72,16 +73,17 @@ class LeaveEntitlementDaoTest extends KernelTestCase
             $entitlementList[2],
             $entitlementList[3],
             $entitlementList[5],
-            $entitlementList[1]
+            $entitlementList[1],
+            $entitlementList[6],
         ];
         $results = $this->dao->getLeaveEntitlements($parameterHolder);
         $this->_compareEntitlements($expected, $results);
 
         $total = $this->dao->getLeaveEntitlementsCount($parameterHolder);
-        $this->assertEquals(5, $total);
+        $this->assertEquals(6, $total);
 
         $sum = $this->dao->getLeaveEntitlementsSum($parameterHolder);
-        $this->assertEquals(15, $sum);
+        $this->assertEquals(20, $sum);
     }
 
     public function testSearchLeaveEntitlementsSorting(): void
@@ -97,8 +99,9 @@ class LeaveEntitlementDaoTest extends KernelTestCase
             $entitlementList[1],
             $entitlementList[2],
             $entitlementList[3],
+            $entitlementList[6],
             $entitlementList[0],
-            $entitlementList[5]
+            $entitlementList[5],
         ];
         $results = $this->dao->getLeaveEntitlements($parameterHolder);
         $this->_compareEntitlements($expected, $results);
@@ -149,18 +152,18 @@ class LeaveEntitlementDaoTest extends KernelTestCase
 
         $parameterHolder = new LeaveEntitlementSearchFilterParams();
         $parameterHolder->setEmpNumbers([5, 7]); // 5 is deleted
-        $expected = [$entitlementList[5]];
+        $expected = [$entitlementList[5], $entitlementList[6]];
         $results = $this->dao->getLeaveEntitlements($parameterHolder);
         $this->_compareEntitlements($expected, $results);
 
         $parameterHolder = new LeaveEntitlementSearchFilterParams();
         $parameterHolder->setEmpNumbers([2, 7]);
-        $expected = [$entitlementList[5], $entitlementList[1]];
+        $expected = [$entitlementList[5], $entitlementList[1], $entitlementList[6]];
         $results = $this->dao->getLeaveEntitlements($parameterHolder);
         $this->_compareEntitlements($expected, $results);
 
         $total = $this->dao->getLeaveEntitlementsCount($parameterHolder);
-        $this->assertEquals(2, $total);
+        $this->assertEquals(3, $total);
     }
 
     public function testSearchLeaveEntitlementsByLeaveType(): void
@@ -762,5 +765,25 @@ class LeaveEntitlementDaoTest extends KernelTestCase
             new DateTime('2012-12-31'),
             [new LeaveWithDaysLeft(10, new DateTime('2012-08-21'), 8, 1, 2, 1, 7, 1)]
         ];
+    }
+
+    public function testGetLeaveTypesForEntitlementUsageReport(): void
+    {
+        $filterParams = new EmployeeLeaveEntitlementUsageReportSearchFilterParams();
+        $filterParams->setEmpNumber(1);
+        $result = $this->dao->getLeaveTypesForEntitlementUsageReport($filterParams);
+        $this->assertCount(8, $result);
+        $this->assertEquals('Annual', $result[0]->getName());
+        $this->assertEquals('Medical', $result[4]->getName());
+        $this->assertEquals('Wesak', $result[7]->getName());
+        $this->assertEquals(8, $this->dao->getLeaveTypesCountForEntitlementUsageReport($filterParams));
+
+        $filterParams->setEmpNumber(7);
+        $result = $this->dao->getLeaveTypesForEntitlementUsageReport($filterParams);
+        $this->assertCount(9, $result);
+        $this->assertEquals('Annual', $result[0]->getName());
+        $this->assertEquals('Maternity', $result[4]->getName());
+        $this->assertEquals('Wesak', $result[8]->getName());
+        $this->assertEquals(9, $this->dao->getLeaveTypesCountForEntitlementUsageReport($filterParams));
     }
 }

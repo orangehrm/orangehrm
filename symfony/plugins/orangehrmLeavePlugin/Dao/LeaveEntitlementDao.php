@@ -27,6 +27,8 @@ use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\Leave;
 use OrangeHRM\Entity\LeaveEntitlement;
 use OrangeHRM\Entity\LeaveLeaveEntitlement;
+use OrangeHRM\Entity\LeaveType;
+use OrangeHRM\Leave\Dto\EmployeeLeaveEntitlementUsageReportSearchFilterParams;
 use OrangeHRM\Leave\Dto\LeaveEntitlementSearchFilterParams;
 use OrangeHRM\Leave\Dto\LeaveEntitlementUsage;
 use OrangeHRM\Leave\Dto\LeaveWithDaysLeft;
@@ -35,6 +37,7 @@ use OrangeHRM\Leave\Service\LeavePeriodService;
 use OrangeHRM\Leave\Traits\Service\LeaveConfigServiceTrait;
 use OrangeHRM\Leave\Traits\Service\LeaveEntitlementServiceTrait;
 use OrangeHRM\ORM\Exception\TransactionException;
+use OrangeHRM\ORM\Paginator;
 use OrangeHRM\ORM\QueryBuilderWrapper;
 
 class LeaveEntitlementDao extends BaseDao
@@ -684,5 +687,53 @@ class LeaveEntitlementDao extends BaseDao
         }
 
         return $q->getQuery()->execute();
+    }
+
+    /**
+     * @param EmployeeLeaveEntitlementUsageReportSearchFilterParams $filterParams
+     * @return LeaveType[]
+     */
+    public function getLeaveTypesForEntitlementUsageReport(
+        EmployeeLeaveEntitlementUsageReportSearchFilterParams $filterParams
+    ): array {
+        return $this->getLeaveTypesPaginatorForEntitlementUsageReport($filterParams)->getQuery()->execute();
+    }
+
+    /**
+     * @param EmployeeLeaveEntitlementUsageReportSearchFilterParams $filterParams
+     * @return int
+     */
+    public function getLeaveTypesCountForEntitlementUsageReport(
+        EmployeeLeaveEntitlementUsageReportSearchFilterParams $filterParams
+    ): int {
+        return $this->getLeaveTypesPaginatorForEntitlementUsageReport($filterParams)->count();
+    }
+
+    /**
+     * @param EmployeeLeaveEntitlementUsageReportSearchFilterParams $filterParams
+     * @return Paginator
+     */
+    private function getLeaveTypesPaginatorForEntitlementUsageReport(
+        EmployeeLeaveEntitlementUsageReportSearchFilterParams $filterParams
+    ): Paginator {
+        $q = $this->createQueryBuilder(LeaveType::class, 'leaveType')
+            ->leftJoin('leaveType.leaveEntitlement', 'leaveEntitlement');
+        $this->setSortingAndPaginationParams($q, $filterParams);
+
+        $q->andWhere(
+            $q->expr()->orX(
+                $q->expr()->andX(
+                    'leaveType.situational = :situational',
+                    'leaveEntitlement.employee = :empNumber',
+                ),
+                'leaveType.situational = :notSituational'
+            )
+        );
+        $q->setParameter('situational', true)
+            ->setParameter('notSituational', false)
+            ->setParameter('empNumber', $filterParams->getEmpNumber());
+        $q->groupBy('leaveType.id');
+
+        return $this->getPaginator($q);
     }
 }
