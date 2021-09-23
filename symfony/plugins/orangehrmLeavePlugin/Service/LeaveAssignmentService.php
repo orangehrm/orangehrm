@@ -19,53 +19,27 @@
 
 namespace OrangeHRM\Leave\Service;
 
+use Exception;
 use DateTime;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
-use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\Leave;
 use OrangeHRM\Entity\LeaveRequest;
 use OrangeHRM\Entity\LeaveRequestComment;
-use OrangeHRM\Entity\LeaveStatus;
 use OrangeHRM\Entity\WorkflowStateMachine;
 use OrangeHRM\Leave\Dto\LeaveParameterObject;
 use OrangeHRM\Leave\Exception\LeaveAllocationServiceException;
 use OrangeHRM\Leave\Traits\Service\LeaveEntitlementServiceTrait;
+use OrangeHRM\Leave\Traits\Service\LeaveRequestServiceTrait;
 
 class LeaveAssignmentService extends AbstractLeaveAllocationService
 {
-
-    protected $leaveEntitlementService;
     use LeaveEntitlementServiceTrait;
-    use EntityManagerHelperTrait;
+    use LeaveRequestServiceTrait;
     use AuthUserTrait;
 
     protected $dispatcher;
     protected ?WorkflowStateMachine $assignWorkflowItem = null;
-
-    /**
-     * Get LeaveEntitlementService
-     * @return LeaveEntitlementService
-     *
-     */
-    public function getLeaveEntitlementService()
-    {
-        // TODO
-        if (!($this->leaveEntitlementService instanceof LeaveEntitlementService)) {
-            $this->leaveEntitlementService = new LeaveEntitlementService();
-        }
-        return $this->leaveEntitlementService;
-    }
-
-    /**
-     * Set LeaveEntitlementService
-     * @param LeaveEntitlementService $service
-     */
-    public function setLeaveEntitlementService(LeaveEntitlementService $service)
-    {
-        // TODO
-        $this->leaveEntitlementService = $service;
-    }
 
     /**
      * Set dispatcher.
@@ -136,6 +110,7 @@ class LeaveAssignmentService extends AbstractLeaveAllocationService
                 throw LeaveAllocationServiceException::leaveBalanceExceeded();
             }
         }
+        // TODO
         /* This is to see whether employee applies leave only during weekends or standard holidays */
         if ($holidayCount != count($leaveDays)) {
             if ($this->isEmployeeAllowedToApply($leaveType)) { // TODO: Should this be checked on Assign??
@@ -171,7 +146,7 @@ class LeaveAssignmentService extends AbstractLeaveAllocationService
 
 //                    return true;
                     return $leaveRequest;
-                } catch (\Exception $e) {
+                } catch (Exception $e) {
                     $this->getLogger()->error('Exception while saving leave:' . $e->getMessage());
                     throw LeaveAllocationServiceException::leaveQuotaWillExceed();
                 }
@@ -207,13 +182,7 @@ class LeaveAssignmentService extends AbstractLeaveAllocationService
             $workFlowItem = $this->getWorkflowItemForAssignAction($leaveAssignmentData);
             $status = Leave::LEAVE_STATUS_LEAVE_APPROVED;
             if ($workFlowItem instanceof WorkflowStateMachine) {
-                /** @var LeaveStatus|null $leaveStatus */
-                $leaveStatus = $this->getRepository(LeaveStatus::class)->findOneBy(
-                    ['name' => $workFlowItem->getResultingState()]
-                );
-                if ($leaveStatus instanceof LeaveStatus) {
-                    $status = $leaveStatus->getStatus();
-                }
+                $status = $this->getLeaveRequestService()->getLeaveStatusByName($workFlowItem->getResultingState());
             }
         }
         return $status;
@@ -242,7 +211,6 @@ class LeaveAssignmentService extends AbstractLeaveAllocationService
                     [],
                     [Employee::class => $empNumber]
                 );
-
             // get apply action
             foreach ($workFlowItems as $item) {
                 if ($item->getAction() == 'ASSIGN') {

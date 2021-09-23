@@ -44,7 +44,6 @@ use OrangeHRM\Leave\Api\Traits\LeaveRequestPermissionTrait;
 use OrangeHRM\Leave\Dto\LeaveRequest\DetailedLeaveRequest;
 use OrangeHRM\Leave\Dto\LeaveRequestSearchFilterParams;
 use OrangeHRM\Leave\Exception\LeaveAllocationServiceException;
-use OrangeHRM\Leave\Service\LeaveApplicationService;
 use OrangeHRM\Leave\Service\LeaveAssignmentService;
 use OrangeHRM\Leave\Traits\Service\LeaveRequestServiceTrait;
 

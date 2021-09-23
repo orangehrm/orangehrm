@@ -157,7 +157,7 @@
 
         <oxd-form-actions>
           <required-text />
-          <submit-button :label="$t('general.assign')" />
+          <submit-button :label="$t('leave.assign')" />
         </oxd-form-actions>
       </oxd-form>
     </div>
@@ -306,6 +306,7 @@ export default {
             data.length === 0 &&
             !meta.isWorkShiftLengthExceeded
           ) {
+            this.showLeaveConflict = false;
             return this.http.create(payload);
           } else {
             this.showLeaveConflict = true;
@@ -313,14 +314,13 @@ export default {
           }
         })
         .then(() => {
-          this.showLeaveConflict = false;
           this.$toast.saveSuccess();
           this.leave = {...leaveModel};
         })
         .catch(() => {
           this.showLeaveConflict &&
             this.$toast.warn({
-              title: 'Warn',
+              title: 'Warning',
               message: 'Failed to Submit',
             });
         })
@@ -377,23 +377,13 @@ export default {
     'leave.employee': function(employee) {
       if (!employee) {
         return;
-      } else {
-        this.http.request({
-             method: 'GET',
-             url: 'api/v2/pim/employees/' + this.leave.employee?.id + '/work-shift',
+      }
+      this.http.request({method: 'GET', url: `api/v2/pim/employees/${employee.id}/work-shift`,
           })
           .then(response => {
             const {data} = response.data;
-            if (data) {
-              this.workShift = data;
-            } else {
-              this.$toast.error({
-                title: 'Error',
-                message: 'WorkShift not found',
-              });
-            }
+            this.workShift = data;
           });
-      }
     },
   },
 };

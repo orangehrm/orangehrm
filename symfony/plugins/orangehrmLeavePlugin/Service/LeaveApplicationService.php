@@ -199,13 +199,7 @@ class LeaveApplicationService extends AbstractLeaveAllocationService
             $workFlowItem = $this->getWorkflowItemForApplyAction($leaveAssignmentData);
             $status = Leave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL;
             if ($workFlowItem instanceof WorkflowStateMachine) {
-                /** @var LeaveStatus|null $leaveStatus */
-                $leaveStatus = $this->getRepository(LeaveStatus::class)->findOneBy(
-                    ['name' => $workFlowItem->getResultingState()]
-                );
-                if ($leaveStatus instanceof LeaveStatus) {
-                    $status = $leaveStatus->getStatus();
-                }
+                $status = $this->getLeaveRequestService()->getLeaveStatusByName($workFlowItem->getResultingState());
             }
         }
 
