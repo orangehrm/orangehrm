@@ -348,7 +348,7 @@ class EmailService
 
         if (empty($this->messageFrom)) {
             $this->validateEmailAddress($this->emailConfig->getSentAs());
-            $this->messageFrom = array($this->emailConfig->getSentAs() => 'OrangeHRM');
+            $this->messageFrom = array($this->emailConfig->getSentAs());
         }
 
         if (empty($this->messageTo)) {

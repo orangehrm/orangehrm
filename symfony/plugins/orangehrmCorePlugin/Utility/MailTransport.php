@@ -19,9 +19,68 @@
 
 namespace OrangeHRM\Core\Utility;
 
-use Swift_SmtpTransport;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
+use Symfony\Component\Mailer\SentMessage;
+use Symfony\Component\Mailer\Transport\Smtp\EsmtpTransport;
+use Symfony\Component\Mailer\Transport\AbstractTransport;
+use Symfony\Component\Mailer\Transport\SendmailTransport;
 
-class MailTransport extends Swift_SmtpTransport
+class MailTransport extends AbstractTransport
 {
+    /**
+     * @var AbstractTransport|SendmailTransport|EsmtpTransport
+     */
+    private AbstractTransport $mailTransport;
 
+    /**
+     * MailTransport constructor.
+     * @param string $host
+     * @param int $port
+     */
+    public function __construct(string $host = 'localhost', int $port = 0)
+    {
+        if($port == 0) { //sendmail
+            $this->mailTransport = new SendmailTransport();
+        } else { //smtp
+            $this->mailTransport = new EsmtpTransport($host, $port);
+        }
+    }
+
+    /**
+     * @param string $username
+     */
+    public function setUsername(string $username){
+        $this->mailTransport->setUsername($username);
+    }
+
+    /**
+     * @param string $username
+     */
+    public function setPassword(string $username){
+        $this->mailTransport->setPassword($username);
+    }
+
+    /**
+     * @param string $smtpSecurityType
+     */
+    public function setEncryption(string $smtpSecurityType){
+        // Automatically set by port
+    }
+
+    /**
+     * @param SentMessage $message
+     * @throws TransportExceptionInterface
+     */
+    protected function doSend(SentMessage $message): void
+    {
+        $this->mailTransport->doSend($message);
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString(): string
+    {
+        $this->mailTransport->__toString();
+    }
 }
