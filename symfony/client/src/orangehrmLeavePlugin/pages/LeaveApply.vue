@@ -303,6 +303,7 @@ export default {
           }
         })
         .then(() => {
+          this.showLeaveConflict = false;
           this.$toast.saveSuccess();
           this.leave = {...leaveModel};
         })
