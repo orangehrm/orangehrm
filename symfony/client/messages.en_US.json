@@ -185,6 +185,16 @@
           "source": "No employees match the selected filters",
           "target": "No employees match the selected filters",
           "description": ""
+        },
+        "employee": {
+          "source": "Employee",
+          "target": "Employee",
+          "description": "Staff currently working at your company."
+        },
+        "view": {
+          "source": "View",
+          "target": "View",
+          "description": "Admin has the privileged to view assigned goal/leave/tasks of all employees"
         }
       }
     },
@@ -480,6 +490,21 @@
           "source": "Insufficient Leave Balance",
           "target": "Insufficient Leave Balance",
           "description": ""
+        },
+        "leave_entitlement_and_usage_report": {
+          "source": "Leave Entitlements and Usage Report",
+          "target": "Leave Entitlements and Usage Report",
+          "description": "Once the appropriate fields are selected, the Admin can then click “View” and will be presented with the leave report of all employees.The report can also show leave usage and entitlements for the “Previous Period” as well as the “Next Period”."
+        },
+        "my_leave_entitlement_and_usage_report": {
+          "source": "My Leave Entitlements and Usage Report",
+          "target": "My Leave Entitlements and Usage Report",
+          "description": "if he/she is also an ESS user to the system, he/she can view for leave entitlements and usage of leave by themselves (Leave&gt;&gt;Reports &gt;&gt; My Leave Entitlements and Usage Report)."
+        },
+        "generate_for": {
+          "source": "Generate For",
+          "target": "Generate For",
+          "description": "If the “Employee” option is selected under “Generate For” the HR Admin can generate the leave entitlement and usage report for any employee"
         }
       }
     }
