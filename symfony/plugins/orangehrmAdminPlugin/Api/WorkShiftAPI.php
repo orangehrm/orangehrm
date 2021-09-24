@@ -20,7 +20,6 @@
 
 namespace OrangeHRM\Admin\Api;
 
-
 use OrangeHRM\Admin\Api\Model\WorkShiftModel;
 use OrangeHRM\Admin\Dto\WorkShiftSearchFilterParams;
 use OrangeHRM\Admin\Service\WorkShiftService;
@@ -40,6 +39,13 @@ use OrangeHRM\Entity\WorkShift;
 
 class WorkShiftAPI extends EndPoint implements CrudEndpoint
 {
+
+    public const PARAMETER_NAME = 'name';
+    public const PARAMETER_HOURS_PER_DAY = 'hoursPerDay';
+    public const PARAMETER_START_TIME = 'startTime';
+    public const PARAMETER_END_TIME = 'endTime';
+    public const PARAM_RULE_NAME_MAX_LENGTH = 50;
+
     protected ?WorkShiftService $workShiftService = null;
 
     /**
@@ -121,7 +127,12 @@ class WorkShiftAPI extends EndPoint implements CrudEndpoint
      */
     public function getValidationRuleForCreate(): ParamRuleCollection 
     {
-        // TODO: Implement getValidationRuleForCreate() method.
+        return new ParamRuleCollection(
+            new ParamRule(self::PARAMETER_NAME, new Rule(Rules::STRING_TYPE), new Rule(Rules::REQUIRED), new Rule(Rules::LENGTH, [null, self::PARAM_RULE_NAME_MAX_LENGTH])),
+            new ParamRule(self::PARAMETER_HOURS_PER_DAY, new Rule(Rules::REQUIRED), new Rule(Rules::FLOAT_TYPE)),
+            new ParamRule(self::PARAMETER_START_TIME, new Rule(Rules::REQUIRED), new Rule(Rules::DATE_TIME)),
+            new ParamRule(self::PARAMETER_END_TIME, new Rule(Rules::REQUIRED), new Rule(Rules::DATE_TIME))
+        );
     }
 
     /**

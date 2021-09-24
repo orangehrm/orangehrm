@@ -21,10 +21,10 @@
   </coverage>
   <testsuites>
     <testsuite name="Admin">
-      <directory>symfony/plugins/orangehrmAdminPlugin/test/Api</directory>
-      <directory>symfony/plugins/orangehrmAdminPlugin/test/Service</directory>
-      <directory>symfony/plugins/orangehrmAdminPlugin/test/Dao</directory>
-      <directory>symfony/plugins/orangehrmAdminPlugin/test/Entity</directory>
+      <directory>symfony/plugins/orangehrmAdminPlugin/test/Api/WorkShiftAPITest.php</directory>
+<!--      <directory>symfony/plugins/orangehrmAdminPlugin/test/Service</directory>-->
+<!--      <directory>symfony/plugins/orangehrmAdminPlugin/test/Dao/WorkShiftDaoTest.php</directory>-->
+<!--      <directory>symfony/plugins/orangehrmAdminPlugin/test/Entity</directory>-->
     </testsuite>
     <testsuite name="Authentication">
       <directory>symfony/plugins/orangehrmAuthenticationPlugin/test/Service</directory>

@@ -1,0 +1,27 @@
+GetAll:
+  'get all':
+    userId: 1
+    attributes: [ ]
+    body: [ ]
+    query: [ ]
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      admin.work_shift_service: \OrangeHRM\Admin\Service\WorkShiftService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getUserRoleManager' ]
+    data:
+      0:
+        id: 1
+        name: 'Shift 1'
+        hours_per_day: 8
+        start_time: '07:00'
+        end_time: '15:00'
+    meta:
+      total: 1
+
+#GetOne:
+#  'get one by existing id':
+#    params: { id: 1 }
+#    result: { id: 1, name: 'Shift 1', 'hours_per_day': 8, start_time: '07:00', end_time: '15:00' }
