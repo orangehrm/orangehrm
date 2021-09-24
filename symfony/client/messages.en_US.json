@@ -241,6 +241,11 @@
           "target": "Assign Leave",
           "description": "Admin can assign leave to employee"
         },
+        "assign": {
+          "source": "Assign",
+          "target": "Assign",
+          "description": "Assign for leave"
+        },
         "leave_type": {
           "source": "Leave Type",
           "target": "Leave Type",

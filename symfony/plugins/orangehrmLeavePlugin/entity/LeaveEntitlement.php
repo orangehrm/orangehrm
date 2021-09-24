@@ -72,7 +72,7 @@ class LeaveEntitlement
     /**
      * @var LeaveType
      *
-     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\LeaveType")
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\LeaveType", inversedBy="leaveEntitlement")
      * @ORM\JoinColumn(name="leave_type_id", referencedColumnName="id")
      */
     private LeaveType $leaveType;

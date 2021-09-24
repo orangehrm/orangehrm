@@ -245,7 +245,6 @@ export default {
   methods: {
     onSave() {
       this.isLoading = true;
-      this.showLeaveConflict = false;
       const payload = {
         leaveTypeId: this.leave.type?.id,
         fromDate: this.leave.fromDate,
@@ -296,6 +295,7 @@ export default {
             data.length === 0 &&
             !meta.isWorkShiftLengthExceeded
           ) {
+            this.showLeaveConflict = false;
             return this.http.create(payload);
           } else {
             this.showLeaveConflict = true;
