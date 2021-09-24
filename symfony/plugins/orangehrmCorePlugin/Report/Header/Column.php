@@ -34,6 +34,8 @@ class Column
 
     private ?int $size = null;
 
+    private ?array $cellProperties = null;
+
     /**
      * @param string $prop
      */
@@ -118,6 +120,24 @@ class Column
     }
 
     /**
+     * @return array|null
+     */
+    public function getCellProperties(): ?array
+    {
+        return $this->cellProperties;
+    }
+
+    /**
+     * @param array|null $cellProperties
+     * @return $this
+     */
+    public function setCellProperties(?array $cellProperties): self
+    {
+        $this->cellProperties = $cellProperties;
+        return $this;
+    }
+
+    /**
      * @return array
      */
     public function toArray(): array
@@ -127,6 +147,7 @@ class Column
             'prop' => $this->getProp(),
             'size' => $this->getSize(),
             'pin' => $this->getPin(),
+            'cellProperties' => $this->getCellProperties(),
         ];
     }
 }

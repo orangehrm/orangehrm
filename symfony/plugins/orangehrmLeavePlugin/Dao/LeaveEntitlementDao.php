@@ -720,18 +720,40 @@ class LeaveEntitlementDao extends BaseDao
             ->leftJoin('leaveType.leaveEntitlement', 'leaveEntitlement');
         $this->setSortingAndPaginationParams($q, $filterParams);
 
+        $orClauses = $q->expr()->orX();
+        $orClauses->add(
+            $q->expr()->andX(
+                $q->expr()->lte('leaveEntitlement.fromDate', ':fromDate'),
+                $q->expr()->gte('leaveEntitlement.toDate', ':fromDate')
+            )
+        );
+        $orClauses->add(
+            $q->expr()->andX(
+                $q->expr()->lte('leaveEntitlement.fromDate', ':toDate'),
+                $q->expr()->gte('leaveEntitlement.toDate', ':toDate')
+            )
+        );
+        $orClauses->add(
+            $q->expr()->andX(
+                $q->expr()->gte('leaveEntitlement.fromDate', ':fromDate'),
+                $q->expr()->lte('leaveEntitlement.toDate', ':toDate')
+            )
+        );
         $q->andWhere(
             $q->expr()->orX(
                 $q->expr()->andX(
                     'leaveType.situational = :situational',
                     'leaveEntitlement.employee = :empNumber',
+                    $orClauses,
                 ),
                 'leaveType.situational = :notSituational'
             )
         );
         $q->setParameter('situational', true)
             ->setParameter('notSituational', false)
-            ->setParameter('empNumber', $filterParams->getEmpNumber());
+            ->setParameter('empNumber', $filterParams->getEmpNumber())
+            ->setParameter('fromDate', $filterParams->getFromDate())
+            ->setParameter('toDate', $filterParams->getToDate());
         $q->groupBy('leaveType.id');
 
         return $this->getPaginator($q);

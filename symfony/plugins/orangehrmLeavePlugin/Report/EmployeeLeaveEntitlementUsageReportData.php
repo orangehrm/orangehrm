@@ -25,11 +25,15 @@ use OrangeHRM\Core\Report\ReportData;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Leave\Dto\EmployeeLeaveEntitlementUsageReportSearchFilterParams;
 use OrangeHRM\Leave\Traits\Service\LeaveEntitlementServiceTrait;
+use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
 
 class EmployeeLeaveEntitlementUsageReportData implements ReportData
 {
     use LeaveEntitlementServiceTrait;
+    use EmployeeServiceTrait;
     use DateTimeHelperTrait;
+
+    public const META_PARAMETER_EMPLOYEE = 'employee';
 
     private EmployeeLeaveEntitlementUsageReportSearchFilterParams $filterParams;
 
@@ -103,7 +107,10 @@ class EmployeeLeaveEntitlementUsageReportData implements ReportData
             [
                 CommonParams::PARAMETER_TOTAL => $this->getLeaveEntitlementService()
                     ->getLeaveEntitlementDao()
-                    ->getLeaveTypesCountForEntitlementUsageReport($this->filterParams)
+                    ->getLeaveTypesCountForEntitlementUsageReport($this->filterParams),
+                self::META_PARAMETER_EMPLOYEE => $this->getEmployeeService()->getEmployeeAsArray(
+                    $this->filterParams->getEmpNumber()
+                )
             ]
         );
     }

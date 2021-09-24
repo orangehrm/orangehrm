@@ -20,31 +20,11 @@
 namespace OrangeHRM\Leave\Api;
 
 use OrangeHRM\Core\Api\Rest\ReportDataAPI;
-use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
-use OrangeHRM\Core\Api\V2\EndpointResult;
 use OrangeHRM\Core\Api\V2\Exception\BadRequestException;
-use OrangeHRM\Core\Api\V2\Model\ArrayModel;
-use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Report\Api\EndpointAwareReport;
 
 class LeaveReportDataAPI extends ReportDataAPI
 {
-    /**
-     * @inheritDoc
-     */
-    public function getAll(): EndpointResult
-    {
-        $report = $this->getReport();
-        $filterParams = $report->prepareFilterParams($this);
-        $data = $report->getData($filterParams);
-
-        return new EndpointCollectionResult(
-            ArrayModel::class,
-            $data->normalize(),
-            $data->getMeta()
-        );
-    }
-
     /**
      * @return EndpointAwareReport
      * @throws BadRequestException
@@ -57,16 +37,5 @@ class LeaveReportDataAPI extends ReportDataAPI
         }
         $reportClass = LeaveReportAPI::LEAVE_REPORT_MAP[$reportName];
         return new $reportClass();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getValidationRuleForGetAll(): ParamRuleCollection
-    {
-        $paramRules = new ParamRuleCollection($this->getReportNameParamRule());
-        // TODO:: should handle using report filter param validation
-        $paramRules->setStrict(false);
-        return $paramRules;
     }
 }

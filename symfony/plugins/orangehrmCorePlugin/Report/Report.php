@@ -20,6 +20,7 @@
 namespace OrangeHRM\Core\Report;
 
 use OrangeHRM\Core\Dto\FilterParams;
+use OrangeHRM\Core\Report\Filter\FilterDefinition;
 use OrangeHRM\Core\Report\Header\HeaderDefinition;
 
 interface Report
@@ -32,9 +33,11 @@ interface Report
     public function getHeaderDefinition(): HeaderDefinition;
 
     /**
-     * @todo
+     * Get normalizable table filter definition
+     *
+     * @return FilterDefinition
      */
-    public function getFilterDefinition();
+    public function getFilterDefinition(): FilterDefinition;
 
     /**
      * Get report resulting date for given filter params
