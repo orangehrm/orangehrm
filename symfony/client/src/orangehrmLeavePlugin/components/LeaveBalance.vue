@@ -35,7 +35,7 @@
     <oxd-text v-if="balance >= 0" class="orangehrm-leave-balance-text" tag="p">
       {{ leaveBalance }}
     </oxd-text>
-    <oxd-text v-else class="orangehrm-leave-balance-text" tag="p">
+    <oxd-text v-else class="orangehrm-leave-balance-text --error" tag="p">
       {{ $t('leave.balance_not_sufficient') }}
     </oxd-text>
   </oxd-input-group>
@@ -173,5 +173,8 @@ export default {
 }
 .orangehrm-leave-balance-text {
   padding: $oxd-input-control-vertical-padding 0rem;
+  &.--error {
+    color: $oxd-feedback-danger-color;
+  }
 }
 </style>
