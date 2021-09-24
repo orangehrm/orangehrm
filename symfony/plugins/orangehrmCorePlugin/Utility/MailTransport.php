@@ -21,9 +21,9 @@ namespace OrangeHRM\Core\Utility;
 
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\SentMessage;
-use Symfony\Component\Mailer\Transport\Smtp\EsmtpTransport;
 use Symfony\Component\Mailer\Transport\AbstractTransport;
 use Symfony\Component\Mailer\Transport\SendmailTransport;
+use Symfony\Component\Mailer\Transport\Smtp\EsmtpTransport;
 
 class MailTransport extends AbstractTransport
 {
@@ -35,11 +35,11 @@ class MailTransport extends AbstractTransport
     /**
      * MailTransport constructor.
      * @param string $host
-     * @param int $port
+     * @param int|null $port
      */
-    public function __construct(string $host = 'localhost', int $port = 0)
+    public function __construct(string $host = 'localhost', int $port = null)
     {
-        if($port == 0) { //sendmail
+        if ($port == null) { //sendmail
             $this->mailTransport = new SendmailTransport();
         } else { //smtp
             $this->mailTransport = new EsmtpTransport($host, $port);
@@ -49,21 +49,24 @@ class MailTransport extends AbstractTransport
     /**
      * @param string $username
      */
-    public function setUsername(string $username){
+    public function setUsername(string $username)
+    {
         $this->mailTransport->setUsername($username);
     }
 
     /**
      * @param string $username
      */
-    public function setPassword(string $username){
+    public function setPassword(string $username)
+    {
         $this->mailTransport->setPassword($username);
     }
 
     /**
      * @param string $smtpSecurityType
      */
-    public function setEncryption(string $smtpSecurityType){
+    public function setEncryption(string $smtpSecurityType)
+    {
         // Automatically set by port
     }
 

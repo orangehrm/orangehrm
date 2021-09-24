@@ -24,12 +24,12 @@ use OrangeHRM\Core\Exception\CoreServiceException;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Exception\ServiceException as Exception;
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
-use OrangeHRM\Entity\EmailConfiguration;
-use OrangeHRM\Framework\Logger\Logger;
-use OrangeHRM\Framework\Services;
 use OrangeHRM\Core\Utility\Mailer;
 use OrangeHRM\Core\Utility\MailMessage;
 use OrangeHRM\Core\Utility\MailTransport;
+use OrangeHRM\Entity\EmailConfiguration;
+use OrangeHRM\Framework\Logger\Logger;
+use OrangeHRM\Framework\Services;
 
 class EmailService
 {
@@ -348,7 +348,7 @@ class EmailService
 
         if (empty($this->messageFrom)) {
             $this->validateEmailAddress($this->emailConfig->getSentAs());
-            $this->messageFrom = array($this->emailConfig->getSentAs());
+            $this->messageFrom = array($this->emailConfig->getSentAs() => "OrangeHRM");
         }
 
         if (empty($this->messageTo)) {

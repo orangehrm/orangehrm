@@ -20,6 +20,7 @@
 namespace OrangeHRM\Core\Utility;
 
 use Symfony\Component\Mime\Email;
+use Symfony\Component\Mime\Address;
 
 class MailMessage extends Email
 {
@@ -38,7 +39,12 @@ class MailMessage extends Email
      */
     public function setFrom(array $addresses): MailMessage
     {
-        return $this->from(...$addresses);
+        $symfonyAddresses = [];
+        foreach ($addresses as $address => $name) {
+            $symfonyAddresses[] = new Address($address,$name);
+        }
+
+        return $this->from(...$symfonyAddresses);
     }
 
     /**
