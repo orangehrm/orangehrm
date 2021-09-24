@@ -477,13 +477,13 @@
           "description": "There is no sufficient leave balance for the current leave period."
         },
         "overlapping_leave_request_found": {
-          "source": "Overlapping Leave Request Found",
-          "target": "Overlapping Leave Request Found",
+          "source": "Overlapping Leave Request(s) Found",
+          "target": "Overlapping Leave Request(s) Found",
           "description": "When request for a leave with same leave type and same no of days, a error message would appear saying 'Overlapping Leave Request Found'."
         },
         "workshift_length_exceeded_due_to_the_following_leave_request": {
-          "source": "Workshift Length Exceeded Due To the Following Leave Request",
-          "target": "Workshift Length Exceeded Due To the Following Leave Request",
+          "source": "Workshift Length Exceeded Due To the Following Leave Requests",
+          "target": "Workshift Length Exceeded Due To the Following Leave Requests",
           "description": ""
         },
         "insufficient_leave_balance": {
