@@ -21,6 +21,7 @@ namespace OrangeHRM\Tests\Leave\Api;
 
 use OrangeHRM\Leave\Api\LeaveReportAPI;
 use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
+use OrangeHRM\Tests\Util\Integration\TestCaseParams;
 
 /**
  * @group Leave
@@ -28,6 +29,21 @@ use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
  */
 class EmployeeLeaveEntitlementUsageLeaveReportAPITest extends EndpointIntegrationTestCase
 {
+    /**
+     * @dataProvider dataProviderForTestGetAll
+     */
+    public function testGetAll(TestCaseParams $testCaseParams): void
+    {
+        $this->registerServices($testCaseParams);
+        $api = $this->getApiEndpointMock(LeaveReportAPI::class, $testCaseParams);
+        $this->assertValidTestCase($api, 'getOne', $testCaseParams);
+    }
+
+    public function dataProviderForTestGetAll(): array
+    {
+        return $this->getTestCases('EmployeeLeaveEntitlementUsageLeaveReportAPITestCases.yaml', 'GetOne');
+    }
+
     public function testDelete(): void
     {
         $api = new LeaveReportAPI($this->getRequest());
@@ -55,16 +71,4 @@ class EmployeeLeaveEntitlementUsageLeaveReportAPITest extends EndpointIntegratio
         $this->expectNotImplementedException();
         $api->getValidationRuleForUpdate();
     }
-
-//    public function testGetValidationRuleForGetOne(): void
-//    {
-//        $api = new LeaveReportAPI($this->getRequest());
-//        $rules = $api->getValidationRuleForGetOne();
-//        $this->assertTrue(
-//            $this->validate(
-//                [CommonParams::PARAMETER_ID => 1],
-//                $rules
-//            )
-//        );
-//    }
 }

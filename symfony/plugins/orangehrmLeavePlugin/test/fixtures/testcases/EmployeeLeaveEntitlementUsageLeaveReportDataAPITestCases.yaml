@@ -113,6 +113,16 @@ GetAll:
         employeeId: "0004"
         terminationId: null
 
+  'with invalid report name':
+    userId: 1
+    services:
+      core.class_helper: \OrangeHRM\Core\Helper\ClassHelper
+    query:
+      name: 'invalid'
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\BadRequestException'
+      message: 'Invalid report name'
+
   'pagination - limit':
     userId: 1
     now:
