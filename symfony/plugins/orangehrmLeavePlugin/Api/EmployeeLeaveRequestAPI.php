@@ -43,6 +43,8 @@ use OrangeHRM\Leave\Api\Traits\LeaveRequestParamHelperTrait;
 use OrangeHRM\Leave\Api\Traits\LeaveRequestPermissionTrait;
 use OrangeHRM\Leave\Dto\LeaveRequest\DetailedLeaveRequest;
 use OrangeHRM\Leave\Dto\LeaveRequestSearchFilterParams;
+use OrangeHRM\Leave\Exception\LeaveAllocationServiceException;
+use OrangeHRM\Leave\Service\LeaveAssignmentService;
 use OrangeHRM\Leave\Traits\Service\LeaveRequestServiceTrait;
 
 class EmployeeLeaveRequestAPI extends Endpoint implements CrudEndpoint
@@ -67,6 +69,19 @@ class EmployeeLeaveRequestAPI extends Endpoint implements CrudEndpoint
         self::MODEL_DEFAULT => LeaveRequestModel::class,
         self::MODEL_DETAILED => LeaveRequestDetailedModel::class,
     ];
+
+    protected ?LeaveAssignmentService $leaveAssignmentService = null;
+
+    /**
+     * @return LeaveAssignmentService
+     */
+    protected  function getLeaveAssignmentService(): LeaveAssignmentService
+    {
+        if (!$this->leaveAssignmentService instanceof LeaveAssignmentService) {
+            $this->leaveAssignmentService = new LeaveAssignmentService();
+        }
+        return $this->leaveAssignmentService;
+    }
 
     /**
      * @inheritDoc
@@ -266,7 +281,32 @@ class EmployeeLeaveRequestAPI extends Endpoint implements CrudEndpoint
      */
     public function create(): EndpointResult
     {
-        throw $this->getNotImplementedException();
+        $empNumber = $this->getRequestParams()->getInt(
+            RequestParams::PARAM_TYPE_BODY,
+            CommonParams::PARAMETER_EMP_NUMBER
+        );
+        $leaveRequestParams = $this->getLeaveRequestParams($empNumber);
+        try {
+            $leaveRequest = $this->getLeaveAssignmentService()->assignLeave($leaveRequestParams);
+            $model = $this->getRequestParams()->getString(
+                RequestParams::PARAM_TYPE_QUERY,
+                self::FILTER_MODEL,
+                self::MODEL_DEFAULT
+            );
+            if ($model === self::MODEL_DETAILED) {
+                $data = new DetailedLeaveRequest($leaveRequest);
+                $data->fetchLeaves();
+            } else {
+                $data = $leaveRequest;
+            }
+            return new EndpointResourceResult(
+                self::MODEL_MAP[$model],
+                $data,
+                new ParameterBag([CommonParams::PARAMETER_EMP_NUMBER => $empNumber])
+            );
+        } catch (LeaveAllocationServiceException $exception) {
+            throw $this->getBadRequestException($exception->getMessage());
+        }
     }
 
     /**
@@ -274,7 +314,17 @@ class EmployeeLeaveRequestAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForCreate(): ParamRuleCollection
     {
-        throw $this->getNotImplementedException();
+        $paramRules = $this->getCommonParamRuleCollection();
+        $paramRules->addParamValidation(
+            new ParamRule(CommonParams::PARAMETER_EMP_NUMBER, new Rule(Rules::IN_ACCESSIBLE_EMP_NUMBERS)),
+        );
+        $paramRules->addParamValidation(
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(self::FILTER_MODEL, new Rule(Rules::IN, [array_keys(self::MODEL_MAP)])),
+            )
+        );
+
+        return $paramRules;
     }
 
     /**
