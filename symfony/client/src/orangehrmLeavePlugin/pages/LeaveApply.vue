@@ -367,6 +367,10 @@ export default {
       if (duration === 1)
         this.leave.duration.type = {id: 1, label: 'Full Day', key: 'full_day'};
     },
+    'leave.fromDate': function(fromDate) {
+      if (!fromDate) return;
+      this.leave.toDate = fromDate;
+    },
   },
 };
 </script>
