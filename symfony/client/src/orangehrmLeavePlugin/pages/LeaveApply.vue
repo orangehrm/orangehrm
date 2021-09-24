@@ -361,5 +361,12 @@ export default {
       return id && (id === 3 || id === 4);
     },
   },
+
+  watch: {
+    appliedLeaveDuration: function(duration) {
+      if (duration === 1)
+        this.leave.duration.type = {id: 1, label: 'Full Day', key: 'full_day'};
+    },
+  },
 };
 </script>
