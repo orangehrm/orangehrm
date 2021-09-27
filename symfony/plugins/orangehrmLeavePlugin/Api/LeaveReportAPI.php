@@ -27,7 +27,9 @@ use OrangeHRM\Leave\Report\EmployeeLeaveEntitlementUsageReport;
 class LeaveReportAPI extends ReportAPI
 {
     public const LEAVE_REPORT_MAP = [
-        'leave_entitlements_and_usage' => EmployeeLeaveEntitlementUsageReport::class
+        'employee_leave_entitlements_and_usage' => EmployeeLeaveEntitlementUsageReport::class,
+        // TODO
+        'leave_type_leave_entitlements_and_usage' => EmployeeLeaveEntitlementUsageReport::class,
     ];
 
     /**

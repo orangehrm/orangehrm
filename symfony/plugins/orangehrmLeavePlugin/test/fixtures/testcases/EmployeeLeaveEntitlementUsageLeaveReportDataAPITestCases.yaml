@@ -10,7 +10,7 @@ GetAll:
       leave.leave_period_service: \OrangeHRM\Leave\Service\LeavePeriodService
       core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
     query:
-      name: 'leave_entitlements_and_usage'
+      name: 'employee_leave_entitlements_and_usage'
     data: [
       {
         "leaveTypeName": "CAN - Personal",
@@ -134,7 +134,7 @@ GetAll:
       leave.leave_period_service: \OrangeHRM\Leave\Service\LeavePeriodService
       core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
     query:
-      name: 'leave_entitlements_and_usage'
+      name: 'employee_leave_entitlements_and_usage'
       limit: 5
     data: [
       {
@@ -234,7 +234,7 @@ GetAll:
       leave.leave_period_service: \OrangeHRM\Leave\Service\LeavePeriodService
       core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
     query:
-      name: 'leave_entitlements_and_usage'
+      name: 'employee_leave_entitlements_and_usage'
       offset: 5
     data: [
       {
@@ -274,7 +274,7 @@ GetAll:
       leave.leave_period_service: \OrangeHRM\Leave\Service\LeavePeriodService
       core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
     query:
-      name: 'leave_entitlements_and_usage'
+      name: 'employee_leave_entitlements_and_usage'
     data: [
       {
         "leaveTypeName": "CAN - Personal",
@@ -388,7 +388,7 @@ GetAll:
       leave.leave_period_service: \OrangeHRM\Leave\Service\LeavePeriodService
       core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
     query:
-      name: 'leave_entitlements_and_usage'
+      name: 'employee_leave_entitlements_and_usage'
     data: [
       {
         "leaveTypeName": "CAN - Personal",
@@ -522,7 +522,7 @@ GetAll:
     #    factories:
     #      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
-      name: 'leave_entitlements_and_usage'
+      name: 'employee_leave_entitlements_and_usage'
     data: [
       {
         "leaveTypeName": "CAN - Personal",
@@ -640,7 +640,7 @@ GetAll:
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
-      name: 'leave_entitlements_and_usage'
+      name: 'employee_leave_entitlements_and_usage'
       empNumber: 3
     data: [
       {
@@ -757,7 +757,7 @@ GetAll:
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
-      name: 'leave_entitlements_and_usage'
+      name: 'employee_leave_entitlements_and_usage'
       empNumber: 5
     exception:
       class: 'OrangeHRM\Core\Api\V2\Exception\InvalidParamException'

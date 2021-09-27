@@ -3,7 +3,7 @@ GetOne:
     services:
       core.class_helper: \OrangeHRM\Core\Helper\ClassHelper
     query:
-      name: 'leave_entitlements_and_usage'
+      name: 'employee_leave_entitlements_and_usage'
     data:
       "headers": [
         {
