@@ -33,6 +33,8 @@ import EditHoliday from './pages/configure/holiday/EditHoliday.vue';
 import LeaveList from './pages/LeaveList.vue';
 import LeaveRequest from './pages/LeaveRequest.vue';
 import MyLeaveList from './pages/MyLeaveList.vue';
+import LeaveEntitlementReport from './pages/reports/LeaveEntitlementReport.vue';
+import MyLeaveEntitlementReport from './pages/reports/MyLeaveEntitlementReport.vue';
 
 export default {
   'leave-period': LeavePeriod,
@@ -52,4 +54,6 @@ export default {
   'leave-list': LeaveList,
   'leave-view-request': LeaveRequest,
   'my-leave-list': MyLeaveList,
+  'leave-entitlement-report': LeaveEntitlementReport,
+  'my-leave-entitlement-report': MyLeaveEntitlementReport,
 };

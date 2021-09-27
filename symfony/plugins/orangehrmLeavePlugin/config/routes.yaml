@@ -304,3 +304,13 @@ edit_holiday:
   path: /leave/saveHolidays/{id}
   controller: OrangeHRM\Leave\Controller\SaveHolidayController::handle
   methods: [ GET ]
+
+leave_view_leave_entitlement_report:
+  path: /leave/viewLeaveBalanceReport
+  controller: OrangeHRM\Leave\Controller\LeaveEntitlementReport::handle
+  methods: [ GET ]
+
+leave_view_my_leave_entitlement_report:
+  path: /leave/viewMyLeaveBalanceReport
+  controller: OrangeHRM\Leave\Controller\MyLeaveEntitlementReport::handle
+  methods: [ GET ]
