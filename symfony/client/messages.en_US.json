@@ -505,6 +505,11 @@
           "source": "Generate For",
           "target": "Generate For",
           "description": "If the “Employee” option is selected under “Generate For” the HR Admin can generate the leave entitlement and usage report for any employee"
+        },
+        "no_leave_types_with_leave_balance": {
+          "source": "No Leave Types with Leave Balance",
+          "target": "No Leave Types with Leave Balance",
+          "description": "For all the leave types, a particular employee doesn't have any leave remaining. e.g.casual, annual"
         }
       }
     }
