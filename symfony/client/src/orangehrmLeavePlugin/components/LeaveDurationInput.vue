@@ -61,7 +61,7 @@
 </template>
 
 <script>
-import {diffInTime, secondsTohhmm} from '@orangehrm/core/util/helper/datefns';
+import {diffInTime} from '@orangehrm/core/util/helper/datefns';
 import {
   endTimeShouldBeAfterStartTime,
   required,
@@ -124,7 +124,7 @@ export default {
   computed: {
     selectedTimeDuration() {
       const timeDifference = diffInTime(this.fromTime, this.toTime);
-      return secondsTohhmm(timeDifference);
+      return (timeDifference / 3600).toFixed(2);
     },
     options() {
       const durations = [
