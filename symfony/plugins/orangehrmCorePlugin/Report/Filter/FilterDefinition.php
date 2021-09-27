@@ -17,25 +17,20 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Leave\Api;
+namespace OrangeHRM\Core\Report\Filter;
 
-use OrangeHRM\Core\Api\Rest\ReportDataAPI;
-use OrangeHRM\Core\Api\V2\Exception\BadRequestException;
-use OrangeHRM\Core\Report\Api\EndpointAwareReport;
+use OrangeHRM\Core\Api\V2\ParameterBag;
 
-class LeaveReportDataAPI extends ReportDataAPI
+interface FilterDefinition
 {
     /**
-     * @return EndpointAwareReport
-     * @throws BadRequestException
+     * Normalize object to associative array
+     * @return array
      */
-    protected function getReport(): EndpointAwareReport
-    {
-        $reportName = $this->getReportName();
-        if (!isset(LeaveReportAPI::LEAVE_REPORT_MAP[$reportName])) {
-            throw $this->getBadRequestException('Invalid report name');
-        }
-        $reportClass = LeaveReportAPI::LEAVE_REPORT_MAP[$reportName];
-        return new $reportClass();
-    }
+    public function normalize(): array;
+
+    /**
+     * @return ParameterBag|null
+     */
+    public function getMeta(): ?ParameterBag;
 }
