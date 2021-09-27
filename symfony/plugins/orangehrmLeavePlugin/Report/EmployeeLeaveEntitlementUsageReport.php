@@ -21,10 +21,14 @@ namespace OrangeHRM\Leave\Report;
 
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\RequestParams;
+use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
+use OrangeHRM\Core\Api\V2\Validator\Rule;
+use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Dto\FilterParams;
 use OrangeHRM\Core\Report\Api\EndpointAwareReport;
 use OrangeHRM\Core\Report\Api\EndpointProxy;
+use OrangeHRM\Core\Report\Filter\Filter;
 use OrangeHRM\Core\Report\Header\Column;
 use OrangeHRM\Core\Report\Header\Header;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
@@ -44,6 +48,8 @@ class EmployeeLeaveEntitlementUsageReport implements EndpointAwareReport
     public const PARAMETER_TAKEN_DAYS = 'takenDays';
     public const PARAMETER_BALANCE_DAYS = 'balanceDays';
 
+    public const DEFAULT_COLUMN_SIZE = 150;
+
     /**
      * @return Header
      */
@@ -51,19 +57,31 @@ class EmployeeLeaveEntitlementUsageReport implements EndpointAwareReport
     {
         return new Header(
             [
-                (new Column(self::PARAMETER_LEAVE_TYPE_NAME))->setName('Leave Type'),
-                (new Column(self::PARAMETER_ENTITLEMENT_DAYS))->setName('Leave Entitlements (Days)'),
-                (new Column(self::PARAMETER_PENDING_APPROVAL_DAYS))->setName('Leave Pending Approval (Days)'),
-                (new Column(self::PARAMETER_SCHEDULED_DAYS))->setName('Leave Scheduled (Days)'),
-                (new Column(self::PARAMETER_TAKEN_DAYS))->setName('Leave Taken (Days)'),
-                (new Column(self::PARAMETER_BALANCE_DAYS))->setName('Leave Balance (Days)'),
+                (new Column(self::PARAMETER_LEAVE_TYPE_NAME))->setName('Leave Type')
+                    ->setPin(Column::PIN_COL_START)
+                    ->setSize(self::DEFAULT_COLUMN_SIZE),
+                (new Column(self::PARAMETER_ENTITLEMENT_DAYS))->setName('Leave Entitlements (Days)')
+                    ->setCellProperties(['class' => ['col-alt' => true]])
+                    ->setSize(self::DEFAULT_COLUMN_SIZE),
+                (new Column(self::PARAMETER_PENDING_APPROVAL_DAYS))->setName('Leave Pending Approval (Days)')
+                    ->setSize(self::DEFAULT_COLUMN_SIZE),
+                (new Column(self::PARAMETER_SCHEDULED_DAYS))->setName('Leave Scheduled (Days)')
+                    ->setSize(self::DEFAULT_COLUMN_SIZE),
+                (new Column(self::PARAMETER_TAKEN_DAYS))->setName('Leave Taken (Days)')
+                    ->setSize(self::DEFAULT_COLUMN_SIZE),
+                (new Column(self::PARAMETER_BALANCE_DAYS))->setName('Leave Balance (Days)')
+                    ->setCellProperties(['class' => ['col-alt' => true]])
+                    ->setSize(self::DEFAULT_COLUMN_SIZE),
             ]
         );
     }
 
-    public function getFilterDefinition()
+    /**
+     * @return Filter
+     */
+    public function getFilterDefinition(): Filter
     {
-        // TODO: Implement getFilterDefinition() method.
+        return new Filter();
     }
 
     /**
@@ -114,6 +132,20 @@ class EmployeeLeaveEntitlementUsageReport implements EndpointAwareReport
      */
     public function getValidationRule(EndpointProxy $endpoint): ParamRuleCollection
     {
-        return new ParamRuleCollection();
+        return new ParamRuleCollection(
+            $endpoint->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(CommonParams::PARAMETER_EMP_NUMBER, new Rule(Rules::IN_ACCESSIBLE_EMP_NUMBERS))
+            ),
+            $endpoint->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(LeaveCommonParams::PARAMETER_FROM_DATE, new Rule(Rules::API_DATE))
+            ),
+            $endpoint->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(LeaveCommonParams::PARAMETER_TO_DATE, new Rule(Rules::API_DATE))
+            ),
+            ...
+            $endpoint->getSortingAndPaginationParamsRules(
+                EmployeeLeaveEntitlementUsageReportSearchFilterParams::ALLOWED_SORT_FIELDS
+            )
+        );
     }
 }

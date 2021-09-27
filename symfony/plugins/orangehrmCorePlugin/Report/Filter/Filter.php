@@ -17,32 +17,25 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Leave\Api;
+namespace OrangeHRM\Core\Report\Filter;
 
-use OrangeHRM\Core\Api\Rest\ReportAPI;
-use OrangeHRM\Core\Api\V2\Exception\BadRequestException;
-use OrangeHRM\Core\Report\Api\EndpointAwareReport;
-use OrangeHRM\Leave\Report\EmployeeLeaveEntitlementUsageReport;
+use OrangeHRM\Core\Api\V2\ParameterBag;
 
-class LeaveReportAPI extends ReportAPI
+class Filter implements FilterDefinition
 {
-    public const LEAVE_REPORT_MAP = [
-        'employee_leave_entitlements_and_usage' => EmployeeLeaveEntitlementUsageReport::class,
-        // TODO
-        'leave_type_leave_entitlements_and_usage' => EmployeeLeaveEntitlementUsageReport::class,
-    ];
+    /**
+     * @inheritDoc
+     */
+    public function normalize(): array
+    {
+        return [];
+    }
 
     /**
-     * @return EndpointAwareReport
-     * @throws BadRequestException
+     * @inheritDoc
      */
-    protected function getReport(): EndpointAwareReport
+    public function getMeta(): ?ParameterBag
     {
-        $reportName = $this->getReportName();
-        if (!isset(LeaveReportAPI::LEAVE_REPORT_MAP[$reportName])) {
-            throw $this->getBadRequestException('Invalid report name');
-        }
-        $reportClass = LeaveReportAPI::LEAVE_REPORT_MAP[$reportName];
-        return new $reportClass();
+        return null;
     }
 }

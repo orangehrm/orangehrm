@@ -19,18 +19,53 @@
 
 namespace OrangeHRM\Core\Api\Rest;
 
+use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
+use OrangeHRM\Core\Api\V2\Model\ArrayModel;
+use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\ResourceEndpoint;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Core\Report\Api\EndpointAwareReport;
 use OrangeHRM\Core\Report\Api\EndpointProxy;
 
 abstract class ReportAPI extends EndpointProxy implements ResourceEndpoint
 {
     public const PARAMETER_NAME = 'name';
+    public const PARAMETER_HEADERS = 'headers';
+    public const PARAMETER_FILTERS = 'filters';
+
+    /**
+     * @inheritDoc
+     */
+    public function getOne(): EndpointResult
+    {
+        $report = $this->getReport();
+        $header = $report->getHeaderDefinition();
+        $filter = $report->getFilterDefinition();
+
+        return new EndpointResourceResult(
+            ArrayModel::class,
+            [
+                self::PARAMETER_HEADERS => $header->normalize(),
+                self::PARAMETER_FILTERS => $filter->normalize(),
+            ],
+            new ParameterBag(
+                [
+                    self::PARAMETER_HEADERS => $header->getMeta(),
+                    self::PARAMETER_FILTERS => $filter->getMeta(),
+                ]
+            )
+        );
+    }
+
+    /**
+     * @return EndpointAwareReport
+     */
+    abstract protected function getReport(): EndpointAwareReport;
 
     /**
      * @return string
@@ -38,6 +73,14 @@ abstract class ReportAPI extends EndpointProxy implements ResourceEndpoint
     protected function getReportName(): string
     {
         return $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_QUERY, ReportAPI::PARAMETER_NAME);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getValidationRuleForGetOne(): ParamRuleCollection
+    {
+        return new ParamRuleCollection($this->getReportNameParamRule());
     }
 
     /**
