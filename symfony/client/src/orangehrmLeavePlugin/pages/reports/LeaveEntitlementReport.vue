@@ -174,19 +174,27 @@ export default {
     });
 
     const serializedFilters = computed(() => {
-      return {
-        empNumber: filters.value.employee?.id,
-        fromDate: filters.value.leavePeriod?.startDate,
-        toDate: filters.value.leavePeriod?.endDate,
-        subunitId: filters.value.subunit?.id,
-        leaveTypeId: filters.value.leaveType?.id,
-        locationId: filters.value.location?.id,
-        jobTitleId: filters.value.jobTitle?.id,
-        includeEmployees: filters.value.includePastEmps
-          ? 'currentAndPast'
-          : 'onlyCurrent',
-        name: 'leave_entitlements_and_usage',
-      };
+      if (filters.value.type === 'leaveType') {
+        return {
+          name: 'leave_type_leave_entitlements_and_usage',
+          fromDate: filters.value.leavePeriod?.startDate,
+          toDate: filters.value.leavePeriod?.endDate,
+          subunitId: filters.value.subunit?.id,
+          leaveTypeId: filters.value.leaveType?.id,
+          locationId: filters.value.location?.id,
+          jobTitleId: filters.value.jobTitle?.id,
+          includeEmployees: filters.value.includePastEmps
+            ? 'currentAndPast'
+            : 'onlyCurrent',
+        };
+      } else {
+        return {
+          name: 'employee_leave_entitlements_and_usage',
+          empNumber: filters.value.employee?.id,
+          fromDate: filters.value.leavePeriod?.startDate,
+          toDate: filters.value.leavePeriod?.endDate,
+        };
+      }
     });
 
     return {

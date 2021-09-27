@@ -85,7 +85,7 @@ export default {
       return {
         fromDate: filters.value.leavePeriod?.startDate,
         toDate: filters.value.leavePeriod?.endDate,
-        name: 'leave_entitlements_and_usage',
+        name: 'employee_leave_entitlements_and_usage',
       };
     });
 
