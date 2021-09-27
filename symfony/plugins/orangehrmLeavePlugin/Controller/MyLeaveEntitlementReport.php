@@ -21,24 +21,24 @@ namespace OrangeHRM\Leave\Controller;
 
 use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Vue\Component;
-use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Core\Vue\Prop;
+use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Leave\Traits\Service\LeavePeriodServiceTrait;
 
 class MyLeaveEntitlementReport extends AbstractVueController
 {
+    use LeavePeriodServiceTrait;
+
     /**
      * @inheritDoc
      */
     public function preRender(Request $request): void
     {
         $component = new Component('my-leave-entitlement-report');
-
-        // TODO: Get current leave period
+        $leavePeriod = $this->getLeavePeriodService()->getCurrentLeavePeriodAsArray();
         $leavePeriod = [
-            "id" => "2021-01-01_2021-12-31",
-            "label" => "2021-01-01 - 2021-12-31",
-            "startDate" => "2021-01-01",
-            "endDate" => "2021-12-31"
+            "id" => $leavePeriod['startDate'] . "_" . $leavePeriod['endDate'],
+            "label" => $leavePeriod['startDate'] . " - " . $leavePeriod['endDate'],
         ];
 
         $component->addProp(new Prop('leave-period', Prop::TYPE_OBJECT, $leavePeriod));
