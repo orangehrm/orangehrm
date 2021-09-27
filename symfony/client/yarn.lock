@@ -1429,17 +1429,35 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@orangehrm/oxd@https://github.com/orangehrm/oxd.git#workspace=oxd-components&head=develop&commit=3adb6efd993245d0b63fc7112e2456197a3c7688":
+"@orangehrm/oxd@https://github.com/orangehrm/oxd.git#workspace=oxd-components&head=develop&commit=48854609aecdf33dfb49f6b80354242fdcef0075":
   version: 1.0.0
-  resolution: "@orangehrm/oxd@https://github.com/orangehrm/oxd.git#workspace=oxd-components&commit=3adb6efd993245d0b63fc7112e2456197a3c7688"
+  resolution: "@orangehrm/oxd@https://github.com/orangehrm/oxd.git#workspace=oxd-components&commit=48854609aecdf33dfb49f6b80354242fdcef0075"
   dependencies:
+    "@revolist/vue3-datagrid": ^3.0.96
     bootstrap-icons: ^1.3.0
     core-js: ^3.6.5
     date-fns: ^2.22.1
     mitt: ^2.1.0
     nanoid: ^3.1.21
     vue: ^3.2.2
-  checksum: 257c92c36f4f64930f537717e1be97b5b294e72d95adb4182a06cb749bb4140170f9f4ff2070044aa9de54a9421fa2fa041234e0b2922df3e1300486cfa96d13
+  checksum: d61ffe1bf529aca0271082f0d73eea0e5b092885064833677ca172477cbe3f4797a5518870610f734f7ec7a78be7ac32fce472b5eb43b5f008c7873405c383b0
+  languageName: node
+  linkType: hard
+
+"@revolist/revogrid@npm:^3.0.96":
+  version: 3.0.97
+  resolution: "@revolist/revogrid@npm:3.0.97"
+  checksum: 10a19d3a4436b5ed407f31c1924c649a225b69e97df2e2ceca2dd81047c18207fd735e62353097861b6257265732ab2e9a947587bd38d92ae8b62842e93b6337
+  languageName: node
+  linkType: hard
+
+"@revolist/vue3-datagrid@npm:^3.0.96":
+  version: 3.0.96
+  resolution: "@revolist/vue3-datagrid@npm:3.0.96"
+  dependencies:
+    "@revolist/revogrid": ^3.0.96
+    "@stencil/core": ^2.6.0
+  checksum: 1b4542d92f66c3a66de1c77d508c962b5c8b6e4531e313e77efe0f6fb7d32997ffc966fc9bd7ff306efa33245446c0de3ffaa17c6ea80101b1d4712efba0113e
   languageName: node
   linkType: hard
 
@@ -1461,6 +1479,15 @@ __metadata:
   version: 1.0.2
   resolution: "@soda/get-current-script@npm:1.0.2"
   checksum: a3222888bf9a71131c01d355b9afb2a53a4c06132a0ad6096cb903ad48c6b788de09902a8348ad1a0cf74467494253ea1bd96a474fe2ea316bc33ea27a842a40
+  languageName: node
+  linkType: hard
+
+"@stencil/core@npm:^2.6.0":
+  version: 2.8.1
+  resolution: "@stencil/core@npm:2.8.1"
+  bin:
+    stencil: bin/stencil
+  checksum: 1dd0e975738ec254d91bef85b2c699049f16e133b6fdec429db95d0c6bca6e4cd7da5b6097c1dbb435784170fb3f23ec3bf0b4682870f54150d7b672a51ba435
   languageName: node
   linkType: hard
 
@@ -9976,7 +10003,7 @@ fsevents@~2.3.1:
   version: 0.0.0-use.local
   resolution: "orangehrm@workspace:."
   dependencies:
-    "@orangehrm/oxd": "https://github.com/orangehrm/oxd.git#workspace=oxd-components&head=develop&commit=3adb6efd993245d0b63fc7112e2456197a3c7688"
+    "@orangehrm/oxd": "https://github.com/orangehrm/oxd.git#workspace=oxd-components&head=develop&commit=48854609aecdf33dfb49f6b80354242fdcef0075"
     "@types/jest": ^24.0.19
     "@typescript-eslint/eslint-plugin": ^2.33.0
     "@typescript-eslint/parser": ^2.33.0
