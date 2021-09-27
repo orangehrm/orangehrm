@@ -153,7 +153,7 @@ export default {
     leaveBalance() {
       return this.data[0]?.balance
         ? `${parseFloat(this.data[0].balance.balance).toFixed(2)} Day(s)`
-        : '0.00';
+        : '0.00 Day(s)';
     },
   },
 };
