@@ -309,7 +309,7 @@ export default {
         .catch(() => {
           this.showLeaveConflict &&
             this.$toast.warn({
-              title: 'Warn',
+              title: 'Warning',
               message: 'Failed to Submit',
             });
         })
