@@ -27,8 +27,9 @@
       :options="options"
       :modelValue="duration"
       :rules="rules.duration"
+      :show-empty-selector="partial"
+      :required="partial"
       @update:modelValue="$emit('update:duration', $event)"
-      required
     />
   </oxd-grid-item>
   <template v-if="duration && duration.id === 4">

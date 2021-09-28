@@ -510,6 +510,11 @@
           "source": "No Leave Types with Leave Balance",
           "target": "No Leave Types with Leave Balance",
           "description": "For all the leave types, a particular employee doesn't have any leave remaining. e.g.casual, annual"
+        },
+        "no_leave_types_defined": {
+          "source": "No leave types defined",
+          "target": "No leave types defined",
+          "description": ""
         }
       }
     }

@@ -97,6 +97,7 @@
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <leave-type-dropdown
+                :empty-text="$t('leave.no_leave_types_defined')"
                 v-model="leaveEntitlement.leaveType"
                 :rules="rules.leaveType"
                 :eligible-only="false"

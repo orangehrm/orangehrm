@@ -370,11 +370,14 @@ export default {
 
   watch: {
     appliedLeaveDuration: function(duration) {
-      if (duration === 1)
+      if (duration === 1) {
         this.leave.duration.type = {id: 1, label: 'Full Day', key: 'full_day'};
+      } else {
+        this.leave.duration.type = null;
+      }
     },
     'leave.fromDate': function(fromDate) {
-      if (!fromDate) return;
+      if (!fromDate || this.leave.toDate) return;
       this.leave.toDate = fromDate;
     },
   },
