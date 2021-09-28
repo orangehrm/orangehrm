@@ -444,6 +444,13 @@ apiv2_pim_employees_work_shift:
   requirements:
     empNumber: '\d+'
 
+apiv2_pim_employees_import:
+  path: /api/v2/pim/csvImport
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ POST ]
+  defaults:
+    _api: OrangeHRM\Pim\Api\EmployeeCSVImportAPI
+
 ##########################
 #        Files
 ##########################

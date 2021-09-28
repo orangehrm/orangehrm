@@ -3716,7 +3716,8 @@ VALUES ('apiv2_pim_custom_field', 'API-v2 PIM - Custom Fields', 1, 1, 1, 1),
        ('apiv2_pim_employee_memberships', 'API-v2 PIM - Employee Memberships', 1, 1, 1, 1),
        ('apiv2_pim_tax_exemptions', 'API-v2 PIM - Tax Exemptions', 1, 0, 1, 0),
        ('apiv2_pim_employee_work_shift', 'API-v2 PIM - Employee Work Shift', 1, 0, 0, 0),
-       ('apiv2_pim_employee_count', 'API-v2 PIM - Employee Count', 1, 0, 0, 0);
+       ('apiv2_pim_employee_count', 'API-v2 PIM - Employee Count', 1, 0, 0, 0),
+       ('apiv2_pim_employee_csv_import', 'API-v2 PIM - Employee CSV Import', 1, 1, 0, 0);
 
 SET @pim_module_id := (SELECT `id` FROM ohrm_module WHERE name = 'pim' LIMIT 1);
 SET @apiv2_pim_custom_field_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_pim_custom_field' LIMIT 1);
@@ -3752,6 +3753,7 @@ SET @apiv2_pim_employee_memberships_data_group_id := (SELECT `id` FROM ohrm_data
 SET @apiv2_pim_tax_exemptions_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_pim_tax_exemptions' LIMIT 1);
 SET @apiv2_pim_employee_work_shift_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_pim_employee_work_shift' LIMIT 1);
 SET @apiv2_pim_employee_count_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_pim_employee_count' LIMIT 1);
+SET @apiv2_pim_employee_csv_import_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_pim_employee_csv_import' LIMIT 1);
 
 INSERT INTO ohrm_api_permission (`api_name`, `module_id`, `data_group_id`)
 VALUES ('OrangeHRM\\Pim\\Api\\CustomFieldAPI', @pim_module_id, @apiv2_pim_custom_field_data_group_id),
@@ -3785,7 +3787,8 @@ VALUES ('OrangeHRM\\Pim\\Api\\CustomFieldAPI', @pim_module_id, @apiv2_pim_custom
        ('OrangeHRM\\Pim\\Api\\EmployeeMembershipAPI', @pim_module_id, @apiv2_pim_employee_memberships_data_group_id),
        ('OrangeHRM\\Pim\\Api\\EmpUsTaxExemptionAPI', @pim_module_id, @apiv2_pim_tax_exemptions_data_group_id),
        ('OrangeHRM\\Pim\\Api\\EmployeeWorkShiftAPI', @pim_module_id, @apiv2_pim_employee_work_shift_data_group_id),
-       ('OrangeHRM\\Pim\\Api\\EmployeeCountAPI', @pim_module_id, @apiv2_pim_employee_count_data_group_id);
+       ('OrangeHRM\\Pim\\Api\\EmployeeCountAPI', @pim_module_id, @apiv2_pim_employee_count_data_group_id),
+       ('OrangeHRM\\Pim\\Api\\EmployeeCSVImportAPI', @pim_module_id, @apiv2_pim_employee_csv_import_data_group_id);
 
 INSERT INTO ohrm_user_role_data_group (`can_read`, `can_create`, `can_update`, `can_delete`, `self`, `data_group_id`, `user_role_id`)
 VALUES (1, 1, 1, 1, 0, @apiv2_pim_custom_field_data_group_id, @admin_role_id),
