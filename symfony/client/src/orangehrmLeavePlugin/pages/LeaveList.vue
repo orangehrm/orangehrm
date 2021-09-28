@@ -20,7 +20,7 @@
 
 <template>
   <leave-list-table>
-    <template v-slot:default="{filters, filterItems}">
+    <template v-slot:default="{filters, filterItems, rules}">
       <oxd-table-filter :filter-title="$t('leave.leave_list')">
         <oxd-form @submitValid="filterItems">
           <oxd-form-row>
@@ -29,21 +29,25 @@
                 <date-input
                   :label="$t('general.from_date')"
                   v-model="filters.fromDate"
+                  :rules="rules.fromDate"
                 />
               </oxd-grid-item>
               <oxd-grid-item>
                 <date-input
                   :label="$t('general.to_date')"
                   v-model="filters.toDate"
+                  :rules="rules.toDate"
                 />
               </oxd-grid-item>
               <oxd-grid-item class="--span-column-2">
                 <oxd-input-field
+                  value="Select"
                   type="multiselect"
                   :label="$t('leave.show_leave_with_status')"
                   v-model="filters.statuses"
-                  value="Select"
                   :options="leaveStatuses"
+                  :rules="rules.statuses"
+                  required
                 />
               </oxd-grid-item>
             </oxd-grid>
@@ -81,6 +85,7 @@
           <oxd-divider />
 
           <oxd-form-actions>
+            <required-text />
             <oxd-button
               class="orangehrm-left-space"
               displayType="secondary"
