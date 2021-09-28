@@ -129,6 +129,10 @@ export default {
       type: String,
       required: true,
     },
+    myLeaveRequest: {
+      type: Boolean,
+      default: false,
+    },
   },
 
   data() {
@@ -192,7 +196,7 @@ export default {
   methods: {
     cellRenderer(...[, , , row]) {
       const cellConfig = {};
-      const {approve, reject, more} = this.leaveActions;
+      const {approve, reject, cancel, more} = this.leaveActions;
       const dropdownActions = [{label: 'Add Comment', context: 'add_comment'}];
 
       row.actions.map(item => {
@@ -205,10 +209,15 @@ export default {
           cellConfig.reject = reject;
         }
         if (item.action === 'CANCEL') {
-          dropdownActions.push({
-            label: 'Cancel Leave',
-            context: 'cancel_leave',
-          });
+          if (this.myLeaveRequest) {
+            cancel.props.onClick = () => this.onLeaveAction(row.id, 'CANCEL');
+            cellConfig.cancel = cancel;
+          } else {
+            dropdownActions.push({
+              label: 'Cancel Leave',
+              context: 'cancel_leave',
+            });
+          }
         }
       });
 
@@ -252,7 +261,9 @@ export default {
         .finally(this.resetDataTable);
     },
     onClickBack() {
-      navigate('/leave/viewLeaveList');
+      this.myLeaveRequest
+        ? navigate('/leave/viewMyLeaveList')
+        : navigate('/leave/viewLeaveList');
     },
     async resetDataTable() {
       await this.execQuery();

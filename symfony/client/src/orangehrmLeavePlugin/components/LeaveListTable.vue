@@ -342,7 +342,11 @@ export default {
           });
           break;
         default:
-          navigate('/leave/viewLeaveRequest/{id}', {id: item.id});
+          navigate(
+            '/leave/viewLeaveRequest/{id}',
+            {id: item.id},
+            this.myLeaveList && {mode: 'my-leave'},
+          );
       }
     },
     onLeaveAction(id, actionType) {
