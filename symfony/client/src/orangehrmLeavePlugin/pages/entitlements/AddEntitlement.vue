@@ -57,6 +57,9 @@
             <oxd-grid-item>
               <employee-autocomplete
                 v-model="leaveEntitlement.employee"
+                :params="{
+                  includeEmployees: 'currentAndPast',
+                }"
                 :rules="rules.employee"
                 required
               />
