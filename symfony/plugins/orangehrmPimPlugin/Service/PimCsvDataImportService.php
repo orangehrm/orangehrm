@@ -1,6 +1,4 @@
 <?php
-
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -17,29 +15,41 @@
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
+ *
  */
-require_once sfConfig::get('sf_test_dir') . '/util/TestDataService.php';
 
-/**
- * @group Admin
- */
-class PimCsvDataImportServiceTest extends PHPUnit_Framework_TestCase {
+namespace OrangeHRM\Pim\Service;
 
-	private $pimDataImportService;
+use Exception;
+use OrangeHRM\Core\Service\CsvDataImportService;
 
+class PimCsvDataImportService
+{
 	/**
-	 * Set up method
+	 * @var CsvDataImportService|null
 	 */
-	protected function setUp() {
-		$this->pimDataImportService = new PimCsvDataImportService();
-	}
-	
-	public function testGetCsvDataImportService(){
-		
-		$result = $this->pimDataImportService->getCsvDataImportService();
-		$this->assertTrue($result instanceof CsvDataImportService);
-	}
-	
-}
+	private ?CsvDataImportService $csvDataImportService = null;
 
-?>
+	public function getCsvDataImportService(): CsvDataImportService {
+		if (is_null($this->csvDataImportService)) {
+			$this->csvDataImportService = new CsvDataImportService();
+		}
+		return $this->csvDataImportService;
+	}
+
+    /**
+     * @param CsvDataImportService $csvDataImportService
+     */
+    public function setCsvDataImportService(CsvDataImportService $csvDataImportService): void
+    {
+        $this->csvDataImportService = $csvDataImportService;
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function import($fileContent): int {
+		$importType = 'pim';
+		return $this->getCsvDataImportService()->import($fileContent, $importType);
+	}
+}

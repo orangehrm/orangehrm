@@ -1,5 +1,4 @@
 <?php
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -18,9 +17,33 @@
  * Boston, MA  02110-1301, USA
  *
  */
-abstract class CsvDataImport {
-	
-	abstract public function import($data);
-}
 
-?>
+namespace OrangeHRM\Core\Service;
+
+use Exception;
+use OrangeHRM\Core\Import\CsvDataImportFactory;
+
+class CsvDataImportService
+{
+
+    /**
+     * @throws Exception
+     */
+    public function import($fileContent, $importType): int {
+
+		$factory = new CsvDataImportFactory();
+		$instance = $factory->getImportClassInstance($importType);
+		$rowsImported = 0;
+        $lines = explode("\n", $fileContent);
+        $employeesDataArray = array_map('str_getcsv', $lines);
+
+        for ($i = 1; $i < sizeof($employeesDataArray)-1; $i++){
+            $result = $instance->import($employeesDataArray[$i]);
+            if($result) {
+                $rowsImported++;
+            }
+        }
+		return $rowsImported;
+	}
+
+}

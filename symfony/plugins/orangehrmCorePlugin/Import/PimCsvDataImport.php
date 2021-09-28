@@ -1,5 +1,4 @@
 <?php
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -18,14 +17,63 @@
  * Boston, MA  02110-1301, USA
  *
  */
+
+namespace OrangeHRM\Core\Import;
+
+use DateTime;
+use Exception;
+use OrangeHRM\Admin\Dto\NationalitySearchFilterParams;
+use OrangeHRM\Admin\Service\CountryService;
+use OrangeHRM\Admin\Service\NationalityService;
+use OrangeHRM\Entity\Employee;
+use OrangeHRM\Pim\Dao\EmployeeDao;
+use OrangeHRM\Pim\Service\EmployeeService;
+
 class PimCsvDataImport extends CsvDataImport {
 
-	private $employeeService;
-	private $nationalityService;
-	private $countryService;
+    /**
+     * @var null|NationalityService
+     */
+    protected ?NationalityService $nationalityService = null;
 
-	public function import($data) {
+    /**
+     * @param NationalityService $nationalityService
+     */
+    public function setNationalityService(NationalityService $nationalityService): void
+    {
+        $this->nationalityService = $nationalityService;
+    }
 
+    /**
+     * @var null|CountryService
+     */
+    protected ?CountryService $countryService = null;
+
+    /**
+     * @param CountryService $countryService
+     */
+    public function setCountryService(CountryService $countryService): void
+    {
+        $this->countryService = $countryService;
+    }
+
+    /**
+     * @var null|EmployeeService
+     */
+    protected ?EmployeeService $employeeService = null;
+
+    /**
+     * @param EmployeeService $employeeService
+     */
+    public function setEmployeeService(EmployeeService $employeeService): void
+    {
+        $this->employeeService = $employeeService;
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function import($data): bool {
 		if ($data[0] == "" || $data[2] == "" || strlen($data[0]) > 30 || strlen($data[2]) > 30) {
 			return false;
 		}
@@ -43,24 +91,24 @@ class PimCsvDataImport extends CsvDataImport {
 			$employee->setOtherId($data[4]);
 		}
 		if (strlen($data[5]) <= 30) {
-			$employee->setLicenseNo($data[5]);
+			$employee->setDrivingLicenseNo($data[5]);
 		}
 		if ($this->isValidDate($data[6])) {
-			$employee->setEmpDriLiceExpDate($data[6]);
+			$employee->setDrivingLicenseExpiredDate(new DateTime($data[6]));
 		}
 
 		if (strtolower($data[7]) == 'male') {
-			$employee->setEmpGender('1');
+			$employee->setGender('1');
 		} else if (strtolower($data[7]) == 'female') {
-			$employee->setEmpGender('2');
+			$employee->setGender('2');
 		}
 
 		if (strtolower($data[8]) == 'single') {
-			$employee->setEmpMaritalStatus('Single');
+			$employee->setMaritalStatus('Single');
 		} else if (strtolower($data[8]) == 'married') {
-			$employee->setEmpMaritalStatus('Married');
+			$employee->setMaritalStatus('Married');
 		} else if (strtolower($data[8]) == 'other') {
-			$employee->setEmpMaritalStatus('Other');
+			$employee->setMaritalStatus('Other');
 		}
 
 		$nationality = $this->isValidNationality($data[9]);
@@ -68,7 +116,7 @@ class PimCsvDataImport extends CsvDataImport {
 			$employee->setNationality($nationality);
 		}
 		if ($this->isValidDate($data[10])) {
-			$employee->setEmpBirthday($data[10]);
+			$employee->setBirthday(new DateTime($data[10]));
 		}
 		if (strlen($data[11]) <= 70) {
 			$employee->setStreet1($data[11]);
@@ -79,15 +127,15 @@ class PimCsvDataImport extends CsvDataImport {
 		if (strlen($data[13]) <= 70) {
 			$employee->setCity($data[13]);
 		}
-		
+
 		if (strlen($data[15]) <= 10) {
-			$employee->setEmpZipcode($data[15]);
+			$employee->setZipcode($data[15]);
 		}
 
 		$code = $this->isValidCountry($data[16]);
-		if (!empty($code)) {
-			$employee->setCountry($code);
-			if (strtolower($data[16]) == 'united states') {				
+        if (!empty($code)) {
+            $employee->setCountry($code);
+			if (strtolower($data[16]) == 'united states') {
 				$code = $this->isValidProvince($data[14]);
 				if(!empty($code)){
 					$employee->setProvince($code);
@@ -97,23 +145,22 @@ class PimCsvDataImport extends CsvDataImport {
 			}
 		}
 		if (strlen($data[17]) <= 25 && $this->isValidPhoneNumber($data[17])) {
-			$employee->setEmpHmTelephone($data[17]);
+			$employee->setHomeTelephone($data[17]);
 		}
 		if (strlen($data[18]) <= 25 && $this->isValidPhoneNumber($data[18])) {
-			$employee->setEmpMobile($data[18]);
+			$employee->setMobile($data[18]);
 		}
 		if (strlen($data[19]) <= 25 && $this->isValidPhoneNumber($data[19])) {
-			$employee->setEmpWorkTelephone($data[19]);
+			$employee->setWorkTelephone($data[19]);
 		}
 		if ($this->isValidEmail($data[20]) && strlen($data[20]) <= 50 && $this->isUniqueEmail($data[20])) {
-			$employee->setEmpWorkEmail($data[20]);
+			$employee->setWorkEmail($data[20]);
 		}
 		if ($this->isValidEmail($data[21]) && strlen($data[21]) <= 50 && $this->isUniqueEmail($data[21])) {
-			$employee->setEmpOthEmail($data[21]);
+			$employee->setOtherEmail($data[21]);
 		}
 
-		$empService = new EmployeeService();
-		$empService->saveEmployee($employee);
+        $this->getEmployeeService()->saveEmployee($employee);
 		return true;
 	}
 
@@ -121,20 +168,19 @@ class PimCsvDataImport extends CsvDataImport {
 		return preg_match("/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$/i", $email);
 	}
 
-	private function isUniqueEmail($email) {
-
-		$emailList = $this->getEmployeeService()->getEmailList();
-		$isUnique = true;
+	private function isUniqueEmail($email): bool {
+        $emailList = $this->getEmployeeService()->getEmailList();
+        $isUnique = true;
 		foreach ($emailList as $empEmail) {
 
-			if ($empEmail['emp_work_email'] == $email || $empEmail['emp_oth_email'] == $email) {
+			if ($empEmail['workEmail'] == $email || $empEmail['otherEmail'] == $email) {
 				$isUnique = false;
 			}
 		}
 		return $isUnique;
 	}
 
-	private function isValidDate($date) {
+	private function isValidDate($date): bool {
 		if (preg_match('/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/', $date)) {
 			list($year, $month, $day) = explode('-', $date);
 			return checkdate($month, $day, $year);
@@ -144,8 +190,8 @@ class PimCsvDataImport extends CsvDataImport {
 	}
 
 	private function isValidNationality($name) {
-
-		$nationalities = $this->getNationalityService()->getNationalityList();
+        $nationalityParamHolder = new NationalitySearchFilterParams();
+		$nationalities = $this->getNationalityService()->getNationalityList($nationalityParamHolder);
 
 		foreach ($nationalities as $nationality) {
 			if (strtolower($nationality->getName()) == strtolower($name)) {
@@ -157,21 +203,20 @@ class PimCsvDataImport extends CsvDataImport {
 	private function isValidCountry($name) {
 
 		$countries = $this->getCountryService()->getCountryList();
-
 		foreach ($countries as $country) {
-			if (strtolower($country->cou_name) == strtolower($name)) {
-				return $country->cou_code;
+			if (strtolower($country->getCountryName()) == strtolower($name)) {
+				return $country->getCountryCode();
 			}
 		}
 	}
-	
+
 	private function isValidProvince($name) {
 
 		$provinces = $this->getCountryService()->getProvinceList();
-		
+
 		foreach ($provinces as $province) {
-			if (strtolower($province->province_name) == strtolower($name)) {
-				return $province->province_code;
+			if (strtolower($province->getProvinceName()) == strtolower($name)) {
+				return $province->getProvinceCode();
 			}
 		}
 	}
@@ -182,21 +227,22 @@ class PimCsvDataImport extends CsvDataImport {
 		}
 	}
 
-	public function getCountryService() {
-		if (is_null($this->countryService)) {
-			$this->countryService = new CountryService();
-		}
-		return $this->countryService;
+	public function getCountryService(): CountryService {
+        if (!$this->countryService instanceof CountryService) {
+            $this->countryService = new CountryService();
+        }
+        return $this->countryService;
 	}
 
-	public function getNationalityService() {
-		if (is_null($this->nationalityService)) {
-			$this->nationalityService = new NationalityService();
-		}
-		return $this->nationalityService;
-	}
+    public function getNationalityService(): NationalityService
+    {
+        if (!$this->nationalityService instanceof NationalityService) {
+            $this->nationalityService = new NationalityService();
+        }
+        return $this->nationalityService;
+    }
 
-	public function getEmployeeService() {
+	public function getEmployeeService(): EmployeeService {
 		if (is_null($this->employeeService)) {
 			$this->employeeService = new EmployeeService();
 			$this->employeeService->setEmployeeDao(new EmployeeDao());
@@ -205,5 +251,3 @@ class PimCsvDataImport extends CsvDataImport {
 	}
 
 }
-
-?>

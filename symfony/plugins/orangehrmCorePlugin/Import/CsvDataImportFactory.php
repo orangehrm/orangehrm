@@ -18,14 +18,17 @@
  * Boston, MA  02110-1301, USA
  *
  */
+
+namespace OrangeHRM\Core\Import;
+
 class CsvDataImportFactory {
-	
+
 	public function getImportClassInstance($importType){
-		
+
 		if($importType == 'pim'){
 			return new PimCsvDataImport();
 		}
 	}
 }
 
-?>
+
