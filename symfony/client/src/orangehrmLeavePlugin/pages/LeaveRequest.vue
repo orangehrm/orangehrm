@@ -113,6 +113,7 @@ const leaveRequestNormalizer = data => {
       status: item.leaveStatus?.name,
       comment: item.lastComment?.comment,
       actions: item.allowedActions,
+      canComment: !(item.leaveStatus?.id === 5 || item.leaveStatus?.id === 4),
     };
   });
 };
@@ -196,8 +197,15 @@ export default {
   methods: {
     cellRenderer(...[, , , row]) {
       const cellConfig = {};
+      const dropdownActions = [];
       const {approve, reject, cancel, more} = this.leaveActions;
-      const dropdownActions = [{label: 'Add Comment', context: 'add_comment'}];
+
+      if (row.canComment) {
+        dropdownActions.push({
+          label: 'Add Comment',
+          context: 'add_comment',
+        });
+      }
 
       row.actions.map(item => {
         if (item.action === 'APPROVE') {
@@ -221,9 +229,11 @@ export default {
         }
       });
 
-      more.props.options = dropdownActions;
-      more.props.onClick = $event => this.onLeaveDropdownAction($event, row);
-      cellConfig.more = more;
+      if (dropdownActions.length > 0) {
+        more.props.options = dropdownActions;
+        more.props.onClick = $event => this.onLeaveDropdownAction($event, row);
+        cellConfig.more = more;
+      }
 
       return {
         props: {
