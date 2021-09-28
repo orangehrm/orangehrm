@@ -293,4 +293,12 @@ class EmployeeService
         }
         return $this->getNormalizerService()->normalize(EmployeeModel::class, $employee);
     }
+
+    /**
+     * @return array|null
+     */
+    public function getEmailList(): ?array
+    {
+        return $this->getEmployeeDao()->getEmailList();
+    }
 }

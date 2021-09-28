@@ -407,4 +407,13 @@ class EmployeeDao extends BaseDao
 
         return $this->fetchOne($q);
     }
+
+    /**
+     * @return array|null
+     */
+    public function getEmailList(): ?array {
+        $q = $this->createQueryBuilder(Employee::class, 'e');
+        $q->select('e.workEmail, e.otherEmail');
+        return  $q->getQuery()->getArrayResult();
+    }
 }

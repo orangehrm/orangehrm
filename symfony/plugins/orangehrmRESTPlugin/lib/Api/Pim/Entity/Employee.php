@@ -53,6 +53,8 @@ class Employee implements Serializable
 
     private $workEmail;
 
+    private $otherEmail;
+
     private $joinedDate;
 
     private $employeeStatus;
@@ -346,6 +348,23 @@ class Employee implements Serializable
         $this->workEmail = $workEmail;
     }
 
+
+    /**
+     * @return mixed
+     */
+    public function getOtherEmail()
+    {
+        return $this->otherEmail;
+    }
+
+    /**
+     * @param mixed $otherEmail
+     */
+    public function setOtherEmail($otherEmail)
+    {
+        $this->otherEmail = $otherEmail;
+    }
+
     /**
      * @return mixed
      */
@@ -562,7 +581,9 @@ class Employee implements Serializable
             'nationality' => $this->getNationality(),
             'unit' => $this->getUnit(),
             'jobTitle' => $this->getJobTitle(),
-            'supervisor' => $this->getSupervisors()
+            'supervisor' => $this->getSupervisors(),
+            'workEmail' => $this->getWorkEmail(),
+            'otherEmail' => $this->getOtherEmail(),
 
         );
         if( \OrangeConfig::getInstance()->getAppConfValue(\ConfigService::KEY_PIM_SHOW_SIN)){
