@@ -6,7 +6,7 @@ import {
   TYPE_ERROR,
   TYPE_INFO,
   TYPE_WARN,
-} from '@orangehrm/oxd/src/core/components/Toast/types';
+} from '@ohrm/oxd/core/components/Toast/types';
 import {nanoid} from 'nanoid';
 
 interface Toast {

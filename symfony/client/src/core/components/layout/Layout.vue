@@ -8,7 +8,7 @@
 
 <script>
 import {provide, readonly} from 'vue';
-import Layout from '@orangehrm/oxd/src/core/components/Layout/Layout.vue';
+import Layout from '@orangehrm/oxd/core/components/Layout/Layout.vue';
 
 export default {
   components: {
