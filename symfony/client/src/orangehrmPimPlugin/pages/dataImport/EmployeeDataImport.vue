@@ -24,21 +24,68 @@
       <oxd-text class="orangehrm-main-title">Data Import</oxd-text>
 
       <oxd-divider />
+      <div class="orangehrm-information-card-container">
+        <oxd-text class="orangehrm-sub-title">Note:</oxd-text>
+        <ul>
+          <li>
+            <oxd-text class="orangehrm-information-card-text"
+              >Column order should not be changed</oxd-text
+            >
+          </li>
+          <li>
+            <oxd-text class="orangehrm-information-card-text"
+              >First Name and Last Name are compulsory</oxd-text
+            >
+          </li>
+          <li>
+            <oxd-text class="orangehrm-information-card-text"
+              >All date fields should be in YYYY-MM-DD format</oxd-text
+            >
+          </li>
+          <li>
+            <oxd-text class="orangehrm-information-card-text"
+              >If gender is specified, value should be either Male or
+              Female</oxd-text
+            >
+          </li>
+          <li>
+            <oxd-text class="orangehrm-information-card-text"
+              >Each import file should be configured for 100 records or
+              less</oxd-text
+            >
+          </li>
+          <li>
+            <oxd-text class="orangehrm-information-card-text"
+              >Multiple import files may be required</oxd-text
+            >
+          </li>
+          <li>
+            <oxd-text class="orangehrm-information-card-text"
+              >Sample CSV file:
+              <a class="download-link" href="#">
+                <span @click="onClickDownload" class="download-link"
+                  >Download</span
+                >
+              </a>
+            </oxd-text>
+          </li>
+        </ul>
+      </div>
 
       <oxd-form :loading="isLoading" @submitValid="onSave">
         <oxd-form-row>
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <oxd-input-field
-                  type="file"
-                  label="Select File"
-                  buttonLabel="Browse"
-                  v-model="attachment.attachment"
-                  :rules="rules.attachment"
-                  required
+                type="file"
+                label="Select File"
+                buttonLabel="Browse"
+                v-model="attachment.attachment"
+                :rules="rules.attachment"
+                required
               />
               <oxd-text class="orangehrm-input-hint" tag="p"
-              >Accepts up to 1MB</oxd-text
+                >Accepts up to 1MB</oxd-text
               >
             </oxd-grid-item>
           </oxd-grid>
@@ -52,8 +99,7 @@
             displayType="secondary"
             label="Upload"
             type="submit"
-        />
-
+          />
         </oxd-form-actions>
       </oxd-form>
     </div>
@@ -61,14 +107,13 @@
 </template>
 
 <script>
-import {APIService} from "@/core/util/services/api.service";
+import {APIService} from '@/core/util/services/api.service';
 
-const attachmentModel = {
+let attachmentModel = {
   attachment: null,
 };
 
 export default {
-
   props: {
     allowedFileTypes: {
       type: Array,
@@ -88,47 +133,51 @@ export default {
             return v !== null || 'Required';
           },
           v =>
-              (v && v.size && v.size <= 1024 * 1024) ||
-              'Attachment size exceeded',
+            (v && v.size && v.size <= 1024 * 1024) ||
+            'Attachment size exceeded',
           v =>
-              (v &&
-                  this.allowedFileTypes.findIndex(item => item === v.type) > -1) ||
-              'File type not allowed',
+            (v &&
+              this.allowedFileTypes.findIndex(item => item === v.type) > -1) ||
+            'File type not allowed',
         ],
       },
     };
   },
-
-  components: {},
-
-  setup(props) {
+  setup() {
     const http = new APIService(
-        window.appGlobal.baseUrl,
-        `api/v2/pim/csvImport`,
+      window.appGlobal.baseUrl,
+      `api/v2/pim/csvImport`,
     );
 
     return {
       http,
     };
   },
-
   methods: {
     onSave() {
       this.isLoading = true;
       this.http
-          .create({
-            ...this.attachment,
-          })
-          .then(() => {
-            this.updateModel();
-            return this.$toast.saveSuccess();
-          })
-          .then(() => {
-            this.isLoading = false;
+        .create({
+          ...this.attachment,
+        })
+        .then(response => {
+          const importedRecords = response.data.meta.total;
+          this.updateModel();
+          return this.$toast.success({
+            title: 'Success',
+            message: 'Number of Records Imported: ' + importedRecords,
           });
+        })
+        .then(() => {
+          this.isLoading = false;
+        });
     },
     updateModel() {
-      this.attachmentModel = {attachment: null};
+      attachmentModel = {attachment: null};
+    },
+    onClickDownload() {
+      const downUrl = `${window.appGlobal.baseUrl}/pim/csvImportSample`;
+      window.open(downUrl, '_blank');
     },
   },
 
@@ -139,4 +188,17 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.orangehrm-information-card-container {
+  background-color: $oxd-interface-gray-lighten-2-color;
+  border-radius: 1.2rem;
+  padding: 1.2rem;
+}
+.orangehrm-information-card-text {
+  font-size: $oxd-input-control-font-size;
+  color: $oxd-input-control-font-color;
+  font-weight: $oxd-input-control-font-weight;
+  & .download-link {
+    color: $oxd-primary-one-color;
+  }
+}
 </style>
