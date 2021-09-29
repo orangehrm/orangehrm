@@ -595,3 +595,8 @@ pim_employee_tax_exemption:
   path: /pim/viewUsTaxExemptions/empNumber/{empNumber}
   controller: OrangeHRM\Pim\Controller\EmpUsTaxExemptionController::handle
   methods: [ GET ]
+
+pim_employee_csv_import:
+  path: /pim/pimCsvImport
+  controller: OrangeHRM\Pim\Controller\EmployeeCsvImportController::handle
+  methods: [ GET ]
