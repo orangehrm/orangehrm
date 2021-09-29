@@ -36,12 +36,12 @@ class WorkWeekController extends AbstractVueController
     public function preRender(Request $request): void
     {
         $component = new Component('work-week');
-        $workWeek = [
+        $dayTypes = [
             ["id" => WorkWeek::WORKWEEK_LENGTH_FULL_DAY, "label" => 'Full Day'],
             ["id" => WorkWeek::WORKWEEK_LENGTH_HALF_DAY, "label" => 'Half Day'],
             ["id" => WorkWeek::WORKWEEK_LENGTH_NON_WORKING_DAY, "label" => 'Non-working Day']
         ];
-        $component->addProp(new Prop('work-weeks', Prop::TYPE_ARRAY, $workWeek));
+        $component->addProp(new Prop('day-types', Prop::TYPE_ARRAY, $dayTypes));
         $this->setComponent($component);
     }
 

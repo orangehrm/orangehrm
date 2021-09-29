@@ -113,6 +113,7 @@ const leaveRequestNormalizer = data => {
       status: item.leaveStatus?.name,
       comment: item.lastComment?.comment,
       actions: item.allowedActions,
+      canComment: !(item.leaveStatus?.id === 5 || item.leaveStatus?.id === 4),
     };
   });
 };
@@ -128,6 +129,10 @@ export default {
     leaveRequestId: {
       type: String,
       required: true,
+    },
+    myLeaveRequest: {
+      type: Boolean,
+      default: false,
     },
   },
 
@@ -192,8 +197,15 @@ export default {
   methods: {
     cellRenderer(...[, , , row]) {
       const cellConfig = {};
-      const {approve, reject, more} = this.leaveActions;
-      const dropdownActions = [{label: 'Add Comment', context: 'add_comment'}];
+      const dropdownActions = [];
+      const {approve, reject, cancel, more} = this.leaveActions;
+
+      if (row.canComment) {
+        dropdownActions.push({
+          label: 'Add Comment',
+          context: 'add_comment',
+        });
+      }
 
       row.actions.map(item => {
         if (item.action === 'APPROVE') {
@@ -205,16 +217,23 @@ export default {
           cellConfig.reject = reject;
         }
         if (item.action === 'CANCEL') {
-          dropdownActions.push({
-            label: 'Cancel Leave',
-            context: 'cancel_leave',
-          });
+          if (this.myLeaveRequest) {
+            cancel.props.onClick = () => this.onLeaveAction(row.id, 'CANCEL');
+            cellConfig.cancel = cancel;
+          } else {
+            dropdownActions.push({
+              label: 'Cancel Leave',
+              context: 'cancel_leave',
+            });
+          }
         }
       });
 
-      more.props.options = dropdownActions;
-      more.props.onClick = $event => this.onLeaveDropdownAction($event, row);
-      cellConfig.more = more;
+      if (dropdownActions.length > 0) {
+        more.props.options = dropdownActions;
+        more.props.onClick = $event => this.onLeaveDropdownAction($event, row);
+        cellConfig.more = more;
+      }
 
       return {
         props: {
@@ -252,7 +271,9 @@ export default {
         .finally(this.resetDataTable);
     },
     onClickBack() {
-      navigate('/leave/viewLeaveList');
+      this.myLeaveRequest
+        ? navigate('/leave/viewMyLeaveList')
+        : navigate('/leave/viewLeaveList');
     },
     async resetDataTable() {
       await this.execQuery();

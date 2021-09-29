@@ -28,8 +28,8 @@
     <template v-slot:afterSelected="{data}">
       <template v-if="data.isPastEmployee">(Past Employee)</template>
     </template>
-    <template v-slot:option="{data, text}">
-      <span v-html="text"></span>
+    <template v-slot:option="{data}">
+      <span>{{ data.label }}</span>
       <div v-if="data.isPastEmployee" class="past-employee-tag">
         (Past Employee)
       </div>
