@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\Entity\Decorator;
 
-use DateTime;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\Employee;
@@ -196,5 +195,13 @@ class EmployeeDecorator
         /** @var Subunit|null $subunit */
         $subunit = is_null($id) ? null : $this->getReference(Subunit::class, $id);
         $this->getEmployee()->setSubDivision($subunit);
+    }
+
+    /**
+     * @return string
+     */
+    public function getFirstAndLastNames(): string
+    {
+        return $this->getEmployee()->getFirstName() . ' ' . $this->getEmployee()->getLastName();
     }
 }

@@ -20,21 +20,21 @@
 namespace OrangeHRM\Admin\Controller;
 
 use OrangeHRM\Core\Controller\AbstractVueController;
-use OrangeHRM\Core\Service\ConfigService;
-use OrangeHRM\Core\Traits\ServiceContainerTrait;
+use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
-use OrangeHRM\Framework\Services;
+use OrangeHRM\Framework\Http\Request;
 
 class ViewEmailConfigurationController extends AbstractVueController
 {
-    use ServiceContainerTrait;
+    use ConfigServiceTrait;
 
-    public function init(): void
+    /**
+     * @inheritDoc
+     */
+    public function preRender(Request $request): void
     {
-        /** @var ConfigService $configService */
-        $configService = $this->getContainer()->get(Services::CONFIG_SERVICE);
-        $pathToSendmail = $configService->getSendmailPath();
+        $pathToSendmail = $this->getConfigService()->getSendmailPath();
         $component = new Component('email-configuration-view');
         $component->addProp(new Prop('path-to-sendmail', Prop::TYPE_STRING, $pathToSendmail));
         $this->setComponent($component);

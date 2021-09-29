@@ -35,7 +35,6 @@ use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
-use OrangeHRM\Entity\WorkflowStateMachine;
 use OrangeHRM\Leave\Api\Model\LeaveRequestModel;
 use OrangeHRM\Leave\Api\Traits\LeaveRequestParamHelperTrait;
 use OrangeHRM\Leave\Api\Traits\LeaveRequestPermissionTrait;

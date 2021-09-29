@@ -21,13 +21,14 @@ namespace OrangeHRM\Admin\Controller;
 
 use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Vue\Component;
+use OrangeHRM\Framework\Http\Request;
 
 class PayGradeController extends AbstractVueController
 {
     /**
-     * @throws \OrangeHRM\Core\Controller\Exception\VueControllerException
+     * @inheritDoc
      */
-    public function init(): void
+    public function preRender(Request $request): void
     {
         $component = new Component('pay-grade-list');
         $this->setComponent($component);
