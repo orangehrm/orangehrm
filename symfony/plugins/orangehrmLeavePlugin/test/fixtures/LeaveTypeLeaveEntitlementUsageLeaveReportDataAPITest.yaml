@@ -53,16 +53,49 @@ TerminationReason:
   - { "id": "9","name": "Laid-off" }
   - { "id": "10","name": "Dismissed" }
 
+JobTitle:
+  - { id: 1, jobTitleName: 'Software Architect', isDeleted: 0 }
+  - { id: 2, jobTitleName: 'Software Engineer', isDeleted: 0 }
+  - { id: 3, jobTitleName: 'Quality Assurance', isDeleted: 0 }
+  - { id: 4, jobTitleName: 'Sales Person', isDeleted: 1 }
+
+# 1=Organization
+#    2=Engineering
+#       5=Support
+#    3=QA
+#    4=Agriculture
+Subunit:
+  - { id: 1, name: 'Organization', unitId: 'company', lft: 1, rgt: 10, level: 0 }
+  - { id: 2, name: 'Engineering', unitId: 'eng', lft: 2, rgt: 5, level: 1 }
+  - { id: 3, name: 'QA', unitId: 'qa', lft: 6, rgt: 7, level: 1 }
+  - { id: 4, name: 'Agriculture', unitId: 'ag', lft: 8, rgt: 9, level: 1 }
+  - { id: 5, name: 'Support', unitId: 'sup', lft: 3, rgt: 4, level: 2 }
+
 EmployeeTerminationRecord:
   - { "id": "1", "reason_id": "6","termination_date": "2021-09-15","note": "" }
 
 Employee:
-  - { "emp_number": 1,"employee_id": "0001","emp_lastname": "Adalwin","emp_firstname": "Odis","emp_middle_name": "" }
-  - { "emp_number": 2,"employee_id": "0002","emp_lastname": "Anderson","emp_firstname": "Linda","emp_middle_name": "Jane" }
-  - { "emp_number": 3,"employee_id": "0003","emp_lastname": "Duval","emp_firstname": "Alice","emp_middle_name": "" }
-  - { "emp_number": 4,"employee_id": "0004","emp_lastname": "Abbey","emp_firstname": "Kayla","emp_middle_name": "" }
-  - { "emp_number": 5,"employee_id": "0005","emp_lastname": "Abel","emp_firstname": "Ashley","emp_middle_name": "", "termination_id": "1" }
+  - { "emp_number": 1,"employee_id": "0001","emp_lastname": "Adalwin","emp_firstname": "Odis","emp_middle_name": "", job_title_code: 4 }
+  - { "emp_number": 2,"employee_id": "0002","emp_lastname": "Anderson","emp_firstname": "Linda","emp_middle_name": "Jane", job_title_code: 1 }
+  - { "emp_number": 3,"employee_id": "0003","emp_lastname": "Duval","emp_firstname": "Alice","emp_middle_name": "", work_station: 2 }
+  - { "emp_number": 4,"employee_id": "0004","emp_lastname": "Abbey","emp_firstname": "Kayla","emp_middle_name": "", work_station: 5 }
+  - { "emp_number": 5,"employee_id": "0005","emp_lastname": "Abel","emp_firstname": "Ashley","emp_middle_name": "", "termination_id": "1", work_station: 3 }
   - { "emp_number": 6,"employee_id": "0006","emp_lastname": "Morgan","emp_firstname": "Jasmine","emp_middle_name": "" }
+
+Country:
+  - { cou_code: 'LK', name: 'SRI LANKA', cou_name: 'Sri Lanka', iso3: 'LKA', numcode: 144 }
+  - { cou_code: 'US', name: 'UNITED STATES', cou_name: 'United States', iso3: 'USA', numcode: 840 }
+
+Location:
+  - { id: 1, name: 'Head', country_code: 'US' }
+  - { id: 2, name: 'Development', country_code: 'US' }
+  - { id: 3, name: 'Support', country_code: 'LK' }
+
+EmpLocations:
+  - { emp_number: 2, location_id: 2 }
+  - { emp_number: 3, location_id: 2 }
+  - { emp_number: 4, location_id: 2 }
+  - { emp_number: 5, location_id: 3 }
 
 ReportingMethod:
   - { "reporting_method_id": "1","reporting_method_name": "Direct" }

@@ -55,6 +55,7 @@
                 <leave-type-dropdown
                   v-model="filters.leaveType"
                   :rules="rules.leaveType"
+                  :eligible-only="false"
                   required
                 />
               </oxd-grid-item>

@@ -23,21 +23,25 @@ use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Report\ReportData;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
-use OrangeHRM\Leave\Dto\EmployeeLeaveEntitlementUsageReportSearchFilterParams;
+use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
+use OrangeHRM\Entity\LeaveType;
+use OrangeHRM\Leave\Api\Model\LeaveTypeModel;
+use OrangeHRM\Leave\Dto\LeaveTypeLeaveEntitlementUsageReportSearchFilterParams;
 use OrangeHRM\Leave\Traits\Service\LeaveEntitlementServiceTrait;
+use OrangeHRM\Leave\Traits\Service\LeaveTypeServiceTrait;
 use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
 
-class EmployeeLeaveEntitlementUsageReportData implements ReportData
+class LeaveTypeLeaveEntitlementUsageReportData implements ReportData
 {
     use LeaveEntitlementServiceTrait;
+    use LeaveTypeServiceTrait;
     use EmployeeServiceTrait;
     use DateTimeHelperTrait;
+    use NormalizerServiceTrait;
 
-    public const META_PARAMETER_EMPLOYEE = 'employee';
+    private LeaveTypeLeaveEntitlementUsageReportSearchFilterParams $filterParams;
 
-    private EmployeeLeaveEntitlementUsageReportSearchFilterParams $filterParams;
-
-    public function __construct(EmployeeLeaveEntitlementUsageReportSearchFilterParams $filterParams)
+    public function __construct(LeaveTypeLeaveEntitlementUsageReportSearchFilterParams $filterParams)
     {
         $this->filterParams = $filterParams;
     }
@@ -47,51 +51,58 @@ class EmployeeLeaveEntitlementUsageReportData implements ReportData
      */
     public function normalize(): array
     {
-        $leaveTypes = $this->getLeaveEntitlementService()
+        $employees = $this->getLeaveEntitlementService()
             ->getLeaveEntitlementDao()
-            ->getLeaveTypesForEntitlementUsageReport($this->filterParams);
+            ->getEmployeesForEntitlementUsageReport($this->filterParams);
 
-        $empNumber = $this->filterParams->getEmpNumber();
         $fromDateYmd = $this->getDateTimeHelper()->formatDateTimeToYmd($this->filterParams->getFromDate());
         $toDateYmd = $this->getDateTimeHelper()->formatDateTimeToYmd($this->filterParams->getToDate());
         $result = [];
-        foreach ($leaveTypes as $leaveType) {
+
+        $leaveTypeId = $this->filterParams->getLeaveTypeId();
+        foreach ($employees as $employee) {
+            $empNumber = $employee->getEmpNumber();
             $balance = $this->getLeaveEntitlementService()
                 ->getLeaveBalance(
-                    $empNumber,
-                    $leaveType->getId(),
+                    $employee->getEmpNumber(),
+                    $leaveTypeId,
                     $this->filterParams->getFromDate(),
                     $this->filterParams->getToDate()
                 );
             $result[] = [
-                EmployeeLeaveEntitlementUsageReport::PARAMETER_LEAVE_TYPE_NAME => $leaveType->getName(),
-                EmployeeLeaveEntitlementUsageReport::PARAMETER_ENTITLEMENT_DAYS => $balance->getEntitled(),
-                EmployeeLeaveEntitlementUsageReport::PARAMETER_PENDING_APPROVAL_DAYS => $balance->getPending(),
-                EmployeeLeaveEntitlementUsageReport::PARAMETER_SCHEDULED_DAYS => $balance->getScheduled(),
-                EmployeeLeaveEntitlementUsageReport::PARAMETER_TAKEN_DAYS => $balance->getTaken(),
-                EmployeeLeaveEntitlementUsageReport::PARAMETER_BALANCE_DAYS => $balance->getBalance(),
-                'leaveTypeDeleted' => $leaveType->isDeleted(),
+                LeaveTypeLeaveEntitlementUsageReport::PARAMETER_EMPLOYEE_NAME => $employee->getDecorator()
+                    ->getFirstAndLastNames(),
+                LeaveTypeLeaveEntitlementUsageReport::PARAMETER_ENTITLEMENT_DAYS => $balance->getEntitled(),
+                LeaveTypeLeaveEntitlementUsageReport::PARAMETER_PENDING_APPROVAL_DAYS => $balance->getPending(),
+                LeaveTypeLeaveEntitlementUsageReport::PARAMETER_SCHEDULED_DAYS => $balance->getScheduled(),
+                LeaveTypeLeaveEntitlementUsageReport::PARAMETER_TAKEN_DAYS => $balance->getTaken(),
+                LeaveTypeLeaveEntitlementUsageReport::PARAMETER_BALANCE_DAYS => $balance->getBalance(),
+                'terminationId' => $employee->getEmployeeTerminationRecord() ?
+                    $employee->getEmployeeTerminationRecord()->getId() : null,
                 '_url' => [
                     EmployeeLeaveEntitlementUsageReport::PARAMETER_ENTITLEMENT_DAYS => '/leave/viewLeaveEntitlements' .
                         "?empNumber=$empNumber" .
                         "&fromDate=$fromDateYmd" .
                         "&toDate=$toDateYmd" .
-                        '&leaveTypeId=' . $leaveType->getId(),
+                        "&leaveTypeId=$leaveTypeId",
                     EmployeeLeaveEntitlementUsageReport::PARAMETER_PENDING_APPROVAL_DAYS => '/leave/viewLeaveList' .
                         "?empNumber=$empNumber" .
                         "&fromDate=$fromDateYmd" .
                         "&toDate=$toDateYmd" .
-                        '&leaveTypeId=' . $leaveType->getId() . '&status=1',
+                        "&leaveTypeId=$leaveTypeId" .
+                        '&status=1',
                     EmployeeLeaveEntitlementUsageReport::PARAMETER_SCHEDULED_DAYS => '/leave/viewLeaveList' .
                         "?empNumber=$empNumber" .
                         "&fromDate=$fromDateYmd" .
                         "&toDate=$toDateYmd" .
-                        '&leaveTypeId=' . $leaveType->getId() . '&status=2',
+                        "&leaveTypeId=$leaveTypeId" .
+                        '&status=2',
                     EmployeeLeaveEntitlementUsageReport::PARAMETER_TAKEN_DAYS => '/leave/viewLeaveList' .
                         "?empNumber=$empNumber" .
                         "&fromDate=$fromDateYmd" .
                         "&toDate=$toDateYmd" .
-                        '&leaveTypeId=' . $leaveType->getId() . '&status=3'
+                        "&leaveTypeId=$leaveTypeId" .
+                        '&status=3'
                 ],
             ];
         }
@@ -107,11 +118,19 @@ class EmployeeLeaveEntitlementUsageReportData implements ReportData
             [
                 CommonParams::PARAMETER_TOTAL => $this->getLeaveEntitlementService()
                     ->getLeaveEntitlementDao()
-                    ->getLeaveTypesCountForEntitlementUsageReport($this->filterParams),
-                self::META_PARAMETER_EMPLOYEE => $this->getEmployeeService()->getEmployeeAsArray(
-                    $this->filterParams->getEmpNumber()
-                )
+                    ->getEmployeesCountForEntitlementUsageReport($this->filterParams),
+                'leaveType' => $this->getNormalizedLeaveType($this->filterParams->getLeaveTypeId()),
             ]
         );
+    }
+
+    /**
+     * @param int $leaveTypeId
+     * @return array|null
+     */
+    private function getNormalizedLeaveType(int $leaveTypeId): ?array
+    {
+        $leaveType = $this->getLeaveTypeService()->getLeaveTypeDao()->getLeaveTypeById($leaveTypeId);
+        return $this->getNormalizerService()->normalize(LeaveTypeModel::class, $leaveType);
     }
 }

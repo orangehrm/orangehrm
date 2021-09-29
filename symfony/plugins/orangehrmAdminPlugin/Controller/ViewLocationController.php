@@ -22,15 +22,15 @@ namespace OrangeHRM\Admin\Controller;
 use OrangeHRM\Admin\Service\CountryService;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
+use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\Services;
 
 class ViewLocationController extends BaseAdminController
 {
-
     /**
      * @inheritDoc
      */
-    public function init(): void
+    public function preRender(Request $request): void
     {
         $component = new Component('location-list');
         /** @var CountryService $countryService */
@@ -51,5 +51,4 @@ class ViewLocationController extends BaseAdminController
     {
         return ['locations'];
     }
-
 }
