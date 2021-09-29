@@ -20,7 +20,7 @@
 
 <template>
   <div class="orangehrm-background-container">
-    <slot :filters="filters" :filterItems="filterItems"></slot>
+    <slot :filters="filters" :rules="rules" :filterItems="filterItems"></slot>
     <br />
     <div class="orangehrm-paper-container">
       <leave-list-table-header
@@ -62,6 +62,11 @@
 </template>
 
 <script>
+import {
+  required,
+  validDateFormat,
+  endDateShouldBeAfterStartDate,
+} from '@/core/util/validation/rules';
 import {computed, ref} from 'vue';
 import {APIService} from '@/core/util/services/api.service';
 import {navigate} from '@orangehrm/core/util/helper/navigation';
@@ -185,6 +190,20 @@ export default {
   setup(props) {
     const filters = ref({...defaultFilters});
 
+    const rules = {
+      fromDate: [required],
+      toDate: [
+        required,
+        validDateFormat(),
+        endDateShouldBeAfterStartDate(
+          () => filters.value.fromDate,
+          'To date should be after from date',
+          {allowSameDate: true},
+        ),
+      ],
+      statuses: [required],
+    };
+
     const serializedFilters = computed(() => {
       const statuses = Array.isArray(filters.value.statuses)
         ? filters.value.statuses
@@ -255,6 +274,7 @@ export default {
       pageSize,
       execQuery,
       items: response,
+      rules,
       filters,
       leaveActions,
       leaveBulkActions,
@@ -322,7 +342,11 @@ export default {
           });
           break;
         default:
-          navigate('/leave/viewLeaveRequest/{id}', {id: item.id});
+          navigate(
+            '/leave/viewLeaveRequest/{id}',
+            {id: item.id},
+            this.myLeaveList && {mode: 'my-leave'},
+          );
       }
     },
     onLeaveAction(id, actionType) {

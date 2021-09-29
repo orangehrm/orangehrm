@@ -81,7 +81,7 @@ export default {
         },
         {
           name: 'comments',
-          title: 'Commnents',
+          title: 'Comments',
           style: {flex: 1},
         },
       ],

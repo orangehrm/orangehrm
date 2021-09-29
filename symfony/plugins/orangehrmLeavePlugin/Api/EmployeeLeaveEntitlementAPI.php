@@ -248,8 +248,7 @@ class EmployeeLeaveEntitlementAPI extends Endpoint implements CrudEndpoint
     private function getEntitlementRule(): ParamRule
     {
         return $this->getValidationDecorator()->notRequiredParamRule(
-        // Zero not allowed, it can be achieved through passing null
-            new ParamRule(self::PARAMETER_ENTITLEMENT, new Rule(Rules::POSITIVE))
+            new ParamRule(self::PARAMETER_ENTITLEMENT, new Rule(Rules::ZERO_OR_POSITIVE))
         );
     }
 

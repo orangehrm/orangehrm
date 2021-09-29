@@ -139,10 +139,10 @@ export default {
     return {
       yearArray: [...yearRange(201)],
       rules: {
-        fromDate: [required, validDateFormat],
+        fromDate: [required, validDateFormat()],
         toDate: [
           required,
-          validDateFormat,
+          validDateFormat(),
           endDateShouldBeAfterStartDate(
             () => this.filters.fromDate,
             'To date should be after from date',
