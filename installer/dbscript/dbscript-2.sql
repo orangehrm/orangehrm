@@ -1341,7 +1341,7 @@ INSERT INTO ohrm_screen (`id`, `name`, `module_id`, `action_url`) VALUES
 (39, 'Module Configuration', 2, 'viewModules'),
 (40, 'Configure PIM', 3, 'configurePim'),
 (41, 'Custom Field List', 3, 'listCustomFields'),
-(42, 'Data Import', 3, 'pimCsvImport'),
+(42, 'Data Import', 2, 'pimCsvImport'),
 (43, 'Reporting Method List', 3, 'viewReportingMethods'),
 (44, 'Termination Reason List', 3, 'viewTerminationReasons'),
 (45, 'PIM Reports List', 1, 'viewDefinedPredefinedReports'),
@@ -4044,3 +4044,6 @@ INSERT INTO ohrm_user_role_data_group (`can_read`, `can_create`, `can_update`, `
 VALUES (1, 1, 1, 1, 0, @locations_data_group_id, @admin_role_id),
        (0, 0, 0, 0, 0, @locations_data_group_id, @ess_role_id),
        (0, 0, 0, 0, 0, @locations_data_group_id, @supervisor_role_id);
+
+SET @pim_csv_import_screen_id := (SELECT `id` FROM ohrm_screen WHERE action_url = 'pimCsvImport' and name='Data Import' LIMIT 1);
+UPDATE `ohrm_screen` SET `module_id` = @pim_module_id WHERE `ohrm_screen`.`id` = @pim_csv_import_screen_id;
