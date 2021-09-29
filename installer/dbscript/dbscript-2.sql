@@ -3558,7 +3558,6 @@ UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` =
 UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` = 'Social Media Authentication';
 
 UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` = 'Reports' AND `screen_id` IS NOT NULL;
-UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` = 'Data Import';
 
 UPDATE `ohrm_menu_item` SET `additional_params` = '{\"icon\":\"icon-admin\"}' WHERE `ohrm_menu_item`.`menu_title` = 'Admin';
 UPDATE `ohrm_menu_item` SET `additional_params` = '{\"icon\":\"icon-pim\"}' WHERE `ohrm_menu_item`.`menu_title` = 'PIM';
