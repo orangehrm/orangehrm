@@ -1341,7 +1341,7 @@ INSERT INTO ohrm_screen (`id`, `name`, `module_id`, `action_url`) VALUES
 (39, 'Module Configuration', 2, 'viewModules'),
 (40, 'Configure PIM', 3, 'configurePim'),
 (41, 'Custom Field List', 3, 'listCustomFields'),
-(42, 'Data Import', 2, 'pimCsvImport'),
+(42, 'Data Import', 3, 'pimCsvImport'),
 (43, 'Reporting Method List', 3, 'viewReportingMethods'),
 (44, 'Termination Reason List', 3, 'viewTerminationReasons'),
 (45, 'PIM Reports List', 1, 'viewDefinedPredefinedReports'),
@@ -3890,7 +3890,8 @@ VALUES (1, 1, 1, 1, 0, @apiv2_pim_custom_field_data_group_id, @admin_role_id),
        (1, 0, 0, 0, 1, @apiv2_pim_tax_exemptions_data_group_id, @ess_role_id),
        (1, 0, 0, 0, 0, @apiv2_pim_tax_exemptions_data_group_id, @ess_role_id),
        (1, 0, 0, 0, 0, @apiv2_pim_employee_work_shift_data_group_id, @admin_role_id),
-       (1, 0, 0, 0, 0, @apiv2_pim_employee_count_data_group_id, @admin_role_id);
+       (1, 0, 0, 0, 0, @apiv2_pim_employee_count_data_group_id, @admin_role_id),
+       (1, 1, 0, 0, 0, @apiv2_pim_employee_csv_import_data_group_id, @admin_role_id);
 
 INSERT INTO ohrm_data_group (`name`, `description`, `can_read`, `can_create`, `can_update`, `can_delete`)
 VALUES ('apiv2_leave_holiday', 'API-v2 Leave - Holidays', 1, 1, 1, 1),
