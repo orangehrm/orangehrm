@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\Leave\Report;
 
-use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
@@ -32,21 +31,33 @@ use OrangeHRM\Core\Report\Filter\Filter;
 use OrangeHRM\Core\Report\Header\Column;
 use OrangeHRM\Core\Report\Header\Header;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
+use OrangeHRM\Core\Traits\UserRoleManagerTrait;
+use OrangeHRM\Entity\Employee;
+use OrangeHRM\Entity\JobTitle;
+use OrangeHRM\Entity\LeaveType;
+use OrangeHRM\Entity\Location;
+use OrangeHRM\Entity\Subunit;
 use OrangeHRM\Leave\Api\LeaveCommonParams;
-use OrangeHRM\Leave\Dto\EmployeeLeaveEntitlementUsageReportSearchFilterParams;
+use OrangeHRM\Leave\Dto\LeaveTypeLeaveEntitlementUsageReportSearchFilterParams;
 use OrangeHRM\Leave\Traits\Service\LeavePeriodServiceTrait;
 
-class EmployeeLeaveEntitlementUsageReport implements EndpointAwareReport
+class LeaveTypeLeaveEntitlementUsageReport implements EndpointAwareReport
 {
     use AuthUserTrait;
+    use UserRoleManagerTrait;
     use LeavePeriodServiceTrait;
 
-    public const PARAMETER_LEAVE_TYPE_NAME = 'leaveTypeName';
+    public const PARAMETER_EMPLOYEE_NAME = 'employeeName';
     public const PARAMETER_ENTITLEMENT_DAYS = 'entitlementDays';
     public const PARAMETER_PENDING_APPROVAL_DAYS = 'pendingApprovalDays';
     public const PARAMETER_SCHEDULED_DAYS = 'scheduledDays';
     public const PARAMETER_TAKEN_DAYS = 'takenDays';
     public const PARAMETER_BALANCE_DAYS = 'balanceDays';
+
+    public const FILTER_PARAMETER_INCLUDE_EMPLOYEES = 'includeEmployees';
+    public const FILTER_PARAMETER_JOB_TITLE_ID = 'jobTitleId';
+    public const FILTER_PARAMETER_SUBUNIT_ID = 'subunitId';
+    public const FILTER_PARAMETER_LOCATION_ID = 'locationId';
 
     public const DEFAULT_COLUMN_SIZE = 150;
 
@@ -57,7 +68,7 @@ class EmployeeLeaveEntitlementUsageReport implements EndpointAwareReport
     {
         return new Header(
             [
-                (new Column(self::PARAMETER_LEAVE_TYPE_NAME))->setName('Leave Type')
+                (new Column(self::PARAMETER_EMPLOYEE_NAME))->setName('Employee')
                     ->setPin(Column::PIN_COL_START)
                     ->setSize(self::DEFAULT_COLUMN_SIZE),
                 (new Column(self::PARAMETER_ENTITLEMENT_DAYS))->setName('Leave Entitlements (Days)')
@@ -85,12 +96,12 @@ class EmployeeLeaveEntitlementUsageReport implements EndpointAwareReport
     }
 
     /**
-     * @param EmployeeLeaveEntitlementUsageReportSearchFilterParams $filterParams
-     * @return EmployeeLeaveEntitlementUsageReportData
+     * @param LeaveTypeLeaveEntitlementUsageReportSearchFilterParams $filterParams
+     * @return LeaveTypeLeaveEntitlementUsageReportData
      */
-    public function getData(FilterParams $filterParams): EmployeeLeaveEntitlementUsageReportData
+    public function getData(FilterParams $filterParams): LeaveTypeLeaveEntitlementUsageReportData
     {
-        return new EmployeeLeaveEntitlementUsageReportData($filterParams);
+        return new LeaveTypeLeaveEntitlementUsageReportData($filterParams);
     }
 
     /**
@@ -98,12 +109,38 @@ class EmployeeLeaveEntitlementUsageReport implements EndpointAwareReport
      */
     public function prepareFilterParams(EndpointProxy $endpoint): FilterParams
     {
-        $filterParams = new EmployeeLeaveEntitlementUsageReportSearchFilterParams();
-        $filterParams->setEmpNumber(
+        $filterParams = new LeaveTypeLeaveEntitlementUsageReportSearchFilterParams();
+        $accessibleEmpNumbers = $this->getUserRoleManager()->getAccessibleEntityIds(Employee::class);
+        $filterParams->setEmpNumbers($accessibleEmpNumbers);
+        $filterParams->setLeaveTypeId(
             $endpoint->getRequestParams()->getInt(
                 RequestParams::PARAM_TYPE_QUERY,
-                CommonParams::PARAMETER_EMP_NUMBER,
-                $this->getAuthUser()->getEmpNumber()
+                LeaveCommonParams::PARAMETER_LEAVE_TYPE_ID
+            )
+        );
+        $filterParams->setJobTitleId(
+            $endpoint->getRequestParams()->getIntOrNull(
+                RequestParams::PARAM_TYPE_QUERY,
+                self::FILTER_PARAMETER_JOB_TITLE_ID
+            )
+        );
+        $filterParams->setSubunitId(
+            $endpoint->getRequestParams()->getIntOrNull(
+                RequestParams::PARAM_TYPE_QUERY,
+                self::FILTER_PARAMETER_SUBUNIT_ID
+            )
+        );
+        $filterParams->setLocationId(
+            $endpoint->getRequestParams()->getIntOrNull(
+                RequestParams::PARAM_TYPE_QUERY,
+                self::FILTER_PARAMETER_LOCATION_ID
+            )
+        );
+        $filterParams->setIncludeEmployees(
+            $endpoint->getRequestParams()->getString(
+                RequestParams::PARAM_TYPE_QUERY,
+                self::FILTER_PARAMETER_INCLUDE_EMPLOYEES,
+                LeaveTypeLeaveEntitlementUsageReportSearchFilterParams::INCLUDE_EMPLOYEES_ONLY_CURRENT
             )
         );
         $endpoint->setSortingAndPaginationParams($filterParams);
@@ -133,8 +170,27 @@ class EmployeeLeaveEntitlementUsageReport implements EndpointAwareReport
     public function getValidationRule(EndpointProxy $endpoint): ParamRuleCollection
     {
         return new ParamRuleCollection(
+            new ParamRule(
+                LeaveCommonParams::PARAMETER_LEAVE_TYPE_ID,
+                new Rule(Rules::ENTITY_ID_EXISTS, [LeaveType::class])
+            ),
             $endpoint->getValidationDecorator()->notRequiredParamRule(
-                new ParamRule(CommonParams::PARAMETER_EMP_NUMBER, new Rule(Rules::IN_ACCESSIBLE_EMP_NUMBERS))
+                new ParamRule(self::FILTER_PARAMETER_JOB_TITLE_ID, new Rule(Rules::ENTITY_ID_EXISTS, [JobTitle::class]))
+            ),
+            $endpoint->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(self::FILTER_PARAMETER_LOCATION_ID, new Rule(Rules::ENTITY_ID_EXISTS, [Location::class]))
+            ),
+            $endpoint->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(self::FILTER_PARAMETER_SUBUNIT_ID, new Rule(Rules::ENTITY_ID_EXISTS, [Subunit::class]))
+            ),
+            $endpoint->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::FILTER_PARAMETER_INCLUDE_EMPLOYEES,
+                    new Rule(
+                        Rules::IN,
+                        [LeaveTypeLeaveEntitlementUsageReportSearchFilterParams::INCLUDE_EMPLOYEES]
+                    )
+                )
             ),
             $endpoint->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(LeaveCommonParams::PARAMETER_FROM_DATE, new Rule(Rules::API_DATE))
@@ -144,7 +200,7 @@ class EmployeeLeaveEntitlementUsageReport implements EndpointAwareReport
             ),
             ...
             $endpoint->getSortingAndPaginationParamsRules(
-                EmployeeLeaveEntitlementUsageReportSearchFilterParams::ALLOWED_SORT_FIELDS
+                LeaveTypeLeaveEntitlementUsageReportSearchFilterParams::ALLOWED_SORT_FIELDS
             )
         );
     }

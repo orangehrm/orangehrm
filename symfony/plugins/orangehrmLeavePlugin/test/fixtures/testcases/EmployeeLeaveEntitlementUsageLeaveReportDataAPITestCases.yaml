@@ -308,11 +308,11 @@ GetAll:
       },
       {
         "leaveTypeName": "Medical",
-        "entitlementDays": 7.0,
+        "entitlementDays": 6.0,
         "pendingApprovalDays": 0.0,
         "scheduledDays": 0.0,
         "takenDays": 0.0,
-        "balanceDays": 7.0,
+        "balanceDays": 6.0,
         "leaveTypeDeleted": false,
         "_url": {
           "entitlementDays": "/leave/viewLeaveEntitlements?empNumber=4&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=6",
@@ -513,14 +513,9 @@ GetAll:
     services:
       leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
-      #      core.config_service: \OrangeHRM\Core\Service\ConfigService
-      #      leave.leave_request_service: \OrangeHRM\Leave\Service\LeaveRequestService
-      #      admin.user_service: \OrangeHRM\Admin\Service\UserService
       leave.leave_entitlement_service: \OrangeHRM\Leave\Service\LeaveEntitlementService
       leave.leave_period_service: \OrangeHRM\Leave\Service\LeavePeriodService
       core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
-    #    factories:
-    #      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
       name: 'employee_leave_entitlements_and_usage'
     data: [

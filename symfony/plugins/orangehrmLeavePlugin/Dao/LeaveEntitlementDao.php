@@ -24,6 +24,7 @@ use Exception;
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
+use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\Leave;
 use OrangeHRM\Entity\LeaveEntitlement;
 use OrangeHRM\Entity\LeaveLeaveEntitlement;
@@ -31,6 +32,7 @@ use OrangeHRM\Entity\LeaveType;
 use OrangeHRM\Leave\Dto\EmployeeLeaveEntitlementUsageReportSearchFilterParams;
 use OrangeHRM\Leave\Dto\LeaveEntitlementSearchFilterParams;
 use OrangeHRM\Leave\Dto\LeaveEntitlementUsage;
+use OrangeHRM\Leave\Dto\LeaveTypeLeaveEntitlementUsageReportSearchFilterParams;
 use OrangeHRM\Leave\Dto\LeaveWithDaysLeft;
 use OrangeHRM\Leave\Entitlement\LeaveBalance;
 use OrangeHRM\Leave\Service\LeavePeriodService;
@@ -756,6 +758,67 @@ class LeaveEntitlementDao extends BaseDao
             ->setParameter('toDate', $filterParams->getToDate());
         $q->groupBy('leaveType.id');
 
+        return $this->getPaginator($q);
+    }
+
+    /**
+     * @param LeaveTypeLeaveEntitlementUsageReportSearchFilterParams $filterParams
+     * @return Employee[]
+     */
+    public function getEmployeesForEntitlementUsageReport(
+        LeaveTypeLeaveEntitlementUsageReportSearchFilterParams $filterParams
+    ): array {
+        return $this->getEmployeesPaginatorForEntitlementUsageReport($filterParams)->getQuery()->execute();
+    }
+
+    /**
+     * @param LeaveTypeLeaveEntitlementUsageReportSearchFilterParams $filterParams
+     * @return int
+     */
+    public function getEmployeesCountForEntitlementUsageReport(
+        LeaveTypeLeaveEntitlementUsageReportSearchFilterParams $filterParams
+    ): int {
+        return $this->getEmployeesPaginatorForEntitlementUsageReport($filterParams)->count();
+    }
+
+    /**
+     * @param LeaveTypeLeaveEntitlementUsageReportSearchFilterParams $filterParams
+     * @return Paginator
+     */
+    private function getEmployeesPaginatorForEntitlementUsageReport(
+        LeaveTypeLeaveEntitlementUsageReportSearchFilterParams $filterParams
+    ): Paginator {
+        $q = $this->createQueryBuilder(Employee::class, 'employee');
+        $q->leftJoin('employee.locations', 'location');
+        $this->setSortingAndPaginationParams($q, $filterParams);
+
+        if ($filterParams->getIncludeEmployees() ===
+            LeaveTypeLeaveEntitlementUsageReportSearchFilterParams::INCLUDE_EMPLOYEES_ONLY_CURRENT) {
+            $q->andWhere($q->expr()->isNull('employee.employeeTerminationRecord'));
+        } elseif ($filterParams->getIncludeEmployees() ===
+            LeaveTypeLeaveEntitlementUsageReportSearchFilterParams::INCLUDE_EMPLOYEES_ONLY_PAST) {
+            $q->andWhere($q->expr()->isNotNull('employee.employeeTerminationRecord'));
+        }
+
+        if (!is_null($filterParams->getSubunitId())) {
+            $q->andWhere($q->expr()->in('employee.subDivision', ':subunitIds'))
+                ->setParameter('subunitIds', $filterParams->getSubunitIdChain());
+        }
+
+        if (!is_null($filterParams->getLocationId())) {
+            $q->andWhere('location.id = :locationId')
+                ->setParameter('locationId', $filterParams->getLocationId());
+        }
+
+        if (!is_null($filterParams->getJobTitleId())) {
+            $q->andWhere('employee.jobTitle = :jobTitleId')
+                ->setParameter('jobTitleId', $filterParams->getJobTitleId());
+        }
+
+        if (!is_null($filterParams->getEmpNumbers())) {
+            $q->andWhere($q->expr()->in('employee.empNumber', ':empNumbers'))
+                ->setParameter('empNumbers', $filterParams->getEmpNumbers());
+        }
         return $this->getPaginator($q);
     }
 }
