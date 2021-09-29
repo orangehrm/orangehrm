@@ -123,7 +123,7 @@ class EmployeeDao extends BaseDao
         }
 
         if (!is_null($employeeSearchParamHolder->getEmployeeId())) {
-            $q->andWhere($q->expr()->in('employee.employeeId', ':employeeId'))
+            $q->andWhere('employee.employeeId = :employeeId')
                 ->setParameter('employeeId', $employeeSearchParamHolder->getEmployeeId());
         }
 
@@ -133,17 +133,17 @@ class EmployeeDao extends BaseDao
         }
 
         if (!is_null($employeeSearchParamHolder->getLocationId())) {
-            $q->andWhere($q->expr()->in('location.id', ':locationId'))
+            $q->andWhere('location.id = :locationId')
                 ->setParameter('locationId', $employeeSearchParamHolder->getLocationId());
         }
 
         if (!is_null($employeeSearchParamHolder->getEmpStatusId())) {
-            $q->andWhere($q->expr()->in('empStatus.id', ':empStatusId'))
+            $q->andWhere('empStatus.id = :empStatusId')
                 ->setParameter('empStatusId', $employeeSearchParamHolder->getEmpStatusId());
         }
 
         if (!is_null($employeeSearchParamHolder->getJobTitleId())) {
-            $q->andWhere($q->expr()->in('jobTitle.id', ':jobTitleId'))
+            $q->andWhere('jobTitle.id = :jobTitleId')
                 ->setParameter('jobTitleId', $employeeSearchParamHolder->getJobTitleId());
         }
 
