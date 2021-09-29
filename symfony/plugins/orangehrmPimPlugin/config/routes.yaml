@@ -465,6 +465,11 @@ pim_employee_attachment:
   controller: OrangeHRM\Pim\Controller\File\EmployeeAttachmentController::handle
   methods: [ GET ]
 
+pim_employee_csv_import_sample_attachment:
+  path: /pim/csvImportSample
+  controller: OrangeHRM\Pim\Controller\File\EmployeeCsvImportSampleAttachmentController::handle
+  methods: [ GET ]
+
 ##########################
 #        Screens
 ##########################
