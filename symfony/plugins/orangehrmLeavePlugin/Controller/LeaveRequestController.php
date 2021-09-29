@@ -29,11 +29,15 @@ class LeaveRequestController extends AbstractVueController
     public function preRender(Request $request): void
     {
         $id = $request->get('id');
+        $mode = $request->get('mode');
         // TODO: 404 if no id
         if (!$id) die;
 
         $component = new Component('leave-view-request');
         $component->addProp(new Prop('leave-request-id', Prop::TYPE_NUMBER, $id));
+        if($mode && $mode == "my-leave") {
+            $component->addProp(new Prop('my-leave-request', Prop::TYPE_BOOLEAN, true));
+        }
         $this->setComponent($component);
     }
 }
