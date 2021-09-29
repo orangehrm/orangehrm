@@ -60,7 +60,7 @@ class EmployeeLeaveEntitlementUsageReportData implements ReportData
                 ->getLeaveBalance(
                     $empNumber,
                     $leaveType->getId(),
-                    null,
+                    $this->filterParams->getFromDate(),
                     $this->filterParams->getToDate()
                 );
             $result[] = [

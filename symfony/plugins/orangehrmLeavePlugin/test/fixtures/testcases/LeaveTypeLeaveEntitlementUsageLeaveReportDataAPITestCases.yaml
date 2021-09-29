@@ -496,10 +496,11 @@ GetAll:
         name: "CAN - Personal"
         deleted: true
         situational: false
-  'current leave period':
+
+  'filter by leave period - past leave period':
     userId: 1
     now:
-      datetime: '2021-09-19'
+      datetime: '2022-09-19'
     services:
       core.config_service: \OrangeHRM\Core\Service\ConfigService
       leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
@@ -514,6 +515,8 @@ GetAll:
     query:
       name: 'leave_type_leave_entitlements_and_usage'
       leaveTypeId: 1
+      fromDate: '2021-01-01'
+      toDate: '2021-12-31'
     data: [
       {
         "employeeName": "Kayla Abbey",
@@ -593,50 +596,6 @@ GetAll:
     ]
     meta:
       total: 5
-      leaveType:
-        id: 1
-        name: "US - Personal"
-        deleted: false
-        situational: false
-
-  'includeEmployees - onlyPast':
-    userId: 1
-    now:
-      datetime: '2021-09-19'
-    services:
-      core.config_service: \OrangeHRM\Core\Service\ConfigService
-      leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
-      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
-      leave.leave_entitlement_service: \OrangeHRM\Leave\Service\LeaveEntitlementService
-      leave.leave_period_service: \OrangeHRM\Leave\Service\LeavePeriodService
-      leave.leave_type_service: \OrangeHRM\Leave\Service\LeaveTypeService
-      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
-      admin.user_service: \OrangeHRM\Admin\Service\UserService
-    factories:
-      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
-    query:
-      name: 'leave_type_leave_entitlements_and_usage'
-      leaveTypeId: 1
-      includeEmployees: onlyPast
-    data: [
-      {
-        "employeeName": "Ashley Abel",
-        "entitlementDays": 0.0,
-        "pendingApprovalDays": 0.0,
-        "scheduledDays": 0.0,
-        "takenDays": 0.0,
-        "balanceDays": 0.0,
-        terminationId: 1,
-        "_url": {
-          "entitlementDays": "/leave/viewLeaveEntitlements?empNumber=5&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=1",
-          "pendingApprovalDays": "/leave/viewLeaveList?empNumber=5&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=1&status=1",
-          "scheduledDays": "/leave/viewLeaveList?empNumber=5&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=1&status=2",
-          "takenDays": "/leave/viewLeaveList?empNumber=5&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=1&status=3"
-        }
-      },
-    ]
-    meta:
-      total: 1
       leaveType:
         id: 1
         name: "US - Personal"
