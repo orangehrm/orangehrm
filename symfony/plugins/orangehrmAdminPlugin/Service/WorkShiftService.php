@@ -19,33 +19,19 @@
 
 namespace OrangeHRM\Admin\Service;
 
+use DateTime;
 use OrangeHRM\Admin\Dao\WorkShiftDao;
 use OrangeHRM\Admin\Dto\WorkShiftSearchFilterParams;
 use OrangeHRM\Admin\Dto\WorkShiftStartAndEndTime;
-use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
-use OrangeHRM\Entity\WorkShift;
 use OrangeHRM\Core\Exception\DaoException;
+use OrangeHRM\Entity\Employee;
+use OrangeHRM\Entity\WorkShift;
 
 class WorkShiftService
 {
-    use ConfigServiceTrait;
-
     private ?WorkShiftDao $workShiftDao = null;
 
     /**
-     * @return WorkShiftDao
-     */
-    public function getWorkShiftDao(): WorkShiftDao
-    {
-        if (!$this->workShiftDao instanceof WorkShiftDao) {
-            $this->workShiftDao = new WorkShiftDao();
-        }
-        return $this->workShiftDao;
-    }
-
-    /**
-     * Return the default start time and end time for workshifts
-     *
      * @return WorkShiftStartAndEndTime
      */
     public function getWorkShiftDefaultStartAndEndTime(): WorkShiftStartAndEndTime
@@ -53,7 +39,7 @@ class WorkShiftService
         $startTime = $this->getConfigService()->getDefaultWorkShiftStartTime();
         $endTime = $this->getConfigService()->getDefaultWorkShiftEndTime();
 
-        return new WorkShiftStartAndEndTime(new \DateTime($startTime), new \DateTime($endTime));
+        return new WorkShiftStartAndEndTime(new DateTime($startTime), new DateTime($endTime));
     }
 
     /**
@@ -67,11 +53,31 @@ class WorkShiftService
     }
 
     /**
+     * @return WorkShiftDao
+     */
+    public function getWorkShiftDao(): WorkShiftDao
+    {
+        if (!$this->workShiftDao instanceof WorkShiftDao) {
+            $this->workShiftDao = new WorkShiftDao();
+        }
+        return $this->workShiftDao;
+    }
+
+    /**
+     * @param WorkShiftDao $workShiftDao
+     */
+    public function setWorkShiftDao(WorkShiftDao $workShiftDao): void
+    {
+        $this->workShiftDao = $workShiftDao;
+    }
+
+    /**
      * @param WorkShiftSearchFilterParams $workShiftSearchFilterParams
      * @return array
      * @throws DaoException
      */
-    public function getWorkShiftList(WorkShiftSearchFilterParams $workShiftSearchFilterParams){
+    public function getWorkShiftList(WorkShiftSearchFilterParams $workShiftSearchFilterParams): array
+    {
         return $this->getWorkShiftDao()->getWorkShiftList($workShiftSearchFilterParams);
     }
 
@@ -80,8 +86,34 @@ class WorkShiftService
      * @return int
      * @throws DaoException
      */
-    public function getWorkShiftCount(WorkShiftSearchFilterParams $workShiftSearchFilterParams){
+    public function getWorkShiftCount(WorkShiftSearchFilterParams $workShiftSearchFilterParams): int
+    {
         return $this->getWorkShiftDao()->getWorkShiftCount($workShiftSearchFilterParams);
     }
-}
 
+    /**
+     * @param array $deletedIds
+     * @return int
+     */
+    public function deleteWorkShifts(array $deletedIds): int
+    {
+        return $this->getWorkShiftDao()->deleteWorkShifts($deletedIds);
+    }
+
+    /**
+     * @param $workShiftId
+     * @return Employee[]
+     */
+    public function getEmployeesByWorkShiftId($workShiftId): array
+    {
+        return $this->getWorkShiftDao()->getEmployeeListByWorkShiftId($workShiftId);
+    }
+
+    /**
+     * @return Employee[]
+     */
+    public function getEmployeeNotInWorkShift(): array
+    {
+        return $this->getWorkShiftDao()->getEmployeeNotInEmployeeWorkSft();
+    }
+}

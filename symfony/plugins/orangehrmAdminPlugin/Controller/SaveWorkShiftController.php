@@ -17,19 +17,24 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Core\Api;
+namespace OrangeHRM\Admin\Controller;
 
-final class CommonParams
+use OrangeHRM\Core\Controller\AbstractVueController;
+use OrangeHRM\Core\Vue\Component;
+use OrangeHRM\Core\Vue\Prop;
+use OrangeHRM\Framework\Http\Request;
+
+class SaveWorkShiftController extends AbstractVueController
 {
-    public const PARAMETER_ID = 'id';
-    public const PARAMETER_IDS = 'ids';
-    public const PARAMETER_EMP_NUMBERS = 'empNumbers';
-    public const PARAMETER_EMP_NUMBER = 'empNumber';
-
-    public const PARAMETER_SORT_FIELD = 'sortField';
-    public const PARAMETER_SORT_ORDER = 'sortOrder';
-    public const PARAMETER_OFFSET = 'offset';
-    public const PARAMETER_LIMIT = 'limit';
-
-    public const PARAMETER_TOTAL = 'total';
+    public function preRender(Request $request): void
+    {
+        $id = $request->get('id');
+        if ($id) {
+            $component = new Component('work-shift-edit');
+            $component->addProp(new Prop('work-shift-id', Prop::TYPE_NUMBER, $id));
+        } else {
+            $component = new Component('work-shift-save');
+        }
+        $this->setComponent($component);
+    }
 }

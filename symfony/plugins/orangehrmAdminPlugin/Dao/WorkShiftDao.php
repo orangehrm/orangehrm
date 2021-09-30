@@ -19,100 +19,89 @@
 
 namespace OrangeHRM\Admin\Dao;
 
+use Exception;
 use OrangeHRM\Admin\Dto\WorkShiftSearchFilterParams;
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Core\Exception\DaoException;
+use OrangeHRM\Entity\Employee;
+use OrangeHRM\Entity\EmployeeWorkShift;
 use OrangeHRM\Entity\WorkShift;
-use OrangeHRM\ORM\ListSorter;
 use OrangeHRM\ORM\Paginator;
 
 class WorkShiftDao extends BaseDao
 {
-
     /**
      * @param int $workShiftId
      * @return WorkShift|null
      */
     public function getWorkShiftById(int $workShiftId): ?WorkShift
     {
-        try {
-            $workShift = $this->getRepository(WorkShift::class)->find($workShiftId);
-            if ($workShift instanceof WorkShift) {
-                return $workShift;
-            }
-            return null;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        $workShift = $this->getRepository(WorkShift::class)->find($workShiftId);
+        if ($workShift instanceof WorkShift) {
+            return $workShift;
         }
+        return null;
     }
 
     /**
      * @param WorkShiftSearchFilterParams $workShiftSearchFilterParams
      * @return array
-     * @throws DaoException
      */
     public function getWorkShiftList(WorkShiftSearchFilterParams $workShiftSearchFilterParams): array
     {
-        try {
-            $paginator = $this->getWorkShiftListPaginator($workShiftSearchFilterParams);
-            return $paginator->getQuery()->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        $paginator = $this->getWorkShiftListPaginator($workShiftSearchFilterParams);
+        return $paginator->getQuery()->execute();
     }
 
     /**
      * @param WorkShiftSearchFilterParams $workShiftSearchFilterParams
      * @return Paginator
      */
-    public function getWorkShiftListPaginator(WorkShiftSearchFilterParams $workShiftSearchFilterParams
-    ): Paginator {
+    public function getWorkShiftListPaginator(WorkShiftSearchFilterParams $workShiftSearchFilterParams): Paginator
+    {
         $q = $this->createQueryBuilder(WorkShift::class, 'ws');
         $this->setSortingAndPaginationParams($q, $workShiftSearchFilterParams);
         return new Paginator($q);
     }
 
-
     /**
      * @param WorkShiftSearchFilterParams $workShiftSearchFilterParams
      * @return int
-     * @throws DaoException
      */
     public function getWorkShiftCount(WorkShiftSearchFilterParams $workShiftSearchFilterParams): int
     {
-        try {
-            $paginator = $this->getWorkShiftListPaginator($workShiftSearchFilterParams);
-            return $paginator->count();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        $paginator = $this->getWorkShiftListPaginator($workShiftSearchFilterParams);
+        return $paginator->count();
     }
 
-    public function getWorkShiftEmployeeListById($workShiftId) {
+    public function getWorkShiftEmployeeListById($workShiftId)
+    {
         // TODO
         try {
-            $q = Doctrine_Query :: create()
-                    ->from('EmployeeWorkShift')
-                    ->where('work_shift_id = ?', $workShiftId);
+            $q = Doctrine_Query:: create()
+                ->from('EmployeeWorkShift')
+                ->where('work_shift_id = ?', $workShiftId);
             return $q->execute();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }
     }
 
-    public function getWorkShiftEmployeeNameListById($workShiftId) {
+    public function getWorkShiftEmployeeNameListById($workShiftId)
+    {
         // TODO
         try {
-            $q = Doctrine_Query :: create()
-                    ->select('w.emp_number as empNumber, e.firstName as firstName, e.lastName as lastName, e.middleName as middleName')
-                    ->from('EmployeeWorkShift w')
-                    ->leftJoin('w.Employee e')
-                    ->where('work_shift_id = ?', $workShiftId);
+            $q = Doctrine_Query:: create()
+                ->select(
+                    'w.emp_number as empNumber, e.firstName as firstName, e.lastName as lastName, e.middleName as middleName'
+                )
+                ->from('EmployeeWorkShift w')
+                ->leftJoin('w.Employee e')
+                ->where('work_shift_id = ?', $workShiftId);
 
             $employeeNames = $q->execute(array(), Doctrine_Core::HYDRATE_ARRAY);
 
             return $employeeNames;
-
             // @codeCoverageIgnoreStart
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
@@ -120,23 +109,25 @@ class WorkShiftDao extends BaseDao
         // @codeCoverageIgnoreEnd
     }
 
-    public function getWorkShiftEmployeeList() {
+    public function getWorkShiftEmployeeList()
+    {
         // TODO
         try {
-            $q = Doctrine_Query :: create()
-                    ->from('EmployeeWorkShift');
+            $q = Doctrine_Query:: create()
+                ->from('EmployeeWorkShift');
             return $q->execute();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }
     }
 
-    public function getWorkShiftEmployeeIdList() {
+    public function getWorkShiftEmployeeIdList()
+    {
         // TODO
         try {
-            $q = Doctrine_Query :: create()
-                    ->select('emp_number')
-                    ->from('EmployeeWorkShift');
+            $q = Doctrine_Query:: create()
+                ->select('emp_number')
+                ->from('EmployeeWorkShift');
 
             $employeeIds = $q->execute(array(), Doctrine_Core::HYDRATE_SINGLE_SCALAR);
 
@@ -145,7 +136,6 @@ class WorkShiftDao extends BaseDao
             }
 
             return $employeeIds;
-
             // @codeCoverageIgnoreStart
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
@@ -153,16 +143,118 @@ class WorkShiftDao extends BaseDao
         // @codeCoverageIgnoreEnd
     }
 
-    public function saveEmployeeWorkShiftCollection(Doctrine_Collection $empWorkShiftCollection) {
+    public function saveEmployeeWorkShiftCollection(Doctrine_Collection $empWorkShiftCollection)
+    {
         // TODO
         try {
-
             $empWorkShiftCollection->save();
-
             // @codeCoverageIgnoreStart
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
         // @codeCoverageIgnoreEnd
+    }
+
+    /**
+     * @param WorkShift $workShift
+     * @param array $empNumber
+     * @return WorkShift
+     */
+    public function saveWorkShift(WorkShift $workShift, array $empNumber): WorkShift
+    {
+        $this->persist($workShift);
+        if (sizeof($empNumber) > 0) {
+            // this function will invoke only if the array have some values
+            $this->saveEmployeeWorkShift($empNumber, $workShift);
+            return $workShift;
+        }
+        return $workShift;
+    }
+
+    /**
+     * @param array $empNumber
+     * @param WorkShift $workShift
+     */
+    public function saveEmployeeWorkShift(array $empNumber, WorkShift $workShift): void
+    {
+        foreach ($empNumber as $empNo) {
+            $employeeWorkShift = new EmployeeWorkShift();
+            $employee = $this->getRepository(Employee::class)->find($empNo);
+            $employeeWorkShift->setWorkShift($workShift);
+            $employeeWorkShift->setEmployee($employee);
+            $this->persist($employeeWorkShift);
+        }
+    }
+
+    /**
+     * @param WorkShift $workShift
+     * @param array $empNumber
+     * @return WorkShift
+     */
+    public function updateWorkShift(WorkShift $workShift, array $empNumber): WorkShift
+    {
+        $existingEmployees = $this->getEmployeeListByWorkShiftId($workShift->getId());
+        $idList = array();
+        foreach ($existingEmployees as $x => $existingEmployee) {
+            $id = $existingEmployee->getEmpNumber();
+            if (!in_array($id, $empNumber)) {
+                $this->deleteExistingEmployees($workShift->getId(), $id);
+            } else {
+                array_push($idList, $id);
+            }
+        }
+        $employeeList = array_diff($empNumber, $idList);
+        $newEmployeeList = array();
+        foreach ($employeeList as $employee) {
+            array_push($newEmployeeList, $employee);
+        }
+        $this->persist($workShift);
+        if (sizeof($newEmployeeList) > 0) {
+            $this->saveEmployeeWorkShift($newEmployeeList, $workShift);
+            return $workShift;
+        }
+        return $workShift;
+    }
+
+    /**
+     * @param $workShiftId
+     * @return Employee[]
+     */
+    public function getEmployeeListByWorkShiftId($workShiftId): array
+    {
+        $q = $this->createQueryBuilder(Employee::class, 'e');
+        $q->leftJoin('e.employeeWorkShift', 'ew');
+        $q->andWhere('ew.workShift = :workShift')
+            ->setParameter('workShift', $workShiftId);
+        return $q->getQuery()->execute();
+    }
+
+    /**
+     * @param $workShiftId
+     * @param $empNumber
+     */
+    public function deleteExistingEmployees($workShiftId, $empNumber): void
+    {
+        $this->createQueryBuilder(EmployeeWorkShift::class, 'ews')
+            ->delete()
+            ->where('ews.workShift = :workShiftId')
+            ->andWhere('ews.employee = :employeeId')
+            ->setParameter('workShiftId', $workShiftId)
+            ->setParameter('employeeId', $empNumber)
+            ->getQuery()
+            ->execute();
+    }
+
+    /**
+     * @param array $deletedIds
+     * @return int
+     */
+    public function deleteWorkShifts(array $deletedIds): int
+    {
+        $q = $this->createQueryBuilder(WorkShift::class, 'ws');
+        $q->delete()
+            ->where($q->expr()->in('ws.id', ':ids'))
+            ->setParameter('ids', $deletedIds);
+        return $q->getQuery()->execute();
     }
 }

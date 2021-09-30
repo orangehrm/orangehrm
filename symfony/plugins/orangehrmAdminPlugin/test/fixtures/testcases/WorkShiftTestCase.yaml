@@ -1,16 +1,9 @@
 GetAll:
-  'get all':
+  'get all work shifts':
     userId: 1
     attributes: [ ]
     body: [ ]
     query: [ ]
-    services:
-      core.config_service: \OrangeHRM\Core\Service\ConfigService
-      admin.user_service: \OrangeHRM\Admin\Service\UserService
-      admin.work_shift_service: \OrangeHRM\Admin\Service\WorkShiftService
-      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
-    factories:
-      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getUserRoleManager' ]
     data:
       0:
         id: 1
@@ -18,10 +11,85 @@ GetAll:
         hours_per_day: 8
         start_time: '07:00'
         end_time: '15:00'
+      1:
+        id: 2
+        name: 'Shift 2'
+        hours_per_day: 8
+        start_time: '09:30'
+        end_time: '17:30'
     meta:
-      total: 1
+      total: 2
 
-#GetOne:
-#  'get one by existing id':
-#    params: { id: 1 }
-#    result: { id: 1, name: 'Shift 1', 'hours_per_day': 8, start_time: '07:00', end_time: '15:00' }
+GetOne:
+  'get one work shift by Id':
+    userId: 1
+    services:
+      admin.work_shift_service: \OrangeHRM\Admin\Service\WorkShiftService
+    attributes:
+      id: 1
+    body: [ ]
+    query: [ ]
+    data:
+      id: 1
+      name: 'Shift 1'
+      hours_per_day: 8.00
+      start_time: '07:00'
+      end_time: '15:00'
+      employee:
+        0:
+          id: 1
+          label: 'Kayla'
+        1:
+          id: 2
+          label: 'Ashley'
+    meta: [ ]
+
+Create:
+  'create new work shift':
+    userId: 1
+    attributes: [ ]
+    body:
+      name: 'SHIFT - 03'
+      hoursPerDay: '4.0'
+      startTime: '08:00'
+      endTime: '12:00'
+      empNumbers: []
+    query: [ ]
+    data:
+      id: 3
+      name: 'SHIFT - 03'
+      hours_per_day: 4.0
+      start_time: '08:00'
+      end_time: '12:00'
+    meta: [ ]
+
+Update:
+  'update an existing work shift':
+    userId: 1
+    attributes:
+      id: 1
+    body:
+      name: 'SHIFT - 001'
+      hoursPerDay: '5.0'
+      startTime: '08:00'
+      endTime: '13:00'
+      empNumbers: []
+    query: [ ]
+    data:
+      id: 1
+      name: 'SHIFT - 001'
+      hours_per_day: 5.0
+      start_time: '08:00'
+      end_time: '13:00'
+    meta: [ ]
+
+Delete:
+  'delete an existing work shift or work shifts':
+    userId: 1
+    attributes: [ ]
+    body:
+      ids: [1, 2]
+    query: [ ]
+    data:
+      [1, 2]
+    meta: [ ]

@@ -17,35 +17,29 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Entity;
+namespace OrangeHRM\Admin\Dto;
 
-use Doctrine\ORM\Mapping as ORM;
+use Exception;
+use OrangeHRM\Admin\Traits\Service\WorkShiftServiceTrait;
+use OrangeHRM\Entity\Employee;
+use OrangeHRM\Entity\WorkShift;
 
-/**
- * @ORM\Table(name="ohrm_employee_work_shift")
- * @ORM\Entity
- */
-class EmployeeWorkShift
+class DetailedWorkShift
 {
+    use WorkShiftServiceTrait;
+
     /**
      * @var WorkShift
-     *
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
-     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\WorkShift")
-     * @ORM\JoinColumn(name="work_shift_id", referencedColumnName="id")
      */
     private WorkShift $workShift;
 
     /**
-     * @var Employee
-     *
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
-     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Employee", inversedBy="employeeWorkShift")
-     * @ORM\JoinColumn(name="emp_number", referencedColumnName="emp_number")
+     * @param WorkShift $workShift
      */
-    private Employee $employee;
+    public function __construct(WorkShift $workShift)
+    {
+        $this->setWorkShift($workShift);
+    }
 
     /**
      * @return WorkShift
@@ -64,18 +58,12 @@ class EmployeeWorkShift
     }
 
     /**
-     * @return Employee
+     * @param $workShiftId
+     * @return Employee[]
+     * @throws Exception
      */
-    public function getEmployee(): Employee
+    public function getEmployeeList($workShiftId): array
     {
-        return $this->employee;
-    }
-
-    /**
-     * @param Employee $employee
-     */
-    public function setEmployee(Employee $employee): void
-    {
-        $this->employee = $employee;
+        return $this->getWorkShiftService()->getEmployeesByWorkShiftId($workShiftId);
     }
 }

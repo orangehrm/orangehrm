@@ -18,19 +18,17 @@
  *
  */
 
-
 namespace OrangeHRM\entity\Decorator;
-
 
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\WorkShift;
 
-class WorkShiftDecorator 
+class WorkShiftDecorator
 {
     use EntityManagerHelperTrait;
     use DateTimeHelperTrait;
-    
+
     private WorkShift $workShift;
 
     /**
@@ -42,19 +40,19 @@ class WorkShiftDecorator
         $this->workShift = $workShift;
     }
 
-    /**
-     * @return WorkShift
-     */
-    protected function getWorkShift(): WorkShift 
-    {
-        return $this->workShift;
-    }
-    
     public function getStartTime()
     {
         return $this->getDateTimeHelper()->formatDateTimeToTimeString($this->getWorkShift()->getStartTime());
     }
-    
+
+    /**
+     * @return WorkShift
+     */
+    protected function getWorkShift(): WorkShift
+    {
+        return $this->workShift;
+    }
+
     public function getEndTime()
     {
         return $this->getDateTimeHelper()->formatDateTimeToTimeString($this->getWorkShift()->getEndTime());

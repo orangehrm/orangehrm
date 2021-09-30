@@ -211,6 +211,13 @@ apiv2_admin_work_shifts:
   defaults:
     _api: OrangeHRM\Admin\Api\WorkShiftAPI
 
+apiv2_admin_work_shifts_employee:
+  path: /api/v2/admin/employee-work-shifts/employee
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Admin\Api\WorkShiftEmployeeAPI
+
 apiv2_admin_location:
   path: /api/v2/admin/locations/{id}
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
@@ -447,3 +454,18 @@ apiv2_admin_pay_grade:
   methods: [ GET, PUT ]
   defaults:
     _api: OrangeHRM\Admin\Api\PayGradeAPI
+
+view_work_shift:
+  path: /admin/viewWorkShifts
+  controller: OrangeHRM\Admin\Controller\WorkShiftController::handle
+  methods: [ GET ]
+
+save_work_shift:
+  path: /admin/saveWorkShifts
+  controller: OrangeHRM\Admin\Controller\SaveWorkShiftController::handle
+  methods: [ GET ]
+
+edit_work_shift:
+  path: /admin/saveWorkShifts/{id}
+  controller: OrangeHRM\Admin\Controller\SaveWorkShiftController::handle
+  methods: [ GET ]

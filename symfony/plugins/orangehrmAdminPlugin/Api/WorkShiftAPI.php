@@ -17,9 +17,10 @@
  * Boston, MA  02110-1301, USA
  */
 
-
 namespace OrangeHRM\Admin\Api;
 
+use DateTime;
+use OrangeHRM\Admin\Api\Model\WorkShiftDetailedModel;
 use OrangeHRM\Admin\Api\Model\WorkShiftModel;
 use OrangeHRM\Admin\Dto\WorkShiftSearchFilterParams;
 use OrangeHRM\Admin\Service\WorkShiftService;
@@ -29,17 +30,19 @@ use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
+use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
+use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\WorkShift;
 
 class WorkShiftAPI extends EndPoint implements CrudEndpoint
 {
-
     public const PARAMETER_NAME = 'name';
     public const PARAMETER_HOURS_PER_DAY = 'hoursPerDay';
     public const PARAMETER_START_TIME = 'startTime';
@@ -49,28 +52,9 @@ class WorkShiftAPI extends EndPoint implements CrudEndpoint
     protected ?WorkShiftService $workShiftService = null;
 
     /**
-     * @return WorkShiftService
-     */
-    public function getWorkShiftService(): WorkShiftService 
-    {
-        if (is_null($this->workShiftService)) {
-            $this->workShiftService = new WorkShiftService();
-        }
-        return $this->workShiftService;
-    }
-
-    /**
-     * @param WorkShiftService $workShiftService
-     */
-    public function setWorkShiftService(WorkShiftService $workShiftService): void 
-    {
-        $this->workShiftService = $workShiftService;
-    }
-
-    /**
      * @inheritDoc
      */
-    public function getAll(): EndpointResult 
+    public function getAll(): EndpointResult
     {
         $workShiftSearchFilterParams = new WorkShiftSearchFilterParams();
         $this->setSortingAndPaginationParams($workShiftSearchFilterParams);
@@ -84,21 +68,43 @@ class WorkShiftAPI extends EndPoint implements CrudEndpoint
     }
 
     /**
+     * @return WorkShiftService
+     */
+    public function getWorkShiftService(): WorkShiftService
+    {
+        if (is_null($this->workShiftService)) {
+            $this->workShiftService = new WorkShiftService();
+        }
+        return $this->workShiftService;
+    }
+
+    /**
+     * @param WorkShiftService $workShiftService
+     */
+    public function setWorkShiftService(WorkShiftService $workShiftService): void
+    {
+        $this->workShiftService = $workShiftService;
+    }
+
+    /**
      * @inheritDoc
      */
-    public function getValidationRuleForGetAll(): ParamRuleCollection 
+    public function getValidationRuleForGetAll(): ParamRuleCollection
     {
         return new ParamRuleCollection(
             ...$this->getSortingAndPaginationParamsRules(WorkShiftSearchFilterParams::ALLOWED_SORT_FIELDS)
         );
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getOne(): EndpointResult
     {
         $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
         $workShift = $this->getWorkShiftService()->getWorkShiftById($id);
         $this->throwRecordNotFoundExceptionIfNotExist($workShift, WorkShift::class);
-        return new EndpointResourceResult(WorkShiftModel::class, $workShift);
+        return new EndpointResourceResult(WorkShiftDetailedModel::class, $workShift);
     }
 
     /**
@@ -116,53 +122,136 @@ class WorkShiftAPI extends EndPoint implements CrudEndpoint
 
     /**
      * @inheritDoc
+     * @throws DaoException
      */
-    public function create(): EndpointResult 
+    public function create(): EndpointResult
     {
-        // TODO: Implement create() method.
+        $workShift = $this->saveWorkShift();
+        return new EndpointResourceResult(WorkShiftModel::class, $workShift);
+    }
+
+    /**
+     * @return WorkShift
+     * @throws RecordNotFoundException
+     * @throws DaoException
+     */
+    public function saveWorkShift(): WorkShift
+    {
+        $workShiftId = $this->getRequestParams()->getInt(
+            RequestParams::PARAM_TYPE_ATTRIBUTE,
+            CommonParams::PARAMETER_ID
+        );
+
+        $workShiftName = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_NAME);
+        $workShiftHoursPerDay = $this->getRequestParams()->getString(
+            RequestParams::PARAM_TYPE_BODY,
+            self::PARAMETER_HOURS_PER_DAY
+        );
+        $workShiftStartTime = $this->getRequestParams()->getString(
+            RequestParams::PARAM_TYPE_BODY,
+            self::PARAMETER_START_TIME
+        );
+        $workShiftEndTime = $this->getRequestParams()->getString(
+            RequestParams::PARAM_TYPE_BODY,
+            self::PARAMETER_END_TIME
+        );
+        $empNumbers = $this->getRequestParams()->getArray(
+            RequestParams::PARAM_TYPE_BODY,
+            CommonParams::PARAMETER_EMP_NUMBERS
+        );
+
+        if (!empty($workShiftId)) {
+            $workShift = $this->getWorkShiftService()->getWorkShiftById($workShiftId);
+            if ($workShift == null) {
+                throw new RecordNotFoundException();
+            } else {
+                $workShift->setName($workShiftName);
+                $workShift->setHoursPerDay($workShiftHoursPerDay);
+                $workShift->setStartTime(new DateTime($workShiftStartTime));
+                $workShift->setEndTime(new DateTime($workShiftEndTime));
+                return $this->getWorkShiftService()
+                    ->getWorkShiftDao()
+                    ->updateWorkShift($workShift, $empNumbers);
+            }
+        } else {
+            $workShift = new WorkShift();
+        }
+        $workShift->setName($workShiftName);
+        $workShift->setHoursPerDay($workShiftHoursPerDay);
+        $workShift->setStartTime(new DateTime($workShiftStartTime));
+        $workShift->setEndTime(new DateTime($workShiftEndTime));
+
+        return $this->getWorkShiftService()
+            ->getWorkShiftDao()
+            ->saveWorkShift($workShift, $empNumbers);
     }
 
     /**
      * @inheritDoc
      */
-    public function getValidationRuleForCreate(): ParamRuleCollection 
+    public function getValidationRuleForCreate(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(self::PARAMETER_NAME, new Rule(Rules::STRING_TYPE), new Rule(Rules::REQUIRED), new Rule(Rules::LENGTH, [null, self::PARAM_RULE_NAME_MAX_LENGTH])),
-            new ParamRule(self::PARAMETER_HOURS_PER_DAY, new Rule(Rules::REQUIRED), new Rule(Rules::FLOAT_TYPE)),
+            new ParamRule(
+                self::PARAMETER_NAME,
+                new Rule(Rules::STRING_TYPE),
+                new Rule(Rules::REQUIRED),
+                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_NAME_MAX_LENGTH])
+            ),
+            new ParamRule(self::PARAMETER_HOURS_PER_DAY, new Rule(Rules::REQUIRED), new Rule(Rules::STRING_TYPE)),
             new ParamRule(self::PARAMETER_START_TIME, new Rule(Rules::REQUIRED), new Rule(Rules::DATE_TIME)),
-            new ParamRule(self::PARAMETER_END_TIME, new Rule(Rules::REQUIRED), new Rule(Rules::DATE_TIME))
+            new ParamRule(self::PARAMETER_END_TIME, new Rule(Rules::REQUIRED), new Rule(Rules::DATE_TIME)),
+            new ParamRule(CommonParams::PARAMETER_EMP_NUMBERS),
         );
     }
 
     /**
      * @inheritDoc
      */
-    public function delete(): EndpointResult {
-        // TODO: Implement delete() method.
+    public function delete(): EndpointResult
+    {
+        $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
+        $this->getWorkShiftService()->deleteWorkShifts($ids);
+        return new EndpointResourceResult(ArrayModel::class, $ids);
     }
 
     /**
      * @inheritDoc
      */
-    public function getValidationRuleForDelete(): ParamRuleCollection 
+    public function getValidationRuleForDelete(): ParamRuleCollection
     {
-        // TODO: Implement getValidationRuleForDelete() method.
+        return new ParamRuleCollection(
+            new ParamRule(CommonParams::PARAMETER_IDS),
+        );
+    }
+
+    /**
+     * @inheritDoc
+     * @throws DaoException
+     */
+    public function update(): EndpointResult
+    {
+        $workShift = $this->saveWorkShift();
+        return new EndpointResourceResult(WorkShiftModel::class, $workShift);
     }
 
     /**
      * @inheritDoc
      */
-    public function update(): EndpointResult 
+    public function getValidationRuleForUpdate(): ParamRuleCollection
     {
-        // TODO: Implement update() method.
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getValidationRuleForUpdate(): ParamRuleCollection 
-    {
-        // TODO: Implement getValidationRuleForUpdate() method.
+        return new ParamRuleCollection(
+            new ParamRule(CommonParams::PARAMETER_ID, new Rule(Rules::POSITIVE)),
+            new ParamRule(
+                self::PARAMETER_NAME,
+                new Rule(Rules::STRING_TYPE),
+                new Rule(Rules::REQUIRED),
+                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_NAME_MAX_LENGTH])
+            ),
+            new ParamRule(self::PARAMETER_HOURS_PER_DAY, new Rule(Rules::REQUIRED), new Rule(Rules::STRING_TYPE)),
+            new ParamRule(self::PARAMETER_START_TIME, new Rule(Rules::REQUIRED), new Rule(Rules::DATE_TIME)),
+            new ParamRule(self::PARAMETER_END_TIME, new Rule(Rules::REQUIRED), new Rule(Rules::DATE_TIME)),
+            new ParamRule(CommonParams::PARAMETER_EMP_NUMBERS),
+        );
     }
 }

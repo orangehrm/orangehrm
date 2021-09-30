@@ -293,4 +293,12 @@ class EmployeeService
         }
         return $this->getNormalizerService()->normalize(EmployeeModel::class, $employee);
     }
+
+    /**
+     * @return Employee[]
+     */
+    public function getAvailableEmployeesForWorkShift(EmployeeSearchFilterParams $employeeSearchParamHolder): array
+    {
+        return $this->getEmployeeDao()->getAvailableEmployeeListForWorkShift($employeeSearchParamHolder);
+    }
 }
