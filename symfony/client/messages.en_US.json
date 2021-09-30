@@ -195,6 +195,11 @@
           "source": "View",
           "target": "View",
           "description": "Admin has the privileged to view assigned goal/leave/tasks of all employees"
+        },
+        "generate": {
+          "source": "Generate",
+          "target": "Generate",
+          "description": ""
         }
       }
     },
