@@ -19,24 +19,18 @@
 
 namespace OrangeHRM\Leave\Controller;
 
-use DateTime;
 use OrangeHRM\Core\Controller\AbstractVueController;
-use OrangeHRM\Core\Exception\ServiceException;
-use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Leave\Api\Model\LeavePeriodModel;
 use OrangeHRM\Leave\Traits\Service\LeavePeriodServiceTrait;
 
 class HolidayController extends AbstractVueController
 {
     use LeavePeriodServiceTrait;
-    use NormalizerServiceTrait;
 
     /**
      * @inheritDoc
-     * @throws ServiceException
      */
     public function preRender(Request $request): void
     {

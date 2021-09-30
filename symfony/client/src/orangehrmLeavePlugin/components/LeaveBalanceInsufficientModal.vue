@@ -117,25 +117,16 @@ export default {
   computed: {
     items() {
       if (this.data.length > 0) {
-        return this.data
-          .flatMap(item => {
-            const {leaves, period} = item;
-            if (Array.isArray(leaves) && leaves.length > 0) {
-              leaves[0].period = period;
-              return leaves;
-            } else {
-              return [];
-            }
-          })
-          .map(item => {
+        const leavePeriods = this.data.map(item => item.period);
+        return leavePeriods.flatMap((period, index) => {
+          return this.data[index].leaves.map(leave => {
             return {
-              period:
-                item?.period &&
-                `${item.period.startDate} - ${item.period.endDate}`,
-              date: item.date,
-              balance: item.status?.name || item.balance,
+              period: `${period.startDate} - ${period.endDate}`,
+              date: leave.date,
+              balance: leave.status?.name || leave.balance,
             };
           });
+        });
       }
       return [];
     },
@@ -153,7 +144,7 @@ export default {
     leaveBalance() {
       return this.data[0]?.balance
         ? `${parseFloat(this.data[0].balance.balance).toFixed(2)} Day(s)`
-        : '0.00';
+        : '0.00 Day(s)';
     },
   },
 };

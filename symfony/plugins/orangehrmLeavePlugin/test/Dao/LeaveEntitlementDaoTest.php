@@ -468,33 +468,33 @@ class LeaveEntitlementDaoTest extends KernelTestCase
             [3, 4],
             [
                 Leave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL,
-                      Leave::LEAVE_STATUS_LEAVE_REJECTED
+                Leave::LEAVE_STATUS_LEAVE_REJECTED
             ]
         );
-        
+
         $this->assertEquals(0, count($requests));
-        
+
         $requests = $this->dao->getLinkedLeaveRequests(
             [1, 2, 3, 4, 5],
             [
                 Leave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL,
-                      Leave::LEAVE_STATUS_LEAVE_REJECTED
+                Leave::LEAVE_STATUS_LEAVE_REJECTED
             ]
         );
-        $this->assertEquals(5, count($requests));      
+        $this->assertEquals(5, count($requests));
         $this->assertEquals(1, $requests[0]->getId());
         $this->assertEquals(2, $requests[1]->getId());
         $this->assertEquals(3, $requests[2]->getId());
         $this->assertEquals(4, $requests[3]->getId());
         $this->assertEquals(5, $requests[4]->getId());
-        
+
         $requests = $this->dao->getLinkedLeaveRequests(
             [1, 2, 3, 4, 5],
             [Leave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL]
         );
         $this->assertEquals(2, count($requests));
         $this->assertEquals(1, $requests[0]->getId());
-        $this->assertEquals(2, $requests[1]->getId());        
+        $this->assertEquals(2, $requests[1]->getId());
     }
 
     public function testMatchingEntitlementsNoMatches(): void
@@ -606,7 +606,7 @@ class LeaveEntitlementDaoTest extends KernelTestCase
             $this->assertEquals(false, $entitlement->isDeleted(), 'id=' . $id);
         }
     }
-    
+
     public function testBulkAssignLeaveEntitlements():void {
         $empList = [1,2,3];
 
@@ -621,28 +621,28 @@ class LeaveEntitlementDaoTest extends KernelTestCase
         $leaveEntitlement->setCreatedBy($this->getEntityReference(User::class,1));
 
         $this->createKernelWithMockServices([
-            Services::LEAVE_CONFIG_SERVICE =>new LeaveConfigurationService(),
+                                                Services::LEAVE_CONFIG_SERVICE =>new LeaveConfigurationService(),
                                             ]);
         $result = $this->dao->bulkAssignLeaveEntitlements($empList, $leaveEntitlement);
-       
-       
+
+
         $this->assertEquals(count($empList),3);
-        
-        
+
+
         $result = $this->dao->bulkAssignLeaveEntitlements($empList, $leaveEntitlement);
         $leaveEntitlement->setNoOfDays(1);
-        
+
         list($leaveEntitlements, $count) = $this->dao->bulkAssignLeaveEntitlements($empList, $leaveEntitlement);
-       
-       
+
+
         $this->assertEquals(count($empList),$count);
-       
+
     }
-    
+
     public function xtestBulkAssignLeaveEntitlementsLinkingOfUnlinkedLeave() {
         // TODO
         $empList = [7];
-             
+
         $leaveEntitlement = new LeaveEntitlement();
         $leaveEntitlement->setLeaveTypeId(1);
         $leaveEntitlement->setCreditedDate(date('Y-m-d'));
@@ -652,21 +652,21 @@ class LeaveEntitlementDaoTest extends KernelTestCase
         $leaveEntitlement->setFromDate('2014-01-01');
         $leaveEntitlement->setToDate('2014-12-31');
 
-        $result = $this->dao->bulkAssignLeaveEntitlements($empList, $leaveEntitlement);              
+        $result = $this->dao->bulkAssignLeaveEntitlements($empList, $leaveEntitlement);
         $this->assertEquals(count($empList), $result);
-        
+
         // verify unlinked leave is now linked
         $conn = Doctrine_Manager::connection()->getDbh();
         $statement = $conn->prepare('SELECT * FROM ohrm_leave_leave_entitlement e WHERE e.leave_id = ?');
         $leaveIds = [11, 12];
-        
+
         foreach ($leaveIds as $leaveId) {
             $this->assertTrue($statement->execute([$leaveId]));
             $results = $statement->fetchAll();
             $this->assertEquals(1, count($results));
             $this->assertEquals($leaveId, $results[0]['leave_id']);
             $this->assertEquals(1, $results[0]['length_days']);
-        }    
+        }
     }
 
     /**
@@ -767,6 +767,7 @@ class LeaveEntitlementDaoTest extends KernelTestCase
         ];
     }
 
+
     public function testGetLeaveTypesForEntitlementUsageReport(): void
     {
         $filterParams = new EmployeeLeaveEntitlementUsageReportSearchFilterParams();
@@ -778,12 +779,26 @@ class LeaveEntitlementDaoTest extends KernelTestCase
         $this->assertEquals('Wesak', $result[7]->getName());
         $this->assertEquals(8, $this->dao->getLeaveTypesCountForEntitlementUsageReport($filterParams));
 
+        // situational leave get when employee have entitlement in given leave period
         $filterParams->setEmpNumber(7);
+        $filterParams->setFromDate(new DateTime('2014-01-01'));
+        $filterParams->setToDate(new DateTime('2014-12-31'));
         $result = $this->dao->getLeaveTypesForEntitlementUsageReport($filterParams);
         $this->assertCount(9, $result);
         $this->assertEquals('Annual', $result[0]->getName());
         $this->assertEquals('Maternity', $result[4]->getName());
         $this->assertEquals('Wesak', $result[8]->getName());
         $this->assertEquals(9, $this->dao->getLeaveTypesCountForEntitlementUsageReport($filterParams));
+
+        // situational leave should not get when employee don't have entitlement in given leave period
+        $filterParams->setEmpNumber(7);
+        $filterParams->setFromDate(new DateTime('2013-01-01'));
+        $filterParams->setToDate(new DateTime('2013-12-31'));
+        $result = $this->dao->getLeaveTypesForEntitlementUsageReport($filterParams);
+        $this->assertCount(8, $result);
+        $this->assertEquals('Annual', $result[0]->getName());
+        $this->assertEquals('Medical', $result[4]->getName());
+        $this->assertEquals('Wesak', $result[7]->getName());
+        $this->assertEquals(8, $this->dao->getLeaveTypesCountForEntitlementUsageReport($filterParams));
     }
 }

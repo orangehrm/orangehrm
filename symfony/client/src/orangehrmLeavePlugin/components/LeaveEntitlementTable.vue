@@ -242,7 +242,7 @@ export default {
       });
     },
     onClickDelete(item) {
-      if (!item.deletable) {
+      if (!item.isSelectable) {
         return this.$toast.cannotDelete();
       }
       this.$refs.deleteDialog.showDialog().then(confirmation => {

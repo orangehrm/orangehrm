@@ -337,7 +337,7 @@ class LeaveEntitlementAPI extends Endpoint implements CrudEndpoint
      */
     private function getEntitlementParamRule(): ParamRule
     {
-        return new ParamRule(self::PARAMETER_ENTITLEMENT, new Rule(Rules::POSITIVE));
+        return new ParamRule(self::PARAMETER_ENTITLEMENT, new Rule(Rules::ZERO_OR_POSITIVE));
     }
 
     /**

@@ -375,17 +375,27 @@ export default {
 
   watch: {
     'leave.employee': function(employee) {
-      if (!employee) {
-        return;
+      if (!employee) return;
+      this.http
+        .request({
+          method: 'GET',
+          url: `api/v2/pim/employees/${employee.id}/work-shift`,
+        })
+        .then(response => {
+          const {data} = response.data;
+          this.workShift = data;
+        });
+    },
+    appliedLeaveDuration: function(duration) {
+      if (duration === 1) {
+        this.leave.duration.type = {id: 1, label: 'Full Day', key: 'full_day'};
+      } else {
+        this.leave.duration.type = null;
       }
-      this.http.request({
-        method: 'GET',
-        url: `api/v2/pim/employees/${employee.id}/work-shift`,
-       })
-       .then(response => {
-        const {data} = response.data;
-        this.workShift = data;
-       });
+    },
+    'leave.fromDate': function(fromDate) {
+      if (!fromDate || this.leave.toDate) return;
+      this.leave.toDate = fromDate;
     },
   },
 };

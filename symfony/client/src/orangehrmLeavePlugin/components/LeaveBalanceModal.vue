@@ -154,12 +154,12 @@ export default {
     totalEntitlement() {
       return this.data?.entitled
         ? `${parseFloat(this.data.entitled).toFixed(2)} Day(s)`
-        : '0.00';
+        : '0.00 Day(s)';
     },
     leaveBalance() {
       return this.data?.balance
         ? `${parseFloat(this.data.balance).toFixed(2)} Day(s)`
-        : '0.00';
+        : '0.00 Day(s)';
     },
   },
 };

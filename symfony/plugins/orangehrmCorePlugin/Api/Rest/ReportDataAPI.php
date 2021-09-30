@@ -20,22 +20,72 @@
 namespace OrangeHRM\Core\Api\Rest;
 
 use OrangeHRM\Core\Api\V2\CollectionEndpoint;
+use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
+use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Core\Report\Api\EndpointAwareReport;
 use OrangeHRM\Core\Report\Api\EndpointProxy;
+use OrangeHRM\Core\Traits\ValidatorTrait;
 
 abstract class ReportDataAPI extends EndpointProxy implements CollectionEndpoint
 {
+    use ValidatorTrait;
+
+    private ?ParamRuleCollection $paramRules = null;
+
+    /**
+     * @inheritDoc
+     */
+    public function getAll(): EndpointResult
+    {
+        $report = $this->getReport();
+
+        $validationRule = $report->getValidationRule($this);
+        $excludedParamKeys = array_keys($this->getValidationRuleForGetAll()->getMap());
+        foreach ($excludedParamKeys as $excludedParamKey) {
+            $validationRule->addExcludedParamKey($excludedParamKey);
+        }
+        $this->validate($this->getRequest()->getAllParameters(), $validationRule);
+
+        $filterParams = $report->prepareFilterParams($this);
+        $data = $report->getData($filterParams);
+
+        return new EndpointCollectionResult(
+            ArrayModel::class,
+            $data->normalize(),
+            $data->getMeta()
+        );
+    }
+
+    /**
+     * @return EndpointAwareReport
+     */
+    abstract protected function getReport(): EndpointAwareReport;
+
     /**
      * @return string
      */
     protected function getReportName(): string
     {
         return $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_QUERY, ReportAPI::PARAMETER_NAME);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getValidationRuleForGetAll(): ParamRuleCollection
+    {
+        if (!$this->paramRules instanceof ParamRuleCollection) {
+            $this->paramRules = new ParamRuleCollection($this->getReportNameParamRule());
+            // Not validation additional parameter, let it validate within getAll
+            $this->paramRules->setStrict(false);
+        }
+        return $this->paramRules;
     }
 
     /**

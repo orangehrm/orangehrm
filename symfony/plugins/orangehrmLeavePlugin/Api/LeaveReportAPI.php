@@ -20,34 +20,17 @@
 namespace OrangeHRM\Leave\Api;
 
 use OrangeHRM\Core\Api\Rest\ReportAPI;
-use OrangeHRM\Core\Api\V2\EndpointResourceResult;
-use OrangeHRM\Core\Api\V2\EndpointResult;
 use OrangeHRM\Core\Api\V2\Exception\BadRequestException;
-use OrangeHRM\Core\Api\V2\Model\ArrayModel;
-use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Report\Api\EndpointAwareReport;
 use OrangeHRM\Leave\Report\EmployeeLeaveEntitlementUsageReport;
+use OrangeHRM\Leave\Report\LeaveTypeLeaveEntitlementUsageReport;
 
 class LeaveReportAPI extends ReportAPI
 {
     public const LEAVE_REPORT_MAP = [
-        'leave_entitlements_and_usage' => EmployeeLeaveEntitlementUsageReport::class
+        'employee_leave_entitlements_and_usage' => EmployeeLeaveEntitlementUsageReport::class,
+        'leave_type_leave_entitlements_and_usage' => LeaveTypeLeaveEntitlementUsageReport::class,
     ];
-
-    /**
-     * @inheritDoc
-     */
-    public function getOne(): EndpointResult
-    {
-        $report = $this->getReport();
-        $header = $report->getHeaderDefinition();
-
-        return new EndpointResourceResult(
-            ArrayModel::class,
-            $header->normalize(),
-            $header->getMeta()
-        );
-    }
 
     /**
      * @return EndpointAwareReport
@@ -61,13 +44,5 @@ class LeaveReportAPI extends ReportAPI
         }
         $reportClass = LeaveReportAPI::LEAVE_REPORT_MAP[$reportName];
         return new $reportClass();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getValidationRuleForGetOne(): ParamRuleCollection
-    {
-        return new ParamRuleCollection($this->getReportNameParamRule());
     }
 }
