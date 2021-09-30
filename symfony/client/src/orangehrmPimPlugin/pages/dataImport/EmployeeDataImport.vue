@@ -28,44 +28,44 @@
         <oxd-text class="orangehrm-sub-title">Note:</oxd-text>
         <ul>
           <li>
-            <oxd-text class="orangehrm-information-card-text"
-              >Column order should not be changed</oxd-text
-            >
+            <oxd-text class="orangehrm-information-card-text">
+              Column order should not be changed
+            </oxd-text>
           </li>
           <li>
-            <oxd-text class="orangehrm-information-card-text"
-              >First Name and Last Name are compulsory</oxd-text
-            >
+            <oxd-text class="orangehrm-information-card-text">
+              First Name and Last Name are compulsory
+            </oxd-text>
           </li>
           <li>
-            <oxd-text class="orangehrm-information-card-text"
-              >All date fields should be in YYYY-MM-DD format</oxd-text
-            >
+            <oxd-text class="orangehrm-information-card-text">
+              All date fields should be in YYYY-MM-DD format
+            </oxd-text>
           </li>
           <li>
-            <oxd-text class="orangehrm-information-card-text"
-              >If gender is specified, value should be either Male or
-              Female</oxd-text
-            >
+            <oxd-text class="orangehrm-information-card-text">
+              If gender is specified, value should be either Male or Female
+            </oxd-text>
           </li>
           <li>
-            <oxd-text class="orangehrm-information-card-text"
-              >Each import file should be configured for 100 records or
-              less</oxd-text
-            >
+            <oxd-text class="orangehrm-information-card-text">
+              Each import file should be configured for 100 records or less
+            </oxd-text>
           </li>
           <li>
-            <oxd-text class="orangehrm-information-card-text"
-              >Multiple import files may be required</oxd-text
-            >
+            <oxd-text class="orangehrm-information-card-text">
+              Multiple import files may be required
+            </oxd-text>
           </li>
           <li>
-            <oxd-text class="orangehrm-information-card-text"
-              >Sample CSV file:
-              <a class="download-link" href="#">
-                <span @click="onClickDownload" class="download-link"
-                  >Download</span
-                >
+            <oxd-text class="orangehrm-information-card-text">
+              Sample CSV file:
+              <a
+                class="download-link"
+                @click.prevent="onClickDownload"
+                href="#"
+              >
+                Download
               </a>
             </oxd-text>
           </li>
@@ -84,9 +84,9 @@
                 :rules="rules.attachment"
                 required
               />
-              <oxd-text class="orangehrm-input-hint" tag="p"
-                >Accepts up to 1MB</oxd-text
-              >
+              <oxd-text class="orangehrm-input-hint" tag="p">
+                Accepts up to 1MB
+              </oxd-text>
             </oxd-grid-item>
           </oxd-grid>
         </oxd-form-row>
@@ -94,12 +94,7 @@
         <oxd-divider />
         <oxd-form-actions>
           <required-text />
-          <oxd-button
-            class="orangehrm-left-space"
-            displayType="secondary"
-            label="Upload"
-            type="submit"
-          />
+          <submit-button label="Upload" />
         </oxd-form-actions>
       </oxd-form>
     </div>
@@ -108,8 +103,9 @@
 
 <script>
 import {APIService} from '@/core/util/services/api.service';
+import {required, maxFileSize, validFileTypes} from "@/core/util/validation/rules";
 
-let attachmentModel = {
+const attachmentModel = {
   attachment: null,
 };
 
@@ -129,16 +125,9 @@ export default {
       },
       rules: {
         attachment: [
-          v => {
-            return v !== null || 'Required';
-          },
-          v =>
-            (v && v.size && v.size <= 1024 * 1024) ||
-            'Attachment size exceeded',
-          v =>
-            (v &&
-              this.allowedFileTypes.findIndex(item => item === v.type) > -1) ||
-            'File type not allowed',
+          required,
+          maxFileSize(1048576),
+          validFileTypes(this.allowedFileTypes)
         ],
       },
     };
@@ -162,27 +151,18 @@ export default {
         })
         .then(response => {
           const importedRecords = response.data.meta.total;
-          this.updateModel();
+          this.attachment = {...attachmentModel};
+          this.isLoading = false;
           return this.$toast.success({
             title: 'Success',
             message: 'Number of Records Imported: ' + importedRecords,
           });
-        })
-        .then(() => {
-          this.isLoading = false;
         });
-    },
-    updateModel() {
-      attachmentModel = {attachment: null};
     },
     onClickDownload() {
       const downUrl = `${window.appGlobal.baseUrl}/pim/csvImportSample`;
       window.open(downUrl, '_blank');
     },
-  },
-
-  created() {
-    this.isLoading = false;
   },
 };
 </script>
