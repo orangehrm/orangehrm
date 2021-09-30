@@ -24,11 +24,13 @@ use OrangeHRM\Admin\Dao\WorkShiftDao;
 use OrangeHRM\Admin\Dto\WorkShiftSearchFilterParams;
 use OrangeHRM\Admin\Dto\WorkShiftStartAndEndTime;
 use OrangeHRM\Core\Exception\DaoException;
+use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\WorkShift;
 
 class WorkShiftService
 {
+    use ConfigServiceTrait;
     private ?WorkShiftDao $workShiftDao = null;
 
     /**
@@ -107,13 +109,5 @@ class WorkShiftService
     public function getEmployeesByWorkShiftId($workShiftId): array
     {
         return $this->getWorkShiftDao()->getEmployeeListByWorkShiftId($workShiftId);
-    }
-
-    /**
-     * @return Employee[]
-     */
-    public function getEmployeeNotInWorkShift(): array
-    {
-        return $this->getWorkShiftDao()->getEmployeeNotInEmployeeWorkSft();
     }
 }
