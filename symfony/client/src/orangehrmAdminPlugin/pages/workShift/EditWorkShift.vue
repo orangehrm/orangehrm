@@ -45,7 +45,7 @@
               <oxd-input-field
                 type="time"
                 :rules="rules.fromTime"
-                label="From"
+                :label="$t('general.from')"
                 v-model="workShift.startTime"
               />
             </oxd-grid-item>
@@ -54,7 +54,7 @@
               <oxd-input-field
                 type="time"
                 :rules="rules.endTime"
-                label="From"
+                :label="$t('general.to')"
                 v-model="workShift.endTime"
               />
             </oxd-grid-item>
@@ -99,7 +99,7 @@ import {
   shouldNotExceedCharLength,
   validTimeFormat,
 } from '@orangehrm/core/util/validation/rules';
-import {diffInTime, secondsTohhmm} from '@/core/util/helper/datefns';
+import {diffInTime} from '@/core/util/helper/datefns';
 import WorkShiftEmployeeAutocomplete from '@/orangehrmAdminPlugin/components/WorkShiftEmployeeAutocomplete';
 
 const workShiftModel = {
@@ -110,8 +110,6 @@ const workShiftModel = {
   endTime: null,
   empNumbers: [],
 };
-const arrEmp = [];
-
 export default {
   props: {
     workShiftId: {
@@ -137,6 +135,7 @@ export default {
       workShift: {...workShiftModel},
       rules: {
         name: [required, shouldNotExceedCharLength(50)],
+        fromTime: [validTimeFormat],
         endTime: [
           validTimeFormat,
           endTimeShouldBeAfterStartTime(
@@ -150,18 +149,12 @@ export default {
   methods: {
     onSave() {
       this.isLoading = true;
-      this.workShift.empNumbers.forEach(function(employee) {
-        arrEmp.push(employee.id);
-      });
-
       const payload = {
         name: this.workShift.name,
-        hoursPerDay: parseFloat(
-          diffInTime(this.workShift.startTime, this.workShift.endTime) / 3600,
-        ).toFixed(2),
+        hoursPerDay: this.selectedTimeDuration,
         startTime: this.workShift.startTime,
         endTime: this.workShift.endTime,
-        empNumbers: arrEmp,
+        empNumbers: this.workShift.empNumbers.map(employee => employee.id),
       };
       this.http
         .update(this.workShiftId, payload)
@@ -184,9 +177,9 @@ export default {
         const {data} = response.data;
         this.workShift.id = data.id;
         this.workShift.name = data.name;
-        this.workShift.hoursPerDay = data.hours_per_day;
-        this.workShift.startTime = data.start_time;
-        this.workShift.endTime = data.end_time;
+        this.workShift.hoursPerDay = data.hoursPerDay;
+        this.workShift.startTime = data.startTime;
+        this.workShift.endTime = data.endTime;
         this.workShift.empNumbers = data.employee;
         return this.http.getAll();
       })
@@ -208,9 +201,9 @@ export default {
   },
   computed: {
     selectedTimeDuration() {
-      return secondsTohhmm(
-        diffInTime(this.workShift.startTime, this.workShift.endTime),
-      );
+      return parseFloat(
+        diffInTime(this.workShift.startTime, this.workShift.endTime) / 3600,
+      ).toFixed(2);
     },
   },
 };

@@ -233,7 +233,7 @@
         },
         "shift_name": {
           "source": "Shift Name",
-          "target": "Shift Name",
+          "target": "Shift Name*",
           "description": "When HR Admin defining work shifts for an individual or a group of employees, shift name should be specified"
         },
         "duration_per_day": {

@@ -20,7 +20,7 @@
 namespace OrangeHRM\Admin\Api\Model;
 
 use Exception;
-use OrangeHRM\Admin\Dto\DetailedWorkShift;
+use OrangeHRM\Admin\Traits\Service\WorkShiftServiceTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
@@ -30,6 +30,7 @@ class WorkShiftDetailedModel implements Normalizable
 {
     use NormalizerServiceTrait;
     use DateTimeHelperTrait;
+    use WorkShiftServiceTrait;
 
     private WorkShift $workShift;
 
@@ -42,15 +43,22 @@ class WorkShiftDetailedModel implements Normalizable
     }
 
     /**
+     * @return WorkShift
+     */
+    public function getWorkShift(): WorkShift
+    {
+        return $this->workShift;
+    }
+
+    /**
      * @return array
      * @throws Exception
      */
     public function toArray(): array
     {
-        $detailedWorkShift = new DetailedWorkShift($this->workShift);
-        $workShiftId = $detailedWorkShift->getWorkShift()->getId();
+        $detailedWorkShift = $this->getWorkShift();
         $employees = [];
-        foreach ($detailedWorkShift->getEmployeeList($workShiftId) as $employee) {
+        foreach ($this->getWorkShiftService()->getEmployeesByWorkShiftId($this->workShift->getId()) as $employee) {
             $employeeList = [
                 'id' => $employee->getEmpNumber(),
                 'label' => $employee->getFirstName(),
@@ -59,14 +67,14 @@ class WorkShiftDetailedModel implements Normalizable
         }
 
         return [
-            'id' => $detailedWorkShift->getWorkShift()->getId(),
-            'name' => $detailedWorkShift->getWorkShift()->getName(),
-            'hours_per_day' => $detailedWorkShift->getWorkShift()->getHoursPerDay(),
-            'start_time' => $this->getDateTimeHelper()->formatDateTimeToTimeString(
-                $detailedWorkShift->getWorkShift()->getStartTime()
+            'id' => $detailedWorkShift->getId(),
+            'name' => $detailedWorkShift->getName(),
+            'hoursPerDay' => $detailedWorkShift->getHoursPerDay(),
+            'startTime' => $this->getDateTimeHelper()->formatDateTimeToTimeString(
+                $detailedWorkShift->getStartTime()
             ),
-            'end_time' => $this->getDateTimeHelper()->formatDateTimeToTimeString(
-                $detailedWorkShift->getWorkShift()->getEndTime()
+            'endTime' => $this->getDateTimeHelper()->formatDateTimeToTimeString(
+                $detailedWorkShift->getEndTime()
             ),
             'employee' => $employees
         ];

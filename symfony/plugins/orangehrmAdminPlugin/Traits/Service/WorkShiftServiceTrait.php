@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\Admin\Traits\Service;
 
-use Exception;
 use OrangeHRM\Admin\Service\WorkShiftService;
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Framework\Services;
@@ -30,7 +29,6 @@ trait WorkShiftServiceTrait
 
     /**
      * @return WorkShiftService
-     * @throws Exception
      */
     protected function getWorkShiftService(): WorkShiftService
     {

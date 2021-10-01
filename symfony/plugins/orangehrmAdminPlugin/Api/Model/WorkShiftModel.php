@@ -23,7 +23,7 @@ use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\WorkShift;
 
-class WorkShiftModel  implements Normalizable
+class WorkShiftModel implements Normalizable
 {
     use ModelTrait;
 
@@ -47,9 +47,9 @@ class WorkShiftModel  implements Normalizable
             [
                 'id',
                 'name',
-                'hours_per_day',
-                'start_time',
-                'end_time'
+                'hoursPerDay',
+                'startTime',
+                'endTime'
             ]
         );
     }

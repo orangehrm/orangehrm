@@ -33,18 +33,13 @@ import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete'
 
 export default {
   name: 'work-shift-employee-autocomplete',
-  props: {
-    params: {
-      type: Object,
-    },
-  },
   components: {
     'employee-autocomplete': EmployeeAutocomplete,
   },
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      'api/v2/admin/employee-work-shifts/employee',
+      'api/v2/admin/work-shifts/employees',
     );
     return {
       http,
@@ -57,7 +52,6 @@ export default {
           this.http
             .getAll({
               nameOrId: serachParam,
-              ...this.params,
             })
             .then(({data}) => {
               resolve(

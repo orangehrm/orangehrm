@@ -122,7 +122,6 @@ class WorkShiftAPI extends EndPoint implements CrudEndpoint
 
     /**
      * @inheritDoc
-     * @throws DaoException
      */
     public function create(): EndpointResult
     {
@@ -141,7 +140,6 @@ class WorkShiftAPI extends EndPoint implements CrudEndpoint
             RequestParams::PARAM_TYPE_ATTRIBUTE,
             CommonParams::PARAMETER_ID
         );
-
         $workShiftName = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_NAME);
         $workShiftHoursPerDay = $this->getRequestParams()->getString(
             RequestParams::PARAM_TYPE_BODY,
@@ -159,11 +157,10 @@ class WorkShiftAPI extends EndPoint implements CrudEndpoint
             RequestParams::PARAM_TYPE_BODY,
             CommonParams::PARAMETER_EMP_NUMBERS
         );
-
         if (!empty($workShiftId)) {
             $workShift = $this->getWorkShiftService()->getWorkShiftById($workShiftId);
             if ($workShift == null) {
-                throw new RecordNotFoundException();
+                throw $this->getRecordNotFoundException();
             } else {
                 $workShift->setName($workShiftName);
                 $workShift->setHoursPerDay($workShiftHoursPerDay);
@@ -173,14 +170,12 @@ class WorkShiftAPI extends EndPoint implements CrudEndpoint
                     ->getWorkShiftDao()
                     ->updateWorkShift($workShift, $empNumbers);
             }
-        } else {
-            $workShift = new WorkShift();
         }
+        $workShift = new WorkShift();
         $workShift->setName($workShiftName);
         $workShift->setHoursPerDay($workShiftHoursPerDay);
         $workShift->setStartTime(new DateTime($workShiftStartTime));
         $workShift->setEndTime(new DateTime($workShiftEndTime));
-
         return $this->getWorkShiftService()
             ->getWorkShiftDao()
             ->saveWorkShift($workShift, $empNumbers);
@@ -227,7 +222,6 @@ class WorkShiftAPI extends EndPoint implements CrudEndpoint
 
     /**
      * @inheritDoc
-     * @throws DaoException
      */
     public function update(): EndpointResult
     {

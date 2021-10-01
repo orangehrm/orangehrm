@@ -20,12 +20,18 @@
 namespace OrangeHRM\Admin\Controller;
 
 use OrangeHRM\Core\Controller\AbstractVueController;
+use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Framework\Http\Request;
 
 class SaveWorkShiftController extends AbstractVueController
 {
+    use ConfigServiceTrait;
+
+    /**
+     * @inheritDoc
+     */
     public function preRender(Request $request): void
     {
         $id = $request->get('id');
@@ -33,7 +39,12 @@ class SaveWorkShiftController extends AbstractVueController
             $component = new Component('work-shift-edit');
             $component->addProp(new Prop('work-shift-id', Prop::TYPE_NUMBER, $id));
         } else {
+            $workShiftConfig = [
+                "startTime" => $this->getConfigService()->getDefaultWorkShiftStartTime(),
+                "endTime" => $this->getConfigService()->getDefaultWorkShiftEndTime(),
+            ];
             $component = new Component('work-shift-save');
+            $component->addProp(new Prop('work-shift-config', Prop::TYPE_OBJECT, $workShiftConfig));
         }
         $this->setComponent($component);
     }

@@ -99,22 +99,26 @@ import {
   shouldNotExceedCharLength,
   validTimeFormat,
 } from '@orangehrm/core/util/validation/rules';
-import {diffInTime, secondsTohhmm} from '@/core/util/helper/datefns';
+import {diffInTime} from '@/core/util/helper/datefns';
 import WorkShiftEmployeeAutocomplete from '@/orangehrmAdminPlugin/components/WorkShiftEmployeeAutocomplete';
 
 const workShiftModel = {
   id: '',
   name: '',
   hoursPerDay: '',
-  startTime: '08:00',
-  endTime: '17:00',
+  startTime: '',
+  endTime: '',
   empNumbers: [],
 };
-const arrEmp = [];
-
 export default {
   components: {
     'work-shift-employee-autocomplete': WorkShiftEmployeeAutocomplete,
+  },
+  props: {
+    workShiftConfig: {
+      type: Object,
+      required: true,
+    },
   },
   data() {
     return {
@@ -122,7 +126,9 @@ export default {
       workShift: {...workShiftModel},
       rules: {
         name: [required, shouldNotExceedCharLength(50)],
+        fromTime: [required, validTimeFormat],
         endTime: [
+          required,
           validTimeFormat,
           endTimeShouldBeAfterStartTime(
             () => this.workShift.startTime,
@@ -144,17 +150,12 @@ export default {
   methods: {
     onSave() {
       this.isLoading = true;
-      this.workShift.empNumbers.forEach(function(employee) {
-        arrEmp.push(employee.id);
-      });
       const payload = {
         name: this.workShift.name,
-        hoursPerDay: parseFloat(
-          diffInTime(this.workShift.startTime, this.workShift.endTime) / 3600,
-        ).toFixed(2),
+        hoursPerDay: this.selectedTimeDuration,
         startTime: this.workShift.startTime,
         endTime: this.workShift.endTime,
-        empNumbers: arrEmp,
+        empNumbers: this.workShift.empNumbers.map(employee => employee.id),
       };
       this.http
         .create(payload)
@@ -162,11 +163,7 @@ export default {
           return this.$toast.saveSuccess();
         })
         .then(() => {
-          this.workShift.name = '';
-          this.workShift.hoursPerDay = '';
-          this.workShift.startTime = null;
-          this.workShift.endTime = null;
-          this.workShift.empNumbers = [];
+          this.workShift = {...workShiftModel};
           this.isLoading = false;
           this.onCancel();
         });
@@ -177,11 +174,12 @@ export default {
   },
   beforeMount() {
     this.isLoading = true;
+    this.workShift.startTime = this.workShiftConfig.startTime;
+    this.workShift.endTime = this.workShiftConfig.endTime;
     this.http
       .getAll()
       .then(response => {
         const {data} = response.data;
-        this.rules.name.push(required);
         this.rules.name.push(v => {
           const index = data.findIndex(item => item.name == v);
           return index === -1 || 'Already exists';
@@ -193,9 +191,9 @@ export default {
   },
   computed: {
     selectedTimeDuration() {
-      return secondsTohhmm(
-        diffInTime(this.workShift.startTime, this.workShift.endTime),
-      );
+      return parseFloat(
+        diffInTime(this.workShift.startTime, this.workShift.endTime) / 3600,
+      ).toFixed(2);
     },
   },
 };

@@ -39,6 +39,9 @@ class WorkShiftDecorator
         $this->workShift = $workShift;
     }
 
+    /**
+     * @return string|null
+     */
     public function getStartTime()
     {
         return $this->getDateTimeHelper()->formatDateTimeToTimeString($this->getWorkShift()->getStartTime());
@@ -52,6 +55,9 @@ class WorkShiftDecorator
         return $this->workShift;
     }
 
+    /**
+     * @return string|null
+     */
     public function getEndTime()
     {
         return $this->getDateTimeHelper()->formatDateTimeToTimeString($this->getWorkShift()->getEndTime());

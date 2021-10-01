@@ -23,10 +23,10 @@ use OrangeHRM\Core\Dto\FilterParams;
 
 class WorkShiftSearchFilterParams extends FilterParams
 {
-    public const ALLOWED_SORT_FIELDS = ['ws.name'];
+    public const ALLOWED_SORT_FIELDS = ['workShift.name'];
 
     public function __construct()
     {
-        $this->setSortField('ws.name');
+        $this->setSortField('workShift.name');
     }
 }

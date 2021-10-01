@@ -73,9 +73,9 @@ export default {
     return {
       headers: [
         {name: 'name', slot: 'title', title: 'Name', style: {flex: 1}},
-        {name: 'start_time', title: 'From', style: {flex: 1}},
-        {name: 'end_time', title: 'To', style: {flex: 1}},
-        {name: 'hours_per_day', title: 'Hours Per Day', style: {flex: 1}},
+        {name: 'startTime', title: 'From', style: {flex: 1}},
+        {name: 'endTime', title: 'To', style: {flex: 1}},
+        {name: 'hoursPerDay', title: 'Hours Per Day', style: {flex: 1}},
         {
           name: 'actions',
           title: 'Actions',
