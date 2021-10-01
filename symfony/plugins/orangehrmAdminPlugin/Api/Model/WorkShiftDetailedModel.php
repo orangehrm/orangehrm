@@ -61,7 +61,7 @@ class WorkShiftDetailedModel implements Normalizable
         foreach ($this->getWorkShiftService()->getEmployeesByWorkShiftId($this->workShift->getId()) as $employee) {
             $employeeList = [
                 'id' => $employee->getEmpNumber(),
-                'label' => $employee->getFirstName(),
+                'label' => $employee->getFirstName().' '.$employee->getMiddleName().' '.$employee->getLastName(),
             ];
             $employees[] = $employeeList;
         }
