@@ -12,26 +12,26 @@ describe('Leave-Configure - Work Week test script', function () {
   describe('Change work week type testing', function () {
     it('change type to halfday,fullday, nonworking day & check toast', () => {
       cy.get(
-        '#app > div.oxd-layout > div > div.oxd-layout-context > div > div > form > div:nth-child(1) > div > div > div > div:nth-child(2) > div > div',
+        '.oxd-form > :nth-child(1) > .oxd-grid-4 > .oxd-input-group > :nth-child(2) > .oxd-select-wrapper > .oxd-select-text > .oxd-select-text--after > .oxd-icon',
       ).click();
       cy.get(
-        '#app > div.oxd-layout > div > div.oxd-layout-context > div > div > form > div:nth-child(1) > div > div > div > div:nth-child(2)',
+        '.oxd-form > :nth-child(1) > .oxd-grid-4 > .oxd-input-group > :nth-child(2) > .oxd-select-wrapper > .oxd-select-dropdown',
       )
         .contains('Full Day')
         .click();
       cy.get(
-        '#app > div.oxd-layout > div > div.oxd-layout-context > div > div > form > div:nth-child(3) > div > div > div > div:nth-child(2) > div > div',
+        '.oxd-form > :nth-child(3) > .oxd-grid-4 > .oxd-input-group > :nth-child(2) > .oxd-select-wrapper > .oxd-select-text > .oxd-select-text--after > .oxd-icon',
       ).click();
       cy.get(
-        '#app > div.oxd-layout > div > div.oxd-layout-context > div > div > form > div:nth-child(3) > div > div > div > div:nth-child(2)',
+        '.oxd-form > :nth-child(3) > .oxd-grid-4 > .oxd-input-group > :nth-child(2) > .oxd-select-wrapper > .oxd-select-dropdown',
       )
         .contains('Non-working Day')
         .click();
       cy.get(
-        '#app > div.oxd-layout > div > div.oxd-layout-context > div > div > form > div:nth-child(6) > div > div > div > div:nth-child(2) > div > div',
+        '.oxd-form > :nth-child(6) > .oxd-grid-4 > .oxd-input-group > :nth-child(2) > .oxd-select-wrapper > .oxd-select-text > .oxd-select-text--after > .oxd-icon',
       ).click();
       cy.get(
-        '#app > div.oxd-layout > div > div.oxd-layout-context > div > div > form > div:nth-child(6) > div > div > div > div:nth-child(2)',
+        '.oxd-form > :nth-child(6) > .oxd-grid-4 > .oxd-input-group > :nth-child(2) > .oxd-select-wrapper > .oxd-select-dropdown',
       )
         .contains('Half Day')
         .click();
@@ -42,26 +42,26 @@ describe('Leave-Configure - Work Week test script', function () {
   describe('work week validation testing', function () {
     it('check with different combinations', () => {
       cy.get(
-        '#app > div.oxd-layout > div > div.oxd-layout-context > div > div > form > div:nth-child(1) > div > div > div > div:nth-child(2) > div > div',
+        '.oxd-form > :nth-child(1) > .oxd-grid-4 > .oxd-input-group > :nth-child(2) > .oxd-select-wrapper > .oxd-select-text > .oxd-select-text--after > .oxd-icon',
       ).click();
       cy.get(
-        '#app > div.oxd-layout > div > div.oxd-layout-context > div > div > form > div:nth-child(1) > div > div > div > div:nth-child(2)',
+        '.oxd-form > :nth-child(1) > .oxd-grid-4 > .oxd-input-group > :nth-child(2) > .oxd-select-wrapper > .oxd-select-dropdown',
       )
         .contains('Non-working Day')
         .click();
       cy.get(
-        '#app > div.oxd-layout > div > div.oxd-layout-context > div > div > form > div:nth-child(3) > div > div > div > div:nth-child(2) > div > div',
+        '.oxd-form > :nth-child(3) > .oxd-grid-4 > .oxd-input-group > :nth-child(2) > .oxd-select-wrapper > .oxd-select-text > .oxd-select-text--after > .oxd-icon',
       ).click();
       cy.get(
-        '#app > div.oxd-layout > div > div.oxd-layout-context > div > div > form > div:nth-child(3) > div > div > div > div:nth-child(2)',
+        '.oxd-form > :nth-child(3) > .oxd-grid-4 > .oxd-input-group > :nth-child(2) > .oxd-select-wrapper > .oxd-select-dropdown',
       )
         .contains('Full Day')
         .click();
       cy.get(
-        '#app > div.oxd-layout > div > div.oxd-layout-context > div > div > form > div:nth-child(6) > div > div > div > div:nth-child(2) > div > div',
+        '.oxd-form > :nth-child(6) > .oxd-grid-4 > .oxd-input-group > :nth-child(2) > .oxd-select-wrapper > .oxd-select-text > .oxd-select-text--after > .oxd-icon',
       ).click();
       cy.get(
-        '#app > div.oxd-layout > div > div.oxd-layout-context > div > div > form > div:nth-child(6) > div > div > div > div:nth-child(2)',
+        '.oxd-form > :nth-child(6) > .oxd-grid-4 > .oxd-input-group > :nth-child(2) > .oxd-select-wrapper > .oxd-select-dropdown',
       )
         .contains('Half Day')
         .click();
@@ -70,64 +70,21 @@ describe('Leave-Configure - Work Week test script', function () {
     });
     // eslint-disable-next-line jest/no-disabled-tests
     it.skip('change all days to non working day', () => {
-      cy.get(
-        '#app > div.oxd-layout > div > div.oxd-layout-context > div > div > form > div:nth-child(1) > div > div > div > div:nth-child(2) > div > div',
-      ).click();
-      cy.get(
-        '#app > div.oxd-layout > div > div.oxd-layout-context > div > div > form > div:nth-child(1) > div > div > div > div:nth-child(2)',
-      )
-        .contains('Non-working Day')
-        .click();
-
-      cy.get(
-        '#app > div.oxd-layout > div > div.oxd-layout-context > div > div > form > div:nth-child(3) > div > div > div > div:nth-child(2) > div > div',
-      ).click();
-      cy.get(
-        '#app > div.oxd-layout > div > div.oxd-layout-context > div > div > form > div:nth-child(3) > div > div > div > div:nth-child(2)',
-      )
-        .contains('Non-working Day')
-        .click();
-      cy.get(
-        '#app > div.oxd-layout > div > div.oxd-layout-context > div > div > form > div:nth-child(2) > div > div > div > div:nth-child(2) > div > div',
-      ).click();
-      cy.get(
-        '#app > div.oxd-layout > div > div.oxd-layout-context > div > div > form > div:nth-child(2) > div > div > div > div:nth-child(2)',
-      )
-        .contains('Non-working Day')
-        .click();
-      cy.get(
-        '#app > div.oxd-layout > div > div.oxd-layout-context > div > div > form > div:nth-child(4) > div > div > div > div:nth-child(2) > div > div',
-      ).click();
-      cy.get(
-        '#app > div.oxd-layout > div > div.oxd-layout-context > div > div > form > div:nth-child(4) > div > div > div > div:nth-child(2)',
-      )
-        .contains('Non-working Day')
-        .click();
-      cy.get(
-        '#app > div.oxd-layout > div > div.oxd-layout-context > div > div > form > div:nth-child(6) > div > div > div > div:nth-child(2) > div > div',
-      ).click();
-      cy.get(
-        '#app > div.oxd-layout > div > div.oxd-layout-context > div > div > form > div:nth-child(6) > div > div > div > div:nth-child(2)',
-      )
-        .contains('Non-working Day')
-        .click();
-      cy.get(
-        '#app > div.oxd-layout > div > div.oxd-layout-context > div > div > form > div:nth-child(5) > div > div > div > div:nth-child(2) > div > div',
-      ).click();
-      cy.get(
-        '#app > div.oxd-layout > div > div.oxd-layout-context > div > div > form > div:nth-child(5) > div > div > div > div:nth-child(2)',
-      )
-        .contains('Non-working Day')
-        .click();
-      cy.get(
-        '#app > div.oxd-layout > div > div.oxd-layout-context > div > div > form > div:nth-child(7) > div > div > div > div:nth-child(2) > div > div',
-      ).click();
-      cy.get(
-        '#app > div.oxd-layout > div > div.oxd-layout-context > div > div > form > div:nth-child(7) > div > div > div > div:nth-child(2)',
-      )
-        .contains('Non-working Day')
-        .click();
-
+      let i = 1;
+      for (i = 1; i < 8; i++) {
+        cy.get(
+          '.oxd-form > :nth-child(' +
+            i +
+            ') > .oxd-grid-4 > .oxd-input-group > :nth-child(2) > .oxd-select-wrapper > .oxd-select-text > .oxd-select-text--after > .oxd-icon',
+        ).click();
+        cy.get(
+          '.oxd-form > :nth-child(' +
+            i +
+            ') > .oxd-grid-4 > .oxd-input-group > :nth-child(2) > .oxd-select-wrapper > .oxd-select-dropdown',
+        )
+          .contains('Non-working Day')
+          .click();
+      }
       cy.get('.oxd-button').click();
       cy.get('.oxd-input-group > .oxd-text').should(
         'include.text',
