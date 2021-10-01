@@ -2,12 +2,16 @@ import user from '../../../fixtures/admin.json';
 
 describe('Leave-Configure - Leave Period test script', function () {
   beforeEach(() => {
-    cy.login(user.admin.userName, user.admin.password);
     cy.viewport(1024, 768);
-    cy.visit('/leave/defineLeavePeriod');
+    cy.loginTo(
+      user.admin.userName,
+      user.admin.password,
+      '/leave/defineLeavePeriod',
+    );
   });
-  describe('config leave period testing', function () {
-    it('config leave period for the first time ', () => {
+  // eslint-disable-next-line jest/no-disabled-tests
+  describe.skip('config leave period testing', function () {
+    it('config leave period,check update & toast message', () => {
       cy.get('.oxd-topbar-header-title').should(
         'include.text',
         'Define Leave Period',
@@ -31,40 +35,15 @@ describe('Leave-Configure - Leave Period test script', function () {
       cy.get('.oxd-button--secondary').click();
       cy.get('.oxd-toast').should('include.text', 'Successfully Saved');
     });
-
-    it('Change leave period & check toast message', () => {
-      cy.get('.oxd-topbar-header-title').should(
-        'include.text',
-        'Define Leave Period',
-      );
-      cy.get(
-        ':nth-child(1) > .oxd-input-group > :nth-child(2) > .oxd-select-wrapper > .oxd-select-text',
-      ).click();
-      cy.get(
-        ':nth-child(1) > .oxd-input-group > :nth-child(2) > .oxd-select-wrapper >  .oxd-select-dropdown',
-      )
-        .contains('March')
-        .click();
-      cy.get(
-        ':nth-child(2) > .oxd-input-group > :nth-child(2) > .oxd-select-wrapper > .oxd-select-text',
-      ).click();
-      cy.get(
-        ':nth-child(2) > .oxd-input-group > :nth-child(2) > .oxd-select-wrapper > .oxd-select-dropdown',
-      )
-        .contains('01')
-        .click();
-      cy.get('.oxd-button--secondary').click();
-      cy.get('.oxd-toast').should('include.text', 'Successfully Saved');
-    });
     it('Verify end date & current leave period updating accordingly ', () => {
       cy.get(
         ':nth-child(1) > .oxd-input-group > :nth-child(2) > .oxd-text',
-      ).should('include.text', 'February 28 (Following Year)');
+      ).should('include.text', 'December 31');
       cy.get(
         ':nth-child(2) > .oxd-input-group > :nth-child(2) > .oxd-text',
       ).should(
         'include.text',
-        '\n            2021-01-01\n            to\n            2022-02-28\n',
+        '\n            2021-01-01\n            to\n            2021-12-31\n',
       );
     });
     it('Select any month, save & toast message', () => {
@@ -92,7 +71,8 @@ describe('Leave-Configure - Leave Period test script', function () {
       cy.get('.oxd-toast').should('include.text', 'Successfully Saved');
     });
   });
-  describe('Reset Button testing', function () {
+  // eslint-disable-next-line jest/no-disabled-tests
+  describe.skip('Reset Button testing', function () {
     it('Reset values captured for Start Month and Start date back to previosuly saved values', () => {
       const month = 'September';
       cy.get(
