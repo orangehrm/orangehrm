@@ -65,8 +65,9 @@ describe('Leave-Configure - Work Week test script', function () {
       cy.get('.oxd-button').click();
       cy.get('.oxd-toast').should('include.text', 'Successfully Saved');
     });
+    // eslint-disable-next-line jest/no-disabled-tests
     it.skip('change all days to non working day', () => {
-      var i = 1;
+      let i = 1;
       for (i = 1; i < 8; i++) {
         cy.get(
           ':nth-child(' +
@@ -89,13 +90,14 @@ describe('Leave-Configure - Work Week test script', function () {
     });
   });
 
-  describe('work week validation testing', function () {
+  describe('UI testing', function () {
     it('View Work week', () => {
       cy.get('.orangehrm-card-container').should('be.visible');
     });
     it('Verify Page Header', () => {
       cy.get('.orangehrm-main-title').should('include.text', 'Work Week');
     });
+    // eslint-disable-next-line jest/no-disabled-tests
     it.skip('Verify Main Page Header', () => {
       cy.get('.oxd-topbar-header-title > .oxd-text').should(
         'include.text',
