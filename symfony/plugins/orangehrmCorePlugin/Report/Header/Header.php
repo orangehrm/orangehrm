@@ -30,6 +30,11 @@ class Header implements HeaderDefinition
     private array $columns = [];
 
     /**
+     * @var ParameterBag|null
+     */
+    private ?ParameterBag $meta = null;
+
+    /**
      * @param Column[]|StackedColumn[] $columns
      */
     public function __construct(array $columns)
@@ -85,6 +90,16 @@ class Header implements HeaderDefinition
      */
     public function getMeta(): ?ParameterBag
     {
-        return null;
+        return $this->meta;
+    }
+
+    /**
+     * @param ParameterBag|null $meta
+     * @return self
+     */
+    public function setMeta(?ParameterBag $meta): self
+    {
+        $this->meta = $meta;
+        return $this;
     }
 }
