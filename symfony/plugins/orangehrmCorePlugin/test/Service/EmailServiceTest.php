@@ -171,8 +171,8 @@ class EmailServiceTest extends TestCase
         $this->emailService->setMessageFrom(['testFrom@orangehrm.com' => 'OrangeHRM']);
         $this->emailService->setMessageTo(['testTo@orangehrm.com']);
         $this->emailService->setMessageBody('test body');
-        $this->emailService->setMessageCc('testCc@orangehrm.com');
-        $this->emailService->setMessageBcc('testBcc@orangehrm.com');
+        $this->emailService->setMessageCc(['testCc@orangehrm.com']);
+        $this->emailService->setMessageBcc(['testBcc@orangehrm.com']);
         $this->assertTrue($this->emailService->getMessage() instanceof MailMessage);
     }
 }
