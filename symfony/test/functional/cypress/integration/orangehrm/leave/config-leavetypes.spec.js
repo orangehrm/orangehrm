@@ -11,7 +11,7 @@ describe('Leave- Config- Leave Type test script', function () {
     );
   });
 
-  describe('Add Leave type,Duplicate record & radio button functionalty validations testing', function () {
+  describe('Add Leave type,Duplicate record & radio button functionalty validation testing', function () {
     it('add new leave type and check radio button functionality', () => {
       cy.get('.oxd-button').click();
       cy.get(':nth-child(2) > .oxd-input').type('1---test');
@@ -51,17 +51,17 @@ describe('Leave- Config- Leave Type test script', function () {
       cy.get('.oxd-button--secondary').click();
       cy.get('.oxd-input-group > .oxd-text').should('include.text', 'Required');
     });
-    // eslint-disable-next-line jest/no-disabled-tests
-    it.skip('maximum length validation', () => {
+
+    it('maximum length validation', () => {
       cy.get('.oxd-button').click();
-      cy.get(':nth-child(2) > .oxd-input').type(charLength.chars30.text);
+      cy.get(':nth-child(2) > .oxd-input').type(charLength.chars51.text);
       cy.get(
         ':nth-child(1) > :nth-child(2) > .oxd-radio-wrapper > label > .oxd-radio-input',
       ).click();
       cy.get('.oxd-button--secondary').click();
       cy.get('.oxd-input-group > .oxd-text').should(
         'include.text',
-        'Should be less than 30 characters',
+        'Should be less than 50 characters',
       );
     });
   });
