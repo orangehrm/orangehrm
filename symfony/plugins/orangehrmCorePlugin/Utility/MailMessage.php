@@ -66,21 +66,19 @@ class MailMessage extends Email
     }
 
     /**
-     * @param string ...$addresses
-     *
+     * @param string[] $addresses
      * @return $this
      */
-    public function setCc(...$addresses): MailMessage
+    public function setCc(array $addresses): MailMessage
     {
         return $this->cc(...$addresses);
     }
 
     /**
-     * @param string ...$addresses
-     *
+     * @param string[] $addresses
      * @return $this
      */
-    public function setBcc(...$addresses): MailMessage
+    public function setBcc(array $addresses): MailMessage
     {
         return $this->bcc(...$addresses);
     }

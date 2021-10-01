@@ -80,14 +80,14 @@ class EmailService
     private string $messageBody;
 
     /**
-     * @var string
+     * @var array
      */
-    private string $messageCc;
+    private array $messageCc;
 
     /**
-     * @var string
+     * @var array
      */
-    private string $messageBcc;
+    private array $messageBcc;
 
     /**
      * @var Logger
@@ -242,8 +242,10 @@ class EmailService
         $this->setEmailConfig($emailConfig);
         $this->setSendmailPath($this->getConfigService()->getSendmailPath());
 
-        if ($this->getEmailConfig()->getMailType() == 'smtp' ||
-            $this->getEmailConfig()->getMailType() == 'sendmail') {
+        if (in_array(
+            $this->getEmailConfig()->getMailType(),
+            [MailTransport::SCHEME_SENDMAIL, MailTransport::SCHEME_SMTP, MailTransport::SCHEME_SECURE_SMTP]
+        )){
             $this->setConfigSet(true);
         }
         $this->logger = $this->getLogger();
@@ -303,33 +305,33 @@ class EmailService
     {
         $transport = null;
         if ($this->isConfigSet()) {
-            switch ($this->getEmailConfig()->getMailType()) {
-                case 'smtp':
-                    $transport = new MailTransport(
-                        $this->getEmailConfig()->getSmtpHost(),
-                        $this->getEmailConfig()->getSmtpPort()
-                    );
-                    if ($this->getEmailConfig()->getSmtpAuthType() == self::SMTP_AUTH_LOGIN) {
-                        $transport->setUsername($this->getEmailConfig()->getSmtpUsername());
-                        $transport->setPassword($this->getEmailConfig()->getSmtpPassword());
-                    }
+            if (in_array(
+                $this->getEmailConfig()->getMailType(),
+                [MailTransport::SCHEME_SMTP, MailTransport::SCHEME_SECURE_SMTP]
+            )){
+                $transport = new MailTransport(
+                    $this->getEmailConfig()->getMailType(),
+                    $this->getEmailConfig()->getSmtpHost(),
+                    $this->getEmailConfig()->getSmtpPort()
+                );
+                if ($this->getEmailConfig()->getSmtpAuthType() == self::SMTP_AUTH_LOGIN) {
+                    $transport->setUsername($this->getEmailConfig()->getSmtpUsername());
+                    $transport->setPassword($this->getEmailConfig()->getSmtpPassword());
+                }
 
-                    if ($this->getEmailConfig()->getSmtpSecurityType() == self::SMTP_SECURITY_SSL ||
-                        $this->getEmailConfig()->getSmtpSecurityType() == self::SMTP_SECURITY_TLS) {
-                        $transport->setEncryption($this->getEmailConfig()->getSmtpSecurityType());
-                    }
-
-                    $this->transport = $transport;
-
-                    break;
-
-                case 'sendmail':
-
+                if ($this->getEmailConfig()->getSmtpSecurityType() == self::SMTP_SECURITY_SSL ||
+                    $this->getEmailConfig()->getSmtpSecurityType() == self::SMTP_SECURITY_TLS) {
+                    $transport->setEncryption($this->getEmailConfig()->getSmtpSecurityType());
+                }
+                $transport->loadTransport();
+                $this->transport = $transport;
+            } else {
+                if ($this->getEmailConfig()->getMailType() == MailTransport::SCHEME_SENDMAIL) {
                     $this->transport = new MailTransport(
+                        $this->getEmailConfig()->getMailType(),
                         $this->getConfigService()->getSendmailPath()
                     );
-
-                    break;
+                }
             }
         }
 
@@ -384,7 +386,6 @@ class EmailService
             try {
                 $mailer = $this->getMailer();
                 $message = $this->getMessage();
-
                 $result = $mailer->send($message);
 
                 $logMessage = 'Emails was sent to ';
@@ -443,13 +444,13 @@ class EmailService
     {
         $mailType = $this->getEmailConfig()->getMailType();
 
-        if ($mailType == 'smtp') {
+        if ($mailType == MailTransport::SCHEME_SMTP || $mailType == MailTransport::SCHEME_SECURE_SMTP) {
             $subject = "SMTP Configuration Test Email";
 
             $body = "This email confirms that SMTP details set in OrangeHRM are ";
             $body .= "correct. You received this email since your email address ";
             $body .= "was entered to test email in configuration screen.";
-        } elseif ($mailType == 'sendmail') {
+        } elseif ($mailType == MailTransport::SCHEME_SENDMAIL) {
             $subject = "Sendmail Configuration Test Email";
 
             $body = "This email confirms that Sendmail details set in OrangeHRM ";
