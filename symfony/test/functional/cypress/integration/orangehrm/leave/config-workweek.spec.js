@@ -2,14 +2,17 @@ import user from '../../../fixtures/admin.json';
 
 describe('Leave-Configure - Work Week test script', function () {
   beforeEach(() => {
-    cy.login(user.admin.userName, user.admin.password);
     cy.viewport(1024, 768);
-    cy.visit('/leave/defineWorkWeek');
+    cy.loginTo(
+      user.admin.userName,
+      user.admin.password,
+      '/leave/defineWorkWeek',
+    );
   });
   describe('Change work week type testing', function () {
     it('change type to halfday,fullday, nonworking day & check toast', () => {
       cy.get(
-        ':nth-child(1) > .oxd-grid-4 > .oxd-grid-item > .oxd-input-group > :nth-child(2) > .oxd-select-wrapper > .oxd-select-text',
+        ':nth-child(1) > .oxd-grid-4 > .oxd-grid-item > .oxd-input-group > :nth-child(2) > .oxd-select-wrapper > .oxd-select-text > .oxd-select-text--after > .oxd-icon',
       ).click();
       cy.get(
         ':nth-child(1) > .oxd-grid-4 > .oxd-grid-item > .oxd-input-group > :nth-child(2) > .oxd-select-wrapper > .oxd-select-dropdown',
@@ -17,7 +20,7 @@ describe('Leave-Configure - Work Week test script', function () {
         .contains('Full Day')
         .click();
       cy.get(
-        ':nth-child(3) > .oxd-grid-4 > .oxd-grid-item > .oxd-input-group > :nth-child(2) > .oxd-select-wrapper > .oxd-select-text',
+        ':nth-child(3) > .oxd-grid-4 > .oxd-grid-item > .oxd-input-group > :nth-child(2) > .oxd-select-wrapper > .oxd-select-text > .oxd-select-text--after > .oxd-icon',
       ).click();
       cy.get(
         ':nth-child(3) > .oxd-grid-4 > .oxd-grid-item > .oxd-input-group > :nth-child(2) > .oxd-select-wrapper > .oxd-select-dropdown',
@@ -25,7 +28,7 @@ describe('Leave-Configure - Work Week test script', function () {
         .contains('Non-working Day')
         .click();
       cy.get(
-        ':nth-child(6) > .oxd-grid-4 > .oxd-grid-item > .oxd-input-group > :nth-child(2) > .oxd-select-wrapper > .oxd-select-text',
+        ':nth-child(6) > .oxd-grid-4 > .oxd-grid-item > .oxd-input-group > :nth-child(2) > .oxd-select-wrapper > .oxd-select-text > .oxd-select-text--after > .oxd-icon',
       ).click();
       cy.get(
         ':nth-child(6) > .oxd-grid-4 > .oxd-grid-item > .oxd-input-group > :nth-child(2) > .oxd-select-wrapper > .oxd-select-dropdown',
@@ -39,7 +42,7 @@ describe('Leave-Configure - Work Week test script', function () {
   describe('work week validation testing', function () {
     it('check with different combinations', () => {
       cy.get(
-        ':nth-child(1) > .oxd-grid-4 > .oxd-grid-item > .oxd-input-group > :nth-child(2) > .oxd-select-wrapper > .oxd-select-text',
+        ':nth-child(1) > .oxd-grid-4 > .oxd-grid-item > .oxd-input-group > :nth-child(2) > .oxd-select-wrapper > .oxd-select-text > .oxd-select-text--after > .oxd-icon',
       ).click();
       cy.get(
         ':nth-child(1) > .oxd-grid-4 > .oxd-grid-item > .oxd-input-group > :nth-child(2) > .oxd-select-wrapper > .oxd-select-dropdown',
@@ -47,7 +50,7 @@ describe('Leave-Configure - Work Week test script', function () {
         .contains('Non-working Day')
         .click();
       cy.get(
-        ':nth-child(3) > .oxd-grid-4 > .oxd-grid-item > .oxd-input-group > :nth-child(2) > .oxd-select-wrapper > .oxd-select-text',
+        ':nth-child(3) > .oxd-grid-4 > .oxd-grid-item > .oxd-input-group > :nth-child(2) > .oxd-select-wrapper > .oxd-select-text > .oxd-select-text--after > .oxd-icon',
       ).click();
       cy.get(
         ':nth-child(3) > .oxd-grid-4 > .oxd-grid-item > .oxd-input-group > :nth-child(2) > .oxd-select-wrapper > .oxd-select-dropdown',
@@ -55,7 +58,7 @@ describe('Leave-Configure - Work Week test script', function () {
         .contains('Full Day')
         .click();
       cy.get(
-        ':nth-child(6) > .oxd-grid-4 > .oxd-grid-item > .oxd-input-group > :nth-child(2) > .oxd-select-wrapper > .oxd-select-text',
+        ':nth-child(6) > .oxd-grid-4 > .oxd-grid-item > .oxd-input-group > :nth-child(2) > .oxd-select-wrapper > .oxd-select-text > .oxd-select-text--after > .oxd-icon',
       ).click();
       cy.get(
         ':nth-child(6) > .oxd-grid-4 > .oxd-grid-item > .oxd-input-group > :nth-child(2) > .oxd-select-wrapper > .oxd-select-dropdown',
@@ -72,7 +75,7 @@ describe('Leave-Configure - Work Week test script', function () {
         cy.get(
           ':nth-child(' +
             i +
-            ') > .oxd-grid-4 > .oxd-grid-item > .oxd-input-group > :nth-child(2) > .oxd-select-wrapper > .oxd-select-text',
+            ') > .oxd-grid-4 > .oxd-grid-item > .oxd-input-group > :nth-child(2) > .oxd-select-wrapper > .oxd-select-text > .oxd-select-text--after > .oxd-icon',
         ).click();
         cy.get(
           ':nth-child(' +
