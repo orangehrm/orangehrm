@@ -258,6 +258,7 @@ describe('Job - PayGrade test script', function () {
       ).click();
       cy.get('.oxd-input-group > .oxd-text').should('include.text', 'Required');
     });
+    // eslint-disable-next-line jest/no-disabled-tests
     it.skip('amount field length validation', () => {
       cy.get('.oxd-button').click();
       cy.get(':nth-child(2) > .oxd-input').type('AAAC');
@@ -279,6 +280,7 @@ describe('Job - PayGrade test script', function () {
         'Should be less than 1000,000,000',
       );
     });
+    // eslint-disable-next-line jest/no-disabled-tests
     it.skip('add currency with max value smaller than min value validation', () => {
       cy.get('.oxd-button').click();
       cy.get(':nth-child(2) > .oxd-input').type('AAAD');
