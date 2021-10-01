@@ -2362,6 +2362,6 @@ CREATE TABLE `ohrm_mail_queue` (
   `body` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` datetime NOT NULL,
   `sent_at` datetime DEFAULT NULL,
-  `status` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` varchar(12) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `content_type` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

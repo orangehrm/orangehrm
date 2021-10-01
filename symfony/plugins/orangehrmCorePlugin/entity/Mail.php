@@ -99,7 +99,7 @@ class Mail
     /**
      * @var string|null
      *
-     * @ORM\Column(name="status", type="string", length=10, nullable=true)
+     * @ORM\Column(name="status", type="string", length=12, nullable=true)
      */
     private ?string $status;
 
