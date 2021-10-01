@@ -68,6 +68,18 @@ import DeleteConfirmationDialog from '@orangehrm/components/dialogs/DeleteConfir
 import {navigate} from '@orangehrm/core/util/helper/navigation';
 import {APIService} from '@orangehrm/core/util/services/api.service';
 
+const workShiftNormalizer = data => {
+  return data.map(item => {
+    return {
+      id: item.id,
+      name: item.name,
+      startTime: item.startTime,
+      endTime: item.endTime,
+      hoursPerDay: parseFloat(item.hoursPerDay).toFixed(2),
+    };
+  });
+};
+
 export default {
   data() {
     return {
@@ -121,7 +133,7 @@ export default {
       response,
       isLoading,
       execQuery,
-    } = usePaginate(http);
+    } = usePaginate(http, {normalizer: workShiftNormalizer});
     return {
       http,
       showPaginator,
