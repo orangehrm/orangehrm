@@ -101,8 +101,12 @@ class EmailQueueService
         $this->getEmailService()->setMessageBcc($mail->getBccList());
 
         try {
-            $this->getEmailService()->sendEmail();
-            $this->changeMailStatus($mail, Mail::STATUS_COMPLETED);
+            $result = $this->getEmailService()->sendEmail();
+            if($result){
+                $this->changeMailStatus($mail, Mail::STATUS_COMPLETED);
+            } else {
+                $this->changeMailStatus($mail, Mail::STATUS_PENDING);
+            }
         } catch (MailerException $e){
             $this->changeMailStatus($mail, Mail::STATUS_PENDING);
         }

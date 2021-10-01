@@ -242,7 +242,7 @@ class EmailService
         $this->setEmailConfig($emailConfig);
         $this->setSendmailPath($this->getConfigService()->getSendmailPath());
 
-        if (in_array(
+        if ($emailConfig instanceof EmailConfiguration && in_array(
             $this->getEmailConfig()->getMailType(),
             [MailTransport::SCHEME_SENDMAIL, MailTransport::SCHEME_SMTP, MailTransport::SCHEME_SECURE_SMTP]
         )){
@@ -252,9 +252,9 @@ class EmailService
     }
 
     /**
-     * @param EmailConfiguration $emailConfiguration
+     * @param EmailConfiguration|null $emailConfiguration
      */
-    public function setEmailConfig(EmailConfiguration $emailConfiguration): void
+    public function setEmailConfig(?EmailConfiguration $emailConfiguration): void
     {
         $this->emailConfig = $emailConfiguration;
     }
