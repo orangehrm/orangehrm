@@ -8,15 +8,15 @@ GetAll:
       0:
         id: 1
         name: 'Shift 1'
-        hours_per_day: 8
-        start_time: '07:00'
-        end_time: '15:00'
+        hoursPerDay: 8
+        startTime: '07:00'
+        endTime: '15:00'
       1:
         id: 2
         name: 'Shift 2'
-        hours_per_day: 8
-        start_time: '09:30'
-        end_time: '17:30'
+        hoursPerDay: 8
+        startTime: '09:30'
+        endTime: '17:30'
     meta:
       total: 2
 
@@ -32,9 +32,9 @@ GetOne:
     data:
       id: 1
       name: 'Shift 1'
-      hours_per_day: 8.00
-      start_time: '07:00'
-      end_time: '15:00'
+      hoursPerDay: 8.00
+      startTime: '07:00'
+      endTime: '15:00'
       employee:
         0:
           id: 1
@@ -53,14 +53,14 @@ Create:
       hoursPerDay: '4.0'
       startTime: '08:00'
       endTime: '12:00'
-      empNumbers: []
+      empNumbers: [ ]
     query: [ ]
     data:
       id: 3
       name: 'SHIFT - 03'
-      hours_per_day: 4.0
-      start_time: '08:00'
-      end_time: '12:00'
+      hoursPerDay: 4.0
+      startTime: '08:00'
+      endTime: '12:00'
     meta: [ ]
 
 Update:
@@ -73,14 +73,14 @@ Update:
       hoursPerDay: '5.0'
       startTime: '08:00'
       endTime: '13:00'
-      empNumbers: []
+      empNumbers: [ ]
     query: [ ]
     data:
       id: 1
       name: 'SHIFT - 001'
-      hours_per_day: 5.0
-      start_time: '08:00'
-      end_time: '13:00'
+      hoursPerDay: 5.0
+      startTime: '08:00'
+      endTime: '13:00'
     meta: [ ]
 
 Delete:
