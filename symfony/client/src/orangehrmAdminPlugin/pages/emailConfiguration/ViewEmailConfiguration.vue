@@ -44,8 +44,8 @@
                   <oxd-input-field
                     type="radio"
                     v-model="emailConfiguration.mailType"
-                    optionLabel="Sendmail"
-                    value="sendmail"
+                    optionLabel="SECURE SMTP"
+                    value="smtps"
                   />
                   <oxd-input-field
                     type="radio"
@@ -56,8 +56,8 @@
                   <oxd-input-field
                     type="radio"
                     v-model="emailConfiguration.mailType"
-                    optionLabel="SECURE SMTP"
-                    value="smtps"
+                    optionLabel="Sendmail"
+                    value="sendmail"
                   />
                 </div>
               </oxd-input-group>
@@ -147,7 +147,7 @@
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <div class="orangehrm-optional-field-row">
               <oxd-text tag="p" class="orangehrm-optional-field-label">
-                Use TLS Secure Connection
+                TLS
               </oxd-text>
               <oxd-switch-input v-model="useTLSSecureConnection" />
             </div>
