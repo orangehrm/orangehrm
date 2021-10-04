@@ -4041,3 +4041,17 @@ INSERT INTO ohrm_user_role_data_group (`can_read`, `can_create`, `can_update`, `
 VALUES (1, 1, 1, 1, 0, @locations_data_group_id, @admin_role_id),
        (0, 0, 0, 0, 0, @locations_data_group_id, @ess_role_id),
        (0, 0, 0, 0, 0, @locations_data_group_id, @supervisor_role_id);
+
+CREATE TABLE `ohrm_mail_queue` (
+  `id` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  `to_list` longtext COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '(DC2Type:array)',
+  `cc_list` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '(DC2Type:array)',
+  `bcc_list` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '(DC2Type:array)',
+  `subject` varchar(1000) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `body` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` datetime NOT NULL,
+  `sent_at` datetime DEFAULT NULL,
+  `status` varchar(12) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `content_type` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+

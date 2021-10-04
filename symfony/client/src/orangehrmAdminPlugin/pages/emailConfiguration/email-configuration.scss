@@ -19,6 +19,16 @@
   max-width: 13rem;
 }
 
+.send-method-div{
+  display: flex;
+  flex-direction: row;
+}
+@media (max-width: 800px) {
+  .send-method-div {
+    flex-direction: column;
+  }
+}
+
 .sendmail-path-value {
   font-size : 12px;
   padding: 0.675rem 0.5rem;
@@ -36,4 +46,9 @@
   @include oxd-input-control();
   padding: 0;
   flex-basis: 50%;
+}
+
+.tls-hint {
+  font-size: 0.75rem;
+  margin-top: -0.8rem;
 }

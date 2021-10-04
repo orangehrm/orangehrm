@@ -36,7 +36,7 @@ use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\EmailConfiguration;
 use OrangeHRM\Core\Api\V2\ParameterBag;
-use Swift_TransportException;
+use Symfony\Component\Mailer\Exception\TransportException as MailerException;
 
 class EmailConfigurationAPI extends Endpoint implements ResourceEndpoint
 {
@@ -140,7 +140,7 @@ class EmailConfigurationAPI extends Endpoint implements ResourceEndpoint
         if (!empty($testEmail)) {
             try {
                 $this->getEmailConfigurationService()->sendTestMail($testEmail);
-            } catch (Swift_TransportException $e){
+            } catch (MailerException $e){
                 $testEmailStatus = 0;
             }
         }
