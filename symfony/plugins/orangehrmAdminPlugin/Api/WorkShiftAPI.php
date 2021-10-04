@@ -47,6 +47,7 @@ class WorkShiftAPI extends EndPoint implements CrudEndpoint
     public const PARAMETER_HOURS_PER_DAY = 'hoursPerDay';
     public const PARAMETER_START_TIME = 'startTime';
     public const PARAMETER_END_TIME = 'endTime';
+    public const PARAMETER_EMP_NUMBERS = 'empNumbers';
     public const PARAM_RULE_NAME_MAX_LENGTH = 50;
 
     protected ?WorkShiftService $workShiftService = null;
@@ -155,7 +156,7 @@ class WorkShiftAPI extends EndPoint implements CrudEndpoint
         );
         $empNumbers = $this->getRequestParams()->getArray(
             RequestParams::PARAM_TYPE_BODY,
-            CommonParams::PARAMETER_EMP_NUMBERS
+            self::PARAMETER_EMP_NUMBERS
         );
         if (!empty($workShiftId)) {
             $workShift = $this->getWorkShiftService()->getWorkShiftById($workShiftId);
@@ -196,7 +197,7 @@ class WorkShiftAPI extends EndPoint implements CrudEndpoint
             new ParamRule(self::PARAMETER_HOURS_PER_DAY, new Rule(Rules::REQUIRED), new Rule(Rules::STRING_TYPE)),
             new ParamRule(self::PARAMETER_START_TIME, new Rule(Rules::REQUIRED), new Rule(Rules::DATE_TIME)),
             new ParamRule(self::PARAMETER_END_TIME, new Rule(Rules::REQUIRED), new Rule(Rules::DATE_TIME)),
-            new ParamRule(CommonParams::PARAMETER_EMP_NUMBERS),
+            new ParamRule(self::PARAMETER_EMP_NUMBERS),
         );
     }
 
@@ -245,7 +246,7 @@ class WorkShiftAPI extends EndPoint implements CrudEndpoint
             new ParamRule(self::PARAMETER_HOURS_PER_DAY, new Rule(Rules::REQUIRED), new Rule(Rules::STRING_TYPE)),
             new ParamRule(self::PARAMETER_START_TIME, new Rule(Rules::REQUIRED), new Rule(Rules::DATE_TIME)),
             new ParamRule(self::PARAMETER_END_TIME, new Rule(Rules::REQUIRED), new Rule(Rules::DATE_TIME)),
-            new ParamRule(CommonParams::PARAMETER_EMP_NUMBERS),
+            new ParamRule(self::PARAMETER_EMP_NUMBERS),
         );
     }
 }

@@ -42,7 +42,7 @@ class WorkShiftDecorator
     /**
      * @return string|null
      */
-    public function getStartTime()
+    public function getStartTime(): ?string
     {
         return $this->getDateTimeHelper()->formatDateTimeToTimeString($this->getWorkShift()->getStartTime());
     }
@@ -58,7 +58,7 @@ class WorkShiftDecorator
     /**
      * @return string|null
      */
-    public function getEndTime()
+    public function getEndTime(): ?string
     {
         return $this->getDateTimeHelper()->formatDateTimeToTimeString($this->getWorkShift()->getEndTime());
     }

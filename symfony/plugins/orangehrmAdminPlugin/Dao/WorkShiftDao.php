@@ -123,8 +123,8 @@ class WorkShiftDao extends BaseDao
     public function updateWorkShift(WorkShift $workShift, array $empNumbers): WorkShift
     {
         $existingEmployees = $this->getEmployeeListByWorkShiftId($workShift->getId());
-        $idList = array();
-        foreach ($existingEmployees as $x => $existingEmployee) {
+        $idList = [];
+        foreach ($existingEmployees as $existingEmployee) {
             $id = $existingEmployee->getEmpNumber();
             if (!in_array($id, $empNumbers)) {
                 $this->deleteExistingEmployees($workShift->getId(), $id);
@@ -133,7 +133,7 @@ class WorkShiftDao extends BaseDao
             }
         }
         $employeeList = array_diff($empNumbers, $idList);
-        $newEmployeeList = array();
+        $newEmployeeList = [];
         foreach ($employeeList as $employee) {
             array_push($newEmployeeList, $employee);
         }
