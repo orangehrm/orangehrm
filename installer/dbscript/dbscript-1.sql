@@ -2352,4 +2352,3 @@ ALTER TABLE `ohrm_i18n_lang_string`
 
 ALTER TABLE `ohrm_i18n_translate`
     ADD CONSTRAINT `translateUniqueId` UNIQUE (`lang_string_id`, `language_id`);
-

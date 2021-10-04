@@ -4037,7 +4037,6 @@ VALUES (1, 1, 1, 1, 0, @locations_data_group_id, @admin_role_id),
        (0, 0, 0, 0, 0, @locations_data_group_id, @ess_role_id),
        (0, 0, 0, 0, 0, @locations_data_group_id, @supervisor_role_id);
 
-
 CREATE TABLE `ohrm_mail_queue` (
   `id` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
   `to_list` longtext COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '(DC2Type:array)',
