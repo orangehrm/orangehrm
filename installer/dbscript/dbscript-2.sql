@@ -3550,7 +3550,6 @@ UPDATE `ohrm_module` SET `status` = '0' WHERE `ohrm_module`.`name` = 'directory'
 UPDATE `ohrm_module` SET `status` = '0' WHERE `ohrm_module`.`name` = 'maintenance';
 UPDATE `ohrm_module` SET `status` = '0' WHERE `ohrm_module`.`name` = 'marketPlace';
 UPDATE `ohrm_module` SET `status` = '0' WHERE `ohrm_module`.`name` = 'buzz';
-UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` = 'Work Shifts';
 UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` = 'Email Subscriptions';
 UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` = 'Localization';
 UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` = 'Language Packages';
