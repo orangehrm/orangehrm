@@ -166,7 +166,7 @@ export default {
         });
     },
     onCancel() {
-      navigate('/admin/viewWorkShifts');
+      navigate('/admin/workShift');
     },
   },
   beforeMount() {
