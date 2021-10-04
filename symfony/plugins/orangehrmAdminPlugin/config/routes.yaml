@@ -458,7 +458,7 @@ apiv2_admin_pay_grade:
     _api: OrangeHRM\Admin\Api\PayGradeAPI
 
 view_work_shift:
-  path: /admin/viewWorkShifts
+  path: /admin/workShift
   controller: OrangeHRM\Admin\Controller\WorkShiftController::handle
   methods: [ GET ]
 
