@@ -19,9 +19,67 @@
 
 namespace OrangeHRM\Core\Utility;
 
-use Swift_Message;
+use Symfony\Component\Mime\Email;
+use Symfony\Component\Mime\Address;
 
-class MailMessage extends Swift_Message
+class MailMessage extends Email
 {
+    /**
+     * @param string $subject
+     * @return $this
+     */
+    public function setSubject(string $subject): MailMessage
+    {
+        return $this->subject($subject);
+    }
 
+    /**
+     * @param string[] $addresses
+     * @return $this
+     */
+    public function setFrom(array $addresses): MailMessage
+    {
+        $symfonyAddresses = [];
+        foreach ($addresses as $address => $name) {
+            $symfonyAddresses[] = new Address($address,$name);
+        }
+
+        return $this->from(...$symfonyAddresses);
+    }
+
+    /**
+     * @param string[] $addresses
+     * @return $this
+     */
+    public function setTo(array $addresses): MailMessage
+    {
+        return $this->to(...$addresses);
+    }
+
+    /**
+     * @param string $subject
+     * @return $this
+     */
+    public function setMailBody(string $subject): MailMessage
+    {
+        return $this->text($subject);
+    }
+
+    /**
+     * @param string[] $addresses
+     * @return $this
+     */
+    public function setCc(array $addresses): MailMessage
+    {
+        return $this->cc(...$addresses);
+    }
+
+    /**
+     * @param string[] $addresses
+     * @return $this
+     */
+    public function setBcc(array $addresses): MailMessage
+    {
+        return $this->bcc(...$addresses);
+    }
 }

@@ -19,32 +19,35 @@
 
 namespace OrangeHRM\Core\Utility;
 
-use Swift_Mailer;
+use Symfony\Component\Mailer\Transport\TransportInterface;
+use Symfony\Component\Mime\RawMessage;
+use Symfony\Component\Mailer\Envelope;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mailer\Mailer as SymfonyMailer;
 
-class Mailer extends Swift_Mailer
+class Mailer implements MailerInterface
 {
     /**
-     * @var null|Swift_Mailer
+     * @var SymfonyMailer
      */
-    protected ?Swift_Mailer $mailer = null;
+    private SymfonyMailer $mailer;
 
     /**
-     * Return new empty message
-     *
-     * @return MailMessage
+     * Mailer constructor.
+     * @param TransportInterface $transport
      */
-    public function getNewMessage(): MailMessage
+    public function __construct(TransportInterface $transport)
     {
-        return new MailMessage();
+        $this->mailer = new SymfonyMailer($transport);
     }
 
     /**
-     * Send given message
-     * @param MailMessage $message
-     * @return int
+     * @param RawMessage $message
+     * @param Envelope|null $envelope
      */
-    public function sendMail(MailMessage $message): int
+    public function send(RawMessage $message, Envelope $envelope = null): void
     {
-        return $this->send($message);
+        $this->mailer->send($message, $envelope);
     }
 }
+
