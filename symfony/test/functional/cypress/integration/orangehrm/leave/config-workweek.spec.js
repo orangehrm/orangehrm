@@ -9,6 +9,7 @@ describe('Leave-Configure - Work Week test script', function () {
       '/leave/defineWorkWeek',
     );
   });
+
   describe('Change work week type testing', function () {
     it('change type to halfday,fullday, nonworking day & check toast', () => {
       cy.get(
@@ -39,6 +40,7 @@ describe('Leave-Configure - Work Week test script', function () {
       cy.get('.oxd-toast').should('include.text', 'Successfully Saved');
     });
   });
+
   describe('work week validation testing', function () {
     it('check with different combinations', () => {
       cy.get(
