@@ -3643,7 +3643,7 @@ SET @apiv2_admin_location_data_group_id := (SELECT `id` FROM ohrm_data_group WHE
 SET @apiv2_admin_pay_grade_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_admin_pay_grade' LIMIT 1);
 SET @apiv2_admin_work_shift_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_admin_work_shift' LIMIT 1);
 SET @admin_module_id := (SELECT `id` FROM ohrm_module WHERE name = 'admin' LIMIT 1);
-SET @apiv2_work_shift_employee_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name ='apiv2_work_shift_employee' LIMIT 1)
+SET @apiv2_work_shift_employee_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name ='apiv2_work_shift_employee' LIMIT 1);
 
 INSERT INTO ohrm_api_permission (`api_name`, `module_id`, `data_group_id`)
 VALUES ('OrangeHRM\\Admin\\Api\\EducationAPI', @admin_module_id, @apiv2_admin_education_data_group_id),
