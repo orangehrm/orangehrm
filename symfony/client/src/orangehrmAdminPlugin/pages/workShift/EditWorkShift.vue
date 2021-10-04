@@ -180,7 +180,13 @@ export default {
         this.workShift.hoursPerDay = data.hoursPerDay;
         this.workShift.startTime = data.startTime;
         this.workShift.endTime = data.endTime;
-        this.workShift.empNumbers = data.employee;
+        this.workShift.empNumbers = data.employees.map(employee => {
+          return {
+            id: employee.empNumber,
+            label: `${employee.firstName} ${employee.middleName} ${employee.lastName}`,
+            isPastEmployee: employee.terminationId ? true : false,
+          };
+        });
         return this.http.getAll();
       })
       .then(response => {

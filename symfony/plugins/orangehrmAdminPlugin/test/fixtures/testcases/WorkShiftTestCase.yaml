@@ -1,6 +1,8 @@
 GetAll:
   'get all work shifts':
     userId: 1
+    services:
+      admin.work_shift_service: \OrangeHRM\Admin\Service\WorkShiftService
     attributes: [ ]
     body: [ ]
     query: [ ]
@@ -56,6 +58,8 @@ GetOne:
 Create:
   'create new work shift':
     userId: 1
+    services:
+      admin.work_shift_service: \OrangeHRM\Admin\Service\WorkShiftService
     attributes: [ ]
     body:
       name: 'SHIFT - 03'
@@ -75,6 +79,8 @@ Create:
 Update:
   'update an existing work shift':
     userId: 1
+    services:
+      admin.work_shift_service: \OrangeHRM\Admin\Service\WorkShiftService
     attributes:
       id: 1
     body:
@@ -95,6 +101,8 @@ Update:
 Delete:
   'delete an existing work shift or work shifts':
     userId: 1
+    services:
+      admin.work_shift_service: \OrangeHRM\Admin\Service\WorkShiftService
     attributes: [ ]
     body:
       ids: [1, 2]
