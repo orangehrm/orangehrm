@@ -54,6 +54,7 @@ describe('Leave -Configure-Holidays test script', () => {
       cy.get('.orangehrm-modal-footer > .oxd-button--label-danger').click();
     });
   });
+
   describe('Text field validation testing', function () {
     it('required field verification', () => {
       cy.get('.orangehrm-header-container > .oxd-button').click();
@@ -70,6 +71,7 @@ describe('Leave -Configure-Holidays test script', () => {
       );
     });
   });
+
   describe('List count increment testing', function () {
     it('list count increment', () => {
       cy.get('.orangehrm-header-container > .oxd-button').click();
@@ -147,6 +149,7 @@ describe('Leave -Configure-Holidays test script', () => {
       cy.get('.orangehrm-modal-footer > .oxd-button--label-danger').click();
     });
   });
+
   describe('Search holiday, Display table and Reset Button testing', function () {
     it('Search a holiday in a specific time frame & click Reset', () => {
       cy.get('.orangehrm-header-container > .oxd-button').click();
@@ -282,6 +285,7 @@ describe('Leave -Configure-Holidays test script', () => {
       cy.get('.orangehrm-modal-footer > .oxd-button--label-danger').click();
     });
   });
+
   describe('Cancel button testing', function () {
     it('visiting edit holiday and clicking cancel', () => {
       cy.get('.orangehrm-header-container > .oxd-button').click();
