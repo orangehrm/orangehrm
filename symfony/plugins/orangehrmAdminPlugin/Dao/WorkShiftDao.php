@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Admin\Dao;
 
+use Exception;
 use OrangeHRM\Admin\Dto\WorkShiftSearchFilterParams;
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Entity\Employee;
@@ -26,7 +27,6 @@ use OrangeHRM\Entity\EmployeeWorkShift;
 use OrangeHRM\Entity\WorkShift;
 use OrangeHRM\ORM\Exception\TransactionException;
 use OrangeHRM\ORM\Paginator;
-use Exception;
 
 class WorkShiftDao extends BaseDao
 {
@@ -83,7 +83,7 @@ class WorkShiftDao extends BaseDao
     public function saveWorkShift(WorkShift $workShift, array $empNumbers): WorkShift
     {
         $this->beginTransaction();
-        try{
+        try {
             $this->persist($workShift);
             $this->commitTransaction();
             if (count($empNumbers) > 0) {
@@ -91,11 +91,10 @@ class WorkShiftDao extends BaseDao
                 $this->saveEmployeeWorkShift($empNumbers, $workShift);
                 return $workShift;
             }
-            }
-            catch (Exception $e){
-                $this->rollBackTransaction();
-                throw new TransactionException($e);
-            }
+        } catch (Exception $e) {
+            $this->rollBackTransaction();
+            throw new TransactionException($e);
+        }
         return $workShift;
     }
 
@@ -123,16 +122,19 @@ class WorkShiftDao extends BaseDao
     public function updateWorkShift(WorkShift $workShift, array $empNumbers): WorkShift
     {
         $existingEmployees = $this->getEmployeeListByWorkShiftId($workShift->getId());
-        $idList = [];
+        $employeeNumberList = [];
+        $deletableEmployeeNumberList = [];
         foreach ($existingEmployees as $existingEmployee) {
-            $id = $existingEmployee->getEmpNumber();
-            if (!in_array($id, $empNumbers)) {
-                $this->deleteExistingEmployees($workShift->getId(), $id);
+            $employeeNumber = $existingEmployee->getEmpNumber();
+            if (!in_array($employeeNumber, $empNumbers)) {
+                // this array is containing the employees that's going to  be deleted.
+                array_push($deletableEmployeeNumberList, $employeeNumber);
             } else {
-                array_push($idList, $id);
+                array_push($employeeNumberList, $employeeNumber);
             }
         }
-        $employeeList = array_diff($empNumbers, $idList);
+        $this->deleteExistingEmployees($workShift->getId(), $deletableEmployeeNumberList);
+        $employeeList = array_diff($empNumbers, $employeeNumberList);
         $newEmployeeList = [];
         foreach ($employeeList as $employee) {
             array_push($newEmployeeList, $employee);
@@ -160,16 +162,16 @@ class WorkShiftDao extends BaseDao
 
     /**
      * @param int $workShiftId
-     * @param int $empNumber
+     * @param int[] $empNumberList
      */
-    public function deleteExistingEmployees(int $workShiftId, int $empNumber): void
+    public function deleteExistingEmployees(int $workShiftId, array $empNumberList): void
     {
-        $this->createQueryBuilder(EmployeeWorkShift::class, 'ews')
-            ->delete()
+        $q = $this->createQueryBuilder(EmployeeWorkShift::class, 'ews');
+        $q->delete()
             ->where('ews.workShift = :workShiftId')
-            ->andWhere('ews.employee = :employeeId')
+            ->andWhere($q->expr()->in('ews.employee', ':employeeNumbers'))
             ->setParameter('workShiftId', $workShiftId)
-            ->setParameter('employeeId', $empNumber)
+            ->setParameter('employeeNumbers', $empNumberList)
             ->getQuery()
             ->execute();
     }

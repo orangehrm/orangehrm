@@ -25,6 +25,7 @@ use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
 use OrangeHRM\Entity\WorkShift;
+use OrangeHRM\Pim\Api\Model\EmployeeModel;
 
 class WorkShiftDetailedModel implements Normalizable
 {
@@ -45,7 +46,7 @@ class WorkShiftDetailedModel implements Normalizable
     /**
      * @return WorkShift
      */
-    public function getWorkShift(): WorkShift
+    private function getWorkShift(): WorkShift
     {
         return $this->workShift;
     }
@@ -57,15 +58,12 @@ class WorkShiftDetailedModel implements Normalizable
     public function toArray(): array
     {
         $detailedWorkShift = $this->getWorkShift();
-        $employees = [];
-        foreach ($this->getWorkShiftService()->getEmployeesByWorkShiftId($this->workShift->getId()) as $employee) {
-            $employeeList = [
-                'id' => $employee->getEmpNumber(),
-                'label' => $employee->getFirstName().' '.$employee->getMiddleName().' '.$employee->getLastName(),
-            ];
-            $employees[] = $employeeList;
-        }
-
+        $employees = $this->getNormalizerService()->normalizeArray(
+            EmployeeModel::class,
+            $this->getWorkShiftService()
+                ->getWorkShiftDao()
+                ->getEmployeeListByWorkShiftId($detailedWorkShift->getId())
+        );
         return [
             'id' => $detailedWorkShift->getId(),
             'name' => $detailedWorkShift->getName(),
@@ -76,7 +74,7 @@ class WorkShiftDetailedModel implements Normalizable
             'endTime' => $this->getDateTimeHelper()->formatDateTimeToTimeString(
                 $detailedWorkShift->getEndTime()
             ),
-            'employee' => $employees
+            'employees' => $employees
         ];
     }
 }

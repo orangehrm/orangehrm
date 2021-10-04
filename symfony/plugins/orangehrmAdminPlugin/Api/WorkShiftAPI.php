@@ -23,14 +23,13 @@ use DateTime;
 use OrangeHRM\Admin\Api\Model\WorkShiftDetailedModel;
 use OrangeHRM\Admin\Api\Model\WorkShiftModel;
 use OrangeHRM\Admin\Dto\WorkShiftSearchFilterParams;
-use OrangeHRM\Admin\Service\WorkShiftService;
+use OrangeHRM\Admin\Traits\Service\WorkShiftServiceTrait;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
-use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
@@ -38,19 +37,18 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\WorkShift;
 
 class WorkShiftAPI extends EndPoint implements CrudEndpoint
 {
+    use WorkShiftServiceTrait;
+
     public const PARAMETER_NAME = 'name';
     public const PARAMETER_HOURS_PER_DAY = 'hoursPerDay';
     public const PARAMETER_START_TIME = 'startTime';
     public const PARAMETER_END_TIME = 'endTime';
     public const PARAMETER_EMP_NUMBERS = 'empNumbers';
     public const PARAM_RULE_NAME_MAX_LENGTH = 50;
-
-    protected ?WorkShiftService $workShiftService = null;
 
     /**
      * @inheritDoc
@@ -66,25 +64,6 @@ class WorkShiftAPI extends EndPoint implements CrudEndpoint
             $workShifts,
             new ParameterBag([CommonParams::PARAMETER_TOTAL => $count])
         );
-    }
-
-    /**
-     * @return WorkShiftService
-     */
-    public function getWorkShiftService(): WorkShiftService
-    {
-        if (is_null($this->workShiftService)) {
-            $this->workShiftService = new WorkShiftService();
-        }
-        return $this->workShiftService;
-    }
-
-    /**
-     * @param WorkShiftService $workShiftService
-     */
-    public function setWorkShiftService(WorkShiftService $workShiftService): void
-    {
-        $this->workShiftService = $workShiftService;
     }
 
     /**
@@ -105,6 +84,7 @@ class WorkShiftAPI extends EndPoint implements CrudEndpoint
         $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
         $workShift = $this->getWorkShiftService()->getWorkShiftById($id);
         $this->throwRecordNotFoundExceptionIfNotExist($workShift, WorkShift::class);
+
         return new EndpointResourceResult(WorkShiftDetailedModel::class, $workShift);
     }
 
@@ -126,21 +106,23 @@ class WorkShiftAPI extends EndPoint implements CrudEndpoint
      */
     public function create(): EndpointResult
     {
-        $workShift = $this->saveWorkShift();
+        $workShift = new WorkShift();
+        $empNumbers = $this->getRequestParams()->getArray(
+            RequestParams::PARAM_TYPE_BODY,
+            self::PARAMETER_EMP_NUMBERS
+        );
+        $this->setParamsToWorkShift($workShift);
+        $this->getWorkShiftService()->getWorkShiftDao()->saveWorkShift($workShift, $empNumbers);
+
         return new EndpointResourceResult(WorkShiftModel::class, $workShift);
     }
 
     /**
-     * @return WorkShift
-     * @throws RecordNotFoundException
-     * @throws DaoException
+     * @param WorkShift $workShift
+     * @return void
      */
-    public function saveWorkShift(): WorkShift
+    private function setParamsToWorkShift(WorkShift $workShift): void
     {
-        $workShiftId = $this->getRequestParams()->getInt(
-            RequestParams::PARAM_TYPE_ATTRIBUTE,
-            CommonParams::PARAMETER_ID
-        );
         $workShiftName = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_NAME);
         $workShiftHoursPerDay = $this->getRequestParams()->getString(
             RequestParams::PARAM_TYPE_BODY,
@@ -154,32 +136,10 @@ class WorkShiftAPI extends EndPoint implements CrudEndpoint
             RequestParams::PARAM_TYPE_BODY,
             self::PARAMETER_END_TIME
         );
-        $empNumbers = $this->getRequestParams()->getArray(
-            RequestParams::PARAM_TYPE_BODY,
-            self::PARAMETER_EMP_NUMBERS
-        );
-        if (!empty($workShiftId)) {
-            $workShift = $this->getWorkShiftService()->getWorkShiftById($workShiftId);
-            if ($workShift == null) {
-                throw $this->getRecordNotFoundException();
-            } else {
-                $workShift->setName($workShiftName);
-                $workShift->setHoursPerDay($workShiftHoursPerDay);
-                $workShift->setStartTime(new DateTime($workShiftStartTime));
-                $workShift->setEndTime(new DateTime($workShiftEndTime));
-                return $this->getWorkShiftService()
-                    ->getWorkShiftDao()
-                    ->updateWorkShift($workShift, $empNumbers);
-            }
-        }
-        $workShift = new WorkShift();
         $workShift->setName($workShiftName);
         $workShift->setHoursPerDay($workShiftHoursPerDay);
         $workShift->setStartTime(new DateTime($workShiftStartTime));
         $workShift->setEndTime(new DateTime($workShiftEndTime));
-        return $this->getWorkShiftService()
-            ->getWorkShiftDao()
-            ->saveWorkShift($workShift, $empNumbers);
     }
 
     /**
@@ -191,7 +151,6 @@ class WorkShiftAPI extends EndPoint implements CrudEndpoint
             new ParamRule(
                 self::PARAMETER_NAME,
                 new Rule(Rules::STRING_TYPE),
-                new Rule(Rules::REQUIRED),
                 new Rule(Rules::LENGTH, [null, self::PARAM_RULE_NAME_MAX_LENGTH])
             ),
             new ParamRule(self::PARAMETER_HOURS_PER_DAY, new Rule(Rules::REQUIRED), new Rule(Rules::STRING_TYPE)),
@@ -207,7 +166,8 @@ class WorkShiftAPI extends EndPoint implements CrudEndpoint
     public function delete(): EndpointResult
     {
         $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
-        $this->getWorkShiftService()->deleteWorkShifts($ids);
+        $this->getWorkShiftService()->getWorkShiftDao()->deleteWorkShifts($ids);
+
         return new EndpointResourceResult(ArrayModel::class, $ids);
     }
 
@@ -226,7 +186,21 @@ class WorkShiftAPI extends EndPoint implements CrudEndpoint
      */
     public function update(): EndpointResult
     {
-        $workShift = $this->saveWorkShift();
+        $workShiftId = $this->getRequestParams()->getInt(
+            RequestParams::PARAM_TYPE_ATTRIBUTE,
+            CommonParams::PARAMETER_ID
+        );
+        $empNumbers = $this->getRequestParams()->getArray(
+            RequestParams::PARAM_TYPE_BODY,
+            self::PARAMETER_EMP_NUMBERS
+        );
+        $workShift = $this->getWorkShiftService()->getWorkShiftById($workShiftId);
+        $this->throwRecordNotFoundExceptionIfNotExist($workShift, WorkShift::class);
+        $this->setParamsToWorkShift($workShift);
+        $this->getWorkShiftService()
+            ->getWorkShiftDao()
+            ->updateWorkShift($workShift, $empNumbers);
+
         return new EndpointResourceResult(WorkShiftModel::class, $workShift);
     }
 
@@ -240,7 +214,6 @@ class WorkShiftAPI extends EndPoint implements CrudEndpoint
             new ParamRule(
                 self::PARAMETER_NAME,
                 new Rule(Rules::STRING_TYPE),
-                new Rule(Rules::REQUIRED),
                 new Rule(Rules::LENGTH, [null, self::PARAM_RULE_NAME_MAX_LENGTH])
             ),
             new ParamRule(self::PARAMETER_HOURS_PER_DAY, new Rule(Rules::REQUIRED), new Rule(Rules::STRING_TYPE)),

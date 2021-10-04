@@ -21,6 +21,7 @@
 namespace OrangeHRM\Tests\Admin\Service;
 
 use DateTime;
+use Exception;
 use OrangeHRM\Admin\Dao\WorkShiftDao;
 use OrangeHRM\Admin\Dto\WorkShiftSearchFilterParams;
 use OrangeHRM\Admin\Service\WorkShiftService;
@@ -28,14 +29,13 @@ use OrangeHRM\Config\Config;
 use OrangeHRM\Entity\WorkShift;
 use OrangeHRM\Tests\Util\TestCase;
 use OrangeHRM\Tests\Util\TestDataService;
-use Exception;
 
 /**
  * @group Admin
  * @group Service
  */
-class WorkShiftServiceTest extends TestCase{
-
+class WorkShiftServiceTest extends TestCase
+{
     private WorkShiftService $workShiftService;
     protected string $fixture;
 
@@ -60,9 +60,9 @@ class WorkShiftServiceTest extends TestCase{
         $workShiftDao = $this->getMockBuilder(WorkShiftDao::class)->getMock();
         $workShiftDao->expects($this->once())
             ->method('saveWorkShift')
-            ->with($workShift,[])
+            ->with($workShift, [])
             ->will($this->returnValue($workShift));
-        $result = $workShiftDao->saveWorkShift($workShift,[]);
+        $result = $workShiftDao->saveWorkShift($workShift, []);
         $this->assertEquals($workShift, $result);
     }
 
@@ -93,18 +93,5 @@ class WorkShiftServiceTest extends TestCase{
         $this->workShiftService->setWorkShiftDao($workShiftDao);
         $result = $this->workShiftService->getWorkShiftById(1);
         $this->assertEquals($workShiftList[0], $result);
-    }
-
-    public function testDeleteSkill(): void
-    {
-        $toBeDeletedWorkShiftIds = [1, 2];
-        $workShiftDao = $this->getMockBuilder(WorkShiftDao::class)->getMock();
-        $workShiftDao->expects($this->once())
-            ->method('deleteWorkShifts')
-            ->with($toBeDeletedWorkShiftIds)
-            ->will($this->returnValue(2));
-        $this->workShiftService->setWorkShiftDao($workShiftDao);
-        $result = $this->workShiftService->deleteWorkShifts($toBeDeletedWorkShiftIds);
-        $this->assertEquals(2, $result);
     }
 }

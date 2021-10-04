@@ -25,7 +25,6 @@ use OrangeHRM\Admin\Dto\WorkShiftSearchFilterParams;
 use OrangeHRM\Admin\Dto\WorkShiftStartAndEndTime;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
-use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\WorkShift;
 
 class WorkShiftService
@@ -91,23 +90,5 @@ class WorkShiftService
     public function getWorkShiftCount(WorkShiftSearchFilterParams $workShiftSearchFilterParams): int
     {
         return $this->getWorkShiftDao()->getWorkShiftCount($workShiftSearchFilterParams);
-    }
-
-    /**
-     * @param array $deletedIds
-     * @return int
-     */
-    public function deleteWorkShifts(array $deletedIds): int
-    {
-        return $this->getWorkShiftDao()->deleteWorkShifts($deletedIds);
-    }
-
-    /**
-     * @param $workShiftId
-     * @return Employee[]
-     */
-    public function getEmployeesByWorkShiftId($workShiftId): array
-    {
-        return $this->getWorkShiftDao()->getEmployeeListByWorkShiftId($workShiftId);
     }
 }

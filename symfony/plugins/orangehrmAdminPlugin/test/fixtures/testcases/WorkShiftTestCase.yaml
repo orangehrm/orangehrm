@@ -25,6 +25,7 @@ GetOne:
     userId: 1
     services:
       admin.work_shift_service: \OrangeHRM\Admin\Service\WorkShiftService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
     attributes:
       id: 1
     body: [ ]
@@ -35,13 +36,21 @@ GetOne:
       hoursPerDay: 8.00
       startTime: '07:00'
       endTime: '15:00'
-      employee:
+      employees:
         0:
-          id: 1
-          label: 'Kayla T Abbey'
+          empNumber: 1
+          lastName: 'Abbey'
+          firstName: 'Kayla'
+          middleName: 'T'
+          employeeId: 'E001'
+          terminationId: null
         1:
-          id: 2
-          label: 'Ashley ST Abel'
+          empNumber: 2
+          lastName: 'Abel'
+          firstName: 'Ashley'
+          middleName: 'ST'
+          employeeId: 'E002'
+          terminationId: null
     meta: [ ]
 
 Create:
