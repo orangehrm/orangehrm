@@ -24,16 +24,18 @@ use OrangeHRM\Entity\Mail;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface as MailerException;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Exception\CoreServiceException;
-use DateTime;
+use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 
 class EmailQueueService
 {
+    use DateTimeHelperTrait;
+
     private ?EmailQueueDao $emailQueueDao = null;
 
     private ?EmailService $emailService = null;
 
     /**
-     * @return EmailQueueDao|null
+     * @return EmailQueueDao
      */
     public function getEmailQueueDao(): EmailQueueDao
     {
@@ -52,18 +54,9 @@ class EmailQueueService
     {
         if (!($this->emailService instanceof EmailService)) {
             $this->emailService = new EmailService();
-            $this->loadConfiguration();
+            $this->getEmailService()->loadConfiguration();
         }
         return $this->emailService;
-    }
-
-    /**
-     * @throws CoreServiceException
-     * @throws DaoException
-     */
-    public function loadConfiguration(): void
-    {
-        $this->getEmailService()->loadConfiguration();
     }
 
     /**
@@ -73,7 +66,6 @@ class EmailQueueService
      * @param array $ccList
      * @param array $bccList
      * @return Mail
-     * @throws DaoException
      */
     public function addToQueue(string $subject, string $body, array $toList = [], array $ccList = [], array $bccList = []): Mail
     {
@@ -131,13 +123,12 @@ class EmailQueueService
      * @param Mail $mail
      * @param string $status
      * @return Mail
-     * @throws DaoException
      */
     public function changeMailStatus(Mail $mail, string $status): Mail
     {
         $mail->setStatus($status);
         if($status == Mail::STATUS_COMPLETED){
-            $mail->setSentAt(new DateTime());
+            $mail->setSentAt($this->getDateTimeHelper()->getNow());
         }
         return $this->getEmailQueueDao()->saveEmail($mail);
     }

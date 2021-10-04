@@ -20,16 +20,18 @@
 namespace OrangeHRM\Tests\Core\Service;
 
 use OrangeHRM\Core\Dao\EmailQueueDao;
+use OrangeHRM\Core\Service\DateTimeHelperService;
 use OrangeHRM\Core\Service\EmailQueueService;
 use OrangeHRM\Core\Service\EmailService;
 use OrangeHRM\Entity\Mail;
-use OrangeHRM\Tests\Util\TestCase;
+use OrangeHRM\Framework\Services;
+use OrangeHRM\Tests\Util\KernelTestCase;
 
 /**
  * @group Core
  * @group Service
  */
-class EmailQueueServiceTest extends TestCase
+class EmailQueueServiceTest extends KernelTestCase
 {
     private EmailQueueService $emailQueueService;
 
@@ -46,32 +48,18 @@ class EmailQueueServiceTest extends TestCase
     public function testGetEmailService()
     {
         $emailQueueService = $this->getMockBuilder(EmailQueueService::class)
-            ->onlyMethods(['loadConfiguration'])
-            ->getMock();
-        $emailQueueService->expects($this->once())
-            ->method('loadConfiguration');
-        $this->assertTrue($emailQueueService->getEmailService() instanceof EmailService);
-    }
-
-    public function testLoadConfigurations()
-    {
-        $emailService = $this->getMockBuilder(EmailService::class)
-            ->onlyMethods(['loadConfiguration'])
-            ->getMock();
-        $emailService->expects($this->once())
-            ->method('loadConfiguration');
-
-        $emailQueueService = $this->getMockBuilder(EmailQueueService::class)
             ->onlyMethods(['getEmailService'])
             ->getMock();
         $emailQueueService->expects($this->once())
-            ->method('getEmailService')
-            ->willReturn($emailService);
-        $emailQueueService->loadConfiguration();
+            ->method('getEmailService');
+        $emailQueueService->getEmailService();
+
     }
 
     public function testAddToQueue()
     {
+        $this->createKernelWithMockServices([Services::DATETIME_HELPER_SERVICE => new DateTimeHelperService()]);
+
         $result = $this->emailQueueService->addToQueue(
             "test7 subject",
             "test7 body",
@@ -112,6 +100,7 @@ class EmailQueueServiceTest extends TestCase
         $emailQueueService->expects($this->exactly(6))
             ->method('getEmailService')
             ->willReturn($emailService);
+        $this->createKernelWithMockServices([Services::DATETIME_HELPER_SERVICE => new DateTimeHelperService()]);
         $mail = new Mail();
         $mail->setSubject("test7 subject");
         $mail->setBody("test7 body");
@@ -142,6 +131,7 @@ class EmailQueueServiceTest extends TestCase
 
     public function testChangeMailStatus()
     {
+        $this->createKernelWithMockServices([Services::DATETIME_HELPER_SERVICE => new DateTimeHelperService()]);
         $mail = new Mail();
         $mail->setSubject("test7 subject");
         $mail->setBody("test7 body");
@@ -160,6 +150,7 @@ class EmailQueueServiceTest extends TestCase
 
     public function testSendAllPendingMails()
     {
+        $this->createKernelWithMockServices([Services::DATETIME_HELPER_SERVICE => new DateTimeHelperService()]);
         $mail1 = new Mail();
         $mail1->setId(1);
         $mail1->setSubject("test1 subject");
@@ -186,7 +177,6 @@ class EmailQueueServiceTest extends TestCase
             ->method('resetEmailService');
         $emailQueueService->expects($this->exactly(3))
             ->method('sendSingleMail');
-
         $emailQueueService->sendAllPendingMails();
     }
 }

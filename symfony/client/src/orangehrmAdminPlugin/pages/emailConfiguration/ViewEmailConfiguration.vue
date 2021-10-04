@@ -37,9 +37,7 @@
               />
             </oxd-grid-item>
             <oxd-grid-item>
-              <oxd-input-group
-                label="Sending Method"
-              >
+              <oxd-input-group label="Sending Method">
                 <div class="send-method-div">
                   <oxd-input-field
                     type="radio"
@@ -145,23 +143,36 @@
         </oxd-form-row>
         <oxd-form-row v-if="emailConfiguration.mailType !== 'sendmail'">
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
-            <div class="orangehrm-optional-field-row">
-              <oxd-text tag="p" class="orangehrm-optional-field-label">
-                TLS
+            <oxd-grid-item class="organization-name-container">
+              <div class="orangehrm-optional-field-row">
+                <oxd-text tag="p" class="orangehrm-optional-field-label">
+                  TLS
+                </oxd-text>
+                <oxd-switch-input v-model="useTLSSecureConnection" />
+              </div>
+            </oxd-grid-item>
+          </oxd-grid>
+        </oxd-form-row>
+        <oxd-form-row v-if="emailConfiguration.mailType !== 'sendmail'">
+          <oxd-grid :cols="1" class="orangehrm-full-width-grid">
+            <oxd-grid-item class="organization-name-container">
+              <oxd-text tag="p" class="tls-hint">
+                Optional - the mail server requires the use of TLS security.
               </oxd-text>
-              <oxd-switch-input v-model="useTLSSecureConnection" />
-            </div>
+            </oxd-grid-item>
           </oxd-grid>
         </oxd-form-row>
 
         <oxd-form-row>
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
-            <div class="orangehrm-optional-field-row">
-              <oxd-text tag="p" class="orangehrm-optional-field-label">
-                Send Test Mail
-              </oxd-text>
-              <oxd-switch-input v-model="sendTestMailEditable" />
-            </div>
+            <oxd-grid-item class="organization-name-container">
+              <div class="orangehrm-optional-field-row">
+                <oxd-text tag="p" class="orangehrm-optional-field-label">
+                  Send Test Mail
+                </oxd-text>
+                <oxd-switch-input v-model="sendTestMailEditable" />
+              </div>
+            </oxd-grid-item>
           </oxd-grid>
         </oxd-form-row>
         <oxd-form-row v-if="sendTestMailEditable">

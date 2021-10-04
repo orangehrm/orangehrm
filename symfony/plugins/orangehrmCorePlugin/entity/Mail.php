@@ -22,6 +22,7 @@ namespace OrangeHRM\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use DateTime;
 use InvalidArgumentException;
+use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 
 /**
  * Config
@@ -31,6 +32,8 @@ use InvalidArgumentException;
  */
 class Mail
 {
+    use DateTimeHelperTrait;
+
     public const STATUS_PENDING = "PENDING";
     public const STATUS_IN_PROGRESS = "IN-PROGRESS";
     public const STATUS_COMPLETED = "COMPLETED";
@@ -112,7 +115,7 @@ class Mail
 
     public function __construct()
     {
-        $this->createdAt = new DateTime();
+        $this->createdAt = $this->getDateTimeHelper()->getNow();
         $this->status = self::STATUS_PENDING;
         $this->contentType = self::CONTENT_TYPE_TEXT_PLAIN;
     }
@@ -127,32 +130,26 @@ class Mail
 
     /**
      * @param int $id
-     * @return $this
      */
-    public function setId(int $id): self
+    public function setId(int $id): void
     {
         $this->id = $id;
-
-        return $this;
     }
 
     /**
-     * @return string[]|null
+     * @return string[]
      */
-    public function getToList(): ?array
+    public function getToList(): array
     {
         return $this->toList;
     }
 
     /**
      * @param array $toList
-     * @return $this
      */
-    public function setToList(array $toList): self
+    public function setToList(array $toList): void
     {
         $this->toList = $toList;
-
-        return $this;
     }
 
     /**
@@ -165,19 +162,16 @@ class Mail
 
     /**
      * @param array $ccList
-     * @return $this
      */
-    public function setCcList(array $ccList): self
+    public function setCcList(array $ccList): void
     {
         $this->ccList = $ccList;
-
-        return $this;
     }
 
     /**
-     * @return string[]
+     * @return string[]|null
      */
-    public function getBccList(): array
+    public function getBccList(): ?array
     {
         return $this->bccList;
     }
@@ -200,13 +194,10 @@ class Mail
 
     /**
      * @param string|null $subject
-     * @return $this
      */
-    public function setSubject(?string $subject): self
+    public function setSubject(?string $subject): void
     {
         $this->subject = $subject;
-
-        return $this;
     }
 
     /**
@@ -219,13 +210,10 @@ class Mail
 
     /**
      * @param string $body
-     * @return $this
      */
-    public function setBody(string $body): self
+    public function setBody(string $body): void
     {
         $this->body = $body;
-
-        return $this;
     }
 
     /**
@@ -238,13 +226,10 @@ class Mail
 
     /**
      * @param DateTime $createdAt
-     * @return $this
      */
-    public function setCreatedAt(DateTime $createdAt): self
+    public function setCreatedAt(DateTime $createdAt): void
     {
         $this->createdAt = $createdAt;
-
-        return $this;
     }
 
     /**
@@ -257,13 +242,10 @@ class Mail
 
     /**
      * @param DateTime|null $sentAt
-     * @return $this
      */
-    public function setSentAt(?DateTime $sentAt): self
+    public function setSentAt(?DateTime $sentAt): void
     {
         $this->sentAt = $sentAt;
-
-        return $this;
     }
 
     /**
@@ -276,9 +258,8 @@ class Mail
 
     /**
      * @param string|null $status
-     * @return $this
      */
-    public function setStatus(?string $status): self
+    public function setStatus(?string $status): void
     {
         if (!in_array($status, array(
             self::STATUS_PENDING,
@@ -289,8 +270,6 @@ class Mail
         }
 
         $this->status = $status;
-
-        return $this;
     }
 
     /**
@@ -303,16 +282,13 @@ class Mail
 
     /**
      * @param string|null $contentType
-     * @return $this
      */
-    public function setContentType(?string $contentType): self
+    public function setContentType(?string $contentType): void
     {
         if (!in_array($contentType, array(self::CONTENT_TYPE_TEXT_PLAIN, self::CONTENT_TYPE_TEXT_HTML))) {
             throw new InvalidArgumentException("Invalid content type");
         }
 
         $this->contentType = $contentType;
-
-        return $this;
     }
 }

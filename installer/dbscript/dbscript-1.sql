@@ -2353,15 +2353,3 @@ ALTER TABLE `ohrm_i18n_lang_string`
 ALTER TABLE `ohrm_i18n_translate`
     ADD CONSTRAINT `translateUniqueId` UNIQUE (`lang_string_id`, `language_id`);
 
-CREATE TABLE `ohrm_mail_queue` (
-  `id` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  `to_list` longtext COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '(DC2Type:array)',
-  `cc_list` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '(DC2Type:array)',
-  `bcc_list` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '(DC2Type:array)',
-  `subject` varchar(1000) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `body` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `created_at` datetime NOT NULL,
-  `sent_at` datetime DEFAULT NULL,
-  `status` varchar(12) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `content_type` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

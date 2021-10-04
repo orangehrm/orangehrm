@@ -19,8 +19,6 @@
 
 namespace OrangeHRM\Core\Dao;
 
-use Exception;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\Mail;
 
 class EmailQueueDao extends BaseDao
@@ -37,50 +35,35 @@ class EmailQueueDao extends BaseDao
     /**
      * @param Mail $mail
      * @return Mail
-     * @throws DaoException
      */
     public function saveEmail(Mail $mail): Mail
     {
-        try {
-            $this->persist($mail);
-            return $mail;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        $this->persist($mail);
+        return $mail;
     }
 
     /**
      * @param array $toDeleteIds
      * @return int
-     * @throws DaoException
      */
     public function removeFromQueue(array $toDeleteIds): int
     {
-        try {
-            $q = $this->createQueryBuilder(Mail::class, 'm');
-            $q->delete()
-                ->where($q->expr()->in('m.id', ':ids'))
-                ->setParameter('ids', $toDeleteIds);
-            return $q->getQuery()->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
+        $q = $this->createQueryBuilder(Mail::class, 'm');
+        $q->delete()
+            ->where($q->expr()->in('m.id', ':ids'))
+            ->setParameter('ids', $toDeleteIds);
+        return $q->getQuery()->execute();
     }
 
     /**
      * @return array
-     * @throws DaoException
      */
     public function getAllPendingMails(): array
     {
-        try {
-            $q = $this->createQueryBuilder(Mail::class, 'm');
-            $q->select()
-                ->where('m.status = :status')
-                ->setParameter('status', Mail::STATUS_PENDING);
-            return $q->getQuery()->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
+        $q = $this->createQueryBuilder(Mail::class, 'm');
+        $q->select()
+            ->where('m.status = :status')
+            ->setParameter('status', Mail::STATUS_PENDING);
+        return $q->getQuery()->execute();
     }
 }

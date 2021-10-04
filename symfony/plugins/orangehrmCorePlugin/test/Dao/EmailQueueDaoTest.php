@@ -20,7 +20,9 @@
 namespace OrangeHRM\Tests\Core\Dao;
 
 use OrangeHRM\Core\Dao\EmailQueueDao;
+use OrangeHRM\Core\Service\DateTimeHelperService;
 use OrangeHRM\Entity\Mail;
+use OrangeHRM\Framework\Services;
 use OrangeHRM\Tests\Util\KernelTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 
@@ -57,6 +59,7 @@ class EmailQueueDaoTest extends KernelTestCase
 
     public function testSaveEmail(): void
     {
+        $this->createKernelWithMockServices([Services::DATETIME_HELPER_SERVICE => new DateTimeHelperService()]);
         $mail = new Mail();
         $mail->setSubject("test7 subject");
         $mail->setBody("test7 body");
