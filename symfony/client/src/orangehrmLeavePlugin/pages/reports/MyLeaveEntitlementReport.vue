@@ -19,12 +19,16 @@
  -->
 
 <template>
-  <reports-table :prefetch="true" :filters="serializedFilters">
-    <template v-slot:default="{fetchdata}">
+  <reports-table
+    name="employee_leave_entitlements_and_usage"
+    :prefetch="true"
+    :filters="serializedFilters"
+  >
+    <template v-slot:default="{generateReport}">
       <oxd-table-filter
         :filter-title="$t('leave.my_leave_entitlement_and_usage_report')"
       >
-        <oxd-form @submitValid="fetchdata">
+        <oxd-form @submitValid="generateReport">
           <oxd-form-row>
             <oxd-grid :cols="4" class="orangehrm-full-width-grid">
               <oxd-grid-item>
@@ -45,7 +49,7 @@
               type="submit"
               displayType="secondary"
               class="orangehrm-left-space"
-              :label="$t('general.view')"
+              :label="$t('general.generate')"
             />
           </oxd-form-actions>
         </oxd-form>

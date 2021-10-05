@@ -19,12 +19,12 @@
  -->
 
 <template>
-  <reports-table :filters="serializedFilters">
-    <template v-slot:default="{fetchdata}">
+  <reports-table :name="filters.type" :filters="serializedFilters">
+    <template v-slot:default="{generateReport}">
       <oxd-table-filter
         :filter-title="$t('leave.leave_entitlement_and_usage_report')"
       >
-        <oxd-form @submitValid="fetchdata">
+        <oxd-form @submitValid="generateReport">
           <oxd-form-row>
             <oxd-grid :cols="4" class="orangehrm-full-width-grid">
               <oxd-grid-item>
@@ -36,20 +36,22 @@
                     type="radio"
                     v-model="filters.type"
                     :optionLabel="$t('leave.leave_type')"
-                    value="leaveType"
+                    value="leave_type_leave_entitlements_and_usage"
                   />
                   <oxd-input-field
                     type="radio"
                     v-model="filters.type"
                     :optionLabel="$t('general.employee')"
-                    value="employee"
+                    value="employee_leave_entitlements_and_usage"
                   />
                 </oxd-input-group>
               </oxd-grid-item>
             </oxd-grid>
           </oxd-form-row>
 
-          <oxd-form-row v-if="filters.type === 'leaveType'">
+          <oxd-form-row
+            v-if="filters.type === 'leave_type_leave_entitlements_and_usage'"
+          >
             <oxd-grid :cols="4" class="orangehrm-full-width-grid">
               <oxd-grid-item>
                 <leave-type-dropdown
@@ -116,7 +118,7 @@
               type="submit"
               displayType="secondary"
               class="orangehrm-left-space"
-              :label="$t('general.view')"
+              :label="$t('general.generate')"
             />
           </oxd-form-actions>
         </oxd-form>
@@ -136,7 +138,7 @@ import LeaveTypeDropdown from '@/orangehrmLeavePlugin/components/LeaveTypeDropdo
 import LeavePeriodDropdown from '@/orangehrmLeavePlugin/components/LeavePeriodDropdown';
 
 const defaultFilters = {
-  type: 'leaveType',
+  type: 'leave_type_leave_entitlements_and_usage',
   employee: null,
   leavePeriod: null,
   leaveType: null,
@@ -175,9 +177,9 @@ export default {
     });
 
     const serializedFilters = computed(() => {
-      if (filters.value.type === 'leaveType') {
+      if (filters.value.type === 'leave_type_leave_entitlements_and_usage') {
         return {
-          name: 'leave_type_leave_entitlements_and_usage',
+          name: filters.value.type,
           fromDate: filters.value.leavePeriod?.startDate,
           toDate: filters.value.leavePeriod?.endDate,
           subunitId: filters.value.subunit?.id,
@@ -190,7 +192,7 @@ export default {
         };
       } else {
         return {
-          name: 'employee_leave_entitlements_and_usage',
+          name: filters.value.type,
           empNumber: filters.value.employee?.id,
           fromDate: filters.value.leavePeriod?.startDate,
           toDate: filters.value.leavePeriod?.endDate,

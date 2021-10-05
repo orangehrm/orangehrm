@@ -20,9 +20,9 @@
 
 <template>
   <div class="orangehrm-background-container">
-    <slot :fetchdata="fetchTableData"></slot>
+    <slot :generateReport="generateReport"></slot>
     <br />
-    <div class="orangehrm-paper-container">
+    <div v-if="headers.length !== 0" class="orangehrm-paper-container">
       <oxd-report-table
         :height="400"
         :items="items"
@@ -30,7 +30,7 @@
         :loading="isLoading"
       >
         <template v-slot:pagination>
-          <oxd-text class="orangehrm-horizontal-margin" tag="span">
+          <oxd-text class="orangehrm-horizontal-margin --count" tag="span">
             {{ itemCountText }}
           </oxd-text>
           <oxd-pagination
@@ -45,7 +45,7 @@
 </template>
 
 <script>
-import {computed, onBeforeMount, ref} from 'vue';
+import {computed, onBeforeMount, ref, watch} from 'vue';
 import {APIService} from '@/core/util/services/api.service';
 import {navigate} from '@orangehrm/core/util/helper/navigation';
 import usePaginate from '@orangehrm/core/util/composable/usePaginate';
@@ -59,6 +59,10 @@ export default {
   },
 
   props: {
+    name: {
+      type: String,
+      required: true,
+    },
     prefetch: {
       type: Boolean,
       default: false,
@@ -76,7 +80,9 @@ export default {
     );
 
     const headers = ref([]);
-    const serializedFilters = computed(() => props.filters);
+    const serializedFilters = computed(() => {
+      return {...props.filters, name: props.name};
+    });
 
     const {
       total,
@@ -135,10 +141,19 @@ export default {
         });
     };
 
-    onBeforeMount(async () => {
-      await fetchTableHeaders();
-      props.prefetch && (await fetchTableData());
-    });
+    const generateReport = async () => {
+      if (headers.value.length === 0) await fetchTableHeaders();
+      await fetchTableData();
+    };
+
+    watch(
+      () => props.name,
+      () => {
+        headers.value = [];
+      },
+    );
+
+    props.prefetch && onBeforeMount(generateReport());
 
     return {
       pages,
@@ -148,8 +163,21 @@ export default {
       currentPage,
       itemCountText,
       showPaginator,
-      fetchTableData,
+      generateReport,
     };
   },
 };
 </script>
+
+<style lang="scss" scoped>
+@import '@orangehrm/oxd/styles/_mixins.scss';
+
+.oxd-text.--count {
+  @include oxd-respond-to('xs') {
+    display: none;
+  }
+  @include oxd-respond-to('sm') {
+    display: block;
+  }
+}
+</style>
