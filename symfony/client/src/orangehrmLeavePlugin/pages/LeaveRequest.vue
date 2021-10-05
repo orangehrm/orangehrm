@@ -104,9 +104,22 @@ import LeaveCommentsModal from '@/orangehrmLeavePlugin/components/LeaveCommentsM
 
 const leaveRequestNormalizer = data => {
   return data.map(item => {
+    let leaveDatePeriod = '';
+    const duration = item.dates.durationType?.type;
+
+    if (item.dates.fromDate) {
+      leaveDatePeriod = item.dates.fromDate;
+    }
+    if (item.dates.startTime && item.dates.endTime) {
+      leaveDatePeriod += ` (${item.dates.startTime} - ${item.dates.endTime})`;
+    }
+    if (duration === 'half_day_morning' || duration === 'half_day_afternoon') {
+      leaveDatePeriod += ' Half Day';
+    }
+
     return {
       id: item.id,
-      date: item.dates.fromDate,
+      date: leaveDatePeriod,
       leaveType:
         item.leaveType?.name + `${item.leaveType?.deleted ? ' (Deleted)' : ''}`,
       leaveBalance: item.leaveBalance?.balance.balance,
