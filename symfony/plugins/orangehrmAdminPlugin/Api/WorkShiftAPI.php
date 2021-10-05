@@ -151,12 +151,13 @@ class WorkShiftAPI extends EndPoint implements CrudEndpoint
             new ParamRule(
                 self::PARAMETER_NAME,
                 new Rule(Rules::STRING_TYPE),
+                new Rule(Rules::REQUIRED),
                 new Rule(Rules::LENGTH, [null, self::PARAM_RULE_NAME_MAX_LENGTH])
             ),
             new ParamRule(self::PARAMETER_HOURS_PER_DAY, new Rule(Rules::REQUIRED), new Rule(Rules::STRING_TYPE)),
             new ParamRule(self::PARAMETER_START_TIME, new Rule(Rules::REQUIRED), new Rule(Rules::DATE_TIME)),
             new ParamRule(self::PARAMETER_END_TIME, new Rule(Rules::REQUIRED), new Rule(Rules::DATE_TIME)),
-            new ParamRule(self::PARAMETER_EMP_NUMBERS),
+            new ParamRule(self::PARAMETER_EMP_NUMBERS, new Rule(Rules::ARRAY_TYPE)),
         );
     }
 
@@ -177,7 +178,7 @@ class WorkShiftAPI extends EndPoint implements CrudEndpoint
     public function getValidationRuleForDelete(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(CommonParams::PARAMETER_IDS),
+            new ParamRule(CommonParams::PARAMETER_IDS, new Rule(Rules::ARRAY_TYPE)),
         );
     }
 
@@ -197,9 +198,7 @@ class WorkShiftAPI extends EndPoint implements CrudEndpoint
         $workShift = $this->getWorkShiftService()->getWorkShiftById($workShiftId);
         $this->throwRecordNotFoundExceptionIfNotExist($workShift, WorkShift::class);
         $this->setParamsToWorkShift($workShift);
-        $this->getWorkShiftService()
-            ->getWorkShiftDao()
-            ->updateWorkShift($workShift, $empNumbers);
+        $this->getWorkShiftService()->getWorkShiftDao()->updateWorkShift($workShift, $empNumbers);
 
         return new EndpointResourceResult(WorkShiftModel::class, $workShift);
     }
@@ -214,12 +213,13 @@ class WorkShiftAPI extends EndPoint implements CrudEndpoint
             new ParamRule(
                 self::PARAMETER_NAME,
                 new Rule(Rules::STRING_TYPE),
+                new Rule(Rules::REQUIRED),
                 new Rule(Rules::LENGTH, [null, self::PARAM_RULE_NAME_MAX_LENGTH])
             ),
             new ParamRule(self::PARAMETER_HOURS_PER_DAY, new Rule(Rules::REQUIRED), new Rule(Rules::STRING_TYPE)),
             new ParamRule(self::PARAMETER_START_TIME, new Rule(Rules::REQUIRED), new Rule(Rules::DATE_TIME)),
             new ParamRule(self::PARAMETER_END_TIME, new Rule(Rules::REQUIRED), new Rule(Rules::DATE_TIME)),
-            new ParamRule(self::PARAMETER_EMP_NUMBERS),
+            new ParamRule(self::PARAMETER_EMP_NUMBERS, new Rule(Rules::ARRAY_TYPE)),
         );
     }
 }

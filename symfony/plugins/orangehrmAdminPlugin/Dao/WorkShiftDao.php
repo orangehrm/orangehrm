@@ -85,22 +85,22 @@ class WorkShiftDao extends BaseDao
         $this->beginTransaction();
         try {
             $this->persist($workShift);
-            $this->commitTransaction();
             if (count($empNumbers) > 0) {
                 // this function will invoke only if the array have some values
                 $this->saveEmployeeWorkShift($empNumbers, $workShift);
-                return $workShift;
             }
+            $this->commitTransaction();
+            return $workShift;
         } catch (Exception $e) {
             $this->rollBackTransaction();
             throw new TransactionException($e);
         }
-        return $workShift;
     }
 
     /**
      * @param int[] $empNumbers
      * @param WorkShift $workShift
+     * @return void
      */
     public function saveEmployeeWorkShift(array $empNumbers, WorkShift $workShift): void
     {
@@ -162,16 +162,17 @@ class WorkShiftDao extends BaseDao
 
     /**
      * @param int $workShiftId
-     * @param int[] $empNumberList
+     * @param int[] $empNumbers
+     * @return void
      */
-    public function deleteExistingEmployees(int $workShiftId, array $empNumberList): void
+    public function deleteExistingEmployees(int $workShiftId, array $empNumbers): void
     {
         $q = $this->createQueryBuilder(EmployeeWorkShift::class, 'ews');
         $q->delete()
             ->where('ews.workShift = :workShiftId')
             ->andWhere($q->expr()->in('ews.employee', ':employeeNumbers'))
             ->setParameter('workShiftId', $workShiftId)
-            ->setParameter('employeeNumbers', $empNumberList)
+            ->setParameter('employeeNumbers', $empNumbers)
             ->getQuery()
             ->execute();
     }

@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\Admin\Api\Model;
 
-use Exception;
 use OrangeHRM\Admin\Traits\Service\WorkShiftServiceTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
@@ -53,7 +52,6 @@ class WorkShiftDetailedModel implements Normalizable
 
     /**
      * @return array
-     * @throws Exception
      */
     public function toArray(): array
     {
