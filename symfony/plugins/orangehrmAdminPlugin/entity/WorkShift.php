@@ -21,13 +21,19 @@ namespace OrangeHRM\Entity;
 
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use OrangeHRM\Entity\Decorator\DecoratorTrait;
+use OrangeHRM\entity\Decorator\WorkShiftDecorator;
 
 /**
+ * @method WorkShiftDecorator getDecorator()
+ *
  * @ORM\Table(name="ohrm_work_shift")
  * @ORM\Entity
  */
 class WorkShift
 {
+    use DecoratorTrait;
+
     /**
      * @var int
      *

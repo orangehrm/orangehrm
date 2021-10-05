@@ -220,6 +220,31 @@
           "source": "Edit Job Title",
           "target": "Edit Job Title",
           "description": "Alter the position that is needed by the company ex: Manager IT"
+        },
+        "work_shift": {
+          "source": "Work Shifts",
+          "target": "Work Shifts",
+          "description": "HR Admin can define work shifts for an individual or a group of employees. To add an entry, go to Admin&gt;&gt; Job&gt;&gt; Work Shifts and click “Add”"
+        },
+        "add_work_shifts": {
+          "source": "Add Work Shift",
+          "target": "Add Work Shift",
+          "description": "Admin can define work shifts for an individual or a group of employees. To add an entry, go to Admin&gt;&gt; Job&gt;&gt; Work Shifts"
+        },
+        "edit_work_shifts": {
+          "source": "Edit Work Shift",
+          "target": "Edit Work Shift",
+          "description": "Admin can edit the defined work shifts for an individual or a group of employees. To add an entry, go to Admin&gt;&gt; Job&gt;&gt; Work Shifts and go to an existing work shift record and click “Edit”."
+        },
+        "shift_name": {
+          "source": "Shift Name",
+          "target": "Shift Name*",
+          "description": "When HR Admin defining work shifts for an individual or a group of employees, shift name should be specified"
+        },
+        "duration_per_day": {
+          "source": "Duration (Hours per Day)",
+          "target": "Duration (Hours per Day)",
+          "description": "Calculate the duration of the work shift"
         }
       }
     },

@@ -47,10 +47,7 @@ class EmployeeWorkShiftAPI extends Endpoint implements ResourceEndpoint
             RequestParams::PARAM_TYPE_ATTRIBUTE,
             CommonParams::PARAMETER_EMP_NUMBER
         );
-
-        $workShiftStartEndTime = $this->getWorkScheduleService()->getWorkSchedule($empNumber)->getWorkShiftStartEndTime(
-        );
-
+        $workShiftStartEndTime = $this->getWorkScheduleService()->getWorkSchedule($empNumber)->getWorkShiftStartEndTime();
         return new EndpointResourceResult(
             EmployeeWorkShiftModel::class,
             $workShiftStartEndTime,

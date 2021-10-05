@@ -1,0 +1,112 @@
+GetAll:
+  'get all work shifts':
+    userId: 1
+    services:
+      admin.work_shift_service: \OrangeHRM\Admin\Service\WorkShiftService
+    attributes: [ ]
+    body: [ ]
+    query: [ ]
+    data:
+      0:
+        id: 1
+        name: 'Shift 1'
+        hoursPerDay: 8
+        startTime: '07:00'
+        endTime: '15:00'
+      1:
+        id: 2
+        name: 'Shift 2'
+        hoursPerDay: 8
+        startTime: '09:30'
+        endTime: '17:30'
+    meta:
+      total: 2
+
+GetOne:
+  'get one work shift by Id':
+    userId: 1
+    services:
+      admin.work_shift_service: \OrangeHRM\Admin\Service\WorkShiftService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+    attributes:
+      id: 1
+    body: [ ]
+    query: [ ]
+    data:
+      id: 1
+      name: 'Shift 1'
+      hoursPerDay: 8.00
+      startTime: '07:00'
+      endTime: '15:00'
+      employees:
+        0:
+          empNumber: 1
+          lastName: 'Abbey'
+          firstName: 'Kayla'
+          middleName: 'T'
+          employeeId: 'E001'
+          terminationId: null
+        1:
+          empNumber: 2
+          lastName: 'Abel'
+          firstName: 'Ashley'
+          middleName: 'ST'
+          employeeId: 'E002'
+          terminationId: null
+    meta: [ ]
+
+Create:
+  'create new work shift':
+    userId: 1
+    services:
+      admin.work_shift_service: \OrangeHRM\Admin\Service\WorkShiftService
+    attributes: [ ]
+    body:
+      name: 'SHIFT - 03'
+      hoursPerDay: '4.0'
+      startTime: '08:00'
+      endTime: '12:00'
+      empNumbers: [ ]
+    query: [ ]
+    data:
+      id: 3
+      name: 'SHIFT - 03'
+      hoursPerDay: 4.0
+      startTime: '08:00'
+      endTime: '12:00'
+    meta: [ ]
+
+Update:
+  'update an existing work shift':
+    userId: 1
+    services:
+      admin.work_shift_service: \OrangeHRM\Admin\Service\WorkShiftService
+    attributes:
+      id: 1
+    body:
+      name: 'SHIFT - 001'
+      hoursPerDay: '5.0'
+      startTime: '08:00'
+      endTime: '13:00'
+      empNumbers: [ ]
+    query: [ ]
+    data:
+      id: 1
+      name: 'SHIFT - 001'
+      hoursPerDay: 5.0
+      startTime: '08:00'
+      endTime: '13:00'
+    meta: [ ]
+
+Delete:
+  'delete an existing work shift or work shifts':
+    userId: 1
+    services:
+      admin.work_shift_service: \OrangeHRM\Admin\Service\WorkShiftService
+    attributes: [ ]
+    body:
+      ids: [1, 2]
+    query: [ ]
+    data:
+      [1, 2]
+    meta: [ ]

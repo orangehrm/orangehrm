@@ -542,6 +542,13 @@ class Employee
     private EmpUsTaxExemption $empUsTax;
 
     /**
+     * @var EmployeeWorkShift
+     *
+     * @ORM\OneToOne(targetEntity="OrangeHRM\Entity\EmployeeWorkShift", mappedBy="employee")
+     */
+    private EmployeeWorkShift $employeeWorkShift;
+
+    /**
      * Constructor
      */
     public function __construct()

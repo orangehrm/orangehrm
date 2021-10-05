@@ -1,0 +1,4 @@
+WorkShift:
+  0: { id: 1, name: 'Shift 1', hoursPerDay: 8, start_time: "07:00:00", end_time: "15:00:00" }
+  1: { id: 2, name: 'Shift 2', hoursPerDay: 8, start_time: "09:30:00", end_time: "17:30:00" }
+  
