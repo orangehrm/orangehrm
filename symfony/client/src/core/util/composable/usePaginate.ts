@@ -104,7 +104,7 @@ export default function usePaginate(
     response: {},
     total: 0,
     pages: 0,
-    pageSize: 50,
+    pageSize: 5,
     currentPage: 1,
   });
 
