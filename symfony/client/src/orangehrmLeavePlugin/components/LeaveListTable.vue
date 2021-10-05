@@ -35,7 +35,7 @@
         <oxd-card-table
           :headers="headers"
           :items="items?.data"
-          :selectable="leaveBulkActions !== null"
+          :selectable="true"
           :clickable="false"
           :loading="isLoading"
           v-model:selected="checkedItems"
@@ -188,7 +188,6 @@ export default {
           },
         },
       ],
-      checkedItems: [],
       showCommentModal: false,
       commentModalState: null,
       bulkActionModalState: null,
@@ -197,6 +196,7 @@ export default {
 
   setup(props) {
     const filters = ref({...defaultFilters});
+    const checkedItems = ref([]);
 
     const rules = {
       fromDate: [required],
@@ -229,22 +229,6 @@ export default {
       };
     });
 
-    const leaveBulkActions = computed(() => {
-      const isCancellable =
-        serializedFilters.value.statuses[0] === 'taken' ||
-        serializedFilters.value.statuses[0] === 'scheduled';
-      const isApprovable =
-        serializedFilters.value.statuses[0] === 'pendingApproval';
-      if (isApprovable || isCancellable) {
-        return {
-          APPROVE: !props.myLeaveList && isApprovable,
-          REJECT: !props.myLeaveList && isApprovable,
-          CANCEL: isApprovable || isCancellable,
-        };
-      }
-      return null;
-    });
-
     const http = new APIService(
       window.appGlobal.baseUrl,
       `api/v2/leave/${
@@ -272,6 +256,32 @@ export default {
       normalizer: leavelistNormalizer,
     });
 
+    const leaveBulkActions = computed(() => {
+      if (checkedItems.value.length > 0 && response.value.data) {
+        const allActions = checkedItems.value.map(item => {
+          return response.value.data[item].actions;
+        });
+        return {
+          APPROVE: allActions.reduce(
+            (approvable, actions) =>
+              approvable && actions.find(i => i.action === 'APPROVE'),
+            true,
+          ),
+          REJECT: allActions.reduce(
+            (rejectable, actions) =>
+              rejectable && actions.find(i => i.action === 'REJECT'),
+            true,
+          ),
+          CANCEL: allActions.reduce(
+            (cancelable, actions) =>
+              cancelable && actions.find(i => i.action === 'CANCEL'),
+            true,
+          ),
+        };
+      }
+      return null;
+    });
+
     return {
       http,
       showPaginator,
@@ -284,6 +294,7 @@ export default {
       items: response,
       rules,
       filters,
+      checkedItems,
       leaveActions,
       leaveBulkActions,
       processLeaveRequestAction,
