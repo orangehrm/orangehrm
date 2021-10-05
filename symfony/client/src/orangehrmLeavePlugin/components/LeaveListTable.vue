@@ -117,12 +117,15 @@ const leavelistNormalizer = data => {
       }
     }
 
+    const name = `${item.employee?.firstName} ${item.employee?.middleName} ${item.employee?.lastName}`;
+
     return {
       id: item.id,
       empNumber: item.employee?.empNumber,
       date: leaveDatePeriod,
-      employeeName: `${item.employee?.firstName} ${item.employee?.lastName}
-          ${item.employee?.terminationId ? ' (Past Employee)' : ''}`,
+      employeeName: `${name} ${
+        item.employee?.terminationId ? '(Past Employee)' : ''
+      }`,
       leaveType:
         item.leaveType?.name + `${item.leaveType?.deleted ? ' (Deleted)' : ''}`,
       leaveBalance: leaveBalances,

@@ -283,7 +283,12 @@ export default {
   computed: {
     employeeName() {
       const employee = this.response?.meta?.employee;
-      return employee ? `${employee.firstName} ${employee.lastName}` : '';
+      if (employee) {
+        const name = `${employee.firstName} ${employee.middleName}
+        ${employee.lastName}`;
+        return `${name} ${employee.terminationId ? '(Past Employee)' : ''}`;
+      }
+      return '';
     },
     leavePeriod() {
       const startDate = this.response?.meta?.startDate;
