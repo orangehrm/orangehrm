@@ -97,6 +97,7 @@
 <script>
 import {APIService} from '@/core/util/services/api.service';
 import {navigate} from '@orangehrm/core/util/helper/navigation';
+import {truncate} from '@orangehrm/core/util/helper/truncate';
 import usePaginate from '@orangehrm/core/util/composable/usePaginate';
 import useLeaveActions from '@/orangehrmLeavePlugin/util/composable/useLeaveActions';
 import LeaveCommentsModal from '@/orangehrmLeavePlugin/components/LeaveCommentsModal';
@@ -111,7 +112,7 @@ const leaveRequestNormalizer = data => {
       leaveBalance: item.leaveBalance?.balance.balance,
       duration: parseFloat(item.lengthHours).toFixed(2),
       status: item.leaveStatus?.name,
-      comment: item.lastComment?.comment,
+      comment: truncate(item.lastComment?.comment),
       actions: item.allowedActions,
       canComment: !(item.leaveStatus?.id === 5 || item.leaveStatus?.id === 4),
     };

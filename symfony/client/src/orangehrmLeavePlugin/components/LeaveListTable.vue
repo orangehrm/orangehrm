@@ -70,6 +70,7 @@ import {
 import {computed, ref} from 'vue';
 import {APIService} from '@/core/util/services/api.service';
 import {navigate} from '@orangehrm/core/util/helper/navigation';
+import {truncate} from '@orangehrm/core/util/helper/truncate';
 import usePaginate from '@orangehrm/core/util/composable/usePaginate';
 import useLeaveActions from '@/orangehrmLeavePlugin/util/composable/useLeaveActions';
 import LeaveCommentsModal from '@/orangehrmLeavePlugin/components/LeaveCommentsModal';
@@ -131,7 +132,7 @@ const leavelistNormalizer = data => {
       leaveBalance: leaveBalances,
       days: parseFloat(item.noOfDays).toFixed(2),
       status: leaveStatuses,
-      comment: item.lastComment?.comment,
+      comment: truncate(item.lastComment?.comment),
       actions: item.allowedActions,
     };
   });
