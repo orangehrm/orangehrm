@@ -169,6 +169,11 @@ final class Services
      */
     public const COMPANY_STRUCTURE_SERVICE = 'admin.company_structure_service';
 
+    /**
+     * @see \OrangeHRM\Admin\Service\WorkShiftService
+     */
+    public const WORK_SHIFT_SERVICE = 'admin.work_shift_service';
+
     ///////////////////////////////////////////////////////////////
     /// Leave plugin services
     ///////////////////////////////////////////////////////////////
