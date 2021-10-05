@@ -407,4 +407,15 @@ class EmployeeDao extends BaseDao
 
         return $this->fetchOne($q);
     }
+
+    /**
+     * @return Employee[]
+     */
+    public function getAvailableEmployeeListForWorkShift(EmployeeSearchFilterParams $employeeSearchParamHolder): array
+    {
+        $q = $this->getEmployeeListQueryBuilderWrapper($employeeSearchParamHolder)->getQueryBuilder();
+        $q->leftJoin('employee.employeeWorkShift', 'ew');
+        $q->andWhere($q->expr()->isNull('ew.employee'));
+        return $q->getQuery()->execute();
+    }
 }
