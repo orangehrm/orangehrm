@@ -22,7 +22,6 @@ namespace OrangeHRM\Core\Import;
 
 use DateTime;
 use Exception;
-use OrangeHRM\Admin\Dto\NationalitySearchFilterParams;
 use OrangeHRM\Admin\Service\CountryService;
 use OrangeHRM\Admin\Service\NationalityService;
 use OrangeHRM\Core\Exception\DaoException;
@@ -185,12 +184,9 @@ class PimCsvDataImport extends CsvDataImport
      */
     private function isValidNationality($name)
     {
-        $nationalityParamHolder = new NationalitySearchFilterParams();
-        $nationalities = $this->getNationalityService()->getNationalityList($nationalityParamHolder);
-        foreach ($nationalities as $nationality) {
-            if (strtolower($nationality->getName()) == strtolower($name)) {
-                return $nationality;
-            }
+        $nationality = $this->getNationalityService()->getNationalityByName($name);
+        if($nationality){
+            return $nationality;
         }
     }
 
@@ -217,14 +213,13 @@ class PimCsvDataImport extends CsvDataImport
      * @param $name
      * @return string|void
      * @throws DaoException
+     * @throws Exception
      */
     private function isValidCountry($name)
     {
-        $countries = $this->getCountryService()->getCountryList();
-        foreach ($countries as $country) {
-            if (strtolower($country->getCountryName()) == strtolower($name)) {
-                return $country->getCountryCode();
-            }
+        $country = $this->getCountryService()->getCountryByCountryName($name);
+        if($country){
+            return $country->getCountryCode();
         }
     }
 
