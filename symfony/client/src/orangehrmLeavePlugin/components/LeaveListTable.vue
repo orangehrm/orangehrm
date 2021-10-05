@@ -142,7 +142,7 @@ const defaultFilters = {
   employee: null,
   fromDate: null,
   toDate: null,
-  statuses: [{id: 3, label: 'Pending Approval', key: 'pendingApproval'}],
+  statuses: [],
   subunit: null,
   includePastEmps: false,
 };
@@ -160,6 +160,10 @@ export default {
     myLeaveList: {
       type: Boolean,
       default: false,
+    },
+    leaveStatuses: {
+      type: Array,
+      default: () => [],
     },
   },
 
@@ -420,6 +424,9 @@ export default {
         const {data} = response.data;
         this.filters.fromDate = data[0]?.startDate;
         this.filters.toDate = data[0]?.endDate;
+        this.filters.statuses = this.myLeaveList
+          ? this.leaveStatuses
+          : this.leaveStatuses.filter(status => status.id === 3);
       })
       .finally(() => {
         this.isLoading = false;
