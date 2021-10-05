@@ -21,14 +21,14 @@
 
 namespace OrangeHRM\Core\Import;
 
-class CsvDataImportFactory {
-
-	public function getImportClassInstance($importType){
-
-		if($importType == 'pim'){
-			return new PimCsvDataImport();
-		}
-	}
+class CsvDataImportFactory
+{
+    public function getImportClassInstance(string $importType)
+    {
+        if ($importType == 'pim') {
+            return new PimCsvDataImport();
+        }
+    }
 }
 
 

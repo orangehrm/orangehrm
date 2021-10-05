@@ -445,7 +445,7 @@ apiv2_pim_employees_work_shift:
     empNumber: '\d+'
 
 apiv2_pim_employees_import:
-  path: /api/v2/pim/csvImport
+  path: /api/v2/pim/csv-import
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
   methods: [ POST ]
   defaults:
@@ -466,7 +466,7 @@ pim_employee_attachment:
   methods: [ GET ]
 
 pim_employee_csv_import_sample_attachment:
-  path: /pim/csvImportSample
+  path: /pim/sampleCsvDownload
   controller: OrangeHRM\Pim\Controller\File\EmployeeCsvImportSampleAttachmentController::handle
   methods: [ GET ]
 

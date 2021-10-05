@@ -25,17 +25,18 @@ use OrangeHRM\Core\Service\CsvDataImportService;
 
 class PimCsvDataImportService
 {
-	/**
-	 * @var CsvDataImportService|null
-	 */
-	private ?CsvDataImportService $csvDataImportService = null;
+    /**
+     * @var CsvDataImportService|null
+     */
+    private ?CsvDataImportService $csvDataImportService = null;
 
-	public function getCsvDataImportService(): CsvDataImportService {
-		if (is_null($this->csvDataImportService)) {
-			$this->csvDataImportService = new CsvDataImportService();
-		}
-		return $this->csvDataImportService;
-	}
+    public function getCsvDataImportService(): CsvDataImportService
+    {
+        if (is_null($this->csvDataImportService)) {
+            $this->csvDataImportService = new CsvDataImportService();
+        }
+        return $this->csvDataImportService;
+    }
 
     /**
      * @param CsvDataImportService $csvDataImportService
@@ -46,10 +47,13 @@ class PimCsvDataImportService
     }
 
     /**
+     * @param string $fileContent
+     * @return int
      * @throws Exception
      */
-    public function import($fileContent): int {
-		$importType = 'pim';
-		return $this->getCsvDataImportService()->import($fileContent, $importType);
-	}
+    public function import(string $fileContent): int
+    {
+        $importType = 'pim';
+        return $this->getCsvDataImportService()->import($fileContent, $importType);
+    }
 }

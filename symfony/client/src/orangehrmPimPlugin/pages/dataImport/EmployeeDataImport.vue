@@ -135,7 +135,7 @@ export default {
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      `api/v2/pim/csvImport`,
+      `api/v2/pim/csv-import`,
     );
 
     return {
@@ -160,7 +160,7 @@ export default {
         });
     },
     onClickDownload() {
-      const downUrl = `${window.appGlobal.baseUrl}/pim/csvImportSample`;
+      const downUrl = `${window.appGlobal.baseUrl}/pim/sampleCsvDownload`;
       window.open(downUrl, '_blank');
     },
   },

@@ -21,29 +21,33 @@
 namespace OrangeHRM\Core\Service;
 
 use Exception;
+use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Import\CsvDataImportFactory;
 
 class CsvDataImportService
 {
 
     /**
-     * @throws Exception
+     * @param string $fileContent
+     * @param string $importType
+     * @return int
+     * @throws DaoException
      */
-    public function import($fileContent, $importType): int {
-
-		$factory = new CsvDataImportFactory();
-		$instance = $factory->getImportClassInstance($importType);
-		$rowsImported = 0;
+    public function import(string $fileContent, string $importType): int
+    {
+        $factory = new CsvDataImportFactory();
+        $instance = $factory->getImportClassInstance($importType);
+        $rowsImported = 0;
         $lines = explode("\n", $fileContent);
         $employeesDataArray = array_map('str_getcsv', $lines);
 
-        for ($i = 1; $i < sizeof($employeesDataArray)-1; $i++){
+        for ($i = 1; $i < sizeof($employeesDataArray) - 1; $i++) {
             $result = $instance->import($employeesDataArray[$i]);
-            if($result) {
+            if ($result) {
                 $rowsImported++;
             }
         }
-		return $rowsImported;
-	}
+        return $rowsImported;
+    }
 
 }

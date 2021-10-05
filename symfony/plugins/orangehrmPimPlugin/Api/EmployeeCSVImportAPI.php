@@ -24,22 +24,15 @@ use Exception;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CollectionEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
-use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
-use OrangeHRM\Core\Api\V2\Exception\ForbiddenException;
-use OrangeHRM\Core\Api\V2\Exception\NotImplementedException;
-use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
-use OrangeHRM\Core\Api\V2\ResourceEndpoint;
-use OrangeHRM\Core\Api\V2\Serializer\NormalizeException;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
-use OrangeHRM\Pim\Api\Model\ReportingMethodConfigurationModel;
 use OrangeHRM\Pim\Service\PimCsvDataImportService;
 
 class EmployeeCSVImportAPI extends Endpoint implements CollectionEndpoint
@@ -69,14 +62,16 @@ class EmployeeCSVImportAPI extends Endpoint implements CollectionEndpoint
     /**
      * @inheritDoc
      */
-    public function getAll(): EndpointResult {
+    public function getAll(): EndpointResult
+    {
         throw $this->getNotImplementedException();
     }
 
     /**
      * @inheritDoc
      */
-    public function getValidationRuleForGetAll(): ParamRuleCollection {
+    public function getValidationRuleForGetAll(): ParamRuleCollection
+    {
         throw $this->getNotImplementedException();
     }
 
@@ -84,14 +79,15 @@ class EmployeeCSVImportAPI extends Endpoint implements CollectionEndpoint
      * @inheritDoc
      * @throws Exception
      */
-    public function create(): EndpointResult {
+    public function create(): EndpointResult
+    {
         $attachment = $this->getRequestParams()->getAttachment(
             RequestParams::PARAM_TYPE_BODY,
             self::PARAMETER_ATTACHMENT
         );
         $result = $this->getPimCsvDataImportService()->import($attachment->getContent());
         return new EndpointResourceResult(
-            ArrayModel::class, array(),
+            ArrayModel::class, [],
             new ParameterBag([CommonParams::PARAMETER_TOTAL => $result])
         );
     }
@@ -124,14 +120,16 @@ class EmployeeCSVImportAPI extends Endpoint implements CollectionEndpoint
     /**
      * @inheritDoc
      */
-    public function delete(): EndpointResult {
+    public function delete(): EndpointResult
+    {
         throw $this->getNotImplementedException();
     }
 
     /**
      * @inheritDoc
      */
-    public function getValidationRuleForDelete(): ParamRuleCollection {
+    public function getValidationRuleForDelete(): ParamRuleCollection
+    {
         throw $this->getNotImplementedException();
     }
 }

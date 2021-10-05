@@ -25,38 +25,27 @@ use Exception;
 use OrangeHRM\Admin\Dto\NationalitySearchFilterParams;
 use OrangeHRM\Admin\Service\CountryService;
 use OrangeHRM\Admin\Service\NationalityService;
+use OrangeHRM\Core\Exception\DaoException;
+use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Entity\Employee;
-use OrangeHRM\Pim\Dao\EmployeeDao;
+use OrangeHRM\Framework\Services;
 use OrangeHRM\Pim\Service\EmployeeService;
+use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
 
-class PimCsvDataImport extends CsvDataImport {
+class PimCsvDataImport extends CsvDataImport
+{
+
+    use ServiceContainerTrait;
+    use EmployeeServiceTrait;
 
     /**
      * @var null|NationalityService
      */
     protected ?NationalityService $nationalityService = null;
-
-    /**
-     * @param NationalityService $nationalityService
-     */
-    public function setNationalityService(NationalityService $nationalityService): void
-    {
-        $this->nationalityService = $nationalityService;
-    }
-
     /**
      * @var null|CountryService
      */
     protected ?CountryService $countryService = null;
-
-    /**
-     * @param CountryService $countryService
-     */
-    public function setCountryService(CountryService $countryService): void
-    {
-        $this->countryService = $countryService;
-    }
-
     /**
      * @var null|EmployeeService
      */
@@ -71,169 +60,143 @@ class PimCsvDataImport extends CsvDataImport {
     }
 
     /**
-     * @throws Exception
+     * @param array $data
+     * @return bool
+     * @throws DaoException
      */
-    public function import($data): bool {
-		if ($data[0] == "" || $data[2] == "" || strlen($data[0]) > 30 || strlen($data[2]) > 30) {
-			return false;
-		}
-		$employee = new Employee();
-		$employee->setFirstName($data[0]);
-		if (strlen($data[1]) <= 30) {
-			$employee->setMiddleName($data[1]);
-		}
-		$employee->setLastName($data[2]);
+    public function import(array $data): bool
+    {
+        if ($data[0] == "" || $data[2] == "" || strlen($data[0]) > 30 || strlen($data[2]) > 30) {
+            return false;
+        }
+        $employee = new Employee();
+        $employee->setFirstName($data[0]);
+        if (strlen($data[1]) <= 30) {
+            $employee->setMiddleName($data[1]);
+        }
+        $employee->setLastName($data[2]);
 
-		if (strlen($data[3]) <= 50) {
-			$employee->setEmployeeId($data[3]);
-		}
-		if (strlen($data[4]) <= 30) {
-			$employee->setOtherId($data[4]);
-		}
-		if (strlen($data[5]) <= 30) {
-			$employee->setDrivingLicenseNo($data[5]);
-		}
-		if ($this->isValidDate($data[6])) {
-			$employee->setDrivingLicenseExpiredDate(new DateTime($data[6]));
-		}
+        if (strlen($data[3]) <= 50) {
+            $employee->setEmployeeId($data[3]);
+        }
+        if (strlen($data[4]) <= 30) {
+            $employee->setOtherId($data[4]);
+        }
+        if (strlen($data[5]) <= 30) {
+            $employee->setDrivingLicenseNo($data[5]);
+        }
+        if ($this->isValidDate($data[6])) {
+            $employee->setDrivingLicenseExpiredDate(new DateTime($data[6]));
+        }
 
-		if (strtolower($data[7]) == 'male') {
-			$employee->setGender('1');
-		} else if (strtolower($data[7]) == 'female') {
-			$employee->setGender('2');
-		}
+        if (strtolower($data[7]) == 'male') {
+            $employee->setGender('1');
+        } else {
+            if (strtolower($data[7]) == 'female') {
+                $employee->setGender('2');
+            }
+        }
 
-		if (strtolower($data[8]) == 'single') {
-			$employee->setMaritalStatus('Single');
-		} else if (strtolower($data[8]) == 'married') {
-			$employee->setMaritalStatus('Married');
-		} else if (strtolower($data[8]) == 'other') {
-			$employee->setMaritalStatus('Other');
-		}
+        if (strtolower($data[8]) == 'single') {
+            $employee->setMaritalStatus('Single');
+        } else {
+            if (strtolower($data[8]) == 'married') {
+                $employee->setMaritalStatus('Married');
+            } else {
+                if (strtolower($data[8]) == 'other') {
+                    $employee->setMaritalStatus('Other');
+                }
+            }
+        }
 
-		$nationality = $this->isValidNationality($data[9]);
-		if (!empty($nationality)) {
-			$employee->setNationality($nationality);
-		}
-		if ($this->isValidDate($data[10])) {
-			$employee->setBirthday(new DateTime($data[10]));
-		}
-		if (strlen($data[11]) <= 70) {
-			$employee->setStreet1($data[11]);
-		}
-		if (strlen($data[12]) <= 70) {
-			$employee->setStreet2($data[12]);
-		}
-		if (strlen($data[13]) <= 70) {
-			$employee->setCity($data[13]);
-		}
+        $nationality = $this->isValidNationality($data[9]);
+        if (!empty($nationality)) {
+            $employee->setNationality($nationality);
+        }
+        if ($this->isValidDate($data[10])) {
+            $employee->setBirthday(new DateTime($data[10]));
+        }
+        if (strlen($data[11]) <= 70) {
+            $employee->setStreet1($data[11]);
+        }
+        if (strlen($data[12]) <= 70) {
+            $employee->setStreet2($data[12]);
+        }
+        if (strlen($data[13]) <= 70) {
+            $employee->setCity($data[13]);
+        }
 
-		if (strlen($data[15]) <= 10) {
-			$employee->setZipcode($data[15]);
-		}
+        if (strlen($data[15]) <= 10) {
+            $employee->setZipcode($data[15]);
+        }
 
-		$code = $this->isValidCountry($data[16]);
+        $code = $this->isValidCountry($data[16]);
         if (!empty($code)) {
             $employee->setCountry($code);
-			if (strtolower($data[16]) == 'united states') {
-				$code = $this->isValidProvince($data[14]);
-				if(!empty($code)){
-					$employee->setProvince($code);
-				}
-			} else if (strlen($data[14]) <= 70) {
-				$employee->setProvince($data[14]);
-			}
-		}
-		if (strlen($data[17]) <= 25 && $this->isValidPhoneNumber($data[17])) {
-			$employee->setHomeTelephone($data[17]);
-		}
-		if (strlen($data[18]) <= 25 && $this->isValidPhoneNumber($data[18])) {
-			$employee->setMobile($data[18]);
-		}
-		if (strlen($data[19]) <= 25 && $this->isValidPhoneNumber($data[19])) {
-			$employee->setWorkTelephone($data[19]);
-		}
-		if ($this->isValidEmail($data[20]) && strlen($data[20]) <= 50 && $this->isUniqueEmail($data[20])) {
-			$employee->setWorkEmail($data[20]);
-		}
-		if ($this->isValidEmail($data[21]) && strlen($data[21]) <= 50 && $this->isUniqueEmail($data[21])) {
-			$employee->setOtherEmail($data[21]);
-		}
+            if (strtolower($data[16]) == 'united states') {
+                $code = $this->isValidProvince($data[14]);
+                if (!empty($code)) {
+                    $employee->setProvince($code);
+                }
+            } else {
+                if (strlen($data[14]) <= 70) {
+                    $employee->setProvince($data[14]);
+                }
+            }
+        }
+        if (strlen($data[17]) <= 25 && $this->isValidPhoneNumber($data[17])) {
+            $employee->setHomeTelephone($data[17]);
+        }
+        if (strlen($data[18]) <= 25 && $this->isValidPhoneNumber($data[18])) {
+            $employee->setMobile($data[18]);
+        }
+        if (strlen($data[19]) <= 25 && $this->isValidPhoneNumber($data[19])) {
+            $employee->setWorkTelephone($data[19]);
+        }
+        if ($this->isValidEmail($data[20]) && strlen($data[20]) <= 50 && $this->isUniqueEmail($data[20])) {
+            $employee->setWorkEmail($data[20]);
+        }
+        if ($this->isValidEmail($data[21]) && strlen($data[21]) <= 50 && $this->isUniqueEmail($data[21])) {
+            $employee->setOtherEmail($data[21]);
+        }
 
         $this->getEmployeeService()->saveEmployee($employee);
-		return true;
-	}
+        return true;
+    }
 
-	private function isValidEmail($email) {
-		return preg_match("/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$/i", $email);
-	}
-
-	private function isUniqueEmail($email): bool {
-        $emailList = $this->getEmployeeService()->getEmailList();
-        $isUnique = true;
-		foreach ($emailList as $empEmail) {
-
-			if ($empEmail['workEmail'] == $email || $empEmail['otherEmail'] == $email) {
-				$isUnique = false;
-			}
-		}
-		return $isUnique;
-	}
-
-	private function isValidDate($date): bool {
-		if (preg_match('/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/', $date)) {
-			list($year, $month, $day) = explode('-', $date);
-			return checkdate($month, $day, $year);
-		} else {
-			return false;
-		}
-	}
-
-	private function isValidNationality($name) {
-        $nationalityParamHolder = new NationalitySearchFilterParams();
-		$nationalities = $this->getNationalityService()->getNationalityList($nationalityParamHolder);
-
-		foreach ($nationalities as $nationality) {
-			if (strtolower($nationality->getName()) == strtolower($name)) {
-				return $nationality;
-			}
-		}
-	}
-
-	private function isValidCountry($name) {
-
-		$countries = $this->getCountryService()->getCountryList();
-		foreach ($countries as $country) {
-			if (strtolower($country->getCountryName()) == strtolower($name)) {
-				return $country->getCountryCode();
-			}
-		}
-	}
-
-	private function isValidProvince($name) {
-
-		$provinces = $this->getCountryService()->getProvinceList();
-
-		foreach ($provinces as $province) {
-			if (strtolower($province->getProvinceName()) == strtolower($name)) {
-				return $province->getProvinceCode();
-			}
-		}
-	}
-
-	public function isValidPhoneNumber($number) {
-		if (preg_match('/^\+?[0-9 \-]+$/', $number)) {
-			return true;
-		}
-	}
-
-	public function getCountryService(): CountryService {
-        if (!$this->countryService instanceof CountryService) {
-            $this->countryService = new CountryService();
+    /**
+     * @param $date
+     * @return bool
+     */
+    private function isValidDate($date): bool
+    {
+        if (preg_match('/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/', $date)) {
+            list($year, $month, $day) = explode('-', $date);
+            return checkdate($month, $day, $year);
+        } else {
+            return false;
         }
-        return $this->countryService;
-	}
+    }
 
+    /**
+     * @param $name
+     * @return mixed|void
+     * @throws DaoException
+     */
+    private function isValidNationality($name)
+    {
+        $nationalityParamHolder = new NationalitySearchFilterParams();
+        $nationalities = $this->getNationalityService()->getNationalityList($nationalityParamHolder);
+        foreach ($nationalities as $nationality) {
+            if (strtolower($nationality->getName()) == strtolower($name)) {
+                return $nationality;
+            }
+        }
+    }
+
+    /**
+     * @return NationalityService
+     */
     public function getNationalityService(): NationalityService
     {
         if (!$this->nationalityService instanceof NationalityService) {
@@ -242,12 +205,94 @@ class PimCsvDataImport extends CsvDataImport {
         return $this->nationalityService;
     }
 
-	public function getEmployeeService(): EmployeeService {
-		if (is_null($this->employeeService)) {
-			$this->employeeService = new EmployeeService();
-			$this->employeeService->setEmployeeDao(new EmployeeDao());
-		}
-		return $this->employeeService;
-	}
+    /**
+     * @param NationalityService $nationalityService
+     */
+    public function setNationalityService(NationalityService $nationalityService): void
+    {
+        $this->nationalityService = $nationalityService;
+    }
+
+    /**
+     * @param $name
+     * @return string|void
+     * @throws DaoException
+     */
+    private function isValidCountry($name)
+    {
+        $countries = $this->getCountryService()->getCountryList();
+        foreach ($countries as $country) {
+            if (strtolower($country->getCountryName()) == strtolower($name)) {
+                return $country->getCountryCode();
+            }
+        }
+    }
+
+    /**
+     * @return object
+     * @throws Exception
+     */
+    public function getCountryService(): object
+    {
+        return $this->getContainer()->get(Services::COUNTRY_SERVICE);
+    }
+
+    /**
+     * @param CountryService $countryService
+     */
+    public function setCountryService(CountryService $countryService): void
+    {
+        $this->countryService = $countryService;
+    }
+
+    /**
+     * @param $name
+     * @return string|void
+     */
+    private function isValidProvince($name)
+    {
+        $provinces = $this->getCountryService()->getProvinceList();
+        foreach ($provinces as $province) {
+            if (strtolower($province->getProvinceName()) == strtolower($name)) {
+                return $province->getProvinceCode();
+            }
+        }
+    }
+
+    /**
+     * @param $number
+     * @return bool|void
+     */
+    public function isValidPhoneNumber($number)
+    {
+        if (preg_match('/^\+?[0-9 \-]+$/', $number)) {
+            return true;
+        }
+    }
+
+    /**
+     * @param $email
+     * @return false|int'
+     */
+    private function isValidEmail($email)
+    {
+        return preg_match("/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$/i", $email);
+    }
+
+    /**
+     * @param $email
+     * @return bool
+     */
+    private function isUniqueEmail($email): bool
+    {
+        $emailList = $this->getEmployeeService()->getEmployeeDao()->getEmailList();
+        $isUnique = true;
+        foreach ($emailList as $empEmail) {
+            if ($empEmail['workEmail'] == $email || $empEmail['otherEmail'] == $email) {
+                $isUnique = false;
+            }
+        }
+        return $isUnique;
+    }
 
 }

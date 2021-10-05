@@ -21,8 +21,7 @@
 
 namespace OrangeHRM\Core\Import;
 
-abstract class CsvDataImport {
-	abstract public function import($data);
+abstract class CsvDataImport
+{
+    abstract public function import(array $data);
 }
-
-
