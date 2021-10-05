@@ -325,5 +325,8 @@ export default {
   .oxd-table-cell-actions {
     justify-content: flex-end;
   }
+  .oxd-table-cell-actions > * {
+    margin: 0 !important;
+  }
 }
 </style>
