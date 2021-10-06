@@ -25,11 +25,13 @@ use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Admin\Service\LocationService;
 use OrangeHRM\Admin\Service\CompanyStructureService;
 use OrangeHRM\Core\Controller\AbstractVueController;
+use OrangeHRM\Leave\Traits\Service\LeavePeriodServiceTrait;
 
 class LeaveEntitlementReport extends AbstractVueController
 {
     protected ?CompanyStructureService $companyStructureService = null;
     protected ?LocationService $locationService = null;
+    use LeavePeriodServiceTrait;
 
     /**
      * @return LocationService
@@ -65,6 +67,16 @@ class LeaveEntitlementReport extends AbstractVueController
 
         $locations = $this->getLocationService()->getAccessibleLocationsArray();
         $component->addProp(new Prop('locations', Prop::TYPE_ARRAY, $locations));
+
+        $leavePeriod = $this->getLeavePeriodService()->getCurrentLeavePeriodAsArray();
+        $leavePeriod = [
+            "id" => $leavePeriod['startDate'] . "_" . $leavePeriod['endDate'],
+            "label" => $leavePeriod['startDate'] . " - " . $leavePeriod['endDate'],
+            "startDate" => $leavePeriod['startDate'],
+            "endDate" => $leavePeriod['endDate'],
+        ];
+
+        $component->addProp(new Prop('leave-period', Prop::TYPE_OBJECT, $leavePeriod));
         
         $this->setComponent($component);
     }

@@ -39,6 +39,8 @@ class MyLeaveEntitlementReport extends AbstractVueController
         $leavePeriod = [
             "id" => $leavePeriod['startDate'] . "_" . $leavePeriod['endDate'],
             "label" => $leavePeriod['startDate'] . " - " . $leavePeriod['endDate'],
+            "startDate" => $leavePeriod['startDate'],
+            "endDate" => $leavePeriod['endDate'],
         ];
 
         $component->addProp(new Prop('leave-period', Prop::TYPE_OBJECT, $leavePeriod));
