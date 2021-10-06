@@ -54,8 +54,9 @@ class EmployeeServiceTest extends TestCase
 
     public function testGetEmployeeTerminationService(): void
     {
-        $this->assertTrue($this->employeeService
-                              ->getEmployeeTerminationService() instanceof EmployeeTerminationService
+        $this->assertTrue(
+            $this->employeeService
+                ->getEmployeeTerminationService() instanceof EmployeeTerminationService
         );
     }
 
@@ -189,26 +190,5 @@ class EmployeeServiceTest extends TestCase
         $employeeService->setEmployeeDao($mockDao);
         $result = $employeeService->getSupervisorIdListBySubordinateId(5);
         $this->assertEquals($supervisorIdList, $result);
-    }
-
-    public function testGetEmailList(): void
-    {
-        $emailArray = array(
-            array('workEmail' => 'kayla@xample.com', 'otherEmail' => 'kayla2@xample.com'),
-            array('workEmail' => 'ashley@xample.com', 'otherEmail' => 'ashley2@xample.com'),
-            array('workEmail' => '', 'otherEmail' => ''),
-            array('workEmail' => '', 'otherEmail' => '')
-        );
-
-        $mockDao = $this->getMockBuilder(EmployeeDao::class)->getMock();
-        $mockDao->expects($this->once())
-                ->method('getEmailList')
-                ->with()
-                ->will($this->returnValue($emailArray));
-
-        $this->employeeService->setEmployeeDao($mockDao);
-
-        $result = $this->employeeService->getEmailList();
-        $this->assertEquals($emailArray, $result);
     }
 }

@@ -21,23 +21,26 @@
 namespace OrangeHRM\Tests\Core\Import;
 
 use DateTime;
-use OrangeHRM\Admin\Dto\NationalitySearchFilterParams;
 use OrangeHRM\Admin\Service\CountryService;
 use OrangeHRM\Admin\Service\NationalityService;
 use OrangeHRM\Core\Import\PimCsvDataImport;
+use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Entity\Country;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\Nationality;
 use OrangeHRM\Entity\Province;
+use OrangeHRM\Framework\Services;
+use OrangeHRM\Pim\Dao\EmployeeDao;
 use OrangeHRM\Pim\Service\EmployeeService;
-use OrangeHRM\Tests\Util\EntityTestCase;
-use OrangeHRM\Tests\Util\TestCase;
+use OrangeHRM\Tests\Util\KernelTestCase;
 
 /**
  * @group Core
  * @group Import
  */
-class PimCsvDataImportTest extends EntityTestCase {
+class PimCsvDataImportTest extends KernelTestCase
+{
+    use EntityManagerHelperTrait;
 
     /**
      * @var PimCsvDataImport
@@ -49,11 +52,6 @@ class PimCsvDataImportTest extends EntityTestCase {
         $this->pimCsvDataImport = new PimCsvDataImport();
     }
 
-    public function testGetEmployeeService(): void
-    {
-        $this->assertTrue($this->pimCsvDataImport->getEmployeeService() instanceof EmployeeService);
-    }
-
     public function testGetNationalityService(): void
     {
         $this->assertTrue($this->pimCsvDataImport->getNationalityService() instanceof NationalityService);
@@ -61,6 +59,12 @@ class PimCsvDataImportTest extends EntityTestCase {
 
     public function testGetCountryService(): void
     {
+        $mockCountryService = $this->getMockBuilder(CountryService::class)
+            ->getMock();
+
+        $this->createKernelWithMockServices(
+            [Services::COUNTRY_SERVICE => $mockCountryService]
+        );
         $this->assertTrue($this->pimCsvDataImport->getCountryService() instanceof CountryService);
     }
 
@@ -72,18 +76,35 @@ class PimCsvDataImportTest extends EntityTestCase {
 
     public function testImportWhenSuccessful(): void
     {
-        $data = ["Andrew","","Russel","EMP-003","1992","2343JJ23","2022-10-11","Male","married","American","1992-10-01","1419 Angie Drive","Downward Passage","Burbank","California","91505","United States","714-906-0334","","213-926-2007","yasiru@orangehrmlive.com","yasirun@orangehrmlive.com"];
+        $data = [
+            "Andrew",
+            "",
+            "Russel",
+            "EMP-003",
+            "1992",
+            "2343JJ23",
+            "2022-10-11",
+            "Male",
+            "married",
+            "American",
+            "1992-10-01",
+            "1419 Angie Drive",
+            "Downward Passage",
+            "Burbank",
+            "California",
+            "91505",
+            "United States",
+            "714-906-0334",
+            "",
+            "213-926-2007",
+            "yasiru@orangehrmlive.com",
+            "yasirun@orangehrmlive.com"
+        ];
 
-        $nationalityParamHolder = new NationalitySearchFilterParams();
         $nationality1 = new Nationality();
         $nationality1->setName('American');
         $nationality1->setId(1);
         $this->persist($nationality1);
-        $nationality2 = new Nationality();
-        $nationality2->setName('Australian');
-        $nationality2->setId(2);
-        $this->persist($nationality2);
-
 
         $country1 = new Country();
         $country1->setName('UNITED STATES');
@@ -122,41 +143,41 @@ class PimCsvDataImportTest extends EntityTestCase {
 
         $mockNationalityService = $this->getMockBuilder(NationalityService::class)->getMock();
         $mockNationalityService->expects($this->once())
-                    ->method('getNationalityList')
-                    ->with($nationalityParamHolder)
-                    ->will($this->returnValue(array($nationality1, $nationality2)));
+            ->method('getNationalityByName')
+            ->with('American')
+            ->will($this->returnValue($nationality1));
 
         $this->pimCsvDataImport->setNationalityService($mockNationalityService);
 
-
         $mockCountryService = $this->getMockBuilder(CountryService::class)
-                                   ->onlyMethods(['getCountryList', 'getProvinceList'])
-                                   ->getMock();
-        $mockCountryService->expects($this->once())
-                    ->method('getCountryList')
-                    ->with()
-                    ->will($this->returnValue(array($country1)));
+            ->onlyMethods(['getProvinceList'])
+            ->getMock();
 
         $mockCountryService->expects($this->once())
-                    ->method('getProvinceList')
-                    ->with()
-                    ->will($this->returnValue(array($province1)));
-
-        $this->pimCsvDataImport->setCountryService($mockCountryService);
+            ->method('getProvinceList')
+            ->with()
+            ->will($this->returnValue(array($province1)));
 
         $mockEmployeeService = $this->getMockBuilder(EmployeeService::class)
-                                   ->onlyMethods(['getEmailList', 'saveEmployee'])
-                                   ->getMock();
-        $mockEmployeeService->expects($this->exactly(2))
-                           ->method('getEmailList')
-                           ->with()
-                           ->will($this->returnValue($emailList));
+            ->onlyMethods(['saveEmployee'])
+            ->getMock();
         $mockEmployeeService->expects($this->once())
-                           ->method('saveEmployee')
-                           ->with($employee)
-                           ->will($this->returnValue($employee));
+            ->method('saveEmployee')
+            ->with($employee)
+            ->will($this->returnValue($employee));
 
-        $this->pimCsvDataImport->setEmployeeService($mockEmployeeService);
+        $mockEmployeeDao = $this->getMockBuilder(EmployeeDao::class)
+            ->onlyMethods(['getEmailList'])
+            ->getMock();
+        $mockEmployeeDao->expects($this->exactly(2))
+            ->method('getEmailList')
+            ->with()
+            ->will($this->returnValue($emailList));
+        $mockEmployeeService->setEmployeeDao($mockEmployeeDao);
+
+        $this->createKernelWithMockServices(
+            [Services::COUNTRY_SERVICE => $mockCountryService, Services::EMPLOYEE_SERVICE => $mockEmployeeService]
+        );
 
         $result = $this->pimCsvDataImport->import($data);
 
@@ -165,17 +186,35 @@ class PimCsvDataImportTest extends EntityTestCase {
 
     public function testImportWhenSuccessfulWhenGenderValueChanges(): void
     {
-        $data = ["Andrew","","Russel","EMP-003","1992","2343JJ23","2022-10-11","Female","married","American","1992-10-01","1419 Angie Drive","Downward Passage","Burbank","California","91505","United States","714-906-0334","","213-926-2007","yasiru@orangehrmlive.com","yasirun@orangehrmlive.com"];
+        $data = [
+            "Andrew",
+            "",
+            "Russel",
+            "EMP-003",
+            "1992",
+            "2343JJ23",
+            "2022-10-11",
+            "Female",
+            "married",
+            "American",
+            "1992-10-01",
+            "1419 Angie Drive",
+            "Downward Passage",
+            "Burbank",
+            "California",
+            "91505",
+            "United States",
+            "714-906-0334",
+            "",
+            "213-926-2007",
+            "yasiru@orangehrmlive.com",
+            "yasirun@orangehrmlive.com"
+        ];
 
-        $nationalityParamHolder = new NationalitySearchFilterParams();
         $nationality1 = new Nationality();
         $nationality1->setName('American');
         $nationality1->setId(1);
         $this->persist($nationality1);
-        $nationality2 = new Nationality();
-        $nationality2->setName('Australian');
-        $nationality2->setId(2);
-        $this->persist($nationality2);
 
 
         $country1 = new Country();
@@ -215,41 +254,38 @@ class PimCsvDataImportTest extends EntityTestCase {
 
         $mockNationalityService = $this->getMockBuilder(NationalityService::class)->getMock();
         $mockNationalityService->expects($this->once())
-                               ->method('getNationalityList')
-                               ->with($nationalityParamHolder)
-                               ->will($this->returnValue(array($nationality1, $nationality2)));
+            ->method('getNationalityByName')
+            ->with('American')
+            ->will($this->returnValue($nationality1));
 
         $this->pimCsvDataImport->setNationalityService($mockNationalityService);
 
 
         $mockCountryService = $this->getMockBuilder(CountryService::class)
-                                   ->onlyMethods(['getCountryList', 'getProvinceList'])
-                                   ->getMock();
+            ->onlyMethods(['getCountryByCountryName', 'getProvinceList'])
+            ->getMock();
         $mockCountryService->expects($this->once())
-                           ->method('getCountryList')
-                           ->with()
-                           ->will($this->returnValue(array($country1)));
+            ->method('getCountryByCountryName')
+            ->with('United States')
+            ->will($this->returnValue($country1));
 
         $mockCountryService->expects($this->once())
-                           ->method('getProvinceList')
-                           ->with()
-                           ->will($this->returnValue(array($province1)));
-
-        $this->pimCsvDataImport->setCountryService($mockCountryService);
+            ->method('getProvinceList')
+            ->with()
+            ->will($this->returnValue(array($province1)));
 
         $mockEmployeeService = $this->getMockBuilder(EmployeeService::class)
-                                    ->onlyMethods(['getEmailList', 'saveEmployee'])
-                                    ->getMock();
-        $mockEmployeeService->expects($this->exactly(2))
-                            ->method('getEmailList')
-                            ->with()
-                            ->will($this->returnValue($emailList));
-        $mockEmployeeService->expects($this->once())
-                            ->method('saveEmployee')
-                            ->with($employee)
-                            ->will($this->returnValue($employee));
+            ->onlyMethods(['saveEmployee'])
+            ->getMock();
 
-        $this->pimCsvDataImport->setEmployeeService($mockEmployeeService);
+        $mockEmployeeService->expects($this->once())
+            ->method('saveEmployee')
+            ->with($employee)
+            ->will($this->returnValue($employee));
+
+        $this->createKernelWithMockServices(
+            [Services::COUNTRY_SERVICE => $mockCountryService, Services::EMPLOYEE_SERVICE => $mockEmployeeService]
+        );
 
         $result = $this->pimCsvDataImport->import($data);
 
@@ -258,7 +294,30 @@ class PimCsvDataImportTest extends EntityTestCase {
 
     public function testImportWhenFirstNameNotExist(): void
     {
-        $data = ["","","Russel","EMP-003","1992","2343JJ23","2022-10-11","Male","married","American","1992-10-01","1419 Angie Drive","Downward Passage","Burbank","California","91505","United States","714-906-0334","","213-926-2007","yasiru@orangehrmlive.com","yasirun@orangehrmlive.com"];
+        $data = [
+            "",
+            "",
+            "Russel",
+            "EMP-003",
+            "1992",
+            "2343JJ23",
+            "2022-10-11",
+            "Male",
+            "married",
+            "American",
+            "1992-10-01",
+            "1419 Angie Drive",
+            "Downward Passage",
+            "Burbank",
+            "California",
+            "91505",
+            "United States",
+            "714-906-0334",
+            "",
+            "213-926-2007",
+            "yasiru@orangehrmlive.com",
+            "yasirun@orangehrmlive.com"
+        ];
 
         $result = $this->pimCsvDataImport->import($data);
 
@@ -267,7 +326,30 @@ class PimCsvDataImportTest extends EntityTestCase {
 
     public function testImportWhenLastNameNotExist(): void
     {
-        $data = ["Andrew","","","EMP-003","1992","2343JJ23","2022-10-11","Male","married","American","1992-10-01","1419 Angie Drive","Downward Passage","Burbank","California","91505","United States","714-906-0334","","213-926-2007","yasiru@orangehrmlive.com","yasirun@orangehrmlive.com"];
+        $data = [
+            "Andrew",
+            "",
+            "",
+            "EMP-003",
+            "1992",
+            "2343JJ23",
+            "2022-10-11",
+            "Male",
+            "married",
+            "American",
+            "1992-10-01",
+            "1419 Angie Drive",
+            "Downward Passage",
+            "Burbank",
+            "California",
+            "91505",
+            "United States",
+            "714-906-0334",
+            "",
+            "213-926-2007",
+            "yasiru@orangehrmlive.com",
+            "yasirun@orangehrmlive.com"
+        ];
 
         $result = $this->pimCsvDataImport->import($data);
 

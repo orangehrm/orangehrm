@@ -51,14 +51,6 @@ class PimCsvDataImport extends CsvDataImport
     protected ?EmployeeService $employeeService = null;
 
     /**
-     * @param EmployeeService $employeeService
-     */
-    public function setEmployeeService(EmployeeService $employeeService): void
-    {
-        $this->employeeService = $employeeService;
-    }
-
-    /**
      * @param array $data
      * @return bool
      * @throws DaoException
@@ -224,20 +216,13 @@ class PimCsvDataImport extends CsvDataImport
     }
 
     /**
-     * @return object
+     * @return CountryService $countryService
      * @throws Exception
      */
     public function getCountryService(): object
     {
+        /** @var CountryService $countryService */
         return $this->getContainer()->get(Services::COUNTRY_SERVICE);
-    }
-
-    /**
-     * @param CountryService $countryService
-     */
-    public function setCountryService(CountryService $countryService): void
-    {
-        $this->countryService = $countryService;
     }
 
     /**
