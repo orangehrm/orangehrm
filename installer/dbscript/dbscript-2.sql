@@ -3888,6 +3888,7 @@ VALUES (1, 1, 1, 1, 0, @apiv2_pim_custom_field_data_group_id, @admin_role_id),
        (1, 0, 0, 0, 1, @apiv2_pim_tax_exemptions_data_group_id, @ess_role_id),
        (1, 0, 0, 0, 0, @apiv2_pim_tax_exemptions_data_group_id, @ess_role_id),
        (1, 0, 0, 0, 0, @apiv2_pim_employee_work_shift_data_group_id, @admin_role_id),
+       (1, 0, 0, 0, 0, @apiv2_pim_employee_work_shift_data_group_id, @supervisor_role_id),
        (1, 0, 0, 0, 0, @apiv2_pim_employee_count_data_group_id, @admin_role_id);
 
 INSERT INTO ohrm_data_group (`name`, `description`, `can_read`, `can_create`, `can_update`, `can_delete`)

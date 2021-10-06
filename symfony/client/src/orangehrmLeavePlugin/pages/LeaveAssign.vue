@@ -51,7 +51,7 @@
               <leave-type-dropdown
                 v-model="leave.type"
                 :rules="rules.type"
-                :employee-id="leave.employee?.id"
+                :eligible-only="false"
                 required
               />
             </oxd-grid-item>
