@@ -5,4 +5,4 @@ Module:
   3: {id: 4, name: 'time', status: 1}
   4: {id: 5, name: 'recruitment', status: 1}
   5: {id: 6, name: 'performance', status: 1}
-  6: {id: 7, name: 'benefits', status: 0}
+  6: {id: 7, name: 'maintenance', status: 0}

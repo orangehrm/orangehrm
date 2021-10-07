@@ -22,8 +22,11 @@ namespace OrangeHRM\Tests\OAuth\Dao;
 
 use OrangeHRM\Config\Config;
 use OrangeHRM\Entity\OAuthClient;
+use OrangeHRM\OAuth\Constant\GrantType;
+use OrangeHRM\OAuth\Constant\Scope;
 use OrangeHRM\OAuth\Dao\OAuthClientDao;
 use OrangeHRM\OAuth\Dto\OAuthClientSearchFilterParams;
+use OrangeHRM\OAuth\Service\OAuthService;
 use OrangeHRM\Tests\Util\TestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 
@@ -101,5 +104,15 @@ class OAuthClientDaoTest extends TestCase
         $toDeleteIds = ['Test1ToDelete'];
         $result = $this->authClientDao->deleteOAuthClients($toDeleteIds);
         $this->assertEquals(1, $result);
+    }
+
+    public function testCreateMobileClient(): void
+    {
+        $result = $this->authClientDao->createMobileClient();
+        $this->assertTrue($result instanceof OAuthClient);
+        $this->assertEquals(OAuthService::PUBLIC_MOBILE_CLIENT_ID, $result->getClientId());
+        $this->assertEquals('', $result->getClientSecret());
+        $this->assertEquals(sprintf("%s %s", GrantType::USER_CREDENTIALS, GrantType::REFRESH_TOKEN), $result->getGrantTypes());
+        $this->assertEquals(Scope::SCOPE_USER, $result->getScope());
     }
 }
