@@ -451,6 +451,21 @@ apiv2_pim_employees_import:
   defaults:
     _api: OrangeHRM\Pim\Api\EmployeeCSVImportAPI
 
+apiv2_pim_reports:
+  path: /api/v2/pim/reports
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Pim\Api\PimReportAPI
+    _key: name
+
+apiv2_pim_reports_data:
+  path: /api/v2/pim/reports/data
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Pim\Api\PimReportDataAPI
+
 ##########################
 #        Files
 ##########################
