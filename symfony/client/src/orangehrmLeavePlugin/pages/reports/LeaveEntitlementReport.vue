@@ -55,6 +55,7 @@
             <oxd-grid :cols="4" class="orangehrm-full-width-grid">
               <oxd-grid-item>
                 <leave-type-dropdown
+                  :empty-text="$t('leave.no_leave_types_defined')"
                   v-model="filters.leaveType"
                   :rules="rules.leaveType"
                   :eligible-only="false"
@@ -85,7 +86,7 @@
                 />
               </oxd-grid-item>
               <oxd-grid-item>
-                <jobtitle-dropdown v-model="filters.jobTitleId" />
+                <jobtitle-dropdown v-model="filters.jobTitle" />
               </oxd-grid-item>
               <oxd-grid-item class="orangehrm-leave-filter --span-column-2">
                 <oxd-text class="orangehrm-leave-filter-text" tag="p">
