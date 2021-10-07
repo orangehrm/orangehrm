@@ -21,9 +21,9 @@
 <template>
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
-      <oxd-text tag="h6" class="orangehrm-main-title"
-        >Module Configuration</oxd-text
-      >
+      <oxd-text tag="h6" class="orangehrm-main-title">
+        Module Configuration
+      </oxd-text>
 
       <oxd-divider />
 
@@ -34,70 +34,49 @@
               <oxd-text tag="p" class="orangehrm-module-field-label">
                 Admin Module
               </oxd-text>
-              <oxd-switch-input
-                v-model="modules.admin"
-                id="admin"
-                :disabled="true"
-              />
+              <oxd-switch-input v-model="modules.admin" :disabled="true" />
             </div>
             <div class="orangehrm-module-field-row">
               <oxd-text tag="p" class="orangehrm-module-field-label">
                 Pim Module
               </oxd-text>
-              <oxd-switch-input
-                v-model="modules.pim"
-                id="pim"
-                :disabled="true"
-              />
+              <oxd-switch-input v-model="modules.pim" :disabled="true" />
             </div>
             <div class="orangehrm-module-field-row">
               <oxd-text tag="p" class="orangehrm-module-field-label">
                 Leave Module
               </oxd-text>
-              <oxd-switch-input v-model="modules.leave" id="leave" />
+              <oxd-switch-input v-model="modules.leave" />
             </div>
             <div class="orangehrm-module-field-row">
               <oxd-text tag="p" class="orangehrm-module-field-label">
                 Time Module
               </oxd-text>
-              <oxd-switch-input v-model="modules.time" id="time" />
+              <oxd-switch-input v-model="modules.time" />
             </div>
             <div class="orangehrm-module-field-row">
               <oxd-text tag="p" class="orangehrm-module-field-label">
                 Recruitment Module
               </oxd-text>
-              <oxd-switch-input
-                v-model="modules.recruitment"
-                id="recruitment"
-              />
+              <oxd-switch-input v-model="modules.recruitment" />
             </div>
             <div class="orangehrm-module-field-row">
               <oxd-text tag="p" class="orangehrm-module-field-label">
                 Performance Module
               </oxd-text>
-              <oxd-switch-input
-                v-model="modules.performance"
-                id="performance"
-              />
+              <oxd-switch-input v-model="modules.performance" />
             </div>
             <div class="orangehrm-module-field-row">
               <oxd-text tag="p" class="orangehrm-module-field-label">
                 Maintenance Module
               </oxd-text>
-              <oxd-switch-input
-                v-model="modules.maintenance"
-                id="maintenance"
-              />
+              <oxd-switch-input v-model="modules.maintenance" />
             </div>
             <div class="orangehrm-module-field-row">
               <oxd-text tag="p" class="orangehrm-module-field-label">
                 Mobile
               </oxd-text>
-              <oxd-switch-input
-                v-model="modules.mobile"
-                id="mobile"
-                modelValue="mobile"
-              />
+              <oxd-switch-input v-model="modules.mobile" />
             </div>
           </oxd-grid>
         </oxd-form-row>
@@ -116,6 +95,17 @@
 import SwitchInput from '@orangehrm/oxd/core/components/Input/SwitchInput';
 import {APIService} from '@/core/util/services/api.service';
 
+const modulesModel = {
+  admin: false,
+  pim: false,
+  leave: false,
+  time: false,
+  recruitment: false,
+  performance: false,
+  maintenance: false,
+  mobile: false,
+};
+
 export default {
   components: {
     'oxd-switch-input': SwitchInput,
@@ -133,10 +123,7 @@ export default {
 
   data() {
     return {
-      modules: {
-        admin: true,
-        pim: true,
-      },
+      modules: {...modulesModel},
       isLoading: false,
     };
   },
@@ -144,10 +131,20 @@ export default {
   methods: {
     onSave() {
       this.isLoading = true;
+      const payload = {
+        admin: true,
+        pim: true,
+        leave: this.modules.leave,
+        time: this.modules.time,
+        recruitment: this.modules.recruitment,
+        performance: this.modules.performance,
+        maintenance: this.modules.maintenance,
+        mobile: this.modules.mobile,
+      };
       this.http
         .request({
           method: 'PUT',
-          data: this.modules,
+          data: payload,
         })
         .then(response => {
           const {data} = response.data;
@@ -166,7 +163,14 @@ export default {
       .getAll()
       .then(response => {
         const {data} = response.data;
-        this.modules = data;
+        this.modules.admin = data.admin;
+        this.modules.pim = data.pim;
+        this.modules.leave = data.leave;
+        this.modules.time = data.time;
+        this.modules.recruitment = data.recruitment;
+        this.modules.performance = data.performance;
+        this.modules.maintenance = data.maintenance;
+        this.modules.mobile = data.mobile;
       })
       .finally(() => {
         this.isLoading = false;
@@ -177,12 +181,14 @@ export default {
 
 <style lang="scss" scoped>
 @import '@orangehrm/oxd/styles/_mixins.scss';
+
 .orangehrm-module-field-row {
   grid-column-start: 1;
   display: flex;
   justify-content: space-between;
   padding: 0.5rem 0;
 }
+
 .orangehrm-module-field-label {
   @include oxd-input-control();
   padding: 0;
