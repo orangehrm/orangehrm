@@ -55,8 +55,8 @@ abstract class ReportAPI extends EndpointProxy implements ResourceEndpoint
             ],
             new ParameterBag(
                 [
-                    self::PARAMETER_HEADERS => $header->getMeta(),
-                    self::PARAMETER_FILTERS => $filter->getMeta(),
+                    self::PARAMETER_HEADERS => is_null($header->getMeta()) ? null : $header->getMeta()->all(),
+                    self::PARAMETER_FILTERS => is_null($filter->getMeta()) ? null : $filter->getMeta()->all(),
                 ]
             )
         );

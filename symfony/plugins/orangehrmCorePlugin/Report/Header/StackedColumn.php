@@ -19,7 +19,9 @@
 
 namespace OrangeHRM\Core\Report\Header;
 
-class StackedColumn
+use Countable;
+
+class StackedColumn implements Countable
 {
     private ?string $name = null;
 
@@ -97,5 +99,13 @@ class StackedColumn
             'name' => $this->getName(),
             'children' => $children,
         ];
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function count(): int
+    {
+        return count($this->getChildren());
     }
 }
