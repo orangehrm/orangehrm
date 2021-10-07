@@ -110,7 +110,6 @@ export default {
   components: {
     'oxd-switch-input': SwitchInput,
   },
-
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
@@ -120,14 +119,12 @@ export default {
       http,
     };
   },
-
   data() {
     return {
       modules: {...modulesModel},
       isLoading: false,
     };
   },
-
   methods: {
     onSave() {
       this.isLoading = true;
@@ -156,7 +153,6 @@ export default {
         });
     },
   },
-
   created() {
     this.isLoading = true;
     this.http
@@ -178,7 +174,6 @@ export default {
   },
 };
 </script>
-
 <style lang="scss" scoped>
 @import '@orangehrm/oxd/styles/_mixins.scss';
 
@@ -188,7 +183,6 @@ export default {
   justify-content: space-between;
   padding: 0.5rem 0;
 }
-
 .orangehrm-module-field-label {
   @include oxd-input-control();
   padding: 0;
