@@ -3550,6 +3550,7 @@ UPDATE `ohrm_module` SET `status` = '0' WHERE `ohrm_module`.`name` = 'directory'
 UPDATE `ohrm_module` SET `status` = '0' WHERE `ohrm_module`.`name` = 'maintenance';
 UPDATE `ohrm_module` SET `status` = '0' WHERE `ohrm_module`.`name` = 'marketPlace';
 UPDATE `ohrm_module` SET `status` = '0' WHERE `ohrm_module`.`name` = 'buzz';
+UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` = 'Work Shifts';
 UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` = 'Email Subscriptions';
 UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` = 'Localization';
 UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` = 'Language Packages';
@@ -3557,7 +3558,6 @@ UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` =
 UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` = 'Social Media Authentication';
 
 UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` = 'Reports' AND `screen_id` IS NOT NULL;
-UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` = 'Data Import';
 
 UPDATE `ohrm_menu_item` SET `additional_params` = '{\"icon\":\"icon-admin\"}' WHERE `ohrm_menu_item`.`menu_title` = 'Admin';
 UPDATE `ohrm_menu_item` SET `additional_params` = '{\"icon\":\"icon-pim\"}' WHERE `ohrm_menu_item`.`menu_title` = 'PIM';
@@ -3612,7 +3612,7 @@ VALUES ('apiv2_admin_education', 'API-v2 Admin - Education', 1, 1, 1, 1),
        ('apiv2_admin_paygrade_currency', 'API-v2 Admin - Pay Grade Currencies', 1, 1, 1, 1),
        ('apiv2_admin_skill', 'API-v2 Admin - Skills', 1, 1, 1, 1),
        ('apiv2_admin_subunit', 'API-v2 Admin - Organization Structure', 1, 1, 1, 1),
-       ('apiv2_admin_user', 'API-v2 Admin - Users', 1, 1, 1, 1),       
+       ('apiv2_admin_user', 'API-v2 Admin - Users', 1, 1, 1, 1),
        ('apiv2_admin_email_configuration', 'API-v2 Admin - Email Configuration', 1, 0, 1, 0),
        ('apiv2_admin_oauth_client', 'API-v2 Admin - OAuth Clients', 1, 1, 1, 1),
        ('apiv2_admin_location', 'API-v2 Admin - Locations', 1, 1, 1, 1),
@@ -3688,7 +3688,7 @@ VALUES (1, 1, 1, 1, 0, @apiv2_admin_education_data_group_id, @admin_role_id),
        (1, 0, 1, 0, 0, @apiv2_admin_email_configuration_data_group_id, @admin_role_id),
        (1, 1, 1, 1, 0, @apiv2_admin_oauth_client_data_group_id, @admin_role_id),
        (1, 1, 1, 1, 0, @apiv2_admin_location_data_group_id, @admin_role_id),
-       (1, 1, 1, 1, 0, @apiv2_admin_pay_grade_data_group_id, @admin_role_id),    
+       (1, 1, 1, 1, 0, @apiv2_admin_pay_grade_data_group_id, @admin_role_id),
        (1, 1, 1, 1, 0, @apiv2_admin_work_shift_data_group_id, @admin_role_id),
        (1, 0, 0, 0, 0, @apiv2_admin_work_shift_employee_data_group_id, @admin_role_id);
 
@@ -3724,7 +3724,8 @@ VALUES ('apiv2_pim_custom_field', 'API-v2 PIM - Custom Fields', 1, 1, 1, 1),
        ('apiv2_pim_employee_memberships', 'API-v2 PIM - Employee Memberships', 1, 1, 1, 1),
        ('apiv2_pim_tax_exemptions', 'API-v2 PIM - Tax Exemptions', 1, 0, 1, 0),
        ('apiv2_pim_employee_work_shift', 'API-v2 PIM - Employee Work Shift', 1, 0, 0, 0),
-       ('apiv2_pim_employee_count', 'API-v2 PIM - Employee Count', 1, 0, 0, 0);
+       ('apiv2_pim_employee_count', 'API-v2 PIM - Employee Count', 1, 0, 0, 0),
+       ('apiv2_pim_employee_csv_import', 'API-v2 PIM - Employee CSV Import', 1, 1, 0, 0);
 
 SET @pim_module_id := (SELECT `id` FROM ohrm_module WHERE name = 'pim' LIMIT 1);
 SET @apiv2_pim_custom_field_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_pim_custom_field' LIMIT 1);
@@ -3760,6 +3761,7 @@ SET @apiv2_pim_employee_memberships_data_group_id := (SELECT `id` FROM ohrm_data
 SET @apiv2_pim_tax_exemptions_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_pim_tax_exemptions' LIMIT 1);
 SET @apiv2_pim_employee_work_shift_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_pim_employee_work_shift' LIMIT 1);
 SET @apiv2_pim_employee_count_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_pim_employee_count' LIMIT 1);
+SET @apiv2_pim_employee_csv_import_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_pim_employee_csv_import' LIMIT 1);
 
 INSERT INTO ohrm_api_permission (`api_name`, `module_id`, `data_group_id`)
 VALUES ('OrangeHRM\\Pim\\Api\\CustomFieldAPI', @pim_module_id, @apiv2_pim_custom_field_data_group_id),
@@ -3793,7 +3795,8 @@ VALUES ('OrangeHRM\\Pim\\Api\\CustomFieldAPI', @pim_module_id, @apiv2_pim_custom
        ('OrangeHRM\\Pim\\Api\\EmployeeMembershipAPI', @pim_module_id, @apiv2_pim_employee_memberships_data_group_id),
        ('OrangeHRM\\Pim\\Api\\EmpUsTaxExemptionAPI', @pim_module_id, @apiv2_pim_tax_exemptions_data_group_id),
        ('OrangeHRM\\Pim\\Api\\EmployeeWorkShiftAPI', @pim_module_id, @apiv2_pim_employee_work_shift_data_group_id),
-       ('OrangeHRM\\Pim\\Api\\EmployeeCountAPI', @pim_module_id, @apiv2_pim_employee_count_data_group_id);
+       ('OrangeHRM\\Pim\\Api\\EmployeeCountAPI', @pim_module_id, @apiv2_pim_employee_count_data_group_id),
+       ('OrangeHRM\\Pim\\Api\\EmployeeCSVImportAPI', @pim_module_id, @apiv2_pim_employee_csv_import_data_group_id);
 
 INSERT INTO ohrm_user_role_data_group (`can_read`, `can_create`, `can_update`, `can_delete`, `self`, `data_group_id`, `user_role_id`)
 VALUES (1, 1, 1, 1, 0, @apiv2_pim_custom_field_data_group_id, @admin_role_id),
@@ -3896,7 +3899,8 @@ VALUES (1, 1, 1, 1, 0, @apiv2_pim_custom_field_data_group_id, @admin_role_id),
        (1, 0, 0, 0, 1, @apiv2_pim_tax_exemptions_data_group_id, @ess_role_id),
        (1, 0, 0, 0, 0, @apiv2_pim_tax_exemptions_data_group_id, @ess_role_id),
        (1, 0, 0, 0, 0, @apiv2_pim_employee_work_shift_data_group_id, @admin_role_id),
-       (1, 0, 0, 0, 0, @apiv2_pim_employee_count_data_group_id, @admin_role_id);
+       (1, 0, 0, 0, 0, @apiv2_pim_employee_count_data_group_id, @admin_role_id),
+       (1, 1, 0, 0, 0, @apiv2_pim_employee_csv_import_data_group_id, @admin_role_id);
 
 INSERT INTO ohrm_data_group (`name`, `description`, `can_read`, `can_create`, `can_update`, `can_delete`)
 VALUES ('apiv2_leave_holiday', 'API-v2 Leave - Holidays', 1, 1, 1, 1),
@@ -4063,3 +4067,6 @@ CREATE TABLE `ohrm_mail_queue` (
   `content_type` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+
+SET @pim_csv_import_screen_id := (SELECT `id` FROM ohrm_screen WHERE action_url = 'pimCsvImport' and name='Data Import' LIMIT 1);
+UPDATE `ohrm_screen` SET `module_id` = @pim_module_id WHERE `ohrm_screen`.`id` = @pim_csv_import_screen_id;

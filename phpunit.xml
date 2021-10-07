@@ -37,6 +37,7 @@
       <directory>symfony/plugins/orangehrmCorePlugin/test/Api</directory>
       <directory>symfony/plugins/orangehrmCorePlugin/test/Helper</directory>
       <directory>symfony/plugins/orangehrmCorePlugin/test/Vue</directory>
+      <directory>symfony/plugins/orangehrmCorePlugin/test/Import</directory>
     </testsuite>
     <testsuite name="Leave">
       <directory>symfony/plugins/orangehrmLeavePlugin/test/Service</directory>
