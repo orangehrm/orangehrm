@@ -1,5 +1,4 @@
 <?php
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -17,8 +16,17 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-class ReportableDao {
 
+namespace OrangeHRM\Core\Dao;
+
+use OrangeHRM\Entity\CompositeDisplayField;
+use OrangeHRM\Entity\DisplayField;
+use OrangeHRM\Entity\DisplayFieldGroup;
+use OrangeHRM\Entity\Report;
+use OrangeHRM\Entity\SummaryDisplayField;
+
+class ReportGeneratorDao extends BaseDao
+{
     /**
      * Get all selected filter fields for the given report id
      * @param integer $reportId
@@ -67,78 +75,44 @@ class ReportableDao {
     }
 
     /**
-     * Get all selected display fields for the given report id
-     * @param integer $reportId
-     * @return array of Doctring objects
+     * @param int $reportId
+     * @return DisplayField[]
      */
-    public function getSelectedDisplayFields($reportId) {
-
-        try {
-
-            $query = Doctrine_Query::create()
-                            ->select("display_field_id")
-                            ->from("SelectedDisplayField")
-                            ->where("report_id = ?", $reportId);
-            $results = $query->execute();
-
-            if ($results[0]->getId() == null) {
-                return null;
-            } else {
-                return $results;
-            }
-        } catch (Exception $ex) {
-            throw new DaoException($ex->getMessage());
-        }
+    public function getSelectedDisplayFieldsByReportId(int $reportId): array
+    {
+        $q = $this->createQueryBuilder(DisplayField::class, 'df');
+        $q->leftJoin('df.selectedDisplayFields', 'sdf');
+        $q->andWhere('sdf.report = :reportId')
+            ->setParameter('reportId', $reportId);
+        return $q->getQuery()->execute();
     }
 
     /**
-     * Get all selected display fields for the given report id
-     * @param integer $reportId
-     * @return array of Doctring objects
+     * @param int $reportId
+     * @return int[]
      */
-    public function getSelectedDisplayFieldGroups($reportId) {
-
-        try {
-
-            $query = Doctrine_Query::create()
-                            ->select("display_field_group_id")
-                            ->from("SelectedDisplayFieldGroup")
-                            ->where("report_id = ?", $reportId);
-
-            $results = $query->execute();
-
-            if ($results[0]->getId() == null) {
-                return null;
-            } else {
-                return $results;
-            }
-        } catch (Exception $ex) {
-            throw new DaoException($ex->getMessage());
-        }
+    public function getSelectedDisplayFieldGroupIdsByReportId(int $reportId): array
+    {
+        $q = $this->createQueryBuilder(DisplayFieldGroup::class, 'dfg');
+        $q->leftJoin('dfg.selectedDisplayFieldGroups', 'sdfg');
+        $q->select('dfg.id');
+        $q->andWhere('sdfg.report = :reportId')
+            ->setParameter('reportId', $reportId);
+        $result = $q->getQuery()->getArrayResult();
+        return array_column($result, 'id');
     }
 
     /**
-     * Get all selected composite display fields for the given report id
-     * @param integer $reportId
-     * @return array of Doctring objects
+     * @param int $reportId
+     * @return CompositeDisplayField[]
      */
-    public function getSelectedCompositeDisplayFields($reportId) {
-
-        try {
-
-            $query = Doctrine_Query::create()
-                            ->from("SelectedCompositeDisplayField")
-                            ->where("report_id = ?", $reportId);
-            $results = $query->execute();
-
-            if ($results[0]->getId() == null) {
-                return null;
-            } else {
-                return $results;
-            }
-        } catch (Exception $ex) {
-            throw new DaoException($ex->getMessage());
-        }
+    public function getSelectedCompositeDisplayFieldsByReportId(int $reportId): array
+    {
+        $q = $this->createQueryBuilder(CompositeDisplayField::class, 'cdf');
+        $q->leftJoin('cdf.selectedCompositeDisplayFields', 'scdf');
+        $q->andWhere('scdf.report = :reportId')
+            ->setParameter('reportId', $reportId);
+        return $q->getQuery()->execute();
     }
 
     /**
@@ -163,23 +137,13 @@ class ReportableDao {
         }
     }
 
-    public function getReport($reportId) {
-
-        try {
-
-            $query = Doctrine_Query::create()
-                            ->from("Report")
-                            ->where("report_id = ?", $reportId);
-            $result = $query->execute();
-
-            if ($result[0]->getReportId() == null) {
-                return null;
-            } else {
-                return $result[0];
-            }
-        } catch (Exception $ex) {
-            throw new DaoException($ex->getMessage());
-        }
+    /**
+     * @param int $reportId
+     * @return Report|null
+     */
+    public function getReport(int $reportId): ?Report
+    {
+        return $this->getRepository(Report::class)->find($reportId);
     }
 
     public function getReportGroup($reportGroupId) {
@@ -235,23 +199,17 @@ class ReportableDao {
         }
     }
 
-    public function getSelectedGroupField($reportId) {
-
-        try {
-
-            $query = Doctrine_Query::create()
-                            ->from("SelectedGroupField")
-                            ->where("report_id = ?", $reportId);
-            $result = $query->execute();
-
-            if ($result[0]->getReportId() == null) {
-                return null;
-            } else {
-                return $result[0];
-            }
-        } catch (Exception $ex) {
-            throw new DaoException($ex->getMessage());
-        }
+    /**
+     * @param int $reportId
+     * @return SummaryDisplayField[]
+     */
+    public function getSummaryDisplayFieldByReportId(int $reportId): array
+    {
+        $q = $this->createQueryBuilder(SummaryDisplayField::class, 'sdf');
+        $q->leftJoin('sdf.selectedGroupFields', 'sgf');
+        $q->andWhere('sgf.report = :reportId')
+            ->setParameter('reportId', $reportId);
+        return $q->getQuery()->execute();
     }
 
     public function getGroupField($groupFieldId) {

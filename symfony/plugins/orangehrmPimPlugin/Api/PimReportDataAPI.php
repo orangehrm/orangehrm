@@ -1,6 +1,4 @@
 <?php
-
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -18,28 +16,26 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-require_once sfConfig::get('sf_test_dir') . '/util/TestDataService.php';
 
-/**
- * @group Admin
- */
-class PimCsvDataImportServiceTest extends PHPUnit_Framework_TestCase {
+namespace OrangeHRM\Pim\Api;
 
-	private $pimDataImportService;
+use OrangeHRM\Core\Api\Rest\ReportDataAPI;
+use OrangeHRM\Core\Api\V2\Exception\BadRequestException;
+use OrangeHRM\Core\Report\Api\EndpointAwareReport;
 
-	/**
-	 * Set up method
-	 */
-	protected function setUp() {
-		$this->pimDataImportService = new PimCsvDataImportService();
-	}
-	
-	public function testGetCsvDataImportService(){
-		
-		$result = $this->pimDataImportService->getCsvDataImportService();
-		$this->assertTrue($result instanceof CsvDataImportService);
-	}
-	
+class PimReportDataAPI extends ReportDataAPI
+{
+    /**
+     * @return EndpointAwareReport
+     * @throws BadRequestException
+     */
+    protected function getReport(): EndpointAwareReport
+    {
+        $reportName = $this->getReportName();
+        if (!isset(PimReportAPI::PIM_REPORT_MAP[$reportName])) {
+            throw $this->getBadRequestException('Invalid report name');
+        }
+        $reportClass = PimReportAPI::PIM_REPORT_MAP[$reportName];
+        return new $reportClass();
+    }
 }
-
-?>
