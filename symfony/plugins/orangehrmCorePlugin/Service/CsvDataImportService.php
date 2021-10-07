@@ -1,6 +1,4 @@
 <?php
-
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -17,29 +15,39 @@
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
+ *
  */
-require_once sfConfig::get('sf_test_dir') . '/util/TestDataService.php';
 
-/**
- * @group Admin
- */
-class PimCsvDataImportServiceTest extends PHPUnit_Framework_TestCase {
+namespace OrangeHRM\Core\Service;
 
-	private $pimDataImportService;
+use Exception;
+use OrangeHRM\Core\Exception\DaoException;
+use OrangeHRM\Core\Import\CsvDataImportFactory;
 
-	/**
-	 * Set up method
-	 */
-	protected function setUp() {
-		$this->pimDataImportService = new PimCsvDataImportService();
-	}
-	
-	public function testGetCsvDataImportService(){
-		
-		$result = $this->pimDataImportService->getCsvDataImportService();
-		$this->assertTrue($result instanceof CsvDataImportService);
-	}
-	
+class CsvDataImportService
+{
+
+    /**
+     * @param string $fileContent
+     * @param string $importType
+     * @return int
+     * @throws DaoException
+     */
+    public function import(string $fileContent, string $importType): int
+    {
+        $factory = new CsvDataImportFactory();
+        $instance = $factory->getImportClassInstance($importType);
+        $rowsImported = 0;
+        $lines = explode("\n", $fileContent);
+        $employeesDataArray = array_map('str_getcsv', $lines);
+
+        for ($i = 1; $i < sizeof($employeesDataArray) - 1; $i++) {
+            $result = $instance->import($employeesDataArray[$i]);
+            if ($result) {
+                $rowsImported++;
+            }
+        }
+        return $rowsImported;
+    }
+
 }
-
-?>

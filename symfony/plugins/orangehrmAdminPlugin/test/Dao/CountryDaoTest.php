@@ -123,4 +123,16 @@ class CountryDaoTest extends TestCase
         $this->assertEquals('Alaska', $result->getProvinceName());
         $this->assertEquals('US', $result->getCountryCode());
     }
+
+    public function testGetProvinceByProvinceName(): void
+    {
+        $result = $this->dao->getProvinceByProvinceName('NotExists');
+        $this->assertNull($result);
+
+        $result = $this->dao->getProvinceByProvinceName('Alaska');
+        $this->assertTrue($result instanceof Province);
+        $this->assertEquals('Alaska', $result->getProvinceName());
+        $this->assertEquals('AK', $result->getProvinceCode());
+        $this->assertEquals('US', $result->getCountryCode());
+    }
 }

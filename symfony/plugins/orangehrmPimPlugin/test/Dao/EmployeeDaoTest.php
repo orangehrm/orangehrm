@@ -326,4 +326,14 @@ class EmployeeDaoTest extends KernelTestCase
         $empList = $this->employeeDao->getEmpNumbersByFilterParams($employeeSearchFilterParams);
         $this->assertEquals([1, 2, 3, 4, 5], $empList);
     }
+
+    public function testGetEmailList(): void
+    {
+        $emailList = $this->employeeDao->getEmailList();
+        $this->assertEquals(array(array('workEmail' => 'kayla@xample.com', 'otherEmail' => 'kayla2@xample.com'),
+                                  array('workEmail' => 'ashley@xample.com', 'otherEmail' => 'ashley2@xample.com'),
+                                  array('workEmail' => 'renukshan@xample.com', 'otherEmail' => 'renukshan2@xample.com'),
+                                  array('workEmail' => '', 'otherEmail' => ''),
+                                  array('workEmail' => '', 'otherEmail' => '')), $emailList);
+    }
 }

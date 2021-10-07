@@ -444,6 +444,13 @@ apiv2_pim_employees_work_shift:
   requirements:
     empNumber: '\d+'
 
+apiv2_pim_employees_import:
+  path: /api/v2/pim/csv-import
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ POST ]
+  defaults:
+    _api: OrangeHRM\Pim\Api\EmployeeCSVImportAPI
+
 ##########################
 #        Files
 ##########################
@@ -456,6 +463,11 @@ pim_employee_picture:
 pim_employee_attachment:
   path: /pim/viewAttachment/empNumber/{empNumber}/attachId/{attachId}
   controller: OrangeHRM\Pim\Controller\File\EmployeeAttachmentController::handle
+  methods: [ GET ]
+
+pim_employee_csv_import_sample_attachment:
+  path: /pim/sampleCsvDownload
+  controller: OrangeHRM\Pim\Controller\File\EmployeeCsvImportSampleAttachmentController::handle
   methods: [ GET ]
 
 ##########################
@@ -587,4 +599,9 @@ pim_employee_membership:
 pim_employee_tax_exemption:
   path: /pim/viewUsTaxExemptions/empNumber/{empNumber}
   controller: OrangeHRM\Pim\Controller\EmpUsTaxExemptionController::handle
+  methods: [ GET ]
+
+pim_employee_csv_import:
+  path: /pim/pimCsvImport
+  controller: OrangeHRM\Pim\Controller\EmployeeCsvImportController::handle
   methods: [ GET ]
