@@ -233,6 +233,14 @@ apiv2_admin_locations:
   methods: [ GET, POST, DELETE ]
   defaults:
     _api: OrangeHRM\Admin\Api\LocationAPI
+
+apiv2_admin_modules:
+  path: /api/v2/admin/modules
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    _api: OrangeHRM\Admin\Api\ModulesAPI
+
 ##########################
 #        Files
 ##########################
@@ -456,6 +464,11 @@ apiv2_admin_pay_grade:
   methods: [ GET, PUT ]
   defaults:
     _api: OrangeHRM\Admin\Api\PayGradeAPI
+
+edit_module_configuration:
+  path: /admin/viewModules
+  controller: OrangeHRM\Admin\Controller\SaveModuleConfigurationController::handle
+  methods: [ GET ]
 
 view_work_shift:
   path: /admin/workShift
