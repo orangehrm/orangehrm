@@ -177,7 +177,7 @@ class PimCsvDataImport extends CsvDataImport
     private function isValidNationality($name)
     {
         $nationality = $this->getNationalityService()->getNationalityByName($name);
-        if($nationality){
+        if ($nationality) {
             return $nationality;
         }
     }
@@ -210,7 +210,7 @@ class PimCsvDataImport extends CsvDataImport
     private function isValidCountry($name)
     {
         $country = $this->getCountryService()->getCountryByCountryName($name);
-        if($country){
+        if ($country) {
             return $country->getCountryCode();
         }
     }
