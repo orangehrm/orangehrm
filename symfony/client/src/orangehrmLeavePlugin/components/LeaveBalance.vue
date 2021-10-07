@@ -35,7 +35,7 @@
     <oxd-text v-if="balance >= 0" class="orangehrm-leave-balance-text" tag="p">
       {{ leaveBalance }}
     </oxd-text>
-    <oxd-text v-else class="orangehrm-leave-balance-text" tag="p">
+    <oxd-text v-else class="orangehrm-leave-balance-text --error" tag="p">
       {{ $t('leave.balance_not_sufficient') }}
     </oxd-text>
   </oxd-input-group>
@@ -45,12 +45,13 @@
     "
     v-if="showModal"
     :data="data"
+    :meta="meta"
     @close="onModalClose"
   ></component>
 </template>
 
 <script>
-import {toRefs, reactive, computed, watchEffect} from 'vue';
+import {toRefs, reactive, computed, watchPostEffect} from 'vue';
 import {APIService} from '@orangehrm/core/util/services/api.service';
 import Label from '@orangehrm/oxd/core/components/Label/Label';
 import LeaveBalanceModal from '@/orangehrmLeavePlugin/components/LeaveBalanceModal';
@@ -72,6 +73,7 @@ export default {
   setup(props) {
     const state = reactive({
       data: null,
+      meta: null,
       balance: 0,
       showModal: false,
     });
@@ -94,7 +96,7 @@ export default {
       state.showModal = false;
     };
 
-    watchEffect(async () => {
+    watchPostEffect(async () => {
       const payload = {
         fromDate: props.leaveData.fromDate,
         toDate: props.leaveData.toDate,
@@ -127,26 +129,33 @@ export default {
       }
 
       if (props.leaveData.type?.id) {
-        http.get(props.leaveData.type.id, payload).then(response => {
-          if (response.status !== 200) return;
-          const {data} = response.data;
-          if (data.balance) {
-            // response sends balance directly when no duration defined
-            state.data = data.balance;
-            state.balance = data.balance?.balance;
-          } else if (data.breakdown && data.negative === false) {
-            // if duration is defined and the balance is not exceeded
-            state.data = data.breakdown[0].balance;
-            state.balance = data.breakdown[0].balance?.balance;
-          } else if (data.breakdown && data.negative === true) {
-            // if duration is defined and the balance is exceeded
-            state.data = data.breakdown;
-            state.balance = -1;
-          } else {
+        http
+          .get(props.leaveData.type.id, payload)
+          .then(response => {
+            if (response.status !== 200) return;
+            const {data, meta} = response.data;
+            state.meta = meta;
+            if (data.balance) {
+              // response sends balance directly when no duration defined
+              state.data = data.balance;
+              state.balance = data.balance?.balance;
+            } else if (data.breakdown && data.negative === false) {
+              // if duration is defined and the balance is not exceeded
+              state.data = data.breakdown[0].balance;
+              state.balance = data.breakdown[0].balance?.balance;
+            } else if (data.breakdown && data.negative === true) {
+              // if duration is defined and the balance is exceeded
+              state.data = data.breakdown;
+              state.balance = -1;
+            } else {
+              state.data = null;
+              state.balance = 0;
+            }
+          })
+          .catch(() => {
             state.data = null;
             state.balance = 0;
-          }
-        });
+          });
       }
     });
 
@@ -170,5 +179,8 @@ export default {
 }
 .orangehrm-leave-balance-text {
   padding: $oxd-input-control-vertical-padding 0rem;
+  &.--error {
+    color: $oxd-feedback-danger-color;
+  }
 }
 </style>

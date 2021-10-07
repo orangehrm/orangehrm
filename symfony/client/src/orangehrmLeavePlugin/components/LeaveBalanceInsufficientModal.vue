@@ -32,6 +32,11 @@
     <oxd-divider class="orangehrm-horizontal-margin orangehrm-clear-margins" />
     <div class="orangehrm-horizontal-padding orangehrm-vertical-padding">
       <oxd-grid :cols="3">
+        <oxd-input-group :label="$t('general.employee_name')">
+          <oxd-text class="orangehrm-leave-balance-text" tag="p">
+            {{ employeeName }}
+          </oxd-text>
+        </oxd-input-group>
         <oxd-input-group :label="$t('leave.leave_type')">
           <oxd-text class="orangehrm-leave-balance-text" tag="p">
             {{ leaveType }}
@@ -76,6 +81,9 @@ export default {
       type: Array,
       required: true,
     },
+    meta: {
+      type: Object,
+    },
   },
   components: {
     'oxd-dialog': Dialog,
@@ -109,35 +117,34 @@ export default {
   computed: {
     items() {
       if (this.data.length > 0) {
-        return this.data
-          .flatMap(item => {
-            const {leaves, period} = item;
-            if (Array.isArray(leaves) && leaves.length > 0) {
-              leaves[0].period = period;
-              return leaves;
-            } else {
-              return [];
-            }
-          })
-          .map(item => {
+        const leavePeriods = this.data.map(item => item.period);
+        return leavePeriods.flatMap((period, index) => {
+          return this.data[index].leaves.map(leave => {
             return {
-              period:
-                item?.period &&
-                `${item.period.startDate} - ${item.period.endDate}`,
-              date: item.date,
-              balance: item.status?.name || item.balance,
+              period: `${period.startDate} - ${period.endDate}`,
+              date: leave.date,
+              balance: leave.status?.name || leave.balance,
             };
           });
+        });
       }
       return [];
     },
     leaveType() {
-      return 'Annual';
+      return this.meta?.leaveType?.name;
+    },
+    employeeName() {
+      const employee = this.meta?.employee;
+      if (employee) {
+        return `${employee.firstName} ${employee.lastName}
+          ${employee.terminationId ? ' (Past Employee)' : ''}`;
+      }
+      return '';
     },
     leaveBalance() {
       return this.data[0]?.balance
         ? `${parseFloat(this.data[0].balance.balance).toFixed(2)} Day(s)`
-        : '0.00';
+        : '0.00 Day(s)';
     },
   },
 };

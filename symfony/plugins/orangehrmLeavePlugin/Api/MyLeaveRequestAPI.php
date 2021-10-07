@@ -24,11 +24,17 @@ use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
 use OrangeHRM\Core\Api\V2\ParameterBag;
+use OrangeHRM\Core\Api\V2\RequestParams;
+use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
+use OrangeHRM\Core\Api\V2\Validator\Rule;
+use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
+use OrangeHRM\Entity\LeaveRequest;
 use OrangeHRM\Leave\Api\Model\LeaveRequestDetailedModel;
-use OrangeHRM\Leave\Api\Model\LeaveRequestModel;
+use OrangeHRM\Leave\Dto\LeaveRequest\DetailedLeaveRequest;
 use OrangeHRM\Leave\Dto\LeaveRequestSearchFilterParams;
+use OrangeHRM\Leave\Exception\LeaveAllocationServiceException;
 use OrangeHRM\Leave\Service\LeaveApplicationService;
 use OrangeHRM\Leave\Traits\Service\LeaveRequestServiceTrait;
 
@@ -124,12 +130,27 @@ class MyLeaveRequestAPI extends EmployeeLeaveRequestAPI
     {
         $empNumber = $this->getAuthUser()->getEmpNumber();
         $leaveRequestParams = $this->getLeaveRequestParams($empNumber);
-        $leaveRequest = $this->getLeaveApplicationService()->applyLeave($leaveRequestParams);
-        return new EndpointResourceResult(
-            LeaveRequestModel::class,
-            $leaveRequest,
-            new ParameterBag([CommonParams::PARAMETER_EMP_NUMBER => $empNumber])
-        );
+        try {
+            $leaveRequest = $this->getLeaveApplicationService()->applyLeave($leaveRequestParams);
+            $model = $this->getRequestParams()->getString(
+                RequestParams::PARAM_TYPE_QUERY,
+                self::FILTER_MODEL,
+                self::MODEL_DEFAULT
+            );
+            if ($model === self::MODEL_DETAILED) {
+                $data = new DetailedLeaveRequest($leaveRequest);
+                $data->fetchLeaves();
+            } else {
+                $data = $leaveRequest;
+            }
+            return new EndpointResourceResult(
+                self::MODEL_MAP[$model],
+                $data,
+                new ParameterBag([CommonParams::PARAMETER_EMP_NUMBER => $empNumber])
+            );
+        } catch (LeaveAllocationServiceException $e) {
+            throw $this->getBadRequestException($e->getMessage());
+        }
     }
 
     /**
@@ -137,23 +158,24 @@ class MyLeaveRequestAPI extends EmployeeLeaveRequestAPI
      */
     public function getValidationRuleForCreate(): ParamRuleCollection
     {
-        return $this->getCommonParamRuleCollection();
+        $paramRules = $this->getCommonParamRuleCollection();
+        $paramRules->addParamValidation(
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(self::FILTER_MODEL, new Rule(Rules::IN, [array_keys(self::MODEL_MAP)])),
+            )
+        );
+        return $paramRules;
     }
 
     /**
      * @inheritDoc
      */
-    public function update(): EndpointResult
+    public function checkLeaveRequestAccessible(LeaveRequest $leaveRequest): void
     {
-        throw $this->getNotImplementedException();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getValidationRuleForUpdate(): ParamRuleCollection
-    {
-        throw $this->getNotImplementedException();
+        $empNumber = $leaveRequest->getEmployee()->getEmpNumber();
+        if (!$this->getUserRoleManagerHelper()->isSelfByEmpNumber($empNumber)) {
+            throw $this->getForbiddenException();
+        }
     }
 
     /**

@@ -519,16 +519,9 @@ class LeaveEntitlementServiceTest extends KernelTestCase
 
 class TestEntitlementConsumptionStrategy implements EntitlementConsumptionStrategy
 {
-
-    /**
-     * @inheritDoc
-     */
-    public function getAvailableEntitlements($empNumber, $leaveType, $leaveDates, $allowNoEntitlements = false)
+    public function handleLeaveCancel($leave): CurrentAndChangeEntitlement
     {
-    }
-
-    public function handleLeaveCancel($leave)
-    {
+        return new CurrentAndChangeEntitlement();
     }
 
     public function handleEntitlementStatusChange()

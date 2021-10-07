@@ -54,8 +54,9 @@ class EmployeeServiceTest extends TestCase
 
     public function testGetEmployeeTerminationService(): void
     {
-        $this->assertTrue($this->employeeService
-                              ->getEmployeeTerminationService() instanceof EmployeeTerminationService
+        $this->assertTrue(
+            $this->employeeService
+                ->getEmployeeTerminationService() instanceof EmployeeTerminationService
         );
     }
 

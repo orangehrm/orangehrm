@@ -32,15 +32,16 @@ use OrangeHRM\Entity\WorkflowStateMachine;
 use OrangeHRM\Leave\Dto\LeaveParameterObject;
 use OrangeHRM\Leave\Exception\LeaveAllocationServiceException;
 use OrangeHRM\Leave\Traits\Service\LeaveEntitlementServiceTrait;
+use OrangeHRM\Leave\Traits\Service\LeaveRequestServiceTrait;
 
 class LeaveApplicationService extends AbstractLeaveAllocationService
 {
     use LeaveEntitlementServiceTrait;
-    use EntityManagerHelperTrait;
+    use LeaveRequestServiceTrait;
     use AuthUserTrait;
 
     protected $dispatcher;
-    protected $applyWorkflowItem = null;
+    protected ?WorkflowStateMachine $applyWorkflowItem = null;
 
     /**
      * Set dispatcher.
@@ -136,13 +137,12 @@ class LeaveApplicationService extends AbstractLeaveAllocationService
                         ->getLeaveRequestDao()
                         ->saveLeaveRequest($leaveRequest, $leaves, $entitlements);
 
-                    if (!empty($leaveRequest->getComment())) {
+                    if (!empty($leaveAssignmentData->getComment())) {
                         $leaveRequestComment = new LeaveRequestComment();
                         $leaveRequestComment->setLeaveRequest($leaveRequest);
-                        $leaveRequestComment->setCreatedAt(new DateTime());
                         $leaveRequestComment->getDecorator()->setCreatedByUserById($loggedInUserId);
                         $leaveRequestComment->getDecorator()->setCreatedByEmployeeByEmpNumber($loggedInEmpNumber);
-                        $leaveRequestComment->setComment($leaveRequest->getComment());
+                        $leaveRequestComment->setComment($leaveAssignmentData->getComment());
                         $this->getLeaveRequestService()
                             ->getLeaveRequestDao()
                             ->saveLeaveRequestComment($leaveRequestComment);
@@ -200,13 +200,7 @@ class LeaveApplicationService extends AbstractLeaveAllocationService
             $workFlowItem = $this->getWorkflowItemForApplyAction($leaveAssignmentData);
             $status = Leave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL;
             if ($workFlowItem instanceof WorkflowStateMachine) {
-                /** @var LeaveStatus|null $leaveStatus */
-                $leaveStatus = $this->getRepository(LeaveStatus::class)->findOneBy(
-                    ['name' => $workFlowItem->getResultingState()]
-                );
-                if ($leaveStatus instanceof LeaveStatus) {
-                    $status = $leaveStatus->getStatus();
-                }
+                $status = $this->getLeaveRequestService()->getLeaveStatusByName($workFlowItem->getResultingState());
             }
         }
 

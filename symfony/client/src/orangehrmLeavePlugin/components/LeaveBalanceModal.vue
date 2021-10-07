@@ -35,7 +35,15 @@
     <oxd-divider class="orangehrm-horizontal-margin orangehrm-clear-margins" />
     <div class="orangehrm-horizontal-padding orangehrm-vertical-padding">
       <oxd-grid :cols="3">
-        <oxd-input-group :label="$t('leave.leave_type')">
+        <oxd-input-group :label="$t('general.employee_name')">
+          <oxd-text class="orangehrm-leave-balance-text" tag="p">
+            {{ employeeName }}
+          </oxd-text>
+        </oxd-input-group>
+        <oxd-input-group
+          class="--offset-column-1"
+          :label="$t('leave.leave_type')"
+        >
           <oxd-text class="orangehrm-leave-balance-text" tag="p">
             {{ leaveType }}
           </oxd-text>
@@ -81,6 +89,9 @@ export default {
   name: 'leave-balance-modal',
   props: {
     data: {
+      type: Object,
+    },
+    meta: {
       type: Object,
     },
   },
@@ -130,17 +141,25 @@ export default {
       return this.data?.asAtDate;
     },
     leaveType() {
-      return 'Annual';
+      return this.meta?.leaveType?.name;
+    },
+    employeeName() {
+      const employee = this.meta?.employee;
+      if (employee) {
+        return `${employee.firstName} ${employee.lastName}
+          ${employee.terminationId ? ' (Past Employee)' : ''}`;
+      }
+      return '';
     },
     totalEntitlement() {
       return this.data?.entitled
         ? `${parseFloat(this.data.entitled).toFixed(2)} Day(s)`
-        : '0.00';
+        : '0.00 Day(s)';
     },
     leaveBalance() {
       return this.data?.balance
         ? `${parseFloat(this.data.balance).toFixed(2)} Day(s)`
-        : '0.00';
+        : '0.00 Day(s)';
     },
   },
 };

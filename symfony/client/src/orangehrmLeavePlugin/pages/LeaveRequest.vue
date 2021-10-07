@@ -98,18 +98,22 @@
 import {APIService} from '@/core/util/services/api.service';
 import {navigate} from '@orangehrm/core/util/helper/navigation';
 import usePaginate from '@orangehrm/core/util/composable/usePaginate';
+import useLeaveActions from '@/orangehrmLeavePlugin/util/composable/useLeaveActions';
 import LeaveCommentsModal from '@/orangehrmLeavePlugin/components/LeaveCommentsModal';
 
 const leaveRequestNormalizer = data => {
   return data.map(item => {
     return {
       id: item.id,
-      date: `${item.fromDate} to ${item.toDate}`,
-      leaveType: item.leaveType.name,
-      leaveBalance: item.leaveBalance,
-      duration: item.hours,
+      date: item.dates.fromDate,
+      leaveType:
+        item.leaveType?.name + `${item.leaveType?.deleted ? ' (Deleted)' : ''}`,
+      leaveBalance: item.leaveBalance?.balance.balance,
+      duration: parseFloat(item.lengthHours).toFixed(2),
       status: item.leaveStatus?.name,
-      comment: item.comment,
+      comment: item.lastComment?.comment,
+      actions: item.allowedActions,
+      canComment: !(item.leaveStatus?.id === 5 || item.leaveStatus?.id === 4),
     };
   });
 };
@@ -126,6 +130,10 @@ export default {
       type: String,
       required: true,
     },
+    myLeaveRequest: {
+      type: Boolean,
+      default: false,
+    },
   },
 
   data() {
@@ -141,36 +149,9 @@ export default {
           name: 'action',
           slot: 'footer',
           title: 'Actions',
-          style: {flex: '20%'},
           cellType: 'oxd-table-cell-actions',
-          cellConfig: {
-            accept: {
-              component: 'oxd-button',
-              props: {
-                label: 'Approve',
-                displayType: 'label',
-                size: 'medium',
-              },
-            },
-            reject: {
-              component: 'oxd-button',
-              props: {
-                label: 'Reject',
-                displayType: 'label-danger',
-                size: 'medium',
-              },
-            },
-            more: {
-              component: 'oxd-table-dropdown',
-              onClick: this.onLeaveRequestAction,
-              props: {
-                options: [
-                  {label: 'Add Comment', context: 'add_comment'},
-                  {label: 'Cancel Leave', context: 'cancel_leave'},
-                ],
-              },
-            },
-          },
+          cellRenderer: this.cellRenderer,
+          style: {flex: '20%'},
         },
       ],
       showCommentModal: false,
@@ -181,10 +162,12 @@ export default {
 
   setup(props) {
     const http = new APIService(
-      // window.appGlobal.baseUrl,
-      'https://884b404a-f4d0-4908-9eb5-ef0c8afec15c.mock.pstmn.io',
-      `api/v2/leave/leave-request/${props.leaveRequestId}`,
+      window.appGlobal.baseUrl,
+      `api/v2/leave/leave-requests/${props.leaveRequestId}/leaves`,
     );
+
+    const {leaveActions, processLeaveAction} = useLeaveActions(http);
+
     const {
       showPaginator,
       currentPage,
@@ -206,37 +189,94 @@ export default {
       pageSize,
       execQuery,
       response,
+      leaveActions,
+      processLeaveAction,
     };
   },
 
   methods: {
-    onClickBack() {
-      navigate('/leave/viewLeaveList');
-    },
-    onLeaveRequestAction(item, event) {
-      if (event.context === 'cancel_leave') {
-        this.onLeaveCancel();
-      } else {
-        this.commentModalState = item.id;
-        this.isLeaveRequest = false;
-        this.showCommentModal = true;
+    cellRenderer(...[, , , row]) {
+      const cellConfig = {};
+      const dropdownActions = [];
+      const {approve, reject, cancel, more} = this.leaveActions;
+
+      if (row.canComment) {
+        dropdownActions.push({
+          label: 'Add Comment',
+          context: 'add_comment',
+        });
       }
+
+      row.actions.map(item => {
+        if (item.action === 'APPROVE') {
+          approve.props.onClick = () => this.onLeaveAction(row.id, 'APPROVE');
+          cellConfig.approve = approve;
+        }
+        if (item.action === 'REJECT') {
+          reject.props.onClick = () => this.onLeaveAction(row.id, 'REJECT');
+          cellConfig.reject = reject;
+        }
+        if (item.action === 'CANCEL') {
+          if (this.myLeaveRequest) {
+            cancel.props.onClick = () => this.onLeaveAction(row.id, 'CANCEL');
+            cellConfig.cancel = cancel;
+          } else {
+            dropdownActions.push({
+              label: 'Cancel Leave',
+              context: 'cancel_leave',
+            });
+          }
+        }
+      });
+
+      if (dropdownActions.length > 0) {
+        more.props.options = dropdownActions;
+        more.props.onClick = $event => this.onLeaveDropdownAction($event, row);
+        cellConfig.more = more;
+      }
+
+      return {
+        props: {
+          header: {
+            cellConfig,
+          },
+        },
+      };
     },
     onClickComments() {
       this.commentModalState = this.leaveRequestId;
       this.isLeaveRequest = true;
       this.showCommentModal = true;
     },
-    async resetDataTable() {
-      await this.execQuery();
-    },
     onCommentModalClose() {
       this.commentModalState = null;
       this.showCommentModal = false;
       this.resetDataTable();
     },
-    onLeaveCancel() {
-      // do nothing.
+    onLeaveDropdownAction(event, item) {
+      if (event.context === 'cancel_leave') {
+        this.onLeaveAction(item.id, 'CANCEL');
+      } else {
+        this.commentModalState = item.id;
+        this.isLeaveRequest = false;
+        this.showCommentModal = true;
+      }
+    },
+    onLeaveAction(id, actionType) {
+      this.isLoading = true;
+      this.processLeaveAction(id, actionType)
+        .then(() => {
+          this.$toast.updateSuccess();
+        })
+        .finally(this.resetDataTable);
+    },
+    onClickBack() {
+      this.myLeaveRequest
+        ? navigate('/leave/viewMyLeaveList')
+        : navigate('/leave/viewLeaveList');
+    },
+    async resetDataTable() {
+      await this.execQuery();
     },
   },
 
@@ -246,10 +286,9 @@ export default {
       return employee ? `${employee.firstName} ${employee.lastName}` : '';
     },
     leavePeriod() {
-      const leavePeriod = this.response?.meta?.leavePeriod;
-      return leavePeriod
-        ? `${leavePeriod.startDate} - ${leavePeriod.endDate}`
-        : '';
+      const startDate = this.response?.meta?.startDate;
+      const endDate = this.response?.meta?.endDate;
+      return startDate === endDate ? startDate : `${startDate} - ${endDate}`;
     },
   },
 };
@@ -267,8 +306,5 @@ export default {
   .oxd-table-cell-actions {
     justify-content: flex-end;
   }
-}
-::v-deep(.oxd-table-cell-actions) {
-  align-items: center;
 }
 </style>

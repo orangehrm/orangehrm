@@ -32,13 +32,20 @@
 
       <oxd-divider />
 
-      <oxd-form :loading="isLoading" @submitValid="onSave">
+      <oxd-text v-if="!isLoading && leaveTypes.length === 0" type="subtitle-2">
+        {{ $t('leave.no_leave_types_with_leave_balance') }}
+      </oxd-text>
+
+      <oxd-form v-else :loading="isLoading" @submitValid="onSave">
         <oxd-form-row>
           <oxd-grid :cols="2" class="orangehrm-full-width-grid">
             <oxd-grid-item>
-              <leave-type-dropdown
+              <oxd-input-field
+                type="select"
                 v-model="leave.type"
                 :rules="rules.type"
+                :options="leaveTypes"
+                :label="$t('leave.leave_type')"
                 required
               />
             </oxd-grid-item>
@@ -161,7 +168,6 @@ import {
 import {yearRange} from '@orangehrm/core/util/helper/year-range';
 import {diffInDays} from '@orangehrm/core/util/helper/datefns';
 import {APIService} from '@orangehrm/core/util/services/api.service';
-import LeaveTypeDropdown from '@/orangehrmLeavePlugin/components/LeaveTypeDropdown';
 import LeaveDurationInput from '@/orangehrmLeavePlugin/components/LeaveDurationInput';
 import LeaveBalance from '@/orangehrmLeavePlugin/components/LeaveBalance';
 import LeaveConflict from '@/orangehrmLeavePlugin/components/LeaveConflict';
@@ -188,7 +194,6 @@ export default {
   name: 'leave-apply',
 
   components: {
-    'leave-type-dropdown': LeaveTypeDropdown,
     'leave-duration-input': LeaveDurationInput,
     'leave-balance': LeaveBalance,
     'leave-conflict': LeaveConflict,
@@ -239,45 +244,51 @@ export default {
       isWorkShiftExceeded: false,
       leaveConflictData: null,
       yearsArray: [...yearRange()],
+      leaveTypes: [],
     };
   },
 
   methods: {
     onSave() {
       this.isLoading = true;
-      this.showLeaveConflict = false;
       const payload = {
         leaveTypeId: this.leave.type?.id,
         fromDate: this.leave.fromDate,
         toDate: this.leave.toDate,
         comment: this.leave.comment ? this.leave.comment : null,
-        duration: {
-          type: this.leave.duration.type?.key,
-          fromTime:
-            this.leave.duration.type?.id === 4
-              ? this.leave.duration.fromTime
-              : null,
-          toTime:
-            this.leave.duration.type?.id === 4
-              ? this.leave.duration.toTime
-              : null,
-        },
-        partialOption: 'none',
-        endDuration: null,
       };
-      if (this.leave.partialOptions?.id) {
-        payload.partialOption = this.leave.partialOptions.key;
-        payload.endDuration = {
-          type: this.leave.endDuration.type?.key,
-          fromTime:
-            this.leave.endDuration.type?.id === 4
-              ? this.leave.endDuration.fromTime
-              : null,
-          toTime:
-            this.leave.endDuration.type?.id === 4
-              ? this.leave.endDuration.toTime
-              : null,
+
+      if (this.leave.duration.type) {
+        const duration = {
+          type: this.leave.duration.type?.key,
         };
+        if (duration.type === 'specify_time') {
+          if (this.leave.duration.fromTime) {
+            duration.fromTime = this.leave.duration.fromTime;
+          }
+          if (this.leave.duration.toTime) {
+            duration.toTime = this.leave.duration.toTime;
+          }
+        }
+        payload.duration = duration;
+      }
+
+      if (this.appliedLeaveDuration > 1 && this.leave.partialOptions) {
+        payload.partialOption = this.leave.partialOptions?.key;
+        if (payload.partialOption === 'start_end') {
+          if (this.leave.endDuration.type) {
+            const endDuration = {
+              type: this.leave.endDuration.type?.key,
+            };
+            if (this.leave.endDuration.fromTime) {
+              endDuration.fromTime = this.leave.endDuration.fromTime;
+            }
+            if (this.leave.endDuration.toTime) {
+              endDuration.toTime = this.leave.endDuration.toTime;
+            }
+            payload.endDuration = endDuration;
+          }
+        }
       }
 
       this.checkLeaveOverlap(payload)
@@ -290,6 +301,7 @@ export default {
             data.length === 0 &&
             !meta.isWorkShiftLengthExceeded
           ) {
+            this.showLeaveConflict = false;
             return this.http.create(payload);
           } else {
             this.showLeaveConflict = true;
@@ -300,7 +312,13 @@ export default {
           this.$toast.saveSuccess();
           this.leave = {...leaveModel};
         })
-        .catch(e => void e)
+        .catch(() => {
+          this.showLeaveConflict &&
+            this.$toast.warn({
+              title: 'Warning',
+              message: 'Failed to Submit',
+            });
+        })
         .finally(() => {
           this.isLoading = false;
         });
@@ -348,6 +366,41 @@ export default {
       const id = this.leave.partialOptions?.id;
       return id && (id === 3 || id === 4);
     },
+  },
+
+  watch: {
+    appliedLeaveDuration: function(duration) {
+      if (duration === 1) {
+        this.leave.duration.type = {id: 1, label: 'Full Day', key: 'full_day'};
+      } else {
+        this.leave.duration.type = null;
+      }
+    },
+    'leave.fromDate': function(fromDate) {
+      if (!fromDate || this.leave.toDate) return;
+      this.leave.toDate = fromDate;
+    },
+  },
+
+  beforeMount() {
+    this.isLoading = true;
+    this.http
+      .request({
+        method: 'GET',
+        url: 'api/v2/leave/leave-types/eligible',
+      })
+      .then(response => {
+        const {data} = response.data;
+        this.leaveTypes = data.map(item => {
+          return {
+            id: item.id,
+            label: item.name,
+          };
+        });
+      })
+      .finally(() => {
+        this.isLoading = false;
+      });
   },
 };
 </script>

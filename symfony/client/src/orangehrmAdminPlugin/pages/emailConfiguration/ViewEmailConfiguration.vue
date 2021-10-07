@@ -37,22 +37,27 @@
               />
             </oxd-grid-item>
             <oxd-grid-item>
-              <oxd-input-group
-                label="Sending Method"
-                :classes="{wrapper: '--status-grouped-field'}"
-              >
-                <oxd-input-field
-                  type="radio"
-                  v-model="emailConfiguration.mailType"
-                  optionLabel="Sendmail"
-                  value="sendmail"
-                />
-                <oxd-input-field
-                  type="radio"
-                  v-model="emailConfiguration.mailType"
-                  optionLabel="SMTP"
-                  value="smtp"
-                />
+              <oxd-input-group label="Sending Method">
+                <div class="send-method-div">
+                  <oxd-input-field
+                    type="radio"
+                    v-model="emailConfiguration.mailType"
+                    optionLabel="SECURE SMTP"
+                    value="smtps"
+                  />
+                  <oxd-input-field
+                    type="radio"
+                    v-model="emailConfiguration.mailType"
+                    optionLabel="SMTP"
+                    value="smtp"
+                  />
+                  <oxd-input-field
+                    type="radio"
+                    v-model="emailConfiguration.mailType"
+                    optionLabel="Sendmail"
+                    value="sendmail"
+                  />
+                </div>
               </oxd-input-group>
             </oxd-grid-item>
           </oxd-grid>
@@ -68,7 +73,7 @@
             </oxd-grid-item>
           </oxd-grid>
         </oxd-form-row>
-        <oxd-form-row v-if="emailConfiguration.mailType === 'smtp'">
+        <oxd-form-row v-if="emailConfiguration.mailType !== 'sendmail'">
           <oxd-grid :cols="2" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <oxd-input-field
@@ -87,7 +92,7 @@
             </oxd-grid-item>
           </oxd-grid>
         </oxd-form-row>
-        <oxd-form-row v-if="emailConfiguration.mailType === 'smtp'">
+        <oxd-form-row v-if="emailConfiguration.mailType !== 'sendmail'">
           <oxd-grid :cols="2" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <oxd-input-group
@@ -112,7 +117,7 @@
         </oxd-form-row>
         <oxd-form-row
           v-if="
-            emailConfiguration.mailType === 'smtp' &&
+            emailConfiguration.mailType !== 'sendmail' &&
               emailConfiguration.smtpAuthType === 'login'
           "
         >
@@ -136,47 +141,38 @@
             </oxd-grid-item>
           </oxd-grid>
         </oxd-form-row>
-        <oxd-form-row v-if="emailConfiguration.mailType === 'smtp'">
+        <oxd-form-row v-if="emailConfiguration.mailType !== 'sendmail'">
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
-            <div class="orangehrm-optional-field-row">
-              <oxd-text tag="p" class="orangehrm-optional-field-label">
-                User Secure Connection
-              </oxd-text>
-              <oxd-switch-input v-model="userSecureConnection" />
-            </div>
+            <oxd-grid-item class="organization-name-container">
+              <div class="orangehrm-optional-field-row">
+                <oxd-text tag="p" class="orangehrm-optional-field-label">
+                  TLS
+                </oxd-text>
+                <oxd-switch-input v-model="useTLSSecureConnection" />
+              </div>
+            </oxd-grid-item>
           </oxd-grid>
         </oxd-form-row>
-        <oxd-form-row
-          v-if="emailConfiguration.mailType === 'smtp' && userSecureConnection"
-        >
-          <oxd-grid :cols="2" class="orangehrm-full-width-grid">
-            <oxd-grid-item>
-              <oxd-input-group :classes="{wrapper: '--status-grouped-field'}">
-                <oxd-input-field
-                  type="radio"
-                  v-model="emailConfiguration.smtpSecurityType"
-                  optionLabel="SSL"
-                  value="ssl"
-                />
-                <oxd-input-field
-                  type="radio"
-                  v-model="emailConfiguration.smtpSecurityType"
-                  optionLabel="TLS"
-                  value="tls"
-                />
-              </oxd-input-group>
+        <oxd-form-row v-if="emailConfiguration.mailType !== 'sendmail'">
+          <oxd-grid :cols="1" class="orangehrm-full-width-grid">
+            <oxd-grid-item class="organization-name-container">
+              <oxd-text tag="p" class="tls-hint">
+                Optional - the mail server requires the use of TLS security.
+              </oxd-text>
             </oxd-grid-item>
           </oxd-grid>
         </oxd-form-row>
 
         <oxd-form-row>
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
-            <div class="orangehrm-optional-field-row">
-              <oxd-text tag="p" class="orangehrm-optional-field-label">
-                Send Test Mail
-              </oxd-text>
-              <oxd-switch-input v-model="sendTestMailEditable" />
-            </div>
+            <oxd-grid-item class="organization-name-container">
+              <div class="orangehrm-optional-field-row">
+                <oxd-text tag="p" class="orangehrm-optional-field-label">
+                  Send Test Mail
+                </oxd-text>
+                <oxd-switch-input v-model="sendTestMailEditable" />
+              </div>
+            </oxd-grid-item>
           </oxd-grid>
         </oxd-form-row>
         <oxd-form-row v-if="sendTestMailEditable">
@@ -238,9 +234,9 @@ export default {
   data() {
     return {
       defaultValues: {
-        smtpSecurityType: 'ssl',
+        smtpSecurityType: 'tls',
       },
-      userSecureConnection: true,
+      useTLSSecureConnection: true,
       sendTestMailEditable: false,
       isLoading: false,
       emailConfiguration: {
@@ -257,7 +253,7 @@ export default {
       },
       initialEmailConfiguration: {
         ...this.emailConfiguration,
-        userSecureConnection: false,
+        useTLSSecureConnection: false,
       },
       rules: {
         mailType: [required, shouldNotExceedCharLength(50)],
@@ -294,9 +290,7 @@ export default {
                 : '',
             smtpPassword: this.emailConfiguration.smtpPassword,
             smtpAuthType: this.emailConfiguration.smtpAuthType,
-            smtpSecurityType: this.userSecureConnection
-              ? this.emailConfiguration.smtpSecurityType
-              : 'none',
+            smtpSecurityType: this.useTLSSecureConnection ? 'tls' : 'none',
             testEmailAddress: this.emailConfiguration.testEmailAddress,
           },
         })
@@ -321,7 +315,7 @@ export default {
     },
     onReset() {
       this.emailConfiguration = {...this.initialEmailConfiguration};
-      this.userSecureConnection = this.initialEmailConfiguration.userSecureConnection;
+      this.useTLSSecureConnection = this.initialEmailConfiguration.useTLSSecureConnection;
     },
   },
   created() {
@@ -340,15 +334,11 @@ export default {
         this.emailConfiguration.smtpUsername = data.smtpUsername;
         this.emailConfiguration.smtpPassword = data.smtpPassword;
         this.emailConfiguration.smtpAuthType = data.smtpAuthType;
-        this.emailConfiguration.smtpSecurityType =
-          data.smtpSecurityType === 'none'
-            ? this.defaultValues.smtpSecurityType
-            : data.smtpSecurityType;
         this.emailConfiguration.testEmailAddress = data.testEmailAddress;
-        this.userSecureConnection = data.smtpSecurityType !== 'none';
+        this.useTLSSecureConnection = data.smtpSecurityType === 'tls';
         this.initialEmailConfiguration = {
           ...this.emailConfiguration,
-          userSecureConnection: this.userSecureConnection,
+          useTLSSecureConnection: this.useTLSSecureConnection,
         };
       })
       .finally(() => {

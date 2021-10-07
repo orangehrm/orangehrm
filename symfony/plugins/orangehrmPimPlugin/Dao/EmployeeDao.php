@@ -123,7 +123,7 @@ class EmployeeDao extends BaseDao
         }
 
         if (!is_null($employeeSearchParamHolder->getEmployeeId())) {
-            $q->andWhere($q->expr()->in('employee.employeeId', ':employeeId'))
+            $q->andWhere('employee.employeeId = :employeeId')
                 ->setParameter('employeeId', $employeeSearchParamHolder->getEmployeeId());
         }
 
@@ -133,17 +133,17 @@ class EmployeeDao extends BaseDao
         }
 
         if (!is_null($employeeSearchParamHolder->getLocationId())) {
-            $q->andWhere($q->expr()->in('location.id', ':locationId'))
+            $q->andWhere('location.id = :locationId')
                 ->setParameter('locationId', $employeeSearchParamHolder->getLocationId());
         }
 
         if (!is_null($employeeSearchParamHolder->getEmpStatusId())) {
-            $q->andWhere($q->expr()->in('empStatus.id', ':empStatusId'))
+            $q->andWhere('empStatus.id = :empStatusId')
                 ->setParameter('empStatusId', $employeeSearchParamHolder->getEmpStatusId());
         }
 
         if (!is_null($employeeSearchParamHolder->getJobTitleId())) {
-            $q->andWhere($q->expr()->in('jobTitle.id', ':jobTitleId'))
+            $q->andWhere('jobTitle.id = :jobTitleId')
                 ->setParameter('jobTitleId', $employeeSearchParamHolder->getJobTitleId());
         }
 
@@ -406,5 +406,25 @@ class EmployeeDao extends BaseDao
             ->setParameter('empNumber', $empNumber);
 
         return $this->fetchOne($q);
+    }
+
+    /**
+     * @return Employee[]
+     */
+    public function getAvailableEmployeeListForWorkShift(EmployeeSearchFilterParams $employeeSearchParamHolder): array
+    {
+        $q = $this->getEmployeeListQueryBuilderWrapper($employeeSearchParamHolder)->getQueryBuilder();
+        $q->leftJoin('employee.employeeWorkShift', 'ew');
+        $q->andWhere($q->expr()->isNull('ew.employee'));
+        return $q->getQuery()->execute();
+    }
+
+    /**
+     * @return array|null
+     */
+    public function getEmailList(): ?array {
+        $q = $this->createQueryBuilder(Employee::class, 'e');
+        $q->select('e.workEmail, e.otherEmail');
+        return  $q->getQuery()->getArrayResult();
     }
 }

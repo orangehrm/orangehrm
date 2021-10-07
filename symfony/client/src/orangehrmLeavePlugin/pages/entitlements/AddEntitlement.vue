@@ -57,6 +57,9 @@
             <oxd-grid-item>
               <employee-autocomplete
                 v-model="leaveEntitlement.employee"
+                :params="{
+                  includeEmployees: 'currentAndPast',
+                }"
                 :rules="rules.employee"
                 required
               />
@@ -94,6 +97,7 @@
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <leave-type-dropdown
+                :empty-text="$t('leave.no_leave_types_defined')"
                 v-model="leaveEntitlement.leaveType"
                 :rules="rules.leaveType"
                 :eligible-only="false"
@@ -295,28 +299,30 @@ export default {
           }
         });
     },
+    async fetchEmployeeCount() {
+      this.http
+        .request({
+          method: 'GET',
+          url: 'api/v2/pim/employees/count',
+          params: {
+            locationId: this.leaveEntitlement.location?.id,
+            subunitId: this.leaveEntitlement.subunit?.id,
+          },
+        })
+        .then(response => {
+          const {data} = response.data;
+          this.empMatchCount = parseInt(data.count);
+        });
+    },
   },
 
   watch: {
-    leaveEntitlement: {
-      handler(data) {
-        if (data.bulkAssign != 1) return;
-        this.http
-          .request({
-            method: 'GET',
-            url: 'api/v2/pim/employees/count',
-            params: {
-              locationId: data.location?.id,
-              subunitId: data.subunit?.id,
-            },
-          })
-          .then(response => {
-            const {data} = response.data;
-            this.empMatchCount = parseInt(data.count);
-          });
-      },
-      deep: true,
-    },
+    'leaveEntitlement.location': 'fetchEmployeeCount',
+    'leaveEntitlement.subunit': 'fetchEmployeeCount',
+  },
+
+  beforeMount() {
+    this.fetchEmployeeCount();
   },
 };
 </script>

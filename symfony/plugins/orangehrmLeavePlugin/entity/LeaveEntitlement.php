@@ -20,6 +20,8 @@
 namespace OrangeHRM\Entity;
 
 use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use OrangeHRM\Entity\Decorator\DecoratorTrait;
 use OrangeHRM\Entity\Decorator\LeaveEntitlementDecorator;
@@ -70,7 +72,7 @@ class LeaveEntitlement
     /**
      * @var LeaveType
      *
-     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\LeaveType")
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\LeaveType", inversedBy="leaveEntitlement")
      * @ORM\JoinColumn(name="leave_type_id", referencedColumnName="id")
      */
     private LeaveType $leaveType;
@@ -125,6 +127,18 @@ class LeaveEntitlement
      * @ORM\JoinColumn(name="created_by_id", referencedColumnName="id")
      */
     private User $createdBy;
+
+    /**
+     * @var Collection|LeaveLeaveEntitlement[]
+     *
+     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\LeaveLeaveEntitlement", mappedBy="entitlement")
+     */
+    private iterable $leaveLeaveEntitlements;
+
+    public function __construct()
+    {
+        $this->leaveLeaveEntitlements = new ArrayCollection();
+    }
 
     /**
      * @return int

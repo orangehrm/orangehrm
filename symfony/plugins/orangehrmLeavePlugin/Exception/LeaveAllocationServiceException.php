@@ -60,6 +60,6 @@ class LeaveAllocationServiceException extends Exception
      */
     public static function noWorkingDaysSelected(): self
     {
-        return new self('No Working Days in Leave Request');
+        return new self('Failed to Submit: No Working Days Selected');
     }
 }

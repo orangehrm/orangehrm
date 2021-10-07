@@ -20,6 +20,7 @@
 namespace OrangeHRM\Tests\Leave\Dao;
 
 use DateTime;
+use Generator;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\LeaveEntitlement;
@@ -28,7 +29,9 @@ use OrangeHRM\Entity\LeaveType;
 use OrangeHRM\Entity\User;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Leave\Dao\LeaveEntitlementDao;
+use OrangeHRM\Leave\Dto\EmployeeLeaveEntitlementUsageReportSearchFilterParams;
 use OrangeHRM\Leave\Dto\LeaveEntitlementSearchFilterParams;
+use OrangeHRM\Leave\Dto\LeaveWithDaysLeft;
 use OrangeHRM\Leave\Service\LeaveConfigurationService;
 use OrangeHRM\ORM\ListSorter;
 use OrangeHRM\Tests\Util\KernelTestCase;
@@ -52,8 +55,13 @@ class LeaveEntitlementDaoTest extends KernelTestCase
     protected function setUp(): void
     {
         $this->dao = new LeaveEntitlementDao();
-        $this->fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmLeavePlugin/test/fixtures/LeaveEntitlement.yml';
+        $this->fixture = $this->getFixturePath();
         TestDataService::populate($this->fixture);
+    }
+
+    private function getFixturePath(): string
+    {
+        return Config::get(Config::PLUGINS_DIR) . '/orangehrmLeavePlugin/test/fixtures/LeaveEntitlement.yml';
     }
 
     public function testSearchLeaveEntitlementsWithNoFilters(): void
@@ -65,16 +73,17 @@ class LeaveEntitlementDaoTest extends KernelTestCase
             $entitlementList[2],
             $entitlementList[3],
             $entitlementList[5],
-            $entitlementList[1]
+            $entitlementList[1],
+            $entitlementList[6],
         ];
         $results = $this->dao->getLeaveEntitlements($parameterHolder);
         $this->_compareEntitlements($expected, $results);
 
         $total = $this->dao->getLeaveEntitlementsCount($parameterHolder);
-        $this->assertEquals(5, $total);
+        $this->assertEquals(6, $total);
 
         $sum = $this->dao->getLeaveEntitlementsSum($parameterHolder);
-        $this->assertEquals(15, $sum);
+        $this->assertEquals(20, $sum);
     }
 
     public function testSearchLeaveEntitlementsSorting(): void
@@ -90,8 +99,9 @@ class LeaveEntitlementDaoTest extends KernelTestCase
             $entitlementList[1],
             $entitlementList[2],
             $entitlementList[3],
+            $entitlementList[6],
             $entitlementList[0],
-            $entitlementList[5]
+            $entitlementList[5],
         ];
         $results = $this->dao->getLeaveEntitlements($parameterHolder);
         $this->_compareEntitlements($expected, $results);
@@ -142,18 +152,18 @@ class LeaveEntitlementDaoTest extends KernelTestCase
 
         $parameterHolder = new LeaveEntitlementSearchFilterParams();
         $parameterHolder->setEmpNumbers([5, 7]); // 5 is deleted
-        $expected = [$entitlementList[5]];
+        $expected = [$entitlementList[5], $entitlementList[6]];
         $results = $this->dao->getLeaveEntitlements($parameterHolder);
         $this->_compareEntitlements($expected, $results);
 
         $parameterHolder = new LeaveEntitlementSearchFilterParams();
         $parameterHolder->setEmpNumbers([2, 7]);
-        $expected = [$entitlementList[5], $entitlementList[1]];
+        $expected = [$entitlementList[5], $entitlementList[1], $entitlementList[6]];
         $results = $this->dao->getLeaveEntitlements($parameterHolder);
         $this->_compareEntitlements($expected, $results);
 
         $total = $this->dao->getLeaveEntitlementsCount($parameterHolder);
-        $this->assertEquals(2, $total);
+        $this->assertEquals(3, $total);
     }
 
     public function testSearchLeaveEntitlementsByLeaveType(): void
@@ -458,33 +468,33 @@ class LeaveEntitlementDaoTest extends KernelTestCase
             [3, 4],
             [
                 Leave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL,
-                      Leave::LEAVE_STATUS_LEAVE_REJECTED
+                Leave::LEAVE_STATUS_LEAVE_REJECTED
             ]
         );
-        
+
         $this->assertEquals(0, count($requests));
-        
+
         $requests = $this->dao->getLinkedLeaveRequests(
             [1, 2, 3, 4, 5],
             [
                 Leave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL,
-                      Leave::LEAVE_STATUS_LEAVE_REJECTED
+                Leave::LEAVE_STATUS_LEAVE_REJECTED
             ]
         );
-        $this->assertEquals(5, count($requests));      
+        $this->assertEquals(5, count($requests));
         $this->assertEquals(1, $requests[0]->getId());
         $this->assertEquals(2, $requests[1]->getId());
         $this->assertEquals(3, $requests[2]->getId());
         $this->assertEquals(4, $requests[3]->getId());
         $this->assertEquals(5, $requests[4]->getId());
-        
+
         $requests = $this->dao->getLinkedLeaveRequests(
             [1, 2, 3, 4, 5],
             [Leave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL]
         );
         $this->assertEquals(2, count($requests));
         $this->assertEquals(1, $requests[0]->getId());
-        $this->assertEquals(2, $requests[1]->getId());        
+        $this->assertEquals(2, $requests[1]->getId());
     }
 
     public function testMatchingEntitlementsNoMatches(): void
@@ -596,7 +606,7 @@ class LeaveEntitlementDaoTest extends KernelTestCase
             $this->assertEquals(false, $entitlement->isDeleted(), 'id=' . $id);
         }
     }
-    
+
     public function testBulkAssignLeaveEntitlements():void {
         $empList = [1,2,3];
 
@@ -611,28 +621,28 @@ class LeaveEntitlementDaoTest extends KernelTestCase
         $leaveEntitlement->setCreatedBy($this->getEntityReference(User::class,1));
 
         $this->createKernelWithMockServices([
-            Services::LEAVE_CONFIG_SERVICE =>new LeaveConfigurationService(),
+                                                Services::LEAVE_CONFIG_SERVICE =>new LeaveConfigurationService(),
                                             ]);
         $result = $this->dao->bulkAssignLeaveEntitlements($empList, $leaveEntitlement);
-       
-       
+
+
         $this->assertEquals(count($empList),3);
-        
-        
+
+
         $result = $this->dao->bulkAssignLeaveEntitlements($empList, $leaveEntitlement);
         $leaveEntitlement->setNoOfDays(1);
-        
+
         list($leaveEntitlements, $count) = $this->dao->bulkAssignLeaveEntitlements($empList, $leaveEntitlement);
-       
-       
+
+
         $this->assertEquals(count($empList),$count);
-       
+
     }
-    
+
     public function xtestBulkAssignLeaveEntitlementsLinkingOfUnlinkedLeave() {
         // TODO
         $empList = [7];
-             
+
         $leaveEntitlement = new LeaveEntitlement();
         $leaveEntitlement->setLeaveTypeId(1);
         $leaveEntitlement->setCreditedDate(date('Y-m-d'));
@@ -642,20 +652,153 @@ class LeaveEntitlementDaoTest extends KernelTestCase
         $leaveEntitlement->setFromDate('2014-01-01');
         $leaveEntitlement->setToDate('2014-12-31');
 
-        $result = $this->dao->bulkAssignLeaveEntitlements($empList, $leaveEntitlement);              
+        $result = $this->dao->bulkAssignLeaveEntitlements($empList, $leaveEntitlement);
         $this->assertEquals(count($empList), $result);
-        
+
         // verify unlinked leave is now linked
         $conn = Doctrine_Manager::connection()->getDbh();
         $statement = $conn->prepare('SELECT * FROM ohrm_leave_leave_entitlement e WHERE e.leave_id = ?');
         $leaveIds = [11, 12];
-        
+
         foreach ($leaveIds as $leaveId) {
             $this->assertTrue($statement->execute([$leaveId]));
             $results = $statement->fetchAll();
             $this->assertEquals(1, count($results));
             $this->assertEquals($leaveId, $results[0]['leave_id']);
             $this->assertEquals(1, $results[0]['length_days']);
-        }    
+        }
+    }
+
+    /**
+     * @dataProvider dataProviderForGetEntitlementUsageForLeave
+     */
+    public function testGetEntitlementUsageForLeave(
+        int $leaveId,
+        array $leaveLeaveEntitlements,
+        array $expectedDaysUsed,
+        array $expectedNoOfDays
+    ): void {
+        $result = $this->dao->getEntitlementUsageForLeave($leaveId);
+        $this->assertCount(count($leaveLeaveEntitlements), $result);
+        foreach ($leaveLeaveEntitlements as $i => $leaveLeaveEntitlement) {
+            $this->assertEquals($leaveLeaveEntitlement->getLengthDays(), $result[$i]->getLengthDays());
+            $this->assertEquals($expectedDaysUsed[$i], $result[$i]->getDaysUsed());
+            $this->assertEquals($expectedNoOfDays[$i], $result[$i]->getNoOfDays());
+        }
+    }
+
+    public function dataProviderForGetEntitlementUsageForLeave(): Generator
+    {
+        $leaveLeaveEntitlements = TestDataService::loadObjectList(
+            'LeaveLeaveEntitlement',
+            $this->getFixturePath(),
+            'LeaveLeaveEntitlement'
+        );
+        yield [1, [$leaveLeaveEntitlements[0], $leaveLeaveEntitlements[1]], [0, 1], [3, 4]];
+        yield [5, [$leaveLeaveEntitlements[5]], [0], [3]];
+        yield [7, [$leaveLeaveEntitlements[6]], [0], [3]];
+        yield [8, [$leaveLeaveEntitlements[7]], [2], [5]];
+
+        // check with deleted entitlement
+        yield [2, [], [], []];
+    }
+
+    /**
+     * @dataProvider dataProviderForGetLeaveWithoutEntitlements
+     */
+    public function testGetLeaveWithoutEntitlements(
+        array $empNumbers,
+        int $leaveTypeId,
+        DateTime $fromDate,
+        DateTime $toDate,
+        array $expected
+    ): void {
+        $result = $this->dao->getLeaveWithoutEntitlements($empNumbers, $leaveTypeId, $fromDate, $toDate);
+        $this->assertCount(count($expected), $result);
+        foreach ($expected as $i => $leaveLeaveEntitlement) {
+            $this->assertEquals($leaveLeaveEntitlement, $result[$i]);
+        }
+    }
+
+    public function dataProviderForGetLeaveWithoutEntitlements(): Generator
+    {
+        yield [[1], 1, new DateTime('2010-01-01'), new DateTime('2010-12-31'), []];
+        yield [[1], 1, new DateTime('2011-01-01'), new DateTime('2011-12-31'), []];
+        yield [[1], 1, new DateTime('2012-01-01'), new DateTime('2012-12-31'), []];
+        yield [[1], 1, new DateTime('2013-01-01'), new DateTime('2013-12-31'), []];
+        yield [[1], 1, new DateTime('2014-01-01'), new DateTime('2014-12-31'), []];
+
+        yield [[], 1, new DateTime('2014-01-01'), new DateTime('2014-12-31'), []];
+
+        yield [[7], 1, new DateTime('2010-01-01'), new DateTime('2010-12-31'), []];
+        yield [[7], 1, new DateTime('2011-01-01'), new DateTime('2011-12-31'), []];
+        yield [
+            [7],
+            1,
+            new DateTime('2012-01-01'),
+            new DateTime('2012-12-31'),
+            [new LeaveWithDaysLeft(10, new DateTime('2012-08-21'), 8, 1, 2, 1, 7, 1)]
+        ];
+        yield [
+            [7],
+            1,
+            new DateTime('2013-01-01'),
+            new DateTime('2013-12-31'),
+            [new LeaveWithDaysLeft(13, new DateTime('2013-03-05'), 8, 1, 2, 1, 7, 1)]
+        ];
+        yield [
+            [7],
+            1,
+            new DateTime('2014-01-01'),
+            new DateTime('2014-12-31'),
+            [
+                new LeaveWithDaysLeft(11, new DateTime('2014-01-03'), 8, 1, 2, 1, 7, 1),
+                new LeaveWithDaysLeft(12, new DateTime('2014-01-04'), 8, 1, 2, 1, 7, 1)
+            ]
+        ];
+
+        // multiple employees
+        yield [
+            [7, 1],
+            1,
+            new DateTime('2012-01-01'),
+            new DateTime('2012-12-31'),
+            [new LeaveWithDaysLeft(10, new DateTime('2012-08-21'), 8, 1, 2, 1, 7, 1)]
+        ];
+    }
+
+
+    public function testGetLeaveTypesForEntitlementUsageReport(): void
+    {
+        $filterParams = new EmployeeLeaveEntitlementUsageReportSearchFilterParams();
+        $filterParams->setEmpNumber(1);
+        $result = $this->dao->getLeaveTypesForEntitlementUsageReport($filterParams);
+        $this->assertCount(8, $result);
+        $this->assertEquals('Annual', $result[0]->getName());
+        $this->assertEquals('Medical', $result[4]->getName());
+        $this->assertEquals('Wesak', $result[7]->getName());
+        $this->assertEquals(8, $this->dao->getLeaveTypesCountForEntitlementUsageReport($filterParams));
+
+        // situational leave get when employee have entitlement in given leave period
+        $filterParams->setEmpNumber(7);
+        $filterParams->setFromDate(new DateTime('2014-01-01'));
+        $filterParams->setToDate(new DateTime('2014-12-31'));
+        $result = $this->dao->getLeaveTypesForEntitlementUsageReport($filterParams);
+        $this->assertCount(9, $result);
+        $this->assertEquals('Annual', $result[0]->getName());
+        $this->assertEquals('Maternity', $result[4]->getName());
+        $this->assertEquals('Wesak', $result[8]->getName());
+        $this->assertEquals(9, $this->dao->getLeaveTypesCountForEntitlementUsageReport($filterParams));
+
+        // situational leave should not get when employee don't have entitlement in given leave period
+        $filterParams->setEmpNumber(7);
+        $filterParams->setFromDate(new DateTime('2013-01-01'));
+        $filterParams->setToDate(new DateTime('2013-12-31'));
+        $result = $this->dao->getLeaveTypesForEntitlementUsageReport($filterParams);
+        $this->assertCount(8, $result);
+        $this->assertEquals('Annual', $result[0]->getName());
+        $this->assertEquals('Medical', $result[4]->getName());
+        $this->assertEquals('Wesak', $result[7]->getName());
+        $this->assertEquals(8, $this->dao->getLeaveTypesCountForEntitlementUsageReport($filterParams));
     }
 }

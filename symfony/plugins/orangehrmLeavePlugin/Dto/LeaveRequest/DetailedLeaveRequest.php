@@ -20,6 +20,7 @@
 namespace OrangeHRM\Leave\Dto\LeaveRequest;
 
 use DateTime;
+use InvalidArgumentException;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Entity\Leave;
 use OrangeHRM\Entity\LeaveRequest;
@@ -29,6 +30,11 @@ use OrangeHRM\Leave\Dto\LeavePeriod;
 use OrangeHRM\Leave\Traits\Service\LeaveEntitlementServiceTrait;
 use OrangeHRM\Leave\Traits\Service\LeaveRequestServiceTrait;
 
+/**
+ * This class mainly handle leave request related calculations
+ * Leave entities related to this leave request, should add explicitly using DetailedLeaveRequest::addLeave(Leave $leave)
+ * Otherwise use DetailedLeaveRequest::fetchLeaves() to fetch leaves before use any other functions
+ */
 class DetailedLeaveRequest
 {
     use LeaveEntitlementServiceTrait;
@@ -90,7 +96,20 @@ class DetailedLeaveRequest
      */
     private ?array $allowedActions = null;
 
-    private function resetCache(): void
+    /**
+     * @var WorkflowStateMachine[]|null
+     */
+    private ?array $allowedWorkflows = null;
+
+    /**
+     * @param LeaveRequest $leaveRequest
+     */
+    public function __construct(LeaveRequest $leaveRequest)
+    {
+        $this->setLeaveRequest($leaveRequest);
+    }
+
+    private function reset(): void
     {
         $this->sortedLeaves = false;
         $this->noOfDays = null;
@@ -100,6 +119,7 @@ class DetailedLeaveRequest
         $this->firstLeaveOfEachLeavePeriod = null;
         $this->leaveBalances = null;
         $this->allowedActions = null;
+        $this->allowedWorkflows = null;
     }
 
     /**
@@ -115,8 +135,17 @@ class DetailedLeaveRequest
      */
     public function setLeaveRequest(LeaveRequest $leaveRequest): void
     {
-        $this->resetCache();
+        $this->reset();
         $this->leaveRequest = $leaveRequest;
+    }
+
+    /**
+     * Fetch all leaves related to this leave request
+     * By default DetailedLeaveRequest::class not fetching leaves in DetailedLeaveRequest::getLeaves
+     */
+    public function fetchLeaves(): void
+    {
+        $this->setLeaves($this->getLeaveRequest()->getLeaves());
     }
 
     /**
@@ -132,11 +161,26 @@ class DetailedLeaveRequest
     }
 
     /**
+     * @param Leave[] $leaves
+     */
+    public function setLeaves(iterable $leaves): void
+    {
+        $this->leaveDates = [];
+        $this->leaves = [];
+        foreach ($leaves as $leave) {
+            if (!$leave instanceof Leave) {
+                throw new InvalidArgumentException();
+            }
+            $this->addLeave($leave);
+        }
+    }
+
+    /**
      * @param Leave $leave
      */
     public function addLeave(Leave $leave): void
     {
-        $this->resetCache();
+        $this->reset();
         $this->leaveDates[] = $leave->getDate();
         $this->leaves[] = $leave;
     }
@@ -279,6 +323,9 @@ class DetailedLeaveRequest
         return $this->leavePeriods = array_values($leavePeriods);
     }
 
+    /**
+     * @return bool
+     */
     public function hasMultipleStatus(): bool
     {
         return count($this->getLeaveBreakdown()) > 1;
@@ -297,17 +344,71 @@ class DetailedLeaveRequest
         }
         $leaves = $this->getLeaves();
         $leaveStatus = $leaves[0]->getDecorator()->getLeaveStatusName();
-        $allowedWorkflows = $this->getLeaveRequestService()->getLeaveRequestAllowedWorkflows(
-            $this->getLeaveRequest()->getEmployee(),
-            $this->getLeaveRequest()->getLeaveType(),
-            $leaveStatus,
-            $this->getAuthUser()->getEmpNumber()
-        );
+        $allowedWorkflows = $this->getAllowedWorkflows($leaveStatus);
         return $this->allowedActions = array_values(
             array_map(
                 fn(WorkflowStateMachine $workflow) => $workflow->getAction(),
                 $allowedWorkflows
             )
         );
+    }
+
+    /**
+     * @param string $leaveStatus e.g. 'PENDING APPROVAL', 'SCHEDULED', 'TAKEN'
+     * @return WorkflowStateMachine[]
+     */
+    private function getAllowedWorkflows(string $leaveStatus): array
+    {
+        if (is_null($this->allowedWorkflows)) {
+            $this->allowedWorkflows = $this->getLeaveRequestService()->getLeaveRequestAllowedWorkflows(
+                $this->getLeaveRequest()->getEmployee(),
+                $this->getLeaveRequest()->getLeaveType(),
+                $leaveStatus,
+                $this->getAuthUser()->getEmpNumber()
+            );
+        }
+        return $this->allowedWorkflows;
+    }
+
+    /**
+     * @param string $action e.g. 'APPROVE', 'REJECT', 'CANCEL'
+     * @return bool
+     */
+    public function isActionAllowed(string $action): bool
+    {
+        if ($this->hasMultipleStatus()) {
+            return false;
+        }
+        $leaves = $this->getLeaves();
+        $leaveStatus = $leaves[0]->getDecorator()->getLeaveStatusName();
+        return $this->getLeaveRequestService()->isLeaveRequestActionAllowed(
+            $this->getLeaveRequest()->getEmployee(),
+            $this->getLeaveRequest()->getLeaveType(),
+            $leaveStatus,
+            $action,
+            $this->getAuthUser()->getEmpNumber()
+        );
+    }
+
+    /**
+     * @param string $action e.g. 'APPROVE', 'REJECT', 'CANCEL'
+     * @return WorkflowStateMachine|null
+     */
+    public function getWorkflowForAction(string $action): ?WorkflowStateMachine
+    {
+        if ($this->hasMultipleStatus()) {
+            return null;
+        }
+        $leaves = $this->getLeaves();
+        $leaveStatus = $leaves[0]->getDecorator()->getLeaveStatusName();
+        $allowedWorkflows = $this->getAllowedWorkflows($leaveStatus);
+        $workflow = null;
+        foreach ($allowedWorkflows as $allowedWorkflow) {
+            if ($allowedWorkflow->getAction() === $action) {
+                $workflow = $allowedWorkflow;
+                break;
+            }
+        }
+        return $workflow;
     }
 }

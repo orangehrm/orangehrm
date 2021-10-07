@@ -81,7 +81,7 @@ export default {
         },
         {
           name: 'comments',
-          title: 'Commnents',
+          title: 'Comments',
           style: {flex: 1},
         },
       ],
@@ -103,7 +103,7 @@ export default {
           hours: parseFloat(item.lengthHours).toFixed(2),
           type: item.leaveType?.name,
           status: item.status?.name,
-          comments: item.comment,
+          comments: item.lastComment?.comment,
         };
       });
     },

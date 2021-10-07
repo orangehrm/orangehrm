@@ -76,11 +76,8 @@ class LeaveEntitlementDecorator
      */
     public function withinPeriod(DateTime $date): bool
     {
-        $fromTimestamp = $this->getLeaveEntitlement()->getFromDate()->getTimestamp();
-        $toTimestamp = $this->getLeaveEntitlement()->getToDate()->getTimestamp();
-        $timestamp = $date->getTimestamp();
-
-        return ($timestamp >= $fromTimestamp) && ($timestamp <= $toTimestamp);
+        return ($date >= $this->getLeaveEntitlement()->getFromDate()) &&
+            ($date <= $this->getLeaveEntitlement()->getToDate());
     }
 
     /**

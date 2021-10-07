@@ -20,19 +20,22 @@
 
 <template>
   <div class="orangehrm-background-container">
-    <slot :filters="filters" :filterItems="filterItems"></slot>
+    <slot :filters="filters" :rules="rules" :filterItems="filterItems"></slot>
     <br />
     <div class="orangehrm-paper-container">
       <leave-list-table-header
         :selected="checkedItems.length"
         :total="total"
         :loading="isLoading"
-      ></leave-list-table-header>
+        :bulkActions="leaveBulkActions"
+        @onActionClick="onLeaveActionBulk"
+      >
+      </leave-list-table-header>
       <div class="orangehrm-container">
         <oxd-card-table
           :headers="headers"
           :items="items?.data"
-          :selectable="!myLeaveList"
+          :selectable="leaveBulkActions !== null"
           :clickable="false"
           :loading="isLoading"
           v-model:selected="checkedItems"
@@ -54,15 +57,24 @@
     @close="onCommentModalClose"
   >
   </leave-comment-modal>
+  <leave-bulk-action-modal ref="bulkActionModal" :data="bulkActionModalState">
+  </leave-bulk-action-modal>
 </template>
 
 <script>
+import {
+  required,
+  validDateFormat,
+  endDateShouldBeAfterStartDate,
+} from '@/core/util/validation/rules';
 import {computed, ref} from 'vue';
 import {APIService} from '@/core/util/services/api.service';
 import {navigate} from '@orangehrm/core/util/helper/navigation';
 import usePaginate from '@orangehrm/core/util/composable/usePaginate';
-import LeaveListTableHeader from '@/orangehrmLeavePlugin/components/LeaveListTableHeader';
+import useLeaveActions from '@/orangehrmLeavePlugin/util/composable/useLeaveActions';
 import LeaveCommentsModal from '@/orangehrmLeavePlugin/components/LeaveCommentsModal';
+import LeaveBulkActionModal from '@/orangehrmLeavePlugin/components/LeaveBulkActionModal';
+import LeaveListTableHeader from '@/orangehrmLeavePlugin/components/LeaveListTableHeader';
 
 const leavelistNormalizer = data => {
   return data.map(item => {
@@ -92,12 +104,17 @@ const leavelistNormalizer = data => {
         .join(', ');
     }
     if (Array.isArray(item.leaveBalances)) {
-      leaveBalances = item.leaveBalances
-        .map(
-          ({period, balance}) => `${parseFloat(balance.balance).toFixed(2)}
+      if (item.leaveBalances.length > 1) {
+        leaveBalances = item.leaveBalances
+          .map(
+            ({period, balance}) => `${parseFloat(balance.balance).toFixed(2)}
          (${period.startDate} - ${period.endDate})`,
-        )
-        .join(', ');
+          )
+          .join(', ');
+      } else {
+        const balance = item.leaveBalances[0]?.balance.balance;
+        leaveBalances = balance ? parseFloat(balance).toFixed(2) : '0.00';
+      }
     }
 
     return {
@@ -106,7 +123,8 @@ const leavelistNormalizer = data => {
       date: leaveDatePeriod,
       employeeName: `${item.employee?.firstName} ${item.employee?.lastName}
           ${item.employee?.terminationId ? ' (Past Employee)' : ''}`,
-      leaveType: item.leaveType?.name,
+      leaveType:
+        item.leaveType?.name + `${item.leaveType?.deleted ? ' (Deleted)' : ''}`,
       leaveBalance: leaveBalances,
       days: parseFloat(item.noOfDays).toFixed(2),
       status: leaveStatuses,
@@ -131,6 +149,7 @@ export default {
   components: {
     'leave-list-table-header': LeaveListTableHeader,
     'leave-comment-modal': LeaveCommentsModal,
+    'leave-bulk-action-modal': LeaveBulkActionModal,
   },
 
   props: {
@@ -164,11 +183,26 @@ export default {
       checkedItems: [],
       showCommentModal: false,
       commentModalState: null,
+      bulkActionModalState: null,
     };
   },
 
   setup(props) {
     const filters = ref({...defaultFilters});
+
+    const rules = {
+      fromDate: [required],
+      toDate: [
+        required,
+        validDateFormat(),
+        endDateShouldBeAfterStartDate(
+          () => filters.value.fromDate,
+          'To date should be after from date',
+          {allowSameDate: true},
+        ),
+      ],
+      statuses: [required],
+    };
 
     const serializedFilters = computed(() => {
       const statuses = Array.isArray(filters.value.statuses)
@@ -187,12 +221,35 @@ export default {
       };
     });
 
+    const leaveBulkActions = computed(() => {
+      const isCancellable =
+        serializedFilters.value.statuses[0] === 'taken' ||
+        serializedFilters.value.statuses[0] === 'scheduled';
+      const isApprovable =
+        serializedFilters.value.statuses[0] === 'pendingApproval';
+      if (isApprovable || isCancellable) {
+        return {
+          APPROVE: !props.myLeaveList && isApprovable,
+          REJECT: !props.myLeaveList && isApprovable,
+          CANCEL: isApprovable || isCancellable,
+        };
+      }
+      return null;
+    });
+
     const http = new APIService(
       window.appGlobal.baseUrl,
       `api/v2/leave/${
         props.myLeaveList ? 'leave-requests' : 'employees/leave-requests'
       }`,
     );
+
+    const {
+      leaveActions,
+      processLeaveRequestAction,
+      processLeaveRequestBulkAction,
+    } = useLeaveActions(http);
+
     const {
       showPaginator,
       currentPage,
@@ -217,75 +274,67 @@ export default {
       pageSize,
       execQuery,
       items: response,
+      rules,
       filters,
+      leaveActions,
+      leaveBulkActions,
+      processLeaveRequestAction,
+      processLeaveRequestBulkAction,
     };
   },
 
   methods: {
     cellRenderer(...[, , , row]) {
-      const approve = {
-        component: 'oxd-button',
-        props: {
-          label: 'Approve',
-          displayType: 'label-success',
-          size: 'medium',
-        },
-      };
-      const reject = {
-        component: 'oxd-button',
-        props: {
-          label: 'Reject',
-          displayType: 'label-danger',
-          size: 'medium',
-        },
-      };
-      const cancel = {
-        component: 'oxd-button',
-        props: {
-          label: 'Cancel',
-          displayType: 'label-warn',
-          size: 'medium',
-        },
-      };
-      const more = {
-        component: 'oxd-table-dropdown',
-        props: {
-          options: [
-            {label: 'Add Comment', context: 'add_comment'},
-            {label: 'View Leave Details', context: 'leave_details'},
-            {label: 'View PIM Info', context: 'pim_details'},
-            {label: 'Cancel Leave', context: 'cancel_leave'},
-          ],
-          style: {'margin-left': 'auto'},
-          onClick: $event => this.onLeaveRequestAction($event, row),
-        },
-      };
+      const cellConfig = {};
+      const {approve, reject, cancel, more} = this.leaveActions;
+      const dropdownActions = [
+        {label: 'Add Comment', context: 'add_comment'},
+        {label: 'View Leave Details', context: 'leave_details'},
+        {label: 'View PIM Info', context: 'pim_details'},
+      ];
 
-      if (this.myLeaveList || !row.actions.find(i => i.action === 'CANCEL'))
-        more.props.options.pop();
+      row.actions.map(item => {
+        if (item.action === 'APPROVE') {
+          approve.props.onClick = () => this.onLeaveAction(row.id, 'APPROVE');
+          cellConfig.approve = approve;
+        }
+        if (item.action === 'REJECT') {
+          reject.props.onClick = () => this.onLeaveAction(row.id, 'REJECT');
+          cellConfig.reject = reject;
+        }
+        if (item.action === 'CANCEL') {
+          if (this.myLeaveList) {
+            cancel.props.onClick = () => this.onLeaveAction(row.id, 'CANCEL');
+            cellConfig.reject = cancel;
+          } else {
+            dropdownActions.push({
+              label: 'Cancel Leave',
+              context: 'cancel_leave',
+            });
+          }
+        }
+      });
+
+      more.props.options = dropdownActions;
+      more.props.onClick = $event => this.onLeaveDropdownAction($event, row);
+      cellConfig.more = more;
 
       return {
         props: {
           header: {
-            cellConfig: {
-              ...(row.actions.find(i => i.action === 'APPROVE') && {approve}),
-              ...(row.actions.find(i => i.action === 'REJECT') && {reject}),
-              ...(this.myLeaveList &&
-                row.actions.find(i => i.action === 'CANCEL') && {cancel}),
-              more,
-            },
+            cellConfig,
           },
         },
       };
     },
-    onLeaveRequestAction(event, item) {
+    onLeaveDropdownAction(event, item) {
       switch (event.context) {
         case 'add_comment':
           this.commentModalState = item.id;
           this.showCommentModal = true;
           break;
         case 'cancel_leave':
-          this.onLeaveCancel();
+          this.onLeaveAction(item.id, 'CANCEL');
           break;
         case 'pim_details':
           navigate('/pim/viewPersonalDetails/empNumber/{id}', {
@@ -293,8 +342,62 @@ export default {
           });
           break;
         default:
-          navigate('/leave/viewLeaveRequest/{id}', {id: item.id});
+          navigate(
+            '/leave/viewLeaveRequest/{id}',
+            {id: item.id},
+            this.myLeaveList && {mode: 'my-leave'},
+          );
       }
+    },
+    onLeaveAction(id, actionType) {
+      this.isLoading = true;
+      this.processLeaveRequestAction(id, actionType)
+        .then(() => {
+          this.$toast.updateSuccess();
+        })
+        .finally(this.resetDataTable);
+    },
+    async onLeaveActionBulk(actionType) {
+      this.isLoading = true;
+      this.bulkActionModalState = {
+        count: this.checkedItems.length,
+        action: actionType,
+      };
+
+      const action =
+        actionType === 'APPROVE'
+          ? 'Approved'
+          : actionType === 'REJECT'
+          ? 'Rejected'
+          : 'Cancelled';
+      const ids = this.checkedItems.map(index => {
+        return this.items.data[index].id;
+      });
+      const confirmation = await this.$refs.bulkActionModal.showDialog();
+
+      if (confirmation !== 'ok') {
+        this.isLoading = false;
+        return;
+      }
+
+      this.processLeaveRequestBulkAction(ids, actionType)
+        .then(response => {
+          const {data} = response.data;
+          if (Array.isArray(data))
+            this.$toast.success({
+              title: 'Success',
+              message: `${data.length} Leave Request(s) ${action}`,
+            });
+        })
+        .finally(() => {
+          this.bulkActionModalState = null;
+          this.resetDataTable();
+        });
+    },
+    onCommentModalClose() {
+      this.commentModalState = null;
+      this.showCommentModal = false;
+      this.resetDataTable();
     },
     async resetDataTable() {
       this.checkedItems = [];
@@ -302,14 +405,6 @@ export default {
     },
     async filterItems() {
       await this.execQuery();
-    },
-    onCommentModalClose() {
-      this.commentModalState = null;
-      this.showCommentModal = false;
-      this.resetDataTable();
-    },
-    onLeaveCancel() {
-      // do nothing.
     },
   },
 

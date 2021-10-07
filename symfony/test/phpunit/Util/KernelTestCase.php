@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Tests\Util;
 
+use LogicException;
 use OrangeHRM\Core\Helper\ClassHelper;
 use OrangeHRM\Core\Service\DateTimeHelperService;
 use OrangeHRM\Core\Service\TextHelperService;
@@ -103,8 +104,15 @@ abstract class KernelTestCase extends TestCase
 
     private function setHelperServices(): void
     {
+        $dateTimeHelper = $this->getMockBuilder(DateTimeHelperService::class)
+            ->onlyMethods(['getNow'])
+            ->getMock();
+        $dateTimeHelper->method('getNow')
+            ->willReturnCallback(function () {
+                throw new LogicException('Please mock ' . DateTimeHelperService::class . '::getNow');
+            });
         if (isset($this->options[self::OPTIONS_WITH_HELPER_SERVICES]) && $this->options[self::OPTIONS_WITH_HELPER_SERVICES]) {
-            $this->getContainer()->set(Services::DATETIME_HELPER_SERVICE, new DateTimeHelperService());
+            $this->getContainer()->set(Services::DATETIME_HELPER_SERVICE, $dateTimeHelper);
             $this->getContainer()->set(Services::TEXT_HELPER_SERVICE, new TextHelperService());
             $this->getContainer()->set(Services::CLASS_HELPER, new ClassHelper());
         }

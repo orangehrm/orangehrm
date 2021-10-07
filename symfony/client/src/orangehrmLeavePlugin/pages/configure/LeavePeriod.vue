@@ -83,7 +83,7 @@
             :label="$t('general.reset')"
             @click="onClickReset"
           />
-          <submit-button />
+          <submit-button :disabled="leavePeriodDefined" />
         </oxd-form-actions>
       </oxd-form>
     </div>
@@ -112,7 +112,7 @@ export default {
     return {
       isLoading: false,
       leavePeriod: {...leavePeriodModel},
-      leavePeriodDefined: false,
+      leavePeriodDefined: true,
       rules: {
         startMonth: [required],
         startDay: [required],
@@ -132,6 +132,7 @@ export default {
 
   methods: {
     onSave() {
+      if (this.leavePeriodDefined) return;
       this.isLoading = true;
       this.http
         .request({
@@ -184,6 +185,8 @@ export default {
             ${this.$t('general.to').toLowerCase()}
             ${meta.currentLeavePeriod.endDate}
           `;
+      } else {
+        this.leavePeriodDefined = false;
       }
     },
   },

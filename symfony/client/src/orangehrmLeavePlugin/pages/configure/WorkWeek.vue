@@ -30,103 +30,89 @@
       <oxd-form :loading="isLoading" @submitValid="onSave">
         <oxd-form-row>
           <oxd-grid :cols="4" class="orangehrm-full-width-grid">
-            <oxd-grid-item>
-              <oxd-input-field
-                type="select"
-                :options="workWeeks"
-                :rules="rules.monday"
-                :label="$t('general.monday')"
-                v-model="workWeek.monday"
-                required
-              />
-            </oxd-grid-item>
+            <oxd-input-field
+              type="select"
+              :options="dayTypes"
+              :rules="rules.monday"
+              :label="$t('general.monday')"
+              v-model="workWeek.monday"
+              required
+            />
           </oxd-grid>
         </oxd-form-row>
 
         <oxd-form-row>
           <oxd-grid :cols="4" class="orangehrm-full-width-grid">
-            <oxd-grid-item>
-              <oxd-input-field
-                type="select"
-                :options="workWeeks"
-                :rules="rules.tuesday"
-                :label="$t('general.tuesday')"
-                v-model="workWeek.tuesday"
-                required
-              />
-            </oxd-grid-item>
+            <oxd-input-field
+              type="select"
+              :options="dayTypes"
+              :rules="rules.tuesday"
+              :label="$t('general.tuesday')"
+              v-model="workWeek.tuesday"
+              required
+            />
           </oxd-grid>
         </oxd-form-row>
         <oxd-form-row>
           <oxd-grid :cols="4" class="orangehrm-full-width-grid">
-            <oxd-grid-item>
-              <oxd-input-field
-                type="select"
-                :options="workWeeks"
-                :rules="rules.wednesday"
-                :label="$t('general.wednesday')"
-                v-model="workWeek.wednesday"
-                required
-              />
-            </oxd-grid-item>
+            <oxd-input-field
+              type="select"
+              :options="dayTypes"
+              :rules="rules.wednesday"
+              :label="$t('general.wednesday')"
+              v-model="workWeek.wednesday"
+              required
+            />
           </oxd-grid>
         </oxd-form-row>
 
         <oxd-form-row>
           <oxd-grid :cols="4" class="orangehrm-full-width-grid">
-            <oxd-grid-item>
-              <oxd-input-field
-                type="select"
-                :options="workWeeks"
-                :rules="rules.thursday"
-                :label="$t('general.thursday')"
-                v-model="workWeek.thursday"
-                required
-              />
-            </oxd-grid-item>
+            <oxd-input-field
+              type="select"
+              :options="dayTypes"
+              :rules="rules.thursday"
+              :label="$t('general.thursday')"
+              v-model="workWeek.thursday"
+              required
+            />
           </oxd-grid>
         </oxd-form-row>
 
         <oxd-form-row>
           <oxd-grid :cols="4" class="orangehrm-full-width-grid">
-            <oxd-grid-item>
-              <oxd-input-field
-                type="select"
-                :options="workWeeks"
-                :rules="rules.friday"
-                :label="$t('general.friday')"
-                v-model="workWeek.friday"
-                required
-              />
-            </oxd-grid-item>
+            <oxd-input-field
+              type="select"
+              :options="dayTypes"
+              :rules="rules.friday"
+              :label="$t('general.friday')"
+              v-model="workWeek.friday"
+              required
+            />
           </oxd-grid>
         </oxd-form-row>
         <oxd-form-row>
           <oxd-grid :cols="4" class="orangehrm-full-width-grid">
-            <oxd-grid-item>
-              <oxd-input-field
-                type="select"
-                :options="workWeeks"
-                :rules="rules.saturday"
-                :label="$t('general.saturday')"
-                v-model="workWeek.saturday"
-                required
-              />
-            </oxd-grid-item>
+            <oxd-input-field
+              type="select"
+              :options="dayTypes"
+              :rules="rules.saturday"
+              :label="$t('general.saturday')"
+              v-model="workWeek.saturday"
+              required
+            />
           </oxd-grid>
         </oxd-form-row>
         <oxd-form-row>
           <oxd-grid :cols="4" class="orangehrm-full-width-grid">
-            <oxd-grid-item>
-              <oxd-input-field
-                type="select"
-                :options="workWeeks"
-                :rules="rules.sunday"
-                :label="$t('general.sunday')"
-                v-model="workWeek.sunday"
-                required
-              />
-            </oxd-grid-item>
+            <oxd-input-field
+              type="select"
+              :options="dayTypes"
+              :rules="rules.sunday"
+              :label="$t('general.sunday')"
+              v-model="workWeek.sunday"
+              required
+            />
           </oxd-grid>
         </oxd-form-row>
         <oxd-divider />
@@ -145,13 +131,13 @@ import {APIService} from '@orangehrm/core/util/services/api.service';
 import {required} from '@/core/util/validation/rules';
 
 const workWeekModel = {
-  monday: 0,
-  tuesday: 0,
-  wednesday: 0,
-  thursday: 0,
-  friday: 0,
-  saturday: 0,
-  sunday: 0,
+  monday: null,
+  tuesday: null,
+  wednesday: null,
+  thursday: null,
+  friday: null,
+  saturday: null,
+  sunday: null,
 };
 
 export default {
@@ -172,7 +158,7 @@ export default {
   },
 
   props: {
-    workWeeks: {
+    dayTypes: {
       type: Array,
       default: () => [],
     },
@@ -190,6 +176,18 @@ export default {
 
   methods: {
     onSave() {
+      // check if workweek contains at least one working day
+      const noWorkingDays = Object.values(this.workWeek).find(
+        dayType => dayType.id !== 8,
+      );
+
+      if (noWorkingDays === undefined) {
+        return this.$toast.warn({
+          title: 'Warning',
+          message: 'At least one day should be a working day',
+        });
+      }
+
       this.isLoading = true;
       this.http
         .request({
@@ -219,26 +217,26 @@ export default {
       })
       .then(response => {
         const {data} = response.data;
-        this.workWeek.monday = this.workWeeks.find(
-          item => item.id === data.monday,
+        this.workWeek.monday = this.dayTypes.find(
+          dayType => dayType.id === data.monday,
         );
-        this.workWeek.tuesday = this.workWeeks.find(
-          item => item.id === data.tuesday,
+        this.workWeek.tuesday = this.dayTypes.find(
+          dayType => dayType.id === data.tuesday,
         );
-        this.workWeek.wednesday = this.workWeeks.find(
-          item => item.id === data.wednesday,
+        this.workWeek.wednesday = this.dayTypes.find(
+          dayType => dayType.id === data.wednesday,
         );
-        this.workWeek.thursday = this.workWeeks.find(
-          item => item.id === data.thursday,
+        this.workWeek.thursday = this.dayTypes.find(
+          dayType => dayType.id === data.thursday,
         );
-        this.workWeek.friday = this.workWeeks.find(
-          item => item.id === data.friday,
+        this.workWeek.friday = this.dayTypes.find(
+          dayType => dayType.id === data.friday,
         );
-        this.workWeek.saturday = this.workWeeks.find(
-          item => item.id === data.saturday,
+        this.workWeek.saturday = this.dayTypes.find(
+          dayType => dayType.id === data.saturday,
         );
-        this.workWeek.sunday = this.workWeeks.find(
-          item => item.id === data.sunday,
+        this.workWeek.sunday = this.dayTypes.find(
+          dayType => dayType.id === data.sunday,
         );
       })
       .finally(() => {

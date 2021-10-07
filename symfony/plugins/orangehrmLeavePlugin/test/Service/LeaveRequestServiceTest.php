@@ -28,6 +28,7 @@ use OrangeHRM\Entity\LeaveStatus;
 use OrangeHRM\Entity\LeaveType;
 use OrangeHRM\Entity\WorkflowStateMachine;
 use OrangeHRM\Leave\Dao\LeaveRequestDao;
+use OrangeHRM\Leave\Dto\LeaveRequest\DetailedLeave;
 use OrangeHRM\Leave\Dto\LeaveRequest\DetailedLeaveRequest;
 use OrangeHRM\Leave\Service\LeaveRequestService;
 use OrangeHRM\Tests\Util\Mock\MockUserRoleManager;
@@ -229,7 +230,8 @@ class LeaveRequestServiceTest extends TestCase
             ->method('getAllowedActions')
             ->with(
                 WorkflowStateMachine::FLOW_LEAVE,
-                'LEAVE TYPE DELETED PENDING APPROVAL', [],
+                'LEAVE TYPE DELETED PENDING APPROVAL',
+                [],
                 [],
                 [Employee::class => 1]
             )
@@ -286,5 +288,50 @@ class LeaveRequestServiceTest extends TestCase
         $action3->setResultingState('REJECTED');
 
         return [$action1, $action3, $action2];
+    }
+
+    public function testGetDetailedLeaves()
+    {
+        $leaveRequest1 = new LeaveRequest();
+        $leaveRequest1->setId(1);
+        $leaveRequest2 = new LeaveRequest();
+        $leaveRequest2->setId(2);
+        $leaveRequest3 = new LeaveRequest();
+        $leaveRequest3->setId(3);
+
+        $leave1 = new Leave();
+        $leave1->setLeaveRequest($leaveRequest1);
+        $leave1->setDate(new DateTime('2021-08-01'));
+        $leave2 = new Leave();
+        $leave2->setLeaveRequest($leaveRequest1);
+        $leave2->setDate(new DateTime('2021-08-03'));
+        $leave3 = new Leave();
+        $leave3->setLeaveRequest($leaveRequest1);
+        $leave3->setDate(new DateTime('2021-08-02'));
+        $leave4 = new Leave();
+        $leave4->setLeaveRequest($leaveRequest2);
+        $leave4->setDate(new DateTime('2021-10-30'));
+        $leave5 = new Leave();
+        $leave5->setLeaveRequest($leaveRequest2);
+        $leave5->setDate(new DateTime('2021-10-31'));
+        $leave6 = new Leave();
+        $leave6->setLeaveRequest($leaveRequest3);
+        $leave6->setDate(new DateTime('2120-02-27'));
+        $leave7 = new Leave();
+        $leave7->setLeaveRequest($leaveRequest3);
+        $leave7->setDate(new DateTime('2120-02-28'));
+        $leave8 = new Leave();
+        $leave8->setLeaveRequest($leaveRequest3);
+        $leave8->setDate(new DateTime('2120-02-29'));
+        $leaves = [$leave1, $leave3, $leave4, $leave5, $leave6, $leave8, $leave7, $leave2];
+        $service = new LeaveRequestService();
+
+        $detailedLeaves = [];
+        foreach ($leaves as $leave) {
+            $detailedLeave = new DetailedLeave($leave);
+            $detailedLeave->setLeaves($leaves);
+            $detailedLeaves[] = $detailedLeave;
+        }
+        $this->assertEquals($detailedLeaves, $service->getDetailedLeaves($leaves,$leaves));
     }
 }

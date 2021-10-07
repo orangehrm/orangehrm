@@ -96,12 +96,4 @@ class AuthenticationService
             $this->getAuthUser()->setEmpNumber($user->getEmployee()->getEmpNumber());
         }
     }
-
-    /**
-     * @return int|null
-     */
-    public function getLoggedInUserId(): ?int
-    {
-        return $this->getAuthUser()->getUserId();
-    }
 }

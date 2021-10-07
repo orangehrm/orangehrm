@@ -61,6 +61,9 @@ import PayGrade from '@/orangehrmAdminPlugin/pages/payGrade/PayGrade.vue';
 import AddPayGrade from '@/orangehrmAdminPlugin/pages/payGrade/AddPayGrade.vue';
 import EditPayGrade from '@/orangehrmAdminPlugin/pages/payGrade/EditPayGrade.vue';
 import EditModuleConfiguration from '@/orangehrmAdminPlugin/pages/moduleConfiguration/EditModuleConfiguration.vue';
+import WorkShift from '@/orangehrmAdminPlugin/pages/workShift/WorkShift.vue';
+import SaveWorkShift from '@/orangehrmAdminPlugin/pages/workShift/SaveWorkShift.vue';
+import EditWorkShift from '@/orangehrmAdminPlugin/pages/workShift/EditWorkShift.vue';
 
 export default {
   'job-title-list': JobTitle,
@@ -109,4 +112,7 @@ export default {
   'pay-grade-list': PayGrade,
   'pay-grade-add': AddPayGrade,
   'pay-grade-edit': EditPayGrade,
+  'work-shift-list': WorkShift,
+  'work-shift-save': SaveWorkShift,
+  'work-shift-edit': EditWorkShift,
 };

@@ -30,7 +30,7 @@ class Validator
      * @param array $values
      * @param ParamRuleCollection|null $rules
      * @return bool
-     * @throws InvalidParamException|ValidatorException
+     * @throws InvalidParamException
      */
     public static function validate(array $values, ?ParamRuleCollection $rules = null): bool
     {

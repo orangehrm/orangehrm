@@ -157,7 +157,11 @@ class LeaveOverlapAPITest extends EndpointTestCase
         $this->assertInvalidParamException(
         // if defined only from date, to date also need to define
             fn() => $this->validate($queryParams, $rules),
-            [LeaveCommonParams::PARAMETER_TO_DATE, LeaveCommonParams::PARAMETER_FROM_DATE]
+            [
+                LeaveCommonParams::PARAMETER_TO_DATE,
+                LeaveCommonParams::PARAMETER_FROM_DATE,
+                LeaveCommonParams::PARAMETER_DURATION,
+            ]
         );
 
         $queryParams = [LeaveCommonParams::PARAMETER_TO_DATE => '2021-08-24'];
@@ -178,7 +182,7 @@ class LeaveOverlapAPITest extends EndpointTestCase
         $this->assertInvalidParamException(
         // from date < to date
             fn() => $this->validate($queryParams, $rules),
-            [LeaveCommonParams::PARAMETER_FROM_DATE]
+            [LeaveCommonParams::PARAMETER_FROM_DATE, LeaveCommonParams::PARAMETER_DURATION]
         );
 
         $queryParams = [
