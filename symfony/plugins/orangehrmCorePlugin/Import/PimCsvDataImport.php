@@ -27,8 +27,8 @@ use OrangeHRM\Admin\Service\NationalityService;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Entity\Employee;
+use OrangeHRM\Entity\Nationality;
 use OrangeHRM\Framework\Services;
-use OrangeHRM\Pim\Service\EmployeeService;
 use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
 
 class PimCsvDataImport extends CsvDataImport
@@ -41,14 +41,6 @@ class PimCsvDataImport extends CsvDataImport
      * @var null|NationalityService
      */
     protected ?NationalityService $nationalityService = null;
-    /**
-     * @var null|CountryService
-     */
-    protected ?CountryService $countryService = null;
-    /**
-     * @var null|EmployeeService
-     */
-    protected ?EmployeeService $employeeService = null;
 
     /**
      * @param array $data
@@ -156,10 +148,10 @@ class PimCsvDataImport extends CsvDataImport
     }
 
     /**
-     * @param $date
+     * @param string|null $date
      * @return bool
      */
-    private function isValidDate($date): bool
+    private function isValidDate(?string $date): bool
     {
         if (preg_match('/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/', $date)) {
             list($year, $month, $day) = explode('-', $date);
@@ -170,11 +162,11 @@ class PimCsvDataImport extends CsvDataImport
     }
 
     /**
-     * @param $name
-     * @return mixed|void
+     * @param string|null $name
+     * @return Nationality|void
      * @throws DaoException
      */
-    private function isValidNationality($name)
+    private function isValidNationality(?string $name)
     {
         $nationality = $this->getNationalityService()->getNationalityByName($name);
         if ($nationality) {
@@ -202,12 +194,12 @@ class PimCsvDataImport extends CsvDataImport
     }
 
     /**
-     * @param $name
+     * @param string|null $name
      * @return string|void
      * @throws DaoException
      * @throws Exception
      */
-    private function isValidCountry($name)
+    private function isValidCountry(?string $name)
     {
         $country = $this->getCountryService()->getCountryByCountryName($name);
         if ($country) {
@@ -219,51 +211,53 @@ class PimCsvDataImport extends CsvDataImport
      * @return CountryService $countryService
      * @throws Exception
      */
-    public function getCountryService(): object
+    public function getCountryService(): CountryService
     {
-        /** @var CountryService $countryService */
         return $this->getContainer()->get(Services::COUNTRY_SERVICE);
     }
 
     /**
-     * @param $name
+     * @param string|null $name
      * @return string|void
+     * @throws Exception
      */
-    private function isValidProvince($name)
+    private function isValidProvince(?string $name)
     {
-        $provinces = $this->getCountryService()->getProvinceList();
-        foreach ($provinces as $province) {
-            if (strtolower($province->getProvinceName()) == strtolower($name)) {
-                return $province->getProvinceCode();
-            }
+        $province = $this->getCountryService()->getCountryDao()->getProvinceByProvinceName($name);
+        if ($province) {
+            return $province->getProvinceCode();
         }
     }
 
     /**
-     * @param $number
-     * @return bool|void
+     * @param string|null $number
+     * @return bool
      */
-    public function isValidPhoneNumber($number)
+    public function isValidPhoneNumber(?string $number): bool
     {
         if (preg_match('/^\+?[0-9 \-]+$/', $number)) {
             return true;
         }
+        return false;
     }
 
     /**
-     * @param $email
-     * @return false|int'
-     */
-    private function isValidEmail($email)
-    {
-        return preg_match("/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$/i", $email);
-    }
-
-    /**
-     * @param $email
+     * @param string|null $email
      * @return bool
      */
-    private function isUniqueEmail($email): bool
+    private function isValidEmail(?string $email): bool
+    {
+        if (preg_match("/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$/i", $email)) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * @param string|null $email
+     * @return bool
+     */
+    private function isUniqueEmail(?string $email): bool
     {
         $emailList = $this->getEmployeeService()->getEmployeeDao()->getEmailList();
         $isUnique = true;

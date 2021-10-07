@@ -21,6 +21,7 @@
 namespace OrangeHRM\Tests\Core\Import;
 
 use DateTime;
+use OrangeHRM\Admin\Dao\CountryDao;
 use OrangeHRM\Admin\Service\CountryService;
 use OrangeHRM\Admin\Service\NationalityService;
 use OrangeHRM\Core\Import\PimCsvDataImport;
@@ -71,7 +72,7 @@ class PimCsvDataImportTest extends KernelTestCase
     public function testIsValidPhoneNumber(): void
     {
         $this->assertTrue($this->pimCsvDataImport->isValidPhoneNumber('0702132555'));
-        $this->assertNull($this->pimCsvDataImport->isValidPhoneNumber('3wed23r3'));
+        $this->assertFalse($this->pimCsvDataImport->isValidPhoneNumber('3wed23r3'));
     }
 
     public function testImportWhenSuccessful(): void
@@ -149,14 +150,23 @@ class PimCsvDataImportTest extends KernelTestCase
 
         $this->pimCsvDataImport->setNationalityService($mockNationalityService);
 
-        $mockCountryService = $this->getMockBuilder(CountryService::class)
-            ->onlyMethods(['getProvinceList'])
+        $mockCountryDao = $this->getMockBuilder(CountryDao::class)
+            ->onlyMethods(['getProvinceByProvinceName'])
             ->getMock();
 
-        $mockCountryService->expects($this->once())
-            ->method('getProvinceList')
+        $mockCountryDao->expects($this->once())
+            ->method('getProvinceByProvinceName')
+            ->with('California')
+            ->will($this->returnValue($province1));
+
+        $mockCountryService = $this->getMockBuilder(CountryService::class)
+            ->onlyMethods(['getCountryDao'])
+            ->getMock();
+
+        $mockCountryService->expects(self::exactly(2))
+            ->method('getCountryDao')
             ->with()
-            ->will($this->returnValue(array($province1)));
+            ->will($this->returnValue($mockCountryDao));
 
         $mockEmployeeService = $this->getMockBuilder(EmployeeService::class)
             ->onlyMethods(['saveEmployee'])
@@ -260,19 +270,27 @@ class PimCsvDataImportTest extends KernelTestCase
 
         $this->pimCsvDataImport->setNationalityService($mockNationalityService);
 
-
-        $mockCountryService = $this->getMockBuilder(CountryService::class)
-            ->onlyMethods(['getCountryByCountryName', 'getProvinceList'])
+        $mockCountryDao = $this->getMockBuilder(CountryDao::class)
+            ->onlyMethods(['getProvinceByProvinceName', 'getCountryByCountryName'])
             ->getMock();
-        $mockCountryService->expects($this->once())
+
+        $mockCountryDao->expects($this->once())
+            ->method('getProvinceByProvinceName')
+            ->with('California')
+            ->will($this->returnValue($province1));
+
+        $mockCountryDao->expects($this->once())
             ->method('getCountryByCountryName')
             ->with('United States')
             ->will($this->returnValue($country1));
 
-        $mockCountryService->expects($this->once())
-            ->method('getProvinceList')
+        $mockCountryService = $this->getMockBuilder(CountryService::class)
+            ->onlyMethods(['getCountryDao'])
+            ->getMock();
+        $mockCountryService->expects(self::exactly(2))
+            ->method('getCountryDao')
             ->with()
-            ->will($this->returnValue(array($province1)));
+            ->will($this->returnValue($mockCountryDao));
 
         $mockEmployeeService = $this->getMockBuilder(EmployeeService::class)
             ->onlyMethods(['saveEmployee'])
