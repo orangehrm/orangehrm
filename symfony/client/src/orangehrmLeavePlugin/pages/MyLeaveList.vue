@@ -19,7 +19,7 @@
  -->
 
 <template>
-  <leave-list-table :my-leave-list="true">
+  <leave-list-table :leaveStatuses="leaveStatuses" :my-leave-list="true">
     <template v-slot:default="{filters, filterItems, rules}">
       <oxd-table-filter :filter-title="$t('leave.my_leave_list')">
         <oxd-form @submitValid="filterItems">
