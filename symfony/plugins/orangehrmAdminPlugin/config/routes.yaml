@@ -241,6 +241,20 @@ apiv2_admin_modules:
   defaults:
     _api: OrangeHRM\Admin\Api\ModulesAPI
 
+apiv2_admin_pay_grades:
+  path: /api/v2/admin/pay-grades
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST, DELETE ]
+  defaults:
+    _api: OrangeHRM\Admin\Api\PayGradeAPI
+
+apiv2_admin_pay_grade:
+  path: /api/v2/admin/pay-grades/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    _api: OrangeHRM\Admin\Api\PayGradeAPI
+
 ##########################
 #        Files
 ##########################
@@ -450,20 +464,6 @@ edit_pay_grade:
   path: /admin/editPayGrade/{id}
   controller: OrangeHRM\Admin\Controller\SavePayGradeController::handle
   methods: [ GET ]
-
-apiv2_admin_pay_grades:
-  path: /api/v2/admin/pay-grades
-  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
-  methods: [ GET, POST, DELETE ]
-  defaults:
-    _api: OrangeHRM\Admin\Api\PayGradeAPI
-
-apiv2_admin_pay_grade:
-  path: /api/v2/admin/pay-grades/{id}
-  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
-  methods: [ GET, PUT ]
-  defaults:
-    _api: OrangeHRM\Admin\Api\PayGradeAPI
 
 edit_module_configuration:
   path: /admin/viewModules
