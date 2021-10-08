@@ -243,7 +243,11 @@ export default {
     },
     onClickDelete(item) {
       if (!item.isSelectable) {
-        return this.$toast.cannotDelete();
+        return this.$toast.error({
+          title: 'Error',
+          message:
+            "Entitlement(s) will not be deleted since it's already in use",
+        });
       }
       this.$refs.deleteDialog.showDialog().then(confirmation => {
         if (confirmation === 'ok') {

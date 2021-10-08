@@ -491,6 +491,11 @@
           "target": "Leave Request Details",
           "description": ""
         },
+        "my_leave_request_details": {
+          "source": "My Leave Request Details",
+          "target": "My Leave Request Details",
+          "description": ""
+        },
         "requested_for": {
           "source": "Requested For",
           "target": "Requested For",

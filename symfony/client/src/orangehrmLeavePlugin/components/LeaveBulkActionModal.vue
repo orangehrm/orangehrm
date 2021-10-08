@@ -30,7 +30,7 @@
       </div>
       <div class="orangehrm-text-center-align">
         <oxd-text type="subtitle-2">
-          You are about to {{ action }} to {{ count }} Leave Requests. Are you
+          You are about to {{ action }} {{ count }} Leave Request(s). Are you
           sure you want to continue?
         </oxd-text>
       </div>

@@ -35,7 +35,7 @@
         <oxd-card-table
           :headers="headers"
           :items="items?.data"
-          :selectable="leaveBulkActions !== null"
+          :selectable="true"
           :clickable="false"
           :loading="isLoading"
           v-model:selected="checkedItems"
@@ -70,6 +70,7 @@ import {
 import {computed, ref} from 'vue';
 import {APIService} from '@/core/util/services/api.service';
 import {navigate} from '@orangehrm/core/util/helper/navigation';
+import {truncate} from '@orangehrm/core/util/helper/truncate';
 import usePaginate from '@orangehrm/core/util/composable/usePaginate';
 import useLeaveActions from '@/orangehrmLeavePlugin/util/composable/useLeaveActions';
 import LeaveCommentsModal from '@/orangehrmLeavePlugin/components/LeaveCommentsModal';
@@ -117,18 +118,21 @@ const leavelistNormalizer = data => {
       }
     }
 
+    const name = `${item.employee?.firstName} ${item.employee?.middleName} ${item.employee?.lastName}`;
+
     return {
       id: item.id,
       empNumber: item.employee?.empNumber,
       date: leaveDatePeriod,
-      employeeName: `${item.employee?.firstName} ${item.employee?.lastName}
-          ${item.employee?.terminationId ? ' (Past Employee)' : ''}`,
+      employeeName: `${name} ${
+        item.employee?.terminationId ? '(Past Employee)' : ''
+      }`,
       leaveType:
         item.leaveType?.name + `${item.leaveType?.deleted ? ' (Deleted)' : ''}`,
       leaveBalance: leaveBalances,
       days: parseFloat(item.noOfDays).toFixed(2),
       status: leaveStatuses,
-      comment: item.lastComment?.comment,
+      comment: truncate(item.lastComment?.comment),
       actions: item.allowedActions,
     };
   });
@@ -138,7 +142,7 @@ const defaultFilters = {
   employee: null,
   fromDate: null,
   toDate: null,
-  statuses: [{id: 3, label: 'Pending Approval', key: 'pendingApproval'}],
+  statuses: [],
   subunit: null,
   includePastEmps: false,
 };
@@ -156,6 +160,10 @@ export default {
     myLeaveList: {
       type: Boolean,
       default: false,
+    },
+    leaveStatuses: {
+      type: Array,
+      default: () => [],
     },
   },
 
@@ -180,7 +188,6 @@ export default {
           },
         },
       ],
-      checkedItems: [],
       showCommentModal: false,
       commentModalState: null,
       bulkActionModalState: null,
@@ -189,6 +196,7 @@ export default {
 
   setup(props) {
     const filters = ref({...defaultFilters});
+    const checkedItems = ref([]);
 
     const rules = {
       fromDate: [required],
@@ -221,22 +229,6 @@ export default {
       };
     });
 
-    const leaveBulkActions = computed(() => {
-      const isCancellable =
-        serializedFilters.value.statuses[0] === 'taken' ||
-        serializedFilters.value.statuses[0] === 'scheduled';
-      const isApprovable =
-        serializedFilters.value.statuses[0] === 'pendingApproval';
-      if (isApprovable || isCancellable) {
-        return {
-          APPROVE: !props.myLeaveList && isApprovable,
-          REJECT: !props.myLeaveList && isApprovable,
-          CANCEL: isApprovable || isCancellable,
-        };
-      }
-      return null;
-    });
-
     const http = new APIService(
       window.appGlobal.baseUrl,
       `api/v2/leave/${
@@ -264,6 +256,32 @@ export default {
       normalizer: leavelistNormalizer,
     });
 
+    const leaveBulkActions = computed(() => {
+      if (checkedItems.value.length > 0 && response.value.data) {
+        const allActions = checkedItems.value.map(item => {
+          return response.value.data[item].actions;
+        });
+        return {
+          APPROVE: allActions.reduce(
+            (approvable, actions) =>
+              approvable && actions.find(i => i.action === 'APPROVE'),
+            true,
+          ),
+          REJECT: allActions.reduce(
+            (rejectable, actions) =>
+              rejectable && actions.find(i => i.action === 'REJECT'),
+            true,
+          ),
+          CANCEL: allActions.reduce(
+            (cancelable, actions) =>
+              cancelable && actions.find(i => i.action === 'CANCEL'),
+            true,
+          ),
+        };
+      }
+      return null;
+    });
+
     return {
       http,
       showPaginator,
@@ -276,6 +294,7 @@ export default {
       items: response,
       rules,
       filters,
+      checkedItems,
       leaveActions,
       leaveBulkActions,
       processLeaveRequestAction,
@@ -416,6 +435,9 @@ export default {
         const {data} = response.data;
         this.filters.fromDate = data[0]?.startDate;
         this.filters.toDate = data[0]?.endDate;
+        this.filters.statuses = this.myLeaveList
+          ? this.leaveStatuses
+          : this.leaveStatuses.filter(status => status.id === 3);
       })
       .finally(() => {
         this.isLoading = false;
@@ -428,6 +450,9 @@ export default {
 ::v-deep(.card-footer-slot) {
   .oxd-table-cell-actions {
     justify-content: flex-end;
+  }
+  .oxd-table-cell-actions > * {
+    margin: 0 !important;
   }
 }
 </style>
