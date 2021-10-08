@@ -17,28 +17,8 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Pim\Dto;
+namespace OrangeHRM\Core\Report\DisplayField;
 
-use OrangeHRM\Core\Dto\FilterParams;
-use OrangeHRM\Core\Report\ReportSearchFilterParams;
-
-class PimReportSearchFilterParams extends FilterParams implements ReportSearchFilterParams
+abstract class ListableDisplayField extends CombinedDisplayField
 {
-    private int $reportId;
-
-    /**
-     * @return int
-     */
-    public function getReportId(): int
-    {
-        return $this->reportId;
-    }
-
-    /**
-     * @param int $reportId
-     */
-    public function setReportId(int $reportId): void
-    {
-        $this->reportId = $reportId;
-    }
 }

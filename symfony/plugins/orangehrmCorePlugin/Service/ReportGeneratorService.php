@@ -21,18 +21,31 @@ namespace OrangeHRM\Core\Service;
 
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Dao\ReportGeneratorDao;
+use OrangeHRM\Core\Dto\FilterParams;
+use OrangeHRM\Core\Report\DisplayField\BasicDisplayField;
+use OrangeHRM\Core\Report\DisplayField\CombinedDisplayField;
+use OrangeHRM\Core\Report\DisplayField\EntityAliasMapping;
+use OrangeHRM\Core\Report\DisplayField\ListableDisplayField;
 use OrangeHRM\Core\Report\Header\Column;
 use OrangeHRM\Core\Report\Header\Header;
 use OrangeHRM\Core\Report\Header\StackedColumn;
+use OrangeHRM\Core\Report\ReportSearchFilterParams;
+use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Entity\AbstractDisplayField;
 use OrangeHRM\Entity\CompositeDisplayField;
 use OrangeHRM\Entity\DisplayField;
+use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\Report;
 use OrangeHRM\Entity\SummaryDisplayField;
+use OrangeHRM\ORM\QueryBuilderWrapper;
 
 class ReportGeneratorService
 {
+    use EntityManagerHelperTrait;
+
     public const LIST_SEPARATOR = "|\n|";
+    public const SELECTED_FILTER_FIELD_TYPE_RUNTIME = 'Runtime';
+    public const SELECTED_FILTER_FIELD_TYPE_PREDEFINED = 'Predefined';
 
     protected ?ReportGeneratorDao $reportGeneratorDao = null;
 
@@ -136,7 +149,7 @@ class ReportGeneratorService
         $reportGroupId = $this->getReportGroupIdOfAReport($reportId);
 
         $type = PluginSelectedFilterField::RUNTIME_FILTER_FIELD;
-        $runtimeSelectedFilterFields = $this->getReportableService()->getSelectedFilterFieldsByType($reportId, $type, true);
+        $runtimeSelectedFilterFields = $this->getReportGeneratorDao()->getSelectedFilterFieldsByType($reportId, $type, true);
 
         if (($reportGroupId != null) && ($runtimeSelectedFilterFields != null)) {
 
@@ -213,28 +226,28 @@ class ReportGeneratorService
     /**
      * Generates select condition excluding summary function for a given report (ie. given report id).
      * @param integer $reportId
-     * @return string 
+     * @return string
      */
     public function getSelectConditionWithoutSummaryFunction($reportId) {
         // TODO
         $selectCondition = null;
 
-        $displayGroups = $this->getGroupedDisplayFieldsForReport($reportId);        
+        $displayGroups = $this->getGroupedDisplayFieldsForReport($reportId);
         $selectCondition = $this->constructSelectStatement($displayGroups);
 
         return $selectCondition;
     }
-    
+
     public function getGroupedDisplayFieldsForReport($reportId) {
         // TODO
         $displayFields = $this->getSelectedDisplayFields($reportId);
         $metaFields = $this->getSelectedMetaDisplayFields($reportId);
-        $compositeFields = $this->getSelectedCompositeDisplayFields($reportId);        
+        $compositeFields = $this->getSelectedCompositeDisplayFields($reportId);
 
         $selectedDisplayFields = array_merge($displayFields, $compositeFields, $metaFields);
 
-        $displayGroups = $this->getGroupedDisplayFields($selectedDisplayFields);    
-        
+        $displayGroups = $this->getGroupedDisplayFields($selectedDisplayFields);
+
         return $displayGroups;
     }
 
@@ -242,12 +255,12 @@ class ReportGeneratorService
      * Appends display field names to select statement.
      * @param string $selectStatement
      * @param DisplayField $displayField
-     * @return string 
+     * @return string
      */
     public function constructSelectClauseForDisplayField($selectStatement, $displayField) {
         // TODO
         $clause = $displayField->getName();
-        
+
         if (KeyHandler::keyExists() && $displayField->getIsEncrypted()) {
             $pattern = '/(\{\{)(.{0,})(\}\})/';
             if (preg_match($pattern, $clause)) {
@@ -263,7 +276,7 @@ class ReportGeneratorService
         if (!empty($fieldAlias)) {
             $clause = $clause . " AS " . $fieldAlias;
         }
-        
+
         if (empty($selectStatement)) {
             $selectStatement = $clause;
         } else {
@@ -273,16 +286,16 @@ class ReportGeneratorService
         return $selectStatement;
     }
 
-    
+
     public function constructSelectClauseForListGroup($selectStatement, $displayFieldGroup, $displayFields) {
         // TODO
         $fieldList = '';
-        
+
         $isEncryptEnabled = KeyHandler::keyExists();
-        
+
         foreach ($displayFields as $field) {
             $fieldName = $field->getName();
-            
+
             if ($isEncryptEnabled && $field->getIsEncrypted()) {
                 $pattern = '/(\{\{)(.{0,})(\}\})/';
                 if (preg_match($pattern, $fieldName)) {
@@ -291,22 +304,22 @@ class ReportGeneratorService
                     $fieldName = 'AES_DECRYPT(UNHEX('. $fieldName . '),"' . KeyHandler::readKey() . '")';
                 }
             }
-            
+
             // If null, change to empty string since CONCAT_WS will skip nulls, causing problems with the field list order.
             $fieldName = 'IFNULL(' . $fieldName . ",'')";
-            
+
             if (empty($fieldList)) {
                 $fieldList = $fieldName;
             } else {
                 $fieldList .= ',' . $fieldName;
             }
         }
-        
+
         $alias = "DisplayFieldGroup" . $displayFieldGroup->getId();
-        
-        $clause = "CONCAT_WS('|^^|', " . $fieldList . ")";        
+
+        $clause = "CONCAT_WS('|^^|', " . $fieldList . ")";
         $clause = "GROUP_CONCAT(DISTINCT " . $clause . " SEPARATOR '|\\n|' ) AS " . $alias;
-        
+
         if (empty($selectStatement)) {
             $selectStatement = $clause;
         } else {
@@ -314,12 +327,12 @@ class ReportGeneratorService
         }
 
         return $selectStatement;
-           
+
     }
     /**
      * Constructs select statement part with meta display fields.
      * @param integer $reportId
-     * @return string 
+     * @return string
      */
     public function constructSelectStatement(array $displayFieldGroups) {
         // TODO
@@ -328,7 +341,7 @@ class ReportGeneratorService
         foreach ($displayFieldGroups as $groupDetails) {
             $group = $groupDetails[0];
             $displayFields = $groupDetails[1];
-            
+
             if (count($displayFields) > 0) {
                 if ($group->getIsList()) {
                         $selectStatement = $this->constructSelectClauseForListGroup($selectStatement, $group, $displayFields);
@@ -337,7 +350,7 @@ class ReportGeneratorService
                     foreach ($displayFields as $displayField) {
                         $selectStatement = $this->constructSelectClauseForDisplayField($selectStatement, $displayField);
                     }
-                } 
+                }
             }
         }
 
@@ -360,59 +373,59 @@ class ReportGeneratorService
     public function processListsInDataSet($reportId, $dataSet) {
         // TODO
         $displayGroups = $this->getGroupedDisplayFieldsForReport($reportId);
-        
+
         for($rowNdx = 0; $rowNdx < count($dataSet); $rowNdx++) {
             $dataRow = $dataSet[$rowNdx];
 
             foreach ($displayGroups as $groupDetails) {
-                
+
                 $group = $groupDetails[0];
                 $displayFields = $groupDetails[1];
 
                 if ($group->getIsList() && count($displayFields) > 0) {
-                    
+
                     $groupAlias = 'DisplayFieldGroup' . $group->getId();
-                    
+
                     $groupValue = $dataRow[$groupAlias];
-                    
+
                     $fieldValues = [];
-                    
+
                     foreach($displayFields as $displayField) {
                         $fieldValues[$displayField->getFieldAlias()] = [];
                     }
-                            
+
                     if (!empty($groupValue)) {
-                        
+
                         $rows = explode(self::LIST_SEPARATOR, $groupValue);
                         foreach ($rows as $row) {
                             $fields = explode('|^^|', $row);
                             $fieldNdx = 0;
-                            
+
                             foreach($displayFields as $displayField) {
-                                
+
                                 if (isset($fields[$fieldNdx])) {
                                     $fieldValue = $fields[$fieldNdx];
                                 } else {
                                     $fieldValue = "";
                                 }
-                                
-                                $fieldValues[$displayField->getFieldAlias()][] = $fieldValue; 
+
+                                $fieldValues[$displayField->getFieldAlias()][] = $fieldValue;
                                 $fieldNdx++;
-                                
+
                             }
                         }
-                        
+
                     }
-                    
+
                     foreach($fieldValues as $key=>$value) {
                         $dataRow[$key] = $value;
                     }
-                    
+
 
                 }
             }
-            
-            $dataSet[$rowNdx] = $dataRow;            
+
+            $dataSet[$rowNdx] = $dataRow;
         }
 
         return $dataSet;
@@ -445,9 +458,9 @@ class ReportGeneratorService
         $report = $this->getReportGeneratorDao()->getReport($reportId);
         $reportGroupId = $report->getReportGroup()->getId();
         $displayFields = [];
-        
+
         $metaFields = $this->getReportGeneratorDao()->getMetaDisplayFields($reportGroupId);
-        
+
         if (!empty($metaFields)) {
             foreach ($metaFields as $displayField) {
                 $displayFields[] = $displayField;
@@ -460,7 +473,7 @@ class ReportGeneratorService
     /**
      * @param Array<DisplayField|CompositeDisplayField|SummaryDisplayField> $displayFields
      * @param int[] $selectedDisplayGroupIds
-     * @return StackedColumn[]
+     * @return Array<StackedColumn|Column>
      */
     private function getHeaderGroupsForDisplayFields(array $displayFields, array $selectedDisplayGroupIds): array
     {
@@ -483,13 +496,12 @@ class ReportGeneratorService
 
                     if (in_array($displayField->getDisplayFieldGroup()->getId(), $selectedDisplayGroupIds)) {
                         $groupName = $displayFieldGroup->getName();
+                        $headerGroup = new StackedColumn([$column]);
+                        $headerGroup->setName($groupName);
+                        $headerGroups[$displayField->getDisplayFieldGroup()->getId()] = $headerGroup;
                     } else {
-                        $groupName = null;
+                        $defaultGroup->addChild($column);
                     }
-
-                    $headerGroup = new StackedColumn([$column]);
-                    $headerGroup->setName($groupName);
-                    $headerGroups[$displayField->getDisplayFieldGroup()->getId()] = $headerGroup;
                 } else {
                     $headerGroups[$displayField->getDisplayFieldGroup()->getId()]->addChild($column);
                 }
@@ -498,65 +510,28 @@ class ReportGeneratorService
 
         // Add the default group if it has any headers
         if (count($defaultGroup) > 0) {
-            $headerGroups[] = $defaultGroup;
+            array_push($headerGroups, ...$defaultGroup->getChildren());
         }
 
         return $headerGroups;
-    }
-
-    /*
-     * NOTE :
-     * There is a bug in the installer. If there is any semicolon in a string that we insert into the database,
-     * the installer interpret it in a wrong way and bread. That occurs when the installer run the dbscript-2.sql file.
-     * So this method replaces the "#" character with "&amp;" string.
-     */
-
-    private function escapeSpecialCharacters($string) {
-        // TODO
-        $string = str_replace("#", "&amp;", $string);
-
-        return $string;
-    }
-
-    /**
-     * Converts SimpleXMLIterator object into an array.
-     * @param  SimpleXMLIterator $xmlIterator
-     * @return string[]
-     */
-    public function simplexmlToArray($xmlIterator) {
-        // TODO
-        $xmlStringArray = [];
-
-        for ($xmlIterator->rewind(); $xmlIterator->valid(); $xmlIterator->next()) {
-
-            if ($xmlIterator->hasChildren()) {
-                $object = $xmlIterator->current();
-                $xmlStringArray[$object->getName()] = $this->simplexmlToArray($object);
-            } else {
-                $object = $xmlIterator->current();
-                $xmlStringArray[$object->getName()] = (string) $xmlIterator->current();
-            }
-        }
-
-        return $xmlStringArray;
     }
 
     /**
      * Generates a complete sql to retrieve report data set.
      * @param integer $reportId
      * @param array $conditionArray
-     * @return string 
+     * @return string
      */
     public function generateSql($reportId, $conditionArray, $staticColumns = null) {
         // TODO
-        $report = $this->getReportableService()->getReport($reportId);
+        $report = $this->getReportGeneratorDao()->getReport($reportId);
         $reportGroupId = $report->getReportGroupId();
 
-        $reportGroup = $this->getReportableService()->getReportGroup($reportGroupId);
+        $reportGroup = $this->getReportGeneratorDao()->getReportGroup($reportGroupId);
         $coreSql = $reportGroup->getCoreSql();
 
         $selectStatement = $this->getSelectConditionWithoutSummaryFunction($reportId);
-        
+
         $selectedGroupField = $this->getReportableService()->getSelectedGroupField($reportId);
         $summaryDisplayField = null;
         $groupByClause = "";
@@ -590,7 +565,7 @@ class ReportGeneratorService
 
         $sql = preg_replace($pattern, "true", $sql);
 
-        $sql = str_replace("groupByClause", $groupByClause, $sql);        
+        $sql = str_replace("groupByClause", $groupByClause, $sql);
 
         if ($staticColumns != null) {
             $sql = $this->insertStaticColumnsInSelectStatement($sql, $staticColumns);
@@ -667,7 +642,8 @@ class ReportGeneratorService
             $type = $selectedFilterField->getType();
             $filterFieldId = $selectedFilterField->getFilterFieldId();
 
-            if ($type == "Predefined") {
+            if ($type === self::SELECTED_FILTER_FIELD_TYPE_PREDEFINED) {
+                // TODO
                 $predefinedFilterField = $this->getReportableService()->getFilterFieldById($filterFieldId);
 
                 $conditionNo = $predefinedFilterField->getConditionNo();
@@ -680,26 +656,8 @@ class ReportGeneratorService
                         $conditionArray[$conditionNo] = $whereClause;
                     }
                 }
-            } else if ($type == "Runtime") {
-                $runtimeFilterField = $selectedFilterField->getFilterField();
-
-                $labelName = $runtimeFilterField->getName();
-                $widgetName = $runtimeFilterField->getFilterFieldWidget();
-                $widget = new $widgetName([], ['id' => $labelName]);
-                $value = $formValues[$runtimeFilterField->getName()];
-
-                $conditionNo = $runtimeFilterField->getConditionNo();
-
-                if (array_key_exists($conditionNo, $conditionArray)) {
-
-                    if ($widget->generateWhereClausePart($runtimeFilterField->getWhereClausePart(), $value) != null) {
-                        $conditionArray[$conditionNo] = $conditionArray[$conditionNo] . " AND " . $widget->generateWhereClausePart($runtimeFilterField->getWhereClausePart(), $value);
-                    }
-                } else {
-                    if ($widget->generateWhereClausePart($runtimeFilterField->getWhereClausePart(), $value) != null) {
-                        $conditionArray[$conditionNo] = $widget->generateWhereClausePart($runtimeFilterField->getWhereClausePart(), $value);
-                    }
-                }
+            } elseif ($type === self::SELECTED_FILTER_FIELD_TYPE_RUNTIME) {
+                throw new \Exception('Filter field type `' . self::SELECTED_FILTER_FIELD_TYPE_RUNTIME. '` not implemented');
             }
         }
 
@@ -749,7 +707,7 @@ class ReportGeneratorService
         $selectedGroupField = $this->getReportableService()->getSelectedGroupField($reportId);
         $summaryDisplayField = null;
         $groupByClause = '';
-        
+
         if (!is_null($selectedGroupField)) {
             $summaryDisplayField = $selectedGroupField->getSummaryDisplayField();
             $function = $summaryDisplayField->getFunction();
@@ -766,7 +724,7 @@ class ReportGeneratorService
 
         $sql = str_replace("selectCondition", $selectStatement, $coreSql);
 
-        $sql = str_replace("groupByClause", $groupByClause, $sql); 
+        $sql = str_replace("groupByClause", $groupByClause, $sql);
 
         foreach ($formValues as $key => $value) {
 
@@ -840,7 +798,7 @@ class ReportGeneratorService
                 break;
             case "IS NOT NULL":
                 $whereClause = $this->constructWhereStatementForIsNotNullOperator($selectedFilterField, $whereCondition);
-                break;            
+                break;
             default:
                 break;
         }
@@ -879,14 +837,14 @@ class ReportGeneratorService
         $whereClause = $whereClausePart . " IS NULL";
         return $whereClause;
     }
-    
+
     public function constructWhereStatementForIsNotNullOperator($selectedFilterField, $whereCondition){
         // TODO
         $whereClausePart = $selectedFilterField->getFilterField()->getWhereClausePart();
         $whereClause = $whereClausePart . " IS NOT NULL";
         return $whereClause;
     }
-    
+
     public function saveSelectedFilterFields($formValues, $reportId, $type) {
         // TODO
         $reportableService = $this->getReportableService();
@@ -1004,7 +962,7 @@ class ReportGeneratorService
             $result = $this->getReportableService()->deleteCustomDisplayField($customDisplayFieldName);
         }
     }
-    
+
     /**
      * Gets all display field groups for given report group
      */
@@ -1013,23 +971,23 @@ class ReportGeneratorService
         $displayFields = $this->getReportableService()->getDisplayFieldsForReportGroup($reportGroupId);
 
         $groups = $this->getGroupedDisplayFields($displayFields);
-        
+
         return $groups;
     }
-    
+
     public function getGroupedDisplayFields($displayFields) {
         // TODO
         // Organize by groups
         $groups = [];
         $defaultDisplayFieldGroup = new DisplayFieldGroup();
         $defaultDisplayFieldGroup->setIsList(false);
-        
+
         $defaultGroup = [$defaultDisplayFieldGroup, []];
-        
+
         foreach ($displayFields as $field) {
-            
+
             $displayGroupId = $field->getDisplayFieldGroupId();
-            
+
             if (empty($displayGroupId)) {
                 $defaultGroup[1][] = $field;
             } else {
@@ -1040,9 +998,9 @@ class ReportGeneratorService
                 } else {
                     $groups[$displayGroupId][1][] = $field;
                 }
-            }              
+            }
         }
-        
+
         // Add the default group if it has any fields
         if (count($defaultGroup[1]) > 0) {
             $groups[] = $defaultGroup;
@@ -1061,5 +1019,125 @@ class ReportGeneratorService
         $report = $this->getReportGeneratorDao()->getReport($reportId);
         $header->setMeta(new ParameterBag(['name' => $report->getName()]));
         return $header;
+    }
+
+    public function getNormalizedReportData(ReportSearchFilterParams $filterParams)
+    {
+        // TODO:: Support for time, attendance, currently only supports for PIM reports
+        $qb = $this->getEntityManager()->createQueryBuilder()
+            ->from(Employee::class, 'employee');
+
+        $displayFields = $this->getReportGeneratorDao()->getSelectedDisplayFieldsByReportId($filterParams->getReportId());
+        $combinedDisplayFields = [];
+        $listedDisplayFields = [];
+        $joinAliases = [];
+        $displayFieldGroups = [];
+
+        foreach ($displayFields as $displayField) {
+            $displayFieldClassName = $displayField->getClassName();
+            $displayFieldClass = new $displayFieldClassName();
+            if ($displayFieldClass instanceof \OrangeHRM\Core\Report\DisplayField\DisplayField) {
+                if ($displayField->isValueList()) {
+                    $displayFieldGroupId = $displayField->getDisplayFieldGroup()->getId();
+                    $fieldAlias = 'displayFieldGroup' . $displayFieldGroupId;
+                    if (!isset($displayFieldGroups[$fieldAlias])) {
+                        $displayFieldGroups[$fieldAlias] = [$displayField->getFieldAlias()];
+                    } else {
+                        $displayFieldGroups[$fieldAlias][] = $displayField->getFieldAlias();
+                        // if this field is a list field and already added to field groups
+                        continue;
+                    }
+                } else {
+                    $fieldAlias = $displayField->getFieldAlias();
+                }
+
+                // Don't use user input here
+                $qb->addSelect($displayFieldClass->getSelectPart() . ' AS ' . $fieldAlias);
+
+                // Track alias and DTO result alias
+                if ($displayFieldClass instanceof ListableDisplayField) {
+                    $listedDisplayFields[] = $fieldAlias;
+                    array_push($joinAliases, ...$displayFieldClass->getEntityAliases());
+                } elseif ($displayFieldClass instanceof CombinedDisplayField) {
+                    $combinedDisplayFields[] = $fieldAlias;
+                    array_push($joinAliases, ...$displayFieldClass->getEntityAliases());
+                } elseif ($displayFieldClass instanceof BasicDisplayField) {
+                    $joinAliases[] = $displayFieldClass->getEntityAlias();
+                }
+            }
+        }
+
+        $qb->groupBy('employee.empNumber');
+        $queryBuilderWrapper = $this->getQueryBuilderWrapper($qb);
+        $this->setJoinsToQueryBuilder($queryBuilderWrapper, array_unique($joinAliases));
+        $this->setSortingAndPaginationParams($queryBuilderWrapper, $filterParams);
+
+        $results = $qb->getQuery()->execute();
+        // Normalize DTO objects
+        foreach ($results as $i => $result) {
+            foreach ($combinedDisplayFields as $combinedDisplayField) {
+                $results[$i][$combinedDisplayField] = (string) $result[$combinedDisplayField];
+            }
+            foreach ($listedDisplayFields as $listedDisplayField) {
+                $results[$i] = array_merge($results[$i], $result[$listedDisplayField]->toArray($displayFieldGroups[$listedDisplayField]));
+                unset($results[$i][$listedDisplayField]);
+            }
+        }
+        return $results;
+    }
+
+    /**
+     * @param QueryBuilderWrapper $queryBuilderWrapper
+     * @param FilterParams $filterParams
+     */
+    protected function setSortingAndPaginationParams(QueryBuilderWrapper $queryBuilderWrapper, FilterParams $filterParams):void
+    {
+        $qb = $queryBuilderWrapper->getQueryBuilder();
+        if (!is_null($filterParams->getSortField())) {
+            $qb->addOrderBy(
+                $filterParams->getSortField(),
+                $filterParams->getSortOrder()
+            );
+        }
+        // If limit = 0, will not paginate
+        if (!empty($filterParams->getLimit())) {
+            $qb->setFirstResult($filterParams->getOffset())
+                ->setMaxResults($filterParams->getLimit());
+        }
+    }
+
+    /**
+     * @param QueryBuilderWrapper $queryBuilderWrapper
+     * @param string[] $joinAliases
+     */
+    protected function setJoinsToQueryBuilder(QueryBuilderWrapper $queryBuilderWrapper, array $joinAliases):void
+    {
+        foreach ($joinAliases as $joinAlias) {
+            $this->setJoinToQueryBuilder($queryBuilderWrapper, $joinAlias);
+        }
+    }
+
+    /**
+     * @param QueryBuilderWrapper $queryBuilderWrapper
+     * @param string $joinAlias
+     */
+    protected function setJoinToQueryBuilder(QueryBuilderWrapper $queryBuilderWrapper, string $joinAlias):void
+    {
+        $qb = $queryBuilderWrapper->getQueryBuilder();
+        if (isset(EntityAliasMapping::ALIAS_DEPENDENCIES[$joinAlias])) {
+            // alias have dependencies
+            if (!in_array($joinAlias, $qb->getAllAliases())) {
+                $this->setJoinToQueryBuilder($queryBuilderWrapper, EntityAliasMapping::ALIAS_DEPENDENCIES[$joinAlias]);
+                $qb->leftJoin(EntityAliasMapping::ALIAS_MAPPING[$joinAlias], $joinAlias);
+            } // else: alias already added
+        } elseif (isset(EntityAliasMapping::ALIAS_MAPPING[$joinAlias])) {
+            $qb->leftJoin(EntityAliasMapping::ALIAS_MAPPING[$joinAlias], $joinAlias);
+        } // else: no need to left join since alias in root alias
+    }
+
+    private function getGroupedSelectedDisplayFields(int $reportId)
+    {
+        $displayFields = $this->getReportGeneratorDao()->getSelectedDisplayFieldsByReportId($reportId);
+//        foreach ($displayFields )
     }
 }

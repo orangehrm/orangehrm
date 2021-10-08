@@ -17,28 +17,43 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Pim\Dto;
+namespace OrangeHRM\Core\Report\DisplayField\Subordinate\Dto;
 
-use OrangeHRM\Core\Dto\FilterParams;
-use OrangeHRM\Core\Report\ReportSearchFilterParams;
+use OrangeHRM\Core\Report\DisplayField\NormalizableDTO;
+use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
+use OrangeHRM\Entity\Employee;
 
-class PimReportSearchFilterParams extends FilterParams implements ReportSearchFilterParams
+class Subordinate extends NormalizableDTO
 {
-    private int $reportId;
+    use EntityManagerHelperTrait;
 
-    /**
-     * @return int
-     */
-    public function getReportId(): int
+    private ?int $empNumber = null;
+
+    public function __construct(?int $empNumber)
     {
-        return $this->reportId;
+        $this->empNumber = $empNumber;
     }
 
     /**
-     * @param int $reportId
+     * @inheritDoc
      */
-    public function setReportId(int $reportId): void
+    public function toArray(array $fields): array
     {
-        $this->reportId = $reportId;
+        /** @var Employee $employee */
+        $employee = $this->getReference(Employee::class, $this->empNumber);
+        return $this->normalizeArray($employee->getSubordinates(), $fields);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    protected function getFieldGetterMap(): array
+    {
+        return [
+            'subordinateFirstName' => ['getFirstName'],
+            'subordinateLastName' => ['getLastName'],
+            // TODO
+            'subReportingMethod' => [],
+        ];
     }
 }

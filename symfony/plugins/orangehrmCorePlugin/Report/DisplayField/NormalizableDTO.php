@@ -17,28 +17,40 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Pim\Dto;
+namespace OrangeHRM\Core\Report\DisplayField;
 
-use OrangeHRM\Core\Dto\FilterParams;
-use OrangeHRM\Core\Report\ReportSearchFilterParams;
-
-class PimReportSearchFilterParams extends FilterParams implements ReportSearchFilterParams
+abstract class NormalizableDTO
 {
-    private int $reportId;
+    /**
+     * @param array $fields
+     * @return array|null
+     */
+    abstract public function toArray(array $fields): ?array;
 
     /**
-     * @return int
+     * @return array
      */
-    public function getReportId(): int
-    {
-        return $this->reportId;
-    }
+    abstract protected function getFieldGetterMap(): array;
 
     /**
-     * @param int $reportId
+     * @param iterable $data
+     * @param array $fields
+     * @return array
      */
-    public function setReportId(int $reportId): void
+    protected function normalizeArray(iterable $data, array $fields): array
     {
-        $this->reportId = $reportId;
+        $normalized = [];
+        $fieldGetterMap = $this->getFieldGetterMap();
+        foreach ($fields as $field) {
+            $normalized[$field] = [];
+        }
+        foreach ($data as $item) {
+            foreach ($fields as $field) {
+                $getter = $fieldGetterMap[$field];
+                $normalized[$field][] = call_user_func([$item, ...$getter]);
+//                $normalized[$field][] = $item->$getter();
+            }
+        }
+        return $normalized;
     }
 }

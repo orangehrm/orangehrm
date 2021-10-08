@@ -55,8 +55,7 @@ class PimReportData implements ReportData
      */
     public function normalize(): array
     {
-        // TODO
-        return [];
+        return $this->getReportGeneratorService()->getNormalizedReportData($this->filterParams);
     }
 
     /**

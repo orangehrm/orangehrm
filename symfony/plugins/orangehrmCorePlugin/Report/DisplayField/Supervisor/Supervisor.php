@@ -17,28 +17,33 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Pim\Dto;
+namespace OrangeHRM\Core\Report\DisplayField\Supervisor;
 
-use OrangeHRM\Core\Dto\FilterParams;
-use OrangeHRM\Core\Report\ReportSearchFilterParams;
+use OrangeHRM\Core\Report\DisplayField\ListableDisplayField;
 
-class PimReportSearchFilterParams extends FilterParams implements ReportSearchFilterParams
+class Supervisor extends ListableDisplayField
 {
-    private int $reportId;
-
     /**
-     * @return int
+     * @inheritDoc
      */
-    public function getReportId(): int
+    public function getDtoClass(): string
     {
-        return $this->reportId;
+        return Dto\Supervisor::class;
     }
 
     /**
-     * @param int $reportId
+     * @inheritDoc
      */
-    public function setReportId(int $reportId): void
+    public function getFields(): array
     {
-        $this->reportId = $reportId;
+        return ['employee.empNumber'];
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getEntityAliases(): array
+    {
+        return ['supervisor'];
     }
 }

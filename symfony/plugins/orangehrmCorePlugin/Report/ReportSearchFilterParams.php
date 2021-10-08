@@ -17,28 +17,38 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Pim\Dto;
+namespace OrangeHRM\Core\Report;
 
 use OrangeHRM\Core\Dto\FilterParams;
-use OrangeHRM\Core\Report\ReportSearchFilterParams;
 
-class PimReportSearchFilterParams extends FilterParams implements ReportSearchFilterParams
+interface ReportSearchFilterParams
 {
-    private int $reportId;
-
     /**
      * @return int
      */
-    public function getReportId(): int
-    {
-        return $this->reportId;
-    }
+    public function getReportId(): int;
 
     /**
-     * @param int $reportId
+     * @return string
+     * @see FilterParams::getSortOrder()
      */
-    public function setReportId(int $reportId): void
-    {
-        $this->reportId = $reportId;
-    }
+    public function getSortOrder(): string;
+
+    /**
+     * @return string|null
+     * @see FilterParams::getSortField()
+     */
+    public function getSortField(): ?string;
+
+    /**
+     * @return int
+     * @see FilterParams::getLimit()
+     */
+    public function getLimit(): int;
+
+    /**
+     * @return int
+     * @see FilterParams::getOffset()
+     */
+    public function getOffset(): int;
 }

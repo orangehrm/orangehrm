@@ -17,28 +17,25 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Pim\Dto;
+namespace OrangeHRM\Core\Report\DisplayField\Personal;
 
-use OrangeHRM\Core\Dto\FilterParams;
-use OrangeHRM\Core\Report\ReportSearchFilterParams;
+use OrangeHRM\Core\Report\DisplayField\BasicDisplayField;
 
-class PimReportSearchFilterParams extends FilterParams implements ReportSearchFilterParams
+abstract class Employee extends BasicDisplayField
 {
-    private int $reportId;
-
     /**
-     * @return int
+     * @inheritDoc
      */
-    public function getReportId(): int
+    public function getEntityClass(): string
     {
-        return $this->reportId;
+        return \OrangeHRM\Entity\Employee::class;
     }
 
     /**
-     * @param int $reportId
+     * @inheritDoc
      */
-    public function setReportId(int $reportId): void
+    public function getEntityAlias(): string
     {
-        $this->reportId = $reportId;
+        return 'employee';
     }
 }

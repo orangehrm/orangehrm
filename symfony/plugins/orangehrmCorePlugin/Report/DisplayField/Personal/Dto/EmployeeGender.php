@@ -17,28 +17,37 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Pim\Dto;
+namespace OrangeHRM\Core\Report\DisplayField\Personal\Dto;
 
-use OrangeHRM\Core\Dto\FilterParams;
-use OrangeHRM\Core\Report\ReportSearchFilterParams;
+use OrangeHRM\Entity\Employee;
+use Stringable;
 
-class PimReportSearchFilterParams extends FilterParams implements ReportSearchFilterParams
+class EmployeeGender implements Stringable
 {
-    private int $reportId;
+    private ?string $gender = null;
 
     /**
-     * @return int
+     * @param int|null $gender
      */
-    public function getReportId(): int
+    public function __construct(?int $gender)
     {
-        return $this->reportId;
+        $this->gender = $gender;
     }
 
     /**
-     * @param int $reportId
+     * @inheritDoc
      */
-    public function setReportId(int $reportId): void
+    public function __toString(): string
     {
-        $this->reportId = $reportId;
+        switch ($this->gender) {
+            case Employee::GENDER_MALE:
+                return 'Male';
+            case Employee::GENDER_FEMALE:
+                return 'Female';
+            case Employee::GENDER_OTHER:
+                return 'Other';
+            default:
+                return '';
+        }
     }
 }

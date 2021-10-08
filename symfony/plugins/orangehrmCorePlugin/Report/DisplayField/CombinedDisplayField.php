@@ -17,28 +17,36 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Pim\Dto;
+namespace OrangeHRM\Core\Report\DisplayField;
 
-use OrangeHRM\Core\Dto\FilterParams;
-use OrangeHRM\Core\Report\ReportSearchFilterParams;
-
-class PimReportSearchFilterParams extends FilterParams implements ReportSearchFilterParams
+abstract class CombinedDisplayField implements DisplayField
 {
-    private int $reportId;
+    public const SEPARATOR = ',';
 
-    /**
-     * @return int
-     */
-    public function getReportId(): int
+    final public function __construct()
     {
-        return $this->reportId;
     }
 
     /**
-     * @param int $reportId
+     * @return string
      */
-    public function setReportId(int $reportId): void
+    abstract public function getDtoClass(): string;
+
+    /**
+     * @return string[]
+     */
+    abstract public function getEntityAliases(): array;
+
+    /**
+     * @return string[]
+     */
+    abstract public function getFields(): array;
+
+    /**
+     * @inheritDoc
+     */
+    public function getSelectPart(): string
     {
-        $this->reportId = $reportId;
+        return 'NEW ' . $this->getDtoClass() . '(' . implode(self::SEPARATOR, $this->getFields()) . ')';
     }
 }

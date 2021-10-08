@@ -17,28 +17,41 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Pim\Dto;
+namespace OrangeHRM\Core\Report\DisplayField\ContactDetail;
 
-use OrangeHRM\Core\Dto\FilterParams;
-use OrangeHRM\Core\Report\ReportSearchFilterParams;
+use OrangeHRM\Core\Report\DisplayField\CombinedDisplayField;
+use OrangeHRM\Core\Report\DisplayField\Dto;
 
-class PimReportSearchFilterParams extends FilterParams implements ReportSearchFilterParams
+class EmployeeAddress extends CombinedDisplayField
 {
-    private int $reportId;
-
     /**
-     * @return int
+     * @inheritDoc
      */
-    public function getReportId(): int
+    public function getDtoClass(): string
     {
-        return $this->reportId;
+        return \OrangeHRM\Core\Report\DisplayField\ContactDetail\Dto\EmployeeAddress::class;
     }
 
     /**
-     * @param int $reportId
+     * @inheritDoc
      */
-    public function setReportId(int $reportId): void
+    public function getFields(): array
     {
-        $this->reportId = $reportId;
+        return [
+            'employee.street1',
+            'employee.street2',
+            'employee.city',
+            'employee.province',
+            'employee.zipcode',
+            'employee.country',
+        ];
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getEntityAliases(): array
+    {
+        return ['employee'];
     }
 }

@@ -35,7 +35,14 @@ class DisplayField extends AbstractDisplayField
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private int $displayFieldId;
+    private int $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="class_name", type="string", length=255)
+     */
+    private string $className;
 
     /**
      * @var SelectedDisplayField[]
@@ -54,7 +61,7 @@ class DisplayField extends AbstractDisplayField
      */
     public function getId(): int
     {
-        return $this->displayFieldId;
+        return $this->id;
     }
 
     /**
@@ -62,6 +69,22 @@ class DisplayField extends AbstractDisplayField
      */
     public function setId(int $id): void
     {
-        $this->displayFieldId = $id;
+        $this->id = $id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getClassName(): string
+    {
+        return $this->className;
+    }
+
+    /**
+     * @param string $className
+     */
+    public function setClassName(string $className): void
+    {
+        $this->className = $className;
     }
 }

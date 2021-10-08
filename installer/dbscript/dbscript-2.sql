@@ -4078,3 +4078,15 @@ CREATE TABLE `ohrm_mail_queue` (
 
 SET @pim_csv_import_screen_id := (SELECT `id` FROM ohrm_screen WHERE action_url = 'pimCsvImport' and name='Data Import' LIMIT 1);
 UPDATE `ohrm_screen` SET `module_id` = @pim_module_id WHERE `ohrm_screen`.`id` = @pim_csv_import_screen_id;
+
+ALTER TABLE `ohrm_display_field` ADD `class_name` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;
+UPDATE `ohrm_display_field` SET `is_value_list`=0 WHERE `display_field_group_id`=6;
+
+UPDATE `ohrm_display_field` SET `class_name` = 'OrangeHRM\\Core\\Report\\DisplayField\\Personal\\EmployeeFirstName' WHERE `field_alias` = 'employeeFirstname';
+UPDATE `ohrm_display_field` SET `class_name` = 'OrangeHRM\\Core\\Report\\DisplayField\\Personal\\EmployeeGender' WHERE `field_alias` = 'empGender';
+UPDATE `ohrm_display_field` SET `class_name` = 'OrangeHRM\\Core\\Report\\DisplayField\\ContactDetail\\EmployeeAddress' WHERE `field_alias` = 'address';
+UPDATE `ohrm_display_field` SET `class_name` = 'OrangeHRM\\Core\\Report\\DisplayField\\Supervisor\\Supervisor' WHERE `field_alias` = 'supervisorFirstName';
+UPDATE `ohrm_display_field` SET `class_name` = 'OrangeHRM\\Core\\Report\\DisplayField\\Supervisor\\Supervisor' WHERE `field_alias` = 'supervisorLastName';
+UPDATE `ohrm_display_field` SET `class_name` = 'OrangeHRM\\Core\\Report\\DisplayField\\Subordinate\\Subordinate' WHERE `field_alias` = 'subordinateFirstName';
+UPDATE `ohrm_display_field` SET `class_name` = 'OrangeHRM\\Core\\Report\\DisplayField\\Subordinate\\Subordinate' WHERE `field_alias` = 'subordinateLastName';
+UPDATE `ohrm_display_field` SET `class_name` = 'OrangeHRM\\Core\\Report\\DisplayField\\Job\\JobTitle' WHERE `field_alias` = 'empJobTitle';
