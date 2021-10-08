@@ -23,7 +23,11 @@
     <div class="orangehrm-paper-container">
       <div class="orangehrm-header-container">
         <oxd-text tag="h6" class="orangehrm-main-title">
-          {{ $t('leave.leave_request_details') }}
+          {{
+            myLeaveRequest
+              ? $t('leave.my_leave_request_details')
+              : $t('leave.leave_request_details')
+          }}
         </oxd-text>
       </div>
       <oxd-divider
