@@ -23,7 +23,11 @@
     <div class="orangehrm-paper-container">
       <div class="orangehrm-header-container">
         <oxd-text tag="h6" class="orangehrm-main-title">
-          {{ $t('leave.leave_request_details') }}
+          {{
+            myLeaveRequest
+              ? $t('leave.my_leave_request_details')
+              : $t('leave.leave_request_details')
+          }}
         </oxd-text>
       </div>
       <oxd-divider
@@ -97,21 +101,35 @@
 <script>
 import {APIService} from '@/core/util/services/api.service';
 import {navigate} from '@orangehrm/core/util/helper/navigation';
+import {truncate} from '@orangehrm/core/util/helper/truncate';
 import usePaginate from '@orangehrm/core/util/composable/usePaginate';
 import useLeaveActions from '@/orangehrmLeavePlugin/util/composable/useLeaveActions';
 import LeaveCommentsModal from '@/orangehrmLeavePlugin/components/LeaveCommentsModal';
 
 const leaveRequestNormalizer = data => {
   return data.map(item => {
+    let leaveDatePeriod = '';
+    const duration = item.dates.durationType?.type;
+
+    if (item.dates.fromDate) {
+      leaveDatePeriod = item.dates.fromDate;
+    }
+    if (item.dates.startTime && item.dates.endTime) {
+      leaveDatePeriod += ` (${item.dates.startTime} - ${item.dates.endTime})`;
+    }
+    if (duration === 'half_day_morning' || duration === 'half_day_afternoon') {
+      leaveDatePeriod += ' Half Day';
+    }
+
     return {
       id: item.id,
-      date: item.dates.fromDate,
+      date: leaveDatePeriod,
       leaveType:
         item.leaveType?.name + `${item.leaveType?.deleted ? ' (Deleted)' : ''}`,
       leaveBalance: item.leaveBalance?.balance.balance,
       duration: parseFloat(item.lengthHours).toFixed(2),
       status: item.leaveStatus?.name,
-      comment: item.lastComment?.comment,
+      comment: truncate(item.lastComment?.comment),
       actions: item.allowedActions,
       canComment: !(item.leaveStatus?.id === 5 || item.leaveStatus?.id === 4),
     };
@@ -283,7 +301,12 @@ export default {
   computed: {
     employeeName() {
       const employee = this.response?.meta?.employee;
-      return employee ? `${employee.firstName} ${employee.lastName}` : '';
+      if (employee) {
+        const name = `${employee.firstName} ${employee.middleName}
+        ${employee.lastName}`;
+        return `${name} ${employee.terminationId ? '(Past Employee)' : ''}`;
+      }
+      return '';
     },
     leavePeriod() {
       const startDate = this.response?.meta?.startDate;
@@ -305,6 +328,9 @@ export default {
 ::v-deep(.card-footer-slot) {
   .oxd-table-cell-actions {
     justify-content: flex-end;
+  }
+  .oxd-table-cell-actions > * {
+    margin: 0 !important;
   }
 }
 </style>
