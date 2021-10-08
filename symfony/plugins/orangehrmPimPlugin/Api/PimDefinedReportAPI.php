@@ -30,7 +30,10 @@ use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
+use OrangeHRM\Core\Api\V2\Validator\Rule;
+use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Service\ReportGeneratorService;
+use OrangeHRM\Entity\Report;
 use OrangeHRM\Pim\Api\Model\PimDefinedReportModel;
 use OrangeHRM\Pim\Dto\PimDefinedReportSearchFilterParams;
 
@@ -127,7 +130,10 @@ class PimDefinedReportAPI extends Endpoint implements CrudEndpoint
      */
     public function getOne(): EndpointResult
     {
-        throw $this->getNotImplementedException();
+        $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
+        $report = $this->getReportGeneratorService()->getReportGeneratorDao()->getReportById($id);
+        $this->throwRecordNotFoundExceptionIfNotExist($report, Report::class);
+        return new EndpointResourceResult(PimDefinedReportModel::class, $report);
     }
 
     /**
@@ -135,7 +141,12 @@ class PimDefinedReportAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForGetOne(): ParamRuleCollection
     {
-        throw $this->getNotImplementedException();
+        return new ParamRuleCollection(
+            new ParamRule(
+                CommonParams::PARAMETER_ID,
+                new Rule(Rules::POSITIVE)
+            ),
+        );
     }
 
     /**

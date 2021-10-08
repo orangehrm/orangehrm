@@ -792,13 +792,11 @@ class ReportGeneratorDao extends BaseDao
         $this->setSortingAndPaginationParams($q, $pimDefinedReportSearchFilterParams);
 
         if (!empty($pimDefinedReportSearchFilterParams->getName())) {
-            $q->andWhere(
-                $q->expr()->orX(
-                    $q->expr()->like('report.name', ':reportName'),
-                )
-            );
+            $q->andWhere($q->expr()->like('report.name', ':reportName'));
             $q->setParameter('reportName', '%' . $pimDefinedReportSearchFilterParams->getName() . '%');
         }
+        $q->andWhere('rg.name = :reportGroupName');
+        $q->setParameter('reportGroupName', 'pim');
         return $this->getPaginator($q);
     }
 
@@ -824,5 +822,15 @@ class ReportGeneratorDao extends BaseDao
             ->where($q->expr()->in('report.id', ':ids'))
             ->setParameter('ids', $deletedIds);
         return $q->getQuery()->execute();
+    }
+
+    /**
+     * @param int $reportId
+     * @return Report|null
+     */
+    public function getReportById(int $reportId): ?Report
+    {
+        $report = $this->getRepository(Report::class)->find($reportId);
+        return ($report instanceof Report) ? $report : null;
     }
 }
