@@ -25,6 +25,8 @@
       :workshift-exceeded="isWorkShiftExceeded"
       :data="leaveConflictData"
     ></leave-conflict>
+    <leave-assign-confirm-modal ref="confirmDialog">
+    </leave-assign-confirm-modal>
     <div class="orangehrm-card-container">
       <oxd-text tag="h6" class="orangehrm-main-title">
         {{ $t('leave.assign_leave') }}
@@ -179,6 +181,8 @@ import LeaveDurationInput from '@/orangehrmLeavePlugin/components/LeaveDurationI
 import LeaveBalance from '@/orangehrmLeavePlugin/components/LeaveBalance';
 import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
 import LeaveConflict from '@/orangehrmLeavePlugin/components/LeaveConflict';
+import LeaveAssignConfirmModal from '@/orangehrmLeavePlugin/components/LeaveAssignConfirmModal';
+import useLeaveValidators from '@/orangehrmLeavePlugin/util/composable/useLeaveValidators';
 
 const leaveModel = {
   employee: null,
@@ -208,6 +212,7 @@ export default {
     'leave-balance': LeaveBalance,
     'employee-autocomplete': EmployeeAutocomplete,
     'leave-conflict': LeaveConflict,
+    'leave-assign-confirm-modal': LeaveAssignConfirmModal,
   },
 
   setup() {
@@ -215,8 +220,13 @@ export default {
       window.appGlobal.baseUrl,
       'api/v2/leave/employees/leave-requests',
     );
+    const {validateLeaveBalance, validateOverlapLeaves} = useLeaveValidators(
+      http,
+    );
     return {
       http,
+      validateLeaveBalance,
+      validateOverlapLeaves,
     };
   },
 
@@ -255,6 +265,9 @@ export default {
   methods: {
     onSave() {
       this.isLoading = true;
+      this.leaveConflictData = null;
+      this.showLeaveConflict = false;
+
       const payload = {
         empNumber: this.leave.employee?.id,
         leaveTypeId: this.leave.type?.id,
@@ -296,22 +309,24 @@ export default {
         }
       }
 
-      this.checkLeaveOverlap(payload)
-        .then(response => {
-          const {data, meta} = response.data;
-          this.leaveConflictData = data;
-          this.isWorkShiftExceeded = meta.isWorkShiftLengthExceeded;
-          if (
-            Array.isArray(data) &&
-            data.length === 0 &&
-            !meta.isWorkShiftLengthExceeded
-          ) {
-            this.showLeaveConflict = false;
-            return this.http.create(payload);
-          } else {
+      this.validateLeaveBalance(payload)
+        .then(async ({balance}) => {
+          if (balance <= 0) {
+            const confirmation = await this.$refs.confirmDialog.showDialog();
+            if (confirmation !== 'ok') {
+              return Promise.reject();
+            }
+          }
+          return this.validateOverlapLeaves(payload);
+        })
+        .then(({isConflict, isOverWorkshift, data}) => {
+          if (isConflict) {
+            this.leaveConflictData = data;
             this.showLeaveConflict = true;
+            this.isWorkShiftExceeded = isOverWorkshift;
             return Promise.reject();
           }
+          return this.http.create(payload);
         })
         .then(() => {
           this.$toast.saveSuccess();
@@ -327,31 +342,6 @@ export default {
         .finally(() => {
           this.isLoading = false;
         });
-    },
-    async checkLeaveOverlap(leaveData) {
-      const {duration, endDuration, ...payload} = leaveData;
-      payload.leaveTypeId = undefined;
-      payload.comment = undefined;
-
-      if (duration?.type) {
-        payload['duration[type]'] = duration.type;
-        payload['duration[fromTime]'] =
-          duration.type === 'specify_time' ? duration.fromTime : null;
-        payload['duration[toTime]'] =
-          duration.type === 'specify_time' ? duration.toTime : null;
-      }
-      if (endDuration?.type) {
-        payload['endDuration[type]'] = endDuration.type;
-        payload['endDuration[fromTime]'] =
-          endDuration.type === 'specify_time' ? endDuration.fromTime : null;
-        payload['endDuration[toTime]'] =
-          endDuration.type === 'specify_time' ? endDuration.toTime : null;
-      }
-      return this.http.request({
-        method: 'GET',
-        url: 'api/v2/leave/overlap-leaves',
-        params: payload,
-      });
     },
   },
 
