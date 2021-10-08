@@ -29,9 +29,10 @@ use OrangeHRM\Leave\Traits\Service\LeavePeriodServiceTrait;
 
 class LeaveEntitlementReport extends AbstractVueController
 {
+    use LeavePeriodServiceTrait;
+
     protected ?CompanyStructureService $companyStructureService = null;
     protected ?LocationService $locationService = null;
-    use LeavePeriodServiceTrait;
 
     /**
      * @return LocationService
