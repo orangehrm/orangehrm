@@ -8,11 +8,11 @@ GetValidationRuleForGetAll:
 GetAll:
   'get all':
     params: { }
-    result: { admin: true, pim: true, leave: true,  time: true, recruitment: true, performance: true, maintenance: false, mobile: false}
+    result: { admin: true, pim: true, leave: true,  time: true, recruitment: true, performance: true, maintenance: false, mobile: false }
 
 GetValidationRuleForUpdate:
   'valid params':
-    params: { admin: true, pim: true, leave: true,  time: true, recruitment: true, performance: true, maintenance: false, mobile: false}
+    params: { admin: true, pim: true, leave: true,  time: true, recruitment: true, performance: true, maintenance: false, mobile: false }
   'only admin and pim enabled':
     params: { admin: true, pim: true, leave: false,  time: false, recruitment: false, performance: false, maintenance: false, mobile: false }
   'all modules enabled':
@@ -48,7 +48,7 @@ GetValidationRuleForUpdate:
 Update:
   'successful update':
     params: { admin: true, pim: true, leave: true,  time: true, recruitment: true, performance: true, maintenance: true, mobile: true }
-    result: { admin: true, pim: true, leave: true,  time: true, recruitment: true, performance: true, maintenance: true, mobile: true }
+    result: { admin: true, pim: true, leave: true,  time: true, recruitment: true, performance: true, maintenance: true, mobile: false }
   'successful enabled only admin and pim':
     params: { admin: true, pim: true, leave: false,  time: false, recruitment: false, performance: false, maintenance: false, mobile: false }
-    result: { admin: true, pim: true, leave: false,  time: false, recruitment: false, performance: false, maintenance: false, mobile: false }
+    result: { admin: true, pim: true, leave: false,  time: false, recruitment: false, performance: false, maintenance: false, mobile: true }

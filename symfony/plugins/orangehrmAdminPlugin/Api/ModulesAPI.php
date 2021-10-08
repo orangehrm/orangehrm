@@ -28,9 +28,9 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Core\Service\ModuleService;
 use OrangeHRM\Entity\OAuthClient;
-use OrangeHRM\Core\Service\ModuleService;;
-use OrangeHRM\OAuth\Service\OAuthService;;
+use OrangeHRM\OAuth\Service\OAuthService;
 
 class ModulesAPI extends Endpoint implements CrudEndpoint
 {
@@ -56,21 +56,22 @@ class ModulesAPI extends Endpoint implements CrudEndpoint
      * @var array
      */
     protected const CONFIGURABLE_MODULES = array(
-                self::PARAMETER_ADMIN => false,
-                self::PARAMETER_PIM => false,
-                self::PARAMETER_LEAVE => false,
-                self::PARAMETER_TIME => false,
-                self::PARAMETER_RECRUITMENT => false,
-                self::PARAMETER_PERFORMANCE => false,
-                self::PARAMETER_MAINTENANCE => false,
-                self::PARAMETER_MOBILE => false
-            );
+        self::PARAMETER_ADMIN => false,
+        self::PARAMETER_PIM => false,
+        self::PARAMETER_LEAVE => false,
+        self::PARAMETER_TIME => false,
+        self::PARAMETER_RECRUITMENT => false,
+        self::PARAMETER_PERFORMANCE => false,
+        self::PARAMETER_MAINTENANCE => false,
+        self::PARAMETER_MOBILE => false
+    );
 
     /**
      * Get Module Service
      * @return ModuleService|null
      */
-    public function getModuleService(): ModuleService {
+    public function getModuleService(): ModuleService
+    {
         if (is_null($this->moduleService)) {
             $this->moduleService = new ModuleService();
         }
@@ -80,8 +81,10 @@ class ModulesAPI extends Endpoint implements CrudEndpoint
     /**
      * Set Module Service
      * @param ModuleService $moduleService
+     * @return void
      */
-    public function setModuleService(ModuleService $moduleService) {
+    public function setModuleService(ModuleService $moduleService): void
+    {
         $this->moduleService = $moduleService;
     }
 
@@ -89,7 +92,8 @@ class ModulesAPI extends Endpoint implements CrudEndpoint
      * Get OAuth Service
      * @return OAuthService|null
      */
-    public function getOAuthService(): OAuthService {
+    public function getOAuthService(): OAuthService
+    {
         if (is_null($this->oAuthService)) {
             $this->oAuthService = new OAuthService();
         }
@@ -99,8 +103,10 @@ class ModulesAPI extends Endpoint implements CrudEndpoint
     /**
      * Set OAuth Service
      * @param OAuthService $oAuthService
+     * @return void
      */
-    public function setOAuthService(OAuthService $oAuthService) {
+    public function setOAuthService(OAuthService $oAuthService): void
+    {
         $this->oAuthService = $oAuthService;
     }
 
@@ -111,7 +117,6 @@ class ModulesAPI extends Endpoint implements CrudEndpoint
      * enabled or disabled status by comparing with the statuses fetched from database
      *
      * @return array
-     * @throws \OrangeHRM\Core\Exception\DaoException
      */
     protected function getConfigurableModulesArray(): array
     {
@@ -123,7 +128,9 @@ class ModulesAPI extends Endpoint implements CrudEndpoint
                 $configurableModules[$module->getName()] = $module->getStatus();
             }
         }
-        $configurableModules[self::PARAMETER_MOBILE] = $this->getOAuthService()->getOAuthClientByClientId(OAuthService::PUBLIC_MOBILE_CLIENT_ID) instanceof OAuthClient;
+        $configurableModules[self::PARAMETER_MOBILE] = $this->getOAuthService()->getOAuthClientByClientId(
+                OAuthService::PUBLIC_MOBILE_CLIENT_ID
+            ) instanceof OAuthClient;
         return $configurableModules;
     }
 
@@ -181,7 +188,6 @@ class ModulesAPI extends Endpoint implements CrudEndpoint
      */
     public function update(): EndpointResourceResult
     {
-
         $modules = self::CONFIGURABLE_MODULES;
         foreach ($modules as $key => $module) {
             $modules[$key] = $this->getRequestParams()->getBoolean(RequestParams::PARAM_TYPE_BODY, $key);
@@ -200,17 +206,33 @@ class ModulesAPI extends Endpoint implements CrudEndpoint
      * this will delete the Mobile related OAuth client
      *
      * @param bool|null $enableMobile
+     * @return void
      */
-    protected function updateMobileStatus(?bool $enableMobile): void {
-        if (
-            $enableMobile == false
-            && $this->getOAuthService()->getOAuthClientByClientId(OAuthService::PUBLIC_MOBILE_CLIENT_ID) instanceof OAuthClient
-        ) {
+    protected function updateMobileStatus(?bool $enableMobile): void
+    {
+        $enableMobile ? $this->deleteMobileClient() : $this->createMobileClient();
+    }
+
+    /**
+     * @return void
+     */
+    private function deleteMobileClient(): void
+    {
+        if ($this->getOAuthService()->getOAuthClientByClientId(
+                OAuthService::PUBLIC_MOBILE_CLIENT_ID
+            ) instanceof OAuthClient) {
             $this->getOAuthService()->deleteOAuthClients([OAuthService::PUBLIC_MOBILE_CLIENT_ID]);
-        } elseif (
-            $enableMobile == true
-            && !($this->getOAuthService()->getOAuthClientByClientId(OAuthService::PUBLIC_MOBILE_CLIENT_ID) instanceof OAuthClient)
-        ) {
+        }
+    }
+
+    /**
+     * @return void
+     */
+    private function createMobileClient(): void
+    {
+        if (!$this->getOAuthService()->getOAuthClientByClientId(
+                OAuthService::PUBLIC_MOBILE_CLIENT_ID
+            ) instanceof OAuthClient) {
             $this->getOAuthService()->createMobileClient();
         }
     }
