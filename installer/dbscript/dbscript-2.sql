@@ -4090,3 +4090,20 @@ UPDATE `ohrm_display_field` SET `class_name` = 'OrangeHRM\\Core\\Report\\Display
 UPDATE `ohrm_display_field` SET `class_name` = 'OrangeHRM\\Core\\Report\\DisplayField\\Subordinate\\Subordinate' WHERE `field_alias` = 'subordinateFirstName';
 UPDATE `ohrm_display_field` SET `class_name` = 'OrangeHRM\\Core\\Report\\DisplayField\\Subordinate\\Subordinate' WHERE `field_alias` = 'subordinateLastName';
 UPDATE `ohrm_display_field` SET `class_name` = 'OrangeHRM\\Core\\Report\\DisplayField\\Job\\JobTitle' WHERE `field_alias` = 'empJobTitle';
+
+ALTER TABLE `ohrm_filter_field` ADD `class_name` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;
+
+UPDATE `ohrm_filter_field` SET `class_name` = 'OrangeHRM\\Core\\Report\\FilterField\\EmployeeNumber' WHERE `name` = 'employee_name';
+UPDATE `ohrm_filter_field` SET `class_name` = 'OrangeHRM\\Core\\Report\\FilterField\\PayGrade' WHERE `name` = 'pay_grade';
+UPDATE `ohrm_filter_field` SET `class_name` = 'OrangeHRM\\Core\\Report\\FilterField\\EmployeeEducation' WHERE `name` = 'education';
+UPDATE `ohrm_filter_field` SET `class_name` = 'OrangeHRM\\Core\\Report\\FilterField\\EmploymentStatus' WHERE `name` = 'employment_status';
+UPDATE `ohrm_filter_field` SET `class_name` = 'OrangeHRM\\Core\\Report\\FilterField\\ServicePeriod' WHERE `name` = 'service_period';
+UPDATE `ohrm_filter_field` SET `class_name` = 'OrangeHRM\\Core\\Report\\FilterField\\JoinedDate' WHERE `name` = 'joined_date';
+UPDATE `ohrm_filter_field` SET `class_name` = 'OrangeHRM\\Core\\Report\\FilterField\\JobTitle' WHERE `name` = 'job_title';
+UPDATE `ohrm_filter_field` SET `class_name` = 'OrangeHRM\\Core\\Report\\FilterField\\EmployeeLanguage' WHERE `name` = 'language';
+UPDATE `ohrm_filter_field` SET `class_name` = 'OrangeHRM\\Core\\Report\\FilterField\\EmployeeSkill' WHERE `name` = 'skill';
+UPDATE `ohrm_filter_field` SET `class_name` = 'OrangeHRM\\Core\\Report\\FilterField\\AgeGroup' WHERE `name` = 'age_group';
+UPDATE `ohrm_filter_field` SET `class_name` = 'OrangeHRM\\Core\\Report\\FilterField\\Subunit' WHERE `name` = 'sub_unit';
+UPDATE `ohrm_filter_field` SET `class_name` = 'OrangeHRM\\Core\\Report\\FilterField\\EmployeeGender' WHERE `name` = 'gender';
+UPDATE `ohrm_filter_field` SET `class_name` = 'OrangeHRM\\Core\\Report\\FilterField\\Location' WHERE `name` = 'location';
+UPDATE `ohrm_filter_field` SET `class_name` = 'OrangeHRM\\Core\\Report\\FilterField\\IncludeEmployee' WHERE `name` = 'include';

@@ -26,6 +26,7 @@ use OrangeHRM\Core\Report\DisplayField\BasicDisplayField;
 use OrangeHRM\Core\Report\DisplayField\CombinedDisplayField;
 use OrangeHRM\Core\Report\DisplayField\EntityAliasMapping;
 use OrangeHRM\Core\Report\DisplayField\ListableDisplayField;
+use OrangeHRM\Core\Report\DisplayField\NormalizableDTO;
 use OrangeHRM\Core\Report\Header\Column;
 use OrangeHRM\Core\Report\Header\Header;
 use OrangeHRM\Core\Report\Header\StackedColumn;
@@ -1072,14 +1073,36 @@ class ReportGeneratorService
         $this->setJoinsToQueryBuilder($queryBuilderWrapper, array_unique($joinAliases));
         $this->setSortingAndPaginationParams($queryBuilderWrapper, $filterParams);
 
+        $selectedFilterFields = $this->getReportGeneratorDao()->getSelectedFilterFieldsByReportId(
+            $filterParams->getReportId()
+        );
+        foreach ($selectedFilterFields as $selectedFilterField) {
+            $filterField = $selectedFilterField->getFilterField();
+            $filterFieldClassName = $filterField->getClassName();
+            $filterFieldClass = new $filterFieldClassName(
+                $selectedFilterField->getOperator(),
+                $selectedFilterField->getX(),
+                $selectedFilterField->getY(),
+                $selectedFilterField->getFilterFieldOrder()
+            );
+            $filterFieldClass->addWhereToQueryBuilder($queryBuilderWrapper);
+        }
+
         $results = $qb->getQuery()->execute();
         // Normalize DTO objects
         foreach ($results as $i => $result) {
             foreach ($combinedDisplayFields as $combinedDisplayField) {
-                $results[$i][$combinedDisplayField] = (string) $result[$combinedDisplayField];
+                if ($result[$combinedDisplayField] instanceof \Stringable) {
+                    $results[$i][$combinedDisplayField] = (string)$result[$combinedDisplayField];
+                }
             }
             foreach ($listedDisplayFields as $listedDisplayField) {
-                $results[$i] = array_merge($results[$i], $result[$listedDisplayField]->toArray($displayFieldGroups[$listedDisplayField]));
+                if ($result[$listedDisplayField] instanceof NormalizableDTO) {
+                    $results[$i] = array_merge(
+                        $results[$i],
+                        $result[$listedDisplayField]->toArray($displayFieldGroups[$listedDisplayField])
+                    );
+                }
                 unset($results[$i][$listedDisplayField]);
             }
         }
@@ -1133,11 +1156,5 @@ class ReportGeneratorService
         } elseif (isset(EntityAliasMapping::ALIAS_MAPPING[$joinAlias])) {
             $qb->leftJoin(EntityAliasMapping::ALIAS_MAPPING[$joinAlias], $joinAlias);
         } // else: no need to left join since alias in root alias
-    }
-
-    private function getGroupedSelectedDisplayFields(int $reportId)
-    {
-        $displayFields = $this->getReportGeneratorDao()->getSelectedDisplayFieldsByReportId($reportId);
-//        foreach ($displayFields )
     }
 }

@@ -22,7 +22,9 @@ namespace OrangeHRM\Core\Dao;
 use OrangeHRM\Entity\CompositeDisplayField;
 use OrangeHRM\Entity\DisplayField;
 use OrangeHRM\Entity\DisplayFieldGroup;
+use OrangeHRM\Entity\FilterField;
 use OrangeHRM\Entity\Report;
+use OrangeHRM\Entity\SelectedFilterField;
 use OrangeHRM\Entity\SummaryDisplayField;
 use OrangeHRM\ORM\Paginator;
 use OrangeHRM\Pim\Dto\PimDefinedReportSearchFilterParams;
@@ -83,6 +85,7 @@ class ReportGeneratorDao extends BaseDao
     {
         $q = $this->createQueryBuilder(DisplayField::class, 'df');
         $q->leftJoin('df.selectedDisplayFields', 'sdf');
+        $q->leftJoin('df.displayFieldGroup', 'dfg');
         $q->andWhere('sdf.report = :reportId')
             ->setParameter('reportId', $reportId);
         return $q->getQuery()->execute();
@@ -112,6 +115,18 @@ class ReportGeneratorDao extends BaseDao
         $q = $this->createQueryBuilder(CompositeDisplayField::class, 'cdf');
         $q->leftJoin('cdf.selectedCompositeDisplayFields', 'scdf');
         $q->andWhere('scdf.report = :reportId')
+            ->setParameter('reportId', $reportId);
+        return $q->getQuery()->execute();
+    }
+
+    /**
+     * @param int $reportId
+     * @return SelectedFilterField[]
+     */
+    public function getSelectedFilterFieldsByReportId(int $reportId): array
+    {
+        $q = $this->createQueryBuilder(SelectedFilterField::class, 'sff');
+        $q->andWhere('sff.report = :reportId')
             ->setParameter('reportId', $reportId);
         return $q->getQuery()->execute();
     }
