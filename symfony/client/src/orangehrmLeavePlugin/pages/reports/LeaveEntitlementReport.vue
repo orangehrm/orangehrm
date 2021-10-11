@@ -19,7 +19,11 @@
  -->
 
 <template>
-  <reports-table :name="filters.type" :filters="serializedFilters">
+  <reports-table
+    :name="filters.type"
+    :filters="serializedFilters"
+    :column-count="6"
+  >
     <template v-slot:default="{generateReport}">
       <oxd-table-filter
         :filter-title="$t('leave.leave_entitlement_and_usage_report')"
