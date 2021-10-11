@@ -1,0 +1,6 @@
+ReportGroup:
+  - { id: 1, name: 'pim', coreSql: 'sql' }
+
+Report:
+  - { id: 1, name: 'PIM Sample Report', report_group_id: 1, useFilterField: true, type: PIM_DEFINED }
+  - { id: 2, name: 'PIM Employee Report', report_group_id: 1, useFilterField: true, type: PIM_DEFINED }
