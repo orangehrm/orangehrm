@@ -772,7 +772,7 @@ class ReportGeneratorDao extends BaseDao
 
     /**
      * @param PimDefinedReportSearchFilterParams $pimDefinedReportSearchFilterParams
-     * @return Paginator[]
+     * @return Report[]
      */
     public function searchPimDefinedReports(PimDefinedReportSearchFilterParams $pimDefinedReportSearchFilterParams
     ): array {

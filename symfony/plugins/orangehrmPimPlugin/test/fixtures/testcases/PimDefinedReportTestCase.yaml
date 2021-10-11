@@ -9,19 +9,9 @@ GetAll:
       0:
         id: 1
         name: 'PIM Sample Report'
-        reportGroup:
-          id: 1
-          name: 'pim'
-        isUseFilterField: true
-        type: 'PIM_DEFINED'
       1:
         id: 2
         name: 'PIM Employee Report'
-        reportGroup:
-          id: 1
-          name: 'pim'
-        isUseFilterField: true
-        type: 'PIM_DEFINED'
     meta:
       total: 2
 
@@ -37,11 +27,6 @@ GetAll with filter params:
       0:
         id: 1
         name: 'PIM Sample Report'
-        reportGroup:
-          id: 1
-          name: 'pim'
-        isUseFilterField: true
-        type: 'PIM_DEFINED'
     meta:
       total: 1
 
@@ -66,9 +51,4 @@ GetOne:
     data:
       id: 1
       name: 'PIM Sample Report'
-      reportGroup:
-        id: 1
-        name: 'pim'
-      isUseFilterField: true
-      type: 'PIM_DEFINED'
     meta: [ ]

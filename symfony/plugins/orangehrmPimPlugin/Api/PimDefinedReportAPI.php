@@ -40,6 +40,7 @@ use OrangeHRM\Pim\Dto\PimDefinedReportSearchFilterParams;
 class PimDefinedReportAPI extends Endpoint implements CrudEndpoint
 {
     public const FILTER_NAME = 'name';
+    public const PARAM_RULE_NAME_MAX_LENGTH = 255;
 
     /**
      * @var ReportGeneratorService|null
@@ -49,7 +50,7 @@ class PimDefinedReportAPI extends Endpoint implements CrudEndpoint
     /**
      * @return ReportGeneratorService
      */
-    public function getReportGeneratorService(): ReportGeneratorService
+    protected function getReportGeneratorService(): ReportGeneratorService
     {
         if (!$this->reportGeneratorService instanceof ReportGeneratorService) {
             $this->reportGeneratorService = new ReportGeneratorService();
@@ -67,11 +68,12 @@ class PimDefinedReportAPI extends Endpoint implements CrudEndpoint
         $pimDefinedReportSearchFilterParams->setName(
             $this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_QUERY, self::FILTER_NAME)
         );
-        $pimDefinedReports = $this->getReportGeneratorService()->getReportGeneratorDao()->searchPimDefinedReports(
-            $pimDefinedReportSearchFilterParams
-        );
-        $pimDefinedReportCount = $this->getReportGeneratorService()->getReportGeneratorDao(
-        )->getSearchPimDefinedReportCount($pimDefinedReportSearchFilterParams);
+        $pimDefinedReports = $this->getReportGeneratorService()
+            ->getReportGeneratorDao()
+            ->searchPimDefinedReports($pimDefinedReportSearchFilterParams);
+        $pimDefinedReportCount = $this->getReportGeneratorService()
+            ->getReportGeneratorDao()
+            ->getSearchPimDefinedReportCount($pimDefinedReportSearchFilterParams);
         return new EndpointCollectionResult(
             PimDefinedReportModel::class, $pimDefinedReports,
             new ParameterBag([CommonParams::PARAMETER_TOTAL => $pimDefinedReportCount])
@@ -84,7 +86,13 @@ class PimDefinedReportAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(self::FILTER_NAME),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::FILTER_NAME,
+                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_NAME_MAX_LENGTH])
+                )
+            ),
             ...$this->getSortingAndPaginationParamsRules(PimDefinedReportSearchFilterParams::ALLOWED_SORT_FIELDS)
         );
     }
@@ -121,7 +129,14 @@ class PimDefinedReportAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForDelete(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(CommonParams::PARAMETER_IDS),
+            new ParamRule(
+                CommonParams::PARAMETER_IDS,
+                new Rule(Rules::ARRAY_TYPE),
+                new Rule(
+                    Rules::EACH,
+                    [new Rules\Composite\AllOf(new Rule(Rules::POSITIVE))]
+                )
+            ),
         );
     }
 

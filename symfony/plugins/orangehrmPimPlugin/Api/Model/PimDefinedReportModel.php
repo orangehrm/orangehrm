@@ -33,21 +33,13 @@ class PimDefinedReportModel implements Normalizable
         $this->setFilters(
             [
                 'id',
-                'name',
-                ['getReportGroup', 'getId'],
-                ['getReportGroup', 'getName'],
-                ['isUseFilterField'],
-                'type',
+                'name'
             ]
         );
         $this->setAttributeNames(
             [
                 'id',
-                'name',
-                ['reportGroup', 'id'],
-                ['reportGroup', 'name'],
-                ['isUseFilterField'],
-                'type',
+                'name'
             ]
         );
     }
