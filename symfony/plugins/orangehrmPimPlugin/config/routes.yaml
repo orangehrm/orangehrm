@@ -466,6 +466,20 @@ apiv2_pim_reports_data:
   defaults:
     _api: OrangeHRM\Pim\Api\PimReportDataAPI
 
+apiv2_pim_defined_reports:
+  path: /api/v2/pim/reports/defined
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST, DELETE ]
+  defaults:
+    _api: OrangeHRM\Pim\Api\PimDefinedReportAPI
+
+apiv2_pim_defined_report:
+  path: /api/v2/pim/reports/defined/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    _api: OrangeHRM\Pim\Api\PimDefinedReportAPI
+
 ##########################
 #        Files
 ##########################
