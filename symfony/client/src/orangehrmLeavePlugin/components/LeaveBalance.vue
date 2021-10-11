@@ -56,6 +56,7 @@ import {APIService} from '@orangehrm/core/util/services/api.service';
 import Label from '@orangehrm/oxd/core/components/Label/Label';
 import LeaveBalanceModal from '@/orangehrmLeavePlugin/components/LeaveBalanceModal';
 import LeaveBalanceInsufficientModal from '@/orangehrmLeavePlugin/components/LeaveBalanceInsufficientModal';
+import useLeaveValidators from '@/orangehrmLeavePlugin/util/composable/useLeaveValidators';
 
 export default {
   name: 'leave-balance',
@@ -81,6 +82,7 @@ export default {
       window.appGlobal.baseUrl,
       'api/v2/leave/leave-balance/leave-type',
     );
+    const {validateLeaveBalance} = useLeaveValidators(http);
 
     const leaveBalance = computed(() => {
       return props.leaveData.type?.id
@@ -97,63 +99,16 @@ export default {
     };
 
     watchPostEffect(async () => {
-      const payload = {
-        fromDate: props.leaveData.fromDate,
-        toDate: props.leaveData.toDate,
-        duration: null,
-        partialOption: props.leaveData.partialOptions?.key,
-        endDuration: null,
-        empNumber: props.leaveData.employee?.id,
-      };
-      if (props.leaveData.duration.type?.key) {
-        payload['duration[type]'] = props.leaveData.duration.type.key;
-        payload['duration[fromTime]'] =
-          props.leaveData.duration.type.id === 4
-            ? props.leaveData.duration.fromTime
-            : null;
-        payload['duration[toTime]'] =
-          props.leaveData.duration.type.id === 4
-            ? props.leaveData.duration.toTime
-            : null;
-      }
-      if (props.leaveData.endDuration?.type?.key) {
-        payload['endDuration[type]'] = props.leaveData.endDuration.type.key;
-        payload['endDuration[fromTime]'] =
-          props.leaveData.endDuration.type.id === 4
-            ? props.leaveData.endDuration.fromTime
-            : null;
-        payload['endDuration[toTime]'] =
-          props.leaveData.endDuration.type.id === 4
-            ? props.leaveData.endDuration.toTime
-            : null;
-      }
-
       if (props.leaveData.type?.id) {
-        http
-          .get(props.leaveData.type.id, payload)
-          .then(response => {
-            if (response.status !== 200) return;
-            const {data, meta} = response.data;
-            state.meta = meta;
-            if (data.balance) {
-              // response sends balance directly when no duration defined
-              state.data = data.balance;
-              state.balance = data.balance?.balance;
-            } else if (data.breakdown && data.negative === false) {
-              // if duration is defined and the balance is not exceeded
-              state.data = data.breakdown[0].balance;
-              state.balance = data.breakdown[0].balance?.balance;
-            } else if (data.breakdown && data.negative === true) {
-              // if duration is defined and the balance is exceeded
-              state.data = data.breakdown;
-              state.balance = -1;
-            } else {
-              state.data = null;
-              state.balance = 0;
-            }
+        validateLeaveBalance(props.leaveData)
+          .then(({balance, breakdown, metaData}) => {
+            state.balance = balance;
+            if (breakdown) state.data = breakdown;
+            if (metaData) state.meta = metaData;
           })
           .catch(() => {
             state.data = null;
+            state.meta = null;
             state.balance = 0;
           });
       }

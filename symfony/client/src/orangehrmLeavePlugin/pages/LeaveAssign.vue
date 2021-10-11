@@ -220,11 +220,14 @@ export default {
       window.appGlobal.baseUrl,
       'api/v2/leave/employees/leave-requests',
     );
-    const {validateLeaveBalance, validateOverlapLeaves} = useLeaveValidators(
-      http,
-    );
+    const {
+      serializeBody,
+      validateLeaveBalance,
+      validateOverlapLeaves,
+    } = useLeaveValidators(http);
     return {
       http,
+      serializeBody,
       validateLeaveBalance,
       validateOverlapLeaves,
     };
@@ -268,48 +271,7 @@ export default {
       this.leaveConflictData = null;
       this.showLeaveConflict = false;
 
-      const payload = {
-        empNumber: this.leave.employee?.id,
-        leaveTypeId: this.leave.type?.id,
-        fromDate: this.leave.fromDate,
-        toDate: this.leave.toDate,
-        comment: this.leave.comment ? this.leave.comment : null,
-      };
-
-      if (this.leave.duration.type) {
-        const duration = {
-          type: this.leave.duration.type?.key,
-        };
-        if (duration.type === 'specify_time') {
-          if (this.leave.duration.fromTime) {
-            duration.fromTime = this.leave.duration.fromTime;
-          }
-          if (this.leave.duration.toTime) {
-            duration.toTime = this.leave.duration.toTime;
-          }
-        }
-        payload.duration = duration;
-      }
-
-      if (this.appliedLeaveDuration > 1 && this.leave.partialOptions) {
-        payload.partialOption = this.leave.partialOptions?.key;
-        if (payload.partialOption === 'start_end') {
-          if (this.leave.endDuration.type) {
-            const endDuration = {
-              type: this.leave.endDuration.type?.key,
-            };
-            if (this.leave.endDuration.fromTime) {
-              endDuration.fromTime = this.leave.endDuration.fromTime;
-            }
-            if (this.leave.endDuration.toTime) {
-              endDuration.toTime = this.leave.endDuration.toTime;
-            }
-            payload.endDuration = endDuration;
-          }
-        }
-      }
-
-      this.validateLeaveBalance(payload)
+      this.validateLeaveBalance(this.leave)
         .then(async ({balance}) => {
           if (balance <= 0) {
             const confirmation = await this.$refs.confirmDialog.showDialog();
@@ -317,7 +279,7 @@ export default {
               return Promise.reject();
             }
           }
-          return this.validateOverlapLeaves(payload);
+          return this.validateOverlapLeaves(this.leave);
         })
         .then(({isConflict, isOverWorkshift, data}) => {
           if (isConflict) {
@@ -326,7 +288,7 @@ export default {
             this.isWorkShiftExceeded = isOverWorkshift;
             return Promise.reject();
           }
-          return this.http.create(payload);
+          return this.http.create(this.serializeBody(this.leave));
         })
         .then(() => {
           this.$toast.saveSuccess();

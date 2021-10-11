@@ -17,28 +17,54 @@
  */
 
 import {APIService} from '@/core/util/services/api.service';
-
+import {diffInDays} from '@orangehrm/core/util/helper/datefns';
 interface Duration {
-  type: string;
-  fromTime: string | undefined;
-  toTime: string | undefined;
+  type: DurationOption | null;
+  fromTime: string | null;
+  toTime: string | null;
 }
 
-interface LeaveRequest {
-  empNumber: number;
+interface Option {
+  id: number;
+  label: string;
+}
+interface PartialOption extends Option {
+  key: string;
+}
+interface DurationOption extends Option {
+  key: string;
+}
+
+interface LeaveModel {
+  type: Option | null;
+  employee: Option | null;
+  fromDate: string | null;
+  toDate: string | null;
+  comment: string | null;
+  partialOptions: PartialOption | null;
+  duration: Duration;
+  endDuration: Duration;
+}
+interface LeaveRequestBody {
   leaveTypeId: number;
   fromDate: string;
   toDate: string;
-  comment: string | undefined;
-  partialOption: string | undefined;
-  duration: Duration;
-  endDuration: Duration | undefined;
+  comment: string | null;
+  duration?: DurationObject;
+  endDuration?: DurationObject;
+  partialOption?: string;
+  empNumber?: number;
 }
 
 interface ParamsObj {
   [key: string]: string | number | undefined;
 }
 
+interface DurationObject {
+  type: string;
+  fromTime?: string;
+  toTime?: string;
+}
 interface BalanceObj {
   balance: number;
   breakdown: object | null;
@@ -52,33 +78,107 @@ interface OverlapObj {
 }
 
 export default function useLeaveValidators(http: APIService) {
-  const serializeParams = (leaveData: LeaveRequest) => {
-    const {duration, endDuration, ...rest} = leaveData;
-    const payload: ParamsObj = {
-      ...rest,
-      leaveTypeId: undefined,
-      comment: undefined,
+  const serializeBody = (leave: LeaveModel) => {
+    const payload: LeaveRequestBody = {
+      leaveTypeId: leave.type ? leave.type.id : 1,
+      fromDate: leave.fromDate ? leave.fromDate : '',
+      toDate: leave.toDate ? leave.toDate : '',
+      comment: leave.comment === '' ? null : leave.comment,
     };
 
-    if (duration?.type) {
-      payload['duration[type]'] = duration.type;
-      payload['duration[fromTime]'] =
-        duration.type === 'specify_time' ? duration.fromTime : undefined;
-      payload['duration[toTime]'] =
-        duration.type === 'specify_time' ? duration.toTime : undefined;
+    if (leave.duration.type) {
+      const duration: DurationObject = {
+        type: leave.duration.type?.key,
+      };
+      if (duration.type === 'specify_time') {
+        if (leave.duration.fromTime) {
+          duration.fromTime = leave.duration.fromTime;
+        }
+        if (leave.duration.toTime) {
+          duration.toTime = leave.duration.toTime;
+        }
+      }
+      payload.duration = duration;
     }
-    if (endDuration?.type) {
-      payload['endDuration[type]'] = endDuration.type;
-      payload['endDuration[fromTime]'] =
-        endDuration.type === 'specify_time' ? endDuration.fromTime : undefined;
-      payload['endDuration[toTime]'] =
-        endDuration.type === 'specify_time' ? endDuration.toTime : undefined;
+
+    const leaveDuration = diffInDays(payload.fromDate, payload.toDate);
+
+    if (leaveDuration > 1 && leave.partialOptions) {
+      payload.partialOption = leave.partialOptions.key;
+      if (leave.endDuration.type) {
+        const endDuration: DurationObject = {
+          type: leave.endDuration.type.key,
+        };
+        if (leave.endDuration.fromTime) {
+          endDuration.fromTime = leave.endDuration.fromTime;
+        }
+        if (leave.endDuration.toTime) {
+          endDuration.toTime = leave.endDuration.toTime;
+        }
+        if (payload.partialOption === 'start_end') {
+          payload.endDuration = endDuration;
+        } else if (payload.partialOption === 'end') {
+          payload.duration = endDuration;
+        }
+      }
     }
+
+    return payload;
+  };
+
+  const serializeParams = (leave: LeaveModel) => {
+    const payload: ParamsObj = {
+      fromDate: undefined,
+      toDate: undefined,
+      partialOption: undefined,
+    };
+
+    if (leave.duration.type) {
+      payload['duration[type]'] = leave.duration.type.key;
+      if (payload['duration[type]'] === 'specify_time') {
+        if (leave.duration.fromTime) {
+          payload['duration[fromTime]'] = leave.duration.fromTime;
+        }
+        if (leave.duration.toTime) {
+          payload['duration[toTime]'] = leave.duration.toTime;
+        }
+      }
+    }
+
+    if (leave.fromDate && leave.toDate) {
+      payload.fromDate = leave.fromDate;
+      payload.toDate = leave.toDate;
+      const leaveDuration = diffInDays(leave.fromDate, leave.toDate);
+
+      if (leaveDuration > 1 && leave.partialOptions) {
+        payload.partialOption = leave.partialOptions.key;
+        if (leave.endDuration.type) {
+          if (payload.partialOption === 'start_end') {
+            payload['endDuration[type]'] = leave.endDuration.type.key;
+            if (leave.endDuration.fromTime) {
+              payload['endDuration[fromTime]'] = leave.endDuration.fromTime;
+            }
+            if (leave.endDuration.toTime) {
+              payload['endDuration[toTime]'] = leave.endDuration.toTime;
+            }
+          } else if (payload.partialOption === 'end') {
+            payload['duration[type]'] = leave.endDuration.type.key;
+            if (leave.endDuration.fromTime) {
+              payload['duration[fromTime]'] = leave.endDuration.fromTime;
+            }
+            if (leave.endDuration.toTime) {
+              payload['duration[toTime]'] = leave.endDuration.toTime;
+            }
+          }
+        }
+      }
+    }
+
     return payload;
   };
 
   const validateOverlapLeaves = (
-    leaveData: LeaveRequest,
+    leaveData: LeaveModel,
   ): Promise<OverlapObj> => {
     return new Promise((resolve, reject) => {
       http
@@ -110,14 +210,12 @@ export default function useLeaveValidators(http: APIService) {
     });
   };
 
-  const validateLeaveBalance = (
-    leaveData: LeaveRequest,
-  ): Promise<BalanceObj> => {
+  const validateLeaveBalance = (leaveData: LeaveModel): Promise<BalanceObj> => {
     return new Promise((resolve, reject) => {
       http
         .request({
           method: 'GET',
-          url: `api/v2/leave/leave-balance/leave-type/${leaveData.leaveTypeId}`,
+          url: `api/v2/leave/leave-balance/leave-type/${leaveData.type?.id}`,
           params: serializeParams(leaveData),
         })
         .then(response => {
@@ -153,6 +251,8 @@ export default function useLeaveValidators(http: APIService) {
   };
 
   return {
+    serializeBody,
+    serializeParams,
     validateLeaveBalance,
     validateOverlapLeaves,
   };
