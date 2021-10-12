@@ -24,10 +24,10 @@
     <br />
     <div v-if="headers.length !== 0" class="orangehrm-paper-container">
       <oxd-report-table
-        :height="400"
         :items="items"
         :headers="headers"
         :loading="isLoading"
+        :column-count="columnCount"
       >
         <template v-slot:pagination>
           <oxd-text class="orangehrm-horizontal-margin --count" tag="span">
@@ -71,6 +71,10 @@ export default {
       type: Object,
       default: () => ({}),
     },
+    columnCount: {
+      type: Number,
+      required: true,
+    },
   },
 
   setup(props) {
@@ -87,7 +91,6 @@ export default {
     const {
       total,
       pages,
-      pageSize,
       response,
       isLoading,
       currentPage,
@@ -106,10 +109,7 @@ export default {
     });
 
     const items = computed(() => {
-      const data = response.value.data ?? [];
-      return data.length >= pageSize.value
-        ? data
-        : data.concat(Array(pageSize.value - data.length).fill({}));
+      return response.value.data ?? [];
     });
 
     const fetchTableHeaders = async () => {
@@ -125,6 +125,7 @@ export default {
         .then(response => {
           const data = response.data.data;
           headers.value = data.headers.map(header => {
+            delete header['size'];
             const cellProperties = function({prop, model}) {
               const url = model?._url ? model?._url[prop] : undefined;
               return {

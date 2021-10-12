@@ -550,6 +550,11 @@
           "source": "No leave types defined",
           "target": "No leave types defined",
           "description": ""
+        },
+        "confirm_leave_assignment": {
+          "source": "Confirm Leave Assignment",
+          "target": "Confirm Leave Assignment",
+          "description": "Need to confirm the leave assigned"
         }
       }
     }
