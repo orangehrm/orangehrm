@@ -8,10 +8,7 @@ class loginAction extends sfAction {
      */
     public function execute($request) {
 
-        if (isset($_SESSION['Installation'])) {
-            $this->sendInstallationStatus();
-        }
-        
+        $this->checkAndPublishRegistrationData();
         $loginForm = new LoginForm();
         $this->message = $this->getUser()->getFlash('message');
         $this->form = $loginForm;
@@ -24,6 +21,11 @@ class loginAction extends sfAction {
         $_SESSION['defUser']['type'] = 3;
         $orangeHrmRegistrationService = new OrangeHrmRegisterService();
         $orangeHrmRegistrationService->sendRegistrationData();
+    }
+
+    public function checkAndPublishRegistrationData(){
+        $registrationEventQueueProcessor = new RegistrationEventQueueProcessor();
+        $registrationEventQueueProcessor->checkAndPublishEventData();
     }
 
 }

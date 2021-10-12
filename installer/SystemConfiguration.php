@@ -207,6 +207,8 @@ class SystemConfiguration
         $ohrmVersion
     )
     {
+        $currentTime = new DateTime();
+        $currentTimestamp = $currentTime->getTimestamp();
         if (is_null($host)) {
             $host = '';
         }
@@ -216,6 +218,7 @@ class SystemConfiguration
         return base64_encode(
             $organizationName .
             '_' . $email .
+            '_' . $currentTimestamp .
             '_' . $adminFirstName .
             '_' . $adminLastName .
             '_' . $host .
