@@ -171,6 +171,7 @@ import {APIService} from '@orangehrm/core/util/services/api.service';
 import LeaveDurationInput from '@/orangehrmLeavePlugin/components/LeaveDurationInput';
 import LeaveBalance from '@/orangehrmLeavePlugin/components/LeaveBalance';
 import LeaveConflict from '@/orangehrmLeavePlugin/components/LeaveConflict';
+import useLeaveValidators from '@/orangehrmLeavePlugin/util/composable/useLeaveValidators';
 
 const leaveModel = {
   type: null,
@@ -210,9 +211,12 @@ export default {
       window.appGlobal.baseUrl,
       'api/v2/leave/leave-requests',
     );
+    const {serializeBody, validateOverlapLeaves} = useLeaveValidators(http);
 
     return {
       http,
+      serializeBody,
+      validateOverlapLeaves,
     };
   },
 
@@ -251,62 +255,18 @@ export default {
   methods: {
     onSave() {
       this.isLoading = true;
-      const payload = {
-        leaveTypeId: this.leave.type?.id,
-        fromDate: this.leave.fromDate,
-        toDate: this.leave.toDate,
-        comment: this.leave.comment ? this.leave.comment : null,
-      };
+      this.showLeaveConflict = false;
+      this.leaveConflictData = null;
 
-      if (this.leave.duration.type) {
-        const duration = {
-          type: this.leave.duration.type?.key,
-        };
-        if (duration.type === 'specify_time') {
-          if (this.leave.duration.fromTime) {
-            duration.fromTime = this.leave.duration.fromTime;
-          }
-          if (this.leave.duration.toTime) {
-            duration.toTime = this.leave.duration.toTime;
-          }
-        }
-        payload.duration = duration;
-      }
-
-      if (this.appliedLeaveDuration > 1 && this.leave.partialOptions) {
-        payload.partialOption = this.leave.partialOptions?.key;
-        if (payload.partialOption === 'start_end') {
-          if (this.leave.endDuration.type) {
-            const endDuration = {
-              type: this.leave.endDuration.type?.key,
-            };
-            if (this.leave.endDuration.fromTime) {
-              endDuration.fromTime = this.leave.endDuration.fromTime;
-            }
-            if (this.leave.endDuration.toTime) {
-              endDuration.toTime = this.leave.endDuration.toTime;
-            }
-            payload.endDuration = endDuration;
-          }
-        }
-      }
-
-      this.checkLeaveOverlap(payload)
-        .then(response => {
-          const {data, meta} = response.data;
-          this.leaveConflictData = data;
-          this.isWorkShiftExceeded = meta.isWorkShiftLengthExceeded;
-          if (
-            Array.isArray(data) &&
-            data.length === 0 &&
-            !meta.isWorkShiftLengthExceeded
-          ) {
-            this.showLeaveConflict = false;
-            return this.http.create(payload);
-          } else {
+      this.validateOverlapLeaves(this.leave)
+        .then(({isConflict, isOverWorkshift, data}) => {
+          if (isConflict) {
+            this.leaveConflictData = data;
             this.showLeaveConflict = true;
+            this.isWorkShiftExceeded = isOverWorkshift;
             return Promise.reject();
           }
+          return this.http.create(this.serializeBody(this.leave));
         })
         .then(() => {
           this.$toast.saveSuccess();
@@ -322,31 +282,6 @@ export default {
         .finally(() => {
           this.isLoading = false;
         });
-    },
-    async checkLeaveOverlap(leaveData) {
-      const {duration, endDuration, ...payload} = leaveData;
-      payload.leaveTypeId = undefined;
-      payload.comment = undefined;
-
-      if (duration?.type) {
-        payload['duration[type]'] = duration.type;
-        payload['duration[fromTime]'] =
-          duration.type === 'specify_time' ? duration.fromTime : null;
-        payload['duration[toTime]'] =
-          duration.type === 'specify_time' ? duration.toTime : null;
-      }
-      if (endDuration?.type) {
-        payload['endDuration[type]'] = endDuration.type;
-        payload['endDuration[fromTime]'] =
-          endDuration.type === 'specify_time' ? endDuration.fromTime : null;
-        payload['endDuration[toTime]'] =
-          endDuration.type === 'specify_time' ? endDuration.toTime : null;
-      }
-      return this.http.request({
-        method: 'GET',
-        url: 'api/v2/leave/overlap-leaves',
-        params: payload,
-      });
     },
   },
 

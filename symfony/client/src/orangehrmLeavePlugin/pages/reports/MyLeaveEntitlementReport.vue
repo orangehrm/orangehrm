@@ -23,6 +23,7 @@
     name="employee_leave_entitlements_and_usage"
     :prefetch="true"
     :filters="serializedFilters"
+    :column-count="6"
   >
     <template v-slot:default="{generateReport}">
       <oxd-table-filter
@@ -89,7 +90,6 @@ export default {
       return {
         fromDate: filters.value.leavePeriod?.startDate,
         toDate: filters.value.leavePeriod?.endDate,
-        name: 'employee_leave_entitlements_and_usage',
       };
     });
 
