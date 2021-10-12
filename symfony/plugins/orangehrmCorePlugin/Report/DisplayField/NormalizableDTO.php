@@ -47,9 +47,20 @@ abstract class NormalizableDTO
         foreach ($data as $item) {
             foreach ($fields as $field) {
                 $getter = $fieldGetterMap[$field];
-                $normalized[$field][] = call_user_func([$item, ...$getter]);
+                $normalized[$field][] = $this->callGetterOnItem($item, $field, $getter);
             }
         }
         return $normalized;
+    }
+
+    /**
+     * @param $item
+     * @param string $field
+     * @param array $getter
+     * @return string|null
+     */
+    protected function callGetterOnItem($item, string $field, array $getter): ?string
+    {
+        return call_user_func([$item, ...$getter]);
     }
 }

@@ -17,15 +17,30 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Core\Report\DisplayField\Personal;
+namespace OrangeHRM\Core\Report\DisplayField;
 
-class EmployeeFirstName extends Employee
+use DateTime;
+use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
+
+class GenericDateDisplayFieldDTO implements Stringable
 {
+    use DateTimeHelperTrait;
+
+    private ?DateTime $dateTime = null;
+
+    /**
+     * @param DateTime|null $dateTime
+     */
+    public function __construct(?DateTime $dateTime)
+    {
+        $this->dateTime = $dateTime;
+    }
+
     /**
      * @inheritDoc
      */
-    public function getField(): string
+    public function toString(): ?string
     {
-        return 'firstName';
+        return $this->getDateTimeHelper()->formatDateTimeToYmd($this->dateTime);
     }
 }

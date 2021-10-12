@@ -4082,14 +4082,22 @@ UPDATE `ohrm_screen` SET `module_id` = @pim_module_id WHERE `ohrm_screen`.`id` =
 ALTER TABLE `ohrm_display_field` ADD `class_name` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;
 UPDATE `ohrm_display_field` SET `is_value_list`=0 WHERE `display_field_group_id`=6;
 
-UPDATE `ohrm_display_field` SET `class_name` = 'OrangeHRM\\Core\\Report\\DisplayField\\Personal\\EmployeeFirstName' WHERE `field_alias` = 'employeeFirstname';
+UPDATE `ohrm_display_field` SET `class_name` = 'OrangeHRM\\Core\\Report\\DisplayField\\GenericBasicDisplayField' WHERE `field_alias` = 'employeeId';
+UPDATE `ohrm_display_field` SET `class_name` = 'OrangeHRM\\Core\\Report\\DisplayField\\GenericBasicDisplayField' WHERE `field_alias` = 'employeeFirstname';
+UPDATE `ohrm_display_field` SET `class_name` = 'OrangeHRM\\Core\\Report\\DisplayField\\GenericBasicDisplayField' WHERE `field_alias` = 'employeeLastname';
+UPDATE `ohrm_display_field` SET `class_name` = 'OrangeHRM\\Core\\Report\\DisplayField\\GenericBasicDisplayField' WHERE `field_alias` = 'employeeMiddlename';
+UPDATE `ohrm_display_field` SET `class_name` = 'OrangeHRM\\Core\\Report\\DisplayField\\GenericDateDisplayField' WHERE `field_alias` = 'empBirthday';
+UPDATE `ohrm_display_field` SET `class_name` = 'OrangeHRM\\Core\\Report\\DisplayField\\GenericBasicDisplayField', `field_alias` = 'employeeNationality'  WHERE `field_alias` = 'nationality';
 UPDATE `ohrm_display_field` SET `class_name` = 'OrangeHRM\\Core\\Report\\DisplayField\\Personal\\EmployeeGender' WHERE `field_alias` = 'empGender';
 UPDATE `ohrm_display_field` SET `class_name` = 'OrangeHRM\\Core\\Report\\DisplayField\\ContactDetail\\EmployeeAddress' WHERE `field_alias` = 'address';
 UPDATE `ohrm_display_field` SET `class_name` = 'OrangeHRM\\Core\\Report\\DisplayField\\Supervisor\\Supervisor' WHERE `field_alias` = 'supervisorFirstName';
 UPDATE `ohrm_display_field` SET `class_name` = 'OrangeHRM\\Core\\Report\\DisplayField\\Supervisor\\Supervisor' WHERE `field_alias` = 'supervisorLastName';
 UPDATE `ohrm_display_field` SET `class_name` = 'OrangeHRM\\Core\\Report\\DisplayField\\Subordinate\\Subordinate' WHERE `field_alias` = 'subordinateFirstName';
 UPDATE `ohrm_display_field` SET `class_name` = 'OrangeHRM\\Core\\Report\\DisplayField\\Subordinate\\Subordinate' WHERE `field_alias` = 'subordinateLastName';
-UPDATE `ohrm_display_field` SET `class_name` = 'OrangeHRM\\Core\\Report\\DisplayField\\Job\\JobTitle' WHERE `field_alias` = 'empJobTitle';
+UPDATE `ohrm_display_field` SET `class_name` = 'OrangeHRM\\Core\\Report\\DisplayField\\GenericBasicDisplayField' WHERE `field_alias` = 'empJobTitle';
+UPDATE `ohrm_display_field` SET `class_name` = 'OrangeHRM\\Core\\Report\\DisplayField\\GenericDateDisplayField' WHERE `field_alias` = 'terminationDate';
+UPDATE `ohrm_display_field` SET `class_name` = 'OrangeHRM\\Core\\Report\\DisplayField\\GenericBasicDisplayField', `field_alias` = 'empTerminationReason' WHERE `field_alias` = 'terminationReason';
+UPDATE `ohrm_display_field` SET `class_name` = 'OrangeHRM\\Core\\Report\\DisplayField\\GenericBasicDisplayField', `field_alias` = 'terminationNote' WHERE `field_alias` = 'getNote';
 
 ALTER TABLE `ohrm_filter_field` ADD `class_name` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;
 

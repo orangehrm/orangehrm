@@ -20,7 +20,6 @@
 namespace OrangeHRM\Core\Report\DisplayField\ContactDetail;
 
 use OrangeHRM\Core\Report\DisplayField\CombinedDisplayField;
-use OrangeHRM\Core\Report\DisplayField\Dto;
 
 class EmployeeAddress extends CombinedDisplayField
 {
@@ -29,7 +28,7 @@ class EmployeeAddress extends CombinedDisplayField
      */
     public function getDtoClass(): string
     {
-        return \OrangeHRM\Core\Report\DisplayField\ContactDetail\Dto\EmployeeAddress::class;
+        return Dto\EmployeeAddress::class;
     }
 
     /**

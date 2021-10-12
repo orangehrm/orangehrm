@@ -19,8 +19,8 @@
 
 namespace OrangeHRM\Core\Report\DisplayField\Personal\Dto;
 
+use OrangeHRM\Core\Report\DisplayField\Stringable;
 use OrangeHRM\Entity\Employee;
-use Stringable;
 
 class EmployeeGender implements Stringable
 {
@@ -37,7 +37,7 @@ class EmployeeGender implements Stringable
     /**
      * @inheritDoc
      */
-    public function __toString(): string
+    public function toString(): ?string
     {
         switch ($this->gender) {
             case Employee::GENDER_MALE:
@@ -47,7 +47,7 @@ class EmployeeGender implements Stringable
             case Employee::GENDER_OTHER:
                 return 'Other';
             default:
-                return '';
+                return null;
         }
     }
 }

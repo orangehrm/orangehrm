@@ -17,33 +17,13 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Core\Report\DisplayField\Job;
+namespace OrangeHRM\Core\Report\DisplayField;
 
-use OrangeHRM\Core\Report\DisplayField\BasicDisplayField;
-
-class JobTitle extends BasicDisplayField
+interface Stringable
 {
     /**
-     * @inheritDoc
+     * Handle nullable string
+     * @return string|null
      */
-    public function getEntityClass(): string
-    {
-        return \OrangeHRM\Entity\JobTitle::class;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getEntityAlias(): string
-    {
-        return 'jobTitle';
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getField(): string
-    {
-        return 'jobTitleName';
-    }
+    public function toString(): ?string;
 }

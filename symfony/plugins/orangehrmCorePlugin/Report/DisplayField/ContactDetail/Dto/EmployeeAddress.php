@@ -19,9 +19,9 @@
 
 namespace OrangeHRM\Core\Report\DisplayField\ContactDetail\Dto;
 
+use OrangeHRM\Core\Report\DisplayField\Stringable;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Entity\Country;
-use Stringable;
 
 class EmployeeAddress implements Stringable
 {
@@ -57,14 +57,13 @@ class EmployeeAddress implements Stringable
         $this->city = $city;
         $this->province = $province;
         $this->zipcode = $zipcode;
-        // TODO:: country name, not code
         $this->country = $country;
     }
 
     /**
      * @inheritDoc
      */
-    public function __toString(): string
+    public function toString(): ?string
     {
         $properties = [
             $this->street1,

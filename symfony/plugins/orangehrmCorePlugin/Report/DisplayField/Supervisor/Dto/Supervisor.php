@@ -22,10 +22,13 @@ namespace OrangeHRM\Core\Report\DisplayField\Supervisor\Dto;
 use OrangeHRM\Core\Report\DisplayField\NormalizableDTO;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Entity\Employee;
+use OrangeHRM\Entity\ReportingMethod;
+use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
 
 class Supervisor extends NormalizableDTO
 {
     use EntityManagerHelperTrait;
+    use EmployeeServiceTrait;
 
     private ?int $empNumber = null;
 
@@ -46,13 +49,30 @@ class Supervisor extends NormalizableDTO
 
     /**
      * @inheritDoc
+     * @param Employee $item
+     */
+    protected function callGetterOnItem($item, string $field, array $getter): ?string
+    {
+        if ($field === 'supReportingMethod') {
+            $reportingMethod = $this->getEmployeeService()
+                ->getEmployeeDao()
+                ->getReportingMethod($this->empNumber, $item->getEmpNumber());
+            if ($reportingMethod instanceof ReportingMethod) {
+                return $reportingMethod->getName();
+            }
+            return null;
+        }
+        return parent::callGetterOnItem($item, $field, $getter);
+    }
+
+    /**
+     * @inheritDoc
      */
     protected function getFieldGetterMap(): array
     {
         return [
             'supervisorFirstName' => ['getFirstName'],
             'supervisorLastName' => ['getLastName'],
-            // TODO
             'supReportingMethod' => [],
             'supervisorId' => ['getEmpNumber'],
         ];

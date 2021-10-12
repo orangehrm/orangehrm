@@ -28,11 +28,6 @@ abstract class BasicDisplayField implements DisplayField
     /**
      * @return string
      */
-    abstract public function getEntityClass(): string;
-
-    /**
-     * @return string
-     */
     abstract public function getEntityAlias(): string;
 
     /**

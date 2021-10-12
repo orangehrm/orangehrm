@@ -25,8 +25,11 @@ use OrangeHRM\Core\Dto\FilterParams;
 use OrangeHRM\Core\Report\DisplayField\BasicDisplayField;
 use OrangeHRM\Core\Report\DisplayField\CombinedDisplayField;
 use OrangeHRM\Core\Report\DisplayField\EntityAliasMapping;
+use OrangeHRM\Core\Report\DisplayField\GenericBasicDisplayField;
+use OrangeHRM\Core\Report\DisplayField\GenericDateDisplayField;
 use OrangeHRM\Core\Report\DisplayField\ListableDisplayField;
 use OrangeHRM\Core\Report\DisplayField\NormalizableDTO;
+use OrangeHRM\Core\Report\DisplayField\Stringable;
 use OrangeHRM\Core\Report\FilterField\FilterField;
 use OrangeHRM\Core\Report\Header\Column;
 use OrangeHRM\Core\Report\Header\Header;
@@ -1023,13 +1026,19 @@ class ReportGeneratorService
         return $header;
     }
 
-    public function getNormalizedReportData(ReportSearchFilterParams $filterParams)
+    /**
+     * @param ReportSearchFilterParams $filterParams
+     * @return array
+     */
+    public function getNormalizedReportData(ReportSearchFilterParams $filterParams): array
     {
         // TODO:: Support for time, attendance, currently only supports for PIM reports
         $qb = $this->getEntityManager()->createQueryBuilder()
             ->from(Employee::class, 'employee');
 
-        $displayFields = $this->getReportGeneratorDao()->getSelectedDisplayFieldsByReportId($filterParams->getReportId());
+        $displayFields = $this->getReportGeneratorDao()->getSelectedDisplayFieldsByReportId(
+            $filterParams->getReportId()
+        );
         $combinedDisplayFields = [];
         $listedDisplayFields = [];
         $joinAliases = [];
@@ -1039,6 +1048,11 @@ class ReportGeneratorService
             $displayFieldClassName = $displayField->getClassName();
             $displayFieldClass = new $displayFieldClassName();
             if ($displayFieldClass instanceof \OrangeHRM\Core\Report\DisplayField\DisplayField) {
+                if ($displayFieldClass instanceof GenericBasicDisplayField ||
+                    $displayFieldClass instanceof GenericDateDisplayField) {
+                    $displayFieldClass->setDisplayField($displayField);
+                }
+
                 if ($displayField->isValueList()) {
                     $displayFieldGroupId = $displayField->getDisplayFieldGroup()->getId();
                     $fieldAlias = 'displayFieldGroup' . $displayFieldGroupId;
@@ -1096,8 +1110,8 @@ class ReportGeneratorService
         // Normalize DTO objects
         foreach ($results as $i => $result) {
             foreach ($combinedDisplayFields as $combinedDisplayField) {
-                if ($result[$combinedDisplayField] instanceof \Stringable) {
-                    $results[$i][$combinedDisplayField] = (string)$result[$combinedDisplayField];
+                if ($result[$combinedDisplayField] instanceof Stringable) {
+                    $results[$i][$combinedDisplayField] = $result[$combinedDisplayField]->toString();
                 }
             }
             foreach ($listedDisplayFields as $listedDisplayField) {

@@ -46,6 +46,8 @@ final class EntityAliasMapping
         'currencyType' => 'salaries.currencyType',
         'payPeriod' => 'salaries.payPeriod',
         'directDebit' => 'salaries.directDebit',
+        'employeeTerminationRecord' => 'employee.employeeTerminationRecord',
+        'terminationReason'=>'employeeTerminationRecord.terminationReason',
     ];
 
     public const ALIAS_DEPENDENCIES = [
@@ -72,5 +74,7 @@ final class EntityAliasMapping
         'currencyType' => 'salary',
         'payPeriod' => 'salary',
         'directDebit' => 'salary',
+        'employeeTerminationRecord' => 'employee',
+        'terminationReason'=>'employeeTerminationRecord',
     ];
 }
