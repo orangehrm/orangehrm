@@ -991,7 +991,7 @@ RegistrationEventQueue:
       type: boolean
       name: published
     event_time:
-      type: datetime
+      type: timestamp(25)
       name: event_time as eventTime
     extra_details:
       type: string(255)

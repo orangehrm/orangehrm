@@ -1589,9 +1589,7 @@ class EmployeeService extends BaseService {
         }
 
         if ($employeeCount % self::EMPLOYEE_COUNT_CHANGE == 0) {
-            $_SESSION['defUser']['type'] = $type;
-            $_SESSION['defUser']['employee_count'] = $employeeCount;
-            $this->getOrangeHrmRegistration()->sendRegistrationData();
+            $this->getOrangeHrmRegistrationQueueProcessor()->updateEmployeeCountEvent($type, $employeeCount);
         }
     }
 

@@ -14,15 +14,6 @@ class loginAction extends sfAction {
         $this->form = $loginForm;
     }
 
-    /**
-     * Send instance installation status to OrangeHRM
-     */
-    public function sendInstallationStatus() {
-        $_SESSION['defUser']['type'] = 3;
-        $orangeHrmRegistrationService = new OrangeHrmRegisterService();
-        $orangeHrmRegistrationService->sendRegistrationData();
-    }
-
     public function checkAndPublishRegistrationData(){
         $registrationEventQueueProcessor = new RegistrationEventQueueProcessor();
         $registrationEventQueueProcessor->checkAndPublishEventData();
