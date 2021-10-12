@@ -54,6 +54,7 @@ class Supervisor extends NormalizableDTO
             'supervisorLastName' => ['getLastName'],
             // TODO
             'supReportingMethod' => [],
+            'supervisorId' => ['getEmpNumber'],
         ];
     }
 }

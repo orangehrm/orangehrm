@@ -27,6 +27,7 @@ use OrangeHRM\Core\Report\DisplayField\CombinedDisplayField;
 use OrangeHRM\Core\Report\DisplayField\EntityAliasMapping;
 use OrangeHRM\Core\Report\DisplayField\ListableDisplayField;
 use OrangeHRM\Core\Report\DisplayField\NormalizableDTO;
+use OrangeHRM\Core\Report\FilterField\FilterField;
 use OrangeHRM\Core\Report\Header\Column;
 use OrangeHRM\Core\Report\Header\Header;
 use OrangeHRM\Core\Report\Header\StackedColumn;
@@ -1068,11 +1069,7 @@ class ReportGeneratorService
             }
         }
 
-        $qb->groupBy('employee.empNumber');
         $queryBuilderWrapper = $this->getQueryBuilderWrapper($qb);
-        $this->setJoinsToQueryBuilder($queryBuilderWrapper, array_unique($joinAliases));
-        $this->setSortingAndPaginationParams($queryBuilderWrapper, $filterParams);
-
         $selectedFilterFields = $this->getReportGeneratorDao()->getSelectedFilterFieldsByReportId(
             $filterParams->getReportId()
         );
@@ -1085,8 +1082,15 @@ class ReportGeneratorService
                 $selectedFilterField->getY(),
                 $selectedFilterField->getFilterFieldOrder()
             );
-            $filterFieldClass->addWhereToQueryBuilder($queryBuilderWrapper);
+            if ($filterFieldClass instanceof FilterField) {
+                $filterFieldClass->addWhereToQueryBuilder($queryBuilderWrapper);
+                array_push($joinAliases, ...$filterFieldClass->getEntityAliases());
+            }
         }
+
+        $qb->groupBy('employee.empNumber');
+        $this->setJoinsToQueryBuilder($queryBuilderWrapper, array_unique($joinAliases));
+        $this->setSortingAndPaginationParams($queryBuilderWrapper, $filterParams);
 
         $results = $qb->getQuery()->execute();
         // Normalize DTO objects

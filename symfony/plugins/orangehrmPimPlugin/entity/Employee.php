@@ -434,7 +434,7 @@ class Employee
     private iterable $educations;
 
     /**
-     * @var Skill[]
+     * @var EmployeeSkill[]
      *
      * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\EmployeeSkill", mappedBy="employee")
      */
@@ -1326,7 +1326,87 @@ class Employee
     }
 
     /**
-     * @return Skill[]
+     * @return EmpDependent[]
+     */
+    public function getDependents(): iterable
+    {
+        return $this->dependents;
+    }
+
+    /**
+     * @param EmpDependent[] $dependents
+     */
+    public function setDependents(iterable $dependents): void
+    {
+        $this->dependents = $dependents;
+    }
+
+    /**
+     * @return EmpEmergencyContact[]
+     */
+    public function getEmergencyContacts(): iterable
+    {
+        return $this->emergencyContacts;
+    }
+
+    /**
+     * @param EmpEmergencyContact[] $emergencyContacts
+     */
+    public function setEmergencyContacts(iterable $emergencyContacts): void
+    {
+        $this->emergencyContacts = $emergencyContacts;
+    }
+
+    /**
+     * @return EmployeeImmigrationRecord[]
+     */
+    public function getImmigrationRecords(): iterable
+    {
+        return $this->immigrationRecords;
+    }
+
+    /**
+     * @param EmployeeImmigrationRecord[] $immigrationRecords
+     */
+    public function setImmigrationRecords(iterable $immigrationRecords): void
+    {
+        $this->immigrationRecords = $immigrationRecords;
+    }
+
+    /**
+     * @return EmpWorkExperience[]
+     */
+    public function getWorkExperience(): iterable
+    {
+        return $this->workExperience;
+    }
+
+    /**
+     * @param EmpWorkExperience[] $workExperience
+     */
+    public function setWorkExperience(iterable $workExperience): void
+    {
+        $this->workExperience = $workExperience;
+    }
+
+    /**
+     * @return EmployeeEducation[]
+     */
+    public function getEducations(): iterable
+    {
+        return $this->educations;
+    }
+
+    /**
+     * @param EmployeeEducation[] $educations
+     */
+    public function setEducations(iterable $educations): void
+    {
+        $this->educations = $educations;
+    }
+
+    /**
+     * @return EmployeeSkill[]
      */
     public function getSkills(): iterable
     {
@@ -1334,11 +1414,75 @@ class Employee
     }
 
     /**
-     * @param Skill[] $skills
+     * @param EmployeeSkill[] $skills
      */
     public function setSkills(iterable $skills): void
     {
         $this->skills = $skills;
+    }
+
+    /**
+     * @return EmployeeLanguage[]
+     */
+    public function getLanguages(): iterable
+    {
+        return $this->languages;
+    }
+
+    /**
+     * @param EmployeeLanguage[] $languages
+     */
+    public function setLanguages(iterable $languages): void
+    {
+        $this->languages = $languages;
+    }
+
+    /**
+     * @return EmployeeLicense[]
+     */
+    public function getLicenses(): iterable
+    {
+        return $this->licenses;
+    }
+
+    /**
+     * @param EmployeeLicense[] $licenses
+     */
+    public function setLicenses(iterable $licenses): void
+    {
+        $this->licenses = $licenses;
+    }
+
+    /**
+     * @return EmployeeMembership[]
+     */
+    public function getMemberships(): iterable
+    {
+        return $this->memberships;
+    }
+
+    /**
+     * @param EmployeeMembership[] $memberships
+     */
+    public function setMemberships(iterable $memberships): void
+    {
+        $this->memberships = $memberships;
+    }
+
+    /**
+     * @return EmployeeSalary[]
+     */
+    public function getSalaries(): iterable
+    {
+        return $this->salaries;
+    }
+
+    /**
+     * @param EmployeeSalary[] $salaries
+     */
+    public function setSalaries(iterable $salaries): void
+    {
+        $this->salaries = $salaries;
     }
 
     /**

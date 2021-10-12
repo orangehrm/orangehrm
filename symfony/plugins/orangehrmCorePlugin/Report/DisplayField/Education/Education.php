@@ -17,39 +17,33 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Core\Report\DisplayField;
+namespace OrangeHRM\Core\Report\DisplayField\Education;
 
-abstract class NormalizableDTO
+use OrangeHRM\Core\Report\DisplayField\ListableDisplayField;
+
+class Education extends ListableDisplayField
 {
     /**
-     * @param array $fields
-     * @return array|null
+     * @inheritDoc
      */
-    abstract public function toArray(array $fields): ?array;
-
-    /**
-     * @return array
-     */
-    abstract protected function getFieldGetterMap(): array;
-
-    /**
-     * @param iterable $data
-     * @param array $fields
-     * @return array
-     */
-    protected function normalizeArray(iterable $data, array $fields): array
+    public function getDtoClass(): string
     {
-        $normalized = [];
-        $fieldGetterMap = $this->getFieldGetterMap();
-        foreach ($fields as $field) {
-            $normalized[$field] = [];
-        }
-        foreach ($data as $item) {
-            foreach ($fields as $field) {
-                $getter = $fieldGetterMap[$field];
-                $normalized[$field][] = call_user_func([$item, ...$getter]);
-            }
-        }
-        return $normalized;
+        return Dto\Education::class;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getEntityAliases(): array
+    {
+        return ['education'];
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getFields(): array
+    {
+        return ['employee.empNumber'];
     }
 }

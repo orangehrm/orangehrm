@@ -20,7 +20,6 @@
 namespace OrangeHRM\Core\Report\DisplayField\Personal;
 
 use OrangeHRM\Core\Report\DisplayField\CombinedDisplayField;
-use OrangeHRM\Core\Report\DisplayField\Dto;
 
 class EmployeeGender extends CombinedDisplayField
 {
@@ -29,7 +28,7 @@ class EmployeeGender extends CombinedDisplayField
      */
     public function getDtoClass(): string
     {
-        return \OrangeHRM\Core\Report\DisplayField\Personal\Dto\EmployeeGender::class;
+        return Dto\EmployeeGender::class;
     }
 
     /**

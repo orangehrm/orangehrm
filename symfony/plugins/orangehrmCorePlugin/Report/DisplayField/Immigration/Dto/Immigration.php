@@ -17,18 +17,21 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Core\Report\DisplayField\Subordinate\Dto;
+namespace OrangeHRM\Core\Report\DisplayField\Immigration\Dto;
 
 use OrangeHRM\Core\Report\DisplayField\NormalizableDTO;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Entity\Employee;
 
-class Subordinate extends NormalizableDTO
+class Immigration extends NormalizableDTO
 {
     use EntityManagerHelperTrait;
 
     private ?int $empNumber = null;
 
+    /**
+     * @param int|null $empNumber
+     */
     public function __construct(?int $empNumber)
     {
         $this->empNumber = $empNumber;
@@ -37,11 +40,11 @@ class Subordinate extends NormalizableDTO
     /**
      * @inheritDoc
      */
-    public function toArray(array $fields): array
+    public function toArray(array $fields): ?array
     {
         /** @var Employee $employee */
         $employee = $this->getReference(Employee::class, $this->empNumber);
-        return $this->normalizeArray($employee->getSubordinates(), $fields);
+        return $this->normalizeArray($employee->getImmigrationRecords(), $fields);
     }
 
     /**
@@ -50,11 +53,15 @@ class Subordinate extends NormalizableDTO
     protected function getFieldGetterMap(): array
     {
         return [
-            'subordinateFirstName' => ['getFirstName'],
-            'subordinateLastName' => ['getLastName'],
-            // TODO
-            'subReportingMethod' => [],
-            'subordinateId' => ['getEmpNumber'],
+            'empPassportNo' => ['getNumber'],
+            'empPassportIssuedDate' => ['getDecorator', 'getIssuedDate'],
+            'empPassportExpiryDate' => ['getDecorator', 'getExpiryDate'],
+            'empPassportEligibleStatus' => ['getStatus'],
+            'empPassportIssuedBy' => ['getDecorator', 'getCountryName'],
+            'empPassportEligibleReviewDate' => ['getDecorator', 'getReviewDate'],
+            'empPassportComments' => ['getComment'],
+            'documentType' => ['getDecorator', 'getDocumentType'],
+            'epSeqNo' => ['getRecordId'],
         ];
     }
 }
