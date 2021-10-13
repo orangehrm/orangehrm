@@ -21,22 +21,22 @@ Report:
   - { id: 2, name: 'PIM Employee Report', report_group_id: 1, useFilterField: true, type: PIM_DEFINED }
 
 DisplayFieldGroup:
-  - { id: 1, report_group_id: 1, name: 'Personal', is_list: false }
-  - { id: 2, report_group_id: 1, name: 'Contact Details', is_list: false }
-  - { id: 3, report_group_id: 1, name: 'Emergency Contacts', is_list: true }
-  - { id: 4, report_group_id: 1, name: 'Dependents', is_list: true }
-  - { id: 5, report_group_id: 1, name: 'Immigration', is_list: true }
-  - { id: 6, report_group_id: 1, name: 'Job', is_list: false }
-  - { id: 7, report_group_id: 1, name: 'Salary', is_list: true }
-  - { id: 8, report_group_id: 1, name: 'Subordinates', is_list: true }
-  - { id: 9, report_group_id: 1, name: 'Supervisors', is_list: true }
-  - { id: 10,report_group_id: 1, name: 'Work Experience', is_list: true }
-  - { id: 11,report_group_id: 1, name: 'Education', is_list: true }
-  - { id: 12,report_group_id: 1, name: 'Skills', is_list: true }
-  - { id: 13,report_group_id: 1, name: 'Languages', is_list: true }
-  - { id: 14,report_group_id: 1, name: 'License', is_list: true }
-  - { id: 15,report_group_id: 1, name: 'Memberships', is_list: true }
-  - { id: 16,report_group_id: 1, name: 'Custom Fields', is_list: false }
+  - { id: 1, report_group_id: 1, name: 'Personal', is_list: 0 }
+  - { id: 2, report_group_id: 1, name: 'Contact Details', is_list: 0 }
+  - { id: 3, report_group_id: 1, name: 'Emergency Contacts', is_list: 1 }
+  - { id: 4, report_group_id: 1, name: 'Dependents', is_list: 1 }
+  - { id: 5, report_group_id: 1, name: 'Immigration', is_list: 1 }
+  - { id: 6, report_group_id: 1, name: 'Job', is_list: 1 }
+  - { id: 7, report_group_id: 1, name: 'Salary', is_list: 1 }
+  - { id: 8, report_group_id: 1, name: 'Subordinates', is_list: 1 }
+  - { id: 9, report_group_id: 1, name: 'Supervisors', is_list: 1 }
+  - { id: 10,report_group_id: 1, name: 'Work Experience', is_list: 1 }
+  - { id: 11,report_group_id: 1, name: 'Education', is_list: 1 }
+  - { id: 12,report_group_id: 1, name: 'Skills', is_list: 1 }
+  - { id: 13,report_group_id: 1, name: 'Languages', is_list: 1 }
+  - { id: 14,report_group_id: 1, name: 'License', is_list: 1 }
+  - { id: 15,report_group_id: 1, name: 'Memberships', is_list: 1 }
+  - { id: 16,report_group_id: 1, name: 'Custom Fields', is_list: 1 }
 
 DisplayField:
   - { display_field_id: 1,  report_group_id: 1, name: 'hs_hr_employee.employee_id', label: 'Employee Id', field_alias: 'employeeId',  is_sortable: 'false', sort_order: null, sort_field: null, element_type: 'label', element_property: '<xml><getter>employeeId</getter></xml>', width: 100, is_exportable: '0', text_alignment_style: null, is_value_list: false, display_field_group_id: 1, default_value: '---', is_encrypted: false, is_meta: false }
