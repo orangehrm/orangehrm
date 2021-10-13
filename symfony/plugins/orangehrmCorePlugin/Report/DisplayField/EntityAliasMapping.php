@@ -41,7 +41,6 @@ final class EntityAliasMapping
         'employmentContract' => 'employee.employmentContracts',
         'subordinate' => 'employee.subordinates',
         'supervisor' => 'employee.supervisors',
-        // TODO:: reporting methods
         'payGrade' => 'salaries.payGrade',
         'currencyType' => 'salaries.currencyType',
         'payPeriod' => 'salaries.payPeriod',
