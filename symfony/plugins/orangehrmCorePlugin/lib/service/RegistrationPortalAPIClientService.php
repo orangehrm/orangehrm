@@ -61,8 +61,9 @@ class RegistrationPortalAPIClientService
     }
 
 
-    public function publishData($event, $data)
+    public function publishData($data)
     {
+        Logger::getLogger('orangehrm.log')->error($data);
         try {
             $headers = array(
                 'Content-Type' => 'application/x-www-form-urlencoded',
@@ -71,8 +72,7 @@ class RegistrationPortalAPIClientService
                 '',
                 array(
                     'headers'     => $headers,
-//                    'form_params' => $data,
-                    'body'        => $data,
+                    'form_params' => $data,
                 )
             );
             if ($response->getStatusCode() == 200) {
@@ -80,7 +80,7 @@ class RegistrationPortalAPIClientService
             }
             return false;
         } catch (Exception $e) {
-            Logger::getLogger('orangehrm.log')->error('aaaaaaaaaaaaaaaaaaaaaaaaa');
+            Logger::getLogger('orangehrm.log')->error('Registration Data Publish Failed');
             Logger::getLogger('orangehrm.log')->error($e);
         }
     }

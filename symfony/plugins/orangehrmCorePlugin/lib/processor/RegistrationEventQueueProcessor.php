@@ -19,16 +19,19 @@
  */
 class RegistrationEventQueueProcessor
 {
-    const INSTALLATION_STARTED = "0";
-    const ACTIVE_EMPLOYEE_COUNT = "1";
-    const INACTIVE_EMPLOYEE_COUNT = "2";
-    const INSTALLATION_SUCCESS = "3";
-    const UPGRADE_STARTED = "4";
+    const INSTALLATION_STARTED = 0;
+    const ACTIVE_EMPLOYEE_COUNT = 1;
+    const INACTIVE_EMPLOYEE_COUNT = 2;
+    const INSTALLATION_SUCCESS = 3;
+    const UPGRADE_STARTED = 4;
     const PUBLISH_EVENT_COUNT = 5;
 
     protected $registrationEventQueueDao;
     protected $registrationPortalAPIClientService;
     protected $sysConf;
+    protected $configService;
+    protected $systemDetailHelper;
+    protected $organizationService;
 
     /**
      * Get instance of sysConf
@@ -63,6 +66,58 @@ class RegistrationEventQueueProcessor
         return $this->registrationPortalAPIClientService;
     }
 
+    /**
+     * Get ConfigService instance
+     * @return ConfigService
+     */
+    private function getConfigService() {
+        if (!($this->configService instanceof ConfigService)) {
+            $this->configService = new ConfigService();
+        }
+        return $this->configService;
+    }
+
+    /**
+     * Return system details as a JSON string
+     * @return string
+     */
+    private function getSystemDetails() {
+        require_once(sfConfig::get('sf_root_dir') . "/../installer/SystemDetailHelper.php");
+        $sysDetailHelper = new SystemDetailHelper();
+        return $sysDetailHelper->getSystemDetailsAsJson();
+    }
+
+    /**
+     * Get OrganizationService instance
+     * @return OrganizationService
+     */
+    private function getOrganizationService() {
+        if (!($this->organizationService instanceof OrganizationService)) {
+            $this->organizationService = new OrganizationService();
+        }
+        return $this->organizationService;
+    }
+
+    /**
+     * Get the instance Identifier value
+     * @return String
+     * @throws CoreServiceException
+     */
+    private function getInstanceIdentifier() {
+        return $this->getConfigService()->getInstanceIdentifier();
+    }
+
+    /**
+     * @return MarketplaceDao
+     */
+    public function getMarketplaceDao()
+    {
+        if (!isset($this->marketplaceDao)) {
+            $this->marketplaceDao = new MarketplaceDao();
+        }
+        return $this->marketplaceDao;
+    }
+
     public function checkAndPublishEventData()
     {
         $installationSucceedEvent = $this->getRegistrationEventQueueDao()->getRegistrationEventQueueEventByType(self::INSTALLATION_SUCCESS);
@@ -93,14 +148,13 @@ class RegistrationEventQueueProcessor
 
     protected function publishEvents()
     {
-        Logger::getLogger('orangehrm.log')->error('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
         $mode = $this->getSysConf()->getMode();
         if ($mode === sysConf::PROD_MODE) {
             $eventsToPublish = $this->getRegistrationEventQueueDao()->getUnpublishedRegistrationEventQueueEvents(self::PUBLISH_EVENT_COUNT);
             if ($eventsToPublish) {
                 foreach ($eventsToPublish as $event) {
-                    $postData = $this->getPublishData($event->getEventTypeId());
-                    $result = $this->getRegistrationPortalAPIClientService()->publishData($event, $postData);
+                    $postData = $this->getPublishData($event);
+                    $result = $this->getRegistrationPortalAPIClientService()->publishData($postData);
                     if ($result) {
                         $event->setPublished(1);
                         $this->getRegistrationEventQueueDao()->saveRegistrationEventQueue($event);
@@ -110,80 +164,83 @@ class RegistrationEventQueueProcessor
         }
     }
 
-    public function getPublishData($eventType)
+    public function getPublishData($event)
     {
+        $eventType = $event->getEventTypeId();
+        $adminEmployee = $this->getMarketplaceDao()->getAdmin();
+        $language = $this->getConfigService()->getAdminLocalizationDefaultLanguage()? $this->getConfigService()->getAdminLocalizationDefaultLanguage(): 'Not captured';
+        $country = $this->getOrganizationService()->getOrganizationGeneralInformation()->getCountry()? $this->getOrganizationService()->getOrganizationGeneralInformation()->getCountry(): null;
+        $instanceIdentifier = $this->getInstanceIdentifier();
+        $organizationName = $this->getOrganizationService()->getOrganizationGeneralInformation()->getName();
+        $systemDetails = '';
+        $systemDetails = $this->getSystemDetails();
+        $additionalData = $event->getExtraDetails();
+        $eventTime = $event->getEventTime();
+        $organizationEmail = '';
+        $adminFirstName = '';
+        $adminLastName = '';
+        $adminContactNumber = '';
+        $username = '';
+        if($adminEmployee instanceof Employee){
+            $organizationEmail = $adminEmployee->getEmpWorkEmail();
+            $adminFirstName = $adminEmployee->getFirstName();
+            $adminLastName = $adminEmployee->getLastName();
+            $adminContactNumber = $adminEmployee->getEmpWorkTelephone();
+            $username = $adminEmployee->getSystemUser()? $adminEmployee->getSystemUser()->getFirst()->getUserName(): '';
+        }
+
         $data = '';
         if ($eventType == RegistrationEventQueueProcessor::INSTALLATION_STARTED) {
-            $data = $this->getInstallationStartedEventData();
+            $data = $this->getInstallationStartedAndSucceedEventData($adminFirstName, $adminLastName, $username, $organizationEmail, $adminContactNumber, $language, $country, $instanceIdentifier, $organizationName, $systemDetails, $eventTime, 'Installation Start');
         }elseif ($eventType == RegistrationEventQueueProcessor::INSTALLATION_SUCCESS){
-            $data = $this->getInstallationSucceedEventData();
+            $data = $this->getInstallationStartedAndSucceedEventData($adminFirstName, $adminLastName, $username, $organizationEmail, $adminContactNumber, $language, $country, $instanceIdentifier, $organizationName, $systemDetails, $eventTime, 'Installation Success');
         }elseif ($eventType == RegistrationEventQueueProcessor::ACTIVE_EMPLOYEE_COUNT){
-            $data = $this->getEmployeeCountUpdateEventData('addition');
+            $data = $this->getEmployeeCountUpdateEventData($adminFirstName, $adminLastName, $username, $organizationEmail, $adminContactNumber, $language, $country, $instanceIdentifier, $organizationName, $additionalData, $eventTime,  'addition');
         }
         return $data;
     }
 
-    public function getInstallationStartedEventData()
+    public function getInstallationStartedAndSucceedEventData($adminFirstName, $adminLastName, $username, $organizationEmail, $adminContactNumber, $language, $country, $instanceIdentifier, $organizationName, $systemDetails, $eventTime, $type)
     {
-//        $requestData = array(
-//            'username'            => 'Admin',
-//            'email'               => 'yasiru@orangehrmlive.com',
-//            'telephone'           => '0702132850',
-//            'admin_first_name'    => 'Yasiru',
-//            'admin_last_name'     => 'Nilan',
-//            'timezone'            => 'Not captured',
-//            'language'            => 'Not Captured',
-//            'country'             => 'Not Captured',
-//            'organization_name'   => 'YasiruCompany',
-//            'type'                => '0',
-//            'instance_identifier' => 'X19fXzEyNy4wLjAuMV9fNC44',
-//            'system_details'      => '{"os":{"os":"Linux","release_name":"5.11.0-36-generic","version_info":"#40~20.04.1-Ubuntu SMP Sat Sep 18 02:14:19 UTC 2021"},"php":{"version":"7.2.34"},"mysql":{"client_version":"mysqlnd 5.0.12-dev - 20150407 - $Id: 3591daad22de08524295e1bd073aceeff11e6579 $","server_version":"5.5.5-10.4.21-MariaDB-1:10.4.21+maria~focal","conn_type":"os_dev_mariadb104 via TCP\\/IP"},"server":null,"ohrm":{"version":"4.8"}}'
-//        );
-        $requestData = 'username=Admin&email=yasiru@orangehrmlive.com&telephone=0702132850&admin_first_name=Yasiru&admin_last_name=Nilan&timezone=Not captured&language=Not captured&country=Not Captured&organization_name=YasiruCompany&type=0&instance_identifier=X19fXzEyNy4wLjAuMV9fNC44&system_details={"os":{"os":"Linux","release_name":"5.11.0-36-generic","version_info":"#40~20.04.1-Ubuntu SMP Sat Sep 18 02:14:19 UTC 2021"},"php":{"version":"7.2.34"},"mysql":{"client_version":"mysqlnd 5.0.12-dev - 20150407 - $Id: 3591daad22de08524295e1bd073aceeff11e6579 $","server_version":"5.5.5-10.4.21-MariaDB-1:10.4.21+maria~focal","conn_type":"os_dev_mariadb104 via TCP\\/IP"},"server":null,"ohrm":{"version":"4.8"}}';
+        $requestData = array(
+            'username'            => $username,
+            'email'               => $organizationEmail,
+            'telephone'           => $adminContactNumber,
+            'admin_first_name'    => $adminFirstName,
+            'admin_last_name'     => $adminLastName,
+            'timezone'            => 'Not captured',
+            'language'            => $language,
+            'country'             => $country,
+            'organization_name'   => $organizationName,
+            'type'                => $type === 'Installation Start' ? self::INSTALLATION_STARTED: self::INSTALLATION_SUCCESS,
+            'instance_identifier' => $instanceIdentifier,
+            'event_time' => $eventTime,
+            'system_details'      => $systemDetails
+        );
+
+
+
+
         return $requestData;
     }
 
-    public function getInstallationSucceedEventData()
+    public function getEmployeeCountUpdateEventData($adminFirstName, $adminLastName, $username, $organizationEmail, $adminContactNumber, $language, $country, $instanceIdentifier, $organizationName, $employeeCount, $eventTime, $type)
     {
-//        $requestData = array(
-//            'username'            => 'Admin',
-//            'email'               => 'yasiru@orangehrmlive.com',
-//            'telephone'           => '0702132850',
-//            'admin_first_name'    => 'Yasiru',
-//            'admin_last_name'     => 'Nilan',
-//            'timezone'            => 'Not captured',
-//            'language'            => 'Not Captured',
-//            'country'             => 'Not Captured',
-//            'organization_name'   => 'YasiruCompany',
-//            'type'                => '0',
-//            'instance_identifier' => 'X19fXzEyNy4wLjAuMV9fNC44',
-//            'system_details'      => '{"os":{"os":"Linux","release_name":"5.11.0-36-generic","version_info":"#40~20.04.1-Ubuntu SMP Sat Sep 18 02:14:19 UTC 2021"},"php":{"version":"7.2.34"},"mysql":{"client_version":"mysqlnd 5.0.12-dev - 20150407 - $Id: 3591daad22de08524295e1bd073aceeff11e6579 $","server_version":"5.5.5-10.4.21-MariaDB-1:10.4.21+maria~focal","conn_type":"os_dev_mariadb104 via TCP\\/IP"},"server":null,"ohrm":{"version":"4.8"}}'
-//        );
-        $requestData = 'username=Admin&email=rajitha@orangehrm.us.com&telephone=Not captured&admin_first_name=rajitha&admin_last_name=kumara&timezone=Africa/Abidjan&language=en_US&country=LK&organization_name=OHRM-prod[PHP Upgrade]&type=3&instance_identifier=X19fXzEyNy4wLjAuMV9fNC44&system_details={"os":{"os":"Linux","release_name":"5.0.0-23-generic","version_info":"#24~18.04.1-Ubuntu SMP Mon Jul 29 16:12:28 UTC 2019"},"php":{"version":"7.3.4"},"mysql":{"client_version":"mysqlnd 5.0.12-dev - 20150407 - $Id: 7cc7cc96e675f6d72e5cf0f267f48e167c2abb23 $","server_version":"5.5.5-10.4.12-MariaDB-1:10.4.12+maria~bionic","conn_type":"mariadb104 via TCP\/IP"},"server":"nginx\/1.13.12","ohrm":{"version":"4.7"}}';
-        return $requestData;
-    }
-
-    public function getEmployeeCountUpdateEventData($type)
-    {
-//        $requestData = array(
-//            'username'            => 'Admin',
-//            'email'               => 'yasiru@orangehrmlive.com',
-//            'telephone'           => '0702132850',
-//            'admin_first_name'    => 'Yasiru',
-//            'admin_last_name'     => 'Nilan',
-//            'timezone'            => 'Not captured',
-//            'language'            => 'Not Captured',
-//            'country'             => 'Not Captured',
-//            'organization_name'   => 'YasiruCompany',
-//            'type'                => '0',
-//            'instance_identifier' => 'X19fXzEyNy4wLjAuMV9fNC44',
-//            'system_details'      => '{"os":{"os":"Linux","release_name":"5.11.0-36-generic","version_info":"#40~20.04.1-Ubuntu SMP Sat Sep 18 02:14:19 UTC 2021"},"php":{"version":"7.2.34"},"mysql":{"client_version":"mysqlnd 5.0.12-dev - 20150407 - $Id: 3591daad22de08524295e1bd073aceeff11e6579 $","server_version":"5.5.5-10.4.21-MariaDB-1:10.4.21+maria~focal","conn_type":"os_dev_mariadb104 via TCP\\/IP"},"server":null,"ohrm":{"version":"4.8"}}'
-//        );
-        if($type === 'addition'){
-            $requestData = 'username=&userEmail=&telephone=&admin_first_name=&admin_last_name=&timezone=&language=&country=&organization_name=&instance_identifier=X19fXzEyNy4wLjAuMV9fNC44&type=1&employee_count=200';
-        }else {
-            $requestData = 'username=&userEmail=&telephone=&admin_first_name=&admin_last_name=&timezone=&language=&country=&organization_name=&instance_identifier=X19fXzEyNy4wLjAuMV9fNC44&type=2&employee_count=10';
-        }
+        $requestData = array(
+            'username'            => $username,
+            'email'               => $organizationEmail,
+            'telephone'           => $adminContactNumber,
+            'admin_first_name'    => $adminFirstName,
+            'admin_last_name'     => $adminLastName,
+            'timezone'            => 'Not captured',
+            'language'            => $language,
+            'country'             => $country,
+            'organization_name'   => $organizationName,
+            'type'                => $type === 'addition'? self::ACTIVE_EMPLOYEE_COUNT: self::INACTIVE_EMPLOYEE_COUNT,
+            'instance_identifier' => $instanceIdentifier,
+            'event_time' => $eventTime,
+            'employee_count'      => $employeeCount
+        );
         return $requestData;
     }
 

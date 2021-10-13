@@ -42,7 +42,6 @@ class EmployeeService extends BaseService {
      */
     private $employeeDao;
     private $configurationService;
-    private $orangeHrmRegistrationService;
     private $registrationEventQueueProcessor;
 
     const EMPLOYEE_COUNT_CHANGE = 10;
@@ -55,14 +54,6 @@ class EmployeeService extends BaseService {
      */
     public function getEmployeeDao() {
         return $this->employeeDao;
-    }
-
-    /**
-     * Get orangeHrmRegistrationService
-     * @return OrangeHrmRegisterService
-     */
-    private function getOrangeHrmRegistration() {
-        return $this->orangeHrmRegistrationService;
     }
 
     /**
@@ -112,7 +103,6 @@ class EmployeeService extends BaseService {
      */
     public function __construct() {
         $this->employeeDao = new EmployeeDao();
-        $this->orangeHrmRegistrationService = new OrangeHrmRegisterService();
         $this->registrationEventQueueProcessor = new RegistrationEventQueueProcessor();
     }
 
