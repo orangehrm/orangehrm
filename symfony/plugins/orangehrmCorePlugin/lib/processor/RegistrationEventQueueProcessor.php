@@ -173,7 +173,7 @@ class RegistrationEventQueueProcessor
         $instanceIdentifier = $this->getInstanceIdentifier();
         $organizationName = $this->getOrganizationService()->getOrganizationGeneralInformation()->getName();
         $systemDetails = '';
-        $systemDetails = $this->getSystemDetails();
+//        $systemDetails = $this->getSystemDetails();
         $additionalData = $event->getExtraDetails();
         $eventTime = $event->getEventTime();
         $organizationEmail = '';

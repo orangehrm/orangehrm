@@ -34,13 +34,17 @@ class RegistrationEventQueueDao extends BaseDao
         }
     }
 
-
+    /**
+     * @param $eventTypeId
+     * @return array|bool|Doctrine_Record|float|int|string
+     * @throws DaoException
+     */
     public function getRegistrationEventQueueEventByType($eventTypeId)
     {
         try {
             $q = Doctrine_Query::create()
                                ->from('RegistrationEventQueue')
-                               ->where('eventTypeId = ?', 3);
+                               ->where('eventTypeId = ?', $eventTypeId);
 
             return $q->fetchOne();
         } catch (Exception $e) {
@@ -48,6 +52,11 @@ class RegistrationEventQueueDao extends BaseDao
         }
     }
 
+    /**
+     * @param $limit
+     * @return array|Doctrine_Collection|Doctrine_Collection_OnDemand|int
+     * @throws DaoException
+     */
     public function getUnpublishedRegistrationEventQueueEvents($limit)
     {
         try {
