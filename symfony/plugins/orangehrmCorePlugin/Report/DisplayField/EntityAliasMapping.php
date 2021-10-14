@@ -30,7 +30,7 @@ final class EntityAliasMapping
         'location' => 'employee.locations',
         'dependent' => 'employee.dependents',
         'emergencyContact' => 'employee.emergencyContacts',
-        'immigrationRecords' => 'employee.immigrationRecords',
+        'immigrationRecord' => 'employee.immigrationRecords',
         'workExperience' => 'employee.workExperience',
         'education' => 'employee.educations',
         'skill' => 'employee.skills',

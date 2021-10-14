@@ -61,6 +61,16 @@ abstract class NormalizableDTO
      */
     protected function callGetterOnItem($item, string $field, array $getter): ?string
     {
+        if (count($getter) > 1) {
+            $result = $item;
+            foreach ($getter as $method) {
+                if (empty($result)) {
+                    break;
+                }
+                $result = call_user_func([$result, $method]);
+            }
+            return $result;
+        }
         return call_user_func([$item, ...$getter]);
     }
 }

@@ -73,9 +73,11 @@ class EmployeeAddress implements Stringable
             $this->zipcode,
         ];
 
-        $country = $this->getRepository(Country::class)->find($this->country);
-        if ($country instanceof Country) {
-            $properties[] = $country->getCountryName();
+        if (!empty($this->country)) {
+            $country = $this->getRepository(Country::class)->find($this->country);
+            if ($country instanceof Country) {
+                $properties[] = $country->getCountryName();
+            }
         }
         return implode(
             self::SEPARATOR,

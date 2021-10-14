@@ -422,7 +422,7 @@ class Employee
     /**
      * @var EmpWorkExperience[]
      *
-     * @ORM\ManyToMany(targetEntity="OrangeHRM\Entity\EmpWorkExperience", mappedBy="employee")
+     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\EmpWorkExperience", mappedBy="employee")
      */
     private iterable $workExperience;
 

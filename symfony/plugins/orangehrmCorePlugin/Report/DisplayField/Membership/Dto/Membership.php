@@ -53,7 +53,7 @@ class Membership extends NormalizableDTO
     protected function getFieldGetterMap(): array
     {
         return [
-            'name' => ['getMembership', 'getName'],
+            'membershipName' => ['getMembership', 'getName'],
             'subscriptionPaidBy' => ['getSubscriptionPaidBy'],
             'subscriptionAmount' => ['getSubscriptionFee'],
             'membershipCurrency' => ['getDecorator', 'getCurrencyName'],
