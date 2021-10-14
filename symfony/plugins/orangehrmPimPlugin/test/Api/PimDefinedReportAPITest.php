@@ -101,4 +101,40 @@ class PimDefinedReportAPITest extends EndpointIntegrationTestCase
     {
         return $this->getTestCases('PimDefinedReportTestCase.yaml', 'GetOne');
     }
+
+    /**
+     * @dataProvider dataProviderForTestCreate
+     */
+    public function testCreate(TestCaseParams $testCaseParams): void
+    {
+        $this->populateFixtures('ReportGeneratorDao.yaml');
+        $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
+        $this->registerServices($testCaseParams);
+        $this->registerMockDateTimeHelper($testCaseParams);
+        $api = $this->getApiEndpointMock(PimDefinedReportAPI::class, $testCaseParams);
+        $this->assertValidTestCase($api, 'create', $testCaseParams);
+    }
+
+    public function dataProviderForTestCreate(): array
+    {
+        return $this->getTestCases('PimDefinedReportTestCase.yaml', 'Create');
+    }
+
+    /**
+     * @dataProvider dataProviderForTestUpdate
+     */
+    public function testUpdate(TestCaseParams $testCaseParams): void
+    {
+        $this->populateFixtures('ReportGeneratorDao.yaml');
+        $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
+        $this->registerServices($testCaseParams);
+        $this->registerMockDateTimeHelper($testCaseParams);
+        $api = $this->getApiEndpointMock(PimDefinedReportAPI::class, $testCaseParams);
+        $this->assertValidTestCase($api, 'update', $testCaseParams);
+    }
+
+    public function dataProviderForTestUpdate(): array
+    {
+        return $this->getTestCases('PimDefinedReportTestCase.yaml', 'Update');
+    }
 }
