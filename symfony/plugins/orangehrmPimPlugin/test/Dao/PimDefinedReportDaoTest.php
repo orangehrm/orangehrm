@@ -22,6 +22,7 @@ namespace OrangeHRM\Tests\Pim\Dao;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Dao\ReportGeneratorDao;
 use OrangeHRM\Entity\Report;
+use OrangeHRM\ORM\Exception\TransactionException;
 use OrangeHRM\Pim\Dto\PimDefinedReportSearchFilterParams;
 use OrangeHRM\Tests\Util\TestCase;
 use OrangeHRM\Tests\Util\TestDataService;
@@ -72,5 +73,59 @@ class PimDefinedReportDaoTest extends TestCase
         $this->assertEquals('pim', $report->getReportGroup()->getName());
         $this->assertEquals(true, $report->isUseFilterField());
         $this->assertEquals('PIM_DEFINED', $report->getType());
+    }
+
+    /**
+     * @throws TransactionException
+     */
+    public function testSavePimDefinedReport(): void
+    {
+        $report = new Report();
+        $reportGroup = $this->reportGeneratorDao->getReportGroupByName("pim");
+        $report->setName("PIM Employee Record");
+        $report->setReportGroup($reportGroup);
+        $report->setUseFilterField(1);
+        $report->setType("PIM_DEFINED");
+        $selectedDisplayFieldGroupIds = [1, 2];
+        $selectedDisplayFieldIds = [1, 2, 3, 4, 5, 6];
+        $criteria = array(
+            "1" => array("x" => "v1", "y" => "v2", "operator" => "="),
+            "3" => array("x" => "", "y" => "", "operator" => ">")
+        );
+        $result = $this->reportGeneratorDao
+            ->saveReport($report, $selectedDisplayFieldGroupIds, $selectedDisplayFieldIds, $criteria,'onlyCurrent');
+        $this->assertTrue($result instanceof Report);
+        $this->assertEquals("PIM Employee Record", $report->getName());
+        $this->assertEquals(1, $report->getReportGroup()->getId());
+        $this->assertEquals(true, $report->isUseFilterField());
+        $this->assertEquals("PIM_DEFINED", $report->getType());
+        $this->assertEquals(3, $report->getId());
+    }
+
+    /**
+     * @throws TransactionException
+     */
+    public function testUpdatePimDefinedReport(): void
+    {
+        $report = $this->reportGeneratorDao->getReportById(2);
+        $reportGroup = $this->reportGeneratorDao->getReportGroupByName("pim");
+        $report->setName("PIM Sample Report 2");
+        $report->setReportGroup($reportGroup);
+        $report->setUseFilterField(1);
+        $report->setType("PIM_DEFINED");
+        $selectedDisplayFieldGroupIds = [1];
+        $selectedDisplayFieldIds = [1, 2, 3, 4, 5, 6];
+        $criteria = array(
+            "1" => array("x" => "v1", "y" => "v2", "operator" => "="),
+            "3" => array("x" => "", "y" => "", "operator" => ">")
+        );
+        $result = $this->reportGeneratorDao
+            ->saveReport($report, $selectedDisplayFieldGroupIds, $selectedDisplayFieldIds, $criteria,'onlyCurrent');
+        $this->assertTrue($result instanceof Report);
+        $this->assertEquals("PIM Sample Report 2", $report->getName());
+        $this->assertEquals(1, $report->getReportGroup()->getId());
+        $this->assertEquals(true, $report->isUseFilterField());
+        $this->assertEquals("PIM_DEFINED", $report->getType());
+        $this->assertEquals(2, $report->getId());
     }
 }

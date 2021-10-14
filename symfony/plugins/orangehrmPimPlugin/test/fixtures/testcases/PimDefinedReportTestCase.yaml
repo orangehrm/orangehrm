@@ -52,3 +52,62 @@ GetOne:
       id: 1
       name: 'PIM Sample Report'
     meta: [ ]
+
+Create:
+  'save a report':
+    userId: 1
+    attributes: [ ]
+    body:
+      name: 'Employee Basic report'
+      include: 'onlyCurrent'
+      criteria:
+        1:
+          x: 'v1'
+          y: 'v2'
+          operator: '='
+        3:
+          x: ''
+          y: ''
+          operator: '>'
+      fieldGroup:
+        1:
+          fields: [ 1,2,3 ]
+          includeHeader: true
+        2:
+          fields: [ 4,5,6 ]
+          includeHeader: true
+    query: [ ]
+    data:
+      id: 3
+      name: 'Employee Basic report'
+    meta: [ ]
+
+Update:
+  'update an existing report':
+    userId: 1
+    attributes:
+      id: 2
+    body:
+      name: 'Employee Basic report 02'
+      include: 'onlyCurrent'
+      criteria:
+        1:
+          x: 'v1'
+          y: 'v2'
+          operator: '='
+        3:
+          x: ''
+          y: ''
+          operator: '>'
+      fieldGroup:
+        1:
+          fields: [ 1,2,3 ]
+          includeHeader: true
+        2:
+          fields: [ 4,5,6 ]
+          includeHeader: true
+    query: [ ]
+    data:
+      id: 2
+      name: 'Employee Basic report 02'
+    meta: [ ]
