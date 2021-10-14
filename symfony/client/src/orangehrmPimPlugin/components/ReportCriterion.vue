@@ -56,7 +56,7 @@ export default {
   setup(props, context) {
     const field = ref(null);
     // map the field type according to criterion
-    switch (props.criterion.id) {
+    switch (props.criterion.key) {
       case 'employee_name':
         field.value = {
           name: props.criterion.label,

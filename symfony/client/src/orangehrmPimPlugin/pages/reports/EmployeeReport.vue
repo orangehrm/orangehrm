@@ -25,8 +25,9 @@
         <oxd-form-row>
           <oxd-grid :cols="2" class="orangehrm-full-width-grid">
             <oxd-grid-item>
-              <!-- todo: switch to autocomplete -->
-              <oxd-input-field label="Report Name" v-model="filters.name" />
+              <report-autocomplete
+                v-model="filters.report"
+              ></report-autocomplete>
             </oxd-grid-item>
           </oxd-grid>
         </oxd-form-row>
@@ -93,32 +94,23 @@ import {APIService} from '@/core/util/services/api.service';
 import useSort from '@orangehrm/core/util/composable/useSort';
 import {navigate} from '@orangehrm/core/util/helper/navigation';
 import usePaginate from '@orangehrm/core/util/composable/usePaginate';
-import DeleteConfirmationDialog from '@orangehrm/components/dialogs/DeleteConfirmationDialog.vue';
+import DeleteConfirmationDialog from '@orangehrm/components/dialogs/DeleteConfirmationDialog';
+import ReportAutocomplete from '@/orangehrmPimPlugin/components/ReportAutocomplete';
 
 const defaultFilters = {
-  name: '',
+  report: null,
 };
 
 const defaultSortOrder = {
-  'location.name': 'ASC',
-};
-
-const locationDataNormalizer = data => {
-  return data.map(location => {
-    return {
-      id: location.id,
-      name: location.name,
-    };
-  });
+  'report.name': 'ASC',
 };
 
 export default {
-  props: {
-    countries: {
-      type: Array,
-      default: () => [],
-    },
+  components: {
+    'delete-confirmation': DeleteConfirmationDialog,
+    'report-autocomplete': ReportAutocomplete,
   },
+
   data() {
     return {
       headers: [
@@ -126,14 +118,14 @@ export default {
           name: 'name',
           slot: 'title',
           title: 'Name',
-          style: {flex: 1},
-          sortField: 'location.name',
+          style: {flex: '85%'},
+          sortField: 'report.name',
         },
         {
           name: 'actions',
           title: 'Actions',
           slot: 'action',
-          style: {'justify-content': 'flex-end'},
+          style: {flex: '15%'},
           cellType: 'oxd-table-cell-actions',
           cellConfig: {
             delete: {
@@ -156,10 +148,6 @@ export default {
     };
   },
 
-  components: {
-    'delete-confirmation': DeleteConfirmationDialog,
-  },
-
   setup() {
     const {sortDefinition, sortField, sortOrder, onSort} = useSort({
       sortDefinition: defaultSortOrder,
@@ -167,14 +155,14 @@ export default {
     const filters = ref({...defaultFilters});
     const serializedFilters = computed(() => {
       return {
-        name: filters.value.name,
+        reportId: filters.value.report?.id,
         sortField: sortField.value,
         sortOrder: sortOrder.value,
       };
     });
     const http = new APIService(
       window.appGlobal.baseUrl,
-      '/api/v2/admin/locations',
+      '/api/v2/pim/reports/defined',
     );
     const {
       showPaginator,
@@ -187,7 +175,6 @@ export default {
       execQuery,
     } = usePaginate(http, {
       query: serializedFilters,
-      normalizer: locationDataNormalizer,
     });
 
     onSort(execQuery);
