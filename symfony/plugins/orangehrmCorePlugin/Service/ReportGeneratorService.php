@@ -1132,13 +1132,15 @@ class ReportGeneratorService
      * @param Report $report
      * @param array $fieldGroup
      * @param array $criterias
+     * @param string $includeType
      * @return Report
      * @throws TransactionException
      */
-    public function savePimDefinedReport(Report $report, array $fieldGroup, array $criterias): Report
+    public function savePimDefinedReport(Report $report, array $fieldGroup, array $criterias, string $includeType): Report
     {
         $selectedDisplayFieldGroupIds = [];
         $selectedDisplayFieldIds = [];
+        $includeType = ($includeType === 'onlyCurrent') ? 'isNull' : (($includeType === 'onlyPast') ? 'isNotNull' : 'null'); // this is for `ohrm_selected_filter_field` table where condition
         foreach ($fieldGroup as $key => $value) {
             // creating an array that contains the display field group id which selected as header by user(`ohrm_display_field_group` table)
             if ($value["includeHeader"]) {
@@ -1154,6 +1156,6 @@ class ReportGeneratorService
             }
         }
         return $this->getReportGeneratorDao()
-            ->saveReport($report, $selectedDisplayFieldGroupIds, $selectedDisplayFieldIds, $criterias);
+            ->saveReport($report, $selectedDisplayFieldGroupIds, $selectedDisplayFieldIds, $criterias, $includeType);
     }
 }

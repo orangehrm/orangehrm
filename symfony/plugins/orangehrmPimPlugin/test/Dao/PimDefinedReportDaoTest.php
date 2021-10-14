@@ -90,10 +90,10 @@ class PimDefinedReportDaoTest extends TestCase
         $selectedDisplayFieldIds = [1, 2, 3, 4, 5, 6];
         $criteria = array(
             "1" => array("x" => "v1", "y" => "v2", "operator" => "="),
-            "2" => array("x" => "", "y" => "", "operator" => ">")
+            "3" => array("x" => "", "y" => "", "operator" => ">")
         );
         $result = $this->reportGeneratorDao
-            ->saveReport($report, $selectedDisplayFieldGroupIds, $selectedDisplayFieldIds, $criteria);
+            ->saveReport($report, $selectedDisplayFieldGroupIds, $selectedDisplayFieldIds, $criteria,'onlyCurrent');
         $this->assertTrue($result instanceof Report);
         $this->assertEquals("PIM Employee Record", $report->getName());
         $this->assertEquals(1, $report->getReportGroup()->getId());
@@ -117,10 +117,10 @@ class PimDefinedReportDaoTest extends TestCase
         $selectedDisplayFieldIds = [1, 2, 3, 4, 5, 6];
         $criteria = array(
             "1" => array("x" => "v1", "y" => "v2", "operator" => "="),
-            "2" => array("x" => "", "y" => "", "operator" => ">")
+            "3" => array("x" => "", "y" => "", "operator" => ">")
         );
         $result = $this->reportGeneratorDao
-            ->saveReport($report, $selectedDisplayFieldGroupIds, $selectedDisplayFieldIds, $criteria);
+            ->saveReport($report, $selectedDisplayFieldGroupIds, $selectedDisplayFieldIds, $criteria,'onlyCurrent');
         $this->assertTrue($result instanceof Report);
         $this->assertEquals("PIM Sample Report 2", $report->getName());
         $this->assertEquals(1, $report->getReportGroup()->getId());

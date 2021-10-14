@@ -65,7 +65,7 @@ Create:
           x: 'v1'
           y: 'v2'
           operator: '='
-        2:
+        3:
           x: ''
           y: ''
           operator: '>'
@@ -95,7 +95,7 @@ Update:
           x: 'v1'
           y: 'v2'
           operator: '='
-        2:
+        3:
           x: ''
           y: ''
           operator: '>'

@@ -113,7 +113,8 @@ class PimDefinedReportAPI extends Endpoint implements CrudEndpoint
         $this->setParamsToPimDefinedReport($report);
         $fieldGroup = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_FIELD_GROUP);
         $criterias = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_CRITERIA);
-        $this->getReportGeneratorService()->savePimDefinedReport($report, $fieldGroup, $criterias);
+        $includeType = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_INCLUDE_TYPE);
+        $this->getReportGeneratorService()->savePimDefinedReport($report, $fieldGroup, $criterias, $includeType);
         return new EndpointResourceResult(PimDefinedReportModel::class, $report);
     }
 
@@ -124,9 +125,7 @@ class PimDefinedReportAPI extends Endpoint implements CrudEndpoint
     private function setParamsToPimDefinedReport(Report $report): void
     {
         $reportGroup = $this->getReportGeneratorService()->getReportGeneratorDao()->getReportGroupByName("pim");
-        $report->setName(
-            $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_REPORT_NAME)
-        );
+        $report->setName($this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_REPORT_NAME));
         $report->setReportGroup($reportGroup);
         $report->setUseFilterField(true);
         $report->setType("PIM_DEFINED");
@@ -144,10 +143,9 @@ class PimDefinedReportAPI extends Endpoint implements CrudEndpoint
                 new Rule(Rules::REQUIRED),
                 new Rule(Rules::LENGTH, [null, self::PARAM_RULE_NAME_MAX_LENGTH])
             ),
-            new ParamRule(self::PARAMETER_INCLUDE_TYPE, new Rule(Rules::STRING_TYPE)),
+            new ParamRule(self::PARAMETER_INCLUDE_TYPE, new Rule(Rules::REQUIRED), new Rule(Rules::STRING_TYPE)),
             new ParamRule(self::PARAMETER_FIELD_GROUP),
             new ParamRule(self::PARAMETER_CRITERIA),
-
         );
     }
 
@@ -210,11 +208,13 @@ class PimDefinedReportAPI extends Endpoint implements CrudEndpoint
     {
         $reportId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
         $report = $this->getReportGeneratorService()->getReportGeneratorDao()->getReportById($reportId);
+        $this->throwRecordNotFoundExceptionIfNotExist($report, Report::class);
         $this->setParamsToPimDefinedReport($report);
         $fieldGroup = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_FIELD_GROUP);
         $criterias = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_CRITERIA);
+        $includeType = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_INCLUDE_TYPE);
         $this->getReportGeneratorService()->getReportGeneratorDao()->deleteExistingReportRecordsByReportId($report);
-        $this->getReportGeneratorService()->savePimDefinedReport($report, $fieldGroup, $criterias);
+        $this->getReportGeneratorService()->savePimDefinedReport($report, $fieldGroup, $criterias, $includeType);
         return new EndpointResourceResult(PimDefinedReportModel::class, $report);
     }
 

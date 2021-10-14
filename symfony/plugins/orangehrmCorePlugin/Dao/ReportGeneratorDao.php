@@ -19,8 +19,6 @@
 
 namespace OrangeHRM\Core\Dao;
 
-use Doctrine\ORM\OptimisticLockException;
-use Doctrine\ORM\ORMException;
 use Exception;
 use OrangeHRM\Entity\CompositeDisplayField;
 use OrangeHRM\Entity\DisplayField;
@@ -533,15 +531,12 @@ class ReportGeneratorDao extends BaseDao
      * @param int[] $selectedDisplayFieldGroupIds
      * @param int[] $selectedDisplayFieldIds
      * @param array $criterias
+     * @param string $includeType
      * @return Report
      * @throws TransactionException
      */
-    public function saveReport(
-        Report $report,
-        array $selectedDisplayFieldGroupIds,
-        array $selectedDisplayFieldIds,
-        array $criterias
-    ): Report {
+    public function saveReport(Report $report, array $selectedDisplayFieldGroupIds, array $selectedDisplayFieldIds, array $criterias, string $includeType): Report
+    {
         $this->beginTransaction();
         try {
             $this->persist($report);
@@ -549,7 +544,7 @@ class ReportGeneratorDao extends BaseDao
                 $this->saveSelectedDisplayFieldGroup($report, $selectedDisplayFieldGroupIds);
             }
             $this->saveSelectedDisplayField($report, $selectedDisplayFieldIds);
-            $this->saveSelectedFilterField($report, $criterias);
+            $this->saveSelectedFilterField($report, $criterias,$includeType);
             $this->commitTransaction();
             return $report;
         } catch (Exception $exception) {
@@ -576,12 +571,13 @@ class ReportGeneratorDao extends BaseDao
     /**
      * @param Report $report
      * @param array $criterias
-     * @throws ORMException
-     * @throws OptimisticLockException
+     * @param string $includeType
+     * @return void
      */
-    public function saveSelectedFilterField(Report $report, array $criterias): void
+    public function saveSelectedFilterField(Report $report, array $criterias, string $includeType): void
     {
-        $counter = 1;
+        $this->saveDefaultSelectedFilterField($report,$includeType); // Always get first priority while saving `ohrm_selected_filter_field`
+        $counter = 2;
         foreach ($criterias as $key => $value) {
             $filterField = $this->getRepository(FilterField::class)->find($key);
             $selectedFilterField = new SelectedFilterField();
@@ -602,8 +598,6 @@ class ReportGeneratorDao extends BaseDao
      * @param Report $report
      * @param array $selectedDisplayFieldIds
      * @return void
-     * @throws ORMException
-     * @throws OptimisticLockException
      */
     public function saveSelectedDisplayField(Report $report, array $selectedDisplayFieldIds): void
     {
@@ -621,8 +615,6 @@ class ReportGeneratorDao extends BaseDao
      * @param Report $report
      * @param array $selectedDisplayFieldGroupIds
      * @return void
-     * @throws ORMException
-     * @throws OptimisticLockException
      */
     public function saveSelectedDisplayFieldGroup(Report $report, array $selectedDisplayFieldGroupIds): void
     {
@@ -636,29 +628,36 @@ class ReportGeneratorDao extends BaseDao
         $this->getEntityManager()->flush();
     }
 
-    /*
-     * Gets a filter field by given name
-     * @param  string $name
-     * @return FilterField
+    /**
+     * @param string $name
+     * @return FilterField|null
      */
-
-    public function getFilterFieldByName($name)
+    public function getFilterFieldByName(string $name) : ?FilterField
     {
-        try {
-            $query = Doctrine_Query::create()
-                ->from("FilterField")
-                ->where("name = ?", $name);
+        $filterField =  $this->getRepository(FilterField::class)->findOneBy(['name' => $name]);
+        return ($filterField instanceof FilterField) ? $filterField : null;
+    }
 
-            $filterField = $query->execute();
-
-            if ($filterField[0]->getFilterFieldId() == null) {
-                return null;
-            } else {
-                return $filterField[0];
-            }
-        } catch (Exception $ex) {
-            throw new DaoException($ex->getMessage());
+    /**
+     * @param Report $report
+     * @param string $includeType
+     * @return void
+     */
+    public function saveDefaultSelectedFilterField(Report $report, string $includeType): void
+    {
+        // this function for saving the default initial include record
+        $filterFieldByInclude = $this->getFilterFieldByName('include');
+        $selectedFilterField = new SelectedFilterField();
+        $selectedFilterField->setReport($report);
+        $selectedFilterField->setFilterField($filterFieldByInclude);
+        $selectedFilterField->setFilterFieldOrder(1);
+        if ($includeType === ''){
+            // currentAndPast
+            $selectedFilterField->setOperator(null);
         }
+        $selectedFilterField->setOperator($includeType);
+        $selectedFilterField->setType("Predefined");
+        $this->persist($selectedFilterField);
     }
 
     public function removeSelectedFilterFields($reportId)
