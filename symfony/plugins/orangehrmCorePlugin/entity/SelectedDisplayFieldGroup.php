@@ -32,7 +32,7 @@ class SelectedDisplayFieldGroup
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private int $id;
 
@@ -41,8 +41,6 @@ class SelectedDisplayFieldGroup
      *
      * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Report")
      * @ORM\JoinColumn(name="report_id", referencedColumnName="report_id")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
      */
     private Report $report;
 
