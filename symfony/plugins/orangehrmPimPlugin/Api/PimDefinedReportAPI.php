@@ -46,6 +46,7 @@ class PimDefinedReportAPI extends Endpoint implements CrudEndpoint
     public const PARAMETER_FIELD_GROUP = 'fieldGroup';
 
     public const FILTER_NAME = 'name';
+    public const FILTER_ID = 'reportId';
     public const PARAM_RULE_NAME_MAX_LENGTH = 255;
 
     /**
@@ -74,6 +75,9 @@ class PimDefinedReportAPI extends Endpoint implements CrudEndpoint
         $pimDefinedReportSearchFilterParams->setName(
             $this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_QUERY, self::FILTER_NAME)
         );
+        $pimDefinedReportSearchFilterParams->setReportId(
+            $this->getRequestParams()->getIntOrNull(RequestParams::PARAM_TYPE_QUERY, self::FILTER_ID)
+        );
         $pimDefinedReports = $this->getReportGeneratorService()
             ->getReportGeneratorDao()
             ->searchPimDefinedReports($pimDefinedReportSearchFilterParams);
@@ -97,6 +101,12 @@ class PimDefinedReportAPI extends Endpoint implements CrudEndpoint
                     self::FILTER_NAME,
                     new Rule(Rules::STRING_TYPE),
                     new Rule(Rules::LENGTH, [null, self::PARAM_RULE_NAME_MAX_LENGTH])
+                )
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::FILTER_ID,
+                    new Rule(Rules::POSITIVE),
                 )
             ),
             ...$this->getSortingAndPaginationParamsRules(PimDefinedReportSearchFilterParams::ALLOWED_SORT_FIELDS)
