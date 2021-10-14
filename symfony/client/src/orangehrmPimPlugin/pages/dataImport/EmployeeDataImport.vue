@@ -153,9 +153,15 @@ export default {
           const importedRecords = response.data.meta.total;
           this.attachment = {...attachmentModel};
           this.isLoading = false;
-          return this.$toast.success({
-            title: 'Success',
-            message: 'Number of Records Imported: ' + importedRecords,
+          if (importedRecords > 0) {
+            return this.$toast.success({
+              title: 'Success',
+              message: 'Number of Records Imported: ' + importedRecords,
+            });
+          }
+          return this.$toast.error({
+            title: 'Failed to Import',
+            message: 'No Records Added',
           });
         });
     },
