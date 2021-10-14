@@ -103,7 +103,11 @@
 
 <script>
 import {APIService} from '@/core/util/services/api.service';
-import {required, maxFileSize, validFileTypes} from "@/core/util/validation/rules";
+import {
+  required,
+  maxFileSize,
+  validFileTypes,
+} from '@/core/util/validation/rules';
 
 const attachmentModel = {
   attachment: null,
@@ -127,7 +131,7 @@ export default {
         attachment: [
           required,
           maxFileSize(1048576),
-          validFileTypes(this.allowedFileTypes)
+          validFileTypes(this.allowedFileTypes),
         ],
       },
     };
