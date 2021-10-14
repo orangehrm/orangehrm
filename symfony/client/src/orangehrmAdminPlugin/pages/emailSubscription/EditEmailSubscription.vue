@@ -92,13 +92,13 @@ export default {
   data() {
     return {
       headers: [
-        {name: 'name', slot: 'title', title: 'Name', style: {flex: 1}},
-        {name: 'email', title: 'Email', style: {flex: 1}},
+        {name: 'name', slot: 'title', title: 'Name', style: {flex: '30%'}},
+        {name: 'email', title: 'Email', style: {flex: '55%'}},
         {
           name: 'actions',
           title: 'Actions',
           slot: 'action',
-          style: {flex: 1},
+          style: {flex: '15%'},
           cellType: 'oxd-table-cell-actions',
           cellConfig: {
             delete: {
