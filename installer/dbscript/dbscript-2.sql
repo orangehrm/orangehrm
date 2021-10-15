@@ -4078,3 +4078,5 @@ CREATE TABLE `ohrm_mail_queue` (
 
 SET @pim_csv_import_screen_id := (SELECT `id` FROM ohrm_screen WHERE action_url = 'pimCsvImport' and name='Data Import' LIMIT 1);
 UPDATE `ohrm_screen` SET `module_id` = @pim_module_id WHERE `ohrm_screen`.`id` = @pim_csv_import_screen_id;
+
+INSERT INTO `ohrm_registration_event_queue` (`event_type`,`published`,`event_time`) VALUES (0, 0, now());

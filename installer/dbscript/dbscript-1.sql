@@ -2352,3 +2352,15 @@ ALTER TABLE `ohrm_i18n_lang_string`
 
 ALTER TABLE `ohrm_i18n_translate`
     ADD CONSTRAINT `translateUniqueId` UNIQUE (`lang_string_id`, `language_id`);
+
+create table `ohrm_registration_event_queue`
+(
+    `id`         INT NOT NULL AUTO_INCREMENT,
+    `event_type`   INT NOT NULL,
+    `published`  TINYINT UNSIGNED NOT NULL DEFAULT 0,
+    `event_time` DATETIME DEFAULT NULL,
+    `publish_time` DATETIME DEFAULT NULL,
+    `data` TEXT DEFAULT NULL,
+    primary key (`id`)
+) engine = innodb
+  default charset = utf8;

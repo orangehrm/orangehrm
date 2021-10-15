@@ -21,6 +21,7 @@ namespace OrangeHRM\Pim\Service;
 
 use DateTime;
 use OrangeHRM\Core\Exception\CoreServiceException;
+use OrangeHRM\Core\Registration\Event\RegistrationEvent;
 use OrangeHRM\Core\Traits\EventDispatcherTrait;
 use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
@@ -126,7 +127,9 @@ class EmployeeService
      */
     public function saveEmployee(Employee $employee): Employee
     {
-        return $this->getEmployeeDao()->saveEmployee($employee);
+        $savedEmployee = $this->getEmployeeDao()->saveEmployee($employee);
+        $this->getEventDispatcher()->dispatch(new RegistrationEvent(), RegistrationEvent::NAME);
+        return $savedEmployee;
     }
 
     /**
