@@ -49,8 +49,7 @@ class ConfigHelper
             'ohrm_app_lib_dir' => realpath($pathToSymfonyDir . '/apps/orangehrm/lib'),
             'ohrm_app_i18n_dir' => realpath($pathToSymfonyDir . '/apps/orangehrm/i18n'),
             Config::DOCTRINE_PROXY_DIR => realpath($pathToSymfonyDir . '/config/proxy'),
-
-            'ohrm_test_dir' => realpath($pathToProjectBase . '/tests'),
+            Config::TEST_DIR => realpath($pathToSymfonyDir . '/test'),
 
             'ohrm_client_dir' => realpath($pathToSymfonyDir . '/client'),
             'ohrm_app_template_dir' => realpath($pathToSymfonyDir . '/apps/orangehrm/templates'),

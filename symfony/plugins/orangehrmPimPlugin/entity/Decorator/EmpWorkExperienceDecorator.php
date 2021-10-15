@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Entity\Decorator;
 
+use DateTime;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\Employee;
@@ -76,5 +77,20 @@ class EmpWorkExperienceDecorator
     {
         $date = $this->getEmployeeWorkExperience()->getToDate();
         return $this->getDateTimeHelper()->formatDateTimeToYmd($date);
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getDuration(): ?string
+    {
+        $fromDate = $this->getEmployeeWorkExperience()->getFromDate();
+        if ($fromDate instanceof DateTime) {
+            $dateInterval = $this->getEmployeeWorkExperience()->getFromDate()->diff(
+                $this->getEmployeeWorkExperience()->getToDate()
+            );
+            return round($dateInterval->days / 356, 1);
+        }
+        return null;
     }
 }

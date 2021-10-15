@@ -35,8 +35,8 @@ class EmpDependent
 {
     use DecoratorTrait;
 
-    public const RELATIONSHIP_TYPE_CHILD = "child";
-    public const RELATIONSHIP_TYPE_OTHER = "other";
+    public const RELATIONSHIP_TYPE_CHILD = 'child';
+    public const RELATIONSHIP_TYPE_OTHER = 'other';
 
     /**
      * @var Employee
@@ -62,7 +62,7 @@ class EmpDependent
      *
      * @ORM\Column(name="ed_name", type="string", length=100, nullable=true, options={"default" : ""})
      */
-    private ?string $name = "";
+    private ?string $name = '';
 
     /**
      * @var string|null
@@ -74,9 +74,9 @@ class EmpDependent
     /**
      * @var string|null
      *
-     * @ORM\Column(name="ed_relationship", type="string", length=100, nullable=true, options={"default" : ""})
+     * @ORM\Column(name="ed_relationship", type="string", length=100, nullable=true)
      */
-    private ?string $relationship = "";
+    private ?string $relationship = null;
 
     /**
      * @var DateTime|null
@@ -147,7 +147,7 @@ class EmpDependent
     public function setRelationshipType(?string $relationshipType): void
     {
         if (!in_array($relationshipType, [self::RELATIONSHIP_TYPE_CHILD, self::RELATIONSHIP_TYPE_OTHER])) {
-            throw new InvalidArgumentException("Invalid `relationshipType`");
+            throw new InvalidArgumentException('Invalid `relationshipType`');
         }
         $this->relationshipType = $relationshipType;
     }

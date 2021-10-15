@@ -54,7 +54,7 @@ class ReportTo
     /**
      * @var ReportingMethod
      *
-     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\ReportingMethod", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\ReportingMethod", inversedBy="reportTos", cascade={"persist"})
      * @ORM\JoinColumn(name="erep_reporting_mode", referencedColumnName="reporting_method_id", nullable=false)
      * @ORM\Id
      */

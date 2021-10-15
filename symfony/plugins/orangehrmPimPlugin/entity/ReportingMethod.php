@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -40,6 +41,18 @@ class ReportingMethod
      * @ORM\Column(name="reporting_method_name", type="string", length=100, nullable=false)
      */
     private string $name;
+
+    /**
+     * @var ReportTo[]
+     *
+     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\ReportTo", mappedBy="reportingMethod")
+     */
+    private iterable $reportTos;
+
+    public function __construct()
+    {
+        $this->reportTos = new ArrayCollection();
+    }
 
     /**
      * @return int

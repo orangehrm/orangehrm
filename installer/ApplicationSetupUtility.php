@@ -294,7 +294,7 @@ class Conf {
 
 		\$this->dbhost	= '$dbHost';
 		\$this->dbport 	= '$dbHostPort';
-		if(defined('ENVIRNOMENT') && ENVIRNOMENT == 'test'){
+		if(defined('ENVIRONMENT') && ENVIRONMENT == 'test'){
 		\$this->dbname    = 'test_$dbName';		
 		}else {
 		\$this->dbname    = '$dbName';
