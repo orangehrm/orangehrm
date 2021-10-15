@@ -21,10 +21,29 @@ namespace OrangeHRM\Pim\Api;
 
 use OrangeHRM\Core\Api\Rest\ReportDataAPI;
 use OrangeHRM\Core\Api\V2\Exception\BadRequestException;
+use OrangeHRM\Core\Api\V2\RequestParams;
+use OrangeHRM\Core\Api\V2\Validator\ParamRule;
+use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
+use OrangeHRM\Core\Api\V2\Validator\Rule;
+use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Report\Api\EndpointAwareReport;
+use OrangeHRM\Core\Service\ReportGeneratorService;
 
 class PimReportDataAPI extends ReportDataAPI
 {
+    private ?ReportGeneratorService $reportGeneratorService = null;
+
+    /**
+     * @return ReportGeneratorService
+     */
+    protected function getReportGeneratorService(): ReportGeneratorService
+    {
+        if (!$this->reportGeneratorService instanceof ReportGeneratorService) {
+            $this->reportGeneratorService = new ReportGeneratorService();
+        }
+        return $this->reportGeneratorService;
+    }
+
     /**
      * @return EndpointAwareReport
      * @throws BadRequestException
@@ -36,6 +55,28 @@ class PimReportDataAPI extends ReportDataAPI
             throw $this->getBadRequestException('Invalid report name');
         }
         $reportClass = PimReportAPI::PIM_REPORT_MAP[$reportName];
-        return new $reportClass();
+        $reportId = $this->getRequestParams()->getInt(
+            RequestParams::PARAM_TYPE_QUERY,
+            PimReportAPI::PARAMETER_REPORT_ID
+        );
+        return new $reportClass($reportId);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getValidationRuleForGetAll(): ParamRuleCollection
+    {
+        return new ParamRuleCollection(
+            $this->getReportNameParamRule(),
+            new ParamRule(
+                PimReportAPI::PARAMETER_REPORT_ID,
+                new Rule(Rules::POSITIVE),
+                new Rule(
+                    Rules::CALLBACK,
+                    [fn($id) => $this->getReportGeneratorService()->isPimReport($id)]
+                )
+            )
+        );
     }
 }

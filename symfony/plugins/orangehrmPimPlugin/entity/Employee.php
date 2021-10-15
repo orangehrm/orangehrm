@@ -21,7 +21,6 @@ namespace OrangeHRM\Entity;
 
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use OrangeHRM\Entity\Decorator\DecoratorTrait;
 use OrangeHRM\Entity\Decorator\EmployeeDecorator;
@@ -38,6 +37,7 @@ class Employee
 
     public const GENDER_MALE = 1;
     public const GENDER_FEMALE = 2;
+    public const GENDER_OTHER = 3;
 
     public const MARITAL_STATUS_SINGLE = 'Single';
     public const MARITAL_STATUS_MARRIED = 'Married';
@@ -139,28 +139,28 @@ class Employee
      *
      * @ORM\Column(name="emp_ssn_num", type="string", length=100, nullable=true, options={"default" : ""})
      */
-    private ?string $ssnNumber = "";
+    private ?string $ssnNumber = '';
 
     /**
      * @var string|null
      *
      * @ORM\Column(name="emp_sin_num", type="string", length=100, nullable=true, options={"default" : ""})
      */
-    private ?string $sinNumber = "";
+    private ?string $sinNumber = '';
 
     /**
      * @var string|null
      *
      * @ORM\Column(name="emp_other_id", type="string", length=100, nullable=true, options={"default" : ""})
      */
-    private ?string $otherId = "";
+    private ?string $otherId = '';
 
     /**
      * @var string|null
      *
      * @ORM\Column(name="emp_dri_lice_num", type="string", length=100, nullable=true, options={"default" : ""})
      */
-    private ?string $drivingLicenseNo = "";
+    private ?string $drivingLicenseNo = '';
 
     /**
      * @var DateTime|null
@@ -174,7 +174,7 @@ class Employee
      *
      * @ORM\Column(name="emp_military_service", type="string", length=100, nullable=true)
      */
-    private ?string $militaryService = "";
+    private ?string $militaryService = '';
 
     /**
      * @var EmploymentStatus|null
@@ -213,35 +213,35 @@ class Employee
      *
      * @ORM\Column(name="emp_street1", type="string", length=100, nullable=true, options={"default" : ""})
      */
-    private ?string $street1 = "";
+    private ?string $street1 = '';
 
     /**
      * @var string|null
      *
      * @ORM\Column(name="emp_street2", type="string", length=100, nullable=true, options={"default" : ""})
      */
-    private ?string $street2 = "";
+    private ?string $street2 = '';
 
     /**
      * @var string|null
      *
      * @ORM\Column(name="city_code", type="string", length=100, nullable=true, options={"default" : ""})
      */
-    private ?string $city = "";
+    private ?string $city = '';
 
     /**
      * @var string|null
      *
      * @ORM\Column(name="coun_code", type="string", length=100, nullable=true, options={"default" : ""})
      */
-    private ?string $country = "";
+    private ?string $country = '';
 
     /**
      * @var string|null
      *
      * @ORM\Column(name="provin_code", type="string", length=100, nullable=true, options={"default" : ""})
      */
-    private ?string $province = "";
+    private ?string $province = '';
 
     /**
      * @var string|null
@@ -279,6 +279,8 @@ class Employee
     private ?string $workEmail = null;
 
     /**
+     * @deprecated
+     * @todo remove from schema
      * @var string|null
      *
      * @ORM\Column(name="sal_grd_code", type="string", length=13, nullable=true)
@@ -385,7 +387,7 @@ class Employee
     private ?DateTime $purgedAt = null;
 
     /**
-     * @var Collection|Location[]
+     * @var Location[]
      *
      * @ORM\ManyToMany(targetEntity="OrangeHRM\Entity\Location", inversedBy="employees")
      * @ORM\JoinTable(
@@ -394,119 +396,117 @@ class Employee
      *     inverseJoinColumns={@ORM\JoinColumn(name="location_id", referencedColumnName="id")}
      * )
      */
-    private $locations;
+    private iterable $locations;
 
     /**
-     * @var Collection|EmpDependent[]
+     * @var EmpDependent[]
      *
      * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\EmpDependent", mappedBy="employee")
      */
-    private $dependents;
+    private iterable $dependents;
 
     /**
-     * @var Collection|EmpEmergencyContact[]
+     * @var EmpEmergencyContact[]
      *
      * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\EmpEmergencyContact", mappedBy="employee")
      */
-    private $emergencyContacts;
+    private iterable $emergencyContacts;
 
     /**
-     * @var Collection|EmployeeImmigrationRecord[]
+     * @var EmployeeImmigrationRecord[]
      *
      * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\EmployeeImmigrationRecord", mappedBy="employee")
      */
-    private $immigrationRecords;
+    private iterable $immigrationRecords;
 
     /**
-     * @var Collection
+     * @var EmpWorkExperience[]
      *
-     * @ORM\ManyToMany(targetEntity="OrangeHRM\Entity\EmpWorkExperience", mappedBy="employee")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="emp_number", referencedColumnName="emp_number")
-     * })
+     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\EmpWorkExperience", mappedBy="employee")
      */
-    private $workExperience;
+    private iterable $workExperience;
 
     /**
-     * @var Collection
+     * @var EmployeeEducation[]
      *
      * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\EmployeeEducation", mappedBy="employee")
      */
-    private $educations;
+    private iterable $educations;
 
     /**
-     * @var Collection|Skill[]
+     * @var EmployeeSkill[]
      *
      * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\EmployeeSkill", mappedBy="employee")
      */
-    private $skills;
+    private iterable $skills;
 
     /**
-     * @var Collection|EmployeeLanguage[]
+     * @var EmployeeLanguage[]
      *
      * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\EmployeeLanguage", mappedBy="employee")
      */
-    private $languages;
+    private iterable $languages;
 
     /**
-     * @var Collection|EmployeeLicense[]
+     * @var EmployeeLicense[]
      *
      * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\EmployeeLicense", mappedBy="employee")
      */
-    private $licenses;
+    private iterable $licenses;
 
     /**
-     * @var Collection
+     * @var EmployeeMembership[]
      *
      * @ORM\JoinColumn(name="emp_number", referencedColumnName="emp_number")
      * @ORM\OneToMany (targetEntity="OrangeHRM\Entity\EmployeeMembership", mappedBy="employee")
      */
-    private $memberships;
+    private iterable $memberships;
 
     /**
-     * @var Collection|EmployeeSalary[]
+     * @var EmployeeSalary[]
      *
      * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\EmployeeSalary", mappedBy="employee")
      */
-    private $salaries;
+    private iterable $salaries;
 
     /**
-     * @var Collection|EmpContract[]
+     * @var EmpContract[]
      *
      * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\EmpContract", mappedBy="employee")
      */
-    private $employmentContracts;
+    private iterable $employmentContracts;
 
     /**
-     * @var Collection|EmployeeAttachment[]
+     * @var EmployeeAttachment[]
      *
      * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\EmployeeAttachment", mappedBy="employee")
      */
-    private $attachments;
+    private iterable $attachments;
 
     /**
-     * @var Collection
+     * @todo
+     * @var ProjectAdmin[]
      *
      * @ORM\ManyToMany(targetEntity="OrangeHRM\Entity\ProjectAdmin", mappedBy="Employee")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="emp_number", referencedColumnName="emp_number")
      * })
      */
-    private $projectAdmin;
+    private iterable $projectAdmin;
 
     /**
-     * @var EmployeeTerminationRecord[]|Collection
+     * @var EmployeeTerminationRecord[]
      *
      * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\EmployeeTerminationRecord", mappedBy="employee")
      */
-    private $employeeTerminationRecords;
+    private iterable $employeeTerminationRecords;
 
     /**
-     * @var User[]|Collection
+     * @var User[]
      *
      * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\User", mappedBy="employee")
      */
-    private $users;
+    private iterable $users;
 
     /**
      * @var EmpPicture|null
@@ -516,14 +516,14 @@ class Employee
     private ?EmpPicture $empPicture = null;
 
     /**
-     * @var Collection|Employee[]
+     * @var Employee[]
      *
      * @ORM\ManyToMany(targetEntity="OrangeHRM\Entity\Employee", mappedBy="supervisors")
      */
-    private $subordinates;
+    private iterable $subordinates;
 
     /**
-     * @var Collection|Employee[]
+     * @var Employee[]
      *
      * @ORM\ManyToMany(targetEntity="OrangeHRM\Entity\Employee", inversedBy="subordinates")
      * @ORM\JoinTable(
@@ -532,7 +532,7 @@ class Employee
      *     inverseJoinColumns={@ORM\JoinColumn(name="erep_sup_emp_number", referencedColumnName="emp_number")}
      * )
      */
-    private $supervisors;
+    private iterable $supervisors;
 
     /**
      * @var EmpUsTaxExemption
@@ -1310,65 +1310,209 @@ class Employee
     }
 
     /**
-     * @return Collection|Location[]
+     * @return Location[]
      */
-    public function getLocations(): Collection
+    public function getLocations(): iterable
     {
         return $this->locations;
     }
 
     /**
-     * @param Collection|Location[] $locations
+     * @param Location[] $locations
      */
-    public function setLocations($locations): void
+    public function setLocations(iterable $locations): void
     {
         $this->locations = $locations;
     }
 
     /**
-     * @return Collection|Skill[]
+     * @return EmpDependent[]
      */
-    public function getSkills(): Collection
+    public function getDependents(): iterable
+    {
+        return $this->dependents;
+    }
+
+    /**
+     * @param EmpDependent[] $dependents
+     */
+    public function setDependents(iterable $dependents): void
+    {
+        $this->dependents = $dependents;
+    }
+
+    /**
+     * @return EmpEmergencyContact[]
+     */
+    public function getEmergencyContacts(): iterable
+    {
+        return $this->emergencyContacts;
+    }
+
+    /**
+     * @param EmpEmergencyContact[] $emergencyContacts
+     */
+    public function setEmergencyContacts(iterable $emergencyContacts): void
+    {
+        $this->emergencyContacts = $emergencyContacts;
+    }
+
+    /**
+     * @return EmployeeImmigrationRecord[]
+     */
+    public function getImmigrationRecords(): iterable
+    {
+        return $this->immigrationRecords;
+    }
+
+    /**
+     * @param EmployeeImmigrationRecord[] $immigrationRecords
+     */
+    public function setImmigrationRecords(iterable $immigrationRecords): void
+    {
+        $this->immigrationRecords = $immigrationRecords;
+    }
+
+    /**
+     * @return EmpWorkExperience[]
+     */
+    public function getWorkExperience(): iterable
+    {
+        return $this->workExperience;
+    }
+
+    /**
+     * @param EmpWorkExperience[] $workExperience
+     */
+    public function setWorkExperience(iterable $workExperience): void
+    {
+        $this->workExperience = $workExperience;
+    }
+
+    /**
+     * @return EmployeeEducation[]
+     */
+    public function getEducations(): iterable
+    {
+        return $this->educations;
+    }
+
+    /**
+     * @param EmployeeEducation[] $educations
+     */
+    public function setEducations(iterable $educations): void
+    {
+        $this->educations = $educations;
+    }
+
+    /**
+     * @return EmployeeSkill[]
+     */
+    public function getSkills(): iterable
     {
         return $this->skills;
     }
 
     /**
-     * @param Collection|Skill[] $skills
+     * @param EmployeeSkill[] $skills
      */
-    public function setSkills($skills): void
+    public function setSkills(iterable $skills): void
     {
         $this->skills = $skills;
     }
 
     /**
-     * @return Collection|EmpContract[]
+     * @return EmployeeLanguage[]
      */
-    public function getEmploymentContracts(): Collection
+    public function getLanguages(): iterable
+    {
+        return $this->languages;
+    }
+
+    /**
+     * @param EmployeeLanguage[] $languages
+     */
+    public function setLanguages(iterable $languages): void
+    {
+        $this->languages = $languages;
+    }
+
+    /**
+     * @return EmployeeLicense[]
+     */
+    public function getLicenses(): iterable
+    {
+        return $this->licenses;
+    }
+
+    /**
+     * @param EmployeeLicense[] $licenses
+     */
+    public function setLicenses(iterable $licenses): void
+    {
+        $this->licenses = $licenses;
+    }
+
+    /**
+     * @return EmployeeMembership[]
+     */
+    public function getMemberships(): iterable
+    {
+        return $this->memberships;
+    }
+
+    /**
+     * @param EmployeeMembership[] $memberships
+     */
+    public function setMemberships(iterable $memberships): void
+    {
+        $this->memberships = $memberships;
+    }
+
+    /**
+     * @return EmployeeSalary[]
+     */
+    public function getSalaries(): iterable
+    {
+        return $this->salaries;
+    }
+
+    /**
+     * @param EmployeeSalary[] $salaries
+     */
+    public function setSalaries(iterable $salaries): void
+    {
+        $this->salaries = $salaries;
+    }
+
+    /**
+     * @return EmpContract[]
+     */
+    public function getEmploymentContracts(): iterable
     {
         return $this->employmentContracts;
     }
 
     /**
-     * @param Collection|EmpContract[] $employmentContracts
+     * @param EmpContract[] $employmentContracts
      */
-    public function setEmploymentContracts($employmentContracts): void
+    public function setEmploymentContracts(iterable $employmentContracts): void
     {
         $this->employmentContracts = $employmentContracts;
     }
 
     /**
-     * @return Collection|User[]
+     * @return User[]
      */
-    public function getUsers(): array
+    public function getUsers(): iterable
     {
         return $this->users;
     }
 
     /**
-     * @param Collection|User[] $users
+     * @param User[] $users
      */
-    public function setUsers($users): void
+    public function setUsers(iterable $users): void
     {
         $this->users = $users;
     }
@@ -1390,33 +1534,33 @@ class Employee
     }
 
     /**
-     * @return Collection|Employee[]
+     * @return Employee[]
      */
-    public function getSubordinates()
+    public function getSubordinates(): iterable
     {
         return $this->subordinates;
     }
 
     /**
-     * @param Collection|Employee[] $subordinates
+     * @param Employee[] $subordinates
      */
-    public function setSubordinates($subordinates): void
+    public function setSubordinates(iterable $subordinates): void
     {
         $this->subordinates = $subordinates;
     }
 
     /**
-     * @return Collection|Employee[]
+     * @return Employee[]
      */
-    public function getSupervisors(): Collection
+    public function getSupervisors(): iterable
     {
         return $this->supervisors;
     }
 
     /**
-     * @param Collection|Employee[] $supervisors
+     * @param Employee[] $supervisors
      */
-    public function setSupervisors($supervisors): void
+    public function setSupervisors(iterable $supervisors): void
     {
         $this->supervisors = $supervisors;
     }

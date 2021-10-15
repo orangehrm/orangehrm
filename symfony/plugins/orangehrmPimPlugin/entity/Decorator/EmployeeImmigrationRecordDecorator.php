@@ -111,4 +111,13 @@ class EmployeeImmigrationRecordDecorator
         $country = $countryService->getCountryByCountryCode($countryCode);
         return $country->getCountryName();
     }
+
+    /**
+     * @return string|null
+     */
+    public function getDocumentType(): ?string
+    {
+        $type = $this->getEmployeeImmigrationRecord()->getType();
+        return EmployeeImmigrationRecord::DOCUMENT_TYPE_MAP[$type] ?? null;
+    }
 }
