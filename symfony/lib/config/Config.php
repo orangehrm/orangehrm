@@ -28,6 +28,7 @@ class Config
     public const LOG_DIR = 'ohrm_log_dir';
     public const CACHE_DIR = 'ohrm_cache_dir';
     public const DOCTRINE_PROXY_DIR = 'ohrm_doctrine_proxy_dir';
+    public const TEST_DIR= 'ohrm_test_dir';
 
     /**
      * @var array

@@ -24,6 +24,7 @@ use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Traits\Service\TextHelperTrait;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\EmployeeWorkShift;
+use OrangeHRM\Entity\ReportingMethod;
 use OrangeHRM\Entity\ReportTo;
 use OrangeHRM\ORM\QueryBuilderWrapper;
 use OrangeHRM\Pim\Dto\EmployeeSearchFilterParams;
@@ -310,6 +311,23 @@ class EmployeeDao extends BaseDao
             ->setParameter('supervisorId', $empNumber);
 
         return ($this->count($q) > 0);
+    }
+
+    /**
+     * @param int $subordinateId
+     * @param int $supervisorId
+     * @return ReportingMethod|null
+     */
+    public function getReportingMethod(int $subordinateId, int $supervisorId): ?ReportingMethod
+    {
+        $q = $this->createQueryBuilder(ReportingMethod::class, 'rm');
+        $q->leftJoin('rm.reportTos', 'reportTo')
+            ->andWhere('reportTo.supervisor = :supervisorId')
+            ->setParameter('supervisorId', $supervisorId)
+            ->andWhere('reportTo.subordinate = :subordinateId')
+            ->setParameter('subordinateId', $subordinateId);
+
+        return $this->fetchOne($q);
     }
 
     /**

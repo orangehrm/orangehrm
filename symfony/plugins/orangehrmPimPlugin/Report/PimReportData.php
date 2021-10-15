@@ -55,8 +55,7 @@ class PimReportData implements ReportData
      */
     public function normalize(): array
     {
-        // TODO
-        return [];
+        return $this->getReportGeneratorService()->getNormalizedReportData($this->filterParams);
     }
 
     /**
@@ -64,11 +63,7 @@ class PimReportData implements ReportData
      */
     public function getMeta(): ?ParameterBag
     {
-        return new ParameterBag(
-            [
-                // TODO
-                CommonParams::PARAMETER_TOTAL => 0,
-            ]
-        );
+        $count = $this->getReportGeneratorService()->getReportDataCount($this->filterParams);
+        return new ParameterBag([CommonParams::PARAMETER_TOTAL => $count]);
     }
 }

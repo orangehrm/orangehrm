@@ -40,7 +40,7 @@ class SelectedFilterField
     /**
      * @var FilterField
      *
-     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\FilterField")
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\FilterField", inversedBy="selectedFilterFields")
      * @ORM\JoinColumn(name="filter_field_id", referencedColumnName="filter_field_id")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")

@@ -3729,7 +3729,9 @@ VALUES ('apiv2_pim_custom_field', 'API-v2 PIM - Custom Fields', 1, 1, 1, 1),
        ('apiv2_pim_employee_work_shift', 'API-v2 PIM - Employee Work Shift', 1, 0, 0, 0),
        ('apiv2_pim_employee_count', 'API-v2 PIM - Employee Count', 1, 0, 0, 0),
        ('apiv2_pim_employee_csv_import', 'API-v2 PIM - Employee CSV Import', 1, 1, 0, 0),
-       ('apiv2_pim_defined_reports', 'API-v2 PIM - Defined Reports', 1, 1, 1, 1);
+       ('apiv2_pim_defined_reports', 'API-v2 PIM - Defined Reports', 1, 1, 1, 1),
+       ('apiv2_pim_reports', 'API-v2 PIM - Reports', 1, 0, 0, 0),
+       ('apiv2_pim_reports_data', 'API-v2 PIM - Reports Data', 1, 0, 0, 0);
 
 SET @pim_module_id := (SELECT `id` FROM ohrm_module WHERE name = 'pim' LIMIT 1);
 SET @apiv2_pim_custom_field_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_pim_custom_field' LIMIT 1);
@@ -3767,6 +3769,8 @@ SET @apiv2_pim_employee_work_shift_data_group_id := (SELECT `id` FROM ohrm_data_
 SET @apiv2_pim_employee_count_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_pim_employee_count' LIMIT 1);
 SET @apiv2_pim_employee_csv_import_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_pim_employee_csv_import' LIMIT 1);
 SET @apiv2_pim_defined_reports_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name ='apiv2_pim_defined_reports' LIMIT 1);
+SET @apiv2_pim_reports_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_pim_reports' LIMIT 1);
+SET @apiv2_pim_reports_data_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_pim_reports_data' LIMIT 1);
 
 INSERT INTO ohrm_api_permission (`api_name`, `module_id`, `data_group_id`)
 VALUES ('OrangeHRM\\Pim\\Api\\CustomFieldAPI', @pim_module_id, @apiv2_pim_custom_field_data_group_id),
@@ -3802,7 +3806,9 @@ VALUES ('OrangeHRM\\Pim\\Api\\CustomFieldAPI', @pim_module_id, @apiv2_pim_custom
        ('OrangeHRM\\Pim\\Api\\EmployeeWorkShiftAPI', @pim_module_id, @apiv2_pim_employee_work_shift_data_group_id),
        ('OrangeHRM\\Pim\\Api\\EmployeeCountAPI', @pim_module_id, @apiv2_pim_employee_count_data_group_id),
        ('OrangeHRM\\Pim\\Api\\EmployeeCSVImportAPI', @pim_module_id, @apiv2_pim_employee_csv_import_data_group_id),
-       ('OrangeHRM\\Pim\\Api\\PimDefinedReportAPI', @pim_module_id, @apiv2_pim_defined_reports_data_group_id);
+       ('OrangeHRM\\Pim\\Api\\PimDefinedReportAPI', @pim_module_id, @apiv2_pim_defined_reports_data_group_id),
+       ('OrangeHRM\\Pim\\Api\\PimReportAPI', @leave_module_id, @apiv2_pim_reports_data_group_id),
+       ('OrangeHRM\\Pim\\Api\\PimReportDataAPI', @leave_module_id, @apiv2_pim_reports_data_data_group_id);
 
 INSERT INTO ohrm_user_role_data_group (`can_read`, `can_create`, `can_update`, `can_delete`, `self`, `data_group_id`, `user_role_id`)
 VALUES (1, 1, 1, 1, 0, @apiv2_pim_custom_field_data_group_id, @admin_role_id),
@@ -3908,7 +3914,9 @@ VALUES (1, 1, 1, 1, 0, @apiv2_pim_custom_field_data_group_id, @admin_role_id),
        (1, 0, 0, 0, 0, @apiv2_pim_employee_work_shift_data_group_id, @supervisor_role_id),
        (1, 0, 0, 0, 0, @apiv2_pim_employee_count_data_group_id, @admin_role_id),
        (1, 1, 0, 0, 0, @apiv2_pim_employee_csv_import_data_group_id, @admin_role_id),
-       (1, 1, 1, 1, 0, @apiv2_pim_defined_reports_data_group_id, @admin_role_id);
+       (1, 1, 1, 1, 0, @apiv2_pim_defined_reports_data_group_id, @admin_role_id),
+       (1, 0, 0, 0, 0, @apiv2_pim_reports_data_group_id, @admin_role_id),
+       (1, 0, 0, 0, 0, @apiv2_pim_reports_data_data_group_id, @admin_role_id);
 
 INSERT INTO ohrm_data_group (`name`, `description`, `can_read`, `can_create`, `can_update`, `can_delete`)
 VALUES ('apiv2_leave_holiday', 'API-v2 Leave - Holidays', 1, 1, 1, 1),
@@ -4078,3 +4086,74 @@ CREATE TABLE `ohrm_mail_queue` (
 
 SET @pim_csv_import_screen_id := (SELECT `id` FROM ohrm_screen WHERE action_url = 'pimCsvImport' and name='Data Import' LIMIT 1);
 UPDATE `ohrm_screen` SET `module_id` = @pim_module_id WHERE `ohrm_screen`.`id` = @pim_csv_import_screen_id;
+
+ALTER TABLE `ohrm_display_field` ADD `class_name` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;
+UPDATE `ohrm_display_field` SET `is_value_list`=0 WHERE `display_field_group_id`=6;
+
+SET @personal_display_field_group_id := (SELECT `id` FROM ohrm_display_field_group WHERE `name` = 'Personal' LIMIT 1);
+SET @contact_details_display_field_group_id := (SELECT `id` FROM ohrm_display_field_group WHERE `name` = 'Contact Details' LIMIT 1);
+SET @emergency_contacts_display_field_group_id := (SELECT `id` FROM ohrm_display_field_group WHERE `name` = 'Emergency Contacts' LIMIT 1);
+SET @dependents_display_field_group_id := (SELECT `id` FROM ohrm_display_field_group WHERE `name` = 'Dependents' LIMIT 1);
+SET @immigration_display_field_group_id := (SELECT `id` FROM ohrm_display_field_group WHERE `name` = 'Immigration' LIMIT 1);
+SET @job_display_field_group_id := (SELECT `id` FROM ohrm_display_field_group WHERE `name` = 'Job' LIMIT 1);
+SET @salary_display_field_group_id := (SELECT `id` FROM ohrm_display_field_group WHERE `name` = 'Salary' LIMIT 1);
+SET @subordinates_display_field_group_id := (SELECT `id` FROM ohrm_display_field_group WHERE `name` = 'Subordinates' LIMIT 1);
+SET @supervisors_display_field_group_id := (SELECT `id` FROM ohrm_display_field_group WHERE `name` = 'Supervisors' LIMIT 1);
+SET @work_experience_display_field_group_id := (SELECT `id` FROM ohrm_display_field_group WHERE `name` = 'Work Experience' LIMIT 1);
+SET @education_display_field_group_id := (SELECT `id` FROM ohrm_display_field_group WHERE `name` = 'Education' LIMIT 1);
+SET @skills_display_field_group_id := (SELECT `id` FROM ohrm_display_field_group WHERE `name` = 'Skills' LIMIT 1);
+SET @languages_display_field_group_id := (SELECT `id` FROM ohrm_display_field_group WHERE `name` = 'Languages' LIMIT 1);
+SET @license_display_field_group_id := (SELECT `id` FROM ohrm_display_field_group WHERE `name` = 'License' LIMIT 1);
+SET @memberships_display_field_group_id := (SELECT `id` FROM ohrm_display_field_group WHERE `name` = 'Memberships' LIMIT 1);
+SET @custom_fields_display_field_group_id := (SELECT `id` FROM ohrm_display_field_group WHERE `name` = 'Custom Fields' LIMIT 1);
+
+UPDATE `ohrm_display_field` SET `class_name` = 'OrangeHRM\\Core\\Report\\DisplayField\\EmergencyContact\\EmergencyContact' WHERE `display_field_group_id` = @emergency_contacts_display_field_group_id;
+UPDATE `ohrm_display_field` SET `class_name` = 'OrangeHRM\\Core\\Report\\DisplayField\\Dependent\\Dependent' WHERE `display_field_group_id` = @dependents_display_field_group_id;
+UPDATE `ohrm_display_field` SET `class_name` = 'OrangeHRM\\Core\\Report\\DisplayField\\Immigration\\Immigration' WHERE `display_field_group_id` = @immigration_display_field_group_id;
+UPDATE `ohrm_display_field` SET `class_name` = 'OrangeHRM\\Core\\Report\\DisplayField\\Salary\\Salary' WHERE `display_field_group_id` = @salary_display_field_group_id;
+UPDATE `ohrm_display_field` SET `class_name` = 'OrangeHRM\\Core\\Report\\DisplayField\\Subordinate\\Subordinate' WHERE `display_field_group_id` = @subordinates_display_field_group_id;
+UPDATE `ohrm_display_field` SET `class_name` = 'OrangeHRM\\Core\\Report\\DisplayField\\Supervisor\\Supervisor' WHERE `display_field_group_id` = @supervisors_display_field_group_id;
+UPDATE `ohrm_display_field` SET `class_name` = 'OrangeHRM\\Core\\Report\\DisplayField\\WorkExperience\\WorkExperience' WHERE `display_field_group_id` = @work_experience_display_field_group_id;
+UPDATE `ohrm_display_field` SET `class_name` = 'OrangeHRM\\Core\\Report\\DisplayField\\Education\\Education' WHERE `display_field_group_id` = @education_display_field_group_id;
+UPDATE `ohrm_display_field` SET `class_name` = 'OrangeHRM\\Core\\Report\\DisplayField\\Skill\\Skill' WHERE `display_field_group_id` = @skills_display_field_group_id;
+UPDATE `ohrm_display_field` SET `class_name` = 'OrangeHRM\\Core\\Report\\DisplayField\\Language\\Language' WHERE `display_field_group_id` = @languages_display_field_group_id;
+UPDATE `ohrm_display_field` SET `class_name` = 'OrangeHRM\\Core\\Report\\DisplayField\\License\\License' WHERE `display_field_group_id` = @license_display_field_group_id;
+UPDATE `ohrm_display_field` SET `class_name` = 'OrangeHRM\\Core\\Report\\DisplayField\\Membership\\Membership' WHERE `display_field_group_id` = @memberships_display_field_group_id;
+
+UPDATE `ohrm_display_field` SET `class_name` = 'OrangeHRM\\Core\\Report\\DisplayField\\GenericBasicDisplayField' WHERE `display_field_group_id` = @personal_display_field_group_id;
+UPDATE `ohrm_display_field` SET `class_name` = 'OrangeHRM\\Core\\Report\\DisplayField\\GenericDateDisplayField' WHERE `field_alias` = 'empBirthday';
+UPDATE `ohrm_display_field` SET `class_name` = 'OrangeHRM\\Core\\Report\\DisplayField\\GenericDateDisplayField' WHERE `field_alias` = 'licenseExpiryDate';
+UPDATE `ohrm_display_field` SET `class_name` = 'OrangeHRM\\Core\\Report\\DisplayField\\Personal\\EmployeeGender' WHERE `field_alias` = 'empGender';
+
+UPDATE `ohrm_display_field` SET `class_name` = 'OrangeHRM\\Core\\Report\\DisplayField\\GenericBasicDisplayField' WHERE `display_field_group_id` = @contact_details_display_field_group_id;
+UPDATE `ohrm_display_field` SET `class_name` = 'OrangeHRM\\Core\\Report\\DisplayField\\ContactDetail\\EmployeeAddress' WHERE `field_alias` = 'address';
+
+UPDATE `ohrm_display_field` SET `class_name` = 'OrangeHRM\\Core\\Report\\DisplayField\\GenericBasicDisplayField' WHERE `display_field_group_id` = @job_display_field_group_id;
+UPDATE `ohrm_display_field` SET `class_name` = 'OrangeHRM\\Core\\Report\\DisplayField\\GenericDateDisplayField' WHERE `field_alias` = 'empContStartDate';
+UPDATE `ohrm_display_field` SET `class_name` = 'OrangeHRM\\Core\\Report\\DisplayField\\GenericDateDisplayField' WHERE `field_alias` = 'empContEndDate';
+UPDATE `ohrm_display_field` SET `class_name` = 'OrangeHRM\\Core\\Report\\DisplayField\\GenericDateDisplayField' WHERE `field_alias` = 'empJoinedDate';
+UPDATE `ohrm_display_field` SET `class_name` = 'OrangeHRM\\Core\\Report\\DisplayField\\GenericDateDisplayField' WHERE `field_alias` = 'terminationDate';
+
+UPDATE `ohrm_display_field` SET `class_name` = 'OrangeHRM\\Core\\Report\\DisplayField\\GenericBasicDisplayField' WHERE `display_field_group_id` = @custom_fields_display_field_group_id;
+
+UPDATE `ohrm_display_field` SET `field_alias` = 'employeeNationality'  WHERE `field_alias` = 'nationality';
+UPDATE `ohrm_display_field` SET `field_alias` = 'terminationNote' WHERE `field_alias` = 'getNote';
+UPDATE `ohrm_display_field` SET `field_alias` = 'empTerminationReason' WHERE `field_alias` = 'terminationReason';
+UPDATE `ohrm_display_field` SET `field_alias` = 'membershipName' WHERE `field_alias` = 'name';
+
+ALTER TABLE `ohrm_filter_field` ADD `class_name` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;
+
+UPDATE `ohrm_filter_field` SET `class_name` = 'OrangeHRM\\Core\\Report\\FilterField\\EmployeeNumber' WHERE `name` = 'employee_name';
+UPDATE `ohrm_filter_field` SET `class_name` = 'OrangeHRM\\Core\\Report\\FilterField\\PayGrade' WHERE `name` = 'pay_grade';
+UPDATE `ohrm_filter_field` SET `class_name` = 'OrangeHRM\\Core\\Report\\FilterField\\EmployeeEducation' WHERE `name` = 'education';
+UPDATE `ohrm_filter_field` SET `class_name` = 'OrangeHRM\\Core\\Report\\FilterField\\EmploymentStatus' WHERE `name` = 'employment_status';
+UPDATE `ohrm_filter_field` SET `class_name` = 'OrangeHRM\\Core\\Report\\FilterField\\ServicePeriod' WHERE `name` = 'service_period';
+UPDATE `ohrm_filter_field` SET `class_name` = 'OrangeHRM\\Core\\Report\\FilterField\\JoinedDate' WHERE `name` = 'joined_date';
+UPDATE `ohrm_filter_field` SET `class_name` = 'OrangeHRM\\Core\\Report\\FilterField\\JobTitle' WHERE `name` = 'job_title';
+UPDATE `ohrm_filter_field` SET `class_name` = 'OrangeHRM\\Core\\Report\\FilterField\\EmployeeLanguage' WHERE `name` = 'language';
+UPDATE `ohrm_filter_field` SET `class_name` = 'OrangeHRM\\Core\\Report\\FilterField\\EmployeeSkill' WHERE `name` = 'skill';
+UPDATE `ohrm_filter_field` SET `class_name` = 'OrangeHRM\\Core\\Report\\FilterField\\AgeGroup' WHERE `name` = 'age_group';
+UPDATE `ohrm_filter_field` SET `class_name` = 'OrangeHRM\\Core\\Report\\FilterField\\Subunit' WHERE `name` = 'sub_unit';
+UPDATE `ohrm_filter_field` SET `class_name` = 'OrangeHRM\\Core\\Report\\FilterField\\EmployeeGender' WHERE `name` = 'gender';
+UPDATE `ohrm_filter_field` SET `class_name` = 'OrangeHRM\\Core\\Report\\FilterField\\Location' WHERE `name` = 'location';
+UPDATE `ohrm_filter_field` SET `class_name` = 'OrangeHRM\\Core\\Report\\FilterField\\IncludeEmployee' WHERE `name` = 'include';
