@@ -24,7 +24,7 @@ class ParamRuleCollection
     public const DEFAULT_EXCLUDED_PARAM_KEYS = ['_api', '_key', '_controller', '_route', '_route_params'];
 
     /**
-     * @var ParamRule[]
+     * @var array<string, ParamRule>
      */
     protected array $paramValidations = [];
 
@@ -43,7 +43,7 @@ class ParamRuleCollection
      */
     public function __construct(ParamRule ...$paramValidations)
     {
-        $this->paramValidations = $paramValidations;
+        $this->setParamValidations($paramValidations);
     }
 
     /**
@@ -51,7 +51,7 @@ class ParamRuleCollection
      */
     public function getParamValidations(): array
     {
-        return $this->paramValidations;
+        return array_values($this->paramValidations);
     }
 
     /**
@@ -59,31 +59,43 @@ class ParamRuleCollection
      */
     public function setParamValidations(array $paramValidations): void
     {
-        $this->paramValidations = $paramValidations;
+        $this->paramValidations = [];
+        foreach ($paramValidations as $paramValidation) {
+            $this->addParamValidation($paramValidation);
+        }
     }
 
     /**
      * @param ParamRule $paramValidation
+     * @noinspection PhpDocMissingThrowsInspection
      */
     public function addParamValidation(ParamRule $paramValidation): void
     {
-        $this->paramValidations[] = $paramValidation;
+        if (isset($this->paramValidations[$paramValidation->getParamKey()])) {
+            throw new ValidatorException(
+                sprintf(
+                    'Multiple instance of `%s` found for `%s` request parameter.',
+                    ParamRule::class,
+                    $paramValidation->getParamKey()
+                )
+            );
+        }
+        $this->paramValidations[$paramValidation->getParamKey()] = $paramValidation;
     }
 
     /**
      * @param string $paramKey
+     * @return ParamRule|null
      */
-    public function removeParamValidation(string $paramKey): void
+    public function removeParamValidation(string $paramKey): ?ParamRule
     {
-        $rules = $this->getParamValidations();
-        foreach ($rules as $index => $paramRule) {
-            if ($paramRule->getParamKey() === $paramKey) {
-                array_splice($rules, $index, 1);
-                break;
-            }
+        if (isset($this->paramValidations[$paramKey])) {
+            $paramRule = $this->paramValidations[$paramKey];
+            unset($this->paramValidations[$paramKey]);
+            return $paramRule;
         }
 
-        $this->setParamValidations($rules);
+        return null;
     }
 
     /**
@@ -103,22 +115,11 @@ class ParamRuleCollection
     }
 
     /**
-     * @return ParamRule[]
-     * @throws ValidatorException
+     * @return array<string, ParamRule>
      */
     public function getMap(): array
     {
-        $params = [];
-        foreach ($this->getParamValidations() as $paramRule) {
-            if (isset($params[$paramRule->getParamKey()])) {
-                throw new ValidatorException(
-                    sprintf('Multiple instance of %s found per one request parameter.', ParamRule::class)
-                );
-            }
-
-            $params[$paramRule->getParamKey()] = $paramRule;
-        }
-        return $params;
+        return $this->paramValidations;
     }
 
     /**

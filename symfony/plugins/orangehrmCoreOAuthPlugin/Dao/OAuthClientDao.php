@@ -24,7 +24,10 @@ use Exception;
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\OAuthClient;
+use OrangeHRM\OAuth\Constant\GrantType;
+use OrangeHRM\OAuth\Constant\Scope;
 use OrangeHRM\OAuth\Dto\OAuthClientSearchFilterParams;
+use OrangeHRM\OAuth\Service\OAuthService;
 use OrangeHRM\ORM\Paginator;
 
 class OAuthClientDao extends BaseDao
@@ -118,5 +121,21 @@ class OAuthClientDao extends BaseDao
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }
+    }
+
+    /**
+     * Create Mobile OAuth Client
+     *
+     * @return OAuthClient
+     */
+    public function createMobileClient()
+    {
+        $client = new OAuthClient();
+        $client->setClientId(OAuthService::PUBLIC_MOBILE_CLIENT_ID);
+        $client->setClientSecret('');
+        $client->setRedirectUri('');
+        $client->setGrantTypes(sprintf("%s %s", GrantType::USER_CREDENTIALS, GrantType::REFRESH_TOKEN));
+        $client->setScope(Scope::SCOPE_USER);
+        return $this->saveOAuthClient($client);
     }
 }

@@ -36,7 +36,7 @@ use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\EmailConfiguration;
 use OrangeHRM\Core\Api\V2\ParameterBag;
-use Swift_TransportException;
+use Symfony\Component\Mailer\Exception\TransportException as MailerException;
 
 class EmailConfigurationAPI extends Endpoint implements ResourceEndpoint
 {
@@ -59,6 +59,10 @@ class EmailConfigurationAPI extends Endpoint implements ResourceEndpoint
     public const PARAM_RULE_SMTP_AUTH_TYPE_MAX_LENGTH = 50;
     public const PARAM_RULE_SMTP_SECURITY_TYPE_MAX_LENGTH = 50;
     public const PARAM_RULE_TEST_EMAIL_ADDRESS_MAX_LENGTH = 250;
+
+    public const DEFAULT_PARAMETER_MAIL_TYPE = 'sendmail';
+    public const DEFAULT_PARAMETER_AUTH_TYPE = 'login';
+    public const DEFAULT_PARAMETER_SECURITY_TYPE = 'ssl';
 
     public const TEST_EMAIL_STATUS = 'testEmailStatus';
 
@@ -96,14 +100,14 @@ class EmailConfigurationAPI extends Endpoint implements ResourceEndpoint
         );
         if (!$emailConfiguration instanceof EmailConfiguration) {
             $emailConfiguration = new EmailConfiguration();
-            $emailConfiguration->setMailType("");
+            $emailConfiguration->setMailType(self::DEFAULT_PARAMETER_MAIL_TYPE);
             $emailConfiguration->setSentAs("");
             $emailConfiguration->setSmtpHost("");
             $emailConfiguration->setSmtpPort(null);
             $emailConfiguration->setSmtpUsername("");
             $emailConfiguration->setSmtpPassword("");
-            $emailConfiguration->setSmtpAuthType("");
-            $emailConfiguration->setSmtpSecurityType("");
+            $emailConfiguration->setSmtpAuthType(self::DEFAULT_PARAMETER_AUTH_TYPE);
+            $emailConfiguration->setSmtpSecurityType(self::DEFAULT_PARAMETER_SECURITY_TYPE);
         }
 
         return new EndpointResourceResult(EmailConfigurationModel::class, $emailConfiguration);
@@ -136,7 +140,7 @@ class EmailConfigurationAPI extends Endpoint implements ResourceEndpoint
         if (!empty($testEmail)) {
             try {
                 $this->getEmailConfigurationService()->sendTestMail($testEmail);
-            } catch (Swift_TransportException $e){
+            } catch (MailerException $e){
                 $testEmailStatus = 0;
             }
         }

@@ -68,7 +68,7 @@ class EmployeeTerminationRecord
     /**
      * @var Employee
      *
-     * @ORM\OneToOne(targetEntity="OrangeHRM\Entity\Employee", inversedBy="employeeTerminationRecords")
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Employee", inversedBy="employeeTerminationRecords")
      * @ORM\JoinColumn(name="emp_number", referencedColumnName="emp_number")
      */
     private Employee $employee;

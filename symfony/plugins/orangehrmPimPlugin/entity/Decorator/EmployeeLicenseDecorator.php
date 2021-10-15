@@ -80,6 +80,9 @@ class EmployeeLicenseDecorator
         return $this->getDateTimeHelper()->formatDateTimeToYmd($date);
     }
 
+    /**
+     * @return string|null
+     */
     public function getLicenseExpiryDate(): ?string
     {
         $date = $this->getEmployeeLicense()->getLicenseExpiryDate();

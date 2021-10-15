@@ -26,13 +26,21 @@
           <div class="orangehrm-edit-employee-imagesection">
             <div class="orangehrm-edit-employee-name">
               <oxd-text tag="h6" class="--strong">{{ employeeName }}</oxd-text>
-              <oxd-text v-if="!isCurrentEmp" tag="p">(Past Employee)</oxd-text>
+              <oxd-text v-if="!isCurrentEmp" type="subtitle-2">
+                (Past Employee)
+              </oxd-text>
             </div>
-            <div
-              class="orangehrm-edit-employee-image"
-              @click="onClickProfilePic"
-            >
-              <img alt="profile picture" class="employee-image" :src="imgSrc" />
+            <div class="orangehrm-edit-employee-image-wrapper">
+              <div
+                class="orangehrm-edit-employee-image"
+                @click="onClickProfilePic"
+              >
+                <img
+                  alt="profile picture"
+                  class="employee-image"
+                  :src="imgSrc"
+                />
+              </div>
             </div>
           </div>
           <tabs-navigation :tabs="tabs"></tabs-navigation>
@@ -159,11 +167,15 @@ export default {
     flex-direction: row;
   }
   &-navigation {
-    flex: 1 1 25%;
+    width: 100%;
     padding: 1rem;
+    box-sizing: border-box;
+    @include oxd-respond-to('md') {
+      width: 220px;
+    }
   }
   &-content {
-    flex: 1 1 75%;
+    flex: 1;
     @include oxd-respond-to('md') {
       border-left: $oxd-input-control-border--active;
     }
@@ -172,38 +184,32 @@ export default {
     text-align: center;
     padding-left: 1rem;
     padding-right: 1rem;
-    padding-bottom: 1rem;
     & .--strong {
       font-weight: 700;
       font-size: 1.2rem;
     }
   }
-  &-image {
-    overflow: hidden;
-    border: 0.75rem solid #e8eaef;
-    border-radius: 100%;
-    width: 6rem;
-    height: 6rem;
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
-    flex-shrink: 0;
-    cursor: pointer;
-    .employee-image {
-      height: 6rem;
-    }
+  &-image-wrapper {
+    padding-bottom: 1.2rem;
     @include oxd-respond-to('md') {
-      width: 8rem;
-      height: 8rem;
-      .employee-image {
-        height: 8rem;
-      }
+      padding-top: 1.2rem;
     }
+  }
+  &-image {
+    width: 120px;
+    height: 120px;
+    border-radius: 100%;
+    display: flex;
+    cursor: pointer;
+    overflow: hidden;
+    justify-content: center;
+    box-sizing: border-box;
+    border: 0.5rem solid $oxd-background-pastel-white-color;
+    box-shadow: 1px 1px 18px 11px hsl(238deg 13% 76% / 24%);
   }
   &-imagesection {
     display: flex;
     align-items: center;
-    margin-bottom: 2rem;
     @include oxd-respond-to('xs') {
       flex-direction: row-reverse;
       justify-content: flex-end;

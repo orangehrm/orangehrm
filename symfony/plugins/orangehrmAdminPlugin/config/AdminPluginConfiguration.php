@@ -17,9 +17,11 @@
  * Boston, MA  02110-1301, USA
  */
 
+use OrangeHRM\Admin\Service\CompanyStructureService;
 use OrangeHRM\Admin\Service\CountryService;
 use OrangeHRM\Admin\Service\PayGradeService;
 use OrangeHRM\Admin\Service\UserService;
+use OrangeHRM\Admin\Service\WorkShiftService;
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\PluginConfigurationInterface;
@@ -45,6 +47,14 @@ class AdminPluginConfiguration implements PluginConfigurationInterface
         $this->getContainer()->register(
             Services::PAY_GRADE_SERVICE,
             PayGradeService::class
+        );
+        $this->getContainer()->register(
+            Services::COMPANY_STRUCTURE_SERVICE,
+            CompanyStructureService::class
+        );
+        $this->getContainer()->register(
+            Services::WORK_SHIFT_SERVICE,
+            WorkShiftService::class
         );
     }
 }

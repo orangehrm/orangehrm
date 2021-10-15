@@ -19,13 +19,33 @@
 
 namespace OrangeHRM\Tests\Util;
 
+use LogicException;
+use OrangeHRM\Core\Helper\ClassHelper;
+use OrangeHRM\Core\Service\DateTimeHelperService;
+use OrangeHRM\Core\Service\TextHelperService;
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Framework\Framework;
 use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Framework\Services;
+use OrangeHRM\ORM\Doctrine;
 
 abstract class KernelTestCase extends TestCase
 {
     use ServiceContainerTrait;
+
+    /**
+     * Value of this key should be bool, default: true
+     */
+    public const OPTIONS_WITH_HELPER_SERVICES = 'withHelperServices';
+
+    private array $options = [
+        self::OPTIONS_WITH_HELPER_SERVICES => true,
+    ];
+
+    protected function tearDown(): void
+    {
+        $this->createKernel();
+    }
 
     /**
      * @param array $query
@@ -44,9 +64,15 @@ abstract class KernelTestCase extends TestCase
     protected function createKernel(): Framework
     {
         foreach ($this->getContainer()->getServiceIds() as $serviceId) {
-            $this->getContainer()->removeDefinition($serviceId);
-            $this->getContainer()->removeAlias($serviceId);
+            if ($serviceId === 'service_container') {
+                continue;
+            }
+            $this->getContainer()->set($serviceId, null);
         }
+        $this->getContainer()->register(Services::DOCTRINE)
+            ->setFactory([Doctrine::class, 'getEntityManager']);
+
+        $this->setHelperServices();
 
         return $this->getMockBuilder(Framework::class)
             ->onlyMethods(['handle'])
@@ -66,5 +92,29 @@ abstract class KernelTestCase extends TestCase
             $this->getContainer()->set($id, $service);
         }
         return $kernel;
+    }
+
+    /**
+     * @param array $options
+     */
+    protected function updateOptions(array $options)
+    {
+        $this->options = array_replace($this->options, $options);
+    }
+
+    private function setHelperServices(): void
+    {
+        $dateTimeHelper = $this->getMockBuilder(DateTimeHelperService::class)
+            ->onlyMethods(['getNow'])
+            ->getMock();
+        $dateTimeHelper->method('getNow')
+            ->willReturnCallback(function () {
+                throw new LogicException('Please mock ' . DateTimeHelperService::class . '::getNow');
+            });
+        if (isset($this->options[self::OPTIONS_WITH_HELPER_SERVICES]) && $this->options[self::OPTIONS_WITH_HELPER_SERVICES]) {
+            $this->getContainer()->set(Services::DATETIME_HELPER_SERVICE, $dateTimeHelper);
+            $this->getContainer()->set(Services::TEXT_HELPER_SERVICE, new TextHelperService());
+            $this->getContainer()->set(Services::CLASS_HELPER, new ClassHelper());
+        }
     }
 }

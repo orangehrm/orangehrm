@@ -24,7 +24,7 @@
       <div class="orangehrm-leave-balance">
         <oxd-label :label="$t('leave.leave_balance')" />
         <oxd-icon-button
-          v-if="type"
+          v-if="leaveData.type"
           class="--help"
           name="question-circle"
           :withContainer="false"
@@ -32,57 +32,62 @@
         />
       </div>
     </template>
-    <oxd-text class="orangehrm-leave-balance-text" tag="p">
+    <oxd-text v-if="balance >= 0" class="orangehrm-leave-balance-text" tag="p">
       {{ leaveBalance }}
     </oxd-text>
+    <oxd-text v-else class="orangehrm-leave-balance-text --error" tag="p">
+      {{ $t('leave.balance_not_sufficient') }}
+    </oxd-text>
   </oxd-input-group>
-  <leave-balance-modal
+  <component
+    :is="
+      balance >= 0 ? 'leave-balance-modal' : 'leave-balance-insufficient-modal'
+    "
     v-if="showModal"
     :data="data"
+    :meta="meta"
     @close="onModalClose"
-  ></leave-balance-modal>
+  ></component>
 </template>
 
 <script>
-import {toRefs, reactive, computed, watchEffect} from 'vue';
+import {toRefs, reactive, computed, watchPostEffect} from 'vue';
 import {APIService} from '@orangehrm/core/util/services/api.service';
 import Label from '@orangehrm/oxd/core/components/Label/Label';
 import LeaveBalanceModal from '@/orangehrmLeavePlugin/components/LeaveBalanceModal';
+import LeaveBalanceInsufficientModal from '@/orangehrmLeavePlugin/components/LeaveBalanceInsufficientModal';
+import useLeaveValidators from '@/orangehrmLeavePlugin/util/composable/useLeaveValidators';
 
 export default {
   name: 'leave-balance',
   inheritAttrs: false,
   props: {
-    employeeId: {
-      type: Number,
-    },
-    type: {
+    leaveData: {
       type: Object,
-    },
-    fromDate: {
-      type: String,
-    },
-    toDate: {
-      type: String,
     },
   },
   components: {
     'oxd-label': Label,
     'leave-balance-modal': LeaveBalanceModal,
+    'leave-balance-insufficient-modal': LeaveBalanceInsufficientModal,
   },
   setup(props) {
     const state = reactive({
       data: null,
+      meta: null,
       balance: 0,
       showModal: false,
     });
     const http = new APIService(
       window.appGlobal.baseUrl,
-      'api/v2/leave/my-leave-entitlement',
+      'api/v2/leave/leave-balance/leave-type',
     );
+    const {validateLeaveBalance} = useLeaveValidators(http);
 
     const leaveBalance = computed(() => {
-      return `${state.balance.toFixed(2)} Day(s)`;
+      return props.leaveData.type?.id
+        ? `${state.balance.toFixed(2)} Day(s)`
+        : '0.00 Day(s)';
     });
 
     const onModalOpen = () => {
@@ -93,21 +98,18 @@ export default {
       state.showModal = false;
     };
 
-    watchEffect(async () => {
-      if (props.type?.id) {
-        http
-          .getAll({
-            id: props.employeeId,
-            type: props.type.id,
-            fromDate: props.fromDate,
-            toDate: props.toDate,
+    watchPostEffect(async () => {
+      if (props.leaveData.type?.id) {
+        validateLeaveBalance(props.leaveData)
+          .then(({balance, breakdown, metaData}) => {
+            state.balance = balance;
+            if (breakdown) state.data = breakdown;
+            if (metaData) state.meta = metaData;
           })
-          .then(response => {
-            const {data} = response.data;
-            if (Array.isArray(data) && data.length > 0) {
-              state.data = data[0];
-              state.balance = data[0].leaveBalance.balance;
-            }
+          .catch(() => {
+            state.data = null;
+            state.meta = null;
+            state.balance = 0;
           });
       }
     });
@@ -132,5 +134,8 @@ export default {
 }
 .orangehrm-leave-balance-text {
   padding: $oxd-input-control-vertical-padding 0rem;
+  &.--error {
+    color: $oxd-feedback-danger-color;
+  }
 }
 </style>

@@ -49,6 +49,7 @@
                       class="--help"
                       name="exclamation-circle"
                       :withContainer="false"
+                      @click="onModalOpen"
                     />
                   </div>
                 </template>
@@ -82,6 +83,10 @@
           <submit-button />
         </oxd-form-actions>
       </oxd-form>
+      <entitlement-situational-modal
+        v-if="showModal"
+        @close="onModalClose"
+      ></entitlement-situational-modal>
     </div>
   </div>
 </template>
@@ -94,6 +99,7 @@ import {
   shouldNotExceedCharLength,
 } from '@orangehrm/core/util/validation/rules';
 import Label from '@orangehrm/oxd/core/components/Label/Label';
+import EntitlementSituationalModal from '@/orangehrmLeavePlugin/components/EntitlementSituationalModal';
 
 const leaveTypeModel = {
   id: '',
@@ -110,10 +116,12 @@ export default {
   },
   components: {
     'oxd-label': Label,
+    'entitlement-situational-modal': EntitlementSituationalModal,
   },
 
   data() {
     return {
+      showModal: false,
       isLoading: false,
       leaveType: {...leaveTypeModel},
       rules: {
@@ -149,6 +157,12 @@ export default {
     },
     onCancel() {
       navigate('/leave/leaveTypeList');
+    },
+    onModalOpen() {
+      this.showModal = true;
+    },
+    onModalClose() {
+      this.showModal = false;
     },
   },
   created() {

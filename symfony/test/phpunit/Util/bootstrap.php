@@ -18,9 +18,12 @@
  */
 
 use Doctrine\DBAL\Exception\ConnectionException;
+use OrangeHRM\Framework\ServiceContainer;
+use OrangeHRM\Framework\Services;
 use OrangeHRM\ORM\Doctrine;
+use OrangeHRM\Tests\Util\CoreFixtureService;
 
-define('ENVIRNOMENT', 'test');
+define('ENVIRONMENT', 'test');
 
 require realpath(__DIR__ . '/../../../vendor/autoload.php');
 
@@ -33,15 +36,32 @@ Error:
 %s\n
 ";
 
+ServiceContainer::getContainer()
+    ->register(Services::DOCTRINE)
+    ->setFactory([Doctrine::class, 'getEntityManager']);
+
 try {
-    Doctrine::getEntityManager()->getConnection()->connect();
+    ServiceContainer::getContainer()->get(Services::DOCTRINE)->getConnection()->connect();
 } catch (ConnectionException $e) {
     if ($e->getErrorCode() === 1049) {
         echo sprintf(
             $errorMessage,
-            Doctrine::getEntityManager()->getConnection()->getDatabase(),
+            ServiceContainer::getContainer()->get(Services::DOCTRINE)->getConnection()->getDatabase(),
             $e->getMessage()
         );
         die;
     }
 }
+
+$coreFixtureService = new CoreFixtureService();
+if (!$coreFixtureService->isReady()) {
+    $errorMessage = "
+Core fixtures not found.
+Run below command and try again;
+$ php ./devTools/general/create-test-db.php
+\n
+";
+    echo $errorMessage;
+    die;
+}
+

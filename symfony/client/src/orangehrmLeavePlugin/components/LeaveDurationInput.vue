@@ -27,8 +27,9 @@
       :options="options"
       :modelValue="duration"
       :rules="rules.duration"
+      :show-empty-selector="partial"
+      :required="partial"
       @update:modelValue="$emit('update:duration', $event)"
-      required
     />
   </oxd-grid-item>
   <template v-if="duration && duration.id === 4">
@@ -61,7 +62,7 @@
 </template>
 
 <script>
-import {diffInTime, secondsTohhmm} from '@orangehrm/core/util/helper/datefns';
+import {diffInTime} from '@orangehrm/core/util/helper/datefns';
 import {
   endTimeShouldBeAfterStartTime,
   required,
@@ -88,6 +89,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    workShift: {
+      type: Object,
+      required: true,
+    },
   },
   data() {
     return {
@@ -101,6 +106,18 @@ export default {
             () => this.fromTime,
             'To time should be after from time',
           ),
+          value => {
+            if (value) {
+              const workLength = diffInTime(
+                this.workShift.startTime,
+                this.workShift.endTime,
+              );
+              const selectedLength = diffInTime(this.fromTime, value);
+              if (selectedLength > workLength)
+                return 'Duration should be less than work shift length';
+            }
+            return true;
+          },
         ],
       },
     };
@@ -108,7 +125,7 @@ export default {
   computed: {
     selectedTimeDuration() {
       const timeDifference = diffInTime(this.fromTime, this.toTime);
-      return secondsTohhmm(timeDifference);
+      return (timeDifference / 3600).toFixed(2);
     },
     options() {
       const durations = [

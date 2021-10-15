@@ -23,7 +23,17 @@
     type="select"
     :label="$t('leave.leave_type')"
     :options="options"
-  />
+  >
+    <template v-slot:afterSelected="{data}">
+      <template v-if="data.isDeleted">(Deleted)</template>
+    </template>
+    <template v-slot:option="{data}">
+      <span>{{ data.label }}</span>
+      <div v-if="data.isDeleted" class="deleted-tag">
+        (Deleted)
+      </div>
+    </template>
+  </oxd-input-field>
 </template>
 
 <script>
@@ -58,6 +68,7 @@ export default {
             return {
               id: item.id,
               label: item.name,
+              isDeleted: item.deleted,
             };
           });
         });
@@ -69,3 +80,9 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.deleted-tag {
+  margin-left: auto;
+}
+</style>

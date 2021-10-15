@@ -23,5 +23,43 @@ use Exception;
 
 class LeaveAllocationServiceException extends Exception
 {
+    /**
+     * @return static
+     */
+    public static function overlappingLeavesFound(): self
+    {
+        return new self('Overlapping Leave Request Found');
+    }
 
+    /**
+     * @return static
+     */
+    public static function workShiftLengthExceeded(): self
+    {
+        return new self('Work Shift Length Exceeded');
+    }
+
+    /**
+     * @return static
+     */
+    public static function leaveBalanceExceeded(): self
+    {
+        return new self('Leave Balance Exceeded');
+    }
+
+    /**
+     * @return static
+     */
+    public static function leaveQuotaWillExceed(): self
+    {
+        return new self('Leave Quota will Exceed');
+    }
+
+    /**
+     * @return static
+     */
+    public static function noWorkingDaysSelected(): self
+    {
+        return new self('Failed to Submit: No Working Days Selected');
+    }
 }

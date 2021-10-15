@@ -30,7 +30,7 @@
           <oxd-text class="orangehrm-sub-title" tag="h6">
             Show Deprecated Fields
           </oxd-text>
-          <oxd-grid :cols="2" class="orangehrm-full-width-grid">
+          <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <div class="orangehrm-optional-field-row">
               <oxd-text tag="p" class="orangehrm-optional-field-label">
                 Show Nick Name, Smoker and Military Service in Personal Details
@@ -48,7 +48,7 @@
           <oxd-text class="orangehrm-sub-title" tag="h6">
             Country Specific Information
           </oxd-text>
-          <oxd-grid :cols="2" class="orangehrm-full-width-grid">
+          <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <div class="orangehrm-optional-field-row">
               <oxd-text tag="p" class="orangehrm-optional-field-label">
                 Show SSN field in Personal Details

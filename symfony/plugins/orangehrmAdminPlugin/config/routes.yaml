@@ -154,6 +154,13 @@ apiv2_organization:
     id: 0
     _api: OrangeHRM\Admin\Api\OrganizationAPI
 
+apiv2_admin_pay_grade_allowed_currencies:
+  path: /api/v2/admin/pay-grades/{payGradeId}/currencies/allowed
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Admin\Api\PayGradeAllowedCurrencyAPI
+
 apiv2_admin_paygrades_currency:
   path: /api/v2/admin/pay-grades/{payGradeId}/currencies/{id}
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
@@ -189,6 +196,64 @@ apiv2_admin_email_configuration:
   defaults:
     id: 0
     _api: OrangeHRM\Admin\Api\EmailConfigurationAPI
+
+apiv2_admin_work_shift:
+  path: /api/v2/admin/work-shifts/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    _api: OrangeHRM\Admin\Api\WorkShiftAPI
+  requirements:
+    id: '\d+'
+
+apiv2_admin_work_shifts:
+  path: /api/v2/admin/work-shifts
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST, DELETE ]
+  defaults:
+    _api: OrangeHRM\Admin\Api\WorkShiftAPI
+
+apiv2_admin_work_shifts_employee:
+  path: /api/v2/admin/work-shifts/employees
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Admin\Api\WorkShiftEmployeeAPI
+
+apiv2_admin_location:
+  path: /api/v2/admin/locations/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    _api: OrangeHRM\Admin\Api\LocationAPI
+
+apiv2_admin_locations:
+  path: /api/v2/admin/locations
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST, DELETE ]
+  defaults:
+    _api: OrangeHRM\Admin\Api\LocationAPI
+
+apiv2_admin_modules:
+  path: /api/v2/admin/modules
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    _api: OrangeHRM\Admin\Api\ModulesAPI
+
+apiv2_admin_pay_grades:
+  path: /api/v2/admin/pay-grades
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST, DELETE ]
+  defaults:
+    _api: OrangeHRM\Admin\Api\PayGradeAPI
+
+apiv2_admin_pay_grade:
+  path: /api/v2/admin/pay-grades/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    _api: OrangeHRM\Admin\Api\PayGradeAPI
 
 ##########################
 #        Files
@@ -365,7 +430,57 @@ edit_nationality:
   controller: OrangeHRM\Admin\Controller\SaveNationalityController::handle
   methods: [ GET ]
 
+view_location:
+  path: /admin/viewLocations
+  controller: OrangeHRM\Admin\Controller\ViewLocationController::handle
+  methods: [ GET ]
+
+save_location:
+  path: /admin/saveLocation
+  controller: OrangeHRM\Admin\Controller\SaveLocationController::handle
+  methods: [ GET ]
+
+edit_location:
+  path: /admin/saveLocation/{id}
+  controller: OrangeHRM\Admin\Controller\SaveLocationController::handle
+  methods: [ GET ]
+
 view_email_configuration:
   path: /admin/listMailConfiguration
   controller: OrangeHRM\Admin\Controller\ViewEmailConfigurationController::handle
+  methods: [ GET ]
+
+view_pay_grades:
+  path: /admin/viewPayGrades
+  controller: OrangeHRM\Admin\Controller\PayGradeController::handle
+  methods: [ GET ]
+
+add_pay_grade:
+  path: /admin/addPayGrade
+  controller: OrangeHRM\Admin\Controller\SavePayGradeController::handle
+  methods: [ GET ]
+
+edit_pay_grade:
+  path: /admin/editPayGrade/{id}
+  controller: OrangeHRM\Admin\Controller\SavePayGradeController::handle
+  methods: [ GET ]
+
+edit_module_configuration:
+  path: /admin/viewModules
+  controller: OrangeHRM\Admin\Controller\SaveModuleConfigurationController::handle
+  methods: [ GET ]
+
+view_work_shift:
+  path: /admin/workShift
+  controller: OrangeHRM\Admin\Controller\WorkShiftController::handle
+  methods: [ GET ]
+
+save_work_shift:
+  path: /admin/saveWorkShifts
+  controller: OrangeHRM\Admin\Controller\SaveWorkShiftController::handle
+  methods: [ GET ]
+
+edit_work_shift:
+  path: /admin/saveWorkShifts/{id}
+  controller: OrangeHRM\Admin\Controller\SaveWorkShiftController::handle
   methods: [ GET ]

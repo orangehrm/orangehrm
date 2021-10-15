@@ -21,9 +21,12 @@ namespace OrangeHRM\Pim\Dto;
 
 use OrangeHRM\Core\Dto\FilterParams;
 use OrangeHRM\Core\Exception\SearchParamException;
+use OrangeHRM\Pim\Dto\Traits\SubunitIdChainTrait;
 
 class EmployeeSearchFilterParams extends FilterParams
 {
+    use SubunitIdChainTrait;
+
     public const ALLOWED_SORT_FIELDS = [
         'employee.lastName',
         'employee.firstName',
@@ -81,6 +84,10 @@ class EmployeeSearchFilterParams extends FilterParams
      * @var int[]|null
      */
     protected ?array $supervisorEmpNumbers = null;
+    /**
+     * @var int|null
+     */
+    protected ?int $locationId = null;
 
     public function __construct()
     {
@@ -235,5 +242,21 @@ class EmployeeSearchFilterParams extends FilterParams
     public function setSupervisorEmpNumbers(?array $supervisorEmpNumbers): void
     {
         $this->supervisorEmpNumbers = $supervisorEmpNumbers;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getLocationId(): ?int
+    {
+        return $this->locationId;
+    }
+
+    /**
+     * @param int|null $locationId
+     */
+    public function setLocationId(?int $locationId): void
+    {
+        $this->locationId = $locationId;
     }
 }

@@ -60,6 +60,50 @@ class PayGradeCurrency
     private ?float $maxSalary;
 
     /**
+     * @var int
+     * @ORM\Column(name="pay_grade_id", type="integer", nullable=false)
+     */
+    private int $payGradeId;
+
+    /**
+     * @var string
+     * @ORM\Column(name="currency_id", type="string", nullable=false)
+     */
+    private string $currencyId;
+
+    /**
+     * @return string
+     */
+    public function getCurrencyId(): string
+    {
+        return $this->currencyId;
+    }
+
+    /**
+     * @param string $currencyId
+     */
+    public function setCurrencyId(string $currencyId): void
+    {
+        $this->currencyId = $currencyId;
+    }
+
+    /**
+     * @return int
+     */
+    public function getPayGradeId(): int
+    {
+        return $this->payGradeId;
+    }
+
+    /**
+     * @param int $payGradeId
+     */
+    public function setPayGradeId(int $payGradeId): void
+    {
+        $this->payGradeId = $payGradeId;
+    }
+
+    /**
      * @return PayGrade
      */
     public function getPayGrade(): PayGrade

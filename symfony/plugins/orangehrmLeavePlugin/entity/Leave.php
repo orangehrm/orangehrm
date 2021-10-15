@@ -20,6 +20,8 @@
 namespace OrangeHRM\Entity;
 
 use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use OrangeHRM\Entity\Decorator\DecoratorTrait;
 use OrangeHRM\Entity\Decorator\LeaveDecorator;
@@ -85,16 +87,9 @@ class Leave
     private int $status;
 
     /**
-     * @var string|null
-     *
-     * @ORM\Column(name="comments", type="string", length=256, nullable=true)
-     */
-    private ?string $comments = null;
-
-    /**
      * @var LeaveRequest
      *
-     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\LeaveRequest")
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\LeaveRequest", inversedBy="leaves")
      * @ORM\JoinColumn(name="leave_request_id", referencedColumnName="id")
      */
     private LeaveRequest $leaveRequest;
@@ -135,6 +130,18 @@ class Leave
      * @ORM\Column(name="duration_type", type="integer", options={"default":0})
      */
     private int $durationType = 0;
+
+    /**
+     * @var Collection|LeaveLeaveEntitlement[]
+     *
+     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\LeaveLeaveEntitlement", mappedBy="leave")
+     */
+    private iterable $leaveLeaveEntitlements;
+
+    public function __construct()
+    {
+        $this->leaveLeaveEntitlements = new ArrayCollection();
+    }
 
     /**
      * @return int|null
@@ -214,22 +221,6 @@ class Leave
     public function setStatus(int $status): void
     {
         $this->status = $status;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getComments(): ?string
-    {
-        return $this->comments;
-    }
-
-    /**
-     * @param string|null $comments
-     */
-    public function setComments(?string $comments): void
-    {
-        $this->comments = $comments;
     }
 
     /**

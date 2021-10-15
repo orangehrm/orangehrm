@@ -2,8 +2,8 @@
 
 namespace OrangeHRM\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use DateTime;
+use Doctrine\ORM\Mapping as ORM;
 use OrangeHRM\Entity\Decorator\DecoratorTrait;
 use OrangeHRM\Entity\Decorator\EmpWorkExperienceDecorator;
 
@@ -62,6 +62,7 @@ class EmpWorkExperience
     private ?string $comments;
 
     /**
+     * @deprecated
      * @var int | null
      *
      * @ORM\Column(name="eexp_internal", type="integer", length=4)
@@ -175,6 +176,7 @@ class EmpWorkExperience
 
     /**
      * @return int | null
+     * @deprecated
      */
     public function getInternal(): ?int
     {
@@ -183,6 +185,7 @@ class EmpWorkExperience
 
     /**
      * @param int | null $internal
+     * @deprecated
      */
     public function setInternal(?int $internal): void
     {

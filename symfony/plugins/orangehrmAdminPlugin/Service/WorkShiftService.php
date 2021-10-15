@@ -19,15 +19,39 @@
 
 namespace OrangeHRM\Admin\Service;
 
+use DateTime;
 use OrangeHRM\Admin\Dao\WorkShiftDao;
+use OrangeHRM\Admin\Dto\WorkShiftSearchFilterParams;
 use OrangeHRM\Admin\Dto\WorkShiftStartAndEndTime;
+use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
+use OrangeHRM\Entity\WorkShift;
 
 class WorkShiftService
 {
     use ConfigServiceTrait;
-
     private ?WorkShiftDao $workShiftDao = null;
+
+    /**
+     * @return WorkShiftStartAndEndTime
+     */
+    public function getWorkShiftDefaultStartAndEndTime(): WorkShiftStartAndEndTime
+    {
+        $startTime = $this->getConfigService()->getDefaultWorkShiftStartTime();
+        $endTime = $this->getConfigService()->getDefaultWorkShiftEndTime();
+
+        return new WorkShiftStartAndEndTime(new DateTime($startTime), new DateTime($endTime));
+    }
+
+    /**
+     * @param $id
+     * @return WorkShift|null
+     * @throws DaoException
+     */
+    public function getWorkShiftById($id): WorkShift
+    {
+        return $this->getWorkShiftDao()->getWorkShiftById($id);
+    }
 
     /**
      * @return WorkShiftDao
@@ -41,16 +65,30 @@ class WorkShiftService
     }
 
     /**
-     * Return the default start time and end time for workshifts
-     *
-     * @return WorkShiftStartAndEndTime
+     * @param WorkShiftDao $workShiftDao
      */
-    public function getWorkShiftDefaultStartAndEndTime(): WorkShiftStartAndEndTime
+    public function setWorkShiftDao(WorkShiftDao $workShiftDao): void
     {
-        $startTime = $this->getConfigService()->getDefaultWorkShiftStartTime();
-        $endTime = $this->getConfigService()->getDefaultWorkShiftEndTime();
+        $this->workShiftDao = $workShiftDao;
+    }
 
-        return new WorkShiftStartAndEndTime(new \DateTime($startTime), new \DateTime($endTime));
+    /**
+     * @param WorkShiftSearchFilterParams $workShiftSearchFilterParams
+     * @return array
+     * @throws DaoException
+     */
+    public function getWorkShiftList(WorkShiftSearchFilterParams $workShiftSearchFilterParams): array
+    {
+        return $this->getWorkShiftDao()->getWorkShiftList($workShiftSearchFilterParams);
+    }
+
+    /**
+     * @param WorkShiftSearchFilterParams $workShiftSearchFilterParams
+     * @return int
+     * @throws DaoException
+     */
+    public function getWorkShiftCount(WorkShiftSearchFilterParams $workShiftSearchFilterParams): int
+    {
+        return $this->getWorkShiftDao()->getWorkShiftCount($workShiftSearchFilterParams);
     }
 }
-

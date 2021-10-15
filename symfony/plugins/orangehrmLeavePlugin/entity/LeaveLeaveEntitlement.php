@@ -45,7 +45,7 @@ class LeaveLeaveEntitlement
     /**
      * @var Leave
      *
-     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Leave")
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Leave", inversedBy="leaveLeaveEntitlements")
      * @ORM\JoinColumn(name="leave_id", referencedColumnName="id")
      */
     private Leave $leave;
@@ -53,17 +53,17 @@ class LeaveLeaveEntitlement
     /**
      * @var LeaveEntitlement
      *
-     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\LeaveEntitlement")
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\LeaveEntitlement", inversedBy="leaveLeaveEntitlements")
      * @ORM\JoinColumn(name="entitlement_id", referencedColumnName="id")
      */
     private LeaveEntitlement $entitlement;
 
     /**
-     * @var string
+     * @var float
      *
      * @ORM\Column(name="length_days", type="decimal", precision=6, scale=4, nullable=true, options={"unsigned":true})
      */
-    private string $lengthDays;
+    private float $lengthDays;
 
     /**
      * @return int
@@ -114,17 +114,17 @@ class LeaveLeaveEntitlement
     }
 
     /**
-     * @return string
+     * @return float
      */
-    public function getLengthDays(): string
+    public function getLengthDays(): float
     {
         return $this->lengthDays;
     }
 
     /**
-     * @param string $lengthDays
+     * @param float $lengthDays
      */
-    public function setLengthDays(string $lengthDays): void
+    public function setLengthDays(float $lengthDays): void
     {
         $this->lengthDays = $lengthDays;
     }

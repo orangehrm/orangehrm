@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\Entity\Decorator;
 
-use DateTime;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\EmpDependent;
@@ -68,5 +67,16 @@ class EmpDependentDecorator
         /** @var Employee|null $employee */
         $employee = $this->getReference(Employee::class, $empNumber);
         $this->getEmpDependent()->setEmployee($employee);
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getRelationship(): ?string
+    {
+        if ($this->getEmpDependent()->getRelationshipType() === EmpDependent::RELATIONSHIP_TYPE_OTHER) {
+            return $this->getEmpDependent()->getRelationship();
+        }
+        return ucfirst($this->getEmpDependent()->getRelationshipType());
     }
 }

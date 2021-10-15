@@ -82,7 +82,7 @@ class DataGroupPermission
     /**
      * @var UserRole
      *
-     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\UserRole")
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\UserRole", cascade={"persist"})
      * @ORM\JoinColumn(name="user_role_id", referencedColumnName="id")
      */
     private UserRole $userRole;
