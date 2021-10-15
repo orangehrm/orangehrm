@@ -1,10 +1,10 @@
 import adminUser from '../../../fixtures/admin.json';
 import viewport from '../../../fixtures/viewport.json';
 import UserListPage from '../../../support/page_Objects/admin/user-listPage';
-import ComponenetsActions from '../core/componenet_actions.spec';
+// import ComponenetsActions from '../core/componenet_actions.spec';
 describe('User List Page',() =>{
     const userListPage = new UserListPage();
-    const componenetAction = new ComponenetsActions();
+    // const componenetAction = new ComponenetsActions();
     beforeEach(()=>{
         cy.login(adminUser.admin.userName, adminUser.admin.password);
         cy.viewport(viewport.viewport1.width, viewport.viewport1.height);
