@@ -40,7 +40,7 @@ class EmployeeCSVImportAPI extends Endpoint implements CollectionEndpoint
 
     public const PARAMETER_ATTACHMENT = 'attachment';
 
-    public const PARAM_RULE_IMPORT_FILE_FORMAT = ["text/csv", 'text/comma-separated-values', "application/csv"];
+    public const PARAM_RULE_IMPORT_FILE_FORMAT = ["text/csv", 'text/comma-separated-values', "application/csv", "application/vnd.ms-excel"];
 
     /**
      * @var null|PimCsvDataImportService
