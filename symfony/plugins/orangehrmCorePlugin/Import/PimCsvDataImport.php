@@ -52,6 +52,11 @@ class PimCsvDataImport extends CsvDataImport
         if ($data[0] == "" || $data[2] == "" || strlen($data[0]) > 30 || strlen($data[2]) > 30) {
             return false;
         }
+        for ($i = 3; $i < 23; $i++) {
+            if(!isset($data[$i])){
+                $data[$i] = null;
+            }
+        }
         $employee = new Employee();
         $employee->setFirstName($data[0]);
         if (strlen($data[1]) <= 30) {
@@ -201,9 +206,11 @@ class PimCsvDataImport extends CsvDataImport
      */
     private function isValidCountry(?string $name)
     {
-        $country = $this->getCountryService()->getCountryByCountryName($name);
-        if ($country) {
-            return $country->getCountryCode();
+        if($name){
+            $country = $this->getCountryService()->getCountryByCountryName($name);
+            if ($country) {
+                return $country->getCountryCode();
+            }
         }
     }
 
