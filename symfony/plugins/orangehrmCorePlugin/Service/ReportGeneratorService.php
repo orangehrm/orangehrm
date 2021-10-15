@@ -43,6 +43,7 @@ use OrangeHRM\Entity\DisplayField;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\Report;
 use OrangeHRM\Entity\SummaryDisplayField;
+use OrangeHRM\ORM\Exception\TransactionException;
 use OrangeHRM\ORM\QueryBuilderWrapper;
 
 class ReportGeneratorService
@@ -369,5 +370,40 @@ class ReportGeneratorService
         } elseif (isset(EntityAliasMapping::ALIAS_MAPPING[$joinAlias])) {
             $qb->leftJoin(EntityAliasMapping::ALIAS_MAPPING[$joinAlias], $joinAlias);
         } // else: no need to left join since alias in root alias
+    }
+
+    /**
+     * @param Report $report
+     * @param array $fieldGroup
+     * @param array $criterias
+     * @param string $includeType
+     * @return Report
+     * @throws TransactionException
+     */
+    public function savePimDefinedReport(
+        Report $report,
+        array $fieldGroup,
+        array $criterias,
+        string $includeType
+    ): Report {
+        $selectedDisplayFieldGroupIds = [];
+        $selectedDisplayFieldIds = [];
+        $includeType = ($includeType === 'onlyCurrent') ? 'isNull' : (($includeType === 'onlyPast') ? 'isNotNull' : 'null'); // this is for `ohrm_selected_filter_field` table where condition
+        foreach ($fieldGroup as $key => $value) {
+            // creating an array that contains the display field group id which selected as header by user(`ohrm_display_field_group` table)
+            if ($value['includeHeader']) {
+                array_push($selectedDisplayFieldGroupIds, $key);
+            }
+        }
+        foreach ($fieldGroup as $key => $value) {
+            foreach ($value['fields'] as $field) {
+                /** creating an array that contains the display field id (`ohrm_display_field` table)
+                 * Here fields is the value pair of $fieldGroup associative array which  contains the id of `ohrm_display_field` table
+                 **/
+                array_push($selectedDisplayFieldIds, $field);
+            }
+        }
+        return $this->getReportGeneratorDao()
+            ->saveReport($report, $selectedDisplayFieldGroupIds, $selectedDisplayFieldIds, $criterias, $includeType);
     }
 }

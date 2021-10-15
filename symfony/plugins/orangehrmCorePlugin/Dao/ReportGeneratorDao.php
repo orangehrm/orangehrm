@@ -19,12 +19,18 @@
 
 namespace OrangeHRM\Core\Dao;
 
+use Exception;
 use OrangeHRM\Entity\CompositeDisplayField;
 use OrangeHRM\Entity\DisplayField;
 use OrangeHRM\Entity\DisplayFieldGroup;
+use OrangeHRM\Entity\FilterField;
 use OrangeHRM\Entity\Report;
+use OrangeHRM\Entity\ReportGroup;
+use OrangeHRM\Entity\SelectedDisplayField;
+use OrangeHRM\Entity\SelectedDisplayFieldGroup;
 use OrangeHRM\Entity\SelectedFilterField;
 use OrangeHRM\Entity\SummaryDisplayField;
+use OrangeHRM\ORM\Exception\TransactionException;
 use OrangeHRM\ORM\Paginator;
 use OrangeHRM\Pim\Dto\PimDefinedReportSearchFilterParams;
 
@@ -107,6 +113,133 @@ class ReportGeneratorDao extends BaseDao
     }
 
     /**
+     * @param Report $report
+     * @param int[] $selectedDisplayFieldGroupIds
+     * @param int[] $selectedDisplayFieldIds
+     * @param array $criterias
+     * @param string $includeType
+     * @return Report
+     * @throws TransactionException
+     */
+    public function saveReport(
+        Report $report,
+        array $selectedDisplayFieldGroupIds,
+        array $selectedDisplayFieldIds,
+        array $criterias,
+        string $includeType
+    ): Report {
+        $this->beginTransaction();
+        try {
+            $this->persist($report);
+            if (count($selectedDisplayFieldGroupIds) > 0) {
+                $this->saveSelectedDisplayFieldGroup($report, $selectedDisplayFieldGroupIds);
+            }
+            $this->saveSelectedDisplayField($report, $selectedDisplayFieldIds);
+            $this->saveSelectedFilterField($report, $criterias, $includeType);
+            $this->commitTransaction();
+            return $report;
+        } catch (Exception $exception) {
+            $this->rollBackTransaction();
+            throw new TransactionException($exception);
+        }
+    }
+
+    /**
+     * @param Report $report
+     * @param array $criterias
+     * @param string $includeType
+     * @return void
+     */
+    public function saveSelectedFilterField(Report $report, array $criterias, string $includeType): void
+    {
+        $this->saveDefaultSelectedFilterField(
+            $report,
+            $includeType
+        ); // Always get first priority while saving `ohrm_selected_filter_field`
+        $counter = 2;
+        foreach ($criterias as $key => $value) {
+            $filterField = $this->getRepository(FilterField::class)->find($key);
+            $selectedFilterField = new SelectedFilterField();
+            $selectedFilterField->setReport($report);
+            $selectedFilterField->setFilterField($filterField);
+            $selectedFilterField->setFilterFieldOrder($counter);
+            $selectedFilterField->setX($value['x']);// "x" is the value pair inside the associative array
+            $selectedFilterField->setY($value['y']);
+            $selectedFilterField->setOperator($value['operator']);
+            $selectedFilterField->setType('Predefined');
+            $this->getEntityManager()->persist($selectedFilterField);
+            $counter++;
+        }
+        $this->getEntityManager()->flush();
+    }
+
+    /**
+     * @param Report $report
+     * @param array $selectedDisplayFieldIds
+     * @return void
+     */
+    public function saveSelectedDisplayField(Report $report, array $selectedDisplayFieldIds): void
+    {
+        foreach ($selectedDisplayFieldIds as $selectedDisplayFieldId) {
+            $selectedDisplayField = new SelectedDisplayField();
+            $displayField = $this->getRepository(DisplayField::class)->find($selectedDisplayFieldId);
+            $selectedDisplayField->setDisplayField($displayField);
+            $selectedDisplayField->setReport($report);
+            $this->getEntityManager()->persist($selectedDisplayField);
+        }
+        $this->getEntityManager()->flush();
+    }
+
+    /**
+     * @param Report $report
+     * @param array $selectedDisplayFieldGroupIds
+     * @return void
+     */
+    public function saveSelectedDisplayFieldGroup(Report $report, array $selectedDisplayFieldGroupIds): void
+    {
+        foreach ($selectedDisplayFieldGroupIds as $selectedDisplayFieldGroupId) {
+            $selectedDisplayFieldGroup = new SelectedDisplayFieldGroup();
+            $displayFieldGroup = $this->getRepository(DisplayFieldGroup::class)->find($selectedDisplayFieldGroupId);
+            $selectedDisplayFieldGroup->setReport($report);
+            $selectedDisplayFieldGroup->setDisplayFieldGroup($displayFieldGroup);
+            $this->getEntityManager()->persist($selectedDisplayFieldGroup);
+        }
+        $this->getEntityManager()->flush();
+    }
+
+    /**
+     * @param string $name
+     * @return FilterField|null
+     */
+    public function getFilterFieldByName(string $name): ?FilterField
+    {
+        $filterField = $this->getRepository(FilterField::class)->findOneBy(['name' => $name]);
+        return ($filterField instanceof FilterField) ? $filterField : null;
+    }
+
+    /**
+     * @param Report $report
+     * @param string $includeType
+     * @return void
+     */
+    public function saveDefaultSelectedFilterField(Report $report, string $includeType): void
+    {
+        // this function for saving the default initial include record
+        $filterFieldByInclude = $this->getFilterFieldByName('include');
+        $selectedFilterField = new SelectedFilterField();
+        $selectedFilterField->setReport($report);
+        $selectedFilterField->setFilterField($filterFieldByInclude);
+        $selectedFilterField->setFilterFieldOrder(1);
+        if ($includeType === '') {
+            // currentAndPast
+            $selectedFilterField->setOperator(null);
+        }
+        $selectedFilterField->setOperator($includeType);
+        $selectedFilterField->setType('Predefined');
+        $this->persist($selectedFilterField);
+    }
+
+    /**
      * @param PimDefinedReportSearchFilterParams $pimDefinedReportSearchFilterParams
      * @return Report[]
      */
@@ -168,5 +301,68 @@ class ReportGeneratorDao extends BaseDao
     {
         $report = $this->getRepository(Report::class)->find($reportId);
         return ($report instanceof Report) ? $report : null;
+    }
+
+    /**
+     * @param string $reportGroupName
+     * @return ReportGroup|null
+     */
+    public function getReportGroupByName(string $reportGroupName): ?ReportGroup
+    {
+        $reportGroup = $this->getRepository(ReportGroup::class)->findOneBy(['name' => $reportGroupName]);
+        return ($reportGroup instanceof ReportGroup) ? $reportGroup : null;
+    }
+
+    /**
+     * @param Report $report
+     * @return void
+     */
+    public function deleteExistingReportRecordsByReportId(Report $report): void
+    {
+        $this->deleteSelectedDisplayFieldGroups($report);
+        $this->deleteSelectedDisplayFields($report);
+        $this->deleteSelectedFilterFields($report);
+    }
+
+    /**
+     * @param Report $report
+     * @return void
+     */
+    public function deleteSelectedDisplayFieldGroups(Report $report): void
+    {
+        $q = $this->createQueryBuilder(SelectedDisplayFieldGroup::class, 'sdfg');
+        $q->delete()
+            ->where('sdfg.report = :reportId')
+            ->setParameter('reportId', $report->getId())
+            ->getQuery()
+            ->execute();
+    }
+
+    /**
+     * @param Report $report
+     * @return void
+     */
+    public function deleteSelectedDisplayFields(Report $report): void
+    {
+        $q = $this->createQueryBuilder(SelectedDisplayField::class, 'sdf');
+        $q->delete()
+            ->where('sdf.report = :reportId')
+            ->setParameter('reportId', $report->getId())
+            ->getQuery()
+            ->execute();
+    }
+
+    /**
+     * @param Report $report
+     * @return void
+     */
+    public function deleteSelectedFilterFields(Report $report): void
+    {
+        $q = $this->createQueryBuilder(SelectedFilterField::class, 'sff');
+        $q->delete()
+            ->where('sff.report = :reportId')
+            ->setParameter('reportId', $report->getId())
+            ->getQuery()
+            ->execute();
     }
 }
