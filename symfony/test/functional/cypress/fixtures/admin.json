@@ -1,7 +1,7 @@
 {
     "admin": {
-        "userName": "Admin",
-        "password": "Admin@123",
+        "userName": "admin",
+        "password": "admin@OHRM123",
         "fullName": "Jacqueline White"
     }
 }
