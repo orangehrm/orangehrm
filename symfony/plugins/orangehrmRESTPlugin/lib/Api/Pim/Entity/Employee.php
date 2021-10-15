@@ -563,7 +563,6 @@ class Employee implements Serializable
             'unit' => $this->getUnit(),
             'jobTitle' => $this->getJobTitle(),
             'supervisor' => $this->getSupervisors()
-
         );
         if( \OrangeConfig::getInstance()->getAppConfValue(\ConfigService::KEY_PIM_SHOW_SIN)){
              $employeeData['sinNumber'] = $this->getSinNumber();

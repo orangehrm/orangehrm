@@ -109,7 +109,97 @@
         "name": {
           "source": "Name",
           "target": "Name",
-          "description": "Name"
+          "description": "Name in the system"
+        },
+        "confirm": {
+          "source": "Confirm",
+          "target": "Confirm",
+          "description": ""
+        },
+        "monday": {
+          "source": "Monday",
+          "target": "Monday",
+          "description": "Start day of the week"
+        },
+        "tuesday": {
+          "source": "Tuesday",
+          "target": "Tuesday",
+          "description": "One of the days of the week"
+        },
+        "wednesday": {
+          "source": "Wednesday",
+          "target": "Wednesday",
+          "description": "One of the days of the week"
+        },
+        "thursday": {
+          "source": "Thursday",
+          "target": "Thursday",
+          "description": "One of the days of the week"
+        },
+        "friday": {
+          "source": "Friday",
+          "target": "Friday",
+          "description": "One of the days of the week"
+        },
+        "saturday": {
+          "source": "Saturday",
+          "target": "Saturday",
+          "description": "One of the days of the week"
+        },
+        "sunday": {
+          "source": "Sunday",
+          "target": "Sunday",
+          "description": "One of the days of the week"
+        },
+        "date": {
+          "source": "Date",
+          "target": "Date",
+          "description": "Date in the system"
+        },
+        "search": {
+          "source": "Search",
+          "target": "Search",
+          "description": "Search in the system"
+        },
+        "reset": {
+          "source": "Reset",
+          "target": "Reset",
+          "description": "Reset in the system"
+        },
+        "sub_unit": {
+          "source": "Sub Unit",
+          "target": "Sub Unit",
+          "description": "Add a sub- unit to the company structure, go to Admin&gt;&gt; Organization&gt;&gt; Structure and right click on the particular sub unit"
+        },
+        "back": {
+          "source": "Back",
+          "target": "Back",
+          "description": "Click “Back” and the action will be reflected"
+        },
+        "no_matching_employees": {
+          "source": "No matching employees",
+          "target": "No matching employees",
+          "description": ""
+        },
+        "no_employees_match_filters": {
+          "source": "No employees match the selected filters",
+          "target": "No employees match the selected filters",
+          "description": ""
+        },
+        "employee": {
+          "source": "Employee",
+          "target": "Employee",
+          "description": "Staff currently working at your company."
+        },
+        "view": {
+          "source": "View",
+          "target": "View",
+          "description": "Admin has the privileged to view assigned goal/leave/tasks of all employees"
+        },
+        "generate": {
+          "source": "Generate",
+          "target": "Generate",
+          "description": ""
         }
       }
     },
@@ -130,6 +220,31 @@
           "source": "Edit Job Title",
           "target": "Edit Job Title",
           "description": "Alter the position that is needed by the company ex: Manager IT"
+        },
+        "work_shift": {
+          "source": "Work Shifts",
+          "target": "Work Shifts",
+          "description": "HR Admin can define work shifts for an individual or a group of employees. To add an entry, go to Admin&gt;&gt; Job&gt;&gt; Work Shifts and click “Add”"
+        },
+        "add_work_shifts": {
+          "source": "Add Work Shift",
+          "target": "Add Work Shift",
+          "description": "Admin can define work shifts for an individual or a group of employees. To add an entry, go to Admin&gt;&gt; Job&gt;&gt; Work Shifts"
+        },
+        "edit_work_shifts": {
+          "source": "Edit Work Shift",
+          "target": "Edit Work Shift",
+          "description": "Admin can edit the defined work shifts for an individual or a group of employees. To add an entry, go to Admin&gt;&gt; Job&gt;&gt; Work Shifts and go to an existing work shift record and click “Edit”."
+        },
+        "shift_name": {
+          "source": "Shift Name",
+          "target": "Shift Name*",
+          "description": "When HR Admin defining work shifts for an individual or a group of employees, shift name should be specified"
+        },
+        "duration_per_day": {
+          "source": "Duration (Hours per Day)",
+          "target": "Duration (Hours per Day)",
+          "description": "Calculate the duration of the work shift"
         }
       }
     },
@@ -165,6 +280,11 @@
           "source": "Assign Leave",
           "target": "Assign Leave",
           "description": "Admin can assign leave to employee"
+        },
+        "assign": {
+          "source": "Assign",
+          "target": "Assign",
+          "description": "Assign for leave"
         },
         "leave_type": {
           "source": "Leave Type",
@@ -255,6 +375,186 @@
           "source": "Edit Leave Type",
           "target": "Edit Leave Type",
           "description": "Alter the leave type that is needed by the company"
+        },
+        "add_leave_entitlement": {
+          "source": "Add Leave Entitlement",
+          "target": "Add Leave Entitlement",
+          "description": "Add the leave amount to which a person has a right to have."
+        },
+        "add_to": {
+          "source": "Add to",
+          "target": "Add to",
+          "description": ""
+        },
+        "individual_employee": {
+          "source": "Individual Employee",
+          "target": "Individual Employee",
+          "description": ""
+        },
+        "multiple_employees": {
+          "source": "Multiple Employees",
+          "target": "Multiple Employees",
+          "description": ""
+        },
+        "entitlement": {
+          "source": "Entitlement",
+          "target": "Entitlement",
+          "description": ""
+        },
+        "leave_entitlements": {
+          "source": "Leave Entitlements",
+          "target": "Leave Entitlements",
+          "description": "This feature enables the HR Admin with admin rights to Add and View Leave Entitlements for each leave type for all employees."
+        },
+        "my_leave_entitlements": {
+          "source": "My Leave Entitlements",
+          "target": "My Leave Entitlements",
+          "description": "If the user is an ESS User, then he will only see the “My Leave Entitlements and Usage Report” option under Leave&gt;&gt;Reports"
+        },
+        "updating_entitlement": {
+          "source": "Updating Entitlement",
+          "target": "Updating Entitlement",
+          "description": "Give the entitlements to the employee and update leave entitlements"
+        },
+        "matching_employees": {
+          "source": "Matching Employees",
+          "target": "Matching Employees",
+          "description": "This shows list of matching employees who match with best match rule criteria which used to filter candidates successfully."
+        },
+        "edit_leave_entitlement": {
+          "source": "Edit Leave Entitlement",
+          "target": "Edit Leave Entitlement",
+          "description": "Edit the leave amount to which a person has a right to have."
+        },
+        "work_week": {
+          "source": "Work Week",
+          "target": "Work Week",
+          "description": "The administrator will be able to define the work weeks for all employees based in different locations/countries.To define work week, go to Leave>> Configure>> Work Week"
+        },
+        "holidays": {
+          "source": "Holidays",
+          "target": "Holidays",
+          "description": "The holidays can be configured in this option. To add an entry, go to Leave&gt;&gt; Configure&gt;&gt; Holidays and click “Add”"
+        },
+        "add_holiday": {
+          "source": "Add Holiday",
+          "target": "Add Holiday",
+          "description": "The Holidays in the company"
+        },
+        "edit_holiday": {
+          "source": "Edit Holiday",
+          "target": "Edit Holiday",
+          "description": "Alter the holiday"
+        },
+        "full_day_half_day": {
+          "source": "Full Day/ Half Day",
+          "target": "Full Day/ Half Day",
+          "description": "Full Day/ Half Day in Edit/Save Holiday screens"
+        },
+        "repeats_annually": {
+          "source": "Repeats Annually",
+          "target": "Repeats Annually",
+          "description": "Repeats Annually in Edit/Save Holiday screens"
+        },
+        "situational_leave": {
+          "source": "Situational Leave",
+          "target": "Situational Leave",
+          "description": "Header in entitlement situational field help in Add/Edit leave type screen"
+        },
+        "entitlement_situational_description": {
+          "source": "These leave will be excluded from reports unless there's some activity.\n E.g. maternity leave, jury duty leave.",
+          "target": "These leave will be excluded from reports unless there's some activity.\n E.g. maternity leave, jury duty leave.",
+          "description": "description entitlement situational field help in Add/Edit leave type screen"
+        },
+        "leave_list": {
+          "source": "Leave List",
+          "target": "Leave List",
+          "description": "The leave list is available to the Admin and ESS – Supervisors. It shows all leave requests by the employees."
+        },
+        "my_leave_list": {
+          "source": "My Leave List",
+          "target": "My Leave List",
+          "description": "ESS-Employee can view his detailed leave application and his leave calendar which will display all his leave during a particular month."
+        },
+        "show_leave_with_status": {
+          "source": "Show Leave with Status",
+          "target": "Show Leave with Status",
+          "description": "Show leave with current status of them in the leave report"
+        },
+        "include_past_employees": {
+          "source": "Include Past Employees",
+          "target": "Include Past Employees",
+          "description": "You may also include past employees with your search when generating Leave Entitlements and Usage Reports of employees."
+        },
+        "leave_request_details": {
+          "source": "Leave Request Details",
+          "target": "Leave Request Details",
+          "description": ""
+        },
+        "my_leave_request_details": {
+          "source": "My Leave Request Details",
+          "target": "My Leave Request Details",
+          "description": ""
+        },
+        "requested_for": {
+          "source": "Requested For",
+          "target": "Requested For",
+          "description": ""
+        },
+        "leave_request_comments": {
+          "source": "Leave Request Comments",
+          "target": "Leave Request Comments",
+          "description": "you can add a comment if necessary, when you request for a leave from your supervisor / Admin"
+        },
+        "balance_not_sufficient": {
+          "source": "Balance not sufficient",
+          "target": "Balance not sufficient",
+          "description": "There is no sufficient leave balance for the current leave period."
+        },
+        "overlapping_leave_request_found": {
+          "source": "Overlapping Leave Request(s) Found",
+          "target": "Overlapping Leave Request(s) Found",
+          "description": "When request for a leave with same leave type and same no of days, a error message would appear saying 'Overlapping Leave Request Found'."
+        },
+        "workshift_length_exceeded_due_to_the_following_leave_request": {
+          "source": "Workshift Length Exceeded Due To the Following Leave Requests",
+          "target": "Workshift Length Exceeded Due To the Following Leave Requests",
+          "description": ""
+        },
+        "insufficient_leave_balance": {
+          "source": "Insufficient Leave Balance",
+          "target": "Insufficient Leave Balance",
+          "description": ""
+        },
+        "leave_entitlement_and_usage_report": {
+          "source": "Leave Entitlements and Usage Report",
+          "target": "Leave Entitlements and Usage Report",
+          "description": "Once the appropriate fields are selected, the Admin can then click “View” and will be presented with the leave report of all employees.The report can also show leave usage and entitlements for the “Previous Period” as well as the “Next Period”."
+        },
+        "my_leave_entitlement_and_usage_report": {
+          "source": "My Leave Entitlements and Usage Report",
+          "target": "My Leave Entitlements and Usage Report",
+          "description": "if he/she is also an ESS user to the system, he/she can view for leave entitlements and usage of leave by themselves (Leave&gt;&gt;Reports &gt;&gt; My Leave Entitlements and Usage Report)."
+        },
+        "generate_for": {
+          "source": "Generate For",
+          "target": "Generate For",
+          "description": "If the “Employee” option is selected under “Generate For” the HR Admin can generate the leave entitlement and usage report for any employee"
+        },
+        "no_leave_types_with_leave_balance": {
+          "source": "No Leave Types with Leave Balance",
+          "target": "No Leave Types with Leave Balance",
+          "description": "For all the leave types, a particular employee doesn't have any leave remaining. e.g.casual, annual"
+        },
+        "no_leave_types_defined": {
+          "source": "No leave types defined",
+          "target": "No leave types defined",
+          "description": ""
+        },
+        "confirm_leave_assignment": {
+          "source": "Confirm Leave Assignment",
+          "target": "Confirm Leave Assignment",
+          "description": "Need to confirm the leave assigned"
         }
       }
     }

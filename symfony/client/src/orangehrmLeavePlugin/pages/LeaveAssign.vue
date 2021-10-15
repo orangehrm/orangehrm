@@ -20,6 +20,13 @@
 
 <template>
   <div class="orangehrm-background-container">
+    <leave-conflict
+      v-if="showLeaveConflict"
+      :workshift-exceeded="isWorkShiftExceeded"
+      :data="leaveConflictData"
+    ></leave-conflict>
+    <leave-assign-confirm-modal ref="confirmDialog">
+    </leave-assign-confirm-modal>
     <div class="orangehrm-card-container">
       <oxd-text tag="h6" class="orangehrm-main-title">
         {{ $t('leave.assign_leave') }}
@@ -46,17 +53,13 @@
               <leave-type-dropdown
                 v-model="leave.type"
                 :rules="rules.type"
-                :employee-id="leave.employee?.id"
+                :eligible-only="false"
                 required
               />
             </oxd-grid-item>
-            <!-- <oxd-grid-item>
-              <leave-balance
-                :type="leave.type"
-                :fromDate="leave.fromDate"
-                :toDate="leave.toDate"
-              ></leave-balance>
-            </oxd-grid-item> -->
+            <oxd-grid-item>
+              <leave-balance :leaveData="leave"></leave-balance>
+            </oxd-grid-item>
           </oxd-grid>
         </oxd-form-row>
 
@@ -67,6 +70,7 @@
                 :label="$t('general.from_date')"
                 v-model="leave.fromDate"
                 :rules="rules.fromDate"
+                :years="yearsArray"
                 required
               />
             </oxd-grid-item>
@@ -75,6 +79,7 @@
                 :label="$t('general.to_date')"
                 v-model="leave.toDate"
                 :rules="rules.toDate"
+                :years="yearsArray"
                 required
               />
             </oxd-grid-item>
@@ -86,6 +91,7 @@
           <oxd-grid :cols="4" class="orangehrm-full-width-grid">
             <leave-duration-input
               :label="$t('general.duration')"
+              :work-shift="workShift"
               v-model:duration="leave.duration.type"
               v-model:fromTime="leave.duration.fromTime"
               v-model:toTime="leave.duration.toTime"
@@ -108,6 +114,7 @@
             <leave-duration-input
               :partial="true"
               :label="$t('general.duration')"
+              :work-shift="workShift"
               v-if="showDuration"
               v-model:duration="leave.duration.type"
               v-model:fromTime="leave.duration.fromTime"
@@ -116,6 +123,7 @@
             <leave-duration-input
               :partial="true"
               :label="$t('leave.start_day')"
+              :work-shift="workShift"
               v-if="showStartDay"
               v-model:duration="leave.duration.type"
               v-model:fromTime="leave.duration.fromTime"
@@ -124,6 +132,7 @@
             <leave-duration-input
               :partial="true"
               :label="$t('leave.end_day')"
+              :work-shift="workShift"
               v-if="showEndDay"
               v-model:duration="leave.endDuration.type"
               v-model:fromTime="leave.endDuration.fromTime"
@@ -150,7 +159,7 @@
 
         <oxd-form-actions>
           <required-text />
-          <submit-button :label="$t('general.apply')" />
+          <submit-button :label="$t('leave.assign')" />
         </oxd-form-actions>
       </oxd-form>
     </div>
@@ -164,14 +173,19 @@ import {
   shouldNotExceedCharLength,
   endDateShouldBeAfterStartDate,
 } from '@/core/util/validation/rules';
+import {yearRange} from '@orangehrm/core/util/helper/year-range';
 import {diffInDays} from '@orangehrm/core/util/helper/datefns';
 import {APIService} from '@orangehrm/core/util/services/api.service';
 import LeaveTypeDropdown from '@/orangehrmLeavePlugin/components/LeaveTypeDropdown';
 import LeaveDurationInput from '@/orangehrmLeavePlugin/components/LeaveDurationInput';
-// import LeaveBalance from '@/orangehrmLeavePlugin/components/LeaveBalance';
+import LeaveBalance from '@/orangehrmLeavePlugin/components/LeaveBalance';
 import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
+import LeaveConflict from '@/orangehrmLeavePlugin/components/LeaveConflict';
+import LeaveAssignConfirmModal from '@/orangehrmLeavePlugin/components/LeaveAssignConfirmModal';
+import useLeaveValidators from '@/orangehrmLeavePlugin/util/composable/useLeaveValidators';
 
 const leaveModel = {
+  employee: null,
   type: null,
   fromDate: null,
   toDate: null,
@@ -187,27 +201,35 @@ const leaveModel = {
     fromTime: null,
     toTime: null,
   },
-  employee: null,
 };
 
 export default {
-  name: 'leave-apply',
+  name: 'leave-assign',
 
   components: {
     'leave-type-dropdown': LeaveTypeDropdown,
     'leave-duration-input': LeaveDurationInput,
-    // 'leave-balance': LeaveBalance,
+    'leave-balance': LeaveBalance,
     'employee-autocomplete': EmployeeAutocomplete,
+    'leave-conflict': LeaveConflict,
+    'leave-assign-confirm-modal': LeaveAssignConfirmModal,
   },
 
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      'api/v2/leave/my-leave-request',
+      'api/v2/leave/employees/leave-requests',
     );
-
+    const {
+      serializeBody,
+      validateLeaveBalance,
+      validateOverlapLeaves,
+    } = useLeaveValidators(http);
     return {
       http,
+      serializeBody,
+      validateLeaveBalance,
+      validateOverlapLeaves,
     };
   },
 
@@ -231,45 +253,57 @@ export default {
         employee: [required],
       },
       partialOptions: [
-        {id: 1, label: 'All Days'},
-        {id: 2, label: 'Start Day Only'},
-        {id: 3, label: 'End Day Only'},
-        {id: 4, label: 'Start and End Day'},
+        {id: 1, label: 'All Days', key: 'all'},
+        {id: 2, label: 'Start Day Only', key: 'start'},
+        {id: 3, label: 'End Day Only', key: 'end'},
+        {id: 4, label: 'Start and End Day', key: 'start_end'},
       ],
+      showLeaveConflict: false,
+      isWorkShiftExceeded: false,
+      leaveConflictData: null,
+      yearsArray: [...yearRange()],
     };
   },
 
   methods: {
     onSave() {
       this.isLoading = true;
-      const payload = {
-        id: this.leave.type?.id,
-        fromDate: this.leave.fromDate,
-        toDate: this.leave.toDate,
-        comment: this.leave.comment,
-        duration: {
-          type: this.leave.duration.type?.key,
-          fromTime: this.leave.duration.fromTime,
-          toTime: this.leave.duration.toTime,
-        },
-        employeeId: this.leave.employee?.id,
-        partialOptions: null,
-        endDuration: null,
-      };
-      if (this.leave.partialOptions?.id) {
-        payload.partialOptions = this.leave.partialOptions;
-        payload.endDuration = {
-          type: this.leave.endDuration.type?.key,
-          fromTime: this.leave.endDuration.fromTime,
-          toTime: this.leave.endDuration.toTime,
-        };
-      }
-      // TODO: Handle leave errors
-      this.http.create(payload).then(() => {
-        this.$toast.saveSuccess();
-        this.leave = {...leaveModel};
-        this.isLoading = false;
-      });
+      this.leaveConflictData = null;
+      this.showLeaveConflict = false;
+
+      this.validateLeaveBalance(this.leave)
+        .then(async ({balance}) => {
+          if (balance <= 0) {
+            const confirmation = await this.$refs.confirmDialog.showDialog();
+            if (confirmation !== 'ok') {
+              return Promise.reject();
+            }
+          }
+          return this.validateOverlapLeaves(this.leave);
+        })
+        .then(({isConflict, isOverWorkshift, data}) => {
+          if (isConflict) {
+            this.leaveConflictData = data;
+            this.showLeaveConflict = true;
+            this.isWorkShiftExceeded = isOverWorkshift;
+            return Promise.reject();
+          }
+          return this.http.create(this.serializeBody(this.leave));
+        })
+        .then(() => {
+          this.$toast.saveSuccess();
+          this.leave = {...leaveModel};
+        })
+        .catch(() => {
+          this.showLeaveConflict &&
+            this.$toast.warn({
+              title: 'Warning',
+              message: 'Failed to Submit',
+            });
+        })
+        .finally(() => {
+          this.isLoading = false;
+        });
     },
   },
 
@@ -288,6 +322,32 @@ export default {
     showEndDay() {
       const id = this.leave.partialOptions?.id;
       return id && (id === 3 || id === 4);
+    },
+  },
+
+  watch: {
+    'leave.employee': function(employee) {
+      if (!employee) return;
+      this.http
+        .request({
+          method: 'GET',
+          url: `api/v2/pim/employees/${employee.id}/work-shift`,
+        })
+        .then(response => {
+          const {data} = response.data;
+          this.workShift = data;
+        });
+    },
+    appliedLeaveDuration: function(duration) {
+      if (duration === 1) {
+        this.leave.duration.type = {id: 1, label: 'Full Day', key: 'full_day'};
+      } else {
+        this.leave.duration.type = null;
+      }
+    },
+    'leave.fromDate': function(fromDate) {
+      if (!fromDate || this.leave.toDate) return;
+      this.leave.toDate = fromDate;
     },
   },
 };

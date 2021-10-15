@@ -24,6 +24,7 @@ use OrangeHRM\Core\Authorization\Dto\DataGroupPermissionFilterParams;
 use OrangeHRM\Core\Authorization\Dto\ResourcePermission;
 use OrangeHRM\Core\Authorization\Manager\AbstractUserRoleManager;
 use OrangeHRM\Core\Authorization\Manager\BasicUserRoleManager;
+use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Framework\Services;
@@ -38,6 +39,32 @@ class UserRoleManagerHelper
     private function getUserRoleManager(): AbstractUserRoleManager
     {
         return $this->getContainer()->get(Services::USER_ROLE_MANAGER);
+    }
+
+    /**
+     * Returns the data group permissions without considering any employee or other entity
+     *
+     * @param $dataGroupNames
+     *
+     * @return ResourcePermission
+     * @throws DaoException
+     */
+    public function getEntityIndependentDataGroupPermissions($dataGroupNames): ResourcePermission
+    {
+        return $this->getUserRoleManager()->getDataGroupPermissions($dataGroupNames, [], [], false, []);
+    }
+
+    /**
+     * Returns the data group permission collection without considering any employee or other entity
+     *
+     * @param array $dataGroups
+     * @return DataGroupPermissionCollection
+     */
+    public function geEntityIndependentDataGroupPermissionCollection(array $dataGroups): DataGroupPermissionCollection
+    {
+        $dataGroupPermissionFilterParams = new DataGroupPermissionFilterParams();
+        $dataGroupPermissionFilterParams->setDataGroups($dataGroups);
+        return $this->getUserRoleManager()->getDataGroupPermissionCollection($dataGroupPermissionFilterParams);
     }
 
     /**
@@ -80,5 +107,15 @@ class UserRoleManagerHelper
     {
         $loggedInEmpNumber = $this->getUserRoleManager()->getUser()->getEmpNumber();
         return ($loggedInEmpNumber === $empNumber) && null !== $empNumber;
+    }
+
+    /**
+     * @param int|null $empNumber
+     * @return bool
+     */
+    public function isEmployeeAccessible(?int $empNumber): bool
+    {
+        return $this->getUserRoleManager()->isEntityAccessible(Employee::class, $empNumber) ||
+            $this->isSelfByEmpNumber($empNumber);
     }
 }

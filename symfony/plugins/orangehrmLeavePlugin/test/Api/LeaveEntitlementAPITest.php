@@ -30,6 +30,7 @@ use OrangeHRM\Core\Service\DateTimeHelperService;
 use OrangeHRM\Entity\LeaveEntitlement;
 use OrangeHRM\Entity\LeaveType;
 use OrangeHRM\Framework\Services;
+use OrangeHRM\Leave\Api\LeaveCommonParams;
 use OrangeHRM\Leave\Api\LeaveEntitlementAPI;
 use OrangeHRM\Leave\Dao\LeaveTypeDao;
 use OrangeHRM\Leave\Service\LeaveEntitlementService;
@@ -77,25 +78,34 @@ class LeaveEntitlementAPITest extends EndpointTestCase
             [
                 RequestParams::PARAM_TYPE_BODY => [
                     CommonParams::PARAMETER_EMP_NUMBER => 100,
-                    LeaveEntitlementAPI::PARAMETER_LEAVE_TYPE_ID => 50,
-                    LeaveEntitlementAPI::PARAMETER_FROM_DATE => '2021-01-01',
-                    LeaveEntitlementAPI::PARAMETER_TO_DATE => '2021-12-31',
+                    LeaveCommonParams::PARAMETER_LEAVE_TYPE_ID => 50,
+                    LeaveCommonParams::PARAMETER_FROM_DATE => '2021-01-01',
+                    LeaveCommonParams::PARAMETER_TO_DATE => '2021-12-31',
                     LeaveEntitlementAPI::PARAMETER_ENTITLEMENT => 5.00,
                 ]
             ]
         )
-            ->onlyMethods(['getLeaveEntitlementService'])
+            ->onlyMethods([])
             ->getMock();
-        $api->expects($this->once())
-            ->method('getLeaveEntitlementService')
-            ->willReturn($service);
 
-        $this->createKernelWithMockServices([Services::DATETIME_HELPER_SERVICE => new DateTimeHelperService()]);
+        $this->createKernelWithMockServices(
+            [
+                Services::DATETIME_HELPER_SERVICE => new DateTimeHelperService(),
+                Services::LEAVE_ENTITLEMENT_SERVICE => $service,
+            ]
+        );
         $result = $api->create();
         $this->assertEquals(
             [
                 'id' => 1,
-                'empNumber' => 100,
+                'employee' => [
+                    'empNumber' => 100,
+                    'lastName' => 'Abbey',
+                    'firstName' => 'Kayla',
+                    'middleName' => 'T',
+                    'employeeId' => '0001',
+                    'terminationId' => null,
+                ],
                 'entitlement' => 5.0,
                 'daysUsed' => 0.0,
                 'leaveType' => [
@@ -111,13 +121,14 @@ class LeaveEntitlementAPITest extends EndpointTestCase
                     'name' => 'Added',
                 ],
                 'deleted' => false,
+                'deletable' => true,
             ],
             $result->normalize()
         );
         $this->assertNull($result->getMeta());
     }
 
-    public function testGetValidationRuleForGetOne(): void
+    public function testGetValidationRuleForCreate(): void
     {
         $userRoleManager = $this->getMockBuilder(BasicUserRoleManager::class)
             ->disableOriginalConstructor()
@@ -157,19 +168,17 @@ class LeaveEntitlementAPITest extends EndpointTestCase
                 Services::LEAVE_TYPE_SERVICE => $leaveTypeService,
             ]
         );
-        $api = new LeaveEntitlementAPI($this->getRequest());
+        $bodyParams = [
+            CommonParams::PARAMETER_EMP_NUMBER => 2,
+            LeaveCommonParams::PARAMETER_LEAVE_TYPE_ID => 50,
+            LeaveCommonParams::PARAMETER_FROM_DATE => '2021-01-01',
+            LeaveCommonParams::PARAMETER_TO_DATE => '2021-12-31',
+            LeaveEntitlementAPI::PARAMETER_ENTITLEMENT => 5.00
+        ];
+        $api = new LeaveEntitlementAPI($this->getRequest([], $bodyParams));
         $rules = $api->getValidationRuleForCreate();
         $this->assertTrue(
-            $this->validate(
-                [
-                    CommonParams::PARAMETER_EMP_NUMBER => 2,
-                    LeaveEntitlementAPI::PARAMETER_LEAVE_TYPE_ID => 50,
-                    LeaveEntitlementAPI::PARAMETER_FROM_DATE => '2021-01-01',
-                    LeaveEntitlementAPI::PARAMETER_TO_DATE => '2021-12-31',
-                    LeaveEntitlementAPI::PARAMETER_ENTITLEMENT => 5.00
-                ],
-                $rules
-            )
+            $this->validate($bodyParams, $rules)
         );
     }
 
@@ -228,9 +237,9 @@ class LeaveEntitlementAPITest extends EndpointTestCase
             ],
             [
                 CommonParams::PARAMETER_EMP_NUMBER => 3,
-                LeaveEntitlementAPI::PARAMETER_LEAVE_TYPE_ID => 50,
-                LeaveEntitlementAPI::PARAMETER_FROM_DATE => '2021-01-01',
-                LeaveEntitlementAPI::PARAMETER_TO_DATE => '2021-12-31',
+                LeaveCommonParams::PARAMETER_LEAVE_TYPE_ID => 50,
+                LeaveCommonParams::PARAMETER_FROM_DATE => '2021-01-01',
+                LeaveCommonParams::PARAMETER_TO_DATE => '2021-12-31',
                 LeaveEntitlementAPI::PARAMETER_ENTITLEMENT => 5.00
             ]
         ];
@@ -242,9 +251,9 @@ class LeaveEntitlementAPITest extends EndpointTestCase
             ],
             [
                 CommonParams::PARAMETER_EMP_NUMBER => 2,
-                LeaveEntitlementAPI::PARAMETER_LEAVE_TYPE_ID => 51,
-                LeaveEntitlementAPI::PARAMETER_FROM_DATE => '2021-01-01',
-                LeaveEntitlementAPI::PARAMETER_TO_DATE => '2021-12-31',
+                LeaveCommonParams::PARAMETER_LEAVE_TYPE_ID => 51,
+                LeaveCommonParams::PARAMETER_FROM_DATE => '2021-01-01',
+                LeaveCommonParams::PARAMETER_TO_DATE => '2021-12-31',
                 LeaveEntitlementAPI::PARAMETER_ENTITLEMENT => 5.00
             ]
         ];
@@ -256,9 +265,9 @@ class LeaveEntitlementAPITest extends EndpointTestCase
             ],
             [
                 CommonParams::PARAMETER_EMP_NUMBER => 2,
-                LeaveEntitlementAPI::PARAMETER_LEAVE_TYPE_ID => 50,
-                LeaveEntitlementAPI::PARAMETER_FROM_DATE => '2021-01-32',
-                LeaveEntitlementAPI::PARAMETER_TO_DATE => '2021-12-31',
+                LeaveCommonParams::PARAMETER_LEAVE_TYPE_ID => 50,
+                LeaveCommonParams::PARAMETER_FROM_DATE => '2021-01-32',
+                LeaveCommonParams::PARAMETER_TO_DATE => '2021-12-31',
                 LeaveEntitlementAPI::PARAMETER_ENTITLEMENT => 5.00
             ]
         ];
@@ -270,9 +279,9 @@ class LeaveEntitlementAPITest extends EndpointTestCase
             ],
             [
                 CommonParams::PARAMETER_EMP_NUMBER => 2,
-                LeaveEntitlementAPI::PARAMETER_LEAVE_TYPE_ID => 50,
-                LeaveEntitlementAPI::PARAMETER_FROM_DATE => '2021-01-01',
-                LeaveEntitlementAPI::PARAMETER_TO_DATE => '2021-11-31',
+                LeaveCommonParams::PARAMETER_LEAVE_TYPE_ID => 50,
+                LeaveCommonParams::PARAMETER_FROM_DATE => '2021-01-01',
+                LeaveCommonParams::PARAMETER_TO_DATE => '2021-11-31',
                 LeaveEntitlementAPI::PARAMETER_ENTITLEMENT => 5.00
             ]
         ];
@@ -284,9 +293,9 @@ class LeaveEntitlementAPITest extends EndpointTestCase
             ],
             [
                 CommonParams::PARAMETER_EMP_NUMBER => 2,
-                LeaveEntitlementAPI::PARAMETER_LEAVE_TYPE_ID => 'leaveId',
-                LeaveEntitlementAPI::PARAMETER_FROM_DATE => '2021-01-01',
-                LeaveEntitlementAPI::PARAMETER_TO_DATE => '2021-12-31',
+                LeaveCommonParams::PARAMETER_LEAVE_TYPE_ID => 'leaveId',
+                LeaveCommonParams::PARAMETER_FROM_DATE => '2021-01-01',
+                LeaveCommonParams::PARAMETER_TO_DATE => '2021-12-31',
                 LeaveEntitlementAPI::PARAMETER_ENTITLEMENT => 5.00
             ]
         ];
@@ -298,25 +307,11 @@ class LeaveEntitlementAPITest extends EndpointTestCase
             ],
             [
                 CommonParams::PARAMETER_EMP_NUMBER => 2,
-                LeaveEntitlementAPI::PARAMETER_LEAVE_TYPE_ID => 0,
-                LeaveEntitlementAPI::PARAMETER_FROM_DATE => '2021-01-01',
-                LeaveEntitlementAPI::PARAMETER_TO_DATE => '2021-12-31',
+                LeaveCommonParams::PARAMETER_LEAVE_TYPE_ID => 0,
+                LeaveCommonParams::PARAMETER_FROM_DATE => '2021-01-01',
+                LeaveCommonParams::PARAMETER_TO_DATE => '2021-12-31',
                 LeaveEntitlementAPI::PARAMETER_ENTITLEMENT => 5.00
             ]
         ];
-    }
-
-    public function testDelete(): void
-    {
-        $api = new LeaveEntitlementAPI($this->getRequest());
-        $this->expectNotImplementedException();
-        $api->delete();
-    }
-
-    public function testGetValidationRuleForDelete(): void
-    {
-        $api = new LeaveEntitlementAPI($this->getRequest());
-        $this->expectNotImplementedException();
-        $api->getValidationRuleForDelete();
     }
 }

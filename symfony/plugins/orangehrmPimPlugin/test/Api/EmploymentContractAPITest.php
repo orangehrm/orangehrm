@@ -646,6 +646,8 @@ class EmploymentContractAPITest extends EndpointTestCase
             ->method('getUser')
             ->will($this->returnValue($user));
 
+        $this->createKernelWithMockServices([Services::DATETIME_HELPER_SERVICE => new DateTimeHelperService()]);
+
         /** @var MockObject&EmploymentContractAPI $api */
         $api = $this->getApiEndpointMockBuilder(
             EmploymentContractAPI::class,

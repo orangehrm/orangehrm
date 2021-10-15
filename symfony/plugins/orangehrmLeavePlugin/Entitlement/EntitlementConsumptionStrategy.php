@@ -20,30 +20,27 @@
 namespace OrangeHRM\Leave\Entitlement;
 
 use DateTime;
+use OrangeHRM\Entity\Leave;
+use OrangeHRM\Leave\Dto\CurrentAndChangeEntitlement;
 use OrangeHRM\Leave\Dto\LeavePeriod;
 
 interface EntitlementConsumptionStrategy
 {
     /**
-     * @deprecated
-     */
-    public function getAvailableEntitlements($empNumber, $leaveType, $leaveDates, $allowNoEntitlements = false);
-
-    /**
      * @param int $empNumber
      * @param int $leaveTypeId
      * @param array $leaveDates
      * @param bool $allowNoEntitlements
-     * @return array
+     * @return CurrentAndChangeEntitlement|null
      */
     public function handleLeaveCreate(
         int $empNumber,
         int $leaveTypeId,
         array $leaveDates,
         bool $allowNoEntitlements = false
-    );
+    ): ?CurrentAndChangeEntitlement;
 
-    public function handleLeaveCancel($leave);
+    public function handleLeaveCancel(Leave $leave): CurrentAndChangeEntitlement;
 
     public function handleEntitlementStatusChange();
 
@@ -61,7 +58,7 @@ interface EntitlementConsumptionStrategy
         int $oldStartDay,
         int $newStartMonth,
         int $newStartDay
-    );
+    ): void;
 
     /**
      * Get date limits for considering leave without entitlements in leave balance for the given start, end date.

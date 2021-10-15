@@ -20,8 +20,10 @@
 
 $rootPath = dirname(__FILE__) . "/../../";
 $confPath = $rootPath . "lib/confs/Conf.php";
+$pathToAutoload = realpath(__DIR__ . '/../../symfony/vendor/autoload.php');
 
 require_once $confPath;
+require_once $pathToAutoload;
 
 $c = new Conf();
 
@@ -71,3 +73,7 @@ unlink($tempFile);
 
 echo "test db {$testDb} created.\n";
 
+$coreFixtureService = new \OrangeHRM\Tests\Util\CoreFixtureService();
+$coreFixtureService->saveToFixtures();
+
+echo "core fixtures generated.\n";

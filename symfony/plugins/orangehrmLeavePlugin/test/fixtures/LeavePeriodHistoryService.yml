@@ -1,1 +1,2 @@
-LeavePeriodHistory:
+Config:
+  - { name: 'leave.entitlement_consumption_algorithm', value: 'FIFOEntitlementConsumptionStrategy' }

@@ -1,0 +1,17 @@
+GetValidationRuleForGetAll:
+  'empty object as params':
+    params: { }
+    exception: { class: 'OrangeHRM\Core\Api\V2\Exception\InvalidParamException', message: 'Invalid Parameter' }
+  'unexpected param':
+    params: { name: '', city: '', empNumber: '' }
+    exception: { class: 'OrangeHRM\Core\Api\V2\Exception\InvalidParamException', message: 'Invalid Parameter' }
+  'valid param':
+    params: {payGradeId: 1}
+
+GetAll:
+  'get alllowed':
+    params: { attribute: {payGradeId: 2}}
+    result: [{id: "USD", code: 1, name: "United States Dollar"}]
+  'get no alllowed':
+    params: { attribute: {payGradeId: 1}}
+    result: []

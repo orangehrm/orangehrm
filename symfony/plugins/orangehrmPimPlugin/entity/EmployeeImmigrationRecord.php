@@ -33,8 +33,14 @@ use OrangeHRM\Entity\Decorator\EmployeeImmigrationRecordDecorator;
  */
 class EmployeeImmigrationRecord
 {
-
     use DecoratorTrait;
+
+    public const DOCUMENT_TYPE_PASSPORT = 1;
+    public const DOCUMENT_TYPE_VISA = 2;
+    public const DOCUMENT_TYPE_MAP = [
+        self::DOCUMENT_TYPE_PASSPORT => 'Passport',
+        self::DOCUMENT_TYPE_VISA => 'Visa',
+    ];
 
     /**
      * @var Employee

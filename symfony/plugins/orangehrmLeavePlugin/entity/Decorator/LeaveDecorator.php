@@ -20,13 +20,20 @@
 namespace OrangeHRM\Entity\Decorator;
 
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
+use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\Leave;
+use OrangeHRM\Entity\LeaveComment;
 use OrangeHRM\Entity\LeaveType;
+use OrangeHRM\Leave\Dto\LeaveDuration;
+use OrangeHRM\Leave\Traits\Service\LeaveRequestServiceTrait;
+use OrangeHRM\ORM\ListSorter;
 
 class LeaveDecorator
 {
     use EntityManagerHelperTrait;
+    use DateTimeHelperTrait;
+    use LeaveRequestServiceTrait;
 
     /**
      * @var Leave
@@ -67,5 +74,72 @@ class LeaveDecorator
         /** @var LeaveType|null $leaveType */
         $leaveType = $this->getReference(LeaveType::class, $id);
         $this->getLeave()->setLeaveType($leaveType);
+    }
+
+    /**
+     * @return string e.g. ['Pending Approval', 'Scheduled', 'Taken', 'Rejected', 'Cancelled']
+     */
+    public function getLeaveStatus(): string
+    {
+        return ucwords(strtolower($this->getLeaveStatusName()));
+    }
+
+    /**
+     * @return string e.g. ['PENDING APPROVAL', 'SCHEDULED', 'TAKEN', 'REJECTED', 'CANCELLED']
+     */
+    public function getLeaveStatusName(): string
+    {
+        return $this->getLeaveRequestService()->getLeaveStatusNameByStatus($this->getLeave()->getStatus());
+    }
+
+    /**
+     * @return string Y-m-d date
+     */
+    public function getLeaveDate(): string
+    {
+        return $this->getDateTimeHelper()->formatDateTimeToYmd($this->getLeave()->getDate());
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getLeaveDuration(): ?string
+    {
+        $type = $this->getLeave()->getDurationType();
+        if (isset(LeaveDuration::DURATION_MAP[$type])) {
+            return LeaveDuration::DURATION_MAP[$type];
+        }
+        return null;
+    }
+
+    /**
+     * @return string|null H:i format
+     */
+    public function getStartTime(): ?string
+    {
+        if ($this->getLeave()->getDurationType() !== Leave::DURATION_TYPE_SPECIFY_TIME) {
+            return null;
+        }
+        return $this->getDateTimeHelper()->formatDateTimeToTimeString($this->getLeave()->getStartTime());
+    }
+
+    /**
+     * @return string|null H:i format
+     */
+    public function getEndTime(): ?string
+    {
+        if ($this->getLeave()->getDurationType() !== Leave::DURATION_TYPE_SPECIFY_TIME) {
+            return null;
+        }
+        return $this->getDateTimeHelper()->formatDateTimeToTimeString($this->getLeave()->getEndTime());
+    }
+
+    /**
+     * @return LeaveComment|null
+     */
+    public function getLastComment(): ?LeaveComment
+    {
+        return $this->getRepository(LeaveComment::class)
+            ->findOneBy(['leave' => $this->getLeave()->getId()], ['createdAt' => ListSorter::DESCENDING]);
     }
 }

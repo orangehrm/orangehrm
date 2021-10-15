@@ -29,7 +29,7 @@
         :user="{{ user | json_encode() }}"
         brand-image-src="{{ publicPath }}/images/orange.png?{{ assetsVersion }}"
         logout-url="{{ baseUrl }}/auth/logout"
-        :permissions="{{ permissions | json_encode() }}"
+        :permissions="{{ (permissions ? permissions : []) | json_encode() }}"
     >
       <{{ componentName }}
       {% for prop in componentProps %}

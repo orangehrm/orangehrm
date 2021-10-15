@@ -119,7 +119,7 @@ abstract class Endpoint
             $this->getRequestParams()->getString(
                 RequestParams::PARAM_TYPE_QUERY,
                 CommonParams::PARAMETER_SORT_ORDER,
-                ListSorter::ASCENDING
+                $searchParamHolder->getSortOrder()
             )
         );
         $searchParamHolder->setLimit(

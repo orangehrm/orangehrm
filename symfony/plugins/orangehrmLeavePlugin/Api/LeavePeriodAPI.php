@@ -21,12 +21,13 @@ namespace OrangeHRM\Leave\Api;
 
 use DateTime;
 use OrangeHRM\Core\Api\CommonParams;
+use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
+use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
-use OrangeHRM\Core\Api\V2\ResourceEndpoint;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
@@ -40,7 +41,7 @@ use OrangeHRM\Leave\Api\Model\LeavePeriodModel;
 use OrangeHRM\Leave\Traits\Service\LeaveConfigServiceTrait;
 use OrangeHRM\Leave\Traits\Service\LeavePeriodServiceTrait;
 
-class LeavePeriodAPI extends Endpoint implements ResourceEndpoint
+class LeavePeriodAPI extends Endpoint implements CrudEndpoint
 {
     use LeavePeriodServiceTrait;
     use LeaveConfigServiceTrait;
@@ -66,7 +67,8 @@ class LeavePeriodAPI extends Endpoint implements ResourceEndpoint
             $leavePeriodHistory->setCreatedAt(new DateTime());
         }
         return new EndpointResourceResult(
-            LeavePeriodHistoryModel::class, $leavePeriodHistory,
+            LeavePeriodHistoryModel::class,
+            $leavePeriodHistory,
             new ParameterBag(
                 [
                     self::META_PARAMETER_LEAVE_PERIOD_DEFINED => $leavePeriodDefined,
@@ -85,7 +87,7 @@ class LeavePeriodAPI extends Endpoint implements ResourceEndpoint
         return $leavePeriodDefined ?
             $this->getNormalizerService()->normalize(
                 LeavePeriodModel::class,
-                $this->getLeavePeriodService()->getCurrentLeavePeriodByDate(new DateTime())
+                $this->getLeavePeriodService()->getCurrentLeavePeriod()
             ) : null;
     }
 
@@ -94,17 +96,35 @@ class LeavePeriodAPI extends Endpoint implements ResourceEndpoint
      */
     public function getValidationRuleForGetOne(): ParamRuleCollection
     {
-        return new ParamRuleCollection(
-            $this->getIdParamRule()
+        $paramRules = new ParamRuleCollection();
+        $paramRules->addExcludedParamKey(CommonParams::PARAMETER_ID);
+        return $paramRules;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getAll(): EndpointResult
+    {
+        $leavePeriodDefined = $this->getLeaveConfigService()->isLeavePeriodDefined();
+        return new EndpointCollectionResult(
+            LeavePeriodModel::class,
+            $this->getLeavePeriodService()->getGeneratedLeavePeriodList(),
+            new ParameterBag(
+                [
+                    self::META_PARAMETER_LEAVE_PERIOD_DEFINED => $leavePeriodDefined,
+                    self::META_PARAMETER_CURRENT_LEAVE_PERIOD => $this->getCurrentLeavePeriod($leavePeriodDefined),
+                ]
+            )
         );
     }
 
     /**
-     * @return ParamRule
+     * @inheritDoc
      */
-    private function getIdParamRule(): ParamRule
+    public function getValidationRuleForGetAll(): ParamRuleCollection
     {
-        return new ParamRule(CommonParams::PARAMETER_ID, new Rule(Rules::POSITIVE));
+        return new ParamRuleCollection();
     }
 
     /**
@@ -131,7 +151,8 @@ class LeavePeriodAPI extends Endpoint implements ResourceEndpoint
             $menuService->enableModuleMenuItems('leave');
         }
         return new EndpointResourceResult(
-            LeavePeriodHistoryModel::class, $leavePeriodHistory,
+            LeavePeriodHistoryModel::class,
+            $leavePeriodHistory,
             new ParameterBag(
                 [
                     self::META_PARAMETER_LEAVE_PERIOD_DEFINED => $leavePeriodDefined,
@@ -146,7 +167,7 @@ class LeavePeriodAPI extends Endpoint implements ResourceEndpoint
      */
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
-        return new ParamRuleCollection(
+        $paramRules = new ParamRuleCollection(
             new ParamRule(
                 self::PARAMETER_START_MONTH,
                 new Rule(Rules::IN, [$this->getLeavePeriodService()->getMonthNumberList()])
@@ -165,8 +186,25 @@ class LeavePeriodAPI extends Endpoint implements ResourceEndpoint
                     }
                 ])
             ),
-            $this->getIdParamRule()
         );
+        $paramRules->addExcludedParamKey(CommonParams::PARAMETER_ID);
+        return $paramRules;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function create(): EndpointResult
+    {
+        throw $this->getNotImplementedException();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getValidationRuleForCreate(): ParamRuleCollection
+    {
+        throw $this->getNotImplementedException();
     }
 
     /**

@@ -21,6 +21,7 @@ namespace OrangeHRM\Core\Service;
 
 use DateInterval;
 use DateTime;
+use DateTimeZone;
 use InvalidArgumentException;
 
 class DateTimeHelperService
@@ -42,11 +43,13 @@ class DateTimeHelperService
      * Return null if null given
      *
      * @param DateTime|null $dateTime
+     * @param bool $withSeconds
      * @return string|null
      */
-    public function formatDateTimeToTimeString(?DateTime $dateTime): ?string
+    public function formatDateTimeToTimeString(?DateTime $dateTime, bool $withSeconds = false): ?string
     {
-        return $dateTime instanceof DateTime ? $dateTime->format('H:i') : null;
+        $format = 'H:i' . ($withSeconds ? ':s' : '');
+        return $dateTime instanceof DateTime ? $dateTime->format($format) : null;
     }
 
     /**
@@ -100,5 +103,14 @@ class DateTimeHelperService
             $currentDateTime = $currentDateTime->add(new DateInterval($duration));
         } while ($currentDateTime <= $toDateTime);
         return $dates;
+    }
+
+    /**
+     * @param DateTimeZone|null $timezone
+     * @return DateTime
+     */
+    public function getNow(DateTimeZone $timezone = null): DateTime
+    {
+        return new DateTime('now', $timezone);
     }
 }

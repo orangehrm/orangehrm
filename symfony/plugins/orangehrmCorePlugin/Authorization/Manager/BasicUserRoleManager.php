@@ -116,11 +116,7 @@ class BasicUserRoleManager extends AbstractUserRoleManager
      */
     protected function getUserRoleClass(string $roleName): ?AbstractUserRole
     {
-        if (isset($this->userRoleClasses[$roleName])) {
-            return $this->userRoleClasses[$roleName];
-        } else {
-            return null;
-        }
+        return $this->userRoleClasses[$roleName] ?? null;
     }
 
     public function getLocationService()

@@ -129,44 +129,39 @@ class OrganizationAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
-     * @return EndpointCollectionResult
-     * @throws NotImplementedException
+     * @inheritDoc
      */
     public function getAll(): EndpointCollectionResult
     {
-        throw new NotImplementedException();
+        throw $this->getNotImplementedException();
     }
 
     /**
      * @inheritDoc
-     * @throws NotImplementedException
      */
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
-        throw new NotImplementedException();
+        throw $this->getNotImplementedException();
     }
 
     /**
      * @inheritDoc
-     * @throws NotImplementedException
      */
     public function create(): EndpointResourceResult
     {
-        throw new NotImplementedException();
+        throw $this->getNotImplementedException();
     }
 
     /**
      * @inheritDoc
-     * @throws NotImplementedException
      */
     public function getValidationRuleForCreate(): ParamRuleCollection
     {
-        throw new NotImplementedException();
+        throw $this->getNotImplementedException();
     }
 
     /**
      * @inheritDoc
-     * @throws Exception
      */
     public function update(): EndpointResourceResult
     {
@@ -291,8 +286,6 @@ class OrganizationAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @return Organization
-     * @throws DaoException
-     * @throws DaoException
      */
     public function saveOrganizationInfo(): Organization
     {
@@ -338,19 +331,17 @@ class OrganizationAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @inheritDoc
-     * @throws NotImplementedException
      */
     public function delete(): EndpointResourceResult
     {
-        throw new NotImplementedException();
+        throw $this->getNotImplementedException();
     }
 
     /**
      * @inheritDoc
-     * @throws NotImplementedException
      */
     public function getValidationRuleForDelete(): ParamRuleCollection
     {
-        throw new NotImplementedException();
+        throw $this->getNotImplementedException();
     }
 }

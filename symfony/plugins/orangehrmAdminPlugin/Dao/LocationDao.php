@@ -19,64 +19,62 @@
 
 namespace OrangeHRM\Admin\Dao;
 
-use Exception;
+use OrangeHRM\Admin\Dto\LocationSearchFilterParams;
 use OrangeHRM\Core\Dao\BaseDao;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\EmpLocations;
 use OrangeHRM\Entity\Location;
 use OrangeHRM\ORM\ListSorter;
 use OrangeHRM\ORM\Paginator;
-use OrangeHRM\Pim\Dto\LocationSearchFilterParams;
 
 class LocationDao extends BaseDao
 {
+
     /**
+     * Returns the Location having the given id (or null, if not exist)
+     *
      * @param int $locationId
+     *
      * @return Location|null
-     * @throws DaoException
      */
     public function getLocationById(int $locationId): ?Location
     {
-        try {
-            return $this->getRepository(Location::class)->find($locationId);
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        return $this->getRepository(Location::class)->find($locationId);
     }
 
     /**
+     * Returns the count of Locations that matches the given search filters
+     *
      * @param LocationSearchFilterParams $locationSearchFilterParams
+     *
      * @return int
-     * @throws DaoException
      */
     public function getSearchLocationListCount(LocationSearchFilterParams $locationSearchFilterParams): int
     {
-        try {
-            return $this->searchLocationsPaginator($locationSearchFilterParams)->count();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
+        return $this->searchLocationsPaginator($locationSearchFilterParams)->count();
     }
 
     /**
+     * Searches the Locations matching the given search filters
+     *
      * @param LocationSearchFilterParams $locationSearchFilterParams
+     *
      * @return Location[]
-     * @throws DaoException
      */
     public function searchLocations(LocationSearchFilterParams $locationSearchFilterParams): array
     {
-        try {
-            return $this->searchLocationsPaginator($locationSearchFilterParams)->getQuery()->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
+        return $this->searchLocationsPaginator($locationSearchFilterParams)->getQuery()->execute();
     }
 
     /**
+     *
+     * Set up the query with the paginator to search the locations using the given filters
+     *
      * @param LocationSearchFilterParams $locationSearchFilterParams
+     *
      * @return Paginator
      */
-    private function searchLocationsPaginator(LocationSearchFilterParams $locationSearchFilterParams
+    private function searchLocationsPaginator(
+        LocationSearchFilterParams $locationSearchFilterParams
     ): Paginator {
         $q = $this->createQueryBuilder(Location::class, 'location');
         $q->leftJoin('location.country', 'country');
@@ -97,87 +95,112 @@ class LocationDao extends BaseDao
                 ->setParameter('countryCode', $locationSearchFilterParams->getCountryCode());
         }
 
+        // get predictable sorting
+        $q->addOrderBy('location.id');
+
         return $this->getPaginator($q);
     }
 
     /**
+     * Returns the number of employees in the given location
+     *
      * @param int $locationId
+     *
      * @return int
      */
     public function getNumberOfEmployeesForLocation(int $locationId): int
     {
-        try {
-            $q = $this->createQueryBuilder(EmpLocations::class, 'el');
-            $q->andWhere('el.location = :locationId')
-                ->setParameter('locationId', $locationId);
+        $q = $this->createQueryBuilder(EmpLocations::class, 'el');
+        $q->andWhere('el.location = :locationId')
+            ->setParameter('locationId', $locationId);
 
-            return $this->count($q);
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
+        return $this->count($q);
     }
 
     /**
+     * Returns all the Locations in the system
+     *
      * @return Location[]
      */
     public function getLocationList(): array
     {
-        try {
-            $q = $this->createQueryBuilder(Location::class, 'l');
-            $q->addOrderBy('l.name', ListSorter::ASCENDING);
-            return $q->getQuery()->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
+        $q = $this->createQueryBuilder(Location::class, 'l');
+        $q->addOrderBy('l.name', ListSorter::ASCENDING);
+        return $q->getQuery()->execute();
     }
 
     /**
      * Get LocationIds for Employees with the given employee numbers
      *
      * @param int[] $empNumbers Array of employee numbers
+     *
      * @return int[] of locationIds of the given employees
      */
     public function getLocationIdsForEmployees(array $empNumbers): array
     {
-        try {
-            $locationIds = [];
+        $locationIds = [];
 
-            if (count($empNumbers) > 0) {
-                $q = $this->createQueryBuilder(EmpLocations::class, 'el');
-                $q->distinct()
-                    ->addGroupBy('el.location');
-                $q->andWhere($q->expr()->in('el.employee', ':empNumbers'))
-                    ->setParameter('empNumbers', $empNumbers);
+        if (!empty($empNumbers)) {
+            $q = $this->createQueryBuilder(EmpLocations::class, 'el');
+            $q->distinct()
+                ->addGroupBy('el.location');
+            $q->andWhere($q->expr()->in('el.employee', ':empNumbers'))
+                ->setParameter('empNumbers', $empNumbers);
 
-                /** @var EmpLocations[] $locations */
-                $locations = $q->getQuery()->execute();
+            /** @var EmpLocations[] $locations */
+            $locations = $q->getQuery()->execute();
 
-                foreach ($locations as $location) {
-                    $locationIds[] = $location->getLocation()->getId();
-                }
+            foreach ($locations as $location) {
+                $locationIds[] = $location->getLocation()->getId();
             }
-
-            return $locationIds;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
         }
+
+        return $locationIds;
     }
 
     /**
+     * Returns the Locations having the given ids
+     *
      * @param int[] $ids
+     *
      * @return Location[]
-     * @throws DaoException
      */
     public function getLocationsByIds(array $ids): array
     {
-        try {
-            $q = $this->createQueryBuilder(Location::class, 'l');
-            $q->andWhere($q->expr()->in('l.id', ':ids'))
-                ->setParameter('ids', $ids);
-            $q->addOrderBy('l.name', ListSorter::ASCENDING);
-            return $q->getQuery()->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
+        $q = $this->createQueryBuilder(Location::class, 'l');
+        $q->andWhere($q->expr()->in('l.id', ':ids'))
+            ->setParameter('ids', $ids);
+        $q->addOrderBy('l.name', ListSorter::ASCENDING);
+        return $q->getQuery()->execute();
+    }
+
+    /**
+     * Save Location into the database
+     *
+     * @param Location $location
+     *
+     * @return Location
+     */
+    public function saveLocation(Location $location): Location
+    {
+        $this->persist($location);
+        return $location;
+    }
+
+    /**
+     * Deletes the Locations having the given ids
+     *
+     * @param int[] $toDeleteIds
+     *
+     * @return int
+     */
+    public function deleteLocations(array $toDeleteIds): int
+    {
+        $q = $this->createQueryBuilder(Location::class, 'l');
+        $q->delete()
+            ->where($q->expr()->in('l.id', ':ids'))
+            ->setParameter('ids', $toDeleteIds);
+
+        return $q->getQuery()->execute();
     }
 }

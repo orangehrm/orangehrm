@@ -20,15 +20,17 @@
 namespace OrangeHRM\Core\Traits\ORM;
 
 use Doctrine\ORM\EntityManager;
-use OrangeHRM\ORM\Doctrine;
+use Doctrine\ORM\EntityManagerInterface;
+use OrangeHRM\Framework\ServiceContainer;
+use OrangeHRM\Framework\Services;
 
 trait EntityManagerTrait
 {
     /**
-     * @return EntityManager
+     * @return EntityManager|EntityManagerInterface
      */
-    protected function getEntityManager(): EntityManager
+    protected function getEntityManager(): EntityManagerInterface
     {
-        return Doctrine::getEntityManager();
+        return ServiceContainer::getContainer()->get(Services::DOCTRINE);
     }
 }

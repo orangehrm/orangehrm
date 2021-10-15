@@ -25,7 +25,6 @@ use OrangeHRM\Entity\Country;
 use OrangeHRM\Entity\Province;
 use OrangeHRM\Tests\Util\TestCase;
 use OrangeHRM\Tests\Util\TestDataService;
-use Symfony\Component\Yaml\Yaml;
 
 /**
  * @group Admin
@@ -55,8 +54,7 @@ class CountryDaoTest extends TestCase
         $this->dao = new CountryDao();
         $this->fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmAdminPlugin/test/fixtures/CountryDao.yml';
 
-        $sampleData = Yaml::parseFile($this->fixture);
-        $this->sampleCountries = $sampleData['Country'];
+        $this->sampleCountries = TestDataService::loadFixtures($this->fixture, 'Country');
         TestDataService::populate($this->fixture);
     }
 
@@ -123,6 +121,18 @@ class CountryDaoTest extends TestCase
         $result = $this->dao->getProvinceByProvinceCode('AK');
         $this->assertTrue($result instanceof Province);
         $this->assertEquals('Alaska', $result->getProvinceName());
+        $this->assertEquals('US', $result->getCountryCode());
+    }
+
+    public function testGetProvinceByProvinceName(): void
+    {
+        $result = $this->dao->getProvinceByProvinceName('NotExists');
+        $this->assertNull($result);
+
+        $result = $this->dao->getProvinceByProvinceName('Alaska');
+        $this->assertTrue($result instanceof Province);
+        $this->assertEquals('Alaska', $result->getProvinceName());
+        $this->assertEquals('AK', $result->getProvinceCode());
         $this->assertEquals('US', $result->getCountryCode());
     }
 }

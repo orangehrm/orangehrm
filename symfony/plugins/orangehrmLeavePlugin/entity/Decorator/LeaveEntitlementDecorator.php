@@ -26,11 +26,13 @@ use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\LeaveEntitlement;
 use OrangeHRM\Entity\LeaveEntitlementType;
 use OrangeHRM\Entity\LeaveType;
+use OrangeHRM\Leave\Traits\Service\LeaveEntitlementServiceTrait;
 
 class LeaveEntitlementDecorator
 {
     use EntityManagerHelperTrait;
     use DateTimeHelperTrait;
+    use LeaveEntitlementServiceTrait;
 
     /**
      * @var LeaveEntitlement
@@ -74,11 +76,8 @@ class LeaveEntitlementDecorator
      */
     public function withinPeriod(DateTime $date): bool
     {
-        $fromTimestamp = $this->getLeaveEntitlement()->getFromDate()->getTimestamp();
-        $toTimestamp = $this->getLeaveEntitlement()->getToDate()->getTimestamp();
-        $timestamp = $date->getTimestamp();
-
-        return ($timestamp >= $fromTimestamp) && ($timestamp <= $toTimestamp);
+        return ($date >= $this->getLeaveEntitlement()->getFromDate()) &&
+            ($date <= $this->getLeaveEntitlement()->getToDate());
     }
 
     /**
@@ -133,5 +132,13 @@ class LeaveEntitlementDecorator
     public function getCreditedDate(): string
     {
         return $this->getDateTimeHelper()->formatDateTimeToYmd($this->getLeaveEntitlement()->getCreditedDate());
+    }
+
+    /**
+     * @return bool
+     */
+    public function isDeletable(): bool
+    {
+        return $this->getLeaveEntitlementService()->isDeletable($this->getLeaveEntitlement());
     }
 }

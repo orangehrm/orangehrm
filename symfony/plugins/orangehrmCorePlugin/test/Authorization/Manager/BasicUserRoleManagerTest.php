@@ -29,6 +29,7 @@ use OrangeHRM\Core\Authorization\Service\ScreenPermissionService;
 use OrangeHRM\Core\Helper\ClassHelper;
 use OrangeHRM\Core\HomePage\HomePageEnablerInterface;
 use OrangeHRM\Core\Service\ConfigService;
+use OrangeHRM\Core\Service\TextHelperService;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\HomePage;
 use OrangeHRM\Entity\Location;
@@ -71,6 +72,7 @@ class BasicUserRoleManagerTest extends KernelTestCase
         ); //'JobCandidate', 'JobVacancy', 'JobInterview'
         TestDataService::populate($this->fixture);
 
+        $this->createKernelWithMockServices([Services::CLASS_HELPER => new ClassHelper()]);
         $this->manager = new BasicUserRoleManager();
     }
 
@@ -424,6 +426,7 @@ class BasicUserRoleManagerTest extends KernelTestCase
                 Services::EMPLOYEE_SERVICE => new EmployeeService(),
                 Services::USER_SERVICE => new UserService(),
                 Services::CLASS_HELPER => new ClassHelper(),
+                Services::TEXT_HELPER_SERVICE => new TextHelperService(),
             ]
         );
 
@@ -441,6 +444,7 @@ class BasicUserRoleManagerTest extends KernelTestCase
                 Services::EMPLOYEE_SERVICE => new EmployeeService(),
                 Services::USER_SERVICE => new UserService(),
                 Services::CLASS_HELPER => new ClassHelper(),
+                Services::TEXT_HELPER_SERVICE => new TextHelperService(),
             ]
         );
         // Admin user
@@ -465,6 +469,7 @@ class BasicUserRoleManagerTest extends KernelTestCase
                 Services::AUTH_USER => $authUser,
                 Services::CONFIG_SERVICE => new ConfigService(),
                 Services::CLASS_HELPER => new ClassHelper(),
+                Services::TEXT_HELPER_SERVICE => new TextHelperService(),
             ]
         );
         // Admin + supervisor

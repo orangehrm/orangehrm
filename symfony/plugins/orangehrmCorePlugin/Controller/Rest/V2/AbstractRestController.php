@@ -22,6 +22,7 @@ namespace OrangeHRM\Core\Controller\Rest\V2;
 use Error;
 use Exception;
 use OrangeHRM\Core\Api\V2\Exception\BadRequestException;
+use OrangeHRM\Core\Api\V2\Exception\ForbiddenException;
 use OrangeHRM\Core\Api\V2\Exception\InvalidParamException;
 use OrangeHRM\Core\Api\V2\Exception\NotImplementedException;
 use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
@@ -30,15 +31,13 @@ use OrangeHRM\Core\Api\V2\Response;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Validator;
 use OrangeHRM\Core\Controller\AbstractController;
-use OrangeHRM\Core\Traits\ServiceContainerTrait;
+use OrangeHRM\Core\Traits\LoggerTrait;
 use OrangeHRM\Framework\Http\Request as HttpRequest;
 use OrangeHRM\Framework\Http\Response as HttpResponse;
-use OrangeHRM\Framework\Logger\Logger;
-use OrangeHRM\Framework\Services;
 
 abstract class AbstractRestController extends AbstractController
 {
-    use ServiceContainerTrait;
+    use LoggerTrait;
 
     protected ?ParamRuleCollection $getValidationRule = null;
     protected ?ParamRuleCollection $postValidationRule = null;
@@ -177,7 +176,13 @@ abstract class AbstractRestController extends AbstractController
             // TODO:: should format to show multiple errors
             $response->setContent(
                 Response::formatError(
-                    ['error' => ['status' => '202', 'message' => $e->getMessage()]]
+                    [
+                        'error' => [
+                            'status' => '202',
+                            'message' => $e->getMessage(),
+                            'data' => $e->getNormalizedErrorBag()
+                        ]
+                    ]
                 )
             );
             $response->setStatusCode(202);
@@ -197,10 +202,14 @@ abstract class AbstractRestController extends AbstractController
 
             $response->setContent(
                 Response::formatError(
-                    ['error' => ['status' => '400', 'message' => 'Bad Request']]
+                    ['error' => ['status' => '400', 'message' => $e->getMessage()]]
                 )
             );
             $response->setStatusCode(400);
+        } catch (ForbiddenException $e) {
+            // Escape this exception to handle it in
+            // \OrangeHRM\Core\Subscriber\ApiAuthorizationSubscriber::onExceptionEvent
+            throw $e;
         } catch (Exception $e) {
             $this->getLogger()->error($e->getMessage());
             $this->getLogger()->error($e->getTraceAsString());
@@ -224,14 +233,5 @@ abstract class AbstractRestController extends AbstractController
         }
 
         return $response;
-    }
-
-    /**
-     * @return Logger
-     * @throws Exception
-     */
-    private function getLogger(): Logger
-    {
-        return $this->getContainer()->get(Services::LOGGER);
     }
 }

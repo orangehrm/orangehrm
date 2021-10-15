@@ -20,6 +20,11 @@
 
 <template>
   <div class="orangehrm-background-container">
+    <leave-conflict
+      v-if="showLeaveConflict"
+      :workshift-exceeded="isWorkShiftExceeded"
+      :data="leaveConflictData"
+    ></leave-conflict>
     <div class="orangehrm-card-container">
       <oxd-text tag="h6" class="orangehrm-main-title">
         {{ $t('leave.apply_leave') }}
@@ -27,23 +32,26 @@
 
       <oxd-divider />
 
-      <oxd-form :loading="isLoading" @submitValid="onSave">
+      <oxd-text v-if="!isLoading && leaveTypes.length === 0" type="subtitle-2">
+        {{ $t('leave.no_leave_types_with_leave_balance') }}
+      </oxd-text>
+
+      <oxd-form v-else :loading="isLoading" @submitValid="onSave">
         <oxd-form-row>
           <oxd-grid :cols="2" class="orangehrm-full-width-grid">
             <oxd-grid-item>
-              <leave-type-dropdown
+              <oxd-input-field
+                type="select"
                 v-model="leave.type"
                 :rules="rules.type"
+                :options="leaveTypes"
+                :label="$t('leave.leave_type')"
                 required
               />
             </oxd-grid-item>
-            <!-- <oxd-grid-item>
-              <leave-balance
-                :type="leave.type"
-                :fromDate="leave.fromDate"
-                :toDate="leave.toDate"
-              ></leave-balance>
-            </oxd-grid-item> -->
+            <oxd-grid-item>
+              <leave-balance :leaveData="leave"></leave-balance>
+            </oxd-grid-item>
           </oxd-grid>
         </oxd-form-row>
 
@@ -54,6 +62,7 @@
                 :label="$t('general.from_date')"
                 v-model="leave.fromDate"
                 :rules="rules.fromDate"
+                :years="yearsArray"
                 required
               />
             </oxd-grid-item>
@@ -62,6 +71,7 @@
                 :label="$t('general.to_date')"
                 v-model="leave.toDate"
                 :rules="rules.toDate"
+                :years="yearsArray"
                 required
               />
             </oxd-grid-item>
@@ -73,6 +83,7 @@
           <oxd-grid :cols="4" class="orangehrm-full-width-grid">
             <leave-duration-input
               :label="$t('general.duration')"
+              :work-shift="workShift"
               v-model:duration="leave.duration.type"
               v-model:fromTime="leave.duration.fromTime"
               v-model:toTime="leave.duration.toTime"
@@ -95,6 +106,7 @@
             <leave-duration-input
               :partial="true"
               :label="$t('general.duration')"
+              :work-shift="workShift"
               v-if="showDuration"
               v-model:duration="leave.duration.type"
               v-model:fromTime="leave.duration.fromTime"
@@ -103,6 +115,7 @@
             <leave-duration-input
               :partial="true"
               :label="$t('leave.start_day')"
+              :work-shift="workShift"
               v-if="showStartDay"
               v-model:duration="leave.duration.type"
               v-model:fromTime="leave.duration.fromTime"
@@ -111,6 +124,7 @@
             <leave-duration-input
               :partial="true"
               :label="$t('leave.end_day')"
+              :work-shift="workShift"
               v-if="showEndDay"
               v-model:duration="leave.endDuration.type"
               v-model:fromTime="leave.endDuration.fromTime"
@@ -151,11 +165,13 @@ import {
   shouldNotExceedCharLength,
   endDateShouldBeAfterStartDate,
 } from '@/core/util/validation/rules';
+import {yearRange} from '@orangehrm/core/util/helper/year-range';
 import {diffInDays} from '@orangehrm/core/util/helper/datefns';
 import {APIService} from '@orangehrm/core/util/services/api.service';
-import LeaveTypeDropdown from '@/orangehrmLeavePlugin/components/LeaveTypeDropdown';
 import LeaveDurationInput from '@/orangehrmLeavePlugin/components/LeaveDurationInput';
-// import LeaveBalance from '@/orangehrmLeavePlugin/components/LeaveBalance';
+import LeaveBalance from '@/orangehrmLeavePlugin/components/LeaveBalance';
+import LeaveConflict from '@/orangehrmLeavePlugin/components/LeaveConflict';
+import useLeaveValidators from '@/orangehrmLeavePlugin/util/composable/useLeaveValidators';
 
 const leaveModel = {
   type: null,
@@ -179,9 +195,15 @@ export default {
   name: 'leave-apply',
 
   components: {
-    'leave-type-dropdown': LeaveTypeDropdown,
     'leave-duration-input': LeaveDurationInput,
-    // 'leave-balance': LeaveBalance,
+    'leave-balance': LeaveBalance,
+    'leave-conflict': LeaveConflict,
+  },
+
+  props: {
+    workShift: {
+      type: Object,
+    },
   },
 
   setup() {
@@ -189,9 +211,12 @@ export default {
       window.appGlobal.baseUrl,
       'api/v2/leave/leave-requests',
     );
+    const {serializeBody, validateOverlapLeaves} = useLeaveValidators(http);
 
     return {
       http,
+      serializeBody,
+      validateOverlapLeaves,
     };
   },
 
@@ -214,44 +239,49 @@ export default {
         comment: [shouldNotExceedCharLength(250)],
       },
       partialOptions: [
-        {id: 1, label: 'All Days'},
-        {id: 2, label: 'Start Day Only'},
-        {id: 3, label: 'End Day Only'},
-        {id: 4, label: 'Start and End Day'},
+        {id: 1, label: 'All Days', key: 'all'},
+        {id: 2, label: 'Start Day Only', key: 'start'},
+        {id: 3, label: 'End Day Only', key: 'end'},
+        {id: 4, label: 'Start and End Day', key: 'start_end'},
       ],
+      showLeaveConflict: false,
+      isWorkShiftExceeded: false,
+      leaveConflictData: null,
+      yearsArray: [...yearRange()],
+      leaveTypes: [],
     };
   },
 
   methods: {
     onSave() {
       this.isLoading = true;
-      const payload = {
-        leaveTypeId: this.leave.type?.id,
-        fromDate: this.leave.fromDate,
-        toDate: this.leave.toDate,
-        comment: this.leave.comment ? this.leave.comment : null,
-        duration: {
-          type: this.leave.duration.type?.key,
-          fromTime: this.leave.duration.fromTime,
-          toTime: this.leave.duration.toTime,
-        },
-        partialOption: null,
-        endDuration: null,
-      };
-      if (this.leave.partialOptions?.id) {
-        payload.partialOptions = this.leave.partialOptions;
-        payload.endDuration = {
-          type: this.leave.endDuration.type?.key,
-          fromTime: this.leave.endDuration.fromTime,
-          toTime: this.leave.endDuration.toTime,
-        };
-      }
-      // TODO: Handle leave errors
-      this.http.create(payload).then(() => {
-        this.$toast.saveSuccess();
-        this.leave = {...leaveModel};
-        this.isLoading = false;
-      });
+      this.showLeaveConflict = false;
+      this.leaveConflictData = null;
+
+      this.validateOverlapLeaves(this.leave)
+        .then(({isConflict, isOverWorkshift, data}) => {
+          if (isConflict) {
+            this.leaveConflictData = data;
+            this.showLeaveConflict = true;
+            this.isWorkShiftExceeded = isOverWorkshift;
+            return Promise.reject();
+          }
+          return this.http.create(this.serializeBody(this.leave));
+        })
+        .then(() => {
+          this.$toast.saveSuccess();
+          this.leave = {...leaveModel};
+        })
+        .catch(() => {
+          this.showLeaveConflict &&
+            this.$toast.warn({
+              title: 'Warning',
+              message: 'Failed to Submit',
+            });
+        })
+        .finally(() => {
+          this.isLoading = false;
+        });
     },
   },
 
@@ -271,6 +301,41 @@ export default {
       const id = this.leave.partialOptions?.id;
       return id && (id === 3 || id === 4);
     },
+  },
+
+  watch: {
+    appliedLeaveDuration: function(duration) {
+      if (duration === 1) {
+        this.leave.duration.type = {id: 1, label: 'Full Day', key: 'full_day'};
+      } else {
+        this.leave.duration.type = null;
+      }
+    },
+    'leave.fromDate': function(fromDate) {
+      if (!fromDate || this.leave.toDate) return;
+      this.leave.toDate = fromDate;
+    },
+  },
+
+  beforeMount() {
+    this.isLoading = true;
+    this.http
+      .request({
+        method: 'GET',
+        url: 'api/v2/leave/leave-types/eligible',
+      })
+      .then(response => {
+        const {data} = response.data;
+        this.leaveTypes = data.map(item => {
+          return {
+            id: item.id,
+            label: item.name,
+          };
+        });
+      })
+      .finally(() => {
+        this.isLoading = false;
+      });
   },
 };
 </script>

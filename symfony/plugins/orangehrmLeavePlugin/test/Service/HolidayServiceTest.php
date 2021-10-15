@@ -682,4 +682,331 @@ class HolidayServiceTest extends KernelTestCase
         $this->assertEquals($expected->getDate(), $actual->getDate());
         $this->assertEquals($expected->getLength(), $actual->getLength());
     }
+
+    public function testSearchHolidaysCheckUniqueness()
+    {
+        $fixture = [
+            [
+                'id' => 1,
+                'recurring' => 0,
+                'name' => 'Public Holiday',
+                'date' => new DateTime('2008-03-22'),
+                'length' => 4
+            ],
+            [
+                'id' => 2,
+                'recurring' => 1,
+                'name' => 'Public Holiday',
+                'date' => new DateTime('2008-04-01'),
+                'length' => 8
+            ],
+            [
+                'id' => 3,
+                'recurring' => 0,
+                'name' => 'Public Holiday',
+                'date' => new DateTime('2010-05-27'),
+                'length' => 4
+            ],
+            [
+                'id' => 4,
+                'recurring' => 1,
+                'name' => 'Public Holiday',
+                'date' => new DateTime('2010-06-27'),
+                'length' => 8
+            ],
+            [
+                'id' => 5,
+                'recurring' => 0,
+                'name' => 'Another Holiday',
+                'date' => new DateTime('2010-09-13'),
+                'length' => 8
+            ],
+            [
+                'id' => 6,
+                'recurring' => 0,
+                'name' => 'Another Holiday',
+                'date' => new DateTime('2011-01-13'),
+                'length' => 8
+            ],
+            [
+                'id' => 7,
+                'recurring' => 1,
+                'name' => 'Another Holiday',
+                'date' => new DateTime('2012-09-13'),
+                'length' => 8
+            ]
+        ];
+
+        $holidays = TestDataService::loadObjectListFromArray(Holiday::class, $fixture);
+
+        $holidayDao = $this->getMockBuilder(HolidayDao::class)
+            ->onlyMethods(['searchHolidays'])
+            ->getMock();
+        $holidayDao->expects($this->once())
+            ->method('searchHolidays')
+            ->will($this->returnValue($holidays));
+
+        $holidayService = $this->getMockBuilder(HolidayService::class)
+            ->onlyMethods(['getHolidayDao'])
+            ->getMock();
+        $holidayService->expects($this->once())
+            ->method('getHolidayDao')
+            ->willReturn($holidayDao);
+
+        $expectedArray = [
+            [
+                'id' => 2,
+                'recurring' => 1,
+                'name' => 'Public Holiday',
+                'date' => new DateTime('2005-04-01'),
+                'length' => 8
+            ],
+            [
+                'id' => 4,
+                'recurring' => 1,
+                'name' => 'Public Holiday',
+                'date' => new DateTime('2005-06-27'),
+                'length' => 8
+            ],
+            [
+                'id' => 7,
+                'recurring' => 1,
+                'name' => 'Another Holiday',
+                'date' => new DateTime('2005-09-13'),
+                'length' => 8
+            ],
+            [
+                'id' => 2,
+                'recurring' => 1,
+                'name' => 'Public Holiday',
+                'date' => new DateTime('2006-04-01'),
+                'length' => 8
+            ],
+            [
+                'id' => 4,
+                'recurring' => 1,
+                'name' => 'Public Holiday',
+                'date' => new DateTime('2006-06-27'),
+                'length' => 8
+            ],
+            [
+                'id' => 7,
+                'recurring' => 1,
+                'name' => 'Another Holiday',
+                'date' => new DateTime('2006-09-13'),
+                'length' => 8
+            ],
+            [
+                'id' => 2,
+                'recurring' => 1,
+                'name' => 'Public Holiday',
+                'date' => new DateTime('2007-04-01'),
+                'length' => 8
+            ],
+            [
+                'id' => 4,
+                'recurring' => 1,
+                'name' => 'Public Holiday',
+                'date' => new DateTime('2007-06-27'),
+                'length' => 8
+            ],
+            [
+                'id' => 7,
+                'recurring' => 1,
+                'name' => 'Another Holiday',
+                'date' => new DateTime('2007-09-13'),
+                'length' => 8
+            ],
+            [
+                'id' => 1,
+                'recurring' => 0,
+                'name' => 'Public Holiday',
+                'date' => new DateTime('2008-03-22'),
+                'length' => 4
+            ],
+            [
+                'id' => 2,
+                'recurring' => 1,
+                'name' => 'Public Holiday',
+                'date' => new DateTime('2008-04-01'),
+                'length' => 8
+            ],
+            [
+                'id' => 4,
+                'recurring' => 1,
+                'name' => 'Public Holiday',
+                'date' => new DateTime('2008-06-27'),
+                'length' => 8
+            ],
+            [
+                'id' => 7,
+                'recurring' => 1,
+                'name' => 'Another Holiday',
+                'date' => new DateTime('2008-09-13'),
+                'length' => 8
+            ],
+            [
+                'id' => 2,
+                'recurring' => 1,
+                'name' => 'Public Holiday',
+                'date' => new DateTime('2009-04-01'),
+                'length' => 8
+            ],
+            [
+                'id' => 4,
+                'recurring' => 1,
+                'name' => 'Public Holiday',
+                'date' => new DateTime('2009-06-27'),
+                'length' => 8
+            ],
+            [
+                'id' => 7,
+                'recurring' => 1,
+                'name' => 'Another Holiday',
+                'date' => new DateTime('2009-09-13'),
+                'length' => 8
+            ],
+            [
+                'id' => 2,
+                'recurring' => 1,
+                'name' => 'Public Holiday',
+                'date' => new DateTime('2010-04-01'),
+                'length' => 8
+            ],
+            [
+                'id' => 3,
+                'recurring' => 0,
+                'name' => 'Public Holiday',
+                'date' => new DateTime('2010-05-27'),
+                'length' => 4
+            ],
+            [
+                'id' => 4,
+                'recurring' => 1,
+                'name' => 'Public Holiday',
+                'date' => new DateTime('2010-06-27'),
+                'length' => 8
+            ],
+            [
+                'id' => 5,
+                'recurring' => 0,
+                'name' => 'Another Holiday',
+                'date' => new DateTime('2010-09-13'),
+                'length' => 8
+            ],
+            [
+                'id' => 7,
+                'recurring' => 1,
+                'name' => 'Another Holiday',
+                'date' => new DateTime('2010-09-13'),
+                'length' => 8
+            ],
+            [
+                'id' => 6,
+                'recurring' => 0,
+                'name' => 'Another Holiday',
+                'date' => new DateTime('2011-01-13'),
+                'length' => 8
+            ],
+            [
+                'id' => 2,
+                'recurring' => 1,
+                'name' => 'Public Holiday',
+                'date' => new DateTime('2011-04-01'),
+                'length' => 8
+            ],
+            [
+                'id' => 4,
+                'recurring' => 1,
+                'name' => 'Public Holiday',
+                'date' => new DateTime('2011-06-27'),
+                'length' => 8
+            ],
+            [
+                'id' => 7,
+                'recurring' => 1,
+                'name' => 'Another Holiday',
+                'date' => new DateTime('2011-09-13'),
+                'length' => 8
+            ],
+            [
+                'id' => 2,
+                'recurring' => 1,
+                'name' => 'Public Holiday',
+                'date' => new DateTime('2012-04-01'),
+                'length' => 8
+            ],
+            [
+                'id' => 4,
+                'recurring' => 1,
+                'name' => 'Public Holiday',
+                'date' => new DateTime('2012-06-27'),
+                'length' => 8
+            ],
+            [
+                'id' => 7,
+                'recurring' => 1,
+                'name' => 'Another Holiday',
+                'date' => new DateTime('2012-09-13'),
+                'length' => 8
+            ],
+            [
+                'id' => 2,
+                'recurring' => 1,
+                'name' => 'Public Holiday',
+                'date' => new DateTime('2013-04-01'),
+                'length' => 8
+            ],
+            [
+                'id' => 4,
+                'recurring' => 1,
+                'name' => 'Public Holiday',
+                'date' => new DateTime('2013-06-27'),
+                'length' => 8
+            ]
+        ];
+
+        // check offset = 0, limit = 5
+        $holidaySearchFilterParams = new HolidaySearchFilterParams();
+        $holidaySearchFilterParams->setFromDate(new DateTime("2005-01-01"));
+        $holidaySearchFilterParams->setToDate(new DateTime("2013-07-01"));
+        $holidaySearchFilterParams->setLimit(5);
+        $holidaySearchFilterParams->setOffset(0);
+        $result = $holidayService->searchHolidays($holidaySearchFilterParams);
+
+        $expected = TestDataService::loadObjectListFromArray(Holiday::class, array_slice($expectedArray,0,5));
+        $this->compareHolidays($expected, $result);
+
+        // check offset = 1, limit = 5
+        $holidaySearchFilterParams = new HolidaySearchFilterParams();
+        $holidaySearchFilterParams->setFromDate(new DateTime("2005-01-01"));
+        $holidaySearchFilterParams->setToDate(new DateTime("2013-07-01"));
+        $holidaySearchFilterParams->setLimit(5);
+        $holidaySearchFilterParams->setOffset(1);
+        $result = $holidayService->searchHolidays($holidaySearchFilterParams);
+
+        $expected = TestDataService::loadObjectListFromArray(Holiday::class, array_slice($expectedArray,1,5));
+        $this->compareHolidays($expected, $result);
+
+        // check offset = 3, limit = 5
+        $holidaySearchFilterParams = new HolidaySearchFilterParams();
+        $holidaySearchFilterParams->setFromDate(new DateTime("2005-01-01"));
+        $holidaySearchFilterParams->setToDate(new DateTime("2013-07-01"));
+        $holidaySearchFilterParams->setLimit(5);
+        $holidaySearchFilterParams->setOffset(3);
+        $result = $holidayService->searchHolidays($holidaySearchFilterParams);
+
+        $expected = TestDataService::loadObjectListFromArray(Holiday::class, array_slice($expectedArray,3,5));
+        $this->compareHolidays($expected, $result);
+
+        // check uniqueness (limit = 0)
+        $holidaySearchFilterParams = new HolidaySearchFilterParams();
+        $holidaySearchFilterParams->setFromDate(new DateTime("2005-01-01"));
+        $holidaySearchFilterParams->setToDate(new DateTime("2013-07-01"));
+        $holidaySearchFilterParams->setLimit(0);
+        $result = $holidayService->searchHolidays($holidaySearchFilterParams);
+
+        $expected = TestDataService::loadObjectListFromArray(Holiday::class, $expectedArray);
+        $this->compareHolidays($expected, $result);
+    }
 }

@@ -78,7 +78,12 @@
 
         <oxd-form-actions>
           <required-text />
-          <submit-button />
+          <oxd-button
+            displayType="ghost"
+            :label="$t('general.reset')"
+            @click="onClickReset"
+          />
+          <submit-button :disabled="leavePeriodDefined" />
         </oxd-form-actions>
       </oxd-form>
     </div>
@@ -107,7 +112,7 @@ export default {
     return {
       isLoading: false,
       leavePeriod: {...leavePeriodModel},
-      leavePeriodDefined: false,
+      leavePeriodDefined: true,
       rules: {
         startMonth: [required],
         startDay: [required],
@@ -127,6 +132,7 @@ export default {
 
   methods: {
     onSave() {
+      if (this.leavePeriodDefined) return;
       this.isLoading = true;
       this.http
         .request({
@@ -136,13 +142,52 @@ export default {
             startDay: this.leavePeriod.startDay?.id,
           },
         })
-        .then(() => {
+        .then(response => {
+          const {data, meta} = response.data;
+          this.updateLeavePeriodModel(data);
+          this.defineLeavePeriod(meta);
+          this.resetLeavePeriod();
           this.$toast.saveSuccess();
           this.isLoading = false;
           if (!this.leavePeriodDefined) {
             reloadPage();
           }
         });
+    },
+
+    onClickReset() {
+      this.resetLeavePeriod();
+    },
+
+    resetLeavePeriod() {
+      this.leavePeriod.startMonth = leavePeriodModel.startMonth;
+      this.$nextTick(() => {
+        this.leavePeriod.startDay = leavePeriodModel.startDay;
+      });
+    },
+
+    updateLeavePeriodModel(data) {
+      leavePeriodModel.startMonth = this.months.find(m => {
+        return m.id === data.startMonth;
+      });
+      this.$nextTick(() => {
+        leavePeriodModel.startDay = this.dates.find(d => {
+          return d.id === data.startDay;
+        });
+      });
+    },
+
+    defineLeavePeriod(meta) {
+      if (meta.leavePeriodDefined === true) {
+        this.leavePeriodDefined = meta.leavePeriodDefined;
+        this.leavePeriod.currentPeriod = `
+            ${meta.currentLeavePeriod.startDate}
+            ${this.$t('general.to').toLowerCase()}
+            ${meta.currentLeavePeriod.endDate}
+          `;
+      } else {
+        this.leavePeriodDefined = false;
+      }
     },
   },
 
@@ -199,22 +244,9 @@ export default {
       })
       .then(response => {
         const {data, meta} = response.data;
-        this.leavePeriod.startMonth = this.months.find(m => {
-          return m.id === data.startMonth;
-        });
-        this.$nextTick(() => {
-          this.leavePeriod.startDay = this.dates.find(d => {
-            return d.id === data.startDay;
-          });
-        });
-        if (meta?.leavePeriodDefined) {
-          this.leavePeriodDefined = meta.leavePeriodDefined;
-          this.leavePeriod.currentPeriod = `
-            ${meta.currentLeavePeriod.startDate} 
-            ${this.$t('general.to').toLowerCase()} 
-            ${meta.currentLeavePeriod.endDate}
-          `;
-        }
+        this.updateLeavePeriodModel(data);
+        this.defineLeavePeriod(meta);
+        this.resetLeavePeriod();
       })
       .finally(() => {
         this.isLoading = false;

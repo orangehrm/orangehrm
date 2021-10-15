@@ -27,7 +27,7 @@
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
           <oxd-grid-item>
             <oxd-input-field
-              type="dropdown"
+              type="select"
               label="Language"
               v-model="language.languageId"
               :key="allowedLanguages"
@@ -39,7 +39,7 @@
           </oxd-grid-item>
           <oxd-grid-item>
             <oxd-input-field
-              type="dropdown"
+              type="select"
               label="Fluency"
               v-model="language.fluencyId"
               :key="allowedFluencies"
@@ -51,7 +51,7 @@
           </oxd-grid-item>
           <oxd-grid-item>
             <oxd-input-field
-              type="dropdown"
+              type="select"
               label="Competency"
               v-model="language.competencyId"
               :options="competencies"
@@ -98,9 +98,9 @@ import {
 } from '@orangehrm/core/util/validation/rules';
 
 const languageModel = {
-  languageId: [],
-  fluencyId: [],
-  competencyId: [],
+  languageId: null,
+  fluencyId: null,
+  competencyId: null,
   comment: '',
 };
 
@@ -147,9 +147,9 @@ export default {
       this.isLoading = true;
       this.http
         .create({
-          languageId: this.language.languageId.map(item => item.id)[0],
-          fluencyId: this.language.fluencyId.map(item => item.id)[0],
-          competencyId: this.language.competencyId.map(item => item.id)[0],
+          languageId: this.language.languageId?.id,
+          fluencyId: this.language.fluencyId?.id,
+          competencyId: this.language.competencyId?.id,
           comment: this.language.comment,
         })
         .then(() => {
@@ -170,7 +170,7 @@ export default {
     },
     allowedFluencies() {
       const languageIndex = this.languages.findIndex(
-        item => item.id === this.language.languageId[0]?.id,
+        item => item.id === this.language.languageId?.id,
       );
       if (languageIndex > -1) {
         const selectedLanguage = this.languages[languageIndex];

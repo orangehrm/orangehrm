@@ -5,6 +5,8 @@ apiv2_pim_employee:
   defaults:
     _api: OrangeHRM\Pim\Api\EmployeeAPI
     _key: empNumber
+  requirements:
+    empNumber: '\d+'
 
 apiv2_pim_employees:
   path: /api/v2/pim/employees
@@ -13,6 +15,13 @@ apiv2_pim_employees:
   defaults:
     _api: OrangeHRM\Pim\Api\EmployeeAPI
 
+apiv2_pim_employees_count:
+  path: /api/v2/pim/employees/count
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Pim\Api\EmployeeCountAPI
+
 apiv2_pim_employee_picture:
   path: /api/v2/pim/employees/{empNumber}/picture
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
@@ -20,6 +29,8 @@ apiv2_pim_employee_picture:
   defaults:
     _api: OrangeHRM\Pim\Api\EmployeePictureAPI
     _key: empNumber
+  requirements:
+    empNumber: '\d+'
 
 apiv2_pim_employee_custom_fields:
   path: /api/v2/pim/employees/{empNumber}/custom-fields
@@ -423,6 +434,52 @@ apiv2_pim_employees_us_tax_exemption:
   requirements:
     empNumber: '\d+'
 
+apiv2_pim_employees_work_shift:
+  path: /api/v2/pim/employees/{empNumber}/work-shift
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _key: empNumber
+    _api: OrangeHRM\Pim\Api\EmployeeWorkShiftAPI
+  requirements:
+    empNumber: '\d+'
+
+apiv2_pim_employees_import:
+  path: /api/v2/pim/csv-import
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ POST ]
+  defaults:
+    _api: OrangeHRM\Pim\Api\EmployeeCSVImportAPI
+
+apiv2_pim_reports:
+  path: /api/v2/pim/reports
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Pim\Api\PimReportAPI
+    _key: name
+
+apiv2_pim_reports_data:
+  path: /api/v2/pim/reports/data
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Pim\Api\PimReportDataAPI
+
+apiv2_pim_defined_reports:
+  path: /api/v2/pim/reports/defined
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST, DELETE ]
+  defaults:
+    _api: OrangeHRM\Pim\Api\PimDefinedReportAPI
+
+apiv2_pim_defined_report:
+  path: /api/v2/pim/reports/defined/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    _api: OrangeHRM\Pim\Api\PimDefinedReportAPI
+
 ##########################
 #        Files
 ##########################
@@ -435,6 +492,11 @@ pim_employee_picture:
 pim_employee_attachment:
   path: /pim/viewAttachment/empNumber/{empNumber}/attachId/{attachId}
   controller: OrangeHRM\Pim\Controller\File\EmployeeAttachmentController::handle
+  methods: [ GET ]
+
+pim_employee_csv_import_sample_attachment:
+  path: /pim/sampleCsvDownload
+  controller: OrangeHRM\Pim\Controller\File\EmployeeCsvImportSampleAttachmentController::handle
   methods: [ GET ]
 
 ##########################
@@ -557,7 +619,7 @@ view_optional_field:
 pim_employee_immigration:
   path: /pim/viewImmigration/empNumber/{empNumber}
   controller: OrangeHRM\Pim\Controller\EmployeeImmigrationController::handle
-  
+
 pim_employee_membership:
   path: /pim/viewMemberships/empNumber/{empNumber}
   controller: OrangeHRM\Pim\Controller\EmployeeMembershipController::handle
@@ -566,4 +628,9 @@ pim_employee_membership:
 pim_employee_tax_exemption:
   path: /pim/viewUsTaxExemptions/empNumber/{empNumber}
   controller: OrangeHRM\Pim\Controller\EmpUsTaxExemptionController::handle
+  methods: [ GET ]
+
+pim_employee_csv_import:
+  path: /pim/pimCsvImport
+  controller: OrangeHRM\Pim\Controller\EmployeeCsvImportController::handle
   methods: [ GET ]

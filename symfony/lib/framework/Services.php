@@ -81,6 +81,11 @@ final class Services
      */
     public const URL_HELPER = 'url_helper';
 
+    /**
+     * @see \Doctrine\ORM\EntityManager
+     */
+    public const DOCTRINE = 'doctrine.entity_manager';
+
     ///////////////////////////////////////////////////////////////
     /// Core plugin services
     ///////////////////////////////////////////////////////////////
@@ -159,6 +164,16 @@ final class Services
      */
     public const USER_SERVICE = 'admin.user_service';
 
+    /**
+     * @see \OrangeHRM\Admin\Service\CompanyStructureService
+     */
+    public const COMPANY_STRUCTURE_SERVICE = 'admin.company_structure_service';
+
+    /**
+     * @see \OrangeHRM\Admin\Service\WorkShiftService
+     */
+    public const WORK_SHIFT_SERVICE = 'admin.work_shift_service';
+
     ///////////////////////////////////////////////////////////////
     /// Leave plugin services
     ///////////////////////////////////////////////////////////////
@@ -182,6 +197,11 @@ final class Services
      * @see \OrangeHRM\Leave\Service\LeavePeriodService
      */
     public const LEAVE_PERIOD_SERVICE = 'leave.leave_period_service';
+
+    /**
+     * @see \OrangeHRM\Leave\Service\LeaveRequestService
+     */
+    public const LEAVE_REQUEST_SERVICE = 'leave.leave_request_service';
 
     /**
      * @see \OrangeHRM\Leave\Service\WorkScheduleService
