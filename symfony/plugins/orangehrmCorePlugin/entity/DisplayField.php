@@ -38,11 +38,11 @@ class DisplayField extends AbstractDisplayField
     private int $id;
 
     /**
-     * @var string
+     * @var string|null
      *
-     * @ORM\Column(name="class_name", type="string", length=255)
+     * @ORM\Column(name="class_name", type="string", length=255, nullable=true)
      */
-    private string $className;
+    private ?string $className = null;
 
     /**
      * @var SelectedDisplayField[]
@@ -73,9 +73,9 @@ class DisplayField extends AbstractDisplayField
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getClassName(): string
+    public function getClassName(): ?string
     {
         return $this->className;
     }
