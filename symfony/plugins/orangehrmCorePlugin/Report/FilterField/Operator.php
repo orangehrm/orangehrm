@@ -23,27 +23,10 @@ final class Operator
 {
     public const IN = 'in';
     public const EQUAL = 'eq';
+    public const NOT_EQUAL = 'neq';
     public const LESS_THAN = 'lt';
     public const GREATER_THAN = 'gt';
     public const BETWEEN = 'between';
     public const IS_NULL = 'isNull';
     public const IS_NOT_NULL = 'isNotNull';
-
-    public const WHERE_IN = 'IN';
-    public const WHERE_EQUAL = '=';
-    public const WHERE_LESS_THAN = '<';
-    public const WHERE_GREATER_THAN = '>';
-    public const WHERE_BETWEEN = 'BETWEEN';
-    public const WHERE_IS_NULL = 'IS NULL';
-    public const WHERE_IS_NOT_NULL = 'IS NOT NULL';
-
-    public const MAP = [
-        self::WHERE_IN => self::IN,
-        self::WHERE_EQUAL => self::EQUAL,
-        self::WHERE_LESS_THAN => self::LESS_THAN,
-        self::WHERE_GREATER_THAN => self::GREATER_THAN,
-        self::WHERE_BETWEEN => self::BETWEEN,
-        self::WHERE_IS_NULL => self::IS_NULL,
-        self::WHERE_IS_NOT_NULL => self::IS_NOT_NULL,
-    ];
 }

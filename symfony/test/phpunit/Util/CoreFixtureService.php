@@ -25,14 +25,17 @@ use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Service\TextHelperService;
 use OrangeHRM\Entity\DisplayField;
 use OrangeHRM\Entity\FilterField;
+use OrangeHRM\Entity\ReportGroup;
 use OrangeHRM\ORM\Doctrine;
 use OrangeHRM\Tests\Util\Fixture\AbstractFixture;
 use OrangeHRM\Tests\Util\Fixture\DisplayFieldFixture;
 use OrangeHRM\Tests\Util\Fixture\FilterFieldFixture;
+use OrangeHRM\Tests\Util\Fixture\ReportGroupFixture;
 
 class CoreFixtureService
 {
     public const REGISTERED_FIXTURES = [
+        ReportGroup::class => ReportGroupFixture::class,
         FilterField::class => FilterFieldFixture::class,
         DisplayField::class => DisplayFieldFixture::class,
     ];

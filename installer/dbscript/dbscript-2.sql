@@ -4157,3 +4157,12 @@ UPDATE `ohrm_filter_field` SET `class_name` = 'OrangeHRM\\Core\\Report\\FilterFi
 UPDATE `ohrm_filter_field` SET `class_name` = 'OrangeHRM\\Core\\Report\\FilterField\\EmployeeGender' WHERE `name` = 'gender';
 UPDATE `ohrm_filter_field` SET `class_name` = 'OrangeHRM\\Core\\Report\\FilterField\\Location' WHERE `name` = 'location';
 UPDATE `ohrm_filter_field` SET `class_name` = 'OrangeHRM\\Core\\Report\\FilterField\\IncludeEmployee' WHERE `name` = 'include';
+
+UPDATE `ohrm_selected_filter_field` SET `where_condition` = 'eq' WHERE `where_condition` = '=';
+UPDATE `ohrm_selected_filter_field` SET `where_condition` = 'neq' WHERE `where_condition` = '<>';
+UPDATE `ohrm_selected_filter_field` SET `where_condition` = 'lt' WHERE `where_condition` = '<';
+UPDATE `ohrm_selected_filter_field` SET `where_condition` = 'gt' WHERE `where_condition` = '>';
+UPDATE `ohrm_selected_filter_field` SET `where_condition` = 'between' WHERE `where_condition` = 'BETWEEN';
+UPDATE `ohrm_selected_filter_field` SET `where_condition` = 'in' WHERE `where_condition` = 'IN';
+UPDATE `ohrm_selected_filter_field` SET `where_condition` = 'isNull' WHERE `where_condition` = 'IS NULL';
+UPDATE `ohrm_selected_filter_field` SET `where_condition` = 'isNotNull' WHERE `where_condition` = 'IS NOT NULL';

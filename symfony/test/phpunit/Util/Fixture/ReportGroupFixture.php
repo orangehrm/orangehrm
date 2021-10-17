@@ -19,30 +19,27 @@
 
 namespace OrangeHRM\Tests\Util\Fixture;
 
-use OrangeHRM\Entity\FilterField;
+use OrangeHRM\Entity\ReportGroup;
 
-class FilterFieldFixture extends AbstractFixture
+class ReportGroupFixture extends AbstractFixture
 {
     /**
      * @inheritDoc
      */
     protected function getContent(): array
     {
-        /** @var FilterField[] $filterFields */
-        $filterFields = $this->getEntityManager()->getRepository(FilterField::class)->findAll();
-        $results = [];
-        foreach ($filterFields as $filterField) {
-            $result = [];
-            $result['id'] = $filterField->getId();
-            $result['name'] = $filterField->getName();
-            $result['whereClausePart'] = $filterField->getWhereClausePart();
-            $result['conditionNo'] = $filterField->getConditionNo();
-            $result['className'] = $filterField->getClassName();
-            $result['report_group_id'] = $filterField->getReportGroup()->getId();
-            $results[] = $result;
+        /** @var ReportGroup[] $reportGroups */
+        $reportGroups = $this->getEntityManager()->getRepository(ReportGroup::class)->findAll();
+        $groups = [];
+        foreach ($reportGroups as $reportGroup) {
+            $groups[] = [
+                'id' => $reportGroup->getId(),
+                'name' => $reportGroup->getName(),
+                'coreSql' => $reportGroup->getCoreSql(),
+            ];
         }
 
-        return ['FilterField' => $results];
+        return ['ReportGroup' => $groups];
     }
 
     /**
@@ -50,6 +47,6 @@ class FilterFieldFixture extends AbstractFixture
      */
     public static function getFileName(): string
     {
-        return 'FilterField.yaml';
+        return 'ReportGroup.yaml';
     }
 }
