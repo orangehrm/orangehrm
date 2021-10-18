@@ -22,6 +22,7 @@
   <oxd-grid-item>
     <employee-autocomplete
       v-bind="$attrs"
+      :rules="rules"
       :modelValue="valueX"
       @update:modelValue="$emit('update:valueX', $event)"
     ></employee-autocomplete>
@@ -29,6 +30,7 @@
 </template>
 
 <script>
+import {required} from '@orangehrm/core/util/validation/rules';
 import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
 
 export default {
@@ -51,7 +53,12 @@ export default {
   },
 
   setup(_, context) {
+    const rules = [required];
     context.emit('update:operator', {id: 'eq', label: 'Equal'});
+
+    return {
+      rules,
+    };
   },
 };
 </script>

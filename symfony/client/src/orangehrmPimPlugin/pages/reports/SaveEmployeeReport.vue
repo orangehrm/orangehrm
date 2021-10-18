@@ -155,7 +155,10 @@
 
 <script>
 import {navigate} from '@orangehrm/core/util/helper/navigation';
-import {required} from '@orangehrm/core/util/validation/rules';
+import {
+  required,
+  shouldNotExceedCharLength,
+} from '@orangehrm/core/util/validation/rules';
 import {APIService} from '@orangehrm/core/util/services/api.service';
 import ReportCriterion from '@/orangehrmPimPlugin/components/ReportCriterion';
 import ReportDisplayField from '@/orangehrmPimPlugin/components/ReportDisplayField';
@@ -212,11 +215,13 @@ export default {
       isLoading: false,
       report: {...reportModel},
       rules: {
-        name: [required],
+        name: [required, shouldNotExceedCharLength(250)],
         criterion: [],
-        includeEmployees: [],
+        includeEmployees: [required],
         fieldGroup: [],
-        displayField: [],
+        displayField: [
+          () => required(Object.keys(this.report.displayFieldSelected)),
+        ],
       },
       includeOpts: [
         {id: 1, key: 'onlyCurrent', label: 'Current Employees Only'},
@@ -232,7 +237,6 @@ export default {
     },
     onSave() {
       this.isLoading = true;
-
       const fieldGroup = {};
       this.report.fieldGroupSelected.forEach(group => {
         const fields = this.report.displayFieldSelected[group.id].fields;
@@ -262,9 +266,7 @@ export default {
           criteria,
           fieldGroup,
         })
-        .then(response => {
-          const {data} = response.data;
-          console.log(data);
+        .then(() => {
           return this.$toast.saveSuccess();
         })
         .then(() => {
@@ -345,6 +347,22 @@ export default {
           )
         : [];
     },
+  },
+
+  beforeMount() {
+    this.isLoading = true;
+    this.http
+      .getAll()
+      .then(response => {
+        const {data} = response.data;
+        this.rules.name.push(v => {
+          const index = data.findIndex(item => item.name == v);
+          return index === -1 || 'Already exists';
+        });
+      })
+      .finally(() => {
+        this.isLoading = false;
+      });
   },
 };
 </script>

@@ -137,6 +137,7 @@
           </oxd-form-actions>
         </oxd-form>
       </oxd-table-filter>
+      <br />
     </template>
   </reports-table>
 </template>

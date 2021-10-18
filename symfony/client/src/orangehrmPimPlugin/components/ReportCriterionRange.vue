@@ -23,6 +23,7 @@
     <oxd-input-field
       type="select"
       label="&nbsp;"
+      :rules="rules.operator"
       :options="operators"
       :modelValue="operator"
       @update:modelValue="$emit('update:operator', $event)"
@@ -35,6 +36,7 @@
     <oxd-input-field
       label="&nbsp;"
       :type="type"
+      :rules="rules.valueX"
       :modelValue="valueX"
       @update:modelValue="$emit('update:valueX', $event)"
     />
@@ -42,6 +44,7 @@
     <oxd-input-field
       label="&nbsp;"
       :type="type"
+      :rules="rules.valueX"
       :modelValue="valueY"
       @update:modelValue="$emit('update:valueY', $event)"
     />
@@ -50,6 +53,7 @@
     <oxd-input-field
       label="&nbsp;"
       :type="type"
+      :rules="rules.valueY"
       :modelValue="valueX"
       @update:modelValue="$emit('update:valueX', $event)"
     />
@@ -58,6 +62,7 @@
 
 <script>
 import {ref} from 'vue';
+import {required} from '@orangehrm/core/util/validation/rules';
 
 export default {
   name: 'report-criterion-range',
@@ -87,7 +92,14 @@ export default {
       {id: 'between', label: 'Range'},
     ]);
 
+    const rules = {
+      operator: [required],
+      valueX: [required],
+      valueY: [required],
+    };
+
     return {
+      rules,
       operators,
     };
   },

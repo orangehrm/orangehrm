@@ -23,6 +23,7 @@
     <oxd-input-field
       v-bind="$attrs"
       type="select"
+      :rules="rules"
       :options="opts"
       :modelValue="valueX"
       @update:modelValue="$emit('update:valueX', $event)"
@@ -32,7 +33,9 @@
 
 <script>
 import {ref, onBeforeMount} from 'vue';
+import {required} from '@orangehrm/core/util/validation/rules';
 import {APIService} from '@orangehrm/core/util/services/api.service';
+
 export default {
   name: 'report-criterion-select',
   inheritAttrs: false,
@@ -56,6 +59,8 @@ export default {
   },
   setup(props, context) {
     const opts = ref(props.options);
+    const rules = [required];
+
     if (props.api) {
       const http = new APIService(window.appGlobal.baseUrl, props.api);
       onBeforeMount(() => {
@@ -73,6 +78,7 @@ export default {
 
     return {
       opts,
+      rules,
     };
   },
 };
