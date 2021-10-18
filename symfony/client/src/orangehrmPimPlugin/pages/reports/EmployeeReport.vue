@@ -141,6 +141,12 @@ export default {
                 name: 'pencil-fill',
               },
             },
+            view: {
+              onClick: this.onClickView,
+              props: {
+                name: 'file-text-fill',
+              },
+            },
           },
         },
       ],
@@ -200,6 +206,9 @@ export default {
     },
     onClickEdit(item) {
       navigate('/pim/definePredefinedReport/{id}', {id: item.id});
+    },
+    onClickView(item) {
+      navigate('/pim/displayPredefinedReport/{id}', {id: item.id});
     },
     onClickDeleteSelected() {
       const ids = [];

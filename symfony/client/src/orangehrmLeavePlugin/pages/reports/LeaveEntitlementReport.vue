@@ -20,6 +20,7 @@
 
 <template>
   <reports-table
+    module="leave"
     :name="filters.type"
     :filters="serializedFilters"
     :column-count="6"

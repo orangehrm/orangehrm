@@ -43,6 +43,7 @@ import EmployeeTaxExemption from './pages/employee/EmployeeTaxExemption.vue';
 import EmployeeDataImport from './pages/dataImport/EmployeeDataImport.vue';
 import EmployeeReport from './pages/reports/EmployeeReport.vue';
 import SaveEmployeeReport from './pages/reports/SaveEmployeeReport.vue';
+import ViewEmployeeReport from './pages/reports/ViewEmployeeReport.vue';
 
 export default {
   'employee-save': SaveEmployee,
@@ -72,4 +73,5 @@ export default {
   'employee-data-import': EmployeeDataImport,
   'employee-report-list': EmployeeReport,
   'employee-report-save': SaveEmployeeReport,
+  'employee-report-view': ViewEmployeeReport,
 };

@@ -644,3 +644,8 @@ pim_save_employee_reports:
   path: /pim/definePredefinedReport
   controller: OrangeHRM\Pim\Controller\SaveEmployeeReportController::handle
   methods: [ GET ]
+
+pim_display_employee_report:
+  path: /pim/displayPredefinedReport/{id}
+  controller: OrangeHRM\Pim\Controller\EmployeeReportController::handle
+  methods: [ GET ]

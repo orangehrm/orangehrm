@@ -63,6 +63,10 @@ export default {
       type: String,
       required: true,
     },
+    module: {
+      type: String,
+      required: true,
+    },
     prefetch: {
       type: Boolean,
       default: false,
@@ -80,7 +84,7 @@ export default {
   setup(props) {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      'api/v2/leave/reports/data',
+      `api/v2/${props.module}/reports/data`,
     );
 
     const headers = ref([]);
@@ -117,9 +121,10 @@ export default {
       http
         .request({
           type: 'GET',
-          url: 'api/v2/leave/reports',
+          url: `api/v2/${props.module}/reports`,
           params: {
             name: serializedFilters.value.name,
+            reportId: serializedFilters.value?.reportId,
           },
         })
         .then(response => {

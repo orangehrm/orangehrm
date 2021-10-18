@@ -1,4 +1,4 @@
-<?php
+<!--
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -16,28 +16,42 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
+ -->
 
-namespace OrangeHRM\Pim\Controller;
+<template>
+  <reports-table
+    module="pim"
+    name="pim_defined"
+    :prefetch="true"
+    :filters="filters"
+  >
+  </reports-table>
+</template>
 
-use OrangeHRM\Core\Controller\AbstractVueController;
-use OrangeHRM\Core\Vue\Component;
-use OrangeHRM\Core\Vue\Prop;
-use OrangeHRM\Framework\Http\Request;
+<script>
+import {ref} from 'vue';
+import ReportsTable from '@/core/components/table/ReportsTable';
 
-class EmployeeReportController extends AbstractVueController
-{
-    /**
-     * @inheritDoc
-     */
-    public function preRender(Request $request): void
-    {
-        $id = $request->get('id');
-        if ($id) {
-            $component = new Component('employee-report-view');
-            $component->addProp(new Prop('report-id', Prop::TYPE_NUMBER, $id));
-        } else {
-            $component = new Component('employee-report-list');
-        }
-        $this->setComponent($component);
-    }
-}
+export default {
+  props: {
+    reportId: {
+      type: String,
+      required: true,
+    },
+  },
+
+  components: {
+    'reports-table': ReportsTable,
+  },
+
+  setup(props) {
+    const filters = ref({
+      reportId: props.reportId,
+    });
+
+    return {
+      filters,
+    };
+  },
+};
+</script>
