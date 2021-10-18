@@ -37,7 +37,10 @@
     <oxd-text class="orangehrm-report-field-header" tag="p">
       Include Header
     </oxd-text>
-    <oxd-switch-input />
+    <oxd-switch-input
+      :modelValue="includeHeader"
+      @update:modelValue="$emit('update:includeHeader', $event)"
+    />
   </oxd-grid-item>
 </template>
 
@@ -48,7 +51,7 @@ import MultiSelectChips from '@orangehrm/oxd/core/components/Input/MultiSelect/M
 export default {
   name: 'report-display-field',
 
-  emits: ['delete', 'deleteChip'],
+  emits: ['delete', 'deleteChip', 'update:includeHeader'],
 
   components: {
     'oxd-switch-input': SwitchInput,
@@ -63,6 +66,10 @@ export default {
     selectedFields: {
       type: Array,
       default: () => [],
+    },
+    includeHeader: {
+      type: Boolean,
+      required: true,
     },
   },
 

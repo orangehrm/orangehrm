@@ -25,24 +25,25 @@
       {{ criterion.label }}
     </oxd-text>
   </oxd-grid-item>
-
-  <oxd-grid-item>
-    <oxd-input-field
-      :type="field.type"
-      :label="field.name"
-      :options="field.options"
-    />
-  </oxd-grid-item>
-
-  <oxd-grid-item>
-    {{ criterion }}
-  </oxd-grid-item>
+  <component
+    v-bind="$attrs"
+    :is="field.component"
+    :api="field.api"
+    :label="field.name"
+    :options="field.options"
+  ></component>
 </template>
 
 <script>
 import {ref} from 'vue';
+import ReportCriterionAutocomplete from '@/orangehrmPimPlugin/components/ReportCriterionAutocomplete';
+import ReportCriterionSelect from '@/orangehrmPimPlugin/components/ReportCriterionSelect';
+import ReportCriterionRange from '@/orangehrmPimPlugin/components/ReportCriterionRange';
+import ReportCriterionDateRange from '@/orangehrmPimPlugin/components/ReportCriterionDateRange';
+
 export default {
   name: 'report-criterion',
+  inheritAttrs: false,
 
   emits: ['delete'],
 
@@ -53,15 +54,23 @@ export default {
     },
   },
 
+  components: {
+    'report-criterion-autocomplete': ReportCriterionAutocomplete,
+    'report-criterion-select': ReportCriterionSelect,
+    'report-criterion-range': ReportCriterionRange,
+    'report-criterion-date-range': ReportCriterionDateRange,
+  },
+
   setup(props, context) {
     const field = ref(null);
+
     // map the field type according to criterion
     switch (props.criterion.key) {
       case 'employee_name':
         field.value = {
           name: props.criterion.label,
-          type: 'autocomplete',
-          api: '',
+          component: 'report-criterion-autocomplete',
+          api: null,
           options: [],
         };
         break;
@@ -69,8 +78,8 @@ export default {
       case 'pay_grade':
         field.value = {
           name: props.criterion.label,
-          type: 'select',
-          api: '',
+          component: 'report-criterion-select',
+          api: 'api/v2/admin/pay-grades',
           options: [],
         };
         break;
@@ -78,8 +87,8 @@ export default {
       case 'education':
         field.value = {
           name: props.criterion.label,
-          type: 'select',
-          api: '',
+          component: 'report-criterion-select',
+          api: 'api/v2/admin/educations',
           options: [],
         };
         break;
@@ -87,8 +96,8 @@ export default {
       case 'employment_status':
         field.value = {
           name: props.criterion.label,
-          type: 'select',
-          api: '',
+          component: 'report-criterion-select',
+          api: 'api/v2/admin/employment-statuses',
           options: [],
         };
         break;
@@ -96,8 +105,8 @@ export default {
       case 'service_period':
         field.value = {
           name: props.criterion.label,
-          type: 'select',
-          api: '',
+          component: 'report-criterion-range',
+          api: null,
           options: [],
         };
         break;
@@ -105,8 +114,8 @@ export default {
       case 'joined_date':
         field.value = {
           name: props.criterion.label,
-          type: 'select',
-          api: '',
+          component: 'report-criterion-date-range',
+          api: null,
           options: [],
         };
         break;
@@ -114,8 +123,8 @@ export default {
       case 'job_title':
         field.value = {
           name: props.criterion.label,
-          type: 'select',
-          api: '',
+          component: 'report-criterion-select',
+          api: 'api/v2/admin/job-titles',
           options: [],
         };
         break;
@@ -123,8 +132,8 @@ export default {
       case 'language':
         field.value = {
           name: props.criterion.label,
-          type: 'select',
-          api: '',
+          component: 'report-criterion-select',
+          api: 'api/v2/admin/languages',
           options: [],
         };
         break;
@@ -132,8 +141,8 @@ export default {
       case 'skill':
         field.value = {
           name: props.criterion.label,
-          type: 'select',
-          api: '',
+          component: 'report-criterion-select',
+          api: 'api/v2/admin/skills',
           options: [],
         };
         break;
@@ -141,8 +150,8 @@ export default {
       case 'age_group':
         field.value = {
           name: props.criterion.label,
-          type: 'select',
-          api: '',
+          component: 'report-criterion-range',
+          api: null,
           options: [],
         };
         break;
@@ -150,27 +159,31 @@ export default {
       case 'sub_unit':
         field.value = {
           name: props.criterion.label,
-          type: 'select',
-          api: '',
+          component: 'report-criterion-select',
+          api: 'api/v2/admin/subunits',
           options: [],
         };
         break;
 
-      case 'gender':
+      case 'location':
         field.value = {
           name: props.criterion.label,
-          type: 'select',
-          api: '',
+          component: 'report-criterion-select',
+          api: 'api/v2/admin/locations',
           options: [],
         };
         break;
 
       default:
+        // gender
         field.value = {
           name: props.criterion.label,
-          type: 'select',
-          api: '',
-          options: [],
+          component: 'report-criterion-select',
+          api: null,
+          options: [
+            {id: 'male', label: 'Male'},
+            {id: 'female', label: 'Female'},
+          ],
         };
     }
 

@@ -30,6 +30,7 @@
             <oxd-grid-item>
               <oxd-input-field
                 label="Report Name"
+                placeholder="Type here..."
                 v-model="report.name"
                 :rules="rules.name"
                 required
@@ -48,8 +49,8 @@
               <oxd-input-field
                 type="select"
                 label="Selection Criteria"
-                v-model="report.criteria"
-                :rules="rules.criteria"
+                v-model="report.criterion"
+                :rules="rules.criterion"
                 :options="availableCriteria"
               />
               <oxd-input-group>
@@ -74,6 +75,11 @@
               v-for="(criterion, index) in report.criteriaSelected"
               :key="criterion"
               :criterion="criterion"
+              v-model:operator="
+                report.criteriaFieldValues[criterion.id].operator
+              "
+              v-model:valueX="report.criteriaFieldValues[criterion.id].valueX"
+              v-model:valueY="report.criteriaFieldValues[criterion.id].valueY"
               @delete="removeCriterion(index)"
             >
             </report-criterion>
@@ -116,8 +122,13 @@
             <report-display-field
               v-for="(fieldGroup, index) in report.fieldGroupSelected"
               :key="fieldGroup"
-              :fieldGroup="fieldGroup"
-              :selectedFields="report.displayFieldSelected[fieldGroup.id]"
+              :field-group="fieldGroup"
+              :selected-fields="
+                report.displayFieldSelected[fieldGroup.id].fields
+              "
+              v-model:includeHeader="
+                report.displayFieldSelected[fieldGroup.id].includeHeader
+              "
               @delete="removeDisplayFieldGroup(index)"
               @deleteChip="removeDisplayField($event, index)"
             >
@@ -145,6 +156,7 @@
 <script>
 import {navigate} from '@orangehrm/core/util/helper/navigation';
 import {required} from '@orangehrm/core/util/validation/rules';
+import {APIService} from '@orangehrm/core/util/services/api.service';
 import ReportCriterion from '@/orangehrmPimPlugin/components/ReportCriterion';
 import ReportDisplayField from '@/orangehrmPimPlugin/components/ReportDisplayField';
 
@@ -152,11 +164,12 @@ const reportModel = {
   name: '',
   includeEmployees: {
     id: 1,
-    param: 'onlyCurrent',
+    key: 'onlyCurrent',
     label: 'Current Employees Only',
   },
-  criteria: null,
+  criterion: null,
   criteriaSelected: [],
+  criteriaFieldValues: {},
   fieldGroup: null,
   fieldGroupSelected: [],
   displayField: null,
@@ -184,21 +197,31 @@ export default {
     },
   },
 
+  setup() {
+    const http = new APIService(
+      window.appGlobal.baseUrl,
+      '/api/v2/pim/reports/defined',
+    );
+    return {
+      http,
+    };
+  },
+
   data() {
     return {
       isLoading: false,
       report: {...reportModel},
       rules: {
         name: [required],
-        criteria: [],
+        criterion: [],
         includeEmployees: [],
         fieldGroup: [],
         displayField: [],
       },
       includeOpts: [
-        {id: 1, param: 'onlyCurrent', label: 'Current Employees Only'},
-        {id: 2, param: 'currentAndPast', label: 'Current and Past Employees'},
-        {id: 3, param: 'onlyPast', label: 'Past Employees Only'},
+        {id: 1, key: 'onlyCurrent', label: 'Current Employees Only'},
+        {id: 2, key: 'currentAndPast', label: 'Current and Past Employees'},
+        {id: 3, key: 'onlyPast', label: 'Past Employees Only'},
       ],
     };
   },
@@ -208,17 +231,61 @@ export default {
       navigate('/pim/viewDefinedPredefinedReports');
     },
     onSave() {
-      // TODO: save
+      this.isLoading = true;
+
+      const fieldGroup = {};
+      this.report.fieldGroupSelected.forEach(group => {
+        const fields = this.report.displayFieldSelected[group.id].fields;
+        const includeHeader = this.report.displayFieldSelected[group.id]
+          .includeHeader;
+        fieldGroup[group.id] = {
+          fields: fields.map(field => field.id),
+          includeHeader,
+        };
+      });
+      const criteria = {};
+      this.report.criteriaSelected.forEach(criterion => {
+        const values = this.report.criteriaFieldValues[criterion.id];
+        const valueX = values.operator.valueX;
+        const valueY = values.operator.valueY;
+        criteria[criterion.id] = {
+          operator: values.operator.id,
+          x: typeof valueX === 'object' ? valueX.id : valueX,
+          y: typeof valueY === 'object' ? valueY.id : valueY,
+        };
+      });
+
+      this.http
+        .create({
+          name: this.report.name,
+          include: this.report.includeEmployees?.key,
+          criteria,
+          fieldGroup,
+        })
+        .then(response => {
+          const {data} = response.data;
+          console.log(data);
+          return this.$toast.saveSuccess();
+        })
+        .then(() => {
+          this.onCancel();
+        });
     },
     addCriterion() {
-      if (this.report.criteria) {
-        this.report.criteriaSelected.push(this.report.criteria);
-        this.report.criteria = null;
+      const criterion = this.report.criterion;
+      if (criterion) {
+        this.report.criteriaSelected.push(criterion);
+        this.report.criteriaFieldValues[criterion.id] = {
+          valueX: null,
+          valueY: null,
+          operator: null,
+        };
+        this.report.criterion = null;
       }
     },
     removeCriterion(index) {
-      this.report.criteriaSelected.splice(index, 1);
-      // TODO: reset vmodel
+      const criterion = this.report.criteriaSelected.splice(index, 1);
+      delete this.report.criteriaFieldValues[criterion.id];
     },
     addDisplayField() {
       const fieldGroup = this.report.fieldGroup;
@@ -229,16 +296,21 @@ export default {
         );
         if (groupIndex === -1) {
           this.report.fieldGroupSelected.push(fieldGroup);
-          this.report.displayFieldSelected[fieldGroup.id] = [];
+          this.report.displayFieldSelected[fieldGroup.id] = {
+            fields: [],
+            includeHeader: false,
+          };
         }
-        this.report.displayFieldSelected[fieldGroup.id].push(displayField);
+        this.report.displayFieldSelected[fieldGroup.id].fields.push(
+          displayField,
+        );
         this.report.displayField = null;
       }
     },
     removeDisplayField(item, index) {
       const fieldGroup = this.report.fieldGroupSelected[index];
-      const dispalyField = this.report.displayFieldSelected[fieldGroup.id];
-      this.report.displayFieldSelected[fieldGroup.id] = dispalyField.filter(
+      const fields = this.report.displayFieldSelected[fieldGroup.id].fields;
+      this.report.displayFieldSelected[fieldGroup.id].fields = fields.filter(
         field => field.id !== item.id,
       );
     },
@@ -267,7 +339,7 @@ export default {
       return fieldGroup
         ? fieldGroup.fields.filter(
             field =>
-              !this.report.displayFieldSelected[fieldGroupId]?.find(
+              !this.report.displayFieldSelected[fieldGroupId]?.fields.find(
                 f => f.id === field.id,
               ),
           )

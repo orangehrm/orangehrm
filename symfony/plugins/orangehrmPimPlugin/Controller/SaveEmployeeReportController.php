@@ -37,16 +37,8 @@ class SaveEmployeeReportController extends AbstractVueController
             ["id" => 8, "key" => "employee_name", "label" => "Employee Name"],
             ["id" => 9, "key" => "pay_grade", "label" => "Pay Grade"],
             ["id" => 10, "key" => "education", "label" => "Education"],
-            [
-                "id" => 11,
-                "key" => "employment_status",
-                "label" => "Employment Status",
-            ],
-            [
-                "id" => 12,
-                "key" => "service_period",
-                "label" => "Service Period",
-            ],
+            ["id" => 11, "key" => "employment_status", "label" => "Employment Status"],
+            ["id" => 12, "key" => "service_period", "label" => "Service Period"],
             ["id" => 13, "key" => "joined_date", "label" => "Joined Date"],
             ["id" => 14, "key" => "job_title", "label" => "Job Title"],
             ["id" => 15, "key" => "language", "label" => "Language"],
