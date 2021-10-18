@@ -48,12 +48,19 @@ jobs:
       - name: Run test
         run: |
           XDEBUG_MODE=coverage ./symfony/vendor/bin/phpunit --coverage-html coverage -d memory_limit=512M
+          tar cf - coverage/ | xz -z - > coverage.tar.xz
 
       - name: Upload jest coverage
         uses: actions/upload-artifact@v2
         with:
           name: jest-coverage
           path: symfony/client/coverage
+
+      - name: Upload phpunit coverage
+        uses: actions/upload-artifact@v2
+        with:
+          name: coverage
+          path: coverage.tar.xz
 
   composer_v1_check:
     runs-on: ubuntu-20.04

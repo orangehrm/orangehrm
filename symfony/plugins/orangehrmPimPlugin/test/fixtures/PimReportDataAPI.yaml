@@ -52,34 +52,34 @@ Report:
   - { report_id: 48, name: 'Filter Fields - location - By specific location', report_group_id: 3, use_filter_field: 1, type: 'PIM_DEFINED' }
 
 SelectedFilterField:
-  - { report_id: 5, filter_field_id: 22, value1: null, value2: null, where_condition: 'isNull', type: 'Predefined' }
-  - { report_id: 22, filter_field_id: 8, value1: 1, value2: null, where_condition: 'eq', type: 'Predefined' }
-  - { report_id: 23, filter_field_id: 9, value1: 1, value2: null, where_condition: 'eq', type: 'Predefined' }
-  - { report_id: 24, filter_field_id: 10, value1: 1, value2: null, where_condition: 'eq', type: 'Predefined' }
-  - { report_id: 25, filter_field_id: 11, value1: 1, value2: null, where_condition: 'eq', type: 'Predefined' }
-  - { report_id: 26, filter_field_id: 14, value1: 1, value2: null, where_condition: 'eq', type: 'Predefined' }
-  - { report_id: 27, filter_field_id: 15, value1: 1, value2: null, where_condition: 'eq', type: 'Predefined' }
-  - { report_id: 28, filter_field_id: 16, value1: 2, value2: null, where_condition: 'eq', type: 'Predefined' }
-  - { report_id: 29, filter_field_id: 19, value1: 1, value2: null, where_condition: 'eq', type: 'Predefined' }
-  - { report_id: 30, filter_field_id: 19, value1: 2, value2: null, where_condition: 'eq', type: 'Predefined' }
-  - { report_id: 31, filter_field_id: 18, value1: '2,5', value2: null, where_condition: 'in', type: 'Predefined' }
-  - { report_id: 32, filter_field_id: 18, value1: '3', value2: null, where_condition: 'in', type: 'Predefined' }
-  - { report_id: 33, filter_field_id: 18, value1: '0', value2: null, where_condition: null, type: 'Predefined' }
-  - { report_id: 34, filter_field_id: 22, value1: null, value2: null, where_condition: 'isNull', type: 'Predefined' }
-  - { report_id: 35, filter_field_id: 22, value1: null, value2: null, where_condition: 'isNotNull', type: 'Predefined' }
-  - { report_id: 36, filter_field_id: 22, value1: null, value2: null, where_condition: null, type: 'Predefined' }
-  - { report_id: 37, filter_field_id: 13, value1: '2016-10-18', value2: null, where_condition: 'lt', type: 'Predefined' }
-  - { report_id: 38, filter_field_id: 13, value1: '2017-10-18', value2: null, where_condition: 'gt', type: 'Predefined' }
-  - { report_id: 39, filter_field_id: 13, value1: '2015-10-18', value2: '2020-01-01', where_condition: 'between', type: 'Predefined' }
-  - { report_id: 40, filter_field_id: 17, value1: 27, value2: null, where_condition: 'lt', type: 'Predefined' }
-  - { report_id: 41, filter_field_id: 17, value1: 28, value2: null, where_condition: 'gt', type: 'Predefined' }
-  - { report_id: 42, filter_field_id: 17, value1: 20, value2: 27, where_condition: 'between', type: 'Predefined' }
-  - { report_id: 43, filter_field_id: 12, value1: 4, value2: null, where_condition: 'lt', type: 'Predefined' }
-  - { report_id: 44, filter_field_id: 12, value1: 6, value2: null, where_condition: 'gt', type: 'Predefined' }
-  - { report_id: 45, filter_field_id: 12, value1: 3, value2: 7, where_condition: 'between', type: 'Predefined' }
-  - { report_id: 46, filter_field_id: 20, value1: '1,2,-1', value2: null, where_condition: 'in', type: 'Predefined' }
-  - { report_id: 47, filter_field_id: 20, value1: '1,2,3', value2: null, where_condition: 'in', type: 'Predefined' }
-  - { report_id: 48, filter_field_id: 20, value1: '3', value2: null, where_condition: 'in', type: 'Predefined' }
+  - { report_id: 5, filter_field_id: 22, value1: null, value2: null, where_condition: 'isNull', type: 'Predefined', filterFieldOrder: 1 }
+  - { report_id: 22, filter_field_id: 8, value1: 1, value2: null, where_condition: 'eq', type: 'Predefined', filterFieldOrder: 1 }
+  - { report_id: 23, filter_field_id: 9, value1: 1, value2: null, where_condition: 'eq', type: 'Predefined', filterFieldOrder: 1 }
+  - { report_id: 24, filter_field_id: 10, value1: 1, value2: null, where_condition: 'eq', type: 'Predefined', filterFieldOrder: 1 }
+  - { report_id: 25, filter_field_id: 11, value1: 1, value2: null, where_condition: 'eq', type: 'Predefined', filterFieldOrder: 1 }
+  - { report_id: 26, filter_field_id: 14, value1: 1, value2: null, where_condition: 'eq', type: 'Predefined', filterFieldOrder: 1 }
+  - { report_id: 27, filter_field_id: 15, value1: 1, value2: null, where_condition: 'eq', type: 'Predefined', filterFieldOrder: 1 }
+  - { report_id: 28, filter_field_id: 16, value1: 2, value2: null, where_condition: 'eq', type: 'Predefined', filterFieldOrder: 1 }
+  - { report_id: 29, filter_field_id: 19, value1: 1, value2: null, where_condition: 'eq', type: 'Predefined', filterFieldOrder: 1 }
+  - { report_id: 30, filter_field_id: 19, value1: 2, value2: null, where_condition: 'eq', type: 'Predefined', filterFieldOrder: 1 }
+  - { report_id: 31, filter_field_id: 18, value1: '2,5', value2: null, where_condition: 'in', type: 'Predefined', filterFieldOrder: 1 }
+  - { report_id: 32, filter_field_id: 18, value1: '3', value2: null, where_condition: 'in', type: 'Predefined', filterFieldOrder: 1 }
+  - { report_id: 33, filter_field_id: 18, value1: '0', value2: null, where_condition: null, type: 'Predefined', filterFieldOrder: 1 }
+  - { report_id: 34, filter_field_id: 22, value1: null, value2: null, where_condition: 'isNull', type: 'Predefined', filterFieldOrder: 1 }
+  - { report_id: 35, filter_field_id: 22, value1: null, value2: null, where_condition: 'isNotNull', type: 'Predefined', filterFieldOrder: 1 }
+  - { report_id: 36, filter_field_id: 22, value1: null, value2: null, where_condition: null, type: 'Predefined', filterFieldOrder: 1 }
+  - { report_id: 37, filter_field_id: 13, value1: '2016-10-18', value2: null, where_condition: 'lt', type: 'Predefined', filterFieldOrder: 1 }
+  - { report_id: 38, filter_field_id: 13, value1: '2017-10-18', value2: null, where_condition: 'gt', type: 'Predefined', filterFieldOrder: 1 }
+  - { report_id: 39, filter_field_id: 13, value1: '2015-10-18', value2: '2020-01-01', where_condition: 'between', type: 'Predefined', filterFieldOrder: 1 }
+  - { report_id: 40, filter_field_id: 17, value1: 27, value2: null, where_condition: 'lt', type: 'Predefined', filterFieldOrder: 1 }
+  - { report_id: 41, filter_field_id: 17, value1: 28, value2: null, where_condition: 'gt', type: 'Predefined', filterFieldOrder: 1 }
+  - { report_id: 42, filter_field_id: 17, value1: 20, value2: 27, where_condition: 'between', type: 'Predefined', filterFieldOrder: 1 }
+  - { report_id: 43, filter_field_id: 12, value1: 4, value2: null, where_condition: 'lt', type: 'Predefined', filterFieldOrder: 1 }
+  - { report_id: 44, filter_field_id: 12, value1: 6, value2: null, where_condition: 'gt', type: 'Predefined', filterFieldOrder: 1 }
+  - { report_id: 45, filter_field_id: 12, value1: 3, value2: 7, where_condition: 'between', type: 'Predefined', filterFieldOrder: 1 }
+  - { report_id: 46, filter_field_id: 20, value1: '1,2,-1', value2: null, where_condition: 'in', type: 'Predefined', filterFieldOrder: 1 }
+  - { report_id: 47, filter_field_id: 20, value1: '1,2,3', value2: null, where_condition: 'in', type: 'Predefined', filterFieldOrder: 1 }
+  - { report_id: 48, filter_field_id: 20, value1: '3', value2: null, where_condition: 'in', type: 'Predefined', filterFieldOrder: 1 }
 
 SelectedDisplayField:
   - { report_id: 5 , display_field_id: 9 }
@@ -398,10 +398,6 @@ Employee:
   - { "emp_number": 5,"employee_id": "0005","emp_lastname": "Abel","emp_firstname": "Ashley","emp_middle_name": "", "termination_id": 1, work_station: 3, emp_status: 2, eeo_cat_code: 1, joinedDate: '2015-10-18' }
   - { "emp_number": 6,"employee_id": "0006","emp_lastname": "Morgan","emp_firstname": "Jasmine","emp_middle_name": "", gender: 1, maritalStatus: 'Single', emp_status: 1, birthday: '1995-10-02' }
 
-Country:
-  - { cou_code: 'LK', name: 'SRI LANKA', cou_name: 'Sri Lanka', iso3: 'LKA', numcode: 144 }
-  - { cou_code: 'US', name: 'UNITED STATES', cou_name: 'United States', iso3: 'USA', numcode: 840 }
-
 Location:
   - { id: 1, name: 'Head', country_code: 'US' }
   - { id: 2, name: 'Development', country_code: 'US' }
@@ -422,19 +418,6 @@ ReportTo:
   - { "erep_sup_emp_number": "1","erep_sub_emp_number": "3","erep_reporting_mode": "1" }
   - { "erep_sup_emp_number": "2","erep_sub_emp_number": "1","erep_reporting_mode": "1" }
   - { "erep_sup_emp_number": "2","erep_sub_emp_number": "3","erep_reporting_mode": "2" }
-
-#UserRole:
-#  - { id: 1, name: Admin, display_name: Admin, is_assignable: 1, is_predefined: 1 }
-#  - { id: 2, name: ESS, display_name: ESS, is_assignable: 1, is_predefined: 1 }
-#  - { id: 3, name: Supervisor, display_name: Supervisor, is_assignable: 0, is_predefined: 1 }
-#
-#User:
-#  - { "id": 1, "user_role_id": 1, "emp_number": 4, "user_name": "admin","user_password": "admin","deleted": 0,"status": "1","date_modified": "2021-09-15 16:51:16","modified_user_id": "1" }
-#  - { "id": 2, "user_role_id": 2, "emp_number": 1, "user_name": "Adalwin","user_password": "Adalwin","deleted": 0,"status": "1","date_entered": "2021-09-15 16:47:14","created_by": "1" }
-#  - { "id": 3, "user_role_id": 2, "emp_number": 2, "user_name": "Anderson","user_password": "Anderson","deleted": 0,"status": "1","date_entered": "2021-09-15 16:47:53","created_by": "1" }
-#  - { "id": 4, "user_role_id": 2, "emp_number": 3, "user_name": "Duval","user_password": "Duval","deleted": 0,"status": "1","date_entered": "2021-09-15 16:48:40","created_by": "1" }
-#  - { "id": 5, "user_role_id": 2, "emp_number": 5, "user_name": "Ashley","user_password": "Ashley","deleted": 0,"status": "1","date_entered": "2021-09-15 20:05:27","created_by": "1" }
-#  - { "id": 6, "user_role_id": 2, "emp_number": 6, "user_name": "Morgan","user_password": "Morgan","deleted": 0,"status": "1","date_entered": "2021-09-15 20:50:02","created_by": "1" }
 
 Education:
   - { id: 1, name: 'BSc' }
