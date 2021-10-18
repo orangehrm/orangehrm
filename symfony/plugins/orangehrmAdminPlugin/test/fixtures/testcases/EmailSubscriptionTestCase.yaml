@@ -1,0 +1,32 @@
+GetAll:
+  'get all email subscription list':
+    userId: 1
+    attributes: [ ]
+    body: [ ]
+    query:
+      limit: 2
+    data:
+      0:
+        id: 1
+        name: 'Leave Applications'
+        isEnabled: false
+      1:
+        id: 3
+        name: 'Leave Approvals'
+        isEnabled: false
+    meta:
+      total: 5
+
+Update:
+  'edit an existing email subscription by id':
+    userId: 1
+    attributes:
+      id: 1
+    body:
+      enabled: true
+    query: [ ]
+    data:
+      id: 1
+      name: 'Leave Applications'
+      isEnabled: true
+    meta: [ ]
