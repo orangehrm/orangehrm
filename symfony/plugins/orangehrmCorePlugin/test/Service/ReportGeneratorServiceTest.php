@@ -22,6 +22,7 @@ namespace OrangeHRM\Tests\Core\Service;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Service\ReportGeneratorService;
+use OrangeHRM\Pim\Dto\PimReportSearchFilterParams;
 use OrangeHRM\Tests\Util\TestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 
@@ -107,5 +108,31 @@ class ReportGeneratorServiceTest extends TestCase
             ),
             $header->getMeta()
         );
+    }
+
+    public function testGetNormalizedReportData(): void
+    {
+        $filterParams = new PimReportSearchFilterParams();
+        $filterParams->setReportId(5);
+        $reportData = $this->reportGeneratorService->getNormalizedReportData($filterParams);
+
+        $this->assertEquals(
+            [
+                [
+                    'employeeId' => '0001',
+                    'employeeLastname' => 'Abbey',
+                    'employeeFirstname' => 'Kayla',
+                    'employeeMiddlename' => 'T',
+                ],
+                [
+                    'employeeId' => '0002',
+                    'employeeLastname' => 'Abel',
+                    'employeeFirstname' => 'Ashley',
+                    'employeeMiddlename' => 'ST',
+                ],
+            ],
+            $reportData
+        );
+        $this->assertEquals(2, $this->reportGeneratorService->getReportDataCount($filterParams));
     }
 }

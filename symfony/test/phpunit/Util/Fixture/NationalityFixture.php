@@ -17,39 +17,35 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Core\Report\FilterField;
+namespace OrangeHRM\Tests\Util\Fixture;
 
-use OrangeHRM\ORM\QueryBuilderWrapper;
+use OrangeHRM\Entity\Nationality;
 
-class Subunit extends FilterField
+class NationalityFixture extends AbstractFixture
 {
     /**
      * @inheritDoc
-     *
-     * Possible operators:
-     *   - Operator::IN    <--- default operator
-     *   - NULL            <--- when select all subunits
-     * Possible x values:
-     *   - 1,2,3     <--- when select top level subunit
-     *   - 1         <--- when select leaf level subunit
-     *   - 0         <--- when select all subunits
      */
-    public function addWhereToQueryBuilder(QueryBuilderWrapper $queryBuilderWrapper): void
+    protected function getContent(): array
     {
-        $qb = $queryBuilderWrapper->getQueryBuilder();
-        if ($this->getOperator() === Operator::IN && !empty($this->getX())) {
-            // explode comma seperated subunit chain when defining the PIM report
-            $subunitIds = explode(',', $this->getX());
-            $qb->andWhere($qb->expr()->in('employee.subDivision', ':Subunit_subDivisions'))
-                ->setParameter('Subunit_subDivisions', $subunitIds);
+        /** @var Nationality[] $nationalities */
+        $nationalities = $this->getEntityManager()->getRepository(Nationality::class)->findAll();
+        $results = [];
+        foreach ($nationalities as $nationality) {
+            $result = [];
+            $result['id'] = $nationality->getId();
+            $result['name'] = $nationality->getName();
+            $results[] = $result;
         }
+
+        return ['Nationality' => $results];
     }
 
     /**
      * @inheritDoc
      */
-    public function getEntityAliases(): array
+    public static function getFileName(): string
     {
-        return ['employee'];
+        return 'Nationality.yaml';
     }
 }

@@ -20,6 +20,7 @@
 namespace OrangeHRM\Tests\Util\Fixture;
 
 use OrangeHRM\Entity\DisplayField;
+use OrangeHRM\Entity\DisplayFieldGroup;
 
 class DisplayFieldFixture extends AbstractFixture
 {
@@ -31,8 +32,6 @@ class DisplayFieldFixture extends AbstractFixture
         /** @var DisplayField[] $filterFields */
         $filterFields = $this->getEntityManager()->getRepository(DisplayField::class)->findAll();
         $results = [];
-        $displayGroupIds = [null];
-        $displayGroups = [];
         foreach ($filterFields as $filterField) {
             $result = [];
             $result['id'] = $filterField->getId();
@@ -52,17 +51,19 @@ class DisplayFieldFixture extends AbstractFixture
             if ($filterField->getDisplayFieldGroup()) {
                 $result['display_field_group_id'] = $filterField->getDisplayFieldGroup()->getId();
             }
-            if (isset($result['display_field_group_id']) &&
-                !in_array($result['display_field_group_id'], $displayGroupIds)) {
-                $displayGroupIds[] = $result['display_field_group_id'];
-                $displayGroups[] = [
-                    'id' => $filterField->getDisplayFieldGroup()->getId(),
-                    'name' => $filterField->getDisplayFieldGroup()->getName(),
-                    'isList' => (int)$filterField->getDisplayFieldGroup()->isList(),
-                    'report_group_id' => $filterField->getDisplayFieldGroup()->getReportGroup()->getId(),
-                ];
-            }
             $results[] = $result;
+        }
+
+        /** @var DisplayFieldGroup[] $displayFieldGroups */
+        $displayFieldGroups = $this->getEntityManager()->getRepository(DisplayFieldGroup::class)->findAll();
+        $displayGroups = [];
+        foreach ($displayFieldGroups as $displayFieldGroup) {
+            $displayGroups[] = [
+                'id' => $displayFieldGroup->getId(),
+                'name' => $displayFieldGroup->getName(),
+                'isList' => (int)$displayFieldGroup->isList(),
+                'report_group_id' => $displayFieldGroup->getReportGroup()->getId(),
+            ];
         }
 
         return ['DisplayFieldGroup' => $displayGroups, 'DisplayField' => $results];
