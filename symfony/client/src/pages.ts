@@ -64,6 +64,8 @@ import EditModuleConfiguration from '@/orangehrmAdminPlugin/pages/moduleConfigur
 import WorkShift from '@/orangehrmAdminPlugin/pages/workShift/WorkShift.vue';
 import SaveWorkShift from '@/orangehrmAdminPlugin/pages/workShift/SaveWorkShift.vue';
 import EditWorkShift from '@/orangehrmAdminPlugin/pages/workShift/EditWorkShift.vue';
+import EmailSubscription from '@/orangehrmAdminPlugin/pages/emailSubscription/EmailSubscription.vue';
+import EditEmailSubscription from '@/orangehrmAdminPlugin/pages/emailSubscription/EditEmailSubscription.vue';
 
 export default {
   'job-title-list': JobTitle,
@@ -115,4 +117,6 @@ export default {
   'work-shift-list': WorkShift,
   'work-shift-save': SaveWorkShift,
   'work-shift-edit': EditWorkShift,
+  'email-subscription-list': EmailSubscription,
+  'email-subscription-edit': EditEmailSubscription,
 };
