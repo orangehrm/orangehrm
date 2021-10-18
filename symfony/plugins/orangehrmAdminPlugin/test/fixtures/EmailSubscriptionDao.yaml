@@ -24,8 +24,8 @@ User:
   - { "id": 3, "user_role_id": 2, "emp_number": 3, "user_name": "Anderson","user_password": "Anderson","deleted": "0","status": "1","date_entered": "2021-09-15 16:47:53","created_by": "1" }
 
 EmailNotification:
-  - { "id": 1, "name": 'Leave Applications', "is_enable": false }
-  - { "id": 2, "name": 'Leave Assignments', "is_enable": false }
-  - { "id": 3, "name": 'Leave Approvals', "is_enable": false }
-  - { "id": 4, "name": 'Leave Cancellations', "is_enable": false }
-  - { "id": 5, "name": 'Leave Rejections', "is_enable": false }
+  - { "id": 1, "name": 'Leave Applications', "is_enable": 0 }
+  - { "id": 2, "name": 'Leave Assignments', "is_enable": 0 }
+  - { "id": 3, "name": 'Leave Approvals', "is_enable": 0 }
+  - { "id": 4, "name": 'Leave Cancellations', "is_enable": 0 }
+  - { "id": 5, "name": 'Leave Rejections', "is_enable": 0 }
