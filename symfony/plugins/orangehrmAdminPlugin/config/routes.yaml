@@ -484,3 +484,13 @@ edit_work_shift:
   path: /admin/saveWorkShifts/{id}
   controller: OrangeHRM\Admin\Controller\SaveWorkShiftController::handle
   methods: [ GET ]
+
+view_email_subscription:
+  path: /admin/viewEmailNotification
+  controller: OrangeHRM\Admin\Controller\EmailSubscriptionController::handle
+  methods: [ GET ]
+
+edit_email_subscription:
+  path: /admin/saveSubscriber/{id}
+  controller: OrangeHRM\Admin\Controller\SaveEmailSubscriptionController::handle
+  methods: [ GET ]
