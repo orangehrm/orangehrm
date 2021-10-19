@@ -19,9 +19,9 @@
 
 namespace OrangeHRM\Admin\Api\Model;
 
-use OrangeHRM\Entity\EmailNotification;
 use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
+use OrangeHRM\Entity\EmailNotification;
 
 class EmailSubscriptionModel implements Normalizable
 {
@@ -34,6 +34,7 @@ class EmailSubscriptionModel implements Normalizable
             [
                 'id',
                 'name',
+                ['getEmailSubscribers', ['getId', 'getName', 'getEmail']],
                 ['isEnabled'],
             ]
         );
@@ -41,6 +42,7 @@ class EmailSubscriptionModel implements Normalizable
             [
                 'id',
                 'name',
+                ['subscribers', ['id', 'name', 'email']],
                 ['isEnabled'],
             ]
         );

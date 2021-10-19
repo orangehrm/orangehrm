@@ -10,10 +10,16 @@ GetAll:
         id: 1
         name: 'Leave Applications'
         isEnabled: false
+        subscribers:
+          0:
+            id: 1
+            name: 'rajitha'
+            email: 'rajitha@ohrm.com'
       1:
         id: 3
         name: 'Leave Approvals'
         isEnabled: false
+        subscribers: [ ]
     meta:
       total: 5
 
@@ -29,4 +35,9 @@ Update:
       id: 1
       name: 'Leave Applications'
       isEnabled: true
+      subscribers:
+        0:
+          id: 1
+          name: 'rajitha'
+          email: 'rajitha@ohrm.com'
     meta: [ ]

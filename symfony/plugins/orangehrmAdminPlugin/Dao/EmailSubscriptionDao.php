@@ -43,6 +43,7 @@ class EmailSubscriptionDao extends BaseDao
     public function getEmailSubscriptionList(EmailSubscriptionSearchFilterParams $emailSubscriptionSearchFilterParams
     ): Paginator {
         $q = $this->createQueryBuilder(EmailNotification::class, 'emailSubscription');
+        $q->leftJoin('emailSubscription.emailSubscribers', 'emailSubscribers');
         $this->setSortingAndPaginationParams($q, $emailSubscriptionSearchFilterParams);
         return $this->getPaginator($q);
     }

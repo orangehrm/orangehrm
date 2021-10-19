@@ -29,3 +29,7 @@ EmailNotification:
   - { "id": 3, "name": 'Leave Approvals', "is_enable": 0 }
   - { "id": 4, "name": 'Leave Cancellations', "is_enable": 0 }
   - { "id": 5, "name": 'Leave Rejections', "is_enable": 0 }
+
+EmailSubscriber:
+  - { "id": 1, "notification_id": 1, "name": 'rajitha',"email": 'rajitha@ohrm.com' }
+  - { "id": 2, "notification_id": 5, "name": 'chamara',"email": 'chamara@ohrm.com' }
