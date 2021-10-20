@@ -264,6 +264,10 @@ class ReportGeneratorDao extends BaseDao
             $q->andWhere($q->expr()->like('report.name', ':reportName'));
             $q->setParameter('reportName', '%' . $pimDefinedReportSearchFilterParams->getName() . '%');
         }
+        if (!empty($pimDefinedReportSearchFilterParams->getReportId())) {
+            $q->andWhere('report.id = :reportId');
+            $q->setParameter('reportId', $pimDefinedReportSearchFilterParams->getReportId());
+        }
         $q->andWhere('rg.name = :reportGroupName');
         $q->setParameter('reportGroupName', 'pim');
         return $this->getPaginator($q);

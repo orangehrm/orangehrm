@@ -634,3 +634,18 @@ pim_employee_csv_import:
   path: /pim/pimCsvImport
   controller: OrangeHRM\Pim\Controller\EmployeeCsvImportController::handle
   methods: [ GET ]
+  
+pim_view_employee_reports:
+  path: /pim/viewDefinedPredefinedReports
+  controller: OrangeHRM\Pim\Controller\EmployeeReportController::handle
+  methods: [ GET ]
+
+pim_save_employee_reports:
+  path: /pim/definePredefinedReport
+  controller: OrangeHRM\Pim\Controller\SaveEmployeeReportController::handle
+  methods: [ GET ]
+
+pim_display_employee_report:
+  path: /pim/displayPredefinedReport/{id}
+  controller: OrangeHRM\Pim\Controller\EmployeeReportController::handle
+  methods: [ GET ]

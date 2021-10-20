@@ -20,6 +20,7 @@
 
 <template>
   <reports-table
+    module="leave"
     :name="filters.type"
     :filters="serializedFilters"
     :column-count="6"
@@ -136,6 +137,7 @@
           </oxd-form-actions>
         </oxd-form>
       </oxd-table-filter>
+      <br />
     </template>
   </reports-table>
 </template>
