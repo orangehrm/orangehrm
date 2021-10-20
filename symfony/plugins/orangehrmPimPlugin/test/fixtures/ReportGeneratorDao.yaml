@@ -50,6 +50,7 @@ FilterField:
   - { filter_field_id: 1, report_group_id: 1, name: 'education', where_clause_part: 'ohrm_emp_education.education_id', filter_field_widget: 'ohrmReportWidgetEducationtypeDropDown', condition_no: 1, required: null }
   - { filter_field_id: 2, report_group_id: 1, name: 'include', where_clause_part: 'hs_hr_employee.termination_id', filter_field_widget: 'ohrmReportWidgetIncludedEmployeesDropDown', condition_no: 1, required: 'true' }
   - { filter_field_id: 3, report_group_id: 1, name: 'location', where_clause_part: 'ohrm_location.id', filter_field_widget: 'ohrmReportWidgetOperationalCountryLocationDropDown', condition_no: 1, required: null }
+  - { filter_field_id: 4, report_group_id: 1, name: 'include', where_clause_part: 'hs_hr_employee.termination_id', filter_field_widget: 'ohrmReportWidgetOperationalCountryLocationDropDown', condition_no: 1, required: null }
 
 SelectedDisplayFieldGroup:
   - { id: 1, report_id: 1, display_field_group_id: 1 }
@@ -63,5 +64,6 @@ SelectedDisplayField:
   - { id: 5, display_field_id: 5, report_id: 1 }
 
 SelectedFilterField:
-  - { report_id: 1, filter_field_id: 1, filter_field_order: 1, value1: null, value2: null, where_condition: null, type: 'Runtime' }
-  - { report_id: 1, filter_field_id: 2, filter_field_order: 2, value1: null, value2: null, where_condition: null, type: 'Runtime' }
+  - { report_id: 1, filter_field_id: 4, filter_field_order: 1, value1: null, value2: null, where_condition: null, type: 'Runtime' }
+  - { report_id: 1, filter_field_id: 1, filter_field_order: 2, value1: null, value2: null, where_condition: null, type: 'Runtime' }
+  - { report_id: 1, filter_field_id: 2, filter_field_order: 3, value1: null, value2: null, where_condition: null, type: 'Runtime' }
