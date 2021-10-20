@@ -20,6 +20,7 @@
 
 <template>
   <reports-table
+    module="leave"
     name="employee_leave_entitlements_and_usage"
     :prefetch="true"
     :filters="serializedFilters"
@@ -55,6 +56,7 @@
           </oxd-form-actions>
         </oxd-form>
       </oxd-table-filter>
+      <br />
     </template>
   </reports-table>
 </template>
