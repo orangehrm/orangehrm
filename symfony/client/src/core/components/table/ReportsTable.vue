@@ -21,13 +21,12 @@
 <template>
   <div class="orangehrm-background-container">
     <slot :generateReport="generateReport"></slot>
-    <br />
     <div v-if="headers.length !== 0" class="orangehrm-paper-container">
       <oxd-report-table
         :items="items"
         :headers="headers"
         :loading="isLoading"
-        :column-count="columnCount"
+        :column-count="colCount"
       >
         <template v-slot:pagination>
           <oxd-text class="orangehrm-horizontal-margin --count" tag="span">
@@ -63,6 +62,10 @@ export default {
       type: String,
       required: true,
     },
+    module: {
+      type: String,
+      required: true,
+    },
     prefetch: {
       type: Boolean,
       default: false,
@@ -73,17 +76,18 @@ export default {
     },
     columnCount: {
       type: Number,
-      required: true,
+      required: false,
     },
   },
 
   setup(props) {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      'api/v2/leave/reports/data',
+      `api/v2/${props.module}/reports/data`,
     );
 
     const headers = ref([]);
+    const colCount = ref(props.columnCount ? props.columnCount : 0);
     const serializedFilters = computed(() => {
       return {...props.filters, name: props.name};
     });
@@ -117,13 +121,14 @@ export default {
       http
         .request({
           type: 'GET',
-          url: 'api/v2/leave/reports',
+          url: `api/v2/${props.module}/reports`,
           params: {
             name: serializedFilters.value.name,
+            reportId: serializedFilters.value?.reportId,
           },
         })
         .then(response => {
-          const data = response.data.data;
+          const {data, meta} = response.data;
           headers.value = data.headers.map(header => {
             delete header['size'];
             const cellProperties = function({prop, model}) {
@@ -138,6 +143,9 @@ export default {
               cellProperties,
             };
           });
+          if (meta.headers?.columnCount) {
+            colCount.value = meta.headers.columnCount;
+          }
           isLoading.value = false;
         });
     };
@@ -160,6 +168,7 @@ export default {
       pages,
       items,
       headers,
+      colCount,
       isLoading,
       currentPage,
       itemCountText,
