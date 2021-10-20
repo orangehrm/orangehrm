@@ -365,4 +365,108 @@ class ReportGeneratorDao extends BaseDao
             ->getQuery()
             ->execute();
     }
+
+    /**
+     * @param int $reportId
+     * @return int[]
+     */
+    public function getSelectedDisplayFieldListByReportId(int $reportId): array
+    {
+        $q = $this->createQueryBuilder(DisplayField::class, 'df');
+        $q->leftJoin('df.selectedDisplayFields', 'sdf');
+        $q->select('df.id');
+        $q->andWhere('sdf.report = :reportId')
+            ->setParameter('reportId', $reportId);
+        $result = $q->getQuery()->getArrayResult();
+        return array_column($result, 'id');
+    }
+
+    /**
+     * @param int $reportId
+     * @param int $reportGroupId
+     * @return int[]
+     */
+    public function getSelectedDisplayFieldIdByReportGroupId(int $reportId, int $reportGroupId): array
+    {
+        $q = $this->createQueryBuilder(SelectedDisplayField::class, 'sdf');
+        $q->leftJoin('sdf.displayField', 'df');
+        $q->select('df.id');
+        $q->andWhere('sdf.report = :reportId')
+            ->setParameter('reportId', $reportId);
+        $q->andWhere('df.displayFieldGroup = :displayFieldGroup')
+            ->setParameter('displayFieldGroup', $reportGroupId);
+        $result = $q->getQuery()->getArrayResult();
+        return array_column($result, 'id');
+    }
+
+    /**
+     * @param int $reportId
+     * @return SelectedFilterField|null
+     */
+    public function getIncludeType(int $reportId): ?SelectedFilterField
+    {
+        $filterFieldByInclude = $this->getFilterFieldByName('include');
+        $selectedFilterField = $this->getRepository(SelectedFilterField::class)->findOneBy(['report' => $reportId,'filterField' => $filterFieldByInclude->getId()]);
+        return ($selectedFilterField instanceof SelectedFilterField) ? $selectedFilterField : null;
+    }
+
+    /**
+     * @param int $reportId
+     * @param int $displayGroupId
+     * @return SelectedDisplayFieldGroup[]
+     */
+    public function isIncludeHeader(int $reportId, int $displayGroupId): array
+    {
+        // this method for getting the display field group ids that saved in the database as header true
+        $q = $this->createQueryBuilder(SelectedDisplayFieldGroup::class, 'selectedDisplayFieldGroup');
+        $q->andWhere('selectedDisplayFieldGroup.report = :reportId')
+            ->setParameter('reportId', $reportId);
+        $q->andWhere('selectedDisplayFieldGroup.displayFieldGroup = :displayFieldGroupId')
+            ->setParameter('displayFieldGroupId', $displayGroupId);
+        return $q->getQuery()->execute();
+    }
+
+    /**
+     * @param int $reportId
+     * @return int[]
+     */
+    public function getDisplayFieldGroupIdList(int $reportId): array
+    {
+        // this method for getting all display field group ids that saved in the database
+        $displayFieldGroups = $this->getDisplayFieldGroupIds($reportId);
+        $displayFieldGroupIds = [];
+        foreach ($displayFieldGroups as $displayFieldGroup){
+            array_push($displayFieldGroupIds,$displayFieldGroup->getDisplayFieldGroup()->getId());
+        }
+        return $displayFieldGroupIds;
+    }
+
+    /**
+     * @param int $reportId
+     * @return DisplayField[]
+     */
+    public function getDisplayFieldGroupIds(int $reportId): array
+    {
+        $q = $this->createQueryBuilder(DisplayField::class, 'df');
+        $q->leftJoin('df.displayFieldGroup', 'dfg');
+        $q->leftJoin('df.selectedDisplayFields', 'sdf');
+        $q->andWhere('sdf.report = :reportId')
+            ->setParameter('reportId', $reportId);
+        $q->groupBy('df.displayFieldGroup');
+        return $q->getQuery()->execute();
+    }
+
+    /**
+     * @param int $reportId
+     * @return SelectedFilterField[]
+     */
+    public function getSkippedSelectedFilterFieldsByReportId(int $reportId): array
+    {
+        $q = $this->createQueryBuilder(SelectedFilterField::class, 'sff');
+        $q->andWhere('sff.report = :reportId')
+            ->setParameter('reportId', $reportId);
+        $q->andWhere('sff.filterFieldOrder != :order')
+            ->setParameter('order', 1);
+        return $q->getQuery()->execute();
+    }
 }
