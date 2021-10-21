@@ -30,16 +30,18 @@ use OrangeHRM\Core\Registration\Service\RegistrationAPIClientService;
 use OrangeHRM\Core\Service\ConfigService;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\RegistrationEventQueue;
+use OrangeHRM\Pim\Dao\EmployeeDao;
 use sysConf;
 
 abstract class AbstractRegistrationEventProcessor
 {
+
     public sysConf $sysConf;
-    public RegistrationEventQueueDao $registrationEventQueueDao;
-    public ConfigService $configService;
-    public RegistrationAPIClientService $registrationAPIClientService;
-    public OrganizationService $organizationService;
-    public MarketplaceDao $marketplaceDao;
+    public ?RegistrationEventQueueDao $registrationEventQueueDao = null;
+    public ?ConfigService $configService = null;
+    public ?RegistrationAPIClientService $registrationAPIClientService = null;
+    public ?OrganizationService $organizationService = null;
+    public ?MarketplaceDao $marketplaceDao = null;
 
     /**
      * @return RegistrationEventQueueDao
@@ -64,9 +66,20 @@ abstract class AbstractRegistrationEventProcessor
     }
 
     /**
+     * @return EmployeeDao
+     */
+    public function getEmployeeDao(): EmployeeDao
+    {
+        if (!isset($this->employeeDao)) {
+            $this->employeeDao = new EmployeeDao();
+        }
+        return $this->employeeDao;
+    }
+
+    /**
      * @return ConfigService
      */
-    private function getConfigService(): ConfigService
+    public function getConfigService(): ConfigService
     {
         if (!($this->configService instanceof ConfigService)) {
             $this->configService = new ConfigService();
@@ -124,10 +137,10 @@ abstract class AbstractRegistrationEventProcessor
     /**
      * @return RegistrationEventQueue|void
      */
-    public function saveRegistrationEvent()
+    public function saveRegistrationEvent($eventTime)
     {
         if ($this->getEventToBeSavedOrNot()) {
-            $registrationEvent = $this->processRegistrationEventToSave();
+            $registrationEvent = $this->processRegistrationEventToSave($eventTime);
             return $this->getRegistrationEventQueueDao()->saveRegistrationEvent($registrationEvent);
         }
     }
@@ -139,7 +152,7 @@ abstract class AbstractRegistrationEventProcessor
     {
         $registrationData = [];
         try {
-            $adminEmployee = $this->getMarketplaceDao()->getAdmin();
+            $adminEmployee = $this->getEmployeeDao()->getEmployeeByEmpNumber(1);
             $language = $this->getConfigService()->getAdminLocalizationDefaultLanguage() ? $this->getConfigService(
             )->getAdminLocalizationDefaultLanguage() : 'Not captured';
             $country = $this->getOrganizationService()->getOrganizationGeneralInformation()->getCountry(
@@ -157,7 +170,7 @@ abstract class AbstractRegistrationEventProcessor
                 $adminFirstName = $adminEmployee->getFirstName();
                 $adminLastName = $adminEmployee->getLastName();
                 $adminContactNumber = $adminEmployee->getWorkTelephone();
-                $username = $adminEmployee->getUsers() ? $adminEmployee->getUsers()->get(0)->getUserName() : '';
+                $username = 'admin'; //TODO this needs to be corrected
             }
 
             return array(
@@ -179,14 +192,16 @@ abstract class AbstractRegistrationEventProcessor
     }
 
     /**
+     * @param DateTime $eventTime
      * @return RegistrationEventQueue
      */
-    public function processRegistrationEventToSave(): RegistrationEventQueue
+    public function processRegistrationEventToSave(DateTime $eventTime): RegistrationEventQueue
     {
         $registrationData = $this->getEventData();
         $registrationEvent = new RegistrationEventQueue();
-        $registrationEvent->setEventTime(new DateTime());
+        $registrationEvent->setEventTime($eventTime);
         $registrationEvent->setEventType($this->getEventType());
+        $registrationEvent->setPublished(0);
         $registrationEvent->setData($registrationData);
         return $registrationEvent;
     }

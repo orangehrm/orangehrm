@@ -20,7 +20,6 @@
 namespace OrangeHRM\Core\Registration\Service;
 
 use Exception;
-use GuzzleHttp\Client;
 use sysConf;
 
 class RegistrationAPIClientService
@@ -45,10 +44,10 @@ class RegistrationAPIClientService
         return $this->getSysConf()->getRegistrationUrl();
     }
 
-    private function getApiClient(): Client
+    private function getApiClient(): \GuzzleHttp\Client
     {
         if (!isset($this->apiClient)) {
-            $this->apiClient = new Client(['base_uri' => $this->getRegistrationUrl(), 'verify' => false]);
+            $this->apiClient = new \GuzzleHttp\Client(['base_uri' => $this->getRegistrationUrl(), 'verify' => false]);
         }
         return $this->apiClient;
     }
