@@ -159,7 +159,7 @@ abstract class AbstractRegistrationEventProcessor
             ) ? $this->getOrganizationService()->getOrganizationGeneralInformation()->getCountry() : null;
             $instanceIdentifier = $this->getInstanceIdentifier();
             $organizationName = $this->getOrganizationService()->getOrganizationGeneralInformation()->getName();
-            $systemDetails = '';
+            $systemDetails = ''; // TODO this needs refractoring
             $organizationEmail = '';
             $adminFirstName = '';
             $adminLastName = '';
