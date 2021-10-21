@@ -32,6 +32,7 @@ use OrangeHRM\Core\Service\ReportGeneratorService;
 class PimReportDataAPI extends ReportDataAPI
 {
     private ?ReportGeneratorService $reportGeneratorService = null;
+    private ?ParamRuleCollection $paramRules = null;
 
     /**
      * @return ReportGeneratorService
@@ -67,16 +68,21 @@ class PimReportDataAPI extends ReportDataAPI
      */
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
-        return new ParamRuleCollection(
-            $this->getReportNameParamRule(),
-            new ParamRule(
-                PimReportAPI::PARAMETER_REPORT_ID,
-                new Rule(Rules::POSITIVE),
-                new Rule(
-                    Rules::CALLBACK,
-                    [fn($id) => $this->getReportGeneratorService()->isPimReport($id)]
+        if (!$this->paramRules instanceof ParamRuleCollection) {
+            $this->paramRules = new ParamRuleCollection(
+                $this->getReportNameParamRule(),
+                new ParamRule(
+                    PimReportAPI::PARAMETER_REPORT_ID,
+                    new Rule(Rules::POSITIVE),
+                    new Rule(
+                        Rules::CALLBACK,
+                        [fn($id) => $this->getReportGeneratorService()->isPimReport($id)]
+                    )
                 )
-            )
-        );
+            );
+            // Not validation additional parameter, let it validate within getAll
+            $this->paramRules->setStrict(false);
+        }
+        return $this->paramRules;
     }
 }

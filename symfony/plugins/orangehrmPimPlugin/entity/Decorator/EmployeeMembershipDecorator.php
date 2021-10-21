@@ -106,6 +106,6 @@ class EmployeeMembershipDecorator
             return null;
         }
         $currency = $payGradeService->getCurrencyById($currencyCode);
-        return $currency->getName();
+        return $currency ? $currency->getName() : null;
     }
 }

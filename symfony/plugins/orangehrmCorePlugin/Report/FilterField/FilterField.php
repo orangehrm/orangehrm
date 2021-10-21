@@ -39,7 +39,7 @@ abstract class FilterField
         $this->order = $order;
         $this->x = $x;
         $this->y = $y;
-        $this->operator = Operator::MAP[$operator] ?? null;
+        $this->operator = $operator;
     }
 
     /**
