@@ -109,6 +109,15 @@ class EmployeeImmigrationRecordDecorator
             return null;
         }
         $country = $countryService->getCountryByCountryCode($countryCode);
-        return $country->getCountryName();
+        return $country ? $country->getCountryName() : null;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getDocumentType(): ?string
+    {
+        $type = $this->getEmployeeImmigrationRecord()->getType();
+        return EmployeeImmigrationRecord::DOCUMENT_TYPE_MAP[$type] ?? null;
     }
 }

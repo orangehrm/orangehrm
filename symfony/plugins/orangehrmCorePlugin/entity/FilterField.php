@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -78,6 +79,25 @@ class FilterField
      * @ORM\Column(name="required", type="string", length=10, nullable=true)
      */
     private ?string $required = null;
+
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="class_name", type="string", length=255, nullable=true)
+     */
+    private ?string $className = null;
+
+    /**
+     * @var SelectedFilterField[]
+     *
+     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\SelectedFilterField", mappedBy="filterField")
+     */
+    private iterable $selectedFilterFields;
+
+    public function __construct()
+    {
+        $this->selectedFilterFields = new ArrayCollection();
+    }
 
     /**
      * @return int
@@ -189,5 +209,21 @@ class FilterField
     public function setRequired(bool $required): void
     {
         $this->required = $required ? 'true' : 'false';
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getClassName(): ?string
+    {
+        return $this->className;
+    }
+
+    /**
+     * @param string $className
+     */
+    public function setClassName(string $className): void
+    {
+        $this->className = $className;
     }
 }

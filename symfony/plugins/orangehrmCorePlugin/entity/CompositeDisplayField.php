@@ -35,7 +35,7 @@ class CompositeDisplayField extends AbstractDisplayField
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private int $compositeDisplayFieldId;
+    private int $id;
 
     /**
      * @var SelectedCompositeDisplayField[]
@@ -54,7 +54,7 @@ class CompositeDisplayField extends AbstractDisplayField
      */
     public function getId(): int
     {
-        return $this->compositeDisplayFieldId;
+        return $this->id;
     }
 
     /**
@@ -62,6 +62,6 @@ class CompositeDisplayField extends AbstractDisplayField
      */
     public function setId(int $id): void
     {
-        $this->compositeDisplayFieldId = $id;
+        $this->id = $id;
     }
 }

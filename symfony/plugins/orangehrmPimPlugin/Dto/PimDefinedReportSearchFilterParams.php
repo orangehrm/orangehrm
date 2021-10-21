@@ -30,6 +30,11 @@ class PimDefinedReportSearchFilterParams extends FilterParams
      */
     protected ?string $name = null;
 
+    /**
+     * @var int|null
+     */
+    protected ?int $reportId = null;
+
     public function __construct()
     {
         $this->setSortField('report.name');
@@ -50,5 +55,21 @@ class PimDefinedReportSearchFilterParams extends FilterParams
     public function setName(?string $name): void
     {
         $this->name = $name;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getReportId(): ?int
+    {
+        return $this->reportId;
+    }
+
+    /**
+     * @param int|null $reportId
+     */
+    public function setReportId(?int $reportId): void
+    {
+        $this->reportId = $reportId;
     }
 }

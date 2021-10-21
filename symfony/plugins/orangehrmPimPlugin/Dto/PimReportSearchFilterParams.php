@@ -20,23 +20,24 @@
 namespace OrangeHRM\Pim\Dto;
 
 use OrangeHRM\Core\Dto\FilterParams;
+use OrangeHRM\Core\Report\ReportSearchFilterParams;
 
-class PimReportSearchFilterParams extends FilterParams
+class PimReportSearchFilterParams extends FilterParams implements ReportSearchFilterParams
 {
-    private ?int $reportId = null;
+    private int $reportId;
 
     /**
-     * @return int|null
+     * @return int
      */
-    public function getReportId(): ?int
+    public function getReportId(): int
     {
         return $this->reportId;
     }
 
     /**
-     * @param int|null $reportId
+     * @param int $reportId
      */
-    public function setReportId(?int $reportId): void
+    public function setReportId(int $reportId): void
     {
         $this->reportId = $reportId;
     }

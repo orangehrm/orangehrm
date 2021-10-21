@@ -20,10 +20,7 @@
 namespace OrangeHRM\Pim\Report;
 
 use OrangeHRM\Core\Api\V2\RequestParams;
-use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
-use OrangeHRM\Core\Api\V2\Validator\Rule;
-use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Dto\FilterParams;
 use OrangeHRM\Core\Report\Api\EndpointAwareReport;
 use OrangeHRM\Core\Report\Api\EndpointProxy;
@@ -108,14 +105,6 @@ class PimReport implements EndpointAwareReport
     public function getValidationRule(EndpointProxy $endpoint): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(
-                PimReportAPI::PARAMETER_REPORT_ID,
-                new Rule(Rules::POSITIVE),
-                new Rule(
-                    Rules::CALLBACK,
-                    [fn($id) => $this->getReportGeneratorService()->isPimReport($id)]
-                )
-            ),
             ...$endpoint->getSortingAndPaginationParamsRules([])
         );
     }

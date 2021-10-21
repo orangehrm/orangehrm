@@ -19,62 +19,23 @@
 
 namespace OrangeHRM\Core\Dao;
 
+use Exception;
 use OrangeHRM\Entity\CompositeDisplayField;
 use OrangeHRM\Entity\DisplayField;
 use OrangeHRM\Entity\DisplayFieldGroup;
+use OrangeHRM\Entity\FilterField;
 use OrangeHRM\Entity\Report;
+use OrangeHRM\Entity\ReportGroup;
+use OrangeHRM\Entity\SelectedDisplayField;
+use OrangeHRM\Entity\SelectedDisplayFieldGroup;
+use OrangeHRM\Entity\SelectedFilterField;
 use OrangeHRM\Entity\SummaryDisplayField;
+use OrangeHRM\ORM\Exception\TransactionException;
 use OrangeHRM\ORM\Paginator;
 use OrangeHRM\Pim\Dto\PimDefinedReportSearchFilterParams;
 
 class ReportGeneratorDao extends BaseDao
 {
-    /**
-     * Get all selected filter fields for the given report id
-     * @param integer $reportId
-     * @return array of Doctring objects
-     */
-    public function getSelectedFilterFields($reportId, $order = false)
-    {
-        try {
-            $query = Doctrine_Query::create()
-                ->select("filter_field_id")
-                ->from("SelectedFilterField")
-                ->where("report_id = ?", $reportId);
-
-            if ($order) {
-                $query->orderBy("filter_field_order");
-            }
-
-            $results = $query->execute()->getData();
-
-            return $results;
-        } catch (Exception $ex) {
-            throw new DaoException($ex->getMessage());
-        }
-    }
-
-    public function getSelectedFilterFieldNames($reportId, $order = false)
-    {
-        try {
-            $query = Doctrine_Query::create()
-                ->select("s.*, f.name")
-                ->from("SelectedFilterField s")
-                ->leftJoin("s.FilterField f")
-                ->where("s.report_id = ?", $reportId);
-
-            if ($order) {
-                $query->orderBy("s.filter_field_order");
-            }
-
-            $results = $query->execute();
-
-            return $results;
-        } catch (Exception $ex) {
-            throw new DaoException($ex->getMessage());
-        }
-    }
-
     /**
      * @param int $reportId
      * @return DisplayField[]
@@ -83,6 +44,7 @@ class ReportGeneratorDao extends BaseDao
     {
         $q = $this->createQueryBuilder(DisplayField::class, 'df');
         $q->leftJoin('df.selectedDisplayFields', 'sdf');
+        $q->leftJoin('df.displayFieldGroup', 'dfg');
         $q->andWhere('sdf.report = :reportId')
             ->setParameter('reportId', $reportId);
         return $q->getQuery()->execute();
@@ -117,23 +79,15 @@ class ReportGeneratorDao extends BaseDao
     }
 
     /**
-     * Get all meta display fields for the given report id
-     * @param integer $reportId
-     * @return array of Doctring objects
+     * @param int $reportId
+     * @return SelectedFilterField[]
      */
-    public function getMetaDisplayFields($reportGroupId)
+    public function getSelectedFilterFieldsByReportId(int $reportId): array
     {
-        try {
-            $query = Doctrine_Query::create()
-                ->from("DisplayField")
-                ->where("report_group_id = ?", $reportGroupId)
-                ->andWhere('is_meta = ?', 1);
-            $results = $query->execute();
-
-            return $results;
-        } catch (Exception $ex) {
-            throw new DaoException($ex->getMessage());
-        }
+        $q = $this->createQueryBuilder(SelectedFilterField::class, 'sff');
+        $q->andWhere('sff.report = :reportId')
+            ->setParameter('reportId', $reportId);
+        return $q->getQuery()->execute();
     }
 
     /**
@@ -143,58 +97,6 @@ class ReportGeneratorDao extends BaseDao
     public function getReport(int $reportId): ?Report
     {
         return $this->getRepository(Report::class)->find($reportId);
-    }
-
-    public function getReportGroup($reportGroupId)
-    {
-        try {
-            $query = Doctrine_Query::create()
-                ->from("ReportGroup")
-                ->where("report_group_id = ?", $reportGroupId);
-            $result = $query->execute();
-
-            if ($result[0]->getReportGroupId() == null) {
-                return null;
-            } else {
-                return $result[0];
-            }
-        } catch (Exception $ex) {
-            throw new DaoException($ex->getMessage());
-        }
-    }
-
-    public function getDisplayFieldGroupsForReportGroup($reportGroupId)
-    {
-        try {
-            $query = Doctrine_Query::create()
-                ->from("DisplayFieldGroup")
-                ->where("report_group_id = ?", $reportGroupId);
-            $result = $query->execute();
-
-
-            return $result;
-        } catch (Exception $ex) {
-            throw new DaoException($ex->getMessage());
-        }
-    }
-
-    /**
-     * Gets all display fields for given report group
-     */
-    public function getDisplayFieldsForReportGroup($reportGroupId)
-    {
-        try {
-            $query = Doctrine_Query::create()
-                ->from("DisplayField f")
-                ->leftjoin("f.DisplayFieldGroup g")
-                ->where("f.report_group_id = ?", $reportGroupId);
-            $result = $query->execute();
-
-
-            return $result;
-        } catch (Exception $ex) {
-            throw new DaoException($ex->getMessage());
-        }
     }
 
     /**
@@ -210,564 +112,131 @@ class ReportGeneratorDao extends BaseDao
         return $q->getQuery()->execute();
     }
 
-    public function getGroupField($groupFieldId)
-    {
-        try {
-            $query = Doctrine_Query::create()
-                ->from("GroupField")
-                ->where("group_field_id = ?", $groupFieldId);
-            $result = $query->execute();
-
-            if ($result[0]->getGroupFieldId() == null) {
-                return null;
-            } else {
-                return $result[0];
-            }
-        } catch (Exception $ex) {
-            throw new DaoException($ex->getMessage());
-        }
-    }
-
     /**
-     * Get runtime filter fields
-     * @param integer $reportId
-     * @return array of Doctring objects
-     */
-    public function getRuntimeFilterFields($reportGroupId, $type, $selectedFilterFieldIds)
-    {
-        try {
-            $query = Doctrine_Query::create()
-                ->from("FilterField")
-                ->where("report_group_id = ?", $reportGroupId)
-                ->andWhere("type = ?", $type)
-                ->andWhereIn("filter_field_id", $selectedFilterFieldIds);
-
-            $results = $query->execute();
-
-
-            if ($results[0]->getReportGroupId() == null) {
-                return null;
-            } else {
-                return $results;
-            }
-        } catch (Exception $ex) {
-            throw new DaoException($ex->getMessage());
-        }
-    }
-
-    public function getFilterFieldsForReportGroup($reportGroupId)
-    {
-        try {
-            $query = Doctrine_Query::create()
-                ->from("FilterField")
-                ->where("report_group_id = ?", $reportGroupId);
-
-            $results = $query->execute();
-
-            return $results;
-        } catch (Exception $ex) {
-            throw new DaoException($ex->getMessage());
-        }
-    }
-
-    public function getRequiredFilterFieldsForReportGroup($reportGroupId)
-    {
-        try {
-            $query = Doctrine_Query::create()
-                ->from("FilterField")
-                ->where("report_group_id = ?", $reportGroupId)
-                ->andWhere("required = 'true'");
-
-            $results = $query->execute();
-
-            return $results;
-        } catch (Exception $ex) {
-            throw new DaoException($ex->getMessage());
-        }
-    }
-
-    public function executeSql($sql)
-    {
-        $result = Doctrine_Manager::getInstance()->getCurrentConnection()->fetchAssoc($sql);
-
-        return $result;
-    }
-
-    /**
-     * Gets FilterField, given filter field id.
-     * @param integer $filterFieldId
-     * @return FilterField
-     */
-    public function getFilterFieldById($filterFieldId)
-    {
-        try {
-            $filterField = Doctrine::getTable("FilterField")
-                ->find($filterFieldId);
-
-            return $filterField;
-        } catch (Exception $ex) {
-            throw new DaoException($ex->getMessage());
-        }
-    }
-
-    /**
-     * Gets Project Activity, given activity id.
-     * @param integer $activityId
-     * @return ProjectActivity
-     */
-    public function getProjectActivityByActivityId($activityId)
-    {
-        try {
-            $projectActivity = Doctrine::getTable("ProjectActivity")
-                ->find($activityId);
-
-            return $projectActivity;
-        } catch (Exception $ex) {
-            throw new DaoException($ex->getMessage());
-        }
-    }
-
-    /**
-     * Gets all reports that are of given type
-     * @param string $type
-     * @return Doctrine_Collection ( Report[])
-     */
-    public function getAllPredefinedReports($type, $sortField = 'name', $sortOrder = 'ASC')
-    {
-        try {
-            $query = Doctrine_Query::create()
-                ->from("Report")
-                ->where("type = ?", $type)
-                ->orderBy("$sortField $sortOrder");
-
-            $reports = $query->execute();
-
-            if ($reports[0]->getReportId() == null) {
-                return null;
-            }
-
-            return $reports;
-        } catch (Exception $ex) {
-            throw new DaoException($ex->getMessage());
-        }
-    }
-
-    /**
-     * Gets selected filter fields given the type of the filter field
-     * @param integer $reportId
-     * @param string $type
-     * @param boolean $order
-     * @return Doctrine_Collection ( SelectedFilterField[])
-     */
-    public function getSelectedFilterFieldsByType($reportId, $type, $order = false)
-    {
-        try {
-            $query = Doctrine_Query::create()
-                ->select("filter_field_id")
-                ->from("SelectedFilterField")
-                ->where("report_id = ?", $reportId)
-                ->andWhere("type = ?", $type);
-
-            if ($order) {
-                $query->orderBy("filter_field_order");
-            }
-
-            $results = $query->execute()->getData();
-
-            if ($results[0]->getReportId() == null) {
-                return null;
-            } else {
-                return $results;
-            }
-        } catch (Exception $ex) {
-            throw new DaoException($ex->getMessage());
-        }
-    }
-
-    /**
-     * Gets predefined reports give part string of the report name
-     * @param string $type
-     * @param string $searchString
-     * @return Doctrine_Collection ( Report[])
-     */
-    public function getPredefinedReportsByPartName(
-        $type,
-        $searchString,
-        $noOfRecords = null,
-        $offset = null,
-        $sortField = 'name',
-        $sortOrder = 'ASC'
-    ) {
-        $searchString = '%' . $searchString . '%';
-
-        try {
-            $query = Doctrine_Query::create()
-                ->from('Report')
-                ->where('type = ?', $type)
-                ->andWhere('name LIKE ?', array('%' . $searchString . '%'))
-                ->orderBy("$sortField $sortOrder");
-
-            if (!is_null($offset)) {
-                $query->offset($offset);
-            }
-
-            if (!is_null($noOfRecords)) {
-                $query->limit($noOfRecords);
-            }
-
-            $reports = $query->execute();
-
-            if ($reports[0]->getReportId() == null) {
-                return null;
-            }
-
-            return $reports;
-        } catch (Exception $ex) {
-            throw new DaoException($ex->getMessage());
-        }
-    }
-
-    /**
-     * Gets predefined reports give part string of the report name
-     * @param string $type
-     * @param string $searchString
-     * @return Doctrine_Collection ( Report[])
-     */
-    public function getPredefinedReportCountByPartName($type, $searchString)
-    {
-        $searchString = '%' . $searchString . '%';
-
-        try {
-            $query = Doctrine_Query::create()
-                ->from('Report r')
-                ->where('r.type = ?', $type)
-                ->andWhere('r.name LIKE ?', array('%' . $searchString . '%'));
-
-
-            $count = $query->count();
-
-            return $count;
-        } catch (Exception $ex) {
-            throw new DaoException($ex->getMessage());
-        }
-    }
-
-    /*
-     * Delete reports given report ids
-     * @param integer[] $reportIds
-     * @return integer
-     */
-
-    public function deleteReports($reportIds)
-    {
-        try {
-            $query = Doctrine_Query::create()
-                ->delete()
-                ->from('Report')
-                ->whereIn('report_id', $reportIds);
-            $results = $query->execute();
-            return $results;
-        } catch (Exception $ex) {
-            throw new DaoException($ex->getMessage());
-        }
-    }
-
-    public function getPredefinedReports(
-        $type,
-        $noOfRecords = null,
-        $offset = null,
-        $sortField = 'name',
-        $sortOrder = 'ASC'
-    ) {
-        try {
-            $query = Doctrine_Query::create()
-                ->from("Report")
-                ->where("type = ?", $type);
-
-            if (!is_null($offset)) {
-                $query->offset($offset);
-            }
-
-            if (!is_null($noOfRecords)) {
-                $query->limit($noOfRecords);
-            }
-
-            $query->orderBy("$sortField $sortOrder");
-            $reports = $query->execute();
-
-            if ($reports[0]->getReportId() == null) {
-                return null;
-            }
-
-            return $reports;
-        } catch (Exception $ex) {
-            throw new DaoException($ex->getMessage());
-        }
-    }
-
-    public function getPredefinedReportsCount($type)
-    {
-        try {
-            $query = Doctrine_Query::create()
-                ->from("Report")
-                ->where("type = ?", $type);
-
-            $results = $query->execute()->count();
-            return $results;
-        } catch (Exception $ex) {
-            throw new DaoException($ex->getMessage());
-        }
-    }
-
-    /**
-     * Saves a report
-     * @param <type> $reportName
-     * @param <type> $reportGroupId
-     * @param <type> $useFilterField
-     * @param <type> $type
+     * @param Report $report
+     * @param int[] $selectedDisplayFieldGroupIds
+     * @param int[] $selectedDisplayFieldIds
+     * @param array $criterias
+     * @param string $includeType
      * @return Report
+     * @throws TransactionException
      */
-    public function saveReport($reportName, $reportGroupId, $useFilterField, $type)
-    {
+    public function saveReport(
+        Report $report,
+        array $selectedDisplayFieldGroupIds,
+        array $selectedDisplayFieldIds,
+        array $criterias,
+        string $includeType
+    ): Report {
+        $this->beginTransaction();
         try {
-            $report = new Report();
-            $report->setName($reportName);
-            $report->setReportGroupId($reportGroupId);
-            $report->setUseFilterField($useFilterField);
-            $report->setType($type);
-            $report->save();
-
+            $this->persist($report);
+            if (count($selectedDisplayFieldGroupIds) > 0) {
+                $this->saveSelectedDisplayFieldGroup($report, $selectedDisplayFieldGroupIds);
+            }
+            $this->saveSelectedDisplayField($report, $selectedDisplayFieldIds);
+            $this->saveSelectedFilterField($report, $criterias, $includeType);
+            $this->commitTransaction();
             return $report;
-        } catch (Exception $ex) {
-            throw new DaoException($ex->getMessage());
+        } catch (Exception $exception) {
+            $this->rollBackTransaction();
+            throw new TransactionException($exception);
         }
     }
 
-    public function updateReportName($reportId, $name)
+    /**
+     * @param Report $report
+     * @param array $criterias
+     * @param string $includeType
+     * @return void
+     */
+    public function saveSelectedFilterField(Report $report, array $criterias, string $includeType): void
     {
-        try {
-            $query = Doctrine_Query::create()
-                ->update("Report")
-                ->set("name", '?', $name)
-                ->where("report_id = ?", $reportId);
-
-            $results = $query->execute();
-            return $results;
-        } catch (Exception $ex) {
-            throw new DaoException($ex->getMessage());
+        $this->saveDefaultSelectedFilterField(
+            $report,
+            $includeType
+        ); // Always get first priority while saving `ohrm_selected_filter_field`
+        $counter = 2;
+        foreach ($criterias as $key => $value) {
+            $filterField = $this->getRepository(FilterField::class)->find($key);
+            $selectedFilterField = new SelectedFilterField();
+            $selectedFilterField->setReport($report);
+            $selectedFilterField->setFilterField($filterField);
+            $selectedFilterField->setFilterFieldOrder($counter);
+            $selectedFilterField->setX($value['x']);// "x" is the value pair inside the associative array
+            $selectedFilterField->setY($value['y']);
+            $selectedFilterField->setOperator($value['operator']);
+            $selectedFilterField->setType('Predefined');
+            $this->getEntityManager()->persist($selectedFilterField);
+            $counter++;
         }
+        $this->getEntityManager()->flush();
     }
 
-    public function saveSelectedFilterField(
-        $reportId,
-        $filterFieldId,
-        $filterFieldOrder,
-        $value1,
-        $value2,
-        $whereCondition,
-        $type
-    ) {
-        try {
-            $selectedFilterField = Doctrine::getTable("SelectedFilterField")->find(array($reportId, $filterFieldId));
-
-            if ($selectedFilterField == null) {
-                $selectedFilterField = new SelectedFilterField();
-                $selectedFilterField->setReportId($reportId);
-                $selectedFilterField->setFilterFieldId($filterFieldId);
-            }
-
-            $selectedFilterField->setFilterFieldOrder($filterFieldOrder);
-            $selectedFilterField->setValue1($value1);
-            $selectedFilterField->setValue2($value2);
-            $selectedFilterField->setWhereCondition($whereCondition);
-            $selectedFilterField->setType($type);
-
-            $selectedFilterField->save();
-        } catch (Exception $ex) {
-            throw new DaoException($ex->getMessage());
-        }
-    }
-
-    public function saveSelectedDispalyField($displayFieldId, $reportId)
+    /**
+     * @param Report $report
+     * @param array $selectedDisplayFieldIds
+     * @return void
+     */
+    public function saveSelectedDisplayField(Report $report, array $selectedDisplayFieldIds): void
     {
-        try {
+        foreach ($selectedDisplayFieldIds as $selectedDisplayFieldId) {
             $selectedDisplayField = new SelectedDisplayField();
-
-            $selectedDisplayField->setDisplayFieldId($displayFieldId);
-            $selectedDisplayField->setReportId($reportId);
-
-            $selectedDisplayField->save();
-        } catch (Exception $ex) {
-            throw new DaoException($ex->getMessage());
+            $displayField = $this->getRepository(DisplayField::class)->find($selectedDisplayFieldId);
+            $selectedDisplayField->setDisplayField($displayField);
+            $selectedDisplayField->setReport($report);
+            $this->getEntityManager()->persist($selectedDisplayField);
         }
+        $this->getEntityManager()->flush();
     }
 
-    public function saveSelectedDisplayFieldGroup($displayFieldGroupId, $reportId)
+    /**
+     * @param Report $report
+     * @param array $selectedDisplayFieldGroupIds
+     * @return void
+     */
+    public function saveSelectedDisplayFieldGroup(Report $report, array $selectedDisplayFieldGroupIds): void
     {
-        try {
+        foreach ($selectedDisplayFieldGroupIds as $selectedDisplayFieldGroupId) {
             $selectedDisplayFieldGroup = new SelectedDisplayFieldGroup();
-
-            $selectedDisplayFieldGroup->setDisplayFieldGroupId($displayFieldGroupId);
-            $selectedDisplayFieldGroup->setReportId($reportId);
-
-            $selectedDisplayFieldGroup->save();
-        } catch (Exception $ex) {
-            throw new DaoException($ex->getMessage());
+            $displayFieldGroup = $this->getRepository(DisplayFieldGroup::class)->find($selectedDisplayFieldGroupId);
+            $selectedDisplayFieldGroup->setReport($report);
+            $selectedDisplayFieldGroup->setDisplayFieldGroup($displayFieldGroup);
+            $this->getEntityManager()->persist($selectedDisplayFieldGroup);
         }
-    }
-
-    /*
-     * Gets a filter field by given name
-     * @param  string $name
-     * @return FilterField
-     */
-
-    public function getFilterFieldByName($name)
-    {
-        try {
-            $query = Doctrine_Query::create()
-                ->from("FilterField")
-                ->where("name = ?", $name);
-
-            $filterField = $query->execute();
-
-            if ($filterField[0]->getFilterFieldId() == null) {
-                return null;
-            } else {
-                return $filterField[0];
-            }
-        } catch (Exception $ex) {
-            throw new DaoException($ex->getMessage());
-        }
-    }
-
-    public function removeSelectedFilterFields($reportId)
-    {
-        try {
-            $query = Doctrine_Query::create()
-                ->delete()
-                ->from('SelectedFilterField')
-                ->where('report_id =  ?', $reportId);
-            $results = $query->execute();
-            return $results;
-        } catch (Exception $ex) {
-            throw new DaoException($ex->getMessage());
-        }
-    }
-
-    public function removeSelectedDisplayFieldGroups($reportId)
-    {
-        try {
-            $query = Doctrine_Query::create()
-                ->delete()
-                ->from('SelectedDisplayFieldGroup')
-                ->where('report_id =  ?', $reportId);
-            $results = $query->execute();
-            return $results;
-        } catch (Exception $ex) {
-            throw new DaoException($ex->getMessage());
-        }
-    }
-
-    public function removeSelectedDisplayFields($reportId)
-    {
-        try {
-            $query = Doctrine_Query::create()
-                ->delete()
-                ->from('SelectedDisplayField')
-                ->where('report_id =  ?', $reportId);
-            $results = $query->execute();
-            return $results;
-        } catch (Exception $ex) {
-            throw new DaoException($ex->getMessage());
-        }
+        $this->getEntityManager()->flush();
     }
 
     /**
-     *
-     * @param <type> $columns
-     * @return DisplayField
+     * @param string $name
+     * @return FilterField|null
      */
-    public function saveCustomDisplayField($columns)
+    public function getFilterFieldByName(string $name): ?FilterField
     {
-        try {
-            if (array_key_exists('displayFieldId', $columns)) {
-                $displayField = Doctrine::getTable("DisplayField")->find($columns['displayFieldId']);
-                $displayField->setLabel($columns['label']);
-            } else {
-                $displayField = new DisplayField();
-                $displayField->setReportGroupId($columns['reportGroupId']);
-                $displayField->setName($columns['name']);
-                $displayField->setLabel($columns['label']);
-                $displayField->setFieldAlias($columns['fieldAlias']);
-                $displayField->setIsSortable($columns['isSortable']);
-                $displayField->setSortOrder($columns['sortOrder']);
-                $displayField->setSortField($columns['sortField']);
-                $displayField->setElementType($columns['elementType']);
-                $displayField->setElementProperty($columns['elementProperty']);
-                $displayField->setWidth($columns['width']);
-                $displayField->setIsExportable($columns['isExportable']);
-                $displayField->setTextAlignmentStyle($columns['textAlignmentStyle']);
-                $displayField->setIsValueList($columns['isValueList']);
-                $displayField->setDisplayFieldGroupId($columns['displayFieldGroupId']);
-                $displayField->setDefaultValue($columns['defaultValue']);
-                $displayField->setIsEncrypted($columns['isEncrypted']);
-            }
-
-            $displayField->save();
-
-            return $displayField;
-        } catch (Exception $ex) {
-            throw new DaoException($ex->getMessage());
-        }
+        $filterField = $this->getRepository(FilterField::class)->findOneBy(['name' => $name]);
+        return ($filterField instanceof FilterField) ? $filterField : null;
     }
 
     /**
-     *
-     * @param <type> $customDisplayFieldName
-     * @return <type>
+     * @param Report $report
+     * @param string $includeType
+     * @return void
      */
-    public function deleteCustomDisplayField($customDisplayFieldName)
+    public function saveDefaultSelectedFilterField(Report $report, string $includeType): void
     {
-        try {
-            $q = Doctrine_Query::create()
-                ->delete('DisplayField')
-                ->where('name = ?', $customDisplayFieldName);
-
-            $numDeleted = $q->execute();
-
-            if ($numDeleted > 0) {
-                return true;
-            }
-
-            return false;
-        } catch (Exception $ex) {
-            throw new DaoException($ex->getMessage());
+        // this function for saving the default initial include record
+        $filterFieldByInclude = $this->getFilterFieldByName('include');
+        $selectedFilterField = new SelectedFilterField();
+        $selectedFilterField->setReport($report);
+        $selectedFilterField->setFilterField($filterFieldByInclude);
+        $selectedFilterField->setFilterFieldOrder(1);
+        if ($includeType === '') {
+            // currentAndPast
+            $selectedFilterField->setOperator(null);
         }
-    }
-
-    /**
-     *
-     * @param <type> $name
-     * @return <type>
-     */
-    public function getDisplayFieldByName($name)
-    {
-        try {
-            $query = Doctrine_Query::create()
-                ->from("DisplayField")
-                ->where("name = ?", $name);
-
-            $displayField = $query->execute();
-
-            if ($displayField[0]->getDisplayFieldId() == null) {
-                return null;
-            } else {
-                return $displayField;
-            }
-        } catch (Exception $ex) {
-            throw new DaoException($ex->getMessage());
-        }
+        $selectedFilterField->setOperator($includeType);
+        $selectedFilterField->setType('Predefined');
+        $this->persist($selectedFilterField);
     }
 
     /**
@@ -794,6 +263,10 @@ class ReportGeneratorDao extends BaseDao
         if (!empty($pimDefinedReportSearchFilterParams->getName())) {
             $q->andWhere($q->expr()->like('report.name', ':reportName'));
             $q->setParameter('reportName', '%' . $pimDefinedReportSearchFilterParams->getName() . '%');
+        }
+        if (!empty($pimDefinedReportSearchFilterParams->getReportId())) {
+            $q->andWhere('report.id = :reportId');
+            $q->setParameter('reportId', $pimDefinedReportSearchFilterParams->getReportId());
         }
         $q->andWhere('rg.name = :reportGroupName');
         $q->setParameter('reportGroupName', 'pim');
@@ -832,5 +305,172 @@ class ReportGeneratorDao extends BaseDao
     {
         $report = $this->getRepository(Report::class)->find($reportId);
         return ($report instanceof Report) ? $report : null;
+    }
+
+    /**
+     * @param string $reportGroupName
+     * @return ReportGroup|null
+     */
+    public function getReportGroupByName(string $reportGroupName): ?ReportGroup
+    {
+        $reportGroup = $this->getRepository(ReportGroup::class)->findOneBy(['name' => $reportGroupName]);
+        return ($reportGroup instanceof ReportGroup) ? $reportGroup : null;
+    }
+
+    /**
+     * @param Report $report
+     * @return void
+     */
+    public function deleteExistingReportRecordsByReportId(Report $report): void
+    {
+        $this->deleteSelectedDisplayFieldGroups($report);
+        $this->deleteSelectedDisplayFields($report);
+        $this->deleteSelectedFilterFields($report);
+    }
+
+    /**
+     * @param Report $report
+     * @return void
+     */
+    public function deleteSelectedDisplayFieldGroups(Report $report): void
+    {
+        $q = $this->createQueryBuilder(SelectedDisplayFieldGroup::class, 'sdfg');
+        $q->delete()
+            ->where('sdfg.report = :reportId')
+            ->setParameter('reportId', $report->getId())
+            ->getQuery()
+            ->execute();
+    }
+
+    /**
+     * @param Report $report
+     * @return void
+     */
+    public function deleteSelectedDisplayFields(Report $report): void
+    {
+        $q = $this->createQueryBuilder(SelectedDisplayField::class, 'sdf');
+        $q->delete()
+            ->where('sdf.report = :reportId')
+            ->setParameter('reportId', $report->getId())
+            ->getQuery()
+            ->execute();
+    }
+
+    /**
+     * @param Report $report
+     * @return void
+     */
+    public function deleteSelectedFilterFields(Report $report): void
+    {
+        $q = $this->createQueryBuilder(SelectedFilterField::class, 'sff');
+        $q->delete()
+            ->where('sff.report = :reportId')
+            ->setParameter('reportId', $report->getId())
+            ->getQuery()
+            ->execute();
+    }
+
+    /**
+     * @param int $reportId
+     * @return int[]
+     */
+    public function getSelectedDisplayFieldListByReportId(int $reportId): array
+    {
+        $q = $this->createQueryBuilder(DisplayField::class, 'df');
+        $q->leftJoin('df.selectedDisplayFields', 'sdf');
+        $q->select('df.id');
+        $q->andWhere('sdf.report = :reportId')
+            ->setParameter('reportId', $reportId);
+        $result = $q->getQuery()->getArrayResult();
+        return array_column($result, 'id');
+    }
+
+    /**
+     * @param int $reportId
+     * @param int $reportGroupId
+     * @return int[]
+     */
+    public function getSelectedDisplayFieldIdByReportGroupId(int $reportId, int $reportGroupId): array
+    {
+        $q = $this->createQueryBuilder(SelectedDisplayField::class, 'sdf');
+        $q->leftJoin('sdf.displayField', 'df');
+        $q->select('df.id');
+        $q->andWhere('sdf.report = :reportId')
+            ->setParameter('reportId', $reportId);
+        $q->andWhere('df.displayFieldGroup = :displayFieldGroup')
+            ->setParameter('displayFieldGroup', $reportGroupId);
+        $result = $q->getQuery()->getArrayResult();
+        return array_column($result, 'id');
+    }
+
+    /**
+     * @param int $reportId
+     * @return SelectedFilterField|null
+     */
+    public function getIncludeType(int $reportId): ?SelectedFilterField
+    {
+        $filterFieldByInclude = $this->getFilterFieldByName('include');
+        $selectedFilterField = $this->getRepository(SelectedFilterField::class)->findOneBy(['report' => $reportId,'filterField' => $filterFieldByInclude->getId()]);
+        return ($selectedFilterField instanceof SelectedFilterField) ? $selectedFilterField : null;
+    }
+
+    /**
+     * @param int $reportId
+     * @param int $displayGroupId
+     * @return SelectedDisplayFieldGroup[]
+     */
+    public function isIncludeHeader(int $reportId, int $displayGroupId): array
+    {
+        // this method for getting the display field group ids that saved in the database as header true
+        $q = $this->createQueryBuilder(SelectedDisplayFieldGroup::class, 'selectedDisplayFieldGroup');
+        $q->andWhere('selectedDisplayFieldGroup.report = :reportId')
+            ->setParameter('reportId', $reportId);
+        $q->andWhere('selectedDisplayFieldGroup.displayFieldGroup = :displayFieldGroupId')
+            ->setParameter('displayFieldGroupId', $displayGroupId);
+        return $q->getQuery()->execute();
+    }
+
+    /**
+     * @param int $reportId
+     * @return int[]
+     */
+    public function getDisplayFieldGroupIdList(int $reportId): array
+    {
+        // this method for getting all display field group ids that saved in the database
+        $displayFieldGroups = $this->getDisplayFieldGroupIds($reportId);
+        $displayFieldGroupIds = [];
+        foreach ($displayFieldGroups as $displayFieldGroup){
+            array_push($displayFieldGroupIds,$displayFieldGroup->getDisplayFieldGroup()->getId());
+        }
+        return $displayFieldGroupIds;
+    }
+
+    /**
+     * @param int $reportId
+     * @return DisplayField[]
+     */
+    public function getDisplayFieldGroupIds(int $reportId): array
+    {
+        $q = $this->createQueryBuilder(DisplayField::class, 'df');
+        $q->leftJoin('df.displayFieldGroup', 'dfg');
+        $q->leftJoin('df.selectedDisplayFields', 'sdf');
+        $q->andWhere('sdf.report = :reportId')
+            ->setParameter('reportId', $reportId);
+        $q->groupBy('df.displayFieldGroup');
+        return $q->getQuery()->execute();
+    }
+
+    /**
+     * @param int $reportId
+     * @return SelectedFilterField[]
+     */
+    public function getSkippedSelectedFilterFieldsByReportId(int $reportId): array
+    {
+        $q = $this->createQueryBuilder(SelectedFilterField::class, 'sff');
+        $q->andWhere('sff.report = :reportId')
+            ->setParameter('reportId', $reportId);
+        $q->andWhere('sff.filterFieldOrder != :order')
+            ->setParameter('order', 1);
+        return $q->getQuery()->execute();
     }
 }

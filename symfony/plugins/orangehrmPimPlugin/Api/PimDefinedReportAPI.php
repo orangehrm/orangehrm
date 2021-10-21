@@ -34,12 +34,20 @@ use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Service\ReportGeneratorService;
 use OrangeHRM\Entity\Report;
+use OrangeHRM\ORM\Exception\TransactionException;
+use OrangeHRM\Pim\Api\Model\PimDefinedReportDetailedModel;
 use OrangeHRM\Pim\Api\Model\PimDefinedReportModel;
 use OrangeHRM\Pim\Dto\PimDefinedReportSearchFilterParams;
 
 class PimDefinedReportAPI extends Endpoint implements CrudEndpoint
 {
+    public const PARAMETER_REPORT_NAME = 'name';
+    public const PARAMETER_INCLUDE_TYPE = 'include';
+    public const PARAMETER_CRITERIA = 'criteria';
+    public const PARAMETER_FIELD_GROUP = 'fieldGroup';
+
     public const FILTER_NAME = 'name';
+    public const FILTER_ID = 'reportId';
     public const PARAM_RULE_NAME_MAX_LENGTH = 255;
 
     /**
@@ -68,6 +76,9 @@ class PimDefinedReportAPI extends Endpoint implements CrudEndpoint
         $pimDefinedReportSearchFilterParams->setName(
             $this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_QUERY, self::FILTER_NAME)
         );
+        $pimDefinedReportSearchFilterParams->setReportId(
+            $this->getRequestParams()->getIntOrNull(RequestParams::PARAM_TYPE_QUERY, self::FILTER_ID)
+        );
         $pimDefinedReports = $this->getReportGeneratorService()
             ->getReportGeneratorDao()
             ->searchPimDefinedReports($pimDefinedReportSearchFilterParams);
@@ -93,16 +104,44 @@ class PimDefinedReportAPI extends Endpoint implements CrudEndpoint
                     new Rule(Rules::LENGTH, [null, self::PARAM_RULE_NAME_MAX_LENGTH])
                 )
             ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::FILTER_ID,
+                    new Rule(Rules::POSITIVE),
+                )
+            ),
             ...$this->getSortingAndPaginationParamsRules(PimDefinedReportSearchFilterParams::ALLOWED_SORT_FIELDS)
         );
     }
 
     /**
      * @inheritDoc
+     * @throws TransactionException
      */
     public function create(): EndpointResult
     {
-        throw $this->getNotImplementedException();
+        $report = new Report();
+        $this->setParamsToPimDefinedReport($report);
+        $fieldGroup = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_FIELD_GROUP);
+        $criterias = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_CRITERIA);
+        $includeType = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_INCLUDE_TYPE);
+        $this->getReportGeneratorService()->savePimDefinedReport($report, $fieldGroup, $criterias, $includeType);
+        return new EndpointResourceResult(PimDefinedReportModel::class, $report);
+    }
+
+    /**
+     * @param Report $report
+     * @return void
+     */
+    private function setParamsToPimDefinedReport(Report $report): void
+    {
+        $reportGroup = $this->getReportGeneratorService()->getReportGeneratorDao()->getReportGroupByName("pim");
+        $report->setName(
+            $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_REPORT_NAME)
+        );
+        $report->setReportGroup($reportGroup);
+        $report->setUseFilterField(true);
+        $report->setType("PIM_DEFINED");
     }
 
     /**
@@ -110,7 +149,9 @@ class PimDefinedReportAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForCreate(): ParamRuleCollection
     {
-        throw $this->getNotImplementedException();
+        return new ParamRuleCollection(
+            ...$this->getCommonBodyValidationRules(),
+        );
     }
 
     /**
@@ -148,7 +189,7 @@ class PimDefinedReportAPI extends Endpoint implements CrudEndpoint
         $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
         $report = $this->getReportGeneratorService()->getReportGeneratorDao()->getReportById($id);
         $this->throwRecordNotFoundExceptionIfNotExist($report, Report::class);
-        return new EndpointResourceResult(PimDefinedReportModel::class, $report);
+        return new EndpointResourceResult(PimDefinedReportDetailedModel::class, $report);
     }
 
     /**
@@ -166,10 +207,20 @@ class PimDefinedReportAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @inheritDoc
+     * @throws TransactionException
      */
     public function update(): EndpointResult
     {
-        throw $this->getNotImplementedException();
+        $reportId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
+        $report = $this->getReportGeneratorService()->getReportGeneratorDao()->getReportById($reportId);
+        $this->throwRecordNotFoundExceptionIfNotExist($report, Report::class);
+        $this->setParamsToPimDefinedReport($report);
+        $fieldGroup = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_FIELD_GROUP);
+        $criterias = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_CRITERIA);
+        $includeType = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_INCLUDE_TYPE);
+        $this->getReportGeneratorService()->getReportGeneratorDao()->deleteExistingReportRecordsByReportId($report);
+        $this->getReportGeneratorService()->savePimDefinedReport($report, $fieldGroup, $criterias, $includeType);
+        return new EndpointResourceResult(PimDefinedReportModel::class, $report);
     }
 
     /**
@@ -177,6 +228,49 @@ class PimDefinedReportAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
-        throw $this->getNotImplementedException();
+        return new ParamRuleCollection(
+            new ParamRule(CommonParams::PARAMETER_ID, new Rule(Rules::POSITIVE)),
+            ...$this->getCommonBodyValidationRules(),
+        );
+    }
+
+    /**
+     * @return ParamRule[]
+     */
+    private function getCommonBodyValidationRules(): array
+    {
+        return [
+            $this->getValidationDecorator()->requiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_REPORT_NAME,
+                    new Rule(Rules::REQUIRED),
+                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_NAME_MAX_LENGTH])
+                ),
+            ),
+            $this->getValidationDecorator()->requiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_INCLUDE_TYPE, new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::CALLBACK, [
+                        function () {
+                            $includeType = $this->getRequestParams()->getString(
+                                RequestParams::PARAM_TYPE_BODY,
+                                self::PARAMETER_INCLUDE_TYPE
+                            );
+                            if ($includeType === 'onlyCurrent' || $includeType === 'currentAndPast' || $includeType === 'onlyPast') {
+                                return true;
+                            } else {
+                                return false;
+                            }
+                        }
+                    ])
+                ),
+            ),
+            $this->getValidationDecorator()->requiredParamRule(
+                new ParamRule(self::PARAMETER_FIELD_GROUP),
+            ),
+            $this->getValidationDecorator()->requiredParamRule(
+                new ParamRule(self::PARAMETER_CRITERIA),
+            ),
+        ];
     }
 }

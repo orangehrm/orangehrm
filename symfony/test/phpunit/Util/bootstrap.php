@@ -21,8 +21,9 @@ use Doctrine\DBAL\Exception\ConnectionException;
 use OrangeHRM\Framework\ServiceContainer;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\ORM\Doctrine;
+use OrangeHRM\Tests\Util\CoreFixtureService;
 
-define('ENVIRNOMENT', 'test');
+define('ENVIRONMENT', 'test');
 
 require realpath(__DIR__ . '/../../../vendor/autoload.php');
 
@@ -51,3 +52,16 @@ try {
         die;
     }
 }
+
+$coreFixtureService = new CoreFixtureService();
+if (!$coreFixtureService->isReady()) {
+    $errorMessage = "
+Core fixtures not found.
+Run below command and try again;
+$ php ./devTools/general/create-test-db.php
+\n
+";
+    echo $errorMessage;
+    die;
+}
+

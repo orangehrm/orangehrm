@@ -71,11 +71,8 @@ class EmployeeMembershipDecorator
      */
     public function setMembershipByMembershipId(int $membershipId): void
     {
-        $membership = null;
-        if (!is_null($membershipId)) {
-            /** @var Membership|null $membership */
-            $membership = $this->getReference(Membership::class, $membershipId);
-        }
+        /** @var Membership|null $membership */
+        $membership = $this->getReference(Membership::class, $membershipId);
         $this->getEmployeeMembership()->setMembership($membership);
     }
 
@@ -109,6 +106,6 @@ class EmployeeMembershipDecorator
             return null;
         }
         $currency = $payGradeService->getCurrencyById($currencyCode);
-        return $currency->getName();
+        return $currency ? $currency->getName() : null;
     }
 }

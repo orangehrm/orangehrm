@@ -42,6 +42,7 @@ class ReportingMethodConfigurationAPITest extends EndpointTestCase
 
     public function testGetOne(): void
     {
+        $this->createKernel();
         $reportingMethodDao = $this->getMockBuilder(ReportingMethodConfigurationDao::class)
             ->onlyMethods(['getReportingMethodById'])
             ->getMock();
@@ -144,7 +145,19 @@ class ReportingMethodConfigurationAPITest extends EndpointTestCase
 
     public function testGetValidationRuleForDelete(): void
     {
-        $api = new ReportingMethodConfigurationAPI($this->getRequest());
+        $reportingMethodService = $this->getMockBuilder(ReportingMethodConfigurationService::class)
+            ->onlyMethods(['getReportingMethodIdsInUse'])
+            ->getMock();
+        $reportingMethodService->expects($this->once())
+            ->method('getReportingMethodIdsInUse')
+            ->willReturn([2]);
+        /** @var MockObject&ReportingMethodConfigurationAPI $api */
+        $api = $this->getApiEndpointMockBuilder(ReportingMethodConfigurationAPI::class)
+            ->onlyMethods(['getReportingMethodService'])
+            ->getMock();
+        $api->expects($this->once())
+            ->method('getReportingMethodService')
+            ->willReturn($reportingMethodService);
         $rules = $api->getValidationRuleForDelete();
         $this->assertTrue(
             $this->validate(

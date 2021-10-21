@@ -22,7 +22,7 @@
         "respect/validation": "^2.2",
         "symfony/monolog-bundle": "^3.6",
         "bshaffer/oauth2-server-php": "^1.11",
-        "doctrine/orm": "~2.8.2",
+        "doctrine/orm": "~2.10.1",
         "symfony/yaml": "^5.2",
         "twig/twig": "^3.0",
         "symfony/error-handler": "^4.4",
