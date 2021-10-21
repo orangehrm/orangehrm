@@ -20,34 +20,35 @@
 namespace OrangeHRM\Core\Registration\Service;
 
 use Exception;
-use sysConf;
+use GuzzleHttp\Client;
+use OrangeHRM\Config\SysConf;
+use OrangeHRM\Core\Traits\LoggerTrait;
 
 class RegistrationAPIClientService
 {
-    private sysConf $sysConf;
 
-    private function getSysConf(): sysConf
+    use LoggerTrait;
+
+    /**
+     * @return SysConf
+     */
+    public function getSysConf(): SysConf
     {
-        if (!defined('ROOT_PATH')) {
-            $rootPath = realpath(dirname(__FILE__));
-            define('ROOT_PATH', $rootPath);
-        }
-        require_once(ROOT_PATH . '/lib/confs/sysConf.php');
-        if (is_null($this->sysConf)) {
-            $this->sysConf = new sysConf();
+        if (!isset($this->sysConf)) {
+            $this->sysConf = new SysConf();
         }
         return $this->sysConf;
     }
 
     private function getRegistrationUrl(): ?string
     {
-        return $this->getSysConf()->getRegistrationUrl();
+        return $this->getSysConf()->getSysConfigs()['registrationUrl'];
     }
 
-    private function getApiClient(): \GuzzleHttp\Client
+    private function getApiClient(): Client
     {
         if (!isset($this->apiClient)) {
-            $this->apiClient = new \GuzzleHttp\Client(['base_uri' => $this->getRegistrationUrl(), 'verify' => false]);
+            $this->apiClient = new Client(['base_uri' => $this->getRegistrationUrl(), 'verify' => false]);
         }
         return $this->apiClient;
     }
@@ -70,7 +71,7 @@ class RegistrationAPIClientService
             }
             return false;
         } catch (Exception $e) {
-
+            $this->getLogger()->error('Exception in Registration Data Sync');
         }
     }
 }

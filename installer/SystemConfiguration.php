@@ -172,8 +172,6 @@ class SystemConfiguration
         $currentTimestamp
     )
     {
-        $currentTime = new DateTime();
-        $currentTimestamp = $currentTime->getTimestamp();
         $instanceIdentifier = $this->createInstanceIdentifier(
             $organizationName,
             $email,
