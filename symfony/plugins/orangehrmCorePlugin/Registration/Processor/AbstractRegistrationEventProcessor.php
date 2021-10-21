@@ -23,25 +23,29 @@ namespace OrangeHRM\Core\Registration\Processor;
 use DateTime;
 use Exception;
 use MarketplaceDao;
+use OrangeHRM\Admin\Dao\UserDao;
 use OrangeHRM\Admin\Service\OrganizationService;
+use OrangeHRM\Config\SysConf;
 use OrangeHRM\Core\Exception\CoreServiceException;
 use OrangeHRM\Core\Registration\Dao\RegistrationEventQueueDao;
 use OrangeHRM\Core\Registration\Service\RegistrationAPIClientService;
 use OrangeHRM\Core\Service\ConfigService;
+use OrangeHRM\Core\Traits\LoggerTrait;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\RegistrationEventQueue;
 use OrangeHRM\Pim\Dao\EmployeeDao;
-use sysConf;
 
 abstract class AbstractRegistrationEventProcessor
 {
+    use LoggerTrait;
 
-    public sysConf $sysConf;
+    public ?sysConf $sysConf = null;
     public ?RegistrationEventQueueDao $registrationEventQueueDao = null;
     public ?ConfigService $configService = null;
     public ?RegistrationAPIClientService $registrationAPIClientService = null;
     public ?OrganizationService $organizationService = null;
     public ?MarketplaceDao $marketplaceDao = null;
+    public ?UserDao $userDao = null;
 
     /**
      * @return RegistrationEventQueueDao
@@ -55,14 +59,14 @@ abstract class AbstractRegistrationEventProcessor
     }
 
     /**
-     * @return MarketplaceDao
+     * @return SysConf
      */
-    public function getMarketplaceDao(): MarketplaceDao
+    public function getSysConf(): SysConf
     {
-        if (!isset($this->marketplaceDao)) {
-            $this->marketplaceDao = new MarketplaceDao();
+        if (!isset($this->sysConf)) {
+            $this->sysConf = new SysConf();
         }
-        return $this->marketplaceDao;
+        return $this->sysConf;
     }
 
     /**
@@ -74,6 +78,17 @@ abstract class AbstractRegistrationEventProcessor
             $this->employeeDao = new EmployeeDao();
         }
         return $this->employeeDao;
+    }
+
+    /**
+     * @return UserDao
+     */
+    public function getUserDao(): UserDao
+    {
+        if (!isset($this->userDao)) {
+            $this->userDao = new UserDao();
+        }
+        return $this->userDao;
     }
 
     /**
@@ -110,22 +125,6 @@ abstract class AbstractRegistrationEventProcessor
     }
 
     /**
-     * @return sysConf
-     */
-    public function getSysConf(): sysConf
-    {
-        if (!defined('ROOT_PATH')) {
-            $rootPath = realpath(dirname(__FILE__));
-            define('ROOT_PATH', $rootPath);
-        }
-        require_once(ROOT_PATH . '/lib/confs/sysConf.php');
-        if (is_null($this->sysConf)) {
-            $this->sysConf = new sysConf();
-        }
-        return $this->sysConf;
-    }
-
-    /**
      * @return string
      * @throws CoreServiceException
      */
@@ -152,7 +151,8 @@ abstract class AbstractRegistrationEventProcessor
     {
         $registrationData = [];
         try {
-            $adminEmployee = $this->getEmployeeDao()->getEmployeeByEmpNumber(1);
+            $adminUsers = $this->getUserDao()->getEmployeesByUserRole('Admin');
+            $adminEmployee = $adminUsers[0];
             $language = $this->getConfigService()->getAdminLocalizationDefaultLanguage() ? $this->getConfigService(
             )->getAdminLocalizationDefaultLanguage() : 'Not captured';
             $country = $this->getOrganizationService()->getOrganizationGeneralInformation()->getCountry(
@@ -164,13 +164,12 @@ abstract class AbstractRegistrationEventProcessor
             $adminFirstName = '';
             $adminLastName = '';
             $adminContactNumber = '';
-            $username = '';
+            $username = 'admin'; //TODO this needs to be corrected
             if ($adminEmployee instanceof Employee) {
                 $organizationEmail = $adminEmployee->getWorkEmail();
                 $adminFirstName = $adminEmployee->getFirstName();
                 $adminLastName = $adminEmployee->getLastName();
                 $adminContactNumber = $adminEmployee->getWorkTelephone();
-                $username = 'admin'; //TODO this needs to be corrected
             }
 
             return array(
@@ -208,7 +207,8 @@ abstract class AbstractRegistrationEventProcessor
 
     public function publishRegistrationEvents()
     {
-        $mode = $this->getSysConf()->getMode();
+        $sysConfig = $this->getSysConf()->getSysConfigs();
+        $mode = $sysConfig['mode'];
         if ($mode === sysConf::PROD_MODE) {
             $eventsToPublish = $this->getRegistrationEventQueueDao()->getUnpublishedRegistrationEvents(
                 RegistrationEventQueue::PUBLISH_EVENT_BATCH_SIZE

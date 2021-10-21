@@ -168,11 +168,10 @@ class SystemConfiguration
         $adminLastName,
         $host,
         $country,
-        $ohrmVersion
+        $ohrmVersion,
+        $currentTimestamp
     )
     {
-        $currentTime = new DateTime();
-        $currentTimestamp = $currentTime->getTimestamp();
         $instanceIdentifier = $this->createInstanceIdentifier(
             $organizationName,
             $email,
@@ -288,7 +287,8 @@ class SystemConfiguration
         $adminLastName,
         $host,
         $country,
-        $ohrmVersion
+        $ohrmVersion,
+        $currentTimestamp
     )
     {
         $instanceIdentifierChecksum = $this->createInstanceIdentifierChecksum(
@@ -298,7 +298,8 @@ class SystemConfiguration
             $adminLastName,
             $host,
             $country,
-            $ohrmVersion
+            $ohrmVersion,
+            $currentTimestamp
         );
         $query = "INSERT INTO `hs_hr_config` (`name`, `value`) VALUES (?, ?)";
         $dbConnection = $this->createDbConnection();
