@@ -3,6 +3,7 @@
 namespace OrangeHRM\Pim\Api\Model;
 
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
+use OrangeHRM\Core\Report\FilterField\Operator;
 use OrangeHRM\Core\Service\ReportGeneratorService;
 use OrangeHRM\Entity\Report;
 
@@ -87,7 +88,7 @@ class PimDefinedReportDetailedModel implements Normalizable
             ->getReportGeneratorDao()
             ->getIncludeType($detailedReport->getId())
             ->getOperator();
-        $includeType = ($selectedFilterFieldOperator === 'isNull') ? 'onlyCurrent' : (($selectedFilterFieldOperator === 'isNotNull') ? 'onlyPast' : 'currentAndPast');
+        $includeType = ($selectedFilterFieldOperator === Operator::IS_NULL) ? 'onlyCurrent' : (($selectedFilterFieldOperator === Operator::IS_NOT_NULL) ? 'onlyPast' : 'currentAndPast');
 
         return [
             'id' => $detailedReport->getId(),

@@ -38,7 +38,12 @@ class Location extends FilterField
         if ($this->getOperator() === Operator::IN && !is_null($this->getX())) {
             // explode comma seperated locations when defining the PIM report
             $locationIds = explode(',', $this->getX());
-            $qb->andWhere($qb->expr()->in('employee.locations', ':Location_locations'))
+
+            // remove `-1` which used in 4.x when select by country
+            if (($key = array_search('-1', $locationIds)) !== false) {
+                unset($locationIds[$key]);
+            }
+            $qb->andWhere($qb->expr()->in('location.id', ':Location_locations'))
                 ->setParameter('Location_locations', $locationIds);
         }
     }
@@ -48,6 +53,6 @@ class Location extends FilterField
      */
     public function getEntityAliases(): array
     {
-        return ['employee'];
+        return ['location'];
     }
 }
