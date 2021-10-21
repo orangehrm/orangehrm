@@ -3556,7 +3556,10 @@ UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` =
 UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` = 'Language Packages';
 UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` = 'Social Media Authentication';
 
-UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` = 'Reports' AND `screen_id` IS NOT NULL;
+SET @pim_module_id := (SELECT `id` FROM ohrm_module WHERE name = 'pim' LIMIT 1);
+UPDATE `ohrm_screen` SET `module_id` = @pim_module_id WHERE `action_url` = 'viewDefinedPredefinedReports';
+UPDATE `ohrm_screen` SET `module_id` = @pim_module_id WHERE `action_url` = 'definePredefinedReport';
+UPDATE `ohrm_screen` SET `module_id` = @pim_module_id WHERE `action_url` = 'displayPredefinedReport';
 
 UPDATE `ohrm_menu_item` SET `additional_params` = '{\"icon\":\"icon-admin\"}' WHERE `ohrm_menu_item`.`menu_title` = 'Admin';
 UPDATE `ohrm_menu_item` SET `additional_params` = '{\"icon\":\"icon-pim\"}' WHERE `ohrm_menu_item`.`menu_title` = 'PIM';
@@ -4157,3 +4160,12 @@ UPDATE `ohrm_filter_field` SET `class_name` = 'OrangeHRM\\Core\\Report\\FilterFi
 UPDATE `ohrm_filter_field` SET `class_name` = 'OrangeHRM\\Core\\Report\\FilterField\\EmployeeGender' WHERE `name` = 'gender';
 UPDATE `ohrm_filter_field` SET `class_name` = 'OrangeHRM\\Core\\Report\\FilterField\\Location' WHERE `name` = 'location';
 UPDATE `ohrm_filter_field` SET `class_name` = 'OrangeHRM\\Core\\Report\\FilterField\\IncludeEmployee' WHERE `name` = 'include';
+
+UPDATE `ohrm_selected_filter_field` SET `where_condition` = 'eq' WHERE `where_condition` = '=';
+UPDATE `ohrm_selected_filter_field` SET `where_condition` = 'neq' WHERE `where_condition` = '<>';
+UPDATE `ohrm_selected_filter_field` SET `where_condition` = 'lt' WHERE `where_condition` = '<';
+UPDATE `ohrm_selected_filter_field` SET `where_condition` = 'gt' WHERE `where_condition` = '>';
+UPDATE `ohrm_selected_filter_field` SET `where_condition` = 'between' WHERE `where_condition` = 'BETWEEN';
+UPDATE `ohrm_selected_filter_field` SET `where_condition` = 'in' WHERE `where_condition` = 'IN';
+UPDATE `ohrm_selected_filter_field` SET `where_condition` = 'isNull' WHERE `where_condition` = 'IS NULL';
+UPDATE `ohrm_selected_filter_field` SET `where_condition` = 'isNotNull' WHERE `where_condition` = 'IS NOT NULL';

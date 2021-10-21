@@ -19,30 +19,29 @@
 
 namespace OrangeHRM\Tests\Util\Fixture;
 
-use OrangeHRM\Entity\FilterField;
+use OrangeHRM\Entity\Country;
 
-class FilterFieldFixture extends AbstractFixture
+class CountryFixture extends AbstractFixture
 {
     /**
      * @inheritDoc
      */
     protected function getContent(): array
     {
-        /** @var FilterField[] $filterFields */
-        $filterFields = $this->getEntityManager()->getRepository(FilterField::class)->findAll();
+        /** @var Country[] $nationalities */
+        $nationalities = $this->getEntityManager()->getRepository(Country::class)->findAll();
         $results = [];
-        foreach ($filterFields as $filterField) {
+        foreach ($nationalities as $nationality) {
             $result = [];
-            $result['id'] = $filterField->getId();
-            $result['name'] = $filterField->getName();
-            $result['whereClausePart'] = $filterField->getWhereClausePart();
-            $result['conditionNo'] = $filterField->getConditionNo();
-            $result['className'] = $filterField->getClassName();
-            $result['report_group_id'] = $filterField->getReportGroup()->getId();
+            $result['countryCode'] = $nationality->getCountryCode();
+            $result['name'] = $nationality->getName();
+            $result['countryName'] = $nationality->getCountryName();
+            $result['iso3'] = $nationality->getIso3();
+            $result['numCode'] = $nationality->getNumCode();
             $results[] = $result;
         }
 
-        return ['FilterField' => $results];
+        return ['Country' => $results];
     }
 
     /**
@@ -50,6 +49,6 @@ class FilterFieldFixture extends AbstractFixture
      */
     public static function getFileName(): string
     {
-        return 'FilterField.yaml';
+        return 'Country.yaml';
     }
 }

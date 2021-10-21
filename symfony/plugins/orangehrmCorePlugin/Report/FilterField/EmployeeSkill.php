@@ -30,7 +30,7 @@ class EmployeeSkill extends FilterField
     {
         $qb = $queryBuilderWrapper->getQueryBuilder();
         if ($this->getOperator() === Operator::EQUAL && !is_null($this->getX())) {
-            $qb->andWhere($qb->expr()->eq('employee.skills', ':EmployeeSkill_skill'))
+            $qb->andWhere($qb->expr()->eq('skill.skill', ':EmployeeSkill_skill'))
                 ->setParameter('EmployeeSkill_skill', $this->getX());
         }
     }
@@ -40,6 +40,6 @@ class EmployeeSkill extends FilterField
      */
     public function getEntityAliases(): array
     {
-        return ['employee'];
+        return ['skill'];
     }
 }

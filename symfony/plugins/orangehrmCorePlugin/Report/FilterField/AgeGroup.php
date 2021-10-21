@@ -26,6 +26,8 @@ class AgeGroup extends FilterField
 {
     use DateTimeHelperTrait;
 
+    public const DAYS_PER_YEAR = 365;
+
     /**
      * @inheritDoc
      */
@@ -35,18 +37,14 @@ class AgeGroup extends FilterField
         $expr = null;
         if ($this->getOperator() === Operator::LESS_THAN && !is_null($this->getX())) {
             $expr = $qb->expr()->lt('DATE_DIFF(:AgeGroup_now, employee.birthday)', ':AgeGroup_lt');
-            $qb->setParameter('AgeGroup_lt', $this->getX());
+            $qb->setParameter('AgeGroup_lt', $this->getX() * self::DAYS_PER_YEAR);
         } elseif ($this->getOperator() === Operator::GREATER_THAN && !is_null($this->getX())) {
             $expr = $qb->expr()->gt('DATE_DIFF(:AgeGroup_now, employee.birthday)', ':AgeGroup_gt');
-            $qb->setParameter('AgeGroup_gt', $this->getX());
+            $qb->setParameter('AgeGroup_gt', $this->getX() * self::DAYS_PER_YEAR);
         } elseif ($this->getOperator() === Operator::BETWEEN && !is_null($this->getX()) && !is_null($this->getY())) {
-            $expr = $qb->expr()->between(
-                'DATE_DIFF(:AgeGroup_now, employee.birthday)',
-                ':AgeGroup_x',
-                ':AgeGroup_y'
-            );
-            $qb->setParameter('AgeGroup_x', $this->getX())
-                ->setParameter('AgeGroup_y', $this->getY());
+            $expr = $qb->expr()->between('DATE_DIFF(:AgeGroup_now, employee.birthday)', ':AgeGroup_x', ':AgeGroup_y');
+            $qb->setParameter('AgeGroup_x', $this->getX() * self::DAYS_PER_YEAR)
+                ->setParameter('AgeGroup_y', $this->getY() * self::DAYS_PER_YEAR);
         }
         if (!is_null($expr)) {
             $qb->andWhere($expr)

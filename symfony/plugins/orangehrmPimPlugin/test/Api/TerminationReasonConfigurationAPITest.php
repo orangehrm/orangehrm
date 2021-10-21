@@ -144,7 +144,20 @@ class TerminationReasonConfigurationAPITest extends EndpointTestCase
 
     public function testGetValidationRuleForDelete(): void
     {
-        $api = new TerminationReasonConfigurationAPI($this->getRequest());
+        $terminationReasonService = $this->getMockBuilder(TerminationReasonConfigurationService::class)
+            ->onlyMethods(['getReasonIdsInUse'])
+            ->getMock();
+        $terminationReasonService->expects($this->once())
+            ->method('getReasonIdsInUse')
+            ->willReturn([2]);
+
+        /** @var MockObject&TerminationReasonConfigurationAPI $api */
+        $api = $this->getApiEndpointMockBuilder(TerminationReasonConfigurationAPI::class)
+            ->onlyMethods(['getTerminationReasonConfigurationService'])
+            ->getMock();
+        $api->expects($this->once())
+            ->method('getTerminationReasonConfigurationService')
+            ->willReturn($terminationReasonService);
         $rules = $api->getValidationRuleForDelete();
         $this->assertTrue(
             $this->validate(

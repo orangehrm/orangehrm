@@ -26,6 +26,8 @@ class ServicePeriod extends FilterField
 {
     use DateTimeHelperTrait;
 
+    public const DAYS_PER_YEAR = 365;
+
     /**
      * @inheritDoc
      */
@@ -35,18 +37,18 @@ class ServicePeriod extends FilterField
         $expr = null;
         if ($this->getOperator() === Operator::LESS_THAN && !is_null($this->getX())) {
             $expr = $qb->expr()->lt('DATE_DIFF(:ServicePeriod_now, employee.joinedDate)', ':ServicePeriod_lt');
-            $qb->setParameter('ServicePeriod_lt', $this->getX());
+            $qb->setParameter('ServicePeriod_lt', $this->getX() * self::DAYS_PER_YEAR);
         } elseif ($this->getOperator() === Operator::GREATER_THAN && !is_null($this->getX())) {
             $expr = $qb->expr()->gt('DATE_DIFF(:ServicePeriod_now, employee.joinedDate)', ':ServicePeriod_gt');
-            $qb->setParameter('ServicePeriod_gt', $this->getX());
+            $qb->setParameter('ServicePeriod_gt', $this->getX() * self::DAYS_PER_YEAR);
         } elseif ($this->getOperator() === Operator::BETWEEN && !is_null($this->getX()) && !is_null($this->getY())) {
             $expr = $qb->expr()->between(
                 'DATE_DIFF(:ServicePeriod_now, employee.joinedDate)',
                 ':ServicePeriod_x',
                 ':ServicePeriod_y'
             );
-            $qb->setParameter('ServicePeriod_x', $this->getX())
-                ->setParameter('ServicePeriod_y', $this->getY());
+            $qb->setParameter('ServicePeriod_x', $this->getX() * self::DAYS_PER_YEAR)
+                ->setParameter('ServicePeriod_y', $this->getY() * self::DAYS_PER_YEAR);
         }
         if (!is_null($expr)) {
             $qb->andWhere($expr)
