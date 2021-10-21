@@ -172,6 +172,8 @@ class SystemConfiguration
         $currentTimestamp
     )
     {
+        $currentTime = new DateTime();
+        $currentTimestamp = $currentTime->getTimestamp();
         $instanceIdentifier = $this->createInstanceIdentifier(
             $organizationName,
             $email,
@@ -219,6 +221,7 @@ class SystemConfiguration
         return base64_encode(
             $organizationName .
             '_' . $email .
+            '_' . $timestamp .
             '_' . $adminFirstName .
             '_' . $adminLastName .
             '_' . $host .
