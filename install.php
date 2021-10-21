@@ -23,8 +23,6 @@ error_reporting(E_ERROR | E_PARSE);
 
 /* For logging PHP errors */
 include_once('lib/confs/log_settings.php');
-include_once('installer/OrangeHrmRegistration.php');
-$ohrmRegistration = new OrangeHrmRegistration();
 
 if (!defined('ROOT_PATH')) {
     $rootPath = realpath(dirname(__FILE__));
@@ -234,18 +232,11 @@ if (isset($_POST['actionResponse']))
         case 'CONFIRMED' : {
             $_SESSION['INSTALLING'] = 0;
             $_SESSION['defUser']['type'] = 0;
-            $ohrmRegistration->sendRegistrationData();
         }
             break;
 
         case 'REGISTER' : $_SESSION['CONFDONE'] = 'OK';
             break;
-
-
-        case 'REGINFO' 	:	$reqAccept = sendRegistrationData($_POST);
-							break;
-
-	case 'NOREG' 	:	$reqAccept = sendRegistrationData($_POST);
 
         case 'LOGIN' :
             $userName = $_SESSION['defUser']['AdminUserName'];

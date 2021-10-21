@@ -26,14 +26,12 @@ require_once(REAL_ROOT_PATH.'/utils/installUtil.php');
 require_once(REAL_ROOT_PATH.'/DetailsHandler.php');
 require_once(REAL_ROOT_PATH.'/BasicConfigurations.php');
 
-include_once('OrangeHrmRegistration.php');
-$ohrmRegistration = new OrangeHrmRegistration();
 
 include_once ('SystemConfiguration.php');
 $systemConfiguration = new SystemConfiguration();
 
 
-function setValueToLogFile($filePath, $content) {		
+function setValueToLogFile($filePath, $content) {
 	file_put_contents($filePath, $content , FILE_APPEND | LOCK_EX);
 }
 
@@ -101,14 +99,14 @@ if(!$acceptAggrement){
 //}
 else if (is_file(ROOT_PATH . '/lib/confs/Conf.php')) {
         exit ("\nThis system already installed.\n");
-}else{ 
+}else{
         ($argv[1]<1) ? $detailsHandler->checkDetailsValidation() : setConfiguration($argv,$detailsHandler);
 	if(!($basicConfigurations->isFailBasicConfigurations()))
 	{
 //		shell_exec("chmod -R 777 ".ROOT_PATH);
 //		shell_exec("exit");
-		include "ApplicationSetupUtility.php";	
-	
+		include "ApplicationSetupUtility.php";
+
 		$logFilePath = ApplicationSetupUtility::getErrorLogPath();
 		writeLogs("OrangeHRM Installation Log\n", $logFilePath);
 		writeLogs("DB Creation - Starting", $logFilePath);
@@ -135,11 +133,10 @@ else if (is_file(ROOT_PATH . '/lib/confs/Conf.php')) {
 			$_SESSION['dbName'] = $detailsHandler->getDatabaseName();
 			$_SESSION['dbHostPort'] = $detailsHandler->getPort();
 
-			$ohrmRegistration->sendRegistrationData();
-			
+
 			$controlval = 0;
 			for ($i=0; $i < $_SESSION['INSTALLING']-$controlval; $i++){
-		
+
 				ApplicationSetupUtility::install();
 
 				if($_SESSION['INSTALLING']==2) $messages->displayMessage("Fill Data Phase 1 - No Errors...");
@@ -191,7 +188,7 @@ else if (is_file(ROOT_PATH . '/lib/confs/Conf.php')) {
 		}
 	}
 	else{
-	 	$messages->displayMessage(Messages::INTERUPT_MESSAGE); 
+	 	$messages->displayMessage(Messages::INTERUPT_MESSAGE);
         }
 }
 
@@ -211,7 +208,7 @@ function setConfiguration($argv,$detailsHandler){
 		$dbOHRMPassword = "";
 
 		$dbUserName = isUserFillFromBash($argv[7]);
-		$dbPassword = ""; 	
+		$dbPassword = "";
 
 		$databaseRootPassword = '';
 
@@ -230,7 +227,6 @@ function setConfiguration($argv,$detailsHandler){
 function sendInstallationStatusAsSuccess() {
     $_SESSION['defUser']['type'] = 3;
     $ohrmRegistration = new OrangeHrmRegistration();
-    $ohrmRegistration->sendRegistrationData();
 }
 
 /**
