@@ -24,7 +24,10 @@ use OrangeHRM\Authentication\Csrf\CsrfTokenManager;
 use OrangeHRM\Core\Authorization\Service\HomePageService;
 use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Controller\PublicControllerInterface;
+use OrangeHRM\Core\Registration\Event\RegistrationDataPublishEvent;
+use OrangeHRM\Core\Registration\Event\RegistrationEvent;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
+use OrangeHRM\Core\Traits\EventDispatcherTrait;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Framework\Http\Request;
@@ -32,6 +35,7 @@ use OrangeHRM\Framework\Http\Request;
 class LoginController extends AbstractVueController implements PublicControllerInterface
 {
     use AuthUserTrait;
+    use EventDispatcherTrait;
 
     /**
      * @var HomePageService|null
@@ -69,6 +73,8 @@ class LoginController extends AbstractVueController implements PublicControllerI
         $component->addProp(
             new Prop('token', Prop::TYPE_STRING, $csrfTokenManager->getToken('login')->getValue())
         );
+        $this->getEventDispatcher()->dispatch(new RegistrationEvent(), RegistrationEvent::INSTALL_SUCCESS_EVENT_NAME);
+        $this->getEventDispatcher()->dispatch(new RegistrationDataPublishEvent(), RegistrationDataPublishEvent::PUBLISH_REGISTRATION_DATA);
         $this->setComponent($component);
         $this->setTemplate('no_header.html.twig');
     }

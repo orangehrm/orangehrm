@@ -17,38 +17,29 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Core\Registration\Event;
+namespace OrangeHRM\Core\Registration\Subscriber;
 
-use DateTime;
-use Symfony\Contracts\EventDispatcher\Event;
+use OrangeHRM\Core\Registration\Event\RegistrationDataPublishEvent;
+use OrangeHRM\Core\Registration\Processor\RegistrationEventProcessorFactory;
+use OrangeHRM\Entity\RegistrationEventQueue;
+use OrangeHRM\Framework\Event\AbstractEventSubscriber;
 
-/**
- * @Event("OrangeHRM\Core\Registration\Event\RegistrationEvent")
- */
-class RegistrationEvent extends Event
+class RegistrationEventPublishSubscriber extends AbstractEventSubscriber
 {
-
-    public const EMPLOYEE_ADD_EVENT_NAME = 'registration.employee_add';
-    public const EMPLOYEE_TERMINATE_EVENT_NAME = 'registration.employee_terminate';
-    public const UPGRADE_EVENT_NAME = 'registration.upgrade';
-    public const INSTALL_START_EVENT_NAME = 'registration.installation_start';
-    public const INSTALL_SUCCESS_EVENT_NAME = 'registration.installation_success';
-
     /**
-     * @var DateTime
+     * @inheritDoc
      */
-    private DateTime $eventTime;
-
-    public function __construct()
+    public static function getSubscribedEvents(): array
     {
-        $this->eventTime = new DateTime();
+        return [
+            RegistrationDataPublishEvent::PUBLISH_REGISTRATION_DATA => 'publishRegistrationData'
+        ];
     }
 
-    /**
-     * @return DateTime
-     */
-    public function getEventTime(): DateTime
+    public function publishRegistrationData(RegistrationDataPublishEvent $registrationDataPublishEvent)
     {
-        return $this->eventTime;
+        $registrationEventProcessorFactory = new RegistrationEventProcessorFactory();
+        $registrationEventProcessor = $registrationEventProcessorFactory->getRegistrationEventProcessor(RegistrationEventQueue::ACTIVE_EMPLOYEE_COUNT);
+        $registrationEventProcessor->publishRegistrationEvents();
     }
 }

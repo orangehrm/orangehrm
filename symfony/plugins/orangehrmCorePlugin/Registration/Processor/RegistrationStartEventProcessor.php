@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Core\Registration\Processor;
 
+use DateTime;
 use OrangeHRM\Entity\RegistrationEventQueue;
 
 class RegistrationStartEventProcessor extends AbstractRegistrationEventProcessor
@@ -44,6 +45,31 @@ class RegistrationStartEventProcessor extends AbstractRegistrationEventProcessor
      */
     public function getEventToBeSavedOrNot(): bool
     {
+        $installationStartedEvent = $this->getRegistrationEventQueueDao()->getRegistrationEventByType(RegistrationEventQueue::INSTALLATION_START);
+        if($installationStartedEvent instanceof RegistrationEventQueue){
+            if($installationStartedEvent->getData() != null){
+                return false;
+            }
+            return true;
+        }
         return true;
+    }
+
+    /**
+     * @param DateTime $eventTime
+     * @return RegistrationEventQueue
+     */
+    public function processRegistrationEventToSave(DateTime $eventTime): RegistrationEventQueue
+    {
+        $registrationData = $this->getEventData();
+        $registrationInstallStartSavedEvent = $this->getRegistrationEventQueueDao()->getRegistrationEventByType(RegistrationEventQueue::INSTALLATION_START);
+        if(!$registrationInstallStartSavedEvent instanceof RegistrationEventQueue){
+            $registrationInstallStartSavedEvent = new RegistrationEventQueue();
+            $registrationInstallStartSavedEvent->setEventTime($eventTime);
+            $registrationInstallStartSavedEvent->setEventType($this->getEventType());
+            $registrationInstallStartSavedEvent->setPublished(0);
+        }
+        $registrationInstallStartSavedEvent->setData($registrationData);
+        return $registrationInstallStartSavedEvent;
     }
 }

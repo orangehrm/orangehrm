@@ -22,33 +22,7 @@ namespace OrangeHRM\Core\Registration\Event;
 use DateTime;
 use Symfony\Contracts\EventDispatcher\Event;
 
-/**
- * @Event("OrangeHRM\Core\Registration\Event\RegistrationEvent")
- */
-class RegistrationEvent extends Event
+class RegistrationDataPublishEvent extends Event
 {
-
-    public const EMPLOYEE_ADD_EVENT_NAME = 'registration.employee_add';
-    public const EMPLOYEE_TERMINATE_EVENT_NAME = 'registration.employee_terminate';
-    public const UPGRADE_EVENT_NAME = 'registration.upgrade';
-    public const INSTALL_START_EVENT_NAME = 'registration.installation_start';
-    public const INSTALL_SUCCESS_EVENT_NAME = 'registration.installation_success';
-
-    /**
-     * @var DateTime
-     */
-    private DateTime $eventTime;
-
-    public function __construct()
-    {
-        $this->eventTime = new DateTime();
-    }
-
-    /**
-     * @return DateTime
-     */
-    public function getEventTime(): DateTime
-    {
-        return $this->eventTime;
-    }
+    public const PUBLISH_REGISTRATION_DATA = 'registration.publish_data';
 }
