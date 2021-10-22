@@ -28,6 +28,7 @@ use OrangeHRM\Admin\Service\OrganizationService;
 use OrangeHRM\Config\SysConf;
 use OrangeHRM\Core\Exception\CoreServiceException;
 use OrangeHRM\Core\Registration\Dao\RegistrationEventQueueDao;
+use OrangeHRM\Core\Registration\Helper\SystemConfigurationHelper;
 use OrangeHRM\Core\Registration\Service\RegistrationAPIClientService;
 use OrangeHRM\Core\Service\ConfigService;
 use OrangeHRM\Core\Traits\LoggerTrait;
@@ -44,7 +45,6 @@ abstract class AbstractRegistrationEventProcessor
     public ?ConfigService $configService = null;
     public ?RegistrationAPIClientService $registrationAPIClientService = null;
     public ?OrganizationService $organizationService = null;
-    public ?MarketplaceDao $marketplaceDao = null;
     public ?UserDao $userDao = null;
 
     /**
@@ -159,7 +159,8 @@ abstract class AbstractRegistrationEventProcessor
             ) ? $this->getOrganizationService()->getOrganizationGeneralInformation()->getCountry() : null;
             $instanceIdentifier = $this->getInstanceIdentifier();
             $organizationName = $this->getOrganizationService()->getOrganizationGeneralInformation()->getName();
-            $systemDetails = ''; // TODO this needs refractoring
+            $systemDetailsHelper = new SystemConfigurationHelper();
+            $systemDetails = $systemDetailsHelper->getSystemDetailsAsJson();
             $organizationEmail = '';
             $adminFirstName = '';
             $adminLastName = '';
