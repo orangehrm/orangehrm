@@ -4,6 +4,8 @@ namespace OrangeHRM\Pim\Api\Model;
 
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Core\Report\FilterField\Operator;
+use OrangeHRM\Core\Report\FilterField\ValueXNormalizable;
+use OrangeHRM\Core\Report\FilterField\ValueYNormalizable;
 use OrangeHRM\Core\Service\ReportGeneratorService;
 use OrangeHRM\Entity\Report;
 
@@ -57,13 +59,22 @@ class PimDefinedReportDetailedModel implements Normalizable
             ->getDisplayFieldGroupIdList($detailedReport->getId());
 
         $criteria = [];
-        foreach ($selectedFilterFields as $key => $value) {
-            $criteria[$value->getFilterField()->getId()] = [
-                "x" => $value->getX(),
-                "y" => $value->getY(),
-                "operator" => $value->getOperator(),
-
+        foreach ($selectedFilterFields as $selectedFilterField) {
+            $filterFieldClassName = $selectedFilterField->getFilterField()->getClassName();
+            $filterFieldClass = $this->getReportGeneratorService()
+                ->getInitializedFilterFieldInstance($filterFieldClassName, $selectedFilterField);
+            $filterFieldCriteria = [
+                "x" => $selectedFilterField->getX(),
+                "y" => $selectedFilterField->getY(),
+                "operator" => $selectedFilterField->getOperator(),
             ];
+            if ($filterFieldClass instanceof ValueXNormalizable) {
+                $filterFieldCriteria['x'] = $filterFieldClass->toArrayXValue();
+            }
+            if ($filterFieldClass instanceof ValueYNormalizable) {
+                $filterFieldCriteria['y'] = $filterFieldClass->toArrayYValue();
+            }
+            $criteria[$selectedFilterField->getFilterField()->getId()] = $filterFieldCriteria;
         }
 
         $fieldGroup = [];
