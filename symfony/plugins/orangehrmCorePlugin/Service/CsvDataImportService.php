@@ -20,7 +20,6 @@
 
 namespace OrangeHRM\Core\Service;
 
-use Exception;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Import\CsvDataImportFactory;
 
@@ -40,7 +39,7 @@ class CsvDataImportService
         $rowsImported = 0;
         $lines = explode("\n", $fileContent);
         $employeesDataArray = array_map('str_getcsv', $lines);
-        if($headerValues == $employeesDataArray[0]){
+        if ($headerValues == $employeesDataArray[0]) {
             for ($i = 1; $i < sizeof($employeesDataArray) - 1; $i++) {
                 $result = $instance->import($employeesDataArray[$i]);
                 if ($result) {

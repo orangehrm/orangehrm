@@ -25,7 +25,30 @@ use OrangeHRM\Core\Service\CsvDataImportService;
 
 class PimCsvDataImportService
 {
-    const PIM_IMPORT_HEADER_ROW_VALUES = ["first_name","middle_name","last_name","employee_id","other_id","driver's_license_no","license_expiry_date","gender","marital_status","nationality","date_of_birth","address_street_1","address_street_2","city","state/province","zip/postal_code","country","home_telephone","mobile","work_telephone","work_email","other_email"];
+    const PIM_IMPORT_HEADER_ROW_VALUES = [
+        "first_name",
+        "middle_name",
+        "last_name",
+        "employee_id",
+        "other_id",
+        "driver's_license_no",
+        "license_expiry_date",
+        "gender",
+        "marital_status",
+        "nationality",
+        "date_of_birth",
+        "address_street_1",
+        "address_street_2",
+        "city",
+        "state/province",
+        "zip/postal_code",
+        "country",
+        "home_telephone",
+        "mobile",
+        "work_telephone",
+        "work_email",
+        "other_email"
+    ];
 
     /**
      * @var CsvDataImportService|null
