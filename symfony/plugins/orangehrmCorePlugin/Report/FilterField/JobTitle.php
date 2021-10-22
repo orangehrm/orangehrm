@@ -19,9 +19,10 @@
 
 namespace OrangeHRM\Core\Report\FilterField;
 
+use OrangeHRM\Admin\Service\JobTitleService;
 use OrangeHRM\ORM\QueryBuilderWrapper;
 
-class JobTitle extends FilterField
+class JobTitle extends FilterField implements ValueXNormalizable
 {
     /**
      * @inheritDoc
@@ -41,5 +42,21 @@ class JobTitle extends FilterField
     public function getEntityAliases(): array
     {
         return ['employee'];
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function toArrayXValue(): ?array
+    {
+        $jobTitleService = new JobTitleService();
+        $jobTitle = $jobTitleService->getJobTitleById($this->getX());
+        if ($jobTitle instanceof \OrangeHRM\Entity\JobTitle) {
+            return [
+                'id' => $jobTitle->getId(),
+                'label' => $jobTitle->getJobTitleName(),
+            ];
+        }
+        return null;
     }
 }
