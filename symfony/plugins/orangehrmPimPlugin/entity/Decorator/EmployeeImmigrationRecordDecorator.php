@@ -109,7 +109,7 @@ class EmployeeImmigrationRecordDecorator
             return null;
         }
         $country = $countryService->getCountryByCountryCode($countryCode);
-        return $country->getCountryName();
+        return $country ? $country->getCountryName() : null;
     }
 
     /**

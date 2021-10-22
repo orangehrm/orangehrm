@@ -46,8 +46,11 @@ class TestDataService
     /**
      * @param string $fixture
      */
-    public static function populate(string $fixture): void
+    public static function populate(string $fixture, bool $resetCache = false): void
     {
+        if ($resetCache) {
+            self::$tableNames = [];
+        }
         $pathToFixtures = realpath($fixture);
         if (!$pathToFixtures) {
             throw new Exception(sprintf("Couldn't find fixture file in %s", $fixture));
@@ -132,7 +135,11 @@ class TestDataService
         if (!empty($tableData)) {
             foreach ($tableData as $item) {
                 $columnString = self::_generateInsetQueryColumnString($item, $tableAlias);
-                $queryArray[] = "INSERT INTO `$tableName` $columnString VALUES ('" . implode("', '", $item) . "')";
+                $item = array_map(
+                    fn($value) => is_null($value) ? 'NULL' : self::_getDbConnection()->quote($value),
+                    $item
+                );
+                $queryArray[] = "INSERT INTO `$tableName` $columnString VALUES (" . implode(', ', $item) . ')';
             }
         }
 

@@ -35,6 +35,7 @@ use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Service\ReportGeneratorService;
 use OrangeHRM\Entity\Report;
 use OrangeHRM\ORM\Exception\TransactionException;
+use OrangeHRM\Pim\Api\Model\PimDefinedReportDetailedModel;
 use OrangeHRM\Pim\Api\Model\PimDefinedReportModel;
 use OrangeHRM\Pim\Dto\PimDefinedReportSearchFilterParams;
 
@@ -46,6 +47,7 @@ class PimDefinedReportAPI extends Endpoint implements CrudEndpoint
     public const PARAMETER_FIELD_GROUP = 'fieldGroup';
 
     public const FILTER_NAME = 'name';
+    public const FILTER_ID = 'reportId';
     public const PARAM_RULE_NAME_MAX_LENGTH = 255;
 
     /**
@@ -74,6 +76,9 @@ class PimDefinedReportAPI extends Endpoint implements CrudEndpoint
         $pimDefinedReportSearchFilterParams->setName(
             $this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_QUERY, self::FILTER_NAME)
         );
+        $pimDefinedReportSearchFilterParams->setReportId(
+            $this->getRequestParams()->getIntOrNull(RequestParams::PARAM_TYPE_QUERY, self::FILTER_ID)
+        );
         $pimDefinedReports = $this->getReportGeneratorService()
             ->getReportGeneratorDao()
             ->searchPimDefinedReports($pimDefinedReportSearchFilterParams);
@@ -97,6 +102,12 @@ class PimDefinedReportAPI extends Endpoint implements CrudEndpoint
                     self::FILTER_NAME,
                     new Rule(Rules::STRING_TYPE),
                     new Rule(Rules::LENGTH, [null, self::PARAM_RULE_NAME_MAX_LENGTH])
+                )
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::FILTER_ID,
+                    new Rule(Rules::POSITIVE),
                 )
             ),
             ...$this->getSortingAndPaginationParamsRules(PimDefinedReportSearchFilterParams::ALLOWED_SORT_FIELDS)
@@ -125,7 +136,9 @@ class PimDefinedReportAPI extends Endpoint implements CrudEndpoint
     private function setParamsToPimDefinedReport(Report $report): void
     {
         $reportGroup = $this->getReportGeneratorService()->getReportGeneratorDao()->getReportGroupByName("pim");
-        $report->setName($this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_REPORT_NAME));
+        $report->setName(
+            $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_REPORT_NAME)
+        );
         $report->setReportGroup($reportGroup);
         $report->setUseFilterField(true);
         $report->setType("PIM_DEFINED");
@@ -137,15 +150,7 @@ class PimDefinedReportAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForCreate(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(
-                self::PARAMETER_REPORT_NAME,
-                new Rule(Rules::STRING_TYPE),
-                new Rule(Rules::REQUIRED),
-                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_NAME_MAX_LENGTH])
-            ),
-            new ParamRule(self::PARAMETER_INCLUDE_TYPE, new Rule(Rules::REQUIRED), new Rule(Rules::STRING_TYPE)),
-            new ParamRule(self::PARAMETER_FIELD_GROUP),
-            new ParamRule(self::PARAMETER_CRITERIA),
+            ...$this->getCommonBodyValidationRules(),
         );
     }
 
@@ -184,7 +189,7 @@ class PimDefinedReportAPI extends Endpoint implements CrudEndpoint
         $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
         $report = $this->getReportGeneratorService()->getReportGeneratorDao()->getReportById($id);
         $this->throwRecordNotFoundExceptionIfNotExist($report, Report::class);
-        return new EndpointResourceResult(PimDefinedReportModel::class, $report);
+        return new EndpointResourceResult(PimDefinedReportDetailedModel::class, $report);
     }
 
     /**
@@ -225,16 +230,47 @@ class PimDefinedReportAPI extends Endpoint implements CrudEndpoint
     {
         return new ParamRuleCollection(
             new ParamRule(CommonParams::PARAMETER_ID, new Rule(Rules::POSITIVE)),
-            new ParamRule(
-                self::PARAMETER_REPORT_NAME,
-                new Rule(Rules::STRING_TYPE),
-                new Rule(Rules::REQUIRED),
-                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_NAME_MAX_LENGTH])
-            ),
-            new ParamRule(self::PARAMETER_INCLUDE_TYPE, new Rule(Rules::STRING_TYPE)),
-            new ParamRule(self::PARAMETER_FIELD_GROUP),
-            new ParamRule(self::PARAMETER_CRITERIA),
-
+            ...$this->getCommonBodyValidationRules(),
         );
+    }
+
+    /**
+     * @return ParamRule[]
+     */
+    private function getCommonBodyValidationRules(): array
+    {
+        return [
+            $this->getValidationDecorator()->requiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_REPORT_NAME,
+                    new Rule(Rules::REQUIRED),
+                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_NAME_MAX_LENGTH])
+                ),
+            ),
+            $this->getValidationDecorator()->requiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_INCLUDE_TYPE, new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::CALLBACK, [
+                        function () {
+                            $includeType = $this->getRequestParams()->getString(
+                                RequestParams::PARAM_TYPE_BODY,
+                                self::PARAMETER_INCLUDE_TYPE
+                            );
+                            if ($includeType === 'onlyCurrent' || $includeType === 'currentAndPast' || $includeType === 'onlyPast') {
+                                return true;
+                            } else {
+                                return false;
+                            }
+                        }
+                    ])
+                ),
+            ),
+            $this->getValidationDecorator()->requiredParamRule(
+                new ParamRule(self::PARAMETER_FIELD_GROUP),
+            ),
+            $this->getValidationDecorator()->requiredParamRule(
+                new ParamRule(self::PARAMETER_CRITERIA),
+            ),
+        ];
     }
 }

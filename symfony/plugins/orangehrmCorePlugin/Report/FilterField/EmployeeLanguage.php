@@ -30,7 +30,7 @@ class EmployeeLanguage extends FilterField
     {
         $qb = $queryBuilderWrapper->getQueryBuilder();
         if ($this->getOperator() === Operator::EQUAL && !is_null($this->getX())) {
-            $qb->andWhere($qb->expr()->eq('employee.languages', ':EmployeeLanguage_language'))
+            $qb->andWhere($qb->expr()->eq('language.language', ':EmployeeLanguage_language'))
                 ->setParameter('EmployeeLanguage_language', $this->getX());
         }
     }
@@ -40,6 +40,6 @@ class EmployeeLanguage extends FilterField
      */
     public function getEntityAliases(): array
     {
-        return ['employee'];
+        return ['language'];
     }
 }

@@ -45,8 +45,7 @@ class JoinedDate extends FilterField
                 ->setParameter('JoinedDate_y', $this->getY());
         }
         if (!is_null($expr)) {
-            $qb->andWhere($expr)
-                ->setParameter('JoinedDate_now', $this->getDateTimeHelper()->getNow());
+            $qb->andWhere($expr);
         }
     }
 

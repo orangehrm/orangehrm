@@ -17,16 +17,27 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Core\Report\FilterField;
+namespace OrangeHRM\Pim\Controller;
 
-final class Operator
+use OrangeHRM\Core\Controller\AbstractVueController;
+use OrangeHRM\Core\Vue\Component;
+use OrangeHRM\Core\Vue\Prop;
+use OrangeHRM\Framework\Http\Request;
+
+class EmployeeReportController extends AbstractVueController
 {
-    public const IN = 'in';
-    public const EQUAL = 'eq';
-    public const NOT_EQUAL = 'neq';
-    public const LESS_THAN = 'lt';
-    public const GREATER_THAN = 'gt';
-    public const BETWEEN = 'between';
-    public const IS_NULL = 'isNull';
-    public const IS_NOT_NULL = 'isNotNull';
+    /**
+     * @inheritDoc
+     */
+    public function preRender(Request $request): void
+    {
+        $id = $request->get('id');
+        if ($id) {
+            $component = new Component('employee-report-view');
+            $component->addProp(new Prop('report-id', Prop::TYPE_NUMBER, $id));
+        } else {
+            $component = new Component('employee-report-list');
+        }
+        $this->setComponent($component);
+    }
 }

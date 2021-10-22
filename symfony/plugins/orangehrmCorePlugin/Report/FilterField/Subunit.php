@@ -37,7 +37,7 @@ class Subunit extends FilterField
     public function addWhereToQueryBuilder(QueryBuilderWrapper $queryBuilderWrapper): void
     {
         $qb = $queryBuilderWrapper->getQueryBuilder();
-        if ($this->getOperator() === Operator::IN && !is_null($this->getX())) {
+        if ($this->getOperator() === Operator::IN && !empty($this->getX())) {
             // explode comma seperated subunit chain when defining the PIM report
             $subunitIds = explode(',', $this->getX());
             $qb->andWhere($qb->expr()->in('employee.subDivision', ':Subunit_subDivisions'))

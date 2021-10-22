@@ -23,16 +23,25 @@ use Doctrine\ORM\EntityManager;
 use Exception;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Service\TextHelperService;
+use OrangeHRM\Entity\Country;
 use OrangeHRM\Entity\DisplayField;
 use OrangeHRM\Entity\FilterField;
+use OrangeHRM\Entity\Nationality;
+use OrangeHRM\Entity\ReportGroup;
 use OrangeHRM\ORM\Doctrine;
 use OrangeHRM\Tests\Util\Fixture\AbstractFixture;
+use OrangeHRM\Tests\Util\Fixture\CountryFixture;
 use OrangeHRM\Tests\Util\Fixture\DisplayFieldFixture;
 use OrangeHRM\Tests\Util\Fixture\FilterFieldFixture;
+use OrangeHRM\Tests\Util\Fixture\NationalityFixture;
+use OrangeHRM\Tests\Util\Fixture\ReportGroupFixture;
 
 class CoreFixtureService
 {
     public const REGISTERED_FIXTURES = [
+        Country::class => CountryFixture::class,
+        Nationality::class => NationalityFixture::class,
+        ReportGroup::class => ReportGroupFixture::class,
         FilterField::class => FilterFieldFixture::class,
         DisplayField::class => DisplayFieldFixture::class,
     ];

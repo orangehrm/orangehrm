@@ -1,4 +1,4 @@
-<?php
+<!--
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -16,17 +16,49 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
+ -->
 
-namespace OrangeHRM\Core\Report\FilterField;
+<template>
+  <oxd-grid-item>
+    <employee-autocomplete
+      v-bind="$attrs"
+      :rules="rules"
+      :modelValue="valueX"
+      @update:modelValue="$emit('update:valueX', $event)"
+    ></employee-autocomplete>
+  </oxd-grid-item>
+</template>
 
-final class Operator
-{
-    public const IN = 'in';
-    public const EQUAL = 'eq';
-    public const NOT_EQUAL = 'neq';
-    public const LESS_THAN = 'lt';
-    public const GREATER_THAN = 'gt';
-    public const BETWEEN = 'between';
-    public const IS_NULL = 'isNull';
-    public const IS_NOT_NULL = 'isNotNull';
-}
+<script>
+import {required} from '@orangehrm/core/util/validation/rules';
+import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
+
+export default {
+  name: 'report-criterion-autocomplete',
+  inheritAttrs: false,
+
+  components: {
+    'employee-autocomplete': EmployeeAutocomplete,
+  },
+
+  props: {
+    operator: {
+      type: Object,
+      required: false,
+    },
+    valueX: {
+      type: Object,
+      required: false,
+    },
+  },
+
+  setup(_, context) {
+    const rules = [required];
+    context.emit('update:operator', {id: 'eq', label: 'Equal'});
+
+    return {
+      rules,
+    };
+  },
+};
+</script>
