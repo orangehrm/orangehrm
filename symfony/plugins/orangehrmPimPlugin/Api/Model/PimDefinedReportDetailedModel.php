@@ -71,7 +71,7 @@ class PimDefinedReportDetailedModel implements Normalizable
             $fieldGroup[$selectedDisplayFieldGroup] = [
                 'fields' => $this->getReportGeneratorService()
                     ->getReportGeneratorDao()
-                    ->getSelectedDisplayFieldIdByReportGroupId(
+                    ->getSelectedDisplayFieldIdsByReportGroupId(
                         $detailedReport->getId(),
                         $selectedDisplayFieldGroup
                     ),
