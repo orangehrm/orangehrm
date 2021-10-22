@@ -19,10 +19,13 @@
 
 namespace OrangeHRM\Core\Report\FilterField;
 
+use OrangeHRM\Admin\Traits\Service\CompanyStructureServiceTrait;
 use OrangeHRM\ORM\QueryBuilderWrapper;
 
-class Subunit extends FilterField
+class Subunit extends FilterField implements ValueXNormalizable
 {
+    use CompanyStructureServiceTrait;
+
     /**
      * @inheritDoc
      *
@@ -38,11 +41,18 @@ class Subunit extends FilterField
     {
         $qb = $queryBuilderWrapper->getQueryBuilder();
         if ($this->getOperator() === Operator::IN && !empty($this->getX())) {
-            // explode comma seperated subunit chain when defining the PIM report
-            $subunitIds = explode(',', $this->getX());
             $qb->andWhere($qb->expr()->in('employee.subDivision', ':Subunit_subDivisions'))
-                ->setParameter('Subunit_subDivisions', $subunitIds);
+                ->setParameter('Subunit_subDivisions', $this->getSubunitIds());
         }
+    }
+
+    /**
+     * @return array
+     */
+    private function getSubunitIds(): array
+    {
+        // explode comma seperated subunit chain when defining the PIM report
+        return explode(',', $this->getX());
     }
 
     /**
@@ -51,5 +61,24 @@ class Subunit extends FilterField
     public function getEntityAliases(): array
     {
         return ['employee'];
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function toArrayXValue(): ?array
+    {
+        if (empty($this->getX()) || !isset($this->getSubunitIds()[0])) {
+            return null;
+        }
+
+        $subunit = $this->getCompanyStructureService()->getSubunitById($this->getSubunitIds()[0]);
+        if ($subunit instanceof \OrangeHRM\Entity\Subunit) {
+            return [
+                'id' => $subunit->getId(),
+                'label' => $subunit->getName(),
+            ];
+        }
+        return null;
     }
 }

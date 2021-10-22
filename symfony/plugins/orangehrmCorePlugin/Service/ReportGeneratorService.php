@@ -42,6 +42,7 @@ use OrangeHRM\Entity\CompositeDisplayField;
 use OrangeHRM\Entity\DisplayField;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\Report;
+use OrangeHRM\Entity\SelectedFilterField;
 use OrangeHRM\Entity\SummaryDisplayField;
 use OrangeHRM\ORM\Exception\TransactionException;
 use OrangeHRM\ORM\QueryBuilderWrapper;
@@ -286,12 +287,7 @@ class ReportGeneratorService
         foreach ($selectedFilterFields as $selectedFilterField) {
             $filterField = $selectedFilterField->getFilterField();
             $filterFieldClassName = $filterField->getClassName();
-            $filterFieldClass = new $filterFieldClassName(
-                $selectedFilterField->getOperator(),
-                $selectedFilterField->getX(),
-                $selectedFilterField->getY(),
-                $selectedFilterField->getFilterFieldOrder()
-            );
+            $filterFieldClass = $this->getInitializedFilterFieldInstance($filterFieldClassName, $selectedFilterField);
             if ($filterFieldClass instanceof FilterField) {
                 $filterFieldClass->addWhereToQueryBuilder($queryBuilderWrapper);
                 array_push($joinAliases, ...$filterFieldClass->getEntityAliases());
@@ -405,5 +401,22 @@ class ReportGeneratorService
         }
         return $this->getReportGeneratorDao()
             ->saveReport($report, $selectedDisplayFieldGroupIds, $selectedDisplayFieldIds, $criterias, $includeType);
+    }
+
+    /**
+     * @param string $filterFieldClassName
+     * @param SelectedFilterField $selectedFilterField
+     * @return FilterField
+     */
+    public function getInitializedFilterFieldInstance(
+        string $filterFieldClassName,
+        SelectedFilterField $selectedFilterField
+    ): FilterField {
+        return new $filterFieldClassName(
+            $selectedFilterField->getOperator(),
+            $selectedFilterField->getX(),
+            $selectedFilterField->getY(),
+            $selectedFilterField->getFilterFieldOrder()
+        );
     }
 }
