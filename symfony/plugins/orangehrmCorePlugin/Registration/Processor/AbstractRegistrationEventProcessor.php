@@ -164,7 +164,8 @@ abstract class AbstractRegistrationEventProcessor
             $adminFirstName = '';
             $adminLastName = '';
             $adminContactNumber = '';
-            $username = 'admin'; //TODO this needs to be corrected
+            $username = 'Not Captured';
+            $timeZone = date_default_timezone_get();
             if ($adminEmployee instanceof Employee) {
                 $organizationEmail = $adminEmployee->getWorkEmail();
                 $adminFirstName = $adminEmployee->getFirstName();
@@ -178,7 +179,7 @@ abstract class AbstractRegistrationEventProcessor
                 'telephone' => $adminContactNumber,
                 'admin_first_name' => $adminFirstName,
                 'admin_last_name' => $adminLastName,
-                'timezone' => 'Not captured',
+                'timezone' => $timeZone,
                 'language' => $language,
                 'country' => $country,
                 'organization_name' => $organizationName,
