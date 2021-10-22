@@ -33,18 +33,19 @@ class CsvDataImportService
      * @return int
      * @throws DaoException
      */
-    public function import(string $fileContent, string $importType): int
+    public function import(string $fileContent, string $importType, array $headerValues): int
     {
         $factory = new CsvDataImportFactory();
         $instance = $factory->getImportClassInstance($importType);
         $rowsImported = 0;
         $lines = explode("\n", $fileContent);
         $employeesDataArray = array_map('str_getcsv', $lines);
-
-        for ($i = 1; $i < sizeof($employeesDataArray) - 1; $i++) {
-            $result = $instance->import($employeesDataArray[$i]);
-            if ($result) {
-                $rowsImported++;
+        if($headerValues == $employeesDataArray[0]){
+            for ($i = 1; $i < sizeof($employeesDataArray) - 1; $i++) {
+                $result = $instance->import($employeesDataArray[$i]);
+                if ($result) {
+                    $rowsImported++;
+                }
             }
         }
         return $rowsImported;
