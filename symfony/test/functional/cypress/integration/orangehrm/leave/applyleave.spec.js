@@ -21,7 +21,7 @@ describe('Leave- Apply Leave test script', function () {
   describe('Configuring the system', function () {
     beforeEach(() => {
       cy.viewport(1024, 768);
-      cy.loginTo(user.jane.userName, user.jane.password, '/leave/applyLeave');
+      cy.loginTo(user.admin.userName, user.admin.password, '/leave/applyLeave');
     });
     it('Setting the work week', function () {
       cy.visit('/leave/defineWorkWeek');
@@ -55,7 +55,7 @@ describe('Leave- Apply Leave test script', function () {
     it('add new leave types', () => {
       cy.visit('/leave/leaveTypeList');
       cy.get('.oxd-button').click();
-      cy.get(':nth-child(2) > .oxd-input').type('1---test');
+      cy.get(':nth-child(2) > .oxd-input').type('LeaveType');
       cy.get(
         ':nth-child(1) > :nth-child(2) > .oxd-radio-wrapper > label > .oxd-radio-input',
       ).click();
@@ -72,7 +72,7 @@ describe('Leave- Apply Leave test script', function () {
       cy.get(
         ':nth-child(3) > .oxd-grid-3 > :nth-child(1) > .oxd-input-group > :nth-child(2) > .oxd-select-wrapper > .oxd-select-dropdown',
       )
-        .contains('1---test')
+        .contains('LeaveType')
         .click();
       cy.get(
         ':nth-child(3) > .oxd-grid-3 > :nth-child(2) > .oxd-input-group > :nth-child(2) > .oxd-select-wrapper > .oxd-select-text > .oxd-select-text--after > .oxd-icon',
@@ -111,7 +111,7 @@ describe('Leave- Apply Leave test script', function () {
       cy.get(
         '.oxd-grid-2 > :nth-child(1) > .oxd-input-group > :nth-child(2) > .oxd-select-wrapper > .oxd-select-dropdown',
       )
-        .contains('1---test')
+        .contains('LeaveType')
         .click();
       cy.get('.oxd-button').click();
       cy.get('.oxd-input-group > .oxd-text').should('include.text', 'Required');
@@ -129,7 +129,7 @@ describe('Leave- Apply Leave test script', function () {
       cy.get(
         '.oxd-grid-2 > :nth-child(1) > .oxd-input-group > :nth-child(2) > .oxd-select-wrapper > .oxd-select-dropdown',
       )
-        .contains('1---test')
+        .contains('LeaveType')
         .click();
       cy.get('.orangehrm-leave-balance > .oxd-icon').click();
       cy.get('.orangehrm-header-container > .oxd-text--h6').should(
@@ -150,7 +150,7 @@ describe('Leave- Apply Leave test script', function () {
       cy.get(
         '.oxd-grid-2 > :nth-child(1) > .oxd-input-group > :nth-child(2) > .oxd-select-wrapper > .oxd-select-dropdown',
       )
-        .contains('1---test')
+        .contains('LeaveType')
         .click();
       cy.get('[data-v-4a1cbaad=""] > .oxd-text').should(
         'include.text',
@@ -171,7 +171,7 @@ describe('Leave- Apply Leave test script', function () {
       cy.get(
         '.oxd-grid-2 > :nth-child(1) > .oxd-input-group > :nth-child(2) > .oxd-select-wrapper > .oxd-select-dropdown',
       )
-        .contains('1---test')
+        .contains('LeaveType')
         .click();
       cy.get('[data-v-4a1cbaad=""] > .oxd-text').should(
         'include.text',
@@ -185,7 +185,7 @@ describe('Leave- Apply Leave test script', function () {
       cy.get(
         '.oxd-grid-2 > :nth-child(1) > .oxd-input-group > :nth-child(2) > .oxd-select-wrapper > .oxd-select-dropdown',
       )
-        .contains('1---test')
+        .contains('LeaveType')
         .click();
       cy.get(
         ':nth-child(1) > .oxd-input-group > :nth-child(2) > .oxd-date-wrapper > .oxd-date-input > .oxd-input',
@@ -207,7 +207,7 @@ describe('Leave- Apply Leave test script', function () {
       cy.get(
         '.oxd-grid-2 > :nth-child(1) > .oxd-input-group > :nth-child(2) > .oxd-select-wrapper > .oxd-select-dropdown',
       )
-        .contains('1---test')
+        .contains('LeaveType')
         .click();
       cy.get(
         ':nth-child(1) > .oxd-input-group > :nth-child(2) > .oxd-date-wrapper > .oxd-date-input > .oxd-input',
@@ -250,7 +250,7 @@ describe('Leave- Apply Leave test script', function () {
       cy.get(
         '.oxd-grid-2 > :nth-child(1) > .oxd-input-group > :nth-child(2) > .oxd-select-wrapper > .oxd-select-dropdown',
       )
-        .contains('1---test')
+        .contains('LeaveType')
         .click();
       cy.get(
         ':nth-child(1) > .oxd-input-group > :nth-child(2) > .oxd-date-wrapper > .oxd-date-input > .oxd-input',
@@ -277,7 +277,7 @@ describe('Leave- Apply Leave test script', function () {
       cy.get(
         '.oxd-grid-2 > :nth-child(1) > .oxd-input-group > :nth-child(2) > .oxd-select-wrapper > .oxd-select-dropdown',
       )
-        .contains('1---test')
+        .contains('LeaveType')
         .click();
       cy.get(
         ':nth-child(1) > .oxd-input-group > :nth-child(2) > .oxd-date-wrapper > .oxd-date-input > .oxd-input',
@@ -299,7 +299,7 @@ describe('Leave- Apply Leave test script', function () {
       cy.get(
         '.oxd-grid-2 > :nth-child(1) > .oxd-input-group > :nth-child(2) > .oxd-select-wrapper > .oxd-select-dropdown',
       )
-        .contains('1---test')
+        .contains('LeaveType')
         .click();
       cy.get(
         ':nth-child(1) > .oxd-input-group > :nth-child(2) > .oxd-date-wrapper > .oxd-date-input > .oxd-input',
@@ -327,7 +327,7 @@ describe('Leave- Apply Leave test script', function () {
       cy.get(
         '.oxd-grid-2 > :nth-child(1) > .oxd-input-group > :nth-child(2) > .oxd-select-wrapper > .oxd-select-dropdown',
       )
-        .contains('1---test')
+        .contains('LeaveType')
         .click();
       cy.get(
         ':nth-child(1) > .oxd-input-group > :nth-child(2) > .oxd-date-wrapper > .oxd-date-input > .oxd-input',
@@ -368,7 +368,7 @@ describe('Leave- Apply Leave test script', function () {
       cy.get(
         '.oxd-grid-2 > :nth-child(1) > .oxd-input-group > :nth-child(2) > .oxd-select-wrapper > .oxd-select-dropdown',
       )
-        .contains('1---test')
+        .contains('LeaveType')
         .click();
       cy.get(
         ':nth-child(1) > .oxd-input-group > :nth-child(2) > .oxd-date-wrapper > .oxd-date-input > .oxd-input',
@@ -403,7 +403,7 @@ describe('Leave- Apply Leave test script', function () {
       cy.get(
         '.oxd-grid-2 > :nth-child(1) > .oxd-input-group > :nth-child(2) > .oxd-select-wrapper > .oxd-select-dropdown',
       )
-        .contains('1---test')
+        .contains('LeaveType')
         .click();
       cy.get(
         ':nth-child(1) > .oxd-input-group > :nth-child(2) > .oxd-date-wrapper > .oxd-date-input > .oxd-input',
@@ -444,7 +444,7 @@ describe('Leave- Apply Leave test script', function () {
       cy.get(
         '.oxd-grid-2 > :nth-child(1) > .oxd-input-group > :nth-child(2) > .oxd-select-wrapper > .oxd-select-dropdown',
       )
-        .contains('1---test')
+        .contains('LeaveType')
         .click();
       cy.get(
         ':nth-child(1) > .oxd-input-group > :nth-child(2) > .oxd-date-wrapper > .oxd-date-input > .oxd-input',
@@ -492,7 +492,7 @@ describe('Leave- Apply Leave test script', function () {
       cy.get(
         '.oxd-grid-2 > :nth-child(1) > .oxd-input-group > :nth-child(2) > .oxd-select-wrapper > .oxd-select-dropdown',
       )
-        .contains('1---test')
+        .contains('LeaveType')
         .click();
       cy.get(
         ':nth-child(1) > .oxd-input-group > :nth-child(2) > .oxd-date-wrapper > .oxd-date-input > .oxd-input',
@@ -518,7 +518,7 @@ describe('Leave- Apply Leave test script', function () {
       cy.get(
         '.oxd-grid-2 > :nth-child(1) > .oxd-input-group > :nth-child(2) > .oxd-select-wrapper > .oxd-select-dropdown',
       )
-        .contains('1---test')
+        .contains('LeaveType')
         .click();
       cy.get(
         ':nth-child(1) > .oxd-input-group > :nth-child(2) > .oxd-date-wrapper > .oxd-date-input > .oxd-input',
@@ -554,7 +554,7 @@ describe('Leave- Apply Leave test script', function () {
       cy.get(
         '.oxd-grid-2 > :nth-child(1) > .oxd-input-group > :nth-child(2) > .oxd-select-wrapper > .oxd-select-dropdown',
       )
-        .contains('1---test')
+        .contains('LeaveType')
         .click();
       cy.get(
         ':nth-child(1) > .oxd-input-group > :nth-child(2) > .oxd-date-wrapper > .oxd-date-input > .oxd-input',
@@ -597,7 +597,7 @@ describe('Leave- Apply Leave test script', function () {
       cy.get(
         '.oxd-grid-2 > :nth-child(1) > .oxd-input-group > :nth-child(2) > .oxd-select-wrapper > .oxd-select-dropdown',
       )
-        .contains('1---test')
+        .contains('LeaveType')
         .click();
       cy.get(
         ':nth-child(1) > .oxd-input-group > :nth-child(2) > .oxd-date-wrapper > .oxd-date-input > .oxd-input',
@@ -615,7 +615,7 @@ describe('Leave- Apply Leave test script', function () {
       cy.get(
         '.oxd-grid-2 > :nth-child(1) > .oxd-input-group > :nth-child(2) > .oxd-select-wrapper > .oxd-select-dropdown',
       )
-        .contains('1---test')
+        .contains('LeaveType')
         .click();
       cy.get(
         ':nth-child(1) > .oxd-input-group > :nth-child(2) > .oxd-date-wrapper > .oxd-date-input > .oxd-input',
@@ -637,7 +637,7 @@ describe('Leave- Apply Leave test script', function () {
       cy.get(
         '.oxd-grid-2 > :nth-child(1) > .oxd-input-group > :nth-child(2) > .oxd-select-wrapper > .oxd-select-dropdown',
       )
-        .contains('1---test')
+        .contains('LeaveType')
         .click();
       cy.get(
         ':nth-child(1) > .oxd-input-group > :nth-child(2) > .oxd-date-wrapper > .oxd-date-input > .oxd-input',
@@ -664,7 +664,7 @@ describe('Leave- Apply Leave test script', function () {
       cy.get(
         '.oxd-grid-2 > :nth-child(1) > .oxd-input-group > :nth-child(2) > .oxd-select-wrapper > .oxd-select-dropdown',
       )
-        .contains('1---test')
+        .contains('LeaveType')
         .click();
       cy.get(
         ':nth-child(1) > .oxd-input-group > :nth-child(2) > .oxd-date-wrapper > .oxd-date-input > .oxd-input',
@@ -722,7 +722,7 @@ describe('Leave- Apply Leave test script', function () {
       cy.get(
         '.oxd-grid-2 > :nth-child(1) > .oxd-input-group > :nth-child(2) > .oxd-select-wrapper > .oxd-select-dropdown',
       )
-        .contains('1---test')
+        .contains('LeaveType')
         .click();
       cy.get(
         ':nth-child(1) > .oxd-input-group > :nth-child(2) > .oxd-date-wrapper > .oxd-date-input > .oxd-input',
@@ -740,7 +740,7 @@ describe('Leave- Apply Leave test script', function () {
       cy.get(
         '.oxd-grid-2 > :nth-child(1) > .oxd-input-group > :nth-child(2) > .oxd-select-wrapper > .oxd-select-dropdown',
       )
-        .contains('1---test')
+        .contains('LeaveType')
         .click();
       cy.get(
         ':nth-child(1) > .oxd-input-group > :nth-child(2) > .oxd-date-wrapper > .oxd-date-input > .oxd-input',
@@ -762,7 +762,7 @@ describe('Leave- Apply Leave test script', function () {
       cy.get(
         '.oxd-grid-2 > :nth-child(1) > .oxd-input-group > :nth-child(2) > .oxd-select-wrapper > .oxd-select-dropdown',
       )
-        .contains('1---test')
+        .contains('LeaveType')
         .click();
       cy.get(
         ':nth-child(1) > .oxd-input-group > :nth-child(2) > .oxd-date-wrapper > .oxd-date-input > .oxd-input',
@@ -789,7 +789,7 @@ describe('Leave- Apply Leave test script', function () {
       cy.get(
         '.oxd-grid-2 > :nth-child(1) > .oxd-input-group > :nth-child(2) > .oxd-select-wrapper > .oxd-select-dropdown',
       )
-        .contains('1---test')
+        .contains('LeaveType')
         .click();
       cy.get(
         ':nth-child(1) > .oxd-input-group > :nth-child(2) > .oxd-date-wrapper > .oxd-date-input > .oxd-input',
@@ -855,12 +855,5 @@ describe('Leave- Apply Leave test script', function () {
         'Apply Leave',
       );
     });
-  });
-  after(() => {
-    cy.visit('/leave/leaveTypeList');
-    cy.get(
-      ':nth-child(1) > .oxd-table-row > [style="flex: 1 1 0%;"] > .oxd-table-cell-actions > :nth-child(1)',
-    ).click();
-    cy.get('.orangehrm-modal-footer > .oxd-button--label-danger').click();
   });
 });
