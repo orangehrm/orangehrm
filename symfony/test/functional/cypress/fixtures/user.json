@@ -4,13 +4,18 @@
     "password": "admin@OHRM123",
     "fullName": "Jacqueline White"
   },
+  "jane": {
+    "userName": "JPeterson",
+    "password": "Jane@123",
+    "fullName": "Jane Peterson"
+  },
   "john": {
-    "userName": "John",
+    "userName": "JPerera",
     "password": "John@123",
     "fullName": "John Perera"
   },
   "mike": {
-    "userName": "Mike",
+    "userName": "MCombas",
     "password": "Mike@123",
     "fullName": "Mike Combas"
   }
