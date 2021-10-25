@@ -1,0 +1,208 @@
+.notification-profile-pic-container {
+    width: 55px;
+    height: 55px;
+    margin-top: -8px;
+}
+
+.notification-profile-pic-container img {
+    width: 100%;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    border-radius: 5px;
+}
+
+.notification-profile-pic-container {
+    float: left;
+    border: 2px solid white;
+    vertical-align: middle;
+    position: relative;
+    background-color: #EBEBEB;
+    margin-right: 8px;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.notification-pic-name-container {
+    margin-top: 8px;
+    position: relative;
+}
+
+.notification-elapsed-time {
+    position: absolute;
+    bottom: 0;
+    left: 66px;
+}
+
+.notification-message {
+    width: 280px;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    margin-bottom: 8px;
+}
+
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+    .notification-message {
+        word-wrap: break-word;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+}
+
+.notification-row {
+    border-radius: 5px;
+    background-color: #e3e3e3;
+    height: 60px;
+    overflow: hidden;
+    border: 1px solid #ccc;
+    margin-bottom: 4px;
+    padding: 4px;
+}
+
+.notification-row:hover {
+    cursor: pointer;
+}
+
+.clear-notifications {
+    text-align: right;
+    margin-right: 4px;
+}
+
+.notification-container {
+    margin-top: 12px;
+}
+
+.clear-notifications-link {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.notifications-message {
+    margin-top: 12px;
+    text-align: center;
+}
+
+.notification-badge {
+    background: red;
+}
+
+.hide-notification-badge {
+    display: none;
+}
+
+.empty-notifications-message {
+    margin-top: 16px;
+}
+
+.notification-new-row {
+    background-color: #c3c0c0;
+}
+
+.notification {
+    float: right;
+    padding-top: 68px;
+    margin-right: 12px;
+}
+
+.notification:hover {
+    cursor: pointer;
+}
+
+svg.notification-icon > path {
+    fill: #5d5d5d;
+}
+
+.notification-view-more-modal-body {
+    height: 530px;
+    background-color: #e2e2e2;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.notification-view-more-modal {
+    width: 920px;
+    left: 36%;
+    top: 55%;
+    overflow-x: hidden;
+}
+
+.notification-hide-modal-popup {
+    top: 4px;
+    right: 4px;
+    position: absolute;
+    z-index: 99999;
+    background-color: white;
+
+}
+
+.notification-hide-modal-popup img {
+    border: 2px solid;
+    border-radius: 250px;
+}
+
+#branding img {
+    margin-top: 0 !important;
+}
+
+#branding > a > img {
+    margin-top: 14px !important;
+}
+
+#notificationShareViewMoreModal input[type="button"] {
+    font-size: 16px;
+    margin-left: 81.8%;
+    padding: 5px;
+    width: 105px;
+    float: right;
+    margin-right: 0;
+}
+
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+    #notificationShareViewMoreModal input[type="button"] {
+        font-size: 16px;
+        margin-left: 81.7%;
+        margin-top: -36px;
+        padding: 5px;
+        float: right;
+        margin-right: 0;
+    }
+
+    #notificationShareViewMoreModal .submitBtn {
+        margin-top: -40px;
+    }
+
+    #notificationShareViewMoreModal .submitBtnnew {
+        margin-top: 5px !important;
+    }
+}
+
+#notificationShareView a:hover {
+    text-decoration: underline !important;
+}
+
+/*Following classes override main.css*/
+#welcome {
+    float: right !important;
+    margin-top: 68px !important;
+    margin-right: 8px !important;
+    margin-left: 4px !important;
+    position: relative !important;
+    top: auto !important;
+    right: auto !important;
+}
+
+#MP_btn {
+    padding-right: 0 !important;
+    margin-right: 12px !important;
+}
+
+#Subscriber_link { /*OHRM-632*/
+    max-height: 33px !important;
+}
+
+#MP_link { /*OHRM-632*/
+    max-height: 33px !important;
+}

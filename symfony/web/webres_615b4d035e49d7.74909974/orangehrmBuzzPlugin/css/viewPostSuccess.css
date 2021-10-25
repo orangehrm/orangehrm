@@ -1,0 +1,95 @@
+.likeLinknew{
+    background-color: transparent;
+    opacity: 0.8;
+
+    width: 35px;
+    margin-left: 0px;
+    z-index: 1;
+    position: absolute;
+
+} 
+.unlikeLinknew{
+    background-color: transparent;
+    opacity: 0.8;
+
+    width: 35px;
+    margin-left: 35px;
+    z-index: 1;
+    position: absolute;
+
+}
+.likeLinknew:hover{
+    opacity: 0.8;
+} 
+.unlikeLinknew:hover{
+    opacity: 0.8;
+
+}
+.shareLinknew{
+    background-color: transparent;
+    opacity: 0.8;
+
+    width: 35px;
+    margin-left: 70px;
+    z-index: 1;
+    position: absolute;
+
+}
+#postBodyThirdRowNew{
+    width: 110px;
+    height: 35px;
+    float: right;
+    margin-top: -35px;
+    margin-bottom: -0px;
+}
+#postBodyThirdRowNewPopUP{
+    width: 110px;
+    height: 35px;
+    float: right;
+    margin-top: -0px;
+    margin-bottom: -35px;
+
+}
+
+
+#postBodyReadMore{
+    width: 50px;
+    height: 35px;
+    float: right;
+    margin-top: -30px;
+    margin-bottom: 0px;
+}
+
+.textTopOfImage{
+    color: white;
+    font-size: 20px;
+    margin-left: 23px;
+    margin-top: -27px;
+    z-index: 9998;
+    position: absolute;
+
+}
+.imageContainer {
+    position: relative;
+    width: 100%;
+    height: 230px;
+    margin: 10px auto 0;
+    border-radius: 10px;
+    overflow: hidden;
+}
+.imageContainer div {
+    position: absolute;
+    background: #ccc;
+    border: 5px solid white;
+}
+#postBodySecondRowPop{
+    padding: 12px 5px 5px;
+    margin-top: -12px;
+    text-align: justify;
+    background-color: white;
+    border-radius: 0 0 4px 4px;
+    line-height: 1.5;
+    font-family: 'SourceSansProLight';
+    font-size: 16px;
+
+}

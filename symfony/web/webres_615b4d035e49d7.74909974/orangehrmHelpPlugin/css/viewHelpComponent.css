@@ -1,0 +1,13 @@
+.help-icon-div {
+    float: right;
+    padding-top: 68px;
+    margin-right: 12px;
+}
+
+.help-icon-div:hover {
+    cursor: pointer;
+}
+
+svg.help-icon > path {
+    fill: #5d5d5d;
+}

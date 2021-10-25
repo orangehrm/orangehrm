@@ -1,0 +1,355 @@
+
+input:not([type="image"]) {
+    background-color: transparent;
+    border: none;
+}
+
+#txtUsername {
+    width: 240px;
+    border: 0px;
+    background-color: transparent;
+}
+
+#txtPassword {
+    width: 240px;
+    border: 0px;
+    background-color: transparent;
+}
+
+#forgotPasswordLink {
+    width: 270px;
+    background-color: transparent;
+    height: 20px;
+    margin-top: 1px;
+    margin-right: 0px;
+    margin-bottom: 0px;
+}
+
+.loginSuccessMessage {
+    font-size: 15px;
+    font-weight: bold;
+    padding-left: 55px;
+    width: 100%;
+}
+
+stop.inner {
+    stop-color: #f0d47b;/*$login-logo-inner-color;*/
+}
+
+stop.outer {
+    stop-color: #c08117; /*$login-logo-outer-color;*/
+}
+
+body {
+    background-color: #FFFFFF;
+    height: 700px;
+    font-family: Roboto, Arial, Helvetica, sans-serif;
+}
+
+a {
+    outline: none;
+    color: #5d5d5d;
+}
+
+img {
+    border: none;
+}
+
+#wrapper {
+    min-width: 940px;
+    overflow: hidden;
+}
+
+form input, form select,  form textarea {
+    font-size:13px;
+    border:1px solid #d2d1d1;
+    color: #666666;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    outline:none;
+    padding:4px 6px;
+    background-color: #FFF;
+    background-color: transparent;
+    border: none;
+}
+input[type="button"], input[type="submit"], input[type="reset"] {
+
+    color:#fff;
+    font-size:15px;
+    padding:8px 20px;
+    border:none;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    margin-right:4px;
+}
+input:focus, select:focus, textarea:focus {
+    background-color: transparent;
+    border: none;
+}
+
+.textInputContainer {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 11px;
+    color: #666666;
+}
+
+#divLoginImageContainer {
+    width: 1024px;
+    height: 390px;
+    margin: auto;
+}
+
+#divLoginImage {
+    width: 1024px;
+    height: 390px;
+    border-style: hidden;
+}
+
+#divLoginForm {
+    margin-left: 466px;
+    position: relative;
+    width: 1024px;
+    height: 390px;
+    top: -390px;
+}
+
+#frmLogin {
+    height: 100%;
+}
+
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 100px #f4f4f4 inset;
+}
+
+#logInPanelHeading {
+    color: #000000;/*$login-panel-heading-font-color;*/
+    position: absolute;
+    top: 63px;
+    font-family: sans-serif;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+#divUsername {
+    position: absolute;
+    top: 113px;
+}
+
+#divPassword {
+    position: absolute;
+    top: 164px;
+}
+
+#divLoginHelpLink {
+    position: absolute;;
+    background-color: transparent;
+    width: 270px;
+    height: 20px;
+    top: 185px;
+    font-size: 12px;
+}
+
+#divLoginButton {
+    position: absolute;
+    top: 205px;
+    width: 350px;
+}
+
+#txtUsername, #txtPassword {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 11px;
+    color: #666666;
+    vertical-align: middle;
+    padding-top: 0;
+    width: 220px;
+    border: 0px;
+    background-color: transparent;
+}
+
+#btnLogin {
+    padding: 0;
+    cursor: pointer;
+    width: 94px;
+    height: 26px;
+    border: none;
+    color: #FFFFFF;
+    font-weight: bold;
+    font-size: 13px;
+    position: relative;
+}
+
+#btnLogin:hover {
+    background-color: transparent;
+}
+
+#btnLogin::-moz-focus-inner {
+    border: 0;
+}
+
+#divLink {
+    padding-left: 230px;
+    padding-top: 105px;
+    float: left;
+}
+
+#divLogo {
+    text-align: center;
+    padding-top: 8px;
+    height: 180px;
+}
+
+#divLogo > img {
+    max-height: 180px;
+    width: 33%;
+}
+
+#spanMessage {
+    background: transparent url("../images/login/mark.png") no-repeat;
+    padding-left: 18px;
+    padding-top: 0px;
+    color: #DD7700;
+    font-weight: bold;
+}
+
+#spanMessage.blocking {
+    background: #F1C6BD;
+    display: block;
+    position: relative;
+    top: 25px;
+    left: -51px;
+    width: 325px;
+    border-radius: 8px;
+    border: 3px solid #D48574;
+    color: #AA4935;
+}
+
+.form-hint {
+    color: #878787;
+    padding: 4px 8px;
+    position: relative;
+    left: -234px;
+}
+
+#content > div:nth-child(3) > div {
+    padding: 5px !important;
+}
+
+#flashLicense {
+    text-align: center;
+}
+
+#footer {
+    text-align: center;
+    padding: 50px 0px 30px;
+    color: #777;
+    font-size: 12px;
+    height: 90px;
+    line-height: 1.5;
+}
+
+/* ================ System message styles: Begin ================ */
+.system_message {
+    border:1px solid #d2d1d1;
+    color:#5d5d5d;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    font-weight:bold;
+    padding:14px;
+    margin: 20px 10px 0px 10px;
+    position:relative;
+    letter-spacing:1px;
+}
+/* ================ System message styles: Begin ================ */
+/* ================ Top level message styles: Begin ================ */
+.message {
+    border:1px solid #d2d1d1;
+    color:#5d5d5d;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    font-weight:bold;
+    padding:14px;
+    margin-bottom:15px;
+    position:relative;
+    letter-spacing:1px;
+}
+.message div.detailedMessage{
+    margin-top: 10px;
+}
+.message a.messageCloseButton {
+    text-indent:-9999px;
+    width:23px;
+    height:23px;
+    position:absolute;
+    top:10px;
+    right:12px;
+}
+.warning {
+    border:1px solid #f8e3a4;
+    color:#e79400;
+    background-color:#fff4c7;
+}
+.warning a {
+    color:#e79400;
+}
+.warning a.messageCloseButton {
+    background:url("../images/warning-btn.png") no-repeat;
+    color:#e79400;
+}
+.error {
+    border:1px solid #d48574;
+    color:#aa4935;
+    background-color:#f1c6bd;
+}
+a.error {
+    border: 0;
+    color:#aa4935;
+    background-color: inherit;
+}
+
+.error a {
+    background:url("../images/error-btn.png") no-repeat;
+}
+.success {
+    border:1px solid #cdeba4;
+    color:#6ea800;
+    background-color:#e0f2c7;
+}
+.success a {
+    background:url("../images/success-btn.png") no-repeat;
+}
+
+div.message ol {
+    border-bottom: 0;
+    margin: 0;
+    padding: 0;
+}
+
+div.message ol li {
+    margin: 3px 0 10px;
+}
+
+#divPassword .eyeHidden {
+    display: none;
+}
+
+#divPassword .eyeVisible {
+    position: relative;
+    display: block;
+    fill: #7F7F7F;
+    width: 20px;
+    height: 20px;
+    right: -227px;
+    top: -19px;
+    cursor: pointer;
+}
+
+@media screen and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+    ::-ms-reveal
+    {
+        display: none;
+    }
+}

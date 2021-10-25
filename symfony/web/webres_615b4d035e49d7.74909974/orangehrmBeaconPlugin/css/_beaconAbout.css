@@ -1,0 +1,24 @@
+#displayAbout.modal {
+    width: 600px;
+    left: 45%;
+    top: 45%;
+   
+}
+
+#displayAbout .modal-body {
+    max-height: 800px;
+}
+
+#displayAbout label {
+    width: 300px;
+}
+
+#displayAbout .aboutLink {
+    color: blue;
+}
+
+#heartbeatDescription {
+    border: #000 solid thin;
+    background: white;
+    padding: 5px;
+}

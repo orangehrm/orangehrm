@@ -1,0 +1,198 @@
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ *
+ *
+ */
+
+root { 
+    display: block;
+}
+
+body {
+    font-family: Arial,Verdana,Helvetica,sans-serif;
+}
+
+/* Start round border styles */
+.outerbox .top .left{
+	float:left;
+	width:8px;
+	height:2px;
+	background: #FAD163 url(../../../../themes/orange/pictures/topleft.gif) no-repeat top left;
+}
+
+.outerbox .top .right{
+	float:right;
+	width:8px;
+	height:2px;
+	background: #FAD163 url(../../../../themes/orange/pictures/topright.gif) no-repeat top right;
+}
+
+.outerbox .top .middle{
+	margin:0 8px;
+	background:#FAD163;
+	height:2px;
+}
+.outerbox .bottom .left{
+	float:left;
+	width:8px;
+	height:2px;
+	background: #FAD163 url(../../../../themes/orange/pictures/bottomleft.gif) no-repeat bottom left;
+}
+
+.outerbox .bottom .right{
+	float:right;
+	width:8px;
+	height:2px;
+	background: #FAD163 url(../../../../themes/orange/pictures/bottomright.gif) no-repeat bottom right;
+}
+
+.outerbox .bottom .middle{
+	margin:0 8px;
+	background:#FAD163;
+	height:2px;
+}
+.outerbox .maincontent {
+    background-color: white;
+	border:0px solid #FAD163;
+	border-width:0 1px;
+    padding-bottom: 20px;
+    height: auto;
+    margin-bottom: -2px;
+    padding-bottom: 2px;
+}
+
+
+.outerbox {
+    margin: auto;
+	margin-top: 40px;
+	width: 50%;
+}
+
+div.mainHeading {
+	margin: -20px 0px 0px 0px;
+	width:auto;
+	border:0;
+	background-color: #FAD163;
+	color: black;
+	text-align:left;
+}
+
+.jobItem {
+    text-align: left;
+    font-size: 14px;
+    margin: -32px 20px 10px 20px;
+}
+
+#toggleJobList {
+    float: right;
+    margin: -10px 20px 0px 0px;
+    font-size: 12px;
+}
+
+#toggleJobList span {
+    text-decoration: underline;
+    cursor: pointer; 
+}
+
+.vacancyDescription, .vacancyShortDescription {
+    display: none;
+    font-size: 12px;
+    font-family: Arial,Verdana,Helvetica,sans-serif;
+    line-height: 15px;
+}
+
+.vacancyShortDescription {
+    display: block;
+}
+
+.applyLink {
+    display: none;
+}
+
+.vacancyTitle :hover{    
+    background-color: #d5d5d5;
+    cursor: default;
+}
+
+input.apply {
+    background: none repeat scroll 0 0 #999966 !important;
+    border-color: #CCCC99 #666633 #666633 #CCCC99 !important;
+    border-style: solid !important;
+    border-width: 1px !important;
+    color: #FFFFFF !important;
+    cursor: default;
+    font-size: 11px;
+    font-weight: bold !important;
+    min-width: 75px;
+    width: auto;
+}
+
+input.applyhov {
+	border-color: #c63 #c63 #930 #930 !important;
+}
+
+.plusOrMinusmark {
+    text-align: right;
+    margin-top: 10px;
+    padding: 20px 25px 0px 0px;
+    font-weight: lighter;
+    font-size: 12px;
+}
+
+.plusMark, .minusMark {
+    cursor: pointer;
+}
+
+.minusMark {
+    display: none;
+}
+
+h2 {
+    color: black;
+    font-family: Arial,Verdana,Helvetica,sans-serif;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    margin-top: 18px;
+    padding: 10px 0px 10px 10px;
+}
+
+.noVacanciesMessage {
+    font-size: 12px;
+    font-family: Arial,Verdana,Helvetica,sans-serif;
+    padding-left: 10px;
+}
+
+a:link, a:visited {
+    color: #444444;
+}
+
+.verticalLine {
+    background-color: #FAD163;
+    border: medium none;
+    height: 2px;
+    margin: 20px 20px 10px;
+}
+
+pre {
+    overflow: auto;
+    white-space: pre-wrap;       /* css-3 */
+    white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
+    white-space: -pre-wrap;      /* Opera 4-6 */
+    white-space: -o-pre-wrap;    /* Opera 7 */
+    word-wrap: break-word;       /* Internet Explorer 5.5+ */
+}

@@ -1,0 +1,20 @@
+.empImage {
+    float: left;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    zing: border-box;
+    padding-top: 0.75rem !important;
+    padding-left: 0.75rem !important;
+    padding-right: 0.75rem !important;
+    display: grid;
+}
+
+.empImage label {
+    padding-bottom: 0.75rem;
+}
+
+#image_label {
+    font-size: medium;
+    padding-right: 0.75rem !important;
+}

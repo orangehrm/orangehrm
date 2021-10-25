@@ -1,0 +1,15 @@
+div#wrapper {
+    min-width: 1250px;
+}
+
+div#employee-details form ol li span.validation-error {
+    font-size: 12px;    
+    display:block;
+    position:static;
+
+    margin-top: 6px; 
+}
+
+form ol li ol.fieldsInLine li {
+    text-align: left;
+}

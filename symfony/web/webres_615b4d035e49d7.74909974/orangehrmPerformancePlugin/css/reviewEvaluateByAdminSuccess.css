@@ -1,0 +1,182 @@
+div.reviewers{
+    margin-left: 20px;
+    background-color: #fdfdfd; 
+}
+
+div.evaluation {
+    margin: 10px 0px 10px 0px;    
+}
+
+.evaluation table{
+    background-color: #fdfdfd;
+    border-collapse: collapse;
+    border-color: #dedede; 
+    width: 100%;
+}
+
+.evaluationexpand table{
+    background-color: #fdfdfd;
+    border-collapse: collapse;
+    border-color: #dedede; 
+    width: 100%;
+}
+
+.evaluationexpand table th{
+   background-color: #dedede;
+}
+
+.evaluation table th{
+   background-color: #dedede;
+}
+
+.evaluation table td,th{
+    border-collapse: collapse;
+    padding: 7px;
+    vertical-align: top;
+}
+.evaluationexpand table td,th{
+    border-collapse: collapse;   
+    padding: 7px;
+    vertical-align: top;
+    border: 1px solid #dedede;
+}
+
+td.rightAlign  {
+   text-align: right !important;
+}
+
+div.reviewInfo{
+    margin-left: 20px;
+    background-color: #fdfdfd;
+    border-width: 1px;
+    border-color:  #dedede;
+    border-style: solid;
+    margin-right: 20px;
+}
+
+div.instructions{
+    background-color: #fdfdfd;
+    margin-left: 20px;
+    margin-right: 20px;
+    border-width: 0px;
+}
+
+th.evaluationEmployee{
+    border-color: white;
+    
+}
+
+div.error{
+    padding-left: 220px !important;
+}
+
+div.evaluation{
+    margin: 0 0;
+}
+
+div.mainHeading2 {
+    background-color: #FAD163;
+    border: 0 none;
+    color: black;
+    padding: 4px 0 7px 8px;
+    text-align: left;
+    width: auto;
+    margin-right: 0px;
+    margin-left: 0px;
+}
+
+.box .smallerHeader h1 {
+    background: url("../../themes/default/images/h1-bg.png") repeat-x scroll left bottom #F3F3F3;
+    border: 1px solid #DEDEDE;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    color: #5D5D5D;
+    font-size: 15px;
+    line-height: 15px;
+    padding: 9px 20px;
+}
+
+#review-details dl {
+    display: block;
+    clear: both;
+}
+
+#review-details dt {
+    width: 150px;
+    display: block;
+    float: left;
+    margin-right: 5px;
+    padding-left: 3px;
+}
+
+#review-details dd {
+    width: 200px;
+    display: block;
+    float: left;
+    width: 200px;
+}
+
+form ol li {
+    padding-left: 20px;
+}
+
+form ol li span.validation-error {
+    left: 170px;
+}
+
+.reviewInfo{
+    float: left; 
+    width: 670px;
+}
+.labelName{
+    font-weight: bold;
+    padding-left: 20px !important;
+
+}
+
+.reviewersreviewInfo{
+    float: left; 
+    min-height: 202px; 
+    width: 400px; 
+    margin-left: 20px
+    
+}
+
+#induvidualEvaluate{
+    width: 400px;
+}
+
+.evaluateBy{
+    width: 600px; 
+    margin-left: 20px;
+    border: 1;
+}
+#reviewData{
+    display: block;
+}
+
+.tableColoumnWidth{
+    width:40% ;
+}
+.tableColoumnWidthname{
+    width:22%;
+}
+#reviewColoumnId{
+    width:80%;
+}
+.trReviewHeight{
+    height: 20px;
+    vertical-align: middle;
+}
+
+.expandTable{
+    width: 97%;
+}
+
+form table span.validation-error{
+    width: auto;
+}
+
+#reviewEvaluation_hrAdminComments {
+    width: 600px;
+}

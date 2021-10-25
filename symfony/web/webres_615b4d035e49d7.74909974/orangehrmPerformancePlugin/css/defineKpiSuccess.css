@@ -1,0 +1,26 @@
+/* 
+    Document   : saveAppraisalHeaderSuccess
+    Created on : Feb 28, 2012, 12:18:22 PM
+    Author     : nadeera
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+div.error {
+    padding-left: 156px;
+    padding-top: 1px !important;
+    text-align: left;
+    width: auto;
+    font-size: 11px;
+}
+br{
+    clear: both;
+}
+
+form ol li label {
+    width: 180px;
+}
+
+form ol li span.validation-error {
+    left: 180px;
+}

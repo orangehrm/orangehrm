@@ -226,4 +226,14 @@ final class Services
      * @see \OrangeHRM\Pim\Service\EmployeeService
      */
     public const EMPLOYEE_SERVICE = 'pim.employee_service';
+
+
+    ///////////////////////////////////////////////////////////////
+    /// Recruitment plugin services
+    ///////////////////////////////////////////////////////////////
+
+    /**
+     * @see \OrangeHRM\Recruitment\Service\VacancyService
+     */
+    public const VACANCY_SERVICE = 'recruitment.vacancy_service';
 }

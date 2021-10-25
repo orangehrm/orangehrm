@@ -19,7 +19,7 @@
 
 namespace OrangeHRM\Admin\Controller\File;
 
-use OrangeHRM\Admin\Service\JobTitleService;
+use OrangeHRM\Admin\Service\VacancyService;
 use OrangeHRM\Core\Controller\AbstractFileController;
 use OrangeHRM\Entity\JobSpecificationAttachment;
 use OrangeHRM\Framework\Http\Request;
@@ -28,17 +28,17 @@ use OrangeHRM\Framework\Http\Response;
 class JobSpecification extends AbstractFileController
 {
     /**
-     * @var JobTitleService|null
+     * @var VacancyService|null
      */
-    protected ?JobTitleService $jobTitleService = null;
+    protected ?VacancyService $jobTitleService = null;
 
     /**
-     * @return JobTitleService
+     * @return VacancyService
      */
-    public function getJobTitleService(): JobTitleService
+    public function getJobTitleService(): VacancyService
     {
-        if (!$this->jobTitleService instanceof JobTitleService) {
-            $this->jobTitleService = new JobTitleService();
+        if (!$this->jobTitleService instanceof VacancyService) {
+            $this->jobTitleService = new VacancyService();
         }
         return $this->jobTitleService;
     }

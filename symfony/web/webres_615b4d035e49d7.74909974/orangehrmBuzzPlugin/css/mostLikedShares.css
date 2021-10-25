@@ -1,0 +1,116 @@
+#morePostLiked{
+    float: right;
+    margin-top: -7px;
+    margin-right: -10px;
+}
+
+#lessPostLiked{
+    float: right;
+    margin-top: -7px;
+    margin-right: -10px;
+    display: none;
+}
+
+#moreCommentLiked{
+    float: right;
+    margin-top: -7px;
+    margin-right: -10px;
+}
+
+#lessCommentLiked{
+    float: right;
+    margin-top: -7px;
+    margin-right: -10px;
+    display: none;
+}
+
+#componentTitleImage{
+    width: 40%;
+    float: left;
+}
+
+#componentTitleImage img{
+    min-width: 70%;
+}
+#firstShare{
+    width: 58%;
+    float: left;
+}
+#rowTwo{
+
+}
+#secondShare{
+    width: 49%;
+    float: left;
+}
+#thirdShare{
+    width: 49%;
+    float: left;
+}
+#fourthShare{
+    width: 49%;
+    float: left;
+}
+
+#fifthShare{
+    width: 49%;
+    float: left;
+}
+
+#ml_componentContainer div{
+    font-size: 95%;
+}
+
+#ml_componentContainer .modal{
+    overflow: hidden;
+    font-size: 140%;
+    margin-top: 3px;
+    top: 10%;
+
+}
+
+#mc_componentContainer .modal{
+    overflow: hidden;
+    font-size: 140%;
+    margin-top: 3px;
+    top: 10%;
+
+}
+
+#mc_componentContainer div{
+    font-size: 95%;
+}
+
+#ml_componentContainer{
+    padding: 5px;
+    border-radius: 0 0 8px 8px;
+    overflow-y:auto;
+    margin-bottom: 20px;
+    height: 250px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+#mc_componentContainer{
+    padding: 5px;
+    border-radius: 0 0 8px 8px;
+    overflow-y:auto;
+    margin-bottom: 20px;
+    height: 250px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+.likeRaw{
+    width: 95%;
+    border-radius: 5px;
+    background-color: #e3e3e3;
+    height: 60px;
+    overflow: hidden;
+    border: 1px solid #ccc;
+    margin-bottom: 4px;
+    padding: 4px;
+}
+
+.likeRaw:hover{
+    cursor: pointer;
+}

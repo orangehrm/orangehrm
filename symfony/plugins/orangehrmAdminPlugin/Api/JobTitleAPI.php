@@ -43,7 +43,7 @@ use OrangeHRM\Entity\JobTitle;
 class JobTitleAPI extends Endpoint implements CrudEndpoint
 {
     /**
-     * @var null|JobTitleService
+     * @var JobTitleService|null
      */
     protected ?JobTitleService $jobTitleService = null;
 
@@ -108,6 +108,7 @@ class JobTitleAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @inheritDoc
+     * @throws \OrangeHRM\Core\Exception\DaoException
      */
     public function getAll(): EndpointResult
     {
@@ -120,7 +121,6 @@ class JobTitleAPI extends Endpoint implements CrudEndpoint
             true
         );
         $jobTitleSearchFilterParams->setActiveOnly($activeOnly);
-
         $count = $this->getJobTitleService()->getJobTitleDao()->getJobTitlesCount($jobTitleSearchFilterParams);
 
         $jobTitles = $this->getJobTitleService()->getJobTitleDao()->getJobTitles($jobTitleSearchFilterParams);
