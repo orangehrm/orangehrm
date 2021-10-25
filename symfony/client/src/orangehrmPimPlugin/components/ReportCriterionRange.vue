@@ -22,7 +22,6 @@
   <oxd-grid-item>
     <oxd-input-field
       type="select"
-      label="&nbsp;"
       :rules="rules.operator"
       :options="operators"
       :modelValue="operator"
@@ -34,26 +33,20 @@
     class="orangehrm-report-range"
   >
     <oxd-input-field
-      label="&nbsp;"
-      :type="type"
       :rules="rules.valueX"
       :modelValue="valueX"
       @update:modelValue="$emit('update:valueX', $event)"
     />
     <oxd-text class="orangehrm-report-range-text" tag="p">to</oxd-text>
     <oxd-input-field
-      label="&nbsp;"
-      :type="type"
-      :rules="rules.valueX"
+      :rules="rules.valueY"
       :modelValue="valueY"
       @update:modelValue="$emit('update:valueY', $event)"
     />
   </oxd-grid-item>
   <oxd-grid-item v-else-if="operator">
     <oxd-input-field
-      label="&nbsp;"
-      :type="type"
-      :rules="rules.valueY"
+      :rules="rules.valueXOnly"
       :modelValue="valueX"
       @update:modelValue="$emit('update:valueX', $event)"
     />
@@ -62,7 +55,7 @@
 
 <script>
 import {ref} from 'vue';
-import {required} from '@orangehrm/core/util/validation/rules';
+import {required, digitsOnly, max} from '@orangehrm/core/util/validation/rules';
 
 export default {
   name: 'report-criterion-range',
@@ -80,12 +73,8 @@ export default {
       type: String,
       required: false,
     },
-    type: {
-      type: String,
-      default: 'input',
-    },
   },
-  setup() {
+  setup(props) {
     const operators = ref([
       {id: 'lt', label: 'Less Than'},
       {id: 'gt', label: 'Greater Than'},
@@ -94,8 +83,29 @@ export default {
 
     const rules = {
       operator: [required],
-      valueX: [required],
-      valueY: [required],
+      valueXOnly: [required, digitsOnly, max(100)],
+      valueX: [
+        required,
+        digitsOnly,
+        max(100),
+        v => {
+          return (
+            parseInt(v) < parseInt(props.valueY) ||
+            'Should be less than upper bound'
+          );
+        },
+      ],
+      valueY: [
+        required,
+        digitsOnly,
+        max(100),
+        v => {
+          return (
+            parseInt(v) > parseInt(props.valueX) ||
+            'Should be greater than lower bound'
+          );
+        },
+      ],
     };
 
     return {
@@ -111,11 +121,14 @@ export default {
   &-range {
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: baseline;
   }
   &-range-text {
     margin: 0 1rem;
     font-size: $oxd-input-control-font-size;
   }
+}
+::v-deep(.oxd-input-group__label-wrapper) {
+  display: none;
 }
 </style>

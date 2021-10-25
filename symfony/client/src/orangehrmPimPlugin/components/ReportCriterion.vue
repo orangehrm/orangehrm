@@ -203,7 +203,7 @@ export default {
 .orangehrm-report {
   &-criteria {
     display: flex;
-    align-items: center;
+    align-items: baseline;
   }
   &-criteria-name {
     margin-left: 1rem;

@@ -19,17 +19,121 @@
  -->
 
 <template>
-  <report-criterion-range type="date"></report-criterion-range>
+  <oxd-grid-item>
+    <oxd-input-field
+      type="select"
+      :rules="rules.operator"
+      :options="operators"
+      :modelValue="operator"
+      @update:modelValue="$emit('update:operator', $event)"
+    />
+  </oxd-grid-item>
+  <oxd-grid-item
+    v-if="operator && operator.id === 'between'"
+    class="orangehrm-report-daterange --span-column-2"
+  >
+    <oxd-input-field
+      type="date"
+      placeholder="yyyy-mm-dd"
+      :rules="rules.valueX"
+      :modelValue="valueX"
+      @update:modelValue="$emit('update:valueX', $event)"
+    />
+    <oxd-text class="orangehrm-report-range-text" tag="p">to</oxd-text>
+    <oxd-input-field
+      type="date"
+      placeholder="yyyy-mm-dd"
+      :rules="rules.valueY"
+      :modelValue="valueY"
+      @update:modelValue="$emit('update:valueY', $event)"
+    />
+  </oxd-grid-item>
+  <oxd-grid-item v-else-if="operator">
+    <oxd-input-field
+      type="date"
+      placeholder="yyyy-mm-dd"
+      :rules="rules.valueXOnly"
+      :modelValue="valueX"
+      @update:modelValue="$emit('update:valueX', $event)"
+    />
+  </oxd-grid-item>
 </template>
 
 <script>
-import ReportCriterionRange from '@/orangehrmPimPlugin/components/ReportCriterionRange';
+import {ref} from 'vue';
+import {
+  required,
+  validDateFormat,
+  endDateShouldBeAfterStartDate,
+  startDateShouldBeBeforeEndDate,
+} from '@orangehrm/core/util/validation/rules';
 
 export default {
   name: 'report-criterion-date-range',
+  inheritAttrs: false,
+  props: {
+    operator: {
+      type: Object,
+      required: false,
+    },
+    valueX: {
+      type: String,
+      required: false,
+    },
+    valueY: {
+      type: String,
+      required: false,
+    },
+  },
+  setup(props) {
+    const operators = ref([
+      {id: 'lt', label: 'Less Than'},
+      {id: 'gt', label: 'Greater Than'},
+      {id: 'between', label: 'Range'},
+    ]);
 
-  components: {
-    'report-criterion-range': ReportCriterionRange,
+    const rules = {
+      operator: [required],
+      valueXOnly: [required, validDateFormat()],
+      valueX: [
+        required,
+        validDateFormat(),
+        startDateShouldBeBeforeEndDate(
+          () => props.valueY,
+          'From date should be before to date',
+        ),
+      ],
+      valueY: [
+        required,
+        validDateFormat(),
+        endDateShouldBeAfterStartDate(
+          () => props.valueX,
+          'To date should be after from date',
+        ),
+      ],
+    };
+
+    return {
+      rules,
+      operators,
+    };
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.orangehrm-report {
+  &-daterange {
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+  }
+  &-range-text {
+    margin: 0 1rem;
+    font-size: $oxd-input-control-font-size;
+  }
+}
+::v-deep(.oxd-input-group__label-wrapper) {
+  display: none;
+}
+</style>
