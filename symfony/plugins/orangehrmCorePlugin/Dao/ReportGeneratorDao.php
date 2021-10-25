@@ -374,7 +374,7 @@ class ReportGeneratorDao extends BaseDao
      * @param int $reportId
      * @return int[]
      */
-    public function getSelectedDisplayFieldListByReportId(int $reportId): array
+    public function getSelectedDisplayFieldIdsByReportId(int $reportId): array
     {
         $q = $this->createQueryBuilder(DisplayField::class, 'df');
         $q->leftJoin('df.selectedDisplayFields', 'sdf');
@@ -390,7 +390,7 @@ class ReportGeneratorDao extends BaseDao
      * @param int $reportGroupId
      * @return int[]
      */
-    public function getSelectedDisplayFieldIdByReportGroupId(int $reportId, int $reportGroupId): array
+    public function getSelectedDisplayFieldIdsByReportGroupId(int $reportId, int $reportGroupId): array
     {
         $q = $this->createQueryBuilder(SelectedDisplayField::class, 'sdf');
         $q->leftJoin('sdf.displayField', 'df');
