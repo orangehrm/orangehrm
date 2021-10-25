@@ -132,8 +132,7 @@ export default {
 
   setup(props) {
     const http = new APIService(
-      // window.appGlobal.baseUrl,
-      'https://884b404a-f4d0-4908-9eb5-ef0c8afec15c.mock.pstmn.io',
+      window.appGlobal.baseUrl,
       `/api/v2/admin/email-subscriptions/${props.subscriptionId}/subscribers`,
     );
 
