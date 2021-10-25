@@ -21,7 +21,7 @@ describe('Leave- Apply Leave test script', function () {
   describe('Configuring the system', function () {
     beforeEach(() => {
       cy.viewport(1024, 768);
-      cy.loginTo(user.admin.userName, user.admin.password, '/leave/applyLeave');
+      cy.loginTo(user.jane.userName, user.jane.password, '/leave/applyLeave');
     });
     it('Setting the work week', function () {
       cy.visit('/leave/defineWorkWeek');
