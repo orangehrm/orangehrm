@@ -255,6 +255,34 @@ apiv2_admin_pay_grade:
   defaults:
     _api: OrangeHRM\Admin\Api\PayGradeAPI
 
+apiv2_admin_email_subscription:
+  path: /api/v2/admin/email-subscriptions/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ PUT ]
+  defaults:
+    _api: OrangeHRM\Admin\Api\EmailSubscriptionAPI
+
+apiv2_admin_email_subscriptions:
+  path: /api/v2/admin/email-subscriptions
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Admin\Api\EmailSubscriptionAPI
+
+apiv2_admin_email_subscribers:
+  path: /api/v2/admin/email-subscriptions/{emailSubscriptionId}/subscribers
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST, DELETE ]
+  defaults:
+    _api: OrangeHRM\Admin\Api\EmailSubscriberAPI
+
+apiv2_admin_email_subscriber:
+  path: /api/v2/admin/email-subscriptions/{emailSubscriptionId}/subscribers/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    _api: OrangeHRM\Admin\Api\EmailSubscriberAPI
+
 ##########################
 #        Files
 ##########################

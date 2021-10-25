@@ -65,7 +65,7 @@ const subscribersNormalizer = data => {
             })
             .join(', ')
         : '',
-      enabled: item.enabled,
+      enabled: item.isEnabled,
       _loading: false,
     };
   });
@@ -74,8 +74,7 @@ const subscribersNormalizer = data => {
 export default {
   setup() {
     const http = new APIService(
-      // window.appGlobal.baseUrl,
-      'https://884b404a-f4d0-4908-9eb5-ef0c8afec15c.mock.pstmn.io',
+      window.appGlobal.baseUrl,
       '/api/v2/admin/email-subscriptions',
     );
     const {total, response, isLoading} = usePaginate(http, {
@@ -137,7 +136,7 @@ export default {
               })
               .then(response => {
                 const {data} = response.data;
-                this.items.data[index].enabled = data.enabled;
+                this.items.data[index].enabled = data.isEnabled;
                 this.$toast.updateSuccess();
               })
               .finally(() => {
