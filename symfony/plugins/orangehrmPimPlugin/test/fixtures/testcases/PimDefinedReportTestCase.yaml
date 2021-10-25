@@ -51,16 +51,20 @@ GetOne:
     data:
       id: 1
       name: 'PIM Sample Report'
-      include: 'currentAndPast'
+      include: 'onlyCurrent'
       criteria:
         1:
-          x: ''
+          x:
+            id: 1
+            label: 'PhD'
           y: ''
-          operator: ''
-        2:
-          x: ''
-          y: ''
-          operator: ''
+          operator: 'eq'
+        3:
+          x:
+            id: 1
+            label: 'Pay Grade 1'
+          y: null
+          operator: 'eq'
       fieldGroup:
         1:
           fields:
@@ -89,13 +93,13 @@ Create:
       include: 'onlyCurrent'
       criteria:
         1:
-          x: 'v1'
-          y: 'v2'
-          operator: '='
-        3:
-          x: ''
+          x: '1'
           y: ''
-          operator: '>'
+          operator: 'eq'
+        3:
+          x: '1'
+          y: ''
+          operator: 'eq'
       fieldGroup:
         1:
           fields: [ 1,2,3 ]
@@ -119,13 +123,13 @@ Update:
       include: 'onlyCurrent'
       criteria:
         1:
-          x: ''
+          x: '1'
           y: ''
-          operator: ''
+          operator: 'eq'
         3:
-          x: ''
+          x: '1'
           y: ''
-          operator: ''
+          operator: 'eq'
       fieldGroup:
         1:
           fields: [ 1,2,3 ]

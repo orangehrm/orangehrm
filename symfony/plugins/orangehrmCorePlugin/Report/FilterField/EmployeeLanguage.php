@@ -19,9 +19,11 @@
 
 namespace OrangeHRM\Core\Report\FilterField;
 
+use OrangeHRM\Admin\Service\LanguageService;
+use OrangeHRM\Entity\Language;
 use OrangeHRM\ORM\QueryBuilderWrapper;
 
-class EmployeeLanguage extends FilterField
+class EmployeeLanguage extends FilterField implements ValueXNormalizable
 {
     /**
      * @inheritDoc
@@ -41,5 +43,21 @@ class EmployeeLanguage extends FilterField
     public function getEntityAliases(): array
     {
         return ['language'];
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function toArrayXValue(): ?array
+    {
+        $languageService = new LanguageService();
+        $language = $languageService->getLanguageById($this->getX());
+        if ($language instanceof Language) {
+            return [
+                'id' => $language->getId(),
+                'label' => $language->getName(),
+            ];
+        }
+        return null;
     }
 }
