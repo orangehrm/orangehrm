@@ -19,9 +19,11 @@
 
 namespace OrangeHRM\Core\Report\FilterField;
 
+use OrangeHRM\Admin\Service\EducationService;
+use OrangeHRM\Entity\Education;
 use OrangeHRM\ORM\QueryBuilderWrapper;
 
-class EmployeeEducation extends FilterField
+class EmployeeEducation extends FilterField implements ValueXNormalizable
 {
     /**
      * @inheritDoc
@@ -41,5 +43,21 @@ class EmployeeEducation extends FilterField
     public function getEntityAliases(): array
     {
         return ['education'];
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function toArrayXValue(): ?array
+    {
+        $educationService = new EducationService();
+        $education = $educationService->getEducationById($this->getX());
+        if ($education instanceof Education) {
+            return [
+                'id' => $education->getId(),
+                'label' => $education->getName(),
+            ];
+        }
+        return null;
     }
 }

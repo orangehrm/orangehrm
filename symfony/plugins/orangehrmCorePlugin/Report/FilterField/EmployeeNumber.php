@@ -19,9 +19,11 @@
 
 namespace OrangeHRM\Core\Report\FilterField;
 
+use OrangeHRM\Entity\Employee;
 use OrangeHRM\ORM\QueryBuilderWrapper;
+use OrangeHRM\Pim\Service\EmployeeService;
 
-class EmployeeNumber extends FilterField
+class EmployeeNumber extends FilterField implements ValueXNormalizable
 {
     /**
      * @inheritDoc
@@ -41,5 +43,21 @@ class EmployeeNumber extends FilterField
     public function getEntityAliases(): array
     {
         return ['employee'];
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function toArrayXValue(): ?array
+    {
+        $employeeService = new EmployeeService();
+        $employee = $employeeService->getEmployeeByEmpNumber($this->getX());
+        if ($employee instanceof Employee) {
+            return [
+                'id' => $employee->getEmpNumber(),
+                'label' => $employee->getFirstName(),
+            ];
+        }
+        return null;
     }
 }

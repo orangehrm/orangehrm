@@ -89,8 +89,8 @@ class PimDefinedReportDaoTest extends TestCase
         $selectedDisplayFieldGroupIds = [1, 2];
         $selectedDisplayFieldIds = [1, 2, 3, 4, 5, 6];
         $criteria = array(
-            "1" => array("x" => "v1", "y" => "v2", "operator" => "="),
-            "3" => array("x" => "", "y" => "", "operator" => ">")
+            "1" => array("x" => "1", "y" => "", "operator" => "eq"),
+            "3" => array("x" => "3", "y" => "", "operator" => "eq")
         );
         $result = $this->reportGeneratorDao
             ->saveReport($report, $selectedDisplayFieldGroupIds, $selectedDisplayFieldIds, $criteria,'onlyCurrent');
@@ -116,8 +116,8 @@ class PimDefinedReportDaoTest extends TestCase
         $selectedDisplayFieldGroupIds = [1];
         $selectedDisplayFieldIds = [1, 2, 3, 4, 5, 6];
         $criteria = array(
-            "1" => array("x" => "v1", "y" => "v2", "operator" => "="),
-            "3" => array("x" => "", "y" => "", "operator" => ">")
+            "1" => array("x" => "1", "y" => "", "operator" => "eq"),
+            "3" => array("x" => "1", "y" => "", "operator" => "eq")
         );
         $result = $this->reportGeneratorDao
             ->saveReport($report, $selectedDisplayFieldGroupIds, $selectedDisplayFieldIds, $criteria,'onlyCurrent');
