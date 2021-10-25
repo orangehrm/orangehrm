@@ -19,9 +19,10 @@
 
 namespace OrangeHRM\Core\Report\FilterField;
 
+use OrangeHRM\Admin\Service\EmploymentStatusService;
 use OrangeHRM\ORM\QueryBuilderWrapper;
 
-class EmploymentStatus extends FilterField
+class EmploymentStatus extends FilterField implements ValueXNormalizable
 {
     /**
      * @inheritDoc
@@ -41,5 +42,21 @@ class EmploymentStatus extends FilterField
     public function getEntityAliases(): array
     {
         return ['employee'];
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function toArrayXValue(): ?array
+    {
+        $employmentStatusService = new EmploymentStatusService();
+        $employmentStatus = $employmentStatusService->getEmploymentStatusById($this->getX());
+        if ($employmentStatus instanceof \OrangeHRM\Entity\EmploymentStatus) {
+            return [
+                'id' => $employmentStatus->getId(),
+                'label' => $employmentStatus->getName(),
+            ];
+        }
+        return null;
     }
 }
