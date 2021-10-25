@@ -19,9 +19,10 @@
 
 namespace OrangeHRM\Core\Report\FilterField;
 
+use OrangeHRM\Admin\Service\LocationService;
 use OrangeHRM\ORM\QueryBuilderWrapper;
 
-class Location extends FilterField
+class Location extends FilterField implements ValueXNormalizable
 {
     /**
      * @inheritDoc
@@ -49,10 +50,38 @@ class Location extends FilterField
     }
 
     /**
+     * @return array
+     */
+    private function getLocationIds(): array
+    {
+        // explode comma seperated locations chain when defining the PIM report
+        return explode(',', $this->getX());
+    }
+
+    /**
      * @inheritDoc
      */
     public function getEntityAliases(): array
     {
         return ['location'];
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function toArrayXValue(): ?array
+    {
+        if (empty($this->getX()) || !isset($this->getLocationIds()[0])) {
+            return null;
+        }
+        $locationService = new LocationService();
+        $location = $locationService->getLocationById($this->getLocationIds()[0]);
+        if ($location instanceof \OrangeHRM\Entity\Location) {
+            return [
+                'id' => $location->getId(),
+                'label' => $location->getName(),
+            ];
+        }
+        return null;
     }
 }

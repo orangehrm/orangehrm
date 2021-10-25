@@ -19,9 +19,10 @@
 
 namespace OrangeHRM\Core\Report\FilterField;
 
+use OrangeHRM\Admin\Service\PayGradeService;
 use OrangeHRM\ORM\QueryBuilderWrapper;
 
-class PayGrade extends FilterField
+class PayGrade extends FilterField implements ValueXNormalizable
 {
     /**
      * @inheritDoc
@@ -41,5 +42,21 @@ class PayGrade extends FilterField
     public function getEntityAliases(): array
     {
         return ['salary'];
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function toArrayXValue(): ?array
+    {
+        $payGradeService = new PayGradeService();
+        $payGrade = $payGradeService->getPayGradeById($this->getX());
+        if ($payGrade instanceof \OrangeHRM\Entity\PayGrade) {
+            return [
+                'id' => $payGrade->getId(),
+                'label' => $payGrade->getName(),
+            ];
+        }
+        return null;
     }
 }
