@@ -31,7 +31,13 @@ class SaveEmployeeReportController extends AbstractVueController
      */
     public function preRender(Request $request): void
     {
-        $component = new Component("employee-report-save");
+        $id = $request->get('id');
+        if ($id) {
+            $component = new Component("employee-report-edit");
+            $component->addProp(new Prop("report-id", Prop::TYPE_NUMBER, $id));
+        } else {
+            $component = new Component("employee-report-save");
+        }
 
         $selectionCriteria = [
             ["id" => 8, "key" => "employee_name", "label" => "Employee Name"],
@@ -514,7 +520,6 @@ class SaveEmployeeReportController extends AbstractVueController
                 ],
             ],
         ];
-
         $component->addProp(
             new Prop("display-fields", Prop::TYPE_ARRAY, $displayFields)
         );

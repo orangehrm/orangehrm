@@ -1,0 +1,127 @@
+PayGrade:
+  0: { id: 1, name: 'Pay Grade 1' }
+  1: { id: 2, name: 'Pay Grade 2' }
+  2: { id: 3, name: 'Pay Grade 3' }
+
+Education:
+  0: { id: 1, name: 'PhD' }
+  1: { id: 2, name: 'BSc' }
+  2: { id: 3, name: 'Msc' }
+
+EmploymentStatus:
+  - { id: 1, name: 'Full Time' }
+  - { id: 2, name: 'Part Time' }
+  - { id: 3, name: 'Intern' }
+
+JobTitle:
+  - { id: 1, jobTitleName: 'Software Architect', isDeleted: 0 }
+  - { id: 2, jobTitleName: 'Software Engineer', isDeleted: 0 }
+  - { id: 3, jobTitleName: 'Quality Assurance', isDeleted: 0 }
+  - { id: 4, jobTitleName: 'Sales Person', isDeleted: 1 }
+
+Language:
+  - { id: 1, name: 'English' }
+  - { id: 2, name: 'Spanish' }
+  - { id: 3, name: 'Dutch' }
+
+Skill:
+  - { id: 1, name: 'Driving', description: 'Ability to drive' }
+  - { id: 2, name: 'Skydiving' }
+  - { id: 3, name: 'Sign Language', description: 'Ability to communicate with disabled people' }
+  - { id: 4, name: 'Drawing' }
+
+Employee:
+  - { "emp_number": 1,"employee_id": "0001","emp_lastname": "Adalwin","emp_firstname": "Odis","emp_middle_name": "", job_title_code: 4 }
+  - { "emp_number": 2,"employee_id": "0002","emp_lastname": "Anderson","emp_firstname": "Linda","emp_middle_name": "Jane", job_title_code: 1, birthday: '1990-10-02', gender: 2, maritalStatus: 'Married', otherId: 'E0002', drivingLicenseNo: '123321', drivingLicenseExpiredDate: '2021-10-29' }
+  - { "emp_number": 3,"employee_id": "0003","emp_lastname": "Duval","emp_firstname": "Alice","emp_middle_name": "", street1: '263a', street2: 'Centroallee', city: 'Oberhausen', country: 'DE', zipcode: '46047', homeTelephone: '112-382-0478', workTelephone: '112-454-0457', workEmail: 'odis1@osohrm.com' }
+  - { "emp_number": 4,"employee_id": "0004","emp_lastname": "Abbey","emp_firstname": "Kayla","emp_middle_name": "", maritalStatus: 'Other', otherEmail: 'kayla@mail.com', province: 'Western', country: 'LK', joinedDate: '2019-02-01' }
+  - { "emp_number": 5,"employee_id": "0005","emp_lastname": "Abel","emp_firstname": "Ashley","emp_middle_name": "", emp_status: 2, joinedDate: '2015-10-18' }
+  - { "emp_number": 6,"employee_id": "0006","emp_lastname": "Morgan","emp_firstname": "Jasmine","emp_middle_name": "", gender: 1, maritalStatus: 'Single', emp_status: 1, birthday: '1995-10-02' }
+
+Subunit:
+  - { id: 1, name: 'Organization', unitId: 'company', lft: 1, rgt: 10, level: 0 }
+  - { id: 2, name: 'Engineering', unitId: 'eng', lft: 2, rgt: 5, level: 1 }
+  - { id: 3, name: 'QA', unitId: 'qa', lft: 6, rgt: 7, level: 1 }
+  - { id: 4, name: 'Agriculture', unitId: 'ag', lft: 8, rgt: 9, level: 1 }
+  - { id: 5, name: 'Support', unitId: 'sup', lft: 3, rgt: 4, level: 2 }
+
+Country:
+  - { countryCode: US, name: 'UNITED STATES', countryName: 'United States', iso3: USA, numCode: 840 }
+  - { countryCode: LK, name: 'SRI LANKA', countryName: 'Sri Lanka', iso3: LKA, numCode: 144 }
+
+Location:
+  - { id: 1, name: 'Head', country_code: 'US' }
+  - { id: 2, name: 'Development', country_code: 'US' }
+  - { id: 3, name: 'Support', country_code: 'LK' }
+
+ReportGroup:
+  - { id: 1, name: 'pim', coreSql: 'sql' }
+
+Report:
+  - { id: 1, name: 'PIM Sample Report', report_group_id: 1, useFilterField: true, type: PIM_DEFINED }
+  - { id: 2, name: 'PIM Employee Report', report_group_id: 1, useFilterField: true, type: PIM_DEFINED }
+
+DisplayFieldGroup:
+  - { id: 1, report_group_id: 1, name: 'Personal', is_list: 0 }
+  - { id: 2, report_group_id: 1, name: 'Contact Details', is_list: 0 }
+  - { id: 3, report_group_id: 1, name: 'Emergency Contacts', is_list: 1 }
+  - { id: 4, report_group_id: 1, name: 'Dependents', is_list: 1 }
+  - { id: 5, report_group_id: 1, name: 'Immigration', is_list: 1 }
+  - { id: 6, report_group_id: 1, name: 'Job', is_list: 1 }
+  - { id: 7, report_group_id: 1, name: 'Salary', is_list: 1 }
+  - { id: 8, report_group_id: 1, name: 'Subordinates', is_list: 1 }
+  - { id: 9, report_group_id: 1, name: 'Supervisors', is_list: 1 }
+  - { id: 10,report_group_id: 1, name: 'Work Experience', is_list: 1 }
+  - { id: 11,report_group_id: 1, name: 'Education', is_list: 1 }
+  - { id: 12,report_group_id: 1, name: 'Skills', is_list: 1 }
+  - { id: 13,report_group_id: 1, name: 'Languages', is_list: 1 }
+  - { id: 14,report_group_id: 1, name: 'License', is_list: 1 }
+  - { id: 15,report_group_id: 1, name: 'Memberships', is_list: 1 }
+  - { id: 16,report_group_id: 1, name: 'Custom Fields', is_list: 1 }
+
+DisplayField:
+  - { display_field_id: 1, report_group_id: 1, name: 'hs_hr_employee.employee_id', label: 'Employee Id', field_alias: 'employeeId',  is_sortable: 'false', sort_order: null, sort_field: null, element_type: 'label', element_property: '<xml><getter>employeeId</getter></xml>', width: 100, is_exportable: '0', text_alignment_style: null, is_value_list: 0, display_field_group_id: 1, default_value: '---', is_encrypted: 0, is_meta: 0 }
+  - { display_field_id: 2, report_group_id: 1, name: 'hs_hr_employee.emp_lastname', label: 'Employee Last Name', field_alias: 'employeeLastname', is_sortable: 'false', sort_order: null, sort_field: null, element_type: 'label', element_property: '<xml><getter>employeeLastname</getter></xml>', width: 200, is_exportable: '0', text_alignment_style: null, is_value_list: 0, display_field_group_id: 1, default_value: '---', is_encrypted: 0, is_meta: 0 }
+  - { display_field_id: 3, report_group_id: 1, name: 'hs_hr_employee.emp_firstname', label: 'Employee First Name',field_alias: 'employeeFirstname', is_sortable: 'false', sort_order: null, sort_field: null, element_type: 'label', element_property: '<xml><getter>employeeFirstname</getter></xml>', width: 200, is_exportable: '0', text_alignment_style: null, is_value_list: 0, display_field_group_id: 1, default_value: '---', is_encrypted: 0, is_meta: 0 }
+  - { display_field_id: 4, report_group_id: 1, name: 'CONCAT_WS(", ", NULLIF(hs_hr_employee.emp_street1, ""), NULLIF(hs_hr_employee.emp_street2, ""), NULLIF(hs_hr_employee.city_code, ""), NULLIF(hs_hr_employee.provin_code,""), NULLIF(hs_hr_employee.emp_zipcode,""), NULLIF(hs_hr_country.cou_name,""))', label: 'Address', field_alias: 'address',  is_sortable: 'false', sort_order: null, sort_field: null, element_type: 'label', element_property: '<xml><getter>address</getter></xml>', width: 200, is_exportable: '0', text_alignment_style: null, is_value_list: 0, display_field_group_id: 2, default_value: '---', is_encrypted: 0, is_meta: 0 }
+  - { display_field_id: 5, report_group_id: 1, name: 'hs_hr_employee.emp_hm_telephone', label: 'Home Telephone',  field_alias: 'homeTelephone',  is_sortable: 'false', sort_order: null, sort_field: null, element_type: 'label', element_property: '<xml><getter>homeTelephone</getter></xml>', width: 130, is_exportable: '0', text_alignment_style: null, is_value_list: 0, display_field_group_id: 2, default_value: '---', is_encrypted: 0 , is_meta: 0 }
+  - { display_field_id: 6, report_group_id: 1, name: 'hs_hr_employee.emp_mobile', label: 'Mobile', field_alias: 'mobile',  is_sortable: 'false', sort_order: null, sort_field: null, element_type: 'label', element_property: '<xml><getter>mobile</getter></xml>', width: 100, is_exportable: '0', text_alignment_style: null, is_value_list: 0, display_field_group_id: 2, default_value: '---', is_encrypted: 0, is_meta: 0 }
+
+FilterField:
+  - { filter_field_id: 1, report_group_id: 1, name: 'education', where_clause_part: 'ohrm_emp_education.education_id', filter_field_widget: 'ohrmReportWidgetEducationtypeDropDown', condition_no: 1, required: null, class_name: 'OrangeHRM\Core\Report\FilterField\EmployeeEducation' }
+  - { filter_field_id: 2, report_group_id: 1, name: 'include', where_clause_part: 'hs_hr_employee.termination_id', filter_field_widget: 'ohrmReportWidgetIncludedEmployeesDropDown', condition_no: 1, required: 'true', class_name: null }
+  - { filter_field_id: 3, report_group_id: 1, name: 'pay_grade', where_clause_part: 'hs_hr_emp_basicsalary.sal_grd_code', filter_field_widget: 'ohrmReportWidgetPayGradeDropDown', condition_no: 1, required: null, class_name: 'OrangeHRM\Core\Report\FilterField\PayGrade' }
+  - { filter_field_id: 4, report_group_id: 1, name: 'employee_name', where_clause_part: 'hs_hr_employee.emp_number', filter_field_widget: 'ohrmReportWidgetEmployeeListAutoFill', condition_no: 1, required: null, class_name: 'OrangeHRM\Core\Report\FilterField\EmployeeNumber' }
+  - { filter_field_id: 5, report_group_id: 1, name: 'employment_status', where_clause_part: 'hs_hr_employee.emp_status', filter_field_widget: 'ohrmWidgetEmploymentStatusList', condition_no: 1, required: null, class_name: 'OrangeHRM\Core\Report\FilterField\EmploymentStatus' }
+  - { filter_field_id: 6, report_group_id: 1, name: 'job_title', where_clause_part: 'hs_hr_employee.job_title_code', filter_field_widget: 'ohrmWidgetJobTitleList', condition_no: 1, required: null, class_name: 'OrangeHRM\Core\Report\FilterField\JobTitle' }
+  - { filter_field_id: 7, report_group_id: 1, name: 'language', where_clause_part: 'hs_hr_emp_language.lang_id', filter_field_widget: 'ohrmReportWidgetLanguageDropDown', condition_no: 1, required: null, class_name: 'OrangeHRM\Core\Report\FilterField\EmployeeLanguage' }
+  - { filter_field_id: 8, report_group_id: 1, name: 'skill', where_clause_part: 'hs_hr_emp_skill.skill_id', filter_field_widget: 'ohrmReportWidgetSkillDropDown', condition_no: 1, required: null, class_name: 'OrangeHRM\Core\Report\FilterField\EmployeeSkill' }
+  - { filter_field_id: 9, report_group_id: 1, name: 'sub_unit', where_clause_part: 'hs_hr_employee.work_station', filter_field_widget: 'ohrmWidgetSubDivisionList', condition_no: 1, required: null, class_name: 'OrangeHRM\Core\Report\FilterField\Subunit' }
+  - { filter_field_id: 10, report_group_id: 1, name: 'location', where_clause_part: 'ohrm_location.id', filter_field_widget: 'ohrmReportWidgetOperationalCountryLocationDropDown', condition_no: 1, required: null, class_name: 'OrangeHRM\Core\Report\FilterField\Location' }
+
+SelectedDisplayFieldGroup:
+  - { id: 1, report_id: 1, display_field_group_id: 1 }
+  - { id: 2, report_id: 1, display_field_group_id: 2 }
+
+SelectedDisplayField:
+  - { id: 1, display_field_id: 1, report_id: 1 }
+  - { id: 2, display_field_id: 2, report_id: 1 }
+  - { id: 3, display_field_id: 3, report_id: 1 }
+  - { id: 4, display_field_id: 4, report_id: 1 }
+  - { id: 5, display_field_id: 5, report_id: 1 }
+  - { id: 6, display_field_id: 1, report_id: 2 }
+  - { id: 7, display_field_id: 2, report_id: 2 }
+  - { id: 8, display_field_id: 3, report_id: 2 }
+
+SelectedFilterField:
+  - { report_id: 1, filter_field_id: 2, filter_field_order: 1, value1: null, value2: null, where_condition: 'isNull', type: 'Runtime' }
+  - { report_id: 1, filter_field_id: 1, filter_field_order: 2, value1: '1', value2: null, where_condition: 'eq', type: 'Runtime' }
+  - { report_id: 1, filter_field_id: 3, filter_field_order: 3, value1: '1', value2: null, where_condition: eq, type: 'Runtime' }
+  - { report_id: 2, filter_field_id: 2, filter_field_order: 1, value1: null, value2: null, where_condition: 'isNull', type: 'Runtime' }
+  - { report_id: 2, filter_field_id: 4, filter_field_order: 2, value1: '1', value2: null, where_condition: eq, type: 'Runtime' }
+  - { report_id: 2, filter_field_id: 5, filter_field_order: 3, value1: '1', value2: null, where_condition: eq, type: 'Runtime' }
+  - { report_id: 2, filter_field_id: 6, filter_field_order: 4, value1: '1', value2: null, where_condition: eq, type: 'Runtime' }
+  - { report_id: 2, filter_field_id: 7, filter_field_order: 5, value1: '1', value2: null, where_condition: eq, type: 'Runtime' }
+  - { report_id: 2, filter_field_id: 8, filter_field_order: 6, value1: '1', value2: null, where_condition: eq, type: 'Runtime' }
+  - { report_id: 2, filter_field_id: 9, filter_field_order: 7, value1: '1', value2: null, where_condition: eq, type: 'Runtime' }
+  - { report_id: 2, filter_field_id: 10, filter_field_order: 8, value1: '1', value2: null, where_condition: eq, type: 'Runtime' }

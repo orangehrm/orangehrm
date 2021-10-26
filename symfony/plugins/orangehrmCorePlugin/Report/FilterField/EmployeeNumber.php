@@ -21,10 +21,12 @@ namespace OrangeHRM\Core\Report\FilterField;
 
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\ORM\QueryBuilderWrapper;
-use OrangeHRM\Pim\Service\EmployeeService;
+use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
 
 class EmployeeNumber extends FilterField implements ValueXNormalizable
 {
+    use EmployeeServiceTrait;
+
     /**
      * @inheritDoc
      */
@@ -50,12 +52,12 @@ class EmployeeNumber extends FilterField implements ValueXNormalizable
      */
     public function toArrayXValue(): ?array
     {
-        $employeeService = new EmployeeService();
-        $employee = $employeeService->getEmployeeByEmpNumber($this->getX());
+        $employee = $this->getEmployeeService()->getEmployeeByEmpNumber($this->getX());
         if ($employee instanceof Employee) {
             return [
                 'id' => $employee->getEmpNumber(),
-                'label' => $employee->getFirstName(),
+                'label' => $employee->getFirstName().' '.$employee->getMiddleName().' '.$employee->getLastName(),
+                'isPastEmployee' => (bool)$employee->getEmployeeTerminationRecord(),
             ];
         }
         return null;

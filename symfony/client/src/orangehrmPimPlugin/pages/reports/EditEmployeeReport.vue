@@ -21,7 +21,7 @@
 <template>
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
-      <oxd-text tag="h6" class="orangehrm-main-title">Add Report</oxd-text>
+      <oxd-text tag="h6" class="orangehrm-main-title">Edit Report</oxd-text>
       <oxd-divider />
 
       <oxd-form ref="formRef" :loading="isLoading" @submitValid="onSave">
@@ -185,6 +185,10 @@ export default {
       type: Array,
       required: true,
     },
+    reportId: {
+      type: String,
+      required: true,
+    },
   },
 
   setup(props) {
@@ -249,18 +253,14 @@ export default {
     },
     onSave() {
       this.isLoading = true;
-      let reportId = null;
       const payload = this.serializeBody(this.report);
       this.http
-        .create(payload)
-        .then(response => {
-          const {data} = response.data;
-          reportId = data.id;
-          return this.$toast.saveSuccess();
+        .update(this.reportId, payload)
+        .then(() => {
+          return this.$toast.updateSuccess();
         })
         .then(() => {
-          reportId &&
-            navigate('/pim/displayPredefinedReport/{id}', {id: reportId});
+          navigate('/pim/displayPredefinedReport/{id}', {id: this.reportId});
         });
     },
   },
@@ -268,12 +268,60 @@ export default {
   beforeMount() {
     this.isLoading = true;
     this.http
-      .getAll({limit: 0})
+      .get(this.reportId)
+      .then(response => {
+        const {data} = response.data;
+        this.report.name = data.name;
+        this.report.includeEmployees = this.includeOpts.find(
+          opt => opt.key === data.include,
+        );
+        const operators = [
+          {id: 'eq', label: 'Equal'},
+          {id: 'lt', label: 'Less Than'},
+          {id: 'gt', label: 'Greater Than'},
+          {id: 'between', label: 'Range'},
+        ];
+        for (const key in data.fieldGroup) {
+          const fieldGroup = this.displayFields.find(
+            group => group.field_group_id == key,
+          );
+          this.report.fieldGroupSelected.push(
+            this.displayFieldGroups.find(group => group.id == key),
+          );
+          this.report.displayFieldSelected[key] = {
+            fields: data.fieldGroup[key].fields.map(id =>
+              fieldGroup.fields.find(field => field.id === id),
+            ),
+            includeHeader: data.fieldGroup[key].includeHeader,
+          };
+        }
+        for (const key in data.criteria) {
+          const criterion = this.selectionCriteria.find(
+            criterion => criterion.id == key,
+          );
+          this.report.criteriaSelected.push(criterion);
+          this.report.criteriaFieldValues[key] = {
+            valueX: data.criteria[key].x,
+            valueY:
+              data.criteria[key].y === 'undefined'
+                ? null
+                : data.criteria[key].y,
+            operator: operators.find(o => o.id === data.criteria[key].operator),
+          };
+        }
+        // Fetch list data for unique test
+        return this.http.getAll({limit: 0});
+      })
       .then(response => {
         const {data} = response.data;
         this.rules.name.push(v => {
           const index = data.findIndex(item => item.name == v);
-          return index === -1 || 'Already exists';
+          if (index > -1) {
+            const {id} = data[index];
+            return id != this.reportId ? 'Already exists' : true;
+          } else {
+            return true;
+          }
         });
       })
       .finally(() => {
