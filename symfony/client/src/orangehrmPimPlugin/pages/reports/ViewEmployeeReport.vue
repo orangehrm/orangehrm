@@ -38,6 +38,10 @@ export default {
       type: String,
       required: true,
     },
+    reportName: {
+      type: String,
+      required: true,
+    },
   },
 
   components: {

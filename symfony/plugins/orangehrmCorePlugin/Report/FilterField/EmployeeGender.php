@@ -21,7 +21,7 @@ namespace OrangeHRM\Core\Report\FilterField;
 
 use OrangeHRM\ORM\QueryBuilderWrapper;
 
-class EmployeeGender extends FilterField
+class EmployeeGender extends FilterField implements ValueXNormalizable
 {
     /**
      * @inheritDoc
@@ -41,5 +41,16 @@ class EmployeeGender extends FilterField
     public function getEntityAliases(): array
     {
         return ['employee'];
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function toArrayXValue(): ?array
+    {
+        return [
+            'id' => (int)$this->getX(),
+            'label' => $this->getX() === '1' ? 'Male' : 'Female',
+        ];
     }
 }
