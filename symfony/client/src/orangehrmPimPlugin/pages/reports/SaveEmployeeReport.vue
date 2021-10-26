@@ -240,14 +240,18 @@ export default {
     },
     onSave() {
       this.isLoading = true;
+      let reportId = null;
       const payload = this.serializeBody(this.report);
       this.http
         .create(payload)
-        .then(() => {
+        .then(response => {
+          const {data} = response.data;
+          reportId = data.id;
           return this.$toast.saveSuccess();
         })
         .then(() => {
-          this.onCancel();
+          reportId &&
+            navigate('/pim/displayPredefinedReport/{id}', {id: reportId});
         });
     },
   },

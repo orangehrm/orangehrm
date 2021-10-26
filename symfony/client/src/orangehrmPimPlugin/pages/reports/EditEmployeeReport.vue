@@ -251,7 +251,7 @@ export default {
           return this.$toast.updateSuccess();
         })
         .then(() => {
-          this.onCancel();
+          navigate('/pim/displayPredefinedReport/{id}', {id: this.reportId});
         });
     },
   },
