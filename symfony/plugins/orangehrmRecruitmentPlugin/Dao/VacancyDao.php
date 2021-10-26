@@ -210,9 +210,9 @@ class VacancyDao extends BaseDao
         try {
             $q = $this->createQueryBuilder(Vacancy::class, 'v');
             if (!empty($status)) {
-                $q->where('v.status = :status')->setParameter('status',$status);
+                $q->where('v.status = :status')->setParameter('status', $status);
             }
-            $q->orderBy('v.name','ASC');
+            $q->orderBy('v.name', 'ASC');
 
             return $q->getQuery()->execute();
         } catch (Exception $e) {
@@ -409,14 +409,13 @@ class VacancyDao extends BaseDao
 //            throw new DaoException($e->getMessage(), $e->getCode(), $e);
 //        }
         // @codeCoverageIgnoreEnd
-        $q=$this->createQueryBuilder(Vacancy::class,'v');
+        $q = $this->createQueryBuilder(Vacancy::class, 'v');
         $q->select('count(v.id)');
         try {
             return $q->getQuery()->getSingleScalarResult();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
-
     }
 
     /**

@@ -86,12 +86,7 @@ class VacancyAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForGetOne(): ParamRuleCollection
     {
-        return new ParamRuleCollection(
-            new ParamRule(
-                CommonParams::PARAMETER_ID,
-                new Rule(Rules::IN_ACCESSIBLE_EMP_NUMBERS)
-            ),
-        );
+        return new ParamRuleCollection(new ParamRule(CommonParams::PARAMETER_ID));
     }
 
     /**
@@ -100,12 +95,13 @@ class VacancyAPI extends Endpoint implements CrudEndpoint
      */
     public function getAll(): EndpointCollectionResult
     {
-        $count=$this->getVacancyService()->getVacancyDao()->searchVacanciesCount();
-//        var_dump($count);
-        $vacancies=$this->getVacancyService()->getAllVacancies('');
-        var_dump($vacancies);
-//        return new EndpointResourceResult(VacancyModel::class, $vacancies);
-        return new EndpointCollectionResult(Vacancy::class,$vacancies,new ParameterBag([CommonParams::PARAMETER_TOTAL => $count]));
+        $count = $this->getVacancyService()->getVacancyDao()->searchVacanciesCount();
+        $vacancies = $this->getVacancyService()->getAllVacancies('');
+        return new EndpointCollectionResult(
+            VacancyModel::class,
+            $vacancies,
+            new ParameterBag([CommonParams::PARAMETER_TOTAL => $count])
+        );
     }
 
     /**
@@ -113,9 +109,7 @@ class VacancyAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
-        return new ParamRuleCollection(
-
-        );
+        return new ParamRuleCollection();
     }
 
     /**
@@ -214,21 +208,21 @@ class VacancyAPI extends Endpoint implements CrudEndpoint
                 new ParamRule(
                     self::PARAMETER_NAME,
                     new Rule(Rules::STRING_TYPE),
-                    new Rule(Rules::LENGTH, [!null,self::PARAMETER_RULE_NAME_MAX_LENGTH])
+                    new Rule(Rules::LENGTH, [!null, self::PARAMETER_RULE_NAME_MAX_LENGTH])
                 )
             ),
             $this->getValidationDecorator()->requiredParamRule(
                 new ParamRule(
                     self::PARAMETER_STATUS,
                     new Rule(Rules::INT_TYPE),
-                    new Rule(Rules::LENGTH, [!null,self::PARAMETER_RULE_STATUS_MAX_LENGTH])
+                    new Rule(Rules::LENGTH, [!null, self::PARAMETER_RULE_STATUS_MAX_LENGTH])
                 )
             ),
             $this->getValidationDecorator()->requiredParamRule(
                 new ParamRule(
                     self::PARAMETER_JOB_TITLE_ID,
                     new Rule(Rules::INT_TYPE),
-                    new Rule(Rules::LENGTH, [!null,self::PARAMETER_RULE_JOB_TITLE_CODE_MAX_LENGTH])
+                    new Rule(Rules::LENGTH, [!null, self::PARAMETER_RULE_JOB_TITLE_CODE_MAX_LENGTH])
                 )
             ),
             $this->getValidationDecorator()->requiredParamRule(
@@ -279,16 +273,16 @@ class VacancyAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @inheritDoc
+     * @throws DaoException
      */
     public function update(): EndpointResult
     {
         $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
-        var_dump($id);
         $vacancy = $this->getVacancyService()->getVacancyById($id);
         $this->throwRecordNotFoundExceptionIfNotExist($vacancy, Vacancy::class);
         $this->setVacancy($vacancy);
         $this->getVacancyService()->saveJobVacancy($vacancy);
-        return new EndpointResourceResult(Vacancy::class, $vacancy);
+        return new EndpointResourceResult(VacancyModel::class, $vacancy);
     }
 
     /**
@@ -297,7 +291,7 @@ class VacancyAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-
+            new ParamRule(CommonParams::PARAMETER_ID),
             ...$this->getCommonBodyValidationRules(),
         );
     }
