@@ -181,8 +181,8 @@ export default {
           component: 'report-criterion-select',
           api: null,
           options: [
-            {id: 'male', label: 'Male'},
-            {id: 'female', label: 'Female'},
+            {id: 1, label: 'Male'},
+            {id: 2, label: 'Female'},
           ],
         };
     }
@@ -203,7 +203,7 @@ export default {
 .orangehrm-report {
   &-criteria {
     display: flex;
-    align-items: center;
+    align-items: baseline;
   }
   &-criteria-name {
     margin-left: 1rem;

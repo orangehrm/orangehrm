@@ -44,6 +44,7 @@ import EmployeeDataImport from './pages/dataImport/EmployeeDataImport.vue';
 import EmployeeReport from './pages/reports/EmployeeReport.vue';
 import SaveEmployeeReport from './pages/reports/SaveEmployeeReport.vue';
 import ViewEmployeeReport from './pages/reports/ViewEmployeeReport.vue';
+import EditEmployeeReport from './pages/reports/EditEmployeeReport.vue';
 
 export default {
   'employee-save': SaveEmployee,
@@ -74,4 +75,5 @@ export default {
   'employee-report-list': EmployeeReport,
   'employee-report-save': SaveEmployeeReport,
   'employee-report-view': ViewEmployeeReport,
+  'employee-report-edit': EditEmployeeReport,
 };

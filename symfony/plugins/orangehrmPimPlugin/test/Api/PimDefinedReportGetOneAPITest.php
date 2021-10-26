@@ -17,40 +17,30 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Core\Report\FilterField;
+use OrangeHRM\Pim\Api\PimDefinedReportAPI;
+use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
+use OrangeHRM\Tests\Util\Integration\TestCaseParams;
 
-use OrangeHRM\ORM\QueryBuilderWrapper;
-
-class EmployeeGender extends FilterField implements ValueXNormalizable
+/**
+ * @group Pim
+ * @group APIv2
+ */
+class PimDefinedReportGetOneAPITest extends EndpointIntegrationTestCase
 {
     /**
-     * @inheritDoc
+     * @dataProvider dataProviderForTestGetOne
      */
-    public function addWhereToQueryBuilder(QueryBuilderWrapper $queryBuilderWrapper): void
+    public function testGetOne(TestCaseParams $testCaseParams): void
     {
-        $qb = $queryBuilderWrapper->getQueryBuilder();
-        if ($this->getOperator() === Operator::EQUAL && !is_null($this->getX())) {
-            $qb->andWhere($qb->expr()->eq('employee.gender', ':EmployeeGender_gender'))
-                ->setParameter('EmployeeGender_gender', $this->getX());
-        }
+        $this->populateFixtures('PimDefinedReportGetOneAPI.yaml');
+        $this->registerServices($testCaseParams);
+        $this->registerMockDateTimeHelper($testCaseParams);
+        $api = $this->getApiEndpointMock(PimDefinedReportAPI::class, $testCaseParams);
+        $this->assertValidTestCase($api, 'getOne', $testCaseParams);
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getEntityAliases(): array
+    public function dataProviderForTestGetOne(): array
     {
-        return ['employee'];
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function toArrayXValue(): ?array
-    {
-        return [
-            'id' => (int)$this->getX(),
-            'label' => $this->getX() === '1' ? 'Male' : 'Female',
-        ];
+        return $this->getTestCases('PimDefinedReportGetOneAPITestCase.yaml', 'GetOne');
     }
 }
