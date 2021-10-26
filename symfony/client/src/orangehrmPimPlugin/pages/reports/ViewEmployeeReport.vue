@@ -25,6 +25,12 @@
     :prefetch="true"
     :filters="filters"
   >
+    <div class="orangehrm-card-container">
+      <oxd-text tag="h6" class="orangehrm-main-title">
+        {{ reportName }}
+      </oxd-text>
+    </div>
+    <br />
   </reports-table>
 </template>
 
@@ -35,6 +41,10 @@ import ReportsTable from '@/core/components/table/ReportsTable';
 export default {
   props: {
     reportId: {
+      type: String,
+      required: true,
+    },
+    reportName: {
       type: String,
       required: true,
     },
