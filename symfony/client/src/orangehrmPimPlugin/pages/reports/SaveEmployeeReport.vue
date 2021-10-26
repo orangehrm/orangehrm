@@ -50,7 +50,6 @@
                 type="select"
                 label="Selection Criteria"
                 v-model="report.criterion"
-                :rules="rules.criterion"
                 :options="availableCriteria"
               />
               <oxd-input-group>
@@ -98,7 +97,6 @@
                 type="select"
                 label="Select Display Field Group"
                 v-model="report.fieldGroup"
-                :rules="rules.fieldGroup"
                 :options="availableFieldGroups"
               />
             </oxd-grid-item>
@@ -107,7 +105,6 @@
                 type="select"
                 label="Select Display Field"
                 v-model="report.displayField"
-                :rules="rules.displayField"
                 :options="availableDisplyFields"
               />
               <oxd-input-group>
@@ -227,10 +224,7 @@ export default {
       isLoading: false,
       rules: {
         name: [required, shouldNotExceedCharLength(250)],
-        criterion: [],
         includeEmployees: [required],
-        fieldGroup: [],
-        displayField: [],
       },
       includeOpts: [
         {id: 1, key: 'onlyCurrent', label: 'Current Employees Only'},

@@ -99,6 +99,23 @@ export default function useEmployeeReport(
 ) {
   const state = reactive({report: {...reportModel}});
 
+  const getAllDisplayFieldsByGroupId = (groupId: number) => {
+    const fieldGroup = displayFields.find(
+      group => group.field_group_id === groupId,
+    );
+    return fieldGroup ? fieldGroup.fields : [];
+  };
+
+  const getUnusedDisplayFieldsByGroupId = (groupId: number) => {
+    const selectedFieldGroup = state.report.displayFieldSelected[groupId];
+    const usedDisplayFields = selectedFieldGroup
+      ? selectedFieldGroup.fields
+      : [];
+    return getAllDisplayFieldsByGroupId(groupId).filter(
+      field => !usedDisplayFields.find(f => f.id === field.id),
+    );
+  };
+
   const addCriterion = () => {
     const criterion = state.report.criterion;
     if (criterion) {
@@ -120,7 +137,7 @@ export default function useEmployeeReport(
   const addDisplayField = () => {
     const fieldGroup = state.report.fieldGroup;
     const displayField = state.report.displayField;
-    if (fieldGroup && displayField) {
+    if (fieldGroup) {
       const groupIndex = state.report.fieldGroupSelected.findIndex(
         group => group.id === fieldGroup.id,
       );
@@ -131,11 +148,29 @@ export default function useEmployeeReport(
           includeHeader: false,
         };
       }
-      state.report.displayFieldSelected[fieldGroup.id].fields.push(
-        displayField,
-      );
-      state.report.displayField = null;
+      if (displayField) {
+        state.report.displayFieldSelected[fieldGroup.id].fields.push(
+          displayField,
+        );
+        state.report.displayField = null;
+      } else {
+        getUnusedDisplayFieldsByGroupId(fieldGroup.id).forEach(displayField => {
+          state.report.displayFieldSelected[fieldGroup.id].fields.push(
+            displayField,
+          );
+        });
+      }
+      // unselect fieldGroup if all fields are used
+      if (getUnusedDisplayFieldsByGroupId(fieldGroup.id).length === 0) {
+        state.report.fieldGroup = null;
+      }
     }
+  };
+
+  const removeDisplayFieldGroup = (index: number) => {
+    const fieldGroup = state.report.fieldGroupSelected[index];
+    state.report.fieldGroupSelected.splice(index, 1);
+    delete state.report.displayFieldSelected[fieldGroup.id];
   };
 
   const removeDisplayField = (item: Option, index: number) => {
@@ -144,12 +179,10 @@ export default function useEmployeeReport(
     state.report.displayFieldSelected[fieldGroup.id].fields = fields.filter(
       field => field.id !== item.id,
     );
-  };
-
-  const removeDisplayFieldGroup = (index: number) => {
-    const fieldGroup = state.report.fieldGroupSelected[index];
-    state.report.fieldGroupSelected.splice(index, 1);
-    delete state.report.displayFieldSelected[fieldGroup.id];
+    // remove field group if no fields
+    if (state.report.displayFieldSelected[fieldGroup.id].fields.length === 0) {
+      removeDisplayFieldGroup(index);
+    }
   };
 
   const serializeBody = (reportModel: ReportModel) => {
@@ -194,25 +227,14 @@ export default function useEmployeeReport(
   });
 
   const availableFieldGroups = computed(() => {
-    return displayFieldGroups;
+    return displayFieldGroups.filter(
+      group => getUnusedDisplayFieldsByGroupId(group.id).length !== 0,
+    );
   });
 
   const availableDisplyFields = computed(() => {
     const fieldGroupId = state.report.fieldGroup?.id;
-    const fieldGroup = displayFields.find(
-      group => group.field_group_id === fieldGroupId,
-    );
-
-    if (fieldGroupId && fieldGroup) {
-      return fieldGroup.fields.filter(
-        field =>
-          !state.report.displayFieldSelected[fieldGroupId]?.fields.find(
-            f => f.id === field.id,
-          ),
-      );
-    }
-
-    return [];
+    return fieldGroupId ? getUnusedDisplayFieldsByGroupId(fieldGroupId) : [];
   });
 
   return {

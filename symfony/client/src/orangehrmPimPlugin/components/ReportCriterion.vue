@@ -181,8 +181,8 @@ export default {
           component: 'report-criterion-select',
           api: null,
           options: [
-            {id: 'male', label: 'Male'},
-            {id: 'female', label: 'Female'},
+            {id: 1, label: 'Male'},
+            {id: 2, label: 'Female'},
           ],
         };
     }
