@@ -25,6 +25,12 @@
     :prefetch="true"
     :filters="filters"
   >
+    <div class="orangehrm-card-container">
+      <oxd-text tag="h6" class="orangehrm-main-title">
+        {{ reportName }}
+      </oxd-text>
+    </div>
+    <br />
   </reports-table>
 </template>
 
