@@ -3536,3 +3536,32 @@ INSERT INTO `hs_hr_config` (`key` ,`value`) VALUES ('help.url',  'https://openso
 INSERT INTO `hs_hr_config` (`key` ,`value`) VALUES ('help.processorClass',  'ZendeskHelpProcessor');
 INSERT INTO `ohrm_i18n_group` (`name`,`title`) VALUES ('help','Help');
 
+
+#Corporate Branding Plugin
+
+SET @module_id := (SELECT id
+                   FROM ohrm_module
+                   WHERE `name` = 'admin');
+
+INSERT INTO ohrm_screen (`name`, `module_id`, `action_url`)
+VALUES ('Add Theme', @module_id, 'addTheme');
+SET @add_theme_screen_id := (SELECT LAST_INSERT_ID());
+
+INSERT INTO `ohrm_user_role_screen` (`user_role_id`, `screen_id`, `can_read`, `can_create`, `can_update`, `can_delete`)
+VALUES ('1', @add_theme_screen_id, '1', '1', '1', '1');
+
+INSERT INTO ohrm_menu_item (`menu_title`, `screen_id`, `parent_id`, `level`, `order_hint`, `url_extras`, `status`)
+VALUES ('Corporate Branding', @add_theme_screen_id, 1, 2, 700, '', 1);
+INSERT INTO ohrm_theme (`theme_id`, `theme_name`, `variables`)
+VALUES ('1', 'default',
+        '{"primaryColor":"#f28b38","secondaryColor":"#f3f3f3","buttonSuccessColor":"#56ac40","buttonCancelColor":"#848484"}');
+ALTER TABLE ohrm_theme
+    ADD social_media_icons VARCHAR(100) DEFAULT 'inline' NOT NULL;
+ALTER TABLE ohrm_theme
+    ADD login_banner BLOB;
+
+-- Ignore if fails
+INSERT INTO `ohrm_i18n_group` (`name`, `title`)
+VALUES ('branding', 'Corporate Branding');
+
+
