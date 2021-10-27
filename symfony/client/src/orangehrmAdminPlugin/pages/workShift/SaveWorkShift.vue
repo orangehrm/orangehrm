@@ -45,6 +45,7 @@
               <oxd-input-field
                 type="time"
                 :rules="rules.fromTime"
+                :step="15"
                 :label="$t('general.from')"
                 v-model="workShift.startTime"
               />
@@ -54,6 +55,7 @@
               <oxd-input-field
                 type="time"
                 :rules="rules.endTime"
+                :step="15"
                 :label="$t('general.to')"
                 v-model="workShift.endTime"
               />
@@ -164,7 +166,6 @@ export default {
         })
         .then(() => {
           this.workShift = {...workShiftModel};
-          this.isLoading = false;
           this.onCancel();
         });
     },
