@@ -1,0 +1,3 @@
+Theme:
+  0: {theme_id: 1, theme_name: 'rabbit', variables: '{"primaryColor":"#818acc","secondaryColor":"#1537e8","tableHeadingColor":"#00a5ff","buttonSuccessColor":"#00ffdd","buttonCancelColor":"#ff00cb"}'}
+  1: {theme_id: 2, theme_name: 'jaguar', variables: '{"primaryColor":"#00bcff","secondaryColor":"#11394f","tableHeadingColor":"#adff00","buttonSuccessColor":"#00ddff","buttonCancelColor":"#f2dddd"}'}

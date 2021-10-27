@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
+<xliff version="1.0">
+  <header/>
+  <file source-language="en_US" target-language="zz_ZZ" datatype="xml" original="messages" date="2014-11-14T10:29:57Z" product-name="messages">
+    <body>
+      <trans-unit id="1" group="branding" version="4.6-">
+        <source>Successfully Published</source>
+        <target>FR_Successfully Published</target>
+      </trans-unit>
+      <trans-unit id="2" group="branding" version="4.6-">
+        <source>Reset to Default</source>
+        <target>FR_Reset to Default</target>
+      </trans-unit>
+      <trans-unit id="3" group="branding" version="4.6-">
+        <source>Publish</source>
+        <target>FR_Publish</target>
+      </trans-unit>
+      <trans-unit id="4" group="branding" version="4.6-">
+        <source>Please upload an image of dimensions below</source>
+        <target>FR_Please upload an image of dimensions below</target>
+      </trans-unit>
+      <trans-unit id="5" group="branding" version="4.6-">
+        <source>Corporate Branding</source>
+        <target>FR_Corporate Branding</target>
+      </trans-unit>
+      <trans-unit id="6" group="branding" version="4.6-">
+        <source>Primary Color</source>
+        <target>FR_Primary Color</target>
+      </trans-unit>
+      <trans-unit id="7" group="branding" version="4.6-">
+        <source>Secondary Color</source>
+        <target>FR_Secondary Color</target>
+      </trans-unit>
+      <trans-unit id="8" group="branding" version="4.6-">
+        <source>Primary Button Color</source>
+        <target>FR_Primary Button Color</target>
+      </trans-unit>
+      <trans-unit id="9" group="branding" version="4.6-">
+        <source>Secondary Button Color</source>
+        <target>FR_Secondary Button Color</target>
+      </trans-unit>
+      <trans-unit id="10" group="branding" version="4.6-">
+        <source>Client Logo</source>
+        <target>FR_Client Logo</target>
+      </trans-unit>
+      <trans-unit id="11" group="branding" version="4.6-">
+        <source>Login Banner</source>
+        <target>FR_Login Banner</target>
+      </trans-unit>
+      <trans-unit id="12" group="branding" version="4.6-">
+        <source>Social Media Images</source>
+        <target>FR_Social Media Images</target>
+      </trans-unit>
+      <trans-unit id="13" group="branding" version="4.6-">
+        <source>Please enter a hexa decimal value for color starting from # and 6 digits afterwards. Each digit may
+          include 0-9 or a-f.
+        </source>
+        <target>FR_Please enter a hexa decimal value for color starting from # and 6 digits afterwards. Each digit may
+          include 0-9 or a-f.
+        </target>
+      </trans-unit>
+      <trans-unit id="14" group="branding" version="4.6-">
+        <source>Successfully reset to default theme.</source>
+        <target>FR_Successfully reset to default theme.</target>
+      </trans-unit>
+      <trans-unit id="15" group="branding" version="4.6-">
+        <source>Invalid Color</source>
+        <target>FR_Invalid Color</target>
+      </trans-unit>
+      <trans-unit id="16" group="branding" version="4.6-">
+        <source>Preview</source>
+        <target>FR_Preview</target>
+      </trans-unit>
+      <trans-unit id="17" group="branding" version="4.6-">
+        <source>Try Again with an Image of Width %maxWidth% px and Height %maxHeight% px</source>
+        <target>FR_Try Again with an Image of Width %maxWidth% px and Height %maxHeight% px</target>
+        <note>Don't translate %maxWidth% and %maxHeight%.</note>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
