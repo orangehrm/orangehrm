@@ -47,7 +47,7 @@ class WorkShiftService
      * @param $id
      * @return WorkShift|null
      */
-    public function getWorkShiftById($id): WorkShift
+    public function getWorkShiftById($id): ?WorkShift
     {
         return $this->getWorkShiftDao()->getWorkShiftById($id);
     }
