@@ -46,7 +46,6 @@ class WorkShiftService
     /**
      * @param $id
      * @return WorkShift|null
-     * @throws DaoException
      */
     public function getWorkShiftById($id): WorkShift
     {
