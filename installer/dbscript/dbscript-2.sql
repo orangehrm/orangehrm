@@ -3550,8 +3550,6 @@ UPDATE `ohrm_module` SET `status` = '0' WHERE `ohrm_module`.`name` = 'directory'
 UPDATE `ohrm_module` SET `status` = '0' WHERE `ohrm_module`.`name` = 'maintenance';
 UPDATE `ohrm_module` SET `status` = '0' WHERE `ohrm_module`.`name` = 'marketPlace';
 UPDATE `ohrm_module` SET `status` = '0' WHERE `ohrm_module`.`name` = 'buzz';
-UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` = 'Work Shifts';
-UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` = 'Email Subscriptions';
 UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` = 'Localization';
 UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` = 'Language Packages';
 UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` = 'Social Media Authentication';
@@ -4004,6 +4002,7 @@ VALUES (1, 1, 1, 1, 0, @apiv2_leave_holiday_data_group_id, @admin_role_id),
        (1, 0, 0, 0, 1, @apiv2_leave_eligible_leave_types_data_group_id, @supervisor_role_id),
        (1, 0, 0, 0, 0, @apiv2_leave_eligible_leave_types_data_group_id, @supervisor_role_id),
        (1, 1, 1, 1, 0, @apiv2_leave_leave_types_data_group_id, @admin_role_id),
+       (1, 0, 0, 0, 0, @apiv2_leave_leave_types_data_group_id, @supervisor_role_id),
        (1, 0, 1, 0, 0, @apiv2_leave_leave_period_data_group_id, @admin_role_id),
        (1, 0, 0, 0, 0, @apiv2_leave_leave_period_data_group_id, @ess_role_id),
        (1, 1, 1, 0, 1, @apiv2_leave_my_leave_requests_data_group_id, @admin_role_id),
