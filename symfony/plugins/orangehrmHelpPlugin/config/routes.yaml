@@ -1,0 +1,4 @@
+view_todo:
+  path: /help/support
+  controller: OrangeHRM\Help\Controller\ViewSupportController::handle
+  methods: [ GET ]
