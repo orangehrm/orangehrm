@@ -29,6 +29,7 @@
         :user="{{ user | json_encode() }}"
         brand-image-src="{{ publicPath }}/images/orange.png?{{ assetsVersion }}"
         logout-url="{{ baseUrl }}/auth/logout"
+        support-url="{{ baseUrl }}/help/support"
         :permissions="{{ (permissions ? permissions : []) | json_encode() }}"
     >
       <{{ componentName }}

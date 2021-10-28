@@ -19,48 +19,46 @@
  -->
 
 <template>
-  <teleport to="#app">
-    <oxd-dialog
-      @update:show="onCancel"
-      :style="{width: '90%', maxWidth: '450px'}"
-    >
-      <div class="orangehrm-modal-header">
-        <oxd-text tag="h6" class="orangehrm-main-title">
-          {{ $t('general.about') }}
-        </oxd-text>
-      </div>
-      <oxd-divider />
-      <div class="orangehrm-loader" v-if="isLoading">
-        <oxd-loading-spinner />
-      </div>
-      <oxd-grid v-else :cols="2" class="orangehrm-about">
-        <oxd-text tag="p" class="orangehrm-about-title">
-          {{ $t('general.company_name') }}:
-        </oxd-text>
-        <oxd-text tag="p" class="orangehrm-about-text">
-          {{ data.companyName }}
-        </oxd-text>
-        <oxd-text tag="p" class="orangehrm-about-title">
-          {{ $t('general.version') }}:
-        </oxd-text>
-        <oxd-text tag="p" class="orangehrm-about-text">
-          {{ data.version }}
-        </oxd-text>
-        <oxd-text tag="p" class="orangehrm-about-title">
-          {{ $t('general.active_employees') }}:
-        </oxd-text>
-        <oxd-text tag="p" class="orangehrm-about-text">
-          {{ data.numberOfActiveEmployee }}
-        </oxd-text>
-        <oxd-text tag="p" class="orangehrm-about-title">
-          {{ $t('general.employees_terminated') }}:
-        </oxd-text>
-        <oxd-text tag="p" class="orangehrm-about-text">
-          {{ data.numberOfPastEmployee }}
-        </oxd-text>
-      </oxd-grid>
-    </oxd-dialog>
-  </teleport>
+  <oxd-dialog
+    @update:show="onCancel"
+    :style="{width: '90%', maxWidth: '450px'}"
+  >
+    <div class="orangehrm-modal-header">
+      <oxd-text tag="h6" class="orangehrm-main-title">
+        {{ $t('general.about') }}
+      </oxd-text>
+    </div>
+    <oxd-divider />
+    <div class="orangehrm-loader" v-if="isLoading">
+      <oxd-loading-spinner />
+    </div>
+    <oxd-grid v-else :cols="2" class="orangehrm-about">
+      <oxd-text tag="p" class="orangehrm-about-title">
+        {{ $t('general.company_name') }}:
+      </oxd-text>
+      <oxd-text tag="p" class="orangehrm-about-text">
+        {{ data.companyName }}
+      </oxd-text>
+      <oxd-text tag="p" class="orangehrm-about-title">
+        {{ $t('general.version') }}:
+      </oxd-text>
+      <oxd-text tag="p" class="orangehrm-about-text">
+        {{ data.version }}
+      </oxd-text>
+      <oxd-text tag="p" class="orangehrm-about-title">
+        {{ $t('general.active_employees') }}:
+      </oxd-text>
+      <oxd-text tag="p" class="orangehrm-about-text">
+        {{ data.numberOfActiveEmployee }}
+      </oxd-text>
+      <oxd-text tag="p" class="orangehrm-about-title">
+        {{ $t('general.employees_terminated') }}:
+      </oxd-text>
+      <oxd-text tag="p" class="orangehrm-about-text">
+        {{ data.numberOfPastEmployee }}
+      </oxd-text>
+    </oxd-grid>
+  </oxd-dialog>
 </template>
 
 <script>
@@ -74,11 +72,7 @@ export default {
     'oxd-dialog': Dialog,
   },
   setup() {
-    const http = new APIService(
-      // window.appGlobal.baseUrl,
-      'https://884b404a-f4d0-4908-9eb5-ef0c8afec15c.mock.pstmn.io',
-      'api/v2/core/about',
-    );
+    const http = new APIService(window.appGlobal.baseUrl, 'api/v2/core/about');
     return {
       http,
     };
@@ -110,9 +104,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.oxd-overlay {
-  z-index: 1100 !important;
-}
 .orangehrm-loader {
   display: flex;
   justify-content: center;
