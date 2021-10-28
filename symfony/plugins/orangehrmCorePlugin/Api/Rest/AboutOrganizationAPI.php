@@ -19,20 +19,20 @@
 
 namespace OrangeHRM\Core\Api\Rest;
 
+use OrangeHRM\Admin\Dto\AboutOrganization;
 use OrangeHRM\Admin\Service\OrganizationService;
 use OrangeHRM\Core\Api\CommonParams;
-use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
 use OrangeHRM\Core\Api\V2\Model\AboutOrganizationModel;
+use OrangeHRM\Core\Api\V2\ResourceEndpoint;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
-use OrangeHRM\Entity\AboutOrganization;
 use OrangeHRM\Pim\Dto\EmployeeSearchFilterParams;
 use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
 
-class AboutOrganizationAPI extends Endpoint implements CrudEndpoint
+class AboutOrganizationAPI extends Endpoint implements ResourceEndpoint
 {
     use EmployeeServiceTrait;
 
@@ -55,54 +55,6 @@ class AboutOrganizationAPI extends Endpoint implements CrudEndpoint
     /**
      * @inheritDoc
      */
-    public function getAll(): EndpointResult
-    {
-        throw $this->getNotImplementedException();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getValidationRuleForGetAll(): ParamRuleCollection
-    {
-        throw $this->getNotImplementedException();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function create(): EndpointResult
-    {
-        throw $this->getNotImplementedException();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getValidationRuleForCreate(): ParamRuleCollection
-    {
-        throw $this->getNotImplementedException();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function delete(): EndpointResult
-    {
-        throw $this->getNotImplementedException();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getValidationRuleForDelete(): ParamRuleCollection
-    {
-        throw $this->getNotImplementedException();
-    }
-
-    /**
-     * @inheritDoc
-     */
     public function getOne(): EndpointResult
     {
         $aboutOrganization = new AboutOrganization();
@@ -112,7 +64,7 @@ class AboutOrganizationAPI extends Endpoint implements CrudEndpoint
         $numberOfActiveEmployees = $this->getEmployeeService()->getNumberOfEmployees();
         $numberOfPastEmployees = $this->getEmployeeService()->getEmployeeCount($employeeParamHolder);
         $aboutOrganization->setCompanyName($organizationName);
-        $aboutOrganization->setVersion("5.0");
+        $aboutOrganization->setVersion("5.0");// TODO need to move this to config
         $aboutOrganization->setNumberOfActiveEmployee($numberOfActiveEmployees);
         $aboutOrganization->setNumberOfPastEmployee($numberOfPastEmployees);
         return new EndpointResourceResult(AboutOrganizationModel::class, $aboutOrganization);
@@ -142,6 +94,22 @@ class AboutOrganizationAPI extends Endpoint implements CrudEndpoint
      * @inheritDoc
      */
     public function getValidationRuleForUpdate(): ParamRuleCollection
+    {
+        throw $this->getNotImplementedException();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function delete(): EndpointResult
+    {
+        throw $this->getNotImplementedException();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getValidationRuleForDelete(): ParamRuleCollection
     {
         throw $this->getNotImplementedException();
     }

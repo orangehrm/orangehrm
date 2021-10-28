@@ -19,9 +19,9 @@
 
 namespace OrangeHRM\Core\Api\V2\Model;
 
+use OrangeHRM\Admin\Dto\AboutOrganization;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
-use OrangeHRM\Entity\AboutOrganization;
 
 class AboutOrganizationModel implements Normalizable
 {
@@ -54,17 +54,14 @@ class AboutOrganizationModel implements Normalizable
     public function toArray(): array
     {
         $aboutOrganization = $this->getAboutOrganization();
-        $employeeRole = $this->getUserRoleManager()->getUser()->getUserRole()->getId();
+        $employeeRole = $this->getUserRoleManager()->getUser()->getUserRole()->getName();
         $aboutOrg = [
             'companyName' => $aboutOrganization->getCompanyName(),
             'version' => $aboutOrganization->getVersion(),
         ];
-        if ($employeeRole == 1) {
-            $aboutOrgOnlyAdmin = [
-                'numberOfActiveEmployee' => $aboutOrganization->getNumberOfActiveEmployee(),
-                'numberOfPastEmployee' => $aboutOrganization->getNumberOfPastEmployee(),
-            ];
-            $aboutOrg = array_merge($aboutOrg, $aboutOrgOnlyAdmin);
+        if ($employeeRole == 'Admin') {
+            $aboutOrg['numberOfActiveEmployee'] = $aboutOrganization->getNumberOfActiveEmployee();
+            $aboutOrg['numberOfPastEmployee'] = $aboutOrganization->getNumberOfPastEmployee();
         }
         return $aboutOrg;
     }

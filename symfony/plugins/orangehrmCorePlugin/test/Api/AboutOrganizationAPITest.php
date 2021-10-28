@@ -48,20 +48,6 @@ class AboutOrganizationAPITest extends EndpointIntegrationTestCase
         return $this->getTestCases('AboutOrganizationTestCase.yaml', 'GetOne');
     }
 
-    public function testGetAll(): void
-    {
-        $api = new AboutOrganizationAPI($this->getRequest());
-        $this->expectNotImplementedException();
-        $api->getAll();
-    }
-
-    public function testGetValidationRuleForGetAll(): void
-    {
-        $api = new AboutOrganizationAPI($this->getRequest());
-        $this->expectNotImplementedException();
-        $api->getValidationRuleForGetAll();
-    }
-
     public function testUpdate(): void
     {
         $api = new AboutOrganizationAPI($this->getRequest());
@@ -88,19 +74,5 @@ class AboutOrganizationAPITest extends EndpointIntegrationTestCase
         $api = new AboutOrganizationAPI($this->getRequest());
         $this->expectNotImplementedException();
         $api->getValidationRuleForDelete();
-    }
-
-    public function testCreate(): void
-    {
-        $api = new AboutOrganizationAPI($this->getRequest());
-        $this->expectNotImplementedException();
-        $api->create();
-    }
-
-    public function testGetValidationRuleForCreate(): void
-    {
-        $api = new AboutOrganizationAPI($this->getRequest());
-        $this->expectNotImplementedException();
-        $api->getValidationRuleForCreate();
     }
 }
