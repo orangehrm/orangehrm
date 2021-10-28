@@ -557,6 +557,21 @@
           "description": "Need to confirm the leave assigned"
         }
       }
+    },
+    "help": {
+      "version": "5.0",
+      "messages": {
+        "getting_started_with_orangehrm": {
+          "source": "Getting Started with OrangeHRM",
+          "target": "Getting Started with OrangeHRM",
+          "description": ""
+        },
+        "customer_support": {
+          "source": "Customer Support",
+          "target": "Customer Support",
+          "description": ""
+        }
+      }
     }
   }
 }
