@@ -3582,7 +3582,7 @@ SET @supervisor_role_id := (SELECT `id` FROM ohrm_user_role WHERE `name` = 'Supe
 INSERT INTO ohrm_data_group (`name`, `description`, `can_read`, `can_create`, `can_update`, `can_delete`)
 VALUES ('personal_sensitive_information', 'PIM - PIM - Personal Details - Sensitive', 1, 0, 1, 0),
        ('apiv2_core_data_groups', 'API-v2 Core - Data Groups', 1, 0, 0, 0),
-       ('apiv2_core_about_organization', 'API-v2 Core-About', 1, 0, 0, 0);
+       ('apiv2_core_about_organization', 'API-v2 Core - About', 1, 0, 0, 0);
 
 SET @core_module_id := (SELECT `id` FROM ohrm_module WHERE name = 'core' LIMIT 1);
 SET @personal_sensitive_information_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'personal_sensitive_information' LIMIT 1);
@@ -3628,8 +3628,8 @@ VALUES ('apiv2_admin_education', 'API-v2 Admin - Education', 1, 1, 1, 1),
        ('apiv2_admin_modules', 'API-v2 Admin - Modules', 1, 0, 1, 0),
        ('apiv2_admin_work_shift', 'API-v2 Admin - Work Shift', 1, 1, 1, 1),
        ('apiv2_admin_work_shift_employee', 'API-v2 Admin - Work Shift Employee', 1, 0, 0, 0),
-       ('apiv2_email_subscriptions', 'API-v2 Admin', 1, 0, 1, 0),
-       ('apiv2_email_subscribers', 'API-v2 Admin', 1, 1, 1, 1);
+       ('apiv2_email_subscriptions', 'API-v2 Admin - Email Subscription', 1, 0, 1, 0),
+       ('apiv2_email_subscribers', 'API-v2 Admin - Email Subscriber', 1, 1, 1, 1);
 
 SET @admin_module_id := (SELECT `id` FROM ohrm_module WHERE name = 'admin' LIMIT 1);
 SET @apiv2_admin_education_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_admin_education' LIMIT 1);
