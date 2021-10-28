@@ -27,6 +27,12 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class EmailNotification
 {
+    public const LEAVE_APPLICATION = 1;
+    public const LEAVE_ASSIGNMENT = 2;
+    public const LEAVE_APPROVAL = 3;
+    public const LEAVE_CANCELLATION = 4;
+    public const LEAVE_REJECTION = 5;
+
     /**
      * @var int
      *

@@ -20,6 +20,7 @@
 namespace OrangeHRM\Leave\Service;
 
 use InvalidArgumentException;
+use OrangeHRM\Core\Traits\EventDispatcherTrait;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\Leave;
@@ -29,12 +30,17 @@ use OrangeHRM\Entity\WorkflowStateMachine;
 use OrangeHRM\Leave\Dao\LeaveRequestDao;
 use OrangeHRM\Leave\Dto\LeaveRequest\DetailedLeave;
 use OrangeHRM\Leave\Dto\LeaveRequest\DetailedLeaveRequest;
+use OrangeHRM\Leave\Event\LeaveApprove;
+use OrangeHRM\Leave\Event\LeaveCancel;
+use OrangeHRM\Leave\Event\LeaveEvent;
+use OrangeHRM\Leave\Event\LeaveReject;
 use OrangeHRM\Leave\Traits\Service\LeaveEntitlementServiceTrait;
 
 class LeaveRequestService
 {
     use UserRoleManagerTrait;
     use LeaveEntitlementServiceTrait;
+    use EventDispatcherTrait;
 
     public const WORKFLOW_LEAVE_TYPE_DELETED_STATUS_PREFIX = 'LEAVE TYPE DELETED';
 
@@ -57,8 +63,6 @@ class LeaveRequestService
      */
     private ?array $leaveStatuses = null;
 
-    private $dispatcher;
-
     /**
      * @return LeaveRequestDao
      */
@@ -68,14 +72,6 @@ class LeaveRequestService
             $this->leaveRequestDao = new LeaveRequestDao();
         }
         return $this->leaveRequestDao;
-    }
-
-    public function getDispatcher() {
-        // TODO
-        if(is_null($this->dispatcher)) {
-            $this->dispatcher = sfContext::getInstance()->getEventDispatcher();
-        }
-        return $this->dispatcher;
     }
 
     /**
@@ -105,31 +101,33 @@ class LeaveRequestService
         }
     }
 
-    private function _notifyLeaveStatusChange($eventType, $workflow, $leaveList, $performerType, $performerId, $requestType) {
-        // TODO
-        $request = $leaveList[0]->getLeaveRequest();
-
-        $eventData = array('days' => $leaveList,
-                           'performerType' => $performerType,
-                           'empNumber' => $performerId,
-                           'requestType' => $requestType,
-                           'request' => $request,
-                           'workFlow' => $workflow);
-        $this->getDispatcher()->notify(new sfEvent($this, $eventType, $eventData));
-    }
-
-    private function _notifyLeaveMultiStatusChange($allDays, $leaveList, $workFlows, $performerType, $performerId, $requestType) {
-        // TODO
-        $request = $allDays[0]->getLeaveRequest();
-
-        $eventData = array('days' => $allDays,
-                           'changes' => $leaveList,
-                           'performerType' => $performerType,
-                           'empNumber' => $performerId,
-                           'requestType' => $requestType,
-                           'request' => $request,
-                           'workFlow' => $workFlows);
-        $this->getDispatcher()->notify(new sfEvent($this, LeaveEvents::LEAVE_CHANGE, $eventData));
+    /**
+     * @param Leave[] $leaves
+     * @param WorkflowStateMachine $workflow
+     */
+    private function _notifyLeaveStatusChange(array $leaves, WorkflowStateMachine $workflow)
+    {
+        $performer = $this->getUserRoleManager()->getUser();
+        switch ($workflow->getAction()) {
+            case 'APPROVE':
+                $this->getEventDispatcher()->dispatch(
+                    new LeaveApprove($leaves, $workflow, $performer),
+                    LeaveEvent::APPROVE
+                );
+                break;
+            case 'CANCEL':
+                $this->getEventDispatcher()->dispatch(
+                    new LeaveCancel($leaves, $workflow, $performer),
+                    LeaveEvent::CANCEL
+                );
+                break;
+            case 'REJECT':
+                $this->getEventDispatcher()->dispatch(
+                    new LeaveReject($leaves, $workflow, $performer),
+                    LeaveEvent::REJECT
+                );
+                break;
+        }
     }
 
     /**
@@ -224,7 +222,6 @@ class LeaveRequestService
         string $leaveStatus,
         int $loggedInEmpNumber
     ): array {
-        // TODO
         $workFlowItems = $this->getLeaveRequestAllowedWorkflows(
             $leaveRequest->getEmployee(),
             $leaveRequest->getLeaveType(),
@@ -244,39 +241,53 @@ class LeaveRequestService
     /**
      * Update leave request status (required prior access right validation)
      * @param DetailedLeaveRequest $leaveRequest
-     * @param string $nextState e.g. 'SCHEDULED', 'CANCELLED', 'REJECTED'
+     * @param WorkflowStateMachine $workflow
      */
-    public function changeLeaveRequestStatus(DetailedLeaveRequest $leaveRequest, string $nextState): void
+    public function changeLeaveRequestStatus(DetailedLeaveRequest $leaveRequest, WorkflowStateMachine $workflow): void
     {
         $changedLeaves = $leaveRequest->getLeaves();
-        $this->_changeLeaveStatus($changedLeaves, $this->getLeaveStatusByName($nextState));
-        // TODO
-//        $this->_notifyLeaveStatusChange(LeaveEvents::LEAVE_CHANGE, $workFlow, $changedLeave,
-//            $actionPerformerUserType, $actionPerformerEmpNumber, 'request');
+        $this->_changeLeaveStatus($changedLeaves, $this->getLeaveStatusByName($workflow->getResultingState()));
+        $this->_notifyLeaveStatusChange($changedLeaves, $workflow);
     }
 
     /**
      * @param Leave $leave
-     * @param string $nextState
+     * @param WorkflowStateMachine $workflow
      */
-    public function changeLeaveStatus(Leave $leave, string $nextState): void
+    public function changeLeaveStatus(Leave $leave, WorkflowStateMachine $workflow): void
     {
-        $this->_changeLeaveStatus([$leave], $this->getLeaveStatusByName($nextState));
-        // TODO
-//        $this->_notifyLeaveStatusChange(LeaveEvents::LEAVE_CHANGE, $workFlow, $changedLeave,
-//            $actionPerformerUserType, $actionPerformerEmpNumber, 'request');
+        $this->_changeLeaveStatus([$leave], $this->getLeaveStatusByName($workflow->getResultingState()));
+        $this->_notifyLeaveStatusChange([$leave], $workflow);
     }
 
     /**
      * @param Leave[] $leaves
-     * @param string $nextState
+     * @param WorkflowStateMachine $workflow
      */
-    public function changeLeavesStatus(array $leaves, string $nextState): void
+    public function changeLeavesStatus(array $leaves, WorkflowStateMachine $workflow): void
     {
-        $this->_changeLeaveStatus($leaves, $this->getLeaveStatusByName($nextState));
-        // TODO
-//        $this->_notifyLeaveStatusChange(LeaveEvents::LEAVE_CHANGE, $workFlow, $changedLeave,
-//            $actionPerformerUserType, $actionPerformerEmpNumber, 'request');
+        $this->_changeLeaveStatus($leaves, $this->getLeaveStatusByName($workflow->getResultingState()));
+        $leaveRequests = $this->groupLeaves($leaves);
+        foreach ($leaveRequests as $leaves) {
+            $this->_notifyLeaveStatusChange($leaves, $workflow);
+        }
+    }
+
+    /**
+     * @param Leave[] $leaves
+     * @return array<int, Leave[]>
+     */
+    private function groupLeaves(array $leaves): array
+    {
+        $leaveRequests = [];
+        foreach ($leaves as $leave) {
+            $leaveRequestId = $leave->getLeaveRequest()->getId();
+            if (!isset($leaveRequests[$leaveRequestId])) {
+                $leaveRequests[$leaveRequestId] = [];
+            }
+            $leaveRequests[$leaveRequestId][] = $leave;
+        }
+        return $leaveRequests;
     }
 
     /**
@@ -379,7 +390,7 @@ class LeaveRequestService
      * @param Leave[] $allLeavesOfLeaveRequest
      * @return DetailedLeave[]
      */
-    public function getDetailedLeaves(array $leaves, array $allLeavesOfLeaveRequest): array
+    public function getDetailedLeaves(iterable $leaves, iterable $allLeavesOfLeaveRequest): array
     {
         $detailedLeaves = [];
         foreach ($leaves as $leave) {

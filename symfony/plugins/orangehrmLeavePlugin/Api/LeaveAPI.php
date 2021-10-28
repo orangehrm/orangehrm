@@ -200,7 +200,7 @@ class LeaveAPI extends Endpoint implements CrudEndpoint
         }
 
         $workflow = $detailedLeave->getWorkflowForAction($action);
-        $this->getLeaveRequestService()->changeLeaveStatus($leave, $workflow->getResultingState());
+        $this->getLeaveRequestService()->changeLeaveStatus($leave, $workflow);
 
         return new EndpointResourceResult(LeaveModel::class, $leave);
     }

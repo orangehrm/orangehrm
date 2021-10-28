@@ -104,10 +104,7 @@ class EmployeeBulkLeaveRequestAPI extends Endpoint implements ResourceEndpoint
                 }
 
                 $workflow = $detailedLeaveRequest->getWorkflowForAction($action);
-                $this->getLeaveRequestService()->changeLeaveRequestStatus(
-                    $detailedLeaveRequest,
-                    $workflow->getResultingState()
-                );
+                $this->getLeaveRequestService()->changeLeaveRequestStatus($detailedLeaveRequest, $workflow);
             }
 
             $this->commitTransaction();

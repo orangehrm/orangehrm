@@ -64,6 +64,7 @@ class EmailQueueServiceTest extends KernelTestCase
             "test7 subject",
             "test7 body",
             ['test7@orangehrm.com', 'test8@orangehrm.com'],
+            Mail::CONTENT_TYPE_TEXT_PLAIN,
             ['test9@orangehrm.com'],
             ['test10@orangehrm.com']
         );

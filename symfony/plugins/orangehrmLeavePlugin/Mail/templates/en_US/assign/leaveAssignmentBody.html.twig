@@ -1,0 +1,21 @@
+<p>Hi {{ recipientFirstName }},</p>
+<p>{{ performerFullName }} assigned you the following days of leave:</p>
+<table style="width:100%;text-align:left">
+    <thead>
+    <tr>
+        <th>Date(s)</th>
+        <th>Duration(Hours)</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for leaveDetail in leaveDetails %}
+        <tr>
+            <td>{{ leaveDetail['date'] }}</td>
+            <td>{{ leaveDetail['duration'] }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+<p>Leave type : {{ leaveType }}</p>
+<p>Thank you.</p>
+<p>This is an automated notification.</p>

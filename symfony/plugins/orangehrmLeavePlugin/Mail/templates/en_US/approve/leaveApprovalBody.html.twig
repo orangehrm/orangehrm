@@ -1,0 +1,23 @@
+<p>Hi {{ recipientFirstName }},</p>
+<p>{{ performerFullName }} has approved your leave request for following days:</p>
+<table style="width:100%;text-align:left">
+    <thead>
+    <tr>
+        <th>Date(s)</th>
+        <th>Duration(Hours)</th>
+        <th>Comments</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for leaveDetail in leaveDetails %}
+        <tr>
+            <td>{{ leaveDetail['date'] }}</td>
+            <td>{{ leaveDetail['duration'] }}</td>
+            <td>{{ leaveDetail['comment'] }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+<p>Leave type : {{ leaveType }}</p>
+<p>Thank you.</p>
+<p>This is an automated notification.</p>

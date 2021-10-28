@@ -352,7 +352,7 @@ class EmployeeLeaveRequestAPI extends Endpoint implements CrudEndpoint
         }
 
         $workflow = $detailedLeaveRequest->getWorkflowForAction($action);
-        $this->getLeaveRequestService()->changeLeaveRequestStatus($detailedLeaveRequest, $workflow->getResultingState());
+        $this->getLeaveRequestService()->changeLeaveRequestStatus($detailedLeaveRequest, $workflow);
 
         $model = $this->getRequestParams()->getString(
             RequestParams::PARAM_TYPE_QUERY,

@@ -20,13 +20,19 @@
 namespace OrangeHRM\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use OrangeHRM\Core\entity\Decorator\WorkflowStateMachineDecorator;
+use OrangeHRM\Entity\Decorator\DecoratorTrait;
 
 /**
+ * @method WorkflowStateMachineDecorator getDecorator()
+ *
  * @ORM\Table(name="ohrm_workflow_state_machine")
  * @ORM\Entity
  */
 class WorkflowStateMachine
 {
+    use DecoratorTrait;
+
     public const TIMESHEET_ACTION_VIEW = 0;
     public const TIMESHEET_ACTION_SUBMIT = 1;
     public const TIMESHEET_ACTION_APPROVE = 2;

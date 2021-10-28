@@ -126,8 +126,9 @@ class EmailServiceTest extends TestCase
             ->method('getSendmailPath')
             ->willReturn('test path');
 
-        $emailService->setConfigService($configService);
-        $emailService->loadConfiguration();
+        $emailService->expects($this->once())
+            ->method('getConfigService')
+            ->willReturn($configService);
         $this->assertEquals('smtp', $emailService->getEmailConfig()->getMailType());
         $this->assertEquals('test@orangehrm.com', $emailService->getEmailConfig()->getSentAs());
         $this->assertEquals('test path', $emailService->getSendmailPath());

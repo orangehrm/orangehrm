@@ -1,0 +1,24 @@
+<p>Hi {{ recipientFirstName }},</p>
+<p>{{ performerFullName }} has assigned leave to {{ assigneeFullName }}. The leave details:</p>
+<table style="width:100%;text-align:left">
+    <thead>
+    <tr>
+        <th>Date(s)</th>
+        <th>Duration(Hours)</th>
+        <th>Comments</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for leaveDetail in leaveDetails %}
+        <tr>
+            <td>{{ leaveDetail['date'] }}</td>
+            <td>{{ leaveDetail['duration'] }}</td>
+            <td>{{ leaveDetail['comment'] }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+<p>Leave type : {{ leaveType }}</p>
+<p>You were sent this mail, as you are a supervisor assigned for {{ assigneeFullName }}.</p>
+<p>Thank you.</p>
+<p>This is an automated notification.</p>
