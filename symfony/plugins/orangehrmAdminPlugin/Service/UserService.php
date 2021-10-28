@@ -24,6 +24,7 @@ use OrangeHRM\Admin\Dao\UserDao;
 use OrangeHRM\Admin\Dto\UserSearchFilterParams;
 use OrangeHRM\Authentication\Dto\UserCredential;
 use OrangeHRM\Core\Exception\DaoException;
+use OrangeHRM\Core\Exception\PasswordDoesNotMatchException;
 use OrangeHRM\Core\Exception\ServiceException;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Core\Utility\PasswordHash;
@@ -386,5 +387,24 @@ class UserService
         }
 
         return $undeletableIds;
+    }
+
+    /**
+     * @param User $user
+     * @param string $currentPassword
+     * @param string $newPassword
+     * @return User
+     * @throws PasswordDoesNotMatchException
+     */
+    public function updateLoggedInUserPassword(User $user, string $currentPassword, string $newPassword): User
+    {
+        $isAuthorizedPassword = $this->isCurrentPassword($user->getId(), $currentPassword);
+        if ($isAuthorizedPassword) {
+            $user->setUserPassword($newPassword);
+            $user = $this->saveSystemUser($user, true);
+        } else {
+            throw PasswordDoesNotMatchException::passwordMissedMatch();
+        }
+        return $user;
     }
 }

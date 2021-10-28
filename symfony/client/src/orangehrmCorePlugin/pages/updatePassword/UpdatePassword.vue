@@ -1,0 +1,143 @@
+<!--
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ */
+ -->
+
+<template>
+  <div class="orangehrm-background-container">
+    <div class="orangehrm-card-container">
+      <oxd-text tag="h6" class="orangehrm-main-title">Change Password</oxd-text>
+      <oxd-divider />
+
+      <oxd-form :loading="isLoading" @submitValid="onSave">
+        <oxd-form-row>
+          <oxd-grid :cols="2" class="orangehrm-full-width-grid">
+            <oxd-grid-item>
+              <oxd-input-group label="User Name">
+                <oxd-text class="orangehrm-user-name" tag="p">
+                  {{ loggedInUser }}
+                </oxd-text>
+              </oxd-input-group>
+            </oxd-grid-item>
+
+            <oxd-grid-item>
+              <oxd-input-field
+                type="password"
+                label="Current Password"
+                v-model="user.currentPassword"
+                :rules="rules.currentPassword"
+                required
+              />
+            </oxd-grid-item>
+          </oxd-grid>
+        </oxd-form-row>
+
+        <password-input
+          v-model:password="user.password"
+          v-model:passwordConfirm="user.passwordConfirm"
+        />
+
+        <oxd-divider />
+        <oxd-form-actions>
+          <required-text />
+          <oxd-button
+            type="button"
+            displayType="ghost"
+            label="Cancel"
+            @click="onCancel"
+          />
+          <submit-button />
+        </oxd-form-actions>
+      </oxd-form>
+    </div>
+  </div>
+</template>
+
+<script>
+import {APIService} from '@/core/util/services/api.service';
+import {navigate} from '@orangehrm/core/util/helper/navigation';
+import PasswordInput from '@/core/components/inputs/PasswordInput';
+import {
+  required,
+  shouldNotExceedCharLength,
+} from '@orangehrm/core/util/validation/rules';
+
+const userModel = {
+  currentPassword: '',
+  password: '',
+  passwordConfirm: '',
+};
+
+export default {
+  props: {
+    userName: {
+      type: String,
+      required: true,
+    },
+  },
+  setup() {
+    const http = new APIService(
+      window.appGlobal.baseUrl,
+      'api/v2/core/update-password',
+    );
+    return {
+      http,
+    };
+  },
+  components: {
+    'password-input': PasswordInput,
+  },
+
+  data() {
+    return {
+      isLoading: false,
+      user: {...userModel},
+      rules: {
+        currentPassword: [required, shouldNotExceedCharLength(64)],
+      },
+    };
+  },
+
+  methods: {
+    onCancel() {
+      navigate('/admin/viewSystemUsers');
+    },
+    onSave() {
+      //this.isLoading = true;
+      this.http.http
+        .put('api/v2/core/update-password', {
+          currentPassword: this.user.currentPassword,
+          newPassword: this.user.password,
+          confirmPassword: this.user.passwordConfirm,
+        })
+        .then(response => {
+          if (response.status === 200) {
+            return this.$toast.updateSuccess();
+          }
+        });
+    },
+  },
+  computed: {
+    loggedInUser(props) {
+      return props.userName;
+    },
+  },
+};
+</script>
+
+<style src="./update-password.scss" lang="scss" scoped></style>
