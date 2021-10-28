@@ -34,6 +34,7 @@ use OrangeHRM\Framework\Services;
 use OrangeHRM\Pim\Dao\EmployeeDao;
 use OrangeHRM\Pim\Service\EmployeeService;
 use OrangeHRM\Tests\Util\KernelTestCase;
+use OrangeHRM\Tests\Util\TestDataService;
 
 /**
  * @group Core
@@ -50,6 +51,7 @@ class PimCsvDataImportTest extends KernelTestCase
 
     protected function setUp(): void
     {
+        TestDataService::truncateSpecificTables([Employee::class, Country::class, Province::class]);
         $this->pimCsvDataImport = new PimCsvDataImport();
     }
 
@@ -111,12 +113,14 @@ class PimCsvDataImportTest extends KernelTestCase
         $country1->setName('UNITED STATES');
         $country1->setCountryName('United States');
         $country1->setCountryCode('US');
+        $this->persist($country1);
 
         $province1 = new Province();
         $province1->setId(1);
         $province1->setCountryCode('US');
         $province1->setProvinceCode('CA');
         $province1->setProvinceName('California');
+        $this->persist($province1);
 
         $emailList = array(array('workEmail' => 'abc@example.com', 'otherEmail' => 'cde@example.com'));
 
