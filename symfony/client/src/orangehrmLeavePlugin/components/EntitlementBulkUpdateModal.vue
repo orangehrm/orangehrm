@@ -158,9 +158,6 @@ export default {
 <style lang="scss" scoped>
 @import '@orangehrm/oxd/styles/_mixins.scss';
 
-.oxd-overlay {
-  z-index: 1100 !important;
-}
 .orangehrm-container {
   max-height: 165px;
   overflow-y: auto;
