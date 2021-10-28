@@ -3582,7 +3582,7 @@ SET @supervisor_role_id := (SELECT `id` FROM ohrm_user_role WHERE `name` = 'Supe
 INSERT INTO ohrm_data_group (`name`, `description`, `can_read`, `can_create`, `can_update`, `can_delete`)
 VALUES ('personal_sensitive_information', 'PIM - PIM - Personal Details - Sensitive', 1, 0, 1, 0),
        ('apiv2_core_data_groups', 'API-v2 Core - Data Groups', 1, 0, 0, 0),
-       ('apiv2_core_about_organization', 'API-v2 Core', 1, 0, 0, 0);
+       ('apiv2_core_about_organization', 'API-v2 Core-About', 1, 0, 0, 0);
 
 SET @core_module_id := (SELECT `id` FROM ohrm_module WHERE name = 'core' LIMIT 1);
 SET @personal_sensitive_information_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'personal_sensitive_information' LIMIT 1);
