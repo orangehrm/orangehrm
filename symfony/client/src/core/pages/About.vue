@@ -45,18 +45,22 @@
       <oxd-text tag="p" class="orangehrm-about-text">
         {{ data.version }}
       </oxd-text>
-      <oxd-text tag="p" class="orangehrm-about-title">
-        {{ $t('general.active_employees') }}:
-      </oxd-text>
-      <oxd-text tag="p" class="orangehrm-about-text">
-        {{ data.numberOfActiveEmployee }}
-      </oxd-text>
-      <oxd-text tag="p" class="orangehrm-about-title">
-        {{ $t('general.employees_terminated') }}:
-      </oxd-text>
-      <oxd-text tag="p" class="orangehrm-about-text">
-        {{ data.numberOfPastEmployee }}
-      </oxd-text>
+      <template v-if="data.numberOfActiveEmployee !== undefined">
+        <oxd-text tag="p" class="orangehrm-about-title">
+          {{ $t('general.active_employees') }}:
+        </oxd-text>
+        <oxd-text tag="p" class="orangehrm-about-text">
+          {{ data.numberOfActiveEmployee }}
+        </oxd-text>
+      </template>
+      <template v-if="data.numberOfPastEmployee !== undefined">
+        <oxd-text tag="p" class="orangehrm-about-title">
+          {{ $t('general.employees_terminated') }}:
+        </oxd-text>
+        <oxd-text tag="p" class="orangehrm-about-text">
+          {{ data.numberOfPastEmployee }}
+        </oxd-text>
+      </template>
     </oxd-grid>
   </oxd-dialog>
 </template>
@@ -112,9 +116,9 @@ export default {
 }
 .orangehrm-about {
   grid-template-columns: 150px 1fr;
-  align-items: center;
   &-title,
   &-text {
+    word-break: break-word;
     font-size: $oxd-input-control-font-size;
   }
   &-title {
