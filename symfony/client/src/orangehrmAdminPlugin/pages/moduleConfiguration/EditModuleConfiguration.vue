@@ -76,7 +76,7 @@
               <oxd-text tag="p" class="orangehrm-module-field-label">
                 Mobile
               </oxd-text>
-              <oxd-switch-input v-model="modules.mobile" />
+              <oxd-switch-input disabled />
             </div>
           </oxd-grid>
         </oxd-form-row>

@@ -318,3 +318,40 @@ export const validPhoneNumberFormat = function(
     'Allows numbers and only + - / ( )'
   );
 };
+
+/**
+ * @param {string} endDate
+ * @param {string|undefined} message
+ * @param {object} options
+ */
+export const startDateShouldBeBeforeEndDate = (
+  endDate: string | Function,
+  message?: string,
+  options: {
+    allowSameDate?: boolean;
+    dateFormat?: string;
+  } = {
+    allowSameDate: false,
+    dateFormat: 'yyyy-MM-dd',
+  },
+) => {
+  return (value: string): boolean | string => {
+    const resolvedEndDate = typeof endDate === 'function' ? endDate() : endDate;
+    const resolvedMessage =
+      typeof message === 'string'
+        ? message
+        : 'Start date should be before end date';
+    if (options.allowSameDate) {
+      return (
+        sameDate(value, resolvedEndDate) ||
+        beforeDate(value, resolvedEndDate, options.dateFormat) ||
+        resolvedMessage
+      );
+    } else {
+      return (
+        beforeDate(value, resolvedEndDate, options.dateFormat) ||
+        resolvedMessage
+      );
+    }
+  };
+};

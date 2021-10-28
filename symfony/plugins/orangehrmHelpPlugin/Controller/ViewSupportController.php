@@ -17,46 +17,20 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Pim\Controller;
+namespace OrangeHRM\Help\Controller;
 
 use OrangeHRM\Core\Controller\AbstractVueController;
-use OrangeHRM\Core\Service\ReportGeneratorService;
 use OrangeHRM\Core\Vue\Component;
-use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Framework\Http\Request;
 
-class EmployeeReportController extends AbstractVueController
+class ViewSupportController extends AbstractVueController
 {
-    /**
-     * @var ReportGeneratorService|null
-     */
-    protected ?ReportGeneratorService $reportGeneratorService = null;
-
-    /**
-     * @return ReportGeneratorService
-     */
-    protected function getReportGeneratorService(): ReportGeneratorService
-    {
-        if (!$this->reportGeneratorService instanceof ReportGeneratorService) {
-            $this->reportGeneratorService = new ReportGeneratorService();
-        }
-        return $this->reportGeneratorService;
-    }
-
     /**
      * @inheritDoc
      */
     public function preRender(Request $request): void
     {
-        $id = $request->get('id');
-        if ($id) {
-            $reportName = $this->getReportGeneratorService()->getReportGeneratorDao()->getReportById($id)->getName();
-            $component = new Component('employee-report-view');
-            $component->addProp(new Prop('report-id', Prop::TYPE_NUMBER, $id));
-            $component->addProp(new Prop('report-name', Prop::TYPE_STRING, $reportName));
-        } else {
-            $component = new Component('employee-report-list');
-        }
+        $component = new Component('view-support');
         $this->setComponent($component);
     }
 }

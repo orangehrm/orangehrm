@@ -22,6 +22,9 @@
   <oxd-grid-item>
     <employee-autocomplete
       v-bind="$attrs"
+      :params="{
+        includeEmployees: 'currentAndPast',
+      }"
       :rules="rules"
       :modelValue="valueX"
       @update:modelValue="$emit('update:valueX', $event)"
@@ -62,3 +65,9 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+::v-deep(.oxd-input-group__label-wrapper) {
+  display: none;
+}
+</style>

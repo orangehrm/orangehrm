@@ -1,4 +1,3 @@
-<!--
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -16,52 +15,9 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
- -->
 
-<template>
-  <reports-table
-    module="pim"
-    name="pim_defined"
-    :prefetch="true"
-    :filters="filters"
-  >
-    <div class="orangehrm-card-container">
-      <oxd-text tag="h6" class="orangehrm-main-title">
-        {{ reportName }}
-      </oxd-text>
-    </div>
-    <br />
-  </reports-table>
-</template>
-
-<script>
-import {ref} from 'vue';
-import ReportsTable from '@/core/components/table/ReportsTable';
+import ViewSupport from './pages/ViewSupport.vue';
 
 export default {
-  props: {
-    reportId: {
-      type: String,
-      required: true,
-    },
-    reportName: {
-      type: String,
-      required: true,
-    },
-  },
-
-  components: {
-    'reports-table': ReportsTable,
-  },
-
-  setup(props) {
-    const filters = ref({
-      reportId: props.reportId,
-    });
-
-    return {
-      filters,
-    };
-  },
+  'view-support': ViewSupport,
 };
-</script>

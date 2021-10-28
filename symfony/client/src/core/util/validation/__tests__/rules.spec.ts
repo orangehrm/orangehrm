@@ -22,6 +22,7 @@ import {
   endDateShouldBeAfterStartDate,
   validPhoneNumberFormat,
   endTimeShouldBeAfterStartTime,
+  startDateShouldBeBeforeEndDate,
 } from '../rules';
 
 describe('core/util/validation/rules::required', () => {
@@ -278,5 +279,54 @@ describe('core/util/validation/rules::endTimeShouldBeAfterStartTime', () => {
       allowSameTime: true,
     })('10:00');
     expect(result).toEqual('End time should be after start time');
+  });
+});
+
+describe('core/util/validation/rules::startDateShouldBeBeforeEndDate', () => {
+  test('startDateShouldBeBeforeEndDate::empty string', () => {
+    let result = startDateShouldBeBeforeEndDate('')('');
+    expect(result).toBeTruthy();
+
+    result = startDateShouldBeBeforeEndDate('2021-10-25')('');
+    expect(result).toBeTruthy();
+  });
+
+  test('startDateShouldBeBeforeEndDate::valid', () => {
+    const result = startDateShouldBeBeforeEndDate('2021-10-28')('2021-10-25');
+    expect(result).toBeTruthy();
+  });
+
+  test('startDateShouldBeBeforeEndDate::invalid case', () => {
+    const result = startDateShouldBeBeforeEndDate('2021-10-28')('2021-10-31');
+    expect(result).toStrictEqual('Start date should be before end date');
+  });
+
+  test('startDateShouldBeBeforeEndDate::valid (start date as function)', () => {
+    const result = startDateShouldBeBeforeEndDate(() => '2021-10-25')(
+      '2021-10-28',
+    );
+    expect(result).toBeTruthy();
+  });
+
+  test('startDateShouldBeBeforeEndDate::invalid case (custom message)', () => {
+    const result = startDateShouldBeBeforeEndDate(
+      '2021-10-28',
+      'From date should be before To date',
+    )('2021-10-31');
+    expect(result).toStrictEqual('From date should be before To date');
+  });
+
+  test('startDateShouldBeBeforeEndDate:: should allow same day as end date when allowSameDate is true', () => {
+    const result = startDateShouldBeBeforeEndDate('2021-10-25', undefined, {
+      allowSameDate: true,
+    })('2021-10-25');
+    expect(result).toStrictEqual(true);
+  });
+
+  test('startDateShouldBeBeforeEndDate:: should not allow invalid date when allowSameDate is true', () => {
+    const result = startDateShouldBeBeforeEndDate('2021-10-25', undefined, {
+      allowSameDate: true,
+    })('2021-10-31');
+    expect(result).toStrictEqual('Start date should be before end date');
   });
 });

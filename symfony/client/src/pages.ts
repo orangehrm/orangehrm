@@ -66,6 +66,7 @@ import SaveWorkShift from '@/orangehrmAdminPlugin/pages/workShift/SaveWorkShift.
 import EditWorkShift from '@/orangehrmAdminPlugin/pages/workShift/EditWorkShift.vue';
 import EmailSubscription from '@/orangehrmAdminPlugin/pages/emailSubscription/EmailSubscription.vue';
 import EditEmailSubscription from '@/orangehrmAdminPlugin/pages/emailSubscription/EditEmailSubscription.vue';
+import HelpPages from '@/orangehrmHelpPlugin';
 import UpdatePasswordPage from '@/orangehrmCorePlugin';
 
 export default {
@@ -120,5 +121,6 @@ export default {
   'work-shift-edit': EditWorkShift,
   'email-subscription-list': EmailSubscription,
   'email-subscription-edit': EditEmailSubscription,
+  ...HelpPages,
   ...UpdatePasswordPage,
 };
