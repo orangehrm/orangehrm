@@ -309,7 +309,8 @@ describe('Configuration - custom fields', function () {
     });
   });
 
-  describe('Verify Add button after adding 10 custom fields', function () {
+  // eslint-disable-next-line jest/no-disabled-tests
+  describe.skip('Verify Add button after adding 10 custom fields', function () {
     it('Add button is disabled', function () {
       for (let i = 0; i < 10; i++) {
         cy.visit('/pim/listCustomFields');
