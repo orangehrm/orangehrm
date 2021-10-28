@@ -22,7 +22,7 @@
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
       <oxd-text tag="h6" class="orangehrm-main-title">Change Password</oxd-text>
-      <oxd-divider />
+      <oxd-divider/>
 
       <oxd-form :loading="isLoading" @submitValid="onSave">
         <oxd-form-row>
@@ -37,31 +37,31 @@
 
             <oxd-grid-item>
               <oxd-input-field
-                type="password"
-                label="Current Password"
-                v-model="user.currentPassword"
-                :rules="rules.currentPassword"
-                required
+                  type="password"
+                  label="Current Password"
+                  v-model="user.currentPassword"
+                  :rules="rules.currentPassword"
+                  required
               />
             </oxd-grid-item>
           </oxd-grid>
         </oxd-form-row>
 
         <password-input
-          v-model:password="user.password"
-          v-model:passwordConfirm="user.passwordConfirm"
+            v-model:password="user.password"
+            v-model:passwordConfirm="user.passwordConfirm"
         />
 
-        <oxd-divider />
+        <oxd-divider/>
         <oxd-form-actions>
-          <required-text />
+          <required-text/>
           <oxd-button
-            type="button"
-            displayType="ghost"
-            label="Cancel"
-            @click="onCancel"
+              type="button"
+              displayType="ghost"
+              label="Cancel"
+              @click="onCancel"
           />
-          <submit-button />
+          <submit-button/>
         </oxd-form-actions>
       </oxd-form>
     </div>
@@ -92,8 +92,8 @@ export default {
   },
   setup() {
     const http = new APIService(
-      window.appGlobal.baseUrl,
-      'api/v2/core/update-password',
+        window.appGlobal.baseUrl,
+        'api/v2/core/update-password',
     );
     return {
       http,
@@ -115,21 +115,31 @@ export default {
 
   methods: {
     onCancel() {
-      navigate('/admin/viewSystemUsers');
+      navigate('/pim/viewEmployeeList');
     },
     onSave() {
-      //this.isLoading = true;
+      this.isLoading = true;
       this.http.http
-        .put('api/v2/core/update-password', {
-          currentPassword: this.user.currentPassword,
-          newPassword: this.user.password,
-          confirmPassword: this.user.passwordConfirm,
-        })
-        .then(response => {
-          if (response.status === 200) {
-            return this.$toast.updateSuccess();
-          }
-        });
+          .put('api/v2/core/update-password', {
+            currentPassword: this.user.currentPassword,
+            newPassword: this.user.password,
+          })
+          .then(response => {
+            if (response.status === 200) {
+              this.$toast.saveSuccess();
+            } else {
+              this.isLoading = false;
+              this.$toast.warn({
+                title: 'Warning',
+                message: 'Current Password is Incorrect',
+              });
+              return Promise.reject();
+            }
+          })
+          .then(() => {
+            this.user = {...userModel};
+            this.onCancel();
+          });
     },
   },
   computed: {
@@ -139,5 +149,5 @@ export default {
   },
 };
 </script>
-
+<style src="../../../orangehrmAdminPlugin/pages/systemUser/system-user.scss" lang="scss" scoped></style>
 <style src="./update-password.scss" lang="scss" scoped></style>

@@ -31,7 +31,6 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
-use OrangeHRM\Core\Exception\PasswordDoesNotMatchException;
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Framework\Services;
@@ -43,7 +42,6 @@ class UpdatePasswordAPI extends Endpoint implements ResourceEndpoint
 
     public const PARAMETER_CURRENT_PASSWORD = 'currentPassword';
     public const PARAMETER_NEW_PASSWORD = 'newPassword';
-    public const PARAMETER_CONFIRM_PASSWORD = 'confirmPassword';
 
     public const PARAM_RULE_STRING_MAX_LENGTH = 64;
 
@@ -77,20 +75,13 @@ class UpdatePasswordAPI extends Endpoint implements ResourceEndpoint
     public function update(): EndpointResult
     {
         $user = $this->getUserRoleManager()->getUser();
-        $currentPassword = $this->getRequestParams()->getString(
-            RequestParams::PARAM_TYPE_BODY,
-            self::PARAMETER_CURRENT_PASSWORD
-        );
         $newPassword = $this->getRequestParams()->getString(
             RequestParams::PARAM_TYPE_BODY,
             self::PARAMETER_NEW_PASSWORD
         );
-        try {
-            $user = $this->getSystemUserService()->updateLoggedInUserPassword($user, $currentPassword, $newPassword);
-            return new EndpointResourceResult(UserModel::class, $user);
-        } catch (PasswordDoesNotMatchException $passwordDoesNotMatchException) {
-            throw $this->getBadRequestException($passwordDoesNotMatchException->getMessage());
-        }
+        $user->setUserPassword($newPassword);
+        $user = $this->getSystemUserService()->saveSystemUser($user, true);
+        return new EndpointResourceResult(UserModel::class, $user);
     }
 
     /**
@@ -107,6 +98,21 @@ class UpdatePasswordAPI extends Endpoint implements ResourceEndpoint
                     self::PARAMETER_CURRENT_PASSWORD,
                     new Rule(Rules::STRING_TYPE),
                     new Rule(Rules::LENGTH, [null, self::PARAM_RULE_STRING_MAX_LENGTH]),
+                    new Rule(Rules::CALLBACK, [
+                        function () {
+                            $currentPassword = $this->getRequestParams()->getString(
+                                RequestParams::PARAM_TYPE_BODY,
+                                self::PARAMETER_CURRENT_PASSWORD
+                            );
+                            $userId = $this->getUserRoleManager()->getUser()->getId();
+                            $isAuthorized = $this->getSystemUserService()->isCurrentPassword($userId, $currentPassword);
+                            if ($isAuthorized) {
+                                return true;
+                            } else {
+                                return false;
+                            }
+                        }
+                    ])
                 )
             ),
             $this->getValidationDecorator()->requiredParamRule(
@@ -114,30 +120,6 @@ class UpdatePasswordAPI extends Endpoint implements ResourceEndpoint
                     self::PARAMETER_NEW_PASSWORD,
                     new Rule(Rules::STRING_TYPE),
                     new Rule(Rules::LENGTH, [null, self::PARAM_RULE_STRING_MAX_LENGTH]),
-                ),
-            ),
-            $this->getValidationDecorator()->requiredParamRule(
-                new ParamRule(
-                    self::PARAMETER_CONFIRM_PASSWORD,
-                    new Rule(Rules::STRING_TYPE),
-                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_STRING_MAX_LENGTH]),
-                    new Rule(Rules::CALLBACK, [
-                        function () {
-                            $newPassword = $this->getRequestParams()->getString(
-                                RequestParams::PARAM_TYPE_BODY,
-                                self::PARAMETER_NEW_PASSWORD
-                            );
-                            $confirmPassword = $this->getRequestParams()->getString(
-                                RequestParams::PARAM_TYPE_BODY,
-                                self::PARAMETER_CONFIRM_PASSWORD
-                            );
-                            if ($newPassword === $confirmPassword) {
-                                return true;
-                            } else {
-                                return false;
-                            }
-                        }
-                    ])
                 ),
             ),
         );
