@@ -22,46 +22,46 @@
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
       <oxd-text tag="h6" class="orangehrm-main-title">Change Password</oxd-text>
-      <oxd-divider/>
+      <oxd-divider />
 
       <oxd-form :loading="isLoading" @submitValid="onSave">
         <oxd-form-row>
           <oxd-grid :cols="2" class="orangehrm-full-width-grid">
             <oxd-grid-item>
-              <oxd-input-group label="User Name">
+              <oxd-input-group :label="$t('core.user_name')">
                 <oxd-text class="orangehrm-user-name" tag="p">
-                  {{ loggedInUser }}
+                  {{ userName }}
                 </oxd-text>
               </oxd-input-group>
             </oxd-grid-item>
 
             <oxd-grid-item>
               <oxd-input-field
-                  type="password"
-                  label="Current Password"
-                  v-model="user.currentPassword"
-                  :rules="rules.currentPassword"
-                  required
+                type="password"
+                :label="$t('core.current_password')"
+                v-model="user.currentPassword"
+                :rules="rules.currentPassword"
+                required
               />
             </oxd-grid-item>
           </oxd-grid>
         </oxd-form-row>
 
         <password-input
-            v-model:password="user.password"
-            v-model:passwordConfirm="user.passwordConfirm"
+          v-model:password="user.password"
+          v-model:passwordConfirm="user.passwordConfirm"
         />
 
-        <oxd-divider/>
+        <oxd-divider />
         <oxd-form-actions>
-          <required-text/>
+          <required-text />
           <oxd-button
-              type="button"
-              displayType="ghost"
-              label="Cancel"
-              @click="onCancel"
+            type="button"
+            displayType="ghost"
+            label="Cancel"
+            @click="onCancel"
           />
-          <submit-button/>
+          <submit-button />
         </oxd-form-actions>
       </oxd-form>
     </div>
@@ -92,8 +92,8 @@ export default {
   },
   setup() {
     const http = new APIService(
-        window.appGlobal.baseUrl,
-        'api/v2/core/update-password',
+      window.appGlobal.baseUrl,
+      'api/v2/core/update-password',
     );
     return {
       http,
@@ -120,31 +120,26 @@ export default {
     onSave() {
       this.isLoading = true;
       this.http.http
-          .put('api/v2/core/update-password', {
-            currentPassword: this.user.currentPassword,
-            newPassword: this.user.password,
-          })
-          .then(response => {
-            if (response.status === 200) {
-              this.$toast.saveSuccess();
-            } else {
-              this.isLoading = false;
-              this.$toast.warn({
-                title: 'Warning',
-                message: 'Current Password is Incorrect',
-              });
-              return Promise.reject();
-            }
-          })
-          .then(() => {
-            this.user = {...userModel};
-            this.onCancel();
-          });
-    },
-  },
-  computed: {
-    loggedInUser(props) {
-      return props.userName;
+        .put('api/v2/core/update-password', {
+          currentPassword: this.user.currentPassword,
+          newPassword: this.user.password,
+        })
+        .then(response => {
+          if (response.status === 200) {
+            this.$toast.saveSuccess();
+          } else {
+            this.isLoading = false;
+            this.$toast.warn({
+              title: 'Warning',
+              message: 'Current Password is Incorrect',
+            });
+            return Promise.reject();
+          }
+        })
+        .then(() => {
+          this.user = {...userModel};
+          this.onCancel();
+        });
     },
   },
 };
