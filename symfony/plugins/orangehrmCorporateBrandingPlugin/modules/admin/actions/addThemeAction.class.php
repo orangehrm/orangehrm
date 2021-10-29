@@ -60,6 +60,7 @@ class addThemeAction extends sfAction
                 $this->redirect('admin/addTheme');
             }
             if ($postParams['resetTheme'] == '1') {
+                $this->getThemeService()->getThemeDao()->deleteThemeByThemeName('custom');
                 OrangeConfig::getInstance()->setAppConfValue(ConfigService::KEY_THEME_NAME, "default");
                 $this->getUser()->setAttribute('meta.themeName', 'default');
                 $this->getUser()->setFlash('success', __("Successfully reset to default theme."));

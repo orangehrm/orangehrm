@@ -72,4 +72,21 @@ class ThemeDao extends BaseDao
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
     }
+
+    /**
+     * @param $themeName
+     * @return array|Doctrine_Collection|Doctrine_Collection_OnDemand|int
+     * @throws DaoException
+     */
+    public function deleteThemeByThemeName($themeName) {
+        try {
+            $q = Doctrine_Query::create()
+                               ->delete('Theme')
+                               ->whereIn('themeName', $themeName);
+
+            return $q->execute();
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage());
+        }
+    }
 }

@@ -17,17 +17,16 @@
  * Boston, MA  02110-1301, USA
  */
 
-use ScssPhp\ScssPhp\Compiler;
 
 class Sass
 {
     /**
-     * @var Compiler
+     * @var ScssPhp\ScssPhp\Compiler
      */
     private $scss = null;
 
     /**
-     * @var Compiler
+     * @var ScssPhp\ScssPhp\Compiler
      */
     private static $instance = null;
 
@@ -51,11 +50,11 @@ class Sass
 
     /**
      * Init Scss compiler
-     * @return Compiler
+     * @return ScssPhp\ScssPhp\Compiler
      */
     private function getSCSSCompiler() {
         if($this->scss == null) {
-            $this->scss = new Compiler();
+            $this->scss = new ScssPhp\ScssPhp\Compiler();
             $this->scss->setImportPaths($this->sass_path);
         }
         return $this->scss;
@@ -65,7 +64,7 @@ class Sass
      * @return string
      */
     public function compileSCSS(array $variables) {
-        $this->getSCSSCompiler()->addVariables($variables);
+        $this->getSCSSCompiler()->setVariables($variables);
         return $this->getSCSSCompiler()->compile(file_get_contents($this->sass_path . '/main.scss'));
     }
 
@@ -73,8 +72,8 @@ class Sass
      * @return string
      */
     public function compileLoginSCSS(array $variables) {
-        $this->getSCSSCompiler()->addVariables($variables);
-        return $this->getSCSSCompiler()->compileString(file_get_contents($this->sass_path . '/login.scss'))->getCss();
+        $this->getSCSSCompiler()->setVariables($variables);
+        return $this->getSCSSCompiler()->compile(file_get_contents($this->sass_path . '/login.scss'));
     }
 
 
