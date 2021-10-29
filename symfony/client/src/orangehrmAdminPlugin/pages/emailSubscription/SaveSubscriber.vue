@@ -147,9 +147,6 @@ export default {
 </script>
 
 <style scoped>
-.oxd-overlay {
-  z-index: 1100 !important;
-}
 .level-label {
   font-size: 0.75rem;
 }
