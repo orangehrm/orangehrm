@@ -1,6 +1,6 @@
 <p>Hi {{ recipientFirstName }},</p>
 <p>{{ performerFullName }} has cancelled leave. The leave details:</p>
-<table style="width:100%;text-align:left">
+<table style="text-align:left">
     <thead>
     <tr>
         <th>Date(s)</th>
@@ -10,7 +10,7 @@
     <tbody>
     {% for leaveDetail in leaveDetails %}
         <tr>
-            <td>{{ leaveDetail['date'] }}</td>
+            <td style="padding-right:12px;">{{ leaveDetail['date'] }}</td>
             <td>{{ leaveDetail['duration'] }}</td>
         </tr>
     {% endfor %}
@@ -19,21 +19,19 @@
 <p>Leave type : {{ leaveType }}</p>
 {% if leaveRequestComments %}
     <p>Comments:</p>
-    <table style="width:100%;text-align:left">
+    <table style="text-align:left">
         <thead>
         <tr>
-            <th>Date</th>
-            <th>Time</th>
-            <th>Commenter</th>
+            <th style="padding-right:12px;">Date and Time</th>
+            <th style="padding-right:12px;">Name</th>
             <th>Comment</th>
         </tr>
         </thead>
         <tbody>
         {% for leaveRequestComment in leaveRequestComments %}
             <tr>
-                <td>{{ leaveRequestComment['date'] }}</td>
-                <td>{{ leaveRequestComment['time'] }}</td>
-                <td>{{ leaveRequestComment['name'] }}</td>
+                <td style="padding-right:12px;">{{ leaveRequestComment['date'] }} {{ leaveRequestComment['time'] }}</td>
+                <td style="padding-right:12px;">{{ leaveRequestComment['name'] }}</td>
                 <td>{{ leaveRequestComment['comment'] }}</td>
             </tr>
         {% endfor %}
