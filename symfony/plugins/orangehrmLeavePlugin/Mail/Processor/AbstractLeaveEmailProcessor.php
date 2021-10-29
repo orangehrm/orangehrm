@@ -21,15 +21,35 @@ namespace OrangeHRM\Leave\Mail\Processor;
 
 use OrangeHRM\Admin\Dto\EmailSubscriberSearchFilterParams;
 use OrangeHRM\Admin\Service\EmailSubscriberService;
+use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\EmailNotification;
 use OrangeHRM\Entity\EmailSubscriber;
 use OrangeHRM\Entity\Employee;
+use OrangeHRM\Entity\Leave;
+use OrangeHRM\Leave\Dto\LeaveDuration;
+use OrangeHRM\Leave\Dto\LeaveRequest\DetailedLeave;
+use OrangeHRM\Leave\Dto\LeaveRequestCommentSearchFilterParams;
 use OrangeHRM\Leave\Mail\Recipient;
+use OrangeHRM\Leave\Service\LeaveRequestCommentService;
 
 abstract class AbstractLeaveEmailProcessor
 {
     use UserRoleManagerTrait;
+    use DateTimeHelperTrait;
+
+    protected ?LeaveRequestCommentService $leaveRequestCommentService = null;
+
+    /**
+     * @return LeaveRequestCommentService
+     */
+    public function getLeaveRequestCommentService(): LeaveRequestCommentService
+    {
+        if (!$this->leaveRequestCommentService instanceof LeaveRequestCommentService) {
+            $this->leaveRequestCommentService = new LeaveRequestCommentService();
+        }
+        return $this->leaveRequestCommentService;
+    }
 
     /**
      * @param $notificationId
@@ -148,5 +168,62 @@ abstract class AbstractLeaveEmailProcessor
         }
 
         return $recipients;
+    }
+
+    /**
+     * @param DetailedLeave[] $detailedLeaves
+     * @return array
+     */
+    protected function getLeaveDetailsByDetailedLeaves(array $detailedLeaves): array
+    {
+        $leaveDetails = [];
+        foreach ($detailedLeaves as $detailedLeave) {
+            $status = $detailedLeave->getLeave()->getStatus();
+            if (in_array($status, [Leave::LEAVE_STATUS_LEAVE_WEEKEND, Leave::LEAVE_STATUS_LEAVE_HOLIDAY])) {
+                continue;
+            }
+            $dates = $detailedLeave->getDatesDetail();
+            $leaveDatePeriod = $this->getDateTimeHelper()->formatDateTimeToYmd($dates->getFromDate());
+            $startTime = $this->getDateTimeHelper()->formatDateTimeToTimeString($dates->getStartTime());
+            $endTime = $this->getDateTimeHelper()->formatDateTimeToTimeString($dates->getEndTime());
+            if (!is_null($startTime) && !is_null($endTime)) {
+                $leaveDatePeriod .= " ($startTime - $endTime)";
+            }
+
+            if ($dates->getDurationType() === LeaveDuration::HALF_DAY_MORNING ||
+                $dates->getDurationType() === LeaveDuration::HALF_DAY_AFTERNOON) {
+                $leaveDatePeriod .= ' Half Day';
+            }
+            $leaveDetails[] = [
+                'date' => $leaveDatePeriod,
+                'duration' => number_format($detailedLeave->getLeave()->getLengthHours(), 2),
+            ];
+        }
+        return $leaveDetails;
+    }
+
+    /**
+     * @param int $leaveRequestId
+     * @return array
+     */
+    protected function getLeaveRequestComments(int $leaveRequestId): array
+    {
+        $leaveRequestCommentSearchFilterParams = new LeaveRequestCommentSearchFilterParams();
+        $leaveRequestCommentSearchFilterParams->setLeaveRequestId($leaveRequestId);
+        $leaveRequestComments = $this->getLeaveRequestCommentService()
+            ->getLeaveRequestCommentDao()
+            ->searchLeaveRequestComments($leaveRequestCommentSearchFilterParams);
+        $comments = [];
+        if (count($leaveRequestComments) > 0) {
+            foreach ($leaveRequestComments as $leaveRequestComment) {
+                $comments[] = [
+                    'name' => $leaveRequestComment->getCreatedByEmployee()->getDecorator()->getFirstAndLastNames(),
+                    'date' => $leaveRequestComment->getDecorator()->getCreatedAtDate(),
+                    'time' => $leaveRequestComment->getDecorator()->getCreatedAtTime(),
+                    'comment' => $leaveRequestComment->getComment(),
+                ];
+            }
+        }
+        return $comments;
     }
 }

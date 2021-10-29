@@ -22,9 +22,7 @@ namespace OrangeHRM\Leave\Mail\Processor;
 use InvalidArgumentException;
 use OrangeHRM\Core\Mail\AbstractRecipient;
 use OrangeHRM\Core\Mail\MailProcessor;
-use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Framework\Event\Event;
-use OrangeHRM\Leave\Dto\LeaveDuration;
 use OrangeHRM\Leave\Event\LeaveAllocate;
 use OrangeHRM\Leave\Mail\Recipient;
 use OrangeHRM\Leave\Traits\Service\LeaveRequestServiceTrait;
@@ -34,7 +32,6 @@ class LeaveAllocateEmailProcessor extends AbstractLeaveEmailProcessor implements
 {
     use EmployeeServiceTrait;
     use LeaveRequestServiceTrait;
-    use DateTimeHelperTrait;
 
     public function getReplacements(
         string $emailName,
@@ -70,26 +67,9 @@ class LeaveAllocateEmailProcessor extends AbstractLeaveEmailProcessor implements
         $replacements['leaveType'] = $event->getDetailedLeaveRequest()->getLeaveRequest()->getLeaveType()->getName();
         $replacements['leaveDetails'] = [];
         $replacements['numberOfDays'] = $event->getDetailedLeaveRequest()->getNoOfDays();
-        foreach ($detailedLeaves as $detailedLeave) {
-            $dates = $detailedLeave->getDatesDetail();
-            $leaveDatePeriod = $this->getDateTimeHelper()->formatDateTimeToYmd($dates->getFromDate());
-            $startTime = $this->getDateTimeHelper()->formatDateTimeToTimeString($dates->getStartTime());
-            $endTime = $this->getDateTimeHelper()->formatDateTimeToTimeString($dates->getEndTime());
-            if (!is_null($startTime) && !is_null($endTime)) {
-                $leaveDatePeriod .= " ($startTime - $endTime)";
-            }
-
-            if ($dates->getDurationType() === LeaveDuration::HALF_DAY_MORNING ||
-                $dates->getDurationType() === LeaveDuration::HALF_DAY_AFTERNOON) {
-                $leaveDatePeriod .= ' Half Day';
-            }
-            $replacements['leaveDetails'][] = [
-                'date' => $leaveDatePeriod,
-                'duration' => number_format($detailedLeave->getLeave()->getLengthHours(), 2),
-                // TODO
-                'comment' => '',
-            ];
-        }
+        $replacements['leaveDetails'] = $this->getLeaveDetailsByDetailedLeaves($detailedLeaves);
+        $leaveRequestId = $event->getDetailedLeaveRequest()->getLeaveRequest()->getId();
+        $replacements['leaveRequestComments'] = $this->getLeaveRequestComments($leaveRequestId);
 
         return $replacements;
     }

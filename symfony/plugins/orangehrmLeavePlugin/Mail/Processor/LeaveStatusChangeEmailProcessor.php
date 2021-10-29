@@ -22,11 +22,8 @@ namespace OrangeHRM\Leave\Mail\Processor;
 use InvalidArgumentException;
 use OrangeHRM\Core\Mail\AbstractRecipient;
 use OrangeHRM\Core\Mail\MailProcessor;
-use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\Leave;
 use OrangeHRM\Framework\Event\Event;
-use OrangeHRM\Leave\Dto\LeaveDuration;
-use OrangeHRM\Leave\Event\LeaveAllocate;
 use OrangeHRM\Leave\Event\LeaveStatusChange;
 use OrangeHRM\Leave\Mail\Recipient;
 use OrangeHRM\Leave\Traits\Service\LeaveRequestServiceTrait;
@@ -36,7 +33,6 @@ class LeaveStatusChangeEmailProcessor extends AbstractLeaveEmailProcessor implem
 {
     use EmployeeServiceTrait;
     use LeaveRequestServiceTrait;
-    use DateTimeHelperTrait;
 
     /**
      * @inheritDoc
@@ -72,29 +68,13 @@ class LeaveStatusChangeEmailProcessor extends AbstractLeaveEmailProcessor implem
         $replacements['assigneeFullName'] = $applicant->getDecorator()->getFirstAndLastNames();
         $replacements['leaveType'] = $leaves[0]->getLeaveType()->getName();
 
-        $detailedLeaves = $this->getLeaveRequestService()->getDetailedLeaves($leaves, $leaves[0]->getLeaveRequest()->getLeaves());
-
-        $replacements['leaveDetails'] = [];
-        foreach ($detailedLeaves as $detailedLeave) {
-            $dates = $detailedLeave->getDatesDetail();
-            $leaveDatePeriod = $this->getDateTimeHelper()->formatDateTimeToYmd($dates->getFromDate());
-            $startTime = $this->getDateTimeHelper()->formatDateTimeToTimeString($dates->getStartTime());
-            $endTime = $this->getDateTimeHelper()->formatDateTimeToTimeString($dates->getEndTime());
-            if (!is_null($startTime) && !is_null($endTime)) {
-                $leaveDatePeriod .= " ($startTime - $endTime)";
-            }
-
-            if ($dates->getDurationType() === LeaveDuration::HALF_DAY_MORNING ||
-                $dates->getDurationType() === LeaveDuration::HALF_DAY_AFTERNOON) {
-                $leaveDatePeriod .= ' Half Day';
-            }
-            $replacements['leaveDetails'][] = [
-                'date' => $leaveDatePeriod,
-                'duration' => number_format($detailedLeave->getLeave()->getLengthHours(), 2),
-                // TODO
-                'comment' => '',
-            ];
-        }
+        $detailedLeaves = $this->getLeaveRequestService()->getDetailedLeaves(
+            $leaves,
+            $leaves[0]->getLeaveRequest()->getLeaves()
+        );
+        $replacements['leaveDetails'] = $this->getLeaveDetailsByDetailedLeaves($detailedLeaves);
+        $leaveRequestId = $leaves[0]->getLeaveRequest()->getId();
+        $replacements['leaveRequestComments'] = $this->getLeaveRequestComments($leaveRequestId);
 
         return $replacements;
     }

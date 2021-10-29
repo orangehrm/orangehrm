@@ -17,6 +17,29 @@
     </tbody>
 </table>
 <p>Leave type : {{ leaveType }}</p>
+{% if leaveRequestComments %}
+    <p>Comments:</p>
+    <table style="width:100%;text-align:left">
+        <thead>
+        <tr>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Commenter</th>
+            <th>Comment</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for leaveRequestComment in leaveRequestComments %}
+            <tr>
+                <td>{{ leaveRequestComment['date'] }}</td>
+                <td>{{ leaveRequestComment['time'] }}</td>
+                <td>{{ leaveRequestComment['name'] }}</td>
+                <td>{{ leaveRequestComment['comment'] }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endif %}
 <p>You were sent this mail, as you have subscribed to OrangeHRM leave rejections.</p>
 <p>Thank you.</p>
 <p>This is an automated notification.</p>
