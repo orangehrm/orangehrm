@@ -3540,20 +3540,6 @@ ALTER TABLE `hs_hr_config` CHANGE `key` `name` VARCHAR(100);
 
 ALTER TABLE `ohrm_menu_item` ADD additional_params LONGTEXT DEFAULT NULL COMMENT '(DC2Type:json)';
 
-UPDATE `ohrm_module` SET `status` = '0' WHERE `ohrm_module`.`name` = 'time';
-UPDATE `ohrm_module` SET `status` = '0' WHERE `ohrm_module`.`name` = 'attendance';
-UPDATE `ohrm_module` SET `status` = '0' WHERE `ohrm_module`.`name` = 'recruitment';
-UPDATE `ohrm_module` SET `status` = '0' WHERE `ohrm_module`.`name` = 'recruitmentApply';
-UPDATE `ohrm_module` SET `status` = '0' WHERE `ohrm_module`.`name` = 'dashboard';
-UPDATE `ohrm_module` SET `status` = '0' WHERE `ohrm_module`.`name` = 'performance';
-UPDATE `ohrm_module` SET `status` = '0' WHERE `ohrm_module`.`name` = 'directory';
-UPDATE `ohrm_module` SET `status` = '0' WHERE `ohrm_module`.`name` = 'maintenance';
-UPDATE `ohrm_module` SET `status` = '0' WHERE `ohrm_module`.`name` = 'marketPlace';
-UPDATE `ohrm_module` SET `status` = '0' WHERE `ohrm_module`.`name` = 'buzz';
-UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` = 'Localization';
-UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` = 'Language Packages';
-UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` = 'Social Media Authentication';
-
 SET @pim_module_id := (SELECT `id` FROM ohrm_module WHERE name = 'pim' LIMIT 1);
 UPDATE `ohrm_screen` SET `module_id` = @pim_module_id WHERE `action_url` = 'viewDefinedPredefinedReports';
 UPDATE `ohrm_screen` SET `module_id` = @pim_module_id WHERE `action_url` = 'definePredefinedReport';

@@ -21,16 +21,16 @@
 <template>
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
-      <oxd-text tag="h4" class="orangehrm-module-under-development-heading">
-        {{ $t('general.launching_soon') }}
-      </oxd-text>
       <div class="orangehrm-module-under-development">
+        <oxd-text tag="h4" class="orangehrm-module-under-development-heading">
+          {{ $t('general.launching_soon') }}
+        </oxd-text>
         <img
-          :src="helpImgSrc"
+          :src="moduleUnderDevelopment"
           class="orangehrm-module-under-development-img"
-          alt="help image"
+          alt="this module is under development"
         />
-        <oxd-text tag="h5" class="orangehrm-module-under-development-footer">
+        <oxd-text tag="h5">
           {{ $t('general.module_under_development') }}
         </oxd-text>
       </div>
@@ -42,29 +42,26 @@
 export default {
   data() {
     return {
-      helpImgSrc: `${window.appGlobal.baseUrl}/../images/web_under_construction.png`,
+      moduleUnderDevelopment: `${window.appGlobal.baseUrl}/../images/web_under_construction.png`,
     };
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.orangehrm-module-under-development-img {
-  max-width: 100%;
-  height: 100%;
-  max-height: 400px;
-  display: block;
-  margin: 0 auto;
-  object-fit: fill;
-}
-
-.orangehrm-module-under-development-heading {
-  color: $oxd-primary-one-color;
-  font-weight: bold;
+.orangehrm-module-under-development {
   text-align: center;
-}
-
-.orangehrm-module-under-development-footer {
-  text-align: center;
+  &-img {
+    max-width: 100%;
+    height: 100%;
+    max-height: 400px;
+    display: block;
+    margin: 0 auto;
+    object-fit: fill;
+  }
+  &-heading {
+    color: $oxd-primary-one-color;
+    font-weight: 700;
+  }
 }
 </style>

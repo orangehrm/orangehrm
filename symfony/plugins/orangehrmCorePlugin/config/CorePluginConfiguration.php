@@ -32,6 +32,7 @@ use OrangeHRM\Core\Subscriber\RequestBodySubscriber;
 use OrangeHRM\Core\Subscriber\RequestForwardableExceptionSubscriber;
 use OrangeHRM\Core\Subscriber\ScreenAuthorizationSubscriber;
 use OrangeHRM\Core\Subscriber\SessionSubscriber;
+use OrangeHRM\Core\Subscriber\ModuleUnderDevelopmentSubscriber;
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Framework\Event\EventDispatcher;
 use OrangeHRM\Framework\Http\Request;
@@ -96,5 +97,6 @@ class CorePluginConfiguration implements PluginConfigurationInterface
         $dispatcher->addSubscriber(new ScreenAuthorizationSubscriber());
         $dispatcher->addSubscriber(new ApiAuthorizationSubscriber());
         $dispatcher->addSubscriber(new RequestBodySubscriber());
+        $dispatcher->addSubscriber(new ModuleUnderDevelopmentSubscriber());
     }
 }
