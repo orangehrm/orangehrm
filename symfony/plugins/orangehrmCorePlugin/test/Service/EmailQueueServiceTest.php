@@ -79,6 +79,7 @@ class EmailQueueServiceTest extends KernelTestCase
     public function testSendSingleMail()
     {
         $emailService = $this->getMockBuilder(EmailService::class)
+            ->disableOriginalConstructor()
             ->onlyMethods(
                 ['setMessageSubject', 'setMessageBody', 'setMessageTo', 'setMessageCc', 'setMessageBcc', 'sendEmail']
             )
@@ -114,7 +115,10 @@ class EmailQueueServiceTest extends KernelTestCase
 
     public function testResetEmailService()
     {
-        $emailService = new EmailService();
+        $emailService = $this->getMockBuilder(EmailService::class)
+            ->disableOriginalConstructor()
+            ->onlyMethods([])
+            ->getMock();
         $emailService->setMessageSubject('test Subject');
         $emailService->setMessageBody('test Body');
         $emailService->setMessageTo(['test@orangehrm.com']);
