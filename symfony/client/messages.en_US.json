@@ -598,7 +598,7 @@
         }
       }
     },
-    "core": {
+    "pim": {
       "version": "5.0",
       "messages": {
         "update_password": {

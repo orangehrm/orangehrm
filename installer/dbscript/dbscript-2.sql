@@ -3580,19 +3580,16 @@ SET @supervisor_role_id := (SELECT `id` FROM ohrm_user_role WHERE `name` = 'Supe
 INSERT INTO ohrm_data_group (`name`, `description`, `can_read`, `can_create`, `can_update`, `can_delete`)
 VALUES ('personal_sensitive_information', 'PIM - PIM - Personal Details - Sensitive', 1, 0, 1, 0),
        ('apiv2_core_data_groups', 'API-v2 Core - Data Groups', 1, 0, 0, 0),
-       ('apiv2_core_about_organization', 'API-v2 Core - About', 1, 0, 0, 0),
-       ('apiv2_core_update_password', 'API-v2 Core - Password Update', 0, 0, 1, 0);
+       ('apiv2_core_about_organization', 'API-v2 Core - About', 1, 0, 0, 0);
 
 SET @core_module_id := (SELECT `id` FROM ohrm_module WHERE name = 'core' LIMIT 1);
 SET @personal_sensitive_information_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'personal_sensitive_information' LIMIT 1);
 SET @apiv2_core_data_groups_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_core_data_groups' LIMIT 1);
 SET @apiv2_core_about_organization_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_core_about_organization' LIMIT 1);
-SET @apiv2_core_update_password_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_core_update_password' LIMIT 1);
 
 INSERT INTO ohrm_api_permission (`api_name`, `module_id`, `data_group_id`)
 VALUES ('OrangeHRM\\Core\\Api\\Rest\\DataGroupAPI', @core_module_id, @apiv2_core_data_groups_data_group_id),
-       ('OrangeHRM\\Core\\Api\\Rest\\AboutOrganizationAPI', @core_module_id, @apiv2_core_about_organization_data_group_id),
-       ('OrangeHRM\\Core\\Api\\Rest\\UpdatePasswordAPI', @core_module_id, @apiv2_core_update_password_data_group_id);
+       ('OrangeHRM\\Core\\Api\\Rest\\AboutOrganizationAPI', @core_module_id, @apiv2_core_about_organization_data_group_id);
 
 INSERT INTO ohrm_user_role_data_group (`can_read`, `can_create`, `can_update`, `can_delete`, `self`, `data_group_id`, `user_role_id`)
 VALUES (1, 0, 1, 0, 0, @personal_sensitive_information_data_group_id, @admin_role_id),
@@ -3603,8 +3600,6 @@ VALUES (1, 0, 1, 0, 0, @personal_sensitive_information_data_group_id, @admin_rol
        (1, 0, 0, 0, 0, @apiv2_core_data_groups_data_group_id, @admin_role_id),
        (1, 0, 0, 0, 0, @apiv2_core_data_groups_data_group_id, @ess_role_id),
        (1, 0, 0, 0, 0, @apiv2_admin_work_shift_employee_data_group_id, @admin_role_id),
-       (0, 0, 1, 0, 1, @apiv2_core_update_password_data_group_id, @admin_role_id),
-       (0, 0, 1, 0, 1, @apiv2_core_update_password_data_group_id, @ess_role_id),
        (1, 0, 0, 0, 0, @apiv2_core_about_organization_data_group_id, @admin_role_id),
        (1, 0, 0, 0, 0, @apiv2_core_about_organization_data_group_id, @ess_role_id),
        (1, 0, 0, 0, 0, @apiv2_core_about_organization_data_group_id, @supervisor_role_id);
@@ -3751,7 +3746,8 @@ VALUES ('apiv2_pim_custom_field', 'API-v2 PIM - Custom Fields', 1, 1, 1, 1),
        ('apiv2_pim_employee_csv_import', 'API-v2 PIM - Employee CSV Import', 1, 1, 0, 0),
        ('apiv2_pim_defined_reports', 'API-v2 PIM - Defined Reports', 1, 1, 1, 1),
        ('apiv2_pim_reports', 'API-v2 PIM - Reports', 1, 0, 0, 0),
-       ('apiv2_pim_reports_data', 'API-v2 PIM - Reports Data', 1, 0, 0, 0);
+       ('apiv2_pim_reports_data', 'API-v2 PIM - Reports Data', 1, 0, 0, 0),
+       ('apiv2_pim_update_password', 'API-v2 PIM - Password Update', 0, 0, 1, 0);
 
 SET @pim_module_id := (SELECT `id` FROM ohrm_module WHERE name = 'pim' LIMIT 1);
 SET @apiv2_pim_custom_field_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_pim_custom_field' LIMIT 1);
@@ -3791,6 +3787,7 @@ SET @apiv2_pim_employee_csv_import_data_group_id := (SELECT `id` FROM ohrm_data_
 SET @apiv2_pim_defined_reports_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name ='apiv2_pim_defined_reports' LIMIT 1);
 SET @apiv2_pim_reports_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_pim_reports' LIMIT 1);
 SET @apiv2_pim_reports_data_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_pim_reports_data' LIMIT 1);
+SET @apiv2_pim_update_password_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_pim_update_password' LIMIT 1);
 
 INSERT INTO ohrm_api_permission (`api_name`, `module_id`, `data_group_id`)
 VALUES ('OrangeHRM\\Pim\\Api\\CustomFieldAPI', @pim_module_id, @apiv2_pim_custom_field_data_group_id),
@@ -3828,7 +3825,8 @@ VALUES ('OrangeHRM\\Pim\\Api\\CustomFieldAPI', @pim_module_id, @apiv2_pim_custom
        ('OrangeHRM\\Pim\\Api\\EmployeeCSVImportAPI', @pim_module_id, @apiv2_pim_employee_csv_import_data_group_id),
        ('OrangeHRM\\Pim\\Api\\PimDefinedReportAPI', @pim_module_id, @apiv2_pim_defined_reports_data_group_id),
        ('OrangeHRM\\Pim\\Api\\PimReportAPI', @leave_module_id, @apiv2_pim_reports_data_group_id),
-       ('OrangeHRM\\Pim\\Api\\PimReportDataAPI', @leave_module_id, @apiv2_pim_reports_data_data_group_id);
+       ('OrangeHRM\\Pim\\Api\\PimReportDataAPI', @leave_module_id, @apiv2_pim_reports_data_data_group_id),
+       ('OrangeHRM\\Pim\\Api\\UpdatePasswordAPI', @pim_module_id, @apiv2_pim_update_password_data_group_id);
 
 INSERT INTO ohrm_user_role_data_group (`can_read`, `can_create`, `can_update`, `can_delete`, `self`, `data_group_id`, `user_role_id`)
 VALUES (1, 1, 1, 1, 0, @apiv2_pim_custom_field_data_group_id, @admin_role_id),
@@ -3936,7 +3934,9 @@ VALUES (1, 1, 1, 1, 0, @apiv2_pim_custom_field_data_group_id, @admin_role_id),
        (1, 1, 0, 0, 0, @apiv2_pim_employee_csv_import_data_group_id, @admin_role_id),
        (1, 1, 1, 1, 0, @apiv2_pim_defined_reports_data_group_id, @admin_role_id),
        (1, 0, 0, 0, 0, @apiv2_pim_reports_data_group_id, @admin_role_id),
-       (1, 0, 0, 0, 0, @apiv2_pim_reports_data_data_group_id, @admin_role_id);
+       (1, 0, 0, 0, 0, @apiv2_pim_reports_data_data_group_id, @admin_role_id),
+       (0, 0, 1, 0, 1, @apiv2_pim_update_password_data_group_id, @admin_role_id),
+       (0, 0, 1, 0, 1, @apiv2_pim_update_password_data_group_id, @ess_role_id);
 
 INSERT INTO ohrm_data_group (`name`, `description`, `can_read`, `can_create`, `can_update`, `can_delete`)
 VALUES ('apiv2_leave_holiday', 'API-v2 Leave - Holidays', 1, 1, 1, 1),

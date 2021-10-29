@@ -17,10 +17,10 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Tests\Core\Api;
+namespace OrangeHRM\Tests\Pim\Api;
 
-use OrangeHRM\Core\Api\Rest\UpdatePasswordAPI;
 use OrangeHRM\Framework\Services;
+use OrangeHRM\Pim\Api\UpdatePasswordAPI;
 use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
 use OrangeHRM\Tests\Util\Integration\TestCaseParams;
 

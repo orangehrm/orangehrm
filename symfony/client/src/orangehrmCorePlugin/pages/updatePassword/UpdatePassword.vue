@@ -21,14 +21,14 @@
 <template>
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
-      <oxd-text tag="h6" class="orangehrm-main-title">Change Password</oxd-text>
+      <oxd-text tag="h6" class="orangehrm-main-title">{{ $t('pim.update_password') }}</oxd-text>
       <oxd-divider />
 
       <oxd-form :loading="isLoading" @submitValid="onSave">
         <oxd-form-row>
           <oxd-grid :cols="2" class="orangehrm-full-width-grid">
             <oxd-grid-item>
-              <oxd-input-group :label="$t('core.user_name')">
+              <oxd-input-group :label="$t('pim.user_name')">
                 <oxd-text class="orangehrm-user-name" tag="p">
                   {{ userName }}
                 </oxd-text>
@@ -38,7 +38,7 @@
             <oxd-grid-item>
               <oxd-input-field
                 type="password"
-                :label="$t('core.current_password')"
+                :label="$t('pim.current_password')"
                 v-model="user.currentPassword"
                 :rules="rules.currentPassword"
                 required
@@ -120,7 +120,7 @@ export default {
     onSave() {
       this.isLoading = true;
       this.http.http
-        .put('api/v2/core/update-password', {
+        .put('api/v2/pim/update-password', {
           currentPassword: this.user.currentPassword,
           newPassword: this.user.password,
         })
@@ -129,8 +129,8 @@ export default {
             this.$toast.saveSuccess();
           } else {
             this.isLoading = false;
-            this.$toast.warn({
-              title: 'Warning',
+            this.$toast.error({
+              title: 'Error',
               message: 'Current Password is Incorrect',
             });
             return Promise.reject();

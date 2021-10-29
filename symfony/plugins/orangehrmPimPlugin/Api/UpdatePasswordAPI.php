@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Core\Api\Rest;
+namespace OrangeHRM\Pim\Api;
 
 use OrangeHRM\Admin\Api\Model\UserModel;
 use OrangeHRM\Admin\Service\UserService;
@@ -105,12 +105,7 @@ class UpdatePasswordAPI extends Endpoint implements ResourceEndpoint
                                 self::PARAMETER_CURRENT_PASSWORD
                             );
                             $userId = $this->getUserRoleManager()->getUser()->getId();
-                            $isAuthorized = $this->getSystemUserService()->isCurrentPassword($userId, $currentPassword);
-                            if ($isAuthorized) {
-                                return true;
-                            } else {
-                                return false;
-                            }
+                            return $this->getSystemUserService()->isCurrentPassword($userId, $currentPassword);
                         }
                     ])
                 )
