@@ -200,6 +200,31 @@
           "source": "Generate",
           "target": "Generate",
           "description": ""
+        },
+        "about": {
+          "source": "About",
+          "target": "About",
+          "description": "Users can view public information about the rest of the employees in the company corporate directory."
+        },
+        "company_name": {
+          "source": "Company Name",
+          "target": "Company Name",
+          "description": ""
+        },
+        "version": {
+          "source": "Version",
+          "target": "Version",
+          "description": ""
+        },
+        "active_employees": {
+          "source": "Active Employees",
+          "target": "Active Employees",
+          "description": ""
+        },
+        "employees_terminated": {
+          "source": "Employees Terminated",
+          "target": "Employees Terminated",
+          "description": ""
         }
       }
     },
