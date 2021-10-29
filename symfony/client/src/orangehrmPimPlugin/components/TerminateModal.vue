@@ -171,9 +171,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.oxd-overlay {
-  z-index: 1100 !important;
-}
-</style>

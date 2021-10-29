@@ -90,9 +90,6 @@ export default {
 </script>
 
 <style scoped>
-.oxd-overlay {
-  z-index: 1100 !important;
-}
 .orangehrm-modal-header {
   margin-bottom: 1.2rem;
   display: flex;

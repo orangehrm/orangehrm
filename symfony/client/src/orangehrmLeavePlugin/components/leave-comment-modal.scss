@@ -16,9 +16,6 @@
 
 @import '@orangehrm/oxd/styles/_mixins.scss';
 
-.oxd-overlay {
-  z-index: 1100 !important;
-}
 .orangehrm-modal-content {
   max-height: 200px;
   overflow: hidden auto;

@@ -4,7 +4,7 @@
   position: fixed;
   display: flex;
   flex-direction: column;
-  z-index: 999999;
+  z-index: 1200 !important;
   left: 12px;
   @include oxd-respond-to('xs') {
     min-width: 290px;

@@ -16,9 +16,6 @@
 
 @import '@orangehrm/oxd/styles/_mixins.scss';
 
-.oxd-overlay {
-  z-index: 1100 !important;
-}
 .orangehrm-leave-balance-text {
   font-size: $oxd-input-control-font-size;
   margin-bottom: 0.25rem;
