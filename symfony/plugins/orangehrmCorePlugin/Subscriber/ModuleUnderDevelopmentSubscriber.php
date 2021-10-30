@@ -30,6 +30,16 @@ class ModuleUnderDevelopmentSubscriber extends AbstractEventSubscriber
 {
     use TextHelperTrait;
 
+    const MODULE_UNDER_DEVELOPMENT = [
+        'time',
+        'recruitment',
+        'performance',
+        'directory',
+        'dashboard',
+        'maintenance',
+        'buzz'
+    ];
+
     /**
      * @inheritDoc
      */
@@ -44,10 +54,10 @@ class ModuleUnderDevelopmentSubscriber extends AbstractEventSubscriber
 
     public function onRequestEvent(RequestEvent $event)
     {
-        $moduleUnderDevelopment = ['time', 'recruitment', 'performance', 'directory', 'dashboard', 'maintenance', 'buzz'];
-        foreach ($moduleUnderDevelopment as $module){
-            if ($event->isMasterRequest()) {
-                if ($this->getTextHelper()->strStartsWith($event->getRequest()->getPathInfo(), '/'.$module)) {
+        if ($event->isMasterRequest()) {
+            $modules = self::MODULE_UNDER_DEVELOPMENT; // [indirectly reference the const] looping directly may case run time exception
+            foreach ($modules as $module) {
+                if ($this->getTextHelper()->strStartsWith($event->getRequest()->getPathInfo(), '/' . $module)) {
                     throw new RequestForwardableException(ModuleUnderDevelopmentController::class . '::handle');
                 }
             }
