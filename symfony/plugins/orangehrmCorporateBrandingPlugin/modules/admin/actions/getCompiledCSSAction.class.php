@@ -10,7 +10,8 @@ class getCompiledCSSAction extends sfAction
         $variables = array_merge($params, [
             'imagesPath' => '"' . ($indexIncluded ? '../' : '') . '../' . $imagesPath . '"',
             'login-logo-inner-color' => $params['primaryColor'],
-            'login-logo-outer-color' => $params['secondaryColor']
+            'login-logo-outer-color' => $params['secondaryColor'],
+            'login-social-links-display' => 'inline',
         ]);
         $sass = Sass::instance();
         echo $sass->compileSCSS($variables);
