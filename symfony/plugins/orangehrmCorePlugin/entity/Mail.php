@@ -32,9 +32,10 @@ class Mail implements \OrangeHRM\Core\Mail\Mail
 {
     use DateTimeHelperTrait;
 
-    public const STATUS_PENDING = 'PENDING';
-    public const STATUS_IN_PROGRESS = 'IN-PROGRESS';
-    public const STATUS_COMPLETED = 'COMPLETED';
+    public const STATUS_PENDING = 'pending';
+    public const STATUS_STARTED = 'started';
+    public const STATUS_SENT = 'sent';
+    public const STATUS_FAILED = 'failed';
 
     public const CONTENT_TYPE_TEXT_PLAIN = 'text/plain';
     public const CONTENT_TYPE_TEXT_HTML = 'text/html';
@@ -261,8 +262,8 @@ class Mail implements \OrangeHRM\Core\Mail\Mail
     {
         if (!in_array($status, [
             self::STATUS_PENDING,
-            self::STATUS_IN_PROGRESS,
-            self::STATUS_COMPLETED
+            self::STATUS_STARTED,
+            self::STATUS_SENT
         ])) {
             throw new InvalidArgumentException('Invalid status name');
         }

@@ -145,11 +145,11 @@ class EmailQueueServiceTest extends KernelTestCase
         $mail->setBccList(['test10@orangehrm.com']);
 
         $emailQueueService = new EmailQueueService();
-        $result = $emailQueueService->changeMailStatus($mail, Mail::STATUS_IN_PROGRESS);
-        $this->assertEquals(Mail::STATUS_IN_PROGRESS, $result->getStatus());
+        $result = $emailQueueService->changeMailStatus($mail, Mail::STATUS_STARTED);
+        $this->assertEquals(Mail::STATUS_STARTED, $result->getStatus());
 
-        $result = $emailQueueService->changeMailStatus($mail, Mail::STATUS_COMPLETED);
-        $this->assertEquals(Mail::STATUS_COMPLETED, $result->getStatus());
+        $result = $emailQueueService->changeMailStatus($mail, Mail::STATUS_SENT);
+        $this->assertEquals(Mail::STATUS_SENT, $result->getStatus());
         $this->assertNotNull($result->getSentAt());
     }
 

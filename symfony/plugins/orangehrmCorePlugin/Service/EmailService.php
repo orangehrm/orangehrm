@@ -20,6 +20,7 @@
 namespace OrangeHRM\Core\Service;
 
 use OrangeHRM\Admin\Service\EmailConfigurationService;
+use OrangeHRM\Authentication\Auth\User as AuthUser;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Dao\EmailDao;
 use OrangeHRM\Core\Exception\CoreServiceException;
@@ -28,13 +29,13 @@ use OrangeHRM\Core\Exception\ServiceException as Exception;
 use OrangeHRM\Core\Mail\AbstractRecipient;
 use OrangeHRM\Core\Mail\MailProcessor;
 use OrangeHRM\Core\Mail\TemplateHelper;
+use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\ClassHelperTrait;
 use OrangeHRM\Core\Traits\LoggerTrait;
 use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Core\Utility\Mailer;
 use OrangeHRM\Core\Utility\MailMessage;
 use OrangeHRM\Core\Utility\MailTransport;
-use OrangeHRM\Entity\Email;
 use OrangeHRM\Entity\EmailConfiguration;
 use OrangeHRM\Entity\EmailTemplate;
 use OrangeHRM\Framework\Event\Event;
@@ -44,6 +45,7 @@ class EmailService
     use LoggerTrait;
     use ConfigServiceTrait;
     use ClassHelperTrait;
+    use AuthUserTrait;
 
     public const SMTP_SECURITY_NONE = 'none';
     public const SMTP_SECURITY_TLS = 'tls';
@@ -504,9 +506,12 @@ class EmailService
         array $recipientRoles,
         string $performerRole,
         Event $eventData
-    ) {
-        foreach ($recipientRoles as $role) {
-            $this->queueEmailNotification($emailName, $role, $performerRole, $eventData);
+    ): void {
+        if ($this->isConfigSet()) {
+            $this->getAuthUser()->addFlash(AuthUser::FLASH_SEND_EMAIL_FLAG, true);
+            foreach ($recipientRoles as $role) {
+                $this->queueEmailNotification($emailName, $role, $performerRole, $eventData);
+            }
         }
     }
 
@@ -579,7 +584,7 @@ class EmailService
         string $recipientRole,
         string $performerRole,
         Event $eventData
-    ) {
+    ): void {
         $email = $this->getEmailDao()->getEmailByName($emailName);
 
         if (is_null($email)) {

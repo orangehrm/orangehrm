@@ -86,7 +86,7 @@ class EmailQueueService
      */
     public function sendSingleMail(Mail $mail): void
     {
-        $this->changeMailStatus($mail, Mail::STATUS_IN_PROGRESS);
+        $this->changeMailStatus($mail, Mail::STATUS_STARTED);
         $this->getEmailService()->setMessageSubject($mail->getSubject());
         $this->getEmailService()->setMessageBody($mail->getBody());
         $this->getEmailService()->setMessageTo($mail->getToList());
@@ -96,12 +96,12 @@ class EmailQueueService
         try {
             $result = $this->getEmailService()->sendEmail();
             if ($result) {
-                $this->changeMailStatus($mail, Mail::STATUS_COMPLETED);
+                $this->changeMailStatus($mail, Mail::STATUS_SENT);
             } else {
                 $this->changeMailStatus($mail, Mail::STATUS_PENDING);
             }
         } catch (MailerException $e) {
-            $this->changeMailStatus($mail, Mail::STATUS_PENDING);
+            $this->changeMailStatus($mail, Mail::STATUS_FAILED);
         }
     }
 
@@ -124,7 +124,7 @@ class EmailQueueService
     public function changeMailStatus(Mail $mail, string $status): Mail
     {
         $mail->setStatus($status);
-        if ($status == Mail::STATUS_COMPLETED) {
+        if ($status == Mail::STATUS_SENT) {
             $mail->setSentAt($this->getDateTimeHelper()->getNow());
         }
         return $this->getEmailQueueDao()->saveEmail($mail);
