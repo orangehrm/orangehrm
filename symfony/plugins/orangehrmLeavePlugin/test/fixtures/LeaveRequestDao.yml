@@ -1,3 +1,12 @@
+LeaveStatus:
+  - { "id": "1","status": "-1","name": "REJECTED" }
+  - { "id": "2","status": "0","name": "CANCELLED" }
+  - { "id": "3","status": "1","name": "PENDING APPROVAL" }
+  - { "id": "4","status": "2","name": "SCHEDULED" }
+  - { "id": "5","status": "3","name": "TAKEN" }
+  - { "id": "6","status": "4","name": "WEEKEND" }
+  - { "id": "7","status": "5","name": "HOLIDAY" }
+
 EmploymentStatus:
   0: {id: 1, name: 'Full Time'}
 
@@ -18,7 +27,7 @@ Subunit:
   3: {id: 3, name: 'QA', unitId: 'qa', description: 'QA description', lft: 6, rgt: 7, level: 1}
   4: {id: 4, name: 'Agriculture', unitId: 'ag', description: 'Agriculture description', lft: 8, rgt: 9, level: 1}
   5: {id: 5, name: 'Support', unitId: 'sup', description: 'Support description', lft: 3, rgt: 4, level: 2}
-    
+
 Employee:
   0: {empNumber: 1, firstName: 'Kayla', lastName: 'Abbey', termination_id: 1, work_station: 1}
   1: {empNumber: 2, firstName: 'Ashley', lastName: 'Abel', middleName: 'Aldis', work_station: 2}
@@ -35,8 +44,8 @@ Location:
   0: {id: 1, name: 'location 1', country_code: 'LK', province: 'province 1', city: 'city 1', address: 'address 1', zip_code: 'zip001', phone: '0777000001', fax: '0112000001', notes: 'note 1' }
   1: {id: 2, name: 'location 2', country_code: 'LK', province: 'province 2', city: 'city 2', address: 'address 2', zip_code: 'zip002', phone: '0777000002', fax: '0112000002', notes: 'note 2' }
   2: {id: 3, name: 'location 3', country_code: 'US', province: 'AK', city: 'city 3', address: 'address 3', zip_code: 'zip003', phone: '0777000003', fax: '0112000002', notes: 'note 3' }
-  3: {id: 4, name: 'location 4', country_code: 'US', province: 'TX', city: 'city 3', address: 'address 4', zip_code: 'zip004', phone: '0777000004', fax: '0112000004', notes: 'note 4' }  
-  
+  3: {id: 4, name: 'location 4', country_code: 'US', province: 'TX', city: 'city 3', address: 'address 4', zip_code: 'zip004', phone: '0777000004', fax: '0112000004', notes: 'note 4' }
+
 EmpLocations:
   0: {emp_number: 1, location_id: 1 }
   1: {emp_number: 2, location_id: 2 }
@@ -44,7 +53,7 @@ EmpLocations:
   3: {emp_number: 4, location_id: 2 }
   4: {emp_number: 5, location_id: 4 }
   5: {emp_number: 6, location_id: 3 }
-  
+
 LeaveType:
   0: {id: 1, name: 'Casual', deleted: 0}
   1: {id: 2, name: 'Medical', deleted: 0}
@@ -73,7 +82,7 @@ LeaveRequest:
   18: {id: 19, leave_type_id: 1, date_applied: '2010-08-20', emp_number: 5, comments: 'my comment8'}
   19: {id: 20, leave_type_id: 4, date_applied: '2011-01-01', emp_number: 6, comments: 'my comment8'}
   20: {id: 21, leave_type_id: 4, date_applied: '2011-04-02', emp_number: 6, comments: 'my comment9'}
-  
+
 Leave:
   0: {id: 1, length_hours: 8, length_days: 1, leave_request_id: 1, leave_type_id: 1, emp_number: 1, date: '2010-09-01', status: 1}
   1: {id: 2, length_hours: 8, length_days: 1, leave_request_id: 1, leave_type_id: 1, emp_number: 1, date: '2010-09-02', status: 1}
@@ -114,13 +123,13 @@ Leave:
 
 LeaveEntitlementType:
   0: {id: 1, name: 'Added'}
-  
+
 LeaveEntitlement:
   0: {id: 1, leave_type_id: 1, emp_number: 1, no_of_days: 3, days_used: 2.25, from_date: '2012-01-01 00:00:00', to_date: '2012-08-01 00:00:00', credited_date: '2012-01-01 00:00:00', note: '', entitlement_type: 1, deleted: 0}
   1: {id: 2, leave_type_id: 2, emp_number: 2, no_of_days: 6, days_used: 3.5, from_date: '2013-08-05 00:00:00', to_date: '2013-09-01 00:00:00', credited_date: '2013-01-06 00:00:00', note: '', entitlement_type: 1, deleted: 0}
   2: {id: 3, leave_type_id: 3, emp_number: 1, no_of_days: 1, days_used: 0, from_date: '2012-04-04 00:00:00', to_date: '2012-06-01 00:00:00', credited_date: '2012-01-01 00:00:00', note: '', entitlement_type: 1, deleted: 0}
   3: {id: 4, leave_type_id: 4, emp_number: 1, no_of_days: 5, days_used: 3, from_date: '2012-05-05 00:00:00', to_date: '2012-08-01 00:00:00', credited_date: '2012-02-01 00:00:00', note: '', entitlement_type: 1, deleted: 0}
- 
+
 LeaveLeaveEntitlement:
   0: {id: 1, leave_id: 1, entitlement_id: 1, length_days: 0.5}
   1: {id: 2, leave_id: 1, entitlement_id: 2, length_days: 0.5}
@@ -128,4 +137,4 @@ LeaveLeaveEntitlement:
   3: {id: 4, leave_id: 3, entitlement_id: 4, length_days: 1}
   4: {id: 5, leave_id: 4, entitlement_id: 4, length_days: 1}
   5: {id: 6, leave_id: 5, entitlement_id: 1, length_days: 1}
-  6: {id: 7, leave_id: 7, entitlement_id: 1, length_days: 0.75}  
+  6: {id: 7, leave_id: 7, entitlement_id: 1, length_days: 0.75}

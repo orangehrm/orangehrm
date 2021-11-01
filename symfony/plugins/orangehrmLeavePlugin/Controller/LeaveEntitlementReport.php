@@ -69,7 +69,7 @@ class LeaveEntitlementReport extends AbstractVueController
         $locations = $this->getLocationService()->getAccessibleLocationsArray();
         $component->addProp(new Prop('locations', Prop::TYPE_ARRAY, $locations));
 
-        $leavePeriod = $this->getLeavePeriodService()->getCurrentLeavePeriodAsArray();
+        $leavePeriod = $this->getLeavePeriodService()->getNormalizedCurrentLeavePeriod();
         $leavePeriod = [
             "id" => $leavePeriod['startDate'] . "_" . $leavePeriod['endDate'],
             "label" => $leavePeriod['startDate'] . " - " . $leavePeriod['endDate'],
