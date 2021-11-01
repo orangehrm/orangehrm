@@ -3746,7 +3746,8 @@ VALUES ('apiv2_pim_custom_field', 'API-v2 PIM - Custom Fields', 1, 1, 1, 1),
        ('apiv2_pim_employee_csv_import', 'API-v2 PIM - Employee CSV Import', 1, 1, 0, 0),
        ('apiv2_pim_defined_reports', 'API-v2 PIM - Defined Reports', 1, 1, 1, 1),
        ('apiv2_pim_reports', 'API-v2 PIM - Reports', 1, 0, 0, 0),
-       ('apiv2_pim_reports_data', 'API-v2 PIM - Reports Data', 1, 0, 0, 0);
+       ('apiv2_pim_reports_data', 'API-v2 PIM - Reports Data', 1, 0, 0, 0),
+       ('apiv2_pim_update_password', 'API-v2 PIM - Password Update', 0, 0, 1, 0);
 
 SET @pim_module_id := (SELECT `id` FROM ohrm_module WHERE name = 'pim' LIMIT 1);
 SET @apiv2_pim_custom_field_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_pim_custom_field' LIMIT 1);
@@ -3786,6 +3787,7 @@ SET @apiv2_pim_employee_csv_import_data_group_id := (SELECT `id` FROM ohrm_data_
 SET @apiv2_pim_defined_reports_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name ='apiv2_pim_defined_reports' LIMIT 1);
 SET @apiv2_pim_reports_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_pim_reports' LIMIT 1);
 SET @apiv2_pim_reports_data_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_pim_reports_data' LIMIT 1);
+SET @apiv2_pim_update_password_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_pim_update_password' LIMIT 1);
 
 INSERT INTO ohrm_api_permission (`api_name`, `module_id`, `data_group_id`)
 VALUES ('OrangeHRM\\Pim\\Api\\CustomFieldAPI', @pim_module_id, @apiv2_pim_custom_field_data_group_id),
@@ -3823,7 +3825,8 @@ VALUES ('OrangeHRM\\Pim\\Api\\CustomFieldAPI', @pim_module_id, @apiv2_pim_custom
        ('OrangeHRM\\Pim\\Api\\EmployeeCSVImportAPI', @pim_module_id, @apiv2_pim_employee_csv_import_data_group_id),
        ('OrangeHRM\\Pim\\Api\\PimDefinedReportAPI', @pim_module_id, @apiv2_pim_defined_reports_data_group_id),
        ('OrangeHRM\\Pim\\Api\\PimReportAPI', @leave_module_id, @apiv2_pim_reports_data_group_id),
-       ('OrangeHRM\\Pim\\Api\\PimReportDataAPI', @leave_module_id, @apiv2_pim_reports_data_data_group_id);
+       ('OrangeHRM\\Pim\\Api\\PimReportDataAPI', @leave_module_id, @apiv2_pim_reports_data_data_group_id),
+       ('OrangeHRM\\Pim\\Api\\UpdatePasswordAPI', @pim_module_id, @apiv2_pim_update_password_data_group_id);
 
 INSERT INTO ohrm_user_role_data_group (`can_read`, `can_create`, `can_update`, `can_delete`, `self`, `data_group_id`, `user_role_id`)
 VALUES (1, 1, 1, 1, 0, @apiv2_pim_custom_field_data_group_id, @admin_role_id),
@@ -3931,7 +3934,9 @@ VALUES (1, 1, 1, 1, 0, @apiv2_pim_custom_field_data_group_id, @admin_role_id),
        (1, 1, 0, 0, 0, @apiv2_pim_employee_csv_import_data_group_id, @admin_role_id),
        (1, 1, 1, 1, 0, @apiv2_pim_defined_reports_data_group_id, @admin_role_id),
        (1, 0, 0, 0, 0, @apiv2_pim_reports_data_group_id, @admin_role_id),
-       (1, 0, 0, 0, 0, @apiv2_pim_reports_data_data_group_id, @admin_role_id);
+       (1, 0, 0, 0, 0, @apiv2_pim_reports_data_data_group_id, @admin_role_id),
+       (0, 0, 1, 0, 1, @apiv2_pim_update_password_data_group_id, @admin_role_id),
+       (0, 0, 1, 0, 1, @apiv2_pim_update_password_data_group_id, @ess_role_id);
 
 INSERT INTO ohrm_data_group (`name`, `description`, `can_read`, `can_create`, `can_update`, `can_delete`)
 VALUES ('apiv2_leave_holiday', 'API-v2 Leave - Holidays', 1, 1, 1, 1),
