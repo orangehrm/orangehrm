@@ -22,14 +22,14 @@ namespace OrangeHRM\Leave\Service;
 use DateTime;
 use Exception;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
-use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\Leave;
 use OrangeHRM\Entity\LeaveRequest;
 use OrangeHRM\Entity\LeaveRequestComment;
-use OrangeHRM\Entity\LeaveStatus;
 use OrangeHRM\Entity\WorkflowStateMachine;
 use OrangeHRM\Leave\Dto\LeaveParameterObject;
+use OrangeHRM\Leave\Event\LeaveApply;
+use OrangeHRM\Leave\Event\LeaveEvent;
 use OrangeHRM\Leave\Exception\LeaveAllocationServiceException;
 use OrangeHRM\Leave\Traits\Service\LeaveEntitlementServiceTrait;
 use OrangeHRM\Leave\Traits\Service\LeaveRequestServiceTrait;
@@ -40,28 +40,7 @@ class LeaveApplicationService extends AbstractLeaveAllocationService
     use LeaveRequestServiceTrait;
     use AuthUserTrait;
 
-    protected $dispatcher;
     protected ?WorkflowStateMachine $applyWorkflowItem = null;
-
-    /**
-     * Set dispatcher.
-     *
-     * @param $dispatcher
-     */
-    public function setDispatcher($dispatcher)
-    {
-        // TODO
-        $this->dispatcher = $dispatcher;
-    }
-
-    public function getDispatcher()
-    {
-        // TODO
-        if (is_null($this->dispatcher)) {
-            $this->dispatcher = sfContext::getInstance()->getEventDispatcher();
-        }
-        return $this->dispatcher;
-    }
 
     /**
      * Creates a new leave application
@@ -148,15 +127,11 @@ class LeaveApplicationService extends AbstractLeaveAllocationService
                             ->saveLeaveRequestComment($leaveRequestComment);
                     }
 
-                    //sending leave apply notification                   
-//                    $workFlow = $this->getWorkflowItemForApplyAction($leaveAssignmentData);
-//
-//                    $employee = $this->getLoggedInEmployee();
-//                    $eventData = [
-//                        'request' => $leaveRequest, 'days' => $leaves, 'empNumber' => $employee->getEmpNumber(),
-//                        'workFlow' => $workFlow
-//                    ];
-//                    $this->getDispatcher()->notify(new sfEvent($this, LeaveEvents::LEAVE_CHANGE, $eventData));
+                    $workFlowItem = $this->getWorkflowItemForApplyAction($leaveAssignmentData);
+                    $this->getEventDispatcher()->dispatch(
+                        new LeaveApply($leaveRequest, $workFlowItem, $this->getUserRoleManager()->getUser()),
+                        LeaveEvent::APPLY
+                    );
 
                     return $leaveRequest;
                 } catch (Exception $e) {

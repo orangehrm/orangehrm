@@ -19,27 +19,26 @@
 
 namespace OrangeHRM\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use DateTime;
+use Doctrine\ORM\Mapping as ORM;
 use InvalidArgumentException;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 
 /**
- * Config
- *
  * @ORM\Table(name="ohrm_mail_queue")
  * @ORM\Entity
  */
-class Mail
+class Mail implements \OrangeHRM\Core\Mail\Mail
 {
     use DateTimeHelperTrait;
 
-    public const STATUS_PENDING = "PENDING";
-    public const STATUS_IN_PROGRESS = "IN-PROGRESS";
-    public const STATUS_COMPLETED = "COMPLETED";
+    public const STATUS_PENDING = 'pending';
+    public const STATUS_STARTED = 'started';
+    public const STATUS_SENT = 'sent';
+    public const STATUS_FAILED = 'failed';
 
-    public const CONTENT_TYPE_TEXT_PLAIN = "text/plain";
-    public const CONTENT_TYPE_TEXT_HTML = "text/html";
+    public const CONTENT_TYPE_TEXT_PLAIN = 'text/plain';
+    public const CONTENT_TYPE_TEXT_HTML = 'text/html';
 
     /**
      * @var int
@@ -117,7 +116,7 @@ class Mail
     {
         $this->createdAt = $this->getDateTimeHelper()->getNow();
         $this->status = self::STATUS_PENDING;
-        $this->contentType = self::CONTENT_TYPE_TEXT_PLAIN;
+        $this->contentType = self::CONTENT_TYPE_TEXT_HTML;
     }
 
     /**
@@ -261,12 +260,12 @@ class Mail
      */
     public function setStatus(?string $status): void
     {
-        if (!in_array($status, array(
+        if (!in_array($status, [
             self::STATUS_PENDING,
-            self::STATUS_IN_PROGRESS,
-            self::STATUS_COMPLETED
-        ))) {
-            throw new \InvalidArgumentException("Invalid status name");
+            self::STATUS_STARTED,
+            self::STATUS_SENT
+        ])) {
+            throw new InvalidArgumentException('Invalid status name');
         }
 
         $this->status = $status;
@@ -285,8 +284,8 @@ class Mail
      */
     public function setContentType(?string $contentType): void
     {
-        if (!in_array($contentType, array(self::CONTENT_TYPE_TEXT_PLAIN, self::CONTENT_TYPE_TEXT_HTML))) {
-            throw new InvalidArgumentException("Invalid content type");
+        if (!in_array($contentType, [self::CONTENT_TYPE_TEXT_PLAIN, self::CONTENT_TYPE_TEXT_HTML])) {
+            throw new InvalidArgumentException('Invalid content type');
         }
 
         $this->contentType = $contentType;

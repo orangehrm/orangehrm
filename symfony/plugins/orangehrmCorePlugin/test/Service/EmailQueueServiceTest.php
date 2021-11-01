@@ -64,6 +64,7 @@ class EmailQueueServiceTest extends KernelTestCase
             "test7 subject",
             "test7 body",
             ['test7@orangehrm.com', 'test8@orangehrm.com'],
+            Mail::CONTENT_TYPE_TEXT_PLAIN,
             ['test9@orangehrm.com'],
             ['test10@orangehrm.com']
         );
@@ -78,6 +79,7 @@ class EmailQueueServiceTest extends KernelTestCase
     public function testSendSingleMail()
     {
         $emailService = $this->getMockBuilder(EmailService::class)
+            ->disableOriginalConstructor()
             ->onlyMethods(
                 ['setMessageSubject', 'setMessageBody', 'setMessageTo', 'setMessageCc', 'setMessageBcc', 'sendEmail']
             )
@@ -113,7 +115,10 @@ class EmailQueueServiceTest extends KernelTestCase
 
     public function testResetEmailService()
     {
-        $emailService = new EmailService();
+        $emailService = $this->getMockBuilder(EmailService::class)
+            ->disableOriginalConstructor()
+            ->onlyMethods([])
+            ->getMock();
         $emailService->setMessageSubject('test Subject');
         $emailService->setMessageBody('test Body');
         $emailService->setMessageTo(['test@orangehrm.com']);
@@ -140,11 +145,11 @@ class EmailQueueServiceTest extends KernelTestCase
         $mail->setBccList(['test10@orangehrm.com']);
 
         $emailQueueService = new EmailQueueService();
-        $result = $emailQueueService->changeMailStatus($mail, Mail::STATUS_IN_PROGRESS);
-        $this->assertEquals(Mail::STATUS_IN_PROGRESS, $result->getStatus());
+        $result = $emailQueueService->changeMailStatus($mail, Mail::STATUS_STARTED);
+        $this->assertEquals(Mail::STATUS_STARTED, $result->getStatus());
 
-        $result = $emailQueueService->changeMailStatus($mail, Mail::STATUS_COMPLETED);
-        $this->assertEquals(Mail::STATUS_COMPLETED, $result->getStatus());
+        $result = $emailQueueService->changeMailStatus($mail, Mail::STATUS_SENT);
+        $this->assertEquals(Mail::STATUS_SENT, $result->getStatus());
         $this->assertNotNull($result->getSentAt());
     }
 

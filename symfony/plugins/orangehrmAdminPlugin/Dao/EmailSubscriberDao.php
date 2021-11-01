@@ -36,7 +36,7 @@ class EmailSubscriberDao extends BaseDao
         int $emailSubscriptionId,
         EmailSubscriberSearchFilterParams $emailSubscriberSearchFilterParams
     ): array {
-        $paginator = $this->getEmailSubscriberListByEmailSubscriptionId(
+        $paginator = $this->getEmailSubscriberByEmailSubscriptionIdPaginator(
             $emailSubscriptionId,
             $emailSubscriberSearchFilterParams
         );
@@ -48,7 +48,7 @@ class EmailSubscriberDao extends BaseDao
      * @param EmailSubscriberSearchFilterParams $emailSubscriberSearchFilterParams
      * @return Paginator
      */
-    public function getEmailSubscriberListByEmailSubscriptionId(
+    protected function getEmailSubscriberByEmailSubscriptionIdPaginator(
         int $emailSubscriptionId,
         EmailSubscriberSearchFilterParams $emailSubscriberSearchFilterParams
     ): Paginator {
@@ -57,6 +57,11 @@ class EmailSubscriberDao extends BaseDao
         $q->andWhere('emailNotification.id = :emailSubscriptionId');
         $q->setParameter('emailSubscriptionId', $emailSubscriptionId);
         $this->setSortingAndPaginationParams($q, $emailSubscriberSearchFilterParams);
+
+        if (is_bool($emailSubscriberSearchFilterParams->getEnabled())) {
+            $q->andWhere('emailNotification.enabled = :enabled')
+                ->setParameter('enabled', $emailSubscriberSearchFilterParams->getEnabled());
+        }
         return $this->getPaginator($q);
     }
 
@@ -69,7 +74,7 @@ class EmailSubscriberDao extends BaseDao
         int $emailSubscriptionId,
         EmailSubscriberSearchFilterParams $emailSubscriberSearchFilterParams
     ): int {
-        $paginator = $this->getEmailSubscriberListByEmailSubscriptionId(
+        $paginator = $this->getEmailSubscriberByEmailSubscriptionIdPaginator(
             $emailSubscriptionId,
             $emailSubscriberSearchFilterParams
         );
