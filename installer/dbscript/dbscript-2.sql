@@ -4168,3 +4168,15 @@ UPDATE `ohrm_selected_filter_field` SET `where_condition` = 'between' WHERE `whe
 UPDATE `ohrm_selected_filter_field` SET `where_condition` = 'in' WHERE `where_condition` = 'IN';
 UPDATE `ohrm_selected_filter_field` SET `where_condition` = 'isNull' WHERE `where_condition` = 'IS NULL';
 UPDATE `ohrm_selected_filter_field` SET `where_condition` = 'isNotNull' WHERE `where_condition` = 'IS NOT NULL';
+
+SET @performance_module_id := (SELECT `id` FROM ohrm_module WHERE name = 'performance' LIMIT 1);
+
+INSERT INTO ohrm_screen (`name`, `module_id`, `action_url`)
+VALUES ('View Performance Module', @performance_module_id, 'viewPerformanceModule');
+SET @view_performance_module_id := (SELECT LAST_INSERT_ID());
+
+UPDATE `ohrm_menu_item` SET `screen_id`=@view_performance_module_id WHERE `menu_title` = 'Performance';
+
+INSERT INTO `ohrm_user_role_screen` (`user_role_id`, `screen_id`, `can_read`, `can_create`, `can_update`, `can_delete`)
+VALUES (@admin_user_role_id, @view_performance_module_id, '1', '0', '0', '0'),
+       (@ess_user_role_id, @view_performance_module_id, '1', '0', '0', '0');
