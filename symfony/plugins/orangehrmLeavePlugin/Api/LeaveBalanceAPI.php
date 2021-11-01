@@ -239,6 +239,13 @@ class LeaveBalanceAPI extends Endpoint implements ResourceEndpoint
         foreach ($leaveByPeriods as $leavePeriodIndex => $leavePeriod) {
             $days = $leavePeriod['days'];
 
+            if (is_null($leavePeriod['period'])) {
+                // Handle past leave period
+                $negativeBalance = true;
+                unset($leaveByPeriods[$leavePeriodIndex]['days']);
+                $leaveByPeriods[$leavePeriodIndex]['leaves'] = [];
+                continue;
+            }
             $firstDayInPeriod = ($leavePeriod['period'])->getStartDate();
             $lastDayInPeriod = ($leavePeriod['period'])->getEndDate();
             $dayKeys = array_keys($days);
@@ -331,7 +338,8 @@ class LeaveBalanceAPI extends Endpoint implements ResourceEndpoint
             $leaveDate = $leave->getDate();
 
             // Get next leave period if request spans leave periods.
-            if ($leaveDate > ($leaveByPeriods[$leavePeriodIndex]['period'])->getEndDate()) {
+            if (!is_null($leaveByPeriods[$leavePeriodIndex]['period']) &&
+                $leaveDate > ($leaveByPeriods[$leavePeriodIndex]['period'])->getEndDate()) {
                 $currentLeavePeriod = $this->getLeavePeriod($empNumber, $leaveTypeId, $leaveDate);
                 $leavePeriodIndex++;
                 $leaveByPeriods[$leavePeriodIndex] = [
