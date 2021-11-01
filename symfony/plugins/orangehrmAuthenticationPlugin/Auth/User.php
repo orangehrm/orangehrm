@@ -35,6 +35,7 @@ class User
     public const USER_EMPLOYEE_NUMBER = 'user.user_employee_number';
 
     public const FLASH_LOGIN_ERROR = 'flash.login_error';
+    public const FLASH_SEND_EMAIL_FLAG = 'flash.send_email_flag';
 
     /**
      * @var null|self

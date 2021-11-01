@@ -46,7 +46,7 @@ class DetailedLeave
     /**
      * @var Leave[]
      */
-    private array $leaves;
+    private iterable $leaves;
 
     /**
      * @var LeaveRequestDatesDetail|null
@@ -116,7 +116,7 @@ class DetailedLeave
     /**
      * @param Leave[] $leaves
      */
-    public function setLeaves(array $leaves): void
+    public function setLeaves(iterable $leaves): void
     {
         $this->reset();
         $this->leaves = $leaves;
@@ -125,7 +125,7 @@ class DetailedLeave
     /**
      * @return Leave[]
      */
-    public function getLeaves(): array
+    public function getLeaves(): iterable
     {
         return $this->leaves;
     }

@@ -20,6 +20,7 @@
 namespace OrangeHRM\Leave\Service;
 
 use DateTime;
+use OrangeHRM\Core\Traits\EventDispatcherTrait;
 use OrangeHRM\Core\Traits\LoggerTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
@@ -44,6 +45,7 @@ abstract class AbstractLeaveAllocationService
     use LeaveRequestServiceTrait;
     use WorkScheduleServiceTrait;
     use LoggerTrait;
+    use EventDispatcherTrait;
 
     protected ?LeaveRequestService $leaveRequestService = null;
     /**
@@ -54,16 +56,6 @@ abstract class AbstractLeaveAllocationService
      * @var array<string, DateTime[]>
      */
     protected array $workShiftLengthExceedOverlapLeaveDates = [];
-    protected $workflowService;
-
-    public function getWorkflowService()
-    {
-        // TODO
-        if (empty($this->workflowService)) {
-            $this->workflowService = new AccessFlowStateMachineService();
-        }
-        return $this->workflowService;
-    }
 
     /**
      *

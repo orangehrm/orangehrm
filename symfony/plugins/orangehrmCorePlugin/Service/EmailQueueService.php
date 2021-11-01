@@ -22,8 +22,6 @@ namespace OrangeHRM\Core\Service;
 use OrangeHRM\Core\Dao\EmailQueueDao;
 use OrangeHRM\Entity\Mail;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface as MailerException;
-use OrangeHRM\Core\Exception\DaoException;
-use OrangeHRM\Core\Exception\CoreServiceException;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 
 class EmailQueueService
@@ -47,14 +45,11 @@ class EmailQueueService
 
     /**
      * @return EmailService
-     * @throws DaoException
-     * @throws CoreServiceException
      */
     public function getEmailService(): EmailService
     {
         if (!($this->emailService instanceof EmailService)) {
             $this->emailService = new EmailService();
-            $this->getEmailService()->loadConfiguration();
         }
         return $this->emailService;
     }
@@ -63,16 +58,24 @@ class EmailQueueService
      * @param string $subject
      * @param string $body
      * @param array $toList
+     * @param string $contentType
      * @param array $ccList
      * @param array $bccList
      * @return Mail
      */
-    public function addToQueue(string $subject, string $body, array $toList = [], array $ccList = [], array $bccList = []): Mail
-    {
+    public function addToQueue(
+        string $subject,
+        string $body,
+        array $toList = [],
+        string $contentType = Mail::CONTENT_TYPE_TEXT_HTML,
+        array $ccList = [],
+        array $bccList = []
+    ): Mail {
         $mail = new Mail();
         $mail->setSubject($subject);
         $mail->setBody($body);
         $mail->setToList($toList);
+        $mail->setContentType($contentType);
         $mail->setCcList($ccList);
         $mail->setBccList($bccList);
         return $this->getEmailQueueDao()->saveEmail($mail);
@@ -80,12 +83,10 @@ class EmailQueueService
 
     /**
      * @param Mail $mail
-     * @throws CoreServiceException
-     * @throws DaoException
      */
     public function sendSingleMail(Mail $mail): void
     {
-        $this->changeMailStatus($mail, Mail::STATUS_IN_PROGRESS);
+        $this->changeMailStatus($mail, Mail::STATUS_STARTED);
         $this->getEmailService()->setMessageSubject($mail->getSubject());
         $this->getEmailService()->setMessageBody($mail->getBody());
         $this->getEmailService()->setMessageTo($mail->getToList());
@@ -94,23 +95,19 @@ class EmailQueueService
 
         try {
             $result = $this->getEmailService()->sendEmail();
-            if($result){
-                $this->changeMailStatus($mail, Mail::STATUS_COMPLETED);
+            if ($result) {
+                $this->changeMailStatus($mail, Mail::STATUS_SENT);
             } else {
                 $this->changeMailStatus($mail, Mail::STATUS_PENDING);
             }
-        } catch (MailerException $e){
-            $this->changeMailStatus($mail, Mail::STATUS_PENDING);
+        } catch (MailerException $e) {
+            $this->changeMailStatus($mail, Mail::STATUS_FAILED);
         }
     }
 
-    /**
-     * @throws CoreServiceException
-     * @throws DaoException
-     */
     public function resetEmailService(): void
     {
-        if($this->getEmailService() instanceof EmailService){
+        if ($this->getEmailService() instanceof EmailService) {
             $this->getEmailService()->setMessageSubject('');
             $this->getEmailService()->setMessageBody('');
             $this->getEmailService()->setMessageTo([]);
@@ -127,20 +124,16 @@ class EmailQueueService
     public function changeMailStatus(Mail $mail, string $status): Mail
     {
         $mail->setStatus($status);
-        if($status == Mail::STATUS_COMPLETED){
+        if ($status == Mail::STATUS_SENT) {
             $mail->setSentAt($this->getDateTimeHelper()->getNow());
         }
         return $this->getEmailQueueDao()->saveEmail($mail);
     }
 
-    /**
-     * @throws CoreServiceException
-     * @throws DaoException
-     */
     public function sendAllPendingMails(): void
     {
         $mails = $this->getEmailQueueDao()->getAllPendingMails();
-        foreach ($mails as $mail){
+        foreach ($mails as $mail) {
             $this->resetEmailService();
             $this->sendSingleMail($mail);
         }

@@ -25,8 +25,26 @@ class EmailSubscriberSearchFilterParams extends FilterParams
 {
     public const ALLOWED_SORT_FIELDS = ['emailSubscriber.name'];
 
+    private ?bool $enabled = null;
+
     public function __construct()
     {
         $this->setSortField('emailSubscriber.name');
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function getEnabled(): ?bool
+    {
+        return $this->enabled;
+    }
+
+    /**
+     * @param bool|null $enabled
+     */
+    public function setEnabled(?bool $enabled): void
+    {
+        $this->enabled = $enabled;
     }
 }

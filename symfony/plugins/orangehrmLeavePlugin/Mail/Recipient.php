@@ -1,5 +1,4 @@
 <?php
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -18,14 +17,50 @@
  * Boston, MA  02110-1301, USA
  */
 
-/**
- * Description of orangehrmMailProcessor
- *
- */
-interface orangehrmMailProcessor {
-    
-    public function getReplacements($data);
-    
-    public function getRecipients($emailName, $role, $data);
-}
+namespace OrangeHRM\Leave\Mail;
 
+use OrangeHRM\Core\Mail\AbstractRecipient;
+
+class Recipient extends AbstractRecipient
+{
+    private string $emailAddress;
+    private string $name;
+    private string $firstName;
+
+    /**
+     * @param string $emailAddress
+     * @param string $name
+     * @param string $firstName
+     */
+    public function __construct(string $emailAddress, string $name, string $firstName)
+    {
+        $this->emailAddress = $emailAddress;
+        $this->name = $name;
+        $this->firstName = $firstName;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function getEmailAddress(): string
+    {
+        return $this->emailAddress;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFirstName(): string
+    {
+        return $this->firstName;
+    }
+}

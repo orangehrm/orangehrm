@@ -19,8 +19,8 @@
 
 namespace OrangeHRM\Leave\Service;
 
-use Exception;
 use DateTime;
+use Exception;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\Leave;
@@ -28,6 +28,8 @@ use OrangeHRM\Entity\LeaveRequest;
 use OrangeHRM\Entity\LeaveRequestComment;
 use OrangeHRM\Entity\WorkflowStateMachine;
 use OrangeHRM\Leave\Dto\LeaveParameterObject;
+use OrangeHRM\Leave\Event\LeaveAssign;
+use OrangeHRM\Leave\Event\LeaveEvent;
 use OrangeHRM\Leave\Exception\LeaveAllocationServiceException;
 use OrangeHRM\Leave\Traits\Service\LeaveEntitlementServiceTrait;
 use OrangeHRM\Leave\Traits\Service\LeaveRequestServiceTrait;
@@ -38,28 +40,7 @@ class LeaveAssignmentService extends AbstractLeaveAllocationService
     use LeaveRequestServiceTrait;
     use AuthUserTrait;
 
-    protected $dispatcher;
     protected ?WorkflowStateMachine $assignWorkflowItem = null;
-
-    /**
-     * Set dispatcher.
-     *
-     * @param $dispatcher
-     */
-    public function setDispatcher($dispatcher)
-    {
-        // TODO
-        $this->dispatcher = $dispatcher;
-    }
-
-    public function getDispatcher()
-    {
-        // TODO
-        if (is_null($this->dispatcher)) {
-            $this->dispatcher = sfContext::getInstance()->getEventDispatcher();
-        }
-        return $this->dispatcher;
-    }
 
     /**
      * @param LeaveParameterObject $leaveAssignmentData
@@ -95,7 +76,7 @@ class LeaveAssignmentService extends AbstractLeaveAllocationService
         $empNumber = $leaveAssignmentData->getEmployeeNumber();
         $nonHolidayLeaveDays = [];
         $holidayCount = 0;
-        $holidays = array(Leave::LEAVE_STATUS_LEAVE_WEEKEND, Leave::LEAVE_STATUS_LEAVE_HOLIDAY);
+        $holidays = [Leave::LEAVE_STATUS_LEAVE_WEEKEND, Leave::LEAVE_STATUS_LEAVE_HOLIDAY];
         foreach ($leaveDays as $k => $leave) {
             if (in_array($leave->getStatus(), $holidays)) {
                 $holidayCount++;
@@ -133,18 +114,12 @@ class LeaveAssignmentService extends AbstractLeaveAllocationService
                             ->saveLeaveRequestComment($leaveRequestComment);
                     }
 
-//                    /* Send notification to the when leave is assigned; TODO: Move to action? */
-//
-//                    /** TODO: Don't hard code 'ADMIN' here: Use method to get allowed actions ordered by priority and choose the assign action */
-//
-//                    $workFlow = $this->getWorkflowService()
-//                             ->getWorkflowItemByStateActionAndRole(WorkflowStateMachine::FLOW_LEAVE, 'INITIAL', 'ASSIGN', 'ADMIN');
-//
-//                    $eventData = array('request' => $leaveRequest, 'days' => $leaveDays, 'empNumber' => $_SESSION['empNumber'],
-//                        'workFlow' => $workFlow);
-//                    $this->getDispatcher()->notify(new sfEvent($this, LeaveEvents::LEAVE_CHANGE, $eventData));
+                    $workFlowItem = $this->getWorkflowItemForAssignAction($leaveAssignmentData);
+                    $this->getEventDispatcher()->dispatch(
+                        new LeaveAssign($leaveRequest, $workFlowItem, $this->getUserRoleManager()->getUser()),
+                        LeaveEvent::ASSIGN
+                    );
 
-//                    return true;
                     return $leaveRequest;
                 } catch (Exception $e) {
                     $this->getLogger()->error('Exception while saving leave:' . $e->getMessage());
@@ -200,7 +175,7 @@ class LeaveAssignmentService extends AbstractLeaveAllocationService
      * @param LeaveParameterObject $leaveAssignmentData
      * @return WorkflowStateMachine|null
      */
-    protected function getWorkflowItemForAssignAction(LeaveParameterObject $leaveAssignmentData)
+    protected function getWorkflowItemForAssignAction(LeaveParameterObject $leaveAssignmentData): ?WorkflowStateMachine
     {
         if (is_null($this->assignWorkflowItem)) {
             $empNumber = $leaveAssignmentData->getEmployeeNumber();

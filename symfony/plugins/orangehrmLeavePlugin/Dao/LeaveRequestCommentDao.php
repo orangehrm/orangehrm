@@ -65,8 +65,7 @@ class LeaveRequestCommentDao extends BaseDao
         $this->setSortingAndPaginationParams($q, $leaveRequestCommentSearchParams);
 
         if (!empty($leaveRequestCommentSearchParams->getLeaveRequestId())) {
-            $q->leftJoin('leaveRequestComment.leaveRequest', 'leaveRequest');
-            $q->andWhere('leaveRequest.id = :leaveRequestId')
+            $q->andWhere('leaveRequestComment.leaveRequest = :leaveRequestId')
                 ->setParameter('leaveRequestId', $leaveRequestCommentSearchParams->getLeaveRequestId());
         }
 
