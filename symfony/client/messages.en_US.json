@@ -547,6 +547,16 @@
           "description": ""
         }
       }
+    },
+    "recruitment": {
+      "version": "5.0",
+      "messages": {
+        "vacancies": {
+          "source": "Vacancies",
+          "target": "Vacancies",
+          "description": "Here the Admin can create a vacancy for a particular job title required by the company."
+        }
+      }
     }
   }
 }
