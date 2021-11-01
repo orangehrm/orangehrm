@@ -110,10 +110,7 @@ class BulkLeaveAPI extends Endpoint implements ResourceEndpoint
             foreach ($detailedLeavesGroupByAction as $action => $detailedLeaves) {
                 $workflow = $detailedLeaves[0]->getWorkflowForAction($action);
 
-                $this->getLeaveRequestService()->changeLeavesStatus(
-                    $leavesGroupByAction[$action],
-                    $workflow->getResultingState()
-                );
+                $this->getLeaveRequestService()->changeLeavesStatus($leavesGroupByAction[$action], $workflow);
             }
 
             $this->commitTransaction();

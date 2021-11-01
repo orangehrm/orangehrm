@@ -17,6 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 
+use OrangeHRM\Core\Traits\EventDispatcherTrait;
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\PluginConfigurationInterface;
@@ -29,10 +30,12 @@ use OrangeHRM\Leave\Service\LeaveRequestService;
 use OrangeHRM\Leave\Service\LeaveTypeService;
 use OrangeHRM\Leave\Service\WorkScheduleService;
 use OrangeHRM\Leave\Service\WorkWeekService;
+use OrangeHRM\Leave\Subscriber\LeaveEventSubscriber;
 
 class LeavePluginConfiguration implements PluginConfigurationInterface
 {
     use ServiceContainerTrait;
+    use EventDispatcherTrait;
 
     /**
      * @inheritDoc
@@ -71,5 +74,7 @@ class LeavePluginConfiguration implements PluginConfigurationInterface
             Services::WORK_WEEK_SERVICE,
             WorkWeekService::class
         );
+
+        $this->getEventDispatcher()->addSubscriber(new LeaveEventSubscriber());
     }
 }

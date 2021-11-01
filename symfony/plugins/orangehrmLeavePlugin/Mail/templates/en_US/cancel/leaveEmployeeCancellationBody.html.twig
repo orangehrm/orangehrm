@@ -1,0 +1,43 @@
+<p>Hi {{ recipientFirstName }},</p>
+<p>{{ performerFullName }} has cancelled leave. The leave details:</p>
+<table style="text-align:left">
+    <thead>
+    <tr>
+        <th>Date(s)</th>
+        <th>Duration(Hours)</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for leaveDetail in leaveDetails %}
+        <tr>
+            <td style="padding-right:12px;">{{ leaveDetail['date'] }}</td>
+            <td>{{ leaveDetail['duration'] }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+<p>Leave type : {{ leaveType }}</p>
+{% if leaveRequestComments %}
+    <p>Comments:</p>
+    <table style="text-align:left">
+        <thead>
+        <tr>
+            <th style="padding-right:12px;">Date and Time</th>
+            <th style="padding-right:12px;">Name</th>
+            <th>Comment</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for leaveRequestComment in leaveRequestComments %}
+            <tr>
+                <td style="padding-right:12px;">{{ leaveRequestComment['date'] }} {{ leaveRequestComment['time'] }}</td>
+                <td style="padding-right:12px;">{{ leaveRequestComment['name'] }}</td>
+                <td>{{ leaveRequestComment['comment'] }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endif %}
+<p>You received this email, as you are assigned as supervisor for {{ performerFirstName }}.</p>
+<p>Thank you.</p>
+<p>This is an automated notification.</p>

@@ -19,11 +19,26 @@
 
 namespace OrangeHRM\Core\Utility;
 
+use OrangeHRM\Entity\Mail;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Mime\Address;
 
 class MailMessage extends Email
 {
+    /**
+     * @var string
+     */
+    private string $contentType;
+
+    /**
+     * @param string $contentType
+     */
+    public function __construct(string $contentType = Mail::CONTENT_TYPE_TEXT_HTML)
+    {
+        $this->contentType = $contentType;
+        parent::__construct();
+    }
+
     /**
      * @param string $subject
      * @return $this
@@ -41,7 +56,7 @@ class MailMessage extends Email
     {
         $symfonyAddresses = [];
         foreach ($addresses as $address => $name) {
-            $symfonyAddresses[] = new Address($address,$name);
+            $symfonyAddresses[] = new Address($address, $name);
         }
 
         return $this->from(...$symfonyAddresses);
@@ -57,12 +72,16 @@ class MailMessage extends Email
     }
 
     /**
-     * @param string $subject
+     * @param string $body
      * @return $this
      */
-    public function setMailBody(string $subject): MailMessage
+    public function setMailBody(string $body): MailMessage
     {
-        return $this->text($subject);
+        if ($this->contentType === Mail::CONTENT_TYPE_TEXT_PLAIN) {
+            return $this->text($body);
+        } else {
+            return $this->html($body);
+        }
     }
 
     /**
