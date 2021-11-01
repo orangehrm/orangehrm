@@ -607,6 +607,26 @@
           "description": ""
         }
       }
+    },
+    "pim": {
+      "version": "5.0",
+      "messages": {
+        "update_password": {
+          "source": "Change Password",
+          "target": "Change Password",
+          "description": ""
+        },
+        "current_password": {
+          "source": "Current Password",
+          "target": "Current Password",
+          "description": ""
+        },
+        "user_name": {
+          "source": "User Name",
+          "target": "User Name",
+          "description": ""
+        }
+      }
     }
   }
 }

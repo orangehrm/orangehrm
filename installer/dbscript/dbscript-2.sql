@@ -3732,7 +3732,8 @@ VALUES ('apiv2_pim_custom_field', 'API-v2 PIM - Custom Fields', 1, 1, 1, 1),
        ('apiv2_pim_employee_csv_import', 'API-v2 PIM - Employee CSV Import', 1, 1, 0, 0),
        ('apiv2_pim_defined_reports', 'API-v2 PIM - Defined Reports', 1, 1, 1, 1),
        ('apiv2_pim_reports', 'API-v2 PIM - Reports', 1, 0, 0, 0),
-       ('apiv2_pim_reports_data', 'API-v2 PIM - Reports Data', 1, 0, 0, 0);
+       ('apiv2_pim_reports_data', 'API-v2 PIM - Reports Data', 1, 0, 0, 0),
+       ('apiv2_pim_update_password', 'API-v2 PIM - Password Update', 0, 0, 1, 0);
 
 SET @pim_module_id := (SELECT `id` FROM ohrm_module WHERE name = 'pim' LIMIT 1);
 SET @apiv2_pim_custom_field_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_pim_custom_field' LIMIT 1);
@@ -3772,6 +3773,7 @@ SET @apiv2_pim_employee_csv_import_data_group_id := (SELECT `id` FROM ohrm_data_
 SET @apiv2_pim_defined_reports_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name ='apiv2_pim_defined_reports' LIMIT 1);
 SET @apiv2_pim_reports_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_pim_reports' LIMIT 1);
 SET @apiv2_pim_reports_data_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_pim_reports_data' LIMIT 1);
+SET @apiv2_pim_update_password_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_pim_update_password' LIMIT 1);
 
 INSERT INTO ohrm_api_permission (`api_name`, `module_id`, `data_group_id`)
 VALUES ('OrangeHRM\\Pim\\Api\\CustomFieldAPI', @pim_module_id, @apiv2_pim_custom_field_data_group_id),
@@ -3809,7 +3811,8 @@ VALUES ('OrangeHRM\\Pim\\Api\\CustomFieldAPI', @pim_module_id, @apiv2_pim_custom
        ('OrangeHRM\\Pim\\Api\\EmployeeCSVImportAPI', @pim_module_id, @apiv2_pim_employee_csv_import_data_group_id),
        ('OrangeHRM\\Pim\\Api\\PimDefinedReportAPI', @pim_module_id, @apiv2_pim_defined_reports_data_group_id),
        ('OrangeHRM\\Pim\\Api\\PimReportAPI', @leave_module_id, @apiv2_pim_reports_data_group_id),
-       ('OrangeHRM\\Pim\\Api\\PimReportDataAPI', @leave_module_id, @apiv2_pim_reports_data_data_group_id);
+       ('OrangeHRM\\Pim\\Api\\PimReportDataAPI', @leave_module_id, @apiv2_pim_reports_data_data_group_id),
+       ('OrangeHRM\\Pim\\Api\\UpdatePasswordAPI', @pim_module_id, @apiv2_pim_update_password_data_group_id);
 
 INSERT INTO ohrm_user_role_data_group (`can_read`, `can_create`, `can_update`, `can_delete`, `self`, `data_group_id`, `user_role_id`)
 VALUES (1, 1, 1, 1, 0, @apiv2_pim_custom_field_data_group_id, @admin_role_id),
@@ -3917,7 +3920,9 @@ VALUES (1, 1, 1, 1, 0, @apiv2_pim_custom_field_data_group_id, @admin_role_id),
        (1, 1, 0, 0, 0, @apiv2_pim_employee_csv_import_data_group_id, @admin_role_id),
        (1, 1, 1, 1, 0, @apiv2_pim_defined_reports_data_group_id, @admin_role_id),
        (1, 0, 0, 0, 0, @apiv2_pim_reports_data_group_id, @admin_role_id),
-       (1, 0, 0, 0, 0, @apiv2_pim_reports_data_data_group_id, @admin_role_id);
+       (1, 0, 0, 0, 0, @apiv2_pim_reports_data_data_group_id, @admin_role_id),
+       (0, 0, 1, 0, 1, @apiv2_pim_update_password_data_group_id, @admin_role_id),
+       (0, 0, 1, 0, 1, @apiv2_pim_update_password_data_group_id, @ess_role_id);
 
 INSERT INTO ohrm_data_group (`name`, `description`, `can_read`, `can_create`, `can_update`, `can_delete`)
 VALUES ('apiv2_leave_holiday', 'API-v2 Leave - Holidays', 1, 1, 1, 1),
@@ -4180,3 +4185,28 @@ UPDATE `ohrm_menu_item` SET `screen_id`=@view_performance_module_id WHERE `menu_
 INSERT INTO `ohrm_user_role_screen` (`user_role_id`, `screen_id`, `can_read`, `can_create`, `can_update`, `can_delete`)
 VALUES (@admin_user_role_id, @view_performance_module_id, '1', '0', '0', '0'),
        (@ess_user_role_id, @view_performance_module_id, '1', '0', '0', '0');
+       
+SET @leave_apply_email_id := (SELECT `id` FROM ohrm_email WHERE `name` = 'leave.apply' LIMIT 1);
+SET @leave_assign_email_id := (SELECT `id` FROM ohrm_email WHERE `name` = 'leave.assign' LIMIT 1);
+SET @leave_approve_email_id := (SELECT `id` FROM ohrm_email WHERE `name` = 'leave.approve' LIMIT 1);
+SET @leave_cancel_email_id := (SELECT `id` FROM ohrm_email WHERE `name` = 'leave.cancel' LIMIT 1);
+SET @leave_reject_email_id := (SELECT `id` FROM ohrm_email WHERE `name` = 'leave.reject' LIMIT 1);
+UPDATE `ohrm_email_processor` SET `class_name` = 'OrangeHRM\\Leave\\Mail\\Processor\\LeaveAllocateEmailProcessor' WHERE `email_id` = @leave_apply_email_id;
+UPDATE `ohrm_email_processor` SET `class_name` = 'OrangeHRM\\Leave\\Mail\\Processor\\LeaveAllocateEmailProcessor' WHERE `email_id` = @leave_assign_email_id;
+UPDATE `ohrm_email_processor` SET `class_name` = 'OrangeHRM\\Leave\\Mail\\Processor\\LeaveStatusChangeEmailProcessor' WHERE `email_id` = @leave_approve_email_id;
+UPDATE `ohrm_email_processor` SET `class_name` = 'OrangeHRM\\Leave\\Mail\\Processor\\LeaveStatusChangeEmailProcessor' WHERE `email_id` = @leave_cancel_email_id;
+UPDATE `ohrm_email_processor` SET `class_name` = 'OrangeHRM\\Leave\\Mail\\Processor\\LeaveStatusChangeEmailProcessor' WHERE `email_id` = @leave_reject_email_id;
+
+UPDATE `ohrm_email_template` SET `subject` = '/orangehrmLeavePlugin/Mail/templates/en_US/apply/leaveApplicationSubject.txt.twig', `body` = '/orangehrmLeavePlugin/Mail/templates/en_US/apply/leaveApplicationBody.html.twig' WHERE `email_id` = @leave_apply_email_id AND `recipient_role` = 'supervisor';
+UPDATE `ohrm_email_template` SET `subject` = '/orangehrmLeavePlugin/Mail/templates/en_US/apply/leaveApplicationSubject.txt.twig', `body` = '/orangehrmLeavePlugin/Mail/templates/en_US/apply/leaveApplicationSubscriberBody.html.twig' WHERE `email_id` = @leave_apply_email_id AND `recipient_role` = 'subscriber';
+UPDATE `ohrm_email_template` SET `subject` = '/orangehrmLeavePlugin/Mail/templates/en_US/assign/leaveAssignmentSubject.txt.twig', `body` = '/orangehrmLeavePlugin/Mail/templates/en_US/assign/leaveAssignmentBody.html.twig' WHERE `email_id` = @leave_assign_email_id AND `recipient_role` = 'ess';
+UPDATE `ohrm_email_template` SET `subject` = '/orangehrmLeavePlugin/Mail/templates/en_US/assign/leaveAssignmentSubjectForSupervisors.txt.twig', `body` = '/orangehrmLeavePlugin/Mail/templates/en_US/assign/leaveAssignmentBodyForSupervisors.html.twig' WHERE `email_id` = @leave_assign_email_id AND `recipient_role` = 'supervisor';
+UPDATE `ohrm_email_template` SET `subject` = '/orangehrmLeavePlugin/Mail/templates/en_US/assign/leaveAssignmentSubscriberSubject.txt.twig', `body` = '/orangehrmLeavePlugin/Mail/templates/en_US/assign/leaveAssignmentSubscriberBody.html.twig' WHERE `email_id` = @leave_assign_email_id AND `recipient_role` = 'subscriber';
+UPDATE `ohrm_email_template` SET `subject` = '/orangehrmLeavePlugin/Mail/templates/en_US/approve/leaveApprovalSubject.txt.twig', `body` = '/orangehrmLeavePlugin/Mail/templates/en_US/approve/leaveApprovalBody.html.twig' WHERE `email_id` = @leave_approve_email_id AND `recipient_role` = 'ess';
+UPDATE `ohrm_email_template` SET `subject` = '/orangehrmLeavePlugin/Mail/templates/en_US/approve/leaveApprovalSubscriberSubject.txt.twig', `body` = '/orangehrmLeavePlugin/Mail/templates/en_US/approve/leaveApprovalSubscriberBody.html.twig' WHERE `email_id` = @leave_approve_email_id AND `recipient_role` = 'subscriber';
+UPDATE `ohrm_email_template` SET `subject` = '/orangehrmLeavePlugin/Mail/templates/en_US/cancel/leaveEmployeeCancellationSubject.txt.twig', `body` = '/orangehrmLeavePlugin/Mail/templates/en_US/cancel/leaveEmployeeCancellationBody.html.twig' WHERE `email_id` = @leave_cancel_email_id AND `recipient_role` = 'supervisor';
+UPDATE `ohrm_email_template` SET `subject` = '/orangehrmLeavePlugin/Mail/templates/en_US/cancel/leaveEmployeeCancellationSubscriberSubject.txt.twig', `body` = '/orangehrmLeavePlugin/Mail/templates/en_US/cancel/leaveEmployeeCancellationSubscriberBody.html.twig' WHERE `email_id` = @leave_cancel_email_id AND `recipient_role` = 'subscriber' AND `performer_role` = 'ess';
+UPDATE `ohrm_email_template` SET `subject` = '/orangehrmLeavePlugin/Mail/templates/en_US/cancel/leaveCancellationSubject.txt.twig', `body` = '/orangehrmLeavePlugin/Mail/templates/en_US/cancel/leaveCancellationBody.html.twig' WHERE `email_id` = @leave_cancel_email_id AND `recipient_role` = 'ess';
+UPDATE `ohrm_email_template` SET `subject` = '/orangehrmLeavePlugin/Mail/templates/en_US/cancel/leaveCancellationSubscriberSubject.txt.twig', `body` = '/orangehrmLeavePlugin/Mail/templates/en_US/cancel/leaveCancellationSubscriberBody.html.twig' WHERE `email_id` = @leave_cancel_email_id AND `recipient_role` = 'subscriber' AND `performer_role` IS NULL;
+UPDATE `ohrm_email_template` SET `subject` = '/orangehrmLeavePlugin/Mail/templates/en_US/reject/leaveRejectionSubject.txt.twig', `body` = '/orangehrmLeavePlugin/Mail/templates/en_US/reject/leaveRejectionBody.html.twig' WHERE `email_id` = @leave_reject_email_id AND `recipient_role` = 'ess';
+UPDATE `ohrm_email_template` SET `subject` = '/orangehrmLeavePlugin/Mail/templates/en_US/reject/leaveRejectionSubscriberSubject.txt.twig', `body` = '/orangehrmLeavePlugin/Mail/templates/en_US/reject/leaveRejectionSubscriberBody.html.twig' WHERE `email_id` = @leave_reject_email_id AND `recipient_role` = 'subscriber';

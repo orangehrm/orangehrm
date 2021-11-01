@@ -480,6 +480,14 @@ apiv2_pim_defined_report:
   defaults:
     _api: OrangeHRM\Pim\Api\PimDefinedReportAPI
 
+apiv2_pim_update_password:
+  path: /api/v2/pim/update-password
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ PUT ]
+  defaults:
+    id: 0
+    _api: OrangeHRM\Pim\Api\UpdatePasswordAPI
+
 ##########################
 #        Files
 ##########################
@@ -634,7 +642,7 @@ pim_employee_csv_import:
   path: /pim/pimCsvImport
   controller: OrangeHRM\Pim\Controller\EmployeeCsvImportController::handle
   methods: [ GET ]
-  
+
 pim_view_employee_reports:
   path: /pim/viewDefinedPredefinedReports
   controller: OrangeHRM\Pim\Controller\EmployeeReportController::handle
@@ -653,4 +661,9 @@ pim_edit_employee_reports:
 pim_display_employee_report:
   path: /pim/displayPredefinedReport/{id}
   controller: OrangeHRM\Pim\Controller\EmployeeReportController::handle
+  methods: [ GET ]
+
+update_password:
+  path: /pim/updatePassword
+  controller: OrangeHRM\Pim\Controller\UpdatePasswordController::handle
   methods: [ GET ]
