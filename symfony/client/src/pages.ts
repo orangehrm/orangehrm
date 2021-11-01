@@ -67,7 +67,6 @@ import EditWorkShift from '@/orangehrmAdminPlugin/pages/workShift/EditWorkShift.
 import EmailSubscription from '@/orangehrmAdminPlugin/pages/emailSubscription/EmailSubscription.vue';
 import EditEmailSubscription from '@/orangehrmAdminPlugin/pages/emailSubscription/EditEmailSubscription.vue';
 import HelpPages from '@/orangehrmHelpPlugin';
-import UpdatePasswordPage from '@/orangehrmCorePlugin';
 
 export default {
   'job-title-list': JobTitle,
@@ -122,5 +121,4 @@ export default {
   'email-subscription-list': EmailSubscription,
   'email-subscription-edit': EditEmailSubscription,
   ...HelpPages,
-  ...UpdatePasswordPage,
 };

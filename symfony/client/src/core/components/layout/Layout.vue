@@ -20,6 +20,11 @@
         </a>
       </li>
       <li>
+        <a :href="updatePasswordUrl" role="menuitem" class="oxd-userdropdown-link">
+          Change Password
+        </a>
+      </li>
+      <li>
         <a :href="logoutUrl" role="menuitem" class="oxd-userdropdown-link">
           Logout
         </a>
@@ -48,6 +53,9 @@ export default {
       type: String,
     },
     supportUrl: {
+      type: String,
+    },
+    updatePasswordUrl: {
       type: String,
     },
   },
