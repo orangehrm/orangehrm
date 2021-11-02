@@ -114,16 +114,24 @@ class ThemeService
 
             $mainCssFile = sfConfig::get('sf_web_dir') . DIRECTORY_SEPARATOR . $uniqueResourceDir . '/themes/' .
                 $theme->getThemeName() . '/css/main.css';
-
             $this->writeFile($css, $mainCssFile);
+
+            $themeLogoImagePath = sfConfig::get('sf_web_dir') . '/themes/' .
+                $theme->getThemeName() . '/images/logo.png';
+            $themeWebresLogoImagePath = sfConfig::get('sf_web_dir') . DIRECTORY_SEPARATOR . $uniqueResourceDir . '/themes/' .
+                $theme->getThemeName() . '/images/logo.png';
+
+            $themeLoginBannerImagePath = sfConfig::get('sf_web_dir') . '/themes/' .
+                $theme->getThemeName() . '/images/login/logo.png';
+            $themeLoginBannerWebresLogoImagePath = sfConfig::get('sf_web_dir') . DIRECTORY_SEPARATOR . $uniqueResourceDir . '/themes/' .
+                $theme->getThemeName() . '/images/login/logo.png';
+
+            copy($themeLogoImagePath , $themeWebresLogoImagePath);
+            copy($themeLoginBannerImagePath , $themeLoginBannerWebresLogoImagePath);
+
         } catch (Exception $exception){
-            $this->getLogger()->error('error');
-            $this->getLogger()->error($exception);
+            throw new Exception("Requires access to file permissions that are currently unavailable.");
         }
-
-
-//        chdir(sfConfig::get('sf_root_dir'));
-//        exec("php symfony o:publish-asset", $publishAssetResponse, $publishAssetStatus);
 
         OrangeConfig::getInstance()->setAppConfValue(ConfigService::KEY_THEME_NAME, $theme->getThemeName());
 
@@ -217,9 +225,5 @@ class ThemeService
         if (!file_put_contents($path, $data)) {
             throw new Exception("Failed to write $path");
         }
-    }
-
-    private function getLogger() {
-        return Logger::getLogger('orangehrm');
     }
 }

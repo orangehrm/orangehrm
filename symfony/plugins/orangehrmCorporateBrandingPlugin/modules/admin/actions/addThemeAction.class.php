@@ -138,7 +138,8 @@ class addThemeAction extends sfAction
                 } catch (Exception $e) {
                     Logger::getLogger("orangehrm")->error($e->getCode() . ' : ' . $e->getMessage());
                     Logger::getLogger("orangehrm")->error($e->getTraceAsString());
-                    return sfView::NONE;
+                    $this->getUser()->setFlash('error', __($e->getMessage()));
+                    $this->redirect('admin/addTheme');
                 }
                 if($isPublished) {
                     $this->getUser()->setAttribute('meta.themeName', $themeName);
