@@ -84,6 +84,7 @@ export default function useLeaveValidators(http: APIService) {
       fromDate: leave.fromDate ? leave.fromDate : '',
       toDate: leave.toDate ? leave.toDate : '',
       comment: leave.comment === '' ? null : leave.comment,
+      empNumber: leave.employee ? leave.employee.id : undefined,
     };
 
     if (leave.duration.type) {
@@ -131,6 +132,7 @@ export default function useLeaveValidators(http: APIService) {
       fromDate: undefined,
       toDate: undefined,
       partialOption: undefined,
+      empNumber: leave.employee?.id,
     };
 
     if (leave.duration.type) {
