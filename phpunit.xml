@@ -40,11 +40,7 @@
       <directory>symfony/plugins/orangehrmCorePlugin/test/Import</directory>
     </testsuite>
     <testsuite name="Leave">
-      <directory>symfony/plugins/orangehrmLeavePlugin/test/Service</directory>
-      <directory>symfony/plugins/orangehrmLeavePlugin/test/Dao</directory>
-      <directory>symfony/plugins/orangehrmLeavePlugin/test/Api</directory>
-      <directory>symfony/plugins/orangehrmLeavePlugin/test/Entity</directory>
-      <directory>symfony/plugins/orangehrmLeavePlugin/test/Entitlement</directory>
+      <directory>symfony/plugins/orangehrmLeavePlugin/test</directory>
     </testsuite>
     <testsuite name="Pim">
       <directory>symfony/plugins/orangehrmPimPlugin/test/Service</directory>

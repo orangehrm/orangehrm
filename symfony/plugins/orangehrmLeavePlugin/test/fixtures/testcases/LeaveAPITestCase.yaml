@@ -62,7 +62,20 @@ GetAll:
           id: 1
           name: "Pending Approval"
           lengthDays: 0.5
-        allowedActions: []
+        allowedActions: [
+          {
+            "action": "APPROVE",
+            "name": "Approve"
+          },
+          {
+            "action": "CANCEL",
+            "name": "Cancel"
+          },
+          {
+            "action": "REJECT",
+            "name": "Reject"
+          }
+        ]
         leaveType:
           id: 6
           name: "Medical"
@@ -96,7 +109,20 @@ GetAll:
           id: 1
           name: "Pending Approval"
           lengthDays: 0.5
-        allowedActions: []
+        allowedActions: [
+          {
+            "action": "APPROVE",
+            "name": "Approve"
+          },
+          {
+            "action": "CANCEL",
+            "name": "Cancel"
+          },
+          {
+            "action": "REJECT",
+            "name": "Reject"
+          }
+        ]
         leaveType:
           id: 6
           name: "Medical"
@@ -130,7 +156,7 @@ GetAll:
           id: 4
           name: "Weekend"
           lengthDays: 0.0
-        allowedActions: []
+        allowedActions: [ ]
         leaveType:
           id: 6
           name: "Medical"
@@ -164,7 +190,20 @@ GetAll:
           id: 1
           name: "Pending Approval"
           lengthDays: 1.0
-        allowedActions: []
+        allowedActions: [
+          {
+            "action": "APPROVE",
+            "name": "Approve"
+          },
+          {
+            "action": "CANCEL",
+            "name": "Cancel"
+          },
+          {
+            "action": "REJECT",
+            "name": "Reject"
+          }
+        ]
         leaveType:
           id: 6
           name: "Medical"
@@ -229,7 +268,20 @@ GetAll:
           id: 1
           name: "Pending Approval"
           lengthDays: 0.5
-        allowedActions: []
+        allowedActions: [
+          {
+            "action": "APPROVE",
+            "name": "Approve"
+          },
+          {
+            "action": "CANCEL",
+            "name": "Cancel"
+          },
+          {
+            "action": "REJECT",
+            "name": "Reject"
+          }
+        ]
         leaveType:
           id: 6
           name: "Medical"
@@ -263,7 +315,7 @@ GetAll:
           id: 4
           name: "Weekend"
           lengthDays: 0.0
-        allowedActions: []
+        allowedActions: [ ]
         leaveType:
           id: 6
           name: "Medical"
