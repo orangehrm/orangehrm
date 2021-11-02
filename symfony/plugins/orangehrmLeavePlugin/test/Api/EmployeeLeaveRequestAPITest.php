@@ -39,6 +39,7 @@ class EmployeeLeaveRequestAPITest extends EndpointIntegrationTestCase
         $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
 
         $this->registerServices($testCaseParams);
+        $this->registerMockDateTimeHelper($testCaseParams);
         $api = $this->getApiEndpointMock(EmployeeLeaveRequestAPI::class, $testCaseParams);
         $this->assertValidTestCase($api, 'update', $testCaseParams);
     }

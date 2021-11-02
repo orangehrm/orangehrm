@@ -51,6 +51,12 @@ class LeaveApplicationService extends AbstractLeaveAllocationService
      */
     public function applyLeave(LeaveParameterObject $leaveAssignmentData): ?LeaveRequest
     {
+        $maxAllowedLeavePeriodEndDate = $this->getLeavePeriodService()->getMaxAllowedLeavePeriodEndDate();
+        if ($leaveAssignmentData->getToDate() > $maxAllowedLeavePeriodEndDate) {
+            throw LeaveAllocationServiceException::cannotApplyLeaveBeyondMaxAllowedLeavePeriodEndDate(
+                $this->getDateTimeHelper()->formatDateTimeToYmd($maxAllowedLeavePeriodEndDate)
+            );
+        }
         if ($this->hasOverlapLeaves($leaveAssignmentData)) {
             throw LeaveAllocationServiceException::overlappingLeavesFound();
         }
