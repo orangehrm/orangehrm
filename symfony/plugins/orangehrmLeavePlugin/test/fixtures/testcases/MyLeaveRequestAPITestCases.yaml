@@ -3341,3 +3341,182 @@ GetAll:
       empNumber: 1
       total: 12
 
+  'with date range - single day':
+    userId: 2
+    now:
+      datetime: '2021-09-19'
+    services:
+      leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      leave.leave_request_service: \OrangeHRM\Leave\Service\LeaveRequestService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      leave.leave_entitlement_service: \OrangeHRM\Leave\Service\LeaveEntitlementService
+      leave.leave_period_service: \OrangeHRM\Leave\Service\LeavePeriodService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      fromDate: '2021-11-03'
+      toDate: '2021-11-03'
+    data: [
+      {
+        "id": 16,
+        "dates": {
+          "fromDate": "2021-11-03",
+          "toDate": null,
+          "durationType": {
+            "id": 0,
+            "type": "full_day"
+          },
+          "startTime": null,
+          "endTime": null
+        },
+        "noOfDays": 1,
+        "leaveBalances": [
+          {
+            "period": {
+              "startDate": "2021-01-01",
+              "endDate": "2021-12-31"
+            },
+            "balance": {
+              "entitled": 0,
+              "used": 1,
+              "scheduled": 1,
+              "pending": 0,
+              "taken": 0,
+              "balance": -1,
+              "asAtDate": "2021-11-03",
+              "endDate": "2021-12-31"
+            }
+          }
+        ],
+        "multiPeriod": false,
+        "leaveBreakdown": [
+          {
+            "id": 2,
+            "name": "Scheduled",
+            "lengthDays": 1
+          }
+        ],
+        "allowedActions": [
+          {
+            "action": "CANCEL",
+            "name": "Cancel"
+          }
+        ],
+        "hasMultipleStatus": false,
+        "employee": {
+          "empNumber": 1,
+          "lastName": "Adalwin",
+          "firstName": "Odis",
+          "middleName": "",
+          "employeeId": "0001",
+          "terminationId": null
+        },
+        "leaveType": {
+          "id": 1,
+          "name": "US - Personal",
+          "deleted": false
+        },
+        "lastComment": {
+          "id": 3,
+          "comment": "Assign",
+          "date": "2021-09-15",
+          "time": "20:53"
+        }
+      }
+    ]
+    meta:
+      empNumber: 1
+      total: 1
+
+  'with date range - single day on multiday leave request':
+    userId: 2
+    now:
+      datetime: '2021-09-19'
+    services:
+      leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      leave.leave_request_service: \OrangeHRM\Leave\Service\LeaveRequestService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      leave.leave_entitlement_service: \OrangeHRM\Leave\Service\LeaveEntitlementService
+      leave.leave_period_service: \OrangeHRM\Leave\Service\LeavePeriodService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      fromDate: '2021-11-04'
+      toDate: '2021-11-04'
+    data: [
+      {
+        "id": 17,
+        "dates": {
+          "fromDate": "2021-11-04",
+          "toDate": "2021-11-05",
+          "durationType": {
+            "id": null,
+            "type": null
+          },
+          "startTime": null,
+          "endTime": null
+        },
+        "noOfDays": 1.5,
+        "leaveBalances": [
+          {
+            "period": {
+              "startDate": "2021-01-01",
+              "endDate": "2021-12-31"
+            },
+            "balance": {
+              "entitled": 20,
+              "used": 12.5,
+              "scheduled": 1.5,
+              "pending": 9,
+              "taken": 2,
+              "balance": 7.5,
+              "asAtDate": "2021-11-04",
+              "endDate": "2021-12-31"
+            }
+          }
+        ],
+        "multiPeriod": false,
+        "leaveBreakdown": [
+          {
+            "id": 2,
+            "name": "Scheduled",
+            "lengthDays": 1.5
+          }
+        ],
+        "allowedActions": [
+          {
+            "action": "CANCEL",
+            "name": "Cancel"
+          }
+        ],
+        "hasMultipleStatus": false,
+        "employee": {
+          "empNumber": 1,
+          "lastName": "Adalwin",
+          "firstName": "Odis",
+          "middleName": "",
+          "employeeId": "0001",
+          "terminationId": null
+        },
+        "leaveType": {
+          "id": 2,
+          "name": "US - Vacation",
+          "deleted": false
+        },
+        "lastComment": {
+          "id": 4,
+          "comment": "Assign",
+          "date": "2021-09-15",
+          "time": "20:53"
+        }
+      }
+    ]
+    meta:
+      empNumber: 1
+      total: 1
