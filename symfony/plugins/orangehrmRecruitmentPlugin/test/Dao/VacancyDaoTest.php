@@ -224,8 +224,8 @@ class VacancyDaoTest extends TestCase {
         TestDataService::truncateSpecificTables(array('Vacancy'));
 
         $Vacancy = new Vacancy();
-        $Vacancy->setJobTitle(2);
-        $Vacancy->setName("BA ");
+        $Vacancy->title=2;
+        $Vacancy->name="BA Assitant";
         $Vacancy->hiringManagerId = 2;
         $Vacancy->noOfPositions = 2;
         $Vacancy->description = "test";

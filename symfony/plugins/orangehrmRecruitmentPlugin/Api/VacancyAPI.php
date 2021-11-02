@@ -3,6 +3,7 @@
 namespace OrangeHRM\Recruitment\Api;
 
 
+use DateTime;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
@@ -30,8 +31,6 @@ class VacancyAPI extends Endpoint implements CrudEndpoint
     public const PARAMETER_NUM_OF_POSITIONS = 'numOfPositions';
     public const PARAMETER_STATUS = 'status';
     public const PARAMETER_IS_PUBLISHED = 'isPublished';
-    public const PARAMETER_DEFINED_TIME = 'definedTime';
-    public const PARAMETER_UPDATED_TIME = 'updatedTime';
     public const PARAMETER_JOB_TITLE_ID = 'jobTitleId';
     public const PARAMETER_EMPLOYEE_ID = 'employeeId';
 
@@ -156,16 +155,10 @@ class VacancyAPI extends Endpoint implements CrudEndpoint
             )
         );
         $vacancy->setDefinedTime(
-            $this->getRequestParams()->getDateTime(
-                RequestParams::PARAM_TYPE_BODY,
-                self::PARAMETER_DEFINED_TIME
-            )
+            new DateTime()
         );
         $vacancy->setUpdatedTime(
-            $this->getRequestParams()->getDateTime(
-                RequestParams::PARAM_TYPE_BODY,
-                self::PARAMETER_UPDATED_TIME
-            )
+            new DateTime()
         );
         $vacancy->setStatus(
             $this->getRequestParams()->getInt(
@@ -231,18 +224,6 @@ class VacancyAPI extends Endpoint implements CrudEndpoint
                     new Rule(Rules::INT_TYPE),
                 )
             ),
-            $this->getValidationDecorator()->requiredParamRule(
-                new ParamRule(
-                    self::PARAMETER_DEFINED_TIME,
-                    new Rule(Rules::DATE_TIME)
-                )
-            ),
-            $this->getValidationDecorator()->requiredParamRule(
-                new ParamRule(
-                    self::PARAMETER_UPDATED_TIME,
-                    new Rule(Rules::DATE_TIME),
-                )
-            ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::PARAMETER_DESCRIPTION,
@@ -293,6 +274,7 @@ class VacancyAPI extends Endpoint implements CrudEndpoint
         return new ParamRuleCollection(
             new ParamRule(CommonParams::PARAMETER_ID),
             ...$this->getCommonBodyValidationRules(),
+            ...$this->getUpdateValidationRules()
         );
     }
 
@@ -314,6 +296,11 @@ class VacancyAPI extends Endpoint implements CrudEndpoint
         return new ParamRuleCollection(
             new ParamRule(CommonParams::PARAMETER_IDS),
         );
+    }
+
+    private function getUpdateValidationRules()
+    {
+
     }
 
 }

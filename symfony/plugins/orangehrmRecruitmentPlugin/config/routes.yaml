@@ -1,17 +1,33 @@
 apiv2_recruitment_vacancy:
   path: /api/v2/recruitment/vacancies/{id}
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
-  methods: [ GET, PUT ]
+  methods: [GET, PUT]
   defaults:
     _api: OrangeHRM\Recruitment\Api\VacancyAPI
     _key: id
 
-
-
 apiv2_recruitment_vacancies:
   path: /api/v2/recruitment/vacancies
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
-  methods: [ GET, POST, DELETE ]
+  methods: [GET, POST, DELETE]
   defaults:
     _api: OrangeHRM\Recruitment\Api\VacancyAPI
 
+##########################
+#        Screens
+##########################
+
+recruitment_view_job_vacancy:
+  path: /recruitment/viewJobVacancy
+  controller: OrangeHRM\Recruitment\Controller\ViewJobVacancyController::handle
+  methods: [GET]
+
+recruitment_add_job_vacancy:
+  path: /recruitment/addJobVacancy
+  controller: OrangeHRM\Recruitment\Controller\AddJobVacancyController::handle
+  methods: [GET]
+
+recruitment_edit_job_vacancy:
+  path: /recruitment/addJobVacancy/{id}
+  controller: OrangeHRM\Recruitment\Controller\EditJobVacancyController::handle
+  methods: [GET]

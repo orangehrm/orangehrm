@@ -22,7 +22,9 @@ class VacancyModel implements Normalizable
             'isPublished',
             'definedTime',
             'updatedTime',
+            ['getJobTitle', 'getId'],
             ['getJobTitle', 'getJobTitleName'],
+            ['getEmployee', 'getEmpNumber'],
             ['getEmployee', 'getLastName'],
             ['getEmployee', 'getFirstName'],
 
@@ -37,7 +39,9 @@ class VacancyModel implements Normalizable
             'isPublished',
             'definedTime',
             'updatedTime',
+            ['jobTitle', 'id'],
             ['jobTitle', 'title'],
+            ['hiringManager', 'id'],
             ['hiringManager', 'lastName'],
             ['hiringManager', 'firstName'],
 
