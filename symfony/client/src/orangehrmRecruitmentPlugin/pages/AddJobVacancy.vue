@@ -30,7 +30,7 @@
               label="Vacancy Name"
               v-model="vacancy.name"
               required
-              :ruel="rules.name"
+              :rule="rules.name"
             />
           </oxd-grid-item>
           <oxd-grid-item>
@@ -115,8 +115,8 @@ const vacancyModel = {
   hiringManager: null,
   numOfPositions: '',
   description: '',
-  status: false,
-  isPublished: false,
+  status: true,
+  isPublished: true,
 };
 
 export default {
@@ -156,6 +156,7 @@ export default {
       navigate('/recruitment/viewJobVacancy');
     },
     onSave() {
+      console.log(this.vacancy);
       this.isLoading = true;
       this.vacancy = {
         name: this.vacancy.name,
