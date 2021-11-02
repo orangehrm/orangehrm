@@ -27,6 +27,7 @@ use OrangeHRM\Core\Dto\AttributeBag;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Exception\ServiceException;
 use OrangeHRM\Core\Service\MenuService;
+use OrangeHRM\Core\Traits\ModuleScreenHelperTrait;
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Framework\Http\Request;
@@ -35,6 +36,7 @@ use OrangeHRM\Framework\Services;
 class VueControllerHelper
 {
     use ServiceContainerTrait;
+    use ModuleScreenHelperTrait;
 
     public const COMPONENT_NAME = 'componentName';
     public const COMPONENT_PROPS = 'componentProps';
@@ -49,6 +51,7 @@ class VueControllerHelper
     public const COPYRIGHT_YEAR = 'copyrightYear';
     public const PRODUCT_VERSION = 'productVersion';
     public const PERMISSIONS = 'permissions';
+    public const BREADCRUMB = 'breadcrumb';
 
     /**
      * @var Request|null
@@ -134,6 +137,7 @@ class VueControllerHelper
                 self::COPYRIGHT_YEAR => date('Y'),
                 // TODO:: should get from configurations
                 self::PRODUCT_VERSION => '5.0',
+                self::BREADCRUMB => $this->getBreadcrumb(),
             ]
         );
         return $this->context->all();
@@ -256,5 +260,25 @@ class VueControllerHelper
     public function setScreenPermissionService(ScreenPermissionService $screenPermissionService): void
     {
         $this->screenPermissionService = $screenPermissionService;
+    }
+
+    /**
+     * @return array
+     */
+    public function getBreadcrumb(): array
+    {
+        // this function will return an array that contains the module name and level in the particular screen dynamically
+        $breadcrumb = [];
+        $breadcrumb['moduleName'] = $this->getCurrentModuleAndScreen()->getModule() === 'pim' ? strtoupper(
+            $this->getCurrentModuleAndScreen()->getModule()
+        ) : ucfirst($this->getCurrentModuleAndScreen()->getModule());
+        $menuItem = $this->getMenuService()->getMenuDao()->getMenuLevel(
+            $this->getCurrentModuleAndScreen()->getScreen()
+        );
+        if ($menuItem) {
+            //TODO needed to fix for add screens
+            $breadcrumb['level'] = $menuItem->getLevel() == 3 ? $menuItem->getParent()->getMenuTitle() : null;
+        }
+        return $breadcrumb;
     }
 }

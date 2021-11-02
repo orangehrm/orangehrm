@@ -23,6 +23,7 @@ use Exception;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\MenuItem;
 use OrangeHRM\Entity\Module;
+use OrangeHRM\Entity\Screen;
 use OrangeHRM\Entity\UserRole;
 use OrangeHRM\ORM\Doctrine;
 use OrangeHRM\ORM\ListSorter;
@@ -117,5 +118,33 @@ class MenuDao extends BaseDao
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
+    }
+
+    /**
+     * @param string $screenName
+     * @return MenuItem|null
+     */
+    public function getMenuLevel(string $screenName): ?MenuItem
+    {
+        $screen = $this->getScreenByActionUrl($screenName);
+        $q = $this->createQueryBuilder(MenuItem::class, 'mi');
+        $q->leftJoin('mi.screen', 'sc');
+        $q->andWhere('sc.actionUrl = :screenName');
+        $q->setParameter('screenName', $screenName);
+        if ($screen) {
+            $q->andWhere('sc.id = :screenId');
+            $q->setParameter('screenId', $screen->getId());
+        }
+        return $this->fetchOne($q);
+    }
+
+    /**
+     * @param string $screenName
+     * @return Screen|null
+     */
+    public function getScreenByActionUrl(string $screenName): ?Screen
+    {
+        $screen = $this->getRepository(Screen::class)->findOneBy(['actionUrl' => $screenName]);
+        return ($screen instanceof Screen) ? $screen : null;
     }
 }
