@@ -35,7 +35,7 @@ class MyLeaveEntitlementReport extends AbstractVueController
     public function preRender(Request $request): void
     {
         $component = new Component('my-leave-entitlement-report');
-        $leavePeriod = $this->getLeavePeriodService()->getCurrentLeavePeriodAsArray();
+        $leavePeriod = $this->getLeavePeriodService()->getNormalizedCurrentLeavePeriod();
         $leavePeriod = [
             "id" => $leavePeriod['startDate'] . "_" . $leavePeriod['endDate'],
             "label" => $leavePeriod['startDate'] . " - " . $leavePeriod['endDate'],

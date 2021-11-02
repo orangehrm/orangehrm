@@ -127,9 +127,9 @@ class LeaveBalanceAPITest extends EndpointTestCase
         $dateTimeHelperService = $this->getMockBuilder(DateTimeHelperService::class)
             ->onlyMethods(['getNow'])
             ->getMock();
-        $dateTimeHelperService->expects($this->once())
+        $dateTimeHelperService->expects($this->exactly(2))
             ->method('getNow')
-            ->willReturn($now);
+            ->willReturnCallback(fn() => clone $now);
 
         $this->createKernelWithMockServices(
             [
@@ -372,8 +372,9 @@ class LeaveBalanceAPITest extends EndpointTestCase
         $dateTimeHelperService = $this->getMockBuilder(DateTimeHelperService::class)
             ->onlyMethods(['getNow'])
             ->getMock();
-        $dateTimeHelperService->expects($this->never())
-            ->method('getNow');
+        $dateTimeHelperService->expects($this->once())
+            ->method('getNow')
+            ->willReturn(new DateTime('2021-09-10'));
 
         $this->createKernelWithMockServices(
             [
@@ -1161,8 +1162,9 @@ class LeaveBalanceAPITest extends EndpointTestCase
         $dateTimeHelperService = $this->getMockBuilder(DateTimeHelperService::class)
             ->onlyMethods(['getNow'])
             ->getMock();
-        $dateTimeHelperService->expects($this->never())
-            ->method('getNow');
+        $dateTimeHelperService->expects($this->once())
+            ->method('getNow')
+            ->willReturn(new DateTime('2021-09-10'));
 
         $this->createKernelWithMockServices(
             [

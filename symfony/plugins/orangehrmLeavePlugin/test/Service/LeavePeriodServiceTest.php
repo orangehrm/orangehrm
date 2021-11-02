@@ -21,6 +21,7 @@ namespace OrangeHRM\Tests\Leave\Service;
 
 use DateTime;
 use Exception;
+use Generator;
 use InvalidArgumentException;
 use OrangeHRM\Core\Service\DateTimeHelperService;
 use OrangeHRM\Core\Service\NormalizerService;
@@ -31,7 +32,6 @@ use OrangeHRM\Leave\Dto\LeavePeriod;
 use OrangeHRM\Leave\Service\LeaveConfigurationService;
 use OrangeHRM\Leave\Service\LeavePeriodService;
 use OrangeHRM\Tests\Util\KernelTestCase;
-use OrangeHRM\Tests\Util\TestCase;
 
 /**
  * @group Leave
@@ -224,7 +224,7 @@ class LeavePeriodServiceTest extends KernelTestCase
         $this->assertTrue($this->leavePeriodService->getCurrentLeavePeriod() instanceof LeavePeriod);
     }
 
-    public function testGetCurrentLeavePeriodAsArray(): void
+    public function testGetNormalizedCurrentLeavePeriod(): void
     {
         $this->leavePeriodService = $this->getMockBuilder(LeavePeriodService::class)
             ->onlyMethods(['getCurrentLeavePeriod'])
@@ -239,7 +239,77 @@ class LeavePeriodServiceTest extends KernelTestCase
                 'startDate' => '2021-01-01',
                 'endDate' => '2021-12-31'
             ],
-            $this->leavePeriodService->getCurrentLeavePeriodAsArray()
+            $this->leavePeriodService->getNormalizedCurrentLeavePeriod()
         );
+    }
+
+    public function testGetMaxAllowedLeavePeriodEndDateWhenLeavePeriodNotDefined(): void
+    {
+        $leaveConfigService = $this->getMockBuilder(LeaveConfigurationService::class)
+            ->onlyMethods(['isLeavePeriodDefined'])
+            ->getMock();
+        $leaveConfigService->expects($this->once())
+            ->method('isLeavePeriodDefined')
+            ->willReturn(false);
+
+        $this->createKernelWithMockServices([Services::LEAVE_CONFIG_SERVICE => $leaveConfigService]);
+        $this->assertNull($this->leavePeriodService->getMaxAllowedLeavePeriodEndDate());
+    }
+
+    /**
+     * @dataProvider getMaxAllowedLeavePeriodEndDateDataProvider
+     */
+    public function testGetMaxAllowedLeavePeriodEndDate(
+        string $now,
+        string $createdAt,
+        string $expected,
+        int $startMonth = 1,
+        int $startDay = 1
+    ): void {
+        $this->leavePeriodService = $this->getMockBuilder(LeavePeriodService::class)
+            ->onlyMethods(['_getLeavePeriodHistoryList'])
+            ->getMock();
+
+        $leavePeriodHistory = new LeavePeriodHistory();
+        $leavePeriodHistory->setStartMonth($startMonth);
+        $leavePeriodHistory->setStartDay($startDay);
+        $leavePeriodHistory->setCreatedAt(new DateTime($createdAt));
+        $this->leavePeriodService->expects($this->once())
+            ->method('_getLeavePeriodHistoryList')
+            ->willReturn([$leavePeriodHistory]);
+
+        $leaveConfigService = $this->getMockBuilder(LeaveConfigurationService::class)
+            ->onlyMethods(['isLeavePeriodDefined'])
+            ->getMock();
+        $leaveConfigService->expects($this->once())
+            ->method('isLeavePeriodDefined')
+            ->willReturn(true);
+        $dateTimeHelperService = $this->getMockBuilder(DateTimeHelperService::class)
+            ->onlyMethods(['getNow'])
+            ->getMock();
+        $dateTimeHelperService->expects($this->once())
+            ->method('getNow')
+            ->willReturn(new DateTime($now));
+        $this->createKernelWithMockServices(
+            [
+                Services::LEAVE_CONFIG_SERVICE => $leaveConfigService,
+                Services::DATETIME_HELPER_SERVICE => $dateTimeHelperService
+            ]
+        );
+
+        $this->assertEquals($expected, $this->leavePeriodService->getMaxAllowedLeavePeriodEndDate()->format('Y-m-d'));
+    }
+
+    /**
+     * @return Generator
+     */
+    public function getMaxAllowedLeavePeriodEndDateDataProvider(): Generator
+    {
+        yield ['2021-11-01', '2020-02-15', '2022-12-31'];
+        yield ['2022-11-01', '2020-02-15', '2023-12-31'];
+        yield ['2022-11-01', '2020-02-15', '2024-01-14', 1, 15];
+        yield ['2022-11-01', '2020-02-15', '2024-02-27', 2, 28];
+        yield ['2022-11-01', '2000-02-15', '2024-02-27', 2, 28];
+        yield ['2100-11-01', '2022-01-02', '2101-12-30', 12, 31];
     }
 }

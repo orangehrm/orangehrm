@@ -50,7 +50,7 @@ Create:
       leaveTypeId: 1
       fromDate: '2021-10-11'
       toDate: '2021-10-10'
-    invalidOnly: [  'duration', 'empNumber', 'fromDate' ]
+    invalidOnly: [ 'duration', 'empNumber', 'fromDate' ]
 
   'single day - full day':
     userId: 1
@@ -386,6 +386,7 @@ Create:
       leave.holiday_service: \OrangeHRM\Leave\Service\HolidayService
       leave.work_week_service: \OrangeHRM\Leave\Service\WorkWeekService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
+      leave.leave_period_service: \OrangeHRM\Leave\Service\LeavePeriodService
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     body:
@@ -411,6 +412,7 @@ Create:
       leave.holiday_service: \OrangeHRM\Leave\Service\HolidayService
       leave.work_week_service: \OrangeHRM\Leave\Service\WorkWeekService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
+      leave.leave_period_service: \OrangeHRM\Leave\Service\LeavePeriodService
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     body:
@@ -858,3 +860,59 @@ Create:
       toDate: '2021-10-12'
       partialOption: 'start_end'
     invalidOnly: [ 'duration', 'endDuration', 'empNumber' ]
+
+  'assign leave beyond max allowed leave period end date':
+    userId: 3
+    now:
+      datetime: '2021-09-15 10:15:00'
+    services:
+      leave.leave_type_service: \OrangeHRM\Leave\Service\LeaveTypeService
+      leave.work_schedule_service: \OrangeHRM\Leave\Service\WorkScheduleService
+      leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      leave.leave_request_service: \OrangeHRM\Leave\Service\LeaveRequestService
+      leave.holiday_service: \OrangeHRM\Leave\Service\HolidayService
+      leave.work_week_service: \OrangeHRM\Leave\Service\WorkWeekService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      leave.leave_entitlement_service: \OrangeHRM\Leave\Service\LeaveEntitlementService
+      leave.leave_period_service: \OrangeHRM\Leave\Service\LeavePeriodService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    body:
+      empNumber: 2
+      leaveTypeId: 6
+      fromDate: '2025-09-16'
+      toDate: '2025-09-16'
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\BadRequestException'
+      message: 'Cannot Assign Leave Beyond 2022-12-31'
+
+  'assign leave beyond max allowed leave period end date - crossing two periods':
+    userId: 3
+    now:
+      datetime: '2021-09-15 10:15:00'
+    services:
+      leave.leave_type_service: \OrangeHRM\Leave\Service\LeaveTypeService
+      leave.work_schedule_service: \OrangeHRM\Leave\Service\WorkScheduleService
+      leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      leave.leave_request_service: \OrangeHRM\Leave\Service\LeaveRequestService
+      leave.holiday_service: \OrangeHRM\Leave\Service\HolidayService
+      leave.work_week_service: \OrangeHRM\Leave\Service\WorkWeekService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      leave.leave_entitlement_service: \OrangeHRM\Leave\Service\LeaveEntitlementService
+      leave.leave_period_service: \OrangeHRM\Leave\Service\LeavePeriodService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    body:
+      empNumber: 2
+      leaveTypeId: 6
+      fromDate: '2022-09-16'
+      toDate: '2023-09-16'
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\BadRequestException'
+      message: 'Cannot Assign Leave Beyond 2022-12-31'

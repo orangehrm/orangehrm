@@ -159,17 +159,17 @@ class LeavePeriodService
         }
 
         if (empty($this->leavePeriodList)) {
-            $endDate = ($toDate != null) ? new DateTime($toDate) : new DateTime();
+            $endDate = ($toDate != null) ? new DateTime($toDate) : $this->getDateTimeHelper()->getNow();
             //If To Date is not specified return leave type till next leave period
             if (is_null($toDate)) {
                 $endDate->add(new DateInterval('P1Y'));
             }
 
-
             $firstCreatedDate = $leavePeriodHistoryList[0]->getCreatedAt();
             $startDate = new DateTime(
-                $firstCreatedDate->format('Y') . '-' . $leavePeriodHistoryList[0]->getStartMonth(
-                ) . '-' . $leavePeriodHistoryList[0]->getStartDay()
+                $firstCreatedDate->format('Y') . '-' .
+                $leavePeriodHistoryList[0]->getStartMonth() . '-' .
+                $leavePeriodHistoryList[0]->getStartDay()
             );
             if ($firstCreatedDate < $startDate) {
                 $startDate->sub(new DateInterval('P1Y'));
@@ -239,7 +239,7 @@ class LeavePeriodService
     /**
      * @return array|null
      */
-    public function getCurrentLeavePeriodAsArray(): ?array
+    public function getNormalizedCurrentLeavePeriod(): ?array
     {
         $currentLeavePeriod = $this->getCurrentLeavePeriod();
         return $currentLeavePeriod ?
@@ -247,5 +247,17 @@ class LeavePeriodService
                 LeavePeriodModel::class,
                 $currentLeavePeriod
             ) : null;
+    }
+
+    /**
+     * @return DateTime|null
+     */
+    public function getMaxAllowedLeavePeriodEndDate(): ?DateTime
+    {
+        if (!$this->getLeaveConfigService()->isLeavePeriodDefined()) {
+            return null;
+        }
+        $leavePeriods = $this->getGeneratedLeavePeriodList();
+        return end($leavePeriods)->getEndDate();
     }
 }

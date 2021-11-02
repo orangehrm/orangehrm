@@ -62,4 +62,20 @@ class LeaveAllocationServiceException extends Exception
     {
         return new self('Failed to Submit: No Working Days Selected');
     }
+
+    /**
+     * @return static
+     */
+    public static function cannotApplyLeaveBeyondMaxAllowedLeavePeriodEndDate(string $endDate): self
+    {
+        return new self("Cannot Apply Leave Beyond $endDate");
+    }
+
+    /**
+     * @return static
+     */
+    public static function cannotAssignLeaveBeyondMaxAllowedLeavePeriodEndDate(string $endDate): self
+    {
+        return new self("Cannot Assign Leave Beyond $endDate");
+    }
 }

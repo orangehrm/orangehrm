@@ -243,7 +243,7 @@ abstract class EndpointIntegrationTestCase extends EndpointTestCase
                 ->getMock();
             $dateTimeHelper->expects($this->atLeastOnce())
                 ->method('getNow')
-                ->willReturn($testCaseParams->getNow());
+                ->willReturnCallback(fn() => clone $testCaseParams->getNow());
 
             $this->getContainer()->set(Services::DATETIME_HELPER_SERVICE, $dateTimeHelper);
         }
