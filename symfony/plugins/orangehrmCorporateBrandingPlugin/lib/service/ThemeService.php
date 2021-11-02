@@ -91,8 +91,39 @@ class ThemeService
 
         $this->createThemeFolder($theme->getThemeName(), $css, $loginCss, $theme);
 
-        chdir(sfConfig::get('sf_root_dir'));
-        exec("php symfony o:publish-asset", $publishAssetResponse, $publishAssetStatus);
+        $oldUniqueResourceDir = sfConfig::get('ohrm_resource_dir');
+        $uniqueResourceDir = orangehrmPublishAssetsTask::renameWebResourceDir($oldUniqueResourceDir, null);
+
+        $propertiesToSet = array(
+            'sf_web_css_dir_name' => $uniqueResourceDir . '/css',
+            'sf_web_js_dir_name' => $uniqueResourceDir . '/js',
+            'sf_web_images_dir_name' => $uniqueResourceDir . '/images',
+            'ohrm_resource_dir' => $uniqueResourceDir,
+        );
+
+        foreach ($propertiesToSet as $key => $value) {
+            sfConfig::set($key, $value);
+        }
+
+
+        try {
+            $loginCssFile = sfConfig::get('sf_web_dir') . DIRECTORY_SEPARATOR . $uniqueResourceDir . '/themes/' .
+                $theme->getThemeName() . '/css/login.css';
+
+            $this->writeFile($loginCss, $loginCssFile);
+
+            $mainCssFile = sfConfig::get('sf_web_dir') . DIRECTORY_SEPARATOR . $uniqueResourceDir . '/themes/' .
+                $theme->getThemeName() . '/css/main.css';
+
+            $this->writeFile($css, $mainCssFile);
+        } catch (Exception $exception){
+            $this->getLogger()->error('error');
+            $this->getLogger()->error($exception);
+        }
+
+
+//        chdir(sfConfig::get('sf_root_dir'));
+//        exec("php symfony o:publish-asset", $publishAssetResponse, $publishAssetStatus);
 
         OrangeConfig::getInstance()->setAppConfValue(ConfigService::KEY_THEME_NAME, $theme->getThemeName());
 
@@ -115,9 +146,7 @@ class ThemeService
         $currentUmask = umask();
         umask(0002);
 
-        if (!file_exists($themePath)) {
-            $this->copyDir($this->getThemePath('default'), $themePath);
-        }
+        $this->copyDir($this->getThemePath('default'), $themePath);
         if (!empty($css)) {
             $this->writeFile($css, $themePath . '/css/main.css');
         }
@@ -188,5 +217,9 @@ class ThemeService
         if (!file_put_contents($path, $data)) {
             throw new Exception("Failed to write $path");
         }
+    }
+
+    private function getLogger() {
+        return Logger::getLogger('orangehrm');
     }
 }
