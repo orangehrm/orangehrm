@@ -150,6 +150,9 @@ export default {
     onClickAdd() {
       navigate('/recruitment/addJobVacancy');
     },
+    onClickEdit(item) {
+      navigate('/recruitment/addJobVacancy/{id}', {id: item.id});
+    },
     async getAllData() {
       this.isLoading = true;
       const result = await this.http.getAll();

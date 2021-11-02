@@ -18,8 +18,10 @@
 
 import ViewJobVacancy from './pages/ViewJobVacancy.vue';
 import AddJobVacancy from './pages/AddJobVacancy.vue';
+import EditJobVacancy from './pages/EditJobVacancy.vue';
 
 export default {
   'view-job-vacancy': ViewJobVacancy,
   'add-job-vacancy': AddJobVacancy,
+  'edit-job-vacancy': EditJobVacancy,
 };
