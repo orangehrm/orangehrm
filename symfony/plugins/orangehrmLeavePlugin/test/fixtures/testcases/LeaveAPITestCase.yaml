@@ -21,9 +21,7 @@ GetAll:
     services:
       leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
-      core.config_service: \OrangeHRM\Core\Service\ConfigService
       leave.leave_request_service: \OrangeHRM\Leave\Service\LeaveRequestService
-      admin.user_service: \OrangeHRM\Admin\Service\UserService
       leave.leave_entitlement_service: \OrangeHRM\Leave\Service\LeaveEntitlementService
       leave.leave_period_service: \OrangeHRM\Leave\Service\LeavePeriodService
       core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
@@ -62,20 +60,7 @@ GetAll:
           id: 1
           name: "Pending Approval"
           lengthDays: 0.5
-        allowedActions: [
-          {
-            "action": "APPROVE",
-            "name": "Approve"
-          },
-          {
-            "action": "CANCEL",
-            "name": "Cancel"
-          },
-          {
-            "action": "REJECT",
-            "name": "Reject"
-          }
-        ]
+        allowedActions: []
         leaveType:
           id: 6
           name: "Medical"
@@ -109,20 +94,7 @@ GetAll:
           id: 1
           name: "Pending Approval"
           lengthDays: 0.5
-        allowedActions: [
-          {
-            "action": "APPROVE",
-            "name": "Approve"
-          },
-          {
-            "action": "CANCEL",
-            "name": "Cancel"
-          },
-          {
-            "action": "REJECT",
-            "name": "Reject"
-          }
-        ]
+        allowedActions: []
         leaveType:
           id: 6
           name: "Medical"
@@ -156,7 +128,7 @@ GetAll:
           id: 4
           name: "Weekend"
           lengthDays: 0.0
-        allowedActions: [ ]
+        allowedActions: []
         leaveType:
           id: 6
           name: "Medical"
@@ -190,20 +162,7 @@ GetAll:
           id: 1
           name: "Pending Approval"
           lengthDays: 1.0
-        allowedActions: [
-          {
-            "action": "APPROVE",
-            "name": "Approve"
-          },
-          {
-            "action": "CANCEL",
-            "name": "Cancel"
-          },
-          {
-            "action": "REJECT",
-            "name": "Reject"
-          }
-        ]
+        allowedActions: []
         leaveType:
           id: 6
           name: "Medical"
@@ -268,20 +227,7 @@ GetAll:
           id: 1
           name: "Pending Approval"
           lengthDays: 0.5
-        allowedActions: [
-          {
-            "action": "APPROVE",
-            "name": "Approve"
-          },
-          {
-            "action": "CANCEL",
-            "name": "Cancel"
-          },
-          {
-            "action": "REJECT",
-            "name": "Reject"
-          }
-        ]
+        allowedActions: []
         leaveType:
           id: 6
           name: "Medical"
@@ -315,7 +261,7 @@ GetAll:
           id: 4
           name: "Weekend"
           lengthDays: 0.0
-        allowedActions: [ ]
+        allowedActions: []
         leaveType:
           id: 6
           name: "Medical"
