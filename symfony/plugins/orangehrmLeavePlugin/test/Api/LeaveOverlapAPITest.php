@@ -28,14 +28,16 @@ use OrangeHRM\Leave\Api\LeaveCommonParams;
 use OrangeHRM\Leave\Api\LeaveOverlapAPI;
 use OrangeHRM\Leave\Dto\LeaveDuration;
 use OrangeHRM\Leave\Dto\LeaveParameterObject;
+use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
 use OrangeHRM\Tests\Util\EndpointTestCase;
+use OrangeHRM\Tests\Util\Integration\TestCaseParams;
 use OrangeHRM\Tests\Util\TestDataService;
 
 /**
  * @group Leave
  * @group APIv2
  */
-class LeaveOverlapAPITest extends EndpointTestCase
+class LeaveOverlapAPITest extends EndpointIntegrationTestCase
 {
     protected function setUp(): void
     {
@@ -207,5 +209,27 @@ class LeaveOverlapAPITest extends EndpointTestCase
         $api = new LeaveOverlapAPI($this->getRequest($queryParams));
         $rules = $api->getValidationRuleForGetAll();
         $this->assertTrue($this->validate($queryParams, $rules));
+    }
+
+    /**
+     * @dataProvider dataProviderForTestGetAll
+     */
+    public function testGetAll(TestCaseParams $testCaseParams): void
+    {
+        $this->populateFixtures('LeaveOverlapAPITest.yaml');
+        $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
+
+        $this->registerServices($testCaseParams);
+        $this->registerMockDateTimeHelper($testCaseParams);
+        $api = $this->getApiEndpointMock(LeaveOverlapAPI::class, $testCaseParams);
+        $this->assertValidTestCase($api, 'getAll', $testCaseParams);
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderForTestGetAll(): array
+    {
+        return $this->getTestCases('LeaveOverlapAPITestCases.yaml', 'GetAll');
     }
 }

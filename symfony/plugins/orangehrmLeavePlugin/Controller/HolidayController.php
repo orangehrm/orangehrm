@@ -34,7 +34,7 @@ class HolidayController extends AbstractVueController
      */
     public function preRender(Request $request): void
     {
-        $leavePeriod = $this->getLeavePeriodService()->getCurrentLeavePeriodAsArray();
+        $leavePeriod = $this->getLeavePeriodService()->getNormalizedCurrentLeavePeriod();
         $component = new Component('holiday-list');
         $component->addProp(new Prop('leave-period', Prop::TYPE_OBJECT, $leavePeriod));
 

@@ -1,0 +1,481 @@
+GetAll:
+  'multiple day - individual and leave request comments':
+    userId: 2
+    now:
+      datetime: '2021-09-19'
+    services:
+      leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      leave.leave_request_service: \OrangeHRM\Leave\Service\LeaveRequestService
+      leave.work_schedule_service: \OrangeHRM\Leave\Service\WorkScheduleService
+    query:
+      fromDate: '2021-09-07'
+      toDate: '2021-09-20'
+    data: [
+      {
+        "id": 15,
+        "date": "2021-09-07",
+        "lengthHours": 8,
+        "lengthDays": 1,
+        "status": {
+          "id": 1,
+          "name": "Pending Approval"
+        },
+        "leaveRequest": {
+          "id": 4
+        },
+        "leaveType": {
+          "id": 2,
+          "name": "US - Vacation",
+          "deleted": false
+        },
+        "startTime": null,
+        "endTime": null,
+        "durationType": {
+          "id": 0,
+          "type": "full_day"
+        },
+        "lastComment": {
+          "id": 8,
+          "comment": "Thank you",
+          "date": "2021-09-15",
+          "time": "23:20"
+        }
+      },
+      {
+        "id": 16,
+        "date": "2021-09-08",
+        "lengthHours": 8,
+        "lengthDays": 1,
+        "status": {
+          "id": 3,
+          "name": "Taken"
+        },
+        "leaveRequest": {
+          "id": 4
+        },
+        "leaveType": {
+          "id": 2,
+          "name": "US - Vacation",
+          "deleted": false
+        },
+        "startTime": null,
+        "endTime": null,
+        "durationType": {
+          "id": 0,
+          "type": "full_day"
+        },
+        "lastComment": {
+          "id": 8,
+          "comment": "Thank you",
+          "date": "2021-09-15",
+          "time": "23:20"
+        }
+      },
+      {
+        "id": 17,
+        "date": "2021-09-09",
+        "lengthHours": 8,
+        "lengthDays": 1,
+        "status": {
+          "id": 1,
+          "name": "Pending Approval"
+        },
+        "leaveRequest": {
+          "id": 4
+        },
+        "leaveType": {
+          "id": 2,
+          "name": "US - Vacation",
+          "deleted": false
+        },
+        "startTime": null,
+        "endTime": null,
+        "durationType": {
+          "id": 0,
+          "type": "full_day"
+        },
+        "lastComment": {
+          "id": 8,
+          "comment": "Thank you",
+          "date": "2021-09-15",
+          "time": "23:20"
+        }
+      },
+      {
+        "id": 18,
+        "date": "2021-09-10",
+        "lengthHours": 4,
+        "lengthDays": 0.5,
+        "status": {
+          "id": 1,
+          "name": "Pending Approval"
+        },
+        "leaveRequest": {
+          "id": 4
+        },
+        "leaveType": {
+          "id": 2,
+          "name": "US - Vacation",
+          "deleted": false
+        },
+        "startTime": null,
+        "endTime": null,
+        "durationType": {
+          "id": 0,
+          "type": "full_day"
+        },
+        "lastComment": {
+          "id": 8,
+          "comment": "Thank you",
+          "date": "2021-09-15",
+          "time": "23:20"
+        }
+      },
+      {
+        "id": 20,
+        "date": "2021-09-12",
+        "lengthHours": 8,
+        "lengthDays": 1,
+        "status": {
+          "id": 1,
+          "name": "Pending Approval"
+        },
+        "leaveRequest": {
+          "id": 4
+        },
+        "leaveType": {
+          "id": 2,
+          "name": "US - Vacation",
+          "deleted": false
+        },
+        "startTime": null,
+        "endTime": null,
+        "durationType": {
+          "id": 0,
+          "type": "full_day"
+        },
+        "lastComment": {
+          "id": 8,
+          "comment": "Thank you",
+          "date": "2021-09-15",
+          "time": "23:20"
+        }
+      },
+      {
+        "id": 21,
+        "date": "2021-09-13",
+        "lengthHours": 8,
+        "lengthDays": 1,
+        "status": {
+          "id": 1,
+          "name": "Pending Approval"
+        },
+        "leaveRequest": {
+          "id": 4
+        },
+        "leaveType": {
+          "id": 2,
+          "name": "US - Vacation",
+          "deleted": false
+        },
+        "startTime": null,
+        "endTime": null,
+        "durationType": {
+          "id": 0,
+          "type": "full_day"
+        },
+        "lastComment": {
+          "id": 6,
+          "comment": "Sure. I'll do",
+          "date": "2021-09-16",
+          "time": "23:20"
+        }
+      }
+    ]
+    meta:
+      empNumber: 1
+      isWorkShiftLengthExceeded: false
+
+  'multiple day - leave request comments':
+    userId: 3
+    now:
+      datetime: '2021-09-19'
+    services:
+      leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      leave.leave_request_service: \OrangeHRM\Leave\Service\LeaveRequestService
+      leave.work_schedule_service: \OrangeHRM\Leave\Service\WorkScheduleService
+    query:
+      fromDate: '2021-12-01'
+      toDate: '2021-12-08'
+    data: [
+      {
+        "id": 60,
+        "date": "2021-12-01",
+        "lengthHours": 8,
+        "lengthDays": 1,
+        "status": {
+          "id": 2,
+          "name": "Scheduled"
+        },
+        "leaveRequest": {
+          "id": 18
+        },
+        "leaveType": {
+          "id": 6,
+          "name": "Medical",
+          "deleted": false
+        },
+        "startTime": null,
+        "endTime": null,
+        "durationType": {
+          "id": 0,
+          "type": "full_day"
+        },
+        "lastComment": {
+          "id": 6,
+          "comment": "Assign",
+          "date": "2021-09-15",
+          "time": "21:04"
+        }
+      },
+      {
+        "id": 61,
+        "date": "2021-12-02",
+        "lengthHours": 8,
+        "lengthDays": 1,
+        "status": {
+          "id": 2,
+          "name": "Scheduled"
+        },
+        "leaveRequest": {
+          "id": 18
+        },
+        "leaveType": {
+          "id": 6,
+          "name": "Medical",
+          "deleted": false
+        },
+        "startTime": null,
+        "endTime": null,
+        "durationType": {
+          "id": 0,
+          "type": "full_day"
+        },
+        "lastComment": {
+          "id": 6,
+          "comment": "Assign",
+          "date": "2021-09-15",
+          "time": "21:04"
+        }
+      },
+      {
+        "id": 62,
+        "date": "2021-12-03",
+        "lengthHours": 4,
+        "lengthDays": 0.5,
+        "status": {
+          "id": 2,
+          "name": "Scheduled"
+        },
+        "leaveRequest": {
+          "id": 18
+        },
+        "leaveType": {
+          "id": 6,
+          "name": "Medical",
+          "deleted": false
+        },
+        "startTime": null,
+        "endTime": null,
+        "durationType": {
+          "id": 0,
+          "type": "full_day"
+        },
+        "lastComment": {
+          "id": 6,
+          "comment": "Assign",
+          "date": "2021-09-15",
+          "time": "21:04"
+        }
+      },
+      {
+        "id": 64,
+        "date": "2021-12-05",
+        "lengthHours": 8,
+        "lengthDays": 1,
+        "status": {
+          "id": 2,
+          "name": "Scheduled"
+        },
+        "leaveRequest": {
+          "id": 18
+        },
+        "leaveType": {
+          "id": 6,
+          "name": "Medical",
+          "deleted": false
+        },
+        "startTime": null,
+        "endTime": null,
+        "durationType": {
+          "id": 0,
+          "type": "full_day"
+        },
+        "lastComment": {
+          "id": 6,
+          "comment": "Assign",
+          "date": "2021-09-15",
+          "time": "21:04"
+        }
+      },
+      {
+        "id": 65,
+        "date": "2021-12-06",
+        "lengthHours": 8,
+        "lengthDays": 1,
+        "status": {
+          "id": 2,
+          "name": "Scheduled"
+        },
+        "leaveRequest": {
+          "id": 18
+        },
+        "leaveType": {
+          "id": 6,
+          "name": "Medical",
+          "deleted": false
+        },
+        "startTime": null,
+        "endTime": null,
+        "durationType": {
+          "id": 0,
+          "type": "full_day"
+        },
+        "lastComment": {
+          "id": 6,
+          "comment": "Assign",
+          "date": "2021-09-15",
+          "time": "21:04"
+        }
+      },
+      {
+        "id": 66,
+        "date": "2021-12-07",
+        "lengthHours": 8,
+        "lengthDays": 1,
+        "status": {
+          "id": 2,
+          "name": "Scheduled"
+        },
+        "leaveRequest": {
+          "id": 18
+        },
+        "leaveType": {
+          "id": 6,
+          "name": "Medical",
+          "deleted": false
+        },
+        "startTime": null,
+        "endTime": null,
+        "durationType": {
+          "id": 0,
+          "type": "full_day"
+        },
+        "lastComment": {
+          "id": 6,
+          "comment": "Assign",
+          "date": "2021-09-15",
+          "time": "21:04"
+        }
+      },
+      {
+        "id": 67,
+        "date": "2021-12-08",
+        "lengthHours": 8,
+        "lengthDays": 1,
+        "status": {
+          "id": 2,
+          "name": "Scheduled"
+        },
+        "leaveRequest": {
+          "id": 18
+        },
+        "leaveType": {
+          "id": 6,
+          "name": "Medical",
+          "deleted": false
+        },
+        "startTime": null,
+        "endTime": null,
+        "durationType": {
+          "id": 0,
+          "type": "full_day"
+        },
+        "lastComment": {
+          "id": 6,
+          "comment": "Assign",
+          "date": "2021-09-15",
+          "time": "21:04"
+        }
+      }
+    ]
+    meta:
+      empNumber: 2
+      isWorkShiftLengthExceeded: false
+
+  'single day - leave request comments':
+    userId: 1
+    now:
+      datetime: '2021-09-19'
+    services:
+      leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      leave.leave_request_service: \OrangeHRM\Leave\Service\LeaveRequestService
+      leave.work_schedule_service: \OrangeHRM\Leave\Service\WorkScheduleService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      empNumber: 1
+      fromDate: '2021-11-03'
+      toDate: '2021-11-03'
+    data: [
+      {
+        "id": 57,
+        "date": "2021-11-03",
+        "lengthHours": 8,
+        "lengthDays": 1,
+        "status": {
+          "id": 2,
+          "name": "Scheduled"
+        },
+        "leaveRequest": {
+          "id": 16
+        },
+        "leaveType": {
+          "id": 1,
+          "name": "US - Personal",
+          "deleted": false
+        },
+        "startTime": null,
+        "endTime": null,
+        "durationType": {
+          "id": 0,
+          "type": "full_day"
+        },
+        "lastComment": {
+          "id": 3,
+          "comment": "Assign",
+          "date": "2021-09-15",
+          "time": "20:53"
+        }
+      }
+    ]
+    meta:
+      empNumber: 1
+      isWorkShiftLengthExceeded: false
