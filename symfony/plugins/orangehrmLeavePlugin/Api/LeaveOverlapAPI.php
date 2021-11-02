@@ -33,14 +33,17 @@ use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Leave\Api\Model\LeaveModel;
+use OrangeHRM\Leave\Api\Model\OverlapLeaveModel;
 use OrangeHRM\Leave\Api\Traits\LeaveRequestParamHelperTrait;
 use OrangeHRM\Leave\Dto\LeaveOverlapParams;
 use OrangeHRM\Leave\Service\LeaveApplicationService;
+use OrangeHRM\Leave\Traits\Service\LeaveRequestServiceTrait;
 
 class LeaveOverlapAPI extends Endpoint implements CollectionEndpoint
 {
     use LeaveRequestParamHelperTrait;
     use AuthUserTrait;
+    use LeaveRequestServiceTrait;
 
     public const META_PARAMETER_IS_WORK_SHIFT_LENGTH_EXCEEDED = 'isWorkShiftLengthExceeded';
 
@@ -112,6 +115,7 @@ class LeaveOverlapAPI extends Endpoint implements CollectionEndpoint
      */
     public function getAll(): EndpointResult
     {
+        $this->getLeaveRequestService()->getLeaveRequestDao()->markApprovedLeaveAsTaken();
         $empNumber = $this->getRequestParams()->getInt(
             RequestParams::PARAM_TYPE_QUERY,
             CommonParams::PARAMETER_EMP_NUMBER,
@@ -135,7 +139,7 @@ class LeaveOverlapAPI extends Endpoint implements CollectionEndpoint
             }
         }
         return new EndpointCollectionResult(
-            LeaveModel::class,
+            OverlapLeaveModel::class,
             $overlapLeaves,
             new ParameterBag(
                 [
