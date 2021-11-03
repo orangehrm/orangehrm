@@ -46,7 +46,7 @@ class EmployeeLeaveRequestAPITest extends EndpointIntegrationTestCase
 
     public function dataProviderForTestUpdate(): array
     {
-        return $this->getTestCases('EmployeeLeaveRequestAPITest.yaml', 'Update');
+        return $this->getTestCases('EmployeeLeaveRequestAPITestCases.yaml', 'Update');
     }
 
     public function testDelete(): void
@@ -93,5 +93,26 @@ class EmployeeLeaveRequestAPITest extends EndpointIntegrationTestCase
     public function dataProviderForTestCreate(): array
     {
         return $this->getTestCases('AssignLeaveAPITestCases.yaml', 'Create');
+    }
+
+    /**
+     * @dataProvider dataProviderForTestGetAll
+     */
+    public function testGetAll(TestCaseParams $testCaseParams): void
+    {
+        $this->populateFixtures('EmployeeLeaveRequestAPITest.yaml');
+        $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
+        $this->registerServices($testCaseParams);
+        $this->registerMockDateTimeHelper($testCaseParams);
+        $api = $this->getApiEndpointMock(EmployeeLeaveRequestAPI::class, $testCaseParams);
+        $this->assertValidTestCase($api, 'getAll', $testCaseParams);
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderForTestGetAll(): array
+    {
+        return $this->getTestCases('EmployeeLeaveRequestAPITestCases.yaml', 'GetAll');
     }
 }

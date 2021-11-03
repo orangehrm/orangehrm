@@ -75,7 +75,7 @@ class EmployeeLeaveRequestAPI extends Endpoint implements CrudEndpoint
     /**
      * @return LeaveAssignmentService
      */
-    protected  function getLeaveAssignmentService(): LeaveAssignmentService
+    protected function getLeaveAssignmentService(): LeaveAssignmentService
     {
         if (!$this->leaveAssignmentService instanceof LeaveAssignmentService) {
             $this->leaveAssignmentService = new LeaveAssignmentService();
@@ -247,9 +247,9 @@ class EmployeeLeaveRequestAPI extends Endpoint implements CrudEndpoint
             LeaveCommonParams::PARAMETER_FROM_DATE,
             new Rule(Rules::API_DATE),
             new Rule(
-                Rules::LESS_THAN,
+                Rules::LESS_THAN_OR_EQUAL,
                 [
-                    $this->getRequestParams()->getDateTimeOrNull(
+                    fn() => $this->getRequestParams()->getDateTimeOrNull(
                         RequestParams::PARAM_TYPE_QUERY,
                         LeaveCommonParams::PARAMETER_TO_DATE
                     )
