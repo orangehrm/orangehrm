@@ -72,7 +72,6 @@
 
 <script>
 import {APIService} from '@/core/util/services/api.service';
-import {navigate} from '@orangehrm/core/util/helper/navigation';
 import PasswordInput from '@/core/components/inputs/PasswordInput';
 import {
   required,
@@ -117,7 +116,7 @@ export default {
 
   methods: {
     onCancel() {
-      navigate('/pim/viewEmployeeList');
+      window.history.back();
     },
     onSave() {
       this.isLoading = true;
@@ -139,12 +138,11 @@ export default {
           }
         })
         .then(() => {
+          this.isLoading = false;
           this.user = {...userModel};
-          this.onCancel();
         });
     },
   },
 };
 </script>
-<style src="../../../orangehrmAdminPlugin/pages/systemUser/system-user.scss" lang="scss" scoped></style>
 <style src="./update-password.scss" lang="scss" scoped></style>
