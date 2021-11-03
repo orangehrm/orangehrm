@@ -1,4 +1,0 @@
-class_name: UnitGuy
-modules:
-    enabled:
-        - \Jazz\Helper\Unit

@@ -1,2 +1,0 @@
-actor: Tester
-extends: codeception.common.yml

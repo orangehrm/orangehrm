@@ -1,8 +1,0 @@
-actor: Tester
-paths:
-    tests: .
-    log: _output
-    data: _data
-    support: _support
-settings:
-    bootstrap: _bootstrap.php
