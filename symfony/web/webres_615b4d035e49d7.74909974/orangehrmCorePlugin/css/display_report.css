@@ -1,8 +1,0 @@
-#resultTable thead tr th {
-    white-space: nowrap;
-} 
-
-/* fix for ie9 hover bug*/
-div#tableWrapper {
-    min-height:0%;
-}
