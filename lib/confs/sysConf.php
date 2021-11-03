@@ -79,7 +79,7 @@ class sysConf
         $this->timeFormat = "H:i";
         $this->timeInputHint = "HH:MM";
         $this->styleSheet = "orange";
-        $this->version = "4.9";
+        $this->version = "4.9-alpha-1";
         $this->registrationUrl = "https://php72/registration/public/index.php";
         $this->mode = "prod";
     }
