@@ -20,7 +20,7 @@
 class SassTest extends PHPUnit_Framework_TestCase {
 
     public function testCompileInteriorPageCSS() {
-        $result = Sass::instance()->compileSCSS(['primaryColor'=>'#5ffffe', 'secondaryColor'=>'#74db77','buttonSuccessColor'=>'#a75b5b','login-social-links-display'=>'none','buttonCancelColor'=>'#17fde3']);
+        $result = Sass::instance()->compileSCSS(['primaryColor'=>'#5ffffe', 'secondaryColor'=>'#74db77','buttonSuccessColor'=>'#a75b5b','login-social-links-display'=>'none','buttonCancelColor'=>'#17fde3', 'imagesPath' => '"../../webres_61823fa1113264.44536023/themes/default/images/"']);
         $this->assertContains('background-color: #5ffffe;', $result);
         $this->assertContains('background: #74db77;', $result);
         $this->assertContains('background-color: #a75b5b;', $result);
@@ -29,7 +29,7 @@ class SassTest extends PHPUnit_Framework_TestCase {
     }
 
     public function testCompileLoginPageCSS() {
-        $result = Sass::instance()->compileLoginSCSS(['login-logo-inner-color'=>'#b5a869','login-logo-outer-color'=>'#9a67d5']);
+        $result = Sass::instance()->compileLoginSCSS(['login-logo-inner-color'=>'#b5a869','login-logo-outer-color'=>'#9a67d5', 'imagesPath' => '"../images/"']);
         $this->assertContains('stop-color: #b5a869;', $result);
         $this->assertContains('stop-color: #9a67d5;', $result);
     }
