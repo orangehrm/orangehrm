@@ -96,7 +96,7 @@ export default {
         })
         .then(response => {
           const {data} = response.data;
-          this.$toast.addSuccess();
+          this.$toast.saveSuccess();
           navigate('/admin/editPayGrade/{id}', {id: data.id});
         });
     },

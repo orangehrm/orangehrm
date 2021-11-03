@@ -19,7 +19,7 @@
  -->
 <template>
   <div class="orangehrm-card-container">
-    <oxd-text tag="h6" class="orangehrm-main-title">Add Currency</oxd-text>
+    <oxd-text tag="h6" class="orangehrm-main-title">Edit Currency</oxd-text>
     <oxd-divider />
     <oxd-form :loading="isLoading" @submitValid="onSave">
       <oxd-form-row>
