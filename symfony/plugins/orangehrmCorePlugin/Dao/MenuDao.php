@@ -124,7 +124,7 @@ class MenuDao extends BaseDao
      * @param string $screenName
      * @return MenuItem|null
      */
-    public function getMenuLevel(string $screenName): ?MenuItem
+    public function getMenuItemByModuleAndScreen(string $screenName): ?MenuItem
     {
         $screen = $this->getScreenByActionUrl($screenName);
         $q = $this->createQueryBuilder(MenuItem::class, 'mi');

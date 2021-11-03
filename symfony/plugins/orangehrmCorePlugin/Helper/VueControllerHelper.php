@@ -272,7 +272,7 @@ class VueControllerHelper
         $breadcrumb['moduleName'] = $this->getCurrentModuleAndScreen()->getModule() === 'pim' ? strtoupper(
             $this->getCurrentModuleAndScreen()->getModule()
         ) : ucfirst($this->getCurrentModuleAndScreen()->getModule());
-        $menuItem = $this->getMenuService()->getMenuDao()->getMenuLevel(
+        $menuItem = $this->getMenuService()->getMenuDao()->getMenuItemByModuleAndScreen(
             $this->getCurrentModuleAndScreen()->getScreen()
         );
         if ($menuItem) {
