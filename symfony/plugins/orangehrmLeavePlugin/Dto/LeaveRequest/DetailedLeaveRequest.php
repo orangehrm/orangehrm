@@ -21,6 +21,7 @@ namespace OrangeHRM\Leave\Dto\LeaveRequest;
 
 use DateTime;
 use InvalidArgumentException;
+use LogicException;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Entity\Leave;
 use OrangeHRM\Entity\LeaveRequest;
@@ -49,12 +50,12 @@ class DetailedLeaveRequest
     /**
      * @var Leave[]
      */
-    private array $leaves = [];
+    private array $leaves;
 
     /**
      * @var DateTime[]
      */
-    private array $leaveDates = [];
+    private array $leaveDates;
 
     /**
      * @var bool
@@ -165,12 +166,12 @@ class DetailedLeaveRequest
      */
     public function setLeaves(iterable $leaves): void
     {
+        if (empty($leaves)) {
+            throw new InvalidArgumentException('Not excepting empty iterable');
+        }
         $this->leaveDates = [];
         $this->leaves = [];
         foreach ($leaves as $leave) {
-            if (!$leave instanceof Leave) {
-                throw new InvalidArgumentException();
-            }
             $this->addLeave($leave);
         }
     }
@@ -209,18 +210,15 @@ class DetailedLeaveRequest
     }
 
     /**
-     * @return LeaveRequestDatesDetail|null
+     * @return LeaveRequestDatesDetail
      */
-    public function getDatesDetail(): ?LeaveRequestDatesDetail
+    public function getDatesDetail(): LeaveRequestDatesDetail
     {
         if (!is_null($this->dateDetail)) {
             return $this->dateDetail;
         }
         $leaves = $this->getLeaves();
         $count = count($leaves);
-        if ($count === 0) {
-            return null;
-        }
         $datesDetail = new LeaveRequestDatesDetail($leaves[0]->getDate());
         if ($count === 1) {
             $leave = $leaves[0];
@@ -342,8 +340,7 @@ class DetailedLeaveRequest
         if ($this->hasMultipleStatus()) {
             return [];
         }
-        $leaves = $this->getLeaves();
-        $leaveStatus = $leaves[0]->getDecorator()->getLeaveStatusName();
+        $leaveStatus = $this->getLeaveRequestStatus();
         $allowedWorkflows = $this->getAllowedWorkflows($leaveStatus);
         return $this->allowedActions = array_values(
             array_map(
@@ -379,8 +376,7 @@ class DetailedLeaveRequest
         if ($this->hasMultipleStatus()) {
             return false;
         }
-        $leaves = $this->getLeaves();
-        $leaveStatus = $leaves[0]->getDecorator()->getLeaveStatusName();
+        $leaveStatus = $this->getLeaveRequestStatus();
         return $this->getLeaveRequestService()->isLeaveRequestActionAllowed(
             $this->getLeaveRequest()->getEmployee(),
             $this->getLeaveRequest()->getLeaveType(),
@@ -399,8 +395,7 @@ class DetailedLeaveRequest
         if ($this->hasMultipleStatus()) {
             return null;
         }
-        $leaves = $this->getLeaves();
-        $leaveStatus = $leaves[0]->getDecorator()->getLeaveStatusName();
+        $leaveStatus = $this->getLeaveRequestStatus();
         $allowedWorkflows = $this->getAllowedWorkflows($leaveStatus);
         $workflow = null;
         foreach ($allowedWorkflows as $allowedWorkflow) {
@@ -410,5 +405,16 @@ class DetailedLeaveRequest
             }
         }
         return $workflow;
+    }
+
+    /**
+     * @return string e.g. ['PENDING APPROVAL', 'SCHEDULED', 'TAKEN', 'REJECTED', 'CANCELLED']
+     */
+    protected function getLeaveRequestStatus(): string
+    {
+        if ($this->hasMultipleStatus()) {
+            throw new LogicException('Cannot get leave request status, if it have multiple statuses');
+        }
+        return $this->getLeaveBreakdown()[0]->getName();
     }
 }

@@ -128,6 +128,43 @@ Create:
     meta:
       empNumber: 3
 
+  'single day - full day - default model':
+    userId: 1
+    now:
+      datetime: '2021-09-21'
+    services:
+      leave.leave_type_service: \OrangeHRM\Leave\Service\LeaveTypeService
+      leave.work_schedule_service: \OrangeHRM\Leave\Service\WorkScheduleService
+      leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      leave.leave_request_service: \OrangeHRM\Leave\Service\LeaveRequestService
+      leave.holiday_service: \OrangeHRM\Leave\Service\HolidayService
+      leave.work_week_service: \OrangeHRM\Leave\Service\WorkWeekService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      leave.leave_entitlement_service: \OrangeHRM\Leave\Service\LeaveEntitlementService
+      leave.leave_period_service: \OrangeHRM\Leave\Service\LeavePeriodService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    body:
+      empNumber: 3
+      leaveTypeId: 6
+      fromDate: '2021-10-11'
+      toDate: '2021-10-11'
+      duration:
+        type: 'full_day'
+    data: {
+      "id": 1,
+      "leaveType": {
+        "id": 6,
+        "name": "Medical",
+        "deleted": false
+      },
+      "dateApplied": "2021-10-11"
+    }
+    meta:
+      empNumber: 3
+
   'single day - half day morning':
     userId: 1
     now:
