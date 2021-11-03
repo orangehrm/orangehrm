@@ -273,6 +273,7 @@ class VueControllerHelper
             $this->getCurrentModuleAndScreen()->getModule()
         ) : ucfirst($this->getCurrentModuleAndScreen()->getModule());
         $menuItem = $this->getMenuService()->getMenuDao()->getMenuItemByModuleAndScreen(
+            $this->getCurrentModuleAndScreen()->getModule(),
             $this->getCurrentModuleAndScreen()->getScreen()
         );
         if ($menuItem) {

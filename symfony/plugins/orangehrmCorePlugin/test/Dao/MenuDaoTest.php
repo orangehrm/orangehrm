@@ -190,7 +190,7 @@ class MenuDaoTest extends TestCase
 
     public function testGetMenuLevel() : void
     {
-        $menuItem = $this->menuDao->getMenuItemByModuleAndScreen('assignLeave');
+        $menuItem = $this->menuDao->getMenuItemByModuleAndScreen('leave','assignLeave');
         $this->assertEquals('Assign Leave', $menuItem->getMenuTitle());
         $this->assertEquals(12, $menuItem->getParent()->getId());
         $this->assertEquals(2, $menuItem->getLevel());
