@@ -33,24 +33,14 @@
     />
   </oxd-grid-item>
   <template v-if="duration && duration.id === 4">
-    <oxd-grid-item>
-      <time-input
-        :label="$t('general.from')"
-        :modelValue="fromTime"
-        :rules="rules.fromTime"
-        @update:modelValue="$emit('update:fromTime', $event)"
-        required
-      />
-    </oxd-grid-item>
-    <oxd-grid-item>
-      <time-input
-        :label="$t('general.to')"
-        :modelValue="toTime"
-        :rules="rules.toTime"
-        @update:modelValue="$emit('update:toTime', $event)"
-        required
-      />
-    </oxd-grid-item>
+    <time-range
+      :rules="rules"
+      :fromTime="fromTime"
+      :toTime="toTime"
+      :work-shift="workShift"
+      @update:fromTime="$emit('update:fromTime', $event)"
+      @update:toTime="$emit('update:toTime', $event)"
+    ></time-range>
     <oxd-grid-item>
       <oxd-input-group :label="$t('general.duration')">
         <oxd-text class="orangehrm-leave-duration" tag="p">
@@ -69,6 +59,7 @@ import {
   endTimeShouldBeAfterStartTime,
   startTimeShouldBeBeforeEndTime,
 } from '@/core/util/validation/rules';
+import TimeRange from '@/orangehrmLeavePlugin/components/TimeRange';
 
 export default {
   name: 'leave-duration-input',
@@ -94,6 +85,9 @@ export default {
       type: Object,
       required: true,
     },
+  },
+  components: {
+    'time-range': TimeRange,
   },
   data() {
     return {
