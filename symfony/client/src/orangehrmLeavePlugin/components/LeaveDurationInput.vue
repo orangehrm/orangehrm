@@ -64,9 +64,10 @@
 <script>
 import {diffInTime} from '@orangehrm/core/util/helper/datefns';
 import {
-  endTimeShouldBeAfterStartTime,
   required,
   validTimeFormat,
+  endTimeShouldBeAfterStartTime,
+  startTimeShouldBeBeforeEndTime,
 } from '@/core/util/validation/rules';
 
 export default {
@@ -98,7 +99,14 @@ export default {
     return {
       rules: {
         duration: [required],
-        fromTime: [required, validTimeFormat],
+        fromTime: [
+          required,
+          validTimeFormat,
+          startTimeShouldBeBeforeEndTime(
+            () => this.toTime,
+            'From time should be before to time',
+          ),
+        ],
         toTime: [
           required,
           validTimeFormat,
