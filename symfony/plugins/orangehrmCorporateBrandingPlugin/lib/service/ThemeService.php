@@ -107,6 +107,8 @@ class ThemeService
 
 
         try {
+            $this->copyDir(sfConfig::get('sf_web_dir') . DIRECTORY_SEPARATOR . $uniqueResourceDir . '/themes/default', sfConfig::get('sf_web_dir') . DIRECTORY_SEPARATOR . $uniqueResourceDir . '/themes/' .
+                $theme->getThemeName());
             $loginCssFile = sfConfig::get('sf_web_dir') . DIRECTORY_SEPARATOR . $uniqueResourceDir . '/themes/' .
                 $theme->getThemeName() . '/css/login.css';
 
