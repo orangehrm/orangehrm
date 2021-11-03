@@ -23,6 +23,7 @@ use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use OrangeHRM\Core\Traits\Service\NumberHelperTrait;
 use OrangeHRM\Entity\Decorator\DecoratorTrait;
 use OrangeHRM\Entity\Decorator\LeaveEntitlementDecorator;
 
@@ -35,6 +36,7 @@ use OrangeHRM\Entity\Decorator\LeaveEntitlementDecorator;
 class LeaveEntitlement
 {
     use DecoratorTrait;
+    use NumberHelperTrait;
 
     public const ENTITLEMENT_TYPE_ADD = 1;
 
@@ -185,7 +187,7 @@ class LeaveEntitlement
      */
     public function setNoOfDays(float $noOfDays): void
     {
-        $this->noOfDays = number_format($noOfDays, 15);
+        $this->noOfDays = $this->getNumberHelper()->numberFormat($noOfDays, 4);
     }
 
     /**
@@ -201,7 +203,7 @@ class LeaveEntitlement
      */
     public function setDaysUsed(float $daysUsed): void
     {
-        $this->daysUsed = number_format($daysUsed, 4);
+        $this->daysUsed = $this->getNumberHelper()->numberFormat($daysUsed, 4);
     }
 
     /**

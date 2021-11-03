@@ -22,6 +22,7 @@ namespace OrangeHRM\Tests\Leave\Api;
 use Generator;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\RequestParams;
+use OrangeHRM\Core\Service\NumberHelperService;
 use OrangeHRM\Entity\LeaveEntitlement;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Leave\Api\ValidationLeaveEntitlementValueAPI;
@@ -147,6 +148,7 @@ class ValidationLeaveEntitlementValueAPITest extends EndpointTestCase
 
     public function getOneDataProvider(): Generator
     {
+        $this->createKernelWithMockServices([Services::NUMBER_HELPER_SERVICE => new NumberHelperService()]);
         $leaveEntitlement = new LeaveEntitlement();
         $leaveEntitlement->setDaysUsed(2);
         $map = [

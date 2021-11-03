@@ -23,6 +23,7 @@ use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use OrangeHRM\Core\Traits\Service\NumberHelperTrait;
 use OrangeHRM\Entity\Decorator\DecoratorTrait;
 use OrangeHRM\Entity\Decorator\LeaveDecorator;
 
@@ -35,6 +36,7 @@ use OrangeHRM\Entity\Decorator\LeaveDecorator;
 class Leave
 {
     use DecoratorTrait;
+    use NumberHelperTrait;
 
     public const LEAVE_STATUS_LEAVE_REJECTED = -1;
     public const LEAVE_STATUS_LEAVE_CANCELLED = 0;
@@ -188,7 +190,7 @@ class Leave
      */
     public function setLengthHours(float $lengthHours): void
     {
-        $this->lengthHours = number_format($lengthHours, 2);
+        $this->lengthHours = $this->getNumberHelper()->numberFormat($lengthHours, 2);
     }
 
     /**
@@ -204,7 +206,7 @@ class Leave
      */
     public function setLengthDays(float $lengthDays): void
     {
-        $this->lengthDays = number_format($lengthDays, 4);
+        $this->lengthDays = $this->getNumberHelper()->numberFormat($lengthDays, 4);
     }
 
     /**

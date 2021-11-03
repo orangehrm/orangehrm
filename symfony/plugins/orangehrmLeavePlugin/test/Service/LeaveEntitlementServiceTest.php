@@ -26,6 +26,7 @@ use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Authorization\Manager\BasicUserRoleManager;
 use OrangeHRM\Core\Helper\ClassHelper;
 use OrangeHRM\Core\Service\DateTimeHelperService;
+use OrangeHRM\Core\Service\NumberHelperService;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\LeaveEntitlement;
 use OrangeHRM\Entity\User;
@@ -147,6 +148,7 @@ class LeaveEntitlementServiceTest extends KernelTestCase
      */
     public function getDeletableIdsFromEntitlementIdsDataProvider(): Generator
     {
+        $this->createKernelWithMockServices([Services::NUMBER_HELPER_SERVICE => new NumberHelperService()]);
         $entitlement1 = new LeaveEntitlement();
         $entitlement1->setId(1);
         $entitlement1->setDaysUsed(0);

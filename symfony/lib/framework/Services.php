@@ -111,6 +111,11 @@ final class Services
     public const TEXT_HELPER_SERVICE = 'core.text_helper_service';
 
     /**
+     * @see \OrangeHRM\Core\Service\TextHelperService
+     */
+    public const NUMBER_HELPER_SERVICE = 'core.number_helper_service';
+
+    /**
      * @see \OrangeHRM\Core\Helper\ClassHelper
      */
     public const CLASS_HELPER = 'core.class_helper';
