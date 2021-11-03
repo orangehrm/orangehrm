@@ -37,6 +37,7 @@
             <jobtitle-dropdown
               v-model="vacancy.jobTitle"
               :rule="rules.jobTitle"
+              required
             />
           </oxd-grid-item>
         </oxd-grid>
@@ -76,6 +77,7 @@
               v-model="vacancy.status"
               optionLabel="Active Status"
               labelPosition="left"
+              required
             />
           </oxd-grid-item>
           <oxd-grid-item>
@@ -83,6 +85,7 @@
               v-model="vacancy.isPublished"
               optionLabel="Publish in RSS feed and web page"
               labelPosition="left"
+              required
             />
           </oxd-grid-item>
         </oxd-grid>
