@@ -356,12 +356,14 @@ export const startDateShouldBeBeforeEndDate = (
   };
 };
 
-export const maxCurrency = function (maxValue: number) {
-  return function (value: string): boolean | string {
+export const maxCurrency = function(maxValue: number) {
+  return function(value: string): boolean | string {
     return (
-        Number.isNaN(parseFloat(value)) ||
-        parseFloat(value) < maxValue ||
-        `Should be less than ${maxValue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`
+      Number.isNaN(parseFloat(value)) ||
+      parseFloat(value) < maxValue ||
+      `Should be less than ${maxValue
+        .toString()
+        .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`
     );
   };
 };
