@@ -72,7 +72,7 @@
 
 <script>
 import {APIService} from '@/core/util/services/api.service';
-import {required, max, digitsOnly} from '@orangehrm/core/util/validation/rules';
+import {required, digitsOnly, maxCurrency} from '@orangehrm/core/util/validation/rules';
 const payCurrencyModel = {
   currencyId: '',
   minSalary: '',
@@ -101,8 +101,8 @@ export default {
       currencies: [],
       rules: {
         currencyId: [required],
-        minSalary: [max(1000000000), digitsOnly],
-        maxSalary: [max(1000000000), digitsOnly],
+        minSalary: [maxCurrency(1000000000), digitsOnly],
+        maxSalary: [maxCurrency(1000000000), digitsOnly],
       },
     };
   },
