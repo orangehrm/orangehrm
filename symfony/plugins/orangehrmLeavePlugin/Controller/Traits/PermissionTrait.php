@@ -17,26 +17,35 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Leave\Controller;
+namespace OrangeHRM\Leave\Controller\Traits;
 
+use LogicException;
 use OrangeHRM\Core\Controller\AbstractVueController;
-use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
-use OrangeHRM\Core\Vue\Component;
-use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Leave\Controller\Traits\PermissionTrait;
+use OrangeHRM\Core\Helper\VueControllerHelper;
+use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 
-class ViewMyLeaveEntitlementController extends AbstractVueController
+trait PermissionTrait
 {
-    use PermissionTrait;
-    use AuthUserTrait;
+    use UserRoleManagerTrait;
 
     /**
-     * @inheritDoc
+     * @param array $dataGroups
+     * @param int|null $empNumber
      */
-    public function preRender(Request $request): void
+    protected function setPermissionsForEmployee(array $dataGroups, ?int $empNumber = null)
     {
-        $component = new Component('leave-view-my-entitlement');
-        $this->setComponent($component);
-        $this->setPermissionsForEmployee(['leave_entitlements'], $this->getAuthUser()->getEmpNumber());
+        $permissions = $this->getUserRoleManagerHelper()->getDataGroupPermissionCollectionForEmployee(
+            $dataGroups,
+            $empNumber
+        );
+        if (!$this instanceof AbstractVueController) {
+            throw new LogicException(
+                PermissionTrait::class . ' should use in instanceof' . AbstractVueController::class
+            );
+        }
+        $this->getContext()->set(
+            VueControllerHelper::PERMISSIONS,
+            $permissions->toArray()
+        );
     }
 }

@@ -24,12 +24,15 @@
     <br />
     <div class="orangehrm-paper-container">
       <div class="orangehrm-header-container">
-        <oxd-button
-          label="Add"
-          iconName="plus"
-          displayType="secondary"
-          @click="onClickAdd"
-        />
+        <div>
+          <oxd-button
+            label="Add"
+            iconName="plus"
+            displayType="secondary"
+            @click="onClickAdd"
+            v-if="$can.create(`leave_entitlements`)"
+          />
+        </div>
         <oxd-text tag="span">
           {{ totalEntitlements }}
         </oxd-text>
@@ -44,7 +47,7 @@
         <oxd-card-table
           :headers="headers"
           :items="items?.data"
-          :selectable="true"
+          :selectable="$can.delete(`leave_entitlements`)"
           :clickable="false"
           :loading="isLoading"
           v-model:selected="checkedItems"
@@ -113,52 +116,6 @@ export default {
 
   data() {
     return {
-      headers: [
-        {
-          name: 'leaveType',
-          slot: 'title',
-          title: 'Leave Type',
-          style: {flex: 1},
-        },
-        {
-          name: 'entitlementType',
-          title: 'Entitlement Type',
-          style: {flex: 1},
-        },
-        {
-          name: 'fromDate',
-          title: 'Valid From',
-          style: {flex: 1},
-        },
-        {
-          name: 'toDate',
-          title: 'Valid To',
-          style: {flex: 1},
-        },
-        {name: 'days', title: 'Days', style: {flex: 1}},
-        {
-          name: 'actions',
-          slot: 'action',
-          title: 'Actions',
-          style: {flex: 1},
-          cellType: 'oxd-table-cell-actions',
-          cellConfig: {
-            delete: {
-              onClick: this.onClickDelete,
-              component: 'oxd-icon-button',
-              props: {
-                name: 'trash',
-              },
-            },
-            edit: {
-              onClick: this.onClickEdit,
-              props: {
-                name: 'pencil-fill',
-              },
-            },
-          },
-        },
-      ],
       checkedItems: [],
     };
   },
@@ -277,6 +234,63 @@ export default {
     },
     async filterItems() {
       await this.execQuery();
+    },
+  },
+
+  computed: {
+    headers() {
+      const headers = [
+        {
+          name: 'leaveType',
+          slot: 'title',
+          title: 'Leave Type',
+          style: {flex: 1},
+        },
+        {
+          name: 'entitlementType',
+          title: 'Entitlement Type',
+          style: {flex: 1},
+        },
+        {
+          name: 'fromDate',
+          title: 'Valid From',
+          style: {flex: 1},
+        },
+        {
+          name: 'toDate',
+          title: 'Valid To',
+          style: {flex: 1},
+        },
+        {name: 'days', title: 'Days', style: {flex: 1}},
+      ];
+      const headerActions = {
+        name: 'actions',
+        slot: 'action',
+        title: 'Actions',
+        style: {flex: 1},
+        cellType: 'oxd-table-cell-actions',
+        cellConfig: {},
+      };
+      if (this.$can.update(`leave_entitlements`)) {
+        headerActions.cellConfig.edit = {
+          onClick: this.onClickEdit,
+          props: {
+            name: 'pencil-fill',
+          },
+        };
+      }
+      if (this.$can.delete(`leave_entitlements`)) {
+        headerActions.cellConfig.delete = {
+          onClick: this.onClickDelete,
+          component: 'oxd-icon-button',
+          props: {
+            name: 'trash',
+          },
+        };
+      }
+      return Object.keys(headerActions.cellConfig).length > 0
+        ? headers.concat([headerActions])
+        : headers;
     },
   },
 };
