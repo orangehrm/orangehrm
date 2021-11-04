@@ -172,6 +172,7 @@ export default {
         status: this.vacancy.status ? 1 : 0,
         isPublished: this.vacancy.isPublished ? 1 : 0,
       };
+      console.log(this.vacancy);
       this.http
         .update(this.vacancyId, {...this.vacancy})
         .then(() => {

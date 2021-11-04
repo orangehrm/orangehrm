@@ -1,5 +1,4 @@
 <?php
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -18,25 +17,25 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Tests\Recruitment\Dao;
+namespace OrangeHRM\Recruitment\Tests\Dao;
 
+use DateTime;
+use Exception;
 use OrangeHRM\Config\Config;
+use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\Vacancy;
 use OrangeHRM\Recruitment\Dao\VacancyDao;
 use OrangeHRM\Tests\Util\TestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 
-/**
- * @group Recruitment
- * @group Dao
- */
-class VacancyDaoTest extends TestCase {
-
-    private $vacancyDao;
-    protected $fixture;
+class VacancyDaoTest extends TestCase
+{
+    private VacancyDao $vacancyDao;
+    protected string $fixture;
 
     /**
      * Set up method
+     * @throws Exception
      */
     protected function setUp():void {
 
@@ -45,306 +44,61 @@ class VacancyDaoTest extends TestCase {
         TestDataService::populate($this->fixture);
     }
 
-    /**
-     * Testing getHiringManagerList
-     */
-    public function testGetHiringManagersListWithNullJobTilteAndNullVacancyId() {
-
-        $hiringMangersList = $this->vacancyDao->getHiringManagersList("", "");
-
-        // Expected (ordered by last name ASC)
-        $expected = array(array('id' => 1, 'name' => "Kayla Abbey"),
-            array('id' => 2, 'name' => "Ashley Abel"),
-            array('id' => 4, 'name' => "Chaturanga Namal"),
-            array('id' => 3, 'name' => "Renukshan Saputhanthri"));
-        $this->assertEquals($expected, $hiringMangersList);
-    }
-
-    /**
-     * Testing getHiringManagerList
-     */
-    public function testGetHiringManagersListWthNUllVacancyId() {
-
-        $hiringMangersList = $this->vacancyDao->getHiringManagersList(2, "");
-        $this->assertEquals($hiringMangersList, array(array('id' => 2, 'name' => "Ashley Abel"), array('id' => 3, 'name' => "Renukshan Saputhanthri")));
-    }
-
-    /**
-     * Testing getHiringManagerList
-     */
-    public function testGetHiringManagersListWthNUllJobTitle() {
-
-        $hiringMangersList = $this->vacancyDao->getHiringManagersList("", 1);
-        $this->assertEquals($hiringMangersList, array(array('id' => 1, 'name' => "Kayla Abbey")));
-    }
-
-    /**
-     * Testing getHiringManagerList
-     */
-    public function testGetHiringManagersListWithVacancyList() {
-        $hiringMangersList = $this->vacancyDao->getHiringManagersList("", 1, array(5, 1, 4));
-        $this->assertEquals($hiringMangersList, array(array('id' => 1, 'name' => "Kayla Abbey")));
-    }
-
-    /**
-     * Testing getVacancyListForJobTitle
-     */
-    public function testGetVacancyListForJobTitle() {
-
-        $jobTitle = 2;
-        $allowedVacancyList = array(2, 3);
-        $vacancyList = $this->vacancyDao->getVacancyListForJobTitle($jobTitle, $allowedVacancyList);
-        $this->assertTrue($vacancyList[0] instanceof Vacancy);
-    }
-
-    /**
-     * Testing getVacancyListForJobTitle Hydrate array
-     */
-    public function testGetVacancyListForJobTitleHydrateMode() {
-
-        $jobTitle = 2;
-        $allowedVacancyList = array(2, 3);
-        $expected = array(array('id' => 3, 'name' => 'Software Architect 2010', 'status' => 1),
-            array('id' => 2, 'name' => 'Software Architect 2011', 'status' => 1)
-        );
-        $vacancyList = $this->vacancyDao->getVacancyListForJobTitle($jobTitle, $allowedVacancyList, true);
-        $this->assertEquals($expected, $vacancyList);
-    }
-
-    /**
-     * Testing getVacancyListForJobTitle Hydrate array
-     */
-    public function testGetVacancyListForNullJobTitleHydrateMode() {
-
-        $jobTitle = '';
-        $allowedVacancyList = array(1, 2, 3, 4);
-        $expected = array(array('id' => 3, 'name' => 'Software Architect 2010', 'status' => 1),
-            array('id' => 2, 'name' => 'Software Architect 2011', 'status' => 1),
-            array('id' => 4, 'name' => 'Software Architect 2012', 'status' => 2),
-            array('id' => 1, 'name' => 'Software Engineer 2011', 'status' => 1));
-
-        $vacancyList = $this->vacancyDao->getVacancyListForJobTitle($jobTitle, $allowedVacancyList, true);
-        $this->assertEquals($expected, $vacancyList);
-    }
-
-    /**
-     * Testing getVacancyList for correct objects
-     */
-    public function testGetVacancyList() {
-
-        $vacancyList = $this->vacancyDao->getVacancyList();
-        $this->assertTrue($vacancyList[0] instanceof Vacancy);
-    }
-
-    /**
-     * Testing getPublishedVacancies()
-     */
-    public function testGetPublishedVacancies() {
-
-        // Get Published, active objects from fixture
-
-        $allVacancyList = TestDataService::loadObjectList('Vacancy', $this->fixture, 'Vacancy');
-        $publishedActiveList = array();
-
-        foreach ($allVacancyList as $vacancy) {
-            if (($vacancy->getStatus() == Vacancy::STATUS) &&
-                    ($vacancy->getPublishedInFeed() == Vacancy::PUBLISHED)) {
-                $publishedActiveList[] = $vacancy;
-            }
-        }
-
-//        // Get Vacancy list and compare with fixture
-        $vacancyList = $this->vacancyDao->getPublishedVacancies();
-
-        $this->assertEquals(count($vacancyList), count($publishedActiveList));
-
-        foreach ($vacancyList as $vacancy) {
-            $this->assertEquals(Vacancy::ACTIVE, $vacancy->getStatus());
-            $this->assertTrue($vacancy->getPublishedInFeed());
-        }
-    }
-
-    /**
-     * Testing getVacancyList for correct number of objects
-     */
-    public function testGetVacancyListForCorrectNumberOfObjectsReturn() {
-
-        $vacancyList = $this->vacancyDao->getVacancyList();
-        $this->assertEquals(2, count($vacancyList));
-    }
-
-    /**
-     * Testing getAllVacancies
-     */
-    public function testGetAllVacancies() {
-
-        $vacancyList = $this->vacancyDao->getAllVacancies();
-        $this->assertTrue($vacancyList[0] instanceof Vacancy);
-    }
-    
-    /**
-     * Testing getVacancyPropertyList
-     */
-    public function testGetVacancyPropertyListByName() {
-        $properties = array('name', 'id');
-        $vacancyList = $this->vacancyDao->getVacancyPropertyList($properties, Vacancy::ACTIVE);
-        $this->assertEquals(3, count($vacancyList));
-
-        $vacancyList = $this->vacancyDao->getVacancyPropertyList($properties, Vacancy::ACTIVE);
-        $this->assertEquals(3, $vacancyList[0]['id']);
-        $this->assertEquals('Software Architect 2011', $vacancyList[1]['name']);
-    }
-    
-    /**
-     * Testing getVacancyPropertyList
-     */
-    public function testGetVacancyPropertyListByHiringmanagerId() {
-        $properties = array('name', 'id', 'hiringManagerId');
-        $vacancyList = $this->vacancyDao->getVacancyPropertyList($properties, Vacancy::ACTIVE);
-        $this->assertEquals(3, count($vacancyList));
-
-        $vacancyList = $this->vacancyDao->getVacancyPropertyList($properties, Vacancy::ACTIVE);
-        $this->assertEquals(3, $vacancyList[0]['id']);
-        $this->assertEquals('Software Architect 2011', $vacancyList[1]['name']);
-        $this->assertEquals(1, $vacancyList[2]['hiringManagerId']);
-    }
-
-    /**
-     * Testing getAllVacancies
-     */
-    public function testGetAllVacanciesWithStatus() {
-        $vacancyList = $this->vacancyDao->getAllVacancies(Vacancy::ACTIVE);
-        $this->assertEquals(3, count($vacancyList));
-    }
 
     /**
      * Testing getVacancyList
+     * @throws DaoException
      */
     public function testSaveVacancy() {
         TestDataService::truncateSpecificTables(array('Vacancy'));
 
         $Vacancy = new Vacancy();
-        $Vacancy->title=2;
-        $Vacancy->name="BA Assitant";
-        $Vacancy->hiringManagerId = 2;
-        $Vacancy->noOfPositions = 2;
-        $Vacancy->description = "test";
-        $Vacancy->status = 1;
-        $Vacancy->definedTime = "2011-08-09 10:38:39";
-        $Vacancy->updatedTime = "2011-08-09 10:38:39";
-        $result = $this->vacancyDao->saveVacancy($Vacancy);
+        $Vacancy->getDecorator()->setJobTitleById(1);
+        $Vacancy->getDecorator()->setEmployeeById(1);
+        $Vacancy->setName("QA Engineer");
+        $Vacancy->getDecorator()->setIsPublished(true);
+        $Vacancy->setNumOfPositions(2);
+        $Vacancy->setDescription("test");
+        $Vacancy->setStatus(1);
+        $Vacancy->setDefinedTime(new DateTime());
+        $Vacancy->setUpdatedTime(new DateTime());
+        $result = $this->vacancyDao->saveJobVacancy($Vacancy);
         $this->assertTrue($result);
-    }
-
-    public function testSearchVacancies() {
-
-        $srchParams = array('jobTitle' => 2, 'Vacancy' => 2, 'hiringManager' => 2, 'status' => 1, 'offset' => 0, 'noOfRecords' => 1);
-        $vacancyList = TestDataService::fetchObject('Vacancy', 2);
-        $result = $this->vacancyDao->searchVacancies($srchParams);
-        $this->assertEquals($vacancyList, $result[0]);
-    }
-
-    /**
-     * Testing searchVacancies
-     */
-    public function testSearchVacanciesWithEmployeeFirstName() {
-
-        $srchParams = array('jobTitle' => 2, 'Vacancy' => 2, 'hiringManager' => 2, 'status' => 1, 'offset' => 0, 'noOfRecords' => 1, 'orderField' => 'e.emp_firstname');
-        $vacancyList = TestDataService::fetchObject('Vacancy', 2);
-        $result = $this->vacancyDao->searchVacancies($srchParams);
-        $this->assertEquals($vacancyList, $result[0]);
     }
 
     /**
      * Testing deleteVacancies true arguments
      */
-    public function testDeleteVacanciesForTrue() {
+//    public function testDeleteVacanciesForTrue() {
+//
+//        $vacancyIds = array(1, 3);
+//        $result = $this->vacancyDao->deleteVacancies($vacancyIds);
+//        $this->assertEquals(true, $result);
+//
+//        $vacancyIds = array(2);
+//        $result = $this->vacancyDao->deleteVacancies($vacancyIds);
+//        $this->assertEquals(true, $result);
+//    }
 
-        $vacancyIds = array(1, 3);
-        $result = $this->vacancyDao->deleteVacancies($vacancyIds);
-        $this->assertEquals(true, $result);
+//
+//    /**
+//     * Testing getAllVacancies
+//     * @throws DaoException
+//     */
+//    public function testGetAllVacancies() {
+//
+//        $vacancyList = $this->vacancyDao->getAllVacancies();
+//        $this->assertTrue($vacancyList[0] instanceof Vacancy);
+//    }
 
-        $vacancyIds = array(2);
-        $result = $this->vacancyDao->deleteVacancies($vacancyIds);
-        $this->assertEquals(true, $result);
-    }
 
-    /**
-     * Testing deleteVacancies false arguments
-     */
-    public function testDeleteVacanciesForFalse() {
+//    public function testGetVacancyById() {
+//        $vacancyId = 1;
+//        $result = $this->vacancyDao->getVacancyById($vacancyId);
+//        $this->assertTrue($result instanceof Vacancy);
+//        $this->assertEquals(1, $result->getJobTitle());
+//        $this->assertEquals(2, $result->getNumOfPositions());
+//        $this->assertEquals(1, $result->getStatus());
+//    }
 
-        $vacancyIds = array(15);
-        $result = $this->vacancyDao->deleteVacancies($vacancyIds);
-        $this->assertEquals(false, $result);
-    }
-
-    public function testGetVacancyListForHiringManagerUserRole() {
-        $result = $this->vacancyDao->getVacancyListForUserRole(HiringManagerUserRoleDecorator::HIRING_MANAGER, 2);
-        $this->assertEquals(count($result), 1);
-    }
-
-    public function testGetVacancyListForInterviewerUserRole() {
-        $result = $this->vacancyDao->getVacancyListForUserRole(InterviewerUserRoleDecorator::INTERVIEWER, 3);
-        $this->assertEquals(count($result), 1);
-    }
-
-    public function testGetVacancyListForAdminUserRole() {
-        $result = $this->vacancyDao->getVacancyListForUserRole(AdminUserRoleDecorator::ADMIN_USER, null);
-        $this->assertEquals(count($result), 5);
-    }
-
-    public function testGetVacancyById() {
-        $vacancyId = 1;
-        $result = $this->vacancyDao->getVacancyById($vacancyId);
-        $this->assertTrue($result instanceof Vacancy);
-        $this->assertEquals($result->getJobTitleCode(), 1);
-        $this->assertEquals($result->getNoOfPositions(), 2);
-        $this->assertEquals($result->getStatus(), 1);
-    }
-
-    public function testsSearchVacanciesCount() {
-
-        $srchParams = array('jobTitle' => 1, 'Vacancy' => 1, 'hiringManager' => 1, 'status' => 1);
-        $result = $this->vacancyDao->searchVacanciesCount($srchParams);
-        $this->assertEquals($result, 1);
-    }
-    
-    public function testGetVacancyIdList() {
-        $result = $this->vacancyDao->getVacancyIdList();
-        $expected = array(1, 2, 3, 4, 5);
-        sort($expected);
-        sort($result);
-
-        $this->assertEquals(count($expected), count($result));
-        $this->assertEquals($expected, $result);
-    }
-
-    public function testGetVacancyIdListForHiringManager() {
-        $result = $this->vacancyDao->getVacancyIdListForHiringManager(1);
-        $expected = array(1, 5);
-        sort($expected);
-        sort($result);
-
-        $this->assertEquals(count($expected), count($result));
-        $this->assertEquals($expected, $result);
-    }
-    
-    public function testGetVacancyIdListForNotHiringManager() {
-        $result = $this->vacancyDao->getVacancyIdListForHiringManager(5);
-        $expected = array();
-
-        $this->assertEquals(count($expected), count($result));
-        $this->assertEquals($expected, $result);
-    }
-
-    public function testGetVacancyIdListForInterviewer() {
-        $result = $this->vacancyDao->getVacancyIdListForInterviewer(3);
-        $expected = array(1);
-        sort($expected);
-        sort($result);
-
-        $this->assertEquals(count($expected), count($result));
-        $this->assertEquals($expected, $result);
-    }
 }

@@ -7,7 +7,7 @@ class orangehrmRecruitmentPluginAllTests {
 
         /* Dao Test Cases */
         $suite->addTestFile(dirname(__FILE__) . '/model/dao/CandidateDaoTest.php');
-        $suite->addTestFile(dirname(__FILE__) . '/model/dao/VacancyDaoTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/Dao/VacancyDaoTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/model/dao/RecruitmentAttachmentDaoTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/model/dao/JobInterviewDaoTest.php');
 
