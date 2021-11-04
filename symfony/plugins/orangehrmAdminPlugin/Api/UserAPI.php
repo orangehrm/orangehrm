@@ -53,6 +53,7 @@ class UserAPI extends Endpoint implements CrudEndpoint
     public const FILTER_USER_ROLE_ID = 'userRoleId';
     public const FILTER_EMPLOYEE_NUMBER = 'empNumber';
     public const FILTER_STATUS = 'status';
+    public const FILTER_DELETED = 'deleted';
 
     /**
      * @return UserService|null
@@ -116,6 +117,13 @@ class UserAPI extends Endpoint implements CrudEndpoint
             )
         );
 
+        $userSearchParamHolder->setDeleted(
+            $this->getRequestParams()->getBooleanOrNull(
+                RequestParams::PARAM_TYPE_QUERY,
+                self::FILTER_DELETED
+            )
+        );
+
         $users = $this->getSystemUserService()->searchSystemUsers($userSearchParamHolder);
         $count = $this->getSystemUserService()->getSearchSystemUsersCount($userSearchParamHolder);
         return new EndpointCollectionResult(
@@ -134,6 +142,7 @@ class UserAPI extends Endpoint implements CrudEndpoint
             new ParamRule(self::FILTER_USERNAME),
             new ParamRule(self::FILTER_EMPLOYEE_NUMBER),
             new ParamRule(self::FILTER_STATUS),
+            new ParamRule(self::FILTER_DELETED),
             ...$this->getSortingAndPaginationParamsRules(UserSearchFilterParams::ALLOWED_SORT_FIELDS)
         );
     }

@@ -60,7 +60,8 @@ class AboutOrganizationAPI extends Endpoint implements ResourceEndpoint
         $aboutOrganization = new AboutOrganization();
         $employeeParamHolder = new EmployeeSearchFilterParams();
         $employeeParamHolder->setIncludeEmployees("3");
-        $organizationName = $this->getOrganizationService()->getOrganizationGeneralInformation()->getName();
+        $organization = $this->getOrganizationService()->getOrganizationGeneralInformation();
+        $organizationName = !$organization ? 'OrangeHRM' : ($organizationName = $organization->getName() === null ? 'OrangeHRM' : $organization->getName());
         $numberOfActiveEmployees = $this->getEmployeeService()->getNumberOfEmployees();
         $numberOfPastEmployees = $this->getEmployeeService()->getEmployeeCount($employeeParamHolder);
         $aboutOrganization->setCompanyName($organizationName);

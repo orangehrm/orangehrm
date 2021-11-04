@@ -288,8 +288,10 @@ class UserDao extends BaseDao
             $q->setParameter('status', $userSearchParamHolder->getStatus());
         }
 
-        $q->andWhere('u.deleted = :deleted');
-        $q->setParameter('deleted', false);
+        if (!is_null($userSearchParamHolder->getDeleted())) {
+            $q->andWhere('u.deleted = :deleted');
+            $q->setParameter('deleted', $userSearchParamHolder->getDeleted());
+        }
 
         return $this->getPaginator($q);
     }

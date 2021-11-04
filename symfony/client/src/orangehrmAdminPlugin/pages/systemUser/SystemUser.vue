@@ -228,6 +228,7 @@ export default {
         userRoleId: filters.value.userRoleId?.id,
         empNumber: filters.value.empNumber?.id,
         status: filters.value.status?.id,
+        deleted: false,
         sortField: sortField.value,
         sortOrder: sortOrder.value,
       };
