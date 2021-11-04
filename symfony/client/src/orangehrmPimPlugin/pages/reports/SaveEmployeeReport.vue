@@ -145,7 +145,7 @@
           <oxd-button
             type="button"
             displayType="ghost"
-            label="Back"
+            label="Cancel"
             @click="onCancel"
           />
           <submit-button />
