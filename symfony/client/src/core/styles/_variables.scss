@@ -4,3 +4,5 @@ $oxd-font-family: 'Nunito Sans' !default;
 @import '@orangehrm/oxd/styles/_colors.scss';
 @import '@orangehrm/oxd/styles/_variables.scss';
 @import './global.scss';
+
+$oxd-dropdown-z-index: 235;

@@ -20,7 +20,11 @@
         </a>
       </li>
       <li>
-        <a :href="updatePasswordUrl" role="menuitem" class="oxd-userdropdown-link">
+        <a
+          :href="updatePasswordUrl"
+          role="menuitem"
+          class="oxd-userdropdown-link"
+        >
           Change Password
         </a>
       </li>
