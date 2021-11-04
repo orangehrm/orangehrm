@@ -168,7 +168,8 @@ class SystemConfiguration
         $adminLastName,
         $host,
         $country,
-        $ohrmVersion
+        $ohrmVersion,
+        $currentTimestamp
     )
     {
         $instanceIdentifier = $this->createInstanceIdentifier(
@@ -178,7 +179,8 @@ class SystemConfiguration
             $adminLastName,
             $host,
             $country,
-            $ohrmVersion
+            $ohrmVersion,
+            $currentTimestamp
         );
         $query = "INSERT INTO `hs_hr_config` (`key`, `value`) VALUES (?, ?)";
         $dbConnection = $this->createDbConnection();
@@ -204,7 +206,8 @@ class SystemConfiguration
         $adminLastName,
         $host,
         $country,
-        $ohrmVersion
+        $ohrmVersion,
+        $timestamp
     )
     {
         if (is_null($host)) {
@@ -216,6 +219,7 @@ class SystemConfiguration
         return base64_encode(
             $organizationName .
             '_' . $email .
+            '_' . $timestamp .
             '_' . $adminFirstName .
             '_' . $adminLastName .
             '_' . $host .
@@ -242,7 +246,8 @@ class SystemConfiguration
         $adminLastName,
         $host,
         $country,
-        $ohrmVersion
+        $ohrmVersion,
+        $timestamp
     )
     {
         if (is_null($host)) {
@@ -258,7 +263,8 @@ class SystemConfiguration
             'adminLastName' => $adminLastName,
             'host' => $host,
             'country' => $country,
-            'ohrmVersion' => $ohrmVersion
+            'ohrmVersion' => $ohrmVersion,
+            'timestamp' => $timestamp
         );
 
         return base64_encode(serialize($params));
@@ -281,7 +287,8 @@ class SystemConfiguration
         $adminLastName,
         $host,
         $country,
-        $ohrmVersion
+        $ohrmVersion,
+        $currentTimestamp
     )
     {
         $instanceIdentifierChecksum = $this->createInstanceIdentifierChecksum(
@@ -291,7 +298,8 @@ class SystemConfiguration
             $adminLastName,
             $host,
             $country,
-            $ohrmVersion
+            $ohrmVersion,
+            $currentTimestamp
         );
         $query = "INSERT INTO `hs_hr_config` (`key`, `value`) VALUES (?, ?)";
         $dbConnection = $this->createDbConnection();
