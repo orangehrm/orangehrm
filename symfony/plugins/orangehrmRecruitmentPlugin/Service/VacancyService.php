@@ -27,6 +27,7 @@ use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\Vacancy;
 use OrangeHRM\ORM\Doctrine;
 use OrangeHRM\Recruitment\Dao\VacancyDao;
+use OrangeHRM\Recruitment\Dto\VacancySearchFilterParams;
 use PHPUnit\Framework\Constraint\Count;
 
 class VacancyService {
@@ -92,12 +93,12 @@ class VacancyService {
     }
 
     /**
-     * @param  string  $status
+     * @param  VacancySearchFilterParams  $vacancySearchFilterParamHolder
      * @return int|mixed|string
      * @throws DaoException
      */
-    public function getAllVacancies(string $status = "") {
-        return $this->getVacancyDao()->getAllVacancies($status);
+    public function getAllVacancies(VacancySearchFilterParams $vacancySearchFilterParamHolder) {
+        return $this->getVacancyDao()->getAllVacancies($vacancySearchFilterParamHolder);
     }
 
     /**

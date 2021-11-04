@@ -29,6 +29,8 @@ use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\Vacancy;
 use OrangeHRM\ORM\Doctrine;
+use OrangeHRM\ORM\QueryBuilderWrapper;
+use OrangeHRM\Recruitment\Dto\VacancySearchFilterParams;
 
 /**
  * VacancyDao for CRUD operation
@@ -201,23 +203,48 @@ class VacancyDao extends BaseDao
     }
 
     /**
-     * @param  string  $status
+     * @param  VacancySearchFilterParams  $vacancySearchFilterParamHolder
      * @return int|mixed|string
      * @throws DaoException
      */
-    public function getAllVacancies(string $status = "")
+    public function getAllVacancies(VacancySearchFilterParams $vacancySearchFilterParamHolder)
     {
         try {
-            $q = $this->createQueryBuilder(Vacancy::class, 'v');
-            if (!empty($status)) {
-                $q->where('v.status = :status')->setParameter('status', $status);
-            }
-            $q->orderBy('v.name', 'ASC');
-
-            return $q->getQuery()->execute();
+//            $q = $this->createQueryBuilder(Vacancy::class, 'v');
+//            if (!empty($status)) {
+//                $q->where('v.status = :status')->setParameter('status', $status);
+//            }
+//            $q->orderBy('v.name', 'ASC');
+            $qb=$this->getAllVacanciesQueryBuilderWrapper($vacancySearchFilterParamHolder);
+            return $qb->getQueryBuilder()->getQuery()->execute();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }
+    }
+
+    protected function getAllVacanciesQueryBuilderWrapper(VacancySearchFilterParams $vacancySearchFilterParamHolder): QueryBuilderWrapper
+    {
+
+            $q = $this->createQueryBuilder(Vacancy::class, 'v');
+
+            $this->setSortingAndPaginationParams($q,$vacancySearchFilterParamHolder);
+
+            if(!is_null($vacancySearchFilterParamHolder->getJobTitleId())){
+                $q->andWhere('v.jobTitle = :jobTitleCode')->setParameter('jobTitleCode', $vacancySearchFilterParamHolder->getJobTitleId());
+            }
+            if(!is_null($vacancySearchFilterParamHolder->getEmployeeId())){
+                $q->andWhere('v.employee = :hiringManagerId')->setParameter('hiringManagerId', $vacancySearchFilterParamHolder->getEmployeeId());
+            }
+            if(!is_null($vacancySearchFilterParamHolder->getVacancyId())){
+                $q->andWhere('v.id = :vacancyId')->setParameter('vacancyId', $vacancySearchFilterParamHolder->getVacancyId());
+            }
+            if(!is_null($vacancySearchFilterParamHolder->getStatus())){
+                $q->andWhere('v.status = :status')->setParameter('status', $vacancySearchFilterParamHolder->getStatus());
+            }
+            $q->orderBy('v.name', 'ASC');
+
+        return $this->getQueryBuilderWrapper($q);
+
     }
 
     /**

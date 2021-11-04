@@ -22,10 +22,16 @@ use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\Vacancy;
 use OrangeHRM\Recruitment\Api\Model\VacancyModel;
+use OrangeHRM\Recruitment\Dto\VacancySearchFilterParams;
 use OrangeHRM\Recruitment\Service\VacancyService;
 
 class VacancyAPI extends Endpoint implements CrudEndpoint
 {
+    public const FILTER_JOB_TITLE_ID = 'jobTitleId';
+    public const FILTER_VACANCY_ID = 'vacancyId';
+    public const FILTER_HIRING_MANAGER_ID = 'hiringMangerId';
+    public const FILTER_STATUS = 'status';
+
     public const PARAMETER_NAME = 'name';
     public const PARAMETER_DESCRIPTION = 'description';
     public const PARAMETER_NUM_OF_POSITIONS = 'numOfPositions';
@@ -94,8 +100,36 @@ class VacancyAPI extends Endpoint implements CrudEndpoint
      */
     public function getAll(): EndpointCollectionResult
     {
+        $vacancyParamHolder = new VacancySearchFilterParams();
+        $this->setSortingAndPaginationParams($vacancyParamHolder);
+
+        $vacancyParamHolder->setJobTitleId(
+            $this->getRequestParams()->getIntOrNull(
+                RequestParams::PARAM_TYPE_QUERY,
+                self::FILTER_JOB_TITLE_ID
+            )
+        );
+        $vacancyParamHolder->setEmployeeId(
+            $this->getRequestParams()->getIntOrNull(
+                RequestParams::PARAM_TYPE_QUERY,
+                self::FILTER_HIRING_MANAGER_ID
+            )
+        );
+        $vacancyParamHolder->setVacancyId(
+            $this->getRequestParams()->getIntOrNull(
+                RequestParams::PARAM_TYPE_QUERY,
+                self::FILTER_VACANCY_ID
+            )
+        );
+        $vacancyParamHolder->setStatus(
+            $this->getRequestParams()->getIntOrNull(
+                RequestParams::PARAM_TYPE_QUERY,
+                self::FILTER_STATUS
+            )
+        );
+
+        $vacancies = $this->getVacancyService()->getAllVacancies($vacancyParamHolder);
         $count = $this->getVacancyService()->getVacancyDao()->searchVacanciesCount();
-        $vacancies = $this->getVacancyService()->getAllVacancies('');
         return new EndpointCollectionResult(
             VacancyModel::class,
             $vacancies,
@@ -108,7 +142,12 @@ class VacancyAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
-        return new ParamRuleCollection();
+        return new ParamRuleCollection(
+            new ParamRule(self::FILTER_VACANCY_ID),
+            new ParamRule(self::FILTER_HIRING_MANAGER_ID),
+            new ParamRule(self::FILTER_JOB_TITLE_ID),
+            new ParamRule(self::FILTER_STATUS),
+        );
     }
 
     /**
@@ -278,6 +317,10 @@ class VacancyAPI extends Endpoint implements CrudEndpoint
         );
     }
 
+    private function getUpdateValidationRules()
+    {
+    }
+
     /**
      * @inheritDoc
      */
@@ -296,11 +339,6 @@ class VacancyAPI extends Endpoint implements CrudEndpoint
         return new ParamRuleCollection(
             new ParamRule(CommonParams::PARAMETER_IDS),
         );
-    }
-
-    private function getUpdateValidationRules()
-    {
-
     }
 
 }
