@@ -184,6 +184,7 @@ export default {
     text-align: center;
     padding-left: 1rem;
     padding-right: 1rem;
+    word-break: break-word;
     & .--strong {
       font-weight: 700;
       font-size: 1.2rem;

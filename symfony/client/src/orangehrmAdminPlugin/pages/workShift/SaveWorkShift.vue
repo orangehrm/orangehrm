@@ -42,20 +42,16 @@
           <oxd-text class="orangehrm-sub-title">Working Hours*</oxd-text>
           <oxd-grid :cols="4" class="orangehrm-full-width-grid">
             <oxd-grid-item>
-              <oxd-input-field
-                type="time"
+              <time-input
                 :rules="rules.fromTime"
-                :step="15"
                 :label="$t('general.from')"
                 v-model="workShift.startTime"
               />
             </oxd-grid-item>
 
             <oxd-grid-item>
-              <oxd-input-field
-                type="time"
+              <time-input
                 :rules="rules.endTime"
-                :step="15"
                 :label="$t('general.to')"
                 v-model="workShift.endTime"
               />

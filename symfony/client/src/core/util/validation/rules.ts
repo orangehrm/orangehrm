@@ -355,3 +355,40 @@ export const startDateShouldBeBeforeEndDate = (
     }
   };
 };
+
+/**
+ * @param {string} endTime
+ * @param {string|undefined} message
+ * @param {object} options
+ */
+export const startTimeShouldBeBeforeEndTime = (
+  endTime: string | Function,
+  message?: string,
+  options: {
+    allowSameTime?: boolean;
+    timeFormat?: string;
+  } = {
+    allowSameTime: false,
+    timeFormat: 'HH:mm',
+  },
+) => {
+  return (value: string): boolean | string => {
+    const resolvedEndTime = typeof endTime === 'function' ? endTime() : endTime;
+    const resolvedMessage =
+      typeof message === 'string'
+        ? message
+        : 'Start time should be before end time';
+    if (options.allowSameTime) {
+      return (
+        sameTime(value, resolvedEndTime) ||
+        beforeTime(value, resolvedEndTime, options.timeFormat) ||
+        resolvedMessage
+      );
+    } else {
+      return (
+        beforeTime(value, resolvedEndTime, options.timeFormat) ||
+        resolvedMessage
+      );
+    }
+  };
+};
