@@ -188,6 +188,10 @@ export default {
       type: Array,
       default: () => [],
     },
+    leavePeriod: {
+      type: Object,
+      required: false,
+    },
   },
 
   setup() {
@@ -323,6 +327,9 @@ export default {
 
   beforeMount() {
     this.fetchEmployeeCount();
+    if (this.leavePeriod) {
+      this.leaveEntitlement.leavePeriod = this.leavePeriod;
+    }
   },
 };
 </script>
