@@ -203,6 +203,11 @@ const leaveModel = {
   },
 };
 
+const defaultWorkshift = {
+  startTime: '9:00',
+  endTime: '17:00',
+};
+
 export default {
   name: 'leave-assign',
 
@@ -262,6 +267,7 @@ export default {
       isWorkShiftExceeded: false,
       leaveConflictData: null,
       yearsArray: [...yearRange()],
+      workShift: {...defaultWorkshift},
     };
   },
 
@@ -327,16 +333,19 @@ export default {
 
   watch: {
     'leave.employee': function(employee) {
-      if (!employee) return;
-      this.http
-        .request({
-          method: 'GET',
-          url: `api/v2/pim/employees/${employee.id}/work-shift`,
-        })
-        .then(response => {
-          const {data} = response.data;
-          this.workShift = data;
-        });
+      if (employee) {
+        this.http
+          .request({
+            method: 'GET',
+            url: `api/v2/pim/employees/${employee.id}/work-shift`,
+          })
+          .then(response => {
+            const {data} = response.data;
+            this.workShift = data;
+          });
+      } else {
+        this.workShift = {...defaultWorkshift};
+      }
     },
     appliedLeaveDuration: function(duration) {
       if (duration === 1) {
