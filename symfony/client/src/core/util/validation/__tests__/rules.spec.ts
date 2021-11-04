@@ -23,6 +23,7 @@ import {
   validPhoneNumberFormat,
   endTimeShouldBeAfterStartTime,
   startDateShouldBeBeforeEndDate,
+  startTimeShouldBeBeforeEndTime,
 } from '../rules';
 
 describe('core/util/validation/rules::required', () => {
@@ -328,5 +329,59 @@ describe('core/util/validation/rules::startDateShouldBeBeforeEndDate', () => {
       allowSameDate: true,
     })('2021-10-31');
     expect(result).toStrictEqual('Start date should be before end date');
+  });
+});
+
+describe('core/util/validation/rules::startTimeShouldBeBeforeEndTime', () => {
+  test('startTimeShouldBeBeforeEndTime:: should not validate on empty string', () => {
+    let result = startTimeShouldBeBeforeEndTime('')('');
+    expect(result).toEqual(true);
+
+    result = startTimeShouldBeBeforeEndTime('12:00')('');
+    expect(result).toEqual(true);
+  });
+
+  test('startTimeShouldBeBeforeEndTime:: should allow valid time', () => {
+    const result = startTimeShouldBeBeforeEndTime('09:00')('08:00');
+    expect(result).toEqual(true);
+  });
+
+  test('startTimeShouldBeBeforeEndTime:: should return message on invalid time', () => {
+    const result = startTimeShouldBeBeforeEndTime('07:00')('08:00');
+    expect(result).toEqual('Start time should be before end time');
+  });
+
+  test('startTimeShouldBeBeforeEndTime:: should allow valid time given as function', () => {
+    const result = startTimeShouldBeBeforeEndTime(() => '09:00')('08:00');
+    expect(result).toEqual(true);
+  });
+
+  test('startTimeShouldBeBeforeEndTime:: should return custom message on invalid time', () => {
+    const result = startTimeShouldBeBeforeEndTime(
+      '07:00',
+      'Invalid time',
+    )('08:00');
+    expect(result).toEqual('Invalid time');
+  });
+
+  test('startTimeShouldBeBeforeEndTime:: should allow valid time with custom format', () => {
+    const result = startTimeShouldBeBeforeEndTime('07:00 PM', undefined, {
+      timeFormat: 'hh:mm a',
+    })('11:00 AM');
+    expect(result).toEqual(true);
+  });
+
+  test('startTimeShouldBeBeforeEndTime:: should allow same time as end time when allowSameTime is true', () => {
+    const result = startTimeShouldBeBeforeEndTime('11:00', undefined, {
+      allowSameTime: true,
+    })('11:00');
+    expect(result).toEqual(true);
+  });
+
+  test('startTimeShouldBeBeforeEndTime:: should not allow invalid time when allowSameTime is true', () => {
+    const result = startTimeShouldBeBeforeEndTime('10:00', undefined, {
+      allowSameTime: true,
+    })('11:00');
+    expect(result).toEqual('Start time should be before end time');
   });
 });

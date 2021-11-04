@@ -160,7 +160,7 @@ export default {
     right: 8px;
     top: 0px;
     &.--green {
-      background-color: $oxd-secondary-four-color;
+      background-color: #93b40f;
     }
   }
 }
