@@ -20,7 +20,6 @@
 namespace OrangeHRM\Leave\Service;
 
 use DateTime;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Traits\ClassHelperTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
@@ -30,6 +29,7 @@ use OrangeHRM\Leave\Entitlement\EntitlementConsumptionStrategy;
 use OrangeHRM\Leave\Entitlement\FIFOEntitlementConsumptionStrategy;
 use OrangeHRM\Leave\Entitlement\LeaveBalance;
 use OrangeHRM\Leave\Traits\Service\LeaveConfigServiceTrait;
+use OrangeHRM\ORM\Exception\TransactionException;
 
 class LeaveEntitlementService
 {
@@ -141,7 +141,7 @@ class LeaveEntitlementService
      * @param DateTime $toDate
      * @param float $entitlement
      * @return LeaveEntitlement
-     * @throws \OrangeHRM\ORM\Exception\TransactionException
+     * @throws TransactionException
      */
     public function addEntitlementForEmployee(
         int $empNumber,
@@ -193,7 +193,7 @@ class LeaveEntitlementService
      * @param DateTime $toDate
      * @param float $entitlement
      * @return array array(LeaveEntitlement[], int)
-     * @throws \OrangeHRM\ORM\Exception\TransactionException
+     * @throws TransactionException
      */
     public function bulkAssignLeaveEntitlements(
         array $empNumbers,
