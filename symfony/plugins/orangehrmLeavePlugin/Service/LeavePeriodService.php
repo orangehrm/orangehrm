@@ -158,7 +158,7 @@ class LeavePeriodService
             throw new ServiceException('Leave Period Start Date Is Not Defined.');
         }
 
-        if (empty($this->leavePeriodList)) {
+        if ($forceReload || empty($this->leavePeriodList)) {
             $endDate = ($toDate != null) ? new DateTime($toDate) : $this->getDateTimeHelper()->getNow();
             //If To Date is not specified return leave type till next leave period
             if (is_null($toDate)) {

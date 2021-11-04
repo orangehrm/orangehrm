@@ -22,6 +22,7 @@ namespace OrangeHRM\Tests\Leave\Dao;
 use DateTime;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Exception\CoreServiceException;
+use OrangeHRM\Core\Service\DateTimeHelperService;
 use OrangeHRM\Entity\LeavePeriodHistory;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Leave\Dao\LeavePeriodDao;
@@ -145,6 +146,7 @@ class LeavePeriodDaoTest extends KernelTestCase
                 Services::LEAVE_CONFIG_SERVICE => $leaveConfigService,
                 Services::LEAVE_ENTITLEMENT_SERVICE => $leaveEntitlementService,
                 Services::LEAVE_PERIOD_SERVICE => $leavePeriodService,
+                Services::DATETIME_HELPER_SERVICE => new DateTimeHelperService(),
             ]
         );
         $result = $this->leavePeriodDao->saveLeavePeriodHistory($leavePeriodHistory);

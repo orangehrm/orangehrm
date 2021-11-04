@@ -141,7 +141,7 @@ class LeaveEntitlementService
      * @param DateTime $toDate
      * @param float $entitlement
      * @return LeaveEntitlement
-     * @throws DaoException
+     * @throws \OrangeHRM\ORM\Exception\TransactionException
      */
     public function addEntitlementForEmployee(
         int $empNumber,
@@ -177,7 +177,7 @@ class LeaveEntitlementService
             $leaveEntitlement->getDecorator()->setLeaveTypeById($leaveTypeId);
         }
 
-        $leaveEntitlement->setCreditedDate(new DateTime());
+        $leaveEntitlement->setCreditedDate($this->getDateTimeHelper()->getNow());
         $leaveEntitlement->setCreatedBy($this->getUserRoleManager()->getUser());
         $leaveEntitlement->getDecorator()->setEntitlementTypeById(LeaveEntitlement::ENTITLEMENT_TYPE_ADD);
         $leaveEntitlement->setFromDate($fromDate);
@@ -193,7 +193,7 @@ class LeaveEntitlementService
      * @param DateTime $toDate
      * @param float $entitlement
      * @return array array(LeaveEntitlement[], int)
-     * @throws DaoException
+     * @throws \OrangeHRM\ORM\Exception\TransactionException
      */
     public function bulkAssignLeaveEntitlements(
         array $empNumbers,
@@ -206,7 +206,7 @@ class LeaveEntitlementService
         $leaveEntitlement = new LeaveEntitlement();
         $leaveEntitlement->setNoOfDays($entitlement);
         $leaveEntitlement->getDecorator()->setLeaveTypeById($leaveTypeId);
-        $leaveEntitlement->setCreditedDate(new DateTime());
+        $leaveEntitlement->setCreditedDate($this->getDateTimeHelper()->getNow());
         $leaveEntitlement->setCreatedBy($this->getUserRoleManager()->getUser());
         $leaveEntitlement->getDecorator()->setEntitlementTypeById(LeaveEntitlement::ENTITLEMENT_TYPE_ADD);
         $leaveEntitlement->setFromDate($fromDate);
