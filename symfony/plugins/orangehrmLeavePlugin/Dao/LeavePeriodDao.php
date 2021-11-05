@@ -19,9 +19,9 @@
 
 namespace OrangeHRM\Leave\Dao;
 
-use DateTime;
 use Exception;
 use OrangeHRM\Core\Dao\BaseDao;
+use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\LeavePeriodHistory;
 use OrangeHRM\Leave\Traits\Service\LeaveConfigServiceTrait;
 use OrangeHRM\Leave\Traits\Service\LeaveEntitlementServiceTrait;
@@ -34,6 +34,7 @@ class LeavePeriodDao extends BaseDao
     use LeavePeriodServiceTrait;
     use LeaveEntitlementServiceTrait;
     use LeaveConfigServiceTrait;
+    use DateTimeHelperTrait;
 
     /**
      * @param LeavePeriodHistory $leavePeriodHistory
@@ -45,18 +46,20 @@ class LeavePeriodDao extends BaseDao
         $this->beginTransaction();
         try {
             $currentLeavePeriod = $this->getCurrentLeavePeriodStartDateAndMonth();
-            $this->persist($leavePeriodHistory);
 
             $isLeavePeriodDefined = $this->getLeaveConfigService()->isLeavePeriodDefined();
-            if (!$isLeavePeriodDefined) {
-                $this->getLeaveConfigService()->setLeavePeriodDefined(true);
-            }
-
-            if (!empty($currentLeavePeriod) && $isLeavePeriodDefined) {
+            if ($isLeavePeriodDefined) {
+                // Fetching current leave period before save new leave period
                 $leavePeriodForToday = $this->getLeavePeriodService()->getCurrentLeavePeriodByDate(
-                    new DateTime(),
+                    $this->getDateTimeHelper()->getNow(),
                     true
                 );
+            } else {
+                $this->getLeaveConfigService()->setLeavePeriodDefined(true);
+            }
+            $this->persist($leavePeriodHistory);
+
+            if (!empty($currentLeavePeriod) && $isLeavePeriodDefined) {
                 $oldStartMonth = $currentLeavePeriod->getStartMonth();
                 $oldStartDay = $currentLeavePeriod->getStartDay();
                 $newStartMonth = $leavePeriodHistory->getStartMonth();
@@ -99,7 +102,8 @@ class LeavePeriodDao extends BaseDao
     public function getLeavePeriodHistoryList(): array
     {
         $q = $this->createQueryBuilder(LeavePeriodHistory::class, 'leavePeriod');
-        $q->addOrderBy('leavePeriod.createdAt');
+        $q->addOrderBy('leavePeriod.createdAt')
+            ->addOrderBy('leavePeriod.id');
 
         return $q->getQuery()->execute();
     }

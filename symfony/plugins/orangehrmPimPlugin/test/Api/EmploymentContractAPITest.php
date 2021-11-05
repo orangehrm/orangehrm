@@ -37,6 +37,7 @@ use OrangeHRM\Pim\Dao\EmploymentContractDao;
 use OrangeHRM\Pim\Service\EmploymentContractService;
 use OrangeHRM\Tests\Util\EndpointTestCase;
 use OrangeHRM\Tests\Util\MockObject;
+use OrangeHRM\Tests\Util\TestDataService;
 
 /**
  * @group Pim
@@ -44,6 +45,11 @@ use OrangeHRM\Tests\Util\MockObject;
  */
 class EmploymentContractAPITest extends EndpointTestCase
 {
+    protected function setUp(): void
+    {
+        TestDataService::truncateSpecificTables([EmpContract::class, EmployeeAttachment::class]);
+    }
+
     public function testGetEmploymentContractService(): void
     {
         $api = new EmploymentContractAPI($this->getRequest());
@@ -306,6 +312,7 @@ class EmploymentContractAPITest extends EndpointTestCase
 
     public function testUpdateNewContractAttachment(): void
     {
+        $this->setDateTimeHelper();
         $empNumber = 1;
         $employmentContractDao = $this->getMockBuilder(EmploymentContractDao::class)
             ->onlyMethods(['getEmploymentContractByEmpNumber', 'saveEmploymentContract'])
@@ -466,6 +473,7 @@ class EmploymentContractAPITest extends EndpointTestCase
 
     public function testUpdateDeleteContractAttachment(): void
     {
+        $this->setDateTimeHelper();
         $empNumber = 1;
         $employmentContractDao = $this->getMockBuilder(EmploymentContractDao::class)
             ->onlyMethods(['getEmploymentContractByEmpNumber', 'saveEmploymentContract'])
@@ -568,6 +576,7 @@ class EmploymentContractAPITest extends EndpointTestCase
 
     public function testUpdateReplaceContractAttachment(): void
     {
+        $this->setDateTimeHelper();
         $empNumber = 1;
         $employmentContractDao = $this->getMockBuilder(EmploymentContractDao::class)
             ->onlyMethods(['getEmploymentContractByEmpNumber', 'saveEmploymentContract'])
@@ -716,5 +725,15 @@ class EmploymentContractAPITest extends EndpointTestCase
                 $rules
             )
         );
+    }
+
+    private function setDateTimeHelper(): void
+    {
+        $dateTimeHelper = $this->getMockBuilder(DateTimeHelperService::class)
+            ->onlyMethods(['getNow'])
+            ->getMock();
+        $dateTimeHelper->method('getNow')
+            ->willReturn(new DateTime('2021-10-04'));
+        $this->createKernelWithMockServices([Services::DATETIME_HELPER_SERVICE => $dateTimeHelper]);
     }
 }

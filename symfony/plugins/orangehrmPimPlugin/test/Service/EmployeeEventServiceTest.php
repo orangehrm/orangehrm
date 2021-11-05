@@ -22,19 +22,21 @@ namespace OrangeHRM\Tests\Pim\Service;
 use DateTime;
 use Generator;
 use OrangeHRM\Core\Authorization\Manager\BasicUserRoleManager;
+use OrangeHRM\Core\Service\DateTimeHelperService;
 use OrangeHRM\Entity\EmployeeEvent;
 use OrangeHRM\Entity\User;
 use OrangeHRM\Entity\UserRole;
+use OrangeHRM\Framework\Services;
 use OrangeHRM\Pim\Dao\EmployeeEventDao;
 use OrangeHRM\Pim\Dto\EmployeeEventSearchFilterParams;
 use OrangeHRM\Pim\Service\EmployeeEventService;
-use OrangeHRM\Tests\Util\TestCase;
+use OrangeHRM\Tests\Util\KernelTestCase;
 
 /**
  * @group Pim
  * @group Service
  */
-class EmployeeEventServiceTest extends TestCase
+class EmployeeEventServiceTest extends KernelTestCase
 {
     public function testSaveEmployeeEvent(): void
     {
@@ -79,6 +81,15 @@ class EmployeeEventServiceTest extends TestCase
         $employeeEventService->expects($this->once())
             ->method('getUserRole')
             ->willReturn('Admin');
+
+        $dateTimeHelper = $this->getMockBuilder(DateTimeHelperService::class)
+            ->onlyMethods(['getNow'])
+            ->getMock();
+        $dateTimeHelper->expects($this->once())
+            ->method('getNow')
+            ->willReturn(new DateTime('2021-10-04'));
+        $this->createKernelWithMockServices([Services::DATETIME_HELPER_SERVICE => $dateTimeHelper]);
+
         $resultEmployeeEvent = $employeeEventService->saveEvent(
             1,
             EmployeeEvent::EVENT_TYPE_EMPLOYEE,
@@ -92,6 +103,7 @@ class EmployeeEventServiceTest extends TestCase
         $this->assertEquals($employeeEvent->getNote(), $resultEmployeeEvent->getNote());
         $this->assertEquals('Admin', $resultEmployeeEvent->getCreatedBy());
         $this->assertTrue($resultEmployeeEvent->getCreatedDate() instanceof DateTime);
+        $this->assertEquals('2021-10-04', $resultEmployeeEvent->getCreatedDate()->format('Y-m-d'));
     }
 
     /**

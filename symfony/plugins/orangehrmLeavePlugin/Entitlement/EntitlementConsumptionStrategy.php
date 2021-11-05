@@ -50,7 +50,6 @@ interface EntitlementConsumptionStrategy
      * @param int $oldStartDay
      * @param int $newStartMonth
      * @param int $newStartDay
-     * @return mixed
      */
     public function handleLeavePeriodChange(
         LeavePeriod $leavePeriodForToday,
