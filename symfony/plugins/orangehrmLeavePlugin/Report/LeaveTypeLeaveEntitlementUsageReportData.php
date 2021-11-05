@@ -24,6 +24,7 @@ use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Report\ReportData;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
+use OrangeHRM\Core\Traits\Service\NumberHelperTrait;
 use OrangeHRM\Entity\LeaveType;
 use OrangeHRM\Leave\Api\Model\LeaveTypeModel;
 use OrangeHRM\Leave\Dto\LeaveTypeLeaveEntitlementUsageReportSearchFilterParams;
@@ -38,6 +39,7 @@ class LeaveTypeLeaveEntitlementUsageReportData implements ReportData
     use EmployeeServiceTrait;
     use DateTimeHelperTrait;
     use NormalizerServiceTrait;
+    use NumberHelperTrait;
 
     private LeaveTypeLeaveEntitlementUsageReportSearchFilterParams $filterParams;
 
@@ -72,11 +74,16 @@ class LeaveTypeLeaveEntitlementUsageReportData implements ReportData
             $result[] = [
                 LeaveTypeLeaveEntitlementUsageReport::PARAMETER_EMPLOYEE_NAME => $employee->getDecorator()
                     ->getFirstAndLastNames(),
-                LeaveTypeLeaveEntitlementUsageReport::PARAMETER_ENTITLEMENT_DAYS => $balance->getEntitled(),
-                LeaveTypeLeaveEntitlementUsageReport::PARAMETER_PENDING_APPROVAL_DAYS => $balance->getPending(),
-                LeaveTypeLeaveEntitlementUsageReport::PARAMETER_SCHEDULED_DAYS => $balance->getScheduled(),
-                LeaveTypeLeaveEntitlementUsageReport::PARAMETER_TAKEN_DAYS => $balance->getTaken(),
-                LeaveTypeLeaveEntitlementUsageReport::PARAMETER_BALANCE_DAYS => $balance->getBalance(),
+                LeaveTypeLeaveEntitlementUsageReport::PARAMETER_ENTITLEMENT_DAYS => $this->getNumberHelper()
+                    ->numberFormatWithGroupedThousands($balance->getEntitled(), 2),
+                LeaveTypeLeaveEntitlementUsageReport::PARAMETER_PENDING_APPROVAL_DAYS => $this->getNumberHelper()
+                    ->numberFormatWithGroupedThousands($balance->getPending(), 2),
+                LeaveTypeLeaveEntitlementUsageReport::PARAMETER_SCHEDULED_DAYS => $this->getNumberHelper()
+                    ->numberFormatWithGroupedThousands($balance->getScheduled(), 2),
+                LeaveTypeLeaveEntitlementUsageReport::PARAMETER_TAKEN_DAYS => $this->getNumberHelper()
+                    ->numberFormatWithGroupedThousands($balance->getTaken(), 2),
+                LeaveTypeLeaveEntitlementUsageReport::PARAMETER_BALANCE_DAYS => $this->getNumberHelper()
+                    ->numberFormatWithGroupedThousands($balance->getBalance(), 2),
                 'terminationId' => $employee->getEmployeeTerminationRecord() ?
                     $employee->getEmployeeTerminationRecord()->getId() : null,
                 '_url' => [

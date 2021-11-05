@@ -23,6 +23,7 @@ use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Report\ReportData;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
+use OrangeHRM\Core\Traits\Service\NumberHelperTrait;
 use OrangeHRM\Leave\Dto\EmployeeLeaveEntitlementUsageReportSearchFilterParams;
 use OrangeHRM\Leave\Traits\Service\LeaveEntitlementServiceTrait;
 use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
@@ -32,6 +33,7 @@ class EmployeeLeaveEntitlementUsageReportData implements ReportData
     use LeaveEntitlementServiceTrait;
     use EmployeeServiceTrait;
     use DateTimeHelperTrait;
+    use NumberHelperTrait;
 
     public const META_PARAMETER_EMPLOYEE = 'employee';
 
@@ -65,11 +67,16 @@ class EmployeeLeaveEntitlementUsageReportData implements ReportData
                 );
             $result[] = [
                 EmployeeLeaveEntitlementUsageReport::PARAMETER_LEAVE_TYPE_NAME => $leaveType->getName(),
-                EmployeeLeaveEntitlementUsageReport::PARAMETER_ENTITLEMENT_DAYS => $balance->getEntitled(),
-                EmployeeLeaveEntitlementUsageReport::PARAMETER_PENDING_APPROVAL_DAYS => $balance->getPending(),
-                EmployeeLeaveEntitlementUsageReport::PARAMETER_SCHEDULED_DAYS => $balance->getScheduled(),
-                EmployeeLeaveEntitlementUsageReport::PARAMETER_TAKEN_DAYS => $balance->getTaken(),
-                EmployeeLeaveEntitlementUsageReport::PARAMETER_BALANCE_DAYS => $balance->getBalance(),
+                EmployeeLeaveEntitlementUsageReport::PARAMETER_ENTITLEMENT_DAYS => $this->getNumberHelper()
+                    ->numberFormatWithGroupedThousands($balance->getEntitled(), 2),
+                EmployeeLeaveEntitlementUsageReport::PARAMETER_PENDING_APPROVAL_DAYS => $this->getNumberHelper()
+                    ->numberFormatWithGroupedThousands($balance->getPending(), 2),
+                EmployeeLeaveEntitlementUsageReport::PARAMETER_SCHEDULED_DAYS => $this->getNumberHelper()
+                    ->numberFormatWithGroupedThousands($balance->getScheduled(), 2),
+                EmployeeLeaveEntitlementUsageReport::PARAMETER_TAKEN_DAYS => $this->getNumberHelper()
+                    ->numberFormatWithGroupedThousands($balance->getTaken(), 2),
+                EmployeeLeaveEntitlementUsageReport::PARAMETER_BALANCE_DAYS => $this->getNumberHelper()
+                    ->numberFormatWithGroupedThousands($balance->getBalance(), 2),
                 'leaveTypeDeleted' => $leaveType->isDeleted(),
                 '_url' => [
                     EmployeeLeaveEntitlementUsageReport::PARAMETER_ENTITLEMENT_DAYS => '/leave/viewLeaveEntitlements' .
