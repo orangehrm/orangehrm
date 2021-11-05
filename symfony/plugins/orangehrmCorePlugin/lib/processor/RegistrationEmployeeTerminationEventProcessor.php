@@ -28,21 +28,25 @@ class RegistrationEmployeeTerminationEventProcessor extends AbstractRegistration
     public function getEventData(): array
     {
         $registrationData = $this->getRegistrationEventGeneralData();
-        $employeeSearchFilterParams = new EmployeeSearchFilterParams();
-        $employeeSearchFilterParams->setIncludeEmployees(EmployeeSearchFilterParams::INCLUDE_EMPLOYEES_ONLY_PAST);
-        $employeeCount = $this->getEmployeeService()->getEmployeeCount($employeeSearchFilterParams);
+        $totalEmployeeCount = $this->getEmployeeCount(true);
+        $activeEmployeeCOunt = $this->getEmployeeCount();
+        $employeeCount = $totalEmployeeCount - $activeEmployeeCOunt;
         $registrationData['employee_count'] = $employeeCount;
         return $registrationData;
     }
 
     public function getEventToBeSavedOrNot(): bool
     {
-        $employeeSearchFilterParams = new EmployeeSearchFilterParams();
-        $employeeSearchFilterParams->setIncludeEmployees(EmployeeSearchFilterParams::INCLUDE_EMPLOYEES_ONLY_PAST);
-        $employeeCount = $this->getEmployeeService()->getEmployeeCount($employeeSearchFilterParams);
+        $totalEmployeeCount = $this->getEmployeeCount(true);
+        $activeEmployeeCOunt = $this->getEmployeeCount();
+        $employeeCount = $totalEmployeeCount - $activeEmployeeCOunt;
         if ($employeeCount % RegistrationEventQueue::EMPLOYEE_COUNT_CHANGE_TRACKER_SIZE == 0) {
             return true;
         }
         return false;
+    }
+
+    public function getEmployeeCount($includeTerminated = false) {
+        return $this->getEmployeeDao()->getEmployeeCount($includeTerminated);
     }
 }

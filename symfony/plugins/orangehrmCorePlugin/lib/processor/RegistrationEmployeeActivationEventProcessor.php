@@ -28,21 +28,21 @@ class RegistrationEmployeeActivationEventProcessor extends AbstractRegistrationE
     public function getEventData(): array
     {
         $registrationData = $this->getRegistrationEventGeneralData();
-        $employeeSearchFilterParams = new EmployeeSearchFilterParams();
-        $employeeSearchFilterParams->setIncludeEmployees(EmployeeSearchFilterParams::INCLUDE_EMPLOYEES_ONLY_CURRENT);
-        $employeeCount = $this->getEmployeeService()->getEmployeeCount($employeeSearchFilterParams);
+        $employeeCount = $this->getEmployeeCount();
         $registrationData['employee_count'] = $employeeCount;
         return $registrationData;
     }
 
     public function getEventToBeSavedOrNot(): bool
     {
-        $employeeSearchFilterParams = new EmployeeSearchFilterParams();
-        $employeeSearchFilterParams->setIncludeEmployees(EmployeeSearchFilterParams::INCLUDE_EMPLOYEES_ONLY_CURRENT);
-        $employeeCount = $this->getEmployeeService()->getEmployeeCount($employeeSearchFilterParams);
+        $employeeCount = $this->getEmployeeCount();
         if ($employeeCount % RegistrationEventQueue::EMPLOYEE_COUNT_CHANGE_TRACKER_SIZE == 0) {
             return true;
         }
         return false;
+    }
+
+    public function getEmployeeCount($includeTerminated = false) {
+        return $this->getEmployeeDao()->getEmployeeCount($includeTerminated);
     }
 }

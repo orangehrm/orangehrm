@@ -156,7 +156,7 @@ class SystemDetailHelper
         return array(
             "os" => $this->getOsDetails(),
             "php" => $this->getPhpDetails(),
-            "mysql" => $this->getMySqlDetails(),
+//            "mysql" => $this->getMySqlDetails(),
             "server" => $this->getServerDetails(),
             "ohrm" => $this->getOhrmDetails(),
         );

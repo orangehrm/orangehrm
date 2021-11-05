@@ -25,7 +25,7 @@ abstract class AbstractRegistrationEventProcessor
     public $registrationAPIClientService;
     public $organizationService;
 
-    public function getRegistrationEventQueueDao(): RegistrationEventQueueDao
+    public function getRegistrationEventQueueDao()
     {
         if (!($this->registrationEventQueueDao instanceof RegistrationEventQueueDao)) {
             $this->registrationEventQueueDao = new RegistrationEventQueueDao();
@@ -33,7 +33,7 @@ abstract class AbstractRegistrationEventProcessor
         return $this->registrationEventQueueDao;
     }
 
-    public function getEmployeeDao(): EmployeeDao
+    public function getEmployeeDao()
     {
         if (!isset($this->employeeDao)) {
             $this->employeeDao = new EmployeeDao();
@@ -41,7 +41,7 @@ abstract class AbstractRegistrationEventProcessor
         return $this->employeeDao;
     }
 
-    public function getUserDao(): UserDao
+    public function getUserDao()
     {
         if (!isset($this->userDao)) {
             $this->userDao = new UserDao();
@@ -65,7 +65,7 @@ abstract class AbstractRegistrationEventProcessor
     /**
      * @return ConfigService
      */
-    public function getConfigService(): ConfigService
+    public function getConfigService()
     {
         if (!($this->configService instanceof ConfigService)) {
             $this->configService = new ConfigService();
@@ -73,7 +73,7 @@ abstract class AbstractRegistrationEventProcessor
         return $this->configService;
     }
 
-    public function getRegistrationAPIClientService(): RegistrationAPIClientService
+    public function getRegistrationAPIClientService()
     {
         if (!($this->registrationAPIClientService instanceof RegistrationAPIClientService)) {
             $this->registrationAPIClientService = new RegistrationAPIClientService();
@@ -81,7 +81,7 @@ abstract class AbstractRegistrationEventProcessor
         return $this->registrationAPIClientService;
     }
 
-    public function getOrganizationService(): OrganizationService
+    public function getOrganizationService()
     {
         if (!($this->organizationService instanceof OrganizationService)) {
             $this->organizationService = new OrganizationService();
@@ -89,11 +89,19 @@ abstract class AbstractRegistrationEventProcessor
         return $this->organizationService;
     }
 
+    public function getMarketplaceDao()
+    {
+        if (!isset($this->marketplaceDao)) {
+            $this->marketplaceDao = new MarketplaceDao();
+        }
+        return $this->marketplaceDao;
+    }
+
     /**
      * @return string
      * @throws CoreServiceException
      */
-    private function getInstanceIdentifier(): string
+    private function getInstanceIdentifier()
     {
         return $this->getConfigService()->getInstanceIdentifier();
     }
@@ -102,23 +110,22 @@ abstract class AbstractRegistrationEventProcessor
     {
         if ($this->getEventToBeSavedOrNot()) {
             $registrationEvent = $this->processRegistrationEventToSave($eventTime);
-            return $this->getRegistrationEventQueueDao()->saveRegistrationEvent($registrationEvent);
+            return $this->getRegistrationEventQueueDao()->saveRegistrationEventQueue($registrationEvent);
         }
     }
 
-    public function getRegistrationEventGeneralData(): array
+    public function getRegistrationEventGeneralData()
     {
         $registrationData = [];
         try {
-            $adminUsers = $this->getUserDao()->getEmployeesByUserRole('Admin');
-            $adminEmployee = $adminUsers[0];
+            $adminEmployee = $this->getMarketplaceDao()->getAdmin();
             $language = $this->getConfigService()->getAdminLocalizationDefaultLanguage() ? $this->getConfigService(
             )->getAdminLocalizationDefaultLanguage() : 'Not captured';
             $country = $this->getOrganizationService()->getOrganizationGeneralInformation()->getCountry(
             ) ? $this->getOrganizationService()->getOrganizationGeneralInformation()->getCountry() : null;
             $instanceIdentifier = $this->getInstanceIdentifier();
             $organizationName = $this->getOrganizationService()->getOrganizationGeneralInformation()->getName();
-            $systemDetailsHelper = new SystemConfigurationHelper();
+            $systemDetailsHelper = new SystemDetailHelper();
             $systemDetails = $systemDetailsHelper->getSystemDetailsAsJson();
             $organizationEmail = '';
             $adminFirstName = '';
@@ -127,10 +134,10 @@ abstract class AbstractRegistrationEventProcessor
             $username = 'Not Captured';
             $timeZone = date_default_timezone_get();
             if ($adminEmployee instanceof Employee) {
-                $organizationEmail = $adminEmployee->getWorkEmail();
+                $organizationEmail = $adminEmployee->getEmpWorkEmail();
                 $adminFirstName = $adminEmployee->getFirstName();
                 $adminLastName = $adminEmployee->getLastName();
-                $adminContactNumber = $adminEmployee->getWorkTelephone();
+                $adminContactNumber = $adminEmployee->getEmpWorkTelephone();
             }
 
             return array(
@@ -151,7 +158,7 @@ abstract class AbstractRegistrationEventProcessor
         }
     }
 
-    public function processRegistrationEventToSave(DateTime $eventTime): RegistrationEventQueue
+    public function processRegistrationEventToSave(DateTime $eventTime)
     {
         $registrationData = $this->getEventData();
         $registrationEvent = new RegistrationEventQueue();
@@ -172,7 +179,7 @@ abstract class AbstractRegistrationEventProcessor
             if ($eventsToPublish) {
                 foreach ($eventsToPublish as $event) {
                     $postData = $this->getRegistrationEventPublishDataPrepared($event);
-                    $result = $this->getRegistrationAPIClientService()->publishData($postData);
+                    $result = $this->getRegistrationAPIClientService()->publishRegistrationData($postData);
                     if ($result) {
                         $event->setPublished(1);
                         $event->setPublishTime(new DateTime());

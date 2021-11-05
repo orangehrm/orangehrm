@@ -19,7 +19,7 @@
  */
 class RegistrationEventProcessorFactory
 {
-    public function getRegistrationEventProcessor(string $eventType)
+    public function getRegistrationEventProcessor(int $eventType)
     {
         if ($eventType == RegistrationEventQueue::INSTALLATION_START) {
             return new RegistrationStartEventProcessor();
