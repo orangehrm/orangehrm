@@ -18,12 +18,12 @@
  */
 
 class orangehrmPublishAssetsTask extends sfBaseTask {
-    
+
     const RESOURCE_DIR_PREFIX = 'webres_';
     const RESOURCE_DIR_INC_FILE = 'resource_dir_inc.php';
-    
+
     protected $resourceDir;
-    
+
     protected function configure() {
         $this->namespace = 'orangehrm';
         $this->name = 'publish-assets';
@@ -44,16 +44,16 @@ EOF;
         // delete old resource directory:
         $oldResourceDirs = sfFinder::type('directory')->name(self::RESOURCE_DIR_PREFIX . '*')
                 ->maxdepth(0)->in(sfConfig::get('sf_web_dir'));
-        
+
         foreach ($oldResourceDirs as $oldResourceDir) {
             $this->directoryRecursiveDelete($oldResourceDir);
         }
-        
+
         $uniqueResourceDir = uniqid('webres_', true);
-        
-        $this->resourceDir = sfConfig::get('sf_web_dir') . DIRECTORY_SEPARATOR . $uniqueResourceDir;        
+
+        $this->resourceDir = sfConfig::get('sf_web_dir') . DIRECTORY_SEPARATOR . $uniqueResourceDir;
         mkdir($this->resourceDir);
-        
+
         //check for enabled plugins
         foreach ($this->configuration->getPlugins() as $plugin)
         if (stripos($plugin, 'orangehrm') !== FALSE) {
@@ -61,18 +61,18 @@ EOF;
             $this->logSection('orangehrm', 'Publishing assets for plugin - ' . $pluginPath);
             $this->copyWebAssets($plugin, $pluginPath);
         }
-        
+
         // Copy main resources
         $symfonyWeb = sfConfig::get('sf_web_dir');
 
         $toCopy = array('images', 'js', 'themes');
-        
+
         foreach ($toCopy as $dir) {
             $this->logSection('orangehrm', 'Mirroring ' . $dir . ' to ' . $uniqueResourceDir . DIRECTORY_SEPARATOR . $dir);
-            $this->mirrorDir($symfonyWeb . DIRECTORY_SEPARATOR . $dir, 
-                    $this->resourceDir. DIRECTORY_SEPARATOR . $dir);            
+            $this->mirrorDir($symfonyWeb . DIRECTORY_SEPARATOR . $dir,
+                    $this->resourceDir. DIRECTORY_SEPARATOR . $dir);
         }
-        
+
         // update resource dir in php file
         $resourceIncFile = sfConfig::get('sf_web_dir') . DIRECTORY_SEPARATOR . self::RESOURCE_DIR_INC_FILE;
         $fp = @fopen($resourceIncFile, 'w');
@@ -80,40 +80,40 @@ EOF;
         if ($fp === false) {
             throw new Doctrine_Compiler_Exception("Couldn't write resource inc file data. Failed to open $resourceIncFile");
         }
-        
+
         $propertiesToSet = array(
             'sf_web_css_dir_name' => $uniqueResourceDir .  '/css',
             'sf_web_js_dir_name' => $uniqueResourceDir . '/js',
             'sf_web_images_dir_name' => $uniqueResourceDir . '/images',
             );
-        
+
         $content = "<?php \n";
-        
+
         foreach ($propertiesToSet as $key => $value) {
             $content .= "sfConfig::set('$key','$value');\n";
         }
-        
+
         $content .= "sfConfig::set('ohrm_resource_dir', '" . $uniqueResourceDir . "');";
-        
+
 
         fwrite($fp, $content);
-        fclose($fp);        
+        fclose($fp);
     }
 
     private function copyWebAssets($plugin, $dir) {
         $webDir = $dir.DIRECTORY_SEPARATOR.'web';
 
-        
+
         if (is_dir($webDir)) {
             $this->mirrorDir($webDir, $this->resourceDir.DIRECTORY_SEPARATOR.$plugin);
         }
         return;
     }
-    
+
     private function mirrorDir($src, $dest) {
         $finder = sfFinder::type('any');
-        $filesystem = new sfFilesystem();                    
-        $filesystem->mirror($src, $dest, $finder);        
+        $filesystem = new sfFilesystem();
+        $filesystem->mirror($src, $dest, $finder);
     }
 
     private function directoryRecursiveDelete($dir) {
@@ -127,6 +127,57 @@ EOF;
             reset($objects);
             rmdir($dir);
         }
+    }
+
+    private static function createResourceFiles($uniqueResourceDir)
+    {
+        $resourceIncFile = sfConfig::get('sf_web_dir') . DIRECTORY_SEPARATOR . self::RESOURCE_DIR_INC_FILE;
+        $fp = @fopen($resourceIncFile, 'w');
+
+        if ($fp === false) {
+            throw new Doctrine_Compiler_Exception("Couldn't write resource inc file data. Failed to open $resourceIncFile");
+        }
+
+        $propertiesToSet = array(
+            'sf_web_css_dir_name' => $uniqueResourceDir . '/css',
+            'sf_web_js_dir_name' => $uniqueResourceDir . '/js',
+            'sf_web_images_dir_name' => $uniqueResourceDir . '/images',
+            'ohrm_resource_dir' => $uniqueResourceDir,
+        );
+
+        $content = "<?php \n if (class_exists('sfConfig')) {\n";
+
+        foreach ($propertiesToSet as $key => $value) {
+            $content .= "    sfConfig::set('$key','$value');\n";
+        }
+
+        //$content .= "    sfConfig::set('ohrm_resource_dir', '" . $uniqueResourceDir . "');\n";
+        $content .= "} else {\n";
+        $content .= '    $resourceDir="' . $uniqueResourceDir . '";' . "\n";
+        $content .= "}\n";
+
+        fwrite($fp, $content);
+        fclose($fp);
+
+    }
+
+    public static function renameWebResourceDir($oldUniqueResourceDir = null,$uniqueResourceDir = null){
+        if( is_null($uniqueResourceDir)){
+            $uniqueResourceDir = uniqid('webres_', true);
+
+        }
+        if(is_null($oldUniqueResourceDir)) {
+            $oldUniqueResourceDir =  sfConfig::get('ohrm_resource_dir') ;
+        }
+        $resourceDir = sfConfig::get('sf_web_dir') . DIRECTORY_SEPARATOR . $uniqueResourceDir;
+        $oldResourceDir = sfConfig::get('sf_web_dir') . DIRECTORY_SEPARATOR . $oldUniqueResourceDir;
+        $sucess = rename($oldResourceDir,$resourceDir);
+
+        if($sucess){
+            self::createResourceFiles($uniqueResourceDir);
+            return $uniqueResourceDir;
+        }
+
     }
 }
 ?>

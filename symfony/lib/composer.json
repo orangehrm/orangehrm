@@ -31,7 +31,8 @@
     "psr/log": "^1.0",
     "google/apiclient": "^2.0",
     "bjeavons/zxcvbn-php": "^0.3",
-    "bshaffer/oauth2-server-php": "^1.11"
+    "bshaffer/oauth2-server-php": "^1.11",
+    "scssphp/scssphp": "^1.8"
   },
   "require-dev": {
     "codeception/codeception": "^2.2",

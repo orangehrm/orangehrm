@@ -1,0 +1,99 @@
+/* ================ Application header styles: Begin ================ */
+#branding {
+  height:91px;
+  padding:0 25px 0 25px;
+}
+#branding img {
+  margin:14px 0 0 0;
+}
+.subscribe {
+  padding:10px 15px 12px 15px;
+  font-size:13px;
+  color:#fff;
+  text-decoration:none;
+  -moz-border-radius-bottomright: 3px;
+  -webkit-border-bottom-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+  -moz-border-radius-bottomleft: 3px;
+  -webkit-border-bottom-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+  background: rgb(40, 134, 49);
+  background: -moz-linear-gradient(90deg, rgb(40, 134, 49) 20%, rgb(124, 202, 132) 100%);
+  background: -webkit-linear-gradient(90deg, rgb(40, 134, 49) 20%, rgb(124, 202, 132) 100%);
+  background: -o-linear-gradient(90deg, rgb(40, 134, 49) 20%, rgb(124, 202, 132) 100%);
+  background: -ms-linear-gradient(90deg, rgb(40, 134, 49) 20%, rgb(124, 202, 132) 100%);
+  background: linear-gradient(90deg, rgb(40, 134, 49) 20%, rgb(124, 202, 132) 100%);
+  float:right;
+}
+.subscribe:hover {
+  background: #288832;
+  color:#fff;
+}
+#welcome {
+  color:#5d5d5d;
+  background: url($imagesPath + "welcome-down.png") no-repeat center right;
+  padding:2px 32px 1px 1px;
+  text-decoration:none;
+  position:absolute;
+  top:70px;
+  right:35px;
+  z-index:999;
+}
+#wrapper .activated-welcome {
+  background: url($imagesPath + "welcome-up.png") no-repeat center right;
+}
+#welcome-menu {
+  background:#454648;
+  z-index:1100;
+  position:absolute;
+  top:88px;
+  right:30px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  padding:5px 10px;
+  display:none;
+  min-width:122px;
+}
+#welcome-menu li a {
+  color:#fff;
+  line-height:20px;
+  text-decoration:none;
+}
+#welcome-menu li a:hover {
+  text-decoration:underline;
+}
+#help {
+  color:#f28c38;
+  background: url($imagesPath + "help-down.png") no-repeat center right;
+  padding:2px 15px 1px 1px;
+  text-decoration:none;
+  z-index:999;
+  float:right;
+  margin:10px 15px 0 0;
+}
+#wrapper .activated-help {
+  background: url($imagesPath + "help-up.png") no-repeat center right;
+}
+#help-menu {
+  background:#454648;
+  z-index:9998;
+  position:absolute;
+  top:30px;
+  right:230px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  padding:5px 10px;
+  display:none;
+  min-width:122px;
+}
+#help-menu li a {
+  color:#fff;
+  line-height:20px;
+  text-decoration:none;
+}
+#help-menu li a:hover {
+  text-decoration:underline;
+}
+/* ================ Application header styles: End ================ */
