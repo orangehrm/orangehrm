@@ -24,7 +24,7 @@
       <oxd-text tag="h6" class="orangehrm-main-title">Add Report</oxd-text>
       <oxd-divider />
 
-      <oxd-form ref="formRef" :loading="isLoading" @submitValid="onSave">
+      <oxd-form :loading="isLoading" @submitValid="onSave">
         <oxd-form-row>
           <oxd-grid :cols="2" class="orangehrm-full-width-grid">
             <oxd-grid-item>
@@ -115,11 +115,7 @@
                 />
               </oxd-input-group>
             </oxd-grid-item>
-            <oxd-grid-item v-if="errorMsg" class="--offset-column-1">
-              <oxd-text class="orangehrm-report-error" tag="p">
-                {{ errorMsg }}
-              </oxd-text>
-            </oxd-grid-item>
+
             <!-- start display group fields -->
             <report-display-field
               v-for="(fieldGroup, index) in report.fieldGroupSelected"
@@ -194,8 +190,6 @@ export default {
     );
     const {
       report,
-      formRef,
-      errorMsg,
       addCriterion,
       serializeBody,
       addDisplayField,
@@ -214,8 +208,6 @@ export default {
     return {
       http,
       report,
-      formRef,
-      errorMsg,
       addCriterion,
       serializeBody,
       addDisplayField,
@@ -248,6 +240,13 @@ export default {
       navigate('/pim/viewDefinedPredefinedReports');
     },
     onSave() {
+      if (Object.keys(this.report.displayFieldSelected).length === 0) {
+        return this.$toast.warn({
+          title: 'Warning',
+          message: 'At least one display field should be added',
+        });
+      }
+
       this.isLoading = true;
       let reportId = null;
       const payload = this.serializeBody(this.report);
