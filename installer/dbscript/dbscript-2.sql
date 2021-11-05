@@ -3545,11 +3545,17 @@ UPDATE `ohrm_screen` SET `module_id` = @pim_module_id WHERE `action_url` = 'view
 UPDATE `ohrm_screen` SET `module_id` = @pim_module_id WHERE `action_url` = 'definePredefinedReport';
 UPDATE `ohrm_screen` SET `module_id` = @pim_module_id WHERE `action_url` = 'displayPredefinedReport';
 
-UPDATE `ohrm_menu_item` SET `additional_params` = '{\"icon\":\"icon-admin\"}' WHERE `ohrm_menu_item`.`menu_title` = 'Admin';
-UPDATE `ohrm_menu_item` SET `additional_params` = '{\"icon\":\"icon-pim\"}' WHERE `ohrm_menu_item`.`menu_title` = 'PIM';
-UPDATE `ohrm_menu_item` SET `additional_params` = '{\"icon\":\"icon-time\"}' WHERE `ohrm_menu_item`.`menu_title` = 'Time';
-UPDATE `ohrm_menu_item` SET `additional_params` = '{\"icon\":\"icon-leave\"}' WHERE `ohrm_menu_item`.`menu_title` = 'Leave';
-UPDATE `ohrm_menu_item` SET `additional_params` = '{\"icon\":\"icon-recruitment\"}' WHERE `ohrm_menu_item`.`menu_title` = 'Recruitment';
+UPDATE `ohrm_menu_item` SET `additional_params` = '{\"icon\":\"admin\"}' WHERE `ohrm_menu_item`.`menu_title` = 'Admin';
+UPDATE `ohrm_menu_item` SET `additional_params` = '{\"icon\":\"pim\"}' WHERE `ohrm_menu_item`.`menu_title` = 'PIM';
+UPDATE `ohrm_menu_item` SET `additional_params` = '{\"icon\":\"time\"}' WHERE `ohrm_menu_item`.`menu_title` = 'Time';
+UPDATE `ohrm_menu_item` SET `additional_params` = '{\"icon\":\"leave\"}' WHERE `ohrm_menu_item`.`menu_title` = 'Leave';
+UPDATE `ohrm_menu_item` SET `additional_params` = '{\"icon\":\"recruitment\"}' WHERE `ohrm_menu_item`.`menu_title` = 'Recruitment';
+UPDATE `ohrm_menu_item` SET `additional_params` = '{\"icon\":\"myinfo\"}' WHERE `ohrm_menu_item`.`menu_title` = 'My Info';
+UPDATE `ohrm_menu_item` SET `additional_params` = '{\"icon\":\"performance\"}' WHERE `ohrm_menu_item`.`menu_title` = 'Performance';
+UPDATE `ohrm_menu_item` SET `additional_params` = '{\"icon\":\"dashboard\"}' WHERE `ohrm_menu_item`.`menu_title` = 'Dashboard';
+UPDATE `ohrm_menu_item` SET `additional_params` = '{\"icon\":\"directory\"}' WHERE `ohrm_menu_item`.`menu_title` = 'Directory';
+UPDATE `ohrm_menu_item` SET `additional_params` = '{\"icon\":\"maintenance\"}' WHERE `ohrm_menu_item`.`menu_title` = 'Maintenance';
+UPDATE `ohrm_menu_item` SET `additional_params` = '{\"icon\":\"buzz\"}' WHERE `ohrm_menu_item`.`menu_title` = 'Buzz';
 
 -- Should remove once implement dashboard screen
 UPDATE `ohrm_home_page` SET action='pim/viewPimModule' WHERE `user_role_id`=1;

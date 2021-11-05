@@ -62,7 +62,7 @@ describe('Job - PayGrade test script', function () {
         ':nth-child(1) > .oxd-table-row > [style="flex-shrink: 1;"] > .oxd-table-cell-actions > :nth-child(2) > .oxd-icon',
       ).click();
       cy.get(':nth-child(2) > .oxd-input').click().clear().type('AAAAexist');
-      cy.get('.oxd-button--secondary').click();
+      cy.get('.oxd-form-actions > .oxd-button--secondary').click();
       cy.get('.oxd-toast-container--bottom').should(
         'include.text',
         'Successfully Updated',

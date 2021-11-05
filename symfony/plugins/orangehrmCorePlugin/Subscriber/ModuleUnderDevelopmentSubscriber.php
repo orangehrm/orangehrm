@@ -37,7 +37,10 @@ class ModuleUnderDevelopmentSubscriber extends AbstractEventSubscriber
         'directory',
         'dashboard',
         'maintenance',
-        'buzz'
+        'buzz',
+        'admin/localization',
+        'admin/languagePackage',
+        'admin/openIdProvider',
     ];
 
     /**
@@ -55,8 +58,8 @@ class ModuleUnderDevelopmentSubscriber extends AbstractEventSubscriber
     public function onRequestEvent(RequestEvent $event)
     {
         if ($event->isMasterRequest()) {
-            foreach (self::MODULE_UNDER_DEVELOPMENT as $module) {
-                if ($this->getTextHelper()->strStartsWith($event->getRequest()->getPathInfo(), '/' . $module)) {
+            foreach (self::MODULE_UNDER_DEVELOPMENT as $path) {
+                if ($this->getTextHelper()->strStartsWith($event->getRequest()->getPathInfo(), '/' . $path)) {
                     throw new RequestForwardableException(ModuleUnderDevelopmentController::class . '::handle');
                 }
             }

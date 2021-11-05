@@ -22,8 +22,7 @@
 
   <div id="app">
     <oxd-layout
-        icon="{{ contextIcon }}"
-        context-title="{{ contextTitle }}"
+        home-url="{{ baseUrl }}"
         :sidepanel-menu-items="{{ sidePanelMenuItems | json_encode() }}"
         :topbar-menu-items="{{ topMenuItems | json_encode() }}"
         :user="{{ user | json_encode() }}"
@@ -32,6 +31,7 @@
         support-url="{{ baseUrl }}/help/support"
         update-password-url="{{ baseUrl }}/pim/updatePassword"
         :permissions="{{ (permissions ? permissions : []) | json_encode() }}"
+        :breadcrumb="{{ breadcrumb | json_encode() }}"
     >
       <{{ componentName }}
       {% for prop in componentProps %}
