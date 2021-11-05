@@ -20,17 +20,17 @@
 class RegistrationSuccessEventProcessor extends AbstractRegistrationEventProcessor
 {
 
-    public function getEventType(): int
+    public function getEventType()
     {
         return RegistrationEventQueue::INSTALLATION_SUCCESS;
     }
 
-    public function getEventData(): array
+    public function getEventData()
     {
         return $this->getRegistrationEventGeneralData();
     }
 
-    public function getEventToBeSavedOrNot(): bool
+    public function getEventToBeSavedOrNot()
     {
         $installationSucceedEvent = $this->getRegistrationEventQueueDao()->getRegistrationEventQueueEventByType(RegistrationEventQueue::INSTALLATION_SUCCESS);
         if (!$installationSucceedEvent) {

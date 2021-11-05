@@ -35,16 +35,16 @@ class RegistrationEventQueueDao extends BaseDao
     }
 
     /**
-     * @param $eventTypeId
+     * @param $eventType
      * @return array|bool|Doctrine_Record|float|int|string
      * @throws DaoException
      */
-    public function getRegistrationEventQueueEventByType($eventTypeId)
+    public function getRegistrationEventQueueEventByType($eventType)
     {
         try {
             $q = Doctrine_Query::create()
                                ->from('RegistrationEventQueue')
-                               ->where('eventTypeId = ?', $eventTypeId);
+                               ->where('eventType = ?', $eventType);
 
             return $q->fetchOne();
         } catch (Exception $e) {

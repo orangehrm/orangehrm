@@ -1570,20 +1570,9 @@ class EmployeeService extends BaseService {
     }
 
     private function checkEmployeeCountChange($type) {
-        if ($type == self::EMPLOYEE_ACTIVE_COUNT) {
-            $employeeCount = $this->getEmployeeCount();
-        }else {
-            $totalEmployeeCount = $this->getEmployeeCount(true);
-            $activeEmployeeCOunt = $this->getEmployeeCount();
-            $employeeCount = $totalEmployeeCount - $activeEmployeeCOunt;
-        }
-
-        if ($employeeCount % self::EMPLOYEE_COUNT_CHANGE == 0) {
-
-        }
         $registrationProcessorFactory = new RegistrationEventProcessorFactory();
         $registrationEventProcessor = $registrationProcessorFactory->getRegistrationEventProcessor($type);
-        $registrationEventProcessor->saveRegistrationEvent(new DateTime());
+        $registrationEventProcessor->saveRegistrationEvent(date("Y-m-d H:i:s"));
     }
 
 }

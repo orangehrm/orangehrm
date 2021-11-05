@@ -55,7 +55,7 @@ class validateCredentialsAction extends ohrmBaseAction
             );
 
             try {
-
+                $this->sendInstallationStatus();
                 $success = $this->getAuthenticationService()->setCredentials($username, $password, $additionalData);
 
                 if ($success) {
@@ -113,6 +113,21 @@ class validateCredentialsAction extends ohrmBaseAction
     public function getForm()
     {
         return null;
+    }
+
+    /**
+     * Send instance installation status to OrangeHRM
+     */
+    public function sendInstallationStatus() {
+        try{
+            $registrationProcessorFactory = new RegistrationEventProcessorFactory();
+            $installStartRegistrationEventProcessor = $registrationProcessorFactory->getRegistrationEventProcessor(RegistrationEventQueue::INSTALLATION_START);
+            $installStartRegistrationEventProcessor->saveRegistrationEvent(date("Y-m-d H:i:s"));
+            $installSuccessRegistrationEventProcessor = $registrationProcessorFactory->getRegistrationEventProcessor(RegistrationEventQueue::INSTALLATION_SUCCESS);
+            $installSuccessRegistrationEventProcessor->saveRegistrationEvent(date("Y-m-d H:i:s"));
+        }catch (Exception $exception){
+            Logger::getLogger('orangehrm')->error('Registration Dat Sync Failed');
+        }
     }
 
 }

@@ -20,21 +20,21 @@
 class RegistrationStartEventProcessor extends AbstractRegistrationEventProcessor
 {
 
-    public function getEventType(): int
+    public function getEventType()
     {
         return RegistrationEventQueue::INSTALLATION_START;
     }
 
-    public function getEventData(): array
+    public function getEventData()
     {
         return $this->getRegistrationEventGeneralData();
     }
 
-    public function getEventToBeSavedOrNot(): bool
+    public function getEventToBeSavedOrNot()
     {
         $installationStartedEvent = $this->getRegistrationEventQueueDao()->getRegistrationEventQueueEventByType(RegistrationEventQueue::INSTALLATION_START);
         if($installationStartedEvent instanceof RegistrationEventQueue){
-            if($installationStartedEvent->getData() != null){
+            if($installationStartedEvent->getEventData() != null){
                 return false;
             }
             return true;
@@ -42,7 +42,7 @@ class RegistrationStartEventProcessor extends AbstractRegistrationEventProcessor
         return true;
     }
 
-    public function processRegistrationEventToSave(DateTime $eventTime): RegistrationEventQueue
+    public function processRegistrationEventToSave($eventTime)
     {
         $registrationData = $this->getEventData();
         $registrationInstallStartSavedEvent = $this->getRegistrationEventQueueDao()->getRegistrationEventQueueEventByType(RegistrationEventQueue::INSTALLATION_START);
@@ -52,7 +52,7 @@ class RegistrationStartEventProcessor extends AbstractRegistrationEventProcessor
             $registrationInstallStartSavedEvent->setEventType($this->getEventType());
             $registrationInstallStartSavedEvent->setPublished(0);
         }
-        $registrationInstallStartSavedEvent->setData($registrationData);
+        $registrationInstallStartSavedEvent->setEventData(json_encode($registrationData));
         return $registrationInstallStartSavedEvent;
     }
 }

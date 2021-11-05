@@ -20,12 +20,12 @@
 class RegistrationEmployeeTerminationEventProcessor extends AbstractRegistrationEventProcessor
 {
 
-    public function getEventType(): int
+    public function getEventType()
     {
         return RegistrationEventQueue::INACTIVE_EMPLOYEE_COUNT;
     }
 
-    public function getEventData(): array
+    public function getEventData()
     {
         $registrationData = $this->getRegistrationEventGeneralData();
         $totalEmployeeCount = $this->getEmployeeCount(true);
@@ -35,7 +35,7 @@ class RegistrationEmployeeTerminationEventProcessor extends AbstractRegistration
         return $registrationData;
     }
 
-    public function getEventToBeSavedOrNot(): bool
+    public function getEventToBeSavedOrNot()
     {
         $totalEmployeeCount = $this->getEmployeeCount(true);
         $activeEmployeeCOunt = $this->getEmployeeCount();

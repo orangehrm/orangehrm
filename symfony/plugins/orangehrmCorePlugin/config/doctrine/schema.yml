@@ -998,4 +998,4 @@ RegistrationEventQueue:
       name: publish_time as publishTime
     data:
       type: string(2147483647)
-      name: data
+      name: data as eventData

@@ -222,7 +222,7 @@ class UpgradeSystemConfiguration
     /**
      * Set the instance identifier of upgraded instance
      */
-    public function setInstanceIdentifier()
+    public function setInstanceIdentifier($currentTimestamp)
     {
         $this->sysConf = $this->getSystemConfiguration();
         $this->sysConf->setInstanceIdentifier(
@@ -231,7 +231,8 @@ class UpgradeSystemConfiguration
             $_SESSION['defUser']['adminEmployeeFirstName'],
             $_SESSION['defUser']['adminEmployeeLastName'],
             $_SERVER['HTTP_HOST'], $_SESSION['defUser']['country'],
-            $this->sysConf->getOhrmVersion()
+            $this->sysConf->getOhrmVersion(),
+            $currentTimestamp
         );
     }
 
@@ -264,7 +265,7 @@ class UpgradeSystemConfiguration
     /**
      * Set the instance identifier checksum
      */
-    public function setInstanceIdentifierChecksum()
+    public function setInstanceIdentifierChecksum($currentTimestamp)
     {
         $this->sysConf = $this->getSystemConfiguration();
         $this->sysConf->setInstanceIdentifierChecksum(
@@ -273,7 +274,8 @@ class UpgradeSystemConfiguration
             $_SESSION['defUser']['adminEmployeeFirstName'],
             $_SESSION['defUser']['adminEmployeeLastName'],
             $_SERVER['HTTP_HOST'], $_SESSION['defUser']['country'],
-            $this->sysConf->getOhrmVersion()
+            $this->sysConf->getOhrmVersion(),
+            $currentTimestamp
         );
     }
 

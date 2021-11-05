@@ -62,6 +62,12 @@ abstract class AbstractRegistrationEventProcessor
         return $this->sysConf;
     }
 
+    private function getSystemDetails() {
+        require_once(sfConfig::get('sf_root_dir') . "/../installer/SystemDetailHelper.php");
+        $sysDetailHelper = new SystemDetailHelper();
+        return $sysDetailHelper->getSystemDetailsAsJson();
+    }
+
     /**
      * @return ConfigService
      */
@@ -125,8 +131,7 @@ abstract class AbstractRegistrationEventProcessor
             ) ? $this->getOrganizationService()->getOrganizationGeneralInformation()->getCountry() : null;
             $instanceIdentifier = $this->getInstanceIdentifier();
             $organizationName = $this->getOrganizationService()->getOrganizationGeneralInformation()->getName();
-            $systemDetailsHelper = new SystemDetailHelper();
-            $systemDetails = $systemDetailsHelper->getSystemDetailsAsJson();
+            $systemDetails = $this->getSystemDetails();
             $organizationEmail = '';
             $adminFirstName = '';
             $adminLastName = '';
@@ -158,14 +163,14 @@ abstract class AbstractRegistrationEventProcessor
         }
     }
 
-    public function processRegistrationEventToSave(DateTime $eventTime)
+    public function processRegistrationEventToSave($eventTime)
     {
         $registrationData = $this->getEventData();
         $registrationEvent = new RegistrationEventQueue();
         $registrationEvent->setEventTime($eventTime);
         $registrationEvent->setEventType($this->getEventType());
         $registrationEvent->setPublished(0);
-        $registrationEvent->setData($registrationData);
+        $registrationEvent->setEventData(json_encode($registrationData));
         return $registrationEvent;
     }
 
@@ -190,17 +195,17 @@ abstract class AbstractRegistrationEventProcessor
         }
     }
 
-    public function getRegistrationEventPublishDataPrepared(RegistrationEventQueue $event): array
+    public function getRegistrationEventPublishDataPrepared(RegistrationEventQueue $event)
     {
-        $eventData = $event->getData();
+        $eventData = $event->getEventData();
         $eventData['type'] = $event->getEventType();
         $eventData['event_time'] = $event->getEventTime();
         return $eventData;
     }
 
-    abstract public function getEventType(): int;
+    abstract public function getEventType();
 
-    abstract public function getEventData(): array;
+    abstract public function getEventData();
 
-    abstract public function getEventToBeSavedOrNot(): bool;
+    abstract public function getEventToBeSavedOrNot();
 }

@@ -10,21 +10,21 @@
  * @property bool                    $published                  Type: boolean
  * @property string                  $eventTime                  Type: timestamp(25), Timestamp in ISO-8601 format (YYYY-MM-DD HH:MI:SS)
  * @property string                  $publishTime                Type: timestamp(25), Timestamp in ISO-8601 format (YYYY-MM-DD HH:MI:SS)
- * @property string                  $data                       Type: string(2147483647)
+ * @property string                  $eventData                  Type: string(2147483647)
  *  
  * @method int                       getId()                     Type: integer(4), primary key
  * @method int                       getEventtype()              Type: integer(4)
  * @method bool                      getPublished()              Type: boolean
  * @method string                    getEventtime()              Type: timestamp(25), Timestamp in ISO-8601 format (YYYY-MM-DD HH:MI:SS)
  * @method string                    getPublishtime()            Type: timestamp(25), Timestamp in ISO-8601 format (YYYY-MM-DD HH:MI:SS)
- * @method string                    getData()                   Type: string(2147483647)
+ * @method string                    getEventdata()              Type: string(2147483647)
  *  
  * @method RegistrationEventQueue    setId(int $val)             Type: integer(4), primary key
  * @method RegistrationEventQueue    setEventtype(int $val)      Type: integer(4)
  * @method RegistrationEventQueue    setPublished(bool $val)     Type: boolean
  * @method RegistrationEventQueue    setEventtime(string $val)   Type: timestamp(25), Timestamp in ISO-8601 format (YYYY-MM-DD HH:MI:SS)
  * @method RegistrationEventQueue    setPublishtime(string $val) Type: timestamp(25), Timestamp in ISO-8601 format (YYYY-MM-DD HH:MI:SS)
- * @method RegistrationEventQueue    setData(string $val)        Type: string(2147483647)
+ * @method RegistrationEventQueue    setEventdata(string $val)   Type: string(2147483647)
  *  
  * @package    orangehrm
  * @subpackage model
@@ -57,7 +57,7 @@ abstract class BaseRegistrationEventQueue extends sfDoctrineRecord
              'type' => 'timestamp',
              'length' => 25,
              ));
-        $this->hasColumn('data', 'string', 2147483647, array(
+        $this->hasColumn('data as eventData', 'string', 2147483647, array(
              'type' => 'string',
              'length' => 2147483647,
              ));

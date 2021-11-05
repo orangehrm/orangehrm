@@ -41,12 +41,13 @@ class orangehrmCorePluginAllTests {
         $suite->addTestFile(dirname(__FILE__) . '/components/EnumCellFilterTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/components/CellTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/components/TextareaCellTest.php');
-        
+
         /* Dao Test Cases */
         $suite->addTestFile(dirname(__FILE__) . '/dao/ConfigDaoTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/dao/EmailDaoTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/authorization/dao/HomePageDaoTest.php');
- 
+        $suite->addTestFile(dirname(__FILE__) . '/dao/RegistrationEventQueueDaoTest.php');
+
         /* Service Test Cases */
         $suite->addTestFile(dirname(__FILE__) . '/service/ConfigServiceTest.php');
 
@@ -65,19 +66,19 @@ class orangehrmCorePluginAllTests {
         /* BaseService Test Cases */
         $suite->addTestFile(dirname(__FILE__) . '/model/service/BaseServiceTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/model/service/BaseServiceDataTest.php');
-        
+
         /* form validators */
         $suite->addTestFile(dirname(__FILE__) . '/form/validate/ohrmValidatorSchemaCompareTest.php');
-        
+
         /* form widgets */
         $suite->addTestFile(dirname(__FILE__) . '/form/widget/ohrmWidgetFormTimeRangeTest.php');
 
         /* Extensions to Doctrine Models */
-        $suite->addTestFile(dirname(__FILE__) . '/model/doctrine/PluginWorkflowStateMachineTest.php');        
+        $suite->addTestFile(dirname(__FILE__) . '/model/doctrine/PluginWorkflowStateMachineTest.php');
 
         /* Cache tests */
         $suite->addTestFile(dirname(__FILE__) . '/cache/ohrmKeyValueCacheTest.php');
-        
+
         /* Authorization */
         $suite->addTestFile(dirname(__FILE__) . '/authorization/service/UserRoleManagerServiceTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/authorization/manager/BasicUserRoleManagerTest.php');
@@ -88,7 +89,7 @@ class orangehrmCorePluginAllTests {
         $suite->addTestFile(dirname(__FILE__) . '/authorization/userrole/SupervisorUserRoleTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/authorization/dao/DataGroupDaoTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/authorization/service/DataGroupServiceTest.php');
-        
+
         $suite->addTestFile(dirname(__FILE__) . '/authorization/dao/MenuDaoTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/authorization/service/MenuServiceTest.php');
 
