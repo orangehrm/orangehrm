@@ -130,9 +130,9 @@ export default {
       if (this.data) {
         const {taken, scheduled, pending} = this.data;
         return [
-          {status: this.$t('leave.taken'), days: taken},
-          {status: this.$t('leave.scheduled'), days: scheduled},
-          {status: this.$t('leave.pending_approval'), days: pending},
+          {status: this.$t('leave.taken'), days: taken.toFixed(2)},
+          {status: this.$t('leave.scheduled'), days: scheduled.toFixed(2)},
+          {status: this.$t('leave.pending_approval'), days: pending.toFixed(2)},
         ];
       }
       return [];
