@@ -288,10 +288,8 @@ class UserDao extends BaseDao
             $q->setParameter('status', $userSearchParamHolder->getStatus());
         }
 
-        if (!is_null($userSearchParamHolder->getDeleted())) {
-            $q->andWhere('u.deleted = :deleted');
-            $q->setParameter('deleted', $userSearchParamHolder->getDeleted());
-        }
+        $q->andWhere('u.deleted = :deleted');
+        $q->setParameter('deleted', false);
 
         return $this->getPaginator($q);
     }
@@ -374,5 +372,19 @@ class UserDao extends BaseDao
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
+    }
+
+    /**
+     * @param string $userName
+     * @return bool
+     */
+    public function isUserNameExistByUserName(string $userName): bool
+    {
+        // this function for validating the username availability. ( false -> username already exist, true - username is not exist )
+        $q = $this->createQueryBuilder(User::class, 'u');
+        $q->andWhere('u.userName = :userName');
+        $q->setParameter('userName', $userName);
+        $paginator = new Paginator($q);
+        return $paginator->count() == 0;
     }
 }

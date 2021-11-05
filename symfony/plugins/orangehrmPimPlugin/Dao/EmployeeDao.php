@@ -26,6 +26,7 @@ use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\EmployeeWorkShift;
 use OrangeHRM\Entity\ReportingMethod;
 use OrangeHRM\Entity\ReportTo;
+use OrangeHRM\ORM\Paginator;
 use OrangeHRM\ORM\QueryBuilderWrapper;
 use OrangeHRM\Pim\Dto\EmployeeSearchFilterParams;
 
@@ -444,5 +445,36 @@ class EmployeeDao extends BaseDao
         $q = $this->createQueryBuilder(Employee::class, 'e');
         $q->select('e.workEmail, e.otherEmail');
         return  $q->getQuery()->getArrayResult();
+    }
+
+    /**
+     * @param string $workEmail
+     * @param string $currentWorkEmail
+     * @return bool
+     */
+    public function isWorkEmailAvailableByCurrentEmail(string $workEmail, string $currentWorkEmail): bool
+    {
+        // this function for validating (update on validation) the work email availability. ( false -> email already exist, true - email is not exist )
+        $q = $this->createQueryBuilder(Employee::class, 'employee');
+        $q->andWhere('employee.workEmail = :workEmail');
+        $q->andWhere('employee.workEmail != :currentWorkEmail'); // we need to skip the current email on checking, otherwise count always return 1 (if current work email is not null)
+        $q->setParameter('workEmail', $workEmail);
+        $q->setParameter('currentWorkEmail', $currentWorkEmail);
+        $paginator = new Paginator($q);
+        return $paginator->count() == 0;
+    }
+
+    /**
+     * @param string $workEmail
+     * @return bool
+     */
+    public function isWorkEmailAvailable(string $workEmail): bool
+    {
+        // this function for validating the work email availability (current email is null). ( false -> email already exist, true - email is not exist )
+        $q = $this->createQueryBuilder(Employee::class, 'employee');
+        $q->andWhere('employee.workEmail = :workEmail');
+        $q->setParameter('workEmail', $workEmail);
+        $paginator = new Paginator($q);
+        return $paginator->count() == 0;
     }
 }

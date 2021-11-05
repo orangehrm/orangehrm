@@ -42,11 +42,6 @@ class UserSearchFilterParams extends FilterParams
      */
     protected ?int $empNumber = null;
 
-    /**
-     * @var bool|null
-     */
-    protected ?bool $deleted = null;
-
     public function __construct()
     {
         $this->setSortField('u.userName');
@@ -114,21 +109,5 @@ class UserSearchFilterParams extends FilterParams
     public function setEmpNumber(?int $empNumber): void
     {
         $this->empNumber = $empNumber;
-    }
-
-    /**
-     * @return bool|null
-     */
-    public function getDeleted(): ?bool
-    {
-        return $this->deleted;
-    }
-
-    /**
-     * @param bool|null $deleted
-     */
-    public function setDeleted(?bool $deleted): void
-    {
-        $this->deleted = $deleted;
     }
 }

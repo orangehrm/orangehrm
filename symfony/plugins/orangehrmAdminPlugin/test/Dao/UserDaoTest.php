@@ -204,4 +204,10 @@ class UserDaoTest extends TestCase
         $employees = $this->systemUserDao->getEmployeesByUserRole('TestAdmin', false, true);
         $this->assertEquals(0, count($employees));
     }
+
+    public function testUserCountByUserName(): void
+    {
+        $count = $this->systemUserDao->isUserNameExistByUserName('samantha');
+        $this->assertEquals(false, $count);
+    }
 }
