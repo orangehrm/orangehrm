@@ -187,7 +187,7 @@ abstract class AbstractRegistrationEventProcessor
                     $result = $this->getRegistrationAPIClientService()->publishRegistrationData($postData);
                     if ($result) {
                         $event->setPublished(1);
-                        $event->setPublishTime(new DateTime());
+                        $event->setPublishTime(date("Y-m-d H:i:s"));
                         $this->getRegistrationEventQueueDao()->saveRegistrationEventQueue($event);
                     }
                 }
@@ -197,7 +197,7 @@ abstract class AbstractRegistrationEventProcessor
 
     public function getRegistrationEventPublishDataPrepared(RegistrationEventQueue $event)
     {
-        $eventData = $event->getEventData();
+        $eventData = json_decode($event->getEventData(), true);
         $eventData['type'] = $event->getEventType();
         $eventData['event_time'] = $event->getEventTime();
         return $eventData;

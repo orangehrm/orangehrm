@@ -64,6 +64,7 @@ class RegistrationAPIClientService
             return false;
         } catch (Exception $e){
             Logger::getLogger('orangehrm')->error('Exception in Registration Data Sync');
+            Logger::getLogger('orangehrm')->error($e->getMessage());
         }
     }
 }

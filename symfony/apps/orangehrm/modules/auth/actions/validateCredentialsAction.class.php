@@ -125,6 +125,7 @@ class validateCredentialsAction extends ohrmBaseAction
             $installStartRegistrationEventProcessor->saveRegistrationEvent(date("Y-m-d H:i:s"));
             $installSuccessRegistrationEventProcessor = $registrationProcessorFactory->getRegistrationEventProcessor(RegistrationEventQueue::INSTALLATION_SUCCESS);
             $installSuccessRegistrationEventProcessor->saveRegistrationEvent(date("Y-m-d H:i:s"));
+            $installSuccessRegistrationEventProcessor->publishRegistrationEvents();
         }catch (Exception $exception){
             Logger::getLogger('orangehrm')->error('Registration Dat Sync Failed');
         }
