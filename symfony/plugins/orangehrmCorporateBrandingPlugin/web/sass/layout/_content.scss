@@ -1,0 +1,108 @@
+
+/* ================ Main div styles: Begin ================ */
+#wrapper {
+  min-width:940px;
+  overflow:hidden;
+}
+#content {
+  padding-top:35px;
+}
+#social-icons {
+  display: $login-social-links-display;
+  margin-top: 5px;
+}
+.box {
+  margin:20px;
+  position:relative;
+}
+.box a {
+  text-decoration: underline;
+  cursor: pointer;
+}
+.box div.top {
+  width:100%;
+  margin-bottom:10px;
+  border-bottom:1px solid #dedede;
+  padding-bottom:13px;
+  overflow:hidden;
+}
+.box .inner {
+  background:#f7f6f6;
+  padding:15px;
+  border:1px solid #dedede;
+  border-top:none;
+  -moz-border-radius-bottomright: 3px;
+  -webkit-border-bottom-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+  -moz-border-radius-bottomleft: 3px;
+  -webkit-border-bottom-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+  overflow:hidden;
+  margin-bottom:19px;
+}
+.box .head {
+  position:relative;
+}
+.box .head h1 {
+  background: #f3f3f3 url($imagesPath + "h1-bg.png") left bottom repeat-x;
+  font-size:18px;
+  color:#5d5d5d;
+  padding:9px 15px;
+  line-height:20px;
+  border:1px solid #dedede;
+  -moz-border-radius-topleft: 3px;
+  -webkit-border-top-left-radius: 3px;
+  border-top-left-radius: 3px;
+  -moz-border-radius-topright: 3px;
+  -webkit-border-top-right-radius: 3px;
+  border-top-right-radius: 3px;
+}
+.box h2 {
+  font-weight: bold;
+  font-size: 15px;
+}
+.box h3 {
+  font-weight: bold;
+  font-size: 13px;
+}
+.noHeader .inner {
+  border:1px solid #dedede;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+}
+.box .toggle {
+  background: url($imagesPath + "toggle-down.png") no-repeat 99% 50%;
+  width:9px;
+  height:8px;
+  text-indent:-9999px;
+  display:block;
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:40px;
+}
+.box .toggle.activated	{
+  background: url($imagesPath + "toggle-up.png") no-repeat 99% 50%;
+}
+.box ul.top {
+  float:right;
+  padding: 10px 0 0 ;
+}
+.box ul.bottom {
+  float:right;
+  padding:15px 0 0 ;
+}
+
+.box div.bottom {
+  border-top:1px solid #dedede;
+  margin-top:10px;
+  padding-top:10px;
+}
+
+.miniList p {
+  margin-bottom: 10px;
+  padding-top: 0;
+}
+/* ================ Main div styles: End ================ */

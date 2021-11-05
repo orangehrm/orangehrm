@@ -2353,6 +2353,17 @@ ALTER TABLE `ohrm_i18n_lang_string`
 ALTER TABLE `ohrm_i18n_translate`
     ADD CONSTRAINT `translateUniqueId` UNIQUE (`lang_string_id`, `language_id`);
 
+# Corporate Branding Plugin
+CREATE TABLE `ohrm_theme`
+(
+    `theme_id`   INT(11) AUTO_INCREMENT,
+    `theme_name` VARCHAR(100),
+    `main_logo`  BLOB,
+    `variables`  TEXT,
+    PRIMARY KEY (`theme_id`)
+) engine = innodb
+  default charset = utf8;
+
 create table `ohrm_registration_event_queue`
 (
     `id`         INT NOT NULL AUTO_INCREMENT,
