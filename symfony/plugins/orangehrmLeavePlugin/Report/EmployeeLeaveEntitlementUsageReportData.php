@@ -65,8 +65,13 @@ class EmployeeLeaveEntitlementUsageReportData implements ReportData
                     $this->filterParams->getFromDate(),
                     $this->filterParams->getToDate()
                 );
+            $leaveTypeName = $leaveType->getName();
+            if ($leaveType->isDeleted()) {
+                // TODO:: Need to handle localization
+                $leaveTypeName .= ' (Deleted)';
+            }
             $result[] = [
-                EmployeeLeaveEntitlementUsageReport::PARAMETER_LEAVE_TYPE_NAME => $leaveType->getName(),
+                EmployeeLeaveEntitlementUsageReport::PARAMETER_LEAVE_TYPE_NAME => $leaveTypeName,
                 EmployeeLeaveEntitlementUsageReport::PARAMETER_ENTITLEMENT_DAYS => $this->getNumberHelper()
                     ->numberFormatWithGroupedThousands($balance->getEntitled(), 2),
                 EmployeeLeaveEntitlementUsageReport::PARAMETER_PENDING_APPROVAL_DAYS => $this->getNumberHelper()
