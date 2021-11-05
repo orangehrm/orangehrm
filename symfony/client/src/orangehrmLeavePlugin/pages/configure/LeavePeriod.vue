@@ -83,7 +83,7 @@
             :label="$t('general.reset')"
             @click="onClickReset"
           />
-          <submit-button :disabled="leavePeriodDefined" />
+          <submit-button />
         </oxd-form-actions>
       </oxd-form>
     </div>
@@ -132,7 +132,6 @@ export default {
 
   methods: {
     onSave() {
-      if (this.leavePeriodDefined) return;
       this.isLoading = true;
       this.http
         .request({

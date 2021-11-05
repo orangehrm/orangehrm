@@ -22,6 +22,7 @@ namespace OrangeHRM\Tests\Util;
 use LogicException;
 use OrangeHRM\Core\Helper\ClassHelper;
 use OrangeHRM\Core\Service\DateTimeHelperService;
+use OrangeHRM\Core\Service\NumberHelperService;
 use OrangeHRM\Core\Service\TextHelperService;
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Framework\Framework;
@@ -114,6 +115,7 @@ abstract class KernelTestCase extends TestCase
         if (isset($this->options[self::OPTIONS_WITH_HELPER_SERVICES]) && $this->options[self::OPTIONS_WITH_HELPER_SERVICES]) {
             $this->getContainer()->set(Services::DATETIME_HELPER_SERVICE, $dateTimeHelper);
             $this->getContainer()->set(Services::TEXT_HELPER_SERVICE, new TextHelperService());
+            $this->getContainer()->set(Services::NUMBER_HELPER_SERVICE, new NumberHelperService());
             $this->getContainer()->set(Services::CLASS_HELPER, new ClassHelper());
         }
     }

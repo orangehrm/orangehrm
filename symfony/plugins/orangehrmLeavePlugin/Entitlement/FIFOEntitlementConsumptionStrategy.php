@@ -419,7 +419,6 @@ class FIFOEntitlementConsumptionStrategy implements EntitlementConsumptionStrate
         ?int $empNumber = null,
         ?int $leaveTypeId = null
     ) {
-        // TODO
         $limits = null;
 
         $startPeriod = $this->getLeavePeriod($balanceStartDate, $empNumber, $leaveTypeId);

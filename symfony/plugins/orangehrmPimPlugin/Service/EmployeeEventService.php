@@ -21,6 +21,7 @@ namespace OrangeHRM\Pim\Service;
 
 use DateTime;
 use OrangeHRM\Core\Exception\DaoException;
+use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\EmployeeEvent;
 use OrangeHRM\Entity\User;
@@ -30,6 +31,7 @@ use OrangeHRM\Pim\Dto\EmployeeEventSearchFilterParams;
 class EmployeeEventService
 {
     use UserRoleManagerTrait;
+    use DateTimeHelperTrait;
 
     /**
      * @var EmployeeEventDao|null
@@ -90,7 +92,7 @@ class EmployeeEventService
         $employeeEvent->setEvent($event);
         $employeeEvent->setNote($note);
         $employeeEvent->setCreatedBy($this->getUserRole());
-        $employeeEvent->setCreatedDate(new DateTime());
+        $employeeEvent->setCreatedDate($this->getDateTimeHelper()->getNow());
         return $this->saveEmployeeEvent($employeeEvent);
     }
 

@@ -111,7 +111,6 @@ class LeaveAssignmentService extends AbstractLeaveAllocationService
                     if (!empty($leaveAssignmentData->getComment())) {
                         $leaveRequestComment = new LeaveRequestComment();
                         $leaveRequestComment->setLeaveRequest($leaveRequest);
-                        $leaveRequestComment->setCreatedAt(new DateTime());
                         $leaveRequestComment->getDecorator()->setCreatedByUserById($loggedInUserId);
                         $leaveRequestComment->getDecorator()->setCreatedByEmployeeByEmpNumber($loggedInEmpNumber);
                         $leaveRequestComment->setComment($leaveAssignmentData->getComment());

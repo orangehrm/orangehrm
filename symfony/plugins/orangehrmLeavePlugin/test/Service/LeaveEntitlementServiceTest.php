@@ -26,6 +26,7 @@ use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Authorization\Manager\BasicUserRoleManager;
 use OrangeHRM\Core\Helper\ClassHelper;
 use OrangeHRM\Core\Service\DateTimeHelperService;
+use OrangeHRM\Core\Service\NumberHelperService;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\LeaveEntitlement;
 use OrangeHRM\Entity\User;
@@ -147,6 +148,7 @@ class LeaveEntitlementServiceTest extends KernelTestCase
      */
     public function getDeletableIdsFromEntitlementIdsDataProvider(): Generator
     {
+        $this->createKernelWithMockServices([Services::NUMBER_HELPER_SERVICE => new NumberHelperService()]);
         $entitlement1 = new LeaveEntitlement();
         $entitlement1->setId(1);
         $entitlement1->setDaysUsed(0);
@@ -363,10 +365,17 @@ class LeaveEntitlementServiceTest extends KernelTestCase
         $userRoleManager->expects($this->once())
             ->method('getUser')
             ->willReturn($user);
+        $dateTimeHelper = $this->getMockBuilder(DateTimeHelperService::class)
+            ->onlyMethods(['getNow'])
+            ->getMock();
+        $dateTimeHelper->expects($this->once())
+            ->method('getNow')
+            ->willReturn(new DateTime('2021-10-04'));
         $this->createKernelWithMockServices(
             [
                 Services::LEAVE_CONFIG_SERVICE => new LeaveConfigurationService(),
                 Services::USER_ROLE_MANAGER => $userRoleManager,
+                Services::DATETIME_HELPER_SERVICE => $dateTimeHelper,
             ]
         );
 
@@ -379,6 +388,7 @@ class LeaveEntitlementServiceTest extends KernelTestCase
         );
         $this->assertEquals(5.5, $leaveEntitlement->getNoOfDays());
         $this->assertEquals(0, $leaveEntitlement->getDaysUsed());
+        $this->assertEquals('2021-10-04', $leaveEntitlement->getCreditedDate()->format('Y-m-d'));
     }
 
     public function testAddEntitlementForEmployeeAsAdding(): void
@@ -393,10 +403,17 @@ class LeaveEntitlementServiceTest extends KernelTestCase
         $userRoleManager->expects($this->once())
             ->method('getUser')
             ->willReturn($user);
+        $dateTimeHelper = $this->getMockBuilder(DateTimeHelperService::class)
+            ->onlyMethods(['getNow'])
+            ->getMock();
+        $dateTimeHelper->expects($this->once())
+            ->method('getNow')
+            ->willReturn(new DateTime('2021-10-04'));
         $this->createKernelWithMockServices(
             [
                 Services::LEAVE_CONFIG_SERVICE => new LeaveConfigurationService(),
                 Services::USER_ROLE_MANAGER => $userRoleManager,
+                Services::DATETIME_HELPER_SERVICE => $dateTimeHelper,
             ]
         );
 
@@ -409,6 +426,7 @@ class LeaveEntitlementServiceTest extends KernelTestCase
         );
         $this->assertEquals(5.5, $leaveEntitlement->getNoOfDays());
         $this->assertEquals(0, $leaveEntitlement->getDaysUsed());
+        $this->assertEquals('2021-10-04', $leaveEntitlement->getCreditedDate()->format('Y-m-d'));
     }
 
     public function testAddEntitlementForEmployeeAsAddingWhenDeletedAlsoThere(): void
@@ -423,10 +441,17 @@ class LeaveEntitlementServiceTest extends KernelTestCase
         $userRoleManager->expects($this->once())
             ->method('getUser')
             ->willReturn($user);
+        $dateTimeHelper = $this->getMockBuilder(DateTimeHelperService::class)
+            ->onlyMethods(['getNow'])
+            ->getMock();
+        $dateTimeHelper->expects($this->once())
+            ->method('getNow')
+            ->willReturn(new DateTime('2021-10-04'));
         $this->createKernelWithMockServices(
             [
                 Services::LEAVE_CONFIG_SERVICE => new LeaveConfigurationService(),
                 Services::USER_ROLE_MANAGER => $userRoleManager,
+                Services::DATETIME_HELPER_SERVICE => $dateTimeHelper,
             ]
         );
 
@@ -439,6 +464,7 @@ class LeaveEntitlementServiceTest extends KernelTestCase
         );
         $this->assertEquals(7.5, $leaveEntitlement->getNoOfDays());
         $this->assertEquals(2, $leaveEntitlement->getDaysUsed());
+        $this->assertEquals('2021-10-04', $leaveEntitlement->getCreditedDate()->format('Y-m-d'));
     }
 
     public function testBulkAssignLeaveEntitlements(): void

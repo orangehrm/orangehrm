@@ -21,8 +21,14 @@ namespace OrangeHRM\Tests\Leave\Dao;
 
 use DateTime;
 use OrangeHRM\Config\Config;
+use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Exception\CoreServiceException;
+use OrangeHRM\Core\Service\DateTimeHelperService;
+use OrangeHRM\Entity\Employee;
+use OrangeHRM\Entity\LeaveEntitlement;
 use OrangeHRM\Entity\LeavePeriodHistory;
+use OrangeHRM\Entity\User;
+use OrangeHRM\Entity\WorkflowStateMachine;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Leave\Dao\LeavePeriodDao;
 use OrangeHRM\Leave\Dto\LeavePeriod;
@@ -32,6 +38,7 @@ use OrangeHRM\Leave\Service\LeaveEntitlementService;
 use OrangeHRM\Leave\Service\LeavePeriodService;
 use OrangeHRM\ORM\Exception\TransactionException;
 use OrangeHRM\Tests\Util\KernelTestCase;
+use OrangeHRM\Tests\Util\Mock\MockUserRoleManager;
 use OrangeHRM\Tests\Util\TestDataService;
 
 /**
@@ -145,6 +152,7 @@ class LeavePeriodDaoTest extends KernelTestCase
                 Services::LEAVE_CONFIG_SERVICE => $leaveConfigService,
                 Services::LEAVE_ENTITLEMENT_SERVICE => $leaveEntitlementService,
                 Services::LEAVE_PERIOD_SERVICE => $leavePeriodService,
+                Services::DATETIME_HELPER_SERVICE => new DateTimeHelperService(),
             ]
         );
         $result = $this->leavePeriodDao->saveLeavePeriodHistory($leavePeriodHistory);
@@ -227,5 +235,132 @@ class LeavePeriodDaoTest extends KernelTestCase
         $this->assertEquals('2012-01-02', $result[2]->getCreatedAt()->format('Y-m-d'));
 
         $this->assertCount(4, $result);
+    }
+
+    public function testEntitlementChangeWhenLeavePeriodChanged(): void
+    {
+        TestDataService::truncateSpecificTables([LeaveEntitlement::class]);
+        $userRoleManager = $this->getMockBuilder(MockUserRoleManager::class)
+            ->onlyMethods(['getUser'])
+            ->getMock();
+        $userRoleManager->method('getUser')
+            ->willReturn($this->getEntityReference(User::class, 1));
+        $dateTimeHelper = $this->getMockBuilder(DateTimeHelperService::class)
+            ->onlyMethods(['getNow'])
+            ->getMock();
+        $dateTimeHelper->method('getNow')
+            ->willReturnCallback(fn() => new DateTime('2020-10-04'));
+        $this->createKernelWithMockServices([
+            Services::DATETIME_HELPER_SERVICE => $dateTimeHelper,
+            Services::USER_ROLE_MANAGER => $userRoleManager,
+            Services::LEAVE_CONFIG_SERVICE => new LeaveConfigurationService(),
+            Services::LEAVE_PERIOD_SERVICE => new LeavePeriodService(),
+            Services::LEAVE_ENTITLEMENT_SERVICE => new LeaveEntitlementService(),
+        ]);
+
+        $leaveEntitlementService = new LeaveEntitlementService();
+        $leaveEntitlementService->addEntitlementForEmployee(
+            1,
+            1,
+            new DateTime('2011-01-04'),
+            new DateTime('2012-01-02'),
+            10.5
+        );
+        $leaveEntitlementService->addEntitlementForEmployee(
+            1,
+            2,
+            new DateTime('2011-01-04'),
+            new DateTime('2012-01-02'),
+            20
+        );
+        $leaveEntitlementService->addEntitlementForEmployee(
+            2,
+            3,
+            new DateTime('2012-01-03'),
+            new DateTime('2013-01-02'),
+            50
+        );
+        $leaveEntitlementService->addEntitlementForEmployee(
+            3,
+            4,
+            new DateTime('2020-01-03'),
+            new DateTime('2021-01-02'),
+            7
+        );
+        $leaveEntitlementService->addEntitlementForEmployee(
+            3,
+            4,
+            new DateTime('2021-01-03'),
+            new DateTime('2022-01-02'),
+            7
+        );
+
+        /**
+         * Verify entitlement dates before change leave period
+         */
+        $leaveEntitlement = $this->getEntityManager()
+            ->getRepository(LeaveEntitlement::class)
+            ->findOneBy(['employee' => 1, 'leaveType' => 1]);
+        $this->assertEquals('2011-01-04', $leaveEntitlement->getFromDate()->format('Y-m-d'));
+        $this->assertEquals('2012-01-02', $leaveEntitlement->getToDate()->format('Y-m-d'));
+
+        $leaveEntitlement = $this->getEntityManager()
+            ->getRepository(LeaveEntitlement::class)
+            ->findOneBy(['employee' => 1, 'leaveType' => 2]);
+        $this->assertEquals('2011-01-04', $leaveEntitlement->getFromDate()->format('Y-m-d'));
+        $this->assertEquals('2012-01-02', $leaveEntitlement->getToDate()->format('Y-m-d'));
+
+        $leaveEntitlement = $this->getEntityManager()
+            ->getRepository(LeaveEntitlement::class)
+            ->findOneBy(['employee' => 2, 'leaveType' => 3]);
+        $this->assertEquals('2012-01-03', $leaveEntitlement->getFromDate()->format('Y-m-d'));
+        $this->assertEquals('2013-01-02', $leaveEntitlement->getToDate()->format('Y-m-d'));
+
+        $leaveEntitlements = $this->getEntityManager()
+            ->getRepository(LeaveEntitlement::class)
+            ->findBy(['employee' => 3, 'leaveType' => 4]);
+        $this->assertEquals('2020-01-03', $leaveEntitlements[0]->getFromDate()->format('Y-m-d'));
+        $this->assertEquals('2021-01-02', $leaveEntitlements[0]->getToDate()->format('Y-m-d'));
+        $this->assertEquals('2021-01-03', $leaveEntitlements[1]->getFromDate()->format('Y-m-d'));
+        $this->assertEquals('2022-01-02', $leaveEntitlements[1]->getToDate()->format('Y-m-d'));
+
+        $leavePeriodHistory = new LeavePeriodHistory();
+        $leavePeriodHistory->setStartMonth(3);
+        $leavePeriodHistory->setStartDay(1);
+        $leavePeriodHistory->setCreatedAt(new DateTime('2020-10-04'));
+        $this->leavePeriodDao->saveLeavePeriodHistory($leavePeriodHistory);
+
+        $this->getEntityManager()->clear();
+        /**
+         * Verify entitlement dates after change leave period
+         */
+        // Check for old leave periods
+        $leaveEntitlement = $this->getEntityManager()
+            ->getRepository(LeaveEntitlement::class)
+            ->findOneBy(['employee' => 1, 'leaveType' => 1]);
+        $this->assertEquals('2011-01-04', $leaveEntitlement->getFromDate()->format('Y-m-d'));
+        $this->assertEquals('2012-01-02', $leaveEntitlement->getToDate()->format('Y-m-d'));
+
+        $leaveEntitlement = $this->getEntityManager()
+            ->getRepository(LeaveEntitlement::class)
+            ->findOneBy(['employee' => 1, 'leaveType' => 2]);
+        $this->assertEquals('2011-01-04', $leaveEntitlement->getFromDate()->format('Y-m-d'));
+        $this->assertEquals('2012-01-02', $leaveEntitlement->getToDate()->format('Y-m-d'));
+
+        $leaveEntitlement = $this->getEntityManager()
+            ->getRepository(LeaveEntitlement::class)
+            ->findOneBy(['employee' => 2, 'leaveType' => 3]);
+        $this->assertEquals('2012-01-03', $leaveEntitlement->getFromDate()->format('Y-m-d'));
+        $this->assertEquals('2013-01-02', $leaveEntitlement->getToDate()->format('Y-m-d'));
+
+        $leaveEntitlements = $this->getEntityManager()
+            ->getRepository(LeaveEntitlement::class)
+            ->findBy(['employee' => 3, 'leaveType' => 4]);
+        // Check for current leave periods
+        $this->assertEquals('2020-01-03', $leaveEntitlements[0]->getFromDate()->format('Y-m-d'));
+        $this->assertEquals('2021-02-28', $leaveEntitlements[0]->getToDate()->format('Y-m-d'));
+        // Check for future leave periods
+        $this->assertEquals('2021-03-01', $leaveEntitlements[1]->getFromDate()->format('Y-m-d'));
+        $this->assertEquals('2022-02-28', $leaveEntitlements[1]->getToDate()->format('Y-m-d'));
     }
 }

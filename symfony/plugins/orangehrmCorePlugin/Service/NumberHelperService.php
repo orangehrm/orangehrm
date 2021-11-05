@@ -1,5 +1,4 @@
 <?php
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -18,12 +17,18 @@
  * Boston, MA  02110-1301, USA
  */
 
-/**
- * Description of ohrmObserver
- *
- */
-interface ohrmObserver {
-    
-    public function listen(sfEvent $event);
-}
+namespace OrangeHRM\Core\Service;
 
+class NumberHelperService
+{
+    /**
+     * @param float $num
+     * @param int $decimals
+     * @return string
+     * @link https://www.php.net/manual/en/function.number-format.php
+     */
+    public function numberFormat(float $num, int $decimals = 0): string
+    {
+        return number_format($num, $decimals, '.', '');
+    }
+}

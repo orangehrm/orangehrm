@@ -26,6 +26,7 @@ use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Leave\Controller\Traits\PermissionTrait;
 use OrangeHRM\Leave\Traits\Service\LeaveTypeServiceTrait;
 use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
 
@@ -34,6 +35,7 @@ class ViewLeaveEntitlementController extends AbstractVueController
     use UserRoleManagerTrait;
     use EmployeeServiceTrait;
     use LeaveTypeServiceTrait;
+    use PermissionTrait;
 
     /**
      * @inheritDoc
@@ -75,5 +77,8 @@ class ViewLeaveEntitlementController extends AbstractVueController
             $component->addProp(new Prop('leave-period', Prop::TYPE_OBJECT, $leavePeriod));
         }
         $this->setComponent($component);
+
+        // $empNumber can be null
+        $this->setPermissionsForEmployee(['leave_entitlements'], $empNumber);
     }
 }
