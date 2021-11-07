@@ -25,7 +25,7 @@ use OrangeHRM\Core\Report\ReportData;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
 use OrangeHRM\Core\Traits\Service\NumberHelperTrait;
-use OrangeHRM\Entity\LeaveType;
+use OrangeHRM\Entity\EmployeeTerminationRecord;
 use OrangeHRM\Leave\Api\Model\LeaveTypeModel;
 use OrangeHRM\Leave\Dto\LeaveTypeLeaveEntitlementUsageReportSearchFilterParams;
 use OrangeHRM\Leave\Traits\Service\LeaveEntitlementServiceTrait;
@@ -71,9 +71,14 @@ class LeaveTypeLeaveEntitlementUsageReportData implements ReportData
                     $this->filterParams->getFromDate(),
                     $this->filterParams->getToDate()
                 );
+
+            $employeeName = $employee->getDecorator()->getFirstAndLastNames();
+            if ($employee->getEmployeeTerminationRecord() instanceof EmployeeTerminationRecord) {
+                // TODO:: Need to handle localization
+                $employeeName .= ' (Past Employee)';
+            }
             $result[] = [
-                LeaveTypeLeaveEntitlementUsageReport::PARAMETER_EMPLOYEE_NAME => $employee->getDecorator()
-                    ->getFirstAndLastNames(),
+                LeaveTypeLeaveEntitlementUsageReport::PARAMETER_EMPLOYEE_NAME => $employeeName,
                 LeaveTypeLeaveEntitlementUsageReport::PARAMETER_ENTITLEMENT_DAYS => $this->getNumberHelper()
                     ->numberFormatWithGroupedThousands($balance->getEntitled(), 2),
                 LeaveTypeLeaveEntitlementUsageReport::PARAMETER_PENDING_APPROVAL_DAYS => $this->getNumberHelper()
