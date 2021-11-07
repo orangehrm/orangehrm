@@ -89,7 +89,7 @@ class LeavePeriodService
      * @param bool $isLeapYear
      * @return int[] Array of dates that can fall in the given month
      */
-    public function getListOfDates(int $month, bool $isLeapYear = true): array
+    public function getListOfDates(int $month, bool $isLeapYear = false): array
     {
         switch ($month) {
             case 1 :
