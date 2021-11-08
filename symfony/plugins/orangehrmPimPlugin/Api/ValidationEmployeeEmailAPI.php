@@ -83,17 +83,10 @@ class ValidationEmployeeEmailAPI extends Endpoint implements ResourceEndpoint
     {
         return new ParamRuleCollection(
             new ParamRule(
-                self::PARAMETER_WORK_EMAIL, new Rule(Rules::STRING_TYPE),
+                self::PARAMETER_WORK_EMAIL,
+                new Rule(Rules::STRING_TYPE),
+                new Rule(Rules::EMAIL),
                 new Rule(Rules::LENGTH, [null, self::PARAM_RULE_WORK_EMAIL_MAX_LENGTH]),
-                new Rule(Rules::CALLBACK, [
-                    function () {
-                        $workEmail = $this->getRequestParams()->getString(
-                            RequestParams::PARAM_TYPE_QUERY,
-                            self::PARAMETER_WORK_EMAIL
-                        );
-                        return filter_var($workEmail, FILTER_VALIDATE_EMAIL);
-                    }
-                ])
             ),
             new ParamRule(CommonParams::PARAMETER_EMP_NUMBER),
         );

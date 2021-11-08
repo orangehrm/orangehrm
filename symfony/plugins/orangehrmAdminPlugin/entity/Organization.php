@@ -39,11 +39,11 @@ class Organization
     private int $id;
 
     /**
-     * @var string|null
+     * @var string
      *
      * @ORM\Column(name="name", type="string", length=100)
      */
-    private ?string $name;
+    private string $name;
 
     /**
      * @var string|null
@@ -146,9 +146,9 @@ class Organization
     }
 
     /**
-     * @return string|null
+     * @return string
      */
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->name;
     }
