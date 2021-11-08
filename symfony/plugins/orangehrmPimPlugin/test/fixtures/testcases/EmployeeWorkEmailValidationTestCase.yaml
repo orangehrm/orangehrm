@@ -23,7 +23,6 @@ GetOne:
       workEmail: 'ashley@xample.com'
     data:
       valid: false
-      workEmail: 'ashley@xample.com'
     meta: [ ]
 
   'get flag by employee work email (current email is null)':
