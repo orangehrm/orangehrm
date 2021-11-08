@@ -9,7 +9,6 @@ GetOne:
       userName: 'samantha'
     data:
       valid: false
-      userName: 'samantha'
     meta: [ ]
 
   'get flag by user name (non exist)':
@@ -22,5 +21,4 @@ GetOne:
       userName: 'covid'
     data:
       valid: true
-      userName: 'covid'
     meta: [ ]

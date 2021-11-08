@@ -10,7 +10,6 @@ GetOne:
       workEmail: 'kayla0001@xample.com'
     data:
       valid: true
-      workEmail: 'kayla0001@xample.com'
     meta: [ ]
 
   'get flag by employee work email':
@@ -38,5 +37,4 @@ GetOne:
       workEmail: 'Chaturanga@xample.com'
     data:
       valid: true
-      workEmail: 'Chaturanga@xample.com'
     meta: [ ]
