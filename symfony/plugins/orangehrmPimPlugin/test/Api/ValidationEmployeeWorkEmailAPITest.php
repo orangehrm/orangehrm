@@ -20,7 +20,7 @@
 namespace OrangeHRM\Tests\Pim\Api;
 
 use OrangeHRM\Framework\Services;
-use OrangeHRM\Pim\Api\UpdatePasswordAPI;
+use OrangeHRM\Pim\Api\ValidationEmployeeEmailAPI;
 use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
 use OrangeHRM\Tests\Util\Integration\TestCaseParams;
 
@@ -28,50 +28,50 @@ use OrangeHRM\Tests\Util\Integration\TestCaseParams;
  * @group Pim
  * @group APIv2
  */
-class UpdatePasswordAPITest extends EndpointIntegrationTestCase
+class ValidationEmployeeWorkEmailAPITest extends EndpointIntegrationTestCase
 {
     /**
-     * @dataProvider dataProviderForTestUpdate
+     * @dataProvider dataProviderForTestGetOne
      */
-    public function testUpdate(TestCaseParams $testCaseParams): void
+    public function testGetOne(TestCaseParams $testCaseParams): void
     {
-        $this->populateFixtures('UpdatePasswordDao.yaml');
+        $this->populateFixtures('EmployeeWorkEmailValidation.yml');
         $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
         $this->registerServices($testCaseParams);
         $this->registerMockDateTimeHelper($testCaseParams);
-        $api = $this->getApiEndpointMock(UpdatePasswordAPI::class, $testCaseParams);
-        $this->assertValidTestCase($api, 'update', $testCaseParams);
+        $api = $this->getApiEndpointMock(ValidationEmployeeEmailAPI::class, $testCaseParams);
+        $this->assertValidTestCase($api, 'getOne', $testCaseParams);
     }
 
-    public function dataProviderForTestUpdate(): array
+    public function dataProviderForTestGetOne(): array
     {
-        return $this->getTestCases('UpdatePasswordTestCase.yaml', 'Update');
+        return $this->getTestCases('EmployeeWorkEmailValidationTestCase.yaml', 'GetOne');
     }
 
-    public function testGetOne(): void
+    public function testUpdate(): void
     {
-        $api = new UpdatePasswordAPI($this->getRequest());
+        $api = new ValidationEmployeeEmailAPI($this->getRequest());
         $this->expectNotImplementedException();
-        $api->getOne();
+        $api->update();
     }
 
-    public function testGetValidationRuleForGetOne(): void
+    public function testGetValidationRuleForUpdate(): void
     {
-        $api = new UpdatePasswordAPI($this->getRequest());
+        $api = new ValidationEmployeeEmailAPI($this->getRequest());
         $this->expectNotImplementedException();
-        $api->getValidationRuleForGetOne();
+        $api->getValidationRuleForUpdate();
     }
 
     public function testDelete(): void
     {
-        $api = new UpdatePasswordAPI($this->getRequest());
+        $api = new ValidationEmployeeEmailAPI($this->getRequest());
         $this->expectNotImplementedException();
         $api->delete();
     }
 
     public function testGetValidationRuleForDelete(): void
     {
-        $api = new UpdatePasswordAPI($this->getRequest());
+        $api = new ValidationEmployeeEmailAPI($this->getRequest());
         $this->expectNotImplementedException();
         $api->getValidationRuleForDelete();
     }

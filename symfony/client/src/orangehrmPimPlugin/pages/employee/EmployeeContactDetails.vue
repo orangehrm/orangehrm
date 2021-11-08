@@ -141,6 +141,7 @@ import {
   validPhoneNumberFormat,
   validEmailFormat,
 } from '@orangehrm/core/util/validation/rules';
+import promiseDebounce from '@orangehrm/oxd/src/utils/promiseDebounce';
 
 const contactDetailsModel = {
   street1: '',
@@ -196,7 +197,11 @@ export default {
         homeTelephone: [shouldNotExceedCharLength(25), validPhoneNumberFormat],
         mobile: [shouldNotExceedCharLength(25), validPhoneNumberFormat],
         workTelephone: [shouldNotExceedCharLength(25), validPhoneNumberFormat],
-        workEmail: [shouldNotExceedCharLength(50), validEmailFormat],
+        workEmail: [
+          shouldNotExceedCharLength(50),
+          validEmailFormat,
+          promiseDebounce(this.validateWorkEmail, 500),
+        ],
         otherEmail: [shouldNotExceedCharLength(50), validEmailFormat],
       },
     };
@@ -220,6 +225,29 @@ export default {
         .then(() => {
           this.isLoading = false;
         });
+    },
+
+    validateWorkEmail(contact) {
+      return new Promise(resolve => {
+        if (contact) {
+          this.http
+            .request({
+              method: 'GET',
+              url: `api/v2/pim/employees/${this.empNumber}/contact-details/validation/work-emails`,
+              params: {
+                workEmail: this.contact.workEmail,
+              },
+            })
+            .then(response => {
+              const {data} = response.data;
+              return data.valid === true
+                ? resolve(true)
+                : resolve('Already exist');
+            });
+        } else {
+          resolve(true);
+        }
+      });
     },
 
     updateModel(response) {

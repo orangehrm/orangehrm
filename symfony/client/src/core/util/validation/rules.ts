@@ -17,11 +17,11 @@
  */
 
 import {
-  parseDate,
-  isBefore,
-  isAfter,
-  isEqual,
   compareTime,
+  isAfter,
+  isBefore,
+  isEqual,
+  parseDate,
 } from '../helper/datefns';
 
 /**
@@ -390,5 +390,18 @@ export const startTimeShouldBeBeforeEndTime = (
         resolvedMessage
       );
     }
+  };
+};
+
+/**
+ * @param {number} charLength
+ */
+export const shouldNotLessThanCharLength = function(charLength: number) {
+  return function(value: string): boolean | string {
+    return (
+      !value ||
+      String(value).length >= charLength ||
+      `Should be least  ${charLength} characters`
+    );
   };
 };

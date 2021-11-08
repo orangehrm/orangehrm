@@ -17,59 +17,63 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Core\Api\Rest;
+namespace OrangeHRM\Pim\Api;
 
-use OrangeHRM\Admin\Dto\AboutOrganization;
-use OrangeHRM\Admin\Service\OrganizationService;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
-use OrangeHRM\Core\Api\V2\Model\AboutOrganizationModel;
+use OrangeHRM\Core\Api\V2\Model\ArrayModel;
+use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\ResourceEndpoint;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
-use OrangeHRM\Entity\Organization;
-use OrangeHRM\Pim\Dto\EmployeeSearchFilterParams;
+use OrangeHRM\Core\Api\V2\Validator\Rule;
+use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Entity\Employee;
 use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
 
-class AboutOrganizationAPI extends Endpoint implements ResourceEndpoint
+class ValidationEmployeeEmailAPI extends Endpoint implements ResourceEndpoint
 {
     use EmployeeServiceTrait;
 
-    /**
-     * @var null|OrganizationService
-     */
-    protected ?OrganizationService $organizationService = null;
+    public const PARAMETER_WORK_EMAIL = 'workEmail';
+    public const PARAMETER_IS_CHANGEABLE_WORK_EMAIL = 'valid';
 
-    /**
-     * @return OrganizationService
-     */
-    public function getOrganizationService(): OrganizationService
-    {
-        if (is_null($this->organizationService)) {
-            $this->organizationService = new OrganizationService();
-        }
-        return $this->organizationService;
-    }
+    public const PARAM_RULE_WORK_EMAIL_MAX_LENGTH = 50;
 
     /**
      * @inheritDoc
      */
     public function getOne(): EndpointResult
     {
-        $aboutOrganization = new AboutOrganization();
-        $employeeParamHolder = new EmployeeSearchFilterParams();
-        $employeeParamHolder->setIncludeEmployees("3");
-        $organization = $this->getOrganizationService()->getOrganizationGeneralInformation();
-        $organizationName = $organization instanceof Organization ? $organization->getName() : 'OrangeHRM';
-        $numberOfActiveEmployees = $this->getEmployeeService()->getNumberOfEmployees();
-        $numberOfPastEmployees = $this->getEmployeeService()->getEmployeeCount($employeeParamHolder);
-        $aboutOrganization->setCompanyName($organizationName);
-        $aboutOrganization->setVersion("5.0");// TODO need to move this to config
-        $aboutOrganization->setNumberOfActiveEmployee($numberOfActiveEmployees);
-        $aboutOrganization->setNumberOfPastEmployee($numberOfPastEmployees);
-        return new EndpointResourceResult(AboutOrganizationModel::class, $aboutOrganization);
+        $empNumber = $this->getRequestParams()->getInt(
+            RequestParams::PARAM_TYPE_ATTRIBUTE,
+            CommonParams::PARAMETER_EMP_NUMBER
+        );
+        $workEmail = $this->getRequestParams()->getString(
+            RequestParams::PARAM_TYPE_QUERY,
+            self::PARAMETER_WORK_EMAIL
+        );
+        $employee = $this->getEmployeeService()->getEmployeeDao()->getEmployeeByEmpNumber($empNumber);
+        $this->throwRecordNotFoundExceptionIfNotExist($employee, Employee::class);
+        $employeeCurrentWorkEmail = $employee->getWorkEmail();
+        if ($employeeCurrentWorkEmail) {
+            $isChangeableWorkEmail = $this->getEmployeeService()
+                ->getEmployeeDao()
+                ->isWorkEmailAvailableByCurrentEmail(
+                    $workEmail,
+                    $employeeCurrentWorkEmail
+                );
+        } else {
+            $isChangeableWorkEmail = $this->getEmployeeService()->getEmployeeDao()->isWorkEmailAvailable($workEmail);
+        }
+        return new EndpointResourceResult(
+            ArrayModel::class,
+            [
+                self::PARAMETER_IS_CHANGEABLE_WORK_EMAIL => $isChangeableWorkEmail,
+            ]
+        );
     }
 
     /**
@@ -79,8 +83,12 @@ class AboutOrganizationAPI extends Endpoint implements ResourceEndpoint
     {
         return new ParamRuleCollection(
             new ParamRule(
-                CommonParams::PARAMETER_ID
+                self::PARAMETER_WORK_EMAIL,
+                new Rule(Rules::STRING_TYPE),
+                new Rule(Rules::EMAIL),
+                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_WORK_EMAIL_MAX_LENGTH]),
             ),
+            new ParamRule(CommonParams::PARAMETER_EMP_NUMBER),
         );
     }
 
