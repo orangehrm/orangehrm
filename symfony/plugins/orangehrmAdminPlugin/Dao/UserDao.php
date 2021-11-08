@@ -373,4 +373,17 @@ class UserDao extends BaseDao
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
     }
+
+    /**
+     **this function for validating the username availability. ( false -> username already exist, true - username is not exist )
+     * @param string $userName
+     * @return bool
+     */
+    public function isUserNameExistByUserName(string $userName): bool
+    {
+        $q = $this->createQueryBuilder(User::class, 'u');
+        $q->andWhere('u.userName = :userName');
+        $q->setParameter('userName', $userName);
+        return $this->getPaginator($q)->count() === 0;
+    }
 }
