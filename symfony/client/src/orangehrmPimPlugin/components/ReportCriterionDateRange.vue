@@ -87,9 +87,9 @@ export default {
   },
   setup(props) {
     const operators = ref([
-      {id: 'lt', label: 'Less Than'},
-      {id: 'gt', label: 'Greater Than'},
-      {id: 'between', label: 'Range'},
+      {id: 'lt', label: 'Joined before'},
+      {id: 'gt', label: 'Joined after'},
+      {id: 'between', label: 'Joined in between'},
     ]);
 
     const rules = {
