@@ -80,11 +80,6 @@
 .org-action {
   display: flex;
   &-icon {
-    font-size: inherit;
-    min-height: unset;
-    min-width: unset;
-    height: 30px;
-    width: 30px;
     margin-right: 0.5rem;
     &:last-child {
       margin-right: unset;

@@ -29,6 +29,7 @@ use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Leave\Controller\Traits\PermissionTrait;
 use OrangeHRM\Leave\Traits\Service\LeaveTypeServiceTrait;
 use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
+use OrangeHRM\Leave\Traits\Service\LeavePeriodServiceTrait;
 
 class ViewLeaveEntitlementController extends AbstractVueController
 {
@@ -36,6 +37,7 @@ class ViewLeaveEntitlementController extends AbstractVueController
     use EmployeeServiceTrait;
     use LeaveTypeServiceTrait;
     use PermissionTrait;
+    use LeavePeriodServiceTrait;
 
     /**
      * @inheritDoc
@@ -73,9 +75,17 @@ class ViewLeaveEntitlementController extends AbstractVueController
                 "startDate" => "$startDate",
                 "endDate" => "$endDate"
             ];
-
-            $component->addProp(new Prop('leave-period', Prop::TYPE_OBJECT, $leavePeriod));
+        } else {
+            $leavePeriod = $this->getLeavePeriodService()->getNormalizedCurrentLeavePeriod();
+            $leavePeriod = [
+                "id" => $leavePeriod['startDate'] . "_" . $leavePeriod['endDate'],
+                "label" => $leavePeriod['startDate'] . " - " . $leavePeriod['endDate'],
+                "startDate" => $leavePeriod['startDate'],
+                "endDate" => $leavePeriod['endDate'],
+            ];
         }
+        $component->addProp(new Prop('leave-period', Prop::TYPE_OBJECT, $leavePeriod));
+
         $this->setComponent($component);
 
         // $empNumber can be null
