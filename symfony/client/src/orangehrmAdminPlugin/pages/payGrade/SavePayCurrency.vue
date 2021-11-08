@@ -23,7 +23,7 @@
     <oxd-divider />
     <oxd-form :loading="isLoading" @submitValid="onSave">
       <oxd-form-row>
-        <oxd-grid :cols="1" class="orangehrm-full-width-grid">
+        <oxd-grid :cols="2" class="orangehrm-full-width-grid">
           <oxd-grid-item>
             <oxd-input-field
               type="select"
