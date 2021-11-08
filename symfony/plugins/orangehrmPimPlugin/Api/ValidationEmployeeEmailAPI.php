@@ -40,6 +40,8 @@ class ValidationEmployeeEmailAPI extends Endpoint implements ResourceEndpoint
     public const PARAMETER_WORK_EMAIL = 'workEmail';
     public const PARAMETER_IS_CHANGEABLE_WORK_EMAIL = 'valid';
 
+    public const PARAM_RULE_WORK_EMAIL_MAX_LENGTH = 50;
+
     /**
      * @inheritDoc
      */
@@ -82,6 +84,7 @@ class ValidationEmployeeEmailAPI extends Endpoint implements ResourceEndpoint
         return new ParamRuleCollection(
             new ParamRule(
                 self::PARAMETER_WORK_EMAIL, new Rule(Rules::STRING_TYPE),
+                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_WORK_EMAIL_MAX_LENGTH]),
                 new Rule(Rules::CALLBACK, [
                     function () {
                         $workEmail = $this->getRequestParams()->getString(

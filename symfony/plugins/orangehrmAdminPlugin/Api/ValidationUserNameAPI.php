@@ -40,6 +40,8 @@ class ValidationUserNameAPI extends Endpoint implements ResourceEndpoint
     public const PARAMETER_USER_NAME = 'userName';
     public const PARAMETER_IS_CHANGEABLE_USERNAME = 'valid';
 
+    public const PARAM_RULE_USER_NAME_MAX_LENGTH = 40;
+
     /**
      * @return UserService|null
      */
@@ -59,7 +61,6 @@ class ValidationUserNameAPI extends Endpoint implements ResourceEndpoint
             ArrayModel::class,
             [
                 self::PARAMETER_IS_CHANGEABLE_USERNAME => $isChangeableUserName,
-                self::PARAMETER_USER_NAME => $userName,
             ]
         );
     }
@@ -70,7 +71,11 @@ class ValidationUserNameAPI extends Endpoint implements ResourceEndpoint
     public function getValidationRuleForGetOne(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(self::PARAMETER_USER_NAME, new Rule(Rules::STRING_TYPE))
+            new ParamRule(
+                self::PARAMETER_USER_NAME,
+                new Rule(Rules::STRING_TYPE),
+                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_USER_NAME_MAX_LENGTH]),
+            )
         );
     }
 
