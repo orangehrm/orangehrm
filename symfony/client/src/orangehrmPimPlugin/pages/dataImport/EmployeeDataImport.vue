@@ -72,7 +72,7 @@
         </ul>
       </div>
 
-      <oxd-form :loading="isLoading" @submitValid="onSave">
+      <oxd-form ref="formRef" :loading="isLoading" @submitValid="onSave">
         <oxd-form-row>
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item>
@@ -108,6 +108,7 @@ import {
   maxFileSize,
   validFileTypes,
 } from '@/core/util/validation/rules';
+import useForm from '@orangehrm/core/util/composable/useForm';
 
 const attachmentModel = {
   attachment: null,
@@ -141,9 +142,11 @@ export default {
       window.appGlobal.baseUrl,
       `api/v2/pim/csv-import`,
     );
-
+    const {formRef, reset} = useForm();
     return {
       http,
+      reset,
+      formRef,
     };
   },
   methods: {
@@ -155,7 +158,7 @@ export default {
         })
         .then(response => {
           const importedRecords = response.data.meta.total;
-          this.attachment = {...attachmentModel};
+          this.reset();
           this.isLoading = false;
           if (importedRecords > 0) {
             return this.$toast.success({

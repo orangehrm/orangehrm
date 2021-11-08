@@ -34,7 +34,7 @@
 
       <oxd-divider />
 
-      <oxd-form :loading="isLoading" @submitValid="onSave">
+      <oxd-form ref="formRef" :loading="isLoading" @submitValid="onSave">
         <oxd-form-row>
           <oxd-grid :cols="2" class="orangehrm-full-width-grid">
             <oxd-grid-item>
@@ -183,6 +183,7 @@ import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete'
 import LeaveConflict from '@/orangehrmLeavePlugin/components/LeaveConflict';
 import LeaveAssignConfirmModal from '@/orangehrmLeavePlugin/components/LeaveAssignConfirmModal';
 import useLeaveValidators from '@/orangehrmLeavePlugin/util/composable/useLeaveValidators';
+import useForm from '@orangehrm/core/util/composable/useForm';
 
 const leaveModel = {
   employee: null,
@@ -230,8 +231,11 @@ export default {
       validateLeaveBalance,
       validateOverlapLeaves,
     } = useLeaveValidators(http);
+    const {formRef, reset} = useForm();
     return {
       http,
+      reset,
+      formRef,
       serializeBody,
       validateLeaveBalance,
       validateOverlapLeaves,
@@ -298,7 +302,7 @@ export default {
         })
         .then(() => {
           this.$toast.saveSuccess();
-          this.leave = {...leaveModel};
+          this.reset();
         })
         .catch(() => {
           this.showLeaveConflict &&
