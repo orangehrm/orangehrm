@@ -69,6 +69,7 @@ export default {
             return {
               id: item.id,
               label: item.name ? item.name : item.title,
+              _indent: item.level ? item.level + 1 : 1,
             };
           });
         });
