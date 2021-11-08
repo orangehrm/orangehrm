@@ -228,8 +228,6 @@ export default {
         },
       }),
     });
-    console.log(filters);
-    console.log(props);
     const checkedItems = ref([]);
 
     const rules = {

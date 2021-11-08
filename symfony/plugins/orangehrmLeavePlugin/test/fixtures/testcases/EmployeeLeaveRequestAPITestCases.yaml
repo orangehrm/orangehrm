@@ -564,7 +564,7 @@ GetAll:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
       limit: 2
-      statuses: [ 'pendingApproval', 'scheduled', 'taken', 'cancelled', 'rejected' ]
+      statuses: [ 1, 2, 3, 0, -1 ]
     data: [
       {
         "id": 3,
@@ -738,7 +738,7 @@ GetAll:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
       offset: 15
-      statuses: [ 'pendingApproval', 'scheduled', 'taken', 'cancelled' ]
+      statuses: [ 1, 2, 3, 0 ]
     data: [
       {
         "id": 15,
@@ -828,7 +828,7 @@ GetAll:
     query:
       offset: 10
       limit: 1
-      statuses: [ 'pendingApproval', 'scheduled', 'taken', 'cancelled' ]
+      statuses: [ 1, 2, 3, 0 ]
     data: [
       {
         "id": 4,
@@ -923,7 +923,7 @@ GetAll:
     query:
       fromDate: '2021-11-03'
       toDate: '2021-11-03'
-      statuses: [ 'scheduled' ]
+      statuses: [ 2 ]
     data: [
       {
         "id": 16,
@@ -1013,7 +1013,7 @@ GetAll:
     query:
       fromDate: '2021-11-04'
       toDate: '2021-11-04'
-      statuses: [ 'pendingApproval', 'scheduled', 'taken', 'cancelled' ]
+      statuses: [ 1, 2, 3, 0 ]
     data: [
       {
         "id": 17,
