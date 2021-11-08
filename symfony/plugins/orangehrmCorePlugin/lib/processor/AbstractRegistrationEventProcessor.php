@@ -125,12 +125,12 @@ abstract class AbstractRegistrationEventProcessor
         $registrationData = [];
         try {
             $adminEmployee = $this->getMarketplaceDao()->getAdmin();
+            $organizationGeneralInfo = $this->getOrganizationService()->getOrganizationGeneralInformation();
             $language = $this->getConfigService()->getAdminLocalizationDefaultLanguage() ? $this->getConfigService(
             )->getAdminLocalizationDefaultLanguage() : 'Not captured';
-            $country = $this->getOrganizationService()->getOrganizationGeneralInformation()->getCountry(
-            ) ? $this->getOrganizationService()->getOrganizationGeneralInformation()->getCountry() : null;
+            $country = $organizationGeneralInfo ? $organizationGeneralInfo->getCountry(): null;
             $instanceIdentifier = $this->getInstanceIdentifier();
-            $organizationName = $this->getOrganizationService()->getOrganizationGeneralInformation()->getName();
+            $organizationName = $organizationGeneralInfo ? $organizationGeneralInfo->getName(): 'Not Captured';
             $systemDetails = $this->getSystemDetails();
             $organizationEmail = '';
             $adminFirstName = '';
