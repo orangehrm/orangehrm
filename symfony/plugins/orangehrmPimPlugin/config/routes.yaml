@@ -488,6 +488,16 @@ apiv2_pim_update_password:
     id: 0
     _api: OrangeHRM\Pim\Api\UpdatePasswordAPI
 
+apiv2_pim_validate_employee_email:
+  path: /api/v2/pim/employees/{empNumber}/contact-details/validation/work-emails
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _key: workEmail
+    _api: OrangeHRM\Pim\Api\ValidationEmployeeEmailAPI
+  requirements:
+    empNumber: '\d+'
+
 ##########################
 #        Files
 ##########################

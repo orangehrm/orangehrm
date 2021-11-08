@@ -17,40 +17,37 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Core\Api\Rest;
+namespace OrangeHRM\Admin\Api;
 
-use OrangeHRM\Admin\Dto\AboutOrganization;
-use OrangeHRM\Admin\Service\OrganizationService;
-use OrangeHRM\Core\Api\CommonParams;
+use OrangeHRM\Admin\Service\UserService;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
-use OrangeHRM\Core\Api\V2\Model\AboutOrganizationModel;
+use OrangeHRM\Core\Api\V2\Model\ArrayModel;
+use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\ResourceEndpoint;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
-use OrangeHRM\Entity\Organization;
-use OrangeHRM\Pim\Dto\EmployeeSearchFilterParams;
-use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
+use OrangeHRM\Core\Api\V2\Validator\Rule;
+use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Core\Traits\ServiceContainerTrait;
+use OrangeHRM\Framework\Services;
 
-class AboutOrganizationAPI extends Endpoint implements ResourceEndpoint
+class ValidationUserNameAPI extends Endpoint implements ResourceEndpoint
 {
-    use EmployeeServiceTrait;
+    use ServiceContainerTrait;
+
+    public const PARAMETER_USER_NAME = 'userName';
+    public const PARAMETER_IS_CHANGEABLE_USERNAME = 'valid';
+
+    public const PARAM_RULE_USER_NAME_MAX_LENGTH = 40;
 
     /**
-     * @var null|OrganizationService
+     * @return UserService|null
      */
-    protected ?OrganizationService $organizationService = null;
-
-    /**
-     * @return OrganizationService
-     */
-    public function getOrganizationService(): OrganizationService
+    public function getSystemUserService(): ?UserService
     {
-        if (is_null($this->organizationService)) {
-            $this->organizationService = new OrganizationService();
-        }
-        return $this->organizationService;
+        return $this->getContainer()->get(Services::USER_SERVICE);
     }
 
     /**
@@ -58,18 +55,14 @@ class AboutOrganizationAPI extends Endpoint implements ResourceEndpoint
      */
     public function getOne(): EndpointResult
     {
-        $aboutOrganization = new AboutOrganization();
-        $employeeParamHolder = new EmployeeSearchFilterParams();
-        $employeeParamHolder->setIncludeEmployees("3");
-        $organization = $this->getOrganizationService()->getOrganizationGeneralInformation();
-        $organizationName = $organization instanceof Organization ? $organization->getName() : 'OrangeHRM';
-        $numberOfActiveEmployees = $this->getEmployeeService()->getNumberOfEmployees();
-        $numberOfPastEmployees = $this->getEmployeeService()->getEmployeeCount($employeeParamHolder);
-        $aboutOrganization->setCompanyName($organizationName);
-        $aboutOrganization->setVersion("5.0");// TODO need to move this to config
-        $aboutOrganization->setNumberOfActiveEmployee($numberOfActiveEmployees);
-        $aboutOrganization->setNumberOfPastEmployee($numberOfPastEmployees);
-        return new EndpointResourceResult(AboutOrganizationModel::class, $aboutOrganization);
+        $userName = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_QUERY, self::PARAMETER_USER_NAME);
+        $isChangeableUserName = $this->getSystemUserService()->getSystemUserDao()->isUserNameExistByUserName($userName);
+        return new EndpointResourceResult(
+            ArrayModel::class,
+            [
+                self::PARAMETER_IS_CHANGEABLE_USERNAME => $isChangeableUserName,
+            ]
+        );
     }
 
     /**
@@ -79,8 +72,10 @@ class AboutOrganizationAPI extends Endpoint implements ResourceEndpoint
     {
         return new ParamRuleCollection(
             new ParamRule(
-                CommonParams::PARAMETER_ID
-            ),
+                self::PARAMETER_USER_NAME,
+                new Rule(Rules::STRING_TYPE),
+                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_USER_NAME_MAX_LENGTH]),
+            )
         );
     }
 
