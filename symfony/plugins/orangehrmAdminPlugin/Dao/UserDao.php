@@ -375,16 +375,15 @@ class UserDao extends BaseDao
     }
 
     /**
+     **this function for validating the username availability. ( false -> username already exist, true - username is not exist )
      * @param string $userName
      * @return bool
      */
     public function isUserNameExistByUserName(string $userName): bool
     {
-        // this function for validating the username availability. ( false -> username already exist, true - username is not exist )
         $q = $this->createQueryBuilder(User::class, 'u');
         $q->andWhere('u.userName = :userName');
         $q->setParameter('userName', $userName);
-        $paginator = new Paginator($q);
-        return $paginator->count() == 0;
+        return $this->getPaginator($q)->count() === 0;
     }
 }

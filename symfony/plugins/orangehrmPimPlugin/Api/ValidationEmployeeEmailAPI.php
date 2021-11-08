@@ -45,22 +45,31 @@ class ValidationEmployeeEmailAPI extends Endpoint implements ResourceEndpoint
      */
     public function getOne(): EndpointResult
     {
-        $empNumber = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_EMP_NUMBER);
-        $workEmail = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_QUERY, self::PARAMETER_WORK_EMAIL);
+        $empNumber = $this->getRequestParams()->getInt(
+            RequestParams::PARAM_TYPE_ATTRIBUTE,
+            CommonParams::PARAMETER_EMP_NUMBER
+        );
+        $workEmail = $this->getRequestParams()->getString(
+            RequestParams::PARAM_TYPE_QUERY,
+            self::PARAMETER_WORK_EMAIL
+        );
         $employee = $this->getEmployeeService()->getEmployeeDao()->getEmployeeByEmpNumber($empNumber);
-        $this->throwRecordNotFoundExceptionIfNotExist($employee,Employee::class);
+        $this->throwRecordNotFoundExceptionIfNotExist($employee, Employee::class);
         $employeeCurrentWorkEmail = $employee->getWorkEmail();
-        if ($employeeCurrentWorkEmail){
-            $isChangeableWorkEmail = $this->getEmployeeService()->getEmployeeDao()->isWorkEmailAvailableByCurrentEmail($workEmail,$employeeCurrentWorkEmail);
-        }
-        else{
+        if ($employeeCurrentWorkEmail) {
+            $isChangeableWorkEmail = $this->getEmployeeService()
+                ->getEmployeeDao()
+                ->isWorkEmailAvailableByCurrentEmail(
+                    $workEmail,
+                    $employeeCurrentWorkEmail
+                );
+        } else {
             $isChangeableWorkEmail = $this->getEmployeeService()->getEmployeeDao()->isWorkEmailAvailable($workEmail);
         }
         return new EndpointResourceResult(
             ArrayModel::class,
             [
                 self::PARAMETER_IS_CHANGEABLE_WORK_EMAIL => $isChangeableWorkEmail,
-                self::PARAMETER_WORK_EMAIL => $workEmail,
             ]
         );
     }
@@ -71,13 +80,18 @@ class ValidationEmployeeEmailAPI extends Endpoint implements ResourceEndpoint
     public function getValidationRuleForGetOne(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(self::PARAMETER_WORK_EMAIL, new Rule(Rules::STRING_TYPE),
+            new ParamRule(
+                self::PARAMETER_WORK_EMAIL, new Rule(Rules::STRING_TYPE),
                 new Rule(Rules::CALLBACK, [
-                function () {
-                    $workEmail = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_QUERY, self::PARAMETER_WORK_EMAIL);
-                    return filter_var($workEmail, FILTER_VALIDATE_EMAIL);
-                }
-            ])),
+                    function () {
+                        $workEmail = $this->getRequestParams()->getString(
+                            RequestParams::PARAM_TYPE_QUERY,
+                            self::PARAMETER_WORK_EMAIL
+                        );
+                        return filter_var($workEmail, FILTER_VALIDATE_EMAIL);
+                    }
+                ])
+            ),
             new ParamRule(CommonParams::PARAMETER_EMP_NUMBER),
         );
     }
