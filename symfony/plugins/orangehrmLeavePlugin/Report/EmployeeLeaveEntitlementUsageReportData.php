@@ -56,6 +56,8 @@ class EmployeeLeaveEntitlementUsageReportData implements ReportData
         $empNumber = $this->filterParams->getEmpNumber();
         $fromDateYmd = $this->getDateTimeHelper()->formatDateTimeToYmd($this->filterParams->getFromDate());
         $toDateYmd = $this->getDateTimeHelper()->formatDateTimeToYmd($this->filterParams->getToDate());
+        $isMyReportType = $this->filterParams->getReportType() ===
+            EmployeeLeaveEntitlementUsageReportSearchFilterParams::REPORT_TYPE_MY;
         $result = [];
         foreach ($leaveTypes as $leaveType) {
             $balance = $this->getLeaveEntitlementService()
@@ -70,6 +72,9 @@ class EmployeeLeaveEntitlementUsageReportData implements ReportData
                 // TODO:: Need to handle localization
                 $leaveTypeName .= ' (Deleted)';
             }
+
+            $leaveEntitlementUrl = $isMyReportType ? '/leave/viewMyLeaveEntitlements' : '/leave/viewLeaveEntitlements';
+            $leaveListUrl = $isMyReportType ? '/leave/viewMyLeaveList' : '/leave/viewLeaveList';
             $result[] = [
                 EmployeeLeaveEntitlementUsageReport::PARAMETER_LEAVE_TYPE_NAME => $leaveTypeName,
                 EmployeeLeaveEntitlementUsageReport::PARAMETER_ENTITLEMENT_DAYS => $this->getNumberHelper()
@@ -84,22 +89,22 @@ class EmployeeLeaveEntitlementUsageReportData implements ReportData
                     ->numberFormatWithGroupedThousands($balance->getBalance(), 2),
                 'leaveTypeDeleted' => $leaveType->isDeleted(),
                 '_url' => [
-                    EmployeeLeaveEntitlementUsageReport::PARAMETER_ENTITLEMENT_DAYS => '/leave/viewLeaveEntitlements' .
+                    EmployeeLeaveEntitlementUsageReport::PARAMETER_ENTITLEMENT_DAYS => $leaveEntitlementUrl .
                         "?empNumber=$empNumber" .
                         "&fromDate=$fromDateYmd" .
                         "&toDate=$toDateYmd" .
                         '&leaveTypeId=' . $leaveType->getId(),
-                    EmployeeLeaveEntitlementUsageReport::PARAMETER_PENDING_APPROVAL_DAYS => '/leave/viewLeaveList' .
+                    EmployeeLeaveEntitlementUsageReport::PARAMETER_PENDING_APPROVAL_DAYS => $leaveListUrl .
                         "?empNumber=$empNumber" .
                         "&fromDate=$fromDateYmd" .
                         "&toDate=$toDateYmd" .
                         '&leaveTypeId=' . $leaveType->getId() . '&status=1',
-                    EmployeeLeaveEntitlementUsageReport::PARAMETER_SCHEDULED_DAYS => '/leave/viewLeaveList' .
+                    EmployeeLeaveEntitlementUsageReport::PARAMETER_SCHEDULED_DAYS => $leaveListUrl .
                         "?empNumber=$empNumber" .
                         "&fromDate=$fromDateYmd" .
                         "&toDate=$toDateYmd" .
                         '&leaveTypeId=' . $leaveType->getId() . '&status=2',
-                    EmployeeLeaveEntitlementUsageReport::PARAMETER_TAKEN_DAYS => '/leave/viewLeaveList' .
+                    EmployeeLeaveEntitlementUsageReport::PARAMETER_TAKEN_DAYS => $leaveListUrl .
                         "?empNumber=$empNumber" .
                         "&fromDate=$fromDateYmd" .
                         "&toDate=$toDateYmd" .
