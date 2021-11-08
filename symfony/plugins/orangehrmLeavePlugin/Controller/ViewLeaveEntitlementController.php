@@ -59,36 +59,52 @@ class ViewLeaveEntitlementController extends AbstractVueController
                 )
             );
         }
-
-        $leaveTypeId = $request->get('leaveTypeId');
-        if (!is_null($leaveTypeId)) {
-            $leaveType = $this->getLeaveTypeService()->getLeaveTypeAsArray($leaveTypeId);
-            $component->addProp(new Prop('leave-type', Prop::TYPE_OBJECT, $leaveType));
-        }
-
-        $startDate = $request->get('startDate');
-        $endDate = $request->get('endDate');
-        if ($startDate && $endDate) {
-            $leavePeriod = [
-                "id" => "${startDate}_${endDate}",
-                "label" => "$startDate - $endDate",
-                "startDate" => "$startDate",
-                "endDate" => "$endDate"
-            ];
-        } else {
-            $leavePeriod = $this->getLeavePeriodService()->getNormalizedCurrentLeavePeriod();
-            $leavePeriod = [
-                "id" => $leavePeriod['startDate'] . "_" . $leavePeriod['endDate'],
-                "label" => $leavePeriod['startDate'] . " - " . $leavePeriod['endDate'],
-                "startDate" => $leavePeriod['startDate'],
-                "endDate" => $leavePeriod['endDate'],
-            ];
-        }
-        $component->addProp(new Prop('leave-period', Prop::TYPE_OBJECT, $leavePeriod));
+        $this->addLeaveTypeProp($request, $component);
+        $this->addLeavePeriodProp($request, $component);
 
         $this->setComponent($component);
 
         // $empNumber can be null
         $this->setPermissionsForEmployee(['leave_entitlements'], $empNumber);
+    }
+
+    /**
+     * @param Request $request
+     * @param Component $component
+     */
+    protected function addLeaveTypeProp(Request $request, Component $component): void
+    {
+        $leaveTypeId = $request->get('leaveTypeId');
+        if (!is_null($leaveTypeId)) {
+            $leaveType = $this->getLeaveTypeService()->getLeaveTypeAsArray($leaveTypeId);
+            $component->addProp(new Prop('leave-type', Prop::TYPE_OBJECT, $leaveType));
+        }
+    }
+
+    /**
+     * @param Request $request
+     * @param Component $component
+     */
+    protected function addLeavePeriodProp(Request $request, Component $component): void
+    {
+        $startDate = $request->get('startDate');
+        $endDate = $request->get('endDate');
+        if ($startDate && $endDate) {
+            $leavePeriod = [
+                'id' => "${startDate}_${endDate}",
+                'label' => "$startDate - $endDate",
+                'startDate' => "$startDate",
+                'endDate' => "$endDate"
+            ];
+        } else {
+            $leavePeriod = $this->getLeavePeriodService()->getNormalizedCurrentLeavePeriod();
+            $leavePeriod = [
+                'id' => $leavePeriod['startDate'] . '_' . $leavePeriod['endDate'],
+                'label' => $leavePeriod['startDate'] . ' - ' . $leavePeriod['endDate'],
+                'startDate' => $leavePeriod['startDate'],
+                'endDate' => $leavePeriod['endDate'],
+            ];
+        }
+        $component->addProp(new Prop('leave-period', Prop::TYPE_OBJECT, $leavePeriod));
     }
 }

@@ -24,6 +24,7 @@ use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Report\ReportData;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Core\Traits\Service\NumberHelperTrait;
+use OrangeHRM\Entity\Leave;
 use OrangeHRM\Leave\Dto\EmployeeLeaveEntitlementUsageReportSearchFilterParams;
 use OrangeHRM\Leave\Traits\Service\LeaveEntitlementServiceTrait;
 use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
@@ -98,17 +99,17 @@ class EmployeeLeaveEntitlementUsageReportData implements ReportData
                         "?empNumber=$empNumber" .
                         "&fromDate=$fromDateYmd" .
                         "&toDate=$toDateYmd" .
-                        '&leaveTypeId=' . $leaveType->getId() . '&status=1',
+                        '&leaveTypeId=' . $leaveType->getId() . '&status=' . Leave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL,
                     EmployeeLeaveEntitlementUsageReport::PARAMETER_SCHEDULED_DAYS => $leaveListUrl .
                         "?empNumber=$empNumber" .
                         "&fromDate=$fromDateYmd" .
                         "&toDate=$toDateYmd" .
-                        '&leaveTypeId=' . $leaveType->getId() . '&status=2',
+                        '&leaveTypeId=' . $leaveType->getId() . '&status=' . Leave::LEAVE_STATUS_LEAVE_APPROVED,
                     EmployeeLeaveEntitlementUsageReport::PARAMETER_TAKEN_DAYS => $leaveListUrl .
                         "?empNumber=$empNumber" .
                         "&fromDate=$fromDateYmd" .
                         "&toDate=$toDateYmd" .
-                        '&leaveTypeId=' . $leaveType->getId() . '&status=3'
+                        '&leaveTypeId=' . $leaveType->getId() . '&status=' . Leave::LEAVE_STATUS_LEAVE_TAKEN,
                 ],
             ];
         }

@@ -19,19 +19,15 @@
 
 namespace OrangeHRM\Leave\Controller;
 
-use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
-use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Leave\Controller\Traits\PermissionTrait;
-use OrangeHRM\Leave\Traits\Service\LeavePeriodServiceTrait;
 
-class ViewMyLeaveEntitlementController extends AbstractVueController
+class ViewMyLeaveEntitlementController extends ViewLeaveEntitlementController
 {
     use PermissionTrait;
     use AuthUserTrait;
-    use LeavePeriodServiceTrait;
 
     /**
      * @inheritDoc
@@ -39,16 +35,8 @@ class ViewMyLeaveEntitlementController extends AbstractVueController
     public function preRender(Request $request): void
     {
         $component = new Component('leave-view-my-entitlement');
-
-        $leavePeriod = $this->getLeavePeriodService()->getNormalizedCurrentLeavePeriod();
-        $leavePeriod = [
-            "id" => $leavePeriod['startDate'] . "_" . $leavePeriod['endDate'],
-            "label" => $leavePeriod['startDate'] . " - " . $leavePeriod['endDate'],
-            "startDate" => $leavePeriod['startDate'],
-            "endDate" => $leavePeriod['endDate'],
-        ];
-
-        $component->addProp(new Prop('leave-period', Prop::TYPE_OBJECT, $leavePeriod));
+        $this->addLeaveTypeProp($request, $component);
+        $this->addLeavePeriodProp($request, $component);
 
         $this->setComponent($component);
         $this->setPermissionsForEmployee(['leave_entitlements'], $this->getAuthUser()->getEmpNumber());

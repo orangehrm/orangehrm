@@ -20,12 +20,15 @@
 namespace OrangeHRM\Leave\Dto;
 
 use InvalidArgumentException;
+use OrangeHRM\Entity\Leave;
+use OrangeHRM\Leave\Traits\Service\LeaveRequestServiceTrait;
 use OrangeHRM\ORM\ListSorter;
 use OrangeHRM\Pim\Dto\Traits\SubunitIdChainTrait;
 
 class LeaveRequestSearchFilterParams extends DateRangeSearchFilterParams
 {
     use SubunitIdChainTrait;
+    use LeaveRequestServiceTrait;
 
     public const ALLOWED_SORT_FIELDS = ['leave.date'];
 
@@ -39,12 +42,12 @@ class LeaveRequestSearchFilterParams extends DateRangeSearchFilterParams
         self::INCLUDE_EMPLOYEES_CURRENT_AND_PAST,
     ];
 
-    public const LEAVE_STATUS_MAP = [
-        'rejected' => 'REJECTED',
-        'cancelled' => 'CANCELLED',
-        'pendingApproval' => 'PENDING APPROVAL',
-        'scheduled' => 'SCHEDULED',
-        'taken' => 'TAKEN',
+    public const LEAVE_STATUSES = [
+        Leave::LEAVE_STATUS_LEAVE_REJECTED,
+        Leave::LEAVE_STATUS_LEAVE_CANCELLED,
+        Leave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL,
+        Leave::LEAVE_STATUS_LEAVE_APPROVED,
+        Leave::LEAVE_STATUS_LEAVE_TAKEN,
     ];
 
     /**
@@ -91,12 +94,13 @@ class LeaveRequestSearchFilterParams extends DateRangeSearchFilterParams
      */
     public function setStatuses(?array $statuses): void
     {
-        if (!empty(array_diff($statuses, array_keys(self::LEAVE_STATUS_MAP)))) {
+        if (!empty(array_diff($statuses, self::LEAVE_STATUSES))) {
             throw new InvalidArgumentException();
         }
+        $statusMap = $this->getLeaveRequestService()->getAllLeaveStatusesAssoc();
         $this->statuses = [];
         foreach ($statuses as $status) {
-            $this->statuses[] = self::LEAVE_STATUS_MAP[$status];
+            $this->statuses[] = $statusMap[$status];
         }
     }
 

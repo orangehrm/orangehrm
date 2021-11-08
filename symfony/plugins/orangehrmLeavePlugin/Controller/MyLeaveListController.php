@@ -19,12 +19,10 @@
 
 namespace OrangeHRM\Leave\Controller;
 
-use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Core\Controller\AbstractVueController;
 
-class MyLeaveListController extends AbstractVueController
+class MyLeaveListController extends LeaveListController
 {
     /**
      * @inheritDoc
@@ -32,15 +30,10 @@ class MyLeaveListController extends AbstractVueController
     public function preRender(Request $request): void
     {
         $component = new Component('my-leave-list');
-
-        $leaveStatuses = [
-            ['id' => 1, 'label' => 'Rejected', 'key' => 'rejected'],
-            ['id' => 2, 'label' => 'Cancelled', 'key' => 'cancelled'],
-            ['id' => 3, 'label' => 'Pending Approval', 'key' => 'pendingApproval'],
-            ['id' => 4, 'label' => 'Scheduled', 'key' => 'scheduled'],
-            ['id' => 5, 'label' => 'Taken', 'key' => 'taken'],
-        ];
-        $component->addProp(new Prop('leave-statuses', Prop::TYPE_ARRAY, $leaveStatuses));
+        $this->addLeaveStatusesProp($component);
+        $this->addLeaveTypeProp($request, $component);
+        $this->addFromToDateProps($request, $component);
+        $this->addLeaveStatusProp($request, $component);
 
         $this->setComponent($component);
     }

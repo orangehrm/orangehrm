@@ -34,9 +34,9 @@ use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\Employee;
+use OrangeHRM\Entity\Leave;
 use OrangeHRM\Entity\LeaveRequest;
 use OrangeHRM\Entity\Subunit;
-use OrangeHRM\Entity\WorkflowStateMachine;
 use OrangeHRM\Leave\Api\Model\LeaveRequestDetailedModel;
 use OrangeHRM\Leave\Api\Model\LeaveRequestModel;
 use OrangeHRM\Leave\Api\Traits\LeaveRequestParamHelperTrait;
@@ -189,7 +189,7 @@ class EmployeeLeaveRequestAPI extends Endpoint implements CrudEndpoint
      */
     protected function getDefaultStatuses(): array
     {
-        return ['pendingApproval'];
+        return [Leave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL];
     }
 
     /**
@@ -235,7 +235,7 @@ class EmployeeLeaveRequestAPI extends Endpoint implements CrudEndpoint
                         Rules::EACH,
                         [
                             new Rules\Composite\AllOf(
-                                new Rule(Rules::IN, [array_keys(LeaveRequestSearchFilterParams::LEAVE_STATUS_MAP)])
+                                new Rule(Rules::IN, [LeaveRequestSearchFilterParams::LEAVE_STATUSES])
                             )
                         ]
                     )
