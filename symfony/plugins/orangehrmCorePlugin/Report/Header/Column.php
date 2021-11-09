@@ -138,6 +138,16 @@ class Column
     }
 
     /**
+     * @param array $cellProperties
+     * @return $this
+     */
+    public function addCellProperties(array $cellProperties = []): self
+    {
+        $this->cellProperties = array_replace($this->cellProperties ?? [], $cellProperties);
+        return $this;
+    }
+
+    /**
      * @return array
      */
     public function toArray(): array
