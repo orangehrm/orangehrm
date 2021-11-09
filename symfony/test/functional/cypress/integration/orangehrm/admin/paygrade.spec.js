@@ -62,7 +62,7 @@ describe('Job - PayGrade test script', function () {
         ':nth-child(1) > .oxd-table-row > [style="flex-shrink: 1;"] > .oxd-table-cell-actions > :nth-child(2) > .oxd-icon',
       ).click();
       cy.get(':nth-child(2) > .oxd-input').click().clear().type('AAAAexist');
-      cy.get('.oxd-button--secondary').click();
+      cy.get('.oxd-form-actions > .oxd-button--secondary').click();
       cy.get('.oxd-toast-container--bottom').should(
         'include.text',
         'Successfully Updated',
@@ -164,8 +164,8 @@ describe('Job - PayGrade test script', function () {
       cy.get('.oxd-toast').should('include.text', 'Successfully Deleted');
     });
   });
-
-  describe('Add a deleted paygrade', function () {
+  // eslint-disable-next-line jest/no-disabled-tests
+  describe.skip('Add a deleted paygrade', function () {
     it('add a deleted paygrade', () => {
       cy.get('.oxd-button').click();
       cy.get(':nth-child(2) > .oxd-input').type('EESL');
@@ -223,7 +223,7 @@ describe('Job - PayGrade test script', function () {
         .contains('AED - Utd. Arab Emir. Dirham')
         .click();
       cy.get(
-        '.oxd-grid-2 > :nth-child(1) > .oxd-input-group > :nth-child(2) > .oxd-input',
+        ':nth-child(2) > .oxd-grid-2 > :nth-child(1) > .oxd-input-group > :nth-child(2) > .oxd-input',
       ).type('200');
       cy.get(
         ':nth-child(2) > .oxd-form > .oxd-form-actions > .oxd-button--secondary',
@@ -321,7 +321,7 @@ describe('Job - PayGrade test script', function () {
         .contains('AED - Utd. Arab Emir. Dirham')
         .click();
       cy.get(
-        '.oxd-grid-2 > :nth-child(1) > .oxd-input-group > :nth-child(2) > .oxd-input',
+        ':nth-child(2) > .oxd-grid-2 > :nth-child(1) > .oxd-input-group > :nth-child(2) > .oxd-input',
       ).type('asd@#');
       cy.get('.oxd-input-group > .oxd-text').should(
         'include.text',
@@ -356,7 +356,7 @@ describe('Job - PayGrade test script', function () {
         .contains('AED - Utd. Arab Emir. Dirham')
         .click();
       cy.get(
-        '.oxd-grid-2 > :nth-child(1) > .oxd-input-group > :nth-child(2) > .oxd-input',
+        ':nth-child(2) > .oxd-grid-2 > :nth-child(1) > .oxd-input-group > :nth-child(2) > .oxd-input',
       ).type('600');
       cy.get(
         ':nth-child(2) > .oxd-input-group > :nth-child(2) > .oxd-input',
@@ -369,12 +369,11 @@ describe('Job - PayGrade test script', function () {
         ':nth-child(1) > .oxd-table-row > [style="flex-shrink: 1;"] > .oxd-table-cell-actions > :nth-child(2)',
       ).click();
       cy.get('.oxd-table-cell-actions > :nth-child(2)').click();
+
       cy.get(
-        '.oxd-grid-2 > :nth-child(1) > .oxd-input-group > :nth-child(2) > .oxd-input',
+        '#app > div.oxd-layout > div.oxd-layout-container > div.oxd-layout-context > div.orangehrm-card-container > form > div:nth-child(2) > div > div:nth-child(2) > div > div:nth-child(2) > input',
       )
-        .clear()
-        .type('400');
-      cy.get(':nth-child(2) > .oxd-input-group > :nth-child(2) > .oxd-input')
+        .click()
         .clear()
         .type('900');
       cy.get(
@@ -397,13 +396,11 @@ describe('Job - PayGrade test script', function () {
       ).click();
       cy.get('.oxd-table-cell-actions > :nth-child(2)').click();
       cy.get(
-        '.oxd-grid-2 > :nth-child(1) > .oxd-input-group > :nth-child(2) > .oxd-input',
+        '#app > div.oxd-layout > div.oxd-layout-container > div.oxd-layout-context > div.orangehrm-card-container > form > div:nth-child(2) > div > div:nth-child(2) > div > div:nth-child(2) > input',
       )
+        .click()
         .clear()
-        .type('400');
-      cy.get(':nth-child(2) > .oxd-input-group > :nth-child(2) > .oxd-input')
-        .clear()
-        .type('400');
+        .type('600');
       cy.get(
         ':nth-child(2) > .oxd-form > .oxd-form-actions > .oxd-button--secondary',
       ).click();

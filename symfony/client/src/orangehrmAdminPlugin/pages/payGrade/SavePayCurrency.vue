@@ -23,7 +23,7 @@
     <oxd-divider />
     <oxd-form :loading="isLoading" @submitValid="onSave">
       <oxd-form-row>
-        <oxd-grid :cols="1" class="orangehrm-full-width-grid">
+        <oxd-grid :cols="2" class="orangehrm-full-width-grid">
           <oxd-grid-item>
             <oxd-input-field
               type="select"
@@ -72,7 +72,11 @@
 
 <script>
 import {APIService} from '@/core/util/services/api.service';
-import {required, max, digitsOnly} from '@orangehrm/core/util/validation/rules';
+import {
+  required,
+  digitsOnly,
+  maxCurrency,
+} from '@orangehrm/core/util/validation/rules';
 const payCurrencyModel = {
   currencyId: '',
   minSalary: '',
@@ -101,8 +105,8 @@ export default {
       currencies: [],
       rules: {
         currencyId: [required],
-        minSalary: [max(1000000000), digitsOnly],
-        maxSalary: [max(1000000000), digitsOnly],
+        minSalary: [maxCurrency(1000000000), digitsOnly],
+        maxSalary: [maxCurrency(1000000000), digitsOnly],
       },
     };
   },
