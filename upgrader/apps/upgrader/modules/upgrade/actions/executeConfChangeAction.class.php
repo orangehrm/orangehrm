@@ -82,11 +82,6 @@ class executeConfChangeAction extends sfAction {
                     $currentTimestamp = $currentTime->getTimestamp();
                     $this->setInstanceIdentifier($currentTimestamp);
                     $this->setInstanceIdentifierChecksum($currentTimestamp);
-
-
-                    $registrationProcessorFactory = new RegistrationEventProcessorFactory();
-                    $installStartRegistrationEventProcessor = $registrationProcessorFactory->getRegistrationEventProcessor(RegistrationEventQueue::UPGRADE_START);
-                    $installStartRegistrationEventProcessor->saveRegistrationEvent(date("Y-m-d H:i:s"));
                 }
             }
         }

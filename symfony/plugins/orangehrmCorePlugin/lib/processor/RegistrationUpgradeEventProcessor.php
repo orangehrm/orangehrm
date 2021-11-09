@@ -17,21 +17,21 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-class RegistrationEventProcessorFactory
+class RegistrationUpgradeEventProcessor extends AbstractRegistrationEventProcessor
 {
-    public function getRegistrationEventProcessor(int $eventType)
+
+    public function getEventType()
     {
-        if ($eventType == RegistrationEventQueue::INSTALLATION_START) {
-            return new RegistrationStartEventProcessor();
-        }elseif ($eventType == RegistrationEventQueue::ACTIVE_EMPLOYEE_COUNT){
-            return new RegistrationEmployeeActivationEventProcessor();
-        }elseif ($eventType == RegistrationEventQueue::INACTIVE_EMPLOYEE_COUNT){
-            return new RegistrationEmployeeTerminationEventProcessor();
-        }elseif ($eventType == RegistrationEventQueue::INSTALLATION_SUCCESS){
-            return new RegistrationSuccessEventProcessor();
-        }elseif ($eventType == RegistrationEventQueue::UPGRADE_START){
-            return new RegistrationUpgradeEventProcessor();
-        }
-        return null;
+        return RegistrationEventQueue::UPGRADE_START;
+    }
+
+    public function getEventData()
+    {
+        return $this->getRegistrationEventGeneralData();
+    }
+
+    public function getEventToBeSavedOrNot()
+    {
+        return true;
     }
 }

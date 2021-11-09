@@ -71,6 +71,18 @@ VALUES (\'branding\', \'Corporate Branding\');';
 
         $sql[] = "UPDATE `hs_hr_config` SET `value` = '" . $this->incrementNumber . "' WHERE `hs_hr_config`.`key` = 'instance.increment_number';";
 
+        $sql[] = "CREATE TABLE IF NOT EXISTS `ohrm_registration_event_queue`
+(
+    `id`         INT NOT NULL AUTO_INCREMENT,
+    `event_type`   INT NOT NULL,
+    `published`  TINYINT UNSIGNED NOT NULL DEFAULT 0,
+    `event_time` DATETIME DEFAULT NULL,
+    `publish_time` DATETIME DEFAULT NULL,
+    `data` TEXT DEFAULT NULL,
+    primary key (`id`)
+) engine = innodb
+  default charset = utf8;";
+
         $this->sql = $sql;
     }
 
@@ -97,6 +109,7 @@ VALUES (\'branding\', \'Corporate Branding\');';
                 $result[] = $this->upgradeUtility->executeSql($sql);
             }
         }
+        $result[] = $this->upgradeUtility->executeSql($this->sql[14]);
         $this->checkTransactionComplete($result);
         $this->updateOhrmUpgradeInfo($this->transactionComplete, $this->incrementNumber);
         $this->upgradeUtility->finalizeTransaction($this->transactionComplete);
