@@ -27,6 +27,7 @@ class AuthenticationException extends Exception
     public const EMPLOYEE_TERMINATED = 'employee_terminated';
     public const USER_DISABLED = 'user_disabled';
     public const INVALID_CREDENTIALS = 'invalid_credentials';
+    public const INVALID_CSRF_TOKEN = 'invalid_csrf_token';
 
     /**
      * @var string
@@ -84,5 +85,13 @@ class AuthenticationException extends Exception
     public static function invalidCredentials(): self
     {
         return new self(self::INVALID_CREDENTIALS, 'Invalid credentials');
+    }
+
+    /**
+     * @return static
+     */
+    public static function invalidCsrfToken(): self
+    {
+        return new self(self::INVALID_CSRF_TOKEN, 'CSRF token validation failed');
     }
 }
