@@ -23,6 +23,7 @@
     type="select"
     :label="$t('leave.leave_type')"
     :options="options"
+    :show-empty-selector="showEmptySelector"
   >
     <template v-slot:afterSelected="{data}">
       <template v-if="data.isDeleted">(Deleted)</template>
@@ -50,8 +51,12 @@ export default {
       type: Number,
       required: false,
     },
+    showEmptySelector: {
+      type: Boolean,
+      default: true,
+    },
   },
-  setup(props) {
+  setup(props, context) {
     const options = ref([]);
     const http = new APIService(
       window.appGlobal.baseUrl,
@@ -71,6 +76,9 @@ export default {
               isDeleted: item.deleted,
             };
           });
+          if (!props.showEmptySelector && options.value.length > 0) {
+            context.emit('update:modelValue', options.value[0]);
+          }
         });
     });
 
