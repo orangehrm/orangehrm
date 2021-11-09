@@ -32,7 +32,7 @@
   <div class="orangehrm-background-container">
     <div class="orangehrm-paper-container">
       <div class="orangehrm-header-container">
-        <inline-action-button @click="onclickAdd">
+        <inline-action-button @click="onclickAdd" displayType="secondary">
           Currencies
         </inline-action-button>
       </div>
