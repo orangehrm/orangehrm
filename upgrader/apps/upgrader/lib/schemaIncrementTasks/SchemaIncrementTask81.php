@@ -26,6 +26,8 @@ class SchemaIncrementTask81 extends SchemaIncrementTask
 
     public function loadSql()
     {
+        $sql[] = 'SELECT * FROM `ohrm_marketplace_addon` WHERE `plugin_name` = \'orangehrmCorporateBrandingPlugin\';';
+
         $sql[] = 'CREATE TABLE IF NOT EXISTS `ohrm_theme` (
     `theme_id`   INT(11) AUTO_INCREMENT,
     `theme_name` VARCHAR(100),
@@ -63,6 +65,12 @@ VALUES (\'1\', \'default\',
         $sql[] = 'INSERT INTO `ohrm_i18n_group` (`name`, `title`)
 VALUES (\'branding\', \'Corporate Branding\');';
 
+        $sql[] = 'DELETE FROM `ohrm_marketplace_addon` WHERE `plugin_name`=\'orangehrmCorporateBrandingPlugin\';';
+
+        $sql[] = "UPDATE `hs_hr_config` SET `value` = '4.9' WHERE `hs_hr_config`.`key` = 'instance.version';";
+
+        $sql[] = "UPDATE `hs_hr_config` SET `value` = '" . $this->incrementNumber . "' WHERE `hs_hr_config`.`key` = 'instance.increment_number';";
+
         $this->sql = $sql;
     }
 
@@ -83,8 +91,11 @@ VALUES (\'branding\', \'Corporate Branding\');';
         $this->incrementNumber = 81;
         parent::execute();
         $result = [];
-        foreach ($this->sql as $sql) {
-            $result[] = $this->upgradeUtility->executeSql($sql);
+        $pluginExists = $this->upgradeUtility->executeSql($this->sql[0]);
+        if (!$pluginExists) {
+            foreach ($this->sql as $sql) {
+                $result[] = $this->upgradeUtility->executeSql($sql);
+            }
         }
         $this->checkTransactionComplete($result);
         $this->updateOhrmUpgradeInfo($this->transactionComplete, $this->incrementNumber);
