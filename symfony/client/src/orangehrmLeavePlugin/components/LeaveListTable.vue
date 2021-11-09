@@ -20,7 +20,12 @@
 
 <template>
   <div class="orangehrm-background-container">
-    <slot :filters="filters" :rules="rules" :filterItems="filterItems"></slot>
+    <slot
+      :filters="filters"
+      :rules="rules"
+      :filterItems="filterItems"
+      :onReset="onReset"
+    ></slot>
     <br />
     <div class="orangehrm-paper-container">
       <leave-list-table-header
@@ -460,6 +465,10 @@ export default {
     async filterItems() {
       await this.execQuery();
     },
+    onReset() {
+      this.filters = {...defaultFilters};
+      this.resetDataTable();
+    },
   },
 
   beforeMount() {
@@ -478,6 +487,7 @@ export default {
       })
       .finally(() => {
         this.isLoading = false;
+        Object.assign(defaultFilters, this.filters);
       });
   },
 };
