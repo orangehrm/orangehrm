@@ -165,7 +165,7 @@ describe('Job - PayGrade test script', function () {
     });
   });
 
-  describe('Add a deleted paygrade', function () {
+  describe.skip('Add a deleted paygrade', function () {
     it('add a deleted paygrade', () => {
       cy.get('.oxd-button').click();
       cy.get(':nth-child(2) > .oxd-input').type('EESL');
