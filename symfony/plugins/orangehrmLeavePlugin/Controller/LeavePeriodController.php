@@ -21,16 +21,25 @@ namespace OrangeHRM\Leave\Controller;
 
 use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Vue\Component;
+use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Leave\Traits\Service\LeavePeriodServiceTrait;
 
 class LeavePeriodController extends AbstractVueController
 {
+    use LeavePeriodServiceTrait;
+
     /**
      * @inheritDoc
      */
     public function preRender(Request $request): void
     {
         $component = new Component('leave-period');
+        $monthDates = [];
+        foreach ($this->getLeavePeriodService()->getMonthNumberList() as $month) {
+            $monthDates[$month] = $this->getLeavePeriodService()->getListOfDates($month);
+        }
+        $component->addProp(new Prop('month-dates', Prop::TYPE_OBJECT, $monthDates));
         $this->setComponent($component);
     }
 }

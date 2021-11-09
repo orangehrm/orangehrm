@@ -271,20 +271,20 @@ export default {
         cellType: 'oxd-table-cell-actions',
         cellConfig: {},
       };
-      if (this.$can.update(`leave_entitlements`)) {
-        headerActions.cellConfig.edit = {
-          onClick: this.onClickEdit,
-          props: {
-            name: 'pencil-fill',
-          },
-        };
-      }
       if (this.$can.delete(`leave_entitlements`)) {
         headerActions.cellConfig.delete = {
           onClick: this.onClickDelete,
           component: 'oxd-icon-button',
           props: {
             name: 'trash',
+          },
+        };
+      }
+      if (this.$can.update(`leave_entitlements`)) {
+        headerActions.cellConfig.edit = {
+          onClick: this.onClickEdit,
+          props: {
+            name: 'pencil-fill',
           },
         };
       }

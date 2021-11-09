@@ -13,7 +13,7 @@ GetAll:
       name: 'employee_leave_entitlements_and_usage'
     data: [
       {
-        "leaveTypeName": "CAN - Personal",
+        "leaveTypeName": "CAN - Personal (Deleted)",
         "entitlementDays": 0.0,
         "pendingApprovalDays": 0.0,
         "scheduledDays": 0.0,
@@ -138,7 +138,7 @@ GetAll:
       limit: 5
     data: [
       {
-        "leaveTypeName": "CAN - Personal",
+        "leaveTypeName": "CAN - Personal (Deleted)",
         "entitlementDays": 0.0,
         "pendingApprovalDays": 0.0,
         "scheduledDays": 0.0,
@@ -277,7 +277,7 @@ GetAll:
       name: 'employee_leave_entitlements_and_usage'
     data: [
       {
-        "leaveTypeName": "CAN - Personal",
+        "leaveTypeName": "CAN - Personal (Deleted)",
         "entitlementDays": 0.0,
         "pendingApprovalDays": 0.0,
         "scheduledDays": 0.0,
@@ -391,7 +391,7 @@ GetAll:
       name: 'employee_leave_entitlements_and_usage'
     data: [
       {
-        "leaveTypeName": "CAN - Personal",
+        "leaveTypeName": "CAN - Personal (Deleted)",
         "entitlementDays": 0.0,
         "pendingApprovalDays": 0.0,
         "scheduledDays": 0.0,
@@ -520,7 +520,7 @@ GetAll:
       name: 'employee_leave_entitlements_and_usage'
     data: [
       {
-        "leaveTypeName": "CAN - Personal",
+        "leaveTypeName": "CAN - Personal (Deleted)",
         "entitlementDays": 0.0,
         "pendingApprovalDays": 0.0,
         "scheduledDays": 0.0,
@@ -639,7 +639,7 @@ GetAll:
       empNumber: 3
     data: [
       {
-        "leaveTypeName": "CAN - Personal",
+        "leaveTypeName": "CAN - Personal (Deleted)",
         "entitlementDays": 0.0,
         "pendingApprovalDays": 0.0,
         "scheduledDays": 0.0,
