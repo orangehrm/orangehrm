@@ -49,6 +49,8 @@ import {APIService} from '@/core/util/services/api.service';
 import {navigate} from '@orangehrm/core/util/helper/navigation';
 import usePaginate from '@orangehrm/core/util/composable/usePaginate';
 import ReportTable from '@orangehrm/oxd/core/components/ReportTable/ReportTable';
+// import CellAdapter from '@orangehrm/oxd/core/components/ReportTable/CellAdapter';
+// import MultilineCell from '@orangehrm/oxd/core/components/ReportTable/Cell/MultilineCell';
 
 export default {
   name: 'reports-table',
@@ -113,7 +115,18 @@ export default {
     });
 
     const items = computed(() => {
-      return response.value.data ?? [];
+      const _items = Array.isArray(response.value.data)
+        ? response.value.data
+        : [];
+      return _items.map(item => {
+        let _rows = 0;
+        for (const key in item) {
+          const value = item[key];
+          if (Array.isArray(value) && value.length > _rows)
+            _rows = value.length;
+        }
+        return {...item, _rows};
+      });
     });
 
     const fetchTableHeaders = async () => {
