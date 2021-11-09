@@ -164,7 +164,7 @@ describe('Job - PayGrade test script', function () {
       cy.get('.oxd-toast').should('include.text', 'Successfully Deleted');
     });
   });
-
+  // eslint-disable-next-line jest/no-disabled-tests
   describe.skip('Add a deleted paygrade', function () {
     it('add a deleted paygrade', () => {
       cy.get('.oxd-button').click();
