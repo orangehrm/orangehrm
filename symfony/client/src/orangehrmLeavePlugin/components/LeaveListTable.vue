@@ -260,8 +260,7 @@ export default {
           ? 'currentAndPast'
           : 'onlyCurrent',
         statuses: statuses.map(item => item.id),
-        // TODO: uncomment after leaveTypeId param support by API
-        // leaveTypeId: filters.value.leaveType?.id,
+        leaveTypeId: filters.value.leaveType?.id,
       };
     });
 

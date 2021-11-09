@@ -71,6 +71,11 @@ class LeaveRequestSearchFilterParams extends DateRangeSearchFilterParams
     private ?int $subunitId = null;
 
     /**
+     * @var int|null
+     */
+    private ?int $leaveTypeId = null;
+
+    /**
      * @var string|null
      */
     private ?string $includeEmployees = self::INCLUDE_EMPLOYEES_ONLY_CURRENT;
@@ -150,6 +155,22 @@ class LeaveRequestSearchFilterParams extends DateRangeSearchFilterParams
     public function setSubunitId(?int $subunitId): void
     {
         $this->subunitId = $subunitId;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getLeaveTypeId(): ?int
+    {
+        return $this->leaveTypeId;
+    }
+
+    /**
+     * @param int|null $leaveTypeId
+     */
+    public function setLeaveTypeId(?int $leaveTypeId): void
+    {
+        $this->leaveTypeId = $leaveTypeId;
     }
 
     /**

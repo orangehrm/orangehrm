@@ -41,6 +41,7 @@ use OrangeHRM\Leave\Api\Model\LeaveRequestDetailedModel;
 use OrangeHRM\Leave\Api\Model\LeaveRequestModel;
 use OrangeHRM\Leave\Api\Traits\LeaveRequestParamHelperTrait;
 use OrangeHRM\Leave\Api\Traits\LeaveRequestPermissionTrait;
+use OrangeHRM\Leave\Api\ValidationRules\LeaveTypeIdRule;
 use OrangeHRM\Leave\Dto\LeaveRequest\DetailedLeaveRequest;
 use OrangeHRM\Leave\Dto\LeaveRequestSearchFilterParams;
 use OrangeHRM\Leave\Exception\LeaveAllocationServiceException;
@@ -173,6 +174,12 @@ class EmployeeLeaveRequestAPI extends Endpoint implements CrudEndpoint
         $leaveRequestSearchFilterParams->setSubunitId(
             $this->getRequestParams()->getIntOrNull(RequestParams::PARAM_TYPE_QUERY, self::FILTER_SUBUNIT_ID)
         );
+        $leaveRequestSearchFilterParams->setLeaveTypeId(
+            $this->getRequestParams()->getIntOrNull(
+                RequestParams::PARAM_TYPE_QUERY,
+                LeaveCommonParams::PARAMETER_LEAVE_TYPE_ID
+            )
+        );
         return $leaveRequestSearchFilterParams;
     }
 
@@ -225,6 +232,12 @@ class EmployeeLeaveRequestAPI extends Endpoint implements CrudEndpoint
                 new ParamRule(
                     self::FILTER_SUBUNIT_ID,
                     new Rule(Rules::ENTITY_ID_EXISTS, [Subunit::class])
+                )
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    LeaveCommonParams::PARAMETER_LEAVE_TYPE_ID,
+                    new Rule(LeaveTypeIdRule::class)
                 )
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
