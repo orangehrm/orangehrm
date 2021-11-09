@@ -179,15 +179,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-@import '@orangehrm/oxd/styles/_mixins.scss';
-
-.oxd-text.--count {
-  @include oxd-respond-to('xs') {
-    display: none;
-  }
-  @include oxd-respond-to('sm') {
-    display: block;
-  }
-}
-</style>
+<style src="./reports-table.scss" lang="scss" scoped></style>
