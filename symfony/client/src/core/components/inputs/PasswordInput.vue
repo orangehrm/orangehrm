@@ -65,7 +65,10 @@ import {
   checkPassword,
   getPassLevel,
 } from '@orangehrm/core/util/helper/password';
-import {required} from '@orangehrm/core/util/validation/rules';
+import {
+  required,
+  shouldNotExceedCharLength,
+} from '@orangehrm/core/util/validation/rules';
 
 export default {
   name: 'password-input',
@@ -85,13 +88,10 @@ export default {
   data() {
     return {
       rules: {
-        password: [
-          required,
-          v => (v && v.length <= 64) || 'Should not exceed 64 characters',
-          v => checkPassword(v),
-        ],
+        password: [required, shouldNotExceedCharLength(64), checkPassword],
         passwordConfirm: [
           required,
+          shouldNotExceedCharLength(64),
           v => (!!v && v === this.password) || 'Passwords do not match',
         ],
       },
