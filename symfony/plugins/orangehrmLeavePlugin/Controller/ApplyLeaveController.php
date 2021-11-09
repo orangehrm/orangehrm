@@ -20,12 +20,19 @@
 namespace OrangeHRM\Leave\Controller;
 
 use OrangeHRM\Core\Controller\AbstractVueController;
+use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
+use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Core\Vue\Component;
-use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Core\Vue\Prop;
+use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Leave\Traits\Service\WorkScheduleServiceTrait;
 
 class ApplyLeaveController extends AbstractVueController
 {
+    use WorkScheduleServiceTrait;
+    use DateTimeHelperTrait;
+    use AuthUserTrait;
+
     /**
      * @inheritDoc
      */
@@ -33,9 +40,14 @@ class ApplyLeaveController extends AbstractVueController
     {
         $component = new Component('leave-apply');
 
+        $workShiftStartEndTime = $this->getWorkScheduleService()
+            ->getWorkSchedule($this->getAuthUser()->getEmpNumber())
+            ->getWorkShiftStartEndTime();
         $workShift = [
-            "startTime" => "09:00",
-            "endTime" => "17:00"
+            'startTime' => $this->getDateTimeHelper()
+                ->formatDateTimeToTimeString($workShiftStartEndTime->getStartTime()),
+            'endTime' => $this->getDateTimeHelper()
+                ->formatDateTimeToTimeString($workShiftStartEndTime->getEndTime()),
         ];
         $component->addProp(new Prop('work-shift', Prop::TYPE_OBJECT, $workShift));
         $this->setComponent($component);

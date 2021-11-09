@@ -21,7 +21,7 @@
 <template>
   <reports-table
     module="leave"
-    name="employee_leave_entitlements_and_usage"
+    name="my_leave_entitlements_and_usage"
     :prefetch="true"
     :filters="serializedFilters"
     :column-count="6"

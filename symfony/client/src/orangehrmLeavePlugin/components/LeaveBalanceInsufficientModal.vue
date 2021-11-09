@@ -123,7 +123,7 @@ export default {
             return {
               period: `${period.startDate} - ${period.endDate}`,
               date: leave.date,
-              balance: leave.status?.name || leave.balance,
+              balance: leave.status?.name || leave.balance.toFixed(2),
             };
           });
         });

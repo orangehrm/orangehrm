@@ -29,6 +29,7 @@ use OrangeHRM\Entity\Leave;
 use OrangeHRM\Entity\LeaveEntitlement;
 use OrangeHRM\Entity\LeaveLeaveEntitlement;
 use OrangeHRM\Entity\LeaveRequest;
+use OrangeHRM\Entity\LeaveStatus;
 use OrangeHRM\Entity\LeaveType;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Leave\Dao\LeaveRequestDao;
@@ -37,7 +38,6 @@ use OrangeHRM\Leave\Dto\LeaveSearchFilterParams;
 use OrangeHRM\ORM\Exception\TransactionException;
 use OrangeHRM\Tests\Util\KernelTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
-use OrangeHRM\Entity\LeaveStatus;
 
 /**
  * @group Leave
@@ -45,70 +45,22 @@ use OrangeHRM\Entity\LeaveStatus;
  */
 class LeaveRequestDaoTest extends KernelTestCase
 {
-
-  	public $leaveRequestDao ;
-  	public $leaveType ;
-  	public $leavePeriod ;
-  	public $employee ;
-        private $fixture;
+    public $leaveRequestDao;
+    public $leaveType;
+    public $leavePeriod;
+    public $employee;
 
     protected function setUp(): void
     {
         $this->leaveRequestDao = new LeaveRequestDao();
-//            $this->leaveRequestDao->markApprovedLeaveAsTaken();
         $fixtureFile = Config::get(Config::PLUGINS_DIR)
             . '/orangehrmLeavePlugin/test/fixtures/LeaveRequestDao.yml';
         TestDataService::populate($fixtureFile);
-//            $this->fixture = sfYaml::load($fixtureFile);
-//            sfConfig::set('app_items_per_page', 50);
         $this->createKernelWithMockServices([Services::DATETIME_HELPER_SERVICE => new DateTimeHelperService()]);
     }
 
-    /* Tests for fetchLeaveRequest() */
-
-    public function xtestFetchLeaveRequest() {
-
-        $leaveRequest = $this->leaveRequestDao->fetchLeaveRequest(1);
-
-        $this->assertTrue($leaveRequest instanceof LeaveRequest);
-
-        $this->assertEquals(1, $leaveRequest->getLeaveTypeId());
-        $this->assertEquals('Casual', $leaveRequest->getLeaveTypeName());
-        $this->assertEquals('2010-08-30', $leaveRequest->getDateApplied());
-        $this->assertEquals(1, $leaveRequest->getEmpNumber());
-
-    }
-
-    /* Tests for fetchLeave() */
-
-    public function xtestFetchLeave() {
-
-        $leaveList = $this->leaveRequestDao->fetchLeave(1);
-
-        foreach ($leaveList as $leave) {
-            $this->assertTrue($leave instanceof Leave);
-        }
-
-        $this->assertEquals(2, count($leaveList));
-
-        $this->assertEquals(1, $leaveList[0]->getId());
-        $this->assertEquals(1, $leaveList[0]->getLeaveTypeId());
-        $this->assertEquals(1, $leaveList[0]->getEmpNumber());
-        $this->assertEquals('2010-09-01', $leaveList[0]->getDate());
-        $this->assertEquals(1, $leaveList[0]->getStatus());
-
-        $this->assertEquals(2, $leaveList[1]->getId());
-        $this->assertEquals(1, $leaveList[1]->getLeaveTypeId());
-        $this->assertEquals(1, $leaveList[1]->getEmpNumber());
-        $this->assertEquals('2010-09-02', $leaveList[1]->getDate());
-        $this->assertEquals(1, $leaveList[1]->getStatus());
-
-    }
-
-    /* Tests for getLeaveById() */
-
-    public function xtestGetLeaveById() {
-
+    public function testGetLeaveById(): void
+    {
         $leave = $this->leaveRequestDao->getLeaveById(1);
 
         $this->assertTrue($leave instanceof Leave);
@@ -116,28 +68,11 @@ class LeaveRequestDaoTest extends KernelTestCase
         $this->assertEquals(1, $leave->getId());
         $this->assertEquals(8, $leave->getLengthHours());
         $this->assertEquals(1, $leave->getLengthDays());
-        $this->assertEquals(1, $leave->getLeaveRequestId());
-        $this->assertEquals(1, $leave->getLeaveTypeId());
-        $this->assertEquals(1, $leave->getEmpNumber());
-        $this->assertEquals('2010-09-01', $leave->getDate());
+        $this->assertEquals(1, $leave->getLeaveRequest()->getId());
+        $this->assertEquals(1, $leave->getLeaveType()->getId());
+        $this->assertEquals(1, $leave->getEmployee()->getEmpNumber());
+        $this->assertEquals('2010-09-01', $leave->getDate()->format('Y-m-d'));
         $this->assertEquals(1, $leave->getStatus());
-
-    }
-
-    /* Tests for getScheduledLeavesSum() */
-
-    public function xtestGetScheduledLeavesSum() {
-
-        $this->assertEquals(2.75, $this->leaveRequestDao->getScheduledLeavesSum(1, 1, 1));
-        $this->assertEquals(1, $this->leaveRequestDao->getScheduledLeavesSum(2, 2, 1));
-
-    }
-
-    /* Tests for getTakenLeaveSum() */
-
-    public function xtestGetTakenLeaveSum() {
-        $this->assertEquals(2, $this->leaveRequestDao->getTakenLeaveSum(5, 2, 1));
-
     }
 
     public function testGetOverlappingLeaveMultipleFullDayLeave(): void
@@ -877,7 +812,7 @@ class LeaveRequestDaoTest extends KernelTestCase
         $leaveIds = $this->getLeaveIdsFromDb();
 
         // These are the leave requests defined in the fixture (LeaveRequestDao.yml
-        $expected = range(1,21);
+        $expected = range(1, 21);
         $this->assertEquals($expected, $leaveRequestIds);
 
         $leaveRequestData = $this->_getLeaveRequestData();
@@ -1272,595 +1207,11 @@ class LeaveRequestDaoTest extends KernelTestCase
         $this->assertEquals(count($entitlementAssignmentIds), count($entitlementList));
     }
 
-    public function xtestSearchLeaveRequestsAll() {
-
-        $searchParameters = new ParameterStub();
-        $dateRange = new DateRangeStub();
-
-        $searchParameters->setParameter('dateRange', $dateRange);
-        $searchParameters->setParameter('noOfRecordsPerPage', 50);
-        $searchParameters->setParameter('cmbWithTerminated','on');
-
-        $searchResult = $this->leaveRequestDao->searchLeaveRequests($searchParameters, 1);
-        $requestList = $searchResult['list'];
-        $requestCount = $searchResult['meta']['record_count'];
-
-        /* Checking type */
-
-        foreach ($requestList as $request) {
-            $this->assertTrue($request instanceof LeaveRequest);
-        }
-
-        /* Checking count */
-
-        $this->assertEquals(21, count($requestList));
-        $this->assertEquals(21, $requestCount);
-
-
-        /* Checking values and order */
-
-        $this->assertEquals(21, $requestList[0]->getId());
-        $this->assertEquals(4, $requestList[0]->getLeaveTypeId());
-        $this->assertEquals('2011-04-02', $requestList[0]->getDateApplied());
-        $this->assertEquals(6, $requestList[0]->getEmpNumber());
-
-        $this->assertEquals(9, $requestList[19]->getId());
-        $this->assertEquals(3, $requestList[19]->getLeaveTypeId());
-        $this->assertEquals('2010-06-08', $requestList[19]->getDateApplied());
-        $this->assertEquals(1, $requestList[19]->getEmpNumber());
-
-    }
-
-    public function xtestSearchLeaveRequestsAllTerminatedEmployee() {
-
-        $searchParameters = new ParameterStub();
-        $dateRange = new DateRangeStub();
-
-        $searchParameters->setParameter('dateRange', $dateRange);
-        $searchParameters->setParameter('noOfRecordsPerPage', 50);
-        $searchParameters->setParameter('cmbWithTerminated','');
-
-        $searchResult = $this->leaveRequestDao->searchLeaveRequests($searchParameters, 1);
-        $requestList = $searchResult['list'];
-        $requestCount = $searchResult['meta']['record_count'];
-
-        /* Checking type */
-
-        foreach ($requestList as $request) {
-            $this->assertTrue($request instanceof LeaveRequest);
-        }
-
-        /* Checking count */
-
-        $this->assertEquals(10, count($requestList));
-        $this->assertEquals(10, $requestCount);
-    }
-
-    public function xtestSearchLeaveRequestsDateRange() {
-
-        $searchParameters = new ParameterStub();
-        $dateRange = new DateRangeStub();
-        $dateRange->setFromDate('2010-09-01');
-        $dateRange->setToDate('2010-09-30');
-
-        $searchParameters->setParameter('dateRange', $dateRange);
-        $searchParameters->setParameter('noOfRecordsPerPage', 50);
-        $searchParameters->setParameter('cmbWithTerminated','on');
-
-        $searchResult = $this->leaveRequestDao->searchLeaveRequests($searchParameters, 1);
-        $requestList = $searchResult['list'];
-        $requestCount = $searchResult['meta']['record_count'];
-
-        /* Checking type */
-
-        foreach ($requestList as $request) {
-            $this->assertTrue($request instanceof LeaveRequest);
-        }
-
-        /* Checking count */
-
-        $this->assertEquals(9, count($requestList));
-        $this->assertEquals(9, $requestCount);
-
-        /* Checking values and order */
-
-        $this->assertEquals(8, $requestList[0]->getId());
-        $this->assertEquals(1, $requestList[0]->getLeaveTypeId());
-        $this->assertEquals('2010-08-08', $requestList[0]->getDateApplied());
-        $this->assertEquals(1, $requestList[0]->getEmpNumber());
-
-        $this->assertEquals(1, $requestList[8]->getId());
-        $this->assertEquals(1, $requestList[8]->getLeaveTypeId());
-        $this->assertEquals('2010-08-30', $requestList[8]->getDateApplied());
-        $this->assertEquals(1, $requestList[8]->getEmpNumber());
-
-    }
-
-    public function xtestSearchLeaveRequestsStates() {
-
-        $searchParameters = new ParameterStub();
-        $dateRange = new DateRangeStub();
-        $dateRange->setFromDate('2010-01-01');
-        $dateRange->setToDate('2010-12-31');
-
-        $searchParameters->setParameter('dateRange', $dateRange);
-        $searchParameters->setParameter('statuses', [1, -1, 3]);
-        $searchParameters->setParameter('noOfRecordsPerPage', 50);
-        $searchParameters->setParameter('cmbWithTerminated','on');
-        $searchResult = $this->leaveRequestDao->searchLeaveRequests($searchParameters, 1);
-
-        $requestList = $searchResult['list'];
-        $requestCount = $searchResult['meta']['record_count'];
-
-        /* Checking type */
-
-        foreach ($requestList as $request) {
-            $this->assertTrue($request instanceof LeaveRequest);
-        }
-
-        /* Checking count */
-
-        $this->assertEquals(11, count($requestList));
-        $this->assertEquals(11, $requestCount);
-
-        /* Checking values and order */
-
-        $this->assertEquals(17, $requestList[0]->getId());
-        $this->assertEquals(2, $requestList[0]->getLeaveTypeId());
-        $this->assertEquals('2010-08-15', $requestList[0]->getDateApplied());
-        $this->assertEquals(5, $requestList[0]->getEmpNumber());
-
-        $this->assertEquals(10, $requestList[8]->getId());
-        $this->assertEquals(1, $requestList[8]->getLeaveTypeId());
-        $this->assertEquals('2010-06-09', $requestList[8]->getDateApplied());
-        $this->assertEquals(1, $requestList[8]->getEmpNumber());
-
-    }
-
-    public function xtestSearchLeaveRequestsEmployeeFilterId() {
-
-        $searchParameters = new ParameterStub();
-        $dateRange = new DateRangeStub();
-
-        $searchParameters->setParameter('dateRange', $dateRange);
-        $searchParameters->setParameter('employeeFilter', 1);
-        $searchParameters->setParameter('noOfRecordsPerPage', 50);
-        $searchParameters->setParameter('cmbWithTerminated','on');
-
-        $searchResult = $this->leaveRequestDao->searchLeaveRequests($searchParameters, 1);
-        $requestList = $searchResult['list'];
-        $requestCount = $searchResult['meta']['record_count'];
-
-        /* Checking type */
-
-        foreach ($requestList as $request) {
-            $this->assertTrue($request instanceof LeaveRequest);
-        }
-
-        /* Checking count */
-
-        $this->assertEquals(11, count($requestList));
-        $this->assertEquals(11, $requestCount);
-
-        /* Checking values and order */
-
-        $this->assertEquals(8, $requestList[0]->getId());
-        $this->assertEquals(1, $requestList[0]->getLeaveTypeId());
-        $this->assertEquals('2010-08-08', $requestList[0]->getDateApplied());
-        $this->assertEquals(1, $requestList[0]->getEmpNumber());
-
-        $this->assertEquals(9, $requestList[10]->getId());
-        $this->assertEquals(3, $requestList[10]->getLeaveTypeId());
-        $this->assertEquals('2010-06-08', $requestList[10]->getDateApplied());
-        $this->assertEquals(1, $requestList[10]->getEmpNumber());
-
-    }
-
-    public function xtestSearchLeaveRequestsEmployeeFilterSingleEmployee() {
-
-        $searchParameters = new ParameterStub();
-        $dateRange = new DateRangeStub();
-
-        $searchParameters->setParameter('dateRange', $dateRange);
-        $searchParameters->setParameter('noOfRecordsPerPage', 50);
-        $searchParameters->setParameter('cmbWithTerminated','on');
-
-        $employee = new Employee();
-        $employee->setEmpNumber(1);
-        $searchParameters->setParameter('employeeFilter', $employee);
-
-        $searchResult = $this->leaveRequestDao->searchLeaveRequests($searchParameters, 1);
-        $requestList = $searchResult['list'];
-        $requestCount = $searchResult['meta']['record_count'];
-
-        /* Checking type */
-
-        foreach ($requestList as $request) {
-            $this->assertTrue($request instanceof LeaveRequest);
-        }
-
-        /* Checking count */
-
-        $this->assertEquals(11, count($requestList));
-        $this->assertEquals(11, $requestCount);
-
-        /* Checking values and order */
-
-        $this->assertEquals(8, $requestList[0]->getId());
-        $this->assertEquals(1, $requestList[0]->getLeaveTypeId());
-        $this->assertEquals('2010-08-08', $requestList[0]->getDateApplied());
-        $this->assertEquals(1, $requestList[0]->getEmpNumber());
-
-        $this->assertEquals(9, $requestList[10]->getId());
-        $this->assertEquals(3, $requestList[10]->getLeaveTypeId());
-        $this->assertEquals('2010-06-08', $requestList[10]->getDateApplied());
-        $this->assertEquals(1, $requestList[10]->getEmpNumber());
-
-    }
-
-    public function xtestSearchLeaveRequestsEmployeeFilterMultipleEmployees() {
-
-        $searchParameters = new ParameterStub();
-        $dateRange = new DateRangeStub();
-
-        $searchParameters->setParameter('dateRange', $dateRange);
-        $searchParameters->setParameter('noOfRecordsPerPage', 50);
-        $searchParameters->setParameter('cmbWithTerminated','on');
-
-        $employee1 = new Employee();
-        $employee1->setEmpNumber(1);
-        $employee2 = new Employee();
-        $employee2->setEmpNumber(2);
-
-        $searchParameters->setParameter('employeeFilter', [$employee1, $employee2]);
-
-        $searchResult = $this->leaveRequestDao->searchLeaveRequests($searchParameters, 1);
-        $requestList = $searchResult['list'];
-        $requestCount = $searchResult['meta']['record_count'];
-
-        /* Checking type */
-
-        foreach ($requestList as $request) {
-            $this->assertTrue($request instanceof LeaveRequest);
-        }
-
-        /* Checking count */
-
-        $this->assertEquals(14, count($requestList));
-        $this->assertEquals(14, $requestCount);
-
-        /* Checking values and order */
-
-        $this->assertEquals(14, $requestList[0]->getId());
-        $this->assertEquals(1, $requestList[0]->getLeaveTypeId());
-        $this->assertEquals('2010-08-12', $requestList[0]->getDateApplied());
-        $this->assertEquals(2, $requestList[0]->getEmpNumber());
-
-        $this->assertEquals(9, $requestList[13]->getId());
-        $this->assertEquals(3, $requestList[13]->getLeaveTypeId());
-        $this->assertEquals('2010-06-08', $requestList[13]->getDateApplied());
-        $this->assertEquals(1, $requestList[13]->getEmpNumber());
-
-    }
-
-    public function xtestSearchLeaveRequestsLeavePeriod() {
-
-        $searchParameters = new ParameterStub();
-        $dateRange = new DateRangeStub();
-
-        $searchParameters->setParameter('dateRange', $dateRange);
-        $searchParameters->setParameter('leavePeriod', 1);
-        $searchParameters->setParameter('noOfRecordsPerPage', 50);
-        $searchParameters->setParameter('cmbWithTerminated','on');
-
-        $searchResult = $this->leaveRequestDao->searchLeaveRequests($searchParameters, 1);
-        $requestList = $searchResult['list'];
-        $requestCount = $searchResult['meta']['record_count'];
-
-        /* Checking type */
-
-        foreach ($requestList as $request) {
-            $this->assertTrue($request instanceof LeaveRequest);
-        }
-
-        /* Checking count */
-
-        $this->assertEquals(18, count($requestList));
-        $this->assertEquals(18, $requestCount);
-
-        /* Checking values and order */
-
-        $this->assertEquals(17, $requestList[0]->getId());
-        $this->assertEquals(2, $requestList[0]->getLeaveTypeId());
-        $this->assertEquals('2010-08-15', $requestList[0]->getDateApplied());
-        $this->assertEquals(5, $requestList[0]->getEmpNumber());
-
-        $this->assertEquals(18, $requestList[17]->getId());
-        $this->assertEquals(2, $requestList[17]->getLeaveTypeId());
-        $this->assertEquals('2010-03-15', $requestList[17]->getDateApplied());
-        $this->assertEquals(5, $requestList[17]->getEmpNumber());
-
-    }
-
-    public function xtestSearchLeaveRequestsLeaveType() {
-
-        $searchParameters = new ParameterStub();
-        $dateRange = new DateRangeStub();
-
-        $searchParameters->setParameter('dateRange', $dateRange);
-        $searchParameters->setParameter('leaveType', 1);
-        $searchParameters->setParameter('noOfRecordsPerPage', 50);
-        $searchParameters->setParameter('cmbWithTerminated','on');
-
-        $searchResult = $this->leaveRequestDao->searchLeaveRequests($searchParameters, 1);
-        $requestList = $searchResult['list'];
-        $requestCount = $searchResult['meta']['record_count'];
-
-        /* Checking type */
-
-        foreach ($requestList as $request) {
-            $this->assertTrue($request instanceof LeaveRequest);
-        }
-
-        /* Checking count */
-
-        $this->assertEquals(10, count($requestList));
-        $this->assertEquals(10, $requestCount);
-
-        /* Checking values and order */
-
-        $this->assertEquals(19, $requestList[0]->getId());
-        $this->assertEquals(1, $requestList[0]->getLeaveTypeId());
-        $this->assertEquals('2010-08-20', $requestList[0]->getDateApplied());
-        $this->assertEquals(5, $requestList[0]->getEmpNumber());
-
-        $this->assertEquals(10, $requestList[9]->getId());
-        $this->assertEquals(1, $requestList[9]->getLeaveTypeId());
-        $this->assertEquals('2010-06-09', $requestList[9]->getDateApplied());
-        $this->assertEquals(1, $requestList[9]->getEmpNumber());
-
-    }
-
-    /**
-     * Test funtion to verify searching for leave requests of an employee
-     * in a particular subunit.
-     */
-    public function xtestSearchLeaveRequestsByEmployeeSubUnit() {
-
-        $searchParameters = new ParameterObject();
-
-        // Employees under engineering, and support (2,5) : employees 2,5,6
-        $searchParameters->setParameter('subUnit', 2);
-        $searchParameters->setParameter('noOfRecordsPerPage', 50);
-        $leaveFixture = $this->fixture['LeaveRequest'];
-        $expected = [
-            $leaveFixture[20], $leaveFixture[18], $leaveFixture[19], $leaveFixture[16],
-                          $leaveFixture[13], $leaveFixture[12], $leaveFixture[11],
-                          $leaveFixture[15], $leaveFixture[17]
-        ];
-
-        $searchResult = $this->leaveRequestDao->searchLeaveRequests($searchParameters);
-        $requestList = $searchResult['list'];
-        $requestCount = $searchResult['meta']['record_count'];
-
-        /* Checking type */
-
-        foreach ($requestList as $request) {
-            $this->assertTrue($request instanceof LeaveRequest);
-        }
-
-        /* Checking count */
-
-        $this->assertEquals(count($expected), count($requestList));
-        $this->assertEquals(count($expected), $requestCount);
-
-        /* Checking values and order */
-        $this->compareLeaveRequests($expected, $requestList);
-    }
-
-    /**
-     * Test funtion to verify searching for leave requests of an employee
-     * in a particular location
-     */
-    public function xtestSearchLeaveRequestsByLocation() {
-
-        $searchParameters = new ParameterObject();
-
-        // Location 1: employees 1
-        $searchParameters->setParameter('locations', [1]);
-
-        // need to include terminated since employee 1 is terminated.
-        $searchParameters->setParameter('cmbWithTerminated', true);
-        $searchParameters->setParameter('noOfRecordsPerPage', 50);
-        $leaveFixture = $this->fixture['LeaveRequest'];
-        $expected = [
-            $leaveFixture[7], $leaveFixture[6], $leaveFixture[5],
-                          $leaveFixture[4], $leaveFixture[3], $leaveFixture[2],
-                          $leaveFixture[1], $leaveFixture[0], $leaveFixture[10],
-                          $leaveFixture[9], $leaveFixture[8]
-        ];
-
-        $searchResult = $this->leaveRequestDao->searchLeaveRequests($searchParameters);
-        $requestList = $searchResult['list'];
-        $requestCount = $searchResult['meta']['record_count'];
-
-        /* Checking type */
-
-        foreach ($requestList as $request) {
-            $this->assertTrue($request instanceof LeaveRequest);
-        }
-
-        /* Checking count */
-
-        $this->assertEquals(count($expected), count($requestList));
-        $this->assertEquals(count($expected), $requestCount);
-
-        /* Checking values and order */
-        $this->compareLeaveRequests($expected, $requestList);
-    }
-
-    /**
-     * Test funtion to verify searching for leave requests of an employee
-     * in a multiple locations
-     */
-    public function xtestSearchLeaveRequestsByMultipleLocations() {
-
-        $searchParameters = new ParameterObject();
-
-        // Location 3,4: employees 5,6
-        $searchParameters->setParameter('locations', [3,4]);
-
-        $leaveFixture = $this->fixture['LeaveRequest'];
-        $expected = [
-            $leaveFixture[20], $leaveFixture[18], $leaveFixture[19], $leaveFixture[16],
-                          $leaveFixture[15], $leaveFixture[17]
-        ];
-
-        $searchResult = $this->leaveRequestDao->searchLeaveRequests($searchParameters);
-        $requestList = $searchResult['list'];
-        $requestCount = $searchResult['meta']['record_count'];
-
-        /* Checking type */
-
-        foreach ($requestList as $request) {
-            $this->assertTrue($request instanceof LeaveRequest);
-        }
-
-        /* Checking count */
-
-        $this->assertEquals(count($expected), count($requestList));
-        $this->assertEquals(count($expected), $requestCount);
-
-        /* Checking values and order */
-        $this->compareLeaveRequests($expected, $requestList);
-    }
-
-    /**
-     * Test funtion to verify searching for leave requests of by
-     * Employee Name.
-     */
-    public function xtestSearchLeaveRequestsByEmployeeName() {
-
-        $leaveFixture = $this->fixture['LeaveRequest'];
-        $ashleyLeave = [$leaveFixture[13], $leaveFixture[12], $leaveFixture[11]];
-
-        $tylorLandonJamesLeave = [
-            $leaveFixture[18], $leaveFixture[16], $leaveFixture[15],
-                                       $leaveFixture[14], $leaveFixture[17]
-        ];
-
-        $names = ['Ashley Aldis Abel', 'Aldis', 'ldis', 'Aldis', 'Abr'];
-        $expectedArray = [$ashleyLeave, $ashleyLeave, $ashleyLeave, $ashleyLeave, $tylorLandonJamesLeave];
-
-        for ($i = 0; $i < count($names); $i++) {
-            $name = $names[$i];
-            $expected = $expectedArray[$i];
-
-            $searchParameters = new ParameterObject();
-            $searchParameters->setParameter('employeeName', $name);
-
-            $searchResult = $this->leaveRequestDao->searchLeaveRequests($searchParameters);
-            $requestList = $searchResult['list'];
-            $requestCount = $searchResult['meta']['record_count'];
-
-            /* Checking type */
-
-            foreach ($requestList as $request) {
-                $this->assertTrue($request instanceof LeaveRequest);
-            }
-
-            /* Checking count */
-
-            $this->assertEquals(count($expected), count($requestList));
-            $this->assertEquals(count($expected), $requestCount);
-
-            /* Checking values and order */
-            $this->compareLeaveRequests($expected, $requestList);
-        }
-    }
-
-    /**
-     * Test the readLeave() function
-     */
-    public function xtestReadLeave() {
-
-        //
-        // Unavailable leave id
-        //
-        Doctrine_Query::create()
-		->delete('*')
-		->from('Leave l')
-		->where('id = 999');
-
-        $leave = $this->leaveRequestDao->readLeave(999);
-
-        $this->assertFalse($leave, 'should return false for unavailable leave id');
-
-        //
-        // Available leave id
-        //
-        $leaveFixture = $this->fixture['Leave'][1];
-
-        $savedLeave = $this->leaveRequestDao->readLeave($leaveFixture['id']);
-
-        // Compare leave id
-        $this->assertEquals($savedLeave->id, $leaveFixture['id'], 'leave id should match');
-
-        // Compare other properties
-        foreach ($leaveFixture as $property => $value) {
-            $this->assertEquals($savedLeave->$property, $value, $property . ' should match ');
-        }
-    }
-
-    public function xtestSaveLeave() {
-
-        // Try and save leave with id that exists - should throw error
-        $existingLeave = new Leave();
-        $existingLeave->fromArray($this->fixture['Leave'][1]);
-
-        try {
-            $this->leaveRequestDao->saveLeave($existingLeave);
-            $this->fail("Dao exception expected");
-        } catch (DaoException $e) {
-            // expected
-        }
-
-        // Try to save new leave (without id)
-        $leaveRequestId = $this->fixture['LeaveRequest'][1]['id'];
-        $leave = new Leave();
-        $leave->length_hours = 8;
-        $leave->length_days = 1;
-        $leave->leave_request_id = $leaveRequestId;
-        $leave->leave_type_id = $this->fixture['LeaveType'][0]['id'];
-        $leave->emp_number = $this->fixture['Employee'][0]['empNumber'];
-        $leave->date = '2010-09-09';
-        $leave->status = 1;
-        $this->leaveRequestDao->saveLeave($leave);
-
-        // Verify id assigned
-        $this->assertTrue(!empty($leave->id));
-
-
-        // Verify saved by retrieving
-        $result = Doctrine_Query::create()
-                                    ->select()
-                                    ->from('Leave l')
-                                    ->where('id = ?', $leave->id)
-                                    ->execute();
-        $this->assertTrue($result->count() == 1);
-        $this->assertTrue(is_a($result[0], 'Leave'));
-
-        $origAsArray = $leave->toArray();
-        $savedAsArray = $result[0]->toArray();
-
-        $this->assertEquals($origAsArray, $savedAsArray);
-    }
-
-    public function xtestGetEmployeesInSubUnits() {
-
+    public function testGetEmployeesInSubUnits()
+    {
         $this->assertEquals([2, 6], $this->getEmployeesInSubUnits([2]));
 
-        $this->assertEquals([1, 2, 3, 4, 5, 6], $this->getEmployeesInSubUnits([1,2,3,4,5]));
+        $this->assertEquals([1, 2, 3, 4, 5, 6], $this->getEmployeesInSubUnits([1, 2, 3, 4, 5]));
 
         $this->assertEquals([5], $this->getEmployeesInSubUnits([5]));
     }
@@ -2094,13 +1445,18 @@ class LeaveRequestDaoTest extends KernelTestCase
      *
      * @return array Array of employee numbers.
      */
-    protected function getEmployeesInSubUnits(array $subUnits) {
+    protected function getEmployeesInSubUnits(array $subUnits): array
+    {
         $empNumbers = [];
-        $employees = $this->fixture['Employee'];
+        $employees = TestDataService::loadFixtures(
+            Config::get(Config::PLUGINS_DIR)
+            . '/orangehrmLeavePlugin/test/fixtures/LeaveRequestDao.yml',
+            'Employee'
+        );
 
-        foreach($employees as $employee) {
+        foreach ($employees as $employee) {
             if (isset($employee['work_station']) &&
-                    in_array($employee['work_station'], $subUnits)) {
+                in_array($employee['work_station'], $subUnits)) {
                 $empNumbers[] = $employee['empNumber'];
             }
         }
@@ -2108,29 +1464,44 @@ class LeaveRequestDaoTest extends KernelTestCase
         return $empNumbers;
     }
 
-    public function xtestGetLeaveRequestsForEmployees() {
-        $this->assertEquals(range(1, 11),
-                $this->getLeaveRequestIds($this->getLeaveRequestsForEmployees([1])));
-
-        $this->assertEquals(range(1, 14),
-                $this->getLeaveRequestIds($this->getLeaveRequestsForEmployees([1, 2])));
+    public function testGetLeaveRequestsForEmployees(): void
+    {
+        $this->assertEquals(
+            range(1, 11),
+            $this->getLeaveRequestIds($this->getLeaveRequestsForEmployees([1]))
+        );
 
         $this->assertEquals(
-            [20],
-            $this->getLeaveRequestIds($this->getLeaveRequestsForEmployees([6])));
+            range(1, 14),
+            $this->getLeaveRequestIds($this->getLeaveRequestsForEmployees([1, 2]))
+        );
 
-        $this->assertEquals(range(16, 19),
-                $this->getLeaveRequestIds($this->getLeaveRequestsForEmployees([5])));
+        $this->assertEquals(
+            [20, 21],
+            $this->getLeaveRequestIds($this->getLeaveRequestsForEmployees([6]))
+        );
 
+        $this->assertEquals(
+            range(16, 19),
+            $this->getLeaveRequestIds($this->getLeaveRequestsForEmployees([5]))
+        );
     }
 
-    protected function getLeaveRequestsForEmployees($empNumbers) {
-
+    /**
+     * @param array $empNumbers
+     * @return array
+     */
+    protected function getLeaveRequestsForEmployees(array $empNumbers): array
+    {
         $leaveRequests = [];
-        $allLeaveRequests = $this->fixture['LeaveRequest'];
+        $allLeaveRequests = TestDataService::loadFixtures(
+            Config::get(Config::PLUGINS_DIR)
+            . '/orangehrmLeavePlugin/test/fixtures/LeaveRequestDao.yml',
+            'LeaveRequest'
+        );
 
-        foreach($allLeaveRequests as $request) {
-            if (in_array($request['empNumber'], $empNumbers)) {
+        foreach ($allLeaveRequests as $request) {
+            if (in_array($request['emp_number'], $empNumbers)) {
                 $leaveRequests[] = $request;
             }
         }
@@ -2138,26 +1509,31 @@ class LeaveRequestDaoTest extends KernelTestCase
         return $leaveRequests;
     }
 
-    protected function getLeaveRequestIds($leaveRequests) {
+    /**
+     * @param array $leaveRequests
+     * @return array
+     */
+    protected function getLeaveRequestIds(array $leaveRequests): array
+    {
         $ids = [];
         foreach ($leaveRequests as $request) {
-            $ids[] = $request['leave_request_id'];
+            $ids[] = $request['id'];
         }
 
         return $ids;
     }
 
-    protected function compareLeaveRequests($expected, $requestList) {
+    protected function compareLeaveRequests($expected, $requestList): void
+    {
         $this->assertEquals(count($expected), count($requestList));
 
         for ($i = 0; $i < count($expected); $i++) {
-
             $item = $expected[$i];
             $result = $requestList[$i];
             $str = $item['id'] . '->' . $result->getId() . "\n" .
-            $item['date_applied'] . '->' . $result->getDateApplied() . "\n" .
-            $item['emp_number'] . '->' . $result->getEmpNumber() . "\n" .
-            $item['comments'] . '->' . $result->getComments() . "\n\n";
+                $item['date_applied'] . '->' . $result->getDateApplied() . "\n" .
+                $item['emp_number'] . '->' . $result->getEmpNumber() . "\n" .
+                $item['comments'] . '->' . $result->getComments() . "\n\n";
 
             //echo $str;
 
@@ -2444,24 +1820,6 @@ class LeaveRequestDaoTest extends KernelTestCase
         $this->assertEquals($expected->isDeleted(), $actual->isDeleted());
     }
 
-    public function xtestGetLeaveRecordsBetweenTwoDays() {
-         $employeeId = 1;
-         $fromDate = '2010-09-01';
-         $toDate = '2010-09-21';
-         $status =[-1,0,1,2,3];
-         $leaveRecords = $this->leaveRequestDao->getLeaveRecordsBetweenTwoDays($fromDate,$toDate,$employeeId,$status);
-         $this->assertEquals(10,count($leaveRecords));
-     }
-
-     public function xtestGetLeaveRecordsBetweenTwoDaysForOnlySelectedStates() {
-         $employeeId = 1;
-         $fromDate = '2010-09-01';
-         $toDate = '2010-09-21';
-         $status =[1];
-         $leaveRecords = $this->leaveRequestDao->getLeaveRecordsBetweenTwoDays($fromDate,$toDate,$employeeId,$status);
-         $this->assertEquals(2,count($leaveRecords));
-     }
-
     public function testGetLeaveRequestsByEmpNumberAndDateRange(): void
     {
         $empNumber = 1;
@@ -2511,7 +1869,7 @@ class LeaveRequestDaoTest extends KernelTestCase
         $this->assertEmpty($result);
     }
 
-    public function testGetAllLeaveStatuses()
+    public function testGetAllLeaveStatuses(): void
     {
         $status1 = new LeaveStatus();
         $status1->setId(1);
@@ -2541,31 +1899,34 @@ class LeaveRequestDaoTest extends KernelTestCase
         $status7->setId(7);
         $status7->setStatus(5);
         $status7->setName('HOLIDAY');
-        $result = [$status1,$status2,$status3,$status4,$status5,$status6,$status7];
-        $this->assertEquals($result,$this->leaveRequestDao->getAllLeaveStatuses());
+        $result = [$status1, $status2, $status3, $status4, $status5, $status6, $status7];
+        $this->assertEquals($result, $this->leaveRequestDao->getAllLeaveStatuses());
     }
 
-    public function testGetLeaveRequestById()
+    public function testGetLeaveRequestById(): void
     {
         $this->assertEquals(1, $this->leaveRequestDao->getLeaveRequestById(1)->getId());
         $this->assertEquals(1, $this->leaveRequestDao->getLeaveRequestById(1)->getLeaveType()->getId());
-        $this->assertEquals('2010-08-30', $this->leaveRequestDao->getLeaveRequestById(1)->getDateApplied()->format('Y-m-d'));
+        $this->assertEquals(
+            '2010-08-30',
+            $this->leaveRequestDao->getLeaveRequestById(1)->getDateApplied()->format('Y-m-d')
+        );
         $this->assertEquals(1, $this->leaveRequestDao->getLeaveRequestById(1)->getEmployee()->getEmpNumber());
 
         $this->assertEquals(null, $this->leaveRequestDao->getLeaveRequestById(22));
     }
 
-    public function testGetLeavesByLeaveRequestId()
+    public function testGetLeavesByLeaveRequestId(): void
     {
         $leaveRequestIds = $this->getLeaveRequestIdsFromDb();
         $allLeaves = $this->getAllLeaves();
-        foreach ($leaveRequestIds as $leaveRequestId){
+        foreach ($leaveRequestIds as $leaveRequestId) {
             $leaves = $this->leaveRequestDao->getLeavesByLeaveRequestId($leaveRequestId);
-            foreach ($leaves as $leave){
-                $this->assertEquals($leaveRequestId,$leave->getLeaveRequest()->getId());
+            foreach ($leaves as $leave) {
+                $this->assertEquals($leaveRequestId, $leave->getLeaveRequest()->getId());
             }
-            foreach ($allLeaves as $leave){
-                if(!in_array($leave,$leaves)){
+            foreach ($allLeaves as $leave) {
+                if (!in_array($leave, $leaves)) {
                     $this->assertNotEquals($leaveRequestId, $leave->getLeaveRequest()->getId());
                 }
             }
@@ -2583,20 +1944,20 @@ class LeaveRequestDaoTest extends KernelTestCase
         return $q->getQuery()->execute();
     }
 
-    public function testGetLeaves()
+    public function testGetLeaves(): void
     {
         //check leave request id
         $leaveRequestIds = $this->getLeaveRequestIdsFromDb();
         $allLeaves = $this->getAllLeaves();
-        foreach ($leaveRequestIds as $leaveRequestId){
+        foreach ($leaveRequestIds as $leaveRequestId) {
             $leaveSearchFilterParams = new LeaveSearchFilterParams();
             $leaveSearchFilterParams->setLeaveRequestId($leaveRequestId);
             $leaves = $this->leaveRequestDao->getLeaves($leaveSearchFilterParams);
-            foreach ($leaves as $leave){
-                $this->assertEquals($leaveRequestId,$leave->getLeaveRequest()->getId());
+            foreach ($leaves as $leave) {
+                $this->assertEquals($leaveRequestId, $leave->getLeaveRequest()->getId());
             }
-            foreach ($allLeaves as $leave){
-                if(!in_array($leave,$leaves)){
+            foreach ($allLeaves as $leave) {
+                if (!in_array($leave, $leaves)) {
                     $this->assertNotEquals($leaveRequestId, $leave->getLeaveRequest()->getId());
                 }
             }
@@ -2606,119 +1967,77 @@ class LeaveRequestDaoTest extends KernelTestCase
         $leaveSearchFilterParams = new LeaveSearchFilterParams();
         $leaveSearchFilterParams->setLimit(5);
         $leaves = $this->leaveRequestDao->getLeaves($leaveSearchFilterParams);
-        $this->assertCount(5,$leaves);
+        $this->assertCount(5, $leaves);
         $ids = [];
-        foreach ($leaves as $leave){
+        foreach ($leaves as $leave) {
             array_push($ids, $leave->getId());
         }
-        $this->assertEquals([29,30,14,15,16],$ids);
+        $this->assertEquals([29, 30, 14, 15, 16], $ids);
 
         //check limit & offset 0
         $leaveSearchFilterParams = new LeaveSearchFilterParams();
         $leaveSearchFilterParams->setOffset(0);
         $leaveSearchFilterParams->setLimit(5);
         $leaves = $this->leaveRequestDao->getLeaves($leaveSearchFilterParams);
-        $this->assertCount(5,$leaves);
+        $this->assertCount(5, $leaves);
         $ids = [];
-        foreach ($leaves as $leave){
+        foreach ($leaves as $leave) {
             array_push($ids, $leave->getId());
         }
-        $this->assertEquals([29,30,14,15,16],$ids);
+        $this->assertEquals([29, 30, 14, 15, 16], $ids);
 
         //check limit & offset 1
         $leaveSearchFilterParams = new LeaveSearchFilterParams();
         $leaveSearchFilterParams->setOffset(1);
         $leaveSearchFilterParams->setLimit(5);
         $leaves = $this->leaveRequestDao->getLeaves($leaveSearchFilterParams);
-        $this->assertCount(5,$leaves);
+        $this->assertCount(5, $leaves);
         $ids = [];
-        foreach ($leaves as $leave){
+        foreach ($leaves as $leave) {
             array_push($ids, $leave->getId());
         }
-        $this->assertEquals([30,14,15,16,17],$ids);
+        $this->assertEquals([30, 14, 15, 16, 17], $ids);
 
         //check limit & offset 2
         $leaveSearchFilterParams = new LeaveSearchFilterParams();
         $leaveSearchFilterParams->setOffset(2);
         $leaveSearchFilterParams->setLimit(5);
         $leaves = $this->leaveRequestDao->getLeaves($leaveSearchFilterParams);
-        $this->assertCount(5,$leaves);
+        $this->assertCount(5, $leaves);
         $ids = [];
-        foreach ($leaves as $leave){
+        foreach ($leaves as $leave) {
             array_push($ids, $leave->getId());
         }
-        $this->assertEquals([14,15,16,17,18],$ids);
+        $this->assertEquals([14, 15, 16, 17, 18], $ids);
     }
 
-    public function testGetLeavesCount()
+    public function testGetLeavesCount(): void
     {
         $leaveSearchFilterParams = new LeaveSearchFilterParams();
         $leaveSearchFilterParams->setLeaveRequestId(4);
         $result = $this->leaveRequestDao->getLeavesCount($leaveSearchFilterParams);
-        $this->assertEquals(1,$result);
+        $this->assertEquals(1, $result);
 
         $leaveSearchFilterParams->setLeaveRequestId(5);
         $result = $this->leaveRequestDao->getLeavesCount($leaveSearchFilterParams);
-        $this->assertEquals(3,$result);
+        $this->assertEquals(3, $result);
     }
 
-    public function testGetLeaveRequestsByLeaveRequestIds()
+    public function testGetLeaveRequestsByLeaveRequestIds(): void
     {
-        $leaveRequestIds = [1,4,3];
+        $leaveRequestIds = [1, 4, 3];
         $leaveRequests = $this->leaveRequestDao->getLeaveRequestsByLeaveRequestIds($leaveRequestIds);
-        $this->assertEquals($this->getLeaveRequests($leaveRequestIds),$leaveRequests);
+        $this->assertEquals($this->getLeaveRequests($leaveRequestIds), $leaveRequests);
     }
 
-    public function testGetLeavesByLeaveIds()
+    public function testGetLeavesByLeaveIds(): void
     {
         $allLeaves = $this->getAllLeaves();
-        $leaveIds = [1,4,3];
+        $leaveIds = [1, 4, 3];
         $leaves = $this->leaveRequestDao->getLeavesByLeaveIds($leaveIds);
-        foreach ($allLeaves as $leave){
-            $this->assertTrue(!in_array($leave,$leaves)||in_array($leave->getId(),$leaveIds));
-            $this->assertTrue(in_array($leave,$leaves)||!in_array($leave->getId(),$leaveIds));
+        foreach ($allLeaves as $leave) {
+            $this->assertTrue(!in_array($leave, $leaves) || in_array($leave->getId(), $leaveIds));
+            $this->assertTrue(in_array($leave, $leaves) || !in_array($leave->getId(), $leaveIds));
         }
     }
 }
-
-
- class ParameterStub {
-
-     private $dateRange;
-     private $statuses;
-     private $employeeFilter;
-     private $leavePeriod;
-     private $leaveType;
-
-     public function setParameter($property, $value) {
-         $this->$property = $value;
-     }
-
-     public function getParameter($property) {
-         return $this->$property;
-     }
-
- }
-
- class DateRangeStub {
-
-     private $fromDate;
-     private $toDate;
-
-     public function setFromDate($fromDate) {
-         $this->fromDate = $fromDate;
-     }
-
-     public function getFromDate() {
-         return $this->fromDate;
-     }
-
-     public function setToDate($toDate) {
-         $this->toDate = $toDate;
-     }
-
-     public function getToDate() {
-         return $this->toDate;
-     }
-
- }
