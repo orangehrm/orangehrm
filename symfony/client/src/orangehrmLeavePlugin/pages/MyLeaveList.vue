@@ -39,7 +39,7 @@
                   :rules="rules.toDate"
                 />
               </oxd-grid-item>
-              <oxd-grid-item class="--span-column-2">
+              <oxd-grid-item>
                 <oxd-input-field
                   value="Select"
                   type="multiselect"
@@ -48,6 +48,12 @@
                   :options="leaveStatuses"
                   :rules="rules.statuses"
                   required
+                />
+              </oxd-grid-item>
+              <oxd-grid-item>
+                <leave-type-dropdown
+                  v-model="filters.leaveType"
+                  :eligible-only="false"
                 />
               </oxd-grid-item>
             </oxd-grid>
@@ -72,10 +78,12 @@
 
 <script>
 import LeaveListTable from '@/orangehrmLeavePlugin/components/LeaveListTable';
+import LeaveTypeDropdown from '@/orangehrmLeavePlugin/components/LeaveTypeDropdown';
 
 export default {
   components: {
     'leave-list-table': LeaveListTable,
+    'leave-type-dropdown': LeaveTypeDropdown,
   },
   props: {
     leaveStatuses: {

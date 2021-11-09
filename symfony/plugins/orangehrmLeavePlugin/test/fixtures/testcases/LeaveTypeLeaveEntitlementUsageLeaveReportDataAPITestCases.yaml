@@ -123,7 +123,7 @@ GetAll:
       includeEmployees: onlyPast
     data: [
       {
-        "employeeName": "Ashley Abel",
+        "employeeName": "Ashley Abel (Past Employee)",
         "entitlementDays": 0.0,
         "pendingApprovalDays": 0.0,
         "scheduledDays": 0.0,
@@ -194,10 +194,10 @@ GetAll:
       {
         "employeeName": "Odis Adalwin",
         "entitlementDays": 7.0,
-        "pendingApprovalDays": 2.375,
+        "pendingApprovalDays": 2.38,
         "scheduledDays": 0.5,
         "takenDays": 1.0,
-        "balanceDays": 3.125,
+        "balanceDays": 3.13,
         terminationId: null,
         "_url": {
           "entitlementDays": "/leave/viewLeaveEntitlements?empNumber=1&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=6",
@@ -697,7 +697,7 @@ GetAll:
         }
       },
       {
-        "employeeName": "Ashley Abel",
+        "employeeName": "Ashley Abel (Past Employee)",
         "entitlementDays": 0.0,
         "pendingApprovalDays": 0.0,
         "scheduledDays": 0.0,
@@ -1168,7 +1168,7 @@ GetAll:
         }
       },
       {
-        "employeeName": "Ashley Abel",
+        "employeeName": "Ashley Abel (Past Employee)",
         "entitlementDays": 0.0,
         "pendingApprovalDays": 0.0,
         "scheduledDays": 0.0,

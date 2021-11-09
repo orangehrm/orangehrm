@@ -112,7 +112,7 @@ class MyLeaveRequestAPI extends EmployeeLeaveRequestAPI
      */
     protected function getDefaultStatuses(): array
     {
-        return array_keys(LeaveRequestSearchFilterParams::LEAVE_STATUS_MAP);
+        return LeaveRequestSearchFilterParams::LEAVE_STATUSES;
     }
 
     /**

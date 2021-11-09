@@ -145,6 +145,7 @@ const defaultFilters = {
   statuses: [],
   subunit: null,
   includePastEmps: false,
+  leaveType: null,
 };
 
 export default {
@@ -164,6 +165,26 @@ export default {
     leaveStatuses: {
       type: Array,
       default: () => [],
+    },
+    employee: {
+      type: Object,
+      required: false,
+    },
+    leaveType: {
+      type: Object,
+      required: false,
+    },
+    fromDate: {
+      type: String,
+      required: false,
+    },
+    toDate: {
+      type: String,
+      required: false,
+    },
+    leaveStatus: {
+      type: Object,
+      required: false,
     },
   },
 
@@ -195,7 +216,20 @@ export default {
   },
 
   setup(props) {
-    const filters = ref({...defaultFilters});
+    const filters = ref({
+      ...defaultFilters,
+      ...(props.leaveType && {leaveType: props.leaveType}),
+      ...(props.fromDate && {fromDate: props.fromDate}),
+      ...(props.toDate && {toDate: props.toDate}),
+      ...(props.leaveStatus && {statuses: [props.leaveStatus]}),
+      ...(props.employee && {
+        employee: {
+          id: props.employee.empNumber,
+          label: `${props.employee.firstName} ${props.employee.middleName} ${props.employee.lastName}`,
+          isPastEmployee: props.employee.terminationId,
+        },
+      }),
+    });
     const checkedItems = ref([]);
 
     const rules = {
@@ -225,7 +259,8 @@ export default {
         includeEmployees: filters.value.includePastEmps
           ? 'currentAndPast'
           : 'onlyCurrent',
-        statuses: statuses.map(item => item.key),
+        statuses: statuses.map(item => item.id),
+        leaveTypeId: filters.value.leaveType?.id,
       };
     });
 
@@ -429,15 +464,17 @@ export default {
 
   beforeMount() {
     this.isLoading = true;
+    if (this.filters.statuses.length === 0) {
+      this.filters.statuses = this.myLeaveList
+        ? this.leaveStatuses
+        : this.leaveStatuses.filter(status => status.id === 1);
+    }
     this.http
       .request({method: 'GET', url: 'api/v2/leave/leave-periods'})
       .then(response => {
         const {data} = response.data;
-        this.filters.fromDate = data[0]?.startDate;
-        this.filters.toDate = data[0]?.endDate;
-        this.filters.statuses = this.myLeaveList
-          ? this.leaveStatuses
-          : this.leaveStatuses.filter(status => status.id === 3);
+        this.filters.fromDate = this.filters.fromDate ?? data[0]?.startDate;
+        this.filters.toDate = this.filters.toDate ?? data[0]?.endDate;
       })
       .finally(() => {
         this.isLoading = false;
