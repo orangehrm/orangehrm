@@ -49,6 +49,8 @@ import {APIService} from '@/core/util/services/api.service';
 import {navigate} from '@orangehrm/core/util/helper/navigation';
 import usePaginate from '@orangehrm/core/util/composable/usePaginate';
 import ReportTable from '@orangehrm/oxd/core/components/ReportTable/ReportTable';
+import CellAdapter from '@orangehrm/oxd/core/components/ReportTable/CellAdapter';
+import MultilineCell from '@orangehrm/oxd/core/components/ReportTable/Cell/MultilineCell';
 
 export default {
   name: 'reports-table',
@@ -113,7 +115,18 @@ export default {
     });
 
     const items = computed(() => {
-      return response.value.data ?? [];
+      const _items = Array.isArray(response.value.data)
+        ? response.value.data
+        : [];
+      return _items.map(item => {
+        let _rows = 0;
+        for (const key in item) {
+          const value = item[key];
+          if (Array.isArray(value) && value.length > _rows)
+            _rows = value.length;
+        }
+        return {...item, _rows};
+      });
     });
 
     const fetchTableHeaders = async () => {
@@ -131,16 +144,20 @@ export default {
           const {data, meta} = response.data;
           headers.value = data.headers.map(header => {
             delete header['size'];
+            const cellProps = header.cellProperties ?? {};
+            const {type, ...rest} = cellProps;
             const cellProperties = function({prop, model}) {
               const url = model?._url ? model?._url[prop] : undefined;
               return {
-                ...header.cellProperties,
+                ...rest,
                 onClick: url ? () => navigate(url) : undefined,
               };
             };
             return {
               ...header,
               cellProperties,
+              cellTemplate:
+                type === 'list' ? CellAdapter(MultilineCell) : undefined,
             };
           });
           if (meta.headers?.columnCount) {
@@ -179,15 +196,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-@import '@orangehrm/oxd/styles/_mixins.scss';
-
-.oxd-text.--count {
-  @include oxd-respond-to('xs') {
-    display: none;
-  }
-  @include oxd-respond-to('sm') {
-    display: block;
-  }
-}
-</style>
+<style src="./reports-table.scss" lang="scss" scoped></style>
