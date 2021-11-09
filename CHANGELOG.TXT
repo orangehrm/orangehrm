@@ -1,3 +1,11 @@
+New & Changed Features for OrangeHRM ver 4.9
+    New Feature
+    -----------
+    Corporate Branding
+      - It allows admin to customize the OrangeHRM system with their organization's colors, company logo, and banners.
+      - Users who have purchased the addon will be able to use it without expiration upon upgrading with 4.9 system.
+    Environment Compatability with Maria DB 10.6
+
 New & Changed Features for OrangeHRM ver 4.8
     New Feature
     -----------
