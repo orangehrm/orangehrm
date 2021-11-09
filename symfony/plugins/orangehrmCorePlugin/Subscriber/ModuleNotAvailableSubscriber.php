@@ -19,29 +19,35 @@
 
 namespace OrangeHRM\Core\Subscriber;
 
-use OrangeHRM\Core\Controller\Common\ModuleUnderDevelopmentController;
+use OrangeHRM\Core\Controller\Common\DisabledModuleController;
+use OrangeHRM\Core\Controller\Common\NoRecordsFoundController;
 use OrangeHRM\Core\Controller\Exception\RequestForwardableException;
+use OrangeHRM\Core\Service\ModuleService;
 use OrangeHRM\Core\Traits\Service\TextHelperTrait;
 use OrangeHRM\Framework\Event\AbstractEventSubscriber;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
-class ModuleUnderDevelopmentSubscriber extends AbstractEventSubscriber
+class ModuleNotAvailableSubscriber extends AbstractEventSubscriber
 {
     use TextHelperTrait;
 
-    public const MODULE_UNDER_DEVELOPMENT = [
-        'time',
-        'recruitment',
-        'performance',
-        'directory',
-        'dashboard',
-        'maintenance',
-        'buzz',
-        'admin/localization',
-        'admin/languagePackage',
-        'admin/openIdProvider',
-    ];
+    /**
+     * @var ModuleService|null
+     */
+    protected ?ModuleService $moduleService = null;
+
+    /**
+     * Get Module Service
+     * @return ModuleService|null
+     */
+    public function getModuleService(): ModuleService
+    {
+        if (is_null($this->moduleService)) {
+            $this->moduleService = new ModuleService();
+        }
+        return $this->moduleService;
+    }
 
     /**
      * @inheritDoc
@@ -50,17 +56,25 @@ class ModuleUnderDevelopmentSubscriber extends AbstractEventSubscriber
     {
         return [
             KernelEvents::REQUEST => [
-                ['onRequestEvent', 100],
+                ['onRequestEvent', 100000],
             ],
         ];
     }
 
     public function onRequestEvent(RequestEvent $event)
     {
+        $disabledModules = [];
+        $modules = $this->getModuleService()->getModuleList();
+        foreach ($modules as $module) {
+            if (!$module->getStatus()) {
+                array_push($disabledModules, $module->getName());
+            }
+        }
+
         if ($event->isMasterRequest()) {
-            foreach (self::MODULE_UNDER_DEVELOPMENT as $path) {
-                if ($this->getTextHelper()->strStartsWith($event->getRequest()->getPathInfo(), '/' . $path)) {
-                    throw new RequestForwardableException(ModuleUnderDevelopmentController::class . '::handle');
+            foreach ($disabledModules as $diabledModule) {
+                if ($this->getTextHelper()->strStartsWith($event->getRequest()->getPathInfo(), '/' . $diabledModule)) {
+                    throw new RequestForwardableException(DisabledModuleController::class . '::handle');
                 }
             }
         }
