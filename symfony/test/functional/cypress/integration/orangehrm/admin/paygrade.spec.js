@@ -20,14 +20,14 @@ describe('Job - PayGrade test script', function () {
       cy.get(':nth-child(2) > .oxd-input').type('AAAA');
       cy.get('.oxd-button--secondary').click();
       cy.get('.oxd-input-group > .oxd-text').should(
-          'include.text',
-          'Already exist',
+        'include.text',
+        'Already exist',
       );
     });
     after(() => {
       cy.visit('/admin/viewPayGrades');
       cy.get(
-          '.oxd-table-body > :nth-child(1) > .oxd-table-row > :nth-child(1) > .oxd-checkbox-wrapper > label > .oxd-checkbox-input > .oxd-icon',
+        '.oxd-table-body > :nth-child(1) > .oxd-table-row > :nth-child(1) > .oxd-checkbox-wrapper > label > .oxd-checkbox-input > .oxd-icon',
       ).click();
       cy.get('.orangehrm-horizontal-padding > div > .oxd-button').click();
       cy.get('.orangehrm-modal-footer > .oxd-button--label-danger').click();
@@ -46,8 +46,8 @@ describe('Job - PayGrade test script', function () {
       cy.get(':nth-child(2) > .oxd-input').type(charLength.chars51.text);
       cy.get('.oxd-button--secondary').click();
       cy.get('.oxd-input-group > .oxd-text').should(
-          'include.text',
-          'Should be less than 50 characters',
+        'include.text',
+        'Should be less than 50 characters',
       );
     });
   });
@@ -59,19 +59,19 @@ describe('Job - PayGrade test script', function () {
       cy.get('.oxd-button--secondary').click();
       cy.visit('/admin/viewPayGrades');
       cy.get(
-          ':nth-child(1) > .oxd-table-row > [style="flex-shrink: 1;"] > .oxd-table-cell-actions > :nth-child(2) > .oxd-icon',
+        ':nth-child(1) > .oxd-table-row > [style="flex-shrink: 1;"] > .oxd-table-cell-actions > :nth-child(2) > .oxd-icon',
       ).click();
       cy.get(':nth-child(2) > .oxd-input').click().clear().type('AAAAexist');
       cy.get('.oxd-form-actions > .oxd-button--secondary').click();
       cy.get('.oxd-toast-container--bottom').should(
-          'include.text',
-          'Successfully Updated',
+        'include.text',
+        'Successfully Updated',
       );
     });
     after(() => {
       cy.visit('/admin/viewPayGrades');
       cy.get(
-          '.oxd-table-body > :nth-child(1) > .oxd-table-row > :nth-child(1) > .oxd-checkbox-wrapper > label > .oxd-checkbox-input > .oxd-icon',
+        '.oxd-table-body > :nth-child(1) > .oxd-table-row > :nth-child(1) > .oxd-checkbox-wrapper > label > .oxd-checkbox-input > .oxd-icon',
       ).click();
       cy.get('.orangehrm-horizontal-padding > div > .oxd-button').click();
       cy.get('.orangehrm-modal-footer > .oxd-button--label-danger').click();
@@ -85,43 +85,43 @@ describe('Job - PayGrade test script', function () {
       cy.get('.oxd-button--secondary').click();
       cy.get('.orangehrm-action-header > .oxd-button').click();
       cy.get(
-          '#app > div.oxd-layout > div > div.oxd-layout-context > div.orangehrm-card-container > form > div:nth-child(1) > div > div > div > div:nth-child(2) > div > div',
+        '#app > div.oxd-layout > div > div.oxd-layout-context > div.orangehrm-card-container > form > div:nth-child(1) > div > div > div > div:nth-child(2) > div > div',
       ).click();
       cy.get(
-          '#app > div.oxd-layout > div > div.oxd-layout-context > div.orangehrm-card-container > form > div:nth-child(1) > div > div > div > div:nth-child(2)',
+        '#app > div.oxd-layout > div > div.oxd-layout-context > div.orangehrm-card-container > form > div:nth-child(1) > div > div > div > div:nth-child(2)',
       )
-          .contains('AED - Utd. Arab Emir. Dirham')
-          .click();
+        .contains('AED - Utd. Arab Emir. Dirham')
+        .click();
       cy.get(
-          ':nth-child(2) > .oxd-form > .oxd-form-actions > .oxd-button--ghost',
+        ':nth-child(2) > .oxd-form > .oxd-form-actions > .oxd-button--ghost',
       ).click();
       cy.get(
-          ':nth-child(1) > .orangehrm-card-container > .oxd-text--h6',
+        ':nth-child(1) > .orangehrm-card-container > .oxd-text--h6',
       ).should('include.text', 'Edit Pay Grade');
     });
     it('Edit paygrade & clicking cancel', () => {
       cy.visit('/admin/viewPayGrades');
       cy.get(
-          ':nth-child(1) > .oxd-table-row > [style="flex-shrink: 1;"] > .oxd-table-cell-actions > :nth-child(2) > .oxd-icon',
+        ':nth-child(1) > .oxd-table-row > [style="flex-shrink: 1;"] > .oxd-table-cell-actions > :nth-child(2) > .oxd-icon',
       ).click();
       cy.get('.oxd-button--ghost').click();
       cy.get('.orangehrm-header-container > .oxd-text').should(
-          'include.text',
-          'Pay Grades',
+        'include.text',
+        'Pay Grades',
       );
     });
     it('visiting add new paygrade and clicking cancel', () => {
       cy.get('.oxd-button').click();
       cy.get('.oxd-button--ghost').click();
       cy.get('.orangehrm-header-container > .oxd-text').should(
-          'include.text',
-          'Pay Grades',
+        'include.text',
+        'Pay Grades',
       );
     });
     after(() => {
       cy.visit('/admin/viewPayGrades');
       cy.get(
-          '.oxd-table-body > :nth-child(1) > .oxd-table-row > :nth-child(1) > .oxd-checkbox-wrapper > label > .oxd-checkbox-input > .oxd-icon',
+        '.oxd-table-body > :nth-child(1) > .oxd-table-row > :nth-child(1) > .oxd-checkbox-wrapper > label > .oxd-checkbox-input > .oxd-icon',
       ).click();
       cy.get('.orangehrm-horizontal-padding > div > .oxd-button').click();
       cy.get('.orangehrm-modal-footer > .oxd-button--label-danger').click();
@@ -135,16 +135,16 @@ describe('Job - PayGrade test script', function () {
       cy.get('.oxd-button--secondary').click();
       cy.visit('/admin/viewPayGrades');
       cy.get(
-          ':nth-child(1) > .oxd-table-row > [style="flex-shrink: 1;"] > .oxd-table-cell-actions > :nth-child(1) > .oxd-icon',
+        ':nth-child(1) > .oxd-table-row > [style="flex-shrink: 1;"] > .oxd-table-cell-actions > :nth-child(1) > .oxd-icon',
       ).click();
       cy.get('.orangehrm-modal-header > .oxd-text').should(
-          'include.text',
-          'Are you Sure?',
+        'include.text',
+        'Are you Sure?',
       );
       cy.get('.oxd-button--label-danger').click();
       cy.get('.oxd-toast-container--bottom').should(
-          'include.text',
-          'Successfully Deleted',
+        'include.text',
+        'Successfully Deleted',
       );
     });
     it('bulk delete paygrades,check confirmation message and toast', () => {
@@ -153,12 +153,12 @@ describe('Job - PayGrade test script', function () {
       cy.get('.oxd-button--secondary').click();
       cy.visit('/admin/viewPayGrades');
       cy.get(
-          '.oxd-table-body > :nth-child(1) > .oxd-table-row > :nth-child(1) > .oxd-checkbox-wrapper > label > .oxd-checkbox-input > .oxd-icon',
+        '.oxd-table-body > :nth-child(1) > .oxd-table-row > :nth-child(1) > .oxd-checkbox-wrapper > label > .oxd-checkbox-input > .oxd-icon',
       ).click();
       cy.get('.orangehrm-horizontal-padding > div > .oxd-button').click();
       cy.get('.orangehrm-modal-header > .oxd-text').should(
-          'include.text',
-          'Are you Sure?',
+        'include.text',
+        'Are you Sure?',
       );
       cy.get('.orangehrm-modal-footer > .oxd-button--label-danger').click();
       cy.get('.oxd-toast').should('include.text', 'Successfully Deleted');
@@ -172,7 +172,7 @@ describe('Job - PayGrade test script', function () {
       cy.get('.oxd-button--secondary').click();
       cy.visit('/admin/viewPayGrades');
       cy.get(
-          ':nth-child(1) > .oxd-table-row > [style="flex-shrink: 1;"] > .oxd-table-cell-actions > :nth-child(1) > .oxd-icon',
+        ':nth-child(1) > .oxd-table-row > [style="flex-shrink: 1;"] > .oxd-table-cell-actions > :nth-child(1) > .oxd-icon',
       ).click();
       cy.get('.oxd-button--label-danger').click();
       cy.visit('/admin/viewPayGrades');
@@ -183,7 +183,7 @@ describe('Job - PayGrade test script', function () {
     after(() => {
       cy.visit('/admin/viewPayGrades');
       cy.get(
-          '.oxd-table-body > :nth-child(1) > .oxd-table-row > :nth-child(1) > .oxd-checkbox-wrapper > label > .oxd-checkbox-input > .oxd-icon',
+        '.oxd-table-body > :nth-child(1) > .oxd-table-row > :nth-child(1) > .oxd-checkbox-wrapper > label > .oxd-checkbox-input > .oxd-icon',
       ).click();
       cy.get('.orangehrm-horizontal-padding > div > .oxd-button').click();
       cy.get('.orangehrm-modal-footer > .oxd-button--label-danger').click();
@@ -197,15 +197,15 @@ describe('Job - PayGrade test script', function () {
       cy.get('.oxd-button--secondary').click();
       cy.get('.orangehrm-action-header > .oxd-button').click();
       cy.get(
-          '#app > div.oxd-layout > div > div.oxd-layout-context > div.orangehrm-card-container > form > div:nth-child(1) > div > div > div > div:nth-child(2) > div > div',
+        '#app > div.oxd-layout > div > div.oxd-layout-context > div.orangehrm-card-container > form > div:nth-child(1) > div > div > div > div:nth-child(2) > div > div',
       ).click();
       cy.get(
-          '#app > div.oxd-layout > div > div.oxd-layout-context > div.orangehrm-card-container > form > div:nth-child(1) > div > div > div > div:nth-child(2)',
+        '#app > div.oxd-layout > div > div.oxd-layout-context > div.orangehrm-card-container > form > div:nth-child(1) > div > div > div > div:nth-child(2)',
       )
-          .contains('AED - Utd. Arab Emir. Dirham')
-          .click();
+        .contains('AED - Utd. Arab Emir. Dirham')
+        .click();
       cy.get(
-          ':nth-child(2) > .oxd-form > .oxd-form-actions > .oxd-button--secondary',
+        ':nth-child(2) > .oxd-form > .oxd-form-actions > .oxd-button--secondary',
       ).click();
       cy.get('.oxd-toast').should('include.text', 'Successfully Saved');
     });
@@ -215,32 +215,32 @@ describe('Job - PayGrade test script', function () {
       cy.get('.oxd-button--secondary').click();
       cy.get('.orangehrm-action-header > .oxd-button').click();
       cy.get(
-          '#app > div.oxd-layout > div > div.oxd-layout-context > div.orangehrm-card-container > form > div:nth-child(1) > div > div > div > div:nth-child(2) > div > div',
+        '#app > div.oxd-layout > div > div.oxd-layout-context > div.orangehrm-card-container > form > div:nth-child(1) > div > div > div > div:nth-child(2) > div > div',
       ).click();
       cy.get(
-          '#app > div.oxd-layout > div > div.oxd-layout-context > div.orangehrm-card-container > form > div:nth-child(1) > div > div > div > div:nth-child(2)',
+        '#app > div.oxd-layout > div > div.oxd-layout-context > div.orangehrm-card-container > form > div:nth-child(1) > div > div > div > div:nth-child(2)',
       )
-          .contains('AED - Utd. Arab Emir. Dirham')
-          .click();
+        .contains('AED - Utd. Arab Emir. Dirham')
+        .click();
       cy.get(
-          ':nth-child(2) > .oxd-grid-2 > :nth-child(1) > .oxd-input-group > :nth-child(2) > .oxd-input',
+        ':nth-child(2) > .oxd-grid-2 > :nth-child(1) > .oxd-input-group > :nth-child(2) > .oxd-input',
       ).type('200');
       cy.get(
-          ':nth-child(2) > .oxd-form > .oxd-form-actions > .oxd-button--secondary',
+        ':nth-child(2) > .oxd-form > .oxd-form-actions > .oxd-button--secondary',
       ).click();
       cy.get('.oxd-table-card > .oxd-table-row > :nth-child(3)').should(
-          'include.text',
-          '200',
+        'include.text',
+        '200',
       );
       cy.get('.oxd-toast').should('include.text', 'Successfully Saved');
     });
     after(() => {
       cy.visit('/admin/viewPayGrades');
       cy.get(
-          '.oxd-table-body > :nth-child(1) > .oxd-table-row > :nth-child(1) > .oxd-checkbox-wrapper > label > .oxd-checkbox-input > .oxd-icon',
+        '.oxd-table-body > :nth-child(1) > .oxd-table-row > :nth-child(1) > .oxd-checkbox-wrapper > label > .oxd-checkbox-input > .oxd-icon',
       ).click();
       cy.get(
-          ':nth-child(2) > .oxd-table-row > :nth-child(1) > .oxd-checkbox-wrapper > label > .oxd-checkbox-input > .oxd-icon',
+        ':nth-child(2) > .oxd-table-row > :nth-child(1) > .oxd-checkbox-wrapper > label > .oxd-checkbox-input > .oxd-icon',
       ).click();
       cy.get('.orangehrm-horizontal-padding > div > .oxd-button').click();
       cy.get('.orangehrm-modal-footer > .oxd-button--label-danger').click();
@@ -254,7 +254,7 @@ describe('Job - PayGrade test script', function () {
       cy.get('.oxd-button--secondary').click();
       cy.get('.orangehrm-action-header > .oxd-button').click();
       cy.get(
-          ':nth-child(2) > .oxd-form > .oxd-form-actions > .oxd-button--secondary',
+        ':nth-child(2) > .oxd-form > .oxd-form-actions > .oxd-button--secondary',
       ).click();
       cy.get('.oxd-input-group > .oxd-text').should('include.text', 'Required');
     });
@@ -265,19 +265,19 @@ describe('Job - PayGrade test script', function () {
       cy.get('.oxd-button--secondary').click();
       cy.get('.orangehrm-action-header > .oxd-button').click();
       cy.get(
-          '#app > div.oxd-layout > div > div.oxd-layout-context > div.orangehrm-card-container > form > div:nth-child(1) > div > div > div > div:nth-child(2) > div > div',
+        '#app > div.oxd-layout > div > div.oxd-layout-context > div.orangehrm-card-container > form > div:nth-child(1) > div > div > div > div:nth-child(2) > div > div',
       ).click();
       cy.get(
-          '#app > div.oxd-layout > div > div.oxd-layout-context > div.orangehrm-card-container > form > div:nth-child(1) > div > div > div > div:nth-child(2)',
+        '#app > div.oxd-layout > div > div.oxd-layout-context > div.orangehrm-card-container > form > div:nth-child(1) > div > div > div > div:nth-child(2)',
       )
-          .contains('AED - Utd. Arab Emir. Dirham')
-          .click();
+        .contains('AED - Utd. Arab Emir. Dirham')
+        .click();
       cy.get(
-          '.oxd-grid-2 > :nth-child(1) > .oxd-input-group > :nth-child(2) > .oxd-input',
+        '.oxd-grid-2 > :nth-child(1) > .oxd-input-group > :nth-child(2) > .oxd-input',
       ).type(charLength.chars10.int);
       cy.get('.oxd-input-group > .oxd-text').should(
-          'include.text',
-          'Should be less than 1000,000,000',
+        'include.text',
+        'Should be less than 1000,000,000',
       );
     });
     // eslint-disable-next-line jest/no-disabled-tests
@@ -287,24 +287,24 @@ describe('Job - PayGrade test script', function () {
       cy.get('.oxd-button--secondary').click();
       cy.get('.orangehrm-action-header > .oxd-button').click();
       cy.get(
-          '#app > div.oxd-layout > div > div.oxd-layout-context > div.orangehrm-card-container > form > div:nth-child(1) > div > div > div > div:nth-child(2) > div > div',
+        '#app > div.oxd-layout > div > div.oxd-layout-context > div.orangehrm-card-container > form > div:nth-child(1) > div > div > div > div:nth-child(2) > div > div',
       ).click();
       cy.get(
-          '#app > div.oxd-layout > div > div.oxd-layout-context > div.orangehrm-card-container > form > div:nth-child(1) > div > div > div > div:nth-child(2)',
+        '#app > div.oxd-layout > div > div.oxd-layout-context > div.orangehrm-card-container > form > div:nth-child(1) > div > div > div > div:nth-child(2)',
       )
-          .contains('AED - Utd. Arab Emir. Dirham')
-          .click();
+        .contains('AED - Utd. Arab Emir. Dirham')
+        .click();
       cy.get(
-          '.oxd-grid-2 > :nth-child(1) > .oxd-input-group > :nth-child(2) > .oxd-input',
+        '.oxd-grid-2 > :nth-child(1) > .oxd-input-group > :nth-child(2) > .oxd-input',
       )
-          .clear()
-          .type('600');
+        .clear()
+        .type('600');
       cy.get(':nth-child(2) > .oxd-input-group > :nth-child(2) > .oxd-input')
-          .clear()
-          .type('300');
+        .clear()
+        .type('300');
       cy.get(':nth-child(2) > .oxd-input-group > .oxd-text').should(
-          'include.text',
-          'Should be higher than Minimum Salary',
+        'include.text',
+        'Should be higher than Minimum Salary',
       );
     });
     it('amount field character validation', () => {
@@ -313,28 +313,28 @@ describe('Job - PayGrade test script', function () {
       cy.get('.oxd-button--secondary').click();
       cy.get('.orangehrm-action-header > .oxd-button').click();
       cy.get(
-          '#app > div.oxd-layout > div > div.oxd-layout-context > div.orangehrm-card-container > form > div:nth-child(1) > div > div > div > div:nth-child(2) > div > div',
+        '#app > div.oxd-layout > div > div.oxd-layout-context > div.orangehrm-card-container > form > div:nth-child(1) > div > div > div > div:nth-child(2) > div > div',
       ).click();
       cy.get(
-          '#app > div.oxd-layout > div > div.oxd-layout-context > div.orangehrm-card-container > form > div:nth-child(1) > div > div > div > div:nth-child(2)',
+        '#app > div.oxd-layout > div > div.oxd-layout-context > div.orangehrm-card-container > form > div:nth-child(1) > div > div > div > div:nth-child(2)',
       )
-          .contains('AED - Utd. Arab Emir. Dirham')
-          .click();
+        .contains('AED - Utd. Arab Emir. Dirham')
+        .click();
       cy.get(
-          ':nth-child(2) > .oxd-grid-2 > :nth-child(1) > .oxd-input-group > :nth-child(2) > .oxd-input',
+        ':nth-child(2) > .oxd-grid-2 > :nth-child(1) > .oxd-input-group > :nth-child(2) > .oxd-input',
       ).type('asd@#');
       cy.get('.oxd-input-group > .oxd-text').should(
-          'include.text',
-          'Should be a number',
+        'include.text',
+        'Should be a number',
       );
     });
     after(() => {
       cy.visit('/admin/viewPayGrades');
       cy.get(
-          '.oxd-table-body > :nth-child(1) > .oxd-table-row > :nth-child(1) > .oxd-checkbox-wrapper > label > .oxd-checkbox-input > .oxd-icon',
+        '.oxd-table-body > :nth-child(1) > .oxd-table-row > :nth-child(1) > .oxd-checkbox-wrapper > label > .oxd-checkbox-input > .oxd-icon',
       ).click();
       cy.get(
-          ':nth-child(2) > .oxd-table-row > :nth-child(1) > .oxd-checkbox-wrapper > label > .oxd-checkbox-input > .oxd-icon',
+        ':nth-child(2) > .oxd-table-row > :nth-child(1) > .oxd-checkbox-wrapper > label > .oxd-checkbox-input > .oxd-icon',
       ).click();
       cy.get('.orangehrm-horizontal-padding > div > .oxd-button').click();
       cy.get('.orangehrm-modal-footer > .oxd-button--label-danger').click();
@@ -348,61 +348,61 @@ describe('Job - PayGrade test script', function () {
       cy.get('.oxd-button--secondary').click();
       cy.get('.orangehrm-action-header > .oxd-button').click();
       cy.get(
-          '#app > div.oxd-layout > div > div.oxd-layout-context > div.orangehrm-card-container > form > div:nth-child(1) > div > div > div > div:nth-child(2) > div > div',
+        '#app > div.oxd-layout > div > div.oxd-layout-context > div.orangehrm-card-container > form > div:nth-child(1) > div > div > div > div:nth-child(2) > div > div',
       ).click();
       cy.get(
-          '#app > div.oxd-layout > div > div.oxd-layout-context > div.orangehrm-card-container > form > div:nth-child(1) > div > div > div > div:nth-child(2)',
+        '#app > div.oxd-layout > div > div.oxd-layout-context > div.orangehrm-card-container > form > div:nth-child(1) > div > div > div > div:nth-child(2)',
       )
-          .contains('AED - Utd. Arab Emir. Dirham')
-          .click();
+        .contains('AED - Utd. Arab Emir. Dirham')
+        .click();
       cy.get(
-          ':nth-child(2) > .oxd-grid-2 > :nth-child(1) > .oxd-input-group > :nth-child(2) > .oxd-input',
+        ':nth-child(2) > .oxd-grid-2 > :nth-child(1) > .oxd-input-group > :nth-child(2) > .oxd-input',
       ).type('600');
       cy.get(
-          ':nth-child(2) > .oxd-input-group > :nth-child(2) > .oxd-input',
+        ':nth-child(2) > .oxd-input-group > :nth-child(2) > .oxd-input',
       ).type('1000');
       cy.get(
-          ':nth-child(2) > .oxd-form > .oxd-form-actions > .oxd-button--secondary',
+        ':nth-child(2) > .oxd-form > .oxd-form-actions > .oxd-button--secondary',
       ).click();
       cy.visit('/admin/viewPayGrades');
       cy.get(
-          ':nth-child(1) > .oxd-table-row > [style="flex-shrink: 1;"] > .oxd-table-cell-actions > :nth-child(2)',
+        ':nth-child(1) > .oxd-table-row > [style="flex-shrink: 1;"] > .oxd-table-cell-actions > :nth-child(2)',
       ).click();
       cy.get('.oxd-table-cell-actions > :nth-child(2)').click();
 
       cy.get(
-          '#app > div.oxd-layout > div.oxd-layout-container > div.oxd-layout-context > div.orangehrm-card-container > form > div:nth-child(2) > div > div:nth-child(2) > div > div:nth-child(2) > input',
+        '#app > div.oxd-layout > div.oxd-layout-container > div.oxd-layout-context > div.orangehrm-card-container > form > div:nth-child(2) > div > div:nth-child(2) > div > div:nth-child(2) > input',
       )
-          .click()
-          .clear()
-          .type('900');
+        .click()
+        .clear()
+        .type('900');
       cy.get(
-          ':nth-child(2) > .oxd-form > .oxd-form-actions > .oxd-button--secondary',
+        ':nth-child(2) > .oxd-form > .oxd-form-actions > .oxd-button--secondary',
       ).click();
       cy.get('.oxd-toast').should('include.text', 'Successfully Updated');
     });
     it('Edit Currency Type', () => {
       cy.get(
-          ':nth-child(1) > .oxd-table-row > [style="flex-shrink: 1;"] > .oxd-table-cell-actions > :nth-child(2)',
+        ':nth-child(1) > .oxd-table-row > [style="flex-shrink: 1;"] > .oxd-table-cell-actions > :nth-child(2)',
       ).click();
       cy.get('.oxd-table-cell-actions > :nth-child(2)').click();
       cy.get(
-          '#app > div.oxd-layout > div > div.oxd-layout-context > div.orangehrm-card-container > form > div:nth-child(1) > div > div > div > div:nth-child(2) > input',
+        '#app > div.oxd-layout > div > div.oxd-layout-context > div.orangehrm-card-container > form > div:nth-child(1) > div > div > div > div:nth-child(2) > input',
       ).should('be.disabled');
     });
     it('Edit Amount where max salary = min salary', () => {
       cy.get(
-          ':nth-child(1) > .oxd-table-row > [style="flex-shrink: 1;"] > .oxd-table-cell-actions > :nth-child(2)',
+        ':nth-child(1) > .oxd-table-row > [style="flex-shrink: 1;"] > .oxd-table-cell-actions > :nth-child(2)',
       ).click();
       cy.get('.oxd-table-cell-actions > :nth-child(2)').click();
       cy.get(
-          '#app > div.oxd-layout > div.oxd-layout-container > div.oxd-layout-context > div.orangehrm-card-container > form > div:nth-child(2) > div > div:nth-child(2) > div > div:nth-child(2) > input',
+        '#app > div.oxd-layout > div.oxd-layout-container > div.oxd-layout-context > div.orangehrm-card-container > form > div:nth-child(2) > div > div:nth-child(2) > div > div:nth-child(2) > input',
       )
-          .click()
-          .clear()
-          .type('600');
+        .click()
+        .clear()
+        .type('600');
       cy.get(
-          ':nth-child(2) > .oxd-form > .oxd-form-actions > .oxd-button--secondary',
+        ':nth-child(2) > .oxd-form > .oxd-form-actions > .oxd-button--secondary',
       ).click();
       cy.get('.oxd-toast').should('include.text', 'Successfully Updated');
     });
@@ -411,18 +411,18 @@ describe('Job - PayGrade test script', function () {
   describe('Delete currency type', function () {
     it('Delete a single currency and confirmation message', () => {
       cy.get(
-          ':nth-child(1) > .oxd-table-row > [style="flex-shrink: 1;"] > .oxd-table-cell-actions > :nth-child(2)',
+        ':nth-child(1) > .oxd-table-row > [style="flex-shrink: 1;"] > .oxd-table-cell-actions > :nth-child(2)',
       ).click();
       cy.get('.oxd-table-cell-actions > :nth-child(1)').click();
       cy.get('.orangehrm-modal-header > .oxd-text').should(
-          'include.text',
-          'Are you Sure?',
+        'include.text',
+        'Are you Sure?',
       );
       cy.get('.oxd-button--label-danger').click();
       cy.get('.oxd-toast').should('include.text', 'Successfully Deleted');
       cy.visit('/admin/viewPayGrades');
       cy.get(
-          '.oxd-table-body > :nth-child(1) > .oxd-table-row > :nth-child(1) > .oxd-checkbox-wrapper > label > .oxd-checkbox-input > .oxd-icon',
+        '.oxd-table-body > :nth-child(1) > .oxd-table-row > :nth-child(1) > .oxd-checkbox-wrapper > label > .oxd-checkbox-input > .oxd-icon',
       ).click();
       cy.get('.orangehrm-horizontal-padding > div > .oxd-button').click();
       cy.get('.orangehrm-modal-footer > .oxd-button--label-danger').click();
@@ -433,22 +433,22 @@ describe('Job - PayGrade test script', function () {
       cy.get('.oxd-button--secondary').click();
       cy.get('.orangehrm-action-header > .oxd-button').click();
       cy.get(
-          '#app > div.oxd-layout > div > div.oxd-layout-context > div.orangehrm-card-container > form > div:nth-child(1) > div > div > div > div:nth-child(2) > div > div',
+        '#app > div.oxd-layout > div > div.oxd-layout-context > div.orangehrm-card-container > form > div:nth-child(1) > div > div > div > div:nth-child(2) > div > div',
       ).click();
       cy.get(
-          '#app > div.oxd-layout > div > div.oxd-layout-context > div.orangehrm-card-container > form > div:nth-child(1) > div > div > div > div:nth-child(2)',
+        '#app > div.oxd-layout > div > div.oxd-layout-context > div.orangehrm-card-container > form > div:nth-child(1) > div > div > div > div:nth-child(2)',
       )
-          .contains('AED - Utd. Arab Emir. Dirham')
-          .click();
+        .contains('AED - Utd. Arab Emir. Dirham')
+        .click();
       cy.get(
-          ':nth-child(2) > .oxd-form > .oxd-form-actions > .oxd-button--secondary',
+        ':nth-child(2) > .oxd-form > .oxd-form-actions > .oxd-button--secondary',
       ).click();
       cy.visit('/admin/viewPayGrades');
       cy.get(
-          ':nth-child(1) > .oxd-table-row > [style="flex-shrink: 1;"] > .oxd-table-cell-actions > :nth-child(2)',
+        ':nth-child(1) > .oxd-table-row > [style="flex-shrink: 1;"] > .oxd-table-cell-actions > :nth-child(2)',
       ).click();
       cy.get(
-          '.oxd-table-card > .oxd-table-row > :nth-child(1) > .oxd-checkbox-wrapper > label > .oxd-checkbox-input > .oxd-icon',
+        '.oxd-table-card > .oxd-table-row > :nth-child(1) > .oxd-checkbox-wrapper > label > .oxd-checkbox-input > .oxd-icon',
       ).click();
       cy.get('.orangehrm-horizontal-padding > div > .oxd-button').click();
       cy.get('.orangehrm-modal-footer > .oxd-button--label-danger').click();
@@ -457,7 +457,7 @@ describe('Job - PayGrade test script', function () {
     after(() => {
       cy.visit('/admin/viewPayGrades');
       cy.get(
-          '.oxd-table-body > :nth-child(1) > .oxd-table-row > :nth-child(1) > .oxd-checkbox-wrapper > label > .oxd-checkbox-input > .oxd-icon',
+        '.oxd-table-body > :nth-child(1) > .oxd-table-row > :nth-child(1) > .oxd-checkbox-wrapper > label > .oxd-checkbox-input > .oxd-icon',
       ).click();
       cy.get('.orangehrm-horizontal-padding > div > .oxd-button').click();
       cy.get('.orangehrm-modal-footer > .oxd-button--label-danger').click();
