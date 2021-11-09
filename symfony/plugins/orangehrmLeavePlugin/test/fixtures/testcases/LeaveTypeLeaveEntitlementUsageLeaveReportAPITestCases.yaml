@@ -20,7 +20,8 @@ GetOne:
           "pin": null,
           "cellProperties": {
             "class": {
-              "col-alt": true
+              "col-alt": true,
+              "cell-action": true
             }
           }
         },
@@ -29,21 +30,33 @@ GetOne:
           "prop": "pendingApprovalDays",
           "size": 150,
           "pin": null,
-          "cellProperties": null
+          "cellProperties": {
+            "class": {
+              "cell-action": true
+            }
+          }
         },
         {
           "name": "Leave Scheduled (Days)",
           "prop": "scheduledDays",
           "size": 150,
           "pin": null,
-          "cellProperties": null
+          "cellProperties": {
+            "class": {
+              "cell-action": true
+            }
+          }
         },
         {
           "name": "Leave Taken (Days)",
           "prop": "takenDays",
           "size": 150,
           "pin": null,
-          "cellProperties": null
+          "cellProperties": {
+            "class": {
+              "cell-action": true
+            }
+          }
         },
         {
           "name": "Leave Balance (Days)",
@@ -52,7 +65,8 @@ GetOne:
           "pin": null,
           "cellProperties": {
             "class": {
-              "col-alt": true
+              "col-alt": true,
+              "cell-action": true
             }
           }
         }

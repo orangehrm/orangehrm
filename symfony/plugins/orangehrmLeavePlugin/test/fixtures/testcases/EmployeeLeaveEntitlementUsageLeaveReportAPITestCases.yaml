@@ -20,7 +20,8 @@ GetOne:
           "pin": null,
           "cellProperties": {
             "class": {
-              "col-alt": true
+              "col-alt": true,
+              "cell-action": true
             }
           }
         },
@@ -29,21 +30,33 @@ GetOne:
           "prop": "pendingApprovalDays",
           "size": 150,
           "pin": null,
-          "cellProperties": null
+          "cellProperties": {
+            "class": {
+              "cell-action": true
+            }
+          }
         },
         {
           "name": "Leave Scheduled (Days)",
           "prop": "scheduledDays",
           "size": 150,
           "pin": null,
-          "cellProperties": null
+          "cellProperties": {
+            "class": {
+              "cell-action": true
+            }
+          }
         },
         {
           "name": "Leave Taken (Days)",
           "prop": "takenDays",
           "size": 150,
           "pin": null,
-          "cellProperties": null
+          "cellProperties": {
+            "class": {
+              "cell-action": true
+            }
+          }
         },
         {
           "name": "Leave Balance (Days)",
@@ -52,7 +65,85 @@ GetOne:
           "pin": null,
           "cellProperties": {
             "class": {
-              "col-alt": true
+              "col-alt": true,
+              "cell-action": true
+            }
+          }
+        }
+      ],
+      "filters": [ ]
+    meta:
+      headers: null
+      filters: null
+
+  'with my_leave_entitlements_and_usage report name':
+    services:
+      core.class_helper: \OrangeHRM\Core\Helper\ClassHelper
+    query:
+      name: 'my_leave_entitlements_and_usage'
+    data:
+      "headers": [
+        {
+          "name": "Leave Type",
+          "prop": "leaveTypeName",
+          "size": 150,
+          "pin": "colPinStart",
+          "cellProperties": null
+        },
+        {
+          "name": "Leave Entitlements (Days)",
+          "prop": "entitlementDays",
+          "size": 150,
+          "pin": null,
+          "cellProperties": {
+            "class": {
+              "col-alt": true,
+              "cell-action": true
+            }
+          }
+        },
+        {
+          "name": "Leave Pending Approval (Days)",
+          "prop": "pendingApprovalDays",
+          "size": 150,
+          "pin": null,
+          "cellProperties": {
+            "class": {
+              "cell-action": true
+            }
+          }
+        },
+        {
+          "name": "Leave Scheduled (Days)",
+          "prop": "scheduledDays",
+          "size": 150,
+          "pin": null,
+          "cellProperties": {
+            "class": {
+              "cell-action": true
+            }
+          }
+        },
+        {
+          "name": "Leave Taken (Days)",
+          "prop": "takenDays",
+          "size": 150,
+          "pin": null,
+          "cellProperties": {
+            "class": {
+              "cell-action": true
+            }
+          }
+        },
+        {
+          "name": "Leave Balance (Days)",
+          "prop": "balanceDays",
+          "size": 150,
+          "pin": null,
+          "cellProperties": {
+            "class": {
+              "col-alt": true,
+              "cell-action": true
             }
           }
         }
