@@ -145,6 +145,7 @@ const defaultFilters = {
   statuses: [],
   subunit: null,
   includePastEmps: false,
+  leaveType: null,
 };
 
 export default {
@@ -220,6 +221,7 @@ export default {
       ...(props.leaveType && {leaveType: props.leaveType}),
       ...(props.fromDate && {fromDate: props.fromDate}),
       ...(props.toDate && {toDate: props.toDate}),
+      ...(props.leaveStatus && {statuses: [props.leaveStatus]}),
       ...(props.employee && {
         employee: {
           id: props.employee.empNumber,
@@ -258,6 +260,8 @@ export default {
           ? 'currentAndPast'
           : 'onlyCurrent',
         statuses: statuses.map(item => item.id),
+        // TODO: uncomment after leaveTypeId param support by API
+        // leaveTypeId: filters.value.leaveType?.id,
       };
     });
 
@@ -461,15 +465,17 @@ export default {
 
   beforeMount() {
     this.isLoading = true;
+    if (this.filters.statuses.length === 0) {
+      this.filters.statuses = this.myLeaveList
+        ? this.leaveStatuses
+        : this.leaveStatuses.filter(status => status.id === 1);
+    }
     this.http
       .request({method: 'GET', url: 'api/v2/leave/leave-periods'})
       .then(response => {
         const {data} = response.data;
-        this.filters.fromDate = data[0]?.startDate;
-        this.filters.toDate = data[0]?.endDate;
-        this.filters.statuses = this.myLeaveList
-          ? this.leaveStatuses
-          : this.leaveStatuses.filter(status => status.id === 1);
+        this.filters.fromDate = this.filters.fromDate ?? data[0]?.startDate;
+        this.filters.toDate = this.filters.toDate ?? data[0]?.endDate;
       })
       .finally(() => {
         this.isLoading = false;
