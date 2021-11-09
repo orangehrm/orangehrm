@@ -94,7 +94,12 @@ import {APIService} from '@/core/util/services/api.service';
 import {navigate} from '@orangehrm/core/util/helper/navigation';
 import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
 import PasswordInput from '@/core/components/inputs/PasswordInput';
-import {required} from '@orangehrm/core/util/validation/rules';
+import {
+  required,
+  shouldNotExceedCharLength,
+  shouldNotLessThanCharLength,
+} from '@orangehrm/core/util/validation/rules';
+import promiseDebounce from '@orangehrm/oxd/src/utils/promiseDebounce';
 
 const userModel = {
   username: '',
@@ -125,10 +130,9 @@ export default {
       rules: {
         username: [
           required,
-          v =>
-            (v && v.trim().length >= 5) || 'Should have at least 5 characters',
-          v =>
-            (v && v.trim().length <= 40) || 'Should not exceed 40 characters',
+          shouldNotLessThanCharLength(5),
+          shouldNotExceedCharLength(40),
+          promiseDebounce(this.validateUserName, 500),
         ],
         role: [v => (!!v && v.length != 0) || 'Required'],
         employee: [required],
@@ -167,26 +171,28 @@ export default {
           this.onCancel();
         });
     },
-  },
-
-  created() {
-    this.isLoading = true;
-    this.http
-      .getAll()
-      .then(response => {
-        const {data} = response.data;
-        this.rules.username.push(v => {
-          const index = data.findIndex(item => item.userName == v);
-          if (index > -1) {
-            return 'Username already exists';
-          } else {
-            return true;
-          }
-        });
-      })
-      .finally(() => {
-        this.isLoading = false;
+    validateUserName(user) {
+      return new Promise(resolve => {
+        if (user) {
+          this.http
+            .request({
+              method: 'GET',
+              url: `api/v2/admin/validation/user-name`,
+              params: {
+                userName: this.user.username.trim(),
+              },
+            })
+            .then(response => {
+              const {data} = response.data;
+              return data.valid === true
+                ? resolve(true)
+                : resolve('Already exist');
+            });
+        } else {
+          resolve(true);
+        }
       });
+    },
   },
 };
 </script>

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -16,23 +15,23 @@
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
- *
  */
 
-/**
- * Description of LeaveEvents
- */
-class LeaveEvents {
-    const ENTITLEMENT_ADD = 'leave_entitlement_add';
-    const ENTITLEMENT_UPDATE = 'leave_entitlement_update';
-    const ENTITLEMENT_BULK_ADD = 'leave_entitlement_bulk_update';
-    const LEAVE_TYPE_ADD = 'leave_type_add';
-    const LEAVE_TYPE_UPDATE = 'leave_type_update';
-    
-    const LEAVE_APPROVE = 'leave.approve';
-    const LEAVE_CANCEL = 'leave.cancel';
-    const LEAVE_REJECT = 'leave.reject';
-    const LEAVE_ASSIGN = 'leave.assign';
-    const LEAVE_APPLY = 'leave.apply';
-    const LEAVE_CHANGE = 'leave.change';
+namespace OrangeHRM\Core\Traits\Service;
+
+use OrangeHRM\Core\Service\NumberHelperService;
+use OrangeHRM\Core\Traits\ServiceContainerTrait;
+use OrangeHRM\Framework\Services;
+
+trait NumberHelperTrait
+{
+    use ServiceContainerTrait;
+
+    /**
+     * @return NumberHelperService
+     */
+    protected function getNumberHelper(): NumberHelperService
+    {
+        return $this->getContainer()->get(Services::NUMBER_HELPER_SERVICE);
+    }
 }

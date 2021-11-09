@@ -34,13 +34,14 @@ use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\Employee;
+use OrangeHRM\Entity\Leave;
 use OrangeHRM\Entity\LeaveRequest;
 use OrangeHRM\Entity\Subunit;
-use OrangeHRM\Entity\WorkflowStateMachine;
 use OrangeHRM\Leave\Api\Model\LeaveRequestDetailedModel;
 use OrangeHRM\Leave\Api\Model\LeaveRequestModel;
 use OrangeHRM\Leave\Api\Traits\LeaveRequestParamHelperTrait;
 use OrangeHRM\Leave\Api\Traits\LeaveRequestPermissionTrait;
+use OrangeHRM\Leave\Api\ValidationRules\LeaveTypeIdRule;
 use OrangeHRM\Leave\Dto\LeaveRequest\DetailedLeaveRequest;
 use OrangeHRM\Leave\Dto\LeaveRequestSearchFilterParams;
 use OrangeHRM\Leave\Exception\LeaveAllocationServiceException;
@@ -173,6 +174,12 @@ class EmployeeLeaveRequestAPI extends Endpoint implements CrudEndpoint
         $leaveRequestSearchFilterParams->setSubunitId(
             $this->getRequestParams()->getIntOrNull(RequestParams::PARAM_TYPE_QUERY, self::FILTER_SUBUNIT_ID)
         );
+        $leaveRequestSearchFilterParams->setLeaveTypeId(
+            $this->getRequestParams()->getIntOrNull(
+                RequestParams::PARAM_TYPE_QUERY,
+                LeaveCommonParams::PARAMETER_LEAVE_TYPE_ID
+            )
+        );
         return $leaveRequestSearchFilterParams;
     }
 
@@ -189,7 +196,7 @@ class EmployeeLeaveRequestAPI extends Endpoint implements CrudEndpoint
      */
     protected function getDefaultStatuses(): array
     {
-        return ['pendingApproval'];
+        return [Leave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL];
     }
 
     /**
@@ -229,13 +236,19 @@ class EmployeeLeaveRequestAPI extends Endpoint implements CrudEndpoint
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
+                    LeaveCommonParams::PARAMETER_LEAVE_TYPE_ID,
+                    new Rule(LeaveTypeIdRule::class)
+                )
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
                     self::FILTER_STATUSES,
                     new Rule(Rules::ARRAY_TYPE),
                     new Rule(
                         Rules::EACH,
                         [
                             new Rules\Composite\AllOf(
-                                new Rule(Rules::IN, [array_keys(LeaveRequestSearchFilterParams::LEAVE_STATUS_MAP)])
+                                new Rule(Rules::IN, [LeaveRequestSearchFilterParams::LEAVE_STATUSES])
                             )
                         ]
                     )

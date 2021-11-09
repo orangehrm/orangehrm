@@ -1,5 +1,3 @@
-<?php
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -18,12 +16,26 @@
  * Boston, MA  02110-1301, USA
  */
 
-/**
- * Description of ohrmObserver
- *
- */
-interface ohrmObserver {
-    
-    public function listen(sfEvent $event);
-}
+import {ref} from 'vue';
+import Form from '@orangehrm/oxd/src/core/components/Form/Form.vue';
 
+type useFormArgs = {
+  refName?: string;
+};
+
+export default function useForm({refName = 'formRef'}: useFormArgs = {}) {
+  // https://v3.vuejs.org/guide/typescript-support.html#typing-template-refs
+  const form = ref<InstanceType<typeof Form>>();
+
+  const submit = () => form.value?.onSubmit(new Event('submit'));
+  const reset = () => form.value?.onReset();
+
+  return {
+    reset,
+    submit,
+    [refName]: form,
+    fieldset: form.value?.fieldset,
+    errorbag: form.value?.errorbag,
+    invalid: form.value?.isFromInvalid,
+  };
+}

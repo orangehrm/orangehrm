@@ -29,12 +29,16 @@
 
       <oxd-form :loading="isLoading" @submitValid="onSave">
         <oxd-form-row>
-          <oxd-input-field
-            label="Name"
-            v-model="grade.name"
-            :rules="rules.name"
-            required
-          />
+          <oxd-grid :cols="2" class="orangehrm-full-width-grid">
+            <oxd-grid-item>
+              <oxd-input-field
+                label="Name"
+                v-model="grade.name"
+                :rules="rules.name"
+                required
+              />
+            </oxd-grid-item>
+          </oxd-grid>
         </oxd-form-row>
 
         <oxd-divider />
@@ -96,7 +100,7 @@ export default {
         })
         .then(response => {
           const {data} = response.data;
-          this.$toast.addSuccess();
+          this.$toast.saveSuccess();
           navigate('/admin/editPayGrade/{id}', {id: data.id});
         });
     },

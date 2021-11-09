@@ -29,6 +29,7 @@ use OrangeHRM\Core\Api\V2\Model\AboutOrganizationModel;
 use OrangeHRM\Core\Api\V2\ResourceEndpoint;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
+use OrangeHRM\Entity\Organization;
 use OrangeHRM\Pim\Dto\EmployeeSearchFilterParams;
 use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
 
@@ -60,7 +61,8 @@ class AboutOrganizationAPI extends Endpoint implements ResourceEndpoint
         $aboutOrganization = new AboutOrganization();
         $employeeParamHolder = new EmployeeSearchFilterParams();
         $employeeParamHolder->setIncludeEmployees("3");
-        $organizationName = $this->getOrganizationService()->getOrganizationGeneralInformation()->getName();
+        $organization = $this->getOrganizationService()->getOrganizationGeneralInformation();
+        $organizationName = $organization instanceof Organization ? $organization->getName() : 'OrangeHRM';
         $numberOfActiveEmployees = $this->getEmployeeService()->getNumberOfEmployees();
         $numberOfPastEmployees = $this->getEmployeeService()->getEmployeeCount($employeeParamHolder);
         $aboutOrganization->setCompanyName($organizationName);

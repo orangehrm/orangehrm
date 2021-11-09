@@ -56,13 +56,25 @@ TerminationReason:
 EmployeeTerminationRecord:
   - { "id": "1", "reason_id": "6","termination_date": "2021-09-15","note": "" }
 
+# 1=Organization
+#    2=Engineering
+#       5=Support
+#    3=QA
+#    4=Agriculture
+Subunit:
+  - { id: 1, name: 'Organization', unitId: 'company', lft: 1, rgt: 10, level: 0 }
+  - { id: 2, name: 'Engineering', unitId: 'eng', lft: 2, rgt: 5, level: 1 }
+  - { id: 3, name: 'QA', unitId: 'qa', lft: 6, rgt: 7, level: 1 }
+  - { id: 4, name: 'Agriculture', unitId: 'ag', lft: 8, rgt: 9, level: 1 }
+  - { id: 5, name: 'Support', unitId: 'sup', lft: 3, rgt: 4, level: 2 }
+
 Employee:
   - { "emp_number": 1,"employee_id": "0001","emp_lastname": "Adalwin","emp_firstname": "Odis","emp_middle_name": "" }
   - { "emp_number": 2,"employee_id": "0002","emp_lastname": "Anderson","emp_firstname": "Linda","emp_middle_name": "Jane" }
-  - { "emp_number": 3,"employee_id": "0003","emp_lastname": "Duval","emp_firstname": "Alice","emp_middle_name": "" }
-  - { "emp_number": 4,"employee_id": "0004","emp_lastname": "Abbey","emp_firstname": "Kayla","emp_middle_name": "" }
+  - { "emp_number": 3,"employee_id": "0003","emp_lastname": "Duval","emp_firstname": "Alice","emp_middle_name": "",work_station: 2 }
+  - { "emp_number": 4,"employee_id": "0004","emp_lastname": "Abbey","emp_firstname": "Kayla","emp_middle_name": "",work_station: 5 }
   - { "emp_number": 5,"employee_id": "0005","emp_lastname": "Abel","emp_firstname": "Ashley","emp_middle_name": "", "termination_id": "1" }
-  - { "emp_number": 6,"employee_id": "0006","emp_lastname": "Morgan","emp_firstname": "Jasmine","emp_middle_name": "" }
+  - { "emp_number": 6,"employee_id": "0006","emp_lastname": "Morgan","emp_firstname": "Jasmine","emp_middle_name": "",work_station: 3 }
 
 ReportingMethod:
   - { "reporting_method_id": "1","reporting_method_name": "Direct" }
@@ -114,24 +126,24 @@ LeaveEntitlement:
   - { "id": 11,"emp_number": "5","no_of_days": "14.0","days_used": "0.0000","leave_type_id": "5","from_date": "2021-01-01 00:00:00","to_date": "2021-12-31 00:00:00","credited_date": "2021-09-15 00:00:00","entitlement_type": "1","deleted": "0","created_by_id": "1" }
 
 LeaveRequest:
-  - { "id": "1","leave_type_id": "6","date_applied": "2021-09-01","emp_number": "4"}
-  - { "id": "2","leave_type_id": "6","date_applied": "2021-09-23","emp_number": "4"}
-  - { "id": "3","leave_type_id": "6","date_applied": "2021-12-30","emp_number": "2"}
-  - { "id": "4","leave_type_id": "2","date_applied": "2021-09-02","emp_number": "1"}
-  - { "id": "5","leave_type_id": "6","date_applied": "2021-09-30","emp_number": "1"}
-  - { "id": "6","leave_type_id": "6","date_applied": "2021-08-24","emp_number": "1"}
-  - { "id": "7","leave_type_id": "6","date_applied": "2021-10-12","emp_number": "1"}
-  - { "id": "8","leave_type_id": "2","date_applied": "2021-10-25","emp_number": "1"}
-  - { "id": "9","leave_type_id": "2","date_applied": "2021-10-27","emp_number": "1"}
-  - { "id": "10","leave_type_id": "2","date_applied": "2021-10-29","emp_number": "1"}
-  - { "id": "11","leave_type_id": "6","date_applied": "2021-06-01","emp_number": "1"}
-  - { "id": "12","leave_type_id": "2","date_applied": "2021-06-07","emp_number": "1"}
-  - { "id": "13","leave_type_id": "6","date_applied": "2021-07-05","emp_number": "1"}
-  - { "id": "14","leave_type_id": "4","date_applied": "2021-06-01","emp_number": "5"}
-  - { "id": "15","leave_type_id": "2","date_applied": "2021-03-01","emp_number": "6"}
-  - { "id": "16","leave_type_id": "1","date_applied": "2021-11-03","emp_number": "1"}
-  - { "id": "17","leave_type_id": "2","date_applied": "2021-11-04","emp_number": "1"}
-  - { "id": "18","leave_type_id": "6","date_applied": "2021-12-01","emp_number": "2"}
+  - { "id": "1","leave_type_id": "6","date_applied": "2021-09-01","emp_number": "4" }
+  - { "id": "2","leave_type_id": "6","date_applied": "2021-09-23","emp_number": "4" }
+  - { "id": "3","leave_type_id": "6","date_applied": "2021-12-30","emp_number": "2" }
+  - { "id": "4","leave_type_id": "2","date_applied": "2021-09-02","emp_number": "1" }
+  - { "id": "5","leave_type_id": "6","date_applied": "2021-09-30","emp_number": "1" }
+  - { "id": "6","leave_type_id": "6","date_applied": "2021-08-24","emp_number": "1" }
+  - { "id": "7","leave_type_id": "6","date_applied": "2021-10-12","emp_number": "1" }
+  - { "id": "8","leave_type_id": "2","date_applied": "2021-10-25","emp_number": "1" }
+  - { "id": "9","leave_type_id": "2","date_applied": "2021-10-27","emp_number": "1" }
+  - { "id": "10","leave_type_id": "2","date_applied": "2021-10-29","emp_number": "1" }
+  - { "id": "11","leave_type_id": "6","date_applied": "2021-06-01","emp_number": "1" }
+  - { "id": "12","leave_type_id": "2","date_applied": "2021-06-07","emp_number": "1" }
+  - { "id": "13","leave_type_id": "6","date_applied": "2021-07-05","emp_number": "1" }
+  - { "id": "14","leave_type_id": "4","date_applied": "2021-06-01","emp_number": "5" }
+  - { "id": "15","leave_type_id": "2","date_applied": "2021-03-01","emp_number": "6" }
+  - { "id": "16","leave_type_id": "1","date_applied": "2021-11-03","emp_number": "1" }
+  - { "id": "17","leave_type_id": "2","date_applied": "2021-11-04","emp_number": "1" }
+  - { "id": "18","leave_type_id": "6","date_applied": "2021-12-01","emp_number": "2" }
 
 Leave:
   - { "id": "1","date": "2021-09-01","length_hours": "8.00","length_days": "1.0000","status": "1","leave_request_id": "1","leave_type_id": "6","emp_number": "4","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }

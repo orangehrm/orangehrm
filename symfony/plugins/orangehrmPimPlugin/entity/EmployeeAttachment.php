@@ -22,6 +22,7 @@ namespace OrangeHRM\Entity;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use InvalidArgumentException;
+use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\Decorator\DecoratorTrait;
 use OrangeHRM\Entity\Decorator\EmployeeAttachmentDecorator;
 
@@ -34,6 +35,7 @@ use OrangeHRM\Entity\Decorator\EmployeeAttachmentDecorator;
 class EmployeeAttachment
 {
     use DecoratorTrait;
+    use DateTimeHelperTrait;
 
     public const SCREEN_PERSONAL_DETAILS = 'personal';
     public const SCREEN_CONTACT_DETAILS = 'contact';
@@ -146,7 +148,7 @@ class EmployeeAttachment
 
     public function __construct()
     {
-        $this->attachedTime = new DateTime();
+        $this->attachedTime = $this->getDateTimeHelper()->getNow();
     }
 
     /**

@@ -17,11 +17,11 @@
  */
 
 import {
-  parseDate,
-  isBefore,
-  isAfter,
-  isEqual,
   compareTime,
+  isAfter,
+  isBefore,
+  isEqual,
+  parseDate,
 } from '../helper/datefns';
 
 /**
@@ -356,6 +356,18 @@ export const startDateShouldBeBeforeEndDate = (
   };
 };
 
+export const maxCurrency = function(maxValue: number) {
+  return function(value: string): boolean | string {
+    return (
+      Number.isNaN(parseFloat(value)) ||
+      parseFloat(value) < maxValue ||
+      `Should be less than ${maxValue
+        .toString()
+        .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`
+    );
+  };
+};
+
 /**
  * @param {string} endTime
  * @param {string|undefined} message
@@ -390,5 +402,18 @@ export const startTimeShouldBeBeforeEndTime = (
         resolvedMessage
       );
     }
+  };
+};
+
+/**
+ * @param {number} charLength
+ */
+export const shouldNotLessThanCharLength = function(charLength: number) {
+  return function(value: string): boolean | string {
+    return (
+      !value ||
+      String(value).length >= charLength ||
+      `Should be least  ${charLength} characters`
+    );
   };
 };

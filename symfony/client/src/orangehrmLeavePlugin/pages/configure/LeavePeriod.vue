@@ -83,7 +83,7 @@
             :label="$t('general.reset')"
             @click="onClickReset"
           />
-          <submit-button :disabled="leavePeriodDefined" />
+          <submit-button />
         </oxd-form-actions>
       </oxd-form>
     </div>
@@ -95,11 +95,7 @@ import {APIService} from '@orangehrm/core/util/services/api.service';
 import {reloadPage} from '@orangehrm/core/util/helper/navigation';
 import {required} from '@/core/util/validation/rules';
 import {enGB} from 'date-fns/locale';
-import {
-  numberOfDaysInMonth,
-  addDays,
-  formatDate,
-} from '@/core/util/helper/datefns';
+import {addDays, formatDate} from '@/core/util/helper/datefns';
 
 const leavePeriodModel = {
   startMonth: null,
@@ -108,6 +104,13 @@ const leavePeriodModel = {
 };
 
 export default {
+  props: {
+    monthDates: {
+      type: Object,
+      required: true,
+    },
+  },
+
   data() {
     return {
       isLoading: false,
@@ -132,7 +135,6 @@ export default {
 
   methods: {
     onSave() {
-      if (this.leavePeriodDefined) return;
       this.isLoading = true;
       this.http
         .request({
@@ -205,14 +207,14 @@ export default {
         });
     },
     dates() {
-      return new Array(numberOfDaysInMonth(this.leavePeriod.startMonth?.id))
-        .fill('')
-        .map((...[, index]) => {
+      return (this.monthDates[this.leavePeriod.startMonth?.id] ?? []).map(
+        day => {
           return {
-            id: index + 1,
-            label: new String(index + 1).padStart(2, '0'),
+            id: day,
+            label: String(day).padStart(2, '0'),
           };
-        });
+        },
+      );
     },
     endDay() {
       const month = this.leavePeriod.startMonth?.id;

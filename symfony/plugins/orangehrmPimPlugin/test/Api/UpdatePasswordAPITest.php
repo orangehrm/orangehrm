@@ -25,7 +25,7 @@ use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
 use OrangeHRM\Tests\Util\Integration\TestCaseParams;
 
 /**
- * @group Core
+ * @group Pim
  * @group APIv2
  */
 class UpdatePasswordAPITest extends EndpointIntegrationTestCase

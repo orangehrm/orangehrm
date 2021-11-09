@@ -16,12 +16,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-import {ref, reactive, toRefs, computed, watch} from 'vue';
-import {ErrorBag} from '@orangehrm/oxd/src/composables/types';
-
-interface Form {
-  errorbag: ErrorBag;
-}
+import {reactive, toRefs, computed} from 'vue';
 interface Option {
   id: number;
   label: string;
@@ -102,7 +97,6 @@ export default function useEmployeeReport(
   displayFieldGroups: Option[],
 ) {
   const state = reactive({report: {...reportModel}});
-  const formRef = ref<Form | null>(null);
 
   const getAllDisplayFieldsByGroupId = (groupId: number) => {
     const fieldGroup = displayFields.find(
@@ -242,38 +236,8 @@ export default function useEmployeeReport(
     return fieldGroupId ? getUnusedDisplayFieldsByGroupId(fieldGroupId) : [];
   });
 
-  const numberOfFieldsSelect = computed(() => {
-    return Object.keys(state.report.displayFieldSelected).length;
-  });
-
-  const errorMsg = computed(() => {
-    const cid = 'pim-emp-report-fields';
-    const error = formRef.value?.errorbag.find(field => field.cid === cid);
-    return error ? error.errors[0] : null;
-  });
-
-  watch(state.report, () => {
-    const cid = 'pim-emp-report-fields';
-    if (formRef.value?.errorbag) {
-      const errorIndex = formRef.value.errorbag.findIndex(
-        field => field.cid === cid,
-      );
-      if (numberOfFieldsSelect.value === 0) {
-        errorIndex === -1 &&
-          formRef.value.errorbag.push({
-            cid,
-            errors: ['At least one display field should be added'],
-          });
-      } else {
-        formRef.value.errorbag.splice(errorIndex, 1);
-      }
-    }
-  });
-
   return {
     ...toRefs(state),
-    formRef,
-    errorMsg,
     addCriterion,
     serializeBody,
     addDisplayField,

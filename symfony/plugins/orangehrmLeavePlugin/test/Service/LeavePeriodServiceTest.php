@@ -97,8 +97,8 @@ class LeavePeriodServiceTest extends KernelTestCase
         $result = $this->leavePeriodService->getListOfDates(11); // November
         $this->assertEquals($expected, $result, 'Wrong date range fetched for November');
 
-        /* Checking for February; Should return maximum 29 days */
-        $expected = range(1, 29);
+        /* Checking for February; Should return maximum 28 days */
+        $expected = range(1, 28);
         $result = $this->leavePeriodService->getListOfDates(2);
         $this->assertEquals($expected, $result, 'Wrong date range fetched for February');
 

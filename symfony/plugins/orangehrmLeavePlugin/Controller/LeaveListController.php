@@ -19,14 +19,34 @@
 
 namespace OrangeHRM\Leave\Controller;
 
-use OrangeHRM\Core\Vue\Prop;
-use OrangeHRM\Core\Vue\Component;
-use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Admin\Service\CompanyStructureService;
+use OrangeHRM\Core\Controller\AbstractVueController;
+use OrangeHRM\Core\Controller\Common\NoRecordsFoundController;
+use OrangeHRM\Core\Controller\Exception\RequestForwardableException;
+use OrangeHRM\Core\Traits\UserRoleManagerTrait;
+use OrangeHRM\Core\Vue\Component;
+use OrangeHRM\Core\Vue\Prop;
+use OrangeHRM\Entity\Leave;
+use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Leave\Traits\Service\LeaveRequestServiceTrait;
+use OrangeHRM\Leave\Traits\Service\LeaveTypeServiceTrait;
+use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
 
 class LeaveListController extends AbstractVueController
 {
+    use LeaveRequestServiceTrait;
+    use UserRoleManagerTrait;
+    use EmployeeServiceTrait;
+    use LeaveTypeServiceTrait;
+
+    public const LEAVE_STATUSES = [
+        ['id' => Leave::LEAVE_STATUS_LEAVE_REJECTED, 'label' => 'Rejected'],
+        ['id' => Leave::LEAVE_STATUS_LEAVE_CANCELLED, 'label' => 'Cancelled'],
+        ['id' => Leave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL, 'label' => 'Pending Approval'],
+        ['id' => Leave::LEAVE_STATUS_LEAVE_APPROVED, 'label' => 'Scheduled'],
+        ['id' => Leave::LEAVE_STATUS_LEAVE_TAKEN, 'label' => 'Taken'],
+    ];
+
     protected ?CompanyStructureService $companyStructureService = null;
 
     /**
@@ -46,19 +66,78 @@ class LeaveListController extends AbstractVueController
     public function preRender(Request $request): void
     {
         $component = new Component('leave-list');
+        $empNumber = $request->get('empNumber');
+        if (!is_null($empNumber)) {
+            if (!$this->getUserRoleManagerHelper()->isEmployeeAccessible($empNumber)) {
+                throw new RequestForwardableException(NoRecordsFoundController::class . '::handle');
+            }
+
+            $component->addProp(
+                new Prop(
+                    'employee',
+                    Prop::TYPE_OBJECT,
+                    $this->getEmployeeService()->getEmployeeAsArray($empNumber)
+                )
+            );
+        }
+        $this->addLeaveTypeProp($request, $component);
+        $this->addFromToDateProps($request, $component);
+        $this->addLeaveStatusProp($request, $component);
 
         $subunits = $this->getCompanyStructureService()->getSubunitArray();
         $component->addProp(new Prop('subunits', Prop::TYPE_ARRAY, $subunits));
-
-        $leaveStatuses = [
-            ['id' => 1, 'label' => 'Rejected', 'key' => 'rejected'],
-            ['id' => 2, 'label' => 'Cancelled', 'key' => 'cancelled'],
-            ['id' => 3, 'label' => 'Pending Approval', 'key' => 'pendingApproval'],
-            ['id' => 4, 'label' => 'Scheduled', 'key' => 'scheduled'],
-            ['id' => 5, 'label' => 'Taken', 'key' => 'taken'],
-        ];
-        $component->addProp(new Prop('leave-statuses', Prop::TYPE_ARRAY, $leaveStatuses));
+        $this->addLeaveStatusesProp($component);
 
         $this->setComponent($component);
+    }
+
+    /**
+     * @param Component $component
+     */
+    protected function addLeaveStatusesProp(Component $component): void
+    {
+        $component->addProp(new Prop('leave-statuses', Prop::TYPE_ARRAY, self::LEAVE_STATUSES));
+    }
+
+    /**
+     * @param Request $request
+     * @param Component $component
+     */
+    protected function addLeaveTypeProp(Request $request, Component $component): void
+    {
+        $leaveTypeId = $request->get('leaveTypeId');
+        if (!is_null($leaveTypeId)) {
+            $leaveType = $this->getLeaveTypeService()->getLeaveTypeAsArray($leaveTypeId);
+            $component->addProp(new Prop('leave-type', Prop::TYPE_OBJECT, $leaveType));
+        }
+    }
+
+    /**
+     * @param Request $request
+     * @param Component $component
+     */
+    protected function addLeaveStatusProp(Request $request, Component $component): void
+    {
+        $leaveStatus = $request->get('status');
+        if (!is_null($leaveStatus)) {
+            $key = array_search($leaveStatus, array_column(self::LEAVE_STATUSES, 'id'));
+            if ($key) {
+                $component->addProp(new Prop('leave-status', Prop::TYPE_OBJECT, self::LEAVE_STATUSES[$key]));
+            }
+        }
+    }
+
+    /**
+     * @param Request $request
+     * @param Component $component
+     */
+    protected function addFromToDateProps(Request $request, Component $component): void
+    {
+        $fromDate = $request->get('fromDate');
+        $toDate = $request->get('toDate');
+        if ($fromDate && $toDate) {
+            $component->addProp(new Prop('from-date', Prop::TYPE_STRING, $fromDate));
+            $component->addProp(new Prop('to-date', Prop::TYPE_STRING, $toDate));
+        }
     }
 }

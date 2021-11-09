@@ -19,11 +19,18 @@
 
 namespace OrangeHRM\Leave\Dto;
 
+use InvalidArgumentException;
+
 class EmployeeLeaveEntitlementUsageReportSearchFilterParams extends DateRangeSearchFilterParams
 {
     public const ALLOWED_SORT_FIELDS = ['leaveType.name'];
 
+    public const REPORT_TYPE_EMPLOYEE = 'employee';
+    public const REPORT_TYPE_MY = 'my';
+
     private ?int $empNumber = null;
+
+    private string $reportType = self::REPORT_TYPE_EMPLOYEE;
 
     public function __construct()
     {
@@ -44,5 +51,24 @@ class EmployeeLeaveEntitlementUsageReportSearchFilterParams extends DateRangeSea
     public function setEmpNumber(?int $empNumber): void
     {
         $this->empNumber = $empNumber;
+    }
+
+    /**
+     * @return string
+     */
+    public function getReportType(): string
+    {
+        return $this->reportType;
+    }
+
+    /**
+     * @param string $reportType
+     */
+    public function setReportType(string $reportType): void
+    {
+        if (!in_array($reportType, [self::REPORT_TYPE_EMPLOYEE, self::REPORT_TYPE_MY])) {
+            throw new InvalidArgumentException();
+        }
+        $this->reportType = $reportType;
     }
 }

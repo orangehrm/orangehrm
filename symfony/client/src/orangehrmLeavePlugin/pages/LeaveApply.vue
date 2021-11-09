@@ -36,7 +36,7 @@
         {{ $t('leave.no_leave_types_with_leave_balance') }}
       </oxd-text>
 
-      <oxd-form v-else :loading="isLoading" @submitValid="onSave">
+      <oxd-form v-else ref="formRef" :loading="isLoading" @submitValid="onSave">
         <oxd-form-row>
           <oxd-grid :cols="2" class="orangehrm-full-width-grid">
             <oxd-grid-item>
@@ -172,6 +172,7 @@ import LeaveDurationInput from '@/orangehrmLeavePlugin/components/LeaveDurationI
 import LeaveBalance from '@/orangehrmLeavePlugin/components/LeaveBalance';
 import LeaveConflict from '@/orangehrmLeavePlugin/components/LeaveConflict';
 import useLeaveValidators from '@/orangehrmLeavePlugin/util/composable/useLeaveValidators';
+import useForm from '@orangehrm/core/util/composable/useForm';
 
 const leaveModel = {
   type: null,
@@ -212,9 +213,12 @@ export default {
       'api/v2/leave/leave-requests',
     );
     const {serializeBody, validateOverlapLeaves} = useLeaveValidators(http);
+    const {formRef, reset} = useForm();
 
     return {
       http,
+      reset,
+      formRef,
       serializeBody,
       validateOverlapLeaves,
     };
@@ -270,7 +274,7 @@ export default {
         })
         .then(() => {
           this.$toast.saveSuccess();
-          this.leave = {...leaveModel};
+          this.reset();
         })
         .catch(() => {
           this.showLeaveConflict &&

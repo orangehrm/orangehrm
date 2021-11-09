@@ -23,9 +23,10 @@ use DateInterval;
 use DateTime;
 use Exception;
 use OrangeHRM\Core\Dao\BaseDao;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
+use OrangeHRM\Entity\LeaveEntitlement;
 use OrangeHRM\Leave\Dto\LeavePeriod;
+use OrangeHRM\ORM\Exception\TransactionException;
 
 class FIFOEntitlementConsumptionStrategyDao extends BaseDao
 {
@@ -37,7 +38,7 @@ class FIFOEntitlementConsumptionStrategyDao extends BaseDao
      * @param int $oldDay
      * @param int $newMonth
      * @param int $newDay
-     * @throws DaoException
+     * @throws TransactionException
      */
     public function handleLeavePeriodChange(
         LeavePeriod $leavePeriodForToday,
@@ -46,12 +47,9 @@ class FIFOEntitlementConsumptionStrategyDao extends BaseDao
         int $newMonth,
         int $newDay
     ): void {
+        $this->beginTransaction();
         try {
-            // TODO:: move queries to doctrine query language
-            $conn = $this->getEntityManager()->getConnection();
-
             $leavePeriodStartDate = $leavePeriodForToday->getStartDate();
-            $leavePeriodEndDate = $leavePeriodForToday->getEndDate();
 
             // If current leave period start date is 1/1 and new date is 1/1, 
             if ($leavePeriodStartDate->format('n') == 1 &&
@@ -59,43 +57,54 @@ class FIFOEntitlementConsumptionStrategyDao extends BaseDao
                 $newMonth == 1 && $newDay == 1) {
                 $newEndDateForCurrentPeriod = $leavePeriodStartDate->format('Y') . '-12-31';
             } else {
-                $tmp = new DateTime();
+                $tmp = $this->getDateTimeHelper()->getNow();
                 $tmp->setDate((int)$leavePeriodStartDate->format('Y') + 1, $newMonth, $newDay);
                 $tmp->sub(new DateInterval('P1D'));
                 $newEndDateForCurrentPeriod = $tmp->format('Y-m-d');
             }
 
-            $queryCurrentPeriod = 'UPDATE ohrm_leave_entitlement e SET ' .
-                "e.to_date = :new_end_date " .
-                "WHERE e.deleted = 0 AND e.from_date = :fromDate AND e.to_date = :toDate ";
+            // Updating current period
+            $q = $this->createQueryBuilder(LeaveEntitlement::class, 'e')
+                ->update()
+                ->set('e.toDate', ':newToDate')
+                ->setParameter('newToDate', $newEndDateForCurrentPeriod)
+                ->andWhere('e.deleted = :deleted')
+                ->setParameter('deleted', false)
+                ->andWhere('e.fromDate = :fromDate')
+                ->setParameter('fromDate', $leavePeriodForToday->getStartDate())
+                ->andWhere('e.toDate = :toDate')
+                ->setParameter('toDate', $leavePeriodForToday->getEndDate());
+            $q->getQuery()->execute();
 
-            $stmt = $conn->prepare($queryCurrentPeriod);
-            $stmt->executeQuery(
-                [
-                    ':new_end_date' => $newEndDateForCurrentPeriod,
-                    ':fromDate' => $this->getDateTimeHelper()
-                        ->formatDateTimeToYmd($leavePeriodForToday->getStartDate()),
-                    ':toDate' => $this->getDateTimeHelper()->formatDateTimeToYmd($leavePeriodForToday->getEndDate()),
-                ]
-            );
+            // Update future periods
+            /** @var LeaveEntitlement[] $leaveEntitlements */
+            $leaveEntitlements = $this->createQueryBuilder(LeaveEntitlement::class, 'e')
+                ->andWhere('e.deleted = :deleted')
+                ->setParameter('deleted', false)
+                ->andWhere('e.fromDate > :fromDate')
+                ->setParameter('fromDate', $leavePeriodForToday->getEndDate())
+                ->getQuery()
+                ->execute();
 
-            $queryFuturePeriods = 'UPDATE ohrm_leave_entitlement e SET ' .
-                "e.from_date = CONCAT(YEAR(e.from_date), '-',:newMonth , '-', :newDay), " .
-                "e.to_date = DATE_SUB(CONCAT(YEAR(e.from_date) + 1, '-', :newMonth, '-', :newDay), INTERVAL 1 DAY) " .
-                "WHERE e.deleted = 0 AND MONTH(e.from_date) = :oldMonth AND DAY(e.from_date) = :oldDay AND e.from_date > :fromDate ";
+            foreach ($leaveEntitlements as $leaveEntitlement) {
+                $month = $leaveEntitlement->getFromDate()->format('n');
+                $day = $leaveEntitlement->getFromDate()->format('j');
+                if ($month == $oldMonth && $day == $oldDay) {
+                    $fromDate = new DateTime(
+                        $leaveEntitlement->getFromDate()->format('Y') . '-' . $newMonth . '-' . $newDay
+                    );
+                    $leaveEntitlement->setFromDate($fromDate);
+                    $toDate = clone $fromDate;
+                    $toDate->add(DateInterval::createFromDateString('+1 year -1 day'));
+                    $leaveEntitlement->setToDate($toDate);
+                }
+            }
 
-            $stmt = $conn->prepare($queryFuturePeriods);
-            $stmt->executeQuery(
-                [
-                    ':newMonth' => $newMonth,
-                    ':newDay' => $newDay,
-                    ':oldMonth' => $oldMonth,
-                    ':oldDay' => $oldDay,
-                    ':fromDate' => $this->getDateTimeHelper()->formatDateTimeToYmd($leavePeriodForToday->getEndDate()),
-                ]
-            );
+            $this->getEntityManager()->flush();
+            $this->commitTransaction();
         } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), 0, $e);
+            $this->rollBackTransaction();
+            throw new TransactionException($e);
         }
     }
 }

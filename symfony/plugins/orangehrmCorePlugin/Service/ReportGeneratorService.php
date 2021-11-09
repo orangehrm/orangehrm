@@ -120,6 +120,9 @@ class ReportGeneratorService
             $column = new Column($displayField->getFieldAlias());
             $column->setName($displayField->getLabel());
             $column->setSize($displayField->getWidth());
+            if ($displayField->isValueList()) {
+                $column->addCellProperties(['type' => 'list']);
+            }
             $headerData->incrementColumnCount();
 
             if ($displayField instanceof AbstractDisplayField) {

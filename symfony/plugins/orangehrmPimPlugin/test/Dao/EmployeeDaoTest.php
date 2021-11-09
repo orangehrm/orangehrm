@@ -336,4 +336,16 @@ class EmployeeDaoTest extends KernelTestCase
                                   array('workEmail' => '', 'otherEmail' => ''),
                                   array('workEmail' => '', 'otherEmail' => '')), $emailList);
     }
+
+    public function testIsWorkEmailAvailableByCurrentEmail(): void
+    {
+        $status = $this->employeeDao->isWorkEmailAvailableByCurrentEmail('kayla0001@xample.com', 'kayla@xample.com');
+        $this->assertEquals(true, $status);
+    }
+
+    public function testIsWorkEmailAvailable(): void
+    {
+        $status = $this->employeeDao->isWorkEmailAvailable('renukshan@xample.com');
+        $this->assertEquals(false, $status);
+    }
 }

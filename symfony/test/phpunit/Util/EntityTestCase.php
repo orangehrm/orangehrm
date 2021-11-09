@@ -21,7 +21,7 @@ namespace OrangeHRM\Tests\Util;
 
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 
-abstract class EntityTestCase extends TestCase
+abstract class EntityTestCase extends KernelTestCase
 {
     use EntityManagerHelperTrait;
 }

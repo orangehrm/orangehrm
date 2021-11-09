@@ -33,6 +33,7 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Service\MenuService;
+use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
 use OrangeHRM\Entity\LeavePeriodHistory;
 use OrangeHRM\Framework\Services;
@@ -46,6 +47,7 @@ class LeavePeriodAPI extends Endpoint implements CrudEndpoint
     use LeavePeriodServiceTrait;
     use LeaveConfigServiceTrait;
     use NormalizerServiceTrait;
+    use DateTimeHelperTrait;
 
     public const PARAMETER_START_MONTH = 'startMonth';
     public const PARAMETER_START_DAY = 'startDay';
@@ -64,7 +66,7 @@ class LeavePeriodAPI extends Endpoint implements CrudEndpoint
             $leavePeriodHistory = new LeavePeriodHistory();
             $leavePeriodHistory->setStartMonth(1);
             $leavePeriodHistory->setStartDay(1);
-            $leavePeriodHistory->setCreatedAt(new DateTime());
+            $leavePeriodHistory->setCreatedAt($this->getDateTimeHelper()->getNow());
         }
         return new EndpointResourceResult(
             LeavePeriodHistoryModel::class,
@@ -140,7 +142,7 @@ class LeavePeriodAPI extends Endpoint implements CrudEndpoint
         $leavePeriodHistory->setStartDay(
             $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_START_DAY)
         );
-        $leavePeriodHistory->setCreatedAt(new DateTime());
+        $leavePeriodHistory->setCreatedAt($this->getDateTimeHelper()->getNow());
         $this->getLeavePeriodService()
             ->getLeavePeriodDao()
             ->saveLeavePeriodHistory($leavePeriodHistory);

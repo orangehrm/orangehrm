@@ -26,14 +26,18 @@ use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Leave\Controller\Traits\PermissionTrait;
 use OrangeHRM\Leave\Traits\Service\LeaveTypeServiceTrait;
 use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
+use OrangeHRM\Leave\Traits\Service\LeavePeriodServiceTrait;
 
 class ViewLeaveEntitlementController extends AbstractVueController
 {
     use UserRoleManagerTrait;
     use EmployeeServiceTrait;
     use LeaveTypeServiceTrait;
+    use PermissionTrait;
+    use LeavePeriodServiceTrait;
 
     /**
      * @inheritDoc
@@ -55,25 +59,52 @@ class ViewLeaveEntitlementController extends AbstractVueController
                 )
             );
         }
+        $this->addLeaveTypeProp($request, $component);
+        $this->addLeavePeriodProp($request, $component);
 
+        $this->setComponent($component);
+
+        // $empNumber can be null
+        $this->setPermissionsForEmployee(['leave_entitlements'], $empNumber);
+    }
+
+    /**
+     * @param Request $request
+     * @param Component $component
+     */
+    protected function addLeaveTypeProp(Request $request, Component $component): void
+    {
         $leaveTypeId = $request->get('leaveTypeId');
         if (!is_null($leaveTypeId)) {
             $leaveType = $this->getLeaveTypeService()->getLeaveTypeAsArray($leaveTypeId);
             $component->addProp(new Prop('leave-type', Prop::TYPE_OBJECT, $leaveType));
         }
+    }
 
+    /**
+     * @param Request $request
+     * @param Component $component
+     */
+    protected function addLeavePeriodProp(Request $request, Component $component): void
+    {
         $startDate = $request->get('startDate');
         $endDate = $request->get('endDate');
         if ($startDate && $endDate) {
             $leavePeriod = [
-                "id" => "${startDate}_${endDate}",
-                "label" => "$startDate - $endDate",
-                "startDate" => "$startDate",
-                "endDate" => "$endDate"
+                'id' => "${startDate}_${endDate}",
+                'label' => "$startDate - $endDate",
+                'startDate' => "$startDate",
+                'endDate' => "$endDate"
             ];
-
-            $component->addProp(new Prop('leave-period', Prop::TYPE_OBJECT, $leavePeriod));
+        } else {
+            $leavePeriod = $this->getLeavePeriodService()->getNormalizedCurrentLeavePeriod();
+            $leavePeriod = [
+                'id' => $leavePeriod['startDate'] . '_' . $leavePeriod['endDate'],
+                'label' => $leavePeriod['startDate'] . ' - ' . $leavePeriod['endDate'],
+                'startDate' => $leavePeriod['startDate'],
+                'endDate' => $leavePeriod['endDate'],
+            ];
         }
-        $this->setComponent($component);
+        $component->addProp(new Prop('leave-period', Prop::TYPE_OBJECT, $leavePeriod));
     }
 }

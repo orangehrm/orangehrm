@@ -25,15 +25,16 @@ use OrangeHRM\Core\Service\ConfigService;
 use OrangeHRM\Core\Service\DateTimeHelperService;
 use OrangeHRM\Core\Service\MenuService;
 use OrangeHRM\Core\Service\NormalizerService;
+use OrangeHRM\Core\Service\NumberHelperService;
 use OrangeHRM\Core\Service\TextHelperService;
 use OrangeHRM\Core\Subscriber\ApiAuthorizationSubscriber;
 use OrangeHRM\Core\Subscriber\ExceptionSubscriber;
 use OrangeHRM\Core\Subscriber\MailerSubscriber;
+use OrangeHRM\Core\Subscriber\ModuleUnderDevelopmentSubscriber;
 use OrangeHRM\Core\Subscriber\RequestBodySubscriber;
 use OrangeHRM\Core\Subscriber\RequestForwardableExceptionSubscriber;
 use OrangeHRM\Core\Subscriber\ScreenAuthorizationSubscriber;
 use OrangeHRM\Core\Subscriber\SessionSubscriber;
-use OrangeHRM\Core\Subscriber\ModuleUnderDevelopmentSubscriber;
 use OrangeHRM\Core\Subscriber\ModuleNotAvailableSubscriber;
 use OrangeHRM\Core\Subscriber\APINotAvailableSubscriber;
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
@@ -73,6 +74,7 @@ class CorePluginConfiguration implements PluginConfigurationInterface
         $this->getContainer()->register(Services::NORMALIZER_SERVICE, NormalizerService::class);
         $this->getContainer()->register(Services::DATETIME_HELPER_SERVICE, DateTimeHelperService::class);
         $this->getContainer()->register(Services::TEXT_HELPER_SERVICE, TextHelperService::class);
+        $this->getContainer()->register(Services::NUMBER_HELPER_SERVICE, NumberHelperService::class);
         $this->getContainer()->register(Services::CLASS_HELPER, ClassHelper::class);
         $this->getContainer()->register(Services::USER_ROLE_MANAGER)
             ->setFactory([UserRoleManagerFactory::class, 'getUserRoleManager']);

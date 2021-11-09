@@ -564,7 +564,7 @@ GetAll:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
       limit: 2
-      statuses: [ 'pendingApproval', 'scheduled', 'taken', 'cancelled', 'rejected' ]
+      statuses: [ 1, 2, 3, 0, -1 ]
     data: [
       {
         "id": 3,
@@ -738,7 +738,7 @@ GetAll:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
       offset: 15
-      statuses: [ 'pendingApproval', 'scheduled', 'taken', 'cancelled' ]
+      statuses: [ 1, 2, 3, 0 ]
     data: [
       {
         "id": 15,
@@ -828,7 +828,7 @@ GetAll:
     query:
       offset: 10
       limit: 1
-      statuses: [ 'pendingApproval', 'scheduled', 'taken', 'cancelled' ]
+      statuses: [ 1, 2, 3, 0 ]
     data: [
       {
         "id": 4,
@@ -923,7 +923,7 @@ GetAll:
     query:
       fromDate: '2021-11-03'
       toDate: '2021-11-03'
-      statuses: [ 'scheduled' ]
+      statuses: [ 2 ]
     data: [
       {
         "id": 16,
@@ -1013,7 +1013,7 @@ GetAll:
     query:
       fromDate: '2021-11-04'
       toDate: '2021-11-04'
-      statuses: [ 'pendingApproval', 'scheduled', 'taken', 'cancelled' ]
+      statuses: [ 1, 2, 3, 0 ]
     data: [
       {
         "id": 17,
@@ -1079,6 +1079,279 @@ GetAll:
           "comment": "Assign",
           "date": "2021-09-15",
           "time": "20:53"
+        }
+      }
+    ]
+    meta:
+      total: 1
+
+  'filter by leave type':
+    userId: 1
+    now:
+      datetime: '2021-09-19'
+    services:
+      leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
+      leave.leave_request_service: \OrangeHRM\Leave\Service\LeaveRequestService
+      leave.leave_entitlement_service: \OrangeHRM\Leave\Service\LeaveEntitlementService
+      leave.leave_period_service: \OrangeHRM\Leave\Service\LeavePeriodService
+      leave.leave_type_service: \OrangeHRM\Leave\Service\LeaveTypeService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getUserRoleManager' ]
+    query:
+      leaveTypeId: 1
+      statuses: [ 1, 2, 3, 0 ]
+    data: [
+      {
+        "id": 16,
+        "dates": {
+          "fromDate": "2021-11-03",
+          "toDate": null,
+          "durationType": {
+            "id": 0,
+            "type": "full_day"
+          },
+          "startTime": null,
+          "endTime": null
+        },
+        "noOfDays": 1,
+        "leaveBalances": [
+          {
+            "period": {
+              "startDate": "2021-01-01",
+              "endDate": "2021-12-31"
+            },
+            "balance": {
+              "entitled": 0,
+              "used": 1,
+              "scheduled": 1,
+              "pending": 0,
+              "taken": 0,
+              "balance": -1,
+              "asAtDate": "2021-11-03",
+              "endDate": "2021-12-31"
+            }
+          }
+        ],
+        "multiPeriod": false,
+        "leaveBreakdown": [
+          {
+            "id": 2,
+            "name": "Scheduled",
+            "lengthDays": 1
+          }
+        ],
+        "allowedActions": [
+          {
+            "action": "CANCEL",
+            "name": "Cancel"
+          }
+        ],
+        "hasMultipleStatus": false,
+        "employee": {
+          "empNumber": 1,
+          "lastName": "Adalwin",
+          "firstName": "Odis",
+          "middleName": "",
+          "employeeId": "0001",
+          "terminationId": null
+        },
+        "leaveType": {
+          "id": 1,
+          "name": "US - Personal",
+          "deleted": false
+        },
+        "lastComment": {
+          "id": 3,
+          "comment": "Assign",
+          "date": "2021-09-15",
+          "time": "20:53"
+        }
+      }
+    ]
+    meta:
+      total: 1
+
+  'filter by subunit':
+    userId: 1
+    now:
+      datetime: '2021-09-19'
+    services:
+      leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
+      leave.leave_request_service: \OrangeHRM\Leave\Service\LeaveRequestService
+      leave.leave_entitlement_service: \OrangeHRM\Leave\Service\LeaveEntitlementService
+      leave.leave_period_service: \OrangeHRM\Leave\Service\LeavePeriodService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      admin.company_structure_service: \OrangeHRM\Admin\Service\CompanyStructureService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getUserRoleManager' ]
+    query:
+      subunitId: 3
+      statuses: [ 1, 2, 3, 0 ]
+    data: [
+      {
+        "id": 15,
+        "dates": {
+          "fromDate": "2021-03-01",
+          "toDate": "2021-03-08",
+          "durationType": {
+            "id": null,
+            "type": null
+          },
+          "startTime": null,
+          "endTime": null
+        },
+        "noOfDays": 5.5,
+        "leaveBalances": [
+          {
+            "period": {
+              "startDate": "2021-01-01",
+              "endDate": "2021-12-31"
+            },
+            "balance": {
+              "entitled": 0,
+              "used": 5.5,
+              "scheduled": 0,
+              "pending": 0,
+              "taken": 5.5,
+              "balance": -5.5,
+              "asAtDate": "2021-03-01",
+              "endDate": "2021-12-31"
+            }
+          }
+        ],
+        "multiPeriod": false,
+        "leaveBreakdown": [
+          {
+            "id": 3,
+            "name": "Taken",
+            "lengthDays": 5.5
+          }
+        ],
+        "allowedActions": [
+          {
+            "action": "CANCEL",
+            "name": "Cancel"
+          }
+        ],
+        "hasMultipleStatus": false,
+        "employee": {
+          "empNumber": 6,
+          "lastName": "Morgan",
+          "firstName": "Jasmine",
+          "middleName": "",
+          "employeeId": "0006",
+          "terminationId": null
+        },
+        "leaveType": {
+          "id": 2,
+          "name": "US - Vacation",
+          "deleted": false
+        },
+        "lastComment": {
+          "id": 7,
+          "comment": "Thank you",
+          "date": "2021-09-15",
+          "time": "23:19"
+        }
+      }
+    ]
+    meta:
+      total: 1
+
+  'filter by includeEmployees=onlyPast':
+    userId: 1
+    now:
+      datetime: '2021-09-19'
+    services:
+      leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      leave.leave_request_service: \OrangeHRM\Leave\Service\LeaveRequestService
+      leave.leave_entitlement_service: \OrangeHRM\Leave\Service\LeaveEntitlementService
+      leave.leave_period_service: \OrangeHRM\Leave\Service\LeavePeriodService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getUserRoleManager' ]
+    query:
+      includeEmployees: 'onlyPast'
+      statuses: [ 1, 2, 3, 0 ]
+    data: [
+      {
+        "id": 14,
+        "dates": {
+          "fromDate": "2021-06-01",
+          "toDate": "2021-06-08",
+          "durationType": {
+            "id": null,
+            "type": null
+          },
+          "startTime": null,
+          "endTime": null
+        },
+        "noOfDays": 5.5,
+        "leaveBalances": [
+          {
+            "period": {
+              "startDate": "2021-01-01",
+              "endDate": "2021-12-31"
+            },
+            "balance": {
+              "entitled": 7.0,
+              "used": 4.5,
+              "scheduled": 0,
+              "pending": 2.0,
+              "taken": 2.5,
+              "balance": 2.5,
+              "asAtDate": "2021-06-01",
+              "endDate": "2021-12-31"
+            }
+          }
+        ],
+        "multiPeriod": false,
+        "leaveBreakdown": [
+          {
+            "id": -1,
+            "name": "Rejected",
+            "lengthDays": 0.375
+          },
+          {
+            "id": 3,
+            "name": "Taken",
+            "lengthDays": 2.5
+          },
+          {
+            "id": 1,
+            "name": "Pending Approval",
+            "lengthDays": 2.0
+          },
+          {
+            "id": 0,
+            "name": "Cancelled",
+            "lengthDays": 0.625
+          }
+        ],
+        "allowedActions": [ ],
+        "hasMultipleStatus": true,
+        "employee": {
+          "empNumber": 5,
+          "lastName": "Abel",
+          "firstName": "Ashley",
+          "middleName": "",
+          "employeeId": "0005",
+          "terminationId": 1
+        },
+        "leaveType": {
+          "id": 4,
+          "name": "CAN - Personal",
+          "deleted": true
+        },
+        "lastComment": {
+          "id": 2,
+          "comment": "Personal reason",
+          "date": "2021-09-15",
+          "time": "20:44"
         }
       }
     ]

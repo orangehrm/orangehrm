@@ -55,7 +55,7 @@
 
 <script>
 import {ref} from 'vue';
-import {required, digitsOnly, max} from '@orangehrm/core/util/validation/rules';
+import {required, max} from '@orangehrm/core/util/validation/rules';
 
 export default {
   name: 'report-criterion-range',
@@ -80,6 +80,10 @@ export default {
       {id: 'gt', label: 'Greater Than'},
       {id: 'between', label: 'Range'},
     ]);
+
+    const digitsOnly = v => {
+      return v.match(/^\d*\.?\d*$/) !== null || 'Should be a number';
+    };
 
     const rules = {
       operator: [required],

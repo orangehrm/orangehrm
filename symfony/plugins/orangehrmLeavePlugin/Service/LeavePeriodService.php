@@ -89,7 +89,7 @@ class LeavePeriodService
      * @param bool $isLeapYear
      * @return int[] Array of dates that can fall in the given month
      */
-    public function getListOfDates(int $month, bool $isLeapYear = true): array
+    public function getListOfDates(int $month, bool $isLeapYear = false): array
     {
         switch ($month) {
             case 1 :
@@ -158,7 +158,7 @@ class LeavePeriodService
             throw new ServiceException('Leave Period Start Date Is Not Defined.');
         }
 
-        if (empty($this->leavePeriodList)) {
+        if ($forceReload || empty($this->leavePeriodList)) {
             $endDate = ($toDate != null) ? new DateTime($toDate) : $this->getDateTimeHelper()->getNow();
             //If To Date is not specified return leave type till next leave period
             if (is_null($toDate)) {

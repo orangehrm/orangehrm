@@ -20,8 +20,10 @@
 namespace OrangeHRM\Tests\Pim\Entity;
 
 use DateTime;
+use OrangeHRM\Core\Service\DateTimeHelperService;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\EmployeeAttachment;
+use OrangeHRM\Framework\Services;
 use OrangeHRM\Tests\Util\EntityTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 
@@ -44,6 +46,12 @@ class EmployeeAttachmentTest extends EntityTestCase
         $employee->setEmployeeId('0001');
         $this->persist($employee);
 
+        $dateTimeHelper = $this->getMockBuilder(DateTimeHelperService::class)
+            ->onlyMethods(['getNow'])
+            ->getMock();
+        $dateTimeHelper->method('getNow')
+            ->willReturn(new DateTime('2021-10-04'));
+        $this->createKernelWithMockServices([Services::DATETIME_HELPER_SERVICE => $dateTimeHelper]);
         $employeeAttachment = new EmployeeAttachment();
         $employeeAttachment->setEmployee($employee);
         $employeeAttachment->setAttachId(1);

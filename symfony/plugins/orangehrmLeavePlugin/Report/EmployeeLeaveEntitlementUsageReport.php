@@ -20,6 +20,7 @@
 namespace OrangeHRM\Leave\Report;
 
 use OrangeHRM\Core\Api\CommonParams;
+use OrangeHRM\Core\Api\Rest\ReportAPI;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
@@ -32,6 +33,7 @@ use OrangeHRM\Core\Report\Filter\Filter;
 use OrangeHRM\Core\Report\Header\Column;
 use OrangeHRM\Core\Report\Header\Header;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
+use OrangeHRM\Core\Traits\Service\TextHelperTrait;
 use OrangeHRM\Leave\Api\LeaveCommonParams;
 use OrangeHRM\Leave\Dto\EmployeeLeaveEntitlementUsageReportSearchFilterParams;
 use OrangeHRM\Leave\Traits\Service\LeavePeriodServiceTrait;
@@ -40,6 +42,7 @@ class EmployeeLeaveEntitlementUsageReport implements EndpointAwareReport
 {
     use AuthUserTrait;
     use LeavePeriodServiceTrait;
+    use TextHelperTrait;
 
     public const PARAMETER_LEAVE_TYPE_NAME = 'leaveTypeName';
     public const PARAMETER_ENTITLEMENT_DAYS = 'entitlementDays';
@@ -61,16 +64,19 @@ class EmployeeLeaveEntitlementUsageReport implements EndpointAwareReport
                     ->setPin(Column::PIN_COL_START)
                     ->setSize(self::DEFAULT_COLUMN_SIZE),
                 (new Column(self::PARAMETER_ENTITLEMENT_DAYS))->setName('Leave Entitlements (Days)')
-                    ->setCellProperties(['class' => ['col-alt' => true]])
+                    ->setCellProperties(['class' => ['col-alt' => true, 'cell-action'=> true]])
                     ->setSize(self::DEFAULT_COLUMN_SIZE),
                 (new Column(self::PARAMETER_PENDING_APPROVAL_DAYS))->setName('Leave Pending Approval (Days)')
+                    ->setCellProperties(['class' => ['cell-action'=> true]])
                     ->setSize(self::DEFAULT_COLUMN_SIZE),
                 (new Column(self::PARAMETER_SCHEDULED_DAYS))->setName('Leave Scheduled (Days)')
+                    ->setCellProperties(['class' => ['cell-action'=> true]])
                     ->setSize(self::DEFAULT_COLUMN_SIZE),
                 (new Column(self::PARAMETER_TAKEN_DAYS))->setName('Leave Taken (Days)')
+                    ->setCellProperties(['class' => ['cell-action'=> true]])
                     ->setSize(self::DEFAULT_COLUMN_SIZE),
                 (new Column(self::PARAMETER_BALANCE_DAYS))->setName('Leave Balance (Days)')
-                    ->setCellProperties(['class' => ['col-alt' => true]])
+                    ->setCellProperties(['class' => ['col-alt' => true, 'cell-action' => true]])
                     ->setSize(self::DEFAULT_COLUMN_SIZE),
             ]
         );
@@ -124,6 +130,16 @@ class EmployeeLeaveEntitlementUsageReport implements EndpointAwareReport
                 $leavePeriod->getEndDate()
             )
         );
+        $reportName = $endpoint->getRequestParams()->getString(
+            RequestParams::PARAM_TYPE_QUERY,
+            ReportAPI::PARAMETER_NAME
+        );
+        if ($this->getTextHelper()->strStartsWith(
+            $reportName,
+            EmployeeLeaveEntitlementUsageReportSearchFilterParams::REPORT_TYPE_MY
+        )) {
+            $filterParams->setReportType(EmployeeLeaveEntitlementUsageReportSearchFilterParams::REPORT_TYPE_MY);
+        }
         return $filterParams;
     }
 
