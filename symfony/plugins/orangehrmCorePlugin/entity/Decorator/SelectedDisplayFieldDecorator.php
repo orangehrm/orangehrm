@@ -17,32 +17,43 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Tests\Pim\Api;
+namespace OrangeHRM\Entity\Decorator;
 
-use OrangeHRM\Pim\Api\PimDefinedReportAPI;
-use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
-use OrangeHRM\Tests\Util\Integration\TestCaseParams;
+use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
+use OrangeHRM\Entity\DisplayField;
+use OrangeHRM\Entity\SelectedDisplayField;
 
-/**
- * @group Pim
- * @group APIv2
- */
-class PimDefinedReportGetOneAPITest extends EndpointIntegrationTestCase
+class SelectedDisplayFieldDecorator
 {
+    use EntityManagerHelperTrait;
+
     /**
-     * @dataProvider dataProviderForTestGetOne
+     * @var SelectedDisplayField
      */
-    public function testGetOne(TestCaseParams $testCaseParams): void
+    private SelectedDisplayField $selectedDisplayField;
+
+    /**
+     * @param SelectedDisplayField $selectedDisplayField
+     */
+    public function __construct(SelectedDisplayField $selectedDisplayField)
     {
-        $this->populateFixtures('PimDefinedReportGetOneAPI.yaml');
-        $this->registerServices($testCaseParams);
-        $this->registerMockDateTimeHelper($testCaseParams);
-        $api = $this->getApiEndpointMock(PimDefinedReportAPI::class, $testCaseParams);
-        $this->assertValidTestCase($api, 'getOne', $testCaseParams);
+        $this->selectedDisplayField = $selectedDisplayField;
     }
 
-    public function dataProviderForTestGetOne(): array
+    /**
+     * @return SelectedDisplayField
+     */
+    protected function getSelectedDisplayField(): SelectedDisplayField
     {
-        return $this->getTestCases('PimDefinedReportGetOneAPITestCase.yaml', 'GetOne');
+        return $this->selectedDisplayField;
+    }
+
+    /**
+     * @param int $id
+     */
+    public function setDisplayFieldById(int $id): void
+    {
+        $displayField = $this->getReference(DisplayField::class, $id);
+        $this->getSelectedDisplayField()->setDisplayField($displayField);
     }
 }

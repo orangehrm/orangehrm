@@ -21,6 +21,7 @@ namespace OrangeHRM\Pim\Service;
 
 use DateTime;
 use OrangeHRM\Core\Exception\CoreServiceException;
+use OrangeHRM\Core\Service\IDGeneratorService;
 use OrangeHRM\Core\Traits\EventDispatcherTrait;
 use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
@@ -52,6 +53,11 @@ class EmployeeService
      * @var EmployeeTerminationService|null
      */
     protected ?EmployeeTerminationService $employeeTerminationService = null;
+
+    /**
+     * @var IDGeneratorService|null
+     */
+    protected ?IDGeneratorService $iDGeneratorService = null;
 
     /**
      * @return EmployeeDao
@@ -103,6 +109,17 @@ class EmployeeService
     }
 
     /**
+     * @return IDGeneratorService
+     */
+    public function getIDGeneratorService(): IDGeneratorService
+    {
+        if (!$this->iDGeneratorService instanceof IDGeneratorService) {
+            $this->iDGeneratorService = new IDGeneratorService();
+        }
+        return $this->iDGeneratorService;
+    }
+
+    /**
      * @param EmployeeSearchFilterParams $employeeSearchParamHolder
      * @return Employee[]
      */
@@ -131,8 +148,18 @@ class EmployeeService
 
     /**
      * @param Employee $employee
+     * @return Employee
      */
-    public function saveAddEmployeeEvent(Employee $employee): void
+    public function saveNewEmployee(Employee $employee): Employee
+    {
+        $this->getIDGeneratorService()->incrementId(Employee::class);
+        return $this->saveEmployee($employee);
+    }
+
+    /**
+     * @param Employee $employee
+     */
+    public function dispatchAddEmployeeEvent(Employee $employee): void
     {
         $this->getEmployeeEventService()->saveAddEmployeeEvent($employee->getEmpNumber());
         $this->getEventDispatcher()->dispatch(new EmployeeAddedEvent($employee), EmployeeEvents::EMPLOYEE_ADDED);

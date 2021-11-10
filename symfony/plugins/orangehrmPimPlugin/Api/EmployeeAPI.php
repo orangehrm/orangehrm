@@ -347,9 +347,9 @@ class EmployeeAPI extends Endpoint implements CrudEndpoint
 
             $this->getEmployeePictureService()->saveEmployeePicture($empPicture);
         } else {
-            $this->getEmployeeService()->saveEmployee($employee);
+            $this->getEmployeeService()->saveNewEmployee($employee);
         }
-        $this->getEmployeeService()->saveAddEmployeeEvent($employee);
+        $this->getEmployeeService()->dispatchAddEmployeeEvent($employee);
 
         return new EndpointResourceResult(EmployeeModel::class, $employee);
     }
