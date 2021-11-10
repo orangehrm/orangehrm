@@ -128,11 +128,20 @@ class SystemDetailHelper
      */
     public function getMySqlDetails()
     {
-        return array(
-            "client_version" => $this->getMySqlClientVersion(),
-            "server_version" => $this->getMySqlServerVersion(),
-            "conn_type" => $this->getMySqlConnectionType()
-        );
+        $host = $_SESSION['dbHostName'];
+        $username = $_SESSION['dbUserName'];
+        $password = $_SESSION['dbPassword'];
+        $dbname = $_SESSION['dbName'];
+        $port = $_SESSION['dbHostPort'];
+        if($host && $username && $password && $dbname && $port) {
+            return array(
+                "client_version" => $this->getMySqlClientVersion(),
+                "server_version" => $this->getMySqlServerVersion(),
+                "conn_type"      => $this->getMySqlConnectionType()
+            );
+        }
+        return array();
+
     }
 
     /**

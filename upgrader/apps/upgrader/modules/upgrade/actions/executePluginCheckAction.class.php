@@ -38,13 +38,15 @@ class executePluginCheckAction extends sfAction
         $notCopiedPlugins = [];
         $versions = [];
         foreach ($installedAddons as $installedAddon) {
-            if (!is_dir($pluginsDir . DIRECTORY_SEPARATOR . $installedAddon['plugin_name'])) {
-                $notCopiedPlugins[] = $installedAddon['plugin_name'];
-            } else {
-                $filePath = $pluginsDir . DIRECTORY_SEPARATOR . $installedAddon['plugin_name'] . DIRECTORY_SEPARATOR .
-                    'config' . DIRECTORY_SEPARATOR . 'app.yml';
-                $content = sfYaml::load($filePath);
-                $versions[$installedAddon['title']] = $content['all'][$installedAddon['plugin_name']]['version'];
+            if($installedAddon['plugin_name'] !== 'orangehrmCorporateBrandingPlugin'){
+                if (!is_dir($pluginsDir . DIRECTORY_SEPARATOR . $installedAddon['plugin_name'])) {
+                    $notCopiedPlugins[] = $installedAddon['plugin_name'];
+                } else {
+                    $filePath = $pluginsDir . DIRECTORY_SEPARATOR . $installedAddon['plugin_name'] . DIRECTORY_SEPARATOR .
+                        'config' . DIRECTORY_SEPARATOR . 'app.yml';
+                    $content = sfYaml::load($filePath);
+                    $versions[$installedAddon['title']] = $content['all'][$installedAddon['plugin_name']]['version'];
+                }
             }
         }
 

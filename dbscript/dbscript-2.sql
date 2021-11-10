@@ -238,7 +238,7 @@ INSERT INTO `hs_hr_country`(`cou_code`, `name`, `cou_name`, `iso3`, `numcode`) V
     ('ZM', 'ZAMBIA', 'Zambia', 'ZMB', 894),
     ('ZW', 'ZIMBABWE', 'Zimbabwe', 'ZWE', 716);
 
-  
+
 INSERT INTO `hs_hr_currency_type`(`code`, `currency_id`, `currency_name`) VALUES (3, 'AED', 'Utd. Arab Emir. Dirham'),
     (4, 'AFN', 'Afghanistan Afghani'),
     (5, 'ALL', 'Albanian Lek'),
@@ -398,7 +398,7 @@ INSERT INTO `hs_hr_currency_type`(`code`, `currency_id`, `currency_name`) VALUES
     (169, 'ZRN', 'New Zaire'),
     (170, 'ZWD', 'Zimbabwe Dollar'),
     (173, 'SAR', 'Saudi Arabia Riyal');
-  
+
 
 INSERT INTO `hs_hr_province`(`id`, `province_name`, `province_code`, `cou_code`) VALUES (1, 'Alaska', 'AK', 'US'),
     (2, 'Alabama', 'AL', 'US'),
@@ -544,7 +544,7 @@ INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES
     (0, 'ohrm_job_candidate_history', 'id'),
     (0, 'ohrm_job_interview', 'id');
 
-INSERT INTO `ohrm_workflow_state_machine`(`id`, `workflow`,`state`,`role`,`action`,`resulting_state`, `roles_to_notify`, `priority`)  
+INSERT INTO `ohrm_workflow_state_machine`(`id`, `workflow`,`state`,`role`,`action`,`resulting_state`, `roles_to_notify`, `priority`)
                             VALUES ('1','0','INITIAL','SYSTEM','7','NOT SUBMITTED', '', 0),
                                    ('2','0','SUBMITTED','ADMIN','2','APPROVED', '', 0),
                                    ('3','0','SUBMITTED','ADMIN','3','REJECTED', '', 0),
@@ -651,96 +651,96 @@ INSERT INTO `ohrm_workflow_state_machine`(`id`, `workflow`,`state`,`role`,`actio
                                     (105, '4', 'LEAVE TYPE DELETED SCHEDULED', 'SUPERVISOR', 'CANCEL', 'CANCELLED', 'ess,subscriber', 0),
                                     (106, '4', 'LEAVE TYPE DELETED TAKEN', 'ADMIN', 'CANCEL', 'CANCELLED', 'ess,subscriber', 0);
 
-                                    
-INSERT INTO `ohrm_report_group` (`report_group_id`, `name`, `core_sql`) VALUES 
+
+INSERT INTO `ohrm_report_group` (`report_group_id`, `name`, `core_sql`) VALUES
    (1,'timesheet', 'SELECT selectCondition FROM ohrm_project_activity LEFT JOIN (SELECT * FROM ohrm_timesheet_item WHERE whereCondition1) AS ohrm_timesheet_item  ON (ohrm_timesheet_item.activity_id = ohrm_project_activity.activity_id) LEFT JOIN ohrm_project ON (ohrm_project.project_id = ohrm_project_activity.project_id) LEFT JOIN hs_hr_employee ON (hs_hr_employee.emp_number = ohrm_timesheet_item.employee_id) LEFT JOIN ohrm_timesheet ON (ohrm_timesheet.timesheet_id = ohrm_timesheet_item.timesheet_id) LEFT JOIN ohrm_customer ON (ohrm_customer.customer_id = ohrm_project.customer_id) WHERE whereCondition2 groupByClause ORDER BY ohrm_customer.name, ohrm_project.name, ohrm_project_activity.name, hs_hr_employee.emp_lastname, hs_hr_employee.emp_firstname'),
    (2,'attendance', 'SELECT selectCondition FROM hs_hr_employee LEFT JOIN (SELECT * FROM ohrm_attendance_record WHERE ( ( ohrm_attendance_record.punch_in_user_time BETWEEN "#@fromDate@,@1970-01-01@#" AND #@"toDate"@,@CURDATE()@# ) AND ( ohrm_attendance_record.punch_out_user_time BETWEEN "#@fromDate@,@1970-01-01@#" AND #@"toDate"@,@CURDATE()@# ) ) ) AS ohrm_attendance_record ON (hs_hr_employee.emp_number = ohrm_attendance_record.employee_id) WHERE hs_hr_employee.emp_number = #@employeeId@,@hs_hr_employee.emp_number AND (hs_hr_employee.termination_id is null) @# AND (hs_hr_employee.job_title_code = #@"jobTitle")@,@hs_hr_employee.job_title_code OR hs_hr_employee.job_title_code is null)@# AND (hs_hr_employee.work_station IN (#@subUnit)@,@SELECT id FROM ohrm_subunit) OR hs_hr_employee.work_station is null@#) AND (hs_hr_employee.emp_status = #@"employeeStatus")@,@hs_hr_employee.emp_status OR hs_hr_employee.emp_status is null)@# groupByClause ORDER BY hs_hr_employee.emp_lastname, hs_hr_employee.emp_firstname'),
-   (3,'pim', 'SELECT selectCondition FROM hs_hr_employee 
-                    LEFT JOIN hs_hr_emp_emergency_contacts ON 
-                        (hs_hr_employee.emp_number = hs_hr_emp_emergency_contacts.emp_number) 
-                    LEFT JOIN ohrm_subunit ON 
-                        (hs_hr_employee.work_station = ohrm_subunit.id) 
-                    LEFT JOIN ohrm_employment_status ON 
-                        (hs_hr_employee.emp_status = ohrm_employment_status.id) 
+   (3,'pim', 'SELECT selectCondition FROM hs_hr_employee
+                    LEFT JOIN hs_hr_emp_emergency_contacts ON
+                        (hs_hr_employee.emp_number = hs_hr_emp_emergency_contacts.emp_number)
+                    LEFT JOIN ohrm_subunit ON
+                        (hs_hr_employee.work_station = ohrm_subunit.id)
+                    LEFT JOIN ohrm_employment_status ON
+                        (hs_hr_employee.emp_status = ohrm_employment_status.id)
                     LEFT JOIN ohrm_job_title ON
                         (hs_hr_employee.job_title_code = ohrm_job_title.id)
-                    LEFT JOIN ohrm_job_category ON 
-                        (hs_hr_employee.eeo_cat_code = ohrm_job_category.id) 
+                    LEFT JOIN ohrm_job_category ON
+                        (hs_hr_employee.eeo_cat_code = ohrm_job_category.id)
                     LEFT JOIN ohrm_nationality ON
                         (hs_hr_employee.nation_code = ohrm_nationality.id)
-                    LEFT JOIN hs_hr_emp_dependents ON 
+                    LEFT JOIN hs_hr_emp_dependents ON
                         (hs_hr_employee.emp_number = hs_hr_emp_dependents.emp_number)
                     LEFT JOIN hs_hr_emp_locations AS emp_location ON
                         (hs_hr_employee.emp_number = emp_location.emp_number)
                     LEFT JOIN ohrm_location ON
                         (emp_location.location_id = ohrm_location.id)
-                    LEFT JOIN hs_hr_emp_contract_extend ON 
-                        (hs_hr_employee.emp_number = hs_hr_emp_contract_extend.emp_number) 
-                    LEFT JOIN hs_hr_emp_basicsalary ON 
-                        (hs_hr_employee.emp_number = hs_hr_emp_basicsalary.emp_number) 
-                    LEFT JOIN ohrm_pay_grade ON 
-                        (hs_hr_emp_basicsalary.sal_grd_code = ohrm_pay_grade.id) 
-                    LEFT JOIN hs_hr_currency_type ON 
-                        (hs_hr_emp_basicsalary.currency_id = hs_hr_currency_type.currency_id) 
-                    LEFT JOIN hs_hr_payperiod ON 
-                        (hs_hr_emp_basicsalary.payperiod_code = hs_hr_payperiod.payperiod_code) 
-                    LEFT JOIN hs_hr_emp_passport ON 
-                        (hs_hr_employee.emp_number = hs_hr_emp_passport.emp_number) 
-                    LEFT JOIN hs_hr_emp_reportto AS subordinate_list ON 
-                        (hs_hr_employee.emp_number = subordinate_list.erep_sup_emp_number) 
+                    LEFT JOIN hs_hr_emp_contract_extend ON
+                        (hs_hr_employee.emp_number = hs_hr_emp_contract_extend.emp_number)
+                    LEFT JOIN hs_hr_emp_basicsalary ON
+                        (hs_hr_employee.emp_number = hs_hr_emp_basicsalary.emp_number)
+                    LEFT JOIN ohrm_pay_grade ON
+                        (hs_hr_emp_basicsalary.sal_grd_code = ohrm_pay_grade.id)
+                    LEFT JOIN hs_hr_currency_type ON
+                        (hs_hr_emp_basicsalary.currency_id = hs_hr_currency_type.currency_id)
+                    LEFT JOIN hs_hr_payperiod ON
+                        (hs_hr_emp_basicsalary.payperiod_code = hs_hr_payperiod.payperiod_code)
+                    LEFT JOIN hs_hr_emp_passport ON
+                        (hs_hr_employee.emp_number = hs_hr_emp_passport.emp_number)
+                    LEFT JOIN hs_hr_emp_reportto AS subordinate_list ON
+                        (hs_hr_employee.emp_number = subordinate_list.erep_sup_emp_number)
                     LEFT JOIN hs_hr_employee AS subordinate ON
                         (subordinate.emp_number = subordinate_list.erep_sub_emp_number)
-                    LEFT JOIN ohrm_emp_reporting_method AS subordinate_reporting_method ON 
-                        (subordinate_list.erep_reporting_mode = subordinate_reporting_method.reporting_method_id) 
-                    LEFT JOIN hs_hr_emp_work_experience ON 
-                        (hs_hr_employee.emp_number = hs_hr_emp_work_experience.emp_number) 
-                    LEFT JOIN ohrm_emp_education ON 
-                        (hs_hr_employee.emp_number = ohrm_emp_education.emp_number) 
-                    LEFT JOIN ohrm_education ON 
-                        (ohrm_emp_education.education_id = ohrm_education.id) 
-                    LEFT JOIN hs_hr_emp_skill ON 
-                        (hs_hr_employee.emp_number = hs_hr_emp_skill.emp_number) 
-                    LEFT JOIN ohrm_skill ON 
-                        (hs_hr_emp_skill.skill_id = ohrm_skill.id) 
-                    LEFT JOIN hs_hr_emp_language ON 
-                        (hs_hr_employee.emp_number = hs_hr_emp_language.emp_number) 
-                    LEFT JOIN ohrm_language ON 
-                        (hs_hr_emp_language.lang_id = ohrm_language.id) 
-                    LEFT JOIN ohrm_emp_license ON 
-                        (hs_hr_employee.emp_number = ohrm_emp_license.emp_number) 
-                    LEFT JOIN ohrm_license ON 
-                        (ohrm_emp_license.license_id = ohrm_license.id) 
-                    LEFT JOIN hs_hr_emp_member_detail ON 
-                        (hs_hr_employee.emp_number = hs_hr_emp_member_detail.emp_number) 
+                    LEFT JOIN ohrm_emp_reporting_method AS subordinate_reporting_method ON
+                        (subordinate_list.erep_reporting_mode = subordinate_reporting_method.reporting_method_id)
+                    LEFT JOIN hs_hr_emp_work_experience ON
+                        (hs_hr_employee.emp_number = hs_hr_emp_work_experience.emp_number)
+                    LEFT JOIN ohrm_emp_education ON
+                        (hs_hr_employee.emp_number = ohrm_emp_education.emp_number)
+                    LEFT JOIN ohrm_education ON
+                        (ohrm_emp_education.education_id = ohrm_education.id)
+                    LEFT JOIN hs_hr_emp_skill ON
+                        (hs_hr_employee.emp_number = hs_hr_emp_skill.emp_number)
+                    LEFT JOIN ohrm_skill ON
+                        (hs_hr_emp_skill.skill_id = ohrm_skill.id)
+                    LEFT JOIN hs_hr_emp_language ON
+                        (hs_hr_employee.emp_number = hs_hr_emp_language.emp_number)
+                    LEFT JOIN ohrm_language ON
+                        (hs_hr_emp_language.lang_id = ohrm_language.id)
+                    LEFT JOIN ohrm_emp_license ON
+                        (hs_hr_employee.emp_number = ohrm_emp_license.emp_number)
+                    LEFT JOIN ohrm_license ON
+                        (ohrm_emp_license.license_id = ohrm_license.id)
+                    LEFT JOIN hs_hr_emp_member_detail ON
+                        (hs_hr_employee.emp_number = hs_hr_emp_member_detail.emp_number)
                     LEFT JOIN ohrm_membership ON
                         (hs_hr_emp_member_detail.membship_code = ohrm_membership.id)
-                    LEFT JOIN hs_hr_country ON 
-                        (hs_hr_employee.coun_code = hs_hr_country.cou_code) 
-                    LEFT JOIN hs_hr_emp_directdebit ON 
-                        (hs_hr_emp_basicsalary.id = hs_hr_emp_directdebit.salary_id) 
-                    LEFT JOIN hs_hr_emp_reportto AS supervisor_list ON 
-                        (hs_hr_employee.emp_number = supervisor_list.erep_sub_emp_number) 
+                    LEFT JOIN hs_hr_country ON
+                        (hs_hr_employee.coun_code = hs_hr_country.cou_code)
+                    LEFT JOIN hs_hr_emp_directdebit ON
+                        (hs_hr_emp_basicsalary.id = hs_hr_emp_directdebit.salary_id)
+                    LEFT JOIN hs_hr_emp_reportto AS supervisor_list ON
+                        (hs_hr_employee.emp_number = supervisor_list.erep_sub_emp_number)
                     LEFT JOIN hs_hr_employee AS supervisor ON
                         (supervisor.emp_number = supervisor_list.erep_sup_emp_number)
-                    LEFT JOIN ohrm_emp_reporting_method AS supervisor_reporting_method ON 
-                        (supervisor_list.erep_reporting_mode = supervisor_reporting_method.reporting_method_id) 
+                    LEFT JOIN ohrm_emp_reporting_method AS supervisor_reporting_method ON
+                        (supervisor_list.erep_reporting_mode = supervisor_reporting_method.reporting_method_id)
                     LEFT JOIN ohrm_emp_termination ON
                         (hs_hr_employee.termination_id = ohrm_emp_termination.id)
                     LEFT JOIN ohrm_emp_termination_reason ON
                         (ohrm_emp_termination.reason_id = ohrm_emp_termination_reason.id)
                 WHERE hs_hr_employee.emp_number in (
                     SELECT hs_hr_employee.emp_number FROM hs_hr_employee
-                        LEFT JOIN hs_hr_emp_basicsalary ON 
-                            (hs_hr_employee.emp_number = hs_hr_emp_basicsalary.emp_number) 
-                        LEFT JOIN ohrm_emp_education ON 
-                            (hs_hr_employee.emp_number = ohrm_emp_education.emp_number) 
-                        LEFT JOIN hs_hr_emp_skill ON 
-                            (hs_hr_employee.emp_number = hs_hr_emp_skill.emp_number) 
-                        LEFT JOIN hs_hr_emp_language ON 
-                            (hs_hr_employee.emp_number = hs_hr_emp_language.emp_number) 
+                        LEFT JOIN hs_hr_emp_basicsalary ON
+                            (hs_hr_employee.emp_number = hs_hr_emp_basicsalary.emp_number)
+                        LEFT JOIN ohrm_emp_education ON
+                            (hs_hr_employee.emp_number = ohrm_emp_education.emp_number)
+                        LEFT JOIN hs_hr_emp_skill ON
+                            (hs_hr_employee.emp_number = hs_hr_emp_skill.emp_number)
+                        LEFT JOIN hs_hr_emp_language ON
+                            (hs_hr_employee.emp_number = hs_hr_emp_language.emp_number)
                     WHERE whereCondition1
                 )
-                GROUP BY 
+                GROUP BY
                      hs_hr_employee.emp_number,
                      hs_hr_employee.emp_lastname,
                      hs_hr_employee.emp_firstname,
@@ -772,7 +772,7 @@ INSERT INTO `ohrm_report` (`report_id`, `name`, `report_group_id`, `use_filter_f
     (4, 'Attendance Total Summary Report', 2, 0, null),
     (5, 'PIM Sample Report', 3, 1, 'PIM_DEFINED');
 
-INSERT INTO `ohrm_filter_field` (`filter_field_id`, `report_group_id`, `name`, `where_clause_part`, `filter_field_widget`, `condition_no`, `required`) VALUES 
+INSERT INTO `ohrm_filter_field` (`filter_field_id`, `report_group_id`, `name`, `where_clause_part`, `filter_field_widget`, `condition_no`, `required`) VALUES
     (1, 1, 'project_name', 'ohrm_project.project_id', 'ohrmWidgetProjectList', 2, 'true'),
     (2, 1, 'activity_show_deleted', 'ohrm_project_activity.is_deleted', 'ohrmWidgetInputCheckbox', 2, 'false'),
     (3, 1, 'project_date_range', 'date', 'ohrmWidgetDateRange', 1, 'false'),
@@ -927,8 +927,8 @@ INSERT INTO `ohrm_display_field` (`display_field_id`, `report_group_id`, `name`,
     (119, 3, 'ohrm_emp_license.license_no', 'License Number', 'getLicenseNo',  'false', null, null, 'label', '<xml><getter>getLicenseNo</getter></xml>', 200, '0', null, true, 14, '---', false, false),
     (120, 3, 'ohrm_emp_termination.note', 'Termination Note', 'getNote',  'false', null, null, 'label', '<xml><getter>getNote</getter></xml>', 100, '0', null, true, 6, '---', false, false);
 
-    
-INSERT INTO `ohrm_group_field` (`group_field_id`, `name`, `group_by_clause`, `group_field_widget`) VALUES 
+
+INSERT INTO `ohrm_group_field` (`group_field_id`, `name`, `group_by_clause`, `group_field_widget`) VALUES
     (1, 'activity id', 'GROUP BY ohrm_project_activity.activity_id', null),
     (2, 'employee number', 'GROUP BY hs_hr_employee.emp_number', null);
 
@@ -947,7 +947,7 @@ INSERT INTO `ohrm_selected_filter_field` (`report_id`, `filter_field_id`, `filte
     (3, 7, 3, null, null, null, 'Runtime'),
     (5, 22, 1, null, null, 'IS NULL', 'Predefined');
 
-INSERT INTO `ohrm_selected_display_field` (`id`, `display_field_id`, `report_id`) VALUES 
+INSERT INTO `ohrm_selected_display_field` (`id`, `display_field_id`, `report_id`) VALUES
     (2, 2, 1),
     (4, 8, 2),
     (5, 9, 5),
@@ -1032,7 +1032,7 @@ INSERT INTO `ohrm_selected_display_field` (`id`, `display_field_id`, `report_id`
     (91, 95, 5),
     (93, 97, 5);
 
-    
+
 INSERT INTO `ohrm_selected_display_field_group`(`id`, `report_id`, `display_field_group_id`) VALUES
     (1, 5, 1),
     (2, 5, 2),
@@ -2032,7 +2032,7 @@ INSERT INTO `ohrm_job_category` (`name`) VALUES ('Officials and Managers'),
                                                 ('Service Workers'),
                                                 ('Laborers and Helpers');
 
-INSERT INTO ohrm_email(`id`, `name`) VALUES 
+INSERT INTO ohrm_email(`id`, `name`) VALUES
     (1, 'leave.apply'),
     (2, 'leave.assign'),
     (3, 'leave.approve'),
@@ -2040,7 +2040,7 @@ INSERT INTO ohrm_email(`id`, `name`) VALUES
     (5, 'leave.reject'),
     (6, 'leave.change');
 
-INSERT INTO ohrm_email_template(`id`, `email_id`, `locale`, `performer_role`, `recipient_role`,`body`, `subject`) VALUES 
+INSERT INTO ohrm_email_template(`id`, `email_id`, `locale`, `performer_role`, `recipient_role`,`body`, `subject`) VALUES
     (1, 1, 'en_US', NULL, 'supervisor', 'orangehrmLeavePlugin/modules/leave/templates/mail/en_US/apply/leaveApplicationBody.txt', 'orangehrmLeavePlugin/modules/leave/templates/mail/en_US/apply/leaveApplicationSubject.txt'),
     (2, 1, 'en_US', NULL, 'subscriber', 'orangehrmLeavePlugin/modules/leave/templates/mail/en_US/apply/leaveApplicationSubscriberBody.txt', 'orangehrmLeavePlugin/modules/leave/templates/mail/en_US/apply/leaveApplicationSubject.txt'),
     (3, 3, 'en_US', NULL, 'ess', 'orangehrmLeavePlugin/modules/leave/templates/mail/en_US/approve/leaveApprovalBody.txt', 'orangehrmLeavePlugin/modules/leave/templates/mail/en_US/approve/leaveApprovalSubject.txt'),
@@ -2057,7 +2057,7 @@ INSERT INTO ohrm_email_template(`id`, `email_id`, `locale`, `performer_role`, `r
     (14, 6, 'en_US', NULL, 'ess', 'orangehrmLeavePlugin/modules/leave/templates/mail/en_US/change/leaveChangeBody.txt', 'orangehrmLeavePlugin/modules/leave/templates/mail/en_US/change/leaveChangeSubject.txt'),
     (15, 6, 'en_US', NULL, 'subscriber', 'orangehrmLeavePlugin/modules/leave/templates/mail/en_US/change/leaveChangeSubscriberBody.txt', 'orangehrmLeavePlugin/modules/leave/templates/mail/en_US/change/leaveChangeSubscriberSubject.txt');
 
-INSERT INTO  ohrm_email_processor(`id`, `email_id`, `class_name`) VALUES 
+INSERT INTO  ohrm_email_processor(`id`, `email_id`, `class_name`) VALUES
     (1, 1, 'LeaveEmailProcessor'),
     (2, 2, 'LeaveEmailProcessor'),
     (3, 3, 'LeaveEmailProcessor'),
@@ -2082,9 +2082,9 @@ INSERT INTO ohrm_advanced_report (id, name, definition) VALUES
 	<input_field type="text" name="fromDate" label="From"></input_field>
         <input_field type="text" name="toDate" label="To"></input_field>
         <input_field type="text" name="asOfDate" label="AsOf"></input_field>
-</filter_fields> 
+</filter_fields>
 
-<sub_report type="sql" name="mainTable">       
+<sub_report type="sql" name="mainTable">
     <query>FROM ohrm_leave_type WHERE (deleted = 0) OR (SELECT count(l.id) FROM ohrm_leave l WHERE l.status = 3 AND l.leave_type_id = ohrm_leave_type.id) > 0 ORDER BY ohrm_leave_type.id</query>
     <id_field>leaveTypeId</id_field>
     <display_groups>
@@ -2095,54 +2095,54 @@ INSERT INTO ohrm_advanced_report (id, name, definition) VALUES
                     <field_name>ohrm_leave_type.id</field_name>
                     <field_alias>leaveTypeId</field_alias>
                     <display_name>Leave Type ID</display_name>
-                    <width>1</width>	
-                </field>   
+                    <width>1</width>
+                </field>
                 <field display="false">
                     <field_name>ohrm_leave_type.exclude_in_reports_if_no_entitlement</field_name>
                     <field_alias>exclude_if_no_entitlement</field_alias>
                     <display_name>Exclude</display_name>
-                    <width>1</width>	
-                </field>  
+                    <width>1</width>
+                </field>
                 <field display="false">
                     <field_name>ohrm_leave_type.deleted</field_name>
                     <field_alias>leave_type_deleted</field_alias>
                     <display_name>Leave Type Deleted</display_name>
-                    <width>1</width>	
-                </field>  
+                    <width>1</width>
+                </field>
                 <field display="true">
                     <field_name>ohrm_leave_type.name</field_name>
                     <field_alias>leaveType</field_alias>
                     <display_name>Leave Type</display_name>
-                    <width>160</width>	
-                </field>s                                                                                                     
+                    <width>160</width>
+                </field>s
             </fields>
         </display_group>
-    </display_groups> 
+    </display_groups>
 </sub_report>
 
 <sub_report type="sql" name="entitlementsTotal">
                     <query>
 
 FROM (
-SELECT ohrm_leave_entitlement.id as id, 
+SELECT ohrm_leave_entitlement.id as id,
        ohrm_leave_entitlement.leave_type_id as leave_type_id,
        ohrm_leave_entitlement.no_of_days as no_of_days,
        sum(IF(ohrm_leave.status = 2, ohrm_leave_leave_entitlement.length_days, 0)) AS scheduled,
        sum(IF(ohrm_leave.status = 3, ohrm_leave_leave_entitlement.length_days, 0)) AS taken
-       
+
 FROM ohrm_leave_entitlement LEFT JOIN ohrm_leave_leave_entitlement ON
     ohrm_leave_entitlement.id = ohrm_leave_leave_entitlement.entitlement_id
-    LEFT JOIN ohrm_leave ON ohrm_leave.id = ohrm_leave_leave_entitlement.leave_id AND 
+    LEFT JOIN ohrm_leave ON ohrm_leave.id = ohrm_leave_leave_entitlement.leave_id AND
     ( $X{&gt;,ohrm_leave.date,toDate} OR $X{&lt;,ohrm_leave.date,fromDate} )
 
-WHERE ohrm_leave_entitlement.deleted=0 AND $X{=,ohrm_leave_entitlement.emp_number,empNumber} AND 
+WHERE ohrm_leave_entitlement.deleted=0 AND $X{=,ohrm_leave_entitlement.emp_number,empNumber} AND
     $X{IN,ohrm_leave_entitlement.leave_type_id,leaveTypeId} AND
     (
       ( $X{&lt;=,ohrm_leave_entitlement.from_date,fromDate} AND $X{&gt;=,ohrm_leave_entitlement.to_date,fromDate} ) OR
-      ( $X{&lt;=,ohrm_leave_entitlement.from_date,toDate} AND $X{&gt;=,ohrm_leave_entitlement.to_date,toDate} ) OR 
-      ( $X{&gt;=,ohrm_leave_entitlement.from_date,fromDate} AND $X{&lt;=,ohrm_leave_entitlement.to_date,toDate} ) 
+      ( $X{&lt;=,ohrm_leave_entitlement.from_date,toDate} AND $X{&gt;=,ohrm_leave_entitlement.to_date,toDate} ) OR
+      ( $X{&gt;=,ohrm_leave_entitlement.from_date,fromDate} AND $X{&lt;=,ohrm_leave_entitlement.to_date,toDate} )
     )
-    
+
 GROUP BY ohrm_leave_entitlement.id
 ) AS A
 
@@ -2160,7 +2160,7 @@ ORDER BY A.leave_type_id
                         <field_alias>leaveTypeId</field_alias>
                         <display_name>Leave Type ID</display_name>
                         <width>1</width>
-                    </field>                                
+                    </field>
                     <field display="true">
                         <field_name>sum(A.no_of_days) - sum(A.scheduled) - sum(A.taken)</field_name>
                         <field_alias>entitlement_total</field_alias>
@@ -2168,7 +2168,7 @@ ORDER BY A.leave_type_id
                         <width>120</width>
                         <align>right</align>
                         <link>leave/viewLeaveEntitlements?empNumber=$P{empNumber}&amp;fromDate=$P{fromDate}&amp;toDate=$P{toDate}&amp;leaveTypeId=$P{leaveTypeId}&amp;stddate=1</link>
-                    </field>                                
+                    </field>
                 </fields>
             </display_group>
     </display_groups>
@@ -2176,7 +2176,7 @@ ORDER BY A.leave_type_id
 
 <sub_report type="sql" name="pendingQuery">
 <query>
-FROM ohrm_leave_type LEFT JOIN 
+FROM ohrm_leave_type LEFT JOIN
 ohrm_leave ON ohrm_leave_type.id = ohrm_leave.leave_type_id AND
 $X{=,ohrm_leave.emp_number,empNumber} AND
 ohrm_leave.status = 1 AND
@@ -2198,7 +2198,7 @@ ORDER BY ohrm_leave_type.id
                         <field_alias>leaveTypeId</field_alias>
                         <display_name>Leave Type ID</display_name>
                         <width>1</width>
-                    </field>                                
+                    </field>
                     <field display="true">
                         <field_name>sum(length_days)</field_name>
                         <field_alias>pending</field_alias>
@@ -2206,7 +2206,7 @@ ORDER BY ohrm_leave_type.id
                         <width>120</width>
                         <align>right</align>
                         <link>leave/viewLeaveList?empNumber=$P{empNumber}&amp;fromDate=$P{fromDate}&amp;toDate=$P{toDate}&amp;leaveTypeId=$P{leaveTypeId}&amp;status=1&amp;stddate=1</link>
-                    </field>                                
+                    </field>
                 </fields>
             </display_group>
     </display_groups>
@@ -2214,7 +2214,7 @@ ORDER BY ohrm_leave_type.id
 
 <sub_report type="sql" name="scheduledQuery">
 <query>
-FROM ohrm_leave_type LEFT JOIN 
+FROM ohrm_leave_type LEFT JOIN
 ohrm_leave ON ohrm_leave_type.id = ohrm_leave.leave_type_id AND
 $X{=,ohrm_leave.emp_number,empNumber} AND
 ohrm_leave.status = 2 AND
@@ -2236,7 +2236,7 @@ ORDER BY ohrm_leave_type.id
                         <field_alias>leaveTypeId</field_alias>
                         <display_name>Leave Type ID</display_name>
                         <width>1</width>
-                    </field>                                
+                    </field>
                     <field display="true">
                         <field_name>sum(length_days)</field_name>
                         <field_alias>scheduled</field_alias>
@@ -2244,7 +2244,7 @@ ORDER BY ohrm_leave_type.id
                         <width>120</width>
                         <align>right</align>
                         <link>leave/viewLeaveList?empNumber=$P{empNumber}&amp;fromDate=$P{fromDate}&amp;toDate=$P{toDate}&amp;leaveTypeId=$P{leaveTypeId}&amp;status=2&amp;stddate=1</link>
-                    </field>                                
+                    </field>
                 </fields>
             </display_group>
     </display_groups>
@@ -2269,7 +2269,7 @@ ORDER BY ohrm_leave.leave_type_id
                         <field_alias>leaveTypeId</field_alias>
                         <display_name>Leave Type ID</display_name>
                         <width>1</width>
-                    </field>                                
+                    </field>
                     <field display="true">
                         <field_name>sum(length_days)</field_name>
                         <field_alias>taken</field_alias>
@@ -2277,13 +2277,13 @@ ORDER BY ohrm_leave.leave_type_id
                         <width>120</width>
                         <align>right</align>
                         <link>leave/viewLeaveList?empNumber=$P{empNumber}&amp;fromDate=$P{fromDate}&amp;toDate=$P{toDate}&amp;leaveTypeId=$P{leaveTypeId}&amp;status=3&amp;stddate=1</link>
-                    </field>                                
+                    </field>
                 </fields>
             </display_group>
     </display_groups>
     </sub_report>
 
-<sub_report type="sql" name="unused">       
+<sub_report type="sql" name="unused">
     <query>FROM ohrm_leave_type WHERE deleted = 0 AND $X{IN,ohrm_leave_type.id,leaveTypeId} ORDER BY ohrm_leave_type.id</query>
     <id_field>leaveTypeId</id_field>
     <display_groups>
@@ -2294,32 +2294,32 @@ ORDER BY ohrm_leave.leave_type_id
                     <field_name>ohrm_leave_type.id</field_name>
                     <field_alias>leaveTypeId</field_alias>
                     <display_name>Leave Type ID</display_name>
-                    <width>1</width>	
-                </field>   
+                    <width>1</width>
+                </field>
                 <field display="true">
                     <field_name>ohrm_leave_type.name</field_name>
                     <field_alias>unused</field_alias>
                     <display_name>Leave Balance (Days)</display_name>
-                    <width>160</width>	
+                    <width>160</width>
                     <align>right</align>
-                </field>                                                                                                     
+                </field>
             </fields>
         </display_group>
-    </display_groups> 
+    </display_groups>
 </sub_report>
 
 
-    <join>             
-        <join_by sub_report="mainTable" id="leaveTypeId"></join_by>              
-        <join_by sub_report="entitlementsTotal" id="leaveTypeId"></join_by> 
-        <join_by sub_report="pendingQuery" id="leaveTypeId"></join_by>  
-        <join_by sub_report="scheduledQuery" id="leaveTypeId"></join_by>  
-        <join_by sub_report="takenQuery" id="leaveTypeId"></join_by>  
-        <join_by sub_report="unused" id="leaveTypeId"></join_by>  
+    <join>
+        <join_by sub_report="mainTable" id="leaveTypeId"></join_by>
+        <join_by sub_report="entitlementsTotal" id="leaveTypeId"></join_by>
+        <join_by sub_report="pendingQuery" id="leaveTypeId"></join_by>
+        <join_by sub_report="scheduledQuery" id="leaveTypeId"></join_by>
+        <join_by sub_report="takenQuery" id="leaveTypeId"></join_by>
+        <join_by sub_report="unused" id="leaveTypeId"></join_by>
 
     </join>
-    <page_limit>100</page_limit>        
-</report>'); 
+    <page_limit>100</page_limit>
+</report>');
 
 INSERT INTO ohrm_advanced_report (id, name, definition) VALUES
 (2, 'Leave Entitlements and Usage Report', '
@@ -2340,12 +2340,12 @@ INSERT INTO ohrm_advanced_report (id, name, definition) VALUES
         <input_field type="text" name="location" label="Location"></input_field>
         <input_field type="text" name="sub_unit" label="Sub Unit"></input_field>
         <input_field type="text" name="terminated" label="Terminated"></input_field>
-</filter_fields> 
+</filter_fields>
 
-<sub_report type="sql" name="mainTable">       
-    <query>FROM hs_hr_employee 
+<sub_report type="sql" name="mainTable">
+    <query>FROM hs_hr_employee
     LEFT JOIN hs_hr_emp_locations ON hs_hr_employee.emp_number = hs_hr_emp_locations.emp_number
-    WHERE $X{IN,hs_hr_employee.emp_number,emp_numbers} 
+    WHERE $X{IN,hs_hr_employee.emp_number,emp_numbers}
     AND $X{=,hs_hr_employee.job_title_code,job_title}
     AND $X{IN,hs_hr_employee.work_station,sub_unit}
     AND $X{IN,hs_hr_emp_locations.location_id,location}
@@ -2360,48 +2360,48 @@ INSERT INTO ohrm_advanced_report (id, name, definition) VALUES
                     <field_name>hs_hr_employee.emp_number</field_name>
                     <field_alias>empNumber</field_alias>
                     <display_name>Employee Number</display_name>
-                    <width>1</width>	
-                </field>                
+                    <width>1</width>
+                </field>
                 <field display="false">
                     <field_name>hs_hr_employee.termination_id</field_name>
                     <field_alias>termination_id</field_alias>
                     <display_name>Termination ID</display_name>
-                    <width>1</width>	
-                </field>   
+                    <width>1</width>
+                </field>
                 <field display="true">
                     <field_name>CONCAT(hs_hr_employee.emp_firstname, \' \', hs_hr_employee.emp_lastname)</field_name>
                     <field_alias>employeeName</field_alias>
                     <display_name>Employee</display_name>
                     <width>150</width>
-                </field>                                                                                               
+                </field>
             </fields>
         </display_group>
-    </display_groups> 
+    </display_groups>
 </sub_report>
 
 <sub_report type="sql" name="entitlementsTotal">
                     <query>
 
 FROM (
-SELECT ohrm_leave_entitlement.id as id, 
+SELECT ohrm_leave_entitlement.id as id,
        ohrm_leave_entitlement.emp_number as emp_number,
        ohrm_leave_entitlement.no_of_days as no_of_days,
        sum(IF(ohrm_leave.status = 2, ohrm_leave_leave_entitlement.length_days, 0)) AS scheduled,
        sum(IF(ohrm_leave.status = 3, ohrm_leave_leave_entitlement.length_days, 0)) AS taken
-       
+
 FROM ohrm_leave_entitlement LEFT JOIN ohrm_leave_leave_entitlement ON
     ohrm_leave_entitlement.id = ohrm_leave_leave_entitlement.entitlement_id
-    LEFT JOIN ohrm_leave ON ohrm_leave.id = ohrm_leave_leave_entitlement.leave_id AND 
+    LEFT JOIN ohrm_leave ON ohrm_leave.id = ohrm_leave_leave_entitlement.leave_id AND
     ( $X{&gt;,ohrm_leave.date,toDate} OR $X{&lt;,ohrm_leave.date,fromDate} )
 
 WHERE ohrm_leave_entitlement.deleted=0 AND $X{=,ohrm_leave_entitlement.leave_type_id,leaveType}
     AND $X{IN,ohrm_leave_entitlement.emp_number,empNumber} AND
     (
       ( $X{&lt;=,ohrm_leave_entitlement.from_date,fromDate} AND $X{&gt;=,ohrm_leave_entitlement.to_date,fromDate} ) OR
-      ( $X{&lt;=,ohrm_leave_entitlement.from_date,toDate} AND $X{&gt;=,ohrm_leave_entitlement.to_date,toDate} ) OR 
-      ( $X{&gt;=,ohrm_leave_entitlement.from_date,fromDate} AND $X{&lt;=,ohrm_leave_entitlement.to_date,toDate} ) 
+      ( $X{&lt;=,ohrm_leave_entitlement.from_date,toDate} AND $X{&gt;=,ohrm_leave_entitlement.to_date,toDate} ) OR
+      ( $X{&gt;=,ohrm_leave_entitlement.from_date,fromDate} AND $X{&lt;=,ohrm_leave_entitlement.to_date,toDate} )
     )
-    
+
 GROUP BY ohrm_leave_entitlement.id
 ) AS A
 
@@ -2419,7 +2419,7 @@ ORDER BY A.emp_number
                         <field_alias>empNumber</field_alias>
                         <display_name>Emp Number</display_name>
                         <width>1</width>
-                    </field>                                
+                    </field>
                     <field display="true">
                         <field_name>sum(A.no_of_days) - sum(A.scheduled) - sum(A.taken)</field_name>
                         <field_alias>entitlement_total</field_alias>
@@ -2427,7 +2427,7 @@ ORDER BY A.emp_number
                         <width>120</width>
                         <align>right</align>
                         <link>leave/viewLeaveEntitlements?empNumber=$P{empNumber}&amp;fromDate=$P{fromDate}&amp;toDate=$P{toDate}&amp;leaveTypeId=$P{leaveTypeId}&amp;stddate=1</link>
-                    </field>                                
+                    </field>
                 </fields>
             </display_group>
     </display_groups>
@@ -2452,7 +2452,7 @@ ORDER BY ohrm_leave.emp_number
                         <field_alias>empNumber</field_alias>
                         <display_name>Emp Number</display_name>
                         <width>1</width>
-                    </field>                                
+                    </field>
                     <field display="true">
                         <field_name>sum(length_days)</field_name>
                         <field_alias>pending</field_alias>
@@ -2460,7 +2460,7 @@ ORDER BY ohrm_leave.emp_number
                         <width>121</width>
                         <align>right</align>
                         <link>leave/viewLeaveList?empNumber=$P{empNumber}&amp;fromDate=$P{fromDate}&amp;toDate=$P{toDate}&amp;leaveTypeId=$P{leaveTypeId}&amp;status=1&amp;stddate=1</link>
-                    </field>                                
+                    </field>
                 </fields>
             </display_group>
     </display_groups>
@@ -2486,7 +2486,7 @@ ORDER BY ohrm_leave.emp_number
                         <field_alias>empNumber</field_alias>
                         <display_name>Emp Number</display_name>
                         <width>1</width>
-                    </field>                                
+                    </field>
                     <field display="true">
                         <field_name>sum(length_days)</field_name>
                         <field_alias>scheduled</field_alias>
@@ -2494,7 +2494,7 @@ ORDER BY ohrm_leave.emp_number
                         <width>121</width>
                         <align>right</align>
                         <link>leave/viewLeaveList?empNumber=$P{empNumber}&amp;fromDate=$P{fromDate}&amp;toDate=$P{toDate}&amp;leaveTypeId=$P{leaveTypeId}&amp;status=2&amp;stddate=1</link>
-                    </field>                                
+                    </field>
                 </fields>
             </display_group>
     </display_groups>
@@ -2519,7 +2519,7 @@ ORDER BY ohrm_leave.emp_number
                         <field_alias>empNumber</field_alias>
                         <display_name>Emp Number</display_name>
                         <width>1</width>
-                    </field>                                
+                    </field>
                     <field display="true">
                         <field_name>sum(length_days)</field_name>
                         <field_alias>taken</field_alias>
@@ -2527,47 +2527,47 @@ ORDER BY ohrm_leave.emp_number
                         <width>120</width>
                         <align>right</align>
                         <link>leave/viewLeaveList?empNumber=$P{empNumber}&amp;fromDate=$P{fromDate}&amp;toDate=$P{toDate}&amp;leaveTypeId=$P{leaveTypeId}&amp;status=3&amp;stddate=1</link>
-                    </field>                                
+                    </field>
                 </fields>
             </display_group>
     </display_groups>
 </sub_report>
-<sub_report type="sql" name="unused">       
+<sub_report type="sql" name="unused">
     <query>FROM hs_hr_employee WHERE $X{IN,hs_hr_employee.emp_number,empNumber} ORDER BY hs_hr_employee.emp_number</query>
     <id_field>empNumber</id_field>
     <display_groups>
         <display_group name="unused" type="one" display="true">
             <group_header></group_header>
-            <fields>    
+            <fields>
                 <field display="false">
                     <field_name>hs_hr_employee.emp_number</field_name>
                     <field_alias>empNumber</field_alias>
                     <display_name>Employee Number</display_name>
-                    <width>1</width>	
-                </field>                
+                    <width>1</width>
+                </field>
                 <field display="true">
                     <field_name>hs_hr_employee.emp_firstname</field_name>
                     <field_alias>unused</field_alias>
                     <display_name>Leave Balance (Days)</display_name>
                     <width>150</width>
                     <align>right</align>
-                </field> 
-                                                                                               
+                </field>
+
             </fields>
         </display_group>
-    </display_groups> 
+    </display_groups>
 </sub_report>
-    <join>             
-        <join_by sub_report="mainTable" id="empNumber"></join_by>            
-        <join_by sub_report="entitlementsTotal" id="empNumber"></join_by> 
+    <join>
+        <join_by sub_report="mainTable" id="empNumber"></join_by>
+        <join_by sub_report="entitlementsTotal" id="empNumber"></join_by>
         <join_by sub_report="pendingQuery" id="empNumber"></join_by>
         <join_by sub_report="scheduledQuery" id="empNumber"></join_by>
-        <join_by sub_report="takenQuery" id="empNumber"></join_by> 
-        <join_by sub_report="unused" id="empNumber"></join_by>  
+        <join_by sub_report="takenQuery" id="empNumber"></join_by>
+        <join_by sub_report="unused" id="empNumber"></join_by>
     </join>
-    <page_limit>20</page_limit>       
-</report>'); 
- 
+    <page_limit>20</page_limit>
+</report>');
+
 
 INSERT INTO `ohrm_leave_status` (`status`,`name`) VALUES
 (-1, 'REJECTED'),
@@ -2578,11 +2578,11 @@ INSERT INTO `ohrm_leave_status` (`status`,`name`) VALUES
 (4, 'WEEKEND'),
 (5, 'HOLIDAY');
 
-INSERT INTO ohrm_home_page (`user_role_id`, `action`, `enable_class`, `priority`) VALUES 
+INSERT INTO ohrm_home_page (`user_role_id`, `action`, `enable_class`, `priority`) VALUES
 (1, 'pim/viewEmployeeList', NULL, 10),
 (2, 'pim/viewMyDetails', NULL, 0);
 
-INSERT INTO ohrm_module_default_page (`module_id`, `user_role_id`, `action`, `enable_class`, `priority`) VALUES 
+INSERT INTO ohrm_module_default_page (`module_id`, `user_role_id`, `action`, `enable_class`, `priority`) VALUES
 (2, 1, 'admin/viewSystemUsers', NULL, 20),
 (3, 1, 'pim/viewEmployeeList', NULL, 20),
 (3, 3, 'pim/viewEmployeeList', NULL, 10),
@@ -2600,7 +2600,7 @@ INSERT INTO ohrm_module_default_page (`module_id`, `user_role_id`, `action`, `en
 (7, 5, 'recruitment/viewCandidates', NULL, 10),
 (7, 6, 'recruitment/viewCandidates', NULL, 5);
 
-INSERT INTO `hs_hr_config`(`key`,`value`) VALUES 
+INSERT INTO `hs_hr_config`(`key`,`value`) VALUES
 ('beacon.activation_acceptance_status','off'),
 ('beacon.company_name',''),
 ('beacon.activiation_status','off'),
@@ -2614,7 +2614,7 @@ INSERT INTO `hs_hr_config`(`key`,`value`) VALUES
 
 INSERT INTO `ohrm_module` (`name`,`status`) VALUES
 ('communication',1);
-INSERT INTO `ohrm_datapoint_type`(`id`,`name`,`action_class`)  VALUES 
+INSERT INTO `ohrm_datapoint_type`(`id`,`name`,`action_class`)  VALUES
 (1,'config','configDatapointProcessor'),
 (2,'count','countDatapointProcessor'),
 (3, 'session', 'sessionDatapointProcessor'),
@@ -2646,66 +2646,66 @@ INSERT INTO `ohrm_reviewer_group` (`id`, `name`,`piority`) VALUES
 (1, 'Supervisor',1),
 (2, 'Employee',2);
 
-SET @admin_role_id := (SELECT `id` FROM ohrm_user_role WHERE `name` = 'Admin');  
+SET @admin_role_id := (SELECT `id` FROM ohrm_user_role WHERE `name` = 'Admin');
 SET @ess_role_id := (SELECT `id` FROM ohrm_user_role WHERE `name` = 'ESS');
 SET @supervisor_role_id := (SELECT `id` FROM ohrm_user_role WHERE `name` = 'Supervisor');
 
-INSERT INTO `ohrm_module` (`name`, `status`) VALUES ('performance', 1);  
+INSERT INTO `ohrm_module` (`name`, `status`) VALUES ('performance', 1);
 
 SET @module_id := (SELECT LAST_INSERT_ID());
 
-INSERT INTO ohrm_screen (`name`, `module_id`, `action_url`) VALUES  
-('Save KPI', @module_id, 'saveKpi');  
-SET @save_kpi_screen_id := (SELECT LAST_INSERT_ID());   
+INSERT INTO ohrm_screen (`name`, `module_id`, `action_url`) VALUES
+('Save KPI', @module_id, 'saveKpi');
+SET @save_kpi_screen_id := (SELECT LAST_INSERT_ID());
 
-INSERT INTO ohrm_screen (`name`, `module_id`, `action_url`) VALUES  
-('Saearch KPI', @module_id, 'searchKpi');  
+INSERT INTO ohrm_screen (`name`, `module_id`, `action_url`) VALUES
+('Saearch KPI', @module_id, 'searchKpi');
 SET @search_kpi_screen_id := (SELECT LAST_INSERT_ID());
 
-INSERT INTO ohrm_screen (`name`, `module_id`, `action_url`) VALUES  
-('My Reviews', @module_id, 'myPerformanceReview');  
-SET @my_reviews_screen_id := (SELECT LAST_INSERT_ID());  
+INSERT INTO ohrm_screen (`name`, `module_id`, `action_url`) VALUES
+('My Reviews', @module_id, 'myPerformanceReview');
+SET @my_reviews_screen_id := (SELECT LAST_INSERT_ID());
 
-INSERT INTO ohrm_screen (`name`, `module_id`, `action_url`) VALUES  
-('Add Review', @module_id, 'saveReview');  
+INSERT INTO ohrm_screen (`name`, `module_id`, `action_url`) VALUES
+('Add Review', @module_id, 'saveReview');
 SET @add_review_screen_id := (SELECT LAST_INSERT_ID());
 
-INSERT INTO ohrm_screen (`name`, `module_id`, `action_url`) VALUES  
-('Review Evaluate', @module_id, 'reviewEvaluate');  
+INSERT INTO ohrm_screen (`name`, `module_id`, `action_url`) VALUES
+('Review Evaluate', @module_id, 'reviewEvaluate');
 SET @review_evaluate_screen_id := (SELECT LAST_INSERT_ID());
 
-INSERT INTO ohrm_screen (`name`, `module_id`, `action_url`) VALUES  
-('Review Evaluate By Admin', @module_id, 'reviewEvaluateByAdmin');  
+INSERT INTO ohrm_screen (`name`, `module_id`, `action_url`) VALUES
+('Review Evaluate By Admin', @module_id, 'reviewEvaluateByAdmin');
 SET @review_evaluate_admin_screen_id := (SELECT LAST_INSERT_ID());
 
-INSERT INTO ohrm_screen (`name`, `module_id`, `action_url`) VALUES  
-('Search Evaluate Performance', @module_id, 'searchEvaluatePerformancReview');  
+INSERT INTO ohrm_screen (`name`, `module_id`, `action_url`) VALUES
+('Search Evaluate Performance', @module_id, 'searchEvaluatePerformancReview');
 SET @search_evaluate_performance_screen_id := (SELECT LAST_INSERT_ID());
 
-INSERT INTO ohrm_screen (`name`, `module_id`, `action_url`) VALUES  
-('Search Performance Review', @module_id, 'searchPerformancReview');  
+INSERT INTO ohrm_screen (`name`, `module_id`, `action_url`) VALUES
+('Search Performance Review', @module_id, 'searchPerformancReview');
 SET @search_performance_review_screen_id := (SELECT LAST_INSERT_ID());
 
-INSERT INTO ohrm_menu_item (`menu_title`, `screen_id`, `parent_id`, `level`, `order_hint`, `url_extras`, `status`) VALUES  
+INSERT INTO ohrm_menu_item (`menu_title`, `screen_id`, `parent_id`, `level`, `order_hint`, `url_extras`, `status`) VALUES
 ('Performance', NULL, NULL, 1, 700, '', 1);
-SET @performance_menu_id := (SELECT `id` FROM ohrm_menu_item WHERE `menu_title` = 'Performance' AND `level` = 1); 
+SET @performance_menu_id := (SELECT `id` FROM ohrm_menu_item WHERE `menu_title` = 'Performance' AND `level` = 1);
 
-INSERT INTO ohrm_menu_item (`menu_title`, `screen_id`, `parent_id`, `level`, `order_hint`, `url_extras`, `status`) VALUES  
+INSERT INTO ohrm_menu_item (`menu_title`, `screen_id`, `parent_id`, `level`, `order_hint`, `url_extras`, `status`) VALUES
 ('Configure', NULL, @performance_menu_id, 2, 100, '', 1);
 SET @ConfigureKPI_screen_id := (SELECT LAST_INSERT_ID());
 
-INSERT INTO ohrm_menu_item (`menu_title`, `screen_id`, `parent_id`, `level`, `order_hint`, `url_extras`, `status`) VALUES  
+INSERT INTO ohrm_menu_item (`menu_title`, `screen_id`, `parent_id`, `level`, `order_hint`, `url_extras`, `status`) VALUES
 ('Manage Reviews', NULL, @performance_menu_id, 2, 200, '', 1);
 SET @Manage_Reviews_screen_id := (SELECT LAST_INSERT_ID());
 
 
-INSERT INTO ohrm_menu_item (`menu_title`, `screen_id`, `parent_id`, `level`, `order_hint`, `url_extras`, `status`) VALUES  
+INSERT INTO ohrm_menu_item (`menu_title`, `screen_id`, `parent_id`, `level`, `order_hint`, `url_extras`, `status`) VALUES
 ('KPIs', @search_kpi_screen_id, @ConfigureKPI_screen_id, 3, 100, '', 1),
 ('Manage Reviews', @search_performance_review_screen_id, @Manage_Reviews_screen_id, 3, 100, '', 1),
 ('My Reviews', @my_reviews_screen_id, @Manage_Reviews_screen_id, 3, 200, '', 1),
 ('Review List', @search_evaluate_performance_screen_id, @Manage_Reviews_screen_id, 3, 300, '', 1);
-      
-INSERT INTO ohrm_user_role_screen (user_role_id, screen_id, can_read, can_create, can_update, can_delete) VALUES  
+
+INSERT INTO ohrm_user_role_screen (user_role_id, screen_id, can_read, can_create, can_update, can_delete) VALUES
 (@admin_role_id, @save_kpi_screen_id, 1, 1, 1, 0),
 (@admin_role_id, @search_kpi_screen_id, 1, 1, 1, 1),
 (@admin_role_id, @add_review_screen_id, 1, 1, 1, 0),
@@ -2769,28 +2769,28 @@ INSERT INTO ohrm_user_role_screen (user_role_id, screen_id, can_read, can_create
 (@ess_user_role, @employee_tracker_logs_screen_id, 1, 0, 0, 0);
 
 -- Install CorporateDirectory --
-INSERT INTO `ohrm_module` (`name`, `status`) VALUES ('directory', 1);  
+INSERT INTO `ohrm_module` (`name`, `status`) VALUES ('directory', 1);
 
-SET @module_id := (SELECT LAST_INSERT_ID());  
-  
-INSERT INTO ohrm_screen (`name`, `module_id`, `action_url`) VALUES  
-('Directory', @module_id, 'viewDirectory'); 
+SET @module_id := (SELECT LAST_INSERT_ID());
+
+INSERT INTO ohrm_screen (`name`, `module_id`, `action_url`) VALUES
+('Directory', @module_id, 'viewDirectory');
 
 SET @directory_configuration_screen_id := (SELECT LAST_INSERT_ID());
-  
-INSERT INTO ohrm_menu_item (`menu_title`, `screen_id`, `parent_id`, `level`, `order_hint`, `url_extras`, `status`) VALUES  
-('Directory', @directory_configuration_screen_id, null, 1, 1000, '/reset/1', 1);  
-  
-SET @admin_role_id := (SELECT `id` FROM ohrm_user_role WHERE `name` = 'Admin'); 
 
-SET @ess_role_id := (SELECT `id` FROM ohrm_user_role WHERE `name` = 'ESS'); 
+INSERT INTO ohrm_menu_item (`menu_title`, `screen_id`, `parent_id`, `level`, `order_hint`, `url_extras`, `status`) VALUES
+('Directory', @directory_configuration_screen_id, null, 1, 1000, '/reset/1', 1);
 
-INSERT INTO ohrm_user_role_screen (user_role_id, screen_id, can_read, can_create, can_update, can_delete) VALUES  
+SET @admin_role_id := (SELECT `id` FROM ohrm_user_role WHERE `name` = 'Admin');
+
+SET @ess_role_id := (SELECT `id` FROM ohrm_user_role WHERE `name` = 'ESS');
+
+INSERT INTO ohrm_user_role_screen (user_role_id, screen_id, can_read, can_create, can_update, can_delete) VALUES
 (@admin_role_id, @directory_configuration_screen_id, 1, 1, 1, 1),
-(@ess_role_id, @directory_configuration_screen_id, 1, 1, 1, 1);  
+(@ess_role_id, @directory_configuration_screen_id, 1, 1, 1, 1);
 
 
--- install open id 
+-- install open id
 
 INSERT INTO `hs_hr_config` (`key` ,`value`) VALUES ('domain.name',  'localhost');
 
@@ -2801,13 +2801,13 @@ SET @admin_menu_id := (SELECT `id` FROM ohrm_menu_item WHERE `menu_title` = 'Adm
 SET @configuration_id := (SELECT `id` FROM ohrm_menu_item WHERE `menu_title` = 'Configuration' AND `level` = 2 AND parent_id = @admin_menu_id);
 SET @max_order := (SELECT MAX(`order_hint`) FROM ohrm_menu_item WHERE parent_id = @configuration_id);
 
-INSERT INTO ohrm_menu_item ( `menu_title`, `screen_id`, `parent_id`, `level`, `order_hint`, `url_extras`, `status`) VALUES 
+INSERT INTO ohrm_menu_item ( `menu_title`, `screen_id`, `parent_id`, `level`, `order_hint`, `url_extras`, `status`) VALUES
 ('Social Media Authentication', @opnid_screen_id, @configuration_id, 3, @max_order+100, NULL, 1);
 
-INSERT INTO ohrm_user_role_screen (user_role_id, screen_id, can_read, can_create, can_update, can_delete) VALUES  
+INSERT INTO ohrm_user_role_screen (user_role_id, screen_id, can_read, can_create, can_update, can_delete) VALUES
 (1, @opnid_screen_id, 1, 1, 1, 0);
 
-INSERT INTO hs_hr_config (`key`, `value`) VALUES  
+INSERT INTO hs_hr_config (`key`, `value`) VALUES
 ('openId.provider.added', 'on');
 
 
@@ -2884,7 +2884,7 @@ INSERT INTO ohrm_data_group_screen (data_group_id, screen_id, permission) VALUES
 
 INSERT INTO ohrm_user_role_data_group (user_role_id, data_group_id, can_read, can_create, can_update, can_delete, self) VALUES
   (@admin_role_id, @data_group_id, 1, 1, 1, 1, 1);
-  
+
 -- Add module to `ohrm_module` table
 INSERT INTO ohrm_module (name, status) VALUES
 ('marketPlace', '1');
@@ -3000,10 +3000,10 @@ SET @export_language_package_screen_id=(SELECT `id` FROM `ohrm_screen` WHERE `na
 SET @admin_menu_id := (SELECT `id` FROM ohrm_menu_item WHERE `menu_title` = 'Admin' AND `level` = 1);
 SET @configuration_menu_id := (SELECT id FROM ohrm_menu_item where menu_title = 'Configuration' AND `parent_id` = @admin_menu_id);
 
-INSERT INTO ohrm_menu_item (`menu_title`, `screen_id`, `parent_id`, `level`, `order_hint`, `url_extras`, `status`) VALUES  
+INSERT INTO ohrm_menu_item (`menu_title`, `screen_id`, `parent_id`, `level`, `order_hint`, `url_extras`, `status`) VALUES
 ('Language Packages', @language_packages_screen_id, @configuration_menu_id, 3, 350, '', 1);
 
-INSERT INTO ohrm_user_role_screen (user_role_id, screen_id, can_read, can_create, can_update, can_delete) VALUES  
+INSERT INTO ohrm_user_role_screen (user_role_id, screen_id, can_read, can_create, can_update, can_delete) VALUES
 (@admin_role_id, @language_packages_screen_id, 1, 1, 1, 0),
 (@admin_role_id, @language_customization_screen_id, 1, 1, 1, 0),
 (@admin_role_id, @save_language_customization_screen_id, 1, 1, 1, 0),
@@ -3536,6 +3536,7 @@ INSERT INTO `hs_hr_config` (`key` ,`value`) VALUES ('help.url',  'https://openso
 INSERT INTO `hs_hr_config` (`key` ,`value`) VALUES ('help.processorClass',  'ZendeskHelpProcessor');
 INSERT INTO `ohrm_i18n_group` (`name`,`title`) VALUES ('help','Help');
 
+INSERT INTO `ohrm_registration_event_queue` (`event_type`,`published`,`event_time`) VALUES (0, 0, now());
 
 #Corporate Branding Plugin
 
