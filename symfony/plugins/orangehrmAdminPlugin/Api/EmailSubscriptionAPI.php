@@ -36,7 +36,7 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 
-class EmailSubscriptionAPI extends EndPoint implements CrudEndpoint
+class EmailSubscriptionAPI extends Endpoint implements CrudEndpoint
 {
     public const PARAMETER_ENABLED_STATUS = 'enabled';
 
