@@ -24,11 +24,12 @@ class VacancyModel implements Normalizable
             'updatedTime',
             ['getJobTitle', 'getId'],
             ['getJobTitle', 'getJobTitleName'],
+            ['getJobTitle', 'isDeleted'],
             ['getEmployee', 'getEmpNumber'],
             ['getEmployee', 'getFirstName'],
             ['getEmployee', 'getMiddleName'],
             ['getEmployee', 'getLastName'],
-            ['getEmployee', 'getEmployeeTerminationRecord'],
+            ['getEmployee', 'getEmployeeTerminationRecord', 'getId'],
         ]);
 
         $this->setAttributeNames([
@@ -42,6 +43,7 @@ class VacancyModel implements Normalizable
             'updatedTime',
             ['jobTitle', 'id'],
             ['jobTitle', 'title'],
+            ['jobTitle', 'isDeleted'],
             ['hiringManager', 'id'],
             ['hiringManager', 'firstName'],
             ['hiringManager', 'middleName'],

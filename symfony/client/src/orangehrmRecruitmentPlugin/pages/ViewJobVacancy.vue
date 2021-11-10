@@ -121,7 +121,9 @@ const userdataNormalizer = data => {
       jobTitle: item.jobTitle?.isDeleted
         ? item.jobTitle.title + ' (Deleted)'
         : item.jobTitle?.title,
-      hiringManger: `${item.hiringManager.firstName} ${item.hiringManager.lastName}`,
+      hiringManager: item.hiringManager?.terminationId
+        ? `${item.hiringManager.firstName} ${item.hiringManager.lastName} (Past Employee)`
+        : `${item.hiringManager.firstName} ${item.hiringManager.lastName}`,
       status: item.status == 1 ? 'Active' : 'Closed',
     };
   });
@@ -165,7 +167,7 @@ export default {
           style: {flex: 1},
         },
         {
-          name: 'hiringManger',
+          name: 'hiringManager',
           title: 'Hiring Manager',
           sortField: 'vacancy.employee',
           style: {flex: 1},
