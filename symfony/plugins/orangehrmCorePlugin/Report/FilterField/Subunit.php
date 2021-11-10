@@ -22,7 +22,7 @@ namespace OrangeHRM\Core\Report\FilterField;
 use OrangeHRM\Admin\Traits\Service\CompanyStructureServiceTrait;
 use OrangeHRM\ORM\QueryBuilderWrapper;
 
-class Subunit extends FilterField implements ValueXNormalizable
+class Subunit extends FilterField implements ValueXNormalizable, ValueXModifiable
 {
     use CompanyStructureServiceTrait;
 
@@ -80,5 +80,20 @@ class Subunit extends FilterField implements ValueXNormalizable
             ];
         }
         return null;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function xValueModifier(?string $x): ?string
+    {
+        if (is_null($this->getX())) {
+            return null;
+        }
+        return implode(
+            ',',
+            $this->getCompanyStructureService()
+                ->getSubunitChainById($this->getX())
+        );
     }
 }

@@ -50,6 +50,7 @@ class TestDataService
     {
         if ($resetCache) {
             self::$tableNames = [];
+            self::$lastFixture = null;
         }
         $pathToFixtures = realpath($fixture);
         if (!$pathToFixtures) {
