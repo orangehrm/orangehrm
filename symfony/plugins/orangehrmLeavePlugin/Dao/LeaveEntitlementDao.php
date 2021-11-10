@@ -448,23 +448,6 @@ class LeaveEntitlementDao extends BaseDao
         return $q->getQuery()->execute();
     }
 
-    public function getLinkedLeaveRequests($entitlementIds, $statuses)
-    {
-        // TODO:: not converted
-        try {
-            $q = Doctrine_Query::create()->from('Leave l')
-                ->leftJoin('l.LeaveEntitlements le')
-                ->andWhereIn('le.id', $entitlementIds)
-                ->andWhereIn('l.status', $statuses)
-                ->addOrderBy('l.id ASC');
-
-            $results = $q->execute();
-            return $results;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), 0, $e);
-        }
-    }
-
     /**
      * Get leave balance as a LeaveBalance object with the following components
      *    * entitlements
