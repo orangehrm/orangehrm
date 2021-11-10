@@ -20,13 +20,19 @@
 namespace OrangeHRM\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use OrangeHRM\Entity\Decorator\DecoratorTrait;
+use OrangeHRM\Entity\Decorator\SelectedFilterFieldDecorator;
 
 /**
+ * @method SelectedFilterFieldDecorator getDecorator()
+ *
  * @ORM\Table(name="ohrm_selected_filter_field")
  * @ORM\Entity
  */
 class SelectedFilterField
 {
+    use DecoratorTrait;
+
     /**
      * @var Report
      *

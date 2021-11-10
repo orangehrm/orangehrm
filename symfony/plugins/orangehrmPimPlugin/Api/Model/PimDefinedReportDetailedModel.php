@@ -8,6 +8,7 @@ use OrangeHRM\Core\Report\FilterField\ValueXNormalizable;
 use OrangeHRM\Core\Report\FilterField\ValueYNormalizable;
 use OrangeHRM\Core\Service\ReportGeneratorService;
 use OrangeHRM\Entity\Report;
+use OrangeHRM\Entity\SelectedFilterField;
 
 class PimDefinedReportDetailedModel implements Normalizable
 {
@@ -48,6 +49,9 @@ class PimDefinedReportDetailedModel implements Normalizable
         return $this->report;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function toArray(): array
     {
         $detailedReport = $this->getReport();
@@ -64,9 +68,9 @@ class PimDefinedReportDetailedModel implements Normalizable
             $filterFieldClass = $this->getReportGeneratorService()
                 ->getInitializedFilterFieldInstance($filterFieldClassName, $selectedFilterField);
             $filterFieldCriteria = [
-                "x" => $selectedFilterField->getX(),
-                "y" => $selectedFilterField->getY(),
-                "operator" => $selectedFilterField->getOperator(),
+                'x' => $selectedFilterField->getX(),
+                'y' => $selectedFilterField->getY(),
+                'operator' => $selectedFilterField->getOperator(),
             ];
             if ($filterFieldClass instanceof ValueXNormalizable) {
                 $filterFieldCriteria['x'] = $filterFieldClass->toArrayXValue();
@@ -86,20 +90,20 @@ class PimDefinedReportDetailedModel implements Normalizable
                         $detailedReport->getId(),
                         $selectedDisplayFieldGroup
                     ),
-                'includeHeader' => count(
-                        $this->getReportGeneratorService()->getReportGeneratorDao()->isIncludeHeader(
-                            $detailedReport->getId(),
-                            $selectedDisplayFieldGroup
-                        )
-                    ) == 1
+                'includeHeader' => $this->getReportGeneratorService()
+                    ->getReportGeneratorDao()
+                    ->isIncludeHeader($detailedReport->getId(), $selectedDisplayFieldGroup),
             ];
         }
 
-        $selectedFilterFieldOperator = $this->getReportGeneratorService()
+        $includeSelectedFilterField = $this->getReportGeneratorService()
             ->getReportGeneratorDao()
-            ->getIncludeType($detailedReport->getId())
-            ->getOperator();
-        $includeType = ($selectedFilterFieldOperator === Operator::IS_NULL) ? 'onlyCurrent' : (($selectedFilterFieldOperator === Operator::IS_NOT_NULL) ? 'onlyPast' : 'currentAndPast');
+            ->getIncludeType($detailedReport->getId());
+        $includeType = 'onlyCurrent';
+        if ($includeSelectedFilterField instanceof SelectedFilterField) {
+            $selectedFilterFieldOperator = $includeSelectedFilterField->getOperator();
+            $includeType = ($selectedFilterFieldOperator === Operator::IS_NULL) ? 'onlyCurrent' : (($selectedFilterFieldOperator === Operator::IS_NOT_NULL) ? 'onlyPast' : 'currentAndPast');
+        }
 
         return [
             'id' => $detailedReport->getId(),

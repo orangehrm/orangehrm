@@ -1,3 +1,8 @@
+# Depends on;
+# symfony/test/phpunit/fixtures/ReportGroup.yaml
+# symfony/test/phpunit/fixtures/FilterField.yaml
+# symfony/test/phpunit/fixtures/DisplayField.yaml
+
 Employee:
   0: { empNumber: 1, firstName: 'Kayla', lastName: 'Abbey', middleName: 'T', employeeId: 'E001', emp_work_email: 'kayla@xample.com', emp_oth_email: 'kayla2@xample.com' }
   1: { empNumber: 2, firstName: 'Ashley', lastName: 'Abel', middleName: 'ST',employeeId: 'E002', emp_work_email: 'ashley@xample.com', emp_oth_email: 'ashley2@xample.com' }
@@ -23,57 +28,22 @@ Education:
   1: { id: 2, name: 'BSc' }
   2: { id: 3, name: 'Msc' }
 
-ReportGroup:
-  - { id: 1, name: 'pim', coreSql: 'sql' }
-
 Report:
-  - { id: 1, name: 'PIM Sample Report', report_group_id: 1, useFilterField: true, type: PIM_DEFINED }
-  - { id: 2, name: 'PIM Employee Report', report_group_id: 1, useFilterField: true, type: PIM_DEFINED }
-
-DisplayFieldGroup:
-  - { id: 1, report_group_id: 1, name: 'Personal', is_list: 0 }
-  - { id: 2, report_group_id: 1, name: 'Contact Details', is_list: 0 }
-  - { id: 3, report_group_id: 1, name: 'Emergency Contacts', is_list: 1 }
-  - { id: 4, report_group_id: 1, name: 'Dependents', is_list: 1 }
-  - { id: 5, report_group_id: 1, name: 'Immigration', is_list: 1 }
-  - { id: 6, report_group_id: 1, name: 'Job', is_list: 1 }
-  - { id: 7, report_group_id: 1, name: 'Salary', is_list: 1 }
-  - { id: 8, report_group_id: 1, name: 'Subordinates', is_list: 1 }
-  - { id: 9, report_group_id: 1, name: 'Supervisors', is_list: 1 }
-  - { id: 10,report_group_id: 1, name: 'Work Experience', is_list: 1 }
-  - { id: 11,report_group_id: 1, name: 'Education', is_list: 1 }
-  - { id: 12,report_group_id: 1, name: 'Skills', is_list: 1 }
-  - { id: 13,report_group_id: 1, name: 'Languages', is_list: 1 }
-  - { id: 14,report_group_id: 1, name: 'License', is_list: 1 }
-  - { id: 15,report_group_id: 1, name: 'Memberships', is_list: 1 }
-  - { id: 16,report_group_id: 1, name: 'Custom Fields', is_list: 1 }
-
-DisplayField:
-  - { display_field_id: 1, report_group_id: 1, name: 'hs_hr_employee.employee_id', label: 'Employee Id', field_alias: 'employeeId',  is_sortable: 'false', sort_order: null, sort_field: null, element_type: 'label', element_property: '<xml><getter>employeeId</getter></xml>', width: 100, is_exportable: '0', text_alignment_style: null, is_value_list: 0, display_field_group_id: 1, default_value: '---', is_encrypted: 0, is_meta: 0 }
-  - { display_field_id: 2, report_group_id: 1, name: 'hs_hr_employee.emp_lastname', label: 'Employee Last Name', field_alias: 'employeeLastname', is_sortable: 'false', sort_order: null, sort_field: null, element_type: 'label', element_property: '<xml><getter>employeeLastname</getter></xml>', width: 200, is_exportable: '0', text_alignment_style: null, is_value_list: 0, display_field_group_id: 1, default_value: '---', is_encrypted: 0, is_meta: 0 }
-  - { display_field_id: 3, report_group_id: 1, name: 'hs_hr_employee.emp_firstname', label: 'Employee First Name',field_alias: 'employeeFirstname', is_sortable: 'false', sort_order: null, sort_field: null, element_type: 'label', element_property: '<xml><getter>employeeFirstname</getter></xml>', width: 200, is_exportable: '0', text_alignment_style: null, is_value_list: 0, display_field_group_id: 1, default_value: '---', is_encrypted: 0, is_meta: 0 }
-  - { display_field_id: 4, report_group_id: 1, name: 'CONCAT_WS(", ", NULLIF(hs_hr_employee.emp_street1, ""), NULLIF(hs_hr_employee.emp_street2, ""), NULLIF(hs_hr_employee.city_code, ""), NULLIF(hs_hr_employee.provin_code,""), NULLIF(hs_hr_employee.emp_zipcode,""), NULLIF(hs_hr_country.cou_name,""))', label: 'Address', field_alias: 'address',  is_sortable: 'false', sort_order: null, sort_field: null, element_type: 'label', element_property: '<xml><getter>address</getter></xml>', width: 200, is_exportable: '0', text_alignment_style: null, is_value_list: 0, display_field_group_id: 2, default_value: '---', is_encrypted: 0, is_meta: 0 }
-  - { display_field_id: 5, report_group_id: 1, name: 'hs_hr_employee.emp_hm_telephone', label: 'Home Telephone',  field_alias: 'homeTelephone',  is_sortable: 'false', sort_order: null, sort_field: null, element_type: 'label', element_property: '<xml><getter>homeTelephone</getter></xml>', width: 130, is_exportable: '0', text_alignment_style: null, is_value_list: 0, display_field_group_id: 2, default_value: '---', is_encrypted: 0 , is_meta: 0 }
-  - { display_field_id: 6, report_group_id: 1, name: 'hs_hr_employee.emp_mobile', label: 'Mobile', field_alias: 'mobile',  is_sortable: 'false', sort_order: null, sort_field: null, element_type: 'label', element_property: '<xml><getter>mobile</getter></xml>', width: 100, is_exportable: '0', text_alignment_style: null, is_value_list: 0, display_field_group_id: 2, default_value: '---', is_encrypted: 0, is_meta: 0 }
-
-FilterField:
-  - { filter_field_id: 1, report_group_id: 1, name: 'education', where_clause_part: 'ohrm_emp_education.education_id', filter_field_widget: 'ohrmReportWidgetEducationtypeDropDown', condition_no: 1, required: null, class_name: 'OrangeHRM\Core\Report\FilterField\EmployeeEducation' }
-  - { filter_field_id: 2, report_group_id: 1, name: 'include', where_clause_part: 'hs_hr_employee.termination_id', filter_field_widget: 'ohrmReportWidgetIncludedEmployeesDropDown', condition_no: 1, required: 'true', class_name: null }
-  - { filter_field_id: 3, report_group_id: 1, name: 'pay_grade', where_clause_part: 'hs_hr_emp_basicsalary.sal_grd_code', filter_field_widget: 'ohrmReportWidgetPayGradeDropDown', condition_no: 1, required: null, class_name: 'OrangeHRM\Core\Report\FilterField\PayGrade' }
-  - { filter_field_id: 4, report_group_id: 1, name: 'employee_name', where_clause_part: 'hs_hr_employee.emp_number', filter_field_widget: 'ohrmReportWidgetEmployeeListAutoFill', condition_no: 1, required: null, class_name: 'OrangeHRM\Core\Report\FilterField\EmployeeNumber' }
+  - { id: 1, name: 'PIM Sample Report', report_group_id: 3, useFilterField: true, type: PIM_DEFINED }
+  - { id: 2, name: 'PIM Employee Report', report_group_id: 3, useFilterField: true, type: PIM_DEFINED }
 
 SelectedDisplayFieldGroup:
   - { id: 1, report_id: 1, display_field_group_id: 1 }
   - { id: 2, report_id: 1, display_field_group_id: 2 }
 
 SelectedDisplayField:
-  - { id: 1, display_field_id: 1, report_id: 1 }
-  - { id: 2, display_field_id: 2, report_id: 1 }
-  - { id: 3, display_field_id: 3, report_id: 1 }
-  - { id: 4, display_field_id: 4, report_id: 1 }
-  - { id: 5, display_field_id: 5, report_id: 1 }
+  - { id: 1, display_field_id: 9, report_id: 1 }
+  - { id: 2, display_field_id: 10, report_id: 1 }
+  - { id: 3, display_field_id: 11, report_id: 1 }
+  - { id: 4, display_field_id: 20, report_id: 1 }
+  - { id: 5, display_field_id: 21, report_id: 1 }
 
 SelectedFilterField:
-  - { report_id: 1, filter_field_id: 2, filter_field_order: 1, value1: null, value2: null, where_condition: 'isNull', type: 'Runtime' }
-  - { report_id: 1, filter_field_id: 1, filter_field_order: 2, value1: '1', value2: null, where_condition: 'eq', type: 'Runtime' }
-  - { report_id: 1, filter_field_id: 3, filter_field_order: 3, value1: '1', value2: null, where_condition: eq, type: 'Runtime' }
+  - { report_id: 1, filter_field_id: 22, filter_field_order: 1, value1: null, value2: null, where_condition: 'isNull', type: 'Predefined' }
+  - { report_id: 1, filter_field_id: 10, filter_field_order: 2, value1: '1', value2: null, where_condition: 'eq', type: 'Predefined' }
+  - { report_id: 1, filter_field_id: 9, filter_field_order: 3, value1: '1', value2: null, where_condition: eq, type: 'Predefined' }

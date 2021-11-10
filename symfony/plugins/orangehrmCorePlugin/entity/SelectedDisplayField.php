@@ -20,13 +20,19 @@
 namespace OrangeHRM\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use OrangeHRM\Entity\Decorator\DecoratorTrait;
+use OrangeHRM\Entity\Decorator\SelectedDisplayFieldDecorator;
 
 /**
+ * @method SelectedDisplayFieldDecorator getDecorator()
+ *
  * @ORM\Table(name="ohrm_selected_display_field")
  * @ORM\Entity
  */
 class SelectedDisplayField
 {
+    use DecoratorTrait;
+
     /**
      * @var int
      *

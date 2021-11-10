@@ -19,10 +19,12 @@
 
 namespace OrangeHRM\Tests\Pim\Api;
 
+use OrangeHRM\Config\Config;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Pim\Api\PimDefinedReportAPI;
 use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
 use OrangeHRM\Tests\Util\Integration\TestCaseParams;
+use OrangeHRM\Tests\Util\TestDataService;
 
 /**
  * @group Pim
@@ -30,12 +32,19 @@ use OrangeHRM\Tests\Util\Integration\TestCaseParams;
  */
 class PimDefinedReportAPITest extends EndpointIntegrationTestCase
 {
+    public static function setUpBeforeClass(): void
+    {
+        TestDataService::populate(Config::get(Config::TEST_DIR) . '/phpunit/fixtures/ReportGroup.yaml', true);
+        TestDataService::populate(Config::get(Config::TEST_DIR) . '/phpunit/fixtures/FilterField.yaml', true);
+        TestDataService::populate(Config::get(Config::TEST_DIR) . '/phpunit/fixtures/DisplayField.yaml', true);
+    }
+
     /**
      * @dataProvider dataProviderForTestGetAll
      */
     public function testGetAll(TestCaseParams $testCaseParams): void
     {
-        $this->populateFixtures('ReportGeneratorDao.yaml');
+        $this->populateFixtures('ReportGeneratorDao.yaml', null, true);
         $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
         $this->registerServices($testCaseParams);
         $this->registerMockDateTimeHelper($testCaseParams);
