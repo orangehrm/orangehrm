@@ -23,31 +23,31 @@
       <oxd-text tag="h6" class="orangehrm-main-title">Edit Vacancy</oxd-text>
       <oxd-divider />
 
-      <oxd-form :loading="isLoading" @submitValid="onSave">
+      <oxd-form novalidate="true" :loading="isLoading" @submitValid="onSave">
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
           <oxd-grid-item>
             <oxd-input-field
               label="Vacancy Name"
               v-model="vacancy.name"
               required
-              :ruel="rules.name"
+              :rules="rules.name"
             />
           </oxd-grid-item>
           <oxd-grid-item>
             <jobtitle-dropdown
               v-model="vacancy.jobTitle"
-              :rule="rules.jobTitle"
+              :rules="rules.jobTitle"
             />
           </oxd-grid-item>
         </oxd-grid>
-        <oxd-grid :cols="2" class="orangehrm-full-width-grid">
-          <oxd-grid-item>
+        <oxd-grid :cols="3" class="orangehrm-full-width-grid">
+          <oxd-grid-item class="user-input-description">
             <oxd-input-field
               type="textarea"
               label="Description"
               placeholder="Type description here"
               v-model="vacancy.description"
-              :rule="rules.description"
+              :rules="rules.description"
             />
           </oxd-grid-item>
         </oxd-grid>
@@ -55,11 +55,11 @@
           <oxd-grid-item>
             <employee-autocomplete
               :params="{
-                includeEmployees: 'currentAndPast',
+                includeEmployees: 'onlyCurrent',
               }"
               required
               v-model="vacancy.hiringManager"
-              :rule="rules.hiringManager"
+              :rules="rules.hiringManager"
               label="Hiring Manager"
             />
           </oxd-grid-item>
@@ -70,20 +70,18 @@
             />
           </oxd-grid-item>
         </oxd-grid>
-        <oxd-grid :cols="1" class="orangehrm-full-width-grid">
-          <oxd-grid-item>
-            <oxd-switch-input
-              v-model="vacancy.status"
-              optionLabel="Active Status"
-              labelPosition="left"
-            />
+        <oxd-grid :cols="3" class="orangehrm-full-width-grid">
+          <oxd-grid-item class="grid-item-horizontal-wrapper">
+            <oxd-text class="user-input-label" tag="label">Active</oxd-text>
+            <oxd-switch-input v-model="vacancy.status" />
           </oxd-grid-item>
-          <oxd-grid-item>
-            <oxd-switch-input
-              v-model="vacancy.isPublished"
-              optionLabel="Publish in RSS feed and web page"
-              labelPosition="left"
-            />
+        </oxd-grid>
+        <oxd-grid :cols="3" class="orangehrm-full-width-grid">
+          <oxd-grid-item class="grid-item-horizontal-wrapper">
+            <oxd-text class="user-input-label" tag="label"
+              >Publish in RSS feed and web page</oxd-text
+            >
+            <oxd-switch-input v-model="vacancy.isPublished" />
           </oxd-grid-item>
         </oxd-grid>
         <oxd-divider />
@@ -104,6 +102,8 @@ import SwitchInput from '@orangehrm/oxd/core/components/Input/SwitchInput';
 import {
   required,
   shouldNotExceedCharLength,
+  digitsOnly,
+  max,
 } from '@orangehrm/core/util/validation/rules';
 import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
 import JobtitleDropdown from '@/orangehrmPimPlugin/components/JobtitleDropdown';
@@ -138,10 +138,10 @@ export default {
       vacancy: {...vacancyModel},
       rules: {
         jobTitle: [required],
-        name: [required],
+        name: [required, shouldNotExceedCharLength(50)],
         hiringManager: [required],
-        numOfPositions: [],
-        description: [shouldNotExceedCharLength(400)],
+        numOfPositions: [digitsOnly],
+        description: [shouldNotExceedCharLength(250)],
         status: [required],
         isPublished: [required],
       },
@@ -172,7 +172,6 @@ export default {
         status: this.vacancy.status ? 1 : 0,
         isPublished: this.vacancy.isPublished ? 1 : 0,
       };
-      console.log(this.vacancy);
       this.http
         .update(this.vacancyId, {...this.vacancy})
         .then(() => {
@@ -185,29 +184,32 @@ export default {
   },
   created() {
     this.isLoading = true;
+    this.http.get(this.vacancyId).then(response => {
+      const {data} = response.data;
+      this.vacancy.name = data.name;
+      this.vacancy.description = data.description;
+      this.vacancy.numOfPositions = data.numOfPositions;
+      this.vacancy.status = data.status === 1 ? true : false;
+      this.vacancy.isPublished = data.isPublished;
+      this.vacancy.hiringManager = {
+        id: data.hiringManager.empNumber,
+        label: `${data.hiringManager.firstName} ${data.hiringManager.middleName} ${data.hiringManager.lastName}`,
+        isPastEmployee: data.hiringManager.terminationId ? true : false,
+      };
+      this.vacancy.jobTitle = {
+        id: data.jobTitle.id,
+        label: data.jobTitle.title,
+      };
+      return this.http.getAll({limit: 0});
+    });
     this.http
-      .get(this.vacancyId)
-      .then(response => {
-        console.log(response.data);
-        const {data} = response.data;
-        this.vacancy.name = data.name;
-        this.vacancy.description = data.description;
-        this.vacancy.numOfPositions = data.numOfPositions;
-        this.vacancy.status = data.status === 1 ? true : false;
-        this.vacancy.isPublished = data.isPublished;
-        this.vacancy.hiringManager = {
-          id: data.hiringManager.empNumber,
-          label: `${data.hiringManager.firstName} ${data.hiringManager.middleName} ${data.hiringManager.lastName}`,
-          isPastEmployee: data.hiringManager.terminationId ? true : false,
-        };
-        this.vacancy.jobTitle = {
-          id: data.jobTitle.id,
-          label: data.jobTitle.title,
-        };
-        return this.http.getAll({limit: 0});
-      })
+      .getAll({limit: 0})
       .then(response => {
         const {data} = response.data;
+        this.rules.name.push(v => {
+          const index = data.findIndex(item => item.name == v);
+          return index === -1 || 'Already exists';
+        });
       })
       .finally(() => {
         this.isLoading = false;
@@ -216,4 +218,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style src="./vacancy.scss" lang="scss" scoped></style>

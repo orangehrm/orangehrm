@@ -24,10 +24,10 @@ use OrangeHRM\Core\Dto\FilterParams;
 class VacancySearchFilterParams extends FilterParams
 {
     public const ALLOWED_SORT_FIELDS = [
-        'jobTitle.id',
-        'vacancy.id',
-        'employee.id',
+        'vacancy.name',
         'vacancy.status',
+        'vacancy.jobTitle',
+        'vacancy.employee',
     ];
 
     /**
@@ -43,12 +43,18 @@ class VacancySearchFilterParams extends FilterParams
     /**
      * @var int|null
      */
-    protected ?int $employeeId = null;
-    
+    protected ?int $empNumber = null;
+
     /**
      * @var int|null
      */
     protected ?int $status = 1;
+
+    public function __construct()
+    {
+        $this->setSortField('vacancy.name',);
+    }
+
 
     /**
      * @return int|null
@@ -85,17 +91,17 @@ class VacancySearchFilterParams extends FilterParams
     /**
      * @return int|null
      */
-    public function getEmployeeId(): ?int
+    public function getEmpNumber(): ?int
     {
-        return $this->employeeId;
+        return $this->empNumber;
     }
 
     /**
-     * @param  int|null  $employeeId
+     * @param  int|null  $empNumber
      */
-    public function setEmployeeId(?int $employeeId): void
+    public function setEmpNumber(?int $empNumber): void
     {
-        $this->employeeId = $employeeId;
+        $this->empNumber = $empNumber;
     }
 
     /**

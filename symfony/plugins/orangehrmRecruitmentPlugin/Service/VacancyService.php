@@ -98,7 +98,7 @@ class VacancyService {
      * @throws DaoException
      */
     public function getAllVacancies(VacancySearchFilterParams $vacancySearchFilterParamHolder) {
-        return $this->getVacancyDao()->getAllVacancies($vacancySearchFilterParamHolder);
+        return $this->getVacancyDao()->getVacancies($vacancySearchFilterParamHolder);
     }
 
     /**

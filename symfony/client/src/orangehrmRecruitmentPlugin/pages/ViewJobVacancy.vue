@@ -19,6 +19,48 @@
  -->
 <template>
   <div class="orangehrm-background-container">
+    <oxd-table-filter filter-title="Vacancies">
+      <oxd-form @submitValid="filterItems">
+        <oxd-form-row>
+          <oxd-grid :cols="4" class="orangehrm-full-width-grid">
+            <oxd-grid-item>
+              <jobtitle-dropdown v-model="filters.jobTitleId" />
+            </oxd-grid-item>
+            <oxd-grid-item>
+              <vacancy-dropdown v-model="filters.vacancyId" label="Vacancy" />
+            </oxd-grid-item>
+            <oxd-grid-item>
+              <employee-autocomplete
+                v-model="filters.hiringManagerId"
+                label="Hiring Manager"
+              />
+            </oxd-grid-item>
+            <oxd-grid-item>
+              <oxd-input-field
+                type="select"
+                label="Status"
+                v-model="filters.status"
+                :clear="false"
+                :options="statusOptions"
+              />
+            </oxd-grid-item>
+          </oxd-grid>
+        </oxd-form-row>
+
+        <oxd-divider />
+
+        <oxd-form-actions>
+          <oxd-button displayType="ghost" label="Reset" @click="onClickReset" />
+          <oxd-button
+            class="orangehrm-left-space"
+            displayType="secondary"
+            label="Search"
+            type="submit"
+          />
+        </oxd-form-actions>
+      </oxd-form>
+    </oxd-table-filter>
+    <br />
     <div class="orangehrm-paper-container">
       <div class="orangehrm-header-container">
         <oxd-button
@@ -32,17 +74,26 @@
         :selected="checkedItems.length"
         :loading="isLoading"
         @delete="onClickDeleteSelected"
-        :total="vacancies.length"
+        :total="total"
       ></table-header>
       <div class="orangehrm-container">
         <oxd-card-table
           :headers="headers"
-          :items="vacancies"
+          :items="items?.data"
           :loading="isLoading"
           :selectable="true"
           :clickable="false"
           rowDecorator="oxd-table-decorator-card"
+          v-model:order="sortDefinition"
           v-model:selected="checkedItems"
+          class="orangehrm-vacancy-list"
+        />
+      </div>
+      <div class="orangehrm-bottom-container">
+        <oxd-pagination
+          v-if="showPaginator"
+          :length="pages"
+          v-model:current="currentPage"
         />
       </div>
     </div>
@@ -57,7 +108,10 @@ import DeleteConfirmationDialog from '@orangehrm/components/dialogs/DeleteConfir
 import {navigate} from '@orangehrm/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
 import useSort from '@orangehrm/core/util/composable/useSort';
+
 import JobtitleDropdown from '@/orangehrmPimPlugin/components/JobtitleDropdown';
+import VacancyDropdown from '@/orangehrmRecruitmentPlugin/components/VacancyDropdown.vue';
+import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete.vue';
 
 const userdataNormalizer = data => {
   return data.map(item => {
@@ -68,16 +122,30 @@ const userdataNormalizer = data => {
         ? item.jobTitle.title + ' (Deleted)'
         : item.jobTitle?.title,
       hiringManger: `${item.hiringManager.firstName} ${item.hiringManager.lastName}`,
-      status: item.status == 1 ? 'Active' : 'Inactive',
+      status: item.status == 1 ? 'Active' : 'Closed',
     };
   });
 };
 
+const defaultFilters = {
+  jobTitleId: null,
+  hiringManagerId: null,
+  vacancyId: null,
+  status: null,
+};
+const defaultSortOrder = {
+  'vacancy.name': 'ASC',
+  'vacancy.jobTitle': 'DEFAULT',
+  'vacancy.employee': 'DEFAULT',
+  'vacancy.status': 'DEFAULT',
+};
 export default {
   name: 'view-job-vacancy',
   components: {
-    // 'jobtitle-dropdown': JobtitleDropdown,
     'delete-confirmation': DeleteConfirmationDialog,
+    'jobtitle-dropdown': JobtitleDropdown,
+    'employee-autocomplete': EmployeeAutocomplete,
+    'vacancy-dropdown': VacancyDropdown,
   },
 
   data() {
@@ -87,21 +155,25 @@ export default {
           name: 'vacancy',
           slot: 'Vacancy',
           title: 'Vacancy',
+          sortField: 'vacancy.name',
           style: {flex: 1},
         },
         {
           name: 'jobTitle',
           title: 'Job Title',
+          sortField: 'vacancy.jobTitle',
           style: {flex: 1},
         },
         {
           name: 'hiringManger',
           title: 'Hiring Manager',
+          sortField: 'vacancy.employee',
           style: {flex: 1},
         },
         {
           name: 'status',
           title: 'Status',
+          sortField: 'vacancy.status',
           style: {flex: 1},
         },
         {
@@ -127,38 +199,73 @@ export default {
           },
         },
       ],
-      http: null,
+      statusOptions: [
+        {id: 1, param: 'active', label: 'Active'},
+        {id: 0, param: 'closed', label: 'Closed'},
+      ],
       vacancies: [],
       checkedItems: [],
-      isLoading: false,
+    };
+  },
+  setup() {
+    const filters = ref({...defaultFilters});
+    const {sortDefinition, sortField, sortOrder, onSort} = useSort({
+      sortDefinition: defaultSortOrder,
+    });
+
+    const serializedFilters = computed(() => {
+      return {
+        vacancyId: filters.value.vacancyId?.id,
+        jobTitleId: filters.value.jobTitleId?.id,
+        hiringManagerId: filters.value.hiringManagerId?.id,
+        status: filters.value.status?.id,
+        sortField: sortField.value,
+        sortOrder: sortOrder.value,
+      };
+    });
+
+    const http = new APIService(
+      window.appGlobal.baseUrl,
+      'api/v2/recruitment/vacancies',
+    );
+    const {
+      showPaginator,
+      currentPage,
+      total,
+      pages,
+      pageSize,
+      response,
+      isLoading,
+      execQuery,
+    } = usePaginate(http, {
+      query: serializedFilters,
+      normalizer: userdataNormalizer,
+    });
+    onSort(execQuery);
+
+    return {
+      http,
+      showPaginator,
+      currentPage,
+      isLoading,
+      total,
+      pages,
+      pageSize,
+      execQuery,
+      items: response,
+      filters,
+      sortDefinition,
     };
   },
 
-  created() {
-    const http = this.getHttp();
-    this.getAllData();
-  },
   methods: {
-    getHttp() {
-      const http = new APIService(
-        window.appGlobal.baseUrl,
-        'api/v2/recruitment/vacancies',
-      );
-      this.http = http;
-      return http;
-    },
     onClickAdd() {
       navigate('/recruitment/addJobVacancy');
     },
     onClickEdit(item) {
       navigate('/recruitment/addJobVacancy/{id}', {id: item.id});
     },
-    async getAllData() {
-      this.isLoading = true;
-      const result = await this.http.getAll();
-      this.vacancies = userdataNormalizer(result.data.data);
-      this.isLoading = false;
-    },
+
     onClickDelete(item) {
       this.$refs.deleteDialog.showDialog().then(confirmation => {
         if (confirmation === 'ok') {
@@ -167,8 +274,10 @@ export default {
       });
     },
     onClickDeleteSelected() {
+      console.log(this.checkedItems);
       const ids = this.checkedItems.map(index => {
-        return this.vacancies[index]?.id;
+        console.log(this.items?.data[index].id);
+        return this.items?.data[index].id;
       });
       this.$refs.deleteDialog.showDialog().then(confirmation => {
         if (confirmation === 'ok') {
@@ -176,15 +285,36 @@ export default {
         }
       });
     },
+
     async deleteData(items) {
-      this.isLoading = true;
-      const result = await this.http.deleteAll({ids: items});
-      if (result) {
-        this.getAllData();
+      if (items instanceof Array) {
+        this.isLoading = true;
+        this.http
+          .deleteAll({
+            ids: items,
+          })
+          .then(() => {
+            return this.$toast.deleteSuccess();
+          })
+          .then(() => {
+            this.isLoading = false;
+            this.resetDataTable();
+          });
       }
+    },
+    async resetDataTable() {
+      this.checkedItems = [];
+      await this.execQuery();
+    },
+    async filterItems() {
+      await this.execQuery();
+    },
+    onClickReset() {
+      this.filters = {...defaultFilters};
+      this.filterItems();
     },
   },
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style src="./vacancy.scss" lang="scss" scoped></style>

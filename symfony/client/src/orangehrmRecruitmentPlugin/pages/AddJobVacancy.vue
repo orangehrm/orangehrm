@@ -30,25 +30,25 @@
               label="Vacancy Name"
               v-model="vacancy.name"
               required
-              :rule="rules.name"
+              :rules="rules.name"
             />
           </oxd-grid-item>
           <oxd-grid-item>
             <jobtitle-dropdown
               v-model="vacancy.jobTitle"
-              :rule="rules.jobTitle"
+              :rules="rules.jobTitle"
               required
             />
           </oxd-grid-item>
         </oxd-grid>
-        <oxd-grid :cols="2" class="orangehrm-full-width-grid">
-          <oxd-grid-item>
+        <oxd-grid :cols="3" class="orangehrm-full-width-grid">
+          <oxd-grid-item class="user-input-description">
             <oxd-input-field
               type="textarea"
               label="Description"
               placeholder="Type description here"
               v-model="vacancy.description"
-              :rule="rules.description"
+              :rules="rules.description"
             />
           </oxd-grid-item>
         </oxd-grid>
@@ -56,37 +56,35 @@
           <oxd-grid-item>
             <employee-autocomplete
               :params="{
-                includeEmployees: 'currentAndPast',
+                includeEmployees: 'onlyCurrent',
               }"
               required
               v-model="vacancy.hiringManager"
-              :rule="rules.hiringManager"
+              :rules="rules.hiringManager"
               label="Hiring Manager"
             />
           </oxd-grid-item>
           <oxd-grid-item>
-            <oxd-input-field
-              label="Number Of Positions"
-              v-model.number="vacancy.numOfPositions"
-            />
+            <oxd-grid :cols="2" class="orangehrm-full-width-grid">
+              <oxd-input-field
+                label="Number Of Positions"
+                v-model.number="vacancy.numOfPositions"
+              />
+            </oxd-grid>
           </oxd-grid-item>
         </oxd-grid>
-        <oxd-grid :cols="1" class="orangehrm-full-width-grid">
-          <oxd-grid-item>
-            <oxd-switch-input
-              v-model="vacancy.status"
-              optionLabel="Active Status"
-              labelPosition="left"
-              required
-            />
+        <oxd-grid :cols="3" class="orangehrm-full-width-grid">
+          <oxd-grid-item class="grid-item-horizontal-wrapper">
+            <oxd-text class="user-input-label" tag="label">Active</oxd-text>
+            <oxd-switch-input v-model="vacancy.status" />
           </oxd-grid-item>
-          <oxd-grid-item>
-            <oxd-switch-input
-              v-model="vacancy.isPublished"
-              optionLabel="Publish in RSS feed and web page"
-              labelPosition="left"
-              required
-            />
+        </oxd-grid>
+        <oxd-grid :cols="3" class="orangehrm-full-width-grid">
+          <oxd-grid-item class="grid-item-horizontal-wrapper">
+            <oxd-text class="user-input-label" tag="label"
+              >Publish in RSS feed and web page</oxd-text
+            >
+            <oxd-switch-input v-model="vacancy.isPublished" />
           </oxd-grid-item>
         </oxd-grid>
         <oxd-divider />
@@ -104,10 +102,13 @@
 import {APIService} from '@/core/util/services/api.service';
 import {navigate} from '@orangehrm/core/util/helper/navigation';
 import SwitchInput from '@orangehrm/oxd/core/components/Input/SwitchInput';
+import Label from '@orangehrm/oxd/core/components/Label/Label';
 
 import {
   required,
   shouldNotExceedCharLength,
+  digitsOnly,
+  max,
 } from '@orangehrm/core/util/validation/rules';
 import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
 import JobtitleDropdown from '@/orangehrmPimPlugin/components/JobtitleDropdown';
@@ -116,7 +117,7 @@ const vacancyModel = {
   jobTitle: null,
   name: '',
   hiringManager: null,
-  numOfPositions: '',
+  numOfPositions: null,
   description: '',
   status: true,
   isPublished: true,
@@ -125,6 +126,7 @@ const vacancyModel = {
 export default {
   components: {
     'oxd-switch-input': SwitchInput,
+    'oxd-label': Label,
     'employee-autocomplete': EmployeeAutocomplete,
     'jobtitle-dropdown': JobtitleDropdown,
   },
@@ -135,10 +137,10 @@ export default {
       vacancy: {...vacancyModel},
       rules: {
         jobTitle: [required],
-        name: [required],
+        name: [required, shouldNotExceedCharLength(50)],
         hiringManager: [required],
-        numOfPositions: [],
-        description: [shouldNotExceedCharLength(400)],
+        numOfPositions: [digitsOnly],
+        description: [shouldNotExceedCharLength(250)],
         status: [required],
         isPublished: [required],
       },
@@ -159,7 +161,6 @@ export default {
       navigate('/recruitment/viewJobVacancy');
     },
     onSave() {
-      console.log(this.vacancy);
       this.isLoading = true;
       this.vacancy = {
         name: this.vacancy.name,
@@ -180,7 +181,22 @@ export default {
         });
     },
   },
+  created() {
+    this.isLoading = true;
+    this.http
+      .getAll({limit: 0})
+      .then(response => {
+        const {data} = response.data;
+        this.rules.name.push(v => {
+          const index = data.findIndex(item => item.name == v);
+          return index === -1 || 'Already exists';
+        });
+      })
+      .finally(() => {
+        this.isLoading = false;
+      });
+  },
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style src="./vacancy.scss" lang="scss" scoped></style>

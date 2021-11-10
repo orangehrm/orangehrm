@@ -1,4 +1,21 @@
 <?php
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ */
 
 namespace OrangeHRM\Recruitment\Api;
 
@@ -21,6 +38,7 @@ use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\Vacancy;
+use OrangeHRM\Pim\Dto\EmployeeSearchFilterParams;
 use OrangeHRM\Recruitment\Api\Model\VacancyModel;
 use OrangeHRM\Recruitment\Dto\VacancySearchFilterParams;
 use OrangeHRM\Recruitment\Service\VacancyService;
@@ -29,7 +47,7 @@ class VacancyAPI extends Endpoint implements CrudEndpoint
 {
     public const FILTER_JOB_TITLE_ID = 'jobTitleId';
     public const FILTER_VACANCY_ID = 'vacancyId';
-    public const FILTER_HIRING_MANAGER_ID = 'hiringMangerId';
+    public const FILTER_HIRING_MANAGER_ID = 'hiringManagerId';
     public const FILTER_STATUS = 'status';
 
     public const PARAMETER_NAME = 'name';
@@ -109,7 +127,7 @@ class VacancyAPI extends Endpoint implements CrudEndpoint
                 self::FILTER_JOB_TITLE_ID
             )
         );
-        $vacancyParamHolder->setEmployeeId(
+        $vacancyParamHolder->setEmpNumber(
             $this->getRequestParams()->getIntOrNull(
                 RequestParams::PARAM_TYPE_QUERY,
                 self::FILTER_HIRING_MANAGER_ID
@@ -127,9 +145,19 @@ class VacancyAPI extends Endpoint implements CrudEndpoint
                 self::FILTER_STATUS
             )
         );
+//        $status = $this->getRequestParams()->getIntOrNull(
+//            RequestParams::PARAM_TYPE_QUERY,
+////            self::FILTER_STATUS
+//        );
+//        if (!is_null($status)) {
+//            $vacancyParamHolder->setStatus(1);
+//        } else {
+//            $vacancyParamHolder->setStatus(0);
+//        }
 
         $vacancies = $this->getVacancyService()->getAllVacancies($vacancyParamHolder);
-        $count = $this->getVacancyService()->getVacancyDao()->searchVacanciesCount();
+        $count = $this->getVacancyService()->getVacancyDao()->searchVacanciesCount($vacancyParamHolder);
+//        var_dump($count);
         return new EndpointCollectionResult(
             VacancyModel::class,
             $vacancies,
@@ -143,10 +171,25 @@ class VacancyAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
         return new ParamRuleCollection(
+//            $this->getValidationDecorator()->notRequiredParamRule(
+//                new ParamRule(self::FILTER_VACANCY_ID)
+//            ),
+//            $this->getValidationDecorator()->notRequiredParamRule(
+//                new ParamRule(self::FILTER_HIRING_MANAGER_ID)
+//            ),
+//            $this->getValidationDecorator()->notRequiredParamRule(
+//                new ParamRule(self::FILTER_JOB_TITLE_ID)
+//            ),
+//            $this->getValidationDecorator()->notRequiredParamRule(
+//                new ParamRule(self::FILTER_STATUS)
+//            ),
             new ParamRule(self::FILTER_VACANCY_ID),
             new ParamRule(self::FILTER_HIRING_MANAGER_ID),
             new ParamRule(self::FILTER_JOB_TITLE_ID),
             new ParamRule(self::FILTER_STATUS),
+
+            ...$this->getSortingAndPaginationParamsRules(VacancySearchFilterParams::ALLOWED_SORT_FIELDS)
+
         );
     }
 

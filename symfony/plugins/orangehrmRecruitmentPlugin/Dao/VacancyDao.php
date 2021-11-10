@@ -31,6 +31,7 @@ use OrangeHRM\Entity\Vacancy;
 use OrangeHRM\ORM\Doctrine;
 use OrangeHRM\ORM\QueryBuilderWrapper;
 use OrangeHRM\Recruitment\Dto\VacancySearchFilterParams;
+use OrangeHRM\ORM\Paginator;
 
 /**
  * VacancyDao for CRUD operation
@@ -204,47 +205,36 @@ class VacancyDao extends BaseDao
 
     /**
      * @param  VacancySearchFilterParams  $vacancySearchFilterParamHolder
-     * @return int|mixed|string
-     * @throws DaoException
+     * @return Vacancy[]
      */
-    public function getAllVacancies(VacancySearchFilterParams $vacancySearchFilterParamHolder)
+    public function getVacancies(VacancySearchFilterParams $vacancySearchFilterParamHolder):array
     {
-        try {
-//            $q = $this->createQueryBuilder(Vacancy::class, 'v');
-//            if (!empty($status)) {
-//                $q->where('v.status = :status')->setParameter('status', $status);
-//            }
-//            $q->orderBy('v.name', 'ASC');
-            $qb=$this->getAllVacanciesQueryBuilderWrapper($vacancySearchFilterParamHolder);
-            return $qb->getQueryBuilder()->getQuery()->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
+        $qb=$this->getVacanciesPaginator($vacancySearchFilterParamHolder);
+        return $qb->getQuery()->execute();
     }
 
-    protected function getAllVacanciesQueryBuilderWrapper(VacancySearchFilterParams $vacancySearchFilterParamHolder): QueryBuilderWrapper
+    protected function getVacanciesPaginator(VacancySearchFilterParams $vacancySearchFilterParamHolder): Paginator
     {
 
-            $q = $this->createQueryBuilder(Vacancy::class, 'v');
+            $q = $this->createQueryBuilder(Vacancy::class, 'vacancy');
 
             $this->setSortingAndPaginationParams($q,$vacancySearchFilterParamHolder);
 
             if(!is_null($vacancySearchFilterParamHolder->getJobTitleId())){
-                $q->andWhere('v.jobTitle = :jobTitleCode')->setParameter('jobTitleCode', $vacancySearchFilterParamHolder->getJobTitleId());
+                $q->andWhere('vacancy.jobTitle = :jobTitleCode')->setParameter('jobTitleCode', $vacancySearchFilterParamHolder->getJobTitleId());
             }
-            if(!is_null($vacancySearchFilterParamHolder->getEmployeeId())){
-                $q->andWhere('v.employee = :hiringManagerId')->setParameter('hiringManagerId', $vacancySearchFilterParamHolder->getEmployeeId());
+            if(!is_null($vacancySearchFilterParamHolder->getEmpNumber())){
+                $q->andWhere('vacancy.employee  = :hiringManagerId')->setParameter('hiringManagerId', $vacancySearchFilterParamHolder->getEmpNumber());
             }
             if(!is_null($vacancySearchFilterParamHolder->getVacancyId())){
-                $q->andWhere('v.id = :vacancyId')->setParameter('vacancyId', $vacancySearchFilterParamHolder->getVacancyId());
+                $q->andWhere('vacancy.id = :vacancyId')->setParameter('vacancyId', $vacancySearchFilterParamHolder->getVacancyId());
             }
             if(!is_null($vacancySearchFilterParamHolder->getStatus())){
-                $q->andWhere('v.status = :status')->setParameter('status', $vacancySearchFilterParamHolder->getStatus());
+                $q->andWhere('vacancy.status = :status')->setParameter('status', $vacancySearchFilterParamHolder->getStatus());
             }
-            $q->orderBy('v.name', 'ASC');
 
-        return $this->getQueryBuilderWrapper($q);
-
+//        return $this->getQueryBuilderWrapper($q);
+        return $this->getPaginator($q);
     }
 
     /**
@@ -278,6 +268,8 @@ class VacancyDao extends BaseDao
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
         // @codeCoverageIgnoreEnd
+
+
     }
 
     /**
@@ -349,6 +341,7 @@ class VacancyDao extends BaseDao
      */
     public function searchVacancies($srchParams)
     {
+//        TODO
         $jobTitle = $srchParams['jobTitle'];
         $jobVacancy = $srchParams['jobVacancy'];
         $hiringManager = $srchParams['hiringManager'];
@@ -391,58 +384,13 @@ class VacancyDao extends BaseDao
     }
 
     /**
-     *
-     * @param  <type>  $srchParams
-     * @return <type>
-     * @throws DaoException
+     * @param $vacancySearchFilterParamHolder
+     * @return int
      */
-    public function searchVacanciesCount()
+    public function searchVacanciesCount($vacancySearchFilterParamHolder) :int
     {
-//        try {
-//            $jobTitle = $srchParams['jobTitle'];
-//            $jobVacancy = $srchParams['jobVacancy'];
-//            $hiringManager = $srchParams['hiringManager'];
-//            $status = $srchParams['status'];
-//
-//
-//            $q = Doctrine_Query::create()
-//                ->select("COUNT(v.id)")
-//                ->from('JobVacancy v')
-//                ->leftJoin('v.Employee e')
-//                ->leftJoin('v.JobTitle jt');
-//
-////            $q=$this->createQueryBuilder(Vacancy::class,'v')
-////                ->leftJoin('v.Employee','e',Join::WITH,'v.')
-////                ->leftJoin('v.JobTitle','jt');
-//
-//            if (!empty($jobTitle)) {
-//                $q->addwhere('v.jobTitleCode = ?', $jobTitle);
-//            }
-//            if (!empty($jobVacancy)) {
-//                $q->addwhere('v.id = ?', $jobVacancy);
-//            }
-//            if (!empty($hiringManager)) {
-//                $q->addwhere('v.hiringManagerId = ?', $hiringManager);
-//            }
-//            if ($status != "") {
-//                $q->addwhere('v.status = ?', $status);
-//            }
-//
-//            $results = $q->fetchArray();
-//            $count = $results[0]['COUNT'];
-//            return $count;
-//            // @codeCoverageIgnoreStart
-//        } catch (Exception $e) {
-//            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-//        }
-        // @codeCoverageIgnoreEnd
-        $q = $this->createQueryBuilder(Vacancy::class, 'v');
-        $q->select('count(v.id)');
-        try {
-            return $q->getQuery()->getSingleScalarResult();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        return $this->getVacanciesPaginator($vacancySearchFilterParamHolder)->count();
+
     }
 
     /**
@@ -465,16 +413,6 @@ class VacancyDao extends BaseDao
 
     public function deleteVacancies(array $toBeDeletedVacancyIds): bool
     {
-//        $q = Doctrine_Query::create()
-//                        ->from('JobInterviewInterviewer jii')
-//                        ->leftJoin('jii.JobInterview ji')
-//                        ->leftJoin('ji.JobCandidateVacancy jcv')
-//                        ->leftJoin('jcv.JobVacancy jv')
-//                        ->whereIn('jv.id', $toBeDeletedVacancyIds);
-//        $results = $q->execute();
-//        foreach ($results as $result) {
-//            $result->delete();
-//        }
         $qr = $this->createQueryBuilder(Vacancy::class, 'v');
         $qr->delete()
             ->andWhere('v.id IN (:ids)')
