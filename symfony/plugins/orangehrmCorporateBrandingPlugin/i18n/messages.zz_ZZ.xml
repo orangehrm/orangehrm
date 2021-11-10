@@ -61,8 +61,8 @@
         </target>
       </trans-unit>
       <trans-unit id="14" group="branding" version="4.6-">
-        <source>Successfully reset to default theme.</source>
-        <target>FR_Successfully reset to default theme.</target>
+        <source>Successfully Reset to Default Theme.</source>
+        <target>FR_Successfully Reset to Default Theme.</target>
       </trans-unit>
       <trans-unit id="15" group="branding" version="4.6-">
         <source>Invalid Color</source>
