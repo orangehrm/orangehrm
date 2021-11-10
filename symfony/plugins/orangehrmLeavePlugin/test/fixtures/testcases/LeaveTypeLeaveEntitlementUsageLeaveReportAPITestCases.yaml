@@ -65,8 +65,7 @@ GetOne:
           "pin": null,
           "cellProperties": {
             "class": {
-              "col-alt": true,
-              "cell-action": true
+              "col-alt": true
             }
           }
         }
