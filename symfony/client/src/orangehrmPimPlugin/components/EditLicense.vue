@@ -84,8 +84,8 @@ import {
   validDateFormat,
   shouldNotExceedCharLength,
   endDateShouldBeAfterStartDate,
-} from '@orangehrm/core/util/validation/rules';
-import {yearRange} from '@orangehrm/core/util/helper/year-range';
+} from '@ohrm/core/util/validation/rules';
+import {yearRange} from '@ohrm/core/util/helper/year-range';
 
 const licenseModel = {
   name: '',

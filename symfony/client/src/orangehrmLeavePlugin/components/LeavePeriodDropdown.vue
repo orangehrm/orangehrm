@@ -28,7 +28,7 @@
 
 <script>
 import {ref, onBeforeMount} from 'vue';
-import {APIService} from '@orangehrm/core/util/services/api.service';
+import {APIService} from '@ohrm/core/util/services/api.service';
 export default {
   name: 'leave-period-dropdown',
   setup() {

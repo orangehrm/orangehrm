@@ -13,14 +13,10 @@ module.exports = {
   configureWebpack: {
     resolve: {
       alias: {
+        '@ohrm/core': '@/core',
+        '@ohrm/util': '@/core/util',
         '@ohrm/oxd': '@ohrm/oxd/src',
-        '@orangehrm/util': '@/core/util',
-        '@orangehrm/components': '@/core/components',
-        '@orangehrm/core': '@/core',
-        '@orangehrm/orangehrmAdminPlugin': '@/orangehrmAdminPlugin',
-        '@orangehrm/orangehrmAuthenticationPlugin':
-          '@/orangehrmAuthenticationPlugin',
-        '@orangehrm/orangehrmPimPlugin': '@/orangehrmPimPlugin',
+        '@ohrm/components': '@/core/components',
         assets: '@ohrm/oxd/assets',
       },
     },

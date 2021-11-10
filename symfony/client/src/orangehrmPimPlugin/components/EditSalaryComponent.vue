@@ -170,7 +170,7 @@ import SwitchInput from '@ohrm/oxd/core/components/Input/SwitchInput';
 import {
   required,
   shouldNotExceedCharLength,
-} from '@orangehrm/core/util/validation/rules';
+} from '@ohrm/core/util/validation/rules';
 
 const salComponentModel = {
   name: '',

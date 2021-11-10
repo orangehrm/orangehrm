@@ -82,7 +82,7 @@
 </template>
 
 <script>
-import {shouldNotExceedCharLength} from '@orangehrm/core/util/validation/rules';
+import {shouldNotExceedCharLength} from '@ohrm/core/util/validation/rules';
 const attachmentModel = {
   attachment: null,
   description: '',

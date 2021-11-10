@@ -74,9 +74,9 @@ import {
 } from '@/core/util/validation/rules';
 import {computed, ref} from 'vue';
 import {APIService} from '@/core/util/services/api.service';
-import {navigate} from '@orangehrm/core/util/helper/navigation';
-import {truncate} from '@orangehrm/core/util/helper/truncate';
-import usePaginate from '@orangehrm/core/util/composable/usePaginate';
+import {navigate} from '@ohrm/core/util/helper/navigation';
+import {truncate} from '@ohrm/core/util/helper/truncate';
+import usePaginate from '@ohrm/core/util/composable/usePaginate';
 import useLeaveActions from '@/orangehrmLeavePlugin/util/composable/useLeaveActions';
 import LeaveCommentsModal from '@/orangehrmLeavePlugin/components/LeaveCommentsModal';
 import LeaveBulkActionModal from '@/orangehrmLeavePlugin/components/LeaveBulkActionModal';

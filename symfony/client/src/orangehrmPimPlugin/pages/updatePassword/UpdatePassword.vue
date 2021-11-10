@@ -76,7 +76,7 @@ import PasswordInput from '@/core/components/inputs/PasswordInput';
 import {
   required,
   shouldNotExceedCharLength,
-} from '@orangehrm/core/util/validation/rules';
+} from '@ohrm/core/util/validation/rules';
 
 const userModel = {
   currentPassword: '',

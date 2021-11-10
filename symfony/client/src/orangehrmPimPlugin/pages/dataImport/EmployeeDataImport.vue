@@ -108,7 +108,7 @@ import {
   maxFileSize,
   validFileTypes,
 } from '@/core/util/validation/rules';
-import useForm from '@orangehrm/core/util/composable/useForm';
+import useForm from '@ohrm/core/util/composable/useForm';
 
 const attachmentModel = {
   attachment: null,

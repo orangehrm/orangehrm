@@ -47,9 +47,9 @@
 </template>
 
 <script>
-import usePaginate from '@orangehrm/core/util/composable/usePaginate';
-import {navigate} from '@orangehrm/core/util/helper/navigation';
-import {APIService} from '@orangehrm/core/util/services/api.service';
+import usePaginate from '@ohrm/core/util/composable/usePaginate';
+import {navigate} from '@ohrm/core/util/helper/navigation';
+import {APIService} from '@ohrm/core/util/services/api.service';
 import SwitchInput from '@ohrm/oxd/core/components/Input/SwitchInput';
 import Spinner from '@ohrm/oxd/core/components/Loader/Spinner';
 

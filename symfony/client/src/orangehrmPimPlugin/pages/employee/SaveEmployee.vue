@@ -121,7 +121,7 @@
 <script>
 import {ref} from 'vue';
 import {APIService} from '@/core/util/services/api.service';
-import {navigate} from '@orangehrm/core/util/helper/navigation';
+import {navigate} from '@ohrm/core/util/helper/navigation';
 import SwitchInput from '@ohrm/oxd/core/components/Input/SwitchInput';
 import ProfileImageInput from '@/orangehrmPimPlugin/components/ProfileImageInput';
 import FullNameInput from '@/orangehrmPimPlugin/components/FullNameInput';
@@ -129,7 +129,7 @@ import PasswordInput from '@/core/components/inputs/PasswordInput';
 import {
   required,
   shouldNotExceedCharLength,
-} from '@orangehrm/core/util/validation/rules';
+} from '@ohrm/core/util/validation/rules';
 
 const defaultPic = `${window.appGlobal.baseUrl}/../dist/img/user-default-400.png`;
 

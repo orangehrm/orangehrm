@@ -77,7 +77,7 @@ import Dialog from '@ohrm/oxd/core/components/Dialog/Dialog';
 import {
   required,
   shouldNotExceedCharLength,
-} from '@orangehrm/core/util/validation/rules';
+} from '@ohrm/core/util/validation/rules';
 
 const orgUnitModel = {
   unitId: '',

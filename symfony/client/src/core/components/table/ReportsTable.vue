@@ -46,8 +46,8 @@
 <script>
 import {computed, onBeforeMount, ref, watch} from 'vue';
 import {APIService} from '@/core/util/services/api.service';
-import {navigate} from '@orangehrm/core/util/helper/navigation';
-import usePaginate from '@orangehrm/core/util/composable/usePaginate';
+import {navigate} from '@ohrm/core/util/helper/navigation';
+import usePaginate from '@ohrm/core/util/composable/usePaginate';
 import ReportTable from '@ohrm/oxd/core/components/ReportTable/ReportTable';
 import CellAdapter from '@ohrm/oxd/core/components/ReportTable/CellAdapter';
 import MultilineCell from '@ohrm/oxd/core/components/ReportTable/Cell/MultilineCell';

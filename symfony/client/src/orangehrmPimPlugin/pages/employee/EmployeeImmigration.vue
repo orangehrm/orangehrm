@@ -68,13 +68,13 @@
 </template>
 
 <script>
-import usePaginate from '@orangehrm/core/util/composable/usePaginate';
-import {APIService} from '@orangehrm/core/util/services/api.service';
+import usePaginate from '@ohrm/core/util/composable/usePaginate';
+import {APIService} from '@ohrm/core/util/services/api.service';
 import ProfileActionHeader from '@/orangehrmPimPlugin/components/ProfileActionHeader';
 import EditEmployeeLayout from '@/orangehrmPimPlugin/components/EditEmployeeLayout';
 import SaveImmigration from '@/orangehrmPimPlugin/components/SaveImmigration';
 import EditImmigration from '@/orangehrmPimPlugin/components/EditImmigration';
-import DeleteConfirmationDialog from '@orangehrm/components/dialogs/DeleteConfirmationDialog';
+import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmationDialog';
 
 const immigrationNormalizer = data => {
   return data.map(item => {

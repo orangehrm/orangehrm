@@ -58,9 +58,9 @@
 </template>
 
 <script>
-import {navigate} from '@orangehrm/core/util/helper/navigation';
-import {APIService} from '@orangehrm/core/util/services/api.service';
-import {required} from '@orangehrm/core/util/validation/rules';
+import {navigate} from '@ohrm/core/util/helper/navigation';
+import {APIService} from '@ohrm/core/util/services/api.service';
+import {required} from '@ohrm/core/util/validation/rules';
 
 const skillModel = {
   id: '',

@@ -185,7 +185,7 @@
 </template>
 
 <script>
-import {APIService} from '@orangehrm/core/util/services/api.service';
+import {APIService} from '@ohrm/core/util/services/api.service';
 import FileUploadInput from '@/core/components/inputs/FileUploadInput';
 import SwitchInput from '@ohrm/oxd/core/components/Input/SwitchInput';
 import EditEmployeeLayout from '@/orangehrmPimPlugin/components/EditEmployeeLayout';
@@ -198,7 +198,7 @@ import {
   validFileTypes,
   validDateFormat,
   endDateShouldBeAfterStartDate,
-} from '@orangehrm/core/util/validation/rules';
+} from '@ohrm/core/util/validation/rules';
 
 const jobDetailsModel = {
   joinedDate: '',

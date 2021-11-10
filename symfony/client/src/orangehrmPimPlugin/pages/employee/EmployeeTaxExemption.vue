@@ -115,9 +115,9 @@
 </template>
 
 <script>
-import {APIService} from '@orangehrm/core/util/services/api.service';
+import {APIService} from '@ohrm/core/util/services/api.service';
 import EditEmployeeLayout from '@/orangehrmPimPlugin/components/EditEmployeeLayout';
-import {shouldNotExceedCharLength} from '@orangehrm/core/util/validation/rules';
+import {shouldNotExceedCharLength} from '@ohrm/core/util/validation/rules';
 
 const taxExemptionModel = {
   federalStatus: null,

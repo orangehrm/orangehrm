@@ -46,7 +46,7 @@
 
 <script>
 import {onBeforeMount, reactive, toRefs} from 'vue';
-import {APIService} from '@orangehrm/core/util/services/api.service';
+import {APIService} from '@ohrm/core/util/services/api.service';
 import Spinner from '@ohrm/oxd/core/components/Loader/Spinner.vue';
 
 export default {

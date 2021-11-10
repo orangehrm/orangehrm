@@ -32,12 +32,12 @@ import TableFilter from '@ohrm/oxd/core/components/TableFilter/TableFilter.vue';
 import Grid from '@ohrm/oxd/core/components/Grid/Grid.vue';
 import GridItem from '@ohrm/oxd/core/components/Grid/GridItem.vue';
 
-import SubmitButton from '@orangehrm/components/buttons/SubmitButton.vue';
-import TableHeader from '@orangehrm/components/table/TableHeader.vue';
-import RequiredText from '@orangehrm/components/labels/RequiredText.vue';
-import Layout from '@orangehrm/components/layout/Layout.vue';
-import DateInput from '@orangehrm/components/inputs/DateInput.vue';
-import TimeInput from '@orangehrm/components/inputs/TimeInput.vue';
+import SubmitButton from '@ohrm/components/buttons/SubmitButton.vue';
+import TableHeader from '@ohrm/components/table/TableHeader.vue';
+import RequiredText from '@ohrm/components/labels/RequiredText.vue';
+import Layout from '@ohrm/components/layout/Layout.vue';
+import DateInput from '@ohrm/components/inputs/DateInput.vue';
+import TimeInput from '@ohrm/components/inputs/TimeInput.vue';
 
 export default {
   install: (app: App) => {

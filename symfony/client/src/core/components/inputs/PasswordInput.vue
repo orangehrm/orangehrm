@@ -61,14 +61,11 @@
 
 <script>
 import Chip from '@ohrm/oxd/core/components/Chip/Chip.vue';
-import {
-  checkPassword,
-  getPassLevel,
-} from '@orangehrm/core/util/helper/password';
+import {checkPassword, getPassLevel} from '@ohrm/core/util/helper/password';
 import {
   required,
   shouldNotExceedCharLength,
-} from '@orangehrm/core/util/validation/rules';
+} from '@ohrm/core/util/validation/rules';
 
 export default {
   name: 'password-input',

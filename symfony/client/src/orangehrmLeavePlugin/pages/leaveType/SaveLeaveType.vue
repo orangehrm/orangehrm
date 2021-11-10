@@ -92,12 +92,12 @@
 </template>
 
 <script>
-import {navigate} from '@orangehrm/core/util/helper/navigation';
-import {APIService} from '@orangehrm/core/util/services/api.service';
+import {navigate} from '@ohrm/core/util/helper/navigation';
+import {APIService} from '@ohrm/core/util/services/api.service';
 import {
   required,
   shouldNotExceedCharLength,
-} from '@orangehrm/core/util/validation/rules';
+} from '@ohrm/core/util/validation/rules';
 import Label from '@ohrm/oxd/core/components/Label/Label';
 import EntitlementSituationalModal from '@/orangehrmLeavePlugin/components/EntitlementSituationalModal';
 

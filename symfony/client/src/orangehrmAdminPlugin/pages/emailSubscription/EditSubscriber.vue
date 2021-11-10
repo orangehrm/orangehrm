@@ -67,7 +67,7 @@ import {
   required,
   validEmailFormat,
   shouldNotExceedCharLength,
-} from '@orangehrm/core/util/validation/rules';
+} from '@ohrm/core/util/validation/rules';
 
 const subscriberModel = {
   name: '',

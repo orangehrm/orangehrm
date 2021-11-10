@@ -79,7 +79,7 @@ import {
   required,
   shouldNotExceedCharLength,
   validDateFormat,
-} from '@orangehrm/core/util/validation/rules';
+} from '@ohrm/core/util/validation/rules';
 
 const terminationModel = {
   terminationReasonId: [{id: 1, label: 'Other'}],

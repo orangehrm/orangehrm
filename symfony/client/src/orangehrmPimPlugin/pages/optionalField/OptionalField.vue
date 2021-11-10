@@ -81,7 +81,7 @@
 </template>
 
 <script>
-import {APIService} from '@orangehrm/core/util/services/api.service';
+import {APIService} from '@ohrm/core/util/services/api.service';
 import SwitchInput from '@ohrm/oxd/core/components/Input/SwitchInput';
 
 const optionalFieldModel = {

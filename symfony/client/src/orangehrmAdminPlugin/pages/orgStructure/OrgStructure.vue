@@ -121,7 +121,7 @@ import TreeView from '@ohrm/oxd/core/components/TreeView/TreeView';
 import Sheet from '@ohrm/oxd/core/components/Sheet/Sheet';
 import SwitchInput from '@ohrm/oxd/core/components/Input/SwitchInput';
 import Spinner from '@ohrm/oxd/core/components/Loader/Spinner';
-import DeleteConfirmationDialog from '@orangehrm/components/dialogs/DeleteConfirmationDialog';
+import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmationDialog';
 import SaveOrgUnit from './SaveOrgUnit';
 import EditOrgUnit from './EditOrgUnit';
 
