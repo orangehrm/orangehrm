@@ -17,6 +17,8 @@
  * Boston, MA  02110-1301, USA
  */
 
+namespace OrangeHRM\Tests\Pim\Api;
+
 use OrangeHRM\Pim\Api\PimDefinedReportAPI;
 use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
 use OrangeHRM\Tests\Util\Integration\TestCaseParams;

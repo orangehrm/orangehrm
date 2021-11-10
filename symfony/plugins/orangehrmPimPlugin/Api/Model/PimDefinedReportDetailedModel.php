@@ -58,7 +58,7 @@ class PimDefinedReportDetailedModel implements Normalizable
         $selectedFilterFields = $this->getReportGeneratorService()
             ->getReportGeneratorDao()
             ->getSkippedSelectedFilterFieldsByReportId($detailedReport->getId());
-        $selectedDisplayFieldGroups = $this->getReportGeneratorService()
+        $displayFieldGroups = $this->getReportGeneratorService()
             ->getReportGeneratorDao()
             ->getDisplayFieldGroupIdList($detailedReport->getId());
 
@@ -82,7 +82,7 @@ class PimDefinedReportDetailedModel implements Normalizable
         }
 
         $fieldGroup = [];
-        foreach ($selectedDisplayFieldGroups as $selectedDisplayFieldGroup) {
+        foreach ($displayFieldGroups as $selectedDisplayFieldGroup) {
             $fieldGroup[$selectedDisplayFieldGroup] = [
                 'fields' => $this->getReportGeneratorService()
                     ->getReportGeneratorDao()
