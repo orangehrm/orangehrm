@@ -17,7 +17,7 @@
  */
 
 import {ref} from 'vue';
-import Form from '@orangehrm/oxd/src/core/components/Form/Form.vue';
+import Form from '@orangehrm/oxd/core/components/Form/Form.vue';
 
 type useFormArgs = {
   refName?: string;

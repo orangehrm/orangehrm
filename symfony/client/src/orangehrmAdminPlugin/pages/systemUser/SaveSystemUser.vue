@@ -99,7 +99,7 @@ import {
   shouldNotExceedCharLength,
   shouldNotLessThanCharLength,
 } from '@orangehrm/core/util/validation/rules';
-import promiseDebounce from '@orangehrm/oxd/src/utils/promiseDebounce';
+import promiseDebounce from '@orangehrm/oxd/utils/promiseDebounce';
 
 const userModel = {
   username: '',

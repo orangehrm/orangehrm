@@ -82,7 +82,7 @@
 
 <script>
 import {APIService} from '@orangehrm/core/util/services/api.service';
-import SwitchInput from '@orangehrm/oxd/src/core/components/Input/SwitchInput';
+import SwitchInput from '@orangehrm/oxd/core/components/Input/SwitchInput';
 
 const optionalFieldModel = {
   pimShowDeprecatedFields: false,
