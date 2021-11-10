@@ -17,32 +17,43 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Tests\Pim\Api;
+namespace OrangeHRM\Entity\Decorator;
 
-use OrangeHRM\Pim\Api\PimDefinedReportAPI;
-use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
-use OrangeHRM\Tests\Util\Integration\TestCaseParams;
+use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
+use OrangeHRM\Entity\FilterField;
+use OrangeHRM\Entity\SelectedFilterField;
 
-/**
- * @group Pim
- * @group APIv2
- */
-class PimDefinedReportGetOneAPITest extends EndpointIntegrationTestCase
+class SelectedFilterFieldDecorator
 {
+    use EntityManagerHelperTrait;
+
     /**
-     * @dataProvider dataProviderForTestGetOne
+     * @var SelectedFilterField
      */
-    public function testGetOne(TestCaseParams $testCaseParams): void
+    private SelectedFilterField $selectedFilterField;
+
+    /**
+     * @param SelectedFilterField $selectedFilterField
+     */
+    public function __construct(SelectedFilterField $selectedFilterField)
     {
-        $this->populateFixtures('PimDefinedReportGetOneAPI.yaml');
-        $this->registerServices($testCaseParams);
-        $this->registerMockDateTimeHelper($testCaseParams);
-        $api = $this->getApiEndpointMock(PimDefinedReportAPI::class, $testCaseParams);
-        $this->assertValidTestCase($api, 'getOne', $testCaseParams);
+        $this->selectedFilterField = $selectedFilterField;
     }
 
-    public function dataProviderForTestGetOne(): array
+    /**
+     * @return SelectedFilterField
+     */
+    protected function getSelectedFilterField(): SelectedFilterField
     {
-        return $this->getTestCases('PimDefinedReportGetOneAPITestCase.yaml', 'GetOne');
+        return $this->selectedFilterField;
+    }
+
+    /**
+     * @param int $id
+     */
+    public function setFilterFieldById(int $id): void
+    {
+        $filterField = $this->getReference(FilterField::class, $id);
+        $this->getSelectedFilterField()->setFilterField($filterField);
     }
 }

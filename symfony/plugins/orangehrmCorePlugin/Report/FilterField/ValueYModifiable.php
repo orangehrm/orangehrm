@@ -17,32 +17,14 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Tests\Pim\Api;
+namespace OrangeHRM\Core\Report\FilterField;
 
-use OrangeHRM\Pim\Api\PimDefinedReportAPI;
-use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
-use OrangeHRM\Tests\Util\Integration\TestCaseParams;
-
-/**
- * @group Pim
- * @group APIv2
- */
-class PimDefinedReportGetOneAPITest extends EndpointIntegrationTestCase
+interface ValueYModifiable
 {
     /**
-     * @dataProvider dataProviderForTestGetOne
+     * Implement how `y` value prepare for persisting
+     * @param string|null $y
+     * @return string|null
      */
-    public function testGetOne(TestCaseParams $testCaseParams): void
-    {
-        $this->populateFixtures('PimDefinedReportGetOneAPI.yaml');
-        $this->registerServices($testCaseParams);
-        $this->registerMockDateTimeHelper($testCaseParams);
-        $api = $this->getApiEndpointMock(PimDefinedReportAPI::class, $testCaseParams);
-        $this->assertValidTestCase($api, 'getOne', $testCaseParams);
-    }
-
-    public function dataProviderForTestGetOne(): array
-    {
-        return $this->getTestCases('PimDefinedReportGetOneAPITestCase.yaml', 'GetOne');
-    }
+    public function yValueModifier(?string $y): ?string;
 }

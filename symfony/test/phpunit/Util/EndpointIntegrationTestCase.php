@@ -34,8 +34,9 @@ abstract class EndpointIntegrationTestCase extends EndpointTestCase
     /**
      * @param string $fixture
      * @param string|null $pathToFixturesDir
+     * @param bool $resetCache
      */
-    protected function populateFixtures(string $fixture, string $pathToFixturesDir = null)
+    protected function populateFixtures(string $fixture, ?string $pathToFixturesDir = null, bool $resetCache = false)
     {
         $this->getEntityManager()->clear();
         if (is_null($pathToFixturesDir)) {
@@ -46,7 +47,7 @@ abstract class EndpointIntegrationTestCase extends EndpointTestCase
             }
         }
 
-        TestDataService::populate($pathToFixturesDir . DIRECTORY_SEPARATOR . $fixture);
+        TestDataService::populate($pathToFixturesDir . DIRECTORY_SEPARATOR . $fixture, $resetCache);
     }
 
     /**

@@ -116,8 +116,7 @@ class ReportGeneratorDao extends BaseDao
      * @param Report $report
      * @param int[] $selectedDisplayFieldGroupIds
      * @param int[] $selectedDisplayFieldIds
-     * @param array $criterias
-     * @param string $includeType
+     * @param SelectedFilterField[] $selectedFilterFields
      * @return Report
      * @throws TransactionException
      */
@@ -125,8 +124,7 @@ class ReportGeneratorDao extends BaseDao
         Report $report,
         array $selectedDisplayFieldGroupIds,
         array $selectedDisplayFieldIds,
-        array $criterias,
-        string $includeType
+        array $selectedFilterFields
     ): Report {
         $this->beginTransaction();
         try {
@@ -135,7 +133,7 @@ class ReportGeneratorDao extends BaseDao
                 $this->saveSelectedDisplayFieldGroup($report, $selectedDisplayFieldGroupIds);
             }
             $this->saveSelectedDisplayField($report, $selectedDisplayFieldIds);
-            $this->saveSelectedFilterField($report, $criterias, $includeType);
+            $this->saveSelectedFilterField($selectedFilterFields);
             $this->commitTransaction();
             return $report;
         } catch (Exception $exception) {
@@ -145,30 +143,12 @@ class ReportGeneratorDao extends BaseDao
     }
 
     /**
-     * @param Report $report
-     * @param array $criterias
-     * @param string $includeType
-     * @return void
+     * @param SelectedFilterField[] $selectedFilterFields
      */
-    public function saveSelectedFilterField(Report $report, array $criterias, string $includeType): void
+    public function saveSelectedFilterField(array $selectedFilterFields): void
     {
-        $this->saveDefaultSelectedFilterField(
-            $report,
-            $includeType
-        ); // Always get first priority while saving `ohrm_selected_filter_field`
-        $counter = 2;
-        foreach ($criterias as $key => $value) {
-            $filterField = $this->getRepository(FilterField::class)->find($key);
-            $selectedFilterField = new SelectedFilterField();
-            $selectedFilterField->setReport($report);
-            $selectedFilterField->setFilterField($filterField);
-            $selectedFilterField->setFilterFieldOrder($counter);
-            $selectedFilterField->setX($value['x']);// "x" is the value pair inside the associative array
-            $selectedFilterField->setY($value['y']);
-            $selectedFilterField->setOperator($value['operator']);
-            $selectedFilterField->setType('Predefined');
+        foreach ($selectedFilterFields as $selectedFilterField) {
             $this->getEntityManager()->persist($selectedFilterField);
-            $counter++;
         }
         $this->getEntityManager()->flush();
     }
@@ -182,8 +162,7 @@ class ReportGeneratorDao extends BaseDao
     {
         foreach ($selectedDisplayFieldIds as $selectedDisplayFieldId) {
             $selectedDisplayField = new SelectedDisplayField();
-            $displayField = $this->getRepository(DisplayField::class)->find($selectedDisplayFieldId);
-            $selectedDisplayField->setDisplayField($displayField);
+            $selectedDisplayField->getDecorator()->setDisplayFieldById($selectedDisplayFieldId);
             $selectedDisplayField->setReport($report);
             $this->getEntityManager()->persist($selectedDisplayField);
         }
@@ -199,9 +178,8 @@ class ReportGeneratorDao extends BaseDao
     {
         foreach ($selectedDisplayFieldGroupIds as $selectedDisplayFieldGroupId) {
             $selectedDisplayFieldGroup = new SelectedDisplayFieldGroup();
-            $displayFieldGroup = $this->getRepository(DisplayFieldGroup::class)->find($selectedDisplayFieldGroupId);
             $selectedDisplayFieldGroup->setReport($report);
-            $selectedDisplayFieldGroup->setDisplayFieldGroup($displayFieldGroup);
+            $selectedDisplayFieldGroup->getDecorator()->setDisplayFieldGroupById($selectedDisplayFieldGroupId);
             $this->getEntityManager()->persist($selectedDisplayFieldGroup);
         }
         $this->getEntityManager()->flush();
@@ -218,32 +196,11 @@ class ReportGeneratorDao extends BaseDao
     }
 
     /**
-     * @param Report $report
-     * @param string $includeType
-     * @return void
-     */
-    public function saveDefaultSelectedFilterField(Report $report, string $includeType): void
-    {
-        // this function for saving the default initial include record
-        $filterFieldByInclude = $this->getFilterFieldByName('include');
-        $selectedFilterField = new SelectedFilterField();
-        $selectedFilterField->setReport($report);
-        $selectedFilterField->setFilterField($filterFieldByInclude);
-        $selectedFilterField->setFilterFieldOrder(1);
-        if ($includeType === '') {
-            // currentAndPast
-            $selectedFilterField->setOperator(null);
-        }
-        $selectedFilterField->setOperator($includeType);
-        $selectedFilterField->setType('Predefined');
-        $this->persist($selectedFilterField);
-    }
-
-    /**
      * @param PimDefinedReportSearchFilterParams $pimDefinedReportSearchFilterParams
      * @return Report[]
      */
-    public function searchPimDefinedReports(PimDefinedReportSearchFilterParams $pimDefinedReportSearchFilterParams
+    public function searchPimDefinedReports(
+        PimDefinedReportSearchFilterParams $pimDefinedReportSearchFilterParams
     ): array {
         $paginator = $this->getSearchPimDefinedReportsPaginator($pimDefinedReportSearchFilterParams);
         return $paginator->getQuery()->execute();
@@ -410,16 +367,18 @@ class ReportGeneratorDao extends BaseDao
     public function getIncludeType(int $reportId): ?SelectedFilterField
     {
         $filterFieldByInclude = $this->getFilterFieldByName('include');
-        $selectedFilterField = $this->getRepository(SelectedFilterField::class)->findOneBy(['report' => $reportId,'filterField' => $filterFieldByInclude->getId()]);
+        $selectedFilterField = $this->getRepository(SelectedFilterField::class)->findOneBy(
+            ['report' => $reportId, 'filterField' => $filterFieldByInclude->getId()]
+        );
         return ($selectedFilterField instanceof SelectedFilterField) ? $selectedFilterField : null;
     }
 
     /**
      * @param int $reportId
      * @param int $displayGroupId
-     * @return SelectedDisplayFieldGroup[]
+     * @return bool
      */
-    public function isIncludeHeader(int $reportId, int $displayGroupId): array
+    public function isIncludeHeader(int $reportId, int $displayGroupId): bool
     {
         // this method for getting the display field group ids that saved in the database as header true
         $q = $this->createQueryBuilder(SelectedDisplayFieldGroup::class, 'selectedDisplayFieldGroup');
@@ -427,7 +386,7 @@ class ReportGeneratorDao extends BaseDao
             ->setParameter('reportId', $reportId);
         $q->andWhere('selectedDisplayFieldGroup.displayFieldGroup = :displayFieldGroupId')
             ->setParameter('displayFieldGroupId', $displayGroupId);
-        return $q->getQuery()->execute();
+        return $this->getPaginator($q)->count() !== 0;
     }
 
     /**
