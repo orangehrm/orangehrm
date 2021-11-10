@@ -29,14 +29,15 @@ use OrangeHRM\Leave\Api\LeavePeriodAPI;
 use OrangeHRM\Leave\Dto\LeavePeriod;
 use OrangeHRM\Leave\Service\LeaveConfigurationService;
 use OrangeHRM\Leave\Service\LeavePeriodService;
-use OrangeHRM\Tests\Util\EndpointTestCase;
+use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
+use OrangeHRM\Tests\Util\Integration\TestCaseParams;
 use OrangeHRM\Tests\Util\MockObject;
 
 /**
  * @group Leave
  * @group APIv2
  */
-class LeavePeriodAPITest extends EndpointTestCase
+class LeavePeriodAPITest extends EndpointIntegrationTestCase
 {
     public function testGetOne(): void
     {
@@ -230,5 +231,24 @@ class LeavePeriodAPITest extends EndpointTestCase
             ],
             $result->getMeta()->all()
         );
+    }
+
+    /**
+     * @dataProvider dataProviderForTestUpdate
+     */
+    public function testUpdate(TestCaseParams $testCaseParams): void
+    {
+        $this->populateFixtures('LeavePeriodDao.yml');
+        $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
+
+        $this->registerServices($testCaseParams);
+        $this->registerMockDateTimeHelper($testCaseParams);
+        $api = $this->getApiEndpointMock(LeavePeriodAPI::class, $testCaseParams);
+        $this->assertValidTestCase($api, 'update', $testCaseParams);
+    }
+
+    public function dataProviderForTestUpdate(): array
+    {
+        return $this->getTestCases('LeavePeriodAPITestCases.yaml', 'Update');
     }
 }

@@ -89,7 +89,7 @@ class LeavePeriodAPI extends Endpoint implements CrudEndpoint
         return $leavePeriodDefined ?
             $this->getNormalizerService()->normalize(
                 LeavePeriodModel::class,
-                $this->getLeavePeriodService()->getCurrentLeavePeriod()
+                $this->getLeavePeriodService()->getCurrentLeavePeriod(true)
             ) : null;
     }
 
