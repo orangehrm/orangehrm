@@ -21,6 +21,7 @@ namespace OrangeHRM\Admin\Dao;
 
 use Exception;
 use OrangeHRM\Admin\Dto\UserSearchFilterParams;
+use OrangeHRM\Authentication\Dto\UserCredential;
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\Employee;
@@ -28,7 +29,6 @@ use OrangeHRM\Entity\User;
 use OrangeHRM\Entity\UserRole;
 use OrangeHRM\ORM\ListSorter;
 use OrangeHRM\ORM\Paginator;
-use OrangeHRM\Authentication\Dto\UserCredential;
 
 class UserDao extends BaseDao
 {
@@ -384,6 +384,22 @@ class UserDao extends BaseDao
         $q = $this->createQueryBuilder(User::class, 'u');
         $q->andWhere('u.userName = :userName');
         $q->setParameter('userName', $userName);
+        return $this->getPaginator($q)->count() === 0;
+    }
+
+    /**
+     **this function for validating the username availability on update. ( false -> username already exist, true - username is not exist )
+     * @param string $currentUserName
+     * @param string $userName
+     * @return bool
+     */
+    public function isUserNameExistByUserNameAndUserId(string $currentUserName, string $userName): bool
+    {
+        $q = $this->createQueryBuilder(User::class, 'u');
+        $q->andWhere('u.userName = :userName');
+        $q->andWhere('u.userName != :currentUserName'); // we need to skip the current username on checking, otherwise count always return 1
+        $q->setParameter('userName', $userName);
+        $q->setParameter('currentUserName', $currentUserName);
         return $this->getPaginator($q)->count() === 0;
     }
 }

@@ -20,7 +20,6 @@
 namespace OrangeHRM\Core\Subscriber;
 
 use OrangeHRM\Core\Controller\Common\DisabledModuleController;
-use OrangeHRM\Core\Controller\Common\NoRecordsFoundController;
 use OrangeHRM\Core\Controller\Exception\RequestForwardableException;
 use OrangeHRM\Core\Service\ModuleService;
 use OrangeHRM\Core\Traits\Service\TextHelperTrait;
@@ -70,7 +69,6 @@ class ModuleNotAvailableSubscriber extends AbstractEventSubscriber
                 array_push($disabledModules, $module->getName());
             }
         }
-
         if ($event->isMasterRequest()) {
             foreach ($disabledModules as $diabledModule) {
                 if ($this->getTextHelper()->strStartsWith($event->getRequest()->getPathInfo(), '/' . $diabledModule)) {

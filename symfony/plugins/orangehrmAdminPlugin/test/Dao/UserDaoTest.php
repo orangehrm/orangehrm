@@ -205,9 +205,15 @@ class UserDaoTest extends TestCase
         $this->assertEquals(0, count($employees));
     }
 
-    public function testUserCountByUserName(): void
+    public function testUserStatusByUserName(): void
     {
-        $count = $this->systemUserDao->isUserNameExistByUserName('samantha');
-        $this->assertEquals(false, $count);
+        $status = $this->systemUserDao->isUserNameExistByUserName('samantha');
+        $this->assertEquals(false, $status);
+    }
+
+    public function testUserStatusByUserNameAndUserId(): void
+    {
+        $status = $this->systemUserDao->isUserNameExistByUserNameAndUserId('samantha', 'samantha');
+        $this->assertEquals(true, $status);
     }
 }
