@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Core\Subscriber;
 
+use OrangeHRM\Core\Api\V2\Exception\ForbiddenException;
 use OrangeHRM\Core\Controller\Common\DisabledModuleController;
 use OrangeHRM\Core\Controller\Exception\RequestForwardableException;
 use OrangeHRM\Core\Service\ModuleService;
@@ -62,17 +63,14 @@ class ModuleNotAvailableSubscriber extends AbstractEventSubscriber
 
     public function onRequestEvent(RequestEvent $event)
     {
-        $disabledModules = [];
-        $modules = $this->getModuleService()->getModuleList();
-        foreach ($modules as $module) {
-            if (!$module->getStatus()) {
-                array_push($disabledModules, $module->getName());
-            }
-        }
         if ($event->isMasterRequest()) {
+            $disabledModules = $this->getModuleService()->getModuleDao()->getDisabledModuleList();
             foreach ($disabledModules as $diabledModule) {
-                if ($this->getTextHelper()->strStartsWith($event->getRequest()->getPathInfo(), '/' . $diabledModule)) {
+                if ($this->getTextHelper()->strStartsWith($event->getRequest()->getPathInfo(), '/' . $diabledModule['name'])) {
                     throw new RequestForwardableException(DisabledModuleController::class . '::handle');
+                }
+                if ($this->getTextHelper()->strStartsWith($event->getRequest()->getPathInfo(), '/api/v2/' . $diabledModule['name'])) {
+                    throw new ForbiddenException('Unauthorized');
                 }
             }
         }

@@ -83,5 +83,13 @@ class ModuleDaoTest extends TestCase
             $this->assertTrue($returedObject->getName() != 'test');
         }
     }
-}
 
+    public function testDisabledModuleList(): void
+    {
+        $disabledModules = $this->moduleDao->getDisabledModuleList();
+        $this->assertEquals(1, count($disabledModules));
+        foreach ($disabledModules as $disabledModule) {
+            $this->assertTrue($disabledModule['name'] === 'maintenance');
+        }
+    }
+}

@@ -36,7 +36,6 @@ use OrangeHRM\Core\Subscriber\RequestForwardableExceptionSubscriber;
 use OrangeHRM\Core\Subscriber\ScreenAuthorizationSubscriber;
 use OrangeHRM\Core\Subscriber\SessionSubscriber;
 use OrangeHRM\Core\Subscriber\ModuleNotAvailableSubscriber;
-use OrangeHRM\Core\Subscriber\APINotAvailableSubscriber;
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Framework\Event\EventDispatcher;
 use OrangeHRM\Framework\Http\Request;
@@ -105,6 +104,5 @@ class CorePluginConfiguration implements PluginConfigurationInterface
         $dispatcher->addSubscriber(new ModuleUnderDevelopmentSubscriber());
         $dispatcher->addSubscriber(new MailerSubscriber());
         $dispatcher->addSubscriber(new ModuleNotAvailableSubscriber());
-        $dispatcher->addSubscriber(new APINotAvailableSubscriber());
     }
 }

@@ -210,10 +210,4 @@ class UserDaoTest extends TestCase
         $status = $this->systemUserDao->isUserNameExistByUserName('samantha');
         $this->assertEquals(false, $status);
     }
-
-    public function testUserStatusByUserNameAndUserId(): void
-    {
-        $status = $this->systemUserDao->isUserNameExistByUserNameAndUserId('samantha', 'samantha');
-        $this->assertEquals(true, $status);
-    }
 }

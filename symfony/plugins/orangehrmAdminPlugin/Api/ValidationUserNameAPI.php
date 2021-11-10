@@ -58,21 +58,14 @@ class ValidationUserNameAPI extends Endpoint implements ResourceEndpoint
     public function getOne(): EndpointResult
     {
         $userName = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_QUERY, self::PARAMETER_USER_NAME);
-        $userId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_QUERY, self::PARAMETER_USER_Id);
-        if ($userId == 0) {
-            // on Insert
-            $isChangeableUserName = $this->getSystemUserService()
-                ->getSystemUserDao()
-                ->isUserNameExistByUserName($userName);
-        } else {
-            // on Update
+        $userId = $this->getRequestParams()->getIntOrNull(RequestParams::PARAM_TYPE_QUERY, self::PARAMETER_USER_Id);
+        if (!is_null($userId)) {
             $user = $this->getSystemUserService()->getSystemUserDao()->getSystemUser($userId);
             $this->throwRecordNotFoundExceptionIfNotExist($user, User::class);
-            $isChangeableUserName = $this->getSystemUserService()
-                ->getSystemUserDao()
-                ->isUserNameExistByUserNameAndUserId($user->getUserName(), $userName);
         }
-
+        $isChangeableUserName = $this->getSystemUserService()
+            ->getSystemUserDao()
+            ->isUserNameExistByUserName($userName, $userId);
         return new EndpointResourceResult(
             ArrayModel::class,
             [
@@ -92,9 +85,11 @@ class ValidationUserNameAPI extends Endpoint implements ResourceEndpoint
                 new Rule(Rules::STRING_TYPE),
                 new Rule(Rules::LENGTH, [null, self::PARAM_RULE_USER_NAME_MAX_LENGTH]),
             ),
-            new ParamRule(
-                self::PARAMETER_USER_Id,
-                new Rule(Rules::STRING_TYPE),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_USER_Id,
+                    new Rule(Rules::POSITIVE),
+                )
             )
         );
     }

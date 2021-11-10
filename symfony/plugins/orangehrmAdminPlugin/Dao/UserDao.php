@@ -377,29 +377,18 @@ class UserDao extends BaseDao
     /**
      **this function for validating the username availability. ( false -> username already exist, true - username is not exist )
      * @param string $userName
+     * @param int|null $userId
      * @return bool
      */
-    public function isUserNameExistByUserName(string $userName): bool
+    public function isUserNameExistByUserName(string $userName, ?int $userId = null): bool
     {
         $q = $this->createQueryBuilder(User::class, 'u');
         $q->andWhere('u.userName = :userName');
         $q->setParameter('userName', $userName);
-        return $this->getPaginator($q)->count() === 0;
-    }
-
-    /**
-     **this function for validating the username availability on update. ( false -> username already exist, true - username is not exist )
-     * @param string $currentUserName
-     * @param string $userName
-     * @return bool
-     */
-    public function isUserNameExistByUserNameAndUserId(string $currentUserName, string $userName): bool
-    {
-        $q = $this->createQueryBuilder(User::class, 'u');
-        $q->andWhere('u.userName = :userName');
-        $q->andWhere('u.userName != :currentUserName'); // we need to skip the current username on checking, otherwise count always return 1
-        $q->setParameter('userName', $userName);
-        $q->setParameter('currentUserName', $currentUserName);
+        if (!is_null($userId)){
+            $q->andWhere('u.id != :userId'); // we need to skip the current username on checking, otherwise count always return 1
+            $q->setParameter('userId', $userId);
+        }
         return $this->getPaginator($q)->count() === 0;
     }
 }

@@ -7,7 +7,6 @@ GetOne:
     body: [ ]
     query:
       userName: 'samantha'
-      userId: '0'
     data:
       valid: false
     meta: [ ]
@@ -20,7 +19,7 @@ GetOne:
     body: [ ]
     query:
       userName: 'covid'
-      userId: '1'
+      userId: 1
     data:
       valid: true
     meta: [ ]

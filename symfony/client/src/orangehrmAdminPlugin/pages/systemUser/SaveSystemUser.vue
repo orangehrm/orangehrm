@@ -180,7 +180,6 @@ export default {
               url: `api/v2/admin/validation/user-name`,
               params: {
                 userName: this.user.username.trim(),
-                userId: 0,
               },
             })
             .then(response => {
