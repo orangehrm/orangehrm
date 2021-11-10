@@ -93,7 +93,7 @@ import {navigate} from '@orangehrm/core/util/helper/navigation';
 import {required, max} from '@/core/util/validation/rules';
 import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
 import LeaveTypeDropdown from '@/orangehrmLeavePlugin/components/LeaveTypeDropdown';
-import promiseDebounce from '@orangehrm/oxd/utils/promiseDebounce';
+import promiseDebounce from '@ohrm/oxd/utils/promiseDebounce';
 
 const leaveEntitlementModel = {
   employee: null,

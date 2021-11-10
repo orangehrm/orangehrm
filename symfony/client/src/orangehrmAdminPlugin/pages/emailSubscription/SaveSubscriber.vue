@@ -62,7 +62,7 @@
 
 <script>
 import {APIService} from '@/core/util/services/api.service';
-import Dialog from '@orangehrm/oxd/core/components/Dialog/Dialog';
+import Dialog from '@ohrm/oxd/core/components/Dialog/Dialog';
 import {
   required,
   validEmailFormat,

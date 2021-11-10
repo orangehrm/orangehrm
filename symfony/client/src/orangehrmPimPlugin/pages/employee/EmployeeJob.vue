@@ -187,7 +187,7 @@
 <script>
 import {APIService} from '@orangehrm/core/util/services/api.service';
 import FileUploadInput from '@/core/components/inputs/FileUploadInput';
-import SwitchInput from '@orangehrm/oxd/core/components/Input/SwitchInput';
+import SwitchInput from '@ohrm/oxd/core/components/Input/SwitchInput';
 import EditEmployeeLayout from '@/orangehrmPimPlugin/components/EditEmployeeLayout';
 import JobSpecDownload from '@/orangehrmPimPlugin/components/JobSpecDownload';
 import ProfileActionHeader from '@/orangehrmPimPlugin/components/ProfileActionHeader';

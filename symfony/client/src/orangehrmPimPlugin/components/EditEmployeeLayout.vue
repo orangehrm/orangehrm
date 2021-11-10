@@ -151,7 +151,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@orangehrm/oxd/styles/_mixins.scss';
+@import '@ohrm/oxd/styles/_mixins.scss';
 
 .orangehrm-card-container {
   padding: unset;

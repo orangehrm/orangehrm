@@ -98,7 +98,7 @@ import {
   required,
   shouldNotExceedCharLength,
 } from '@orangehrm/core/util/validation/rules';
-import Label from '@orangehrm/oxd/core/components/Label/Label';
+import Label from '@ohrm/oxd/core/components/Label/Label';
 import EntitlementSituationalModal from '@/orangehrmLeavePlugin/components/EntitlementSituationalModal';
 
 const leaveTypeModel = {

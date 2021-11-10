@@ -145,7 +145,7 @@
 import {computed, ref} from 'vue';
 import {required} from '@/core/util/validation/rules';
 import ReportsTable from '@/core/components/table/ReportsTable';
-import SwitchInput from '@orangehrm/oxd/core/components/Input/SwitchInput';
+import SwitchInput from '@ohrm/oxd/core/components/Input/SwitchInput';
 import JobtitleDropdown from '@/orangehrmPimPlugin/components/JobtitleDropdown';
 import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
 import LeaveTypeDropdown from '@/orangehrmLeavePlugin/components/LeaveTypeDropdown';

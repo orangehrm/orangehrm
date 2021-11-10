@@ -61,7 +61,7 @@
 </template>
 
 <script>
-import Dialog from '@orangehrm/oxd/core/components/Dialog/Dialog';
+import Dialog from '@ohrm/oxd/core/components/Dialog/Dialog';
 import {APIService} from '@orangehrm/core/util/services/api.service';
 
 export default {
@@ -156,7 +156,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@orangehrm/oxd/styles/_mixins.scss';
+@import '@ohrm/oxd/styles/_mixins.scss';
 
 .orangehrm-container {
   max-height: 165px;

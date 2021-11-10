@@ -50,8 +50,8 @@
 import usePaginate from '@orangehrm/core/util/composable/usePaginate';
 import {navigate} from '@orangehrm/core/util/helper/navigation';
 import {APIService} from '@orangehrm/core/util/services/api.service';
-import SwitchInput from '@orangehrm/oxd/core/components/Input/SwitchInput';
-import Spinner from '@orangehrm/oxd/core/components/Loader/Spinner';
+import SwitchInput from '@ohrm/oxd/core/components/Input/SwitchInput';
+import Spinner from '@ohrm/oxd/core/components/Loader/Spinner';
 
 const subscribersNormalizer = data => {
   return data.map(item => {

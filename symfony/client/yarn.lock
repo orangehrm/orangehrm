@@ -1429,9 +1429,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@orangehrm/oxd@https://github.com/orangehrm/oxd.git#workspace=oxd-components&head=develop&commit=a8f623984bb29833a851738ab3e0818e511cb9d1":
+"@ohrm/oxd@https://github.com/orangehrm/oxd.git#workspace=oxd-components&head=develop&commit=dc1dbd0712ddbadfe90ac6dfefeb2be367df55af":
   version: 1.0.0
-  resolution: "@orangehrm/oxd@https://github.com/orangehrm/oxd.git#workspace=oxd-components&commit=a8f623984bb29833a851738ab3e0818e511cb9d1"
+  resolution: "@ohrm/oxd@https://github.com/orangehrm/oxd.git#workspace=oxd-components&commit=dc1dbd0712ddbadfe90ac6dfefeb2be367df55af"
   dependencies:
     "@revolist/vue3-datagrid": ^3.0.96
     bootstrap-icons: ^1.3.0
@@ -1440,7 +1440,7 @@ __metadata:
     mitt: ^2.1.0
     nanoid: ^3.1.21
     vue: ^3.2.2
-  checksum: e406763713056670c4de09f6e2e06dc506da9087fd0f744c6f980ca404b714df83b7862ebf0006ad160fb6494c2e2b1764662c9153e296117ad1a264efe20ca6
+  checksum: 57576edd7e6c8acc535364c9b28362e7fc7f20fb0715a2db3dfe18f37661841d0aedf34badac5b40b7e504eb72ce7e77070f101afa7217af8b46c1b97aa24c37
   languageName: node
   linkType: hard
 
@@ -3659,17 +3659,17 @@ __metadata:
   linkType: hard
 
 "browserslist@npm:^4.0.0, browserslist@npm:^4.12.0, browserslist@npm:^4.14.5, browserslist@npm:^4.16.1":
-  version: 4.16.1
-  resolution: "browserslist@npm:4.16.1"
+  version: 4.17.6
+  resolution: "browserslist@npm:4.17.6"
   dependencies:
-    caniuse-lite: ^1.0.30001173
-    colorette: ^1.2.1
-    electron-to-chromium: ^1.3.634
+    caniuse-lite: ^1.0.30001274
+    electron-to-chromium: ^1.3.886
     escalade: ^3.1.1
-    node-releases: ^1.1.69
+    node-releases: ^2.0.1
+    picocolors: ^1.0.0
   bin:
     browserslist: cli.js
-  checksum: 56f51464c3a3bd9b2aeb75ded1dc3fce5ad91bd6d84187aba812a78ba66b69bc97c2de25a1b7409daac3c0049e979bf0faa6cca4aacce0abcaf3107c250ce3fb
+  checksum: b23449e7fcf434515a4fc01890ee907f95457b87bf99fa9c57ca4184a2bab591416054b4e135fe7a4abc9d290d7324897b550121e10824af58d560dca0a5555b
   languageName: node
   linkType: hard
 
@@ -3906,10 +3906,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"caniuse-lite@npm:^1.0.0, caniuse-lite@npm:^1.0.30001109, caniuse-lite@npm:^1.0.30001173":
-  version: 1.0.30001179
-  resolution: "caniuse-lite@npm:1.0.30001179"
-  checksum: 04707a2d8a37796a9abb6b0d7d7466818cbe968d1cff133a6d355989c0c683065c64403716e69c13e9cd23c6eb346711a51e9b067b831b2564fbc0ef64f63645
+"caniuse-lite@npm:^1.0.0, caniuse-lite@npm:^1.0.30001109, caniuse-lite@npm:^1.0.30001274":
+  version: 1.0.30001279
+  resolution: "caniuse-lite@npm:1.0.30001279"
+  checksum: 2730ac3d1fdf840a4abbdaf641db235a8d5aa5ba8bc9d36065e01456297139123eac785b114a9709b2b4bfc2f92bf27757c4336d48efd1518788c270ea462c8b
   languageName: node
   linkType: hard
 
@@ -5402,10 +5402,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"electron-to-chromium@npm:^1.3.634":
-  version: 1.3.644
-  resolution: "electron-to-chromium@npm:1.3.644"
-  checksum: 20cabbaa13a5793a90e5a4973f7233ee2e88a298d59b5702a36a230d8df829133a88a63ff3cee6f38c95bae0782dcbda726ae5867625ae211d466a1296604686
+"electron-to-chromium@npm:^1.3.886":
+  version: 1.3.893
+  resolution: "electron-to-chromium@npm:1.3.893"
+  checksum: a76062ab4dc67e29631bb38e2db9940190e58f666f9ed192c41cd69f0ee3c5c92022eb99c911dfedf976b9f60eb156703267366fc530e8c02198acc264dd7ad8
   languageName: node
   linkType: hard
 
@@ -9646,10 +9646,10 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
-"node-releases@npm:^1.1.69":
-  version: 1.1.70
-  resolution: "node-releases@npm:1.1.70"
-  checksum: 18e2b4b871614247633a7f246ec04f6eebcb0353c0514c38b5d814be6d067301c4b1b0e7cb53407b36034e79fbc589f77a1acafdaf292abc46a4f65b4b7af2e6
+"node-releases@npm:^2.0.1":
+  version: 2.0.1
+  resolution: "node-releases@npm:2.0.1"
+  checksum: 4113fdc41979e65416d84e0cf0456c3097a045dfa0a10196689f07c32de854204e3f4e1631bb06f4e903cc68c12455b8525e92e19956f64364b7202ca93846d6
   languageName: node
   linkType: hard
 
@@ -10003,7 +10003,7 @@ fsevents@~2.3.1:
   version: 0.0.0-use.local
   resolution: "orangehrm@workspace:."
   dependencies:
-    "@orangehrm/oxd": "https://github.com/orangehrm/oxd.git#workspace=oxd-components&head=develop&commit=a8f623984bb29833a851738ab3e0818e511cb9d1"
+    "@ohrm/oxd": "https://github.com/orangehrm/oxd.git#workspace=oxd-components&head=develop&commit=dc1dbd0712ddbadfe90ac6dfefeb2be367df55af"
     "@types/jest": ^24.0.19
     "@typescript-eslint/eslint-plugin": ^2.33.0
     "@typescript-eslint/parser": ^2.33.0
@@ -10368,6 +10368,13 @@ fsevents@~2.3.1:
   version: 2.1.0
   resolution: "performance-now@npm:2.1.0"
   checksum: bb4ebed0b03d6c3ad3ae4eddd1182c895d385cff9096af441c19c130aaae3ea70229438ebc3297dfc52c86022f6becf177a810050823d01bf5280779cd2de624
+  languageName: node
+  linkType: hard
+
+"picocolors@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "picocolors@npm:1.0.0"
+  checksum: 6616d34dd03bde8881c63402dea34f0b5972845b04b791b234446d4a408bc3d7f932acea3970a6b671d8f5c5aae1b1ce9fc1f89b0ed9a363469cf9da8e916b71
   languageName: node
   linkType: hard
 

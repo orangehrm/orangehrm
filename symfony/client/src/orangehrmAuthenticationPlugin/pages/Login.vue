@@ -80,7 +80,7 @@
 
 <script>
 import LoginLayout from '../components/LoginLayout';
-import Alert from '@orangehrm/oxd/core/components/Alert/Alert';
+import Alert from '@ohrm/oxd/core/components/Alert/Alert';
 import {required} from '@orangehrm/core/util/validation/rules';
 import {urlFor} from '@orangehrm/core/util/helper/url';
 

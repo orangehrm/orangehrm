@@ -193,7 +193,7 @@
 
 <script>
 import {APIService} from '@orangehrm/core/util/services/api.service';
-import SwitchInput from '@orangehrm/oxd/src/core/components/Input/SwitchInput';
+import SwitchInput from '@ohrm/oxd/core/components/Input/SwitchInput';
 import {
   required,
   shouldNotExceedCharLength,

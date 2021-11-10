@@ -141,7 +141,7 @@ import {
   validPhoneNumberFormat,
   validEmailFormat,
 } from '@orangehrm/core/util/validation/rules';
-import promiseDebounce from '@orangehrm/oxd/src/utils/promiseDebounce';
+import promiseDebounce from '@ohrm/oxd/utils/promiseDebounce';
 
 const contactDetailsModel = {
   street1: '',

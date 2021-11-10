@@ -53,7 +53,7 @@
 <script>
 import {toRefs, reactive, computed, watchPostEffect} from 'vue';
 import {APIService} from '@orangehrm/core/util/services/api.service';
-import Label from '@orangehrm/oxd/core/components/Label/Label';
+import Label from '@ohrm/oxd/core/components/Label/Label';
 import LeaveBalanceModal from '@/orangehrmLeavePlugin/components/LeaveBalanceModal';
 import LeaveBalanceInsufficientModal from '@/orangehrmLeavePlugin/components/LeaveBalanceInsufficientModal';
 import useLeaveValidators from '@/orangehrmLeavePlugin/util/composable/useLeaveValidators';

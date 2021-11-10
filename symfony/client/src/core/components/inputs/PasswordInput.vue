@@ -60,7 +60,7 @@
 </template>
 
 <script>
-import Chip from '@orangehrm/oxd/core/components/Chip/Chip.vue';
+import Chip from '@ohrm/oxd/core/components/Chip/Chip.vue';
 import {
   checkPassword,
   getPassLevel,

@@ -47,7 +47,7 @@
 <script>
 import {onBeforeMount, reactive, toRefs} from 'vue';
 import {APIService} from '@orangehrm/core/util/services/api.service';
-import Spinner from '@orangehrm/oxd/core/components/Loader/Spinner.vue';
+import Spinner from '@ohrm/oxd/core/components/Loader/Spinner.vue';
 
 export default {
   name: 'job-spec-download',
@@ -114,7 +114,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@orangehrm/oxd/styles/_mixins.scss';
+@import '@ohrm/oxd/styles/_mixins.scss';
 
 .input-container {
   position: relative;

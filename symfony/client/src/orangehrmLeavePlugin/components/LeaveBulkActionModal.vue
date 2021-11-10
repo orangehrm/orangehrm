@@ -52,7 +52,7 @@
 </template>
 
 <script>
-import Dialog from '@orangehrm/oxd/core/components/Dialog/Dialog';
+import Dialog from '@ohrm/oxd/core/components/Dialog/Dialog';
 
 export default {
   name: 'leave-bulk-action-modal',
