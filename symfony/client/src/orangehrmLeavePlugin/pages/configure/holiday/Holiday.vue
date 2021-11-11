@@ -21,7 +21,7 @@
 <template>
   <div class="orangehrm-background-container">
     <oxd-table-filter :filter-title="$t('leave.holidays')">
-      <oxd-form @submitValid="filterItems">
+      <oxd-form @submitValid="filterItems" @reset="filterItems">
         <oxd-form-row>
           <oxd-grid :cols="4" class="orangehrm-full-width-grid">
             <oxd-grid-item>
@@ -49,7 +49,7 @@
           <oxd-button
             displayType="ghost"
             :label="$t('general.reset')"
-            @click="onClickReset"
+            type="reset"
           />
           <oxd-button
             class="orangehrm-left-space"
@@ -273,13 +273,6 @@ export default {
     },
     async filterItems() {
       await this.execQuery();
-    },
-    onClickReset() {
-      this.filters = {
-        fromDate: this.leavePeriod.startDate,
-        toDate: this.leavePeriod.endDate,
-      };
-      this.filterItems();
     },
   },
 };

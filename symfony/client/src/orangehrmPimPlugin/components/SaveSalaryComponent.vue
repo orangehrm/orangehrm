@@ -29,7 +29,7 @@
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
           <oxd-grid-item>
             <oxd-input-field
-              label="Salary Component Name"
+              label="Salary Component"
               v-model="salaryComponent.name"
               :rules="rules.name"
               required
@@ -69,9 +69,13 @@
               :rules="rules.salaryAmount"
               required
             />
-            <oxd-text class="orangehrm-input-hint" tag="p"
-              >Min: {{ minAmount }} - Max: {{ maxAmount }}</oxd-text
+            <oxd-text
+              v-if="currencyInfo.length !== 0"
+              class="orangehrm-input-hint"
+              tag="p"
             >
+              Min: {{ minAmount }} - Max: {{ maxAmount }}
+            </oxd-text>
           </oxd-grid-item>
         </oxd-grid>
       </oxd-form-row>
@@ -90,9 +94,9 @@
       </oxd-form-row>
 
       <oxd-form-row class="directdeposit-form-header">
-        <oxd-text class="directdeposit-form-header-text" tag="p"
-          >Include Direct Deposit Details</oxd-text
-        >
+        <oxd-text class="directdeposit-form-header-text" tag="p">
+          Include Direct Deposit Details
+        </oxd-text>
         <oxd-switch-input v-model="includeDirectDeposit" />
       </oxd-form-row>
 
@@ -344,18 +348,14 @@ export default {
       return this.directDeposit.directDepositAccountType?.id == 'OTHER';
     },
     minAmount() {
-      const currency = this.salaryComponent.currencyId;
-      const currencyInfo = this.usableCurrencies.filter(
-        item => item.id === currency?.id,
-      );
-      return currencyInfo.length === 0 ? 0 : currencyInfo[0].minAmount;
+      return this.currencyInfo.length === 0
+        ? 0
+        : this.currencyInfo[0].minAmount;
     },
     maxAmount() {
-      const currency = this.salaryComponent.currencyId;
-      const currencyInfo = this.usableCurrencies.filter(
-        item => item.id === currency?.id,
-      );
-      return currencyInfo.length === 0 ? 999999999 : currencyInfo[0].maxAmount;
+      return this.currencyInfo.length === 0
+        ? 999999999
+        : this.currencyInfo[0].maxAmount;
     },
     currenciesOpts() {
       const paygrade = this.salaryComponent.payGradeId?.id;
@@ -371,6 +371,11 @@ export default {
       } else {
         return [];
       }
+    },
+    currencyInfo() {
+      return this.usableCurrencies.filter(
+        item => item.id === this.salaryComponent.currencyId?.id,
+      );
     },
   },
 

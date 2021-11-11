@@ -32,20 +32,12 @@ export function checkPassword(password: string): string | boolean {
     if (RegExp(/\s/).test(password)) {
       return 'Your password should not contain spaces.';
     }
-    if (pwdLevel[0] === 0) {
-      return 'Your password must contain a lower-case letter.';
+    if (pwdLevel.reduce((acc, curr) => acc + curr, 0) < 4) {
+      return 'Your password must contain a lower-case letter, an upper-case letter, a digit and a special character. Try a different password';
+    } else {
+      return true;
     }
-    if (pwdLevel[1] === 0) {
-      return 'Your password must contain a upper-case letter.';
-    }
-    if (pwdLevel[2] === 0) {
-      return 'Your password must contain a digit.';
-    }
-    if (pwdLevel[3] === 0) {
-      return 'Your password must contain a special character.';
-    }
-    return true;
   } else {
-    return 'Your password should have at least 8 characters.';
+    return 'Should have at least 8 characters';
   }
 }

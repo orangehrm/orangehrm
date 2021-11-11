@@ -170,7 +170,7 @@ export default {
         },
         {name: 'amount', title: 'Amount', style: {flex: 1}},
         {name: 'currency', title: 'Currency', style: {flex: 1}},
-        {name: 'frequency', title: 'Frequency', style: {flex: 1}},
+        {name: 'frequency', title: 'Pay Frequency', style: {flex: 1}},
         {
           name: 'depositAmount',
           title: 'Direct Deposit Amount',
@@ -256,20 +256,20 @@ export default {
         cellType: 'oxd-table-cell-actions',
         cellConfig: {},
       };
-      if (this.$can.update(`salary_details`)) {
-        headerActions.cellConfig.edit = {
-          onClick: this.onClickEdit,
-          props: {
-            name: 'pencil-fill',
-          },
-        };
-      }
       if (this.$can.delete(`salary_details`)) {
         headerActions.cellConfig.delete = {
           onClick: this.onClickDelete,
           component: 'oxd-icon-button',
           props: {
             name: 'trash',
+          },
+        };
+      }
+      if (this.$can.update(`salary_details`)) {
+        headerActions.cellConfig.edit = {
+          onClick: this.onClickEdit,
+          props: {
+            name: 'pencil-fill',
           },
         };
       }

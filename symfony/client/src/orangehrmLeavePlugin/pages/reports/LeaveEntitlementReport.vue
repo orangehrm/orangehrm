@@ -62,9 +62,8 @@
                 <leave-type-dropdown
                   :empty-text="$t('leave.no_leave_types_defined')"
                   v-model="filters.leaveType"
-                  :rules="rules.leaveType"
                   :eligible-only="false"
-                  required
+                  :show-empty-selector="false"
                 />
               </oxd-grid-item>
               <oxd-grid-item>
@@ -194,7 +193,6 @@ export default {
       ...(props.leavePeriod && {leavePeriod: props.leavePeriod}),
     });
     const rules = ref({
-      leaveType: [required],
       employee: [required],
       leavePeriod: [required],
     });

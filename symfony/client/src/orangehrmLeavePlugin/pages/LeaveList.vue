@@ -20,9 +20,9 @@
 
 <template>
   <leave-list-table :leaveStatuses="leaveStatuses">
-    <template v-slot:default="{filters, filterItems, rules}">
+    <template v-slot:default="{filters, filterItems, rules, onReset}">
       <oxd-table-filter :filter-title="$t('leave.leave_list')">
-        <oxd-form @submitValid="filterItems">
+        <oxd-form @submitValid="filterItems" @reset="onReset">
           <oxd-form-row>
             <oxd-grid :cols="4" class="orangehrm-full-width-grid">
               <oxd-grid-item>
@@ -92,6 +92,11 @@
 
           <oxd-form-actions>
             <required-text />
+            <oxd-button
+              displayType="ghost"
+              :label="$t('general.reset')"
+              type="reset"
+            />
             <oxd-button
               class="orangehrm-left-space"
               displayType="secondary"
