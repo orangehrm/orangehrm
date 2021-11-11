@@ -33,8 +33,8 @@
 
 <script>
 import {ref, onBeforeMount} from 'vue';
-import {required} from '@orangehrm/core/util/validation/rules';
-import {APIService} from '@orangehrm/core/util/services/api.service';
+import {required} from '@ohrm/core/util/validation/rules';
+import {APIService} from '@ohrm/core/util/services/api.service';
 
 export default {
   name: 'report-criterion-select',

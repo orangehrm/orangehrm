@@ -76,7 +76,7 @@ import {
   required,
   digitsOnly,
   maxCurrency,
-} from '@orangehrm/core/util/validation/rules';
+} from '@ohrm/core/util/validation/rules';
 const payCurrencyModel = {
   currencyId: '',
   minSalary: '',

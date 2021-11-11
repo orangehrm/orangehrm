@@ -81,8 +81,8 @@
 </template>
 
 <script>
-import {APIService} from '@orangehrm/core/util/services/api.service';
-import SwitchInput from '@orangehrm/oxd/src/core/components/Input/SwitchInput';
+import {APIService} from '@ohrm/core/util/services/api.service';
+import SwitchInput from '@ohrm/oxd/core/components/Input/SwitchInput';
 
 const optionalFieldModel = {
   pimShowDeprecatedFields: false,
@@ -146,7 +146,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@orangehrm/oxd/styles/_mixins.scss';
+@import '@ohrm/oxd/styles/_mixins.scss';
 .orangehrm-optional-field-row {
   grid-column-start: 1;
   display: flex;

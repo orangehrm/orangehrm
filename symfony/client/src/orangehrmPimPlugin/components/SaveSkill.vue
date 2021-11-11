@@ -79,7 +79,7 @@ import {
   shouldNotExceedCharLength,
   max,
   digitsOnly,
-} from '@orangehrm/core/util/validation/rules';
+} from '@ohrm/core/util/validation/rules';
 
 const skillModel = {
   yearsOfExperience: '',

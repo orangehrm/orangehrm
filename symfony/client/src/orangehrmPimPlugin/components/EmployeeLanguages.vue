@@ -67,12 +67,12 @@
 </template>
 
 <script>
-import usePaginate from '@orangehrm/core/util/composable/usePaginate';
-import {APIService} from '@orangehrm/core/util/services/api.service';
+import usePaginate from '@ohrm/core/util/composable/usePaginate';
+import {APIService} from '@ohrm/core/util/services/api.service';
 import ProfileActionHeader from '@/orangehrmPimPlugin/components/ProfileActionHeader';
 import SaveLanguage from '@/orangehrmPimPlugin/components/SaveLanguage';
 import EditLanguage from '@/orangehrmPimPlugin/components/EditLanguage';
-import DeleteConfirmationDialog from '@orangehrm/components/dialogs/DeleteConfirmationDialog';
+import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmationDialog';
 
 const languageNormalizer = data => {
   return data.map(item => {

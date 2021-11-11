@@ -89,14 +89,14 @@
 </template>
 
 <script>
-import {navigate} from '@orangehrm/core/util/helper/navigation';
-import {APIService} from '@orangehrm/core/util/services/api.service';
+import {navigate} from '@ohrm/core/util/helper/navigation';
+import {APIService} from '@ohrm/core/util/services/api.service';
 import {
   endTimeShouldBeAfterStartTime,
   required,
   shouldNotExceedCharLength,
   validTimeFormat,
-} from '@orangehrm/core/util/validation/rules';
+} from '@ohrm/core/util/validation/rules';
 import {diffInTime} from '@/core/util/helper/datefns';
 import WorkShiftEmployeeAutocomplete from '@/orangehrmAdminPlugin/components/WorkShiftEmployeeAutocomplete';
 

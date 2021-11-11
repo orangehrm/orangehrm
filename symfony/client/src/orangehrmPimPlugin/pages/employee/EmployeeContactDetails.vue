@@ -134,14 +134,14 @@
 </template>
 
 <script>
-import {APIService} from '@orangehrm/core/util/services/api.service';
+import {APIService} from '@ohrm/core/util/services/api.service';
 import EditEmployeeLayout from '@/orangehrmPimPlugin/components/EditEmployeeLayout';
 import {
   shouldNotExceedCharLength,
   validPhoneNumberFormat,
   validEmailFormat,
-} from '@orangehrm/core/util/validation/rules';
-import promiseDebounce from '@orangehrm/oxd/src/utils/promiseDebounce';
+} from '@ohrm/core/util/validation/rules';
+import promiseDebounce from '@ohrm/oxd/utils/promiseDebounce';
 
 const contactDetailsModel = {
   street1: '',

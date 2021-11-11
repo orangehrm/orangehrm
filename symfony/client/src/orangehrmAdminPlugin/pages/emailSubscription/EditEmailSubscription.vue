@@ -75,9 +75,9 @@
 </template>
 
 <script>
-import usePaginate from '@orangehrm/core/util/composable/usePaginate';
-import DeleteConfirmationDialog from '@orangehrm/components/dialogs/DeleteConfirmationDialog';
-import {APIService} from '@orangehrm/core/util/services/api.service';
+import usePaginate from '@ohrm/core/util/composable/usePaginate';
+import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmationDialog';
+import {APIService} from '@ohrm/core/util/services/api.service';
 import SaveSubscriber from './SaveSubscriber';
 import EditSubscriber from './EditSubscriber';
 

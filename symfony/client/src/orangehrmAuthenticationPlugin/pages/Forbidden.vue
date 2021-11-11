@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import Alert from '@orangehrm/oxd/core/components/Alert/Alert';
+import Alert from '@ohrm/oxd/core/components/Alert/Alert';
 
 export default {
   components: {

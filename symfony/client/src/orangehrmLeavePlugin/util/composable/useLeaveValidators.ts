@@ -17,7 +17,7 @@
  */
 
 import {APIService} from '@/core/util/services/api.service';
-import {diffInDays} from '@orangehrm/core/util/helper/datefns';
+import {diffInDays} from '@ohrm/core/util/helper/datefns';
 interface Duration {
   type: DurationOption | null;
   fromTime: string | null;

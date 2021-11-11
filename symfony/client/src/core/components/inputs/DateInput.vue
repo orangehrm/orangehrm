@@ -30,13 +30,13 @@
 
 <script>
 import {onBeforeMount, reactive, toRefs} from 'vue';
-import {APIService} from '@orangehrm/core/util/services/api.service';
+import {APIService} from '@ohrm/core/util/services/api.service';
 import {
   startOfYear,
   endOfYear,
   formatDate,
   parseDate,
-} from '@orangehrm/core/util/helper/datefns';
+} from '@ohrm/core/util/helper/datefns';
 
 export default {
   name: 'date-input',

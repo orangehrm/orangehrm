@@ -52,7 +52,7 @@
 
 <script>
 import {APIService} from '@/core/util/services/api.service';
-import {shouldNotExceedCharLength} from '@orangehrm/core/util/validation/rules';
+import {shouldNotExceedCharLength} from '@ohrm/core/util/validation/rules';
 
 const formatExtraData = data => {
   return typeof data === 'string'

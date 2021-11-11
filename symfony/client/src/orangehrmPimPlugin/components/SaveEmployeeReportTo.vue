@@ -63,7 +63,7 @@
 
 <script>
 import ReportToEmployeeAutocomplete from '@/orangehrmPimPlugin/components/ReportToEmployeeAutocomplete';
-import {required} from '@orangehrm/core/util/validation/rules';
+import {required} from '@ohrm/core/util/validation/rules';
 
 const reportToModel = {
   employee: null,
