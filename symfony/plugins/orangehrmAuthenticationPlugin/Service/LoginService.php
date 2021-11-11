@@ -58,10 +58,11 @@ class LoginService
 
     /**
      * @param UserCredential $credentials
-     * @throws DaoException
+     * @return LoginLog
      * @throws ServiceException
+     * @throws DaoException
      */
-    public function addLogin(UserCredential $credentials): void
+    public function addLogin(UserCredential $credentials): LoginLog
     {
         $user = $this->getSystemUserService()->getCredentials($credentials);
         $loginLog = new LoginLog();
@@ -69,6 +70,6 @@ class LoginService
         $loginLog->setUserName($user->getUserName());
         $loginLog->setUserRoleName($user->getUserRole()->getName());
         $loginLog->setUserRolePredefined($user->getUserRole()->isPredefined());
-        $this->getLoginLogDao()->saveLoginLog($loginLog);
+        return $this->getLoginLogDao()->saveLoginLog($loginLog);
     }
 }
