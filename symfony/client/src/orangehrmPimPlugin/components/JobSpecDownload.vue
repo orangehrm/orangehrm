@@ -27,7 +27,7 @@
         tag="p"
         :title="file.filename"
       >
-        {{ file.filename }}
+        {{ file.id ? file.filename : 'Not Defined' }}
       </oxd-text>
       <oxd-icon-button
         v-if="!isLoading && file.id"
@@ -146,6 +146,7 @@ export default {
   }
   &.--disabled {
     cursor: not-allowed;
+    text-decoration: none;
   }
   ::v-deep(.oxd-loading-spinner) {
     width: 1rem;

@@ -21,7 +21,7 @@
 <template>
   <div class="orangehrm-background-container">
     <oxd-table-filter filter-title="Employee Information">
-      <oxd-form @submitValid="filterItems">
+      <oxd-form @submitValid="filterItems" @reset="filterItems">
         <oxd-form-row>
           <oxd-grid :cols="4" class="orangehrm-full-width-grid">
             <oxd-grid-item>
@@ -48,6 +48,7 @@
                 v-model="filters.includeEmployees"
                 :clear="false"
                 :options="includeOpts"
+                :show-empty-selector="false"
               />
             </oxd-grid-item>
             <oxd-grid-item>
@@ -68,7 +69,7 @@
         <oxd-divider />
 
         <oxd-form-actions>
-          <oxd-button displayType="ghost" label="Reset" @click="onClickReset" />
+          <oxd-button displayType="ghost" label="Reset" type="reset" />
           <oxd-button
             class="orangehrm-left-space"
             displayType="secondary"
@@ -156,7 +157,11 @@ const defaultFilters = {
   employee: null,
   employeeId: '',
   empStatusId: null,
-  includeEmployees: null,
+  includeEmployees: {
+    id: 1,
+    param: 'onlyCurrent',
+    label: 'Current Employees Only',
+  },
   supervisor: null,
   jobTitleId: null,
   subunitId: null,
@@ -358,10 +363,6 @@ export default {
     },
     async filterItems() {
       await this.execQuery();
-    },
-    onClickReset() {
-      this.filters = {...defaultFilters};
-      this.filterItems();
     },
   },
 };

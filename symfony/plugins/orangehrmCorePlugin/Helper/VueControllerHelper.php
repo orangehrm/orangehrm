@@ -171,12 +171,19 @@ class VueControllerHelper
         }
 
         $user = $this->getUserService()->getSystemUser($this->getUserId());
-        // TODO:: provide actual user profile picture
-        $profileImgUrl = sprintf(
-            '%s/dist/img/user-default-400.png?%s',
-            $this->getRequest()->getBasePath(),
-            $this->getAssetsVersion()
-        );
+        if(is_null($user->getEmployee())) {
+            $profileImgUrl = sprintf(
+                '%s/dist/img/user-default-400.png?%s',
+                $this->getRequest()->getBasePath(),
+                $this->getAssetsVersion()
+            );
+        } else {
+            $profileImgUrl = sprintf(
+                '%s/pim/viewPhoto/empNumber/%s',
+                $this->getRequest()->getBaseUrl(),
+                $user->getEmployee()->getEmpNumber()
+            );
+        }
 
         $firstName = $user->getEmployee() ?
             $user->getEmployee()->getFirstName() :

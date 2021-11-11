@@ -37,12 +37,15 @@
               </oxd-grid-item>
               <oxd-grid-item>
                 <leave-type-dropdown
-                  :eligible-only="false"
                   v-model="filters.leaveType"
+                  :eligible-only="false"
                 />
               </oxd-grid-item>
               <oxd-grid-item>
-                <leave-period-dropdown v-model="filters.leavePeriod" />
+                <leave-period-dropdown
+                  v-model="filters.leavePeriod"
+                  :show-empty-selector="false"
+                />
               </oxd-grid-item>
             </oxd-grid>
           </oxd-form-row>
