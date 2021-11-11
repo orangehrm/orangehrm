@@ -96,7 +96,7 @@ class addThemeAction extends sfAction
             //verify the main logo and login banner is of image type
             $mainLogoFileType = $files['file']['type'];
             $loginBannerFileType = $files['loginBanner']['type'];
-            $allowedImageTypes = ['image/jpeg','image/png','image/jpg','image/gif','image/pjpeg','image/x-png'];
+            $allowedImageTypes = ['image/png','image/x-png'];
             if(!empty($mainLogoFileType) && !in_array($mainLogoFileType, $allowedImageTypes)) {
                 $this->getUser()->setFlash('warning.nofade', __(TopLevelMessages::FILE_TYPE_SAVE_FAILURE));
                 $this->redirect('admin/addTheme');

@@ -65,11 +65,11 @@ use_javascript(plugin_web_path('orangehrmCorporateBrandingPlugin', 'js/addThemeS
                                 </li>
                                 <li>
                                     <label for="mainLogo"><?php echo __("Client Logo") ?></label>
-                                    <input type="file" accept="image/png, image/jpeg" id="file" name="file" />
+                                    <input type="file" accept="image/png" id="file" name="file" />
                                 </li>
                                 <li>
                                     <label for="loginBanner"><?php echo __("Login Banner") ?></label>
-                                    <input type="file" accept="image/png, image/jpeg" id="loginBanner" name="loginBanner" />
+                                    <input type="file" accept="image/png" id="loginBanner" name="loginBanner" />
                                 </li>
                                 <li>
                                     <label for="socialMediaIcons"><?php echo __("Social Media Images") ?></label>
