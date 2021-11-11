@@ -15,7 +15,7 @@
     "types": ["webpack-env", "jest"],
     "paths": {
       "@/*": ["src/*"],
-      "@orangehrm/*": ["src/*"]
+      "@ohrm/*": ["src/*"]
     },
     "lib": ["esnext", "dom", "dom.iterable", "scripthost"]
   },

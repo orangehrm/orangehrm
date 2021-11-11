@@ -96,12 +96,12 @@
 </template>
 
 <script>
-import {navigate} from '@orangehrm/core/util/helper/navigation';
+import {navigate} from '@ohrm/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
 import {
   required,
   shouldNotExceedCharLength,
-} from '@orangehrm/core/util/validation/rules';
+} from '@ohrm/core/util/validation/rules';
 
 const initialOAuthClient = {
   clientId: '',

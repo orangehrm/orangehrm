@@ -67,7 +67,7 @@
 <script>
 import {computed, ref} from 'vue';
 import {APIService} from '@/core/util/services/api.service';
-import {navigate} from '@orangehrm/core/util/helper/navigation';
+import {navigate} from '@ohrm/core/util/helper/navigation';
 import TabsNavigation from '@/orangehrmPimPlugin/components/TabsNavigation';
 import ProfileAttachments from '@/orangehrmPimPlugin/components/ProfileAttachments';
 import ProfileCustomFields from '@/orangehrmPimPlugin/components/ProfileCustomFields';
@@ -151,7 +151,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@orangehrm/oxd/styles/_mixins.scss';
+@import '@ohrm/oxd/styles/_mixins.scss';
 
 .orangehrm-card-container {
   padding: unset;

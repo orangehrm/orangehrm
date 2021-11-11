@@ -55,7 +55,7 @@
 
 <script>
 import {ref} from 'vue';
-import {required, max} from '@orangehrm/core/util/validation/rules';
+import {required, max} from '@ohrm/core/util/validation/rules';
 
 export default {
   name: 'report-criterion-range',

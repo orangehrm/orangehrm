@@ -92,14 +92,14 @@
 </template>
 
 <script>
-import {navigate} from '@orangehrm/core/util/helper/navigation';
+import {navigate} from '@ohrm/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
 import {
   required,
   shouldNotExceedCharLength,
   validFileTypes,
   maxFileSize,
-} from '@orangehrm/core/util/validation/rules';
+} from '@ohrm/core/util/validation/rules';
 import FileUploadInput from '@/core/components/inputs/FileUploadInput';
 
 const initialJobTitle = {

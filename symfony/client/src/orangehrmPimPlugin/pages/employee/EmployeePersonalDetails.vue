@@ -191,13 +191,13 @@
 </template>
 
 <script>
-import {APIService} from '@orangehrm/core/util/services/api.service';
-import EditEmployeeLayout from '@orangehrm/orangehrmPimPlugin/components/EditEmployeeLayout';
-import FullNameInput from '@orangehrm/orangehrmPimPlugin/components/FullNameInput';
+import {APIService} from '@ohrm/core/util/services/api.service';
+import EditEmployeeLayout from '@/orangehrmPimPlugin/components/EditEmployeeLayout';
+import FullNameInput from '@/orangehrmPimPlugin/components/FullNameInput';
 import {
   required,
   shouldNotExceedCharLength,
-} from '@orangehrm/core/util/validation/rules';
+} from '@ohrm/core/util/validation/rules';
 
 const employeeModel = {
   firstName: '',

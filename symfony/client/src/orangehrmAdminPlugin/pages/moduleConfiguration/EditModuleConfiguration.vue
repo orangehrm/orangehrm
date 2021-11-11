@@ -92,7 +92,7 @@
 </template>
 
 <script>
-import SwitchInput from '@orangehrm/oxd/core/components/Input/SwitchInput';
+import SwitchInput from '@ohrm/oxd/core/components/Input/SwitchInput';
 import {APIService} from '@/core/util/services/api.service';
 
 const modulesModel = {
@@ -175,7 +175,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import '@orangehrm/oxd/styles/_mixins.scss';
+@import '@ohrm/oxd/styles/_mixins.scss';
 
 .orangehrm-module-field-row {
   grid-column-start: 1;

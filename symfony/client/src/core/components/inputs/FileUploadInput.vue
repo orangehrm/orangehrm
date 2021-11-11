@@ -68,7 +68,7 @@
 </template>
 
 <script>
-import Icon from '@orangehrm/oxd/core/components/Icon/Icon.vue';
+import Icon from '@ohrm/oxd/core/components/Icon/Icon.vue';
 
 export default {
   name: 'file-upload-input',
