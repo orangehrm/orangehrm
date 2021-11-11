@@ -25,14 +25,14 @@
         {{ $t('help.getting_started_with_orangehrm') }}
       </oxd-text>
       <oxd-divider />
-      <oxd-text type="subtitle-2">
+      <oxd-text tag="p" class="orangehrm-support-text">
         Learning how to use a new application can be challenging. At OrangeHRM,
         we are committed to providing you with the necessary knowledge and
         skills required to fully utilize the application thereby allowing you to
         quickly and efficiently manage your HR processes.
       </oxd-text>
       <br />
-      <oxd-text type="subtitle-2">
+      <oxd-text tag="p" class="orangehrm-support-text">
         The following information repositories are available to help you
         understand the application:
       </oxd-text>
@@ -43,7 +43,7 @@
             <oxd-text class="orangehrm-sub-title" tag="p">
               {{ $t('help.customer_support') }}
             </oxd-text>
-            <oxd-text type="subtitle-2">
+            <oxd-text tag="p" class="orangehrm-support-text">
               Should you experience any issues, please do not hesitate to
               contact us on
               <a
@@ -51,7 +51,7 @@
                 href="mailto:ossuport@orangehrm.com"
                 >ossuport@orangehrm.com
               </a>
-              We will be delighted to help
+              We will be delighted to help.
             </oxd-text>
           </div>
         </oxd-grid>
@@ -71,6 +71,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.orangehrm-support-text {
+  font-size: 12px;
+}
 .orangehrm-support {
   padding: 1rem 0;
   &-channel {
