@@ -21,6 +21,7 @@ namespace OrangeHRM\Admin\Dao;
 
 use Exception;
 use OrangeHRM\Admin\Dto\UserSearchFilterParams;
+use OrangeHRM\Authentication\Dto\UserCredential;
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\Employee;
@@ -28,7 +29,6 @@ use OrangeHRM\Entity\User;
 use OrangeHRM\Entity\UserRole;
 use OrangeHRM\ORM\ListSorter;
 use OrangeHRM\ORM\Paginator;
-use OrangeHRM\Authentication\Dto\UserCredential;
 
 class UserDao extends BaseDao
 {
@@ -377,13 +377,18 @@ class UserDao extends BaseDao
     /**
      **this function for validating the username availability. ( false -> username already exist, true - username is not exist )
      * @param string $userName
+     * @param int|null $userId
      * @return bool
      */
-    public function isUserNameExistByUserName(string $userName): bool
+    public function isUserNameExistByUserName(string $userName, ?int $userId = null): bool
     {
         $q = $this->createQueryBuilder(User::class, 'u');
         $q->andWhere('u.userName = :userName');
         $q->setParameter('userName', $userName);
+        if (!is_null($userId)){
+            $q->andWhere('u.id != :userId'); // we need to skip the current username on checking, otherwise count always return 1
+            $q->setParameter('userId', $userId);
+        }
         return $this->getPaginator($q)->count() === 0;
     }
 }

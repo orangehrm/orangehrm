@@ -19,6 +19,7 @@ GetOne:
     body: [ ]
     query:
       userName: 'covid'
+      userId: 1
     data:
       valid: true
     meta: [ ]

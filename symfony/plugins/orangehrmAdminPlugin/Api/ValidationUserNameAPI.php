@@ -31,6 +31,7 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
+use OrangeHRM\Entity\User;
 use OrangeHRM\Framework\Services;
 
 class ValidationUserNameAPI extends Endpoint implements ResourceEndpoint
@@ -38,6 +39,7 @@ class ValidationUserNameAPI extends Endpoint implements ResourceEndpoint
     use ServiceContainerTrait;
 
     public const PARAMETER_USER_NAME = 'userName';
+    public const PARAMETER_USER_Id = 'userId';
     public const PARAMETER_IS_CHANGEABLE_USERNAME = 'valid';
 
     public const PARAM_RULE_USER_NAME_MAX_LENGTH = 40;
@@ -56,7 +58,14 @@ class ValidationUserNameAPI extends Endpoint implements ResourceEndpoint
     public function getOne(): EndpointResult
     {
         $userName = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_QUERY, self::PARAMETER_USER_NAME);
-        $isChangeableUserName = $this->getSystemUserService()->getSystemUserDao()->isUserNameExistByUserName($userName);
+        $userId = $this->getRequestParams()->getIntOrNull(RequestParams::PARAM_TYPE_QUERY, self::PARAMETER_USER_Id);
+        if (!is_null($userId)) {
+            $user = $this->getSystemUserService()->getSystemUserDao()->getSystemUser($userId);
+            $this->throwRecordNotFoundExceptionIfNotExist($user, User::class);
+        }
+        $isChangeableUserName = $this->getSystemUserService()
+            ->getSystemUserDao()
+            ->isUserNameExistByUserName($userName, $userId);
         return new EndpointResourceResult(
             ArrayModel::class,
             [
@@ -75,6 +84,12 @@ class ValidationUserNameAPI extends Endpoint implements ResourceEndpoint
                 self::PARAMETER_USER_NAME,
                 new Rule(Rules::STRING_TYPE),
                 new Rule(Rules::LENGTH, [null, self::PARAM_RULE_USER_NAME_MAX_LENGTH]),
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_USER_Id,
+                    new Rule(Rules::POSITIVE),
+                )
             )
         );
     }
