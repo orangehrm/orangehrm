@@ -48,14 +48,19 @@ class LeaveTypeService
 
     /**
      * @param int $empNumber
+     * @param bool $includeAllocated
      * @return LeaveType[]
      */
-    public function getEligibleLeaveTypesByEmpNumber(int $empNumber): array
+    public function getEligibleLeaveTypesByEmpNumber(int $empNumber, bool $includeAllocated = false): array
     {
         $leaveTypes = $this->getLeaveTypeDao()->getLeaveTypeList();
         $leaveTypeList = [];
 
         foreach ($leaveTypes as $leaveType) {
+            if ($includeAllocated && $this->getLeaveTypeDao()->hasEmployeeAllocatedLeavesForLeaveType($empNumber, $leaveType->getId())) {
+                array_push($leaveTypeList, $leaveType);
+                continue;
+            }
             $balance = $this->getLeaveEntitlementService()->getLeaveBalance($empNumber, $leaveType->getId());
 
             if ($balance->getEntitled() > 0) {
