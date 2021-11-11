@@ -98,7 +98,7 @@ import {
   required,
   shouldNotExceedCharLength,
   shouldNotLessThanCharLength,
-} from '@ohrm/core/util/validation/rules';
+} from '@/core/util/validation/rules';
 import promiseDebounce from '@ohrm/oxd/utils/promiseDebounce';
 
 const userModel = {
