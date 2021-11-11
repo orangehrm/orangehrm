@@ -19,14 +19,21 @@
 
 namespace OrangeHRM\Core\Service;
 
+use Doctrine\DBAL\LockMode;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\PessimisticLockException;
 use OrangeHRM\Core\Dao\EmailQueueDao;
+use OrangeHRM\Core\Traits\LoggerTrait;
+use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
+use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\Mail;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface as MailerException;
-use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 
 class EmailQueueService
 {
     use DateTimeHelperTrait;
+    use EntityManagerHelperTrait;
+    use LoggerTrait;
 
     private ?EmailQueueDao $emailQueueDao = null;
 
@@ -82,11 +89,25 @@ class EmailQueueService
     }
 
     /**
-     * @param Mail $mail
+     * @param int $mailId
      */
-    public function sendSingleMail(Mail $mail): void
+    public function sendSingleMail(int $mailId): void
     {
-        $this->changeMailStatus($mail, Mail::STATUS_STARTED);
+        $this->beginTransaction();
+        try {
+            $mail = $this->getEntityManager()->find(Mail::class, $mailId, LockMode::PESSIMISTIC_WRITE);
+            // This method only handle if mail in pending status.
+            if ($mail->getStatus() !== Mail::STATUS_PENDING) {
+                return;
+            }
+
+            $this->changeMailStatus($mail, Mail::STATUS_STARTED);
+        } catch (PessimisticLockException | OptimisticLockException $e) {
+            $this->getLogger()->error($e->getMessage());
+            $this->getLogger()->error($e->getTraceAsString());
+            return;
+        }
+
         $this->getEmailService()->setMessageSubject($mail->getSubject());
         $this->getEmailService()->setMessageBody($mail->getBody());
         $this->getEmailService()->setMessageTo($mail->getToList());
@@ -102,6 +123,8 @@ class EmailQueueService
             }
         } catch (MailerException $e) {
             $this->changeMailStatus($mail, Mail::STATUS_FAILED);
+        } finally {
+            $this->commitTransaction();
         }
     }
 
@@ -132,10 +155,10 @@ class EmailQueueService
 
     public function sendAllPendingMails(): void
     {
-        $mails = $this->getEmailQueueDao()->getAllPendingMails();
-        foreach ($mails as $mail) {
+        $mailIds = $this->getEmailQueueDao()->getAllPendingMailIds();
+        foreach ($mailIds as $mailId) {
             $this->resetEmailService();
-            $this->sendSingleMail($mail);
+            $this->sendSingleMail($mailId);
         }
     }
 }
