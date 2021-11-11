@@ -57,4 +57,16 @@ class ModuleDao extends BaseDao
         $this->getEntityManager()->flush();
         return $allModules;
     }
+
+    /**
+     * @return Module[]
+     */
+    public function getDisabledModuleList(): array
+    {
+        $q = $this->createQueryBuilder(Module::class, 'm');
+        $q->andWhere('m.status = :status');
+        $q->setParameter('status', false);
+        $q->select('m.name');
+        return $q->getQuery()->execute();
+    }
 }
