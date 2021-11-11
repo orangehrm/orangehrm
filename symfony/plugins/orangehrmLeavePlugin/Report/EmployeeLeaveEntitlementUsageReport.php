@@ -76,7 +76,7 @@ class EmployeeLeaveEntitlementUsageReport implements EndpointAwareReport
                     ->setCellProperties(['class' => ['cell-action'=> true]])
                     ->setSize(self::DEFAULT_COLUMN_SIZE),
                 (new Column(self::PARAMETER_BALANCE_DAYS))->setName('Leave Balance (Days)')
-                    ->setCellProperties(['class' => ['col-alt' => true, 'cell-action' => true]])
+                    ->setCellProperties(['class' => ['col-alt' => true]])
                     ->setSize(self::DEFAULT_COLUMN_SIZE),
             ]
         );

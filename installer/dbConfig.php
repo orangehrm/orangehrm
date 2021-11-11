@@ -211,10 +211,6 @@ document.frmInstall.submit();
 	<td class="tdComponent">OrangeHRM Database User Password</td>
 	<td class="tdValues"><input type="password" name="dbOHRMPassword" <?php echo isset($_POST['chkSameUser']) ? 'disabled' : '' ?> value="<?php echo  isset($_SESSION['dbInfo']['dbOHRMPassword']) ? $_SESSION['dbInfo']['dbOHRMPassword'] : ''?>" tabindex="8"> #</td>
 </tr>
-<tr>
-	<td class="tdComponent">Enable Data Encryption</td>
-	<td class="tdValues"><input type="checkbox" name="chkEncryption" tabindex="9"></td>
-</tr>
 </table>
 
 <br />

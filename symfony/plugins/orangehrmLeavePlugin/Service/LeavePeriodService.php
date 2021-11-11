@@ -228,12 +228,16 @@ class LeavePeriodService
     }
 
     /**
+     * @param bool $forceReload
      * @return LeavePeriod|null
      */
-    public function getCurrentLeavePeriod(): ?LeavePeriod
+    public function getCurrentLeavePeriod(bool $forceReload = false): ?LeavePeriod
     {
         $leavePeriodDefined = $this->getLeaveConfigService()->isLeavePeriodDefined();
-        return $leavePeriodDefined ? $this->getCurrentLeavePeriodByDate($this->getDateTimeHelper()->getNow()) : null;
+        return $leavePeriodDefined ? $this->getCurrentLeavePeriodByDate(
+            $this->getDateTimeHelper()->getNow(),
+            $forceReload
+        ) : null;
     }
 
     /**
