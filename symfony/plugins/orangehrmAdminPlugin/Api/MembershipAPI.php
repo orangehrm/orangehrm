@@ -39,7 +39,7 @@ use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\Membership;
 
-class MembershipAPI extends EndPoint implements CrudEndpoint
+class MembershipAPI extends Endpoint implements CrudEndpoint
 {
     public const PARAMETER_NAME = 'name';
     public const PARAM_RULE_NAME_MAX_LENGTH = 100;

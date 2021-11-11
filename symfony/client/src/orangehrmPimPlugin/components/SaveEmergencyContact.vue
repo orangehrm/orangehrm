@@ -91,7 +91,7 @@ import {
   required,
   shouldNotExceedCharLength,
   validPhoneNumberFormat,
-} from '@orangehrm/core/util/validation/rules';
+} from '@ohrm/core/util/validation/rules';
 
 const emergencyContactModel = {
   name: '',

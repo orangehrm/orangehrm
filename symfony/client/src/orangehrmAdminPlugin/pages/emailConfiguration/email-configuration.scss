@@ -14,6 +14,8 @@
 // if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 // Boston, MA  02110-1301, USA
 
+@import '@ohrm/oxd/styles/_mixins.scss';
+
 ::v-deep(.--status-grouped-field) {
   display: flex;
   max-width: 13rem;
@@ -34,7 +36,6 @@
   padding: 0.675rem 0.5rem;
 }
 
-@import '@orangehrm/oxd/styles/_mixins.scss';
 .orangehrm-optional-field-row {
   grid-column-start: 1;
   display: flex;

@@ -45,8 +45,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@orangehrm/oxd/core/components/Button/_variables.scss';
-@import '@orangehrm/oxd/core/components/Button/_mixins.scss';
+@import '@ohrm/oxd/core/components/Button/_variables.scss';
+@import '@ohrm/oxd/core/components/Button/_mixins.scss';
 
 .employee-image {
   height: 8rem;

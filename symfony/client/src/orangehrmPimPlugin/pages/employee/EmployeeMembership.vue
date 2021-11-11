@@ -72,13 +72,13 @@
 </template>
 
 <script>
-import usePaginate from '@orangehrm/core/util/composable/usePaginate';
-import {APIService} from '@orangehrm/core/util/services/api.service';
+import usePaginate from '@ohrm/core/util/composable/usePaginate';
+import {APIService} from '@ohrm/core/util/services/api.service';
 import ProfileActionHeader from '@/orangehrmPimPlugin/components/ProfileActionHeader';
 import EditEmployeeLayout from '@/orangehrmPimPlugin/components/EditEmployeeLayout';
 import SaveMembership from '@/orangehrmPimPlugin/components/SaveMembership';
 import EditMembership from '@/orangehrmPimPlugin/components/EditMembership';
-import DeleteConfirmationDialog from '@orangehrm/components/dialogs/DeleteConfirmationDialog';
+import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmationDialog';
 
 const membershipNormalizer = data => {
   return data.map(item => {

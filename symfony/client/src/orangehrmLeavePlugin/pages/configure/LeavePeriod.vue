@@ -91,8 +91,8 @@
 </template>
 
 <script>
-import {APIService} from '@orangehrm/core/util/services/api.service';
-import {reloadPage} from '@orangehrm/core/util/helper/navigation';
+import {APIService} from '@ohrm/core/util/services/api.service';
+import {reloadPage} from '@ohrm/core/util/helper/navigation';
 import {required} from '@/core/util/validation/rules';
 import {enGB} from 'date-fns/locale';
 import {addDays, formatDate} from '@/core/util/helper/datefns';

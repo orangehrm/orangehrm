@@ -202,13 +202,13 @@
 </template>
 
 <script>
-import {APIService} from '@orangehrm/core/util/services/api.service';
-import SwitchInput from '@orangehrm/oxd/src/core/components/Input/SwitchInput';
+import {APIService} from '@ohrm/core/util/services/api.service';
+import SwitchInput from '@ohrm/oxd/core/components/Input/SwitchInput';
 import {
   required,
   validEmailFormat,
   shouldNotExceedCharLength,
-} from '@orangehrm/core/util/validation/rules';
+} from '@ohrm/core/util/validation/rules';
 
 export default {
   props: {

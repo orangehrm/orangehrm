@@ -23,7 +23,7 @@ import axios, {
   AxiosResponse,
 } from 'axios';
 import {ComponentInternalInstance, getCurrentInstance} from 'vue';
-import {reloadPage} from '@orangehrm/core/util/helper/navigation';
+import {reloadPage} from '@ohrm/core/util/helper/navigation';
 
 export class APIService {
   private _http: AxiosInstance;

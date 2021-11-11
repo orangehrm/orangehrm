@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Pim\Api;
 
+use Exception;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
@@ -33,6 +34,7 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Service\ReportGeneratorService;
+use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Entity\Report;
 use OrangeHRM\ORM\Exception\TransactionException;
 use OrangeHRM\Pim\Api\Model\PimDefinedReportDetailedModel;
@@ -41,6 +43,8 @@ use OrangeHRM\Pim\Dto\PimDefinedReportSearchFilterParams;
 
 class PimDefinedReportAPI extends Endpoint implements CrudEndpoint
 {
+    use EntityManagerHelperTrait;
+
     public const PARAMETER_REPORT_NAME = 'name';
     public const PARAMETER_INCLUDE_TYPE = 'include';
     public const PARAMETER_CRITERIA = 'criteria';
@@ -124,7 +128,10 @@ class PimDefinedReportAPI extends Endpoint implements CrudEndpoint
         $this->setParamsToPimDefinedReport($report);
         $fieldGroup = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_FIELD_GROUP);
         $criterias = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_CRITERIA);
-        $includeType = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_INCLUDE_TYPE);
+        $includeType = $this->getRequestParams()->getString(
+            RequestParams::PARAM_TYPE_BODY,
+            self::PARAMETER_INCLUDE_TYPE
+        );
         $this->getReportGeneratorService()->savePimDefinedReport($report, $fieldGroup, $criterias, $includeType);
         return new EndpointResourceResult(PimDefinedReportModel::class, $report);
     }
@@ -135,13 +142,13 @@ class PimDefinedReportAPI extends Endpoint implements CrudEndpoint
      */
     private function setParamsToPimDefinedReport(Report $report): void
     {
-        $reportGroup = $this->getReportGeneratorService()->getReportGeneratorDao()->getReportGroupByName("pim");
+        $reportGroup = $this->getReportGeneratorService()->getReportGeneratorDao()->getReportGroupByName('pim');
         $report->setName(
             $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_REPORT_NAME)
         );
         $report->setReportGroup($reportGroup);
         $report->setUseFilterField(true);
-        $report->setType("PIM_DEFINED");
+        $report->setType('PIM_DEFINED');
     }
 
     /**
@@ -217,9 +224,20 @@ class PimDefinedReportAPI extends Endpoint implements CrudEndpoint
         $this->setParamsToPimDefinedReport($report);
         $fieldGroup = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_FIELD_GROUP);
         $criterias = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_CRITERIA);
-        $includeType = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_INCLUDE_TYPE);
-        $this->getReportGeneratorService()->getReportGeneratorDao()->deleteExistingReportRecordsByReportId($report);
-        $this->getReportGeneratorService()->savePimDefinedReport($report, $fieldGroup, $criterias, $includeType);
+        $includeType = $this->getRequestParams()->getString(
+            RequestParams::PARAM_TYPE_BODY,
+            self::PARAMETER_INCLUDE_TYPE
+        );
+
+        $this->beginTransaction();
+        try {
+            $this->getReportGeneratorService()->getReportGeneratorDao()->deleteExistingReportRecordsByReportId($report);
+            $this->getReportGeneratorService()->savePimDefinedReport($report, $fieldGroup, $criterias, $includeType);
+            $this->commitTransaction();
+        } catch (Exception $e) {
+            $this->rollBackTransaction();
+            throw new TransactionException($e);
+        }
         return new EndpointResourceResult(PimDefinedReportModel::class, $report);
     }
 

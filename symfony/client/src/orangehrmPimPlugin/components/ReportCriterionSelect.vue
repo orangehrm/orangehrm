@@ -33,8 +33,8 @@
 
 <script>
 import {ref, onBeforeMount} from 'vue';
-import {required} from '@orangehrm/core/util/validation/rules';
-import {APIService} from '@orangehrm/core/util/services/api.service';
+import {required} from '@ohrm/core/util/validation/rules';
+import {APIService} from '@ohrm/core/util/services/api.service';
 
 export default {
   name: 'report-criterion-select',
@@ -51,6 +51,7 @@ export default {
     operator: {
       type: Object,
       required: false,
+      default: () => ({id: 'eq', label: 'Equal'}),
     },
     valueX: {
       type: Object,
@@ -75,7 +76,7 @@ export default {
         });
       });
     }
-    context.emit('update:operator', {id: 'eq', label: 'Equal'});
+    context.emit('update:operator', props.operator);
 
     return {
       opts,

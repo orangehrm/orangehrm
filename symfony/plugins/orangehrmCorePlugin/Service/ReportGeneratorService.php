@@ -31,6 +31,8 @@ use OrangeHRM\Core\Report\DisplayField\ListableDisplayField;
 use OrangeHRM\Core\Report\DisplayField\NormalizableDTO;
 use OrangeHRM\Core\Report\DisplayField\Stringable;
 use OrangeHRM\Core\Report\FilterField\FilterField;
+use OrangeHRM\Core\Report\FilterField\ValueXModifiable;
+use OrangeHRM\Core\Report\FilterField\ValueYModifiable;
 use OrangeHRM\Core\Report\Header\Column;
 use OrangeHRM\Core\Report\Header\Header;
 use OrangeHRM\Core\Report\Header\HeaderData;
@@ -387,14 +389,12 @@ class ReportGeneratorService
     ): Report {
         $selectedDisplayFieldGroupIds = [];
         $selectedDisplayFieldIds = [];
-        $includeType = ($includeType === 'onlyCurrent') ? 'isNull' : (($includeType === 'onlyPast') ? 'isNotNull' : 'null'); // this is for `ohrm_selected_filter_field` table where condition
         foreach ($fieldGroup as $key => $value) {
             // creating an array that contains the display field group id which selected as header by user(`ohrm_display_field_group` table)
-            if ($value['includeHeader']) {
+            if ($value['includeHeader'] ?? false) {
                 array_push($selectedDisplayFieldGroupIds, $key);
             }
-        }
-        foreach ($fieldGroup as $key => $value) {
+
             foreach ($value['fields'] as $field) {
                 /** creating an array that contains the display field id (`ohrm_display_field` table)
                  * Here fields is the value pair of $fieldGroup associative array which  contains the id of `ohrm_display_field` table
@@ -402,8 +402,12 @@ class ReportGeneratorService
                 array_push($selectedDisplayFieldIds, $field);
             }
         }
+        $selectedFilterFields = $this->generateSelectedFilterFieldsByCriteria($report, $criterias);
+        $selectedFilterFields[] = $this->generateSelectedFilterFieldForIncludeEmployee($report, $includeType);
+        $this->modifySelectedFilterFieldValues($selectedFilterFields);
+
         return $this->getReportGeneratorDao()
-            ->saveReport($report, $selectedDisplayFieldGroupIds, $selectedDisplayFieldIds, $criterias, $includeType);
+            ->saveReport($report, $selectedDisplayFieldGroupIds, $selectedDisplayFieldIds, $selectedFilterFields);
     }
 
     /**
@@ -421,5 +425,71 @@ class ReportGeneratorService
             $selectedFilterField->getY(),
             $selectedFilterField->getFilterFieldOrder()
         );
+    }
+
+    /**
+     * @param Report $report
+     * @param array $criteria
+     * @return SelectedFilterField[]
+     */
+    protected function generateSelectedFilterFieldsByCriteria(Report $report, array $criteria): array
+    {
+        $selectedFilterFields = [];
+        $counter = 2;
+        foreach ($criteria as $key => $value) {
+            $selectedFilterField = new SelectedFilterField();
+            $selectedFilterField->setReport($report);
+            $selectedFilterField->getDecorator()->setFilterFieldById($key);
+            $selectedFilterField->setFilterFieldOrder($counter);
+            $selectedFilterField->setX($value['x'] ?? null);
+            $selectedFilterField->setY($value['y'] ?? null);
+            $selectedFilterField->setOperator($value['operator'] ?? null);
+            $selectedFilterField->setType('Predefined');
+            $selectedFilterFields[] = $selectedFilterField;
+            $counter++;
+        }
+        return $selectedFilterFields;
+    }
+
+    /**
+     * @param Report $report
+     * @param string $includeType
+     * @return SelectedFilterField
+     */
+    protected function generateSelectedFilterFieldForIncludeEmployee(
+        Report $report,
+        string $includeType
+    ): SelectedFilterField {
+        $includeType = ($includeType === 'onlyCurrent') ? 'isNull' : (($includeType === 'onlyPast') ? 'isNotNull' : null);
+        $filterFieldByInclude = $this->getReportGeneratorDao()->getFilterFieldByName('include');
+        $selectedFilterField = new SelectedFilterField();
+        $selectedFilterField->setReport($report);
+        $selectedFilterField->setFilterField($filterFieldByInclude);
+        $selectedFilterField->setFilterFieldOrder(1);
+        $selectedFilterField->setOperator($includeType);
+        $selectedFilterField->setType('Predefined');
+        return $selectedFilterField;
+    }
+
+    /**
+     * @param SelectedFilterField[] $selectedFilterFields
+     */
+    protected function modifySelectedFilterFieldValues(array $selectedFilterFields)
+    {
+        foreach ($selectedFilterFields as $selectedFilterField) {
+            $filterField = $selectedFilterField->getFilterField();
+            $filterFieldClassName = $filterField->getClassName();
+            $filterFieldClass = $this->getInitializedFilterFieldInstance($filterFieldClassName, $selectedFilterField);
+            if ($filterFieldClass instanceof FilterField) {
+                if ($filterFieldClass instanceof ValueXModifiable) {
+                    $filterFieldClass->modifyX([$filterFieldClass, 'xValueModifier']);
+                    $selectedFilterField->setX($filterFieldClass->getX());
+                }
+                if ($filterFieldClass instanceof ValueYModifiable) {
+                    $filterFieldClass->modifyY([$filterFieldClass, 'yValueModifier']);
+                    $selectedFilterField->setY($filterFieldClass->getY());
+                }
+            }
+        }
     }
 }

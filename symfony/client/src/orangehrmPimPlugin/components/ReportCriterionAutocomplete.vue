@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import {required} from '@orangehrm/core/util/validation/rules';
+import {required} from '@ohrm/core/util/validation/rules';
 import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
 
 export default {

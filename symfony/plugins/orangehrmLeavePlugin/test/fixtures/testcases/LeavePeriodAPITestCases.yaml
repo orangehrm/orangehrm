@@ -1,0 +1,22 @@
+Update:
+  'leave period update':
+    userId: 2
+    now:
+      datetime: '2021-09-19'
+    services:
+      leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
+      leave.leave_period_service: \OrangeHRM\Leave\Service\LeavePeriodService
+      leave.leave_entitlement_service: \OrangeHRM\Leave\Service\LeaveEntitlementService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+    body:
+      startMonth: 1
+      startDay: 5
+    data:
+      startMonth: 1
+      startDay: 5
+      createdAt: '2021-09-19'
+    meta:
+      leavePeriodDefined: true
+      currentLeavePeriod:
+        startDate: '2021-01-03'
+        endDate: '2022-01-04'

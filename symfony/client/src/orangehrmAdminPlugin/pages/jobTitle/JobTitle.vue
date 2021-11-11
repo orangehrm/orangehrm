@@ -67,11 +67,11 @@
 
 <script>
 import {computed, ref} from 'vue';
-import usePaginate from '@orangehrm/core/util/composable/usePaginate';
-import {navigate} from '@orangehrm/core/util/helper/navigation';
+import usePaginate from '@ohrm/core/util/composable/usePaginate';
+import {navigate} from '@ohrm/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
-import DeleteConfirmationDialog from '@orangehrm/components/dialogs/DeleteConfirmationDialog.vue';
-import useSort from '@orangehrm/core/util/composable/useSort';
+import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmationDialog.vue';
+import useSort from '@ohrm/core/util/composable/useSort';
 
 const defaultFilters = {
   jobTitleName: '',

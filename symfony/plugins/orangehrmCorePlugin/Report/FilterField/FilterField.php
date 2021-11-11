@@ -83,4 +83,20 @@ abstract class FilterField
     {
         return $this->operator;
     }
+
+    /**
+     * @param callable $closure e.g. fn($x) => trim($x)
+     */
+    public function modifyX(callable $closure)
+    {
+        $this->x = $closure($this->getX());
+    }
+
+    /**
+     * @param callable $closure e.g. fn($y) => trim($y)
+     */
+    public function modifyY(callable $closure)
+    {
+        $this->y = $closure($this->getY());
+    }
 }

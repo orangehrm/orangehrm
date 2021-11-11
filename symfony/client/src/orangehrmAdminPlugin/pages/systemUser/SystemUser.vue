@@ -104,12 +104,12 @@
 
 <script>
 import {computed, ref} from 'vue';
-import DeleteConfirmationDialog from '@orangehrm/components/dialogs/DeleteConfirmationDialog';
-import usePaginate from '@orangehrm/core/util/composable/usePaginate';
-import {navigate} from '@orangehrm/core/util/helper/navigation';
+import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmationDialog';
+import usePaginate from '@ohrm/core/util/composable/usePaginate';
+import {navigate} from '@ohrm/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
 import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
-import useSort from '@orangehrm/core/util/composable/useSort';
+import useSort from '@ohrm/core/util/composable/useSort';
 
 const defaultFilters = {
   username: '',
