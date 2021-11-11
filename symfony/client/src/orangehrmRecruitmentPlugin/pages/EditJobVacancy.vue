@@ -67,6 +67,7 @@
             <oxd-input-field
               label="Number Of Positions"
               v-model.number="vacancy.numOfPositions"
+              :rules="rules.numOfPositions"
             />
           </oxd-grid-item>
         </oxd-grid>
@@ -140,8 +141,8 @@ export default {
         jobTitle: [required],
         name: [required, shouldNotExceedCharLength(50)],
         hiringManager: [required],
-        numOfPositions: [digitsOnly],
-        description: [shouldNotExceedCharLength(250)],
+        numOfPositions: [max(99), digitsOnly],
+        description: [],
         status: [required],
         isPublished: [required],
       },

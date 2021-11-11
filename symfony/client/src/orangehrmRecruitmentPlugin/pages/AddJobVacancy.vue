@@ -68,7 +68,8 @@
             <oxd-grid :cols="2" class="orangehrm-full-width-grid">
               <oxd-input-field
                 label="Number Of Positions"
-                v-model.number="vacancy.numOfPositions"
+                v-model="vacancy.numOfPositions"
+                :rules="rules.numOfPositions"
               />
             </oxd-grid>
           </oxd-grid-item>
@@ -102,7 +103,6 @@
 import {APIService} from '@/core/util/services/api.service';
 import {navigate} from '@orangehrm/core/util/helper/navigation';
 import SwitchInput from '@orangehrm/oxd/core/components/Input/SwitchInput';
-import Label from '@orangehrm/oxd/core/components/Label/Label';
 
 import {
   required,
@@ -126,7 +126,6 @@ const vacancyModel = {
 export default {
   components: {
     'oxd-switch-input': SwitchInput,
-    'oxd-label': Label,
     'employee-autocomplete': EmployeeAutocomplete,
     'jobtitle-dropdown': JobtitleDropdown,
   },
@@ -139,8 +138,8 @@ export default {
         jobTitle: [required],
         name: [required, shouldNotExceedCharLength(50)],
         hiringManager: [required],
-        numOfPositions: [digitsOnly],
-        description: [shouldNotExceedCharLength(250)],
+        numOfPositions: [max(99), digitsOnly],
+        description: [],
         status: [required],
         isPublished: [required],
       },
