@@ -17,11 +17,11 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Core\Service;
+namespace OrangeHRM\Authentication\Service;
 
 use OrangeHRM\Admin\Service\UserService;
+use OrangeHRM\Authentication\Dao\LoginLogDao;
 use OrangeHRM\Authentication\Dto\UserCredential;
-use OrangeHRM\Core\Dao\LoginLogDao;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Exception\ServiceException;
 use OrangeHRM\Core\Traits\ServiceContainerTrait;

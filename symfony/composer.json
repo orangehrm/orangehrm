@@ -63,7 +63,8 @@
                 "./plugins/orangehrmPimPlugin/entity",
                 "./plugins/orangehrmLeavePlugin/entity",
                 "./plugins/orangehrmCorePlugin/entity",
-                "./plugins/orangehrmCoreOAuthPlugin/entity"
+                "./plugins/orangehrmCoreOAuthPlugin/entity",
+                "./plugins/orangehrmAuthenticationPlugin/entity"
             ]
         }
     },

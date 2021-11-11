@@ -17,8 +17,9 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Core\Dao;
+namespace OrangeHRM\Authentication\Dao;
 
+use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Entity\LoginLog;
 
 class LoginLogDao extends BaseDao
