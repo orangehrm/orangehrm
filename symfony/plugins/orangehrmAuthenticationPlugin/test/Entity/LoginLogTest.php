@@ -39,7 +39,7 @@ class LoginLogTest extends EntityTestCase
     {
         $loginLog = new LoginLog();
         $loginLog->setUserId(1);
-        $loginLog->setUserName('Admin');
+        $loginLog->setUserName('username');
         $loginLog->setUserRoleName('Admin');
         $loginLog->setUserRolePredefined(1);
         $this->persist($loginLog);
@@ -47,7 +47,7 @@ class LoginLogTest extends EntityTestCase
         /** @var LoginLog $loginLog */
         $loginLog = $this->getRepository(LoginLog::class)->find(1);
         $this->assertEquals(1, $loginLog->getUserId());
-        $this->assertEquals('Admin', $loginLog->getUserName());
+        $this->assertEquals('username', $loginLog->getUserName());
         $this->assertEquals('Admin', $loginLog->getUserRoleName());
         $this->assertEquals(1, $loginLog->getUserRolePredefined());
     }

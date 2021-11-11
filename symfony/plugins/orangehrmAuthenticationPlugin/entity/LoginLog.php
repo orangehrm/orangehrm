@@ -47,7 +47,7 @@ class LoginLog
     /**
      * @var string
      *
-     * @ORM\Column(name="user_name", type="string", length=255)
+     * @ORM\Column(name="user_name", type="string", length=255, nullable=true)
      */
     private string $userName;
 
