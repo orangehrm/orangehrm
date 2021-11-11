@@ -185,10 +185,10 @@ class EmployeeMembershipAPI extends Endpoint implements CrudEndpoint
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::PARAMETER_SUBSCRIPTION_FEE,
+                    new Rule(Rules::NOT_EMPTY),
                     new Rule(Rules::STRING_TYPE),
                     new Rule(Rules::BETWEEN,[0, 1000000000]),
                 ),
-                true
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
