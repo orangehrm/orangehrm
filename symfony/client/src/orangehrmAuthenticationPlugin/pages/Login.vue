@@ -43,6 +43,7 @@
             placeholder="username"
             v-model="username"
             :rules="rules.username"
+            autofocus
           />
         </oxd-form-row>
 
@@ -67,10 +68,7 @@
           />
         </oxd-form-actions>
       </oxd-form>
-      <oxd-text class="orangehrm-login-pwreset" tag="p"
-        >Forgot your <a href="#">Password?</a></oxd-text
-      >
-      <oxd-divider />
+      <br />
     </div>
     <template v-slot:footer>
       <slot name="footer"></slot>
