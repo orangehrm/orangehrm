@@ -67,8 +67,8 @@
 
 <script>
 import {APIService} from '@/core/util/services/api.service';
-import Spinner from '@orangehrm/oxd/core/components/Loader/Spinner';
-import Dialog from '@orangehrm/oxd/core/components/Dialog/Dialog';
+import Spinner from '@ohrm/oxd/core/components/Loader/Spinner';
+import Dialog from '@ohrm/oxd/core/components/Dialog/Dialog';
 
 export default {
   components: {

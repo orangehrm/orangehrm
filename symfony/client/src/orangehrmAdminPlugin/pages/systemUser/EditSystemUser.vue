@@ -104,10 +104,10 @@
 
 <script>
 import {APIService} from '@/core/util/services/api.service';
-import {navigate} from '@orangehrm/core/util/helper/navigation';
+import {navigate} from '@ohrm/core/util/helper/navigation';
 import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
 import PasswordInput from '@/core/components/inputs/PasswordInput';
-import {required} from '@orangehrm/core/util/validation/rules';
+import {required} from '@ohrm/core/util/validation/rules';
 
 const userModel = {
   id: '',

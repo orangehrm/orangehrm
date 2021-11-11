@@ -17,27 +17,27 @@
  */
 
 import {App} from 'vue';
-import CardTable from '@orangehrm/oxd/src/core/components/CardTable/CardTable.vue';
-import Button from '@orangehrm/oxd/src/core/components/Button/Button.vue';
-import IconButton from '@orangehrm/oxd/src/core/components/Button/Icon.vue';
-import Pagination from '@orangehrm/oxd/src/core/components/Pagination/Pagination.vue';
-import Divider from '@orangehrm/oxd/src/core/components/Divider/Divider.vue';
-import Text from '@orangehrm/oxd/src/core/components/Text/Text.vue';
-import Form from '@orangehrm/oxd/src/core/components/Form/Form.vue';
-import FormRow from '@orangehrm/oxd/src/core/components/Form/FormRow.vue';
-import FormActions from '@orangehrm/oxd/src/core/components/Form/FormActions.vue';
-import InputField from '@orangehrm/oxd/src/core/components/InputField/InputField.vue';
-import InputGroup from '@orangehrm/oxd/src/core/components/InputField/InputGroup.vue';
-import TableFilter from '@orangehrm/oxd/core/components/TableFilter/TableFilter.vue';
-import Grid from '@orangehrm/oxd/core/components/Grid/Grid.vue';
-import GridItem from '@orangehrm/oxd/core/components/Grid/GridItem.vue';
+import CardTable from '@ohrm/oxd/core/components/CardTable/CardTable.vue';
+import Button from '@ohrm/oxd/core/components/Button/Button.vue';
+import IconButton from '@ohrm/oxd/core/components/Button/Icon.vue';
+import Pagination from '@ohrm/oxd/core/components/Pagination/Pagination.vue';
+import Divider from '@ohrm/oxd/core/components/Divider/Divider.vue';
+import Text from '@ohrm/oxd/core/components/Text/Text.vue';
+import Form from '@ohrm/oxd/core/components/Form/Form.vue';
+import FormRow from '@ohrm/oxd/core/components/Form/FormRow.vue';
+import FormActions from '@ohrm/oxd/core/components/Form/FormActions.vue';
+import InputField from '@ohrm/oxd/core/components/InputField/InputField.vue';
+import InputGroup from '@ohrm/oxd/core/components/InputField/InputGroup.vue';
+import TableFilter from '@ohrm/oxd/core/components/TableFilter/TableFilter.vue';
+import Grid from '@ohrm/oxd/core/components/Grid/Grid.vue';
+import GridItem from '@ohrm/oxd/core/components/Grid/GridItem.vue';
 
-import SubmitButton from '@orangehrm/components/buttons/SubmitButton.vue';
-import TableHeader from '@orangehrm/components/table/TableHeader.vue';
-import RequiredText from '@orangehrm/components/labels/RequiredText.vue';
-import Layout from '@orangehrm/components/layout/Layout.vue';
-import DateInput from '@orangehrm/components/inputs/DateInput.vue';
-import TimeInput from '@orangehrm/components/inputs/TimeInput.vue';
+import SubmitButton from '@ohrm/components/buttons/SubmitButton.vue';
+import TableHeader from '@ohrm/components/table/TableHeader.vue';
+import RequiredText from '@ohrm/components/labels/RequiredText.vue';
+import Layout from '@ohrm/components/layout/Layout.vue';
+import DateInput from '@ohrm/components/inputs/DateInput.vue';
+import TimeInput from '@ohrm/components/inputs/TimeInput.vue';
 
 export default {
   install: (app: App) => {

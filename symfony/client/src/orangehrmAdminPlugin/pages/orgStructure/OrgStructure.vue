@@ -117,11 +117,11 @@
 
 <script>
 import {APIService} from '@/core/util/services/api.service';
-import TreeView from '@orangehrm/oxd/core/components/TreeView/TreeView';
-import Sheet from '@orangehrm/oxd/core/components/Sheet/Sheet';
-import SwitchInput from '@orangehrm/oxd/core/components/Input/SwitchInput';
-import Spinner from '@orangehrm/oxd/core/components/Loader/Spinner';
-import DeleteConfirmationDialog from '@orangehrm/components/dialogs/DeleteConfirmationDialog';
+import TreeView from '@ohrm/oxd/core/components/TreeView/TreeView';
+import Sheet from '@ohrm/oxd/core/components/Sheet/Sheet';
+import SwitchInput from '@ohrm/oxd/core/components/Input/SwitchInput';
+import Spinner from '@ohrm/oxd/core/components/Loader/Spinner';
+import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmationDialog';
 import SaveOrgUnit from './SaveOrgUnit';
 import EditOrgUnit from './EditOrgUnit';
 

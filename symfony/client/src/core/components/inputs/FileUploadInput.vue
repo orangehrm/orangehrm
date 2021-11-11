@@ -23,9 +23,10 @@
   <oxd-input-group v-if="file" :label="`Current ${label}`">
     <div class="orangehrm-file-current">
       <div class="orangehrm-file-preview" @click="downloadFile">
-        <oxd-icon class="orangehrm-file-icon" name="file-earmark-arrow-down" />
+        <oxd-icon class="orangehrm-file-icon" name="file-earmark-text" />
         <oxd-text class="orangehrm-file-name" tag="p" :title="file.filename">
           {{ file.filename }}
+          <oxd-icon class="orangehrm-file-download" name="download" />
         </oxd-text>
       </div>
       <div v-if="!disabled" class="orangehrm-file-options">
@@ -67,7 +68,7 @@
 </template>
 
 <script>
-import Icon from '@orangehrm/oxd/core/components/Icon/Icon.vue';
+import Icon from '@ohrm/oxd/core/components/Icon/Icon.vue';
 
 export default {
   name: 'file-upload-input',
@@ -124,29 +125,42 @@ export default {
     font-size: 3rem;
     margin-bottom: 0.5rem;
   }
+  &-download {
+    font-size: 12px;
+    margin-left: 10px;
+    vertical-align: middle;
+  }
   &-name {
     display: block;
-    text-align: center;
     font-size: 12px;
     overflow: hidden;
     text-overflow: ellipsis;
   }
-  &-preview,
   &-options {
     display: flex;
-    flex-direction: column;
     align-items: center;
+    flex-direction: column;
     justify-content: center;
-    flex-shrink: 0;
   }
   &-preview {
-    flex-shrink: 1;
-    min-width: 0;
-    margin-right: 0.5rem;
-    background-color: $oxd-background-pastel-white-color;
     padding: 0.5rem;
-    border-radius: 0.65rem;
     cursor: pointer;
+    min-height: 90px;
+    min-width: 150px;
+    text-align: center;
+    border-radius: 0.5rem;
+    margin-right: 1rem;
+    justify-content: center;
+    flex-direction: column;
+    display: flex;
+    align-items: center;
+    border: 1px solid $oxd-interface-gray-lighten-1-color;
+    background-color: $oxd-background-pastel-white-color;
   }
+}
+
+::v-deep(.--label-right) {
+  flex-shrink: 0;
+  align-self: center;
 }
 </style>

@@ -173,9 +173,9 @@ import {
   shouldNotExceedCharLength,
   endDateShouldBeAfterStartDate,
 } from '@/core/util/validation/rules';
-import {yearRange} from '@orangehrm/core/util/helper/year-range';
-import {diffInDays} from '@orangehrm/core/util/helper/datefns';
-import {APIService} from '@orangehrm/core/util/services/api.service';
+import {yearRange} from '@ohrm/core/util/helper/year-range';
+import {diffInDays} from '@ohrm/core/util/helper/datefns';
+import {APIService} from '@ohrm/core/util/services/api.service';
 import LeaveTypeDropdown from '@/orangehrmLeavePlugin/components/LeaveTypeDropdown';
 import LeaveDurationInput from '@/orangehrmLeavePlugin/components/LeaveDurationInput';
 import LeaveBalance from '@/orangehrmLeavePlugin/components/LeaveBalance';
@@ -183,7 +183,7 @@ import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete'
 import LeaveConflict from '@/orangehrmLeavePlugin/components/LeaveConflict';
 import LeaveAssignConfirmModal from '@/orangehrmLeavePlugin/components/LeaveAssignConfirmModal';
 import useLeaveValidators from '@/orangehrmLeavePlugin/util/composable/useLeaveValidators';
-import useForm from '@orangehrm/core/util/composable/useForm';
+import useForm from '@ohrm/core/util/composable/useForm';
 
 const leaveModel = {
   employee: null,

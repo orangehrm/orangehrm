@@ -105,7 +105,7 @@ import {
   digitsOnly,
   validDateFormat,
   endDateShouldBeAfterStartDate,
-} from '@orangehrm/core/util/validation/rules';
+} from '@ohrm/core/util/validation/rules';
 
 const educationModel = {
   name: '',

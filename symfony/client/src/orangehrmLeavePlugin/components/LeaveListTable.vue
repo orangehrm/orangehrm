@@ -20,7 +20,12 @@
 
 <template>
   <div class="orangehrm-background-container">
-    <slot :filters="filters" :rules="rules" :filterItems="filterItems"></slot>
+    <slot
+      :filters="filters"
+      :rules="rules"
+      :filterItems="filterItems"
+      :onReset="onReset"
+    ></slot>
     <br />
     <div class="orangehrm-paper-container">
       <leave-list-table-header
@@ -69,9 +74,9 @@ import {
 } from '@/core/util/validation/rules';
 import {computed, ref} from 'vue';
 import {APIService} from '@/core/util/services/api.service';
-import {navigate} from '@orangehrm/core/util/helper/navigation';
-import {truncate} from '@orangehrm/core/util/helper/truncate';
-import usePaginate from '@orangehrm/core/util/composable/usePaginate';
+import {navigate} from '@ohrm/core/util/helper/navigation';
+import {truncate} from '@ohrm/core/util/helper/truncate';
+import usePaginate from '@ohrm/core/util/composable/usePaginate';
 import useLeaveActions from '@/orangehrmLeavePlugin/util/composable/useLeaveActions';
 import LeaveCommentsModal from '@/orangehrmLeavePlugin/components/LeaveCommentsModal';
 import LeaveBulkActionModal from '@/orangehrmLeavePlugin/components/LeaveBulkActionModal';
@@ -460,6 +465,10 @@ export default {
     async filterItems() {
       await this.execQuery();
     },
+    onReset() {
+      this.filters = {...defaultFilters};
+      this.resetDataTable();
+    },
   },
 
   beforeMount() {
@@ -478,6 +487,7 @@ export default {
       })
       .finally(() => {
         this.isLoading = false;
+        Object.assign(defaultFilters, this.filters);
       });
   },
 };

@@ -62,9 +62,8 @@
                 <leave-type-dropdown
                   :empty-text="$t('leave.no_leave_types_defined')"
                   v-model="filters.leaveType"
-                  :rules="rules.leaveType"
                   :eligible-only="false"
-                  required
+                  :show-empty-selector="false"
                 />
               </oxd-grid-item>
               <oxd-grid-item>
@@ -146,7 +145,7 @@
 import {computed, ref} from 'vue';
 import {required} from '@/core/util/validation/rules';
 import ReportsTable from '@/core/components/table/ReportsTable';
-import SwitchInput from '@orangehrm/oxd/core/components/Input/SwitchInput';
+import SwitchInput from '@ohrm/oxd/core/components/Input/SwitchInput';
 import JobtitleDropdown from '@/orangehrmPimPlugin/components/JobtitleDropdown';
 import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
 import LeaveTypeDropdown from '@/orangehrmLeavePlugin/components/LeaveTypeDropdown';
@@ -194,7 +193,6 @@ export default {
       ...(props.leavePeriod && {leavePeriod: props.leavePeriod}),
     });
     const rules = ref({
-      leaveType: [required],
       employee: [required],
       leavePeriod: [required],
     });

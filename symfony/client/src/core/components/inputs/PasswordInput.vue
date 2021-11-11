@@ -60,12 +60,12 @@
 </template>
 
 <script>
-import Chip from '@orangehrm/oxd/core/components/Chip/Chip.vue';
+import Chip from '@ohrm/oxd/core/components/Chip/Chip.vue';
+import {checkPassword, getPassLevel} from '@ohrm/core/util/helper/password';
 import {
-  checkPassword,
-  getPassLevel,
-} from '@orangehrm/core/util/helper/password';
-import {required} from '@orangehrm/core/util/validation/rules';
+  required,
+  shouldNotExceedCharLength,
+} from '@ohrm/core/util/validation/rules';
 
 export default {
   name: 'password-input',
@@ -85,13 +85,10 @@ export default {
   data() {
     return {
       rules: {
-        password: [
-          required,
-          v => (v && v.length <= 64) || 'Should not exceed 64 characters',
-          v => checkPassword(v),
-        ],
+        password: [required, shouldNotExceedCharLength(64), checkPassword],
         passwordConfirm: [
           required,
+          shouldNotExceedCharLength(64),
           v => (!!v && v === this.password) || 'Passwords do not match',
         ],
       },

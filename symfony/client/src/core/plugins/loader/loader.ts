@@ -1,6 +1,6 @@
 import {h, defineComponent, Transition, App, reactive, toRefs} from 'vue';
-import Overlay from '@orangehrm/oxd/core/components/Dialog/Overlay.vue';
-import Spinner from '@orangehrm/oxd/core/components/Loader/Spinner.vue';
+import Overlay from '@ohrm/oxd/core/components/Dialog/Overlay.vue';
+import Spinner from '@ohrm/oxd/core/components/Loader/Spinner.vue';
 
 export interface LoaderAPI {
   startLoading: () => void;

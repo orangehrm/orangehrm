@@ -73,12 +73,12 @@
 
 <script>
 import {APIService} from '@/core/util/services/api.service';
-import usePaginate from '@orangehrm/core/util/composable/usePaginate';
-import {convertFilesizeToString} from '@orangehrm/core/util/helper/filesize';
+import usePaginate from '@ohrm/core/util/composable/usePaginate';
+import {convertFilesizeToString} from '@ohrm/core/util/helper/filesize';
 import SaveAttachment from '@/orangehrmPimPlugin/components/SaveAttachment';
 import EditAttachment from '@/orangehrmPimPlugin/components/EditAttachment';
 import ProfileActionHeader from '@/orangehrmPimPlugin/components/ProfileActionHeader';
-import DeleteConfirmationDialog from '@orangehrm/components/dialogs/DeleteConfirmationDialog.vue';
+import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmationDialog.vue';
 
 const attachmentDataNormalizer = data => {
   return data.map(item => {

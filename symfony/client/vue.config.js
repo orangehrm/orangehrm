@@ -13,15 +13,11 @@ module.exports = {
   configureWebpack: {
     resolve: {
       alias: {
-        '@orangehrm/oxd': '@orangehrm/oxd/src',
-        '@orangehrm/util': '@/core/util',
-        '@orangehrm/components': '@/core/components',
-        '@orangehrm/core': '@/core',
-        '@orangehrm/orangehrmAdminPlugin': '@/orangehrmAdminPlugin',
-        '@orangehrm/orangehrmAuthenticationPlugin':
-          '@/orangehrmAuthenticationPlugin',
-        '@orangehrm/orangehrmPimPlugin': '@/orangehrmPimPlugin',
-        assets: '@orangehrm/oxd/src/assets',
+        '@ohrm/core': '@/core',
+        '@ohrm/util': '@/core/util',
+        '@ohrm/oxd': '@ohrm/oxd/src',
+        '@ohrm/components': '@/core/components',
+        assets: '@ohrm/oxd/assets',
       },
     },
     plugins: [new DumpBuildTimestampPlugin()],

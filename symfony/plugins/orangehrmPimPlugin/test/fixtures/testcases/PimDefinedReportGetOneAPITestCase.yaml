@@ -25,20 +25,10 @@ GetOne:
           operator: 'eq'
       fieldGroup:
         1:
-          fields:
-            0:
-              1
-            1:
-              2
-            2:
-              3
+          fields: [ 1,2,3 ]
           includeHeader: true
         2:
-          fields:
-            0:
-              4
-            1:
-              5
+          fields: [ 4,5 ]
           includeHeader: true
     meta: [ ]
 
@@ -101,12 +91,6 @@ GetOne:
           operator: 'eq'
       fieldGroup:
         1:
-          fields:
-            0:
-              1
-            1:
-              2
-            2:
-              3
+          fields: [ 1,2,3 ]
           includeHeader: false
     meta: [ ]

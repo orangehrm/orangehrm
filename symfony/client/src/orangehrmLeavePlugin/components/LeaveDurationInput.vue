@@ -52,7 +52,7 @@
 </template>
 
 <script>
-import {diffInTime} from '@orangehrm/core/util/helper/datefns';
+import {diffInTime} from '@ohrm/core/util/helper/datefns';
 import {
   required,
   validTimeFormat,

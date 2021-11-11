@@ -1,12 +1,12 @@
 import {h, defineComponent, TransitionGroup, App, reactive, toRefs} from 'vue';
-import ToastComponent from '@orangehrm/oxd/core/components/Toast/Toast.vue';
+import ToastComponent from '@ohrm/oxd/core/components/Toast/Toast.vue';
 import {
   TYPE_SUCCESS,
   TYPE_DEFAULT,
   TYPE_ERROR,
   TYPE_INFO,
   TYPE_WARN,
-} from '@orangehrm/oxd/src/core/components/Toast/types';
+} from '@ohrm/oxd/src/core/components/Toast/types';
 import {nanoid} from 'nanoid';
 
 interface Toast {

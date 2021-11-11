@@ -46,7 +46,7 @@
 </template>
 
 <script>
-import {APIService} from '@orangehrm/core/util/services/api.service';
+import {APIService} from '@ohrm/core/util/services/api.service';
 import ProfileImageInput from '@/orangehrmPimPlugin/components/ProfileImageInput';
 import EditEmployeeLayout from '@/orangehrmPimPlugin/components/EditEmployeeLayout';
 const defaultPic = `${window.appGlobal.baseUrl}/../dist/img/user-default-400.png`;
