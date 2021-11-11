@@ -10,7 +10,7 @@ mysqlversion:
 
 mariadbversion:
     min: '5.5'
-    max: '10.5'
+    max: '10.6'
     excludeRange: []
 
 webserver: ['Apache', 'nginx', 'IIS']

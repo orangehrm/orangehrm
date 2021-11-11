@@ -1,7 +1,7 @@
 <?php
 
 class executeConfChangeAction extends sfAction {
-    
+
     private $selfConfigPath;
     private $remortConfigPath;
     private $upgradeSystemConfiguration = null;
@@ -12,7 +12,7 @@ class executeConfChangeAction extends sfAction {
         $this->getUser()->setAttribute('currentScreen','confInfo');
         $this->applicationRootPath = sfConfig::get('sf_root_dir')."/..";
     }
-    
+
     public function execute($request) {
         $this->form = new ConfigureFile();
         $this->confFileCreted = array('Pending', 'Pending');
@@ -37,7 +37,7 @@ class executeConfChangeAction extends sfAction {
                 $_SESSION['dbPassword'] = $password;
                 $_SESSION['dbName'] = $database;
                 $_SESSION['dbHostPort'] = $port;
-                
+
                 $upgraderUtility->setApplicationRootPath($this->applicationRootPath);
                 $result[] = $upgraderUtility->writeConfFile($host, $port, $database, $username, $password);
                 $result[] = $upgraderUtility->writeSymfonyDbConfigFile($host, $port, $database, $username, $password);
@@ -78,11 +78,10 @@ class executeConfChangeAction extends sfAction {
                     $_SESSION['defUser']['country'] = $upgradeSystemConfiguration->getCountry();
                     $_SESSION['defUser']['randomNumber'] = rand(1,100);
                     $_SESSION['defUser']['type'] = 4;
-                    $this->setInstanceIdentifier();
-                    $this->setInstanceIdentifierChecksum();
-
-                    $upgradeSystemRegistration = new UpgradeOrangehrmRegistration();
-                    $upgradeSystemRegistration->sendRegistrationData();
+                    $currentTime = new DateTime();
+                    $currentTimestamp = $currentTime->getTimestamp();
+                    $this->setInstanceIdentifier($currentTimestamp);
+                    $this->setInstanceIdentifierChecksum($currentTimestamp);
                 }
             }
         }
@@ -91,10 +90,10 @@ class executeConfChangeAction extends sfAction {
     /**
      * Set instance identifier to the database if not exist instance identifier
      */
-    public function setInstanceIdentifier() {
+    public function setInstanceIdentifier($currentTimestamp) {
         $upgradeSystemConfiguration = $this->getUpgradeSystemConfiguration();
         if (!$upgradeSystemConfiguration->hasSetInstanceIdentifier()) {
-            $upgradeSystemConfiguration->setInstanceIdentifier();
+            $upgradeSystemConfiguration->setInstanceIdentifier($currentTimestamp);
         }
         $this->instanceIdentifier = $upgradeSystemConfiguration->getInstanceIdentifier();
         $_SESSION['defUser']['instanceIdentifier'] = $this->instanceIdentifier;
@@ -114,10 +113,10 @@ class executeConfChangeAction extends sfAction {
     /**
      * Set instance identifier checksum value to the database if not exist instance identifier checksum value
      */
-    public function setInstanceIdentifierChecksum() {
+    public function setInstanceIdentifierChecksum($currentTimestamp) {
         $upgradeSystemConfiguration = $this->getUpgradeSystemConfiguration();
         if (!$upgradeSystemConfiguration->hasSetInstanceIdentifierChecksum()) {
-            $upgradeSystemConfiguration->setInstanceIdentifierChecksum();
+            $upgradeSystemConfiguration->setInstanceIdentifierChecksum($currentTimestamp);
         }
     }
 

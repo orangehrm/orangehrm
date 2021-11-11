@@ -2363,3 +2363,15 @@ CREATE TABLE `ohrm_theme`
     PRIMARY KEY (`theme_id`)
 ) engine = innodb
   default charset = utf8;
+
+create table `ohrm_registration_event_queue`
+(
+    `id`         INT NOT NULL AUTO_INCREMENT,
+    `event_type`   INT NOT NULL,
+    `published`  TINYINT UNSIGNED NOT NULL DEFAULT 0,
+    `event_time` DATETIME DEFAULT NULL,
+    `publish_time` DATETIME DEFAULT NULL,
+    `data` TEXT DEFAULT NULL,
+    primary key (`id`)
+) engine = innodb
+  default charset = utf8;
