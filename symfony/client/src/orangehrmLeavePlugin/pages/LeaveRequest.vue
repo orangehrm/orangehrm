@@ -126,7 +126,9 @@ const leaveRequestNormalizer = data => {
       date: leaveDatePeriod,
       leaveType:
         item.leaveType?.name + `${item.leaveType?.deleted ? ' (Deleted)' : ''}`,
-      leaveBalance: item.leaveBalance?.balance.balance,
+      leaveBalance: item.leaveBalance?.balance.balance
+        ? parseFloat(item.leaveBalance.balance.balance).toFixed(2)
+        : undefined,
       duration: parseFloat(item.lengthHours).toFixed(2),
       status: item.leaveStatus?.name,
       comment: truncate(item.lastComment?.comment),
