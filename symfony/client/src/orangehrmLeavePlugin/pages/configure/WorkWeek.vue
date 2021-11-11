@@ -127,7 +127,7 @@
 </template>
 
 <script>
-import {APIService} from '@orangehrm/core/util/services/api.service';
+import {APIService} from '@ohrm/core/util/services/api.service';
 import {required} from '@/core/util/validation/rules';
 
 const workWeekModel = {

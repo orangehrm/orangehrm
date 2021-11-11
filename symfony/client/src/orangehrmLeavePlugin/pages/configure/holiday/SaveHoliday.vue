@@ -100,14 +100,14 @@
 </template>
 
 <script>
-import {navigate} from '@orangehrm/core/util/helper/navigation';
-import {APIService} from '@orangehrm/core/util/services/api.service';
+import {navigate} from '@ohrm/core/util/helper/navigation';
+import {APIService} from '@ohrm/core/util/services/api.service';
 import {
   required,
   shouldNotExceedCharLength,
   validDateFormat,
-} from '@orangehrm/core/util/validation/rules';
-import {yearRange} from '@orangehrm/core/util/helper/year-range';
+} from '@ohrm/core/util/validation/rules';
+import {yearRange} from '@ohrm/core/util/helper/year-range';
 
 const holidayModel = {
   name: '',

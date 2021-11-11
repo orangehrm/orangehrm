@@ -69,9 +69,9 @@
 <script>
 import {computed, ref} from 'vue';
 import {APIService} from '@/core/util/services/api.service';
-import {navigate} from '@orangehrm/core/util/helper/navigation';
-import usePaginate from '@orangehrm/core/util/composable/usePaginate';
-import DeleteConfirmationDialog from '@orangehrm/components/dialogs/DeleteConfirmationDialog';
+import {navigate} from '@ohrm/core/util/helper/navigation';
+import usePaginate from '@ohrm/core/util/composable/usePaginate';
+import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmationDialog';
 
 const entitlementNormalizer = data => {
   return data.map(item => {

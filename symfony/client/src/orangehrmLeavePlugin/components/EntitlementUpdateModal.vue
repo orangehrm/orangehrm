@@ -55,8 +55,8 @@
 </template>
 
 <script>
-import Dialog from '@orangehrm/oxd/core/components/Dialog/Dialog';
-import {APIService} from '@orangehrm/core/util/services/api.service';
+import Dialog from '@ohrm/oxd/core/components/Dialog/Dialog';
+import {APIService} from '@ohrm/core/util/services/api.service';
 
 export default {
   name: 'entitlement-update-modal',

@@ -66,7 +66,7 @@ import {
   validDateFormat,
   endDateShouldBeAfterStartDate,
   startDateShouldBeBeforeEndDate,
-} from '@orangehrm/core/util/validation/rules';
+} from '@ohrm/core/util/validation/rules';
 
 export default {
   name: 'report-criterion-date-range',

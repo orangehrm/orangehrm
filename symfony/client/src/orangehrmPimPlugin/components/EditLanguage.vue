@@ -89,7 +89,7 @@
 import {
   required,
   shouldNotExceedCharLength,
-} from '@orangehrm/core/util/validation/rules';
+} from '@ohrm/core/util/validation/rules';
 
 const languageModel = {
   name: '',

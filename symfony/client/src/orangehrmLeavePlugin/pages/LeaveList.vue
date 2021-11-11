@@ -113,7 +113,7 @@
 <script>
 import LeaveListTable from '@/orangehrmLeavePlugin/components/LeaveListTable';
 import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
-import SwitchInput from '@orangehrm/oxd/core/components/Input/SwitchInput';
+import SwitchInput from '@ohrm/oxd/core/components/Input/SwitchInput';
 import LeaveTypeDropdown from '@/orangehrmLeavePlugin/components/LeaveTypeDropdown';
 
 export default {

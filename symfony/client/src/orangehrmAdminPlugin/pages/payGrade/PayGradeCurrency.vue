@@ -66,8 +66,8 @@
 </template>
 <script>
 import InlineActionButton from '@/orangehrmAdminPlugin/components/InlineActionButton.vue';
-import {APIService} from '@orangehrm/core/util/services/api.service';
-import usePaginate from '@orangehrm/core/util/composable/usePaginate';
+import {APIService} from '@ohrm/core/util/services/api.service';
+import usePaginate from '@ohrm/core/util/composable/usePaginate';
 import SavePayCurrency from '@/orangehrmAdminPlugin/pages/payGrade/SavePayCurrency.vue';
 import EditPayCurrency from '@/orangehrmAdminPlugin/pages/payGrade/EditPayCurrency.vue';
 import DeleteConfirmationDialog from '@/core/components/dialogs/DeleteConfirmationDialog';

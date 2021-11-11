@@ -151,12 +151,12 @@
 </template>
 
 <script>
-import {navigate} from '@orangehrm/core/util/helper/navigation';
+import {navigate} from '@ohrm/core/util/helper/navigation';
 import {
   required,
   shouldNotExceedCharLength,
-} from '@orangehrm/core/util/validation/rules';
-import {APIService} from '@orangehrm/core/util/services/api.service';
+} from '@ohrm/core/util/validation/rules';
+import {APIService} from '@ohrm/core/util/services/api.service';
 import ReportCriterion from '@/orangehrmPimPlugin/components/ReportCriterion';
 import ReportDisplayField from '@/orangehrmPimPlugin/components/ReportDisplayField';
 import useEmployeeReport from '@/orangehrmPimPlugin/util/composable/useEmployeeReport';

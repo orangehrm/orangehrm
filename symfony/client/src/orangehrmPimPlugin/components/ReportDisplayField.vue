@@ -45,8 +45,8 @@
 </template>
 
 <script>
-import SwitchInput from '@orangehrm/oxd/core/components/Input/SwitchInput';
-import MultiSelectChips from '@orangehrm/oxd/core/components/Input/MultiSelect/MultiSelectChips';
+import SwitchInput from '@ohrm/oxd/core/components/Input/SwitchInput';
+import MultiSelectChips from '@ohrm/oxd/core/components/Input/MultiSelect/MultiSelectChips';
 
 export default {
   name: 'report-display-field',

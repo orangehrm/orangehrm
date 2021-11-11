@@ -41,7 +41,7 @@
 <script>
 import {provide, readonly, ref} from 'vue';
 import About from '@/core/pages/About.vue';
-import Layout from '@orangehrm/oxd/src/core/components/Layout/Layout.vue';
+import Layout from '@ohrm/oxd/core/components/Layout/Layout.vue';
 
 export default {
   inheritAttrs: false,
