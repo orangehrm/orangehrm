@@ -236,11 +236,6 @@
           "target": "This page is under development",
           "description": ""
         },
-        "module_not_available": {
-          "source": "403",
-          "target": "403",
-          "description": ""
-        },
         "module_forbidden": {
           "source": "Forbidden",
           "target": "Forbidden",

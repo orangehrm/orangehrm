@@ -56,12 +56,18 @@ class ModuleNotAvailableSubscriber extends AbstractEventSubscriber
     {
         return [
             KernelEvents::REQUEST => [
-                ['onRequestEvent', 100000],
+                ['onRequestEvent', 200],
             ],
         ];
     }
 
-    public function onRequestEvent(RequestEvent $event)
+    /**
+     * @param RequestEvent $event
+     * @throws ForbiddenException
+     * @throws RequestForwardableException
+     * @return void
+     */
+    public function onRequestEvent(RequestEvent $event):void
     {
         if ($event->isMasterRequest()) {
             $disabledModules = $this->getModuleService()->getModuleDao()->getDisabledModuleList();

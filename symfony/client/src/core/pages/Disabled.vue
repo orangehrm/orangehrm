@@ -23,7 +23,7 @@
     <div class="orangehrm-card-container">
       <div class="orangehrm-module-disabled">
         <oxd-text tag="h1" class="orangehrm-module-disabled-heading">
-          {{ $t('general.module_not_available') }}
+          403
         </oxd-text>
         <oxd-text tag="h4" class="orangehrm-module-disabled-sub-heading">
           {{ $t('general.module_forbidden') }}
