@@ -17,20 +17,41 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Authentication\Dao;
+namespace OrangeHRM\Tests\Authentication\Dao;
 
-use OrangeHRM\Core\Dao\BaseDao;
+use OrangeHRM\Authentication\Dao\LoginLogDao;
 use OrangeHRM\Entity\LoginLog;
+use OrangeHRM\Tests\Util\TestCase;
 
-class LoginLogDao extends BaseDao
+/**
+ * @group Authentication
+ * @group Dao
+ */
+class LoginLogDaoTest extends TestCase
 {
     /**
-     * @param LoginLog $loginLog
-     * @return LoginLog
+     * @var LoginLogDao
      */
-    public function saveLoginLog(LoginLog $loginLog): LoginLog
+    private LoginLogDao $loginLogDao;
+
+    protected function setUp(): void
     {
-        $this->persist($loginLog);
-        return $loginLog;
+        $this->loginLogDao = new LoginLogDao();
+    }
+
+    public function testSaveLoginLog(): void
+    {
+        $loginLog = new LoginLog();
+        $loginLog->setUserId(1);
+        $loginLog->setUserName('Admin');
+        $loginLog->setUserRoleName('Admin');
+        $loginLog->setUserRolePredefined(1);
+        $result = $this->loginLogDao->saveLoginLog($loginLog);
+
+        $this->assertTrue($result instanceof LoginLog);
+        $this->assertEquals(1, $result->getUserId());
+        $this->assertEquals('Admin', $result->getUserName());
+        $this->assertEquals('Admin', $result->getUserRoleName());
+        $this->assertEquals(1, $result->getUserRolePredefined());
     }
 }

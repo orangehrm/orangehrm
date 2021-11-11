@@ -17,20 +17,38 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Authentication\Dao;
+namespace OrangeHRM\Tests\Authentication\Entity;
 
-use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Entity\LoginLog;
+use OrangeHRM\Tests\Util\EntityTestCase;
+use OrangeHRM\Tests\Util\TestDataService;
 
-class LoginLogDao extends BaseDao
+/**
+ * @group @Authentication
+ * @group @Entity
+ */
+class LoginLogTest extends EntityTestCase
 {
-    /**
-     * @param LoginLog $loginLog
-     * @return LoginLog
-     */
-    public function saveLoginLog(LoginLog $loginLog): LoginLog
+
+    protected function setUp(): void
     {
+        TestDataService::truncateTables([LoginLog::class]);
+    }
+
+    public function testLoginLogEntity(): void
+    {
+        $loginLog = new LoginLog();
+        $loginLog->setUserId(1);
+        $loginLog->setUserName('Admin');
+        $loginLog->setUserRoleName('Admin');
+        $loginLog->setUserRolePredefined(1);
         $this->persist($loginLog);
-        return $loginLog;
+
+        /** @var LoginLog $loginLog */
+        $loginLog = $this->getRepository(LoginLog::class)->find(1);
+        $this->assertEquals(1, $loginLog->getUserId());
+        $this->assertEquals('Admin', $loginLog->getUserName());
+        $this->assertEquals('Admin', $loginLog->getUserRoleName());
+        $this->assertEquals(1, $loginLog->getUserRolePredefined());
     }
 }
