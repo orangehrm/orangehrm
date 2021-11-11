@@ -37,7 +37,7 @@ use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Entity\EmailSubscriber;
 
-class EmailSubscriberAPI extends EndPoint implements CrudEndpoint
+class EmailSubscriberAPI extends Endpoint implements CrudEndpoint
 {
     public const PARAMETER_EMAIL_SUBSCRIPTION_ID = 'emailSubscriptionId';
     public const PARAMETER_SUBSCRIBER_NAME = 'name';
