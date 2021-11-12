@@ -244,6 +244,7 @@ class EmployeeCustomFieldAPI extends Endpoint implements ResourceEndpoint
             $rules[] = $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     CustomFieldService::EMPLOYEE_CUSTOM_FIELD_PREFIX . $i,
+                    new Rule(Rules::NOT_EMPTY),
                     new Rule(Rules::LENGTH, [null, self::PARAM_RULE_CUSTOM_FIELD_MAX_LENGTH])
                 )
             );

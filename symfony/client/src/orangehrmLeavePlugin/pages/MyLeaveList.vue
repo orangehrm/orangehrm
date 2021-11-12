@@ -53,7 +53,8 @@
               <oxd-grid-item>
                 <leave-type-dropdown
                   v-model="filters.leaveType"
-                  :eligible-only="false"
+                  :eligible-only="true"
+                  :include-allocated="true"
                 />
               </oxd-grid-item>
             </oxd-grid>

@@ -43,7 +43,7 @@
                 type="select"
                 label="Job Title"
                 v-model="job.jobTitleId"
-                :options="jobTitles"
+                :options="normalizedJobTitles"
                 :disabled="!hasUpdatePermissions"
               />
             </oxd-grid-item>
@@ -399,7 +399,7 @@ export default {
     updateJobModel(response) {
       const {data} = response.data;
       this.job.joinedDate = data.joinedDate;
-      this.job.jobTitleId = this.jobTitles.find(
+      this.job.jobTitleId = this.normalizedJobTitles.find(
         item => item.id === data.jobTitle?.id,
       );
       this.job.jobCategoryId = this.jobCategories.find(
@@ -433,6 +433,16 @@ export default {
     },
     hasUpdatePermissions() {
       return this.$can.update(`job_details`);
+    },
+    normalizedJobTitles() {
+      return this.jobTitles.map(jobTitle => {
+        return {
+          id: jobTitle.id,
+          label: jobTitle?.deleted
+            ? jobTitle.label + ' (Deleted)'
+            : jobTitle.label,
+        };
+      });
     },
   },
 
