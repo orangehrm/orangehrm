@@ -32,7 +32,7 @@ class LoginLogTest extends EntityTestCase
 
     protected function setUp(): void
     {
-        TestDataService::truncateTables([LoginLog::class]);
+        TestDataService::truncateSpecificTables([LoginLog::class]);
     }
 
     public function testLoginLogEntity(): void
@@ -41,7 +41,7 @@ class LoginLogTest extends EntityTestCase
         $loginLog->setUserId(1);
         $loginLog->setUserName('username');
         $loginLog->setUserRoleName('Admin');
-        $loginLog->setUserRolePredefined(1);
+        $loginLog->setUserRolePredefined(0);
         $this->persist($loginLog);
 
         /** @var LoginLog $loginLog */
@@ -49,6 +49,6 @@ class LoginLogTest extends EntityTestCase
         $this->assertEquals(1, $loginLog->getUserId());
         $this->assertEquals('username', $loginLog->getUserName());
         $this->assertEquals('Admin', $loginLog->getUserRoleName());
-        $this->assertEquals(1, $loginLog->getUserRolePredefined());
+        $this->assertEquals(0, $loginLog->getUserRolePredefined());
     }
 }
