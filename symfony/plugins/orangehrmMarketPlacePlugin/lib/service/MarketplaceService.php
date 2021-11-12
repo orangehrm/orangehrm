@@ -261,6 +261,8 @@ class MarketplaceService extends ConfigService
             $adminLastName = $adminEmployee->getLastName();
         }
 
+        $currentTime = new DateTime();
+        $currentTimestamp = $currentTime->getTimestamp();
         $instanceId = $this->getSysConfig()->createInstanceIdentifier(
             $organizationName,
             $organizationEmail,
@@ -268,7 +270,8 @@ class MarketplaceService extends ConfigService
             $adminLastName,
             $_SERVER['HTTP_HOST'],
             $country,
-            $this->getSysConfig()->getOhrmVersion()
+            $this->getSysConfig()->getOhrmVersion(),
+            $currentTimestamp
         );
         $instanceIdChecksum = $this->getSysConfig()->createInstanceIdentifierChecksum(
             $organizationName,
@@ -277,7 +280,8 @@ class MarketplaceService extends ConfigService
             $adminLastName,
             $_SERVER['HTTP_HOST'],
             $country,
-            $this->getSysConfig()->getOhrmVersion()
+            $this->getSysConfig()->getOhrmVersion(),
+            $currentTimestamp
         );
         $this->_setConfigValue(ConfigService::KEY_INSTANCE_IDENTIFIER, $instanceId);
         $this->_setConfigValue(ConfigService::KEY_INSTANCE_IDENTIFIER_CHECKSUM, $instanceIdChecksum);
