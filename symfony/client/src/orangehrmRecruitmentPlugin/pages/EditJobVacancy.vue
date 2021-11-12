@@ -79,6 +79,7 @@
             <oxd-switch-input v-model="vacancy.status" />
           </oxd-grid-item>
         </oxd-grid>
+        <br />
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
           <oxd-grid-item class="orangerhrm-switch-wrapper">
             <oxd-text class="orangehrm-text" tag="label"
@@ -87,20 +88,6 @@
             <oxd-switch-input v-model="vacancy.isPublished" />
           </oxd-grid-item>
         </oxd-grid>
-        <!-- <oxd-grid :cols="3" class="orangehrm-full-width-grid">
-          <oxd-grid-item>
-            <oxd-grid :cols="2" class="orangehrm-full-width-grid">
-              <oxd-grid-item>
-                <oxd-text class="orangehrm-text" tag="label"
-                  >Publish in RSS feed and web page</oxd-text
-                ></oxd-grid-item
-              >
-              <oxd-grid-item
-                ><oxd-switch-input v-model="vacancy.isPublished"
-              /></oxd-grid-item>
-            </oxd-grid>
-          </oxd-grid-item>
-        </oxd-grid> -->
         <br />
         <oxd-grid :cols="1" class="orangehrm-full-width-grid">
           <div class="orangehrm-container orangehrm-container--border">

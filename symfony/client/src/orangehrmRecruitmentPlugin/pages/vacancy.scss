@@ -72,13 +72,13 @@
 .orangerhrm-switch-wrapper {
   display: flex;
   flex-direction: row;
-  flex: 1 1 2;
+  justify-content: space-between;
 
-  @include oxd-respond-to('xs') {
-    justify-content: flex-start;
+  @include oxd-respond-to('sm') {
+    max-width: 50%;
   }
   @include oxd-respond-to('md') {
-    justify-content: space-between;
+    max-width: 100%;
   }
 }
 .orangehrm-label-link-wrapper {

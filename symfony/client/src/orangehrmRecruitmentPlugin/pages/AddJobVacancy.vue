@@ -75,14 +75,15 @@
           </oxd-grid-item>
         </oxd-grid>
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
-          <oxd-grid-item class="orangehrm-grid-item-horizontal-wrapper">
+          <oxd-grid-item class="orangerhrm-switch-wrapper">
             <oxd-text class="orangehrm-text" tag="label">Active</oxd-text>
             <oxd-switch-input v-model="vacancy.status" />
           </oxd-grid-item>
         </oxd-grid>
+        <br />
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
-          <oxd-grid-item class="orangehrm-grid-item-horizontal-wrapper">
-            <oxd-text class="orangehrm-text " tag="label"
+          <oxd-grid-item class="orangerhrm-switch-wrapper">
+            <oxd-text class="orangehrm-text" tag="label"
               >Publish in RSS feed and web page</oxd-text
             >
             <oxd-switch-input v-model="vacancy.isPublished" />
