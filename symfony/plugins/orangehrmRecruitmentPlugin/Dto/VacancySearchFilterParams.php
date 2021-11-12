@@ -26,8 +26,9 @@ class VacancySearchFilterParams extends FilterParams
     public const ALLOWED_SORT_FIELDS = [
         'vacancy.name',
         'vacancy.status',
-        'vacancy.jobTitle',
-        'vacancy.employee',
+        'jobTitle.jobTitleName',
+        'employee.lastName',
+        'employee.firstName',
     ];
 
     /**

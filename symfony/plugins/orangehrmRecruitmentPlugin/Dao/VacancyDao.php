@@ -217,14 +217,16 @@ class VacancyDao extends BaseDao
     {
 
             $q = $this->createQueryBuilder(Vacancy::class, 'vacancy');
+            $q->leftJoin('vacancy.jobTitle','jobTitle');
+            $q->leftJoin('vacancy.employee','employee');
 
             $this->setSortingAndPaginationParams($q,$vacancySearchFilterParamHolder);
 
             if(!is_null($vacancySearchFilterParamHolder->getJobTitleId())){
-                $q->andWhere('vacancy.jobTitle = :jobTitleCode')->setParameter('jobTitleCode', $vacancySearchFilterParamHolder->getJobTitleId());
+                $q->andWhere('jobTitle.id = :jobTitleCode')->setParameter('jobTitleCode', $vacancySearchFilterParamHolder->getJobTitleId());
             }
             if(!is_null($vacancySearchFilterParamHolder->getEmpNumber())){
-                $q->andWhere('vacancy.employee  = :hiringManagerId')->setParameter('hiringManagerId', $vacancySearchFilterParamHolder->getEmpNumber());
+                $q->andWhere('employee.empNumber  = :hiringManagerId')->setParameter('hiringManagerId', $vacancySearchFilterParamHolder->getEmpNumber());
             }
             if(!is_null($vacancySearchFilterParamHolder->getVacancyId())){
                 $q->andWhere('vacancy.id = :vacancyId')->setParameter('vacancyId', $vacancySearchFilterParamHolder->getVacancyId());

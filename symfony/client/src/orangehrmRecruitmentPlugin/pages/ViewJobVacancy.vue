@@ -136,9 +136,10 @@ const defaultFilters = {
 };
 const defaultSortOrder = {
   'vacancy.name': 'ASC',
-  'vacancy.jobTitle': 'DEFAULT',
-  'vacancy.employee': 'DEFAULT',
   'vacancy.status': 'DEFAULT',
+  'jobTitle.jobTitleName': 'DEFAULT',
+  'employee.lastName': 'DEFAULT',
+  'employee.firstName': 'DEFAULT',
 };
 export default {
   name: 'view-job-vacancy',
@@ -162,13 +163,13 @@ export default {
         {
           name: 'jobTitle',
           title: 'Job Title',
-          sortField: 'vacancy.jobTitle',
+          sortField: 'jobTitle.jobTitleName',
           style: {flex: 1},
         },
         {
           name: 'hiringManager',
           title: 'Hiring Manager',
-          sortField: 'vacancy.employee',
+          sortField: 'employee.lastName',
           style: {flex: 1},
         },
         {
