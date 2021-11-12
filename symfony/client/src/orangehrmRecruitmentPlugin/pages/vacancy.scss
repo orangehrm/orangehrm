@@ -24,11 +24,6 @@
   @include oxd-respond-to('md') {
     flex-direction: row;
   }
-  & .orangehrm-employee-image {
-    flex: 1 1 25%;
-    padding: 1rem;
-    text-align: center;
-  }
   & .orangehrm-employee-form {
     flex: 1 1 75%;
   }
@@ -74,46 +69,43 @@
     grid-gap: 0.2rem;
   }
 }
-
-.orangehrm-employee-picture {
-  text-align: center;
-  margin: 0 auto;
-  margin-bottom: 8rem;
-  ::v-deep(.oxd-file-div) {
-    width: 12rem !important;
-    height: 12rem !important;
-  }
-  ::v-deep(.employee-image) {
-    height: 12rem;
-  }
-}
-
-::v-deep(.--termination-button) {
-  white-space: unset !important;
-}
-
-.orangehrm-terminate-date {
-  cursor: pointer;
-  color: $oxd-primary-one-color;
-  text-decoration: underline;
-  font-size: 0.75rem;
-  font-weight: 800;
-}
-
-.grid-item-horizontal-wrapper {
+.orangerhrm-switch-wrapper {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  flex: 1 1 2;
+
+  @include oxd-respond-to('xs') {
+    justify-content: flex-start;
+  }
+  @include oxd-respond-to('md') {
+    justify-content: space-between;
+  }
 }
-.user-input-description {
+.orangehrm-label-link-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+}
+.orangehrm-grid-item-span-2 {
   grid-column: span 2;
 }
-// .user-input-numOfPositions {
-//   grid-column: span 1/2;
-// }
-.user-input-label {
-  font-family: 'Nunito Sans';
+.orangehrm-text {
   font-size: 12px;
   font-weight: 600;
-  color: #64728c;
+  color: $oxd-interface-gray-darken-1-color;
+}
+.orangehrm-text-label {
+  flex: 1;
+  padding-right: 0.2rem;
+}
+.orangehrm-href {
+  font-family: $oxd-font-family;
+  text-decoration: none;
+  word-break: break-all;
+  flex: 7;
+}
+.orangehrm-text--colored {
+  color: $oxd-primary-one-color;
+}
+.orangehrm-container--border {
+  border-radius: $oxd-border-radius;
 }

@@ -86,7 +86,6 @@
           rowDecorator="oxd-table-decorator-card"
           v-model:order="sortDefinition"
           v-model:selected="checkedItems"
-          class="orangehrm-vacancy-list"
         />
       </div>
       <div class="orangehrm-bottom-container">

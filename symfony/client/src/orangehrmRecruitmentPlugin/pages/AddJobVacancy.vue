@@ -42,7 +42,7 @@
           </oxd-grid-item>
         </oxd-grid>
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
-          <oxd-grid-item class="user-input-description">
+          <oxd-grid-item class="orangehrm-grid-item-span-2">
             <oxd-input-field
               type="textarea"
               label="Description"
@@ -75,19 +75,33 @@
           </oxd-grid-item>
         </oxd-grid>
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
-          <oxd-grid-item class="grid-item-horizontal-wrapper">
-            <oxd-text class="user-input-label" tag="label">Active</oxd-text>
+          <oxd-grid-item class="orangehrm-grid-item-horizontal-wrapper">
+            <oxd-text class="orangehrm-text" tag="label">Active</oxd-text>
             <oxd-switch-input v-model="vacancy.status" />
           </oxd-grid-item>
         </oxd-grid>
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
-          <oxd-grid-item class="grid-item-horizontal-wrapper">
-            <oxd-text class="user-input-label" tag="label"
+          <oxd-grid-item class="orangehrm-grid-item-horizontal-wrapper">
+            <oxd-text class="orangehrm-text " tag="label"
               >Publish in RSS feed and web page</oxd-text
             >
             <oxd-switch-input v-model="vacancy.isPublished" />
           </oxd-grid-item>
         </oxd-grid>
+        <br />
+        <oxd-grid :cols="1" class="orangehrm-full-width-grid">
+          <div class="orangehrm-container orangehrm-container--border">
+            <vacancy-link-card
+              label="RSS Feed URL"
+              url="http://php74/orangehrm/symfony/web/index.php/recruitmentApply/jobs.rss"
+            />
+            <vacancy-link-card
+              label="Web Page URL"
+              url="http://php74/orangehrm/symfony/web/index.php/recruitmentApply/jobs.html"
+            />
+          </div>
+        </oxd-grid>
+        <br />
         <oxd-divider />
         <oxd-form-actions>
           <required-text />
@@ -112,6 +126,7 @@ import {
 } from '@orangehrm/core/util/validation/rules';
 import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
 import JobtitleDropdown from '@/orangehrmPimPlugin/components/JobtitleDropdown';
+import VacancyLinkCard from '../components/VacancyLinkCard.vue';
 
 const vacancyModel = {
   jobTitle: null,
@@ -128,6 +143,7 @@ export default {
     'oxd-switch-input': SwitchInput,
     'employee-autocomplete': EmployeeAutocomplete,
     'jobtitle-dropdown': JobtitleDropdown,
+    'vacancy-link-card': VacancyLinkCard,
   },
 
   data() {

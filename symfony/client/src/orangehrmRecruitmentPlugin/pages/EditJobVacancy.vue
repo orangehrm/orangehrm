@@ -41,7 +41,7 @@
           </oxd-grid-item>
         </oxd-grid>
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
-          <oxd-grid-item class="user-input-description">
+          <oxd-grid-item class="orangehrm-grid-item-span-2">
             <oxd-input-field
               type="textarea"
               label="Description"
@@ -64,27 +64,57 @@
             />
           </oxd-grid-item>
           <oxd-grid-item>
-            <oxd-input-field
-              label="Number Of Positions"
-              v-model.number="vacancy.numOfPositions"
-              :rules="rules.numOfPositions"
-            />
+            <oxd-grid :cols="2" class="orangehrm-full-width-grid">
+              <oxd-input-field
+                label="Number Of Positions"
+                v-model="vacancy.numOfPositions"
+                :rules="rules.numOfPositions"
+              />
+            </oxd-grid>
           </oxd-grid-item>
         </oxd-grid>
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
-          <oxd-grid-item class="grid-item-horizontal-wrapper">
-            <oxd-text class="user-input-label" tag="label">Active</oxd-text>
+          <oxd-grid-item class="orangerhrm-switch-wrapper">
+            <oxd-text class="orangehrm-text" tag="label">Active</oxd-text>
             <oxd-switch-input v-model="vacancy.status" />
           </oxd-grid-item>
         </oxd-grid>
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
-          <oxd-grid-item class="grid-item-horizontal-wrapper">
-            <oxd-text class="user-input-label" tag="label"
+          <oxd-grid-item class="orangerhrm-switch-wrapper">
+            <oxd-text class="orangehrm-text" tag="label"
               >Publish in RSS feed and web page</oxd-text
             >
             <oxd-switch-input v-model="vacancy.isPublished" />
           </oxd-grid-item>
         </oxd-grid>
+        <!-- <oxd-grid :cols="3" class="orangehrm-full-width-grid">
+          <oxd-grid-item>
+            <oxd-grid :cols="2" class="orangehrm-full-width-grid">
+              <oxd-grid-item>
+                <oxd-text class="orangehrm-text" tag="label"
+                  >Publish in RSS feed and web page</oxd-text
+                ></oxd-grid-item
+              >
+              <oxd-grid-item
+                ><oxd-switch-input v-model="vacancy.isPublished"
+              /></oxd-grid-item>
+            </oxd-grid>
+          </oxd-grid-item>
+        </oxd-grid> -->
+        <br />
+        <oxd-grid :cols="1" class="orangehrm-full-width-grid">
+          <div class="orangehrm-container orangehrm-container--border">
+            <vacancy-link-card
+              label="RSS Feed URL"
+              url="http://php74/orangehrm/symfony/web/index.php/recruitmentApply/jobs.rss"
+            />
+            <vacancy-link-card
+              label="Web Page URL"
+              url="http://php74/orangehrm/symfony/web/index.php/recruitmentApply/jobs.html"
+            />
+          </div>
+        </oxd-grid>
+        <br />
         <oxd-divider />
         <oxd-form-actions>
           <required-text />
@@ -108,6 +138,7 @@ import {
 } from '@orangehrm/core/util/validation/rules';
 import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
 import JobtitleDropdown from '@/orangehrmPimPlugin/components/JobtitleDropdown';
+import VacancyLinkCard from '../components/VacancyLinkCard.vue';
 
 const vacancyModel = {
   jobTitle: null,
@@ -131,11 +162,15 @@ export default {
     'oxd-switch-input': SwitchInput,
     'employee-autocomplete': EmployeeAutocomplete,
     'jobtitle-dropdown': JobtitleDropdown,
+    'vacancy-link-card': VacancyLinkCard,
   },
 
   data() {
     return {
       isLoading: false,
+      rssFeedUrl: '',
+      webFeedUrl: '',
+      currentName: '',
       vacancy: {...vacancyModel},
       rules: {
         jobTitle: [required],
@@ -182,11 +217,18 @@ export default {
           this.onCancel();
         });
     },
+    getUrls() {
+      const baseUrl = window.location.hostname;
+      const urlSplits = baseUrl.split('/');
+      console.log(urlSplits);
+    },
   },
   created() {
     this.isLoading = true;
+    this.getUrls();
     this.http.get(this.vacancyId).then(response => {
       const {data} = response.data;
+      this.currentName = data.name;
       this.vacancy.name = data.name;
       this.vacancy.description = data.description;
       this.vacancy.numOfPositions = data.numOfPositions;
@@ -208,7 +250,9 @@ export default {
       .then(response => {
         const {data} = response.data;
         this.rules.name.push(v => {
-          const index = data.findIndex(item => item.name == v);
+          const index = data.findIndex(item => {
+            return item.name == v && item.name != this.currentName;
+          });
           return index === -1 || 'Already exists';
         });
       })
