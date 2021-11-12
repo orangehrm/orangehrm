@@ -126,7 +126,10 @@ export default {
       response,
       isLoading,
       execQuery,
-    } = usePaginate(http, {normalizer: attachmentDataNormalizer});
+    } = usePaginate(http, {
+      normalizer: attachmentDataNormalizer,
+      toastNoRecords: false,
+    });
     return {
       http,
       showPaginator,

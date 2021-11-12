@@ -15,7 +15,6 @@ module.exports = {
       alias: {
         '@ohrm/core': '@/core',
         '@ohrm/util': '@/core/util',
-        '@ohrm/oxd': '@ohrm/oxd/src',
         '@ohrm/components': '@/core/components',
         assets: '@ohrm/oxd/assets',
       },

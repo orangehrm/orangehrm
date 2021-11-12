@@ -35,11 +35,10 @@
           </oxd-grid-item>
           <oxd-grid-item>
             <oxd-input-field
-              type="dropdown"
+              type="select"
               label="Relationship"
               v-model="dependent.relationshipType"
               :rules="rules.relationshipType"
-              :clear="false"
               :options="relationshipOptions"
               required
             />
@@ -83,11 +82,15 @@
 </template>
 
 <script>
-import {required} from '@ohrm/core/util/validation/rules';
+import {
+  required,
+  validDateFormat,
+  shouldNotExceedCharLength,
+} from '@ohrm/core/util/validation/rules';
 
 const dependentModel = {
   name: '',
-  relationshipType: [{id: 'child', label: 'Child'}],
+  relationshipType: {id: 'child', label: 'Child'},
   relationship: '',
   dateOfBirth: '',
 };
@@ -109,24 +112,10 @@ export default {
       isLoading: false,
       dependent: {...dependentModel},
       rules: {
-        name: [
-          required,
-          v => {
-            return !v || v.length <= 100 || 'Should not exceed 100 characters';
-          },
-        ],
-        relationshipType: [
-          v => {
-            return (!!v && v.length !== 0) || 'Required';
-          },
-        ],
-        relationship: [
-          required,
-          v => {
-            return !v || v.length <= 100 || 'Should not exceed 100 characters';
-          },
-        ],
-        dateOfBirth: [],
+        name: [required, shouldNotExceedCharLength(100)],
+        relationshipType: [required],
+        relationship: [required, shouldNotExceedCharLength(100)],
+        dateOfBirth: [validDateFormat()],
       },
       relationshipOptions: [
         {id: 'child', label: 'Child'},
@@ -141,9 +130,7 @@ export default {
       this.http
         .create({
           ...this.dependent,
-          relationshipType: this.dependent.relationshipType.map(
-            item => item.id,
-          )[0],
+          relationshipType: this.dependent.relationshipType?.id,
         })
         .then(() => {
           return this.$toast.saveSuccess();
@@ -160,7 +147,7 @@ export default {
 
   computed: {
     showRelationship() {
-      return this.dependent.relationshipType[0]?.id == 'other';
+      return this.dependent.relationshipType?.id == 'other';
     },
   },
 };

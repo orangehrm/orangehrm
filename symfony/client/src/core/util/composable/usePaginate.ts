@@ -19,6 +19,7 @@
 import {onBeforeMount, reactive, toRefs, watch, unref} from 'vue';
 import {APIService} from '@/core/util/services/api.service';
 import {AxiosResponse} from 'axios';
+import useToast from '@/core/util/composable/useToast';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 interface ServerResponse {
@@ -57,7 +58,7 @@ async function fetchData(
   } catch (error) {
     return {
       error: true,
-      message: error.message,
+      message: (error as Error).message,
     };
   }
 }
@@ -88,6 +89,7 @@ type usePaginateArgs = {
   query?: object;
   normalizer?: Function;
   prefetch?: boolean;
+  toastNoRecords?: boolean;
 };
 
 export default function usePaginate(
@@ -96,6 +98,7 @@ export default function usePaginate(
     query = {},
     normalizer = defaultNormalizer,
     prefetch = true,
+    toastNoRecords = true,
   }: usePaginateArgs = {},
 ) {
   const state = reactive<State>({
@@ -107,6 +110,7 @@ export default function usePaginate(
     pageSize: 50,
     currentPage: 1,
   });
+  const {noRecordsFound} = useToast();
 
   const execQuery = async () => {
     state.isLoading = true;
@@ -127,6 +131,10 @@ export default function usePaginate(
         state.currentPage = 1;
         state.pages = 1;
         state.showPaginator = false;
+      }
+
+      if (state.total === 0 && toastNoRecords) {
+        noRecordsFound();
       }
     }
     state.isLoading = false;
