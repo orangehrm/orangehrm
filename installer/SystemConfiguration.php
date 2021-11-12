@@ -219,12 +219,12 @@ class SystemConfiguration
         return base64_encode(
             $organizationName .
             '_' . $email .
-            '_' . $timestamp .
             '_' . $adminFirstName .
             '_' . $adminLastName .
             '_' . $host .
             '_' . $country .
-            '_' . $ohrmVersion
+            '_' . $ohrmVersion.
+            '_' . $timestamp
         );
     }
 
