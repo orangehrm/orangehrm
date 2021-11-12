@@ -80,12 +80,13 @@
         <oxd-card-table
           :headers="headers"
           :items="items?.data"
-          :loading="isLoading"
           :selectable="true"
           :clickable="false"
+          v-model:selected="checkedItems"
+          :loading="isLoading"
           rowDecorator="oxd-table-decorator-card"
           v-model:order="sortDefinition"
-          v-model:selected="checkedItems"
+          class="orangehrm-vacancy-list"
         />
       </div>
       <div class="orangehrm-bottom-container">
@@ -155,7 +156,7 @@ export default {
       headers: [
         {
           name: 'vacancy',
-          slot: 'Vacancy',
+          slot: 'title',
           title: 'Vacancy',
           sortField: 'vacancy.name',
           style: {flex: 1},

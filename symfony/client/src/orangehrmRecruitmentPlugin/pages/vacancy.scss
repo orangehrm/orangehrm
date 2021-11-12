@@ -16,19 +16,6 @@
 
 @import '@orangehrm/oxd/styles/_mixins.scss';
 
-.orangehrm-employee-container {
-  display: flex;
-  @include oxd-respond-to('xs') {
-    flex-direction: column;
-  }
-  @include oxd-respond-to('md') {
-    flex-direction: row;
-  }
-  & .orangehrm-employee-form {
-    flex: 1 1 75%;
-  }
-}
-
 .user-form-header {
   display: flex;
   padding: 1rem;
@@ -37,15 +24,6 @@
     margin-right: 1rem;
   }
 }
-
-::v-deep(.--status-grouped-field) {
-  display: flex;
-}
-
-::v-deep(.--gender-grouped-field) {
-  display: flex;
-}
-
 .orangehrm-vacancy-list {
   ::v-deep(.card-header-slot) {
     border-bottom: $oxd-input-control-border--active;
@@ -53,6 +31,8 @@
   }
   ::v-deep(.card-header-slot .oxd-table-card-cell) {
     display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
   ::v-deep(.card-header-slot .header) {
     margin-right: 5px;
@@ -61,6 +41,7 @@
   ::v-deep(.card-header-slot-content.--left) {
     display: flex;
     align-items: center;
+    flex: 2;
   }
   ::v-deep(.card-body-slot) {
     display: unset;
