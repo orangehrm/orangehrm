@@ -82,8 +82,6 @@ class TestDataService
         $query = '';
         $pdo->beginTransaction();
         try {
-            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
             if ($useCache) {
                 foreach (self::$insertQueryCache as $query) {
                     $pdo->exec($query);
@@ -264,7 +262,6 @@ class TestDataService
 
     /**
      * @param string[]|null $tableNames
-     * @throws MappingException
      */
     private static function _truncateTables(?array $tableNames = null): void
     {
@@ -278,8 +275,8 @@ class TestDataService
             $query = '';
 
             try {
-                $pdo->setAttribute(PDO::ATTR_AUTOCOMMIT, 0);
-                $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                $pdo->getWrappedConnection()->setAttribute(PDO::ATTR_AUTOCOMMIT, 0);
+                $pdo->getWrappedConnection()->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                 $pdo->beginTransaction();
 
                 foreach ($tableNames as $tableName) {
@@ -294,7 +291,7 @@ class TestDataService
                 $pdo->exec($query);
 
                 $pdo->commit();
-                $pdo->setAttribute(PDO::ATTR_AUTOCOMMIT, 1);
+                $pdo->getWrappedConnection()->setAttribute(PDO::ATTR_AUTOCOMMIT, 1);
             } catch (Exception $e) {
                 $pdo->rollBack();
                 echo __FILE__ . ':' . __LINE__ . "\n Transaction failed: " . $e->getMessage() .
