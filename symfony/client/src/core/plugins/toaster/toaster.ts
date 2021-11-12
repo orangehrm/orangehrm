@@ -6,7 +6,7 @@ import {
   TYPE_ERROR,
   TYPE_INFO,
   TYPE_WARN,
-} from '@ohrm/oxd/src/core/components/Toast/types';
+} from '@ohrm/oxd/core/components/Toast/types';
 import {nanoid} from 'nanoid';
 
 interface Toast {
@@ -52,6 +52,7 @@ export interface ToasterAPI {
   updateSuccess: () => Promise<string>;
   deleteSuccess: () => Promise<string>;
   cannotDelete: () => Promise<string>;
+  noRecordsFound: () => Promise<string>;
 }
 
 const state: ToasterState = reactive({
@@ -221,6 +222,12 @@ export default {
         message: 'Cannot be deleted',
       });
 
+    const noRecordsFound = () =>
+      info({
+        title: 'Info',
+        message: 'No Records Found',
+      });
+
     state.class = options.class ? options.class : 'oxd-toast-container--toast';
     state.transition = options.animation ? options.animation : 'oxd-toast-list';
     state.position = options.position ? options.position : 'bottom';
@@ -243,6 +250,7 @@ export default {
       updateSuccess,
       deleteSuccess,
       cannotDelete,
+      noRecordsFound,
     };
     app.config.globalProperties.$toast = toasterAPI;
   },
