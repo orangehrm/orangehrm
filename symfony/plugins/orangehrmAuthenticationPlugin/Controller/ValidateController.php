@@ -23,6 +23,7 @@ use OrangeHRM\Authentication\Auth\User as AuthUser;
 use OrangeHRM\Authentication\Dto\UserCredential;
 use OrangeHRM\Authentication\Exception\AuthenticationException;
 use OrangeHRM\Authentication\Service\AuthenticationService;
+use OrangeHRM\Authentication\Service\LoginService;
 use OrangeHRM\Core\Authorization\Service\HomePageService;
 use OrangeHRM\Core\Controller\AbstractController;
 use OrangeHRM\Core\Controller\PublicControllerInterface;
@@ -45,6 +46,11 @@ class ValidateController extends AbstractController implements PublicControllerI
      * @var AuthenticationService|null
      */
     protected ?AuthenticationService $authenticationService = null;
+
+    /**
+     * @var null|LoginService
+     */
+    protected ?LoginService $loginService = null;
 
     /**
      * @var HomePageService|null
@@ -73,6 +79,18 @@ class ValidateController extends AbstractController implements PublicControllerI
         return $this->homePageService;
     }
 
+    /**
+     * @return LoginService
+     */
+    public function getLoginService(): LoginService
+    {
+        if (is_null($this->loginService)) {
+            $this->loginService = new LoginService();
+        }
+        return $this->loginService;
+    }
+
+
     public function handle(Request $request): RedirectResponse
     {
         $username = $request->get(self::PARAMETER_USERNAME, '');
@@ -89,6 +107,7 @@ class ValidateController extends AbstractController implements PublicControllerI
                 throw AuthenticationException::invalidCredentials();
             }
             $this->getAuthUser()->setIsAuthenticated($success);
+            $this->getLoginService()->addLogin($credentials);
         } catch (AuthenticationException $e) {
             $this->getAuthUser()->addFlash(AuthUser::FLASH_LOGIN_ERROR, $e->normalize());
             return new RedirectResponse($loginUrl);

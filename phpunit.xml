@@ -28,6 +28,8 @@
     </testsuite>
     <testsuite name="Authentication">
       <directory>symfony/plugins/orangehrmAuthenticationPlugin/test/Service</directory>
+      <directory>symfony/plugins/orangehrmAuthenticationPlugin/test/Entity</directory>
+      <directory>symfony/plugins/orangehrmAuthenticationPlugin/test/Dao</directory>
     </testsuite>
     <testsuite name="Core">
       <directory>symfony/plugins/orangehrmCorePlugin/test/Service</directory>
