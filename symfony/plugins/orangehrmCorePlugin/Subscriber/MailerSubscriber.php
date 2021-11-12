@@ -57,9 +57,7 @@ class MailerSubscriber extends AbstractEventSubscriber
             $this->getLogger()->info("MailerSubscriber >> Start: $timeStart");
 
             $emailQueueService = new EmailQueueService();
-            $this->beginTransaction();
             $emailQueueService->sendAllPendingMails();
-            $this->commitTransaction();
 
             $timeEnd = microtime(true);
             $executionTime = ($timeEnd - $timeStart);

@@ -20,6 +20,7 @@
 namespace OrangeHRM\Leave\Dao;
 
 use OrangeHRM\Core\Dao\BaseDao;
+use OrangeHRM\Entity\LeaveRequest;
 use OrangeHRM\Entity\LeaveType;
 use OrangeHRM\Leave\Dto\LeaveTypeSearchFilterParams;
 use OrangeHRM\ORM\Paginator;
@@ -156,5 +157,20 @@ class LeaveTypeDao extends BaseDao
     {
         $paginator = $this->getSearchLeaveTypePaginator($leaveTypeSearchParams);
         return $paginator->count();
+    }
+
+    /**
+     * @param int $empNumber
+     * @param int $leaveTypeId
+     * @return bool
+     */
+    public function hasEmployeeAllocatedLeavesForLeaveType(int $empNumber, int $leaveTypeId): bool
+    {
+        $q = $this->createQueryBuilder(LeaveRequest::class, 'lr')
+            ->andWhere('lr.employee = :empNumber')
+            ->setParameter('empNumber', $empNumber)
+            ->andWhere('lr.leaveType = :leaveTypeId')
+            ->setParameter('leaveTypeId', $leaveTypeId);
+        return $this->getPaginator($q)->count() > 0;
     }
 }

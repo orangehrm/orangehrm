@@ -17,35 +17,20 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Admin\Service\Model;
+namespace OrangeHRM\Authentication\Dao;
 
-use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
-use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
-use OrangeHRM\Entity\JobTitle;
+use OrangeHRM\Core\Dao\BaseDao;
+use OrangeHRM\Entity\LoginLog;
 
-class JobTitleModel implements Normalizable
+class LoginLogDao extends BaseDao
 {
-    use ModelTrait;
-
     /**
-     * @param JobTitle $jobTitle
+     * @param LoginLog $loginLog
+     * @return LoginLog
      */
-    public function __construct(JobTitle $jobTitle)
+    public function saveLoginLog(LoginLog $loginLog): LoginLog
     {
-        $this->setEntity($jobTitle);
-        $this->setFilters(
-            [
-                'id',
-                'jobTitleName',
-                ['isDeleted'],
-            ]
-        );
-        $this->setAttributeNames(
-            [
-                'id',
-                'label',
-                'deleted',
-            ]
-        );
+        $this->persist($loginLog);
+        return $loginLog;
     }
 }

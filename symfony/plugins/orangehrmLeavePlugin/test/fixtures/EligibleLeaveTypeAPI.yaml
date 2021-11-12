@@ -1,0 +1,255 @@
+Config:
+  - { name: 'authorize_user_role_manager_class', value: 'BasicUserRoleManager' }
+  - { name: 'leave.entitlement_consumption_algorithm', value: 'FIFOEntitlementConsumptionStrategy' }
+  - { name: 'leave.leavePeriodStatus', value: 1 }
+  - { name: 'leave.include_pending_leave_in_balance', value: 1 }
+  - { name: 'leave.work_schedule_implementation', value: 'BasicWorkSchedule' }
+  - { name: 'leave_period_defined', value: 'Yes' }
+  - { name: 'admin.default_workshift_end_time', value: '17:00' }
+  - { name: 'admin.default_workshift_start_time', value: '09:00' }
+
+WorkWeek:
+  - { id: 1, mon: 0, tue: 0, wed: 0, thu: 0, fri: 4, sat: 8, sun: 0 }
+
+Holiday:
+  - { "id": 1,"description": "Public Holiday - Full Day","date": "2021-09-14","recurring": 0,"length": 0 }
+  - { "id": 2,"description": "Father`s Day - Half Day","date": "2021-07-25","recurring": 0,"length": 4 }
+  - { "id": 3,"description": "Christmas Day","date": "2021-12-25","recurring": 1,"length": 0 }
+  - { "id": 4,"description": "Sports Day - Half Day","date": "2021-09-24","recurring": 0,"length": 4 }
+  - { "id": 5,"description": "Constitution Day - Full Day","date": "2021-09-04","recurring": 0,"length": 0 }
+
+WorkflowStateMachine:
+  - { "id": "86", "workflow": "4", "state": "INITIAL", "role": "ESS", "action": "APPLY", "resulting_state": "PENDING APPROVAL", "roles_to_notify": "supervisor,subscriber", "priority": "0" }
+  - { "id": "87", "workflow": "4", "state": "INITIAL", "role": "ADMIN", "action": "ASSIGN", "resulting_state": "SCHEDULED", "roles_to_notify": "ess,supervisor,subscriber", "priority": "0" }
+  - { "id": "88", "workflow": "4", "state": "INITIAL", "role": "SUPERVISOR", "action": "ASSIGN", "resulting_state": "SCHEDULED", "roles_to_notify": "ess,supervisor,subscriber", "priority": "0" }
+  - { "id": "89", "workflow": "4", "state": "PENDING APPROVAL", "role": "ADMIN", "action": "APPROVE", "resulting_state": "SCHEDULED", "roles_to_notify": "ess,subscriber", "priority": "0" }
+  - { "id": "90", "workflow": "4", "state": "PENDING APPROVAL", "role": "SUPERVISOR", "action": "APPROVE", "resulting_state": "SCHEDULED", "roles_to_notify": "ess,subscriber", "priority": "0" }
+  - { "id": "91", "workflow": "4", "state": "PENDING APPROVAL", "role": "ESS", "action": "CANCEL", "resulting_state": "CANCELLED", "roles_to_notify": "supervisor,subscriber", "priority": "0" }
+  - { "id": "92", "workflow": "4", "state": "PENDING APPROVAL", "role": "ADMIN", "action": "CANCEL", "resulting_state": "CANCELLED", "roles_to_notify": "ess,subscriber", "priority": "0" }
+  - { "id": "93", "workflow": "4", "state": "PENDING APPROVAL", "role": "SUPERVISOR", "action": "CANCEL", "resulting_state": "CANCELLED", "roles_to_notify": "ess,subscriber", "priority": "0" }
+  - { "id": "94", "workflow": "4", "state": "PENDING APPROVAL", "role": "ADMIN", "action": "REJECT", "resulting_state": "REJECTED", "roles_to_notify": "ess,subscriber", "priority": "0" }
+  - { "id": "95", "workflow": "4", "state": "PENDING APPROVAL", "role": "SUPERVISOR", "action": "REJECT", "resulting_state": "REJECTED", "roles_to_notify": "ess,subscriber", "priority": "0" }
+  - { "id": "96", "workflow": "4", "state": "SCHEDULED", "role": "ESS", "action": "CANCEL", "resulting_state": "CANCELLED", "roles_to_notify": "supervisor,subscriber", "priority": "0" }
+  - { "id": "97", "workflow": "4", "state": "SCHEDULED", "role": "ADMIN", "action": "CANCEL", "resulting_state": "CANCELLED", "roles_to_notify": "ess,subscriber", "priority": "0" }
+  - { "id": "98", "workflow": "4", "state": "SCHEDULED", "role": "SUPERVISOR", "action": "CANCEL", "resulting_state": "CANCELLED", "roles_to_notify": "ess,subscriber", "priority": "0" }
+  - { "id": "99", "workflow": "4", "state": "TAKEN", "role": "ADMIN", "action": "CANCEL", "resulting_state": "CANCELLED", "roles_to_notify": "ess,subscriber", "priority": "0" }
+  - { "id": "100", "workflow": "4", "state": "LEAVE TYPE DELETED PENDING APPROVAL", "role": "ESS", "action": "CANCEL", "resulting_state": "CANCELLED", "roles_to_notify": "supervisor,subscriber", "priority": "0" }
+  - { "id": "101", "workflow": "4", "state": "LEAVE TYPE DELETED PENDING APPROVAL", "role": "ADMIN", "action": "CANCEL", "resulting_state": "CANCELLED", "roles_to_notify": "ess,subscriber", "priority": "0" }
+  - { "id": "102", "workflow": "4", "state": "LEAVE TYPE DELETED PENDING APPROVAL", "role": "SUPERVISOR", "action": "CANCEL", "resulting_state": "CANCELLED", "roles_to_notify": "ess,subscriber", "priority": "0" }
+  - { "id": "103", "workflow": "4", "state": "LEAVE TYPE DELETED SCHEDULED", "role": "ESS", "action": "CANCEL", "resulting_state": "CANCELLED", "roles_to_notify": "supervisor,subscriber", "priority": "0" }
+  - { "id": "104", "workflow": "4", "state": "LEAVE TYPE DELETED SCHEDULED", "role": "ADMIN", "action": "CANCEL", "resulting_state": "CANCELLED", "roles_to_notify": "ess,subscriber", "priority": "0" }
+  - { "id": "105", "workflow": "4", "state": "LEAVE TYPE DELETED SCHEDULED", "role": "SUPERVISOR", "action": "CANCEL", "resulting_state": "CANCELLED", "roles_to_notify": "ess,subscriber", "priority": "0" }
+  - { "id": "106", "workflow": "4", "state": "LEAVE TYPE DELETED TAKEN", "role": "ADMIN", "action": "CANCEL", "resulting_state": "CANCELLED", "roles_to_notify": "ess,subscriber", "priority": "0" }
+
+TerminationReason:
+  - { "id": "1","name": "Other" }
+  - { "id": "2","name": "Retired" }
+  - { "id": "3","name": "Contract Not Renewed" }
+  - { "id": "4","name": "Resigned - Company Requested" }
+  - { "id": "5","name": "Resigned - Self Proposed" }
+  - { "id": "6","name": "Resigned" }
+  - { "id": "7","name": "Deceased" }
+  - { "id": "8","name": "Physically Disabled/Compensated" }
+  - { "id": "9","name": "Laid-off" }
+  - { "id": "10","name": "Dismissed" }
+
+EmployeeTerminationRecord:
+  - { "id": "1", "reason_id": "6","termination_date": "2021-09-15","note": "" }
+
+Employee:
+  - { "emp_number": 1,"employee_id": "0001","emp_lastname": "Adalwin","emp_firstname": "Odis","emp_middle_name": "" }
+  - { "emp_number": 2,"employee_id": "0002","emp_lastname": "Anderson","emp_firstname": "Linda","emp_middle_name": "Jane" }
+  - { "emp_number": 3,"employee_id": "0003","emp_lastname": "Duval","emp_firstname": "Alice","emp_middle_name": "" }
+  - { "emp_number": 4,"employee_id": "0004","emp_lastname": "Abbey","emp_firstname": "Kayla","emp_middle_name": "" }
+  - { "emp_number": 5,"employee_id": "0005","emp_lastname": "Abel","emp_firstname": "Ashley","emp_middle_name": "", "termination_id": "1" }
+  - { "emp_number": 6,"employee_id": "0006","emp_lastname": "Morgan","emp_firstname": "Jasmine","emp_middle_name": "" }
+
+ReportingMethod:
+  - { "reporting_method_id": "1","reporting_method_name": "Direct" }
+  - { "reporting_method_id": "2","reporting_method_name": "Indirect" }
+
+ReportTo:
+  - { "erep_sup_emp_number": "1","erep_sub_emp_number": "3","erep_reporting_mode": "1" }
+  - { "erep_sup_emp_number": "2","erep_sub_emp_number": "1","erep_reporting_mode": "1" }
+  - { "erep_sup_emp_number": "2","erep_sub_emp_number": "3","erep_reporting_mode": "2" }
+
+UserRole:
+  - { id: 1, name: Admin, display_name: Admin, is_assignable: 1, is_predefined: 1 }
+  - { id: 2, name: ESS, display_name: ESS, is_assignable: 1, is_predefined: 1 }
+  - { id: 3, name: Supervisor, display_name: Supervisor, is_assignable: 0, is_predefined: 1 }
+
+User:
+  - { "id": 1, "user_role_id": 1, "emp_number": 4, "user_name": "admin","user_password": "admin","deleted": "0","status": "1","date_modified": "2021-09-15 16:51:16","modified_user_id": "1" }
+  - { "id": 2, "user_role_id": 2, "emp_number": 1, "user_name": "Adalwin","user_password": "Adalwin","deleted": "0","status": "1","date_entered": "2021-09-15 16:47:14","created_by": "1" }
+  - { "id": 3, "user_role_id": 2, "emp_number": 2, "user_name": "Anderson","user_password": "Anderson","deleted": "0","status": "1","date_entered": "2021-09-15 16:47:53","created_by": "1" }
+  - { "id": 4, "user_role_id": 2, "emp_number": 3, "user_name": "Duval","user_password": "Duval","deleted": "0","status": "1","date_entered": "2021-09-15 16:48:40","created_by": "1" }
+  - { "id": 5, "user_role_id": 2, "emp_number": 5, "user_name": "Ashley","user_password": "Ashley","deleted": "0","status": "1","date_entered": "2021-09-15 20:05:27","created_by": "1" }
+  - { "id": 6, "user_role_id": 2, "emp_number": 6, "user_name": "Morgan","user_password": "Morgan","deleted": "0","status": "1","date_entered": "2021-09-15 20:50:02","created_by": "1" }
+
+LeavePeriodHistory:
+  - { id: 1, leave_period_start_month: 1, leave_period_start_day: 1, created_at: '2021-01-02' }
+
+LeaveType:
+  - { "id": 1,"name": "US - Personal","deleted": "0","exclude_in_reports_if_no_entitlement": "0" }
+  - { "id": 2,"name": "US - Vacation","deleted": "0","exclude_in_reports_if_no_entitlement": "0" }
+  - { "id": 3,"name": "US - Matternity","deleted": "0","exclude_in_reports_if_no_entitlement": "0" }
+  - { "id": 4,"name": "CAN - Personal","deleted": "1","exclude_in_reports_if_no_entitlement": "0" }
+  - { "id": 5,"name": "CAN - Vacation","deleted": "0","exclude_in_reports_if_no_entitlement": "0" }
+  - { "id": 6,"name": "Medical","deleted": "0","exclude_in_reports_if_no_entitlement": "0" }
+
+LeaveEntitlementType:
+  - { id: 1, name: 'Added' }
+
+LeaveEntitlement:
+  - { "id": 1,"emp_number": "4","no_of_days": "7.0","days_used": "2.5000","leave_type_id": "6","from_date": "2021-01-01 00:00:00","to_date": "2021-12-31 00:00:00","entitlement_type": "1","deleted": "0" }
+  - { "id": 2,"emp_number": "1","no_of_days": "7.0","days_used": "3.8750","leave_type_id": "6","from_date": "2021-01-01 00:00:00","to_date": "2021-12-31 00:00:00","entitlement_type": "1","deleted": "0" }
+  - { "id": 3,"emp_number": "2","no_of_days": "7.0","days_used": "7.0000","leave_type_id": "6","from_date": "2021-01-01 00:00:00","to_date": "2021-12-31 00:00:00","entitlement_type": "1","deleted": "0" }
+  - { "id": 4,"emp_number": "3","no_of_days": "7.0","days_used": "0.0000","leave_type_id": "6","from_date": "2021-01-01 00:00:00","to_date": "2021-12-31 00:00:00","entitlement_type": "1","deleted": "0" }
+  - { "id": 5,"emp_number": "4","no_of_days": "7.0","days_used": "0.0000","leave_type_id": "6","from_date": "2022-01-01 00:00:00","to_date": "2022-12-31 00:00:00","entitlement_type": "1","deleted": "0" }
+  - { "id": 6,"emp_number": "1","no_of_days": "7.0","days_used": "0.0000","leave_type_id": "6","from_date": "2022-01-01 00:00:00","to_date": "2022-12-31 00:00:00","entitlement_type": "1","deleted": "0" }
+  - { "id": 7,"emp_number": "2","no_of_days": "7.0","days_used": "1.0000","leave_type_id": "6","from_date": "2022-01-01 00:00:00","to_date": "2022-12-31 00:00:00","entitlement_type": "1","deleted": "0" }
+  - { "id": 8,"emp_number": "3","no_of_days": "7.0","days_used": "0.0000","leave_type_id": "6","from_date": "2022-01-01 00:00:00","to_date": "2022-12-31 00:00:00","entitlement_type": "1","deleted": "0" }
+  - { "id": 9,"emp_number": "1","no_of_days": "20.0","days_used": "12.5000","leave_type_id": "2","from_date": "2021-01-01 00:00:00","to_date": "2021-12-31 00:00:00","credited_date": "2021-09-15 00:00:00","entitlement_type": "1","deleted": "0","created_by_id": "1" }
+  - { "id": 10,"emp_number": "5","no_of_days": "7.0","days_used": "4.5000","leave_type_id": "4","from_date": "2021-01-01 00:00:00","to_date": "2021-12-31 00:00:00","credited_date": "2021-09-15 00:00:00","entitlement_type": "1","deleted": "0","created_by_id": "1" }
+  - { "id": 11,"emp_number": "5","no_of_days": "14.0","days_used": "0.0000","leave_type_id": "5","from_date": "2021-01-01 00:00:00","to_date": "2021-12-31 00:00:00","credited_date": "2021-09-15 00:00:00","entitlement_type": "1","deleted": "0","created_by_id": "1" }
+
+LeaveRequest:
+  - { "id": "1","leave_type_id": "6","date_applied": "2021-09-01","emp_number": "4" }
+  - { "id": "2","leave_type_id": "6","date_applied": "2021-09-23","emp_number": "4" }
+  - { "id": "3","leave_type_id": "6","date_applied": "2021-12-30","emp_number": "2" }
+  - { "id": "4","leave_type_id": "2","date_applied": "2021-09-02","emp_number": "1" }
+  - { "id": "5","leave_type_id": "6","date_applied": "2021-09-30","emp_number": "1" }
+  - { "id": "6","leave_type_id": "6","date_applied": "2021-08-24","emp_number": "1" }
+  - { "id": "7","leave_type_id": "6","date_applied": "2021-10-12","emp_number": "1" }
+  - { "id": "8","leave_type_id": "2","date_applied": "2021-10-25","emp_number": "1" }
+  - { "id": "9","leave_type_id": "2","date_applied": "2021-10-27","emp_number": "1" }
+  - { "id": "10","leave_type_id": "2","date_applied": "2021-10-29","emp_number": "1" }
+  - { "id": "11","leave_type_id": "6","date_applied": "2021-06-01","emp_number": "1" }
+  - { "id": "12","leave_type_id": "2","date_applied": "2021-06-07","emp_number": "1" }
+  - { "id": "13","leave_type_id": "6","date_applied": "2021-07-05","emp_number": "1" }
+  - { "id": "14","leave_type_id": "4","date_applied": "2021-06-01","emp_number": "5" }
+  - { "id": "15","leave_type_id": "2","date_applied": "2021-03-01","emp_number": "6" }
+  - { "id": "16","leave_type_id": "1","date_applied": "2021-11-03","emp_number": "1" }
+  - { "id": "17","leave_type_id": "2","date_applied": "2021-11-04","emp_number": "1" }
+  - { "id": "18","leave_type_id": "6","date_applied": "2021-12-01","emp_number": "2" }
+
+Leave:
+  - { "id": "1","date": "2021-09-01","length_hours": "8.00","length_days": "1.0000","status": "1","leave_request_id": "1","leave_type_id": "6","emp_number": "4","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "2","date": "2021-09-23","length_hours": "4.00","length_days": "0.5000","status": "1","leave_request_id": "2","leave_type_id": "6","emp_number": "4","start_time": "13:00:00","end_time": "17:00:00","duration_type": "2" }
+  - { "id": "3","date": "2021-09-24","length_hours": "4.00","length_days": "0.5000","status": "1","leave_request_id": "2","leave_type_id": "6","emp_number": "4","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "4","date": "2021-09-25","length_hours": "0.00","length_days": "0.0000","status": "4","leave_request_id": "2","leave_type_id": "6","emp_number": "4","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "5","date": "2021-09-26","length_hours": "4.00","length_days": "0.5000","status": "1","leave_request_id": "2","leave_type_id": "6","emp_number": "4","start_time": "09:00:00","end_time": "13:00:00","duration_type": "1" }
+  - { "id": "6","date": "2021-12-30","length_hours": "4.00","length_days": "0.5000","status": "1","leave_request_id": "3","leave_type_id": "6","emp_number": "2","start_time": "13:00:00","end_time": "17:00:00","duration_type": "2" }
+  - { "id": "7","date": "2021-12-31","length_hours": "4.00","length_days": "0.5000","status": "1","leave_request_id": "3","leave_type_id": "6","emp_number": "2","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "8","date": "2022-01-01","length_hours": "0.00","length_days": "0.0000","status": "4","leave_request_id": "3","leave_type_id": "6","emp_number": "2","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "9","date": "2022-01-02","length_hours": "8.00","length_days": "1.0000","status": "1","leave_request_id": "3","leave_type_id": "6","emp_number": "2","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "10","date": "2021-09-02","length_hours": "8.00","length_days": "1.0000","status": "2","leave_request_id": "4","leave_type_id": "2","emp_number": "1","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "11","date": "2021-09-03","length_hours": "4.00","length_days": "0.5000","status": "1","leave_request_id": "4","leave_type_id": "2","emp_number": "1","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "12","date": "2021-09-04","length_hours": "0.00","length_days": "0.0000","status": "5","leave_request_id": "4","leave_type_id": "2","emp_number": "1","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "13","date": "2021-09-05","length_hours": "8.00","length_days": "1.0000","status": "1","leave_request_id": "4","leave_type_id": "2","emp_number": "1","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "14","date": "2021-09-06","length_hours": "8.00","length_days": "1.0000","status": "1","leave_request_id": "4","leave_type_id": "2","emp_number": "1","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "15","date": "2021-09-07","length_hours": "8.00","length_days": "1.0000","status": "1","leave_request_id": "4","leave_type_id": "2","emp_number": "1","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "16","date": "2021-09-08","length_hours": "8.00","length_days": "1.0000","status": "2","leave_request_id": "4","leave_type_id": "2","emp_number": "1","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "17","date": "2021-09-09","length_hours": "8.00","length_days": "1.0000","status": "1","leave_request_id": "4","leave_type_id": "2","emp_number": "1","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "18","date": "2021-09-10","length_hours": "4.00","length_days": "0.5000","status": "1","leave_request_id": "4","leave_type_id": "2","emp_number": "1","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "19","date": "2021-09-11","length_hours": "0.00","length_days": "0.0000","status": "4","leave_request_id": "4","leave_type_id": "2","emp_number": "1","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "20","date": "2021-09-12","length_hours": "8.00","length_days": "1.0000","status": "1","leave_request_id": "4","leave_type_id": "2","emp_number": "1","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "21","date": "2021-09-13","length_hours": "8.00","length_days": "1.0000","status": "1","leave_request_id": "4","leave_type_id": "2","emp_number": "1","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "22","date": "2021-09-14","length_hours": "0.00","length_days": "0.0000","status": "5","leave_request_id": "4","leave_type_id": "2","emp_number": "1","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "23","date": "2021-09-15","length_hours": "8.00","length_days": "1.0000","status": "0","leave_request_id": "4","leave_type_id": "2","emp_number": "1","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "24","date": "2021-09-16","length_hours": "8.00","length_days": "1.0000","status": "-1","leave_request_id": "4","leave_type_id": "2","emp_number": "1","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "25","date": "2021-09-30","length_hours": "5.00","length_days": "0.6250","status": "1","leave_request_id": "5","leave_type_id": "6","emp_number": "1","start_time": "09:00:00","end_time": "14:00:00","duration_type": "3" }
+  - { "id": "26","date": "2021-08-24","length_hours": "3.00","length_days": "0.3750","status": "1","leave_request_id": "6","leave_type_id": "6","emp_number": "1","start_time": "10:00:00","end_time": "13:00:00","duration_type": "3" }
+  - { "id": "27","date": "2021-08-25","length_hours": "3.00","length_days": "0.3750","status": "1","leave_request_id": "6","leave_type_id": "6","emp_number": "1","start_time": "10:00:00","end_time": "13:00:00","duration_type": "3" }
+  - { "id": "28","date": "2021-10-12","length_hours": "4.00","length_days": "0.5000","status": "2","leave_request_id": "7","leave_type_id": "6","emp_number": "1","start_time": "09:00:00","end_time": "13:00:00","duration_type": "1" }
+  - { "id": "29","date": "2021-10-25","length_hours": "4.00","length_days": "0.5000","status": "1","leave_request_id": "8","leave_type_id": "2","emp_number": "1","start_time": "09:00:00","end_time": "13:00:00","duration_type": "1" }
+  - { "id": "30","date": "2021-10-26","length_hours": "8.00","length_days": "1.0000","status": "-1","leave_request_id": "8","leave_type_id": "2","emp_number": "1","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "31","date": "2021-10-27","length_hours": "8.00","length_days": "1.0000","status": "0","leave_request_id": "9","leave_type_id": "2","emp_number": "1","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "32","date": "2021-10-28","length_hours": "4.00","length_days": "0.5000","status": "1","leave_request_id": "9","leave_type_id": "2","emp_number": "1","start_time": "09:00:00","end_time": "13:00:00","duration_type": "1" }
+  - { "id": "33","date": "2021-10-29","length_hours": "4.00","length_days": "0.5000","status": "1","leave_request_id": "10","leave_type_id": "2","emp_number": "1","start_time": "09:00:00","end_time": "13:00:00","duration_type": "1" }
+  - { "id": "34","date": "2021-10-30","length_hours": "0.00","length_days": "0.0000","status": "4","leave_request_id": "10","leave_type_id": "2","emp_number": "1","start_time": "09:00:00","end_time": "13:00:00","duration_type": "1" }
+  - { "id": "35","date": "2021-10-31","length_hours": "4.00","length_days": "0.5000","status": "1","leave_request_id": "10","leave_type_id": "2","emp_number": "1","start_time": "09:00:00","end_time": "13:00:00","duration_type": "1" }
+  - { "id": "36","date": "2021-06-01","length_hours": "8.00","length_days": "1.0000","status": "3","leave_request_id": "11","leave_type_id": "6","emp_number": "1","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "37","date": "2021-06-07","length_hours": "8.00","length_days": "1.0000","status": "-1","leave_request_id": "12","leave_type_id": "2","emp_number": "1","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "38","date": "2021-06-08","length_hours": "8.00","length_days": "1.0000","status": "-1","leave_request_id": "12","leave_type_id": "2","emp_number": "1","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "39","date": "2021-06-09","length_hours": "8.00","length_days": "1.0000","status": "-1","leave_request_id": "12","leave_type_id": "2","emp_number": "1","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "40","date": "2021-07-05","length_hours": "8.00","length_days": "1.0000","status": "1","leave_request_id": "13","leave_type_id": "6","emp_number": "1","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "41","date": "2021-06-01","length_hours": "3.00","length_days": "0.3750","status": "-1","leave_request_id": "14","leave_type_id": "4","emp_number": "5","start_time": "14:00:00","end_time": "17:00:00","duration_type": "3" }
+  - { "id": "42","date": "2021-06-02","length_hours": "8.00","length_days": "1.0000","status": "3","leave_request_id": "14","leave_type_id": "4","emp_number": "5","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "43","date": "2021-06-03","length_hours": "8.00","length_days": "1.0000","status": "3","leave_request_id": "14","leave_type_id": "4","emp_number": "5","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "44","date": "2021-06-04","length_hours": "4.00","length_days": "0.5000","status": "3","leave_request_id": "14","leave_type_id": "4","emp_number": "5","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "45","date": "2021-06-05","length_hours": "0.00","length_days": "0.0000","status": "4","leave_request_id": "14","leave_type_id": "4","emp_number": "5","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "46","date": "2021-06-06","length_hours": "8.00","length_days": "1.0000","status": "1","leave_request_id": "14","leave_type_id": "4","emp_number": "5","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "47","date": "2021-06-07","length_hours": "8.00","length_days": "1.0000","status": "1","leave_request_id": "14","leave_type_id": "4","emp_number": "5","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "48","date": "2021-06-08","length_hours": "5.00","length_days": "0.6250","status": "0","leave_request_id": "14","leave_type_id": "4","emp_number": "5","start_time": "09:00:00","end_time": "14:00:00","duration_type": "3" }
+  - { "id": "49","date": "2021-03-01","length_hours": "4.00","length_days": "0.5000","status": "3","leave_request_id": "15","leave_type_id": "2","emp_number": "6","start_time": "13:00:00","end_time": "17:00:00","duration_type": "2" }
+  - { "id": "50","date": "2021-03-02","length_hours": "8.00","length_days": "1.0000","status": "3","leave_request_id": "15","leave_type_id": "2","emp_number": "6","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "51","date": "2021-03-03","length_hours": "8.00","length_days": "1.0000","status": "3","leave_request_id": "15","leave_type_id": "2","emp_number": "6","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "52","date": "2021-03-04","length_hours": "8.00","length_days": "1.0000","status": "3","leave_request_id": "15","leave_type_id": "2","emp_number": "6","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "53","date": "2021-03-05","length_hours": "4.00","length_days": "0.5000","status": "3","leave_request_id": "15","leave_type_id": "2","emp_number": "6","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "54","date": "2021-03-06","length_hours": "0.00","length_days": "0.0000","status": "4","leave_request_id": "15","leave_type_id": "2","emp_number": "6","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "55","date": "2021-03-07","length_hours": "8.00","length_days": "1.0000","status": "3","leave_request_id": "15","leave_type_id": "2","emp_number": "6","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "56","date": "2021-03-08","length_hours": "4.00","length_days": "0.5000","status": "3","leave_request_id": "15","leave_type_id": "2","emp_number": "6","start_time": "09:00:00","end_time": "13:00:00","duration_type": "1" }
+  - { "id": "57","date": "2021-11-03","length_hours": "8.00","length_days": "1.0000","status": "2","leave_request_id": "16","leave_type_id": "1","emp_number": "1","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "58","date": "2021-11-04","length_hours": "8.00","length_days": "1.0000","status": "2","leave_request_id": "17","leave_type_id": "2","emp_number": "1","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "59","date": "2021-11-05","length_hours": "4.00","length_days": "0.5000","status": "2","leave_request_id": "17","leave_type_id": "2","emp_number": "1","start_time": "09:00:00","end_time": "13:00:00","duration_type": "1" }
+  - { "id": "60","date": "2021-12-01","length_hours": "8.00","length_days": "1.0000","status": "2","leave_request_id": "18","leave_type_id": "6","emp_number": "2","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "61","date": "2021-12-02","length_hours": "8.00","length_days": "1.0000","status": "2","leave_request_id": "18","leave_type_id": "6","emp_number": "2","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "62","date": "2021-12-03","length_hours": "4.00","length_days": "0.5000","status": "2","leave_request_id": "18","leave_type_id": "6","emp_number": "2","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "63","date": "2021-12-04","length_hours": "0.00","length_days": "0.0000","status": "4","leave_request_id": "18","leave_type_id": "6","emp_number": "2","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "64","date": "2021-12-05","length_hours": "8.00","length_days": "1.0000","status": "2","leave_request_id": "18","leave_type_id": "6","emp_number": "2","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "65","date": "2021-12-06","length_hours": "8.00","length_days": "1.0000","status": "2","leave_request_id": "18","leave_type_id": "6","emp_number": "2","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "66","date": "2021-12-07","length_hours": "8.00","length_days": "1.0000","status": "2","leave_request_id": "18","leave_type_id": "6","emp_number": "2","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "67","date": "2021-12-08","length_hours": "8.00","length_days": "1.0000","status": "2","leave_request_id": "18","leave_type_id": "6","emp_number": "2","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+
+LeaveLeaveEntitlement:
+  - { "id": "1","leave_id": "1","entitlement_id": "1","length_days": "1.0000" }
+  - { "id": "2","leave_id": "2","entitlement_id": "1","length_days": "0.5000" }
+  - { "id": "3","leave_id": "3","entitlement_id": "1","length_days": "0.5000" }
+  - { "id": "4","leave_id": "5","entitlement_id": "1","length_days": "0.5000" }
+  - { "id": "5","leave_id": "6","entitlement_id": "3","length_days": "0.5000" }
+  - { "id": "6","leave_id": "7","entitlement_id": "3","length_days": "0.5000" }
+  - { "id": "7","leave_id": "9","entitlement_id": "7","length_days": "1.0000" }
+  - { "id": "8","leave_id": "10","entitlement_id": "9","length_days": "1.0000" }
+  - { "id": "9","leave_id": "11","entitlement_id": "9","length_days": "0.5000" }
+  - { "id": "10","leave_id": "13","entitlement_id": "9","length_days": "1.0000" }
+  - { "id": "11","leave_id": "14","entitlement_id": "9","length_days": "1.0000" }
+  - { "id": "12","leave_id": "15","entitlement_id": "9","length_days": "1.0000" }
+  - { "id": "13","leave_id": "16","entitlement_id": "9","length_days": "1.0000" }
+  - { "id": "14","leave_id": "17","entitlement_id": "9","length_days": "1.0000" }
+  - { "id": "15","leave_id": "18","entitlement_id": "9","length_days": "0.5000" }
+  - { "id": "16","leave_id": "20","entitlement_id": "9","length_days": "1.0000" }
+  - { "id": "17","leave_id": "21","entitlement_id": "9","length_days": "1.0000" }
+  - { "id": "20","leave_id": "25","entitlement_id": "2","length_days": "0.6250" }
+  - { "id": "21","leave_id": "26","entitlement_id": "2","length_days": "0.3750" }
+  - { "id": "22","leave_id": "27","entitlement_id": "2","length_days": "0.3750" }
+  - { "id": "23","leave_id": "28","entitlement_id": "2","length_days": "0.5000" }
+  - { "id": "24","leave_id": "29","entitlement_id": "9","length_days": "0.5000" }
+  - { "id": "27","leave_id": "32","entitlement_id": "9","length_days": "0.5000" }
+  - { "id": "28","leave_id": "33","entitlement_id": "9","length_days": "0.5000" }
+  - { "id": "29","leave_id": "35","entitlement_id": "9","length_days": "0.5000" }
+  - { "id": "30","leave_id": "36","entitlement_id": "2","length_days": "1.0000" }
+  - { "id": "34","leave_id": "40","entitlement_id": "2","length_days": "1.0000" }
+  - { "id": "36","leave_id": "42","entitlement_id": "10","length_days": "1.0000" }
+  - { "id": "37","leave_id": "43","entitlement_id": "10","length_days": "1.0000" }
+  - { "id": "38","leave_id": "44","entitlement_id": "10","length_days": "0.5000" }
+  - { "id": "39","leave_id": "46","entitlement_id": "10","length_days": "1.0000" }
+  - { "id": "40","leave_id": "47","entitlement_id": "10","length_days": "1.0000" }
+  - { "id": "42","leave_id": "58","entitlement_id": "9","length_days": "1.0000" }
+  - { "id": "43","leave_id": "59","entitlement_id": "9","length_days": "0.5000" }
+  - { "id": "44","leave_id": "60","entitlement_id": "3","length_days": "1.0000" }
+  - { "id": "45","leave_id": "61","entitlement_id": "3","length_days": "1.0000" }
+  - { "id": "46","leave_id": "62","entitlement_id": "3","length_days": "0.5000" }
+  - { "id": "47","leave_id": "64","entitlement_id": "3","length_days": "1.0000" }
+  - { "id": "48","leave_id": "65","entitlement_id": "3","length_days": "1.0000" }
+  - { "id": "49","leave_id": "66","entitlement_id": "3","length_days": "1.0000" }
+  - { "id": "50","leave_id": "67","entitlement_id": "3","length_days": "0.5000" }
+
+LeaveStatus:
+  - { "id": "1","status": "-1","name": "REJECTED" }
+  - { "id": "2","status": "0","name": "CANCELLED" }
+  - { "id": "3","status": "1","name": "PENDING APPROVAL" }
+  - { "id": "4","status": "2","name": "SCHEDULED" }
+  - { "id": "5","status": "3","name": "TAKEN" }
+  - { "id": "6","status": "4","name": "WEEKEND" }
+  - { "id": "7","status": "5","name": "HOLIDAY" }

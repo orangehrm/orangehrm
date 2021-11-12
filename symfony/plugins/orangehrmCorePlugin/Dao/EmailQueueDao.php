@@ -25,7 +25,7 @@ class EmailQueueDao extends BaseDao
 {
     /**
      * @param int $id
-     * @return Mail|null|object
+     * @return Mail|null
      */
     public function getEmail(int $id): ?Mail
     {
@@ -43,7 +43,7 @@ class EmailQueueDao extends BaseDao
     }
 
     /**
-     * @param array $toDeleteIds
+     * @param int[] $toDeleteIds
      * @return int
      */
     public function removeFromQueue(array $toDeleteIds): int
@@ -56,14 +56,15 @@ class EmailQueueDao extends BaseDao
     }
 
     /**
-     * @return array
+     * @return int[]
      */
-    public function getAllPendingMails(): array
+    public function getAllPendingMailIds(): array
     {
         $q = $this->createQueryBuilder(Mail::class, 'm');
-        $q->select()
+        $q->select('m.id')
             ->where('m.status = :status')
             ->setParameter('status', Mail::STATUS_PENDING);
-        return $q->getQuery()->execute();
+        $result = $q->getQuery()->getArrayResult();
+        return array_column($result, 'id');
     }
 }
