@@ -136,7 +136,7 @@ class VueControllerHelper
                 self::CONTEXT_ICON => $contextIcon,
                 self::COPYRIGHT_YEAR => date('Y'),
                 // TODO:: should get from configurations
-                self::PRODUCT_VERSION => '5.0',
+                self::PRODUCT_VERSION => Config::PRODUCT_VERSION,
                 self::BREADCRUMB => $this->getBreadcrumb(),
             ]
         );
