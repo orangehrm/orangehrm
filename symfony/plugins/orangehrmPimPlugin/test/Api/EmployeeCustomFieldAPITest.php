@@ -352,7 +352,7 @@ class EmployeeCustomFieldAPITest extends EndpointTestCase
             ->disableOriginalConstructor()
             ->onlyMethods(['getAccessibleEntityIds'])
             ->getMock();
-        $userRoleManager->expects($this->exactly(3))
+        $userRoleManager->expects($this->exactly(5))
             ->method('getAccessibleEntityIds')
             ->willReturn([1, 2]);
 
@@ -360,7 +360,7 @@ class EmployeeCustomFieldAPITest extends EndpointTestCase
             ->onlyMethods(['getEmpNumber'])
             ->disableOriginalConstructor()
             ->getMock();
-        $authUser->expects($this->exactly(3))
+        $authUser->expects($this->exactly(5))
             ->method('getEmpNumber')
             ->willReturn(2);
         $this->createKernelWithMockServices(
@@ -389,15 +389,35 @@ class EmployeeCustomFieldAPITest extends EndpointTestCase
                 $rules
             )
         );
-        $this->expectInvalidParamException();
+        // Check for empty string
         $this->assertTrue(
             $this->validate(
                 [
                     CommonParams::PARAMETER_EMP_NUMBER => 1,
-                    "custom11" => 'Test 11'
+                    'custom1' => ''
                 ],
                 $rules
             )
+        );
+        // Check for null
+        $this->assertTrue(
+            $this->validate(
+                [
+                    CommonParams::PARAMETER_EMP_NUMBER => 1,
+                    'custom10' => null
+                ],
+                $rules
+            )
+        );
+        $this->assertInvalidParamException(
+            fn() => $this->validate(
+                [
+                    CommonParams::PARAMETER_EMP_NUMBER => 1,
+                    'custom11' => 'Test 11'
+                ],
+                $rules
+            ),
+            ['custom11']
         );
     }
 

@@ -95,6 +95,7 @@ jobs:
           cd html/symfony/test/functional
           sed -i 's~http://php80/orangehrm/web/index.php~http://php80/web/index.php~g' cypress.json
           sed -i 's~false~true~g' cypress.json
+          sed -i 's~6000~10000~g' cypress.json
           yarn install
           yarn test
 

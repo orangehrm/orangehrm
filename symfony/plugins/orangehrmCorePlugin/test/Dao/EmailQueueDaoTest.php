@@ -84,13 +84,13 @@ class EmailQueueDaoTest extends KernelTestCase
         $this->assertEquals(2, $result);
     }
 
-    public function testGetAllPendingMails(): void
+    public function testGetAllPendingMailIds(): void
     {
-        $result = $this->emailQueueDao->getAllPendingMails();
+        $result = $this->emailQueueDao->getAllPendingMailIds();
 
         $this->assertCount(3, $result);
-        $this->assertEquals(1, $result[0]->getId());
-        $this->assertEquals(2, $result[1]->getId());
-        $this->assertEquals(3, $result[2]->getId());
+        $this->assertEquals(1, $result[0]);
+        $this->assertEquals(2, $result[1]);
+        $this->assertEquals(3, $result[2]);
     }
 }

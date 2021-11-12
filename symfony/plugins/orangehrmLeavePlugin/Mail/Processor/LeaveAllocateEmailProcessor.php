@@ -22,6 +22,7 @@ namespace OrangeHRM\Leave\Mail\Processor;
 use InvalidArgumentException;
 use OrangeHRM\Core\Mail\AbstractRecipient;
 use OrangeHRM\Core\Mail\MailProcessor;
+use OrangeHRM\Core\Traits\Service\NumberHelperTrait;
 use OrangeHRM\Framework\Event\Event;
 use OrangeHRM\Leave\Event\LeaveAllocate;
 use OrangeHRM\Leave\Mail\Recipient;
@@ -32,6 +33,7 @@ class LeaveAllocateEmailProcessor extends AbstractLeaveEmailProcessor implements
 {
     use EmployeeServiceTrait;
     use LeaveRequestServiceTrait;
+    use NumberHelperTrait;
 
     public function getReplacements(
         string $emailName,
@@ -66,7 +68,10 @@ class LeaveAllocateEmailProcessor extends AbstractLeaveEmailProcessor implements
 
         $replacements['leaveType'] = $event->getDetailedLeaveRequest()->getLeaveRequest()->getLeaveType()->getName();
         $replacements['leaveDetails'] = [];
-        $replacements['numberOfDays'] = $event->getDetailedLeaveRequest()->getNoOfDays();
+        $replacements['numberOfDays'] = $this->getNumberHelper()->numberFormat(
+            $event->getDetailedLeaveRequest()->getNoOfDays(),
+            2
+        );
         $replacements['leaveDetails'] = $this->getLeaveDetailsByDetailedLeaves($detailedLeaves);
         $leaveRequestId = $event->getDetailedLeaveRequest()->getLeaveRequest()->getId();
         $replacements['leaveRequestComments'] = $this->getLeaveRequestComments($leaveRequestId);

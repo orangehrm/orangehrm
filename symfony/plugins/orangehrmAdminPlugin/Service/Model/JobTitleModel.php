@@ -37,12 +37,14 @@ class JobTitleModel implements Normalizable
             [
                 'id',
                 'jobTitleName',
+                ['isDeleted'],
             ]
         );
         $this->setAttributeNames(
             [
                 'id',
-                'label'
+                'label',
+                'deleted',
             ]
         );
     }

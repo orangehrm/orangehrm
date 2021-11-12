@@ -1,0 +1,115 @@
+GetAll:
+  'without query params':
+    userId: 2
+    now:
+      datetime: '2021-09-19'
+    services:
+      leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
+      leave.leave_entitlement_service: \OrangeHRM\Leave\Service\LeaveEntitlementService
+      leave.leave_period_service: \OrangeHRM\Leave\Service\LeavePeriodService
+      leave.leave_type_service: \OrangeHRM\Leave\Service\LeaveTypeService
+    data: [
+      {
+        id: 6,
+        name: 'Medical',
+        deleted: false,
+        situational: false
+      },
+      {
+        id: 2,
+        name: 'US - Vacation',
+        deleted: false,
+        situational: false
+      }
+    ]
+    meta:
+      empNumber: 1
+
+  'filter includeAllocated=true':
+    userId: 2
+    now:
+      datetime: '2021-09-19'
+    services:
+      leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
+      leave.leave_entitlement_service: \OrangeHRM\Leave\Service\LeaveEntitlementService
+      leave.leave_period_service: \OrangeHRM\Leave\Service\LeavePeriodService
+      leave.leave_type_service: \OrangeHRM\Leave\Service\LeaveTypeService
+    query:
+      includeAllocated: true
+    data: [
+      {
+        id: 6,
+        name: 'Medical',
+        deleted: false,
+        situational: false
+      },
+      {
+        id: 1,
+        name: 'US - Personal',
+        deleted: false,
+        situational: false
+      },
+      {
+        id: 2,
+        name: 'US - Vacation',
+        deleted: false,
+        situational: false
+      }
+    ]
+    meta:
+      empNumber: 1
+
+  'filter includeAllocated=false':
+    userId: 2
+    now:
+      datetime: '2021-09-19'
+    services:
+      leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
+      leave.leave_entitlement_service: \OrangeHRM\Leave\Service\LeaveEntitlementService
+      leave.leave_period_service: \OrangeHRM\Leave\Service\LeavePeriodService
+      leave.leave_type_service: \OrangeHRM\Leave\Service\LeaveTypeService
+    query:
+      includeAllocated: false
+    data: [
+      {
+        id: 6,
+        name: 'Medical',
+        deleted: false,
+        situational: false
+      },
+      {
+        id: 2,
+        name: 'US - Vacation',
+        deleted: false,
+        situational: false
+      }
+    ]
+    meta:
+      empNumber: 1
+
+  'filter by empNumber':
+    userId: 1
+    now:
+      datetime: '2021-09-19'
+    services:
+      leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
+      leave.leave_entitlement_service: \OrangeHRM\Leave\Service\LeaveEntitlementService
+      leave.leave_period_service: \OrangeHRM\Leave\Service\LeavePeriodService
+      leave.leave_type_service: \OrangeHRM\Leave\Service\LeaveTypeService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      empNumber: 2
+    data: [
+      {
+        id: 6,
+        name: 'Medical',
+        deleted: false,
+        situational: false
+      }
+    ]
+    meta:
+      empNumber: 2

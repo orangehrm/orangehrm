@@ -55,6 +55,10 @@ export default {
       type: Boolean,
       default: true,
     },
+    includeAllocated: {
+      type: Boolean,
+      default: false,
+    },
   },
   setup(props, context) {
     const options = ref([]);
@@ -64,9 +68,17 @@ export default {
     );
 
     watchEffect(async () => {
+      if (!props.eligibleOnly && props.includeAllocated) {
+        // eslint-disable-next-line no-console
+        console.error(
+          '`includeAllocated` prop can true only if `eligibleOnly` prop true',
+        );
+      }
       http
         .getAll({
           empNumber: props.employeeId,
+          includeAllocated:
+            props.eligibleOnly && props.includeAllocated ? true : undefined,
         })
         .then(({data}) => {
           options.value = data.data.map(item => {

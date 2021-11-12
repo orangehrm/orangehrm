@@ -120,7 +120,7 @@ class JobTitleServiceTest extends TestCase
             ->method('getNormalizerService')
             ->willReturn(new NormalizerService());
         $result = $jobTitleService->getJobTitleArray();
-        $this->assertEquals([['id' => 1, 'label' => 'SE']], $result);
+        $this->assertEquals([['id' => 1, 'label' => 'SE', 'deleted' => false]], $result);
     }
 
     public function testGetJobTitleArrayForEmployee(): void
@@ -148,7 +148,6 @@ class JobTitleServiceTest extends TestCase
             ->method('getNormalizerService')
             ->willReturn(new NormalizerService());
         $result = $jobTitleService->getJobTitleArrayForEmployee(1);
-        $this->assertEquals([['id' => 1, 'label' => 'SE']], $result);
+        $this->assertEquals([['id' => 1, 'label' => 'SE', 'deleted' => false]], $result);
     }
 }
-
