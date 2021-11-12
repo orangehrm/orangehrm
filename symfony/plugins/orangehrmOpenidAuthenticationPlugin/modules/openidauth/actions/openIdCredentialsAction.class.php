@@ -49,10 +49,10 @@ class openIdCredentialsAction extends baseOpenIdAction {
 
     public function execute($request) {
         try {
+            $this->getRegistrationService()->sendInstallationStatus();
             $sfUser = sfContext::getInstance()->getUser();
             $form = new OpenIdSelectForm();
             if ($request->isMethod(sfWebRequest::POST)) {
-                $this->getRegistrationService()->sendInstallationStatus();
                 $form->bind($request->getPostParameters());
                 if ($form->isValid()) {
                     $providerId = $request->getParameter('openIdProvider');
