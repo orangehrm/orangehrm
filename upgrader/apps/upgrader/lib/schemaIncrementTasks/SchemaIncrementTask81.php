@@ -103,8 +103,8 @@ VALUES (\'branding\', \'Corporate Branding\');';
         $this->incrementNumber = 81;
         parent::execute();
         $result = [];
-        $pluginExists = $this->upgradeUtility->executeSql($this->sql[0]);
-        if (!$pluginExists) {
+        $queryResponse = $this->upgradeUtility->executeSql($this->sql[0]);
+        if (mysqli_num_rows($queryResponse) == 0) {
             foreach ($this->sql as $sql) {
                 $result[] = $this->upgradeUtility->executeSql($sql);
             }

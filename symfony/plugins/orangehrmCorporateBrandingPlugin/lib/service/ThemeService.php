@@ -79,12 +79,14 @@ class ThemeService
      */
 
     public function publishTheme(Theme $theme) {
+        $defaultTheme = $this->getThemeDao()->getThemeByThemeName('default');
+        $defaultThemeVariables = json_decode($defaultTheme->getVariables(), true);
         $variablesArray = json_decode($theme->getVariables(), true);
         $variablesArray['imagesPath'] = '"../images/"';
         $variablesArray['login-social-links-display'] = $theme->getSocialMediaIcons();
         $loginVariables = [];
-        $loginVariables['login-logo-inner-color'] = $variablesArray['primaryColor'];
-        $loginVariables['login-logo-outer-color'] = $variablesArray['secondaryColor'];
+        $loginVariables['login-logo-inner-color'] = $variablesArray['primaryColor'] === $defaultThemeVariables['primaryColor'] ? '#F0D47BFF' : $variablesArray['primaryColor'];
+        $loginVariables['login-logo-outer-color'] = $variablesArray['secondaryColor'] === $defaultThemeVariables['secondaryColor'] ? '#C08117FF' : $variablesArray['secondaryColor'];
         $loginVariables['imagesPath'] = '"../images/"';
         $css = Sass::instance()->compileSCSS($variablesArray);
         $loginCss = Sass::instance()->compileLoginSCSS($loginVariables);
