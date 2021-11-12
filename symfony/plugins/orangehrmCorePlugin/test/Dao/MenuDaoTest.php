@@ -156,7 +156,8 @@ class MenuDaoTest extends TestCase
     {
         $conn = Doctrine::getEntityManager()->getConnection()->getWrappedConnection();
         $statement = $conn->prepare('UPDATE ohrm_menu_item SET status = 0 WHERE parent_id IN (12, 13)');
-        $this->assertTrue($statement->execute());
+        $result = $statement->execute();
+        $this->assertEquals(8, $result->rowCount());
 
         // Items with screen_id NULL are not enabled (because they are not linked to a screen and hense to a module)
         $count = $this->menuDao->enableModuleMenuItems('leave');
@@ -165,32 +166,28 @@ class MenuDaoTest extends TestCase
         $statement = $conn->prepare(
             'SELECT count(*) FROM ohrm_menu_item WHERE status = 0 AND parent_id IN (12, 13) AND screen_id IS NOT NULL'
         );
-        $this->assertTrue($statement->execute());
-
-        $count = $statement->fetchOne();
-        $this->assertEquals(0, $count);
+        $this->assertEquals(0, $statement->execute()->fetchOne());
     }
 
     public function testEnableModuleMenuItemsByTitle()
     {
         $conn = Doctrine::getEntityManager()->getConnection()->getWrappedConnection();
         $statement = $conn->prepare('UPDATE ohrm_menu_item SET status = 0 WHERE parent_id IN (12, 13)');
-        $this->assertTrue($statement->execute());
+        $this->assertEquals(8, $statement->execute()->rowCount());
 
         // Items with screen_id NULL are not enabled (because they are not linked to a screen and hense to a module)
         $count = $this->menuDao->enableModuleMenuItems('leave', array('Leave Types', 'Leave Summary'));
         $this->assertEquals(2, $count);
 
         $statement = $conn->prepare('SELECT count(*) FROM ohrm_menu_item WHERE status = 0 AND id IN (15,16)');
-        $this->assertTrue($statement->execute());
 
-        $count = $statement->fetchOne();
+        $count = $statement->execute()->fetchOne();
         $this->assertEquals(0, $count);
     }
 
-    public function testGetMenuLevel() : void
+    public function testGetMenuLevel(): void
     {
-        $menuItem = $this->menuDao->getMenuItemByModuleAndScreen('leave','assignLeave');
+        $menuItem = $this->menuDao->getMenuItemByModuleAndScreen('leave', 'assignLeave');
         $this->assertEquals('Assign Leave', $menuItem->getMenuTitle());
         $this->assertEquals(12, $menuItem->getParent()->getId());
         $this->assertEquals(2, $menuItem->getLevel());
