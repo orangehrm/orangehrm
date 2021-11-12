@@ -39,6 +39,8 @@ class EligibleLeaveTypeAPI extends Endpoint implements CollectionEndpoint
     use LeaveTypeServiceTrait;
     use AuthUserTrait;
 
+    public const PARAMETER_INCLUDE_ALLOCATED = 'includeAllocated';
+
     /**
      * @inheritDoc
      */
@@ -49,7 +51,12 @@ class EligibleLeaveTypeAPI extends Endpoint implements CollectionEndpoint
             CommonParams::PARAMETER_EMP_NUMBER,
             $this->getAuthUser()->getEmpNumber()
         );
-        $leaveTypes = $this->getLeaveTypeService()->getEligibleLeaveTypesByEmpNumber($empNumber);
+        $includeAllocated = $this->getRequestParams()->getBoolean(
+            RequestParams::PARAM_TYPE_QUERY,
+            self::PARAMETER_INCLUDE_ALLOCATED,
+            false
+        );
+        $leaveTypes = $this->getLeaveTypeService()->getEligibleLeaveTypesByEmpNumber($empNumber, $includeAllocated);
         return new EndpointCollectionResult(
             LeaveTypeModel::class,
             $leaveTypes,
@@ -68,6 +75,10 @@ class EligibleLeaveTypeAPI extends Endpoint implements CollectionEndpoint
                     CommonParams::PARAMETER_EMP_NUMBER,
                     new Rule(Rules::IN_ACCESSIBLE_EMP_NUMBERS)
                 )
+            ),
+            new ParamRule(
+                self::PARAMETER_INCLUDE_ALLOCATED,
+                new Rule(Rules::BOOL_VAL)
             )
         );
     }
