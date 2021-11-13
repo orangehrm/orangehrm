@@ -136,6 +136,7 @@
                 v-model="emailConfiguration.smtpPassword"
                 :rules="rules.smtpPassword"
                 type="password"
+                onfocus="this.value=''"
                 required
               />
             </oxd-grid-item>
@@ -246,7 +247,7 @@ export default {
         smtpHost: '',
         smtpPort: null,
         smtpUsername: '',
-        smtpPassword: '',
+        smtpPassword: null,
         smtpAuthType: '',
         smtpSecurityType: '',
         testEmailAddress: '',
@@ -311,6 +312,7 @@ export default {
         })
         .then(() => {
           this.isLoading = false;
+          this.emailConfiguration.smtpPassword = '********';
         });
     },
     onReset() {
@@ -332,7 +334,7 @@ export default {
         this.emailConfiguration.smtpHost = data.smtpHost;
         this.emailConfiguration.smtpPort = data.smtpPort;
         this.emailConfiguration.smtpUsername = data.smtpUsername;
-        this.emailConfiguration.smtpPassword = data.smtpPassword;
+        this.emailConfiguration.smtpPassword = '********';
         this.emailConfiguration.smtpAuthType = data.smtpAuthType;
         this.emailConfiguration.testEmailAddress = data.testEmailAddress;
         this.useTLSSecureConnection = data.smtpSecurityType === 'tls';
