@@ -29,7 +29,6 @@
               <img :src="logoSrc" alt="orangehrm-logo" />
             </div>
             <slot></slot>
-            <login-social></login-social>
             <slot name="footer"></slot>
           </div>
         </div>
@@ -43,13 +42,11 @@
 
 <script>
 import LoginBranding from './LoginBranding';
-import LoginSocial from './LoginSocial';
 
 export default {
   name: 'login-layout',
   components: {
     'login-branding': LoginBranding,
-    'login-social': LoginSocial,
   },
   data() {
     return {

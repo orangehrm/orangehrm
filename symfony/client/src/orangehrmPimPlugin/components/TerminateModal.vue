@@ -38,12 +38,11 @@
       </oxd-form-row>
       <oxd-form-row>
         <oxd-input-field
-          type="dropdown"
+          type="select"
           label="Termination Reason"
-          v-model="termination.terminationReasonId"
-          :rules="rules.terminationReasonId"
+          v-model="termination.terminationReason"
+          :rules="rules.terminationReason"
           :options="terminationReasons"
-          :clear="false"
           required
         />
       </oxd-form-row>
@@ -82,7 +81,7 @@ import {
 } from '@ohrm/core/util/validation/rules';
 
 const terminationModel = {
-  terminationReasonId: [{id: 1, label: 'Other'}],
+  terminationReason: null,
   date: '',
   note: null,
 };
@@ -120,7 +119,7 @@ export default {
       isLoading: false,
       termination: {...terminationModel},
       rules: {
-        terminationReasonId: [required],
+        terminationReason: [required],
         date: [required, validDateFormat()],
         note: [shouldNotExceedCharLength(250)],
       },
@@ -130,10 +129,9 @@ export default {
     onSave() {
       this.isLoading = true;
       const payload = {
-        ...this.termination,
-        terminationReasonId: this.termination.terminationReasonId.map(
-          item => item.id,
-        )[0],
+        date: this.termination.date,
+        note: this.termination.note,
+        terminationReasonId: this.termination.terminationReason?.id,
       };
       this.submitData(payload, this.terminationId)
         .then(() => {
@@ -158,7 +156,7 @@ export default {
         .get(this.terminationId)
         .then(response => {
           const {data} = response.data;
-          this.termination.terminationReasonId = this.terminationReasons.filter(
+          this.termination.terminationReason = this.terminationReasons.find(
             item => item.id === data.terminationReason?.id,
           );
           this.termination.date = data.date;

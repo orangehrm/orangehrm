@@ -20,6 +20,7 @@
 namespace OrangeHRM\Authentication\Controller;
 
 use OrangeHRM\Authentication\Auth\User as AuthUser;
+use OrangeHRM\Authentication\Csrf\CsrfTokenManager;
 use OrangeHRM\Core\Authorization\Service\HomePageService;
 use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Controller\PublicControllerInterface;
@@ -64,6 +65,10 @@ class LoginController extends AbstractVueController implements PublicControllerI
             );
         }
 
+        $csrfTokenManager = new CsrfTokenManager();
+        $component->addProp(
+            new Prop('token', Prop::TYPE_STRING, $csrfTokenManager->getToken('login')->getValue())
+        );
         $this->setComponent($component);
         $this->setTemplate('no_header.html.twig');
     }

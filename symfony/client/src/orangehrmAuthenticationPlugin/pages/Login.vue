@@ -35,6 +35,8 @@
         ref="loginForm"
         :action="submitUrl"
       >
+        <input name="_token" :value="token" type="hidden" />
+
         <oxd-form-row>
           <oxd-input-field
             name="username"
@@ -43,6 +45,7 @@
             placeholder="username"
             v-model="username"
             :rules="rules.username"
+            autofocus
           />
         </oxd-form-row>
 
@@ -67,10 +70,7 @@
           />
         </oxd-form-actions>
       </oxd-form>
-      <oxd-text class="orangehrm-login-pwreset" tag="p"
-        >Forgot your <a href="#">Password?</a></oxd-text
-      >
-      <oxd-divider />
+      <br />
     </div>
     <template v-slot:footer>
       <slot name="footer"></slot>
@@ -83,6 +83,7 @@ import LoginLayout from '../components/LoginLayout';
 import Alert from '@ohrm/oxd/core/components/Alert/Alert';
 import {required} from '@ohrm/core/util/validation/rules';
 import {urlFor} from '@ohrm/core/util/helper/url';
+import {reloadPage} from '@ohrm/core/util/helper/navigation';
 
 export default {
   components: {
@@ -94,6 +95,10 @@ export default {
     error: {
       type: Object,
       default: () => null,
+    },
+    token: {
+      type: String,
+      required: true,
     },
   },
 
@@ -118,6 +123,12 @@ export default {
     onSubmit() {
       this.$refs.loginForm.$el.submit();
     },
+  },
+
+  beforeMount() {
+    setTimeout(() => {
+      reloadPage();
+    }, 1200000); // 20 * 60 * 1000 (20 minutes);
   },
 };
 </script>

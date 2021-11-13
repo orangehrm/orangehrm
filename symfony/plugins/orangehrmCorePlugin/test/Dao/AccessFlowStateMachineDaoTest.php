@@ -261,15 +261,11 @@ class AccessFlowStateMachineDaoTest extends TestCase
 
     protected function getWorkflowItemIdsForRole($flow, $role)
     {
-        $conn = $this->getEntityManager()->getConnection();
+        $conn = $this->getEntityManager()->getConnection()->getWrappedConnection();
 
         $query = "SELECT id from ohrm_workflow_state_machine WHERE workflow = ? AND role = ?";
         $statement = $conn->prepare($query);
-        $this->assertTrue($statement->execute([$flow, $role]));
-        $ids = [];
-        if ($statement instanceof Result) {
-            $ids = $statement->fetchFirstColumn();
-        }
-        return $ids;
+        $result = $statement->execute([$flow, $role]);
+        return $result->fetchFirstColumn();
     }
 }
