@@ -81,7 +81,7 @@ import {
 } from '@ohrm/core/util/validation/rules';
 
 const terminationModel = {
-  terminationReason: {id: 1, label: 'Other'},
+  terminationReason: null,
   date: '',
   note: null,
 };
