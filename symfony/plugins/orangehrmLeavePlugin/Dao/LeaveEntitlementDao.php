@@ -448,22 +448,6 @@ class LeaveEntitlementDao extends BaseDao
         return $q->getQuery()->execute();
     }
 
-    public function getLinkedLeaveRequests($entitlementIds, $statuses) {
-        // TODO:: not converted
-        try {
-            $q = Doctrine_Query::create()->from('Leave l')
-                    ->leftJoin('l.LeaveEntitlements le')
-                    ->andWhereIn('le.id', $entitlementIds)
-                    ->andWhereIn('l.status', $statuses)
-                    ->addOrderBy('l.id ASC');
-
-            $results = $q->execute();
-            return $results;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), 0, $e);
-        }
-    }
-
     /**
      * Get leave balance as a LeaveBalance object with the following components
      *    * entitlements
@@ -548,24 +532,22 @@ class LeaveEntitlementDao extends BaseDao
         $balance = new LeaveBalance();
         $balance->setAsAtDate($asAtDate);
         $balance->setEndDate($date);
-        if ($result) {
-            if ($statement->rowCount() > 0) {
-                $result = $result->fetchAssociative();
-                if (!empty($result['entitled'])) {
-                    $balance->setEntitled($result['entitled']);
-                }
-                if (!empty($result['used'])) {
-                    $balance->setUsed($result['used']);
-                }
-                if (!empty($result['scheduled'])) {
-                    $balance->setScheduled($result['scheduled']);
-                }
-                if (!empty($result['pending'])) {
-                    $balance->setPending($result['pending']);
-                }
-                if (!empty($result['taken'])) {
-                    $balance->setTaken($result['taken']);
-                }
+        if ($result->rowCount() > 0) {
+            $result = $result->fetchAssociative();
+            if (!empty($result['entitled'])) {
+                $balance->setEntitled($result['entitled']);
+            }
+            if (!empty($result['used'])) {
+                $balance->setUsed($result['used']);
+            }
+            if (!empty($result['scheduled'])) {
+                $balance->setScheduled($result['scheduled']);
+            }
+            if (!empty($result['pending'])) {
+                $balance->setPending($result['pending']);
+            }
+            if (!empty($result['taken'])) {
+                $balance->setTaken($result['taken']);
             }
         }
         $balance->updateBalance();

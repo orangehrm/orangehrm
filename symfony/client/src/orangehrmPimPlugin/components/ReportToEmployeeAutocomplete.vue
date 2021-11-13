@@ -64,7 +64,7 @@ export default {
         if (serachParam.trim()) {
           this.http
             .getAll({
-              nameOrId: serachParam,
+              nameOrId: serachParam.trim(),
               ...this.params,
             })
             .then(({data}) => {

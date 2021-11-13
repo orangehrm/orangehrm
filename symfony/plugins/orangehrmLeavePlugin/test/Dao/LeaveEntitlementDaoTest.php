@@ -462,41 +462,6 @@ class LeaveEntitlementDaoTest extends KernelTestCase
         $this->_verifyDeletedFlags($deleted);
     }
 
-    public function xtestGetLinkedLeaveRequests() {
-        // TODO
-        $requests = $this->dao->getLinkedLeaveRequests(
-            [3, 4],
-            [
-                Leave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL,
-                Leave::LEAVE_STATUS_LEAVE_REJECTED
-            ]
-        );
-
-        $this->assertEquals(0, count($requests));
-
-        $requests = $this->dao->getLinkedLeaveRequests(
-            [1, 2, 3, 4, 5],
-            [
-                Leave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL,
-                Leave::LEAVE_STATUS_LEAVE_REJECTED
-            ]
-        );
-        $this->assertEquals(5, count($requests));
-        $this->assertEquals(1, $requests[0]->getId());
-        $this->assertEquals(2, $requests[1]->getId());
-        $this->assertEquals(3, $requests[2]->getId());
-        $this->assertEquals(4, $requests[3]->getId());
-        $this->assertEquals(5, $requests[4]->getId());
-
-        $requests = $this->dao->getLinkedLeaveRequests(
-            [1, 2, 3, 4, 5],
-            [Leave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL]
-        );
-        $this->assertEquals(2, count($requests));
-        $this->assertEquals(1, $requests[0]->getId());
-        $this->assertEquals(2, $requests[1]->getId());
-    }
-
     public function testMatchingEntitlementsNoMatches(): void
     {
         $empNumber = 1;

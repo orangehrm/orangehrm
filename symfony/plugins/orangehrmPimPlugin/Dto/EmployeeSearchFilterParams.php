@@ -36,6 +36,7 @@ class EmployeeSearchFilterParams extends FilterParams
         'jobTitle.jobTitleName',
         'empStatus.name',
         'subunit.name',
+        'supervisor.firstName',
     ];
 
     public const INCLUDE_EMPLOYEES_ONLY_CURRENT = 'onlyCurrent';
