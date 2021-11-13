@@ -31,7 +31,7 @@ class Config
     public const TEST_DIR= 'ohrm_test_dir';
 
     public const PRODUCT_NAME = 'OrangeHRM OS';
-    public const PRODUCT_VERSION = 'OrangeHRM OS 5.0-beta';
+    public const PRODUCT_VERSION = '5.0-beta';
 
     /**
      * @var array

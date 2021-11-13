@@ -50,6 +50,7 @@ class VueControllerHelper
     public const CONTEXT_ICON = 'contextIcon';
     public const COPYRIGHT_YEAR = 'copyrightYear';
     public const PRODUCT_VERSION = 'productVersion';
+    public const PRODUCT_NAME = 'productName';
     public const PERMISSIONS = 'permissions';
     public const BREADCRUMB = 'breadcrumb';
 
@@ -135,8 +136,8 @@ class VueControllerHelper
                 self::CONTEXT_TITLE => $contextTitle,
                 self::CONTEXT_ICON => $contextIcon,
                 self::COPYRIGHT_YEAR => date('Y'),
-                // TODO:: should get from configurations
                 self::PRODUCT_VERSION => Config::PRODUCT_VERSION,
+                self::PRODUCT_NAME => Config::PRODUCT_NAME,
                 self::BREADCRUMB => $this->getBreadcrumb(),
             ]
         );
