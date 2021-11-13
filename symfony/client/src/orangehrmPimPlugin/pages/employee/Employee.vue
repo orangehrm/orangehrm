@@ -174,6 +174,7 @@ const defaultSortOrder = {
   'jobTitle.jobTitleName': 'DEFAULT',
   'empStatus.name': 'DEFAULT',
   'subunit.name': 'DEFAULT',
+  'supervisor.firstName': 'DEFAULT',
 };
 
 export default {
@@ -225,7 +226,12 @@ export default {
           sortField: 'subunit.name',
           style: {flex: 1},
         },
-        {name: 'supervisor', title: 'Supervisor', style: {flex: 1}},
+        {
+          name: 'supervisor',
+          title: 'Supervisor',
+          sortField: 'supervisor.firstName',
+          style: {flex: 1},
+        },
         {
           name: 'actions',
           slot: 'action',
