@@ -186,7 +186,6 @@ class VacancyService {
     {
 
         if (count($toBeDeletedVacancyIds) > 0) {
-//            var_dump('came here to chek delete');
             $isDeletionSucceeded = $this->getVacancyDao()->deleteVacancies($toBeDeletedVacancyIds);
 
             if ($isDeletionSucceeded) {
@@ -264,6 +263,4 @@ class VacancyService {
             return false;
         }
     }
-
 }
-

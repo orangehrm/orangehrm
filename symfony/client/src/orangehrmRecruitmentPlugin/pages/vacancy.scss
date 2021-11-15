@@ -62,10 +62,6 @@
     max-width: 100%;
   }
 }
-.orangehrm-label-link-wrapper {
-  display: flex;
-  flex-wrap: wrap;
-}
 .orangehrm-grid-item-span-2 {
   grid-column: span 2;
 }
@@ -77,15 +73,6 @@
 .orangehrm-text-label {
   flex: 1;
   padding-right: 0.2rem;
-}
-.orangehrm-href {
-  font-family: $oxd-font-family;
-  text-decoration: none;
-  word-break: break-all;
-  flex: 7;
-}
-.orangehrm-text--colored {
-  color: $oxd-primary-one-color;
 }
 .orangehrm-container--border {
   border-radius: $oxd-border-radius;

@@ -81,6 +81,4 @@ class VacancyDecorator
 
         $this->getVacancy()->setIsPublished($isPublished);
     }
-
-
 }
