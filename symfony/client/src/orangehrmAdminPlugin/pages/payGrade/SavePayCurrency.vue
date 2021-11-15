@@ -77,6 +77,7 @@ import {
   digitsOnly,
   maxCurrency,
 } from '@ohrm/core/util/validation/rules';
+import {minValueShouldBeLowerThanMaxValue} from '@/core/util/validation/rules';
 const payCurrencyModel = {
   currencyId: '',
   minSalary: '',
@@ -106,7 +107,11 @@ export default {
       rules: {
         currencyId: [required],
         minSalary: [maxCurrency(1000000000), digitsOnly],
-        maxSalary: [maxCurrency(1000000000), digitsOnly],
+        maxSalary: [
+          maxCurrency(1000000000),
+          digitsOnly,
+          minValueShouldBeLowerThanMaxValue(() => this.payCurrency.minSalary),
+        ],
       },
     };
   },
