@@ -13,7 +13,8 @@ GetOne:
     query: [ ]
     data:
       companyName: 'Orange HRM'
-      version: '5.0'
+      productName: 'OrangeHRM OS'
+      version: '5.0-beta'
       numberOfActiveEmployee: 3
       numberOfPastEmployee: 0
     meta: [ ]

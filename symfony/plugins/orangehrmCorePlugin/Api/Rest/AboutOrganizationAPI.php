@@ -21,6 +21,7 @@ namespace OrangeHRM\Core\Api\Rest;
 
 use OrangeHRM\Admin\Dto\AboutOrganization;
 use OrangeHRM\Admin\Service\OrganizationService;
+use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
@@ -66,7 +67,7 @@ class AboutOrganizationAPI extends Endpoint implements ResourceEndpoint
         $numberOfActiveEmployees = $this->getEmployeeService()->getNumberOfEmployees();
         $numberOfPastEmployees = $this->getEmployeeService()->getEmployeeCount($employeeParamHolder);
         $aboutOrganization->setCompanyName($organizationName);
-        $aboutOrganization->setVersion("5.0");// TODO need to move this to config
+        $aboutOrganization->setVersion(Config::PRODUCT_VERSION);
         $aboutOrganization->setNumberOfActiveEmployee($numberOfActiveEmployees);
         $aboutOrganization->setNumberOfPastEmployee($numberOfPastEmployees);
         return new EndpointResourceResult(AboutOrganizationModel::class, $aboutOrganization);
