@@ -30,6 +30,9 @@ class Config
     public const DOCTRINE_PROXY_DIR = 'ohrm_doctrine_proxy_dir';
     public const TEST_DIR= 'ohrm_test_dir';
 
+    public const PRODUCT_NAME = 'OrangeHRM OS';
+    public const PRODUCT_VERSION = '5.0-beta';
+
     /**
      * @var array
      */
