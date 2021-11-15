@@ -294,12 +294,13 @@ class EmailConfigurationAPI extends Endpoint implements ResourceEndpoint
             RequestParams::PARAM_TYPE_BODY,
             self::PARAMETER_SMTP_PASSWORD
         );
-        if ($password !== '********') {
+        if ($password === '********') {
+            $emailConfig = $this->getEmailConfigurationService()->getEmailConfigurationDao()->getEmailConfiguration();
+            $currentPassword = is_null($emailConfig) ? null : $emailConfig->getSmtpPassword();
+            $emailConfiguration->setSmtpPassword($currentPassword);
+        } else {
             $emailConfiguration->setSmtpPassword($password);
         }
-        $emailConfig = $this->getEmailConfigurationService()->getEmailConfigurationDao()->getEmailConfiguration();
-        $currentPassword = is_null($emailConfig) ? null : $emailConfig->getSmtpPassword();
-        $emailConfiguration->setSmtpPassword($currentPassword);
 
         $emailConfiguration->setSmtpAuthType(
             $this->getRequestParams()->getStringOrNull(
