@@ -159,31 +159,31 @@ export default {
           slot: 'title',
           title: 'Vacancy',
           sortField: 'vacancy.name',
-          style: {flex: 1},
+          style: {flex: 3},
         },
         {
           name: 'jobTitle',
           title: 'Job Title',
           sortField: 'jobTitle.jobTitleName',
-          style: {flex: 1},
+          style: {flex: 3},
         },
         {
           name: 'hiringManager',
           title: 'Hiring Manager',
           sortField: 'employee.lastName',
-          style: {flex: 1},
+          style: {flex: 3},
         },
         {
           name: 'status',
           title: 'Status',
           sortField: 'vacancy.status',
-          style: {flex: 1},
+          style: {flex: 2},
         },
         {
           name: 'actions',
           slot: 'action',
           title: 'Actions',
-          style: {flex: 1},
+          style: {flex: 2},
           cellType: 'oxd-table-cell-actions',
           cellConfig: {
             delete: {
@@ -204,7 +204,7 @@ export default {
       ],
       statusOptions: [
         {id: 1, param: 'active', label: 'Active'},
-        {id: 0, param: 'closed', label: 'Closed'},
+        {id: 2, param: 'closed', label: 'Closed'},
       ],
       vacancies: [],
       checkedItems: [],

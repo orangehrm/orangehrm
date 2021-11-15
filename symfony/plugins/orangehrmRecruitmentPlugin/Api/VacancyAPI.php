@@ -63,12 +63,25 @@ class VacancyAPI extends Endpoint implements CrudEndpoint
     public const PARAMETER_RULE_HIRING_MANGER_ID_MAX_LENGTH = 13;
     public const PARAMETER_RULE_NO_OF_POSITIONS_MAX_LENGTH = 13;
     public const PARAMETER_RULE_STATUS_MAX_LENGTH = 4;
+
     /**
      * @var null|VacancyService
      */
     protected ?VacancyService $vacancyService = null;
 
     /**
+     * @return VacancyService
+     */
+    protected function getVacancyService(): VacancyService
+    {
+        if (is_null($this->vacancyService)) {
+            $this->vacancyService = new VacancyService();
+        }
+        return $this->vacancyService;
+    }
+
+    /**
+     * @inheritDoc
      * @return EndpointResourceResult
      * @throws DaoException
      * @throws RecordNotFoundException
@@ -83,25 +96,6 @@ class VacancyAPI extends Endpoint implements CrudEndpoint
         $vacancy = $this->getVacancyService()->getVacancyById($id);
         $this->throwRecordNotFoundExceptionIfNotExist($vacancy, Vacancy::class);
         return new EndpointResourceResult(VacancyModel::class, $vacancy);
-    }
-
-    /**
-     * @return VacancyService
-     */
-    public function getVacancyService(): VacancyService
-    {
-        if (is_null($this->vacancyService)) {
-            $this->vacancyService = new VacancyService();
-        }
-        return $this->vacancyService;
-    }
-
-    /**
-     * @param  VacancyService  $vacancyService
-     */
-    public function setVacancyService(VacancyService $vacancyService)
-    {
-        $this->vacancyService = $vacancyService;
     }
 
     /**
@@ -145,19 +139,8 @@ class VacancyAPI extends Endpoint implements CrudEndpoint
                 self::FILTER_STATUS
             )
         );
-//        $status = $this->getRequestParams()->getIntOrNull(
-//            RequestParams::PARAM_TYPE_QUERY,
-////            self::FILTER_STATUS
-//        );
-//        if (!is_null($status)) {
-//            $vacancyParamHolder->setStatus(1);
-//        } else {
-//            $vacancyParamHolder->setStatus(0);
-//        }
-
         $vacancies = $this->getVacancyService()->getAllVacancies($vacancyParamHolder);
         $count = $this->getVacancyService()->getVacancyDao()->searchVacanciesCount($vacancyParamHolder);
-//        var_dump($count);
         return new EndpointCollectionResult(
             VacancyModel::class,
             $vacancies,
@@ -303,7 +286,7 @@ class VacancyAPI extends Endpoint implements CrudEndpoint
             $this->getValidationDecorator()->requiredParamRule(
                 new ParamRule(
                     self::PARAMETER_IS_PUBLISHED,
-                    new Rule(Rules::INT_TYPE),
+                    new Rule(Rules::BOOL_TYPE),
                 )
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
@@ -356,12 +339,7 @@ class VacancyAPI extends Endpoint implements CrudEndpoint
         return new ParamRuleCollection(
             new ParamRule(CommonParams::PARAMETER_ID),
             ...$this->getCommonBodyValidationRules(),
-            ...$this->getUpdateValidationRules()
         );
-    }
-
-    private function getUpdateValidationRules()
-    {
     }
 
     /**

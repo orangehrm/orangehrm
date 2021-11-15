@@ -67,7 +67,7 @@
             <oxd-grid :cols="2" class="orangehrm-full-width-grid">
               <oxd-input-field
                 label="Number Of Positions"
-                v-model="vacancy.numOfPositions"
+                v-model.number="vacancy.numOfPositions"
                 :rules="rules.numOfPositions"
               />
             </oxd-grid>
@@ -205,9 +205,8 @@ export default {
         });
     },
     getUrls() {
-      const baseUrl = window.location.hostname;
-      const urlSplits = baseUrl.split('/');
-      console.log(urlSplits);
+      const baseUrl = window.location.origin;
+      console.log(baseUrl);
     },
   },
   created() {
@@ -222,7 +221,7 @@ export default {
       this.vacancy.status = data.status === 1 ? true : false;
       this.vacancy.isPublished = data.isPublished;
       this.vacancy.hiringManager = {
-        id: data.hiringManager.empNumber,
+        id: data.hiringManager.id,
         label: `${data.hiringManager.firstName} ${data.hiringManager.middleName} ${data.hiringManager.lastName}`,
         isPastEmployee: data.hiringManager.terminationId ? true : false,
       };
@@ -230,8 +229,10 @@ export default {
         id: data.jobTitle.id,
         label: data.jobTitle.title,
       };
+      console.log(data.hiringManager);
       return this.http.getAll({limit: 0});
     });
+
     this.http
       .getAll({limit: 0})
       .then(response => {

@@ -68,7 +68,7 @@
             <oxd-grid :cols="2" class="orangehrm-full-width-grid">
               <oxd-input-field
                 label="Number Of Positions"
-                v-model="vacancy.numOfPositions"
+                v-model.number="vacancy.numOfPositions"
                 :rules="rules.numOfPositions"
               />
             </oxd-grid>
@@ -184,9 +184,10 @@ export default {
         employeeId: this.vacancy.hiringManager.id,
         numOfPositions: this.vacancy.numOfPositions,
         description: this.vacancy.description,
-        status: this.vacancy.status ? 1 : 0,
-        isPublished: this.vacancy.isPublished ? 1 : 0,
+        status: this.vacancy.status ? 1 : 2,
+        isPublished: this.vacancy.isPublished,
       };
+      console.log(this.vacancy);
       this.http
         .create({...this.vacancy})
         .then(() => {
