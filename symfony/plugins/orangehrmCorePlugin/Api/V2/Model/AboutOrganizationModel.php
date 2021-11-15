@@ -20,6 +20,7 @@
 namespace OrangeHRM\Core\Api\V2\Model;
 
 use OrangeHRM\Admin\Dto\AboutOrganization;
+use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 
@@ -57,6 +58,7 @@ class AboutOrganizationModel implements Normalizable
         $employeeRole = $this->getUserRoleManager()->getUser()->getUserRole()->getName();
         $aboutOrg = [
             'companyName' => $aboutOrganization->getCompanyName(),
+            'productName' => Config::PRODUCT_NAME,
             'version' => $aboutOrganization->getVersion(),
         ];
         if ($employeeRole == 'Admin') {
