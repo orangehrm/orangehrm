@@ -83,9 +83,9 @@
         <br />
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
           <oxd-grid-item class="orangerhrm-switch-wrapper">
-            <oxd-text class="orangehrm-text" tag="label"
-              >Publish in RSS feed and web page</oxd-text
-            >
+            <oxd-text class="orangehrm-text" tag="label">
+              Publish in RSS feed and web page
+            </oxd-text>
             <oxd-switch-input v-model="vacancy.isPublished" />
           </oxd-grid-item>
         </oxd-grid>
