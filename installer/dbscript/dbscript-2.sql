@@ -3591,10 +3591,8 @@ VALUES (1, 0, 1, 0, 0, @personal_sensitive_information_data_group_id, @admin_rol
        (1, 0, 0, 0, 1, @personal_sensitive_information_data_group_id, @supervisor_role_id),
        (1, 0, 0, 0, 0, @apiv2_core_data_groups_data_group_id, @admin_role_id),
        (1, 0, 0, 0, 0, @apiv2_core_data_groups_data_group_id, @ess_role_id),
-       (1, 0, 0, 0, 0, @apiv2_admin_work_shift_employee_data_group_id, @admin_role_id),
        (1, 0, 0, 0, 0, @apiv2_core_about_organization_data_group_id, @admin_role_id),
-       (1, 0, 0, 0, 0, @apiv2_core_about_organization_data_group_id, @ess_role_id),
-       (1, 0, 0, 0, 0, @apiv2_core_about_organization_data_group_id, @supervisor_role_id);
+       (1, 0, 0, 0, 0, @apiv2_core_about_organization_data_group_id, @ess_role_id);
 
 INSERT INTO ohrm_data_group (`name`, `description`, `can_read`, `can_create`, `can_update`, `can_delete`)
 VALUES ('apiv2_admin_education', 'API-v2 Admin - Education', 1, 1, 1, 1),

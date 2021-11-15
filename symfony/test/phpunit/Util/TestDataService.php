@@ -135,7 +135,12 @@ class TestDataService
             foreach ($tableData as $item) {
                 $columnString = self::_generateInsetQueryColumnString($item, $tableAlias);
                 $item = array_map(
-                    fn($value) => is_null($value) ? 'NULL' : self::_getDbConnection()->quote($value),
+                    function ($value) {
+                        if (is_bool($value)) {
+                            return (int)$value;
+                        }
+                        return is_null($value) ? 'NULL' : self::_getDbConnection()->quote($value);
+                    },
                     $item
                 );
                 $queryArray[] = "INSERT INTO `$tableName` $columnString VALUES (" . implode(', ', $item) . ')';
