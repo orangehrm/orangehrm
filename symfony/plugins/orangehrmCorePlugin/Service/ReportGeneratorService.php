@@ -240,7 +240,8 @@ class ReportGeneratorService
 
         // TODO:: Support for time, attendance, currently only supports for PIM reports
         $qb = $this->getEntityManager()->createQueryBuilder()
-            ->from(Employee::class, 'employee');
+            ->from(Employee::class, 'employee')
+            ->select('employee.empNumber');
 
         $combinedDisplayFields = [];
         $listedDisplayFields = [];
