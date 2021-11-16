@@ -135,14 +135,14 @@ class ReportGeneratorService
 
                     if (in_array($displayField->getDisplayFieldGroup()->getId(), $selectedDisplayGroupIds)) {
                         $groupName = $displayFieldGroup->getName();
-                        $headerGroup = new StackedColumn([$column]);
-                        $headerGroup->setName($groupName);
-                        $headerGroups[$displayField->getDisplayFieldGroup()->getId()] = $headerGroup;
                         $headerData->incrementGroupCount();
                         $headerData->incrementGroupedColumnCount();
                     } else {
-                        $defaultGroup->addChild($column);
+                        $groupName = null;
                     }
+                    $headerGroup = new StackedColumn([$column]);
+                    $headerGroup->setName($groupName);
+                    $headerGroups[$displayField->getDisplayFieldGroup()->getId()] = $headerGroup;
                 } else {
                     $headerGroups[$displayField->getDisplayFieldGroup()->getId()]->addChild($column);
                     $headerData->incrementGroupedColumnCount();
@@ -154,7 +154,15 @@ class ReportGeneratorService
         if (count($defaultGroup) > 0) {
             array_push($headerGroups, ...$defaultGroup->getChildren());
         }
-        $headerData->setColumns($headerGroups);
+        $preparedHeaderGroups = [];
+        foreach ($headerGroups as $headerGroup) {
+            if ($headerGroup instanceof StackedColumn && is_null($headerGroup->getName())) {
+                array_push($preparedHeaderGroups, ...$headerGroup->getChildren());
+                continue;
+            }
+            $preparedHeaderGroups[] = $headerGroup;
+        }
+        $headerData->setColumns($preparedHeaderGroups);
         return $headerData;
     }
 

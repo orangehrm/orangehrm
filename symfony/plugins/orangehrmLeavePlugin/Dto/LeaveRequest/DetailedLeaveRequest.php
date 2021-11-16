@@ -310,6 +310,9 @@ class DetailedLeaveRequest
         $firstLeaveOfEachLeavePeriod = [];
         foreach ($leaves as $leave) {
             $leavePeriod = $leaveEntitlementStrategy->getLeavePeriod($leave->getDate(), $empNumber, $leaveTypeId);
+            if (is_null($leavePeriod)) {
+                continue;
+            }
             $key = $leavePeriod->getYmdStartDate() . '_' . $leavePeriod->getYmdEndDate();
             if (!isset($leavePeriods[$key])) {
                 $leavePeriods[$key] = $leavePeriod;
