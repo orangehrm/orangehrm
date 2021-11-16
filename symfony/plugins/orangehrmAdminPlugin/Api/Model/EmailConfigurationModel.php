@@ -37,7 +37,6 @@ class EmailConfigurationModel implements Normalizable
                 'smtpHost',
                 'smtpPort',
                 'smtpUsername',
-                'smtpPassword',
                 'smtpAuthType',
                 'smtpSecurityType',
             ]
@@ -49,7 +48,6 @@ class EmailConfigurationModel implements Normalizable
                 'smtpHost',
                 'smtpPort',
                 'smtpUsername',
-                'smtpPassword',
                 'smtpAuthType',
                 'smtpSecurityType',
             ]

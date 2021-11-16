@@ -44,7 +44,7 @@ class EmailConfiguration
      *
      * @ORM\Column(name="mail_type", type="string", length=50, nullable=true)
      */
-    private ?string $mailType;
+    private ?string $mailType = null;
 
     /**
      * @var string
@@ -58,42 +58,42 @@ class EmailConfiguration
      *
      * @ORM\Column(name="smtp_host", type="string", length=250, nullable=true)
      */
-    private ?string $smtpHost;
+    private ?string $smtpHost = null;
 
     /**
      * @var int|null
      *
      * @ORM\Column(name="smtp_port", type="integer", length=10, nullable=true)
      */
-    private ?int $smtpPort;
+    private ?int $smtpPort = null;
 
     /**
      * @var string|null
      *
      * @ORM\Column(name="smtp_username", type="string", length=250, nullable=true)
      */
-    private ?string $smtpUsername;
+    private ?string $smtpUsername = null;
 
     /**
      * @var string|null
      *
      * @ORM\Column(name="smtp_password", type="string", length=250, nullable=true)
      */
-    private ?string $smtpPassword;
+    private ?string $smtpPassword = null;
 
     /**
      * @var string|null
      *
      * @ORM\Column(name="smtp_auth_type", type="string", length=50, nullable=true)
      */
-    private ?string $smtpAuthType;
+    private ?string $smtpAuthType = null;
 
     /**
      * @var string|null
      *
      * @ORM\Column(name="smtp_security_type", type="string", length=50, nullable=true)
      */
-    private ?string $smtpSecurityType;
+    private ?string $smtpSecurityType = null;
 
     /**
      * @return int

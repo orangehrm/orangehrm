@@ -90,7 +90,6 @@ class EmailConfigurationAPITest extends EndpointTestCase
                 "smtpHost" => "smtp.gmail.com",
                 "smtpPort" => 587,
                 "smtpUsername" => "testUN",
-                "smtpPassword" => "testPW",
                 "smtpAuthType" => "login",
                 "smtpSecurityType" => "tls"
             ],
@@ -185,7 +184,6 @@ class EmailConfigurationAPITest extends EndpointTestCase
                 "smtpHost" => "smtp.gmail.com",
                 "smtpPort" => 587,
                 "smtpUsername" => "testUN",
-                "smtpPassword" => "testPW",
                 "smtpAuthType" => "login",
                 "smtpSecurityType" => "tls"
             ],
