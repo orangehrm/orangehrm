@@ -37,7 +37,6 @@ class EmailConfigurationModelTest extends KernelTestCase
             "smtpHost" => "smtp.gmail.com",
             "smtpPort" => 587,
             "smtpUsername" => "testUN",
-            "smtpPassword" => "testPW",
             "smtpAuthType" => "login",
             "smtpSecurityType" => "tls"
         ];

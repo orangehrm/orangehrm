@@ -23,19 +23,18 @@ use Exception;
 use OrangeHRM\Admin\Api\Model\EmailConfigurationModel;
 use OrangeHRM\Admin\Service\EmailConfigurationService;
 use OrangeHRM\Core\Api\CommonParams;
-use OrangeHRM\Core\Api\V2\ResourceEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
-use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\Exception\NotImplementedException;
+use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
+use OrangeHRM\Core\Api\V2\ResourceEndpoint;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\EmailConfiguration;
-use OrangeHRM\Core\Api\V2\ParameterBag;
 use Symfony\Component\Mailer\Exception\TransportException as MailerException;
 
 class EmailConfigurationAPI extends Endpoint implements ResourceEndpoint
@@ -140,7 +139,7 @@ class EmailConfigurationAPI extends Endpoint implements ResourceEndpoint
         if (!empty($testEmail)) {
             try {
                 $this->getEmailConfigurationService()->sendTestMail($testEmail);
-            } catch (MailerException $e){
+            } catch (MailerException $e) {
                 $testEmailStatus = 0;
             }
         }
@@ -291,13 +290,16 @@ class EmailConfigurationAPI extends Endpoint implements ResourceEndpoint
 
             )
         );
-        $emailConfiguration->setSmtpPassword(
-            $this->getRequestParams()->getStringOrNull(
-                RequestParams::PARAM_TYPE_BODY,
-                self::PARAMETER_SMTP_PASSWORD
 
-            )
+        $password = $this->getRequestParams()->getStringOrNull(
+            RequestParams::PARAM_TYPE_BODY,
+            self::PARAMETER_SMTP_PASSWORD
         );
+
+        if (!is_null($password)) {
+            $emailConfiguration->setSmtpPassword($password);
+        }
+
         $emailConfiguration->setSmtpAuthType(
             $this->getRequestParams()->getStringOrNull(
                 RequestParams::PARAM_TYPE_BODY,
