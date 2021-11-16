@@ -44,6 +44,7 @@ abstract class ReportDataAPI extends EndpointProxy implements CollectionEndpoint
     public function getAll(): EndpointResult
     {
         $report = $this->getReport();
+        $report->checkReportAccessibility($this);
 
         $validationRule = $report->getValidationRule($this);
         $excludedParamKeys = array_keys($this->getValidationRuleForGetAll()->getMap());

@@ -9,6 +9,11 @@ GetAll:
       leave.leave_entitlement_service: \OrangeHRM\Leave\Service\LeaveEntitlementService
       leave.leave_period_service: \OrangeHRM\Leave\Service\LeavePeriodService
       core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
       name: 'employee_leave_entitlements_and_usage'
     data: [
@@ -133,6 +138,11 @@ GetAll:
       leave.leave_entitlement_service: \OrangeHRM\Leave\Service\LeaveEntitlementService
       leave.leave_period_service: \OrangeHRM\Leave\Service\LeavePeriodService
       core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
       name: 'employee_leave_entitlements_and_usage'
       limit: 5
@@ -233,6 +243,11 @@ GetAll:
       leave.leave_entitlement_service: \OrangeHRM\Leave\Service\LeaveEntitlementService
       leave.leave_period_service: \OrangeHRM\Leave\Service\LeavePeriodService
       core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
       name: 'employee_leave_entitlements_and_usage'
       offset: 5
@@ -273,6 +288,11 @@ GetAll:
       leave.leave_entitlement_service: \OrangeHRM\Leave\Service\LeaveEntitlementService
       leave.leave_period_service: \OrangeHRM\Leave\Service\LeavePeriodService
       core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
       name: 'employee_leave_entitlements_and_usage'
     data: [
@@ -387,8 +407,13 @@ GetAll:
       leave.leave_entitlement_service: \OrangeHRM\Leave\Service\LeaveEntitlementService
       leave.leave_period_service: \OrangeHRM\Leave\Service\LeavePeriodService
       core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
-      name: 'employee_leave_entitlements_and_usage'
+      name: 'my_leave_entitlements_and_usage'
     data: [
       {
         "leaveTypeName": "CAN - Personal (Deleted)",
@@ -399,10 +424,10 @@ GetAll:
         "balanceDays": 0.0,
         "leaveTypeDeleted": true,
         "_url": {
-          "entitlementDays": "/leave/viewLeaveEntitlements?empNumber=3&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=4",
-          "pendingApprovalDays": "/leave/viewLeaveList?empNumber=3&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=4&status=1",
-          "scheduledDays": "/leave/viewLeaveList?empNumber=3&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=4&status=2",
-          "takenDays": "/leave/viewLeaveList?empNumber=3&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=4&status=3"
+          "entitlementDays": "/leave/viewMyLeaveEntitlements?empNumber=3&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=4",
+          "pendingApprovalDays": "/leave/viewMyLeaveList?empNumber=3&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=4&status=1",
+          "scheduledDays": "/leave/viewMyLeaveList?empNumber=3&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=4&status=2",
+          "takenDays": "/leave/viewMyLeaveList?empNumber=3&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=4&status=3"
         }
       },
       {
@@ -414,10 +439,10 @@ GetAll:
         "balanceDays": 0.0,
         "leaveTypeDeleted": false,
         "_url": {
-          "entitlementDays": "/leave/viewLeaveEntitlements?empNumber=3&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=5",
-          "pendingApprovalDays": "/leave/viewLeaveList?empNumber=3&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=5&status=1",
-          "scheduledDays": "/leave/viewLeaveList?empNumber=3&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=5&status=2",
-          "takenDays": "/leave/viewLeaveList?empNumber=3&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=5&status=3"
+          "entitlementDays": "/leave/viewMyLeaveEntitlements?empNumber=3&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=5",
+          "pendingApprovalDays": "/leave/viewMyLeaveList?empNumber=3&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=5&status=1",
+          "scheduledDays": "/leave/viewMyLeaveList?empNumber=3&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=5&status=2",
+          "takenDays": "/leave/viewMyLeaveList?empNumber=3&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=5&status=3"
         }
       },
       {
@@ -429,10 +454,10 @@ GetAll:
         "balanceDays": 7.0,
         "leaveTypeDeleted": false,
         "_url": {
-          "entitlementDays": "/leave/viewLeaveEntitlements?empNumber=3&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=7",
-          "pendingApprovalDays": "/leave/viewLeaveList?empNumber=3&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=7&status=1",
-          "scheduledDays": "/leave/viewLeaveList?empNumber=3&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=7&status=2",
-          "takenDays": "/leave/viewLeaveList?empNumber=3&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=7&status=3"
+          "entitlementDays": "/leave/viewMyLeaveEntitlements?empNumber=3&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=7",
+          "pendingApprovalDays": "/leave/viewMyLeaveList?empNumber=3&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=7&status=1",
+          "scheduledDays": "/leave/viewMyLeaveList?empNumber=3&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=7&status=2",
+          "takenDays": "/leave/viewMyLeaveList?empNumber=3&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=7&status=3"
         }
       },
       {
@@ -444,10 +469,10 @@ GetAll:
         "balanceDays": 0.0,
         "leaveTypeDeleted": false,
         "_url": {
-          "entitlementDays": "/leave/viewLeaveEntitlements?empNumber=3&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=6",
-          "pendingApprovalDays": "/leave/viewLeaveList?empNumber=3&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=6&status=1",
-          "scheduledDays": "/leave/viewLeaveList?empNumber=3&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=6&status=2",
-          "takenDays": "/leave/viewLeaveList?empNumber=3&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=6&status=3"
+          "entitlementDays": "/leave/viewMyLeaveEntitlements?empNumber=3&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=6",
+          "pendingApprovalDays": "/leave/viewMyLeaveList?empNumber=3&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=6&status=1",
+          "scheduledDays": "/leave/viewMyLeaveList?empNumber=3&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=6&status=2",
+          "takenDays": "/leave/viewMyLeaveList?empNumber=3&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=6&status=3"
         }
       },
       {
@@ -459,10 +484,10 @@ GetAll:
         "balanceDays": 0.0,
         "leaveTypeDeleted": false,
         "_url": {
-          "entitlementDays": "/leave/viewLeaveEntitlements?empNumber=3&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=3",
-          "pendingApprovalDays": "/leave/viewLeaveList?empNumber=3&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=3&status=1",
-          "scheduledDays": "/leave/viewLeaveList?empNumber=3&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=3&status=2",
-          "takenDays": "/leave/viewLeaveList?empNumber=3&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=3&status=3"
+          "entitlementDays": "/leave/viewMyLeaveEntitlements?empNumber=3&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=3",
+          "pendingApprovalDays": "/leave/viewMyLeaveList?empNumber=3&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=3&status=1",
+          "scheduledDays": "/leave/viewMyLeaveList?empNumber=3&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=3&status=2",
+          "takenDays": "/leave/viewMyLeaveList?empNumber=3&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=3&status=3"
         }
       },
       {
@@ -474,10 +499,10 @@ GetAll:
         "balanceDays": 0.0,
         "leaveTypeDeleted": false,
         "_url": {
-          "entitlementDays": "/leave/viewLeaveEntitlements?empNumber=3&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=1",
-          "pendingApprovalDays": "/leave/viewLeaveList?empNumber=3&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=1&status=1",
-          "scheduledDays": "/leave/viewLeaveList?empNumber=3&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=1&status=2",
-          "takenDays": "/leave/viewLeaveList?empNumber=3&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=1&status=3"
+          "entitlementDays": "/leave/viewMyLeaveEntitlements?empNumber=3&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=1",
+          "pendingApprovalDays": "/leave/viewMyLeaveList?empNumber=3&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=1&status=1",
+          "scheduledDays": "/leave/viewMyLeaveList?empNumber=3&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=1&status=2",
+          "takenDays": "/leave/viewMyLeaveList?empNumber=3&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=1&status=3"
         }
       },
       {
@@ -489,10 +514,10 @@ GetAll:
         "balanceDays": 0.0,
         "leaveTypeDeleted": false,
         "_url": {
-          "entitlementDays": "/leave/viewLeaveEntitlements?empNumber=3&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=2",
-          "pendingApprovalDays": "/leave/viewLeaveList?empNumber=3&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=2&status=1",
-          "scheduledDays": "/leave/viewLeaveList?empNumber=3&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=2&status=2",
-          "takenDays": "/leave/viewLeaveList?empNumber=3&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=2&status=3"
+          "entitlementDays": "/leave/viewMyLeaveEntitlements?empNumber=3&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=2",
+          "pendingApprovalDays": "/leave/viewMyLeaveList?empNumber=3&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=2&status=1",
+          "scheduledDays": "/leave/viewMyLeaveList?empNumber=3&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=2&status=2",
+          "takenDays": "/leave/viewMyLeaveList?empNumber=3&fromDate=2022-01-01&toDate=2022-12-31&leaveTypeId=2&status=3"
         }
       },
     ]
@@ -516,8 +541,13 @@ GetAll:
       leave.leave_entitlement_service: \OrangeHRM\Leave\Service\LeaveEntitlementService
       leave.leave_period_service: \OrangeHRM\Leave\Service\LeavePeriodService
       core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
-      name: 'employee_leave_entitlements_and_usage'
+      name: 'my_leave_entitlements_and_usage'
     data: [
       {
         "leaveTypeName": "CAN - Personal (Deleted)",
@@ -528,10 +558,10 @@ GetAll:
         "balanceDays": 0.0,
         "leaveTypeDeleted": true,
         "_url": {
-          "entitlementDays": "/leave/viewLeaveEntitlements?empNumber=3&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=4",
-          "pendingApprovalDays": "/leave/viewLeaveList?empNumber=3&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=4&status=1",
-          "scheduledDays": "/leave/viewLeaveList?empNumber=3&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=4&status=2",
-          "takenDays": "/leave/viewLeaveList?empNumber=3&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=4&status=3"
+          "entitlementDays": "/leave/viewMyLeaveEntitlements?empNumber=3&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=4",
+          "pendingApprovalDays": "/leave/viewMyLeaveList?empNumber=3&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=4&status=1",
+          "scheduledDays": "/leave/viewMyLeaveList?empNumber=3&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=4&status=2",
+          "takenDays": "/leave/viewMyLeaveList?empNumber=3&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=4&status=3"
         }
       },
       {
@@ -543,10 +573,10 @@ GetAll:
         "balanceDays": 0.0,
         "leaveTypeDeleted": false,
         "_url": {
-          "entitlementDays": "/leave/viewLeaveEntitlements?empNumber=3&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=5",
-          "pendingApprovalDays": "/leave/viewLeaveList?empNumber=3&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=5&status=1",
-          "scheduledDays": "/leave/viewLeaveList?empNumber=3&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=5&status=2",
-          "takenDays": "/leave/viewLeaveList?empNumber=3&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=5&status=3"
+          "entitlementDays": "/leave/viewMyLeaveEntitlements?empNumber=3&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=5",
+          "pendingApprovalDays": "/leave/viewMyLeaveList?empNumber=3&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=5&status=1",
+          "scheduledDays": "/leave/viewMyLeaveList?empNumber=3&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=5&status=2",
+          "takenDays": "/leave/viewMyLeaveList?empNumber=3&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=5&status=3"
         }
       },
       {
@@ -558,10 +588,10 @@ GetAll:
         "balanceDays": 7.0,
         "leaveTypeDeleted": false,
         "_url": {
-          "entitlementDays": "/leave/viewLeaveEntitlements?empNumber=3&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=6",
-          "pendingApprovalDays": "/leave/viewLeaveList?empNumber=3&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=6&status=1",
-          "scheduledDays": "/leave/viewLeaveList?empNumber=3&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=6&status=2",
-          "takenDays": "/leave/viewLeaveList?empNumber=3&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=6&status=3"
+          "entitlementDays": "/leave/viewMyLeaveEntitlements?empNumber=3&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=6",
+          "pendingApprovalDays": "/leave/viewMyLeaveList?empNumber=3&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=6&status=1",
+          "scheduledDays": "/leave/viewMyLeaveList?empNumber=3&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=6&status=2",
+          "takenDays": "/leave/viewMyLeaveList?empNumber=3&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=6&status=3"
         }
       },
       {
@@ -573,10 +603,10 @@ GetAll:
         "balanceDays": 0.0,
         "leaveTypeDeleted": false,
         "_url": {
-          "entitlementDays": "/leave/viewLeaveEntitlements?empNumber=3&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=3",
-          "pendingApprovalDays": "/leave/viewLeaveList?empNumber=3&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=3&status=1",
-          "scheduledDays": "/leave/viewLeaveList?empNumber=3&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=3&status=2",
-          "takenDays": "/leave/viewLeaveList?empNumber=3&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=3&status=3"
+          "entitlementDays": "/leave/viewMyLeaveEntitlements?empNumber=3&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=3",
+          "pendingApprovalDays": "/leave/viewMyLeaveList?empNumber=3&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=3&status=1",
+          "scheduledDays": "/leave/viewMyLeaveList?empNumber=3&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=3&status=2",
+          "takenDays": "/leave/viewMyLeaveList?empNumber=3&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=3&status=3"
         }
       },
       {
@@ -588,10 +618,10 @@ GetAll:
         "balanceDays": 0.0,
         "leaveTypeDeleted": false,
         "_url": {
-          "entitlementDays": "/leave/viewLeaveEntitlements?empNumber=3&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=1",
-          "pendingApprovalDays": "/leave/viewLeaveList?empNumber=3&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=1&status=1",
-          "scheduledDays": "/leave/viewLeaveList?empNumber=3&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=1&status=2",
-          "takenDays": "/leave/viewLeaveList?empNumber=3&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=1&status=3"
+          "entitlementDays": "/leave/viewMyLeaveEntitlements?empNumber=3&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=1",
+          "pendingApprovalDays": "/leave/viewMyLeaveList?empNumber=3&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=1&status=1",
+          "scheduledDays": "/leave/viewMyLeaveList?empNumber=3&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=1&status=2",
+          "takenDays": "/leave/viewMyLeaveList?empNumber=3&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=1&status=3"
         }
       },
       {
@@ -603,10 +633,10 @@ GetAll:
         "balanceDays": 0.0,
         "leaveTypeDeleted": false,
         "_url": {
-          "entitlementDays": "/leave/viewLeaveEntitlements?empNumber=3&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=2",
-          "pendingApprovalDays": "/leave/viewLeaveList?empNumber=3&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=2&status=1",
-          "scheduledDays": "/leave/viewLeaveList?empNumber=3&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=2&status=2",
-          "takenDays": "/leave/viewLeaveList?empNumber=3&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=2&status=3"
+          "entitlementDays": "/leave/viewMyLeaveEntitlements?empNumber=3&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=2",
+          "pendingApprovalDays": "/leave/viewMyLeaveList?empNumber=3&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=2&status=1",
+          "scheduledDays": "/leave/viewMyLeaveList?empNumber=3&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=2&status=2",
+          "takenDays": "/leave/viewMyLeaveList?empNumber=3&fromDate=2021-01-01&toDate=2021-12-31&leaveTypeId=2&status=3"
         }
       },
     ]
@@ -632,6 +662,7 @@ GetAll:
       leave.leave_entitlement_service: \OrangeHRM\Leave\Service\LeaveEntitlementService
       leave.leave_period_service: \OrangeHRM\Leave\Service\LeavePeriodService
       core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
@@ -749,6 +780,7 @@ GetAll:
       leave.leave_entitlement_service: \OrangeHRM\Leave\Service\LeaveEntitlementService
       leave.leave_period_service: \OrangeHRM\Leave\Service\LeavePeriodService
       core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
@@ -757,3 +789,20 @@ GetAll:
     exception:
       class: 'OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
       message: 'Invalid Parameter'
+
+  'ESS user try to access report=employee_leave_entitlements_and_usage':
+    userId: 4
+    services:
+      leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      name: 'employee_leave_entitlements_and_usage'
+    exception:
+      class: 'OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
+      message: 'Unauthorized'

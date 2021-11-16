@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Leave\Report;
 
+use OrangeHRM\Core\Api\V2\Exception\ForbiddenException;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
@@ -206,5 +207,17 @@ class LeaveTypeLeaveEntitlementUsageReport implements EndpointAwareReport
                 LeaveTypeLeaveEntitlementUsageReportSearchFilterParams::ALLOWED_SORT_FIELDS
             )
         );
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function checkReportAccessibility(EndpointProxy $endpoint): void
+    {
+        if (!$this->getUserRoleManagerHelper()
+            ->getEntityIndependentDataGroupPermissions('leave_report_leave_type_leave_entitlements_and_usage')
+            ->canRead()) {
+            throw new ForbiddenException();
+        }
     }
 }

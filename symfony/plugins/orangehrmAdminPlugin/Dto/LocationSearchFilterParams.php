@@ -29,6 +29,7 @@ class LocationSearchFilterParams extends FilterParams
         'location.city',
         'location.phone',
         'country.countryCode',
+        'country.countryName',
         'noOfEmployees',
     ];
 

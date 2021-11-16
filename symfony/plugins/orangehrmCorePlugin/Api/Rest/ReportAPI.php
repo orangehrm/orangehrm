@@ -44,6 +44,7 @@ abstract class ReportAPI extends EndpointProxy implements ResourceEndpoint
     public function getOne(): EndpointResult
     {
         $report = $this->getReport();
+        $report->checkReportAccessibility($this);
         $header = $report->getHeaderDefinition();
         $filter = $report->getFilterDefinition();
 

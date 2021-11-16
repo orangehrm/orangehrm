@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Core\Report\Api;
 
+use OrangeHRM\Core\Api\V2\Exception\ForbiddenException;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Dto\FilterParams;
 use OrangeHRM\Core\Report\Report;
@@ -40,4 +41,13 @@ interface EndpointAwareReport extends Report
      * @return ParamRuleCollection
      */
     public function getValidationRule(EndpointProxy $endpoint): ParamRuleCollection;
+
+    /**
+     * Evaluate report permission and throw forbidden exception if not accessible
+     *
+     * @param EndpointProxy $endpoint
+     * @return void
+     * @throws ForbiddenException
+     */
+    public function checkReportAccessibility(EndpointProxy $endpoint): void;
 }

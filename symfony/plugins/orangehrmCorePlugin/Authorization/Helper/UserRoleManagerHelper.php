@@ -44,7 +44,7 @@ class UserRoleManagerHelper
     /**
      * Returns the data group permissions without considering any employee or other entity
      *
-     * @param $dataGroupNames
+     * @param string[]|string $dataGroupNames
      *
      * @return ResourcePermission
      * @throws DaoException
