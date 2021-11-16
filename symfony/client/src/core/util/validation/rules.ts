@@ -417,3 +417,22 @@ export const shouldNotLessThanCharLength = function(charLength: number) {
     );
   };
 };
+
+/**
+ * @param {string | function} minValue
+ * @param {string|undefined} message
+ */
+export const minValueShouldBeLowerThanMaxValue = (
+  minValue: string | Function,
+  message?: string,
+) => {
+  return (value: string): boolean | string => {
+    const resolvedMinValue =
+      typeof minValue === 'function' ? minValue() : minValue;
+    const resolvedMessage =
+      typeof message === 'string'
+        ? message
+        : 'Should be higher than Minimum Value';
+    return parseFloat(resolvedMinValue) < parseFloat(value) || resolvedMessage;
+  };
+};

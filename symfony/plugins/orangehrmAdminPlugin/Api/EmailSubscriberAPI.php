@@ -74,6 +74,7 @@ class EmailSubscriberAPI extends Endpoint implements CrudEndpoint
             ->getEmailSubscriberDao()
             ->getEmailSubscriptionById($subscriptionId);
         $emailSubscriberSearchFilterParams = new EmailSubscriberSearchFilterParams();
+        $this->setSortingAndPaginationParams($emailSubscriberSearchFilterParams);
         $emailSubscribers = $this->getEmailSubscriberService()
             ->getEmailSubscriberDao()
             ->getEmailSubscribersByEmailSubscriptionId($subscriptionId, $emailSubscriberSearchFilterParams);

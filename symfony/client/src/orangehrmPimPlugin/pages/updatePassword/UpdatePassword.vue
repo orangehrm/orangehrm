@@ -26,7 +26,7 @@
       }}</oxd-text>
       <oxd-divider />
 
-      <oxd-form :loading="isLoading" @submitValid="onSave">
+      <oxd-form ref="formRef" :loading="isLoading" @submitValid="onSave">
         <oxd-form-row>
           <oxd-grid :cols="2" class="orangehrm-full-width-grid">
             <oxd-grid-item>
@@ -77,6 +77,7 @@ import {
   required,
   shouldNotExceedCharLength,
 } from '@ohrm/core/util/validation/rules';
+import useForm from '@/core/util/composable/useForm';
 
 const userModel = {
   currentPassword: '',
@@ -96,8 +97,11 @@ export default {
       window.appGlobal.baseUrl,
       'api/v2/core/update-password',
     );
+    const {formRef, reset} = useForm();
     return {
       http,
+      formRef,
+      reset,
     };
   },
   components: {
@@ -139,7 +143,7 @@ export default {
         })
         .then(() => {
           this.isLoading = false;
-          this.user = {...userModel};
+          this.reset();
         });
     },
   },
