@@ -90,7 +90,7 @@ import {
 
 const dependentModel = {
   name: '',
-  relationshipType: {id: 'child', label: 'Child'},
+  relationshipType: null,
   relationship: '',
   dateOfBirth: '',
 };
