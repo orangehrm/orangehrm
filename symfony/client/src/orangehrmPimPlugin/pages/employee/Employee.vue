@@ -97,15 +97,16 @@
       ></table-header>
       <div class="orangehrm-container">
         <oxd-card-table
+          @click="onClickEdit"
           :headers="headers"
           :items="items?.data"
           :selectable="true"
-          :clickable="false"
-          v-model:selected="checkedItems"
+          :clickable="true"
           :loading="isLoading"
-          rowDecorator="oxd-table-decorator-card"
+          v-model:selected="checkedItems"
           v-model:order="sortDefinition"
           class="orangehrm-employee-list"
+          rowDecorator="oxd-table-decorator-card"
         />
       </div>
       <div class="orangehrm-bottom-container">
@@ -327,8 +328,9 @@ export default {
     onClickAdd() {
       navigate('/pim/addEmployee');
     },
-    onClickEdit(item) {
-      navigate('/pim/viewPersonalDetails/empNumber/{id}', {id: item.id});
+    onClickEdit($event) {
+      const id = $event.id ? $event.id : $event.item?.id;
+      navigate('/pim/viewPersonalDetails/empNumber/{id}', {id});
     },
     onClickDeleteSelected() {
       const ids = this.checkedItems.map(index => {

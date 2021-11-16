@@ -135,7 +135,9 @@ export default {
       .then(response => {
         const {data} = response.data;
         this.rules.name.push(v => {
-          const index = data.findIndex(item => item.name == v);
+          const index = data.findIndex(
+            item => String(item.name).toLowerCase() == String(v).toLowerCase(),
+          );
           if (index > -1) {
             const {id} = data[index];
             return id != this.grade.id ? 'Already exists' : true;

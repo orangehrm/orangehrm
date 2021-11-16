@@ -183,7 +183,7 @@ const salComponentModel = {
 
 const directDepositModel = {
   directDepositAccount: '',
-  directDepositAccountType: {id: 'SAVINGS', label: 'Savings'},
+  directDepositAccountType: null,
   directDepositRoutingNumber: '',
   directDepositAmount: '',
 };

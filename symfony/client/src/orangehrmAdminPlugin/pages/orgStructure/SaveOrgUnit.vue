@@ -143,7 +143,10 @@ export default {
         const {data} = response.data;
         if (data) {
           this.rules.name.push(v => {
-            const index = data.findIndex(item => item.name == v);
+            const index = data.findIndex(
+              item =>
+                String(item.name).toLowerCase() == String(v).toLowerCase(),
+            );
             if (index > -1) {
               return 'Organization unit name should be unique';
             } else {
