@@ -112,7 +112,10 @@ export default {
         maxSalary: [
           maxCurrency(1000000000),
           digitsOnly,
-          minValueShouldBeLowerThanMaxValue(() => this.payCurrency.minSalary),
+          minValueShouldBeLowerThanMaxValue(
+            () => this.payCurrency.minSalary,
+            'Should be higher than Minimum Salary',
+          ),
         ],
       },
     };

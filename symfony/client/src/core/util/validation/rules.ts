@@ -432,7 +432,7 @@ export const minValueShouldBeLowerThanMaxValue = (
     const resolvedMessage =
       typeof message === 'string'
         ? message
-        : 'Should be higher than Minimum Salary';
+        : 'Should be higher than Minimum Value';
     return parseFloat(resolvedMinValue) < parseFloat(value) || resolvedMessage;
   };
 };
