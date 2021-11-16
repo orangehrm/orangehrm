@@ -24,7 +24,6 @@ use OrangeHRM\Admin\Service\Model\LocationModel;
 use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\Location;
-use OrangeHRM\ORM\ListSorter;
 use OrangeHRM\Admin\Dto\LocationSearchFilterParams;
 use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
 
@@ -80,41 +79,7 @@ class LocationService
      */
     public function searchLocations(LocationSearchFilterParams $locationSearchFilterParams): array
     {
-        $isSortedByEmpCount = $locationSearchFilterParams->getSortField() === 'noOfEmployees';
-
-        if ($isSortedByEmpCount) {
-            $sortOrder = $locationSearchFilterParams->getSortOrder();
-            $locationSearchFilterParams->setSortField(null);
-            $locationSearchFilterParams->setSortOrder(ListSorter::ASCENDING);
-        }
-        $locations = $this->getLocationDao()->searchLocations($locationSearchFilterParams);
-        if ($isSortedByEmpCount) {
-            $locations = $this->sortLocationsByEmployeeCount($locations, $sortOrder);
-        }
-        return $locations;
-    }
-
-    /**
-     * This function sorts the given array of locations by the number of employees in those locations
-     *
-     * @param Location[] $locations
-     * @param string     $sortOrder
-     *
-     * @return Location[]
-     */
-    public function sortLocationsByEmployeeCount(array $locations, string $sortOrder): array
-    {
-        usort(
-            $locations,
-            function (Location $location1, Location $location2) use ($sortOrder) {
-                $location1EmployeeCount = $location1->getDecorator()->getNoOfEmployees();
-                $location2EmployeeCount = $location2->getDecorator()->getNoOfEmployees();
-                return $sortOrder === ListSorter::ASCENDING ?
-                    $location1EmployeeCount > $location2EmployeeCount
-                    : $location1EmployeeCount < $location2EmployeeCount;
-            }
-        );
-        return $locations;
+        return $this->getLocationDao()->searchLocations($locationSearchFilterParams);
     }
 
     /**

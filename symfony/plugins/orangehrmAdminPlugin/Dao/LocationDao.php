@@ -50,6 +50,7 @@ class LocationDao extends BaseDao
      */
     public function getSearchLocationListCount(LocationSearchFilterParams $locationSearchFilterParams): int
     {
+        $locationSearchFilterParams->setSortField(null);
         return $this->searchLocationsPaginator($locationSearchFilterParams)->count();
     }
 
@@ -78,7 +79,19 @@ class LocationDao extends BaseDao
     ): Paginator {
         $q = $this->createQueryBuilder(Location::class, 'location');
         $q->leftJoin('location.country', 'country');
-        $this->setSortingAndPaginationParams($q, $locationSearchFilterParams);
+        $isSortedByEmpCount = $locationSearchFilterParams->getSortField() === 'noOfEmployees';
+        if ($isSortedByEmpCount) {
+            $q->leftJoin('location.employees', 'employees');
+            $q->addSelect('COUNT(employees.empNumber) AS HIDDEN noOfEmployees');
+            $q->addOrderBy(
+                'noOfEmployees',
+                $locationSearchFilterParams->getSortOrder()
+            );
+            $q->addGroupBy('location.id');
+            $this->setPaginationParams($q, $locationSearchFilterParams);
+        } else {
+            $this->setSortingAndPaginationParams($q, $locationSearchFilterParams);
+        }
 
         if (!empty($locationSearchFilterParams->getName())) {
             $q->andWhere($q->expr()->like('location.name', ':name'))
