@@ -129,13 +129,6 @@ export default {
         this.payCurrency.name = data.currencyType.name;
         this.payCurrency.minSalary = data.minSalary;
         this.payCurrency.maxSalary = data.maxSalary;
-        this.rules.maxSalary.push(maxSalaryInput => {
-          const minValue = this.payCurrency.minSalary;
-          return (
-            parseFloat(minValue) < parseFloat(maxSalaryInput) ||
-            'Should be higher than Minimum Salary'
-          );
-        });
       })
       .finally(() => {
         this.isLoading = false;
