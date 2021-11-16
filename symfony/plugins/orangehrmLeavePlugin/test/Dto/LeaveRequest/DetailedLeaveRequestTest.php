@@ -19,16 +19,21 @@
 
 namespace OrangeHRM\Tests\Leave\Dto\LeaveRequest;
 
+use DateTime;
 use Error;
 use Exception;
 use OrangeHRM\Admin\Service\UserService;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory;
 use OrangeHRM\Core\Service\ConfigService;
+use OrangeHRM\Core\Service\DateTimeHelperService;
 use OrangeHRM\Entity\LeaveRequest;
 use OrangeHRM\Entity\User;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Leave\Dto\LeaveRequest\DetailedLeaveRequest;
+use OrangeHRM\Leave\Service\LeaveConfigurationService;
+use OrangeHRM\Leave\Service\LeaveEntitlementService;
+use OrangeHRM\Leave\Service\LeavePeriodService;
 use OrangeHRM\Leave\Service\LeaveRequestService;
 use OrangeHRM\Pim\Service\EmployeeService;
 use OrangeHRM\Tests\Util\KernelTestCase;
@@ -124,5 +129,27 @@ class DetailedLeaveRequestTest extends KernelTestCase
         $this->getContainer()->register(Services::USER_ROLE_MANAGER)->setFactory(
             [UserRoleManagerFactory::class, 'getNewUserRoleManager']
         );
+    }
+
+    public function testGetLeavePeriodsWithAssignedLeaveForPastLeavePeriod(): void
+    {
+        $dateTimeHelper = $this->getMockBuilder(DateTimeHelperService::class)
+            ->onlyMethods(['getNow'])
+            ->getMock();
+        $dateTimeHelper->expects($this->atLeastOnce())
+            ->method('getNow')
+            ->willReturnCallback(fn() => new DateTime('2021-11-16'));
+
+        $this->createKernelWithMockServices([
+            Services::LEAVE_REQUEST_SERVICE => new LeaveRequestService(),
+            Services::LEAVE_ENTITLEMENT_SERVICE => new LeaveEntitlementService(),
+            Services::LEAVE_CONFIG_SERVICE => new LeaveConfigurationService(),
+            Services::LEAVE_PERIOD_SERVICE => new LeavePeriodService(),
+            Services::DATETIME_HELPER_SERVICE => $dateTimeHelper,
+        ]);
+        $leaveRequest = $this->getEntityReference(LeaveRequest::class, 20);
+        $detailedLeaveRequest = new DetailedLeaveRequest($leaveRequest);
+        $detailedLeaveRequest->fetchLeaves();
+        $this->assertEquals([], $detailedLeaveRequest->getLeavePeriods());
     }
 }
