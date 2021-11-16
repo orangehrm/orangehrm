@@ -40,9 +40,7 @@
     </oxd-text>
   </oxd-input-group>
   <component
-    :is="
-      balance >= 0 ? 'leave-balance-modal' : 'leave-balance-insufficient-modal'
-    "
+    :is="leaveBalanceModal"
     v-if="showModal"
     :data="data"
     :meta="meta"
@@ -98,6 +96,12 @@ export default {
       state.showModal = false;
     };
 
+    const leaveBalanceModal = computed(() => {
+      return Array.isArray(state.data)
+        ? 'leave-balance-insufficient-modal'
+        : 'leave-balance-modal';
+    });
+
     watchPostEffect(async () => {
       if (props.leaveData.type?.id) {
         validateLeaveBalance(props.leaveData)
@@ -119,6 +123,7 @@ export default {
       leaveBalance,
       onModalOpen,
       onModalClose,
+      leaveBalanceModal,
     };
   },
 };
