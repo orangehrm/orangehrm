@@ -94,6 +94,7 @@
 <script>
 import SwitchInput from '@ohrm/oxd/core/components/Input/SwitchInput';
 import {APIService} from '@/core/util/services/api.service';
+import {reloadPage} from '@/core/util/helper/navigation';
 
 const modulesModel = {
   admin: false,
@@ -150,6 +151,7 @@ export default {
         })
         .finally(() => {
           this.isLoading = false;
+          reloadPage();
         });
     },
   },
