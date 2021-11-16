@@ -43,7 +43,7 @@ use OrangeHRM\Entity\JobTitle;
 class JobTitleAPI extends Endpoint implements CrudEndpoint
 {
     /**
-     * @var JobTitleService|null
+     * @var null|JobTitleService
      */
     protected ?JobTitleService $jobTitleService = null;
 
