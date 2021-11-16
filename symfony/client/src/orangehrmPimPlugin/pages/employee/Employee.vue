@@ -342,7 +342,8 @@ export default {
         }
       });
     },
-    onClickDelete(item) {
+    onClickDelete(item, $event) {
+      $event.stopImmediatePropagation();
       this.$refs.deleteDialog.showDialog().then(confirmation => {
         if (confirmation === 'ok') {
           this.deleteItems([item.id]);
