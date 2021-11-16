@@ -248,7 +248,7 @@ describe('Job - PayGrade test script', function () {
   });
   // eslint-disable-next-line jest/no-disabled-tests
   describe.skip('Validation- currency type, min/max salary amount', function () {
-    it.skip('Validation-currency type', () => {
+    it('Validation-currency type', () => {
       cy.get('.oxd-button').click();
       cy.get(':nth-child(2) > .oxd-input').type('AAAA');
       cy.get('.oxd-button--secondary').click();
