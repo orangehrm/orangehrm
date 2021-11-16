@@ -19,6 +19,8 @@
 
 namespace OrangeHRM\Pim\Report;
 
+use OrangeHRM\Core\Api\Rest\ReportAPI;
+use OrangeHRM\Core\Api\V2\Exception\ForbiddenException;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Dto\FilterParams;
@@ -107,5 +109,20 @@ class PimReport implements EndpointAwareReport
         return new ParamRuleCollection(
             ...$endpoint->getSortingAndPaginationParamsRules([])
         );
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function checkReportAccessibility(EndpointProxy $endpoint): void
+    {
+        $reportName = $endpoint->getRequestParams()->getString(
+            RequestParams::PARAM_TYPE_QUERY,
+            ReportAPI::PARAMETER_NAME
+        );
+        if ($reportName !== 'pim_defined') {
+            // Should handle permissions if PIM report requirement changes
+            throw new ForbiddenException();
+        }
     }
 }

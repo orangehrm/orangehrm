@@ -180,7 +180,7 @@ export default {
           name: 'country',
           title: 'Country',
           style: {flex: 1},
-          sortField: 'country.countryCode',
+          sortField: 'country.countryName',
         },
         {
           name: 'phone',

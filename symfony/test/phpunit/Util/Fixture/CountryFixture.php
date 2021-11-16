@@ -28,16 +28,16 @@ class CountryFixture extends AbstractFixture
      */
     protected function getContent(): array
     {
-        /** @var Country[] $nationalities */
-        $nationalities = $this->getEntityManager()->getRepository(Country::class)->findAll();
+        /** @var Country[] $countries */
+        $countries = $this->getEntityManager()->getRepository(Country::class)->findAll();
         $results = [];
-        foreach ($nationalities as $nationality) {
+        foreach ($countries as $country) {
             $result = [];
-            $result['countryCode'] = $nationality->getCountryCode();
-            $result['name'] = $nationality->getName();
-            $result['countryName'] = $nationality->getCountryName();
-            $result['iso3'] = $nationality->getIso3();
-            $result['numCode'] = $nationality->getNumCode();
+            $result['countryCode'] = $country->getCountryCode();
+            $result['name'] = $country->getName();
+            $result['countryName'] = $country->getCountryName();
+            $result['iso3'] = $country->getIso3();
+            $result['numCode'] = $country->getNumCode();
             $results[] = $result;
         }
 

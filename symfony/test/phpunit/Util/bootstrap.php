@@ -28,7 +28,7 @@ define('ENVIRONMENT', 'test');
 require realpath(__DIR__ . '/../../../vendor/autoload.php');
 
 $errorMessage = "
-Can't connect to database `%s`.
+Can't connect to test database.
 Run below command and try again;
 $ php ./devTools/general/create-test-db.php
 
@@ -43,14 +43,11 @@ ServiceContainer::getContainer()
 try {
     ServiceContainer::getContainer()->get(Services::DOCTRINE)->getConnection()->connect();
 } catch (ConnectionException $e) {
-    if ($e->getErrorCode() === 1049) {
-        echo sprintf(
-            $errorMessage,
-            ServiceContainer::getContainer()->get(Services::DOCTRINE)->getConnection()->getDatabase(),
-            $e->getMessage()
-        );
-        die;
-    }
+    echo sprintf(
+        $errorMessage,
+        $e->getMessage()
+    );
+    die;
 }
 
 $coreFixtureService = new CoreFixtureService();
@@ -64,4 +61,3 @@ $ php ./devTools/general/create-test-db.php
     echo $errorMessage;
     die;
 }
-

@@ -123,12 +123,14 @@ class ReportGeneratorServiceTest extends TestCase
                     'employeeLastname' => 'Abbey',
                     'employeeFirstname' => 'Kayla',
                     'employeeMiddlename' => 'T',
+                    'empNumber' => 1,
                 ],
                 [
                     'employeeId' => '0002',
                     'employeeLastname' => 'Abel',
                     'employeeFirstname' => 'Ashley',
                     'employeeMiddlename' => 'ST',
+                    'empNumber' => 2,
                 ],
             ],
             $reportData
