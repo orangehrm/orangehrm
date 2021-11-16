@@ -24,6 +24,7 @@ import {
   endTimeShouldBeAfterStartTime,
   startDateShouldBeBeforeEndDate,
   startTimeShouldBeBeforeEndTime,
+  minValueShouldBeLowerThanMaxValue,
 } from '../rules';
 
 describe('core/util/validation/rules::required', () => {
@@ -383,5 +384,23 @@ describe('core/util/validation/rules::startTimeShouldBeBeforeEndTime', () => {
       allowSameTime: true,
     })('11:00');
     expect(result).toEqual('Start time should be before end time');
+  });
+});
+
+describe('core/util/validation/rules::minValueShouldBeLowerThanMaxValue', () => {
+  test('minValueShouldBeLowerThanMaxValue:: should not allow minimum value to be greater than maximum value', () => {
+    const result = minValueShouldBeLowerThanMaxValue(
+      '100',
+      'Should be higher than Minimum Salary',
+    )('1');
+    expect(result).toEqual('Should be higher than Minimum Salary');
+  });
+
+  test('minValueShouldBeLowerThanMaxValue:: should allow minimum value to be lower than maximum value', () => {
+    const result = minValueShouldBeLowerThanMaxValue(
+      '100',
+      'Should be higher than Minimum Salary',
+    )('101');
+    expect(result).toEqual(true);
   });
 });
