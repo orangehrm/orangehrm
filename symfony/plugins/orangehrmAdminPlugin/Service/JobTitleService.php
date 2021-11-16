@@ -47,7 +47,7 @@ class JobTitleService
     }
 
     /**
-     * @param  JobTitleDao  $jobTitleDao
+     * @param JobTitleDao $jobTitleDao
      */
     public function setJobTitleDao(JobTitleDao $jobTitleDao): void
     {

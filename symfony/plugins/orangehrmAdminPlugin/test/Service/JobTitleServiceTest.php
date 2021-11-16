@@ -21,7 +21,7 @@ namespace OrangeHRM\Tests\Admin\Service;
 
 use Exception;
 use OrangeHRM\Admin\Dao\JobTitleDao;
-use OrangeHRM\Admin\Service\VacancyService;
+use OrangeHRM\Admin\Service\JobTitleService;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Service\NormalizerService;
 use OrangeHRM\Entity\JobTitle;
@@ -35,7 +35,7 @@ use OrangeHRM\Tests\Util\TestDataService;
 class JobTitleServiceTest extends TestCase
 {
 
-    private VacancyService $JobTitleService;
+    private JobTitleService $JobTitleService;
     protected string $fixture;
 
     /**
@@ -44,7 +44,7 @@ class JobTitleServiceTest extends TestCase
      */
     protected function setUp(): void
     {
-        $this->JobTitleService = new VacancyService();
+        $this->JobTitleService = new JobTitleService();
         $this->fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmAdminPlugin/test/fixtures/JobTitleDao.yml';
         TestDataService::populate($this->fixture);
     }
@@ -110,7 +110,7 @@ class JobTitleServiceTest extends TestCase
             ->with(1)
             ->willReturn([$jobTitle]);
 
-        $jobTitleService = $this->getMockBuilder(VacancyService::class)
+        $jobTitleService = $this->getMockBuilder(JobTitleService::class)
             ->onlyMethods(['getNormalizerService', 'getJobTitleDao'])
             ->getMock();
         $jobTitleService->expects($this->once())
@@ -138,7 +138,7 @@ class JobTitleServiceTest extends TestCase
             ->with(1)
             ->willReturn([$jobTitle]);
 
-        $jobTitleService = $this->getMockBuilder(VacancyService::class)
+        $jobTitleService = $this->getMockBuilder(JobTitleService::class)
             ->onlyMethods(['getNormalizerService', 'getJobTitleDao'])
             ->getMock();
         $jobTitleService->expects($this->once())

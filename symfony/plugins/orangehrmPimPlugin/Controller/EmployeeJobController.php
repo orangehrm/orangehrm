@@ -27,7 +27,6 @@ use OrangeHRM\Admin\Service\LocationService;
 use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
-use OrangeHRM\Entity\JobTitle;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
 

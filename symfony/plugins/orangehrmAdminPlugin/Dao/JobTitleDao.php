@@ -31,8 +31,8 @@ use OrangeHRM\ORM\Paginator;
 class JobTitleDao extends BaseDao
 {
     /**
-     * @param  bool  $activeOnly
-     * @return array
+     * @param bool $activeOnly
+     * @return JobTitle[]
      * @throws DaoException
      */
     public function getJobTitleList(bool $activeOnly = true): array

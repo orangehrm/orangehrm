@@ -20,7 +20,7 @@
 namespace OrangeHRM\Admin\Api;
 
 use OrangeHRM\Admin\Api\Model\JobSpecificationModel;
-use OrangeHRM\Admin\Service\VacancyService;
+use OrangeHRM\Admin\Service\JobTitleService;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\ParameterBag;
@@ -37,17 +37,17 @@ class JobSpecificationAPI extends Endpoint implements ResourceEndpoint
     public const PARAMETER_JOB_TITLE_ID = 'jobTitleId';
 
     /**
-     * @var null|VacancyService
+     * @var null|JobTitleService
      */
-    protected ?VacancyService $jobTitleService = null;
+    protected ?JobTitleService $jobTitleService = null;
 
     /**
-     * @return VacancyService
+     * @return JobTitleService
      */
-    public function getJobTitleService(): VacancyService
+    public function getJobTitleService(): JobTitleService
     {
-        if (!$this->jobTitleService instanceof VacancyService) {
-            $this->jobTitleService = new VacancyService();
+        if (!$this->jobTitleService instanceof JobTitleService) {
+            $this->jobTitleService = new JobTitleService();
         }
         return $this->jobTitleService;
     }
