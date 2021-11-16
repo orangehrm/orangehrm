@@ -289,7 +289,10 @@ export default {
               this.emailConfiguration.smtpAuthType === 'login'
                 ? this.emailConfiguration.smtpUsername
                 : '',
-            smtpPassword: this.emailConfiguration.smtpPassword,
+            smtpPassword:
+              this.emailConfiguration.smtpPassword === '********'
+                ? null
+                : this.emailConfiguration.smtpPassword,
             smtpAuthType: this.emailConfiguration.smtpAuthType,
             smtpSecurityType: this.useTLSSecureConnection ? 'tls' : 'none',
             testEmailAddress: this.emailConfiguration.testEmailAddress,
