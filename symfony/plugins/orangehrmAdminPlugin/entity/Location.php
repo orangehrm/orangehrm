@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use OrangeHRM\Entity\Decorator\DecoratorTrait;
 use OrangeHRM\Entity\Decorator\LocationDecorator;
 use Doctrine\ORM\Mapping as ORM;
@@ -105,6 +106,18 @@ class Location
      * @ORM\Column(name="notes", type="string", length=255, nullable=true)
      */
     private ?string $note;
+
+    /**
+     * @var Employee[]
+     *
+     * @ORM\ManyToMany(targetEntity="OrangeHRM\Entity\Employee", mappedBy="locations")
+     */
+    private iterable $employees;
+
+    public function __construct()
+    {
+        $this->employees = new ArrayCollection();
+    }
 
     /**
      * @return int

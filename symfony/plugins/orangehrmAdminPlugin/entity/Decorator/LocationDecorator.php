@@ -88,8 +88,6 @@ class LocationDecorator
      * Sets the given country code as the related country of the Location entity
      *
      * @param string|null $countryCode
-     *
-     * @throws \OrangeHRM\Core\Exception\DaoException
      */
     public function setCountryByCountryCode(?string $countryCode): void
     {
@@ -104,11 +102,9 @@ class LocationDecorator
      * Returns the number of employees in the given location.
      *
      * @return int
-     * @throws \OrangeHRM\Core\Exception\DaoException
      */
     public function getNoOfEmployees(): int
     {
         return $this->getLocationService()->getNumberOfEmployeesForLocation($this->getLocation()->getId());
     }
-
 }

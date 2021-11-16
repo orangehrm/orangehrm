@@ -41,6 +41,7 @@ class ModuleUnderDevelopmentSubscriber extends AbstractEventSubscriber
         'admin/localization',
         'admin/languagePackage',
         'admin/openIdProvider',
+        'admin/registerOAuthClient',
     ];
 
     /**

@@ -133,6 +133,7 @@ LeaveRequest:
   - { "id": "17","leave_type_id": "2","date_applied": "2021-11-04","emp_number": "1" }
   - { "id": "18","leave_type_id": "6","date_applied": "2021-12-01","emp_number": "2" }
   - { "id": "19","leave_type_id": "6","date_applied": "2021-09-14","emp_number": "4" }
+  - { "id": "20","leave_type_id": "6","date_applied": "2021-01-14","emp_number": "4" }
 
 Leave:
   - { "id": "1","date": "2021-09-01","length_hours": "8.00","length_days": "1.0000","status": "1","leave_request_id": "1","leave_type_id": "6","emp_number": "4","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
@@ -204,6 +205,7 @@ Leave:
   - { "id": "67","date": "2021-12-08","length_hours": "8.00","length_days": "1.0000","status": "2","leave_request_id": "18","leave_type_id": "6","emp_number": "2","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
   - { "id": "68","date": "2021-09-14","length_hours": "0.00","length_days": "0.0000","status": "5","leave_request_id": "19","leave_type_id": "6","emp_number": "4","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" },
   - { "id": "69","date": "2021-09-15","length_hours": "8.00","length_days": "1.0000","status": "1","leave_request_id": "19","leave_type_id": "6","emp_number": "4","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "70","date": "2019-09-01","length_hours": "8.00","length_days": "1.0000","status": "3","leave_request_id": "20","leave_type_id": "6","emp_number": "4","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
 
 LeaveLeaveEntitlement:
   - { "id": "1","leave_id": "1","entitlement_id": "1","length_days": "1.0000" }
