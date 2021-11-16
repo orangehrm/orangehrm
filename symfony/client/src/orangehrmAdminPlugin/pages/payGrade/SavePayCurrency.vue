@@ -133,6 +133,13 @@ export default {
             label: item.id + ' - ' + item.name,
           };
         });
+        this.rules.maxSalary.push(maxSalaryInput => {
+          const minValue = this.payCurrency.minSalary;
+          return (
+            parseFloat(minValue) < parseFloat(maxSalaryInput) ||
+            'Should be higher than Minimum Salary'
+          );
+        });
       })
       .finally(() => {
         this.isLoading = false;
