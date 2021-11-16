@@ -189,8 +189,8 @@ describe('Job - PayGrade test script', function () {
       cy.get('.orangehrm-modal-footer > .oxd-button--label-danger').click();
     });
   });
-
-  describe('Add currency type, min/max salaray amount testing', function () {
+  // eslint-disable-next-line jest/no-disabled-tests
+  describe.skip('Add currency type, min/max salaray amount testing', function () {
     it('add a a paygrade and currency without salary', () => {
       cy.get('.oxd-button').click();
       cy.get(':nth-child(2) > .oxd-input').type('AAAA');
@@ -246,9 +246,9 @@ describe('Job - PayGrade test script', function () {
       cy.get('.orangehrm-modal-footer > .oxd-button--label-danger').click();
     });
   });
-
-  describe('Validation- currency type, min/max salary amount', function () {
-    it('Validation-currency type', () => {
+  // eslint-disable-next-line jest/no-disabled-tests
+  describe.skip('Validation- currency type, min/max salary amount', function () {
+    it.skip('Validation-currency type', () => {
       cy.get('.oxd-button').click();
       cy.get(':nth-child(2) > .oxd-input').type('AAAA');
       cy.get('.oxd-button--secondary').click();
@@ -258,8 +258,7 @@ describe('Job - PayGrade test script', function () {
       ).click();
       cy.get('.oxd-input-group > .oxd-text').should('include.text', 'Required');
     });
-    // eslint-disable-next-line jest/no-disabled-tests
-    it.skip('amount field length validation', () => {
+    it('amount field length validation', () => {
       cy.get('.oxd-button').click();
       cy.get(':nth-child(2) > .oxd-input').type('AAAC');
       cy.get('.oxd-button--secondary').click();
@@ -280,8 +279,7 @@ describe('Job - PayGrade test script', function () {
         'Should be less than 1000,000,000',
       );
     });
-    // eslint-disable-next-line jest/no-disabled-tests
-    it.skip('add currency with max value smaller than min value validation', () => {
+    it('add currency with max value smaller than min value validation', () => {
       cy.get('.oxd-button').click();
       cy.get(':nth-child(2) > .oxd-input').type('AAAD');
       cy.get('.oxd-button--secondary').click();
@@ -340,8 +338,8 @@ describe('Job - PayGrade test script', function () {
       cy.get('.orangehrm-modal-footer > .oxd-button--label-danger').click();
     });
   });
-
-  describe('Edit currency type, min/max salaray amount testing', function () {
+  // eslint-disable-next-line jest/no-disabled-tests
+  describe.skip('Edit currency type, min/max salaray amount testing', function () {
     it('Edit currency details', () => {
       cy.get('.oxd-button').click();
       cy.get(':nth-child(2) > .oxd-input').type('AAAA');
@@ -407,8 +405,8 @@ describe('Job - PayGrade test script', function () {
       cy.get('.oxd-toast').should('include.text', 'Successfully Updated');
     });
   });
-
-  describe('Delete currency type', function () {
+  // eslint-disable-next-line jest/no-disabled-tests
+  describe.skip('Delete currency type', function () {
     it('Delete a single currency and confirmation message', () => {
       cy.get(
         ':nth-child(1) > .oxd-table-row > [style="flex-shrink: 1;"] > .oxd-table-cell-actions > :nth-child(2)',
