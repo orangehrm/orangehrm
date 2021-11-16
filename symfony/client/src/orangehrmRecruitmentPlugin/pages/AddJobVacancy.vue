@@ -187,7 +187,6 @@ export default {
         status: this.vacancy.status ? 1 : 2,
         isPublished: this.vacancy.isPublished,
       };
-      console.log(this.vacancy);
       this.http
         .create({...this.vacancy})
         .then(() => {

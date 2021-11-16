@@ -192,8 +192,8 @@ export default {
         employeeId: this.vacancy.hiringManager.id,
         numOfPositions: this.vacancy.numOfPositions,
         description: this.vacancy.description,
-        status: this.vacancy.status ? 1 : 0,
-        isPublished: this.vacancy.isPublished ? 1 : 0,
+        status: this.vacancy.status ? 1 : 2,
+        isPublished: this.vacancy.isPublished,
       };
       this.http
         .update(this.vacancyId, {...this.vacancy})
@@ -212,29 +212,27 @@ export default {
   created() {
     this.isLoading = true;
     this.getUrls();
-    this.http.get(this.vacancyId).then(response => {
-      const {data} = response.data;
-      this.currentName = data.name;
-      this.vacancy.name = data.name;
-      this.vacancy.description = data.description;
-      this.vacancy.numOfPositions = data.numOfPositions;
-      this.vacancy.status = data.status === 1 ? true : false;
-      this.vacancy.isPublished = data.isPublished;
-      this.vacancy.hiringManager = {
-        id: data.hiringManager.id,
-        label: `${data.hiringManager.firstName} ${data.hiringManager.middleName} ${data.hiringManager.lastName}`,
-        isPastEmployee: data.hiringManager.terminationId ? true : false,
-      };
-      this.vacancy.jobTitle = {
-        id: data.jobTitle.id,
-        label: data.jobTitle.title,
-      };
-      console.log(data.hiringManager);
-      return this.http.getAll({limit: 0});
-    });
-
     this.http
-      .getAll({limit: 0})
+      .get(this.vacancyId)
+      .then(response => {
+        const {data} = response.data;
+        this.currentName = data.name;
+        this.vacancy.name = data.name;
+        this.vacancy.description = data.description;
+        this.vacancy.numOfPositions = data.numOfPositions;
+        this.vacancy.status = data.status === 1 ? true : false;
+        this.vacancy.isPublished = data.isPublished;
+        this.vacancy.hiringManager = {
+          id: data.hiringManager.id,
+          label: `${data.hiringManager.firstName} ${data.hiringManager.middleName} ${data.hiringManager.lastName}`,
+          isPastEmployee: data.hiringManager.terminationId ? true : false,
+        };
+        this.vacancy.jobTitle = {
+          id: data.jobTitle.id,
+          label: data.jobTitle.title,
+        };
+        return this.http.getAll({limit: 0});
+      })
       .then(response => {
         const {data} = response.data;
         this.rules.name.push(v => {
