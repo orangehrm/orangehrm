@@ -4063,3 +4063,27 @@ CREATE TABLE `ohrm_mail_queue` (
   `content_type` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- start of vacancy
+
+INSERT INTO ohrm_data_group (`name`, `description`, `can_read`, `can_create`, `can_update`, `can_delete`)
+VALUES ('apiv2_vacancy', 'API-v2 Vacancy - Vacancy List', 1, 1, 1, 1);
+
+SET
+@recruitment_module_id := (SELECT `id` FROM ohrm_module WHERE name = 'recruitment' LIMIT 1);
+
+SET
+@apiv2_vacancy_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_vacancy' LIMIT 1);
+
+INSERT INTO ohrm_api_permission (`api_name`, `module_id`, `data_group_id`)
+VALUES ('OrangeHRM\\Recruitment\\Api\\VacancyAPI', @recruitment_module_id, @apiv2_vacancy_data_group_id);
+
+
+SET
+@admin_role_id := (SELECT `id` FROM ohrm_user_role WHERE `name` = 'Admin' LIMIT 1);
+
+INSERT INTO ohrm_user_role_data_group (`can_read`, `can_create`, `can_update`, `can_delete`, `self`, `data_group_id`,
+                                       `user_role_id`)
+VALUES (1, 1, 1, 1, 1, @apiv2_vacancy_data_group_id, @admin_role_id);
+
+-- end of vacancy
+
