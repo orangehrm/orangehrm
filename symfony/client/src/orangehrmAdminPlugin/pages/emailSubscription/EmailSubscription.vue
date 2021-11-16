@@ -55,16 +55,17 @@ import Spinner from '@ohrm/oxd/core/components/Loader/Spinner';
 
 const subscribersNormalizer = data => {
   return data.map(item => {
+    const subscribers = Array.isArray(item.subscribers)
+      ? item.subscribers.slice(0, 10)
+      : [];
     return {
       id: item.id,
       type: item.name,
-      subscribers: Array.isArray(item.subscribers)
-        ? item.subscribers
-            .map(sub => {
-              return `${sub.name} <${sub.email}>`;
-            })
-            .join(', ')
-        : '',
+      subscribers: subscribers
+        .map(sub => {
+          return `${sub.name} <${sub.email}>`;
+        })
+        .join(', '),
       enabled: item.isEnabled,
       _loading: false,
     };
