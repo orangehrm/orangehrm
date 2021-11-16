@@ -1,7 +1,14 @@
 GetOne:
   'with valid report name':
+    userId: 1
     services:
       core.class_helper: \OrangeHRM\Core\Helper\ClassHelper
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
       name: 'employee_leave_entitlements_and_usage'
     data:
@@ -76,8 +83,15 @@ GetOne:
       filters: null
 
   'with my_leave_entitlements_and_usage report name':
+    userId: 1
     services:
       core.class_helper: \OrangeHRM\Core\Helper\ClassHelper
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
       name: 'my_leave_entitlements_and_usage'
     data:
@@ -152,6 +166,7 @@ GetOne:
       filters: null
 
   'with invalid report name':
+    userId: 1
     services:
       core.class_helper: \OrangeHRM\Core\Helper\ClassHelper
     query:

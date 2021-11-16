@@ -19,17 +19,32 @@
 
 namespace OrangeHRM\Tests\Leave\Api;
 
+use OrangeHRM\Config\Config;
+use OrangeHRM\Framework\Services;
 use OrangeHRM\Leave\Api\LeaveReportAPI;
 use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
 use OrangeHRM\Tests\Util\Integration\TestCaseParams;
+use OrangeHRM\Tests\Util\TestDataService;
 
 class LeaveTypeLeaveEntitlementUsageReportAPITest extends EndpointIntegrationTestCase
 {
+    public static function setUpBeforeClass(): void
+    {
+        TestDataService::populate(Config::get(Config::TEST_DIR) . '/phpunit/fixtures/DataGroupPermission.yaml', true);
+        TestDataService::populate(
+            Config::get(Config::PLUGINS_DIR) .
+            '/orangehrmLeavePlugin/test/fixtures/LeaveTypeLeaveEntitlementUsageLeaveReportDataAPITest.yaml',
+            true
+        );
+    }
+
     /**
      * @dataProvider dataProviderForTestGetAll
      */
     public function testGetAll(TestCaseParams $testCaseParams): void
     {
+        $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
+        $this->registerServices($testCaseParams);
         $this->registerServices($testCaseParams);
         $api = $this->getApiEndpointMock(LeaveReportAPI::class, $testCaseParams);
         $this->assertValidTestCase($api, 'getOne', $testCaseParams);

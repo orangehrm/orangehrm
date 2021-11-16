@@ -9,6 +9,7 @@ GetAll:
     data: [
       {
         "employeeId": "0001",
+        "empNumber": 1,
         "employeeLastname": "Adalwin",
         "employeeFirstname": "Odis",
         "employeeMiddlename": "",
@@ -22,6 +23,7 @@ GetAll:
       },
       {
         "employeeId": "0002",
+        "empNumber": 2,
         "employeeLastname": "Anderson",
         "employeeFirstname": "Linda",
         "employeeMiddlename": "Jane",
@@ -35,6 +37,7 @@ GetAll:
       },
       {
         "employeeId": "0003",
+        "empNumber": 3,
         "employeeLastname": "Duval",
         "employeeFirstname": "Alice",
         "employeeMiddlename": "",
@@ -48,6 +51,7 @@ GetAll:
       },
       {
         "employeeId": "0004",
+        "empNumber": 4,
         "employeeLastname": "Abbey",
         "employeeFirstname": "Kayla",
         "employeeMiddlename": "",
@@ -61,6 +65,7 @@ GetAll:
       },
       {
         "employeeId": "0005",
+        "empNumber": 5,
         "employeeLastname": "Abel",
         "employeeFirstname": "Ashley",
         "employeeMiddlename": "",
@@ -74,6 +79,7 @@ GetAll:
       },
       {
         "employeeId": "0006",
+        "empNumber": 6,
         "employeeLastname": "Morgan",
         "employeeFirstname": "Jasmine",
         "employeeMiddlename": "",
@@ -101,6 +107,7 @@ GetAll:
     data: [
       {
         "employeeId": "0003",
+        "empNumber": 3,
         "homeTelephone": "112-382-0478",
         "mobile": null,
         "workTelephone": "112-454-0457",
@@ -110,6 +117,7 @@ GetAll:
       },
       {
         "employeeId": "0004",
+        "empNumber": 4,
         "homeTelephone": null,
         "mobile": null,
         "workTelephone": null,
@@ -119,6 +127,7 @@ GetAll:
       },
       {
         "employeeId": "0005",
+        "empNumber": 5,
         "homeTelephone": null,
         "mobile": null,
         "workTelephone": null,
@@ -141,6 +150,7 @@ GetAll:
     data: [
       {
         "employeeId": "0001",
+        "empNumber": 1,
         "ecname": [
             "Kevin",
             "Charlie"
@@ -168,6 +178,7 @@ GetAll:
       },
       {
         "employeeId": "0002",
+        "empNumber": 2,
         "ecname": [
             "Lisa"
         ],
@@ -189,6 +200,7 @@ GetAll:
       },
       {
         "employeeId": "0003",
+        "empNumber": 3,
         "ecname": [ ],
         "ecHomeTelephone": [ ],
         "ecWorkTelephone": [ ],
@@ -211,6 +223,7 @@ GetAll:
     data: [
       {
         "employeeId": "0001",
+        "empNumber": 1,
         "dependentName": [
             "Abrahamson",
             "Abram"
@@ -230,6 +243,7 @@ GetAll:
       },
       {
         "employeeId": "0002",
+        "empNumber": 2,
         "dependentName": [
             "Achilles"
         ],
@@ -245,6 +259,7 @@ GetAll:
       },
       {
         "employeeId": "0003",
+        "empNumber": 3,
         "dependentName": [ ],
         "dependentRelationship": [ ],
         "dependentDateofBirth": [ ],
@@ -266,6 +281,7 @@ GetAll:
     data: [
       {
         "employeeId": "0001",
+        "empNumber": 1,
         "empPassportNo": [
             "HVN0003472"
         ],
@@ -293,6 +309,7 @@ GetAll:
       },
       {
         "employeeId": "0002",
+        "empNumber": 2,
         "empPassportNo": [
             "RTF33323411"
         ],
@@ -320,6 +337,7 @@ GetAll:
       },
       {
         "employeeId": "0003",
+        "empNumber": 3,
         "empPassportNo": [ ],
         "empPassportIssuedDate": [ ],
         "empPassportExpiryDate": [ ],
@@ -343,6 +361,7 @@ GetAll:
     data: [
       {
         "employeeId": "0001",
+        "empNumber": 1,
         "empJobTitle": "Sales Person",
         "empEmploymentStatus": null,
         "empJobCategory": null,
@@ -357,6 +376,7 @@ GetAll:
       },
       {
         "employeeId": "0002",
+        "empNumber": 2,
         "empJobTitle": "Software Architect",
         "empEmploymentStatus": null,
         "empJobCategory": null,
@@ -371,6 +391,7 @@ GetAll:
       },
       {
         "employeeId": "0003",
+        "empNumber": 3,
         "empJobTitle": null,
         "empEmploymentStatus": null,
         "empJobCategory": null,
@@ -385,6 +406,7 @@ GetAll:
       },
       {
         "employeeId": "0004",
+        "empNumber": 4,
         "empJobTitle": null,
         "empEmploymentStatus": null,
         "empJobCategory": "Technicians",
@@ -399,6 +421,7 @@ GetAll:
       },
       {
         "employeeId": "0005",
+        "empNumber": 5,
         "empJobTitle": null,
         "empEmploymentStatus": "Part Time",
         "empJobCategory": "Professionals",
@@ -413,6 +436,7 @@ GetAll:
       },
       {
         "employeeId": "0006",
+        "empNumber": 6,
         "empJobTitle": null,
         "empEmploymentStatus": "Full Time",
         "empJobCategory": null,
@@ -440,6 +464,7 @@ GetAll:
     data: [
       {
         "employeeId": "0001",
+        "empNumber": 1,
         "salPayGrade": [
             "Salary Grade B",
             "Salary Grade A"
@@ -487,6 +512,7 @@ GetAll:
       },
       {
         "employeeId": "0002",
+        "empNumber": 2,
         "salPayGrade": [ ],
         "salSalaryComponent": [ ],
         "salAmount": [ ],
@@ -515,6 +541,7 @@ GetAll:
     data: [
       {
         "employeeId": "0001",
+        "empNumber": 1,
         "subordinateFirstName": [
             "Alice"
         ],
@@ -530,6 +557,7 @@ GetAll:
       },
       {
         "employeeId": "0002",
+        "empNumber": 2,
         "subordinateFirstName": [
             "Odis",
             "Alice"
@@ -549,6 +577,7 @@ GetAll:
       },
       {
         "employeeId": "0003",
+        "empNumber": 3,
         "subordinateFirstName": [ ],
         "subordinateLastName": [ ],
         "subReportingMethod": [ ],
@@ -570,6 +599,7 @@ GetAll:
     data: [
       {
         "employeeId": "0001",
+        "empNumber": 1,
         "supervisorFirstName": [
             "Linda"
         ],
@@ -585,6 +615,7 @@ GetAll:
       },
       {
         "employeeId": "0002",
+        "empNumber": 2,
         "supervisorFirstName": [ ],
         "supervisorLastName": [ ],
         "supReportingMethod": [ ],
@@ -592,6 +623,7 @@ GetAll:
       },
       {
         "employeeId": "0003",
+        "empNumber": 3,
         "supervisorFirstName": [
             "Odis",
             "Linda"
@@ -624,6 +656,7 @@ GetAll:
     data: [
       {
         "employeeId": "0001",
+        "empNumber": 1,
         "expCompany": [
             "OrangeHRM",
             "OrangeHRM"
@@ -655,6 +688,7 @@ GetAll:
       },
       {
         "employeeId": "0002",
+        "empNumber": 2,
         "expCompany": [ ],
         "expJobTitle": [ ],
         "expFrom": [ ],
@@ -678,6 +712,7 @@ GetAll:
     data: [
       {
         "employeeId": "0001",
+        "empNumber": 1,
         "eduProgram": [
             "BSc",
             "MSc"
@@ -713,6 +748,7 @@ GetAll:
       },
       {
         "employeeId": "0002",
+        "empNumber": 2,
         "eduProgram": [
             "BSc"
         ],
@@ -740,6 +776,7 @@ GetAll:
       },
       {
         "employeeId": "0003",
+        "empNumber": 3,
         "eduProgram": [ ],
         "eduYear": [ ],
         "eduGPAOrScore": [ ],
@@ -764,6 +801,7 @@ GetAll:
     data: [
       {
         "employeeId": "0001",
+        "empNumber": 1,
         "skill": [
             "Driving",
             "Skydiving"
@@ -783,6 +821,7 @@ GetAll:
       },
       {
         "employeeId": "0002",
+        "empNumber": 2,
         "skill": [
             "Skydiving"
         ],
@@ -798,6 +837,7 @@ GetAll:
       },
       {
         "employeeId": "0003",
+        "empNumber": 3,
         "skill": [
             "Sign Language"
         ],
@@ -813,6 +853,7 @@ GetAll:
       },
       {
         "employeeId": "0004",
+        "empNumber": 4,
         "skill": [ ],
         "skillYearsOfExperience": [ ],
         "skillComments": [ ],
@@ -833,6 +874,7 @@ GetAll:
     data: [
       {
         "employeeId": "0001",
+        "empNumber": 1,
         "langName": [
             "English",
             "Spanish"
@@ -860,6 +902,7 @@ GetAll:
       },
       {
         "employeeId": "0002",
+        "empNumber": 2,
         "langName": [
             "Spanish"
         ],
@@ -881,6 +924,7 @@ GetAll:
       },
       {
         "employeeId": "0003",
+        "empNumber": 3,
         "langName": [ ],
         "langCompetency": [ ],
         "langComments": [ ],
@@ -890,6 +934,7 @@ GetAll:
       },
       {
         "employeeId": "0004",
+        "empNumber": 4,
         "langName": [
             "English",
             "English",
@@ -936,6 +981,7 @@ GetAll:
     data: [
       {
         "employeeId": "0001",
+        "empNumber": 1,
         "empLicenseType": [
             "CIMA",
             "CCNA"
@@ -959,6 +1005,7 @@ GetAll:
       },
       {
         "employeeId": "0002",
+        "empNumber": 2,
         "empLicenseType": [
             "CCNA"
         ],
@@ -977,6 +1024,7 @@ GetAll:
       },
       {
         "employeeId": "0003",
+        "empNumber": 3,
         "empLicenseType": [
             "NAITA"
         ],
@@ -995,6 +1043,7 @@ GetAll:
       },
       {
         "employeeId": "0004",
+        "empNumber": 4,
         "empLicenseType": [ ],
         "empLicenseIssuedDate": [ ],
         "empLicenseExpiryDate": [ ],
@@ -1017,6 +1066,7 @@ GetAll:
     data: [
       {
         "employeeId": "0001",
+        "empNumber": 1,
         "membershipName": [
             "ACCA",
             "British Computer Society (BCS)"
@@ -1048,6 +1098,7 @@ GetAll:
       },
       {
         "employeeId": "0002",
+        "empNumber": 2,
         "membershipName": [ ],
         "subscriptionPaidBy": [ ],
         "subscriptionAmount": [ ],
@@ -1070,6 +1121,7 @@ GetAll:
     data: [
       {
         "employeeId": "0001",
+        "empNumber": 1,
         "employeeLastname": "Adalwin",
         "employeeFirstname": "Odis",
         "employeeMiddlename": ""
@@ -1088,6 +1140,7 @@ GetAll:
     data: [
       {
         "employeeId": "0001",
+        "empNumber": 1,
         "employeeLastname": "Adalwin",
         "employeeFirstname": "Odis",
         "employeeMiddlename": "",
@@ -1110,6 +1163,7 @@ GetAll:
     data: [
       {
         "employeeId": "0001",
+        "empNumber": 1,
         "employeeLastname": "Adalwin",
         "employeeFirstname": "Odis",
         "employeeMiddlename": "",
@@ -1120,6 +1174,7 @@ GetAll:
       },
       {
         "employeeId": "0002",
+        "empNumber": 2,
         "employeeLastname": "Anderson",
         "employeeFirstname": "Linda",
         "employeeMiddlename": "Jane",
@@ -1141,6 +1196,7 @@ GetAll:
     data: [
       {
         "employeeId": "0006",
+        "empNumber": 6,
         "employeeLastname": "Morgan",
         "employeeFirstname": "Jasmine",
         "employeeMiddlename": "",
@@ -1160,6 +1216,7 @@ GetAll:
     data: [
       {
         "employeeId": "0002",
+        "empNumber": 2,
         "employeeLastname": "Anderson",
         "employeeFirstname": "Linda",
         "employeeMiddlename": "Jane",
@@ -1179,6 +1236,7 @@ GetAll:
     data: [
       {
         "employeeId": "0001",
+        "empNumber": 1,
         "employeeLastname": "Adalwin",
         "employeeFirstname": "Odis",
         "employeeMiddlename": "",
@@ -1189,6 +1247,7 @@ GetAll:
       },
       {
         "employeeId": "0004",
+        "empNumber": 4,
         "employeeLastname": "Abbey",
         "employeeFirstname": "Kayla",
         "employeeMiddlename": "",
@@ -1212,6 +1271,7 @@ GetAll:
     data: [
       {
         "employeeId": "0001",
+        "empNumber": 1,
         "employeeLastname": "Adalwin",
         "employeeFirstname": "Odis",
         "employeeMiddlename": "",
@@ -1222,6 +1282,7 @@ GetAll:
       },
       {
         "employeeId": "0002",
+        "empNumber": 2,
         "employeeLastname": "Anderson",
         "employeeFirstname": "Linda",
         "employeeMiddlename": "Jane",
@@ -1243,6 +1304,7 @@ GetAll:
     data: [
       {
         "employeeId": "0006",
+        "empNumber": 6,
         "employeeLastname": "Morgan",
         "employeeFirstname": "Jasmine",
         "employeeMiddlename": "",
@@ -1262,6 +1324,7 @@ GetAll:
     data: [
       {
         "employeeId": "0002",
+        "empNumber": 2,
         "employeeLastname": "Anderson",
         "employeeFirstname": "Linda",
         "employeeMiddlename": "Jane",
@@ -1281,6 +1344,7 @@ GetAll:
     data: [
       {
         "employeeId": "0003",
+        "empNumber": 3,
         "employeeLastname": "Duval",
         "employeeFirstname": "Alice",
         "employeeMiddlename": "",
@@ -1288,6 +1352,7 @@ GetAll:
       },
       {
         "employeeId": "0004",
+        "empNumber": 4,
         "employeeLastname": "Abbey",
         "employeeFirstname": "Kayla",
         "employeeMiddlename": "",
@@ -1307,6 +1372,7 @@ GetAll:
     data: [
       {
         "employeeId": "0005",
+        "empNumber": 5,
         "employeeLastname": "Abel",
         "employeeFirstname": "Ashley",
         "employeeMiddlename": "",
@@ -1326,6 +1392,7 @@ GetAll:
     data: [
       {
         "employeeId": "0001",
+        "empNumber": 1,
         "employeeLastname": "Adalwin",
         "employeeFirstname": "Odis",
         "employeeMiddlename": "",
@@ -1333,6 +1400,7 @@ GetAll:
       },
       {
         "employeeId": "0002",
+        "empNumber": 2,
         "employeeLastname": "Anderson",
         "employeeFirstname": "Linda",
         "employeeMiddlename": "Jane",
@@ -1340,6 +1408,7 @@ GetAll:
       },
       {
         "employeeId": "0003",
+        "empNumber": 3,
         "employeeLastname": "Duval",
         "employeeFirstname": "Alice",
         "employeeMiddlename": "",
@@ -1347,6 +1416,7 @@ GetAll:
       },
       {
         "employeeId": "0004",
+        "empNumber": 4,
         "employeeLastname": "Abbey",
         "employeeFirstname": "Kayla",
         "employeeMiddlename": "",
@@ -1354,6 +1424,7 @@ GetAll:
       },
       {
         "employeeId": "0005",
+        "empNumber": 5,
         "employeeLastname": "Abel",
         "employeeFirstname": "Ashley",
         "employeeMiddlename": "",
@@ -1361,6 +1432,7 @@ GetAll:
       },
       {
         "employeeId": "0006",
+        "empNumber": 6,
         "employeeLastname": "Morgan",
         "employeeFirstname": "Jasmine",
         "employeeMiddlename": "",
@@ -1380,6 +1452,7 @@ GetAll:
     data: [
       {
         "employeeId": "0001",
+        "empNumber": 1,
         "employeeLastname": "Adalwin",
         "employeeFirstname": "Odis",
         "employeeMiddlename": "",
@@ -1387,6 +1460,7 @@ GetAll:
       },
       {
         "employeeId": "0002",
+        "empNumber": 2,
         "employeeLastname": "Anderson",
         "employeeFirstname": "Linda",
         "employeeMiddlename": "Jane",
@@ -1394,6 +1468,7 @@ GetAll:
       },
       {
         "employeeId": "0003",
+        "empNumber": 3,
         "employeeLastname": "Duval",
         "employeeFirstname": "Alice",
         "employeeMiddlename": "",
@@ -1401,6 +1476,7 @@ GetAll:
       },
       {
         "employeeId": "0004",
+        "empNumber": 4,
         "employeeLastname": "Abbey",
         "employeeFirstname": "Kayla",
         "employeeMiddlename": "",
@@ -1408,6 +1484,7 @@ GetAll:
       },
       {
         "employeeId": "0006",
+        "empNumber": 6,
         "employeeLastname": "Morgan",
         "employeeFirstname": "Jasmine",
         "employeeMiddlename": "",
@@ -1427,6 +1504,7 @@ GetAll:
     data: [
       {
         "employeeId": "0005",
+        "empNumber": 5,
         "employeeLastname": "Abel",
         "employeeFirstname": "Ashley",
         "employeeMiddlename": "",
@@ -1446,6 +1524,7 @@ GetAll:
     data: [
       {
         "employeeId": "0001",
+        "empNumber": 1,
         "employeeLastname": "Adalwin",
         "employeeFirstname": "Odis",
         "employeeMiddlename": "",
@@ -1453,6 +1532,7 @@ GetAll:
       },
       {
         "employeeId": "0002",
+        "empNumber": 2,
         "employeeLastname": "Anderson",
         "employeeFirstname": "Linda",
         "employeeMiddlename": "Jane",
@@ -1460,6 +1540,7 @@ GetAll:
       },
       {
         "employeeId": "0003",
+        "empNumber": 3,
         "employeeLastname": "Duval",
         "employeeFirstname": "Alice",
         "employeeMiddlename": "",
@@ -1467,6 +1548,7 @@ GetAll:
       },
       {
         "employeeId": "0004",
+        "empNumber": 4,
         "employeeLastname": "Abbey",
         "employeeFirstname": "Kayla",
         "employeeMiddlename": "",
@@ -1474,6 +1556,7 @@ GetAll:
       },
       {
         "employeeId": "0005",
+        "empNumber": 5,
         "employeeLastname": "Abel",
         "employeeFirstname": "Ashley",
         "employeeMiddlename": "",
@@ -1481,6 +1564,7 @@ GetAll:
       },
       {
         "employeeId": "0006",
+        "empNumber": 6,
         "employeeLastname": "Morgan",
         "employeeFirstname": "Jasmine",
         "employeeMiddlename": "",
@@ -1500,6 +1584,7 @@ GetAll:
     data: [
       {
         "employeeId": "0005",
+        "empNumber": 5,
         "employeeLastname": "Abel",
         "employeeFirstname": "Ashley",
         "employeeMiddlename": "",
@@ -1519,6 +1604,7 @@ GetAll:
     data: [
       {
         "employeeId": "0004",
+        "empNumber": 4,
         "employeeLastname": "Abbey",
         "employeeFirstname": "Kayla",
         "employeeMiddlename": "",
@@ -1538,6 +1624,7 @@ GetAll:
     data: [
       {
         "employeeId": "0004",
+        "empNumber": 4,
         "employeeLastname": "Abbey",
         "employeeFirstname": "Kayla",
         "employeeMiddlename": "",
@@ -1545,6 +1632,7 @@ GetAll:
       },
       {
         "employeeId": "0005",
+        "empNumber": 5,
         "employeeLastname": "Abel",
         "employeeFirstname": "Ashley",
         "employeeMiddlename": "",
@@ -1565,6 +1653,7 @@ GetAll:
     data: [
       {
         "employeeId": "0006",
+        "empNumber": 6,
         "employeeLastname": "Morgan",
         "employeeFirstname": "Jasmine",
         "employeeMiddlename": "",
@@ -1585,6 +1674,7 @@ GetAll:
     data: [
       {
         "employeeId": "0002",
+        "empNumber": 2,
         "employeeLastname": "Anderson",
         "employeeFirstname": "Linda",
         "employeeMiddlename": "Jane",
@@ -1605,6 +1695,7 @@ GetAll:
     data: [
       {
         "employeeId": "0006",
+        "empNumber": 6,
         "employeeLastname": "Morgan",
         "employeeFirstname": "Jasmine",
         "employeeMiddlename": "",
@@ -1625,6 +1716,7 @@ GetAll:
     data: [
       {
         "employeeId": "0004",
+        "empNumber": 4,
         "employeeLastname": "Abbey",
         "employeeFirstname": "Kayla",
         "employeeMiddlename": "",
@@ -1645,6 +1737,7 @@ GetAll:
     data: [
       {
         "employeeId": "0005",
+        "empNumber": 5,
         "employeeLastname": "Abel",
         "employeeFirstname": "Ashley",
         "employeeMiddlename": "",
@@ -1665,6 +1758,7 @@ GetAll:
     data: [
       {
         "employeeId": "0005",
+        "empNumber": 5,
         "employeeLastname": "Abel",
         "employeeFirstname": "Ashley",
         "employeeMiddlename": "",
@@ -1684,6 +1778,7 @@ GetAll:
     data: [
       {
         "employeeId": "0001",
+        "empNumber": 1,
         "employeeLastname": "Adalwin",
         "employeeFirstname": "Odis",
         "employeeMiddlename": "",
@@ -1691,6 +1786,7 @@ GetAll:
       },
       {
         "employeeId": "0002",
+        "empNumber": 2,
         "employeeLastname": "Anderson",
         "employeeFirstname": "Linda",
         "employeeMiddlename": "Jane",
@@ -1698,6 +1794,7 @@ GetAll:
       },
       {
         "employeeId": "0003",
+        "empNumber": 3,
         "employeeLastname": "Duval",
         "employeeFirstname": "Alice",
         "employeeMiddlename": "",
@@ -1705,6 +1802,7 @@ GetAll:
       },
       {
         "employeeId": "0004",
+        "empNumber": 4,
         "employeeLastname": "Abbey",
         "employeeFirstname": "Kayla",
         "employeeMiddlename": "",
@@ -1724,6 +1822,7 @@ GetAll:
     data: [
       {
         "employeeId": "0001",
+        "empNumber": 1,
         "employeeLastname": "Adalwin",
         "employeeFirstname": "Odis",
         "employeeMiddlename": "",
@@ -1731,6 +1830,7 @@ GetAll:
       },
       {
         "employeeId": "0002",
+        "empNumber": 2,
         "employeeLastname": "Anderson",
         "employeeFirstname": "Linda",
         "employeeMiddlename": "Jane",
@@ -1738,6 +1838,7 @@ GetAll:
       },
       {
         "employeeId": "0003",
+        "empNumber": 3,
         "employeeLastname": "Duval",
         "employeeFirstname": "Alice",
         "employeeMiddlename": "",
@@ -1745,6 +1846,7 @@ GetAll:
       },
       {
         "employeeId": "0004",
+        "empNumber": 4,
         "employeeLastname": "Abbey",
         "employeeFirstname": "Kayla",
         "employeeMiddlename": "",
@@ -1752,6 +1854,7 @@ GetAll:
       },
       {
         "employeeId": "0005",
+        "empNumber": 5,
         "employeeLastname": "Abel",
         "employeeFirstname": "Ashley",
         "employeeMiddlename": "",
@@ -1771,6 +1874,7 @@ GetAll:
     data: [
       {
         "employeeId": "0005",
+        "empNumber": 5,
         "employeeLastname": "Abel",
         "employeeFirstname": "Ashley",
         "employeeMiddlename": "",

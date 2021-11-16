@@ -21,7 +21,6 @@ namespace OrangeHRM\Admin\Service;
 
 use OrangeHRM\Admin\Dao\LocationDao;
 use OrangeHRM\Admin\Service\Model\LocationModel;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\Location;
@@ -66,7 +65,6 @@ class LocationService
      * @param int $locationId
      *
      * @return Location|null
-     * @throws DaoException
      */
     public function getLocationById(int $locationId): ?Location
     {
@@ -79,8 +77,6 @@ class LocationService
      * @param LocationSearchFilterParams $locationSearchFilterParams
      *
      * @return Location[]
-     * @throws \OrangeHRM\Core\Exception\DaoException
-     * @throws \OrangeHRM\Core\Exception\SearchParamException
      */
     public function searchLocations(LocationSearchFilterParams $locationSearchFilterParams): array
     {
@@ -105,7 +101,6 @@ class LocationService
      * @param string     $sortOrder
      *
      * @return Location[]
-     * @throws \OrangeHRM\Core\Exception\DaoException
      */
     public function sortLocationsByEmployeeCount(array $locations, string $sortOrder): array
     {
@@ -128,7 +123,6 @@ class LocationService
      * @param LocationSearchFilterParams $locationSearchFilterParams
      *
      * @return int
-     * @throws DaoException
      */
     public function getSearchLocationListCount(LocationSearchFilterParams $locationSearchFilterParams): int
     {
@@ -141,7 +135,6 @@ class LocationService
      * @param int $locationId
      *
      * @return int
-     * @throws DaoException
      */
     public function getNumberOfEmployeesForLocation(int $locationId): int
     {
@@ -152,7 +145,6 @@ class LocationService
      * Get all locations
      *
      * @return Location[]
-     * @throws \OrangeHRM\Core\Exception\DaoException
      */
     public function getLocationList(): array
     {
@@ -165,7 +157,6 @@ class LocationService
      * @param int[] $empNumbers Array of employee numbers
      *
      * @return int[] of locationIds of the given employees
-     * @throws \OrangeHRM\Core\Exception\DaoException
      */
     public function getLocationIdsForEmployees(array $empNumbers): array
     {
@@ -178,7 +169,6 @@ class LocationService
      * @param int|null $empNumber
      *
      * @return array
-     * @throws DaoException
      */
     public function getAccessibleLocationsArray(?int $empNumber = null): array
     {
@@ -201,7 +191,6 @@ class LocationService
      * @param Location $location
      *
      * @return Location
-     * @throws DaoException
      */
     public function saveLocation(Location $location): Location
     {
@@ -214,7 +203,6 @@ class LocationService
      * @param array $ids
      *
      * @return int number of affected rows
-     * @throws DaoException
      */
     public function deleteLocations(array $ids): int
     {

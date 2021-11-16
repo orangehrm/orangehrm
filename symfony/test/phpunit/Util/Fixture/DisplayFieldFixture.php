@@ -29,27 +29,27 @@ class DisplayFieldFixture extends AbstractFixture
      */
     protected function getContent(): array
     {
-        /** @var DisplayField[] $filterFields */
-        $filterFields = $this->getEntityManager()->getRepository(DisplayField::class)->findAll();
+        /** @var DisplayField[] $displayFields */
+        $displayFields = $this->getEntityManager()->getRepository(DisplayField::class)->findAll();
         $results = [];
-        foreach ($filterFields as $filterField) {
+        foreach ($displayFields as $displayField) {
             $result = [];
-            $result['id'] = $filterField->getId();
-            $result['name'] = $filterField->getName();
-            $result['label'] = $filterField->getLabel();
-            $result['fieldAlias'] = $filterField->getFieldAlias();
-            $result['sortable'] = $filterField->isSortable() ? 'true' : 'false';
-            $result['elementType'] = $filterField->getElementType();
-            $result['elementProperty'] = $filterField->getElementProperty();
-            $result['width'] = $filterField->getWidth();
-            $result['isValueList'] = (int)$filterField->isValueList();
-            $result['encrypted'] = (int)$filterField->isEncrypted();
-            $result['exportable'] = (int)$filterField->isExportable();
-            $result['meta'] = (int)$filterField->isMeta();
-            $result['className'] = $filterField->getClassName();
-            $result['report_group_id'] = $filterField->getReportGroup()->getId();
-            if ($filterField->getDisplayFieldGroup()) {
-                $result['display_field_group_id'] = $filterField->getDisplayFieldGroup()->getId();
+            $result['id'] = $displayField->getId();
+            $result['name'] = $displayField->getName();
+            $result['label'] = $displayField->getLabel();
+            $result['fieldAlias'] = $displayField->getFieldAlias();
+            $result['sortable'] = $displayField->isSortable() ? 'true' : 'false';
+            $result['elementType'] = $displayField->getElementType();
+            $result['elementProperty'] = $displayField->getElementProperty();
+            $result['width'] = $displayField->getWidth();
+            $result['isValueList'] = (int)$displayField->isValueList();
+            $result['encrypted'] = (int)$displayField->isEncrypted();
+            $result['exportable'] = (int)$displayField->isExportable();
+            $result['meta'] = (int)$displayField->isMeta();
+            $result['className'] = $displayField->getClassName();
+            $result['report_group_id'] = $displayField->getReportGroup()->getId();
+            if ($displayField->getDisplayFieldGroup()) {
+                $result['display_field_group_id'] = $displayField->getDisplayFieldGroup()->getId();
             }
             $results[] = $result;
         }

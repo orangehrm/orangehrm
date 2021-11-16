@@ -12,6 +12,7 @@ GetAll:
       leave.leave_type_service: \OrangeHRM\Leave\Service\LeaveTypeService
       core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
@@ -115,6 +116,7 @@ GetAll:
       leave.leave_type_service: \OrangeHRM\Leave\Service\LeaveTypeService
       core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
@@ -169,6 +171,7 @@ GetAll:
       leave.leave_type_service: \OrangeHRM\Leave\Service\LeaveTypeService
       core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
@@ -228,6 +231,7 @@ GetAll:
       leave.leave_type_service: \OrangeHRM\Leave\Service\LeaveTypeService
       core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
@@ -302,6 +306,7 @@ GetAll:
       leave.leave_type_service: \OrangeHRM\Leave\Service\LeaveTypeService
       core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
@@ -405,6 +410,7 @@ GetAll:
       leave.leave_type_service: \OrangeHRM\Leave\Service\LeaveTypeService
       core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
@@ -510,6 +516,7 @@ GetAll:
       leave.leave_type_service: \OrangeHRM\Leave\Service\LeaveTypeService
       core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
@@ -615,6 +622,7 @@ GetAll:
       leave.leave_type_service: \OrangeHRM\Leave\Service\LeaveTypeService
       core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
@@ -673,6 +681,7 @@ GetAll:
       leave.leave_type_service: \OrangeHRM\Leave\Service\LeaveTypeService
       core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
@@ -778,6 +787,7 @@ GetAll:
       leave.leave_type_service: \OrangeHRM\Leave\Service\LeaveTypeService
       core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
@@ -822,6 +832,7 @@ GetAll:
       leave.leave_type_service: \OrangeHRM\Leave\Service\LeaveTypeService
       core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
@@ -866,6 +877,7 @@ GetAll:
       leave.leave_type_service: \OrangeHRM\Leave\Service\LeaveTypeService
       core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
@@ -892,6 +904,7 @@ GetAll:
       leave.leave_type_service: \OrangeHRM\Leave\Service\LeaveTypeService
       core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
@@ -915,6 +928,7 @@ GetAll:
       leave.leave_type_service: \OrangeHRM\Leave\Service\LeaveTypeService
       core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
@@ -989,6 +1003,7 @@ GetAll:
       leave.leave_type_service: \OrangeHRM\Leave\Service\LeaveTypeService
       core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
@@ -1015,6 +1030,7 @@ GetAll:
       leave.leave_type_service: \OrangeHRM\Leave\Service\LeaveTypeService
       core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
@@ -1039,6 +1055,7 @@ GetAll:
       core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
       admin.company_structure_service: \OrangeHRM\Admin\Service\CompanyStructureService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
@@ -1099,6 +1116,7 @@ GetAll:
       core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
       admin.company_structure_service: \OrangeHRM\Admin\Service\CompanyStructureService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
@@ -1144,6 +1162,7 @@ GetAll:
       core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
       admin.company_structure_service: \OrangeHRM\Admin\Service\CompanyStructureService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
@@ -1220,6 +1239,7 @@ GetAll:
       core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
       admin.company_structure_service: \OrangeHRM\Admin\Service\CompanyStructureService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
@@ -1280,6 +1300,7 @@ GetAll:
       core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
       admin.company_structure_service: \OrangeHRM\Admin\Service\CompanyStructureService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
@@ -1306,6 +1327,7 @@ GetAll:
       leave.leave_type_service: \OrangeHRM\Leave\Service\LeaveTypeService
       core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
