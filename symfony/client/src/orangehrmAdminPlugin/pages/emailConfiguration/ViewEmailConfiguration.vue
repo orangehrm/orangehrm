@@ -136,7 +136,7 @@
                 v-model="emailConfiguration.smtpPassword"
                 :rules="rules.smtpPassword"
                 type="password"
-                onfocus="this.value=''"
+                :placeholder="passwordPlaceHolder"
                 required
               />
             </oxd-grid-item>
@@ -234,6 +234,7 @@ export default {
 
   data() {
     return {
+      passwordPlaceHolder: '',
       defaultValues: {
         smtpSecurityType: 'tls',
       },
@@ -262,7 +263,7 @@ export default {
         smtpHost: [required, shouldNotExceedCharLength(100)],
         smtpPort: [shouldNotExceedCharLength(10)],
         smtpUsername: [required, shouldNotExceedCharLength(100)],
-        smtpPassword: [required, shouldNotExceedCharLength(100)],
+        smtpPassword: [shouldNotExceedCharLength(100)],
         smtpAuthType: [shouldNotExceedCharLength(50)],
         smtpSecurityType: [shouldNotExceedCharLength(50)],
         testEmailAddress: [
@@ -290,7 +291,7 @@ export default {
                 ? this.emailConfiguration.smtpUsername
                 : '',
             smtpPassword:
-              this.emailConfiguration.smtpPassword === '********'
+              this.emailConfiguration.smtpPassword === ''
                 ? null
                 : this.emailConfiguration.smtpPassword,
             smtpAuthType: this.emailConfiguration.smtpAuthType,
@@ -315,7 +316,6 @@ export default {
         })
         .then(() => {
           this.isLoading = false;
-          this.emailConfiguration.smtpPassword = '********';
         });
     },
     onReset() {
@@ -337,7 +337,7 @@ export default {
         this.emailConfiguration.smtpHost = data.smtpHost;
         this.emailConfiguration.smtpPort = data.smtpPort;
         this.emailConfiguration.smtpUsername = data.smtpUsername;
-        this.emailConfiguration.smtpPassword = '********';
+        this.passwordPlaceHolder = data.smtpUsername ? '******' : '';
         this.emailConfiguration.smtpAuthType = data.smtpAuthType;
         this.emailConfiguration.testEmailAddress = data.testEmailAddress;
         this.useTLSSecureConnection = data.smtpSecurityType === 'tls';
@@ -345,6 +345,9 @@ export default {
           ...this.emailConfiguration,
           useTLSSecureConnection: this.useTLSSecureConnection,
         };
+        if (!data.smtpUsername) {
+          this.rules.smtpPassword.push(required);
+        }
       })
       .finally(() => {
         this.isLoading = false;
