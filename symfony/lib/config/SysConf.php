@@ -39,7 +39,7 @@ class SysConf
     {
         return [
             'version' => "5.0",
-            'registrationUrl' => "https://php72/registration/public/index.php",
+            'registrationUrl' => "https://ospenguin.orangehrm.com",
             'mode' => "prod",
         ];
     }

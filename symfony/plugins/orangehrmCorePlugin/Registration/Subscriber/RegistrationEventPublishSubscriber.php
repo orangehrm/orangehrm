@@ -19,27 +19,37 @@
 
 namespace OrangeHRM\Core\Registration\Subscriber;
 
-use OrangeHRM\Core\Registration\Event\RegistrationDataPublishEvent;
 use OrangeHRM\Core\Registration\Processor\RegistrationEventProcessorFactory;
+use OrangeHRM\Core\Traits\Service\TextHelperTrait;
 use OrangeHRM\Entity\RegistrationEventQueue;
 use OrangeHRM\Framework\Event\AbstractEventSubscriber;
+use Symfony\Component\HttpKernel\Event\TerminateEvent;
+use Symfony\Component\HttpKernel\KernelEvents;
 
 class RegistrationEventPublishSubscriber extends AbstractEventSubscriber
 {
+    use TextHelperTrait;
+
     /**
      * @inheritDoc
      */
     public static function getSubscribedEvents(): array
     {
         return [
-            RegistrationDataPublishEvent::PUBLISH_REGISTRATION_DATA => 'publishRegistrationData'
+            KernelEvents::TERMINATE => [
+                ['onTerminateEvent', 0],
+            ],
         ];
     }
 
-    public function publishRegistrationData(RegistrationDataPublishEvent $registrationDataPublishEvent)
+    public function onTerminateEvent(TerminateEvent $event)
     {
-        $registrationEventProcessorFactory = new RegistrationEventProcessorFactory();
-        $registrationEventProcessor = $registrationEventProcessorFactory->getRegistrationEventProcessor(RegistrationEventQueue::ACTIVE_EMPLOYEE_COUNT);
-        $registrationEventProcessor->publishRegistrationEvents();
+        if ($this->getTextHelper()->strStartsWith($event->getRequest()->getPathInfo(), '/auth/validate')) {
+            $registrationEventProcessorFactory = new RegistrationEventProcessorFactory();
+            $registrationEventProcessor = $registrationEventProcessorFactory->getRegistrationEventProcessor(
+                RegistrationEventQueue::ACTIVE_EMPLOYEE_COUNT
+            );
+            $registrationEventProcessor->publishRegistrationEvents();
+        }
     }
 }

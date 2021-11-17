@@ -221,14 +221,6 @@ function setConfiguration($argv,$detailsHandler){
 		$detailsHandler->setConfigurationFromParameter($dbHostName, $dbHostPortID, $dbName, $adminUserName, $adminPassword, $dbOHRMUserName, $dbOHRMPassword, $dbUserName, $dbPassword, $databaseRootPassword, $encryption, $dbCreateMethod, $sameOhrmUser, $companyName, $adminEmployeeFirstName, $adminEmployeeLastName);
 }
 
-<<<<<<< HEAD
-=======
-function sendInstallationStatusAsSuccess() {
-    $_SESSION['defUser']['type'] = 3;
-    $ohrmRegistration = new OrangeHrmRegistration();
-}
-
->>>>>>> 5e8632680... Changed the base code inorder to support new format of instance identifier and removed older way of registration data sync
 /**
  * Write logs when running cli-installer
  * @param $message
