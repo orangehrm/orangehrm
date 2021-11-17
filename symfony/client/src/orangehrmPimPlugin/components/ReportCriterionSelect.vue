@@ -48,11 +48,6 @@ export default {
       type: Array,
       default: () => [],
     },
-    operator: {
-      type: Object,
-      required: false,
-      default: () => ({id: 'eq', label: 'Equal'}),
-    },
     valueX: {
       type: Object,
       required: false,
@@ -76,7 +71,15 @@ export default {
         });
       });
     }
-    context.emit('update:operator', props.operator);
+
+    if (
+      props.api === 'api/v2/admin/locations' ||
+      props.api === 'api/v2/admin/subunits'
+    ) {
+      context.emit('update:operator', {id: 'in', label: 'Equal'});
+    } else {
+      context.emit('update:operator', {id: 'eq', label: 'Equal'});
+    }
 
     return {
       opts,

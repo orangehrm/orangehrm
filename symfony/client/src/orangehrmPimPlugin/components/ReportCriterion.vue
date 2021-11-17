@@ -31,7 +31,6 @@
     :api="field.api"
     :label="field.name"
     :options="field.options"
-    :operator="field.operator"
   ></component>
 </template>
 
@@ -163,7 +162,6 @@ export default {
           component: 'report-criterion-select',
           api: 'api/v2/admin/subunits',
           options: [],
-          operator: {id: 'in', label: 'Equal'},
         };
         break;
 
@@ -173,7 +171,6 @@ export default {
           component: 'report-criterion-select',
           api: 'api/v2/admin/locations',
           options: [],
-          operator: {id: 'in', label: 'Equal'},
         };
         break;
 
