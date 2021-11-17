@@ -219,7 +219,6 @@ class SystemConfiguration
         return base64_encode(
             $organizationName .
             '_' . $email .
-            '_' . $timestamp .
             '_' . $adminFirstName .
             '_' . $adminLastName .
             '_' . $host .

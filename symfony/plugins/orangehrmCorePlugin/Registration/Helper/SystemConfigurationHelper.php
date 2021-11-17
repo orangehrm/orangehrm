@@ -20,6 +20,7 @@
 namespace OrangeHRM\Core\Registration\Helper;
 
 use OrangeHRM\Config\Config;
+use OrangeHRM\ORM\Doctrine;
 
 class SystemConfigurationHelper
 {
@@ -72,11 +73,10 @@ class SystemConfigurationHelper
      */
     public function getMySqlDetails(): array
     {
-        // TODO
         return [
-            'client_version' => '',
-            'server_version' => '',
-            'conn_type' => '',
+            'client_version' => 'Not captured',
+            'server_version' => $this->getMySqlServerVersion(),
+            'conn_type' => 'Not captured',
         ];
     }
 
@@ -96,5 +96,17 @@ class SystemConfigurationHelper
     public function getSystemDetailsAsJson()
     {
         return json_encode($this->getSystemDetailsAsArray());
+    }
+
+    /**
+     * Return MySQL server version
+     * @return string
+     */
+    public function getMySqlServerVersion()
+    {
+        return Doctrine::getEntityManager()->getConnection()
+            ->getWrappedConnection()
+            ->query('SELECT @@version')
+            ->fetchOne();
     }
 }

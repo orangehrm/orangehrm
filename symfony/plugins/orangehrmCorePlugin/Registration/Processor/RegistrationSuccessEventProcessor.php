@@ -49,6 +49,6 @@ class RegistrationSuccessEventProcessor extends AbstractRegistrationEventProcess
         if (!$installationSucceedEvent) {
             return true;
         }
-        return false;
+        return true;
     }
 }

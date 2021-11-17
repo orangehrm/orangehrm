@@ -145,6 +145,8 @@ class EmployeeService
     public function saveEmployee(Employee $employee): Employee
     {
         $savedEmployee = $this->getEmployeeDao()->saveEmployee($employee);
+
+        // TODO:: Improve
         $eventName = $employee->getEmployeeTerminationRecord() == null ? RegistrationEvent::EMPLOYEE_ADD_EVENT_NAME: RegistrationEvent::EMPLOYEE_TERMINATE_EVENT_NAME;
         $this->getEventDispatcher()->dispatch(new RegistrationEvent(), $eventName);
         return $savedEmployee;
