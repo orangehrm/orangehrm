@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Core\test\Registration\Dao;
+namespace OrangeHRM\Tests\Core\Registration\Dao;
 
 use DateTime;
 use OrangeHRM\Config\Config;
@@ -40,25 +40,32 @@ class RegistrationEventQueueDaoTest extends TestCase
      */
     protected function setUp(): void
     {
-        $fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmCorePlugin/test/fixtures/RegistrationEventQueueDao.yml';
+        $fixture = Config::get(Config::PLUGINS_DIR) .
+            '/orangehrmCorePlugin/test/fixtures/RegistrationEventQueueDao.yml';
         TestDataService::populate($fixture);
         $this->registrationEventQueueDao = new RegistrationEventQueueDao();
     }
 
     public function testGetRegistrationEventByType(): void
     {
-        $event1 = $this->registrationEventQueueDao->getRegistrationEventByType(RegistrationEventQueue::INSTALLATION_START);
+        $event1 = $this->registrationEventQueueDao->getRegistrationEventByType(
+            RegistrationEventQueue::INSTALLATION_START
+        );
         $this->assertEquals(0, $event1->getEventType());
         $this->assertEquals(1, $event1->getId());
 
-        $event2 = $this->registrationEventQueueDao->getRegistrationEventByType(RegistrationEventQueue::ACTIVE_EMPLOYEE_COUNT);
+        $event2 = $this->registrationEventQueueDao->getRegistrationEventByType(
+            RegistrationEventQueue::ACTIVE_EMPLOYEE_COUNT
+        );
         $this->assertEquals(1, $event2->getEventType());
         $this->assertEquals(4, $event2->getId());
     }
 
     public function testGetUnpublishedRegistrationEvents(): void
     {
-        $events1 = $this->registrationEventQueueDao->getUnpublishedRegistrationEvents(RegistrationEventQueue::PUBLISH_EVENT_BATCH_SIZE);
+        $events1 = $this->registrationEventQueueDao->getUnpublishedRegistrationEvents(
+            RegistrationEventQueue::PUBLISH_EVENT_BATCH_SIZE
+        );
         $this->assertCount(4, $events1);
 
         $events2 = $this->registrationEventQueueDao->getUnpublishedRegistrationEvents(2);
@@ -76,10 +83,10 @@ class RegistrationEventQueueDaoTest extends TestCase
         $registrationEventQueue->setEventTime(new DateTime());
         $registrationEventQueue->setPublishTime(new DateTime());
         $registrationEventQueue->setPublished(1);
-        $registrationEventQueue->setData((array('instance_identifier'=> 'AHJVASKKJVKJHDBJASBAKJ')));
+        $registrationEventQueue->setData((array('instance_identifier' => 'AHJVASKKJVKJHDBJASBAKJ')));
         $savedEvent = $this->registrationEventQueueDao->saveRegistrationEvent($registrationEventQueue);
 
-        $this->assertEquals(array('instance_identifier'=> 'AHJVASKKJVKJHDBJASBAKJ'), $savedEvent->getData());
+        $this->assertEquals(array('instance_identifier' => 'AHJVASKKJVKJHDBJASBAKJ'), $savedEvent->getData());
         $this->assertEquals(1, $savedEvent->getEventType());
     }
 }

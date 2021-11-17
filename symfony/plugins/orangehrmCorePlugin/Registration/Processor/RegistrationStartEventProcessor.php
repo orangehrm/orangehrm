@@ -45,9 +45,10 @@ class RegistrationStartEventProcessor extends AbstractRegistrationEventProcessor
      */
     public function getEventToBeSavedOrNot(): bool
     {
-        $installationStartedEvent = $this->getRegistrationEventQueueDao()->getRegistrationEventByType(RegistrationEventQueue::INSTALLATION_START);
-        if($installationStartedEvent instanceof RegistrationEventQueue){
-            if($installationStartedEvent->getData() != null){
+        $installationStartedEvent = $this->getRegistrationEventQueueDao()
+            ->getRegistrationEventByType(RegistrationEventQueue::INSTALLATION_START);
+        if ($installationStartedEvent instanceof RegistrationEventQueue) {
+            if ($installationStartedEvent->getData() != null) {
                 return false;
             }
             return true;
@@ -62,8 +63,9 @@ class RegistrationStartEventProcessor extends AbstractRegistrationEventProcessor
     public function processRegistrationEventToSave(DateTime $eventTime): RegistrationEventQueue
     {
         $registrationData = $this->getEventData();
-        $registrationInstallStartSavedEvent = $this->getRegistrationEventQueueDao()->getRegistrationEventByType(RegistrationEventQueue::INSTALLATION_START);
-        if(!$registrationInstallStartSavedEvent instanceof RegistrationEventQueue){
+        $registrationInstallStartSavedEvent = $this->getRegistrationEventQueueDao()
+            ->getRegistrationEventByType(RegistrationEventQueue::INSTALLATION_START);
+        if (!$registrationInstallStartSavedEvent instanceof RegistrationEventQueue) {
             $registrationInstallStartSavedEvent = new RegistrationEventQueue();
             $registrationInstallStartSavedEvent->setEventTime($eventTime);
             $registrationInstallStartSavedEvent->setEventType($this->getEventType());

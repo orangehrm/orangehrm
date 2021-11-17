@@ -42,7 +42,10 @@ class RegistrationEventPublishSubscriber extends AbstractEventSubscriber
         ];
     }
 
-    public function onTerminateEvent(TerminateEvent $event)
+    /**
+     * @param TerminateEvent $event
+     */
+    public function onTerminateEvent(TerminateEvent $event): void
     {
         if ($this->getTextHelper()->strStartsWith($event->getRequest()->getPathInfo(), '/auth/validate')) {
             $registrationEventProcessorFactory = new RegistrationEventProcessorFactory();

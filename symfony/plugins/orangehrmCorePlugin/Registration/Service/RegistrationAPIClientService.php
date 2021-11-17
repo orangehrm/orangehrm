@@ -21,57 +21,49 @@ namespace OrangeHRM\Core\Registration\Service;
 
 use Exception;
 use GuzzleHttp\Client;
-use OrangeHRM\Config\SysConf;
+use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Traits\LoggerTrait;
 
 class RegistrationAPIClientService
 {
-
     use LoggerTrait;
 
     /**
-     * @return SysConf
+     * @return Client
      */
-    public function getSysConf(): SysConf
-    {
-        if (!isset($this->sysConf)) {
-            $this->sysConf = new SysConf();
-        }
-        return $this->sysConf;
-    }
-
-    private function getRegistrationUrl(): ?string
-    {
-        return $this->getSysConf()->getSysConfigs()['registrationUrl'];
-    }
-
     private function getApiClient(): Client
     {
         if (!isset($this->apiClient)) {
-            $this->apiClient = new Client(['base_uri' => $this->getRegistrationUrl(), 'verify' => false]);
+            $this->apiClient = new Client(['base_uri' => Config::REGISTRATION_URL, 'verify' => false]);
         }
         return $this->apiClient;
     }
 
-    public function publishData($data)
+    /**
+     * @param array $data
+     * @return bool
+     */
+    public function publishData(array $data): bool
     {
         try {
-            $headers = array(
+            $headers = [
                 'Content-Type' => 'application/x-www-form-urlencoded',
-            );
+            ];
             $response = $this->getApiClient()->post(
                 '',
-                array(
-                    'headers'     => $headers,
+                [
+                    'headers' => $headers,
                     'form_params' => $data,
-                )
+                ]
             );
             if ($response->getStatusCode() == 200) {
                 return true;
             }
             return false;
         } catch (Exception $e) {
-            $this->getLogger()->error('Exception in Registration Data Sync');
+            $this->getLogger()->error($e->getMessage());
+            $this->getLogger()->error($e->getTraceAsString());
+            return false;
         }
     }
 }

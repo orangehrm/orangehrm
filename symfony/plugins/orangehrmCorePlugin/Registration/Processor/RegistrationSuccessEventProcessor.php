@@ -44,7 +44,8 @@ class RegistrationSuccessEventProcessor extends AbstractRegistrationEventProcess
      */
     public function getEventToBeSavedOrNot(): bool
     {
-        $installationSucceedEvent = $this->getRegistrationEventQueueDao()->getRegistrationEventByType(RegistrationEventQueue::INSTALLATION_SUCCESS);
+        $installationSucceedEvent = $this->getRegistrationEventQueueDao()
+            ->getRegistrationEventByType(RegistrationEventQueue::INSTALLATION_SUCCESS);
         if (!$installationSucceedEvent) {
             return true;
         }

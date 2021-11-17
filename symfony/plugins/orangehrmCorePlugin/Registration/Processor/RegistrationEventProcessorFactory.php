@@ -23,17 +23,21 @@ use OrangeHRM\Entity\RegistrationEventQueue;
 
 class RegistrationEventProcessorFactory
 {
-    public function getRegistrationEventProcessor(string $eventType)
+    /**
+     * @param string $eventType
+     * @return AbstractRegistrationEventProcessor|null
+     */
+    public function getRegistrationEventProcessor(string $eventType): ?AbstractRegistrationEventProcessor
     {
         if ($eventType == RegistrationEventQueue::INSTALLATION_START) {
             return new RegistrationStartEventProcessor();
-        }elseif ($eventType == RegistrationEventQueue::ACTIVE_EMPLOYEE_COUNT){
+        } elseif ($eventType == RegistrationEventQueue::ACTIVE_EMPLOYEE_COUNT) {
             return new RegistrationEmployeeActivationEventProcessor();
-        }elseif ($eventType == RegistrationEventQueue::INACTIVE_EMPLOYEE_COUNT){
+        } elseif ($eventType == RegistrationEventQueue::INACTIVE_EMPLOYEE_COUNT) {
             return new RegistrationEmployeeTerminationEventProcessor();
-        }elseif ($eventType == RegistrationEventQueue::INSTALLATION_SUCCESS){
+        } elseif ($eventType == RegistrationEventQueue::INSTALLATION_SUCCESS) {
             return new RegistrationSuccessEventProcessor();
-        }elseif ($eventType == RegistrationEventQueue::UPGRADE_START){
+        } elseif ($eventType == RegistrationEventQueue::UPGRADE_START) {
             return null;
         }
         return null;

@@ -24,7 +24,7 @@ use DateTime;
 use Exception;
 use OrangeHRM\Admin\Dao\UserDao;
 use OrangeHRM\Admin\Service\OrganizationService;
-use OrangeHRM\Config\SysConf;
+use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Exception\CoreServiceException;
 use OrangeHRM\Core\Registration\Dao\RegistrationEventQueueDao;
 use OrangeHRM\Core\Registration\Helper\SystemConfigurationHelper;
@@ -39,7 +39,6 @@ abstract class AbstractRegistrationEventProcessor
 {
     use LoggerTrait;
 
-    public ?sysConf $sysConf = null;
     public ?RegistrationEventQueueDao $registrationEventQueueDao = null;
     public ?ConfigService $configService = null;
     public ?RegistrationAPIClientService $registrationAPIClientService = null;
@@ -55,17 +54,6 @@ abstract class AbstractRegistrationEventProcessor
             $this->registrationEventQueueDao = new RegistrationEventQueueDao();
         }
         return $this->registrationEventQueueDao;
-    }
-
-    /**
-     * @return SysConf
-     */
-    public function getSysConf(): SysConf
-    {
-        if (!isset($this->sysConf)) {
-            $this->sysConf = new SysConf();
-        }
-        return $this->sysConf;
     }
 
     /**
@@ -152,10 +140,12 @@ abstract class AbstractRegistrationEventProcessor
         try {
             $adminUsers = $this->getUserDao()->getEmployeesByUserRole('Admin');
             $adminEmployee = $adminUsers[0];
-            $language = $this->getConfigService()->getAdminLocalizationDefaultLanguage() ? $this->getConfigService(
-            )->getAdminLocalizationDefaultLanguage() : 'Not captured';
-            $country = $this->getOrganizationService()->getOrganizationGeneralInformation()->getCountry(
-            ) ? $this->getOrganizationService()->getOrganizationGeneralInformation()->getCountry() : null;
+            $language = $this->getConfigService()->getAdminLocalizationDefaultLanguage()
+                ? $this->getConfigService()->getAdminLocalizationDefaultLanguage()
+                : 'Not captured';
+            $country = $this->getOrganizationService()->getOrganizationGeneralInformation()->getCountry()
+                ? $this->getOrganizationService()->getOrganizationGeneralInformation()->getCountry()
+                : null;
             $instanceIdentifier = $this->getInstanceIdentifier();
             $organizationName = $this->getOrganizationService()->getOrganizationGeneralInformation()->getName();
             $systemDetailsHelper = new SystemConfigurationHelper();
@@ -173,7 +163,7 @@ abstract class AbstractRegistrationEventProcessor
                 $adminContactNumber = $adminEmployee->getWorkTelephone();
             }
 
-            return array(
+            return [
                 'username' => $username,
                 'email' => $organizationEmail,
                 'telephone' => $adminContactNumber,
@@ -185,7 +175,7 @@ abstract class AbstractRegistrationEventProcessor
                 'organization_name' => $organizationName,
                 'instance_identifier' => $instanceIdentifier,
                 'system_details' => $systemDetails
-            );
+            ];
         } catch (Exception $ex) {
             return $registrationData;
         }
@@ -206,14 +196,11 @@ abstract class AbstractRegistrationEventProcessor
         return $registrationEvent;
     }
 
-    public function publishRegistrationEvents()
+    public function publishRegistrationEvents(): void
     {
-        $sysConfig = $this->getSysConf()->getSysConfigs();
-        $mode = $sysConfig['mode'];
-        if ($mode === sysConf::PROD_MODE) {
-            $eventsToPublish = $this->getRegistrationEventQueueDao()->getUnpublishedRegistrationEvents(
-                RegistrationEventQueue::PUBLISH_EVENT_BATCH_SIZE
-            );
+        if (Config::PRODUCT_MODE === Config::MODE_PROD) {
+            $eventsToPublish = $this->getRegistrationEventQueueDao()
+                ->getUnpublishedRegistrationEvents(RegistrationEventQueue::PUBLISH_EVENT_BATCH_SIZE);
             if ($eventsToPublish) {
                 foreach ($eventsToPublish as $event) {
                     $postData = $this->getRegistrationEventPublishDataPrepared($event);

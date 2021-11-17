@@ -19,65 +19,82 @@
 
 namespace OrangeHRM\Core\Registration\Helper;
 
-use OrangeHRM\Config\SysConf;
+use OrangeHRM\Config\Config;
 
 class SystemConfigurationHelper
 {
-
+    /**
+     * @return array
+     */
     public function getSystemDetailsAsArray(): array
     {
-        return array(
-            "os" => $this->getOsDetails(),
-            "php" => $this->getPhpDetails(),
-            "mysql" => $this->getMySqlDetails(),
-            "server" => $this->getServerDetails(),
-            "ohrm" => $this->getOHRMDetails(),
-        );
+        return [
+            'os' => $this->getOsDetails(),
+            'php' => $this->getPhpDetails(),
+            'mysql' => $this->getMySqlDetails(),
+            'server' => $this->getServerDetails(),
+            'ohrm' => $this->getOHRMDetails(),
+        ];
     }
 
+    /**
+     * @return array
+     */
     public function getOsDetails(): array
     {
-        return array(
-            "os" => php_uname('s'),
-            "release_name" => php_uname('r'),
-            "version_info" => php_uname('v'),
-        );
+        return [
+            'os' => php_uname('s'),
+            'release_name' => php_uname('r'),
+            'version_info' => php_uname('v'),
+        ];
     }
 
+    /**
+     * @return array
+     */
     public function getPhpDetails(): array
     {
-        return array(
-            "version" => phpversion()
-        );
+        return [
+            'version' => phpversion()
+        ];
     }
 
+    /**
+     * @return array
+     */
     public function getServerDetails()
     {
         return $_SERVER['SERVER_SOFTWARE'];
     }
 
+    /**
+     * @return string[]
+     */
     public function getMySqlDetails(): array
     {
-        return array(
-            "client_version" => '',
-            "server_version" => '',
-            "conn_type" => ''
-        );
+        // TODO
+        return [
+            'client_version' => '',
+            'server_version' => '',
+            'conn_type' => '',
+        ];
     }
 
+    /**
+     * @return array
+     */
     public function getOHRMDetails(): array
     {
-        $sysConf = new SysConf();
-        $configs = $sysConf->getSysConfigs();
-        return array(
-            "version" => $configs['version']
-        );
+        return [
+            'version' => Config::PRODUCT_VERSION,
+        ];
     }
 
+    /**
+     * @return false|string
+     */
     public function getSystemDetailsAsJson()
     {
         return json_encode($this->getSystemDetailsAsArray());
     }
-
-
 }

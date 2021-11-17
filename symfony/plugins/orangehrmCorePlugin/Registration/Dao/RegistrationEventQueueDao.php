@@ -21,6 +21,7 @@ namespace OrangeHRM\Core\Registration\Dao;
 
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Entity\RegistrationEventQueue;
+use OrangeHRM\ORM\ListSorter;
 
 class RegistrationEventQueueDao extends BaseDao
 {
@@ -43,7 +44,7 @@ class RegistrationEventQueueDao extends BaseDao
         $q = $this->createQueryBuilder(RegistrationEventQueue::class, 'registrationEvent');
         $q->where('registrationEvent.eventType = :eventType')
             ->setParameter('eventType', $eventType)
-            ->addOrderBy('registrationEvent.id', 'DESC');
+            ->addOrderBy('registrationEvent.id', ListSorter::DESCENDING);
 
         return $this->fetchOne($q);
     }

@@ -19,9 +19,7 @@
 
 namespace OrangeHRM\Core\Registration\Processor;
 
-use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Entity\RegistrationEventQueue;
-use OrangeHRM\Pim\Api\EmployeeAPI;
 use OrangeHRM\Pim\Dto\EmployeeSearchFilterParams;
 use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
 
