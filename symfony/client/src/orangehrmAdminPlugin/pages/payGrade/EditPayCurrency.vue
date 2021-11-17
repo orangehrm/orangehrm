@@ -108,7 +108,7 @@ export default {
       payCurrency: {...payCurrencyModel},
       rules: {
         currencyId: [required],
-        minSalary: [maxCurrency(1000000000)],
+        minSalary: [maxCurrency(1000000000), digitsOnly],
         maxSalary: [
           maxCurrency(1000000000),
           digitsOnly,
