@@ -45,7 +45,7 @@ class VacancyAttachmentModel implements Normalizable
             [
                 'id',
                 'vacancyId',
-                ['attachment', 'filename'],
+                ['attachment', 'fileName'],
                 ['attachment', 'fileType'],
                 ['attachment', 'fileSize'],
                 'comment',
