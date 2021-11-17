@@ -19,23 +19,29 @@
 
 namespace OrangeHRM\Recruitment\Api;
 
+use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
+use OrangeHRM\Core\Api\V2\Model\ArrayModel;
+use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
+use OrangeHRM\Core\Api\V2\Serializer\NormalizeException;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Dto\Base64Attachment;
+use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\VacancyAttachment;
 use OrangeHRM\Recruitment\Api\Model\VacancyAttachmentModel;
 use OrangeHRM\Recruitment\Service\RecruitmentAttachmentService;
 
 class VacancyAttachmentAPI extends Endpoint implements CrudEndpoint
 {
+    public const PARAMETER_ID = 'id';
     public const PARAMETER_ATTACHMENT_TYPE = 'attachmentType';
     public const PARAMETER_COMMENT = 'comment';
     public const PARAMETER_VACANCY_ID = 'vacancyId';
@@ -64,6 +70,11 @@ class VacancyAttachmentAPI extends Endpoint implements CrudEndpoint
         throw $this->getNotImplementedException();
     }
 
+    /**
+     * @inheritDoc
+     * @return EndpointResult
+     * @throws NormalizeException
+     */
     public function create(): EndpointResult
     {
         $vacancyAttachment = new VacancyAttachment();
@@ -185,22 +196,73 @@ class VacancyAttachmentAPI extends Endpoint implements CrudEndpoint
 
     public function delete(): EndpointResult
     {
-        throw $this->getNotImplementedException();
+        $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
+        $this->getVacancyAttachmentService()->getRecruitmentAttachmentDao()->deleteVacancyAttachments($ids);
+        return new EndpointResourceResult(ArrayModel::class, $ids);
     }
 
     public function getValidationRuleForDelete(): ParamRuleCollection
     {
-        throw $this->getNotImplementedException();
+        return new ParamRuleCollection(
+            new ParamRule(CommonParams::PARAMETER_IDS),
+        );
     }
 
-    public function getOne(): EndpointCollectionResult
+    /**
+     * @inheritDoc
+     * @return EndpointResult
+     * @throws DaoException
+     */
+    public function getOne(): EndpointResult
     {
-        throw $this->getNotImplementedException();
+        $vacancyId = $this->getRequestParams()->getInt(
+            RequestParams::PARAM_TYPE_ATTRIBUTE,
+            self::PARAMETER_VACANCY_ID
+        );
+        $id = $this->getRequestParams()->getIntOrNull(
+            RequestParams::PARAM_TYPE_ATTRIBUTE,
+            self::PARAMETER_ID
+        );
+        if (is_null($id)) {
+            return $this->getVacancyAttachments($vacancyId);
+        }
+        return $this->getSingleVacancyAttachment($id);
     }
+
+    /**
+     * @param  int  $vacancyId
+     * @return EndpointCollectionResult
+     * @throws NormalizeException
+     */
+    private function getVacancyAttachments(int $vacancyId): EndpointCollectionResult
+    {
+        $attachments = $this->getVacancyAttachmentService()->getRecruitmentAttachmentDao()->getVacancyAttachments($vacancyId);
+        $count=$this->getVacancyAttachmentService()->getRecruitmentAttachmentDao()->getAttachmentCount($vacancyId);
+        return new EndpointCollectionResult(
+            VacancyAttachmentModel::class,
+            $attachments,
+            new ParameterBag([CommonParams::PARAMETER_TOTAL => $count])
+        );
+    }
+
+    /**
+     * @param  int  $id
+     * @return EndpointResult
+     * @throws DaoException
+     */
+    private function getSingleVacancyAttachment(int $id): EndpointResult
+    {
+        $attachment = $this->getVacancyAttachmentService()->getRecruitmentAttachmentDao()->getVacancyAttachment($id);
+        return new EndpointResourceResult(VacancyAttachmentModel::class, $attachment);
+    }
+
 
     public function getValidationRuleForGetOne(): ParamRuleCollection
     {
-        throw $this->getNotImplementedException();
+        return new ParamRuleCollection(
+            new ParamRule(self::PARAMETER_ID),
+            new ParamRule(self::PARAMETER_VACANCY_ID),
+        );
     }
 
     public function update(): EndpointResult

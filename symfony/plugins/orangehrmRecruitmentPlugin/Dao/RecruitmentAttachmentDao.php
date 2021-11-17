@@ -59,20 +59,16 @@ class RecruitmentAttachmentDao extends BaseDao
     }
 
     /**
-     *
-     * @param  <type>  $attachId
-     * @return <type>
+     * @param  int  $attachId
+     * @return VacancyAttachment|null
      */
-    public function getVacancyAttachment($attachId)
+    public function getVacancyAttachment(int $attachId): ?VacancyAttachment
     {
-        try {
-            $q = Doctrine_Query:: create()
-                ->from('JobVacancyAttachment a')
-                ->where('a.id = ?', $attachId);
-            return $q->fetchOne();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
+        $attachment = $this->getRepository(VacancyAttachment::class)->find($attachId);
+        if ($attachment instanceof VacancyAttachment) {
+            return $attachment;
         }
+        return null;
     }
 
     /**
@@ -116,21 +112,39 @@ class RecruitmentAttachmentDao extends BaseDao
     public function getVacancyAttachments($vacancyId): array
     {
         $qb = $this->createQueryBuilder(VacancyAttachment::class, 'attachment');
-        $qb->select(
-            [
-                'attachment.id',
-                'attachment.vacancyId',
-                'attachment.fileName',
-                'attachment.fileSize',
-                'attachment.fileType',
-                'attachment.comment',
-                'attachment.attachmentType'
-            ]
-        )
-            ->where('attachment.vacancyId = :vacancyId')
+        $qb->leftJoin('attachment.vacancy', 'vacancy');
+        $qb->where('vacancy.id = :vacancyId')
             ->setParameter('vacancyId', $vacancyId)
             ->orderBy('attachment.fileName', 'ASC');
         return $qb->getQuery()->execute();
+    }
+
+    /**
+     * @param $vacancyId
+     * @return int
+     */
+    public function getAttachmentCount($vacancyId): int
+    {
+        $qb = $this->createQueryBuilder(VacancyAttachment::class, 'attachment');
+        $qb->leftJoin('attachment.vacancy', 'vacancy');
+        $qb->select('count(attachment.id)')
+            ->where('vacancy.id = :vacancyId')
+            ->setParameter('vacancyId', $vacancyId);
+        return $qb->getQuery()->getSingleScalarResult();
+    }
+
+    public function deleteVacancyAttachments(array $toBeDeletedAttachmentIds): bool
+    {
+        $qr = $this->createQueryBuilder(VacancyAttachment::class, 'attachment');
+        $qr->delete()
+            ->andWhere('attachment.id IN (:ids)')
+            ->setParameter('ids', $toBeDeletedAttachmentIds);
+
+        $result = $qr->getQuery()->execute();
+        if ($result > 0) {
+            return true;
+        }
+        return false;
     }
 
 

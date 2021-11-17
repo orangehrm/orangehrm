@@ -26,6 +26,7 @@ use OrangeHRM\Entity\VacancyAttachment;
 class VacancyAttachmentModel implements Normalizable
 {
     use ModelTrait;
+
     public function __construct(VacancyAttachment $vacancyAttachment)
     {
         $this->setEntity($vacancyAttachment);
