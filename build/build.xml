@@ -94,6 +94,7 @@
         <exclude name="symfony/plugins/orangehrmAttendancePlugin/**"/>
         <exclude name="symfony/plugins/orangehrmBuzzPlugin/**"/>
         <exclude name="symfony/plugins/orangehrmCoreWebServicePlugin/**"/>
+        <exclude name="symfony/plugins/orangehrmCorporateBrandingPlugin/**"/>
         <exclude name="symfony/plugins/orangehrmCorporateDirectoryPlugin/**"/>
         <exclude name="symfony/plugins/orangehrmDashboardPlugin/**"/>
         <exclude name="symfony/plugins/orangehrmMaintenancePlugin/**"/>
