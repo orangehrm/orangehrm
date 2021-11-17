@@ -70,11 +70,11 @@
               required
             />
             <oxd-text
-              v-if="currencyInfo.length !== 0"
+              v-if="minAmount !== undefined || maxAmount !== undefined"
               class="orangehrm-input-hint"
               tag="p"
             >
-              Min: {{ minAmount }} - Max: {{ maxAmount }}
+              Min: {{ minAmount ?? 0 }} - Max: {{ maxAmount ?? 0 }}
             </oxd-text>
           </oxd-grid-item>
         </oxd-grid>
@@ -352,14 +352,10 @@ export default {
       return this.directDeposit.directDepositAccountType?.id == 'OTHER';
     },
     minAmount() {
-      return this.currencyInfo.length === 0
-        ? 0
-        : this.currencyInfo[0].minAmount;
+      return this.currencyInfo?.minAmount;
     },
     maxAmount() {
-      return this.currencyInfo.length === 0
-        ? 999999999
-        : this.currencyInfo[0].maxAmount;
+      return this.currencyInfo?.maxAmount;
     },
     currenciesOpts() {
       const paygrade = this.salaryComponent.payGradeId?.id;
@@ -377,7 +373,7 @@ export default {
       }
     },
     currencyInfo() {
-      return this.usableCurrencies.filter(
+      return this.usableCurrencies.find(
         item => item.id === this.salaryComponent.currencyId?.id,
       );
     },
@@ -386,10 +382,12 @@ export default {
   mounted() {
     this.$nextTick(() => {
       this.rules.salaryAmount.push(v => {
-        return v >= this.minAmount || 'Should be within Min/Max values';
+        const min = this.minAmount ? this.minAmount : 0;
+        return v >= min || 'Should be within Min/Max values';
       });
       this.rules.salaryAmount.push(v => {
-        return v <= this.maxAmount || 'Should be within Min/Max values';
+        const max = this.maxAmount ? this.maxAmount : 999999999;
+        return v <= max || 'Should be within Min/Max values';
       });
     });
   },
