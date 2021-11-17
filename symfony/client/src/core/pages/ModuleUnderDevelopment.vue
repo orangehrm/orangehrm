@@ -30,8 +30,18 @@
           class="orangehrm-module-under-development-img"
           alt="this module is under development"
         />
-        <oxd-text tag="h5">
-          {{ $t('general.module_under_development') }}
+        <oxd-text tag="p" class="orangehrm-module-under-development-text">
+          This page is being developed for the OrangeHRM OS 5.0 Beta version.
+          However, you may try out all of the features by installing OrangeHRM
+          OS 4.9.
+          <a
+            target="_blank"
+            class="orangehrm-module-under-development-link"
+            href="https://sourceforge.net/projects/orangehrm/files/stable/4.9/"
+          >
+            Click here
+          </a>
+          to download OrangeHRM OS 4.9.
         </oxd-text>
       </div>
     </div>
@@ -54,7 +64,7 @@ export default {
   &-img {
     max-width: 100%;
     height: 100%;
-    max-height: 400px;
+    max-height: 350px;
     display: block;
     margin: 0 auto;
     object-fit: fill;
@@ -62,6 +72,16 @@ export default {
   &-heading {
     color: $oxd-primary-one-color;
     font-weight: 700;
+  }
+  &-text {
+    font-size: 14px;
+    max-width: 800px;
+    margin: 0 auto;
+    margin-bottom: 2rem;
+  }
+  &-link {
+    text-decoration: none;
+    color: $oxd-primary-one-color;
   }
 }
 </style>
