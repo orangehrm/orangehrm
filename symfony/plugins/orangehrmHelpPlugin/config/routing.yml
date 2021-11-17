@@ -1,7 +1,0 @@
-help:
-  url: /help/help
-  param: {module:help, action: help}
-
-support:
-  url: /support/index
-  param: {module:support, action: index}

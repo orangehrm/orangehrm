@@ -216,7 +216,7 @@ class LeaveRequestDao extends BaseDao
                             $entitlementAssignment->getDecorator()->setLeaveEntitlementById($entitlementId);
                             $entitlementAssignment->setLengthDays($length);
                         } else {
-                            $lengthDays = NumberUtility::getPositiveDecimal($entitlementAssignment->getLengthDays() + $length, 4);
+                            $entitlementAssignment->setLengthDays($entitlementAssignment->getLengthDays() + $length);
                         }
                         $this->getEntityManager()->persist($entitlementAssignment);
                     }

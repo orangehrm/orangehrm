@@ -1,3 +1,0 @@
-addTheme:
-  url:   /admin/addTheme
-  param: { module: admin, action: addTheme }
