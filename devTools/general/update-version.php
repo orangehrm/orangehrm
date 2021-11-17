@@ -2,14 +2,11 @@
 $rootPath = dirname(__FILE__) . "/../../";
 
 $files = array(
-    'build/build.xml', 
-    'devTools/installer/SPEC/installer.nsi',
-    'devTools/installer/SPEC/main.nsi',
-    'lib/confs/Conf.php-distribution',
+    'build/build.xml',
     'lib/confs/sysConf.php',
     'installer/guide/index.js',
-    'devTools/installer/SOURCE/content/orangehrm2/lib/confs/Conf.php',
-    'devTools/installer/SOURCE/content/start.vbs'
+    // TODO
+    // 'symfony/lib/config/Config.php',
 );
 
 if ($argc != 3) {
@@ -28,4 +25,3 @@ foreach ($files as $file) {
     $contents = str_replace($oldVersion, $newVersion, $contents);
     file_put_contents($fileName, $contents);
 }
-

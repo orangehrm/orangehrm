@@ -119,7 +119,7 @@ const defaultFilters = {
 const defaultSortOrder = {
   'location.name': 'ASC',
   'location.city': 'DEFAULT',
-  'country.countryCode': 'DEFAULT',
+  'country.countryName': 'DEFAULT',
   'location.phone': 'DEFAULT',
   noOfEmployees: 'DEFAULT',
 };

@@ -1,4 +1,4 @@
-var version = "5.0";
+var version = "5.0-beta";
 var elements = document.getElementsByClassName('version');
 for (var i = 0; i < elements.length; i++){
 	elements[i].innerHTML = version;
