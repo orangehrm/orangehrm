@@ -78,7 +78,7 @@ import {
   minValueShouldBeLowerThanMaxValue,
 } from '@ohrm/core/util/validation/rules';
 const payCurrencyModel = {
-  currencyId: '',
+  currencyId: null,
   minSalary: '',
   maxSalary: '',
 };
@@ -127,8 +127,8 @@ export default {
       .then(response => {
         const {data} = response.data;
         this.payCurrency.name = data.currencyType.name;
-        this.payCurrency.minSalary = data.minSalary;
-        this.payCurrency.maxSalary = data.maxSalary;
+        this.payCurrency.minSalary = data.minSalary ? data.minSalary : '0';
+        this.payCurrency.maxSalary = data.maxSalary ? data.maxSalary : '0';
       })
       .finally(() => {
         this.isLoading = false;

@@ -79,7 +79,7 @@ import {
 } from '@ohrm/core/util/validation/rules';
 import {minValueShouldBeLowerThanMaxValue} from '@/core/util/validation/rules';
 const payCurrencyModel = {
-  currencyId: '',
+  currencyId: null,
   minSalary: '',
   maxSalary: '',
 };
