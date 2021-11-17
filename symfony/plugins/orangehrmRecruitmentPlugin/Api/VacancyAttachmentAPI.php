@@ -1,0 +1,217 @@
+<?php
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ */
+
+namespace OrangeHRM\Recruitment\Api;
+
+use OrangeHRM\Core\Api\V2\CrudEndpoint;
+use OrangeHRM\Core\Api\V2\Endpoint;
+use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
+use OrangeHRM\Core\Api\V2\EndpointResourceResult;
+use OrangeHRM\Core\Api\V2\EndpointResult;
+use OrangeHRM\Core\Api\V2\RequestParams;
+use OrangeHRM\Core\Api\V2\Validator\ParamRule;
+use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
+use OrangeHRM\Core\Api\V2\Validator\Rule;
+use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Core\Dto\Base64Attachment;
+use OrangeHRM\Entity\VacancyAttachment;
+use OrangeHRM\Recruitment\Api\Model\VacancyAttachmentModel;
+use OrangeHRM\Recruitment\Service\RecruitmentAttachmentService;
+
+class VacancyAttachmentAPI extends Endpoint implements CrudEndpoint
+{
+    public const PARAMETER_ATTACHMENT_TYPE = 'attachmentType';
+    public const PARAMETER_COMMENT = 'comment';
+    public const PARAMETER_VACANCY_ID = 'vacancyId';
+    public const PARAMETER_ATTACHMENT = 'attachment';
+
+    public const PARAM_RULE_VACANCY_ID_MAX_LENGTH = 13;
+    public const PARAM_RULE_COMMENT_MAX_LENGTH = 255;
+    public const PARAM_RULE_ATTACHMENT_TYPE_MAX_LENGTH = 4;
+    public const PARAM_RULE_FILE_NAME_MAX_LENGTH = 200;
+
+    public const VACANCY_ATTACHMENT_KEEP_CURRENT = 'keepCurrent';
+    public const VACANCY_ATTACHMENT_DELETE_CURRENT = 'deleteCurrent';
+    public const VACANCY_ATTACHMENT_REPLACE_CURRENT = 'replaceCurrent';
+    /**
+     * @var RecruitmentAttachmentService|null
+     */
+    protected ?RecruitmentAttachmentService $vacancyAttachmentService = null;
+
+    public function getAll(): EndpointResult
+    {
+        throw $this->getNotImplementedException();
+    }
+
+    public function getValidationRuleForGetAll(): ParamRuleCollection
+    {
+        throw $this->getNotImplementedException();
+    }
+
+    public function create(): EndpointResult
+    {
+        $vacancyAttachment = new VacancyAttachment();
+        $this->setVacancyAttachment($vacancyAttachment);
+        $vacancyAttachment = $this->getVacancyAttachmentService()->saveVacancyAttachment($vacancyAttachment);
+        return new EndpointResourceResult(VacancyAttachmentModel::class, $vacancyAttachment);
+    }
+
+    /**
+     * @param  VacancyAttachment  $vacancyAttachment
+     */
+    private function setVacancyAttachment(VacancyAttachment $vacancyAttachment): void
+    {
+        $vacancyAttachment->getDecorator()->setVacancyById(
+            $this->getRequestParams()->getInt(
+                RequestParams::PARAM_TYPE_BODY,
+                self::PARAMETER_VACANCY_ID
+            )
+        );
+        $vacancyAttachment->setComment(
+            $this->getRequestParams()->getStringOrNull(
+                RequestParams::PARAM_TYPE_BODY,
+                self::PARAMETER_COMMENT
+            )
+        );
+        $vacancyAttachment->setAttachmentType(
+            $this->getRequestParams()->getIntOrNull(
+                RequestParams::PARAM_TYPE_BODY,
+                self::PARAMETER_ATTACHMENT_TYPE
+            )
+        );
+
+        $base64Attachment = $this->getBase64Attachment();
+        if (is_null($base64Attachment)) {
+            return;
+        }
+        $vacancyAttachment->setFileName($base64Attachment->getFilename());
+        $vacancyAttachment->setFileType($base64Attachment->getFileType());
+        $vacancyAttachment->setFileSize($base64Attachment->getSize());
+        $vacancyAttachment->setFileContent($base64Attachment->getContent());
+    }
+
+    /**
+     * @return Base64Attachment
+     */
+    private function getBase64Attachment(): Base64Attachment
+    {
+        return $this->getRequestParams()->getAttachmentOrNull(
+            RequestParams::PARAM_TYPE_BODY,
+            self::PARAMETER_ATTACHMENT
+        );
+    }
+
+    /**
+     * @return RecruitmentAttachmentService|null
+     */
+    public function getVacancyAttachmentService(): ?RecruitmentAttachmentService
+    {
+        if (is_null($this->vacancyAttachmentService)) {
+            $this->vacancyAttachmentService = new RecruitmentAttachmentService();
+        }
+        return $this->vacancyAttachmentService;
+    }
+
+    public function getValidationRuleForCreate(): ParamRuleCollection
+    {
+        return new ParamRuleCollection(
+            $this->getValidationDecorator()->requiredParamRule(
+                $this->getAttachmentRule()
+            ),
+            ...$this->getCommonBodyValidationRules(),
+
+        );
+    }
+
+    /**
+     * @return ParamRule
+     */
+    private function getAttachmentRule(): ParamRule
+    {
+        return new ParamRule(
+            self::PARAMETER_ATTACHMENT,
+            new Rule(
+                Rules::BASE_64_ATTACHMENT,
+                [null, self::PARAM_RULE_FILE_NAME_MAX_LENGTH]
+            )
+        );
+    }
+
+    /**
+     * @return ParamRule[]
+     */
+    protected function getCommonBodyValidationRules(): array
+    {
+        return [
+            new ParamRule(
+                self::PARAMETER_VACANCY_ID,
+                new Rule(Rules::INT_TYPE),
+                new Rule(Rules::LENGTH, [!null, self::PARAM_RULE_VACANCY_ID_MAX_LENGTH]),
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_COMMENT,
+                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_COMMENT_MAX_LENGTH]),
+                ),
+                true
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_ATTACHMENT_TYPE,
+                    new Rule(Rules::INT_TYPE),
+                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_ATTACHMENT_TYPE_MAX_LENGTH]),
+                ),
+                true
+            ),
+        ];
+    }
+
+    public function delete(): EndpointResult
+    {
+        throw $this->getNotImplementedException();
+    }
+
+    public function getValidationRuleForDelete(): ParamRuleCollection
+    {
+        throw $this->getNotImplementedException();
+    }
+
+    public function getOne(): EndpointCollectionResult
+    {
+        throw $this->getNotImplementedException();
+    }
+
+    public function getValidationRuleForGetOne(): ParamRuleCollection
+    {
+        throw $this->getNotImplementedException();
+    }
+
+    public function update(): EndpointResult
+    {
+        throw $this->getNotImplementedException();
+    }
+
+    public function getValidationRuleForUpdate(): ParamRuleCollection
+    {
+        throw $this->getNotImplementedException();
+    }
+
+
+}

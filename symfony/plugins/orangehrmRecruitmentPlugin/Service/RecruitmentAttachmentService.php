@@ -1,5 +1,4 @@
 <?php
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -17,15 +16,20 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-class RecruitmentAttachmentService extends BaseService {
+namespace OrangeHRM\Recruitment\Service;
+use OrangeHRM\Entity\VacancyAttachment;
+use OrangeHRM\Recruitment\Dao\RecruitmentAttachmentDao;
 
-	private $recruitmentAttachmentDao;
+class RecruitmentAttachmentService {
+
+	private RecruitmentAttachmentDao $recruitmentAttachmentDao;
 
 	/**
 	 * Get recruitmentAttachmentDao Dao
 	 * @return recruitmentAttachmentDao
 	 */
-	public function getRecruitmentAttachmentDao() {
+	public function getRecruitmentAttachmentDao(): RecruitmentAttachmentDao
+	{
 		return $this->recruitmentAttachmentDao;
 	}
 
@@ -46,12 +50,12 @@ class RecruitmentAttachmentService extends BaseService {
 	}
 
 	/**
-	 *
-	 * @param JobVacancyAttachment $resume
-	 * @return <type>
+	 * @param  VacancyAttachment  $vacancyAttachment
+	 * @return VacancyAttachment
 	 */
-	public function saveVacancyAttachment(JobVacancyAttachment $attachment) {
-		return $this->recruitmentAttachmentDao->saveVacancyAttachment($attachment);
+	public function saveVacancyAttachment(VacancyAttachment $vacancyAttachment): VacancyAttachment
+	{
+		return $this->recruitmentAttachmentDao->saveVacancyAttachment($vacancyAttachment);
 	}
 
 	/**
