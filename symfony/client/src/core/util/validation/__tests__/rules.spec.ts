@@ -403,4 +403,14 @@ describe('core/util/validation/rules::minValueShouldBeLowerThanMaxValue', () => 
     )('101');
     expect(result).toEqual(true);
   });
+
+  test('minValueShouldBeLowerThanMaxValue:: should allow minimum and maximum value as zero', () => {
+    const result = minValueShouldBeLowerThanMaxValue('0', undefined)('0');
+    expect(result).toEqual(true);
+  });
+
+  test('minValueShouldBeLowerThanMaxValue:: should allow minimum and maximum value as empty string literal', () => {
+    const result = minValueShouldBeLowerThanMaxValue('', undefined)('');
+    expect(result).toEqual(true);
+  });
 });

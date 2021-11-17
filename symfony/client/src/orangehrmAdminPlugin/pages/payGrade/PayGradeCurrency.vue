@@ -77,8 +77,12 @@ const PayGradeCurrencyNormalizer = data => {
     return {
       id: item.currencyType.id,
       name: item.currencyType.name,
-      maxSalary: item.maxSalary,
-      minSalary: item.minSalary,
+      maxSalary: item.maxSalary
+        ? parseFloat(item.maxSalary).toFixed(2)
+        : '0.00',
+      minSalary: item.minSalary
+        ? parseFloat(item.minSalary).toFixed(2)
+        : '0.00',
     };
   });
 };

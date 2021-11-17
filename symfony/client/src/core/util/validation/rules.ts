@@ -433,6 +433,10 @@ export const minValueShouldBeLowerThanMaxValue = (
       typeof message === 'string'
         ? message
         : 'Should be higher than Minimum Value';
+    if (resolvedMinValue === null || value === null) return true;
+    if (resolvedMinValue === undefined || value === undefined) return true;
+    if (resolvedMinValue === '' || value === '') return true;
+    if (resolvedMinValue === '0' || value === '0') return true;
     return parseFloat(resolvedMinValue) < parseFloat(value) || resolvedMessage;
   };
 };
