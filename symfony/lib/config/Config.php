@@ -28,10 +28,16 @@ class Config
     public const LOG_DIR = 'ohrm_log_dir';
     public const CACHE_DIR = 'ohrm_cache_dir';
     public const DOCTRINE_PROXY_DIR = 'ohrm_doctrine_proxy_dir';
-    public const TEST_DIR= 'ohrm_test_dir';
+    public const TEST_DIR = 'ohrm_test_dir';
+
+    public const MODE_DEV = 'dev';
+    public const MODE_PROD = 'prod';
+    public const MODE_TEST = 'test';
 
     public const PRODUCT_NAME = 'OrangeHRM OS';
     public const PRODUCT_VERSION = '5.0-beta';
+    public const PRODUCT_MODE = self::MODE_DEV;
+    public const REGISTRATION_URL = 'https://ospenguin.orangehrm.com';
 
     /**
      * @var array

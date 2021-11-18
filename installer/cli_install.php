@@ -232,4 +232,3 @@ function writeLogs($message, $filePath) {
 }
 
 ?>
-

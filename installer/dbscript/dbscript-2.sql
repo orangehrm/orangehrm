@@ -4233,3 +4233,5 @@ UPDATE `ohrm_email_template` SET `subject` = '/orangehrmLeavePlugin/Mail/templat
 UPDATE `ohrm_email_template` SET `subject` = '/orangehrmLeavePlugin/Mail/templates/en_US/cancel/leaveCancellationSubscriberSubject.txt.twig', `body` = '/orangehrmLeavePlugin/Mail/templates/en_US/cancel/leaveCancellationSubscriberBody.html.twig' WHERE `email_id` = @leave_cancel_email_id AND `recipient_role` = 'subscriber' AND `performer_role` IS NULL;
 UPDATE `ohrm_email_template` SET `subject` = '/orangehrmLeavePlugin/Mail/templates/en_US/reject/leaveRejectionSubject.txt.twig', `body` = '/orangehrmLeavePlugin/Mail/templates/en_US/reject/leaveRejectionBody.html.twig' WHERE `email_id` = @leave_reject_email_id AND `recipient_role` = 'ess';
 UPDATE `ohrm_email_template` SET `subject` = '/orangehrmLeavePlugin/Mail/templates/en_US/reject/leaveRejectionSubscriberSubject.txt.twig', `body` = '/orangehrmLeavePlugin/Mail/templates/en_US/reject/leaveRejectionSubscriberBody.html.twig' WHERE `email_id` = @leave_reject_email_id AND `recipient_role` = 'subscriber';
+
+INSERT INTO `ohrm_registration_event_queue` (`event_type`,`published`,`event_time`) VALUES (0, 0, now());

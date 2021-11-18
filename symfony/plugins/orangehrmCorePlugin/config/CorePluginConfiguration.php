@@ -20,6 +20,8 @@
 use OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper;
 use OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory;
 use OrangeHRM\Core\Helper\ClassHelper;
+use OrangeHRM\Core\Registration\Subscriber\RegistrationEventPersistSubscriber;
+use OrangeHRM\Core\Registration\Subscriber\RegistrationEventPublishSubscriber;
 use OrangeHRM\Core\Service\CacheService;
 use OrangeHRM\Core\Service\ConfigService;
 use OrangeHRM\Core\Service\DateTimeHelperService;
@@ -104,5 +106,7 @@ class CorePluginConfiguration implements PluginConfigurationInterface
         $dispatcher->addSubscriber(new ModuleUnderDevelopmentSubscriber());
         $dispatcher->addSubscriber(new MailerSubscriber());
         $dispatcher->addSubscriber(new ModuleNotAvailableSubscriber());
+        $dispatcher->addSubscriber(new RegistrationEventPersistSubscriber());
+        $dispatcher->addSubscriber(new RegistrationEventPublishSubscriber());
     }
 }
