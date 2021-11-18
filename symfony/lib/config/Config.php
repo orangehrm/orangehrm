@@ -36,7 +36,7 @@ class Config
 
     public const PRODUCT_NAME = 'OrangeHRM OS';
     public const PRODUCT_VERSION = '5.0-beta';
-    public const PRODUCT_MODE = self::MODE_DEV;
+    public const PRODUCT_MODE = self::MODE_PROD;
     public const REGISTRATION_URL = 'https://ospenguin.orangehrm.com';
 
     /**
