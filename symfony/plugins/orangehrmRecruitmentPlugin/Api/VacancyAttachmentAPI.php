@@ -46,14 +46,15 @@ class VacancyAttachmentAPI extends Endpoint implements CrudEndpoint
     public const PARAMETER_COMMENT = 'comment';
     public const PARAMETER_VACANCY_ID = 'vacancyId';
     public const PARAMETER_ATTACHMENT = 'attachment';
+    public const PARAMETER_CURRENT_ATTACHMENT='currentAttachment';
 
     public const PARAM_RULE_VACANCY_ID_MAX_LENGTH = 13;
     public const PARAM_RULE_COMMENT_MAX_LENGTH = 255;
     public const PARAM_RULE_ATTACHMENT_TYPE_MAX_LENGTH = 4;
     public const PARAM_RULE_FILE_NAME_MAX_LENGTH = 200;
+    public const PARAM_RULE_CURRENT_ATTACHMENT_MAX_LENGTH=16;
 
     public const VACANCY_ATTACHMENT_KEEP_CURRENT = 'keepCurrent';
-    public const VACANCY_ATTACHMENT_DELETE_CURRENT = 'deleteCurrent';
     public const VACANCY_ATTACHMENT_REPLACE_CURRENT = 'replaceCurrent';
     /**
      * @var RecruitmentAttachmentService|null
@@ -79,6 +80,7 @@ class VacancyAttachmentAPI extends Endpoint implements CrudEndpoint
     {
         $vacancyAttachment = new VacancyAttachment();
         $this->setVacancyAttachment($vacancyAttachment);
+        $this->setBase64Attachment($vacancyAttachment);
         $vacancyAttachment = $this->getVacancyAttachmentService()->saveVacancyAttachment($vacancyAttachment);
         return new EndpointResourceResult(VacancyAttachmentModel::class, $vacancyAttachment);
     }
@@ -106,7 +108,12 @@ class VacancyAttachmentAPI extends Endpoint implements CrudEndpoint
                 self::PARAMETER_ATTACHMENT_TYPE
             )
         );
+    }
 
+    /**
+     * @param $vacancyAttachment
+     */
+    private function setBase64Attachment($vacancyAttachment):void{
         $base64Attachment = $this->getBase64Attachment();
         if (is_null($base64Attachment)) {
             return;
@@ -143,6 +150,14 @@ class VacancyAttachmentAPI extends Endpoint implements CrudEndpoint
     {
         return new ParamRuleCollection(
             $this->getValidationDecorator()->requiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_VACANCY_ID,
+                    new Rule(Rules::INT_TYPE),
+                    new Rule(Rules::LENGTH, [!null, self::PARAM_RULE_VACANCY_ID_MAX_LENGTH]),
+                ),
+                true
+            ),
+            $this->getValidationDecorator()->requiredParamRule(
                 $this->getAttachmentRule()
             ),
             ...$this->getCommonBodyValidationRules(),
@@ -170,11 +185,6 @@ class VacancyAttachmentAPI extends Endpoint implements CrudEndpoint
     protected function getCommonBodyValidationRules(): array
     {
         return [
-            new ParamRule(
-                self::PARAMETER_VACANCY_ID,
-                new Rule(Rules::INT_TYPE),
-                new Rule(Rules::LENGTH, [!null, self::PARAM_RULE_VACANCY_ID_MAX_LENGTH]),
-            ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::PARAMETER_COMMENT,
@@ -219,14 +229,7 @@ class VacancyAttachmentAPI extends Endpoint implements CrudEndpoint
             RequestParams::PARAM_TYPE_ATTRIBUTE,
             self::PARAMETER_VACANCY_ID
         );
-        $id = $this->getRequestParams()->getIntOrNull(
-            RequestParams::PARAM_TYPE_ATTRIBUTE,
-            self::PARAMETER_ID
-        );
-        if (is_null($id)) {
             return $this->getVacancyAttachments($vacancyId);
-        }
-        return $this->getSingleVacancyAttachment($id);
     }
 
     /**
@@ -245,34 +248,53 @@ class VacancyAttachmentAPI extends Endpoint implements CrudEndpoint
         );
     }
 
-    /**
-     * @param  int  $id
-     * @return EndpointResult
-     * @throws DaoException
-     */
-    private function getSingleVacancyAttachment(int $id): EndpointResult
-    {
-        $attachment = $this->getVacancyAttachmentService()->getRecruitmentAttachmentDao()->getVacancyAttachment($id);
-        return new EndpointResourceResult(VacancyAttachmentModel::class, $attachment);
-    }
-
-
     public function getValidationRuleForGetOne(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(self::PARAMETER_ID),
             new ParamRule(self::PARAMETER_VACANCY_ID),
         );
     }
 
     public function update(): EndpointResult
     {
-        throw $this->getNotImplementedException();
-    }
-
+        $id=$this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_BODY,CommonParams::PARAMETER_ID);
+        $currentAttachment=$this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY,self::PARAMETER_CURRENT_ATTACHMENT);
+        $vacancyAttachment=$this->getVacancyAttachmentService()->getRecruitmentAttachmentDao()->getVacancyAttachment($id);
+        $this->throwRecordNotFoundExceptionIfNotExist($vacancyAttachment, VacancyAttachment::class);
+        $this->setVacancyAttachment($vacancyAttachment);
+        if($currentAttachment==self::VACANCY_ATTACHMENT_REPLACE_CURRENT){
+            $this->setBase64Attachment($vacancyAttachment);
+        }
+        $this->getVacancyAttachmentService()->saveVacancyAttachment($vacancyAttachment);
+        return new EndpointResourceResult(VacancyAttachmentModel::class, $vacancyAttachment);
+}
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
-        throw $this->getNotImplementedException();
+        return new ParamRuleCollection(
+            $this->getValidationDecorator()->requiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_CURRENT_ATTACHMENT,
+                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::LENGTH, [!null, self::PARAM_RULE_CURRENT_ATTACHMENT_MAX_LENGTH]),
+                ),
+                true
+            ),
+            $this->getValidationDecorator()->requiredParamRule(
+                new ParamRule(
+                    CommonParams::PARAMETER_ID,
+                    new Rule(Rules::INT_TYPE),
+                    new Rule(Rules::LENGTH, [!null, self::PARAM_RULE_VACANCY_ID_MAX_LENGTH]),
+                ),
+                true
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                $this->getAttachmentRule()
+            ),
+            new ParamRule(self::PARAMETER_VACANCY_ID),
+            ...$this->getCommonBodyValidationRules(),
+
+
+        );
     }
 
 
