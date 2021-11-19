@@ -42,6 +42,7 @@
           value="deleteCurrent"
           :modelValue="method"
           @update:modelValue="$emit('update:method', $event)"
+          v-if="deletable"
         />
         <oxd-input-field
           type="radio"
@@ -101,6 +102,10 @@ export default {
     disabled: {
       type: Boolean,
       default: false,
+    },
+    deletable: {
+      type: Boolean,
+      default: true,
     },
   },
   methods: {
