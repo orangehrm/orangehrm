@@ -111,6 +111,47 @@
       </oxd-form>
     </div>
     <br />
+    <div class="orangehrm-card-container" v-if="isAddClicked">
+      <oxd-text
+        tag="h6"
+        class="orangehrm-main-title orangehrm-attachment-header__title"
+        >Add Attachment</oxd-text
+      >
+      <oxd-divider />
+      <oxd-form :loading="isLoading" @submitValid="onSaveAttachment">
+        <oxd-grid :cols="3" class="orangehrm-full-width-grid">
+          <oxd-grid-item>
+            <file-upload-input
+              label="Select File"
+              buttonLabel="Browse"
+              v-model:newFile="vacancyAttachment.newAttachment"
+              v-model:method="vacancyAttachment.method"
+              :file="vacancyAttachment.oldAttachment"
+              :url="`recruitment/vacancyAttachment/attachId`"
+              required
+            />
+          </oxd-grid-item>
+        </oxd-grid>
+        <oxd-grid :cols="3" class="orangehrm-full-width-grid">
+          <oxd-grid-item>
+            <oxd-input-field
+              type="textarea"
+              label="Comment"
+              placeholder="Type comment here"
+              v-model="vacancyAttachment.comment"
+            />
+          </oxd-grid-item>
+        </oxd-grid>
+        <br />
+        <oxd-divider />
+        <oxd-form-actions>
+          <required-text />
+          <oxd-button displayType="ghost" label="Cancel" @click="onCancel" />
+          <submit-button label="Upload" />
+        </oxd-form-actions>
+      </oxd-form>
+    </div>
+    <br />
     <div class="orangehrm-paper-container">
       <div class="orangehrm-header-container orangehrm-attachment-header">
         <oxd-text
@@ -123,6 +164,7 @@
           iconName="plus"
           displayType="text"
           @click="onClickAdd"
+          v-if="!isAddClicked"
         />
       </div>
       <table-header
@@ -154,6 +196,7 @@ import {APIService} from '@/core/util/services/api.service';
 import {navigate} from '@orangehrm/core/util/helper/navigation';
 import DeleteConfirmationDialog from '@orangehrm/components/dialogs/DeleteConfirmationDialog';
 import SwitchInput from '@orangehrm/oxd/core/components/Input/SwitchInput';
+import FileUploadInput from '@/core/components/inputs/FileUploadInput';
 
 import {
   required,
@@ -174,6 +217,12 @@ const vacancyModel = {
   status: false,
   isPublished: false,
 };
+const VacancyAttachmentModel = {
+  comment: '',
+  oldAttachment: '',
+  newAttachment: null,
+  method: 'keepCurrent',
+};
 
 const attachmentNormalizer = data => {
   return data.map(item => {
@@ -192,7 +241,7 @@ const attachmentNormalizer = data => {
 export default {
   props: {
     vacancyId: {
-      type: String,
+      type: Number,
       required: true,
     },
   },
@@ -203,15 +252,18 @@ export default {
     'jobtitle-dropdown': JobtitleDropdown,
     'vacancy-link-card': VacancyLinkCard,
     'delete-confirmation': DeleteConfirmationDialog,
+    'file-upload-input': FileUploadInput,
   },
 
   data() {
     return {
       isLoading: false,
+      isAddClicked: false,
       rssFeedUrl: '',
       webFeedUrl: '',
       currentName: '',
       vacancy: {...vacancyModel},
+      vacancyAttachment: {...VacancyAttachmentModel},
       rules: {
         jobTitle: [required],
         name: [required, shouldNotExceedCharLength(50)],
@@ -312,7 +364,26 @@ export default {
           return this.$toast.saveSuccess();
         })
         .then(() => {
-          this.onCancel();
+          navigate(`/recruitment/addJobVacancy/${this.vacancyId}`);
+        });
+    },
+    onSaveAttachment() {
+      this.isLoading = true;
+      this.httpAttachments
+        .create({
+          vacancyId: parseInt(this.vacancyId),
+          attachment: this.vacancyAttachment.newAttachment
+            ? this.vacancyAttachment.newAttachment
+            : undefined,
+          comment: this.vacancyAttachment.comment,
+          attachmentType: 1,
+        })
+        .then(result => {
+          console.log(result);
+          return this.$toast.saveSuccess();
+        })
+        .then(() => {
+          navigate(`/recruitment/addJobVacancy/${this.vacancyId}`);
         });
     },
     async getAttachments() {
@@ -358,6 +429,9 @@ export default {
     async resetDataTable() {
       this.checkedItems = [];
       this.getAttachments();
+    },
+    onClickAdd() {
+      this.isAddClicked = true;
     },
   },
   created() {
