@@ -79,6 +79,10 @@
         <exclude name="build/reports/**"/>
         <exclude name="build/report-styles/**"/>
         <exclude name="build/build.xml"/>
+        <exclude name="build/phing-latest.phar"/>
+        <exclude name=".github/**"/>
+        <exclude name="INSTALL.html"/>
+        <exclude name="Dockerfile"/>
         <exclude name="devTools/**"/>
         <exclude name="lib/confs/Conf.php"/>
         <exclude name="lib/confs/cryptokeys/key.ohrm"/>
@@ -120,8 +124,6 @@
 
     <delete includeemptydirs="true" failonerror="false" dir="${package.dir}/upgrader/log"/>
     <delete includeemptydirs="true" failonerror="false" dir="${package.dir}/upgrader/cache"/>
-    <mkdir dir="${package.dir}/upgrader/cache"/>
-    <mkdir dir="${package.dir}/upgrader/log"/>
 
     <copy todir="${dist.dir}">
       <fileset dir="${project.dir}">
