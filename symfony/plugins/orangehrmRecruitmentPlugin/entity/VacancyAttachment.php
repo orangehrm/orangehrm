@@ -174,13 +174,13 @@ class VacancyAttachment
     /**
      * @return resource|string
      */
-    public function getFileContent(): string
+    public function getFileContent()
     {
         return $this->fileContent;
     }
 
     /**
-     * @param  resource|string  $fileContent
+     * @param  string  $fileContent
      */
     public function setFileContent(string $fileContent): void
     {
