@@ -277,9 +277,7 @@ export default {
       });
     },
     onClickDeleteSelected() {
-      console.log(this.checkedItems);
       const ids = this.checkedItems.map(index => {
-        console.log(this.items?.data[index].id);
         return this.items?.data[index].id;
       });
       this.$refs.deleteDialog.showDialog().then(confirmation => {
