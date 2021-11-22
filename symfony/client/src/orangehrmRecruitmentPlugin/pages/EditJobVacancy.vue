@@ -111,14 +111,14 @@
       </oxd-form>
     </div>
     <br />
-    <div class="orangehrm-card-container" v-if="isAddClicked">
+    <div class="orangehrm-card-container" v-if="isAddClicked && !editClicked">
       <oxd-text
         tag="h6"
         class="orangehrm-main-title orangehrm-attachment-header__title"
         >Add Attachment</oxd-text
       >
       <oxd-divider />
-      <oxd-form :loading="isLoading" @submitValid="onSaveAttachment">
+      <oxd-form :loading="isLoadingAttachment" @submitValid="onSaveAttachment">
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
           <oxd-grid-item>
             <file-upload-input
@@ -127,7 +127,9 @@
               v-model:newFile="vacancyAttachment.newAttachment"
               v-model:method="vacancyAttachment.method"
               :file="vacancyAttachment.oldAttachment"
+              :rules="rules.addAttachment"
               :url="`recruitment/vacancyAttachment/attachId`"
+              :hint="$t('general.file_upload_notice')"
               required
             />
           </oxd-grid-item>
@@ -146,7 +148,61 @@
         <oxd-divider />
         <oxd-form-actions>
           <required-text />
-          <oxd-button displayType="ghost" label="Cancel" @click="onCancel" />
+          <oxd-button
+            displayType="ghost"
+            label="Cancel"
+            @click="updateVisibility"
+          />
+          <submit-button label="Upload" />
+        </oxd-form-actions>
+      </oxd-form>
+    </div>
+    <div class="orangehrm-card-container" v-if="isEditClicked && !isAddClicked">
+      <oxd-text
+        tag="h6"
+        class="orangehrm-main-title orangehrm-attachment-header__title"
+        >Edit Attachment</oxd-text
+      >
+      <oxd-divider />
+      <oxd-form
+        :loading="isLoadingAttachment"
+        @submitValid="onUpdateAttachment"
+      >
+        <oxd-grid :cols="3" class="orangehrm-full-width-grid">
+          <oxd-grid-item>
+            <file-upload-input
+              label="Select File"
+              buttonLabel="Browse"
+              v-model:newFile="vacancyAttachment.newAttachment"
+              v-model:method="vacancyAttachment.method"
+              :file="vacancyAttachment.oldAttachment"
+              :rules="rules.updateAttachment"
+              :url="`recruitment/viewVacancyAttachment/attachId`"
+              :hint="$t('general.file_upload_notice')"
+              :deletable="false"
+              required
+            />
+          </oxd-grid-item>
+        </oxd-grid>
+        <oxd-grid :cols="3" class="orangehrm-full-width-grid">
+          <oxd-grid-item>
+            <oxd-input-field
+              type="textarea"
+              label="Comment"
+              placeholder="Type comment here"
+              v-model="vacancyAttachment.comment"
+            />
+          </oxd-grid-item>
+        </oxd-grid>
+        <br />
+        <oxd-divider />
+        <oxd-form-actions>
+          <required-text />
+          <oxd-button
+            displayType="ghost"
+            label="Cancel"
+            @click="updateVisibility"
+          />
           <submit-button label="Upload" />
         </oxd-form-actions>
       </oxd-form>
@@ -164,12 +220,12 @@
           iconName="plus"
           displayType="text"
           @click="onClickAdd"
-          v-if="!isAddClicked"
+          v-if="!isAddClicked && !isEditClicked"
         />
       </div>
       <table-header
         :selected="checkedItems.length"
-        :loading="isLoading"
+        :loading="isLoadingTable"
         :total="attachments.length"
         @delete="onClickDeleteSelected"
       ></table-header>
@@ -180,7 +236,7 @@
           :selectable="true"
           :clickable="false"
           v-model:selected="checkedItems"
-          :loading="isLoading"
+          :loading="isLoadingTable"
           rowDecorator="oxd-table-decorator-card"
         />
       </div>
@@ -203,6 +259,8 @@ import {
   shouldNotExceedCharLength,
   digitsOnly,
   max,
+  validFileTypes,
+  maxFileSize,
 } from '@orangehrm/core/util/validation/rules';
 import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
 import JobtitleDropdown from '@/orangehrmPimPlugin/components/JobtitleDropdown';
@@ -218,6 +276,7 @@ const vacancyModel = {
   isPublished: false,
 };
 const VacancyAttachmentModel = {
+  id: null,
   comment: '',
   oldAttachment: '',
   newAttachment: null,
@@ -244,6 +303,14 @@ export default {
       type: Number,
       required: true,
     },
+    allowedFileTypes: {
+      type: Array,
+      required: true,
+    },
+    maxFileSize: {
+      type: Number,
+      required: true,
+    },
   },
   name: 'edit-job-vacancy',
   components: {
@@ -258,9 +325,13 @@ export default {
   data() {
     return {
       isLoading: false,
+      isLoadingAttachment: false,
+      isLoadingTable: false,
       isAddClicked: false,
+      isEditClicked: false,
       rssFeedUrl: '',
       webFeedUrl: '',
+      fileUrl: 'recruitment/viewVacancyAttachment/attachId',
       currentName: '',
       vacancy: {...vacancyModel},
       vacancyAttachment: {...VacancyAttachmentModel},
@@ -272,6 +343,22 @@ export default {
         description: [],
         status: [required],
         isPublished: [required],
+        addAttachment: [
+          required,
+          maxFileSize(this.maxFileSize),
+          validFileTypes(this.allowedFileTypes),
+        ],
+        updateAttachment: [
+          v => {
+            if (this.vacancyAttachment.method == 'replaceCurrent') {
+              return required(v);
+            } else {
+              return true;
+            }
+          },
+          validFileTypes(this.allowedFileTypes),
+          maxFileSize(this.maxFileSize),
+        ],
       },
       headers: [
         {
@@ -310,7 +397,7 @@ export default {
               },
             },
             download: {
-              onClick: this.onClickEdit,
+              onClick: this.downloadFile,
               props: {
                 name: 'download',
               },
@@ -335,7 +422,7 @@ export default {
     );
     const httpAttachments = new APIService(
       window.appGlobal.baseUrl,
-      'api/v2/recruitment/vacancyAttachments',
+      'api/v2/recruitment/vacancy/attachments',
     );
     return {
       http,
@@ -368,7 +455,7 @@ export default {
         });
     },
     onSaveAttachment() {
-      this.isLoading = true;
+      this.isLoadingAttachment = true;
       this.httpAttachments
         .create({
           vacancyId: parseInt(this.vacancyId),
@@ -378,18 +465,21 @@ export default {
           comment: this.vacancyAttachment.comment,
           attachmentType: 1,
         })
-        .then(result => {
-          console.log(result);
+        .then(() => {
           return this.$toast.saveSuccess();
         })
         .then(() => {
-          navigate(`/recruitment/addJobVacancy/${this.vacancyId}`);
+          this.isLoadingAttachment = false;
+          this.updateVisibility();
+          this.resetDataTable();
         });
     },
     async getAttachments() {
+      this.isLoadingTable = true;
       const result = await this.httpAttachments.get(this.vacancyId);
       const {data} = result.data;
       this.attachments = attachmentNormalizer(data);
+      this.isLoadingTable = false;
     },
     onClickDelete(item) {
       this.$refs.deleteDialog.showDialog().then(confirmation => {
@@ -410,9 +500,8 @@ export default {
     },
 
     async deleteData(items) {
-      console.log(items);
       if (items instanceof Array) {
-        this.isLoading = true;
+        this.isLoadingTable = true;
         this.httpAttachments
           .deleteAll({
             ids: items,
@@ -422,7 +511,7 @@ export default {
           })
           .then(() => {
             this.resetDataTable();
-            this.isLoading = false;
+            this.isLoadingTable = false;
           });
       }
     },
@@ -431,11 +520,61 @@ export default {
       this.getAttachments();
     },
     onClickAdd() {
+      this.isEditClicked = false;
       this.isAddClicked = true;
+    },
+    onClickEdit(item) {
+      this.vacancyAttachment.id = item.id;
+      this.vacancyAttachment.comment = item.comment;
+      this.vacancyAttachment.oldAttachment = {
+        id: item.id,
+        filename: item.fileName,
+        fileType: item.fileType,
+        fileSize: item.filefileSize,
+      };
+      this.vacancyAttachment.newAttachment = null;
+      this.vacancyAttachment.method = 'keepCurrent';
+      this.isAddClicked = false;
+      this.isEditClicked = true;
+    },
+    onUpdateAttachment() {
+      this.isLoadingAttachment = true;
+      this.httpAttachments
+        .update(this.vacancyId, {
+          id: this.vacancyAttachment.id,
+          vacancyId: parseInt(this.vacancyId),
+          currentAttachment: this.vacancyAttachment.oldAttachment
+            ? this.vacancyAttachment.method
+            : undefined,
+          attachment: this.vacancyAttachment.newAttachment
+            ? this.vacancyAttachment.newAttachment
+            : undefined,
+          comment: this.vacancyAttachment.comment,
+          attachmentType: 1,
+        })
+        .then(() => {
+          return this.$toast.saveSuccess();
+        })
+        .then(() => {
+          this.isLoadingAttachment = false;
+          this.updateVisibility();
+          this.resetDataTable();
+        });
+    },
+    updateVisibility() {
+      this.isAddClicked = false;
+      this.isEditClicked = false;
+      this.vacancyAttachment = {...VacancyAttachmentModel};
+    },
+    downloadFile(item) {
+      if (!item?.id) return;
+      const downUrl = `${window.appGlobal.baseUrl}/${this.fileUrl}/${item.id}`;
+      window.open(downUrl, '_blank');
     },
   },
   created() {
     this.isLoading = true;
+    this.isLoadingTable = true;
     this.getAttachments();
     this.http
       .get(this.vacancyId)
@@ -469,6 +608,7 @@ export default {
       })
       .finally(() => {
         this.isLoading = false;
+        this.isLoadingTable = false;
       });
   },
 };

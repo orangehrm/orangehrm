@@ -14,27 +14,28 @@ apiv2_recruitment_vacancies:
     _api: OrangeHRM\Recruitment\Api\VacancyAPI
 
 apiv2_recruitment_vacancy_attachment_vacancyId:
-  path: /api/v2/recruitment/vacancyAttachments/{vacancyId}
+  path: /api/v2/recruitment/vacancy/attachments/{vacancyId}
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
   methods: [ GET, PUT ]
   defaults:
     _api: OrangeHRM\Recruitment\Api\VacancyAttachmentAPI
     _key: vacancyId
 
-apiv2_recruitment_vacancy_attachment_vacancyId_id:
-  path: /api/v2/recruitment/vacancyAttachments/{vacancyId}/{id}
-  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
-  methods: [ GET, PUT ]
-  defaults:
-    _api: OrangeHRM\Recruitment\Api\VacancyAttachmentAPI
-    _key: id
-
 apiv2_recruitment_vacancy_attachments:
-  path: /api/v2/recruitment/vacancyAttachments
+  path: /api/v2/recruitment/vacancy/attachments
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
   methods: [ GET, POST, DELETE ]
   defaults:
     _api: OrangeHRM\Recruitment\Api\VacancyAttachmentAPI
+
+##########################
+#        Files
+##########################
+
+recruitment_attachment:
+  path: /recruitment/viewVacancyAttachment/attachId/{attachId}
+  controller: OrangeHRM\Recruitment\Controller\File\VacancyAttachment::handle
+  methods: [ GET ]
 
 ##########################
 #        Screens
