@@ -23,14 +23,19 @@ use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 
 class EditJobVacancyController extends AbstractVueController
 {
+    use ConfigServiceTrait;
+
     public function preRender(Request $request): void
     {
         $id = $request->get('id');
         $component = new Component('edit-job-vacancy');
         $component->addProp(new Prop('vacancy-id', Prop::TYPE_NUMBER, $id));
+        $component->addProp(new Prop('allowed-file-types', Prop::TYPE_ARRAY, $this->getConfigService()->getAllowedFileTypes()));
+        $component->addProp(new Prop('max-file-size', Prop::TYPE_NUMBER, $this->getConfigService()->getMaxAttachmentSize()));
         $this->setComponent($component);
     }
 }
