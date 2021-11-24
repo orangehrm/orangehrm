@@ -1,0 +1,4 @@
+Customer:
+  0: { name: 'Orange', description: 'HRM', deleted: false }
+  1: { name: 'CUS', description: 'DES', deleted: false }
+  2: { name: 'CUS2', description: 'DES2', deleted: false }

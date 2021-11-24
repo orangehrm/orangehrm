@@ -1,0 +1,32 @@
+apiv2_time_customer:
+  path: /api/v2/time/customers/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    _api: OrangeHRM\Time\Api\CustomerAPI
+
+apiv2_time_customers:
+  path: /api/v2/time/customers
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST, DELETE ]
+  defaults:
+    _api: OrangeHRM\Time\Api\CustomerAPI
+
+##########################
+#        Screens
+##########################
+
+view_customers:
+  path: /time/viewCustomers
+  controller: OrangeHRM\Time\Controller\CustomerController::handle
+  methods: [ GET ]
+
+save_customer:
+  path: /time/saveCustomer
+  controller: OrangeHRM\Time\Controller\SaveCustomerController::handle
+  methods: [ GET ]
+
+edit_customer:
+  path: /time/saveCustomer/{id}
+  controller: OrangeHRM\Time\Controller\SaveCustomerController::handle
+  methods: [ GET ]
