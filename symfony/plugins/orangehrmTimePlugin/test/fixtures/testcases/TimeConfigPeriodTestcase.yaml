@@ -1,0 +1,26 @@
+GetOne:
+  'Time sheet period':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    attributes:
+      id: 1
+    body: [ ]
+    query: [ ]
+    data:
+      startDay: '1'
+    meta: [ ]
+
+Update:
+  'Time sheet period update':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    attributes:
+      id: 1
+    body:
+      startDay: '2'
+    query: [ ]
+    data:
+      startDay: '2'
+    meta: [ ]

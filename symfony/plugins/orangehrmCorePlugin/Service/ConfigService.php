@@ -558,4 +558,22 @@ class ConfigService
     {
         return $this->_getConfigValue(self::KEY_TIMESHEET_PERIOD_AND_START_DATE);
     }
+
+    /**
+     * @param string $value
+     * @throws CoreServiceException
+     */
+    public function setTimeSheetPeriodConfig(string $value): void
+    {
+         $this->_setConfigValue(self::KEY_TIMESHEET_PERIOD_AND_START_DATE, $value);
+    }
+
+    /**
+     * @param string $value
+     * @throws CoreServiceException
+     */
+    public function setTimeSheetPeriodSetValue(string $value): void
+    {
+        $this->_setConfigValue(self::KEY_TIMESHEET_PERIOD_SET, $value);
+    }
 }

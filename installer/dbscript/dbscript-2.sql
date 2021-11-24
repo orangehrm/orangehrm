@@ -4076,6 +4076,19 @@ VALUES (1, 1, 1, 1, 0, @apiv2_leave_holiday_data_group_id, @admin_role_id),
        (1, 0, 0, 0, 0, @leave_type_leave_entitlements_and_usage_data_group_id, @admin_role_id),
        (1, 0, 0, 0, 0, @leave_type_leave_entitlements_and_usage_data_group_id, @supervisor_role_id);
 
+INSERT INTO ohrm_data_group (`name`, `description`, `can_read`, `can_create`, `can_update`, `can_delete`)
+VALUES ('apiv2_time_sheet_config', 'API-v2 Time - Time Sheet Start Day Configuration', 1, 0, 1, 0);
+
+SET @time_module_id := (SELECT `id` FROM ohrm_module WHERE name = 'time' LIMIT 1);
+
+SET @apiv2_time_sheet_config_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_time_sheet_config' LIMIT 1);
+
+INSERT INTO ohrm_api_permission (`api_name`, `module_id`, `data_group_id`)
+VALUES ('OrangeHRM\\Time\\Api\\TimeConfigPeriodAPI', @time_module_id, @apiv2_time_sheet_config_data_group_id);
+
+INSERT INTO ohrm_user_role_data_group (`can_read`, `can_create`, `can_update`, `can_delete`, `self`, `data_group_id`, `user_role_id`)
+VALUES (1, 0, 1, 0, 0, @apiv2_time_sheet_config_data_group_id, @admin_role_id);
+
 ALTER TABLE `ohrm_leave_request_comment` DROP `created_by_name`;
 ALTER TABLE `ohrm_leave_comment` DROP `created_by_name`;
 ALTER TABLE `ohrm_leave_entitlement` DROP `created_by_name`;

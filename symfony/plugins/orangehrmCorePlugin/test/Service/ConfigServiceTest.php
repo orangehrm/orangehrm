@@ -419,5 +419,34 @@ class ConfigServiceTest extends KernelTestCase
         $this->validateGetMethod('getOpenIdProviderAdded', ConfigService::KEY_OPENID_PROVIDER_ADDED, $value);
     }
 
+    public function testGetTimeSheetPeriodConfig(): void
+    {
+        $startDay = '1';
+        $this->validateGetMethod(
+            'getTimeSheetPeriodConfig',
+            ConfigService::KEY_TIMESHEET_PERIOD_AND_START_DATE,
+            $startDay
+        );
+    }
+
+    public function testSetTimeSheetPeriodConfig(): void
+    {
+        $startDay = '2';
+        $this->validateSetMethod(
+            'setTimeSheetPeriodConfig',
+            ConfigService::KEY_TIMESHEET_PERIOD_AND_START_DATE,
+            $startDay
+        );
+    }
+
+    public function testSetTimeSheetPeriodSetValue(): void
+    {
+        $startDay = 'Yes';
+        $this->validateSetMethod(
+            'setTimeSheetPeriodSetValue',
+            ConfigService::KEY_TIMESHEET_PERIOD_SET,
+            $startDay
+        );
+    }
 }
 
