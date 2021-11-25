@@ -79,7 +79,7 @@ class CustomerAPITest extends EndpointTestCase
                 "id" => 3,
                 "name" => 'ccc',
                 "description" => 'ddd',
-                "isDeleted" => false,
+                "deleted" => false,
             ],
             $result->normalize()
         );
@@ -136,13 +136,13 @@ class CustomerAPITest extends EndpointTestCase
                     "id" => 3,
                     "name" => 'CUSGET1',
                     "description" => 'CUSGETDES1',
-                    "isDeleted" => false
+                    "deleted" => false
                 ],
                 [
                     "id" => 4,
                     "name" => 'CUSGET2',
                     "description" => 'CUSGETDES2',
-                    "isDeleted" => false
+                    "deleted" => false
                 ]
             ],
             $result->normalize()
@@ -197,7 +197,7 @@ class CustomerAPITest extends EndpointTestCase
                 "id" => 4,
                 "name" => "CUS10",
                 "description" => "DESC10",
-                "isDeleted" => false
+                "deleted" => false
             ],
             $result->normalize()
         );
@@ -253,7 +253,7 @@ class CustomerAPITest extends EndpointTestCase
                 "id" => 1,
                 "name" => "COVID",
                 "description" => 'COVID',
-                "isDeleted" => false
+                "deleted" => false
 
             ],
             $result->normalize()

@@ -42,6 +42,14 @@ class CustomerService
     }
 
     /**
+     * @param CustomerDao $customerDao
+     */
+    public function setCustomerDao(CustomerDao $customerDao): void
+    {
+        $this->customerDao = $customerDao;
+    }
+
+    /**
      * @param CustomerSearchFilterParams $customerSearchFilterParams
      * @return Customer[]
      */
