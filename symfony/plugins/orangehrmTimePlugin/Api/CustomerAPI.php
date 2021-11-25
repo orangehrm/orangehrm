@@ -142,7 +142,6 @@ class CustomerAPI extends EndPoint implements CrudEndpoint
     {
         $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
         $this->getCustomerService()->deleteCustomers($ids);
-
         return new EndpointResourceResult(ArrayModel::class, $ids);
     }
 
@@ -152,7 +151,6 @@ class CustomerAPI extends EndPoint implements CrudEndpoint
     public function getValidationRuleForDelete(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(CommonParams::PARAMETER_IDS),
             new ParamRule(
                 CommonParams::PARAMETER_IDS,
                 new Rule(Rules::ARRAY_TYPE),
@@ -200,12 +198,12 @@ class CustomerAPI extends EndPoint implements CrudEndpoint
         );
         $customer = $this->getCustomerService()->getCustomer($customerId);
         $this->throwRecordNotFoundExceptionIfNotExist($customer, Customer::class);
-        $CustomerName = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_NAME);
+        $customerName = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_NAME);
         $customerDescription = $this->getRequestParams()->getString(
             RequestParams::PARAM_TYPE_BODY,
             self::PARAMETER_DESCRIPTION
         );
-        $customer->setName($CustomerName);
+        $customer->setName($customerName);
         $customer->setDescription($customerDescription);
         $this->getCustomerService()
             ->getCustomerDao()

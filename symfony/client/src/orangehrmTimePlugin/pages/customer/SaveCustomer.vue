@@ -104,8 +104,6 @@ export default {
           return this.$toast.saveSuccess();
         })
         .then(() => {
-          this.customer.name = '';
-          this.customer.description = '';
           this.onCancel();
         });
     },

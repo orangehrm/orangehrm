@@ -38,5 +38,13 @@ class CustomerModel implements Normalizable
                 ['isDeleted'],
             ]
         );
+        $this->setAttributeNames(
+            [
+                'id',
+                'name',
+                'description',
+                'deleted'
+            ]
+        );
     }
 }
