@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Time\Entity;
+namespace OrangeHRM\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use OrangeHRM\Entity\Employee;
@@ -34,7 +34,7 @@ class ProjectAdmin
      * @var Project
      *
      * @ORM\Id
-     * @ORM\ManyToMany(targetEntity="OrangeHRM\Entity\Project", inversedBy="projectAdmins", cascade={"persist", "remove"})
+     * @ORM\ManyToMany(targetEntity="OrangeHRM\Entity\Project", mappedBy="projectAdmin", cascade={"persist", "remove"})
      * @ORM\JoinColumn(name="project_id", referencedColumnName="project_id",nullable=false)
      *
      */
@@ -44,7 +44,7 @@ class ProjectAdmin
      * @var Employee
      *
      * @ORM\Id
-     * @ORM\OneToOne(targetEntity="OrangeHRM\Entity\Employee", mappedBy="projectAdmins", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="OrangeHRM\Entity\Employee", inversedBy="projectAdmins", cascade={"persist", "remove"})
      * @ORM\JoinColumn(name="emp_number", referencedColumnName="emp_number" ,nullable=false)
      *
      */
