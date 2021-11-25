@@ -5,3 +5,9 @@ apiv2_time_time_sheet_period_config:
   defaults:
     id: 0
     _api: OrangeHRM\Time\Api\TimeConfigPeriodAPI
+
+
+view_time_sheet_config:
+  path: /time/defineTimeSheetPeriod
+  controller: OrangeHRM\Time\Controller\TimeSheetPeriodConfigController::handle
+  methods: [ GET ]

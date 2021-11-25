@@ -45,7 +45,7 @@ class TimeConfigPeriodAPI extends Endpoint implements ResourceEndpoint
     public function getOne(): EndpointResult
     {
         $status = $this->getConfigService()->isTimesheetPeriodDefined();
-        $startDay = $this->getConfigService()->getTimeSheetPeriodConfig();
+        $startDay = $status ? $this->getConfigService()->getTimeSheetPeriodConfig() : '2';
         $timeConfigPeriod = new TimeConfigPeriod();
         $timeConfigPeriod->setStartDay($startDay);
         return new EndpointResourceResult(TimeConfigPeriodModel::class, $timeConfigPeriod);
@@ -88,7 +88,7 @@ class TimeConfigPeriodAPI extends Endpoint implements ResourceEndpoint
             $this->getValidationDecorator()->requiredParamRule(
                 new ParamRule(
                     self::PARAMETER_START_DAY,
-                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::INT_TYPE),
                 ),
             ),
         );

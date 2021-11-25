@@ -59,10 +59,7 @@
       <directory>symfony/plugins/orangehrmCoreOAuthPlugin/test/Entity</directory>
     </testsuite>
     <testsuite name="Time">
-      <directory>symfony/plugins/orangehrmTimePlugin/test/Service</directory>
-      <directory>symfony/plugins/orangehrmTimePlugin/test/Dao</directory>
       <directory>symfony/plugins/orangehrmTimePlugin/test/Api</directory>
-      <directory>symfony/plugins/orangehrmTimePlugin/test/Entity</directory>
     </testsuite>
   </testsuites>
 </phpunit>
