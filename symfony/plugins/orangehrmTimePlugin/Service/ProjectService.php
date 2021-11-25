@@ -17,9 +17,16 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-class ProjectService extends BaseService {
 
-	private $projectDao;
+namespace OrangeHRM\Time\Service;
+use OrangeHRM\Time\Dao\ProjectDao;
+
+class ProjectService {
+
+    /**
+     * @var ProjectDao|null
+     */
+	private ?ProjectDao $projectDao=null;
 
 	/**
 	 * Construct

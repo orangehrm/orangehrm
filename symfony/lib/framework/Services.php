@@ -231,4 +231,13 @@ final class Services
      * @see \OrangeHRM\Pim\Service\EmployeeService
      */
     public const EMPLOYEE_SERVICE = 'pim.employee_service';
+
+    ///////////////////////////////////////////////////////////////
+    /// Time plugin services
+    ///////////////////////////////////////////////////////////////
+
+    /**
+     * @see \OrangeHRM\Time\Service\ProjectService
+     */
+    public const PROJECT_SERVICE = 'time.project_service';
 }
