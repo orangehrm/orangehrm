@@ -1,0 +1,108 @@
+// OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+// all the essential functionalities required for any enterprise.
+// Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+//
+// OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+// the GNU General Public License as published by the Free Software Foundation; either
+// version 2 of the License, or (at your option) any later version.
+//
+// OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+// without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License along with this program;
+// if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+// Boston, MA  02110-1301, USA
+
+@import '@ohrm/oxd/styles/_mixins.scss';
+
+.orangehrm-paper-container {
+  overflow: hidden;
+}
+
+.orangehrm-timesheet {
+  &-header,
+  &-footer {
+    display: flex;
+    padding: 0.6rem 1.2rem;
+    align-items: center;
+    justify-content: space-between;
+  }
+  &-header {
+    border-bottom: $oxd-border $oxd-interface-gray-lighten-2-color;
+  }
+  &-footer {
+    border-top: $oxd-border $oxd-interface-gray-lighten-2-color;
+  }
+  &-body {
+    overflow-x: auto;
+  }
+  &-table {
+    width: 100%;
+    text-align: left;
+    border-collapse: collapse;
+    font-family: $oxd-font-family;
+    color: $oxd-input-control-font-color;
+    font-size: $oxd-input-control-font-size;
+    font-weight: $oxd-input-control-font-weight;
+    @media screen and (max-width: 600px) {
+      .--freeze-left,
+      .--freeze-right {
+        position: sticky;
+        background-color: $oxd-white-color;
+        &::after {
+          content: '';
+          position: absolute;
+          top: 0;
+          height: 100%;
+        }
+      }
+      .--freeze-left {
+        left: 0;
+        &::after {
+          right: 0;
+          border-right: $oxd-border $oxd-interface-gray-lighten-2-color;
+        }
+      }
+      .--freeze-right {
+        right: 0;
+        &::after {
+          left: 0;
+          border-left: $oxd-border $oxd-interface-gray-lighten-2-color;
+        }
+      }
+    }
+    &-header {
+      &-cell {
+        padding: 1.7rem 1.2rem;
+        font-weight: 700;
+      }
+      &-row {
+        border-bottom: $oxd-border $oxd-interface-gray-lighten-2-color;
+      }
+    }
+    &-body {
+      &-cell {
+        padding: 1rem 1.2rem;
+        &.--highlight {
+          font-weight: 700;
+          background-color: $oxd-interface-gray-lighten-1-color;
+        }
+        &.--highlight-2 {
+          font-weight: 700;
+          color: $oxd-white-color;
+          background-color: $oxd-interface-gray-color;
+        }
+        &.--highlight-3 {
+          background-color: $oxd-background-pastel-white-color;
+        }
+      }
+      &-row {
+        border-bottom: $oxd-border $oxd-interface-gray-lighten-2-color;
+        &.--total {
+          background-color: $oxd-interface-gray-lighten-1-color;
+        }
+      }
+    }
+  }
+}
