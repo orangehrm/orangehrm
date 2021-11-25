@@ -1,3 +1,24 @@
+New & Changed Features for OrangeHRM ver 5.0-beta
+    New Feature
+    -----------
+    Upgrade the technology stack
+     - Symfony 5.x
+     - Doctrine 2.x
+     - REST API's
+     - Vue 3
+     - Sass
+
+     Support with PHP 7.4 & 8.0
+
+     Availability of following modules as per 4.9 feature scope
+     - Admin
+     - PIM
+     - Leave
+
+     Features that will be released in 5.0 in Admin, & PIM
+     - Localization, Language support, & Social media authentication
+     - PIM - Report, Custom fields data availability in the report.
+
 New & Changed Features for OrangeHRM ver 4.9
     New Feature
     -----------
