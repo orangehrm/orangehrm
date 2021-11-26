@@ -1,0 +1,13 @@
+apiv2_time_project_activities:
+  path: /api/v2/time/project/{projectId}/project-activity
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST, DELETE ]
+  defaults:
+    _api: OrangeHRM\Time\Api\ProjectActivityAPI
+
+apiv2_time_project_activity:
+  path: /api/v2/time/project/{projectId}/project-activity/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    _api: OrangeHRM\Time\Api\ProjectActivityAPI
