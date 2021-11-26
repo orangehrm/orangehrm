@@ -46,16 +46,13 @@ class ProjectDao extends BaseDao
      */
     public function deleteProjects(array $ids): bool
     {
-        $qr = $this->createQueryBuilder(Project::class, 'project');
-        $qr->delete()
-            ->andWhere('project.id IN (:ids)')
+        $q = $this->createQueryBuilder(Project::class, 'project');
+        $q->update()
+            ->set('project.isDeleted', ':isDeleted')
+            ->setParameter('isDeleted', true)
+            ->where($q->expr()->in('project.id', ':ids'))
             ->setParameter('ids', $ids);
-
-        $result = $qr->getQuery()->execute();
-        if ($result > 0) {
-            return true;
-        }
-        return false;
+        return $q->getQuery()->execute();
     }
 
     /**
