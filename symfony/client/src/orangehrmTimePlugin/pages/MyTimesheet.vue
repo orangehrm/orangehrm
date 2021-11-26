@@ -20,136 +20,45 @@
 
 <template>
   <div class="orangehrm-background-container">
-    <div class="orangehrm-paper-container">
-      <div class="orangehrm-timesheet-header">
-        <div class="orangehrm-timesheet-header--title">
-          <oxd-text tag="h6" class="orangehrm-main-title">
-            {{ $t('time.my_timesheet') }}
-          </oxd-text>
-        </div>
-        <div class="orangehrm-timesheet-header--options">
-          <oxd-button
-            iconName="plus"
-            displayType="ghost"
-            :label="$t('time.add_timesheet')"
-          />
-        </div>
-      </div>
-
-      <div class="orangehrm-timesheet-body">
-        <table class="orangehrm-timesheet-table">
-          <thead class="orangehrm-timesheet-table-header">
-            <tr class="orangehrm-timesheet-table-header-row">
-              <th class="orangehrm-timesheet-table-header-cell --freeze-left">
-                {{ $t('time.project') }}
-              </th>
-              <th class="orangehrm-timesheet-table-header-cell">
-                {{ $t('time.activity') }}
-              </th>
-              <th class="orangehrm-timesheet-table-header-cell">
-                {{ $t('general.mon') }}
-              </th>
-
-              <!-- timesheet days of week -->
-              <th class="orangehrm-timesheet-table-header-cell">
-                {{ $t('general.tue') }}
-              </th>
-              <th class="orangehrm-timesheet-table-header-cell">
-                {{ $t('general.wed') }}
-              </th>
-              <th class="orangehrm-timesheet-table-header-cell">
-                {{ $t('general.thu') }}
-              </th>
-              <th class="orangehrm-timesheet-table-header-cell">
-                {{ $t('general.fri') }}
-              </th>
-              <th class="orangehrm-timesheet-table-header-cell">
-                {{ $t('general.sat') }}
-              </th>
-              <th class="orangehrm-timesheet-table-header-cell">
-                {{ $t('general.sun') }}
-              </th>
-              <!-- timesheet days of week -->
-
-              <th class="orangehrm-timesheet-table-header-cell --freeze-right">
-                {{ $t('general.total') }}
-              </th>
-            </tr>
-          </thead>
-
-          <tbody class="orangehrm-timesheet-table-body">
-            <!-- timesheet activities -->
-            <tr
-              v-for="item in data"
-              :key="item.id"
-              class="orangehrm-timesheet-table-body-row"
-            >
-              <td class="orangehrm-timesheet-table-body-cell --freeze-left">
-                {{ item.project }}
-              </td>
-              <td class="orangehrm-timesheet-table-body-cell">
-                {{ item.activity }}
-              </td>
-              <td
-                v-for="record in item.records"
-                :key="record.id"
-                :class="{
-                  'orangehrm-timesheet-table-body-cell': true,
-                  '--highlight-3': !record.workday,
-                }"
-              >
-                {{ record.trackedTime ?? '00:00' }}
-              </td>
-              <td class="orangehrm-timesheet-table-body-cell --freeze-right --highlight">
-                {{ item.totalTrackedTime }}
-              </td>
-            </tr>
-            <!-- timesheet activities -->
-
-            <!-- totals -->
-            <tr class="orangehrm-timesheet-table-body-row --total">
-              <td
-                class="orangehrm-timesheet-table-body-cell --freeze-left --highlight"
-              >
-                {{ $t('general.total') }}
-              </td>
-              <td></td>
-              <!-- total per day -->
-              <td
-                v-for="(total, key) in meta.totals"
-                :key="key"
-                class="orangehrm-timesheet-table-body-cell"
-              >
-                {{ total }}
-              </td>
-              <!-- total per day -->
-              <td
-                class="orangehrm-timesheet-table-body-cell --freeze-right --highlight-2"
-              >
-                {{ meta.subtotal ?? '00:00' }}
-              </td>
-            </tr>
-            <!-- totals -->
-          </tbody>
-        </table>
-      </div>
-
-      <div class="orangehrm-timesheet-footer">
-        <div class="orangehrm-timesheet-header--title">
-          <oxd-text type="subtitle-2"> {{ $t('general.status') }}: </oxd-text>
-        </div>
-        <div class="orangehrm-timesheet-header--options">
-          <oxd-button displayType="ghost" :label="$t('general.edit')" />
-          <submit-button :label="$t('general.submit')" />
-        </div>
-      </div>
-    </div>
+    <timesheet
+      :days="meta.days"
+      :records="data"
+      :totals="meta.totals"
+      :subtotal="meta.subtotal"
+    >
+      <template v-slot:header-title>
+        <oxd-text tag="h6" class="orangehrm-main-title">
+          {{ $t('time.my_timesheet') }}
+        </oxd-text>
+      </template>
+      <template v-slot:header-options>
+        <timesheet-period></timesheet-period>
+        <oxd-button
+          iconName="plus"
+          displayType="ghost"
+          :label="$t('time.add_timesheet')"
+        />
+      </template>
+      <template v-slot:footer-title>
+        <oxd-text type="subtitle-2"> {{ $t('general.status') }}: </oxd-text>
+      </template>
+      <template v-slot:footer-options>
+        <oxd-button displayType="ghost" :label="$t('general.edit')" />
+        <submit-button :label="$t('general.submit')" />
+      </template>
+    </timesheet>
   </div>
 </template>
 
 <script>
+import Timesheet from '@/orangehrmTimePlugin/components/Timesheet.vue';
+import TimesheetPeriod from '@/orangehrmTimePlugin/components/TimesheetPeriod.vue';
+
 export default {
-  name: 'my-timesheet',
+  components: {
+    timesheet: Timesheet,
+    'timesheet-period': TimesheetPeriod,
+  },
 
   data() {
     return {
@@ -159,7 +68,7 @@ export default {
           project: 'Manhattan Project',
           activity: 'Nuclear Fission',
           totalTrackedTime: '05:00',
-          records: [
+          days: [
             {
               id: 1,
               date: '2021-11-22',
@@ -216,7 +125,7 @@ export default {
           project: 'Manhattan Project',
           activity: 'Fat Boy',
           totalTrackedTime: '00:00',
-          records: [
+          days: [
             {
               id: 8,
               date: '2021-11-22',
@@ -280,10 +189,17 @@ export default {
           '2021-11-27': '00:00',
           '2021-11-28': '00:00',
         },
+        days: [
+          '2021-11-22',
+          '2021-11-23',
+          '2021-11-24',
+          '2021-11-25',
+          '2021-11-26',
+          '2021-11-27',
+          '2021-11-28',
+        ],
       },
     };
   },
 };
 </script>
-
-<style src="./timesheet.scss" lang="scss" scoped></style>

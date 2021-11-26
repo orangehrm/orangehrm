@@ -16,22 +16,50 @@
 
 @import '@ohrm/oxd/styles/_mixins.scss';
 
-.orangehrm-paper-container {
-  overflow: hidden;
-}
+$card-padding-left-right: 1.2rem;
+$card-padding-top-bottom: 0.6rem;
+$card-padding: $card-padding-top-bottom $card-padding-left-right;
 
 .orangehrm-timesheet {
+  overflow: hidden;
   &-header,
   &-footer {
     display: flex;
-    padding: 0.6rem 1.2rem;
     align-items: center;
     justify-content: space-between;
   }
   &-header {
+    gap: 0.4rem;
+    flex-direction: column;
     border-bottom: $oxd-border $oxd-interface-gray-lighten-2-color;
+    &--title {
+      width: 100%;
+      box-sizing: border-box;
+      padding: $card-padding;
+      border-bottom: $oxd-border $oxd-interface-gray-lighten-2-color;
+    }
+    @include oxd-respond-to('md') {
+      flex-direction: row;
+      &--title {
+        width: unset;
+        border-bottom: unset;
+      }
+    }
+    &--options {
+      display: flex;
+      gap: 0.4rem;
+      flex-direction: column;
+      padding: $card-padding;
+      justify-content: center;
+      align-items: center;
+      @include oxd-respond-to('md') {
+        gap: unset;
+        flex-direction: row;
+      }
+    }
   }
   &-footer {
+    padding: $card-padding;
     border-top: $oxd-border $oxd-interface-gray-lighten-2-color;
   }
   &-body {
@@ -50,6 +78,7 @@
       .--freeze-right {
         position: sticky;
         background-color: $oxd-white-color;
+        z-index: 219;
         &::after {
           content: '';
           position: absolute;
@@ -74,16 +103,21 @@
     }
     &-header {
       &-cell {
-        padding: 1.7rem 1.2rem;
+        padding: 1rem $card-padding-left-right;
         font-weight: 700;
       }
+
       &-row {
         border-bottom: $oxd-border $oxd-interface-gray-lighten-2-color;
+      }
+      & .--day {
+        display: block;
+        font-size: 16px;
       }
     }
     &-body {
       &-cell {
-        padding: 1rem 1.2rem;
+        padding: 1rem $card-padding-left-right;
         &.--highlight {
           font-weight: 700;
           background-color: $oxd-interface-gray-lighten-1-color;
@@ -105,4 +139,8 @@
       }
     }
   }
+}
+
+::v-deep(.oxd-input) {
+  min-width: 50px;
 }
