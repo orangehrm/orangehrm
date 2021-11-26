@@ -61,6 +61,7 @@
     <testsuite name="Time">
       <directory>symfony/plugins/orangehrmTimePlugin/test/Service</directory>
       <directory>symfony/plugins/orangehrmTimePlugin/test/Dao</directory>
+      <directory>symfony/plugins/orangehrmTimePlugin/test/Api</directory>
     </testsuite>
   </testsuites>
 </phpunit>
