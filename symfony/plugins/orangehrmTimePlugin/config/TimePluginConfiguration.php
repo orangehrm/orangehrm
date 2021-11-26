@@ -17,52 +17,26 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Entity\Decorator;
 
-use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
-use OrangeHRM\Entity\Customer;
-use OrangeHRM\Entity\Project;
+use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Core\Traits\ServiceContainerTrait;
+use OrangeHRM\Framework\PluginConfigurationInterface;
+use OrangeHRM\Framework\Services;
+use OrangeHRM\Time\Service\ProjectService;
 
-class ProjectDecorator
+class TimePluginConfiguration implements PluginConfigurationInterface
 {
-    use EntityManagerHelperTrait;
+    use ServiceContainerTrait;
 
     /**
-     * @var Project
+     * @inheritDoc
      */
-    protected Project $project;
-
-    /**
-     * @param  Project  $project
-     */
-    public function __construct(Project $project)
+    public function initialize(Request $request): void
     {
-        $this->project = $project;
-    }
+        $this->getContainer()->register(
+            Services::PROJECT_SERVICE,
+            ProjectService::class
+        );
 
-    public function setCustomerById(int $id): void
-    {
-        $customer = $this->getReference(Customer::class, $id);
-        $this->getProject()->setCustomer($customer);
-    }
-
-    /**
-     * @return Project
-     */
-    public function getProject(): Project
-    {
-        return $this->project;
-    }
-
-    /**
-     * @param  bool|null  $isDeleted
-     */
-    public function setIsDeleted(?bool $isDeleted): void
-    {
-        if (!is_null($isDeleted)) {
-            $isDeleted = $isDeleted == 1;
-        }
-
-        $this->getProject()->setIsDeleted($isDeleted);
     }
 }

@@ -17,52 +17,34 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Entity\Decorator;
+namespace OrangeHRM\Time\Api\Model;
 
-use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
-use OrangeHRM\Entity\Customer;
+use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
+use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\Project;
 
-class ProjectDecorator
+class ProjectModel implements Normalizable
 {
-    use EntityManagerHelperTrait;
+    use ModelTrait;
 
-    /**
-     * @var Project
-     */
-    protected Project $project;
-
-    /**
-     * @param  Project  $project
-     */
     public function __construct(Project $project)
     {
-        $this->project = $project;
-    }
+        $this->setEntity($project);
+        $this->setFilters([
+            'id',
+            'name',
+            'description',
+            ['getCustomer', 'getCustomerId'],
+            'isDeleted'
+        ]);
 
-    public function setCustomerById(int $id): void
-    {
-        $customer = $this->getReference(Customer::class, $id);
-        $this->getProject()->setCustomer($customer);
-    }
+        $this->setAttributeNames([
+            'id',
+            'name',
+            'description',
+            ['customer', 'id'],
+            'isDeleted'
 
-    /**
-     * @return Project
-     */
-    public function getProject(): Project
-    {
-        return $this->project;
-    }
-
-    /**
-     * @param  bool|null  $isDeleted
-     */
-    public function setIsDeleted(?bool $isDeleted): void
-    {
-        if (!is_null($isDeleted)) {
-            $isDeleted = $isDeleted == 1;
-        }
-
-        $this->getProject()->setIsDeleted($isDeleted);
+        ]);
     }
 }

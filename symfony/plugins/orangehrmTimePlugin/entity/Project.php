@@ -21,14 +21,18 @@ namespace OrangeHRM\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use OrangeHRM\Entity\Customer;
+use OrangeHRM\Entity\Decorator\DecoratorTrait;
+use OrangeHRM\Entity\Decorator\ProjectDecorator;
 
 /**
+ * @method ProjectDecorator getDecorator()
  * @ORM\Table(name="ohrm_project")
  * @ORM\Entity
  *
  */
 class Project
 {
+    use DecoratorTrait;
     /**
      * @var int
      *
@@ -131,7 +135,7 @@ class Project
     /**
      * @return bool
      */
-    public function isDeleted(): bool
+    public function getIsDeleted(): bool
     {
         return $this->isDeleted;
     }
@@ -143,8 +147,5 @@ class Project
     {
         $this->isDeleted = $isDeleted;
     }
-
-
-
 
 }
