@@ -78,7 +78,8 @@
             "OrangeHRM\\Tests\\Core\\": "./plugins/orangehrmCorePlugin/test",
             "OrangeHRM\\Tests\\Leave\\": "./plugins/orangehrmLeavePlugin/test",
             "OrangeHRM\\Tests\\Pim\\": "./plugins/orangehrmPimPlugin/test",
-            "OrangeHRM\\Tests\\OAuth\\": "./plugins/orangehrmCoreOAuthPlugin/test"
+            "OrangeHRM\\Tests\\OAuth\\": "./plugins/orangehrmCoreOAuthPlugin/test",
+            "OrangeHRM\\Tests\\Time\\": "./plugins/orangehrmTimePlugin/test"
         }
     },
     "scripts": {
