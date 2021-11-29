@@ -122,8 +122,9 @@ export default {
     const {sortDefinition, sortField, sortOrder, onSort} = useSort({
       sortDefinition: defaultSortOrder,
     });
-    const serializedSort = computed(() => {
+    const serializedFilters = computed(() => {
       return {
+        deleted: false,
         sortField: sortField.value,
         sortOrder: sortOrder.value,
       };
@@ -142,7 +143,7 @@ export default {
       isLoading,
       execQuery,
     } = usePaginate(http, {
-      query: serializedSort,
+      query: serializedFilters,
     });
     onSort(execQuery);
     return {

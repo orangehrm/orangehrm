@@ -33,7 +33,7 @@ class CustomerDao extends BaseDao
      */
     public function getCustomerById(int $customerId): ?Customer
     {
-        $customer = $this->getRepository(Customer::class)->find($customerId);
+        $customer = $this->getRepository(Customer::class)->findOneBy(['id' => $customerId, 'deleted' => false]);
         if ($customer instanceof Customer) {
             return $customer;
         }
@@ -88,8 +88,12 @@ class CustomerDao extends BaseDao
             $q->andWhere('customer.name = :customerName');
             $q->setParameter('customerName', $customerSearchFilterParams->getName());
         }
-        $q->andWhere('customer.deleted = :deleted');
-        $q->setParameter('deleted', false);
+
+        if (!is_null($customerSearchFilterParams->getDeleted())) {
+            $q->andWhere('customer.deleted = :deleted');
+            $q->setParameter('deleted', $customerSearchFilterParams->getDeleted());
+        }
+
         return $this->getPaginator($q);
     }
 

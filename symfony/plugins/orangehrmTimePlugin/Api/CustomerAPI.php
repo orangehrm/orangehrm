@@ -46,6 +46,7 @@ class CustomerAPI extends EndPoint implements CrudEndpoint
     public const PARAM_RULE_DESCRIPTION_MAX_LENGTH = 255;
 
     public const FILTER_NAME = 'name';
+    public const FILTER_DELETED = 'deleted';
 
     /**
      * @var CustomerService|null
@@ -53,10 +54,9 @@ class CustomerAPI extends EndPoint implements CrudEndpoint
     protected ?CustomerService $customerService = null;
 
     /**
-     *
      * @return CustomerService
      */
-    public function getCustomerService(): CustomerService
+    protected function getCustomerService(): CustomerService
     {
         if (!$this->customerService instanceof CustomerService) {
             $this->customerService = new CustomerService();
@@ -74,6 +74,10 @@ class CustomerAPI extends EndPoint implements CrudEndpoint
         $customerSearchParamHolder->setName(
             $this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_QUERY, self::FILTER_NAME)
         );
+        $customerSearchParamHolder->setDeleted(
+            $this->getRequestParams()->getBooleanOrNull(RequestParams::PARAM_TYPE_QUERY, self::FILTER_DELETED)
+        );
+
         $customers = $this->getCustomerService()->searchCustomers($customerSearchParamHolder);
         $count = $this->getCustomerService()->getCustomersCount($customerSearchParamHolder);
 
@@ -90,6 +94,7 @@ class CustomerAPI extends EndPoint implements CrudEndpoint
     {
         return new ParamRuleCollection(
             new ParamRule(self::FILTER_NAME),
+            new ParamRule(self::FILTER_DELETED),
             ...$this->getSortingAndPaginationParamsRules(CustomerSearchFilterParams::ALLOWED_SORT_FIELDS)
         );
     }
@@ -100,14 +105,7 @@ class CustomerAPI extends EndPoint implements CrudEndpoint
     public function create(): EndpointResult
     {
         $customer = new Customer();
-        $customerName = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_NAME);
-        $customerDescription = $this->getRequestParams()->getString(
-            RequestParams::PARAM_TYPE_BODY,
-            self::PARAMETER_DESCRIPTION
-        );
-        $customer->setName($customerName);
-        $customer->setDescription($customerDescription);
-        $customer->setDeleted(false);
+        $this->setParamsToCustomer($customer);
         $this->getCustomerService()
             ->getCustomerDao()
             ->saveCustomer($customer);
@@ -121,17 +119,7 @@ class CustomerAPI extends EndPoint implements CrudEndpoint
     public function getValidationRuleForCreate(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(
-                self::PARAMETER_NAME,
-                new Rule(Rules::STRING_TYPE),
-                new Rule(Rules::REQUIRED),
-                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_NAME_MAX_LENGTH])
-            ),
-            new ParamRule(
-                self::PARAMETER_DESCRIPTION,
-                new Rule(Rules::STRING_TYPE),
-                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_DESCRIPTION_MAX_LENGTH])
-            )
+            ...$this->getCommonBodyValidationRules(),
         );
     }
 
@@ -198,13 +186,7 @@ class CustomerAPI extends EndPoint implements CrudEndpoint
         );
         $customer = $this->getCustomerService()->getCustomer($customerId);
         $this->throwRecordNotFoundExceptionIfNotExist($customer, Customer::class);
-        $customerName = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_NAME);
-        $customerDescription = $this->getRequestParams()->getString(
-            RequestParams::PARAM_TYPE_BODY,
-            self::PARAMETER_DESCRIPTION
-        );
-        $customer->setName($customerName);
-        $customer->setDescription($customerDescription);
+        $this->setParamsToCustomer($customer);
         $this->getCustomerService()
             ->getCustomerDao()
             ->saveCustomer($customer);
@@ -222,17 +204,46 @@ class CustomerAPI extends EndPoint implements CrudEndpoint
                 CommonParams::PARAMETER_ID,
                 new Rule(Rules::POSITIVE)
             ),
-            new ParamRule(
-                self::PARAMETER_NAME,
-                new Rule(Rules::STRING_TYPE),
-                new Rule(Rules::REQUIRED),
-                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_NAME_MAX_LENGTH])
-            ),
-            new ParamRule(
-                self::PARAMETER_DESCRIPTION,
-                new Rule(Rules::STRING_TYPE),
-                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_DESCRIPTION_MAX_LENGTH])
-            )
+            ...$this->getCommonBodyValidationRules(),
         );
+    }
+
+    /**
+     * @return ParamRule[]
+     */
+    protected function getCommonBodyValidationRules(): array
+    {
+        return [
+            $this->getValidationDecorator()->requiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_NAME,
+                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_NAME_MAX_LENGTH])
+                )
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_DESCRIPTION,
+                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_DESCRIPTION_MAX_LENGTH])
+                ),
+                true
+            ),
+        ];
+    }
+
+    /**
+     * @param Customer $customer
+     */
+    private function setParamsToCustomer(Customer $customer): void
+    {
+        $customerName = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_NAME);
+        $customerDescription = $this->getRequestParams()->getString(
+            RequestParams::PARAM_TYPE_BODY,
+            self::PARAMETER_DESCRIPTION
+        );
+        $customer->setName($customerName);
+        $customer->setDescription($customerDescription);
+        $customer->setDeleted(false);
     }
 }

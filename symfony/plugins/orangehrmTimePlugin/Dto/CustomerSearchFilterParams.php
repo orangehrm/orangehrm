@@ -31,6 +31,11 @@ class CustomerSearchFilterParams extends FilterParams
      */
     protected ?string $name = null;
 
+    /**
+     * @var bool|null
+     */
+    protected ?bool $deleted = null;
+
     public function __construct()
     {
         $this->setSortField('customer.name');
@@ -50,5 +55,21 @@ class CustomerSearchFilterParams extends FilterParams
     public function setName(?string $name): void
     {
         $this->name = $name;
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function getDeleted(): ?bool
+    {
+        return $this->deleted;
+    }
+
+    /**
+     * @param bool|null $deleted
+     */
+    public function setDeleted(?bool $deleted): void
+    {
+        $this->deleted = $deleted;
     }
 }
