@@ -35,10 +35,12 @@ use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Entity\Customer;
 use OrangeHRM\Time\Api\Model\CustomerModel;
 use OrangeHRM\Time\Dto\CustomerSearchFilterParams;
-use OrangeHRM\Time\Service\CustomerService;
+use OrangeHRM\Time\Traits\Service\CustomerServiceTrait;
 
-class CustomerAPI extends EndPoint implements CrudEndpoint
+class CustomerAPI extends Endpoint implements CrudEndpoint
 {
+    use CustomerServiceTrait;
+
     public const PARAMETER_NAME = 'name';
     public const PARAMETER_DESCRIPTION = 'description';
     public const PARAMETER_DELETED = 'deleted';
@@ -46,23 +48,6 @@ class CustomerAPI extends EndPoint implements CrudEndpoint
     public const PARAM_RULE_DESCRIPTION_MAX_LENGTH = 255;
 
     public const FILTER_NAME = 'name';
-    public const FILTER_DELETED = 'deleted';
-
-    /**
-     * @var CustomerService|null
-     */
-    protected ?CustomerService $customerService = null;
-
-    /**
-     * @return CustomerService
-     */
-    public function getCustomerService(): CustomerService
-    {
-        if (!$this->customerService instanceof CustomerService) {
-            $this->customerService = new CustomerService();
-        }
-        return $this->customerService;
-    }
 
     /**
      * @inheritDoc
@@ -74,10 +59,6 @@ class CustomerAPI extends EndPoint implements CrudEndpoint
         $customerSearchParamHolder->setName(
             $this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_QUERY, self::FILTER_NAME)
         );
-        $customerSearchParamHolder->setDeleted(
-            $this->getRequestParams()->getBooleanOrNull(RequestParams::PARAM_TYPE_QUERY, self::FILTER_DELETED)
-        );
-
         $customers = $this->getCustomerService()->searchCustomers($customerSearchParamHolder);
         $count = $this->getCustomerService()->getCustomersCount($customerSearchParamHolder);
 
@@ -94,7 +75,6 @@ class CustomerAPI extends EndPoint implements CrudEndpoint
     {
         return new ParamRuleCollection(
             new ParamRule(self::FILTER_NAME),
-            new ParamRule(self::FILTER_DELETED),
             ...$this->getSortingAndPaginationParamsRules(CustomerSearchFilterParams::ALLOWED_SORT_FIELDS)
         );
     }

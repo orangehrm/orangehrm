@@ -65,6 +65,7 @@ import {
   required,
   shouldNotExceedCharLength,
 } from '@ohrm/core/util/validation/rules';
+import promiseDebounce from '@ohrm/oxd/utils/promiseDebounce';
 
 const customerModel = {
   id: '',
@@ -74,7 +75,7 @@ const customerModel = {
 export default {
   props: {
     customerId: {
-      type: Number,
+      type: String,
       required: true,
     },
   },
@@ -92,7 +93,11 @@ export default {
       isLoading: false,
       customer: {...customerModel},
       rules: {
-        name: [required, shouldNotExceedCharLength(50)],
+        name: [
+          required,
+          shouldNotExceedCharLength(50),
+          promiseDebounce(this.validateCustomerName, 500),
+        ],
         description: [shouldNotExceedCharLength(250)],
       },
     };
@@ -115,6 +120,29 @@ export default {
     onCancel() {
       navigate('/time/viewCustomers');
     },
+    validateCustomerName(customer) {
+      return new Promise(resolve => {
+        if (customer) {
+          this.http
+            .request({
+              method: 'GET',
+              url: `api/v2/time/validation/customer-name`,
+              params: {
+                customerName: this.customer.name.trim(),
+                customerId: this.customerId,
+              },
+            })
+            .then(response => {
+              const {data} = response.data;
+              return data.valid === true
+                ? resolve(true)
+                : resolve('Already exist');
+            });
+        } else {
+          resolve(true);
+        }
+      });
+    },
   },
   created() {
     this.isLoading = true;
@@ -126,18 +154,6 @@ export default {
         this.customer.name = data.name;
         this.customer.description = data.description;
         return this.http.getAll();
-      })
-      .then(response => {
-        const {data} = response.data;
-        this.rules.name.push(v => {
-          const index = data.findIndex(item => item.name == v);
-          if (index > -1) {
-            const {id} = data[index];
-            return id != this.customer.id ? 'Already exists' : true;
-          } else {
-            return true;
-          }
-        });
       })
       .finally(() => {
         this.isLoading = false;

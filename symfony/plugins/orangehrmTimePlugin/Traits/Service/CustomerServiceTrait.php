@@ -17,38 +17,21 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Time\Dto;
+namespace OrangeHRM\Time\Traits\Service;
 
-use OrangeHRM\Core\Dto\FilterParams;
+use OrangeHRM\Core\Traits\ServiceContainerTrait;
+use OrangeHRM\Framework\Services;
+use OrangeHRM\Time\Service\CustomerService;
 
-class CustomerSearchFilterParams extends FilterParams
+trait CustomerServiceTrait
 {
-
-    public const ALLOWED_SORT_FIELDS = ['customer.name'];
-
-    /**
-     * @var string|null
-     */
-    protected ?string $name = null;
-
-    public function __construct()
-    {
-        $this->setSortField('customer.name');
-    }
+    use ServiceContainerTrait;
 
     /**
-     * @return string|null
+     * @return CustomerService
      */
-    public function getName(): ?string
+    public function getCustomerService(): CustomerService
     {
-        return $this->name;
-    }
-
-    /**
-     * @param string|null $name
-     */
-    public function setName(?string $name): void
-    {
-        $this->name = $name;
+        return $this->getContainer()->get(Services::CUSTOMER_SERVICE);
     }
 }

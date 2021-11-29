@@ -124,7 +124,6 @@ export default {
     });
     const serializedFilters = computed(() => {
       return {
-        deleted: false,
         sortField: sortField.value,
         sortOrder: sortOrder.value,
       };

@@ -12,6 +12,14 @@ apiv2_time_customers:
   defaults:
     _api: OrangeHRM\Time\Api\CustomerAPI
 
+apiv2_time_validate_customer_name:
+  path: /api/v2/time/validation/customer-name
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _key: customerName
+    _api: OrangeHRM\Time\Api\ValidationCustomerName
+
 ##########################
 #        Screens
 ##########################

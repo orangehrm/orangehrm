@@ -27,7 +27,7 @@ use OrangeHRM\Time\Dto\CustomerSearchFilterParams;
 class CustomerDao extends BaseDao
 {
     /**
-     * Get System Customer for given User Id
+     * Get Customer for given customer Id (Active only)
      * @param int $customerId
      * @return Customer|null
      */
@@ -89,10 +89,8 @@ class CustomerDao extends BaseDao
             $q->setParameter('customerName', $customerSearchFilterParams->getName());
         }
 
-        if (!is_null($customerSearchFilterParams->getDeleted())) {
-            $q->andWhere('customer.deleted = :deleted');
-            $q->setParameter('deleted', $customerSearchFilterParams->getDeleted());
-        }
+        $q->andWhere('customer.deleted = :deleted');
+        $q->setParameter('deleted', false);
 
         return $this->getPaginator($q);
     }
@@ -106,5 +104,37 @@ class CustomerDao extends BaseDao
     {
         $paginator = $this->getSearchCustomerPaginator($customerSearchFilterParams);
         return $paginator->count();
+    }
+
+    /**
+     **this function for validating the customer name availability. ( false -> customer name already exist, true - customer name is not exist )
+     * @param string $customerName
+     * @param int|null $customerId
+     * @return bool
+     */
+    public function isCustomerNameTaken(string $customerName, ?int $customerId = null): bool
+    {
+        $q = $this->createQueryBuilder(Customer::class, 'customer');
+        $q->andWhere('customer.name = :customerName');
+        $q->setParameter('customerName', $customerName);
+        if (!is_null($customerId)){
+            $q->andWhere('customer.id != :customerId'); // we need to skip the current customer on update, otherwise count always return 1
+            $q->setParameter('customerId', $customerId);
+        }
+        return $this->getPaginator($q)->count() === 0;
+    }
+
+    /**
+     * Get Customer for given customer Id (Active/Deleted)
+     * @param int $customerId
+     * @return Customer|null
+     */
+    public function getCustomer(int $customerId): ?Customer
+    {
+        $customer = $this->getRepository(Customer::class)->find($customerId);
+        if ($customer instanceof Customer) {
+            return $customer;
+        }
+        return null;
     }
 }

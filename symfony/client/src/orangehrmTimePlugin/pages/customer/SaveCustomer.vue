@@ -65,6 +65,7 @@ import {
   required,
   shouldNotExceedCharLength,
 } from '@ohrm/core/util/validation/rules';
+import promiseDebounce from '@ohrm/oxd/utils/promiseDebounce';
 
 const customerModel = {
   id: '',
@@ -78,7 +79,11 @@ export default {
       isLoading: false,
       customer: {...customerModel},
       rules: {
-        name: [required, shouldNotExceedCharLength(50)],
+        name: [
+          required,
+          shouldNotExceedCharLength(50),
+          promiseDebounce(this.validateCustomerName, 500),
+        ],
         description: [shouldNotExceedCharLength(250)],
       },
     };
@@ -110,21 +115,28 @@ export default {
     onCancel() {
       navigate('/time/viewCustomers');
     },
-  },
-  created() {
-    this.isLoading = true;
-    this.http
-      .getAll()
-      .then(response => {
-        const {data} = response.data;
-        this.rules.name.push(v => {
-          const index = data.findIndex(item => item.name == v);
-          return index === -1 || 'Already exists';
-        });
-      })
-      .finally(() => {
-        this.isLoading = false;
+    validateCustomerName(customer) {
+      return new Promise(resolve => {
+        if (customer) {
+          this.http
+            .request({
+              method: 'GET',
+              url: `api/v2/time/validation/customer-name`,
+              params: {
+                customerName: this.customer.name.trim(),
+              },
+            })
+            .then(response => {
+              const {data} = response.data;
+              return data.valid === true
+                ? resolve(true)
+                : resolve('Already exist');
+            });
+        } else {
+          resolve(true);
+        }
       });
+    },
   },
 };
 </script>

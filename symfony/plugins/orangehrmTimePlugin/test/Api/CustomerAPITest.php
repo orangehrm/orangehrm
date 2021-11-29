@@ -30,12 +30,6 @@ use OrangeHRM\Time\Service\CustomerService;
 
 class CustomerAPITest extends EndpointTestCase
 {
-    public function testGetCustomerService(): void
-    {
-        $api = new CustomerAPI($this->getRequest());
-        $this->assertTrue($api->getCustomerService() instanceof CustomerService);
-    }
-
     public function testCreate(): void
     {
         $customerDao = $this->getMockBuilder(CustomerDao::class)
