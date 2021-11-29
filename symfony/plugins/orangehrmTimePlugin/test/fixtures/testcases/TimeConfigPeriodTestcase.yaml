@@ -3,8 +3,6 @@ GetOne:
     userId: 1
     services:
       core.config_service: \OrangeHRM\Core\Service\ConfigService
-    attributes:
-      id: 1
     body: [ ]
     query: [ ]
     data:
@@ -16,10 +14,8 @@ Update:
     userId: 1
     services:
       core.config_service: \OrangeHRM\Core\Service\ConfigService
-    attributes:
-      id: 1
     body:
-      startDay: '2'
+      startDay: 2
     query: [ ]
     data:
       startDay: '2'
