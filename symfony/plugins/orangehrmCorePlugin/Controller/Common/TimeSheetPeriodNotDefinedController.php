@@ -1,3 +1,4 @@
+<?php
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -16,16 +17,20 @@
  * Boston, MA  02110-1301, USA
  */
 
-import NoRecordsFound from './NoRecordsFound.vue';
-import BadRequest from './BadRequest.vue';
-import ModuleUnderDevelopment from './ModuleUnderDevelopment.vue';
-import Disabled from './Disabled.vue';
-import TimeSheetPeriodNotDefined from './TimeSheetPeriodNotDefined.vue';
+namespace OrangeHRM\Core\Controller\Common;
 
-export default {
-  'bad-request': BadRequest,
-  'no-records-found': NoRecordsFound,
-  'module-under-development': ModuleUnderDevelopment,
-  'disabled-module': Disabled,
-  'time-sheet-period-not-defined': TimeSheetPeriodNotDefined,
-};
+use OrangeHRM\Core\Controller\AbstractVueController;
+use OrangeHRM\Core\Vue\Component;
+use OrangeHRM\Framework\Http\Request;
+
+class TimeSheetPeriodNotDefinedController extends AbstractVueController
+{
+    /**
+     * @inheritDoc
+     */
+    public function preRender(Request $request): void
+    {
+        $component = new Component('time-sheet-period-not-defined');
+        $this->setComponent($component);
+    }
+}

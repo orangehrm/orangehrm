@@ -1,3 +1,4 @@
+<!--
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -15,17 +16,22 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
+ -->
 
-import NoRecordsFound from './NoRecordsFound.vue';
-import BadRequest from './BadRequest.vue';
-import ModuleUnderDevelopment from './ModuleUnderDevelopment.vue';
-import Disabled from './Disabled.vue';
-import TimeSheetPeriodNotDefined from './TimeSheetPeriodNotDefined.vue';
+<template>
+  <oxd-alert
+    :show="true"
+    type="warn"
+    message="Timesheet Period Start Day not being defined. Please Contact the HR Administrator"
+  ></oxd-alert>
+</template>
+
+<script>
+import Alert from '@ohrm/oxd/core/components/Alert/Alert';
 
 export default {
-  'bad-request': BadRequest,
-  'no-records-found': NoRecordsFound,
-  'module-under-development': ModuleUnderDevelopment,
-  'disabled-module': Disabled,
-  'time-sheet-period-not-defined': TimeSheetPeriodNotDefined,
+  components: {
+    'oxd-alert': Alert,
+  },
 };
+</script>

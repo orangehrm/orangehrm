@@ -54,6 +54,7 @@
 import {APIService} from '@ohrm/core/util/services/api.service';
 import {enGB} from 'date-fns/locale';
 import {required} from '@/core/util/validation/rules';
+import {navigate} from '@/core/util/helper/navigation';
 
 const timeSheetPeriodModel = {
   startDay: null,
@@ -92,7 +93,7 @@ export default {
           return this.$toast.saveSuccess();
         })
         .then(() => {
-          this.isLoading = false;
+          navigate('/time/viewEmployeeTimesheet');
         });
     },
     updateTimeSheetPeriodModel(day) {
