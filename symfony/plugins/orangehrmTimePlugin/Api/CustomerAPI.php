@@ -56,7 +56,7 @@ class CustomerAPI extends EndPoint implements CrudEndpoint
     /**
      * @return CustomerService
      */
-    protected function getCustomerService(): CustomerService
+    public function getCustomerService(): CustomerService
     {
         if (!$this->customerService instanceof CustomerService) {
             $this->customerService = new CustomerService();
