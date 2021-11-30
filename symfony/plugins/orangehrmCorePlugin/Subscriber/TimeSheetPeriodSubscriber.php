@@ -52,12 +52,18 @@ class TimeSheetPeriodSubscriber extends AbstractEventSubscriber
     {
         if ($event->isMasterRequest()) {
             if ($this->getTextHelper()->strStartsWith($event->getRequest()->getPathInfo(), '/' . 'time')) {
+                /**if time sheet period start day is not defined
+                 * Admin user -> will navigate to configuration page of defining the start day
+                 * normal user -> warning page
+                 */
                 $status = $this->getConfigService()->isTimesheetPeriodDefined();
                 if (!$status) {
                     $employeeRole = $this->getUserRoleManager()->getUser()->getUserRole()->getName();
                     if ($employeeRole === 'Admin') {
+                        // Admin user -> will navigate to configuration page of defining the start day
                         throw new RequestForwardableException(TimeSheetPeriodConfigController::class . '::handle');
                     } else {
+                        // normal user -> warning page
                         throw new RequestForwardableException(TimeSheetPeriodNotDefinedController::class . '::handle');
                     }
                 }

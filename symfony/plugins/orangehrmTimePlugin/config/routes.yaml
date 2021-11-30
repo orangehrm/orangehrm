@@ -11,7 +11,7 @@ apiv2_time_time_sheet_period_config:
 ##########################
 
 view_time_sheet_config:
-  path: /time/defineTimeSheetPeriod
+  path: /time/viewTimeModule
   controller: OrangeHRM\Time\Controller\TimeSheetPeriodConfigController::handle
   methods: [ GET ]
 
