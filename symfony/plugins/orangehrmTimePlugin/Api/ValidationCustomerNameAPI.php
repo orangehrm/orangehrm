@@ -32,7 +32,7 @@ use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Entity\Customer;
 use OrangeHRM\Time\Traits\Service\CustomerServiceTrait;
 
-class ValidationCustomerName extends Endpoint implements ResourceEndpoint
+class ValidationCustomerNameAPI extends Endpoint implements ResourceEndpoint
 {
     use CustomerServiceTrait;
 
