@@ -18,7 +18,7 @@ apiv2_time_validate_customer_name:
   methods: [ GET ]
   defaults:
     _key: customerName
-    _api: OrangeHRM\Time\Api\ValidationCustomerName
+    _api: OrangeHRM\Time\Api\ValidationCustomerNameAPI
 
 ##########################
 #        Screens

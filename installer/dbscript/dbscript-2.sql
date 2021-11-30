@@ -4241,7 +4241,7 @@ INSERT INTO `ohrm_registration_event_queue` (`event_type`,`published`,`event_tim
 -- ------------------------------
 
 INSERT INTO ohrm_data_group (`name`, `description`, `can_read`, `can_create`, `can_update`, `can_delete`)
-VALUES ('apiv2_time_customers', 'API-V2 Customer - Customers', 1, 1, 1, 1),
+VALUES ('apiv2_time_customers', 'API-v2-Time - Customers', 1, 1, 1, 1),
        ('apiv2_time_validation_customer_name', 'API-v2-Time - Customer Name Validation', 1, 0, 0, 0);
 
 SET @time_module_id := (SELECT `id` FROM ohrm_module WHERE name = 'time' LIMIT 1);
@@ -4251,7 +4251,7 @@ SET @apiv2_time_validation_customer_name_data_group_id := (SELECT `id` FROM ohrm
 
 INSERT INTO ohrm_api_permission (`api_name`, `module_id`, `data_group_id`)
 VALUES ('OrangeHRM\\Time\\Api\\CustomerAPI', @time_module_id, @apiv2_time_customers_data_group_id),
-       ('OrangeHRM\\Time\\Api\\ValidationCustomerName', @time_module_id, @apiv2_time_validation_customer_name_data_group_id);
+       ('OrangeHRM\\Time\\Api\\ValidationCustomerNameAPI', @time_module_id, @apiv2_time_validation_customer_name_data_group_id);
 
 INSERT INTO ohrm_user_role_data_group (`can_read`, `can_create`, `can_update`, `can_delete`, `self`, `data_group_id`,`user_role_id`)
 VALUES (1, 1, 1, 1, 1, @apiv2_time_customers_data_group_id, @admin_role_id),

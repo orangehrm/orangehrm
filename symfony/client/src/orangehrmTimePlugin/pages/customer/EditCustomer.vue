@@ -153,7 +153,6 @@ export default {
         this.customer.id = data.id;
         this.customer.name = data.name;
         this.customer.description = data.description;
-        return this.http.getAll();
       })
       .finally(() => {
         this.isLoading = false;
