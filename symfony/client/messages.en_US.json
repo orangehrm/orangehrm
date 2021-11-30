@@ -650,6 +650,11 @@
           "source": "First Day of the Week",
           "target": "First Day of the Week",
           "description": ""
+        },
+        "timesheet_period_not_defined": {
+          "source": "Timesheet Period Start Day has not being defined. Please Contact the HR Administrator",
+          "target": "Timesheet Period Start Day has not being defined. Please Contact the HR Administrator",
+          "description": ""
         }
       }
     }

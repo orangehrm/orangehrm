@@ -22,7 +22,7 @@
   <oxd-alert
     :show="true"
     type="warn"
-    message="Timesheet Period Start Day not being defined. Please Contact the HR Administrator"
+    :message="$t('time.timesheet_period_not_defined')"
   ></oxd-alert>
 </template>
 
