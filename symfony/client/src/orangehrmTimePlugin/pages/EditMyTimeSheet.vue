@@ -21,11 +21,10 @@
 <template>
   <div class="orangehrm-background-container">
     <timesheet
+      :editable="true"
       :loading="isLoading"
-      :records="timesheet.data"
       :days="timesheet.meta.days"
-      :totals="timesheet.meta.totals"
-      :subtotal="timesheet.meta.subtotal"
+      v-model:records="timesheet.data"
     >
       <template v-slot:header-title>
         <oxd-text tag="h6" class="orangehrm-main-title">
@@ -33,43 +32,39 @@
         </oxd-text>
       </template>
       <template v-slot:header-options>
-        <timesheet-period></timesheet-period>
-        <oxd-button
-          iconName="plus"
-          displayType="ghost"
-          :label="$t('time.add_timesheet')"
-          @click="onClickAddTimesheet"
-        />
+        <oxd-text tag="p" class="orangehrm-timeperiod-title">
+          {{ $t('time.timesheet_period') }}
+        </oxd-text>
+        <oxd-text tag="h6" class="orangehrm-main-title">
+          2021-11-22 - 2021-11-28
+        </oxd-text>
       </template>
+
       <template v-slot:footer-title>
-        <oxd-text type="subtitle-2">
-          {{ $t('general.status') }}: Not Submitted
+        <oxd-text tag="p" class="orangehrm-form-hint">
+          * {{ $t('time.deleted_project_activities_are_not_editable') }}
         </oxd-text>
       </template>
       <template v-slot:footer-options>
-        <oxd-button displayType="ghost" :label="$t('general.edit')" />
+        <oxd-button displayType="ghost" :label="$t('general.cancel')" />
+        <oxd-button
+          displayType="ghost"
+          @click="onClickReset"
+          :label="$t('general.reset')"
+        />
         <oxd-button
           type="submit"
           displayType="secondary"
-          :label="$t('general.submit')"
+          :label="$t('general.save')"
         />
       </template>
     </timesheet>
-    <br />
-    <timesheet-actions></timesheet-actions>
-    <add-timesheet-modal
-      v-if="showSaveModal"
-      @close="onSaveModalClose"
-    ></add-timesheet-modal>
   </div>
 </template>
 
 <script>
 import {APIService} from '@/core/util/services/api.service';
 import Timesheet from '@/orangehrmTimePlugin/components/Timesheet.vue';
-import TimesheetPeriod from '@/orangehrmTimePlugin/components/TimesheetPeriod.vue';
-import TimesheetActions from '@/orangehrmTimePlugin/components/TimesheetActions.vue';
-import AddTimesheetModal from '@/orangehrmTimePlugin/components/AddTimesheetModal.vue';
 
 const myTimesheetModal = {
   data: [],
@@ -79,9 +74,6 @@ const myTimesheetModal = {
 export default {
   components: {
     timesheet: Timesheet,
-    'timesheet-period': TimesheetPeriod,
-    'timesheet-actions': TimesheetActions,
-    'add-timesheet-modal': AddTimesheetModal,
   },
 
   setup() {
@@ -98,16 +90,12 @@ export default {
     return {
       isLoading: false,
       timesheet: {...myTimesheetModal},
-      showSaveModal: false,
     };
   },
 
   methods: {
-    onClickAddTimesheet() {
-      this.showSaveModal = true;
-    },
-    onSaveModalClose() {
-      this.showSaveModal = false;
+    onClickReset() {
+      this.timesheet = {...myTimesheetModal};
     },
   },
 
@@ -118,6 +106,8 @@ export default {
       .then(response => {
         const {data, meta} = response.data;
         this.timesheet = {data, meta};
+        myTimesheetModal.data = data;
+        myTimesheetModal.meta = meta;
       })
       .finally(() => {
         this.isLoading = false;
@@ -125,3 +115,17 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.orangehrm-timeperiod-title {
+  font-size: 12px;
+  margin-right: 10px;
+}
+.orangehrm-form-hint {
+  margin-right: auto;
+  font-weight: 600;
+  font-size: 0.75rem;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+</style>

@@ -300,6 +300,11 @@
           "source": "Total",
           "target": "Total",
           "description": "Total Deductions, Total Payable"
+        },
+        "comment": {
+          "source": "Comment",
+          "target": "Comment",
+          "description": "You may enter any important note regarding some information."
         }
       }
     },
@@ -730,6 +735,31 @@
           "source": "Activity",
           "target": "Activity",
           "description": ""
+        },
+        "add_row": {
+          "source": "Add Row",
+          "target": "Add Row",
+          "description": "You may also add a row by clicking “Add Row” to enter another time sheet record for another project activity."
+        },
+        "timesheet_period": {
+          "source": "Timesheet Period",
+          "target": "Timesheet Period",
+          "description": "When user select the first day of the week from the drop down menu and the system will automatically calculate a one-week timesheet period (to find Time sheet End Date ) from the date entered (Time sheet Start Date)"
+        },
+        "actions_performed_on_the_timesheet": {
+          "source": "Actions Performed on the Timesheet",
+          "target": "Actions Performed on the Timesheet",
+          "description": "Tasks performed relevant to time sheets."
+        },
+        "select_a_day_to_create_timesheet": {
+          "source": "Select a Day to Create Timesheet",
+          "target": "Select a Day to Create Timesheet",
+          "description": "You may also add a timesheet for another week period by clicking “Add Timesheet” and another field, “Select a Day to Create Timesheet” will appear in which you can select the first day of the week from the drop down menu and the system will automatically calculate a one-week time period from the date entered"
+        },
+        "deleted_project_activities_are_not_editable": {
+          "source": "Deleted project activities are not editable",
+          "target": "Deleted project activities are not editable",
+          "description": "It is a validation message that appear when someone is trying to edit a project/activity that is already being deleted."
         }
       }
     }

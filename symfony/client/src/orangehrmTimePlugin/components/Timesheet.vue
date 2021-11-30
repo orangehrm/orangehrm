@@ -29,8 +29,11 @@
       </div>
     </div>
 
-    <div class="orangehrm-timesheet-body">
-      <table class="orangehrm-timesheet-table">
+    <div v-if="loading" class="orangehrm-timesheet-loader">
+      <oxd-loading-spinner />
+    </div>
+    <div v-else class="orangehrm-timesheet-body">
+      <table :class="tableClasses">
         <thead class="orangehrm-timesheet-table-header">
           <tr class="orangehrm-timesheet-table-header-row">
             <th class="orangehrm-timesheet-table-header-cell --freeze-left">
@@ -67,15 +70,31 @@
         <tbody class="orangehrm-timesheet-table-body">
           <!-- timesheet activities -->
           <tr
-            v-for="record in records"
+            v-for="(record, i) in records"
             :key="record.id"
             class="orangehrm-timesheet-table-body-row"
           >
-            <td class="orangehrm-timesheet-table-body-cell --freeze-left">
-              {{ record.project }}
+            <td
+              class="orangehrm-timesheet-table-body-cell --freeze-left"
+              :style="{
+                zIndex: records.length - i,
+              }"
+            >
+              <project-autocomplete
+                v-if="editable"
+                :modelValue="record.project"
+                @update:modelValue="updateProject($event, i)"
+              />
+              <span v-else>{{ record.project.label }}</span>
             </td>
             <td class="orangehrm-timesheet-table-body-cell">
-              {{ record.activity }}
+              <activity-dropdown
+                v-if="editable"
+                :project-id="record.project && record.project.id"
+                :modelValue="record.activity"
+                @update:modelValue="updateActivity($event, i)"
+              />
+              <span v-else>{{ record.activity.label }}</span>
             </td>
             <td
               v-for="day in record.days"
@@ -85,13 +104,32 @@
                 '--highlight-3': !editable && !day.workday,
               }"
             >
-              {{ day.trackedTime ?? '00:00' }}
+              <oxd-icon-button
+                name="chat-dots"
+                class="orangehrm-timesheet-icon-comment"
+                @click="viewComment(day)"
+              />
+              <oxd-input-field
+                v-if="editable"
+                :modelValue="day.trackedTime"
+                @update:modelValue="updateTime($event, i, day)"
+              />
+              <span v-else>
+                {{ day.trackedTime ?? '00:00' }}
+              </span>
             </td>
             <td
               v-if="totals"
               class="orangehrm-timesheet-table-body-cell --freeze-right --highlight"
             >
               {{ record.totalTrackedTime }}
+            </td>
+            <td v-if="editable" class="orangehrm-timesheet-table-body-cell">
+              <oxd-icon-button
+                name="trash"
+                class="orangehrm-timesheet-icon"
+                @click="deleteRow(i)"
+              />
             </td>
           </tr>
           <!-- timesheet activities -->
@@ -120,6 +158,23 @@
             </td>
           </tr>
           <!-- totals -->
+
+          <!-- add row -->
+          <tr v-if="editable" class="orangehrm-timesheet-table-body-row">
+            <td
+              class="orangehrm-timesheet-table-body-cell --freeze-left --flex"
+            >
+              <oxd-icon-button
+                name="plus"
+                class="orangehrm-timesheet-icon"
+                @click="addRow"
+              />
+              <oxd-text type="subtitle-2">
+                {{ $t('time.add_row') }}
+              </oxd-text>
+            </td>
+          </tr>
+          <!-- add row -->
         </tbody>
       </table>
     </div>
@@ -132,14 +187,35 @@
         <slot name="footer-options"></slot>
       </div>
     </div>
+
+    <timesheet-comment-modal
+      v-if="showCommentModal"
+      :date="commentModalState"
+      :editable="editable"
+      @close="onCommentModalClose"
+    ></timesheet-comment-modal>
   </oxd-form>
 </template>
 
 <script>
+import {nanoid} from 'nanoid';
 import {parseDate} from '@ohrm/core/util/helper/datefns';
+import Spinner from '@ohrm/oxd/core/components/Loader/Spinner.vue';
+import ActivityDropdown from '@/orangehrmTimePlugin/components/ActivityDropdown.vue';
+import ProjectAutocomplete from '@/orangehrmTimePlugin/components/ProjectAutocomplete.vue';
+import TimesheetCommentModal from '@/orangehrmTimePlugin/components/TimesheetCommentModal.vue';
 
 export default {
   name: 'timesheet',
+
+  emits: ['update:records'],
+
+  components: {
+    'oxd-loading-spinner': Spinner,
+    'activity-dropdown': ActivityDropdown,
+    'project-autocomplete': ProjectAutocomplete,
+    'timesheet-comment-modal': TimesheetCommentModal,
+  },
 
   props: {
     days: {
@@ -161,6 +237,91 @@ export default {
     editable: {
       type: Boolean,
       default: false,
+    },
+    loading: {
+      type: Boolean,
+      default: false,
+    },
+  },
+
+  data() {
+    return {
+      showCommentModal: false,
+      commentModalState: null,
+    };
+  },
+
+  methods: {
+    deleteRow(index) {
+      const updated = this.records.filter((_, i) => i !== index);
+      this.syncRecords(updated);
+      this.$nextTick().then(() => {
+        if (updated.length === 0) this.addRow();
+      });
+    },
+    addRow() {
+      const days = this.days.map(date => {
+        return {
+          id: nanoid(8),
+          date: date,
+          comment: null,
+          trackedTime: null,
+        };
+      });
+      const updated = [
+        ...this.records,
+        {
+          id: nanoid(8),
+          project: null,
+          activity: null,
+          days,
+        },
+      ];
+      this.syncRecords(updated);
+    },
+    updateTime($value, index, date) {
+      const updated = this.records.map((record, i) => {
+        if (i === index) {
+          for (let x = 0; x < record.days.length; x++) {
+            if (record.days[x] === date) {
+              record.days[x].trackedTime = $value;
+              break;
+            }
+          }
+        }
+        return record;
+      });
+      this.syncRecords(updated);
+    },
+    updateProject($value, index) {
+      const updated = this.records.map((record, i) => {
+        if (i === index) {
+          record.project = $value;
+        }
+        return record;
+      });
+      this.syncRecords(updated);
+    },
+    updateActivity($value, index) {
+      const updated = this.records.map((record, i) => {
+        if (i === index) {
+          record.activity = $value;
+        }
+        return record;
+      });
+      this.syncRecords(updated);
+    },
+    viewComment(day) {
+      this.commentModalState = day.date;
+      this.showCommentModal = true;
+    },
+    syncRecords(updated) {
+      if (!this.editable) return;
+      this.$emit('update:records', updated);
+    },
+    onCommentModalClose() {
+      this.showCommentModal = false;
+      this.commentModalState = null;
     },
   },
 
@@ -185,6 +346,12 @@ export default {
             };
           })
         : [];
+    },
+    tableClasses() {
+      return {
+        'orangehrm-timesheet-table': true,
+        '--editable': this.editable,
+      };
     },
   },
 };

@@ -20,10 +20,12 @@ import Customer from './pages/customer/Customer.vue';
 import SaveCustomer from './pages/customer/SaveCustomer.vue';
 import EditCustomer from './pages/customer/EditCustomer.vue';
 import MyTimesheet from './pages/MyTimesheet.vue';
+import EditMyTimeSheet from './pages/EditMyTimeSheet.vue';
 
 export default {
   'customer-list': Customer,
   'customer-save': SaveCustomer,
   'customer-edit': EditCustomer,
   'my-timesheet': MyTimesheet,
+  'edit-my-timesheet': EditMyTimeSheet,
 };

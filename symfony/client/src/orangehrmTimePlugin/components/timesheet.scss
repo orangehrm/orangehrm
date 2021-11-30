@@ -21,7 +21,6 @@ $card-padding-top-bottom: 0.6rem;
 $card-padding: $card-padding-top-bottom $card-padding-left-right;
 
 .orangehrm-timesheet {
-  overflow: hidden;
   &-header,
   &-footer {
     display: flex;
@@ -61,9 +60,18 @@ $card-padding: $card-padding-top-bottom $card-padding-left-right;
   &-footer {
     padding: $card-padding;
     border-top: $oxd-border $oxd-interface-gray-lighten-2-color;
+    &--options {
+      gap: 0.4rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
   }
   &-body {
     overflow-x: auto;
+    @include oxd-respond-to('md') {
+      overflow: unset;
+    }
   }
   &-table {
     width: 100%;
@@ -78,7 +86,7 @@ $card-padding: $card-padding-top-bottom $card-padding-left-right;
       .--freeze-right {
         position: sticky;
         background-color: $oxd-white-color;
-        z-index: 219;
+        z-index: 209;
         &::after {
           content: '';
           position: absolute;
@@ -106,7 +114,6 @@ $card-padding: $card-padding-top-bottom $card-padding-left-right;
         padding: 1rem $card-padding-left-right;
         font-weight: 700;
       }
-
       &-row {
         border-bottom: $oxd-border $oxd-interface-gray-lighten-2-color;
       }
@@ -117,6 +124,7 @@ $card-padding: $card-padding-top-bottom $card-padding-left-right;
     }
     &-body {
       &-cell {
+        position: relative;
         padding: 1rem $card-padding-left-right;
         &.--highlight {
           font-weight: 700;
@@ -130,6 +138,11 @@ $card-padding: $card-padding-top-bottom $card-padding-left-right;
         &.--highlight-3 {
           background-color: $oxd-background-pastel-white-color;
         }
+        &.--flex {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+        }
       }
       &-row {
         border-bottom: $oxd-border $oxd-interface-gray-lighten-2-color;
@@ -138,9 +151,40 @@ $card-padding: $card-padding-top-bottom $card-padding-left-right;
         }
       }
     }
+    &.--editable {
+      tr {
+        border: unset;
+      }
+      th,
+      td {
+        padding: 0.5rem 1rem;
+      }
+    }
+  }
+  &-icon {
+    &-comment {
+      top: -5px;
+      right: -5px;
+      position: absolute;
+    }
+  }
+  &-loader {
+    width: 100%;
+    min-height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: $oxd-white-color;
+    z-index: $oxd-loader-z-index;
   }
 }
 
+.oxd-input-group {
+  margin-bottom: 0;
+}
+::v-deep(.oxd-input-group__label-wrapper) {
+  display: none;
+}
 ::v-deep(.oxd-input) {
   min-width: 50px;
 }
