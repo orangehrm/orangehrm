@@ -5,7 +5,7 @@ apiv2_time_time_sheet_period_config:
   defaults:
     id: 0
     _api: OrangeHRM\Time\Api\TimeConfigPeriodAPI
-    
+
 apiv2_time_customer:
   path: /api/v2/time/customers/{id}
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
@@ -40,6 +40,7 @@ view_time_sheet_config:
 view_employee_time_sheet_list:
   path: /time/viewEmployeeTimesheet
   controller: OrangeHRM\Time\Controller\EmployeeTimeSheetController::handle
+
 view_customers:
   path: /time/viewCustomers
   controller: OrangeHRM\Time\Controller\CustomerController::handle
