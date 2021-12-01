@@ -62,6 +62,7 @@
       <directory>symfony/plugins/orangehrmTimePlugin/test/Service</directory>
       <directory>symfony/plugins/orangehrmTimePlugin/test/Dao</directory>
       <directory>symfony/plugins/orangehrmTimePlugin/test/Api</directory>
+      <directory>symfony/plugins/orangehrmTimePlugin/test/Entity</directory>
     </testsuite>
   </testsuites>
 </phpunit>

@@ -36,7 +36,7 @@ class Customer
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private int $customerId;
+    private int $id;
 
     /**
      * @var bool
@@ -62,24 +62,24 @@ class Customer
     /**
      * @var Project
      *
-     * @ORM\OneToMany (targetEntity="OrangeHRM\Entity\Project", mappedBy="customer")
+     * @ORM\OneToOne (targetEntity="OrangeHRM\Entity\Project", mappedBy="customer")
      */
     private Project $project;
 
     /**
      * @return int
      */
-    public function getCustomerId(): int
+    public function getId(): int
     {
-        return $this->customerId;
+        return $this->id;
     }
 
     /**
-     * @param int $customerId
+     * @param int $id
      */
-    public function setCustomerId(int $customerId): void
+    public function setId(int $id): void
     {
-        $this->customerId = $customerId;
+        $this->id = $id;
     }
 
     /**

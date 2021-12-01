@@ -40,7 +40,7 @@ class Project
 
     /**
      * @var Customer
-     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Customer", inversedBy="projects", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Customer", inversedBy="project", cascade={"persist", "remove"})
      * @ORM\JoinColumn(name="customer_id", referencedColumnName="customer_id",nullable=false)
      */
     private Customer $customer;
