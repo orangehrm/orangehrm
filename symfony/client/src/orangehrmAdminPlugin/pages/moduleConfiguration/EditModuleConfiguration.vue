@@ -126,6 +126,25 @@ export default {
       isLoading: false,
     };
   },
+  created() {
+    this.isLoading = true;
+    this.http
+      .getAll()
+      .then(response => {
+        const {data} = response.data;
+        this.modules.admin = data.admin;
+        this.modules.pim = data.pim;
+        this.modules.leave = data.leave;
+        this.modules.time = data.time;
+        this.modules.recruitment = data.recruitment;
+        this.modules.performance = data.performance;
+        this.modules.maintenance = data.maintenance;
+        this.modules.mobile = data.mobile;
+      })
+      .finally(() => {
+        this.isLoading = false;
+      });
+  },
   methods: {
     onSave() {
       this.isLoading = true;
@@ -154,25 +173,6 @@ export default {
           reloadPage();
         });
     },
-  },
-  created() {
-    this.isLoading = true;
-    this.http
-      .getAll()
-      .then(response => {
-        const {data} = response.data;
-        this.modules.admin = data.admin;
-        this.modules.pim = data.pim;
-        this.modules.leave = data.leave;
-        this.modules.time = data.time;
-        this.modules.recruitment = data.recruitment;
-        this.modules.performance = data.performance;
-        this.modules.maintenance = data.maintenance;
-        this.modules.mobile = data.mobile;
-      })
-      .finally(() => {
-        this.isLoading = false;
-      });
   },
 };
 </script>

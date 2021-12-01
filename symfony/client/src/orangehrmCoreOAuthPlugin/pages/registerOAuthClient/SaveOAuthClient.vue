@@ -32,24 +32,24 @@
           <oxd-grid :cols="2" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <oxd-input-field
-                label="ID"
                 v-model="oAuthClient.clientId"
+                label="ID"
                 :rules="rules.clientId"
                 required
               />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
-                label="Secret"
                 v-model="oAuthClient.clientSecret"
+                label="Secret"
                 :rules="rules.clientSecret"
                 required
               />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
-                label="Redirect URI"
                 v-model="oAuthClient.redirectUri"
+                label="Redirect URI"
                 :rules="rules.redirectUri"
               />
             </oxd-grid-item>
@@ -87,7 +87,7 @@
 
         <oxd-form-actions>
           <required-text />
-          <oxd-button displayType="ghost" label="Cancel" @click="onCancel" />
+          <oxd-button display-type="ghost" label="Cancel" @click="onCancel" />
           <submit-button />
         </oxd-form-actions>
       </oxd-form>
@@ -132,6 +132,22 @@ export default {
     };
   },
 
+  created() {
+    this.isLoading = true;
+    this.http
+      .getAll({limit: 0})
+      .then(response => {
+        const {data} = response.data;
+        this.rules.clientId.push(v => {
+          const index = data.findIndex(item => item.clientId == v);
+          return index === -1 || 'Already exists';
+        });
+      })
+      .finally(() => {
+        this.isLoading = false;
+      });
+  },
+
   methods: {
     onCancel() {
       navigate('/admin/registerOAuthClient');
@@ -149,22 +165,6 @@ export default {
           this.onCancel();
         });
     },
-  },
-
-  created() {
-    this.isLoading = true;
-    this.http
-      .getAll({limit: 0})
-      .then(response => {
-        const {data} = response.data;
-        this.rules.clientId.push(v => {
-          const index = data.findIndex(item => item.clientId == v);
-          return index === -1 || 'Already exists';
-        });
-      })
-      .finally(() => {
-        this.isLoading = false;
-      });
   },
 };
 </script>

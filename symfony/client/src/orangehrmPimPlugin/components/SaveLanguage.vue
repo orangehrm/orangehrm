@@ -27,10 +27,10 @@
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
           <oxd-grid-item>
             <oxd-input-field
+              :key="allowedLanguages"
+              v-model="language.languageId"
               type="select"
               label="Language"
-              v-model="language.languageId"
-              :key="allowedLanguages"
               :options="allowedLanguages"
               :rules="rules.languageId"
               :clear="false"
@@ -39,10 +39,10 @@
           </oxd-grid-item>
           <oxd-grid-item>
             <oxd-input-field
+              :key="allowedFluencies"
+              v-model="language.fluencyId"
               type="select"
               label="Fluency"
-              v-model="language.fluencyId"
-              :key="allowedFluencies"
               :options="allowedFluencies"
               :rules="rules.fluencyId"
               :clear="false"
@@ -51,9 +51,9 @@
           </oxd-grid-item>
           <oxd-grid-item>
             <oxd-input-field
+              v-model="language.competencyId"
               type="select"
               label="Competency"
-              v-model="language.competencyId"
               :options="competencies"
               :rules="rules.competencyId"
               :clear="false"
@@ -67,9 +67,9 @@
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
           <oxd-grid-item class="--span-column-2">
             <oxd-input-field
+              v-model="language.comment"
               type="textarea"
               label="Comments"
-              v-model="language.comment"
               :rules="rules.comment"
             />
           </oxd-grid-item>
@@ -80,7 +80,7 @@
         <required-text />
         <oxd-button
           type="button"
-          displayType="ghost"
+          display-type="ghost"
           label="Cancel"
           @click="onCancel"
         />
@@ -105,9 +105,7 @@ const languageModel = {
 };
 
 export default {
-  name: 'save-language',
-
-  emits: ['close'],
+  name: 'SaveLanguage',
 
   props: {
     http: {
@@ -128,6 +126,8 @@ export default {
     },
   },
 
+  emits: ['close'],
+
   data() {
     return {
       isLoading: false,
@@ -140,28 +140,6 @@ export default {
         comment: [shouldNotExceedCharLength(100)],
       },
     };
-  },
-
-  methods: {
-    onSave() {
-      this.isLoading = true;
-      this.http
-        .create({
-          languageId: this.language.languageId?.id,
-          fluencyId: this.language.fluencyId?.id,
-          competencyId: this.language.competencyId?.id,
-          comment: this.language.comment,
-        })
-        .then(() => {
-          return this.$toast.saveSuccess();
-        })
-        .then(() => {
-          this.onCancel();
-        });
-    },
-    onCancel() {
-      this.$emit('close', true);
-    },
   },
 
   computed: {
@@ -206,6 +184,28 @@ export default {
       .finally(() => {
         this.isLoading = false;
       });
+  },
+
+  methods: {
+    onSave() {
+      this.isLoading = true;
+      this.http
+        .create({
+          languageId: this.language.languageId?.id,
+          fluencyId: this.language.fluencyId?.id,
+          competencyId: this.language.competencyId?.id,
+          comment: this.language.comment,
+        })
+        .then(() => {
+          return this.$toast.saveSuccess();
+        })
+        .then(() => {
+          this.onCancel();
+        });
+    },
+    onCancel() {
+      this.$emit('close', true);
+    },
   },
 };
 </script>

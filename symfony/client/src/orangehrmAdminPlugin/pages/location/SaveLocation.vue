@@ -30,8 +30,8 @@
           <oxd-grid :cols="2" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <oxd-input-field
-                label="Name"
                 v-model="location.name"
+                label="Name"
                 :rules="rules.name"
                 required
                 :disabled="!hasCreatePermissions"
@@ -45,8 +45,8 @@
           <oxd-grid :cols="2" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <oxd-input-field
-                label="City"
                 v-model="location.city"
+                label="City"
                 :rules="rules.city"
                 :disabled="!hasCreatePermissions"
                 placeholder="Type here ..."
@@ -54,8 +54,8 @@
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
-                label="State/Province"
                 v-model="location.province"
+                label="State/Province"
                 :rules="rules.province"
                 :disabled="!hasCreatePermissions"
                 placeholder="Type here ..."
@@ -63,8 +63,8 @@
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
-                label="Zip/Postal Code"
                 v-model="location.zipCode"
+                label="Zip/Postal Code"
                 :rules="rules.zipCode"
                 :disabled="!hasCreatePermissions"
                 placeholder="Type here ..."
@@ -72,9 +72,9 @@
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
+                v-model="location.countryCode"
                 type="select"
                 label="Country"
-                v-model="location.countryCode"
                 :rules="rules.countryCode"
                 :clear="false"
                 :options="countries"
@@ -84,8 +84,8 @@
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
-                label="Phone"
                 v-model="location.phone"
+                label="Phone"
                 :rules="rules.phone"
                 :disabled="!hasCreatePermissions"
                 placeholder="Type here ..."
@@ -93,8 +93,8 @@
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
-                label="Fax"
                 v-model="location.fax"
+                label="Fax"
                 :rules="rules.fax"
                 :disabled="!hasCreatePermissions"
                 placeholder="Type here ..."
@@ -102,9 +102,9 @@
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
+                v-model="location.address"
                 type="textarea"
                 label="Address"
-                v-model="location.address"
                 :rules="rules.address"
                 :disabled="!hasCreatePermissions"
                 placeholder="Type here ..."
@@ -112,9 +112,9 @@
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
+                v-model="location.note"
                 type="textarea"
                 label="Note"
-                v-model="location.note"
                 :rules="rules.note"
                 :disabled="!hasCreatePermissions"
                 placeholder="Type here ..."
@@ -125,7 +125,7 @@
 
         <oxd-form-actions>
           <required-text />
-          <oxd-button displayType="ghost" label="Cancel" @click="onCancel" />
+          <oxd-button display-type="ghost" label="Cancel" @click="onCancel" />
           <submit-button v-if="hasCreatePermissions" />
         </oxd-form-actions>
       </oxd-form>
@@ -190,26 +190,6 @@ export default {
     };
   },
 
-  methods: {
-    onCancel() {
-      navigate('/admin/viewLocations');
-    },
-    onSave() {
-      this.isLoading = true;
-      this.http
-        .create({
-          ...this.location,
-          countryCode: this.location.countryCode.id,
-        })
-        .then(() => {
-          return this.$toast.saveSuccess();
-        })
-        .then(() => {
-          this.onCancel();
-        });
-    },
-  },
-
   computed: {
     hasCreatePermissions() {
       return this.$can.create(`locations`);
@@ -230,6 +210,26 @@ export default {
       .finally(() => {
         this.isLoading = false;
       });
+  },
+
+  methods: {
+    onCancel() {
+      navigate('/admin/viewLocations');
+    },
+    onSave() {
+      this.isLoading = true;
+      this.http
+        .create({
+          ...this.location,
+          countryCode: this.location.countryCode.id,
+        })
+        .then(() => {
+          return this.$toast.saveSuccess();
+        })
+        .then(() => {
+          this.onCancel();
+        });
+    },
   },
 };
 </script>

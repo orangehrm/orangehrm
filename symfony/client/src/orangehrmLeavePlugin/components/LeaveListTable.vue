@@ -32,26 +32,26 @@
         :selected="checkedItems.length"
         :total="total"
         :loading="isLoading"
-        :bulkActions="leaveBulkActions"
+        :bulk-actions="leaveBulkActions"
         @onActionClick="onLeaveActionBulk"
       >
       </leave-list-table-header>
       <div class="orangehrm-container">
         <oxd-card-table
+          v-model:selected="checkedItems"
           :headers="headers"
           :items="items?.data"
           :selectable="true"
           :clickable="false"
           :loading="isLoading"
-          v-model:selected="checkedItems"
-          rowDecorator="oxd-table-decorator-card"
+          row-decorator="oxd-table-decorator-card"
         />
       </div>
       <div class="orangehrm-bottom-container">
         <oxd-pagination
           v-if="showPaginator"
-          :length="pages"
           v-model:current="currentPage"
+          :length="pages"
         />
       </div>
     </div>
@@ -154,7 +154,7 @@ const defaultFilters = {
 };
 
 export default {
-  name: 'leave-list-table',
+  name: 'LeaveListTable',
 
   components: {
     'leave-list-table-header': LeaveListTableHeader,
@@ -174,50 +174,28 @@ export default {
     employee: {
       type: Object,
       required: false,
+      default: () => null,
     },
     leaveType: {
       type: Object,
       required: false,
+      default: () => null,
     },
     fromDate: {
       type: String,
       required: false,
+      default: null,
     },
     toDate: {
       type: String,
       required: false,
+      default: null,
     },
     leaveStatus: {
       type: Object,
       required: false,
+      default: () => null,
     },
-  },
-
-  data() {
-    return {
-      headers: [
-        {name: 'date', title: 'Date', style: {flex: 1}},
-        {name: 'employeeName', title: 'Employee Name', style: {flex: 1}},
-        {name: 'leaveType', title: 'Leave Type', style: {flex: 1}},
-        {name: 'leaveBalance', title: 'Leave Balance (Days)', style: {flex: 1}},
-        {name: 'days', title: 'Number of Days', style: {flex: 1}},
-        {name: 'status', title: 'Status', style: {flex: 1}},
-        {name: 'comment', title: 'Comments', style: {flex: '5%'}},
-        {
-          name: 'action',
-          slot: 'footer',
-          title: 'Actions',
-          cellType: 'oxd-table-cell-actions',
-          cellRenderer: this.cellRenderer,
-          style: {
-            flex: this.myLeaveList ? '10%' : '20%',
-          },
-        },
-      ],
-      showCommentModal: false,
-      commentModalState: null,
-      bulkActionModalState: null,
-    };
   },
 
   setup(props) {
@@ -340,6 +318,53 @@ export default {
       processLeaveRequestAction,
       processLeaveRequestBulkAction,
     };
+  },
+
+  data() {
+    return {
+      headers: [
+        {name: 'date', title: 'Date', style: {flex: 1}},
+        {name: 'employeeName', title: 'Employee Name', style: {flex: 1}},
+        {name: 'leaveType', title: 'Leave Type', style: {flex: 1}},
+        {name: 'leaveBalance', title: 'Leave Balance (Days)', style: {flex: 1}},
+        {name: 'days', title: 'Number of Days', style: {flex: 1}},
+        {name: 'status', title: 'Status', style: {flex: 1}},
+        {name: 'comment', title: 'Comments', style: {flex: '5%'}},
+        {
+          name: 'action',
+          slot: 'footer',
+          title: 'Actions',
+          cellType: 'oxd-table-cell-actions',
+          cellRenderer: this.cellRenderer,
+          style: {
+            flex: this.myLeaveList ? '10%' : '20%',
+          },
+        },
+      ],
+      showCommentModal: false,
+      commentModalState: null,
+      bulkActionModalState: null,
+    };
+  },
+
+  beforeMount() {
+    this.isLoading = true;
+    if (this.filters.statuses.length === 0) {
+      this.filters.statuses = this.myLeaveList
+        ? this.leaveStatuses
+        : this.leaveStatuses.filter(status => status.id === 1);
+    }
+    this.http
+      .request({method: 'GET', url: 'api/v2/leave/leave-periods'})
+      .then(response => {
+        const {data} = response.data;
+        this.filters.fromDate = this.filters.fromDate ?? data[0]?.startDate;
+        this.filters.toDate = this.filters.toDate ?? data[0]?.endDate;
+      })
+      .finally(() => {
+        this.isLoading = false;
+        Object.assign(defaultFilters, this.filters);
+      });
   },
 
   methods: {
@@ -469,26 +494,6 @@ export default {
       this.filters = {...defaultFilters};
       this.resetDataTable();
     },
-  },
-
-  beforeMount() {
-    this.isLoading = true;
-    if (this.filters.statuses.length === 0) {
-      this.filters.statuses = this.myLeaveList
-        ? this.leaveStatuses
-        : this.leaveStatuses.filter(status => status.id === 1);
-    }
-    this.http
-      .request({method: 'GET', url: 'api/v2/leave/leave-periods'})
-      .then(response => {
-        const {data} = response.data;
-        this.filters.fromDate = this.filters.fromDate ?? data[0]?.startDate;
-        this.filters.toDate = this.filters.toDate ?? data[0]?.endDate;
-      })
-      .finally(() => {
-        this.isLoading = false;
-        Object.assign(defaultFilters, this.filters);
-      });
   },
 };
 </script>

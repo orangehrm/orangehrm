@@ -30,8 +30,8 @@
           <oxd-grid :cols="2" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <oxd-input-field
-                label="Mail Sent As"
                 v-model="emailConfiguration.sentAs"
+                label="Mail Sent As"
                 :rules="rules.sentAs"
                 required
               />
@@ -40,21 +40,21 @@
               <oxd-input-group label="Sending Method">
                 <div class="send-method-div">
                   <oxd-input-field
-                    type="radio"
                     v-model="emailConfiguration.mailType"
-                    optionLabel="SECURE SMTP"
+                    type="radio"
+                    option-label="SECURE SMTP"
                     value="smtps"
                   />
                   <oxd-input-field
-                    type="radio"
                     v-model="emailConfiguration.mailType"
-                    optionLabel="SMTP"
+                    type="radio"
+                    option-label="SMTP"
                     value="smtp"
                   />
                   <oxd-input-field
-                    type="radio"
                     v-model="emailConfiguration.mailType"
-                    optionLabel="Sendmail"
+                    type="radio"
+                    option-label="Sendmail"
                     value="sendmail"
                   />
                 </div>
@@ -77,16 +77,16 @@
           <oxd-grid :cols="2" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <oxd-input-field
-                label="SMTP Host"
                 v-model="emailConfiguration.smtpHost"
+                label="SMTP Host"
                 :rules="rules.smtpHost"
                 required
               />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
-                label="SMTP Port"
                 v-model="emailConfiguration.smtpPort"
+                label="SMTP Port"
                 :rules="rules.smtpPort"
               />
             </oxd-grid-item>
@@ -100,15 +100,15 @@
                 :classes="{wrapper: '--status-grouped-field'}"
               >
                 <oxd-input-field
-                  type="radio"
                   v-model="emailConfiguration.smtpAuthType"
-                  optionLabel="Yes"
+                  type="radio"
+                  option-label="Yes"
                   value="login"
                 />
                 <oxd-input-field
-                  type="radio"
                   v-model="emailConfiguration.smtpAuthType"
-                  optionLabel="No"
+                  type="radio"
+                  option-label="No"
                   value="none"
                 />
               </oxd-input-group>
@@ -124,16 +124,16 @@
           <oxd-grid :cols="2" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <oxd-input-field
-                label="SMTP User"
                 v-model="emailConfiguration.smtpUsername"
+                label="SMTP User"
                 :rules="rules.smtpUsername"
                 required
               />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
-                label="SMTP Password"
                 v-model="emailConfiguration.smtpPassword"
+                label="SMTP Password"
                 :rules="rules.smtpPassword"
                 type="password"
                 :placeholder="passwordPlaceHolder"
@@ -180,8 +180,8 @@
           <oxd-grid :cols="2" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <oxd-input-field
-                label="Test Email Address"
                 v-model="emailConfiguration.testEmailAddress"
+                label="Test Email Address"
                 :rules="rules.testEmailAddress"
                 :disabled="!sendTestMailEditable"
                 required
@@ -194,7 +194,7 @@
 
         <oxd-form-actions>
           <required-text />
-          <oxd-button displayType="ghost" label="Reset" @click="onReset" />
+          <oxd-button display-type="ghost" label="Reset" @click="onReset" />
           <submit-button />
         </oxd-form-actions>
       </oxd-form>
@@ -212,6 +212,9 @@ import {
 } from '@ohrm/core/util/validation/rules';
 
 export default {
+  components: {
+    'oxd-switch-input': SwitchInput,
+  },
   props: {
     pathToSendmail: {
       type: String,
@@ -226,10 +229,6 @@ export default {
     return {
       http,
     };
-  },
-
-  components: {
-    'oxd-switch-input': SwitchInput,
   },
 
   data() {
@@ -273,6 +272,36 @@ export default {
         ],
       },
     };
+  },
+  created() {
+    this.isLoading = true;
+    this.http
+      .request({
+        method: 'GET',
+        url: 'api/v2/admin/email-configuration',
+      })
+      .then(response => {
+        const {data} = response.data;
+        this.emailConfiguration.mailType = data.mailType;
+        this.emailConfiguration.sentAs = data.sentAs;
+        this.emailConfiguration.smtpHost = data.smtpHost;
+        this.emailConfiguration.smtpPort = data.smtpPort;
+        this.emailConfiguration.smtpUsername = data.smtpUsername;
+        this.passwordPlaceHolder = data.smtpUsername ? '******' : '';
+        this.emailConfiguration.smtpAuthType = data.smtpAuthType;
+        this.emailConfiguration.testEmailAddress = data.testEmailAddress;
+        this.useTLSSecureConnection = data.smtpSecurityType === 'tls';
+        this.initialEmailConfiguration = {
+          ...this.emailConfiguration,
+          useTLSSecureConnection: this.useTLSSecureConnection,
+        };
+        if (!data.smtpUsername) {
+          this.rules.smtpPassword.push(required);
+        }
+      })
+      .finally(() => {
+        this.isLoading = false;
+      });
   },
 
   methods: {
@@ -322,36 +351,6 @@ export default {
       this.emailConfiguration = {...this.initialEmailConfiguration};
       this.useTLSSecureConnection = this.initialEmailConfiguration.useTLSSecureConnection;
     },
-  },
-  created() {
-    this.isLoading = true;
-    this.http
-      .request({
-        method: 'GET',
-        url: 'api/v2/admin/email-configuration',
-      })
-      .then(response => {
-        const {data} = response.data;
-        this.emailConfiguration.mailType = data.mailType;
-        this.emailConfiguration.sentAs = data.sentAs;
-        this.emailConfiguration.smtpHost = data.smtpHost;
-        this.emailConfiguration.smtpPort = data.smtpPort;
-        this.emailConfiguration.smtpUsername = data.smtpUsername;
-        this.passwordPlaceHolder = data.smtpUsername ? '******' : '';
-        this.emailConfiguration.smtpAuthType = data.smtpAuthType;
-        this.emailConfiguration.testEmailAddress = data.testEmailAddress;
-        this.useTLSSecureConnection = data.smtpSecurityType === 'tls';
-        this.initialEmailConfiguration = {
-          ...this.emailConfiguration,
-          useTLSSecureConnection: this.useTLSSecureConnection,
-        };
-        if (!data.smtpUsername) {
-          this.rules.smtpPassword.push(required);
-        }
-      })
-      .finally(() => {
-        this.isLoading = false;
-      });
   },
 };
 </script>

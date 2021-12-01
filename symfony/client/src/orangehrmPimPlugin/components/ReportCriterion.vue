@@ -42,10 +42,15 @@ import ReportCriterionRange from '@/orangehrmPimPlugin/components/ReportCriterio
 import ReportCriterionDateRange from '@/orangehrmPimPlugin/components/ReportCriterionDateRange';
 
 export default {
-  name: 'report-criterion',
-  inheritAttrs: false,
+  name: 'ReportCriterion',
 
-  emits: ['delete'],
+  components: {
+    'report-criterion-autocomplete': ReportCriterionAutocomplete,
+    'report-criterion-select': ReportCriterionSelect,
+    'report-criterion-range': ReportCriterionRange,
+    'report-criterion-date-range': ReportCriterionDateRange,
+  },
+  inheritAttrs: false,
 
   props: {
     criterion: {
@@ -54,12 +59,7 @@ export default {
     },
   },
 
-  components: {
-    'report-criterion-autocomplete': ReportCriterionAutocomplete,
-    'report-criterion-select': ReportCriterionSelect,
-    'report-criterion-range': ReportCriterionRange,
-    'report-criterion-date-range': ReportCriterionDateRange,
-  },
+  emits: ['delete'],
 
   setup(props, context) {
     const field = ref(null);

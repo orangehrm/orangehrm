@@ -34,8 +34,8 @@
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
-                label="Employee Id"
                 v-model="filters.employeeId"
+                label="Employee Id"
               />
             </oxd-grid-item>
             <oxd-grid-item>
@@ -43,9 +43,9 @@
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
+                v-model="filters.includeEmployees"
                 type="select"
                 label="Include"
-                v-model="filters.includeEmployees"
                 :clear="false"
                 :options="includeOpts"
                 :show-empty-selector="false"
@@ -53,8 +53,8 @@
             </oxd-grid-item>
             <oxd-grid-item>
               <employee-autocomplete
-                label="Supervisor Name"
                 v-model="filters.supervisor"
+                label="Supervisor Name"
               />
             </oxd-grid-item>
             <oxd-grid-item>
@@ -69,10 +69,10 @@
         <oxd-divider />
 
         <oxd-form-actions>
-          <oxd-button displayType="ghost" label="Reset" type="reset" />
+          <oxd-button display-type="ghost" label="Reset" type="reset" />
           <oxd-button
             class="orangehrm-left-space"
-            displayType="secondary"
+            display-type="secondary"
             label="Search"
             type="submit"
           />
@@ -84,8 +84,8 @@
       <div class="orangehrm-header-container">
         <oxd-button
           label="Add"
-          iconName="plus"
-          displayType="secondary"
+          icon-name="plus"
+          display-type="secondary"
           @click="onClickAdd"
         />
       </div>
@@ -97,23 +97,23 @@
       ></table-header>
       <div class="orangehrm-container">
         <oxd-card-table
-          @click="onClickEdit"
+          v-model:selected="checkedItems"
+          v-model:order="sortDefinition"
           :headers="headers"
           :items="items?.data"
           :selectable="true"
           :clickable="true"
           :loading="isLoading"
-          v-model:selected="checkedItems"
-          v-model:order="sortDefinition"
           class="orangehrm-employee-list"
-          rowDecorator="oxd-table-decorator-card"
+          row-decorator="oxd-table-decorator-card"
+          @click="onClickEdit"
         />
       </div>
       <div class="orangehrm-bottom-container">
         <oxd-pagination
           v-if="showPaginator"
-          :length="pages"
           v-model:current="currentPage"
+          :length="pages"
         />
       </div>
     </div>
@@ -185,6 +185,65 @@ export default {
     'jobtitle-dropdown': JobtitleDropdown,
     'subunit-dropdown': SubunitDropdown,
     'employment-status-dropdown': EmploymentStatusDropdown,
+  },
+
+  setup() {
+    const filters = ref({...defaultFilters});
+
+    const {sortDefinition, sortField, sortOrder, onSort} = useSort({
+      sortDefinition: defaultSortOrder,
+    });
+
+    const serializedFilters = computed(() => {
+      return {
+        model: 'detailed',
+        empNumber: filters.value.employee?.id,
+        employeeId: filters.value.employeeId,
+        empStatusId: filters.value.empStatusId?.id,
+        includeEmployees: filters.value.includeEmployees?.param,
+        supervisorEmpNumbers: filters.value.supervisor
+          ? [filters.value.supervisor.id]
+          : undefined,
+        jobTitleId: filters.value.jobTitleId?.id,
+        subunitId: filters.value.subunitId?.id,
+        sortField: sortField.value,
+        sortOrder: sortOrder.value,
+      };
+    });
+
+    const http = new APIService(
+      window.appGlobal.baseUrl,
+      'api/v2/pim/employees',
+    );
+    const {
+      showPaginator,
+      currentPage,
+      total,
+      pages,
+      pageSize,
+      response,
+      isLoading,
+      execQuery,
+    } = usePaginate(http, {
+      query: serializedFilters,
+      normalizer: userdataNormalizer,
+    });
+
+    onSort(execQuery);
+
+    return {
+      http,
+      showPaginator,
+      currentPage,
+      isLoading,
+      total,
+      pages,
+      pageSize,
+      execQuery,
+      items: response,
+      filters,
+      sortDefinition,
+    };
   },
 
   data() {
@@ -262,65 +321,6 @@ export default {
         {id: 3, param: 'onlyPast', label: 'Past Employees Only'},
       ],
       checkedItems: [],
-    };
-  },
-
-  setup() {
-    const filters = ref({...defaultFilters});
-
-    const {sortDefinition, sortField, sortOrder, onSort} = useSort({
-      sortDefinition: defaultSortOrder,
-    });
-
-    const serializedFilters = computed(() => {
-      return {
-        model: 'detailed',
-        empNumber: filters.value.employee?.id,
-        employeeId: filters.value.employeeId,
-        empStatusId: filters.value.empStatusId?.id,
-        includeEmployees: filters.value.includeEmployees?.param,
-        supervisorEmpNumbers: filters.value.supervisor
-          ? [filters.value.supervisor.id]
-          : undefined,
-        jobTitleId: filters.value.jobTitleId?.id,
-        subunitId: filters.value.subunitId?.id,
-        sortField: sortField.value,
-        sortOrder: sortOrder.value,
-      };
-    });
-
-    const http = new APIService(
-      window.appGlobal.baseUrl,
-      'api/v2/pim/employees',
-    );
-    const {
-      showPaginator,
-      currentPage,
-      total,
-      pages,
-      pageSize,
-      response,
-      isLoading,
-      execQuery,
-    } = usePaginate(http, {
-      query: serializedFilters,
-      normalizer: userdataNormalizer,
-    });
-
-    onSort(execQuery);
-
-    return {
-      http,
-      showPaginator,
-      currentPage,
-      isLoading,
-      total,
-      pages,
-      pageSize,
-      execQuery,
-      items: response,
-      filters,
-      sortDefinition,
     };
   },
 

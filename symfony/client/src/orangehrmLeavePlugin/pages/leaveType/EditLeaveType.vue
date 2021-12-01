@@ -30,8 +30,8 @@
       <oxd-form :loading="isLoading" @submitValid="onSave">
         <oxd-form-row>
           <oxd-input-field
-            :label="$t('general.name')"
             v-model="leaveType.name"
+            :label="$t('general.name')"
             :rules="rules.name"
             required
           />
@@ -40,7 +40,7 @@
           <oxd-grid :cols="2" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <oxd-input-group :classes="{wrapper: '--status-grouped-field'}">
-                <template v-slot:label>
+                <template #label>
                   <div class="label-is-entitlement-situational">
                     <oxd-label
                       :label="$t('leave.is_entitlement_situational')"
@@ -48,21 +48,21 @@
                     <oxd-icon-button
                       class="--help"
                       name="exclamation-circle"
-                      :withContainer="false"
+                      :with-container="false"
                       @click="onModalOpen"
                     />
                   </div>
                 </template>
                 <oxd-input-field
-                  type="radio"
                   v-model="leaveType.situational"
-                  :optionLabel="$t('leave.yes')"
+                  type="radio"
+                  :option-label="$t('leave.yes')"
                   :value="true"
                 />
                 <oxd-input-field
-                  type="radio"
                   v-model="leaveType.situational"
-                  :optionLabel="$t('leave.no')"
+                  type="radio"
+                  :option-label="$t('leave.no')"
                   :value="false"
                 />
               </oxd-input-group>
@@ -76,7 +76,7 @@
           <required-text />
           <oxd-button
             type="button"
-            displayType="ghost"
+            display-type="ghost"
             :label="$t('general.cancel')"
             @click="onCancel"
           />
@@ -108,26 +108,15 @@ const leaveTypeModel = {
 };
 
 export default {
+  components: {
+    'oxd-label': Label,
+    'entitlement-situational-modal': EntitlementSituationalModal,
+  },
   props: {
     leaveTypeId: {
       type: Number,
       required: true,
     },
-  },
-  components: {
-    'oxd-label': Label,
-    'entitlement-situational-modal': EntitlementSituationalModal,
-  },
-
-  data() {
-    return {
-      showModal: false,
-      isLoading: false,
-      leaveType: {...leaveTypeModel},
-      rules: {
-        name: [required, shouldNotExceedCharLength(50)],
-      },
-    };
   },
 
   setup() {
@@ -140,30 +129,15 @@ export default {
     };
   },
 
-  methods: {
-    onSave() {
-      this.isLoading = true;
-      this.http
-        .update(this.leaveTypeId, {
-          name: this.leaveType.name,
-          situational: this.leaveType.situational,
-        })
-        .then(() => {
-          return this.$toast.updateSuccess();
-        })
-        .then(() => {
-          this.onCancel();
-        });
-    },
-    onCancel() {
-      navigate('/leave/leaveTypeList');
-    },
-    onModalOpen() {
-      this.showModal = true;
-    },
-    onModalClose() {
-      this.showModal = false;
-    },
+  data() {
+    return {
+      showModal: false,
+      isLoading: false,
+      leaveType: {...leaveTypeModel},
+      rules: {
+        name: [required, shouldNotExceedCharLength(50)],
+      },
+    };
   },
   created() {
     this.isLoading = true;
@@ -193,6 +167,32 @@ export default {
       .finally(() => {
         this.isLoading = false;
       });
+  },
+
+  methods: {
+    onSave() {
+      this.isLoading = true;
+      this.http
+        .update(this.leaveTypeId, {
+          name: this.leaveType.name,
+          situational: this.leaveType.situational,
+        })
+        .then(() => {
+          return this.$toast.updateSuccess();
+        })
+        .then(() => {
+          this.onCancel();
+        });
+    },
+    onCancel() {
+      navigate('/leave/leaveTypeList');
+    },
+    onModalOpen() {
+      this.showModal = true;
+    },
+    onModalClose() {
+      this.showModal = false;
+    },
   },
 };
 </script>

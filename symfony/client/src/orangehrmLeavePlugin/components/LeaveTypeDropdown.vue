@@ -25,10 +25,10 @@
     :options="options"
     :show-empty-selector="showEmptySelector"
   >
-    <template v-slot:afterSelected="{data}">
+    <template #afterSelected="{data}">
       <template v-if="data.isDeleted">(Deleted)</template>
     </template>
-    <template v-slot:option="{data}">
+    <template #option="{data}">
       <span>{{ data.label }}</span>
       <div v-if="data.isDeleted" class="deleted-tag">
         (Deleted)
@@ -41,7 +41,7 @@
 import {ref, watchEffect} from 'vue';
 import {APIService} from '@ohrm/core/util/services/api.service';
 export default {
-  name: 'leave-type-dropdown',
+  name: 'LeaveTypeDropdown',
   props: {
     eligibleOnly: {
       type: Boolean,
@@ -50,6 +50,7 @@ export default {
     employeeId: {
       type: Number,
       required: false,
+      default: null,
     },
     showEmptySelector: {
       type: Boolean,
@@ -60,6 +61,7 @@ export default {
       default: false,
     },
   },
+  emits: ['update:modelValue'],
   setup(props, context) {
     const options = ref([]);
     const http = new APIService(

@@ -21,7 +21,7 @@
 <template>
   <oxd-button
     class="orangehrm-left-space"
-    displayType="secondary"
+    display-type="secondary"
     :label="$t('general.save')"
     type="submit"
   />
@@ -29,6 +29,6 @@
 
 <script>
 export default {
-  name: 'submit-button',
+  name: 'SubmitButton',
 };
 </script>

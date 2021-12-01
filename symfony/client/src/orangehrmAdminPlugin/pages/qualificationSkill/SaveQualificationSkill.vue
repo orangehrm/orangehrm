@@ -28,8 +28,8 @@
       <oxd-form :loading="isLoading" @submitValid="onSave">
         <oxd-form-row>
           <oxd-input-field
-            label="Name"
             v-model="skill.name"
+            label="Name"
             :rules="rules.name"
             required
           />
@@ -37,10 +37,10 @@
 
         <oxd-form-row>
           <oxd-input-field
+            v-model="skill.description"
             type="textarea"
             label="Description"
             placeholder="Type description here"
-            v-model="skill.description"
             :rules="rules.description"
           />
         </oxd-form-row>
@@ -49,7 +49,7 @@
 
         <oxd-form-actions>
           <required-text />
-          <oxd-button displayType="ghost" label="Cancel" @click="onCancel" />
+          <oxd-button display-type="ghost" label="Cancel" @click="onCancel" />
           <submit-button />
         </oxd-form-actions>
       </oxd-form>
@@ -69,6 +69,15 @@ const skillModel = {
 };
 
 export default {
+  setup() {
+    const http = new APIService(
+      window.appGlobal.baseUrl,
+      '/api/v2/admin/skills',
+    );
+    return {
+      http,
+    };
+  },
   data() {
     return {
       isLoading: false,
@@ -85,15 +94,24 @@ export default {
       errors: [],
     };
   },
-
-  setup() {
-    const http = new APIService(
-      window.appGlobal.baseUrl,
-      '/api/v2/admin/skills',
-    );
-    return {
-      http,
-    };
+  created() {
+    this.isLoading = true;
+    this.http
+      .getAll()
+      .then(response => {
+        const {data} = response.data;
+        this.rules.name.push(required);
+        this.rules.name.push(v => {
+          return (v && v.length <= 120) || 'Should not exceed 120 characters';
+        });
+        this.rules.name.push(v => {
+          const index = data.findIndex(item => item.name == v);
+          return index === -1 || 'Already exists';
+        });
+      })
+      .finally(() => {
+        this.isLoading = false;
+      });
   },
 
   methods: {
@@ -116,25 +134,6 @@ export default {
     onCancel() {
       navigate('/admin/viewSkills');
     },
-  },
-  created() {
-    this.isLoading = true;
-    this.http
-      .getAll()
-      .then(response => {
-        const {data} = response.data;
-        this.rules.name.push(required);
-        this.rules.name.push(v => {
-          return (v && v.length <= 120) || 'Should not exceed 120 characters';
-        });
-        this.rules.name.push(v => {
-          const index = data.findIndex(item => item.name == v);
-          return index === -1 || 'Already exists';
-        });
-      })
-      .finally(() => {
-        this.isLoading = false;
-      });
   },
 };
 </script>

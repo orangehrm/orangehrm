@@ -29,9 +29,9 @@
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item v-for="field in fields" :key="field.id">
               <oxd-input-field
+                v-model="customFieldsModel[field.model]"
                 :type="field.type"
                 :label="field.label"
-                v-model="customFieldsModel[field.model]"
                 :options="field.extraData"
                 :rules="rules.default"
                 :disabled="!$can.update(`${screen}_custom_fields`)"
@@ -66,7 +66,7 @@ const formatExtraData = data => {
 };
 
 export default {
-  name: 'profile-custom-fields',
+  name: 'ProfileCustomFields',
   props: {
     employeeId: {
       type: String,
@@ -100,30 +100,6 @@ export default {
     };
   },
 
-  methods: {
-    onSave() {
-      this.isLoading = true;
-      this.http
-        .request({
-          method: 'PUT',
-          url: `api/v2/pim/employees/${this.employeeId}/custom-fields`,
-          data: {...this.customFieldsModel},
-          transformRequest: [
-            data => {
-              for (const key in data) {
-                if (data[key]?.label) data[key] = data[key].label;
-              }
-              return JSON.stringify(data);
-            },
-          ],
-        })
-        .then(() => {
-          this.isLoading = false;
-          this.$toast.saveSuccess();
-        });
-    },
-  },
-
   beforeMount() {
     this.isLoading = true;
     this.http
@@ -152,6 +128,30 @@ export default {
       .finally(() => {
         this.isLoading = false;
       });
+  },
+
+  methods: {
+    onSave() {
+      this.isLoading = true;
+      this.http
+        .request({
+          method: 'PUT',
+          url: `api/v2/pim/employees/${this.employeeId}/custom-fields`,
+          data: {...this.customFieldsModel},
+          transformRequest: [
+            data => {
+              for (const key in data) {
+                if (data[key]?.label) data[key] = data[key].label;
+              }
+              return JSON.stringify(data);
+            },
+          ],
+        })
+        .then(() => {
+          this.isLoading = false;
+          this.$toast.saveSuccess();
+        });
+    },
   },
 };
 </script>

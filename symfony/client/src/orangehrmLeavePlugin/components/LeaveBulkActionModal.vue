@@ -22,8 +22,8 @@
   <teleport to="#app">
     <oxd-dialog
       v-if="show"
-      @update:show="onCancel"
       :style="{maxWidth: '450px'}"
+      @update:show="onCancel"
     >
       <div class="orangehrm-modal-header">
         <oxd-text type="card-title"> {{ action }} Leave </oxd-text>
@@ -37,13 +37,13 @@
       <div class="orangehrm-modal-footer">
         <oxd-button
           label="No, Cancel"
-          displayType="text"
+          display-type="text"
           class="orangehrm-button-margin"
           @click="onCancel"
         />
         <oxd-button
           label="Yes, Confirm"
-          displayType="secondary"
+          display-type="secondary"
           @click="onConfirm"
         />
       </div>
@@ -55,13 +55,14 @@
 import Dialog from '@ohrm/oxd/core/components/Dialog/Dialog';
 
 export default {
-  name: 'leave-bulk-action-modal',
+  name: 'LeaveBulkActionModal',
   components: {
     'oxd-dialog': Dialog,
   },
   props: {
     data: {
       type: Object,
+      default: () => null,
     },
   },
   data() {
@@ -70,6 +71,18 @@ export default {
       reject: null,
       resolve: null,
     };
+  },
+  computed: {
+    count() {
+      return this.data?.count ? this.data.count : 0;
+    },
+    action() {
+      return this.data?.action === 'APPROVE'
+        ? 'Approve'
+        : this.data?.action === 'REJECT'
+        ? 'Reject'
+        : 'Cancel';
+    },
   },
   methods: {
     showDialog() {
@@ -86,18 +99,6 @@ export default {
     onConfirm() {
       this.show = false;
       this.resolve && this.resolve('ok');
-    },
-  },
-  computed: {
-    count() {
-      return this.data?.count ? this.data.count : 0;
-    },
-    action() {
-      return this.data?.action === 'APPROVE'
-        ? 'Approve'
-        : this.data?.action === 'REJECT'
-        ? 'Reject'
-        : 'Cancel';
     },
   },
 };

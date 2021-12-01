@@ -35,10 +35,14 @@
         <oxd-divider />
 
         <oxd-form-actions>
-          <oxd-button displayType="ghost" label="Reset" @click="onClickReset" />
+          <oxd-button
+            display-type="ghost"
+            label="Reset"
+            @click="onClickReset"
+          />
           <oxd-button
             class="orangehrm-left-space"
-            displayType="secondary"
+            display-type="secondary"
             label="Search"
             type="submit"
           />
@@ -52,8 +56,8 @@
       <div class="orangehrm-header-container">
         <oxd-button
           label="Add"
-          iconName="plus"
-          displayType="secondary"
+          icon-name="plus"
+          display-type="secondary"
           @click="onClickAdd"
         />
       </div>
@@ -65,21 +69,21 @@
       ></table-header>
       <div class="orangehrm-container">
         <oxd-card-table
+          v-model:selected="checkedItems"
+          v-model:order="sortDefinition"
           :headers="headers"
           :items="items?.data"
           :selectable="true"
           :clickable="false"
           :loading="isLoading"
-          v-model:selected="checkedItems"
-          v-model:order="sortDefinition"
-          rowDecorator="oxd-table-decorator-card"
+          row-decorator="oxd-table-decorator-card"
         />
       </div>
       <div class="orangehrm-bottom-container">
         <oxd-pagination
           v-if="showPaginator"
-          :length="pages"
           v-model:current="currentPage"
+          :length="pages"
         />
       </div>
     </div>
@@ -109,49 +113,6 @@ export default {
   components: {
     'delete-confirmation': DeleteConfirmationDialog,
     'report-autocomplete': ReportAutocomplete,
-  },
-
-  data() {
-    return {
-      headers: [
-        {
-          name: 'name',
-          slot: 'title',
-          title: 'Name',
-          style: {flex: '85%'},
-          sortField: 'report.name',
-        },
-        {
-          name: 'actions',
-          title: 'Actions',
-          slot: 'action',
-          style: {flex: '15%'},
-          cellType: 'oxd-table-cell-actions',
-          cellConfig: {
-            delete: {
-              onClick: this.onClickDelete,
-              component: 'oxd-icon-button',
-              props: {
-                name: 'trash',
-              },
-            },
-            edit: {
-              onClick: this.onClickEdit,
-              props: {
-                name: 'pencil-fill',
-              },
-            },
-            view: {
-              onClick: this.onClickView,
-              props: {
-                name: 'file-text-fill',
-              },
-            },
-          },
-        },
-      ],
-      checkedItems: [],
-    };
   },
 
   setup() {
@@ -197,6 +158,49 @@ export default {
       items: response,
       filters,
       sortDefinition,
+    };
+  },
+
+  data() {
+    return {
+      headers: [
+        {
+          name: 'name',
+          slot: 'title',
+          title: 'Name',
+          style: {flex: '85%'},
+          sortField: 'report.name',
+        },
+        {
+          name: 'actions',
+          title: 'Actions',
+          slot: 'action',
+          style: {flex: '15%'},
+          cellType: 'oxd-table-cell-actions',
+          cellConfig: {
+            delete: {
+              onClick: this.onClickDelete,
+              component: 'oxd-icon-button',
+              props: {
+                name: 'trash',
+              },
+            },
+            edit: {
+              onClick: this.onClickEdit,
+              props: {
+                name: 'pencil-fill',
+              },
+            },
+            view: {
+              onClick: this.onClickView,
+              props: {
+                name: 'file-text-fill',
+              },
+            },
+          },
+        },
+      ],
+      checkedItems: [],
     };
   },
 

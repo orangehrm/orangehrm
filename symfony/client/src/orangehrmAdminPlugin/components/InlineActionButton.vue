@@ -25,8 +25,8 @@
     </oxd-text>
     <oxd-button
       label="Add"
-      iconName="plus"
-      displayType="text"
+      icon-name="plus"
+      display-type="text"
       v-bind="$attrs"
     />
   </div>
@@ -34,7 +34,7 @@
 
 <script>
 export default {
-  name: 'inline-action-button',
+  name: 'InlineActionButton',
   inheritAttrs: false,
 };
 </script>

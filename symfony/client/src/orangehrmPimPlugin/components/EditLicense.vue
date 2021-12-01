@@ -27,8 +27,8 @@
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
           <oxd-grid-item>
             <oxd-input-field
-              label="License Type"
               v-model="license.name"
+              label="License Type"
               required
               readonly
               disabled
@@ -36,8 +36,8 @@
           </oxd-grid-item>
           <oxd-grid-item>
             <oxd-input-field
-              label="License Number"
               v-model="license.licenseNo"
+              label="License Number"
               :rules="rules.licenseNo"
             />
           </oxd-grid-item>
@@ -48,15 +48,15 @@
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
           <oxd-grid-item>
             <date-input
-              label="Issued Date"
               v-model="license.issuedDate"
+              label="Issued Date"
               :rules="rules.issuedDate"
             />
           </oxd-grid-item>
           <oxd-grid-item>
             <date-input
-              label="Expiry Date"
               v-model="license.expiryDate"
+              label="Expiry Date"
               :rules="rules.expiryDate"
               :years="yearArray"
             />
@@ -68,7 +68,7 @@
         <required-text />
         <oxd-button
           type="button"
-          displayType="ghost"
+          display-type="ghost"
           label="Cancel"
           @click="onCancel"
         />
@@ -95,9 +95,7 @@ const licenseModel = {
 };
 
 export default {
-  name: 'edit-license',
-
-  emits: ['close'],
+  name: 'EditLicense',
 
   props: {
     http: {
@@ -109,6 +107,8 @@ export default {
       required: true,
     },
   },
+
+  emits: ['close'],
 
   data() {
     return {
@@ -127,6 +127,22 @@ export default {
         ],
       },
     };
+  },
+
+  beforeMount() {
+    this.isLoading = true;
+    this.http
+      .get(this.data.id)
+      .then(response => {
+        const {data} = response.data;
+        this.license.name = data.license.name;
+        this.license.licenseNo = data.licenseNo ? data.licenseNo : '';
+        this.license.issuedDate = data.issuedDate;
+        this.license.expiryDate = data.expiryDate;
+      })
+      .finally(() => {
+        this.isLoading = false;
+      });
   },
 
   methods: {
@@ -148,22 +164,6 @@ export default {
     onCancel() {
       this.$emit('close', true);
     },
-  },
-
-  beforeMount() {
-    this.isLoading = true;
-    this.http
-      .get(this.data.id)
-      .then(response => {
-        const {data} = response.data;
-        this.license.name = data.license.name;
-        this.license.licenseNo = data.licenseNo ? data.licenseNo : '';
-        this.license.issuedDate = data.issuedDate;
-        this.license.expiryDate = data.expiryDate;
-      })
-      .finally(() => {
-        this.isLoading = false;
-      });
   },
 };
 </script>

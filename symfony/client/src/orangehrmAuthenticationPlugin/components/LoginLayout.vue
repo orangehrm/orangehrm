@@ -23,7 +23,7 @@
     <div class="orangehrm-login-layout-blob">
       <div class="orangehrm-login-container">
         <div class="orangehrm-login-slot-wrapper">
-          <login-branding :imgSrc="brandingSrc"></login-branding>
+          <login-branding :img-src="brandingSrc"></login-branding>
           <div class="orangehrm-login-slot">
             <div class="orangehrm-login-logo-mobile">
               <img :src="logoSrc" alt="orangehrm-logo" />
@@ -44,7 +44,7 @@
 import LoginBranding from './LoginBranding';
 
 export default {
-  name: 'login-layout',
+  name: 'LoginLayout',
   components: {
     'login-branding': LoginBranding,
   },

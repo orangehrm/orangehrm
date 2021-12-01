@@ -32,16 +32,16 @@
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <oxd-input-field
-                :label="$t('general.name')"
                 v-model="holiday.name"
+                :label="$t('general.name')"
                 :rules="rules.name"
                 required
               />
             </oxd-grid-item>
             <oxd-grid-item>
               <date-input
-                :label="$t('general.date')"
                 v-model="holiday.date"
+                :label="$t('general.date')"
                 :rules="rules.date"
                 :years="yearArray"
                 required
@@ -49,9 +49,9 @@
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
+                v-model="holiday.length"
                 type="select"
                 :label="$t('leave.full_day_half_day')"
-                v-model="holiday.length"
                 :options="holidayLengthList"
                 :rules="rules.length"
                 required
@@ -67,15 +67,15 @@
                 :label="$t('leave.repeats_annually')"
               >
                 <oxd-input-field
-                  type="radio"
                   v-model="holiday.recurring"
-                  :optionLabel="$t('leave.yes')"
+                  type="radio"
+                  :option-label="$t('leave.yes')"
                   :value="true"
                 />
                 <oxd-input-field
-                  type="radio"
                   v-model="holiday.recurring"
-                  :optionLabel="$t('leave.no')"
+                  type="radio"
+                  :option-label="$t('leave.no')"
                   :value="false"
                 />
               </oxd-input-group>
@@ -89,7 +89,7 @@
           <required-text />
           <oxd-button
             type="button"
-            displayType="ghost"
+            display-type="ghost"
             :label="$t('general.cancel')"
             @click="onCancel"
           />
@@ -130,6 +130,16 @@ export default {
     },
   },
 
+  setup() {
+    const http = new APIService(
+      window.appGlobal.baseUrl,
+      '/api/v2/leave/holidays',
+    );
+    return {
+      http,
+    };
+  },
+
   data() {
     return {
       yearArray: [...yearRange(201)],
@@ -141,38 +151,6 @@ export default {
         length: [required],
       },
     };
-  },
-
-  setup() {
-    const http = new APIService(
-      window.appGlobal.baseUrl,
-      '/api/v2/leave/holidays',
-    );
-    return {
-      http,
-    };
-  },
-
-  methods: {
-    onSave() {
-      this.isLoading = true;
-      this.http
-        .update(this.holidayId, {
-          name: this.holiday.name,
-          date: this.holiday.date,
-          recurring: this.holiday.recurring,
-          length: this.holiday.length.id,
-        })
-        .then(() => {
-          return this.$toast.updateSuccess();
-        })
-        .then(() => {
-          this.onCancel();
-        });
-    },
-    onCancel() {
-      navigate('/leave/viewHolidayList');
-    },
   },
   created() {
     this.isLoading = true;
@@ -226,6 +204,28 @@ export default {
       .finally(() => {
         this.isLoading = false;
       });
+  },
+
+  methods: {
+    onSave() {
+      this.isLoading = true;
+      this.http
+        .update(this.holidayId, {
+          name: this.holiday.name,
+          date: this.holiday.date,
+          recurring: this.holiday.recurring,
+          length: this.holiday.length.id,
+        })
+        .then(() => {
+          return this.$toast.updateSuccess();
+        })
+        .then(() => {
+          this.onCancel();
+        });
+    },
+    onCancel() {
+      navigate('/leave/viewHolidayList');
+    },
   },
 };
 </script>

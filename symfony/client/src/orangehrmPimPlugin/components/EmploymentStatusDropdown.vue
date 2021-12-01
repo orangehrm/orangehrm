@@ -27,7 +27,7 @@ import {ref, onBeforeMount} from 'vue';
 import {APIService} from '@ohrm/core/util/services/api.service';
 
 export default {
-  name: 'employment-status-dropdown',
+  name: 'EmploymentStatusDropdown',
   setup() {
     const options = ref([]);
     const http = new APIService(

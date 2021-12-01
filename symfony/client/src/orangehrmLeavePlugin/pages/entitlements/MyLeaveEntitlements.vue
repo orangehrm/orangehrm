@@ -20,7 +20,7 @@
 
 <template>
   <leave-entitlement-table>
-    <template v-slot:default="{filters, filterItems}">
+    <template #default="{filters, filterItems}">
       <oxd-table-filter :filter-title="$t('leave.my_leave_entitlements')">
         <oxd-form @submitValid="filterItems">
           <oxd-form-row>
@@ -42,7 +42,7 @@
           <oxd-form-actions>
             <oxd-button
               class="orangehrm-left-space"
-              displayType="secondary"
+              display-type="secondary"
               :label="$t('general.search')"
               type="submit"
             />

@@ -49,18 +49,18 @@
     ></table-header>
     <div class="orangehrm-container">
       <oxd-card-table
+        v-model:selected="checkedItems"
         :headers="headers"
         :items="items?.data"
         :selectable="true"
         :clickable="false"
         :disabled="isDisabled"
         :loading="isLoading"
-        v-model:selected="checkedItems"
-        rowDecorator="oxd-table-decorator-card"
+        row-decorator="oxd-table-decorator-card"
       />
     </div>
     <div v-if="showPaginator" class="orangehrm-bottom-container">
-      <oxd-pagination :length="pages" v-model:current="currentPage" />
+      <oxd-pagination v-model:current="currentPage" :length="pages" />
     </div>
     <delete-confirmation ref="deleteDialog"></delete-confirmation>
   </div>
@@ -88,7 +88,7 @@ const languageNormalizer = data => {
 };
 
 export default {
-  name: 'employee-languages',
+  name: 'EmployeeLanguages',
 
   components: {
     'profile-action-header': ProfileActionHeader,
@@ -184,6 +184,12 @@ export default {
     };
   },
 
+  computed: {
+    isDisabled() {
+      return this.showSaveModal || this.showEditModal;
+    },
+  },
+
   methods: {
     onClickDeleteSelected() {
       const ids = this.checkedItems.map(index => {
@@ -248,12 +254,6 @@ export default {
       this.showEditModal = false;
       this.editModalState = null;
       this.resetDataTable();
-    },
-  },
-
-  computed: {
-    isDisabled() {
-      return this.showSaveModal || this.showEditModal;
     },
   },
 };

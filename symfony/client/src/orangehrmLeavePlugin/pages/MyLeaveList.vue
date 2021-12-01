@@ -19,32 +19,32 @@
  -->
 
 <template>
-  <leave-list-table :leaveStatuses="leaveStatuses" :my-leave-list="true">
-    <template v-slot:default="{filters, filterItems, rules, onReset}">
+  <leave-list-table :leave-statuses="leaveStatuses" :my-leave-list="true">
+    <template #default="{filters, filterItems, rules, onReset}">
       <oxd-table-filter :filter-title="$t('leave.my_leave_list')">
         <oxd-form @submitValid="filterItems" @reset="onReset">
           <oxd-form-row>
             <oxd-grid :cols="4" class="orangehrm-full-width-grid">
               <oxd-grid-item>
                 <date-input
-                  :label="$t('general.from_date')"
                   v-model="filters.fromDate"
+                  :label="$t('general.from_date')"
                   :rules="rules.fromDate"
                 />
               </oxd-grid-item>
               <oxd-grid-item>
                 <date-input
-                  :label="$t('general.to_date')"
                   v-model="filters.toDate"
+                  :label="$t('general.to_date')"
                   :rules="rules.toDate"
                 />
               </oxd-grid-item>
               <oxd-grid-item>
                 <oxd-input-field
+                  v-model="filters.statuses"
                   value="Select"
                   type="multiselect"
                   :label="$t('leave.show_leave_with_status')"
-                  v-model="filters.statuses"
                   :options="leaveStatuses"
                   :rules="rules.statuses"
                   required
@@ -65,13 +65,13 @@
           <oxd-form-actions>
             <required-text />
             <oxd-button
-              displayType="ghost"
+              display-type="ghost"
               :label="$t('general.reset')"
               type="reset"
             />
             <oxd-button
               class="orangehrm-left-space"
-              displayType="secondary"
+              display-type="secondary"
               :label="$t('general.search')"
               type="submit"
             />

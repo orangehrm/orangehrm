@@ -29,9 +29,9 @@
           <oxd-grid :cols="2" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <oxd-input-field
+                v-model="user.role"
                 type="select"
                 label="User Role"
-                v-model="user.role"
                 :rules="rules.role"
                 :options="userRoles"
                 required
@@ -47,9 +47,9 @@
 
             <oxd-grid-item>
               <oxd-input-field
+                v-model="user.status"
                 type="select"
                 label="Status"
-                v-model="user.status"
                 :rules="rules.status"
                 :options="userStatuses"
                 required
@@ -58,8 +58,8 @@
 
             <oxd-grid-item>
               <oxd-input-field
-                label="Username"
                 v-model="user.username"
+                label="Username"
                 :rules="rules.username"
                 required
                 autocomplete="off"
@@ -78,7 +78,7 @@
           <required-text />
           <oxd-button
             type="button"
-            displayType="ghost"
+            display-type="ghost"
             label="Cancel"
             @click="onCancel"
           />

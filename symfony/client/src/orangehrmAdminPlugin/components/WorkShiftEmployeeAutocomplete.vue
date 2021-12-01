@@ -32,7 +32,7 @@ import {APIService} from '@ohrm/core/util/services/api.service';
 import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
 
 export default {
-  name: 'work-shift-employee-autocomplete',
+  name: 'WorkShiftEmployeeAutocomplete',
   components: {
     'employee-autocomplete': EmployeeAutocomplete,
   },

@@ -28,8 +28,8 @@
         <div>
           <oxd-button
             label="Add"
-            iconName="plus"
-            displayType="secondary"
+            icon-name="plus"
+            display-type="secondary"
             @click="onClickAdd"
           />
         </div>
@@ -42,20 +42,20 @@
       ></table-header>
       <div class="orangehrm-container">
         <oxd-card-table
+          v-model:selected="checkedItems"
           :loading="isLoading"
           :headers="headers"
           :items="items?.data"
           :selectable="true"
           :clickable="false"
-          v-model:selected="checkedItems"
-          rowDecorator="oxd-table-decorator-card"
+          row-decorator="oxd-table-decorator-card"
         />
       </div>
       <div class="orangehrm-bottom-container">
         <oxd-pagination
           v-if="showPaginator"
-          :length="pages"
           v-model:current="currentPage"
+          :length="pages"
         />
       </div>
     </div>
@@ -82,11 +82,46 @@ import SaveSubscriber from './SaveSubscriber';
 import EditSubscriber from './EditSubscriber';
 
 export default {
+  components: {
+    'save-subscriber': SaveSubscriber,
+    'edit-subscriber': EditSubscriber,
+    'delete-confirmation': DeleteConfirmationDialog,
+  },
   props: {
     subscriptionId: {
       type: String,
       required: true,
     },
+  },
+
+  setup(props) {
+    const http = new APIService(
+      window.appGlobal.baseUrl,
+      `/api/v2/admin/email-subscriptions/${props.subscriptionId}/subscribers`,
+    );
+
+    const {
+      showPaginator,
+      currentPage,
+      total,
+      pages,
+      pageSize,
+      response,
+      isLoading,
+      execQuery,
+    } = usePaginate(http);
+
+    return {
+      http,
+      showPaginator,
+      currentPage,
+      isLoading,
+      total,
+      pages,
+      pageSize,
+      execQuery,
+      items: response,
+    };
   },
 
   data() {
@@ -124,40 +159,10 @@ export default {
     };
   },
 
-  components: {
-    'save-subscriber': SaveSubscriber,
-    'edit-subscriber': EditSubscriber,
-    'delete-confirmation': DeleteConfirmationDialog,
-  },
-
-  setup(props) {
-    const http = new APIService(
-      window.appGlobal.baseUrl,
-      `/api/v2/admin/email-subscriptions/${props.subscriptionId}/subscribers`,
-    );
-
-    const {
-      showPaginator,
-      currentPage,
-      total,
-      pages,
-      pageSize,
-      response,
-      isLoading,
-      execQuery,
-    } = usePaginate(http);
-
-    return {
-      http,
-      showPaginator,
-      currentPage,
-      isLoading,
-      total,
-      pages,
-      pageSize,
-      execQuery,
-      items: response,
-    };
+  computed: {
+    title() {
+      return this.items.meta ? this.items.meta?.name : '';
+    },
   },
 
   methods: {
@@ -213,12 +218,6 @@ export default {
     async resetDataTable() {
       this.checkedItems = [];
       await this.execQuery();
-    },
-  },
-
-  computed: {
-    title() {
-      return this.items.meta ? this.items.meta?.name : '';
     },
   },
 };

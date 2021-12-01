@@ -52,19 +52,19 @@
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
+                v-model="leaveEntitlement.leavePeriod"
                 type="select"
                 :label="$t('leave.leave_period')"
                 :options="leavePeriods"
                 :rules="rules.leavePeriod"
-                v-model="leaveEntitlement.leavePeriod"
                 required
               />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
+                v-model="leaveEntitlement.entitlement"
                 :rules="rules.entitlement"
                 :label="$t('leave.entitlement')"
-                v-model="leaveEntitlement.entitlement"
                 required
               />
             </oxd-grid-item>
@@ -76,7 +76,7 @@
         <oxd-form-actions>
           <required-text />
           <oxd-button
-            displayType="ghost"
+            display-type="ghost"
             :label="$t('general.cancel')"
             @click="onCancel"
           />
@@ -153,6 +153,42 @@ export default {
     };
   },
 
+  beforeMount() {
+    this.isLoading = true;
+    this.http
+      .request({method: 'GET', url: 'api/v2/leave/leave-periods'})
+      .then(({data}) => {
+        this.leavePeriods = data.data.map(item => {
+          return {
+            id: `${item.startDate}_${item.endDate}`,
+            label: `${item.startDate} - ${item.endDate}`,
+            startDate: item.startDate,
+            endDate: item.endDate,
+          };
+        });
+        return this.http.get(this.entitlementId);
+      })
+      .then(response => {
+        const {data} = response.data;
+        this.leaveEntitlement.employee = {
+          id: data.employee.empNumber,
+          label: `${data.employee.firstName} ${data.employee.lastName}`,
+          isPastEmployee: data.employee.terminationId,
+        };
+        this.leaveEntitlement.leaveType = {
+          id: data.leaveType.id,
+          label: data.leaveType.name,
+        };
+        this.leaveEntitlement.leavePeriod = this.leavePeriods.find(item => {
+          return item.id === `${data.fromDate}_${data.toDate}`;
+        });
+        this.leaveEntitlement.entitlement = data.entitlement;
+      })
+      .finally(() => {
+        this.isLoading = false;
+      });
+  },
+
   methods: {
     onCancel() {
       navigate('/leave/viewLeaveEntitlements', undefined, {
@@ -200,42 +236,6 @@ export default {
         }
       });
     },
-  },
-
-  beforeMount() {
-    this.isLoading = true;
-    this.http
-      .request({method: 'GET', url: 'api/v2/leave/leave-periods'})
-      .then(({data}) => {
-        this.leavePeriods = data.data.map(item => {
-          return {
-            id: `${item.startDate}_${item.endDate}`,
-            label: `${item.startDate} - ${item.endDate}`,
-            startDate: item.startDate,
-            endDate: item.endDate,
-          };
-        });
-        return this.http.get(this.entitlementId);
-      })
-      .then(response => {
-        const {data} = response.data;
-        this.leaveEntitlement.employee = {
-          id: data.employee.empNumber,
-          label: `${data.employee.firstName} ${data.employee.lastName}`,
-          isPastEmployee: data.employee.terminationId,
-        };
-        this.leaveEntitlement.leaveType = {
-          id: data.leaveType.id,
-          label: data.leaveType.name,
-        };
-        this.leaveEntitlement.leavePeriod = this.leavePeriods.find(item => {
-          return item.id === `${data.fromDate}_${data.toDate}`;
-        });
-        this.leaveEntitlement.entitlement = data.entitlement;
-      })
-      .finally(() => {
-        this.isLoading = false;
-      });
   },
 };
 </script>

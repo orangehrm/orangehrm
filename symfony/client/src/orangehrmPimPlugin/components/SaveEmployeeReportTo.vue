@@ -35,9 +35,9 @@
           </oxd-grid-item>
           <oxd-grid-item>
             <oxd-input-field
+              v-model="reportTo.reportingMethod"
               type="select"
               label="Reporting Method"
-              v-model="reportTo.reportingMethod"
               :rules="rules.reportingMethod"
               :options="reportingMethods"
               required
@@ -50,7 +50,7 @@
         <required-text />
         <oxd-button
           type="button"
-          displayType="ghost"
+          display-type="ghost"
           label="Cancel"
           @click="onCancel"
         />
@@ -71,9 +71,11 @@ const reportToModel = {
 };
 
 export default {
-  name: 'save-employee-report-to',
+  name: 'SaveEmployeeReportTo',
 
-  emits: ['close'],
+  components: {
+    'report-to-employee-autocomplete': ReportToEmployeeAutocomplete,
+  },
 
   props: {
     http: {
@@ -94,8 +96,13 @@ export default {
     },
   },
 
-  components: {
-    'report-to-employee-autocomplete': ReportToEmployeeAutocomplete,
+  emits: ['close'],
+
+  setup(props) {
+    const api = `api/v2/pim/employees/${props.empNumber}/report-to/allowed`;
+    return {
+      api,
+    };
   },
 
   data() {
@@ -106,13 +113,6 @@ export default {
         employee: [required],
         reportingMethod: [required],
       },
-    };
-  },
-
-  setup(props) {
-    const api = `api/v2/pim/employees/${props.empNumber}/report-to/allowed`;
-    return {
-      api,
     };
   },
 

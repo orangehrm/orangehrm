@@ -27,8 +27,8 @@
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
           <oxd-grid-item>
             <qualification-dropdown
-              label="Skill"
               v-model="skill.skillId"
+              label="Skill"
               :rules="rules.skillId"
               :api="api"
               required
@@ -36,8 +36,8 @@
           </oxd-grid-item>
           <oxd-grid-item>
             <oxd-input-field
-              label="Years of Experience"
               v-model="skill.yearsOfExperience"
+              label="Years of Experience"
               :rules="rules.yearsOfExperience"
             />
           </oxd-grid-item>
@@ -48,9 +48,9 @@
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
           <oxd-grid-item class="--span-column-2">
             <oxd-input-field
+              v-model="skill.comments"
               type="textarea"
               label="Comments"
-              v-model="skill.comments"
               :rules="rules.comments"
             />
           </oxd-grid-item>
@@ -61,7 +61,7 @@
         <required-text />
         <oxd-button
           type="button"
-          displayType="ghost"
+          display-type="ghost"
           label="Cancel"
           @click="onCancel"
         />
@@ -88,9 +88,11 @@ const skillModel = {
 };
 
 export default {
-  name: 'save-skill',
+  name: 'SaveSkill',
 
-  emits: ['close'],
+  components: {
+    'qualification-dropdown': QualificationDropdown,
+  },
 
   props: {
     http: {
@@ -103,9 +105,7 @@ export default {
     },
   },
 
-  components: {
-    'qualification-dropdown': QualificationDropdown,
-  },
+  emits: ['close'],
 
   data() {
     return {

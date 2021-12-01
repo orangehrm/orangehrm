@@ -33,7 +33,7 @@
 
 <script>
 export default {
-  name: 'login-social',
+  name: 'LoginSocial',
 };
 </script>
 

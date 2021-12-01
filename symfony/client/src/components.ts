@@ -41,25 +41,25 @@ import TimeInput from '@ohrm/components/inputs/TimeInput.vue';
 
 export default {
   install: (app: App) => {
-    app.component('oxd-layout', Layout);
-    app.component('oxd-card-table', CardTable);
-    app.component('oxd-button', Button);
-    app.component('oxd-pagination', Pagination);
-    app.component('oxd-divider', Divider);
-    app.component('oxd-text', Text);
-    app.component('oxd-icon-button', IconButton);
-    app.component('oxd-form', Form);
-    app.component('oxd-form-row', FormRow);
-    app.component('oxd-form-actions', FormActions);
-    app.component('oxd-input-field', InputField);
-    app.component('oxd-input-group', InputGroup);
-    app.component('oxd-grid', Grid);
-    app.component('oxd-grid-item', GridItem);
-    app.component('oxd-table-filter', TableFilter);
-    app.component('submit-button', SubmitButton);
-    app.component('table-header', TableHeader);
-    app.component('required-text', RequiredText);
-    app.component('date-input', DateInput);
-    app.component('time-input', TimeInput);
+    app.component('OxdLayout', Layout);
+    app.component('OxdCardTable', CardTable);
+    app.component('OxdButton', Button);
+    app.component('OxdPagination', Pagination);
+    app.component('OxdDivider', Divider);
+    app.component('OxdText', Text);
+    app.component('OxdIconButton', IconButton);
+    app.component('OxdForm', Form);
+    app.component('OxdFormRow', FormRow);
+    app.component('OxdFormActions', FormActions);
+    app.component('OxdInputField', InputField);
+    app.component('OxdInputGroup', InputGroup);
+    app.component('OxdGrid', Grid);
+    app.component('OxdGridItem', GridItem);
+    app.component('OxdTableFilter', TableFilter);
+    app.component('SubmitButton', SubmitButton);
+    app.component('TableHeader', TableHeader);
+    app.component('RequiredText', RequiredText);
+    app.component('DateInput', DateInput);
+    app.component('TimeInput', TimeInput);
   },
 };

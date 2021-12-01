@@ -12,7 +12,7 @@ const state = reactive({
 });
 
 const Loader = defineComponent({
-  name: 'oxd-loader',
+  name: 'OxdLoader',
   setup() {
     return {
       ...toRefs(state),
@@ -55,7 +55,7 @@ export default {
     };
 
     // Define Toaster component
-    app.component('oxd-loader', Loader);
+    app.component('OxdLoader', Loader);
 
     // Add Toaster API to Vue global scope
     const loaderAPI: LoaderAPI = {

@@ -62,8 +62,8 @@
               Sample CSV file:
               <a
                 class="download-link"
-                @click.prevent="onClickDownload"
                 href="#"
+                @click.prevent="onClickDownload"
               >
                 Download
               </a>
@@ -77,10 +77,10 @@
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <oxd-input-field
+                v-model="attachment.attachment"
                 type="file"
                 label="Select File"
-                buttonLabel="Browse"
-                v-model="attachment.attachment"
+                button-label="Browse"
                 :rules="rules.attachment"
                 required
               />
@@ -121,6 +121,18 @@ export default {
       required: true,
     },
   },
+  setup() {
+    const http = new APIService(
+      window.appGlobal.baseUrl,
+      `api/v2/pim/csv-import`,
+    );
+    const {formRef, reset} = useForm();
+    return {
+      http,
+      reset,
+      formRef,
+    };
+  },
 
   data() {
     return {
@@ -135,18 +147,6 @@ export default {
           validFileTypes(this.allowedFileTypes),
         ],
       },
-    };
-  },
-  setup() {
-    const http = new APIService(
-      window.appGlobal.baseUrl,
-      `api/v2/pim/csv-import`,
-    );
-    const {formRef, reset} = useForm();
-    return {
-      http,
-      reset,
-      formRef,
     };
   },
   methods: {

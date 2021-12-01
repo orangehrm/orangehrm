@@ -37,9 +37,9 @@
           </oxd-grid-item>
           <oxd-grid-item>
             <oxd-input-field
+              v-model="reportTo.reportingMethod"
               type="select"
               label="Reporting Method"
-              v-model="reportTo.reportingMethod"
               :rules="rules.reportingMethod"
               :options="reportingMethods"
               required
@@ -52,7 +52,7 @@
         <required-text />
         <oxd-button
           type="button"
-          displayType="ghost"
+          display-type="ghost"
           label="Cancel"
           @click="onCancel"
         />
@@ -72,9 +72,11 @@ const reportToModel = {
   reportingMethod: null,
 };
 export default {
-  name: 'edit-employee-report-to',
+  name: 'EditEmployeeReportTo',
 
-  emits: ['close'],
+  components: {
+    'report-to-employee-autocomplete': ReportToEmployeeAutocomplete,
+  },
 
   props: {
     http: {
@@ -103,8 +105,12 @@ export default {
     },
   },
 
-  components: {
-    'report-to-employee-autocomplete': ReportToEmployeeAutocomplete,
+  emits: ['close'],
+  setup(props) {
+    const allowedEmployeesApi = `api/v2/pim/employees/${props.empNumber}/report-to/allowed`;
+    return {
+      allowedEmployeesApi,
+    };
   },
 
   data() {
@@ -116,34 +122,6 @@ export default {
         reportingMethod: [required],
       },
     };
-  },
-  setup(props) {
-    const allowedEmployeesApi = `api/v2/pim/employees/${props.empNumber}/report-to/allowed`;
-    return {
-      allowedEmployeesApi,
-    };
-  },
-  methods: {
-    onSave() {
-      this.isLoading = true;
-      const id =
-        this.type === 'Supervisor'
-          ? this.data.supervisorEmpNumber
-          : this.data.subordinateEmpNumber;
-      this.http
-        .update(id, {
-          reportingMethodId: this.reportTo.reportingMethod?.id,
-        })
-        .then(() => {
-          return this.$toast.updateSuccess();
-        })
-        .then(() => {
-          this.onCancel();
-        });
-    },
-    onCancel() {
-      this.$emit('close', true);
-    },
   },
 
   beforeMount() {
@@ -179,6 +157,28 @@ export default {
       .finally(() => {
         this.isLoading = false;
       });
+  },
+  methods: {
+    onSave() {
+      this.isLoading = true;
+      const id =
+        this.type === 'Supervisor'
+          ? this.data.supervisorEmpNumber
+          : this.data.subordinateEmpNumber;
+      this.http
+        .update(id, {
+          reportingMethodId: this.reportTo.reportingMethod?.id,
+        })
+        .then(() => {
+          return this.$toast.updateSuccess();
+        })
+        .then(() => {
+          this.onCancel();
+        });
+    },
+    onCancel() {
+      this.$emit('close', true);
+    },
   },
 };
 </script>

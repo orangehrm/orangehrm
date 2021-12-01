@@ -30,8 +30,8 @@
       <oxd-form :loading="isLoading" @submitValid="onSave">
         <oxd-form-row>
           <oxd-input-field
-            :label="$t('general.name')"
             v-model="leaveType.name"
+            :label="$t('general.name')"
             :rules="rules.name"
             required
           />
@@ -41,7 +41,7 @@
           <oxd-grid :cols="2" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <oxd-input-group :classes="{wrapper: '--status-grouped-field'}">
-                <template v-slot:label>
+                <template #label>
                   <div class="label-is-entitlement-situational">
                     <oxd-label
                       :label="$t('leave.is_entitlement_situational')"
@@ -49,21 +49,21 @@
                     <oxd-icon-button
                       class="--help"
                       name="exclamation-circle"
-                      :withContainer="false"
+                      :with-container="false"
                       @click="onModalOpen"
                     />
                   </div>
                 </template>
                 <oxd-input-field
-                  type="radio"
                   v-model="leaveType.situational"
-                  :optionLabel="$t('leave.yes')"
+                  type="radio"
+                  :option-label="$t('leave.yes')"
                   :value="true"
                 />
                 <oxd-input-field
-                  type="radio"
                   v-model="leaveType.situational"
-                  :optionLabel="$t('leave.no')"
+                  type="radio"
+                  :option-label="$t('leave.no')"
                   :value="false"
                 />
               </oxd-input-group>
@@ -76,7 +76,7 @@
         <oxd-form-actions>
           <required-text />
           <oxd-button
-            displayType="ghost"
+            display-type="ghost"
             :label="$t('general.cancel')"
             @click="onCancel"
           />
@@ -113,6 +113,16 @@ export default {
     'entitlement-situational-modal': EntitlementSituationalModal,
   },
 
+  setup() {
+    const http = new APIService(
+      window.appGlobal.baseUrl,
+      '/api/v2/leave/leave-types',
+    );
+    return {
+      http,
+    };
+  },
+
   data() {
     return {
       showModal: false,
@@ -124,15 +134,20 @@ export default {
       errors: [],
     };
   },
-
-  setup() {
-    const http = new APIService(
-      window.appGlobal.baseUrl,
-      '/api/v2/leave/leave-types',
-    );
-    return {
-      http,
-    };
+  created() {
+    this.isLoading = true;
+    this.http
+      .getAll()
+      .then(response => {
+        const {data} = response.data;
+        this.rules.name.push(v => {
+          const index = data.findIndex(item => item.name == v);
+          return index === -1 || 'Already exists';
+        });
+      })
+      .finally(() => {
+        this.isLoading = false;
+      });
   },
 
   methods: {
@@ -160,21 +175,6 @@ export default {
     onModalClose() {
       this.showModal = false;
     },
-  },
-  created() {
-    this.isLoading = true;
-    this.http
-      .getAll()
-      .then(response => {
-        const {data} = response.data;
-        this.rules.name.push(v => {
-          const index = data.findIndex(item => item.name == v);
-          return index === -1 || 'Already exists';
-        });
-      })
-      .finally(() => {
-        this.isLoading = false;
-      });
   },
 };
 </script>

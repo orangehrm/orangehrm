@@ -30,8 +30,8 @@
       <oxd-form :loading="isLoading" @submitValid="onSave">
         <oxd-form-row>
           <oxd-input-field
-            label="Name"
             v-model="category.name"
+            label="Name"
             :rules="rules.name"
             required
           />
@@ -43,7 +43,7 @@
           <required-text />
           <oxd-button
             type="button"
-            displayType="ghost"
+            display-type="ghost"
             label="Cancel"
             @click="onCancel"
           />
@@ -90,25 +90,6 @@ export default {
       errors: [],
     };
   },
-
-  methods: {
-    onSave() {
-      this.isLoading = true;
-      this.http
-        .update(this.jobCategoryId, {
-          name: this.category.name,
-        })
-        .then(() => {
-          return this.$toast.updateSuccess();
-        })
-        .then(() => {
-          this.onCancel();
-        });
-    },
-    onCancel() {
-      navigate('/admin/jobCategory');
-    },
-  },
   created() {
     this.isLoading = true;
     this.http
@@ -140,6 +121,25 @@ export default {
       .finally(() => {
         this.isLoading = false;
       });
+  },
+
+  methods: {
+    onSave() {
+      this.isLoading = true;
+      this.http
+        .update(this.jobCategoryId, {
+          name: this.category.name,
+        })
+        .then(() => {
+          return this.$toast.updateSuccess();
+        })
+        .then(() => {
+          this.onCancel();
+        });
+    },
+    onCancel() {
+      navigate('/admin/jobCategory');
+    },
   },
 };
 </script>
