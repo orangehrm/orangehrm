@@ -40,6 +40,7 @@ view_time_sheet_config:
 view_employee_time_sheet_list:
   path: /time/viewEmployeeTimesheet
   controller: OrangeHRM\Time\Controller\EmployeeTimeSheetController::handle
+  methods: [ GET ]
 
 view_customers:
   path: /time/viewCustomers
