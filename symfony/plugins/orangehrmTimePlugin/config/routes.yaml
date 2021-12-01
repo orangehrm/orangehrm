@@ -71,3 +71,8 @@ time_edit_timesheet:
   path: /time/editTimesheet/{id}
   controller: OrangeHRM\Time\Controller\EditTimesheetController::handle
   methods: [ GET ]
+
+time_employee_timesheet:
+  path: /time/viewEmployeeTimesheet
+  controller: OrangeHRM\Time\Controller\EmployeeTimesheetController::handle
+  methods: [ GET ]

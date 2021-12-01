@@ -775,6 +775,16 @@
           "source": "Deleted project activities are not editable",
           "target": "Deleted project activities are not editable",
           "description": "It is a validation message that appear when someone is trying to edit a project/activity that is already being deleted."
+        },
+        "select_employee": {
+          "source": "Select Employee",
+          "target": "Select Employee",
+          "description": "It is a user friendly text which asked the user to select Employee to view employee’s time-sheet"
+        },
+        "timesheets_pending_action": {
+          "source": "Timesheets Pending Action",
+          "target": "Timesheets Pending Action",
+          "description": "Timesheet with pending action can also be viewed on the screen. Click “View” to see the details of the time sheet under “Time sheets Pending Action”"
         }
       }
     }

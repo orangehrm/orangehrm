@@ -1,0 +1,157 @@
+<!--
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ */
+ -->
+
+<template>
+  <div class="orangehrm-paper-container">
+    <div class="orangehrm-header-container">
+      <oxd-text tag="h6" class="orangehrm-main-title">
+        {{ $t('time.timesheets_pending_action') }}
+      </oxd-text>
+    </div>
+    <table-header
+      :selected="0"
+      :total="total"
+      :loading="isLoading"
+    ></table-header>
+    <div class="orangehrm-container">
+      <oxd-card-table
+        :headers="headers"
+        :items="items?.data"
+        :selectable="false"
+        :clickable="false"
+        :loading="isLoading"
+        rowDecorator="oxd-table-decorator-card"
+      />
+    </div>
+    <div class="orangehrm-bottom-container">
+      <oxd-pagination
+        v-if="showPaginator"
+        :length="pages"
+        v-model:current="currentPage"
+      />
+    </div>
+  </div>
+</template>
+
+<script>
+import usePaginate from '@ohrm/core/util/composable/usePaginate';
+import {APIService} from '@/core/util/services/api.service';
+import {navigate} from '@ohrm/core/util/helper/navigation';
+
+const actionsNormalizer = data => {
+  return data.map(item => {
+    return {
+      id: item.id,
+      action: item.action,
+      period: `${item.period.fromDate} - ${item.period.toDate}`,
+      employee: `${item.employee?.firstName} ${item.employee?.lastName}`,
+    };
+  });
+};
+
+export default {
+  name: 'timesheet-pending-actions',
+  data() {
+    return {
+      headers: [
+        {
+          name: 'employee',
+          slot: 'title',
+          title: 'Employee Name',
+          style: {flex: '40%'},
+        },
+        {
+          name: 'period',
+          title: 'Timesheet Period',
+          style: {flex: '40%'},
+        },
+        {
+          name: 'actions',
+          slot: 'footer',
+          title: 'Actions',
+          style: {flex: '20%'},
+          cellType: 'oxd-table-cell-actions',
+          cellConfig: {
+            view: {
+              onClick: this.onClickView,
+              component: 'oxd-button',
+              props: {
+                label: 'View',
+                displayType: 'ghost',
+                size: 'medium',
+              },
+            },
+          },
+        },
+      ],
+    };
+  },
+
+  setup() {
+    const http = new APIService(
+      //   window.appGlobal.baseUrl,
+      'https://884b404a-f4d0-4908-9eb5-ef0c8afec15c.mock.pstmn.io',
+      '/api/v2/time/timesheet-actions-pending',
+    );
+
+    const {
+      showPaginator,
+      currentPage,
+      total,
+      pages,
+      pageSize,
+      response,
+      isLoading,
+      execQuery,
+    } = usePaginate(http, {
+      normalizer: actionsNormalizer,
+    });
+
+    return {
+      http,
+      showPaginator,
+      currentPage,
+      isLoading,
+      total,
+      pages,
+      pageSize,
+      execQuery,
+      items: response,
+    };
+  },
+
+  methods: {
+    onClickView(item) {
+      navigate('/time/viewTimesheet/{id}', {id: item.id});
+    },
+  },
+};
+</script>
+
+<style lang="scss" scoped>
+::v-deep(.card-footer-slot) {
+  .oxd-table-cell-actions {
+    justify-content: flex-end;
+  }
+  .oxd-table-cell-actions > * {
+    margin: 0 !important;
+  }
+}
+</style>
