@@ -16,7 +16,22 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-class DailyTimesheetPeriod extends TimesheetPeriod {
-    //put your code here
+
+namespace OrangeHRM\Time\Traits\Service;
+
+use OrangeHRM\Core\Traits\ServiceContainerTrait;
+use OrangeHRM\Framework\Services;
+use OrangeHRM\Time\Service\CustomerService;
+
+trait CustomerServiceTrait
+{
+    use ServiceContainerTrait;
+
+    /**
+     * @return CustomerService
+     */
+    public function getCustomerService(): CustomerService
+    {
+        return $this->getContainer()->get(Services::CUSTOMER_SERVICE);
+    }
 }
-?>

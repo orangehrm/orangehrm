@@ -1,5 +1,4 @@
 <?php
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -17,23 +16,25 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-class TimesheetPeriodFactory {
 
-    public function createTimesheetPeriod($xml) {
+use OrangeHRM\Core\Traits\ServiceContainerTrait;
+use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Framework\PluginConfigurationInterface;
+use OrangeHRM\Framework\Services;
+use OrangeHRM\Time\Service\CustomerService;
 
+class TimePluginConfiguration implements PluginConfigurationInterface
+{
+    use ServiceContainerTrait;
 
-
-       $timesheetPeriodObject = $xml->ClassName;
-      $className=(string)$timesheetPeriodObject;
-
-        return new $className();
+    /**
+     * @inheritDoc
+     */
+    public function initialize(Request $request): void
+    {
+        $this->getContainer()->register(
+            Services::CUSTOMER_SERVICE,
+            CustomerService::class
+        );
     }
-
-    public function setTimesheetPeriod() {
-
-        return new WeeklyTimesheetPeriod();
-    }
-
 }
-
-?>

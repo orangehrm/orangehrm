@@ -1,5 +1,4 @@
 <?php
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -17,6 +16,7 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
+
 class WeeklyTimesheetPeriod extends TimesheetPeriod {
 
     private $startDate;
@@ -52,8 +52,6 @@ class WeeklyTimesheetPeriod extends TimesheetPeriod {
     }
 
     public function getLocalTimezone($clientTimeZoneOffset) {
-
-
         $offset = $clientTimeZoneOffset;
         $zonelist =
                 array
@@ -98,7 +96,4 @@ class WeeklyTimesheetPeriod extends TimesheetPeriod {
             return false;
         return $index[0];
     }
-
 }
-
-?>

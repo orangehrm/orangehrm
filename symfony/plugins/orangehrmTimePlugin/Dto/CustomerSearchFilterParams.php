@@ -1,3 +1,4 @@
+<?php
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -16,14 +17,38 @@
  * Boston, MA  02110-1301, USA
  */
 
-import TimeSheetPeriodConfig from './pages/configure/TimeSheetPeriod.vue';
-import Customer from './pages/customer/Customer.vue';
-import SaveCustomer from './pages/customer/SaveCustomer.vue';
-import EditCustomer from './pages/customer/EditCustomer.vue';
+namespace OrangeHRM\Time\Dto;
 
-export default {
-  'time-sheet-period': TimeSheetPeriodConfig,
-  'customer-list': Customer,
-  'customer-save': SaveCustomer,
-  'customer-edit': EditCustomer,
-};
+use OrangeHRM\Core\Dto\FilterParams;
+
+class CustomerSearchFilterParams extends FilterParams
+{
+
+    public const ALLOWED_SORT_FIELDS = ['customer.name'];
+
+    /**
+     * @var string|null
+     */
+    protected ?string $name = null;
+
+    public function __construct()
+    {
+        $this->setSortField('customer.name');
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string|null $name
+     */
+    public function setName(?string $name): void
+    {
+        $this->name = $name;
+    }
+}

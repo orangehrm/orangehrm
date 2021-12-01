@@ -1,3 +1,4 @@
+<?php
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -16,14 +17,34 @@
  * Boston, MA  02110-1301, USA
  */
 
-import TimeSheetPeriodConfig from './pages/configure/TimeSheetPeriod.vue';
-import Customer from './pages/customer/Customer.vue';
-import SaveCustomer from './pages/customer/SaveCustomer.vue';
-import EditCustomer from './pages/customer/EditCustomer.vue';
+namespace OrangeHRM\Tests\Time\Entity;
 
-export default {
-  'time-sheet-period': TimeSheetPeriodConfig,
-  'customer-list': Customer,
-  'customer-save': SaveCustomer,
-  'customer-edit': EditCustomer,
-};
+use OrangeHRM\Entity\Customer;
+use OrangeHRM\Tests\Util\EntityTestCase;
+use OrangeHRM\Tests\Util\TestDataService;
+
+/**
+ * @group @Time
+ * @group @Entity
+ */
+class CustomerTest extends EntityTestCase
+{
+    protected function setUp(): void
+    {
+        TestDataService::truncateTables([Customer::class]);
+    }
+
+    public function testCustomerEntity(): void
+    {
+        $customer = new Customer();
+        $customer->setName("TEST02");
+        $customer->setDescription('DESCRIPTION');
+        $customer->setDeleted(false);
+        $this->persist($customer);
+
+        /** @var Customer $customer */
+        $customer = $this->getRepository(Customer::class)->find(1);
+        $this->assertEquals('TEST02', $customer->getName());
+        $this->assertEquals('DESCRIPTION', $customer->getDescription());
+    }
+}

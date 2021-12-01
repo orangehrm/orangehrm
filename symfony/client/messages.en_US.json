@@ -655,6 +655,21 @@
           "source": "Timesheet Period Start Day has not being defined. Please Contact the HR Administrator",
           "target": "Timesheet Period Start Day has not being defined. Please Contact the HR Administrator",
           "description": ""
+        },
+        "customer": {
+          "source": "Customers",
+          "target": "Customers",
+          "description": "You can enter details of your customers that can be used to define projects and project activities"
+        },
+        "add_customer": {
+          "source": "Add Customer",
+          "target": "Add Customer",
+          "description": "Add a customer to the system."
+        },
+        "edit_customer": {
+          "source": "Edit Customer",
+          "target": "Edit Customer",
+          "description": "You can edit details of your customers that can be used to define projects and project activities."
         }
       }
     }

@@ -1,3 +1,4 @@
+<?php
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -16,14 +17,34 @@
  * Boston, MA  02110-1301, USA
  */
 
-import TimeSheetPeriodConfig from './pages/configure/TimeSheetPeriod.vue';
-import Customer from './pages/customer/Customer.vue';
-import SaveCustomer from './pages/customer/SaveCustomer.vue';
-import EditCustomer from './pages/customer/EditCustomer.vue';
+namespace OrangeHRM\Time\Api\Model;
 
-export default {
-  'time-sheet-period': TimeSheetPeriodConfig,
-  'customer-list': Customer,
-  'customer-save': SaveCustomer,
-  'customer-edit': EditCustomer,
-};
+use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
+use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
+use OrangeHRM\Entity\Customer;
+
+class CustomerModel implements Normalizable
+{
+    use ModelTrait;
+
+    public function __construct(Customer $customer)
+    {
+        $this->setEntity($customer);
+        $this->setFilters(
+            [
+                'id',
+                'name',
+                'description',
+                ['isDeleted'],
+            ]
+        );
+        $this->setAttributeNames(
+            [
+                'id',
+                'name',
+                'description',
+                'deleted'
+            ]
+        );
+    }
+}
