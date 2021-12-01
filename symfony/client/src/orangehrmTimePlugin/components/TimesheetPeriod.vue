@@ -41,7 +41,6 @@
 
 <script>
 import {reactive, toRefs} from 'vue';
-import {APIService} from '@ohrm/core/util/services/api.service';
 import {formatDate} from '@ohrm/core/util/helper/datefns';
 
 export default {
@@ -52,28 +51,6 @@ export default {
       date: formatDate(new Date(), 'yyyy-MM-dd'),
       periods: [],
     });
-    const http = new APIService(
-      window.appGlobal.baseUrl,
-      'api/v2/leave/workweek',
-    );
-
-    const fetchTimePeriods = async () => {
-      http.getAll().then(({data}) => {
-        if (data?.data) {
-          state.attributes = Object.keys(data.data).map(i => {
-            return {
-              index: parseInt(i),
-              class:
-                data.data[i] === 8
-                  ? '--non-working-day'
-                  : data.data[i] === 4
-                  ? '--working-day-half'
-                  : '',
-            };
-          });
-        }
-      });
-    };
 
     const onClickPervious = () => {
       // do nothing

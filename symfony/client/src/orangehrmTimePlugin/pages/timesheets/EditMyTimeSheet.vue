@@ -76,6 +76,13 @@ export default {
     timesheet: Timesheet,
   },
 
+  props: {
+    timesheetId: {
+      type: Number,
+      required: true,
+    },
+  },
+
   setup() {
     const http = new APIService(
       //   window.appGlobal.baseUrl,
@@ -102,7 +109,7 @@ export default {
   beforeMount() {
     this.isLoading = true;
     this.http
-      .get(1)
+      .get(this.timesheetId)
       .then(response => {
         const {data, meta} = response.data;
         this.timesheet = {data, meta};

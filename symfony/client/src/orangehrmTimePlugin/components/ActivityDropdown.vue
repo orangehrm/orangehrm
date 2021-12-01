@@ -24,7 +24,7 @@
 
 <script>
 import {ref, watchEffect} from 'vue';
-import {APIService} from '@ohrm/core/util/services/api.service';
+// import {APIService} from '@ohrm/core/util/services/api.service';
 
 export default {
   name: 'activity-dropdown',
@@ -32,14 +32,15 @@ export default {
     projectId: {
       type: Number,
       required: false,
+      default: null,
     },
   },
   setup(props) {
     const options = ref([]);
-    const http = new APIService(
-      window.appGlobal.baseUrl,
-      'api/v2/time/activities',
-    );
+    // const http = new APIService(
+    //   window.appGlobal.baseUrl,
+    //   'api/v2/time/activities',
+    // );
 
     watchEffect(async () => {
       if (props.projectId) {
