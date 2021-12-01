@@ -111,28 +111,23 @@ class ProjectActivityDao extends BaseDao
 
     /**
      * @param int[] $toBeDeletedActivityIds
+     * @return int
      * @throws ProjectServiceException
      */
-    public function deleteProjectActivities(array $toBeDeletedActivityIds)
+    public function deleteProjectActivities(array $toBeDeletedActivityIds): int
     {
-        $delete = true;
         foreach ($toBeDeletedActivityIds as $toBeDeletedActivityId) {
-            $deletable = $this->hasActivityGotTimesheetItems($toBeDeletedActivityId);
-            if ($deletable) {
-                $delete = false;
-                break;
+            if ($this->hasActivityGotTimesheetItems($toBeDeletedActivityId)) {
+                throw ProjectServiceException::projectActivityExist();
             }
         }
-        if ($delete) {
-            $q = $this->createQueryBuilder(ProjectActivity::class, 'projectActivity');
-            $q->update()
-                ->set('projectActivity.deleted', ':deleted')
-                ->setParameter('deleted', true)
-                ->where($q->expr()->in('projectActivity.activityId', ':ids'))
-                ->setParameter('ids', $toBeDeletedActivityIds);
-            return $q->getQuery()->execute();
-        } else {
-            throw ProjectServiceException::projectActivityExist();
-        }
+
+        $q = $this->createQueryBuilder(ProjectActivity::class, 'projectActivity');
+        $q->update()
+            ->set('projectActivity.deleted', ':deleted')
+            ->setParameter('deleted', true)
+            ->where($q->expr()->in('projectActivity.activityId', ':ids'))
+            ->setParameter('ids', $toBeDeletedActivityIds);
+        return $q->getQuery()->execute();
     }
 }
