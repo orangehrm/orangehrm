@@ -48,7 +48,12 @@ class TimeSheetPeriodSubscriber extends AbstractEventSubscriber
         ];
     }
 
-    public function onRequestEvent(RequestEvent $event)
+    /**
+     * @param RequestEvent $event
+     * @return void
+     * @throws RequestForwardableException
+     */
+    public function onRequestEvent(RequestEvent $event): void
     {
         if ($event->isMasterRequest()) {
             if ($this->getTextHelper()->strStartsWith($event->getRequest()->getPathInfo(), '/' . 'time')) {

@@ -16,7 +16,11 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-class DailyTimesheetPeriod extends TimesheetPeriod {
-    //put your code here
-}
 
+namespace OrangeHRM\Time\TimeSheetPeriod;
+
+abstract class TimesheetPeriod
+{
+    abstract public function setTimesheetPeriodAndStartDate($startDay);
+    abstract public function calculateDaysInTheTimesheetPeriod($currentDate, $xml);
+}

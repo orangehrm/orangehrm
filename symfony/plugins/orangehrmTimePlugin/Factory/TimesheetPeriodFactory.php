@@ -17,8 +17,16 @@
  * Boston, MA  02110-1301, USA
  */
 
+namespace OrangeHRM\Time\Factory;
+
+use OrangeHRM\Time\TimeSheetPeriod\WeeklyTimesheetPeriod;
+
 class TimesheetPeriodFactory
 {
+    /**
+     * @param $xml
+     * @return mixed
+     */
     public function createTimesheetPeriod($xml)
     {
         $timesheetPeriodObject = $xml->ClassName;
@@ -26,7 +34,10 @@ class TimesheetPeriodFactory
         return new $className();
     }
 
-    public function setTimesheetPeriod()
+    /**
+     * @return WeeklyTimesheetPeriod
+     */
+    public function setTimesheetPeriod(): WeeklyTimesheetPeriod
     {
         return new WeeklyTimesheetPeriod();
     }

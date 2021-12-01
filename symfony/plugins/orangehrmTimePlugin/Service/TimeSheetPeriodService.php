@@ -20,59 +20,72 @@
 namespace OrangeHRM\Time\Service;
 
 use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
+use OrangeHRM\Time\Factory\TimesheetPeriodFactory;
 
 class TimeSheetPeriodService
 {
     use ConfigServiceTrait;
 
-    const DEFAULT_TIMESHEET_START_DATE = 1;
+    public const DEFAULT_TIMESHEET_START_DATE = 1;
 
-	public function getDefinedTimesheetPeriod($currentDate) {
-		$xmlString = $this->getConfigService()->getTimeSheetPeriodConfig();
-		$xml = simplexml_load_String($xmlString);
-		return $this->getDaysOfTheTimesheetPeriod($xml, $currentDate);
-	}
+    /**
+     * @param string $currentDate
+     * @return mixed
+     */
+    public function getDefinedTimesheetPeriod(string $currentDate)
+    {
+        // TODO
+        $xmlString = $this->getConfigService()->getTimeSheetPeriodConfig();
+        $xml = simplexml_load_String($xmlString);
+        return $this->getDaysOfTheTimesheetPeriod($xml, $currentDate);
+    }
 
-	public function getDaysOfTheTimesheetPeriod($xml, $currentDate) {
-
-		$timesheetPeriodFactory = new TimesheetPeriodFactory();
-		$timesheetPeriodObject = $timesheetPeriodFactory->createTimesheetPeriod($xml);
-		return $timesheetPeriodObject->calculateDaysInTheTimesheetPeriod($currentDate, $xml);
-	}
+    public function getDaysOfTheTimesheetPeriod($xml, $currentDate)
+    {
+        // TODO
+        $timesheetPeriodFactory = new TimesheetPeriodFactory();
+        $timesheetPeriodObject = $timesheetPeriodFactory->createTimesheetPeriod($xml);
+        return $timesheetPeriodObject->calculateDaysInTheTimesheetPeriod($currentDate, $xml);
+    }
 
     /**
      * @return bool
      */
-	public function isTimesheetPeriodDefined(): bool {
-		return $this->getConfigService()->isTimesheetPeriodDefined();
-	}
+    public function isTimesheetPeriodDefined(): bool
+    {
+        return $this->getConfigService()->isTimesheetPeriodDefined();
+    }
 
     /**
      * @param string $startDay
+     * @return void
      */
-	public function setTimesheetPeriod(string $startDay) : void
+    public function setTimesheetPeriod(string $startDay): void
     {
-		$timesheetPeriodFactory = new \TimesheetPeriodFactory();
-		$timesheetPeriodObject = $timesheetPeriodFactory->setTimesheetPeriod();
-		$xml = $timesheetPeriodObject->setTimesheetPeriodAndStartDate($startDay);
-        dump($xml);
+        $timesheetPeriodFactory = new TimesheetPeriodFactory();
+        $timesheetPeriodObject = $timesheetPeriodFactory->setTimesheetPeriod();
+        $xml = $timesheetPeriodObject->setTimesheetPeriodAndStartDate($startDay);
         $this->getConfigService()->setTimeSheetPeriodSetValue("Yes");
-		$this->getConfigService()->setTimeSheetPeriodConfig($xml);
-	}
+        $this->getConfigService()->setTimeSheetPeriodConfig($xml);
+    }
 
-    public function getTimesheetHeading(){
-        $xmlString = $this->getTimesheetPeriodDao()->getDefinedTimesheetPeriod();
-		$xml = simplexml_load_String($xmlString);
+    /**
+     * @return string
+     */
+    public function getTimesheetHeading(): string
+    {
+        $xmlString = $this->getConfigService()->getTimeSheetPeriodConfig();
+        $xml = simplexml_load_String($xmlString);
         return $xml->Heading;
     }
 
-	/**
-	 * @return string
-	 * @throws DaoException
-	 */
-	public function getTimesheetStartDate() {
-		$xmlString = $this->getTimesheetPeriodDao()->getDefinedTimesheetPeriod();
-		$xml = simplexml_load_String($xmlString);
-		return (string)$xml->StartDate;
-	}
+    /**
+     * @return string
+     */
+    public function getTimesheetStartDate(): string
+    {
+        $xmlString = $this->getConfigService()->getTimeSheetPeriodConfig();
+        $xml = simplexml_load_String($xmlString);
+        return (string)$xml->StartDate;
+    }
 }

@@ -17,12 +17,22 @@
  * Boston, MA  02110-1301, USA
  */
 
+namespace OrangeHRM\Time\TimeSheetPeriod;
+
 class WeeklyTimesheetPeriod extends TimesheetPeriod {
 
-    private $startDate;
+    /**
+     * @var string
+     */
+    private string $startDate;
 
-    public function calculateDaysInTheTimesheetPeriod($currentDate, $xml) {
-
+    /**
+     * @param $currentDate
+     * @param $xml
+     * @return array
+     */
+    public function calculateDaysInTheTimesheetPeriod($currentDate, $xml): array {
+        // TODO
         $clientTimeZoneOffset = sfContext::getInstance()->getUser()->getUserTimeZoneOffset();
         date_default_timezone_set($this->getLocalTimezone($clientTimeZoneOffset));
         $this->startDate = $xml->StartDate;
@@ -40,18 +50,16 @@ class WeeklyTimesheetPeriod extends TimesheetPeriod {
         for ($i = 0; $i < 7; $i++) {
             $dates[$i] = date("Y-m-d H:i", strtotime("+" . $i . " day", $r));
         }
-
         return $dates;
-
-
     }
 
     public function setTimesheetPeriodAndStartDate($startDay) {
-
+        // TODO
         return "<TimesheetPeriod><PeriodType>Weekly</PeriodType><ClassName>WeeklyTimesheetPeriod</ClassName><StartDate>" . $startDay . "</StartDate><Heading>Week</Heading></TimesheetPeriod>";
     }
 
     public function getLocalTimezone($clientTimeZoneOffset) {
+        // TODO
         $offset = $clientTimeZoneOffset;
         $zonelist =
                 array

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -17,12 +16,13 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-class MonthlyTimesheetPeriod extends TimesheetPeriod {
 
-    public function calculateDaysInTheTimesheetPeriod($currentDate, $xml) {
-
-        $startDay = (String) $xml->StartDate;
-        ;
+class MonthlyTimesheetPeriod extends TimesheetPeriod
+{
+    public function calculateDaysInTheTimesheetPeriod($currentDate, $xml)
+    {
+        //TODO
+        $startDay = (string)$xml->StartDate;
         list($year, $month, $day) = explode("-", $currentDate);
         if ($startDay <= $day) {
             $start_of_month = mktime(00, 00, 00, $month, $startDay, $year);
@@ -47,22 +47,22 @@ class MonthlyTimesheetPeriod extends TimesheetPeriod {
         return $dates_range;
     }
 
-    public function setTimesheetPeriodAndStartDate($startDay) {
-
+    public function setTimesheetPeriodAndStartDate($startDay)
+    {
+        //TODO
         return "<TimesheetPeriod><PeriodType>Monthly</PeriodType><ClassName>MonthlyTimesheetPeriod</ClassName><StartDate>" . $startDay . "</StartDate><Heading>Month</Heading></TimesheetPeriod>";
     }
 
-    public function getDatesOfTheTimesheetPeriod($startDate, $endDate) {
-        
+    public function getDatesOfTheTimesheetPeriod($startDate, $endDate)
+    {
+        //TODO
         $clientTimeZoneOffset = sfContext::getInstance()->getUser()->getUserTimeZoneOffset();
-        $serverTimezoneOffset = ((int) date('Z'));
+        $serverTimezoneOffset = ((int)date('Z'));
         $timeStampDiff = $clientTimeZoneOffset * 3600 - $serverTimezoneOffset;
-        
-        
 
         if ($startDate < $endDate) {
             $dates_range[] = $startDate;
-            
+
             $startDate = strtotime($startDate) + $timeStampDiff;
             $endDate = strtotime($endDate) + $timeStampDiff;
             while (date('Y-m-d', $startDate) != date('Y-m-d', $endDate)) {
@@ -72,7 +72,4 @@ class MonthlyTimesheetPeriod extends TimesheetPeriod {
         }
         return $dates_range;
     }
-
 }
-
-?>

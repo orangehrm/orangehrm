@@ -89,9 +89,12 @@ class TimeConfigPeriodAPI extends Endpoint implements ResourceEndpoint
     {
         $startDay = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_START_DAY);
         $this->getTimeSheetPeriodService()->setTimesheetPeriod($startDay);
+        //After configuring the start day, we need to enable the menu items for time module
         /** @var MenuService $menuService */
         $menuService = $this->getContainer()->get(Services::MENU_SERVICE);
         $menuService->enableModuleMenuItems('time');
+        $menuService->enableModuleMenuItems('attendance');
+        $menuService->enableModuleMenuItems('admin', ['Project Info', 'Customers', 'Projects']);
         $timeConfigPeriod = new TimeConfigPeriod();
         $timeConfigPeriod->setStartDay($startDay);
         return new EndpointResourceResult(TimeConfigPeriodModel::class, $timeConfigPeriod);
