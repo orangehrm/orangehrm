@@ -22,22 +22,28 @@ namespace OrangeHRM\Time\Dao;
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\Project;
+use OrangeHRM\Entity\ProjectAdmin;
 
 class ProjectDao extends BaseDao
 {
     /**
      * @param  Project  $project
      * @return Project
-     * @throws DaoException
      */
     public function saveProject(Project $project): Project
     {
-        try {
-            $this->persist($project);
-            return $project;
-        } catch (DaoException $e) {
-            throw new DaoException($e->getMessage());
-        }
+        $this->persist($project);
+        return $project;
+    }
+
+    /**
+     * @param  ProjectAdmin  $projectAdmin
+     * @return ProjectAdmin
+     */
+    public function saveProjectAdmins(ProjectAdmin $projectAdmin): ProjectAdmin
+    {
+      $this->persist($projectAdmin);
+        return $projectAdmin;
     }
 
     /**

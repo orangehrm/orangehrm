@@ -35,7 +35,9 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Exception\DaoException;
+use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\Project;
+use OrangeHRM\Entity\ProjectAdmin;
 use OrangeHRM\Time\Api\Model\ProjectModel;
 use OrangeHRM\Time\Service\ProjectService;
 
@@ -45,15 +47,32 @@ class ProjectAPI extends Endpoint implements CrudEndpoint
     public const PARAMETER_NAME = 'name';
     public const PARAMETER_DESCRIPTION = 'description';
     public const PARAMETER_IS_DELETED = 'isDeleted';
+    public const PARAMETER_PROJECT_ADMINS = 'projectAdmins';
 
     public const PARAMETER_RULE_NAME_MAX_LENGTH = 100;
     public const PARAMETER_RULE_DESCRIPTION_MAX_LENGTH = 256;
     public const PARAMETER_RULE_CUSTOMER_ID_MAX_LENGTH = 11;
+    public const PARAMETER_RULE_PROJECT_ADMIN_MAX_COUNT=5;
 
     /**
      * @var ProjectService|null
      */
     protected ?ProjectService $projectService = null;
+
+    /**
+     * @var int|null
+     */
+    protected ?int $projectId=null;
+    /**
+     * @return ProjectService
+     */
+    private function getProjectService(): ProjectService
+    {
+        if (is_null($this->projectService)) {
+            return new ProjectService();
+        }
+        return $this->projectService;
+    }
 
     public function getAll(): EndpointResult
     {
@@ -73,7 +92,15 @@ class ProjectAPI extends Endpoint implements CrudEndpoint
     {
         $project = new Project();
         $this->setProject($project);
-        $result = $this->getProjectService()->getProjectDao()->saveProject($project);
+        $currentProject = $this->getProjectService()->getProjectDao()->saveProject($project);
+        $this->projectId=$currentProject->getId();
+        $projectAdminIds=$this->getRequestParams()->getArray(
+            RequestParams::PARAM_TYPE_BODY,
+            self::PARAMETER_PROJECT_ADMINS
+        );
+        $projectAdmin=new ProjectAdmin();
+        $this->setProjectAdmin($projectAdmin,$projectAdminIds);
+        $this->getProjectService()->getProjectDao()->saveProjectAdmins($projectAdmin);
         return new EndpointResourceResult(ProjectModel::class, $project);
     }
 
@@ -100,24 +127,16 @@ class ProjectAPI extends Endpoint implements CrudEndpoint
                 self::PARAMETER_DESCRIPTION
             )
         );
-        $project->getDecorator()->setIsDeleted(
-            $this->getRequestParams()->getBooleanOrNull(
-                RequestParams::PARAM_TYPE_BODY,
-                self::PARAMETER_IS_DELETED
-            )
-        );
     }
 
-    /**
-     * @return ProjectService
-     */
-    private function getProjectService(): ProjectService
-    {
-        if (is_null($this->projectService)) {
-            return new ProjectService();
+    private function setProjectAdmin(ProjectAdmin $projectAdmin,array $projectAdminIds){
+        $projectAdmin->getDecorator()->setProject($this->projectId);
+        foreach ($projectAdminIds as $projectAdminId){
+            $employee = $projectAdmin->getDecorator()->getEmployee($projectAdminId);
+            $projectAdmin->addEmployee($employee);
         }
-        return $this->projectService;
     }
+
 
     public function getValidationRuleForCreate(): ParamRuleCollection
     {
@@ -163,6 +182,13 @@ class ProjectAPI extends Endpoint implements CrudEndpoint
                 new ParamRule(
                     self::PARAMETER_IS_DELETED,
                     new Rule(Rules::BOOL_TYPE)
+                ),
+            ),
+            $this->getValidationDecorator()->requiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_PROJECT_ADMINS,
+                    new Rule(Rules::ARRAY_TYPE),
+                    new Rule(Rules::LENGTH, [!null, self::PARAMETER_RULE_PROJECT_ADMIN_MAX_COUNT])
                 ),
             ),
         ];

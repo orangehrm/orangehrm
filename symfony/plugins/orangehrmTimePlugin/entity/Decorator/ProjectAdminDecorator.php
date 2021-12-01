@@ -41,6 +41,7 @@ class ProjectAdminDecorator
     /**
      * @param $id
      */
+    //empNumber
     public function setEmployeeById($id): void
     {
         $employee = $this->getReference(Employee::class, $id);
@@ -61,5 +62,8 @@ class ProjectAdminDecorator
         $this->getProjectAdmin()->setProject($project);
     }
 
+    public function getEmployee($id):Employee{
+        return $this->getReference(Employee::class, $id);
+    }
 
 }

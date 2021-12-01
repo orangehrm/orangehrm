@@ -34,7 +34,9 @@ class ProjectModel implements Normalizable
             'id',
             'name',
             'description',
-            ['getCustomer', 'getCustomerId'],
+            ['getCustomer','getCustomerId'],
+            ['getCustomer','getName'],
+            ['getCustomer','isDeleted'],
             'isDeleted'
         ]);
 
@@ -42,7 +44,9 @@ class ProjectModel implements Normalizable
             'id',
             'name',
             'description',
-            ['customer', 'id'],
+            ['customer','customerId'],
+            ['customer','name'],
+            ['customer','isDeleted'],
             'isDeleted'
 
         ]);

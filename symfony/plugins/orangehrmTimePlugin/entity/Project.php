@@ -19,6 +19,8 @@
 
 namespace OrangeHRM\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use OrangeHRM\Entity\Customer;
 use OrangeHRM\Entity\Decorator\DecoratorTrait;
@@ -45,7 +47,7 @@ class Project
 
     /**
      * @var Customer
-     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Customer", inversedBy="projects", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Customer", inversedBy="project", cascade={"persist", "remove"})
      * @ORM\JoinColumn(name="customer_id", referencedColumnName="customer_id",nullable=false)
      */
     private Customer $customer;
@@ -67,6 +69,18 @@ class Project
      * @ORM\Column(name="is_deleted",type="boolean",options={"default":0})
      */
     private bool $isDeleted = false;
+
+    /**
+     * @var Collection|ProjectAdmin[]
+     * @ORM\OneToMany (targetEntity="OrangeHRM\Entity\ProjectAdmin", mappedBy="project")
+     */
+    private $projectAdmin;
+
+    public function __construct()
+    {
+        $this->projectAdmin = new ArrayCollection();
+    }
+
 
     /**
      * @return int

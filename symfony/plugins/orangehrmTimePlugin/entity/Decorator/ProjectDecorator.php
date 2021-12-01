@@ -54,15 +54,4 @@ class ProjectDecorator
         return $this->project;
     }
 
-    /**
-     * @param  bool|null  $isDeleted
-     */
-    public function setIsDeleted(?bool $isDeleted): void
-    {
-        if (!is_null($isDeleted)) {
-            $isDeleted = $isDeleted == 1;
-        }
-
-        $this->getProject()->setIsDeleted($isDeleted);
-    }
 }

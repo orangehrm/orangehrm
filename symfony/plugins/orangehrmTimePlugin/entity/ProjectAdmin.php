@@ -20,35 +20,44 @@
 namespace OrangeHRM\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use OrangeHRM\Entity\Employee;
+
+use Doctrine\Common\Collections\ArrayCollection;
+use OrangeHRM\Entity\Decorator\DecoratorTrait;
+use OrangeHRM\Entity\Decorator\ProjectAdminDecorator;
 
 /**
+ * @method ProjectAdminDecorator getDecorator()
  * @ORM\Table(name="ohrm_project_admin")
  * @ORM\Entity
  *
  */
 class ProjectAdmin
 {
-
+    use DecoratorTrait;
     /**
      * @var Project
      *
      * @ORM\Id
-     * @ORM\ManyToMany(targetEntity="OrangeHRM\Entity\Project", mappedBy="projectAdmin", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Project", inversedBy="projectAdmin", cascade={"persist", "remove"})
      * @ORM\JoinColumn(name="project_id", referencedColumnName="project_id",nullable=false)
      *
      */
     private Project $project;
 
     /**
-     * @var Employee
+     * @var Employee[]
      *
      * @ORM\Id
-     * @ORM\OneToOne(targetEntity="OrangeHRM\Entity\Employee", inversedBy="projectAdmins", cascade={"persist", "remove"})
+     * @ORM\ManyToMany (targetEntity="OrangeHRM\Entity\Employee", inversedBy="projectAdmin", cascade={"persist", "remove"})
      * @ORM\JoinColumn(name="emp_number", referencedColumnName="emp_number" ,nullable=false)
      *
      */
-    private Employee $employee;
+    private iterable $employee;
+
+    public function __construct()
+    {
+        $this->employee=new ArrayCollection();
+    }
 
     /**
      * @return Project
@@ -67,22 +76,33 @@ class ProjectAdmin
     }
 
     /**
-     * @return Employee
+     * @return Employee[]
      */
-    public function getEmployee(): Employee
+    public function getEmployee(): iterable
     {
         return $this->employee;
     }
 
     /**
-     * @param  Employee  $employee
+     * @param Employee[] $employee
      */
-    public function setEmployee(Employee $employee): void
+    public function setEmployee(iterable $employee): void
     {
         $this->employee = $employee;
     }
 
+    /**
+     * @param  Employee  $employee
+     */
+    public function addEmployee(Employee $employee)
+    {
+        if($this->employee->contains($employee)){
+            return;
+        }
+        $this->employee[]=$employee;
+        var_dump($this->employee);
 
+    }
 
 
 }

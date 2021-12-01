@@ -488,9 +488,6 @@ class Employee
      * @var ProjectAdmin[]
      *
      * @ORM\ManyToMany(targetEntity="OrangeHRM\Entity\ProjectAdmin", mappedBy="Employee")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="emp_number", referencedColumnName="emp_number")
-     * })
      */
     private iterable $projectAdmin;
 
