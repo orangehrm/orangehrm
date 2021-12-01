@@ -38,3 +38,13 @@ edit_customer:
   path: /time/saveCustomer/{id}
   controller: OrangeHRM\Time\Controller\SaveCustomerController::handle
   methods: [ GET ]
+
+time_my_timesheet:
+  path: /time/viewMyTimesheet
+  controller: OrangeHRM\Time\Controller\MyTimesheetController::handle
+  methods: [ GET ]
+
+time_edit_timesheet:
+  path: /time/editTimesheet/{id}
+  controller: OrangeHRM\Time\Controller\EditTimesheetController::handle
+  methods: [ GET ]

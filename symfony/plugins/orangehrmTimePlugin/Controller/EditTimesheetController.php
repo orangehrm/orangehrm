@@ -1,3 +1,4 @@
+<?php
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -16,16 +17,27 @@
  * Boston, MA  02110-1301, USA
  */
 
-import Customer from './pages/customer/Customer.vue';
-import SaveCustomer from './pages/customer/SaveCustomer.vue';
-import EditCustomer from './pages/customer/EditCustomer.vue';
-import MyTimesheet from './pages/timesheets/MyTimesheet.vue';
-import EditMyTimeSheet from './pages/timesheets/EditMyTimeSheet.vue';
+namespace OrangeHRM\Time\Controller;
 
-export default {
-  'customer-list': Customer,
-  'customer-save': SaveCustomer,
-  'customer-edit': EditCustomer,
-  'my-timesheet': MyTimesheet,
-  'edit-my-timesheet': EditMyTimeSheet,
-};
+use OrangeHRM\Core\Controller\AbstractVueController;
+use OrangeHRM\Core\Vue\Component;
+use OrangeHRM\Core\Vue\Prop;
+use OrangeHRM\Framework\Http\Request;
+
+class EditTimesheetController extends AbstractVueController
+{
+    /**
+     * @inheritDoc
+     */
+    public function preRender(Request $request): void
+    {
+        $id = $request->get('id');
+        // TODO: show 404 if no id
+        if ($id) {
+            $component = new Component('edit-my-timesheet');
+            $component->addProp(new Prop('timesheet-id', Prop::TYPE_NUMBER, $id));
+        }
+        
+        $this->setComponent($component);
+    }
+}
