@@ -25,7 +25,7 @@
     :clear="false"
     :create-options="loadReports"
   >
-    <template v-slot:option="{data}">
+    <template #option="{data}">
       <span>{{ data.label }}</span>
     </template>
   </oxd-input-field>
@@ -34,7 +34,7 @@
 <script>
 import {APIService} from '@ohrm/core/util/services/api.service';
 export default {
-  name: 'report-autocomplete',
+  name: 'ReportAutocomplete',
 
   setup() {
     const http = new APIService(

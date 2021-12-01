@@ -30,7 +30,7 @@
 import {ref, onBeforeMount} from 'vue';
 import {APIService} from '@ohrm/core/util/services/api.service';
 export default {
-  name: 'leave-period-dropdown',
+  name: 'LeavePeriodDropdown',
   setup() {
     const options = ref([]);
     const http = new APIService(

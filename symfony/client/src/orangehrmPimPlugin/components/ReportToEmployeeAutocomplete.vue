@@ -25,10 +25,10 @@
     :clear="false"
     :create-options="loadEmployees"
   >
-    <template v-slot:afterSelected="{data}">
+    <template #afterSelected="{data}">
       <template v-if="data.isPastEmployee">(Past Employee)</template>
     </template>
-    <template v-slot:option="{data}">
+    <template #option="{data}">
       <span>{{ data.label }}</span>
       <div v-if="data.isPastEmployee" class="past-employee-tag">
         (Past Employee)
@@ -40,7 +40,7 @@
 <script>
 import {APIService} from '@ohrm/core/util/services/api.service';
 export default {
-  name: 'report-to-employee-autocomplete',
+  name: 'ReportToEmployeeAutocomplete',
 
   props: {
     api: {
@@ -49,6 +49,7 @@ export default {
     },
     params: {
       type: Object,
+      default: () => ({}),
     },
   },
 

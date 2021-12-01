@@ -28,8 +28,8 @@
         <div>
           <oxd-button
             label="Add"
-            iconName="plus"
-            displayType="secondary"
+            icon-name="plus"
+            display-type="secondary"
             @click="onClickAdd"
           />
         </div>
@@ -42,20 +42,20 @@
       ></table-header>
       <div class="orangehrm-container">
         <oxd-card-table
+          v-model:selected="checkedItems"
           :headers="headers"
           :items="items?.data"
           :selectable="true"
           :clickable="false"
           :loading="isLoading"
-          v-model:selected="checkedItems"
-          rowDecorator="oxd-table-decorator-card"
+          row-decorator="oxd-table-decorator-card"
         />
       </div>
       <div class="orangehrm-bottom-container">
         <oxd-pagination
           v-if="showPaginator"
-          :length="pages"
           v-model:current="currentPage"
+          :length="pages"
         />
       </div>
     </div>
@@ -71,6 +71,37 @@ import {navigate} from '@ohrm/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
 
 export default {
+  components: {
+    'delete-confirmation': DeleteConfirmationDialog,
+  },
+
+  setup() {
+    const http = new APIService(
+      window.appGlobal.baseUrl,
+      'api/v2/admin/job-categories',
+    );
+    const {
+      showPaginator,
+      currentPage,
+      total,
+      pages,
+      pageSize,
+      response,
+      isLoading,
+      execQuery,
+    } = usePaginate(http);
+    return {
+      http,
+      showPaginator,
+      currentPage,
+      isLoading,
+      total,
+      pages,
+      pageSize,
+      execQuery,
+      items: response,
+    };
+  },
   data() {
     return {
       headers: [
@@ -104,38 +135,6 @@ export default {
         },
       ],
       checkedItems: [],
-    };
-  },
-
-  components: {
-    'delete-confirmation': DeleteConfirmationDialog,
-  },
-
-  setup() {
-    const http = new APIService(
-      window.appGlobal.baseUrl,
-      'api/v2/admin/job-categories',
-    );
-    const {
-      showPaginator,
-      currentPage,
-      total,
-      pages,
-      pageSize,
-      response,
-      isLoading,
-      execQuery,
-    } = usePaginate(http);
-    return {
-      http,
-      showPaginator,
-      currentPage,
-      isLoading,
-      total,
-      pages,
-      pageSize,
-      execQuery,
-      items: response,
     };
   },
 

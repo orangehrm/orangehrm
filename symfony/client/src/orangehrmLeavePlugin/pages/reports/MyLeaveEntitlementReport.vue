@@ -26,7 +26,7 @@
     :filters="serializedFilters"
     :column-count="6"
   >
-    <template v-slot:default="{generateReport}">
+    <template #default="{generateReport}">
       <oxd-table-filter
         :filter-title="$t('leave.my_leave_entitlement_and_usage_report')"
       >
@@ -49,7 +49,7 @@
             <required-text />
             <oxd-button
               type="submit"
-              displayType="secondary"
+              display-type="secondary"
               class="orangehrm-left-space"
               :label="$t('general.generate')"
             />
@@ -68,16 +68,16 @@ import ReportsTable from '@/core/components/table/ReportsTable';
 import LeavePeriodDropdown from '@/orangehrmLeavePlugin/components/LeavePeriodDropdown';
 
 export default {
+  components: {
+    'reports-table': ReportsTable,
+    'leave-period-dropdown': LeavePeriodDropdown,
+  },
   props: {
     leavePeriod: {
       type: Object,
       required: false,
+      default: () => ({}),
     },
-  },
-
-  components: {
-    'reports-table': ReportsTable,
-    'leave-period-dropdown': LeavePeriodDropdown,
   },
 
   setup(props) {

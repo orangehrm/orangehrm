@@ -32,23 +32,23 @@
       <div v-if="!disabled" class="orangehrm-file-options">
         <oxd-input-field
           type="radio"
-          optionLabel="Keep Current"
+          option-label="Keep Current"
           value="keepCurrent"
-          :modelValue="method"
+          :model-value="method"
           @update:modelValue="$emit('update:method', $event)"
         />
         <oxd-input-field
           type="radio"
-          optionLabel="Delete Current"
+          option-label="Delete Current"
           value="deleteCurrent"
-          :modelValue="method"
+          :model-value="method"
           @update:modelValue="$emit('update:method', $event)"
         />
         <oxd-input-field
           type="radio"
-          optionLabel="Replace Current"
+          option-label="Replace Current"
           value="replaceCurrent"
-          :modelValue="method"
+          :model-value="method"
           @update:modelValue="$emit('update:method', $event)"
         />
       </div>
@@ -59,7 +59,7 @@
       v-bind="$attrs"
       type="file"
       :label="label"
-      :modelValue="newFile"
+      :model-value="newFile"
       :disabled="disabled"
       @update:modelValue="$emit('update:newFile', $event)"
     />
@@ -71,11 +71,11 @@
 import Icon from '@ohrm/oxd/core/components/Icon/Icon.vue';
 
 export default {
-  name: 'file-upload-input',
-  inheritAttrs: false,
+  name: 'FileUploadInput',
   components: {
     'oxd-icon': Icon,
   },
+  inheritAttrs: false,
   props: {
     label: {
       type: String,
@@ -94,9 +94,11 @@ export default {
       required: true,
     },
     file: {
+      type: Object,
       required: true,
     },
     newFile: {
+      type: Object,
       required: true,
     },
     disabled: {
@@ -104,6 +106,7 @@ export default {
       default: false,
     },
   },
+  emits: ['update:method', 'update:newFile'],
   methods: {
     downloadFile() {
       if (!this.file?.id) return;

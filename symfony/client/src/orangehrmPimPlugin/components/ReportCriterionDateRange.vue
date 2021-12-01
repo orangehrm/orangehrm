@@ -24,7 +24,7 @@
       type="select"
       :rules="rules.operator"
       :options="operators"
-      :modelValue="operator"
+      :model-value="operator"
       @update:modelValue="$emit('update:operator', $event)"
     />
   </oxd-grid-item>
@@ -36,7 +36,7 @@
       type="date"
       placeholder="yyyy-mm-dd"
       :rules="rules.valueX"
-      :modelValue="valueX"
+      :model-value="valueX"
       @update:modelValue="$emit('update:valueX', $event)"
     />
     <oxd-text class="orangehrm-report-range-text" tag="p">to</oxd-text>
@@ -44,7 +44,7 @@
       type="date"
       placeholder="yyyy-mm-dd"
       :rules="rules.valueY"
-      :modelValue="valueY"
+      :model-value="valueY"
       @update:modelValue="$emit('update:valueY', $event)"
     />
   </oxd-grid-item>
@@ -53,7 +53,7 @@
       type="date"
       placeholder="yyyy-mm-dd"
       :rules="rules.valueXOnly"
-      :modelValue="valueX"
+      :model-value="valueX"
       @update:modelValue="$emit('update:valueX', $event)"
     />
   </oxd-grid-item>
@@ -69,22 +69,26 @@ import {
 } from '@ohrm/core/util/validation/rules';
 
 export default {
-  name: 'report-criterion-date-range',
+  name: 'ReportCriterionDateRange',
   inheritAttrs: false,
   props: {
     operator: {
       type: Object,
       required: false,
+      default: () => null,
     },
     valueX: {
       type: String,
       required: false,
+      default: null,
     },
     valueY: {
       type: String,
       required: false,
+      default: null,
     },
   },
+  emits: ['update:valueX', 'update:valueY', 'update:operator'],
   setup(props) {
     const operators = ref([
       {id: 'lt', label: 'Joined before'},

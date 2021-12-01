@@ -28,8 +28,8 @@
       <oxd-form :loading="isLoading" @submitValid="onSave">
         <oxd-form-row>
           <oxd-input-field
-            label="Level"
             v-model="qualification.name"
+            label="Level"
             :rules="rules.name"
             required
           />
@@ -41,7 +41,7 @@
           <required-text />
           <oxd-button
             type="button"
-            displayType="ghost"
+            display-type="ghost"
             label="Cancel"
             @click="onCancel"
           />
@@ -87,25 +87,6 @@ export default {
     };
   },
 
-  methods: {
-    onSave() {
-      this.isLoading = true;
-      this.http
-        .update(this.educationId, {
-          name: this.qualification.name,
-        })
-        .then(() => {
-          return this.$toast.updateSuccess();
-        })
-        .then(() => {
-          this.onCancel();
-        });
-    },
-    onCancel() {
-      navigate('/admin/viewEducation');
-    },
-  },
-
   created() {
     this.isLoading = true;
     this.http
@@ -136,6 +117,25 @@ export default {
       .finally(() => {
         this.isLoading = false;
       });
+  },
+
+  methods: {
+    onSave() {
+      this.isLoading = true;
+      this.http
+        .update(this.educationId, {
+          name: this.qualification.name,
+        })
+        .then(() => {
+          return this.$toast.updateSuccess();
+        })
+        .then(() => {
+          this.onCancel();
+        });
+    },
+    onCancel() {
+      navigate('/admin/viewEducation');
+    },
   },
 };
 </script>

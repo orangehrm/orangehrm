@@ -25,32 +25,32 @@
       class="orangehrm-firstname"
       name="First Name"
       placeholder="First name"
-      :modelValue="firstName"
-      @update:modelValue="$emit('update:firstName', $event)"
+      :model-value="firstName"
       :rules="rules.firstName"
+      @update:modelValue="$emit('update:firstName', $event)"
     />
     <oxd-input-field
       class="orangehrm-middlename"
       name="Middle Name"
       placeholder="Middle name"
-      :modelValue="middleName"
-      @update:modelValue="$emit('update:middleName', $event)"
+      :model-value="middleName"
       :rules="rules.middleName"
+      @update:modelValue="$emit('update:middleName', $event)"
     />
     <oxd-input-field
       class="orangehrm-lastname"
       name="Last Name"
       placeholder="Last name"
-      :modelValue="lastName"
-      @update:modelValue="$emit('update:lastName', $event)"
+      :model-value="lastName"
       :rules="rules.lastName"
+      @update:modelValue="$emit('update:lastName', $event)"
     />
   </oxd-input-group>
 </template>
 
 <script>
 export default {
-  name: 'full-name-input',
+  name: 'FullNameInput',
   inheritAttrs: false,
   props: {
     firstName: {
@@ -70,6 +70,7 @@ export default {
       required: true,
     },
   },
+  emits: ['update:firstName', 'update:middleName', 'update:lastName'],
   computed: {
     classes() {
       return {

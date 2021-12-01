@@ -22,8 +22,8 @@
   <teleport to="#app">
     <oxd-dialog
       v-if="show"
-      @update:show="onCancel"
       :style="{maxWidth: '450px'}"
+      @update:show="onCancel"
     >
       <div class="orangehrm-modal-header">
         <oxd-text type="card-title">
@@ -38,13 +38,13 @@
       </div>
       <div class="orangehrm-modal-footer">
         <oxd-button
-          displayType="ghost"
+          display-type="ghost"
           class="orangehrm-button-margin"
           :label="$t('general.cancel')"
           @click="onCancel"
         />
         <oxd-button
-          displayType="secondary"
+          display-type="secondary"
           class="orangehrm-button-margin"
           :label="$t('general.ok')"
           @click="onConfirm"
@@ -58,7 +58,7 @@
 import Dialog from '@ohrm/oxd/core/components/Dialog/Dialog';
 
 export default {
-  name: 'leave-assign-confirm-modal',
+  name: 'LeaveAssignConfirmModal',
   components: {
     'oxd-dialog': Dialog,
   },

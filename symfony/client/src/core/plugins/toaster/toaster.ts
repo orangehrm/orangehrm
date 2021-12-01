@@ -63,18 +63,11 @@ const state: ToasterState = reactive({
 });
 
 const Toaster = defineComponent({
-  name: 'oxd-toaster',
+  name: 'OxdToaster',
   setup() {
     return {
       ...toRefs(state),
     };
-  },
-  methods: {
-    onUpdateShow(state: boolean, index: number) {
-      if (state === false) {
-        this.toasts.splice(index, 1);
-      }
-    },
   },
   computed: {
     classes(): object {
@@ -82,6 +75,13 @@ const Toaster = defineComponent({
         'oxd-toast-container': true,
         [`oxd-toast-container--${this.position}`]: true,
       };
+    },
+  },
+  methods: {
+    onUpdateShow(state: boolean, index: number) {
+      if (state === false) {
+        this.toasts.splice(index, 1);
+      }
     },
   },
 
@@ -233,7 +233,7 @@ export default {
     state.position = options.position ? options.position : 'bottom';
 
     // Define Toaster component
-    app.component('oxd-toaster', Toaster);
+    app.component('OxdToaster', Toaster);
 
     // Add Toaster API to Vue global scope
     const toasterAPI: ToasterAPI = {

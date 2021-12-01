@@ -29,9 +29,9 @@
           <oxd-grid :cols="2" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <oxd-input-field
+                v-model="report.name"
                 label="Report Name"
                 placeholder="Type here..."
-                v-model="report.name"
                 :rules="rules.name"
                 required
               />
@@ -47,9 +47,9 @@
           <oxd-grid :cols="4" class="orangehrm-full-width-grid">
             <oxd-grid-item class="orangehrm-report-criteria --span-column-2">
               <oxd-input-field
+                v-model="report.criterion"
                 type="select"
                 label="Selection Criteria"
-                v-model="report.criterion"
                 :options="availableCriteria"
               />
               <oxd-input-group>
@@ -62,9 +62,9 @@
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
+                v-model="report.includeEmployees"
                 type="select"
                 label="Include"
-                v-model="report.includeEmployees"
                 :options="includeOpts"
                 :show-empty-selector="false"
               />
@@ -73,12 +73,12 @@
             <report-criterion
               v-for="(criterion, index) in report.criteriaSelected"
               :key="criterion"
-              :criterion="criterion"
               v-model:operator="
                 report.criteriaFieldValues[criterion.id].operator
               "
               v-model:valueX="report.criteriaFieldValues[criterion.id].valueX"
               v-model:valueY="report.criteriaFieldValues[criterion.id].valueY"
+              :criterion="criterion"
               @delete="removeCriterion(index)"
             >
             </report-criterion>
@@ -94,17 +94,17 @@
           <oxd-grid :cols="4" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <oxd-input-field
+                v-model="report.fieldGroup"
                 type="select"
                 label="Select Display Field Group"
-                v-model="report.fieldGroup"
                 :options="availableFieldGroups"
               />
             </oxd-grid-item>
             <oxd-grid-item class="orangehrm-report-criteria --span-column-2">
               <oxd-input-field
+                v-model="report.displayField"
                 type="select"
                 label="Select Display Field"
-                v-model="report.displayField"
                 :options="availableDisplyFields"
               />
               <oxd-input-group>
@@ -119,12 +119,12 @@
             <report-display-field
               v-for="(fieldGroup, index) in report.fieldGroupSelected"
               :key="fieldGroup"
+              v-model:includeHeader="
+                report.displayFieldSelected[fieldGroup.id].includeHeader
+              "
               :field-group="fieldGroup"
               :selected-fields="
                 report.displayFieldSelected[fieldGroup.id].fields
-              "
-              v-model:includeHeader="
-                report.displayFieldSelected[fieldGroup.id].includeHeader
               "
               @delete="removeDisplayFieldGroup(index)"
               @deleteChip="removeDisplayField($event, index)"
@@ -139,7 +139,7 @@
           <required-text />
           <oxd-button
             type="button"
-            displayType="ghost"
+            display-type="ghost"
             label="Cancel"
             @click="onCancel"
           />
@@ -238,31 +238,6 @@ export default {
     };
   },
 
-  methods: {
-    onCancel() {
-      navigate('/pim/viewDefinedPredefinedReports');
-    },
-    onSave() {
-      if (Object.keys(this.report.displayFieldSelected).length === 0) {
-        return this.$toast.warn({
-          title: 'Warning',
-          message: 'At least one display field should be added',
-        });
-      }
-
-      this.isLoading = true;
-      const payload = this.serializeBody(this.report);
-      this.http
-        .update(this.reportId, payload)
-        .then(() => {
-          return this.$toast.updateSuccess();
-        })
-        .then(() => {
-          navigate('/pim/displayPredefinedReport/{id}', {id: this.reportId});
-        });
-    },
-  },
-
   beforeMount() {
     this.isLoading = true;
     this.http
@@ -325,6 +300,31 @@ export default {
       .finally(() => {
         this.isLoading = false;
       });
+  },
+
+  methods: {
+    onCancel() {
+      navigate('/pim/viewDefinedPredefinedReports');
+    },
+    onSave() {
+      if (Object.keys(this.report.displayFieldSelected).length === 0) {
+        return this.$toast.warn({
+          title: 'Warning',
+          message: 'At least one display field should be added',
+        });
+      }
+
+      this.isLoading = true;
+      const payload = this.serializeBody(this.report);
+      this.http
+        .update(this.reportId, payload)
+        .then(() => {
+          return this.$toast.updateSuccess();
+        })
+        .then(() => {
+          navigate('/pim/displayPredefinedReport/{id}', {id: this.reportId});
+        });
+    },
   },
 };
 </script>

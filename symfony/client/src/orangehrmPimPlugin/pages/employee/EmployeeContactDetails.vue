@@ -30,44 +30,44 @@
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <oxd-input-field
-                label="Street 1"
                 v-model="contact.street1"
+                label="Street 1"
                 :rules="rules.street1"
               />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
-                label="Street 2"
                 v-model="contact.street2"
+                label="Street 2"
                 :rules="rules.street2"
               />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
-                label="City"
                 v-model="contact.city"
+                label="City"
                 :rules="rules.city"
               />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
-                label="State/Province"
                 v-model="contact.province"
+                label="State/Province"
                 :rules="rules.province"
               />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
-                label="Zip/Postal Code"
                 v-model="contact.zipCode"
+                label="Zip/Postal Code"
                 :rules="rules.zipCode"
               />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
+                v-model="contact.countryCode"
                 type="select"
                 label="Country"
-                v-model="contact.countryCode"
                 :options="countries"
               />
             </oxd-grid-item>
@@ -80,22 +80,22 @@
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <oxd-input-field
-                label="Home"
                 v-model="contact.homeTelephone"
+                label="Home"
                 :rules="rules.homeTelephone"
               />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
-                label="Mobile"
                 v-model="contact.mobile"
+                label="Mobile"
                 :rules="rules.mobile"
               />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
-                label="Work"
                 v-model="contact.workTelephone"
+                label="Work"
                 :rules="rules.workTelephone"
               />
             </oxd-grid-item>
@@ -108,15 +108,15 @@
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <oxd-input-field
-                label="Work Email"
                 v-model="contact.workEmail"
+                label="Work Email"
                 :rules="rules.workEmail"
               />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
-                label="Other Email"
                 v-model="contact.otherEmail"
+                label="Other Email"
                 :rules="rules.otherEmail"
               />
             </oxd-grid-item>
@@ -207,6 +207,18 @@ export default {
     };
   },
 
+  beforeMount() {
+    this.isLoading = true;
+    this.http
+      .getAll()
+      .then(response => {
+        this.updateModel(response);
+      })
+      .finally(() => {
+        this.isLoading = false;
+      });
+  },
+
   methods: {
     onSave() {
       this.isLoading = true;
@@ -257,18 +269,6 @@ export default {
         item => item.id === data.countryCode,
       );
     },
-  },
-
-  beforeMount() {
-    this.isLoading = true;
-    this.http
-      .getAll()
-      .then(response => {
-        this.updateModel(response);
-      })
-      .finally(() => {
-        this.isLoading = false;
-      });
   },
 };
 </script>

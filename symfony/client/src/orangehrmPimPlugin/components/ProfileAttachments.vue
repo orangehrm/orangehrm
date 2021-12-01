@@ -40,8 +40,8 @@
         orangehrm-vertical-padding"
       >
         <profile-action-header
-          @click="onClickAdd"
           :action-button-shown="$can.create(`${screen}_attachment`)"
+          @click="onClickAdd"
         >
           Attachments
         </profile-action-header>
@@ -54,17 +54,17 @@
       ></table-header>
       <div class="orangehrm-container">
         <oxd-card-table
+          v-model:selected="checkedItems"
           :headers="tableHeaders"
           :items="items?.data"
           :selectable="$can.delete(`${screen}_attachment`)"
           :clickable="false"
           :loading="isLoading"
-          v-model:selected="checkedItems"
-          rowDecorator="oxd-table-decorator-card"
+          row-decorator="oxd-table-decorator-card"
         />
       </div>
       <div v-if="showPaginator" class="orangehrm-bottom-container">
-        <oxd-pagination :length="pages" v-model:current="currentPage" />
+        <oxd-pagination v-model:current="currentPage" :length="pages" />
       </div>
     </template>
     <delete-confirmation ref="deleteDialog"></delete-confirmation>
@@ -90,7 +90,7 @@ const attachmentDataNormalizer = data => {
 };
 
 export default {
-  name: 'profile-attachments',
+  name: 'ProfileAttachments',
   components: {
     'save-attachment': SaveAttachment,
     'edit-attachment': EditAttachment,
@@ -159,6 +159,47 @@ export default {
     };
   },
 
+  computed: {
+    tableHeaders() {
+      const headerActions = {
+        name: 'actions',
+        slot: 'action',
+        title: 'Actions',
+        style: {flex: 1},
+        cellType: 'oxd-table-cell-actions',
+        cellConfig: {},
+      };
+      if (this.$can.update(`${this.screen}_attachment`)) {
+        headerActions.cellConfig.edit = {
+          onClick: this.onClickEdit,
+          props: {
+            name: 'pencil-fill',
+          },
+        };
+      }
+      if (this.$can.delete(`${this.screen}_attachment`)) {
+        headerActions.cellConfig.delete = {
+          onClick: this.onClickDelete,
+          component: 'oxd-icon-button',
+          props: {
+            name: 'trash',
+          },
+        };
+      }
+      if (this.$can.read(`${this.screen}_attachment`)) {
+        headerActions.cellConfig.download = {
+          onClick: this.onClickDownload,
+          props: {
+            name: 'download',
+          },
+        };
+      }
+      return Object.keys(headerActions.cellConfig).length > 0
+        ? this.headers.concat([headerActions])
+        : this.headers;
+    },
+  },
+
   methods: {
     onClickDeleteSelected() {
       const ids = this.checkedItems.map(index => {
@@ -219,47 +260,6 @@ export default {
       this.showEditModal = false;
       this.editModalState = null;
       this.resetDataTable();
-    },
-  },
-
-  computed: {
-    tableHeaders() {
-      const headerActions = {
-        name: 'actions',
-        slot: 'action',
-        title: 'Actions',
-        style: {flex: 1},
-        cellType: 'oxd-table-cell-actions',
-        cellConfig: {},
-      };
-      if (this.$can.update(`${this.screen}_attachment`)) {
-        headerActions.cellConfig.edit = {
-          onClick: this.onClickEdit,
-          props: {
-            name: 'pencil-fill',
-          },
-        };
-      }
-      if (this.$can.delete(`${this.screen}_attachment`)) {
-        headerActions.cellConfig.delete = {
-          onClick: this.onClickDelete,
-          component: 'oxd-icon-button',
-          props: {
-            name: 'trash',
-          },
-        };
-      }
-      if (this.$can.read(`${this.screen}_attachment`)) {
-        headerActions.cellConfig.download = {
-          onClick: this.onClickDownload,
-          props: {
-            name: 'download',
-          },
-        };
-      }
-      return Object.keys(headerActions.cellConfig).length > 0
-        ? this.headers.concat([headerActions])
-        : this.headers;
     },
   },
 };

@@ -20,14 +20,14 @@
 
 <template>
   <oxd-input-group>
-    <template v-slot:label>
+    <template #label>
       <div class="orangehrm-leave-balance">
         <oxd-label :label="$t('leave.leave_balance')" />
         <oxd-icon-button
           v-if="leaveData.type"
           class="--help"
           name="question-circle"
-          :withContainer="false"
+          :with-container="false"
           @click="onModalOpen"
         />
       </div>
@@ -57,17 +57,18 @@ import LeaveBalanceInsufficientModal from '@/orangehrmLeavePlugin/components/Lea
 import useLeaveValidators from '@/orangehrmLeavePlugin/util/composable/useLeaveValidators';
 
 export default {
-  name: 'leave-balance',
-  inheritAttrs: false,
-  props: {
-    leaveData: {
-      type: Object,
-    },
-  },
+  name: 'LeaveBalance',
   components: {
     'oxd-label': Label,
     'leave-balance-modal': LeaveBalanceModal,
     'leave-balance-insufficient-modal': LeaveBalanceInsufficientModal,
+  },
+  inheritAttrs: false,
+  props: {
+    leaveData: {
+      type: Object,
+      default: () => ({}),
+    },
   },
   setup(props) {
     const state = reactive({

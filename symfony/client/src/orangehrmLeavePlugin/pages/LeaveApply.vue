@@ -41,8 +41,8 @@
           <oxd-grid :cols="2" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <oxd-input-field
-                type="select"
                 v-model="leave.type"
+                type="select"
                 :rules="rules.type"
                 :options="leaveTypes"
                 :label="$t('leave.leave_type')"
@@ -50,7 +50,7 @@
               />
             </oxd-grid-item>
             <oxd-grid-item>
-              <leave-balance :leaveData="leave"></leave-balance>
+              <leave-balance :leave-data="leave"></leave-balance>
             </oxd-grid-item>
           </oxd-grid>
         </oxd-form-row>
@@ -59,8 +59,8 @@
           <oxd-grid :cols="4" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <date-input
-                :label="$t('general.from_date')"
                 v-model="leave.fromDate"
+                :label="$t('general.from_date')"
                 :rules="rules.fromDate"
                 :years="yearsArray"
                 required
@@ -68,8 +68,8 @@
             </oxd-grid-item>
             <oxd-grid-item>
               <date-input
-                :label="$t('general.to_date')"
                 v-model="leave.toDate"
+                :label="$t('general.to_date')"
                 :rules="rules.toDate"
                 :years="yearsArray"
                 required
@@ -82,11 +82,11 @@
         <oxd-form-row v-if="appliedLeaveDuration == 1">
           <oxd-grid :cols="4" class="orangehrm-full-width-grid">
             <leave-duration-input
-              :label="$t('general.duration')"
-              :work-shift="workShift"
               v-model:duration="leave.duration.type"
               v-model:fromTime="leave.duration.fromTime"
               v-model:toTime="leave.duration.toTime"
+              :label="$t('general.duration')"
+              :work-shift="workShift"
             ></leave-duration-input>
           </oxd-grid>
         </oxd-form-row>
@@ -97,38 +97,38 @@
           <oxd-grid :cols="4" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <oxd-input-field
+                v-model="leave.partialOptions"
                 type="select"
                 :label="$t('leave.partial_days')"
                 :options="partialOptions"
-                v-model="leave.partialOptions"
               />
             </oxd-grid-item>
             <leave-duration-input
-              :partial="true"
-              :label="$t('general.duration')"
-              :work-shift="workShift"
               v-if="showDuration"
               v-model:duration="leave.duration.type"
               v-model:fromTime="leave.duration.fromTime"
               v-model:toTime="leave.duration.toTime"
+              :partial="true"
+              :label="$t('general.duration')"
+              :work-shift="workShift"
             ></leave-duration-input>
             <leave-duration-input
-              :partial="true"
-              :label="$t('leave.start_day')"
-              :work-shift="workShift"
               v-if="showStartDay"
               v-model:duration="leave.duration.type"
               v-model:fromTime="leave.duration.fromTime"
               v-model:toTime="leave.duration.toTime"
+              :partial="true"
+              :label="$t('leave.start_day')"
+              :work-shift="workShift"
             ></leave-duration-input>
             <leave-duration-input
-              :partial="true"
-              :label="$t('leave.end_day')"
-              :work-shift="workShift"
               v-if="showEndDay"
               v-model:duration="leave.endDuration.type"
               v-model:fromTime="leave.endDuration.fromTime"
               v-model:toTime="leave.endDuration.toTime"
+              :partial="true"
+              :label="$t('leave.end_day')"
+              :work-shift="workShift"
             ></leave-duration-input>
           </oxd-grid>
         </oxd-form-row>
@@ -138,9 +138,9 @@
           <oxd-grid :cols="2" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <oxd-input-field
+                v-model="leave.comment"
                 type="textarea"
                 :label="$t('general.comments')"
-                v-model="leave.comment"
                 :rules="rules.comment"
               />
             </oxd-grid-item>
@@ -193,7 +193,7 @@ const leaveModel = {
 };
 
 export default {
-  name: 'leave-apply',
+  name: 'LeaveApply',
 
   components: {
     'leave-duration-input': LeaveDurationInput,
@@ -204,6 +204,7 @@ export default {
   props: {
     workShift: {
       type: Object,
+      default: () => ({}),
     },
   },
 
@@ -254,39 +255,6 @@ export default {
       yearsArray: [...yearRange()],
       leaveTypes: [],
     };
-  },
-
-  methods: {
-    onSave() {
-      this.isLoading = true;
-      this.showLeaveConflict = false;
-      this.leaveConflictData = null;
-
-      this.validateOverlapLeaves(this.leave)
-        .then(({isConflict, isOverWorkshift, data}) => {
-          if (isConflict) {
-            this.leaveConflictData = data;
-            this.showLeaveConflict = true;
-            this.isWorkShiftExceeded = isOverWorkshift;
-            return Promise.reject();
-          }
-          return this.http.create(this.serializeBody(this.leave));
-        })
-        .then(() => {
-          this.$toast.saveSuccess();
-          this.reset();
-        })
-        .catch(() => {
-          this.showLeaveConflict &&
-            this.$toast.warn({
-              title: 'Warning',
-              message: 'Failed to Submit',
-            });
-        })
-        .finally(() => {
-          this.isLoading = false;
-        });
-    },
   },
 
   computed: {
@@ -340,6 +308,39 @@ export default {
       .finally(() => {
         this.isLoading = false;
       });
+  },
+
+  methods: {
+    onSave() {
+      this.isLoading = true;
+      this.showLeaveConflict = false;
+      this.leaveConflictData = null;
+
+      this.validateOverlapLeaves(this.leave)
+        .then(({isConflict, isOverWorkshift, data}) => {
+          if (isConflict) {
+            this.leaveConflictData = data;
+            this.showLeaveConflict = true;
+            this.isWorkShiftExceeded = isOverWorkshift;
+            return Promise.reject();
+          }
+          return this.http.create(this.serializeBody(this.leave));
+        })
+        .then(() => {
+          this.$toast.saveSuccess();
+          this.reset();
+        })
+        .catch(() => {
+          this.showLeaveConflict &&
+            this.$toast.warn({
+              title: 'Warning',
+              message: 'Failed to Submit',
+            });
+        })
+        .finally(() => {
+          this.isLoading = false;
+        });
+    },
   },
 };
 </script>

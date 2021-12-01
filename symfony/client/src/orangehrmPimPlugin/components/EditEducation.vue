@@ -27,8 +27,8 @@
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
           <oxd-grid-item>
             <oxd-input-field
-              label="Level"
               v-model="education.name"
+              label="Level"
               required
               readonly
               disabled
@@ -36,29 +36,29 @@
           </oxd-grid-item>
           <oxd-grid-item>
             <oxd-input-field
-              label="Institute"
               v-model="education.institute"
+              label="Institute"
               :rules="rules.institute"
             />
           </oxd-grid-item>
           <oxd-grid-item>
             <oxd-input-field
-              label="Major/Specialization"
               v-model="education.major"
+              label="Major/Specialization"
               :rules="rules.major"
             />
           </oxd-grid-item>
           <oxd-grid-item>
             <oxd-input-field
-              label="Year"
               v-model="education.year"
+              label="Year"
               :rules="rules.year"
             />
           </oxd-grid-item>
           <oxd-grid-item>
             <oxd-input-field
-              label="GPA/Score"
               v-model="education.score"
+              label="GPA/Score"
               :rules="rules.score"
             />
           </oxd-grid-item>
@@ -69,15 +69,15 @@
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
           <oxd-grid-item>
             <date-input
-              label="Start Date"
               v-model="education.startDate"
+              label="Start Date"
               :rules="rules.startDate"
             />
           </oxd-grid-item>
           <oxd-grid-item>
             <date-input
-              label="End Date"
               v-model="education.endDate"
+              label="End Date"
               :rules="rules.endDate"
             />
           </oxd-grid-item>
@@ -88,7 +88,7 @@
         <required-text />
         <oxd-button
           type="button"
-          displayType="ghost"
+          display-type="ghost"
           label="Cancel"
           @click="onCancel"
         />
@@ -118,9 +118,7 @@ const educationModel = {
 };
 
 export default {
-  name: 'edit-education',
-
-  emits: ['close'],
+  name: 'EditEducation',
 
   props: {
     http: {
@@ -132,6 +130,8 @@ export default {
       required: true,
     },
   },
+
+  emits: ['close'],
 
   data() {
     return {
@@ -149,6 +149,25 @@ export default {
         ],
       },
     };
+  },
+
+  beforeMount() {
+    this.isLoading = true;
+    this.http
+      .get(this.data.id)
+      .then(response => {
+        const {data} = response.data;
+        this.education.name = data.education.name;
+        this.education.institute = data.institute;
+        this.education.major = data.major;
+        this.education.year = data.year ? data.year : '';
+        this.education.score = data.score;
+        this.education.startDate = data.startDate ? data.startDate : '';
+        this.education.endDate = data.endDate ? data.endDate : '';
+      })
+      .finally(() => {
+        this.isLoading = false;
+      });
   },
 
   methods: {
@@ -173,25 +192,6 @@ export default {
     onCancel() {
       this.$emit('close', true);
     },
-  },
-
-  beforeMount() {
-    this.isLoading = true;
-    this.http
-      .get(this.data.id)
-      .then(response => {
-        const {data} = response.data;
-        this.education.name = data.education.name;
-        this.education.institute = data.institute;
-        this.education.major = data.major;
-        this.education.year = data.year ? data.year : '';
-        this.education.score = data.score;
-        this.education.startDate = data.startDate ? data.startDate : '';
-        this.education.endDate = data.endDate ? data.endDate : '';
-      })
-      .finally(() => {
-        this.isLoading = false;
-      });
   },
 };
 </script>

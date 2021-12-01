@@ -31,7 +31,7 @@
             <profile-image-input
               v-model="empPicture"
               :rules="rules.empPicture"
-              :imgSrc="profilePicUrl"
+              :img-src="profilePicUrl"
             />
           </div>
         </oxd-form-row>
@@ -101,6 +101,21 @@ export default {
     };
   },
 
+  computed: {
+    profilePicUrl() {
+      if (this.empPicture) {
+        const file = this.empPicture.base64;
+        const type = this.empPicture.type;
+        const isPicture = this.allowedImageTypes.findIndex(
+          item => item === type,
+        );
+        return isPicture > -1 ? `data:${type};base64,${file}` : defaultPic;
+      } else {
+        return defaultPic;
+      }
+    },
+  },
+
   methods: {
     onSave() {
       this.isLoading = true;
@@ -117,21 +132,6 @@ export default {
         .then(() => {
           location.reload();
         });
-    },
-  },
-
-  computed: {
-    profilePicUrl() {
-      if (this.empPicture) {
-        const file = this.empPicture.base64;
-        const type = this.empPicture.type;
-        const isPicture = this.allowedImageTypes.findIndex(
-          item => item === type,
-        );
-        return isPicture > -1 ? `data:${type};base64,${file}` : defaultPic;
-      } else {
-        return defaultPic;
-      }
     },
   },
 };

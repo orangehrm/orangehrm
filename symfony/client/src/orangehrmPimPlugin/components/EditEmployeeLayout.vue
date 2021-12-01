@@ -75,7 +75,7 @@ import ProfileCustomFields from '@/orangehrmPimPlugin/components/ProfileCustomFi
 const defaultPic = `${window.appGlobal.baseUrl}/../dist/img/user-default-400.png`;
 
 export default {
-  name: 'edit-employee-layout',
+  name: 'EditEmployeeLayout',
   components: {
     'tabs-navigation': TabsNavigation,
     'profile-attachments': ProfileAttachments,

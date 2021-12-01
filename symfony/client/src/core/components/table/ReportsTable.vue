@@ -28,14 +28,14 @@
         :loading="isLoading"
         :column-count="colCount"
       >
-        <template v-slot:pagination>
+        <template #pagination>
           <oxd-text class="orangehrm-horizontal-margin --count" tag="span">
             {{ itemCountText }}
           </oxd-text>
           <oxd-pagination
             v-if="showPaginator"
-            :length="pages"
             v-model:current="currentPage"
+            :length="pages"
           />
         </template>
       </oxd-report-table>
@@ -53,7 +53,7 @@ import CellAdapter from '@ohrm/oxd/core/components/ReportTable/CellAdapter';
 import MultilineCell from '@ohrm/oxd/core/components/ReportTable/Cell/MultilineCell';
 
 export default {
-  name: 'reports-table',
+  name: 'ReportsTable',
 
   components: {
     'oxd-report-table': ReportTable,
@@ -78,6 +78,7 @@ export default {
     },
     columnCount: {
       type: Number,
+      default: null,
       required: false,
     },
   },

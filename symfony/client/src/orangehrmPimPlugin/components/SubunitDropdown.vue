@@ -26,7 +26,7 @@
 import {ref, onBeforeMount} from 'vue';
 import {APIService} from '@ohrm/core/util/services/api.service';
 export default {
-  name: 'subunit-dropdown',
+  name: 'SubunitDropdown',
   setup() {
     const options = ref([]);
     const http = new APIService(

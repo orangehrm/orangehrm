@@ -39,9 +39,9 @@
 
             <oxd-grid-item>
               <oxd-input-field
+                v-model="user.currentPassword"
                 type="password"
                 :label="$t('pim.current_password')"
-                v-model="user.currentPassword"
                 :rules="rules.currentPassword"
                 required
               />
@@ -59,7 +59,7 @@
           <required-text />
           <oxd-button
             type="button"
-            displayType="ghost"
+            display-type="ghost"
             label="Cancel"
             @click="onCancel"
           />
@@ -86,6 +86,9 @@ const userModel = {
 };
 
 export default {
+  components: {
+    'password-input': PasswordInput,
+  },
   props: {
     userName: {
       type: String,
@@ -103,9 +106,6 @@ export default {
       formRef,
       reset,
     };
-  },
-  components: {
-    'password-input': PasswordInput,
   },
 
   data() {

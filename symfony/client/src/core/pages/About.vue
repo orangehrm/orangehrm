@@ -20,8 +20,8 @@
 
 <template>
   <oxd-dialog
-    @update:show="onCancel"
     :style="{width: '90%', maxWidth: '450px'}"
+    @update:show="onCancel"
   >
     <div class="orangehrm-modal-header">
       <oxd-text tag="h6" class="orangehrm-main-title">
@@ -29,7 +29,7 @@
       </oxd-text>
     </div>
     <oxd-divider />
-    <div class="orangehrm-loader" v-if="isLoading">
+    <div v-if="isLoading" class="orangehrm-loader">
       <oxd-loading-spinner />
     </div>
     <oxd-grid v-else :cols="2" class="orangehrm-about">
@@ -75,6 +75,7 @@ export default {
     'oxd-loading-spinner': Spinner,
     'oxd-dialog': Dialog,
   },
+  emits: ['close'],
   setup() {
     const http = new APIService(window.appGlobal.baseUrl, 'api/v2/core/about');
     return {
@@ -87,11 +88,6 @@ export default {
       data: null,
     };
   },
-  methods: {
-    onCancel() {
-      this.$emit('close', true);
-    },
-  },
   beforeMount() {
     this.isLoading = true;
     this.http
@@ -103,6 +99,11 @@ export default {
       .finally(() => {
         this.isLoading = false;
       });
+  },
+  methods: {
+    onCancel() {
+      this.$emit('close', true);
+    },
   },
 };
 </script>

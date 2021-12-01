@@ -20,8 +20,8 @@
 
 <template>
   <oxd-dialog
-    @update:show="onCancel(false)"
     :style="{width: '90%', maxWidth: '600px'}"
+    @update:show="onCancel(false)"
   >
     <div class="orangehrm-modal-header">
       <oxd-text type="card-title">Terminate Employment</oxd-text>
@@ -30,17 +30,17 @@
     <oxd-form :loading="isLoading" @submitValid="onSave">
       <oxd-form-row>
         <date-input
-          label="Termination Date"
           v-model="termination.date"
+          label="Termination Date"
           :rules="rules.date"
           required
         />
       </oxd-form-row>
       <oxd-form-row>
         <oxd-input-field
+          v-model="termination.terminationReason"
           type="select"
           label="Termination Reason"
-          v-model="termination.terminationReason"
           :rules="rules.terminationReason"
           :options="terminationReasons"
           required
@@ -48,10 +48,10 @@
       </oxd-form-row>
       <oxd-form-row>
         <oxd-input-field
+          v-model="termination.note"
           type="textarea"
           label="Note"
           placeholder="Type here"
-          v-model="termination.note"
           :rules="rules.note"
         />
       </oxd-form-row>
@@ -61,7 +61,7 @@
         <required-text />
         <oxd-button
           type="button"
-          displayType="ghost"
+          display-type="ghost"
           label="Cancel"
           @click="onCancel(false)"
         />
@@ -87,7 +87,10 @@ const terminationModel = {
 };
 
 export default {
-  name: 'terminate-modal',
+  name: 'TerminateModal',
+  components: {
+    'oxd-dialog': Dialog,
+  },
   props: {
     employeeId: {
       type: String,
@@ -100,11 +103,10 @@ export default {
     terminationId: {
       type: Number,
       required: false,
+      default: null,
     },
   },
-  components: {
-    'oxd-dialog': Dialog,
-  },
+  emits: ['close'],
   setup(props) {
     const http = new APIService(
       window.appGlobal.baseUrl,
@@ -124,6 +126,25 @@ export default {
         note: [shouldNotExceedCharLength(250)],
       },
     };
+  },
+
+  beforeMount() {
+    if (this.terminationId) {
+      this.isLoading = true;
+      this.http
+        .get(this.terminationId)
+        .then(response => {
+          const {data} = response.data;
+          this.termination.terminationReason = this.terminationReasons.find(
+            item => item.id === data.terminationReason?.id,
+          );
+          this.termination.date = data.date;
+          this.termination.note = data.note;
+        })
+        .finally(() => {
+          this.isLoading = false;
+        });
+    }
   },
   methods: {
     onSave() {
@@ -147,25 +168,6 @@ export default {
     onCancel(reload) {
       this.$emit('close', reload);
     },
-  },
-
-  beforeMount() {
-    if (this.terminationId) {
-      this.isLoading = true;
-      this.http
-        .get(this.terminationId)
-        .then(response => {
-          const {data} = response.data;
-          this.termination.terminationReason = this.terminationReasons.find(
-            item => item.id === data.terminationReason?.id,
-          );
-          this.termination.date = data.date;
-          this.termination.note = data.note;
-        })
-        .finally(() => {
-          this.isLoading = false;
-        });
-    }
   },
 };
 </script>

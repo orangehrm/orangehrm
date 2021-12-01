@@ -26,16 +26,16 @@
           <oxd-grid :cols="4" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <date-input
-                :label="$t('general.from')"
                 v-model="filters.fromDate"
+                :label="$t('general.from')"
                 :rules="rules.fromDate"
                 :years="yearArray"
               />
             </oxd-grid-item>
             <oxd-grid-item>
               <date-input
-                :label="$t('general.to')"
                 v-model="filters.toDate"
+                :label="$t('general.to')"
                 :rules="rules.toDate"
                 :years="yearArray"
               />
@@ -47,13 +47,13 @@
 
         <oxd-form-actions>
           <oxd-button
-            displayType="ghost"
+            display-type="ghost"
             :label="$t('general.reset')"
             type="reset"
           />
           <oxd-button
             class="orangehrm-left-space"
-            displayType="secondary"
+            display-type="secondary"
             :label="$t('general.search')"
             type="submit"
           />
@@ -65,8 +65,8 @@
       <div class="orangehrm-header-container">
         <oxd-button
           :label="$t('general.add')"
-          iconName="plus"
-          displayType="secondary"
+          icon-name="plus"
+          display-type="secondary"
           @click="onClickAdd"
         />
       </div>
@@ -78,20 +78,20 @@
       ></table-header>
       <div class="orangehrm-container">
         <oxd-card-table
+          v-model:selected="checkedItems"
           :headers="headers"
           :items="items?.data"
           :selectable="true"
           :clickable="false"
-          v-model:selected="checkedItems"
           :loading="isLoading"
-          rowDecorator="oxd-table-decorator-card"
+          row-decorator="oxd-table-decorator-card"
         />
       </div>
       <div class="orangehrm-bottom-container">
         <oxd-pagination
           v-if="showPaginator"
-          :length="pages"
           v-model:current="currentPage"
+          :length="pages"
         />
       </div>
     </div>
@@ -133,6 +133,51 @@ export default {
       type: Object,
       required: true,
     },
+  },
+
+  setup(props) {
+    const filters = ref({
+      fromDate: props.leavePeriod.startDate,
+      toDate: props.leavePeriod.endDate,
+    });
+
+    const serializedFilters = computed(() => {
+      return {
+        fromDate: filters.value.fromDate,
+        toDate: filters.value.toDate,
+      };
+    });
+
+    const http = new APIService(
+      window.appGlobal.baseUrl,
+      'api/v2/leave/holidays',
+    );
+    const {
+      showPaginator,
+      currentPage,
+      total,
+      pages,
+      pageSize,
+      response,
+      isLoading,
+      execQuery,
+    } = usePaginate(http, {
+      query: serializedFilters,
+      normalizer: dataNormalizer,
+    });
+
+    return {
+      http,
+      showPaginator,
+      currentPage,
+      isLoading,
+      total,
+      pages,
+      pageSize,
+      execQuery,
+      items: response,
+      filters,
+    };
   },
 
   data() {
@@ -179,51 +224,6 @@ export default {
         },
       ],
       checkedItems: [],
-    };
-  },
-
-  setup(props) {
-    const filters = ref({
-      fromDate: props.leavePeriod.startDate,
-      toDate: props.leavePeriod.endDate,
-    });
-
-    const serializedFilters = computed(() => {
-      return {
-        fromDate: filters.value.fromDate,
-        toDate: filters.value.toDate,
-      };
-    });
-
-    const http = new APIService(
-      window.appGlobal.baseUrl,
-      'api/v2/leave/holidays',
-    );
-    const {
-      showPaginator,
-      currentPage,
-      total,
-      pages,
-      pageSize,
-      response,
-      isLoading,
-      execQuery,
-    } = usePaginate(http, {
-      query: serializedFilters,
-      normalizer: dataNormalizer,
-    });
-
-    return {
-      http,
-      showPaginator,
-      currentPage,
-      isLoading,
-      total,
-      pages,
-      pageSize,
-      execQuery,
-      items: response,
-      filters,
     };
   },
 

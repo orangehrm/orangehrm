@@ -25,7 +25,7 @@
       type="select"
       v-bind="$attrs"
       :options="options"
-      :modelValue="duration"
+      :model-value="duration"
       :rules="rules.duration"
       :show-empty-selector="partial"
       :required="partial"
@@ -35,8 +35,8 @@
   <template v-if="duration && duration.id === 4">
     <time-range
       :rules="rules"
-      :fromTime="fromTime"
-      :toTime="toTime"
+      :from-time="fromTime"
+      :to-time="toTime"
       :work-shift="workShift"
       @update:fromTime="$emit('update:fromTime', $event)"
       @update:toTime="$emit('update:toTime', $event)"
@@ -62,20 +62,26 @@ import {
 import TimeRange from '@/orangehrmLeavePlugin/components/TimeRange';
 
 export default {
-  name: 'leave-duration-input',
+  name: 'LeaveDurationInput',
+  components: {
+    'time-range': TimeRange,
+  },
   inheritAttrs: false,
   props: {
     duration: {
       type: Object,
       required: false,
+      default: () => null,
     },
     fromTime: {
       type: String,
       required: false,
+      default: null,
     },
     toTime: {
       type: String,
       required: false,
+      default: null,
     },
     partial: {
       type: Boolean,
@@ -84,11 +90,10 @@ export default {
     workShift: {
       type: Object,
       required: true,
+      default: () => ({}),
     },
   },
-  components: {
-    'time-range': TimeRange,
-  },
+  emits: ['update:fromTime', 'update:toTime', 'update:duration'],
   data() {
     return {
       rules: {

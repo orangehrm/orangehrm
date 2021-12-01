@@ -32,8 +32,8 @@
           <div>
             <oxd-form-row>
               <oxd-input-field
-                :label="$t('general.job_title')"
                 v-model="jobTitle.title"
+                :label="$t('general.job_title')"
                 :rules="rules.title"
                 required
               />
@@ -41,20 +41,20 @@
 
             <oxd-form-row>
               <oxd-input-field
+                v-model="jobTitle.description"
                 type="textarea"
                 :label="$t('general.job_description')"
                 placeholder="Type description here"
-                v-model="jobTitle.description"
                 :rules="rules.description"
               />
             </oxd-form-row>
 
             <oxd-form-row>
               <oxd-input-field
+                v-model="jobTitle.specification"
                 type="file"
                 :label="$t('general.job_specification')"
-                buttonLabel="Browse"
-                v-model="jobTitle.specification"
+                button-label="Browse"
                 :rules="rules.specification"
               />
               <oxd-text class="orangehrm-input-hint" tag="p">
@@ -64,11 +64,11 @@
 
             <oxd-form-row>
               <oxd-input-field
+                v-model="jobTitle.note"
                 type="textarea"
                 :label="$t('general.note')"
                 placeholder="Add note"
-                v-model="jobTitle.note"
-                labelIcon="pencil-square"
+                label-icon="pencil-square"
                 :rules="rules.note"
               />
             </oxd-form-row>
@@ -80,7 +80,7 @@
         <oxd-form-actions>
           <required-text />
           <oxd-button
-            displayType="ghost"
+            display-type="ghost"
             :label="$t('general.cancel')"
             @click="onCancel"
           />
@@ -146,6 +146,22 @@ export default {
     };
   },
 
+  created() {
+    this.isLoading = true;
+    this.http
+      .getAll({limit: 0})
+      .then(response => {
+        const {data} = response.data;
+        this.rules.title.push(v => {
+          const index = data.findIndex(item => item.title == v);
+          return index === -1 || 'Already exists';
+        });
+      })
+      .finally(() => {
+        this.isLoading = false;
+      });
+  },
+
   methods: {
     onCancel() {
       navigate('/admin/viewJobTitleList');
@@ -163,22 +179,6 @@ export default {
           this.onCancel();
         });
     },
-  },
-
-  created() {
-    this.isLoading = true;
-    this.http
-      .getAll({limit: 0})
-      .then(response => {
-        const {data} = response.data;
-        this.rules.title.push(v => {
-          const index = data.findIndex(item => item.title == v);
-          return index === -1 || 'Already exists';
-        });
-      })
-      .finally(() => {
-        this.isLoading = false;
-      });
   },
 };
 </script>

@@ -27,17 +27,17 @@
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
           <oxd-grid-item>
             <oxd-input-field
-              label="Name"
               v-model="dependent.name"
+              label="Name"
               :rules="rules.name"
               required
             />
           </oxd-grid-item>
           <oxd-grid-item>
             <oxd-input-field
+              v-model="dependent.relationshipType"
               type="select"
               label="Relationship"
-              v-model="dependent.relationshipType"
               :rules="rules.relationshipType"
               :options="relationshipOptions"
               required
@@ -45,8 +45,8 @@
           </oxd-grid-item>
           <oxd-grid-item v-if="showRelationship">
             <oxd-input-field
-              label="Please Specify"
               v-model="dependent.relationship"
+              label="Please Specify"
               :rules="rules.relationship"
               required
             />
@@ -58,8 +58,8 @@
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
           <oxd-grid-item>
             <date-input
-              label="Date of Birth"
               v-model="dependent.dateOfBirth"
+              label="Date of Birth"
               :rules="rules.dateOfBirth"
             />
           </oxd-grid-item>
@@ -70,7 +70,7 @@
         <required-text />
         <oxd-button
           type="button"
-          displayType="ghost"
+          display-type="ghost"
           label="Cancel"
           @click="onCancel"
         />
@@ -96,9 +96,7 @@ const dependentModel = {
 };
 
 export default {
-  name: 'save-dependent',
-
-  emits: ['close'],
+  name: 'SaveDependent',
 
   props: {
     http: {
@@ -106,6 +104,8 @@ export default {
       required: true,
     },
   },
+
+  emits: ['close'],
 
   data() {
     return {
@@ -122,6 +122,12 @@ export default {
         {id: 'other', label: 'Other'},
       ],
     };
+  },
+
+  computed: {
+    showRelationship() {
+      return this.dependent.relationshipType?.id == 'other';
+    },
   },
 
   methods: {
@@ -142,12 +148,6 @@ export default {
     },
     onCancel() {
       this.$emit('close', true);
-    },
-  },
-
-  computed: {
-    showRelationship() {
-      return this.dependent.relationshipType?.id == 'other';
     },
   },
 };

@@ -39,6 +39,9 @@ import {ref} from 'vue';
 import ReportsTable from '@/core/components/table/ReportsTable';
 
 export default {
+  components: {
+    'reports-table': ReportsTable,
+  },
   props: {
     reportId: {
       type: String,
@@ -48,10 +51,6 @@ export default {
       type: String,
       required: true,
     },
-  },
-
-  components: {
-    'reports-table': ReportsTable,
   },
 
   setup(props) {

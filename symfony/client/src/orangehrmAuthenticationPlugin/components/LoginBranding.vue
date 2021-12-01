@@ -26,7 +26,7 @@
 
 <script>
 export default {
-  name: 'login-branding',
+  name: 'LoginBranding',
   props: {
     imgSrc: {
       type: String,

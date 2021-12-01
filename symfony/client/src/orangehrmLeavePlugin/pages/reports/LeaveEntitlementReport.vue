@@ -25,7 +25,7 @@
     :filters="serializedFilters"
     :column-count="6"
   >
-    <template v-slot:default="{generateReport}">
+    <template #default="{generateReport}">
       <oxd-table-filter
         :filter-title="$t('leave.leave_entitlement_and_usage_report')"
       >
@@ -38,15 +38,15 @@
                   :classes="{wrapper: '--grouped-field'}"
                 >
                   <oxd-input-field
-                    type="radio"
                     v-model="filters.type"
-                    :optionLabel="$t('leave.leave_type')"
+                    type="radio"
+                    :option-label="$t('leave.leave_type')"
                     value="leave_type_leave_entitlements_and_usage"
                   />
                   <oxd-input-field
-                    type="radio"
                     v-model="filters.type"
-                    :optionLabel="$t('general.employee')"
+                    type="radio"
+                    :option-label="$t('general.employee')"
                     value="employee_leave_entitlements_and_usage"
                   />
                 </oxd-input-group>
@@ -60,8 +60,8 @@
             <oxd-grid :cols="4" class="orangehrm-full-width-grid">
               <oxd-grid-item>
                 <leave-type-dropdown
-                  :empty-text="$t('leave.no_leave_types_defined')"
                   v-model="filters.leaveType"
+                  :empty-text="$t('leave.no_leave_types_defined')"
                   :eligible-only="false"
                   :show-empty-selector="false"
                 />
@@ -75,17 +75,17 @@
               </oxd-grid-item>
               <oxd-grid-item>
                 <oxd-input-field
+                  v-model="filters.location"
                   type="select"
                   label="Location"
-                  v-model="filters.location"
                   :options="locations"
                 />
               </oxd-grid-item>
               <oxd-grid-item>
                 <oxd-input-field
+                  v-model="filters.subunit"
                   type="select"
                   label="Sub Unit"
-                  v-model="filters.subunit"
                   :options="subunits"
                 />
               </oxd-grid-item>
@@ -129,7 +129,7 @@
             <required-text />
             <oxd-button
               type="submit"
-              displayType="secondary"
+              display-type="secondary"
               class="orangehrm-left-space"
               :label="$t('general.generate')"
             />
@@ -163,6 +163,14 @@ const defaultFilters = {
 };
 
 export default {
+  components: {
+    'reports-table': ReportsTable,
+    'oxd-switch-input': SwitchInput,
+    'jobtitle-dropdown': JobtitleDropdown,
+    'leave-type-dropdown': LeaveTypeDropdown,
+    'leave-period-dropdown': LeavePeriodDropdown,
+    'employee-autocomplete': EmployeeAutocomplete,
+  },
   props: {
     locations: {
       type: Array,
@@ -175,16 +183,8 @@ export default {
     leavePeriod: {
       type: Object,
       required: false,
+      default: () => null,
     },
-  },
-
-  components: {
-    'reports-table': ReportsTable,
-    'oxd-switch-input': SwitchInput,
-    'jobtitle-dropdown': JobtitleDropdown,
-    'leave-type-dropdown': LeaveTypeDropdown,
-    'leave-period-dropdown': LeavePeriodDropdown,
-    'employee-autocomplete': EmployeeAutocomplete,
   },
 
   setup(props) {

@@ -38,7 +38,7 @@
       Include Header
     </oxd-text>
     <oxd-switch-input
-      :modelValue="includeHeader"
+      :model-value="includeHeader"
       @update:modelValue="$emit('update:includeHeader', $event)"
     />
   </oxd-grid-item>
@@ -49,9 +49,7 @@ import SwitchInput from '@ohrm/oxd/core/components/Input/SwitchInput';
 import MultiSelectChips from '@ohrm/oxd/core/components/Input/MultiSelect/MultiSelectChips';
 
 export default {
-  name: 'report-display-field',
-
-  emits: ['delete', 'deleteChip', 'update:includeHeader'],
+  name: 'ReportDisplayField',
 
   components: {
     'oxd-switch-input': SwitchInput,
@@ -72,6 +70,8 @@ export default {
       required: true,
     },
   },
+
+  emits: ['delete', 'deleteChip', 'update:includeHeader'],
 
   setup(_, context) {
     const onClickDelete = $event => {

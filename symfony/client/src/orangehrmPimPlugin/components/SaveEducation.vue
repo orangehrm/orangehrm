@@ -27,8 +27,8 @@
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
           <oxd-grid-item>
             <qualification-dropdown
-              label="Level"
               v-model="education.educationId"
+              label="Level"
               :rules="rules.educationId"
               :api="api"
               required
@@ -36,29 +36,29 @@
           </oxd-grid-item>
           <oxd-grid-item>
             <oxd-input-field
-              label="Institute"
               v-model="education.institute"
+              label="Institute"
               :rules="rules.institute"
             />
           </oxd-grid-item>
           <oxd-grid-item>
             <oxd-input-field
-              label="Major/Specialization"
               v-model="education.major"
+              label="Major/Specialization"
               :rules="rules.major"
             />
           </oxd-grid-item>
           <oxd-grid-item>
             <oxd-input-field
-              label="Year"
               v-model="education.year"
+              label="Year"
               :rules="rules.year"
             />
           </oxd-grid-item>
           <oxd-grid-item>
             <oxd-input-field
-              label="GPA/Score"
               v-model="education.score"
+              label="GPA/Score"
               :rules="rules.score"
             />
           </oxd-grid-item>
@@ -69,15 +69,15 @@
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
           <oxd-grid-item>
             <date-input
-              label="Start Date"
               v-model="education.startDate"
+              label="Start Date"
               :rules="rules.startDate"
             />
           </oxd-grid-item>
           <oxd-grid-item>
             <date-input
-              label="End Date"
               v-model="education.endDate"
+              label="End Date"
               :rules="rules.endDate"
             />
           </oxd-grid-item>
@@ -88,7 +88,7 @@
         <required-text />
         <oxd-button
           type="button"
-          displayType="ghost"
+          display-type="ghost"
           label="Cancel"
           @click="onCancel"
         />
@@ -120,9 +120,11 @@ const educationModel = {
 };
 
 export default {
-  name: 'save-education',
+  name: 'SaveEducation',
 
-  emits: ['close'],
+  components: {
+    'qualification-dropdown': QualificationDropdown,
+  },
 
   props: {
     http: {
@@ -135,9 +137,7 @@ export default {
     },
   },
 
-  components: {
-    'qualification-dropdown': QualificationDropdown,
-  },
+  emits: ['close'],
 
   data() {
     return {

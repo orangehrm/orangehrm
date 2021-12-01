@@ -27,11 +27,11 @@
 
       <oxd-divider />
 
-      <oxd-form @submitValid="onSave" :loading="isLoading">
+      <oxd-form :loading="isLoading" @submitValid="onSave">
         <oxd-form-row>
           <oxd-input-field
-            label="Name"
             v-model="employmentStatus.name"
+            label="Name"
             :rules="rules.name"
             required
           />
@@ -43,7 +43,7 @@
           <required-text />
           <oxd-button
             type="button"
-            displayType="ghost"
+            display-type="ghost"
             label="Cancel"
             @click="onCancel"
           />
@@ -60,6 +60,15 @@ import {APIService} from '@ohrm/core/util/services/api.service';
 import {required} from '@ohrm/core/util/validation/rules';
 
 export default {
+  setup() {
+    const http = new APIService(
+      window.appGlobal.baseUrl,
+      '/api/v2/admin/employment-statuses',
+    );
+    return {
+      http,
+    };
+  },
   data() {
     return {
       isLoading: false,
@@ -71,35 +80,6 @@ export default {
         name: [],
       },
     };
-  },
-
-  setup() {
-    const http = new APIService(
-      window.appGlobal.baseUrl,
-      '/api/v2/admin/employment-statuses',
-    );
-    return {
-      http,
-    };
-  },
-
-  methods: {
-    onSave() {
-      this.isLoading = true;
-      this.http
-        .create({
-          name: this.employmentStatus.name,
-        })
-        .then(() => {
-          return this.$toast.saveSuccess();
-        })
-        .then(() => {
-          this.onCancel();
-        });
-    },
-    onCancel() {
-      navigate('/admin/employmentStatus');
-    },
   },
 
   created() {
@@ -120,6 +100,25 @@ export default {
       .finally(() => {
         this.isLoading = false;
       });
+  },
+
+  methods: {
+    onSave() {
+      this.isLoading = true;
+      this.http
+        .create({
+          name: this.employmentStatus.name,
+        })
+        .then(() => {
+          return this.$toast.saveSuccess();
+        })
+        .then(() => {
+          this.onCancel();
+        });
+    },
+    onCancel() {
+      navigate('/admin/employmentStatus');
+    },
   },
 };
 </script>

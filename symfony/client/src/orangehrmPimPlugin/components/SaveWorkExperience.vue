@@ -29,16 +29,16 @@
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
           <oxd-grid-item>
             <oxd-input-field
-              label="Company"
               v-model="workExperience.company"
+              label="Company"
               :rules="rules.company"
               required
             />
           </oxd-grid-item>
           <oxd-grid-item>
             <oxd-input-field
-              label="Job Title"
               v-model="workExperience.jobTitle"
+              label="Job Title"
               :rules="rules.jobTitle"
               required
             />
@@ -50,15 +50,15 @@
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
           <oxd-grid-item>
             <date-input
-              label="From"
               v-model="workExperience.fromDate"
+              label="From"
               :rules="rules.fromDate"
             />
           </oxd-grid-item>
           <oxd-grid-item>
             <date-input
-              label="To"
               v-model="workExperience.toDate"
+              label="To"
               :rules="rules.toDate"
             />
           </oxd-grid-item>
@@ -69,9 +69,9 @@
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
           <oxd-grid-item class="--span-column-2">
             <oxd-input-field
+              v-model="workExperience.comment"
               type="textarea"
               label="Comment"
-              v-model="workExperience.comment"
               :rules="rules.comment"
             />
           </oxd-grid-item>
@@ -82,7 +82,7 @@
         <required-text />
         <oxd-button
           type="button"
-          displayType="ghost"
+          display-type="ghost"
           label="Cancel"
           @click="onCancel"
         />
@@ -110,9 +110,7 @@ const workExpModel = {
 };
 
 export default {
-  name: 'save-work-experience',
-
-  emits: ['close'],
+  name: 'SaveWorkExperience',
 
   props: {
     http: {
@@ -120,6 +118,8 @@ export default {
       required: true,
     },
   },
+
+  emits: ['close'],
 
   data() {
     return {

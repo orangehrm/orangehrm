@@ -27,8 +27,8 @@
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
           <oxd-grid-item>
             <oxd-input-field
-              label="Skill"
               v-model="skill.name"
+              label="Skill"
               required
               readonly
               disabled
@@ -36,8 +36,8 @@
           </oxd-grid-item>
           <oxd-grid-item>
             <oxd-input-field
-              label="Years of Experience"
               v-model="skill.yearsOfExperience"
+              label="Years of Experience"
               :rules="rules.yearsOfExperience"
             />
           </oxd-grid-item>
@@ -48,9 +48,9 @@
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
           <oxd-grid-item class="--span-column-2">
             <oxd-input-field
+              v-model="skill.comments"
               type="textarea"
               label="Comments"
-              v-model="skill.comments"
               :rules="rules.comments"
             />
           </oxd-grid-item>
@@ -61,7 +61,7 @@
         <required-text />
         <oxd-button
           type="button"
-          displayType="ghost"
+          display-type="ghost"
           label="Cancel"
           @click="onCancel"
         />
@@ -86,9 +86,7 @@ const skillModel = {
 };
 
 export default {
-  name: 'edit-skill',
-
-  emits: ['close'],
+  name: 'EditSkill',
 
   props: {
     http: {
@@ -101,6 +99,8 @@ export default {
     },
   },
 
+  emits: ['close'],
+
   data() {
     return {
       isLoading: false,
@@ -110,6 +110,21 @@ export default {
         comments: [shouldNotExceedCharLength(100)],
       },
     };
+  },
+
+  beforeMount() {
+    this.isLoading = true;
+    this.http
+      .get(this.data.id)
+      .then(response => {
+        const {data} = response.data;
+        this.skill.name = data.skill.name;
+        this.skill.comments = data.comments;
+        this.skill.yearsOfExperience = data.yearsOfExperience;
+      })
+      .finally(() => {
+        this.isLoading = false;
+      });
   },
 
   methods: {
@@ -130,21 +145,6 @@ export default {
     onCancel() {
       this.$emit('close', true);
     },
-  },
-
-  beforeMount() {
-    this.isLoading = true;
-    this.http
-      .get(this.data.id)
-      .then(response => {
-        const {data} = response.data;
-        this.skill.name = data.skill.name;
-        this.skill.comments = data.comments;
-        this.skill.yearsOfExperience = data.yearsOfExperience;
-      })
-      .finally(() => {
-        this.isLoading = false;
-      });
   },
 };
 </script>

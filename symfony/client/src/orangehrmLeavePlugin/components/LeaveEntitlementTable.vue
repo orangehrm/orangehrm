@@ -22,15 +22,15 @@
   <div class="orangehrm-background-container">
     <slot :filters="filters" :filterItems="filterItems"></slot>
     <br />
-    <div class="orangehrm-paper-container" v-if="showDatatable">
+    <div v-if="showDatatable" class="orangehrm-paper-container">
       <div class="orangehrm-header-container">
         <div>
           <oxd-button
-            label="Add"
-            iconName="plus"
-            displayType="secondary"
-            @click="onClickAdd"
             v-if="$can.create(`leave_entitlements`)"
+            label="Add"
+            icon-name="plus"
+            display-type="secondary"
+            @click="onClickAdd"
           />
         </div>
         <oxd-text tag="span">
@@ -45,20 +45,20 @@
       ></table-header>
       <div class="orangehrm-container">
         <oxd-card-table
+          v-model:selected="checkedItems"
           :headers="headers"
           :items="items?.data"
           :selectable="$can.delete(`leave_entitlements`)"
           :clickable="false"
           :loading="isLoading"
-          v-model:selected="checkedItems"
-          rowDecorator="oxd-table-decorator-card"
+          row-decorator="oxd-table-decorator-card"
         />
       </div>
       <div class="orangehrm-bottom-container">
         <oxd-pagination
           v-if="showPaginator"
-          :length="pages"
           v-model:current="currentPage"
+          :length="pages"
         />
       </div>
     </div>
@@ -89,7 +89,11 @@ const entitlementNormalizer = data => {
 };
 
 export default {
-  name: 'leave-entitlement-table',
+  name: 'LeaveEntitlementTable',
+
+  components: {
+    'delete-confirmation': DeleteConfirmationDialog,
+  },
 
   props: {
     prefetch: {
@@ -99,25 +103,18 @@ export default {
     employee: {
       type: Object,
       required: false,
+      default: () => null,
     },
     leaveType: {
       type: Object,
       required: false,
+      default: () => null,
     },
     leavePeriod: {
       type: Object,
       required: false,
+      default: () => null,
     },
-  },
-
-  components: {
-    'delete-confirmation': DeleteConfirmationDialog,
-  },
-
-  data() {
-    return {
-      checkedItems: [],
-    };
   },
 
   setup(props) {
@@ -184,60 +181,10 @@ export default {
     };
   },
 
-  methods: {
-    onClickAdd() {
-      navigate('/leave/addLeaveEntitlement');
-    },
-    onClickEdit(item) {
-      navigate('/leave/editLeaveEntitlement/{id}', {id: item.id});
-    },
-    onClickDeleteSelected() {
-      const ids = this.checkedItems.map(index => {
-        return this.items?.data[index].id;
-      });
-      this.$refs.deleteDialog.showDialog().then(confirmation => {
-        if (confirmation === 'ok') {
-          this.deleteItems(ids);
-        }
-      });
-    },
-    onClickDelete(item) {
-      if (!item.isSelectable) {
-        return this.$toast.error({
-          title: 'Error',
-          message:
-            "Entitlement(s) will not be deleted since it's already in use",
-        });
-      }
-      this.$refs.deleteDialog.showDialog().then(confirmation => {
-        if (confirmation === 'ok') {
-          this.deleteItems([item.id]);
-        }
-      });
-    },
-    deleteItems(items) {
-      if (items instanceof Array) {
-        this.isLoading = true;
-        this.http
-          .deleteAll({
-            ids: items,
-          })
-          .then(() => {
-            return this.$toast.deleteSuccess();
-          })
-          .then(() => {
-            this.isLoading = false;
-            this.resetDataTable();
-          });
-      }
-    },
-    async resetDataTable() {
-      this.checkedItems = [];
-      await this.execQuery();
-    },
-    async filterItems() {
-      await this.execQuery();
-    },
+  data() {
+    return {
+      checkedItems: [],
+    };
   },
 
   computed: {
@@ -294,6 +241,62 @@ export default {
       return Object.keys(headerActions.cellConfig).length > 0
         ? headers.concat([headerActions])
         : headers;
+    },
+  },
+
+  methods: {
+    onClickAdd() {
+      navigate('/leave/addLeaveEntitlement');
+    },
+    onClickEdit(item) {
+      navigate('/leave/editLeaveEntitlement/{id}', {id: item.id});
+    },
+    onClickDeleteSelected() {
+      const ids = this.checkedItems.map(index => {
+        return this.items?.data[index].id;
+      });
+      this.$refs.deleteDialog.showDialog().then(confirmation => {
+        if (confirmation === 'ok') {
+          this.deleteItems(ids);
+        }
+      });
+    },
+    onClickDelete(item) {
+      if (!item.isSelectable) {
+        return this.$toast.error({
+          title: 'Error',
+          message:
+            "Entitlement(s) will not be deleted since it's already in use",
+        });
+      }
+      this.$refs.deleteDialog.showDialog().then(confirmation => {
+        if (confirmation === 'ok') {
+          this.deleteItems([item.id]);
+        }
+      });
+    },
+    deleteItems(items) {
+      if (items instanceof Array) {
+        this.isLoading = true;
+        this.http
+          .deleteAll({
+            ids: items,
+          })
+          .then(() => {
+            return this.$toast.deleteSuccess();
+          })
+          .then(() => {
+            this.isLoading = false;
+            this.resetDataTable();
+          });
+      }
+    },
+    async resetDataTable() {
+      this.checkedItems = [];
+      await this.execQuery();
+    },
+    async filterItems() {
+      await this.execQuery();
     },
   },
 };

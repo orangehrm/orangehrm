@@ -32,8 +32,8 @@
           <div>
             <oxd-form-row>
               <oxd-input-field
-                :label="$t('general.job_title')"
                 v-model="jobTitle.title"
+                :label="$t('general.job_title')"
                 :rules="rules.title"
                 required
               />
@@ -41,20 +41,20 @@
 
             <oxd-form-row>
               <oxd-input-field
+                v-model="jobTitle.description"
                 type="textarea"
                 :label="$t('general.job_description')"
                 placeholder="Type description here"
-                v-model="jobTitle.description"
                 :rules="rules.description"
               />
             </oxd-form-row>
 
             <oxd-form-row>
               <file-upload-input
-                :label="$t('general.job_specification')"
-                buttonLabel="Browse"
                 v-model:newFile="jobTitle.newSpecification"
                 v-model:method="jobTitle.method"
+                :label="$t('general.job_specification')"
+                button-label="Browse"
                 :file="jobTitle.oldSpecification"
                 :rules="rules.specification"
                 :url="`admin/viewJobSpecification/attachId`"
@@ -64,12 +64,12 @@
 
             <oxd-form-row>
               <oxd-input-field
+                v-model="jobTitle.note"
                 type="textarea"
                 :label="$t('general.note')"
                 placeholder="Add note"
-                v-model="jobTitle.note"
                 :rules="rules.note"
-                labelIcon="pencil-square"
+                label-icon="pencil-square"
               />
             </oxd-form-row>
           </div>
@@ -80,7 +80,7 @@
         <oxd-form-actions>
           <required-text />
           <oxd-button
-            displayType="ghost"
+            display-type="ghost"
             :label="$t('general.cancel')"
             @click="onCancel"
           />
@@ -112,6 +112,9 @@ const initialJobTitle = {
 };
 
 export default {
+  components: {
+    'file-upload-input': FileUploadInput,
+  },
   props: {
     jobTitleId: {
       type: String,
@@ -125,10 +128,6 @@ export default {
       type: Number,
       required: true,
     },
-  },
-
-  components: {
-    'file-upload-input': FileUploadInput,
   },
 
   setup() {
@@ -164,33 +163,6 @@ export default {
     };
   },
 
-  methods: {
-    onCancel() {
-      navigate('/admin/viewJobTitleList');
-    },
-    onSave() {
-      this.isLoading = true;
-      this.http
-        .update(this.jobTitleId, {
-          title: this.jobTitle.title,
-          description: this.jobTitle.description,
-          note: this.jobTitle.note,
-          currentJobSpecification: this.jobTitle.oldSpecification
-            ? this.jobTitle.method
-            : undefined,
-          specification: this.jobTitle.newSpecification
-            ? this.jobTitle.newSpecification
-            : undefined,
-        })
-        .then(() => {
-          return this.$toast.updateSuccess();
-        })
-        .then(() => {
-          this.onCancel();
-        });
-    },
-  },
-
   created() {
     this.isLoading = true;
     this.http
@@ -224,6 +196,33 @@ export default {
       .finally(() => {
         this.isLoading = false;
       });
+  },
+
+  methods: {
+    onCancel() {
+      navigate('/admin/viewJobTitleList');
+    },
+    onSave() {
+      this.isLoading = true;
+      this.http
+        .update(this.jobTitleId, {
+          title: this.jobTitle.title,
+          description: this.jobTitle.description,
+          note: this.jobTitle.note,
+          currentJobSpecification: this.jobTitle.oldSpecification
+            ? this.jobTitle.method
+            : undefined,
+          specification: this.jobTitle.newSpecification
+            ? this.jobTitle.newSpecification
+            : undefined,
+        })
+        .then(() => {
+          return this.$toast.updateSuccess();
+        })
+        .then(() => {
+          this.onCancel();
+        });
+    },
   },
 };
 </script>

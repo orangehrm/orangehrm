@@ -27,10 +27,10 @@
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
           <oxd-grid-item>
             <oxd-input-field
+              v-model="attachment.attachment"
               type="file"
               label="Select File"
-              buttonLabel="Browse"
-              v-model="attachment.attachment"
+              button-label="Browse"
               :rules="rules.attachment"
               required
             />
@@ -45,10 +45,10 @@
         <oxd-grid :cols="2" class="orangehrm-full-width-grid">
           <oxd-grid-item>
             <oxd-input-field
+              v-model="attachment.description"
               type="textarea"
               label="Comment"
               placeholder="Type comment here"
-              v-model="attachment.description"
               :rules="rules.description"
             />
           </oxd-grid-item>
@@ -60,7 +60,7 @@
         <required-text />
         <oxd-button
           type="button"
-          displayType="ghost"
+          display-type="ghost"
           label="Cancel"
           @click="onCancel"
         />
@@ -79,9 +79,7 @@ const attachmentModel = {
 };
 
 export default {
-  name: 'save-attachment',
-
-  emits: ['close'],
+  name: 'SaveAttachment',
 
   props: {
     http: {
@@ -93,6 +91,8 @@ export default {
       required: true,
     },
   },
+
+  emits: ['close'],
 
   data() {
     return {

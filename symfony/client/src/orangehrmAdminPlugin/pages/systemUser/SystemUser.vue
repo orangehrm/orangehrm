@@ -25,13 +25,13 @@
         <oxd-form-row>
           <oxd-grid :cols="4" class="orangehrm-full-width-grid">
             <oxd-grid-item>
-              <oxd-input-field label="Username" v-model="filters.username" />
+              <oxd-input-field v-model="filters.username" label="Username" />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
+                v-model="filters.userRoleId"
                 type="select"
                 label="User Role"
-                v-model="filters.userRoleId"
                 :options="userRoles"
               />
             </oxd-grid-item>
@@ -40,9 +40,9 @@
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
+                v-model="filters.status"
                 type="select"
                 label="Status"
-                v-model="filters.status"
                 :options="userStatuses"
               />
             </oxd-grid-item>
@@ -52,10 +52,14 @@
         <oxd-divider />
 
         <oxd-form-actions>
-          <oxd-button displayType="ghost" label="Reset" @click="onClickReset" />
+          <oxd-button
+            display-type="ghost"
+            label="Reset"
+            @click="onClickReset"
+          />
           <oxd-button
             class="orangehrm-left-space"
-            displayType="secondary"
+            display-type="secondary"
             label="Search"
             type="submit"
           />
@@ -67,8 +71,8 @@
       <div class="orangehrm-header-container">
         <oxd-button
           label="Add"
-          iconName="plus"
-          displayType="secondary"
+          icon-name="plus"
+          display-type="secondary"
           @click="onClickAdd"
         />
       </div>
@@ -80,21 +84,21 @@
       ></table-header>
       <div class="orangehrm-container">
         <oxd-card-table
+          v-model:selected="checkedItems"
+          v-model:order="sortDefinition"
           :headers="headers"
           :items="items?.data"
           :selectable="true"
           :clickable="false"
-          v-model:selected="checkedItems"
           :loading="isLoading"
-          rowDecorator="oxd-table-decorator-card"
-          v-model:order="sortDefinition"
+          row-decorator="oxd-table-decorator-card"
         />
       </div>
       <div class="orangehrm-bottom-container">
         <oxd-pagination
           v-if="showPaginator"
-          :length="pages"
           v-model:current="currentPage"
+          :length="pages"
         />
       </div>
     </div>
@@ -126,79 +130,15 @@ const defaultSortOrder = {
 };
 
 export default {
+  components: {
+    'delete-confirmation': DeleteConfirmationDialog,
+    'employee-autocomplete': EmployeeAutocomplete,
+  },
   props: {
     unselectableIds: {
       type: Array,
       default: () => [],
     },
-  },
-
-  components: {
-    'delete-confirmation': DeleteConfirmationDialog,
-    'employee-autocomplete': EmployeeAutocomplete,
-  },
-
-  data() {
-    return {
-      headers: [
-        {
-          name: 'userName',
-          title: 'Username',
-          sortField: 'u.userName',
-          style: {flex: 1},
-        },
-        {
-          name: 'role',
-          title: 'User Role',
-          style: {flex: 1},
-          sortField: 'r.displayName',
-        },
-        {
-          name: 'empName',
-          slot: 'title',
-          title: 'Employee Name',
-          sortField: 'e.firstName',
-          style: {flex: 1},
-        },
-        {
-          name: 'status',
-          title: 'Status',
-          sortField: 'u.status',
-          style: {flex: 1},
-        },
-        {
-          name: 'actions',
-          slot: 'action',
-          title: 'Actions',
-          style: {flex: 1},
-          cellType: 'oxd-table-cell-actions',
-          cellConfig: {
-            delete: {
-              onClick: this.onClickDelete,
-              component: 'oxd-icon-button',
-              props: {
-                name: 'trash',
-              },
-            },
-            edit: {
-              onClick: this.onClickEdit,
-              props: {
-                name: 'pencil-fill',
-              },
-            },
-          },
-        },
-      ],
-      userRoles: [
-        {id: 1, label: 'Admin'},
-        {id: 2, label: 'ESS'},
-      ],
-      userStatuses: [
-        {id: 1, label: 'Enabled'},
-        {id: 2, label: 'Disabled'},
-      ],
-      checkedItems: [],
-    };
   },
 
   setup(props) {
@@ -261,6 +201,69 @@ export default {
       items: response,
       filters,
       sortDefinition,
+    };
+  },
+
+  data() {
+    return {
+      headers: [
+        {
+          name: 'userName',
+          title: 'Username',
+          sortField: 'u.userName',
+          style: {flex: 1},
+        },
+        {
+          name: 'role',
+          title: 'User Role',
+          style: {flex: 1},
+          sortField: 'r.displayName',
+        },
+        {
+          name: 'empName',
+          slot: 'title',
+          title: 'Employee Name',
+          sortField: 'e.firstName',
+          style: {flex: 1},
+        },
+        {
+          name: 'status',
+          title: 'Status',
+          sortField: 'u.status',
+          style: {flex: 1},
+        },
+        {
+          name: 'actions',
+          slot: 'action',
+          title: 'Actions',
+          style: {flex: 1},
+          cellType: 'oxd-table-cell-actions',
+          cellConfig: {
+            delete: {
+              onClick: this.onClickDelete,
+              component: 'oxd-icon-button',
+              props: {
+                name: 'trash',
+              },
+            },
+            edit: {
+              onClick: this.onClickEdit,
+              props: {
+                name: 'pencil-fill',
+              },
+            },
+          },
+        },
+      ],
+      userRoles: [
+        {id: 1, label: 'Admin'},
+        {id: 2, label: 'ESS'},
+      ],
+      userStatuses: [
+        {id: 1, label: 'Enabled'},
+        {id: 2, label: 'Disabled'},
+      ],
+      checkedItems: [],
     };
   },
 

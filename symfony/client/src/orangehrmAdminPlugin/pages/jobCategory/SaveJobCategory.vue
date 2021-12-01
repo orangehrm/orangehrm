@@ -30,8 +30,8 @@
       <oxd-form :loading="isLoading" @submitValid="onSave">
         <oxd-form-row>
           <oxd-input-field
-            label="Name"
             v-model="category.name"
+            label="Name"
             :rules="rules.name"
             required
           />
@@ -43,7 +43,7 @@
           <required-text />
           <oxd-button
             type="button"
-            displayType="ghost"
+            display-type="ghost"
             label="Cancel"
             @click="onCancel"
           />
@@ -60,6 +60,15 @@ import {APIService} from '@/core/util/services/api.service';
 import {required} from '@ohrm/core/util/validation/rules';
 
 export default {
+  setup() {
+    const http = new APIService(
+      window.appGlobal.baseUrl,
+      'api/v2/admin/job-categories',
+    );
+    return {
+      http,
+    };
+  },
   data() {
     return {
       isLoading: false,
@@ -72,35 +81,6 @@ export default {
       },
       errors: [],
     };
-  },
-
-  setup() {
-    const http = new APIService(
-      window.appGlobal.baseUrl,
-      'api/v2/admin/job-categories',
-    );
-    return {
-      http,
-    };
-  },
-
-  methods: {
-    onSave() {
-      this.isLoading = true;
-      this.http
-        .create({
-          name: this.category.name,
-        })
-        .then(() => {
-          return this.$toast.saveSuccess();
-        })
-        .then(() => {
-          this.onCancel();
-        });
-    },
-    onCancel() {
-      navigate('/admin/jobCategory');
-    },
   },
 
   created() {
@@ -122,6 +102,25 @@ export default {
       .finally(() => {
         this.isLoading = false;
       });
+  },
+
+  methods: {
+    onSave() {
+      this.isLoading = true;
+      this.http
+        .create({
+          name: this.category.name,
+        })
+        .then(() => {
+          return this.$toast.saveSuccess();
+        })
+        .then(() => {
+          this.onCancel();
+        });
+    },
+    onCancel() {
+      navigate('/admin/jobCategory');
+    },
   },
 };
 </script>

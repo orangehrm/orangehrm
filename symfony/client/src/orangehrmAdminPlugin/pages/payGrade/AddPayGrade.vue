@@ -32,8 +32,8 @@
           <oxd-grid :cols="2" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <oxd-input-field
-                label="Name"
                 v-model="grade.name"
+                label="Name"
                 :rules="rules.name"
                 required
               />
@@ -47,7 +47,7 @@
           <required-text />
           <oxd-button
             type="button"
-            displayType="ghost"
+            display-type="ghost"
             label="Cancel"
             @click="onCancel"
           />
@@ -67,6 +67,15 @@ import {
 } from '@ohrm/core/util/validation/rules';
 
 export default {
+  setup() {
+    const http = new APIService(
+      window.appGlobal.baseUrl,
+      'api/v2/admin/pay-grades',
+    );
+    return {
+      http,
+    };
+  },
   data() {
     return {
       isLoading: false,
@@ -79,34 +88,6 @@ export default {
       },
       errors: [],
     };
-  },
-
-  setup() {
-    const http = new APIService(
-      window.appGlobal.baseUrl,
-      'api/v2/admin/pay-grades',
-    );
-    return {
-      http,
-    };
-  },
-
-  methods: {
-    onSave() {
-      this.isLoading = true;
-      this.http
-        .create({
-          name: this.grade.name,
-        })
-        .then(response => {
-          const {data} = response.data;
-          this.$toast.saveSuccess();
-          navigate('/admin/editPayGrade/{id}', {id: data.id});
-        });
-    },
-    onCancel() {
-      navigate('/admin/viewPayGrades');
-    },
   },
 
   created() {
@@ -126,6 +107,24 @@ export default {
       .finally(() => {
         this.isLoading = false;
       });
+  },
+
+  methods: {
+    onSave() {
+      this.isLoading = true;
+      this.http
+        .create({
+          name: this.grade.name,
+        })
+        .then(response => {
+          const {data} = response.data;
+          this.$toast.saveSuccess();
+          navigate('/admin/editPayGrade/{id}', {id: data.id});
+        });
+    },
+    onCancel() {
+      navigate('/admin/viewPayGrades');
+    },
   },
 };
 </script>

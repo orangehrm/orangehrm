@@ -27,8 +27,8 @@
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
           <oxd-grid-item>
             <oxd-input-field
-              label="Language"
               v-model="language.name"
+              label="Language"
               required
               readonly
               disabled
@@ -36,8 +36,8 @@
           </oxd-grid-item>
           <oxd-grid-item>
             <oxd-input-field
-              label="Fluency"
               v-model="language.fluency"
+              label="Fluency"
               required
               readonly
               disabled
@@ -45,9 +45,9 @@
           </oxd-grid-item>
           <oxd-grid-item>
             <oxd-input-field
+              v-model="language.competencyId"
               type="select"
               label="Competency"
-              v-model="language.competencyId"
               :options="competencies"
               :rules="rules.competencyId"
               :clear="false"
@@ -61,9 +61,9 @@
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
           <oxd-grid-item class="--span-column-2">
             <oxd-input-field
+              v-model="language.comment"
               type="textarea"
               label="Comments"
-              v-model="language.comment"
               :rules="rules.comment"
             />
           </oxd-grid-item>
@@ -74,7 +74,7 @@
         <required-text />
         <oxd-button
           type="button"
-          displayType="ghost"
+          display-type="ghost"
           label="Cancel"
           @click="onCancel"
         />
@@ -99,9 +99,7 @@ const languageModel = {
 };
 
 export default {
-  name: 'edit-language',
-
-  emits: ['close'],
+  name: 'EditLanguage',
 
   props: {
     http: {
@@ -122,6 +120,8 @@ export default {
     },
   },
 
+  emits: ['close'],
+
   data() {
     return {
       isLoading: false,
@@ -131,6 +131,27 @@ export default {
         comment: [shouldNotExceedCharLength(100)],
       },
     };
+  },
+
+  beforeMount() {
+    this.isLoading = true;
+    this.http
+      .request({
+        method: 'GET',
+        url: `api/v2/pim/employees/${this.employeeId}/languages/${this.data.languageId}/fluencies/${this.data.fluencyId}`,
+      })
+      .then(response => {
+        const {data} = response.data;
+        this.language.name = data.language.name;
+        this.language.fluency = data.fluency.name;
+        this.language.comment = data.comment ? data.comment : '';
+        this.language.competencyId = this.competencies.find(
+          item => item.id === data.competency?.id,
+        );
+      })
+      .finally(() => {
+        this.isLoading = false;
+      });
   },
 
   methods: {
@@ -155,27 +176,6 @@ export default {
     onCancel() {
       this.$emit('close', true);
     },
-  },
-
-  beforeMount() {
-    this.isLoading = true;
-    this.http
-      .request({
-        method: 'GET',
-        url: `api/v2/pim/employees/${this.employeeId}/languages/${this.data.languageId}/fluencies/${this.data.fluencyId}`,
-      })
-      .then(response => {
-        const {data} = response.data;
-        this.language.name = data.language.name;
-        this.language.fluency = data.fluency.name;
-        this.language.comment = data.comment ? data.comment : '';
-        this.language.competencyId = this.competencies.find(
-          item => item.id === data.competency?.id,
-        );
-      })
-      .finally(() => {
-        this.isLoading = false;
-      });
   },
 };
 </script>

@@ -27,20 +27,20 @@
             Custom Fields
           </oxd-text>
           <template v-if="!isLoading">
-            <oxd-text class="--infotext" tag="p" v-if="remainingFields > 0">
+            <oxd-text v-if="remainingFields > 0" class="--infotext" tag="p">
               Remaining number of custom fields: {{ remainingFields }}
             </oxd-text>
-            <oxd-text class="--infotext" tag="p" v-else>
+            <oxd-text v-else class="--infotext" tag="p">
               All custom fields are in use
             </oxd-text>
           </template>
         </div>
         <oxd-button
-          label="Add"
-          iconName="plus"
-          displayType="secondary"
-          @click="onClickAdd"
           v-if="remainingFields > 0"
+          label="Add"
+          icon-name="plus"
+          display-type="secondary"
+          @click="onClickAdd"
         />
       </div>
       <table-header
@@ -51,20 +51,20 @@
       ></table-header>
       <div class="orangehrm-container">
         <oxd-card-table
+          v-model:selected="checkedItems"
           :loading="isLoading"
           :headers="headers"
           :items="items?.data"
           :selectable="true"
           :clickable="false"
-          v-model:selected="checkedItems"
-          rowDecorator="oxd-table-decorator-card"
+          row-decorator="oxd-table-decorator-card"
         />
       </div>
       <div class="orangehrm-bottom-container">
         <oxd-pagination
           v-if="showPaginator"
-          :length="pages"
           v-model:current="currentPage"
+          :length="pages"
         />
       </div>
     </div>
@@ -80,6 +80,9 @@ import {navigate} from '@ohrm/core/util/helper/navigation';
 import {APIService} from '@ohrm/core/util/services/api.service';
 
 export default {
+  components: {
+    'delete-confirmation': DeleteConfirmationDialog,
+  },
   props: {
     customFieldLimit: {
       type: Number,
@@ -97,49 +100,6 @@ export default {
       type: Array,
       default: () => [],
     },
-  },
-
-  data() {
-    return {
-      screenWidth: screen.width,
-      headers: [
-        {
-          name: 'fieldName',
-          slot: 'title',
-          title: 'Custom Field Name',
-          style: {flex: 2},
-        },
-        {name: 'screen', title: 'Screen', style: {flex: 2}},
-        {name: 'fieldType', title: 'Field Type', style: {flex: 2}},
-        {
-          name: 'actions',
-          title: 'Actions',
-          slot: 'action',
-          style: {flex: 1},
-          cellType: 'oxd-table-cell-actions',
-          cellConfig: {
-            delete: {
-              onClick: this.onClickDelete,
-              component: 'oxd-icon-button',
-              props: {
-                name: 'trash',
-              },
-            },
-            edit: {
-              onClick: this.onClickEdit,
-              props: {
-                name: 'pencil-fill',
-              },
-            },
-          },
-        },
-      ],
-      checkedItems: [],
-    };
-  },
-
-  components: {
-    'delete-confirmation': DeleteConfirmationDialog,
   },
 
   setup(props) {
@@ -186,6 +146,54 @@ export default {
       execQuery,
       items: response,
     };
+  },
+
+  data() {
+    return {
+      screenWidth: screen.width,
+      headers: [
+        {
+          name: 'fieldName',
+          slot: 'title',
+          title: 'Custom Field Name',
+          style: {flex: 2},
+        },
+        {name: 'screen', title: 'Screen', style: {flex: 2}},
+        {name: 'fieldType', title: 'Field Type', style: {flex: 2}},
+        {
+          name: 'actions',
+          title: 'Actions',
+          slot: 'action',
+          style: {flex: 1},
+          cellType: 'oxd-table-cell-actions',
+          cellConfig: {
+            delete: {
+              onClick: this.onClickDelete,
+              component: 'oxd-icon-button',
+              props: {
+                name: 'trash',
+              },
+            },
+            edit: {
+              onClick: this.onClickEdit,
+              props: {
+                name: 'pencil-fill',
+              },
+            },
+          },
+        },
+      ],
+      checkedItems: [],
+    };
+  },
+
+  computed: {
+    isLoaded() {
+      return !this.isLoading;
+    },
+    remainingFields() {
+      return this.customFieldLimit - this.items?.data?.length;
+    },
   },
   methods: {
     onClickAdd() {
@@ -237,15 +245,6 @@ export default {
     async resetDataTable() {
       this.checkedItems = [];
       await this.execQuery();
-    },
-  },
-
-  computed: {
-    isLoaded() {
-      return !this.isLoading;
-    },
-    remainingFields() {
-      return this.customFieldLimit - this.items?.data?.length;
     },
   },
 };

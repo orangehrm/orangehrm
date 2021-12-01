@@ -6,8 +6,8 @@
     <oxd-button
       v-if="actionButtonShown"
       label="Add"
-      iconName="plus"
-      displayType="text"
+      icon-name="plus"
+      display-type="text"
       v-bind="$attrs"
     />
   </div>
@@ -15,7 +15,7 @@
 
 <script>
 export default {
-  name: 'profile-action-header',
+  name: 'ProfileActionHeader',
   inheritAttrs: false,
   props: {
     actionButtonShown: {

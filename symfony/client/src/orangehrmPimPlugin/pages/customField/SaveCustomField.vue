@@ -32,17 +32,17 @@
           <oxd-grid :cols="2" class="orangehrm-full-width-grid">
             <oxd-grid-item class="organization-name-container">
               <oxd-input-field
-                label="Field Name"
                 v-model="customField.fieldName"
+                label="Field Name"
                 :rules="rules.fieldName"
                 required
               />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
+                v-model="customField.screen"
                 type="select"
                 label="Screen"
-                v-model="customField.screen"
                 :rules="rules.screen"
                 :options="screenList"
                 required
@@ -54,9 +54,9 @@
           <oxd-grid :cols="2" class="orangehrm-full-width-grid">
             <oxd-grid-item class="organization-name-container">
               <oxd-input-field
+                v-model="customField.fieldType"
                 type="select"
                 label="Type"
-                v-model="customField.fieldType"
                 :rules="rules.fieldType"
                 :options="fieldTypeList"
                 required
@@ -64,8 +64,8 @@
             </oxd-grid-item>
             <oxd-grid-item v-if="isDropDownField">
               <oxd-input-field
-                label="Select Options"
                 v-model="customField.extraData"
+                label="Select Options"
                 :rules="rules.extraData"
                 :required="isDropDownField"
               />
@@ -82,7 +82,7 @@
           <required-text />
           <oxd-button
             type="button"
-            displayType="ghost"
+            display-type="ghost"
             label="Cancel"
             @click="onCancel"
           />
@@ -120,6 +120,16 @@ export default {
     },
   },
 
+  setup() {
+    const http = new APIService(
+      window.appGlobal.baseUrl,
+      '/api/v2/pim/custom-fields',
+    );
+    return {
+      http,
+    };
+  },
+
   data() {
     return {
       isLoading: false,
@@ -132,15 +142,25 @@ export default {
       },
     };
   },
-
-  setup() {
-    const http = new APIService(
-      window.appGlobal.baseUrl,
-      '/api/v2/pim/custom-fields',
-    );
-    return {
-      http,
-    };
+  computed: {
+    isDropDownField() {
+      return this.customField.fieldType?.id === 1;
+    },
+  },
+  created() {
+    this.isLoading = true;
+    this.http
+      .getAll()
+      .then(response => {
+        const {data} = response.data;
+        this.rules.fieldName.push(v => {
+          const index = data.findIndex(item => item.fieldName == v);
+          return index === -1 || 'Already exists';
+        });
+      })
+      .finally(() => {
+        this.isLoading = false;
+      });
   },
 
   methods: {
@@ -163,26 +183,6 @@ export default {
     },
     onCancel() {
       navigate('/pim/listCustomFields');
-    },
-  },
-  created() {
-    this.isLoading = true;
-    this.http
-      .getAll()
-      .then(response => {
-        const {data} = response.data;
-        this.rules.fieldName.push(v => {
-          const index = data.findIndex(item => item.fieldName == v);
-          return index === -1 || 'Already exists';
-        });
-      })
-      .finally(() => {
-        this.isLoading = false;
-      });
-  },
-  computed: {
-    isDropDownField() {
-      return this.customField.fieldType?.id === 1;
     },
   },
 };

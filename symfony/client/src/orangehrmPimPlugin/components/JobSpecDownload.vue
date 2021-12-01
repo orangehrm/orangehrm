@@ -22,10 +22,10 @@
   <oxd-input-group label="Job Specification">
     <div :class="{'input-container': true, '--disabled': !file.id}">
       <oxd-text
-        @click="downloadFile"
         class="input-container-filename"
         tag="p"
         :title="file.filename"
+        @click="downloadFile"
       >
         {{ file.id ? file.filename : 'Not Defined' }}
       </oxd-text>
@@ -50,15 +50,15 @@ import {APIService} from '@ohrm/core/util/services/api.service';
 import Spinner from '@ohrm/oxd/core/components/Loader/Spinner.vue';
 
 export default {
-  name: 'job-spec-download',
+  name: 'JobSpecDownload',
+  components: {
+    'oxd-loading-spinner': Spinner,
+  },
   props: {
     resourceId: {
       type: Number,
       required: true,
     },
-  },
-  components: {
-    'oxd-loading-spinner': Spinner,
   },
   setup(props) {
     const http = new APIService(

@@ -33,7 +33,7 @@
 
 <script>
 export default {
-  name: 'profile-image-input',
+  name: 'ProfileImageInput',
   inheritAttrs: false,
   props: {
     imgSrc: {

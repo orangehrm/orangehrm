@@ -39,10 +39,10 @@
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
           <oxd-grid-item>
             <oxd-input-field
+              v-model="attachment.attachment"
               type="file"
               label="Replace With"
-              buttonLabel="Browse"
-              v-model="attachment.attachment"
+              button-label="Browse"
               :rules="rules.attachment"
             />
             <oxd-text class="orangehrm-input-hint" tag="p"
@@ -56,10 +56,10 @@
         <oxd-grid :cols="2" class="orangehrm-full-width-grid">
           <oxd-grid-item>
             <oxd-input-field
+              v-model="attachment.description"
               type="textarea"
               label="Comment"
               placeholder="Type comment here"
-              v-model="attachment.description"
               :rules="rules.description"
             />
           </oxd-grid-item>
@@ -71,7 +71,7 @@
         <required-text />
         <oxd-button
           type="button"
-          displayType="ghost"
+          display-type="ghost"
           label="Cancel"
           @click="onCancel"
         />
@@ -89,9 +89,7 @@ const attachmentModel = {
 };
 
 export default {
-  name: 'edit-attachment',
-
-  emits: ['close'],
+  name: 'EditAttachment',
 
   props: {
     http: {
@@ -107,6 +105,8 @@ export default {
       required: true,
     },
   },
+
+  emits: ['close'],
 
   data() {
     return {
@@ -132,6 +132,20 @@ export default {
     };
   },
 
+  beforeMount() {
+    this.isLoading = true;
+    this.http
+      .get(this.data.id)
+      .then(response => {
+        const {data} = response.data;
+        this.currentFile = data.filename;
+        this.attachment.description = data.description;
+      })
+      .finally(() => {
+        this.isLoading = false;
+      });
+  },
+
   methods: {
     onSave() {
       this.isLoading = true;
@@ -148,20 +162,6 @@ export default {
     onCancel() {
       this.$emit('close', true);
     },
-  },
-
-  beforeMount() {
-    this.isLoading = true;
-    this.http
-      .get(this.data.id)
-      .then(response => {
-        const {data} = response.data;
-        this.currentFile = data.filename;
-        this.attachment.description = data.description;
-      })
-      .finally(() => {
-        this.isLoading = false;
-      });
   },
 };
 </script>
