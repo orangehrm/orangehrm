@@ -23,7 +23,7 @@ use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\Project;
 
-class ProjectModel implements Normalizable
+class ProjectDetailedModel implements Normalizable
 {
     use ModelTrait;
 
@@ -34,6 +34,10 @@ class ProjectModel implements Normalizable
             'id',
             'name',
             'description',
+            ['getCustomer','getCustomerId'],
+            ['getCustomer','getName'],
+            ['getCustomer','isDeleted'],
+            ['getProjectAdmins', ['getEmpNumber', 'getLastName', 'getFirstName', 'getMiddleName']],
             'isDeleted'
         ]);
 
@@ -41,6 +45,10 @@ class ProjectModel implements Normalizable
             'id',
             'name',
             'description',
+            ['customer','customerId'],
+            ['customer','name'],
+            ['customer','isDeleted'],
+            ['projectAdmins', ['empNumber', 'lastName', 'firstName', 'middleName']],
             'isDeleted'
         ]);
     }

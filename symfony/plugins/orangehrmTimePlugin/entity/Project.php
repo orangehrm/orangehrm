@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use OrangeHRM\Entity\Customer;
@@ -35,6 +34,7 @@ use OrangeHRM\Entity\Decorator\ProjectDecorator;
 class Project
 {
     use DecoratorTrait;
+
     /**
      * @var int
      *
@@ -71,14 +71,17 @@ class Project
     private bool $isDeleted = false;
 
     /**
-     * @var Collection|ProjectAdmin[]
-     * @ORM\OneToMany (targetEntity="OrangeHRM\Entity\ProjectAdmin", mappedBy="project")
+     * @ORM\ManyToMany(targetEntity="OrangeHRM\Entity\Employee")
+     * @ORM\JoinTable(name="ohrm_project_admin",
+     *      joinColumns={@ORM\JoinColumn(name="project_id", referencedColumnName="project_id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="emp_number", referencedColumnName="emp_number")}
+     *      )
      */
-    private $projectAdmin;
+    private $projectAdmins;
 
     public function __construct()
     {
-        $this->projectAdmin = new ArrayCollection();
+        $this->projectAdmins = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
 
@@ -162,4 +165,22 @@ class Project
         $this->isDeleted = $isDeleted;
     }
 
+    /**
+     * @param  Employee  $employee
+     */
+    public function addProjectAdmin(Employee $employee)
+    {
+        if ($this->projectAdmins->contains($employee)) {
+            return;
+        }
+        $this->projectAdmins[] = $employee;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getProjectAdmins(): Collection
+    {
+        return $this->projectAdmins;
+    }
 }

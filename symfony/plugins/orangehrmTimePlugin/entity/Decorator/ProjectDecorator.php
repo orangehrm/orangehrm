@@ -21,6 +21,7 @@ namespace OrangeHRM\Entity\Decorator;
 
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Entity\Customer;
+use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\Project;
 
 class ProjectDecorator
@@ -52,6 +53,13 @@ class ProjectDecorator
     public function getProject(): Project
     {
         return $this->project;
+    }
+
+    public function setProjectAdminsByEmpNumbers(array $empNumbers){
+        foreach ($empNumbers as $empNumber){
+            $projectAdmin = $this->getReference(Employee::class, $empNumber);
+            $this->getProject()->addProjectAdmin($projectAdmin);
+        }
     }
 
 }

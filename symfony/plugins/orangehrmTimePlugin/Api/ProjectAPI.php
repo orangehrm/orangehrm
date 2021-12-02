@@ -22,6 +22,7 @@ namespace OrangeHRM\Time\Api;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
+use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
 use OrangeHRM\Core\Api\V2\Exception\ForbiddenException;
@@ -38,8 +39,11 @@ use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\Project;
 use OrangeHRM\Entity\ProjectAdmin;
+use OrangeHRM\Time\Api\Model\ProjectDetailedModel;
 use OrangeHRM\Time\Api\Model\ProjectModel;
+use OrangeHRM\Time\Dto\ProjectSearchFilterParams;
 use OrangeHRM\Time\Service\ProjectService;
+use OrangeHRM\Core\Api\V2\ParameterBag;
 
 class ProjectAPI extends Endpoint implements CrudEndpoint
 {
@@ -52,7 +56,19 @@ class ProjectAPI extends Endpoint implements CrudEndpoint
     public const PARAMETER_RULE_NAME_MAX_LENGTH = 100;
     public const PARAMETER_RULE_DESCRIPTION_MAX_LENGTH = 256;
     public const PARAMETER_RULE_CUSTOMER_ID_MAX_LENGTH = 11;
-    public const PARAMETER_RULE_PROJECT_ADMIN_MAX_COUNT=5;
+    public const PARAMETER_RULE_PROJECT_ADMIN_MAX_COUNT = 5;
+
+    public const FILTER_MODEL = 'model';
+    public const FILTER_PROJECT_ID = 'projectId';
+    public const FILTER_CUSTOMER_ID = 'customerId';
+    public const FILTER_EMPLOYEE_NUMBER = 'empNumber';
+
+    public const MODEL_DEFAULT = 'default';
+    public const MODEL_DETAILED = 'detailed';
+    public const MODEL_MAP = [
+        self::MODEL_DEFAULT => ProjectModel::class,
+        self::MODEL_DETAILED => ProjectDetailedModel::class,
+    ];
 
     /**
      * @var ProjectService|null
@@ -62,7 +78,40 @@ class ProjectAPI extends Endpoint implements CrudEndpoint
     /**
      * @var int|null
      */
-    protected ?int $projectId=null;
+    protected ?int $projectId = null;
+
+    public function getAll(): EndpointCollectionResult
+    {
+        $projectParamHolder = new ProjectSearchFilterParams();
+        $this->setSortingAndPaginationParams($projectParamHolder);
+
+        $projectParamHolder->setProjectId(
+            $this->getRequestParams()->getIntOrNull(
+                RequestParams::PARAM_TYPE_QUERY,
+                self::FILTER_PROJECT_ID
+            )
+        );
+        $projectParamHolder->setCustomerId(
+            $this->getRequestParams()->getIntOrNull(
+                RequestParams::PARAM_TYPE_QUERY,
+                self::FILTER_CUSTOMER_ID
+            )
+        );
+        $projectParamHolder->setEmpNumber(
+            $this->getRequestParams()->getIntOrNull(
+                RequestParams::PARAM_TYPE_QUERY,
+                self::FILTER_EMPLOYEE_NUMBER
+            )
+        );
+        $projects = $this->getProjectService()->getProjectDao()->getAllProjects($projectParamHolder);
+        $count = $this->getProjectService()->getProjectDao()->searchProjectsCount($projectParamHolder);
+        return new EndpointCollectionResult(
+            $this->getModelClass(),
+            $projects,
+            new ParameterBag([CommonParams::PARAMETER_TOTAL => $count])
+        );
+    }
+
     /**
      * @return ProjectService
      */
@@ -74,33 +123,48 @@ class ProjectAPI extends Endpoint implements CrudEndpoint
         return $this->projectService;
     }
 
-    public function getAll(): EndpointResult
+    /**
+     * @return string
+     */
+    protected function getModelClass(): string
     {
-        // TODO: Implement getAll() method.
+        $model = $this->getRequestParams()->getString(
+            RequestParams::PARAM_TYPE_QUERY,
+            self::FILTER_MODEL,
+            self::MODEL_DEFAULT
+        );
+        return self::MODEL_MAP[$model];
     }
 
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
-        // TODO: Implement getValidationRuleForGetAll() method.
+        return new ParamRuleCollection(
+            new ParamRule(self::FILTER_PROJECT_ID),
+            new ParamRule(self::FILTER_EMPLOYEE_NUMBER),
+            new ParamRule(self::FILTER_CUSTOMER_ID),
+            $this->getModelParamRule(),
+            ...$this->getSortingAndPaginationParamsRules(ProjectSearchFilterParams::ALLOWED_SORT_FIELDS)
+        );
+    }
+
+    protected function getModelParamRule(): ParamRule
+    {
+        return $this->getValidationDecorator()->notRequiredParamRule(
+            new ParamRule(
+                self::FILTER_MODEL,
+                new Rule(Rules::IN, [array_keys(self::MODEL_MAP)])
+            )
+        );
     }
 
     /**
      * @throws NormalizeException
-     * @throws DaoException
      */
     public function create(): EndpointResourceResult
     {
         $project = new Project();
         $this->setProject($project);
-        $currentProject = $this->getProjectService()->getProjectDao()->saveProject($project);
-        $this->projectId=$currentProject->getId();
-        $projectAdminIds=$this->getRequestParams()->getArray(
-            RequestParams::PARAM_TYPE_BODY,
-            self::PARAMETER_PROJECT_ADMINS
-        );
-        $projectAdmin=new ProjectAdmin();
-        $this->setProjectAdmin($projectAdmin,$projectAdminIds);
-        $this->getProjectService()->getProjectDao()->saveProjectAdmins($projectAdmin);
+        $this->getProjectService()->getProjectDao()->saveProject($project);
         return new EndpointResourceResult(ProjectModel::class, $project);
     }
 
@@ -127,16 +191,13 @@ class ProjectAPI extends Endpoint implements CrudEndpoint
                 self::PARAMETER_DESCRIPTION
             )
         );
+        $project->getDecorator()->setProjectAdminsByEmpNumbers(
+            $this->getRequestParams()->getArray(
+                RequestParams::PARAM_TYPE_BODY,
+                self::PARAMETER_PROJECT_ADMINS
+            )
+        );
     }
-
-    private function setProjectAdmin(ProjectAdmin $projectAdmin,array $projectAdminIds){
-        $projectAdmin->getDecorator()->setProject($this->projectId);
-        foreach ($projectAdminIds as $projectAdminId){
-            $employee = $projectAdmin->getDecorator()->getEmployee($projectAdminId);
-            $projectAdmin->addEmployee($employee);
-        }
-    }
-
 
     public function getValidationRuleForCreate(): ParamRuleCollection
     {
@@ -216,12 +277,15 @@ class ProjectAPI extends Endpoint implements CrudEndpoint
         );
         $project = $this->getProjectService()->getProjectDao()->getProjectById($id);
         $this->throwRecordNotFoundExceptionIfNotExist($project, Project::class);
-        return new EndpointResourceResult(ProjectModel::class, $project);
+        return new EndpointResourceResult($this->getModelClass(), $project);
     }
 
     public function getValidationRuleForGetOne(): ParamRuleCollection
     {
-        return new ParamRuleCollection(new ParamRule(CommonParams::PARAMETER_ID));
+        return new ParamRuleCollection(
+            new ParamRule(CommonParams::PARAMETER_ID),
+            $this->getModelParamRule()
+        );
     }
 
     public function update(): EndpointResult

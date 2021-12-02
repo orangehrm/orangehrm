@@ -34,29 +34,16 @@ use OrangeHRM\Entity\Decorator\ProjectAdminDecorator;
 class ProjectAdmin
 {
     use DecoratorTrait;
-    /**
-     * @var Project
-     *
-     * @ORM\Id
-     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Project", inversedBy="projectAdmin", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(name="project_id", referencedColumnName="project_id",nullable=false)
-     *
-     */
+
+
     private Project $project;
 
-    /**
-     * @var Employee[]
-     *
-     * @ORM\Id
-     * @ORM\ManyToMany (targetEntity="OrangeHRM\Entity\Employee", inversedBy="projectAdmin", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(name="emp_number", referencedColumnName="emp_number" ,nullable=false)
-     *
-     */
+
     private iterable $employee;
 
     public function __construct()
     {
-        $this->employee=new ArrayCollection();
+        $this->employee = new ArrayCollection();
     }
 
     /**
@@ -84,7 +71,7 @@ class ProjectAdmin
     }
 
     /**
-     * @param Employee[] $employee
+     * @param  Employee[]  $employee
      */
     public function setEmployee(iterable $employee): void
     {
@@ -96,12 +83,11 @@ class ProjectAdmin
      */
     public function addEmployee(Employee $employee)
     {
-        if($this->employee->contains($employee)){
+        if ($this->employee->contains($employee)) {
             return;
         }
-        $this->employee[]=$employee;
+        $this->employee[] = $employee;
         var_dump($this->employee);
-
     }
 
 

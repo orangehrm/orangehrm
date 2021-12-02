@@ -23,6 +23,8 @@ use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\Project;
 use OrangeHRM\Entity\ProjectAdmin;
+use OrangeHRM\ORM\Paginator;
+use OrangeHRM\Time\Dto\ProjectSearchFilterParams;
 
 class ProjectDao extends BaseDao
 {
@@ -34,16 +36,6 @@ class ProjectDao extends BaseDao
     {
         $this->persist($project);
         return $project;
-    }
-
-    /**
-     * @param  ProjectAdmin  $projectAdmin
-     * @return ProjectAdmin
-     */
-    public function saveProjectAdmins(ProjectAdmin $projectAdmin): ProjectAdmin
-    {
-      $this->persist($projectAdmin);
-        return $projectAdmin;
     }
 
     /**
@@ -65,12 +57,64 @@ class ProjectDao extends BaseDao
      * @param  int  $id
      * @return Project|null
      */
-    public function getProjectById(int $id):?Project
+    public function getProjectById(int $id): ?Project
     {
         $project = $this->getRepository(Project::class)->find($id);
         if ($project instanceof Project) {
             return $project;
         }
         return null;
+    }
+
+    /**
+     * @param  ProjectSearchFilterParams  $projectSearchFilterParamHolder
+     * @return Project[]
+     */
+    public function getAllProjects(ProjectSearchFilterParams $projectSearchFilterParamHolder): array
+    {
+        $qb = $this->getProjectsPaginator($projectSearchFilterParamHolder);
+        return $qb->getQuery()->execute();
+    }
+
+    /**
+     * @param  ProjectSearchFilterParams  $projectSearchFilterParamHolder
+     * @return Paginator
+     */
+    protected function getProjectsPaginator(ProjectSearchFilterParams $projectSearchFilterParamHolder): Paginator
+    {
+        $qb = $this->createQueryBuilder(Project::class, 'project');
+        $qb->leftJoin('project.customer', 'customer');
+        $qb->leftJoin('project.projectAdmins', 'projectAdmin');
+
+        $this->setSortingAndPaginationParams($qb, $projectSearchFilterParamHolder);
+
+        if (!is_null($projectSearchFilterParamHolder->getProjectId())) {
+            $qb->andWhere('project.id=:projectId')->setParameter(
+                'projectId',
+                $projectSearchFilterParamHolder->getProjectId()
+            );
+        }
+        if (!is_null($projectSearchFilterParamHolder->getCustomerId())) {
+            $qb->andWhere('customer.customerId=:customerId')->setParameter(
+                'customerId',
+                $projectSearchFilterParamHolder->getCustomerId()
+            );
+        }
+        if (!is_null($projectSearchFilterParamHolder->getEmpNumber())) {
+            $qb->andWhere('projectAdmin.empNumber=:empNumber')->setParameter(
+                'empNumber',
+                $projectSearchFilterParamHolder->getEmpNumber()
+            );
+        }
+        return $this->getPaginator($qb);
+    }
+
+    /**
+     * @param  ProjectSearchFilterParams  $projectSearchFilterParamHolder
+     * @return int
+     */
+    public function searchProjectsCount(ProjectSearchFilterParams $projectSearchFilterParamHolder): int
+    {
+        return $this->getProjectsPaginator($projectSearchFilterParamHolder)->count();
     }
 }
