@@ -449,4 +449,3 @@ class ConfigServiceTest extends KernelTestCase
         );
     }
 }
-

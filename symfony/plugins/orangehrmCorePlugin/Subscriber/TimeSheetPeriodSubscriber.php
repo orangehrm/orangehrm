@@ -19,13 +19,13 @@
 
 namespace OrangeHRM\Core\Subscriber;
 
+use OrangeHRM\Core\Api\V2\Exception\ForbiddenException;
 use OrangeHRM\Core\Controller\Common\TimeSheetPeriodNotDefinedController;
 use OrangeHRM\Core\Controller\Exception\RequestForwardableException;
 use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Core\Traits\Service\TextHelperTrait;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Framework\Event\AbstractEventSubscriber;
-use OrangeHRM\Time\Controller\EmployeeTimeSheetController;
 use OrangeHRM\Time\Controller\TimeSheetPeriodConfigController;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
@@ -52,16 +52,17 @@ class TimeSheetPeriodSubscriber extends AbstractEventSubscriber
      * @param RequestEvent $event
      * @return void
      * @throws RequestForwardableException
+     * @throws ForbiddenException
      */
     public function onRequestEvent(RequestEvent $event): void
     {
         if ($event->isMasterRequest()) {
             if ($this->getTextHelper()->strStartsWith($event->getRequest()->getPathInfo(), '/' . 'time')) {
+                $status = $this->getConfigService()->isTimesheetPeriodDefined();
                 /**if time sheet period start day is not defined
                  * Admin user -> will navigate to configuration page of defining the start day
                  * normal user -> warning page
                  */
-                $status = $this->getConfigService()->isTimesheetPeriodDefined();
                 if (!$status) {
                     $employeeRole = $this->getUserRoleManager()->getUser()->getUserRole()->getName();
                     if ($employeeRole === 'Admin') {
@@ -73,11 +74,22 @@ class TimeSheetPeriodSubscriber extends AbstractEventSubscriber
                     }
                 }
             }
-            // need to block the user once time period start day is set
-            if ($this->getTextHelper()->strStartsWith($event->getRequest()->getPathInfo(), '/time/viewTimeModule')) {
+            // disable the API
+            if ($this->getTextHelper()->strStartsWith($event->getRequest()->getPathInfo(), '/api/v2/' . 'time')) {
+                $status = $this->getConfigService()->isTimesheetPeriodDefined();
+                if (!$status) {
+                    $employeeRole = $this->getUserRoleManager()->getUser()->getUserRole()->getName();
+                    if ($employeeRole !== 'Admin') {
+                        // ESS
+                        throw new ForbiddenException('Unauthorized');
+                    }
+                }
+            }
+            // disable the API for  user once time period start day was set by the admin
+            if ($this->getTextHelper()->strStartsWith($event->getRequest()->getPathInfo(), '/api/v2/time/time-sheet-period')) {
                 $status = $this->getConfigService()->isTimesheetPeriodDefined();
                 if ($status) {
-                    throw new RequestForwardableException(EmployeeTimeSheetController::class . '::handle');
+                    throw new ForbiddenException('Unauthorized');
                 }
             }
         }

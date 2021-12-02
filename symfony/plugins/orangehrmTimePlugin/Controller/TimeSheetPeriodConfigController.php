@@ -20,17 +20,36 @@
 namespace OrangeHRM\Time\Controller;
 
 use OrangeHRM\Core\Controller\AbstractVueController;
+use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
+use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Framework\Http\Request;
 
 class TimeSheetPeriodConfigController extends AbstractVueController
 {
+    use ConfigServiceTrait;
+    use UserRoleManagerTrait;
+
     /**
      * @inheritDoc
      */
     public function preRender(Request $request): void
     {
-        $component = new Component('time-sheet-period');
+        // to block defineTimesheetPeriod (URL)
+        $status = $this->getConfigService()->isTimesheetPeriodDefined();
+        if ($status) {
+            $employeeRole = $this->getUserRoleManager()->getUser()->getUserRole()->getName();
+            if ($employeeRole === 'Admin') {
+                // Admin user -> will navigate to employee time sheet
+                $component = new Component('employee-time-sheet-list');
+            } else {
+                // ESS user -> will navigate to my time sheet
+                $component = new Component('my-timesheet');
+            }
+        } else {
+            // config page of define start week
+            $component = new Component('time-sheet-period');
+        }
         $this->setComponent($component);
     }
 }

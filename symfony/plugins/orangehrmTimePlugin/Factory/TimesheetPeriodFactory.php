@@ -24,13 +24,12 @@ use OrangeHRM\Time\TimeSheetPeriod\WeeklyTimesheetPeriod;
 class TimesheetPeriodFactory
 {
     /**
-     * @param $xml
+     * @param string $className
      * @return mixed
      */
-    public function createTimesheetPeriod($xml)
+    public function createTimesheetPeriod(string $className)
     {
-        $timesheetPeriodObject = $xml->ClassName;
-        $className = (string)$timesheetPeriodObject;
+        //TODO
         return new $className();
     }
 

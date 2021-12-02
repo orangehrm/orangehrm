@@ -21,6 +21,16 @@ namespace OrangeHRM\Time\TimeSheetPeriod;
 
 abstract class TimesheetPeriod
 {
-    abstract public function setTimesheetPeriodAndStartDate($startDay);
-    abstract public function calculateDaysInTheTimesheetPeriod($currentDate, $xml);
+    /**
+     * @param string $startDay
+     * @return mixed
+     */
+    abstract public function setTimesheetPeriodAndStartDate(string $startDay);
+
+    /**
+     * @param string $currentDate
+     * @param $xml
+     * @return mixed
+     */
+    abstract public function calculateDaysInTheTimesheetPeriod(string $currentDate, $xml);
 }

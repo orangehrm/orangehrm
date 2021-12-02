@@ -49,7 +49,7 @@ class TimeSheetPeriodService
     {
         // TODO
         $timesheetPeriodFactory = new TimesheetPeriodFactory();
-        $timesheetPeriodObject = $timesheetPeriodFactory->createTimesheetPeriod($xml);
+        $timesheetPeriodObject = $timesheetPeriodFactory->createTimesheetPeriod($xml->ClassName);
         return $timesheetPeriodObject->calculateDaysInTheTimesheetPeriod($currentDate, $xml);
     }
 
@@ -70,7 +70,7 @@ class TimeSheetPeriodService
         $timesheetPeriodFactory = new TimesheetPeriodFactory();
         $timesheetPeriodObject = $timesheetPeriodFactory->setTimesheetPeriod();
         $xml = $timesheetPeriodObject->setTimesheetPeriodAndStartDate($startDay);
-        $this->getConfigService()->setTimeSheetPeriodSetValue("Yes");
+        $this->getConfigService()->setTimeSheetPeriodSetValue(true);
         $this->getConfigService()->setTimeSheetPeriodConfig($xml);
     }
 
@@ -79,6 +79,7 @@ class TimeSheetPeriodService
      */
     public function getTimesheetHeading(): string
     {
+        // TODO
         $xmlString = $this->getConfigService()->getTimeSheetPeriodConfig();
         $xml = simplexml_load_String($xmlString);
         return $xml->Heading;

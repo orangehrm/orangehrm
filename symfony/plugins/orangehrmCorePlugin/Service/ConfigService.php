@@ -569,11 +569,11 @@ class ConfigService
     }
 
     /**
-     * @param string $value
+     * @param bool $value
      * @throws CoreServiceException
      */
-    public function setTimeSheetPeriodSetValue(string $value): void
+    public function setTimeSheetPeriodSetValue(bool $value): void
     {
-        $this->_setConfigValue(self::KEY_TIMESHEET_PERIOD_SET, $value);
+        $this->_setConfigValue(self::KEY_TIMESHEET_PERIOD_SET, $value ? 'Yes' : 'No');
     }
 }

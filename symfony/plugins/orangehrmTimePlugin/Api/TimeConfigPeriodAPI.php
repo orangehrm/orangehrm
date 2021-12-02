@@ -64,7 +64,7 @@ class TimeConfigPeriodAPI extends Endpoint implements ResourceEndpoint
     public function getOne(): EndpointResult
     {
         $status = $this->getTimeSheetPeriodService()->isTimesheetPeriodDefined();
-        $startDay = $status ? $this->getConfigService()->getTimeSheetPeriodConfig() : '2'; // to set monday as default
+        $startDay = $status ? $this->getTimeSheetPeriodService()->getTimesheetStartDate() : '2'; // to set monday as default
         $timeConfigPeriod = new TimeConfigPeriod();
         $timeConfigPeriod->setStartDay($startDay);
         return new EndpointResourceResult(TimeConfigPeriodModel::class, $timeConfigPeriod);
@@ -75,11 +75,9 @@ class TimeConfigPeriodAPI extends Endpoint implements ResourceEndpoint
      */
     public function getValidationRuleForGetOne(): ParamRuleCollection
     {
-        return new ParamRuleCollection(
-            new ParamRule(
-                CommonParams::PARAMETER_ID
-            ),
-        );
+        $paramRules = new ParamRuleCollection();
+        $paramRules->addExcludedParamKey(CommonParams::PARAMETER_ID);
+        return $paramRules;
     }
 
     /**
@@ -94,7 +92,7 @@ class TimeConfigPeriodAPI extends Endpoint implements ResourceEndpoint
         $menuService = $this->getContainer()->get(Services::MENU_SERVICE);
         $menuService->enableModuleMenuItems('time');
         $menuService->enableModuleMenuItems('attendance');
-        $menuService->enableModuleMenuItems('admin', ['Project Info', 'Customers', 'Projects']);
+        $menuService->enableModuleMenuItems('time', ['Project Info', 'Customers', 'Projects']);
         $timeConfigPeriod = new TimeConfigPeriod();
         $timeConfigPeriod->setStartDay($startDay);
         return new EndpointResourceResult(TimeConfigPeriodModel::class, $timeConfigPeriod);
@@ -112,7 +110,7 @@ class TimeConfigPeriodAPI extends Endpoint implements ResourceEndpoint
             $this->getValidationDecorator()->requiredParamRule(
                 new ParamRule(
                     self::PARAMETER_START_DAY,
-                    new Rule(Rules::INT_TYPE),
+                    new Rule(Rules::BETWEEN, [1, 7])
                 ),
             ),
         );

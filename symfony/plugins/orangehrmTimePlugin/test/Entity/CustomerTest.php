@@ -31,7 +31,7 @@ class CustomerTest extends EntityTestCase
 {
     protected function setUp(): void
     {
-        TestDataService::truncateTables([Customer::class]);
+        TestDataService::truncateSpecificTables([Customer::class]);
     }
 
     public function testCustomerEntity(): void

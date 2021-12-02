@@ -32,8 +32,13 @@ apiv2_time_validate_customer_name:
 #        Screens
 ##########################
 
-view_time_sheet_config:
+time_module:
   path: /time/viewTimeModule
+  controller: OrangeHRM\Time\Controller\TimeModuleController::handle
+  methods: [ GET ]
+
+view_time_sheet_config:
+  path: /time/defineTimesheetPeriod
   controller: OrangeHRM\Time\Controller\TimeSheetPeriodConfigController::handle
   methods: [ GET ]
 

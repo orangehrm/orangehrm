@@ -43,7 +43,6 @@ class CustomerAPI extends Endpoint implements CrudEndpoint
 
     public const PARAMETER_NAME = 'name';
     public const PARAMETER_DESCRIPTION = 'description';
-    public const PARAMETER_DELETED = 'deleted';
     public const PARAM_RULE_NAME_MAX_LENGTH = 50;
     public const PARAM_RULE_DESCRIPTION_MAX_LENGTH = 255;
 
