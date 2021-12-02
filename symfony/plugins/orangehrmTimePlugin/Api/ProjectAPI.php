@@ -299,7 +299,6 @@ class ProjectAPI extends Endpoint implements CrudEndpoint
         foreach ($project->getProjectAdmins() as $projectAdmin){
             $project->removeProjectAdmin($projectAdmin);
         }
-        $this->getProjectService()->getProjectDao()->updateProject($project);
         $this->setProject($project);
         $this->getProjectService()->getProjectDao()->updateProject($project);
         return new EndpointResourceResult(ProjectDetailedModel::class, $project);
