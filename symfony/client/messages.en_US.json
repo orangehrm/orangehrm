@@ -305,6 +305,16 @@
           "source": "Comment",
           "target": "Comment",
           "description": "You may enter any important note regarding some information."
+        },
+        "approve": {
+          "source": "Approve",
+          "target": "Approve",
+          "description": "Approve time sheets /leave"
+        },
+        "reject": {
+          "source": "Reject",
+          "target": "Reject",
+          "description": "The Admin or Hiring Manager can turn down an application by selecting the status as Reject"
         }
       }
     },
@@ -785,6 +795,21 @@
           "source": "Timesheets Pending Action",
           "target": "Timesheets Pending Action",
           "description": "Timesheet with pending action can also be viewed on the screen. Click “View” to see the details of the time sheet under “Time sheets Pending Action”"
+        },
+        "timesheet_for": {
+          "source": "Timesheet for",
+          "target": "Timesheet for",
+          "description": "The current week will populate under the “Time sheet for week”."
+        },
+        "for_week": {
+          "source": "for Week",
+          "target": "for Week",
+          "description": "The current week will populate under the “Time sheet for week”."
+        },
+        "timesheet_action": {
+          "source": "Timesheet Action",
+          "target": "Timesheet Action",
+          "description": ""
         }
       }
     }

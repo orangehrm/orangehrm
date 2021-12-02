@@ -63,6 +63,13 @@ const actionsNormalizer = data => {
 
 export default {
   name: 'timesheet-actions',
+
+  props: {
+    timesheetId: {
+      type: Number,
+      required: true,
+    },
+  },
   data() {
     return {
       headers: [
@@ -91,11 +98,11 @@ export default {
     };
   },
 
-  setup() {
+  setup(props) {
     const http = new APIService(
       //   window.appGlobal.baseUrl,
       'https://884b404a-f4d0-4908-9eb5-ef0c8afec15c.mock.pstmn.io',
-      '/api/v2/time/timesheet-actions-performed',
+      `/api/v2/time/timesheet-actions-performed/${props.timesheetId}`,
     );
 
     const {

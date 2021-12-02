@@ -54,6 +54,7 @@
 <script>
 import {APIService} from '@/core/util/services/api.service';
 import {required} from '@/core/util/validation/rules';
+import {navigate} from '@ohrm/core/util/helper/navigation';
 import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
 import TimesheetPendingActions from '@/orangehrmTimePlugin/components/TimesheetPendingActions.vue';
 
@@ -84,7 +85,7 @@ export default {
 
   methods: {
     viewTimesheet() {
-      //do nothing
+      navigate('/time/viewTimesheet/employeeId/{id}', {id: this.employee?.id});
     },
   },
 };
