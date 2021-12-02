@@ -177,6 +177,15 @@ class Project
     }
 
     /**
+     * @param  Employee  $employee
+     */
+    public function removeProjectAdmin(Employee $employee){
+        if (!$this->projectAdmins->contains($employee)) {
+            return;
+        }
+        $this->projectAdmins->removeElement($employee);
+    }
+    /**
      * @return Collection
      */
     public function getProjectAdmins(): Collection

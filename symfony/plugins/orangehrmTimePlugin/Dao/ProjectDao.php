@@ -122,4 +122,11 @@ class ProjectDao extends BaseDao
     {
         return $this->getProjectsPaginator($projectSearchFilterParamHolder)->count();
     }
+
+    public function updateProject(?Project $project)
+    {
+        $qb=$this->createQueryBuilder(Project::class,'project');
+
+
+    }
 }

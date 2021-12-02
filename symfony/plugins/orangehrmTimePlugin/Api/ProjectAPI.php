@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Time\Api;
 
+use Doctrine\ORM\NonUniqueResultException;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
@@ -165,7 +166,7 @@ class ProjectAPI extends Endpoint implements CrudEndpoint
         $project = new Project();
         $this->setProject($project);
         $this->getProjectService()->getProjectDao()->saveProject($project);
-        return new EndpointResourceResult(ProjectModel::class, $project);
+        return new EndpointResourceResult(ProjectDetailedModel::class, $project);
     }
 
     /**
@@ -202,7 +203,6 @@ class ProjectAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForCreate(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-
             ...$this->getCommonBodyValidationRules(),
         );
     }
@@ -220,7 +220,13 @@ class ProjectAPI extends Endpoint implements CrudEndpoint
                     new Rule(Rules::LENGTH, [!null, self::PARAMETER_RULE_CUSTOMER_ID_MAX_LENGTH])
                 )
             ),
-
+            $this->getValidationDecorator()->requiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_PROJECT_ADMINS,
+                    new Rule(Rules::ARRAY_TYPE),
+                    new Rule(Rules::LENGTH, [!null, self::PARAMETER_RULE_PROJECT_ADMIN_MAX_COUNT])
+                ),
+            ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::PARAMETER_DESCRIPTION,
@@ -237,21 +243,13 @@ class ProjectAPI extends Endpoint implements CrudEndpoint
 
                 ),
                 true
-
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::PARAMETER_IS_DELETED,
                     new Rule(Rules::BOOL_TYPE)
                 ),
-            ),
-            $this->getValidationDecorator()->requiredParamRule(
-                new ParamRule(
-                    self::PARAMETER_PROJECT_ADMINS,
-                    new Rule(Rules::ARRAY_TYPE),
-                    new Rule(Rules::LENGTH, [!null, self::PARAMETER_RULE_PROJECT_ADMIN_MAX_COUNT])
-                ),
-            ),
+            )
         ];
     }
 
@@ -288,14 +286,33 @@ class ProjectAPI extends Endpoint implements CrudEndpoint
         );
     }
 
+    /**
+     * @throws NonUniqueResultException|NormalizeException
+     */
     public function update(): EndpointResult
     {
-        // TODO: Implement update() method.
+        $id = $this->getRequestParams()->getInt(
+            RequestParams::PARAM_TYPE_ATTRIBUTE,
+            CommonParams::PARAMETER_ID
+        );
+        $project = $this->getProjectService()->getProjectDao()->getProjectById($id);
+        foreach ($project->getProjectAdmins() as $projectAdmin){
+            $project->removeProjectAdmin($projectAdmin);
+        }
+        $this->getProjectService()->getProjectDao()->updateProject($project);
+        $this->setProject($project);
+        $this->getProjectService()->getProjectDao()->updateProject($project);
+        return new EndpointResourceResult(ProjectDetailedModel::class, $project);
     }
 
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
-        // TODO: Implement getValidationRuleForUpdate() method.
+        return new ParamRuleCollection(
+            $this->getValidationDecorator()->requiredParamRule(
+                new ParamRule(CommonParams::PARAMETER_ID)
+            ),
+            ...$this->getCommonBodyValidationRules(),
+        );
     }
 
 
