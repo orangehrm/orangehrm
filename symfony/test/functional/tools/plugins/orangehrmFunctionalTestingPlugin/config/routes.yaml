@@ -1,0 +1,4 @@
+functional_testing_truncate_table:
+  path: /functional-testing/truncate-table
+  controller: OrangeHRM\FunctionalTesting\Controller\TruncateTableController::handle
+  methods: [ POST ]
