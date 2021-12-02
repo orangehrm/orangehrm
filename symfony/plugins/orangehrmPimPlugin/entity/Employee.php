@@ -484,14 +484,6 @@ class Employee
     private iterable $attachments;
 
     /**
-     * @todo
-     * @var ProjectAdmin[]
-     *
-     * @ORM\ManyToMany(targetEntity="OrangeHRM\Entity\ProjectAdmin", mappedBy="Employee")
-     */
-    private iterable $projectAdmin;
-
-    /**
      * @var EmployeeTerminationRecord[]
      *
      * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\EmployeeTerminationRecord", mappedBy="employee")
@@ -563,7 +555,6 @@ class Employee
         $this->salaries = new ArrayCollection();
         $this->employmentContracts = new ArrayCollection();
         $this->attachments = new ArrayCollection();
-        $this->projectAdmin = new ArrayCollection();
         $this->employeeTerminationRecords = new ArrayCollection();
         $this->users = new ArrayCollection();
         $this->subordinates = new ArrayCollection();
