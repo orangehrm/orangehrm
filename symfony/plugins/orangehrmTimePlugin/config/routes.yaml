@@ -48,12 +48,12 @@ view_customers:
   methods: [ GET ]
 
 save_customer:
-  path: /time/saveCustomer
+  path: /time/addCustomer
   controller: OrangeHRM\Time\Controller\SaveCustomerController::handle
   methods: [ GET ]
 
 edit_customer:
-  path: /time/saveCustomer/{id}
+  path: /time/addCustomer/{id}
   controller: OrangeHRM\Time\Controller\SaveCustomerController::handle
   methods: [ GET ]
 

@@ -40,7 +40,12 @@ class TimeSheetPeriodService
         return $this->getDaysOfTheTimesheetPeriod($xml, $currentDate);
     }
 
-    public function getDaysOfTheTimesheetPeriod($xml, $currentDate)
+    /**
+     * @param $xml
+     * @param string $currentDate
+     * @return mixed
+     */
+    public function getDaysOfTheTimesheetPeriod($xml, string $currentDate)
     {
         // TODO
         $timesheetPeriodFactory = new TimesheetPeriodFactory();

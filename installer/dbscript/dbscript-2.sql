@@ -4260,3 +4260,6 @@ INSERT INTO ohrm_user_role_data_group (`can_read`, `can_create`, `can_update`, `
 VALUES (1, 0, 1, 0, 0, @apiv2_time_time_sheet_config_data_group_id, @admin_role_id),
        (1, 1, 1, 1, 1, @apiv2_time_customers_data_group_id, @admin_role_id),
        (1, 0, 0, 0, 0, @apiv2_time_validation_customer_name_data_group_id, @admin_role_id);
+
+UPDATE `ohrm_screen` SET `module_id`= 5  WHERE `action_url` = 'viewCustomers';
+UPDATE `ohrm_screen` SET `module_id`= 5  WHERE `action_url` = 'addCustomer';
