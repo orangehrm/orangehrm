@@ -4236,9 +4236,8 @@ UPDATE `ohrm_email_template` SET `subject` = '/orangehrmLeavePlugin/Mail/templat
 
 INSERT INTO `ohrm_registration_event_queue` (`event_type`,`published`,`event_time`) VALUES (0, 0, now());
 
-
-INSERT INTO ohrm_data_group (`name`, `description`, `can_read`, `can_create`, `can_update`, `can_delete`) VALUES
-    ('apiv2_projects', 'Api_v2 Time - Projects', 1, 1, 1, 1);
+INSERT INTO ohrm_data_group (`name`, `description`, `can_read`, `can_create`, `can_update`, `can_delete`)
+VALUES ('apiv2_projects', 'Api_v2 Time - Projects', 1, 1, 1, 1);
 
 SET @time_module_id := (SELECT `id` FROM ohrm_module WHERE name = 'time' LIMIT 1);
 
@@ -4249,8 +4248,8 @@ INSERT INTO ohrm_api_permission (`api_name`, `module_id`, `data_group_id`) VALUE
 
 SET @admin_role_id := (SELECT `id` FROM ohrm_user_role WHERE `name` = 'Admin' LIMIT 1);
 
-INSERT INTO ohrm_user_role_data_group (`can_read`, `can_create`, `can_update`, `can_delete`, `self`, `data_group_id`,
-                                       `user_role_id`) VALUES (1, 1, 1, 1, 1, @apiv2_projects_data_group_id, @admin_role_id);
+INSERT INTO ohrm_user_role_data_group (`can_read`, `can_create`, `can_update`, `can_delete`, `self`, `data_group_id`,`user_role_id`) 
+VALUES (1, 1, 1, 1, 1, @apiv2_projects_data_group_id, @admin_role_id);
 -- ------------------------------
 --        OrangeHRM 5.0
 -- ------------------------------
