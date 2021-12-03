@@ -1,4 +1,3 @@
-<?php
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -17,30 +16,16 @@
  * Boston, MA  02110-1301, USA
  */
 
+import Customer from './pages/customer/Customer.vue';
+import SaveCustomer from './pages/customer/SaveCustomer.vue';
+import EditCustomer from './pages/customer/EditCustomer.vue';
+import MyTimesheet from './pages/timesheets/MyTimesheet.vue';
+import EditMyTimeSheet from './pages/timesheets/EditMyTimeSheet.vue';
 
-use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Core\Traits\ServiceContainerTrait;
-use OrangeHRM\Framework\PluginConfigurationInterface;
-use OrangeHRM\Framework\Services;
-use OrangeHRM\Time\Service\ProjectService;
-use OrangeHRM\Time\Service\CustomerService;
-
-class TimePluginConfiguration implements PluginConfigurationInterface
-{
-    use ServiceContainerTrait;
-
-    /**
-     * @inheritDoc
-     */
-    public function initialize(Request $request): void
-    {
-        $this->getContainer()->register(
-            Services::PROJECT_SERVICE,
-            ProjectService::class
-        );
-        $this->getContainer()->register(
-            Services::CUSTOMER_SERVICE,
-            CustomerService::class
-        );
-    }
-}
+export default {
+  'customer-list': Customer,
+  'customer-save': SaveCustomer,
+  'customer-edit': EditCustomer,
+  'my-timesheet': MyTimesheet,
+  'edit-my-timesheet': EditMyTimeSheet,
+};

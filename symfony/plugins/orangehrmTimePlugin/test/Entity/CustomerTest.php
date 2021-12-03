@@ -17,30 +17,34 @@
  * Boston, MA  02110-1301, USA
  */
 
+namespace OrangeHRM\Tests\Time\Entity;
 
-use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Core\Traits\ServiceContainerTrait;
-use OrangeHRM\Framework\PluginConfigurationInterface;
-use OrangeHRM\Framework\Services;
-use OrangeHRM\Time\Service\ProjectService;
-use OrangeHRM\Time\Service\CustomerService;
+use OrangeHRM\Entity\Customer;
+use OrangeHRM\Tests\Util\EntityTestCase;
+use OrangeHRM\Tests\Util\TestDataService;
 
-class TimePluginConfiguration implements PluginConfigurationInterface
+/**
+ * @group @Time
+ * @group @Entity
+ */
+class CustomerTest extends EntityTestCase
 {
-    use ServiceContainerTrait;
-
-    /**
-     * @inheritDoc
-     */
-    public function initialize(Request $request): void
+    protected function setUp(): void
     {
-        $this->getContainer()->register(
-            Services::PROJECT_SERVICE,
-            ProjectService::class
-        );
-        $this->getContainer()->register(
-            Services::CUSTOMER_SERVICE,
-            CustomerService::class
-        );
+        TestDataService::truncateTables([Customer::class]);
+    }
+
+    public function testCustomerEntity(): void
+    {
+        $customer = new Customer();
+        $customer->setName("TEST02");
+        $customer->setDescription('DESCRIPTION');
+        $customer->setDeleted(false);
+        $this->persist($customer);
+
+        /** @var Customer $customer */
+        $customer = $this->getRepository(Customer::class)->find(1);
+        $this->assertEquals('TEST02', $customer->getName());
+        $this->assertEquals('DESCRIPTION', $customer->getDescription());
     }
 }

@@ -17,30 +17,34 @@
  * Boston, MA  02110-1301, USA
  */
 
+namespace OrangeHRM\Time\Api\Model;
 
-use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Core\Traits\ServiceContainerTrait;
-use OrangeHRM\Framework\PluginConfigurationInterface;
-use OrangeHRM\Framework\Services;
-use OrangeHRM\Time\Service\ProjectService;
-use OrangeHRM\Time\Service\CustomerService;
+use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
+use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
+use OrangeHRM\Entity\Customer;
 
-class TimePluginConfiguration implements PluginConfigurationInterface
+class CustomerModel implements Normalizable
 {
-    use ServiceContainerTrait;
+    use ModelTrait;
 
-    /**
-     * @inheritDoc
-     */
-    public function initialize(Request $request): void
+    public function __construct(Customer $customer)
     {
-        $this->getContainer()->register(
-            Services::PROJECT_SERVICE,
-            ProjectService::class
+        $this->setEntity($customer);
+        $this->setFilters(
+            [
+                'id',
+                'name',
+                'description',
+                ['isDeleted'],
+            ]
         );
-        $this->getContainer()->register(
-            Services::CUSTOMER_SERVICE,
-            CustomerService::class
+        $this->setAttributeNames(
+            [
+                'id',
+                'name',
+                'description',
+                'deleted'
+            ]
         );
     }
 }

@@ -245,6 +245,66 @@
           "source": "The page you're trying to access has restricted access",
           "target": "The page you're trying to access has restricted access",
           "description": ""
+        },
+        "status": {
+          "source": "Status",
+          "target": "Status",
+          "description": "Status of Employment/candidates/time-sheets"
+        },
+        "edit": {
+          "source": "Edit",
+          "target": "Edit",
+          "description": "A change or correction made to a particular item/record"
+        },
+        "submit": {
+          "source": "Submit",
+          "target": "Submit",
+          "description": "Enter, modify and submit personal time sheets"
+        },
+        "mon": {
+          "source": "Mon",
+          "target": "Mon",
+          "description": "Abbreviation of Monday"
+        },
+        "tue": {
+          "source": "Tue",
+          "target": "Tue",
+          "description": "Abbreviation of Tuesday"
+        },
+        "wed": {
+          "source": "Wed",
+          "target": "Wed",
+          "description": "Abbreviation of Wednesday"
+        },
+        "thu": {
+          "source": "Thu",
+          "target": "Thu",
+          "description": "Abbreviation of Thursday"
+        },
+        "fri": {
+          "source": "Fri",
+          "target": "Fri",
+          "description": "Abbreviation of Friday"
+        },
+        "sat": {
+          "source": "Sat",
+          "target": "Sat",
+          "description": "Abbreviation of Saturday"
+        },
+        "sun": {
+          "source": "Sun",
+          "target": "Sun",
+          "description": "Abbreviation of Sunday"
+        },
+        "total": {
+          "source": "Total",
+          "target": "Total",
+          "description": "Total Deductions, Total Payable"
+        },
+        "comment": {
+          "source": "Comment",
+          "target": "Comment",
+          "description": "You may enter any important note regarding some information."
         }
       }
     },
@@ -635,6 +695,71 @@
           "source": "User Name",
           "target": "User Name",
           "description": ""
+        }
+      }
+    },
+    "time": {
+      "version": "5.0",
+      "messages": {
+        "customer": {
+          "source": "Customers",
+          "target": "Customers",
+          "description": "You can enter details of your customers that can be used to define projects and project activities"
+        },
+        "add_customer": {
+          "source": "Add Customer",
+          "target": "Add Customer",
+          "description": "Add a customer to the system."
+        },
+        "edit_customer": {
+          "source": "Edit Customer",
+          "target": "Edit Customer",
+          "description": "You can edit details of your customers that can be used to define projects and project activities."
+        },
+        "my_timesheet": {
+          "source": "My Timesheet",
+          "target": "My Timesheet",
+          "description": "When an ESS-Employee or an ESS-Supervisor wants to enter his/her time sheet, they can go to Time&gt;&gt; Time sheets&gt;&gt; My Time sheets"
+        },
+        "add_timesheet": {
+          "source": "Add Timesheet",
+          "target": "Add Timesheet",
+          "description": "Add a time sheet for a week period, the projects he/she was assigned to by clicking “Add Time sheet”"
+        },
+        "project": {
+          "source": "Project",
+          "target": "Project",
+          "description": "Add Project Information; Customers, Projects and Activities"
+        },
+        "activity": {
+          "source": "Activity",
+          "target": "Activity",
+          "description": ""
+        },
+        "add_row": {
+          "source": "Add Row",
+          "target": "Add Row",
+          "description": "You may also add a row by clicking “Add Row” to enter another time sheet record for another project activity."
+        },
+        "timesheet_period": {
+          "source": "Timesheet Period",
+          "target": "Timesheet Period",
+          "description": "When user select the first day of the week from the drop down menu and the system will automatically calculate a one-week timesheet period (to find Time sheet End Date ) from the date entered (Time sheet Start Date)"
+        },
+        "actions_performed_on_the_timesheet": {
+          "source": "Actions Performed on the Timesheet",
+          "target": "Actions Performed on the Timesheet",
+          "description": "Tasks performed relevant to time sheets."
+        },
+        "select_a_day_to_create_timesheet": {
+          "source": "Select a Day to Create Timesheet",
+          "target": "Select a Day to Create Timesheet",
+          "description": "You may also add a timesheet for another week period by clicking “Add Timesheet” and another field, “Select a Day to Create Timesheet” will appear in which you can select the first day of the week from the drop down menu and the system will automatically calculate a one-week time period from the date entered"
+        },
+        "deleted_project_activities_are_not_editable": {
+          "source": "Deleted project activities are not editable",
+          "target": "Deleted project activities are not editable",
+          "description": "It is a validation message that appear when someone is trying to edit a project/activity that is already being deleted."
         }
       }
     }
