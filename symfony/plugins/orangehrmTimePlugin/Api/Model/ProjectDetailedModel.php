@@ -34,9 +34,9 @@ class ProjectDetailedModel implements Normalizable
             'id',
             'name',
             'description',
-            ['getCustomer','getCustomerId'],
-            ['getCustomer','getName'],
-            ['getCustomer','isDeleted'],
+            ['getCustomer', 'getId'],
+            ['getCustomer', 'getName'],
+            ['getCustomer', 'isDeleted'],
             ['getProjectAdmins', ['getEmpNumber', 'getLastName', 'getFirstName', 'getMiddleName']],
             'isDeleted'
         ]);
@@ -45,11 +45,11 @@ class ProjectDetailedModel implements Normalizable
             'id',
             'name',
             'description',
-            ['customer','customerId'],
-            ['customer','name'],
-            ['customer','isDeleted'],
+            ['customer', 'id'],
+            ['customer', 'name'],
+            ['customer', 'deleted'],
             ['projectAdmins', ['empNumber', 'lastName', 'firstName', 'middleName']],
-            'isDeleted'
+            'deleted'
         ]);
     }
 }

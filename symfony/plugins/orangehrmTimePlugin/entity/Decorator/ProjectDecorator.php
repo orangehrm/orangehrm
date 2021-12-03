@@ -41,12 +41,6 @@ class ProjectDecorator
         $this->project = $project;
     }
 
-    public function setCustomerById(int $id): void
-    {
-        $customer = $this->getReference(Customer::class, $id);
-        $this->getProject()->setCustomer($customer);
-    }
-
     /**
      * @return Project
      */
@@ -55,10 +49,43 @@ class ProjectDecorator
         return $this->project;
     }
 
-    public function setProjectAdminsByEmpNumbers(array $empNumbers){
-        foreach ($empNumbers as $empNumber){
+    /**
+     * @param  int  $id
+     */
+    public function setCustomerById(int $id): void
+    {
+        $customer = $this->getReference(Customer::class, $id);
+        $this->getProject()->setCustomer($customer);
+    }
+
+    /**
+     * @param  array  $empNumbers
+     */
+    public function setProjectAdminsByEmpNumbers(array $empNumbers)
+    {
+        foreach ($empNumbers as $empNumber) {
             $projectAdmin = $this->getReference(Employee::class, $empNumber);
-            $this->getProject()->addProjectAdmin($projectAdmin);
+            $this->addProjectAdmin($projectAdmin);
+        }
+    }
+
+    /**
+     * @param  Employee  $employee
+     */
+    private function addProjectAdmin(Employee $employee)
+    {
+        $projectAdmins = $this->getProject()->getProjectAdmins();
+        if ($projectAdmins->contains($employee)) {
+            return;
+        }
+        $projectAdmins[] = $employee;
+    }
+
+    public function removeProjectAdmins()
+    {
+        $projectAdmins = $this->getProject()->getProjectAdmins();
+        foreach ($projectAdmins as $projectAdmin) {
+            $projectAdmins->removeElement($projectAdmin);
         }
     }
 

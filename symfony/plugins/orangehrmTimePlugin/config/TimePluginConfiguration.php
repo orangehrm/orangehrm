@@ -18,12 +18,12 @@
  */
 
 
-use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
+use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\PluginConfigurationInterface;
 use OrangeHRM\Framework\Services;
-use OrangeHRM\Time\Service\ProjectService;
 use OrangeHRM\Time\Service\CustomerService;
+use OrangeHRM\Time\Service\ProjectService;
 
 class TimePluginConfiguration implements PluginConfigurationInterface
 {

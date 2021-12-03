@@ -41,7 +41,7 @@ class ProjectModel implements Normalizable
             'id',
             'name',
             'description',
-            'isDeleted'
+            'deleted'
         ]);
     }
 }

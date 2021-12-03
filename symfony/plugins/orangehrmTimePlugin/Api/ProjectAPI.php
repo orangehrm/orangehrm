@@ -19,32 +19,25 @@
 
 namespace OrangeHRM\Time\Api;
 
-use Doctrine\ORM\NonUniqueResultException;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
-use OrangeHRM\Core\Api\V2\Exception\ForbiddenException;
-use OrangeHRM\Core\Api\V2\Exception\NotImplementedException;
 use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
+use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
-use OrangeHRM\Core\Api\V2\Serializer\NormalizeException;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
-use OrangeHRM\Core\Exception\DaoException;
-use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\Project;
-use OrangeHRM\Entity\ProjectAdmin;
 use OrangeHRM\Time\Api\Model\ProjectDetailedModel;
 use OrangeHRM\Time\Api\Model\ProjectModel;
 use OrangeHRM\Time\Dto\ProjectSearchFilterParams;
 use OrangeHRM\Time\Service\ProjectService;
-use OrangeHRM\Core\Api\V2\ParameterBag;
 
 class ProjectAPI extends Endpoint implements CrudEndpoint
 {
@@ -81,6 +74,34 @@ class ProjectAPI extends Endpoint implements CrudEndpoint
      */
     protected ?int $projectId = null;
 
+    /**
+     * @return ProjectService
+     */
+    private function getProjectService(): ProjectService
+    {
+        if (is_null($this->projectService)) {
+            return new ProjectService();
+        }
+        return $this->projectService;
+    }
+
+    /**
+     * @return string
+     */
+    protected function getModelClass(): string
+    {
+        $model = $this->getRequestParams()->getString(
+            RequestParams::PARAM_TYPE_QUERY,
+            self::FILTER_MODEL,
+            self::MODEL_DEFAULT
+        );
+        return self::MODEL_MAP[$model];
+    }
+
+    /**
+     * @inheritDoc
+     * @return EndpointCollectionResult
+     */
     public function getAll(): EndpointCollectionResult
     {
         $projectParamHolder = new ProjectSearchFilterParams();
@@ -114,29 +135,9 @@ class ProjectAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
-     * @return ProjectService
+     * @inheritDoc
+     * @return ParamRuleCollection
      */
-    private function getProjectService(): ProjectService
-    {
-        if (is_null($this->projectService)) {
-            return new ProjectService();
-        }
-        return $this->projectService;
-    }
-
-    /**
-     * @return string
-     */
-    protected function getModelClass(): string
-    {
-        $model = $this->getRequestParams()->getString(
-            RequestParams::PARAM_TYPE_QUERY,
-            self::FILTER_MODEL,
-            self::MODEL_DEFAULT
-        );
-        return self::MODEL_MAP[$model];
-    }
-
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
         return new ParamRuleCollection(
@@ -148,6 +149,9 @@ class ProjectAPI extends Endpoint implements CrudEndpoint
         );
     }
 
+    /**
+     * @return ParamRule
+     */
     protected function getModelParamRule(): ParamRule
     {
         return $this->getValidationDecorator()->notRequiredParamRule(
@@ -159,7 +163,8 @@ class ProjectAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
-     * @throws NormalizeException
+     * @inheritDoc
+     * @return EndpointResourceResult
      */
     public function create(): EndpointResourceResult
     {
@@ -200,6 +205,10 @@ class ProjectAPI extends Endpoint implements CrudEndpoint
         );
     }
 
+    /**
+     * @inheritDoc
+     * @return ParamRuleCollection
+     */
     public function getValidationRuleForCreate(): ParamRuleCollection
     {
         return new ParamRuleCollection(
@@ -253,6 +262,10 @@ class ProjectAPI extends Endpoint implements CrudEndpoint
         ];
     }
 
+    /**
+     * @inheritDoc
+     * @return EndpointResult
+     */
     public function delete(): EndpointResult
     {
         $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
@@ -260,6 +273,10 @@ class ProjectAPI extends Endpoint implements CrudEndpoint
         return new EndpointResourceResult(ArrayModel::class, $ids);
     }
 
+    /**
+     * @inheritDoc
+     * @return ParamRuleCollection
+     */
     public function getValidationRuleForDelete(): ParamRuleCollection
     {
         return new ParamRuleCollection(
@@ -267,6 +284,11 @@ class ProjectAPI extends Endpoint implements CrudEndpoint
         );
     }
 
+    /**
+     * @inheritDoc
+     * @return EndpointResult
+     * @throws RecordNotFoundException
+     */
     public function getOne(): EndpointResult
     {
         $id = $this->getRequestParams()->getInt(
@@ -278,6 +300,10 @@ class ProjectAPI extends Endpoint implements CrudEndpoint
         return new EndpointResourceResult($this->getModelClass(), $project);
     }
 
+    /**
+     * @inheritDoc
+     * @return ParamRuleCollection
+     */
     public function getValidationRuleForGetOne(): ParamRuleCollection
     {
         return new ParamRuleCollection(
@@ -287,7 +313,9 @@ class ProjectAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
-     * @throws NonUniqueResultException|NormalizeException
+     * @inheritDoc
+     * @return EndpointResult
+     * @throws RecordNotFoundException
      */
     public function update(): EndpointResult
     {
@@ -296,14 +324,17 @@ class ProjectAPI extends Endpoint implements CrudEndpoint
             CommonParams::PARAMETER_ID
         );
         $project = $this->getProjectService()->getProjectDao()->getProjectById($id);
-        foreach ($project->getProjectAdmins() as $projectAdmin){
-            $project->removeProjectAdmin($projectAdmin);
-        }
+        $this->throwRecordNotFoundExceptionIfNotExist($project, Project::class);
+        $project->getDecorator()->removeProjectAdmins();
         $this->setProject($project);
-        $this->getProjectService()->getProjectDao()->updateProject($project);
+        $this->getProjectService()->getProjectDao()->saveProject($project);
         return new EndpointResourceResult(ProjectDetailedModel::class, $project);
     }
 
+    /**
+     * @inheritDoc
+     * @return ParamRuleCollection
+     */
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
         return new ParamRuleCollection(
@@ -313,6 +344,4 @@ class ProjectAPI extends Endpoint implements CrudEndpoint
             ...$this->getCommonBodyValidationRules(),
         );
     }
-
-
 }

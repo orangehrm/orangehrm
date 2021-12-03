@@ -98,5 +98,4 @@ class ProjectSearchFilterParams extends FilterParams
         $this->empNumber = $empNumber;
     }
 
-
 }

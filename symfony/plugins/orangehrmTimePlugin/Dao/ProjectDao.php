@@ -19,11 +19,8 @@
 
 namespace OrangeHRM\Time\Dao;
 
-use Doctrine\ORM\NonUniqueResultException;
 use OrangeHRM\Core\Dao\BaseDao;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\Project;
-use OrangeHRM\Entity\ProjectAdmin;
 use OrangeHRM\ORM\Paginator;
 use OrangeHRM\Time\Dto\ProjectSearchFilterParams;
 
@@ -57,13 +54,12 @@ class ProjectDao extends BaseDao
     /**
      * @param  int  $id
      * @return Project|null
-     * @throws NonUniqueResultException
      */
     public function getProjectById(int $id): ?Project
     {
-        $qb=$this->createQueryBuilder(Project::class,'project');
-        $qb->andWhere('project.id=:id')->setParameter('id',$id);
-        $qb->andWhere('project.isDeleted=:isDeleted')->setParameter('isDeleted',false);
+        $qb = $this->createQueryBuilder(Project::class, 'project');
+        $qb->andWhere('project.id=:id')->setParameter('id', $id);
+        $qb->andWhere('project.isDeleted=:isDeleted')->setParameter('isDeleted', false);
         return $qb->getQuery()->getOneOrNullResult();
     }
 
@@ -123,10 +119,4 @@ class ProjectDao extends BaseDao
         return $this->getProjectsPaginator($projectSearchFilterParamHolder)->count();
     }
 
-    public function updateProject(?Project $project)
-    {
-        $qb=$this->createQueryBuilder(Project::class,'project');
-
-
-    }
 }

@@ -19,9 +19,9 @@
 
 namespace OrangeHRM\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use OrangeHRM\Entity\Customer;
 use OrangeHRM\Entity\Decorator\DecoratorTrait;
 use OrangeHRM\Entity\Decorator\ProjectDecorator;
 
@@ -77,13 +77,12 @@ class Project
      *      inverseJoinColumns={@ORM\JoinColumn(name="emp_number", referencedColumnName="emp_number")}
      *      )
      */
-    private $projectAdmins;
+    private Collection $projectAdmins;
 
     public function __construct()
     {
-        $this->projectAdmins = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->projectAdmins = new ArrayCollection();
     }
-
 
     /**
      * @return int
@@ -166,30 +165,11 @@ class Project
     }
 
     /**
-     * @param  Employee  $employee
-     */
-    public function addProjectAdmin(Employee $employee)
-    {
-        if ($this->projectAdmins->contains($employee)) {
-            return;
-        }
-        $this->projectAdmins[] = $employee;
-    }
-
-    /**
-     * @param  Employee  $employee
-     */
-    public function removeProjectAdmin(Employee $employee){
-        if (!$this->projectAdmins->contains($employee)) {
-            return;
-        }
-        $this->projectAdmins->removeElement($employee);
-    }
-    /**
      * @return Collection
      */
     public function getProjectAdmins(): Collection
     {
         return $this->projectAdmins;
     }
+
 }
