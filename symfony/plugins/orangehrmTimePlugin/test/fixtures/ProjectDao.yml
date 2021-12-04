@@ -1,0 +1,16 @@
+Employee:
+  0: { empNumber: 1, firstName: 'Kayla', lastName: 'Abbey' }
+  1: { empNumber: 2, firstName: 'Ashley', lastName: 'Abel' }
+  2: { empNumber: 3, firstName: 'Renukshan', lastName: 'Saputhanthri' }
+  3: { empNumber: 4, firstName: 'Chaturanga', lastName: 'Namal' }
+  4: { empNumber: 5, firstName: 'Indiran', lastName: 'Nadarajah' }
+
+Customer:
+  0: { name: 'Orange', description: 'HRM', deleted: false }
+  1: { name: 'CUS', description: 'DES', deleted: false }
+  2: { name: 'CUS2', description: 'DES2', deleted: false }
+
+Project:
+  0: {customer_id: 1, name: 'project_01', description: 'Project description for project_01', is_deleted: false}
+  1: {customer_id: 2, name: 'project_02', description: 'Project description for project_02', is_deleted: false}
+  2: {customer_id: 1, name: 'project_03', description: 'Project description for project_03', is_deleted: true}
