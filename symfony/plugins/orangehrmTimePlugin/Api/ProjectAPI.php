@@ -77,7 +77,7 @@ class ProjectAPI extends Endpoint implements CrudEndpoint
     /**
      * @return ProjectService
      */
-    private function getProjectService(): ProjectService
+    protected function getProjectService(): ProjectService
     {
         if (is_null($this->projectService)) {
             return new ProjectService();
