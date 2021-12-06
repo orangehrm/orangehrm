@@ -701,6 +701,21 @@
     "time": {
       "version": "5.0",
       "messages": {
+        "timesheet_period_config": {
+          "source": "Define Timesheet Period",
+          "target": "Define Timesheet Period",
+          "description": ""
+        },
+        "add_timesheet_period_config": {
+          "source": "First Day of the Week",
+          "target": "First Day of the Week",
+          "description": ""
+        },
+        "timesheet_period_not_defined": {
+          "source": "Timesheet Period Start Day has not being defined. Please Contact the HR Administrator",
+          "target": "Timesheet Period Start Day has not being defined. Please Contact the HR Administrator",
+          "description": ""
+        },
         "customer": {
           "source": "Customers",
           "target": "Customers",
