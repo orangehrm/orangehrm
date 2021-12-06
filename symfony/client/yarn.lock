@@ -3666,9 +3666,9 @@ __metadata:
   linkType: hard
 
 "bootstrap-icons@npm:^1.3.0":
-  version: 1.7.2
-  resolution: "bootstrap-icons@npm:1.7.2"
-  checksum: 184e6d8d6699f82b88e0ad0e38f070b35c42bbac29868c5790b0a76d561876deea95e03fe239a439656f37e01a1fe48a4cdd65975fcd0be384725eaf2ed71e68
+  version: 1.7.1
+  resolution: "bootstrap-icons@npm:1.7.1"
+  checksum: 58bb9ec0d051fabb028fa8ad1992cf78c1fcdf7e12662f6976231c268adeef130cb743a873d58202af0751331b568d792690f879ad4f2bebbb6b9d1963d6c4c7
   languageName: node
   linkType: hard
 
@@ -4460,12 +4460,12 @@ __metadata:
   linkType: hard
 
 "color-string@npm:^1.6.0":
-  version: 1.9.0
-  resolution: "color-string@npm:1.9.0"
+  version: 1.8.2
+  resolution: "color-string@npm:1.8.2"
   dependencies:
     color-name: ^1.0.0
     simple-swizzle: ^0.2.2
-  checksum: 32fdbfdd476a60c8b8f9bfb539bacf9f80da791a02638c0fa007a83805d940fe34a5344907e12721885b11824b29249ce4cd5e68c355435d777acd00816bb8bc
+  checksum: e0bbeae658446c548e8a6bebe5fca893d463d11ebedd9e5114f7865949f82cc9969a81d81f5d3852ffd8a9781ffc3e4cf1f14af6d4fca3a00040cdea059c4d6f
   languageName: node
   linkType: hard
 
@@ -5626,9 +5626,9 @@ __metadata:
   linkType: hard
 
 "electron-to-chromium@npm:^1.3.896":
-  version: 1.4.11
-  resolution: "electron-to-chromium@npm:1.4.11"
-  checksum: e208310c13a672903ed377702ca50239f45b28c011f21e889039fa5bbed1f7d3526a661579073a76f4211d0ffa473333a90920e9722925ad8b2e127e59d0a320
+  version: 1.4.10
+  resolution: "electron-to-chromium@npm:1.4.10"
+  checksum: 8081d22d5db1002af542efc4df6021a4f10196a3850465f93462b9a4633d92753b137d323bc85af5d96adb24882d230336e4840d3e889faf0555ad3589c993a0
   languageName: node
   linkType: hard
 
@@ -11374,11 +11374,11 @@ fsevents@~2.3.2:
   linkType: hard
 
 "prettier@npm:^1.18.2 || ^2.0.0":
-  version: 2.5.1
-  resolution: "prettier@npm:2.5.1"
+  version: 2.5.0
+  resolution: "prettier@npm:2.5.0"
   bin:
     prettier: bin-prettier.js
-  checksum: c4d3328cfd9a8dfe016485ae20dd421cd56e22d700c85916d45b9b7aa3c42a0eec6f3f6a90db6a1572f7764cfe24ee59322122fc24b37f89e351e07f183605aa
+  checksum: 4f2da53948fc6b5cb85030bc033cc8a9d40ba3c3904e038ab1e9f5acbf68c71606a77157d880bcc41bb69362fedeac76f0aa8570588db2b4c7d3816c3ce3e173
   languageName: node
   linkType: hard
 
