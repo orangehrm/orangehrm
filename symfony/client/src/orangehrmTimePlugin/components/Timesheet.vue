@@ -36,7 +36,7 @@
       <table :class="tableClasses">
         <thead class="orangehrm-timesheet-table-header">
           <tr class="orangehrm-timesheet-table-header-row">
-            <th class="orangehrm-timesheet-table-header-cell --freeze-left">
+            <th :class="fixedColumnClasses">
               {{ $t('time.project') }}
             </th>
             <th class="orangehrm-timesheet-table-header-cell">
@@ -74,12 +74,7 @@
             :key="record.id"
             class="orangehrm-timesheet-table-body-row"
           >
-            <td
-              class="orangehrm-timesheet-table-body-cell --freeze-left"
-              :style="{
-                zIndex: records.length - i,
-              }"
-            >
+            <td :class="fixedCellClasses">
               <project-autocomplete
                 v-if="editable"
                 :modelValue="record.project"
@@ -162,7 +157,7 @@
           <!-- add row -->
           <tr v-if="editable" class="orangehrm-timesheet-table-body-row">
             <td
-              class="orangehrm-timesheet-table-body-cell --freeze-left --flex"
+              class="orangehrm-timesheet-table-body-cell --flex"
             >
               <oxd-icon-button
                 name="plus"
@@ -351,6 +346,18 @@ export default {
       return {
         'orangehrm-timesheet-table': true,
         '--editable': this.editable,
+      };
+    },
+    fixedColumnClasses() {
+      return {
+        'orangehrm-timesheet-table-header-cell': true,
+        '--freeze-left': !this.editable,
+      };
+    },
+    fixedCellClasses() {
+      return {
+        'orangehrm-timesheet-table-body-cell': true,
+        '--freeze-left': !this.editable,
       };
     },
   },

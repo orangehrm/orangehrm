@@ -1,3 +1,4 @@
+<?php
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -16,22 +17,28 @@
  * Boston, MA  02110-1301, USA
  */
 
-import TimeSheetPeriodConfig from './pages/configure/TimeSheetPeriod.vue';
-import Customer from './pages/customer/Customer.vue';
-import SaveCustomer from './pages/customer/SaveCustomer.vue';
-import EditCustomer from './pages/customer/EditCustomer.vue';
-import MyTimesheet from './pages/timesheets/MyTimesheet.vue';
-import EditMyTimeSheet from './pages/timesheets/EditMyTimeSheet.vue';
-import EmployeeTimesheet from './pages/timesheets/EmployeeTimesheet.vue';
-import ViewEmployeeTimesheet from './pages/timesheets/ViewEmployeeTimesheet.vue';
+namespace OrangeHRM\Time\Controller;
 
-export default {
-  'time-sheet-period': TimeSheetPeriodConfig,
-  'customer-list': Customer,
-  'customer-save': SaveCustomer,
-  'customer-edit': EditCustomer,
-  'my-timesheet': MyTimesheet,
-  'edit-my-timesheet': EditMyTimeSheet,
-  'employee-timesheet': EmployeeTimesheet,
-  'view-employee-timesheet': ViewEmployeeTimesheet,
-};
+use OrangeHRM\Core\Controller\AbstractVueController;
+use OrangeHRM\Core\Vue\Component;
+use OrangeHRM\Core\Vue\Prop;
+use OrangeHRM\Framework\Http\Request;
+
+class EmployeeTimesheetController extends AbstractVueController
+{
+    /**
+     * @inheritDoc
+     */
+    public function preRender(Request $request): void
+    {
+        $id = $request->get('id'); // this id is emp number
+        if ($id) {
+            $component = new Component('view-employee-timesheet');
+            $component->addProp(new Prop('employee-id', Prop::TYPE_NUMBER, $id));
+        } else {
+            $component = new Component('employee-timesheet');
+        }
+        
+        $this->setComponent($component);
+    }
+}

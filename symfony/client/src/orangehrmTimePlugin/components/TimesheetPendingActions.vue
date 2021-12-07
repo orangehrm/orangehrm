@@ -22,9 +22,14 @@
   <div class="orangehrm-paper-container">
     <div class="orangehrm-header-container">
       <oxd-text tag="h6" class="orangehrm-main-title">
-        {{ $t('time.actions_performed_on_the_timesheet') }}
+        {{ $t('time.timesheets_pending_action') }}
       </oxd-text>
     </div>
+    <table-header
+      :selected="0"
+      :total="total"
+      :loading="isLoading"
+    ></table-header>
     <div class="orangehrm-container">
       <oxd-card-table
         :headers="headers"
@@ -48,61 +53,62 @@
 <script>
 import usePaginate from '@ohrm/core/util/composable/usePaginate';
 import {APIService} from '@/core/util/services/api.service';
+import {navigate} from '@ohrm/core/util/helper/navigation';
 
 const actionsNormalizer = data => {
   return data.map(item => {
     return {
       id: item.id,
       action: item.action,
-      date: item.date,
-      comment: item.comment,
-      performedBy: `${item.performedBy?.firstName} ${item.performedBy?.lastName}`,
+      period: `${item.period.fromDate} - ${item.period.toDate}`,
+      employee: `${item.employee?.firstName} ${item.employee?.lastName}`,
     };
   });
 };
 
 export default {
-  name: 'timesheet-actions',
-
-  props: {
-    timesheetId: {
-      type: Number,
-      required: true,
-    },
-  },
+  name: 'timesheet-pending-actions',
   data() {
     return {
       headers: [
         {
-          name: 'action',
+          name: 'employee',
           slot: 'title',
-          title: 'Action',
-          style: {flex: 1},
+          title: 'Employee Name',
+          style: {flex: '40%'},
         },
         {
-          name: 'performedBy',
-          title: 'Performed By',
-          style: {flex: 1},
+          name: 'period',
+          title: 'Timesheet Period',
+          style: {flex: '40%'},
         },
         {
-          name: 'date',
-          title: 'Date',
-          style: {flex: 1},
-        },
-        {
-          name: 'comment',
-          title: 'Comment',
-          style: {flex: 1},
+          name: 'actions',
+          slot: 'footer',
+          title: 'Actions',
+          style: {flex: '20%'},
+          cellType: 'oxd-table-cell-actions',
+          cellConfig: {
+            view: {
+              onClick: this.onClickView,
+              component: 'oxd-button',
+              props: {
+                label: 'View',
+                displayType: 'ghost',
+                size: 'medium',
+              },
+            },
+          },
         },
       ],
     };
   },
 
-  setup(props) {
+  setup() {
     const http = new APIService(
       //   window.appGlobal.baseUrl,
       'https://884b404a-f4d0-4908-9eb5-ef0c8afec15c.mock.pstmn.io',
-      `/api/v2/time/timesheet-actions-performed/${props.timesheetId}`,
+      '/api/v2/time/timesheet-actions-pending',
     );
 
     const {
@@ -130,5 +136,22 @@ export default {
       items: response,
     };
   },
+
+  methods: {
+    onClickView(item) {
+      navigate('/time/viewTimesheet/employeeId/{id}', {id: item.id});
+    },
+  },
 };
 </script>
+
+<style lang="scss" scoped>
+::v-deep(.card-footer-slot) {
+  .oxd-table-cell-actions {
+    justify-content: flex-end;
+  }
+  .oxd-table-cell-actions > * {
+    margin: 0 !important;
+  }
+}
+</style>
