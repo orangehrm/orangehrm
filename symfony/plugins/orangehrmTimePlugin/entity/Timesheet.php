@@ -23,12 +23,10 @@ use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * TimeSheet
- *
  * @ORM\Table(name="ohrm_timesheet")
  * @ORM\Entity
  */
-class TimeSheet
+class Timesheet
 {
     /**
      * @var int
@@ -37,7 +35,7 @@ class TimeSheet
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private int $timeSheetId;
+    private int $timesheetId;
 
     /**
      * @var string
@@ -68,26 +66,26 @@ class TimeSheet
     private int $employeeId;
 
     /**
-     * @var TimeSheetItem
+     * @var TimesheetItem
      *
-     * @ORM\OneToMany (targetEntity="OrangeHRM\Entity\TimeSheetItem", mappedBy="timeSheet")
+     * @ORM\OneToMany (targetEntity="TimesheetItem", mappedBy="timesheet")
      */
-    private TimeSheetItem $timeSheetItem;
+    private TimesheetItem $timesheetItem;
 
     /**
      * @return int
      */
-    public function getTimeSheetId(): int
+    public function getTimesheetId(): int
     {
-        return $this->timeSheetId;
+        return $this->timesheetId;
     }
 
     /**
-     * @param int $timeSheetId
+     * @param int $timesheetId
      */
-    public function setTimeSheetId(int $timeSheetId): void
+    public function setTimesheetId(int $timesheetId): void
     {
-        $this->timeSheetId = $timeSheetId;
+        $this->timesheetId = $timesheetId;
     }
 
     /**

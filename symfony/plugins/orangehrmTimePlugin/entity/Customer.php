@@ -22,8 +22,6 @@ namespace OrangeHRM\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Customer
- *
  * @ORM\Table(name="ohrm_customer")
  * @ORM\Entity
  */

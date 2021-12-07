@@ -20,15 +20,19 @@
 namespace OrangeHRM\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use OrangeHRM\Entity\Decorator\DecoratorTrait;
+use OrangeHRM\Entity\Decorator\ProjectActivityDecorator;
 
 /**
- * ProjectActivity
+ * @method ProjectActivityDecorator getDecorator()
  *
  * @ORM\Table(name="ohrm_project_activity")
  * @ORM\Entity
  */
 class ProjectActivity
 {
+    use DecoratorTrait;
+
     /**
      * @var int
      *
@@ -36,7 +40,7 @@ class ProjectActivity
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private int $activityId;
+    private int $id;
 
     /**
      * @var Project
@@ -61,26 +65,26 @@ class ProjectActivity
     private string $name;
 
     /**
-     * @var TimeSheetItem
+     * @var TimesheetItem
      *
-     * @ORM\OneToOne(targetEntity="OrangeHRM\Entity\TimeSheetItem", mappedBy="projectActivity")
+     * @ORM\OneToOne(targetEntity="TimesheetItem", mappedBy="projectActivity")
      */
-    private TimeSheetItem $timeSheetItem;
+    private TimesheetItem $timesheetItem;
 
     /**
      * @return int
      */
-    public function getActivityId(): int
+    public function getId(): int
     {
-        return $this->activityId;
+        return $this->id;
     }
 
     /**
-     * @param int $activityId
+     * @param int $id
      */
-    public function setActivityId(int $activityId): void
+    public function setId(int $id): void
     {
-        $this->activityId = $activityId;
+        $this->id = $id;
     }
 
     /**

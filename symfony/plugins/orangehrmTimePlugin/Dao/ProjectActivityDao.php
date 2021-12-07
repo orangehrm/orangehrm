@@ -22,7 +22,7 @@ namespace OrangeHRM\Time\Dao;
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Entity\Project;
 use OrangeHRM\Entity\ProjectActivity;
-use OrangeHRM\Entity\TimeSheetItem;
+use OrangeHRM\Entity\TimesheetItem;
 use OrangeHRM\ORM\Paginator;
 use OrangeHRM\Time\Dto\ProjectActivitySearchFilterParams;
 use OrangeHRM\Time\Exception\ProjectServiceException;
@@ -34,7 +34,7 @@ class ProjectActivityDao extends BaseDao
      * @param ProjectActivitySearchFilterParams $projectActivitySearchFilterParams
      * @return Paginator
      */
-    public function getProjectActivitiesByProjectId(
+    public function getProjectActivitiesPaginator(
         int $projectId,
         ProjectActivitySearchFilterParams $projectActivitySearchFilterParams
     ): Paginator {
@@ -56,7 +56,7 @@ class ProjectActivityDao extends BaseDao
         int $projectId,
         ProjectActivitySearchFilterParams $projectActivitySearchFilterParams
     ): int {
-        $paginator = $this->getProjectActivitiesByProjectId($projectId, $projectActivitySearchFilterParams);
+        $paginator = $this->getProjectActivitiesPaginator($projectId, $projectActivitySearchFilterParams);
         return $paginator->count();
     }
 
@@ -91,7 +91,7 @@ class ProjectActivityDao extends BaseDao
     ): ?ProjectActivity {
         $project = $this->getProjectById($projectId);
         $projectActivity = $this->getRepository(ProjectActivity::class)->findOneBy(
-            ['activityId' => $projectActivityId, 'project' => $project]
+            ['id' => $projectActivityId, 'project' => $project]
         );
         return ($projectActivity instanceof ProjectActivity) ? $projectActivity : null;
     }
@@ -102,9 +102,9 @@ class ProjectActivityDao extends BaseDao
      */
     public function hasActivityGotTimesheetItems(int $activityId): bool
     {
-        $q = $this->createQueryBuilder(TimeSheetItem::class, 'timeSheetItem');
-        $q->andWhere('timeSheetItem.projectActivity = :projectId');
-        $q->setParameter('projectId', $activityId);
+        $q = $this->createQueryBuilder(TimesheetItem::class, 'timesheetItem');
+        $q->andWhere('timesheetItem.projectActivity = :projectActivityId');
+        $q->setParameter('projectActivityId', $activityId);
         $count = $this->getPaginator($q)->count();
         return ($count > 0);
     }
@@ -126,7 +126,7 @@ class ProjectActivityDao extends BaseDao
         $q->update()
             ->set('projectActivity.deleted', ':deleted')
             ->setParameter('deleted', true)
-            ->where($q->expr()->in('projectActivity.activityId', ':ids'))
+            ->where($q->expr()->in('projectActivity.id', ':ids'))
             ->setParameter('ids', $toBeDeletedActivityIds);
         return $q->getQuery()->execute();
     }

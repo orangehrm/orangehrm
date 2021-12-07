@@ -16,7 +16,29 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-class DailyTimesheetPeriod extends TimesheetPeriod {
-    //put your code here
+
+namespace OrangeHRM\Time\Dto;
+
+class TimeConfigPeriod
+{
+    /**
+     * @var string
+     */
+    private string $startDay;
+
+    /**
+     * @return string
+     */
+    public function getStartDay(): string
+    {
+        return $this->startDay;
+    }
+
+    /**
+     * @param string $startDay
+     */
+    public function setStartDay(string $startDay): void
+    {
+        $this->startDay = $startDay;
+    }
 }
-?>

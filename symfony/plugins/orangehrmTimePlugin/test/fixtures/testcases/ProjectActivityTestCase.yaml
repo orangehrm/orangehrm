@@ -7,10 +7,10 @@ GetAll:
     query: [ ]
     data:
       0:
-        activityId: 1
+        id: 1
         name: 'Activity1 For Pro1'
       1:
-        activityId: 2
+        id: 2
         name: 'Activity2 For Pro1'
     meta:
       total: 2
@@ -24,7 +24,7 @@ GetOne:
     body: [ ]
     query: [ ]
     data:
-      activityId: 1
+      id: 1
       name: 'Activity1 For Pro1'
     meta: [ ]
 
@@ -37,7 +37,7 @@ Create:
       name: 'Activity3 For Pro1'
     query: [ ]
     data:
-      activityId: 3
+      id: 3
       name: 'Activity3 For Pro1'
     meta: [ ]
 
@@ -51,7 +51,7 @@ Update:
       name: 'Debug'
     query: [ ]
     data:
-      activityId: 1
+      id: 1
       name: 'Debug'
     meta: [ ]
 

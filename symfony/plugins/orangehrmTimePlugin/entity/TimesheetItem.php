@@ -23,12 +23,10 @@ use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * TimeSheetItem
- *
  * @ORM\Table(name="ohrm_timesheet_item")
  * @ORM\Entity
  */
-class TimeSheetItem
+class TimesheetItem
 {
     /**
      * @var int
@@ -37,15 +35,15 @@ class TimeSheetItem
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private int $timeSheetId;
+    private int $timesheetId;
 
     /**
-     * @var TimeSheet
+     * @var Timesheet
      *
-     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\TimeSheet", inversedBy="timeSheetItem")
+     * @ORM\ManyToOne(targetEntity="Timesheet", inversedBy="timesheetItem")
      * @ORM\JoinColumn(name="timesheet_id", referencedColumnName="timesheet_id")
      */
-    private TimeSheet $timeSheet;
+    private Timesheet $timesheet;
 
     /**
      * @var DateTime
@@ -85,7 +83,7 @@ class TimeSheetItem
     /**
      * @var ProjectActivity
      *
-     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\ProjectActivity", inversedBy="timeSheetItem")
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\ProjectActivity", inversedBy="timesheetItem")
      * @ORM\JoinColumn(name="activity_id", referencedColumnName="activity_id")
      */
     private ProjectActivity $projectActivity;
@@ -93,33 +91,33 @@ class TimeSheetItem
     /**
      * @return int
      */
-    public function getTimeSheetId(): int
+    public function getTimesheetId(): int
     {
-        return $this->timeSheetId;
+        return $this->timesheetId;
     }
 
     /**
-     * @param int $timeSheetId
+     * @param int $timesheetId
      */
-    public function setTimeSheetId(int $timeSheetId): void
+    public function setTimesheetId(int $timesheetId): void
     {
-        $this->timeSheetId = $timeSheetId;
+        $this->timesheetId = $timesheetId;
     }
 
     /**
-     * @return TimeSheet
+     * @return Timesheet
      */
-    public function getTimeSheet(): TimeSheet
+    public function getTimesheet(): Timesheet
     {
-        return $this->timeSheet;
+        return $this->timesheet;
     }
 
     /**
-     * @param TimeSheet $timeSheet
+     * @param Timesheet $timesheet
      */
-    public function setTimeSheet(TimeSheet $timeSheet): void
+    public function setTimesheet(Timesheet $timesheet): void
     {
-        $this->timeSheet = $timeSheet;
+        $this->timesheet = $timesheet;
     }
 
     /**

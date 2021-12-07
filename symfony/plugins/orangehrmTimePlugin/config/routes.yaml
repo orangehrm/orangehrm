@@ -1,3 +1,11 @@
+apiv2_time_time_sheet_period_config:
+  path: /api/v2/time/time-sheet-period
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    id: 0
+    _api: OrangeHRM\Time\Api\TimeConfigPeriodAPI
+
 apiv2_time_customer:
   path: /api/v2/time/customers/{id}
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
@@ -21,14 +29,14 @@ apiv2_time_validate_customer_name:
     _api: OrangeHRM\Time\Api\ValidationCustomerNameAPI
 
 apiv2_time_project_activities:
-  path: /api/v2/time/project/{projectId}/project-activity
+  path: /api/v2/time/project/{projectId}/activities
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
   methods: [ GET, POST, DELETE ]
   defaults:
     _api: OrangeHRM\Time\Api\ProjectActivityAPI
 
 apiv2_time_project_activity:
-  path: /api/v2/time/project/{projectId}/project-activity/{id}
+  path: /api/v2/time/project/{projectId}/activities/{id}
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
   methods: [ GET, PUT ]
   defaults:
@@ -38,17 +46,42 @@ apiv2_time_project_activity:
 #        Screens
 ##########################
 
+time_module:
+  path: /time/viewTimeModule
+  controller: OrangeHRM\Time\Controller\TimeModuleController::handle
+  methods: [ GET ]
+
+view_time_sheet_config:
+  path: /time/defineTimesheetPeriod
+  controller: OrangeHRM\Time\Controller\TimeSheetPeriodConfigController::handle
+  methods: [ GET ]
+
+view_employee_time_sheet_list:
+  path: /time/viewEmployeeTimesheet
+  controller: OrangeHRM\Time\Controller\EmployeeTimeSheetController::handle
+  methods: [ GET ]
+
 view_customers:
   path: /time/viewCustomers
   controller: OrangeHRM\Time\Controller\CustomerController::handle
   methods: [ GET ]
 
 save_customer:
-  path: /time/saveCustomer
+  path: /time/addCustomer
   controller: OrangeHRM\Time\Controller\SaveCustomerController::handle
   methods: [ GET ]
 
 edit_customer:
-  path: /time/saveCustomer/{id}
+  path: /time/addCustomer/{id}
   controller: OrangeHRM\Time\Controller\SaveCustomerController::handle
+  methods: [ GET ]
+
+time_my_timesheet:
+  path: /time/viewMyTimesheet
+  controller: OrangeHRM\Time\Controller\MyTimesheetController::handle
+  methods: [ GET ]
+
+time_edit_timesheet:
+  path: /time/editTimesheet/{id}
+  controller: OrangeHRM\Time\Controller\EditTimesheetController::handle
   methods: [ GET ]

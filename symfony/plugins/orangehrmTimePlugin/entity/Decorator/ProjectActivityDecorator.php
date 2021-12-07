@@ -17,24 +17,44 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Time\Api\Model;
+namespace OrangeHRM\Entity\Decorator;
 
-use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
-use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
+use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
+use OrangeHRM\Entity\Project;
 use OrangeHRM\Entity\ProjectActivity;
 
-class ProjectActivityModel implements Normalizable
+class ProjectActivityDecorator
 {
-    use ModelTrait;
+    use EntityManagerHelperTrait;
 
+    /**
+     * @var ProjectActivity
+     */
+    private ProjectActivity $projectActivity;
+
+    /**
+     * @param ProjectActivity $projectActivity
+     */
     public function __construct(ProjectActivity $projectActivity)
     {
-        $this->setEntity($projectActivity);
-        $this->setFilters(
-            [
-                'id',
-                'name',
-            ]
-        );
+        $this->projectActivity = $projectActivity;
+    }
+
+    /**
+     * @return ProjectActivity
+     */
+    protected function getProjectActivity(): ProjectActivity
+    {
+        return $this->projectActivity;
+    }
+
+    /**
+     * @param int $projectId
+     * @return void
+     */
+    public function setProjectById(int $projectId): void
+    {
+        $project = $this->getReference(Project::class, $projectId);
+        $this->getProjectActivity()->setProject($project);
     }
 }

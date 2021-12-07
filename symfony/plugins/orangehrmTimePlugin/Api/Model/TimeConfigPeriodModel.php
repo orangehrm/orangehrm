@@ -1,3 +1,4 @@
+<?php
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -16,18 +17,42 @@
  * Boston, MA  02110-1301, USA
  */
 
-import TimeSheetPeriodConfig from './pages/configure/TimeSheetPeriod.vue';
-import Customer from './pages/customer/Customer.vue';
-import SaveCustomer from './pages/customer/SaveCustomer.vue';
-import EditCustomer from './pages/customer/EditCustomer.vue';
-import MyTimesheet from './pages/timesheets/MyTimesheet.vue';
-import EditMyTimeSheet from './pages/timesheets/EditMyTimeSheet.vue';
+namespace OrangeHRM\Time\Api\Model;
 
-export default {
-  'time-sheet-period': TimeSheetPeriodConfig,
-  'customer-list': Customer,
-  'customer-save': SaveCustomer,
-  'customer-edit': EditCustomer,
-  'my-timesheet': MyTimesheet,
-  'edit-my-timesheet': EditMyTimeSheet,
-};
+use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
+use OrangeHRM\Time\Dto\TimeConfigPeriod;
+
+class TimeConfigPeriodModel implements Normalizable
+{
+    /**
+     * @var TimeConfigPeriod
+     */
+    private TimeConfigPeriod $timeConfigPeriod;
+
+    /**
+     * @param TimeConfigPeriod $timeConfigPeriod
+     */
+    public function __construct(TimeConfigPeriod $timeConfigPeriod)
+    {
+        $this->timeConfigPeriod = $timeConfigPeriod;
+    }
+
+    /**
+     * @return TimeConfigPeriod
+     */
+    public function getTimeConfigPeriod(): TimeConfigPeriod
+    {
+        return $this->timeConfigPeriod;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function toArray(): array
+    {
+        $timeConfigPeriod = $this->getTimeConfigPeriod();
+        return [
+            'startDay' => $timeConfigPeriod->getStartDay()
+        ];
+    }
+}

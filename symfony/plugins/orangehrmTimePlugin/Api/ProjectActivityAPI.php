@@ -74,7 +74,7 @@ class ProjectActivityAPI extends Endpoint implements CrudEndpoint
         $this->setSortingAndPaginationParams($projectActivitySearchFilterParams);
         $projectActivities = $this->getProjectActivityService()
             ->getProjectActivityDao()
-            ->getProjectActivitiesByProjectId($projectId, $projectActivitySearchFilterParams);
+            ->getProjectActivitiesPaginator($projectId, $projectActivitySearchFilterParams);
 
         $projectActivityCount = $this->getProjectActivityService()
             ->getProjectActivityDao()
@@ -113,13 +113,16 @@ class ProjectActivityAPI extends Endpoint implements CrudEndpoint
         return new EndpointResourceResult(ProjectActivityModel::class, $projectActivity,);
     }
 
-    public function setParamsToProjectActivity(ProjectActivity $projectActivity): void
+    /**
+     * @param ProjectActivity $projectActivity
+     * @return void
+     */
+    private function setParamsToProjectActivity(ProjectActivity $projectActivity): void
     {
-        $projectId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_PROJECT_ID);
+        list($projectId) = $this->getUrlAttributes();
         $activityName = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_NAME);
-        $project = $this->getProjectActivityService()->getProjectActivityDao()->getProjectById($projectId);
         $projectActivity->setName($activityName);
-        $projectActivity->setProject($project);
+        $projectActivity->getDecorator()->setProjectById($projectId);
     }
 
     /**
@@ -174,13 +177,10 @@ class ProjectActivityAPI extends Endpoint implements CrudEndpoint
      */
     public function getOne(): EndpointResult
     {
-        $projectActivityId = $this->getRequestParams()->getInt(
-            RequestParams::PARAM_TYPE_ATTRIBUTE,
-            CommonParams::PARAMETER_ID
-        );
-        $projectId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_PROJECT_ID);
-        $projectActivity = $this->getProjectActivityService()->getProjectActivityDao(
-        )->getProjectActivityByProjectIdAndProjectActivityId($projectId, $projectActivityId);
+        list($projectId, $projectActivityId) = $this->getUrlAttributes();
+        $projectActivity = $this->getProjectActivityService()
+            ->getProjectActivityDao()
+            ->getProjectActivityByProjectIdAndProjectActivityId($projectId, $projectActivityId);
         $this->throwRecordNotFoundExceptionIfNotExist($projectActivity, ProjectActivity::class);
         return new EndpointResourceResult(ProjectActivityModel::class, $projectActivity);
     }
@@ -207,11 +207,7 @@ class ProjectActivityAPI extends Endpoint implements CrudEndpoint
      */
     public function update(): EndpointResult
     {
-        $projectActivityId = $this->getRequestParams()->getInt(
-            RequestParams::PARAM_TYPE_ATTRIBUTE,
-            CommonParams::PARAMETER_ID
-        );
-        $projectId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_PROJECT_ID);
+        list($projectId, $projectActivityId) = $this->getUrlAttributes();
         $projectActivity = $this->getProjectActivityService()
             ->getProjectActivityDao()
             ->getProjectActivityByProjectIdAndProjectActivityId($projectId, $projectActivityId);
@@ -255,5 +251,21 @@ class ProjectActivityAPI extends Endpoint implements CrudEndpoint
                 ),
             ),
         ];
+    }
+
+    /**
+     * @return array
+     */
+    private function getUrlAttributes(): array
+    {
+        $projectActivityId = $this->getRequestParams()->getInt(
+            RequestParams::PARAM_TYPE_ATTRIBUTE,
+            CommonParams::PARAMETER_ID
+        );
+        $projectId = $this->getRequestParams()->getInt(
+            RequestParams::PARAM_TYPE_ATTRIBUTE,
+            self::PARAMETER_PROJECT_ID
+        );
+        return [$projectId, $projectActivityId];
     }
 }

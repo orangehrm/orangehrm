@@ -58,14 +58,14 @@ class ProjectActivityDaoTest extends TestCase
     public function testGetProjectActivityList(): void
     {
         $projectActivitySearchFilterParams = new ProjectActivitySearchFilterParams();
-        $result = $this->projectActivityDao->getProjectActivitiesByProjectId(1, $projectActivitySearchFilterParams);
+        $result = $this->projectActivityDao->getProjectActivitiesPaginator(1, $projectActivitySearchFilterParams);
         $this->assertCount(2, $result);
     }
 
     public function testGetProjectActivityById(): void
     {
         $projectActivity = $this->projectActivityDao->getProjectActivityByProjectIdAndProjectActivityId(1, 1);
-        $this->assertEquals(1, $projectActivity->getActivityId());
+        $this->assertEquals(1, $projectActivity->getId());
         $this->assertEquals(1, $projectActivity->getProject()->getId());
         $this->assertEquals('Activity1 For Pro1', $projectActivity->getName());
         $this->assertTrue($projectActivity instanceof ProjectActivity);
@@ -74,9 +74,8 @@ class ProjectActivityDaoTest extends TestCase
     public function testSaveProjectActivity(): void
     {
         $projectActivity = new ProjectActivity();
-        $project = $this->projectActivityDao->getProjectById(1);
         $projectActivity->setName("Debug");
-        $projectActivity->setProject($project);
+        $projectActivity->getDecorator()->setProjectById(1);
         $result = $this->projectActivityDao->saveProjectActivity($projectActivity);
 
         $this->assertTrue($result instanceof ProjectActivity);
