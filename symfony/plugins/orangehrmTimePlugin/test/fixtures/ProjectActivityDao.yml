@@ -30,12 +30,12 @@ ProjectActivity:
   0: { activity_id: 1, project_id: 1, name: 'Activity1 For Pro1', is_deleted: 0 }
   1: { activity_id: 2, project_id: 1, name: 'Activity2 For Pro1', is_deleted: 0 }
 
-TimeSheet:
+Timesheet:
   0: { timesheet_id: 1, state: 'CREATED', start_date: '2011-04-18',end_date: '2011-04-19', employee_id: 1 }
   1: { timesheet_id: 2, state: 'SUBMITTED', start_date: '2011-04-22',end_date: '2011-04-19', employee_id: 2 }
   2: { timesheet_id: 3, state: 'ACCEPTED', start_date: '2011-04-18',end_date: '2011-04-19', employee_id: 3 }
 
-TimeSheetItem:
+TimesheetItem:
   0: { timesheet_item_id: 1, timesheet_id: 1, date: '2011-04-12', duration: 10, comment: 'Good', project_id: 1, employee_id: 1, activity_id: 1 }
   1: { timesheet_item_id: 2, timesheet_id: 1, date: '2011-04-13', duration: 11, comment: 'Very Good', project_id: 1, employee_id: 2, activity_id: 1 }
   2: { timesheet_item_id: 3, timesheet_id: 2, date: '2011-04-12', duration: 12, comment: 'Not Bad', project_id: 1, employee_id: 1, activity_id: 1 }
