@@ -139,7 +139,7 @@ export default {
 
   methods: {
     onClickView(item) {
-      navigate('/time/viewTimesheet/{id}', {id: item.id});
+      navigate('/time/viewTimesheet/employeeId/{id}', {id: item.id});
     },
   },
 };

@@ -142,9 +142,10 @@ export default {
   computed: {
     title() {
       const employee = this.timesheet.meta?.employee;
-      return `${this.$t('time.timesheet_for')} ${employee?.firstName} ${
-        employee?.lastName
-      }`;
+      const empName = employee
+        ? `${employee?.firstName} ${employee?.lastName}`
+        : '';
+      return `${this.$t('time.timesheet_for')} ${empName}`;
     },
   },
 

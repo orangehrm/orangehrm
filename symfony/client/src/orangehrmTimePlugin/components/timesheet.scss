@@ -65,6 +65,18 @@ $card-padding: $card-padding-top-bottom $card-padding-left-right;
       display: flex;
       flex-wrap: wrap;
       justify-content: flex-end;
+      max-width: 120px;
+      margin-left: 60px;
+      ::v-deep(.oxd-button--medium) {
+        width: 100%;
+      }
+      @include oxd-respond-to('md') {
+        margin-left: unset;
+        max-width: unset;
+        ::v-deep(.oxd-button--medium) {
+          width: unset;
+        }
+      }
     }
   }
   &-body {
@@ -165,6 +177,7 @@ $card-padding: $card-padding-top-bottom $card-padding-left-right;
     &-comment {
       top: -5px;
       right: -5px;
+      z-index: 2;
       position: absolute;
     }
   }
