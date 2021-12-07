@@ -41,7 +41,7 @@ class TimeSheetPeriodConfigController extends AbstractVueController
             $employeeRole = $this->getUserRoleManager()->getUser()->getUserRole()->getName();
             if ($employeeRole === 'Admin') {
                 // Admin user -> will navigate to employee time sheet
-                $component = new Component('employee-time-sheet-list');
+                $component = new Component('employee-timesheet');
             } else {
                 // ESS user -> will navigate to my time sheet
                 $component = new Component('my-timesheet');
