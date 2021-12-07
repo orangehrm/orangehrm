@@ -63,6 +63,13 @@ import {required, validDateFormat} from '@ohrm/core/util/validation/rules';
 export default {
   name: 'add-timesheet-modal',
 
+  props: {
+    employeeId: {
+      type: Number,
+      required: false,
+      default: null,
+    },
+  },
   components: {
     'oxd-dialog': Dialog,
   },
@@ -88,7 +95,10 @@ export default {
     onSave() {
       this.isLoading = true;
       this.http
-        .create({date: this.date})
+        .create({
+          date: this.date,
+          employeeId: this.employeeId,
+        })
         .then(() => {
           return this.$toast.saveSuccess();
         })

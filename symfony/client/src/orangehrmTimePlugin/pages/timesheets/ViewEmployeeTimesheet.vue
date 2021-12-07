@@ -29,11 +29,11 @@
     >
       <template v-slot:header-title>
         <oxd-text tag="h6" class="orangehrm-main-title">
-          {{ $t('time.my_timesheet') }}
+          {{ title }}
         </oxd-text>
       </template>
       <template v-slot:header-options>
-        <timesheet-period></timesheet-period>
+        <timesheet-period :employee-id="employeeId"></timesheet-period>
         <oxd-button
           iconName="plus"
           displayType="ghost"
@@ -60,12 +60,19 @@
       </template>
     </timesheet>
     <br />
+    <save-timesheet-action
+      v-if="timesheet.id"
+      :timesheet-id="timesheet.id"
+    ></save-timesheet-action>
+    <br />
     <timesheet-actions
       v-if="timesheet.id"
       :timesheet-id="timesheet.id"
     ></timesheet-actions>
+
     <add-timesheet-modal
       v-if="showSaveModal"
+      :employee-id="employeeId"
       @close="onSaveModalClose"
     ></add-timesheet-modal>
   </div>
@@ -78,26 +85,35 @@ import Timesheet from '@/orangehrmTimePlugin/components/Timesheet.vue';
 import TimesheetPeriod from '@/orangehrmTimePlugin/components/TimesheetPeriod.vue';
 import TimesheetActions from '@/orangehrmTimePlugin/components/TimesheetActions.vue';
 import AddTimesheetModal from '@/orangehrmTimePlugin/components/AddTimesheetModal.vue';
+import SaveTimesheetAction from '@/orangehrmTimePlugin/components/SaveTimesheetAction.vue';
 
-const myTimesheetModal = {
+const employeeTimesheetModal = {
   id: null,
   data: [],
   meta: {},
 };
 
 export default {
+  props: {
+    employeeId: {
+      type: Number,
+      required: true,
+    },
+  },
+
   components: {
     timesheet: Timesheet,
     'timesheet-period': TimesheetPeriod,
     'timesheet-actions': TimesheetActions,
     'add-timesheet-modal': AddTimesheetModal,
+    'save-timesheet-action': SaveTimesheetAction,
   },
 
   setup() {
     const http = new APIService(
       //   window.appGlobal.baseUrl,
       'https://884b404a-f4d0-4908-9eb5-ef0c8afec15c.mock.pstmn.io',
-      '/api/v2/time/my-timesheet',
+      '/api/v2/time/employee-timesheet',
     );
 
     return {http};
@@ -106,7 +122,7 @@ export default {
   data() {
     return {
       isLoading: false,
-      timesheet: {...myTimesheetModal},
+      timesheet: {...employeeTimesheetModal},
       showSaveModal: false,
     };
   },
@@ -123,10 +139,20 @@ export default {
     },
   },
 
+  computed: {
+    title() {
+      const employee = this.timesheet.meta?.employee;
+      const empName = employee
+        ? `${employee?.firstName} ${employee?.lastName}`
+        : '';
+      return `${this.$t('time.timesheet_for')} ${empName}`;
+    },
+  },
+
   beforeMount() {
     this.isLoading = true;
     this.http
-      .get(1)
+      .get(this.employeeId)
       .then(response => {
         const {data, meta} = response.data;
         const id = meta.id;

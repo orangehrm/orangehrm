@@ -46,6 +46,14 @@ import {formatDate} from '@ohrm/core/util/helper/datefns';
 export default {
   name: 'timesheet-period',
   inheritAttrs: false,
+
+  props: {
+    employeeId: {
+      type: Number,
+      required: false,
+      default: null,
+    },
+  },
   setup() {
     const state = reactive({
       date: formatDate(new Date(), 'yyyy-MM-dd'),
