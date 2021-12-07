@@ -32,9 +32,22 @@ class ProjectActivityDao extends BaseDao
     /**
      * @param int $projectId
      * @param ProjectActivitySearchFilterParams $projectActivitySearchFilterParams
+     * @return ProjectActivity[]
+     */
+    public function getProjectActivityListByProjectId(
+        int $projectId,
+        ProjectActivitySearchFilterParams $projectActivitySearchFilterParams
+    ): array {
+        $paginator = $this->getProjectActivitiesPaginator($projectId, $projectActivitySearchFilterParams);
+        return $paginator->getQuery()->execute();
+    }
+
+    /**
+     * @param int $projectId
+     * @param ProjectActivitySearchFilterParams $projectActivitySearchFilterParams
      * @return Paginator
      */
-    public function getProjectActivitiesPaginator(
+    protected function getProjectActivitiesPaginator(
         int $projectId,
         ProjectActivitySearchFilterParams $projectActivitySearchFilterParams
     ): Paginator {

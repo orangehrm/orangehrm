@@ -58,7 +58,7 @@ class ProjectActivityDaoTest extends TestCase
     public function testGetProjectActivityList(): void
     {
         $projectActivitySearchFilterParams = new ProjectActivitySearchFilterParams();
-        $result = $this->projectActivityDao->getProjectActivitiesPaginator(1, $projectActivitySearchFilterParams);
+        $result = $this->projectActivityDao->getProjectActivityListByProjectId(1, $projectActivitySearchFilterParams);
         $this->assertCount(2, $result);
     }
 

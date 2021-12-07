@@ -74,7 +74,7 @@ class ProjectActivityAPI extends Endpoint implements CrudEndpoint
         $this->setSortingAndPaginationParams($projectActivitySearchFilterParams);
         $projectActivities = $this->getProjectActivityService()
             ->getProjectActivityDao()
-            ->getProjectActivitiesPaginator($projectId, $projectActivitySearchFilterParams);
+            ->getProjectActivityListByProjectId($projectId, $projectActivitySearchFilterParams);
 
         $projectActivityCount = $this->getProjectActivityService()
             ->getProjectActivityDao()
