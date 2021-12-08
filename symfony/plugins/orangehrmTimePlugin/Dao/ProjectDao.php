@@ -37,10 +37,10 @@ class ProjectDao extends BaseDao
     }
 
     /**
-     * @param  array  $ids
-     * @return bool
+     * @param  int[]  $ids
+     * @return int
      */
-    public function deleteProjects(array $ids): bool
+    public function deleteProjects(array $ids): int
     {
         $q = $this->createQueryBuilder(Project::class, 'project');
         $q->update()
@@ -58,8 +58,8 @@ class ProjectDao extends BaseDao
     public function getProjectById(int $id): ?Project
     {
         $qb = $this->createQueryBuilder(Project::class, 'project');
-        $qb->andWhere('project.id=:id')->setParameter('id', $id);
-        $qb->andWhere('project.isDeleted=:isDeleted')->setParameter('isDeleted', false);
+        $qb->andWhere('project.id = :id')->setParameter('id', $id);
+        $qb->andWhere('project.isDeleted = :isDeleted')->setParameter('isDeleted', false);
         return $qb->getQuery()->getOneOrNullResult();
     }
 
@@ -67,7 +67,7 @@ class ProjectDao extends BaseDao
      * @param  ProjectSearchFilterParams  $projectSearchFilterParamHolder
      * @return Project[]
      */
-    public function getAllProjects(ProjectSearchFilterParams $projectSearchFilterParamHolder): array
+    public function getProjects(ProjectSearchFilterParams $projectSearchFilterParamHolder): array
     {
         $qb = $this->getProjectsPaginator($projectSearchFilterParamHolder);
         return $qb->getQuery()->execute();
@@ -86,24 +86,24 @@ class ProjectDao extends BaseDao
         $this->setSortingAndPaginationParams($qb, $projectSearchFilterParamHolder);
 
         if (!is_null($projectSearchFilterParamHolder->getProjectId())) {
-            $qb->andWhere('project.id=:projectId')->setParameter(
+            $qb->andWhere('project.id = :projectId')->setParameter(
                 'projectId',
                 $projectSearchFilterParamHolder->getProjectId()
             );
         }
         if (!is_null($projectSearchFilterParamHolder->getCustomerId())) {
-            $qb->andWhere('customer.customerId=:customerId')->setParameter(
+            $qb->andWhere('customer.id = :customerId')->setParameter(
                 'customerId',
                 $projectSearchFilterParamHolder->getCustomerId()
             );
         }
         if (!is_null($projectSearchFilterParamHolder->getEmpNumber())) {
-            $qb->andWhere('projectAdmin.empNumber=:empNumber')->setParameter(
+            $qb->andWhere('projectAdmin.empNumber = :empNumber')->setParameter(
                 'empNumber',
                 $projectSearchFilterParamHolder->getEmpNumber()
             );
         }
-        $qb->andWhere('project.isDeleted=:isDeleted')->setParameter(
+        $qb->andWhere('project.isDeleted = :isDeleted')->setParameter(
             'isDeleted',
             false
         );
@@ -114,9 +114,25 @@ class ProjectDao extends BaseDao
      * @param  ProjectSearchFilterParams  $projectSearchFilterParamHolder
      * @return int
      */
-    public function searchProjectsCount(ProjectSearchFilterParams $projectSearchFilterParamHolder): int
+    public function getProjectsCount(ProjectSearchFilterParams $projectSearchFilterParamHolder): int
     {
         return $this->getProjectsPaginator($projectSearchFilterParamHolder)->count();
     }
 
+    /**
+     * @param  string  $projectName
+     * @param  int|null  $projectId
+     * @return bool
+     */
+    public function isProjectNameTaken(string $projectName, ?int $projectId = null): bool
+    {
+        $q = $this->createQueryBuilder(Project::class, 'project');
+        $q->andWhere('project.name = :projectName');
+        $q->setParameter('projectName', $projectName);
+        if (!is_null($projectId)) {
+            $q->andWhere('project.id != :projectId');
+            $q->setParameter('projectId', $projectId);
+        }
+        return $this->getPaginator($q)->count() === 0;
+    }
 }

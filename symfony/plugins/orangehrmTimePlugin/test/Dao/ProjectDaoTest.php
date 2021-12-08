@@ -59,7 +59,7 @@ class ProjectDaoTest extends KernelTestCase
     public function testGetProjects(): void
     {
         $projectParamHolder = new ProjectSearchFilterParams();
-        $projects = $this->projectDao->getAllProjects($projectParamHolder);
+        $projects = $this->projectDao->getProjects($projectParamHolder);
         $this->assertCount(2, $projects);
         $this->assertInstanceOf(Project::class, $projects[1]);
     }

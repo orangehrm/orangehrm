@@ -13,6 +13,14 @@ apiv2_time_projects:
   defaults:
     _api: OrangeHRM\Time\Api\ProjectAPI
 
+apiv2_time_validate_project_name:
+  path: /api/v2/time/validation/project-name
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [GET]
+  defaults:
+    _key: projectName
+    _api: OrangeHRM\Time\Api\ValidateProjectNameAPI
+
 apiv2_time_customer:
   path: /api/v2/time/customers/{id}
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
@@ -67,4 +75,14 @@ time_edit_timesheet:
 time_view_projects:
   path: /time/viewProjects
   controller: OrangeHRM\Time\Controller\ProjectController::handle
+  methods: [ GET ]
+
+time_save_project:
+  path: /time/saveProject
+  controller: OrangeHRM\Time\Controller\SaveProjectController::handle
+  methods: [ GET ]
+
+time_edit_project:
+  path: /time/saveProject/{id}
+  controller: OrangeHRM\Time\Controller\SaveProjectController::handle
   methods: [ GET ]

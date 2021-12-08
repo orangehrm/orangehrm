@@ -25,7 +25,6 @@ use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
-use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
@@ -33,23 +32,25 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Entity\Customer;
 use OrangeHRM\Entity\Project;
 use OrangeHRM\Time\Api\Model\ProjectDetailedModel;
 use OrangeHRM\Time\Api\Model\ProjectModel;
 use OrangeHRM\Time\Dto\ProjectSearchFilterParams;
-use OrangeHRM\Time\Service\ProjectService;
+use OrangeHRM\Time\Traits\Service\ProjectServiceTrait;
 
 class ProjectAPI extends Endpoint implements CrudEndpoint
 {
+    use ProjectServiceTrait;
+
     public const PARAMETER_CUSTOMER_ID = 'customerId';
     public const PARAMETER_NAME = 'name';
     public const PARAMETER_DESCRIPTION = 'description';
     public const PARAMETER_IS_DELETED = 'isDeleted';
-    public const PARAMETER_PROJECT_ADMINS = 'projectAdmins';
+    public const PARAMETER_PROJECT_ADMINS_EMP_NUMBERS = 'projectAdminsEmpNumbers';
 
     public const PARAMETER_RULE_NAME_MAX_LENGTH = 100;
     public const PARAMETER_RULE_DESCRIPTION_MAX_LENGTH = 256;
-    public const PARAMETER_RULE_CUSTOMER_ID_MAX_LENGTH = 11;
     public const PARAMETER_RULE_PROJECT_ADMIN_MAX_COUNT = 5;
 
     public const FILTER_MODEL = 'model';
@@ -63,27 +64,6 @@ class ProjectAPI extends Endpoint implements CrudEndpoint
         self::MODEL_DEFAULT => ProjectModel::class,
         self::MODEL_DETAILED => ProjectDetailedModel::class,
     ];
-
-    /**
-     * @var ProjectService|null
-     */
-    protected ?ProjectService $projectService = null;
-
-    /**
-     * @var int|null
-     */
-    protected ?int $projectId = null;
-
-    /**
-     * @return ProjectService
-     */
-    protected function getProjectService(): ProjectService
-    {
-        if (is_null($this->projectService)) {
-            return new ProjectService();
-        }
-        return $this->projectService;
-    }
 
     /**
      * @return string
@@ -100,7 +80,6 @@ class ProjectAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @inheritDoc
-     * @return EndpointCollectionResult
      */
     public function getAll(): EndpointCollectionResult
     {
@@ -125,8 +104,8 @@ class ProjectAPI extends Endpoint implements CrudEndpoint
                 self::FILTER_EMPLOYEE_NUMBER
             )
         );
-        $projects = $this->getProjectService()->getProjectDao()->getAllProjects($projectParamHolder);
-        $count = $this->getProjectService()->getProjectDao()->searchProjectsCount($projectParamHolder);
+        $projects = $this->getProjectService()->getProjectDao()->getProjects($projectParamHolder);
+        $count = $this->getProjectService()->getProjectDao()->getProjectsCount($projectParamHolder);
         return new EndpointCollectionResult(
             $this->getModelClass(),
             $projects,
@@ -136,14 +115,13 @@ class ProjectAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @inheritDoc
-     * @return ParamRuleCollection
      */
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(self::FILTER_PROJECT_ID),
-            new ParamRule(self::FILTER_EMPLOYEE_NUMBER),
-            new ParamRule(self::FILTER_CUSTOMER_ID),
+            new ParamRule(self::FILTER_PROJECT_ID, new Rule(Rules::POSITIVE)),
+            new ParamRule(self::FILTER_EMPLOYEE_NUMBER, new Rule(Rules::POSITIVE)),
+            new ParamRule(self::FILTER_CUSTOMER_ID, new Rule(Rules::POSITIVE)),
             $this->getModelParamRule(),
             ...$this->getSortingAndPaginationParamsRules(ProjectSearchFilterParams::ALLOWED_SORT_FIELDS)
         );
@@ -164,7 +142,6 @@ class ProjectAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @inheritDoc
-     * @return EndpointResourceResult
      */
     public function create(): EndpointResourceResult
     {
@@ -186,7 +163,7 @@ class ProjectAPI extends Endpoint implements CrudEndpoint
             )
         );
         $project->setName(
-            $this->getRequestParams()->getStringOrNull(
+            $this->getRequestParams()->getString(
                 RequestParams::PARAM_TYPE_BODY,
                 self::PARAMETER_NAME
             )
@@ -200,14 +177,13 @@ class ProjectAPI extends Endpoint implements CrudEndpoint
         $project->getDecorator()->setProjectAdminsByEmpNumbers(
             $this->getRequestParams()->getArray(
                 RequestParams::PARAM_TYPE_BODY,
-                self::PARAMETER_PROJECT_ADMINS
+                self::PARAMETER_PROJECT_ADMINS_EMP_NUMBERS
             )
         );
     }
 
     /**
      * @inheritDoc
-     * @return ParamRuleCollection
      */
     public function getValidationRuleForCreate(): ParamRuleCollection
     {
@@ -225,15 +201,15 @@ class ProjectAPI extends Endpoint implements CrudEndpoint
             $this->getValidationDecorator()->requiredParamRule(
                 new ParamRule(
                     self::PARAMETER_CUSTOMER_ID,
-                    new Rule(Rules::INT_TYPE),
-                    new Rule(Rules::LENGTH, [!null, self::PARAMETER_RULE_CUSTOMER_ID_MAX_LENGTH])
+                    new Rule(Rules::POSITIVE),
+                    new Rule(Rules::ENTITY_ID_EXISTS, [Customer::class])
                 )
             ),
-            $this->getValidationDecorator()->requiredParamRule(
+            $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
-                    self::PARAMETER_PROJECT_ADMINS,
+                    self::PARAMETER_PROJECT_ADMINS_EMP_NUMBERS,
                     new Rule(Rules::ARRAY_TYPE),
-                    new Rule(Rules::LENGTH, [!null, self::PARAMETER_RULE_PROJECT_ADMIN_MAX_COUNT])
+                    new Rule(Rules::LENGTH, [null, self::PARAMETER_RULE_PROJECT_ADMIN_MAX_COUNT])
                 ),
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
@@ -242,29 +218,17 @@ class ProjectAPI extends Endpoint implements CrudEndpoint
                     new Rule(Rules::STRING_TYPE),
                     new Rule(Rules::LENGTH, [null, self::PARAMETER_RULE_DESCRIPTION_MAX_LENGTH])
                 ),
-                true
             ),
-            $this->getValidationDecorator()->notRequiredParamRule(
-                new ParamRule(
-                    self::PARAMETER_NAME,
-                    new Rule(Rules::STRING_TYPE),
-                    new Rule(Rules::LENGTH, [null, self::PARAMETER_RULE_NAME_MAX_LENGTH])
-
-                ),
-                true
+            new ParamRule(
+                self::PARAMETER_NAME,
+                new Rule(Rules::STRING_TYPE),
+                new Rule(Rules::LENGTH, [null, self::PARAMETER_RULE_NAME_MAX_LENGTH])
             ),
-            $this->getValidationDecorator()->notRequiredParamRule(
-                new ParamRule(
-                    self::PARAMETER_IS_DELETED,
-                    new Rule(Rules::BOOL_TYPE)
-                ),
-            )
         ];
     }
 
     /**
      * @inheritDoc
-     * @return EndpointResult
      */
     public function delete(): EndpointResult
     {
@@ -275,19 +239,19 @@ class ProjectAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @inheritDoc
-     * @return ParamRuleCollection
      */
     public function getValidationRuleForDelete(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(CommonParams::PARAMETER_IDS),
+            new ParamRule(
+                CommonParams::PARAMETER_IDS,
+                new Rule(Rules::ARRAY_TYPE)
+            ),
         );
     }
 
     /**
      * @inheritDoc
-     * @return EndpointResult
-     * @throws RecordNotFoundException
      */
     public function getOne(): EndpointResult
     {
@@ -302,20 +266,20 @@ class ProjectAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @inheritDoc
-     * @return ParamRuleCollection
      */
     public function getValidationRuleForGetOne(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(CommonParams::PARAMETER_ID),
+            new ParamRule(
+                CommonParams::PARAMETER_ID,
+                new Rule(Rules::POSITIVE)
+            ),
             $this->getModelParamRule()
         );
     }
 
     /**
      * @inheritDoc
-     * @return EndpointResult
-     * @throws RecordNotFoundException
      */
     public function update(): EndpointResult
     {
@@ -333,13 +297,15 @@ class ProjectAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @inheritDoc
-     * @return ParamRuleCollection
      */
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
         return new ParamRuleCollection(
             $this->getValidationDecorator()->requiredParamRule(
-                new ParamRule(CommonParams::PARAMETER_ID)
+                new ParamRule(
+                    CommonParams::PARAMETER_ID,
+                    new Rule(Rules::POSITIVE)
+                )
             ),
             ...$this->getCommonBodyValidationRules(),
         );

@@ -17,31 +17,22 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Tests\Time\Entity;
+namespace OrangeHRM\Time\Traits\Service;
 
-use OrangeHRM\Entity\Project;
-use OrangeHRM\Tests\Util\EntityTestCase;
-use OrangeHRM\Tests\Util\TestDataService;
+use OrangeHRM\Core\Traits\ServiceContainerTrait;
+use OrangeHRM\Framework\Services;
+use OrangeHRM\Time\Service\CustomerService;
+use OrangeHRM\Time\Service\ProjectService;
 
-class ProjectTest extends EntityTestCase
+trait ProjectServiceTrait
 {
-    protected function setUp(): void
-    {
-        TestDataService::truncateSpecificTables([Project::class]);
-    }
+    use ServiceContainerTrait;
 
-    public function testProjectEntity(): void
+    /**
+     * @return ProjectService
+     */
+    public function getProjectService(): ProjectService
     {
-        $project = new Project();
-        $project->setName('sample_project');
-        $project->getDecorator()->setCustomerById(1);
-        $project->setDescription('sample_description');
-        $project->getDecorator()->setProjectAdminsByEmpNumbers([1, 2]);
-        $project->setIsDeleted(false);
-        $this->persist($project);
-
-        $result = $this->getRepository(Project::class)->find(1);
-        $this->assertInstanceOf(Project::class, $result);
-        $this->assertEquals('sample_project', $result->getName());
+        return $this->getContainer()->get(Services::PROJECT_SERVICE);
     }
 }

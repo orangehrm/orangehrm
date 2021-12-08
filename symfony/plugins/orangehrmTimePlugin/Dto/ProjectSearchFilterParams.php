@@ -26,8 +26,7 @@ class ProjectSearchFilterParams extends FilterParams
 {
     public const ALLOWED_SORT_FIELDS = [
         'project.name',
-        'customer.name',
-        'employee.lastName'
+        'customer.name'
     ];
 
     /**
@@ -97,5 +96,4 @@ class ProjectSearchFilterParams extends FilterParams
     {
         $this->empNumber = $empNumber;
     }
-
 }

@@ -27,6 +27,7 @@ use OrangeHRM\Entity\Decorator\ProjectDecorator;
 
 /**
  * @method ProjectDecorator getDecorator()
+ *
  * @ORM\Table(name="ohrm_project")
  * @ORM\Entity
  *
@@ -47,6 +48,7 @@ class Project
 
     /**
      * @var Customer
+     *
      * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Customer", inversedBy="project", cascade={"persist", "remove"})
      * @ORM\JoinColumn(name="customer_id", referencedColumnName="customer_id",nullable=false)
      */
@@ -54,30 +56,33 @@ class Project
 
     /**
      * @var string|null
+     *
      * @ORM\Column(name="name",type="string",length=100)
      */
     private ?string $name;
 
     /**
      * @var string|null
+     *
      * @ORM\Column(name="description",type="string",length=256)
      */
     private ?string $description;
 
     /**
      * @var bool
+     *
      * @ORM\Column(name="is_deleted",type="boolean",options={"default":0})
      */
     private bool $isDeleted = false;
 
     /**
-     * @ORM\ManyToMany(targetEntity="OrangeHRM\Entity\Employee")
+     * @ORM\ManyToMany(targetEntity="OrangeHRM\Entity\Employee", cascade={"persist", "remove"})
      * @ORM\JoinTable(name="ohrm_project_admin",
      *      joinColumns={@ORM\JoinColumn(name="project_id", referencedColumnName="project_id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="emp_number", referencedColumnName="emp_number")}
      *      )
      */
-    private Collection $projectAdmins;
+    private iterable $projectAdmins;
 
     public function __construct()
     {
@@ -171,5 +176,4 @@ class Project
     {
         return $this->projectAdmins;
     }
-
 }

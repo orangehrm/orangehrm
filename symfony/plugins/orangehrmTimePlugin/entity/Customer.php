@@ -63,7 +63,7 @@ class Customer
     /**
      * @ORM\OneToMany (targetEntity="OrangeHRM\Entity\Project", mappedBy="customer")
      */
-    private $project;
+    private iterable $project;
 
     public function __construct()
     {

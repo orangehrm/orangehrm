@@ -44,7 +44,7 @@ class ProjectDecorator
     /**
      * @return Project
      */
-    public function getProject(): Project
+    protected function getProject(): Project
     {
         return $this->project;
     }
@@ -59,7 +59,7 @@ class ProjectDecorator
     }
 
     /**
-     * @param  array  $empNumbers
+     * @param  int[]  $empNumbers
      */
     public function setProjectAdminsByEmpNumbers(array $empNumbers)
     {
@@ -72,7 +72,7 @@ class ProjectDecorator
     /**
      * @param  Employee  $employee
      */
-    private function addProjectAdmin(Employee $employee)
+    private function addProjectAdmin(Employee $employee): void
     {
         $projectAdmins = $this->getProject()->getProjectAdmins();
         if ($projectAdmins->contains($employee)) {
@@ -81,12 +81,11 @@ class ProjectDecorator
         $projectAdmins[] = $employee;
     }
 
-    public function removeProjectAdmins()
+    public function removeProjectAdmins(): void
     {
         $projectAdmins = $this->getProject()->getProjectAdmins();
         foreach ($projectAdmins as $projectAdmin) {
             $projectAdmins->removeElement($projectAdmin);
         }
     }
-
 }
