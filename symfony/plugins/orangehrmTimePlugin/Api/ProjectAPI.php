@@ -119,9 +119,24 @@ class ProjectAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(self::FILTER_PROJECT_ID, new Rule(Rules::POSITIVE)),
-            new ParamRule(self::FILTER_EMPLOYEE_NUMBER, new Rule(Rules::POSITIVE)),
-            new ParamRule(self::FILTER_CUSTOMER_ID, new Rule(Rules::POSITIVE)),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::FILTER_PROJECT_ID,
+                    new Rule(Rules::POSITIVE)
+                ),
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::FILTER_EMPLOYEE_NUMBER,
+                    new Rule(Rules::POSITIVE)
+                ),
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::FILTER_CUSTOMER_ID,
+                    new Rule(Rules::POSITIVE)
+                ),
+            ),
             $this->getModelParamRule(),
             ...$this->getSortingAndPaginationParamsRules(ProjectSearchFilterParams::ALLOWED_SORT_FIELDS)
         );
