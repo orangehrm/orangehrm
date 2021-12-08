@@ -38,7 +38,7 @@ class ProjectDetailedModel implements Normalizable
             ['getCustomer', 'getName'],
             ['getCustomer', 'isDeleted'],
             ['getProjectAdmins', ['getEmpNumber', 'getLastName', 'getFirstName', 'getMiddleName','getEmployeeTerminationRecord']],
-            'isDeleted'
+            'deleted'
         ]);
 
         $this->setAttributeNames([

@@ -44,8 +44,8 @@ class ProjectDao extends BaseDao
     {
         $q = $this->createQueryBuilder(Project::class, 'project');
         $q->update()
-            ->set('project.isDeleted', ':isDeleted')
-            ->setParameter('isDeleted', true)
+            ->set('project.deleted', ':deleted')
+            ->setParameter('deleted', true)
             ->where($q->expr()->in('project.id', ':ids'))
             ->setParameter('ids', $ids);
         return $q->getQuery()->execute();
@@ -59,7 +59,7 @@ class ProjectDao extends BaseDao
     {
         $qb = $this->createQueryBuilder(Project::class, 'project');
         $qb->andWhere('project.id = :id')->setParameter('id', $id);
-        $qb->andWhere('project.isDeleted = :isDeleted')->setParameter('isDeleted', false);
+        $qb->andWhere('project.deleted = :deleted')->setParameter('deleted', false);
         return $qb->getQuery()->getOneOrNullResult();
     }
 
@@ -103,8 +103,8 @@ class ProjectDao extends BaseDao
                 $projectSearchFilterParamHolder->getEmpNumber()
             );
         }
-        $qb->andWhere('project.isDeleted = :isDeleted')->setParameter(
-            'isDeleted',
+        $qb->andWhere('project.deleted = :deleted')->setParameter(
+            'deleted',
             false
         );
         return $this->getPaginator($qb);

@@ -22,18 +22,13 @@ namespace OrangeHRM\Time\Api;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
-use OrangeHRM\Core\Api\V2\Exception\ForbiddenException;
-use OrangeHRM\Core\Api\V2\Exception\NotImplementedException;
-use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\ResourceEndpoint;
-use OrangeHRM\Core\Api\V2\Serializer\NormalizeException;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
-use OrangeHRM\Entity\Customer;
 use OrangeHRM\Entity\Project;
 use OrangeHRM\Time\Traits\Service\ProjectServiceTrait;
 
@@ -47,6 +42,9 @@ class ValidateProjectNameAPI extends Endpoint implements ResourceEndpoint
 
     public const PARAM_RULE_PROJECT_NAME_MAX_LENGTH = 50;
 
+    /**
+     * @inheritDoc
+     */
     public function getOne(): EndpointResult
     {
         $projectName = $this->getRequestParams()->getString(
@@ -67,7 +65,7 @@ class ValidateProjectNameAPI extends Endpoint implements ResourceEndpoint
         return new EndpointResourceResult(
             ArrayModel::class,
             [
-                self::PARAMETER_IS_CHANGEABLE=> $isChangeableProjectName
+                self::PARAMETER_IS_CHANGEABLE => $isChangeableProjectName
             ]
         );
     }

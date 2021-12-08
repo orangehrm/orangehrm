@@ -46,7 +46,6 @@ class ProjectAPI extends Endpoint implements CrudEndpoint
     public const PARAMETER_CUSTOMER_ID = 'customerId';
     public const PARAMETER_NAME = 'name';
     public const PARAMETER_DESCRIPTION = 'description';
-    public const PARAMETER_IS_DELETED = 'isDeleted';
     public const PARAMETER_PROJECT_ADMINS_EMP_NUMBERS = 'projectAdminsEmpNumbers';
 
     public const PARAMETER_RULE_NAME_MAX_LENGTH = 100;
