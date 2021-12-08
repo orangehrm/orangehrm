@@ -52,7 +52,7 @@ class ProjectDaoTest extends KernelTestCase
         $project->getDecorator()->setCustomerById(1);
         $project->setDescription('Project_04 sample description');
         $project->getDecorator()->setProjectAdminsByEmpNumbers([1, 2]);
-        $project->setIsDeleted(false);
+        $project->setDeleted(false);
         $result = $this->projectDao->saveProject($project);
         $this->assertInstanceOf(Project::class, $result);
         $this->assertEquals('Project_04', $result->getName());
@@ -70,20 +70,20 @@ class ProjectDaoTest extends KernelTestCase
     {
         $project = $this->projectDao->getProjectById(1);
         $this->assertInstanceOf(Project::class, $project);
-        $this->assertEquals('project_01', $project->getName());
-        $this->assertFalse($project->getIsDeleted());
+        $this->assertEquals('project_03', $project->getName());
+        $this->assertFalse($project->getDeleted());
     }
 
     public function testUpdateProject(): void
     {
         $project = $this->projectDao->getProjectById(1);
-        $project->setName('Project_01_updated');
+        $project->setName('Project_03 updated');
         $project->getDecorator()->setCustomerById(2);
         $project->getDecorator()->setProjectAdminsByEmpNumbers([3]);
         $result = $this->projectDao->saveProject($project);
         $this->assertInstanceOf(Project::class, $result);
-        $this->assertEquals('Project_01_updated', $project->getName());
-        $this->assertEquals(1, $project->getProjectAdmins()->count());
+        $this->assertEquals('Project_03 updated', $project->getName());
+        $this->assertEquals(3, $project->getProjectAdmins()->count());
     }
 
     public function testDeleteProjects(): void
@@ -94,7 +94,7 @@ class ProjectDaoTest extends KernelTestCase
 
     public function testIsProjectNameTaken(): void
     {
-        $result=$this->projectDao->isProjectNameTaken('Project_01_updated');
+        $result = $this->projectDao->isProjectNameTaken('Project_03_updated');
         $this->assertTrue($result);
     }
 }

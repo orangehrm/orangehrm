@@ -73,7 +73,7 @@ class Project
      *
      * @ORM\Column(name="is_deleted",type="boolean",options={"default":0})
      */
-    private bool $isDeleted = false;
+    private bool $deleted = false;
 
     /**
      * @ORM\ManyToMany(targetEntity="OrangeHRM\Entity\Employee", cascade={"persist", "remove"})
@@ -156,17 +156,17 @@ class Project
     /**
      * @return bool
      */
-    public function getIsDeleted(): bool
+    public function getDeleted(): bool
     {
-        return $this->isDeleted;
+        return $this->deleted;
     }
 
     /**
      * @param  bool  $isDeleted
      */
-    public function setIsDeleted(bool $isDeleted): void
+    public function setDeleted(bool $isDeleted): void
     {
-        $this->isDeleted = $isDeleted;
+        $this->deleted = $isDeleted;
     }
 
     /**

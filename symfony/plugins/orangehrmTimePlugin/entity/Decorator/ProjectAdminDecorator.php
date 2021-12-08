@@ -39,16 +39,6 @@ class ProjectAdminDecorator
     }
 
     /**
-     * @param $id
-     */
-    //empNumber
-    public function setEmployeeById($id): void
-    {
-        $employee = $this->getReference(Employee::class, $id);
-        $this->getProjectAdmin()->setEmployee($employee);
-    }
-
-    /**
      * @return ProjectAdmin
      */
     public function getProjectAdmin(): ProjectAdmin
@@ -56,14 +46,18 @@ class ProjectAdminDecorator
         return $this->projectAdmin;
     }
 
-    public function setProject($id): void
+    /**
+     * @param $id
+     */
+    public function setEmployeeById($id): void
+    {
+        $employee = $this->getReference(Employee::class, $id);
+        $this->getProjectAdmin()->setEmployee($employee);
+    }
+
+    public function setProjectById($id): void
     {
         $project = $this->getReference(Project::class, $id);
         $this->getProjectAdmin()->setProject($project);
     }
-
-    public function getEmployee($id):Employee{
-        return $this->getReference(Employee::class, $id);
-    }
-
 }

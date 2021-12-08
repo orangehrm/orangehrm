@@ -11,6 +11,15 @@ Customer:
   2: { name: 'CUS2', description: 'DES2', deleted: false }
 
 Project:
-  0: {customer_id: 1, name: 'project_01', description: 'Project description for project_01', is_deleted: false}
+  0: {customer_id: 1, name: 'project_03', description: 'Project description for project_03', is_deleted: false}
   1: {customer_id: 2, name: 'project_02', description: 'Project description for project_02', is_deleted: false}
-  2: {customer_id: 1, name: 'project_03', description: 'Project description for project_03', is_deleted: true}
+  2: {customer_id: 1, name: 'project_01', description: 'Project description for project_01', is_deleted: true}
+
+ProjectAdmin:
+  0: {project_id: 1, emp_number: 1}
+  1: {project_id: 1, emp_number: 2}
+  2: {project_id: 2, emp_number: 3}
+  3: {project_id: 3, emp_number: 1}
+  4: {project_id: 3, emp_number: 2}
+  5: {project_id: 3, emp_number: 3}
+

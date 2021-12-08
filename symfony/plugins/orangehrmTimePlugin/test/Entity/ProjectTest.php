@@ -20,6 +20,7 @@
 namespace OrangeHRM\Tests\Time\Entity;
 
 use OrangeHRM\Entity\Project;
+use OrangeHRM\Entity\ProjectAdmin;
 use OrangeHRM\Tests\Util\EntityTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 
@@ -28,6 +29,7 @@ class ProjectTest extends EntityTestCase
     protected function setUp(): void
     {
         TestDataService::truncateSpecificTables([Project::class]);
+        TestDataService::truncateSpecificTables([ProjectAdmin::class]);
     }
 
     public function testProjectEntity(): void
@@ -37,7 +39,7 @@ class ProjectTest extends EntityTestCase
         $project->getDecorator()->setCustomerById(1);
         $project->setDescription('sample_description');
         $project->getDecorator()->setProjectAdminsByEmpNumbers([1, 2]);
-        $project->setIsDeleted(false);
+        $project->setDeleted(false);
         $this->persist($project);
 
         $result = $this->getRepository(Project::class)->find(1);

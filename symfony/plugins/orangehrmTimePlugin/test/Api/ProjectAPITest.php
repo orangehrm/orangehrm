@@ -19,304 +19,111 @@
 
 namespace OrangeHRM\Tests\Time\Api;
 
-use OrangeHRM\Core\Api\V2\Exception\ForbiddenException;
-use OrangeHRM\Core\Api\V2\Exception\NotImplementedException;
-use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
-use OrangeHRM\Core\Api\V2\RequestParams;
-use OrangeHRM\Core\Api\V2\Serializer\NormalizeException;
-use OrangeHRM\Entity\Project;
-use OrangeHRM\Tests\Util\EndpointTestCase;
-use OrangeHRM\Tests\Util\MockObject;
+use OrangeHRM\Entity\ProjectAdmin;
+use OrangeHRM\Framework\Services;
+use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
+use OrangeHRM\Tests\Util\Integration\TestCaseParams;
+use OrangeHRM\Tests\Util\TestDataService;
 use OrangeHRM\Time\Api\ProjectAPI;
-use OrangeHRM\Time\Dao\ProjectDao;
-use OrangeHRM\Time\Service\ProjectService;
 
-class ProjectAPITest extends EndpointTestCase
+/**
+ * @group Time
+ * @group APIv2
+ */
+class ProjectAPITest extends EndpointIntegrationTestCase
 {
     /**
-     * @throws NormalizeException
-     * @throws NotImplementedException
-     * @throws RecordNotFoundException
-     * @throws ForbiddenException
+     * @dataProvider dataProviderForTestCreate
      */
-    public function testCreate(): void
+    public function testCreate(TestCaseParams $testCaseParams): void
     {
-        $projectDao = $this->getMockBuilder(ProjectDao::class)
-            ->onlyMethods(['saveProject'])
-            ->getMock();
-        $projectDao->expects($this->once())
-            ->method('saveProject')
-            ->will(
-                $this->returnCallback(
-                    function (Project $project) {
-                        $project->setId(2);
-                        return $project;
-                    }
-                )
-            );
-        $projectService = $this->getMockBuilder(ProjectService::class)
-            ->onlyMethods(['getProjectDao'])
-            ->getMock();
-        $projectService->expects($this->once())
-            ->method('getProjectDao')
-            ->willReturn($projectDao);
-
-        /**
-         * @var MockObject&ProjectAPI $api
-         */
-        $api = $this->getApiEndpointMockBuilder(
-            ProjectAPI::class,
-            [
-                RequestParams::PARAM_TYPE_BODY => [
-                    ProjectAPI::PARAMETER_NAME => 'sample_project',
-                    ProjectAPI::PARAMETER_DESCRIPTION => 'sample_project_description',
-                    ProjectAPI::PARAMETER_CUSTOMER_ID => 1,
-                    ProjectAPI::PARAMETER_PROJECT_ADMINS => [1, 2],
-                    ProjectAPI::PARAMETER_IS_DELETED => false
-                ]
-            ]
-        )->onlyMethods(['getProjectService'])
-            ->getMock();
-        $api->expects($this->once())
-            ->method('getProjectService')
-            ->will($this->returnValue($projectService));
-        $result = $api->create();
-        $this->assertEquals(
-            [
-                "id" => 2,
-                "name" => 'sample_project',
-                "description" => 'sample_project_description',
-                "customerId" => 1,
-                "projectAdmins" => [1, 2],
-                "deleted" => false
-            ],
-            $result->normalize()
-        );
+        TestDataService::truncateSpecificTables([ProjectAdmin::class]);
+        $this->populateFixtures('ProjectDao.yml');
+        $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
+        $this->registerServices($testCaseParams);
+        $this->registerMockDateTimeHelper($testCaseParams);
+        $api = $this->getApiEndpointMock(ProjectAPI::class, $testCaseParams);
+        $this->assertValidTestCase($api, 'create', $testCaseParams);
     }
 
-    public function testGetAll(): void
+    public function dataProviderForTestCreate(): array
     {
-        $projectDao = $this->getMockBuilder(ProjectDao::class)
-            ->onlyMethods(['getAllProjects', 'searchProjectsCount'])
-            ->getMock();
-        $project1 = new Project();
-        $project1->setId(2);
-        $project1->setName('Test02');
-        $project1->setDescription('TestDes02');
-        $project1->setIsDeleted(false);
-        $project1->getDecorator()->setCustomerById(1);
-        $project1->getDecorator()->setProjectAdminsByEmpNumbers([1,2]);
-        
-        $project2 = new Project();
-        $project2->setId(3);
-        $project2->setName('Test03');
-        $project2->setDescription('TestDes03');
-        $project2->setIsDeleted(false);
-        $project2->getDecorator()->setCustomerById(1);
-        $project2->getDecorator()->setProjectAdminsByEmpNumbers([1,2]);
-
-        $projectDao->expects($this->exactly(1))
-            ->method('getAllProjects')
-            ->willReturn([$project1, $project2]);
-        $projectDao->expects($this->exactly(1))
-            ->method('searchProjectsCount')
-            ->willReturn(2);
-        $projectService = $this->getMockBuilder(ProjectService::class)
-            ->onlyMethods(['getProjectDao'])
-            ->getMock();
-        $projectService->expects($this->exactly(2))
-            ->method('getProjectDao')
-            ->willReturn($projectDao);
-
-        /** @var MockObject&ProjectAPI $api */
-        $api = $this->getApiEndpointMockBuilder(
-            ProjectAPI::class,
-            [
-                RequestParams::PARAM_TYPE_BODY => [
-                    ProjectAPI::PARAMETER_NAME,
-                ]
-            ]
-        )->onlyMethods(['getProjectService'])
-            ->getMock();
-        $api->expects($this->exactly(2))
-            ->method('getProjectService')
-            ->will($this->returnValue($projectService));
-
-        $result = $api->getAll();
-        $this->assertEquals(
-            [
-                [
-                    "id" => 3,
-                    "name" => 'CUSGET1',
-                    "description" => 'CUSGETDES1',
-                    "deleted" => false
-                ],
-                [
-                    "id" => 4,
-                    "name" => 'CUSGET2',
-                    "description" => 'CUSGETDES2',
-                    "deleted" => false
-                ]
-            ],
-            $result->normalize()
-        );
-        $this->assertEquals(
-            [
-                "total" => 2
-            ],
-            $result->getMeta()->all()
-        );
+        return $this->getTestCases('ProjectTestCase.yaml', 'Create');
     }
 
-    public function testGetOne(): void
+    /**
+     * @dataProvider dataProviderForTestGetAll
+     */
+    public function testGetAll(TestCaseParams $testCaseParams): void
     {
-        $projectDao = $this->getMockBuilder(CustomerDao::class)
-            ->onlyMethods(['getCustomerById'])
-            ->getMock();
-        $customer = new Project();
-        $customer->setId(4);
-        $customer->setName('CUS10');
-        $customer->setDescription('DESC10');
-        $customer->setDeleted(false);
-
-        $projectDao->expects($this->exactly(1))
-            ->method('getCustomerById')
-            ->with(1)
-            ->will($this->returnValue($customer));
-        $projectService = $this->getMockBuilder(CustomerService::class)
-            ->onlyMethods(['getCustomerDao'])
-            ->getMock();
-        $projectService->expects($this->exactly(1))
-            ->method('getCustomerDao')
-            ->willReturn($projectDao);
-
-        /** @var MockObject&CustomerAPI $api */
-        $api = $this->getApiEndpointMockBuilder(
-            CustomerAPI::class,
-            [
-                RequestParams::PARAM_TYPE_ATTRIBUTE => [
-                    CommonParams::PARAMETER_ID => 1
-                ]
-            ]
-        )->onlyMethods(['getProjectService'])
-            ->getMock();
-        $api->expects($this->once())
-            ->method('getProjectService')
-            ->will($this->returnValue($projectService));
-
-        $result = $api->getOne();
-        $this->assertEquals(
-            [
-                "id" => 4,
-                "name" => "CUS10",
-                "description" => "DESC10",
-                "deleted" => false
-            ],
-            $result->normalize()
-        );
+        TestDataService::truncateSpecificTables([ProjectAdmin::class]);
+        $this->populateFixtures('ProjectDao.yml');
+        $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
+        $this->registerServices($testCaseParams);
+        $this->registerMockDateTimeHelper($testCaseParams);
+        $api = $this->getApiEndpointMock(ProjectAPI::class, $testCaseParams);
+        $this->assertValidTestCase($api, 'getAll', $testCaseParams);
     }
 
-    public function testUpdate(): void
+    public function dataProviderForTestGetAll(): array
     {
-        $projectDao = $this->getMockBuilder(CustomerDao::class)
-            ->onlyMethods(['saveCustomer', 'getCustomerById'])
-            ->getMock();
-        $customer = new Project();
-        $customer->setId(1);
-        $customer->setName('Dev');
-        $customer->setDescription('Dev');
-        $customer->setDeleted(false);
-        $projectDao->expects($this->exactly(1))
-            ->method('getCustomerById')
-            ->with(1)
-            ->willReturn($customer);
-        $projectDao->expects($this->exactly(1))
-            ->method('saveCustomer')
-            ->with($customer)
-            ->will($this->returnValue($customer));
-        $projectService = $this->getMockBuilder(CustomerService::class)
-            ->onlyMethods(['getCustomerDao'])
-            ->getMock();
-        $projectService->expects($this->exactly(2))
-            ->method('getCustomerDao')
-            ->willReturn($projectDao);
-
-        /** @var MockObject&CustomerAPI $api */
-        $api = $this->getApiEndpointMockBuilder(
-            CustomerAPI::class,
-            [
-                RequestParams::PARAM_TYPE_ATTRIBUTE => [
-                    CommonParams::PARAMETER_ID => 1
-                ],
-                RequestParams::PARAM_TYPE_BODY => [
-                    CustomerAPI::PARAMETER_NAME => 'COVID',
-                    CustomerAPI::PARAMETER_DESCRIPTION => 'COVID',
-                    CustomerAPI::PARAMETER_DELETED => false
-                ]
-            ]
-        )->onlyMethods(['getProjectService'])
-            ->getMock();
-        $api->expects($this->exactly(2))
-            ->method('getProjectService')
-            ->will($this->returnValue($projectService));
-
-        $result = $api->update();
-        $this->assertEquals(
-            [
-                "id" => 1,
-                "name" => "COVID",
-                "description" => 'COVID',
-                "deleted" => false
-
-            ],
-            $result->normalize()
-        );
+        return $this->getTestCases('ProjectTestCase.yaml', 'GetAll');
     }
 
-    public function testDelete(): void
+    /**
+     * @dataProvider dataProviderForTestGetOne
+     */
+    public function testGetOne(TestCaseParams $testCaseParams): void
     {
-        $projectDao = $this->getMockBuilder(CustomerDao::class)
-            ->onlyMethods(['deleteCustomer'])
-            ->getMock();
+        TestDataService::truncateSpecificTables([ProjectAdmin::class]);
+        $this->populateFixtures('ProjectDao.yml');
+        $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
+        $this->registerServices($testCaseParams);
+        $this->registerMockDateTimeHelper($testCaseParams);
+        $api = $this->getApiEndpointMock(ProjectAPI::class, $testCaseParams);
+        $this->assertValidTestCase($api, 'getOne', $testCaseParams);
+    }
 
-        $customer = new Project();
-        $customer->setId(1);
-        $customer->setName('Dev');
-        $customer->setDescription('Dev');
-        $customer->setDeleted(false);
+    public function dataProviderForTestGetOne(): array
+    {
+        return $this->getTestCases('ProjectTestCase.yaml', 'GetOne');
+    }
 
-        $projectDao->expects($this->exactly(1))
-            ->method('deleteCustomer')
-            ->with([1])
-            ->willReturn(1);
-        $projectService = $this->getMockBuilder(CustomerService::class)
-            ->onlyMethods(['getCustomerDao'])
-            ->getMock();
-        $projectService->expects($this->exactly(1))
-            ->method('getCustomerDao')
-            ->willReturn($projectDao);
+    /**
+     * @dataProvider dataProviderForTestUpdate
+     */
+    public function testUpdate(TestCaseParams $testCaseParams): void
+    {
+        TestDataService::truncateSpecificTables([ProjectAdmin::class]);
+        $this->populateFixtures('ProjectDao.yml');
+        $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
+        $this->registerServices($testCaseParams);
+        $this->registerMockDateTimeHelper($testCaseParams);
+        $api = $this->getApiEndpointMock(ProjectAPI::class, $testCaseParams);
+        $this->assertValidTestCase($api, 'update', $testCaseParams);
+    }
 
-        /** @var MockObject&CustomerAPI $api */
-        $api = $this->getApiEndpointMockBuilder(
-            CustomerAPI::class,
-            [
+    public function dataProviderForTestUpdate(): array
+    {
+        return $this->getTestCases('ProjectTestCase.yaml', 'Update');
+    }
 
-                RequestParams::PARAM_TYPE_BODY => [
-                    CommonParams::PARAMETER_IDS => [1],
-                ]
-            ]
-        )->onlyMethods(['getProjectService'])
-            ->getMock();
-        $api->expects($this->exactly(1))
-            ->method('getProjectService')
-            ->will($this->returnValue($projectService));
+    /**
+     * @dataProvider dataProviderForTestDelete
+     */
+    public function testDelete(TestCaseParams $testCaseParams): void
+    {
+        TestDataService::truncateSpecificTables([ProjectAdmin::class]);
+        $this->populateFixtures('ProjectDao.yml');
+        $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
+        $this->registerServices($testCaseParams);
+        $this->registerMockDateTimeHelper($testCaseParams);
+        $api = $this->getApiEndpointMock(ProjectAPI::class, $testCaseParams);
+        $this->assertValidTestCase($api, 'delete', $testCaseParams);
+    }
 
-        $result = $api->delete();
-        $this->assertEquals(
-            [
-                1
-            ],
-            $result->normalize()
-        );
+    public function dataProviderForTestDelete(): array
+    {
+        return $this->getTestCases('ProjectTestCase.yaml', 'Delete');
     }
 }
