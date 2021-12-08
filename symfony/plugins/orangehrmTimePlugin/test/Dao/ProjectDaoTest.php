@@ -22,6 +22,7 @@ namespace OrangeHRM\Tests\Time\Dao;
 use Exception;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Entity\Project;
+use OrangeHRM\Entity\ProjectAdmin;
 use OrangeHRM\Tests\Util\KernelTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 use OrangeHRM\Time\Dao\ProjectDao;
@@ -39,6 +40,7 @@ class ProjectDaoTest extends KernelTestCase
     protected function setUp(): void
     {
         $this->projectDao = new ProjectDao();
+        TestDataService::truncateSpecificTables([ProjectAdmin::class]);
         $this->fixture = Config::get(Config::PLUGINS_DIR).'/orangehrmTimePlugin/test/fixtures/ProjectDao.yml';
         TestDataService::populate($this->fixture);
     }
@@ -88,6 +90,12 @@ class ProjectDaoTest extends KernelTestCase
     {
         $result = $this->projectDao->deleteProjects([1, 2]);
         $this->assertEquals(2, $result);
+    }
+
+    public function testIsProjectNameTaken(): void
+    {
+        $result=$this->projectDao->isProjectNameTaken('Project_01_updated');
+        $this->assertTrue($result);
     }
 }
 
