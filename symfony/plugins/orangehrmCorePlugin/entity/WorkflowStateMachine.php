@@ -40,6 +40,7 @@ class WorkflowStateMachine
     public const TIMESHEET_ACTION_RESET = 4;
     public const TIMESHEET_ACTION_MODIFY = 5;
     public const TIMESHEET_ACTION_CREATE = 7;
+
     public const ATTENDANCE_ACTION_PUNCH_IN = 0;
     public const ATTENDANCE_ACTION_PUNCH_OUT = 1;
     public const ATTENDANCE_ACTION_EDIT_PUNCH_IN_TIME = 2;

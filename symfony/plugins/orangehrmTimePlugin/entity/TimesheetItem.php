@@ -31,19 +31,11 @@ class TimesheetItem
     /**
      * @var int
      *
-     * @ORM\Column(name="timesheet_item_id", type="integer", length=4)
+     * @ORM\Column(name="timesheet_item_id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private int $timesheetId;
-
-    /**
-     * @var Timesheet
-     *
-     * @ORM\ManyToOne(targetEntity="Timesheet", inversedBy="timesheetItem")
-     * @ORM\JoinColumn(name="timesheet_id", referencedColumnName="timesheet_id")
-     */
-    private Timesheet $timesheet;
+    private int $id;
 
     /**
      * @var DateTime
@@ -55,69 +47,63 @@ class TimesheetItem
     /**
      * @var int
      *
-     * @ORM\Column(name="duration", type="bigint", length=20)
+     * @ORM\Column(name="duration", type="bigint", length=20, nullable=true)
      */
     private int $duration;
 
     /**
-     * @var string
+     * @var string|null
      *
-     * @ORM\Column(name="comment", type="string", length=255)
+     * @ORM\Column(name="comment", type="text", nullable=true)
      */
-    private string $comment;
+    private ?string $comment = null;
 
     /**
-     * @var int
+     * @var Timesheet
      *
-     * @ORM\Column(name="project_id", type="bigint", length=20)
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Timesheet")
+     * @ORM\JoinColumn(name="timesheet_id", referencedColumnName="timesheet_id")
      */
-    private int $projectId;
+    private Timesheet $timesheet;
 
     /**
-     * @var int
+     * @var Project
      *
-     * @ORM\Column(name="employee_id", type="bigint", length=20)
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Project")
+     * @ORM\JoinColumn(name="project_id", referencedColumnName="project_id")
      */
-    private int $employeeId;
+    private Project $project;
 
     /**
      * @var ProjectActivity
      *
-     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\ProjectActivity", inversedBy="timesheetItem")
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\ProjectActivity")
      * @ORM\JoinColumn(name="activity_id", referencedColumnName="activity_id")
      */
     private ProjectActivity $projectActivity;
 
     /**
+     * @var Employee
+     *
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Employee")
+     * @ORM\JoinColumn(name="employee_id", referencedColumnName="emp_number")
+     */
+    private Employee $employee;
+
+    /**
      * @return int
      */
-    public function getTimesheetId(): int
+    public function getId(): int
     {
-        return $this->timesheetId;
+        return $this->id;
     }
 
     /**
-     * @param int $timesheetId
+     * @param int $id
      */
-    public function setTimesheetId(int $timesheetId): void
+    public function setId(int $id): void
     {
-        $this->timesheetId = $timesheetId;
-    }
-
-    /**
-     * @return Timesheet
-     */
-    public function getTimesheet(): Timesheet
-    {
-        return $this->timesheet;
-    }
-
-    /**
-     * @param Timesheet $timesheet
-     */
-    public function setTimesheet(Timesheet $timesheet): void
-    {
-        $this->timesheet = $timesheet;
+        $this->id = $id;
     }
 
     /**
@@ -153,51 +139,51 @@ class TimesheetItem
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getComment(): string
+    public function getComment(): ?string
     {
         return $this->comment;
     }
 
     /**
-     * @param string $comment
+     * @param string|null $comment
      */
-    public function setComment(string $comment): void
+    public function setComment(?string $comment): void
     {
         $this->comment = $comment;
     }
 
     /**
-     * @return int
+     * @return Timesheet
      */
-    public function getProjectId(): int
+    public function getTimesheet(): Timesheet
     {
-        return $this->projectId;
+        return $this->timesheet;
     }
 
     /**
-     * @param int $projectId
+     * @param Timesheet $timesheet
      */
-    public function setProjectId(int $projectId): void
+    public function setTimesheet(Timesheet $timesheet): void
     {
-        $this->projectId = $projectId;
+        $this->timesheet = $timesheet;
     }
 
     /**
-     * @return int
+     * @return Project
      */
-    public function getEmployeeId(): int
+    public function getProject(): Project
     {
-        return $this->employeeId;
+        return $this->project;
     }
 
     /**
-     * @param int $employeeId
+     * @param Project $project
      */
-    public function setEmployeeId(int $employeeId): void
+    public function setProject(Project $project): void
     {
-        $this->employeeId = $employeeId;
+        $this->project = $project;
     }
 
     /**
@@ -214,5 +200,21 @@ class TimesheetItem
     public function setProjectActivity(ProjectActivity $projectActivity): void
     {
         $this->projectActivity = $projectActivity;
+    }
+
+    /**
+     * @return Employee
+     */
+    public function getEmployee(): Employee
+    {
+        return $this->employee;
+    }
+
+    /**
+     * @param Employee $employee
+     */
+    public function setEmployee(Employee $employee): void
+    {
+        $this->employee = $employee;
     }
 }

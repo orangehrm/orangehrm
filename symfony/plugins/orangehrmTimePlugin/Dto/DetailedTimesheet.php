@@ -17,35 +17,49 @@
  * Boston, MA  02110-1301, USA
  */
 
+namespace OrangeHRM\Time\Dto;
 
-use OrangeHRM\Core\Traits\ServiceContainerTrait;
-use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Framework\PluginConfigurationInterface;
-use OrangeHRM\Framework\Services;
-use OrangeHRM\Time\Service\CustomerService;
-use OrangeHRM\Time\Service\ProjectService;
-use OrangeHRM\Time\Service\TimesheetService;
+use OrangeHRM\Entity\Timesheet;
 
-class TimePluginConfiguration implements PluginConfigurationInterface
+class DetailedTimesheet
 {
-    use ServiceContainerTrait;
+    private Timesheet $timesheet;
+    private array $rows;
+    private array $columns;
 
     /**
-     * @inheritDoc
+     * @param Timesheet $timesheet
+     * @param TimesheetRow[] $rows
+     * @param TimesheetColumn[] $columns
      */
-    public function initialize(Request $request): void
+    public function __construct(Timesheet $timesheet, array $rows, array $columns)
     {
-        $this->getContainer()->register(
-            Services::PROJECT_SERVICE,
-            ProjectService::class
-        );
-        $this->getContainer()->register(
-            Services::CUSTOMER_SERVICE,
-            CustomerService::class
-        );
-        $this->getContainer()->register(
-            Services::TIMESHEET_SERVICE,
-            TimesheetService::class
-        );
+        $this->timesheet = $timesheet;
+        $this->rows = $rows;
+        $this->columns = $columns;
+    }
+
+    /**
+     * @return Timesheet
+     */
+    public function getTimesheet(): Timesheet
+    {
+        return $this->timesheet;
+    }
+
+    /**
+     * @return TimesheetRow[]
+     */
+    public function getRows(): array
+    {
+        return $this->rows;
+    }
+
+    /**
+     * @return TimesheetColumn[]
+     */
+    public function getColumns(): array
+    {
+        return $this->columns;
     }
 }

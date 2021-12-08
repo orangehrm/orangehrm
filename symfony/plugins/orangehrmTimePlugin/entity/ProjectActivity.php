@@ -51,11 +51,11 @@ class ProjectActivity
     private Project $project;
 
     /**
-     * @var bool|null
+     * @var bool
      *
-     * @ORM\Column(name="is_deleted", type="boolean", nullable=true)
+     * @ORM\Column(name="is_deleted", type="boolean", options={"default":0})
      */
-    private ?bool $deleted = false;
+    private bool $deleted = false;
 
     /**
      * @var string
@@ -104,17 +104,17 @@ class ProjectActivity
     }
 
     /**
-     * @return bool|null
+     * @return bool
      */
-    public function getDeleted(): ?bool
+    public function isDeleted(): bool
     {
         return $this->deleted;
     }
 
     /**
-     * @param bool|null $deleted
+     * @param bool $deleted
      */
-    public function setDeleted(?bool $deleted): void
+    public function setDeleted(bool $deleted): void
     {
         $this->deleted = $deleted;
     }

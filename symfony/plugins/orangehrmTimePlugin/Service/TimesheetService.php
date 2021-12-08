@@ -1,5 +1,4 @@
 <?php
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -17,11 +16,22 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-class TimesheetService {
 
-    // Timesheet Data Access Object
+namespace OrangeHRM\Time\Service;
+
+use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
+use OrangeHRM\Entity\Timesheet;
+use OrangeHRM\Time\Dao\TimesheetDao;
+use OrangeHRM\Time\Dto\DetailedTimesheet;
+use OrangeHRM\Time\Dto\TimesheetColumn;
+use OrangeHRM\Time\Dto\TimesheetRow;
+
+class TimesheetService
+{
+    use DateTimeHelperTrait;
+
     private static $timesheetTimeFormat = null;
-    private $timesheetDao;
+    private ?TimesheetDao $timesheetDao = null;
     private $employeeDao;
     
     // Cache timesheet time format for better performance.
@@ -32,7 +42,7 @@ class TimesheetService {
      * @return EmployeeDao
      */
     public function getEmployeeDao() {
-
+        // TODO
         if (is_null($this->employeeDao)) {
             $this->employeeDao = new EmployeeDao();
         }
@@ -45,12 +55,12 @@ class TimesheetService {
      * @return void
      */
     public function setEmployeeDao(EmployeeDao $employeeDao) {
-
+        // TODO
         $this->employeeDao = $employeeDao;
     }
 
     public function setTimesheetPeriodDao(TimesheetPeriodService $timesheetPeriodService) {
-
+        // TODO
         $this->timesheetPeriodService = $timesheetPeriodService;
     }
 
@@ -60,7 +70,7 @@ class TimesheetService {
      * @return Timesheet $timesheet
      */
     public function getTimesheetById($timesheetId) {
-
+        // TODO
         $timesheet = $this->getTimesheetDao()->getTimesheetById($timesheetId);
 
         if (!$timesheet instanceof Timesheet) {
@@ -74,61 +84,12 @@ class TimesheetService {
      * Get the Timesheet Data Access Object
      * @return TimesheetDao
      */
-    public function getTimesheetDao() {
-
+    public function getTimesheetDao(): TimesheetDao
+    {
         if (is_null($this->timesheetDao)) {
             $this->timesheetDao = new TimesheetDao();
         }
         return $this->timesheetDao;
-    }
-
-    /**
-     * Set TimesheetData Access Object
-     * @param TimesheetDao $TimesheetDao
-     * @return void
-     */
-    public function setTimesheetDao(TimesheetDao $timesheetDao) {
-
-        $this->timesheetDao = $timesheetDao;
-    }
-
-    /**
-     * Get Timesheet by given Start Date
-     * @param int $startDate
-     * @return Timesheet $timesheet
-     */
-    public function getTimesheetByStartDate($startDate) {
-
-        $timesheet = $this->getTimesheetDao()->getTimesheetByStartDate($startDate);
-
-        return $timesheet;
-    }
-
-    /**
-     * Get TimesheetItem by given Id
-     * @param int $timesheetItemId
-     * @return TimesheetItem $timesheetItem
-     */
-    public function getTimesheetItemById($timesheetItemId) {
-
-        $timesheetItem = $this->getTimesheetDao()->getTimesheetItemById($timesheetItemId);
-
-        return $timesheetItem;
-    }
-
-    public function getTimesheetByEmployeeId($employeeId) {
-
-        return $this->getTimesheetDao()->getTimesheetByEmployeeId($employeeId);
-    }
-
-    /**
-     * Get Timesheet by given Employee Id and state list
-     * @param $employeeId, $stateList
-     * @return Timesheet $timesheet
-     */
-    public function getTimesheetByEmployeeIdAndState($employeeId, $stateList) {
-
-        return $this->getTimesheetDao()->getTimesheetByEmployeeIdAndState($employeeId, $stateList);
     }
 
     /**
@@ -153,38 +114,12 @@ class TimesheetService {
      * @return Array of Timesheets
      */
     public function getTimesheetListByEmployeeIdAndState($employeeIdList, $stateList, $limit) {
+        // TODO
         return $this->getTimesheetDao()->getTimesheetListByEmployeeIdAndState($employeeIdList, $stateList, $limit);
     }
 
-    public function getStartAndEndDatesList($employeeId) {
-
-        $resultArray = $this->getTimesheetDao()->getStartAndEndDatesList($employeeId);
-
-        return $resultArray;
-    }
-
-    /**
-     * Add or Save TimesheetActionLog
-     * @param Timesheet $timesheet
-     * @return boolean
-     */
-    public function saveTimesheetActionLog(TimesheetActionLog $timesheetActionLog) {
-
-        return $this->getTimesheetDao()->saveTimesheetActionLog($timesheetActionLog);
-    }
-
-    /**
-     * Get TimesheetActionLog
-     * @param TimesheetId $timesheetId
-     * @return
-     */
-    public function getTimesheetActionLogByTimesheetId($timesheetId) {
-
-        return $this->getTimesheetDao()->getTimesheetActionLogByTimesheetId($timesheetId);
-    }
-
     public function saveTimesheetItems($inputTimesheetItems, $employeeId, $timesheetId, $keysArray, $initialRows,$isFromService =true) {
-
+        // TODO
         foreach ($inputTimesheetItems as $inputTimesheetItem) {
             if($isFromService){
                 $activityId = $inputTimesheetItem['projectActivityName'];
@@ -243,7 +178,7 @@ class TimesheetService {
     }
 
     public function convertDurationToSeconds($duration) {
-
+        // TODO
         $find = ':';
         $pos = strpos($duration, $find);
 
@@ -259,36 +194,21 @@ class TimesheetService {
         }
     }
 
-    public function deleteTimesheetItems($employeeId, $timesheetId, $projectId, $activityId) {
-
-
-        return $this->getTimesheetDao()->deleteTimesheetItems($employeeId, $timesheetId, $projectId, $activityId);
-    }
-
     /**
      * @param EmployeeID $employeeId
      * @param TimeSheetId $timesheetId
      * @return bool
      */
     public function deleteTimesheetItemsByTimesheetId($employeeId, $timesheetId) {
+        // TODO
         $timesheetItemDeleted = $this->getTimesheetDao()->deleteTimesheetItemsByTimesheetId($employeeId, $timesheetId);
 
         return $timesheetItemDeleted > 0 ? true : false;
 
     }
 
-    /**
-     * get pending approvel timesheets
-     * @param
-     * @return supervispr approved timesheets array
-     */
-    public function getPendingApprovelTimesheetsForAdmin() {
-
-        return $this->getTimesheetDao()->getPendingApprovelTimesheetsForAdmin();
-    }
-
     public function convertDurationToHours($durationInSecs) {
-
+        // TODO
         $timesheetTimeFormat = $this->getTimesheetTimeFormat();
 
         if ($timesheetTimeFormat == '1') {
@@ -308,6 +228,7 @@ class TimesheetService {
     }
 
     public function getTimesheetTimeFormat() {
+        // TODO
         if (is_null(self::$timesheetTimeFormat)) {
             self::$timesheetTimeFormat = $this->getTimesheetDao()->getTimesheetTimeFormat();
         }
@@ -315,14 +236,14 @@ class TimesheetService {
     }
 
     public function getActivityByActivityId($activityId) {
-
+        // TODO
         $activity = $this->getTimesheetDao()->getActivityByActivityId($activityId);
 
         return $activity;
     }
 
     function addConvertTime($initialTime, $timeToAdd) {
-
+        // TODO
         $old = explode(":", $initialTime);
         $play = explode(":", $timeToAdd);
 
@@ -346,21 +267,11 @@ class TimesheetService {
     }
 
     function dateDiff($start, $end) {
-
+        // TODO
         $start_ts = strtotime($start);
         $end_ts = strtotime($end);
         $diff = $end_ts - $start_ts;
         return round($diff / 86400) + 1;
-    }
-
-    public function getProjectList() {
-
-        return $this->getTimesheetDao()->getProjectList();
-    }
-
-    public function getProjectListForValidation() {
-
-        return $this->getTimesheetDao()->getProjectListForValidation();
     }
 
     /**
@@ -382,6 +293,7 @@ class TimesheetService {
      * @return Array of Project Names
      */
     public function getProjectNameList($excludeDeletedProjects = true, $orderField = 'project_id', $orderBy = 'ASC') {
+        // TODO
         return $this->getTimesheetDao()->getProjectNameList($excludeDeletedProjects, $orderField, $orderBy);
     }
 
@@ -405,16 +317,12 @@ class TimesheetService {
      * @return Array of Project Activities
      */
     public function getProjectActivityListByPorjectId($projectId, $excludeDeletedActivities = true) {
+        // TODO
         return $this->getTimesheetDao()->getProjectActivityListByPorjectId($projectId, $excludeDeletedActivities);
-    }
-
-    public function getLatestTimesheetEndDate($employeeId) {
-
-        return $this->getTimesheetDao()->getLatestTimesheetEndDate($employeeId);
     }
     
     public function createPreviousTimesheets($currentTimesheetStartDate, $employeeId) {
-
+        // TODO
         // this method is for creating past timesheets.This would get conflicted if the user changes the timesheet period and does not loging to the system for couple of weeks
 
         $previousTimesheetEndDate = mktime(0, 0, 0, date("m", strtotime($currentTimesheetStartDate)), date("d", strtotime($currentTimesheetStartDate)) - 1, date("Y", strtotime($currentTimesheetStartDate)));
@@ -442,31 +350,16 @@ class TimesheetService {
     }
 
     public function getTimesheetPeriodService() {
-
+        // TODO
         if (is_null($this->timesheetPeriodService)) {
             $this->timesheetPeriodService = new TimesheetPeriodService();
         }
 
         return $this->timesheetPeriodService;
     }
-    
-    public function checkForOverlappingTimesheets($startDate, $endDate, $employeeId) {
-
-        return $this->getTimesheetDao()->checkForOverlappingTimesheets($startDate, $endDate, $employeeId);
-    }
-
-    /**
-     * Add, Update Timesheet
-     * @param Timesheet $timesheet
-     * @return boolean
-     */
-    public function saveTimesheet(Timesheet $timesheet) {
-
-        return $this->getTimesheetDao()->saveTimesheet($timesheet);
-    }
 
     public function createTimesheet($employeeId, $currentDate) {
-
+        // TODO
         $datesInTheCurrenTimesheetPeriod = $this->getTimesheetPeriodService()->getDefinedTimesheetPeriod($currentDate);
         $timesheetStartingDate = $datesInTheCurrenTimesheetPeriod[0];
         $endDate = end($datesInTheCurrenTimesheetPeriod);
@@ -509,25 +402,8 @@ class TimesheetService {
         return $statusValuesArray;
     }
 
-    /**
-     * Get Timesheet by given Start Date and Employee Id
-     * @param $startDate , int $employeeId
-     * @return Timesheet $timesheet
-     */
-    public function getTimesheetByStartDateAndEmployeeId($startDate, $employeeId) {
-
-        $timesheet = $this->getTimesheetDao()->getTimesheetByStartDateAndEmployeeId($startDate, $employeeId);
-
-        return $timesheet;
-    }
-
-    public function checkForMatchingTimesheetForCurrentDate($employeeId, $currentDate) {
-
-        return $this->getTimesheetDao()->checkForMatchingTimesheetForCurrentDate($employeeId, $currentDate);
-    }
-
     public function createTimesheets($startDate, $employeeId) {
-
+        // TODO
         $datesInTheCurrenTimesheetPeriod = $this->getTimesheetPeriodService()->getDefinedTimesheetPeriod($startDate);
         $timesheetStartingDate = $datesInTheCurrenTimesheetPeriod[0];
         $endDate = end($datesInTheCurrenTimesheetPeriod);
@@ -556,7 +432,7 @@ class TimesheetService {
     }
 
     public function validateStartDate($startDate) {
-
+        // TODO
         $datesInTheCurrenTimesheetPeriod = $this->getTimesheetPeriodService()->getDefinedTimesheetPeriod($startDate);
         $timesheetStartingDate = $datesInTheCurrenTimesheetPeriod[0];
 
@@ -570,43 +446,56 @@ class TimesheetService {
     }
 
     public function returnEndDate($startDate) {
-
+        // TODO
         $datesInTheCurrenTimesheetPeriod = $this->getTimesheetPeriodService()->getDefinedTimesheetPeriod($startDate);
         $timesheetStartingDate = $datesInTheCurrenTimesheetPeriod[0];
         $endDate = end($datesInTheCurrenTimesheetPeriod);
         
         return $endDate;
     }
-    
+
     /**
-     *
-     * @param array/Integer $employeeIds
-     * @param date $dateFrom
-     * @param date $dateTo
-     * @param int $subDivision
-     * @param String $employeementStatus 
-     * @return array
+     * @param int $timesheetId
+     * @return DetailedTimesheet
      */
-    public function searchTimesheetItems($employeeIds = null, $employeementStatus = null, $subDivision = null,$supervisorId = null, $dateFrom = null , $dateTo = null ){
-        
-        if(!is_array($employeeIds) && $employeeIds != null ){
-            $employeeIds = array($employeeIds);
-        }
-        
-        $employeeService = new EmployeeService();
-        $subordinates = $employeeService->getSubordinateListForEmployee($supervisorId);
-        
-        $supervisorIds = array();
-        foreach($subordinates as $subordinate){           
-            $supervisorIds [] = $subordinate->getSubordinateId();
-        }
-        
-        return $this->getTimesheetDao()->searchTimesheetItems($employeeIds, $employeementStatus, $supervisorIds,  $subDivision, $dateFrom, $dateTo );
-    }
-
-    public function getTimesheetItem($timesheetId, $employeeId)
+    public function getDetailedTimesheet(int $timesheetId): DetailedTimesheet
     {
-        return $this->getTimesheetDao()->getTimesheetItem($timesheetId, $employeeId);
+        $timesheet = $this->getTimesheetDao()->getTimesheetById($timesheetId);
+        list($timesheetRows, $timesheetColumns) = $this->getTimesheetData($timesheet);
+        return new DetailedTimesheet($timesheet, array_values($timesheetRows), array_values($timesheetColumns));
     }
 
+    /**
+     * @param Timesheet $timesheet
+     * @return array[]
+     */
+    protected function getTimesheetData(Timesheet $timesheet): array
+    {
+        $timesheetDates = $this->getDateTimeHelper()->dateRange($timesheet->getStartDate(), $timesheet->getEndDate());
+        $timesheetItems = $this->getTimesheetDao()->getTimesheetItemsByTimesheetId($timesheet->getId());
+
+        $timesheetRows = [];
+        $timesheetColumns = [];
+        foreach ($timesheetItems as $timesheetItem) {
+            $projectId = $timesheetItem->getProject()->getId();
+            $projectActivityId = $timesheetItem->getProjectActivity()->getId();
+            $timesheetRowKey = "${projectId}_${projectActivityId}";
+            if (!isset($timesheetRows[$timesheetRowKey])) {
+                $timesheetRows[$timesheetRowKey] = new TimesheetRow(
+                    $timesheetItem->getProject(),
+                    $timesheetItem->getProjectActivity(),
+                    $timesheetDates
+                );
+            }
+            $timesheetRows[$timesheetRowKey]->incrementTotal($timesheetItem->getDuration());
+            $timesheetRows[$timesheetRowKey]->assignTimesheetItem($timesheetItem);
+
+            $date = $this->getDateTimeHelper()->formatDateTimeToYmd($timesheetItem->getDate());
+            if (!isset($timesheetColumns[$date])) {
+                $timesheetColumns[$date] = new TimesheetColumn($timesheetItem->getDate());
+            }
+            $timesheetColumns[$date]->incrementTotal($timesheetItem->getDuration());
+        }
+        return [$timesheetRows, $timesheetColumns];
+    }
 }

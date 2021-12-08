@@ -17,35 +17,46 @@
  * Boston, MA  02110-1301, USA
  */
 
+namespace OrangeHRM\Time\Dto;
 
-use OrangeHRM\Core\Traits\ServiceContainerTrait;
-use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Framework\PluginConfigurationInterface;
-use OrangeHRM\Framework\Services;
-use OrangeHRM\Time\Service\CustomerService;
-use OrangeHRM\Time\Service\ProjectService;
-use OrangeHRM\Time\Service\TimesheetService;
+use DateTime;
 
-class TimePluginConfiguration implements PluginConfigurationInterface
+class TimesheetColumn
 {
-    use ServiceContainerTrait;
+    private DateTime $date;
+    private int $total = 0;
 
     /**
-     * @inheritDoc
+     * @param DateTime $date
      */
-    public function initialize(Request $request): void
+    public function __construct(DateTime $date)
     {
-        $this->getContainer()->register(
-            Services::PROJECT_SERVICE,
-            ProjectService::class
-        );
-        $this->getContainer()->register(
-            Services::CUSTOMER_SERVICE,
-            CustomerService::class
-        );
-        $this->getContainer()->register(
-            Services::TIMESHEET_SERVICE,
-            TimesheetService::class
-        );
+        $this->date = $date;
+    }
+
+    /**
+     * @return DateTime
+     */
+    public function getDate(): DateTime
+    {
+        return $this->date;
+    }
+
+    /**
+     * @return int
+     */
+    public function getTotal(): int
+    {
+        return $this->total;
+    }
+
+    /**
+     * @param int $by
+     * @return int
+     */
+    public function incrementTotal(int $by): int
+    {
+        $this->total = $this->total + $by;
+        return $this->total;
     }
 }
