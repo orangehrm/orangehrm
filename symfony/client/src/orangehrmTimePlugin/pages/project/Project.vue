@@ -29,6 +29,8 @@
                 v-model="filters.customerId"
                 label="Customer"
               />
+            </oxd-grid-item>
+            <oxd-grid-item>
               <project-autocomplete
                 v-model="filters.projectId"
                 label="Project"
@@ -36,8 +38,8 @@
             </oxd-grid-item>
             <oxd-grid-item>
               <employee-autocomplete
-                v-model="filters.projectAdminId"
-                label="ProjectAdmin"
+                v-model="filters.projectAdminEmpNumber"
+                label="Project Admin"
               />
             </oxd-grid-item>
           </oxd-grid>
@@ -99,14 +101,15 @@
 
 <script>
 import {computed, ref} from 'vue';
-import usePaginate from '@orangehrm/core/util/composable/usePaginate';
-import DeleteConfirmationDialog from '@orangehrm/components/dialogs/DeleteConfirmationDialog';
-import {navigate} from '@orangehrm/core/util/helper/navigation';
+import usePaginate from '@ohrm/core/util/composable/usePaginate';
+import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmationDialog';
+import {navigate} from '@ohrm/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
-import useSort from '@orangehrm/core/util/composable/useSort';
+import useSort from '@ohrm/core/util/composable/useSort';
 
 import ProjectAutocomplete from '@/orangehrmTimePlugin/components/ProjectAutocomplete.vue';
 import CustomerAutocomplete from '@/orangehrmTimePlugin/components/CustomerAutocomplete.vue';
+import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete.vue';
 
 const userdataNormalizer = data => {
   return data.map(item => {
@@ -130,7 +133,7 @@ const userdataNormalizer = data => {
 const defaultFilters = {
   customerId: null,
   projectId: null,
-  projectAdminId: null,
+  projectAdminEmpNumber: null,
 };
 
 const defaultSortOrder = {
@@ -144,11 +147,18 @@ export default {
   components: {
     'project-autocomplete': ProjectAutocomplete,
     'customer-autocomplete': CustomerAutocomplete,
+    'employee-autocomplete': EmployeeAutocomplete,
     'delete-confirmation': DeleteConfirmationDialog,
   },
   data() {
     return {
       headers: [
+        {
+          name: 'customer',
+          title: 'Customer',
+          sortField: 'customer.name',
+          style: {flex: 2},
+        },
         {
           name: 'project',
           slot: 'title',
@@ -157,22 +167,15 @@ export default {
           style: {flex: 3},
         },
         {
-          name: 'customer',
-          title: 'Customer',
-          sortField: 'customer.name',
-          style: {flex: 3},
-        },
-        {
           name: 'projectAdmins',
           title: 'Project Admins',
-          sortField: 'employee.lastName',
           style: {flex: 3},
         },
         {
           name: 'actions',
           slot: 'action',
           title: 'Actions',
-          style: {flex: 2},
+          style: {flex: 1},
           cellType: 'oxd-table-cell-actions',
           cellConfig: {
             delete: {
@@ -205,9 +208,10 @@ export default {
       return {
         customerId: filters.value.customerId?.id,
         projectId: filters.value.projectId?.id,
-        projectAdminId: filters.value.projectAdminId?.id,
+        empNumber: filters.value.projectAdminEmpNumber?.id,
         sortField: sortField.value,
         sortOrder: sortOrder.value,
+        model: 'detailed',
       };
     });
 
