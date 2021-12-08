@@ -17,34 +17,17 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Tests\Time\Entity;
+namespace OrangeHRM\Time\Exception;
 
-use OrangeHRM\Entity\Customer;
-use OrangeHRM\Tests\Util\EntityTestCase;
-use OrangeHRM\Tests\Util\TestDataService;
+use Exception;
 
-/**
- * @group @Time
- * @group @Entity
- */
-class CustomerTest extends EntityTestCase
+class ProjectServiceException extends Exception
 {
-    protected function setUp(): void
+    /**
+     * @return static
+     */
+    public static function projectActivityExist(): self
     {
-        TestDataService::truncateSpecificTables([Customer::class]);
-    }
-
-    public function testCustomerEntity(): void
-    {
-        $customer = new Customer();
-        $customer->setName("TEST02");
-        $customer->setDescription('DESCRIPTION');
-        $customer->setDeleted(false);
-        $this->persist($customer);
-
-        /** @var Customer $customer */
-        $customer = $this->getRepository(Customer::class)->find(1);
-        $this->assertEquals('TEST02', $customer->getName());
-        $this->assertEquals('DESCRIPTION', $customer->getDescription());
+        return new self('Not Allowed to Delete Project Activities Which Have Time Logged Against');
     }
 }

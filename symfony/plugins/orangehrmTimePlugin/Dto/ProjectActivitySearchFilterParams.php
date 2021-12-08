@@ -17,34 +17,16 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Tests\Time\Entity;
+namespace OrangeHRM\Time\Dto;
 
-use OrangeHRM\Entity\Customer;
-use OrangeHRM\Tests\Util\EntityTestCase;
-use OrangeHRM\Tests\Util\TestDataService;
+use OrangeHRM\Core\Dto\FilterParams;
 
-/**
- * @group @Time
- * @group @Entity
- */
-class CustomerTest extends EntityTestCase
+class ProjectActivitySearchFilterParams extends FilterParams
 {
-    protected function setUp(): void
-    {
-        TestDataService::truncateSpecificTables([Customer::class]);
-    }
+    public const ALLOWED_SORT_FIELDS = ['projectActivity.name'];
 
-    public function testCustomerEntity(): void
+    public function __construct()
     {
-        $customer = new Customer();
-        $customer->setName("TEST02");
-        $customer->setDescription('DESCRIPTION');
-        $customer->setDeleted(false);
-        $this->persist($customer);
-
-        /** @var Customer $customer */
-        $customer = $this->getRepository(Customer::class)->find(1);
-        $this->assertEquals('TEST02', $customer->getName());
-        $this->assertEquals('DESCRIPTION', $customer->getDescription());
+        $this->setSortField('projectActivity.name');
     }
 }

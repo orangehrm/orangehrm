@@ -17,34 +17,22 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Tests\Time\Entity;
+namespace OrangeHRM\Time\Service;
 
-use OrangeHRM\Entity\Customer;
-use OrangeHRM\Tests\Util\EntityTestCase;
-use OrangeHRM\Tests\Util\TestDataService;
+use OrangeHRM\Time\Dao\ProjectActivityDao;
 
-/**
- * @group @Time
- * @group @Entity
- */
-class CustomerTest extends EntityTestCase
+class ProjectActivityService
 {
-    protected function setUp(): void
-    {
-        TestDataService::truncateSpecificTables([Customer::class]);
-    }
+    protected ?ProjectActivityDao $projectActivityDao = null;
 
-    public function testCustomerEntity(): void
+    /**
+     * @return ProjectActivityDao
+     */
+    public function getProjectActivityDao(): ProjectActivityDao
     {
-        $customer = new Customer();
-        $customer->setName("TEST02");
-        $customer->setDescription('DESCRIPTION');
-        $customer->setDeleted(false);
-        $this->persist($customer);
-
-        /** @var Customer $customer */
-        $customer = $this->getRepository(Customer::class)->find(1);
-        $this->assertEquals('TEST02', $customer->getName());
-        $this->assertEquals('DESCRIPTION', $customer->getDescription());
+        if (!$this->projectActivityDao instanceof ProjectActivityDao) {
+            $this->projectActivityDao = new ProjectActivityDao();
+        }
+        return $this->projectActivityDao;
     }
 }

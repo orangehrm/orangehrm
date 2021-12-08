@@ -1,5 +1,4 @@
 <?php
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -17,23 +16,29 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-class TimesheetPeriodFactory {
 
-    public function createTimesheetPeriod($xml) {
+namespace OrangeHRM\Time\Factory;
 
+use OrangeHRM\Time\TimeSheetPeriod\WeeklyTimesheetPeriod;
 
-
-       $timesheetPeriodObject = $xml->ClassName;
-      $className=(string)$timesheetPeriodObject;
-
+class TimesheetPeriodFactory
+{
+    /**
+     * @param string $className
+     * @return mixed
+     */
+    public function createTimesheetPeriod(string $className)
+    {
+        //TODO
         return new $className();
     }
 
-    public function setTimesheetPeriod() {
-
+    /**
+     * @return WeeklyTimesheetPeriod
+     */
+    public function setTimesheetPeriod(): WeeklyTimesheetPeriod
+    {
+        //TODO
         return new WeeklyTimesheetPeriod();
     }
-
 }
-
-?>

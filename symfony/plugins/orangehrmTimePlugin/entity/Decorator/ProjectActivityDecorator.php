@@ -17,34 +17,44 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Tests\Time\Entity;
+namespace OrangeHRM\Entity\Decorator;
 
-use OrangeHRM\Entity\Customer;
-use OrangeHRM\Tests\Util\EntityTestCase;
-use OrangeHRM\Tests\Util\TestDataService;
+use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
+use OrangeHRM\Entity\Project;
+use OrangeHRM\Entity\ProjectActivity;
 
-/**
- * @group @Time
- * @group @Entity
- */
-class CustomerTest extends EntityTestCase
+class ProjectActivityDecorator
 {
-    protected function setUp(): void
+    use EntityManagerHelperTrait;
+
+    /**
+     * @var ProjectActivity
+     */
+    private ProjectActivity $projectActivity;
+
+    /**
+     * @param ProjectActivity $projectActivity
+     */
+    public function __construct(ProjectActivity $projectActivity)
     {
-        TestDataService::truncateSpecificTables([Customer::class]);
+        $this->projectActivity = $projectActivity;
     }
 
-    public function testCustomerEntity(): void
+    /**
+     * @return ProjectActivity
+     */
+    protected function getProjectActivity(): ProjectActivity
     {
-        $customer = new Customer();
-        $customer->setName("TEST02");
-        $customer->setDescription('DESCRIPTION');
-        $customer->setDeleted(false);
-        $this->persist($customer);
+        return $this->projectActivity;
+    }
 
-        /** @var Customer $customer */
-        $customer = $this->getRepository(Customer::class)->find(1);
-        $this->assertEquals('TEST02', $customer->getName());
-        $this->assertEquals('DESCRIPTION', $customer->getDescription());
+    /**
+     * @param int $projectId
+     * @return void
+     */
+    public function setProjectById(int $projectId): void
+    {
+        $project = $this->getReference(Project::class, $projectId);
+        $this->getProjectActivity()->setProject($project);
     }
 }

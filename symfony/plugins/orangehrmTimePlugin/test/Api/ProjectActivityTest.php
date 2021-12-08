@@ -22,30 +22,30 @@ namespace OrangeHRM\Tests\Time\Api;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
 use OrangeHRM\Tests\Util\Integration\TestCaseParams;
-use OrangeHRM\Time\Api\CustomerAPI;
+use OrangeHRM\Time\Api\ProjectActivityAPI;
 
 /**
  * @group Time
  * @group APIv2
  */
-class CustomerAPITest extends EndpointIntegrationTestCase
+class ProjectActivityTest extends EndpointIntegrationTestCase
 {
     /**
      * @dataProvider dataProviderForTestGetAll
      */
     public function testGetAll(TestCaseParams $testCaseParams): void
     {
-        $this->populateFixtures('CustomerService.yml');
+        $this->populateFixtures('ProjectActivityDao.yml');
         $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
         $this->registerServices($testCaseParams);
         $this->registerMockDateTimeHelper($testCaseParams);
-        $api = $this->getApiEndpointMock(CustomerAPI::class, $testCaseParams);
+        $api = $this->getApiEndpointMock(ProjectActivityAPI::class, $testCaseParams);
         $this->assertValidTestCase($api, 'getAll', $testCaseParams);
     }
 
     public function dataProviderForTestGetAll(): array
     {
-        return $this->getTestCases('CustomerTestCase.yaml', 'GetAll');
+        return $this->getTestCases('ProjectActivityTestCase.yaml', 'GetAll');
     }
 
     /**
@@ -53,17 +53,17 @@ class CustomerAPITest extends EndpointIntegrationTestCase
      */
     public function testCreate(TestCaseParams $testCaseParams): void
     {
-        $this->populateFixtures('CustomerService.yml');
+        $this->populateFixtures('ProjectActivityDao.yml');
         $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
         $this->registerServices($testCaseParams);
         $this->registerMockDateTimeHelper($testCaseParams);
-        $api = $this->getApiEndpointMock(CustomerAPI::class, $testCaseParams);
+        $api = $this->getApiEndpointMock(ProjectActivityAPI::class, $testCaseParams);
         $this->assertValidTestCase($api, 'create', $testCaseParams);
     }
 
     public function dataProviderForTestCreate(): array
     {
-        return $this->getTestCases('CustomerTestCase.yaml', 'Create');
+        return $this->getTestCases('ProjectActivityTestCase.yaml', 'Create');
     }
 
     /**
@@ -71,17 +71,17 @@ class CustomerAPITest extends EndpointIntegrationTestCase
      */
     public function testGetOne(TestCaseParams $testCaseParams): void
     {
-        $this->populateFixtures('CustomerService.yml');
+        $this->populateFixtures('ProjectActivityDao.yml');
         $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
         $this->registerServices($testCaseParams);
         $this->registerMockDateTimeHelper($testCaseParams);
-        $api = $this->getApiEndpointMock(CustomerAPI::class, $testCaseParams);
+        $api = $this->getApiEndpointMock(ProjectActivityAPI::class, $testCaseParams);
         $this->assertValidTestCase($api, 'getOne', $testCaseParams);
     }
 
     public function dataProviderForTestGetOne(): array
     {
-        return $this->getTestCases('CustomerTestCase.yaml', 'GetOne');
+        return $this->getTestCases('ProjectActivityTestCase.yaml', 'GetOne');
     }
 
     /**
@@ -89,17 +89,17 @@ class CustomerAPITest extends EndpointIntegrationTestCase
      */
     public function testUpdate(TestCaseParams $testCaseParams): void
     {
-        $this->populateFixtures('CustomerService.yml');
+        $this->populateFixtures('ProjectActivityDao.yml');
         $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
         $this->registerServices($testCaseParams);
         $this->registerMockDateTimeHelper($testCaseParams);
-        $api = $this->getApiEndpointMock(CustomerAPI::class, $testCaseParams);
+        $api = $this->getApiEndpointMock(ProjectActivityAPI::class, $testCaseParams);
         $this->assertValidTestCase($api, 'update', $testCaseParams);
     }
 
     public function dataProviderForTestUpdate(): array
     {
-        return $this->getTestCases('CustomerTestCase.yaml', 'Update');
+        return $this->getTestCases('ProjectActivityTestCase.yaml', 'Update');
     }
 
     /**
@@ -107,16 +107,16 @@ class CustomerAPITest extends EndpointIntegrationTestCase
      */
     public function testDelete(TestCaseParams $testCaseParams): void
     {
-        $this->populateFixtures('CustomerService.yml');
+        $this->populateFixtures('ProjectActivityDao.yml');
         $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
         $this->registerServices($testCaseParams);
         $this->registerMockDateTimeHelper($testCaseParams);
-        $api = $this->getApiEndpointMock(CustomerAPI::class, $testCaseParams);
+        $api = $this->getApiEndpointMock(ProjectActivityAPI::class, $testCaseParams);
         $this->assertValidTestCase($api, 'delete', $testCaseParams);
     }
 
     public function dataProviderForTestDelete(): array
     {
-        return $this->getTestCases('CustomerTestCase.yaml', 'Delete');
+        return $this->getTestCases('ProjectActivityTestCase.yaml', 'Delete');
     }
 }

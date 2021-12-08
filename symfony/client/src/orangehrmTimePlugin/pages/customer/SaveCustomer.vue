@@ -84,7 +84,7 @@ export default {
           shouldNotExceedCharLength(50),
           promiseDebounce(this.validateCustomerName, 500),
         ],
-        description: [shouldNotExceedCharLength(250)],
+        description: [shouldNotExceedCharLength(255)],
       },
     };
   },

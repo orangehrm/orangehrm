@@ -4241,42 +4241,46 @@ INSERT INTO `ohrm_registration_event_queue` (`event_type`,`published`,`event_tim
 -- ------------------------------
 
 INSERT INTO ohrm_data_group (`name`, `description`, `can_read`, `can_create`, `can_update`, `can_delete`)
-VALUES ('apiv2_time_customers', 'API-v2-Time - Customers', 1, 1, 1, 1),
-       ('apiv2_time_validation_customer_name', 'API-v2-Time - Customer Name Validation', 1, 0, 0, 0);
+VALUES ('apiv2_time_time_sheet_config', 'API-v2 Time - Time Sheet Start Day Configuration', 1, 0, 1, 0),
+       ('apiv2_time_customers', 'API-v2-Time - Customers', 1, 1, 1, 1),
+       ('apiv2_time_validation_customer_name', 'API-v2-Time - Customer Name Validation', 1, 0, 0, 0),
+       ('apiv2_project_activities', 'API-V2 Project - project Activities', 1, 1, 1, 1),
+       ('apiv2_projects', 'Api_v2 Time - Projects', 1, 1, 1, 1),
+       ('apiv2_project_name_validator', 'Api-v2-Time - Project Name Validation', 1, 0, 0, 0);
+
 
 SET @time_module_id := (SELECT `id` FROM ohrm_module WHERE name = 'time' LIMIT 1);
 
+SET @apiv2_time_time_sheet_config_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_time_time_sheet_config' LIMIT 1);
 SET @apiv2_time_customers_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_time_customers' LIMIT 1);
 SET @apiv2_time_validation_customer_name_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_time_validation_customer_name' LIMIT 1);
+SET @apiv2_project_activities_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_project_activities' LIMIT 1);
+SET @apiv2_projects_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_projects' LIMIT 1);
+SET @apiv2_project_name_validator_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name ='apiv2_project_name_validator' LIMIT 1);
 
 INSERT INTO ohrm_api_permission (`api_name`, `module_id`, `data_group_id`)
-VALUES ('OrangeHRM\\Time\\Api\\CustomerAPI', @time_module_id, @apiv2_time_customers_data_group_id),
-       ('OrangeHRM\\Time\\Api\\ValidationCustomerNameAPI', @time_module_id, @apiv2_time_validation_customer_name_data_group_id);
+VALUES ('OrangeHRM\\Time\\Api\\TimeConfigPeriodAPI', @time_module_id, @apiv2_time_time_sheet_config_data_group_id),
+       ('OrangeHRM\\Time\\Api\\CustomerAPI', @time_module_id, @apiv2_time_customers_data_group_id),
+       ('OrangeHRM\\Time\\Api\\ValidationCustomerNameAPI', @time_module_id, @apiv2_time_validation_customer_name_data_group_id),
+       ('OrangeHRM\\Time\\Api\\ProjectActivityAPI', @time_module_id, @apiv2_project_activities_data_group_id),
+       ('OrangeHRM\\Time\\Api\\ProjectAPI',@time_module_id, @apiv2_projects_data_group_id),
+       ('OrangeHRM\\Time\\Api\\ValidateProjectNameAPI', @time_module_id, @apiv2_project_name_validator_data_group_id);
 
 INSERT INTO ohrm_user_role_data_group (`can_read`, `can_create`, `can_update`, `can_delete`, `self`, `data_group_id`,`user_role_id`)
 VALUES (1, 1, 1, 1, 1, @apiv2_time_customers_data_group_id, @admin_role_id),
        (1, 0, 0, 0, 0, @apiv2_time_validation_customer_name_data_group_id, @admin_role_id);
 
-INSERT INTO ohrm_data_group (`name`, `description`, `can_read`, `can_create`, `can_update`, `can_delete`)
-VALUES ('apiv2_projects', 'Api_v2 Time - Projects', 1, 1, 1, 1),
-       ('apiv2_project_name_validator', 'Api-v2-Time - Project Name Validation', 1, 0, 0, 0);
-
-SET @time_module_id := (SELECT `id` FROM ohrm_module WHERE name = 'time' LIMIT 1);
-
-SET @apiv2_projects_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_projects' LIMIT 1);
-SET @apiv2_project_name_validator_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name ='apiv2_project_name_validator' LIMIT 1);
-
-INSERT INTO ohrm_api_permission (`api_name`, `module_id`, `data_group_id`)
-VALUES ('OrangeHRM\\Time\\Api\\ProjectAPI',@time_module_id, @apiv2_projects_data_group_id),
-       ('OrangeHRM\\Time\\Api\\ValidateProjectNameAPI', @time_module_id, @apiv2_project_name_validator_data_group_id);
-
 SET @admin_role_id := (SELECT `id` FROM ohrm_user_role WHERE `name` = 'Admin' LIMIT 1);
 
-INSERT INTO ohrm_user_role_data_group (`can_read`, `can_create`, `can_update`, `can_delete`, `self`, `data_group_id`,`user_role_id`)
-VALUES (1, 1, 1, 1, 1, @apiv2_projects_data_group_id, @admin_role_id),
+INSERT INTO ohrm_user_role_data_group (`can_read`, `can_create`, `can_update`, `can_delete`, `self`, `data_group_id`, `user_role_id`)
+VALUES (1, 0, 1, 0, 0, @apiv2_time_time_sheet_config_data_group_id, @admin_role_id),
+       (1, 1, 1, 1, 1, @apiv2_time_customers_data_group_id, @admin_role_id),
+       (1, 0, 0, 0, 0, @apiv2_time_validation_customer_name_data_group_id, @admin_role_id),
+       (1, 1, 1, 1, 0, @apiv2_project_activities_data_group_id, @admin_role_id);
+       (1, 1, 1, 1, 1, @apiv2_projects_data_group_id, @admin_role_id),
        (1, 1, 1, 1, 1, @apiv2_project_name_validator_data_group_id, @admin_role_id);
 
-
-
-
-
+UPDATE `ohrm_screen` SET `module_id`= 5  WHERE `action_url` = 'viewCustomers';
+UPDATE `ohrm_screen` SET `module_id`= 5  WHERE `action_url` = 'viewProjects';
+UPDATE `ohrm_screen` SET `module_id`= 5  WHERE `action_url` = 'addCustomer';
+UPDATE `ohrm_screen` SET `module_id`= 5  WHERE `action_url` = 'saveProject';

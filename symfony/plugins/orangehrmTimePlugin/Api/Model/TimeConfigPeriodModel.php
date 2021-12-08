@@ -17,34 +17,42 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Tests\Time\Entity;
+namespace OrangeHRM\Time\Api\Model;
 
-use OrangeHRM\Entity\Customer;
-use OrangeHRM\Tests\Util\EntityTestCase;
-use OrangeHRM\Tests\Util\TestDataService;
+use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
+use OrangeHRM\Time\Dto\TimeConfigPeriod;
 
-/**
- * @group @Time
- * @group @Entity
- */
-class CustomerTest extends EntityTestCase
+class TimeConfigPeriodModel implements Normalizable
 {
-    protected function setUp(): void
+    /**
+     * @var TimeConfigPeriod
+     */
+    private TimeConfigPeriod $timeConfigPeriod;
+
+    /**
+     * @param TimeConfigPeriod $timeConfigPeriod
+     */
+    public function __construct(TimeConfigPeriod $timeConfigPeriod)
     {
-        TestDataService::truncateSpecificTables([Customer::class]);
+        $this->timeConfigPeriod = $timeConfigPeriod;
     }
 
-    public function testCustomerEntity(): void
+    /**
+     * @return TimeConfigPeriod
+     */
+    public function getTimeConfigPeriod(): TimeConfigPeriod
     {
-        $customer = new Customer();
-        $customer->setName("TEST02");
-        $customer->setDescription('DESCRIPTION');
-        $customer->setDeleted(false);
-        $this->persist($customer);
+        return $this->timeConfigPeriod;
+    }
 
-        /** @var Customer $customer */
-        $customer = $this->getRepository(Customer::class)->find(1);
-        $this->assertEquals('TEST02', $customer->getName());
-        $this->assertEquals('DESCRIPTION', $customer->getDescription());
+    /**
+     * @inheritDoc
+     */
+    public function toArray(): array
+    {
+        $timeConfigPeriod = $this->getTimeConfigPeriod();
+        return [
+            'startDay' => $timeConfigPeriod->getStartDay()
+        ];
     }
 }

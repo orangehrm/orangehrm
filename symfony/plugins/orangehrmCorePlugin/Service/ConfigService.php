@@ -549,4 +549,31 @@ class ConfigService
     {
         return self::ALLOWED_FILE_TYPES;
     }
+
+    /**
+     * @return string|null
+     * @throws CoreServiceException
+     */
+    public function getTimeSheetPeriodConfig(): ?string
+    {
+        return $this->_getConfigValue(self::KEY_TIMESHEET_PERIOD_AND_START_DATE);
+    }
+
+    /**
+     * @param string $value
+     * @throws CoreServiceException
+     */
+    public function setTimeSheetPeriodConfig(string $value): void
+    {
+         $this->_setConfigValue(self::KEY_TIMESHEET_PERIOD_AND_START_DATE, $value);
+    }
+
+    /**
+     * @param bool $value
+     * @throws CoreServiceException
+     */
+    public function setTimeSheetPeriodSetValue(bool $value): void
+    {
+        $this->_setConfigValue(self::KEY_TIMESHEET_PERIOD_SET, $value ? 'Yes' : 'No');
+    }
 }

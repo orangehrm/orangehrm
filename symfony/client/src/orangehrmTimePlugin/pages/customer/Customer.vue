@@ -160,10 +160,10 @@ export default {
   },
   methods: {
     onClickAdd() {
-      navigate('/time/saveCustomer');
+      navigate('/time/addCustomer');
     },
     onClickEdit(item) {
-      navigate('/time/saveCustomer/{id}', {id: item.id});
+      navigate('/time/addCustomer/{id}', {id: item.id});
     },
     onClickDeleteSelected() {
       const ids = this.checkedItems.map(index => {

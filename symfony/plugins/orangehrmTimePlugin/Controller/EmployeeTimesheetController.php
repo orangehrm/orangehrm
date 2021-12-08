@@ -17,34 +17,28 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Tests\Time\Entity;
+namespace OrangeHRM\Time\Controller;
 
-use OrangeHRM\Entity\Customer;
-use OrangeHRM\Tests\Util\EntityTestCase;
-use OrangeHRM\Tests\Util\TestDataService;
+use OrangeHRM\Core\Controller\AbstractVueController;
+use OrangeHRM\Core\Vue\Component;
+use OrangeHRM\Core\Vue\Prop;
+use OrangeHRM\Framework\Http\Request;
 
-/**
- * @group @Time
- * @group @Entity
- */
-class CustomerTest extends EntityTestCase
+class EmployeeTimesheetController extends AbstractVueController
 {
-    protected function setUp(): void
+    /**
+     * @inheritDoc
+     */
+    public function preRender(Request $request): void
     {
-        TestDataService::truncateSpecificTables([Customer::class]);
-    }
-
-    public function testCustomerEntity(): void
-    {
-        $customer = new Customer();
-        $customer->setName("TEST02");
-        $customer->setDescription('DESCRIPTION');
-        $customer->setDeleted(false);
-        $this->persist($customer);
-
-        /** @var Customer $customer */
-        $customer = $this->getRepository(Customer::class)->find(1);
-        $this->assertEquals('TEST02', $customer->getName());
-        $this->assertEquals('DESCRIPTION', $customer->getDescription());
+        $id = $request->get('id'); // this id is emp number
+        if ($id) {
+            $component = new Component('view-employee-timesheet');
+            $component->addProp(new Prop('employee-id', Prop::TYPE_NUMBER, $id));
+        } else {
+            $component = new Component('employee-timesheet');
+        }
+        
+        $this->setComponent($component);
     }
 }

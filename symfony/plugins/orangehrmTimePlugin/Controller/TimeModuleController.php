@@ -17,34 +17,21 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Tests\Time\Entity;
+namespace OrangeHRM\Time\Controller;
 
-use OrangeHRM\Entity\Customer;
-use OrangeHRM\Tests\Util\EntityTestCase;
-use OrangeHRM\Tests\Util\TestDataService;
+use Exception;
+use OrangeHRM\Core\Controller\AbstractModuleController;
+use OrangeHRM\Framework\Http\RedirectResponse;
 
-/**
- * @group @Time
- * @group @Entity
- */
-class CustomerTest extends EntityTestCase
+class TimeModuleController extends AbstractModuleController
 {
-    protected function setUp(): void
+    /**
+     * @return RedirectResponse
+     * @throws Exception
+     */
+    public function handle(): RedirectResponse
     {
-        TestDataService::truncateSpecificTables([Customer::class]);
-    }
-
-    public function testCustomerEntity(): void
-    {
-        $customer = new Customer();
-        $customer->setName("TEST02");
-        $customer->setDescription('DESCRIPTION');
-        $customer->setDeleted(false);
-        $this->persist($customer);
-
-        /** @var Customer $customer */
-        $customer = $this->getRepository(Customer::class)->find(1);
-        $this->assertEquals('TEST02', $customer->getName());
-        $this->assertEquals('DESCRIPTION', $customer->getDescription());
+        $defaultPath = $this->getHomePageService()->getTimeModuleDefaultPath();
+        return $this->redirect($defaultPath);
     }
 }

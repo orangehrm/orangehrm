@@ -16,6 +16,7 @@
  * Boston, MA  02110-1301, USA
  */
 
+import TimeSheetPeriodConfig from './pages/configure/TimeSheetPeriod.vue';
 import Customer from './pages/customer/Customer.vue';
 import SaveCustomer from './pages/customer/SaveCustomer.vue';
 import EditCustomer from './pages/customer/EditCustomer.vue';
@@ -23,8 +24,11 @@ import MyTimesheet from './pages/timesheets/MyTimesheet.vue';
 import EditMyTimeSheet from './pages/timesheets/EditMyTimeSheet.vue';
 import Project from './pages/project/Project.vue';
 import ProjectSave from './pages/project/ProjectSave.vue';
+import EmployeeTimesheet from './pages/timesheets/EmployeeTimesheet.vue';
+import ViewEmployeeTimesheet from './pages/timesheets/ViewEmployeeTimesheet.vue';
 
 export default {
+  'time-sheet-period': TimeSheetPeriodConfig,
   'customer-list': Customer,
   'customer-save': SaveCustomer,
   'customer-edit': EditCustomer,
@@ -32,4 +36,6 @@ export default {
   'edit-my-timesheet': EditMyTimeSheet,
   'project-list': Project,
   'project-save': ProjectSave,
+  'employee-timesheet': EmployeeTimesheet,
+  'view-employee-timesheet': ViewEmployeeTimesheet,
 };

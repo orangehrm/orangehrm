@@ -1,4 +1,4 @@
-<?php
+<!--
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -16,35 +16,22 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
+ -->
 
-namespace OrangeHRM\Tests\Time\Entity;
+<template>
+  <oxd-alert
+    :show="true"
+    type="warn"
+    :message="$t('time.timesheet_period_not_defined')"
+  ></oxd-alert>
+</template>
 
-use OrangeHRM\Entity\Customer;
-use OrangeHRM\Tests\Util\EntityTestCase;
-use OrangeHRM\Tests\Util\TestDataService;
+<script>
+import Alert from '@ohrm/oxd/core/components/Alert/Alert';
 
-/**
- * @group @Time
- * @group @Entity
- */
-class CustomerTest extends EntityTestCase
-{
-    protected function setUp(): void
-    {
-        TestDataService::truncateSpecificTables([Customer::class]);
-    }
-
-    public function testCustomerEntity(): void
-    {
-        $customer = new Customer();
-        $customer->setName("TEST02");
-        $customer->setDescription('DESCRIPTION');
-        $customer->setDeleted(false);
-        $this->persist($customer);
-
-        /** @var Customer $customer */
-        $customer = $this->getRepository(Customer::class)->find(1);
-        $this->assertEquals('TEST02', $customer->getName());
-        $this->assertEquals('DESCRIPTION', $customer->getDescription());
-    }
-}
+export default {
+  components: {
+    'oxd-alert': Alert,
+  },
+};
+</script>

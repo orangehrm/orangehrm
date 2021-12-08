@@ -108,7 +108,6 @@
         <exclude name="symfony/plugins/orangehrmPerformanceTrackerPlugin/**"/>
         <exclude name="symfony/plugins/orangehrmRecruitmentPlugin/**"/>
         <exclude name="symfony/plugins/orangehrmRESTPlugin/**"/>
-        <exclude name="symfony/plugins/orangehrmTimePlugin/**"/>
 
         <!-- 5.x related -->
         <exclude name="symfony/client/node_modules/**"/>
