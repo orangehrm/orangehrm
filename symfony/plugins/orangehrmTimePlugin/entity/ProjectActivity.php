@@ -20,49 +20,56 @@
 namespace OrangeHRM\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use OrangeHRM\Entity\Decorator\DecoratorTrait;
+use OrangeHRM\Entity\Decorator\ProjectActivityDecorator;
 
 /**
- * @ORM\Table(name="ohrm_customer")
+ * @method ProjectActivityDecorator getDecorator()
+ *
+ * @ORM\Table(name="ohrm_project_activity")
  * @ORM\Entity
  */
-class Customer
+class ProjectActivity
 {
+    use DecoratorTrait;
+
     /**
      * @var int
      *
-     * @ORM\Column(name="customer_id", type="integer", length=4)
+     * @ORM\Column(name="activity_id", type="integer", length=4)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private int $id;
 
     /**
-     * @var bool
+     * @var Project
      *
-     * @ORM\Column(name="is_deleted", type="boolean")
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Project", inversedBy="projectActivity")
+     * @ORM\JoinColumn(name="project_id", referencedColumnName="project_id")
      */
-    private bool $deleted;
+    private Project $project;
+
+    /**
+     * @var bool|null
+     *
+     * @ORM\Column(name="is_deleted", type="boolean", nullable=true)
+     */
+    private ?bool $deleted = false;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=100)
+     * @ORM\Column(name="name", type="string", length=110)
      */
     private string $name;
 
     /**
-     * @var string
+     * @var TimesheetItem
      *
-     * @ORM\Column(name="description", type="string", length=255)
+     * @ORM\OneToOne(targetEntity="TimesheetItem", mappedBy="projectActivity")
      */
-    private string $description;
-
-    /**
-     * @var Project
-     *
-     * @ORM\OneToOne (targetEntity="OrangeHRM\Entity\Project", mappedBy="customer")
-     */
-    private Project $project;
+    private TimesheetItem $timesheetItem;
 
     /**
      * @return int
@@ -81,17 +88,33 @@ class Customer
     }
 
     /**
-     * @return bool
+     * @return Project
      */
-    public function isDeleted(): bool
+    public function getProject(): Project
+    {
+        return $this->project;
+    }
+
+    /**
+     * @param Project $project
+     */
+    public function setProject(Project $project): void
+    {
+        $this->project = $project;
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function getDeleted(): ?bool
     {
         return $this->deleted;
     }
 
     /**
-     * @param bool $deleted
+     * @param bool|null $deleted
      */
-    public function setDeleted(bool $deleted): void
+    public function setDeleted(?bool $deleted): void
     {
         $this->deleted = $deleted;
     }
@@ -110,21 +133,5 @@ class Customer
     public function setName(string $name): void
     {
         $this->name = $name;
-    }
-
-    /**
-     * @return string
-     */
-    public function getDescription(): string
-    {
-        return $this->description;
-    }
-
-    /**
-     * @param string $description
-     */
-    public function setDescription(string $description): void
-    {
-        $this->description = $description;
     }
 }

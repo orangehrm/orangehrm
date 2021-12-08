@@ -306,6 +306,11 @@
           "target": "Comment",
           "description": "You may enter any important note regarding some information."
         },
+        "description": {
+          "source": "Description",
+          "target": "Description",
+          "description": ""
+        },
         "approve": {
           "source": "Approve",
           "target": "Approve",

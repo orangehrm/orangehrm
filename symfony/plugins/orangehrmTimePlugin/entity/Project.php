@@ -22,47 +22,53 @@ namespace OrangeHRM\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Table(name="ohrm_customer")
+ * @ORM\Table(name="ohrm_project")
  * @ORM\Entity
+ *
  */
-class Customer
+class Project
 {
     /**
      * @var int
      *
-     * @ORM\Column(name="customer_id", type="integer", length=4)
+     * @ORM\Column(name="project_id", type="integer", length=13)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     *
      */
     private int $id;
 
     /**
+     * @var Customer
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Customer", inversedBy="project", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(name="customer_id", referencedColumnName="customer_id",nullable=false)
+     */
+    private Customer $customer;
+
+    /**
+     * @var string|null
+     * @ORM\Column(name="name",type="string",length=100)
+     */
+    private ?string $name;
+
+    /**
+     * @var string|null
+     * @ORM\Column(name="description",type="string",length=256)
+     */
+    private ?string $description;
+
+    /**
      * @var bool
-     *
-     * @ORM\Column(name="is_deleted", type="boolean")
+     * @ORM\Column(name="is_deleted",type="boolean",options={"default":0})
      */
-    private bool $deleted;
+    private bool $isDeleted = false;
 
     /**
-     * @var string
+     * @var ProjectActivity
      *
-     * @ORM\Column(name="name", type="string", length=100)
+     * @ORM\OneToOne(targetEntity="OrangeHRM\Entity\ProjectActivity", mappedBy="project")
      */
-    private string $name;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="description", type="string", length=255)
-     */
-    private string $description;
-
-    /**
-     * @var Project
-     *
-     * @ORM\OneToOne (targetEntity="OrangeHRM\Entity\Project", mappedBy="customer")
-     */
-    private Project $project;
+    private ProjectActivity $projectActivity;
 
     /**
      * @return int
@@ -81,50 +87,66 @@ class Customer
     }
 
     /**
-     * @return bool
+     * @return Customer
      */
-    public function isDeleted(): bool
+    public function getCustomer(): Customer
     {
-        return $this->deleted;
+        return $this->customer;
     }
 
     /**
-     * @param bool $deleted
+     * @param Customer $customer
      */
-    public function setDeleted(bool $deleted): void
+    public function setCustomer(Customer $customer): void
     {
-        $this->deleted = $deleted;
+        $this->customer = $customer;
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->name;
     }
 
     /**
-     * @param string $name
+     * @param string|null $name
      */
-    public function setName(string $name): void
+    public function setName(?string $name): void
     {
         $this->name = $name;
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getDescription(): string
+    public function getDescription(): ?string
     {
         return $this->description;
     }
 
     /**
-     * @param string $description
+     * @param string|null $description
      */
-    public function setDescription(string $description): void
+    public function setDescription(?string $description): void
     {
         $this->description = $description;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isDeleted(): bool
+    {
+        return $this->isDeleted;
+    }
+
+    /**
+     * @param bool $isDeleted
+     */
+    public function setIsDeleted(bool $isDeleted): void
+    {
+        $this->isDeleted = $isDeleted;
     }
 }

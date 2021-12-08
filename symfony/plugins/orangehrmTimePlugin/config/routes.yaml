@@ -28,6 +28,20 @@ apiv2_time_validate_customer_name:
     _key: customerName
     _api: OrangeHRM\Time\Api\ValidationCustomerNameAPI
 
+apiv2_time_project_activities:
+  path: /api/v2/time/project/{projectId}/activities
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST, DELETE ]
+  defaults:
+    _api: OrangeHRM\Time\Api\ProjectActivityAPI
+
+apiv2_time_project_activity:
+  path: /api/v2/time/project/{projectId}/activities/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    _api: OrangeHRM\Time\Api\ProjectActivityAPI
+
 ##########################
 #        Screens
 ##########################
