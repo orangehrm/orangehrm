@@ -20,8 +20,8 @@
 
 <template>
   <oxd-dialog
-    @update:show="onCancel"
     :style="{width: '90%', maxWidth: '450px'}"
+    @update:show="onCancel"
   >
     <div class="orangehrm-modal-header">
       <oxd-text type="card-title">
@@ -54,8 +54,8 @@
       </oxd-form-row>
       <oxd-form-row>
         <oxd-input-field
-          type="textarea"
           v-model="comment"
+          type="textarea"
           placeholder="Comment here"
           :rules="rules.comment"
           :disabled="!editable"
@@ -65,7 +65,7 @@
       <oxd-form-actions>
         <oxd-button
           type="button"
-          displayType="ghost"
+          display-type="ghost"
           label="Cancel"
           @click="onCancel"
         />
@@ -84,20 +84,22 @@ import {
 } from '@ohrm/core/util/validation/rules';
 
 export default {
-  name: 'timesheet-comment-modal',
+  name: 'TimesheetCommentModal',
+  components: {
+    'oxd-dialog': Dialog,
+  },
   props: {
     date: {
       type: String,
       required: false,
+      default: null,
     },
     editable: {
       type: Boolean,
       required: true,
     },
   },
-  components: {
-    'oxd-dialog': Dialog,
-  },
+  emits: ['close'],
   setup() {
     const http = new APIService(
       // window.appGlobal.baseUrl,
@@ -118,6 +120,21 @@ export default {
       },
     };
   },
+  beforeMount() {
+    this.isLoading = true;
+    this.http
+      .getAll({
+        date: this.date,
+      })
+      .then(response => {
+        const {data} = response.data;
+        this.data = data;
+        this.comment = data?.comment;
+      })
+      .finally(() => {
+        this.isLoading = false;
+      });
+  },
   methods: {
     onSave() {
       this.isLoading = true;
@@ -134,21 +151,6 @@ export default {
       this.comment = null;
       this.$emit('close', true);
     },
-  },
-  beforeMount() {
-    this.isLoading = true;
-    this.http
-      .getAll({
-        date: this.date,
-      })
-      .then(response => {
-        const {data} = response.data;
-        this.data = data;
-        this.comment = data?.comment;
-      })
-      .finally(() => {
-        this.isLoading = false;
-      });
   },
 };
 </script>

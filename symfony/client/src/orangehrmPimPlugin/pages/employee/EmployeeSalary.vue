@@ -41,7 +41,7 @@
     ></edit-salary-component>
     <div class="orangehrm-horizontal-padding orangehrm-top-padding">
       <profile-action-header
-        :action-button-shown="this.$can.update(`salary_details`)"
+        :action-button-shown="$can.update(`salary_details`)"
         @click="onClickAdd"
       >
         Assigned Salary Components

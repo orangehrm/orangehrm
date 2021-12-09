@@ -52,21 +52,13 @@ import {required} from '@/core/util/validation/rules';
 import {APIService} from '@/core/util/services/api.service';
 
 export default {
-  name: 'save-timesheet-action',
+  name: 'SaveTimesheetAction',
 
   props: {
     timesheetId: {
       type: Number,
       required: true,
     },
-  },
-  data() {
-    return {
-      comment: null,
-      rules: {
-        comment: [required],
-      },
-    };
   },
 
   setup() {
@@ -78,6 +70,14 @@ export default {
 
     return {
       http,
+    };
+  },
+  data() {
+    return {
+      comment: null,
+      rules: {
+        comment: [required],
+      },
     };
   },
 

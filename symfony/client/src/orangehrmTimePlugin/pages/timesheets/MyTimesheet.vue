@@ -27,34 +27,34 @@
       :totals="timesheet.meta.totals"
       :subtotal="timesheet.meta.subtotal"
     >
-      <template v-slot:header-title>
+      <template #header-title>
         <oxd-text tag="h6" class="orangehrm-main-title">
           {{ $t('time.my_timesheet') }}
         </oxd-text>
       </template>
-      <template v-slot:header-options>
+      <template #header-options>
         <timesheet-period></timesheet-period>
         <oxd-button
-          iconName="plus"
-          displayType="ghost"
+          icon-name="plus"
+          display-type="ghost"
           :label="$t('time.add_timesheet')"
           @click="onClickAddTimesheet"
         />
       </template>
-      <template v-slot:footer-title>
+      <template #footer-title>
         <oxd-text type="subtitle-2">
           {{ $t('general.status') }}: Not Submitted
         </oxd-text>
       </template>
-      <template v-slot:footer-options>
+      <template #footer-options>
         <oxd-button
-          @click="onClickEdit"
-          displayType="ghost"
+          display-type="ghost"
           :label="$t('general.edit')"
+          @click="onClickEdit"
         />
         <oxd-button
           type="submit"
-          displayType="secondary"
+          display-type="secondary"
           :label="$t('general.submit')"
         />
       </template>
@@ -111,18 +111,6 @@ export default {
     };
   },
 
-  methods: {
-    onClickAddTimesheet() {
-      this.showSaveModal = true;
-    },
-    onSaveModalClose() {
-      this.showSaveModal = false;
-    },
-    onClickEdit() {
-      navigate('/time/editTimesheet/{id}', {id: this.timesheet?.id});
-    },
-  },
-
   beforeMount() {
     this.isLoading = true;
     this.http
@@ -135,6 +123,18 @@ export default {
       .finally(() => {
         this.isLoading = false;
       });
+  },
+
+  methods: {
+    onClickAddTimesheet() {
+      this.showSaveModal = true;
+    },
+    onSaveModalClose() {
+      this.showSaveModal = false;
+    },
+    onClickEdit() {
+      navigate('/time/editTimesheet/{id}', {id: this.timesheet?.id});
+    },
   },
 };
 </script>
