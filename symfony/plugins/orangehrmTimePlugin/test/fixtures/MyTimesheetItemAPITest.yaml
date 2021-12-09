@@ -1,8 +1,8 @@
-#Config:
-#  - { name: 'authorize_user_role_manager_class', value: 'BasicUserRoleManager' }
-#  - { name: 'timesheet_period_and_start_date', value: '<TimesheetPeriod><PeriodType>Weekly</PeriodType><ClassName>WeeklyTimesheetPeriod</ClassName><StartDate>1</StartDate><Heading>Week</Heading></TimesheetPeriod>' }
-#  - { name: 'timesheet_period_set', value: "Yes" }
-#  - { name: 'timesheet_time_format', value: 1 }
+Config:
+  - { name: 'authorize_user_role_manager_class', value: 'BasicUserRoleManager' }
+  - { name: 'timesheet_period_and_start_date', value: '<TimesheetPeriod><PeriodType>Weekly</PeriodType><ClassName>WeeklyTimesheetPeriod</ClassName><StartDate>1</StartDate><Heading>Week</Heading></TimesheetPeriod>' }
+  - { name: 'timesheet_period_set', value: "Yes" }
+  - { name: 'timesheet_time_format', value: 1 }
 
 TerminationReason:
   - { "id": "1","name": "Other" }
@@ -57,6 +57,7 @@ User:
   - { "id": 1, "user_role_id": 1, "emp_number": 7, "user_name": "admin","user_password": "admin","deleted": "0","status": "1","date_modified": "2021-09-15 16:51:16","modified_user_id": "1" }
   - { "id": 2,"user_role_id": 1,"emp_number": 4,"user_name": "John.Smith","user_password": "password","deleted": "0","status": "1","date_entered": "2020-10-07 06:11:28","date_modified": "2020-10-07 06:13:55","modified_user_id": "1","created_by": "1" }
   - { "id": 3,"user_role_id": 1,"emp_number": 2,"user_name": "Odis.Adalwin","user_password": "password","deleted": "0","status": "1","date_entered": "2020-10-07 06:16:13","date_modified": null,"modified_user_id": null,"created_by": "1" }
+  - { "id": 4, "user_role_id": 2, "emp_number": 5, "user_name": "Abel","user_password": "Abel","deleted": "0","status": "1","date_entered": "2021-09-15 16:47:14","created_by": "1" }
   - { "id": 7,"user_role_id": 1,"emp_number": 7,"user_name": "Paul.Collings","user_password": "password","deleted": "1","status": "1","date_entered": "2020-10-07 06:23:25","date_modified": "2020-10-07 06:24:43","modified_user_id": "1","created_by": "1" }
   - { "id": 9,"user_role_id": 2,"emp_number": 9,"user_name": "Russel.Hamilton","user_password": "password","deleted": "0","status": "1","date_entered": "2020-10-07 06:26:11","date_modified": null,"modified_user_id": null,"created_by": "1" }
   - { "id": 25,"user_role_id": 2,"emp_number": 25,"user_name": "Garry.White","user_password": "password","deleted": "0","status": "1","date_entered": "2020-10-07 06:32:10","date_modified": "2020-10-09 08:34:18","modified_user_id": "1","created_by": "1" }
@@ -238,6 +239,7 @@ Timesheet:
   - { "timesheet_id": "57","state": "SUBMITTED","start_date": "2020-09-07","end_date": "2020-09-13","employee_id": "26" }
   - { "timesheet_id": "58","state": "SUBMITTED","start_date": "2020-09-14","end_date": "2020-09-20","employee_id": "26" }
   - { "timesheet_id": "59","state": "NOT SUBMITTED","start_date": "2020-10-12","end_date": "2020-10-18","employee_id": "7" }
+  - { "timesheet_id": "60","state": "NOT SUBMITTED","start_date": "2020-10-12","end_date": "2020-10-18","employee_id": "5" }
 
 TimesheetItem:
   - { "timesheet_item_id": "1","timesheet_id": "2","date": "2020-09-28","duration": "7200","comment": null,"project_id": "1","employee_id": "9","activity_id": "6" }

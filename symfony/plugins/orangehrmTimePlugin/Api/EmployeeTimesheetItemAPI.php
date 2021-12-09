@@ -31,7 +31,6 @@ use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\Employee;
-use OrangeHRM\Entity\Timesheet;
 use OrangeHRM\Pim\Api\Model\EmployeeModel;
 use OrangeHRM\Time\Dto\DetailedTimesheet;
 use OrangeHRM\Time\Traits\Service\TimesheetServiceTrait;
@@ -115,7 +114,6 @@ class EmployeeTimesheetItemAPI extends Endpoint implements CrudEndpoint
             new ParamRule(
                 self::PARAMETER_TIMESHEET_ID,
                 new Rule(Rules::POSITIVE),
-                new Rule(Rules::ENTITY_ID_EXISTS, [Timesheet::class])
             )
         );
     }

@@ -22,6 +22,7 @@ namespace OrangeHRM\Time\Api;
 use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
 use OrangeHRM\Core\Api\V2\RequestParams;
+use OrangeHRM\Entity\Timesheet;
 use OrangeHRM\Time\Api\Model\DetailedTimesheetModel;
 
 class MyTimesheetItemAPI extends EmployeeTimesheetItemAPI
@@ -36,6 +37,7 @@ class MyTimesheetItemAPI extends EmployeeTimesheetItemAPI
             self::PARAMETER_TIMESHEET_ID
         );
         $timesheet = $this->getTimesheetService()->getTimesheetDao()->getTimesheetById($timesheetId);
+        $this->throwRecordNotFoundExceptionIfNotExist($timesheet, Timesheet::class);
         if (!$this->getUserRoleManagerHelper()->isSelfByEmpNumber($timesheet->getEmployee()->getEmpNumber())) {
             throw $this->getForbiddenException();
         }

@@ -476,6 +476,12 @@ class TimesheetService
 
         $timesheetRows = [];
         $timesheetColumns = [];
+        foreach ($timesheetDates as $timesheetDate) {
+            $date = $this->getDateTimeHelper()->formatDateTimeToYmd($timesheetDate);
+            if (!isset($timesheetColumns[$date])) {
+                $timesheetColumns[$date] = new TimesheetColumn($timesheetDate);
+            }
+        }
         foreach ($timesheetItems as $timesheetItem) {
             $projectId = $timesheetItem->getProject()->getId();
             $projectActivityId = $timesheetItem->getProjectActivity()->getId();
@@ -491,10 +497,9 @@ class TimesheetService
             $timesheetRows[$timesheetRowKey]->assignTimesheetItem($timesheetItem);
 
             $date = $this->getDateTimeHelper()->formatDateTimeToYmd($timesheetItem->getDate());
-            if (!isset($timesheetColumns[$date])) {
-                $timesheetColumns[$date] = new TimesheetColumn($timesheetItem->getDate());
+            if ($timesheetColumns[$date] instanceof TimesheetColumn) {
+                $timesheetColumns[$date]->incrementTotal($timesheetItem->getDuration());
             }
-            $timesheetColumns[$date]->incrementTotal($timesheetItem->getDuration());
         }
         return [$timesheetRows, $timesheetColumns];
     }

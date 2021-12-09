@@ -35,7 +35,7 @@ GetAll:
     query:
       sortOrder: DESC
 
-  'get my timesheet':
+  'get my timesheet rows':
     userId: 1
     services:
       time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
@@ -254,19 +254,27 @@ GetAll:
         "2020-09-02": {
           "total": "09:00"
         },
+        "2020-09-03": {
+          "total": "09:00"
+        },
         "2020-09-04": {
           "total": "08:00"
         },
-        "2020-09-03": {
-          "total": "09:00"
+        "2020-09-05": {
+          "total": "00:00"
+        },
+        "2020-09-06": {
+          "total": "00:00"
         }
       },
       "dates": [
           "2020-08-31",
           "2020-09-01",
           "2020-09-02",
+          "2020-09-03",
           "2020-09-04",
-          "2020-09-03"
+          "2020-09-05",
+          "2020-09-06"
       ],
       "employee": {
         "empNumber": 7,
@@ -275,5 +283,129 @@ GetAll:
         "middleName": "",
         "employeeId": "0024",
         "terminationId": null
+      }
+    }
+
+  'get my timesheet when empty':
+    userId: 3
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      timesheetId: 54
+    data: [ ]
+    meta: {
+      "timesheet": {
+        "startDate": "2020-10-05",
+        "endDate": "2020-10-11"
+      },
+      "sum": "00:00",
+      "columns": {
+        "2020-10-05": {
+          "total": "00:00"
+        },
+        "2020-10-06": {
+          "total": "00:00"
+        },
+        "2020-10-07": {
+          "total": "00:00"
+        },
+        "2020-10-08": {
+          "total": "00:00"
+        },
+        "2020-10-09": {
+          "total": "00:00"
+        },
+        "2020-10-10": {
+          "total": "00:00"
+        },
+        "2020-10-11": {
+          "total": "00:00"
+        }
+      },
+      "dates": [
+          "2020-10-05",
+          "2020-10-06",
+          "2020-10-07",
+          "2020-10-08",
+          "2020-10-09",
+          "2020-10-10",
+          "2020-10-11"
+      ],
+      "employee": {
+        "empNumber": 2,
+        "lastName": "Anderson",
+        "firstName": "Linda",
+        "middleName": "Jane",
+        "employeeId": "0002",
+        "terminationId": null
+      }
+    }
+
+  'get my timesheet for terminated employee':
+    userId: 4
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      timesheetId: 60
+    data: [ ]
+    meta: {
+      "timesheet": {
+        "startDate": "2020-10-12",
+        "endDate": "2020-10-18"
+      },
+      "sum": "00:00",
+      "columns": {
+        "2020-10-12": {
+          "total": "00:00"
+        },
+        "2020-10-13": {
+          "total": "00:00"
+        },
+        "2020-10-14": {
+          "total": "00:00"
+        },
+        "2020-10-15": {
+          "total": "00:00"
+        },
+        "2020-10-16": {
+          "total": "00:00"
+        },
+        "2020-10-17": {
+          "total": "00:00"
+        },
+        "2020-10-18": {
+          "total": "00:00"
+        }
+      },
+      "dates": [
+          "2020-10-12",
+          "2020-10-13",
+          "2020-10-14",
+          "2020-10-15",
+          "2020-10-16",
+          "2020-10-17",
+          "2020-10-18"
+      ],
+      "employee": {
+        "empNumber": 5,
+        "lastName": "Abel",
+        "firstName": "Ashley",
+        "middleName": "",
+        "employeeId": "0005",
+        "terminationId": 1
       }
     }
