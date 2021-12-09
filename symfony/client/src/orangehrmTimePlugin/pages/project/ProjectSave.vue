@@ -73,6 +73,7 @@
                 <project-admin-input
                   v-model="projectAdmin.data"
                   :id="projectAdmin.id"
+                  :rules="rules.projectAdmin"
                   @remove="removeAdminInputField"
                 />
               </oxd-grid-row>
@@ -152,7 +153,18 @@ export default {
         ],
         description: [],
         customer: [required],
-        projectAdmin: [],
+        projectAdmin: [
+          value => {
+            return this.projectAdmins
+              .map(projectAdmin => projectAdmin.data)
+              .filter(
+                normalizedProjectAdmin =>
+                  normalizedProjectAdmin.id === value.id,
+              ).length < 2
+              ? true
+              : 'Already exists';
+          },
+        ],
       },
     };
   },
@@ -203,7 +215,7 @@ export default {
           return this.$toast.saveSuccess();
         })
         .then(() => {
-          // this.onCancel();
+          this.onCancel();
         });
     },
     validateProjectName(project) {
@@ -228,9 +240,15 @@ export default {
         }
       });
     },
-    validateProjectAdmin() {},
+    validateProjectAdmin() {
+      const normalizedProjectAdmins = this.projectAdmins.map(projectAdmin => {
+        return projectAdmin.data;
+      });
+      this.rules.projectAdmin.push(v => {
+        const index = normalizedProjectAdmins.indexOf(v);
+        return index === -1 || 'Already exists';
+      });
+    },
   },
 };
 </script>
-
-<style src="./project.scss" lang="scss" scoped></style>

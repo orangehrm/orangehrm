@@ -254,10 +254,9 @@ export default {
     onClickAdd() {
       navigate('/time/saveProject');
     },
-    onClickEdit(item) {
-      navigate('/time/saveProject/{id}', {id: item.id});
-    },
-
+    // onClickEdit(item) {
+    //   navigate('/time/saveProject/{id}', {id: item.id});
+    // },
     onClickDelete(item) {
       this.$refs.deleteDialog.showDialog().then(confirmation => {
         if (confirmation === 'ok') {
@@ -306,5 +305,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped></style>

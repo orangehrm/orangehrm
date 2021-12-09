@@ -51,7 +51,6 @@ export default {
   },
   methods: {
     remove() {
-      console.log('click child');
       this.$emit('remove', this.id);
     },
   },
@@ -64,8 +63,5 @@ export default {
   flex-wrap: nowrap;
   align-items: center;
   justify-content: space-between;
-}
-.orangehrm-employee-autocomplete {
-  width: 100%;
 }
 </style>
