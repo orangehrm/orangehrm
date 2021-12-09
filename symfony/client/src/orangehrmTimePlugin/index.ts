@@ -24,6 +24,7 @@ import MyTimesheet from './pages/timesheets/MyTimesheet.vue';
 import EditMyTimeSheet from './pages/timesheets/EditMyTimeSheet.vue';
 import Project from './pages/project/Project.vue';
 import ProjectSave from './pages/project/ProjectSave.vue';
+import ProjectEdit from './pages/project/ProjectEdit.vue';
 import EmployeeTimesheet from './pages/timesheets/EmployeeTimesheet.vue';
 import ViewEmployeeTimesheet from './pages/timesheets/ViewEmployeeTimesheet.vue';
 
@@ -36,6 +37,7 @@ export default {
   'edit-my-timesheet': EditMyTimeSheet,
   'project-list': Project,
   'project-save': ProjectSave,
+  'project-edit': ProjectEdit,
   'employee-timesheet': EmployeeTimesheet,
   'view-employee-timesheet': ViewEmployeeTimesheet,
 };
