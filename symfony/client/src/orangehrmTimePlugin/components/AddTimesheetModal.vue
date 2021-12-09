@@ -20,8 +20,8 @@
 
 <template>
   <oxd-dialog
-    @update:show="onCancel"
     :style="{width: '90%', maxWidth: '450px'}"
+    @update:show="onCancel"
   >
     <div class="orangehrm-modal-header">
       <oxd-text type="card-title">
@@ -45,7 +45,7 @@
         <required-text />
         <oxd-button
           type="button"
-          displayType="ghost"
+          display-type="ghost"
           label="Cancel"
           @click="onCancel"
         />
@@ -61,7 +61,10 @@ import Dialog from '@ohrm/oxd/core/components/Dialog/Dialog';
 import {required, validDateFormat} from '@ohrm/core/util/validation/rules';
 
 export default {
-  name: 'add-timesheet-modal',
+  name: 'AddTimesheetModal',
+  components: {
+    'oxd-dialog': Dialog,
+  },
 
   props: {
     employeeId: {
@@ -70,9 +73,7 @@ export default {
       default: null,
     },
   },
-  components: {
-    'oxd-dialog': Dialog,
-  },
+  emits: ['close'],
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,

@@ -77,7 +77,7 @@
             <td :class="fixedCellClasses">
               <project-autocomplete
                 v-if="editable"
-                :modelValue="record.project"
+                :model-value="record.project"
                 @update:modelValue="updateProject($event, i)"
               />
               <span v-else>{{ record.project.label }}</span>
@@ -86,7 +86,7 @@
               <activity-dropdown
                 v-if="editable"
                 :project-id="record.project && record.project.id"
-                :modelValue="record.activity"
+                :model-value="record.activity"
                 @update:modelValue="updateActivity($event, i)"
               />
               <span v-else>{{ record.activity.label }}</span>
@@ -106,7 +106,7 @@
               />
               <oxd-input-field
                 v-if="editable"
-                :modelValue="day.trackedTime"
+                :model-value="day.trackedTime"
                 @update:modelValue="updateTime($event, i, day)"
               />
               <span v-else>
@@ -156,9 +156,7 @@
 
           <!-- add row -->
           <tr v-if="editable" class="orangehrm-timesheet-table-body-row">
-            <td
-              class="orangehrm-timesheet-table-body-cell --flex"
-            >
+            <td class="orangehrm-timesheet-table-body-cell --flex">
               <oxd-icon-button
                 name="plus"
                 class="orangehrm-timesheet-icon"
@@ -201,9 +199,7 @@ import ProjectAutocomplete from '@/orangehrmTimePlugin/components/ProjectAutocom
 import TimesheetCommentModal from '@/orangehrmTimePlugin/components/TimesheetCommentModal.vue';
 
 export default {
-  name: 'timesheet',
-
-  emits: ['update:records'],
+  name: 'Timesheet',
 
   components: {
     'oxd-loading-spinner': Spinner,
@@ -224,10 +220,12 @@ export default {
     totals: {
       type: Object,
       required: false,
+      default: () => ({}),
     },
     subtotal: {
       type: String,
       required: false,
+      default: null,
     },
     editable: {
       type: Boolean,
@@ -239,11 +237,55 @@ export default {
     },
   },
 
+  emits: ['update:records'],
+
   data() {
     return {
       showCommentModal: false,
       commentModalState: null,
     };
+  },
+
+  computed: {
+    daysOfWeek() {
+      const days = [
+        this.$t('general.sun'),
+        this.$t('general.mon'),
+        this.$t('general.tue'),
+        this.$t('general.wed'),
+        this.$t('general.thu'),
+        this.$t('general.fri'),
+        this.$t('general.sat'),
+      ];
+      return Array.isArray(this.days)
+        ? this.days.map(day => {
+            const date = parseDate(day, 'yyyy-MM-dd');
+            return {
+              id: date.valueOf(),
+              day: date.getDate(),
+              title: days[date.getDay()],
+            };
+          })
+        : [];
+    },
+    tableClasses() {
+      return {
+        'orangehrm-timesheet-table': true,
+        '--editable': this.editable,
+      };
+    },
+    fixedColumnClasses() {
+      return {
+        'orangehrm-timesheet-table-header-cell': true,
+        '--freeze-left': !this.editable,
+      };
+    },
+    fixedCellClasses() {
+      return {
+        'orangehrm-timesheet-table-body-cell': true,
+        '--freeze-left': !this.editable,
+      };
+    },
   },
 
   methods: {
@@ -317,48 +359,6 @@ export default {
     onCommentModalClose() {
       this.showCommentModal = false;
       this.commentModalState = null;
-    },
-  },
-
-  computed: {
-    daysOfWeek() {
-      const days = [
-        this.$t('general.sun'),
-        this.$t('general.mon'),
-        this.$t('general.tue'),
-        this.$t('general.wed'),
-        this.$t('general.thu'),
-        this.$t('general.fri'),
-        this.$t('general.sat'),
-      ];
-      return Array.isArray(this.days)
-        ? this.days.map(day => {
-            const date = parseDate(day, 'yyyy-MM-dd');
-            return {
-              id: date.valueOf(),
-              day: date.getDate(),
-              title: days[date.getDay()],
-            };
-          })
-        : [];
-    },
-    tableClasses() {
-      return {
-        'orangehrm-timesheet-table': true,
-        '--editable': this.editable,
-      };
-    },
-    fixedColumnClasses() {
-      return {
-        'orangehrm-timesheet-table-header-cell': true,
-        '--freeze-left': !this.editable,
-      };
-    },
-    fixedCellClasses() {
-      return {
-        'orangehrm-timesheet-table-body-cell': true,
-        '--freeze-left': !this.editable,
-      };
     },
   },
 };

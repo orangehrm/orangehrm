@@ -27,7 +27,7 @@ import {ref, watchEffect} from 'vue';
 // import {APIService} from '@ohrm/core/util/services/api.service';
 
 export default {
-  name: 'activity-dropdown',
+  name: 'ActivityDropdown',
   props: {
     projectId: {
       type: Number,

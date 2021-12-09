@@ -21,17 +21,17 @@
 <template>
   <div class="orangehrm-background-container">
     <timesheet
+      v-model:records="timesheet.data"
       :editable="true"
       :loading="isLoading"
       :days="timesheet.meta.days"
-      v-model:records="timesheet.data"
     >
-      <template v-slot:header-title>
+      <template #header-title>
         <oxd-text tag="h6" class="orangehrm-main-title">
           {{ $t('time.my_timesheet') }}
         </oxd-text>
       </template>
-      <template v-slot:header-options>
+      <template #header-options>
         <oxd-text tag="p" class="orangehrm-timeperiod-title">
           {{ $t('time.timesheet_period') }}
         </oxd-text>
@@ -40,21 +40,21 @@
         </oxd-text>
       </template>
 
-      <template v-slot:footer-title>
+      <template #footer-title>
         <oxd-text tag="p" class="orangehrm-form-hint">
           * {{ $t('time.deleted_project_activities_are_not_editable') }}
         </oxd-text>
       </template>
-      <template v-slot:footer-options>
-        <oxd-button displayType="ghost" :label="$t('general.cancel')" />
+      <template #footer-options>
+        <oxd-button display-type="ghost" :label="$t('general.cancel')" />
         <oxd-button
-          displayType="ghost"
-          @click="onClickReset"
+          display-type="ghost"
           :label="$t('general.reset')"
+          @click="onClickReset"
         />
         <oxd-button
           type="submit"
-          displayType="secondary"
+          display-type="secondary"
           :label="$t('general.save')"
         />
       </template>
@@ -100,12 +100,6 @@ export default {
     };
   },
 
-  methods: {
-    onClickReset() {
-      this.timesheet = {...myTimesheetModal};
-    },
-  },
-
   beforeMount() {
     this.isLoading = true;
     this.http
@@ -119,6 +113,12 @@ export default {
       .finally(() => {
         this.isLoading = false;
       });
+  },
+
+  methods: {
+    onClickReset() {
+      this.timesheet = {...myTimesheetModal};
+    },
   },
 };
 </script>
