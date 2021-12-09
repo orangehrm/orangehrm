@@ -40,7 +40,7 @@
       </oxd-form-row>
       <template v-if="activities && activities.length > 0">
         <oxd-divider />
-        <oxd-form-row>
+        <oxd-form-row class="orangehrm-activites-container">
           <oxd-grid :cols="2" class="orangehrm-full-width-grid">
             <oxd-input-field
               v-for="activity in activities"
@@ -109,10 +109,16 @@ export default {
         project: [
           required,
           () => {
-            return this.activities === null ||
-              this.selectedActivities.length !== 0
-              ? true
-              : 'No activities selected';
+            if (this.activities !== null && this.activities.length === 0) {
+              return 'No assigned activities';
+            } else if (
+              this.activities !== null &&
+              this.selectedActivities.length === 0
+            ) {
+              return 'No activities selected';
+            } else {
+              return true;
+            }
           },
         ],
       },
@@ -163,3 +169,18 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+@import '@ohrm/oxd/styles/_mixins.scss';
+.orangehrm-activites-container {
+  max-height: 180px;
+  overflow-y: auto;
+  @include oxd-scrollbar();
+}
+::v-deep(.oxd-checkbox-wrapper) {
+  word-break: break-word;
+  .oxd-checkbox-input {
+    flex-shrink: 0;
+  }
+}
+</style>
