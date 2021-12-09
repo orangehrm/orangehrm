@@ -24,7 +24,7 @@
     :clear="false"
     :create-options="loadProjects"
   >
-    <template v-slot:option="{data}">
+    <template #option="{data}">
       <span>{{ data.label }}</span>
     </template>
   </oxd-input-field>

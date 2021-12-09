@@ -20,8 +20,8 @@
 
 <template>
   <oxd-dialog
-    @update:show="onCancel"
     :style="{width: '90%', maxWidth: '600px'}"
+    @update:show="onCancel"
   >
     <div class="orangehrm-modal-header">
       <oxd-text type="card-title">
@@ -44,12 +44,12 @@
           <oxd-grid :cols="2" class="orangehrm-full-width-grid">
             <oxd-input-field
               v-for="activity in activities"
-              type="checkbox"
               :key="activity.id"
+              v-model="selectedActivities"
+              type="checkbox"
               :value="activity.id"
               :disabled="!activity.unique"
               :option-label="activity.name"
-              v-model="selectedActivities"
             />
           </oxd-grid>
         </oxd-form-row>
@@ -60,7 +60,7 @@
         <required-text />
         <oxd-button
           type="button"
-          displayType="ghost"
+          display-type="ghost"
           label="Cancel"
           @click="onCancel"
         />
@@ -77,17 +77,18 @@ import {required} from '@ohrm/core/util/validation/rules';
 import ProjectAutocomplete from '@/orangehrmTimePlugin/components/ProjectAutocomplete.vue';
 
 export default {
-  name: 'copy-activity-modal',
+  name: 'CopyActivityModal',
+  components: {
+    'oxd-dialog': Dialog,
+    'project-autocomplete': ProjectAutocomplete,
+  },
   props: {
     projectId: {
       type: Number,
       required: true,
     },
   },
-  components: {
-    'oxd-dialog': Dialog,
-    'project-autocomplete': ProjectAutocomplete,
-  },
+  emits: ['close'],
   setup() {
     const http = new APIService(
       // window.appGlobal.baseUrl,
@@ -117,22 +118,6 @@ export default {
       },
     };
   },
-  methods: {
-    onSave() {
-      this.isLoading = true;
-      this.http
-        .update(this.projectId, {
-          activities: this.selectedActivities,
-        })
-        .then(() => {
-          this.$toast.updateSuccess();
-          this.onCancel();
-        });
-    },
-    onCancel() {
-      this.$emit('close', true);
-    },
-  },
   watch: {
     project(value) {
       this.activities = null;
@@ -158,6 +143,22 @@ export default {
             this.isLoading = false;
           });
       }
+    },
+  },
+  methods: {
+    onSave() {
+      this.isLoading = true;
+      this.http
+        .update(this.projectId, {
+          activities: this.selectedActivities,
+        })
+        .then(() => {
+          this.$toast.updateSuccess();
+          this.onCancel();
+        });
+    },
+    onCancel() {
+      this.$emit('close', true);
     },
   },
 };
