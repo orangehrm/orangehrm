@@ -83,11 +83,11 @@ class TimesheetAPI extends Endpoint implements CollectionEndpoint
                     new Rule(Rules::API_DATE),
                     new Rule(Rules::CALLBACK, [
                         function () {
-                            $startDate = $this->getRequestParams()->getString(
+                            $date = $this->getRequestParams()->getDateTime(
                                 RequestParams::PARAM_TYPE_BODY,
                                 self::PARAMETER_DATE
                             );
-                            return !($startDate > date('Y-m-d'));
+                            return !($date > $this->getDateTimeHelper()->getNow());
                         }
                     ])
                 ),

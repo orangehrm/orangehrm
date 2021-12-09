@@ -20,9 +20,7 @@
 namespace OrangeHRM\Tests\Time\Entity;
 
 use DateTime;
-use OrangeHRM\Core\Service\AccessFlowStateMachineService;
 use OrangeHRM\Entity\Timesheet;
-use OrangeHRM\Entity\WorkflowStateMachine;
 use OrangeHRM\Tests\Util\EntityTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 
@@ -40,14 +38,7 @@ class TimesheetTest extends EntityTestCase
     public function testTimesheetEntity(): void
     {
         $timesheet = new Timesheet();
-        $accessFlowStateMachineService = new AccessFlowStateMachineService();
-        $tempNextState = $accessFlowStateMachineService->getNextState(
-            WorkflowStateMachine::FLOW_TIME_TIMESHEET,
-            Timesheet::STATE_INITIAL,
-            "SYSTEM",
-            WorkflowStateMachine::TIMESHEET_ACTION_CREATE
-        );
-        $timesheet->setState($tempNextState);
+        $timesheet->setState("NOT SUBMITTED");
         $timesheet->setStartDate(new DateTime("2021-01-01"));
         $timesheet->setEndDate(new DateTime("2021-01-06"));
         $timesheet->setEmployeeId(1);
@@ -57,7 +48,7 @@ class TimesheetTest extends EntityTestCase
         $timesheet = $this->getRepository(Timesheet::class)->find(1);
         $this->assertEquals(new DateTime("2021-01-01"), $timesheet->getStartDate());
         $this->assertEquals(new DateTime("2021-01-06"), $timesheet->getEndDate());
-        $this->assertEquals($tempNextState, $timesheet->getState());
+        $this->assertEquals("NOT SUBMITTED", $timesheet->getState());
         $this->assertEquals(1, $timesheet->getEmployeeId());
     }
 }

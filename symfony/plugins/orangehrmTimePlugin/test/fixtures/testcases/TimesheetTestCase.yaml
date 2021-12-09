@@ -1,6 +1,8 @@
 Create:
   'Time sheet create (Wednesday)':
     userId: 1
+    now:
+      datetime: '2021-12-09'
     services:
       time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
       core.config_service: \OrangeHRM\Core\Service\ConfigService
@@ -16,6 +18,8 @@ Create:
 
   'Time sheet create (Tuesday)':
     userId: 1
+    now:
+      datetime: '2021-12-09'
     services:
       time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
       core.config_service: \OrangeHRM\Core\Service\ConfigService
@@ -31,6 +35,8 @@ Create:
 
   'Time sheet create (Monday)':
     userId: 1
+    now:
+      datetime: '2021-12-09'
     services:
       time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
       core.config_service: \OrangeHRM\Core\Service\ConfigService
@@ -46,6 +52,8 @@ Create:
 
   'Time sheet create (Thursday)':
     userId: 1
+    now:
+      datetime: '2021-12-09'
     services:
       time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
       core.config_service: \OrangeHRM\Core\Service\ConfigService
@@ -61,6 +69,8 @@ Create:
 
   'Time sheet create (Friday)':
     userId: 1
+    now:
+      datetime: '2021-12-09'
     services:
       time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
       core.config_service: \OrangeHRM\Core\Service\ConfigService
@@ -76,6 +86,8 @@ Create:
 
   'Time sheet create (Saturday)':
     userId: 1
+    now:
+      datetime: '2021-12-09'
     services:
       time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
       core.config_service: \OrangeHRM\Core\Service\ConfigService
@@ -91,6 +103,8 @@ Create:
 
   'Time sheet create (Sunday)':
     userId: 1
+    now:
+      datetime: '2021-12-09'
     services:
       time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
       core.config_service: \OrangeHRM\Core\Service\ConfigService
