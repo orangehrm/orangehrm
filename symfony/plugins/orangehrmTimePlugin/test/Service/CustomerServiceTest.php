@@ -28,6 +28,10 @@ use OrangeHRM\Time\Dao\CustomerDao;
 use OrangeHRM\Time\Dto\CustomerSearchFilterParams;
 use OrangeHRM\Time\Service\CustomerService;
 
+/**
+ * @group Time
+ * @group Service
+ */
 class CustomerServiceTest extends TestCase
 {
     private CustomerService $customerService;

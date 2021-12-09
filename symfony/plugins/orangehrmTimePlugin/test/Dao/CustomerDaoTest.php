@@ -27,6 +27,10 @@ use OrangeHRM\Tests\Util\TestDataService;
 use OrangeHRM\Time\Dao\CustomerDao;
 use OrangeHRM\Time\Dto\CustomerSearchFilterParams;
 
+/**
+ * @group Time
+ * @group Dao
+ */
 class CustomerDaoTest extends KernelTestCase
 {
     private CustomerDao $customerDao;
