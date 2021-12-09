@@ -35,7 +35,7 @@ class TimesheetTest extends EntityTestCase
     protected function setUp(): void
     {
         TestDataService::truncateSpecificTables([Timesheet::class]);
-        $fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmTimePlugin/test/fixtures/TimesheetDao.yml';
+        $fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmTimePlugin/test/fixtures/TimesheetTest.yaml';
         TestDataService::populate($fixture);
         $this->getEntityManager()->clear();
     }
@@ -43,20 +43,20 @@ class TimesheetTest extends EntityTestCase
     public function testTimesheetEntity(): void
     {
         $this->assertTrue(true);
-//        $timesheet = new Timesheet();
-//        $timesheet->setState('INITIAL');
-//        $timesheet->setId(1);
-//        $timesheet->setStartDate(new DateTime('2021-12-06'));
-//        $timesheet->setEndDate(new DateTime('2021-12-12'));
-//        $timesheet->setEmployee($this->getEntityReference(Employee::class, 1));
-//        $this->persist($timesheet);
-//
-//        $this->assertEquals(1, $timesheet->getId());
-//        $this->assertEquals('INITIAL', $timesheet->getState());
-//        $this->assertEquals('2021-12-06', $timesheet->getStartDate()->format('Y-m-d'));
-//        $this->assertEquals('2021-12-12', $timesheet->getEndDate()->format('Y-m-d'));
-//        $this->assertEquals(1, $timesheet->getEmployee()->getEmpNumber());
-//        $this->assertEquals('Kayla', $timesheet->getEmployee()->getFirstName());
-//        $this->assertEquals('Abbey', $timesheet->getEmployee()->getLastName());
+        $timesheet = new Timesheet();
+        $timesheet->setState('INITIAL');
+        $timesheet->setId(1);
+        $timesheet->setStartDate(new DateTime('2021-12-06'));
+        $timesheet->setEndDate(new DateTime('2021-12-12'));
+        $timesheet->setEmployee($this->getEntityReference(Employee::class, 1));
+        $this->persist($timesheet);
+
+        $this->assertEquals(1, $timesheet->getId());
+        $this->assertEquals('INITIAL', $timesheet->getState());
+        $this->assertEquals('2021-12-06', $timesheet->getStartDate()->format('Y-m-d'));
+        $this->assertEquals('2021-12-12', $timesheet->getEndDate()->format('Y-m-d'));
+        $this->assertEquals(1, $timesheet->getEmployee()->getEmpNumber());
+        $this->assertEquals('Kayla', $timesheet->getEmployee()->getFirstName());
+        $this->assertEquals('Abbey', $timesheet->getEmployee()->getLastName());
     }
 }
