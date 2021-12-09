@@ -1,0 +1,115 @@
+Create:
+  'Time sheet create (Wednesday)':
+    userId: 1
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    body:
+      date: "2021-12-08"
+    query: [ ]
+    data:
+      id: 4
+      state: "NOT SUBMITTED"
+      startDate: "2021-12-06"
+      endDate: "2021-12-12"
+    meta: [ ]
+
+  'Time sheet create (Tuesday)':
+    userId: 1
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    body:
+      date: "2021-12-07"
+    query: [ ]
+    data:
+      id: 4
+      state: "NOT SUBMITTED"
+      startDate: "2021-12-06"
+      endDate: "2021-12-12"
+    meta: [ ]
+
+  'Time sheet create (Monday)':
+    userId: 1
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    body:
+      date: "2021-12-06"
+    query: [ ]
+    data:
+      id: 4
+      state: "NOT SUBMITTED"
+      startDate: "2021-12-06"
+      endDate: "2021-12-12"
+    meta: [ ]
+
+  'Time sheet create (Thursday)':
+    userId: 1
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    body:
+      date: "2021-12-02"
+    query: [ ]
+    data:
+      id: 4
+      state: "NOT SUBMITTED"
+      startDate: "2021-11-29"
+      endDate: "2021-12-05"
+    meta: [ ]
+
+  'Time sheet create (Friday)':
+    userId: 1
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    body:
+      date: "2021-12-03"
+    query: [ ]
+    data:
+      id: 4
+      state: "NOT SUBMITTED"
+      startDate: "2021-11-29"
+      endDate: "2021-12-05"
+    meta: [ ]
+
+  'Time sheet create (Saturday)':
+    userId: 1
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    body:
+      date: "2021-12-04"
+    query: [ ]
+    data:
+      id: 4
+      state: "NOT SUBMITTED"
+      startDate: "2021-11-29"
+      endDate: "2021-12-05"
+    meta: [ ]
+
+  'Time sheet create (Sunday)':
+    userId: 1
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    body:
+      date: "2021-12-05"
+    query: [ ]
+    data:
+      id: 4
+      state: "NOT SUBMITTED"
+      startDate: "2021-11-29"
+      endDate: "2021-12-05"
+    meta: [ ]
+
+  'Time sheet create with out date':
+    userId: 1
+    invalidOnly: [ 'date' ]
+
+  'Time sheet create with future date':
+    userId: 1
+    body:
+      date: "2222-12-05"
+    invalidOnly: [ 'date' ]

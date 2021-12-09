@@ -1,5 +1,4 @@
 <?php
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -17,6 +16,15 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
+
+namespace OrangeHRM\Time\Service;
+
+use DateTime;
+use OrangeHRM\Core\Service\AccessFlowStateMachineService;
+use OrangeHRM\Entity\Timesheet;
+use OrangeHRM\Entity\WorkflowStateMachine;
+use OrangeHRM\Time\Dao\TimesheetDao;
+
 class TimesheetService {
 
     // Timesheet Data Access Object
@@ -71,24 +79,22 @@ class TimesheetService {
     }
 
     /**
-     * Get the Timesheet Data Access Object
      * @return TimesheetDao
      */
-    public function getTimesheetDao() {
-
-        if (is_null($this->timesheetDao)) {
+    public function getTimesheetDao() :TimesheetDao
+    {
+        if (!$this->timesheetDao instanceof TimesheetDao) {
             $this->timesheetDao = new TimesheetDao();
         }
         return $this->timesheetDao;
     }
 
     /**
-     * Set TimesheetData Access Object
-     * @param TimesheetDao $TimesheetDao
+     * @param TimesheetDao $timesheetDao
      * @return void
      */
-    public function setTimesheetDao(TimesheetDao $timesheetDao) {
-
+    public function setTimesheetDao(TimesheetDao $timesheetDao) :void
+    {
         $this->timesheetDao = $timesheetDao;
     }
 
@@ -441,8 +447,11 @@ class TimesheetService {
         }
     }
 
-    public function getTimesheetPeriodService() {
-
+    /**
+     * @return TimesheetPeriodService
+     */
+    public function getTimesheetPeriodService(): TimesheetPeriodService
+    {
         if (is_null($this->timesheetPeriodService)) {
             $this->timesheetPeriodService = new TimesheetPeriodService();
         }
@@ -456,12 +465,28 @@ class TimesheetService {
     }
 
     /**
-     * Add, Update Timesheet
      * @param Timesheet $timesheet
-     * @return boolean
+     * @param DateTime $date
+     * @return Timesheet
      */
-    public function saveTimesheet(Timesheet $timesheet) {
+    public function saveTimesheet(Timesheet $timesheet, DateTime $date): Timesheet
+    {
+        $accessFlowStateMachineService = new AccessFlowStateMachineService();
+        $tempNextState = $accessFlowStateMachineService->getNextState(
+            WorkflowStateMachine::FLOW_TIME_TIMESHEET,
+            Timesheet::STATE_INITIAL,
+            "SYSTEM",
+            WorkflowStateMachine::TIMESHEET_ACTION_CREATE
+        );
 
+        $currentWeekFirstDate = date("Y-m-d", strtotime('monday this week', strtotime($date->format('Y-m-d'))));
+        $configDate = $this->getTimeSheetPeriodService()->getTimesheetStartDate() - 1;
+        $startDate = date('Y-m-d', strtotime($currentWeekFirstDate . ' + ' . $configDate . ' days'));
+        $endDate = date('Y-m-d', strtotime($startDate . ' + 6 days'));
+
+        $timesheet->setState($tempNextState);
+        $timesheet->setStartDate(new DateTime($startDate));
+        $timesheet->setEndDate(new DateTime($endDate));
         return $this->getTimesheetDao()->saveTimesheet($timesheet);
     }
 

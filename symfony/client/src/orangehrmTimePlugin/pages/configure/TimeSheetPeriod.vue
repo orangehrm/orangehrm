@@ -85,7 +85,7 @@ export default {
         .fill('')
         .map((...[, index]) => {
           return {
-            id: index + 1,
+            id: index === 0 ? 7 : index,
             label: enGB.localize.day(index, {
               width: 'wide',
             }),

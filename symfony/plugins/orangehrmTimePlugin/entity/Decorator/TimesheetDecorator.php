@@ -17,29 +17,46 @@
  * Boston, MA  02110-1301, USA
  */
 
-use OrangeHRM\Core\Traits\ServiceContainerTrait;
-use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Framework\PluginConfigurationInterface;
-use OrangeHRM\Framework\Services;
-use OrangeHRM\Time\Service\CustomerService;
-use OrangeHRM\Time\Service\TimesheetService;
+namespace OrangeHRM\Entity\Decorator;
 
-class TimePluginConfiguration implements PluginConfigurationInterface
+use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
+use OrangeHRM\Entity\Timesheet;
+
+class TimesheetDecorator
 {
-    use ServiceContainerTrait;
+    use DateTimeHelperTrait;
+
+    private Timesheet $timesheet;
 
     /**
-     * @inheritDoc
+     * @param Timesheet $timesheet
      */
-    public function initialize(Request $request): void
+    public function __construct(Timesheet $timesheet)
     {
-        $this->getContainer()->register(
-            Services::CUSTOMER_SERVICE,
-            CustomerService::class
-        );
-        $this->getContainer()->register(
-            Services::TIMESHEET_SERVICE,
-            TimesheetService::class
-        );
+        $this->timesheet = $timesheet;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getStartDate(): ?string
+    {
+        return $this->getDateTimeHelper()->formatDateTimeToYmd($this->getTimesheet()->getStartDate());
+    }
+
+    /**
+     * @return Timesheet
+     */
+    public function getTimesheet(): Timesheet
+    {
+        return $this->timesheet;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getEndDate(): ?string
+    {
+        return $this->getDateTimeHelper()->formatDateTimeToYmd($this->getTimesheet()->getEndDate());
     }
 }

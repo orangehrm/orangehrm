@@ -35,7 +35,7 @@ class TimesheetItem
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private int $timesheetId;
+    private int $id;
 
     /**
      * @var Timesheet
@@ -91,17 +91,17 @@ class TimesheetItem
     /**
      * @return int
      */
-    public function getTimesheetId(): int
+    public function getId(): int
     {
-        return $this->timesheetId;
+        return $this->id;
     }
 
     /**
-     * @param int $timesheetId
+     * @param int $id
      */
-    public function setTimesheetId(int $timesheetId): void
+    public function setId(int $id): void
     {
-        $this->timesheetId = $timesheetId;
+        $this->id = $id;
     }
 
     /**

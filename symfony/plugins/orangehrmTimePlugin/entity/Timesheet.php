@@ -21,13 +21,21 @@ namespace OrangeHRM\Entity;
 
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use OrangeHRM\Entity\Decorator\DecoratorTrait;
+use OrangeHRM\Entity\Decorator\TimesheetDecorator;
 
 /**
+ * @method TimesheetDecorator getDecorator()
+ *
  * @ORM\Table(name="ohrm_timesheet")
  * @ORM\Entity
  */
 class Timesheet
 {
+    use DecoratorTrait;
+
+    public const STATE_INITIAL = "INITIAL";
+
     /**
      * @var int
      *
@@ -35,7 +43,7 @@ class Timesheet
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private int $timesheetId;
+    private int $id;
 
     /**
      * @var string
@@ -75,17 +83,17 @@ class Timesheet
     /**
      * @return int
      */
-    public function getTimesheetId(): int
+    public function getId(): int
     {
-        return $this->timesheetId;
+        return $this->id;
     }
 
     /**
-     * @param int $timesheetId
+     * @param int $id
      */
-    public function setTimesheetId(int $timesheetId): void
+    public function setId(int $id): void
     {
-        $this->timesheetId = $timesheetId;
+        $this->id = $id;
     }
 
     /**

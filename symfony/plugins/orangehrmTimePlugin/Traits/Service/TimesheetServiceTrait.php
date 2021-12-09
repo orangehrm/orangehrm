@@ -17,29 +17,21 @@
  * Boston, MA  02110-1301, USA
  */
 
+namespace OrangeHRM\Time\Traits\Service;
+
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
-use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Framework\PluginConfigurationInterface;
 use OrangeHRM\Framework\Services;
-use OrangeHRM\Time\Service\CustomerService;
 use OrangeHRM\Time\Service\TimesheetService;
 
-class TimePluginConfiguration implements PluginConfigurationInterface
+trait TimesheetServiceTrait
 {
     use ServiceContainerTrait;
 
     /**
-     * @inheritDoc
+     * @return TimesheetService
      */
-    public function initialize(Request $request): void
+    public function getTimesheetService(): TimesheetService
     {
-        $this->getContainer()->register(
-            Services::CUSTOMER_SERVICE,
-            CustomerService::class
-        );
-        $this->getContainer()->register(
-            Services::TIMESHEET_SERVICE,
-            TimesheetService::class
-        );
+        return $this->getContainer()->get(Services::TIMESHEET_SERVICE);
     }
 }

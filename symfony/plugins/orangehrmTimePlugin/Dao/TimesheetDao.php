@@ -1,5 +1,4 @@
 <?php
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -17,8 +16,14 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-class TimesheetDao {
 
+namespace OrangeHRM\Time\Dao;
+
+use OrangeHRM\Core\Dao\BaseDao;
+use OrangeHRM\Entity\Timesheet;
+
+class TimesheetDao extends BaseDao
+{
     /**
      * Get Timesheet by given Timehseet Id
      * @param $timesheetId
@@ -76,17 +81,13 @@ class TimesheetDao {
     }
 
     /**
-     * Add or Save Timesheet
      * @param Timesheet $timesheet
      * @return Timesheet
      */
-    public function saveTimesheet(Timesheet $timesheet) {
-        try {
-            $timesheet->save();
-            return $timesheet;
-        } catch (Exception $ex) {
-            throw new DaoException($ex->getMessage());
-        }
+    public function saveTimesheet(Timesheet $timesheet) :Timesheet
+    {
+        $this->persist($timesheet);
+        return $timesheet;
     }
 
     /**

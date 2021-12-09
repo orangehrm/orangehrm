@@ -17,29 +17,37 @@
  * Boston, MA  02110-1301, USA
  */
 
-use OrangeHRM\Core\Traits\ServiceContainerTrait;
-use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Framework\PluginConfigurationInterface;
-use OrangeHRM\Framework\Services;
-use OrangeHRM\Time\Service\CustomerService;
-use OrangeHRM\Time\Service\TimesheetService;
+namespace OrangeHRM\Time\Api\Model;
 
-class TimePluginConfiguration implements PluginConfigurationInterface
+use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
+use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
+use OrangeHRM\Entity\Timesheet;
+
+class TimesheetModel implements Normalizable
 {
-    use ServiceContainerTrait;
+    use ModelTrait;
 
     /**
-     * @inheritDoc
+     * @param Timesheet $timesheet
      */
-    public function initialize(Request $request): void
+    public function __construct(Timesheet $timesheet)
     {
-        $this->getContainer()->register(
-            Services::CUSTOMER_SERVICE,
-            CustomerService::class
+        $this->setEntity($timesheet);
+        $this->setFilters(
+            [
+                'id',
+                'state',
+                ['getDecorator', 'getStartDate'],
+                ['getDecorator', 'getEndDate'],
+            ]
         );
-        $this->getContainer()->register(
-            Services::TIMESHEET_SERVICE,
-            TimesheetService::class
+        $this->setAttributeNames(
+            [
+                'id',
+                'state',
+                'startDate',
+                'endDate',
+            ]
         );
     }
 }
