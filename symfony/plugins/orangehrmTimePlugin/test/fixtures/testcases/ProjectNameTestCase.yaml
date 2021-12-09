@@ -1,0 +1,25 @@
+GetOne:
+  'get already existing project name status':
+    userId: 1
+    services:
+      time.project_service: \OrangeHRM\Time\Service\ProjectService
+    attributes: [ ]
+    body: [ ]
+    query:
+      projectName: 'project_03'
+    data:
+      valid: false
+    meta: [ ]
+
+  'get non existing project name status':
+    userId: 1
+    services:
+      time.project_service: \OrangeHRM\Time\Service\ProjectService
+    attributes: [ ]
+    body: [ ]
+    query:
+      projectName: 'Airbus A380'
+      projectId: 1
+    data:
+      valid: true
+    meta: [ ]
