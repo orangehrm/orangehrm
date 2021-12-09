@@ -32,6 +32,11 @@ use OrangeHRM\Time\Api\ProjectAPI;
  */
 class ProjectAPITest extends EndpointIntegrationTestCase
 {
+    protected function setUp(): void
+    {
+        $this->getEntityManager()->clear();
+    }
+
     /**
      * @dataProvider dataProviderForTestCreate
      */

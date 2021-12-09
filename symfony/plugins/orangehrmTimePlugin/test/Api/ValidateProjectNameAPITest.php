@@ -23,7 +23,6 @@ use OrangeHRM\Framework\Services;
 use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
 use OrangeHRM\Tests\Util\Integration\TestCaseParams;
 use OrangeHRM\Time\Api\ValidateProjectNameAPI;
-use OrangeHRM\Time\Api\ValidationCustomerNameAPI;
 
 /**
  * @group Time
@@ -31,6 +30,10 @@ use OrangeHRM\Time\Api\ValidationCustomerNameAPI;
  */
 class ValidateProjectNameAPITest extends EndpointIntegrationTestCase
 {
+    protected function setUp(): void
+    {
+        $this->getEntityManager()->clear();
+    }
 
     /**
      * @dataProvider dataProviderForTestGetOne
