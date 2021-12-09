@@ -26,8 +26,8 @@
         <div>
           <oxd-button
             label="Add"
-            iconName="plus"
-            displayType="secondary"
+            icon-name="plus"
+            display-type="secondary"
             @click="onClickAdd"
           />
         </div>
@@ -40,20 +40,20 @@
       ></table-header>
       <div class="orangehrm-container">
         <oxd-card-table
+          v-model:selected="checkedItems"
           :loading="isLoading"
           :headers="headers"
           :items="items?.data"
           :selectable="true"
           :clickable="false"
-          v-model:selected="checkedItems"
-          rowDecorator="oxd-table-decorator-card"
+          row-decorator="oxd-table-decorator-card"
         />
       </div>
       <div class="orangehrm-bottom-container">
         <oxd-pagination
           v-if="showPaginator"
-          :length="pages"
           v-model:current="currentPage"
+          :length="pages"
         />
       </div>
     </div>
@@ -69,51 +69,14 @@ import {navigate} from '@ohrm/core/util/helper/navigation';
 import {APIService} from '@ohrm/core/util/services/api.service';
 
 export default {
+  components: {
+    'delete-confirmation': DeleteConfirmationDialog,
+  },
   props: {
     unselectableIds: {
       type: Array,
       default: () => [],
     },
-  },
-
-  data() {
-    return {
-      headers: [
-        {
-          name: 'name',
-          slot: 'title',
-          title: 'Name',
-          style: {'flex-basis': '80%'},
-        },
-        {
-          name: 'actions',
-          slot: 'action',
-          title: 'Actions',
-          style: {'flex-shrink': 1},
-          cellType: 'oxd-table-cell-actions',
-          cellConfig: {
-            delete: {
-              onClick: this.onClickDelete,
-              component: 'oxd-icon-button',
-              props: {
-                name: 'trash',
-              },
-            },
-            edit: {
-              onClick: this.onClickEdit,
-              props: {
-                name: 'pencil-fill',
-              },
-            },
-          },
-        },
-      ],
-      checkedItems: [],
-    };
-  },
-
-  components: {
-    'delete-confirmation': DeleteConfirmationDialog,
   },
 
   setup(props) {
@@ -152,6 +115,42 @@ export default {
       pageSize,
       execQuery,
       items: response,
+    };
+  },
+
+  data() {
+    return {
+      headers: [
+        {
+          name: 'name',
+          slot: 'title',
+          title: 'Name',
+          style: {'flex-basis': '80%'},
+        },
+        {
+          name: 'actions',
+          slot: 'action',
+          title: 'Actions',
+          style: {'flex-shrink': 1},
+          cellType: 'oxd-table-cell-actions',
+          cellConfig: {
+            delete: {
+              onClick: this.onClickDelete,
+              component: 'oxd-icon-button',
+              props: {
+                name: 'trash',
+              },
+            },
+            edit: {
+              onClick: this.onClickEdit,
+              props: {
+                name: 'pencil-fill',
+              },
+            },
+          },
+        },
+      ],
+      checkedItems: [],
     };
   },
 

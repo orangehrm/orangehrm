@@ -35,7 +35,7 @@
         :headers="headers"
         :items="items"
         :clickable="false"
-        rowDecorator="oxd-table-decorator-card"
+        row-decorator="oxd-table-decorator-card"
       />
     </div>
     <div class="orangehrm-bottom-container"></div>
@@ -45,7 +45,7 @@
 
 <script>
 export default {
-  name: 'leave-conflict',
+  name: 'LeaveConflict',
   props: {
     workshiftExceeded: {
       type: Boolean,

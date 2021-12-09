@@ -28,8 +28,8 @@
         <div>
           <oxd-button
             :label="$t('general.add')"
-            iconName="plus"
-            displayType="secondary"
+            icon-name="plus"
+            display-type="secondary"
             @click="onClickAdd"
           />
         </div>
@@ -42,21 +42,21 @@
       ></table-header>
       <div class="orangehrm-container">
         <oxd-card-table
+          v-model:selected="checkedItems"
+          v-model:order="sortDefinition"
           :headers="headers"
           :items="items?.data"
           :selectable="true"
           :clickable="false"
           :loading="isLoading"
-          v-model:selected="checkedItems"
-          rowDecorator="oxd-table-decorator-card"
-          v-model:order="sortDefinition"
+          row-decorator="oxd-table-decorator-card"
         />
       </div>
       <div class="orangehrm-bottom-container">
         <oxd-pagination
           v-if="showPaginator"
-          :length="pages"
           v-model:current="currentPage"
+          :length="pages"
         />
       </div>
     </div>
@@ -83,48 +83,6 @@ const defaultSortOrder = {
 };
 
 export default {
-  data() {
-    return {
-      headers: [
-        {
-          name: 'title',
-          slot: 'title',
-          title: 'Job Title',
-          sortField: 'jt.jobTitleName',
-          style: {flex: 2},
-        },
-        {
-          name: 'description',
-          title: 'Job Description',
-          style: {flex: 4},
-        },
-        {
-          name: 'actions',
-          title: 'Actions',
-          slot: 'action',
-          style: {flex: 1},
-          cellType: 'oxd-table-cell-actions',
-          cellConfig: {
-            delete: {
-              onClick: this.onClickDelete,
-              component: 'oxd-icon-button',
-              props: {
-                name: 'trash',
-              },
-            },
-            edit: {
-              onClick: this.onClickEdit,
-              props: {
-                name: 'pencil-fill',
-              },
-            },
-          },
-        },
-      ],
-      checkedItems: [],
-    };
-  },
-
   components: {
     'delete-confirmation': DeleteConfirmationDialog,
   },
@@ -176,6 +134,47 @@ export default {
       items: response,
       filters,
       sortDefinition,
+    };
+  },
+  data() {
+    return {
+      headers: [
+        {
+          name: 'title',
+          slot: 'title',
+          title: 'Job Title',
+          sortField: 'jt.jobTitleName',
+          style: {flex: 2},
+        },
+        {
+          name: 'description',
+          title: 'Job Description',
+          style: {flex: 4},
+        },
+        {
+          name: 'actions',
+          title: 'Actions',
+          slot: 'action',
+          style: {flex: 1},
+          cellType: 'oxd-table-cell-actions',
+          cellConfig: {
+            delete: {
+              onClick: this.onClickDelete,
+              component: 'oxd-icon-button',
+              props: {
+                name: 'trash',
+              },
+            },
+            edit: {
+              onClick: this.onClickEdit,
+              props: {
+                name: 'pencil-fill',
+              },
+            },
+          },
+        },
+      ],
+      checkedItems: [],
     };
   },
 

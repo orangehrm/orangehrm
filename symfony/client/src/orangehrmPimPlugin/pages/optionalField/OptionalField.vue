@@ -92,11 +92,8 @@ const optionalFieldModel = {
 };
 
 export default {
-  data() {
-    return {
-      isLoading: false,
-      optionalField: {...optionalFieldModel},
-    };
+  components: {
+    'oxd-switch-input': SwitchInput,
   },
 
   setup() {
@@ -108,9 +105,24 @@ export default {
       http,
     };
   },
+  data() {
+    return {
+      isLoading: false,
+      optionalField: {...optionalFieldModel},
+    };
+  },
 
-  components: {
-    'oxd-switch-input': SwitchInput,
+  created() {
+    this.isLoading = true;
+    this.http
+      .getAll()
+      .then(response => {
+        const {data} = response.data;
+        this.optionalField = {...data};
+      })
+      .finally(() => {
+        this.isLoading = false;
+      });
   },
 
   methods: {
@@ -128,19 +140,6 @@ export default {
           this.isLoading = false;
         });
     },
-  },
-
-  created() {
-    this.isLoading = true;
-    this.http
-      .getAll()
-      .then(response => {
-        const {data} = response.data;
-        this.optionalField = {...data};
-      })
-      .finally(() => {
-        this.isLoading = false;
-      });
   },
 };
 </script>

@@ -29,8 +29,8 @@
       <oxd-form :loading="isLoading" @submitValid="onSave">
         <oxd-form-row>
           <oxd-input-field
-            label="Name"
             v-model="nationality.name"
+            label="Name"
             :rules="rules.name"
             required
           />
@@ -42,7 +42,7 @@
           <required-text />
           <oxd-button
             type="button"
-            displayType="ghost"
+            display-type="ghost"
             label="Cancel"
             @click="onCancel"
           />
@@ -91,25 +91,6 @@ export default {
     };
   },
 
-  methods: {
-    onSave() {
-      this.isLoading = true;
-      this.http
-        .update(this.nationalityId, {
-          name: this.nationality.name,
-        })
-        .then(() => {
-          return this.$toast.updateSuccess();
-        })
-        .then(() => {
-          this.onCancel();
-        });
-    },
-    onCancel() {
-      navigate('/admin/nationality');
-    },
-  },
-
   created() {
     this.isLoading = true;
     this.http
@@ -136,6 +117,25 @@ export default {
       .finally(() => {
         this.isLoading = false;
       });
+  },
+
+  methods: {
+    onSave() {
+      this.isLoading = true;
+      this.http
+        .update(this.nationalityId, {
+          name: this.nationality.name,
+        })
+        .then(() => {
+          return this.$toast.updateSuccess();
+        })
+        .then(() => {
+          this.onCancel();
+        });
+    },
+    onCancel() {
+      navigate('/admin/nationality');
+    },
   },
 };
 </script>

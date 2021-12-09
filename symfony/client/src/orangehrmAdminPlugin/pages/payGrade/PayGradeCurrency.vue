@@ -20,19 +20,19 @@
 <template>
   <save-pay-currency
     v-if="showSaveModal"
-    :payGradeId="payGradeId"
+    :pay-grade-id="payGradeId"
     @close="onSaveModalClose"
   ></save-pay-currency>
   <edit-pay-currency
     v-if="showEditModal"
     :data="editModalState"
-    :payGradeId="payGradeId"
+    :pay-grade-id="payGradeId"
     @close="onEditModalClose"
   ></edit-pay-currency>
   <div class="orangehrm-background-container">
     <div class="orangehrm-paper-container">
       <div class="orangehrm-header-container">
-        <inline-action-button @click="onclickAdd" displayType="secondary">
+        <inline-action-button display-type="secondary" @click="onclickAdd">
           Currencies
         </inline-action-button>
       </div>
@@ -44,20 +44,20 @@
       ></table-header>
       <div class="orangehrm-container">
         <oxd-card-table
+          v-model:selected="checkedItems"
           :headers="headers"
           :items="items?.data"
           :selectable="selectable"
           :clickable="false"
           :loading="isLoading"
-          v-model:selected="checkedItems"
-          rowDecorator="oxd-table-decorator-card"
+          row-decorator="oxd-table-decorator-card"
         />
       </div>
       <div class="orangehrm-bottom-container">
         <oxd-pagination
           v-if="showPaginator"
-          :length="pages"
           v-model:current="currentPage"
+          :length="pages"
         />
       </div>
       <delete-confirmation ref="deleteDialog"></delete-confirmation>
@@ -88,7 +88,7 @@ const PayGradeCurrencyNormalizer = data => {
 };
 
 export default {
-  name: 'pay-grade-currency',
+  name: 'PayGradeCurrency',
   components: {
     'inline-action-button': InlineActionButton,
     'save-pay-currency': SavePayCurrency,
@@ -169,6 +169,12 @@ export default {
     };
   },
 
+  computed: {
+    selectable() {
+      return !(this.showSaveModal || this.showEditModal);
+    },
+  },
+
   methods: {
     onclickAdd() {
       this.showEditModal = false;
@@ -227,12 +233,6 @@ export default {
       this.showEditModal = false;
       this.editModalState = null;
       this.resetDataTable();
-    },
-  },
-
-  computed: {
-    selectable() {
-      return !(this.showSaveModal || this.showEditModal);
     },
   },
 };

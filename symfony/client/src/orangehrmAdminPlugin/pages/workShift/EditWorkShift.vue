@@ -29,9 +29,9 @@
           <oxd-grid :cols="2" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <oxd-input-field
+                v-model="workShift.name"
                 label="Shift Name"
                 :rules="rules.name"
-                v-model="workShift.name"
               />
             </oxd-grid-item>
           </oxd-grid>
@@ -43,17 +43,17 @@
           <oxd-grid :cols="4" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <time-input
+                v-model="workShift.startTime"
                 :rules="rules.fromTime"
                 :label="$t('general.from')"
-                v-model="workShift.startTime"
               />
             </oxd-grid-item>
 
             <oxd-grid-item>
               <time-input
+                v-model="workShift.endTime"
                 :rules="rules.endTime"
                 :label="$t('general.to')"
-                v-model="workShift.endTime"
               />
             </oxd-grid-item>
 
@@ -80,7 +80,7 @@
         <oxd-divider />
         <oxd-form-actions>
           <required-text />
-          <oxd-button displayType="ghost" label="Cancel" @click="onCancel" />
+          <oxd-button display-type="ghost" label="Cancel" @click="onCancel" />
           <submit-button />
         </oxd-form-actions>
       </oxd-form>
@@ -109,14 +109,15 @@ const workShiftModel = {
   empNumbers: [],
 };
 export default {
+  components: {
+    'work-shift-employee-autocomplete': WorkShiftEmployeeAutocomplete,
+  },
   props: {
     workShiftId: {
       type: Number,
       required: true,
+      default: null,
     },
-  },
-  components: {
-    'work-shift-employee-autocomplete': WorkShiftEmployeeAutocomplete,
   },
   setup() {
     const http = new APIService(
@@ -144,27 +145,11 @@ export default {
       },
     };
   },
-  methods: {
-    onSave() {
-      this.isLoading = true;
-      const payload = {
-        name: this.workShift.name,
-        hoursPerDay: this.selectedTimeDuration,
-        startTime: this.workShift.startTime,
-        endTime: this.workShift.endTime,
-        empNumbers: this.workShift.empNumbers.map(employee => employee.id),
-      };
-      this.http
-        .update(this.workShiftId, payload)
-        .then(() => {
-          return this.$toast.updateSuccess();
-        })
-        .then(() => {
-          this.onCancel();
-        });
-    },
-    onCancel() {
-      navigate('/admin/workShift');
+  computed: {
+    selectedTimeDuration() {
+      return parseFloat(
+        diffInTime(this.workShift.startTime, this.workShift.endTime) / 3600,
+      ).toFixed(2);
     },
   },
   beforeMount() {
@@ -203,11 +188,27 @@ export default {
         this.isLoading = false;
       });
   },
-  computed: {
-    selectedTimeDuration() {
-      return parseFloat(
-        diffInTime(this.workShift.startTime, this.workShift.endTime) / 3600,
-      ).toFixed(2);
+  methods: {
+    onSave() {
+      this.isLoading = true;
+      const payload = {
+        name: this.workShift.name,
+        hoursPerDay: this.selectedTimeDuration,
+        startTime: this.workShift.startTime,
+        endTime: this.workShift.endTime,
+        empNumbers: this.workShift.empNumbers.map(employee => employee.id),
+      };
+      this.http
+        .update(this.workShiftId, payload)
+        .then(() => {
+          return this.$toast.updateSuccess();
+        })
+        .then(() => {
+          this.onCancel();
+        });
+    },
+    onCancel() {
+      navigate('/admin/workShift');
     },
   },
 };

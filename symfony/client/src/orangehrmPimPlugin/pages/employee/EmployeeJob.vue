@@ -32,17 +32,17 @@
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <date-input
-                label="Joined Date"
                 v-model="job.joinedDate"
+                label="Joined Date"
                 :rules="rules.joinedDate"
                 :disabled="!hasUpdatePermissions"
               />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
+                v-model="job.jobTitleId"
                 type="select"
                 label="Job Title"
-                v-model="job.jobTitleId"
                 :options="normalizedJobTitles"
                 :disabled="!hasUpdatePermissions"
               />
@@ -55,36 +55,36 @@
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
+                v-model="job.jobCategoryId"
                 type="select"
                 label="Job Catergory"
-                v-model="job.jobCategoryId"
                 :options="jobCategories"
                 :disabled="!hasUpdatePermissions"
               />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
+                v-model="job.subunitId"
                 type="select"
                 label="Sub Unit"
-                v-model="job.subunitId"
                 :options="subunits"
                 :disabled="!hasUpdatePermissions"
               />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
+                v-model="job.locationId"
                 type="select"
                 label="Location"
-                v-model="job.locationId"
                 :options="locations"
                 :disabled="!hasUpdatePermissions"
               />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
+                v-model="job.empStatusId"
                 type="select"
                 label="Employment Status"
-                v-model="job.empStatusId"
                 :options="employmentStatuses"
                 :disabled="!hasUpdatePermissions"
               />
@@ -105,8 +105,8 @@
             <oxd-grid :cols="3" class="orangehrm-full-width-grid">
               <oxd-grid-item>
                 <date-input
-                  label="Contract Start Date"
                   v-model="contract.startDate"
+                  label="Contract Start Date"
                   :rules="rules.startDate"
                   :disabled="!hasUpdatePermissions"
                 />
@@ -114,8 +114,8 @@
 
               <oxd-grid-item>
                 <date-input
-                  label="Contract End Date"
                   v-model="contract.endDate"
+                  label="Contract End Date"
                   :rules="rules.endDate"
                   :disabled="!hasUpdatePermissions"
                 />
@@ -126,10 +126,10 @@
             <oxd-grid :cols="2" class="orangehrm-full-width-grid">
               <oxd-grid-item>
                 <file-upload-input
-                  label="Contract Details"
-                  buttonLabel="Browse"
                   v-model:newFile="contract.newAttachment"
                   v-model:method="contract.method"
+                  label="Contract Details"
+                  button-label="Browse"
                   :file="contract.oldAttachment"
                   :rules="rules.contractAttachment"
                   :url="`pim/viewAttachment/empNumber/${empNumber}/attachId`"
@@ -157,8 +157,8 @@
       class="orangehrm-horizontal-padding orangehrm-vertical-padding"
     >
       <profile-action-header
-        iconName=""
-        :displayType="terminationActionType"
+        icon-name=""
+        :display-type="terminationActionType"
         :label="terminationActionLabel"
         class="--termination-button"
         @click="onClickTerminate"
@@ -166,9 +166,9 @@
         Employee Termination / Activiation
       </profile-action-header>
       <oxd-text
+        v-if="termination && termination.id"
         tag="p"
         class="orangehrm-terminate-date"
-        v-if="termination && termination.id"
         @click="openTerminateModal"
       >
         Terminated on: {{ termination.date }}
@@ -306,6 +306,55 @@ export default {
     };
   },
 
+  computed: {
+    selectedJobTitleId() {
+      const jobTitleId = this.job.jobTitleId?.id;
+      return jobTitleId || 0;
+    },
+    terminationActionLabel() {
+      return this.termination?.id
+        ? 'Activate Employment'
+        : 'Terminate Employment';
+    },
+    terminationActionType() {
+      return this.termination?.id ? 'ghost-success' : 'label-danger';
+    },
+    hasUpdatePermissions() {
+      return this.$can.update(`job_details`);
+    },
+    normalizedJobTitles() {
+      return this.jobTitles.map(jobTitle => {
+        return {
+          id: jobTitle.id,
+          label: jobTitle?.deleted
+            ? jobTitle.label + ' (Deleted)'
+            : jobTitle.label,
+        };
+      });
+    },
+  },
+
+  beforeMount() {
+    this.isLoading = true;
+    this.http
+      .getAll()
+      .then(response => {
+        this.updateJobModel(response);
+      })
+      .then(() => {
+        return this.http.request({
+          method: 'GET',
+          url: `api/v2/pim/employees/${this.empNumber}/employment-contract`,
+        });
+      })
+      .then(response => {
+        this.updateContractModel(response);
+      })
+      .finally(() => {
+        this.isLoading = false;
+      });
+  },
+
   methods: {
     onSave() {
       this.isLoading = true;
@@ -416,55 +465,6 @@ export default {
       );
       this.termination = data.employeeTerminationRecord;
     },
-  },
-
-  computed: {
-    selectedJobTitleId() {
-      const jobTitleId = this.job.jobTitleId?.id;
-      return jobTitleId || 0;
-    },
-    terminationActionLabel() {
-      return this.termination?.id
-        ? 'Activate Employment'
-        : 'Terminate Employment';
-    },
-    terminationActionType() {
-      return this.termination?.id ? 'ghost-success' : 'label-danger';
-    },
-    hasUpdatePermissions() {
-      return this.$can.update(`job_details`);
-    },
-    normalizedJobTitles() {
-      return this.jobTitles.map(jobTitle => {
-        return {
-          id: jobTitle.id,
-          label: jobTitle?.deleted
-            ? jobTitle.label + ' (Deleted)'
-            : jobTitle.label,
-        };
-      });
-    },
-  },
-
-  beforeMount() {
-    this.isLoading = true;
-    this.http
-      .getAll()
-      .then(response => {
-        this.updateJobModel(response);
-      })
-      .then(() => {
-        return this.http.request({
-          method: 'GET',
-          url: `api/v2/pim/employees/${this.empNumber}/employment-contract`,
-        });
-      })
-      .then(response => {
-        this.updateContractModel(response);
-      })
-      .finally(() => {
-        this.isLoading = false;
-      });
   },
 };
 </script>

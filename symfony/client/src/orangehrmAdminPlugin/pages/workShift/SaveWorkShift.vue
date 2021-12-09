@@ -29,9 +29,9 @@
           <oxd-grid :cols="2" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <oxd-input-field
+                v-model="workShift.name"
                 :label="$t('admin.shift_name')"
                 :rules="rules.name"
-                v-model="workShift.name"
               />
             </oxd-grid-item>
           </oxd-grid>
@@ -43,17 +43,17 @@
           <oxd-grid :cols="4" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <time-input
+                v-model="workShift.startTime"
                 :rules="rules.fromTime"
                 :label="$t('general.from')"
-                v-model="workShift.startTime"
               />
             </oxd-grid-item>
 
             <oxd-grid-item>
               <time-input
+                v-model="workShift.endTime"
                 :rules="rules.endTime"
                 :label="$t('general.to')"
-                v-model="workShift.endTime"
               />
             </oxd-grid-item>
 
@@ -80,7 +80,7 @@
         <oxd-divider />
         <oxd-form-actions>
           <required-text />
-          <oxd-button displayType="ghost" label="Cancel" @click="onCancel" />
+          <oxd-button display-type="ghost" label="Cancel" @click="onCancel" />
           <submit-button />
         </oxd-form-actions>
       </oxd-form>
@@ -116,7 +116,17 @@ export default {
     workShiftConfig: {
       type: Object,
       required: true,
+      default: () => ({}),
     },
+  },
+  setup() {
+    const http = new APIService(
+      window.appGlobal.baseUrl,
+      '/api/v2/admin/work-shifts',
+    );
+    return {
+      http,
+    };
   },
   data() {
     return {
@@ -136,14 +146,29 @@ export default {
       },
     };
   },
-  setup() {
-    const http = new APIService(
-      window.appGlobal.baseUrl,
-      '/api/v2/admin/work-shifts',
-    );
-    return {
-      http,
-    };
+  computed: {
+    selectedTimeDuration() {
+      return parseFloat(
+        diffInTime(this.workShift.startTime, this.workShift.endTime) / 3600,
+      ).toFixed(2);
+    },
+  },
+  beforeMount() {
+    this.isLoading = true;
+    this.workShift.startTime = this.workShiftConfig.startTime;
+    this.workShift.endTime = this.workShiftConfig.endTime;
+    this.http
+      .getAll()
+      .then(response => {
+        const {data} = response.data;
+        this.rules.name.push(v => {
+          const index = data.findIndex(item => item.name == v);
+          return index === -1 || 'Already exists';
+        });
+      })
+      .finally(() => {
+        this.isLoading = false;
+      });
   },
   methods: {
     onSave() {
@@ -167,30 +192,6 @@ export default {
     },
     onCancel() {
       navigate('/admin/workShift');
-    },
-  },
-  beforeMount() {
-    this.isLoading = true;
-    this.workShift.startTime = this.workShiftConfig.startTime;
-    this.workShift.endTime = this.workShiftConfig.endTime;
-    this.http
-      .getAll()
-      .then(response => {
-        const {data} = response.data;
-        this.rules.name.push(v => {
-          const index = data.findIndex(item => item.name == v);
-          return index === -1 || 'Already exists';
-        });
-      })
-      .finally(() => {
-        this.isLoading = false;
-      });
-  },
-  computed: {
-    selectedTimeDuration() {
-      return parseFloat(
-        diffInTime(this.workShift.startTime, this.workShift.endTime) / 3600,
-      ).toFixed(2);
     },
   },
 };

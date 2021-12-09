@@ -28,8 +28,8 @@
         <oxd-switch-input
           v-if="!isLoading"
           v-model="editable"
-          optionLabel="Edit"
-          labelPosition="left"
+          option-label="Edit"
+          label-position="left"
         />
       </div>
       <oxd-divider
@@ -48,8 +48,8 @@
           v-show="editable"
           class="org-structure-add"
           label="Add"
-          iconName="plus"
-          displayType="secondary"
+          icon-name="plus"
+          display-type="secondary"
           @click="onAddOrglevel(data)"
         />
       </div>
@@ -64,7 +64,7 @@
           :show-root="false"
           class="org-structure"
         >
-          <template v-slot:content="{nodeData}">
+          <template #content="{nodeData}">
             <oxd-sheet
               type="pastel-white"
               :class="{
@@ -79,21 +79,21 @@
               <div v-show="editable" class="org-action">
                 <oxd-icon-button
                   class="org-action-icon"
-                  @click="onDelete(nodeData)"
                   name="trash-fill"
                   role="none"
+                  @click="onDelete(nodeData)"
                 />
                 <oxd-icon-button
                   class="org-action-icon"
-                  @click="onEditOrglevel(nodeData)"
                   name="pencil-fill"
                   role="none"
+                  @click="onEditOrglevel(nodeData)"
                 />
                 <oxd-icon-button
                   class="org-action-icon"
-                  @click="onAddOrglevel(nodeData)"
                   name="plus"
                   role="none"
+                  @click="onAddOrglevel(nodeData)"
                 />
               </div>
             </oxd-sheet>
@@ -126,15 +126,6 @@ import SaveOrgUnit from './SaveOrgUnit';
 import EditOrgUnit from './EditOrgUnit';
 
 export default {
-  setup() {
-    const http = new APIService(
-      window.appGlobal.baseUrl,
-      'api/v2/admin/subunits',
-    );
-    return {
-      http,
-    };
-  },
   components: {
     'oxd-tree-view': TreeView,
     'oxd-sheet': Sheet,
@@ -143,6 +134,15 @@ export default {
     'delete-confirmation': DeleteConfirmationDialog,
     'save-org-unit': SaveOrgUnit,
     'edit-org-unit': EditOrgUnit,
+  },
+  setup() {
+    const http = new APIService(
+      window.appGlobal.baseUrl,
+      'api/v2/admin/subunits',
+    );
+    return {
+      http,
+    };
   },
   data() {
     return {
@@ -154,6 +154,10 @@ export default {
       editModalState: null,
       data: {},
     };
+  },
+
+  created() {
+    this.fetchOrgStructure();
   },
   methods: {
     onDelete(node) {
@@ -208,10 +212,6 @@ export default {
           this.isLoading = false;
         });
     },
-  },
-
-  created() {
-    this.fetchOrgStructure();
   },
 };
 </script>

@@ -26,8 +26,8 @@
         <div>
           <oxd-button
             label="Add"
-            iconName="plus"
-            displayType="secondary"
+            icon-name="plus"
+            display-type="secondary"
             @click="onClickAdd"
           />
         </div>
@@ -40,20 +40,20 @@
       ></table-header>
       <div class="orangehrm-container">
         <oxd-card-table
+          v-model:selected="checkedItems"
           :loading="isLoading"
           :headers="headers"
           :items="items?.data"
           :selectable="true"
           :clickable="false"
-          v-model:selected="checkedItems"
-          rowDecorator="oxd-table-decorator-card"
+          row-decorator="oxd-table-decorator-card"
         />
       </div>
       <div class="orangehrm-bottom-container">
         <oxd-pagination
           v-if="showPaginator"
-          :length="pages"
           v-model:current="currentPage"
+          :length="pages"
         />
       </div>
     </div>
@@ -81,6 +81,37 @@ const workShiftNormalizer = data => {
 };
 
 export default {
+  components: {
+    'delete-confirmation': DeleteConfirmationDialog,
+  },
+
+  setup() {
+    const http = new APIService(
+      window.appGlobal.baseUrl,
+      '/api/v2/admin/work-shifts',
+    );
+    const {
+      showPaginator,
+      currentPage,
+      total,
+      pages,
+      pageSize,
+      response,
+      isLoading,
+      execQuery,
+    } = usePaginate(http, {normalizer: workShiftNormalizer});
+    return {
+      http,
+      showPaginator,
+      currentPage,
+      isLoading,
+      total,
+      pages,
+      pageSize,
+      execQuery,
+      items: response,
+    };
+  },
   data() {
     return {
       headers: [
@@ -112,38 +143,6 @@ export default {
         },
       ],
       checkedItems: [],
-    };
-  },
-
-  components: {
-    'delete-confirmation': DeleteConfirmationDialog,
-  },
-
-  setup() {
-    const http = new APIService(
-      window.appGlobal.baseUrl,
-      '/api/v2/admin/work-shifts',
-    );
-    const {
-      showPaginator,
-      currentPage,
-      total,
-      pages,
-      pageSize,
-      response,
-      isLoading,
-      execQuery,
-    } = usePaginate(http, {normalizer: workShiftNormalizer});
-    return {
-      http,
-      showPaginator,
-      currentPage,
-      isLoading,
-      total,
-      pages,
-      pageSize,
-      execQuery,
-      items: response,
     };
   },
 

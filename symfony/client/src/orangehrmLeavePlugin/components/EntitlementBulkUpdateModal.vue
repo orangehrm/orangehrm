@@ -44,13 +44,13 @@
         :items="items"
         :clickable="false"
         class="orangehrm-horizontal-padding"
-        rowDecorator="oxd-table-decorator-card"
+        row-decorator="oxd-table-decorator-card"
       />
     </div>
     <div class="orangehrm-horizontal-padding orangehrm-vertical-padding">
       <oxd-form-actions>
         <oxd-button
-          displayType="ghost"
+          display-type="ghost"
           :label="$t('general.cancel')"
           @click="onCancel"
         />
@@ -65,7 +65,7 @@ import Dialog from '@ohrm/oxd/core/components/Dialog/Dialog';
 import {APIService} from '@ohrm/core/util/services/api.service';
 
 export default {
-  name: 'entitlement-bulk-update-modal',
+  name: 'EntitlementBulkUpdateModal',
   components: {
     'oxd-dialog': Dialog,
   },

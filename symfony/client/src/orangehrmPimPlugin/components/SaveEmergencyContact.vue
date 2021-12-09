@@ -29,16 +29,16 @@
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
           <oxd-grid-item>
             <oxd-input-field
-              label="Name"
               v-model="contact.name"
+              label="Name"
               :rules="rules.name"
               required
             />
           </oxd-grid-item>
           <oxd-grid-item>
             <oxd-input-field
-              label="Relationship"
               v-model="contact.relationship"
+              label="Relationship"
               :rules="rules.relationship"
               required
             />
@@ -49,22 +49,22 @@
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
           <oxd-grid-item>
             <oxd-input-field
-              label="Home Telephone"
               v-model="contact.homePhone"
+              label="Home Telephone"
               :rules="rules.homePhone"
             />
           </oxd-grid-item>
           <oxd-grid-item>
             <oxd-input-field
-              label="Mobile"
               v-model="contact.mobilePhone"
+              label="Mobile"
               :rules="rules.mobilePhone"
             />
           </oxd-grid-item>
           <oxd-grid-item>
             <oxd-input-field
-              label="Work Telephone"
               v-model="contact.officePhone"
+              label="Work Telephone"
               :rules="rules.officePhone"
             />
           </oxd-grid-item>
@@ -75,7 +75,7 @@
         <required-text />
         <oxd-button
           type="button"
-          displayType="ghost"
+          display-type="ghost"
           label="Cancel"
           @click="onCancel"
         />
@@ -102,9 +102,7 @@ const emergencyContactModel = {
 };
 
 export default {
-  name: 'save-emergency-contact',
-
-  emits: ['close'],
+  name: 'SaveEmergencyContact',
 
   props: {
     http: {
@@ -112,6 +110,8 @@ export default {
       required: true,
     },
   },
+
+  emits: ['close'],
 
   data() {
     return {

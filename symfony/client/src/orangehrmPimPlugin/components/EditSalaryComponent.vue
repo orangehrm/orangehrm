@@ -29,43 +29,43 @@
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
           <oxd-grid-item>
             <oxd-input-field
-              label="Salary Component"
               v-model="salaryComponent.name"
+              label="Salary Component"
               :rules="rules.name"
               required
             />
           </oxd-grid-item>
           <oxd-grid-item>
             <oxd-input-field
+              v-model="salaryComponent.payGradeId"
               type="select"
               label="Pay Grade"
-              v-model="salaryComponent.payGradeId"
               :options="paygrades"
             />
           </oxd-grid-item>
           <oxd-grid-item>
             <oxd-input-field
+              v-model="salaryComponent.payFrequencyId"
               type="select"
               label="Pay Frequency"
-              v-model="salaryComponent.payFrequencyId"
               :options="payFrequencies"
             />
           </oxd-grid-item>
           <oxd-grid-item>
             <oxd-input-field
+              :key="currenciesOpts"
+              v-model="salaryComponent.currencyId"
               type="select"
               label="Currency"
-              v-model="salaryComponent.currencyId"
               :options="currenciesOpts"
               :rules="rules.currencyId"
-              :key="currenciesOpts"
               required
             />
           </oxd-grid-item>
           <oxd-grid-item>
             <oxd-input-field
-              label="Amount"
               v-model="salaryComponent.salaryAmount"
+              label="Amount"
               :rules="rules.salaryAmount"
               required
             />
@@ -84,9 +84,9 @@
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
           <oxd-grid-item class="--span-column-2">
             <oxd-input-field
+              v-model="salaryComponent.comment"
               type="textarea"
               label="Comments"
-              v-model="salaryComponent.comment"
               :rules="rules.comment"
             />
           </oxd-grid-item>
@@ -104,17 +104,17 @@
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
           <oxd-grid-item>
             <oxd-input-field
-              label="Account Number"
               v-model="directDeposit.directDepositAccount"
+              label="Account Number"
               :rules="rules.directDepositAccount"
               required
             />
           </oxd-grid-item>
           <oxd-grid-item>
             <oxd-input-field
+              v-model="directDeposit.directDepositAccountType"
               type="select"
               label="Account Type"
-              v-model="directDeposit.directDepositAccountType"
               :rules="rules.directDepositAccountType"
               :options="accountTypes"
               required
@@ -122,8 +122,8 @@
           </oxd-grid-item>
           <oxd-grid-item v-if="showOptionalAccountType">
             <oxd-input-field
-              label="Please Specify"
               v-model="accountType"
+              label="Please Specify"
               :rules="rules.accountType"
               required
             />
@@ -133,16 +133,16 @@
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
           <oxd-grid-item>
             <oxd-input-field
-              label="Routing Number"
               v-model="directDeposit.directDepositRoutingNumber"
+              label="Routing Number"
               :rules="rules.directDepositRoutingNumber"
               required
             />
           </oxd-grid-item>
           <oxd-grid-item>
             <oxd-input-field
-              label="Amount"
               v-model="directDeposit.directDepositAmount"
+              label="Amount"
               :rules="rules.directDepositAmount"
               required
             />
@@ -154,7 +154,7 @@
         <required-text />
         <oxd-button
           type="button"
-          displayType="ghost"
+          display-type="ghost"
           label="Cancel"
           @click="onCancel"
         />
@@ -189,13 +189,11 @@ const directDepositModel = {
 };
 
 export default {
-  name: 'edit-salary-component',
+  name: 'EditSalaryComponent',
 
   components: {
     'oxd-switch-input': SwitchInput,
   },
-
-  emits: ['close'],
 
   props: {
     http: {
@@ -223,6 +221,8 @@ export default {
       default: () => [],
     },
   },
+
+  emits: ['close'],
 
   data() {
     return {
@@ -268,47 +268,35 @@ export default {
     };
   },
 
-  methods: {
-    onSave() {
-      this.isLoading = true;
-      const accountType = this.showOptionalAccountType
-        ? this.accountType
-        : this.directDeposit.directDepositAccountType?.id;
-      this.http
-        .update(this.data.id, {
-          // Paygrade fields
-          salaryComponent: this.salaryComponent.name,
-          salaryAmount: this.salaryComponent.salaryAmount,
-          payGradeId: this.salaryComponent.payGradeId?.id,
-          currencyId: this.salaryComponent.currencyId?.id,
-          payFrequencyId: this.salaryComponent.payFrequencyId?.id,
-          comment: this.salaryComponent.comment
-            ? this.salaryComponent.comment
-            : null,
-          addDirectDeposit: this.includeDirectDeposit,
-          // Directdeposi fields
-          directDepositAccount: this.includeDirectDeposit
-            ? this.directDeposit.directDepositAccount
-            : undefined,
-          directDepositAccountType: this.includeDirectDeposit
-            ? accountType
-            : undefined,
-          directDepositAmount: this.includeDirectDeposit
-            ? this.directDeposit.directDepositAmount
-            : undefined,
-          directDepositRoutingNumber: this.includeDirectDeposit
-            ? this.directDeposit.directDepositRoutingNumber
-            : undefined,
-        })
-        .then(() => {
-          return this.$toast.updateSuccess();
-        })
-        .then(() => {
-          this.onCancel();
-        });
+  computed: {
+    showOptionalAccountType() {
+      return this.directDeposit.directDepositAccountType?.id == 'OTHER';
     },
-    onCancel() {
-      this.$emit('close', true);
+    minAmount() {
+      return this.currencyInfo?.minAmount;
+    },
+    maxAmount() {
+      return this.currencyInfo?.maxAmount;
+    },
+    currenciesOpts() {
+      const paygrade = this.salaryComponent.payGradeId?.id;
+      if (!paygrade) {
+        return this.currencies;
+      } else if (paygrade && this.usableCurrencies.length > 0) {
+        return this.currencies.filter(
+          item =>
+            this.usableCurrencies.findIndex(
+              currency => currency.id === item.id,
+            ) > -1,
+        );
+      } else {
+        return [];
+      }
+    },
+    currencyInfo() {
+      return this.usableCurrencies.find(
+        item => item.id === this.salaryComponent.currencyId?.id,
+      );
     },
   },
 
@@ -344,38 +332,6 @@ export default {
       } else {
         this.usableCurrencies = [];
       }
-    },
-  },
-
-  computed: {
-    showOptionalAccountType() {
-      return this.directDeposit.directDepositAccountType?.id == 'OTHER';
-    },
-    minAmount() {
-      return this.currencyInfo?.minAmount;
-    },
-    maxAmount() {
-      return this.currencyInfo?.maxAmount;
-    },
-    currenciesOpts() {
-      const paygrade = this.salaryComponent.payGradeId?.id;
-      if (!paygrade) {
-        return this.currencies;
-      } else if (paygrade && this.usableCurrencies.length > 0) {
-        return this.currencies.filter(
-          item =>
-            this.usableCurrencies.findIndex(
-              currency => currency.id === item.id,
-            ) > -1,
-        );
-      } else {
-        return [];
-      }
-    },
-    currencyInfo() {
-      return this.usableCurrencies.find(
-        item => item.id === this.salaryComponent.currencyId?.id,
-      );
     },
   },
 
@@ -429,6 +385,50 @@ export default {
       .finally(() => {
         this.isLoading = false;
       });
+  },
+
+  methods: {
+    onSave() {
+      this.isLoading = true;
+      const accountType = this.showOptionalAccountType
+        ? this.accountType
+        : this.directDeposit.directDepositAccountType?.id;
+      this.http
+        .update(this.data.id, {
+          // Paygrade fields
+          salaryComponent: this.salaryComponent.name,
+          salaryAmount: this.salaryComponent.salaryAmount,
+          payGradeId: this.salaryComponent.payGradeId?.id,
+          currencyId: this.salaryComponent.currencyId?.id,
+          payFrequencyId: this.salaryComponent.payFrequencyId?.id,
+          comment: this.salaryComponent.comment
+            ? this.salaryComponent.comment
+            : null,
+          addDirectDeposit: this.includeDirectDeposit,
+          // Directdeposi fields
+          directDepositAccount: this.includeDirectDeposit
+            ? this.directDeposit.directDepositAccount
+            : undefined,
+          directDepositAccountType: this.includeDirectDeposit
+            ? accountType
+            : undefined,
+          directDepositAmount: this.includeDirectDeposit
+            ? this.directDeposit.directDepositAmount
+            : undefined,
+          directDepositRoutingNumber: this.includeDirectDeposit
+            ? this.directDeposit.directDepositRoutingNumber
+            : undefined,
+        })
+        .then(() => {
+          return this.$toast.updateSuccess();
+        })
+        .then(() => {
+          this.onCancel();
+        });
+    },
+    onCancel() {
+      this.$emit('close', true);
+    },
   },
 };
 </script>

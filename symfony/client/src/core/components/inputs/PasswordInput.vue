@@ -31,11 +31,11 @@
         <oxd-input-field
           label="Password"
           type="password"
-          :modelValue="password"
-          @update:modelValue="$emit('update:password', $event)"
+          :model-value="password"
           :rules="rules.password"
           autocomplete="off"
           required
+          @update:modelValue="$emit('update:password', $event)"
         />
         <oxd-text class="user-password-hint" tag="p">
           For a strong password, please use a hard to guess combination of text
@@ -48,11 +48,11 @@
           ref="passwordConfirm"
           label="Confirm Password"
           type="password"
-          :modelValue="passwordConfirm"
-          @update:modelValue="$emit('update:passwordConfirm', $event)"
+          :model-value="passwordConfirm"
           :rules="rules.passwordConfirm"
           autocomplete="off"
           required
+          @update:modelValue="$emit('update:passwordConfirm', $event)"
         />
       </oxd-grid-item>
     </oxd-grid>
@@ -68,7 +68,7 @@ import {
 } from '@ohrm/core/util/validation/rules';
 
 export default {
-  name: 'password-input',
+  name: 'PasswordInput',
   components: {
     'oxd-chip': Chip,
   },
@@ -82,6 +82,7 @@ export default {
       required: true,
     },
   },
+  emits: ['update:password', 'update:passwordConfirm'],
   data() {
     return {
       rules: {
@@ -93,18 +94,6 @@ export default {
         ],
       },
     };
-  },
-  emits: ['update:password', 'update:passwordConfirm'],
-
-  watch: {
-    password(value) {
-      if (
-        (!!this.passwordConfirm && value !== this.passwordConfirm) ||
-        (!!this.passwordConfirm && value === this.passwordConfirm)
-      ) {
-        this.$nextTick(this.$refs.passwordConfirm.triggerUpdate);
-      }
-    },
   },
 
   computed: {
@@ -130,6 +119,17 @@ export default {
         'user-password-chip': true,
         '--green': this.passwordStrength === 'Strongest',
       };
+    },
+  },
+
+  watch: {
+    password(value) {
+      if (
+        (!!this.passwordConfirm && value !== this.passwordConfirm) ||
+        (!!this.passwordConfirm && value === this.passwordConfirm)
+      ) {
+        this.$nextTick(this.$refs.passwordConfirm.triggerUpdate);
+      }
     },
   },
 };

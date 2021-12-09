@@ -26,10 +26,10 @@
         <oxd-grid :cols="2" class="orangehrm-full-width-grid">
           <oxd-grid-item>
             <oxd-input-field
+              v-model="payCurrency.currencyId"
               type="select"
               label="Currency"
               :options="currencies"
-              v-model="payCurrency.currencyId"
               :rules="rules.currencyId"
               required
             />
@@ -40,15 +40,15 @@
         <oxd-grid :cols="2" class="orangehrm-full-width-grid">
           <oxd-grid-item>
             <oxd-input-field
-              label="Minimum Salary"
               v-model="payCurrency.minSalary"
+              label="Minimum Salary"
               :rules="rules.minSalary"
             />
           </oxd-grid-item>
           <oxd-grid-item>
             <oxd-input-field
-              label="Maximum Salary"
               v-model="payCurrency.maxSalary"
+              label="Maximum Salary"
               :rules="rules.maxSalary"
             />
           </oxd-grid-item>
@@ -60,7 +60,7 @@
         <required-text />
         <oxd-button
           type="button"
-          displayType="ghost"
+          display-type="ghost"
           label="Cancel"
           @click="onCancel"
         />
@@ -84,13 +84,15 @@ const payCurrencyModel = {
   maxSalary: '',
 };
 export default {
-  name: 'save-pay-currency',
+  name: 'SavePayCurrency',
   props: {
     payGradeId: {
       type: String,
       required: true,
     },
   },
+
+  emits: ['close'],
   setup(props) {
     const http = new APIService(
       window.appGlobal.baseUrl,

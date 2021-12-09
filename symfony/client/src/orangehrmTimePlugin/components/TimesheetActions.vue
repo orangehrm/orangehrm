@@ -32,14 +32,14 @@
         :selectable="false"
         :clickable="false"
         :loading="isLoading"
-        rowDecorator="oxd-table-decorator-card"
+        row-decorator="oxd-table-decorator-card"
       />
     </div>
     <div class="orangehrm-bottom-container">
       <oxd-pagination
         v-if="showPaginator"
-        :length="pages"
         v-model:current="currentPage"
+        :length="pages"
       />
     </div>
   </div>
@@ -62,40 +62,13 @@ const actionsNormalizer = data => {
 };
 
 export default {
-  name: 'timesheet-actions',
+  name: 'TimesheetActions',
 
   props: {
     timesheetId: {
       type: Number,
       required: true,
     },
-  },
-  data() {
-    return {
-      headers: [
-        {
-          name: 'action',
-          slot: 'title',
-          title: 'Action',
-          style: {flex: 1},
-        },
-        {
-          name: 'performedBy',
-          title: 'Performed By',
-          style: {flex: 1},
-        },
-        {
-          name: 'date',
-          title: 'Date',
-          style: {flex: 1},
-        },
-        {
-          name: 'comment',
-          title: 'Comment',
-          style: {flex: 1},
-        },
-      ],
-    };
   },
 
   setup(props) {
@@ -128,6 +101,33 @@ export default {
       pageSize,
       execQuery,
       items: response,
+    };
+  },
+  data() {
+    return {
+      headers: [
+        {
+          name: 'action',
+          slot: 'title',
+          title: 'Action',
+          style: {flex: 1},
+        },
+        {
+          name: 'performedBy',
+          title: 'Performed By',
+          style: {flex: 1},
+        },
+        {
+          name: 'date',
+          title: 'Date',
+          style: {flex: 1},
+        },
+        {
+          name: 'comment',
+          title: 'Comment',
+          style: {flex: 1},
+        },
+      ],
     };
   },
 };

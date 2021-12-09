@@ -26,7 +26,7 @@
 import {ref, onBeforeMount} from 'vue';
 import {APIService} from '@ohrm/core/util/services/api.service';
 export default {
-  name: 'qualification-dropdown',
+  name: 'QualificationDropdown',
   props: {
     api: {
       type: String,

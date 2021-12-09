@@ -30,11 +30,11 @@
           <oxd-grid :cols="2" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <oxd-input-field
+                v-model="timeSheetPeriod.startDay"
                 type="select"
                 :label="$t('time.add_timesheet_period_config')"
                 :options="days"
                 :rules="rules.startDay"
-                v-model="timeSheetPeriod.startDay"
                 required
               />
             </oxd-grid-item>
@@ -61,15 +61,6 @@ const timeSheetPeriodModel = {
 };
 
 export default {
-  data() {
-    return {
-      isLoading: false,
-      timeSheetPeriod: {...timeSheetPeriodModel},
-      rules: {
-        startDay: [required],
-      },
-    };
-  },
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
@@ -79,28 +70,14 @@ export default {
       http,
     };
   },
-  methods: {
-    onSave() {
-      this.isLoading = true;
-      this.http
-        .request({
-          method: 'PUT',
-          data: {
-            startDay: this.timeSheetPeriod.startDay?.id,
-          },
-        })
-        .then(() => {
-          return this.$toast.saveSuccess();
-        })
-        .then(() => {
-          navigate('/time/viewEmployeeTimesheet');
-        });
-    },
-    updateTimeSheetPeriodModel(day) {
-      this.timeSheetPeriod.startDay = this.days.find(d => {
-        return d.id === day;
-      });
-    },
+  data() {
+    return {
+      isLoading: false,
+      timeSheetPeriod: {...timeSheetPeriodModel},
+      rules: {
+        startDay: [required],
+      },
+    };
   },
   computed: {
     days() {
@@ -129,6 +106,29 @@ export default {
       .finally(() => {
         this.isLoading = false;
       });
+  },
+  methods: {
+    onSave() {
+      this.isLoading = true;
+      this.http
+        .request({
+          method: 'PUT',
+          data: {
+            startDay: this.timeSheetPeriod.startDay?.id,
+          },
+        })
+        .then(() => {
+          return this.$toast.saveSuccess();
+        })
+        .then(() => {
+          navigate('/time/viewEmployeeTimesheet');
+        });
+    },
+    updateTimeSheetPeriodModel(day) {
+      this.timeSheetPeriod.startDay = this.days.find(d => {
+        return d.id === day;
+      });
+    },
   },
 };
 </script>

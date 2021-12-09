@@ -22,7 +22,7 @@
   <oxd-input-field
     type="date"
     placeholder="yyyy-mm-dd"
-    :dayAttributes="attributes"
+    :day-attributes="attributes"
     :events="events"
     @selectYear="onSelectYear"
   />
@@ -39,7 +39,7 @@ import {
 } from '@ohrm/core/util/helper/datefns';
 
 export default {
-  name: 'date-input',
+  name: 'DateInput',
   setup() {
     const state = reactive({
       attributes: [],

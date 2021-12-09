@@ -36,7 +36,7 @@
       <oxd-form-actions>
         <oxd-button
           type="submit"
-          displayType="secondary"
+          display-type="secondary"
           :label="$t('general.ok')"
           @click="onCancel"
         />
@@ -49,15 +49,11 @@
 import Dialog from '@ohrm/oxd/core/components/Dialog/Dialog';
 
 export default {
-  name: 'entitlement-situational-modal',
-  props: {
-    data: {
-      type: Object,
-    },
-  },
+  name: 'EntitlementSituationalModal',
   components: {
     'oxd-dialog': Dialog,
   },
+  emits: ['close'],
   methods: {
     onCancel() {
       this.$emit('close', true);

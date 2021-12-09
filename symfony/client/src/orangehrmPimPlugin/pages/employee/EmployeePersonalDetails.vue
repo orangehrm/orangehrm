@@ -38,14 +38,14 @@
             </oxd-grid-item>
           </oxd-grid>
           <oxd-grid
-            :cols="3"
             v-if="showDeprecatedFields"
+            :cols="3"
             class="orangehrm-full-width-grid"
           >
             <oxd-grid-item>
               <oxd-input-field
-                label="Nickname"
                 v-model="employee.nickname"
+                label="Nickname"
                 :rules="rules.nickname"
               />
             </oxd-grid-item>
@@ -57,16 +57,16 @@
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <oxd-input-field
-                label="Employee Id"
                 v-model="employee.employeeId"
+                label="Employee Id"
                 :rules="rules.employeeId"
                 :disabled="!$can.update(`personal_sensitive_information`)"
               />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
-                label="Other Id"
                 v-model="employee.otherId"
+                label="Other Id"
                 :rules="rules.otherId"
               />
             </oxd-grid-item>
@@ -74,32 +74,32 @@
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <oxd-input-field
-                label="Driver's License Number"
                 v-model="employee.drivingLicenseNo"
+                label="Driver's License Number"
                 :rules="rules.drivingLicenseNo"
                 :disabled="!$can.update(`personal_sensitive_information`)"
               />
             </oxd-grid-item>
             <oxd-grid-item>
               <date-input
-                label="License Expiry Date"
                 v-model="employee.drivingLicenseExpiredDate"
+                label="License Expiry Date"
               />
             </oxd-grid-item>
           </oxd-grid>
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item v-if="showSsnField">
               <oxd-input-field
-                label="SSN Number"
                 v-model="employee.ssnNumber"
+                label="SSN Number"
                 :rules="rules.ssnNumber"
                 :disabled="!$can.update(`personal_sensitive_information`)"
               />
             </oxd-grid-item>
             <oxd-grid-item v-if="showSinField">
               <oxd-input-field
-                label="SIN Number"
                 v-model="employee.sinNumber"
+                label="SIN Number"
                 :rules="rules.sinNumber"
                 :disabled="!$can.update(`personal_sensitive_information`)"
               />
@@ -112,18 +112,18 @@
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <oxd-input-field
+                v-model="employee.nationality"
                 type="select"
                 label="Nationality"
-                v-model="employee.nationality"
                 :clear="false"
                 :options="nationalities"
               />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
+                v-model="employee.maritalStatus"
                 type="select"
                 label="Marital Status"
-                v-model="employee.maritalStatus"
                 :clear="false"
                 :options="maritalStatuses"
               />
@@ -132,8 +132,8 @@
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <date-input
-                label="Date of Birth"
                 v-model="employee.birthday"
+                label="Date of Birth"
                 :disabled="!$can.update(`personal_sensitive_information`)"
               />
             </oxd-grid-item>
@@ -143,15 +143,15 @@
                 :classes="{wrapper: '--gender-grouped-field'}"
               >
                 <oxd-input-field
-                  type="radio"
                   v-model="employee.gender"
-                  optionLabel="Male"
+                  type="radio"
+                  option-label="Male"
                   value="1"
                 />
                 <oxd-input-field
-                  type="radio"
                   v-model="employee.gender"
-                  optionLabel="Female"
+                  type="radio"
+                  option-label="Female"
                   value="2"
                 />
               </oxd-input-group>
@@ -164,17 +164,17 @@
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <oxd-input-field
-                label="Military Service"
                 v-model="employee.militaryService"
+                label="Military Service"
                 :rules="rules.militaryService"
               />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
+                v-model="employee.smoker"
                 type="checkbox"
                 label="Smoker"
                 option-label="yes"
-                v-model="employee.smoker"
               />
             </oxd-grid-item>
           </oxd-grid>
@@ -282,6 +282,36 @@ export default {
     };
   },
 
+  beforeMount() {
+    this.isLoading = true;
+    this.http
+      .getAll()
+      .then(response => {
+        this.updateModel(response);
+        return this.http.request({
+          method: 'GET',
+          url: 'api/v2/pim/employees',
+        });
+      })
+      .then(response => {
+        const {data} = response.data;
+        this.rules.employeeId.push(v => {
+          const index = data.findIndex(item => item.employeeId == v);
+          if (index > -1) {
+            const {empNumber} = data[index];
+            return empNumber != this.empNumber
+              ? 'Employee Id already exists'
+              : true;
+          } else {
+            return true;
+          }
+        });
+      })
+      .finally(() => {
+        this.isLoading = false;
+      });
+  },
+
   methods: {
     onSave() {
       this.isLoading = true;
@@ -332,36 +362,6 @@ export default {
         item => item.id === data.nationality?.id,
       );
     },
-  },
-
-  beforeMount() {
-    this.isLoading = true;
-    this.http
-      .getAll()
-      .then(response => {
-        this.updateModel(response);
-        return this.http.request({
-          method: 'GET',
-          url: 'api/v2/pim/employees',
-        });
-      })
-      .then(response => {
-        const {data} = response.data;
-        this.rules.employeeId.push(v => {
-          const index = data.findIndex(item => item.employeeId == v);
-          if (index > -1) {
-            const {empNumber} = data[index];
-            return empNumber != this.empNumber
-              ? 'Employee Id already exists'
-              : true;
-          } else {
-            return true;
-          }
-        });
-      })
-      .finally(() => {
-        this.isLoading = false;
-      });
   },
 };
 </script>

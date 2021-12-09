@@ -52,7 +52,7 @@ import {computed} from 'vue';
 const defaultPic = `${window.appGlobal.baseUrl}/../dist/img/user-default-400.png`;
 
 export default {
-  name: 'leave-comment',
+  name: 'LeaveComment',
   props: {
     data: {
       type: Object,

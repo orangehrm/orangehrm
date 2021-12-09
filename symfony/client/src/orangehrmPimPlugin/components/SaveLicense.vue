@@ -27,8 +27,8 @@
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
           <oxd-grid-item>
             <qualification-dropdown
-              label="License Type"
               v-model="license.licenseId"
+              label="License Type"
               :rules="rules.licenseId"
               :api="api"
               required
@@ -36,8 +36,8 @@
           </oxd-grid-item>
           <oxd-grid-item>
             <oxd-input-field
-              label="License Number"
               v-model="license.licenseNo"
+              label="License Number"
               :rules="rules.licenseNo"
             />
           </oxd-grid-item>
@@ -48,15 +48,15 @@
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
           <oxd-grid-item>
             <date-input
-              label="Issued Date"
               v-model="license.issuedDate"
+              label="Issued Date"
               :rules="rules.issuedDate"
             />
           </oxd-grid-item>
           <oxd-grid-item>
             <date-input
-              label="Expiry Date"
               v-model="license.expiryDate"
+              label="Expiry Date"
               :rules="rules.expiryDate"
               :years="yearArray"
             />
@@ -68,7 +68,7 @@
         <required-text />
         <oxd-button
           type="button"
-          displayType="ghost"
+          display-type="ghost"
           label="Cancel"
           @click="onCancel"
         />
@@ -97,9 +97,11 @@ const licenseModel = {
 };
 
 export default {
-  name: 'save-license',
+  name: 'SaveLicense',
 
-  emits: ['close'],
+  components: {
+    'qualification-dropdown': QualificationDropdown,
+  },
 
   props: {
     http: {
@@ -112,9 +114,7 @@ export default {
     },
   },
 
-  components: {
-    'qualification-dropdown': QualificationDropdown,
-  },
+  emits: ['close'],
 
   data() {
     return {

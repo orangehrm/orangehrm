@@ -36,15 +36,15 @@
                 :classes="{wrapper: '--grouped-field'}"
               >
                 <oxd-input-field
-                  type="radio"
                   v-model="leaveEntitlement.bulkAssign"
-                  :optionLabel="$t('leave.individual_employee')"
+                  type="radio"
+                  :option-label="$t('leave.individual_employee')"
                   value="0"
                 />
                 <oxd-input-field
-                  type="radio"
                   v-model="leaveEntitlement.bulkAssign"
-                  :optionLabel="$t('leave.multiple_employees')"
+                  type="radio"
+                  :option-label="$t('leave.multiple_employees')"
                   value="1"
                 />
               </oxd-input-group>
@@ -71,17 +71,17 @@
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <oxd-input-field
+                v-model="leaveEntitlement.location"
                 type="select"
                 label="Location"
-                v-model="leaveEntitlement.location"
                 :options="locations"
               />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
+                v-model="leaveEntitlement.subunit"
                 type="select"
                 label="Sub Unit"
-                v-model="leaveEntitlement.subunit"
                 :options="subunits"
               />
             </oxd-grid-item>
@@ -97,8 +97,8 @@
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <leave-type-dropdown
-                :empty-text="$t('leave.no_leave_types_defined')"
                 v-model="leaveEntitlement.leaveType"
+                :empty-text="$t('leave.no_leave_types_defined')"
                 :rules="rules.leaveType"
                 :eligible-only="false"
                 required
@@ -113,9 +113,9 @@
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
+                v-model="leaveEntitlement.entitlement"
                 :rules="rules.entitlement"
                 :label="$t('leave.entitlement')"
-                v-model="leaveEntitlement.entitlement"
                 required
               />
             </oxd-grid-item>
@@ -127,7 +127,7 @@
         <oxd-form-actions>
           <required-text />
           <oxd-button
-            displayType="ghost"
+            display-type="ghost"
             :label="$t('general.cancel')"
             @click="onCancel"
           />
@@ -191,6 +191,7 @@ export default {
     leavePeriod: {
       type: Object,
       required: false,
+      default: () => null,
     },
   },
 
@@ -226,6 +227,18 @@ export default {
       },
       empMatchCount: 0,
     };
+  },
+
+  watch: {
+    'leaveEntitlement.location': 'fetchEmployeeCount',
+    'leaveEntitlement.subunit': 'fetchEmployeeCount',
+  },
+
+  beforeMount() {
+    this.fetchEmployeeCount();
+    if (this.leavePeriod) {
+      this.leaveEntitlement.leavePeriod = this.leavePeriod;
+    }
   },
 
   methods: {
@@ -318,18 +331,6 @@ export default {
           this.empMatchCount = parseInt(data.count);
         });
     },
-  },
-
-  watch: {
-    'leaveEntitlement.location': 'fetchEmployeeCount',
-    'leaveEntitlement.subunit': 'fetchEmployeeCount',
-  },
-
-  beforeMount() {
-    this.fetchEmployeeCount();
-    if (this.leavePeriod) {
-      this.leaveEntitlement.leavePeriod = this.leavePeriod;
-    }
   },
 };
 </script>

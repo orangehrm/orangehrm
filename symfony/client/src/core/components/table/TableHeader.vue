@@ -28,13 +28,13 @@
         </oxd-text>
         <oxd-button
           label="Delete Selected"
-          iconName="trash-fill"
-          displayType="label-danger"
+          icon-name="trash-fill"
+          display-type="label-danger"
           class="orangehrm-horizontal-margin"
           @click="$emit('delete', $event)"
         />
       </div>
-      <oxd-text tag="span" v-else>{{ itemCountText }}</oxd-text>
+      <oxd-text v-else tag="span">{{ itemCountText }}</oxd-text>
     </div>
   </div>
 </template>
@@ -43,7 +43,7 @@
 import {computed} from 'vue';
 
 export default {
-  name: 'table-header',
+  name: 'TableHeader',
 
   props: {
     loading: {
@@ -59,6 +59,8 @@ export default {
       required: true,
     },
   },
+
+  emits: ['delete'],
 
   setup(props) {
     const getNoun = count => {

@@ -26,14 +26,14 @@
     <div class="orangehrm-timeperiod-picker">
       <oxd-icon-button
         class="orangehrm-timeperiod-icon"
-        @click="onClickPervious"
         name="chevron-left"
+        @click="onClickPervious"
       />
       <date-input v-model="date" />
       <oxd-icon-button
         class="orangehrm-timeperiod-icon"
-        @click="onClickNext"
         name="chevron-right"
+        @click="onClickNext"
       />
     </div>
   </div>
@@ -44,7 +44,7 @@ import {reactive, toRefs} from 'vue';
 import {formatDate} from '@ohrm/core/util/helper/datefns';
 
 export default {
-  name: 'timesheet-period',
+  name: 'TimesheetPeriod',
   inheritAttrs: false,
 
   props: {

@@ -37,14 +37,14 @@
         :selectable="false"
         :clickable="false"
         :loading="isLoading"
-        rowDecorator="oxd-table-decorator-card"
+        row-decorator="oxd-table-decorator-card"
       />
     </div>
     <div class="orangehrm-bottom-container">
       <oxd-pagination
         v-if="showPaginator"
-        :length="pages"
         v-model:current="currentPage"
+        :length="pages"
       />
     </div>
   </div>
@@ -67,7 +67,40 @@ const actionsNormalizer = data => {
 };
 
 export default {
-  name: 'timesheet-pending-actions',
+  name: 'TimesheetPendingActions',
+
+  setup() {
+    const http = new APIService(
+      //   window.appGlobal.baseUrl,
+      'https://884b404a-f4d0-4908-9eb5-ef0c8afec15c.mock.pstmn.io',
+      '/api/v2/time/timesheet-actions-pending',
+    );
+
+    const {
+      showPaginator,
+      currentPage,
+      total,
+      pages,
+      pageSize,
+      response,
+      isLoading,
+      execQuery,
+    } = usePaginate(http, {
+      normalizer: actionsNormalizer,
+    });
+
+    return {
+      http,
+      showPaginator,
+      currentPage,
+      isLoading,
+      total,
+      pages,
+      pageSize,
+      execQuery,
+      items: response,
+    };
+  },
   data() {
     return {
       headers: [
@@ -101,39 +134,6 @@ export default {
           },
         },
       ],
-    };
-  },
-
-  setup() {
-    const http = new APIService(
-      //   window.appGlobal.baseUrl,
-      'https://884b404a-f4d0-4908-9eb5-ef0c8afec15c.mock.pstmn.io',
-      '/api/v2/time/timesheet-actions-pending',
-    );
-
-    const {
-      showPaginator,
-      currentPage,
-      total,
-      pages,
-      pageSize,
-      response,
-      isLoading,
-      execQuery,
-    } = usePaginate(http, {
-      normalizer: actionsNormalizer,
-    });
-
-    return {
-      http,
-      showPaginator,
-      currentPage,
-      isLoading,
-      total,
-      pages,
-      pageSize,
-      execQuery,
-      items: response,
     };
   },
 

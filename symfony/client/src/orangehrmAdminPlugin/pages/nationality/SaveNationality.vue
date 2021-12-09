@@ -30,8 +30,8 @@
       <oxd-form :loading="isLoading" @submitValid="onSave">
         <oxd-form-row>
           <oxd-input-field
-            label="Name"
             v-model="nationality.name"
+            label="Name"
             :rules="rules.name"
             required
           />
@@ -43,7 +43,7 @@
           <required-text />
           <oxd-button
             type="button"
-            displayType="ghost"
+            display-type="ghost"
             label="Cancel"
             @click="onCancel"
           />
@@ -63,6 +63,15 @@ import {
 } from '@ohrm/core/util/validation/rules';
 
 export default {
+  setup() {
+    const http = new APIService(
+      window.appGlobal.baseUrl,
+      '/api/v2/admin/nationalities',
+    );
+    return {
+      http,
+    };
+  },
   data() {
     return {
       isLoading: false,
@@ -76,14 +85,22 @@ export default {
     };
   },
 
-  setup() {
-    const http = new APIService(
-      window.appGlobal.baseUrl,
-      '/api/v2/admin/nationalities',
-    );
-    return {
-      http,
-    };
+  created() {
+    this.isLoading = true;
+    this.http
+      .getAll({
+        limit: 0,
+      })
+      .then(response => {
+        const {data} = response.data;
+        this.rules.name.push(v => {
+          const index = data.findIndex(item => item.name === v);
+          return index === -1 || 'Already exists';
+        });
+      })
+      .finally(() => {
+        this.isLoading = false;
+      });
   },
 
   methods: {
@@ -103,24 +120,6 @@ export default {
     onCancel() {
       navigate('/admin/nationality');
     },
-  },
-
-  created() {
-    this.isLoading = true;
-    this.http
-      .getAll({
-        limit: 0,
-      })
-      .then(response => {
-        const {data} = response.data;
-        this.rules.name.push(v => {
-          const index = data.findIndex(item => item.name === v);
-          return index === -1 || 'Already exists';
-        });
-      })
-      .finally(() => {
-        this.isLoading = false;
-      });
   },
 };
 </script>

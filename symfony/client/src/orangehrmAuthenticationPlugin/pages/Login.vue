@@ -30,20 +30,20 @@
         ></oxd-alert>
       </div>
       <oxd-form
-        @submitValid="onSubmit"
-        method="post"
         ref="loginForm"
+        method="post"
         :action="submitUrl"
+        @submitValid="onSubmit"
       >
         <input name="_token" :value="token" type="hidden" />
 
         <oxd-form-row>
           <oxd-input-field
+            v-model="username"
             name="username"
             label="Username"
-            labelIcon="person"
+            label-icon="person"
             placeholder="username"
-            v-model="username"
             :rules="rules.username"
             autofocus
           />
@@ -51,11 +51,11 @@
 
         <oxd-form-row>
           <oxd-input-field
+            v-model="password"
             name="password"
             label="Password"
-            labelIcon="key"
+            label-icon="key"
             placeholder="password"
-            v-model="password"
             type="password"
             :rules="rules.password"
           />
@@ -64,7 +64,7 @@
         <oxd-form-actions class="orangehrm-login-action">
           <oxd-button
             class="orangehrm-login-button"
-            displayType="main"
+            display-type="main"
             label="Login"
             type="submit"
           />
@@ -72,7 +72,7 @@
       </oxd-form>
       <br />
     </div>
-    <template v-slot:footer>
+    <template #footer>
       <slot name="footer"></slot>
     </template>
   </login-layout>
@@ -119,16 +119,16 @@ export default {
     },
   },
 
-  methods: {
-    onSubmit() {
-      this.$refs.loginForm.$el.submit();
-    },
-  },
-
   beforeMount() {
     setTimeout(() => {
       reloadPage();
     }, 1200000); // 20 * 60 * 1000 (20 minutes);
+  },
+
+  methods: {
+    onSubmit() {
+      this.$refs.loginForm.$el.submit();
+    },
   },
 };
 </script>

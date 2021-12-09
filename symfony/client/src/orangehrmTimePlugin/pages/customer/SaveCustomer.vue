@@ -28,18 +28,18 @@
       <oxd-form :loading="isLoading" @submitValid="onSave">
         <oxd-form-row>
           <oxd-input-field
-            :label="$t('general.name')"
             v-model="customer.name"
+            :label="$t('general.name')"
             :rules="rules.name"
             required
           />
         </oxd-form-row>
         <oxd-form-row>
           <oxd-input-field
+            v-model="customer.description"
             type="textarea"
             :label="$t('general.description')"
             placeholder="Type description here"
-            v-model="customer.description"
             :rules="rules.description"
           />
         </oxd-form-row>
@@ -47,7 +47,7 @@
         <oxd-form-actions>
           <required-text />
           <oxd-button
-            displayType="ghost"
+            display-type="ghost"
             :label="$t('general.cancel')"
             @click="onCancel"
           />
@@ -74,6 +74,15 @@ const customerModel = {
 };
 
 export default {
+  setup() {
+    const http = new APIService(
+      window.appGlobal.baseUrl,
+      '/api/v2/time/customers',
+    );
+    return {
+      http,
+    };
+  },
   data() {
     return {
       isLoading: false,
@@ -86,15 +95,6 @@ export default {
         ],
         description: [shouldNotExceedCharLength(255)],
       },
-    };
-  },
-  setup() {
-    const http = new APIService(
-      window.appGlobal.baseUrl,
-      '/api/v2/time/customers',
-    );
-    return {
-      http,
     };
   },
   methods: {

@@ -30,15 +30,15 @@
           <oxd-grid-item>
             <oxd-input-group label="Document" :classes="immigrationTypeClasses">
               <oxd-input-field
-                type="radio"
                 v-model="immigration.type"
-                optionLabel="Passport"
+                type="radio"
+                option-label="Passport"
                 value="1"
               />
               <oxd-input-field
-                type="radio"
                 v-model="immigration.type"
-                optionLabel="Visa"
+                type="radio"
+                option-label="Visa"
                 value="2"
               />
             </oxd-input-group>
@@ -49,55 +49,55 @@
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
           <oxd-grid-item>
             <oxd-input-field
-              label="Number"
               v-model="immigration.number"
+              label="Number"
               :rules="rules.number"
               required
             />
           </oxd-grid-item>
           <oxd-grid-item>
             <date-input
-              label="Issued Date"
               v-model="immigration.issuedDate"
+              label="Issued Date"
               :rules="rules.issuedDate"
             />
           </oxd-grid-item>
           <oxd-grid-item>
             <date-input
-              label="Expiry Date"
               v-model="immigration.expiryDate"
+              label="Expiry Date"
               :years="yearArray"
               :rules="rules.expiryDate"
             />
           </oxd-grid-item>
           <oxd-grid-item>
             <oxd-input-field
-              label="Eligible Status"
               v-model="immigration.status"
+              label="Eligible Status"
               :rules="rules.status"
             />
           </oxd-grid-item>
           <oxd-grid-item>
             <oxd-input-field
+              v-model="immigration.countryCode"
               type="select"
               label="Issued by"
-              v-model="immigration.countryCode"
               :options="countries"
             />
           </oxd-grid-item>
           <oxd-grid-item>
             <date-input
-              label="Eligible Review Date"
               v-model="immigration.reviewDate"
+              label="Eligible Review Date"
               :rules="rules.reviewDate"
             />
           </oxd-grid-item>
           <oxd-grid-item>
             <oxd-input-field
+              v-model="immigration.comment"
               type="textarea"
               label="Comments"
               placeholder="Type Comments here"
-              v-model="immigration.comment"
               :rules="rules.comment"
             />
           </oxd-grid-item>
@@ -108,7 +108,7 @@
         <required-text />
         <oxd-button
           type="button"
-          displayType="ghost"
+          display-type="ghost"
           label="Cancel"
           @click="onCancel"
         />
@@ -140,9 +140,7 @@ const immigrationModel = {
 };
 
 export default {
-  name: 'edit-immigration',
-
-  emits: ['close'],
+  name: 'EditImmigration',
 
   props: {
     http: {
@@ -158,6 +156,8 @@ export default {
       default: () => [],
     },
   },
+
+  emits: ['close'],
 
   data() {
     return {
@@ -186,6 +186,22 @@ export default {
     };
   },
 
+  beforeMount() {
+    this.isLoading = true;
+    this.http
+      .get(this.data.id)
+      .then(response => {
+        const {data} = response.data;
+        this.immigration = {...immigrationModel, ...data};
+        this.immigration.countryCode = this.countries.find(
+          item => item.id === data.country?.code,
+        );
+      })
+      .finally(() => {
+        this.isLoading = false;
+      });
+  },
+
   methods: {
     onSave() {
       this.isLoading = true;
@@ -211,22 +227,6 @@ export default {
     onCancel() {
       this.$emit('close', true);
     },
-  },
-
-  beforeMount() {
-    this.isLoading = true;
-    this.http
-      .get(this.data.id)
-      .then(response => {
-        const {data} = response.data;
-        this.immigration = {...immigrationModel, ...data};
-        this.immigration.countryCode = this.countries.find(
-          item => item.id === data.country?.code,
-        );
-      })
-      .finally(() => {
-        this.isLoading = false;
-      });
   },
 };
 </script>

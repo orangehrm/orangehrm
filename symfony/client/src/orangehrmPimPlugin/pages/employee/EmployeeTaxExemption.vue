@@ -34,17 +34,17 @@
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <oxd-input-field
+                v-model="taxExemption.federalStatus"
                 type="select"
                 label="Status"
-                v-model="taxExemption.federalStatus"
                 :options="statuses"
                 :disabled="!$can.update('tax_exemptions')"
               />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
-                label="Exemptions"
                 v-model="taxExemption.federalExemptions"
+                label="Exemptions"
                 :rules="rules.federalExemptions"
                 :disabled="!$can.update('tax_exemptions')"
               />
@@ -60,44 +60,44 @@
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <oxd-input-field
+                v-model="taxExemption.taxState"
                 type="select"
                 label="State"
-                v-model="taxExemption.taxState"
                 :options="provinces"
                 :disabled="!$can.update('tax_exemptions')"
               />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
+                v-model="taxExemption.stateStatus"
                 type="select"
                 label="Status"
-                v-model="taxExemption.stateStatus"
                 :options="statuses"
                 :disabled="!$can.update('tax_exemptions')"
               />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
-                label="Exemptions"
                 v-model="taxExemption.stateExemptions"
+                label="Exemptions"
                 :rules="rules.stateExemptions"
                 :disabled="!$can.update('tax_exemptions')"
               />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
+                v-model="taxExemption.unemploymentState"
                 type="select"
                 label="Unemployment State"
-                v-model="taxExemption.unemploymentState"
                 :options="provinces"
                 :disabled="!$can.update('tax_exemptions')"
               />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
+                v-model="taxExemption.workState"
                 type="select"
                 label="Work State"
-                v-model="taxExemption.workState"
                 :options="provinces"
                 :disabled="!$can.update('tax_exemptions')"
               />
@@ -185,6 +185,18 @@ export default {
     };
   },
 
+  beforeMount() {
+    this.isLoading = true;
+    this.http
+      .getAll()
+      .then(response => {
+        this.updateModel(response);
+      })
+      .finally(() => {
+        this.isLoading = false;
+      });
+  },
+
   methods: {
     onSave() {
       this.isLoading = true;
@@ -230,18 +242,6 @@ export default {
         item => item.id === data.stateStatus,
       );
     },
-  },
-
-  beforeMount() {
-    this.isLoading = true;
-    this.http
-      .getAll()
-      .then(response => {
-        this.updateModel(response);
-      })
-      .finally(() => {
-        this.isLoading = false;
-      });
   },
 };
 </script>

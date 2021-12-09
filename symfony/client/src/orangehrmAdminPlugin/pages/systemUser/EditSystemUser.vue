@@ -29,9 +29,9 @@
           <oxd-grid :cols="2" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <oxd-input-field
+                v-model="user.role"
                 type="select"
                 label="User Role"
-                v-model="user.role"
                 :rules="rules.role"
                 :options="userRoles"
                 required
@@ -47,9 +47,9 @@
 
             <oxd-grid-item>
               <oxd-input-field
+                v-model="user.status"
                 type="select"
                 label="Status"
-                v-model="user.status"
                 :rules="rules.status"
                 :options="userStatuses"
                 required
@@ -58,8 +58,8 @@
 
             <oxd-grid-item>
               <oxd-input-field
-                label="Username"
                 v-model="user.username"
+                label="Username"
                 :rules="rules.username"
                 required
                 autocomplete="off"
@@ -68,11 +68,11 @@
 
             <oxd-grid-item>
               <oxd-input-field
+                v-model="user.changePassword"
                 type="checkbox"
                 value="true"
                 :true-value="true"
                 :false-value="false"
-                v-model="user.changePassword"
                 option-label="Yes"
                 label="Change Password?"
               />
@@ -91,7 +91,7 @@
           <required-text />
           <oxd-button
             type="button"
-            displayType="ghost"
+            display-type="ghost"
             label="Cancel"
             @click="onCancel"
           />
@@ -126,16 +126,15 @@ const userModel = {
 };
 
 export default {
+  components: {
+    'employee-autocomplete': EmployeeAutocomplete,
+    'password-input': PasswordInput,
+  },
   props: {
     systemUserId: {
       type: String,
       required: true,
     },
-  },
-
-  components: {
-    'employee-autocomplete': EmployeeAutocomplete,
-    'password-input': PasswordInput,
   },
 
   setup() {
@@ -169,6 +168,32 @@ export default {
         {id: 2, label: 'Disabled'},
       ],
     };
+  },
+  beforeMount() {
+    this.isLoading = true;
+    this.http
+      .get(this.systemUserId)
+      .then(response => {
+        const {data} = response.data;
+        this.user.id = data.id;
+        this.user.username = data.userName;
+        this.user.role = this.userRoles.find(
+          item => item.id === data.userRole.id,
+        );
+        this.user.employee = {
+          id: data.employee.empNumber,
+          label: `${data.employee.firstName} ${data.employee.middleName} ${data.employee.lastName}`,
+          isPastEmployee: data.employee.terminationId,
+        };
+        if (data.status) {
+          this.user.status = {id: 1, label: 'Enabled'};
+        } else {
+          this.user.status = {id: 2, label: 'Disabled'};
+        }
+      })
+      .finally(() => {
+        this.isLoading = false;
+      });
   },
 
   methods: {
@@ -216,32 +241,6 @@ export default {
         }
       });
     },
-  },
-  beforeMount() {
-    this.isLoading = true;
-    this.http
-      .get(this.systemUserId)
-      .then(response => {
-        const {data} = response.data;
-        this.user.id = data.id;
-        this.user.username = data.userName;
-        this.user.role = this.userRoles.find(
-          item => item.id === data.userRole.id,
-        );
-        this.user.employee = {
-          id: data.employee.empNumber,
-          label: `${data.employee.firstName} ${data.employee.middleName} ${data.employee.lastName}`,
-          isPastEmployee: data.employee.terminationId,
-        };
-        if (data.status) {
-          this.user.status = {id: 1, label: 'Enabled'};
-        } else {
-          this.user.status = {id: 2, label: 'Disabled'};
-        }
-      })
-      .finally(() => {
-        this.isLoading = false;
-      });
   },
 };
 </script>

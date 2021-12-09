@@ -29,9 +29,9 @@
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
           <oxd-grid-item>
             <oxd-input-field
+              v-model="membership.membership"
               type="select"
               label="Membership"
-              v-model="membership.membership"
               :options="memberships"
               :rules="rules.membership"
               required
@@ -39,31 +39,31 @@
           </oxd-grid-item>
           <oxd-grid-item>
             <oxd-input-field
+              v-model="membership.subscriptionPaidBy"
               type="select"
               label="Subscription Paid By"
-              v-model="membership.subscriptionPaidBy"
               :options="paidBy"
             />
           </oxd-grid-item>
           <oxd-grid-item>
             <oxd-input-field
-              label="Subscription Amount"
               v-model="membership.subscriptionFee"
+              label="Subscription Amount"
               :rules="rules.subscriptionFee"
             />
           </oxd-grid-item>
           <oxd-grid-item>
             <oxd-input-field
+              v-model="membership.currencyType"
               type="select"
               label="Currency"
-              v-model="membership.currencyType"
               :options="currencies"
             />
           </oxd-grid-item>
           <oxd-grid-item>
             <date-input
-              label="Subscription Commence Date"
               v-model="membership.subscriptionCommenceDate"
+              label="Subscription Commence Date"
               type="date"
               placeholder="yyyy-mm-dd"
               :rules="rules.subscriptionCommenceDate"
@@ -71,8 +71,8 @@
           </oxd-grid-item>
           <oxd-grid-item>
             <date-input
-              label="Subscription Renewal Date"
               v-model="membership.subscriptionRenewalDate"
+              label="Subscription Renewal Date"
               type="date"
               :years="yearArray"
               placeholder="yyyy-mm-dd"
@@ -86,7 +86,7 @@
         <required-text />
         <oxd-button
           type="button"
-          displayType="ghost"
+          display-type="ghost"
           label="Cancel"
           @click="onCancel"
         />
@@ -115,9 +115,7 @@ const membershipModel = {
 };
 
 export default {
-  name: 'edit-membership',
-
-  emits: ['close'],
+  name: 'EditMembership',
 
   props: {
     http: {
@@ -141,6 +139,8 @@ export default {
       default: () => [],
     },
   },
+
+  emits: ['close'],
 
   data() {
     return {
@@ -168,31 +168,6 @@ export default {
     };
   },
 
-  methods: {
-    onSave() {
-      this.isLoading = true;
-      this.http
-        .update(this.data.id, {
-          subscriptionFee: this.membership.subscriptionFee,
-          subscriptionCommenceDate: this.membership.subscriptionCommenceDate,
-          subscriptionRenewalDate: this.membership.subscriptionRenewalDate,
-          membershipId: this.membership.membership.id,
-          subscriptionPaidBy: this.membership.subscriptionPaidBy?.id,
-          currencyTypeId: this.membership.currencyType?.id,
-        })
-        .then(() => {
-          return this.$toast.updateSuccess();
-        })
-        .then(() => {
-          this.membership = {...membershipModel};
-          this.onCancel();
-        });
-    },
-    onCancel() {
-      this.$emit('close', true);
-    },
-  },
-
   beforeMount() {
     this.isLoading = true;
     this.http
@@ -216,6 +191,31 @@ export default {
       .finally(() => {
         this.isLoading = false;
       });
+  },
+
+  methods: {
+    onSave() {
+      this.isLoading = true;
+      this.http
+        .update(this.data.id, {
+          subscriptionFee: this.membership.subscriptionFee,
+          subscriptionCommenceDate: this.membership.subscriptionCommenceDate,
+          subscriptionRenewalDate: this.membership.subscriptionRenewalDate,
+          membershipId: this.membership.membership.id,
+          subscriptionPaidBy: this.membership.subscriptionPaidBy?.id,
+          currencyTypeId: this.membership.currencyType?.id,
+        })
+        .then(() => {
+          return this.$toast.updateSuccess();
+        })
+        .then(() => {
+          this.membership = {...membershipModel};
+          this.onCancel();
+        });
+    },
+    onCancel() {
+      this.$emit('close', true);
+    },
   },
 };
 </script>

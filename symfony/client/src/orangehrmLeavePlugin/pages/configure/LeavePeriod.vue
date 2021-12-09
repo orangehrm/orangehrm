@@ -32,22 +32,22 @@
           <oxd-grid :cols="4" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <oxd-input-field
+                v-model="leavePeriod.startMonth"
                 type="select"
                 :options="months"
                 :rules="rules.startMonth"
                 :label="$t('leave.start_month')"
-                v-model="leavePeriod.startMonth"
                 required
               />
             </oxd-grid-item>
 
             <oxd-grid-item>
               <oxd-input-field
+                v-model="leavePeriod.startDay"
                 type="select"
                 :options="dates"
                 :rules="rules.startDay"
                 :label="$t('general.start_date')"
-                v-model="leavePeriod.startDay"
                 required
               />
             </oxd-grid-item>
@@ -79,7 +79,7 @@
         <oxd-form-actions>
           <required-text />
           <oxd-button
-            displayType="ghost"
+            display-type="ghost"
             :label="$t('general.reset')"
             @click="onClickReset"
           />
@@ -111,18 +111,6 @@ export default {
     },
   },
 
-  data() {
-    return {
-      isLoading: false,
-      leavePeriod: {...leavePeriodModel},
-      leavePeriodDefined: true,
-      rules: {
-        startMonth: [required],
-        startDay: [required],
-      },
-    };
-  },
-
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
@@ -133,64 +121,16 @@ export default {
     };
   },
 
-  methods: {
-    onSave() {
-      this.isLoading = true;
-      this.http
-        .request({
-          method: 'PUT',
-          data: {
-            startMonth: this.leavePeriod.startMonth?.id,
-            startDay: this.leavePeriod.startDay?.id,
-          },
-        })
-        .then(response => {
-          const {data, meta} = response.data;
-          this.updateLeavePeriodModel(data);
-          this.defineLeavePeriod(meta);
-          this.resetLeavePeriod();
-          this.$toast.saveSuccess();
-          this.isLoading = false;
-          if (!this.leavePeriodDefined) {
-            reloadPage();
-          }
-        });
-    },
-
-    onClickReset() {
-      this.resetLeavePeriod();
-    },
-
-    resetLeavePeriod() {
-      this.leavePeriod.startMonth = leavePeriodModel.startMonth;
-      this.$nextTick(() => {
-        this.leavePeriod.startDay = leavePeriodModel.startDay;
-      });
-    },
-
-    updateLeavePeriodModel(data) {
-      leavePeriodModel.startMonth = this.months.find(m => {
-        return m.id === data.startMonth;
-      });
-      this.$nextTick(() => {
-        leavePeriodModel.startDay = this.dates.find(d => {
-          return d.id === data.startDay;
-        });
-      });
-    },
-
-    defineLeavePeriod(meta) {
-      if (meta.leavePeriodDefined === true) {
-        this.leavePeriodDefined = meta.leavePeriodDefined;
-        this.leavePeriod.currentPeriod = `
-            ${meta.currentLeavePeriod.startDate}
-            ${this.$t('general.to').toLowerCase()}
-            ${meta.currentLeavePeriod.endDate}
-          `;
-      } else {
-        this.leavePeriodDefined = false;
-      }
-    },
+  data() {
+    return {
+      isLoading: false,
+      leavePeriod: {...leavePeriodModel},
+      leavePeriodDefined: true,
+      rules: {
+        startMonth: [required],
+        startDay: [required],
+      },
+    };
   },
 
   computed: {
@@ -253,6 +193,66 @@ export default {
       .finally(() => {
         this.isLoading = false;
       });
+  },
+
+  methods: {
+    onSave() {
+      this.isLoading = true;
+      this.http
+        .request({
+          method: 'PUT',
+          data: {
+            startMonth: this.leavePeriod.startMonth?.id,
+            startDay: this.leavePeriod.startDay?.id,
+          },
+        })
+        .then(response => {
+          const {data, meta} = response.data;
+          this.updateLeavePeriodModel(data);
+          this.defineLeavePeriod(meta);
+          this.resetLeavePeriod();
+          this.$toast.saveSuccess();
+          this.isLoading = false;
+          if (!this.leavePeriodDefined) {
+            reloadPage();
+          }
+        });
+    },
+
+    onClickReset() {
+      this.resetLeavePeriod();
+    },
+
+    resetLeavePeriod() {
+      this.leavePeriod.startMonth = leavePeriodModel.startMonth;
+      this.$nextTick(() => {
+        this.leavePeriod.startDay = leavePeriodModel.startDay;
+      });
+    },
+
+    updateLeavePeriodModel(data) {
+      leavePeriodModel.startMonth = this.months.find(m => {
+        return m.id === data.startMonth;
+      });
+      this.$nextTick(() => {
+        leavePeriodModel.startDay = this.dates.find(d => {
+          return d.id === data.startDay;
+        });
+      });
+    },
+
+    defineLeavePeriod(meta) {
+      if (meta.leavePeriodDefined === true) {
+        this.leavePeriodDefined = meta.leavePeriodDefined;
+        this.leavePeriod.currentPeriod = `
+            ${meta.currentLeavePeriod.startDate}
+            ${this.$t('general.to').toLowerCase()}
+            ${meta.currentLeavePeriod.endDate}
+          `;
+      } else {
+        this.leavePeriodDefined = false;
+      }
+    },
   },
 };
 </script>

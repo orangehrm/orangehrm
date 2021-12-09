@@ -30,7 +30,7 @@
             <profile-image-input
               v-model="employee.empPicture"
               :rules="rules.empPicture"
-              :imgSrc="profilePicUrl"
+              :img-src="profilePicUrl"
             />
           </div>
           <div class="orangehrm-employee-form">
@@ -49,8 +49,8 @@
               <oxd-grid :cols="2" class="orangehrm-full-width-grid">
                 <oxd-grid-item>
                   <oxd-input-field
-                    label="Employee Id"
                     v-model="employee.employeeId"
+                    label="Employee Id"
                     :rules="rules.employeeId"
                   />
                 </oxd-grid-item>
@@ -69,8 +69,8 @@
                 <oxd-grid :cols="2" class="orangehrm-full-width-grid">
                   <oxd-grid-item>
                     <oxd-input-field
-                      label="Username"
                       v-model="user.username"
+                      label="Username"
                       :rules="rules.username"
                       required
                       autocomplete="off"
@@ -83,15 +83,15 @@
                       :classes="{wrapper: '--status-grouped-field'}"
                     >
                       <oxd-input-field
-                        type="radio"
                         v-model="user.status"
-                        optionLabel="Enabled"
+                        type="radio"
+                        option-label="Enabled"
                         value="1"
                       />
                       <oxd-input-field
-                        type="radio"
                         v-model="user.status"
-                        optionLabel="Disabled"
+                        type="radio"
+                        option-label="Disabled"
                         value="2"
                       />
                     </oxd-input-group>
@@ -110,7 +110,7 @@
         <oxd-divider />
         <oxd-form-actions>
           <required-text />
-          <oxd-button displayType="ghost" label="Cancel" @click="onCancel" />
+          <oxd-button display-type="ghost" label="Cancel" @click="onCancel" />
           <submit-button />
         </oxd-form-actions>
       </oxd-form>
@@ -218,48 +218,6 @@ export default {
     };
   },
 
-  methods: {
-    onCancel() {
-      navigate('/pim/viewEmployeeList');
-    },
-    onSave() {
-      this.isLoading = true;
-      this.http
-        .create({
-          ...this.employee,
-        })
-        .then(response => {
-          const {data} = response;
-          if (data?.data) {
-            this.empNumber = data.data.empNumber;
-          }
-          if (this.createLogin && data?.data) {
-            return this.http.http.post('api/v2/admin/users', {
-              username: this.user.username,
-              password: this.user.password,
-              status: this.user.status == '1',
-              userRoleId: this.user.userRoleId,
-              empNumber: data.data.empNumber,
-            });
-          } else {
-            return;
-          }
-        })
-        .then(() => {
-          return this.$toast.saveSuccess();
-        })
-        .then(() => {
-          this.employee = {...employeeModel};
-          this.user = {...userModel};
-          if (this.empNumber) {
-            navigate(`/pim/viewPersonalDetails/empNumber/${this.empNumber}`);
-          } else {
-            this.onCancel();
-          }
-        });
-    },
-  },
-
   computed: {
     profilePicUrl() {
       if (this.employee.empPicture) {
@@ -305,6 +263,48 @@ export default {
       .finally(() => {
         this.isLoading = false;
       });
+  },
+
+  methods: {
+    onCancel() {
+      navigate('/pim/viewEmployeeList');
+    },
+    onSave() {
+      this.isLoading = true;
+      this.http
+        .create({
+          ...this.employee,
+        })
+        .then(response => {
+          const {data} = response;
+          if (data?.data) {
+            this.empNumber = data.data.empNumber;
+          }
+          if (this.createLogin && data?.data) {
+            return this.http.http.post('api/v2/admin/users', {
+              username: this.user.username,
+              password: this.user.password,
+              status: this.user.status == '1',
+              userRoleId: this.user.userRoleId,
+              empNumber: data.data.empNumber,
+            });
+          } else {
+            return;
+          }
+        })
+        .then(() => {
+          return this.$toast.saveSuccess();
+        })
+        .then(() => {
+          this.employee = {...employeeModel};
+          this.user = {...userModel};
+          if (this.empNumber) {
+            navigate(`/pim/viewPersonalDetails/empNumber/${this.empNumber}`);
+          } else {
+            this.onCancel();
+          }
+        });
+    },
   },
 };
 </script>

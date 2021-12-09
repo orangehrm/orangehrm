@@ -37,7 +37,7 @@
 
 <script>
 export default {
-  name: 'tabs-navigation',
+  name: 'TabsNavigation',
   props: {
     tabs: {
       type: Array,

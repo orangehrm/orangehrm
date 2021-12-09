@@ -27,8 +27,8 @@
         >
         <oxd-switch-input
           v-model="editable"
-          optionLabel="Edit"
-          labelPosition="left"
+          option-label="Edit"
+          label-position="left"
         />
       </div>
       <oxd-divider />
@@ -38,8 +38,8 @@
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item class="organization-name-container">
               <oxd-input-field
-                label="Organization Name"
                 v-model="organization.name"
+                label="Organization Name"
                 :rules="rules.name"
                 :disabled="!editable"
                 required
@@ -58,16 +58,16 @@
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <oxd-input-field
-                label="Registration Number"
                 v-model="organization.registrationNumber"
+                label="Registration Number"
                 :rules="rules.registrationNumber"
                 :disabled="!editable"
               />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
-                label="Tax ID"
                 v-model="organization.taxId"
+                label="Tax ID"
                 :rules="rules.taxId"
                 :disabled="!editable"
               />
@@ -81,24 +81,24 @@
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <oxd-input-field
-                label="Phone"
                 v-model="organization.phone"
+                label="Phone"
                 :rules="rules.phone"
                 :disabled="!editable"
               />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
-                label="Fax"
                 v-model="organization.fax"
+                label="Fax"
                 :rules="rules.fax"
                 :disabled="!editable"
               />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
-                label="Email"
                 v-model="organization.email"
+                label="Email"
                 :rules="rules.email"
                 :disabled="!editable"
               />
@@ -112,24 +112,24 @@
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <oxd-input-field
-                label="Address Street 1"
                 v-model="organization.street1"
+                label="Address Street 1"
                 :rules="rules.street1"
                 :disabled="!editable"
               />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
-                label="Address Street 2"
                 v-model="organization.street2"
+                label="Address Street 2"
                 :rules="rules.street2"
                 :disabled="!editable"
               />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
-                label="City"
                 v-model="organization.city"
+                label="City"
                 :rules="rules.city"
                 :disabled="!editable"
               />
@@ -141,25 +141,25 @@
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <oxd-input-field
-                label="State/Province"
                 v-model="organization.province"
+                label="State/Province"
                 :rules="rules.province"
                 :disabled="!editable"
               />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
-                label="Zip/Postal Code"
                 v-model="organization.zipCode"
+                label="Zip/Postal Code"
                 :rules="rules.zipCode"
                 :disabled="!editable"
               />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
+                v-model="organization.country"
                 label="Country"
                 type="select"
-                v-model="organization.country"
                 :rules="rules.country"
                 :options="countryList"
                 :disabled="!editable"
@@ -171,9 +171,9 @@
         <oxd-grid :cols="2" class="orangehrm-full-width-grid">
           <oxd-grid-item>
             <oxd-input-field
+              v-model="organization.note"
               label="Note"
               type="textarea"
-              v-model="organization.note"
               :rules="rules.note"
               :disabled="!editable"
             />
@@ -202,6 +202,9 @@ import {
 } from '@ohrm/core/util/validation/rules';
 
 export default {
+  components: {
+    'oxd-switch-input': SwitchInput,
+  },
   props: {
     numberOfEmployees: {
       type: Number,
@@ -220,10 +223,6 @@ export default {
     return {
       http,
     };
-  },
-
-  components: {
-    'oxd-switch-input': SwitchInput,
   },
 
   data() {
@@ -264,6 +263,34 @@ export default {
       errors: [],
     };
   },
+  created() {
+    this.isLoading = true;
+    this.http.http
+      .get('api/v2/admin/organization')
+      .then(response => {
+        const {data} = response.data;
+        this.organization.name = data.name;
+        this.organization.registrationNumber = data.registrationNumber;
+        this.organization.taxId = data.taxId;
+        this.organization.phone = data.phone;
+        this.organization.fax = data.fax;
+        this.organization.email = data.email;
+        this.organization.street1 = data.street1;
+        this.organization.street2 = data.street2;
+        this.organization.city = data.city;
+        this.organization.province = data.province;
+        if (data.country !== '' && data.country !== null) {
+          this.organization.country = this.countryList.find(item => {
+            return item.id === data.country;
+          });
+        }
+        this.organization.zipCode = data.zipCode;
+        this.organization.note = data.note;
+      })
+      .finally(() => {
+        this.isLoading = false;
+      });
+  },
 
   methods: {
     onSave() {
@@ -292,34 +319,6 @@ export default {
           this.editable = false;
         });
     },
-  },
-  created() {
-    this.isLoading = true;
-    this.http.http
-      .get('api/v2/admin/organization')
-      .then(response => {
-        const {data} = response.data;
-        this.organization.name = data.name;
-        this.organization.registrationNumber = data.registrationNumber;
-        this.organization.taxId = data.taxId;
-        this.organization.phone = data.phone;
-        this.organization.fax = data.fax;
-        this.organization.email = data.email;
-        this.organization.street1 = data.street1;
-        this.organization.street2 = data.street2;
-        this.organization.city = data.city;
-        this.organization.province = data.province;
-        if (data.country !== '' && data.country !== null) {
-          this.organization.country = this.countryList.find(item => {
-            return item.id === data.country;
-          });
-        }
-        this.organization.zipCode = data.zipCode;
-        this.organization.note = data.note;
-      })
-      .finally(() => {
-        this.isLoading = false;
-      });
   },
 };
 </script>

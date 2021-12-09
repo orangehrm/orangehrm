@@ -25,16 +25,16 @@
         <oxd-form-row>
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item>
-              <oxd-input-field label="Name" v-model="filters.name" />
+              <oxd-input-field v-model="filters.name" label="Name" />
             </oxd-grid-item>
             <oxd-grid-item>
-              <oxd-input-field label="City" v-model="filters.city" />
+              <oxd-input-field v-model="filters.city" label="City" />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
+                v-model="filters.countryCode"
                 type="select"
                 label="Country"
-                v-model="filters.countryCode"
                 :clear="false"
                 :options="countries"
               />
@@ -45,10 +45,14 @@
         <oxd-divider />
 
         <oxd-form-actions>
-          <oxd-button displayType="ghost" label="Reset" @click="onClickReset" />
+          <oxd-button
+            display-type="ghost"
+            label="Reset"
+            @click="onClickReset"
+          />
           <oxd-button
             class="orangehrm-left-space"
-            displayType="secondary"
+            display-type="secondary"
             label="Search"
             type="submit"
           />
@@ -62,11 +66,11 @@
       <div class="orangehrm-header-container">
         <div>
           <oxd-button
-            label="Add"
-            iconName="plus"
-            displayType="secondary"
-            @click="onClickAdd"
             v-if="$can.create(`locations`)"
+            label="Add"
+            icon-name="plus"
+            display-type="secondary"
+            @click="onClickAdd"
           />
         </div>
       </div>
@@ -78,22 +82,22 @@
       ></table-header>
       <div class="orangehrm-container">
         <oxd-card-table
+          v-model:selected="checkedItems"
+          v-model:order="sortDefinition"
           :headers="headers"
           :items="items?.data"
           :selectable="$can.delete(`locations`)"
           :disabled="!($can.delete(`locations`) && $can.update('locations'))"
           :clickable="false"
           :loading="isLoading"
-          v-model:selected="checkedItems"
-          v-model:order="sortDefinition"
-          rowDecorator="oxd-table-decorator-card"
+          row-decorator="oxd-table-decorator-card"
         />
       </div>
       <div class="orangehrm-bottom-container">
         <oxd-pagination
           v-if="showPaginator"
-          :length="pages"
           v-model:current="currentPage"
+          :length="pages"
         />
       </div>
     </div>
@@ -138,11 +142,63 @@ const locationDataNormalizer = data => {
 };
 
 export default {
+  components: {
+    'delete-confirmation': DeleteConfirmationDialog,
+  },
   props: {
     countries: {
       type: Array,
       default: () => [],
     },
+  },
+
+  setup() {
+    const {sortDefinition, sortField, sortOrder, onSort} = useSort({
+      sortDefinition: defaultSortOrder,
+    });
+    const filters = ref({...defaultFilters});
+    const serializedFilters = computed(() => {
+      return {
+        name: filters.value.name,
+        city: filters.value.city,
+        countryCode: filters.value.countryCode?.id,
+        sortField: sortField.value,
+        sortOrder: sortOrder.value,
+      };
+    });
+    const http = new APIService(
+      window.appGlobal.baseUrl,
+      '/api/v2/admin/locations',
+    );
+    const {
+      showPaginator,
+      currentPage,
+      total,
+      pages,
+      pageSize,
+      response,
+      isLoading,
+      execQuery,
+    } = usePaginate(http, {
+      query: serializedFilters,
+      normalizer: locationDataNormalizer,
+    });
+
+    onSort(execQuery);
+
+    return {
+      http,
+      showPaginator,
+      currentPage,
+      isLoading,
+      total,
+      pages,
+      pageSize,
+      execQuery,
+      items: response,
+      filters,
+      sortDefinition,
+    };
   },
   data() {
     const cellConfig = {
@@ -204,59 +260,6 @@ export default {
         },
       ],
       checkedItems: [],
-    };
-  },
-
-  components: {
-    'delete-confirmation': DeleteConfirmationDialog,
-  },
-
-  setup() {
-    const {sortDefinition, sortField, sortOrder, onSort} = useSort({
-      sortDefinition: defaultSortOrder,
-    });
-    const filters = ref({...defaultFilters});
-    const serializedFilters = computed(() => {
-      return {
-        name: filters.value.name,
-        city: filters.value.city,
-        countryCode: filters.value.countryCode?.id,
-        sortField: sortField.value,
-        sortOrder: sortOrder.value,
-      };
-    });
-    const http = new APIService(
-      window.appGlobal.baseUrl,
-      '/api/v2/admin/locations',
-    );
-    const {
-      showPaginator,
-      currentPage,
-      total,
-      pages,
-      pageSize,
-      response,
-      isLoading,
-      execQuery,
-    } = usePaginate(http, {
-      query: serializedFilters,
-      normalizer: locationDataNormalizer,
-    });
-
-    onSort(execQuery);
-
-    return {
-      http,
-      showPaginator,
-      currentPage,
-      isLoading,
-      total,
-      pages,
-      pageSize,
-      execQuery,
-      items: response,
-      filters,
-      sortDefinition,
     };
   },
 

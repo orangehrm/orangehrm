@@ -38,7 +38,7 @@
           :items="items?.data"
           :selectable="false"
           :clickable="false"
-          rowDecorator="oxd-table-decorator-card"
+          row-decorator="oxd-table-decorator-card"
         />
       </div>
       <div class="orangehrm-bottom-container"></div>

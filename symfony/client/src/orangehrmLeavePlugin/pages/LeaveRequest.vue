@@ -63,28 +63,28 @@
           :selectable="false"
           :clickable="false"
           :loading="isLoading"
-          rowDecorator="oxd-table-decorator-card"
+          row-decorator="oxd-table-decorator-card"
         />
       </div>
       <div class="orangehrm-bottom-container">
         <span>
           <oxd-button
-            displayType="ghost"
+            display-type="ghost"
             :label="$t('general.back')"
             @click="onClickBack"
           />
           <oxd-button
             class="orangehrm-left-space"
-            displayType="secondary"
-            iconName="chat-right-text-fill"
+            display-type="secondary"
+            icon-name="chat-right-text-fill"
             :label="$t('general.comments')"
             @click="onClickComments"
           />
         </span>
         <oxd-pagination
           v-if="showPaginator"
-          :length="pages"
           v-model:current="currentPage"
+          :length="pages"
         />
       </div>
     </div>
@@ -139,7 +139,7 @@ const leaveRequestNormalizer = data => {
 };
 
 export default {
-  name: 'leave-view-request',
+  name: 'LeaveViewRequest',
 
   components: {
     'leave-comment-modal': LeaveCommentsModal,
@@ -154,30 +154,6 @@ export default {
       type: Boolean,
       default: false,
     },
-  },
-
-  data() {
-    return {
-      headers: [
-        {name: 'date', title: 'Date', style: {flex: 1}},
-        {name: 'leaveType', title: 'Leave Type', style: {flex: 1}},
-        {name: 'leaveBalance', title: 'Leave Balance (Days)', style: {flex: 1}},
-        {name: 'duration', title: 'Duration (Hours)', style: {flex: 1}},
-        {name: 'status', title: 'Status', style: {flex: 1}},
-        {name: 'comment', title: 'Comments', style: {flex: '10%'}},
-        {
-          name: 'action',
-          slot: 'footer',
-          title: 'Actions',
-          cellType: 'oxd-table-cell-actions',
-          cellRenderer: this.cellRenderer,
-          style: {flex: '20%'},
-        },
-      ],
-      showCommentModal: false,
-      commentModalState: null,
-      isLeaveRequest: false,
-    };
   },
 
   setup(props) {
@@ -212,6 +188,47 @@ export default {
       leaveActions,
       processLeaveAction,
     };
+  },
+
+  data() {
+    return {
+      headers: [
+        {name: 'date', title: 'Date', style: {flex: 1}},
+        {name: 'leaveType', title: 'Leave Type', style: {flex: 1}},
+        {name: 'leaveBalance', title: 'Leave Balance (Days)', style: {flex: 1}},
+        {name: 'duration', title: 'Duration (Hours)', style: {flex: 1}},
+        {name: 'status', title: 'Status', style: {flex: 1}},
+        {name: 'comment', title: 'Comments', style: {flex: '10%'}},
+        {
+          name: 'action',
+          slot: 'footer',
+          title: 'Actions',
+          cellType: 'oxd-table-cell-actions',
+          cellRenderer: this.cellRenderer,
+          style: {flex: '20%'},
+        },
+      ],
+      showCommentModal: false,
+      commentModalState: null,
+      isLeaveRequest: false,
+    };
+  },
+
+  computed: {
+    employeeName() {
+      const employee = this.response?.meta?.employee;
+      if (employee) {
+        const name = `${employee.firstName} ${employee.middleName}
+        ${employee.lastName}`;
+        return `${name} ${employee.terminationId ? '(Past Employee)' : ''}`;
+      }
+      return '';
+    },
+    leavePeriod() {
+      const startDate = this.response?.meta?.startDate;
+      const endDate = this.response?.meta?.endDate;
+      return startDate === endDate ? startDate : `${startDate} - ${endDate}`;
+    },
   },
 
   methods: {
@@ -297,23 +314,6 @@ export default {
     },
     async resetDataTable() {
       await this.execQuery();
-    },
-  },
-
-  computed: {
-    employeeName() {
-      const employee = this.response?.meta?.employee;
-      if (employee) {
-        const name = `${employee.firstName} ${employee.middleName}
-        ${employee.lastName}`;
-        return `${name} ${employee.terminationId ? '(Past Employee)' : ''}`;
-      }
-      return '';
-    },
-    leavePeriod() {
-      const startDate = this.response?.meta?.startDate;
-      const endDate = this.response?.meta?.endDate;
-      return startDate === endDate ? startDate : `${startDate} - ${endDate}`;
     },
   },
 };

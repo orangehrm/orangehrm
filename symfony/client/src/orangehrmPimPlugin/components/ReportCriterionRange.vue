@@ -24,7 +24,7 @@
       type="select"
       :rules="rules.operator"
       :options="operators"
-      :modelValue="operator"
+      :model-value="operator"
       @update:modelValue="$emit('update:operator', $event)"
     />
   </oxd-grid-item>
@@ -34,20 +34,20 @@
   >
     <oxd-input-field
       :rules="rules.valueX"
-      :modelValue="valueX"
+      :model-value="valueX"
       @update:modelValue="$emit('update:valueX', $event)"
     />
     <oxd-text class="orangehrm-report-range-text" tag="p">to</oxd-text>
     <oxd-input-field
       :rules="rules.valueY"
-      :modelValue="valueY"
+      :model-value="valueY"
       @update:modelValue="$emit('update:valueY', $event)"
     />
   </oxd-grid-item>
   <oxd-grid-item v-else-if="operator">
     <oxd-input-field
       :rules="rules.valueXOnly"
-      :modelValue="valueX"
+      :model-value="valueX"
       @update:modelValue="$emit('update:valueX', $event)"
     />
   </oxd-grid-item>
@@ -58,22 +58,26 @@ import {ref} from 'vue';
 import {required, max} from '@ohrm/core/util/validation/rules';
 
 export default {
-  name: 'report-criterion-range',
+  name: 'ReportCriterionRange',
   inheritAttrs: false,
   props: {
     operator: {
       type: Object,
       required: false,
+      default: () => null,
     },
     valueX: {
       type: String,
       required: false,
+      default: null,
     },
     valueY: {
       type: String,
       required: false,
+      default: null,
     },
   },
+  emits: ['update:valueX', 'update:valueY', 'update:operator'],
   setup(props) {
     const operators = ref([
       {id: 'lt', label: 'Less Than'},

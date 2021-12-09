@@ -41,8 +41,8 @@
     ></edit-salary-component>
     <div class="orangehrm-horizontal-padding orangehrm-top-padding">
       <profile-action-header
+        :action-button-shown="$can.update(`salary_details`)"
         @click="onClickAdd"
-        :action-button-shown="this.$can.update(`salary_details`)"
       >
         Assigned Salary Components
       </profile-action-header>
@@ -55,21 +55,21 @@
     ></table-header>
     <div class="orangehrm-container">
       <oxd-card-table
+        v-model:selected="checkedItems"
         :headers="tableHeaders"
         :items="items?.data"
         :selectable="$can.delete(`salary_details`)"
         :disabled="isDisabled"
         :clickable="false"
         :loading="isLoading"
-        v-model:selected="checkedItems"
-        rowDecorator="oxd-table-decorator-card"
+        row-decorator="oxd-table-decorator-card"
       />
     </div>
     <div class="orangehrm-bottom-container">
       <oxd-pagination
         v-if="showPaginator"
-        :length="pages"
         v-model:current="currentPage"
+        :length="pages"
       />
     </div>
     <delete-confirmation ref="deleteDialog"></delete-confirmation>
@@ -187,6 +187,42 @@ export default {
     };
   },
 
+  computed: {
+    isDisabled() {
+      return this.showSaveModal || this.showEditModal;
+    },
+    tableHeaders() {
+      const headerActions = {
+        name: 'actions',
+        slot: 'action',
+        title: 'Actions',
+        style: {flex: 1},
+        cellType: 'oxd-table-cell-actions',
+        cellConfig: {},
+      };
+      if (this.$can.delete(`salary_details`)) {
+        headerActions.cellConfig.delete = {
+          onClick: this.onClickDelete,
+          component: 'oxd-icon-button',
+          props: {
+            name: 'trash',
+          },
+        };
+      }
+      if (this.$can.update(`salary_details`)) {
+        headerActions.cellConfig.edit = {
+          onClick: this.onClickEdit,
+          props: {
+            name: 'pencil-fill',
+          },
+        };
+      }
+      return Object.keys(headerActions.cellConfig).length > 0
+        ? this.headers.concat([headerActions])
+        : this.headers;
+    },
+  },
+
   methods: {
     onClickDeleteSelected() {
       const ids = this.checkedItems.map(index => {
@@ -243,42 +279,6 @@ export default {
       this.showEditModal = false;
       this.editModalState = null;
       this.resetDataTable();
-    },
-  },
-
-  computed: {
-    isDisabled() {
-      return this.showSaveModal || this.showEditModal;
-    },
-    tableHeaders() {
-      const headerActions = {
-        name: 'actions',
-        slot: 'action',
-        title: 'Actions',
-        style: {flex: 1},
-        cellType: 'oxd-table-cell-actions',
-        cellConfig: {},
-      };
-      if (this.$can.delete(`salary_details`)) {
-        headerActions.cellConfig.delete = {
-          onClick: this.onClickDelete,
-          component: 'oxd-icon-button',
-          props: {
-            name: 'trash',
-          },
-        };
-      }
-      if (this.$can.update(`salary_details`)) {
-        headerActions.cellConfig.edit = {
-          onClick: this.onClickEdit,
-          props: {
-            name: 'pencil-fill',
-          },
-        };
-      }
-      return Object.keys(headerActions.cellConfig).length > 0
-        ? this.headers.concat([headerActions])
-        : this.headers;
     },
   },
 };
