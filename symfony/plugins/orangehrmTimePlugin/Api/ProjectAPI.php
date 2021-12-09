@@ -168,7 +168,7 @@ class ProjectAPI extends Endpoint implements CrudEndpoint
     /**
      * @param  Project  $project
      */
-    private function setProject(Project $project)
+    private function setProject(Project $project): void
     {
         $project->getDecorator()->setCustomerById(
             $this->getRequestParams()->getInt(

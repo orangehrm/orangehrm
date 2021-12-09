@@ -48,13 +48,8 @@
         <oxd-divider />
 
         <oxd-form-actions>
-          <oxd-button displayType="ghost" label="Reset" @click="onClickReset" />
-          <oxd-button
-            class="orangehrm-left-space"
-            displayType="secondary"
-            label="Search"
-            type="submit"
-          />
+          <oxd-button display-type="ghost" label="Reset" type="reset" />
+          <submit-button :label="$t('general.search')" />
         </oxd-form-actions>
       </oxd-form>
     </oxd-table-filter>
@@ -64,34 +59,34 @@
       <div class="orangehrm-header-container">
         <oxd-button
           label="Add"
-          iconName="plus"
-          displayType="secondary"
+          icon-name="plus"
+          display-type="secondary"
           @click="onClickAdd"
         />
       </div>
       <table-header
         :selected="checkedItems.length"
         :loading="isLoading"
-        @delete="onClickDeleteSelected"
         :total="total"
+        @delete="onClickDeleteSelected"
       ></table-header>
       <div class="orangehrm-container">
         <oxd-card-table
+          v-model:selected="checkedItems"
+          v-model:order="sortDefinition"
           :headers="headers"
           :items="items?.data"
           :selectable="true"
           :clickable="false"
-          v-model:selected="checkedItems"
           :loading="isLoading"
-          rowDecorator="oxd-table-decorator-card"
-          v-model:order="sortDefinition"
+          row-decorator="oxd-table-decorator-card"
         />
       </div>
       <div class="orangehrm-bottom-container">
         <oxd-pagination
           v-if="showPaginator"
-          :length="pages"
           v-model:current="currentPage"
+          :length="pages"
         />
       </div>
     </div>
@@ -106,10 +101,10 @@ import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmatio
 import {navigate} from '@ohrm/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
 import useSort from '@ohrm/core/util/composable/useSort';
+import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete.vue';
 
 import ProjectAutocomplete from '@/orangehrmTimePlugin/components/ProjectAutocomplete.vue';
 import CustomerAutocomplete from '@/orangehrmTimePlugin/components/CustomerAutocomplete.vue';
-import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete.vue';
 
 const userdataNormalizer = data => {
   return data.map(item => {
@@ -143,60 +138,12 @@ const defaultSortOrder = {
 };
 
 export default {
-  name: 'project',
+  name: 'Project',
   components: {
     'project-autocomplete': ProjectAutocomplete,
     'customer-autocomplete': CustomerAutocomplete,
     'employee-autocomplete': EmployeeAutocomplete,
     'delete-confirmation': DeleteConfirmationDialog,
-  },
-  data() {
-    return {
-      headers: [
-        {
-          name: 'customer',
-          title: 'Customer',
-          sortField: 'customer.name',
-          style: {flex: 2},
-        },
-        {
-          name: 'project',
-          slot: 'title',
-          title: 'Project',
-          sortField: 'project.name',
-          style: {flex: 3},
-        },
-        {
-          name: 'projectAdmins',
-          title: 'Project Admins',
-          style: {flex: 3},
-        },
-        {
-          name: 'actions',
-          slot: 'action',
-          title: 'Actions',
-          style: {flex: 1},
-          cellType: 'oxd-table-cell-actions',
-          cellConfig: {
-            delete: {
-              onClick: this.onClickDelete,
-              component: 'oxd-icon-button',
-              props: {
-                name: 'trash',
-              },
-            },
-            edit: {
-              onClick: this.onClickEdit,
-              props: {
-                name: 'pencil-fill',
-              },
-            },
-          },
-        },
-      ],
-      projects: [],
-      checkedItems: [],
-    };
   },
   setup() {
     const filters = ref({...defaultFilters});
@@ -250,10 +197,59 @@ export default {
       sortDefinition,
     };
   },
+  data() {
+    return {
+      headers: [
+        {
+          name: 'customer',
+          title: 'Customer',
+          sortField: 'customer.name',
+          style: {flex: 2},
+        },
+        {
+          name: 'project',
+          slot: 'title',
+          title: 'Project',
+          sortField: 'project.name',
+          style: {flex: 3},
+        },
+        {
+          name: 'projectAdmins',
+          title: 'Project Admins',
+          style: {flex: 3},
+        },
+        {
+          name: 'actions',
+          slot: 'action',
+          title: 'Actions',
+          style: {flex: 1},
+          cellType: 'oxd-table-cell-actions',
+          cellConfig: {
+            delete: {
+              onClick: this.onClickDelete,
+              component: 'oxd-icon-button',
+              props: {
+                name: 'trash',
+              },
+            },
+            edit: {
+              onClick: this.onClickEdit,
+              props: {
+                name: 'pencil-fill',
+              },
+            },
+          },
+        },
+      ],
+      projects: [],
+      checkedItems: [],
+    };
+  },
   methods: {
     onClickAdd() {
       navigate('/time/saveProject');
     },
+    //todo
     // onClickEdit(item) {
     //   navigate('/time/saveProject/{id}', {id: item.id});
     // },

@@ -21,15 +21,17 @@
 <template>
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
-      <oxd-text tag="h6" class="orangehrm-main-title">Add Project</oxd-text>
+      <oxd-text tag="h6" class="orangehrm-main-title">
+        Add Project
+      </oxd-text>
       <oxd-divider />
 
       <oxd-form :loading="isLoading" @submitValid="onSave">
         <oxd-grid :cols="2" class="orangehrm-full-width-grid">
           <oxd-grid-item>
             <oxd-input-field
-              label="Project Name"
               v-model="project.name"
+              label="Project Name"
               :rules="rules.name"
               required
             />
@@ -37,17 +39,17 @@
           <oxd-grid-item>
             <oxd-grid-row>
               <customer-autocomplete
-                label="Customer"
                 v-model="project.customer"
+                label="Customer"
                 :rules="rules.customer"
                 required
               />
             </oxd-grid-row>
             <oxd-grid-row>
               <oxd-button
-                displayType="text"
+                display-type="text"
                 label="Add Customer"
-                iconName="plus"
+                icon-name="plus"
                 style=""
                 @click="onClickAddCustomer"
               />
@@ -58,9 +60,9 @@
           <oxd-grid :cols="2" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <oxd-input-field
+                v-model="project.description"
                 type="textarea"
                 label="Description"
-                v-model="project.description"
                 placeholder="Type description here"
                 :rules="rules.description"
               />
@@ -70,18 +72,18 @@
                 v-for="projectAdmin in projectAdmins"
                 :key="projectAdmin.id"
               >
-                <project-admin-input
-                  v-model="projectAdmin.data"
+                <project-admin-autocomplete
                   :id="projectAdmin.id"
+                  v-model="projectAdmin.data"
                   :rules="rules.projectAdmin"
                   @remove="removeAdminInputField"
                 />
               </oxd-grid-row>
               <oxd-button
                 v-if="projectAdmins.length < 5"
-                displayType="text"
+                display-type="text"
                 label="Add Another"
-                iconName="plus"
+                icon-name="plus"
                 style=""
                 @click="onAddAnother"
               />
@@ -93,7 +95,7 @@
         <oxd-divider />
         <oxd-form-actions>
           <required-text />
-          <oxd-button displayType="ghost" label="Cancel" @click="onCancel" />
+          <oxd-button display-type="ghost" label="Cancel" @click="onCancel" />
           <submit-button />
         </oxd-form-actions>
       </oxd-form>
@@ -115,7 +117,7 @@ import {navigate} from '@ohrm/core/util/helper/navigation';
 import promiseDebounce from '@ohrm/oxd/utils/promiseDebounce';
 
 import CustomerAutocomplete from '@/orangehrmTimePlugin/components/CustomerAutocomplete.vue';
-import ProjectAdminInput from '@/orangehrmTimePlugin/components/ProjectAdminInput.vue';
+import ProjectAdminAutocomplete from '@/orangehrmTimePlugin/components/ProjectAdminAutocomplete.vue';
 import AddCustomerModal from '@/orangehrmTimePlugin/components/AddCustomerModal.vue';
 
 const defaultProjectAdminModel = {
@@ -127,17 +129,26 @@ const defaultProjectAdminModel = {
   },
 };
 const defaultProjectModel = {
-  name: '',
+  name: null,
   customer: null,
-  description: '',
+  description: null,
   projectAdminEmpNumbers: [],
 };
 export default {
-  name: 'project-save',
+  name: 'ProjectSave',
   components: {
     'customer-autocomplete': CustomerAutocomplete,
-    'project-admin-input': ProjectAdminInput,
+    'project-admin-autocomplete': ProjectAdminAutocomplete,
     'add-customer-modal': AddCustomerModal,
+  },
+  setup() {
+    const http = new APIService(
+      window.appGlobal.baseUrl,
+      'api/v2/time/projects',
+    );
+    return {
+      http,
+    };
   },
   data() {
     return {
@@ -166,15 +177,6 @@ export default {
           },
         ],
       },
-    };
-  },
-  setup() {
-    const http = new APIService(
-      window.appGlobal.baseUrl,
-      'api/v2/time/projects',
-    );
-    return {
-      http,
     };
   },
   methods: {

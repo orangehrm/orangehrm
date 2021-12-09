@@ -86,27 +86,19 @@ class ProjectDao extends BaseDao
         $this->setSortingAndPaginationParams($qb, $projectSearchFilterParamHolder);
 
         if (!is_null($projectSearchFilterParamHolder->getProjectId())) {
-            $qb->andWhere('project.id = :projectId')->setParameter(
-                'projectId',
-                $projectSearchFilterParamHolder->getProjectId()
-            );
+            $qb->andWhere('project.id = :projectId')
+                ->setParameter('projectId', $projectSearchFilterParamHolder->getProjectId());
         }
         if (!is_null($projectSearchFilterParamHolder->getCustomerId())) {
-            $qb->andWhere('customer.id = :customerId')->setParameter(
-                'customerId',
-                $projectSearchFilterParamHolder->getCustomerId()
-            );
+            $qb->andWhere('customer.id = :customerId')
+                ->setParameter('customerId', $projectSearchFilterParamHolder->getCustomerId());
         }
         if (!is_null($projectSearchFilterParamHolder->getEmpNumber())) {
-            $qb->andWhere('projectAdmin.empNumber = :empNumber')->setParameter(
-                'empNumber',
-                $projectSearchFilterParamHolder->getEmpNumber()
-            );
+            $qb->andWhere('projectAdmin.empNumber = :empNumber')
+                ->setParameter('empNumber', $projectSearchFilterParamHolder->getEmpNumber());
         }
-        $qb->andWhere('project.deleted = :deleted')->setParameter(
-            'deleted',
-            false
-        );
+        $qb->andWhere('project.deleted = :deleted')
+            ->setParameter('deleted', false);
         return $this->getPaginator($qb);
     }
 

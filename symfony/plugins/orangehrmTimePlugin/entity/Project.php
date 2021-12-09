@@ -20,7 +20,6 @@
 namespace OrangeHRM\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use OrangeHRM\Entity\Decorator\DecoratorTrait;
 use OrangeHRM\Entity\Decorator\ProjectDecorator;
@@ -57,30 +56,31 @@ class Project
     /**
      * @var string|null
      *
-     * @ORM\Column(name="name",type="string",length=100)
+     * @ORM\Column(name="name", type="string", length=100, nullable=true)
      */
     private ?string $name;
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="description",type="string",length=256)
+     * @ORM\Column(name="description", type="string", length=256, nullable=true)
      */
     private ?string $description;
 
     /**
      * @var bool
      *
-     * @ORM\Column(name="is_deleted",type="boolean",options={"default":0})
+     * @ORM\Column(name="is_deleted", type="boolean", options={"default":0})
      */
     private bool $deleted = false;
 
     /**
      * @ORM\ManyToMany(targetEntity="OrangeHRM\Entity\Employee", cascade={"persist", "remove"})
-     * @ORM\JoinTable(name="ohrm_project_admin",
-     *      joinColumns={@ORM\JoinColumn(name="project_id", referencedColumnName="project_id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="emp_number", referencedColumnName="emp_number")}
-     *      )
+     * @ORM\JoinTable(
+     *     name="ohrm_project_admin",
+     *     joinColumns={@ORM\JoinColumn(name="project_id", referencedColumnName="project_id")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="emp_number", referencedColumnName="emp_number")}
+     * )
      */
     private iterable $projectAdmins;
 
@@ -170,9 +170,9 @@ class Project
     }
 
     /**
-     * @return Collection
+     * @return iterable
      */
-    public function getProjectAdmins(): Collection
+    public function getProjectAdmins(): iterable
     {
         return $this->projectAdmins;
     }

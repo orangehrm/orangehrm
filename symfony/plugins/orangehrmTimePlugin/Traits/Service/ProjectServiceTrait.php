@@ -21,7 +21,6 @@ namespace OrangeHRM\Time\Traits\Service;
 
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Framework\Services;
-use OrangeHRM\Time\Service\CustomerService;
 use OrangeHRM\Time\Service\ProjectService;
 
 trait ProjectServiceTrait
@@ -31,7 +30,7 @@ trait ProjectServiceTrait
     /**
      * @return ProjectService
      */
-    public function getProjectService(): ProjectService
+    protected function getProjectService(): ProjectService
     {
         return $this->getContainer()->get(Services::PROJECT_SERVICE);
     }

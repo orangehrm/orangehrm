@@ -30,7 +30,7 @@
 <script>
 import {APIService} from '@ohrm/core/util/services/api.service';
 export default {
-  name: 'customer-autocomplete',
+  name: 'CustomerAutocomplete',
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,

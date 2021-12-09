@@ -24,7 +24,6 @@ use OrangeHRM\Time\Dao\ProjectDao;
 
 class ProjectService
 {
-
     /**
      * @var ProjectDao|null
      */
@@ -40,5 +39,4 @@ class ProjectService
         }
         return $this->projectDao;
     }
-
 }

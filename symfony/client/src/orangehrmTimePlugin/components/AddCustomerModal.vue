@@ -1,7 +1,7 @@
 <template>
   <oxd-dialog
-    @update:show="onCancel"
     :style="{width: '90%', maxWidth: '450px'}"
+    @update:show="onCancel"
   >
     <div class="orangehrm-modal-header">
       <oxd-text type="card-title">Add Customer</oxd-text>
@@ -10,18 +10,18 @@
     <oxd-form :loading="isLoading" @submitValid="onSave">
       <oxd-form-row>
         <oxd-input-field
-          :label="$t('general.name')"
           v-model="customer.name"
+          :label="$t('general.name')"
           :rules="rules.name"
           required
         />
       </oxd-form-row>
       <oxd-form-row>
         <oxd-input-field
+          v-model="customer.description"
           type="textarea"
           label="Description"
           placeholder="Type description here"
-          v-model="customer.description"
           :rules="rules.description"
         />
       </oxd-form-row>
@@ -29,7 +29,7 @@
       <oxd-form-actions>
         <required-text />
         <oxd-button
-          displayType="ghost"
+          display-type="ghost"
           :label="$t('general.cancel')"
           @click="onCancel"
         />
@@ -55,9 +55,19 @@ const customerModel = {
 };
 
 export default {
-  name: 'add-customer-modal',
+  name: 'AddCustomerModal',
   components: {
     'oxd-dialog': Dialog,
+  },
+  emits: ['close'],
+  setup() {
+    const http = new APIService(
+      window.appGlobal.baseUrl,
+      '/api/v2/time/customers',
+    );
+    return {
+      http,
+    };
   },
   data() {
     return {
@@ -71,15 +81,6 @@ export default {
         ],
         description: [shouldNotExceedCharLength(250)],
       },
-    };
-  },
-  setup() {
-    const http = new APIService(
-      window.appGlobal.baseUrl,
-      '/api/v2/time/customers',
-    );
-    return {
-      http,
     };
   },
   methods: {
@@ -125,5 +126,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped></style>

@@ -21,26 +21,19 @@ namespace OrangeHRM\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use OrangeHRM\Entity\Decorator\DecoratorTrait;
-use OrangeHRM\Entity\Decorator\ProjectAdminDecorator;
 
 /**
- * @method ProjectAdminDecorator getDecorator()
  * @ORM\Table(name="ohrm_project_admin")
  * @ORM\Entity
- *
  */
 class ProjectAdmin
 {
-    use DecoratorTrait;
-
     /**
      * @var Project
      *
      * @ORM\Id
      * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Project", inversedBy="projectAdmin", cascade={"persist", "remove"})
      * @ORM\JoinColumn(name="project_id", referencedColumnName="project_id",nullable=false)
-     *
      */
     private Project $project;
 
@@ -50,44 +43,11 @@ class ProjectAdmin
      * @ORM\Id
      * @ORM\ManyToMany (targetEntity="OrangeHRM\Entity\Employee", inversedBy="projectAdmin", cascade={"persist", "remove"})
      * @ORM\JoinColumn(name="emp_number", referencedColumnName="emp_number" ,nullable=false)
-     *
      */
     private iterable $employee;
 
     public function __construct()
     {
         $this->employee = new ArrayCollection();
-    }
-
-    /**
-     * @return Project
-     */
-    public function getProject(): Project
-    {
-        return $this->project;
-    }
-
-    /**
-     * @param  Project  $project
-     */
-    public function setProject(Project $project): void
-    {
-        $this->project = $project;
-    }
-
-    /**
-     * @return Employee[]
-     */
-    public function getEmployee(): iterable
-    {
-        return $this->employee;
-    }
-
-    /**
-     * @param  Employee[]  $employee
-     */
-    public function setEmployee(iterable $employee): void
-    {
-        $this->employee = $employee;
     }
 }

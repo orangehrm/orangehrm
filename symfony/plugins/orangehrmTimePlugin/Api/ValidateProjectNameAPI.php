@@ -70,6 +70,9 @@ class ValidateProjectNameAPI extends Endpoint implements ResourceEndpoint
         );
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getValidationRuleForGetOne(): ParamRuleCollection
     {
         return new ParamRuleCollection(
@@ -87,21 +90,33 @@ class ValidateProjectNameAPI extends Endpoint implements ResourceEndpoint
         );
     }
 
+    /**
+     * @inheritDoc
+     */
     public function update(): EndpointResult
     {
         throw $this->getNotImplementedException();
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
         throw $this->getNotImplementedException();
     }
 
+    /**
+     * @inheritDoc
+     */
     public function delete(): EndpointResult
     {
         throw $this->getNotImplementedException();
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getValidationRuleForDelete(): ParamRuleCollection
     {
         throw $this->getNotImplementedException();

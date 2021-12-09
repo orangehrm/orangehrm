@@ -26,9 +26,9 @@
       v-bind="$attrs"
     />
     <oxd-icon-button
-      name="trash"
-      :withContainer="false"
       v-if="id !== 1"
+      name="trash"
+      :with-container="false"
       @click="remove"
     />
   </div>
@@ -38,17 +38,18 @@
 import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete.vue';
 
 export default {
-  name: 'project-admin-input',
-  inheritAttrs: false,
+  name: 'ProjectAdminAutocomplete',
   components: {
     'employee-autocomplete': EmployeeAutocomplete,
   },
+  inheritAttrs: false,
   props: {
     id: {
       type: Number,
       required: true,
     },
   },
+  emits: ['remove'],
   methods: {
     remove() {
       this.$emit('remove', this.id);

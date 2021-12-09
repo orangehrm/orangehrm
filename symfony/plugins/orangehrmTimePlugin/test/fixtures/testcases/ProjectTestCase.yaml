@@ -32,6 +32,31 @@ Create:
       deleted: false
     meta: [ ]
 
+  'Add new project - exceed project admin limit':
+    userId: 1
+    services:
+      time.project_service: \OrangeHRM\Time\Service\ProjectService
+    attributes: [ ]
+    query: [ ]
+    body:
+      name: 'Test Project'
+      description: 'This is a test project'
+      customerId: 1
+      projectAdminsEmpNumbers: [ 1,2,3,4,5,6 ]
+    invalidOnly: [ 'projectAdminsEmpNumbers' ]
+
+  'Add new project - without name':
+    userId: 1
+    services:
+      time.project_service: \OrangeHRM\Time\Service\ProjectService
+    attributes: [ ]
+    query: [ ]
+    body:
+      description: 'This is a test project'
+      customerId: 1
+      projectAdminsEmpNumbers: [ 1 ]
+    invalidOnly: [ 'name' ]
+
 GetAll:
   'Get projects list default':
     userId: 1
@@ -224,6 +249,16 @@ GetOne:
           terminationId: null
       deleted: false
     meta: [ ]
+
+  'Get project by ID - record not found':
+    userId: 1
+    services:
+      time.project_service: \OrangeHRM\Time\Service\ProjectService
+    attributes:
+      id: 100
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException'
+      message: 'Record Not Found'
 
 Update:
   'Update existing project':

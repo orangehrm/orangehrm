@@ -20,15 +20,12 @@
 namespace OrangeHRM\Time\Controller;
 
 use OrangeHRM\Core\Controller\AbstractVueController;
-use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Framework\Http\Request;
 
 class SaveProjectController extends AbstractVueController
 {
-    use ConfigServiceTrait;
-
     /**
      * @inheritDoc
      */
