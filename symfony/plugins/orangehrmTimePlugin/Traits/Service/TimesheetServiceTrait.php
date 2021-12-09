@@ -30,7 +30,7 @@ trait TimesheetServiceTrait
     /**
      * @return TimesheetService
      */
-    public function getTimesheetService(): TimesheetService
+    protected function getTimesheetService(): TimesheetService
     {
         return $this->getContainer()->get(Services::TIMESHEET_SERVICE);
     }
