@@ -52,7 +52,7 @@ class ValidateProjectNameAPI extends Endpoint implements ResourceEndpoint
             self::PARAMETER_PROJECT_NAME
         );
         $projectId = $this->getRequestParams()->getIntOrNull(
-            RequestParams::PARAM_TYPE_ATTRIBUTE,
+            RequestParams::PARAM_TYPE_QUERY,
             self::PARAMETER_PROJECT_ID
         );
         if (!is_null($projectId)) {

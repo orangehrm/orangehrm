@@ -22,7 +22,7 @@
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
       <oxd-text tag="h6" class="orangehrm-main-title">
-        Add Project
+        Edit Project
       </oxd-text>
       <oxd-divider />
 
@@ -124,18 +124,17 @@ import ProjectAdminAutocomplete from '@/orangehrmTimePlugin/components/ProjectAd
 import AddCustomerModal from '@/orangehrmTimePlugin/components/AddCustomerModal.vue';
 
 const defaultProjectAdminModel = {
-  id: 1,
+  id: null,
   data: {
     id: null,
     label: null,
-    isPastEmployee: null,
+    isPastEmployee: false,
   },
 };
 const defaultProjectModel = {
   name: null,
   customer: null,
   description: null,
-  projectAdminEmpNumbers: [],
 };
 export default {
   name: 'ProjectSave',
@@ -143,6 +142,12 @@ export default {
     'customer-autocomplete': CustomerAutocomplete,
     'project-admin-autocomplete': ProjectAdminAutocomplete,
     'add-customer-modal': AddCustomerModal,
+  },
+  props: {
+    projectId: {
+      type: Number,
+      required: true,
+    },
   },
   setup() {
     const http = new APIService(
@@ -156,7 +161,7 @@ export default {
   data() {
     return {
       isLoading: false,
-      projectAdmins: [{...defaultProjectAdminModel}],
+      projectAdmins: [],
       project: {...defaultProjectModel},
       showCustomerModal: false,
       rules: {
@@ -181,6 +186,35 @@ export default {
         ],
       },
     };
+  },
+  created() {
+    this.isLoading = true;
+    this.http
+      .get(this.projectId, {model: 'detailed'})
+      .then(response => {
+        const {data} = response.data;
+        this.project.name = data.name;
+        this.project.description = data.description;
+        this.project.customer = {
+          id: data.customer.id,
+          label: data.customer.name,
+        };
+        let fieldId = 0;
+        this.projectAdmins = data.projectAdmins.map(projectAdmin => {
+          fieldId = fieldId + 1;
+          return {
+            id: fieldId,
+            data: {
+              id: projectAdmin.empNumber,
+              label: `${projectAdmin.firstName} ${projectAdmin.middleName} ${projectAdmin.lastName}`,
+              isPastEmployee: projectAdmin.terminationId ? true : false,
+            },
+          };
+        });
+      })
+      .finally(() => {
+        this.isLoading = false;
+      });
   },
   methods: {
     onClickAddCustomer() {
@@ -211,11 +245,11 @@ export default {
         description: this.project.description,
         customerId: this.project.customer.id,
         projectAdminsEmpNumbers: this.projectAdmins.map(projectAdmin => {
-          return projectAdmin.data.id;
+          return projectAdmin.data?.id;
         }),
       };
       this.http
-        .create({...this.project})
+        .update(this.projectId, {...this.project})
         .then(() => {
           return this.$toast.saveSuccess();
         })
@@ -232,26 +266,18 @@ export default {
               url: `api/v2/time/validation/project-name`,
               params: {
                 projectName: this.project.name.trim(),
+                projectId: this.projectId,
               },
             })
             .then(response => {
               const {data} = response.data;
               return data.valid === true
                 ? resolve(true)
-                : resolve('Already exists');
+                : resolve('Already exist');
             });
         } else {
           resolve(true);
         }
-      });
-    },
-    validateProjectAdmin() {
-      const normalizedProjectAdmins = this.projectAdmins.map(projectAdmin => {
-        return projectAdmin.data;
-      });
-      this.rules.projectAdmin.push(v => {
-        const index = normalizedProjectAdmins.indexOf(v);
-        return index === -1 || 'Already exists';
       });
     },
   },
