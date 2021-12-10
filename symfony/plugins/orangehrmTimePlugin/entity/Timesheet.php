@@ -31,11 +31,11 @@ class Timesheet
     /**
      * @var int
      *
-     * @ORM\Column(name="timesheet_id", type="integer", length=4)
+     * @ORM\Column(name="timesheet_id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private int $timesheetId;
+    private int $id;
 
     /**
      * @var string
@@ -59,33 +59,27 @@ class Timesheet
     private DateTime $endDate;
 
     /**
-     * @var int
+     * @var Employee
      *
-     * @ORM\Column(name="employee_id", type="bigint", length=20)
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Employee")
+     * @ORM\JoinColumn(name="employee_id", referencedColumnName="emp_number")
      */
-    private int $employeeId;
-
-    /**
-     * @var TimesheetItem
-     *
-     * @ORM\OneToMany (targetEntity="TimesheetItem", mappedBy="timesheet")
-     */
-    private TimesheetItem $timesheetItem;
+    private Employee $employee;
 
     /**
      * @return int
      */
-    public function getTimesheetId(): int
+    public function getId(): int
     {
-        return $this->timesheetId;
+        return $this->id;
     }
 
     /**
-     * @param int $timesheetId
+     * @param int $id
      */
-    public function setTimesheetId(int $timesheetId): void
+    public function setId(int $id): void
     {
-        $this->timesheetId = $timesheetId;
+        $this->id = $id;
     }
 
     /**
@@ -137,18 +131,18 @@ class Timesheet
     }
 
     /**
-     * @return int
+     * @return Employee
      */
-    public function getEmployeeId(): int
+    public function getEmployee(): Employee
     {
-        return $this->employeeId;
+        return $this->employee;
     }
 
     /**
-     * @param int $employeeId
+     * @param Employee $employee
      */
-    public function setEmployeeId(int $employeeId): void
+    public function setEmployee(Employee $employee): void
     {
-        $this->employeeId = $employeeId;
+        $this->employee = $employee;
     }
 }

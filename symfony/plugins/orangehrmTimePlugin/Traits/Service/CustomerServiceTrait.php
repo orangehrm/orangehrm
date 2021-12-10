@@ -30,7 +30,7 @@ trait CustomerServiceTrait
     /**
      * @return CustomerService
      */
-    public function getCustomerService(): CustomerService
+    protected function getCustomerService(): CustomerService
     {
         return $this->getContainer()->get(Services::CUSTOMER_SERVICE);
     }

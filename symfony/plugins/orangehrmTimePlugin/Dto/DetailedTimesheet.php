@@ -17,34 +17,49 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Tests\Time\Entity;
+namespace OrangeHRM\Time\Dto;
 
-use OrangeHRM\Entity\Customer;
-use OrangeHRM\Tests\Util\EntityTestCase;
-use OrangeHRM\Tests\Util\TestDataService;
+use OrangeHRM\Entity\Timesheet;
 
-/**
- * @group Time
- * @group Entity
- */
-class CustomerTest extends EntityTestCase
+class DetailedTimesheet
 {
-    protected function setUp(): void
+    private Timesheet $timesheet;
+    private array $rows;
+    private array $columns;
+
+    /**
+     * @param Timesheet $timesheet
+     * @param TimesheetRow[] $rows
+     * @param TimesheetColumn[] $columns
+     */
+    public function __construct(Timesheet $timesheet, array $rows, array $columns)
     {
-        TestDataService::truncateSpecificTables([Customer::class]);
+        $this->timesheet = $timesheet;
+        $this->rows = $rows;
+        $this->columns = $columns;
     }
 
-    public function testCustomerEntity(): void
+    /**
+     * @return Timesheet
+     */
+    public function getTimesheet(): Timesheet
     {
-        $customer = new Customer();
-        $customer->setName("TEST02");
-        $customer->setDescription('DESCRIPTION');
-        $customer->setDeleted(false);
-        $this->persist($customer);
+        return $this->timesheet;
+    }
 
-        /** @var Customer $customer */
-        $customer = $this->getRepository(Customer::class)->find(1);
-        $this->assertEquals('TEST02', $customer->getName());
-        $this->assertEquals('DESCRIPTION', $customer->getDescription());
+    /**
+     * @return TimesheetRow[]
+     */
+    public function getRows(): array
+    {
+        return $this->rows;
+    }
+
+    /**
+     * @return TimesheetColumn[]
+     */
+    public function getColumns(): array
+    {
+        return $this->columns;
     }
 }

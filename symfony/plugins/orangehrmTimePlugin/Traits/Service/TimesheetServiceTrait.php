@@ -17,34 +17,21 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Tests\Time\Entity;
+namespace OrangeHRM\Time\Traits\Service;
 
-use OrangeHRM\Entity\Customer;
-use OrangeHRM\Tests\Util\EntityTestCase;
-use OrangeHRM\Tests\Util\TestDataService;
+use OrangeHRM\Core\Traits\ServiceContainerTrait;
+use OrangeHRM\Framework\Services;
+use OrangeHRM\Time\Service\TimesheetService;
 
-/**
- * @group Time
- * @group Entity
- */
-class CustomerTest extends EntityTestCase
+trait TimesheetServiceTrait
 {
-    protected function setUp(): void
-    {
-        TestDataService::truncateSpecificTables([Customer::class]);
-    }
+    use ServiceContainerTrait;
 
-    public function testCustomerEntity(): void
+    /**
+     * @return TimesheetService
+     */
+    protected function getTimesheetService(): TimesheetService
     {
-        $customer = new Customer();
-        $customer->setName("TEST02");
-        $customer->setDescription('DESCRIPTION');
-        $customer->setDeleted(false);
-        $this->persist($customer);
-
-        /** @var Customer $customer */
-        $customer = $this->getRepository(Customer::class)->find(1);
-        $this->assertEquals('TEST02', $customer->getName());
-        $this->assertEquals('DESCRIPTION', $customer->getDescription());
+        return $this->getContainer()->get(Services::TIMESHEET_SERVICE);
     }
 }

@@ -156,7 +156,7 @@ class Project
     /**
      * @return bool
      */
-    public function getDeleted(): bool
+    public function isDeleted(): bool
     {
         return $this->deleted;
     }

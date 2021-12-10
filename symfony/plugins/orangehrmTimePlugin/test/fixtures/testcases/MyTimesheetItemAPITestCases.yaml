@@ -1,0 +1,414 @@
+GetAll:
+  'without params':
+    userId: 1
+    invalidOnly: [ 'timesheetId' ]
+
+  'not supporting limit':
+    userId: 1
+    invalidOnly: [ 'limit' ]
+    attributes:
+      timesheetId: 1
+    query:
+      limit: 10
+
+  'not supporting offset':
+    userId: 1
+    invalidOnly: [ 'offset' ]
+    attributes:
+      timesheetId: 1
+    query:
+      offset: 10
+
+  'not supporting sortField':
+    userId: 1
+    invalidOnly: [ 'sortField' ]
+    attributes:
+      timesheetId: 1
+    query:
+      sortField: 'timesheet.id'
+
+  'not supporting sortOrder':
+    userId: 1
+    invalidOnly: [ 'sortOrder' ]
+    attributes:
+      timesheetId: 1
+    query:
+      sortOrder: DESC
+
+  'get my timesheet rows':
+    userId: 1
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      timesheetId: 38
+    data: [
+      {
+        "project": {
+          "id": 9,
+          "name": "Recruitment",
+          "deleted": false
+        },
+        "customer": {
+          "id": 8,
+          "name": "Internal",
+          "deleted": false
+        },
+        "activity": {
+          "id": 69,
+          "name": "Conducting Interviews and Tests",
+          "deleted": false
+        },
+        "total": "10:00",
+        "dates": [
+          {
+            "id": 261,
+            "date": "2020-08-31",
+            "comment": null,
+            "duration": "04:00"
+          },
+          {
+            "id": 262,
+            "date": "2020-09-01",
+            "comment": null,
+            "duration": "02:00"
+          },
+          {
+            "id": 263,
+            "date": "2020-09-02",
+            "comment": null,
+            "duration": "01:00"
+          },
+          {
+            "id": 264,
+            "date": "2020-09-04",
+            "comment": null,
+            "duration": "03:00"
+          }
+        ]
+      },
+      {
+        "project": {
+          "id": 10,
+          "name": "Training and Development",
+          "deleted": false
+        },
+        "customer": {
+          "id": 8,
+          "name": "Internal",
+          "deleted": false
+        },
+        "activity": {
+          "id": 74,
+          "name": "Training Feedback Analysis",
+          "deleted": false
+        },
+        "total": "20:00",
+        "dates": [
+          {
+            "id": 265,
+            "date": "2020-08-31",
+            "comment": null,
+            "duration": "02:00"
+          },
+          {
+            "id": 266,
+            "date": "2020-09-01",
+            "comment": null,
+            "duration": "05:00"
+          },
+          {
+            "id": 267,
+            "date": "2020-09-02",
+            "comment": null,
+            "duration": "06:00"
+          },
+          {
+            "id": 268,
+            "date": "2020-09-03",
+            "comment": null,
+            "duration": "07:00"
+          }
+        ]
+      },
+      {
+        "project": {
+          "id": 11,
+          "name": "General HR Tasks",
+          "deleted": false
+        },
+        "customer": {
+          "id": 8,
+          "name": "Internal",
+          "deleted": false
+        },
+        "activity": {
+          "id": 78,
+          "name": "Performance Evaluation",
+          "deleted": false
+        },
+        "total": "08:00",
+        "dates": [
+          {
+            "id": 269,
+            "date": "2020-08-31",
+            "comment": null,
+            "duration": "01:00"
+          },
+          {
+            "id": 270,
+            "date": "2020-09-01",
+            "comment": null,
+            "duration": "01:00"
+          },
+          {
+            "id": 271,
+            "date": "2020-09-02",
+            "comment": null,
+            "duration": "01:00"
+          },
+          {
+            "id": 272,
+            "date": "2020-09-03",
+            "comment": null,
+            "duration": "01:00"
+          },
+          {
+            "id": 273,
+            "date": "2020-09-04",
+            "comment": null,
+            "duration": "04:00"
+          }
+        ]
+      },
+      {
+        "project": {
+          "id": 10,
+          "name": "Training and Development",
+          "deleted": false
+        },
+        "customer": {
+          "id": 8,
+          "name": "Internal",
+          "deleted": false
+        },
+        "activity": {
+          "id": 71,
+          "name": "Training Need Analysis",
+          "deleted": false
+        },
+        "total": "06:00",
+        "dates": [
+          {
+            "id": 274,
+            "date": "2020-08-31",
+            "comment": null,
+            "duration": "02:00"
+          },
+          {
+            "id": 275,
+            "date": "2020-09-01",
+            "comment": null,
+            "duration": "01:00"
+          },
+          {
+            "id": 276,
+            "date": "2020-09-02",
+            "comment": null,
+            "duration": "01:00"
+          },
+          {
+            "id": 277,
+            "date": "2020-09-03",
+            "comment": null,
+            "duration": "01:00"
+          },
+          {
+            "id": 278,
+            "date": "2020-09-04",
+            "comment": null,
+            "duration": "01:00"
+          }
+        ]
+      }
+    ]
+    meta: {
+      "timesheet": {
+        "id": 38,
+        "startDate": "2020-08-31",
+        "endDate": "2020-09-06"
+      },
+      "sum": "44:00",
+      "columns": {
+        "2020-08-31": {
+          "total": "09:00"
+        },
+        "2020-09-01": {
+          "total": "09:00"
+        },
+        "2020-09-02": {
+          "total": "09:00"
+        },
+        "2020-09-03": {
+          "total": "09:00"
+        },
+        "2020-09-04": {
+          "total": "08:00"
+        },
+        "2020-09-05": {
+          "total": "00:00"
+        },
+        "2020-09-06": {
+          "total": "00:00"
+        }
+      },
+      "dates": [
+          "2020-08-31",
+          "2020-09-01",
+          "2020-09-02",
+          "2020-09-03",
+          "2020-09-04",
+          "2020-09-05",
+          "2020-09-06"
+      ],
+      "employee": {
+        "empNumber": 7,
+        "lastName": "Collings",
+        "firstName": "Paul",
+        "middleName": "",
+        "employeeId": "0024",
+        "terminationId": null
+      }
+    }
+
+  'get my timesheet when empty':
+    userId: 3
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      timesheetId: 54
+    data: [ ]
+    meta: {
+      "timesheet": {
+        "id": 54,
+        "startDate": "2020-10-05",
+        "endDate": "2020-10-11"
+      },
+      "sum": "00:00",
+      "columns": {
+        "2020-10-05": {
+          "total": "00:00"
+        },
+        "2020-10-06": {
+          "total": "00:00"
+        },
+        "2020-10-07": {
+          "total": "00:00"
+        },
+        "2020-10-08": {
+          "total": "00:00"
+        },
+        "2020-10-09": {
+          "total": "00:00"
+        },
+        "2020-10-10": {
+          "total": "00:00"
+        },
+        "2020-10-11": {
+          "total": "00:00"
+        }
+      },
+      "dates": [
+          "2020-10-05",
+          "2020-10-06",
+          "2020-10-07",
+          "2020-10-08",
+          "2020-10-09",
+          "2020-10-10",
+          "2020-10-11"
+      ],
+      "employee": {
+        "empNumber": 2,
+        "lastName": "Anderson",
+        "firstName": "Linda",
+        "middleName": "Jane",
+        "employeeId": "0002",
+        "terminationId": null
+      }
+    }
+
+  'get my timesheet for terminated employee':
+    userId: 4
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      timesheetId: 60
+    data: [ ]
+    meta: {
+      "timesheet": {
+        "id": 60,
+        "startDate": "2020-10-12",
+        "endDate": "2020-10-18"
+      },
+      "sum": "00:00",
+      "columns": {
+        "2020-10-12": {
+          "total": "00:00"
+        },
+        "2020-10-13": {
+          "total": "00:00"
+        },
+        "2020-10-14": {
+          "total": "00:00"
+        },
+        "2020-10-15": {
+          "total": "00:00"
+        },
+        "2020-10-16": {
+          "total": "00:00"
+        },
+        "2020-10-17": {
+          "total": "00:00"
+        },
+        "2020-10-18": {
+          "total": "00:00"
+        }
+      },
+      "dates": [
+          "2020-10-12",
+          "2020-10-13",
+          "2020-10-14",
+          "2020-10-15",
+          "2020-10-16",
+          "2020-10-17",
+          "2020-10-18"
+      ],
+      "employee": {
+        "empNumber": 5,
+        "lastName": "Abel",
+        "firstName": "Ashley",
+        "middleName": "",
+        "employeeId": "0005",
+        "terminationId": 1
+      }
+    }

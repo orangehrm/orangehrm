@@ -34,14 +34,14 @@ class ProjectModel implements Normalizable
             'id',
             'name',
             'description',
-            'deleted'
+            ['isDeleted'],
         ]);
 
         $this->setAttributeNames([
             'id',
             'name',
             'description',
-            'deleted'
+            'deleted',
         ]);
     }
 }

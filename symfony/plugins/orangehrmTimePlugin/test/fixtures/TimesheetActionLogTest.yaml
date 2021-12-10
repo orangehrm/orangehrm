@@ -1,0 +1,30 @@
+Employee:
+  - { empNumber: 1, firstName: 'Kayla', lastName: 'Abbey', middleName: 'T', employeeId: 'E001' }
+  - { empNumber: 2, firstName: 'Ashley', lastName: 'Abel', middleName: 'ST',employeeId: 'E002' }
+
+UserRole:
+  - { id: 1, name: Admin, display_name: Admin, is_assignable: 1, is_predefined: 1 }
+  - { id: 2, name: ESS, display_name: ESS, is_assignable: 1, is_predefined: 1 }
+  - { id: 3, name: Supervisor, display_name: Supervisor, is_assignable: 0, is_predefined: 1 }
+
+User:
+  - { "id": 1, "user_role_id": 1, "emp_number": 2, "user_name": "admin","user_password": "admin","deleted": "0","status": "1","date_modified": "2021-09-15 16:51:16","modified_user_id": "1" }
+  - { "id": 2, "user_role_id": 2, "emp_number": 1, "user_name": "Adalwin","user_password": "Adalwin","deleted": "0","status": "1","date_entered": "2021-09-15 16:47:14","created_by": "1" }
+
+Timesheet:
+  - { id: 1,state: "INITIAL",startDate: "2021-12-06",endDate: "2021-12-12", employee_id: 1 }
+
+Customer:
+  - { id: 1, name: 'OrangeHRM', description: 'main customer', is_deleted: 0 }
+  - { id: 2, name: 'OrangeHRM', description: 'main customer', is_deleted: 0 }
+  - { id: 3, name: 'OrangeHRM', description: 'main customer', is_deleted: 0 }
+
+Project:
+  - { project_id: 1, customer_id: 1, name: 'OrangeHRM Starter', description: 'Open source', is_deleted: 0 }
+  - { project_id: 2, customer_id: 2, name: 'OrangeHRM Advanced', description: 'Enterprise', is_deleted: 0 }
+  - { project_id: 3, customer_id: 3, name: 'OrangeHRM Professional', description: 'Professional', is_deleted: 1 }
+
+ProjectActivity:
+  - { activity_id: 1, project_id: 1, name: 'Development', is_deleted: 0 }
+  - { activity_id: 2, project_id: 1, name: 'Testing', is_deleted: 0 }
+  - { activity_id: 3, project_id: 1, name: 'Deployment', is_deleted: 1 }

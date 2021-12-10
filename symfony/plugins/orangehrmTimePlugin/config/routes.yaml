@@ -65,6 +65,13 @@ apiv2_time_project_activity:
   defaults:
     _api: OrangeHRM\Time\Api\ProjectActivityAPI
 
+apiv2_time_timesheets_items:
+  path: /api/v2/time/timesheets/{timesheetId}/items
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Time\Api\MyTimesheetItemAPI
+
 ##########################
 #        Screens
 ##########################

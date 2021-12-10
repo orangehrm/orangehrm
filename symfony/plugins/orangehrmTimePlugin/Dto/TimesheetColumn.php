@@ -17,34 +17,46 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Tests\Time\Entity;
+namespace OrangeHRM\Time\Dto;
 
-use OrangeHRM\Entity\Customer;
-use OrangeHRM\Tests\Util\EntityTestCase;
-use OrangeHRM\Tests\Util\TestDataService;
+use DateTime;
 
-/**
- * @group Time
- * @group Entity
- */
-class CustomerTest extends EntityTestCase
+class TimesheetColumn
 {
-    protected function setUp(): void
+    private DateTime $date;
+    private int $total = 0;
+
+    /**
+     * @param DateTime $date
+     */
+    public function __construct(DateTime $date)
     {
-        TestDataService::truncateSpecificTables([Customer::class]);
+        $this->date = $date;
     }
 
-    public function testCustomerEntity(): void
+    /**
+     * @return DateTime
+     */
+    public function getDate(): DateTime
     {
-        $customer = new Customer();
-        $customer->setName("TEST02");
-        $customer->setDescription('DESCRIPTION');
-        $customer->setDeleted(false);
-        $this->persist($customer);
+        return $this->date;
+    }
 
-        /** @var Customer $customer */
-        $customer = $this->getRepository(Customer::class)->find(1);
-        $this->assertEquals('TEST02', $customer->getName());
-        $this->assertEquals('DESCRIPTION', $customer->getDescription());
+    /**
+     * @return int
+     */
+    public function getTotal(): int
+    {
+        return $this->total;
+    }
+
+    /**
+     * @param int $by
+     * @return int
+     */
+    public function incrementTotal(int $by): int
+    {
+        $this->total = $this->total + $by;
+        return $this->total;
     }
 }
