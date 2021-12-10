@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Time\Api;
 
+use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointResult;
@@ -77,6 +78,7 @@ class EmployeeTimesheetItemAPI extends Endpoint implements CrudEndpoint
         }
         return new ParameterBag([
             self::META_PARAMETER_TIMESHEET => [
+                CommonParams::PARAMETER_ID => $detailedTimesheet->getTimesheet()->getId(),
                 'startDate' => $this->getDateTimeHelper()->formatDateTimeToYmd(
                     $detailedTimesheet->getTimesheet()->getStartDate()
                 ),
