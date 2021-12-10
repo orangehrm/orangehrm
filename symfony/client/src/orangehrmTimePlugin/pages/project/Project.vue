@@ -249,10 +249,9 @@ export default {
     onClickAdd() {
       navigate('/time/saveProject');
     },
-    //todo
-    // onClickEdit(item) {
-    //   navigate('/time/saveProject/{id}', {id: item.id});
-    // },
+    onClickEdit(item) {
+      navigate('/time/saveProject/{id}', {id: item.id});
+    },
     onClickDelete(item) {
       this.$refs.deleteDialog.showDialog().then(confirmation => {
         if (confirmation === 'ok') {
