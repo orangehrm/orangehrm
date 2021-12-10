@@ -17,11 +17,13 @@
  * Boston, MA  02110-1301, USA
  */
 
+
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\PluginConfigurationInterface;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Time\Service\CustomerService;
+use OrangeHRM\Time\Service\ProjectService;
 use OrangeHRM\Time\Service\TimesheetService;
 
 class TimePluginConfiguration implements PluginConfigurationInterface
@@ -33,6 +35,10 @@ class TimePluginConfiguration implements PluginConfigurationInterface
      */
     public function initialize(Request $request): void
     {
+        $this->getContainer()->register(
+            Services::PROJECT_SERVICE,
+            ProjectService::class
+        );
         $this->getContainer()->register(
             Services::CUSTOMER_SERVICE,
             CustomerService::class

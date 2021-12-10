@@ -1,0 +1,128 @@
+<template>
+  <oxd-dialog
+    :style="{width: '90%', maxWidth: '450px'}"
+    @update:show="onCancel"
+  >
+    <div class="orangehrm-modal-header">
+      <oxd-text type="card-title">Add Customer</oxd-text>
+    </div>
+    <oxd-divider />
+    <oxd-form :loading="isLoading" @submitValid="onSave">
+      <oxd-form-row>
+        <oxd-input-field
+          v-model="customer.name"
+          :label="$t('general.name')"
+          :rules="rules.name"
+          required
+        />
+      </oxd-form-row>
+      <oxd-form-row>
+        <oxd-input-field
+          v-model="customer.description"
+          type="textarea"
+          label="Description"
+          placeholder="Type description here"
+          :rules="rules.description"
+        />
+      </oxd-form-row>
+      <oxd-divider />
+      <oxd-form-actions>
+        <required-text />
+        <oxd-button
+          display-type="ghost"
+          :label="$t('general.cancel')"
+          @click="onCancel"
+        />
+        <submit-button />
+      </oxd-form-actions>
+    </oxd-form>
+  </oxd-dialog>
+</template>
+
+<script>
+import {APIService} from '@ohrm/core/util/services/api.service';
+import {
+  required,
+  shouldNotExceedCharLength,
+} from '@ohrm/core/util/validation/rules';
+import Dialog from '@ohrm/oxd/core/components/Dialog/Dialog';
+import promiseDebounce from '@ohrm/oxd/utils/promiseDebounce';
+
+const customerModel = {
+  id: '',
+  name: '',
+  description: '',
+};
+
+export default {
+  name: 'AddCustomerModal',
+  components: {
+    'oxd-dialog': Dialog,
+  },
+  emits: ['close'],
+  setup() {
+    const http = new APIService(
+      window.appGlobal.baseUrl,
+      '/api/v2/time/customers',
+    );
+    return {
+      http,
+    };
+  },
+  data() {
+    return {
+      isLoading: false,
+      customer: {...customerModel},
+      rules: {
+        name: [
+          required,
+          shouldNotExceedCharLength(50),
+          promiseDebounce(this.validateCustomerName, 500),
+        ],
+        description: [shouldNotExceedCharLength(250)],
+      },
+    };
+  },
+  methods: {
+    onSave() {
+      this.isLoading = true;
+      this.http
+        .create({
+          name: this.customer.name,
+          description: this.customer.description,
+        })
+        .then(() => {
+          return this.$toast.saveSuccess();
+        })
+        .then(() => {
+          this.onCancel();
+        });
+    },
+    onCancel() {
+      this.$emit('close');
+    },
+    validateCustomerName(customer) {
+      return new Promise(resolve => {
+        if (customer) {
+          this.http
+            .request({
+              method: 'GET',
+              url: `api/v2/time/validation/customer-name`,
+              params: {
+                customerName: this.customer.name.trim(),
+              },
+            })
+            .then(response => {
+              const {data} = response.data;
+              return data.valid === true
+                ? resolve(true)
+                : resolve('Already exist');
+            });
+        } else {
+          resolve(true);
+        }
+      });
+    },
+  },
+};
+</script>

@@ -24,8 +24,8 @@ use OrangeHRM\Tests\Util\EntityTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 
 /**
- * @group @Time
- * @group @Entity
+ * @group Time
+ * @group Entity
  */
 class CustomerTest extends EntityTestCase
 {

@@ -53,6 +53,24 @@ class DateTimeHelperService
     }
 
     /**
+     * Format given seconds to H:i or H:i:s string.
+     *
+     * @param int $seconds
+     * @param bool $withSeconds
+     * @return string
+     */
+    public function convertSecondsToTimeString(int $seconds, bool $withSeconds = false): string
+    {
+        $format = '%02d:%02d';
+        $args = [floor($seconds / 3600), ($seconds / 60) % 60];
+        if ($withSeconds) {
+            $format = '%02d:%02d:%02d';
+            $args[] = $seconds % 60;
+        }
+        return sprintf($format, ...$args);
+    }
+
+    /**
      * Check only date equals of given \DateTime objects, by converting into Y-m-d
      *
      * @param DateTime|null $dateTime1

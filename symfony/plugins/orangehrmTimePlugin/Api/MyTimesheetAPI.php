@@ -30,6 +30,7 @@ use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
+use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\Timesheet;
 use OrangeHRM\Time\Api\Model\TimesheetModel;
 use OrangeHRM\Time\Traits\Service\TimesheetServiceTrait;
@@ -66,7 +67,7 @@ class MyTimesheetAPI extends Endpoint implements CollectionEndpoint
         $timesheet = new Timesheet();
         $empNumber = $this->getAuthUser()->getEmpNumber();
         $startDate = $this->getRequestParams()->getDateTime(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_DATE);
-        $timesheet->setEmployeeId($empNumber);
+        $timesheet->getDecorator()->setEmployeeByEmployeeNumber($empNumber);
         $this->getTimesheetService()->createTimesheetByDate($timesheet, $startDate);
         return new EndpointResourceResult(TimesheetModel::class, $timesheet);
     }

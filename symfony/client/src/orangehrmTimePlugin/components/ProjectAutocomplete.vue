@@ -24,6 +24,9 @@
     :clear="false"
     :create-options="loadProjects"
   >
+    <template #option="{data}">
+      <span>{{ data.label }}</span>
+    </template>
   </oxd-input-field>
 </template>
 
@@ -41,30 +44,23 @@ export default {
     };
   },
   methods: {
-    // async loadProjects(serachParam) {
-    //   return new Promise(resolve => {
-    //     if (serachParam.trim()) {
-    //       this.http.getAll().then(({data}) => {
-    //         resolve(
-    //           data.data.map(project => {
-    //             return {
-    //               id: project.id,
-    //               label: project.name,
-    //             };
-    //           }),
-    //         );
-    //       });
-    //     } else {
-    //       resolve([]);
-    //     }
-    //   });
-    // },
-    loadProjects() {
-      return [
-        {id: 1, label: 'Project Manhattan'},
-        {id: 2, label: 'Project Chicago'},
-        {id: 3, label: 'Project Red'},
-      ];
+    async loadProjects(serachParam) {
+      return new Promise(resolve => {
+        if (serachParam.trim()) {
+          this.http.getAll().then(({data}) => {
+            resolve(
+              data.data.map(project => {
+                return {
+                  id: project.id,
+                  label: project.name,
+                };
+              }),
+            );
+          });
+        } else {
+          resolve([]);
+        }
+      });
     },
   },
 };

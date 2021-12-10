@@ -23,6 +23,7 @@ use DateTime;
 use Exception;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Service\AccessFlowStateMachineService;
+use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\Timesheet;
 use OrangeHRM\Entity\WorkflowStateMachine;
 use OrangeHRM\Tests\Util\KernelTestCase;
@@ -65,7 +66,7 @@ class TimesheetDaoTest extends KernelTestCase
         $timesheet->setState($tempNextState);
         $timesheet->setStartDate(new DateTime("2021-01-01"));
         $timesheet->setEndDate(new DateTime("2021-01-06"));
-        $timesheet->setEmployeeId(1);
+        $timesheet->setEmployee($this->getEntityReference(Employee::class, 1));
         $result = $this->timesheetDao->saveTimesheet($timesheet);
 
         $this->assertTrue($result instanceof Timesheet);

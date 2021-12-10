@@ -19,12 +19,15 @@
 
 namespace OrangeHRM\Entity\Decorator;
 
+use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
+use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\Timesheet;
 
 class TimesheetDecorator
 {
     use DateTimeHelperTrait;
+    use EntityManagerHelperTrait;
 
     private Timesheet $timesheet;
 
@@ -58,5 +61,15 @@ class TimesheetDecorator
     public function getEndDate(): string
     {
         return $this->getDateTimeHelper()->formatDateTimeToYmd($this->getTimesheet()->getEndDate());
+    }
+
+    /**
+     * @param int $empNumber
+     * @return void
+     */
+    public function setEmployeeByEmployeeNumber(int $empNumber): void
+    {
+        $employee = $this->getReference(Employee::class, $empNumber);
+        $this->getTimesheet()->setEmployee($employee);
     }
 }
