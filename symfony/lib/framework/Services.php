@@ -242,7 +242,7 @@ final class Services
     public const CUSTOMER_SERVICE = 'time.customer_service';
 
     /**
-     * @see \OrangeHRM\Time\Service\CustomerService
+     * @see \OrangeHRM\Time\Service\TimesheetService
      */
     public const TIMESHEET_SERVICE = 'time.timesheet_service';
 }

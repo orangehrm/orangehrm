@@ -48,28 +48,28 @@ class Timesheet
     /**
      * @var string
      *
-     * @ORM\Column(name="state", type="string", length=255)
+     * @ORM\Column(name="state", type="string", length=255, nullable=false)
      */
     private string $state;
 
     /**
      * @var DateTime
      *
-     * @ORM\Column(name="start_date", type="date")
+     * @ORM\Column(name="start_date", type="date", nullable=false)
      */
     private DateTime $startDate;
 
     /**
      * @var DateTime
      *
-     * @ORM\Column(name="end_date", type="date")
+     * @ORM\Column(name="end_date", type="date", nullable=false)
      */
     private DateTime $endDate;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="employee_id", type="bigint", length=20)
+     * @ORM\Column(name="employee_id", type="bigint", length=20, nullable=false)
      */
     private int $employeeId;
 

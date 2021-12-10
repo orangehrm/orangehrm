@@ -22,7 +22,7 @@ namespace OrangeHRM\Tests\Time\Api;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
 use OrangeHRM\Tests\Util\Integration\TestCaseParams;
-use OrangeHRM\Time\Api\TimesheetAPI;
+use OrangeHRM\Time\Api\MyTimesheetAPI;
 
 /**
  * @group Time
@@ -39,7 +39,7 @@ class TimesheetAPITest extends EndpointIntegrationTestCase
         $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
         $this->registerServices($testCaseParams);
         $this->registerMockDateTimeHelper($testCaseParams);
-        $api = $this->getApiEndpointMock(TimesheetAPI::class, $testCaseParams);
+        $api = $this->getApiEndpointMock(MyTimesheetAPI::class, $testCaseParams);
         $this->assertValidTestCase($api, 'create', $testCaseParams);
     }
 
@@ -50,28 +50,28 @@ class TimesheetAPITest extends EndpointIntegrationTestCase
 
     public function testGetAll(): void
     {
-        $api = new TimesheetAPI($this->getRequest());
+        $api = new MyTimesheetAPI($this->getRequest());
         $this->expectNotImplementedException();
         $api->getAll();
     }
 
     public function testGetValidationRuleForGetAll(): void
     {
-        $api = new TimesheetAPI($this->getRequest());
+        $api = new MyTimesheetAPI($this->getRequest());
         $this->expectNotImplementedException();
         $api->getValidationRuleForGetAll();
     }
 
     public function testDelete(): void
     {
-        $api = new TimesheetAPI($this->getRequest());
+        $api = new MyTimesheetAPI($this->getRequest());
         $this->expectNotImplementedException();
         $api->delete();
     }
 
     public function testGetValidationRuleForDelete(): void
     {
-        $api = new TimesheetAPI($this->getRequest());
+        $api = new MyTimesheetAPI($this->getRequest());
         $this->expectNotImplementedException();
         $api->getValidationRuleForDelete();
     }

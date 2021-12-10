@@ -37,9 +37,9 @@ class TimesheetDecorator
     }
 
     /**
-     * @return string|null
+     * @return string
      */
-    public function getStartDate(): ?string
+    public function getStartDate(): string
     {
         return $this->getDateTimeHelper()->formatDateTimeToYmd($this->getTimesheet()->getStartDate());
     }
@@ -47,15 +47,15 @@ class TimesheetDecorator
     /**
      * @return Timesheet
      */
-    public function getTimesheet(): Timesheet
+    protected function getTimesheet(): Timesheet
     {
         return $this->timesheet;
     }
 
     /**
-     * @return string|null
+     * @return string
      */
-    public function getEndDate(): ?string
+    public function getEndDate(): string
     {
         return $this->getDateTimeHelper()->formatDateTimeToYmd($this->getTimesheet()->getEndDate());
     }

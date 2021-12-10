@@ -36,6 +36,11 @@ class TimesheetService {
     private $timesheetPeriodService;
 
     /**
+     * @var AccessFlowStateMachineService|null
+     */
+    private ?AccessFlowStateMachineService $accessFlowStateMachineService = null;
+
+    /**
      * Get the Employee Data Access Object
      * @return EmployeeDao
      */
@@ -63,6 +68,17 @@ class TimesheetService {
     }
 
     /**
+     * @return AccessFlowStateMachineService
+     */
+    public function getAccessFlowStateMachineService(): AccessFlowStateMachineService
+    {
+        if (is_null($this->accessFlowStateMachineService)) {
+            $this->accessFlowStateMachineService = new AccessFlowStateMachineService();
+        }
+        return $this->accessFlowStateMachineService;
+    }
+
+    /**
      * Get Timesheet by given timesheetId
      * @param int $timesheetId
      * @return Timesheet $timesheet
@@ -87,15 +103,6 @@ class TimesheetService {
             $this->timesheetDao = new TimesheetDao();
         }
         return $this->timesheetDao;
-    }
-
-    /**
-     * @param TimesheetDao $timesheetDao
-     * @return void
-     */
-    public function setTimesheetDao(TimesheetDao $timesheetDao) :void
-    {
-        $this->timesheetDao = $timesheetDao;
     }
 
     /**
@@ -469,10 +476,10 @@ class TimesheetService {
      * @param DateTime $date
      * @return Timesheet
      */
-    public function saveTimesheet(Timesheet $timesheet, DateTime $date): Timesheet
+    public function createTimesheetByDate(Timesheet $timesheet, DateTime $date): Timesheet
     {
         $accessFlowStateMachineService = new AccessFlowStateMachineService();
-        $tempNextState = $accessFlowStateMachineService->getNextState(
+        $nextState  = $this->getAccessFlowStateMachineService()->getNextState(
             WorkflowStateMachine::FLOW_TIME_TIMESHEET,
             Timesheet::STATE_INITIAL,
             "SYSTEM",
@@ -484,7 +491,7 @@ class TimesheetService {
         $startDate = date('Y-m-d', strtotime($currentWeekFirstDate . ' + ' . $configDate . ' days'));
         $endDate = date('Y-m-d', strtotime($startDate . ' + 6 days'));
 
-        $timesheet->setState($tempNextState);
+        $timesheet->setState($nextState);
         $timesheet->setStartDate(new DateTime($startDate));
         $timesheet->setEndDate(new DateTime($endDate));
         return $this->getTimesheetDao()->saveTimesheet($timesheet);

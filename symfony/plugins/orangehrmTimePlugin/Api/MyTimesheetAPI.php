@@ -34,7 +34,7 @@ use OrangeHRM\Entity\Timesheet;
 use OrangeHRM\Time\Api\Model\TimesheetModel;
 use OrangeHRM\Time\Traits\Service\TimesheetServiceTrait;
 
-class TimesheetAPI extends Endpoint implements CollectionEndpoint
+class MyTimesheetAPI extends Endpoint implements CollectionEndpoint
 {
     use AuthUserTrait;
     use TimesheetServiceTrait;
@@ -67,7 +67,7 @@ class TimesheetAPI extends Endpoint implements CollectionEndpoint
         $empNumber = $this->getAuthUser()->getEmpNumber();
         $startDate = $this->getRequestParams()->getDateTime(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_DATE);
         $timesheet->setEmployeeId($empNumber);
-        $this->getTimesheetService()->saveTimesheet($timesheet, $startDate);
+        $this->getTimesheetService()->createTimesheetByDate($timesheet, $startDate);
         return new EndpointResourceResult(TimesheetModel::class, $timesheet);
     }
 
