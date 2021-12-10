@@ -815,6 +815,16 @@
           "source": "Timesheet Action",
           "target": "Timesheet Action",
           "description": ""
+        },
+        "copy_activity": {
+          "source": "Copy Activity",
+          "target": "Copy Activity",
+          "description": "make a similar or identical version of an activity"
+        },
+        "project_name": {
+          "source": "Project Name",
+          "target": "Project Name",
+          "description": "Name of the project to be done for the customer."
         }
       }
     }

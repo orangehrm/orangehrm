@@ -24,6 +24,9 @@
     :clear="false"
     :create-options="loadProjects"
   >
+    <template #option="{data}">
+      <span>{{ data.label }}</span>
+    </template>
   </oxd-input-field>
 </template>
 
