@@ -79,6 +79,13 @@ apiv2_time_timesheets_items:
   defaults:
     _api: OrangeHRM\Time\Api\MyTimesheetItemAPI
 
+apiv2_time_timesheet_action_log:
+  path: /api/v2/time/timesheets/{timesheetId}/action-logs
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Time\Api\TimesheetActionLogAPI
+
 ##########################
 #        Screens
 ##########################
