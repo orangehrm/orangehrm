@@ -1,4 +1,5 @@
 <?php
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -17,30 +18,25 @@
  * Boston, MA  02110-1301, USA
  */
 
+namespace OrangeHRM\Time\Service;
 
-use OrangeHRM\Core\Traits\ServiceContainerTrait;
-use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Framework\PluginConfigurationInterface;
-use OrangeHRM\Framework\Services;
-use OrangeHRM\Time\Service\CustomerService;
-use OrangeHRM\Time\Service\ProjectService;
+use OrangeHRM\Time\Dao\ProjectDao;
 
-class TimePluginConfiguration implements PluginConfigurationInterface
+class ProjectService
 {
-    use ServiceContainerTrait;
+    /**
+     * @var ProjectDao|null
+     */
+    private ?ProjectDao $projectDao = null;
 
     /**
-     * @inheritDoc
+     * @return ProjectDao
      */
-    public function initialize(Request $request): void
+    public function getProjectDao(): ProjectDao
     {
-        $this->getContainer()->register(
-            Services::PROJECT_SERVICE,
-            ProjectService::class
-        );
-        $this->getContainer()->register(
-            Services::CUSTOMER_SERVICE,
-            CustomerService::class
-        );
+        if (is_null($this->projectDao)) {
+            $this->projectDao = new ProjectDao();
+        }
+        return $this->projectDao;
     }
 }

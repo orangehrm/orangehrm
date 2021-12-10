@@ -19,15 +19,22 @@
 
 namespace OrangeHRM\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use OrangeHRM\Entity\Decorator\DecoratorTrait;
+use OrangeHRM\Entity\Decorator\ProjectDecorator;
 
 /**
+ * @method ProjectDecorator getDecorator()
+ *
  * @ORM\Table(name="ohrm_project")
  * @ORM\Entity
  *
  */
 class Project
 {
+    use DecoratorTrait;
+
     /**
      * @var int
      *
@@ -40,6 +47,7 @@ class Project
 
     /**
      * @var Customer
+     *
      * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Customer", inversedBy="project", cascade={"persist", "remove"})
      * @ORM\JoinColumn(name="customer_id", referencedColumnName="customer_id",nullable=false)
      */
@@ -47,28 +55,39 @@ class Project
 
     /**
      * @var string|null
-     * @ORM\Column(name="name",type="string",length=100)
+     *
+     * @ORM\Column(name="name", type="string", length=100, nullable=true)
      */
     private ?string $name;
 
     /**
      * @var string|null
-     * @ORM\Column(name="description",type="string",length=256)
+     *
+     * @ORM\Column(name="description", type="string", length=256, nullable=true)
      */
     private ?string $description;
 
     /**
      * @var bool
-     * @ORM\Column(name="is_deleted",type="boolean",options={"default":0})
+     *
+     * @ORM\Column(name="is_deleted", type="boolean", options={"default":0})
      */
-    private bool $isDeleted = false;
+    private bool $deleted = false;
 
     /**
-     * @var ProjectActivity
-     *
-     * @ORM\OneToOne(targetEntity="OrangeHRM\Entity\ProjectActivity", mappedBy="project")
+     * @ORM\ManyToMany(targetEntity="OrangeHRM\Entity\Employee", cascade={"persist", "remove"})
+     * @ORM\JoinTable(
+     *     name="ohrm_project_admin",
+     *     joinColumns={@ORM\JoinColumn(name="project_id", referencedColumnName="project_id")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="emp_number", referencedColumnName="emp_number")}
+     * )
      */
-    private ProjectActivity $projectActivity;
+    private iterable $projectAdmins;
+
+    public function __construct()
+    {
+        $this->projectAdmins = new ArrayCollection();
+    }
 
     /**
      * @return int
@@ -79,7 +98,7 @@ class Project
     }
 
     /**
-     * @param int $id
+     * @param  int  $id
      */
     public function setId(int $id): void
     {
@@ -95,7 +114,7 @@ class Project
     }
 
     /**
-     * @param Customer $customer
+     * @param  Customer  $customer
      */
     public function setCustomer(Customer $customer): void
     {
@@ -111,7 +130,7 @@ class Project
     }
 
     /**
-     * @param string|null $name
+     * @param  string|null  $name
      */
     public function setName(?string $name): void
     {
@@ -127,7 +146,7 @@ class Project
     }
 
     /**
-     * @param string|null $description
+     * @param  string|null  $description
      */
     public function setDescription(?string $description): void
     {
@@ -137,16 +156,24 @@ class Project
     /**
      * @return bool
      */
-    public function isDeleted(): bool
+    public function getDeleted(): bool
     {
-        return $this->isDeleted;
+        return $this->deleted;
     }
 
     /**
-     * @param bool $isDeleted
+     * @param  bool  $isDeleted
      */
-    public function setIsDeleted(bool $isDeleted): void
+    public function setDeleted(bool $isDeleted): void
     {
-        $this->isDeleted = $isDeleted;
+        $this->deleted = $isDeleted;
+    }
+
+    /**
+     * @return iterable
+     */
+    public function getProjectAdmins(): iterable
+    {
+        return $this->projectAdmins;
     }
 }

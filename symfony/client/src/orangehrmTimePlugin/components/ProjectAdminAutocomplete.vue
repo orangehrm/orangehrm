@@ -19,52 +19,50 @@
  -->
 
 <template>
-  <oxd-input-field
-    type="autocomplete"
-    :clear="false"
-    :create-options="loadProjects"
-  >
-  </oxd-input-field>
+  <div class="orangehrm-project-admin-input">
+    <employee-autocomplete
+      :label="id === 1 ? 'Project Admins' : null"
+      class="orangehrm-employee-autocomplete"
+      v-bind="$attrs"
+    />
+    <oxd-icon-button
+      v-if="id !== 1"
+      name="trash"
+      :with-container="false"
+      @click="remove"
+    />
+  </div>
 </template>
 
 <script>
-import {APIService} from '@ohrm/core/util/services/api.service';
+import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete.vue';
+
 export default {
-  name: 'ProjectAutocomplete',
-  setup() {
-    const http = new APIService(
-      window.appGlobal.baseUrl,
-      'api/v2/time/projects',
-    );
-    return {
-      http,
-    };
+  name: 'ProjectAdminAutocomplete',
+  components: {
+    'employee-autocomplete': EmployeeAutocomplete,
   },
+  inheritAttrs: false,
+  props: {
+    id: {
+      type: Number,
+      required: true,
+    },
+  },
+  emits: ['remove'],
   methods: {
-    async loadProjects(serachParam) {
-      return new Promise(resolve => {
-        if (serachParam.trim()) {
-          this.http.getAll().then(({data}) => {
-            resolve(
-              data.data.map(project => {
-                return {
-                  id: project.id,
-                  label: project.name,
-                };
-              }),
-            );
-          });
-        } else {
-          resolve([]);
-        }
-      });
+    remove() {
+      this.$emit('remove', this.id);
     },
   },
 };
 </script>
 
-<style scoped>
-::v-deep(.oxd-autocomplete-wrapper) {
-  min-width: 150px;
+<style lang="scss" scoped>
+.orangehrm-project-admin-input {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: space-between;
 }
 </style>

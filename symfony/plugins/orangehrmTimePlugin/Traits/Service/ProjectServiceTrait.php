@@ -17,30 +17,21 @@
  * Boston, MA  02110-1301, USA
  */
 
+namespace OrangeHRM\Time\Traits\Service;
 
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
-use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Framework\PluginConfigurationInterface;
 use OrangeHRM\Framework\Services;
-use OrangeHRM\Time\Service\CustomerService;
 use OrangeHRM\Time\Service\ProjectService;
 
-class TimePluginConfiguration implements PluginConfigurationInterface
+trait ProjectServiceTrait
 {
     use ServiceContainerTrait;
 
     /**
-     * @inheritDoc
+     * @return ProjectService
      */
-    public function initialize(Request $request): void
+    protected function getProjectService(): ProjectService
     {
-        $this->getContainer()->register(
-            Services::PROJECT_SERVICE,
-            ProjectService::class
-        );
-        $this->getContainer()->register(
-            Services::CUSTOMER_SERVICE,
-            CustomerService::class
-        );
+        return $this->getContainer()->get(Services::PROJECT_SERVICE);
     }
 }

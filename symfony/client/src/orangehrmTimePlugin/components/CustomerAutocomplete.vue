@@ -22,7 +22,7 @@
   <oxd-input-field
     type="autocomplete"
     :clear="false"
-    :create-options="loadProjects"
+    :create-options="loadCustomers"
   >
   </oxd-input-field>
 </template>
@@ -30,26 +30,26 @@
 <script>
 import {APIService} from '@ohrm/core/util/services/api.service';
 export default {
-  name: 'ProjectAutocomplete',
+  name: 'CustomerAutocomplete',
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      'api/v2/time/projects',
+      'api/v2/time/customers',
     );
     return {
       http,
     };
   },
   methods: {
-    async loadProjects(serachParam) {
+    async loadCustomers(serachParam) {
       return new Promise(resolve => {
         if (serachParam.trim()) {
           this.http.getAll().then(({data}) => {
             resolve(
-              data.data.map(project => {
+              data.data.map(customer => {
                 return {
-                  id: project.id,
-                  label: project.name,
+                  id: customer.id,
+                  label: customer.name,
                 };
               }),
             );

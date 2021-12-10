@@ -17,30 +17,37 @@
  * Boston, MA  02110-1301, USA
  */
 
+namespace OrangeHRM\Entity;
 
-use OrangeHRM\Core\Traits\ServiceContainerTrait;
-use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Framework\PluginConfigurationInterface;
-use OrangeHRM\Framework\Services;
-use OrangeHRM\Time\Service\CustomerService;
-use OrangeHRM\Time\Service\ProjectService;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
 
-class TimePluginConfiguration implements PluginConfigurationInterface
+/**
+ * @ORM\Table(name="ohrm_project_admin")
+ * @ORM\Entity
+ */
+class ProjectAdmin
 {
-    use ServiceContainerTrait;
+    /**
+     * @var Project
+     *
+     * @ORM\Id
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Project", inversedBy="projectAdmin", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(name="project_id", referencedColumnName="project_id",nullable=false)
+     */
+    private Project $project;
 
     /**
-     * @inheritDoc
+     * @var Employee[]
+     *
+     * @ORM\Id
+     * @ORM\ManyToMany (targetEntity="OrangeHRM\Entity\Employee", inversedBy="projectAdmin", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(name="emp_number", referencedColumnName="emp_number" ,nullable=false)
      */
-    public function initialize(Request $request): void
+    private iterable $employee;
+
+    public function __construct()
     {
-        $this->getContainer()->register(
-            Services::PROJECT_SERVICE,
-            ProjectService::class
-        );
-        $this->getContainer()->register(
-            Services::CUSTOMER_SERVICE,
-            CustomerService::class
-        );
+        $this->employee = new ArrayCollection();
     }
 }

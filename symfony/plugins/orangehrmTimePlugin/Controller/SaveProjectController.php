@@ -17,30 +17,27 @@
  * Boston, MA  02110-1301, USA
  */
 
+namespace OrangeHRM\Time\Controller;
 
-use OrangeHRM\Core\Traits\ServiceContainerTrait;
+use OrangeHRM\Core\Controller\AbstractVueController;
+use OrangeHRM\Core\Vue\Component;
+use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Framework\PluginConfigurationInterface;
-use OrangeHRM\Framework\Services;
-use OrangeHRM\Time\Service\CustomerService;
-use OrangeHRM\Time\Service\ProjectService;
 
-class TimePluginConfiguration implements PluginConfigurationInterface
+class SaveProjectController extends AbstractVueController
 {
-    use ServiceContainerTrait;
-
     /**
      * @inheritDoc
      */
-    public function initialize(Request $request): void
+    public function preRender(Request $request): void
     {
-        $this->getContainer()->register(
-            Services::PROJECT_SERVICE,
-            ProjectService::class
-        );
-        $this->getContainer()->register(
-            Services::CUSTOMER_SERVICE,
-            CustomerService::class
-        );
+        $id = $request->get('id');
+        if (!is_null($id)) {
+            $component = new Component('project-edit');
+            $component->addProp(new Prop('project-id', Prop::TYPE_NUMBER, $id));
+        } else {
+            $component = new Component('project-save');
+        }
+        $this->setComponent($component);
     }
 }
