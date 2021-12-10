@@ -71,7 +71,7 @@ class ProjectDaoTest extends KernelTestCase
         $project = $this->projectDao->getProjectById(1);
         $this->assertInstanceOf(Project::class, $project);
         $this->assertEquals('project_03', $project->getName());
-        $this->assertFalse($project->getDeleted());
+        $this->assertFalse($project->isDeleted());
     }
 
     public function testUpdateProject(): void
@@ -98,4 +98,3 @@ class ProjectDaoTest extends KernelTestCase
         $this->assertTrue($result);
     }
 }
-
