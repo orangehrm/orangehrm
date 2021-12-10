@@ -30,9 +30,9 @@ use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
-use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\Timesheet;
 use OrangeHRM\Time\Api\Model\TimesheetModel;
+use OrangeHRM\Time\Api\ValidationRules\MyTimesheetDateRule;
 use OrangeHRM\Time\Traits\Service\TimesheetServiceTrait;
 
 class MyTimesheetAPI extends Endpoint implements CollectionEndpoint
@@ -82,6 +82,7 @@ class MyTimesheetAPI extends Endpoint implements CollectionEndpoint
                 new ParamRule(
                     self::PARAMETER_DATE,
                     new Rule(Rules::API_DATE),
+                    new Rule(MyTimesheetDateRule::class),
                     new Rule(Rules::CALLBACK, [
                         function () {
                             $date = $this->getRequestParams()->getDateTime(

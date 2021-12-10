@@ -22,6 +22,7 @@ namespace OrangeHRM\Time\Dao;
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Entity\Timesheet;
 use OrangeHRM\Entity\TimesheetItem;
+use DateTime;
 
 class TimesheetDao extends BaseDao
 {
@@ -814,5 +815,17 @@ class TimesheetDao extends BaseDao
         } else {
             return null;
         }
+    }
+
+    /**
+     * @param DateTime $date
+     * @return bool
+     */
+    public function isTimesheetTakenByDate(DateTime $date): bool
+    {
+        $q = $this->createQueryBuilder(Timesheet::class, 'timesheet');
+        $q->andWhere('timesheet.startDate = :date');
+        $q->setParameter('date', $date);
+        return $this->getPaginator($q)->count() === 0;
     }
 }

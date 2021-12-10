@@ -49,21 +49,14 @@ class TimesheetDaoTest extends KernelTestCase
     protected function setUp(): void
     {
         $this->timesheetDao = new TimesheetDao();
-        $this->fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmTimePlugin/test/fixtures/ProjectActivityDao.yml';
+        $this->fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmTimePlugin/test/fixtures/MyTimesheetAPITest.yml';
         TestDataService::populate($this->fixture);
     }
 
     public function testAddTimesheet(): void
     {
         $timesheet = new Timesheet();
-        $accessFlowStateMachineService = new AccessFlowStateMachineService();
-        $tempNextState = $accessFlowStateMachineService->getNextState(
-            WorkflowStateMachine::FLOW_TIME_TIMESHEET,
-            Timesheet::STATE_INITIAL,
-            "SYSTEM",
-            WorkflowStateMachine::TIMESHEET_ACTION_CREATE
-        );
-        $timesheet->setState($tempNextState);
+        $timesheet->setState("NOT SUBMITTED");
         $timesheet->setStartDate(new DateTime("2021-01-01"));
         $timesheet->setEndDate(new DateTime("2021-01-06"));
         $timesheet->setEmployee($this->getEntityReference(Employee::class, 1));
@@ -72,6 +65,14 @@ class TimesheetDaoTest extends KernelTestCase
         $this->assertTrue($result instanceof Timesheet);
         $this->assertEquals(new DateTime("2021-01-01"), $result->getStartDate());
         $this->assertEquals(new DateTime("2021-01-06"), $result->getEndDate());
-        $this->assertEquals($tempNextState, $result->getState());
+        $this->assertEquals("NOT SUBMITTED", $result->getState());
+    }
+
+    public function testDuplicateTimesheet(): void
+    {
+        $resultFalse = $this->timesheetDao->isTimesheetTakenByDate(new DateTime('2011-04-18'));
+        $resultTrue = $this->timesheetDao->isTimesheetTakenByDate(new DateTime('2011-03-18'));
+        $this->assertFalse($resultFalse);
+        $this->assertTrue($resultTrue);
     }
 }

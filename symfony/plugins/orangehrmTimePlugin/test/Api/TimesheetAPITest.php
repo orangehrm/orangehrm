@@ -19,9 +19,11 @@
 
 namespace OrangeHRM\Tests\Time\Api;
 
+use OrangeHRM\Config\Config;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
 use OrangeHRM\Tests\Util\Integration\TestCaseParams;
+use OrangeHRM\Tests\Util\TestDataService;
 use OrangeHRM\Time\Api\MyTimesheetAPI;
 
 /**
@@ -35,7 +37,8 @@ class TimesheetAPITest extends EndpointIntegrationTestCase
      */
     public function testCreate(TestCaseParams $testCaseParams): void
     {
-        $this->populateFixtures('ProjectActivityDao.yml');
+        TestDataService::populate(Config::get(Config::TEST_DIR) . '/phpunit/fixtures/WorkflowStateMachine.yaml', true);
+        $this->populateFixtures('MyTimesheetAPITest.yml', null, true);
         $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
         $this->registerServices($testCaseParams);
         $this->registerMockDateTimeHelper($testCaseParams);

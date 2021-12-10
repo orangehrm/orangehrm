@@ -85,8 +85,8 @@ class CustomerDao extends BaseDao
         $this->setSortingAndPaginationParams($q, $customerSearchFilterParams);
 
         if (!empty($customerSearchFilterParams->getName())) {
-            $q->andWhere('customer.name = :customerName');
-            $q->setParameter('customerName', $customerSearchFilterParams->getName());
+            $q->andWhere($q->expr()->like('customer.name', ':customerName'))
+                ->setParameter('customerName', '%' . $customerSearchFilterParams->getName() . '%');
         }
 
         $q->andWhere('customer.deleted = :deleted');

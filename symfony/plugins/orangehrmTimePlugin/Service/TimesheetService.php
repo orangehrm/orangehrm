@@ -19,9 +19,9 @@
 
 namespace OrangeHRM\Time\Service;
 
-use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use DateTime;
 use OrangeHRM\Core\Service\AccessFlowStateMachineService;
+use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\Timesheet;
 use OrangeHRM\Entity\WorkflowStateMachine;
 use OrangeHRM\Time\Dao\TimesheetDao;
@@ -535,15 +535,33 @@ class TimesheetService
             "SYSTEM",
             WorkflowStateMachine::TIMESHEET_ACTION_CREATE
         );
-
-        $currentWeekFirstDate = date("Y-m-d", strtotime('monday this week', strtotime($date->format('Y-m-d'))));
-        $configDate = $this->getTimeSheetPeriodService()->getTimesheetStartDate() - 1;
-        $startDate = date('Y-m-d', strtotime($currentWeekFirstDate . ' + ' . $configDate . ' days'));
-        $endDate = date('Y-m-d', strtotime($startDate . ' + 6 days'));
-
+        list($startDate, $endDate) = $this->extractStartDateAndEndDateFromDate($date);
         $timesheet->setState($nextState);
         $timesheet->setStartDate(new DateTime($startDate));
         $timesheet->setEndDate(new DateTime($endDate));
         return $this->getTimesheetDao()->saveTimesheet($timesheet);
+    }
+
+    /**
+     * @param DateTime $date
+     * @return array
+     */
+    public function extractStartDateAndEndDateFromDate(DateTime $date): array
+    {
+        $currentWeekFirstDate = date("Y-m-d", strtotime('monday this week', strtotime($date->format('Y-m-d'))));
+        $configDate = $this->getTimeSheetPeriodService()->getTimesheetStartDate() - 1;
+        $startDate = date('Y-m-d', strtotime($currentWeekFirstDate . ' + ' . $configDate . ' days'));
+        $endDate = date('Y-m-d', strtotime($startDate . ' + 6 days'));
+        return [$startDate, $endDate];
+    }
+
+    /**
+     * @param DateTime $date
+     * @return bool
+     */
+    public function isTimesheetTakenByDate(DateTime $date)
+    {
+        list($startDate) = $this->extractStartDateAndEndDateFromDate($date);
+        return $this->getTimesheetDao()->isTimesheetTakenByDate(new DateTime($startDate));
     }
 }
