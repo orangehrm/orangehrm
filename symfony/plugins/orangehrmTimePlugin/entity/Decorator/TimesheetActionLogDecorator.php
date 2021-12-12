@@ -20,13 +20,13 @@
 namespace OrangeHRM\Entity\Decorator;
 
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
-use OrangeHRM\Entity\Timesheet;
+use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\TimesheetActionLog;
-use OrangeHRM\Entity\User;
 
 class TimesheetActionLogDecorator
 {
     use EntityManagerHelperTrait;
+    use DateTimeHelperTrait;
 
     /**
      * @var TimesheetActionLog
@@ -50,20 +50,10 @@ class TimesheetActionLogDecorator
     }
 
     /**
-     * @param  int  $id
+     * @return string Y-m-d date
      */
-    public function setUserById(int $id): void
+    public function getDate(): string
     {
-        $user = $this->getReference(User::class, $id);
-        $this->getTimesheetActionLog()->setPerformedUser($user);
-    }
-
-    /**
-     * @param  int  $id
-     */
-    public function setTimesheetById(int $id): void
-    {
-        $timeSheet = $this->getReference(Timesheet::class, $id);
-        $this->getTimesheetActionLog()->setTimesheet($timeSheet);
+        return $this->getDateTimeHelper()->formatDateTimeToYmd($this->getTimesheetActionLog()->getDateTime());
     }
 }

@@ -1,0 +1,193 @@
+GetAll:
+  'Get time sheet action log list':
+    userId: 1
+    services:
+      time.timesheet_action_log_service: \OrangeHRM\Time\Service\TimesheetActionLogService
+    attributes:
+      timesheetId: 1
+    query: [ ]
+    body: [ ]
+    data:
+      - id: 1
+        action: 'CREATED'
+        comment: 'Action - Created'
+        date: '2011-04-18'
+        performedUser:
+          id: 1
+          name: 'samantha'
+          deleted: false
+        timesheet:
+          id: 1
+      - id: 2
+        action: 'SUBMITTED'
+        comment: 'Action - Submitted'
+        date: '2011-04-18'
+        performedUser:
+          id: 2
+          name: 'yashika'
+          deleted: false
+        timesheet:
+          id: 1
+      - id: 3
+        action: 'ACCEPTED'
+        comment: 'Action - Accepted'
+        date: '2011-04-19'
+        performedUser:
+          id: 3
+          name: 'Renukshan'
+          deleted: false
+        timesheet:
+          id: 1
+      - id: 4
+        action: 'SUBMITTED'
+        comment: 'Action - Submitted'
+        date: '2011-04-20'
+        performedUser:
+          id: 2
+          name: 'yashika'
+          deleted: false
+        timesheet:
+          id: 1
+      - id: 5
+        action: 'REJECTED'
+        comment: 'Action - Rejected'
+        date: '2011-04-20'
+        performedUser:
+          id: 3
+          name: 'Renukshan'
+          deleted: false
+        timesheet:
+          id: 1
+      - id: 6
+        action: 'SUPERVISOR APPROVED'
+        comment: 'Action - Supervisor Approved'
+        date: '2011-04-21'
+        performedUser:
+          id: 3
+          name: 'Renukshan'
+          deleted: false
+        timesheet:
+          id: 1
+    meta:
+      total: 6
+
+  'Get time sheet action log list - filter by action':
+    userId: 1
+    services:
+      time.timesheet_action_log_service: \OrangeHRM\Time\Service\TimesheetActionLogService
+    attributes:
+      timesheetId: 1
+    query:
+      action: 'SUBMITTED'
+    body: [ ]
+    data:
+      - id: 2
+        action: 'SUBMITTED'
+        comment: 'Action - Submitted'
+        date: '2011-04-18'
+        performedUser:
+          id: 2
+          name: 'yashika'
+          deleted: false
+        timesheet:
+          id: 1
+      - id: 4
+        action: 'SUBMITTED'
+        comment: 'Action - Submitted'
+        date: '2011-04-20'
+        performedUser:
+          id: 2
+          name: 'yashika'
+          deleted: false
+        timesheet:
+          id: 1
+    meta:
+      total: 2
+
+  'Get time sheet action log list - filter by performed user':
+    userId: 1
+    services:
+      time.timesheet_action_log_service: \OrangeHRM\Time\Service\TimesheetActionLogService
+    attributes:
+      timesheetId: 1
+    query:
+      userId: 3
+    body: [ ]
+    data:
+      - id: 3
+        action: 'ACCEPTED'
+        comment: 'Action - Accepted'
+        date: '2011-04-19'
+        performedUser:
+          id: 3
+          name: 'Renukshan'
+          deleted: false
+        timesheet:
+          id: 1
+      - id: 5
+        action: 'REJECTED'
+        comment: 'Action - Rejected'
+        date: '2011-04-20'
+        performedUser:
+          id: 3
+          name: 'Renukshan'
+          deleted: false
+        timesheet:
+          id: 1
+      - id: 6
+        action: 'SUPERVISOR APPROVED'
+        comment: 'Action - Supervisor Approved'
+        date: '2011-04-21'
+        performedUser:
+          id: 3
+          name: 'Renukshan'
+          deleted: false
+        timesheet:
+          id: 1
+    meta:
+      total: 3
+
+  'Get time sheet action log list - filter by date':
+    userId: 1
+    services:
+      time.timesheet_action_log_service: \OrangeHRM\Time\Service\TimesheetActionLogService
+    attributes:
+      timesheetId: 1
+    query:
+      date: '2011-04-18'
+    body: [ ]
+    data:
+      - id: 1
+        action: 'CREATED'
+        comment: 'Action - Created'
+        date: '2011-04-18'
+        performedUser:
+          id: 1
+          name: 'samantha'
+          deleted: false
+        timesheet:
+          id: 1
+      - id: 2
+        action: 'SUBMITTED'
+        comment: 'Action - Submitted'
+        date: '2011-04-18'
+        performedUser:
+          id: 2
+          name: 'yashika'
+          deleted: false
+        timesheet:
+          id: 1
+    meta:
+      total: 2
+
+  'Get time sheet action log list - no record found':
+    userId: 1
+    services:
+      time.timesheet_action_log_service: \OrangeHRM\Time\Service\TimesheetActionLogService
+    attributes:
+      timesheetId: 50
+    query: [ ]
+    body: [ ]
+    data: [ ]
+    meta:
+      total: 0
