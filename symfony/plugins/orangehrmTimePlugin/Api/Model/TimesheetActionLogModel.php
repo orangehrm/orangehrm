@@ -34,7 +34,7 @@ class TimesheetActionLogModel implements Normalizable
             'id',
             'action',
             'comment',
-            'dateTime',
+            ['getDecorator', 'getDate'],
             ['getPerformedUser', 'getId'],
             ['getPerformedUser', 'getUserName'],
             ['getPerformedUser', 'isDeleted'],

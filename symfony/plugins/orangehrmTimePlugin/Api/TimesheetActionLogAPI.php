@@ -42,7 +42,7 @@ class TimesheetActionLogAPI extends Endpoint implements CollectionEndpoint
 
     public const FILTER_ACTION = 'action';
     public const FILTER_USER_ID = 'userId';
-    public const FILTER_DATE_TIME = 'dateTime';
+    public const FILTER_DATE = 'date';
 
     /**
      * @inheritDoc
@@ -72,7 +72,7 @@ class TimesheetActionLogAPI extends Endpoint implements CollectionEndpoint
         $timesheetActionLogParamHolder->setDateTime(
             $this->getRequestParams()->getDateTimeOrNull(
                 RequestParams::PARAM_TYPE_QUERY,
-                self::FILTER_DATE_TIME
+                self::FILTER_DATE
             )
         );
 
@@ -113,7 +113,7 @@ class TimesheetActionLogAPI extends Endpoint implements CollectionEndpoint
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
-                    self::FILTER_DATE_TIME,
+                    self::FILTER_DATE,
                     new Rule(Rules::DATE_TIME)
                 ),
             ),

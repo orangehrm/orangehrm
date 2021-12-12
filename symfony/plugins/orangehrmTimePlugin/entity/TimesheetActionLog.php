@@ -21,13 +21,19 @@ namespace OrangeHRM\Entity;
 
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use OrangeHRM\Entity\Decorator\DecoratorTrait;
+use OrangeHRM\Entity\Decorator\TimesheetActionLogDecorator;
 
 /**
+ * @method TimesheetActionLogDecorator getDecorator()
+ *
  * @ORM\Table(name="ohrm_timesheet_action_log")
  * @ORM\Entity
  */
 class TimesheetActionLog
 {
+    use DecoratorTrait;
+
     /**
      * @var int
      *
@@ -83,7 +89,7 @@ class TimesheetActionLog
     }
 
     /**
-     * @param int $id
+     * @param  int  $id
      */
     public function setId(int $id): void
     {
@@ -99,7 +105,7 @@ class TimesheetActionLog
     }
 
     /**
-     * @param string $action
+     * @param  string  $action
      */
     public function setAction(string $action): void
     {
@@ -115,7 +121,7 @@ class TimesheetActionLog
     }
 
     /**
-     * @param string|null $comment
+     * @param  string|null  $comment
      */
     public function setComment(?string $comment): void
     {
@@ -131,7 +137,7 @@ class TimesheetActionLog
     }
 
     /**
-     * @param DateTime $dateTime
+     * @param  DateTime  $dateTime
      */
     public function setDateTime(DateTime $dateTime): void
     {
@@ -147,7 +153,7 @@ class TimesheetActionLog
     }
 
     /**
-     * @param User $performedUser
+     * @param  User  $performedUser
      */
     public function setPerformedUser(User $performedUser): void
     {
@@ -163,7 +169,7 @@ class TimesheetActionLog
     }
 
     /**
-     * @param Timesheet $timesheet
+     * @param  Timesheet  $timesheet
      */
     public function setTimesheet(Timesheet $timesheet): void
     {
