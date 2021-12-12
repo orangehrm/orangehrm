@@ -1,9 +1,9 @@
 name: Lint
 
-on: [push, pull_request]
+on: [ push, pull_request ]
 
 jobs:
-  build:
+  lint:
     runs-on: ubuntu-latest
 
     steps:
@@ -11,8 +11,16 @@ jobs:
       - name: Install node dependencies
         run: cd symfony/client && yarn install
 
-      - name: Lint
+      - name: Lint client code
         run: cd symfony/client && yarn lint
 
       - name: Lint Cypress tests
         run: cd symfony/test/functional && yarn install && yarn lint
+
+      - name: Install dependencies
+        run: |
+          php7.4 -f /usr/bin/composer install -d symfony
+          php7.4 -f /usr/bin/composer install -d devTools/core
+
+      - name: Check PHP Coding Standards
+        run: php devTools/core/console.php php-cs-fix --php php7.4

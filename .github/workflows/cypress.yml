@@ -3,7 +3,7 @@ name: Cypress
 on: [ push, pull_request ]
 
 jobs:
-  build:
+  cypress:
     runs-on: ubuntu-latest
 
     steps:
