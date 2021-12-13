@@ -83,15 +83,6 @@ class MyTimesheetAPI extends Endpoint implements CollectionEndpoint
                     self::PARAMETER_DATE,
                     new Rule(Rules::API_DATE),
                     new Rule(MyTimesheetDateRule::class),
-                    new Rule(Rules::CALLBACK, [
-                        function () {
-                            $date = $this->getRequestParams()->getDateTime(
-                                RequestParams::PARAM_TYPE_BODY,
-                                self::PARAMETER_DATE
-                            );
-                            return !($date > $this->getDateTimeHelper()->getNow());
-                        }
-                    ])
                 ),
             ),
         );

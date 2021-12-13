@@ -75,7 +75,7 @@ class TimesheetService
     /**
      * @return AccessFlowStateMachineService
      */
-    public function getAccessFlowStateMachineService(): AccessFlowStateMachineService
+    protected function getAccessFlowStateMachineService(): AccessFlowStateMachineService
     {
         if (is_null($this->accessFlowStateMachineService)) {
             $this->accessFlowStateMachineService = new AccessFlowStateMachineService();
@@ -562,6 +562,6 @@ class TimesheetService
     public function isTimesheetTakenByDate(DateTime $date)
     {
         list($startDate) = $this->extractStartDateAndEndDateFromDate($date);
-        return $this->getTimesheetDao()->isTimesheetTakenByDate(new DateTime($startDate));
+        return $this->getTimesheetDao()->hasTimesheetForStartDate(new DateTime($startDate));
     }
 }

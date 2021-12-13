@@ -821,7 +821,7 @@ class TimesheetDao extends BaseDao
      * @param DateTime $date
      * @return bool
      */
-    public function isTimesheetTakenByDate(DateTime $date): bool
+    public function hasTimesheetForStartDate(DateTime $date): bool
     {
         $q = $this->createQueryBuilder(Timesheet::class, 'timesheet');
         $q->andWhere('timesheet.startDate = :date');

@@ -21,17 +21,19 @@ namespace OrangeHRM\Time\Api\ValidationRules;
 
 use DateTime;
 use OrangeHRM\Core\Api\V2\Validator\Rules\AbstractRule;
+use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Time\Traits\Service\TimesheetServiceTrait;
 
 class MyTimesheetDateRule extends AbstractRule
 {
     use TimesheetServiceTrait;
+    use DateTimeHelperTrait;
 
     /**
      * @inheritDoc
      */
     public function validate($input): bool
     {
-        return $this->getTimesheetService()->isTimesheetTakenByDate(new DateTime($input));
+        return !(new DateTime($input) > $this->getDateTimeHelper()->getNow()) && $this->getTimesheetService()->isTimesheetTakenByDate(new DateTime($input));
     }
 }

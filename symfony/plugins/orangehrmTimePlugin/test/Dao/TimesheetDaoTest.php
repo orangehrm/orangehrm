@@ -70,8 +70,8 @@ class TimesheetDaoTest extends KernelTestCase
 
     public function testDuplicateTimesheet(): void
     {
-        $resultFalse = $this->timesheetDao->isTimesheetTakenByDate(new DateTime('2011-04-18'));
-        $resultTrue = $this->timesheetDao->isTimesheetTakenByDate(new DateTime('2011-03-18'));
+        $resultFalse = $this->timesheetDao->hasTimesheetForStartDate(new DateTime('2011-04-18'));
+        $resultTrue = $this->timesheetDao->hasTimesheetForStartDate(new DateTime('2011-03-18'));
         $this->assertFalse($resultFalse);
         $this->assertTrue($resultTrue);
     }
