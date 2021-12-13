@@ -22,7 +22,7 @@ namespace OrangeHRM\Time\Service;
 use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Time\Factory\TimesheetPeriodFactory;
 
-class TimeSheetPeriodService
+class TimesheetPeriodService
 {
     use ConfigServiceTrait;
 
