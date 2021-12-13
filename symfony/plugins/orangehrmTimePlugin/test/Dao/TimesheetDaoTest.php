@@ -75,6 +75,8 @@ class TimesheetDaoTest extends KernelTestCase
 
     public function testGetTimesheetActionLogs(): void
     {
+        $this->fixture = Config::get(Config::PLUGINS_DIR).'/orangehrmTimePlugin/test/fixtures/TimesheetActionLogDao.yml';
+        TestDataService::populate($this->fixture);
         $timesheetActionLogSearchFilterParamHolder = new TimesheetActionLogSearchFilterParams();
         $timesheetActionLogs = $this->timesheetDao->getTimesheetActionLogs(
             $this->timesheetId,
