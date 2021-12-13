@@ -20,26 +20,20 @@
 
 <template>
   <div class="orangehrm-background-container">
-    <oxd-table-filter filter-title="Projects">
-      <oxd-form @submitValid="filterItems">
+    <oxd-table-filter :filter-title="$t('time.projects')">
+      <oxd-form @submitValid="filterItems" @reset="filterItems">
         <oxd-form-row>
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item>
-              <customer-autocomplete
-                v-model="filters.customerId"
-                label="Customer"
-              />
+              <customer-autocomplete v-model="filters.customer" />
             </oxd-grid-item>
             <oxd-grid-item>
-              <project-autocomplete
-                v-model="filters.projectId"
-                label="Project"
-              />
+              <project-autocomplete v-model="filters.project" />
             </oxd-grid-item>
             <oxd-grid-item>
               <employee-autocomplete
-                v-model="filters.projectAdminEmpNumber"
-                label="Project Admin"
+                v-model="filters.projectAdmin"
+                :label="$t('time.project_admin')"
               />
             </oxd-grid-item>
           </oxd-grid>
@@ -48,7 +42,11 @@
         <oxd-divider />
 
         <oxd-form-actions>
-          <oxd-button display-type="ghost" label="Reset" type="reset" />
+          <oxd-button
+            type="reset"
+            display-type="ghost"
+            :label="$t('general.reset')"
+          />
           <submit-button :label="$t('general.search')" />
         </oxd-form-actions>
       </oxd-form>
@@ -58,9 +56,9 @@
     <div class="orangehrm-paper-container">
       <div class="orangehrm-header-container">
         <oxd-button
-          label="Add"
           icon-name="plus"
           display-type="secondary"
+          :label="$t('general.add')"
           @click="onClickAdd"
         />
       </div>
@@ -96,13 +94,12 @@
 
 <script>
 import {computed, ref} from 'vue';
-import usePaginate from '@ohrm/core/util/composable/usePaginate';
-import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmationDialog';
+import useSort from '@ohrm/core/util/composable/useSort';
 import {navigate} from '@ohrm/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
-import useSort from '@ohrm/core/util/composable/useSort';
+import usePaginate from '@ohrm/core/util/composable/usePaginate';
 import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete.vue';
-
+import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmationDialog';
 import ProjectAutocomplete from '@/orangehrmTimePlugin/components/ProjectAutocomplete.vue';
 import CustomerAutocomplete from '@/orangehrmTimePlugin/components/CustomerAutocomplete.vue';
 
@@ -120,15 +117,15 @@ const userdataNormalizer = data => {
             ? `${projectAdmin.firstName} ${projectAdmin.lastName} (Past Employee)`
             : `${projectAdmin.firstName} ${projectAdmin.lastName}`;
         })
-        .join(),
+        .join(', '),
     };
   });
 };
 
 const defaultFilters = {
-  customerId: null,
-  projectId: null,
-  projectAdminEmpNumber: null,
+  customer: null,
+  project: null,
+  projectAdmin: null,
 };
 
 const defaultSortOrder = {
@@ -138,7 +135,6 @@ const defaultSortOrder = {
 };
 
 export default {
-  name: 'Project',
   components: {
     'project-autocomplete': ProjectAutocomplete,
     'customer-autocomplete': CustomerAutocomplete,
@@ -153,9 +149,9 @@ export default {
 
     const serializedFilters = computed(() => {
       return {
-        customerId: filters.value.customerId?.id,
-        projectId: filters.value.projectId?.id,
-        empNumber: filters.value.projectAdminEmpNumber?.id,
+        customerId: filters.value.customer?.id,
+        projectId: filters.value.project?.id,
+        empNumber: filters.value.projectAdmin?.id,
         sortField: sortField.value,
         sortOrder: sortOrder.value,
         model: 'detailed',
@@ -202,21 +198,21 @@ export default {
       headers: [
         {
           name: 'customer',
-          title: 'Customer',
+          title: 'Customer Name',
           sortField: 'customer.name',
-          style: {flex: 2},
+          style: {flex: '15%'},
         },
         {
           name: 'project',
           slot: 'title',
           title: 'Project',
           sortField: 'project.name',
-          style: {flex: 3},
+          style: {flex: '15%'},
         },
         {
           name: 'projectAdmins',
           title: 'Project Admins',
-          style: {flex: 3},
+          style: {flex: '20%'},
         },
         {
           name: 'actions',
@@ -227,7 +223,6 @@ export default {
           cellConfig: {
             delete: {
               onClick: this.onClickDelete,
-              component: 'oxd-icon-button',
               props: {
                 name: 'trash',
               },
@@ -241,7 +236,6 @@ export default {
           },
         },
       ],
-      projects: [],
       checkedItems: [],
     };
   },
@@ -269,7 +263,6 @@ export default {
         }
       });
     },
-
     async deleteData(items) {
       if (items instanceof Array) {
         this.isLoading = true;
@@ -292,10 +285,6 @@ export default {
     },
     async filterItems() {
       await this.execQuery();
-    },
-    onClickReset() {
-      this.filters = {...defaultFilters};
-      this.filterItems();
     },
   },
 };

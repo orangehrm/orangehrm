@@ -22,7 +22,7 @@
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
       <oxd-text tag="h6" class="orangehrm-main-title">
-        Edit Project
+        {{ $t('time.edit_project') }}
       </oxd-text>
       <oxd-divider />
 
@@ -31,29 +31,24 @@
           <oxd-grid-item>
             <oxd-input-field
               v-model="project.name"
-              :label="$t('time.project_name')"
+              :label="$t('general.name')"
               :rules="rules.name"
               required
             />
           </oxd-grid-item>
           <oxd-grid-item>
-            <oxd-grid-row>
-              <customer-autocomplete
-                v-model="project.customer"
-                label="Customer"
-                :rules="rules.customer"
-                required
-              />
-            </oxd-grid-row>
-            <oxd-grid-row>
-              <oxd-button
-                display-type="text"
-                :label="$t('time.add_customer')"
-                icon-name="plus"
-                style=""
-                @click="onClickAddCustomer"
-              />
-            </oxd-grid-row>
+            <customer-autocomplete
+              v-model="project.customer"
+              :label="$t('time.customer_name')"
+              :rules="rules.customer"
+              required
+            />
+            <oxd-button
+              icon-name="plus"
+              display-type="text"
+              :label="$t('time.add_customer')"
+              @click="onClickAddCustomer"
+            />
           </oxd-grid-item>
         </oxd-grid>
         <oxd-form-row>
@@ -68,25 +63,21 @@
               />
             </oxd-grid-item>
             <oxd-grid-item>
-              <oxd-grid-row
-                v-for="projectAdmin in projectAdmins"
-                :key="projectAdmin.id"
-              >
-                <project-admin-autocomplete
-                  :id="projectAdmin.id"
-                  v-model="projectAdmin.data"
-                  :rules="rules.projectAdmin"
-                  @remove="removeAdminInputField"
-                />
-              </oxd-grid-row>
+              <project-admin-autocomplete
+                v-for="(projectAdmin, index) in projectAdmins"
+                :key="index"
+                v-model="projectAdmin.value"
+                :show-delete="index > 0"
+                :rules="index > 0 ? rules.projectAdmin : []"
+                @remove="onRemoveAdmin(index)"
+              />
               <oxd-button
                 v-if="projectAdmins.length < 5"
-                display-type="text"
-                label="Add Another"
                 icon-name="plus"
+                display-type="text"
+                :label="$t('general.add_another')"
                 @click="onAddAnother"
               />
-              <oxd-grid-row> </oxd-grid-row>
             </oxd-grid-item>
           </oxd-grid>
         </oxd-form-row>
@@ -107,7 +98,7 @@
     <activities :project-id="projectId"></activities>
     <add-customer-modal
       v-if="showCustomerModal"
-      @close="onModalClose"
+      @close="onCustomerModalClose"
     ></add-customer-modal>
   </div>
 </template>
@@ -120,31 +111,25 @@ import {
 import {APIService} from '@/core/util/services/api.service';
 import {navigate} from '@ohrm/core/util/helper/navigation';
 import promiseDebounce from '@ohrm/oxd/utils/promiseDebounce';
+import Activities from '@/orangehrmTimePlugin/components/Activities.vue';
+import AddCustomerModal from '@/orangehrmTimePlugin/components/AddCustomerModal.vue';
 import CustomerAutocomplete from '@/orangehrmTimePlugin/components/CustomerAutocomplete.vue';
 import ProjectAdminAutocomplete from '@/orangehrmTimePlugin/components/ProjectAdminAutocomplete.vue';
-import AddCustomerModal from '@/orangehrmTimePlugin/components/AddCustomerModal.vue';
-import Activities from '@/orangehrmTimePlugin/components/Activities.vue';
 
-const defaultProjectAdminModel = {
-  id: null,
-  data: {
-    id: null,
-    label: null,
-    isPastEmployee: false,
-  },
-};
 const defaultProjectModel = {
   name: null,
   customer: null,
   description: null,
+  projectAdminEmpNumbers: [],
 };
+
 export default {
-  name: 'ProjectSave',
+  name: 'ProjectEdit',
   components: {
     activities: Activities,
+    'add-customer-modal': AddCustomerModal,
     'customer-autocomplete': CustomerAutocomplete,
     'project-admin-autocomplete': ProjectAdminAutocomplete,
-    'add-customer-modal': AddCustomerModal,
   },
   props: {
     projectId: {
@@ -164,7 +149,7 @@ export default {
   data() {
     return {
       isLoading: false,
-      projectAdmins: [],
+      projectAdmins: [{value: null}],
       project: {...defaultProjectModel},
       showCustomerModal: false,
       rules: {
@@ -173,16 +158,15 @@ export default {
           shouldNotExceedCharLength(50),
           promiseDebounce(this.validateProjectName, 500),
         ],
-        description: [],
+        description: [shouldNotExceedCharLength(255)],
         customer: [required],
         projectAdmin: [
+          required,
+          shouldNotExceedCharLength(100),
           value => {
-            return this.projectAdmins
-              .map(projectAdmin => projectAdmin.data)
-              .filter(
-                normalizedProjectAdmin =>
-                  normalizedProjectAdmin.id === value.id,
-              ).length < 2
+            return this.projectAdmins.filter(
+              ({value: admin}) => admin && admin.id === value?.id,
+            ).length < 2
               ? true
               : 'Already exists';
           },
@@ -190,7 +174,7 @@ export default {
       },
     };
   },
-  created() {
+  beforeMount() {
     this.isLoading = true;
     this.http
       .get(this.projectId, {model: 'detailed'})
@@ -202,18 +186,20 @@ export default {
           id: data.customer.id,
           label: data.customer.name,
         };
-        let fieldId = 0;
-        this.projectAdmins = data.projectAdmins.map(projectAdmin => {
-          fieldId = fieldId + 1;
-          return {
-            id: fieldId,
-            data: {
-              id: projectAdmin.empNumber,
-              label: `${projectAdmin.firstName} ${projectAdmin.middleName} ${projectAdmin.lastName}`,
-              isPastEmployee: projectAdmin.terminationId ? true : false,
-            },
-          };
-        });
+        if (
+          Array.isArray(data.projectAdmins) &&
+          data.projectAdmins.length > 0
+        ) {
+          this.projectAdmins = data.projectAdmins.map(projectAdmin => {
+            return {
+              value: {
+                id: projectAdmin.empNumber,
+                label: `${projectAdmin.firstName} ${projectAdmin.middleName} ${projectAdmin.lastName}`,
+                isPastEmployee: projectAdmin.terminationId ? true : false,
+              },
+            };
+          });
+        }
       })
       .finally(() => {
         this.isLoading = false;
@@ -223,38 +209,40 @@ export default {
     onClickAddCustomer() {
       this.showCustomerModal = true;
     },
-    onModalClose() {
+    onCustomerModalClose(data) {
+      if (data !== undefined) {
+        const {id, name} = data;
+        this.project.customer = {
+          id,
+          label: name,
+        };
+      }
       this.showCustomerModal = false;
     },
     onAddAnother() {
       if (this.projectAdmins.length < 5) {
-        const projectAdmin = {...defaultProjectAdminModel};
-        projectAdmin.id = this.projectAdmins.length + 1;
-        this.projectAdmins.push(projectAdmin);
+        this.projectAdmins.push({value: null});
       }
     },
-    removeAdminInputField(id) {
-      this.projectAdmins = this.projectAdmins.filter(projectAdmin => {
-        return projectAdmin.id !== id;
-      });
+    onRemoveAdmin(index) {
+      this.projectAdmins.splice(index, 1);
     },
     onCancel() {
       navigate('/time/viewProjects');
     },
     onSave() {
       this.isLoading = true;
-      this.project = {
-        name: this.project.name,
-        description: this.project.description,
-        customerId: this.project.customer.id,
-        projectAdminsEmpNumbers: this.projectAdmins.map(projectAdmin => {
-          return projectAdmin.data?.id;
-        }),
-      };
       this.http
-        .update(this.projectId, {...this.project})
+        .update(this.projectId, {
+          name: this.project.name,
+          description: this.project.description,
+          customerId: this.project.customer.id,
+          projectAdminsEmpNumbers: this.projectAdmins
+            .map(({value}) => value && value.id)
+            .filter(Number),
+        })
         .then(() => {
-          return this.$toast.saveSuccess();
+          return this.$toast.updateSuccess();
         })
         .then(() => {
           this.onCancel();
@@ -268,8 +256,8 @@ export default {
               method: 'GET',
               url: `api/v2/time/validation/project-name`,
               params: {
-                projectName: this.project.name.trim(),
                 projectId: this.projectId,
+                projectName: this.project.name.trim(),
               },
             })
             .then(response => {

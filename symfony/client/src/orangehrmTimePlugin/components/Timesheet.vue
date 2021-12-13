@@ -220,7 +220,7 @@ export default {
     totals: {
       type: Object,
       required: false,
-      default: () => ({}),
+      default: () => null,
     },
     subtotal: {
       type: String,

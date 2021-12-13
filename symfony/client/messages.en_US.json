@@ -320,6 +320,11 @@
           "source": "Reject",
           "target": "Reject",
           "description": "The Admin or Hiring Manager can turn down an application by selecting the status as Reject"
+        },
+        "add_another": {
+          "source": "Add Another",
+          "target": "Add Another",
+          "description": "Adding another project admin for a particular project."
         }
       }
     },
@@ -731,10 +736,10 @@
           "target": "Timesheet Period Start Day has not being defined. Please Contact the HR Administrator",
           "description": ""
         },
-        "customer": {
+        "customers": {
           "source": "Customers",
           "target": "Customers",
-          "description": "You can enter details of your customers that can be used to define projects and project activities"
+          "description": "Activities within Projects that are being done for various Customers."
         },
         "add_customer": {
           "source": "Add Customer",
@@ -845,6 +850,36 @@
           "source": "Copy From",
           "target": "Copy From",
           "description": "Copying KPI's from one profession to another and copying activities from one project to another."
+        },
+        "projects": {
+          "source": "Projects",
+          "target": "Projects",
+          "description": "The administrators are able to define the projects, which were/are/will be managed by the company. To add a project, go to Time&gt;&gt; Project Info&gt;&gt; Projects and click “Add”"
+        },
+        "customer": {
+          "source": "Customer",
+          "target": "Customer",
+          "description": "You can enter details of your customers that can be used to define projects and project activities"
+        },
+        "project_admin": {
+          "source": "Project Admin",
+          "target": "Project Admin",
+          "description": "The employee assigned for the project to monitor it. You may assign more employees for the project."
+        },
+        "customer_name": {
+          "source": "Customer Name",
+          "target": "Customer Name",
+          "description": "Name of the customer; Needs to be defined first before adding a project name"
+        },
+        "add_project": {
+          "source": "Add Project",
+          "target": "Add Project",
+          "description": "Add Project Information; Customers, Projects and Activities."
+        },
+        "edit_project": {
+          "source": "Edit Project",
+          "target": "Edit Project",
+          "description": "Edit Project Information; Customers, Projects and Activities."
         }
       }
     }

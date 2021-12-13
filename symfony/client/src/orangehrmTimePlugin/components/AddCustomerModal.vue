@@ -4,7 +4,9 @@
     @update:show="onCancel"
   >
     <div class="orangehrm-modal-header">
-      <oxd-text type="card-title">Add Customer</oxd-text>
+      <oxd-text type="card-title">
+        {{ $t('time.add_customer') }}
+      </oxd-text>
     </div>
     <oxd-divider />
     <oxd-form :loading="isLoading" @submitValid="onSave">
@@ -20,7 +22,7 @@
         <oxd-input-field
           v-model="customer.description"
           type="textarea"
-          label="Description"
+          :label="$t('general.description')"
           placeholder="Type description here"
           :rules="rules.description"
         />
@@ -79,7 +81,7 @@ export default {
           shouldNotExceedCharLength(50),
           promiseDebounce(this.validateCustomerName, 500),
         ],
-        description: [shouldNotExceedCharLength(250)],
+        description: [shouldNotExceedCharLength(255)],
       },
     };
   },
@@ -91,11 +93,10 @@ export default {
           name: this.customer.name,
           description: this.customer.description,
         })
-        .then(() => {
-          return this.$toast.saveSuccess();
-        })
-        .then(() => {
-          this.onCancel();
+        .then(response => {
+          const {data} = response.data;
+          this.$toast.saveSuccess();
+          this.$emit('close', data);
         });
     },
     onCancel() {

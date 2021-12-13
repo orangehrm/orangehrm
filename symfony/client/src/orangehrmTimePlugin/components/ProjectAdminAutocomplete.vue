@@ -21,13 +21,13 @@
 <template>
   <div class="orangehrm-project-admin-input">
     <employee-autocomplete
-      :label="id === 1 ? 'Project Admins' : null"
-      class="orangehrm-employee-autocomplete"
+      :label="!showDelete ? $t('time.project_admin') : null"
       v-bind="$attrs"
     />
     <oxd-icon-button
-      v-if="id !== 1"
-      name="trash"
+      v-if="showDelete"
+      name="trash-fill"
+      class="orangehrm-project-delete-icon"
       :with-container="false"
       @click="remove"
     />
@@ -44,25 +44,28 @@ export default {
   },
   inheritAttrs: false,
   props: {
-    id: {
-      type: Number,
+    showDelete: {
+      type: Boolean,
       required: true,
     },
   },
   emits: ['remove'],
   methods: {
     remove() {
-      this.$emit('remove', this.id);
+      this.$emit('remove');
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.orangehrm-project-admin-input {
-  display: flex;
-  flex-wrap: nowrap;
-  align-items: center;
-  justify-content: space-between;
+.orangehrm-project {
+  &-admin-input {
+    display: flex;
+    align-items: center;
+  }
+  &-delete-icon {
+    margin-left: 1rem;
+  }
 }
 </style>

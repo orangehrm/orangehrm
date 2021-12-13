@@ -22,8 +22,12 @@
   <oxd-input-field
     type="autocomplete"
     :clear="false"
+    :label="$t('time.customer_name')"
     :create-options="loadCustomers"
   >
+    <template #option="{data}">
+      <span>{{ data.label }}</span>
+    </template>
   </oxd-input-field>
 </template>
 
@@ -44,16 +48,20 @@ export default {
     async loadCustomers(serachParam) {
       return new Promise(resolve => {
         if (serachParam.trim()) {
-          this.http.getAll().then(({data}) => {
-            resolve(
-              data.data.map(customer => {
-                return {
-                  id: customer.id,
-                  label: customer.name,
-                };
-              }),
-            );
-          });
+          this.http
+            .getAll({
+              name: serachParam.trim(),
+            })
+            .then(({data}) => {
+              resolve(
+                data.data.map(customer => {
+                  return {
+                    id: customer.id,
+                    label: customer.name,
+                  };
+                }),
+              );
+            });
         } else {
           resolve([]);
         }
@@ -62,9 +70,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-::v-deep(.oxd-autocomplete-wrapper) {
-  min-width: 150px;
-}
-</style>
