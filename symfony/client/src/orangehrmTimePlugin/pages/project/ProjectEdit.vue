@@ -103,6 +103,8 @@
         </oxd-form-actions>
       </oxd-form>
     </div>
+    <br />
+    <activities :project-id="projectId"></activities>
     <add-customer-modal
       v-if="showCustomerModal"
       @close="onModalClose"
@@ -118,10 +120,10 @@ import {
 import {APIService} from '@/core/util/services/api.service';
 import {navigate} from '@ohrm/core/util/helper/navigation';
 import promiseDebounce from '@ohrm/oxd/utils/promiseDebounce';
-
 import CustomerAutocomplete from '@/orangehrmTimePlugin/components/CustomerAutocomplete.vue';
 import ProjectAdminAutocomplete from '@/orangehrmTimePlugin/components/ProjectAdminAutocomplete.vue';
 import AddCustomerModal from '@/orangehrmTimePlugin/components/AddCustomerModal.vue';
+import Activities from '@/orangehrmTimePlugin/components/Activities.vue';
 
 const defaultProjectAdminModel = {
   id: null,
@@ -139,6 +141,7 @@ const defaultProjectModel = {
 export default {
   name: 'ProjectSave',
   components: {
+    activities: Activities,
     'customer-autocomplete': CustomerAutocomplete,
     'project-admin-autocomplete': ProjectAdminAutocomplete,
     'add-customer-modal': AddCustomerModal,

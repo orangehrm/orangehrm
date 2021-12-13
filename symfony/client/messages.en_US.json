@@ -825,6 +825,26 @@
           "source": "Project Name",
           "target": "Project Name",
           "description": "Name of the project to be done for the customer."
+        },
+        "activities": {
+          "source": "Activities",
+          "target": "Activities",
+          "description": "Amount of work performed"
+        },
+        "add_project_activity": {
+          "source": "Add Project Activity",
+          "target": "Add Project Activity",
+          "description": "Project activities can be added for the particular project"
+        },
+        "edit_project_activity": {
+          "source": "Edit Project Activity",
+          "target": "Edit Project Activity",
+          "description": "Project activities can be changed depending on the project"
+        },
+        "copy_from": {
+          "source": "Copy From",
+          "target": "Copy From",
+          "description": "Copying KPI's from one profession to another and copying activities from one project to another."
         }
       }
     }
