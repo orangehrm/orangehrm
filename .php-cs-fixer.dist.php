@@ -8,6 +8,7 @@ $finder = PhpCsFixer\Finder::create()
     ->exclude('symfony/log')
     ->exclude('symfony/config/proxy')
     ->exclude('devTools/core/vendor')
+    ->exclude('symfony/test/functional/node_modules')
     // TODO:: Remove bellow excluded dirs, files
     ->notPath('index.php')
     ->notPath('install.php')
