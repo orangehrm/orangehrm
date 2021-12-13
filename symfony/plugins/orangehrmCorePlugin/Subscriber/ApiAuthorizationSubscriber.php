@@ -112,7 +112,7 @@ class ApiAuthorizationSubscriber extends AbstractEventSubscriber
     private function getPermissionGetterMethod(string $method): ?string
     {
         switch ($method) {
-            case Request::METHOD_GET;
+            case Request::METHOD_GET:
                 return 'canRead';
 
             case Request::METHOD_POST:

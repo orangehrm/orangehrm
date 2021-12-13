@@ -171,7 +171,8 @@ class EmployeeEducationAPI extends Endpoint implements CrudEndpoint
         $employeeEducation->getDecorator()->setEducationByEducationId($educationId);
         $employeeEducation = $this->saveEmployeeEducation($employeeEducation);
         return new EndpointResourceResult(
-            EmployeeEducationModel::class, $employeeEducation,
+            EmployeeEducationModel::class,
+            $employeeEducation,
             new ParameterBag([CommonParams::PARAMETER_EMP_NUMBER => $empNumber])
         );
     }
@@ -255,7 +256,8 @@ class EmployeeEducationAPI extends Endpoint implements CrudEndpoint
         $this->saveEmployeeEducation($employeeEducation);
 
         return new EndpointResourceResult(
-            EmployeeEducationModel::class, $employeeEducation,
+            EmployeeEducationModel::class,
+            $employeeEducation,
             new ParameterBag([CommonParams::PARAMETER_EMP_NUMBER => $empNumber])
         );
     }
@@ -283,7 +285,8 @@ class EmployeeEducationAPI extends Endpoint implements CrudEndpoint
         $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
         $this->getEmployeeEducationService()->getEmployeeEducationDao()->deleteEmployeeEducations($empNumber, $ids);
         return new EndpointResourceResult(
-            ArrayModel::class, $ids,
+            ArrayModel::class,
+            $ids,
             new ParameterBag(
                 [
                     CommonParams::PARAMETER_EMP_NUMBER => $empNumber,

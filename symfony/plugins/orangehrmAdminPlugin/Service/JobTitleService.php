@@ -62,7 +62,8 @@ class JobTitleService
      * @return int|JobTitle[]
      * @throws DaoException
      */
-    public function getJobTitleList(bool $activeOnly = true) {
+    public function getJobTitleList(bool $activeOnly = true)
+    {
         return $this->getJobTitleDao()->getJobTitleList($activeOnly);
     }
 
@@ -153,4 +154,3 @@ class JobTitleService
         return $this->getNormalizerService()->normalizeArray(JobTitleModel::class, $jobTitles);
     }
 }
-

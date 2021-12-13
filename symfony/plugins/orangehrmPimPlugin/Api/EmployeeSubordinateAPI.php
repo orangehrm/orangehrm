@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\Pim\Api;
 
-
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
@@ -100,7 +99,8 @@ class EmployeeSubordinateAPI extends Endpoint implements CrudEndpoint
 
         $empSubordinates = $this->getEmployeeReportingMethodService()->getSubordinateListForEmployee($employeeSubordinateSearchFilterParams);
         return new EndpointCollectionResult(
-            EmployeeSubordinateModel::class, $empSubordinates,
+            EmployeeSubordinateModel::class,
+            $empSubordinates,
             new ParameterBag(
                 [
                     CommonParams::PARAMETER_EMP_NUMBER => $empNumber,
@@ -145,10 +145,14 @@ class EmployeeSubordinateAPI extends Endpoint implements CrudEndpoint
      */
     public function setSubordinateParams(ReportTo $subordinate): void
     {
-        $reportingMethodId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_BODY,
-            self::PARAMETER_REPORTING_METHOD);
-        $subordinateEmpNumber = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_BODY,
-            CommonParams::PARAMETER_EMP_NUMBER);
+        $reportingMethodId = $this->getRequestParams()->getInt(
+            RequestParams::PARAM_TYPE_BODY,
+            self::PARAMETER_REPORTING_METHOD
+        );
+        $subordinateEmpNumber = $this->getRequestParams()->getInt(
+            RequestParams::PARAM_TYPE_BODY,
+            CommonParams::PARAMETER_EMP_NUMBER
+        );
         $empNumber = $this->getRequestParams()->getInt(
             RequestParams::PARAM_TYPE_ATTRIBUTE,
             CommonParams::PARAMETER_EMP_NUMBER
@@ -180,8 +184,10 @@ class EmployeeSubordinateAPI extends Endpoint implements CrudEndpoint
             CommonParams::PARAMETER_EMP_NUMBER
         );
         $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
-        $this->getEmployeeReportingMethodService()->getEmployeeReportingMethodDao()->deleteEmployeeSubordinates($empNumber,
-            $ids);
+        $this->getEmployeeReportingMethodService()->getEmployeeReportingMethodDao()->deleteEmployeeSubordinates(
+            $empNumber,
+            $ids
+        );
         return new EndpointResourceResult(ArrayModel::class, $ids);
     }
 
@@ -204,15 +210,17 @@ class EmployeeSubordinateAPI extends Endpoint implements CrudEndpoint
     {
         list($empNumber, $subordinateId) = $this->getUrlAttributes();
 
-        $empSSubordinate = $this->getEmployeeReportingMethodService()->getEmployeeReportingMethodDao()->getEmployeeReportToByEmpNumbers($subordinateId,
-            $empNumber);
+        $empSSubordinate = $this->getEmployeeReportingMethodService()->getEmployeeReportingMethodDao()->getEmployeeReportToByEmpNumbers(
+            $subordinateId,
+            $empNumber
+        );
         $this->throwRecordNotFoundExceptionIfNotExist($empSSubordinate, ReportTo::class);
 
         return new EndpointResourceResult(
-            EmployeeSubordinateModel::class, $empSSubordinate,
+            EmployeeSubordinateModel::class,
+            $empSSubordinate,
             new ParameterBag([CommonParams::PARAMETER_EMP_NUMBER => $empNumber])
         );
-
     }
 
     /**
@@ -255,8 +263,10 @@ class EmployeeSubordinateAPI extends Endpoint implements CrudEndpoint
     public function update(): EndpointResourceResult
     {
         list($empNumber, $subordinateId) = $this->getUrlAttributes();
-        $reportingMethodId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_BODY,
-            self::PARAMETER_REPORTING_METHOD);
+        $reportingMethodId = $this->getRequestParams()->getInt(
+            RequestParams::PARAM_TYPE_BODY,
+            self::PARAMETER_REPORTING_METHOD
+        );
 
         $employeeSubordinate = $this->getEmployeeReportingMethodService()
             ->getEmployeeReportingMethodDao()
@@ -267,7 +277,8 @@ class EmployeeSubordinateAPI extends Endpoint implements CrudEndpoint
         $this->getEmployeeReportingMethodService()->getEmployeeReportingMethodDao()->saveEmployeeReportTo($employeeSubordinate);
 
         return new EndpointResourceResult(
-            EmployeeSubordinateModel::class, $employeeSubordinate,
+            EmployeeSubordinateModel::class,
+            $employeeSubordinate,
             new ParameterBag([CommonParams::PARAMETER_EMP_NUMBER => $empNumber])
         );
     }

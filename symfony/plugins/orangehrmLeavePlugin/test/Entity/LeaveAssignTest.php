@@ -36,7 +36,6 @@ use OrangeHRM\Tests\Util\TestDataService;
  */
 class LeaveAssignTest extends EntityTestCase
 {
-
     use DateTimeHelperTrait;
 
     protected function setUp(): void

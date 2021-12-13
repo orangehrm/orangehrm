@@ -201,7 +201,7 @@ class AccessFlowStateMachineService
      * @return WorkflowStateMachine[]
      * @throws DaoException
      */
-    public function saveWorkflowStateMachineRecordAsArray(array $workflowStateMachineRecordArray):array
+    public function saveWorkflowStateMachineRecordAsArray(array $workflowStateMachineRecordArray): array
     {
         return $this->getAccessFlowStateMachineDao()->saveWorkflowStateMachineRecordAsArray($workflowStateMachineRecordArray);
     }
@@ -215,7 +215,7 @@ class AccessFlowStateMachineService
      * @return bool
      * @throws DaoException
      */
-    public function deleteWorkflowStateMachineRecord(string $workflow,string $state,string $role,string $action,string $resultingState):bool
+    public function deleteWorkflowStateMachineRecord(string $workflow, string $state, string $role, string $action, string $resultingState): bool
     {
         return $this->getAccessFlowStateMachineDao()->deleteWorkflowStateMachinerecord(
             $workflow,
@@ -272,11 +272,12 @@ class AccessFlowStateMachineService
      * @return WorkflowStateMachine|null
      * @throws DaoException
      */
-    public function getWorkflowItemByStateActionAndRole(string $workflow,
+    public function getWorkflowItemByStateActionAndRole(
+        string $workflow,
         string $state,
         string $action,
-        string $role): ?WorkflowStateMachine
-    {
+        string $role
+    ): ?WorkflowStateMachine {
         return $this->getAccessFlowStateMachineDao()->getWorkflowItemByStateActionAndRole(
             $workflow,
             $state,
@@ -302,9 +303,8 @@ class AccessFlowStateMachineService
      * @return int
      * @throws DaoException
      */
-    public function handleUserRoleRename(string $oldRoleName, string $newRoleName):int
+    public function handleUserRoleRename(string $oldRoleName, string $newRoleName): int
     {
         return $this->getAccessFlowStateMachineDao()->handleUserRoleRename($oldRoleName, $newRoleName);
     }
-
 }

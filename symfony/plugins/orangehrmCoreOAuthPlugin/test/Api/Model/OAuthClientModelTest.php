@@ -47,6 +47,5 @@ class OAuthClientModelTest extends TestCase
 
         $oauthClientModel = new OAuthClientModel($oauthClient);
         $this->assertEquals($resultArray, $oauthClientModel->toArray());
-
     }
 }

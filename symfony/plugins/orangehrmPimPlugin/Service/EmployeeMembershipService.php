@@ -26,7 +26,6 @@ use OrangeHRM\Pim\Dto\EmployeeMembershipSearchFilterParams;
 
 class EmployeeMembershipService
 {
-
     /**
      * @var EmployeeMembershipDao|null
      */

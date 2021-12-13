@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\Pim\Dto;
 
-
 use OrangeHRM\Core\Dto\FilterParams;
 
 class EmployeeDependentSearchFilterParams extends FilterParams

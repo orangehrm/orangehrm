@@ -17,9 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-
 namespace OrangeHRM\Admin\Dto;
-
 
 use OrangeHRM\Core\Dto\FilterParams;
 
@@ -49,5 +47,4 @@ class PayGradeCurrencySearchFilterParams extends FilterParams
     {
         return $this->payGradeId;
     }
-
 }

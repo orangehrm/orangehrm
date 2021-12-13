@@ -28,7 +28,6 @@ use OrangeHRM\Entity\License;
 
 class LicenseDao extends BaseDao
 {
-
     /**
      * @param License $license
      * @return License

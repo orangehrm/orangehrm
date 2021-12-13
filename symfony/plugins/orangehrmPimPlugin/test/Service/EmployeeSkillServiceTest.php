@@ -36,11 +36,13 @@ class EmployeeSkillServiceTest extends TestCase
         $this->employeeSkillService = new EmployeeSkillService();
     }
 
-    public function testGetEmployeeSkillDao(){
+    public function testGetEmployeeSkillDao()
+    {
         $this->assertTrue($this->employeeSkillService->getEmployeeSkillDao() instanceof EmployeeSkillDao);
     }
 
-    public function testGetEmployeeSkillDaoBySetter(){
+    public function testGetEmployeeSkillDaoBySetter()
+    {
         $employeeSkillDao = new EmployeeSkillDao();
         $this->employeeSkillService->setEmployeeSkillDao($employeeSkillDao);
         $this->assertTrue($this->employeeSkillService->getEmployeeSkillDao() instanceof EmployeeSkillDao);

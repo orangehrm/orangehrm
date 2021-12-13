@@ -24,8 +24,6 @@ use OrangeHRM\Pim\Dao\CustomFieldDao;
 use OrangeHRM\Pim\Service\CustomFieldService;
 use OrangeHRM\Tests\Util\TestCase;
 
-use function Webmozart\Assert\Tests\StaticAnalysis\true;
-
 /**
  * @group Pim
  * @group Service
@@ -76,16 +74,17 @@ class CustomFieldServiceTest extends TestCase
         );
     }
 
-    public function testGetAllFieldsInUse(){
+    public function testGetAllFieldsInUse()
+    {
         $customFieldDao = $this->getMockBuilder(CustomFieldDao::class)
             ->onlyMethods(['isCustomFieldInUse'])
             ->getMock();
 
         $customFieldDao
             ->method('isCustomFieldInUse')
-            ->will($this->returnCallback(function(){
+            ->will($this->returnCallback(function () {
                 $args = func_get_args();
-                if($args[0] ==1 || $args[0] ==5){
+                if ($args[0] ==1 || $args[0] ==5) {
                     return true;
                 } else {
                     return false;
@@ -102,7 +101,8 @@ class CustomFieldServiceTest extends TestCase
         $this->assertEquals([1,5], $result);
     }
 
-    public function testDeleteRelatedEmployeeCustomFieldsExtraDataWhenNotDeleteOption(){
+    public function testDeleteRelatedEmployeeCustomFieldsExtraDataWhenNotDeleteOption()
+    {
         $customFieldDao = $this->getMockBuilder(CustomFieldDao::class)
             ->onlyMethods(['getCustomFieldById','updateEmployeesIfDropDownValueInUse'])
             ->getMock();
@@ -129,12 +129,13 @@ class CustomFieldServiceTest extends TestCase
             ->method('getCustomFieldDao')
             ->willReturn($customFieldDao);
 
-        $customFieldService->deleteRelatedEmployeeCustomFieldsExtraData(1,'level1, level2');
+        $customFieldService->deleteRelatedEmployeeCustomFieldsExtraData(1, 'level1, level2');
         $this->assertTrue(true); // to avoid risky msg, check handled in method call counting
     }
 
 
-    public function testDeleteRelatedEmployeeCustomFieldsExtraDataWhenDeleteOption(){
+    public function testDeleteRelatedEmployeeCustomFieldsExtraDataWhenDeleteOption()
+    {
         $customFieldDao = $this->getMockBuilder(CustomFieldDao::class)
             ->onlyMethods(['getCustomFieldById','updateEmployeesIfDropDownValueInUse'])
             ->getMock();
@@ -161,7 +162,7 @@ class CustomFieldServiceTest extends TestCase
             ->method('getCustomFieldDao')
             ->willReturn($customFieldDao);
 
-        $customFieldService->deleteRelatedEmployeeCustomFieldsExtraData(1,'level1');
+        $customFieldService->deleteRelatedEmployeeCustomFieldsExtraData(1, 'level1');
         $this->assertTrue(true); // to avoid risky msg, check handled in method call counting
     }
 }

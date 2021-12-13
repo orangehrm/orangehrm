@@ -17,7 +17,6 @@
  * Boston, MA  02110-1301, USA
  */
 
-
 namespace OrangeHRM\Tests\Admin\Service;
 
 use OrangeHRM\Admin\Dao\LanguageDao;
@@ -34,7 +33,6 @@ use OrangeHRM\Tests\Util\TestDataService;
  */
 class LanguageServiceTest extends TestCase
 {
-
     private LanguageService $languageService;
     private string $fixture;
 

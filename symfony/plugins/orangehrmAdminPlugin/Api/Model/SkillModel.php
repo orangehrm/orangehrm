@@ -21,7 +21,7 @@ namespace OrangeHRM\Admin\Api\Model;
 
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\Skill;
-use \OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
+use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 
 class SkillModel implements Normalizable
 {

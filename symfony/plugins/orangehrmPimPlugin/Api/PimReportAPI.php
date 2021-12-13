@@ -78,7 +78,7 @@ class PimReportAPI extends ReportAPI
                 new Rule(Rules::POSITIVE),
                 new Rule(
                     Rules::CALLBACK,
-                    [fn($id) => $this->getReportGeneratorService()->isPimReport($id)]
+                    [fn ($id) => $this->getReportGeneratorService()->isPimReport($id)]
                 )
             )
         );

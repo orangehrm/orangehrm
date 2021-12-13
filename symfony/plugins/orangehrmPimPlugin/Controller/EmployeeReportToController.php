@@ -27,7 +27,6 @@ use OrangeHRM\Pim\Service\ReportingMethodConfigurationService;
 
 class EmployeeReportToController extends BaseViewEmployeeController
 {
-
     /**
      * @var ReportingMethodConfigurationService|null
      */

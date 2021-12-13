@@ -97,13 +97,12 @@ class PayGradeDao extends BaseDao
     {
         $q = $this->createQueryBuilder(PayGradeCurrency::class, 'pgc');
         $q->leftJoin('pgc.currencyType', 'ct');
-        if(!empty($payGradeCurrencySearchFilterParams->getPayGradeId())){
+        if (!empty($payGradeCurrencySearchFilterParams->getPayGradeId())) {
             $q->andWhere('pgc.payGrade = :payGradeId')
                 ->setParameter('payGradeId', $payGradeCurrencySearchFilterParams->getPayGradeId());
         }
         $this->setSortingAndPaginationParams($q, $payGradeCurrencySearchFilterParams);
         return $this->getPaginator($q);
-
     }
 
     /**
@@ -204,11 +203,11 @@ class PayGradeDao extends BaseDao
      * @return int
      * @throws DaoException
      */
-    public function getPayGradesCount(PayGradeSearchFilterParams $payGradeSearchFilterParams):int
+    public function getPayGradesCount(PayGradeSearchFilterParams $payGradeSearchFilterParams): int
     {
-        try{
+        try {
             return $this->getPayGradesPaginator($payGradeSearchFilterParams)->count();
-        }catch (Exception $e){
+        } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }
     }
@@ -250,13 +249,13 @@ class PayGradeDao extends BaseDao
      */
     public function deletePayGrades(array $tobeDeletedIds): int
     {
-        try{
-            $q = $this->createQueryBuilder(PayGrade::class,'pg');
+        try {
+            $q = $this->createQueryBuilder(PayGrade::class, 'pg');
             $q->delete()
                 ->where($q->expr()->in('pg.id', ':ids'))
                 ->setParameter('ids', $tobeDeletedIds);
             return $q->getQuery()->execute();
-        }catch (Exception $e){
+        } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }
     }
@@ -269,8 +268,8 @@ class PayGradeDao extends BaseDao
      */
     public function deletePayGradeCurrency(int $payGradeId, array $toBeDeletedIds): int
     {
-        try{
-            $q = $this->createQueryBuilder(PayGradeCurrency::class,'pgc');
+        try {
+            $q = $this->createQueryBuilder(PayGradeCurrency::class, 'pgc');
             $q->delete()
                 ->where($q->expr()->in('pgc.currencyType', ':currencyIds'))
                 ->andWhere('pgc.payGrade = :payGradeId')
@@ -279,8 +278,7 @@ class PayGradeDao extends BaseDao
                     'payGradeId' => $payGradeId,
                 ]);
             return $q->getQuery()->execute();
-
-        }catch (Exception $e){
+        } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }
     }
@@ -321,7 +319,7 @@ class PayGradeDao extends BaseDao
      */
     public function getAllowedPayCurrenciesPaginator(
         PayGradeCurrencySearchFilterParams $payGradeCurrencySearchFilterParams
-    ): Paginator{
+    ): Paginator {
         $q = $this->createQueryBuilder(CurrencyType::class, 'ct');
         $q->leftJoin('ct.payGradeCurrencies', 'pgc', Expr\Join::WITH, 'pgc.payGradeId = :payGradeId');
 
@@ -329,6 +327,5 @@ class PayGradeDao extends BaseDao
         $q->setParameter('payGradeId', $payGradeCurrencySearchFilterParams->getPayGradeId());
         $this->setSortingAndPaginationParams($q, $payGradeCurrencySearchFilterParams);
         return $this->getPaginator($q);
-
     }
 }

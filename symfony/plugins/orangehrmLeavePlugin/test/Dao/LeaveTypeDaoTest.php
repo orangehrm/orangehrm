@@ -298,11 +298,11 @@ class LeaveTypeDaoTest extends TestCase
         $result = $this->dao->searchLeaveType($leaveTypeSearchParams);
         $this->assertCount(5, $result);
         $this->assertTrue($result[0] instanceof LeaveType);
-        $this->assertEquals('Annual',$result[0]->getName());
-        $this->assertEquals('Casual',$result[1]->getName());
-        $this->assertEquals('Christmas',$result[2]->getName());
-        $this->assertEquals('Medical',$result[3]->getName());
-        $this->assertEquals('Wesak',$result[4]->getName());
+        $this->assertEquals('Annual', $result[0]->getName());
+        $this->assertEquals('Casual', $result[1]->getName());
+        $this->assertEquals('Christmas', $result[2]->getName());
+        $this->assertEquals('Medical', $result[3]->getName());
+        $this->assertEquals('Wesak', $result[4]->getName());
     }
 
     public function testSearchLeaveTypeSearchByName(): void
@@ -312,7 +312,7 @@ class LeaveTypeDaoTest extends TestCase
         $result = $this->dao->searchLeaveType($leaveTypeSearchParams);
         $this->assertCount(1, $result);
         $this->assertTrue($result[0] instanceof LeaveType);
-        $this->assertEquals('Casual',$result[0]->getName());
+        $this->assertEquals('Casual', $result[0]->getName());
     }
 
     public function testSearchLeaveTypeWithLimit(): void

@@ -36,7 +36,6 @@ use OrangeHRM\Tests\Util\TestDataService;
  */
 class EmployeeSkillDaoTest extends TestCase
 {
-
     private EmployeeSkillDao $employeeSkillDao;
     protected string $fixture;
 

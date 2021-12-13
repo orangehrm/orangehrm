@@ -17,9 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-
 namespace OrangeHRM\Entity\Decorator;
-
 
 use OrangeHRM\Admin\Service\CountryService;
 use OrangeHRM\Admin\Service\LocationService;
@@ -31,7 +29,6 @@ use OrangeHRM\Framework\Services;
 
 class LocationDecorator
 {
-
     use EntityManagerHelperTrait;
     use ServiceContainerTrait;
 

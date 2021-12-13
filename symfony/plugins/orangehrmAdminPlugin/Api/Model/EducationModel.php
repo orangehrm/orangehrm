@@ -23,7 +23,6 @@ use OrangeHRM\Entity\Education;
 use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 
-
 class EducationModel implements Normalizable
 {
     use ModelTrait;

@@ -28,15 +28,15 @@ use OrangeHRM\Pim\Dto\EmployeeSearchFilterParams;
  *
  * @author Chameera Senarathna
  */
-class AdminUserRole extends AbstractUserRole {
-    
-    public function getAccessibleEmployeeIds($operation = null, $returnType = null, $requiredPermissions = []) {
-
+class AdminUserRole extends AbstractUserRole
+{
+    public function getAccessibleEmployeeIds($operation = null, $returnType = null, $requiredPermissions = [])
+    {
         return $this->getEmployeeService()->getEmployeeIdList(false);
     }
 
-    public function getAccessibleEmployeePropertyList($properties, $orderField, $orderBy, $requiredPermissions = []) {
-
+    public function getAccessibleEmployeePropertyList($properties, $orderField, $orderBy, $requiredPermissions = [])
+    {
         return $this->getEmployeeService()->getEmployeePropertyList($properties, $orderField, $orderBy, false);
     }
 
@@ -48,8 +48,8 @@ class AdminUserRole extends AbstractUserRole {
      * @throws \OrangeHRM\Core\Exception\DaoException
      * @throws \OrangeHRM\Core\Exception\SearchParamException
      */
-    public function getAccessibleEmployees($operation = null, $returnType = null, $requiredPermissions = []):array {
-
+    public function getAccessibleEmployees($operation = null, $returnType = null, $requiredPermissions = []): array
+    {
         $employeeSearchFilterParams = new EmployeeSearchFilterParams();
         $employeeSearchFilterParams->setSortField('employee.empNumber');
         $employeeSearchFilterParams->setSortOrder(ListSorter::ASCENDING);
@@ -65,8 +65,8 @@ class AdminUserRole extends AbstractUserRole {
         return $employeesWithIds;
     }
 
-    public function getAccessibleLocationIds($operation = null, $returnType = null, $requiredPermissions = []) {
-
+    public function getAccessibleLocationIds($operation = null, $returnType = null, $requiredPermissions = [])
+    {
         $locations = $this->getLocationService()->getLocationList();
 
         $ids = [];
@@ -78,8 +78,8 @@ class AdminUserRole extends AbstractUserRole {
         return $ids;
     }
 
-    public function getAccessibleOperationalCountryIds($operation = null, $returnType = null, $requiredPermissions = []) {
-
+    public function getAccessibleOperationalCountryIds($operation = null, $returnType = null, $requiredPermissions = [])
+    {
         $operationalCountries = $this->getOperationalCountryService()->getOperationalCountryList();
 
         $ids = [];
@@ -91,13 +91,13 @@ class AdminUserRole extends AbstractUserRole {
         return $ids;
     }
 
-    public function getAccessibleSystemUserIds($operation = null, $returnType = null, $requiredPermissions = []) {
-
+    public function getAccessibleSystemUserIds($operation = null, $returnType = null, $requiredPermissions = [])
+    {
         return $this->getSystemUserService()->getSystemUserIdList();
     }
 
-    public function getAccessibleUserRoleIds($operation = null, $returnType = null, $requiredPermissions = []) {
-
+    public function getAccessibleUserRoleIds($operation = null, $returnType = null, $requiredPermissions = [])
+    {
         $userRoles = $this->getSystemUserService()->getAssignableUserRoles();
 
         $ids = [];
@@ -108,15 +108,17 @@ class AdminUserRole extends AbstractUserRole {
 
         return $ids;
     }
-    
-    public function getEmployeesWithRole($entities = []) {
+
+    public function getEmployeesWithRole($entities = [])
+    {
         return $this->getSystemUserService()->getEmployeesByUserRole($this->roleName);
     }
-    
+
     /**
      * Returns all projects (active and inactive)
      */
-    public function getAccessibleProjects($operation = null, $returnType = null, $requiredPermissions = []) {
+    public function getAccessibleProjects($operation = null, $returnType = null, $requiredPermissions = [])
+    {
         $activeProjectList = $this->getProjectService()->getAllProjects($activeOnly = true);
         return $activeProjectList;
     }
@@ -124,13 +126,13 @@ class AdminUserRole extends AbstractUserRole {
     /**
      * Returns all project ids (active and inactive)
      */
-    public function getAccessibleProjectIds($operation = null, $returnType = null, $requiredPermissions = []) {
+    public function getAccessibleProjectIds($operation = null, $returnType = null, $requiredPermissions = [])
+    {
         return $this->getProjectService()->getProjectListForUserRole(null, null);
     }
 
-    public function getAccessibleVacancyIds($operation = null, $returnType = null, $requiredPermissions = []) {
+    public function getAccessibleVacancyIds($operation = null, $returnType = null, $requiredPermissions = [])
+    {
         return $this->getVacancyService()->getVacancyIdList();
     }
-
-    
 }

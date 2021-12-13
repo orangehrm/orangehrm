@@ -24,7 +24,6 @@ namespace OrangeHRM\Core\Utility;
  */
 class PasswordHash
 {
-
     public const ALGORITHM = PASSWORD_BCRYPT;
 
     // 2^12 iterations
@@ -55,5 +54,4 @@ class PasswordHash
     {
         return password_verify($password, $hash);
     }
-
 }

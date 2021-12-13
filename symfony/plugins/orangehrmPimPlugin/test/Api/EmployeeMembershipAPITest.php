@@ -48,8 +48,8 @@ class EmployeeMembershipAPITest extends EndpointTestCase
     protected function loadFixtures(): void
     {
         $this->fixture = Config::get(
-                Config::PLUGINS_DIR
-            ) . '/orangehrmPimPlugin/test/fixtures/EmployeeMembershipDao.yml';
+            Config::PLUGINS_DIR
+        ) . '/orangehrmPimPlugin/test/fixtures/EmployeeMembershipDao.yml';
         TestDataService::populate($this->fixture);
     }
 
@@ -319,12 +319,13 @@ class EmployeeMembershipAPITest extends EndpointTestCase
 
         $employeeMembershipDao->expects($this->exactly(1))
             ->method('saveEmployeeMembership')
-            ->will($this->returnCallback(
-                function (EmployeeMembership $employeeMembership) {
+            ->will(
+                $this->returnCallback(
+                    function (EmployeeMembership $employeeMembership) {
                     $employeeMembership->setId(1);
                     return $employeeMembership;
                 }
-            )
+                )
             );
 
         $employeeMembershipRecordService = $this->getMockBuilder(EmployeeMembershipService::class)
@@ -482,12 +483,13 @@ class EmployeeMembershipAPITest extends EndpointTestCase
 
         $employeeMembershipDao->expects($this->exactly(1))
             ->method('saveEmployeeMembership')
-            ->will($this->returnCallback(
-                function (EmployeeMembership $employeeMembership) {
+            ->will(
+                $this->returnCallback(
+                    function (EmployeeMembership $employeeMembership) {
                     $employeeMembership->setId(1);
                     return $employeeMembership;
                 }
-            )
+                )
             );
 
         $employeeMembershipService = $this->getMockBuilder(EmployeeMembershipService::class)

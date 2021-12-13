@@ -36,7 +36,6 @@ use OrangeHRM\Tests\Util\TestDataService;
  */
 class PayGradeDaoTest extends TestCase
 {
-
     private PayGradeDao $payGradeDao;
     protected string $fixture;
 
@@ -137,8 +136,8 @@ class PayGradeDaoTest extends TestCase
 
     public function testSavePayGradeCurrency(): void
     {
-        $currencyType = $this->getEntityReference(CurrencyType::class,'USD');
-        $payGrade = $this->getEntityReference(PayGrade::class,2);
+        $currencyType = $this->getEntityReference(CurrencyType::class, 'USD');
+        $payGrade = $this->getEntityReference(PayGrade::class, 2);
         $payGradeCurrency = new PayGradeCurrency();
         $payGradeCurrency->setPayGrade($payGrade);
         $payGradeCurrency->setCurrencyType($currencyType);
@@ -156,7 +155,7 @@ class PayGradeDaoTest extends TestCase
     public function testDeletePayGradeCurrency(): void
     {
         $ids = ['USD','AUD'];
-        $results = $this->payGradeDao->deletePayGradeCurrency(1,$ids);
+        $results = $this->payGradeDao->deletePayGradeCurrency(1, $ids);
         $this->assertEquals(2, $results);
     }
 
@@ -165,9 +164,8 @@ class PayGradeDaoTest extends TestCase
         $payGradeCurrencySearchFilterParams = new PayGradeCurrencySearchFilterParams();
         $payGradeCurrencySearchFilterParams->setPayGradeId(2);
         $results = $this->payGradeDao->getAllowedPayCurrencies($payGradeCurrencySearchFilterParams);
-        $this->assertCount(1,$results);
+        $this->assertCount(1, $results);
         $this->assertEquals('USD', $results[0]->getId());
-
     }
 
     public function testGetAllowedPayCurrenciesCount(): void
@@ -175,7 +173,6 @@ class PayGradeDaoTest extends TestCase
         $payGradeCurrencySearchFilterParams = new PayGradeCurrencySearchFilterParams();
         $payGradeCurrencySearchFilterParams->setPayGradeId(2);
         $results = $this->payGradeDao->getAllowedPayCurrenciesCount($payGradeCurrencySearchFilterParams);
-        $this->assertEquals(1,$results);
-
+        $this->assertEquals(1, $results);
     }
 }

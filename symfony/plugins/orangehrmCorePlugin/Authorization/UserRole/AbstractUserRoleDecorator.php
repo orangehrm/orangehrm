@@ -22,32 +22,36 @@ namespace OrangeHRM\Core\Authorization\UserRole;
 /**
  * Abstract user role decorator class
  */
-abstract class AbstractUserRoleDecorator extends AbstractUserRole {
-
+abstract class AbstractUserRoleDecorator extends AbstractUserRole
+{
     private $decoratedUserRole = null;
 
-    public function __construct($roleName, $userRoleManager, $decoratedUserRole) {
+    public function __construct($roleName, $userRoleManager, $decoratedUserRole)
+    {
         parent::__construct($roleName, $userRoleManager);
         $this->decoratedUserRole = $decoratedUserRole;
     }
 
     /**
-     * 
-     * @param AbstractUserRole $decoratedUserRole 
+     *
+     * @param AbstractUserRole $decoratedUserRole
      */
-    public function setDecoratedUserRole(AbstractUserRole $decoratedUserRole) {
+    public function setDecoratedUserRole(AbstractUserRole $decoratedUserRole)
+    {
         $this->decoratedUserRole = $decoratedUserRole;
     }
 
     /**
      *
-     * @return AbstractUserRole 
+     * @return AbstractUserRole
      */
-    public function getDecoratedUserRole() {
+    public function getDecoratedUserRole()
+    {
         return $this->decoratedUserRole;
     }
 
-    public function getAccessibleEntityIds(string $entityType, ?string $operation = null, $returnType = null, array $requiredPermissions = []): array {
+    public function getAccessibleEntityIds(string $entityType, ?string $operation = null, $returnType = null, array $requiredPermissions = []): array
+    {
         if (is_null($this->decoratedUserRole)) {
             return [];
         } else {
@@ -55,7 +59,8 @@ abstract class AbstractUserRoleDecorator extends AbstractUserRole {
         }
     }
 
-    public function getAccessibleEntities($entityType, $operation = null, $returnType = null, $requiredPermissions = []) {
+    public function getAccessibleEntities($entityType, $operation = null, $returnType = null, $requiredPermissions = [])
+    {
         if (is_null($this->decoratedUserRole)) {
             return [];
         } else {
@@ -63,7 +68,8 @@ abstract class AbstractUserRoleDecorator extends AbstractUserRole {
         }
     }
 
-    public function getAccessibleEmployeeIds($operation = null, $returnType = null, $requiredPermissions = []) {
+    public function getAccessibleEmployeeIds($operation = null, $returnType = null, $requiredPermissions = [])
+    {
         if (is_null($this->decoratedUserRole)) {
             return [];
         } else {
@@ -71,7 +77,8 @@ abstract class AbstractUserRoleDecorator extends AbstractUserRole {
         }
     }
 
-    public function getAccessibleEmployeePropertyList($properties, $orderField, $orderBy, $requiredPermissions = []) {
+    public function getAccessibleEmployeePropertyList($properties, $orderField, $orderBy, $requiredPermissions = [])
+    {
         if (is_null($this->decoratedUserRole)) {
             return [];
         } else {
@@ -79,7 +86,8 @@ abstract class AbstractUserRoleDecorator extends AbstractUserRole {
         }
     }
 
-    public function getAccessibleEmployees($operation = null, $returnType = null, $requiredPermissions = []): array {
+    public function getAccessibleEmployees($operation = null, $returnType = null, $requiredPermissions = []): array
+    {
         if (is_null($this->decoratedUserRole)) {
             return [];
         } else {
@@ -87,7 +95,8 @@ abstract class AbstractUserRoleDecorator extends AbstractUserRole {
         }
     }
 
-    public function getAccessibleLocationIds($operation = null, $returnType = null, $requiredPermissions = []) {
+    public function getAccessibleLocationIds($operation = null, $returnType = null, $requiredPermissions = [])
+    {
         if (is_null($this->decoratedUserRole)) {
             return [];
         } else {
@@ -95,7 +104,8 @@ abstract class AbstractUserRoleDecorator extends AbstractUserRole {
         }
     }
 
-    public function getAccessibleOperationalCountryIds($operation = null, $returnType = null, $requiredPermissions = []) {
+    public function getAccessibleOperationalCountryIds($operation = null, $returnType = null, $requiredPermissions = [])
+    {
         if (is_null($this->decoratedUserRole)) {
             return [];
         } else {
@@ -103,7 +113,8 @@ abstract class AbstractUserRoleDecorator extends AbstractUserRole {
         }
     }
 
-    public function getAccessibleSystemUserIds($operation = null, $returnType = null, $requiredPermissions = []) {
+    public function getAccessibleSystemUserIds($operation = null, $returnType = null, $requiredPermissions = [])
+    {
         if (is_null($this->decoratedUserRole)) {
             return [];
         } else {
@@ -111,7 +122,8 @@ abstract class AbstractUserRoleDecorator extends AbstractUserRole {
         }
     }
 
-    public function getAccessibleUserRoleIds($operation = null, $returnType = null, $requiredPermissions = []) {
+    public function getAccessibleUserRoleIds($operation = null, $returnType = null, $requiredPermissions = [])
+    {
         if (is_null($this->decoratedUserRole)) {
             return [];
         } else {
@@ -119,14 +131,13 @@ abstract class AbstractUserRoleDecorator extends AbstractUserRole {
         }
     }
 
-    protected function mergeEntities($list1, $list2) {
-
+    protected function mergeEntities($list1, $list2)
+    {
         foreach ($list2 as $id => $ent) {
             if (!isset($list1[$id])) {
                 $list1[$id] = $ent;
             }
         }
         return $list1;
-    }    
+    }
 }
-

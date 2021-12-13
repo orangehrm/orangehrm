@@ -31,7 +31,6 @@ use Exception;
  */
 class JobCategoryDaoTest extends TestCase
 {
-
     private JobCategoryDao $jobCatDao;
     protected string $fixture;
 

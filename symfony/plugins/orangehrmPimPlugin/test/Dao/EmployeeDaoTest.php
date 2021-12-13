@@ -330,11 +330,11 @@ class EmployeeDaoTest extends KernelTestCase
     public function testGetEmailList(): void
     {
         $emailList = $this->employeeDao->getEmailList();
-        $this->assertEquals(array(array('workEmail' => 'kayla@xample.com', 'otherEmail' => 'kayla2@xample.com'),
-                                  array('workEmail' => 'ashley@xample.com', 'otherEmail' => 'ashley2@xample.com'),
-                                  array('workEmail' => 'renukshan@xample.com', 'otherEmail' => 'renukshan2@xample.com'),
-                                  array('workEmail' => '', 'otherEmail' => ''),
-                                  array('workEmail' => '', 'otherEmail' => '')), $emailList);
+        $this->assertEquals([['workEmail' => 'kayla@xample.com', 'otherEmail' => 'kayla2@xample.com'],
+                                  ['workEmail' => 'ashley@xample.com', 'otherEmail' => 'ashley2@xample.com'],
+                                  ['workEmail' => 'renukshan@xample.com', 'otherEmail' => 'renukshan2@xample.com'],
+                                  ['workEmail' => '', 'otherEmail' => ''],
+                                  ['workEmail' => '', 'otherEmail' => '']], $emailList);
     }
 
     public function testIsWorkEmailAvailableByCurrentEmail(): void

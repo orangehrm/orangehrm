@@ -28,7 +28,6 @@ use OrangeHRM\ORM\Paginator;
 
 class NationalityDao extends BaseDao
 {
-
     /**
      * @param Nationality $nationality
      * @return Nationality
@@ -63,7 +62,8 @@ class NationalityDao extends BaseDao
      * @param NationalitySearchFilterParams $nationalitySearchFilterParams
      * @return Paginator
      */
-    public function getNationalityListPaginator(NationalitySearchFilterParams $nationalitySearchFilterParams
+    public function getNationalityListPaginator(
+        NationalitySearchFilterParams $nationalitySearchFilterParams
     ): Paginator {
         $q = $this->createQueryBuilder(Nationality::class, 'n');
         $this->setSortingAndPaginationParams($q, $nationalitySearchFilterParams);

@@ -29,7 +29,6 @@ use OrangeHRM\Pim\Dto\ReportingMethodSearchFilterParams;
 
 class ReportingMethodConfigurationDao extends BaseDao
 {
-
     /**
      * @param ReportingMethod $reportingMethod
      * @return ReportingMethod
@@ -85,7 +84,8 @@ class ReportingMethodConfigurationDao extends BaseDao
      * @param ReportingMethodSearchFilterParams $reportingMethodSearchFilterParams
      * @return Paginator
      */
-    public function getReportingMethodListPaginator(ReportingMethodSearchFilterParams $reportingMethodSearchFilterParams
+    public function getReportingMethodListPaginator(
+        ReportingMethodSearchFilterParams $reportingMethodSearchFilterParams
     ): Paginator {
         $q = $this->createQueryBuilder(ReportingMethod::class, 'rm');
         $this->setSortingAndPaginationParams($q, $reportingMethodSearchFilterParams);

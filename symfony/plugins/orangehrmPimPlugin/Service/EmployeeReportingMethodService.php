@@ -20,13 +20,10 @@
 namespace OrangeHRM\Pim\Service;
 
 use OrangeHRM\Core\Exception\DaoException;
-use OrangeHRM\Core\Exception\ServiceException;
 use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
-use OrangeHRM\Pim\Dao\EmployeeDependentDao;
 use OrangeHRM\Pim\Dao\EmployeeReportingMethodDao;
 use OrangeHRM\Pim\Dto\EmployeeSubordinateSearchFilterParams;
 use OrangeHRM\Pim\Dto\EmployeeSupervisorSearchFilterParams;
-use Exception;
 
 class EmployeeReportingMethodService
 {
@@ -105,5 +102,4 @@ class EmployeeReportingMethodService
     {
         return array_merge($supervisors, $subordinates, [$empNumber]);
     }
-
 }

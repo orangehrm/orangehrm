@@ -33,7 +33,6 @@ use Exception;
  */
 class OrganizationServiceTest extends TestCase
 {
-
     private OrganizationService $organizationService;
     protected string $fixture;
 
@@ -90,5 +89,4 @@ class OrganizationServiceTest extends TestCase
         $result = $this->organizationService->saveOrganizationGeneralInformation($organization);
         $this->assertEquals($organization, $result);
     }
-
 }

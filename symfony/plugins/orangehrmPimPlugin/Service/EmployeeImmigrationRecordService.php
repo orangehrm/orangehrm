@@ -26,7 +26,6 @@ use OrangeHRM\Pim\Dto\EmployeeImmigrationRecordSearchFilterParams;
 
 class EmployeeImmigrationRecordService
 {
-
     /**
      * @var EmployeeImmigrationRecordDao|null
      */
@@ -76,7 +75,8 @@ class EmployeeImmigrationRecordService
      * @param EmployeeImmigrationRecord $employeeImmigrationRecord
      * @return EmployeeImmigrationRecord
      */
-    public function saveEmployeeImmigrationRecord(EmployeeImmigrationRecord $employeeImmigrationRecord
+    public function saveEmployeeImmigrationRecord(
+        EmployeeImmigrationRecord $employeeImmigrationRecord
     ): EmployeeImmigrationRecord {
         return $this->getEmployeeImmigrationRecordDao()->saveEmployeeImmigrationRecord($employeeImmigrationRecord);
     }

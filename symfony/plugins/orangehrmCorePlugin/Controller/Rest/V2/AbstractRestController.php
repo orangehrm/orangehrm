@@ -106,7 +106,7 @@ abstract class AbstractRestController extends AbstractController
     protected function getValidationRule(Request $request): ?ParamRuleCollection
     {
         switch ($request->getHttpRequest()->getMethod()) {
-            case Request::METHOD_GET;
+            case Request::METHOD_GET:
                 return $this->initGetValidationRule($request);
 
             case Request::METHOD_POST:
@@ -140,7 +140,7 @@ abstract class AbstractRestController extends AbstractController
                 Validator::validate($request->getAllParameters(), $validationRule);
             }
             switch ($httpRequest->getMethod()) {
-                case Request::METHOD_GET;
+                case Request::METHOD_GET:
                     $response->setContent($this->handleGetRequest($request)->formatData());
                     break;
 

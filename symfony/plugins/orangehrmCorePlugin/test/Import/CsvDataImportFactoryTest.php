@@ -28,7 +28,8 @@ use OrangeHRM\Tests\Util\TestCase;
  * @group Core
  * @group Import
  */
-class CsvDataImportFactoryTest extends TestCase {
+class CsvDataImportFactoryTest extends TestCase
+{
     /**
      * @var CsvDataImportFactory
      */

@@ -25,7 +25,6 @@ use OrangeHRM\Framework\Http\Request;
 
 class QualificationLanguageController extends AbstractVueController
 {
-
     /**
      * @inheritDoc
      */

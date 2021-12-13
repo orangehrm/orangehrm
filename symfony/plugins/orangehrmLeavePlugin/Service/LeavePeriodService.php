@@ -92,13 +92,13 @@ class LeavePeriodService
     public function getListOfDates(int $month, bool $isLeapYear = false): array
     {
         switch ($month) {
-            case 1 :
-            case 3 :
-            case 5 :
-            case 7 :
-            case 8 :
-            case 10 :
-            case 12 :
+            case 1:
+            case 3:
+            case 5:
+            case 7:
+            case 8:
+            case 10:
+            case 12:
                 return range(1, 31);
 
             case 4:
@@ -107,11 +107,11 @@ class LeavePeriodService
             case 11:
                 return range(1, 30);
 
-            case 2 :
+            case 2:
                 $lastDayOfFebruary = ($isLeapYear) ? 29 : 28;
                 return range(1, $lastDayOfFebruary);
 
-            default :
+            default:
                 throw new InvalidArgumentException('Invalid value passed for month in ' . __METHOD__);
         }
     }

@@ -22,24 +22,23 @@
  *
  * @group Time
  */
-class TimesheetServiceTest extends PHPUnit_Framework_Testcase {
-
+class TimesheetServiceTest extends PHPUnit_Framework_Testcase
+{
     private $timesheetService;
     private $fixture;
 
-    protected function setUp() {
-
-       
+    protected function setUp()
+    {
         $this->fixture = sfConfig::get('sf_plugins_dir') . '/orangehrmTimePlugin/test/fixtures/TimesheetService.yml';
-        TestDataService::truncateSpecificTables(array('SystemUser'));                
+        TestDataService::truncateSpecificTables(['SystemUser']);
         TestDataService::populate($this->fixture);
         $this->timesheetService = new TimesheetService();
     }
 
     /* test both getTimesheetDao() and setTimesheetDao() */
 
-    public function testGetAndSetTimesheetDao() {
-
+    public function testGetAndSetTimesheetDao()
+    {
         $timesheetDao = new TimesheetDao();
         $this->timesheetService->setTimesheetDao($timesheetDao);
 
@@ -48,15 +47,15 @@ class TimesheetServiceTest extends PHPUnit_Framework_Testcase {
 
     /* test getTimesheetDao() with no argument */
 
-    public function testGetTimesheetDao() {
-
+    public function testGetTimesheetDao()
+    {
         $this->assertTrue($this->timesheetService->getTimesheetDao() instanceof TimesheetDao);
     }
 
     /* test both getEmployeeDao() and setEmployeeDao() */
 
-    public function testGetAndSetEmployeeDao() {
-
+    public function testGetAndSetEmployeeDao()
+    {
         $employeeDao = new EmployeeDao();
         $this->timesheetService->setEmployeeDao($employeeDao);
 
@@ -65,22 +64,22 @@ class TimesheetServiceTest extends PHPUnit_Framework_Testcase {
 
     /* test getEmployeeDao() with no argument */
 
-    public function testGetEmployeeDao() {
-
+    public function testGetEmployeeDao()
+    {
         $this->assertTrue($this->timesheetService->getEmployeeDao() instanceof EmployeeDao);
     }
 
     /* test saveTimesheet() */
 
-    public function testSaveTimesheet() {
-
+    public function testSaveTimesheet()
+    {
         $timesheets = TestDataService::loadObjectList('Timesheet', $this->fixture, 'Timesheet');
 
         $timesheet = $timesheets[0];
 
         $timesheetDaoMock = $this->getMockBuilder('TimesheetDao')
-			->setMethods( array('saveTimesheet'))
-			->getMock();
+            ->setMethods(['saveTimesheet'])
+            ->getMock();
 
         $timesheetDaoMock->expects($this->once())
                 ->method('saveTimesheet')
@@ -93,14 +92,14 @@ class TimesheetServiceTest extends PHPUnit_Framework_Testcase {
 
     /* test saveTimesheetActionLog */
 
-    public function testSaveTimesheetActionLog() {
-
+    public function testSaveTimesheetActionLog()
+    {
         $timesheetActionLogRecords = TestDataService::loadObjectList('TimesheetActionLog', $this->fixture, 'TimesheetActionLog');
         $timesheetActionLog = $timesheetActionLogRecords[0];
 
         $timesheetDaoMock = $this->getMockBuilder('TimesheetDao')
-			->setMethods( array('saveTimesheetActionLog'))
-			->getMock();
+            ->setMethods(['saveTimesheetActionLog'])
+            ->getMock();
 
         $timesheetDaoMock->expects($this->once())
                 ->method('saveTimesheetActionLog')
@@ -113,14 +112,14 @@ class TimesheetServiceTest extends PHPUnit_Framework_Testcase {
 
     /* test getTimesheetById() */
 
-    public function testGetTimesheetById() {
-
+    public function testGetTimesheetById()
+    {
         $timesheetId = 1;
         $timesheet = TestDataService::fetchObject('Timesheet', $timesheetId);
 
         $timesheetDaoMock = $this->getMockBuilder('TimesheetDao')
-			->setMethods( array('getTimesheetById'))
-			->getMock();
+            ->setMethods(['getTimesheetById'])
+            ->getMock();
         $timesheetDaoMock->expects($this->once())
                 ->method('getTimesheetById')
                 ->with($timesheetId)
@@ -135,13 +134,14 @@ class TimesheetServiceTest extends PHPUnit_Framework_Testcase {
 
     /* test getTimesheetItemById() */
 
-    public function testGetTimesheetItemById() {
+    public function testGetTimesheetItemById()
+    {
         $timesheetItemId = 2;
         $timesheetItem = TestDataService::fetchObject('TimesheetItem', $timesheetItemId);
 
         $timesheetDaoMock = $this->getMockBuilder('TimesheetDao')
-			->setMethods( array('getTimesheetItemById'))
-			->getMock();
+            ->setMethods(['getTimesheetItemById'])
+            ->getMock();
         $timesheetDaoMock->expects($this->once())
                 ->method('getTimesheetItemById')
                 ->with($timesheetItemId)
@@ -156,15 +156,15 @@ class TimesheetServiceTest extends PHPUnit_Framework_Testcase {
 
     /* test getTimesheetByStartDate() */
 
-    public function testGetTimesheetByStartDate() {
-
+    public function testGetTimesheetByStartDate()
+    {
         $startDate = "2011-04-18";
         $timesheets = TestDataService::loadObjectList('Timesheet', $this->fixture, 'Timesheet');
         $temp = $timesheets[0];
 
         $timesheetDaoMock = $this->getMockBuilder('TimesheetDao')
-			->setMethods( array('getTimesheetByStartDate'))
-			->getMock();
+            ->setMethods(['getTimesheetByStartDate'])
+            ->getMock();
         $timesheetDaoMock->expects($this->once())
                 ->method('getTimesheetByStartDate')
                 ->with($startDate)
@@ -178,18 +178,18 @@ class TimesheetServiceTest extends PHPUnit_Framework_Testcase {
         $this->assertEquals("2011-04-18", $gotTimesheet->getStartDate());
     }
 
-    
 
-    public function testGetTimesheetByStartDateAndEmployeeId() {
 
+    public function testGetTimesheetByStartDateAndEmployeeId()
+    {
         $employeeId = 1;
         $timesheetId = 1;
         $startDate = "2011-04-18";
         $timesheet = TestDataService::fetchObject('Timesheet', $timesheetId);
 
         $timesheetDaoMock = $this->getMockBuilder('TimesheetDao')
-			->setMethods( array('getTimesheetByStartDateAndEmployeeId'))
-			->getMock();
+            ->setMethods(['getTimesheetByStartDateAndEmployeeId'])
+            ->getMock();
         $timesheetDaoMock->expects($this->once())
                 ->method('getTimesheetByStartDateAndEmployeeId')
                 ->with($startDate, $employeeId)
@@ -204,15 +204,15 @@ class TimesheetServiceTest extends PHPUnit_Framework_Testcase {
 
     /* test getTimesheetByEmployeeId()  */
 
-    public function testGetTimesheetByEmployeeId() {
-
+    public function testGetTimesheetByEmployeeId()
+    {
         $employeeId = 2;
         $timesheetId = 2;
         $timesheet = TestDataService::fetchObject('Timesheet', $timesheetId);
 
         $timesheetDaoMock = $this->getMockBuilder('TimesheetDao')
-			->setMethods( array('getTimesheetByEmployeeId'))
-			->getMock();
+            ->setMethods(['getTimesheetByEmployeeId'])
+            ->getMock();
         $timesheetDaoMock->expects($this->once())
                 ->method('getTimesheetByEmployeeId')
                 ->with($employeeId)
@@ -227,23 +227,23 @@ class TimesheetServiceTest extends PHPUnit_Framework_Testcase {
 
     /* test getTimesheetByEmployeeIdAndState()  */
 
-    public function testGetTimesheetByEmployeeIdAndState() {
-
+    public function testGetTimesheetByEmployeeIdAndState()
+    {
         $employeeId = 2;
 
         $timesheetId1 = 2;
         $timesheetId2 = 8;
 
-        $stateList = array('SUBMITTED', 'ACCEPTED');
+        $stateList = ['SUBMITTED', 'ACCEPTED'];
 
         $timesheet1 = TestDataService::fetchObject('Timesheet', $timesheetId1);
         $timesheet2 = TestDataService::fetchObject('Timesheet', $timesheetId2);
 
-        $timesheetArray = array($timesheet1, $timesheet2);
+        $timesheetArray = [$timesheet1, $timesheet2];
 
         $timesheetDaoMock = $this->getMockBuilder('TimesheetDao')
-			->setMethods( array('getTimesheetByEmployeeIdAndState'))
-			->getMock();
+            ->setMethods(['getTimesheetByEmployeeIdAndState'])
+            ->getMock();
         $timesheetDaoMock->expects($this->once())
                 ->method('getTimesheetByEmployeeIdAndState')
                 ->with($employeeId, $stateList)
@@ -258,8 +258,8 @@ class TimesheetServiceTest extends PHPUnit_Framework_Testcase {
         $this->assertEquals($timesheet2, $retrievedTimesheet[1]);
     }
 
-    public function testGetStartAndEndDatesList() {
-
+    public function testGetStartAndEndDatesList()
+    {
         $daysArray = $this->timesheetService->getStartAndEndDatesList(1);
         $startDates = $daysArray[0];
         $endDates = $daysArray[1];
@@ -267,12 +267,13 @@ class TimesheetServiceTest extends PHPUnit_Framework_Testcase {
         $this->assertEquals($endDates[0]['endDate'], "2011-04-19");
     }
 
-    public function testGetPendingApprovelTimesheetsForAdmin() {
+    public function testGetPendingApprovelTimesheetsForAdmin()
+    {
         $timesheetId = 6;
         $timesheet = TestDataService::fetchObject('Timesheet', $timesheetId);
         $timesheetDaoMock = $this->getMockBuilder('TimesheetDao')
-			->setMethods( array('getPendingApprovelTimesheetsForAdmin'))
-			->getMock();
+            ->setMethods(['getPendingApprovelTimesheetsForAdmin'])
+            ->getMock();
         $timesheetDaoMock->expects($this->once())
                 ->method('getPendingApprovelTimesheetsForAdmin')
                 ->will($this->returnValue($timesheet));
@@ -284,11 +285,11 @@ class TimesheetServiceTest extends PHPUnit_Framework_Testcase {
         $this->assertEquals($timesheet, $retrievedTimesheets);
     }
 
-    public function testConvertDurationToHours() {
-        
+    public function testConvertDurationToHours()
+    {
         $timesheetService = $this->getMockBuilder('TimesheetService')
-			->setMethods( array('getTimesheetTimeFormat'))
-			->getMock();
+            ->setMethods(['getTimesheetTimeFormat'])
+            ->getMock();
         $timesheetService->expects($this->exactly(2))
                          ->method('getTimesheetTimeFormat')
                          ->will($this->returnValue(1));
@@ -300,23 +301,23 @@ class TimesheetServiceTest extends PHPUnit_Framework_Testcase {
         $this->assertEquals($durationInHours1, '1:30');
     }
 
-    public function testConvertDurationToSeconds() {
-
+    public function testConvertDurationToSeconds()
+    {
         $durationInSecs = $this->timesheetService->convertDurationToSeconds(1);
         $durationInSecs1 = $this->timesheetService->convertDurationToSeconds(1.5);
         $this->assertEquals($durationInSecs, 3600);
         $this->assertEquals($durationInSecs1, 5400);
     }
 
-    public function testgetTimesheetActionLogByTimesheetId() {
-
+    public function testgetTimesheetActionLogByTimesheetId()
+    {
         $timesheetActionLogId = 1;
         $timesheetActionLogRecord = TestDataService::fetchObject('TimesheetActionLog', $timesheetActionLogId);
 //                $timesheetActionLog = $timesheetActionLogRecords[0];
 
         $timesheetDaoMock = $this->getMockBuilder('TimesheetDao')
-			->setMethods( array('getTimesheetActionLogByTimesheetId'))
-			->getMock();
+            ->setMethods(['getTimesheetActionLogByTimesheetId'])
+            ->getMock();
 
         $timesheetDaoMock->expects($this->once())
                 ->method('getTimesheetActionLogByTimesheetId')
@@ -330,14 +331,14 @@ class TimesheetServiceTest extends PHPUnit_Framework_Testcase {
         $this->assertEquals($timesheetActionLogRecord, $retrievedTimesheetActionLog);
     }
 
-    public function testGetActivityByActivityId() {
-
+    public function testGetActivityByActivityId()
+    {
         $activityId = 1;
         $activity = TestDataService::fetchObject('ProjectActivity', $activityId);
 
         $activityDaoMock = $this->getMockBuilder('TimesheetDao')
-			->setMethods( array('getActivityByActivityId'))
-			->getMock();
+            ->setMethods(['getActivityByActivityId'])
+            ->getMock();
         $activityDaoMock->expects($this->once())
                 ->method('getActivityByActivityId')
                 ->with($activityId)
@@ -350,30 +351,30 @@ class TimesheetServiceTest extends PHPUnit_Framework_Testcase {
         $this->assertEquals($activity, $gotActivity);
     }
 
-    public function testAddConvertTime() {
-
+    public function testAddConvertTime()
+    {
         $firstTime = '4:30';
         $timeToAdd = '1:40';
         $total = $this->timesheetService->addConvertTime($firstTime, $timeToAdd);
         $this->assertEquals('6:10', $total);
     }
 
-    public function testDateDiff() {
-
+    public function testDateDiff()
+    {
         $start = "2011-06-27";
         $end = "2011-07-03";
         $noOfDays = $this->timesheetService->dateDiff($start, $end);
         $this->assertEquals('7', $noOfDays);
     }
 
-    public function testGetLatestTimesheetEndDate() {
-
+    public function testGetLatestTimesheetEndDate()
+    {
         $latestEndDate = "2011-04-28";
         $employeeId = 1;
 
         $timehseetDaoMock = $this->getMockBuilder('TimesheetDao')
-			->setMethods( array('getLatestTimesheetEndDate'))
-			->getMock();
+            ->setMethods(['getLatestTimesheetEndDate'])
+            ->getMock();
         $timehseetDaoMock->expects($this->once())
                 ->method('getLatestTimesheetEndDate')
                 ->with($employeeId)
@@ -385,16 +386,16 @@ class TimesheetServiceTest extends PHPUnit_Framework_Testcase {
         $this->assertEquals($obtaindeDate, $latestEndDate);
     }
 
-    public function testCheckForOverlappingTimesheets() {
-
+    public function testCheckForOverlappingTimesheets()
+    {
         $employeeId = 1;
         $startDate = "2011-04-17";
         $endDate = "2011-04-20";
         $isValid = 0;
 
         $timehseetDaoMock = $this->getMockBuilder('TimesheetDao')
-			->setMethods( array('checkForOverlappingTimesheets'))
-			->getMock();
+            ->setMethods(['checkForOverlappingTimesheets'])
+            ->getMock();
         $timehseetDaoMock->expects($this->once())
                 ->method('checkForOverlappingTimesheets')
                 ->with($startDate, $endDate, $employeeId)
@@ -406,16 +407,16 @@ class TimesheetServiceTest extends PHPUnit_Framework_Testcase {
         $this->assertEquals($testValue, $isValid);
     }
 
-    public function testCheckForMatchingTimesheetForCurrentDate() {
-
+    public function testCheckForMatchingTimesheetForCurrentDate()
+    {
         $employeeId = 6;
         $currentDate = "2011-02-24";
         $timesheetId = 9;
         $timesheet = TestDataService::fetchObject('Timesheet', $timesheetId);
 
         $timehseetDaoMock = $this->getMockBuilder('TimesheetDao')
-			->setMethods( array('checkForMatchingTimesheetForCurrentDate'))
-			->getMock();
+            ->setMethods(['checkForMatchingTimesheetForCurrentDate'])
+            ->getMock();
         $timehseetDaoMock->expects($this->once())
                 ->method('checkForMatchingTimesheetForCurrentDate')
                 ->with($employeeId, $currentDate)
@@ -427,40 +428,40 @@ class TimesheetServiceTest extends PHPUnit_Framework_Testcase {
         $this->assertTrue($testTimesheet instanceof Timesheet);
         $this->assertEquals($timesheet, $testTimesheet);
     }
-    
-    public function testGetTimesheetListByEmployeeIdAndState() {
 
-        $empIdList = array(1, 2);
-        $stateList = array('SUBMITTED', 'ACCEPTED');
-        
+    public function testGetTimesheetListByEmployeeIdAndState()
+    {
+        $empIdList = [1, 2];
+        $stateList = ['SUBMITTED', 'ACCEPTED'];
+
         $timesheet1['timesheetId'] = 11;
         $timesheet1['timesheetStartday'] = '2011-04-18';
         $timesheet1['timesheetEndDate'] = '2011-04-28';
         $timesheet1['employeeId'] = 2;
         $timesheet1['employeeFirstName'] = null;
         $timesheet1['employeeLastName'] = null;
-        
+
         $timesheet2['timesheetId'] = 2;
         $timesheet2['timesheetStartday'] = '2011-04-22';
         $timesheet2['timesheetEndDate'] = '2011-04-19';
         $timesheet2['employeeId'] = 2;
         $timesheet2['employeeFirstName'] = null;
         $timesheet2['employeeLastName'] = null;
-        
+
         $timesheet3['timesheetId'] = 8;
         $timesheet3['timesheetStartday'] = '2011-04-22';
         $timesheet3['timesheetEndDate'] = '2011-04-28';
         $timesheet3['employeeId'] = 1;
         $timesheet3['employeeFirstName'] = null;
         $timesheet3['employeeLastName'] = null;
-        
+
         $timesheets[] = $timesheet1;
         $timesheets[] = $timesheet2;
         $timesheets[] = $timesheet3;
-        
+
         $timesheetDaoMock = $this->getMockBuilder('TimesheetDao')
-			->setMethods( array('getTimesheetListByEmployeeIdAndState'))
-			->getMock();
+            ->setMethods(['getTimesheetListByEmployeeIdAndState'])
+            ->getMock();
         $timesheetDaoMock->expects($this->once())
                 ->method('getTimesheetListByEmployeeIdAndState')
                 ->with($empIdList, $stateList, 100)
@@ -468,14 +469,14 @@ class TimesheetServiceTest extends PHPUnit_Framework_Testcase {
 
         $this->timesheetService->setTimesheetDao($timesheetDaoMock);
         $result = $this->timesheetService->getTimesheetListByEmployeeIdAndState($empIdList, $stateList, 100);
-        
+
         $this->assertEquals(3, count($result));
         $this->assertEquals($timesheets[0], $result[0]);
         $this->assertEquals($timesheets[1], $result[1]);
-        
+
         $timesheetDaoMock = $this->getMockBuilder('TimesheetDao')
-			->setMethods( array('getTimesheetListByEmployeeIdAndState'))
-			->getMock();
+            ->setMethods(['getTimesheetListByEmployeeIdAndState'])
+            ->getMock();
         $timesheetDaoMock->expects($this->once())
                 ->method('getTimesheetListByEmployeeIdAndState')
                 ->with(null, null, null)
@@ -485,22 +486,22 @@ class TimesheetServiceTest extends PHPUnit_Framework_Testcase {
         $result = $this->timesheetService->getTimesheetListByEmployeeIdAndState(null, null, null);
         $this->assertNull(null, $result);
     }
-    
-    public function testGetProjectNameList() {
-        
+
+    public function testGetProjectNameList()
+    {
         $project1['projectId'] = 1;
         $project1['projectName'] = 'OrangeHRM';
         $project1['customerName'] = 'user';
-        
+
         $project2['projectId'] = 2;
         $project2['projectName'] = 'OrangeHRM2';
         $project2['customerName'] = 'user';
-        
-        $projects = array($project1, $project2);
-        
+
+        $projects = [$project1, $project2];
+
         $timesheetDaoMock = $this->getMockBuilder('TimesheetDao')
-			->setMethods( array('getProjectNameList'))
-			->getMock();
+            ->setMethods(['getProjectNameList'])
+            ->getMock();
         $timesheetDaoMock->expects($this->once())
                 ->method('getProjectNameList')
                 ->with(true, 'project_id', 'ASC')
@@ -508,24 +509,24 @@ class TimesheetServiceTest extends PHPUnit_Framework_Testcase {
 
         $this->timesheetService->setTimesheetDao($timesheetDaoMock);
         $result = $this->timesheetService->getProjectNameList(true, 'project_id', 'ASC');
-        
+
         $this->assertEquals(2, count($result));
         $this->assertEquals($projects[0], $result[0]);
         $this->assertEquals($projects[1], $result[1]);
     }
-    
-    public function testGetProjectActivityListByPorjectId() {
-        
+
+    public function testGetProjectActivityListByPorjectId()
+    {
         $activity1['activityId'] = 1;
         $activity1['projectId'] = 1;
         $activity1['is_deleted'] = 0;
         $activity1['name'] = 'Activity1 For Pro1';
-        
-        $activities = array($project1);
-        
+
+        $activities = [$project1];
+
         $timesheetDaoMock = $this->getMockBuilder('TimesheetDao')
-			->setMethods( array('getProjectActivityListByPorjectId'))
-			->getMock();
+            ->setMethods(['getProjectActivityListByPorjectId'])
+            ->getMock();
         $timesheetDaoMock->expects($this->once())
                 ->method('getProjectActivityListByPorjectId')
                 ->with(1, true)
@@ -533,7 +534,7 @@ class TimesheetServiceTest extends PHPUnit_Framework_Testcase {
 
         $this->timesheetService->setTimesheetDao($timesheetDaoMock);
         $result = $this->timesheetService->getProjectActivityListByPorjectId(1, true);
-        
+
         $this->assertEquals(1, count($result));
         $this->assertEquals($projects[0], $result[0]);
     }
@@ -541,9 +542,10 @@ class TimesheetServiceTest extends PHPUnit_Framework_Testcase {
     /**
      * Testing saveTimesheetItem method for deleting timesheet items
      */
-    public function testDeleteTimesheetItemsByTimesheetId() {
+    public function testDeleteTimesheetItemsByTimesheetId()
+    {
         $this->timesheetService->setTimesheetDao(new TimesheetDao());
-        $noOfItemsDeleted = $this->timesheetService->deleteTimesheetItemsByTimesheetId(8,10);
+        $noOfItemsDeleted = $this->timesheetService->deleteTimesheetItemsByTimesheetId(8, 10);
         $this->assertTrue($noOfItemsDeleted);
     }
 
@@ -555,6 +557,4 @@ class TimesheetServiceTest extends PHPUnit_Framework_Testcase {
 //
 //
 //    }
-
 }
-

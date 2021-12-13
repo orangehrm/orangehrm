@@ -33,7 +33,6 @@ use OrangeHRM\Tests\Util\TestDataService;
  */
 class EmailQueueDaoTest extends KernelTestCase
 {
-
     private EmailQueueDao $emailQueueDao;
     private string $fixture;
 

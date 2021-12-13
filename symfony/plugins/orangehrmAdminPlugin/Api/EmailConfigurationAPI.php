@@ -273,21 +273,18 @@ class EmailConfigurationAPI extends Endpoint implements ResourceEndpoint
             $this->getRequestParams()->getStringOrNull(
                 RequestParams::PARAM_TYPE_BODY,
                 self::PARAMETER_SMTP_HOST
-
             )
         );
         $emailConfiguration->setSmtpPort(
             $this->getRequestParams()->getIntOrNull(
                 RequestParams::PARAM_TYPE_BODY,
                 self::PARAMETER_SMTP_PORT
-
             )
         );
         $emailConfiguration->setSmtpUsername(
             $this->getRequestParams()->getStringOrNull(
                 RequestParams::PARAM_TYPE_BODY,
                 self::PARAMETER_SMTP_USERNAME
-
             )
         );
 
@@ -304,14 +301,12 @@ class EmailConfigurationAPI extends Endpoint implements ResourceEndpoint
             $this->getRequestParams()->getStringOrNull(
                 RequestParams::PARAM_TYPE_BODY,
                 self::PARAMETER_SMTP_AUTH_TYPE
-
             )
         );
         $emailConfiguration->setSmtpSecurityType(
             $this->getRequestParams()->getStringOrNull(
                 RequestParams::PARAM_TYPE_BODY,
                 self::PARAMETER_SMTP_SECURITY_TYPE
-
             )
         );
     }

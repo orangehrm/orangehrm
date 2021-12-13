@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\Tests\Core\Dao;
 
-use Doctrine\DBAL\Driver\Result;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Dao\AccessFlowStateMachineDao;
 use OrangeHRM\Entity\WorkflowStateMachine;

@@ -30,12 +30,12 @@ use OrangeHRM\Pim\Dto\EmployeeImmigrationRecordSearchFilterParams;
 
 class EmployeeImmigrationRecordDao extends BaseDao
 {
-
     /**
      * @param EmployeeImmigrationRecord $employeeImmigrationRecord
      * @return EmployeeImmigrationRecord
      */
-    public function saveEmployeeImmigrationRecord(EmployeeImmigrationRecord $employeeImmigrationRecord
+    public function saveEmployeeImmigrationRecord(
+        EmployeeImmigrationRecord $employeeImmigrationRecord
     ): EmployeeImmigrationRecord {
         if ($employeeImmigrationRecord->getRecordId() === '0') {
             $q = $this->createQueryBuilder(EmployeeImmigrationRecord::class, 'eir');

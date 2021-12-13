@@ -278,5 +278,4 @@ class Location
     {
         $this->note = $note;
     }
-
 }

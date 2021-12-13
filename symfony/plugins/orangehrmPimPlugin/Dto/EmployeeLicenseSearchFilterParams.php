@@ -53,5 +53,4 @@ class EmployeeLicenseSearchFilterParams extends FilterParams
     {
         $this->empNumber = $empNumber;
     }
-
 }

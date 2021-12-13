@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\Core\Service;
 
-use OrangeHRM\Core\Api\V2\Serializer\NormalizeException;
 use OrangeHRM\Core\Api\V2\Serializer\NormalizerTrait;
 
 class NormalizerService

@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\OAuth\Dao;
 
-
 use Exception;
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Core\Exception\DaoException;

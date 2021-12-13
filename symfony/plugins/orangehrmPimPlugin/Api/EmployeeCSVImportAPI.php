@@ -37,7 +37,6 @@ use OrangeHRM\Pim\Service\PimCsvDataImportService;
 
 class EmployeeCSVImportAPI extends Endpoint implements CollectionEndpoint
 {
-
     public const PARAMETER_ATTACHMENT = 'attachment';
 
     public const PARAM_RULE_IMPORT_FILE_FORMAT = ["text/csv", 'text/comma-separated-values', "application/csv", "application/vnd.ms-excel"];
@@ -87,7 +86,8 @@ class EmployeeCSVImportAPI extends Endpoint implements CollectionEndpoint
         );
         $result = $this->getPimCsvDataImportService()->import($attachment->getContent());
         return new EndpointResourceResult(
-            ArrayModel::class, [],
+            ArrayModel::class,
+            [],
             new ParameterBag([CommonParams::PARAMETER_TOTAL => $result])
         );
     }

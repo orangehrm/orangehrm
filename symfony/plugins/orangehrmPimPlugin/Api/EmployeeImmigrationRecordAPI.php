@@ -94,7 +94,8 @@ class EmployeeImmigrationRecordAPI extends Endpoint implements CrudEndpoint
             $employeeImmigrationRecordSearchParams
         );
         return new EndpointCollectionResult(
-            EmployeeImmigrationModel::class, $immigrationRecord,
+            EmployeeImmigrationModel::class,
+            $immigrationRecord,
             new ParameterBag(
                 [
                     CommonParams::PARAMETER_EMP_NUMBER => $empNumber,
@@ -133,7 +134,8 @@ class EmployeeImmigrationRecordAPI extends Endpoint implements CrudEndpoint
     {
         $immigrationRecord = $this->saveEmployeeEmergencyImmigrations();
         return new EndpointResourceResult(
-            EmployeeImmigrationModel::class, $immigrationRecord,
+            EmployeeImmigrationModel::class,
+            $immigrationRecord,
             new ParameterBag([CommonParams::PARAMETER_EMP_NUMBER => $immigrationRecord->getEmployee()->getEmpNumber()])
         );
     }
@@ -224,7 +226,8 @@ class EmployeeImmigrationRecordAPI extends Endpoint implements CrudEndpoint
         );
         $this->getEmployeeImmigrationRecordService()->deleteEmployeeImmigrationRecords($empNumber, $recordId);
         return new EndpointResourceResult(
-            ArrayModel::class, $recordId,
+            ArrayModel::class,
+            $recordId,
             new ParameterBag([CommonParams::PARAMETER_EMP_NUMBER => $empNumber])
         );
     }
@@ -258,12 +261,15 @@ class EmployeeImmigrationRecordAPI extends Endpoint implements CrudEndpoint
             CommonParams::PARAMETER_EMP_NUMBER
         );
         $recordId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
-        $immigrationRecord = $this->getEmployeeImmigrationRecordService()->getEmployeeImmigrationRecord($empNumber,
-            $recordId);
+        $immigrationRecord = $this->getEmployeeImmigrationRecordService()->getEmployeeImmigrationRecord(
+            $empNumber,
+            $recordId
+        );
         $this->throwRecordNotFoundExceptionIfNotExist($immigrationRecord, EmployeeImmigrationRecord::class);
 
         return new EndpointResourceResult(
-            EmployeeImmigrationModel::class, $immigrationRecord,
+            EmployeeImmigrationModel::class,
+            $immigrationRecord,
             new ParameterBag([CommonParams::PARAMETER_EMP_NUMBER => $empNumber])
         );
     }
@@ -293,7 +299,8 @@ class EmployeeImmigrationRecordAPI extends Endpoint implements CrudEndpoint
     {
         $employeeImmigrationRecord = $this->saveEmployeeEmergencyImmigrations();
         return new EndpointResourceResult(
-            EmployeeImmigrationModel::class, $employeeImmigrationRecord,
+            EmployeeImmigrationModel::class,
+            $employeeImmigrationRecord,
             new ParameterBag(
                 [CommonParams::PARAMETER_EMP_NUMBER => $employeeImmigrationRecord->getEmployee()->getEmpNumber()]
             )
@@ -352,8 +359,10 @@ class EmployeeImmigrationRecordAPI extends Endpoint implements CrudEndpoint
             RequestParams::PARAM_TYPE_BODY,
             self::PARAMETER_COMMENT
         );
-        $country = $this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_BODY,
-            self::PARAMETER_COUNTRY_CODE);
+        $country = $this->getRequestParams()->getStringOrNull(
+            RequestParams::PARAM_TYPE_BODY,
+            self::PARAMETER_COUNTRY_CODE
+        );
         if ($recordId) {
             $employeeImmigrationRecord = $this->getEmployeeImmigrationRecordService()->getEmployeeImmigrationRecord(
                 $empNumber,

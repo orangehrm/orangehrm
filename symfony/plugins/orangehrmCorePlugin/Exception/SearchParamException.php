@@ -23,5 +23,4 @@ use Exception;
 
 class SearchParamException extends Exception
 {
-
 }

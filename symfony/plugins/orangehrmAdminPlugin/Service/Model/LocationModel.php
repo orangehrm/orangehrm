@@ -25,7 +25,6 @@ use OrangeHRM\Entity\Location;
 
 class LocationModel implements Normalizable
 {
-
     use ModelTrait;
 
     /**
@@ -47,5 +46,4 @@ class LocationModel implements Normalizable
             ]
         );
     }
-
 }

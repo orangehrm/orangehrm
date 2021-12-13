@@ -96,10 +96,14 @@ class OptionalFieldAPI extends Endpoint implements ResourceEndpoint
     {
         $showSIN = $this->getRequestParams()->getBoolean(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_SIN);
         $showSSN = $this->getRequestParams()->getBoolean(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_SSN);
-        $showTaxExemptions = $this->getRequestParams()->getBoolean(RequestParams::PARAM_TYPE_BODY,
-            self::PARAMETER_TAX_EXEMPTIONS);
-        $showDeprecatedFields = $this->getRequestParams()->getBoolean(RequestParams::PARAM_TYPE_BODY,
-            self::PARAMETER_DEPRECATED_FIELDS);
+        $showTaxExemptions = $this->getRequestParams()->getBoolean(
+            RequestParams::PARAM_TYPE_BODY,
+            self::PARAMETER_TAX_EXEMPTIONS
+        );
+        $showDeprecatedFields = $this->getRequestParams()->getBoolean(
+            RequestParams::PARAM_TYPE_BODY,
+            self::PARAMETER_DEPRECATED_FIELDS
+        );
         $this->getConfigService()->setShowPimSSN($showSSN);
         $this->getConfigService()->setShowPimSIN($showSIN);
         $this->getConfigService()->setShowPimTaxExemptions($showTaxExemptions);
@@ -116,16 +120,20 @@ class OptionalFieldAPI extends Endpoint implements ResourceEndpoint
             new ParamRule(
                 CommonParams::PARAMETER_ID,
             ),
-            new ParamRule(self::PARAMETER_DEPRECATED_FIELDS,
+            new ParamRule(
+                self::PARAMETER_DEPRECATED_FIELDS,
                 new Rule(Rules::BOOL_VAL),
             ),
-            new ParamRule(self::PARAMETER_SIN,
+            new ParamRule(
+                self::PARAMETER_SIN,
                 new Rule(Rules::BOOL_VAL),
             ),
-            new ParamRule(self::PARAMETER_SSN,
+            new ParamRule(
+                self::PARAMETER_SSN,
                 new Rule(Rules::BOOL_VAL),
             ),
-            new ParamRule(self::PARAMETER_TAX_EXEMPTIONS,
+            new ParamRule(
+                self::PARAMETER_TAX_EXEMPTIONS,
                 new Rule(Rules::BOOL_VAL),
             ),
         );

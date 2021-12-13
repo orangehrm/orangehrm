@@ -37,7 +37,7 @@ class EditTimesheetController extends AbstractVueController
             $component = new Component('edit-my-timesheet');
             $component->addProp(new Prop('timesheet-id', Prop::TYPE_NUMBER, $id));
         }
-        
+
         $this->setComponent($component);
     }
 }

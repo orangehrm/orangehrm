@@ -29,7 +29,6 @@ use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\EmployeeImmigrationRecord;
 use OrangeHRM\Framework\Services;
 
-
 class EmployeeImmigrationRecordDecorator
 {
     use EntityManagerHelperTrait;

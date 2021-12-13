@@ -262,7 +262,7 @@ class EmployeeLeaveRequestAPI extends Endpoint implements CrudEndpoint
             new Rule(
                 Rules::LESS_THAN_OR_EQUAL,
                 [
-                    fn() => $this->getRequestParams()->getDateTimeOrNull(
+                    fn () => $this->getRequestParams()->getDateTimeOrNull(
                         RequestParams::PARAM_TYPE_QUERY,
                         LeaveCommonParams::PARAMETER_TO_DATE
                     )

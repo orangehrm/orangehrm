@@ -72,9 +72,9 @@ class PayGradeCurrencyAPI extends Endpoint implements CrudEndpoint
             RequestParams::PARAM_TYPE_ATTRIBUTE,
             CommonParams::PARAMETER_ID
         );
-        $payGradeCurrency = $this->getPayGradeService()->getCurrencyByCurrencyIdAndPayGradeId($currencyId,$payGradeId);
-        $this->throwRecordNotFoundExceptionIfNotExist($payGradeCurrency,PayGradeCurrency::class);
-        return new EndpointResourceResult(PayGradeCurrencyModel::class,$payGradeCurrency);
+        $payGradeCurrency = $this->getPayGradeService()->getCurrencyByCurrencyIdAndPayGradeId($currencyId, $payGradeId);
+        $this->throwRecordNotFoundExceptionIfNotExist($payGradeCurrency, PayGradeCurrency::class);
+        return new EndpointResourceResult(PayGradeCurrencyModel::class, $payGradeCurrency);
     }
 
     /**
@@ -83,7 +83,7 @@ class PayGradeCurrencyAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForGetOne(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(self::PARAMETER_PAY_GRADE_ID,new Rule(Rules::POSITIVE)),
+            new ParamRule(self::PARAMETER_PAY_GRADE_ID, new Rule(Rules::POSITIVE)),
             new ParamRule(CommonParams::PARAMETER_ID, new Rule(Rules::REQUIRED))
         );
     }
@@ -104,7 +104,8 @@ class PayGradeCurrencyAPI extends Endpoint implements CrudEndpoint
         $count = $this->getPayGradeService()->getPayGradeCurrencyListCount($payGradeCurrencySearchFilterParams);
 
         return new EndpointCollectionResult(
-            PayGradeCurrencyModel::class, $payGradeCurrencies,
+            PayGradeCurrencyModel::class,
+            $payGradeCurrencies,
             new ParameterBag([
                 self::PARAMETER_PAY_GRADE_ID => $payGradeId,
                 CommonParams::PARAMETER_TOTAL=> $count
@@ -176,8 +177,8 @@ class PayGradeCurrencyAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(self::PARAMETER_PAY_GRADE_ID,new Rule(Rules::REQUIRED)),
-            new ParamRule(CommonParams::PARAMETER_ID,new Rule(Rules::REQUIRED)),
+            new ParamRule(self::PARAMETER_PAY_GRADE_ID, new Rule(Rules::REQUIRED)),
+            new ParamRule(CommonParams::PARAMETER_ID, new Rule(Rules::REQUIRED)),
             ...$this->getBodyValidationRules()
         );
     }
@@ -191,7 +192,8 @@ class PayGradeCurrencyAPI extends Endpoint implements CrudEndpoint
         $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
         $this->getPayGradeService()->deletePayGradeCurrency($payGradeId, $ids);
         return new EndpointResourceResult(
-            ArrayModel::class, $ids,
+            ArrayModel::class,
+            $ids,
             new ParameterBag(
                 [
                     self::PARAMETER_PAY_GRADE_ID => $payGradeId,
@@ -207,7 +209,7 @@ class PayGradeCurrencyAPI extends Endpoint implements CrudEndpoint
     {
         return new ParamRuleCollection(
             new ParamRule(self::PARAMETER_PAY_GRADE_ID, new Rule(Rules::REQUIRED)),
-            new ParamRule(CommonParams::PARAMETER_IDS,new Rule(Rules::ARRAY_TYPE)),
+            new ParamRule(CommonParams::PARAMETER_IDS, new Rule(Rules::ARRAY_TYPE)),
         );
     }
 
@@ -215,15 +217,17 @@ class PayGradeCurrencyAPI extends Endpoint implements CrudEndpoint
     {
         return [
             $this->getValidationDecorator()->notRequiredParamRule(
-                new ParamRule(self::PARAMETER_MIN_SALARY,
-                new Rule(Rules::NUMBER),
-                new Rule(Rules::LENGTH, [null, 9])
+                new ParamRule(
+                    self::PARAMETER_MIN_SALARY,
+                    new Rule(Rules::NUMBER),
+                    new Rule(Rules::LENGTH, [null, 9])
                 ),
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
-                new ParamRule(self::PARAMETER_MAX_SALARY,
-                new Rule(Rules::NUMBER),
-                new Rule(Rules::LENGTH, [null, 9])
+                new ParamRule(
+                    self::PARAMETER_MAX_SALARY,
+                    new Rule(Rules::NUMBER),
+                    new Rule(Rules::LENGTH, [null, 9])
                 ),
             ),
         ];
@@ -237,7 +241,8 @@ class PayGradeCurrencyAPI extends Endpoint implements CrudEndpoint
     {
         $payGradeId = $this->getRequestParams()->getInt(
             RequestParams::PARAM_TYPE_ATTRIBUTE,
-            self::PARAMETER_PAY_GRADE_ID)
+            self::PARAMETER_PAY_GRADE_ID
+        )
         ;
         $currencyId = $this->getRequestParams()->getStringOrNull(
             RequestParams::PARAM_TYPE_BODY,
@@ -255,7 +260,7 @@ class PayGradeCurrencyAPI extends Endpoint implements CrudEndpoint
             RequestParams::PARAM_TYPE_ATTRIBUTE,
             CommonParams::PARAMETER_ID
         );
-        if(is_null($currencyId)){
+        if (is_null($currencyId)) {
             $currencyId = $id;
         }
         $payGradeCurrency = $this->getPayGradeService()->getCurrencyByCurrencyIdAndPayGradeId($currencyId, $payGradeId);
@@ -263,7 +268,7 @@ class PayGradeCurrencyAPI extends Endpoint implements CrudEndpoint
         $payGrade = $this->getRepository(PayGrade::class)->find($payGradeId);
         $this->throwRecordNotFoundExceptionIfNotExist($payGrade, PayGrade::class);
         $this->throwRecordNotFoundExceptionIfNotExist($currencyType, CurrencyType::class);
-        if(!$payGradeCurrency instanceof PayGradeCurrency){
+        if (!$payGradeCurrency instanceof PayGradeCurrency) {
             $payGradeCurrency = new PayGradeCurrency();
             $payGradeCurrency->setPayGrade($payGrade);
             $payGradeCurrency->setCurrencyType($currencyType);

@@ -29,7 +29,6 @@ use OrangeHRM\Leave\Api\LeaveOverlapAPI;
 use OrangeHRM\Leave\Dto\LeaveDuration;
 use OrangeHRM\Leave\Dto\LeaveParameterObject;
 use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
-use OrangeHRM\Tests\Util\EndpointTestCase;
 use OrangeHRM\Tests\Util\Integration\TestCaseParams;
 use OrangeHRM\Tests\Util\TestDataService;
 
@@ -123,7 +122,7 @@ class LeaveOverlapAPITest extends EndpointIntegrationTestCase
         $rules = $api->getValidationRuleForGetAll();
         $this->assertInvalidParamException(
         // invalid param
-            fn() => $this->validate($queryParams, $rules),
+            fn () => $this->validate($queryParams, $rules),
             [LeaveCommonParams::PARAMETER_LEAVE_TYPE_ID]
         );
 
@@ -136,7 +135,7 @@ class LeaveOverlapAPITest extends EndpointIntegrationTestCase
         $rules = $api->getValidationRuleForGetAll();
         $this->assertInvalidParamException(
         // invalid param
-            fn() => $this->validate($queryParams, $rules),
+            fn () => $this->validate($queryParams, $rules),
             [LeaveCommonParams::PARAMETER_COMMENT]
         );
 
@@ -149,7 +148,7 @@ class LeaveOverlapAPITest extends EndpointIntegrationTestCase
         $rules = $api->getValidationRuleForGetAll();
         $this->assertInvalidParamException(
         // inaccessible employee number
-            fn() => $this->validate($queryParams, $rules),
+            fn () => $this->validate($queryParams, $rules),
             [CommonParams::PARAMETER_EMP_NUMBER]
         );
 
@@ -158,7 +157,7 @@ class LeaveOverlapAPITest extends EndpointIntegrationTestCase
         $rules = $api->getValidationRuleForGetAll();
         $this->assertInvalidParamException(
         // if defined only from date, to date also need to define
-            fn() => $this->validate($queryParams, $rules),
+            fn () => $this->validate($queryParams, $rules),
             [
                 LeaveCommonParams::PARAMETER_TO_DATE,
                 LeaveCommonParams::PARAMETER_FROM_DATE,
@@ -171,7 +170,7 @@ class LeaveOverlapAPITest extends EndpointIntegrationTestCase
         $rules = $api->getValidationRuleForGetAll();
         $this->assertInvalidParamException(
         // if defined only to date, from date also need to define
-            fn() => $this->validate($queryParams, $rules),
+            fn () => $this->validate($queryParams, $rules),
             [LeaveCommonParams::PARAMETER_FROM_DATE]
         );
 
@@ -183,7 +182,7 @@ class LeaveOverlapAPITest extends EndpointIntegrationTestCase
         $rules = $api->getValidationRuleForGetAll();
         $this->assertInvalidParamException(
         // from date < to date
-            fn() => $this->validate($queryParams, $rules),
+            fn () => $this->validate($queryParams, $rules),
             [LeaveCommonParams::PARAMETER_FROM_DATE, LeaveCommonParams::PARAMETER_DURATION]
         );
 

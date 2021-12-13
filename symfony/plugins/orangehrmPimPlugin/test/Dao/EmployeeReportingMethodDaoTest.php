@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\Tests\Pim\Dao;
 
-
 use OrangeHRM\Config\Config;
 use OrangeHRM\Entity\ReportTo;
 use OrangeHRM\Pim\Dao\EmployeeReportingMethodDao;
@@ -42,8 +41,8 @@ class EmployeeReportingMethodDaoTest extends TestCase
     {
         $this->employeeReportingMethodDao = new EmployeeReportingMethodDao();
         $this->fixture = Config::get(
-                Config::PLUGINS_DIR
-            ) . '/orangehrmPimPlugin/test/fixtures/EmployeeReportingMethodDao.yml';
+            Config::PLUGINS_DIR
+        ) . '/orangehrmPimPlugin/test/fixtures/EmployeeReportingMethodDao.yml';
         TestDataService::populate($this->fixture);
     }
 
@@ -108,7 +107,7 @@ class EmployeeReportingMethodDaoTest extends TestCase
         $result = $this->employeeReportingMethodDao->searchImmediateEmployeeSupervisors(
             $employeeSupervisorSearchFilterParams
         );
-        $this->assertEquals(array(), $result);
+        $this->assertEquals([], $result);
     }
 
     public function testSearchImmediateEmployeeSupervisors_WhenSupervisorsAvailable(): void

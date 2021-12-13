@@ -21,14 +21,11 @@ namespace OrangeHRM\Tests\Leave\Dao;
 
 use DateTime;
 use OrangeHRM\Config\Config;
-use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Exception\CoreServiceException;
 use OrangeHRM\Core\Service\DateTimeHelperService;
-use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\LeaveEntitlement;
 use OrangeHRM\Entity\LeavePeriodHistory;
 use OrangeHRM\Entity\User;
-use OrangeHRM\Entity\WorkflowStateMachine;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Leave\Dao\LeavePeriodDao;
 use OrangeHRM\Leave\Dto\LeavePeriod;
@@ -249,7 +246,7 @@ class LeavePeriodDaoTest extends KernelTestCase
             ->onlyMethods(['getNow'])
             ->getMock();
         $dateTimeHelper->method('getNow')
-            ->willReturnCallback(fn() => new DateTime('2020-10-04'));
+            ->willReturnCallback(fn () => new DateTime('2020-10-04'));
         $this->createKernelWithMockServices([
             Services::DATETIME_HELPER_SERVICE => $dateTimeHelper,
             Services::USER_ROLE_MANAGER => $userRoleManager,

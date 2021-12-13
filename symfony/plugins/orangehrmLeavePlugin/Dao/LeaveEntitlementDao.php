@@ -22,7 +22,6 @@ namespace OrangeHRM\Leave\Dao;
 use DateTime;
 use Exception;
 use OrangeHRM\Core\Dao\BaseDao;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\Leave;

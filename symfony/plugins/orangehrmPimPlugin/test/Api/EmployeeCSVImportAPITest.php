@@ -121,7 +121,5 @@ class EmployeeCSVImportAPITest extends EndpointTestCase
             5,
             $result->getMeta()->get('total')
         );
-
     }
-
 }

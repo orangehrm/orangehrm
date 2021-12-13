@@ -57,7 +57,8 @@ class EmployeeTerminationAPI extends Endpoint implements CrudEndpoint
         $this->throwRecordNotFoundExceptionIfNotExist($employeeTerminationRecord, EmployeeTerminationRecord::class);
 
         return new EndpointResourceResult(
-            EmployeeTerminationModel::class, $employeeTerminationRecord,
+            EmployeeTerminationModel::class,
+            $employeeTerminationRecord,
             new ParameterBag([CommonParams::PARAMETER_EMP_NUMBER => $empNumber])
         );
     }
@@ -128,7 +129,8 @@ class EmployeeTerminationAPI extends Endpoint implements CrudEndpoint
         $this->getEmployeeService()->saveEmployee($employee);
 
         return new EndpointResourceResult(
-            EmployeeTerminationModel::class, $employeeTerminationRecord,
+            EmployeeTerminationModel::class,
+            $employeeTerminationRecord,
             new ParameterBag([CommonParams::PARAMETER_EMP_NUMBER => $empNumber])
         );
     }
@@ -212,7 +214,8 @@ class EmployeeTerminationAPI extends Endpoint implements CrudEndpoint
             ->getEmployeeTerminationDao()
             ->saveEmployeeTermination($employeeTerminationRecord);
         return new EndpointResourceResult(
-            EmployeeTerminationModel::class, $employeeTerminationRecord,
+            EmployeeTerminationModel::class,
+            $employeeTerminationRecord,
             new ParameterBag([CommonParams::PARAMETER_EMP_NUMBER => $empNumber])
         );
     }
@@ -248,7 +251,8 @@ class EmployeeTerminationAPI extends Endpoint implements CrudEndpoint
         $this->getEmployeeService()->saveEmployee($employee);
 
         return new EndpointResourceResult(
-            EmployeeTerminationModel::class, $employeeTerminationRecord,
+            EmployeeTerminationModel::class,
+            $employeeTerminationRecord,
             new ParameterBag([CommonParams::PARAMETER_EMP_NUMBER => $empNumber])
         );
     }

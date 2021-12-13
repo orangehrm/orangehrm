@@ -29,7 +29,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class License
 {
-
     /**
      * @var int
      *
@@ -89,5 +88,4 @@ class License
     {
         $this->name = $name;
     }
-
 }

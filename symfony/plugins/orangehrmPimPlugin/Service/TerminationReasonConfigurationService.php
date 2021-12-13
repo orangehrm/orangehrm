@@ -26,7 +26,6 @@ use OrangeHRM\Pim\Dto\TerminationReasonConfigurationSearchFilterParams;
 
 class TerminationReasonConfigurationService
 {
-
     /**
      * @var TerminationReasonConfigurationDao|null
      */

@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\Tests\Pim\Api\Model;
 
-
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\ReportingMethod;
 use OrangeHRM\Entity\ReportTo;

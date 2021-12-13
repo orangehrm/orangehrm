@@ -34,7 +34,6 @@ use OrangeHRM\Tests\Util\TestDataService;
  */
 class MenuDaoTest extends TestCase
 {
-
     /**
      * @var MenuDao
      */
@@ -176,7 +175,7 @@ class MenuDaoTest extends TestCase
         $this->assertEquals(8, $statement->execute()->rowCount());
 
         // Items with screen_id NULL are not enabled (because they are not linked to a screen and hense to a module)
-        $count = $this->menuDao->enableModuleMenuItems('leave', array('Leave Types', 'Leave Summary'));
+        $count = $this->menuDao->enableModuleMenuItems('leave', ['Leave Types', 'Leave Summary']);
         $this->assertEquals(2, $count);
 
         $statement = $conn->prepare('SELECT count(*) FROM ohrm_menu_item WHERE status = 0 AND id IN (15,16)');

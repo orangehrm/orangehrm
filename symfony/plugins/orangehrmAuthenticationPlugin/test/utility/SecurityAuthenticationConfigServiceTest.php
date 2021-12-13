@@ -3,8 +3,8 @@
 /**
  * @group SecurityAuthentication
  */
-class SecurityAuthenticationConfigServiceTest extends PHPUnit_Framework_TestCase {
-
+class SecurityAuthenticationConfigServiceTest extends PHPUnit_Framework_TestCase
+{
     /**
      * @var SecurityAuthenticationConfigService
      */
@@ -14,14 +14,15 @@ class SecurityAuthenticationConfigServiceTest extends PHPUnit_Framework_TestCase
      * Sets up the fixture, for example, opens a network connection.
      * This method is called before a test is executed.
      */
-    protected function setUp() {
+    protected function setUp()
+    {
         $this->securityAuthConfigService = new SecurityAuthenticationConfigService();
         $this->securityAuthConfigService = new ConfigService();
-        $user = new SystemUser;
+        $user = new SystemUser();
         $user->setId(5);
         $this->securityAuthConfigService = $this->getMockBuilder('SecurityAuthenticationConfigService')
-			->setMethods( array('getUser'))
-			->getMock();
+            ->setMethods(['getUser'])
+            ->getMock();
         $this->securityAuthConfigService->expects($this->any())
                 ->method('getUser')
                 ->will($this->returnValue($user));
@@ -31,22 +32,22 @@ class SecurityAuthenticationConfigServiceTest extends PHPUnit_Framework_TestCase
      * Tears down the fixture, for example, closes a network connection.
      * This method is called after a test is executed.
      */
-    protected function tearDown() {
-        
+    protected function tearDown()
+    {
     }
 
     /**
      * @test Implement testIsPluginEnabled().
      */
-    public function testIsPluginEnabled() {
-
+    public function testIsPluginEnabled()
+    {
         $this->securityAuthConfigService = $this->getMockBuilder('SecurityAuthenticationConfigService')
-            ->setMethods(array('_getConfigValue'))
+            ->setMethods(['_getConfigValue'])
             ->getMock();
         $this->securityAuthConfigService->expects($this->exactly(2))
             ->method('_getConfigValue')
             ->with('authentication.status')
-            ->will($this->onConsecutiveCalls('Enable','Disable'));
+            ->will($this->onConsecutiveCalls('Enable', 'Disable'));
 
         $this->assertTrue($this->securityAuthConfigService->isPluginEnabled());
         $this->assertFalse($this->securityAuthConfigService->isPluginEnabled());
@@ -55,14 +56,15 @@ class SecurityAuthenticationConfigServiceTest extends PHPUnit_Framework_TestCase
     /**
      * @test testIsPasswordStrengthEnforced().
      */
-    public function testIsPasswordStrengthEnforced() {
+    public function testIsPasswordStrengthEnforced()
+    {
         $this->securityAuthConfigService = $this->getMockBuilder('SecurityAuthenticationConfigService')
-            ->setMethods(array('_getConfigValue','isPluginEnabled'))
+            ->setMethods(['_getConfigValue','isPluginEnabled'])
             ->getMock();
         $this->securityAuthConfigService->expects($this->exactly(2))
             ->method('_getConfigValue')
             ->with('authentication.enforce_password_strength')
-            ->will($this->onConsecutiveCalls('on','off'));
+            ->will($this->onConsecutiveCalls('on', 'off'));
         $this->securityAuthConfigService->expects($this->exactly(3))
             ->method('isPluginEnabled')
             ->will($this->onConsecutiveCalls(true, true, false));
@@ -75,14 +77,15 @@ class SecurityAuthenticationConfigServiceTest extends PHPUnit_Framework_TestCase
     /**
      * @test testGetRequiredPasswordStrength().
      */
-    public function testGetRequiredPasswordStrength() {
+    public function testGetRequiredPasswordStrength()
+    {
         $this->securityAuthConfigService = $this->getMockBuilder('SecurityAuthenticationConfigService')
-            ->setMethods(array('_getConfigValue'))
+            ->setMethods(['_getConfigValue'])
             ->getMock();
         $this->securityAuthConfigService->expects($this->exactly(7))
             ->method('_getConfigValue')
             ->with('authentication.default_required_password_strength')
-            ->will($this->onConsecutiveCalls('',"veryWeak", "weak", "better", "medium", "strong", "strongest"));
+            ->will($this->onConsecutiveCalls('', "veryWeak", "weak", "better", "medium", "strong", "strongest"));
 
         $this->assertEquals(0, $this->securityAuthConfigService->getRequiredPasswordStength());
         $this->assertEquals(0, $this->securityAuthConfigService->getRequiredPasswordStength());
@@ -91,15 +94,15 @@ class SecurityAuthenticationConfigServiceTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(3, $this->securityAuthConfigService->getRequiredPasswordStength());
         $this->assertEquals(4, $this->securityAuthConfigService->getRequiredPasswordStength());
         $this->assertEquals(5, $this->securityAuthConfigService->getRequiredPasswordStength());
-
     }
 
     /**
      * @test testGetCurrentPasswordStrength().
      */
-    public function testGetCurrentPasswordStrength() {
+    public function testGetCurrentPasswordStrength()
+    {
         $this->securityAuthConfigService = $this->getMockBuilder('SecurityAuthenticationConfigService')
-            ->setMethods(array('_getConfigValue','getRequiredPasswordStength'))
+            ->setMethods(['_getConfigValue','getRequiredPasswordStength'])
             ->getMock();
         $this->securityAuthConfigService->expects($this->exactly(6))
             ->method('getRequiredPasswordStength')
@@ -111,7 +114,6 @@ class SecurityAuthenticationConfigServiceTest extends PHPUnit_Framework_TestCase
         $this->assertEquals("medium", $this->securityAuthConfigService->getCurrentPasswordStrength());
         $this->assertEquals("strong", $this->securityAuthConfigService->getCurrentPasswordStrength());
         $this->assertEquals("strongest", $this->securityAuthConfigService->getCurrentPasswordStrength());
-
     }
 
     /**
@@ -137,7 +139,4 @@ class SecurityAuthenticationConfigServiceTest extends PHPUnit_Framework_TestCase
 //        $this->assertEquals('', $this->securityAuthConfigService->getBlockedDuration());
 //
 //    }
-
 }
-
-?>

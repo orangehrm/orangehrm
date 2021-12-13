@@ -137,4 +137,3 @@ class MembershipService
         return $this->getNormalizerService()->normalizeArray(MembershipModel::class, $memberships);
     }
 }
-

@@ -21,7 +21,6 @@ namespace OrangeHRM\Tests\Pim\Dao;
 
 use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Dao\ReportGeneratorDao;
-use OrangeHRM\Entity\FilterField;
 use OrangeHRM\Entity\Report;
 use OrangeHRM\Entity\SelectedFilterField;
 use OrangeHRM\ORM\Exception\TransactionException;

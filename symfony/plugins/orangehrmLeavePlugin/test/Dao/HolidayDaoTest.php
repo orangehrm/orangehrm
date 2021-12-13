@@ -33,7 +33,6 @@ use OrangeHRM\Tests\Util\TestDataService;
  */
 class HolidayDaoTest extends TestCase
 {
-
     private HolidayDao $holidayDao;
     private string $fixture;
 
@@ -170,20 +169,20 @@ class HolidayDaoTest extends TestCase
     public function testGetHolidayByDate(): void
     {
         $holiday = $this->holidayDao->getHolidayByDate(new DateTime('2010-05-27'));
-        $this->assertEquals('Public Holiday',$holiday->getName());
+        $this->assertEquals('Public Holiday', $holiday->getName());
 
         $holiday = $this->holidayDao->getHolidayByDate(new DateTime('2011-05-27'));
-        $this->assertEquals('Public Holiday',$holiday->getName());
+        $this->assertEquals('Public Holiday', $holiday->getName());
 
         $holiday = $this->holidayDao->getHolidayByDate(new DateTime('2021-05-27'));
-        $this->assertEquals('Public Holiday',$holiday->getName());
+        $this->assertEquals('Public Holiday', $holiday->getName());
 
         $holiday = $this->holidayDao->getHolidayByDate(new DateTime('2000-07-25'));
-        $this->assertEquals('Father`s Day',$holiday->getName());
+        $this->assertEquals('Father`s Day', $holiday->getName());
 
         $holiday = $this->holidayDao->getHolidayByDate(new DateTime('2021-07-25'));
         // Not getting `Constitution Day` since `Father`s Day` added as recurring but same date in fixtures
-        $this->assertEquals('Father`s Day',$holiday->getName());
+        $this->assertEquals('Father`s Day', $holiday->getName());
     }
 
     public function testDeleteHolidays(): void

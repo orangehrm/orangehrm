@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\Pim\Service;
 
-use DateTime;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;

@@ -32,7 +32,6 @@ use OrangeHRM\Tests\Util\TestDataService;
  */
 class CountryDaoTest extends TestCase
 {
-
     /**
      * @var CountryDao
      */

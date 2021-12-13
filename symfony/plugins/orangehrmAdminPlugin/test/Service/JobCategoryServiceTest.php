@@ -32,7 +32,6 @@ use Exception;
  */
 class JobCategoryServiceTest extends TestCase
 {
-
     private JobCategoryService $jobCatService;
     private string $fixture;
 

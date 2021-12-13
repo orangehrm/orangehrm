@@ -22,7 +22,6 @@ namespace OrangeHRM\Admin\Controller;
 use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 
 class SaveModuleConfigurationController extends AbstractVueController
 {

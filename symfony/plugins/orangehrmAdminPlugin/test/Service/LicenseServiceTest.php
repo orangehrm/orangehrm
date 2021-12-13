@@ -33,7 +33,6 @@ use OrangeHRM\Tests\Util\TestDataService;
  */
 class LicenseServiceTest extends TestCase
 {
-
     private LicenseService $licenseService;
     private string $fixture;
 
@@ -54,7 +53,7 @@ class LicenseServiceTest extends TestCase
 
     public function testDeleteLicenses(): void
     {
-        $toBeDeletedLicenseIds = array(1, 2);
+        $toBeDeletedLicenseIds = [1, 2];
         $licenseDao = $this->getMockBuilder(LicenseDao::class)->getMock();
         $licenseDao->expects($this->once())
             ->method('deleteLicenses')

@@ -20,8 +20,6 @@
 namespace OrangeHRM\Leave\Dto;
 
 use DateTime;
-use OrangeHRM\Entity\Employee;
-use OrangeHRM\Entity\LeaveType;
 
 class LeaveWithDaysLeft
 {

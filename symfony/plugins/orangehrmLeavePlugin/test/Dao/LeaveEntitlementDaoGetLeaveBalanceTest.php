@@ -23,17 +23,12 @@ use DateTime;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Service\DateTimeHelperService;
 use OrangeHRM\Entity\Employee;
-use OrangeHRM\Entity\LeaveEntitlement;
-use OrangeHRM\Entity\LeaveEntitlementType;
-use OrangeHRM\Entity\LeaveType;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Leave\Dao\LeaveEntitlementDao;
-use OrangeHRM\Leave\Dto\LeaveEntitlementSearchFilterParams;
 use OrangeHRM\Leave\Entitlement\FIFOEntitlementConsumptionStrategy;
 use OrangeHRM\Leave\Entitlement\LeaveBalance;
 use OrangeHRM\Leave\Service\LeaveConfigurationService;
 use OrangeHRM\Leave\Service\LeaveEntitlementService;
-use OrangeHRM\ORM\ListSorter;
 use OrangeHRM\Tests\Util\KernelTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 
@@ -85,7 +80,7 @@ class LeaveEntitlementDaoGetLeaveBalanceTest extends KernelTestCase
             ]
         );
 
-        // As at before entitlement start:         
+        // As at before entitlement start:
         $balance = $this->dao->getLeaveBalance(2, 6, new DateTime('2013-08-01'));
         $expected = new LeaveBalance(4, 1, 0, 0.5);
         $expected->setAsAtDate(new DateTime('2013-08-01'));
@@ -180,7 +175,7 @@ class LeaveEntitlementDaoGetLeaveBalanceTest extends KernelTestCase
         $expected->setAsAtDate(new DateTime('2012-05-09'));
         $this->assertEquals($expected, $balance);
 
-        // Last day of first entitlement        
+        // Last day of first entitlement
         $balance = $this->dao->getLeaveBalance(1, 2, new DateTime('2012-06-01'));
         $expected = new LeaveBalance(3, 0, 0, 0);
         $expected->setAsAtDate(new DateTime('2012-06-01'));
@@ -317,7 +312,7 @@ class LeaveEntitlementDaoGetLeaveBalanceTest extends KernelTestCase
 
         $balance = $this->dao->getLeaveBalance(7, 1, new DateTime('2013-01-01'), new DateTime('2013-12-31'));
 
-        // $entitled = 0, $used = 0, $scheduled = 0, $pending = 0, $notLinked = 0, $taken = 0 ,$adjustment =0 
+        // $entitled = 0, $used = 0, $scheduled = 0, $pending = 0, $notLinked = 0, $taken = 0 ,$adjustment =0
         $expected = new LeaveBalance(5, 3, 3, 0, 0);
         $expected->setAsAtDate(new DateTime('2013-01-01'));
         $expected->setEndDate(new DateTime('2013-12-31'));
@@ -352,7 +347,7 @@ class LeaveEntitlementDaoGetLeaveBalanceTest extends KernelTestCase
 
         $balance = $this->dao->getLeaveBalance(7, 1, new DateTime('2013-01-01'), new DateTime('2013-12-31'));
 
-        // $entitled = 0, $used = 0, $scheduled = 0, $pending = 0, $notLinked = 0, $taken = 0 ,$adjustment =0 
+        // $entitled = 0, $used = 0, $scheduled = 0, $pending = 0, $notLinked = 0, $taken = 0 ,$adjustment =0
         $expected = new LeaveBalance(5, 5, 5, 0, 0);
         $expected->setAsAtDate(new DateTime('2013-01-01'));
         $expected->setEndDate(new DateTime('2013-12-31'));
@@ -386,7 +381,7 @@ class LeaveEntitlementDaoGetLeaveBalanceTest extends KernelTestCase
         );
         $balance = $this->dao->getLeaveBalance(7, 1, new DateTime('2013-01-01'), new DateTime('2013-12-31'));
 
-        // $entitled = 0, $used = 0, $scheduled = 0, $pending = 0, $notLinked = 0, $taken = 0 ,$adjustment =0 
+        // $entitled = 0, $used = 0, $scheduled = 0, $pending = 0, $notLinked = 0, $taken = 0 ,$adjustment =0
         $expected = new LeaveBalance(5, 4, 4, 0, 0);
         $expected->setAsAtDate(new DateTime('2013-01-01'));
         $expected->setEndDate(new DateTime('2013-12-31'));
@@ -419,7 +414,7 @@ class LeaveEntitlementDaoGetLeaveBalanceTest extends KernelTestCase
         );
         $balance = $this->dao->getLeaveBalance(7, 1, new DateTime('2013-01-01'), new DateTime('2013-12-31'));
 
-        // $entitled = 0, $used = 0, $scheduled = 0, $pending = 0, $notLinked = 0, $taken = 0 ,$adjustment =0 
+        // $entitled = 0, $used = 0, $scheduled = 0, $pending = 0, $notLinked = 0, $taken = 0 ,$adjustment =0
         $expected = new LeaveBalance(5, 2, 2, 0, 0);
         $expected->setAsAtDate(new DateTime('2013-01-01'));
         $expected->setEndDate(new DateTime('2013-12-31'));

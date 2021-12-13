@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\OAuth\Api;
 
-
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
@@ -42,10 +41,8 @@ use OrangeHRM\OAuth\Constant\Scope;
 use OrangeHRM\OAuth\Dto\OAuthClientSearchFilterParams;
 use OrangeHRM\OAuth\Service\OAuthService;
 
-
 class OAuthClientAPI extends Endpoint implements CrudEndpoint
 {
-
     public const PARAMETER_CLIENT_ID = 'clientId';
     public const PARAMETER_CLIENT_SECRET = 'clientSecret';
     public const PARAMETER_REDIRECT_URI = 'redirectUri';
@@ -126,15 +123,20 @@ class OAuthClientAPI extends Endpoint implements CrudEndpoint
     {
         return [
             new ParamRule(
-                self::PARAMETER_CLIENT_ID, new Rule(Rules::STRING_TYPE), new Rule(Rules::REQUIRED),
+                self::PARAMETER_CLIENT_ID,
+                new Rule(Rules::STRING_TYPE),
+                new Rule(Rules::REQUIRED),
                 new Rule(Rules::LENGTH, [null, self::PARAM_RULE_CLIENT_ID_MAX_LENGTH])
             ),
             new ParamRule(
-                self::PARAMETER_CLIENT_SECRET, new Rule(Rules::STRING_TYPE), new Rule(Rules::REQUIRED),
+                self::PARAMETER_CLIENT_SECRET,
+                new Rule(Rules::STRING_TYPE),
+                new Rule(Rules::REQUIRED),
                 new Rule(Rules::LENGTH, [null, self::PARAM_RULE_CLIENT_SECRET_MAX_LENGTH])
             ),
             new ParamRule(
-                self::PARAMETER_REDIRECT_URI, new Rule(Rules::STRING_TYPE),
+                self::PARAMETER_REDIRECT_URI,
+                new Rule(Rules::STRING_TYPE),
                 new Rule(Rules::LENGTH, [null, self::PARAM_RULE_REDIRECT_URI_MAX_LENGTH])
             ),
         ];

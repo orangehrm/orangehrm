@@ -77,5 +77,4 @@ class ModuleService
     {
         return $this->getModuleDao()->updateModuleStatus($modules);
     }
-
 }

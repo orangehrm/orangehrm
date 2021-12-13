@@ -19,7 +19,6 @@
 
 namespace Api\Model;
 
-
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Pim\Api\Model\EmployeeAllowedReportToEmployeeModel;
 use OrangeHRM\Tests\Util\TestCase;
