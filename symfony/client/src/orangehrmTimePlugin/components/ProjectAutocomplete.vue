@@ -22,6 +22,7 @@
   <oxd-input-field
     type="autocomplete"
     :clear="false"
+    :label="$t('time.project')"
     :create-options="loadProjects"
   >
     <template #option="{data}">

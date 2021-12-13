@@ -22,7 +22,7 @@
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
       <oxd-text tag="h6" class="orangehrm-main-title">
-        Add Project
+        {{ $t('time.add_project') }}
       </oxd-text>
       <oxd-divider />
 
@@ -31,29 +31,24 @@
           <oxd-grid-item>
             <oxd-input-field
               v-model="project.name"
-              :label="$t('time.project_name')"
+              :label="$t('general.name')"
               :rules="rules.name"
               required
             />
           </oxd-grid-item>
           <oxd-grid-item>
-            <oxd-grid-row>
-              <customer-autocomplete
-                v-model="project.customer"
-                label="Customer"
-                :rules="rules.customer"
-                required
-              />
-            </oxd-grid-row>
-            <oxd-grid-row>
-              <oxd-button
-                display-type="text"
-                :label="$t('time.add_customer')"
-                icon-name="plus"
-                style=""
-                @click="onClickAddCustomer"
-              />
-            </oxd-grid-row>
+            <customer-autocomplete
+              v-model="project.customer"
+              :rules="rules.customer"
+              :label="$t('time.customer_name')"
+              required
+            />
+            <oxd-button
+              icon-name="plus"
+              display-type="text"
+              :label="$t('time.add_customer')"
+              @click="onClickAddCustomer"
+            />
           </oxd-grid-item>
         </oxd-grid>
         <oxd-form-row>
@@ -63,30 +58,26 @@
                 v-model="project.description"
                 type="textarea"
                 :label="$t('general.description')"
-                placeholder="Type description here"
                 :rules="rules.description"
+                placeholder="Type description here"
               />
             </oxd-grid-item>
             <oxd-grid-item>
-              <oxd-grid-row
-                v-for="projectAdmin in projectAdmins"
-                :key="projectAdmin.id"
-              >
-                <project-admin-autocomplete
-                  :id="projectAdmin.id"
-                  v-model="projectAdmin.data"
-                  :rules="rules.projectAdmin"
-                  @remove="removeAdminInputField"
-                />
-              </oxd-grid-row>
+              <project-admin-autocomplete
+                v-for="(projectAdmin, index) in projectAdmins"
+                :key="index"
+                v-model="projectAdmin.value"
+                :show-delete="index > 0"
+                :rules="index > 0 ? rules.projectAdmin : []"
+                @remove="onRemoveAdmin(index)"
+              />
               <oxd-button
                 v-if="projectAdmins.length < 5"
-                display-type="text"
-                label="Add Another"
                 icon-name="plus"
+                display-type="text"
+                :label="$t('general.add_another')"
                 @click="onAddAnother"
               />
-              <oxd-grid-row> </oxd-grid-row>
             </oxd-grid-item>
           </oxd-grid>
         </oxd-form-row>
@@ -105,7 +96,7 @@
     </div>
     <add-customer-modal
       v-if="showCustomerModal"
-      @close="onModalClose"
+      @close="onCustomerModalClose"
     ></add-customer-modal>
   </div>
 </template>
@@ -118,31 +109,23 @@ import {
 import {APIService} from '@/core/util/services/api.service';
 import {navigate} from '@ohrm/core/util/helper/navigation';
 import promiseDebounce from '@ohrm/oxd/utils/promiseDebounce';
-
+import AddCustomerModal from '@/orangehrmTimePlugin/components/AddCustomerModal.vue';
 import CustomerAutocomplete from '@/orangehrmTimePlugin/components/CustomerAutocomplete.vue';
 import ProjectAdminAutocomplete from '@/orangehrmTimePlugin/components/ProjectAdminAutocomplete.vue';
-import AddCustomerModal from '@/orangehrmTimePlugin/components/AddCustomerModal.vue';
 
-const defaultProjectAdminModel = {
-  id: 1,
-  data: {
-    id: null,
-    label: null,
-    isPastEmployee: null,
-  },
-};
 const defaultProjectModel = {
   name: null,
   customer: null,
   description: null,
   projectAdminEmpNumbers: [],
 };
+
 export default {
   name: 'ProjectSave',
   components: {
+    'add-customer-modal': AddCustomerModal,
     'customer-autocomplete': CustomerAutocomplete,
     'project-admin-autocomplete': ProjectAdminAutocomplete,
-    'add-customer-modal': AddCustomerModal,
   },
   setup() {
     const http = new APIService(
@@ -156,25 +139,24 @@ export default {
   data() {
     return {
       isLoading: false,
-      projectAdmins: [{...defaultProjectAdminModel}],
-      project: {...defaultProjectModel},
       showCustomerModal: false,
+      projectAdmins: [{value: null}],
+      project: {...defaultProjectModel},
       rules: {
         name: [
           required,
           shouldNotExceedCharLength(50),
           promiseDebounce(this.validateProjectName, 500),
         ],
-        description: [],
+        description: [shouldNotExceedCharLength(255)],
         customer: [required],
         projectAdmin: [
+          required,
+          shouldNotExceedCharLength(100),
           value => {
-            return this.projectAdmins
-              .map(projectAdmin => projectAdmin.data)
-              .filter(
-                normalizedProjectAdmin =>
-                  normalizedProjectAdmin.id === value.id,
-              ).length < 2
+            return this.projectAdmins.filter(
+              ({value: admin}) => admin && admin.id === value?.id,
+            ).length < 2
               ? true
               : 'Already exists';
           },
@@ -186,36 +168,38 @@ export default {
     onClickAddCustomer() {
       this.showCustomerModal = true;
     },
-    onModalClose() {
+    onCustomerModalClose(data) {
+      if (data !== undefined) {
+        const {id, name} = data;
+        this.project.customer = {
+          id,
+          label: name,
+        };
+      }
       this.showCustomerModal = false;
     },
     onAddAnother() {
       if (this.projectAdmins.length < 5) {
-        const projectAdmin = {...defaultProjectAdminModel};
-        projectAdmin.id = this.projectAdmins.length + 1;
-        this.projectAdmins.push(projectAdmin);
+        this.projectAdmins.push({value: null});
       }
     },
-    removeAdminInputField(id) {
-      this.projectAdmins = this.projectAdmins.filter(projectAdmin => {
-        return projectAdmin.id !== id;
-      });
+    onRemoveAdmin(index) {
+      this.projectAdmins.splice(index, 1);
     },
     onCancel() {
       navigate('/time/viewProjects');
     },
     onSave() {
       this.isLoading = true;
-      this.project = {
-        name: this.project.name,
-        description: this.project.description,
-        customerId: this.project.customer.id,
-        projectAdminsEmpNumbers: this.projectAdmins.map(projectAdmin => {
-          return projectAdmin.data.id;
-        }),
-      };
       this.http
-        .create({...this.project})
+        .create({
+          name: this.project.name,
+          description: this.project.description,
+          customerId: this.project.customer.id,
+          projectAdminsEmpNumbers: this.projectAdmins
+            .map(({value}) => value && value.id)
+            .filter(Number),
+        })
         .then(() => {
           return this.$toast.saveSuccess();
         })
@@ -243,15 +227,6 @@ export default {
         } else {
           resolve(true);
         }
-      });
-    },
-    validateProjectAdmin() {
-      const normalizedProjectAdmins = this.projectAdmins.map(projectAdmin => {
-        return projectAdmin.data;
-      });
-      this.rules.projectAdmin.push(v => {
-        const index = normalizedProjectAdmins.indexOf(v);
-        return index === -1 || 'Already exists';
       });
     },
   },

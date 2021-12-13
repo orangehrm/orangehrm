@@ -23,7 +23,7 @@
     <div class="orangehrm-paper-container">
       <div class="orangehrm-header-container">
         <oxd-text tag="h6" class="orangehrm-main-title">
-          {{ $t('time.customer') }}
+          {{ $t('time.customers') }}
         </oxd-text>
         <div>
           <oxd-button
