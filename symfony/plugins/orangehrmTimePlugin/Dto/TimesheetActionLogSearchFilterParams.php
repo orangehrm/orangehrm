@@ -19,82 +19,16 @@
 
 namespace OrangeHRM\Time\Dto;
 
-use DateTime;
 use OrangeHRM\Core\Dto\FilterParams;
 
 class TimesheetActionLogSearchFilterParams extends FilterParams
 {
     public const ALLOWED_SORT_FIELDS = [
-        'performedUser.name',
-        'timesheetActionLog.action',
-        'timesheetActionLog.dateTime',
+        'timesheetActionLog.date',
     ];
-
-    /**
-     * @var string|null
-     */
-    protected ?string $action = null;
-
-    /**
-     * @var int|null
-     */
-    protected ?int $userId = null;
-
-    /**
-     * @var DateTime|null
-     */
-    protected ?DateTime $dateTime = null;
 
     public function __construct()
     {
-        $this->setSortField('timesheetActionLog.dateTime');
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getAction(): ?string
-    {
-        return $this->action;
-    }
-
-    /**
-     * @param  string|null  $action
-     */
-    public function setAction(?string $action): void
-    {
-        $this->action = $action;
-    }
-
-    /**
-     * @return int|null
-     */
-    public function getUserId(): ?int
-    {
-        return $this->userId;
-    }
-
-    /**
-     * @param  int|null  $userId
-     */
-    public function setUserId(?int $userId): void
-    {
-        $this->userId = $userId;
-    }
-
-    /**
-     * @return DateTime|null
-     */
-    public function getDateTime(): ?DateTime
-    {
-        return $this->dateTime;
-    }
-
-    /**
-     * @param  DateTime|null  $dateTime
-     */
-    public function setDateTime(?DateTime $dateTime): void
-    {
-        $this->dateTime = $dateTime;
+        $this->setSortField('timesheetActionLog.date');
     }
 }

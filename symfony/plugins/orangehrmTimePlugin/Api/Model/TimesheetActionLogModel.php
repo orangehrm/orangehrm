@@ -33,23 +33,29 @@ class TimesheetActionLogModel implements Normalizable
         $this->setFilters([
             'id',
             'action',
+            ['getDecorator', 'getActionLabel'],
             'comment',
             ['getDecorator', 'getDate'],
-            ['getPerformedUser', 'getId'],
-            ['getPerformedUser', 'getUserName'],
-            ['getPerformedUser', 'isDeleted'],
-            ['getTimesheet', 'getId']
+            ['getPerformedUser', 'getEmployee', 'getEmpNumber'],
+            ['getPerformedUser', 'getEmployee', 'getLastName'],
+            ['getPerformedUser', 'getEmployee', 'getFirstName'],
+            ['getPerformedUser', 'getEmployee', 'getMiddleName'],
+            ['getPerformedUser', 'getEmployee', 'getEmployeeId'],
+            ['getPerformedUser', 'getEmployee', 'getEmployeeTerminationRecord', 'getId'],
         ]);
 
         $this->setAttributeNames([
             'id',
-            'action',
+            ['action', 'name'],
+            ['action', 'label'],
             'comment',
             'date',
-            ['performedUser', 'id'],
-            ['performedUser', 'name'],
-            ['performedUser', 'deleted'],
-            ['timesheet', 'id']
+            ['performedEmployee', 'empNumber'],
+            ['performedEmployee', 'lastName'],
+            ['performedEmployee', 'firstName'],
+            ['performedEmployee', 'middleName'],
+            ['performedEmployee', 'employeeId'],
+            ['performedEmployee', 'terminationId'],
         ]);
     }
 }

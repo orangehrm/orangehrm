@@ -251,8 +251,4 @@ final class Services
      */
     public const TIMESHEET_SERVICE = 'time.timesheet_service';
 
-    /**
-     * @see \OrangeHRM\Time\Service\TimesheetActionLogService
-     */
-    public const TIMESHEET_ACTION_LOG_SERVICE = 'time.timesheet_action_log_service';
 }

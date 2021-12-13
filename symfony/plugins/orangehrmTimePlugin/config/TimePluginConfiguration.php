@@ -24,7 +24,6 @@ use OrangeHRM\Framework\PluginConfigurationInterface;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Time\Service\CustomerService;
 use OrangeHRM\Time\Service\ProjectService;
-use OrangeHRM\Time\Service\TimesheetActionLogService;
 use OrangeHRM\Time\Service\TimesheetService;
 
 class TimePluginConfiguration implements PluginConfigurationInterface
@@ -47,10 +46,6 @@ class TimePluginConfiguration implements PluginConfigurationInterface
         $this->getContainer()->register(
             Services::TIMESHEET_SERVICE,
             TimesheetService::class
-        );
-        $this->getContainer()->register(
-            Services::TIMESHEET_ACTION_LOG_SERVICE,
-            TimesheetActionLogService::class
         );
     }
 }

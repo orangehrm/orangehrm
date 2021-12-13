@@ -62,7 +62,7 @@ class TimesheetActionLog
      *
      * @ORM\Column(name="date_time", type="date")
      */
-    private DateTime $dateTime;
+    private DateTime $date;
 
     /**
      * @var User
@@ -131,17 +131,17 @@ class TimesheetActionLog
     /**
      * @return DateTime
      */
-    public function getDateTime(): DateTime
+    public function getDate(): DateTime
     {
-        return $this->dateTime;
+        return $this->date;
     }
 
     /**
-     * @param  DateTime  $dateTime
+     * @param  DateTime  $date
      */
-    public function setDateTime(DateTime $dateTime): void
+    public function setDate(DateTime $date): void
     {
-        $this->dateTime = $dateTime;
+        $this->date = $date;
     }
 
     /**

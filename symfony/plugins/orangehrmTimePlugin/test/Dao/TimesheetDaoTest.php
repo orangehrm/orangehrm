@@ -24,21 +24,17 @@ use Exception;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\Timesheet;
+use OrangeHRM\Entity\TimesheetActionLog;
 use OrangeHRM\Tests\Util\KernelTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 use OrangeHRM\Time\Dao\TimesheetDao;
+use OrangeHRM\Time\Dto\TimesheetActionLogSearchFilterParams;
 
 class TimesheetDaoTest extends KernelTestCase
 {
-    /**
-     * @var TimesheetDao
-     */
     private TimesheetDao $timesheetDao;
-
-    /**
-     * @var string
-     */
-    protected string $fixture;
+    private int $timesheetId = 1;
+    protected string $fixtures;
 
     /**
      * Set up method
@@ -47,7 +43,7 @@ class TimesheetDaoTest extends KernelTestCase
     protected function setUp(): void
     {
         $this->timesheetDao = new TimesheetDao();
-        $this->fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmTimePlugin/test/fixtures/MyTimesheetAPITest.yml';
+        $this->fixture = Config::get(Config::PLUGINS_DIR).'/orangehrmTimePlugin/test/fixtures/MyTimesheetAPITest.yml';
         TestDataService::populate($this->fixture);
     }
 
@@ -72,5 +68,19 @@ class TimesheetDaoTest extends KernelTestCase
         $resultTrue = $this->timesheetDao->hasTimesheetForStartDate(new DateTime('2011-03-18'));
         $this->assertFalse($resultFalse);
         $this->assertTrue($resultTrue);
+        $this->fixture = Config::get(Config::PLUGINS_DIR)
+            .'/orangehrmTimePlugin/test/fixtures/TimesheetActionLogDao.yml';
+        TestDataService::populate($this->fixture);
+    }
+
+    public function testGetTimesheetActionLogs(): void
+    {
+        $timesheetActionLogSearchFilterParamHolder = new TimesheetActionLogSearchFilterParams();
+        $timesheetActionLogs = $this->timesheetDao->getTimesheetActionLogs(
+            $this->timesheetId,
+            $timesheetActionLogSearchFilterParamHolder
+        );
+        $this->assertCount(6, $timesheetActionLogs);
+        $this->assertInstanceOf(TimesheetActionLog::class, $timesheetActionLogs[1]);
     }
 }

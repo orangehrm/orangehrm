@@ -39,5 +39,5 @@ TimesheetActionLog:
   6: { timesheet_action_log_id: 7, comment: 'Action - Supervisor Approved', action: 'SUPERVISOR APPROVED', date_time: '2011-04-21', performed_by: 3, timesheet_id: 2 }
   7: { timesheet_action_log_id: 8, comment: 'Action - Accepted', action: 'ACCEPTED', date_time: '2011-04-18', performed_by: 1, timesheet_id: 2 }
   8: { timesheet_action_log_id: 9, comment: 'Action - Supervisor Approved', action: 'SUPERVISOR APPROVED', date_time: '2011-04-18', performed_by: 3, timesheet_id: 3 }
-  9: { timesheet_action_log_id: 10, comment: 'Action - Created', action: 'CREATED', date_time: '2011-04-19', performed_by: 2, timesheet_id: 4 }
-  10: { timesheet_action_log_id: 11, comment: 'Action - Accepted', action: 'ACCEPTED', date_time: '2011-04-20', performed_by: 1, timesheet_id: 4 }
+  9: { timesheet_action_log_id: 10, comment: 'Action - Created', action: 'CREATED', date_time: '2011-04-20', performed_by: 1, timesheet_id: 4 }
+  10: { timesheet_action_log_id: 11, comment: 'Action - Accepted', action: 'ACCEPTED', date_time: '2011-04-19', performed_by: 1, timesheet_id: 4 }

@@ -32,17 +32,13 @@ use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Time\Api\Model\TimesheetActionLogModel;
 use OrangeHRM\Time\Dto\TimesheetActionLogSearchFilterParams;
-use OrangeHRM\Time\Traits\Service\TimesheetActionLogServiceTrait;
+use OrangeHRM\Time\Traits\Service\TimesheetServiceTrait;
 
 class TimesheetActionLogAPI extends Endpoint implements CollectionEndpoint
 {
-    use TimesheetActionLogServiceTrait;
+    use TimesheetServiceTrait;
 
     public const PARAMETER_TIMESHEET_ID = 'timesheetId';
-
-    public const FILTER_ACTION = 'action';
-    public const FILTER_USER_ID = 'userId';
-    public const FILTER_DATE = 'date';
 
     /**
      * @inheritDoc
@@ -56,29 +52,12 @@ class TimesheetActionLogAPI extends Endpoint implements CollectionEndpoint
 
         $timesheetActionLogParamHolder = new TimesheetActionLogSearchFilterParams();
         $this->setSortingAndPaginationParams($timesheetActionLogParamHolder);
-        
-        $timesheetActionLogParamHolder->setAction(
-            $this->getRequestParams()->getStringOrNull(
-                RequestParams::PARAM_TYPE_QUERY,
-                self::FILTER_ACTION
-            )
-        );
-        $timesheetActionLogParamHolder->setUserId(
-            $this->getRequestParams()->getIntOrNull(
-                RequestParams::PARAM_TYPE_QUERY,
-                self::FILTER_USER_ID
-            )
-        );
-        $timesheetActionLogParamHolder->setDateTime(
-            $this->getRequestParams()->getDateTimeOrNull(
-                RequestParams::PARAM_TYPE_QUERY,
-                self::FILTER_DATE
-            )
-        );
 
-        $timesheetActionLogs = $this->getTimesheetActionLogService()->getTimesheetActionLogDao(
-        )->getTimesheetActionLogs($timesheetId, $timesheetActionLogParamHolder);
-        $count = $this->getTimesheetActionLogService()->getTimesheetActionLogDao()->getTimesheetActionLogsCount(
+        $timesheetActionLogs = $this->getTimesheetService()->getTimesheetDao()->getTimesheetActionLogs(
+            $timesheetId,
+            $timesheetActionLogParamHolder
+        );
+        $count = $this->getTimesheetService()->getTimesheetDao()->getTimesheetActionLogsCount(
             $timesheetId,
             $timesheetActionLogParamHolder
         );
@@ -98,24 +77,6 @@ class TimesheetActionLogAPI extends Endpoint implements CollectionEndpoint
             new ParamRule(
                 self::PARAMETER_TIMESHEET_ID,
                 new Rule(Rules::POSITIVE)
-            ),
-            $this->getValidationDecorator()->notRequiredParamRule(
-                new ParamRule(
-                    self::FILTER_ACTION,
-                    new Rule(Rules::STRING_TYPE)
-                ),
-            ),
-            $this->getValidationDecorator()->notRequiredParamRule(
-                new ParamRule(
-                    self::FILTER_USER_ID,
-                    new Rule(Rules::POSITIVE)
-                ),
-            ),
-            $this->getValidationDecorator()->notRequiredParamRule(
-                new ParamRule(
-                    self::FILTER_DATE,
-                    new Rule(Rules::DATE_TIME)
-                ),
             ),
             ...$this->getSortingAndPaginationParamsRules(TimesheetActionLogSearchFilterParams::ALLOWED_SORT_FIELDS)
         );
