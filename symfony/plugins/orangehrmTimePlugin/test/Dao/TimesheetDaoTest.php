@@ -32,9 +32,20 @@ use OrangeHRM\Time\Dto\TimesheetActionLogSearchFilterParams;
 
 class TimesheetDaoTest extends KernelTestCase
 {
+    /**
+     * @var TimesheetDao
+     */
     private TimesheetDao $timesheetDao;
-    private int $timesheetId = 1;
+
+    /**
+     * @var string
+     */
     protected string $fixtures;
+
+    /**
+     * @var int
+     */
+    private int $timesheetId = 1;
 
     /**
      * Set up method
