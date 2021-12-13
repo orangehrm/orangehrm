@@ -19,8 +19,11 @@
 
 namespace OrangeHRM\Time\Service;
 
+use DateTime;
+use OrangeHRM\Core\Service\AccessFlowStateMachineService;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\Timesheet;
+use OrangeHRM\Entity\WorkflowStateMachine;
 use OrangeHRM\Time\Dao\TimesheetDao;
 use OrangeHRM\Time\Dto\DetailedTimesheet;
 use OrangeHRM\Time\Dto\TimesheetColumn;
@@ -36,6 +39,11 @@ class TimesheetService
     
     // Cache timesheet time format for better performance.
     private $timesheetPeriodService;
+
+    /**
+     * @var AccessFlowStateMachineService|null
+     */
+    private ?AccessFlowStateMachineService $accessFlowStateMachineService = null;
 
     /**
      * Get the Employee Data Access Object
@@ -65,6 +73,17 @@ class TimesheetService
     }
 
     /**
+     * @return AccessFlowStateMachineService
+     */
+    protected function getAccessFlowStateMachineService(): AccessFlowStateMachineService
+    {
+        if (is_null($this->accessFlowStateMachineService)) {
+            $this->accessFlowStateMachineService = new AccessFlowStateMachineService();
+        }
+        return $this->accessFlowStateMachineService;
+    }
+
+    /**
      * Get Timesheet by given timesheetId
      * @param int $timesheetId
      * @return Timesheet $timesheet
@@ -81,7 +100,6 @@ class TimesheetService
     }
 
     /**
-     * Get the Timesheet Data Access Object
      * @return TimesheetDao
      */
     public function getTimesheetDao(): TimesheetDao
@@ -502,5 +520,48 @@ class TimesheetService
             }
         }
         return [$timesheetRows, $timesheetColumns];
+    }
+
+    /**
+     * @param Timesheet $timesheet
+     * @param DateTime $date
+     * @return Timesheet
+     */
+    public function createTimesheetByDate(Timesheet $timesheet, DateTime $date): Timesheet
+    {
+        $nextState = $this->getAccessFlowStateMachineService()->getNextState(
+            WorkflowStateMachine::FLOW_TIME_TIMESHEET,
+            Timesheet::STATE_INITIAL,
+            "SYSTEM",
+            WorkflowStateMachine::TIMESHEET_ACTION_CREATE
+        );
+        list($startDate, $endDate) = $this->extractStartDateAndEndDateFromDate($date);
+        $timesheet->setState($nextState);
+        $timesheet->setStartDate(new DateTime($startDate));
+        $timesheet->setEndDate(new DateTime($endDate));
+        return $this->getTimesheetDao()->saveTimesheet($timesheet);
+    }
+
+    /**
+     * @param DateTime $date
+     * @return array
+     */
+    public function extractStartDateAndEndDateFromDate(DateTime $date): array
+    {
+        $currentWeekFirstDate = date("Y-m-d", strtotime('monday this week', strtotime($date->format('Y-m-d'))));
+        $configDate = $this->getTimeSheetPeriodService()->getTimesheetStartDate() - 1;
+        $startDate = date('Y-m-d', strtotime($currentWeekFirstDate . ' + ' . $configDate . ' days'));
+        $endDate = date('Y-m-d', strtotime($startDate . ' + 6 days'));
+        return [$startDate, $endDate];
+    }
+
+    /**
+     * @param DateTime $date
+     * @return bool
+     */
+    public function isTimesheetTakenByDate(DateTime $date)
+    {
+        list($startDate) = $this->extractStartDateAndEndDateFromDate($date);
+        return $this->getTimesheetDao()->hasTimesheetForStartDate(new DateTime($startDate));
     }
 }

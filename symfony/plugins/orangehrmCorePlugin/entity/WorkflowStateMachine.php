@@ -20,8 +20,8 @@
 namespace OrangeHRM\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use OrangeHRM\Core\entity\Decorator\WorkflowStateMachineDecorator;
 use OrangeHRM\Entity\Decorator\DecoratorTrait;
+use OrangeHRM\Entity\Decorator\WorkflowStateMachineDecorator;
 
 /**
  * @method WorkflowStateMachineDecorator getDecorator()

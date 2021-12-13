@@ -21,13 +21,21 @@ namespace OrangeHRM\Entity;
 
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use OrangeHRM\Entity\Decorator\DecoratorTrait;
+use OrangeHRM\Entity\Decorator\TimesheetDecorator;
 
 /**
+ * @method TimesheetDecorator getDecorator()
+ *
  * @ORM\Table(name="ohrm_timesheet")
  * @ORM\Entity
  */
 class Timesheet
 {
+    use DecoratorTrait;
+
+    public const STATE_INITIAL = "INITIAL";
+
     /**
      * @var int
      *
@@ -40,21 +48,21 @@ class Timesheet
     /**
      * @var string
      *
-     * @ORM\Column(name="state", type="string", length=255)
+     * @ORM\Column(name="state", type="string", length=255, nullable=false)
      */
     private string $state;
 
     /**
      * @var DateTime
      *
-     * @ORM\Column(name="start_date", type="date")
+     * @ORM\Column(name="start_date", type="date", nullable=false)
      */
     private DateTime $startDate;
 
     /**
      * @var DateTime
      *
-     * @ORM\Column(name="end_date", type="date")
+     * @ORM\Column(name="end_date", type="date", nullable=false)
      */
     private DateTime $endDate;
 
