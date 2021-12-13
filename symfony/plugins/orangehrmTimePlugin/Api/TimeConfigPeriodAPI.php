@@ -34,7 +34,7 @@ use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Time\Api\Model\TimeConfigPeriodModel;
 use OrangeHRM\Time\Dto\TimeConfigPeriod;
-use OrangeHRM\Time\Service\TimeSheetPeriodService;
+use OrangeHRM\Time\Service\TimesheetPeriodService;
 
 class TimeConfigPeriodAPI extends Endpoint implements ResourceEndpoint
 {
@@ -43,19 +43,19 @@ class TimeConfigPeriodAPI extends Endpoint implements ResourceEndpoint
     public const PARAMETER_START_DAY = 'startDay';
 
     /**
-     * @var TimeSheetPeriodService|null
+     * @var TimesheetPeriodService|null
      */
-    protected ?TimeSheetPeriodService $timeSheetPeriodService = null;
+    protected ?TimesheetPeriodService $timesheetPeriodService = null;
 
     /**
-     * @return TimeSheetPeriodService
+     * @return TimesheetPeriodService
      */
-    protected function getTimeSheetPeriodService(): TimeSheetPeriodService
+    protected function getTimesheetPeriodService(): TimesheetPeriodService
     {
-        if (!$this->timeSheetPeriodService instanceof TimeSheetPeriodService) {
-            $this->timeSheetPeriodService = new TimeSheetPeriodService();
+        if (!$this->timesheetPeriodService instanceof TimesheetPeriodService) {
+            $this->timesheetPeriodService = new TimesheetPeriodService();
         }
-        return $this->timeSheetPeriodService;
+        return $this->timesheetPeriodService;
     }
 
     /**
@@ -63,8 +63,8 @@ class TimeConfigPeriodAPI extends Endpoint implements ResourceEndpoint
      */
     public function getOne(): EndpointResult
     {
-        $status = $this->getTimeSheetPeriodService()->isTimesheetPeriodDefined();
-        $startDay = $status ? $this->getTimeSheetPeriodService()->getTimesheetStartDate() : '2'; // to set monday as default
+        $status = $this->getTimesheetPeriodService()->isTimesheetPeriodDefined();
+        $startDay = $status ? $this->getTimesheetPeriodService()->getTimesheetStartDate() : '2'; // to set monday as default
         $timeConfigPeriod = new TimeConfigPeriod();
         $timeConfigPeriod->setStartDay($startDay);
         return new EndpointResourceResult(TimeConfigPeriodModel::class, $timeConfigPeriod);
@@ -86,7 +86,7 @@ class TimeConfigPeriodAPI extends Endpoint implements ResourceEndpoint
     public function update(): EndpointResult
     {
         $startDay = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_START_DAY);
-        $this->getTimeSheetPeriodService()->setTimesheetPeriod($startDay);
+        $this->getTimesheetPeriodService()->setTimesheetPeriod($startDay);
         //After configuring the start day, we need to enable the menu items for time module
         /** @var MenuService $menuService */
         $menuService = $this->getContainer()->get(Services::MENU_SERVICE);

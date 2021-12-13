@@ -549,7 +549,7 @@ class TimesheetService
     public function extractStartDateAndEndDateFromDate(DateTime $date): array
     {
         $currentWeekFirstDate = date("Y-m-d", strtotime('monday this week', strtotime($date->format('Y-m-d'))));
-        $configDate = $this->getTimeSheetPeriodService()->getTimesheetStartDate() - 1;
+        $configDate = $this->getTimesheetPeriodService()->getTimesheetStartDate() - 1;
         $startDate = date('Y-m-d', strtotime($currentWeekFirstDate . ' + ' . $configDate . ' days'));
         $endDate = date('Y-m-d', strtotime($startDate . ' + 6 days'));
         return [$startDate, $endDate];
