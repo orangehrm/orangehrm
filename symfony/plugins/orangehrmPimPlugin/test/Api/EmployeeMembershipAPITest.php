@@ -322,9 +322,9 @@ class EmployeeMembershipAPITest extends EndpointTestCase
             ->will(
                 $this->returnCallback(
                     function (EmployeeMembership $employeeMembership) {
-                    $employeeMembership->setId(1);
-                    return $employeeMembership;
-                }
+                        $employeeMembership->setId(1);
+                        return $employeeMembership;
+                    }
                 )
             );
 
@@ -486,9 +486,9 @@ class EmployeeMembershipAPITest extends EndpointTestCase
             ->will(
                 $this->returnCallback(
                     function (EmployeeMembership $employeeMembership) {
-                    $employeeMembership->setId(1);
-                    return $employeeMembership;
-                }
+                        $employeeMembership->setId(1);
+                        return $employeeMembership;
+                    }
                 )
             );
 
