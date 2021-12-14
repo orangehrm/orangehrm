@@ -317,4 +317,3 @@ class ScreenPermissionServiceTest extends TestCase
         $this->assertEquals($delete, $permission->canDelete());
     }
 }
-

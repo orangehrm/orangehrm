@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\Tests\OAuth\Api;
 
-
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Entity\OAuthClient;
@@ -28,7 +27,6 @@ use OrangeHRM\OAuth\Dao\OAuthClientDao;
 use OrangeHRM\OAuth\Service\OAuthService;
 use OrangeHRM\Tests\Util\EndpointTestCase;
 use OrangeHRM\Tests\Util\MockObject;
-
 
 /**
  * @group OAuth

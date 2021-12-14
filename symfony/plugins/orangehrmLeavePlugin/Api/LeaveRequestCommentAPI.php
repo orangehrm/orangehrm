@@ -144,7 +144,8 @@ class LeaveRequestCommentAPI extends Endpoint implements CollectionEndpoint
         $this->setLeaveRequestComment($leaveRequestComment);
         $leaveRequestComment = $this->saveLeaveRequestComment($leaveRequestComment);
         return new EndpointResourceResult(
-            LeaveRequestCommentModel::class, $leaveRequestComment,
+            LeaveRequestCommentModel::class,
+            $leaveRequestComment,
         );
     }
 
@@ -184,7 +185,6 @@ class LeaveRequestCommentAPI extends Endpoint implements CollectionEndpoint
         $comment = $this->getRequestParams()->getString(
             RequestParams::PARAM_TYPE_BODY,
             self::PARAMETER_COMMENT
-
         );
         $leaveRequestComment->setComment($comment);
         $leaveRequestComment->setCreatedAt($this->getDateTimeHelper()->getNow());

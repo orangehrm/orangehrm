@@ -197,7 +197,7 @@ class LeaveDetailedModelTest extends KernelTestCase
 
         $detailedLeave->expects($this->once())
             ->method('getAllowedActions')
-            ->willReturn(array('APPROVE', 'REJECT', 'CANCEL'));
+            ->willReturn(['APPROVE', 'REJECT', 'CANCEL']);
 
         $leaveDetailedModel = new LeaveDetailedModel($detailedLeave);
 

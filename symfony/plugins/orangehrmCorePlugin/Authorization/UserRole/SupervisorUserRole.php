@@ -27,10 +27,10 @@ use OrangeHRM\Entity\Employee;
  *
  * @author Chameera Senarathna
  */
-class SupervisorUserRole extends AbstractUserRole {
-
-    public function getAccessibleEmployeeIds($operation = null, $returnType = null, $requiredPermissions = []) {
-
+class SupervisorUserRole extends AbstractUserRole
+{
+    public function getAccessibleEmployeeIds($operation = null, $returnType = null, $requiredPermissions = [])
+    {
         $employeeIdArray = [];
 
         $empNumber = $this->getEmployeeNumber();
@@ -41,8 +41,8 @@ class SupervisorUserRole extends AbstractUserRole {
         return $employeeIdArray;
     }
 
-    public function getAccessibleEmployeePropertyList($properties, $orderField, $orderBy, $requiredPermissions = []) {
-
+    public function getAccessibleEmployeePropertyList($properties, $orderField, $orderBy, $requiredPermissions = [])
+    {
         $employeeProperties = [];
 
         $empNumber = $this->getEmployeeNumber();
@@ -59,8 +59,8 @@ class SupervisorUserRole extends AbstractUserRole {
      * @param array $requiredPermissions
      * @return array|Employee[]
      */
-    public function getAccessibleEmployees($operation = null, $returnType = null, $requiredPermissions = []): array {
-
+    public function getAccessibleEmployees($operation = null, $returnType = null, $requiredPermissions = []): array
+    {
         $employees = [];
 
         $empNumber = $this->getEmployeeNumber();
@@ -77,31 +77,30 @@ class SupervisorUserRole extends AbstractUserRole {
         return $employeesWithIds;
     }
 
-    public function getAccessibleLocationIds($operation = null, $returnType = null, $requiredPermissions = []) {
+    public function getAccessibleLocationIds($operation = null, $returnType = null, $requiredPermissions = [])
+    {
         $locationIds = [];
-        
+
         if ($operation == BasicUserRoleManager::OPERATION_VIEW) {
             // Return locations of subordinates
             $empNumbers = $this->getAccessibleEmployeeIds();
             $locationIds = $this->getLocationService()->getLocationIdsForEmployees($empNumbers);
-            
         }
         return $locationIds;
     }
 
-    public function getAccessibleOperationalCountryIds($operation = null, $returnType = null, $requiredPermissions = []) {
-
+    public function getAccessibleOperationalCountryIds($operation = null, $returnType = null, $requiredPermissions = [])
+    {
         return [];
     }
 
-    public function getAccessibleSystemUserIds($operation = null, $returnType = null, $requiredPermissions = []) {
-
+    public function getAccessibleSystemUserIds($operation = null, $returnType = null, $requiredPermissions = [])
+    {
         return [];
     }
 
-    public function getAccessibleUserRoleIds($operation = null, $returnType = null, $requiredPermissions = []) {
-
+    public function getAccessibleUserRoleIds($operation = null, $returnType = null, $requiredPermissions = [])
+    {
         return [];
     }
-
 }

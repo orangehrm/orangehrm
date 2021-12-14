@@ -25,7 +25,6 @@ use OrangeHRM\Core\Import\CsvDataImportFactory;
 
 class CsvDataImportService
 {
-
     /**
      * @param string $fileContent
      * @param string $importType
@@ -49,5 +48,4 @@ class CsvDataImportService
         }
         return $rowsImported;
     }
-
 }

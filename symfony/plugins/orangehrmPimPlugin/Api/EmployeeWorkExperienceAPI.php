@@ -160,7 +160,8 @@ class EmployeeWorkExperienceAPI extends Endpoint implements CrudEndpoint
     {
         $employeeWorkExperience = $this->saveEmployeeWorkExperience();
         return new EndpointResourceResult(
-            EmployeeWorkExperienceModel::class, $employeeWorkExperience,
+            EmployeeWorkExperienceModel::class,
+            $employeeWorkExperience,
             new ParameterBag(
                 [
                     CommonParams::PARAMETER_EMP_NUMBER => $employeeWorkExperience->getEmployee()->getEmpNumber(),
@@ -230,7 +231,8 @@ class EmployeeWorkExperienceAPI extends Endpoint implements CrudEndpoint
         $employeeWorkExperience = $this->saveEmployeeWorkExperience();
 
         return new EndpointResourceResult(
-            EmployeeWorkExperienceModel::class, $employeeWorkExperience,
+            EmployeeWorkExperienceModel::class,
+            $employeeWorkExperience,
             new ParameterBag(
                 [
                     CommonParams::PARAMETER_EMP_NUMBER => $employeeWorkExperience->getEmployee()->getEmpNumber(),
@@ -265,7 +267,8 @@ class EmployeeWorkExperienceAPI extends Endpoint implements CrudEndpoint
         $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
         $this->getEmployeeWorkExperienceService()->getEmployeeWorkExperienceDao()->deleteEmployeeWorkExperiences($empNumber, $ids);
         return new EndpointResourceResult(
-            ArrayModel::class, $ids,
+            ArrayModel::class,
+            $ids,
             new ParameterBag(
                 [
                     CommonParams::PARAMETER_EMP_NUMBER => $empNumber,
@@ -326,7 +329,7 @@ class EmployeeWorkExperienceAPI extends Endpoint implements CrudEndpoint
                 $empNumber,
                 $seqNo
             );
-        } else{
+        } else {
             $employeeWorkExperience = new EmpWorkExperience();
             $employeeWorkExperience->getDecorator()->setEmployeeByEmpNumber($empNumber);
         }

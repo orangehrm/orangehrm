@@ -29,7 +29,6 @@ use OrangeHRM\Pim\Dto\TerminationReasonConfigurationSearchFilterParams;
 
 class TerminationReasonConfigurationDao extends BaseDao
 {
-
     /**
      * @param TerminationReason $terminationReason
      * @return TerminationReason

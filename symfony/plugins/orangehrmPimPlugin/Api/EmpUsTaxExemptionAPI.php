@@ -79,7 +79,8 @@ class EmpUsTaxExemptionAPI extends Endpoint implements ResourceEndpoint
             $empUsTaxExemption->getDecorator()->setEmployeeByEmpNumber($empNumber);
         }
         return new EndpointResourceResult(
-            EmpUsTaxExemptionModel::class, $empUsTaxExemption,
+            EmpUsTaxExemptionModel::class,
+            $empUsTaxExemption,
             new ParameterBag([CommonParams::PARAMETER_EMP_NUMBER => $empNumber])
         );
     }
@@ -117,7 +118,8 @@ class EmpUsTaxExemptionAPI extends Endpoint implements ResourceEndpoint
     {
         $saveUsTaxExemption = $this->saveTaxExemption();
         return new EndpointResourceResult(
-            EmpUsTaxExemptionModel::class, $saveUsTaxExemption,
+            EmpUsTaxExemptionModel::class,
+            $saveUsTaxExemption,
             new ParameterBag(
                 [CommonParams::PARAMETER_EMP_NUMBER => $saveUsTaxExemption->getEmployee()->getEmpNumber()]
             )
@@ -133,20 +135,34 @@ class EmpUsTaxExemptionAPI extends Endpoint implements ResourceEndpoint
             RequestParams::PARAM_TYPE_ATTRIBUTE,
             CommonParams::PARAMETER_EMP_NUMBER
         );
-        $federalStatus = $this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_BODY,
-            self::PARAMETER_FEDERAL_STATUS);
-        $federalExemptions = $this->getRequestParams()->getIntOrNull(RequestParams::PARAM_TYPE_BODY,
-            self::PARAMETER_FEDERAL_EXEMPTIONS);
-        $taxStateCode = $this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_BODY,
-            self::PARAMETER_TAX_STATE_CODE);
-        $stateStatus = $this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_BODY,
-            self::PARAMETER_STATE_STATUS);
-        $stateExemptions = $this->getRequestParams()->getIntOrNull(RequestParams::PARAM_TYPE_BODY,
-            self::PARAMETER_STATE_EXEMPTIONS);
-        $unemploymentStateCode = $this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_BODY,
-            self::PARAMETER_UNEMPLOYMENT_STATE_CODE);
-        $workStateCode = $this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_BODY,
-            self::PARAMETER_WORK_STATE_CODE);
+        $federalStatus = $this->getRequestParams()->getStringOrNull(
+            RequestParams::PARAM_TYPE_BODY,
+            self::PARAMETER_FEDERAL_STATUS
+        );
+        $federalExemptions = $this->getRequestParams()->getIntOrNull(
+            RequestParams::PARAM_TYPE_BODY,
+            self::PARAMETER_FEDERAL_EXEMPTIONS
+        );
+        $taxStateCode = $this->getRequestParams()->getStringOrNull(
+            RequestParams::PARAM_TYPE_BODY,
+            self::PARAMETER_TAX_STATE_CODE
+        );
+        $stateStatus = $this->getRequestParams()->getStringOrNull(
+            RequestParams::PARAM_TYPE_BODY,
+            self::PARAMETER_STATE_STATUS
+        );
+        $stateExemptions = $this->getRequestParams()->getIntOrNull(
+            RequestParams::PARAM_TYPE_BODY,
+            self::PARAMETER_STATE_EXEMPTIONS
+        );
+        $unemploymentStateCode = $this->getRequestParams()->getStringOrNull(
+            RequestParams::PARAM_TYPE_BODY,
+            self::PARAMETER_UNEMPLOYMENT_STATE_CODE
+        );
+        $workStateCode = $this->getRequestParams()->getStringOrNull(
+            RequestParams::PARAM_TYPE_BODY,
+            self::PARAMETER_WORK_STATE_CODE
+        );
         $empUsTaxExemption = $this->getEmpUsTaxExemptionService()->getEmpUsTaxExemptionDao()->getEmployeeTaxExemption($empNumber);
         if (!$empUsTaxExemption instanceof EmpUsTaxExemption) {
             $empUsTaxExemption = new EmpUsTaxExemption();
@@ -178,7 +194,8 @@ class EmpUsTaxExemptionAPI extends Endpoint implements ResourceEndpoint
                 new Rule(Rules::EQUALS, [0])
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
-                new ParamRule(self::PARAMETER_FEDERAL_STATUS,
+                new ParamRule(
+                    self::PARAMETER_FEDERAL_STATUS,
                     new Rule(Rules::STRING_TYPE),
                     new Rule(Rules::IN, [
                         [
@@ -191,35 +208,41 @@ class EmpUsTaxExemptionAPI extends Endpoint implements ResourceEndpoint
                 ),
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
-                new ParamRule(self::PARAMETER_FEDERAL_EXEMPTIONS,
+                new ParamRule(
+                    self::PARAMETER_FEDERAL_EXEMPTIONS,
                     new Rule(Rules::LESS_THAN, [100]),
                 ),
                 true
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
-                new ParamRule(self::PARAMETER_TAX_STATE_CODE,
+                new ParamRule(
+                    self::PARAMETER_TAX_STATE_CODE,
                     new Rule(Rules::PROVINCE_CODE),
                 ),
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
-                new ParamRule(self::PARAMETER_STATE_STATUS,
+                new ParamRule(
+                    self::PARAMETER_STATE_STATUS,
                     new Rule(Rules::STRING_TYPE),
                     new Rule(Rules::IN, [EmpUsTaxExemption::STATUSES]),
                 ),
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
-                new ParamRule(self::PARAMETER_STATE_EXEMPTIONS,
+                new ParamRule(
+                    self::PARAMETER_STATE_EXEMPTIONS,
                     new Rule(Rules::LESS_THAN, [100]),
                 ),
                 true
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
-                new ParamRule(self::PARAMETER_UNEMPLOYMENT_STATE_CODE,
+                new ParamRule(
+                    self::PARAMETER_UNEMPLOYMENT_STATE_CODE,
                     new Rule(Rules::PROVINCE_CODE),
                 ),
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
-                new ParamRule(self::PARAMETER_WORK_STATE_CODE,
+                new ParamRule(
+                    self::PARAMETER_WORK_STATE_CODE,
                     new Rule(Rules::PROVINCE_CODE),
                 ),
             ),

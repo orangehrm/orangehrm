@@ -172,7 +172,7 @@ class VueControllerHelper
         }
 
         $user = $this->getUserService()->getSystemUser($this->getUserId());
-        if(is_null($user->getEmployee())) {
+        if (is_null($user->getEmployee())) {
             $profileImgUrl = sprintf(
                 '%s/dist/img/user-default-400.png?%s',
                 $this->getRequest()->getBasePath(),

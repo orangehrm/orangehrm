@@ -108,4 +108,3 @@ class ScreenPermissionDaoTest extends TestCase
         $this->assertEquals($delete, $permission->canDelete());
     }
 }
-

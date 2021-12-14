@@ -21,5 +21,4 @@ namespace OrangeHRM\Core\Api\V2;
 
 interface CrudEndpoint extends CollectionEndpoint, ResourceEndpoint
 {
-
 }

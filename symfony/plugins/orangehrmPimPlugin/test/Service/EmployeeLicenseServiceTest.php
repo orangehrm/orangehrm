@@ -36,11 +36,13 @@ class EmployeeLicenseServiceTest extends TestCase
         $this->employeeLicenseService = new EmployeeLicenseService();
     }
 
-    public function testGetEmployeeLicenseDao(){
+    public function testGetEmployeeLicenseDao()
+    {
         $this->assertTrue($this->employeeLicenseService->getEmployeeLicenseDao() instanceof EmployeeLicenseDao);
     }
 
-    public function testGetEmployeeLicenseDaoBySetter(){
+    public function testGetEmployeeLicenseDaoBySetter()
+    {
         $employeeLicenseDao = new EmployeeLicenseDao();
         $this->employeeLicenseService->setEmployeeLicenseDao($employeeLicenseDao);
         $this->assertTrue($this->employeeLicenseService->getEmployeeLicenseDao() instanceof EmployeeLicenseDao);

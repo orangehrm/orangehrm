@@ -41,5 +41,4 @@ class LicenseTest extends EntityTestCase
         $this->assertEquals('Phd', $license->getName());
         $this->assertEquals(1, $license->getId());
     }
-
 }

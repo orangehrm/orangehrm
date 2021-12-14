@@ -81,7 +81,7 @@ class EmployeeAddress implements Stringable
         }
         return implode(
             self::SEPARATOR,
-            array_filter($properties, fn(?string $property) => !empty($property))
+            array_filter($properties, fn (?string $property) => !empty($property))
         );
     }
 }

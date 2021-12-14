@@ -34,7 +34,6 @@ use Exception;
  */
 class EmploymentStatusServiceTest extends TestCase
 {
-
     private EmploymentStatusService $employmentStatusService;
     protected string $fixture;
 
@@ -126,7 +125,6 @@ class EmploymentStatusServiceTest extends TestCase
 
         $this->employmentStatusService->setEmploymentStatusDao($employmentStatusDao);
         $result = $this->employmentStatusService->getSearchEmploymentStatusesCount($employmentStatusSearchParams);
-        $this->assertEquals(3,$result );
+        $this->assertEquals(3, $result);
     }
 }
-

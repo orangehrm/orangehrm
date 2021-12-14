@@ -33,7 +33,6 @@ use OrangeHRM\Tests\Util\TestDataService;
  */
 class ConfigDaoTest extends KernelTestCase
 {
-
     private ConfigDao $configDao;
     private string $fixture;
 

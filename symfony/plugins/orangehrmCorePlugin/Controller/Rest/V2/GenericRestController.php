@@ -29,7 +29,6 @@ use OrangeHRM\Core\Api\V2\Response;
 use OrangeHRM\Core\Api\V2\Serializer\AbstractEndpointResult;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 
-
 class GenericRestController extends AbstractRestController
 {
     /**

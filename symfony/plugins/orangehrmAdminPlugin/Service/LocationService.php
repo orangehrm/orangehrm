@@ -29,7 +29,6 @@ use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
 
 class LocationService
 {
-
     use UserRoleManagerTrait;
     use NormalizerServiceTrait;
     use EmployeeServiceTrait;
@@ -173,5 +172,4 @@ class LocationService
     {
         return $this->getLocationDao()->deleteLocations($ids);
     }
-
 }

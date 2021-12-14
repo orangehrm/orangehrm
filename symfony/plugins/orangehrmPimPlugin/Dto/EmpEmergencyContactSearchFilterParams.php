@@ -74,5 +74,4 @@ class EmpEmergencyContactSearchFilterParams extends FilterParams
     {
         $this->name = $name;
     }
-
 }

@@ -125,10 +125,9 @@ class UpdatePasswordAPI extends Endpoint implements ResourceEndpoint
                             $lowercase = preg_match('@[a-z]@', $newPassword);
                             $number    = preg_match('@[0-9]@', $newPassword);
                             $specialCharacter    = preg_match('/^(?=.*[!@#$%^&*-])(?=.*[0-9])(?=.*[A-Z]).{8,20}$/', $newPassword);
-                            if(!$uppercase || !$lowercase || !$number || !$specialCharacter || strlen($newPassword) < 8) {
-                               return false;
-                            }
-                            else{
+                            if (!$uppercase || !$lowercase || !$number || !$specialCharacter || strlen($newPassword) < 8) {
+                                return false;
+                            } else {
                                 return true;
                             }
                         }

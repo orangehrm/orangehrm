@@ -51,7 +51,7 @@ class EmployeePictureService
      */
     public function pictureSizeAdjust($picture): array
     {
-        list ($imgWidth, $imgHeight) = getimagesizefromstring($picture);
+        list($imgWidth, $imgHeight) = getimagesizefromstring($picture);
         $newHeight = 0;
         $newWidth = 0;
 

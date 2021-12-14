@@ -65,7 +65,8 @@ class JobSpecificationAPI extends Endpoint implements ResourceEndpoint
         $this->throwRecordNotFoundExceptionIfNotExist($jobSpecification, JobSpecificationAttachment::class);
 
         return new EndpointResourceResult(
-            JobSpecificationModel::class, $jobSpecification,
+            JobSpecificationModel::class,
+            $jobSpecification,
             new ParameterBag([self::PARAMETER_JOB_TITLE_ID => $jobTitleId])
         );
     }

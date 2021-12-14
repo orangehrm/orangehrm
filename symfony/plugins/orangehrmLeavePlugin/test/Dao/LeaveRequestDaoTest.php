@@ -926,7 +926,7 @@ class LeaveRequestDaoTest extends KernelTestCase
         $savedEntitlements = $this->getEntitlementsFromDb();
         // to avoid update Doctrine unit of work
         $savedEntitlements = array_map(
-            fn(LeaveEntitlement $leaveEntitlement) => clone $leaveEntitlement,
+            fn (LeaveEntitlement $leaveEntitlement) => clone $leaveEntitlement,
             $savedEntitlements
         );
 
@@ -1038,7 +1038,7 @@ class LeaveRequestDaoTest extends KernelTestCase
         $savedEntitlements = $this->getEntitlementsFromDb();
         // to avoid update Doctrine unit of work
         $savedEntitlements = array_map(
-            fn(LeaveEntitlement $leaveEntitlement) => clone $leaveEntitlement,
+            fn (LeaveEntitlement $leaveEntitlement) => clone $leaveEntitlement,
             $savedEntitlements
         );
 
@@ -1252,7 +1252,7 @@ class LeaveRequestDaoTest extends KernelTestCase
         $savedEntitlements = $this->getEntitlementsFromDb();
         // to avoid update Doctrine unit of work
         $savedEntitlements = array_map(
-            fn(LeaveEntitlement $leaveEntitlement) => clone $leaveEntitlement,
+            fn (LeaveEntitlement $leaveEntitlement) => clone $leaveEntitlement,
             $savedEntitlements
         );
 
@@ -1309,7 +1309,7 @@ class LeaveRequestDaoTest extends KernelTestCase
         $savedEntitlements = $this->getEntitlementsFromDb();
         // to avoid update Doctrine unit of work
         $savedEntitlements = array_map(
-            fn(LeaveEntitlement $leaveEntitlement) => clone $leaveEntitlement,
+            fn (LeaveEntitlement $leaveEntitlement) => clone $leaveEntitlement,
             $savedEntitlements
         );
 

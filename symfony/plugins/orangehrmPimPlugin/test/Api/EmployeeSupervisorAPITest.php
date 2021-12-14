@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\Tests\Pim\Api;
 
-
 use OrangeHRM\Authentication\Auth\User;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\RequestParams;
@@ -649,5 +648,4 @@ class EmployeeSupervisorAPITest extends EndpointTestCase
             )
         );
     }
-
 }

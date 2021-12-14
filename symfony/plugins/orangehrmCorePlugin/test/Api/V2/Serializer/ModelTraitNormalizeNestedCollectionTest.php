@@ -142,4 +142,3 @@ class EmployeeModel implements Normalizable
 {
     use ModelTrait;
 }
-

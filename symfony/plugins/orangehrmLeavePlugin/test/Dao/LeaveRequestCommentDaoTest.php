@@ -49,8 +49,8 @@ class LeaveRequestCommentDaoTest extends TestCase
     {
         $this->leaveRequestCommentDao = new LeaveRequestCommentDao();
         $this->fixture = Config::get(
-                Config::PLUGINS_DIR
-            ) . '/orangehrmLeavePlugin/test/fixtures/LeaveRequestCommentDao.yml';
+            Config::PLUGINS_DIR
+        ) . '/orangehrmLeavePlugin/test/fixtures/LeaveRequestCommentDao.yml';
         TestDataService::populate($this->fixture);
     }
 

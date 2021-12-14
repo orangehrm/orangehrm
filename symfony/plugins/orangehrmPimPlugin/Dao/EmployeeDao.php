@@ -26,7 +26,6 @@ use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\EmployeeWorkShift;
 use OrangeHRM\Entity\ReportingMethod;
 use OrangeHRM\Entity\ReportTo;
-use OrangeHRM\ORM\Paginator;
 use OrangeHRM\ORM\QueryBuilderWrapper;
 use OrangeHRM\Pim\Dto\EmployeeSearchFilterParams;
 
@@ -441,7 +440,8 @@ class EmployeeDao extends BaseDao
     /**
      * @return array|null
      */
-    public function getEmailList(): ?array {
+    public function getEmailList(): ?array
+    {
         $q = $this->createQueryBuilder(Employee::class, 'e');
         $q->select('e.workEmail, e.otherEmail');
         return  $q->getQuery()->getArrayResult();

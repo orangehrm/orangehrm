@@ -67,7 +67,7 @@ class EmpEmergencyContactServiceTest extends TestCase
         $empEmergencyContactDao->expects($this->once())
             ->method('getEmployeeEmergencyContactList')
             ->with(1)
-            ->will($this->returnValue(array($empEmergencyContact1, $empEmergencyContact2)));
+            ->will($this->returnValue([$empEmergencyContact1, $empEmergencyContact2]));
 
         $this->empEmergencyContactService->setEmpEmergencyContactDao($empEmergencyContactDao);
         $empEmergencyContacts = $this->empEmergencyContactService->getEmployeeEmergencyContactList(1);
@@ -155,7 +155,7 @@ class EmpEmergencyContactServiceTest extends TestCase
         $empEmergencyContact2->setName('Rashmi');
 
 
-        $empEmergencyContactList = array($empEmergencyContact1, $empEmergencyContact2);
+        $empEmergencyContactList = [$empEmergencyContact1, $empEmergencyContact2];
         $empEmergencyContactSearchParams = new EmpEmergencyContactSearchFilterParams();
         $empEmergencyContactSearchParams->setEmpNumber(1);
         $empEmergencyContactDao = $this->getMockBuilder(EmpEmergencyContactDao::class)->getMock();

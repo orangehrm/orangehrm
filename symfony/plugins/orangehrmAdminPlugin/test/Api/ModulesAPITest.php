@@ -33,7 +33,6 @@ use Symfony\Component\Yaml\Yaml;
  */
 class ModulesAPITest extends EndpointTestCase
 {
-
     private ModulesAPI $modulesApi;
 
     protected function setUp(): void

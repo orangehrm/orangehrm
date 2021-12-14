@@ -19,8 +19,8 @@
 
 namespace OrangeHRM\Time\TimeSheetPeriod;
 
-class WeeklyTimesheetPeriod extends TimesheetPeriod {
-
+class WeeklyTimesheetPeriod extends TimesheetPeriod
+{
     /**
      * @var string
      */
@@ -31,7 +31,8 @@ class WeeklyTimesheetPeriod extends TimesheetPeriod {
      * @param $xml
      * @return array
      */
-    public function calculateDaysInTheTimesheetPeriod($currentDate, $xml): array {
+    public function calculateDaysInTheTimesheetPeriod($currentDate, $xml): array
+    {
         // TODO
         $clientTimeZoneOffset = sfContext::getInstance()->getUser()->getUserTimeZoneOffset();
         date_default_timezone_set($this->getLocalTimezone($clientTimeZoneOffset));
@@ -53,17 +54,18 @@ class WeeklyTimesheetPeriod extends TimesheetPeriod {
         return $dates;
     }
 
-    public function setTimesheetPeriodAndStartDate($startDay) {
+    public function setTimesheetPeriodAndStartDate($startDay)
+    {
         // TODO
         return "<TimesheetPeriod><PeriodType>Weekly</PeriodType><ClassName>WeeklyTimesheetPeriod</ClassName><StartDate>" . $startDay . "</StartDate><Heading>Week</Heading></TimesheetPeriod>";
     }
 
-    public function getLocalTimezone($clientTimeZoneOffset) {
+    public function getLocalTimezone($clientTimeZoneOffset)
+    {
         // TODO
         $offset = $clientTimeZoneOffset;
         $zonelist =
-                array
-                    (
+                [
                     'Kwajalein' => -12.00,
                     'Pacific/Midway' => -11.00,
                     'Pacific/Honolulu' => -10.00,
@@ -98,10 +100,11 @@ class WeeklyTimesheetPeriod extends TimesheetPeriod {
                     'Asia/Magadan' => 11.00,
                     'Pacific/Fiji' => 12.00,
                     'Pacific/Tongatapu' => 13.00
-        );
+        ];
         $index = array_keys($zonelist, $offset);
-        if (sizeof($index) != 1)
+        if (sizeof($index) != 1) {
             return false;
+        }
         return $index[0];
     }
 }

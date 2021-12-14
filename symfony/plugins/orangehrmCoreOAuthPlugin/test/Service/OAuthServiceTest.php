@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\Tests\OAuth\Service;
 
-
 use OrangeHRM\Entity\OAuthClient;
 use OrangeHRM\OAuth\Constant\GrantType;
 use OrangeHRM\OAuth\Constant\Scope;
@@ -117,5 +116,4 @@ class OAuthServiceTest extends TestCase
         $savedItem = $this->oAuthService->createMobileClient();
         $this->assertEquals($client, $savedItem);
     }
-
 }

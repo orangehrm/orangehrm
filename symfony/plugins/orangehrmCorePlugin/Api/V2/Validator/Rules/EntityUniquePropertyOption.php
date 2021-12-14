@@ -29,7 +29,7 @@ class EntityUniquePropertyOption
 
     public function __construct()
     {
-        $this->setTrimFunction(fn($input) => trim($input));
+        $this->setTrimFunction(fn ($input) => trim($input));
     }
 
     /**

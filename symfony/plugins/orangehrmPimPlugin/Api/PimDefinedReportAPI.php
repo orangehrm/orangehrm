@@ -90,7 +90,8 @@ class PimDefinedReportAPI extends Endpoint implements CrudEndpoint
             ->getReportGeneratorDao()
             ->getSearchPimDefinedReportCount($pimDefinedReportSearchFilterParams);
         return new EndpointCollectionResult(
-            PimDefinedReportModel::class, $pimDefinedReports,
+            PimDefinedReportModel::class,
+            $pimDefinedReports,
             new ParameterBag([CommonParams::PARAMETER_TOTAL => $pimDefinedReportCount])
         );
     }
@@ -267,7 +268,8 @@ class PimDefinedReportAPI extends Endpoint implements CrudEndpoint
             ),
             $this->getValidationDecorator()->requiredParamRule(
                 new ParamRule(
-                    self::PARAMETER_INCLUDE_TYPE, new Rule(Rules::STRING_TYPE),
+                    self::PARAMETER_INCLUDE_TYPE,
+                    new Rule(Rules::STRING_TYPE),
                     new Rule(Rules::CALLBACK, [
                         function () {
                             $includeType = $this->getRequestParams()->getString(

@@ -38,7 +38,7 @@ class EmployeeTimesheetController extends AbstractVueController
         } else {
             $component = new Component('employee-timesheet');
         }
-        
+
         $this->setComponent($component);
     }
 }

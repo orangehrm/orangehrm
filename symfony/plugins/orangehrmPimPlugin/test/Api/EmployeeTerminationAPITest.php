@@ -48,8 +48,8 @@ class EmployeeTerminationAPITest extends EndpointTestCase
     protected function loadFixtures(): void
     {
         $this->fixture = Config::get(
-                Config::PLUGINS_DIR
-            ) . '/orangehrmPimPlugin/test/fixtures/EmployeeTerminationDao.yml';
+            Config::PLUGINS_DIR
+        ) . '/orangehrmPimPlugin/test/fixtures/EmployeeTerminationDao.yml';
         TestDataService::populate($this->fixture);
     }
 

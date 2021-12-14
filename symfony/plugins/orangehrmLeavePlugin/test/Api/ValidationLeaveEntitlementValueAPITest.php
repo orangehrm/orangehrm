@@ -89,7 +89,7 @@ class ValidationLeaveEntitlementValueAPITest extends EndpointTestCase
             )
         );
         $this->assertInvalidParamException(
-            fn() => $this->validate(
+            fn () => $this->validate(
                 [
                     CommonParams::PARAMETER_ID => 2,
                     ValidationLeaveEntitlementValueAPI::PARAMETER_ENTITLEMENT => -1
@@ -99,7 +99,7 @@ class ValidationLeaveEntitlementValueAPITest extends EndpointTestCase
             [ValidationLeaveEntitlementValueAPI::PARAMETER_ENTITLEMENT]
         );
         $this->assertInvalidParamException(
-            fn() => $this->validate(
+            fn () => $this->validate(
                 [CommonParams::PARAMETER_ID => 2],
                 $rules
             ),

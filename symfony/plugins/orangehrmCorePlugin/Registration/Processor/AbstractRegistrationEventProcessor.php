@@ -241,5 +241,4 @@ abstract class AbstractRegistrationEventProcessor
      * @return bool
      */
     abstract public function getEventToBeSavedOrNot(): bool;
-
 }

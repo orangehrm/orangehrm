@@ -128,7 +128,7 @@ abstract class EndpointIntegrationTestCase extends EndpointTestCase
         );
         if ($testCaseParams->isInvalid()) {
             $this->assertInvalidParamException(
-                fn() => $this->validate($params, $api->$validationMethod()),
+                fn () => $this->validate($params, $api->$validationMethod()),
                 $testCaseParams->getInvalidOnly() ?? []
             );
             return;
@@ -244,7 +244,7 @@ abstract class EndpointIntegrationTestCase extends EndpointTestCase
                 ->getMock();
             $dateTimeHelper->expects($this->atLeastOnce())
                 ->method('getNow')
-                ->willReturnCallback(fn() => clone $testCaseParams->getNow());
+                ->willReturnCallback(fn () => clone $testCaseParams->getNow());
 
             $this->getContainer()->set(Services::DATETIME_HELPER_SERVICE, $dateTimeHelper);
         }

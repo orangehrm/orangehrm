@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\Tests\OAuth\Entity;
 
-
 use OrangeHRM\Entity\OAuthClient;
 use OrangeHRM\Tests\Util\EntityTestCase;
 use OrangeHRM\Tests\Util\TestDataService;

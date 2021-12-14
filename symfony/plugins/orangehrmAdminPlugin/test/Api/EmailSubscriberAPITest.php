@@ -26,7 +26,6 @@ use OrangeHRM\Tests\Util\Integration\TestCaseParams;
 
 class EmailSubscriberAPITest extends EndpointIntegrationTestCase
 {
-
     /**
      * @dataProvider dataProviderForTestGetAll
      */

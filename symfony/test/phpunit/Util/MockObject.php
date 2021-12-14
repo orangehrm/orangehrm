@@ -21,5 +21,4 @@ namespace OrangeHRM\Tests\Util;
 
 interface MockObject extends \PHPUnit\Framework\MockObject\MockObject
 {
-
 }

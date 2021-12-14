@@ -67,7 +67,7 @@ class ModuleNotAvailableSubscriber extends AbstractEventSubscriber
      * @throws RequestForwardableException
      * @return void
      */
-    public function onRequestEvent(RequestEvent $event):void
+    public function onRequestEvent(RequestEvent $event): void
     {
         if ($event->isMasterRequest()) {
             $disabledModules = $this->getModuleService()->getModuleDao()->getDisabledModuleList();

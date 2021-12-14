@@ -72,7 +72,7 @@ class TerminationReasonConfigurationServiceTest extends TestCase
             ->will($this->returnValue($terminationReasonList[0]));
         $this->terminationReasonService->setTerminationReasonDao($TerminationReasonDao);
         $result = $this->terminationReasonService->getTerminationReasonById(1);
-        $this->assertEquals($terminationReasonList[0],$result);
+        $this->assertEquals($terminationReasonList[0], $result);
     }
 
     public function testDeleteTerminationReasons(): void
@@ -86,7 +86,7 @@ class TerminationReasonConfigurationServiceTest extends TestCase
             ->will($this->returnValue(3));
         $this->terminationReasonService->setTerminationReasonDao($TerminationReasonDao);
         $result = $this->terminationReasonService->deleteTerminationReasons($terminationReasonList);
-        $this->assertEquals(3,$result);
+        $this->assertEquals(3, $result);
     }
 
     public function testGetTerminationReasonByName(): void
@@ -99,6 +99,6 @@ class TerminationReasonConfigurationServiceTest extends TestCase
             ->will($this->returnValue($terminationReasonList[0]));
         $this->terminationReasonService->setTerminationReasonDao($TerminationReasonDao);
         $result = $this->terminationReasonService->getTerminationReasonByName(1);
-        $this->assertEquals($terminationReasonList[0],$result);
+        $this->assertEquals($terminationReasonList[0], $result);
     }
 }

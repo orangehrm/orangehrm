@@ -45,5 +45,4 @@ class DataGroupPermissionCollection extends AttributeBag
         }
         return $permissionsArray;
     }
-
 }

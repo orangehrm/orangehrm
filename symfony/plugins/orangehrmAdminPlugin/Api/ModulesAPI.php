@@ -55,7 +55,7 @@ class ModulesAPI extends Endpoint implements CrudEndpoint
     /**
      * @var array
      */
-    protected const CONFIGURABLE_MODULES = array(
+    protected const CONFIGURABLE_MODULES = [
         self::PARAMETER_ADMIN => false,
         self::PARAMETER_PIM => false,
         self::PARAMETER_LEAVE => false,
@@ -64,7 +64,7 @@ class ModulesAPI extends Endpoint implements CrudEndpoint
         self::PARAMETER_PERFORMANCE => false,
         self::PARAMETER_MAINTENANCE => false,
         self::PARAMETER_MOBILE => false
-    );
+    ];
 
     /**
      * Get Module Service
@@ -129,8 +129,8 @@ class ModulesAPI extends Endpoint implements CrudEndpoint
             }
         }
         $configurableModules[self::PARAMETER_MOBILE] = $this->getOAuthService()->getOAuthClientByClientId(
-                OAuthService::PUBLIC_MOBILE_CLIENT_ID
-            ) instanceof OAuthClient;
+            OAuthService::PUBLIC_MOBILE_CLIENT_ID
+        ) instanceof OAuthClient;
         return $configurableModules;
     }
 
@@ -219,8 +219,8 @@ class ModulesAPI extends Endpoint implements CrudEndpoint
     private function deleteMobileClient(): void
     {
         if ($this->getOAuthService()->getOAuthClientByClientId(
-                OAuthService::PUBLIC_MOBILE_CLIENT_ID
-            ) instanceof OAuthClient) {
+            OAuthService::PUBLIC_MOBILE_CLIENT_ID
+        ) instanceof OAuthClient) {
             $this->getOAuthService()->deleteOAuthClients([OAuthService::PUBLIC_MOBILE_CLIENT_ID]);
         }
     }
@@ -231,8 +231,8 @@ class ModulesAPI extends Endpoint implements CrudEndpoint
     private function createMobileClient(): void
     {
         if (!$this->getOAuthService()->getOAuthClientByClientId(
-                OAuthService::PUBLIC_MOBILE_CLIENT_ID
-            ) instanceof OAuthClient) {
+            OAuthService::PUBLIC_MOBILE_CLIENT_ID
+        ) instanceof OAuthClient) {
             $this->getOAuthService()->createMobileClient();
         }
     }

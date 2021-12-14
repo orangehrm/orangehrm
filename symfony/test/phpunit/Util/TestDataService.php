@@ -31,9 +31,9 @@ use Symfony\Component\Yaml\Yaml;
 
 class TestDataService
 {
-    /** Encrypted fields in the format 
-     *        array('Model1' => array(field1, field2), 
-     *              'Model2' => array(field1, field2))        
+    /** Encrypted fields in the format
+     *        array('Model1' => array(field1, field2),
+     *              'Model2' => array(field1, field2))
      */
     private static $encryptedModels = []; //array('EmployeeSalary' => array('amount'));
 
@@ -129,7 +129,7 @@ class TestDataService
     private static function _generateMultipleInsertQueryArray(string $tableAlias, array $tableData): array
     {
         $tableName = self::_getTableName($tableAlias);
-        $queryArray = array();
+        $queryArray = [];
 
         if (!empty($tableData)) {
             foreach ($tableData as $item) {
@@ -215,12 +215,12 @@ class TestDataService
     /**
      * If configured to encrypt data, encrypt fields in fixture.
      */
-    private static function _encryptFieldsInFixture() {
+    private static function _encryptFieldsInFixture()
+    {
         // TODO
         foreach (self::$encryptedModels as $model => $fields) {
             if (isset(self::$data[$model]) && \KeyHandler::keyExists()) {
                 foreach (self::$data[$model] as $id => $row) {
-
                     foreach ($fields as $field) {
                         self::$data[$model][$id][$field] = \Cryptographer::encrypt($row[$field]);
                     }

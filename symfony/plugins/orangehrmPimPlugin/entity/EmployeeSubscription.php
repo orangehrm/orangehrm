@@ -76,5 +76,4 @@ class EmployeeSubscription
     {
         $this->Employee = new \Doctrine\Common\Collections\ArrayCollection();
     }
-
 }

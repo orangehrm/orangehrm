@@ -48,8 +48,11 @@ class ReportingMethodConfigurationServiceTest extends TestCase
 
     public function testGetReportingMethodList(): void
     {
-        $reportingMethodList = TestDataService::loadObjectList(ReportingMethod::class, $this->fixture,
-            'ReportingMethod');
+        $reportingMethodList = TestDataService::loadObjectList(
+            ReportingMethod::class,
+            $this->fixture,
+            'ReportingMethod'
+        );
         $reportingMethodFilterParams = new ReportingMethodSearchFilterParams();
         $reportingMethodDao = $this->getMockBuilder(ReportingMethodConfigurationDao::class)->getMock();
         $reportingMethodDao->expects($this->once())

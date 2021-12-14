@@ -600,5 +600,4 @@ class TestEntitlementConsumptionStrategy implements EntitlementConsumptionStrate
 
 class InvalidLeaveEntitlementConsumptionStrategy
 {
-
 }

@@ -17,7 +17,6 @@
  * Boston, MA  02110-1301, USA
  */
 
-
 namespace OrangeHRM\Tests\Admin\Entity;
 
 use OrangeHRM\Tests\Util\EntityTestCase;
@@ -42,5 +41,4 @@ class EducationTest extends EntityTestCase
         $this->assertEquals('Phd', $education->getName());
         $this->assertEquals(1, $education->getId());
     }
-
 }

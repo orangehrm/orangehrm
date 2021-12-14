@@ -21,5 +21,4 @@ namespace OrangeHRM\Core\Controller;
 
 interface PublicControllerInterface
 {
-
 }

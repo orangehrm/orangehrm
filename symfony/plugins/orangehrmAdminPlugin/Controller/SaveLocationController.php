@@ -28,7 +28,6 @@ use OrangeHRM\Framework\Services;
 
 class SaveLocationController extends BaseAdminController
 {
-
     use ConfigServiceTrait;
 
     /**
@@ -61,5 +60,4 @@ class SaveLocationController extends BaseAdminController
     {
         return ['locations'];
     }
-
 }

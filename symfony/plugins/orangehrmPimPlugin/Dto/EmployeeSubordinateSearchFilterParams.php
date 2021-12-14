@@ -20,12 +20,10 @@
 
 namespace OrangeHRM\Pim\Dto;
 
-
 use OrangeHRM\Core\Dto\FilterParams;
 
 class EmployeeSubordinateSearchFilterParams extends FilterParams
 {
-
     public const ALLOWED_SORT_FIELDS = ['subordinate.lastName'];
 
 
@@ -57,5 +55,4 @@ class EmployeeSubordinateSearchFilterParams extends FilterParams
     {
         $this->empNumber = $empNumber;
     }
-
 }

@@ -95,7 +95,7 @@ class PayGradeServiceTest extends TestCase
             $this->fixture,
             'PayGradeCurrency'
         );
-        $payGradeCurrencyList = array($payGradeCurrencyList[0], $payGradeCurrencyList[1]);
+        $payGradeCurrencyList = [$payGradeCurrencyList[0], $payGradeCurrencyList[1]];
 
         $payGradeDao = $this->getMockBuilder(PayGradeDao::class)->getMock();
         $payGradeDao->expects($this->once())
@@ -199,7 +199,6 @@ class PayGradeServiceTest extends TestCase
 
     public function testGetPayGradeCurrencyListCount(): void
     {
-
         $payGradeDao = $this->getMockBuilder(PayGradeDao::class)->getMock();
         $payGradeDao->expects($this->once())
             ->method('getPayGradeCurrencyListCount')
@@ -218,7 +217,7 @@ class PayGradeServiceTest extends TestCase
             $this->fixture,
             'PayGradeCurrency'
         );
-        $payGradeCurrencyList = array($payGradeCurrencyList[0], $payGradeCurrencyList[1]);
+        $payGradeCurrencyList = [$payGradeCurrencyList[0], $payGradeCurrencyList[1]];
         $payGradeSearchFilterParams = new PayGradeCurrencySearchFilterParams();
         $payGradeSearchFilterParams->setPayGradeId(1);
         $payGradeDao = $this->getMockBuilder(PayGradeDao::class)->getMock();
@@ -231,12 +230,10 @@ class PayGradeServiceTest extends TestCase
 
         $result = $this->payGradeService->getPayGradeCurrencyList($payGradeSearchFilterParams);
         $this->assertEquals($result, $payGradeCurrencyList);
-
     }
 
     public function testSavePayGrade(): void
     {
-
         $payGrade = new PayGrade();
         $payGrade->setName('Executive');
 
@@ -279,7 +276,7 @@ class PayGradeServiceTest extends TestCase
             ->will($this->returnValue(1));
         $this->payGradeService->setPayGradeDao($payGradeDao);
         $result = $this->payGradeService->deletePayGrades($payGradeIds);
-        $this->assertEquals(1,$result);
+        $this->assertEquals(1, $result);
     }
 
     public function testGetAllowedPayCurrencies(): void

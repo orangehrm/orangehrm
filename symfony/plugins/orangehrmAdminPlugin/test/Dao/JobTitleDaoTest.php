@@ -33,7 +33,6 @@ use OrangeHRM\Tests\Util\TestDataService;
  */
 class JobTitleDaoTest extends TestCase
 {
-
     private $jobTitleDao;
     protected $fixture;
 

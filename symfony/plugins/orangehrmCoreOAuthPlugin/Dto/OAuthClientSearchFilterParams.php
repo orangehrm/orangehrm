@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\OAuth\Dto;
 
-
 use OrangeHRM\Core\Dto\FilterParams;
 
 class OAuthClientSearchFilterParams extends FilterParams

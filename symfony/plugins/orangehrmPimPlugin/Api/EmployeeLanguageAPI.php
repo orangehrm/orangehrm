@@ -186,7 +186,8 @@ class EmployeeLanguageAPI extends Endpoint implements CrudEndpoint
 
         $this->getEmployeeLanguageService()->getEmployeeLanguageDao()->saveEmployeeLanguage($employeeLanguage);
         return new EndpointResourceResult(
-            EmployeeLanguageModel::class, $employeeLanguage,
+            EmployeeLanguageModel::class,
+            $employeeLanguage,
             new ParameterBag([CommonParams::PARAMETER_EMP_NUMBER => $empNumber])
         );
     }
@@ -240,7 +241,8 @@ class EmployeeLanguageAPI extends Endpoint implements CrudEndpoint
         $this->setEmployeeLanguage($employeeLanguage);
         $this->getEmployeeLanguageService()->getEmployeeLanguageDao()->saveEmployeeLanguage($employeeLanguage);
         return new EndpointResourceResult(
-            EmployeeLanguageModel::class, $employeeLanguage,
+            EmployeeLanguageModel::class,
+            $employeeLanguage,
             new ParameterBag([CommonParams::PARAMETER_EMP_NUMBER => $empNumber])
         );
     }
@@ -278,7 +280,8 @@ class EmployeeLanguageAPI extends Endpoint implements CrudEndpoint
             $entriesToDelete
         );
         return new EndpointResourceResult(
-            ArrayModel::class, $entriesToDelete,
+            ArrayModel::class,
+            $entriesToDelete,
             new ParameterBag([CommonParams::PARAMETER_EMP_NUMBER => $empNumber])
         );
     }
@@ -330,7 +333,8 @@ class EmployeeLanguageAPI extends Endpoint implements CrudEndpoint
     private function getFluencyIdRule(): ParamRule
     {
         return new ParamRule(
-            self::PARAMETER_FLUENCY_ID, new Rule(Rules::IN, [array_keys(EmployeeLanguage::FLUENCIES)])
+            self::PARAMETER_FLUENCY_ID,
+            new Rule(Rules::IN, [array_keys(EmployeeLanguage::FLUENCIES)])
         );
     }
 

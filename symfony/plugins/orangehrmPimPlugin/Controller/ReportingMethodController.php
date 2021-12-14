@@ -27,7 +27,6 @@ use OrangeHRM\Pim\Service\ReportingMethodConfigurationService;
 
 class ReportingMethodController extends AbstractVueController
 {
-
     /**
      * @var ReportingMethodConfigurationService|null
      */

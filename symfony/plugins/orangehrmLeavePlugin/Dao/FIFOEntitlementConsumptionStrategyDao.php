@@ -51,7 +51,7 @@ class FIFOEntitlementConsumptionStrategyDao extends BaseDao
         try {
             $leavePeriodStartDate = $leavePeriodForToday->getStartDate();
 
-            // If current leave period start date is 1/1 and new date is 1/1, 
+            // If current leave period start date is 1/1 and new date is 1/1,
             if ($leavePeriodStartDate->format('n') == 1 &&
                 $leavePeriodStartDate->format('j') == 1 &&
                 $newMonth == 1 && $newDay == 1) {

@@ -22,7 +22,6 @@ namespace OrangeHRM\Leave\Controller;
 use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
-use OrangeHRM\Entity\CustomField;
 use OrangeHRM\Entity\Holiday;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;

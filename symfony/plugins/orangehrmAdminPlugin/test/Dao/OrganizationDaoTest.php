@@ -73,4 +73,3 @@ class OrganizationDaoTest extends TestCase
         $this->assertEquals("1234", $result->getTaxId());
     }
 }
-

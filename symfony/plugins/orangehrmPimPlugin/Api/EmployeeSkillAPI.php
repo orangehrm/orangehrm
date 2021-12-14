@@ -153,7 +153,8 @@ class EmployeeSkillAPI extends Endpoint implements CrudEndpoint
     {
         $employeeSkill = $this->saveEmployeeSkill();
         return new EndpointResourceResult(
-            EmployeeSkillModel::class, $employeeSkill,
+            EmployeeSkillModel::class,
+            $employeeSkill,
             new ParameterBag(
                 [
                     CommonParams::PARAMETER_EMP_NUMBER => $employeeSkill->getEmployee()->getEmpNumber(),
@@ -209,7 +210,8 @@ class EmployeeSkillAPI extends Endpoint implements CrudEndpoint
         $employeeSkill = $this->saveEmployeeSkill();
 
         return new EndpointResourceResult(
-            EmployeeSkillModel::class, $employeeSkill,
+            EmployeeSkillModel::class,
+            $employeeSkill,
             new ParameterBag(
                 [
                     CommonParams::PARAMETER_EMP_NUMBER => $employeeSkill->getEmployee()->getEmpNumber(),
@@ -244,7 +246,8 @@ class EmployeeSkillAPI extends Endpoint implements CrudEndpoint
         $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
         $this->getEmployeeSkillService()->getEmployeeSkillDao()->deleteEmployeeSkills($empNumber, $ids);
         return new EndpointResourceResult(
-            ArrayModel::class, $ids,
+            ArrayModel::class,
+            $ids,
             new ParameterBag(
                 [
                     CommonParams::PARAMETER_EMP_NUMBER => $empNumber,

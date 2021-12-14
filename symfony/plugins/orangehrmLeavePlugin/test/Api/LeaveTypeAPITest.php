@@ -19,20 +19,14 @@
 
 namespace OrangeHRM\Tests\Leave\Api;
 
-use DateTime;
-use OrangeHRM\Authentication\Auth\User;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\RequestParams;
-use OrangeHRM\Core\Authorization\Manager\BasicUserRoleManager;
 use OrangeHRM\Core\Service\DateTimeHelperService;
-use OrangeHRM\Entity\Education;
-use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\LeaveType;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Leave\Api\LeaveTypeAPI;
 use OrangeHRM\Leave\Dao\LeaveTypeDao;
-use OrangeHRM\Leave\Dto\LeaveTypeSearchFilterParams;
 use OrangeHRM\Leave\Service\LeaveTypeService;
 use OrangeHRM\Tests\Util\EndpointTestCase;
 use OrangeHRM\Tests\Util\MockObject;
@@ -47,8 +41,8 @@ class LeaveTypeAPITest extends EndpointTestCase
     protected function loadFixtures(): void
     {
         $this->fixture = Config::get(
-                Config::PLUGINS_DIR
-            ) . '/orangehrmLeavePlugin/test/fixtures/LeaveType.yml';
+            Config::PLUGINS_DIR
+        ) . '/orangehrmLeavePlugin/test/fixtures/LeaveType.yml';
         TestDataService::populate($this->fixture);
     }
 

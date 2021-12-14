@@ -154,7 +154,8 @@ class AccessFlowStateMachineDao extends BaseDao
      * @return WorkflowStateMachine[]
      * @throws DaoException
      */
-    public function saveWorkflowStateMachineRecordAsArray(array $workflowStateMachineRecordArray):array {
+    public function saveWorkflowStateMachineRecordAsArray(array $workflowStateMachineRecordArray): array
+    {
         try {
             foreach ($workflowStateMachineRecordArray as $workflowStateMachineRecord) {
                 $this->getEntityManager()->persist($workflowStateMachineRecord);

@@ -78,7 +78,7 @@ class LeaveEntitlementReport extends AbstractVueController
         ];
 
         $component->addProp(new Prop('leave-period', Prop::TYPE_OBJECT, $leavePeriod));
-        
+
         $this->setComponent($component);
     }
 }

@@ -19,10 +19,8 @@
 
 namespace OrangeHRM\Admin\Dao;
 
-use Doctrine\ORM\QueryBuilder;
 use OrangeHRM\Admin\Dto\SkillSearchFilterParams;
 use OrangeHRM\Entity\Skill;
-use OrangeHRM\ORM\Doctrine;
 use OrangeHRM\Core\Exception\DaoException;
 use Exception;
 use OrangeHRM\ORM\Paginator;

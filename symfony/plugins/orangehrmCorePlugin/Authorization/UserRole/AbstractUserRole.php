@@ -86,7 +86,8 @@ abstract class AbstractUserRole
     /**
      * @return LocationService
      */
-    public function getLocationService():LocationService {
+    public function getLocationService(): LocationService
+    {
         if (!$this->locationService instanceof LocationService) {
             $this->locationService = new LocationService();
         }
@@ -96,11 +97,13 @@ abstract class AbstractUserRole
     /**
      * @param LocationService $locationService
      */
-    public function setLocationService(LocationService $locationService):void {
+    public function setLocationService(LocationService $locationService): void
+    {
         $this->locationService = $locationService;
     }
 
-    public function getOperationalCountryService() {
+    public function getOperationalCountryService()
+    {
         // TODO
         if (empty($this->operationalCountryService)) {
             $this->operationalCountryService = new OperationalCountryService();
@@ -108,16 +111,18 @@ abstract class AbstractUserRole
         return $this->operationalCountryService;
     }
 
-    public function setOperationalCountryService($operationalCountryService) {
+    public function setOperationalCountryService($operationalCountryService)
+    {
         // TODO
         $this->operationalCountryService = $operationalCountryService;
     }
-    
+
     /**
      * Get the Project Data Access Object
      * @return ProjectService
      */
-    public function getProjectService() {
+    public function getProjectService()
+    {
         // TODO
         if (is_null($this->projectService)) {
             $this->projectService = new ProjectService();
@@ -130,20 +135,22 @@ abstract class AbstractUserRole
      * @param ProjectService $projectService
      * @return void
      */
-    public function setProjectService(ProjectService $projectService) {
+    public function setProjectService(ProjectService $projectService)
+    {
         // TODO
         $this->projectService = $projectService;
-    }    
-    
+    }
+
     /**
      * Get VacancyService
      * @return VacancyService
      */
-    public function getVacancyService() {
+    public function getVacancyService()
+    {
         // TODO
         if (is_null($this->vacancyService)) {
             $this->vacancyService = new VacancyService();
-        }        
+        }
         return $this->vacancyService;
     }
 
@@ -151,16 +158,17 @@ abstract class AbstractUserRole
      * Set Vacancy Service
      * @param VacancyService $vacancyService
      */
-    public function setVacancyService(VacancyService $vacancyService) {
+    public function setVacancyService(VacancyService $vacancyService)
+    {
         // TODO
         $this->vacancyService = $vacancyService;
     }
 
-        
-    public function getAccessibleEntities($entityType, $operation = null, $returnType = null, $requiredPermissions = []) {
 
+    public function getAccessibleEntities($entityType, $operation = null, $returnType = null, $requiredPermissions = [])
+    {
         $permitted = $this->areRequiredPermissionsAvailable($requiredPermissions);
-        
+
         if ($permitted) {
             switch ($entityType) {
                 case Employee::class:
@@ -185,9 +193,13 @@ abstract class AbstractUserRole
         return $entities;
     }
 
-    public function getAccessibleEntityProperties($entityType, $properties = [], $orderField = null, $orderBy = null, $requiredPermissions = []
+    public function getAccessibleEntityProperties(
+        $entityType,
+        $properties = [],
+        $orderField = null,
+        $orderBy = null,
+        $requiredPermissions = []
     ) {
-
         $permitted = $this->areRequiredPermissionsAvailable($requiredPermissions);
         if ($permitted) {
             switch ($entityType) {
@@ -253,24 +265,29 @@ abstract class AbstractUserRole
         }
         return $ids;
     }
-    
-    public function getEmployeesWithRole($entities = []) {
-        return [];
-    }    
 
-    public function getAccessibleProjects($operation = null, $returnType = null, $requiredPermissions = []) {
+    public function getEmployeesWithRole($entities = [])
+    {
         return [];
     }
-    
-    public function getAccessibleProjectIds($operation = null, $returnType = null, $requiredPermissions = []) {
+
+    public function getAccessibleProjects($operation = null, $returnType = null, $requiredPermissions = [])
+    {
         return [];
     }
-    
-    public function getAccessibleVacancies($operation = null, $returnType = null, $requiredPermissions = []) {
+
+    public function getAccessibleProjectIds($operation = null, $returnType = null, $requiredPermissions = [])
+    {
         return [];
-    }    
-    
-    public function getAccessibleVacancyIds($operation = null, $returnType = null, $requiredPermissions = []) {
+    }
+
+    public function getAccessibleVacancies($operation = null, $returnType = null, $requiredPermissions = [])
+    {
+        return [];
+    }
+
+    public function getAccessibleVacancyIds($operation = null, $returnType = null, $requiredPermissions = [])
+    {
         return [];
     }
 
@@ -281,16 +298,26 @@ abstract class AbstractUserRole
      * @return array|Employee[]
      */
     abstract public function getAccessibleEmployees($operation = null, $returnType = null, $requiredPermissions = []): array;
-    
-    abstract public function getAccessibleEmployeePropertyList($properties, $orderField, $orderBy, $requiredPermissions = []
+
+    abstract public function getAccessibleEmployeePropertyList(
+        $properties,
+        $orderField,
+        $orderBy,
+        $requiredPermissions = []
     );
-    
+
     abstract public function getAccessibleEmployeeIds($operation = null, $returnType = null, $requiredPermissions = []);
 
-    abstract public function getAccessibleSystemUserIds($operation = null, $returnType = null, $requiredPermissions = []
+    abstract public function getAccessibleSystemUserIds(
+        $operation = null,
+        $returnType = null,
+        $requiredPermissions = []
     );
 
-    abstract public function getAccessibleOperationalCountryIds($operation = null, $returnType = null, $requiredPermissions = []
+    abstract public function getAccessibleOperationalCountryIds(
+        $operation = null,
+        $returnType = null,
+        $requiredPermissions = []
     );
 
     abstract public function getAccessibleUserRoleIds($operation = null, $returnType = null, $requiredPermissions = []);
@@ -301,13 +328,17 @@ abstract class AbstractUserRole
      * @param array $requiredPermissions
      * @return bool
      */
-    protected function areRequiredPermissionsAvailable(array $requiredPermissions = []): bool {
+    protected function areRequiredPermissionsAvailable(array $requiredPermissions = []): bool
+    {
         $permitted = true;
-        
+
         foreach ($requiredPermissions as $permissionType => $permissions) {
             if ($permissionType == BasicUserRoleManager::PERMISSION_TYPE_DATA_GROUP) {
                 foreach ($permissions as $dataGroupName => $requestedResourcePermission) {
-                    $dataGroupPermissions = $this->userRoleManager->getDataGroupPermissions($dataGroupName, [], [$this->roleName]
+                    $dataGroupPermissions = $this->userRoleManager->getDataGroupPermissions(
+                        $dataGroupName,
+                        [],
+                        [$this->roleName]
                     );
 
                     if ($permitted && $requestedResourcePermission->canRead()) {
@@ -324,14 +355,13 @@ abstract class AbstractUserRole
 
                     if ($permitted && $requestedResourcePermission->canDelete()) {
                         $permitted = $dataGroupPermissions->canDelete();
-                    }                        
+                    }
                 }
             } elseif ($permissionType == BasicUserRoleManager::PERMISSION_TYPE_ACTION) {
                 $permitted = true;
             }
-        } 
-        
+        }
+
         return $permitted;
     }
-        
 }

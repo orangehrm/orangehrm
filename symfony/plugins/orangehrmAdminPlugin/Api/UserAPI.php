@@ -119,7 +119,8 @@ class UserAPI extends Endpoint implements CrudEndpoint
         $users = $this->getSystemUserService()->searchSystemUsers($userSearchParamHolder);
         $count = $this->getSystemUserService()->getSearchSystemUsersCount($userSearchParamHolder);
         return new EndpointCollectionResult(
-            UserModel::class, $users,
+            UserModel::class,
+            $users,
             new ParameterBag([CommonParams::PARAMETER_TOTAL => $count])
         );
     }

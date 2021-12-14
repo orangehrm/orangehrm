@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\Entity\Decorator;
 
-
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\ReportingMethod;
@@ -78,5 +77,4 @@ class ReportToDecorator
         $reportingMethod = $this->getReference(ReportingMethod::class, $reportingMethodId);
         $this->getEmployeeReportTo()->setReportingMethod($reportingMethod);
     }
-
 }

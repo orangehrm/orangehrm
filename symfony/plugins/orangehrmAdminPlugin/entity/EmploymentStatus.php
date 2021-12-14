@@ -109,5 +109,4 @@ class EmploymentStatus
     {
         $this->employees = $employees;
     }
-
 }

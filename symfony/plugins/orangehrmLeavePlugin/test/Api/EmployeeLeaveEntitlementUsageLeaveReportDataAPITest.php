@@ -108,7 +108,7 @@ class EmployeeLeaveEntitlementUsageLeaveReportDataAPITest extends EndpointIntegr
         );
         $this->assertInvalidParamException(
         // accept any parameter but report name required
-            fn() => $this->validate(
+            fn () => $this->validate(
                 ['param' => 'any'],
                 $rules
             ),

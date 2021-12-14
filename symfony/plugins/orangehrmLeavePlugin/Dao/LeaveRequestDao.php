@@ -516,7 +516,7 @@ class LeaveRequestDao extends BaseDao
      */
     public function getLeavesByEmpNumberAndDates(int $empNumber, array $dates): array
     {
-        $dates = array_map(fn(DateTime $date) => $this->getDateTimeHelper()->formatDateTimeToYmd($date), $dates);
+        $dates = array_map(fn (DateTime $date) => $this->getDateTimeHelper()->formatDateTimeToYmd($date), $dates);
         $q = $this->createQueryBuilder(Leave::class, 'l')
             ->andWhere('l.employee = :empNumber')
             ->setParameter('empNumber', $empNumber);

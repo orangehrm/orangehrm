@@ -50,5 +50,4 @@ class PayGradeCurrencyModel implements Normalizable
             ]
         );
     }
-
 }

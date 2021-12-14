@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\Pim\Api;
 
-
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CollectionEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
@@ -37,7 +36,6 @@ use OrangeHRM\Pim\Service\EmployeeReportingMethodService;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
-
 
 class EmployeeAllowedReportToEmployeeAPI extends Endpoint implements CollectionEndpoint
 {
@@ -97,7 +95,6 @@ class EmployeeAllowedReportToEmployeeAPI extends Endpoint implements CollectionE
             $employees,
             new ParameterBag([CommonParams::PARAMETER_TOTAL => $count])
         );
-
     }
 
     /**

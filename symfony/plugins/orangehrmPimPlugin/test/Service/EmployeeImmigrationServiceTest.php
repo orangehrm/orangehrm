@@ -76,7 +76,7 @@ class EmployeeImmigrationServiceTest extends TestCase
         $employeeImmigrationRecordDao->expects($this->once())
             ->method('getEmployeeImmigrationRecordList')
             ->with(1)
-            ->will($this->returnValue(array($employeeImmigrationRecord1, $employeeImmigrationRecord2)));
+            ->will($this->returnValue([$employeeImmigrationRecord1, $employeeImmigrationRecord2]));
 
         $this->employeeImmigrationRecordService->setEmployeeImmigrationRecordDao($employeeImmigrationRecordDao);
         $employeeImmigrationRecords = $this->employeeImmigrationRecordService->getEmployeeImmigrationRecordList(1);
@@ -175,7 +175,7 @@ class EmployeeImmigrationServiceTest extends TestCase
         $employeeImmigrationRecord2->setNumber('RTF33323411');
 
 
-        $employeeImmigrationRecordList = array($employeeImmigrationRecord1, $employeeImmigrationRecord2);
+        $employeeImmigrationRecordList = [$employeeImmigrationRecord1, $employeeImmigrationRecord2];
         $employeeImmigrationRecordSearchParams = new EmployeeImmigrationRecordSearchFilterParams();
         $employeeImmigrationRecordSearchParams->setEmpNumber(1);
         $employeeImmigrationRecordDao = $this->getMockBuilder(EmployeeImmigrationRecordDao::class)->getMock();

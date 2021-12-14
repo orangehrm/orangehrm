@@ -14,7 +14,6 @@ use OrangeHRM\Entity\Decorator\EmpEmergencyContactDecorator;
  */
 class EmpEmergencyContact
 {
-
     use DecoratorTrait;
 
     /**
@@ -181,5 +180,4 @@ class EmpEmergencyContact
     {
         $this->officePhone = $officePhone;
     }
-
 }

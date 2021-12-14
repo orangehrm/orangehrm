@@ -29,7 +29,6 @@ use OrangeHRM\Pim\Dto\EmployeeSupervisorSearchFilterParams;
 
 class EmployeeReportingMethodDao extends BaseDao
 {
-
     /**
      * @param ReportTo $reportTo
      * @return ReportTo

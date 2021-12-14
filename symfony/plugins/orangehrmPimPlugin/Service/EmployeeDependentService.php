@@ -112,7 +112,8 @@ class EmployeeDependentService
      * @return int
      * @throws ServiceException
      */
-    public function getSearchEmployeeDependentsCount(EmployeeDependentSearchFilterParams $employeeDependentSearchParams
+    public function getSearchEmployeeDependentsCount(
+        EmployeeDependentSearchFilterParams $employeeDependentSearchParams
     ): int {
         try {
             return $this->getEmployeeDependentDao()->getSearchEmployeeDependentsCount($employeeDependentSearchParams);

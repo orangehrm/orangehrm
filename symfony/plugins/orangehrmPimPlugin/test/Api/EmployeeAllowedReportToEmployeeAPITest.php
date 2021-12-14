@@ -17,7 +17,9 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Tests\Pim\Api;;
+namespace OrangeHRM\Tests\Pim\Api;
+
+;
 
 
 use OrangeHRM\Authentication\Auth\User;
@@ -32,15 +34,12 @@ use OrangeHRM\Pim\Service\EmployeeService;
 use OrangeHRM\Tests\Util\EndpointTestCase;
 use OrangeHRM\Tests\Util\MockObject;
 
-
 /**
  * @group Pim
  * @group APIv2
  */
 class EmployeeAllowedReportToEmployeeAPITest extends EndpointTestCase
 {
-
-
     public function testDelete(): void
     {
         $api = new EmployeeAllowedReportToEmployeeAPI($this->getRequest());

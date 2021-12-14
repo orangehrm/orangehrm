@@ -410,7 +410,7 @@ class EmployeeCustomFieldAPITest extends EndpointTestCase
             )
         );
         $this->assertInvalidParamException(
-            fn() => $this->validate(
+            fn () => $this->validate(
                 [
                     CommonParams::PARAMETER_EMP_NUMBER => 1,
                     'custom11' => 'Test 11'

@@ -71,7 +71,8 @@ class EmailSubscriptionAPI extends Endpoint implements CrudEndpoint
             ->getEmailSubscriptionListCount($emailSubscriptionSearchFilterParams);
 
         return new EndpointCollectionResult(
-            EmailSubscriptionModel::class, $emailSubscriptions,
+            EmailSubscriptionModel::class,
+            $emailSubscriptions,
             new ParameterBag([CommonParams::PARAMETER_TOTAL => $emailSubscriptionsCount])
         );
     }

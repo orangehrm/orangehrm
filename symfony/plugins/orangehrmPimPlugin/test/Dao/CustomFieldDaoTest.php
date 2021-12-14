@@ -33,7 +33,6 @@ use OrangeHRM\Tests\Util\TestDataService;
  */
 class CustomFieldDaoTest extends TestCase
 {
-
     private CustomFieldDao $customFieldDao;
     protected string $fixture;
 
@@ -45,8 +44,8 @@ class CustomFieldDaoTest extends TestCase
     {
         $this->customFieldDao = new CustomFieldDao();
         $this->fixture = Config::get(
-                Config::PLUGINS_DIR
-            ) . '/orangehrmPimPlugin/test/fixtures/CustomFieldConfigurationDao.yml';
+            Config::PLUGINS_DIR
+        ) . '/orangehrmPimPlugin/test/fixtures/CustomFieldConfigurationDao.yml';
         TestDataService::populate($this->fixture);
     }
 

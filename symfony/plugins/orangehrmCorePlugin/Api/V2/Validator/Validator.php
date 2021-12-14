@@ -56,7 +56,8 @@ class Validator
                     );
                 } else {
                     throw new InvalidParamException(
-                        [], sprintf('Unexpected Parameter (`%s`) Received', $paramKey)
+                        [],
+                        sprintf('Unexpected Parameter (`%s`) Received', $paramKey)
                     );
                 }
             } catch (ValidationException | Exception $e) {

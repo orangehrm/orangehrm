@@ -42,22 +42,21 @@ class PayGradeModel implements Normalizable
         $payGrade = $this->getEntity();
         $payGradeCurrencies = $payGrade->getPayGradeCurrencies();
         $currencies = [];
-        foreach ($payGradeCurrencies as $payGradeCurrency){
+        foreach ($payGradeCurrencies as $payGradeCurrency) {
             $currency = [];
-            if($payGradeCurrency instanceof PayGradeCurrency){
+            if ($payGradeCurrency instanceof PayGradeCurrency) {
                 $currencyType = $payGradeCurrency->getCurrencyType();
-                if($currencyType instanceof CurrencyType){
+                if ($currencyType instanceof CurrencyType) {
                     $currency['name'] = $currencyType->getName();
                     $currency['id'] = $currencyType->getId();
                 }
                 $currencies[] = $currency;
             }
         }
-       return [
+        return [
            'id'     => $payGrade->getId(),
            'name'   => $payGrade->getName(),
            'currencies' => $currencies
        ];
     }
-
 }

@@ -99,7 +99,6 @@ class CustomFieldAPI extends Endpoint implements CrudEndpoint
         $name = $this->getRequestParams()->getString(
             RequestParams::PARAM_TYPE_BODY,
             self::PARAMETER_NAME
-
         );
         $type = $this->getRequestParams()->getInt(
             RequestParams::PARAM_TYPE_BODY,
@@ -182,7 +181,8 @@ class CustomFieldAPI extends Endpoint implements CrudEndpoint
         $customField = new CustomField();
         $customField = $this->saveCustomField($customField);
         return new EndpointResourceResult(
-            CustomFieldModel::class, $customField,
+            CustomFieldModel::class,
+            $customField,
         );
     }
 

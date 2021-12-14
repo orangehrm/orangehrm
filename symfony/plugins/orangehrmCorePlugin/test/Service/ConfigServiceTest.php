@@ -33,7 +33,6 @@ use OrangeHRM\Tests\Util\KernelTestCase;
  */
 class ConfigServiceTest extends KernelTestCase
 {
-
     private ConfigService $configService;
 
     /**
@@ -369,9 +368,9 @@ class ConfigServiceTest extends KernelTestCase
 
     public function testGetAllValues(): void
     {
-        $allValues = array('k1' => 'v1', 'k2' => 'v2');
+        $allValues = ['k1' => 'v1', 'k2' => 'v2'];
         $mockDao = $this->getMockBuilder(ConfigDao::class)
-            ->setMethods(array('getAllValues'))
+            ->setMethods(['getAllValues'])
             ->getMock();
         $mockDao->expects($this->once())
             ->method('getAllValues')

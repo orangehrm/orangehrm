@@ -33,7 +33,6 @@ use OrangeHRM\Tests\Util\TestDataService;
  */
 class EducationServiceTest extends TestCase
 {
-
     private EducationService $educationService;
     private string $fixture;
 
@@ -54,7 +53,7 @@ class EducationServiceTest extends TestCase
 
     public function testDeleteEducations(): void
     {
-        $toBeDeletedEducationIds = array(1, 2);
+        $toBeDeletedEducationIds = [1, 2];
         $educationDao = $this->getMockBuilder(EducationDao::class)->getMock();
         $educationDao->expects($this->once())
             ->method('deleteEducations')

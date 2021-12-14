@@ -100,7 +100,8 @@ class EmploymentStatusDao extends BaseDao
      * @param EmploymentStatusSearchFilterParams $employmentStatusSearchParams
      * @return Paginator
      */
-    private function getSearchEmploymentStatusPaginator(EmploymentStatusSearchFilterParams $employmentStatusSearchParams
+    private function getSearchEmploymentStatusPaginator(
+        EmploymentStatusSearchFilterParams $employmentStatusSearchParams
     ): Paginator {
         $q = $this->createQueryBuilder(EmploymentStatus::class, 'es');
         $this->setSortingAndPaginationParams($q, $employmentStatusSearchParams);
@@ -136,7 +137,8 @@ class EmploymentStatusDao extends BaseDao
      * @return int
      * @throws DaoException
      */
-    public function getSearchEmploymentStatusesCount(EmploymentStatusSearchFilterParams $employmentStatusSearchParams
+    public function getSearchEmploymentStatusesCount(
+        EmploymentStatusSearchFilterParams $employmentStatusSearchParams
     ): int {
         try {
             $paginator = $this->getSearchEmploymentStatusPaginator($employmentStatusSearchParams);

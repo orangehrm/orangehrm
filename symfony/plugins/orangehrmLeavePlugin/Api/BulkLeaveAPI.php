@@ -86,7 +86,7 @@ class BulkLeaveAPI extends Endpoint implements ResourceEndpoint
                 $this->checkLeaveAccessible($leave);
             }
 
-            $detailedLeaves = array_map(fn(Leave $leave) => new DetailedLeave($leave), $leaves);
+            $detailedLeaves = array_map(fn (Leave $leave) => new DetailedLeave($leave), $leaves);
 
             /** @var array<string, DetailedLeave[]> $detailedLeavesGroupByAction */
             $detailedLeavesGroupByAction = [];

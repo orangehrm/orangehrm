@@ -408,7 +408,7 @@ class LeavePeriodHistoryServiceTest extends KernelTestCase
      */
     private function convertLeavePeriodArrayToYmdArray(array $leavePeriods): array
     {
-        return array_map(fn(LeavePeriod $leavePeriod) => $this->convertLeavePeriodToArray($leavePeriod), $leavePeriods);
+        return array_map(fn (LeavePeriod $leavePeriod) => $this->convertLeavePeriodToArray($leavePeriod), $leavePeriods);
     }
 
     /**

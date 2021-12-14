@@ -83,7 +83,8 @@ class EmailSubscriberAPI extends Endpoint implements CrudEndpoint
             ->getEmailSubscriberListCountByEmailSubscriptionId($subscriptionId, $emailSubscriberSearchFilterParams);
 
         return new EndpointCollectionResult(
-            EmailSubscriberModel::class, $emailSubscribers,
+            EmailSubscriberModel::class,
+            $emailSubscribers,
             new ParameterBag(
                 [CommonParams::PARAMETER_TOTAL => $emailSubscribersCount, 'name' => $emailSubscription->getName()]
             )
@@ -281,7 +282,6 @@ class EmailSubscriberAPI extends Endpoint implements CrudEndpoint
                     new Rule(Rules::STRING_TYPE),
                     new Rule(Rules::LENGTH, [null, self::PARAM_RULE_STRING_MAX_LENGTH])
                 ),
-
             ),
         ];
     }

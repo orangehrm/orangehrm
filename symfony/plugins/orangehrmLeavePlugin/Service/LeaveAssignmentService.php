@@ -187,7 +187,8 @@ class LeaveAssignmentService extends AbstractLeaveAllocationService
             $workFlowItems = $this->getUserRoleManager()
                 ->getAllowedActions(
                     WorkflowStateMachine::FLOW_LEAVE,
-                    'INITIAL', [],
+                    'INITIAL',
+                    [],
                     [],
                     [Employee::class => $empNumber]
                 );

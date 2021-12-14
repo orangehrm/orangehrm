@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\Leave\Api;
 
-use DateTime;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;

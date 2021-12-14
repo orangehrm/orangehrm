@@ -125,7 +125,8 @@ class JobCategoryAPI extends Endpoint implements CrudEndpoint
         $jobCategories = $this->getJobCategoryService()->getJobCategoryList($sortField, $sortOrder, $limit, $offset);
 
         return new EndpointCollectionResult(
-            JobCategoryModel::class, $jobCategories,
+            JobCategoryModel::class,
+            $jobCategories,
             new ParameterBag([CommonParams::PARAMETER_TOTAL => $count])
         );
     }

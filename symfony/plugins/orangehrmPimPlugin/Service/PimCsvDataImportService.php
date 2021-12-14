@@ -25,7 +25,7 @@ use OrangeHRM\Core\Service\CsvDataImportService;
 
 class PimCsvDataImportService
 {
-    const PIM_IMPORT_HEADER_ROW_VALUES = [
+    public const PIM_IMPORT_HEADER_ROW_VALUES = [
         "first_name",
         "middle_name",
         "last_name",

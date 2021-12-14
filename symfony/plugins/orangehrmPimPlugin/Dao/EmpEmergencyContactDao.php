@@ -30,7 +30,6 @@ use OrangeHRM\Pim\Dto\EmpEmergencyContactSearchFilterParams;
 
 class EmpEmergencyContactDao extends BaseDao
 {
-
     /**
      * @param EmpEmergencyContact $empEmergencyContact
      * @return EmpEmergencyContact

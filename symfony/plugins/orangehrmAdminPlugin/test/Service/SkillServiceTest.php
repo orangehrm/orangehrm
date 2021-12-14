@@ -34,7 +34,6 @@ use OrangeHRM\Tests\Util\TestDataService;
  */
 class SkillServiceTest extends TestCase
 {
-
     private SkillService $skillService;
     protected string $fixture;
 
@@ -130,4 +129,3 @@ class SkillServiceTest extends TestCase
         $this->assertEquals(3, $result);
     }
 }
-
