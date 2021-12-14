@@ -18,6 +18,7 @@
  */
 
 namespace OrangeHRM\Core\Dao;
+
 use OrangeHRM\Entity\Module;
 
 /**

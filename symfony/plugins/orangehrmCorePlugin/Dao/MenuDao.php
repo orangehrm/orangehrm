@@ -23,7 +23,6 @@ use Exception;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\MenuItem;
 use OrangeHRM\Entity\Module;
-use OrangeHRM\Entity\Screen;
 use OrangeHRM\Entity\UserRole;
 use OrangeHRM\ORM\Doctrine;
 use OrangeHRM\ORM\ListSorter;

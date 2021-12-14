@@ -39,9 +39,9 @@ use OrangeHRM\Tests\Util\TestDataService;
  */
 class LocationServiceTest extends KernelTestCase
 {
+    use ServiceContainerTrait;
     private LocationService $locationService;
     private string $fixture;
-    use ServiceContainerTrait;
 
     /**
      * Set up method

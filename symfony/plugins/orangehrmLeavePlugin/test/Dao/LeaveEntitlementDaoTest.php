@@ -438,7 +438,7 @@ class LeaveEntitlementDaoTest extends KernelTestCase
         $this->_verifyDeletedFlags($deleted);
 
 
-        // delete multiple 
+        // delete multiple
         $ids = [2, 3];
         $count = $this->dao->deleteLeaveEntitlements($ids);
         $this->assertEquals(2, $count);
@@ -572,18 +572,19 @@ class LeaveEntitlementDaoTest extends KernelTestCase
         }
     }
 
-    public function testBulkAssignLeaveEntitlements():void {
+    public function testBulkAssignLeaveEntitlements(): void
+    {
         $empList = [1,2,3];
 
         $leaveEntitlement = new LeaveEntitlement();
-        $leaveEntitlement->setLeaveType($this->getEntityReference(LeaveType::class,1));
+        $leaveEntitlement->setLeaveType($this->getEntityReference(LeaveType::class, 1));
         $leaveEntitlement->setCreditedDate(new DateTime());
-        $leaveEntitlement->setEntitlementType($this->getEntityReference(LeaveEntitlementType::class,LeaveEntitlement::ENTITLEMENT_TYPE_ADD));
+        $leaveEntitlement->setEntitlementType($this->getEntityReference(LeaveEntitlementType::class, LeaveEntitlement::ENTITLEMENT_TYPE_ADD));
         $leaveEntitlement->setDeleted(false);
         $leaveEntitlement->setNoOfDays(2);
         $leaveEntitlement->setFromDate(new DateTime('2012-01-01'));
         $leaveEntitlement->setToDate(new DateTime('2012-08-01'));
-        $leaveEntitlement->setCreatedBy($this->getEntityReference(User::class,1));
+        $leaveEntitlement->setCreatedBy($this->getEntityReference(User::class, 1));
 
         $this->createKernelWithMockServices([
                                                 Services::LEAVE_CONFIG_SERVICE =>new LeaveConfigurationService(),
@@ -591,7 +592,7 @@ class LeaveEntitlementDaoTest extends KernelTestCase
         $result = $this->dao->bulkAssignLeaveEntitlements($empList, $leaveEntitlement);
 
 
-        $this->assertEquals(count($empList),3);
+        $this->assertEquals(count($empList), 3);
 
 
         $result = $this->dao->bulkAssignLeaveEntitlements($empList, $leaveEntitlement);
@@ -600,11 +601,11 @@ class LeaveEntitlementDaoTest extends KernelTestCase
         list($leaveEntitlements, $count) = $this->dao->bulkAssignLeaveEntitlements($empList, $leaveEntitlement);
 
 
-        $this->assertEquals(count($empList),$count);
-
+        $this->assertEquals(count($empList), $count);
     }
 
-    public function xtestBulkAssignLeaveEntitlementsLinkingOfUnlinkedLeave() {
+    public function xtestBulkAssignLeaveEntitlementsLinkingOfUnlinkedLeave()
+    {
         // TODO
         $empList = [7];
 

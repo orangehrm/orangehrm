@@ -19,14 +19,12 @@
 
 namespace OrangeHRM\OAuth\Api\Model;
 
-
 use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\OAuthClient;
 
 class OAuthClientModel implements Normalizable
 {
-
     use ModelTrait;
 
     public function __construct(OAuthClient $authClient)

@@ -99,7 +99,8 @@ class EmployeeSalaryComponentAPI extends Endpoint implements CrudEndpoint
         $this->throwRecordNotFoundExceptionIfNotExist($employeeSalary, EmployeeSalary::class);
 
         return new EndpointResourceResult(
-            EmployeeSalaryModel::class, $employeeSalary,
+            EmployeeSalaryModel::class,
+            $employeeSalary,
             new ParameterBag([CommonParams::PARAMETER_EMP_NUMBER => $empNumber])
         );
     }
@@ -150,7 +151,8 @@ class EmployeeSalaryComponentAPI extends Endpoint implements CrudEndpoint
             $employeeSalarySearchFilterParams
         );
         return new EndpointCollectionResult(
-            EmployeeSalaryModel::class, $employeeSalaries,
+            EmployeeSalaryModel::class,
+            $employeeSalaries,
             new ParameterBag(
                 [
                     CommonParams::PARAMETER_EMP_NUMBER => $empNumber,
@@ -192,7 +194,8 @@ class EmployeeSalaryComponentAPI extends Endpoint implements CrudEndpoint
             ->saveEmployeeSalary($employeeSalary);
 
         return new EndpointResourceResult(
-            EmployeeSalaryModel::class, $employeeSalary,
+            EmployeeSalaryModel::class,
+            $employeeSalary,
             new ParameterBag([CommonParams::PARAMETER_EMP_NUMBER => $empNumber])
         );
     }
@@ -415,7 +418,8 @@ class EmployeeSalaryComponentAPI extends Endpoint implements CrudEndpoint
             ->saveEmployeeSalary($employeeSalary);
 
         return new EndpointResourceResult(
-            EmployeeSalaryModel::class, $employeeSalary,
+            EmployeeSalaryModel::class,
+            $employeeSalary,
             new ParameterBag([CommonParams::PARAMETER_EMP_NUMBER => $empNumber])
         );
     }
@@ -444,7 +448,8 @@ class EmployeeSalaryComponentAPI extends Endpoint implements CrudEndpoint
         $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
         $this->getEmployeeSalaryService()->getEmployeeSalaryDao()->deleteEmployeeSalaries($empNumber, $ids);
         return new EndpointResourceResult(
-            ArrayModel::class, $ids,
+            ArrayModel::class,
+            $ids,
             new ParameterBag([CommonParams::PARAMETER_EMP_NUMBER => $empNumber])
         );
     }

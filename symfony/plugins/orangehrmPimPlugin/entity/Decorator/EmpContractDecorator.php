@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\Entity\Decorator;
 
-use DateTime;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\EmpContract;

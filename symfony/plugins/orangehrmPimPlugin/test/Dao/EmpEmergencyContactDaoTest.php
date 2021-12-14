@@ -170,7 +170,6 @@ class EmpEmergencyContactDaoTest extends TestCase
         $result = $this->employeeEmergencyContactDao->searchEmployeeEmergencyContacts($emergencyContactSearchParams);
         $this->assertCount(1, $result);
         $this->assertTrue($result[0] instanceof EmpEmergencyContact);
-
     }
 
     public function testSearchEmployeeEmergencyContactsWithLimit(): void

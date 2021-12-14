@@ -26,7 +26,6 @@ use OrangeHRM\Framework\Http\Request;
 
 class SavePayGradeController extends AbstractVueController
 {
-
     /**
      * @param Request $request
      * @throws \OrangeHRM\Core\Controller\Exception\VueControllerException

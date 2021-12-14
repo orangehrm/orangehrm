@@ -22,25 +22,25 @@
  *
  * @group Time
  */
-class TimesheetDaoTest extends PHPUnit_Framework_TestCase {
-
+class TimesheetDaoTest extends PHPUnit_Framework_TestCase
+{
     private $timesheetDao;
 
     /**
      * Set up method
      */
-    protected function setUp() {
-
+    protected function setUp()
+    {
         $this->timesheetDao = new TimesheetDao();
-        TestDataService::truncateSpecificTables(array('SystemUser', 'Employee'));        
+        TestDataService::truncateSpecificTables(['SystemUser', 'Employee']);
         TestDataService::populate(sfConfig::get('sf_plugins_dir') . '/orangehrmTimePlugin/test/fixtures/TimesheetDao.yml');
     }
 
     /**
      * Testing getTimesheetById for already existing id's
      */
-    public function testGetTimesheetByIdForExistingId() {
-
+    public function testGetTimesheetByIdForExistingId()
+    {
         $timesheet = $this->timesheetDao->getTimesheetById(1);
 
         $this->assertTrue($timesheet instanceof Timesheet);
@@ -51,8 +51,8 @@ class TimesheetDaoTest extends PHPUnit_Framework_TestCase {
     /**
      * Testing getTimesheetById for non existing id's
      */
-    public function testGetTimesheetByIdForNonExistingId() {
-
+    public function testGetTimesheetByIdForNonExistingId()
+    {
         $timesheet = $this->timesheetDao->getTimesheetById(-1);
         $this->assertEquals(null, $timesheet);
     }
@@ -60,8 +60,8 @@ class TimesheetDaoTest extends PHPUnit_Framework_TestCase {
     /**
      * Testing getTimesheetByStartDate for already existing dates
      */
-    public function testGetTimesheetByStartDateForExistingDate() {
-
+    public function testGetTimesheetByStartDateForExistingDate()
+    {
         $timesheet = $this->timesheetDao->getTimesheetByStartDate('2011-04-19');
 
         $this->assertTrue($timesheet instanceof Timesheet);
@@ -69,8 +69,8 @@ class TimesheetDaoTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals("7", $timesheet->getTimesheetId());
     }
 
-    public function testGetTimesheetByStartDateForNonExistingDate() {
-
+    public function testGetTimesheetByStartDateForNonExistingDate()
+    {
         $timesheet = $this->timesheetDao->getTimesheetByStartDate('2014-04-12');
         $this->assertNull($timesheet);
     }
@@ -78,8 +78,8 @@ class TimesheetDaoTest extends PHPUnit_Framework_TestCase {
     /**
      * Testing getTimesheetByStartDateAndEmployeeId method
      */
-    public function testGetTimesheetByStartDateAndEmployeeId() {
-
+    public function testGetTimesheetByStartDateAndEmployeeId()
+    {
         $timesheet = $this->timesheetDao->getTimesheetByStartDateAndEmployeeId("2011-04-18", 1);
         $this->assertTrue($timesheet instanceof Timesheet);
         $this->assertEquals("CREATED", $timesheet->getState());
@@ -89,9 +89,10 @@ class TimesheetDaoTest extends PHPUnit_Framework_TestCase {
     /**
      * Testing for saving a timesheet for newly made timesheets
      */
-    public function testSaveTimesheetWithNewTimesheet() {
-        TestDataService::truncateTables(array('Timesheet'));
-        
+    public function testSaveTimesheetWithNewTimesheet()
+    {
+        TestDataService::truncateTables(['Timesheet']);
+
         $timesheet = new Timesheet();
         $timesheet->setState("CREATED");
         $timesheet->setEmployeeId(200);
@@ -108,8 +109,8 @@ class TimesheetDaoTest extends PHPUnit_Framework_TestCase {
     /**
      * Testing for saving a timesheet for existing timesheets
      */
-    public function testSaveTimesheet() {
-
+    public function testSaveTimesheet()
+    {
         $timesheet = TestDataService::fetchObject('Timesheet', 1);
 
         $timesheet->setState("SUBMITTED");
@@ -122,8 +123,8 @@ class TimesheetDaoTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($timesheet->getEmployeeId(), $savedTimesheet->getEmployeeId());
     }
 
-    public function testSaveTimesheetReturnType() {
-
+    public function testSaveTimesheetReturnType()
+    {
         $timesheet = TestDataService::fetchObject('Timesheet', 1);
 
         $timesheet->setState("SUBMITTED");
@@ -136,8 +137,8 @@ class TimesheetDaoTest extends PHPUnit_Framework_TestCase {
     /**
      * Testing for getTimesheetItemById method
      */
-    public function testGetTimesheetItemById() {
-
+    public function testGetTimesheetItemById()
+    {
         $timesheetItem = $this->timesheetDao->getTimesheetItemById(1);
 
         $this->assertTrue($timesheetItem instanceof TimesheetItem);
@@ -149,9 +150,8 @@ class TimesheetDaoTest extends PHPUnit_Framework_TestCase {
     /**
      * Testing getTimesheetItem method for given Timesheet Id and Employee Id
      */
-    public function testGetTimesheetItem() {
-
-
+    public function testGetTimesheetItem()
+    {
         $result = $this->timesheetDao->getTimesheetItem(1, 2);
 
         $this->assertEquals(3, count($result));
@@ -166,9 +166,8 @@ class TimesheetDaoTest extends PHPUnit_Framework_TestCase {
     /**
      * Testing getTimesheetItem method for given Timesheet Id and Employee Id
      */
-    public function testGetTimesheetItemByDateProjectId() {
-
-
+    public function testGetTimesheetItemByDateProjectId()
+    {
         $timesheetItem = $this->timesheetDao->getTimesheetItemByDateProjectId(1, 1, 1, 1, "2011-04-12");
         $timesheetItem1 = $this->timesheetDao->getTimesheetItemByDateProjectId(1, 2, 1, 1, "2011-04-13");
         //print_r($timesheetItem);
@@ -182,8 +181,8 @@ class TimesheetDaoTest extends PHPUnit_Framework_TestCase {
     /**
      * Testing getTimesheetItem method for the order
      */
-    public function testGetTimesheetItemForTheOrder() {
-
+    public function testGetTimesheetItemForTheOrder()
+    {
         $result = $this->timesheetDao->getTimesheetItem(1, 2);
 
         $this->assertEquals("2011-04-10", $result[0]['date']);
@@ -194,8 +193,8 @@ class TimesheetDaoTest extends PHPUnit_Framework_TestCase {
     /**
      * Testing getTimesheetItem for non existing Items
      */
-    public function testGetTimesheetItemForNonExistingItems() {
-
+    public function testGetTimesheetItemForNonExistingItems()
+    {
         $result = $this->timesheetDao->getTimesheetItem(0, 0);
         $result1 = $this->timesheetDao->getTimesheetItem(1, 0);
         $result2 = $this->timesheetDao->getTimesheetItem(0, 1);
@@ -216,9 +215,10 @@ class TimesheetDaoTest extends PHPUnit_Framework_TestCase {
     /**
      * Testing saveTimesheetItem method for the newly made timesheet Items
      */
-    public function testSaveTimesheetItemWithNewTimesheetItem() {
-        TestDataService::truncateTables(array('TimesheetItem'));
-        
+    public function testSaveTimesheetItemWithNewTimesheetItem()
+    {
+        TestDataService::truncateTables(['TimesheetItem']);
+
         $timesheetItem = new TimesheetItem();
         $timesheetItem->setTimesheetId(1);
         $timesheetItem->setDate("2011-04-23");
@@ -244,8 +244,8 @@ class TimesheetDaoTest extends PHPUnit_Framework_TestCase {
     /**
      * Testing saveTimesheetItem method for existing timesheet items
      */
-    public function testSaveTimesheetItem() {
-
+    public function testSaveTimesheetItem()
+    {
         $timesheetItem = TestDataService::fetchObject('TimesheetItem', 1);
 
         $this->assertEquals("Good", $timesheetItem->getComment());
@@ -265,7 +265,8 @@ class TimesheetDaoTest extends PHPUnit_Framework_TestCase {
     /**
      * Testing saveTimesheetItem method for deleting timesheet items
      */
-    public function testDeleteTimesheetItems() {
+    public function testDeleteTimesheetItems()
+    {
         $deleted = $this->timesheetDao->deleteTimesheetItems(2, 1, 1, 1);
         $this->assertTrue($deleted);
     }
@@ -273,8 +274,8 @@ class TimesheetDaoTest extends PHPUnit_Framework_TestCase {
     /**
      * Testing getTimesheetActionLogById method for existing id's
      */
-    public function testGetTimesheetActionLogById() {
-
+    public function testGetTimesheetActionLogById()
+    {
         $timesheetActionLog = $this->timesheetDao->getTimesheetActionLogById(2);
 
         $this->assertTrue($timesheetActionLog instanceof TimesheetActionLog);
@@ -286,8 +287,8 @@ class TimesheetDaoTest extends PHPUnit_Framework_TestCase {
     /**
      * Testing getTimesheetActionLogById method for non existing id's
      */
-    public function testGetTimesheetActionLogByIdForNonExistingId() {
-
+    public function testGetTimesheetActionLogByIdForNonExistingId()
+    {
         $timesheetActionLog = $this->timesheetDao->getTimesheetActionLogById(-3);
 
         $this->assertEquals(null, $timesheetActionLog);
@@ -296,9 +297,8 @@ class TimesheetDaoTest extends PHPUnit_Framework_TestCase {
     /**
      * Testing saveTimesheetActionLog mthod
      */
-    public function testSaveTimesheetActionLog() {
-
-
+    public function testSaveTimesheetActionLog()
+    {
         $timesheetActionLog = TestDataService::fetchObject("TimesheetActionLog", 2);
 
 
@@ -319,9 +319,10 @@ class TimesheetDaoTest extends PHPUnit_Framework_TestCase {
     /**
      * Testing saveTimesheetActionLog mthod for newly made timesheet action logs
      */
-    public function testSaveTimesheetActionLogWithNewTimesheetActionLog() {
-        TestDataService::truncateSpecificTables(array('TimesheetActionLog'), true);
-        
+    public function testSaveTimesheetActionLogWithNewTimesheetActionLog()
+    {
+        TestDataService::truncateSpecificTables(['TimesheetActionLog'], true);
+
         $timesheetActionLog = new TimesheetActionLog();
         $timesheetActionLog->setTimesheetId(1);
         $timesheetActionLog->setDateTime('2011-04-23');
@@ -340,7 +341,8 @@ class TimesheetDaoTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($timesheetActionLog->getPerformedBy(), $savedNewTimesheetActionLog->getPerformedBy());
     }
 
-    public function testGetTimesheetActionLogByTimesheetId() {
+    public function testGetTimesheetActionLogByTimesheetId()
+    {
         $timesheetActionLogResults = $this->timesheetDao->getTimesheetActionLogByTimesheetId(1);
         $this->assertEquals(2, count($timesheetActionLogResults));
         $this->assertEquals("ACCEPTED", $timesheetActionLogResults[0]->getComment());
@@ -349,18 +351,17 @@ class TimesheetDaoTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals(2, $timesheetActionLogResults[1]->getTimesheetActionLogId());
     }
 
-    public function testGetStartAndEndDatesList() {
-
+    public function testGetStartAndEndDatesList()
+    {
         $daysArray = $this->timesheetDao->getStartAndEndDatesList(2);
         $startDates = $daysArray[0];
         $endDates = $daysArray[1];
         $this->assertEquals($startDates[0]['startDate'], "2011-04-18");
         $this->assertEquals($endDates[0]['endDate'], "2011-04-19");
-        
     }
 
-    public function testGetCustomerByName() {
-
+    public function testGetCustomerByName()
+    {
         $customer = $this->timesheetDao->getCustomerByName("user");
 
         $this->assertTrue($customer instanceof Customer);
@@ -368,15 +369,15 @@ class TimesheetDaoTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals("user", $customer->getName());
     }
 
-    public function testGetCustomerByNameForNonExistingName() {
-
+    public function testGetCustomerByNameForNonExistingName()
+    {
         $customer = $this->timesheetDao->getCustomerByName("jason");
 
         $this->assertNull($customer);
     }
 
-    public function testGetProjectByProjectNameAndCustomerId() {
-
+    public function testGetProjectByProjectNameAndCustomerId()
+    {
         $project = $this->timesheetDao->getProjectByProjectNameAndCustomerId('OrangeHRM', 1);
 
         $this->assertTrue($project instanceof Project);
@@ -386,16 +387,15 @@ class TimesheetDaoTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals('firstproject', $project->getDescription());
     }
 
-    public function testGetProjectByProjectNameAndCustomerIdForNonExistingRecord() {
-
+    public function testGetProjectByProjectNameAndCustomerIdForNonExistingRecord()
+    {
         $project = $this->timesheetDao->getProjectByProjectNameAndCustomerId('IFS', 1);
 
         $this->assertNull($project);
     }
 
-    public function testGetProjectActivitiesByPorjectId() {
-
-
+    public function testGetProjectActivitiesByPorjectId()
+    {
         $activities = $this->timesheetDao->getProjectActivitiesByPorjectId(1);
 
         $this->assertTrue($activities[0] instanceof ProjectActivity);
@@ -404,9 +404,8 @@ class TimesheetDaoTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals('Activity1 For Pro1', $activities[0]->getName());
     }
 
-    public function testGetProjectActivitiesByPorjectIdWithDeletedActivities() {
-
-
+    public function testGetProjectActivitiesByPorjectIdWithDeletedActivities()
+    {
         $activities = $this->timesheetDao->getProjectActivitiesByPorjectId(1, true);
 
         $this->assertTrue($activities[0] instanceof ProjectActivity);
@@ -415,46 +414,46 @@ class TimesheetDaoTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals('Activity2 For Pro1', $activities[1]->getName());
     }
 
-    public function testGetProjectActivitiesByPorjectIdForNonExistingRecord() {
-
+    public function testGetProjectActivitiesByPorjectIdForNonExistingRecord()
+    {
         $project = $this->timesheetDao->getProjectActivitiesByPorjectId(4);
 
         $this->assertNull($project);
     }
 
-    public function testGetProjectActivityByProjectIdAndActivityName() {
-
+    public function testGetProjectActivityByProjectIdAndActivityName()
+    {
         $activity = $this->timesheetDao->getProjectActivityByProjectIdAndActivityName(1, "Activity1 For Pro1");
 
         $this->assertTrue($activity instanceof ProjectActivity);
         $this->assertEquals(1, $activity->getActivityId());
     }
 
-    public function testGetProjectActivityByProjectIdAndActivityNameForNonExistingRecord() {
-
+    public function testGetProjectActivityByProjectIdAndActivityNameForNonExistingRecord()
+    {
         $activity = $this->timesheetDao->getProjectActivityByProjectIdAndActivityName(8, "Activity3 For Pro1");
 
         $this->assertNull($activity);
     }
 
-    public function testGetProjectActivityByActivityId() {
-
+    public function testGetProjectActivityByActivityId()
+    {
         $activity = $this->timesheetDao->getProjectActivityByActivityId(1);
 
         $this->assertTrue($activity instanceof ProjectActivity);
         $this->assertEquals("Activity1 For Pro1", $activity->getName());
     }
 
-    public function testGetProjectActivityByActivityIdForNonExistingRecord() {
-
+    public function testGetProjectActivityByActivityIdForNonExistingRecord()
+    {
         $activity = $this->timesheetDao->getProjectActivityByActivityId(100);
         $this->assertNull($activity);
     }
 
     /* Testing getTimesheetByEmployeeId method */
 
-    public function testGetTimesheetByEmployeeId() {
-
+    public function testGetTimesheetByEmployeeId()
+    {
         $timesheets = $this->timesheetDao->getTimesheetByEmployeeId(2);
         $this->assertTrue($timesheets[0] instanceof Timesheet);
         $this->assertEquals(11, $timesheets[0]->getTimesheetId());
@@ -465,9 +464,9 @@ class TimesheetDaoTest extends PHPUnit_Framework_TestCase {
 
     /* Testing getTimesheetByEmployeeIdAndState method */
 
-    public function testGetTimesheetByEmployeeIdAndState() {
-
-        $stateList = array('SUBMITTED', 'ACCEPTED');
+    public function testGetTimesheetByEmployeeIdAndState()
+    {
+        $stateList = ['SUBMITTED', 'ACCEPTED'];
         $timesheets = $this->timesheetDao->getTimesheetByEmployeeIdAndState(2, $stateList);
 
         $this->assertTrue($timesheets[0] instanceof Timesheet);
@@ -482,8 +481,8 @@ class TimesheetDaoTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals('2011-04-18', $timesheets[1]->getStartDate());
     }
 
-    public function testGetPendingApprovelTimesheetsForAdmin() {
-
+    public function testGetPendingApprovelTimesheetsForAdmin()
+    {
         $timesheets = $this->timesheetDao->getPendingApprovelTimesheetsForAdmin();
 
         $this->assertTrue($timesheets[0] instanceof Timesheet);
@@ -491,8 +490,8 @@ class TimesheetDaoTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($timesheets[0]->getState(), "SUPERVISOR APPROVED");
     }
 
-    public function testGetActivityByActivityIdForExistingId() {
-
+    public function testGetActivityByActivityIdForExistingId()
+    {
         $activity = $this->timesheetDao->getActivityByActivityId(1);
 
         $this->assertTrue($activity instanceof ProjectActivity);
@@ -503,32 +502,31 @@ class TimesheetDaoTest extends PHPUnit_Framework_TestCase {
     /**
      * Testing getActivityById for non existing id's
      */
-    public function testGetActivityByActivityIdForNonExistingId() {
-
+    public function testGetActivityByActivityIdForNonExistingId()
+    {
         $activity = $this->timesheetDao->getActivityByActivityId(-1);
         $this->assertEquals(null, $activity);
     }
 
-    public function testGetTimesheetTimeFormat() {
-
+    public function testGetTimesheetTimeFormat()
+    {
         $configDao = $this->getMockBuilder('ConfigDao')
-			->setMethods( array('getValue'))
-			->getMock();
+            ->setMethods(['getValue'])
+            ->getMock();
         $configDao->expects($this->once())
                      ->method('getValue')
                      ->with(ConfigService::KEY_TIMESHEET_TIME_FORMAT)
                      ->will($this->returnValue(1));
-        
-        $this->timesheetDao->setConfigDao($configDao);      
-        
+
+        $this->timesheetDao->setConfigDao($configDao);
+
         $format = $this->timesheetDao->getTimesheetTimeFormat();
-        
+
         $this->assertEquals('1', $format);
-        
     }
 
-    public function testGetLatestTimesheetEndDate() {
-
+    public function testGetLatestTimesheetEndDate()
+    {
         $latestEndDate = "2011-04-28";
         $employeeId = 1;
         $obtainedEndDate = $this->timesheetDao->getLatestTimesheetEndDate($employeeId);
@@ -536,7 +534,8 @@ class TimesheetDaoTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($obtainedEndDate, $latestEndDate);
     }
 
-    public function testCheckForOverlappingTimesheets() {
+    public function testCheckForOverlappingTimesheets()
+    {
         //test case 1
         $startDate = "2011-04-17";
         $endDate = "2011-04-20";
@@ -577,7 +576,8 @@ class TimesheetDaoTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($isValid5, 0);
     }
 
-    public function testCheckForMatchingTimesheetForCurrentDate() {
+    public function testCheckForMatchingTimesheetForCurrentDate()
+    {
         $employeeId = 6;
         $currentDate = "2011-02-24";
 
@@ -587,8 +587,8 @@ class TimesheetDaoTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($timesheet->getEndDate(), "2011-02-25");
     }
 
-    public function testGetProjectList() {
-
+    public function testGetProjectList()
+    {
         $projectList = $this->timesheetDao->getProjectList();
         $this->assertTrue($projectList[0] instanceof Project);
         $this->assertEquals($projectList[0]->getProjectId(), 1);
@@ -596,20 +596,20 @@ class TimesheetDaoTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals(2, count($projectList));
     }
 
-    public function testGetProjectListForValidation() {
-
+    public function testGetProjectListForValidation()
+    {
         $allProjects = $this->timesheetDao->getProjectListForValidation();
         $this->assertEquals(3, count($allProjects));
-         $this->assertTrue($allProjects[1] instanceof Project);
+        $this->assertTrue($allProjects[1] instanceof Project);
         $this->assertEquals($allProjects[1]->getProjectId(), 2);
         $this->assertEquals($allProjects[1]->getName(), "OrangeHRM2");
     }
-    
-    public function testGetTimesheetListByEmployeeIdAndState() {
 
-        $empIdList = array(1, 2);
-        $stateList = array('SUBMITTED', 'ACCEPTED');
-        
+    public function testGetTimesheetListByEmployeeIdAndState()
+    {
+        $empIdList = [1, 2];
+        $stateList = ['SUBMITTED', 'ACCEPTED'];
+
         $timesheets = $this->timesheetDao->getTimesheetListByEmployeeIdAndState($empIdList, $stateList, 100);
         $this->assertEquals(3, count($timesheets));
 
@@ -618,49 +618,47 @@ class TimesheetDaoTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals(1, $timesheets[0]['employeeId']);
 
         $this->assertEquals('last2', $timesheets[1]['employeeLastName']);
-        
+
         $timesheets = $this->timesheetDao->getTimesheetListByEmployeeIdAndState($empIdList, $stateList, 1);
         $this->assertEquals(1, count($timesheets));
-        
+
         $timesheets = $this->timesheetDao->getTimesheetListByEmployeeIdAndState(null, null, null);
         $this->assertNull($timesheets);
     }
-    
-    public function testGetProjectNameList() {
 
+    public function testGetProjectNameList()
+    {
         $projectList = $this->timesheetDao->getProjectNameList();
-        
+
         $this->assertEquals(1, $projectList[0]['projectId']);
         $this->assertEquals('OrangeHRM', $projectList[0]['projectName']);
-        
+
         $this->assertEquals(2, $projectList[1]['projectId']);
         $this->assertEquals('OrangeHRM2', $projectList[1]['projectName']);
-        
+
         $this->assertEquals(2, count($projectList));
     }
-    
-    public function testGetProjectActivityListByPorjectId() {
 
+    public function testGetProjectActivityListByPorjectId()
+    {
         $activities = $this->timesheetDao->getProjectActivityListByPorjectId(1);
-        
+
         $this->assertEquals(1, count($activities));
         $this->assertEquals(1, $activities[0]['activityId']);
         $this->assertEquals(1, $activities[0]['projectId']);
         $this->assertEquals(0, $activities[0]['is_deleted']);
         $this->assertEquals('Activity1 For Pro1', $activities[0]['name']);
-        
+
         $activities = $this->timesheetDao->getProjectActivityListByPorjectId(null);
-        $this->assertEquals(array(), $activities);
+        $this->assertEquals([], $activities);
     }
 
     /**
      * Testing saveTimesheetItem method for deleting timesheet items
      */
-    public function testDeleteTimesheetItemsByTimesheetId() {
-        $noOfItemsDeleted = $this->timesheetDao->deleteTimesheetItemsByTimesheetId(8,10);
-        $this->assertEquals(3,$noOfItemsDeleted);
+    public function testDeleteTimesheetItemsByTimesheetId()
+    {
+        $noOfItemsDeleted = $this->timesheetDao->deleteTimesheetItemsByTimesheetId(8, 10);
+        $this->assertEquals(3, $noOfItemsDeleted);
     }
-
 }
-
-?>

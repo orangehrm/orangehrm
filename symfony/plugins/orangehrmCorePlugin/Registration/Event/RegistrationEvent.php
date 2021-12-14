@@ -27,7 +27,6 @@ use Symfony\Contracts\EventDispatcher\Event;
  */
 class RegistrationEvent extends Event
 {
-
     public const EMPLOYEE_ADD_EVENT_NAME = 'registration.employee_add';
     public const EMPLOYEE_TERMINATE_EVENT_NAME = 'registration.employee_terminate';
     public const UPGRADE_EVENT_NAME = 'registration.upgrade';

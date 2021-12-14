@@ -74,21 +74,22 @@ class MailTransport extends AbstractTransport
      * @param string $host
      * @param int|null $port
      */
-    public function __construct(string $scheme = self::SCHEME_SMTP,string $host = 'localhost', int $port = null)
+    public function __construct(string $scheme = self::SCHEME_SMTP, string $host = 'localhost', int $port = null)
     {
         if ($scheme == self::SCHEME_SENDMAIL) {
             $dsn = 'sendmail://default?command='.urlencode($host);
             $this->mailTransport = Transport::fromDsn($dsn);
-        } elseif($scheme == self::SCHEME_SMTP || $scheme == self::SCHEME_SECURE_SMTP){
+        } elseif ($scheme == self::SCHEME_SMTP || $scheme == self::SCHEME_SECURE_SMTP) {
             $this->scheme =$scheme;
             $this->host = $host;
             $this->port = $port;
         }
     }
 
-    public function loadTransport(){
+    public function loadTransport()
+    {
         $this->mailTransport = new Transport(iterator_to_array(Transport::getDefaultFactories()));
-        $dsn = new Dsn($this->scheme,$this->host,$this->user,$this->password,$this->port,$this->options);
+        $dsn = new Dsn($this->scheme, $this->host, $this->user, $this->password, $this->port, $this->options);
         $this->mailTransport = $this->mailTransport->fromDsnObject($dsn);
     }
 
@@ -113,7 +114,7 @@ class MailTransport extends AbstractTransport
      */
     public function setEncryption(string $smtpSecurityType)
     {
-        if($smtpSecurityType != EmailService::SMTP_SECURITY_TLS){
+        if ($smtpSecurityType != EmailService::SMTP_SECURITY_TLS) {
             $this->options = ['verify_peer' => 0];
         }
     }

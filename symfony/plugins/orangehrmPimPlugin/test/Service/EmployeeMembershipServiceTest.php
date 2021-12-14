@@ -120,7 +120,7 @@ class EmployeeMembershipServiceTest extends TestCase
         $employeeMembership2->getDecorator()->setEmployeeByEmpNumber(1);
         $employeeMembership2->setSubscriptionPaidBy('Company');
 
-        $employeeMembershipList = array($employeeMembership1, $employeeMembership2);
+        $employeeMembershipList = [$employeeMembership1, $employeeMembership2];
         $employeeMembershipSearchParams = new EmployeeMembershipSearchFilterParams();
         $employeeMembershipSearchParams->setEmpNumber(1);
         $employeeMembershipDao = $this->getMockBuilder(EmployeeMembershipDao::class)->getMock();

@@ -29,7 +29,6 @@ use OrangeHRM\Core\Exception\ServiceException;
  */
 class UserRoleManagerFactory
 {
-
     /**
      * @var null|AbstractUserRoleManager
      */
@@ -71,4 +70,3 @@ class UserRoleManagerFactory
         return self::$userRoleManager;
     }
 }
-

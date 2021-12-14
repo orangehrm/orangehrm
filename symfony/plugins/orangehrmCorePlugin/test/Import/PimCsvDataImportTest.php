@@ -122,7 +122,7 @@ class PimCsvDataImportTest extends KernelTestCase
         $province1->setProvinceName('California');
         $this->persist($province1);
 
-        $emailList = array(array('workEmail' => 'abc@example.com', 'otherEmail' => 'cde@example.com'));
+        $emailList = [['workEmail' => 'abc@example.com', 'otherEmail' => 'cde@example.com']];
 
         $employee = new Employee();
         $employee->setFirstName('Andrew');
@@ -242,7 +242,7 @@ class PimCsvDataImportTest extends KernelTestCase
         $province1->setProvinceCode('CA');
         $province1->setProvinceName('California');
 
-        $emailList = array(array('workEmail' => 'abc@example.com', 'otherEmail' => 'cde@example.com'));
+        $emailList = [['workEmail' => 'abc@example.com', 'otherEmail' => 'cde@example.com']];
 
         $employee = new Employee();
         $employee->setFirstName('Andrew');
@@ -377,5 +377,4 @@ class PimCsvDataImportTest extends KernelTestCase
 
         $this->assertFalse($result);
     }
-
 }

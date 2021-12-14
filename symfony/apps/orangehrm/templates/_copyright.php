@@ -1,4 +1,4 @@
-<?php 
+<?php
 $rootPath = realpath(dirname(__FILE__)."/../../../../");
 
 if (@include_once $rootPath."/lib/confs/sysConf.php") {

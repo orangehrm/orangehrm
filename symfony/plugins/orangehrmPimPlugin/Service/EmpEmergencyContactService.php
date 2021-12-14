@@ -26,7 +26,6 @@ use OrangeHRM\Pim\Dto\EmpEmergencyContactSearchFilterParams;
 
 class EmpEmergencyContactService
 {
-
     /**
      * @var EmpEmergencyContactDao|null
      */
@@ -118,5 +117,4 @@ class EmpEmergencyContactService
     ): int {
         return $this->getEmpEmergencyContactDao()->getSearchEmployeeEmergencyContactsCount($emergencyContactSearchFilterParams);
     }
-
 }

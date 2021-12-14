@@ -33,7 +33,6 @@ use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
 
 class PimCsvDataImport extends CsvDataImport
 {
-
     use ServiceContainerTrait;
     use EmployeeServiceTrait;
 
@@ -53,7 +52,7 @@ class PimCsvDataImport extends CsvDataImport
             return false;
         }
         for ($i = 3; $i < 23; $i++) {
-            if(!isset($data[$i])){
+            if (!isset($data[$i])) {
                 $data[$i] = null;
             }
         }
@@ -206,7 +205,7 @@ class PimCsvDataImport extends CsvDataImport
      */
     private function isValidCountry(?string $name)
     {
-        if($name){
+        if ($name) {
             $country = $this->getCountryService()->getCountryByCountryName($name);
             if ($country) {
                 return $country->getCountryCode();
@@ -275,5 +274,4 @@ class PimCsvDataImport extends CsvDataImport
         }
         return $isUnique;
     }
-
 }

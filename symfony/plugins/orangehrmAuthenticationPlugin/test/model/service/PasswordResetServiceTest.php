@@ -31,15 +31,17 @@ class PasswordResetServiceTest extends PHPUnit_Framework_TestCase
      * Sets up the fixture, for example, opens a network connection.
      * This method is called before a test is executed.
      */
-    protected function setUp() {
-        $this->secuirtyAuthService = new PasswordResetService;
+    protected function setUp()
+    {
+        $this->secuirtyAuthService = new PasswordResetService();
     }
 
 
     /**
      * @test testGetSecurityAuthenticationConfigService().
      */
-    public function testGetSecurityAuthenticationConfigService() {
+    public function testGetSecurityAuthenticationConfigService()
+    {
         $this->assertTrue($this->secuirtyAuthService->getSecurityAuthenticationConfigService() instanceof SecurityAuthenticationConfigService);
 
         $securityAuthConfigService = new SecurityAuthenticationConfigService();
@@ -50,13 +52,15 @@ class PasswordResetServiceTest extends PHPUnit_Framework_TestCase
     /**
      * @test testSetSecurityAuthenticationConfigService().
      */
-    public function testSetSecurityAuthenticationConfigService() {
+    public function testSetSecurityAuthenticationConfigService()
+    {
         $securityAuthConfigService = new SecurityAuthenticationConfigService();
         $this->secuirtyAuthService->setSecurityAuthenticationConfigService($securityAuthConfigService);
         $this->assertEquals($securityAuthConfigService, $this->secuirtyAuthService->getSecurityAuthenticationConfigService());
     }
 
-    public function testGetAuthenticationService() {
+    public function testGetAuthenticationService()
+    {
         $this->assertTrue($this->secuirtyAuthService->getAuthenticationService() instanceof AuthenticationService);
 
         $authService = new AuthenticationService();
@@ -67,7 +71,8 @@ class PasswordResetServiceTest extends PHPUnit_Framework_TestCase
     /**
      * @test testSetAuthenticationService().
      */
-    public function testSetAuthenticationService() {
+    public function testSetAuthenticationService()
+    {
         $authService = new AuthenticationService();
         $this->secuirtyAuthService->setAuthenticationService($authService);
         $this->assertEquals($authService, $this->secuirtyAuthService->getAuthenticationService());
@@ -76,7 +81,8 @@ class PasswordResetServiceTest extends PHPUnit_Framework_TestCase
     /**
      * @test getSystemUserService().
      */
-    public function testGetSystemUserService() {
+    public function testGetSystemUserService()
+    {
         $this->assertTrue($this->secuirtyAuthService->getSystemUserService() instanceof SystemUserService);
 
         $systemUserService = new SystemUserService();
@@ -87,7 +93,8 @@ class PasswordResetServiceTest extends PHPUnit_Framework_TestCase
     /**
      * @test setSystemUserService().
      */
-    public function testSetUserService() {
+    public function testSetUserService()
+    {
         $systemUserService = new SystemUserService();
         $this->secuirtyAuthService->setSystemUserService($systemUserService);
         $this->assertEquals($systemUserService, $this->secuirtyAuthService->getSystemUserService());
@@ -97,7 +104,8 @@ class PasswordResetServiceTest extends PHPUnit_Framework_TestCase
     /**
      * @test testGetEmployeeService().
      */
-    public function testGetEmployeeService() {
+    public function testGetEmployeeService()
+    {
         $this->assertTrue($this->secuirtyAuthService->getEmployeeService() instanceof EmployeeService);
 
         $employeeService = new EmployeeService();
@@ -108,7 +116,8 @@ class PasswordResetServiceTest extends PHPUnit_Framework_TestCase
     /**
      * @test testSetEmployeeService().
      */
-    public function testSetEmployeeService() {
+    public function testSetEmployeeService()
+    {
         $employeeService = new EmployeeService();
         $this->secuirtyAuthService->setEmployeeService($employeeService);
         $this->assertEquals($employeeService, $this->secuirtyAuthService->getEmployeeService());
@@ -117,7 +126,8 @@ class PasswordResetServiceTest extends PHPUnit_Framework_TestCase
     /**
      * @test setPasswordResetDao().
      */
-    public function testSetSecurityAuthenticationDao() {
+    public function testSetSecurityAuthenticationDao()
+    {
         $securityAuthenticationDao = new PasswordResetDao();
         $this->secuirtyAuthService->setPasswordResetDao($securityAuthenticationDao);
 
@@ -127,7 +137,8 @@ class PasswordResetServiceTest extends PHPUnit_Framework_TestCase
     /**
      * @test getPasswordResetDao().
      */
-    public function testGetSecurityAuthenticationDao() {
+    public function testGetSecurityAuthenticationDao()
+    {
         $this->assertTrue($this->secuirtyAuthService->getPasswordResetDao() instanceof PasswordResetDao);
 
         $securityAuthenticationDao = new PasswordResetDao();
@@ -138,7 +149,8 @@ class PasswordResetServiceTest extends PHPUnit_Framework_TestCase
     /**
      * @test testGetEmailService().
      */
-    public function testGetEmailService() {
+    public function testGetEmailService()
+    {
         $this->assertTrue($this->secuirtyAuthService->getEmailService() instanceof EmailService);
 
         $emailService = new EmailService();
@@ -149,7 +161,8 @@ class PasswordResetServiceTest extends PHPUnit_Framework_TestCase
     /**
      * @test testSetEmailService().
      */
-    public function testSetEmailService() {
+    public function testSetEmailService()
+    {
         $emailService = new EmailService();
         $this->secuirtyAuthService->setEmailService($emailService);
         $this->assertEquals($emailService, $this->secuirtyAuthService->getEmailService());
@@ -157,7 +170,8 @@ class PasswordResetServiceTest extends PHPUnit_Framework_TestCase
     /**
      * @test testGeneratePasswordResetCode().
      */
-    public function testGeneratePasswordResetCode() {
+    public function testGeneratePasswordResetCode()
+    {
         $identifier = 'test_username';
         $resetCode = $this->secuirtyAuthService->generatePasswordResetCode($identifier);
         $decodedResetCode = Base64Url::decode($resetCode);
@@ -174,11 +188,12 @@ class PasswordResetServiceTest extends PHPUnit_Framework_TestCase
     /**
      * @test testSaveResetPasswordLog().
      */
-    public function testSaveResetPasswordLog_Success() {
+    public function testSaveResetPasswordLog_Success()
+    {
         $resetPasswordLog = new ResetPassword();
         $resetPasswordLog->setResetEmail(1);
         $securityAuthDao = $this->getMockBuilder('PasswordResetDao')
-            ->setMethods( array('saveResetPasswordLog'))
+            ->setMethods(['saveResetPasswordLog'])
             ->getMock();
         $securityAuthDao->expects($this->any())
             ->method('saveResetPasswordLog')
@@ -193,10 +208,11 @@ class PasswordResetServiceTest extends PHPUnit_Framework_TestCase
      * @test testSaveResetPasswordLog().
      * @expectedException ServiceException
      */
-    public function testSaveResetPasswordLog_Failure() {
+    public function testSaveResetPasswordLog_Failure()
+    {
         $resetPasswordLog = new ResetPassword();
         $securityAuthDao = $this->getMockBuilder('PasswordResetDao')
-            ->setMethods( array('saveResetPasswordLog'))
+            ->setMethods(['saveResetPasswordLog'])
             ->getMock();
         $securityAuthDao->expects($this->any())
             ->method('saveResetPasswordLog')
@@ -210,10 +226,11 @@ class PasswordResetServiceTest extends PHPUnit_Framework_TestCase
     /**
      * @test testGetResetPasswordLogByEmail().
      */
-    public function testGetResetPasswordLogByEmail_Success() {
+    public function testGetResetPasswordLogByEmail_Success()
+    {
         $email = 'user@example.com';
         $securityAuthDao = $this->getMockBuilder('PasswordResetDao')
-            ->setMethods( array('getResetPasswordLogByEmail'))
+            ->setMethods(['getResetPasswordLogByEmail'])
             ->getMock();
         $securityAuthDao->expects($this->any())
             ->method('getResetPasswordLogByEmail')
@@ -222,25 +239,26 @@ class PasswordResetServiceTest extends PHPUnit_Framework_TestCase
 
         $this->secuirtyAuthService->setPasswordResetDao($securityAuthDao);
         $result=$this->secuirtyAuthService->getResetPasswordLogByEmail($email);
-        $this->assertEquals($result,$this->secuirtyAuthService->getResetPasswordLogByEmail($email));
+        $this->assertEquals($result, $this->secuirtyAuthService->getResetPasswordLogByEmail($email));
     }
 
     /**
      * @test testHasPasswordResetRequest().
      */
-    public function testHasPasswordResetRequest() {
+    public function testHasPasswordResetRequest()
+    {
         $this->assertFalse($this->secuirtyAuthService->hasPasswordResetRequest('user@example.com'));
 
         $securityAuthDao = $this->getMockBuilder('PasswordResetDao')
-            ->setMethods( array('getResetPasswordLogByEmail'))
+            ->setMethods(['getResetPasswordLogByEmail'])
             ->getMock();
         $securityAuthDao->expects($this->any())
             ->method('getResetPasswordLogByEmail')
             ->with($this->equalTo('user@example.com'))
-            ->will($this->returnValue(new ResetPassword));
+            ->will($this->returnValue(new ResetPassword()));
 
         $securityAuthDao = $this->getMockBuilder('PasswordResetService')
-            ->setMethods( array('hasPasswordResetRequestNotExpired'))
+            ->setMethods(['hasPasswordResetRequestNotExpired'])
             ->getMock();
         $securityAuthDao->expects($this->any())
             ->method('hasPasswordResetRequestNotExpired')
@@ -248,13 +266,14 @@ class PasswordResetServiceTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue(true));
 
         $this->secuirtyAuthService->setPasswordResetDao($securityAuthDao);
-        $this->assertEquals(false,$this->secuirtyAuthService->hasPasswordResetRequest('user@example.com'));
+        $this->assertEquals(false, $this->secuirtyAuthService->hasPasswordResetRequest('user@example.com'));
     }
 
     /**
      * @test testHasPasswordResetRequestNotExpired().
      */
-    public function testHasPasswordResetRequestNotExpired() {
+    public function testHasPasswordResetRequestNotExpired()
+    {
         $resetPasswordLog = new ResetPassword();
         $today = date('Y-m-d H:i:s');
         $fourDaysBefore = date('Y-m-d H:i:s', strtotime('-4 days', time()));
@@ -277,7 +296,8 @@ class PasswordResetServiceTest extends PHPUnit_Framework_TestCase
     /**
      * @test testLogPasswordResetRequest().
      */
-    public function testLogPasswordResetRequest_Success() {
+    public function testLogPasswordResetRequest_Success()
+    {
         sfContext::getInstance()->getConfiguration()->loadHelpers('Url');
 
         $employee = new Employee();
@@ -292,7 +312,7 @@ class PasswordResetServiceTest extends PHPUnit_Framework_TestCase
         $user->setEmployee($employee);
 
         $emailServiceMock = $this->getMockBuilder('EmailService')
-            ->setMethods( array('sendEmail'))
+            ->setMethods(['sendEmail'])
             ->getMock();
         $emailServiceMock->expects($this->once())
             ->method('sendEmail')
@@ -308,7 +328,8 @@ class PasswordResetServiceTest extends PHPUnit_Framework_TestCase
      * @test testLogPasswordResetRequest().
      * @expectedException ServiceException
      */
-    public function testLogPasswordResetRequest_EmailFailure() {
+    public function testLogPasswordResetRequest_EmailFailure()
+    {
         sfContext::getInstance()->getConfiguration()->loadHelpers('Url');
 
         $employee = new Employee();
@@ -323,7 +344,7 @@ class PasswordResetServiceTest extends PHPUnit_Framework_TestCase
         $user->setEmployee($employee);
 
         $emailServiceMock = $this->getMockBuilder('EmailService')
-            ->setMethods( array('sendEmail'))
+            ->setMethods(['sendEmail'])
             ->getMock();
         $emailServiceMock->expects($this->once())
             ->method('sendEmail')
@@ -338,7 +359,8 @@ class PasswordResetServiceTest extends PHPUnit_Framework_TestCase
     /**
      * @test testSendPasswordResetCodeEmail().
      */
-    public function testSendPasswordResetCodeEmail() {
+    public function testSendPasswordResetCodeEmail()
+    {
         $employee = new Employee();
         $employee->setFirstName('John');
         $employee->setLastName('Smith');
@@ -346,7 +368,7 @@ class PasswordResetServiceTest extends PHPUnit_Framework_TestCase
         $employee->setEmpOthEmail('john@example.com');
 
         $emailServiceMock = $this->getMockBuilder('EmailService')
-            ->setMethods( array('sendEmail'))
+            ->setMethods(['sendEmail'])
             ->getMock();
         $emailServiceMock->expects($this->once())
             ->method('sendEmail')
@@ -360,14 +382,15 @@ class PasswordResetServiceTest extends PHPUnit_Framework_TestCase
      * @test testSearchForUserRecord()
      * @expectedException ServiceException
      */
-    public function testSearchForUserRecord_UserIsNotAssociatedWithAnEmployee() {
+    public function testSearchForUserRecord_UserIsNotAssociatedWithAnEmployee()
+    {
         $user = new SystemUser();
         $user->setId(1);
         $user->setUserName('test_username');
         $user->setEmployee(null);
 
         $userServiceMock = $this->getMockBuilder('UserService')
-            ->setMethods( array('getUserByUserName'))
+            ->setMethods(['getUserByUserName'])
             ->getMock();
         $userServiceMock->expects($this->any())
             ->method('getUserByUserName')
@@ -382,7 +405,8 @@ class PasswordResetServiceTest extends PHPUnit_Framework_TestCase
      * @test testSearchForUserRecord()
      * @expectedException ServiceException
      */
-    public function testSearchForUserRecord_WhoHasAlreadySentAPasswordResetRequest() {
+    public function testSearchForUserRecord_WhoHasAlreadySentAPasswordResetRequest()
+    {
         $employee = new Employee();
         $employee->setFirstName('John');
         $employee->setLastName('Smith');
@@ -395,7 +419,7 @@ class PasswordResetServiceTest extends PHPUnit_Framework_TestCase
         $employee->setEmpOthEmail('john@example.com');
 
         $userServiceMock = $this->getMockBuilder('UserService')
-            ->setMethods( array('getUserByUserName'))
+            ->setMethods(['getUserByUserName'])
             ->getMock();
         $userServiceMock->expects($this->any())
             ->method('getUserByUserName')
@@ -403,12 +427,12 @@ class PasswordResetServiceTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue($user));
 
         $securityAuthDao = $this->getMockBuilder('PasswordResetDao')
-            ->setMethods( array('getResetPasswordLogByEmail'))
+            ->setMethods(['getResetPasswordLogByEmail'])
             ->getMock();
         $securityAuthDao->expects($this->any())
             ->method('getResetPasswordLogByEmail')
             ->with($this->equalTo('john.s@example.com'))
-            ->will($this->returnValue(new ResetPassword));
+            ->will($this->returnValue(new ResetPassword()));
 
         $this->secuirtyAuthService->setPasswordResetDao($securityAuthDao);
         $this->secuirtyAuthService->setSystemUserService($userServiceMock);
@@ -419,10 +443,10 @@ class PasswordResetServiceTest extends PHPUnit_Framework_TestCase
      * @test testSearchForUserRecord()
      * @expectedException ServiceException
      */
-    public function testSearchForUserRecord_UnmatchedRecord() {
-
+    public function testSearchForUserRecord_UnmatchedRecord()
+    {
         $userServiceMock = $this->getMockBuilder('UserService')
-            ->setMethods( array('getUserByUserName'))
+            ->setMethods(['getUserByUserName'])
             ->getMock();
         $userServiceMock->expects($this->any())
             ->method('getUserByUserName')
@@ -436,12 +460,11 @@ class PasswordResetServiceTest extends PHPUnit_Framework_TestCase
     /**
      * @test testExtractUsername().
      */
-    public function testExtractUsername() {
+    public function testExtractUsername()
+    {
         $identifier = 'testUsername';
         $resetCode = $this->secuirtyAuthService->generatePasswordResetCode($identifier);
 
-        $this->assertEquals(array($identifier), $this->secuirtyAuthService->extractPasswordResetMetaData($resetCode));
+        $this->assertEquals([$identifier], $this->secuirtyAuthService->extractPasswordResetMetaData($resetCode));
     }
-
-
 }

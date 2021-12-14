@@ -19,8 +19,6 @@
 
 namespace OrangeHRM\Core\HomePage;
 
-use OrangeHRM\Core\Exception\CoreServiceException;
-use OrangeHRM\Core\Service\ConfigService;
 use OrangeHRM\Entity\User;
 use OrangeHRM\Leave\Traits\Service\LeaveConfigServiceTrait;
 

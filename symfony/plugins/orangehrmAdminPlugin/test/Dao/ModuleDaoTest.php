@@ -79,7 +79,7 @@ class ModuleDaoTest extends TestCase
         $moduleUpdateArray = ['admin' => true, 'pim' => false, 'test' => true];
         $returedObjects = $this->moduleDao->updateModuleStatus($moduleUpdateArray);
         $this->assertEquals(7, count($returedObjects));
-        foreach($returedObjects as $returedObject) {
+        foreach ($returedObjects as $returedObject) {
             $this->assertTrue($returedObject->getName() != 'test');
         }
     }

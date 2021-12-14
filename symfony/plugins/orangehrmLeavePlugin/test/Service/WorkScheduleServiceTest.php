@@ -158,22 +158,18 @@ class WorkScheduleServiceTest extends KernelTestCase
 
 class TestWorkScheduleInvalidClass
 {
-
 }
 
 class TestWorkScheduleInvalidClassExceptionInConstructor
 {
-
     public function __construct()
     {
         throw new Exception('Exception in constructor');
     }
-
 }
 
 class TestWorkScheduleValidClass implements WorkScheduleInterface
 {
-
     protected ?int $empNumber = null;
 
     public function getWorkShiftLength(): float

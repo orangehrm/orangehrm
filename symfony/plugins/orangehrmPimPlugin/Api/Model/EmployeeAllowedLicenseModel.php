@@ -24,5 +24,4 @@ use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 
 class EmployeeAllowedLicenseModel extends LicenseModel implements Normalizable
 {
-
 }

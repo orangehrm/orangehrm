@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\OAuth\Constant;
 
-
 final class GrantType
 {
     public const AUTHORIZATION_CODE = 'authorization_code';

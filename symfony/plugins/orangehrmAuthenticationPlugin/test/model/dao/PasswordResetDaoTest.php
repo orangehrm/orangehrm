@@ -32,12 +32,14 @@ class PasswordResetDaoTest extends PHPUnit_Framework_TestCase
      * Sets up the fixture, for example, opens a network connection.
      * This method is called before a test is executed.
      */
-    protected function setUp() {
-        $this->dao = new PasswordResetDao;
+    protected function setUp()
+    {
+        $this->dao = new PasswordResetDao();
         $this->changedTable = '';
     }
 
-    public function testSaveResetPasswordLog_Correct() {
+    public function testSaveResetPasswordLog_Correct()
+    {
         $resetPasswordLog = new ResetPassword();
         $resetPasswordLog->setResetEmail('someone@example.com');
         $resetPasswordLog->setResetRequestDate(date('Y-m-d H:i:s'));
@@ -46,14 +48,16 @@ class PasswordResetDaoTest extends PHPUnit_Framework_TestCase
     }
 
 
-    public function testGetResetPasswordLogByEmail_Correct() {
+    public function testGetResetPasswordLogByEmail_Correct()
+    {
         $result = $this->dao->getResetPasswordLogByEmail('someone@example.com');
         $this->assertNotNull($result);
         $this->assertTrue($result instanceof ResetPassword);
     }
 
 
-    public function testGetSaveResetPasswordLog_Correct() {
+    public function testGetSaveResetPasswordLog_Correct()
+    {
         $resetPasswordLog = new ResetPassword();
         $resetPasswordLog->setResetEmail('someone@example.com');
         $resetPasswordLog->setResetRequestDate(date('Y-m-d H:i:s'));
@@ -64,7 +68,8 @@ class PasswordResetDaoTest extends PHPUnit_Framework_TestCase
     /**
      * @test testDeletePasswordResetRequestsByEmail
      */
-    public function testDeletePasswordResetRequestsByEmail_Correct() {
+    public function testDeletePasswordResetRequestsByEmail_Correct()
+    {
         $resetPasswordLog = new ResetPassword();
         $resetPasswordLog->setResetEmail('someone@example.com');
         $resetPasswordLog->setResetRequestDate(date('Y-m-d H:i:s'));
@@ -72,7 +77,5 @@ class PasswordResetDaoTest extends PHPUnit_Framework_TestCase
         $this->dao->saveResetPasswordLog($resetPasswordLog);
         $this->assertTrue($this->dao->getResetPasswordLogByEmail('someone@example.com') instanceof ResetPassword);
         $this->assertEquals(3, $this->dao->deletePasswordResetRequestsByEmail('someone@example.com'));
-
     }
-
 }

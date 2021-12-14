@@ -31,7 +31,6 @@ use OrangeHRM\Pim\Dto\EmployeeLicenseSearchFilterParams;
 
 class EmployeeLicenseDao extends BaseDao
 {
-
     /**
      * @param EmployeeLicense $employeeLicense
      * @return EmployeeLicense

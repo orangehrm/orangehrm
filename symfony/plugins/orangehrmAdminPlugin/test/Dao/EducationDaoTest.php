@@ -33,7 +33,6 @@ use Exception;
  */
 class EducationDaoTest extends TestCase
 {
-
     private EducationDao $educationDao;
     protected string $fixture;
 

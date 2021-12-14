@@ -41,5 +41,4 @@ class MembershipTest extends EntityTestCase
         $this->assertEquals('Phd', $membership->getName());
         $this->assertEquals(1, $membership->getId());
     }
-
 }

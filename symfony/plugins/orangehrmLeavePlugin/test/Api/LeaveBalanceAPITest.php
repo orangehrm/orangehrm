@@ -129,7 +129,7 @@ class LeaveBalanceAPITest extends EndpointTestCase
             ->getMock();
         $dateTimeHelperService->expects($this->exactly(2))
             ->method('getNow')
-            ->willReturnCallback(fn() => clone $now);
+            ->willReturnCallback(fn () => clone $now);
 
         $this->createKernelWithMockServices(
             [
@@ -2003,7 +2003,7 @@ class LeaveBalanceAPITest extends EndpointTestCase
 
         $this->assertInvalidParamException(
         // invalid leave type id
-            fn() => $this->validate(
+            fn () => $this->validate(
                 [LeaveCommonParams::PARAMETER_LEAVE_TYPE_ID => 100],
                 $rules
             ),
@@ -2012,7 +2012,7 @@ class LeaveBalanceAPITest extends EndpointTestCase
 
         $this->assertInvalidParamException(
         // inaccessible employee number
-            fn() => $this->validate(
+            fn () => $this->validate(
                 [
                     CommonParams::PARAMETER_EMP_NUMBER => 3,
                     LeaveCommonParams::PARAMETER_LEAVE_TYPE_ID => 50
@@ -2030,7 +2030,7 @@ class LeaveBalanceAPITest extends EndpointTestCase
         $rules = $api->getValidationRuleForGetOne();
         $this->assertInvalidParamException(
         // if defined only from date, to date also need to define
-            fn() => $this->validate($queryParams, $rules),
+            fn () => $this->validate($queryParams, $rules),
             [
                 LeaveCommonParams::PARAMETER_TO_DATE,
                 LeaveCommonParams::PARAMETER_FROM_DATE,
@@ -2046,7 +2046,7 @@ class LeaveBalanceAPITest extends EndpointTestCase
         $rules = $api->getValidationRuleForGetOne();
         $this->assertInvalidParamException(
         // if defined only from date, to date also need to define
-            fn() => $this->validate($queryParams, $rules),
+            fn () => $this->validate($queryParams, $rules),
             [LeaveCommonParams::PARAMETER_FROM_DATE]
         );
 
@@ -2059,7 +2059,7 @@ class LeaveBalanceAPITest extends EndpointTestCase
         $rules = $api->getValidationRuleForGetOne();
         $this->assertInvalidParamException(
         // from date < to date
-            fn() => $this->validate($queryParams, $rules),
+            fn () => $this->validate($queryParams, $rules),
             [LeaveCommonParams::PARAMETER_FROM_DATE, LeaveCommonParams::PARAMETER_DURATION]
         );
 

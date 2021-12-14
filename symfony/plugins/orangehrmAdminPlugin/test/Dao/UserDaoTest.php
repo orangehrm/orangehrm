@@ -35,7 +35,6 @@ use OrangeHRM\Tests\Util\TestDataService;
  */
 class UserDaoTest extends TestCase
 {
-
     private $systemUserDao;
     protected $fixture;
 
@@ -117,7 +116,7 @@ class UserDaoTest extends TestCase
 
     public function testDeleteSystemUsers(): void
     {
-        $this->systemUserDao->deleteSystemUsers(array(1, 2, 3));
+        $this->systemUserDao->deleteSystemUsers([1, 2, 3]);
         $result = $this->systemUserDao->getSystemUsers();
         $this->assertEquals(0, count($result));
     }
@@ -152,7 +151,7 @@ class UserDaoTest extends TestCase
         $result = $this->systemUserDao->getSystemUserIdList();
 
         $this->assertEquals(3, count($result));
-        $this->assertEquals(array(1, 2, 3), $result);
+        $this->assertEquals([1, 2, 3], $result);
     }
 
     public function testGetSystemUserIdListForOneActiveUser(): void
@@ -177,7 +176,7 @@ class UserDaoTest extends TestCase
      */
     public function testGetNonPredefinedUserRoles(): void
     {
-        $userRoleNames = array('Admin2', 'TestAdmin', 'UserRole1', 'UserRole2', 'UserRole3');
+        $userRoleNames = ['Admin2', 'TestAdmin', 'UserRole1', 'UserRole2', 'UserRole3'];
 
         $useRoles = $this->systemUserDao->getNonPredefinedUserRoles();
         $this->assertEquals(count($userRoleNames), count($useRoles));

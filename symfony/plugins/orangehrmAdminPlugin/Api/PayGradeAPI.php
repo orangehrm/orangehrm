@@ -28,7 +28,6 @@ use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
-use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
@@ -49,7 +48,7 @@ class PayGradeAPI extends Endpoint implements CrudEndpoint
     /**
      * @return PayGradeService
      */
-    public function getPayGradeService() : PayGradeService
+    public function getPayGradeService(): PayGradeService
     {
         return $this->getContainer()->get(Services::PAY_GRADE_SERVICE);
     }
@@ -64,7 +63,8 @@ class PayGradeAPI extends Endpoint implements CrudEndpoint
         $count = $this->getPayGradeService()->getPayGradeDao()->getPayGradesCount($payGradeSearchFilterParams);
         $payGrades =  $this->getPayGradeService()->getPayGradeDao()->getPayGradeList($payGradeSearchFilterParams);
 
-        return  new EndpointCollectionResult(PayGradeModel::class,
+        return  new EndpointCollectionResult(
+            PayGradeModel::class,
             $payGrades,
             new ParameterBag([CommonParams::PARAMETER_TOTAL=>$count])
         );
@@ -124,7 +124,7 @@ class PayGradeAPI extends Endpoint implements CrudEndpoint
     {
         $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
         $payGrade = $this->getPayGradeService()->getPayGradeById($id);
-        $this->throwRecordNotFoundExceptionIfNotExist($payGrade,PayGrade::class);
+        $this->throwRecordNotFoundExceptionIfNotExist($payGrade, PayGrade::class);
         return new EndpointResourceResult(PayGradeModel::class, $payGrade);
     }
 
@@ -134,7 +134,7 @@ class PayGradeAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForGetOne(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(CommonParams::PARAMETER_ID,new Rule(Rules::POSITIVE))
+            new ParamRule(CommonParams::PARAMETER_ID, new Rule(Rules::POSITIVE))
         );
     }
 
@@ -171,8 +171,8 @@ class PayGradeAPI extends Endpoint implements CrudEndpoint
         $name = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_NAME);
         if (!empty($id)) {
             $payGrade = $this->getPayGradeService()->getPayGradeById($id);
-            $this->throwRecordNotFoundExceptionIfNotExist($payGrade,PayGrade::class);
-        }else{
+            $this->throwRecordNotFoundExceptionIfNotExist($payGrade, PayGrade::class);
+        } else {
             $payGrade = new PayGrade();
         }
         $payGrade->setName($name);

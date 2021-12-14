@@ -29,7 +29,6 @@ use OrangeHRM\Tests\Util\TestDataService;
  */
 class LoginLogTest extends EntityTestCase
 {
-
     protected function setUp(): void
     {
         TestDataService::truncateSpecificTables([LoginLog::class]);

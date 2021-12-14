@@ -23,7 +23,6 @@ use Exception;
 use OrangeHRM\Admin\Dao\EmploymentStatusDao;
 use OrangeHRM\Admin\Dto\EmploymentStatusSearchFilterParams;
 use OrangeHRM\Config\Config;
-use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Entity\EmploymentStatus;
 use OrangeHRM\Tests\Util\TestCase;
 use OrangeHRM\Tests\Util\TestDataService;
@@ -34,7 +33,6 @@ use OrangeHRM\Tests\Util\TestDataService;
  */
 class EmploymentStatusDaoTest extends TestCase
 {
-
     private EmploymentStatusDao $employmentStatusDao;
     protected string $fixture;
 
@@ -117,6 +115,6 @@ class EmploymentStatusDaoTest extends TestCase
         $employmentStatusSearchParams = new EmploymentStatusSearchFilterParams();
 
         $result = $this->employmentStatusDao->getSearchEmploymentStatusesCount($employmentStatusSearchParams);
-        $this->assertEquals(3,$result );
+        $this->assertEquals(3, $result);
     }
 }

@@ -21,5 +21,4 @@ namespace OrangeHRM\Core\Controller;
 
 abstract class AbstractViewController extends AbstractController
 {
-
 }

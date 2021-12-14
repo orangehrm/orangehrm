@@ -24,38 +24,40 @@ namespace OrangeHRM\Core\Authorization\UserRole;
  *
  * @author samith
  */
-class EssUserRole extends AbstractUserRole {
-
-    public function getAccessibleEmployeeIds($operation = null, $returnType = null, $requiredPermissions = []) {
+class EssUserRole extends AbstractUserRole
+{
+    public function getAccessibleEmployeeIds($operation = null, $returnType = null, $requiredPermissions = [])
+    {
         return [];
     }
 
-    public function getAccessibleEmployeePropertyList($properties, $orderField, $orderBy, $requiredPermissions = []) {
+    public function getAccessibleEmployeePropertyList($properties, $orderField, $orderBy, $requiredPermissions = [])
+    {
         return [];
     }
 
-    public function getAccessibleEmployees($operation = null, $returnType = null, $requiredPermissions = []): array {
+    public function getAccessibleEmployees($operation = null, $returnType = null, $requiredPermissions = []): array
+    {
         return [];
     }
 
-    public function getAccessibleLocationIds($operation = null, $returnType = null, $requiredPermissions = []) {
-
+    public function getAccessibleLocationIds($operation = null, $returnType = null, $requiredPermissions = [])
+    {
         return [];
     }
 
-    public function getAccessibleOperationalCountryIds($operation = null, $returnType = null, $requiredPermissions = []) {
-
+    public function getAccessibleOperationalCountryIds($operation = null, $returnType = null, $requiredPermissions = [])
+    {
         return [];
     }
 
-    public function getAccessibleSystemUserIds($operation = null, $returnType = null, $requiredPermissions = []) {
-
+    public function getAccessibleSystemUserIds($operation = null, $returnType = null, $requiredPermissions = [])
+    {
         return [];
     }
 
-    public function getAccessibleUserRoleIds($operation = null, $returnType = null, $requiredPermissions = []) {
-
+    public function getAccessibleUserRoleIds($operation = null, $returnType = null, $requiredPermissions = [])
+    {
         return [];
     }
-
 }

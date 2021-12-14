@@ -146,7 +146,6 @@ class EmployeeContactDetailsAPI extends Endpoint implements CrudEndpoint
             new ParamRule(
                 self::PARAMETER_EMP_NUMBER,
                 new Rule(Rules::IN_ACCESSIBLE_EMP_NUMBERS)
-
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(

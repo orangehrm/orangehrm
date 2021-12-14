@@ -65,8 +65,8 @@ class BasicUserRoleManagerTest extends KernelTestCase
     protected function setUp(): void
     {
         $this->fixture = Config::get(
-                Config::PLUGINS_DIR
-            ) . '/orangehrmCorePlugin/test/fixtures/BasicUserRoleManager.yml';
+            Config::PLUGINS_DIR
+        ) . '/orangehrmCorePlugin/test/fixtures/BasicUserRoleManager.yml';
         TestDataService::truncateSpecificTables(
             [User::class, Project::class]
         ); //'JobCandidate', 'JobVacancy', 'JobInterview'

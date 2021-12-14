@@ -34,7 +34,6 @@ use OrangeHRM\Tests\Util\TestDataService;
  */
 class MembershipServiceTest extends TestCase
 {
-
     private MembershipService $membershipService;
     private string $fixture;
 
@@ -42,7 +41,7 @@ class MembershipServiceTest extends TestCase
      * Set up method
      * @throws Exception
      */
-    protected function setUp():void
+    protected function setUp(): void
     {
         $this->membershipService = new MembershipService();
         $this->fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmAdminPlugin/test/fixtures/MembershipDao.yml';
@@ -64,7 +63,7 @@ class MembershipServiceTest extends TestCase
         $this->assertTrue($result[0] instanceof Membership);
     }
 
-    public function testGetMembershipById():void
+    public function testGetMembershipById(): void
     {
         $membershipList = TestDataService::loadObjectList('Membership', $this->fixture, 'Membership');
         $membershipDao = $this->getMockBuilder(MembershipDao::class)->getMock();
@@ -74,7 +73,7 @@ class MembershipServiceTest extends TestCase
                 ->will($this->returnValue($membershipList[0]));
         $this->membershipService->setMembershipDao($membershipDao);
         $result = $this->membershipService->getMembershipById(1);
-        $this->assertEquals($membershipList[0],$result);
+        $this->assertEquals($membershipList[0], $result);
     }
 
     public function testDeleteMemberships(): void
@@ -103,4 +102,3 @@ class MembershipServiceTest extends TestCase
         $this->assertEquals($result, $membershipList[0]);
     }
 }
-

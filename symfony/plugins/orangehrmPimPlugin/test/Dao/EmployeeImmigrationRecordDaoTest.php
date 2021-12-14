@@ -40,8 +40,8 @@ class EmployeeImmigrationRecordDaoTest extends TestCase
     {
         $this->employeeImmigrationRecordDao = new EmployeeImmigrationRecordDao();
         $this->fixture = Config::get(
-                Config::PLUGINS_DIR
-            ) . '/orangehrmPimPlugin/test/fixtures/EmployeeImmigrationRecordDao.yml';
+            Config::PLUGINS_DIR
+        ) . '/orangehrmPimPlugin/test/fixtures/EmployeeImmigrationRecordDao.yml';
         TestDataService::populate($this->fixture);
     }
 

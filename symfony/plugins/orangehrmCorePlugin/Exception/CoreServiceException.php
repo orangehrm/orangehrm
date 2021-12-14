@@ -25,5 +25,4 @@ namespace OrangeHRM\Core\Exception;
  */
 class CoreServiceException extends ServiceException
 {
-
 }

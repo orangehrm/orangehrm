@@ -62,7 +62,8 @@ class CustomerAPI extends Endpoint implements CrudEndpoint
         $count = $this->getCustomerService()->getCustomersCount($customerSearchParamHolder);
 
         return new EndpointCollectionResult(
-            CustomerModel::class, $customers,
+            CustomerModel::class,
+            $customers,
             new ParameterBag([CommonParams::PARAMETER_TOTAL => $count])
         );
     }

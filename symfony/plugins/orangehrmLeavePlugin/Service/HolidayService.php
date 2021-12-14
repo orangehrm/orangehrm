@@ -84,7 +84,7 @@ class HolidayService
     {
         $offset = $holidaySearchFilterParams->getOffset();
         $limit = $holidaySearchFilterParams->getLimit();
-        if($limit == 0){  // when check uniqueness
+        if ($limit == 0) {  // when check uniqueness
             return $this->searchHolidaysAlongWithCache(
                 $holidaySearchFilterParams->getFromDate(),
                 $holidaySearchFilterParams->getToDate()
@@ -93,7 +93,7 @@ class HolidayService
         return array_slice($this->searchHolidaysAlongWithCache(
             $holidaySearchFilterParams->getFromDate(),
             $holidaySearchFilterParams->getToDate()
-        )[self::PARAMETER_DATA],$offset,$limit);
+        )[self::PARAMETER_DATA], $offset, $limit);
     }
 
     /**

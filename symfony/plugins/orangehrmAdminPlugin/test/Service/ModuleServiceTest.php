@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\Tests\OAuth\Service;
 
-
 use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Dao\ModuleDao;
 use OrangeHRM\Core\Service\ModuleService;

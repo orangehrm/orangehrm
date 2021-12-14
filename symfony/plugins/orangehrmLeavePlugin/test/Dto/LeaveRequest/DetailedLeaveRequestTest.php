@@ -138,7 +138,7 @@ class DetailedLeaveRequestTest extends KernelTestCase
             ->getMock();
         $dateTimeHelper->expects($this->atLeastOnce())
             ->method('getNow')
-            ->willReturnCallback(fn() => new DateTime('2021-11-16'));
+            ->willReturnCallback(fn () => new DateTime('2021-11-16'));
 
         $this->createKernelWithMockServices([
             Services::LEAVE_REQUEST_SERVICE => new LeaveRequestService(),

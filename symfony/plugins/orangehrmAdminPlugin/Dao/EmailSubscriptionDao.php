@@ -30,7 +30,8 @@ class EmailSubscriptionDao extends BaseDao
      * @param EmailSubscriptionSearchFilterParams $emailSubscriptionSearchFilterParams
      * @return EmailNotification[]
      */
-    public function getEmailSubscriptions(EmailSubscriptionSearchFilterParams $emailSubscriptionSearchFilterParams
+    public function getEmailSubscriptions(
+        EmailSubscriptionSearchFilterParams $emailSubscriptionSearchFilterParams
     ): array {
         $paginator = $this->getEmailSubscriptionList($emailSubscriptionSearchFilterParams);
         return $paginator->getQuery()->execute();
@@ -40,7 +41,8 @@ class EmailSubscriptionDao extends BaseDao
      * @param EmailSubscriptionSearchFilterParams $emailSubscriptionSearchFilterParams
      * @return Paginator
      */
-    public function getEmailSubscriptionList(EmailSubscriptionSearchFilterParams $emailSubscriptionSearchFilterParams
+    public function getEmailSubscriptionList(
+        EmailSubscriptionSearchFilterParams $emailSubscriptionSearchFilterParams
     ): Paginator {
         $q = $this->createQueryBuilder(EmailNotification::class, 'emailSubscription');
         $this->setSortingAndPaginationParams($q, $emailSubscriptionSearchFilterParams);

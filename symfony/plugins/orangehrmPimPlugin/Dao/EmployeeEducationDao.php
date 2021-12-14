@@ -128,7 +128,8 @@ class EmployeeEducationDao extends BaseDao
      * @return int
      * @throws DaoException
      */
-    public function getSearchEmployeeEducationsCount(EmployeeEducationSearchFilterParams $employeeEducationSearchParams
+    public function getSearchEmployeeEducationsCount(
+        EmployeeEducationSearchFilterParams $employeeEducationSearchParams
     ): int {
         try {
             $paginator = $this->getSearchEmployeeEducationPaginator($employeeEducationSearchParams);

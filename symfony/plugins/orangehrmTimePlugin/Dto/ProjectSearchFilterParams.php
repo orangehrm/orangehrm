@@ -46,7 +46,7 @@ class ProjectSearchFilterParams extends FilterParams
 
     public function __construct()
     {
-        $this->setSortField('project.name',);
+        $this->setSortField('project.name', );
     }
 
     /**

@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\Tests\Pim\Api;
 
-
 use OrangeHRM\Authentication\Auth\User;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\RequestParams;
@@ -42,7 +41,6 @@ use OrangeHRM\Tests\Util\MockObject;
  */
 class EmployeeSubordinateAPITest extends EndpointTestCase
 {
-
     public function testGetEmployeeReportingMethodService(): void
     {
         $api = new EmployeeSubordinateAPI($this->getRequest());
@@ -650,5 +648,4 @@ class EmployeeSubordinateAPITest extends EndpointTestCase
             )
         );
     }
-
 }

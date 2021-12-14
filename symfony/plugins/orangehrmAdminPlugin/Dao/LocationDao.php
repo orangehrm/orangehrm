@@ -28,7 +28,6 @@ use OrangeHRM\ORM\Paginator;
 
 class LocationDao extends BaseDao
 {
-
     /**
      * Returns the Location having the given id (or null, if not exist)
      *

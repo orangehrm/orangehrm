@@ -19,14 +19,13 @@
 
 namespace OrangeHRM\OAuth\Service;
 
-
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\OAuthClient;
 use OrangeHRM\OAuth\Dao\OAuthClientDao;
 
 class OAuthService
 {
-    const PUBLIC_MOBILE_CLIENT_ID = 'orangehrm_mobile_app';
+    public const PUBLIC_MOBILE_CLIENT_ID = 'orangehrm_mobile_app';
     /**
      * @var OAuthClientDao|null
      */

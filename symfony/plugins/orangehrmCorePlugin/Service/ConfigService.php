@@ -565,7 +565,7 @@ class ConfigService
      */
     public function setTimeSheetPeriodConfig(string $value): void
     {
-         $this->_setConfigValue(self::KEY_TIMESHEET_PERIOD_AND_START_DATE, $value);
+        $this->_setConfigValue(self::KEY_TIMESHEET_PERIOD_AND_START_DATE, $value);
     }
 
     /**

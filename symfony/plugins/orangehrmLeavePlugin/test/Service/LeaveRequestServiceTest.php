@@ -172,7 +172,7 @@ class LeaveRequestServiceTest extends TestCase
         $this->assertEquals(
             [3, 1, 2],
             array_map(
-                fn(DetailedLeaveRequest $detailedLeaveRequest) => $detailedLeaveRequest->getLeaveRequest()->getId(),
+                fn (DetailedLeaveRequest $detailedLeaveRequest) => $detailedLeaveRequest->getLeaveRequest()->getId(),
                 $detailedLeaveRequests
             )
         );
@@ -183,8 +183,8 @@ class LeaveRequestServiceTest extends TestCase
                 ['2021-10-30', '2021-10-31']
             ],
             array_map(
-                fn(DetailedLeaveRequest $detailedLeaveRequest) => array_map(
-                    fn(Leave $leave) => $leave->getDate()->format('Y-m-d'),
+                fn (DetailedLeaveRequest $detailedLeaveRequest) => array_map(
+                    fn (Leave $leave) => $leave->getDate()->format('Y-m-d'),
                     $detailedLeaveRequest->getLeaves()
                 ),
                 $detailedLeaveRequests
@@ -332,6 +332,6 @@ class LeaveRequestServiceTest extends TestCase
             $detailedLeave->setLeaves($leaves);
             $detailedLeaves[] = $detailedLeave;
         }
-        $this->assertEquals($detailedLeaves, $service->getDetailedLeaves($leaves,$leaves));
+        $this->assertEquals($detailedLeaves, $service->getDetailedLeaves($leaves, $leaves));
     }
 }

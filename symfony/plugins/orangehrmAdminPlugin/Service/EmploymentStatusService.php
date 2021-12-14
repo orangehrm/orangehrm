@@ -101,7 +101,8 @@ class EmploymentStatusService
      * @return int
      * @throws DaoException
      */
-    public function getSearchEmploymentStatusesCount(EmploymentStatusSearchFilterParams $employmentStatusSearchParams
+    public function getSearchEmploymentStatusesCount(
+        EmploymentStatusSearchFilterParams $employmentStatusSearchParams
     ): int {
         return $this->getEmploymentStatusDao()->getSearchEmploymentStatusesCount($employmentStatusSearchParams);
     }

@@ -227,7 +227,7 @@ class DetailedLeave
         $allowedWorkflows = $this->getAllowedWorkflows($leaveStatus);
         return $this->allowedActions = array_values(
             array_map(
-                fn(WorkflowStateMachine $workflow) => $workflow->getAction(),
+                fn (WorkflowStateMachine $workflow) => $workflow->getAction(),
                 $allowedWorkflows
             )
         );

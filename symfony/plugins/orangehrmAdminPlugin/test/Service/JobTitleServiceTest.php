@@ -34,7 +34,6 @@ use OrangeHRM\Tests\Util\TestDataService;
  */
 class JobTitleServiceTest extends TestCase
 {
-
     private JobTitleService $JobTitleService;
     protected string $fixture;
 

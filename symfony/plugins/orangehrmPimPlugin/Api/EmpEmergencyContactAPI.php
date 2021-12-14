@@ -98,7 +98,8 @@ class EmpEmergencyContactAPI extends Endpoint implements CrudEndpoint
             $emergencyContactSearchParams
         );
         return new EndpointCollectionResult(
-            EmpEmergencyContactModel::class, $emergencyContact,
+            EmpEmergencyContactModel::class,
+            $emergencyContact,
             new ParameterBag(
                 [
                     CommonParams::PARAMETER_EMP_NUMBER => $empNumber,
@@ -127,7 +128,6 @@ class EmpEmergencyContactAPI extends Endpoint implements CrudEndpoint
                 ),
             ),
             ...$this->getSortingAndPaginationParamsRules(EmpEmergencyContactSearchFilterParams::ALLOWED_SORT_FIELDS)
-
         );
     }
 
@@ -139,7 +139,8 @@ class EmpEmergencyContactAPI extends Endpoint implements CrudEndpoint
         $emergencyContact = $this->saveEmployeeEmergencyContacts();
 
         return new EndpointResourceResult(
-            EmpEmergencyContactModel::class, $emergencyContact,
+            EmpEmergencyContactModel::class,
+            $emergencyContact,
             new ParameterBag([CommonParams::PARAMETER_EMP_NUMBER => $emergencyContact->getEmployee()->getEmpNumber()])
         );
     }
@@ -205,7 +206,8 @@ class EmpEmergencyContactAPI extends Endpoint implements CrudEndpoint
         );
         $this->getEmpEmergencyContactService()->deleteEmployeeEmergencyContacts($empNumber, $sequenceNumbers);
         return new EndpointResourceResult(
-            ArrayModel::class, $sequenceNumbers,
+            ArrayModel::class,
+            $sequenceNumbers,
             new ParameterBag([CommonParams::PARAMETER_EMP_NUMBER => $empNumber])
         );
     }
@@ -243,7 +245,8 @@ class EmpEmergencyContactAPI extends Endpoint implements CrudEndpoint
         $this->throwRecordNotFoundExceptionIfNotExist($emergencyContact, EmpEmergencyContact::class);
 
         return new EndpointResourceResult(
-            EmpEmergencyContactModel::class, $emergencyContact,
+            EmpEmergencyContactModel::class,
+            $emergencyContact,
             new ParameterBag([CommonParams::PARAMETER_EMP_NUMBER => $empNumber])
         );
     }
@@ -272,7 +275,8 @@ class EmpEmergencyContactAPI extends Endpoint implements CrudEndpoint
     {
         $empEmergencyContact = $this->saveEmployeeEmergencyContacts();
         return new EndpointResourceResult(
-            EmpEmergencyContactModel::class, $empEmergencyContact,
+            EmpEmergencyContactModel::class,
+            $empEmergencyContact,
             new ParameterBag(
                 [CommonParams::PARAMETER_EMP_NUMBER => $empEmergencyContact->getEmployee()->getEmpNumber()]
             )

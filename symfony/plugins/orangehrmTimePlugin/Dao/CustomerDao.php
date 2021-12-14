@@ -117,7 +117,7 @@ class CustomerDao extends BaseDao
         $q = $this->createQueryBuilder(Customer::class, 'customer');
         $q->andWhere('customer.name = :customerName');
         $q->setParameter('customerName', $customerName);
-        if (!is_null($customerId)){
+        if (!is_null($customerId)) {
             $q->andWhere('customer.id != :customerId'); // we need to skip the current customer on update, otherwise count always return 1
             $q->setParameter('customerId', $customerId);
         }

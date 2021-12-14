@@ -48,4 +48,3 @@ interface MailProcessor
      */
     public function getRecipients(string $emailName, string $recipientRole, string $performerRole, Event $event): array;
 }
-

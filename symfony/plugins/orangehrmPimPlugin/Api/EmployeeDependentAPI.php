@@ -86,7 +86,8 @@ class EmployeeDependentAPI extends Endpoint implements CrudEndpoint
         $this->throwRecordNotFoundExceptionIfNotExist($empDependent, EmpDependent::class);
 
         return new EndpointResourceResult(
-            EmployeeDependentModel::class, $empDependent,
+            EmployeeDependentModel::class,
+            $empDependent,
             new ParameterBag([CommonParams::PARAMETER_EMP_NUMBER => $empNumber])
         );
     }
@@ -140,7 +141,8 @@ class EmployeeDependentAPI extends Endpoint implements CrudEndpoint
         $empDependents = $this->getEmployeeDependentService()->searchEmployeeDependent($employeeDependentSearchParams);
 
         return new EndpointCollectionResult(
-            EmployeeDependentModel::class, $empDependents,
+            EmployeeDependentModel::class,
+            $empDependents,
             new ParameterBag(
                 [
                     CommonParams::PARAMETER_EMP_NUMBER => $empNumber,
@@ -177,7 +179,8 @@ class EmployeeDependentAPI extends Endpoint implements CrudEndpoint
         $empDependent = $this->saveEmpDependent();
 
         return new EndpointResourceResult(
-            EmployeeDependentModel::class, $empDependent,
+            EmployeeDependentModel::class,
+            $empDependent,
             new ParameterBag(
                 [
                     CommonParams::PARAMETER_EMP_NUMBER => $empDependent->getEmployee()->getEmpNumber(),
@@ -279,7 +282,8 @@ class EmployeeDependentAPI extends Endpoint implements CrudEndpoint
         $empDependent = $this->saveEmpDependent();
 
         return new EndpointResourceResult(
-            EmployeeDependentModel::class, $empDependent,
+            EmployeeDependentModel::class,
+            $empDependent,
             new ParameterBag(
                 [
                     CommonParams::PARAMETER_EMP_NUMBER => $empDependent->getEmployee()->getEmpNumber(),

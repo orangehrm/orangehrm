@@ -42,8 +42,8 @@ class EmployeeTerminationDaoTest extends KernelTestCase
     {
         $this->employeeTerminationDao = new EmployeeTerminationDao();
         $this->fixture = Config::get(
-                Config::PLUGINS_DIR
-            ) . '/orangehrmPimPlugin/test/fixtures/EmployeeTerminationDao.yml';
+            Config::PLUGINS_DIR
+        ) . '/orangehrmPimPlugin/test/fixtures/EmployeeTerminationDao.yml';
         TestDataService::populate($this->fixture);
     }
 

@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\Tests\Pim\Service;
 
-
 use DateTime;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Entity\EmpDependent;
@@ -66,7 +65,7 @@ class EmployeeDependentServiceTest extends TestCase
         $employeeDependentDao->expects($this->once())
             ->method('getEmployeeDependents')
             ->with(1)
-            ->will($this->returnValue(array($empDependent1, $empDependent2)));
+            ->will($this->returnValue([$empDependent1, $empDependent2]));
 
         $this->employeeDependentService->setEmployeeDependentDao($employeeDependentDao);
         $empDependents = $this->employeeDependentService->getEmployeeDependents(1);
@@ -152,7 +151,7 @@ class EmployeeDependentServiceTest extends TestCase
         $empDependent2->setRelationshipType('other');
         $empDependent2->setDateOfBirth(new DateTime('2004-02-23'));
 
-        $empDependentList = array($empDependent1, $empDependent2);
+        $empDependentList = [$empDependent1, $empDependent2];
         $empDependentSearchParams = new EmployeeDependentSearchFilterParams();
         $empDependentSearchParams->setEmpNumber(1);
         $empDependentDao = $this->getMockBuilder(EmployeeDependentDao::class)->getMock();

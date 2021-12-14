@@ -326,7 +326,7 @@ trait LeaveRequestParamHelperTrait
             new ParamRule(
                 LeaveCommonParams::PARAMETER_FROM_DATE,
                 new Rule(Rules::API_DATE),
-                new Rule(Rules::LESS_THAN_OR_EQUAL, [fn() => $this->getToDateParam()])
+                new Rule(Rules::LESS_THAN_OR_EQUAL, [fn () => $this->getToDateParam()])
             ),
             new ParamRule(LeaveCommonParams::PARAMETER_TO_DATE, new Rule(Rules::API_DATE)),
             $this->getValidationDecorator()->notRequiredParamRule(

@@ -41,5 +41,4 @@ class LanguageTest extends EntityTestCase
         $this->assertEquals('Phd', $language->getName());
         $this->assertEquals(1, $language->getId());
     }
-
 }

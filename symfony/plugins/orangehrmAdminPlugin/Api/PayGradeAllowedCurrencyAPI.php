@@ -54,7 +54,7 @@ class PayGradeAllowedCurrencyAPI extends Endpoint implements CollectionEndpoint
      */
     public function getAll(): EndpointResult
     {
-        $payGradeId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE,PayGradeCurrencySearchFilterParams::PARAMETER_PAY_GRADE_ID);
+        $payGradeId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, PayGradeCurrencySearchFilterParams::PARAMETER_PAY_GRADE_ID);
         $payGradeCurrencySearchFilterParams = new PayGradeCurrencySearchFilterParams();
         $payGradeCurrencySearchFilterParams->setPayGradeId($payGradeId);
         $payGradeCurrencySearchFilterParams->setSortField('ct.id');

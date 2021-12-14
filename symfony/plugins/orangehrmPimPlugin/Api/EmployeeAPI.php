@@ -338,7 +338,7 @@ class EmployeeAPI extends Endpoint implements CrudEndpoint
             $empPicture->setSize($empPictureAttachment->getSize());
             $empPicture->setPicture($empPictureAttachment->getContent());
 
-            list ($width, $height) = $this->getEmployeePictureService()->pictureSizeAdjust(
+            list($width, $height) = $this->getEmployeePictureService()->pictureSizeAdjust(
                 $empPictureAttachment->getContent()
             );
             $empPicture->setWidth($width);

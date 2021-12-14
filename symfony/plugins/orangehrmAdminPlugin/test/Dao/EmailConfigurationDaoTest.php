@@ -43,8 +43,8 @@ class EmailConfigurationDaoTest extends TestCase
     {
         $this->emailConfigurationDao = new EmailConfigurationDao();
         $this->fixture = Config::get(
-                Config::PLUGINS_DIR
-            ) . '/orangehrmAdminPlugin/test/fixtures/EmailConfigurationDao.yml';
+            Config::PLUGINS_DIR
+        ) . '/orangehrmAdminPlugin/test/fixtures/EmailConfigurationDao.yml';
         TestDataService::populate($this->fixture);
     }
 
@@ -76,4 +76,3 @@ class EmailConfigurationDaoTest extends TestCase
         $this->assertEquals("tls", $result->getSmtpSecurityType());
     }
 }
-

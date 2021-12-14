@@ -34,7 +34,6 @@ use OrangeHRM\Tests\Util\TestDataService;
  */
 class EmployeeEducationDaoTest extends TestCase
 {
-
     private EmployeeEducationDao $employeeEducationDao;
     protected string $fixture;
 
@@ -51,7 +50,7 @@ class EmployeeEducationDaoTest extends TestCase
 
     public function testGetEmployeeEducationById(): void
     {
-        $result = $this->employeeEducationDao->getEmployeeEducationById(1,1);
+        $result = $this->employeeEducationDao->getEmployeeEducationById(1, 1);
         $this->assertEquals('UoM', $result->getInstitute());
         $this->assertEquals('CSE', $result->getMajor());
         $this->assertEquals('First Class', $result->getScore());
@@ -61,7 +60,7 @@ class EmployeeEducationDaoTest extends TestCase
     public function testDeleteEmployeeEducation(): void
     {
         $toTobedeletedIds = [1, 2];
-        $result = $this->employeeEducationDao->deleteEmployeeEducations(1,$toTobedeletedIds);
+        $result = $this->employeeEducationDao->deleteEmployeeEducations(1, $toTobedeletedIds);
         $this->assertEquals(2, $result);
     }
 
@@ -107,7 +106,7 @@ class EmployeeEducationDaoTest extends TestCase
 
     public function testEditEmployeeEducation(): void
     {
-        $employeeEducation = $this->employeeEducationDao->getEmployeeEducationById(1,1);
+        $employeeEducation = $this->employeeEducationDao->getEmployeeEducationById(1, 1);
         $employeeEducation->setInstitute('UCSC');
         $employeeEducation->setMajor('CS');
         $employeeEducation->setYear(2020);

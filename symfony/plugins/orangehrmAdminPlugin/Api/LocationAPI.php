@@ -39,7 +39,6 @@ use OrangeHRM\Admin\Dto\LocationSearchFilterParams;
 
 class LocationAPI extends Endpoint implements CrudEndpoint
 {
-
     public const FILTER_LOCATION_NAME = 'name';
 
     public const FILTER_LOCATION_CITY_NAME = 'city';
@@ -387,5 +386,4 @@ class LocationAPI extends Endpoint implements CrudEndpoint
             )
         );
     }
-
 }

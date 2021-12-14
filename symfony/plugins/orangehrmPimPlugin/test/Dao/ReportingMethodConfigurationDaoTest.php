@@ -31,7 +31,6 @@ use OrangeHRM\Tests\Util\TestDataService;
  */
 class ReportingMethodConfigurationDaoTest extends TestCase
 {
-
     private ReportingMethodConfigurationDao $reportingMethodConfigurationDao;
     protected string $fixture;
 

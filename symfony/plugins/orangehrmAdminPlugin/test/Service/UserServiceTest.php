@@ -36,7 +36,6 @@ use OrangeHRM\Tests\Util\KernelTestCase;
  */
 class UserServiceTest extends KernelTestCase
 {
-
     /** @property UserService $systemUserService */
     private $systemUserService;
 
@@ -441,4 +440,3 @@ class UserServiceTest extends KernelTestCase
         $this->assertEmpty($service->getUndeletableUserIds());
     }
 }
-

@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\OAuth\Constant;
 
-
 final class Scope
 {
     public const SCOPE_ADMIN = 'admin';

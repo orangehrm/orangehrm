@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\Tests\OAuth\Dao;
 
-
 use OrangeHRM\Config\Config;
 use OrangeHRM\Entity\OAuthClient;
 use OrangeHRM\OAuth\Constant\GrantType;
@@ -43,8 +42,8 @@ class OAuthClientDaoTest extends TestCase
     {
         $this->authClientDao = new OAuthClientDao();
         $this->fixture = Config::get(
-                Config::PLUGINS_DIR
-            ) . '/orangehrmCoreOAuthPlugin/test/fixtures/OAuthClient.yml';
+            Config::PLUGINS_DIR
+        ) . '/orangehrmCoreOAuthPlugin/test/fixtures/OAuthClient.yml';
         TestDataService::truncateSpecificTables([OAuthClient::class]);
         TestDataService::populate($this->fixture);
     }

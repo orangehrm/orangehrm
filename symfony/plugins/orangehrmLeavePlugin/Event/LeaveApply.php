@@ -21,5 +21,4 @@ namespace OrangeHRM\Leave\Event;
 
 class LeaveApply extends LeaveAllocate
 {
-
 }

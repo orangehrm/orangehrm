@@ -18,7 +18,7 @@ jobs:
       - name: Parse Git short hash
         run: echo "git_short_hash=$(git rev-parse --short $GITHUB_SHA)" >> $GITHUB_ENV
 
-      - name: Install depandancies
+      - name: Install dependencies
         run: |
           cd symfony
           php7.4 -f /usr/bin/composer install --no-dev

@@ -21,5 +21,4 @@ namespace OrangeHRM\Leave\Event;
 
 class LeaveCancel extends LeaveStatusChange
 {
-
 }

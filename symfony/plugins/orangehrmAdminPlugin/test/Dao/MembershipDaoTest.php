@@ -81,7 +81,7 @@ class MembershipDaoTest extends TestCase
         $this->assertTrue($result[0] instanceof Membership);
     }
 
-    public function testGetMembershipById():void
+    public function testGetMembershipById(): void
     {
         $membership = $this->membershipDao->getMembershipById(1);
 
@@ -89,7 +89,7 @@ class MembershipDaoTest extends TestCase
         $this->assertEquals('membership 1', $membership->getName());
     }
 
-    public function testDeleteMemberships():void
+    public function testDeleteMemberships(): void
     {
         $toTobedeletedIds = [1, 2];
         $result = $this->membershipDao->deleteMemberships($toTobedeletedIds);
@@ -114,4 +114,3 @@ class MembershipDaoTest extends TestCase
         $this->assertTrue($this->membershipDao->isExistingMembershipName('  membership 1  '));
     }
 }
-

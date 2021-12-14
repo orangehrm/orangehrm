@@ -32,7 +32,6 @@ use OrangeHRM\ORM\Paginator;
 
 class UserDao extends BaseDao
 {
-
     /**
      * Save System User
      *
@@ -385,7 +384,7 @@ class UserDao extends BaseDao
         $q = $this->createQueryBuilder(User::class, 'u');
         $q->andWhere('u.userName = :userName');
         $q->setParameter('userName', $userName);
-        if (!is_null($userId)){
+        if (!is_null($userId)) {
             $q->andWhere('u.id != :userId'); // we need to skip the current username on checking, otherwise count always return 1
             $q->setParameter('userId', $userId);
         }

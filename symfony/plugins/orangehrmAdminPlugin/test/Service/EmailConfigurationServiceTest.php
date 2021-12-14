@@ -20,12 +20,9 @@
 namespace OrangeHRM\Tests\Admin\Service;
 
 use OrangeHRM\Admin\Dao\EmailConfigurationDao;
-use OrangeHRM\Admin\Dao\OrganizationDao;
 use OrangeHRM\Admin\Service\EmailConfigurationService;
 use OrangeHRM\Core\Service\EmailService;
 use OrangeHRM\Tests\Util\TestCase;
-use OrangeHRM\Tests\Util\TestDataService;
-use PharIo\Manifest\Email;
 
 /**
  * @group Admin

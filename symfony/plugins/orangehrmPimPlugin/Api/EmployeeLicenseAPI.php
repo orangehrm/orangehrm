@@ -94,7 +94,8 @@ class EmployeeLicenseAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForGetOne(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(CommonParams::PARAMETER_ID,
+            new ParamRule(
+                CommonParams::PARAMETER_ID,
                 new Rule(Rules::POSITIVE)
             ),
             $this->getEmpNumberRule(),
@@ -153,7 +154,8 @@ class EmployeeLicenseAPI extends Endpoint implements CrudEndpoint
     {
         $employeeLicense = $this->saveEmployeeLicense();
         return new EndpointResourceResult(
-            EmployeeLicenseModel::class, $employeeLicense,
+            EmployeeLicenseModel::class,
+            $employeeLicense,
             new ParameterBag(
                 [
                     CommonParams::PARAMETER_EMP_NUMBER => $employeeLicense->getEmployee()->getEmpNumber(),
@@ -186,12 +188,14 @@ class EmployeeLicenseAPI extends Endpoint implements CrudEndpoint
                 new Rule(Rules::LENGTH, [null, self::PARAM_RULE_LICENSE_NO_MAX_LENGTH]),
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
-                new ParamRule(self::PARAMETER_LICENSE_ISSUED_DATE,
+                new ParamRule(
+                    self::PARAMETER_LICENSE_ISSUED_DATE,
                     new Rule(Rules::API_DATE)
                 ),
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
-                new ParamRule(self::PARAMETER_LICENSE_EXPIRED_DATE,
+                new ParamRule(
+                    self::PARAMETER_LICENSE_EXPIRED_DATE,
                     new Rule(Rules::API_DATE)
                 ),
             ),
@@ -207,7 +211,8 @@ class EmployeeLicenseAPI extends Endpoint implements CrudEndpoint
         $employeeLicense = $this->saveEmployeeLicense();
 
         return new EndpointResourceResult(
-            EmployeeLicenseModel::class, $employeeLicense,
+            EmployeeLicenseModel::class,
+            $employeeLicense,
             new ParameterBag(
                 [
                     CommonParams::PARAMETER_EMP_NUMBER => $employeeLicense->getEmployee()->getEmpNumber(),
@@ -242,7 +247,8 @@ class EmployeeLicenseAPI extends Endpoint implements CrudEndpoint
         $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
         $this->getEmployeeLicenseService()->getEmployeeLicenseDao()->deleteEmployeeLicenses($empNumber, $ids);
         return new EndpointResourceResult(
-            ArrayModel::class, $ids,
+            ArrayModel::class,
+            $ids,
             new ParameterBag(
                 [
                     CommonParams::PARAMETER_EMP_NUMBER => $empNumber,
@@ -289,8 +295,10 @@ class EmployeeLicenseAPI extends Endpoint implements CrudEndpoint
         if (!empty($licenseId)) {
             $id = $licenseId;
         }
-        $employeeLicense = $this->getEmployeeLicenseService()->getEmployeeLicenseDao()->getEmployeeLicense($empNumber,
-            $id);
+        $employeeLicense = $this->getEmployeeLicenseService()->getEmployeeLicenseDao()->getEmployeeLicense(
+            $empNumber,
+            $id
+        );
         if ($employeeLicense == null) {
             $employeeLicense = new EmployeeLicense();
             $employeeLicense->getDecorator()->setEmployeeByEmpNumber($empNumber);

@@ -23,7 +23,6 @@ use OrangeHRM\Core\Dto\FilterParams;
 
 class CustomerSearchFilterParams extends FilterParams
 {
-
     public const ALLOWED_SORT_FIELDS = ['customer.name'];
 
     /**

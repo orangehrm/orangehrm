@@ -974,7 +974,7 @@ class HolidayServiceTest extends KernelTestCase
         $holidaySearchFilterParams->setOffset(0);
         $result = $holidayService->searchHolidays($holidaySearchFilterParams);
 
-        $expected = TestDataService::loadObjectListFromArray(Holiday::class, array_slice($expectedArray,0,5));
+        $expected = TestDataService::loadObjectListFromArray(Holiday::class, array_slice($expectedArray, 0, 5));
         $this->compareHolidays($expected, $result);
 
         // check offset = 1, limit = 5
@@ -985,7 +985,7 @@ class HolidayServiceTest extends KernelTestCase
         $holidaySearchFilterParams->setOffset(1);
         $result = $holidayService->searchHolidays($holidaySearchFilterParams);
 
-        $expected = TestDataService::loadObjectListFromArray(Holiday::class, array_slice($expectedArray,1,5));
+        $expected = TestDataService::loadObjectListFromArray(Holiday::class, array_slice($expectedArray, 1, 5));
         $this->compareHolidays($expected, $result);
 
         // check offset = 3, limit = 5
@@ -996,7 +996,7 @@ class HolidayServiceTest extends KernelTestCase
         $holidaySearchFilterParams->setOffset(3);
         $result = $holidayService->searchHolidays($holidaySearchFilterParams);
 
-        $expected = TestDataService::loadObjectListFromArray(Holiday::class, array_slice($expectedArray,3,5));
+        $expected = TestDataService::loadObjectListFromArray(Holiday::class, array_slice($expectedArray, 3, 5));
         $this->compareHolidays($expected, $result);
 
         // check uniqueness (limit = 0)

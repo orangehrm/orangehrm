@@ -83,10 +83,10 @@ class RegistrationEventQueueDaoTest extends TestCase
         $registrationEventQueue->setEventTime(new DateTime());
         $registrationEventQueue->setPublishTime(new DateTime());
         $registrationEventQueue->setPublished(1);
-        $registrationEventQueue->setData((array('instance_identifier' => 'AHJVASKKJVKJHDBJASBAKJ')));
+        $registrationEventQueue->setData((['instance_identifier' => 'AHJVASKKJVKJHDBJASBAKJ']));
         $savedEvent = $this->registrationEventQueueDao->saveRegistrationEvent($registrationEventQueue);
 
-        $this->assertEquals(array('instance_identifier' => 'AHJVASKKJVKJHDBJASBAKJ'), $savedEvent->getData());
+        $this->assertEquals(['instance_identifier' => 'AHJVASKKJVKJHDBJASBAKJ'], $savedEvent->getData());
         $this->assertEquals(1, $savedEvent->getEventType());
     }
 }

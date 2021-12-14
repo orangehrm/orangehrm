@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\Tests\Pim\Service;
 
-
 use OrangeHRM\Config\Config;
 use OrangeHRM\Entity\ReportTo;
 use OrangeHRM\Pim\Dao\EmployeeReportingMethodDao;
@@ -82,7 +81,6 @@ class EmployeeReportingMethodServiceTest extends TestCase
 
     public function testGetSubordinateListForEmployee(): void
     {
-
         $reportTo1 = new ReportTo();
         $reportTo1->getDecorator()->setSupervisorEmployeeByEmpNumber(1);
         $reportTo1->getDecorator()->setSubordinateEmployeeByEmpNumber(2);
@@ -111,7 +109,6 @@ class EmployeeReportingMethodServiceTest extends TestCase
 
     public function testGetImmediateSupervisorListForEmployee(): void
     {
-
         $reportTo1 = new ReportTo();
         $reportTo1->getDecorator()->setSupervisorEmployeeByEmpNumber(1);
         $reportTo1->getDecorator()->setSubordinateEmployeeByEmpNumber(2);

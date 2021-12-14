@@ -62,7 +62,8 @@ class LoginController extends AbstractVueController implements PublicControllerI
             $error = $this->getAuthUser()->getFlash(AuthUser::FLASH_LOGIN_ERROR);
             $component->addProp(
                 new Prop(
-                    'error', Prop::TYPE_OBJECT,
+                    'error',
+                    Prop::TYPE_OBJECT,
                     $error[0] ?? []
                 )
             );

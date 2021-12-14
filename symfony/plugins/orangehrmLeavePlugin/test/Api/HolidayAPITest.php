@@ -42,8 +42,8 @@ class HolidayAPITest extends EndpointTestCase
     protected function loadFixtures(): void
     {
         $this->fixture = Config::get(
-                Config::PLUGINS_DIR
-            ) . '/orangehrmLeavePlugin/test/fixtures/HolidayDao.yml';
+            Config::PLUGINS_DIR
+        ) . '/orangehrmLeavePlugin/test/fixtures/HolidayDao.yml';
         TestDataService::populate($this->fixture);
     }
 

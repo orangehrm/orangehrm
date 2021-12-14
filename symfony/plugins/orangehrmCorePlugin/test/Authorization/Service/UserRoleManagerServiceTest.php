@@ -21,7 +21,6 @@ namespace OrangeHRM\Tests\Core\Authorization\Service;
 
 use OrangeHRM\Admin\Service\UserService;
 use OrangeHRM\Authentication\Auth\User as AuthUser;
-use OrangeHRM\Authentication\Service\AuthenticationService;
 use OrangeHRM\Core\Authorization\Dto\DataGroupPermissionCollection;
 use OrangeHRM\Core\Authorization\Dto\DataGroupPermissionFilterParams;
 use OrangeHRM\Core\Authorization\Dto\ResourcePermission;
@@ -250,7 +249,6 @@ class UserRoleManagerServiceTest extends KernelTestCase
 
 class InvalidUserRoleManager
 {
-
 }
 
 class UnitTestUserRoleManager extends AbstractUserRoleManager

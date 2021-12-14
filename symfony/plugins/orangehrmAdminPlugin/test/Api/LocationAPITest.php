@@ -35,7 +35,6 @@ use OrangeHRM\Tests\Util\TestDataService;
  */
 class LocationAPITest extends EndpointTestCase
 {
-
     private LocationAPI $locationApi;
 
     protected function setUp(): void

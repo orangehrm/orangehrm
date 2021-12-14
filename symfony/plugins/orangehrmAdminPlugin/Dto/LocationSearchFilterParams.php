@@ -23,7 +23,6 @@ use OrangeHRM\Core\Dto\FilterParams;
 
 class LocationSearchFilterParams extends FilterParams
 {
-
     public const ALLOWED_SORT_FIELDS = [
         'location.name',
         'location.city',
@@ -103,5 +102,4 @@ class LocationSearchFilterParams extends FilterParams
     {
         $this->countryCode = $countryCode;
     }
-
 }

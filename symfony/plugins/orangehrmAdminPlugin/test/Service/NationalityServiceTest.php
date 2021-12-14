@@ -72,7 +72,7 @@ class NationalityServiceTest extends TestCase
             ->will($this->returnValue($nationalityList[0]));
         $this->nationalityService->setNationalityDao($nationalityDao);
         $result = $this->nationalityService->getNationalityById(1);
-        $this->assertEquals($nationalityList[0],$result);
+        $this->assertEquals($nationalityList[0], $result);
     }
 
     public function testDeleteNationalities(): void
@@ -86,7 +86,7 @@ class NationalityServiceTest extends TestCase
             ->will($this->returnValue(3));
         $this->nationalityService->setNationalityDao($nationalityDao);
         $result = $this->nationalityService->deleteNationalities($nationalityList);
-        $this->assertEquals(3,$result);
+        $this->assertEquals(3, $result);
     }
 
     public function testGetNationalityByName(): void
@@ -99,6 +99,6 @@ class NationalityServiceTest extends TestCase
             ->will($this->returnValue($nationalityList[0]));
         $this->nationalityService->setNationalityDao($nationalityDao);
         $result = $this->nationalityService->getNationalityByName(1);
-        $this->assertEquals($nationalityList[0],$result);
+        $this->assertEquals($nationalityList[0], $result);
     }
 }

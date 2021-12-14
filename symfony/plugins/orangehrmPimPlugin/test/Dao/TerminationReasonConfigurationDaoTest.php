@@ -20,7 +20,6 @@
 namespace OrangeHRM\Tests\Pim\Dao;
 
 use OrangeHRM\Config\Config;
-use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\TerminationReason;
 use OrangeHRM\Pim\Dao\TerminationReasonConfigurationDao;
 use OrangeHRM\Pim\Dto\TerminationReasonConfigurationSearchFilterParams;
@@ -33,7 +32,6 @@ use OrangeHRM\Tests\Util\TestDataService;
  */
 class TerminationReasonConfigurationDaoTest extends TestCase
 {
-
     /**
      * @var TerminationReasonConfigurationDao
      */

@@ -17,9 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-
 namespace OrangeHRM\Admin\Api\Model;
-
 
 use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
@@ -48,5 +46,4 @@ class CurrencyTypeModel implements Normalizable
             ]
         );
     }
-
 }

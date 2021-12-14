@@ -156,7 +156,8 @@ class CustomFieldDao extends BaseDao
      * @return int
      * @throws DaoException
      */
-    public function getSearchCustomFieldsCount(CustomFieldSearchFilterParams $customFieldSearchParams
+    public function getSearchCustomFieldsCount(
+        CustomFieldSearchFilterParams $customFieldSearchParams
     ): int {
         try {
             $paginator = $this->getSearchCustomFieldPaginator($customFieldSearchParams);

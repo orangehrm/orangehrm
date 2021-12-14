@@ -111,7 +111,7 @@ class CustomFieldService
      */
     public function getAllFieldsInUse(): array
     {
-        $fieldsInUse = array();
+        $fieldsInUse = [];
         for ($i = 1; $i <= 10; $i++) {
             if ($this->getCustomFieldDao()->isCustomFieldInUse($i)) {
                 array_push($fieldsInUse, $i);

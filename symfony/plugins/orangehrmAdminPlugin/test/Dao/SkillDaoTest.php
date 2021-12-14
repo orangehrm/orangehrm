@@ -23,7 +23,6 @@ use Exception;
 use OrangeHRM\Admin\Dao\SkillDao;
 use OrangeHRM\Admin\Dto\SkillSearchFilterParams;
 use OrangeHRM\Config\Config;
-use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Entity\Skill;
 use OrangeHRM\Tests\Util\TestCase;
 use OrangeHRM\Tests\Util\TestDataService;
@@ -34,7 +33,6 @@ use OrangeHRM\Tests\Util\TestDataService;
  */
 class SkillDaoTest extends TestCase
 {
-
     private SkillDao $skillDao;
     protected string $fixture;
 

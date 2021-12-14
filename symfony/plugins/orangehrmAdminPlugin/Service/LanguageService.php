@@ -137,5 +137,4 @@ class LanguageService
     {
         return $this->getLanguageDao()->isExistingLanguageName($languageName);
     }
-
 }

@@ -32,7 +32,6 @@ use OrangeHRM\Tests\Util\TestDataService;
  */
 class LanguageDaoTest extends TestCase
 {
-
     private LanguageDao $languageDao;
     protected string $fixture;
 

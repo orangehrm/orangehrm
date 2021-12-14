@@ -35,7 +35,6 @@ use OrangeHRM\Tests\Util\TestDataService;
  */
 class HomePageDaoTest extends TestCase
 {
-
     private HomePageDao $homePageDao;
     private string $fixture;
 

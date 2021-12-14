@@ -23,38 +23,45 @@ namespace OrangeHRM\Core\Authorization\UserRole;
  * Description of HiringManagerUserRole
  *
  */
-class HiringManagerUserRole extends AbstractUserRole {
-    
-    public function getAccessibleVacancyIds($operation = null, $returnType = null, $requiredPermissions = []) {
+class HiringManagerUserRole extends AbstractUserRole
+{
+    public function getAccessibleVacancyIds($operation = null, $returnType = null, $requiredPermissions = [])
+    {
         return $this->getVacancyService()->getVacancyIdListForHiringManager($this->getEmployeeNumber());
     }
-    
-    public function getAccessibleEmployeeIds($operation = null, $returnType = null, $requiredPermissions = []) {
+
+    public function getAccessibleEmployeeIds($operation = null, $returnType = null, $requiredPermissions = [])
+    {
         return [];
     }
 
-    public function getAccessibleEmployeePropertyList($properties, $orderField, $orderBy, $requiredPermissions = []) {
+    public function getAccessibleEmployeePropertyList($properties, $orderField, $orderBy, $requiredPermissions = [])
+    {
         return [];
     }
 
-    public function getAccessibleEmployees($operation = null, $returnType = null, $requiredPermissions = []): array {
+    public function getAccessibleEmployees($operation = null, $returnType = null, $requiredPermissions = []): array
+    {
         return [];
     }
 
-    public function getAccessibleLocationIds($operation = null, $returnType = null, $requiredPermissions = []) {
+    public function getAccessibleLocationIds($operation = null, $returnType = null, $requiredPermissions = [])
+    {
         return [];
     }
 
-    public function getAccessibleOperationalCountryIds($operation = null, $returnType = null, $requiredPermissions = []) {
+    public function getAccessibleOperationalCountryIds($operation = null, $returnType = null, $requiredPermissions = [])
+    {
         return [];
     }
 
-    public function getAccessibleSystemUserIds($operation = null, $returnType = null, $requiredPermissions = []) {
+    public function getAccessibleSystemUserIds($operation = null, $returnType = null, $requiredPermissions = [])
+    {
         return [];
     }
 
-    public function getAccessibleUserRoleIds($operation = null, $returnType = null, $requiredPermissions = []) {
+    public function getAccessibleUserRoleIds($operation = null, $returnType = null, $requiredPermissions = [])
+    {
         return [];
     }
 }
-

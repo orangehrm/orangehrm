@@ -22,7 +22,6 @@ namespace OrangeHRM\Pim\Controller\File;
 
 use OrangeHRM\Core\Controller\AbstractFileController;
 use OrangeHRM\Core\Exception\DaoException;
-use OrangeHRM\Entity\EmployeeAttachment;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\Http\Response;
 

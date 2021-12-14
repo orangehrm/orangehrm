@@ -20,7 +20,6 @@
 namespace OrangeHRM\Tests\Pim\Api;
 
 use OrangeHRM\Config\Config;
-use OrangeHRM\Leave\Api\LeaveReportAPI;
 use OrangeHRM\Pim\Api\PimReportDataAPI;
 use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
 use OrangeHRM\Tests\Util\Integration\TestCaseParams;

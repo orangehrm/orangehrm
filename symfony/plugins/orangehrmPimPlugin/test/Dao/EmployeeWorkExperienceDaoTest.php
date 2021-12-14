@@ -34,7 +34,6 @@ use OrangeHRM\Tests\Util\TestDataService;
  */
 class EmployeeWorkExperienceDaoTest extends TestCase
 {
-
     private EmployeeWorkExperienceDao $employeeWorkExperienceDao;
     protected string $fixture;
 
@@ -51,7 +50,7 @@ class EmployeeWorkExperienceDaoTest extends TestCase
 
     public function testGetEmployeeWorkExperienceById(): void
     {
-        $result = $this->employeeWorkExperienceDao->getEmployeeWorkExperienceById(1,1);
+        $result = $this->employeeWorkExperienceDao->getEmployeeWorkExperienceById(1, 1);
         $this->assertEquals('SE', $result->getJobTitle());
         $this->assertEquals('OrangeHRM', $result->getEmployer());
         $this->assertEquals('Worked Hard', $result->getComments());
@@ -63,7 +62,7 @@ class EmployeeWorkExperienceDaoTest extends TestCase
     public function testDeleteEmployeeWorkExperience(): void
     {
         $toTobedeletedIds = [1, 2];
-        $result = $this->employeeWorkExperienceDao->deleteEmployeeWorkExperiences(1,$toTobedeletedIds);
+        $result = $this->employeeWorkExperienceDao->deleteEmployeeWorkExperiences(1, $toTobedeletedIds);
         $this->assertEquals(2, $result);
     }
 
@@ -108,7 +107,7 @@ class EmployeeWorkExperienceDaoTest extends TestCase
 
     public function testEditEmployeeWorkExperience(): void
     {
-        $employeeWorkExperience = $this->employeeWorkExperienceDao->getEmployeeWorkExperienceById(1,1);
+        $employeeWorkExperience = $this->employeeWorkExperienceDao->getEmployeeWorkExperienceById(1, 1);
         $employeeWorkExperience->setEmployer('OHRM');
         $employeeWorkExperience->setJobTitle('SE');
         $employeeWorkExperience->setComments('test');

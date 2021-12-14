@@ -40,8 +40,8 @@ class EmploymentContractDaoTest extends TestCase
     {
         $this->employmentContractDao = new EmploymentContractDao();
         $this->fixture = Config::get(
-                Config::PLUGINS_DIR
-            ) . '/orangehrmPimPlugin/test/fixtures/EmploymentContractDao.yml';
+            Config::PLUGINS_DIR
+        ) . '/orangehrmPimPlugin/test/fixtures/EmploymentContractDao.yml';
         TestDataService::populate($this->fixture);
     }
 

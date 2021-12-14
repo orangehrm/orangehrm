@@ -152,5 +152,4 @@ class EmployeeLicense
     {
         $this->employee = $employee;
     }
-
 }
