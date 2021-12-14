@@ -61,7 +61,6 @@ export default {
       default: false,
     },
   },
-  emits: ['update:modelValue'],
   setup(props, context) {
     const options = ref([]);
     const http = new APIService(
@@ -91,6 +90,9 @@ export default {
             };
           });
           if (!props.showEmptySelector && options.value.length > 0) {
+            // this $event is only fired to default select first option
+            // where --select-- options is not shown
+            // eslint-disable-next-line vue/require-explicit-emits
             context.emit('update:modelValue', options.value[0]);
           }
         });
