@@ -3,6 +3,12 @@ GetAll:
     userId: 1
     services:
       time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     attributes:
       timesheetId: 4
     query: [ ]
@@ -37,14 +43,20 @@ GetAll:
     meta:
       total: 2
 
-  'Get time sheet action log list - no record found':
+  'Get time sheet action log list - Record not found':
     userId: 1
     services:
       time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     attributes:
       timesheetId: 50
     query: [ ]
     body: [ ]
-    data: [ ]
-    meta:
-      total: 0
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException'
+      message: 'Record Not Found'

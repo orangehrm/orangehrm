@@ -44,7 +44,7 @@ class TimesheetActionLogDecorator
     /**
      * @return TimesheetActionLog
      */
-    public function getTimesheetActionLog(): TimesheetActionLog
+    protected function getTimesheetActionLog(): TimesheetActionLog
     {
         return $this->timesheetActionLog;
     }
@@ -60,7 +60,8 @@ class TimesheetActionLogDecorator
     /**
      * @return string
      */
-    public function getActionLabel(): string{
+    public function getActionLabel(): string
+    {
         return ucwords(strtolower($this->timesheetActionLog->getAction()));
     }
 }

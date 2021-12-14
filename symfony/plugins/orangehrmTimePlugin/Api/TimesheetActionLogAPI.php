@@ -30,6 +30,8 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Core\Traits\UserRoleManagerTrait;
+use OrangeHRM\Entity\Timesheet;
 use OrangeHRM\Time\Api\Model\TimesheetActionLogModel;
 use OrangeHRM\Time\Dto\TimesheetActionLogSearchFilterParams;
 use OrangeHRM\Time\Traits\Service\TimesheetServiceTrait;
@@ -37,6 +39,7 @@ use OrangeHRM\Time\Traits\Service\TimesheetServiceTrait;
 class TimesheetActionLogAPI extends Endpoint implements CollectionEndpoint
 {
     use TimesheetServiceTrait;
+    use UserRoleManagerTrait;
 
     public const PARAMETER_TIMESHEET_ID = 'timesheetId';
 
@@ -49,7 +52,11 @@ class TimesheetActionLogAPI extends Endpoint implements CollectionEndpoint
             RequestParams::PARAM_TYPE_ATTRIBUTE,
             self::PARAMETER_TIMESHEET_ID
         );
-
+        $timesheet = $this->getTimesheetService()->getTimesheetDao()->getTimesheetById($timesheetId);
+        $this->throwRecordNotFoundExceptionIfNotExist($timesheet, Timesheet::class);
+        if (!$this->getUserRoleManagerHelper()->isEmployeeAccessible($timesheet->getEmployee()->getEmpNumber())) {
+            throw $this->getForbiddenException();
+        }
         $timesheetActionLogParamHolder = new TimesheetActionLogSearchFilterParams();
         $this->setSortingAndPaginationParams($timesheetActionLogParamHolder);
 

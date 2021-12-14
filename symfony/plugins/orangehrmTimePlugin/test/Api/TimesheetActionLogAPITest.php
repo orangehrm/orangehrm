@@ -52,4 +52,32 @@ class TimesheetActionLogAPITest extends EndpointIntegrationTestCase
     {
         return $this->getTestCases('TimesheetActionLogTestCase.yaml', 'GetAll');
     }
+
+    public function testCreate(): void
+    {
+        $api = new TimesheetActionLogAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->delete();
+    }
+
+    public function testGetValidationRuleForCreate(): void
+    {
+        $api = new TimesheetActionLogAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->getValidationRuleForCreate();
+    }
+
+    public function testDelete(): void
+    {
+        $api = new TimesheetActionLogAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->delete();
+    }
+
+    public function testGetValidationRuleForDelete(): void
+    {
+        $api = new TimesheetActionLogAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->getValidationRuleForDelete();
+    }
 }
