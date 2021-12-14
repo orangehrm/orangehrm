@@ -19,18 +19,15 @@
 
 namespace OrangeHRM\Time\Api;
 
-use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
-use OrangeHRM\Core\Api\V2\EndpointResult;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Entity\Timesheet;
-use OrangeHRM\Time\Api\Model\DetailedTimesheetModel;
 
 class MyTimesheetItemAPI extends EmployeeTimesheetItemAPI
 {
     /**
-     * @inheritDoc
+     * @return Timesheet
      */
-    public function getAll(): EndpointResult
+    protected function getTimesheet(): Timesheet
     {
         $timesheetId = $this->getRequestParams()->getInt(
             RequestParams::PARAM_TYPE_ATTRIBUTE,
@@ -41,11 +38,6 @@ class MyTimesheetItemAPI extends EmployeeTimesheetItemAPI
         if (!$this->getUserRoleManagerHelper()->isSelfByEmpNumber($timesheet->getEmployee()->getEmpNumber())) {
             throw $this->getForbiddenException();
         }
-        $detailedTimesheet = $this->getTimesheetService()->getDetailedTimesheet($timesheetId);
-        return new EndpointCollectionResult(
-            DetailedTimesheetModel::class,
-            $detailedTimesheet,
-            $this->getResultMetaForGetAll($detailedTimesheet),
-        );
+        return $timesheet;
     }
 }

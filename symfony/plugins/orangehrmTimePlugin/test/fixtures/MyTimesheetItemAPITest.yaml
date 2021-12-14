@@ -169,15 +169,15 @@ ProjectActivity:
   - { "activity_id": "77","project_id": "11","name": "HR Audit","is_deleted": "0" }
   - { "activity_id": "78","project_id": "11","name": "Performance Evaluation","is_deleted": "0" }
 
-#ProjectAdmin:
-#  - { "project_id": "2","emp_number": "5" }
-#  - { "project_id": "2","emp_number": "2" }
-#  - { "project_id": "6","emp_number": "2" }
-#  - { "project_id": "7","emp_number": "2" }
-#  - { "project_id": "8","emp_number": "7" }
-#  - { "project_id": "9","emp_number": "7" }
-#  - { "project_id": "10","emp_number": "7" }
-#  - { "project_id": "11","emp_number":"7"}
+ProjectAdmin:
+  - { "project_id": "2","emp_number": "5" }
+  - { "project_id": "2","emp_number": "2" }
+  - { "project_id": "6","emp_number": "2" }
+  - { "project_id": "7","emp_number": "2" }
+  - { "project_id": "8","emp_number": "7" }
+  - { "project_id": "9","emp_number": "7" }
+  - { "project_id": "10","emp_number": "7" }
+  - { "project_id": "11","emp_number":"7"}
 
 Timesheet:
   - { "timesheet_id": "1","state": "NOT SUBMITTED","start_date": "2020-10-05","end_date": "2020-10-11","employee_id": "9" }

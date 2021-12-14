@@ -64,9 +64,10 @@ class DetailedTimesheetModel implements CollectionNormalizable
                 if (!$timesheetItem instanceof TimesheetItem) {
                     continue;
                 }
-                $row['dates'][] = [
+                $date = $this->getDateTimeHelper()->formatDateTimeToYmd($timesheetItem->getDate());
+                $row['dates'][$date] = [
                     'id' => $timesheetItem->getId(),
-                    'date' => $this->getDateTimeHelper()->formatDateTimeToYmd($timesheetItem->getDate()),
+                    'date' => $date,
                     'comment' => $timesheetItem->getComment(),
                     'duration' => $this->getDateTimeHelper()->convertSecondsToTimeString($timesheetItem->getDuration()),
                 ];

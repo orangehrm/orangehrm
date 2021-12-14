@@ -109,6 +109,6 @@ class CorePluginConfiguration implements PluginConfigurationInterface
         $dispatcher->addSubscriber(new ModuleNotAvailableSubscriber());
         $dispatcher->addSubscriber(new RegistrationEventPersistSubscriber());
         $dispatcher->addSubscriber(new RegistrationEventPublishSubscriber());
-        $dispatcher->addSubscriber(new TimeSheetPeriodSubscriber());
+//        $dispatcher->addSubscriber(new TimeSheetPeriodSubscriber());
     }
 }

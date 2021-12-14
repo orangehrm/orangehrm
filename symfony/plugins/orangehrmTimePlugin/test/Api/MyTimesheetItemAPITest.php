@@ -59,19 +59,19 @@ class MyTimesheetItemAPITest extends EndpointIntegrationTestCase
         $api->getValidationRuleForCreate();
     }
 
-    public function testUpdate(): void
-    {
-        $api = new MyTimesheetItemAPI($this->getRequest());
-        $this->expectNotImplementedException();
-        $api->update();
-    }
-
-    public function testGetValidationRuleForUpdate(): void
-    {
-        $api = new MyTimesheetItemAPI($this->getRequest());
-        $this->expectNotImplementedException();
-        $api->getValidationRuleForUpdate();
-    }
+//    public function testUpdate(): void
+//    {
+//        $api = new MyTimesheetItemAPI($this->getRequest());
+//        $this->expectNotImplementedException();
+//        $api->update();
+//    }
+//
+//    public function testGetValidationRuleForUpdate(): void
+//    {
+//        $api = new MyTimesheetItemAPI($this->getRequest());
+//        $this->expectNotImplementedException();
+//        $api->getValidationRuleForUpdate();
+//    }
 
     public function testDelete(): void
     {

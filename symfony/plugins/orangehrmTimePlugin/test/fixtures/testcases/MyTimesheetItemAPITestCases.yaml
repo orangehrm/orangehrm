@@ -66,32 +66,32 @@ GetAll:
           "deleted": false
         },
         "total": "10:00",
-        "dates": [
-          {
+        "dates": {
+          "2020-08-31": {
             "id": 261,
             "date": "2020-08-31",
             "comment": null,
             "duration": "04:00"
           },
-          {
+          "2020-09-01": {
             "id": 262,
             "date": "2020-09-01",
             "comment": null,
             "duration": "02:00"
           },
-          {
+          "2020-09-02": {
             "id": 263,
             "date": "2020-09-02",
             "comment": null,
             "duration": "01:00"
           },
-          {
+          "2020-09-04": {
             "id": 264,
             "date": "2020-09-04",
             "comment": null,
             "duration": "03:00"
           }
-        ]
+        }
       },
       {
         "project": {
@@ -110,32 +110,32 @@ GetAll:
           "deleted": false
         },
         "total": "20:00",
-        "dates": [
-          {
+        "dates": {
+          "2020-08-31": {
             "id": 265,
             "date": "2020-08-31",
             "comment": null,
             "duration": "02:00"
           },
-          {
+          "2020-09-01": {
             "id": 266,
             "date": "2020-09-01",
             "comment": null,
             "duration": "05:00"
           },
-          {
+          "2020-09-02": {
             "id": 267,
             "date": "2020-09-02",
             "comment": null,
             "duration": "06:00"
           },
-          {
+          "2020-09-03": {
             "id": 268,
             "date": "2020-09-03",
             "comment": null,
             "duration": "07:00"
           }
-        ]
+        }
       },
       {
         "project": {
@@ -154,38 +154,38 @@ GetAll:
           "deleted": false
         },
         "total": "08:00",
-        "dates": [
-          {
+        "dates": {
+          "2020-08-31": {
             "id": 269,
             "date": "2020-08-31",
             "comment": null,
             "duration": "01:00"
           },
-          {
+          "2020-09-01": {
             "id": 270,
             "date": "2020-09-01",
             "comment": null,
             "duration": "01:00"
           },
-          {
+          "2020-09-02": {
             "id": 271,
             "date": "2020-09-02",
             "comment": null,
             "duration": "01:00"
           },
-          {
+          "2020-09-03": {
             "id": 272,
             "date": "2020-09-03",
             "comment": null,
             "duration": "01:00"
           },
-          {
+          "2020-09-04": {
             "id": 273,
             "date": "2020-09-04",
             "comment": null,
             "duration": "04:00"
           }
-        ]
+        }
       },
       {
         "project": {
@@ -204,38 +204,38 @@ GetAll:
           "deleted": false
         },
         "total": "06:00",
-        "dates": [
-          {
+        "dates": {
+          "2020-08-31": {
             "id": 274,
             "date": "2020-08-31",
             "comment": null,
             "duration": "02:00"
           },
-          {
+          "2020-09-01": {
             "id": 275,
             "date": "2020-09-01",
             "comment": null,
             "duration": "01:00"
           },
-          {
+          "2020-09-02": {
             "id": 276,
             "date": "2020-09-02",
             "comment": null,
             "duration": "01:00"
           },
-          {
+          "2020-09-03": {
             "id": 277,
             "date": "2020-09-03",
             "comment": null,
             "duration": "01:00"
           },
-          {
+          "2020-09-04": {
             "id": 278,
             "date": "2020-09-04",
             "comment": null,
             "duration": "01:00"
           }
-        ]
+        }
       }
     ]
     meta: {

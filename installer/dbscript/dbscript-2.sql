@@ -3533,7 +3533,7 @@ INSERT INTO `ohrm_i18n_group` (`name`, `title`) VALUES
 ('mobile', 'Mobile');
 
 -- ------------------------------
---        OrangeHRM 5.x
+--        OrangeHRM 5.0-beta
 -- ------------------------------
 
 ALTER TABLE `hs_hr_config` CHANGE `key` `name` VARCHAR(100);
@@ -4244,11 +4244,11 @@ INSERT INTO ohrm_data_group (`name`, `description`, `can_read`, `can_create`, `c
 VALUES ('apiv2_time_time_sheet_config', 'API-v2 Time - Time Sheet Start Day Configuration', 1, 0, 1, 0),
        ('apiv2_time_customers', 'API-v2 Time - Customers', 1, 1, 1, 1),
        ('apiv2_time_validation_customer_name', 'API-v2 Time - Customer Name Validation', 1, 0, 0, 0),
-       ('apiv2_time_project_activities', 'API-V2 Time - Project Activities', 1, 1, 1, 1),
+       ('apiv2_time_project_activities', 'API-v2 Time - Project Activities', 1, 1, 1, 1),
        ('apiv2_time_projects', 'API-v2 Time - Projects', 1, 1, 1, 1),
        ('apiv2_time_project_name_validator', 'API-v2 Time - Project Name Validation', 1, 0, 0, 0),
-       ('apiv2_time_timesheets_items', 'API-V2 Time - Timesheet items', 1, 0, 1, 0),
-       ('apiv2_time_my_timesheet', 'API-v2- Time - My Timesheet', 0, 1, 0, 0),
+       ('apiv2_time_timesheets_items', 'API-v2 Time - Timesheet items', 1, 0, 1, 0),
+       ('apiv2_time_my_timesheet', 'API-v2 Time - My Timesheet', 0, 1, 0, 0),
        ('apiv2_time_timesheet_action_log', 'API-v2 Time - Timesheet action log', 1, 0, 0, 0);
 
 SET @time_module_id := (SELECT `id` FROM ohrm_module WHERE name = 'time' LIMIT 1);
