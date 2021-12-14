@@ -48,8 +48,8 @@ class TimesheetDao extends BaseDao
         // TODO
         try {
             $query = Doctrine_Query::create()
-                ->from("Timesheet")
-                ->where("start_date = ?", $startDate);
+                    ->from("Timesheet")
+                    ->where("start_date = ?", $startDate);
             $results = $query->execute();
             if ($results[0]->getTimesheetId() == null) {
                 return null;
@@ -81,7 +81,7 @@ class TimesheetDao extends BaseDao
         // TODO
         try {
             $timesheetItem = Doctrine::getTable("TimesheetItem")
-                ->find($timesheetItemId);
+                    ->find($timesheetItemId);
 
             return $timesheetItem;
         } catch (Exception $ex) {
@@ -112,12 +112,12 @@ class TimesheetDao extends BaseDao
         // TODO
         try {
             $timesheetItem = Doctrine_Query::create()
-                ->from("TimesheetItem")
-                ->where("timesheetId = ?", $timesheetId)
-                ->andWhere("employeeId = ?", $employeeId)
-                ->andWhere("projectId = ?", $projectId)
-                ->andWhere("activityId = ?", $activityId)
-                ->andWhere("date = ?", $date);
+                    ->from("TimesheetItem")
+                    ->where("timesheetId = ?", $timesheetId)
+                    ->andWhere("employeeId = ?", $employeeId)
+                    ->andWhere("projectId = ?", $projectId)
+                    ->andWhere("activityId = ?", $activityId)
+                    ->andWhere("date = ?", $date);
 
             return $timesheetItem->execute();
         } catch (Exception $ex) {
@@ -151,12 +151,12 @@ class TimesheetDao extends BaseDao
         // TODO
         try {
             $query = Doctrine_Query::create()
-                ->delete()
-                ->from("TimesheetItem")
-                ->where("timesheetId = ?", $timesheetId)
-                ->andWhere("employeeId = ?", $employeeId)
-                ->andWhere("projectId = ?", $projectId)
-                ->andWhere("activityId = ?", $activityId);
+                    ->delete()
+                    ->from("TimesheetItem")
+                    ->where("timesheetId = ?", $timesheetId)
+                    ->andWhere("employeeId = ?", $employeeId)
+                    ->andWhere("projectId = ?", $projectId)
+                    ->andWhere("activityId = ?", $activityId);
 
             $timesheetItemDeleted = $query->execute();
             if ($timesheetItemDeleted > 0) {
@@ -220,7 +220,7 @@ class TimesheetDao extends BaseDao
         // TODO
         try {
             $timesheetActionLog = Doctrine::getTable("TimesheetActionLog")
-                ->find($timesheetActionLogId);
+                    ->find($timesheetActionLogId);
 
             return $timesheetActionLog;
         } catch (Exception $ex) {
@@ -238,9 +238,9 @@ class TimesheetDao extends BaseDao
         // TODO
         try {
             $query = Doctrine_Query::create()
-                ->from("Timesheet")
-                ->where("start_date = ?", $startDate)
-                ->andWhere("employee_id = ?", $employeeId);
+                    ->from("Timesheet")
+                    ->where("start_date = ?", $startDate)
+                    ->andWhere("employee_id = ?", $employeeId);
 
             $results = $query->execute();
             if ($results[0]->getTimesheetId() == null) {
@@ -263,9 +263,9 @@ class TimesheetDao extends BaseDao
         // TODO
         try {
             $query = Doctrine_Query::create()
-                ->from("TimesheetActionLog")
-                ->where("timesheetId = ?", $timesheetId)
-                ->orderBy('timesheetActionLogId');
+                    ->from("TimesheetActionLog")
+                    ->where("timesheetId = ?", $timesheetId)
+                    ->orderBy('timesheetActionLogId');
 
             $results = $query->execute();
             if ($results[0]->getTimesheetActionLogId() == null) {
@@ -287,16 +287,16 @@ class TimesheetDao extends BaseDao
     {
         // TODO
         $query = Doctrine_Query::create()
-            ->select('a.start_date')
-            ->from('Timesheet a')
-            ->where("employeeId = ?", $employeeId)
-            ->orderBy('a.start_date ASC');
+                ->select('a.start_date')
+                ->from('Timesheet a')
+                ->where("employeeId = ?", $employeeId)
+                ->orderBy('a.start_date ASC');
         $results = $query->fetchArray();
         $query1 = Doctrine_Query::create()
-            ->select('a.end_date')
-            ->from('Timesheet a')
-            ->where("employeeId = ?", $employeeId)
-            ->orderBy('a.end_date ASC');
+                ->select('a.end_date')
+                ->from('Timesheet a')
+                ->where("employeeId = ?", $employeeId)
+                ->orderBy('a.end_date ASC');
 
         $results1 = $query1->fetchArray();
         $resultArray = [$results, $results1];
@@ -313,9 +313,9 @@ class TimesheetDao extends BaseDao
         // TODO
         try {
             $query = Doctrine_Query::create()
-                ->from('Timesheet a')
-                ->where('employee_id = ?', $employeeId)
-                ->orderBy('a.start_date ASC');
+                    ->from('Timesheet a')
+                    ->where('employee_id = ?', $employeeId)
+                    ->orderBy('a.start_date ASC');
 
             $results = $query->execute();
 
@@ -339,9 +339,9 @@ class TimesheetDao extends BaseDao
         // TODO
         try {
             $query = Doctrine_Query::create()
-                ->from('Timesheet')
-                ->where('employee_id = ?', $employeeId)
-                ->andWhereIn('state', $stateList);
+                    ->from('Timesheet')
+                    ->where('employee_id = ?', $employeeId)
+                    ->andWhereIn('state', $stateList);
 
             $results = $query->execute();
 
@@ -411,8 +411,8 @@ class TimesheetDao extends BaseDao
         // TODO
         try {
             $query = Doctrine_Query::create()
-                ->from("Customer")
-                ->where("name = ?", $customerName);
+                    ->from("Customer")
+                    ->where("name = ?", $customerName);
 
             $results = $query->execute();
 
@@ -436,10 +436,10 @@ class TimesheetDao extends BaseDao
         // TODO
         try {
             $query = Doctrine_Query::create()
-                ->from('Project')
-                ->where('name = ?', $projectName)
-                ->andWhere('customer_id = ?', $customerId)
-                ->andWhere('is_deleted = ?', 0);
+                    ->from('Project')
+                    ->where('name = ?', $projectName)
+                    ->andWhere('customer_id = ?', $customerId)
+            ->andWhere('is_deleted = ?', 0);
 
             $results = $query->execute();
 
@@ -463,8 +463,8 @@ class TimesheetDao extends BaseDao
         // TODO
         try {
             $query = Doctrine_Query::create()
-                ->from('ProjectActivity')
-                ->where('project_id = ?', $projectId);
+                    ->from('ProjectActivity')
+                    ->where('project_id = ?', $projectId);
 
             if (!$deleted) {
                 // Only fetch active projects
@@ -535,8 +535,8 @@ class TimesheetDao extends BaseDao
         // TODO
         try {
             $query = Doctrine_Query::create()
-                ->from('ProjectActivity')
-                ->where('project_id = ?', $projectId);
+                    ->from('ProjectActivity')
+                    ->where('project_id = ?', $projectId);
 
             if ($excludeDeletedActivities) {
                 $query->andWhere('is_deleted = ?', ProjectActivity::ACTIVE_PROJECT_ACTIVITY);
@@ -563,9 +563,9 @@ class TimesheetDao extends BaseDao
         // TODO
         try {
             $query = Doctrine_Query::create()
-                ->from('ProjectActivity')
-                ->where('project_id = ?', $projectId)
-                ->andWhere('name = ?', $activityName);
+                    ->from('ProjectActivity')
+                    ->where('project_id = ?', $projectId)
+                    ->andWhere('name = ?', $activityName);
 
             $results = $query->execute();
 
@@ -589,8 +589,8 @@ class TimesheetDao extends BaseDao
         // TODO
         try {
             $query = Doctrine_Query::create()
-                ->from('ProjectActivity')
-                ->where('activity_id = ?', $activityId);
+                    ->from('ProjectActivity')
+                    ->where('activity_id = ?', $activityId);
 
             $results = $query->execute();
 
@@ -614,8 +614,8 @@ class TimesheetDao extends BaseDao
         // TODO
         try {
             $query = Doctrine_Query::create()
-                ->from("Timesheet")
-                ->where("state = ?", "SUPERVISOR APPROVED");
+                    ->from("Timesheet")
+                    ->where("state = ?", "SUPERVISOR APPROVED");
             $results = $query->execute();
             if ($results[0]->getTimesheetId() == null) {
                 return null;
@@ -637,7 +637,7 @@ class TimesheetDao extends BaseDao
         // TODO
         try {
             $activity = Doctrine::getTable('ProjectActivity')
-                ->find($activityId);
+                    ->find($activityId);
 
             return $activity;
         } catch (Exception $ex) {
@@ -671,9 +671,9 @@ class TimesheetDao extends BaseDao
         try {
             $orderBy = (strcasecmp($orderBy, 'DESC') == 0) ? 'DESC' : 'ASC';
             $q = Doctrine_Query::create()
-                ->from('Project')
-                ->andWhere('is_deleted = ?', $deleted)
-                ->orderBy($orderField . ' ' . $orderBy);
+                    ->from('Project')
+                    ->andWhere('is_deleted = ?', $deleted)
+                    ->orderBy($orderField . ' ' . $orderBy);
 
             $projectList = $q->execute();
 
@@ -694,8 +694,8 @@ class TimesheetDao extends BaseDao
         try {
             $orderBy = (strcasecmp($orderBy, 'DESC') == 0) ? 'DESC' : 'ASC';
             $q = Doctrine_Query::create()
-                ->from('Project')
-                ->orderBy($orderField . ' ' . $orderBy);
+                    ->from('Project')
+                    ->orderBy($orderField . ' ' . $orderBy);
 
             $projectList = $q->execute();
 
@@ -715,9 +715,9 @@ class TimesheetDao extends BaseDao
         // TODO
         try {
             $query = Doctrine_Query::create()
-                ->select('MAX(end_date)')
-                ->from("Timesheet")
-                ->where('employee_id = ?', $employeeId);
+                    ->select('MAX(end_date)')
+                    ->from("Timesheet")
+                    ->where('employee_id = ?', $employeeId);
 
             $results = $query->execute();
 
@@ -745,10 +745,10 @@ class TimesheetDao extends BaseDao
         try {
             //case1=where the startDate is ok but the endDate comes in between some other timesheets startDate and endDate
             $query1 = Doctrine_Query::create()
-                ->from("Timesheet")
-                ->where("employee_id = ?", $employeeId)
-                ->andWhere("start_date >= ?", $startDate)
-                ->andWhere("end_date <= ?", $endDate);
+                    ->from("Timesheet")
+                    ->where("employee_id = ?", $employeeId)
+                    ->andWhere("start_date >= ?", $startDate)
+                    ->andWhere("end_date <= ?", $endDate);
             $records1 = $query1->execute();
 
 
@@ -758,10 +758,10 @@ class TimesheetDao extends BaseDao
 
             //case2=this checks wether the timesheets startDate falls between some other timesheets startDate and enddate
             $query2 = Doctrine_Query::create()
-                ->from("Timesheet")
-                ->where("employeeId = ?", $employeeId)
-                ->andWhere("start_date <= ?", $startDate)
-                ->andWhere("end_date >= ?", $startDate);
+                    ->from("Timesheet")
+                    ->where("employeeId = ?", $employeeId)
+                    ->andWhere("start_date <= ?", $startDate)
+                    ->andWhere("end_date >= ?", $startDate);
             $records2 = $query2->execute();
 
 
@@ -771,10 +771,10 @@ class TimesheetDao extends BaseDao
 
             //case3=this checks the case where new timesheet about to create totaly ovelapps a existing timesheet
             $query3 = Doctrine_Query::create()
-                ->from("Timesheet")
-                ->where("employeeId = ?", $employeeId)
-                ->andWhere("start_date >= ?", $startDate)
-                ->andWhere("start_date <= ?", $endDate);
+                    ->from("Timesheet")
+                    ->where("employeeId = ?", $employeeId)
+                    ->andWhere("start_date >= ?", $startDate)
+                    ->andWhere("start_date <= ?", $endDate);
             $records3 = $query3->execute();
 
 
@@ -794,10 +794,10 @@ class TimesheetDao extends BaseDao
 
         try {
             $query = Doctrine_Query::create()
-                ->from("Timesheet")
-                ->where("employee_id = ?", $employeeId)
-                ->andWhere("start_date <= ?", $currentDate)
-                ->andWhere("end_date >= ?", $currentDate);
+                    ->from("Timesheet")
+                    ->where("employee_id = ?", $employeeId)
+                    ->andWhere("start_date <= ?", $currentDate)
+                    ->andWhere("end_date >= ?", $currentDate);
             $record = $query->execute();
         } catch (Exception $ex) {
             throw new DaoException($ex->getMessage());
@@ -821,7 +821,7 @@ class TimesheetDao extends BaseDao
         $q->setParameter('date', $date);
         return $this->getPaginator($q)->count() === 0;
     }
-    
+
     /**
      * @param  int  $timesheetId
      * @param  TimesheetActionLogSearchFilterParams  $timesheetActionLogParamHolder
