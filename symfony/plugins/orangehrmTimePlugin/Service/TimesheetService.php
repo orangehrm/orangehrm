@@ -22,6 +22,8 @@ namespace OrangeHRM\Time\Service;
 use DateTime;
 use OrangeHRM\Core\Service\AccessFlowStateMachineService;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
+use OrangeHRM\Core\Traits\UserRoleManagerTrait;
+use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\Timesheet;
 use OrangeHRM\Entity\WorkflowStateMachine;
 use OrangeHRM\Time\Dao\TimesheetDao;
@@ -32,13 +34,17 @@ use OrangeHRM\Time\Dto\TimesheetRow;
 class TimesheetService
 {
     use DateTimeHelperTrait;
+    use UserRoleManagerTrait;
 
     private static $timesheetTimeFormat = null;
     private ?TimesheetDao $timesheetDao = null;
     private $employeeDao;
-    
+
     // Cache timesheet time format for better performance.
-    private $timesheetPeriodService;
+    /**
+     * @var TimesheetPeriodService|null
+     */
+    private ?TimesheetPeriodService $timesheetPeriodService = null;
 
     /**
      * @var AccessFlowStateMachineService|null
@@ -151,12 +157,10 @@ class TimesheetService
 
                 $tempArray = array_slice($inputTimesheetItem, 3);
                 for ($i = 0; $i < sizeof($keysArray); $i++) {
-
                     $date = $keysArray[$i];
                     $timesheetItemId = $inputTimesheetItem['TimesheetItemId' . $i];
                     $timesheetItemDuration = $inputTimesheetItem[$i];
                     if ($timesheetItemId != null) {
-
                         $existingTimesheetItem = $this->getTimesheetDao()->getTimesheetItemById($timesheetItemId);
                         $existingTimesheetItem->setProjectId($projectId);
                         $existingTimesheetItem->setActivityId($activityId);
@@ -201,7 +205,6 @@ class TimesheetService
         $pos = strpos($duration, $find);
 
         if ($pos !== false) {
-
             $str_time = $duration;
             sscanf($str_time, "%d:%d:%d", $hours, $minutes, $seconds);
             $durationInSeconds = isset($seconds) ? $hours * 3600 + $minutes * 60 + $seconds : $hours * 3600 + $minutes * 60;
@@ -338,7 +341,7 @@ class TimesheetService
         // TODO
         return $this->getTimesheetDao()->getProjectActivityListByPorjectId($projectId, $excludeDeletedActivities);
     }
-    
+
     public function createPreviousTimesheets($currentTimesheetStartDate, $employeeId) {
         // TODO
         // this method is for creating past timesheets.This would get conflicted if the user changes the timesheet period and does not loging to the system for couple of weeks
@@ -367,8 +370,11 @@ class TimesheetService
         }
     }
 
-    public function getTimesheetPeriodService() {
-        // TODO
+    /**
+     * @return TimesheetPeriodService
+     */
+    public function getTimesheetPeriodService(): TimesheetPeriodService
+    {
         if (is_null($this->timesheetPeriodService)) {
             $this->timesheetPeriodService = new TimesheetPeriodService();
         }
@@ -412,7 +418,6 @@ class TimesheetService
                 $statusValuesArray['message'] = $timesheetStartingDate;
             }
         } else {
-
             //state 4 is given for when there is no timesheets to access
             $statusValuesArray['state'] = 4;
             $statusValuesArray['message'] = $timesheetStartingDate;
@@ -468,7 +473,7 @@ class TimesheetService
         $datesInTheCurrenTimesheetPeriod = $this->getTimesheetPeriodService()->getDefinedTimesheetPeriod($startDate);
         $timesheetStartingDate = $datesInTheCurrenTimesheetPeriod[0];
         $endDate = end($datesInTheCurrenTimesheetPeriod);
-        
+
         return $endDate;
     }
 
@@ -549,7 +554,7 @@ class TimesheetService
     public function extractStartDateAndEndDateFromDate(DateTime $date): array
     {
         $currentWeekFirstDate = date("Y-m-d", strtotime('monday this week', strtotime($date->format('Y-m-d'))));
-        $configDate = $this->getTimeSheetPeriodService()->getTimesheetStartDate() - 1;
+        $configDate = $this->getTimesheetPeriodService()->getTimesheetStartDate() - 1;
         $startDate = date('Y-m-d', strtotime($currentWeekFirstDate . ' + ' . $configDate . ' days'));
         $endDate = date('Y-m-d', strtotime($startDate . ' + 6 days'));
         return [$startDate, $endDate];
@@ -563,5 +568,54 @@ class TimesheetService
     {
         list($startDate) = $this->extractStartDateAndEndDateFromDate($date);
         return $this->getTimesheetDao()->hasTimesheetForStartDate(new DateTime($startDate));
+    }
+
+    /**
+     * @param DateTime $startDate
+     * @param int $employeeId
+     * @return Timesheet[]
+     */
+    public function getTimesheetByStartDateAndEmployeeId(int $employeeId, DateTime $startDate): array
+    {
+        return $this->getTimesheetDao()->getTimesheetByStartDateAndEmployeeId($startDate, $employeeId);
+    }
+
+    /**
+     * @param int $loggedInEmpNumber
+     * @param DetailedTimesheet $detailedTimesheet
+     * @return array
+     */
+    public function getAllowedWorkflowsForMyTimesheet(int $loggedInEmpNumber, DetailedTimesheet $detailedTimesheet): array
+    {
+        $startDateOfTimesheet = $this->getDateTimeHelper()->formatDateTimeToYmd($detailedTimesheet->getTimesheet()->getStartDate());
+        $timesheet = $this->getTimesheetByStartDateAndEmployeeId($loggedInEmpNumber, new DateTime($startDateOfTimesheet));
+
+        $includeRoles = [];
+        if ($loggedInEmpNumber == $detailedTimesheet->getTimesheet()->getEmployee()->getEmpNumber() && $this->getUserRoleManager()->essRightsToOwnWorkflow()) {
+            $includeRoles = ['ESS'];
+        }
+
+        $allowedActions = $this->getUserRoleManager()->getAllowedActions(
+            WorkflowStateMachine::FLOW_TIME_TIMESHEET,
+            $timesheet[0]->getState(),
+            [],
+            $includeRoles,
+            [Employee::class => $detailedTimesheet->getTimesheet()->getEmployee()->getEmpNumber()]
+        );
+        return $this->getAllowedActions($allowedActions);
+    }
+
+    /**
+     * @param WorkflowStateMachine[] $workflowStateMachine
+     * @return array
+     */
+    protected function getAllowedActions(array $workflowStateMachine ): array
+    {
+        return array_values(
+            array_map(
+                fn(WorkflowStateMachine $workflow) => $workflow->getAction(),
+                $workflowStateMachine
+            )
+        );
     }
 }
