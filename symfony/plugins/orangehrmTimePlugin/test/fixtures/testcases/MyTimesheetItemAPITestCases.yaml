@@ -284,7 +284,18 @@ GetAll:
         "middleName": "",
         "employeeId": "0024",
         "terminationId": null
-      }
+      },
+      "allowedActions": [
+        {
+          "action": "Submit",
+        },
+        {
+          "action": "View",
+        },
+        {
+          "action": "Modify",
+        }
+      ]
     }
 
   'get my timesheet when empty':
@@ -347,7 +358,18 @@ GetAll:
         "middleName": "Jane",
         "employeeId": "0002",
         "terminationId": null
-      }
+      },
+      "allowedActions": [
+        {
+          "action": "Submit",
+        },
+        {
+          "action": "Modify",
+        },
+        {
+          "action": "View",
+        }
+      ]
     }
 
   'get my timesheet for terminated employee':
@@ -410,5 +432,16 @@ GetAll:
         "middleName": "",
         "employeeId": "0005",
         "terminationId": 1
-      }
+      },
+      "allowedActions": [
+        {
+          "action": "Submit",
+        },
+        {
+          "action": "Modify",
+        },
+        {
+          "action": "View",
+        }
+      ]
     }

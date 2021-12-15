@@ -557,7 +557,7 @@ class TimesheetService
      * @param DateTime $date
      * @return array
      */
-    public function extractStartDateAndEndDateFromDate(DateTime $date): array
+    private function extractStartDateAndEndDateFromDate(DateTime $date): array
     {
         $currentWeekFirstDate = date("Y-m-d", strtotime('monday this week', strtotime($date->format('Y-m-d'))));
         $configDate = $this->getTimesheetPeriodService()->getTimesheetStartDate() - 1;
@@ -570,7 +570,7 @@ class TimesheetService
      * @param DateTime $date
      * @return bool
      */
-    public function isTimesheetTakenByDate(DateTime $date)
+    public function hasTimesheetForDate(DateTime $date): bool
     {
         list($startDate) = $this->extractStartDateAndEndDateFromDate($date);
         return $this->getTimesheetDao()->hasTimesheetForStartDate(new DateTime($startDate));
@@ -615,7 +615,7 @@ class TimesheetService
      * @param WorkflowStateMachine[] $workflowStateMachine
      * @return array
      */
-    protected function getAllowedActions(array $workflowStateMachine ): array
+    private function getAllowedActions(array $workflowStateMachine ): array
     {
         return array_values(
             array_map(

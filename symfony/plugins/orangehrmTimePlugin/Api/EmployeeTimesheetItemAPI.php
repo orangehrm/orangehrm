@@ -52,7 +52,7 @@ class EmployeeTimesheetItemAPI extends Endpoint implements CrudEndpoint
     public const META_PARAMETER_COLUMNS = 'columns';
     public const META_PARAMETER_TIMESHEET = 'timesheet';
     public const META_PARAMETER_EMPLOYEE = 'employee';
-    public const META_PARAMETER_ALLOWED_ACTIONS = 'actions';
+    public const META_PARAMETER_ALLOWED_ACTIONS = 'allowedActions';
 
     public const MY_TIMESHEET_ACTION_MAP = [
         '0' => "View",
