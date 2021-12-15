@@ -226,21 +226,6 @@ class TimesheetDao extends BaseDao
     }
 
     /**
-     * @param DateTime $startDate
-     * @param int $employeeId
-     * @return Timesheet[]
-     */
-    public function getTimesheetByStartDateAndEmployeeId(DateTime $startDate, int $employeeId): array
-    {
-        $q = $this->createQueryBuilder(Timesheet::class, 'timesheet');
-        $q->andWhere('timesheet.startDate = :startDate');
-        $q->andWhere('timesheet.employee = :employeeId');
-        $q->setParameter('startDate', $startDate);
-        $q->setParameter('employeeId', $employeeId);
-        return $q->getQuery()->execute();
-    }
-
-    /**
      * Get TimesheetActionLog by given Timesheet Id
      * @param $timesheetActionLogId
      * @return TimesheetActionLog

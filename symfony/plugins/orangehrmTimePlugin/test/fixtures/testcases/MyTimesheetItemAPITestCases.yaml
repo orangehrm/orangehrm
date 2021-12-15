@@ -287,13 +287,16 @@ GetAll:
       },
       "allowedActions": [
         {
-          "action": "Submit",
+          "action": "SUBMIT",
+          "name": "Submit"
         },
         {
-          "action": "View",
+          "action": "VIEW",
+          "name": "View",
         },
         {
-          "action": "Modify",
+          "action": "MODIFY",
+          "name": "Modify",
         }
       ]
     }
@@ -361,13 +364,16 @@ GetAll:
       },
       "allowedActions": [
         {
-          "action": "Submit",
+          "action": "SUBMIT",
+          "name": "Submit",
         },
         {
-          "action": "Modify",
+          "action": "MODIFY",
+          "name": "Modify",
         },
         {
-          "action": "View",
+          "action": "VIEW",
+          "name": "View",
         }
       ]
     }
@@ -435,13 +441,16 @@ GetAll:
       },
       "allowedActions": [
         {
-          "action": "Submit",
+          "action": "SUBMIT",
+          "name": "Submit",
         },
         {
-          "action": "Modify",
+          "action": "MODIFY",
+          "name": "Modify",
         },
         {
-          "action": "View",
+          "action": "VIEW",
+          "name": "View",
         }
       ]
     }

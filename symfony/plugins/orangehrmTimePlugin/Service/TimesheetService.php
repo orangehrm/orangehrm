@@ -577,51 +577,26 @@ class TimesheetService
     }
 
     /**
-     * @param DateTime $startDate
-     * @param int $employeeId
-     * @return Timesheet[]
-     */
-    public function getTimesheetByStartDateAndEmployeeId(int $employeeId, DateTime $startDate): array
-    {
-        return $this->getTimesheetDao()->getTimesheetByStartDateAndEmployeeId($startDate, $employeeId);
-    }
-
-    /**
      * @param int $loggedInEmpNumber
      * @param DetailedTimesheet $detailedTimesheet
-     * @return array
+     * @return WorkflowStateMachine[]
      */
-    public function getAllowedWorkflowsForMyTimesheet(int $loggedInEmpNumber, DetailedTimesheet $detailedTimesheet): array
-    {
-        $startDateOfTimesheet = $this->getDateTimeHelper()->formatDateTimeToYmd($detailedTimesheet->getTimesheet()->getStartDate());
-        $timesheet = $this->getTimesheetByStartDateAndEmployeeId($loggedInEmpNumber, new DateTime($startDateOfTimesheet));
-
+    public function getAllowedWorkflowsForTimesheet(
+        int $loggedInEmpNumber,
+        DetailedTimesheet $detailedTimesheet
+    ): array {
         $includeRoles = [];
-        if ($loggedInEmpNumber == $detailedTimesheet->getTimesheet()->getEmployee()->getEmpNumber() && $this->getUserRoleManager()->essRightsToOwnWorkflow()) {
+        if ($loggedInEmpNumber == $detailedTimesheet->getTimesheet()->getEmployee()->getEmpNumber()
+            && $this->getUserRoleManager()->essRightsToOwnWorkflow()) {
             $includeRoles = ['ESS'];
         }
 
-        $allowedActions = $this->getUserRoleManager()->getAllowedActions(
+        return $this->getUserRoleManager()->getAllowedActions(
             WorkflowStateMachine::FLOW_TIME_TIMESHEET,
-            $timesheet[0]->getState(),
+            $detailedTimesheet->getTimesheet()->getState(),
             [],
             $includeRoles,
             [Employee::class => $detailedTimesheet->getTimesheet()->getEmployee()->getEmpNumber()]
-        );
-        return $this->getAllowedActions($allowedActions);
-    }
-
-    /**
-     * @param WorkflowStateMachine[] $workflowStateMachine
-     * @return array
-     */
-    private function getAllowedActions(array $workflowStateMachine ): array
-    {
-        return array_values(
-            array_map(
-                fn(WorkflowStateMachine $workflow) => $workflow->getAction(),
-                $workflowStateMachine
-            )
         );
     }
 }

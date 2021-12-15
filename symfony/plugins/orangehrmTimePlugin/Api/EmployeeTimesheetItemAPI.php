@@ -54,7 +54,7 @@ class EmployeeTimesheetItemAPI extends Endpoint implements CrudEndpoint
     public const META_PARAMETER_EMPLOYEE = 'employee';
     public const META_PARAMETER_ALLOWED_ACTIONS = 'allowedActions';
 
-    public const MY_TIMESHEET_ACTION_MAP = [
+    public const TIMESHEET_ACTION_MAP = [
         '0' => "View",
         '1' => "Submit",
         '2' => "Approve",
@@ -92,13 +92,15 @@ class EmployeeTimesheetItemAPI extends Endpoint implements CrudEndpoint
 
         $allowedActions = [];
         foreach (
-            $this->getTimesheetService()->getAllowedWorkflowsForMyTimesheet(
+            $this->getTimesheetService()->getAllowedWorkflowsForTimesheet(
                 $this->getAuthUser()->getEmpNumber(),
                 $detailedTimesheet
-            ) as $action
+            ) as $workflow
         ) {
+            $action = $workflow->getAction();
             $allowedActions[] = [
-                'action' => self::MY_TIMESHEET_ACTION_MAP[$action]
+                'action' => strtoupper(self::TIMESHEET_ACTION_MAP [$action]),
+                'name' => self::TIMESHEET_ACTION_MAP [$action]
             ];
         }
 
