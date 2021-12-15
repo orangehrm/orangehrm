@@ -21,8 +21,11 @@ namespace OrangeHRM\Time\Dao;
 
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Entity\Timesheet;
+use OrangeHRM\Entity\TimesheetActionLog;
 use OrangeHRM\Entity\TimesheetItem;
 use DateTime;
+use OrangeHRM\ORM\Paginator;
+use OrangeHRM\Time\Dto\TimesheetActionLogSearchFilterParams;
 
 class TimesheetDao extends BaseDao
 {
@@ -817,5 +820,49 @@ class TimesheetDao extends BaseDao
         $q->andWhere('timesheet.startDate = :date');
         $q->setParameter('date', $date);
         return $this->getPaginator($q)->count() === 0;
+    }
+
+    /**
+     * @param  int  $timesheetId
+     * @param  TimesheetActionLogSearchFilterParams  $timesheetActionLogParamHolder
+     * @return TimesheetActionLog[]
+     */
+    public function getTimesheetActionLogs(
+        int $timesheetId,
+        TimesheetActionLogSearchFilterParams $timesheetActionLogParamHolder
+    ): array {
+        $qb = $this->getTimesheetActionLogsPaginator($timesheetId, $timesheetActionLogParamHolder);
+        return $qb->getQuery()->execute();
+    }
+
+    /**
+     * @param  int  $timesheetId
+     * @param  TimesheetActionLogSearchFilterParams  $timesheetActionLogParamHolder
+     * @return Paginator
+     */
+    protected function getTimesheetActionLogsPaginator(
+        int $timesheetId,
+        TimesheetActionLogSearchFilterParams $timesheetActionLogParamHolder
+    ): Paginator {
+        $qb = $this->createQueryBuilder(TimesheetActionLog::class, 'timesheetActionLog');
+        $qb->leftJoin('timesheetActionLog.timesheet', 'timesheet');
+
+        $this->setSortingAndPaginationParams($qb, $timesheetActionLogParamHolder);
+
+        $qb->andWhere('timesheet.id = :timesheetId')
+            ->setParameter('timesheetId', $timesheetId);
+        return $this->getPaginator($qb);
+    }
+
+    /**
+     * @param $timesheetId
+     * @param  TimesheetActionLogSearchFilterParams  $timesheetActionLogParamHolder
+     * @return int
+     */
+    public function getTimesheetActionLogsCount(
+        $timesheetId,
+        TimesheetActionLogSearchFilterParams $timesheetActionLogParamHolder
+    ): int {
+        return $this->getTimesheetActionLogsPaginator($timesheetId, $timesheetActionLogParamHolder)->count();
     }
 }

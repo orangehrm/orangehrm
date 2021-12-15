@@ -41,7 +41,7 @@ class TimesheetActionLogTest extends EntityTestCase
     {
         $timesheetActionLog = new TimesheetActionLog();
         $timesheetActionLog->setId(1);
-        $timesheetActionLog->setDateTime(new DateTime('2021-12-06'));
+        $timesheetActionLog->setDate(new DateTime('2021-12-06'));
         $timesheetActionLog->setAction('SUBMITTED');
         $timesheetActionLog->setTimesheet($this->getEntityReference(Timesheet::class, 1));
         $timesheetActionLog->setPerformedUser($this->getEntityReference(User::class, 1));
@@ -51,7 +51,7 @@ class TimesheetActionLogTest extends EntityTestCase
         $this->assertEquals(1, $timesheetActionLog->getId());
         $this->assertEquals('2021-12-06', $timesheetActionLog->getTimesheet()->getStartDate()->format('Y-m-d'));
         $this->assertEquals('2021-12-12', $timesheetActionLog->getTimesheet()->getEndDate()->format('Y-m-d'));
-        $this->assertEquals('2021-12-06', $timesheetActionLog->getDateTime()->format('Y-m-d'));
+        $this->assertEquals('2021-12-06', $timesheetActionLog->getDate()->format('Y-m-d'));
         $this->assertEquals(2, $timesheetActionLog->getPerformedUser()->getEmpNumber());
         $this->assertEquals('admin', $timesheetActionLog->getPerformedUser()->getUserName());
         $this->assertEquals('Test comment', $timesheetActionLog->getComment());

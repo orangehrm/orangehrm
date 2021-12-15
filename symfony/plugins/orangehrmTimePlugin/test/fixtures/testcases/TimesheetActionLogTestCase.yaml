@@ -1,0 +1,62 @@
+GetAll:
+  'Get time sheet action log list':
+    userId: 1
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      timesheetId: 4
+    query: [ ]
+    body: [ ]
+    data:
+      - id: 11
+        action:
+          name: 'ACCEPTED'
+          label: 'Accepted'
+        comment: 'Action - Accepted'
+        date: '2011-04-19'
+        performedEmployee:
+          empNumber: 1
+          lastName: 'Abbey'
+          firstName: 'Kayla'
+          middleName: ''
+          employeeId: null
+          terminationId: null
+      - id: 10
+        action:
+          name: 'CREATED'
+          label: 'Created'
+        comment: 'Action - Created'
+        date: '2011-04-20'
+        performedEmployee:
+          empNumber: 1
+          lastName: 'Abbey'
+          firstName: 'Kayla'
+          middleName: ''
+          employeeId: null
+          terminationId: null
+    meta:
+      total: 2
+
+  'Get time sheet action log list - Record not found':
+    userId: 1
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      timesheetId: 50
+    query: [ ]
+    body: [ ]
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException'
+      message: 'Record Not Found'
