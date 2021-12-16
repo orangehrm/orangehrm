@@ -19,17 +19,20 @@
 
 namespace OrangeHRM\Time\Dao;
 
+use DateTime;
 use LogicException;
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Entity\Timesheet;
 use OrangeHRM\Entity\TimesheetActionLog;
 use OrangeHRM\Entity\TimesheetItem;
-use DateTime;
 use OrangeHRM\ORM\Paginator;
 use OrangeHRM\Time\Dto\TimesheetActionLogSearchFilterParams;
+use OrangeHRM\Time\Traits\Service\TimesheetServiceTrait;
 
 class TimesheetDao extends BaseDao
 {
+    use TimesheetServiceTrait;
+
     /**
      * @param int $timesheetId
      * @return Timesheet|null
@@ -871,6 +874,9 @@ class TimesheetDao extends BaseDao
      */
     public function deleteTimesheetRows(int $timesheetId, array $rows): int
     {
+        if (empty($rows)) {
+            return 0;
+        }
         $q = $this->createQueryBuilder(TimesheetItem::class, 'ti')
             ->delete();
         foreach ($rows as $i => $row) {
@@ -902,10 +908,23 @@ class TimesheetDao extends BaseDao
     {
         $q = $this->createQueryBuilder(TimesheetItem::class, 'ti');
 
-        foreach ($timesheetItems as $key => $timesheetItem) {
-            $timesheetIdParamKey = 'timesheetId_' . $key;
-            $projectIdParamKey = 'projectId_' . $key;
-            $activityIdParamKey = 'activityId_' . $key;
+        $timesheetRowKeys = [];
+        foreach (array_values($timesheetItems) as $i => $timesheetItem) {
+            $timesheetIdParamKey = 'timesheetId_' . $i;
+            $projectIdParamKey = 'projectId_' . $i;
+            $activityIdParamKey = 'activityId_' . $i;
+
+            $timesheetId = $timesheetItem->getTimesheet()->getId();
+            $projectId = $timesheetItem->getProject()->getId();
+            $activityId = $timesheetItem->getProjectActivity()->getId();
+            $timesheetRowKey = $timesheetId . '_' . $projectId . '_' . $activityId;
+            if (isset($timesheetRowKeys[$timesheetRowKey])) {
+                continue;
+            }
+            $timesheetRowKeys[$timesheetRowKey] = [$timesheetId, $projectId, $activityId];
+
+            // Executing where clause only depend on `timesheet_id`, `project_id`, `activity_id`,
+            // No point of adding `date` also
             $q->orWhere(
                 $q->expr()->andX(
                     $q->expr()->eq('ti.timesheet', ':' . $timesheetIdParamKey),
@@ -913,27 +932,31 @@ class TimesheetDao extends BaseDao
                     $q->expr()->eq('ti.projectActivity', ':' . $activityIdParamKey),
                 )
             );
-            $q->setParameter($timesheetIdParamKey, $timesheetItem->getTimesheet()->getId())
-                ->setParameter($projectIdParamKey, $timesheetItem->getProject()->getId())
-                ->setParameter($activityIdParamKey, $timesheetItem->getProjectActivity()->getId());
+            $q->setParameter($timesheetIdParamKey, $timesheetId)
+                ->setParameter($projectIdParamKey, $projectId)
+                ->setParameter($activityIdParamKey, $activityId);
         }
 
         /** @var array<string, TimesheetItem> $updatableTimesheetItems */
         $updatableTimesheetItems = [];
         foreach ($q->getQuery()->execute() as $updatableTimesheetItem) {
-            $itemKey = $updatableTimesheetItem->getTimesheet()->getId() . '_'
-                . $updatableTimesheetItem->getProject()->getId() . '_'
-                . $updatableTimesheetItem->getProjectActivity()->getId() . '_'
-                . $updatableTimesheetItem->getDate()->format('Y_m_d');
+            $itemKey = $this->getTimesheetService()->generateTimesheetItemKey(
+                $updatableTimesheetItem->getTimesheet()->getId(),
+                $updatableTimesheetItem->getProject()->getId(),
+                $updatableTimesheetItem->getProjectActivity()->getId(),
+                $updatableTimesheetItem->getDate()
+            );
             $updatableTimesheetItems[$itemKey] = $updatableTimesheetItem;
         }
 
         foreach ($timesheetItems as $key => $timesheetItem) {
             if (isset($updatableTimesheetItems[$key])) {
                 $updatableTimesheetItems[$key]->setDuration($timesheetItem->getDuration());
+                // update
                 $this->getEntityManager()->persist($updatableTimesheetItems[$key]);
                 continue;
             }
+            // create
             $this->getEntityManager()->persist($timesheetItem);
         }
         $this->getEntityManager()->flush();

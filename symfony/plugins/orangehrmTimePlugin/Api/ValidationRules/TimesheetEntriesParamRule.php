@@ -19,23 +19,29 @@
 
 namespace OrangeHRM\Time\Api\ValidationRules;
 
+use DateTime;
 use OrangeHRM\Core\Api\V2\Validator\Rules\AbstractRule;
 use OrangeHRM\Core\Api\V2\Validator\Rules\ApiDate;
+use OrangeHRM\Entity\Timesheet;
 use OrangeHRM\Time\Api\EmployeeTimesheetItemAPI;
+use OrangeHRM\Time\Traits\Service\TimesheetServiceTrait;
 use Respect\Validation\Rules\Time;
 
 class TimesheetEntriesParamRule extends AbstractRule
 {
+    use TimesheetServiceTrait;
+
     private ?ApiDate $apiDateRule = null;
     private ?Time $timeRule = null;
-    private bool $isDeletedEntries;
+    private ?Timesheet $timesheet = null;
+    private $timesheetId;
 
     /**
-     * @param bool $isDeletedEntries
+     * @param int $timesheetId
      */
-    public function __construct(bool $isDeletedEntries = false)
+    public function __construct($timesheetId)
     {
-        $this->isDeletedEntries = $isDeletedEntries;
+        $this->timesheetId = $timesheetId;
     }
 
     /**
@@ -68,10 +74,22 @@ class TimesheetEntriesParamRule extends AbstractRule
         if (!is_array($entries)) {
             return false;
         }
+
+        if (is_numeric($this->timesheetId) && $this->timesheetId > 0) {
+            $timesheet = $this->getTimesheetService()->getTimesheetDao()->getTimesheetById($this->timesheetId);
+            if ($timesheet instanceof Timesheet) {
+                $this->timesheet = $timesheet;
+            }
+        }
+
         foreach ($entries as $entry) {
+            if (count(array_keys($entry)) != 3) {
+                return false;
+            }
             // `projectId`, `activityId`, `dates` required fields
             if (!(isset($entry[EmployeeTimesheetItemAPI::PARAMETER_PROJECT_ID]) &&
-                isset($entry[EmployeeTimesheetItemAPI::PARAMETER_ACTIVITY_ID]))) {
+                isset($entry[EmployeeTimesheetItemAPI::PARAMETER_ACTIVITY_ID]) &&
+                isset($entry[EmployeeTimesheetItemAPI::PARAMETER_DATES]))) {
                 return false;
             }
 
@@ -84,21 +102,13 @@ class TimesheetEntriesParamRule extends AbstractRule
                 return false;
             }
 
-            // If validating deleted entries, skip below checks
-            if ($this->isDeletedEntries) {
-                continue;
-            }
-
-            // `dates` field is required
-            if (!isset($entry[EmployeeTimesheetItemAPI::PARAMETER_DATES])) {
-                return false;
-            }
             $dates = $entry[EmployeeTimesheetItemAPI::PARAMETER_DATES];
             // `dates` field should not empty
             if (empty($dates)) {
                 return false;
             }
 
+            $validatedDates = [];
             foreach ($dates as $date => $dateValue) {
                 if (!isset($dateValue[EmployeeTimesheetItemAPI::PARAMETER_DURATION])) {
                     return false;
@@ -106,8 +116,25 @@ class TimesheetEntriesParamRule extends AbstractRule
                 if (!$this->getApiDateRule()->validate($date)) {
                     return false;
                 }
-                // TODO:: $date should between timesheet startDate and endDate
-                // TODO:: validate max 24 hours
+
+                // check date is unique
+                if (isset($validatedDates[$date])) {
+                    return false;
+                }
+                $validatedDates[$date] = true;
+
+                $dateObj = new DateTime($date);
+                // check date within the startDate and endDate of the timesheet
+                if ($this->timesheet instanceof Timesheet &&
+                    !($this->timesheet->getStartDate() <= $dateObj && $dateObj <= $this->timesheet->getEndDate())) {
+                    return false;
+                }
+
+                // only duration allowed
+                if (count(array_keys($dateValue)) != 1) {
+                    return false;
+                }
+                // check format and duration should less than 24:00
                 if (!$this->getTimeRule()->validate($dateValue[EmployeeTimesheetItemAPI::PARAMETER_DURATION])) {
                     return false;
                 }

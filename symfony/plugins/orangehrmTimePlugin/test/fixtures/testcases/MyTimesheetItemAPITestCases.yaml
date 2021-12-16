@@ -412,3 +412,1352 @@ GetAll:
         "terminationId": 1
       }
     }
+
+Update:
+  'without params':
+    userId: 1
+    invalidOnly: [ 'timesheetId', 'entries' ]
+
+  'with empty entries':
+    userId: 1
+    invalidOnly: [ 'entries' ]
+    attributes:
+      timesheetId: 1
+    body:
+      entries: [ ]
+
+  'with non array entries':
+    userId: 1
+    invalidOnly: [ 'entries' ]
+    attributes:
+      timesheetId: 1
+    body:
+      entries: 'scalar'
+
+  'without activity id & dates in entries':
+    userId: 1
+    invalidOnly: [ 'entries' ]
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+    attributes:
+      timesheetId: 1
+    body:
+      entries: [
+        {
+          projectId: 1
+        }
+      ]
+
+  'without dates in entries':
+    userId: 1
+    invalidOnly: [ 'entries' ]
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+    attributes:
+      timesheetId: 1
+    body:
+      entries: [
+        {
+          projectId: 1,
+          activityId: 1
+        }
+      ]
+
+  'without project id in entries':
+    userId: 1
+    invalidOnly: [ 'entries' ]
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+    attributes:
+      timesheetId: 1
+    body:
+      entries: [
+        {
+          activityId: 1,
+          dates: [ ]
+        }
+      ]
+
+  'with empty dates in entries':
+    userId: 1
+    invalidOnly: [ 'entries' ]
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+    attributes:
+      timesheetId: 1
+    body:
+      entries: [
+        {
+          projectId: 1,
+          activityId: 1,
+          dates: [ ]
+        }
+      ]
+
+  'with invalid date in entries -> dates':
+    userId: 1
+    invalidOnly: [ 'entries' ]
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+    attributes:
+      timesheetId: 1
+    body:
+      entries: [
+        {
+          projectId: 1,
+          activityId: 1,
+          dates: {
+            "2020-10-32": {
+              "duration": "02:00"
+            }
+          }
+        }
+      ]
+
+  'with date in next timesheet period entries -> dates':
+    userId: 1
+    invalidOnly: [ 'entries' ]
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+    attributes:
+      timesheetId: 1
+    body:
+      entries: [
+        {
+          projectId: 1,
+          activityId: 1,
+          dates: {
+            "2020-10-12": {
+              "duration": "02:00"
+            }
+          }
+        }
+      ]
+
+  'with date in previous timesheet period entries -> dates':
+    userId: 1
+    invalidOnly: [ 'entries' ]
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+    attributes:
+      timesheetId: 1
+    body:
+      entries: [
+        {
+          projectId: 1,
+          activityId: 1,
+          dates: {
+            "2020-10-04": {
+              "duration": "02:00"
+            }
+          }
+        }
+      ]
+
+  'without duration in entries -> dates':
+    userId: 1
+    invalidOnly: [ 'entries' ]
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+    attributes:
+      timesheetId: 1
+    body:
+      entries: [
+        {
+          projectId: 1,
+          activityId: 1,
+          dates: {
+            "2020-10-05": { }
+          }
+        }
+      ]
+
+  'with invalid duration in entries -> dates':
+    userId: 1
+    invalidOnly: [ 'entries' ]
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+    attributes:
+      timesheetId: 1
+    body:
+      entries: [
+        {
+          projectId: 1,
+          activityId: 1,
+          dates: {
+            "2020-10-05": {
+              "duration": "hello"
+            }
+          }
+        }
+      ]
+
+  'with H:i:s format duration in entries -> dates':
+    userId: 1
+    invalidOnly: [ 'entries' ]
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+    attributes:
+      timesheetId: 1
+    body:
+      entries: [
+        {
+          projectId: 1,
+          activityId: 1,
+          dates: {
+            "2020-10-05": {
+              "duration": "02:00:01"
+            }
+          }
+        }
+      ]
+
+  'with more that 24 hours duration in entries -> dates':
+    userId: 1
+    invalidOnly: [ 'entries' ]
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+    attributes:
+      timesheetId: 1
+    body:
+      entries: [
+        {
+          projectId: 1,
+          activityId: 1,
+          dates: {
+            "2020-10-05": {
+              "duration": "24:00"
+            }
+          }
+        }
+      ]
+
+  'only projectId and activityId and dates supported in entries':
+    userId: 1
+    invalidOnly: [ 'entries' ]
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+    attributes:
+      timesheetId: 1
+    body:
+      entries: [
+        {
+          projectId: 1,
+          activityId: 1,
+          dates: {
+            "2020-10-05": {
+              "duration": "23:59"
+            }
+          },
+          invalid: 'attribute'
+        }
+      ]
+
+  'only duration supported in entries -> dates':
+    userId: 1
+    invalidOnly: [ 'entries' ]
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+    attributes:
+      timesheetId: 1
+    body:
+      entries: [
+        {
+          projectId: 1,
+          activityId: 1,
+          dates: {
+            "2020-10-05": {
+              "duration": "23:59",
+              "comment": "invalid attribute"
+            }
+          }
+        }
+      ]
+
+  'only projectId and activityId supported in deletedEntries':
+    userId: 1
+    invalidOnly: [ 'deletedEntries' ]
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+    attributes:
+      timesheetId: 1
+    body:
+      entries: [
+        {
+          projectId: 1,
+          activityId: 1,
+          dates: {
+            "2020-10-05": {
+              "duration": "23:59"
+            }
+          }
+        }
+      ],
+      deletedEntries: [
+        {
+          projectId: 1,
+          activityId: 1,
+          dates: {
+            "2020-10-05": {
+              "duration": "23:59"
+            }
+          }
+        }
+      ]
+
+  'without projectId in deletedEntries':
+    userId: 1
+    invalidOnly: [ 'deletedEntries' ]
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+    attributes:
+      timesheetId: 1
+    body:
+      entries: [
+        {
+          projectId: 1,
+          activityId: 1,
+          dates: {
+            "2020-10-05": {
+              "duration": "23:59"
+            }
+          }
+        }
+      ],
+      deletedEntries: [
+        {
+          activityId: 1
+        }
+      ]
+
+  'without activityId in deletedEntries':
+    userId: 1
+    invalidOnly: [ 'deletedEntries' ]
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+    attributes:
+      timesheetId: 1
+    body:
+      entries: [
+        {
+          projectId: 1,
+          activityId: 1,
+          dates: {
+            "2020-10-05": {
+              "duration": "23:59"
+            }
+          }
+        }
+      ],
+      deletedEntries: [
+        {
+          projectId: 1,
+        }
+      ]
+
+  'saving one timesheet entry':
+    userId: 9
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      timesheetId: 1
+    body:
+      entries: [
+        {
+          projectId: 1,
+          activityId: 1,
+          dates: {
+            "2020-10-05": {
+              "duration": "23:59"
+            }
+          }
+        }
+      ]
+    data: [
+      {
+        "project": {
+          "id": 1,
+          "name": "Global Software phase - 1",
+          "deleted": false
+        },
+        "customer": {
+          "id": 6,
+          "name": "Global Corp and Co",
+          "deleted": false
+        },
+        "activity": {
+          "id": 1,
+          "name": "Assessing Project and Resource Requirements",
+          "deleted": false
+        },
+        "total": "23:59",
+        "dates": {
+          "2020-10-05": {
+            "id": 449,
+            "date": "2020-10-05",
+            "comment": null,
+            "duration": "23:59"
+          }
+        }
+      }
+    ]
+    meta: {
+      "timesheet": {
+        "id": 1,
+        "startDate": "2020-10-05",
+        "endDate": "2020-10-11"
+      },
+      "sum": "23:59",
+      "columns": {
+        "2020-10-05": {
+          "total": "23:59"
+        },
+        "2020-10-06": {
+          "total": "00:00"
+        },
+        "2020-10-07": {
+          "total": "00:00"
+        },
+        "2020-10-08": {
+          "total": "00:00"
+        },
+        "2020-10-09": {
+          "total": "00:00"
+        },
+        "2020-10-10": {
+          "total": "00:00"
+        },
+        "2020-10-11": {
+          "total": "00:00"
+        }
+      },
+      "dates": [
+          "2020-10-05",
+          "2020-10-06",
+          "2020-10-07",
+          "2020-10-08",
+          "2020-10-09",
+          "2020-10-10",
+          "2020-10-11"
+      ],
+      "employee": {
+        "empNumber": 9,
+        "lastName": "Hamilton",
+        "firstName": "Russel",
+        "middleName": "",
+        "employeeId": "0034",
+        "terminationId": null
+      }
+    }
+
+  'saving multiple timesheet entry':
+    userId: 9
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      timesheetId: 1
+    body:
+      entries: [
+        {
+          projectId: 1,
+          activityId: 1,
+          dates: {
+            "2020-10-05": {
+              "duration": "23:59"
+            },
+            "2020-10-11": {
+              "duration": "00:30"
+            }
+          }
+        }
+      ]
+    data: [
+      {
+        "project": {
+          "id": 1,
+          "name": "Global Software phase - 1",
+          "deleted": false
+        },
+        "customer": {
+          "id": 6,
+          "name": "Global Corp and Co",
+          "deleted": false
+        },
+        "activity": {
+          "id": 1,
+          "name": "Assessing Project and Resource Requirements",
+          "deleted": false
+        },
+        "total": "24:29",
+        "dates": {
+          "2020-10-05": {
+            "id": 449,
+            "date": "2020-10-05",
+            "comment": null,
+            "duration": "23:59"
+          },
+          "2020-10-11": {
+            "id": 450,
+            "date": "2020-10-11",
+            "comment": null,
+            "duration": "00:30"
+          }
+        }
+      }
+    ]
+    meta: {
+      "timesheet": {
+        "id": 1,
+        "startDate": "2020-10-05",
+        "endDate": "2020-10-11"
+      },
+      "sum": "24:29",
+      "columns": {
+        "2020-10-05": {
+          "total": "23:59"
+        },
+        "2020-10-06": {
+          "total": "00:00"
+        },
+        "2020-10-07": {
+          "total": "00:00"
+        },
+        "2020-10-08": {
+          "total": "00:00"
+        },
+        "2020-10-09": {
+          "total": "00:00"
+        },
+        "2020-10-10": {
+          "total": "00:00"
+        },
+        "2020-10-11": {
+          "total": "00:30"
+        }
+      },
+      "dates": [
+          "2020-10-05",
+          "2020-10-06",
+          "2020-10-07",
+          "2020-10-08",
+          "2020-10-09",
+          "2020-10-10",
+          "2020-10-11"
+      ],
+      "employee": {
+        "empNumber": 9,
+        "lastName": "Hamilton",
+        "firstName": "Russel",
+        "middleName": "",
+        "employeeId": "0034",
+        "terminationId": null
+      }
+    }
+
+  'saving multiple timesheet rows':
+    userId: 9
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      timesheetId: 1
+    body:
+      entries: [
+        {
+          projectId: 1,
+          activityId: 1,
+          dates: {
+            "2020-10-05": {
+              "duration": "23:59"
+            },
+            "2020-10-11": {
+              "duration": "00:30"
+            }
+          }
+        },
+        {
+          projectId: 1,
+          activityId: 2,
+          dates: {
+            "2020-10-06": {
+              "duration": "10:30"
+            },
+            "2020-10-11": {
+              "duration": "00:30"
+            }
+          }
+        }
+      ]
+    data: [
+      {
+        "project": {
+          "id": 1,
+          "name": "Global Software phase - 1",
+          "deleted": false
+        },
+        "customer": {
+          "id": 6,
+          "name": "Global Corp and Co",
+          "deleted": false
+        },
+        "activity": {
+          "id": 1,
+          "name": "Assessing Project and Resource Requirements",
+          "deleted": false
+        },
+        "total": "24:29",
+        "dates": {
+          "2020-10-05": {
+            "id": 449,
+            "date": "2020-10-05",
+            "comment": null,
+            "duration": "23:59"
+          },
+          "2020-10-11": {
+            "id": 450,
+            "date": "2020-10-11",
+            "comment": null,
+            "duration": "00:30"
+          }
+        }
+      },
+      {
+        "project": {
+          "id": 1,
+          "name": "Global Software phase - 1",
+          "deleted": false
+        },
+        "customer": {
+          "id": 6,
+          "name": "Global Corp and Co",
+          "deleted": false
+        },
+        "activity": {
+          "id": 2,
+          "name": "Bug Fixes",
+          "deleted": false
+        },
+        "total": "11:00",
+        "dates": {
+          "2020-10-06": {
+            "id": 451,
+            "date": "2020-10-06",
+            "comment": null,
+            "duration": "10:30"
+          },
+          "2020-10-11": {
+            "id": 452,
+            "date": "2020-10-11",
+            "comment": null,
+            "duration": "00:30"
+          }
+        }
+      }
+    ]
+    meta: {
+      "timesheet": {
+        "id": 1,
+        "startDate": "2020-10-05",
+        "endDate": "2020-10-11"
+      },
+      "sum": "35:29",
+      "columns": {
+        "2020-10-05": {
+          "total": "23:59"
+        },
+        "2020-10-06": {
+          "total": "10:30"
+        },
+        "2020-10-07": {
+          "total": "00:00"
+        },
+        "2020-10-08": {
+          "total": "00:00"
+        },
+        "2020-10-09": {
+          "total": "00:00"
+        },
+        "2020-10-10": {
+          "total": "00:00"
+        },
+        "2020-10-11": {
+          "total": "01:00"
+        }
+      },
+      "dates": [
+          "2020-10-05",
+          "2020-10-06",
+          "2020-10-07",
+          "2020-10-08",
+          "2020-10-09",
+          "2020-10-10",
+          "2020-10-11"
+      ],
+      "employee": {
+        "empNumber": 9,
+        "lastName": "Hamilton",
+        "firstName": "Russel",
+        "middleName": "",
+        "employeeId": "0034",
+        "terminationId": null
+      }
+    }
+
+  'saving multiple timesheet rows deleting row which not exists':
+    userId: 9
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      timesheetId: 1
+    body:
+      entries: [
+        {
+          projectId: 1,
+          activityId: 1,
+          dates: {
+            "2020-10-05": {
+              "duration": "23:59"
+            },
+            "2020-10-11": {
+              "duration": "00:30"
+            }
+          }
+        },
+        {
+          projectId: 1,
+          activityId: 2,
+          dates: {
+            "2020-10-06": {
+              "duration": "10:30"
+            },
+            "2020-10-11": {
+              "duration": "00:30"
+            }
+          }
+        }
+      ],
+      deletedEntries: [
+        {
+          projectId: 1,
+          activityId: 1,
+        }
+      ]
+    data: [
+      {
+        "project": {
+          "id": 1,
+          "name": "Global Software phase - 1",
+          "deleted": false
+        },
+        "customer": {
+          "id": 6,
+          "name": "Global Corp and Co",
+          "deleted": false
+        },
+        "activity": {
+          "id": 1,
+          "name": "Assessing Project and Resource Requirements",
+          "deleted": false
+        },
+        "total": "24:29",
+        "dates": {
+          "2020-10-05": {
+            "id": 449,
+            "date": "2020-10-05",
+            "comment": null,
+            "duration": "23:59"
+          },
+          "2020-10-11": {
+            "id": 450,
+            "date": "2020-10-11",
+            "comment": null,
+            "duration": "00:30"
+          }
+        }
+      },
+      {
+        "project": {
+          "id": 1,
+          "name": "Global Software phase - 1",
+          "deleted": false
+        },
+        "customer": {
+          "id": 6,
+          "name": "Global Corp and Co",
+          "deleted": false
+        },
+        "activity": {
+          "id": 2,
+          "name": "Bug Fixes",
+          "deleted": false
+        },
+        "total": "11:00",
+        "dates": {
+          "2020-10-06": {
+            "id": 451,
+            "date": "2020-10-06",
+            "comment": null,
+            "duration": "10:30"
+          },
+          "2020-10-11": {
+            "id": 452,
+            "date": "2020-10-11",
+            "comment": null,
+            "duration": "00:30"
+          }
+        }
+      }
+    ]
+    meta: {
+      "timesheet": {
+        "id": 1,
+        "startDate": "2020-10-05",
+        "endDate": "2020-10-11"
+      },
+      "sum": "35:29",
+      "columns": {
+        "2020-10-05": {
+          "total": "23:59"
+        },
+        "2020-10-06": {
+          "total": "10:30"
+        },
+        "2020-10-07": {
+          "total": "00:00"
+        },
+        "2020-10-08": {
+          "total": "00:00"
+        },
+        "2020-10-09": {
+          "total": "00:00"
+        },
+        "2020-10-10": {
+          "total": "00:00"
+        },
+        "2020-10-11": {
+          "total": "01:00"
+        }
+      },
+      "dates": [
+          "2020-10-05",
+          "2020-10-06",
+          "2020-10-07",
+          "2020-10-08",
+          "2020-10-09",
+          "2020-10-10",
+          "2020-10-11"
+      ],
+      "employee": {
+        "empNumber": 9,
+        "lastName": "Hamilton",
+        "firstName": "Russel",
+        "middleName": "",
+        "employeeId": "0034",
+        "terminationId": null
+      }
+    }
+
+  'saving, updating multiple timesheet rows and deleting rows':
+    userId: 9
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      timesheetId: 2
+    body:
+      entries: [
+        { # create
+          projectId: 1,
+          activityId: 1,
+          dates: {
+            "2020-09-28": {
+              "duration": "05:00"
+            },
+            "2020-10-04": {
+              "duration": "00:30"
+            }
+          }
+        },
+        { # delete & update
+          projectId: 1,
+          activityId: 6,
+          dates: {
+            "2020-09-28": {
+              "duration": "02:00"
+            }
+          }
+        }
+      ],
+      deletedEntries: [
+        {
+          projectId: 1,
+          activityId: 6,
+        }
+      ]
+    data: [
+      {
+        "project": {
+          "id": 4,
+          "name": "Global Software phase - 2",
+          "deleted": false
+        },
+        "customer": {
+          "id": 6,
+          "name": "Global Corp and Co",
+          "deleted": false
+        },
+        "activity": {
+          "id": 26,
+          "name": "Bug Fixes",
+          "deleted": false
+        },
+        "total": "21:00",
+        "dates": {
+          "2020-09-28": {
+            "id": 6,
+            "date": "2020-09-28",
+            "comment": null,
+            "duration": "05:00"
+          },
+          "2020-09-29": {
+            "id": 12,
+            "date": "2020-09-29",
+            "comment": null,
+            "duration": "05:00"
+          },
+          "2020-09-30": {
+            "id": 7,
+            "date": "2020-09-30",
+            "comment": null,
+            "duration": "01:00"
+          },
+          "2020-10-01": {
+            "id": 13,
+            "date": "2020-10-01",
+            "comment": null,
+            "duration": "05:00"
+          },
+          "2020-10-02": {
+            "id": 11,
+            "date": "2020-10-02",
+            "comment": null,
+            "duration": "05:00"
+          }
+        }
+      },
+      {
+        "project": {
+          "id": 5,
+          "name": "Fresh Books Software Ltd - Phase I",
+          "deleted": false
+        },
+        "customer": {
+          "id": 4,
+          "name": "Fresh Books Software Ltd",
+          "deleted": false
+        },
+        "activity": {
+          "id": 37,
+          "name": "Implementation",
+          "deleted": false
+        },
+        "total": "12:00",
+        "dates": {
+          "2020-09-28": {
+            "id": 14,
+            "date": "2020-09-28",
+            "comment": null,
+            "duration": "01:00"
+          },
+          "2020-09-29": {
+            "id": 8,
+            "date": "2020-09-29",
+            "comment": null,
+            "duration": "02:00"
+          },
+          "2020-09-30": {
+            "id": 15,
+            "date": "2020-09-30",
+            "comment": null,
+            "duration": "05:00"
+          },
+          "2020-10-01": {
+            "id": 9,
+            "date": "2020-10-01",
+            "comment": null,
+            "duration": "02:00"
+          },
+          "2020-10-02": {
+            "id": 10,
+            "date": "2020-10-02",
+            "comment": null,
+            "duration": "02:00"
+          }
+        }
+      },
+      {
+        "project": {
+          "id": 1,
+          "name": "Global Software phase - 1",
+          "deleted": false
+        },
+        "customer": {
+          "id": 6,
+          "name": "Global Corp and Co",
+          "deleted": false
+        },
+        "activity": {
+          "id": 1,
+          "name": "Assessing Project and Resource Requirements",
+          "deleted": false
+        },
+        "total": "05:30",
+        "dates": {
+          "2020-09-28": {
+            "id": 449,
+            "date": "2020-09-28",
+            "comment": null,
+            "duration": "05:00"
+          },
+          "2020-10-04": {
+            "id": 450,
+            "date": "2020-10-04",
+            "comment": null,
+            "duration": "00:30"
+          }
+        }
+      },
+      {
+        "project": {
+          "id": 1,
+          "name": "Global Software phase - 1",
+          "deleted": false
+        },
+        "customer": {
+          "id": 6,
+          "name": "Global Corp and Co",
+          "deleted": false
+        },
+        "activity": {
+          "id": 6,
+          "name": "Implementation",
+          "deleted": false
+        },
+        "total": "02:00",
+        "dates": {
+          "2020-09-28": {
+            "id": 451,
+            "date": "2020-09-28",
+            "comment": null,
+            "duration": "02:00"
+          }
+        }
+      }
+    ]
+    meta: {
+      "timesheet": {
+        "id": 2,
+        "startDate": "2020-09-28",
+        "endDate": "2020-10-04"
+      },
+      "sum": "40:30",
+      "columns": {
+        "2020-09-28": {
+          "total": "13:00"
+        },
+        "2020-09-29": {
+          "total": "07:00"
+        },
+        "2020-09-30": {
+          "total": "06:00"
+        },
+        "2020-10-01": {
+          "total": "07:00"
+        },
+        "2020-10-02": {
+          "total": "07:00"
+        },
+        "2020-10-03": {
+          "total": "00:00"
+        },
+        "2020-10-04": {
+          "total": "00:30"
+        }
+      },
+      "dates": [
+          "2020-09-28",
+          "2020-09-29",
+          "2020-09-30",
+          "2020-10-01",
+          "2020-10-02",
+          "2020-10-03",
+          "2020-10-04"
+      ],
+      "employee": {
+        "empNumber": 9,
+        "lastName": "Hamilton",
+        "firstName": "Russel",
+        "middleName": "",
+        "employeeId": "0034",
+        "terminationId": null
+      }
+    }
+
+  'updating timesheet rows':
+    userId: 9
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      timesheetId: 2
+    body:
+      entries: [
+        {
+          projectId: 1,
+          activityId: 6,
+          dates: {
+            "2020-09-28": {
+              "duration": "01:00"
+            }
+          }
+        }
+      ]
+    data: [
+      {
+        "project": {
+          "id": 1,
+          "name": "Global Software phase - 1",
+          "deleted": false
+        },
+        "customer": {
+          "id": 6,
+          "name": "Global Corp and Co",
+          "deleted": false
+        },
+        "activity": {
+          "id": 6,
+          "name": "Implementation",
+          "deleted": false
+        },
+        "total": "06:00",
+        "dates": {
+          "2020-09-28": {
+            "id": 1,
+            "date": "2020-09-28",
+            "comment": "Include meetings",
+            "duration": "01:00"
+          },
+          "2020-09-29": {
+            "id": 2,
+            "date": "2020-09-29",
+            "comment": null,
+            "duration": "01:00"
+          },
+          "2020-09-30": {
+            "id": 3,
+            "date": "2020-09-30",
+            "comment": null,
+            "duration": "02:00"
+          },
+          "2020-10-01": {
+            "id": 4,
+            "date": "2020-10-01",
+            "comment": null,
+            "duration": "01:00"
+          },
+          "2020-10-02": {
+            "id": 5,
+            "date": "2020-10-02",
+            "comment": null,
+            "duration": "01:00"
+          }
+        }
+      },
+      {
+        "project": {
+          "id": 4,
+          "name": "Global Software phase - 2",
+          "deleted": false
+        },
+        "customer": {
+          "id": 6,
+          "name": "Global Corp and Co",
+          "deleted": false
+        },
+        "activity": {
+          "id": 26,
+          "name": "Bug Fixes",
+          "deleted": false
+        },
+        "total": "21:00",
+        "dates": {
+          "2020-09-28": {
+            "id": 6,
+            "date": "2020-09-28",
+            "comment": null,
+            "duration": "05:00"
+          },
+          "2020-09-29": {
+            "id": 12,
+            "date": "2020-09-29",
+            "comment": null,
+            "duration": "05:00"
+          },
+          "2020-09-30": {
+            "id": 7,
+            "date": "2020-09-30",
+            "comment": null,
+            "duration": "01:00"
+          },
+          "2020-10-01": {
+            "id": 13,
+            "date": "2020-10-01",
+            "comment": null,
+            "duration": "05:00"
+          },
+          "2020-10-02": {
+            "id": 11,
+            "date": "2020-10-02",
+            "comment": null,
+            "duration": "05:00"
+          }
+        }
+      },
+      {
+        "project": {
+          "id": 5,
+          "name": "Fresh Books Software Ltd - Phase I",
+          "deleted": false
+        },
+        "customer": {
+          "id": 4,
+          "name": "Fresh Books Software Ltd",
+          "deleted": false
+        },
+        "activity": {
+          "id": 37,
+          "name": "Implementation",
+          "deleted": false
+        },
+        "total": "12:00",
+        "dates": {
+          "2020-09-28": {
+            "id": 14,
+            "date": "2020-09-28",
+            "comment": null,
+            "duration": "01:00"
+          },
+          "2020-09-29": {
+            "id": 8,
+            "date": "2020-09-29",
+            "comment": null,
+            "duration": "02:00"
+          },
+          "2020-09-30": {
+            "id": 15,
+            "date": "2020-09-30",
+            "comment": null,
+            "duration": "05:00"
+          },
+          "2020-10-01": {
+            "id": 9,
+            "date": "2020-10-01",
+            "comment": null,
+            "duration": "02:00"
+          },
+          "2020-10-02": {
+            "id": 10,
+            "date": "2020-10-02",
+            "comment": null,
+            "duration": "02:00"
+          }
+        }
+      }
+    ]
+    meta: {
+      "timesheet": {
+        "id": 2,
+        "startDate": "2020-09-28",
+        "endDate": "2020-10-04"
+      },
+      "sum": "39:00",
+      "columns": {
+        "2020-09-28": {
+          "total": "07:00"
+        },
+        "2020-09-29": {
+          "total": "08:00"
+        },
+        "2020-09-30": {
+          "total": "08:00"
+        },
+        "2020-10-01": {
+          "total": "08:00"
+        },
+        "2020-10-02": {
+          "total": "08:00"
+        },
+        "2020-10-03": {
+          "total": "00:00"
+        },
+        "2020-10-04": {
+          "total": "00:00"
+        }
+      },
+      "dates": [
+          "2020-09-28",
+          "2020-09-29",
+          "2020-09-30",
+          "2020-10-01",
+          "2020-10-02",
+          "2020-10-03",
+          "2020-10-04"
+      ],
+      "employee": {
+        "empNumber": 9,
+        "lastName": "Hamilton",
+        "firstName": "Russel",
+        "middleName": "",
+        "employeeId": "0034",
+        "terminationId": null
+      }
+    }

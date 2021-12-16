@@ -59,19 +59,24 @@ class MyTimesheetItemAPITest extends EndpointIntegrationTestCase
         $api->getValidationRuleForCreate();
     }
 
-//    public function testUpdate(): void
-//    {
-//        $api = new MyTimesheetItemAPI($this->getRequest());
-//        $this->expectNotImplementedException();
-//        $api->update();
-//    }
-//
-//    public function testGetValidationRuleForUpdate(): void
-//    {
-//        $api = new MyTimesheetItemAPI($this->getRequest());
-//        $this->expectNotImplementedException();
-//        $api->getValidationRuleForUpdate();
-//    }
+    /**
+     * @dataProvider dataProviderForTestUpdate
+     */
+    public function testUpdate(TestCaseParams $testCaseParams): void
+    {
+        $this->populateFixtures('MyTimesheetItemAPITest.yaml');
+        $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
+
+        $this->registerServices($testCaseParams);
+        $this->registerMockDateTimeHelper($testCaseParams);
+        $api = $this->getApiEndpointMock(MyTimesheetItemAPI::class, $testCaseParams);
+        $this->assertValidTestCase($api, 'update', $testCaseParams);
+    }
+
+    public function dataProviderForTestUpdate(): array
+    {
+        return $this->getTestCases('MyTimesheetItemAPITestCases.yaml', 'Update');
+    }
 
     public function testDelete(): void
     {

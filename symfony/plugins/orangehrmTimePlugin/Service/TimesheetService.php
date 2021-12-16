@@ -628,10 +628,12 @@ class TimesheetService
                     throw new LogicException('`duration` required attribute');
                 }
                 $date = new DateTime($date);
-                $itemKey = $timesheet->getId() . '_' .
-                    $row['projectId'] . '_' .
-                    $row['activityId'] . '_' .
-                    $date->format('Y_m_d');
+                $itemKey = $this->generateTimesheetItemKey(
+                    $timesheet->getId(),
+                    $row['projectId'],
+                    $row['activityId'],
+                    $date
+                );
                 $timesheetItem = new TimesheetItem();
                 $timesheetItem->setTimesheet($timesheet);
                 $timesheetItem->setEmployee($timesheet->getEmployee());
@@ -644,6 +646,21 @@ class TimesheetService
         }
 
         return $timesheetItems;
+    }
+
+    /**
+     * @param int $timesheetId
+     * @param int $projectId
+     * @param int $activityId
+     * @param DateTime $date
+     * @return string
+     */
+    public function generateTimesheetItemKey(int $timesheetId, int $projectId, int $activityId, DateTime $date): string
+    {
+        return $timesheetId . '_' .
+            $projectId . '_' .
+            $activityId . '_' .
+            $date->format('Y_m_d');
     }
 
     /**

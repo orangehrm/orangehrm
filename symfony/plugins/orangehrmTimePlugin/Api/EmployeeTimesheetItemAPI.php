@@ -42,6 +42,7 @@ use OrangeHRM\Entity\Timesheet;
 use OrangeHRM\ORM\Exception\TransactionException;
 use OrangeHRM\Pim\Api\Model\EmployeeModel;
 use OrangeHRM\Time\Api\Model\DetailedTimesheetModel;
+use OrangeHRM\Time\Api\ValidationRules\TimesheetDeletedEntriesParamRule;
 use OrangeHRM\Time\Api\ValidationRules\TimesheetEntriesParamRule;
 use OrangeHRM\Time\Dto\DetailedTimesheet;
 use OrangeHRM\Time\Traits\Service\TimesheetServiceTrait;
@@ -264,8 +265,17 @@ class EmployeeTimesheetItemAPI extends Endpoint implements CrudEndpoint
     {
         return new ParamRuleCollection(
             $this->getTimesheetIdParamRule(),
-            new ParamRule(self::PARAMETER_ENTRIES, new Rule(TimesheetEntriesParamRule::class)),
-            new ParamRule(self::PARAMETER_DELETED_ENTRIES, new Rule(TimesheetEntriesParamRule::class, [true])),
+            new ParamRule(
+                self::PARAMETER_ENTRIES,
+                new Rule(Rules::NOT_EMPTY),
+                new Rule(
+                    TimesheetEntriesParamRule::class,
+                    [$this->getRequest()->getAttributes()->get(self::PARAMETER_TIMESHEET_ID)]
+                )
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(self::PARAMETER_DELETED_ENTRIES, new Rule(TimesheetDeletedEntriesParamRule::class))
+            ),
         );
     }
 }
