@@ -33,7 +33,9 @@ use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\Employee;
+use OrangeHRM\Entity\Timesheet;
 use OrangeHRM\Pim\Api\Model\EmployeeModel;
+use OrangeHRM\Time\Api\Model\TimesheetModel;
 use OrangeHRM\Time\Dto\DetailedTimesheet;
 use OrangeHRM\Time\Traits\Service\TimesheetServiceTrait;
 
@@ -94,7 +96,7 @@ class EmployeeTimesheetItemAPI extends Endpoint implements CrudEndpoint
         foreach (
             $this->getTimesheetService()->getAllowedWorkflowsForTimesheet(
                 $this->getAuthUser()->getEmpNumber(),
-                $detailedTimesheet
+                $detailedTimesheet->getTimesheet()
             ) as $workflow
         ) {
             $action = $workflow->getAction();
@@ -105,15 +107,7 @@ class EmployeeTimesheetItemAPI extends Endpoint implements CrudEndpoint
         }
 
         return new ParameterBag([
-            self::META_PARAMETER_TIMESHEET => [
-                CommonParams::PARAMETER_ID => $detailedTimesheet->getTimesheet()->getId(),
-                'startDate' => $this->getDateTimeHelper()->formatDateTimeToYmd(
-                    $detailedTimesheet->getTimesheet()->getStartDate()
-                ),
-                'endDate' => $this->getDateTimeHelper()->formatDateTimeToYmd(
-                    $detailedTimesheet->getTimesheet()->getEndDate()
-                ),
-            ],
+            self::META_PARAMETER_TIMESHEET => $this->getNormalizedTimesheet($detailedTimesheet->getTimesheet()),
             self::META_PARAMETER_SUM => $this->getDateTimeHelper()->convertSecondsToTimeString($sum),
             self::META_PARAMETER_COLUMNS => $columns,
             self::META_PARAMETER_DATES => $dates,
@@ -133,6 +127,18 @@ class EmployeeTimesheetItemAPI extends Endpoint implements CrudEndpoint
         return $this->getNormalizerService()->normalize(
             EmployeeModel::class,
             $employee
+        );
+    }
+
+    /**
+     * @param Timesheet $timesheet
+     * @return array
+     */
+    protected function getNormalizedTimesheet(Timesheet $timesheet): array
+    {
+        return $this->getNormalizerService()->normalize(
+            TimesheetModel::class,
+            $timesheet
         );
     }
 

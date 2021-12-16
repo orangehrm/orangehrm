@@ -241,6 +241,10 @@ GetAll:
     meta: {
       "timesheet": {
         "id": 38,
+        "status": {
+          "id": "REJECTED",
+          "name": "Rejected"
+        },
         "startDate": "2020-08-31",
         "endDate": "2020-09-06"
       },
@@ -318,6 +322,10 @@ GetAll:
     meta: {
       "timesheet": {
         "id": 54,
+        "status": {
+          "id": "NOT SUBMITTED",
+          "name": "Not Submitted"
+        },
         "startDate": "2020-10-05",
         "endDate": "2020-10-11"
       },
@@ -395,6 +403,10 @@ GetAll:
     meta: {
       "timesheet": {
         "id": 60,
+        "status": {
+          "id": "NOT SUBMITTED",
+          "name": "Not Submitted"
+        },
         "startDate": "2020-10-12",
         "endDate": "2020-10-18"
       },
@@ -643,6 +655,10 @@ GetAll:
     meta: {
       "timesheet": {
         "id": 61,
+        "status": {
+          "id": "REJECTED",
+          "name": "Rejected"
+        },
         "startDate": "2020-08-31",
         "endDate": "2020-09-06"
       },

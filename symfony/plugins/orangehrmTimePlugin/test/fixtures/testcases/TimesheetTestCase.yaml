@@ -11,7 +11,9 @@ Create:
     query: [ ]
     data:
       id: 4
-      state: "NOT SUBMITTED"
+      status:
+        id: "NOT SUBMITTED"
+        name: "Not Submitted"
       startDate: "2021-12-06"
       endDate: "2021-12-12"
     meta: [ ]
@@ -28,7 +30,9 @@ Create:
     query: [ ]
     data:
       id: 4
-      state: "NOT SUBMITTED"
+      status:
+        id: "NOT SUBMITTED"
+        name: "Not Submitted"
       startDate: "2021-12-06"
       endDate: "2021-12-12"
     meta: [ ]
@@ -45,7 +49,9 @@ Create:
     query: [ ]
     data:
       id: 4
-      state: "NOT SUBMITTED"
+      status:
+        id: "NOT SUBMITTED"
+        name: "Not Submitted"
       startDate: "2021-12-06"
       endDate: "2021-12-12"
     meta: [ ]
@@ -62,7 +68,9 @@ Create:
     query: [ ]
     data:
       id: 4
-      state: "NOT SUBMITTED"
+      status:
+        id: "NOT SUBMITTED"
+        name: "Not Submitted"
       startDate: "2021-11-29"
       endDate: "2021-12-05"
     meta: [ ]
@@ -79,7 +87,9 @@ Create:
     query: [ ]
     data:
       id: 4
-      state: "NOT SUBMITTED"
+      status:
+        id: "NOT SUBMITTED"
+        name: "Not Submitted"
       startDate: "2021-11-29"
       endDate: "2021-12-05"
     meta: [ ]
@@ -96,7 +106,9 @@ Create:
     query: [ ]
     data:
       id: 4
-      state: "NOT SUBMITTED"
+      status:
+        id: "NOT SUBMITTED"
+        name: "Not Submitted"
       startDate: "2021-11-29"
       endDate: "2021-12-05"
     meta: [ ]
@@ -113,7 +125,9 @@ Create:
     query: [ ]
     data:
       id: 4
-      state: "NOT SUBMITTED"
+      status:
+        id: "NOT SUBMITTED"
+        name: "Not Submitted"
       startDate: "2021-11-29"
       endDate: "2021-12-05"
     meta: [ ]

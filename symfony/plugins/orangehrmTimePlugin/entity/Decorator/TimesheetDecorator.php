@@ -72,4 +72,12 @@ class TimesheetDecorator
         $employee = $this->getReference(Employee::class, $empNumber);
         $this->getTimesheet()->setEmployee($employee);
     }
+
+    /**
+     * @return string
+     */
+    public function getTimesheetState(): string
+    {
+        return ucwords(strtolower($this->getTimesheet()->getState()));
+    }
 }

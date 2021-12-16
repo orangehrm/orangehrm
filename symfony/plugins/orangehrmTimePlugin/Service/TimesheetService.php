@@ -578,25 +578,25 @@ class TimesheetService
 
     /**
      * @param int $loggedInEmpNumber
-     * @param DetailedTimesheet $detailedTimesheet
+     * @param Timesheet $timesheet
      * @return WorkflowStateMachine[]
      */
     public function getAllowedWorkflowsForTimesheet(
         int $loggedInEmpNumber,
-        DetailedTimesheet $detailedTimesheet
+        Timesheet $timesheet
     ): array {
         $includeRoles = [];
-        if ($loggedInEmpNumber == $detailedTimesheet->getTimesheet()->getEmployee()->getEmpNumber()
+        if ($loggedInEmpNumber == $timesheet->getEmployee()->getEmpNumber()
             && $this->getUserRoleManager()->essRightsToOwnWorkflow()) {
             $includeRoles = ['ESS'];
         }
 
         return $this->getUserRoleManager()->getAllowedActions(
             WorkflowStateMachine::FLOW_TIME_TIMESHEET,
-            $detailedTimesheet->getTimesheet()->getState(),
+            $timesheet->getState(),
             [],
             $includeRoles,
-            [Employee::class => $detailedTimesheet->getTimesheet()->getEmployee()->getEmpNumber()]
+            [Employee::class => $timesheet->getEmployee()->getEmpNumber()]
         );
     }
 }
