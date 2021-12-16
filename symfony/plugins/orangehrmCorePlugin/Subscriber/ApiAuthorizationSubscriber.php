@@ -66,9 +66,9 @@ class ApiAuthorizationSubscriber extends AbstractEventSubscriber
         $permissions = $this->getUserRoleManager()->getApiPermissions($apiClass);
 
         $permissionGetter = $this->getPermissionGetterMethod($event->getRequest()->getMethod());
-//        if (is_null($permissionGetter) || !$permissions->$permissionGetter()) {
-//            throw new ForbiddenException('Unauthorized');
-//        }
+        if (is_null($permissionGetter) || !$permissions->$permissionGetter()) {
+            throw new ForbiddenException('Unauthorized');
+        }
     }
 
     /**

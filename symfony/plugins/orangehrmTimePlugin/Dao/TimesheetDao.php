@@ -862,8 +862,7 @@ class TimesheetDao extends BaseDao
     public function getTimesheetActionLogsCount(
         $timesheetId,
         TimesheetActionLogSearchFilterParams $timesheetActionLogParamHolder
-    ): int
-    {
+    ): int {
         return $this->getTimesheetActionLogsPaginator($timesheetId, $timesheetActionLogParamHolder)->count();
     }
 
