@@ -454,3 +454,251 @@ GetAll:
         }
       ]
     }
+
+  'get my timesheet for supervisor':
+    userId: 37
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      timesheetId: 61
+    data: [
+      {
+        "project": {
+          "id": 9,
+          "name": "Recruitment",
+          "deleted": false
+        },
+        "customer": {
+          "id": 8,
+          "name": "Internal",
+          "deleted": false
+        },
+        "activity": {
+          "id": 69,
+          "name": "Conducting Interviews and Tests",
+          "deleted": false
+        },
+        "total": "03:00",
+        "dates": [
+          {
+            "id": 449,
+            "date": "2020-09-04",
+            "comment": null,
+            "duration": "03:00"
+          },
+        ]
+      },
+      {
+        "project": {
+          "id": 10,
+          "name": "Training and Development",
+          "deleted": false
+        },
+        "customer": {
+          "id": 8,
+          "name": "Internal",
+          "deleted": false
+        },
+        "activity": {
+          "id": 74,
+          "name": "Training Feedback Analysis",
+          "deleted": false
+        },
+        "total": "20:00",
+        "dates": [
+          {
+            "id": 450,
+            "date": "2020-08-31",
+            "comment": null,
+            "duration": "02:00"
+          },
+          {
+            "id": 451,
+            "date": "2020-09-01",
+            "comment": null,
+            "duration": "05:00"
+          },
+          {
+            "id": 452,
+            "date": "2020-09-02",
+            "comment": null,
+            "duration": "06:00"
+          },
+          {
+            "id": 453,
+            "date": "2020-09-03",
+            "comment": null,
+            "duration": "07:00"
+          }
+        ]
+      },
+      {
+        "project": {
+          "id": 11,
+          "name": "General HR Tasks",
+          "deleted": false
+        },
+        "customer": {
+          "id": 8,
+          "name": "Internal",
+          "deleted": false
+        },
+        "activity": {
+          "id": 78,
+          "name": "Performance Evaluation",
+          "deleted": false
+        },
+        "total": "08:00",
+        "dates": [
+          {
+            "id": 454,
+            "date": "2020-08-31",
+            "comment": null,
+            "duration": "01:00"
+          },
+          {
+            "id": 455,
+            "date": "2020-09-01",
+            "comment": null,
+            "duration": "01:00"
+          },
+          {
+            "id": 456,
+            "date": "2020-09-02",
+            "comment": null,
+            "duration": "01:00"
+          },
+          {
+            "id": 457,
+            "date": "2020-09-03",
+            "comment": null,
+            "duration": "01:00"
+          },
+          {
+            "id": 458,
+            "date": "2020-09-04",
+            "comment": null,
+            "duration": "04:00"
+          }
+        ]
+      },
+      {
+        "project": {
+          "id": 10,
+          "name": "Training and Development",
+          "deleted": false
+        },
+        "customer": {
+          "id": 8,
+          "name": "Internal",
+          "deleted": false
+        },
+        "activity": {
+          "id": 71,
+          "name": "Training Need Analysis",
+          "deleted": false
+        },
+        "total": "06:00",
+        "dates": [
+          {
+            "id": 459,
+            "date": "2020-08-31",
+            "comment": null,
+            "duration": "02:00"
+          },
+          {
+            "id": 460,
+            "date": "2020-09-01",
+            "comment": null,
+            "duration": "01:00"
+          },
+          {
+            "id": 461,
+            "date": "2020-09-02",
+            "comment": null,
+            "duration": "01:00"
+          },
+          {
+            "id": 462,
+            "date": "2020-09-03",
+            "comment": null,
+            "duration": "01:00"
+          },
+          {
+            "id": 463,
+            "date": "2020-09-04",
+            "comment": null,
+            "duration": "01:00"
+          }
+        ]
+      }
+    ]
+    meta: {
+      "timesheet": {
+        "id": 61,
+        "startDate": "2020-08-31",
+        "endDate": "2020-09-06"
+      },
+      "sum": "37:00",
+      "columns": {
+        "2020-08-31": {
+          "total": "05:00"
+        },
+        "2020-09-01": {
+          "total": "07:00"
+        },
+        "2020-09-02": {
+          "total": "08:00"
+        },
+        "2020-09-03": {
+          "total": "09:00"
+        },
+        "2020-09-04": {
+          "total": "08:00"
+        },
+        "2020-09-05": {
+          "total": "00:00"
+        },
+        "2020-09-06": {
+          "total": "00:00"
+        }
+      },
+      "dates": [
+          "2020-08-31",
+          "2020-09-01",
+          "2020-09-02",
+          "2020-09-03",
+          "2020-09-04",
+          "2020-09-05",
+          "2020-09-06"
+      ],
+      "employee": {
+        "empNumber": 37,
+        "lastName": "OHRM",
+        "firstName": "OHRM",
+        "middleName": "",
+        "employeeId": "037",
+        "terminationId": null
+      },
+      "allowedActions": [
+        {
+          "action": "SUBMIT",
+          "name": "Submit"
+        },
+        {
+          "action": "VIEW",
+          "name": "View",
+        },
+        {
+          "action": "MODIFY",
+          "name": "Modify",
+        }
+      ]
+    }
