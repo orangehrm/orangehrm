@@ -17,35 +17,36 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Core\Service;
+namespace OrangeHRM\Time\Api\Model;
 
-use OrangeHRM\Core\Api\V2\Serializer\NormalizerTrait;
+use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
+use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 
-class NormalizerService
+class TotalDurationModel implements Normalizable
 {
-    use NormalizerTrait;
+    use DateTimeHelperTrait;
+
+    private int $duration;
 
     /**
-     * @param string $modelClass
-     * @param object|int|string $data
-     * @return array
+     * @param int $duration
      */
-    public function normalize(string $modelClass, $data): array
+    public function __construct(int $duration)
     {
-        $this->setModelClass($modelClass);
-        $this->setData($data);
-        return $this->normalizeObject();
+        $this->duration = $duration;
     }
 
     /**
-     * @param string $modelClass
-     * @param array $data
-     * @return array
+     * @inheritDoc
      */
-    public function normalizeArray(string $modelClass, array $data): array
+    public function toArray(): array
     {
-        $this->setModelClass($modelClass);
-        $this->setData($data);
-        return $this->normalizeObjectsArray();
+        $hours = floor($this->duration / 3600);
+        $minutes = ($this->duration / 60) % 60;
+        return [
+            'hours' => $hours,
+            'minutes' => $minutes,
+            'label' => $this->getDateTimeHelper()->convertSecondsToTimeString($this->duration),
+        ];
     }
 }
