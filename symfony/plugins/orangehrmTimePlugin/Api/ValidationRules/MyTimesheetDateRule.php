@@ -35,6 +35,6 @@ class MyTimesheetDateRule extends AbstractRule
     public function validate($input): bool
     {
         return !(new DateTime($input) > $this->getDateTimeHelper()->getNow()) &&
-            $this->getTimesheetService()->isTimesheetTakenByDate(new DateTime($input));
+            $this->getTimesheetService()->hasTimesheetForDate(new DateTime($input));
     }
 }

@@ -37,6 +37,7 @@ class TimesheetModel implements Normalizable
             [
                 'id',
                 'state',
+                ['getDecorator', 'getTimesheetState'],
                 ['getDecorator', 'getStartDate'],
                 ['getDecorator', 'getEndDate'],
             ]
@@ -44,7 +45,8 @@ class TimesheetModel implements Normalizable
         $this->setAttributeNames(
             [
                 'id',
-                'state',
+                ['status', 'id'],
+                ['status', 'name'],
                 'startDate',
                 'endDate',
             ]

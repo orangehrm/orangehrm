@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\Time\Api;
 
-use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointResult;
@@ -28,16 +27,20 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\Employee;
+use OrangeHRM\Entity\Timesheet;
 use OrangeHRM\Pim\Api\Model\EmployeeModel;
+use OrangeHRM\Time\Api\Model\TimesheetModel;
 use OrangeHRM\Time\Dto\DetailedTimesheet;
 use OrangeHRM\Time\Traits\Service\TimesheetServiceTrait;
 
 class EmployeeTimesheetItemAPI extends Endpoint implements CrudEndpoint
 {
+    use AuthUserTrait;
     use TimesheetServiceTrait;
     use UserRoleManagerTrait;
     use DateTimeHelperTrait;
@@ -50,6 +53,17 @@ class EmployeeTimesheetItemAPI extends Endpoint implements CrudEndpoint
     public const META_PARAMETER_COLUMNS = 'columns';
     public const META_PARAMETER_TIMESHEET = 'timesheet';
     public const META_PARAMETER_EMPLOYEE = 'employee';
+    public const META_PARAMETER_ALLOWED_ACTIONS = 'allowedActions';
+
+    public const TIMESHEET_ACTION_MAP = [
+        '0' => "View",
+        '1' => "Submit",
+        '2' => "Approve",
+        '3' => "Reject",
+        '4' => "Reset",
+        '5' => "Modify",
+        '6' => "Create",
+    ];
 
     /**
      * @inheritDoc
@@ -76,22 +90,30 @@ class EmployeeTimesheetItemAPI extends Endpoint implements CrudEndpoint
                 'total' => $this->getDateTimeHelper()->convertSecondsToTimeString($column->getTotal()),
             ];
         }
+
+        $allowedActions = [];
+        foreach (
+            $this->getTimesheetService()->getAllowedWorkflowsForTimesheet(
+                $this->getAuthUser()->getEmpNumber(),
+                $detailedTimesheet->getTimesheet()
+            ) as $workflow
+        ) {
+            $action = $workflow->getAction();
+            $allowedActions[] = [
+                'action' => strtoupper(self::TIMESHEET_ACTION_MAP [$action]),
+                'name' => self::TIMESHEET_ACTION_MAP [$action]
+            ];
+        }
+
         return new ParameterBag([
-            self::META_PARAMETER_TIMESHEET => [
-                CommonParams::PARAMETER_ID => $detailedTimesheet->getTimesheet()->getId(),
-                'startDate' => $this->getDateTimeHelper()->formatDateTimeToYmd(
-                    $detailedTimesheet->getTimesheet()->getStartDate()
-                ),
-                'endDate' => $this->getDateTimeHelper()->formatDateTimeToYmd(
-                    $detailedTimesheet->getTimesheet()->getEndDate()
-                ),
-            ],
+            self::META_PARAMETER_TIMESHEET => $this->getNormalizedTimesheet($detailedTimesheet->getTimesheet()),
             self::META_PARAMETER_SUM => $this->getDateTimeHelper()->convertSecondsToTimeString($sum),
             self::META_PARAMETER_COLUMNS => $columns,
             self::META_PARAMETER_DATES => $dates,
             self::META_PARAMETER_EMPLOYEE => $this->getNormalizedEmployee(
                 $detailedTimesheet->getTimesheet()->getEmployee()
             ),
+            self::META_PARAMETER_ALLOWED_ACTIONS => $allowedActions
         ]);
     }
 
@@ -104,6 +126,18 @@ class EmployeeTimesheetItemAPI extends Endpoint implements CrudEndpoint
         return $this->getNormalizerService()->normalize(
             EmployeeModel::class,
             $employee
+        );
+    }
+
+    /**
+     * @param Timesheet $timesheet
+     * @return array
+     */
+    protected function getNormalizedTimesheet(Timesheet $timesheet): array
+    {
+        return $this->getNormalizerService()->normalize(
+            TimesheetModel::class,
+            $timesheet
         );
     }
 
