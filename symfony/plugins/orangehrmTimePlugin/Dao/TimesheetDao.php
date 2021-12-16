@@ -787,13 +787,18 @@ class TimesheetDao extends BaseDao
 
     /**
      * @param DateTime $date
+     * @param int|null $employeeNumber
      * @return bool
      */
-    public function hasTimesheetForStartDate(DateTime $date): bool
+    public function hasTimesheetForStartDate(DateTime $date, ?int $employeeNumber = null): bool
     {
         $q = $this->createQueryBuilder(Timesheet::class, 'timesheet');
         $q->andWhere('timesheet.startDate = :date');
         $q->setParameter('date', $date);
+        if (!is_null($employeeNumber)) {
+            $q->andWhere('timesheet.employee = :employeeNumber');
+            $q->setParameter('employeeNumber', $employeeNumber);
+        }
         return $this->getPaginator($q)->count() === 0;
     }
 
