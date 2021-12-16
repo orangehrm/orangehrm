@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\Time\Api;
 
-use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointResult;
