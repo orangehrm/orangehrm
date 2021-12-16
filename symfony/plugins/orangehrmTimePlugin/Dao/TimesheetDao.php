@@ -232,31 +232,6 @@ class TimesheetDao extends BaseDao
     }
 
     /**
-     * Get Timesheet by given Start Date And Employee Id
-     * @param $starDate , $employeeId
-     * @return Timesheet
-     */
-    public function getTimesheetByStartDateAndEmployeeId($startDate, $employeeId)
-    {
-        // TODO
-        try {
-            $query = Doctrine_Query::create()
-                ->from('Timesheet')
-                ->where('start_date = ?', $startDate)
-                ->andWhere('employee_id = ?', $employeeId);
-
-            $results = $query->execute();
-            if ($results[0]->getTimesheetId() == null) {
-                return null;
-            } else {
-                return $results[0];
-            }
-        } catch (Exception $ex) {
-            throw new DaoException($ex->getMessage());
-        }
-    }
-
-    /**
      * Get TimesheetActionLog by given Timesheet Id
      * @param $timesheetActionLogId
      * @return TimesheetActionLog

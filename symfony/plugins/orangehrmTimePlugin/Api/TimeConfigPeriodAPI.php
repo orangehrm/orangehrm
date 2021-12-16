@@ -64,7 +64,7 @@ class TimeConfigPeriodAPI extends Endpoint implements ResourceEndpoint
     public function getOne(): EndpointResult
     {
         $status = $this->getTimesheetPeriodService()->isTimesheetPeriodDefined();
-        $startDay = $status ? $this->getTimesheetPeriodService()->getTimesheetStartDate() : '2'; // to set monday as default
+        $startDay = $status ? $this->getTimesheetPeriodService()->getTimesheetStartDate() : '1'; // to set monday as default
         $timeConfigPeriod = new TimeConfigPeriod();
         $timeConfigPeriod->setStartDay($startDay);
         return new EndpointResourceResult(TimeConfigPeriodModel::class, $timeConfigPeriod);

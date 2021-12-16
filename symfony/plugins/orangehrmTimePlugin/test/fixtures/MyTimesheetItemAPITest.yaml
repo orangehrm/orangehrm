@@ -35,6 +35,7 @@ Employee:
   - { "emp_number": 30,"employee_id": "0217","emp_lastname": "Chuki","emp_firstname": "Chenzira","emp_middle_name": "","emp_work_telephone": "","emp_work_email": "chenzira@osohrm.com","joined_date": "2005-10-13" }
   - { "emp_number": 35,"employee_id": "0239","emp_lastname": "Hu","emp_firstname": "Kiyara","emp_middle_name": "","emp_work_telephone": "","emp_work_email": "kiyara1@osohrm.com","joined_date": "2009-10-15" }
   - { "emp_number": 36,"employee_id": "0243","emp_lastname": "Jackie","emp_firstname": "Jadine","emp_middle_name": "","emp_work_telephone": "","emp_work_email": "jadine@osohrm.com","joined_date": "2013-12-17" }
+  - { "emp_number": 37,"employee_id": "037","emp_lastname": "OHRM","emp_firstname": "OHRM","emp_middle_name": "","emp_work_telephone": "","emp_work_email": "OHRM@osohrm.com","joined_date": "2013-12-17" }
 
 ReportingMethod:
   - { "reporting_method_id": "1","reporting_method_name": "Direct" }
@@ -46,6 +47,7 @@ ReportTo:
   - { "erep_sup_emp_number": "7","erep_sub_emp_number": "26","erep_reporting_mode": "1" }
   - { "erep_sup_emp_number": "7","erep_sub_emp_number": "35","erep_reporting_mode": "1" }
   - { "erep_sup_emp_number": "7","erep_sub_emp_number": "36","erep_reporting_mode": "1" }
+  - { "erep_sup_emp_number": "37","erep_sub_emp_number": "30","erep_reporting_mode": "1" }
 
 UserRole:
   - { id: 1, name: Admin, display_name: Admin, is_assignable: 1, is_predefined: 1 }
@@ -64,6 +66,7 @@ User:
   - { "id": 27,"user_role_id": 2,"emp_number": 27,"user_name": "Cecil.Bonaparte","user_password": "password","deleted": "0","status": "1","date_entered": "2020-10-08 22:55:37","date_modified": null,"modified_user_id": null,"created_by": "7" }
   - { "id": 29,"user_role_id": 2,"emp_number": 29,"user_name": "Charlie.Carter","user_password": "password","deleted": "0","status": "1","date_entered": "2020-10-08 22:56:21","date_modified": null,"modified_user_id": null,"created_by": "7" }
   - { "id": 30,"user_role_id": 2,"emp_number": 30,"user_name": "Chenzira.Chuki","user_password": "password","deleted": "0","status": "1","date_entered": "2020-10-08 22:56:44","date_modified": null,"modified_user_id": null,"created_by": "7" }
+  - { "id": 37,"user_role_id": 3,"emp_number": 37,"user_name": "OHRM","user_password": "OHRM","deleted": "0","status": "1","date_entered": "2020-10-09 22:56:44","date_modified": null,"modified_user_id": null,"created_by": "1" }
 
 Customer:
   - { "customer_id": "1","name": "Apache Software Foundation","description": "non-profit corporation to support Apache software projects","is_deleted": "0" }
@@ -240,6 +243,7 @@ Timesheet:
   - { "timesheet_id": "58","state": "SUBMITTED","start_date": "2020-09-14","end_date": "2020-09-20","employee_id": "26" }
   - { "timesheet_id": "59","state": "NOT SUBMITTED","start_date": "2020-10-12","end_date": "2020-10-18","employee_id": "7" }
   - { "timesheet_id": "60","state": "NOT SUBMITTED","start_date": "2020-10-12","end_date": "2020-10-18","employee_id": "5" }
+  - { "timesheet_id": "61","state": "REJECTED","start_date": "2020-08-31","end_date": "2020-09-06","employee_id": "37" }
 
 TimesheetItem:
   - { "timesheet_item_id": "1","timesheet_id": "2","date": "2020-09-28","duration": "7200","comment": "Include meetings","project_id": "1","employee_id": "9","activity_id": "6" }
@@ -682,6 +686,21 @@ TimesheetItem:
   - { "timesheet_item_id": "446","timesheet_id": "50","date": "2020-09-04","duration": "14400","comment": null,"project_id": "9","employee_id": "26","activity_id": "68" }
   - { "timesheet_item_id": "447","timesheet_id": "50","date": "2020-09-03","duration": "14400","comment": null,"project_id": "9","employee_id": "26","activity_id": "69" }
   - { "timesheet_item_id": "448","timesheet_id": "50","date": "2020-09-04","duration": "15780","comment": null,"project_id": "9","employee_id": "26","activity_id": "69" }
+  - { "timesheet_item_id": "449","timesheet_id": "61","date": "2020-09-04","duration": "10800","comment": null,"project_id": "9","employee_id": "37","activity_id": "69" }
+  - { "timesheet_item_id": "450","timesheet_id": "61","date": "2020-08-31","duration": "7200","comment": null,"project_id": "10","employee_id": "37","activity_id": "74" }
+  - { "timesheet_item_id": "451","timesheet_id": "61","date": "2020-09-01","duration": "18000","comment": null,"project_id": "10","employee_id": "37","activity_id": "74" }
+  - { "timesheet_item_id": "452","timesheet_id": "61","date": "2020-09-02","duration": "21600","comment": null,"project_id": "10","employee_id": "37","activity_id": "74" }
+  - { "timesheet_item_id": "453","timesheet_id": "61","date": "2020-09-03","duration": "25200","comment": null,"project_id": "10","employee_id": "37","activity_id": "74" }
+  - { "timesheet_item_id": "454","timesheet_id": "61","date": "2020-08-31","duration": "3600","comment": null,"project_id": "11","employee_id": "37","activity_id": "78" }
+  - { "timesheet_item_id": "455","timesheet_id": "61","date": "2020-09-01","duration": "3600","comment": null,"project_id": "11","employee_id": "37","activity_id": "78" }
+  - { "timesheet_item_id": "456","timesheet_id": "61","date": "2020-09-02","duration": "3600","comment": null,"project_id": "11","employee_id": "37","activity_id": "78" }
+  - { "timesheet_item_id": "457","timesheet_id": "61","date": "2020-09-03","duration": "3600","comment": null,"project_id": "11","employee_id": "37","activity_id": "78" }
+  - { "timesheet_item_id": "458","timesheet_id": "61","date": "2020-09-04","duration": "14400","comment": null,"project_id": "11","employee_id": "37","activity_id": "78" }
+  - { "timesheet_item_id": "459","timesheet_id": "61","date": "2020-08-31","duration": "7200","comment": null,"project_id": "10","employee_id": "37","activity_id": "71" }
+  - { "timesheet_item_id": "460","timesheet_id": "61","date": "2020-09-01","duration": "3600","comment": null,"project_id": "10","employee_id": "37","activity_id": "71" }
+  - { "timesheet_item_id": "461","timesheet_id": "61","date": "2020-09-02","duration": "3600","comment": null,"project_id": "10","employee_id": "37","activity_id": "71" }
+  - { "timesheet_item_id": "462","timesheet_id": "61","date": "2020-09-03","duration": "3600","comment": null,"project_id": "10","employee_id": "37","activity_id": "71" }
+  - { "timesheet_item_id": "463","timesheet_id": "61","date": "2020-09-04","duration": "3600","comment": null,"project_id": "10","employee_id": "37","activity_id": "71" }
 
 TimesheetActionLog:
   - { "timesheet_action_log_id": "1","comment": null,"action": "SUBMITTED","date_time": "2020-10-09","performed_by": "9","timesheet_id": "2" }
@@ -713,3 +732,5 @@ TimesheetActionLog:
   - { "timesheet_action_log_id": "27","comment": null,"action": "SUBMITTED","date_time": "2020-10-12","performed_by": "1","timesheet_id": "57" }
   - { "timesheet_action_log_id": "28","comment": null,"action": "SUBMITTED","date_time": "2020-10-12","performed_by": "1","timesheet_id": "58" }
   - { "timesheet_action_log_id": "29","comment": null,"action": "SUBMITTED","date_time": "2020-10-12","performed_by": "1","timesheet_id": "50" }
+  - { "timesheet_action_log_id": "30","comment": null,"action": "SUBMITTED","date_time": "2020-10-09","performed_by": "7","timesheet_id": "61" }
+  - { "timesheet_action_log_id": "31","comment": null,"action": "REJECTED","date_time": "2020-10-09","performed_by": "2","timesheet_id": "61" }

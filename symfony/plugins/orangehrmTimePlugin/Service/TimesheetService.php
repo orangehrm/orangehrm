@@ -23,6 +23,8 @@ use DateTime;
 use LogicException;
 use OrangeHRM\Core\Service\AccessFlowStateMachineService;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
+use OrangeHRM\Core\Traits\UserRoleManagerTrait;
+use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\Timesheet;
 use OrangeHRM\Entity\TimesheetItem;
 use OrangeHRM\Entity\WorkflowStateMachine;
@@ -34,13 +36,17 @@ use OrangeHRM\Time\Dto\TimesheetRow;
 class TimesheetService
 {
     use DateTimeHelperTrait;
+    use UserRoleManagerTrait;
 
     private static $timesheetTimeFormat = null;
     private ?TimesheetDao $timesheetDao = null;
     private $employeeDao;
 
     // Cache timesheet time format for better performance.
-    private $timesheetPeriodService;
+    /**
+     * @var TimesheetPeriodService|null
+     */
+    private ?TimesheetPeriodService $timesheetPeriodService = null;
 
     /**
      * @var AccessFlowStateMachineService|null
@@ -404,9 +410,11 @@ class TimesheetService
         }
     }
 
-    public function getTimesheetPeriodService()
+    /**
+     * @return TimesheetPeriodService
+     */
+    public function getTimesheetPeriodService(): TimesheetPeriodService
     {
-        // TODO
         if (is_null($this->timesheetPeriodService)) {
             $this->timesheetPeriodService = new TimesheetPeriodService();
         }
@@ -589,7 +597,7 @@ class TimesheetService
      * @param DateTime $date
      * @return array
      */
-    public function extractStartDateAndEndDateFromDate(DateTime $date): array
+    private function extractStartDateAndEndDateFromDate(DateTime $date): array
     {
         $currentWeekFirstDate = date('Y-m-d', strtotime('monday this week', strtotime($date->format('Y-m-d'))));
         $configDate = $this->getTimesheetPeriodService()->getTimesheetStartDate() - 1;
@@ -602,7 +610,7 @@ class TimesheetService
      * @param DateTime $date
      * @return bool
      */
-    public function isTimesheetTakenByDate(DateTime $date)
+    public function hasTimesheetForDate(DateTime $date): bool
     {
         list($startDate) = $this->extractStartDateAndEndDateFromDate($date);
         return $this->getTimesheetDao()->hasTimesheetForStartDate(new DateTime($startDate));
@@ -671,5 +679,29 @@ class TimesheetService
     {
         $timesheetItems = $this->createTimesheetItemsFromRows($timesheet, $rows);
         $this->getTimesheetDao()->saveAndUpdateTimesheetItems($timesheetItems);
+    }
+
+    /**
+     * @param int $loggedInEmpNumber
+     * @param Timesheet $timesheet
+     * @return WorkflowStateMachine[]
+     */
+    public function getAllowedWorkflowsForTimesheet(
+        int $loggedInEmpNumber,
+        Timesheet $timesheet
+    ): array {
+        $includeRoles = [];
+        if ($loggedInEmpNumber == $timesheet->getEmployee()->getEmpNumber()
+            && $this->getUserRoleManager()->essRightsToOwnWorkflow()) {
+            $includeRoles = ['ESS'];
+        }
+
+        return $this->getUserRoleManager()->getAllowedActions(
+            WorkflowStateMachine::FLOW_TIME_TIMESHEET,
+            $timesheet->getState(),
+            [],
+            $includeRoles,
+            [Employee::class => $timesheet->getEmployee()->getEmpNumber()]
+        );
     }
 }
