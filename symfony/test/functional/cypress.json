@@ -1,5 +1,6 @@
 {
   "baseUrl": "http://php80/orangehrm/web/index.php",
   "defaultCommandTimeout": 6000,
-  "video": false
+  "video": false,
+  "scrollBehavior": "top"
 }
