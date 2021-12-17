@@ -147,3 +147,37 @@ Create:
     body:
       date: "2011-04-18"
     invalidOnly: [ 'date' ]
+
+GetAll:
+  'Get my timesheets':
+    userId: 1
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+    attributes: [ ]
+    query:
+      fromDate: '2011-04-18'
+      toDate: '2011-04-24'
+    body: [ ]
+    data:
+      - id: 1
+        status:
+          id: "CREATED"
+          name: "Created"
+        startDate: "2011-04-18"
+        endDate: "2011-04-24"
+    meta:
+      total: 1
+
+  'Get my timesheets - no time sheet':
+    userId: 1
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+    attributes: [ ]
+    query:
+      fromDate: "2021-11-29"
+      toDate: "2021-12-05"
+    body: [ ]
+    data: [ ]
+    meta:
+      total: 0
+
