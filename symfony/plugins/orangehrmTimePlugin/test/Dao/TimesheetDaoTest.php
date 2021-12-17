@@ -75,9 +75,7 @@ class TimesheetDaoTest extends KernelTestCase
 
     public function testDuplicateTimesheet(): void
     {
-        $this->fixture = Config::get(
-                Config::PLUGINS_DIR
-            ) . '/orangehrmTimePlugin/test/fixtures/TimesheetActionLogDao.yml';
+        $this->fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmTimePlugin/test/fixtures/TimesheetActionLogDao.yml';
         TestDataService::populate($this->fixture);
         $resultFalse = $this->timesheetDao->hasTimesheetForStartDate(2, new DateTime('2011-03-18'));
         $resultTrue = $this->timesheetDao->hasTimesheetForStartDate(1, new DateTime('2011-04-18'));
@@ -87,9 +85,7 @@ class TimesheetDaoTest extends KernelTestCase
 
     public function testGetTimesheetActionLogs(): void
     {
-        $this->fixture = Config::get(
-                Config::PLUGINS_DIR
-            ) . '/orangehrmTimePlugin/test/fixtures/TimesheetActionLogDao.yml';
+        $this->fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmTimePlugin/test/fixtures/TimesheetActionLogDao.yml';
         TestDataService::populate($this->fixture);
         $timesheetActionLogSearchFilterParamHolder = new TimesheetActionLogSearchFilterParams();
         $timesheetActionLogs = $this->timesheetDao
