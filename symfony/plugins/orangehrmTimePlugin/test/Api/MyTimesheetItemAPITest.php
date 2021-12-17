@@ -26,6 +26,10 @@ use OrangeHRM\Tests\Util\Integration\TestCaseParams;
 use OrangeHRM\Tests\Util\TestDataService;
 use OrangeHRM\Time\Api\MyTimesheetItemAPI;
 
+/**
+ * @group Time
+ * @group APIv2
+ */
 class MyTimesheetItemAPITest extends EndpointIntegrationTestCase
 {
     /**
@@ -61,18 +65,24 @@ class MyTimesheetItemAPITest extends EndpointIntegrationTestCase
         $api->getValidationRuleForCreate();
     }
 
-    public function testUpdate(): void
+    /**
+     * @dataProvider dataProviderForTestUpdate
+     */
+    public function testUpdate(TestCaseParams $testCaseParams): void
     {
-        $api = new MyTimesheetItemAPI($this->getRequest());
-        $this->expectNotImplementedException();
-        $api->update();
+        TestDataService::populate(Config::get(Config::TEST_DIR) . '/phpunit/fixtures/WorkflowStateMachine.yaml', true);
+        $this->populateFixtures('MyTimesheetItemAPITest.yaml', null, true);
+        $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
+
+        $this->registerServices($testCaseParams);
+        $this->registerMockDateTimeHelper($testCaseParams);
+        $api = $this->getApiEndpointMock(MyTimesheetItemAPI::class, $testCaseParams);
+        $this->assertValidTestCase($api, 'update', $testCaseParams);
     }
 
-    public function testGetValidationRuleForUpdate(): void
+    public function dataProviderForTestUpdate(): array
     {
-        $api = new MyTimesheetItemAPI($this->getRequest());
-        $this->expectNotImplementedException();
-        $api->getValidationRuleForUpdate();
+        return $this->getTestCases('MyTimesheetItemAPITestCases.yaml', 'Update');
     }
 
     public function testDelete(): void

@@ -21,13 +21,19 @@ namespace OrangeHRM\Entity;
 
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use OrangeHRM\Entity\Decorator\DecoratorTrait;
+use OrangeHRM\Entity\Decorator\TimesheetItemDecorator;
 
 /**
+ * @method TimesheetItemDecorator getDecorator()
+ *
  * @ORM\Table(name="ohrm_timesheet_item")
  * @ORM\Entity
  */
 class TimesheetItem
 {
+    use DecoratorTrait;
+
     /**
      * @var int
      *

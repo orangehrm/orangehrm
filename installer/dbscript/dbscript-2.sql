@@ -3533,7 +3533,7 @@ INSERT INTO `ohrm_i18n_group` (`name`, `title`) VALUES
 ('mobile', 'Mobile');
 
 -- ------------------------------
---        OrangeHRM 5.x
+--        OrangeHRM 5.0-beta
 -- ------------------------------
 
 ALTER TABLE `hs_hr_config` CHANGE `key` `name` VARCHAR(100);
@@ -4244,11 +4244,11 @@ INSERT INTO ohrm_data_group (`name`, `description`, `can_read`, `can_create`, `c
 VALUES ('apiv2_time_time_sheet_config', 'API-v2 Time - Time Sheet Start Day Configuration', 1, 0, 1, 0),
        ('apiv2_time_customers', 'API-v2 Time - Customers', 1, 1, 1, 1),
        ('apiv2_time_validation_customer_name', 'API-v2 Time - Customer Name Validation', 1, 0, 0, 0),
-       ('apiv2_time_project_activities', 'API-V2 Time - Project Activities', 1, 1, 1, 1),
+       ('apiv2_time_project_activities', 'API-v2 Time - Project Activities', 1, 1, 1, 1),
        ('apiv2_time_projects', 'API-v2 Time - Projects', 1, 1, 1, 1),
        ('apiv2_time_project_name_validator', 'API-v2 Time - Project Name Validation', 1, 0, 0, 0),
-       ('apiv2_time_timesheets_items', 'API-V2 Time - Timesheet items', 1, 0, 1, 0),
-       ('apiv2_time_my_timesheet', 'API-v2- Time - My Timesheet', 0, 1, 0, 0),
+       ('apiv2_time_my_timesheets_entries', 'API-v2 Time - Timesheet Entries', 1, 0, 1, 0),
+       ('apiv2_time_my_timesheet', 'API-v2 Time - My Timesheet', 0, 1, 0, 0),
        ('apiv2_time_timesheet_action_log', 'API-v2 Time - Timesheet action log', 1, 0, 0, 0);
 
 SET @time_module_id := (SELECT `id` FROM ohrm_module WHERE name = 'time' LIMIT 1);
@@ -4259,7 +4259,7 @@ SET @apiv2_time_validation_customer_name_data_group_id := (SELECT `id` FROM ohrm
 SET @apiv2_time_project_activities_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_time_project_activities' LIMIT 1);
 SET @apiv2_time_projects_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_time_projects' LIMIT 1);
 SET @apiv2_time_project_name_validator_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name ='apiv2_time_project_name_validator' LIMIT 1);
-SET @apiv2_time_timesheets_items_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_time_timesheets_items' LIMIT 1);
+SET @apiv2_time_my_timesheets_entries_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_time_my_timesheets_entries' LIMIT 1);
 SET @apiv2_time_my_timesheet_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_time_my_timesheet' LIMIT 1);
 SET @apiv2_time_timesheet_action_log_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_time_timesheet_action_log' LIMIT 1);
 
@@ -4270,7 +4270,7 @@ VALUES ('OrangeHRM\\Time\\Api\\TimeConfigPeriodAPI', @time_module_id, @apiv2_tim
        ('OrangeHRM\\Time\\Api\\ProjectActivityAPI', @time_module_id, @apiv2_time_project_activities_data_group_id),
        ('OrangeHRM\\Time\\Api\\ProjectAPI',@time_module_id, @apiv2_time_projects_data_group_id),
        ('OrangeHRM\\Time\\Api\\ValidateProjectNameAPI', @time_module_id, @apiv2_time_project_name_validator_data_group_id),
-       ('OrangeHRM\\Time\\Api\\MyTimesheetItemAPI', @time_module_id, @apiv2_time_timesheets_items_data_group_id),
+       ('OrangeHRM\\Time\\Api\\MyTimesheetItemAPI', @time_module_id, @apiv2_time_my_timesheets_entries_data_group_id),
        ('OrangeHRM\\Time\\Api\\MyTimesheetAPI', @time_module_id, @apiv2_time_my_timesheet_data_group_id),
        ('OrangeHRM\\Time\\Api\\TimesheetActionLogAPI', @time_module_id, @apiv2_time_timesheet_action_log_data_group_id);
 
@@ -4283,8 +4283,8 @@ VALUES (1, 0, 1, 0, 0, @apiv2_time_time_sheet_config_data_group_id, @admin_role_
        (1, 1, 1, 1, 0, @apiv2_time_project_activities_data_group_id, @admin_role_id),
        (1, 1, 1, 1, 1, @apiv2_time_projects_data_group_id, @admin_role_id),
        (1, 0, 0, 0, 0, @apiv2_time_project_name_validator_data_group_id, @admin_role_id),
-       (1, 0, 1, 0, 1, @apiv2_time_timesheets_items_data_group_id, @admin_role_id),
-       (1, 0, 1, 0, 1, @apiv2_time_timesheets_items_data_group_id, @ess_role_id),
+       (1, 0, 1, 0, 1, @apiv2_time_my_timesheets_entries_data_group_id, @admin_role_id),
+       (1, 0, 1, 0, 1, @apiv2_time_my_timesheets_entries_data_group_id, @ess_role_id),
        (0, 1, 0, 0, 0, @apiv2_time_my_timesheet_data_group_id, @admin_role_id),
        (0, 1, 0, 0, 0, @apiv2_time_my_timesheet_data_group_id, @ess_role_id),
        (1, 0, 0, 0, 0, @apiv2_time_timesheet_action_log_data_group_id, @admin_role_id),

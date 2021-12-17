@@ -21,12 +21,14 @@ namespace OrangeHRM\Time\Api\Model;
 
 use OrangeHRM\Core\Api\V2\Serializer\CollectionNormalizable;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
+use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
 use OrangeHRM\Entity\TimesheetItem;
 use OrangeHRM\Time\Dto\DetailedTimesheet;
 
 class DetailedTimesheetModel implements CollectionNormalizable
 {
     use DateTimeHelperTrait;
+    use NormalizerServiceTrait;
 
     private DetailedTimesheet $detailedTimesheet;
 
@@ -58,15 +60,19 @@ class DetailedTimesheetModel implements CollectionNormalizable
                     'name' => $timesheetRow->getProjectActivity()->getName(),
                     'deleted' => $timesheetRow->getProjectActivity()->isDeleted(),
                 ],
-                'total' => $this->getDateTimeHelper()->convertSecondsToTimeString($timesheetRow->getTotal()),
+                'total' => $this->getNormalizerService()->normalize(
+                    TotalDurationModel::class,
+                    $timesheetRow->getTotal()
+                ),
             ];
             foreach ($timesheetRow->getTimesheetItems() as $timesheetItem) {
                 if (!$timesheetItem instanceof TimesheetItem) {
                     continue;
                 }
-                $row['dates'][] = [
+                $date = $this->getDateTimeHelper()->formatDateTimeToYmd($timesheetItem->getDate());
+                $row['dates'][$date] = [
                     'id' => $timesheetItem->getId(),
-                    'date' => $this->getDateTimeHelper()->formatDateTimeToYmd($timesheetItem->getDate()),
+                    'date' => $date,
                     'comment' => $timesheetItem->getComment(),
                     'duration' => $this->getDateTimeHelper()->convertSecondsToTimeString($timesheetItem->getDuration()),
                 ];

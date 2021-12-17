@@ -36,9 +36,10 @@ class PHPFixCodingStandards extends Command
      */
     protected function configure()
     {
-        $this->setDescription("Extend functionality of $ php ./devTools/core/vendor/bin/php-cs-fixer fix")
-            ->setHelp("Exit with error status if some files fixed with this command")
-            ->addOption('php', null, InputOption::VALUE_REQUIRED, '', 'php');
+        $this->setDescription('Extend functionality of $ php ./devTools/core/vendor/bin/php-cs-fixer fix')
+            ->setHelp('Exit with error status if some files fixed with this command')
+            ->addOption('php', null, InputOption::VALUE_REQUIRED, '', 'php')
+            ->addOption('reset-cache', 'f', InputOption::VALUE_NONE);
     }
 
     /**
@@ -47,6 +48,21 @@ class PHPFixCodingStandards extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
+        $resetCache = $input->getOption('reset-cache');
+        if ($resetCache) {
+            $io->note('Requested cache reset');
+            $cacheFile = realpath(__DIR__ . '/../../../../.php-cs-fixer.cache');
+            if ($cacheFile) {
+                $io->note('Found cache file');
+                if (unlink($cacheFile)) {
+                    $io->note('Cache file deleted');
+                } else {
+                    $io->note('Failed to cache file');
+                }
+            } else {
+                $io->note('Cache file not found');
+            }
+        }
         $process = new Process(
             [$input->getOption('php'), './devTools/core/vendor/bin/php-cs-fixer', 'fix', '--format=json'],
             realpath(__DIR__ . '/../../../../')
@@ -56,7 +72,10 @@ class PHPFixCodingStandards extends Command
 
             $output = json_decode($process->getOutput(), true);
             if (!empty($output['files'])) {
-                $io->note(implode(",\n", array_map(fn ($file) => $file['name'], $output['files'])));
+                $io->table(
+                    ['Fixed files'],
+                    array_map(fn ($file) => [$file['name']], $output['files'])
+                );
                 return Command::FAILURE;
             }
         } catch (ProcessFailedException $exception) {

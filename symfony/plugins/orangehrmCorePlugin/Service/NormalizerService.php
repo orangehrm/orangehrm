@@ -27,10 +27,10 @@ class NormalizerService
 
     /**
      * @param string $modelClass
-     * @param object $data
+     * @param object|int|string $data
      * @return array
      */
-    public function normalize(string $modelClass, object $data): array
+    public function normalize(string $modelClass, $data): array
     {
         $this->setModelClass($modelClass);
         $this->setData($data);
