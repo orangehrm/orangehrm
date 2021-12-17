@@ -19,12 +19,13 @@
 
 namespace OrangeHRM\Time\Dao;
 
+use DateTime;
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Entity\Timesheet;
 use OrangeHRM\Entity\TimesheetActionLog;
 use OrangeHRM\Entity\TimesheetItem;
-use DateTime;
 use OrangeHRM\ORM\Paginator;
+use OrangeHRM\Time\Dto\MyTimesheetSearchFilterParams;
 use OrangeHRM\Time\Dto\TimesheetActionLogSearchFilterParams;
 
 class TimesheetDao extends BaseDao
@@ -811,6 +812,22 @@ class TimesheetDao extends BaseDao
     }
 
     /**
+     * @param  MyTimesheetSearchFilterParams  $myTimesheetParamHolder
+     * @param  int  $empNumber
+     * @return array
+     */
+    public function getTimesheetByStartAndEndDate(
+        MyTimesheetSearchFilterParams $myTimesheetParamHolder,
+        int $empNumber
+    ): array {
+        $qb = $this->getTimesheetPaginator(
+            $myTimesheetParamHolder,
+            $empNumber
+        );
+        return $qb->getQuery()->execute();
+    }
+
+    /**
      * @param  int  $timesheetId
      * @param  TimesheetActionLogSearchFilterParams  $timesheetActionLogParamHolder
      * @return Paginator
@@ -826,6 +843,36 @@ class TimesheetDao extends BaseDao
 
         $qb->andWhere('timesheet.id = :timesheetId')
             ->setParameter('timesheetId', $timesheetId);
+
+        return $this->getPaginator($qb);
+    }
+
+    /**
+     * @param  MyTimesheetSearchFilterParams  $myTimesheetParamHolder
+     * @param  int  $empNumber
+     * @return Paginator
+     */
+    private function getTimesheetPaginator(
+        MyTimesheetSearchFilterParams $myTimesheetParamHolder,
+        int $empNumber
+    ): Paginator {
+        $qb = $this->createQueryBuilder(Timesheet::class, 'timesheet');
+
+        $this->setSortingAndPaginationParams($qb, $myTimesheetParamHolder);
+
+        $qb->andWhere(
+            $qb->expr()->between(
+                'timesheet.startDate',
+                ':startDate',
+                ':endDate'
+            )
+        )
+            ->setParameter('startDate', $myTimesheetParamHolder->getFromDate())
+            ->setParameter('endDate', $myTimesheetParamHolder->getToDate());
+
+        $qb->andWhere('timesheet.employee = :empNumber')
+            ->setParameter('empNumber', $empNumber);
+
         return $this->getPaginator($qb);
     }
 
@@ -839,5 +886,15 @@ class TimesheetDao extends BaseDao
         TimesheetActionLogSearchFilterParams $timesheetActionLogParamHolder
     ): int {
         return $this->getTimesheetActionLogsPaginator($timesheetId, $timesheetActionLogParamHolder)->count();
+    }
+
+    /**
+     * @param  MyTimesheetSearchFilterParams  $myTimesheetParamHolder
+     * @param  int  $empNumber
+     * @return int
+     */
+    public function getTimesheetCount(MyTimesheetSearchFilterParams $myTimesheetParamHolder, int $empNumber): int
+    {
+        return $this->getTimesheetPaginator($myTimesheetParamHolder, $empNumber)->count();
     }
 }

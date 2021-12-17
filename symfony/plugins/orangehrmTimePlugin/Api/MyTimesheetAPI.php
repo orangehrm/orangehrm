@@ -19,10 +19,13 @@
 
 namespace OrangeHRM\Time\Api;
 
+use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CollectionEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
+use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
+use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
@@ -30,9 +33,11 @@ use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
+use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\Timesheet;
 use OrangeHRM\Time\Api\Model\TimesheetModel;
 use OrangeHRM\Time\Api\ValidationRules\MyTimesheetDateRule;
+use OrangeHRM\Time\Dto\MyTimesheetSearchFilterParams;
 use OrangeHRM\Time\Traits\Service\TimesheetServiceTrait;
 
 class MyTimesheetAPI extends Endpoint implements CollectionEndpoint
@@ -40,15 +45,47 @@ class MyTimesheetAPI extends Endpoint implements CollectionEndpoint
     use AuthUserTrait;
     use TimesheetServiceTrait;
     use DateTimeHelperTrait;
+    use UserRoleManagerTrait;
 
     public const PARAMETER_DATE = 'date';
+
+    public const FILTER_FROM_DATE = 'fromDate';
+    public const FILTER_TO_DATE = 'toDate';
 
     /**
      * @inheritDoc
      */
-    public function getAll(): EndpointResult
+    public function getAll(): EndpointCollectionResult
     {
-        throw $this->getNotImplementedException();
+        $empNumber = $this->getAuthUser()->getEmpNumber();
+        $myTimesheetParamHolder = new MyTimesheetSearchFilterParams();
+        $this->setSortingAndPaginationParams($myTimesheetParamHolder);
+
+        $myTimesheetParamHolder->setFromDate(
+            $this->getRequestParams()->getDateTime(
+                RequestParams::PARAM_TYPE_QUERY,
+                self::FILTER_FROM_DATE
+            )
+        );
+        $myTimesheetParamHolder->setToDate(
+            $this->getRequestParams()->getDateTime(
+                RequestParams::PARAM_TYPE_QUERY,
+                self::FILTER_TO_DATE
+            )
+        );
+        $myTimesheets = $this->getTimesheetService()->getTimesheetDao()->getTimesheetByStartAndEndDate(
+            $myTimesheetParamHolder,
+            $empNumber
+        );
+        $count = $this->getTimesheetService()->getTimesheetDao()->getTimesheetCount(
+            $myTimesheetParamHolder,
+            $empNumber
+        );
+        return new EndpointCollectionResult(
+            TimesheetModel::class,
+            $myTimesheets,
+            new ParameterBag([CommonParams::PARAMETER_TOTAL => $count])
+        );
     }
 
     /**
@@ -56,7 +93,16 @@ class MyTimesheetAPI extends Endpoint implements CollectionEndpoint
      */
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
-        throw $this->getNotImplementedException();
+        return new ParamRuleCollection(
+            new ParamRule(
+                self::FILTER_FROM_DATE,
+                new Rule(Rules::DATE)
+            ),
+            new ParamRule(
+                self::FILTER_TO_DATE,
+                new Rule(Rules::DATE)
+            )
+        );
     }
 
     /**
