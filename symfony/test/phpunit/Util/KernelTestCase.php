@@ -45,6 +45,7 @@ abstract class KernelTestCase extends TestCase
 
     protected function tearDown(): void
     {
+        $this->getEntityManager()->clear();
         $this->createKernel();
     }
 
