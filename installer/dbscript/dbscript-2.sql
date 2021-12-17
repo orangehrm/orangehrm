@@ -4286,7 +4286,7 @@ VALUES (1, 0, 1, 0, 0, @apiv2_time_time_sheet_config_data_group_id, @admin_role_
        (1, 0, 1, 0, 1, @apiv2_time_timesheets_items_data_group_id, @admin_role_id),
        (1, 0, 1, 0, 1, @apiv2_time_timesheets_items_data_group_id, @ess_role_id),
        (1, 0, 0, 0, 0, @apiv2_time_timesheet_action_log_data_group_id, @admin_role_id),
-       (1, 0, 0, 0, 0, @apiv2_time_timesheet_action_log_data_group_id, @ess_role_id);
+       (1, 0, 0, 0, 0, @apiv2_time_timesheet_action_log_data_group_id, @ess_role_id),
        (1, 1, 0, 0, 0, @apiv2_time_my_timesheet_data_group_id, @admin_role_id),
        (1, 1, 0, 0, 0, @apiv2_time_my_timesheet_data_group_id, @ess_role_id);
 
