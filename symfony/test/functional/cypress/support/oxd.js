@@ -22,6 +22,8 @@ const OXD_ELEMENTS = {
   toast: '.oxd-toast',
   button: '.oxd-button',
   inputGroup: '.oxd-input-group',
+  pageContext: '.oxd-layout-context',
+  pageTitle: '.orangehrm-main-title',
   ...OXD_INPUT_ELEMENTS,
 };
 
