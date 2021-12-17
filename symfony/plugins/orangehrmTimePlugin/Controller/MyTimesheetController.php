@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\Time\Controller;
 
-use DateTime;
 use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
@@ -50,15 +49,11 @@ class MyTimesheetController extends AbstractVueController
     private function createDefaultTimesheetIfNotExist(): void
     {
         $currentDate = $this->getDateTimeHelper()->getNow();
-        list($startDate) = $this->getTimesheetService()->extractStartDateAndEndDateFromDate($currentDate);
-        $status = $this->getTimesheetService()
-            ->getTimesheetDao()
-            ->hasTimesheetForStartDate(new DateTime($startDate), $this->getAuthUser()->getEmpNumber());
-
-        if ($status) {
+        $status = $this->getTimesheetService()->hasTimesheetForDate($this->getAuthUser()->getEmpNumber(), $currentDate);
+        if (!$status) {
             $timesheet = new Timesheet();
             $timesheet->getDecorator()->setEmployeeByEmployeeNumber($this->getAuthUser()->getEmpNumber());
-            $this->getTimesheetService()->createTimesheetByDate($timesheet, new DateTime($startDate));
+            $this->getTimesheetService()->createTimesheetByDate($timesheet, $currentDate);
         }
     }
 }

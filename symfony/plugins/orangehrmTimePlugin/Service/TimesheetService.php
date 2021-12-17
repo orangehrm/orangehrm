@@ -555,9 +555,9 @@ class TimesheetService
 
     /**
      * @param DateTime $date
-     * @return array
+     * @return array  e.g array(if monday as first day in config => '2021-12-13', '2021-12-19')
      */
-    public function extractStartDateAndEndDateFromDate(DateTime $date): array
+    private function extractStartDateAndEndDateFromDate(DateTime $date): array
     {
         $currentWeekFirstDate = date("Y-m-d", strtotime('monday this week', strtotime($date->format('Y-m-d'))));
         $configDate = $this->getTimesheetPeriodService()->getTimesheetStartDate() - 1;
@@ -567,13 +567,14 @@ class TimesheetService
     }
 
     /**
+     * @param int $employeeNumber
      * @param DateTime $date
      * @return bool
      */
-    public function hasTimesheetForDate(DateTime $date): bool
+    public function hasTimesheetForDate(int $employeeNumber, DateTime $date): bool
     {
         list($startDate) = $this->extractStartDateAndEndDateFromDate($date);
-        return $this->getTimesheetDao()->hasTimesheetForStartDate(new DateTime($startDate));
+        return $this->getTimesheetDao()->hasTimesheetForStartDate($employeeNumber, new DateTime($startDate));
     }
 
     /**
