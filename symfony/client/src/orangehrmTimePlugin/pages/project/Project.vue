@@ -31,10 +31,7 @@
               <project-autocomplete v-model="filters.project" />
             </oxd-grid-item>
             <oxd-grid-item>
-              <employee-autocomplete
-                v-model="filters.projectAdmin"
-                :label="$t('time.project_admin')"
-              />
+              <project-admin-autocomplete v-model="filters.projectAdmin" />
             </oxd-grid-item>
           </oxd-grid>
         </oxd-form-row>
@@ -98,10 +95,10 @@ import useSort from '@ohrm/core/util/composable/useSort';
 import {navigate} from '@ohrm/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
 import usePaginate from '@ohrm/core/util/composable/usePaginate';
-import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete.vue';
 import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmationDialog';
 import ProjectAutocomplete from '@/orangehrmTimePlugin/components/ProjectAutocomplete.vue';
 import CustomerAutocomplete from '@/orangehrmTimePlugin/components/CustomerAutocomplete.vue';
+import ProjectAdminAutocomplete from '@/orangehrmTimePlugin/components/ProjectAdminAutocomplete.vue';
 
 const userdataNormalizer = data => {
   return data.map(item => {
@@ -138,8 +135,8 @@ export default {
   components: {
     'project-autocomplete': ProjectAutocomplete,
     'customer-autocomplete': CustomerAutocomplete,
-    'employee-autocomplete': EmployeeAutocomplete,
     'delete-confirmation': DeleteConfirmationDialog,
+    'project-admin-autocomplete': ProjectAdminAutocomplete,
   },
   setup() {
     const filters = ref({...defaultFilters});
