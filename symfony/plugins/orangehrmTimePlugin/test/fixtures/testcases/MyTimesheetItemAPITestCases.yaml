@@ -35,6 +35,33 @@ GetAll:
     query:
       sortOrder: DESC
 
+  'with not existing timesheetId':
+    userId: 1
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+    attributes:
+      timesheetId: 1000
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException'
+      message: 'Record Not Found'
+
+  'for not allowed timesheet':
+    userId: 1
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      timesheetId: 1
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
+      message: 'Unauthorized'
+
   'get my timesheet rows':
     userId: 1
     services:
@@ -910,7 +937,9 @@ Update:
     body:
       entries: [
         {
-          projectId: 1
+          projectId: 1,
+          invalid1: 'param',
+          invalid2: 'param'
         }
       ]
 
@@ -925,7 +954,8 @@ Update:
       entries: [
         {
           projectId: 1,
-          activityId: 1
+          activityId: 1,
+          invalid: 'param'
         }
       ]
 
@@ -940,6 +970,38 @@ Update:
       entries: [
         {
           activityId: 1,
+          dates: [ ]
+        }
+      ]
+
+  'with invalid projectId dates in entries':
+    userId: 1
+    invalidOnly: [ 'entries' ]
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+    attributes:
+      timesheetId: 1
+    body:
+      entries: [
+        {
+          projectId: 'invalid',
+          activityId: 1,
+          dates: [ ]
+        }
+      ]
+
+  'with invalid activityId dates in entries':
+    userId: 1
+    invalidOnly: [ 'entries' ]
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+    attributes:
+      timesheetId: 1
+    body:
+      entries: [
+        {
+          projectId: 1,
+          activityId: 'invalid',
           dates: [ ]
         }
       ]
@@ -1220,6 +1282,161 @@ Update:
           projectId: 1,
         }
       ]
+
+  'with invalid parm along with projectId in deletedEntries':
+    userId: 1
+    invalidOnly: [ 'deletedEntries' ]
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+    attributes:
+      timesheetId: 1
+    body:
+      entries: [
+        {
+          projectId: 1,
+          activityId: 1,
+          dates: {
+            "2020-10-05": {
+              "duration": "23:59"
+            }
+          }
+        }
+      ],
+      deletedEntries: [
+        {
+          projectId: 1,
+          invalid: 'param'
+        }
+      ]
+
+  'with invalid parm along with activityId in deletedEntries':
+    userId: 1
+    invalidOnly: [ 'deletedEntries' ]
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+    attributes:
+      timesheetId: 1
+    body:
+      entries: [
+        {
+          projectId: 1,
+          activityId: 1,
+          dates: {
+            "2020-10-05": {
+              "duration": "23:59"
+            }
+          }
+        }
+      ],
+      deletedEntries: [
+        {
+          activityId: 1,
+          invalid: 'param'
+        }
+      ]
+
+  'with invalid projectId in deletedEntries':
+    userId: 1
+    invalidOnly: [ 'deletedEntries' ]
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+    attributes:
+      timesheetId: 1
+    body:
+      entries: [
+        {
+          projectId: 1,
+          activityId: 1,
+          dates: {
+            "2020-10-05": {
+              "duration": "23:59"
+            }
+          }
+        }
+      ],
+      deletedEntries: [
+        {
+          projectId: 'invalid',
+          activityId: 1,
+        }
+      ]
+
+  'with invalid activityId in deletedEntries':
+    userId: 1
+    invalidOnly: [ 'deletedEntries' ]
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+    attributes:
+      timesheetId: 1
+    body:
+      entries: [
+        {
+          projectId: 1,
+          activityId: 1,
+          dates: {
+            "2020-10-05": {
+              "duration": "23:59"
+            }
+          }
+        }
+      ],
+      deletedEntries: [
+        {
+          projectId: 1,
+          activityId: 'invalid'
+        }
+      ]
+
+  'with not existing timesheetId':
+    userId: 1
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+    attributes:
+      timesheetId: 1000
+    body:
+      entries: [
+        {
+          projectId: 1,
+          activityId: 1,
+          dates: {
+            "2020-10-05": {
+              "duration": "23:59"
+            }
+          }
+        }
+      ]
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException'
+      message: 'Record Not Found'
+
+  'for not allowed timesheet':
+    userId: 1
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      timesheetId: 1
+    body:
+      entries: [
+        {
+          projectId: 1,
+          activityId: 1,
+          dates: {
+            "2020-10-05": {
+              "duration": "23:59"
+            }
+          }
+        }
+      ]
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
+      message: 'Unauthorized'
 
   'saving one timesheet entry':
     userId: 9
@@ -2330,7 +2547,7 @@ Update:
           "hours": 6,
           "minutes": 0,
           "label": "06:00",
-        }
+        },
         "dates": {
           "2020-09-28": {
             "id": 1,

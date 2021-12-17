@@ -26,6 +26,10 @@ use OrangeHRM\Tests\Util\Integration\TestCaseParams;
 use OrangeHRM\Tests\Util\TestDataService;
 use OrangeHRM\Time\Api\MyTimesheetItemAPI;
 
+/**
+ * @group Time
+ * @group APIv2
+ */
 class MyTimesheetItemAPITest extends EndpointIntegrationTestCase
 {
     /**

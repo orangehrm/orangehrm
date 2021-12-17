@@ -94,11 +94,11 @@ class TimesheetEntriesParamRule extends AbstractRule
             }
 
             $projectId = $entry[EmployeeTimesheetItemAPI::PARAMETER_PROJECT_ID];
-            if (!is_numeric($projectId) && !($projectId > 0)) {
+            if (!(is_numeric($projectId) && ($projectId > 0))) {
                 return false;
             }
             $activityId = $entry[EmployeeTimesheetItemAPI::PARAMETER_ACTIVITY_ID];
-            if (!is_numeric($activityId) && !($activityId > 0)) {
+            if (!(is_numeric($activityId) && ($activityId > 0))) {
                 return false;
             }
 
