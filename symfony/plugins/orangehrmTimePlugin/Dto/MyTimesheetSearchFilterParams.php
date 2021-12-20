@@ -21,6 +21,7 @@ namespace OrangeHRM\Time\Dto;
 
 use DateTime;
 use OrangeHRM\Core\Dto\FilterParams;
+use OrangeHRM\Entity\Employee;
 
 class MyTimesheetSearchFilterParams extends FilterParams
 {
@@ -37,6 +38,16 @@ class MyTimesheetSearchFilterParams extends FilterParams
      * @var DateTime
      */
     protected DateTime $toDate;
+
+    /**
+     * @var DateTime
+     */
+    protected DateTime $date;
+
+    /**
+     * @var int
+     */
+    protected int $authEmpNumber;
 
     public function __construct()
     {
@@ -73,5 +84,37 @@ class MyTimesheetSearchFilterParams extends FilterParams
     public function setToDate(DateTime $toDate): void
     {
         $this->toDate = $toDate;
+    }
+
+    /**
+     * @return DateTime
+     */
+    public function getDate(): DateTime
+    {
+        return $this->date;
+    }
+
+    /**
+     * @param  DateTime  $date
+     */
+    public function setDate(DateTime $date): void
+    {
+        $this->date = $date;
+    }
+
+    /**
+     * @return int
+     */
+    public function getAuthEmpNumber(): int
+    {
+        return $this->authEmpNumber;
+    }
+
+    /**
+     * @param  int  $authEmpNumber
+     */
+    public function setAuthEmpNumber(int $authEmpNumber): void
+    {
+        $this->authEmpNumber = $authEmpNumber;
     }
 }

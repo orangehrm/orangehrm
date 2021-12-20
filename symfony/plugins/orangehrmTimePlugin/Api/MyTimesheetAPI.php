@@ -19,12 +19,15 @@
 
 namespace OrangeHRM\Time\Api;
 
+use DateTime;
+use Exception;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CollectionEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
+use OrangeHRM\Core\Api\V2\Exception\BadRequestException;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
@@ -51,35 +54,46 @@ class MyTimesheetAPI extends Endpoint implements CollectionEndpoint
 
     public const FILTER_FROM_DATE = 'fromDate';
     public const FILTER_TO_DATE = 'toDate';
+    public const FILTER_DATE = 'date';
 
     /**
      * @inheritDoc
+     * @throws BadRequestException
+     * @throws Exception
      */
     public function getAll(): EndpointCollectionResult
     {
-        $empNumber = $this->getAuthUser()->getEmpNumber();
+        $this->validateDateInputs();
+
         $myTimesheetParamHolder = new MyTimesheetSearchFilterParams();
         $this->setSortingAndPaginationParams($myTimesheetParamHolder);
 
-        $myTimesheetParamHolder->setFromDate(
-            $this->getRequestParams()->getDateTime(
-                RequestParams::PARAM_TYPE_QUERY,
-                self::FILTER_FROM_DATE
-            )
+        $myTimesheetParamHolder->setAuthEmpNumber(
+            $this->getAuthUser()->getEmpNumber()
         );
-        $myTimesheetParamHolder->setToDate(
-            $this->getRequestParams()->getDateTime(
-                RequestParams::PARAM_TYPE_QUERY,
-                self::FILTER_TO_DATE
-            )
-        );
+
+        if (!is_null($this->getDate())) {
+            list($fromDate, $toDate) = $this->getTimesheetService()->extractStartDateAndEndDateFromDate(
+                $this->getDate()
+            );
+            $myTimesheetParamHolder->setFromDate(new DateTime($fromDate));
+            $myTimesheetParamHolder->setToDate(new DateTime($toDate));
+        } elseif (is_null($this->getFromDateParam()) && is_null($this->getDate())) {
+            list($fromDate, $toDate) = $this->getTimesheetService()->extractStartDateAndEndDateFromDate(
+                $this->getDateTimeHelper()->getNow()
+            );
+            $myTimesheetParamHolder->setFromDate(new DateTime($fromDate));
+            $myTimesheetParamHolder->setToDate(new DateTime($toDate));
+        } else {
+            $myTimesheetParamHolder->setFromDate($this->getFromDateParam());
+            $myTimesheetParamHolder->setToDate($this->getToDateParam());
+        }
+
         $myTimesheets = $this->getTimesheetService()->getTimesheetDao()->getTimesheetByStartAndEndDate(
-            $myTimesheetParamHolder,
-            $empNumber
+            $myTimesheetParamHolder
         );
         $count = $this->getTimesheetService()->getTimesheetDao()->getTimesheetCount(
-            $myTimesheetParamHolder,
-            $empNumber
+            $myTimesheetParamHolder
         );
         return new EndpointCollectionResult(
             TimesheetModel::class,
@@ -89,19 +103,97 @@ class MyTimesheetAPI extends Endpoint implements CollectionEndpoint
     }
 
     /**
+     * @throws BadRequestException
+     */
+    private function validateDateInputs(): void
+    {
+        $date = $this->getDate();
+        $fromDate = $this->getFromDateParam();
+        $toDate = $this->getToDateParam();
+
+        //if fromDate available and toDate is not available
+        if ($fromDate && is_null($toDate)) {
+            throw $this->getBadRequestException("To Date is required");
+        }
+
+        //if toDate available and fromDate is not available
+        if ($toDate && is_null($fromDate)) {
+            throw $this->getBadRequestException("From Date is required");
+        }
+
+        //if single Date is available with from date and to date
+        if ($fromDate && $date) {
+            throw $this->getBadRequestException("You can't pass date param together with fromDate and toDate params");
+        }
+
+        //if to date earlier than from date
+        if ($fromDate && $fromDate >= $toDate) {
+            throw $this->getBadRequestException("From date should be earlier than to date");
+        }
+    }
+
+    /**
+     * @return DateTime|null
+     */
+    protected function getFromDateParam(): ?DateTime
+    {
+        return $this->getRequestParams()->getDateTimeOrNull(
+            RequestParams::PARAM_TYPE_QUERY,
+            self::FILTER_FROM_DATE,
+            null,
+
+        );
+    }
+
+    /**
+     * @return DateTime|null
+     */
+    protected function getToDateParam(): ?DateTime
+    {
+        return $this->getRequestParams()->getDateTimeOrNull(
+            RequestParams::PARAM_TYPE_QUERY,
+            self::FILTER_TO_DATE,
+            null,
+        );
+    }
+
+    /**
+     * @return DateTime|null
+     */
+    protected function getDate(): ?DateTime
+    {
+        return $this->getRequestParams()->getDateTimeOrNull(
+            RequestParams::PARAM_TYPE_QUERY,
+            self::FILTER_DATE,
+            null,
+        );
+    }
+
+    /**
      * @inheritDoc
      */
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(
-                self::FILTER_FROM_DATE,
-                new Rule(Rules::DATE)
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::FILTER_DATE,
+                    new Rule(Rules::API_DATE)
+                )
             ),
-            new ParamRule(
-                self::FILTER_TO_DATE,
-                new Rule(Rules::DATE)
-            )
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::FILTER_FROM_DATE,
+                    new Rule(Rules::API_DATE)
+                ),
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::FILTER_TO_DATE,
+                    new Rule(Rules::API_DATE)
+                )
+            ),
+            ...$this->getSortingAndPaginationParamsRules(MyTimesheetSearchFilterParams::ALLOWED_SORT_FIELDS)
         );
     }
 

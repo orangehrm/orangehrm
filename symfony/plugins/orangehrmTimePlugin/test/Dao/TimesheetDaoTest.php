@@ -28,6 +28,7 @@ use OrangeHRM\Entity\TimesheetActionLog;
 use OrangeHRM\Tests\Util\KernelTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 use OrangeHRM\Time\Dao\TimesheetDao;
+use OrangeHRM\Time\Dto\MyTimesheetSearchFilterParams;
 use OrangeHRM\Time\Dto\TimesheetActionLogSearchFilterParams;
 
 class TimesheetDaoTest extends KernelTestCase
@@ -46,6 +47,11 @@ class TimesheetDaoTest extends KernelTestCase
      * @var int
      */
     private int $timesheetId = 1;
+
+    /**
+     * @var int
+     */
+    private int $authEmpNumber=1;
 
     /**
      * Set up method
@@ -95,5 +101,20 @@ class TimesheetDaoTest extends KernelTestCase
         );
         $this->assertCount(6, $timesheetActionLogs);
         $this->assertInstanceOf(TimesheetActionLog::class, $timesheetActionLogs[1]);
+    }
+
+    public function testGetMyTimesheets(): void
+    {
+        $this->fixture = Config::get(Config::PLUGINS_DIR).'/orangehrmTimePlugin/test/fixtures/MyTimesheetAPITest.yml';
+        TestDataService::populate($this->fixture);
+        $myTimesheetParamHolder = new MyTimesheetSearchFilterParams();
+        $myTimesheetParamHolder->setAuthEmpNumber(1);
+        $myTimesheetParamHolder->setFromDate(new DateTime('2011-04-18'));
+        $myTimesheetParamHolder->setToDate(new DateTime('2011-05-27'));
+        $myTimeSheets = $this->timesheetDao->getTimesheetByStartAndEndDate(
+            $myTimesheetParamHolder
+        );
+        $this->assertCount(2, $myTimeSheets);
+        $this->assertInstanceOf(Timesheet::class, $myTimeSheets[1]);
     }
 }
