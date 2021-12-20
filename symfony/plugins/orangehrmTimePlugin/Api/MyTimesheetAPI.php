@@ -139,7 +139,6 @@ class MyTimesheetAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @inheritDoc
-     * @throws TransactionException
      */
     public function update(): EndpointResult
     {
@@ -153,8 +152,9 @@ class MyTimesheetAPI extends Endpoint implements CrudEndpoint
                 RequestParams::PARAM_TYPE_BODY,
                 self::PARAMETER_COMMENT
             );
-
-            $timesheet = $this->getTimesheetService()->getTimesheetDao()->getTimesheetById($timesheetId);
+            $timesheet = $this->getTimesheetService()
+                ->getTimesheetDao()
+                ->getTimesheetById($timesheetId);
             $this->throwRecordNotFoundExceptionIfNotExist($timesheet, Timesheet::class);
             $this->checkTimesheetAccessible($timesheet);
 
@@ -168,7 +168,6 @@ class MyTimesheetAPI extends Endpoint implements CrudEndpoint
             if (!isset($allowedActions[$actionKey])) {
                 throw $this->getBadRequestException();
             }
-
             $state = $allowedActions[$actionKey]->getResultingState();
             $timesheet->setState($state);
             $this->getTimesheetService()->getTimesheetDao()->saveTimesheet($timesheet);
@@ -191,8 +190,7 @@ class MyTimesheetAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(CommonParams::PARAMETER_ID),
-
+            new ParamRule(CommonParams::PARAMETER_ID, new Rule(Rules::POSITIVE)),
             $this->getValidationDecorator()->requiredParamRule(
                 new ParamRule(
                     self::PARAMETER_ACTION,
