@@ -93,4 +93,23 @@ class TimesheetDaoTest extends KernelTestCase
         $this->assertCount(6, $timesheetActionLogs);
         $this->assertInstanceOf(TimesheetActionLog::class, $timesheetActionLogs[1]);
     }
+
+    public function testAddTimesheetActionLog(): void
+    {
+        $timesheet = $this->timesheetDao->getTimesheetById(1);
+        $timesheetActionLog = new TimesheetActionLog();
+        $timesheetActionLog->setAction("APPROVED");
+        $timesheetActionLog->setComment("Good Job");
+        $timesheetActionLog->setTimesheet($timesheet);
+        $timesheetActionLog->setDate(new DateTime("2021-12-20"));
+        $timesheetActionLog->getDecorator()->setUserId(1);
+
+        $result = $this->timesheetDao->saveTimesheetActionLog($timesheetActionLog);
+
+        $this->assertTrue($result instanceof TimesheetActionLog);
+        $this->assertEquals(new DateTime("2021-12-20"), $result->getDate());
+        $this->assertEquals("APPROVED", $result->getAction());
+        $this->assertEquals("Good Job", $result->getComment());
+        $this->assertEquals(1, $result->getPerformedUser()->getId());
+    }
 }

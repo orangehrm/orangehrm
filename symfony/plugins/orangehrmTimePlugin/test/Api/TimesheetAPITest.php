@@ -51,11 +51,37 @@ class TimesheetAPITest extends EndpointIntegrationTestCase
         return $this->getTestCases('TimesheetTestCase.yaml', 'Create');
     }
 
+    /**
+     * @dataProvider dataProviderForTestUpdate
+     */
+    public function testUpdate(TestCaseParams $testCaseParams): void
+    {
+        TestDataService::populate(Config::get(Config::TEST_DIR) . '/phpunit/fixtures/WorkflowStateMachine.yaml', true);
+        $this->populateFixtures('MyTimesheetAPITest.yml', null, true);
+        $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
+        $this->registerServices($testCaseParams);
+        $this->registerMockDateTimeHelper($testCaseParams);
+        $api = $this->getApiEndpointMock(MyTimesheetAPI::class, $testCaseParams);
+        $this->assertValidTestCase($api, 'update', $testCaseParams);
+    }
+
+    public function dataProviderForTestUpdate(): array
+    {
+        return $this->getTestCases('TimesheetTestCase.yaml', 'Update');
+    }
+
     public function testGetAll(): void
     {
         $api = new MyTimesheetAPI($this->getRequest());
         $this->expectNotImplementedException();
         $api->getAll();
+    }
+
+    public function testGetOne(): void
+    {
+        $api = new MyTimesheetAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->getOne();
     }
 
     public function testGetValidationRuleForGetAll(): void

@@ -22,6 +22,7 @@ namespace OrangeHRM\Entity\Decorator;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\TimesheetActionLog;
+use OrangeHRM\Entity\User;
 
 class TimesheetActionLogDecorator
 {
@@ -34,7 +35,7 @@ class TimesheetActionLogDecorator
     protected TimesheetActionLog $timesheetActionLog;
 
     /**
-     * @param  TimesheetActionLog  $timesheetActionLog
+     * @param TimesheetActionLog $timesheetActionLog
      */
     public function __construct(TimesheetActionLog $timesheetActionLog)
     {
@@ -63,5 +64,15 @@ class TimesheetActionLogDecorator
     public function getActionLabel(): string
     {
         return ucwords(strtolower($this->timesheetActionLog->getAction()));
+    }
+
+    /**
+     * @param int $userId
+     * @return void
+     */
+    public function setUserId(int $userId): void
+    {
+        $user = $this->getReference(User::class, $userId);
+        $this->getTimesheetActionLog()->setPerformedUser($user);
     }
 }

@@ -198,19 +198,13 @@ class TimesheetDao extends BaseDao
     }
 
     /**
-     * Add or Save TimesheetActionLog
      * @param TimesheetActionLog $timesheetActionLog
-     * @return $timesheetActionLog
+     * @return TimesheetActionLog
      */
-    public function saveTimesheetActionLog(TimesheetActionLog $timesheetActionLog)
+    public function saveTimesheetActionLog(TimesheetActionLog $timesheetActionLog): TimesheetActionLog
     {
-        // TODO
-        try {
-            $timesheetActionLog->save();
-            return $timesheetActionLog;
-        } catch (Exception $ex) {
-            throw new DaoException($ex->getMessage());
-        }
+        $this->persist($timesheetActionLog);
+        return $timesheetActionLog;
     }
 
     /**
