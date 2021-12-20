@@ -19,7 +19,7 @@
 
 namespace OrangeHRM\Core\Authorization\Manager;
 
-use OrangeHRM\Admin\Service\UserService;
+use OrangeHRM\Admin\Traits\Service\UserServiceTrait;
 use OrangeHRM\Core\Authorization\Dao\HomePageDao;
 use OrangeHRM\Core\Authorization\Dto\DataGroupPermissionCollection;
 use OrangeHRM\Core\Authorization\Dto\DataGroupPermissionFilterParams;
@@ -38,7 +38,6 @@ use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\User;
 use OrangeHRM\Entity\UserRole;
 use OrangeHRM\Entity\WorkflowStateMachine;
-use OrangeHRM\Framework\Services;
 use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
 use OrangeHRM\Time\Traits\Service\ProjectServiceTrait;
 
@@ -51,6 +50,7 @@ class BasicUserRoleManager extends AbstractUserRoleManager
     use EmployeeServiceTrait;
     use ClassHelperTrait;
     use ProjectServiceTrait;
+    use UserServiceTrait;
 
     public const PERMISSION_TYPE_DATA_GROUP = 'data_group';
     public const PERMISSION_TYPE_ACTION = 'action';
@@ -167,14 +167,6 @@ class BasicUserRoleManager extends AbstractUserRoleManager
     public function setScreenPermissionService(ScreenPermissionService $screenPermissionService): void
     {
         $this->screenPermissionService = $screenPermissionService;
-    }
-
-    /**
-     * @return UserService
-     */
-    protected function getUserService(): UserService
-    {
-        return $this->getContainer()->get(Services::USER_SERVICE);
     }
 
     /**

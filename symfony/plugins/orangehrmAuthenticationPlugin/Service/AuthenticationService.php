@@ -19,29 +19,19 @@
 
 namespace OrangeHRM\Authentication\Service;
 
-use OrangeHRM\Admin\Service\UserService;
+use OrangeHRM\Admin\Traits\Service\UserServiceTrait;
 use OrangeHRM\Authentication\Dto\UserCredential;
 use OrangeHRM\Authentication\Exception\AuthenticationException;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Exception\ServiceException;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
-use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\User;
-use OrangeHRM\Framework\Services;
 
 class AuthenticationService
 {
     use AuthUserTrait;
-    use ServiceContainerTrait;
-
-    /**
-     * @return UserService
-     */
-    public function getSystemUserService(): UserService
-    {
-        return $this->getContainer()->get(Services::USER_SERVICE);
-    }
+    use UserServiceTrait;
 
     /**
      * @param User|null $user
@@ -80,7 +70,7 @@ class AuthenticationService
      */
     public function setCredentials(UserCredential $credentials, $additionalData): bool
     {
-        $user = $this->getSystemUserService()->getCredentials($credentials);
+        $user = $this->getUserService()->getCredentials($credentials);
         return $this->setCredentialsForUser($user, $additionalData);
     }
 

@@ -38,13 +38,6 @@ use OrangeHRM\Tests\Util\KernelTestCase;
  */
 class AuthenticationServiceTest extends KernelTestCase
 {
-    public function testGetSystemUserService(): void
-    {
-        $this->createKernelWithMockServices([Services::USER_SERVICE => new UserService()]);
-        $authenticationService = new AuthenticationService();
-        $this->assertTrue($authenticationService->getSystemUserService() instanceof UserService);
-    }
-
     public function testsSetCredentialsWithInvalidCredentials(): void
     {
         $userService = $this->getMockBuilder(UserService::class)

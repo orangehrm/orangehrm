@@ -47,13 +47,6 @@ class LoginLogServiceTest extends KernelTestCase
         $this->loginService = new LoginService();
     }
 
-    public function testGetSystemUserService(): void
-    {
-        $this->createKernelWithMockServices([Services::USER_SERVICE => new UserService()]);
-        $loginService = new LoginService();
-        $this->assertTrue($loginService->getSystemUserService() instanceof UserService);
-    }
-
     public function testGetLoginLogDao(): void
     {
         $this->assertTrue($this->loginService->getLoginLogDao() instanceof LoginLogDao);
