@@ -24,7 +24,7 @@
       <oxd-text tag="h6" class="orangehrm-main-title">
         {{ $t('time.activities') }}
       </oxd-text>
-      <div>
+      <div class="orangehrm-main-actions">
         <oxd-button
           :label="$t('time.copy_from')"
           display-type="ghost"
@@ -32,7 +32,6 @@
         />
         <oxd-button
           :label="$t('general.add')"
-          class="orangehrm-left-space"
           icon-name="plus"
           display-type="secondary"
           @click="onClickAdd"
@@ -235,3 +234,22 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+@import '@ohrm/oxd/styles/_mixins.scss';
+
+.orangehrm-main-actions {
+  gap: 0.4rem;
+  display: flex;
+  flex-direction: column;
+  ::v-deep(.oxd-button--medium) {
+    width: 100%;
+  }
+  @include oxd-respond-to('md') {
+    flex-direction: row;
+    ::v-deep(.oxd-button--medium) {
+      width: unset;
+    }
+  }
+}
+</style>
