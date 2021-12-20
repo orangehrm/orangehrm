@@ -84,6 +84,13 @@ class TimesheetAPITest extends EndpointIntegrationTestCase
         $api->getOne();
     }
 
+    public function testGetValidationRuleForGetOne(): void
+    {
+        $api = new MyTimesheetAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->getValidationRuleForGetOne();
+    }
+
     public function testGetValidationRuleForGetAll(): void
     {
         $api = new MyTimesheetAPI($this->getRequest());
