@@ -60,7 +60,7 @@ class TimesheetDaoTest extends KernelTestCase
     protected function setUp(): void
     {
         $this->timesheetDao = new TimesheetDao();
-        $this->fixture = Config::get(Config::PLUGINS_DIR).'/orangehrmTimePlugin/test/fixtures/MyTimesheetAPITest.yml';
+        $this->fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmTimePlugin/test/fixtures/MyTimesheetAPITest.yml';
         TestDataService::populate($this->fixture);
     }
 
@@ -81,24 +81,21 @@ class TimesheetDaoTest extends KernelTestCase
 
     public function testDuplicateTimesheet(): void
     {
-        $resultFalse = $this->timesheetDao->hasTimesheetForStartDate(new DateTime('2011-04-18'));
-        $resultTrue = $this->timesheetDao->hasTimesheetForStartDate(new DateTime('2011-03-18'));
+        $this->fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmTimePlugin/test/fixtures/TimesheetActionLogDao.yml';
+        TestDataService::populate($this->fixture);
+        $resultFalse = $this->timesheetDao->hasTimesheetForStartDate(2, new DateTime('2011-03-18'));
+        $resultTrue = $this->timesheetDao->hasTimesheetForStartDate(1, new DateTime('2011-04-18'));
         $this->assertFalse($resultFalse);
         $this->assertTrue($resultTrue);
-        $this->fixture = Config::get(Config::PLUGINS_DIR)
-            .'/orangehrmTimePlugin/test/fixtures/TimesheetActionLogDao.yml';
-        TestDataService::populate($this->fixture);
     }
 
     public function testGetTimesheetActionLogs(): void
     {
-        $this->fixture = Config::get(Config::PLUGINS_DIR).'/orangehrmTimePlugin/test/fixtures/TimesheetActionLogDao.yml';
+        $this->fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmTimePlugin/test/fixtures/TimesheetActionLogDao.yml';
         TestDataService::populate($this->fixture);
         $timesheetActionLogSearchFilterParamHolder = new TimesheetActionLogSearchFilterParams();
-        $timesheetActionLogs = $this->timesheetDao->getTimesheetActionLogs(
-            $this->timesheetId,
-            $timesheetActionLogSearchFilterParamHolder
-        );
+        $timesheetActionLogs = $this->timesheetDao
+            ->getTimesheetActionLogs($this->timesheetId, $timesheetActionLogSearchFilterParamHolder);
         $this->assertCount(6, $timesheetActionLogs);
         $this->assertInstanceOf(TimesheetActionLog::class, $timesheetActionLogs[1]);
     }

@@ -19,22 +19,33 @@
 
 namespace OrangeHRM\Time\Api;
 
+use Exception;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
+use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
+use OrangeHRM\Core\Api\V2\Exception\ForbiddenException;
+use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
 use OrangeHRM\Core\Api\V2\ParameterBag;
+use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
+use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\Timesheet;
+use OrangeHRM\ORM\Exception\TransactionException;
 use OrangeHRM\Pim\Api\Model\EmployeeModel;
+use OrangeHRM\Time\Api\Model\DetailedTimesheetModel;
 use OrangeHRM\Time\Api\Model\TimesheetModel;
+use OrangeHRM\Time\Api\Model\TotalDurationModel;
+use OrangeHRM\Time\Api\ValidationRules\TimesheetDeletedEntriesParamRule;
+use OrangeHRM\Time\Api\ValidationRules\TimesheetEntriesParamRule;
 use OrangeHRM\Time\Dto\DetailedTimesheet;
 use OrangeHRM\Time\Traits\Service\TimesheetServiceTrait;
 
@@ -45,8 +56,15 @@ class EmployeeTimesheetItemAPI extends Endpoint implements CrudEndpoint
     use UserRoleManagerTrait;
     use DateTimeHelperTrait;
     use NormalizerServiceTrait;
+    use EntityManagerHelperTrait;
 
     public const PARAMETER_TIMESHEET_ID = 'timesheetId';
+    public const PARAMETER_ENTRIES = 'entries';
+    public const PARAMETER_DELETED_ENTRIES = 'deletedEntries';
+    public const PARAMETER_PROJECT_ID = 'projectId';
+    public const PARAMETER_ACTIVITY_ID = 'activityId';
+    public const PARAMETER_DATES = 'dates';
+    public const PARAMETER_DURATION = 'duration';
 
     public const META_PARAMETER_DATES = 'dates';
     public const META_PARAMETER_SUM = 'sum';
@@ -56,13 +74,13 @@ class EmployeeTimesheetItemAPI extends Endpoint implements CrudEndpoint
     public const META_PARAMETER_ALLOWED_ACTIONS = 'allowedActions';
 
     public const TIMESHEET_ACTION_MAP = [
-        '0' => "View",
-        '1' => "Submit",
-        '2' => "Approve",
-        '3' => "Reject",
-        '4' => "Reset",
-        '5' => "Modify",
-        '6' => "Create",
+        '0' => 'View',
+        '1' => 'Submit',
+        '2' => 'Approve',
+        '3' => 'Reject',
+        '4' => 'Reset',
+        '5' => 'Modify',
+        '6' => 'Create',
     ];
 
     /**
@@ -70,7 +88,32 @@ class EmployeeTimesheetItemAPI extends Endpoint implements CrudEndpoint
      */
     public function getAll(): EndpointResult
     {
-        throw $this->getNotImplementedException();
+        $timesheet = $this->getTimesheet();
+        $detailedTimesheet = $this->getTimesheetService()->getDetailedTimesheet($timesheet->getId());
+        return new EndpointCollectionResult(
+            DetailedTimesheetModel::class,
+            $detailedTimesheet,
+            $this->getResultMetaForGetAll($detailedTimesheet),
+        );
+    }
+
+    /**
+     * @return Timesheet
+     * @throws ForbiddenException
+     * @throws RecordNotFoundException
+     */
+    protected function getTimesheet(): Timesheet
+    {
+        $timesheetId = $this->getRequestParams()->getInt(
+            RequestParams::PARAM_TYPE_ATTRIBUTE,
+            self::PARAMETER_TIMESHEET_ID
+        );
+        $timesheet = $this->getTimesheetService()->getTimesheetDao()->getTimesheetById($timesheetId);
+        $this->throwRecordNotFoundExceptionIfNotExist($timesheet, Timesheet::class);
+        if (!$this->getUserRoleManagerHelper()->isEmployeeAccessible($timesheet->getEmployee()->getEmpNumber())) {
+            throw $this->getForbiddenException();
+        }
+        return $timesheet;
     }
 
     /**
@@ -87,7 +130,7 @@ class EmployeeTimesheetItemAPI extends Endpoint implements CrudEndpoint
             $date = $this->getDateTimeHelper()->formatDateTimeToYmd($column->getDate());
             $dates[] = $date;
             $columns[$date] = [
-                'total' => $this->getDateTimeHelper()->convertSecondsToTimeString($column->getTotal()),
+                'total' => $this->getNormalizedTotalDuration($column->getTotal()),
             ];
         }
 
@@ -100,14 +143,14 @@ class EmployeeTimesheetItemAPI extends Endpoint implements CrudEndpoint
         ) {
             $action = $workflow->getAction();
             $allowedActions[] = [
-                'action' => strtoupper(self::TIMESHEET_ACTION_MAP [$action]),
-                'name' => self::TIMESHEET_ACTION_MAP [$action]
+                'action' => strtoupper(self::TIMESHEET_ACTION_MAP[$action]),
+                'name' => self::TIMESHEET_ACTION_MAP[$action]
             ];
         }
 
         return new ParameterBag([
             self::META_PARAMETER_TIMESHEET => $this->getNormalizedTimesheet($detailedTimesheet->getTimesheet()),
-            self::META_PARAMETER_SUM => $this->getDateTimeHelper()->convertSecondsToTimeString($sum),
+            self::META_PARAMETER_SUM => $this->getNormalizedTotalDuration($sum),
             self::META_PARAMETER_COLUMNS => $columns,
             self::META_PARAMETER_DATES => $dates,
             self::META_PARAMETER_EMPLOYEE => $this->getNormalizedEmployee(
@@ -142,15 +185,35 @@ class EmployeeTimesheetItemAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @param int $duration
+     * @return array
+     */
+    protected function getNormalizedTotalDuration(int $duration): array
+    {
+        return $this->getNormalizerService()->normalize(
+            TotalDurationModel::class,
+            $duration
+        );
+    }
+
+    /**
      * @inheritDoc
      */
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(
-                self::PARAMETER_TIMESHEET_ID,
-                new Rule(Rules::POSITIVE),
-            )
+            $this->getTimesheetIdParamRule(),
+        );
+    }
+
+    /**
+     * @return ParamRule
+     */
+    protected function getTimesheetIdParamRule(): ParamRule
+    {
+        return new ParamRule(
+            self::PARAMETER_TIMESHEET_ID,
+            new Rule(Rules::POSITIVE),
         );
     }
 
@@ -207,7 +270,38 @@ class EmployeeTimesheetItemAPI extends Endpoint implements CrudEndpoint
      */
     public function update(): EndpointResult
     {
-        throw $this->getNotImplementedException();
+        $this->beginTransaction();
+        try {
+            $timesheet = $this->getTimesheet();
+            // delete
+            $toBeDeletedEntries = $this->getRequestParams()->getArray(
+                RequestParams::PARAM_TYPE_BODY,
+                self::PARAMETER_DELETED_ENTRIES
+            );
+            $this->getTimesheetService()
+                ->getTimesheetDao()
+                ->deleteTimesheetRows($timesheet->getId(), $toBeDeletedEntries);
+
+            // update & create
+            $entries = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_ENTRIES);
+            $this->getTimesheetService()
+                ->saveAndUpdateTimesheetItemsFromRows($timesheet, $entries);
+
+            $detailedTimesheet = $this->getTimesheetService()->getDetailedTimesheet($timesheet->getId());
+
+            $this->commitTransaction();
+            return new EndpointCollectionResult(
+                DetailedTimesheetModel::class,
+                $detailedTimesheet,
+                $this->getResultMetaForGetAll($detailedTimesheet),
+            );
+        } catch (RecordNotFoundException | ForbiddenException $e) {
+            $this->rollBackTransaction();
+            throw $e;
+        } catch (Exception $e) {
+            $this->rollBackTransaction();
+            throw new TransactionException($e);
+        }
     }
 
     /**
@@ -215,6 +309,19 @@ class EmployeeTimesheetItemAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
-        throw $this->getNotImplementedException();
+        return new ParamRuleCollection(
+            $this->getTimesheetIdParamRule(),
+            new ParamRule(
+                self::PARAMETER_ENTRIES,
+                new Rule(Rules::NOT_EMPTY),
+                new Rule(
+                    TimesheetEntriesParamRule::class,
+                    [$this->getRequest()->getAttributes()->get(self::PARAMETER_TIMESHEET_ID)]
+                )
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(self::PARAMETER_DELETED_ENTRIES, new Rule(TimesheetDeletedEntriesParamRule::class))
+            ),
+        );
     }
 }

@@ -19,25 +19,37 @@
 
 namespace OrangeHRM\Time\Api\ValidationRules;
 
-use DateTime;
 use OrangeHRM\Core\Api\V2\Validator\Rules\AbstractRule;
-use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
-use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
-use OrangeHRM\Time\Traits\Service\TimesheetServiceTrait;
+use OrangeHRM\Time\Api\EmployeeTimesheetItemAPI;
 
-class MyTimesheetDateRule extends AbstractRule
+class TimesheetDeletedEntriesParamRule extends AbstractRule
 {
-    use TimesheetServiceTrait;
-    use DateTimeHelperTrait;
-    use AuthUserTrait;
-
     /**
      * @inheritDoc
      */
-    public function validate($input): bool
+    public function validate($entries): bool
     {
-        return !(new DateTime($input) > $this->getDateTimeHelper()->getNow()) &&
-            !($this->getTimesheetService()
-                ->hasTimesheetForDate($this->getAuthUser()->getEmpNumber(), new DateTime($input)));
+        if (!is_array($entries)) {
+            return false;
+        }
+        foreach ($entries as $entry) {
+            if (count(array_keys($entry)) != 2) {
+                return false;
+            }
+            // `projectId`, `activityId` required fields
+            if (!(isset($entry[EmployeeTimesheetItemAPI::PARAMETER_PROJECT_ID]) &&
+                isset($entry[EmployeeTimesheetItemAPI::PARAMETER_ACTIVITY_ID]))) {
+                return false;
+            }
+            $projectId = $entry[EmployeeTimesheetItemAPI::PARAMETER_PROJECT_ID];
+            if (!(is_numeric($projectId) && ($projectId > 0))) {
+                return false;
+            }
+            $activityId = $entry[EmployeeTimesheetItemAPI::PARAMETER_ACTIVITY_ID];
+            if (!(is_numeric($activityId) && ($activityId > 0))) {
+                return false;
+            }
+        }
+        return true;
     }
 }

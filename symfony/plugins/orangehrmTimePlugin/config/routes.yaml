@@ -76,8 +76,20 @@ apiv2_time_timesheets_items:
   path: /api/v2/time/timesheets/{timesheetId}/items
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
   methods: [GET]
+
+apiv2_time_my_timesheets_entries:
+  path: /api/v2/time/timesheets/{timesheetId}/entries
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [GET, PUT]
   defaults:
     _api: OrangeHRM\Time\Api\MyTimesheetItemAPI
+
+apiv2_time_employee_timesheets_entries:
+  path: /api/v2/time/employees/timesheets/{timesheetId}/entries
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [GET, PUT]
+  defaults:
+    _api: OrangeHRM\Time\Api\EmployeeTimesheetItemAPI
 
 apiv2_time_timesheet_action_log:
   path: /api/v2/time/timesheets/{timesheetId}/action-logs

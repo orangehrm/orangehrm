@@ -17,27 +17,36 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Time\Api;
+namespace OrangeHRM\Time\Api\Model;
 
-use OrangeHRM\Core\Api\V2\RequestParams;
-use OrangeHRM\Entity\Timesheet;
+use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
+use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 
-class MyTimesheetItemAPI extends EmployeeTimesheetItemAPI
+class TotalDurationModel implements Normalizable
 {
+    use DateTimeHelperTrait;
+
+    private int $duration;
+
     /**
-     * @return Timesheet
+     * @param int $duration
      */
-    protected function getTimesheet(): Timesheet
+    public function __construct(int $duration)
     {
-        $timesheetId = $this->getRequestParams()->getInt(
-            RequestParams::PARAM_TYPE_ATTRIBUTE,
-            self::PARAMETER_TIMESHEET_ID
-        );
-        $timesheet = $this->getTimesheetService()->getTimesheetDao()->getTimesheetById($timesheetId);
-        $this->throwRecordNotFoundExceptionIfNotExist($timesheet, Timesheet::class);
-        if (!$this->getUserRoleManagerHelper()->isSelfByEmpNumber($timesheet->getEmployee()->getEmpNumber())) {
-            throw $this->getForbiddenException();
-        }
-        return $timesheet;
+        $this->duration = $duration;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function toArray(): array
+    {
+        $hours = floor($this->duration / 3600);
+        $minutes = ($this->duration / 60) % 60;
+        return [
+            'hours' => $hours,
+            'minutes' => $minutes,
+            'label' => $this->getDateTimeHelper()->convertSecondsToTimeString($this->duration),
+        ];
     }
 }

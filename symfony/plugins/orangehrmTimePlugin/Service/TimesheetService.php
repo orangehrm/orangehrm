@@ -20,11 +20,13 @@
 namespace OrangeHRM\Time\Service;
 
 use DateTime;
+use LogicException;
 use OrangeHRM\Core\Service\AccessFlowStateMachineService;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\Timesheet;
+use OrangeHRM\Entity\TimesheetItem;
 use OrangeHRM\Entity\WorkflowStateMachine;
 use OrangeHRM\Time\Dao\TimesheetDao;
 use OrangeHRM\Time\Dto\DetailedTimesheet;
@@ -135,11 +137,11 @@ class TimesheetService
      * )
      * </pre>
      *
-     * @version 2.7.1
      * @param Array $employeeIdList Array of Employee Ids
      * @param Array $stateList Array of States
      * @param $limit Number of Timesheets return
      * @return Array of Timesheets
+     * @version 2.7.1
      */
     public function getTimesheetListByEmployeeIdAndState($employeeIdList, $stateList, $limit)
     {
@@ -147,8 +149,14 @@ class TimesheetService
         return $this->getTimesheetDao()->getTimesheetListByEmployeeIdAndState($employeeIdList, $stateList, $limit);
     }
 
-    public function saveTimesheetItems($inputTimesheetItems, $employeeId, $timesheetId, $keysArray, $initialRows, $isFromService =true)
-    {
+    public function saveTimesheetItems(
+        $inputTimesheetItems,
+        $employeeId,
+        $timesheetId,
+        $keysArray,
+        $initialRows,
+        $isFromService = true
+    ) {
         // TODO
         foreach ($inputTimesheetItems as $inputTimesheetItem) {
             if ($isFromService) {
@@ -179,12 +187,20 @@ class TimesheetService
 
                         $existingTimesheetItem->save();
                     } elseif ($timesheetItemDuration != null) {
-                        $existingTimesheetItem = $this->getTimesheetDao()->getTimesheetItemByDateProjectId($timesheetId, $employeeId, $projectId, $activityId, $date);
+                        $existingTimesheetItem = $this->getTimesheetDao()->getTimesheetItemByDateProjectId(
+                            $timesheetId,
+                            $employeeId,
+                            $projectId,
+                            $activityId,
+                            $date
+                        );
 
                         if ($existingTimesheetItem[0]->getProjectId() != null) {
                             $existingTimesheetItem[0]->setProjectId($projectId);
                             $existingTimesheetItem[0]->setActivityId($activityId);
-                            $existingTimesheetItem[0]->setDuration($this->convertDurationToSeconds($timesheetItemDuration));
+                            $existingTimesheetItem[0]->setDuration(
+                                $this->convertDurationToSeconds($timesheetItemDuration)
+                            );
 
                             $existingTimesheetItem[0]->save();
                         } else {
@@ -212,7 +228,7 @@ class TimesheetService
 
         if ($pos !== false) {
             $str_time = $duration;
-            sscanf($str_time, "%d:%d:%d", $hours, $minutes, $seconds);
+            sscanf($str_time, '%d:%d:%d', $hours, $minutes, $seconds);
             $durationInSeconds = isset($seconds) ? $hours * 3600 + $minutes * 60 + $seconds : $hours * 3600 + $minutes * 60;
             return $durationInSeconds;
         } else {
@@ -241,11 +257,11 @@ class TimesheetService
 
         if ($timesheetTimeFormat == '1') {
             $padHours = false;
-            $hms = "";
+            $hms = '';
             $hours = intval(intval($durationInSecs) / 3600);
-            $hms .= ($padHours) ? str_pad($hours, 2, "0", STR_PAD_LEFT) . ':' : $hours . ':';
+            $hms .= ($padHours) ? str_pad($hours, 2, '0', STR_PAD_LEFT) . ':' : $hours . ':';
             $minutes = intval(($durationInSecs / 60) % 60);
-            $hms .= str_pad($minutes, 2, "0", STR_PAD_LEFT);
+            $hms .= str_pad($minutes, 2, '0', STR_PAD_LEFT);
             return $hms;
         } elseif ($timesheetTimeFormat == '2') {
             $durationInHours = number_format($durationInSecs / (60 * 60), 2, '.', '');
@@ -273,8 +289,8 @@ class TimesheetService
     public function addConvertTime($initialTime, $timeToAdd)
     {
         // TODO
-        $old = explode(":", $initialTime);
-        $play = explode(":", $timeToAdd);
+        $old = explode(':', $initialTime);
+        $play = explode(':', $timeToAdd);
 
 
         $hours = $old[0] + $play[0];
@@ -286,12 +302,12 @@ class TimesheetService
             $hours++;
         }
         if ($minutes < 10) {
-            $minutes = "0" . $minutes;
+            $minutes = '0' . $minutes;
         }
         if ($minutes == 0) {
-            $minutes = "00";
+            $minutes = '00';
         }
-        $sum = $hours . ":" . $minutes;
+        $sum = $hours . ':' . $minutes;
         return $sum;
     }
 
@@ -316,11 +332,11 @@ class TimesheetService
      * )
      * </pre>
      *
-     * @version 2.7.1
      * @param Boolean $excludeDeletedProjects Exclude deleted projects or not
      * @param String $orderField Sort order field
      * @param String $orderBy Sort order
      * @return Array of Project Names
+     * @version 2.7.1
      */
     public function getProjectNameList($excludeDeletedProjects = true, $orderField = 'project_id', $orderBy = 'ASC')
     {
@@ -342,10 +358,10 @@ class TimesheetService
      * )
      * </pre>
      *
-     * @version 2.7.1
      * @param Integer $projectId Project Id
      * @param Boolean $excludeDeletedActivities Exclude Deleted Project Activities or not
      * @return Array of Project Activities
+     * @version 2.7.1
      */
     public function getProjectActivityListByPorjectId($projectId, $excludeDeletedActivities = true)
     {
@@ -358,8 +374,17 @@ class TimesheetService
         // TODO
         // this method is for creating past timesheets.This would get conflicted if the user changes the timesheet period and does not loging to the system for couple of weeks
 
-        $previousTimesheetEndDate = mktime(0, 0, 0, date("m", strtotime($currentTimesheetStartDate)), date("d", strtotime($currentTimesheetStartDate)) - 1, date("Y", strtotime($currentTimesheetStartDate)));
-        $datesInTheCurrentTimesheetPeriod = $this->getTimesheetPeriodService()->getDefinedTimesheetPeriod(date("Y-m-d", $previousTimesheetEndDate));
+        $previousTimesheetEndDate = mktime(
+            0,
+            0,
+            0,
+            date('m', strtotime($currentTimesheetStartDate)),
+            date('d', strtotime($currentTimesheetStartDate)) - 1,
+            date('Y', strtotime($currentTimesheetStartDate))
+        );
+        $datesInTheCurrentTimesheetPeriod = $this->getTimesheetPeriodService()->getDefinedTimesheetPeriod(
+            date('Y-m-d', $previousTimesheetEndDate)
+        );
 
         $timesheetStartingDate = $datesInTheCurrentTimesheetPeriod[0];
         $endDate = end($datesInTheCurrentTimesheetPeriod);
@@ -367,7 +392,12 @@ class TimesheetService
 
         if ($this->checkForOverlappingTimesheets($timesheetStartingDate, $endDate, $employeeId) == 1) {
             $accessFlowStateMachineService = new AccessFlowStateMachineService();
-            $tempNextState = $accessFlowStateMachineService->getNextState(WorkflowStateMachine::FLOW_TIME_TIMESHEET, Timesheet::STATE_INITIAL, "SYSTEM", WorkflowStateMachine::TIMESHEET_ACTION_CREATE);
+            $tempNextState = $accessFlowStateMachineService->getNextState(
+                WorkflowStateMachine::FLOW_TIME_TIMESHEET,
+                Timesheet::STATE_INITIAL,
+                'SYSTEM',
+                WorkflowStateMachine::TIMESHEET_ACTION_CREATE
+            );
             $timesheet = new Timesheet();
             $timesheet->setState($tempNextState);
             $timesheet->setStartDate($timesheetStartingDate);
@@ -413,7 +443,12 @@ class TimesheetService
                 }
             } else {
                 $accessFlowStateMachineService = new AccessFlowStateMachineService();
-                $tempNextState = $accessFlowStateMachineService->getNextState(WorkflowStateMachine::FLOW_TIME_TIMESHEET, Timesheet::STATE_INITIAL, "SYSTEM", WorkflowStateMachine::TIMESHEET_ACTION_CREATE);
+                $tempNextState = $accessFlowStateMachineService->getNextState(
+                    WorkflowStateMachine::FLOW_TIME_TIMESHEET,
+                    Timesheet::STATE_INITIAL,
+                    'SYSTEM',
+                    WorkflowStateMachine::TIMESHEET_ACTION_CREATE
+                );
                 $timesheet = new Timesheet();
                 $timesheet->setState($tempNextState);
                 $timesheet->setStartDate($timesheetStartingDate);
@@ -444,7 +479,12 @@ class TimesheetService
                 $statusValuesArray['state'] = 1;
             } else {
                 $accessFlowStateMachineService = new AccessFlowStateMachineService();
-                $tempNextState = $accessFlowStateMachineService->getNextState(WorkflowStateMachine::FLOW_TIME_TIMESHEET, Timesheet::STATE_INITIAL, "SYSTEM", WorkflowStateMachine::TIMESHEET_ACTION_CREATE);
+                $tempNextState = $accessFlowStateMachineService->getNextState(
+                    WorkflowStateMachine::FLOW_TIME_TIMESHEET,
+                    Timesheet::STATE_INITIAL,
+                    'SYSTEM',
+                    WorkflowStateMachine::TIMESHEET_ACTION_CREATE
+                );
                 $timesheet = new Timesheet();
                 $timesheet->setState($tempNextState);
                 $timesheet->setStartDate($timesheetStartingDate);
@@ -543,7 +583,7 @@ class TimesheetService
         $nextState = $this->getAccessFlowStateMachineService()->getNextState(
             WorkflowStateMachine::FLOW_TIME_TIMESHEET,
             Timesheet::STATE_INITIAL,
-            "SYSTEM",
+            'SYSTEM',
             WorkflowStateMachine::TIMESHEET_ACTION_CREATE
         );
         list($startDate, $endDate) = $this->extractStartDateAndEndDateFromDate($date);
@@ -555,11 +595,11 @@ class TimesheetService
 
     /**
      * @param DateTime $date
-     * @return array
+     * @return array  e.g array(if monday as first day in config => '2021-12-13', '2021-12-19')
      */
     public function extractStartDateAndEndDateFromDate(DateTime $date): array
     {
-        $currentWeekFirstDate = date("Y-m-d", strtotime('monday this week', strtotime($date->format('Y-m-d'))));
+        $currentWeekFirstDate = date('Y-m-d', strtotime('monday this week', strtotime($date->format('Y-m-d'))));
         $configDate = $this->getTimesheetPeriodService()->getTimesheetStartDate() - 1;
         $startDate = date('Y-m-d', strtotime($currentWeekFirstDate . ' + ' . $configDate . ' days'));
         $endDate = date('Y-m-d', strtotime($startDate . ' + 6 days'));
@@ -567,13 +607,79 @@ class TimesheetService
     }
 
     /**
+     * @param int $employeeNumber
      * @param DateTime $date
      * @return bool
      */
-    public function hasTimesheetForDate(DateTime $date): bool
+    public function hasTimesheetForDate(int $employeeNumber, DateTime $date): bool
     {
         list($startDate) = $this->extractStartDateAndEndDateFromDate($date);
-        return $this->getTimesheetDao()->hasTimesheetForStartDate(new DateTime($startDate));
+        return $this->getTimesheetDao()->hasTimesheetForStartDate($employeeNumber, new DateTime($startDate));
+    }
+
+    /**
+     * @param Timesheet $timesheet
+     * @param array $rows
+     * @return array<string, TimesheetItem>
+     */
+    protected function createTimesheetItemsFromRows(Timesheet $timesheet, array $rows): array
+    {
+        $timesheetItems = [];
+        foreach ($rows as $row) {
+            if (!(isset($row['projectId']) &&
+                isset($row['activityId']) &&
+                isset($row['dates']))) {
+                throw new LogicException('`projectId` & `activityId` & `dates` required attributes');
+            }
+
+            foreach ($row['dates'] as $date => $dateValue) {
+                if (!isset($dateValue['duration'])) {
+                    throw new LogicException('`duration` required attribute');
+                }
+                $date = new DateTime($date);
+                $itemKey = $this->generateTimesheetItemKey(
+                    $timesheet->getId(),
+                    $row['projectId'],
+                    $row['activityId'],
+                    $date
+                );
+                $timesheetItem = new TimesheetItem();
+                $timesheetItem->setTimesheet($timesheet);
+                $timesheetItem->setEmployee($timesheet->getEmployee());
+                $timesheetItem->getDecorator()->setProjectById($row['projectId']);
+                $timesheetItem->getDecorator()->setProjectActivityById($row['activityId']);
+                $timesheetItem->setDate($date);
+                $timesheetItem->setDuration(strtotime($dateValue['duration']) - strtotime('TODAY'));
+                $timesheetItems[$itemKey] = $timesheetItem;
+            }
+        }
+
+        return $timesheetItems;
+    }
+
+    /**
+     * @param int $timesheetId
+     * @param int $projectId
+     * @param int $activityId
+     * @param DateTime $date
+     * @return string
+     */
+    public function generateTimesheetItemKey(int $timesheetId, int $projectId, int $activityId, DateTime $date): string
+    {
+        return $timesheetId . '_' .
+            $projectId . '_' .
+            $activityId . '_' .
+            $date->format('Y_m_d');
+    }
+
+    /**
+     * @param Timesheet $timesheet
+     * @param array $rows
+     */
+    public function saveAndUpdateTimesheetItemsFromRows(Timesheet $timesheet, array $rows): void
+    {
+        $timesheetItems = $this->createTimesheetItemsFromRows($timesheet, $rows);
+        $this->getTimesheetDao()->saveAndUpdateTimesheetItems($timesheetItems);
     }
 
     /**

@@ -22,6 +22,9 @@
   <div class="orangehrm-project-admin-input">
     <employee-autocomplete
       :label="!showDelete ? $t('time.project_admin') : null"
+      :params="{
+        includeEmployees: 'currentAndPast',
+      }"
       v-bind="$attrs"
     />
     <oxd-icon-button
@@ -62,10 +65,14 @@ export default {
 .orangehrm-project {
   &-admin-input {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
+    ::v-deep(.oxd-input-group__label-wrapper:empty) {
+      display: none;
+    }
   }
   &-delete-icon {
     margin-left: 1rem;
+    margin-top: 1rem;
   }
 }
 </style>
