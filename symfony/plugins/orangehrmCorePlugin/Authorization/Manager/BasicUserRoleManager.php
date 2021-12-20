@@ -40,6 +40,7 @@ use OrangeHRM\Entity\UserRole;
 use OrangeHRM\Entity\WorkflowStateMachine;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
+use OrangeHRM\Time\Traits\Service\ProjectServiceTrait;
 
 /**
  * Description of BasicUserRoleManager
@@ -49,6 +50,7 @@ class BasicUserRoleManager extends AbstractUserRoleManager
 {
     use EmployeeServiceTrait;
     use ClassHelperTrait;
+    use ProjectServiceTrait;
 
     public const PERMISSION_TYPE_DATA_GROUP = 'data_group';
     public const PERMISSION_TYPE_ACTION = 'action';
@@ -64,7 +66,6 @@ class BasicUserRoleManager extends AbstractUserRoleManager
     protected ?DataGroupService $dataGroupService = null;
     protected $subordinates = null;
     protected ?MenuService $menuService = null;
-    protected $projectService;
     protected $vacancyService;
     protected ?HomePageDao $homePageDao = null;
     protected ?AccessFlowStateMachineService $accessFlowStateMachineService = null;
@@ -171,7 +172,7 @@ class BasicUserRoleManager extends AbstractUserRoleManager
     /**
      * @return UserService
      */
-    public function getUserService(): UserService
+    protected function getUserService(): UserService
     {
         return $this->getContainer()->get(Services::USER_SERVICE);
     }
@@ -179,36 +180,12 @@ class BasicUserRoleManager extends AbstractUserRoleManager
     /**
      * @return MenuService
      */
-    public function getMenuService(): MenuService
+    protected function getMenuService(): MenuService
     {
         if (!$this->menuService instanceof MenuService) {
             $this->menuService = new MenuService();
         }
         return $this->menuService;
-    }
-
-    /**
-     * @param MenuService $menuService
-     */
-    public function setMenuService(MenuService $menuService): void
-    {
-        $this->menuService = $menuService;
-    }
-
-    public function getProjectService()
-    {
-        // TODO
-        if (is_null($this->projectService)) {
-            $this->projectService = new ProjectService();
-        }
-
-        return $this->projectService;
-    }
-
-    public function setProjectService($projectService)
-    {
-        // TODO
-        $this->projectService = $projectService;
     }
 
     public function getVacancyService()
@@ -219,12 +196,6 @@ class BasicUserRoleManager extends AbstractUserRoleManager
         }
 
         return $this->vacancyService;
-    }
-
-    public function setVacancyService($vacancyService)
-    {
-        // TODO
-        $this->vacancyService = $vacancyService;
     }
 
     /**
@@ -258,14 +229,6 @@ class BasicUserRoleManager extends AbstractUserRoleManager
     }
 
     /**
-     * @param AccessFlowStateMachineService $accessFlowStateMachineService
-     */
-    public function setAccessFlowStateMachineService(AccessFlowStateMachineService $accessFlowStateMachineService): void
-    {
-        $this->accessFlowStateMachineService = $accessFlowStateMachineService;
-    }
-
-    /**
      * @inheritDoc
      */
     public function getAccessibleEntities(
@@ -277,6 +240,7 @@ class BasicUserRoleManager extends AbstractUserRoleManager
         array $requestedPermissions = []
     ): array {
         // TODO
+        throw AuthorizationException::methodNotImplemented(__METHOD__);
         $allEmployees = [];
 
         $filteredRoles = $this->filterRoles($this->userRoles, $rolesToExclude, $rolesToInclude);
@@ -818,7 +782,6 @@ class BasicUserRoleManager extends AbstractUserRoleManager
     /**
      * @param int $empNumber
      * @return bool
-     * @throws DaoException
      * @throws CoreServiceException
      */
     protected function isSupervisorFor(int $empNumber): bool
@@ -835,12 +798,15 @@ class BasicUserRoleManager extends AbstractUserRoleManager
         return false;
     }
 
-    protected function isProjectAdmin($empNumber)
+    /**
+     * @param int|null $empNumber
+     * @return bool
+     */
+    protected function isProjectAdmin(?int $empNumber): bool
     {
-        // TODO:: should remove this return
-        return false;
-        // TODO
-        return $this->getProjectService()->isProjectAdmin($empNumber);
+        return $this->getProjectService()
+            ->getProjectDao()
+            ->isProjectAdmin($empNumber);
     }
 
     private function isHiringManager($empNumber)

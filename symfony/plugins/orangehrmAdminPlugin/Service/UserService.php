@@ -46,7 +46,7 @@ class UserService
     /**
      * @return UserDao
      */
-    public function getSystemUserDao(): ?UserDao
+    public function getSystemUserDao(): UserDao
     {
         if (empty($this->systemUserDao)) {
             $this->systemUserDao = new UserDao();
@@ -149,28 +149,6 @@ class UserService
     }
 
     /**
-     * Return an array of System User Ids
-     *
-     * <pre>
-     *
-     * The output will be an array like below.
-     *
-     * array(
-     *          0 => 1,
-     *          1 => 2,
-     *          2 => 3
-     * )
-     * </pre>
-     *
-     * @return array
-     * @throws DaoException
-     */
-    public function getSystemUserIdList(): array
-    {
-        return $this->getSystemUserDao()->getSystemUserIdList();
-    }
-
-    /**
      * Soft Delete System Users
      * @param array $deletedIds
      * @return int
@@ -179,21 +157,6 @@ class UserService
     public function deleteSystemUsers(array $deletedIds): int
     {
         return $this->getSystemUserDao()->deleteSystemUsers($deletedIds);
-    }
-
-    /**
-     * Get Pre Defined User Roles
-     *
-     * @return User[]
-     * @throws ServiceException
-     */
-    public function getAssignableUserRoles(): array
-    {
-        try {
-            return $this->getSystemUserDao()->getAssignableUserRoles();
-        } catch (Exception $e) {
-            throw new ServiceException($e->getMessage(), $e->getCode(), $e);
-        }
     }
 
     /**

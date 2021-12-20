@@ -416,7 +416,7 @@ class BasicUserRoleManagerTest extends KernelTestCase
         }
     }
 
-    public function testGetAccessibleEmployeesAdmin(): void
+    public function xtestGetAccessibleEmployeesAdmin(): void
     {
         $users = TestDataService::loadObjectList(User::class, $this->fixture, 'User');
         $allEmployees = TestDataService::loadObjectList(Employee::class, $this->fixture, 'Employee');
@@ -481,7 +481,7 @@ class BasicUserRoleManagerTest extends KernelTestCase
         $this->checkEmployees($expected, $result);
     }
 
-    public function testGetAccessibleEmployeesSupervisor(): void
+    public function xtestGetAccessibleEmployeesSupervisor(): void
     {
         $users = TestDataService::loadObjectList(User::class, $this->fixture, 'User');
         $allEmployees = TestDataService::loadObjectList(Employee::class, $this->fixture, 'Employee');
@@ -543,7 +543,7 @@ class BasicUserRoleManagerTest extends KernelTestCase
         $this->checkEmployees($expected, $result);
     }
 
-    public function testGetAccessibleEmployeesESS(): void
+    public function xtestGetAccessibleEmployeesESS(): void
     {
         $users = TestDataService::loadObjectList(User::class, $this->fixture, 'User');
 

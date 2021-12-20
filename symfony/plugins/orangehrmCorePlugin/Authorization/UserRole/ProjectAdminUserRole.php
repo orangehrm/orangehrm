@@ -19,62 +19,38 @@
 
 namespace OrangeHRM\Core\Authorization\UserRole;
 
-/**
- * Project Admin User Role
- *
- */
+use OrangeHRM\Core\Authorization\Exception\AuthorizationException;
+use OrangeHRM\Entity\Project;
+use OrangeHRM\Time\Traits\Service\ProjectServiceTrait;
+
 class ProjectAdminUserRole extends AbstractUserRole
 {
-    /**
-     * Returns all projects (active and inactive)
-     */
-    public function getAccessibleProjects($operation = null, $returnType = null, $requiredPermissions = [])
-    {
-        $projectList = $this->getProjectService()->getProjectListByProjectAdmin($this->getEmployeeNumber());
-        return $projectList;
-    }
+    use ProjectServiceTrait;
 
     /**
-     * Returns all project ids (active and inactive)
+     * @inheritDoc
      */
-    public function getAccessibleProjectIds($operation = null, $returnType = null, $requiredPermissions = [])
+    protected function getAccessibleIdsForEntity(string $entityType, array $requiredPermissions = []): array
     {
-        return $this->getProjectService()->getProjectListForUserRole(ProjectAdminUserRoleDecorator::PROJECT_ADMIN_USER, $this->getEmployeeNumber());
+        switch ($entityType) {
+            case Project::class:
+                // TODO:: implement and remove below line
+                throw AuthorizationException::entityNotImplemented($entityType, __METHOD__);
+                return $this->getAccessibleProjectIds($requiredPermissions);
+            default:
+                return [];
+        }
     }
 
-
-    public function getAccessibleEmployeeIds($operation = null, $returnType = null, $requiredPermissions = [])
+    /**
+     * @param array $requiredPermissions
+     * @return int[]
+     */
+    protected function getAccessibleProjectIds(array $requiredPermissions = []): array
     {
-        return [];
-    }
-
-    public function getAccessibleEmployeePropertyList($properties, $orderField, $orderBy, $requiredPermissions = [])
-    {
-        return [];
-    }
-
-    public function getAccessibleEmployees($operation = null, $returnType = null, $requiredPermissions = []): array
-    {
-        return [];
-    }
-
-    public function getAccessibleLocationIds($operation = null, $returnType = null, $requiredPermissions = [])
-    {
-        return [];
-    }
-
-    public function getAccessibleOperationalCountryIds($operation = null, $returnType = null, $requiredPermissions = [])
-    {
-        return [];
-    }
-
-    public function getAccessibleSystemUserIds($operation = null, $returnType = null, $requiredPermissions = [])
-    {
-        return [];
-    }
-
-    public function getAccessibleUserRoleIds($operation = null, $returnType = null, $requiredPermissions = [])
-    {
-        return [];
+        return $this->getProjectService()->getProjectListForUserRole(
+            ProjectAdminUserRoleDecorator::PROJECT_ADMIN_USER,
+            $this->getEmployeeNumber()
+        );
     }
 }

@@ -19,33 +19,17 @@
 
 namespace OrangeHRM\Core\Authorization\UserRole;
 
-use OrangeHRM\Admin\Service\LocationService;
-use OrangeHRM\Admin\Service\UserService;
+use OrangeHRM\Admin\Traits\Service\UserServiceTrait;
 use OrangeHRM\Core\Authorization\Exception\AuthorizationException;
 use OrangeHRM\Core\Authorization\Manager\AbstractUserRoleManager;
 use OrangeHRM\Core\Authorization\Manager\BasicUserRoleManager;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Entity\Employee;
-use OrangeHRM\Entity\Location;
-use OrangeHRM\Entity\User;
-use OrangeHRM\Entity\UserRole;
-use OrangeHRM\Framework\Services;
-use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
 
-/**
- * Description of UserRoleInterface
- *
- * @author Chameera Senarathna
- */
 abstract class AbstractUserRole
 {
     use AuthUserTrait;
-    use EmployeeServiceTrait;
-
-    protected $operationalCountryService;
-    protected ?LocationService $locationService = null;
-    protected $projectService;
-    protected $vacancyService;
+    use UserServiceTrait;
 
     /**
      * @var AbstractUserRoleManager
@@ -61,7 +45,7 @@ abstract class AbstractUserRole
      * @param string $roleName
      * @param AbstractUserRoleManager $userRoleManager
      */
-    public function __construct(string $roleName, AbstractUserRoleManager $userRoleManager)
+    final public function __construct(string $roleName, AbstractUserRoleManager $userRoleManager)
     {
         $this->userRoleManager = $userRoleManager;
         $this->roleName = $roleName;
@@ -76,97 +60,14 @@ abstract class AbstractUserRole
     }
 
     /**
-     * @return UserService
+     * @deprecated
+     * @todo should remove
      */
-    public function getSystemUserService(): UserService
-    {
-        return $this->getContainer()->get(Services::USER_SERVICE);
-    }
-
-    /**
-     * @return LocationService
-     */
-    public function getLocationService(): LocationService
-    {
-        if (!$this->locationService instanceof LocationService) {
-            $this->locationService = new LocationService();
-        }
-        return $this->locationService;
-    }
-
-    /**
-     * @param LocationService $locationService
-     */
-    public function setLocationService(LocationService $locationService): void
-    {
-        $this->locationService = $locationService;
-    }
-
-    public function getOperationalCountryService()
-    {
-        // TODO
-        if (empty($this->operationalCountryService)) {
-            $this->operationalCountryService = new OperationalCountryService();
-        }
-        return $this->operationalCountryService;
-    }
-
-    public function setOperationalCountryService($operationalCountryService)
-    {
-        // TODO
-        $this->operationalCountryService = $operationalCountryService;
-    }
-
-    /**
-     * Get the Project Data Access Object
-     * @return ProjectService
-     */
-    public function getProjectService()
-    {
-        // TODO
-        if (is_null($this->projectService)) {
-            $this->projectService = new ProjectService();
-        }
-        return $this->projectService;
-    }
-
-    /**
-     * Set Project Service Access Object
-     * @param ProjectService $projectService
-     * @return void
-     */
-    public function setProjectService(ProjectService $projectService)
-    {
-        // TODO
-        $this->projectService = $projectService;
-    }
-
-    /**
-     * Get VacancyService
-     * @return VacancyService
-     */
-    public function getVacancyService()
-    {
-        // TODO
-        if (is_null($this->vacancyService)) {
-            $this->vacancyService = new VacancyService();
-        }
-        return $this->vacancyService;
-    }
-
-    /**
-     * Set Vacancy Service
-     * @param VacancyService $vacancyService
-     */
-    public function setVacancyService(VacancyService $vacancyService)
-    {
-        // TODO
-        $this->vacancyService = $vacancyService;
-    }
-
-
     public function getAccessibleEntities($entityType, $operation = null, $returnType = null, $requiredPermissions = [])
     {
+        // TODO
+        throw AuthorizationException::methodNotImplemented(__METHOD__);
+
         $permitted = $this->areRequiredPermissionsAvailable($requiredPermissions);
 
         if ($permitted) {
@@ -193,6 +94,10 @@ abstract class AbstractUserRole
         return $entities;
     }
 
+    /**
+     * @deprecated
+     * @todo should remove
+     */
     public function getAccessibleEntityProperties(
         $entityType,
         $properties = [],
@@ -200,11 +105,19 @@ abstract class AbstractUserRole
         $orderBy = null,
         $requiredPermissions = []
     ) {
+        // TODO
+        throw AuthorizationException::methodNotImplemented(__METHOD__);
+
         $permitted = $this->areRequiredPermissionsAvailable($requiredPermissions);
         if ($permitted) {
             switch ($entityType) {
                 case Employee::class:
-                    $propertyList = $this->getAccessibleEmployeePropertyList($properties, $orderField, $orderBy, $requiredPermissions);
+                    $propertyList = $this->getAccessibleEmployeePropertyList(
+                        $properties,
+                        $orderField,
+                        $orderBy,
+                        $requiredPermissions
+                    );
                     break;
                 default:
                     throw AuthorizationException::entityNotSupported($entityType, __METHOD__);
@@ -231,98 +144,38 @@ abstract class AbstractUserRole
         $permitted = $this->areRequiredPermissionsAvailable($requiredPermissions);
         $ids = [];
         if ($permitted) {
-            switch ($entityType) {
-                case Employee::class:
-                    $ids = $this->getAccessibleEmployeeIds($operation, $returnType, $requiredPermissions);
-                    break;
-                case User::class:
-                    $ids = $this->getAccessibleSystemUserIds($operation, $returnType, $requiredPermissions);
-                    break;
-                case 'OperationalCountry':
-                    // TODO:: implement and remove below line
-                    throw AuthorizationException::entityNotImplemented($entityType, __METHOD__);
-                    $ids = $this->getAccessibleOperationalCountryIds($operation, $returnType, $requiredPermissions);
-                    break;
-                case UserRole::class:
-                    $ids = $this->getAccessibleUserRoleIds($operation, $returnType, $requiredPermissions);
-                    break;
-                case Location::class:
-                    $ids = $this->getAccessibleLocationIds($operation, $returnType, $requiredPermissions);
-                    break;
-                case 'Project':
-                    // TODO:: implement and remove below line
-                    throw AuthorizationException::entityNotImplemented($entityType, __METHOD__);
-                    $ids = $this->getAccessibleProjectIds($operation, $returnType, $requiredPermissions);
-                    break;
-                case 'Vacancy':
-                    // TODO:: implement and remove below line
-                    throw AuthorizationException::entityNotImplemented($entityType, __METHOD__);
-                    $ids = $this->getAccessibleVacancyIds($operation, $returnType, $requiredPermissions);
-                    break;
-                default:
-                    throw AuthorizationException::entityNotSupported($entityType, __METHOD__);
-            }
+            $ids = $this->getAccessibleIdsForEntity($entityType, $requiredPermissions);
         }
         return $ids;
     }
 
-    public function getEmployeesWithRole($entities = [])
-    {
-        return [];
-    }
+    /**
+     * @param string $entityType
+     * @param array $requiredPermissions
+     * @return int[]
+     */
+    abstract protected function getAccessibleIdsForEntity(
+        string $entityType,
+        array $requiredPermissions = []
+    ): array;
 
+    /**
+     * @deprecated
+     * @todo should remove
+     */
     public function getAccessibleProjects($operation = null, $returnType = null, $requiredPermissions = [])
     {
         return [];
     }
 
-    public function getAccessibleProjectIds($operation = null, $returnType = null, $requiredPermissions = [])
-    {
-        return [];
-    }
-
+    /**
+     * @deprecated
+     * @todo should remove
+     */
     public function getAccessibleVacancies($operation = null, $returnType = null, $requiredPermissions = [])
     {
         return [];
     }
-
-    public function getAccessibleVacancyIds($operation = null, $returnType = null, $requiredPermissions = [])
-    {
-        return [];
-    }
-
-    /**
-     * @param null $operation
-     * @param null $returnType
-     * @param array $requiredPermissions
-     * @return array|Employee[]
-     */
-    abstract public function getAccessibleEmployees($operation = null, $returnType = null, $requiredPermissions = []): array;
-
-    abstract public function getAccessibleEmployeePropertyList(
-        $properties,
-        $orderField,
-        $orderBy,
-        $requiredPermissions = []
-    );
-
-    abstract public function getAccessibleEmployeeIds($operation = null, $returnType = null, $requiredPermissions = []);
-
-    abstract public function getAccessibleSystemUserIds(
-        $operation = null,
-        $returnType = null,
-        $requiredPermissions = []
-    );
-
-    abstract public function getAccessibleOperationalCountryIds(
-        $operation = null,
-        $returnType = null,
-        $requiredPermissions = []
-    );
-
-    abstract public function getAccessibleUserRoleIds($operation = null, $returnType = null, $requiredPermissions = []);
-
-    abstract public function getAccessibleLocationIds($operation = null, $returnType = null, $requiredPermissions = []);
 
     /**
      * @param array $requiredPermissions

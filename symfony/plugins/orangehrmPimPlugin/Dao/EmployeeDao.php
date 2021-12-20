@@ -331,13 +331,10 @@ class EmployeeDao extends BaseDao
     }
 
     /**
-     * Get Employee id list
-     *
      * @param bool $excludeTerminatedEmployees
-     * @return int[] EmployeeId List
-     * @throws DaoException
+     * @return int[]
      */
-    public function getEmployeeIdList(bool $excludeTerminatedEmployees = false): array
+    public function getEmpNumberList(bool $excludeTerminatedEmployees = false): array
     {
         $q = $this->createQueryBuilder(Employee::class, 'e');
         $q->select('e.empNumber');
