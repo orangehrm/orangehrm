@@ -141,7 +141,6 @@ class MyTimesheetAPI extends Endpoint implements CollectionEndpoint
             RequestParams::PARAM_TYPE_QUERY,
             self::FILTER_FROM_DATE,
             null,
-
         );
     }
 

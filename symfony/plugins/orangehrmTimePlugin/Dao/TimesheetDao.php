@@ -830,7 +830,7 @@ class TimesheetDao extends BaseDao
 
         return $this->getPaginator($qb);
     }
-    
+
     /**
      * @param $timesheetId
      * @param  TimesheetActionLogSearchFilterParams  $timesheetActionLogParamHolder

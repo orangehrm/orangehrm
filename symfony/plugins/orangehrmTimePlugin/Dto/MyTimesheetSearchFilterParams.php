@@ -21,7 +21,6 @@ namespace OrangeHRM\Time\Dto;
 
 use DateTime;
 use OrangeHRM\Core\Dto\FilterParams;
-use OrangeHRM\Entity\Employee;
 
 class MyTimesheetSearchFilterParams extends FilterParams
 {
