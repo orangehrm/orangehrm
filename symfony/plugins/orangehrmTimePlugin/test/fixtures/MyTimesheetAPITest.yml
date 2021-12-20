@@ -20,5 +20,5 @@ User:
 
 Timesheet:
   0: { timesheet_id: 1, state: 'CREATED', start_date: '2011-04-18',end_date: '2011-04-24', employee_id: 1 }
-  2: { timesheet_id: 2, state: 'SUBMITTED', start_date: '2011-05-22',end_date: '2011-05-29', employee_id: 1 }
-  3: { timesheet_id: 3, state: 'ACCEPTED', start_date: '2011-04-18',end_date: '2011-04-24', employee_id: 2 }
+  1: { timesheet_id: 2, state: 'SUBMITTED', start_date: '2011-05-22',end_date: '2011-05-29', employee_id: 1 }
+  2: { timesheet_id: 3, state: 'ACCEPTED', start_date: '2011-04-18',end_date: '2011-04-24', employee_id: 2 }
