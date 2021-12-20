@@ -245,6 +245,8 @@ Update:
 
   'Time sheet update with invalid action':
     userId: 1
+    attributes:
+      id: 1
     body:
       action: "!=0"
     invalidOnly: [ 'action' ]
