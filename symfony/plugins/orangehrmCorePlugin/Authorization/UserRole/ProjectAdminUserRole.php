@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\Core\Authorization\UserRole;
 
-use OrangeHRM\Core\Authorization\Exception\AuthorizationException;
 use OrangeHRM\Entity\Project;
 use OrangeHRM\Time\Traits\Service\ProjectServiceTrait;
 
@@ -34,8 +33,6 @@ class ProjectAdminUserRole extends AbstractUserRole
     {
         switch ($entityType) {
             case Project::class:
-                // TODO:: implement and remove below line
-                throw AuthorizationException::entityNotImplemented($entityType, __METHOD__);
                 return $this->getAccessibleProjectIds($requiredPermissions);
             default:
                 return [];
@@ -48,9 +45,8 @@ class ProjectAdminUserRole extends AbstractUserRole
      */
     protected function getAccessibleProjectIds(array $requiredPermissions = []): array
     {
-        return $this->getProjectService()->getProjectListForUserRole(
-            ProjectAdminUserRoleDecorator::PROJECT_ADMIN_USER,
-            $this->getEmployeeNumber()
-        );
+        return $this->getProjectService()
+            ->getProjectDao()
+            ->getProjectIdList();
     }
 }

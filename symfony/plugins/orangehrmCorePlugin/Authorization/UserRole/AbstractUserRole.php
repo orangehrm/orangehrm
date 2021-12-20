@@ -25,6 +25,7 @@ use OrangeHRM\Core\Authorization\Manager\AbstractUserRoleManager;
 use OrangeHRM\Core\Authorization\Manager\BasicUserRoleManager;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Entity\Employee;
+use OrangeHRM\Entity\Project;
 
 abstract class AbstractUserRole
 {
@@ -75,7 +76,7 @@ abstract class AbstractUserRole
                 case Employee::class:
                     $entities = $this->getAccessibleEmployees($operation, $returnType, $requiredPermissions);
                     break;
-                case 'Project':
+                case Project::class:
                     // TODO:: implement and remove below line
                     throw AuthorizationException::entityNotImplemented($entityType, __METHOD__);
                     $entities = $this->getAccessibleProjects($operation, $returnType, $requiredPermissions);
@@ -158,6 +159,15 @@ abstract class AbstractUserRole
         string $entityType,
         array $requiredPermissions = []
     ): array;
+
+    /**
+     * @param array $entities
+     * @return Employee[]
+     */
+    public function getEmployeesWithRole(array $entities = []): array
+    {
+        return [];
+    }
 
     /**
      * @deprecated

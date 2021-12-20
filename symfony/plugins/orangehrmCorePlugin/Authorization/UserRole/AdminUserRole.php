@@ -62,8 +62,6 @@ class AdminUserRole extends AbstractUserRole
             case Location::class:
                 return $this->getAccessibleLocationIds($requiredPermissions);
             case Project::class:
-                // TODO:: implement and remove below line
-                throw AuthorizationException::entityNotImplemented($entityType, __METHOD__);
                 return $this->getAccessibleProjectIds($requiredPermissions);
             case 'Vacancy':
                 // TODO:: implement and remove below line
@@ -123,12 +121,23 @@ class AdminUserRole extends AbstractUserRole
     }
 
     /**
+     * @param array $entities
+     * @return Employee[]
+     */
+    public function getEmployeesWithRole(array $entities = []): array
+    {
+        return $this->getUserService()->getEmployeesByUserRole($this->roleName);
+    }
+
+    /**
      * @param array $requiredPermissions
      * @return int[]
      */
     protected function getAccessibleProjectIds(array $requiredPermissions = []): array
     {
-        return $this->getProjectService()->getProjectListForUserRole(null, null);
+        return $this->getProjectService()
+            ->getProjectDao()
+            ->getProjectIdList();
     }
 
     /**

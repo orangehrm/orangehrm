@@ -41,10 +41,6 @@ use OrangeHRM\Entity\WorkflowStateMachine;
 use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
 use OrangeHRM\Time\Traits\Service\ProjectServiceTrait;
 
-/**
- * Description of BasicUserRoleManager
- *
- */
 class BasicUserRoleManager extends AbstractUserRoleManager
 {
     use EmployeeServiceTrait;
@@ -61,12 +57,9 @@ class BasicUserRoleManager extends AbstractUserRoleManager
     public const OPERATION_DELETE = 'delete';
 
     protected ?ScreenPermissionService $screenPermissionService = null;
-    protected $operationalCountryService;
-    protected $locationService;
     protected ?DataGroupService $dataGroupService = null;
     protected $subordinates = null;
     protected ?MenuService $menuService = null;
-    protected $vacancyService;
     protected ?HomePageDao $homePageDao = null;
     protected ?AccessFlowStateMachineService $accessFlowStateMachineService = null;
 
@@ -74,7 +67,6 @@ class BasicUserRoleManager extends AbstractUserRoleManager
      * @var AbstractUserRole[]
      */
     protected array $userRoleClasses = [];
-    protected $decoratorClasses;
 
     public function __construct()
     {
@@ -120,40 +112,10 @@ class BasicUserRoleManager extends AbstractUserRoleManager
         return $this->userRoleClasses[$roleName] ?? null;
     }
 
-    public function getLocationService()
-    {
-        // TODO
-        if (empty($this->locationService)) {
-            $this->locationService = new LocationService();
-        }
-        return $this->locationService;
-    }
-
-    public function setLocationService($locationService)
-    {
-        // TODO
-        $this->locationService = $locationService;
-    }
-
-    public function getOperationalCountryService()
-    {
-        // TODO
-        if (empty($this->operationalCountryService)) {
-            $this->operationalCountryService = new OperationalCountryService();
-        }
-        return $this->operationalCountryService;
-    }
-
-    public function setOperationalCountryService($operationalCountryService)
-    {
-        // TODO
-        $this->operationalCountryService = $operationalCountryService;
-    }
-
     /**
      * @return ScreenPermissionService
      */
-    public function getScreenPermissionService(): ScreenPermissionService
+    protected function getScreenPermissionService(): ScreenPermissionService
     {
         if (!$this->screenPermissionService instanceof ScreenPermissionService) {
             $this->screenPermissionService = new ScreenPermissionService();
@@ -180,20 +142,10 @@ class BasicUserRoleManager extends AbstractUserRoleManager
         return $this->menuService;
     }
 
-    public function getVacancyService()
-    {
-        // TODO
-        if (is_null($this->vacancyService)) {
-            $this->vacancyService = new VacancyService();
-        }
-
-        return $this->vacancyService;
-    }
-
     /**
      * @return HomePageDao
      */
-    public function getHomePageDao(): HomePageDao
+    protected function getHomePageDao(): HomePageDao
     {
         if (!$this->homePageDao instanceof HomePageDao) {
             $this->homePageDao = new HomePageDao();
@@ -212,7 +164,7 @@ class BasicUserRoleManager extends AbstractUserRoleManager
     /**
      * @return AccessFlowStateMachineService
      */
-    public function getAccessFlowStateMachineService(): AccessFlowStateMachineService
+    protected function getAccessFlowStateMachineService(): AccessFlowStateMachineService
     {
         if (!$this->accessFlowStateMachineService instanceof AccessFlowStateMachineService) {
             $this->accessFlowStateMachineService = new AccessFlowStateMachineService();
@@ -820,20 +772,12 @@ class BasicUserRoleManager extends AbstractUserRoleManager
     /**
      * @return DataGroupService
      */
-    public function getDataGroupService(): DataGroupService
+    protected function getDataGroupService(): DataGroupService
     {
         if (!$this->dataGroupService instanceof DataGroupService) {
             $this->dataGroupService = new DataGroupService();
         }
         return $this->dataGroupService;
-    }
-
-    /**
-     * @param DataGroupService $dataGroupService
-     */
-    public function setDataGroupService(DataGroupService $dataGroupService): void
-    {
-        $this->dataGroupService = $dataGroupService;
     }
 
     /**

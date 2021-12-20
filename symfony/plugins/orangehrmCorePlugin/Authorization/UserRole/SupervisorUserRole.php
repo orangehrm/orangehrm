@@ -20,8 +20,6 @@
 namespace OrangeHRM\Core\Authorization\UserRole;
 
 use OrangeHRM\Admin\Service\LocationService;
-use OrangeHRM\Core\Authorization\Exception\AuthorizationException;
-use OrangeHRM\Core\Authorization\Manager\BasicUserRoleManager;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\Location;
 use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
@@ -52,8 +50,6 @@ class SupervisorUserRole extends AbstractUserRole
             case Employee::class:
                 return $this->getAccessibleEmployeeIds($requiredPermissions);
             case Location::class:
-                // TODO:: implement and remove below line
-                throw AuthorizationException::entityNotImplemented($entityType, __METHOD__);
                 return $this->getAccessibleLocationIds($requiredPermissions);
             default:
                 return [];
@@ -81,13 +77,7 @@ class SupervisorUserRole extends AbstractUserRole
      */
     protected function getAccessibleLocationIds(array $requiredPermissions = []): array
     {
-        $locationIds = [];
-
-        if ($operation == BasicUserRoleManager::OPERATION_VIEW) {
-            // Return locations of subordinates
-            $empNumbers = $this->getAccessibleEmployeeIds();
-            $locationIds = $this->getLocationService()->getLocationIdsForEmployees($empNumbers);
-        }
-        return $locationIds;
+        $empNumbers = $this->getAccessibleEmployeeIds();
+        return $this->getLocationService()->getLocationIdsForEmployees($empNumbers);
     }
 }
