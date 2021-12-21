@@ -35,6 +35,13 @@
 import {APIService} from '@ohrm/core/util/services/api.service';
 export default {
   name: 'ProjectAutocomplete',
+  props: {
+    onlyAllowed: {
+      type: Boolean,
+      required: false,
+      default: true,
+    },
+  },
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
@@ -48,16 +55,18 @@ export default {
     async loadProjects(serachParam) {
       return new Promise(resolve => {
         if (serachParam.trim()) {
-          this.http.getAll().then(({data}) => {
-            resolve(
-              data.data.map(project => {
-                return {
-                  id: project.id,
-                  label: project.name,
-                };
-              }),
-            );
-          });
+          this.http
+            .getAll({name: serachParam.trim(), onlyAllowed: this.onlyAllowed})
+            .then(({data}) => {
+              resolve(
+                data.data.map(project => {
+                  return {
+                    id: project.id,
+                    label: project.name,
+                  };
+                }),
+              );
+            });
         } else {
           resolve([]);
         }
