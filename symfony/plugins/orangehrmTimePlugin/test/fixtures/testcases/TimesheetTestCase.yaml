@@ -10,7 +10,7 @@ Create:
       date: "2021-12-08"
     query: [ ]
     data:
-      id: 5
+      id: 6
       status:
         id: "NOT SUBMITTED"
         name: "Not Submitted"
@@ -29,7 +29,7 @@ Create:
       date: "2021-12-07"
     query: [ ]
     data:
-      id: 5
+      id: 6
       status:
         id: "NOT SUBMITTED"
         name: "Not Submitted"
@@ -48,7 +48,7 @@ Create:
       date: "2021-12-06"
     query: [ ]
     data:
-      id: 5
+      id: 6
       status:
         id: "NOT SUBMITTED"
         name: "Not Submitted"
@@ -67,7 +67,7 @@ Create:
       date: "2021-12-02"
     query: [ ]
     data:
-      id: 5
+      id: 6
       status:
         id: "NOT SUBMITTED"
         name: "Not Submitted"
@@ -86,7 +86,7 @@ Create:
       date: "2021-12-03"
     query: [ ]
     data:
-      id: 5
+      id: 6
       status:
         id: "NOT SUBMITTED"
         name: "Not Submitted"
@@ -105,7 +105,7 @@ Create:
       date: "2021-12-04"
     query: [ ]
     data:
-      id: 5
+      id: 6
       status:
         id: "NOT SUBMITTED"
         name: "Not Submitted"
@@ -124,7 +124,7 @@ Create:
       date: "2021-12-05"
     query: [ ]
     data:
-      id: 5
+      id: 6
       status:
         id: "NOT SUBMITTED"
         name: "Not Submitted"
@@ -197,6 +197,31 @@ Update:
         name: "Rejected"
       startDate: "2011-05-22"
       endDate: "2011-05-29"
+    meta: [ ]
+
+  'Time sheet Allowed action (Reset)':
+    userId: 1
+    now:
+      datetime: '2021-12-20'
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      id: 5
+    body:
+      action: "RESET"
+    query: [ ]
+    data:
+      id: 5
+      status:
+        id: "SUBMITTED"
+        name: "Submitted"
+      startDate: "2011-07-10"
+      endDate: "2011-07-16"
     meta: [ ]
 
   'Time sheet Allowed action (Submit - ESS)':

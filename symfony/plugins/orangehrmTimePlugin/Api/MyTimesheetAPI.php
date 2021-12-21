@@ -42,6 +42,7 @@ use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\Timesheet;
 use OrangeHRM\Entity\TimesheetActionLog;
+use OrangeHRM\Entity\WorkflowStateMachine;
 use OrangeHRM\ORM\Exception\TransactionException;
 use OrangeHRM\Time\Api\Model\TimesheetModel;
 use OrangeHRM\Time\Api\Traits\TimesheetPermissionTrait;
@@ -303,7 +304,8 @@ class MyTimesheetAPI extends Endpoint implements CrudEndpoint
             $state = $allowedActions[$actionKey]->getResultingState();
             $timesheet->setState($state);
             $this->getTimesheetService()->getTimesheetDao()->saveTimesheet($timesheet);
-            $this->setTimesheetActionLog($state, $comment, $timesheet);
+            $timesheetActionState = $actionKey == WorkflowStateMachine::TIMESHEET_ACTION_RESET ? Timesheet::RESET_ACTION : $state;
+            $this->setTimesheetActionLog($timesheetActionState, $comment, $timesheet);
             $this->commitTransaction();
 
             return new EndpointResourceResult(TimesheetModel::class, $timesheet);
