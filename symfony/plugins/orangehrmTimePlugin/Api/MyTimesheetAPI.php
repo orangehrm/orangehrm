@@ -22,12 +22,14 @@ namespace OrangeHRM\Time\Api;
 use DateTime;
 use Exception;
 use OrangeHRM\Core\Api\CommonParams;
-use OrangeHRM\Core\Api\V2\CollectionEndpoint;
+use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
 use OrangeHRM\Core\Api\V2\Exception\BadRequestException;
+use OrangeHRM\Core\Api\V2\Exception\ForbiddenException;
+use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
@@ -35,22 +37,33 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
+use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\Timesheet;
+use OrangeHRM\Entity\TimesheetActionLog;
+use OrangeHRM\Entity\WorkflowStateMachine;
+use OrangeHRM\ORM\Exception\TransactionException;
 use OrangeHRM\Time\Api\Model\TimesheetModel;
+use OrangeHRM\Time\Api\Traits\TimesheetPermissionTrait;
+use OrangeHRM\Time\Api\ValidationRules\MyTimesheetActionRule;
 use OrangeHRM\Time\Api\ValidationRules\MyTimesheetDateRule;
 use OrangeHRM\Time\Dto\MyTimesheetSearchFilterParams;
+use OrangeHRM\Time\Service\TimesheetService;
 use OrangeHRM\Time\Traits\Service\TimesheetServiceTrait;
 
-class MyTimesheetAPI extends Endpoint implements CollectionEndpoint
+class MyTimesheetAPI extends Endpoint implements CrudEndpoint
 {
     use AuthUserTrait;
     use TimesheetServiceTrait;
     use DateTimeHelperTrait;
     use UserRoleManagerTrait;
+    use EntityManagerHelperTrait;
+    use TimesheetPermissionTrait;
 
     public const PARAMETER_DATE = 'date';
+    public const PARAMETER_ACTION = 'action';
+    public const PARAMETER_COMMENT = 'comment';
 
     public const FILTER_FROM_DATE = 'fromDate';
     public const FILTER_TO_DATE = 'toDate';
@@ -239,5 +252,109 @@ class MyTimesheetAPI extends Endpoint implements CollectionEndpoint
     public function getValidationRuleForDelete(): ParamRuleCollection
     {
         throw $this->getNotImplementedException();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getOne(): EndpointResult
+    {
+        throw $this->getNotImplementedException();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getValidationRuleForGetOne(): ParamRuleCollection
+    {
+        throw $this->getNotImplementedException();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function update(): EndpointResult
+    {
+        $this->beginTransaction();
+        try {
+            $timesheetId = $this->getRequestParams()->getInt(
+                RequestParams::PARAM_TYPE_ATTRIBUTE,
+                CommonParams::PARAMETER_ID
+            );
+            $comment = $this->getRequestParams()->getStringOrNull(
+                RequestParams::PARAM_TYPE_BODY,
+                self::PARAMETER_COMMENT
+            );
+            $timesheet = $this->getTimesheetService()
+                ->getTimesheetDao()
+                ->getTimesheetById($timesheetId);
+            $this->throwRecordNotFoundExceptionIfNotExist($timesheet, Timesheet::class);
+            $this->checkTimesheetAccessible($timesheet);
+
+            $action = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_ACTION);
+            // matching the string value to corresponding key in the associative array
+            $actionKey = array_flip(TimesheetService::TIMESHEET_ACTION_MAP)[$action];
+
+            $allowedActions = $this->getTimesheetService()
+                ->getAllowedWorkflowsForTimesheet($this->getAuthUser()->getEmpNumber(), $timesheet);
+
+            if (!isset($allowedActions[$actionKey])) {
+                throw $this->getBadRequestException();
+            }
+            $state = $allowedActions[$actionKey]->getResultingState();
+            $timesheet->setState($state);
+            $this->getTimesheetService()->getTimesheetDao()->saveTimesheet($timesheet);
+            $timesheetActionState = $actionKey == WorkflowStateMachine::TIMESHEET_ACTION_RESET ? Timesheet::RESET_ACTION : $state;
+            $this->setTimesheetActionLog($timesheetActionState, $comment, $timesheet);
+            $this->commitTransaction();
+
+            return new EndpointResourceResult(TimesheetModel::class, $timesheet);
+        } catch (RecordNotFoundException|ForbiddenException $e) {
+            $this->rollBackTransaction();
+            throw $e;
+        } catch (Exception $e) {
+            $this->rollBackTransaction();
+            throw new TransactionException($e);
+        }
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getValidationRuleForUpdate(): ParamRuleCollection
+    {
+        return new ParamRuleCollection(
+            new ParamRule(CommonParams::PARAMETER_ID, new Rule(Rules::POSITIVE)),
+            $this->getValidationDecorator()->requiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_ACTION,
+                    new Rule(Rules::STRING_TYPE),
+                    new Rule(MyTimesheetActionRule::class),
+                )
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_COMMENT,
+                    new Rule(Rules::STRING_TYPE),
+                )
+            ),
+        );
+    }
+
+    /**
+     * @param string $state
+     * @param string|null $comment
+     * @param Timesheet $timesheet
+     * @return void
+     */
+    private function setTimesheetActionLog(string $state, ?string $comment, Timesheet $timesheet): void
+    {
+        $timesheetActionLog = new TimesheetActionLog();
+        $timesheetActionLog->setAction($state);
+        $timesheetActionLog->setComment($comment);
+        $timesheetActionLog->setTimesheet($timesheet);
+        $timesheetActionLog->setDate($this->getDateTimeHelper()->getNow());
+        $timesheetActionLog->getDecorator()->setUserId($this->getAuthUser()->getUserId());
+        $this->getTimesheetService()->getTimesheetDao()->saveTimesheetActionLog($timesheetActionLog);
     }
 }

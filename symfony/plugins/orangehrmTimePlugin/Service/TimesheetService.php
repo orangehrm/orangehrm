@@ -38,6 +38,16 @@ class TimesheetService
     use DateTimeHelperTrait;
     use UserRoleManagerTrait;
 
+    public const TIMESHEET_ACTION_MAP = [
+        '0' => 'VIEW',
+        '1' => 'SUBMIT',
+        '2' => 'APPROVE',
+        '3' => 'REJECT',
+        '4' => 'RESET',
+        '5' => 'MODIFY',
+        '6' => 'CREATE',
+    ];
+
     private static $timesheetTimeFormat = null;
     private ?TimesheetDao $timesheetDao = null;
     private $employeeDao;

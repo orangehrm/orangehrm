@@ -47,6 +47,7 @@ use OrangeHRM\Time\Api\Model\TotalDurationModel;
 use OrangeHRM\Time\Api\ValidationRules\TimesheetDeletedEntriesParamRule;
 use OrangeHRM\Time\Api\ValidationRules\TimesheetEntriesParamRule;
 use OrangeHRM\Time\Dto\DetailedTimesheet;
+use OrangeHRM\Time\Service\TimesheetService;
 use OrangeHRM\Time\Traits\Service\TimesheetServiceTrait;
 
 class EmployeeTimesheetItemAPI extends Endpoint implements CrudEndpoint
@@ -72,16 +73,6 @@ class EmployeeTimesheetItemAPI extends Endpoint implements CrudEndpoint
     public const META_PARAMETER_TIMESHEET = 'timesheet';
     public const META_PARAMETER_EMPLOYEE = 'employee';
     public const META_PARAMETER_ALLOWED_ACTIONS = 'allowedActions';
-
-    public const TIMESHEET_ACTION_MAP = [
-        '0' => 'View',
-        '1' => 'Submit',
-        '2' => 'Approve',
-        '3' => 'Reject',
-        '4' => 'Reset',
-        '5' => 'Modify',
-        '6' => 'Create',
-    ];
 
     /**
      * @inheritDoc
@@ -143,8 +134,8 @@ class EmployeeTimesheetItemAPI extends Endpoint implements CrudEndpoint
         ) {
             $action = $workflow->getAction();
             $allowedActions[] = [
-                'action' => strtoupper(self::TIMESHEET_ACTION_MAP[$action]),
-                'name' => self::TIMESHEET_ACTION_MAP[$action]
+                'action' => TimesheetService::TIMESHEET_ACTION_MAP[$action],
+                'name' => ucwords(strtolower(TimesheetService::TIMESHEET_ACTION_MAP[$action]))
             ];
         }
 

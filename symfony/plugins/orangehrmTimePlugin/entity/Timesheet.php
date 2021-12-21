@@ -35,6 +35,7 @@ class Timesheet
     use DecoratorTrait;
 
     public const STATE_INITIAL = "INITIAL";
+    public const RESET_ACTION = "RESET";
 
     /**
      * @var int
