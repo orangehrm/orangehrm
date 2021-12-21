@@ -36,6 +36,7 @@ use OrangeHRM\Entity\Location;
 use OrangeHRM\Entity\Module;
 use OrangeHRM\Entity\ModuleDefaultPage;
 use OrangeHRM\Entity\Project;
+use OrangeHRM\Entity\ProjectAdmin;
 use OrangeHRM\Entity\User;
 use OrangeHRM\Entity\UserRole;
 use OrangeHRM\Framework\Services;
@@ -69,7 +70,7 @@ class BasicUserRoleManagerTest extends KernelTestCase
             Config::PLUGINS_DIR
         ) . '/orangehrmCorePlugin/test/fixtures/BasicUserRoleManager.yml';
         TestDataService::truncateSpecificTables(
-            [User::class, Project::class]
+            [User::class, Project::class, ProjectAdmin::class]
         ); //'JobCandidate', 'JobVacancy', 'JobInterview'
         TestDataService::populate($this->fixture);
 
@@ -273,6 +274,7 @@ class BasicUserRoleManagerTest extends KernelTestCase
                 Services::EMPLOYEE_SERVICE => new EmployeeService(),
                 Services::CLASS_HELPER => new ClassHelper(),
                 Services::PROJECT_SERVICE => new ProjectService(),
+                Services::USER_SERVICE => new UserService(),
             ]
         );
         // ESS user
@@ -418,6 +420,7 @@ class BasicUserRoleManagerTest extends KernelTestCase
                 Services::EMPLOYEE_SERVICE => new EmployeeService(),
                 Services::CLASS_HELPER => new ClassHelper(),
                 Services::PROJECT_SERVICE => new ProjectService(),
+                Services::USER_SERVICE => new UserService(),
             ]
         );
         // ESS user
@@ -711,6 +714,7 @@ class BasicUserRoleManagerTest extends KernelTestCase
                 Services::EMPLOYEE_SERVICE => new EmployeeService(),
                 Services::CLASS_HELPER => new ClassHelper(),
                 Services::PROJECT_SERVICE => new ProjectService(),
+                Services::USER_SERVICE => new UserService(),
             ]
         );
 
@@ -1001,6 +1005,7 @@ class BasicUserRoleManagerTest extends KernelTestCase
                 Services::EMPLOYEE_SERVICE => new EmployeeService(),
                 Services::CLASS_HELPER => new ClassHelper(),
                 Services::PROJECT_SERVICE => new ProjectService(),
+                Services::USER_SERVICE => new UserService(),
             ]
         );
         $essUser = $users[4];

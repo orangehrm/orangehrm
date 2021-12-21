@@ -45,7 +45,7 @@ class ProjectActivity
     /**
      * @var Project
      *
-     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Project", inversedBy="projectActivity")
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Project")
      * @ORM\JoinColumn(name="project_id", referencedColumnName="project_id")
      */
     private Project $project;
@@ -63,13 +63,6 @@ class ProjectActivity
      * @ORM\Column(name="name", type="string", length=110)
      */
     private string $name;
-
-    /**
-     * @var TimesheetItem
-     *
-     * @ORM\OneToOne(targetEntity="TimesheetItem", mappedBy="projectActivity")
-     */
-    private TimesheetItem $timesheetItem;
 
     /**
      * @return int

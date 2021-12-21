@@ -59,7 +59,7 @@ class TimesheetActionLogDecorator
     }
 
     /**
-     * @return string
+     * @return string e.g ['Submitted', 'Approved', 'Reset']
      */
     public function getActionLabel(): string
     {
