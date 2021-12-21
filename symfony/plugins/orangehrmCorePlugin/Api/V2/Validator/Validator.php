@@ -21,6 +21,7 @@ namespace OrangeHRM\Core\Api\V2\Validator;
 
 use Exception;
 use OrangeHRM\Core\Api\V2\Exception\InvalidParamException;
+use OrangeHRM\Core\Api\V2\Validator\Exceptions\ValidationEscapableException;
 use OrangeHRM\Core\Api\V2\Validator\Exceptions\ValidationException;
 use Respect\Validation\Rules;
 
@@ -61,6 +62,9 @@ class Validator
                     );
                 }
             } catch (ValidationException | Exception $e) {
+                if ($e instanceof ValidationEscapableException) {
+                    throw $e;
+                }
                 $errorBag[$paramKey] = $e;
             }
         }

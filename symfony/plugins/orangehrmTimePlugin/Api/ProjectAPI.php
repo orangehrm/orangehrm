@@ -140,6 +140,7 @@ class ProjectAPI extends Endpoint implements CrudEndpoint
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::FILTER_PROJECT_ID,
+                    new Rule(Rules::POSITIVE),
                     new Rule(Rules::IN_ACCESSIBLE_ENTITY_ID, [Project::class])
                 ),
             ),
@@ -317,7 +318,8 @@ class ProjectAPI extends Endpoint implements CrudEndpoint
         return new ParamRuleCollection(
             new ParamRule(
                 CommonParams::PARAMETER_ID,
-                new Rule(Rules::POSITIVE)
+                new Rule(Rules::POSITIVE),
+                new Rule(Rules::IN_ACCESSIBLE_ENTITY_ID, [Project::class])
             ),
             $this->getModelParamRule()
         );

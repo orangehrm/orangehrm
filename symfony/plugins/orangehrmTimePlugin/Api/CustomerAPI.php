@@ -155,7 +155,11 @@ class CustomerAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForGetOne(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(CommonParams::PARAMETER_ID),
+            new ParamRule(
+                CommonParams::PARAMETER_ID,
+                new Rule(Rules::POSITIVE),
+                new Rule(Rules::IN_ACCESSIBLE_ENTITY_ID, [Customer::class])
+            )
         );
     }
 

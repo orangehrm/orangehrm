@@ -19,45 +19,95 @@
 
 namespace OrangeHRM\Core\Api\V2\Validator\Rules;
 
+use OrangeHRM\Core\Api\V2\Exception\ForbiddenException;
+use OrangeHRM\Core\Api\V2\Validator\Exceptions\ValidationEscapableException;
+
 class InAccessibleEntityIdOption
 {
-    private bool $numeric = true;
+    /**
+     * @var bool
+     */
+    private bool $throw = true;
 
-    private bool $positive = true;
+    /**
+     * @var bool
+     */
+    private bool $throwIfOnlyEntityExist = true;
+
+    /**
+     * @var ValidationEscapableException|null
+     */
+    private ?ValidationEscapableException $throwable = null;
+
+    /**
+     * @var string
+     */
+    private string $exceptionMessage = ForbiddenException::DEFAULT_ERROR_MESSAGE;
+
+    /**
+     * @return ValidationEscapableException
+     */
+    public function getThrowable(): ValidationEscapableException
+    {
+        if (is_null($this->throwable)) {
+            $this->throwable = new ForbiddenException($this->getExceptionMessage());
+        }
+        return $this->throwable;
+    }
+
+    /**
+     * @param ValidationEscapableException $throwable
+     */
+    public function setThrowable(ValidationEscapableException $throwable): void
+    {
+        $this->throwable = $throwable;
+    }
+
+    /**
+     * @return string
+     */
+    public function getExceptionMessage(): string
+    {
+        return $this->exceptionMessage;
+    }
+
+    /**
+     * @param string $exceptionMessage
+     */
+    public function setExceptionMessage(string $exceptionMessage): void
+    {
+        $this->exceptionMessage = $exceptionMessage;
+    }
 
     /**
      * @return bool
      */
-    public function isNumeric(): bool
+    public function isThrow(): bool
     {
-        return $this->numeric;
+        return $this->throw;
     }
 
     /**
-     * @param bool $numeric
-     * @return $this
+     * @param bool $throw
      */
-    public function setNumeric(bool $numeric): self
+    public function setThrow(bool $throw): void
     {
-        $this->numeric = $numeric;
-        return $this;
+        $this->throw = $throw;
     }
 
     /**
      * @return bool
      */
-    public function isPositive(): bool
+    public function isThrowIfOnlyEntityExist(): bool
     {
-        return $this->positive;
+        return $this->throwIfOnlyEntityExist;
     }
 
     /**
-     * @param bool $positive
-     * @return $this
+     * @param bool $throwIfOnlyEntityExist
      */
-    public function setPositive(bool $positive): self
+    public function setThrowIfOnlyEntityExist(bool $throwIfOnlyEntityExist): void
     {
-        $this->positive = $positive;
-        return $this;
+        $this->throwIfOnlyEntityExist = $throwIfOnlyEntityExist;
     }
 }

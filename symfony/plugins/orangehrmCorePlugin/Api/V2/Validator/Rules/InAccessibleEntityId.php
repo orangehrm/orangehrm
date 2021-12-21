@@ -19,11 +19,13 @@
 
 namespace OrangeHRM\Core\Api\V2\Validator\Rules;
 
+use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 
 class InAccessibleEntityId extends AbstractRule
 {
     use UserRoleManagerTrait;
+    use EntityManagerHelperTrait;
 
     /**
      * @var string
@@ -41,20 +43,26 @@ class InAccessibleEntityId extends AbstractRule
         $this->option = $option ?? new InAccessibleEntityIdOption();
     }
 
-
     /**
      * @param mixed $input
      * @return bool
      */
     public function validate($input): bool
     {
-        if ($this->option->isNumeric() && !is_numeric($input)) {
-            return false;
-        } elseif ($this->option->isPositive() && !$input > 0) {
-            return false;
+        if ($this->option->isThrowIfOnlyEntityExist()) {
+            $entity = $this->getRepository($this->entityName)->find($input);
+            if (!$entity instanceof $this->entityName) {
+                // ignore if entity not exists
+                return true;
+            }
         }
 
-        $accessibleEntityIds = $this->getUserRoleManager()->getAccessibleEntityIds($this->entityName);
-        return in_array($input, $accessibleEntityIds);
+        $accessible = $this->getUserRoleManager()->isEntityAccessible($this->entityName, $input);
+        if ($this->option->isThrow() && !$accessible) {
+            throw $this->option->getThrowable();
+        } elseif (!$accessible) {
+            return false;
+        }
+        return true;
     }
 }
