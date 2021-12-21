@@ -37,7 +37,7 @@ class TimesheetAPITest extends EndpointIntegrationTestCase
      */
     public function testCreate(TestCaseParams $testCaseParams): void
     {
-        TestDataService::populate(Config::get(Config::TEST_DIR) . '/phpunit/fixtures/WorkflowStateMachine.yaml', true);
+        TestDataService::populate(Config::get(Config::TEST_DIR).'/phpunit/fixtures/WorkflowStateMachine.yaml', true);
         $this->populateFixtures('MyTimesheetAPITest.yml', null, true);
         $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
         $this->registerServices($testCaseParams);
@@ -51,18 +51,22 @@ class TimesheetAPITest extends EndpointIntegrationTestCase
         return $this->getTestCases('TimesheetTestCase.yaml', 'Create');
     }
 
-    public function testGetAll(): void
+    /**
+     * @dataProvider dataProviderForTestGetAll
+     */
+    public function testGetAll(TestCaseParams $testCaseParams): void
     {
-        $api = new MyTimesheetAPI($this->getRequest());
-        $this->expectNotImplementedException();
-        $api->getAll();
+        $this->populateFixtures('MyTimesheetAPITest.yml', null, true);
+        $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
+        $this->registerServices($testCaseParams);
+        $this->registerMockDateTimeHelper($testCaseParams);
+        $api = $this->getApiEndpointMock(MyTimesheetAPI::class, $testCaseParams);
+        $this->assertValidTestCase($api, 'getAll', $testCaseParams);
     }
 
-    public function testGetValidationRuleForGetAll(): void
+    public function dataProviderForTestGetAll(): array
     {
-        $api = new MyTimesheetAPI($this->getRequest());
-        $this->expectNotImplementedException();
-        $api->getValidationRuleForGetAll();
+        return $this->getTestCases('TimesheetTestCase.yaml', 'GetAll');
     }
 
     public function testDelete(): void

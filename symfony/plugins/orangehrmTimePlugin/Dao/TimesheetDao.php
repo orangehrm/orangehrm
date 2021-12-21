@@ -26,6 +26,7 @@ use OrangeHRM\Entity\Timesheet;
 use OrangeHRM\Entity\TimesheetActionLog;
 use OrangeHRM\Entity\TimesheetItem;
 use OrangeHRM\ORM\Paginator;
+use OrangeHRM\Time\Dto\MyTimesheetSearchFilterParams;
 use OrangeHRM\Time\Dto\TimesheetActionLogSearchFilterParams;
 use OrangeHRM\Time\Traits\Service\TimesheetServiceTrait;
 
@@ -830,6 +831,7 @@ class TimesheetDao extends BaseDao
 
         $qb->andWhere('timesheet.id = :timesheetId')
             ->setParameter('timesheetId', $timesheetId);
+
         return $this->getPaginator($qb);
     }
 
@@ -843,6 +845,55 @@ class TimesheetDao extends BaseDao
         TimesheetActionLogSearchFilterParams $timesheetActionLogParamHolder
     ): int {
         return $this->getTimesheetActionLogsPaginator($timesheetId, $timesheetActionLogParamHolder)->count();
+    }
+
+    /**
+     * @param  MyTimesheetSearchFilterParams  $myTimesheetParamHolder
+     * @return array
+     */
+    public function getTimesheetByStartAndEndDate(
+        MyTimesheetSearchFilterParams $myTimesheetParamHolder
+    ): array {
+        $qb = $this->getTimesheetPaginator(
+            $myTimesheetParamHolder,
+        );
+        return $qb->getQuery()->execute();
+    }
+
+    /**
+     * @param  MyTimesheetSearchFilterParams  $myTimesheetParamHolder
+     * @return Paginator
+     */
+    private function getTimesheetPaginator(
+        MyTimesheetSearchFilterParams $myTimesheetParamHolder
+    ): Paginator {
+        $qb = $this->createQueryBuilder(Timesheet::class, 'timesheet');
+
+        $this->setSortingAndPaginationParams($qb, $myTimesheetParamHolder);
+
+        $qb->andWhere(
+            $qb->expr()->between(
+                'timesheet.startDate',
+                ':startDate',
+                ':endDate'
+            )
+        )
+            ->setParameter('startDate', $myTimesheetParamHolder->getFromDate())
+            ->setParameter('endDate', $myTimesheetParamHolder->getToDate());
+
+        $qb->andWhere('timesheet.employee = :empNumber')
+            ->setParameter('empNumber', $myTimesheetParamHolder->getAuthEmpNumber());
+
+        return $this->getPaginator($qb);
+    }
+
+    /**
+     * @param  MyTimesheetSearchFilterParams  $myTimesheetParamHolder
+     * @return int
+     */
+    public function getTimesheetCount(MyTimesheetSearchFilterParams $myTimesheetParamHolder): int
+    {
+        return $this->getTimesheetPaginator($myTimesheetParamHolder)->count();
     }
 
     /**
