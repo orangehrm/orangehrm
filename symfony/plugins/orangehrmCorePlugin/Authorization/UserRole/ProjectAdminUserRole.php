@@ -19,12 +19,15 @@
 
 namespace OrangeHRM\Core\Authorization\UserRole;
 
+use OrangeHRM\Entity\Customer;
 use OrangeHRM\Entity\Project;
+use OrangeHRM\Time\Traits\Service\CustomerServiceTrait;
 use OrangeHRM\Time\Traits\Service\ProjectServiceTrait;
 
 class ProjectAdminUserRole extends AbstractUserRole
 {
     use ProjectServiceTrait;
+    use CustomerServiceTrait;
 
     /**
      * @inheritDoc
@@ -34,6 +37,8 @@ class ProjectAdminUserRole extends AbstractUserRole
         switch ($entityType) {
             case Project::class:
                 return $this->getAccessibleProjectIds($requiredPermissions);
+            case Customer::class:
+                return $this->getAccessibleCustomerIds($requiredPermissions);
             default:
                 return [];
         }
@@ -47,6 +52,17 @@ class ProjectAdminUserRole extends AbstractUserRole
     {
         return $this->getProjectService()
             ->getProjectDao()
-            ->getProjectIdList();
+            ->getProjectIdListForProjectAdmin($this->getEmployeeNumber());
+    }
+
+    /**
+     * @param array $requiredPermissions
+     * @return int[]
+     */
+    protected function getAccessibleCustomerIds(array $requiredPermissions): array
+    {
+        return $this->getCustomerService()
+            ->getCustomerDao()
+            ->getCustomerIdListForProjectAdmin($this->getEmployeeNumber());
     }
 }

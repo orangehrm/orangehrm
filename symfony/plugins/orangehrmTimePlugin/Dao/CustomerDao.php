@@ -137,4 +137,42 @@ class CustomerDao extends BaseDao
         }
         return null;
     }
+
+    /**
+     * @param bool $includeDeleted
+     * @return int[]
+     */
+    public function getCustomerIdList(bool $includeDeleted = false): array
+    {
+        $q = $this->createQueryBuilder(Customer::class, 'customer')
+            ->select('customer.id');
+        if (!$includeDeleted) {
+            $q->andWhere('customer.deleted = :deleted')
+                ->setParameter('deleted', false);
+        }
+        $result = $q->getQuery()->getArrayResult();
+        return array_column($result, 'id');
+    }
+
+    /**
+     * @param int $projectAdminEmpNumber
+     * @param bool $includeDeleted
+     * @return int[]
+     */
+    public function getCustomerIdListForProjectAdmin(int $projectAdminEmpNumber, bool $includeDeleted = false): array
+    {
+        $q = $this->createQueryBuilder(Customer::class, 'customer')
+            ->select('customer.id')
+            ->distinct()
+            ->leftJoin('customer.projects', 'project')
+            ->innerJoin('project.projectAdmins', 'projectAdmin')
+            ->andWhere('projectAdmin.empNumber = :projectAdminEmpNumber')
+            ->setParameter('projectAdminEmpNumber', $projectAdminEmpNumber);
+        if (!$includeDeleted) {
+            $q->andWhere('customer.deleted = :deleted')
+                ->setParameter('deleted', false);
+        }
+        $result = $q->getQuery()->getArrayResult();
+        return array_column($result, 'id');
+    }
 }

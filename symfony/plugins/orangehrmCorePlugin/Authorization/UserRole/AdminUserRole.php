@@ -21,18 +21,21 @@ namespace OrangeHRM\Core\Authorization\UserRole;
 
 use OrangeHRM\Admin\Service\LocationService;
 use OrangeHRM\Core\Authorization\Exception\AuthorizationException;
+use OrangeHRM\Entity\Customer;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\Location;
 use OrangeHRM\Entity\Project;
 use OrangeHRM\Entity\User;
 use OrangeHRM\Entity\UserRole;
 use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
+use OrangeHRM\Time\Traits\Service\CustomerServiceTrait;
 use OrangeHRM\Time\Traits\Service\ProjectServiceTrait;
 
 class AdminUserRole extends AbstractUserRole
 {
     use EmployeeServiceTrait;
     use ProjectServiceTrait;
+    use CustomerServiceTrait;
 
     protected ?LocationService $locationService = null;
 
@@ -63,6 +66,8 @@ class AdminUserRole extends AbstractUserRole
                 return $this->getAccessibleLocationIds($requiredPermissions);
             case Project::class:
                 return $this->getAccessibleProjectIds($requiredPermissions);
+            case Customer::class:
+                return $this->getAccessibleCustomerIds($requiredPermissions);
             case 'Vacancy':
                 // TODO:: implement and remove below line
                 throw AuthorizationException::entityNotImplemented($entityType, __METHOD__);
@@ -138,6 +143,17 @@ class AdminUserRole extends AbstractUserRole
         return $this->getProjectService()
             ->getProjectDao()
             ->getProjectIdList();
+    }
+
+    /**
+     * @param array $requiredPermissions
+     * @return int[]
+     */
+    protected function getAccessibleCustomerIds(array $requiredPermissions): array
+    {
+        return $this->getCustomerService()
+            ->getCustomerDao()
+            ->getCustomerIdList();
     }
 
     /**
