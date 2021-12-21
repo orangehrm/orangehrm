@@ -11,10 +11,10 @@ UserRole:
   - { id: 3, name: Supervisor, display_name: Supervisor, is_assignable: 0, is_predefined: 1 }
 
 User:
-  - { id: 1, user_role_id: 1, emp_number: 1, user_name: 'samantha', user_password: 'samantha' }
-  - { id: 2, user_role_id: 2, emp_number: 2, user_name: 'yashika', user_password: 'yashika' }
-  - { id: 3, user_role_id: 1, emp_number: 3, user_name: 'Renukshan', user_password: 'Renukshan', status: 0 }
-  - { id: 4, user_role_id: 1, emp_number: 4, user_name: 'Chaturanga', user_password: 'Chaturanga', deleted: 1 }
+  - { "id": 1, "user_role_id": 1, "emp_number": 1, "user_name": "admin","user_password": "admin" }
+  - { "id": 2, "user_role_id": 2, "emp_number": 2,"user_name": "John.Smith","user_password": "password" }
+  - { "id": 3, "user_role_id": 1, "emp_number": 3,"user_name": "Odis.Adalwin","user_password": "password","status": 0 }
+  - { "id": 4, "user_role_id": 1, "emp_number": 4, "user_name": "Abel","user_password": "Abel","deleted": 1 }
 
 Customer:
   - { id: 1, name: 'Orange', description: 'HRM', deleted: false }

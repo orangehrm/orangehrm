@@ -17,59 +17,44 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Time\Dto;
+namespace OrangeHRM\Core\Api\V2\Validator\Rules;
 
-use OrangeHRM\Core\Dto\FilterParams;
+use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 
-class CustomerSearchFilterParams extends FilterParams
+class InAccessibleEntityId extends AbstractRule
 {
-    public const ALLOWED_SORT_FIELDS = ['customer.name'];
+    use UserRoleManagerTrait;
 
     /**
-     * @var string|null
+     * @var string
      */
-    protected ?string $name = null;
+    private string $entityName;
 
     /**
-     * @var int[]|null
+     * @var InAccessibleEntityIdOption
      */
-    protected ?array $customerIds = null;
+    private InAccessibleEntityIdOption $option;
 
-
-    public function __construct()
+    public function __construct(string $entityName, ?InAccessibleEntityIdOption $option = null)
     {
-        $this->setSortField('customer.name');
+        $this->entityName = $entityName;
+        $this->option = $option ?? new InAccessibleEntityIdOption();
     }
 
-    /**
-     * @return string|null
-     */
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
 
     /**
-     * @param string|null $name
+     * @param mixed $input
+     * @return bool
      */
-    public function setName(?string $name): void
+    public function validate($input): bool
     {
-        $this->name = $name;
-    }
+        if ($this->option->isNumeric() && !is_numeric($input)) {
+            return false;
+        } elseif ($this->option->isPositive() && !$input > 0) {
+            return false;
+        }
 
-    /**
-     * @return int[]|null
-     */
-    public function getCustomerIds(): ?array
-    {
-        return $this->customerIds;
-    }
-
-    /**
-     * @param int[]|null $customerIds
-     */
-    public function setCustomerIds(?array $customerIds): void
-    {
-        $this->customerIds = $customerIds;
+        $accessibleEntityIds = $this->getUserRoleManager()->getAccessibleEntityIds($this->entityName);
+        return in_array($input, $accessibleEntityIds);
     }
 }

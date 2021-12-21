@@ -4240,6 +4240,11 @@ INSERT INTO `ohrm_registration_event_queue` (`event_type`,`published`,`event_tim
 --        OrangeHRM 5.0
 -- ------------------------------
 
+SET @admin_role_id := (SELECT `id` FROM ohrm_user_role WHERE `name` = 'Admin' LIMIT 1);
+SET @ess_role_id := (SELECT `id` FROM ohrm_user_role WHERE `name` = 'ESS' LIMIT 1);
+SET @supervisor_role_id := (SELECT `id` FROM ohrm_user_role WHERE `name` = 'Supervisor' LIMIT 1);
+SET @project_admin_role_id := (SELECT `id` FROM ohrm_user_role WHERE `name` = 'ProjectAdmin' LIMIT 1);
+
 INSERT INTO ohrm_data_group (`name`, `description`, `can_read`, `can_create`, `can_update`, `can_delete`)
 VALUES ('apiv2_time_time_sheet_config', 'API-v2 Time - Time Sheet Start Day Configuration', 1, 0, 1, 0),
        ('apiv2_time_customers', 'API-v2 Time - Customers', 1, 1, 1, 1),
@@ -4280,14 +4285,15 @@ VALUES ('OrangeHRM\\Time\\Api\\TimeConfigPeriodAPI', @time_module_id, @apiv2_tim
        ('OrangeHRM\\Time\\Api\\TimesheetProjectActivityUniqueValidationAPI', @time_module_id, @apiv2_time_project_activity_unique_validation_data_group_id),
        ('OrangeHRM\\Time\\Api\\TimesheetCommentAPI', @time_module_id, @apiv2_time_timesheet_comment_data_group_id);
 
-SET @admin_role_id := (SELECT `id` FROM ohrm_user_role WHERE `name` = 'Admin' LIMIT 1);
-
 INSERT INTO ohrm_user_role_data_group (`can_read`, `can_create`, `can_update`, `can_delete`, `self`, `data_group_id`, `user_role_id`)
 VALUES (1, 0, 1, 0, 0, @apiv2_time_time_sheet_config_data_group_id, @admin_role_id),
-       (1, 1, 1, 1, 1, @apiv2_time_customers_data_group_id, @admin_role_id),
+       (1, 1, 1, 1, 0, @apiv2_time_customers_data_group_id, @admin_role_id),
+       (1, 0, 0, 0, 0, @apiv2_time_customers_data_group_id, @project_admin_role_id),
        (1, 0, 0, 0, 0, @apiv2_time_validation_customer_name_data_group_id, @admin_role_id),
        (1, 1, 1, 1, 0, @apiv2_time_project_activities_data_group_id, @admin_role_id),
-       (1, 1, 1, 1, 1, @apiv2_time_projects_data_group_id, @admin_role_id),
+       (1, 1, 1, 1, 0, @apiv2_time_project_activities_data_group_id, @project_admin_role_id),
+       (1, 1, 1, 1, 0, @apiv2_time_projects_data_group_id, @admin_role_id),
+       (1, 0, 0, 0, 0, @apiv2_time_projects_data_group_id, @project_admin_role_id),
        (1, 0, 0, 0, 0, @apiv2_time_project_name_validator_data_group_id, @admin_role_id),
        (1, 0, 1, 0, 1, @apiv2_time_my_timesheets_entries_data_group_id, @admin_role_id),
        (1, 0, 1, 0, 1, @apiv2_time_my_timesheets_entries_data_group_id, @ess_role_id),

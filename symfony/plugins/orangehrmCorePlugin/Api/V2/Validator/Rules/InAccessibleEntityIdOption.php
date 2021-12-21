@@ -17,59 +17,47 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Time\Dto;
+namespace OrangeHRM\Core\Api\V2\Validator\Rules;
 
-use OrangeHRM\Core\Dto\FilterParams;
-
-class CustomerSearchFilterParams extends FilterParams
+class InAccessibleEntityIdOption
 {
-    public const ALLOWED_SORT_FIELDS = ['customer.name'];
+    private bool $numeric = true;
+
+    private bool $positive = true;
 
     /**
-     * @var string|null
+     * @return bool
      */
-    protected ?string $name = null;
-
-    /**
-     * @var int[]|null
-     */
-    protected ?array $customerIds = null;
-
-
-    public function __construct()
+    public function isNumeric(): bool
     {
-        $this->setSortField('customer.name');
+        return $this->numeric;
     }
 
     /**
-     * @return string|null
+     * @param bool $numeric
+     * @return $this
      */
-    public function getName(): ?string
+    public function setNumeric(bool $numeric): self
     {
-        return $this->name;
+        $this->numeric = $numeric;
+        return $this;
     }
 
     /**
-     * @param string|null $name
+     * @return bool
      */
-    public function setName(?string $name): void
+    public function isPositive(): bool
     {
-        $this->name = $name;
+        return $this->positive;
     }
 
     /**
-     * @return int[]|null
+     * @param bool $positive
+     * @return $this
      */
-    public function getCustomerIds(): ?array
+    public function setPositive(bool $positive): self
     {
-        return $this->customerIds;
-    }
-
-    /**
-     * @param int[]|null $customerIds
-     */
-    public function setCustomerIds(?array $customerIds): void
-    {
-        $this->customerIds = $customerIds;
+        $this->positive = $positive;
+        return $this;
     }
 }

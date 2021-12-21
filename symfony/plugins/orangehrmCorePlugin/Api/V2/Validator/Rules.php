@@ -43,6 +43,7 @@ final class Rules
     public const LESS_THAN_OR_EQUAL = OHRMRules\LessThanOrEqual::class;
     public const ENTITY_ID_EXISTS = OHRMRules\EntityIdExists::class;
     public const ENTITY_UNIQUE_PROPERTY = OHRMRules\EntityUniqueProperty::class;
+    public const IN_ACCESSIBLE_ENTITY_ID = OHRMRules\InAccessibleEntityId::class;
 
     public const ALNUM = RespectRules\Alnum::class;
     public const ALPHA = RespectRules\Alpha::class;
