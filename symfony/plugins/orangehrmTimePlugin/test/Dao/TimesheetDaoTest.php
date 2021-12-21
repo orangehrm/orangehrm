@@ -29,8 +29,8 @@ use OrangeHRM\Entity\TimesheetItem;
 use OrangeHRM\Tests\Util\KernelTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 use OrangeHRM\Time\Dao\TimesheetDao;
-use OrangeHRM\Time\Dto\MyTimesheetSearchFilterParams;
 use OrangeHRM\Time\Dto\TimesheetActionLogSearchFilterParams;
+use OrangeHRM\Time\Dto\TimesheetSearchFilterParams;
 
 class TimesheetDaoTest extends KernelTestCase
 {
@@ -52,7 +52,7 @@ class TimesheetDaoTest extends KernelTestCase
     /**
      * @var int
      */
-    private int $authEmpNumber=1;
+    private int $empNumber = 1;
 
     /**
      * Set up method
@@ -124,8 +124,8 @@ class TimesheetDaoTest extends KernelTestCase
     {
         $this->fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmTimePlugin/test/fixtures/MyTimesheetAPITest.yml';
         TestDataService::populate($this->fixture);
-        $myTimesheetParamHolder = new MyTimesheetSearchFilterParams();
-        $myTimesheetParamHolder->setAuthEmpNumber(1);
+        $myTimesheetParamHolder = new TimesheetSearchFilterParams();
+        $myTimesheetParamHolder->setEmpNumber($this->empNumber);
         $myTimesheetParamHolder->setFromDate(new DateTime('2011-04-18'));
         $myTimesheetParamHolder->setToDate(new DateTime('2011-05-27'));
         $myTimeSheets = $this->timesheetDao->getTimesheetByStartAndEndDate(
