@@ -57,10 +57,12 @@ class InAccessibleEntityIdOption
 
     /**
      * @param ValidationEscapableException $throwable
+     * @return $this
      */
-    public function setThrowable(ValidationEscapableException $throwable): void
+    public function setThrowable(ValidationEscapableException $throwable): self
     {
         $this->throwable = $throwable;
+        return $this;
     }
 
     /**
@@ -73,10 +75,12 @@ class InAccessibleEntityIdOption
 
     /**
      * @param string $exceptionMessage
+     * @return $this
      */
-    public function setExceptionMessage(string $exceptionMessage): void
+    public function setExceptionMessage(string $exceptionMessage): self
     {
         $this->exceptionMessage = $exceptionMessage;
+        return $this;
     }
 
     /**
@@ -89,10 +93,12 @@ class InAccessibleEntityIdOption
 
     /**
      * @param bool $throw
+     * @return $this
      */
-    public function setThrow(bool $throw): void
+    public function setThrow(bool $throw): self
     {
         $this->throw = $throw;
+        return $this;
     }
 
     /**
@@ -105,9 +111,11 @@ class InAccessibleEntityIdOption
 
     /**
      * @param bool $throwIfOnlyEntityExist
+     * @return $this
      */
-    public function setThrowIfOnlyEntityExist(bool $throwIfOnlyEntityExist): void
+    public function setThrowIfOnlyEntityExist(bool $throwIfOnlyEntityExist): self
     {
         $this->throwIfOnlyEntityExist = $throwIfOnlyEntityExist;
+        return $this;
     }
 }

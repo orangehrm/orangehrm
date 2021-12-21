@@ -9,7 +9,7 @@ Create:
       name: 'Test Project'
       description: 'This is a test project'
       customerId: 1
-      projectAdminsEmpNumbers: [1,2]
+      projectAdminsEmpNumbers: [ 1,2 ]
     data:
       id: 4
       name: 'Test Project'
@@ -82,6 +82,90 @@ GetAll:
     meta:
       total: 2
 
+  'Get projects list filter by name':
+    userId: 1
+    services:
+      time.project_service: \OrangeHRM\Time\Service\ProjectService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      name: '2'
+    data:
+      - id: 2
+        name: 'project_02'
+        description: 'Project description for project_02'
+        deleted: false
+    meta:
+      total: 1
+
+  'project admin get accessible projects list filter by name':
+    userId: 3
+    services:
+      time.project_service: \OrangeHRM\Time\Service\ProjectService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      name: '2'
+    data:
+      - id: 2
+        name: 'project_02'
+        description: 'Project description for project_02'
+        deleted: false
+    meta:
+      total: 1
+
+  'project admin get accessible projects list filter by name - no results':
+    userId: 3
+    services:
+      time.project_service: \OrangeHRM\Time\Service\ProjectService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      name: '01'
+    data: [ ]
+    meta:
+      total: 0
+
+  'project admin get all projects list filter by project id':
+    userId: 3
+    services:
+      time.project_service: \OrangeHRM\Time\Service\ProjectService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      projectId: 3
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
+      message: 'Unauthorized'
+
+  'project admin get all projects list':
+    userId: 1
+    services:
+      time.project_service: \OrangeHRM\Time\Service\ProjectService
+    query:
+      limit: 2
+      offset: 1
+      onlyAllowed: false
+    data:
+      - id: 1
+        name: 'project_03'
+        description: 'Project description for project_03'
+        deleted: false
+    meta:
+      total: 2
+
   'Get projects list detailed':
     userId: 1
     services:
@@ -132,7 +216,7 @@ GetAll:
     meta:
       total: 2
 
-  'Get projects list detailed - filter by project name':
+  'Get projects list detailed - filter by project id':
     userId: 1
     services:
       time.project_service: \OrangeHRM\Time\Service\ProjectService
@@ -300,6 +384,55 @@ GetOne:
       class: '\OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException'
       message: 'Record Not Found'
 
+  'access not allowed project':
+    userId: 4
+    services:
+      time.project_service: \OrangeHRM\Time\Service\ProjectService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      id: 1
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
+      message: 'Unauthorized'
+
+  'project admin access not allowed project':
+    userId: 3
+    services:
+      time.project_service: \OrangeHRM\Time\Service\ProjectService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      id: 3
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
+      message: 'Unauthorized'
+
+  'project admin access allowed project':
+    userId: 3
+    services:
+      time.project_service: \OrangeHRM\Time\Service\ProjectService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      id: 2
+    data: {
+      id: 2,
+      name: 'project_02',
+      description: 'Project description for project_02',
+      deleted: false
+    }
+    meta: [ ]
+
 Update:
   'Update existing project':
     userId: 1
@@ -312,7 +445,7 @@ Update:
       name: 'project_03_updated'
       description: 'Project description for project_03-updated'
       customerId: 2
-      projectAdminsEmpNumbers: [3]
+      projectAdminsEmpNumbers: [ 3 ]
     data:
       id: 1
       name: 'project_03_updated'
@@ -338,7 +471,7 @@ Delete:
     attributes: [ ]
     query: [ ]
     body:
-      ids: [1,2]
+      ids: [ 1,2 ]
     data:
       - 1
       - 2

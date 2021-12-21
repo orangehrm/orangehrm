@@ -21,7 +21,7 @@ User:
   - { "id": 1, "user_role_id": 1, "emp_number": 1, "user_name": "admin","user_password": "admin" }
   - { "id": 2, "user_role_id": 2, "emp_number": 2,"user_name": "John.Smith","user_password": "password" }
   - { "id": 3, "user_role_id": 1, "emp_number": 3,"user_name": "Odis.Adalwin","user_password": "password","status": 0 }
-  - { "id": 4, "user_role_id": 1, "emp_number": 4, "user_name": "Abel","user_password": "Abel","deleted": 1 }
+  - { "id": 4, "user_role_id": 2, "emp_number": 4, "user_name": "Abel","user_password": "Abel","deleted": 1 }
 
 Customer:
   - { name: 'Orange', description: 'HRM', deleted: false }
@@ -29,9 +29,9 @@ Customer:
   - { name: 'CUS2', description: 'DES2', deleted: false }
 
 Project:
-  - { customer_id: 1, name: 'project_03', description: 'Project description for project_03', is_deleted: false }
-  - { customer_id: 2, name: 'project_02', description: 'Project description for project_02', is_deleted: false }
-  - { customer_id: 1, name: 'project_01', description: 'Project description for project_01', is_deleted: true }
+  - { "project_id": 1, customer_id: 1, name: 'project_03', description: 'Project description for project_03', is_deleted: false }
+  - { "project_id": 2, customer_id: 2, name: 'project_02', description: 'Project description for project_02', is_deleted: false }
+  - { "project_id": 3, customer_id: 1, name: 'project_01', description: 'Project description for project_01', is_deleted: true }
 
 ProjectAdmin:
   - { project_id: 1, emp_number: 1 }
@@ -39,4 +39,3 @@ ProjectAdmin:
   - { project_id: 2, emp_number: 3 }
   - { project_id: 3, emp_number: 1 }
   - { project_id: 3, emp_number: 2 }
-  - { project_id: 3, emp_number: 3 }
