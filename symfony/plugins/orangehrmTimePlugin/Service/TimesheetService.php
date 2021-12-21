@@ -607,7 +607,7 @@ class TimesheetService
      * @param DateTime $date
      * @return array  e.g array(if monday as first day in config => '2021-12-13', '2021-12-19')
      */
-    private function extractStartDateAndEndDateFromDate(DateTime $date): array
+    public function extractStartDateAndEndDateFromDate(DateTime $date): array
     {
         $currentWeekFirstDate = date('Y-m-d', strtotime('monday this week', strtotime($date->format('Y-m-d'))));
         $configDate = $this->getTimesheetPeriodService()->getTimesheetStartDate() - 1;

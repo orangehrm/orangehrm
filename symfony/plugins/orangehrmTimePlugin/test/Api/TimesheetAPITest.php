@@ -52,6 +52,24 @@ class TimesheetAPITest extends EndpointIntegrationTestCase
     }
 
     /**
+     * @dataProvider dataProviderForTestGetAll
+     */
+    public function testGetAll(TestCaseParams $testCaseParams): void
+    {
+        $this->populateFixtures('MyTimesheetAPITest.yml', null, true);
+        $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
+        $this->registerServices($testCaseParams);
+        $this->registerMockDateTimeHelper($testCaseParams);
+        $api = $this->getApiEndpointMock(MyTimesheetAPI::class, $testCaseParams);
+        $this->assertValidTestCase($api, 'getAll', $testCaseParams);
+    }
+
+    public function dataProviderForTestGetAll(): array
+    {
+        return $this->getTestCases('TimesheetTestCase.yaml', 'GetAll');
+    }
+
+    /**
      * @dataProvider dataProviderForTestUpdate
      */
     public function testUpdate(TestCaseParams $testCaseParams): void
@@ -70,13 +88,6 @@ class TimesheetAPITest extends EndpointIntegrationTestCase
         return $this->getTestCases('TimesheetTestCase.yaml', 'Update');
     }
 
-    public function testGetAll(): void
-    {
-        $api = new MyTimesheetAPI($this->getRequest());
-        $this->expectNotImplementedException();
-        $api->getAll();
-    }
-
     public function testGetOne(): void
     {
         $api = new MyTimesheetAPI($this->getRequest());
@@ -89,13 +100,6 @@ class TimesheetAPITest extends EndpointIntegrationTestCase
         $api = new MyTimesheetAPI($this->getRequest());
         $this->expectNotImplementedException();
         $api->getValidationRuleForGetOne();
-    }
-
-    public function testGetValidationRuleForGetAll(): void
-    {
-        $api = new MyTimesheetAPI($this->getRequest());
-        $this->expectNotImplementedException();
-        $api->getValidationRuleForGetAll();
     }
 
     public function testDelete(): void

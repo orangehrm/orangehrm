@@ -4248,7 +4248,7 @@ VALUES ('apiv2_time_time_sheet_config', 'API-v2 Time - Time Sheet Start Day Conf
        ('apiv2_time_projects', 'API-v2 Time - Projects', 1, 1, 1, 1),
        ('apiv2_time_project_name_validator', 'API-v2 Time - Project Name Validation', 1, 0, 0, 0),
        ('apiv2_time_my_timesheets_entries', 'API-v2 Time - Timesheet Entries', 1, 0, 1, 0),
-       ('apiv2_time_my_timesheet', 'API-v2 Time - My Timesheet', 0, 1, 1, 0),
+       ('apiv2_time_my_timesheet', 'API-v2 Time - My Timesheet', 1, 1, 1, 0),
        ('apiv2_time_timesheet_action_log', 'API-v2 Time - Timesheet action log', 1, 0, 0, 0);
 
 SET @time_module_id := (SELECT `id` FROM ohrm_module WHERE name = 'time' LIMIT 1);
@@ -4285,9 +4285,9 @@ VALUES (1, 0, 1, 0, 0, @apiv2_time_time_sheet_config_data_group_id, @admin_role_
        (1, 0, 0, 0, 0, @apiv2_time_project_name_validator_data_group_id, @admin_role_id),
        (1, 0, 1, 0, 1, @apiv2_time_my_timesheets_entries_data_group_id, @admin_role_id),
        (1, 0, 1, 0, 1, @apiv2_time_my_timesheets_entries_data_group_id, @ess_role_id),
-       (0, 1, 1, 0, 0, @apiv2_time_my_timesheet_data_group_id, @admin_role_id),
-       (0, 1, 1, 0, 0, @apiv2_time_my_timesheet_data_group_id, @supervisor_role_id),
-       (0, 1, 1, 0, 0, @apiv2_time_my_timesheet_data_group_id, @ess_role_id),
+       (1, 1, 1, 0, 0, @apiv2_time_my_timesheet_data_group_id, @admin_role_id),
+       (1, 1, 1, 0, 0, @apiv2_time_my_timesheet_data_group_id, @supervisor_role_id),
+       (1, 1, 1, 0, 0, @apiv2_time_my_timesheet_data_group_id, @ess_role_id),
        (1, 0, 0, 0, 0, @apiv2_time_timesheet_action_log_data_group_id, @admin_role_id),
        (1, 0, 0, 0, 0, @apiv2_time_timesheet_action_log_data_group_id, @ess_role_id);
 
