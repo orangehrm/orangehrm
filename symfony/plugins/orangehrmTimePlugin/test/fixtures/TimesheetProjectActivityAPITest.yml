@@ -33,3 +33,6 @@ ProjectActivity:
   - { activity_id: 1, project_id: 1, name: 'Development', is_deleted: 0 }
   - { activity_id: 2, project_id: 1, name: 'Testing', is_deleted: 0 }
   - { activity_id: 3, project_id: 1, name: 'Deployment', is_deleted: 1 }
+
+TimesheetItem:
+  - {timesheet_item_id: 1,timesheet_id: 1, date: "2021-12-02", duration: 10, comment: "Sample comment", project_id: 1, employee_id: 1, activity_id: 1 }
