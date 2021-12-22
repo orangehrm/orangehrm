@@ -105,7 +105,7 @@ class ProjectDaoTest extends KernelTestCase
         $this->assertFalse($this->projectDao->isProjectAdmin(4));
         $this->assertFalse($this->projectDao->isProjectAdmin(5));
         $this->assertFalse($this->projectDao->isProjectAdmin(100));
-        $this->assertFalse($this->projectDao->isProjectAdmin(false));
+        $this->assertFalse($this->projectDao->isProjectAdmin(null));
     }
 
     public function testGetProjectIdList(): void

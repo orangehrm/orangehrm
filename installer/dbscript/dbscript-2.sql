@@ -4311,3 +4311,14 @@ UPDATE `ohrm_screen` SET `module_id`= 5  WHERE `action_url` = 'viewCustomers';
 UPDATE `ohrm_screen` SET `module_id`= 5  WHERE `action_url` = 'viewProjects';
 UPDATE `ohrm_screen` SET `module_id`= 5  WHERE `action_url` = 'addCustomer';
 UPDATE `ohrm_screen` SET `module_id`= 5  WHERE `action_url` = 'saveProject';
+
+INSERT INTO `ohrm_data_group` (`name`, `description`, `can_read`, `can_create`, `can_update`, `can_delete`)
+VALUES ('time_project_activities', 'Time - Project Info - Projects - Activities', 1, 1, 1, 1);
+
+SET @time_project_activities_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'time_project_activities' LIMIT 1);
+SET @time_project_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'time_projects' LIMIT 1);
+
+INSERT INTO ohrm_user_role_data_group (`can_read`, `can_create`, `can_update`, `can_delete`, `self`, `data_group_id`, `user_role_id`)
+VALUES (1, 1, 1, 1, 0, @time_project_activities_data_group_id, @admin_role_id),
+       (1, 1, 1, 1, 0, @time_project_activities_data_group_id, @project_admin_role_id);
+UPDATE `ohrm_user_role_data_group` SET `can_update` = 0 WHERE `data_group_id` = @time_project_data_group_id AND `user_role_id` = @project_admin_role_id;
