@@ -1004,6 +1004,6 @@ class TimesheetDao extends BaseDao
         $qb->andwhere('timesheetItem.projectActivity = :activityId');
         $qb->setParameter('activityId', $activityId);
 
-        return $qb->getQuery()->getOneOrNullResult() instanceof TimesheetItem;
+        return $this->getPaginator($qb)->count() === 0;
     }
 }

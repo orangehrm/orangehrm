@@ -39,7 +39,7 @@ class TimesheetProjectActivityUniqueValidationAPI extends Endpoint implements Re
     public const PARAMETER_TIMESHEET_ID = 'timesheetId';
     public const PARAMETER_ACTIVITY_ID = 'activityId';
     public const PARAMETER_PROJECT_ID = 'projectId';
-    public const PARAMETER_DUPLICATE = 'duplicate';
+    public const PARAMETER_DUPLICATE = 'valid';
 
     /**
      * @inheritDoc
@@ -62,11 +62,9 @@ class TimesheetProjectActivityUniqueValidationAPI extends Endpoint implements Re
         $timesheet = $this->getTimesheetService()->getTimesheetDao()->getTimesheetById($timesheetId);
         $this->throwRecordNotFoundExceptionIfNotExist($timesheet, Timesheet::class);
 
-        $isDuplicateItem = $this->getTimesheetService()->getTimesheetDao()->isDuplicateTimesheetItem(
-            $timesheetId,
-            $activityId,
-            $projectId
-        );
+        $isDuplicateItem = $this->getTimesheetService()
+            ->getTimesheetDao()
+            ->isDuplicateTimesheetItem($timesheetId, $activityId, $projectId);
 
         return new EndpointResourceResult(
             ArrayModel::class,
