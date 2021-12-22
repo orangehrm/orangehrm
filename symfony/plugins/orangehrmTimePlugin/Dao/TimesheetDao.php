@@ -984,4 +984,26 @@ class TimesheetDao extends BaseDao
         }
         $this->getEntityManager()->flush();
     }
+
+    /**
+     * @param  int  $timesheetId
+     * @param  int  $activityId
+     * @param  int  $projectId
+     * @return bool
+     */
+    public function isDuplicateTimesheetItem(
+        int $timesheetId,
+        int $activityId,
+        int $projectId
+    ): bool {
+        $qb = $this->createQueryBuilder(TimesheetItem::class, 'timesheetItem');
+        $qb->andWhere('timesheetItem.timesheet = :timesheetId');
+        $qb->setParameter('timesheetId', $timesheetId);
+        $qb->andWhere('timesheetItem.project = :projectId');
+        $qb->setParameter('projectId', $projectId);
+        $qb->andwhere('timesheetItem.projectActivity = :activityId');
+        $qb->setParameter('activityId', $activityId);
+
+        return $qb->getQuery()->getOneOrNullResult() instanceof TimesheetItem;
+    }
 }
