@@ -133,4 +133,14 @@ class TimesheetDaoTest extends KernelTestCase
         $this->assertCount(1, $myTimeSheets);
         $this->assertInstanceOf(Timesheet::class, $myTimeSheets[0]);
     }
+
+    public function testIsDuplicateTimesheetItem(): void
+    {
+        $this->fixture = Config::get(Config::PLUGINS_DIR).'/orangehrmTimePlugin/test/fixtures/TimesheetItemTest.yaml';
+        TestDataService::populate($this->fixture);
+        $isDuplicateItem = $this->timesheetDao->isDuplicateTimesheetItem(1, 1, 1);
+        $this->assertTrue($isDuplicateItem);
+        $isDuplicateItem = $this->timesheetDao->isDuplicateTimesheetItem(1, 2, 1);
+        $this->assertFalse($isDuplicateItem);
+    }
 }
