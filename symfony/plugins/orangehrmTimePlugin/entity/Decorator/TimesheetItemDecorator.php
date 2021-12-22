@@ -20,13 +20,17 @@
 namespace OrangeHRM\Entity\Decorator;
 
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
+use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
+use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\Project;
 use OrangeHRM\Entity\ProjectActivity;
+use OrangeHRM\Entity\Timesheet;
 use OrangeHRM\Entity\TimesheetItem;
 
 class TimesheetItemDecorator
 {
     use EntityManagerHelperTrait;
+    use DateTimeHelperTrait;
 
     private TimesheetItem $timesheetItem;
 
@@ -62,5 +66,31 @@ class TimesheetItemDecorator
     {
         $projectActivity = $this->getReference(ProjectActivity::class, $id);
         $this->getTimesheetItem()->setProjectActivity($projectActivity);
+    }
+
+    /**
+     * @param int $timesheetId
+     */
+    public function setTimesheetById(int $timesheetId): void
+    {
+        $timesheet = $this->getReference(Timesheet::class, $timesheetId);
+        $this->getTimesheetItem()->setTimesheet($timesheet);
+    }
+
+    /**
+     * @param int $employeeNumber
+     */
+    public function setEmployeeByEmployeeNumber(int $employeeNumber): void
+    {
+        $employee = $this->getReference(Employee::class, $employeeNumber);
+        $this->getTimesheetItem()->setEmployee($employee);
+    }
+
+    /**
+     * @return string
+     */
+    public function getStartDate(): string
+    {
+        return $this->getDateTimeHelper()->formatDateTimeToYmd($this->getTimesheetItem()->getDate());
     }
 }

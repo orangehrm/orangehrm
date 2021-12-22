@@ -309,7 +309,7 @@ class MyTimesheetAPI extends Endpoint implements CrudEndpoint
             $this->commitTransaction();
 
             return new EndpointResourceResult(TimesheetModel::class, $timesheet);
-        } catch (RecordNotFoundException|ForbiddenException $e) {
+        } catch (RecordNotFoundException|ForbiddenException|BadRequestException $e) {
             $this->rollBackTransaction();
             throw $e;
         } catch (Exception $e) {

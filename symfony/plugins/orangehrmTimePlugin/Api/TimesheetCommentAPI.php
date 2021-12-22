@@ -1,0 +1,239 @@
+<?php
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ */
+
+namespace OrangeHRM\Time\Api;
+
+use OrangeHRM\Core\Api\CommonParams;
+use OrangeHRM\Core\Api\V2\CrudEndpoint;
+use OrangeHRM\Core\Api\V2\Endpoint;
+use OrangeHRM\Core\Api\V2\EndpointResourceResult;
+use OrangeHRM\Core\Api\V2\EndpointResult;
+use OrangeHRM\Core\Api\V2\RequestParams;
+use OrangeHRM\Core\Api\V2\Validator\ParamRule;
+use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
+use OrangeHRM\Core\Api\V2\Validator\Rule;
+use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Entity\Timesheet;
+use OrangeHRM\Entity\TimesheetItem;
+use OrangeHRM\Time\Api\Model\TimesheetItemModel;
+use OrangeHRM\Time\Api\Traits\TimesheetPermissionTrait;
+use OrangeHRM\Time\Traits\Service\TimesheetServiceTrait;
+
+class TimesheetCommentAPI extends Endpoint implements CrudEndpoint
+{
+    use TimesheetServiceTrait;
+    use TimesheetPermissionTrait;
+
+    public const PARAMETER_PROJECT_ID = 'projectId';
+    public const PARAMETER_TIMESHEET_ID = 'timesheetId';
+    public const PARAMETER_PROJECT_ACTIVITY_ID = 'activityId';
+    public const PARAMETER_DATE = 'date';
+    public const PARAMETER_COMMENT = 'comment';
+    public const PARAM_RULE_COMMENT_MAX_LENGTH = 2000;
+
+    /**
+     * @inheritDoc
+     */
+    public function getAll(): EndpointResult
+    {
+        throw $this->getNotImplementedException();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getValidationRuleForGetAll(): ParamRuleCollection
+    {
+        throw $this->getNotImplementedException();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function create(): EndpointResult
+    {
+        $timesheetItem = new TimesheetItem();
+        $timesheetId = $this->getRequestParams()->getInt(
+            RequestParams::PARAM_TYPE_ATTRIBUTE,
+            self::PARAMETER_TIMESHEET_ID
+        );
+        $timesheet = $this->getTimesheetService()->getTimesheetDao()->getTimesheetById($timesheetId);
+        $this->throwRecordNotFoundExceptionIfNotExist($timesheet, Timesheet::class);
+        $this->checkTimesheetAccessible($timesheet);
+
+        $this->setCommentToTimesheetItem($timesheetItem);
+        $date = $this->getRequestParams()->getDateTime(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_DATE);
+        $projectId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_PROJECT_ID);
+        $projectActivity = $this->getRequestParams()->getInt(
+            RequestParams::PARAM_TYPE_BODY,
+            self::PARAMETER_PROJECT_ACTIVITY_ID
+        );
+        $timesheetItem->getDecorator()->setTimesheetById($timesheetId);
+        $timesheetItem->setDate($date);
+        $timesheetItem->getDecorator()->setProjectById($projectId);
+        $timesheetItem->getDecorator()->setProjectActivityById($projectActivity);
+        $timesheetItem->getDecorator()->setEmployeeByEmployeeNumber($timesheet->getEmployee()->getEmpNumber());
+
+        $this->getTimesheetService()->getTimesheetDao()->saveTimesheetItem($timesheetItem);
+        return new EndpointResourceResult(TimesheetItemModel::class, $timesheetItem);
+    }
+
+    /**
+     * @param TimesheetItem $timesheetItem
+     * @return void
+     */
+    private function setCommentToTimesheetItem(TimesheetItem $timesheetItem): void
+    {
+        $comment = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_COMMENT);
+        $timesheetItem->setComment($comment);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getValidationRuleForCreate(): ParamRuleCollection
+    {
+        return new ParamRuleCollection(
+            $this->getValidationDecorator()->requiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_PROJECT_ID,
+                    new Rule(Rules::POSITIVE),
+                ),
+            ),
+            $this->getValidationDecorator()->requiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_PROJECT_ACTIVITY_ID,
+                    new Rule(Rules::POSITIVE),
+                ),
+            ),
+            $this->getValidationDecorator()->requiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_DATE,
+                    new Rule(Rules::API_DATE),
+                ),
+            ),
+            ...$this->getCommonBodyValidationRules(),
+        );
+    }
+
+    /**
+     * @return ParamRule[]
+     */
+    private function getCommonBodyValidationRules(): array
+    {
+        return [
+            $this->getValidationDecorator()->requiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_TIMESHEET_ID,
+                    new Rule(Rules::POSITIVE),
+                ),
+            ),
+            $this->getValidationDecorator()->requiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_COMMENT,
+                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_COMMENT_MAX_LENGTH])
+                ),
+            ),
+        ];
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function delete(): EndpointResult
+    {
+        throw $this->getNotImplementedException();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getValidationRuleForDelete(): ParamRuleCollection
+    {
+        throw $this->getNotImplementedException();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getOne(): EndpointResult
+    {
+        $timesheetItemId = $this->getRequestParams()->getInt(
+            RequestParams::PARAM_TYPE_ATTRIBUTE,
+            CommonParams::PARAMETER_ID
+        );
+        $timesheetItem = $this->getTimesheetService()->getTimesheetDao()->getTimesheetItemById($timesheetItemId);
+        $this->throwRecordNotFoundExceptionIfNotExist($timesheetItem, TimesheetItem::class);
+        $this->checkTimesheetAccessible($timesheetItem->getTimesheet());
+        return new EndpointResourceResult(TimesheetItemModel::class, $timesheetItem);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getValidationRuleForGetOne(): ParamRuleCollection
+    {
+        return new ParamRuleCollection(
+            $this->getValidationDecorator()->requiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_TIMESHEET_ID,
+                    new Rule(Rules::POSITIVE),
+                ),
+            ),
+            $this->getValidationDecorator()->requiredParamRule(
+                new ParamRule(
+                    CommonParams::PARAMETER_ID,
+                    new Rule(Rules::POSITIVE)
+                ),
+            ),
+        );
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function update(): EndpointResult
+    {
+        $timesheetItemId = $this->getRequestParams()->getInt(
+            RequestParams::PARAM_TYPE_ATTRIBUTE,
+            CommonParams::PARAMETER_ID
+        );
+        $timesheetItem = $this->getTimesheetService()->getTimesheetDao()->getTimesheetItemById($timesheetItemId);
+        $this->throwRecordNotFoundExceptionIfNotExist($timesheetItem, TimesheetItem::class);
+        $this->checkTimesheetAccessible($timesheetItem->getTimesheet());
+        $this->setCommentToTimesheetItem($timesheetItem);
+        $this->getTimesheetService()->getTimesheetDao()->saveTimesheetItem($timesheetItem);
+        return new EndpointResourceResult(TimesheetItemModel::class, $timesheetItem);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getValidationRuleForUpdate(): ParamRuleCollection
+    {
+        return new ParamRuleCollection(
+            new ParamRule(
+                CommonParams::PARAMETER_ID,
+                new Rule(Rules::POSITIVE)
+            ),
+            ...$this->getCommonBodyValidationRules(),
+        );
+    }
+}

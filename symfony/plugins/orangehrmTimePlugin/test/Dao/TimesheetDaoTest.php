@@ -25,6 +25,7 @@ use OrangeHRM\Config\Config;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\Timesheet;
 use OrangeHRM\Entity\TimesheetActionLog;
+use OrangeHRM\Entity\TimesheetItem;
 use OrangeHRM\Tests\Util\KernelTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 use OrangeHRM\Time\Dao\TimesheetDao;
@@ -132,5 +133,48 @@ class TimesheetDaoTest extends KernelTestCase
         );
         $this->assertCount(1, $myTimeSheets);
         $this->assertInstanceOf(Timesheet::class, $myTimeSheets[0]);
+    }
+
+    public function testAddTimesheetItem(): void
+    {
+        $timesheetItem = new TimesheetItem();
+        $timesheetItem->setDate(new DateTime("2021-12-20"));
+        $timesheetItem->getDecorator()->setTimesheetById(1);
+        $timesheetItem->setComment("Good Job");
+        $timesheetItem->getDecorator()->setProjectById(1);
+        $timesheetItem->getDecorator()->setProjectActivityById(1);
+        $timesheetItem->getDecorator()->setEmployeeByEmployeeNumber(1);
+
+        $result = $this->timesheetDao->saveTimesheetItem($timesheetItem);
+
+        $this->assertTrue($result instanceof TimesheetItem);
+        $this->assertEquals(new DateTime("2021-12-20"), $result->getDate());
+        $this->assertEquals("Good Job", $result->getComment());
+        $this->assertEquals(1, $result->getProject()->getId());
+        $this->assertEquals(1, $result->getProject()->getId());
+        $this->assertEquals(1, $result->getEmployee()->getEmpNumber());
+    }
+
+    public function testGetTimesheetItemById(): void
+    {
+        $result = $this->timesheetDao->getTimesheetItemById(1);
+
+        $this->assertTrue($result instanceof TimesheetItem);
+        $this->assertEquals(new DateTime("2020-09-28"), $result->getDate());
+        $this->assertEquals("Include meetings", $result->getComment());
+        $this->assertEquals(1, $result->getProject()->getId());
+        $this->assertEquals(1, $result->getProject()->getId());
+        $this->assertEquals(1, $result->getEmployee()->getEmpNumber());
+    }
+
+    public function testGetTimesheetById(): void
+    {
+        $result = $this->timesheetDao->getTimesheetById(1);
+
+        $this->assertTrue($result instanceof Timesheet);
+        $this->assertEquals(new DateTime("2011-04-18"), $result->getStartDate());
+        $this->assertEquals(new DateTime("2011-04-24"), $result->getEndDate());
+        $this->assertEquals("CREATED", $result->getState());
+        $this->assertEquals(1, $result->getEmployee()->getEmpNumber());
     }
 }
