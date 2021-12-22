@@ -77,21 +77,13 @@ class TimesheetDao extends BaseDao
     }
 
     /**
-     * Get Timesheet Item by given Id
-     * @param $timesheetItemId
-     * @return TimesheetItem
+     * @param int $timesheetItemId
+     * @return TimesheetItem|null
      */
-    public function getTimesheetItemById($timesheetItemId)
+    public function getTimesheetItemById(int $timesheetItemId): ?TimesheetItem
     {
-        // TODO
-        try {
-            $timesheetItem = Doctrine::getTable('TimesheetItem')
-                ->find($timesheetItemId);
-
-            return $timesheetItem;
-        } catch (Exception $ex) {
-            throw new DaoException($ex->getMessage());
-        }
+        $timesheetItem = $this->getRepository(TimesheetItem::class)->find($timesheetItemId);
+        return ($timesheetItem instanceof TimesheetItem) ? $timesheetItem : null;
     }
 
     /**
@@ -131,19 +123,13 @@ class TimesheetDao extends BaseDao
     }
 
     /**
-     * Add or Save TimesheetItem
-     * @param $timesheetItem
-     * @return $timesheetItem
+     * @param TimesheetItem $timesheetItem
+     * @return TimesheetItem
      */
-    public function saveTimesheetItem(TimesheetItem $timesheetItem)
+    public function saveTimesheetItem(TimesheetItem $timesheetItem): TimesheetItem
     {
-        // TODO
-        try {
-            $timesheetItem->save();
-            return $timesheetItem;
-        } catch (Exception $ex) {
-            throw new DaoException($ex->getMessage());
-        }
+        $this->persist($timesheetItem);
+        return $timesheetItem;
     }
 
     /**
