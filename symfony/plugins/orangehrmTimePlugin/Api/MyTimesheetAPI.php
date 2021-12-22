@@ -49,6 +49,7 @@ use OrangeHRM\Time\Api\Traits\TimesheetPermissionTrait;
 use OrangeHRM\Time\Api\ValidationRules\MyTimesheetActionRule;
 use OrangeHRM\Time\Api\ValidationRules\MyTimesheetDateRule;
 use OrangeHRM\Time\Dto\TimesheetSearchFilterParams;
+use OrangeHRM\Time\Service\TimesheetService;
 use OrangeHRM\Time\Traits\Service\TimesheetServiceTrait;
 
 class MyTimesheetAPI extends Endpoint implements CrudEndpoint

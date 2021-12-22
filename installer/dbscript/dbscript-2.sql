@@ -4250,7 +4250,7 @@ VALUES ('apiv2_time_time_sheet_config', 'API-v2 Time - Time Sheet Start Day Conf
        ('apiv2_time_my_timesheets_entries', 'API-v2 Time - Timesheet Entries', 1, 0, 1, 0),
        ('apiv2_time_my_timesheet', 'API-v2 Time - My Timesheet', 1, 1, 1, 0),
        ('apiv2_time_timesheet_action_log', 'API-v2 Time - Timesheet action log', 1, 0, 0, 0),
-       ('apiv2_time_project_activity_unique_validation', 'API-v2 Time - project Activity Unique Validation', 1, 0, 0, 0),
+       ('apiv2_time_project_activity_unique_validation', 'API-v2 Time - Project Activity Unique Validation', 1, 0, 0, 0),
        ('apiv2_time_timesheet_comment', 'API-v2 Time - Timesheet comment', 1, 1, 1, 0);
 
 SET @time_module_id := (SELECT `id` FROM ohrm_module WHERE name = 'time' LIMIT 1);
