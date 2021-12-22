@@ -52,7 +52,7 @@ GetOne:
       activityId: 1
     invalidOnly: [ 'projectId' ]
 
-  'Without AvtivityId':
+  'Without ActivityId':
     userId: 1
     services:
       time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
