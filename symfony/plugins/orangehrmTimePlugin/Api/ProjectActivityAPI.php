@@ -155,7 +155,7 @@ class ProjectActivityAPI extends Endpoint implements CrudEndpoint
                     Rules::EACH,
                     [new Rules\Composite\AllOf(new Rule(Rules::POSITIVE))]
                 )
-            ),
+            )
         );
     }
 
@@ -185,7 +185,7 @@ class ProjectActivityAPI extends Endpoint implements CrudEndpoint
             new ParamRule(
                 self::PARAMETER_PROJECT_ID,
                 new Rule(Rules::POSITIVE)
-            ),
+            )
         );
     }
 
@@ -201,7 +201,7 @@ class ProjectActivityAPI extends Endpoint implements CrudEndpoint
         $this->throwRecordNotFoundExceptionIfNotExist($projectActivity, ProjectActivity::class);
         $this->setParamsToProjectActivity($projectActivity);
         $this->getProjectService()->getProjectActivityDao()->saveProjectActivity($projectActivity);
-        return new EndpointResourceResult(ProjectActivityModel::class, $projectActivity,);
+        return new EndpointResourceResult(ProjectActivityModel::class, $projectActivity);
     }
 
     /**
@@ -235,8 +235,8 @@ class ProjectActivityAPI extends Endpoint implements CrudEndpoint
                     self::PARAMETER_NAME,
                     new Rule(Rules::STRING_TYPE),
                     new Rule(Rules::LENGTH, [null, self::PARAM_RULE_STRING_MAX_LENGTH])
-                ),
-            ),
+                )
+            )
         ];
     }
 
