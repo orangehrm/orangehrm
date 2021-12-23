@@ -23,8 +23,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Customer
- *
  * @ORM\Table(name="ohrm_customer")
  * @ORM\Entity
  */
@@ -61,13 +59,13 @@ class Customer
     private string $description;
 
     /**
-     * @ORM\OneToMany (targetEntity="OrangeHRM\Entity\Project", mappedBy="customer")
+     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\Project", mappedBy="customer")
      */
-    private iterable $project;
+    private iterable $projects;
 
     public function __construct()
     {
-        $this->project =new ArrayCollection();
+        $this->projects = new ArrayCollection();
     }
 
     /**
@@ -79,7 +77,7 @@ class Customer
     }
 
     /**
-     * @param  int  $id
+     * @param int $id
      */
     public function setId(int $id): void
     {
@@ -95,7 +93,7 @@ class Customer
     }
 
     /**
-     * @param  bool  $deleted
+     * @param bool $deleted
      */
     public function setDeleted(bool $deleted): void
     {
@@ -111,7 +109,7 @@ class Customer
     }
 
     /**
-     * @param  string  $name
+     * @param string $name
      */
     public function setName(string $name): void
     {
@@ -127,7 +125,7 @@ class Customer
     }
 
     /**
-     * @param  string  $description
+     * @param string $description
      */
     public function setDescription(string $description): void
     {

@@ -126,6 +126,14 @@ abstract class EndpointIntegrationTestCase extends EndpointTestCase
             $testCaseParams->getQuery() ?? [],
             $testCaseParams->getBody() ?? []
         );
+
+        if (!is_null($testCaseParams->getExceptionClass())) {
+            $this->expectException($testCaseParams->getExceptionClass());
+            if (!is_null($testCaseParams->getExceptionMessage())) {
+                $this->expectExceptionMessage($testCaseParams->getExceptionMessage());
+            }
+        }
+
         if ($testCaseParams->isInvalid()) {
             $this->assertInvalidParamException(
                 fn () => $this->validate($params, $api->$validationMethod()),
@@ -136,12 +144,6 @@ abstract class EndpointIntegrationTestCase extends EndpointTestCase
             $this->validate($params, $api->$validationMethod());
         }
 
-        if (!is_null($testCaseParams->getExceptionClass())) {
-            $this->expectException($testCaseParams->getExceptionClass());
-            if (!is_null($testCaseParams->getExceptionMessage())) {
-                $this->expectExceptionMessage($testCaseParams->getExceptionMessage());
-            }
-        }
         $result = $api->$operation();
         $this->assertEquals(
             $testCaseParams->getResultData() ?? [],

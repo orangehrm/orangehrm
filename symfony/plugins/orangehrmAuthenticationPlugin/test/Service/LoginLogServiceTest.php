@@ -47,13 +47,6 @@ class LoginLogServiceTest extends KernelTestCase
         $this->loginService = new LoginService();
     }
 
-    public function testGetSystemUserService(): void
-    {
-        $this->createKernelWithMockServices([Services::USER_SERVICE => new UserService()]);
-        $loginService = new LoginService();
-        $this->assertTrue($loginService->getSystemUserService() instanceof UserService);
-    }
-
     public function testGetLoginLogDao(): void
     {
         $this->assertTrue($this->loginService->getLoginLogDao() instanceof LoginLogDao);
@@ -83,7 +76,7 @@ class LoginLogServiceTest extends KernelTestCase
             ->willReturn($user);
 
         $loginService = $this->getMockBuilder(LoginService::class)
-            ->onlyMethods(['getSystemUserService'])
+            ->onlyMethods(['getUserService'])
             ->getMock();
 
         $session = $this->getMockBuilder(Session::class)
@@ -95,7 +88,7 @@ class LoginLogServiceTest extends KernelTestCase
         $this->createKernelWithMockServices([Services::SESSION => $session]);
 
         $loginService->expects($this->once())
-            ->method('getSystemUserService')
+            ->method('getUserService')
             ->willReturn($userService);
 
         $credentials = new UserCredential('username', 'password');

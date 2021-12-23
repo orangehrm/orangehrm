@@ -48,7 +48,7 @@ use OrangeHRM\Time\Api\Model\TimesheetModel;
 use OrangeHRM\Time\Api\Traits\TimesheetPermissionTrait;
 use OrangeHRM\Time\Api\ValidationRules\MyTimesheetActionRule;
 use OrangeHRM\Time\Api\ValidationRules\MyTimesheetDateRule;
-use OrangeHRM\Time\Dto\MyTimesheetSearchFilterParams;
+use OrangeHRM\Time\Dto\TimesheetSearchFilterParams;
 use OrangeHRM\Time\Service\TimesheetService;
 use OrangeHRM\Time\Traits\Service\TimesheetServiceTrait;
 
@@ -78,10 +78,10 @@ class MyTimesheetAPI extends Endpoint implements CrudEndpoint
     {
         $this->validateDateInputs();
 
-        $myTimesheetParamHolder = new MyTimesheetSearchFilterParams();
-        $this->setSortingAndPaginationParams($myTimesheetParamHolder);
+        $timesheetParamHolder = new TimesheetSearchFilterParams();
+        $this->setSortingAndPaginationParams($timesheetParamHolder);
 
-        $myTimesheetParamHolder->setAuthEmpNumber(
+        $timesheetParamHolder->setEmpNumber(
             $this->getAuthUser()->getEmpNumber()
         );
 
@@ -89,24 +89,24 @@ class MyTimesheetAPI extends Endpoint implements CrudEndpoint
             list($fromDate, $toDate) = $this->getTimesheetService()->extractStartDateAndEndDateFromDate(
                 $this->getDate()
             );
-            $myTimesheetParamHolder->setFromDate(new DateTime($fromDate));
-            $myTimesheetParamHolder->setToDate(new DateTime($toDate));
+            $timesheetParamHolder->setFromDate(new DateTime($fromDate));
+            $timesheetParamHolder->setToDate(new DateTime($toDate));
         } elseif (is_null($this->getFromDateParam()) && is_null($this->getDate())) {
             list($fromDate, $toDate) = $this->getTimesheetService()->extractStartDateAndEndDateFromDate(
                 $this->getDateTimeHelper()->getNow()
             );
-            $myTimesheetParamHolder->setFromDate(new DateTime($fromDate));
-            $myTimesheetParamHolder->setToDate(new DateTime($toDate));
+            $timesheetParamHolder->setFromDate(new DateTime($fromDate));
+            $timesheetParamHolder->setToDate(new DateTime($toDate));
         } else {
-            $myTimesheetParamHolder->setFromDate($this->getFromDateParam());
-            $myTimesheetParamHolder->setToDate($this->getToDateParam());
+            $timesheetParamHolder->setFromDate($this->getFromDateParam());
+            $timesheetParamHolder->setToDate($this->getToDateParam());
         }
 
         $myTimesheets = $this->getTimesheetService()->getTimesheetDao()->getTimesheetByStartAndEndDate(
-            $myTimesheetParamHolder
+            $timesheetParamHolder
         );
         $count = $this->getTimesheetService()->getTimesheetDao()->getTimesheetCount(
-            $myTimesheetParamHolder
+            $timesheetParamHolder
         );
         return new EndpointCollectionResult(
             TimesheetModel::class,
@@ -205,7 +205,7 @@ class MyTimesheetAPI extends Endpoint implements CrudEndpoint
                     new Rule(Rules::API_DATE)
                 )
             ),
-            ...$this->getSortingAndPaginationParamsRules(MyTimesheetSearchFilterParams::ALLOWED_SORT_FIELDS)
+            ...$this->getSortingAndPaginationParamsRules(TimesheetSearchFilterParams::ALLOWED_SORT_FIELDS)
         );
     }
 

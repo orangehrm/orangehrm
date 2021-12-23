@@ -20,7 +20,7 @@
 namespace OrangeHRM\Core\Authorization\Service;
 
 use Exception;
-use OrangeHRM\Admin\Service\UserService;
+use OrangeHRM\Admin\Traits\Service\UserServiceTrait;
 use OrangeHRM\Core\Authorization\Manager\AbstractUserRoleManager;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Exception\ServiceException;
@@ -29,7 +29,6 @@ use OrangeHRM\Core\Traits\ClassHelperTrait;
 use OrangeHRM\Core\Traits\LoggerTrait;
 use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Entity\User;
-use OrangeHRM\Framework\Services;
 
 class UserRoleManagerService
 {
@@ -37,16 +36,9 @@ class UserRoleManagerService
     use ConfigServiceTrait;
     use AuthUserTrait;
     use LoggerTrait;
+    use UserServiceTrait;
 
     public const KEY_USER_ROLE_MANAGER_CLASS = 'authorize_user_role_manager_class';
-
-    /**
-     * @return UserService
-     */
-    public function getUserService(): UserService
-    {
-        return $this->getContainer()->get(Services::USER_SERVICE);
-    }
 
     /**
      * @return string|null

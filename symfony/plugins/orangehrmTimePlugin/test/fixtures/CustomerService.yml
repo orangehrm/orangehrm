@@ -17,6 +17,7 @@ User:
   3: { id: 4, user_role_id: 1, emp_number: 4, user_name: 'Chaturanga', user_password: 'Chaturanga', deleted: 1 }
 
 Customer:
-  0: { name: 'Orange', description: 'HRM', deleted: false }
-  1: { name: 'CUS', description: 'DES', deleted: false }
-  2: { name: 'CUS2', description: 'DES2', deleted: false }
+  - { id: 1, name: 'Orange', description: 'HRM', deleted: false }
+  - { id: 2, name: 'CUS', description: 'DES', deleted: false }
+  - { id: 3, name: 'CUS2', description: 'DES2', deleted: false }
+  - { id: 4, name: 'CUS3', description: 'Description', deleted: true }

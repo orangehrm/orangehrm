@@ -19,7 +19,7 @@
 
 namespace OrangeHRM\Core\Helper;
 
-use OrangeHRM\Admin\Service\UserService;
+use OrangeHRM\Admin\Traits\Service\UserServiceTrait;
 use OrangeHRM\Authentication\Auth\User;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Authorization\Service\ScreenPermissionService;
@@ -28,15 +28,13 @@ use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Exception\ServiceException;
 use OrangeHRM\Core\Service\MenuService;
 use OrangeHRM\Core\Traits\ModuleScreenHelperTrait;
-use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Framework\Services;
 
 class VueControllerHelper
 {
-    use ServiceContainerTrait;
     use ModuleScreenHelperTrait;
+    use UserServiceTrait;
 
     public const COMPONENT_NAME = 'componentName';
     public const COMPONENT_PROPS = 'componentProps';
@@ -222,14 +220,6 @@ class VueControllerHelper
             return [$currentScreen->getName(), null];
         }
         return [null, null];
-    }
-
-    /**
-     * @return UserService
-     */
-    public function getUserService(): UserService
-    {
-        return $this->getContainer()->get(Services::USER_SERVICE);
     }
 
     /**

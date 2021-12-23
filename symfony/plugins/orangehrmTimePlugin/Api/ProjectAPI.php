@@ -32,6 +32,7 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\Customer;
 use OrangeHRM\Entity\Project;
 use OrangeHRM\Time\Api\Model\ProjectDetailedModel;
@@ -42,6 +43,7 @@ use OrangeHRM\Time\Traits\Service\ProjectServiceTrait;
 class ProjectAPI extends Endpoint implements CrudEndpoint
 {
     use ProjectServiceTrait;
+    use UserRoleManagerTrait;
 
     public const PARAMETER_CUSTOMER_ID = 'customerId';
     public const PARAMETER_NAME = 'name';
@@ -56,6 +58,8 @@ class ProjectAPI extends Endpoint implements CrudEndpoint
     public const FILTER_PROJECT_ID = 'projectId';
     public const FILTER_CUSTOMER_ID = 'customerId';
     public const FILTER_EMPLOYEE_NUMBER = 'empNumber';
+    public const FILTER_NAME = 'name';
+    public const FILTER_ONLY_ALLOWED = 'onlyAllowed';
 
     public const MODEL_DEFAULT = 'default';
     public const MODEL_DETAILED = 'detailed';
@@ -85,12 +89,21 @@ class ProjectAPI extends Endpoint implements CrudEndpoint
         $projectParamHolder = new ProjectSearchFilterParams();
         $this->setSortingAndPaginationParams($projectParamHolder);
 
-        $projectParamHolder->setProjectId(
-            $this->getRequestParams()->getIntOrNull(
-                RequestParams::PARAM_TYPE_QUERY,
-                self::FILTER_PROJECT_ID
-            )
+        $projectId = $this->getRequestParams()->getIntOrNull(
+            RequestParams::PARAM_TYPE_QUERY,
+            self::FILTER_PROJECT_ID
         );
+        $onlyAllowed = $this->getRequestParams()->getBoolean(
+            RequestParams::PARAM_TYPE_QUERY,
+            self::FILTER_ONLY_ALLOWED,
+            true
+        );
+        if (!is_null($projectId)) {
+            $projectParamHolder->setProjectIds([$projectId]);
+        } elseif ($onlyAllowed) {
+            $accessibleProjectIds = $this->getUserRoleManager()->getAccessibleEntityIds(Project::class);
+            $projectParamHolder->setProjectIds($accessibleProjectIds);
+        }
         $projectParamHolder->setCustomerId(
             $this->getRequestParams()->getIntOrNull(
                 RequestParams::PARAM_TYPE_QUERY,
@@ -101,6 +114,12 @@ class ProjectAPI extends Endpoint implements CrudEndpoint
             $this->getRequestParams()->getIntOrNull(
                 RequestParams::PARAM_TYPE_QUERY,
                 self::FILTER_EMPLOYEE_NUMBER
+            )
+        );
+        $projectParamHolder->setName(
+            $this->getRequestParams()->getStringOrNull(
+                RequestParams::PARAM_TYPE_QUERY,
+                self::FILTER_NAME
             )
         );
         $projects = $this->getProjectService()->getProjectDao()->getProjects($projectParamHolder);
@@ -121,7 +140,8 @@ class ProjectAPI extends Endpoint implements CrudEndpoint
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::FILTER_PROJECT_ID,
-                    new Rule(Rules::POSITIVE)
+                    new Rule(Rules::POSITIVE),
+                    new Rule(Rules::IN_ACCESSIBLE_ENTITY_ID, [Project::class])
                 ),
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
@@ -135,6 +155,17 @@ class ProjectAPI extends Endpoint implements CrudEndpoint
                     self::FILTER_CUSTOMER_ID,
                     new Rule(Rules::POSITIVE)
                 ),
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::FILTER_NAME,
+                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::LENGTH, [null, self::PARAMETER_RULE_NAME_MAX_LENGTH])
+                ),
+            ),
+            new ParamRule(
+                self::FILTER_ONLY_ALLOWED,
+                new Rule(Rules::BOOL_VAL)
             ),
             $this->getModelParamRule(),
             ...$this->getSortingAndPaginationParamsRules(ProjectSearchFilterParams::ALLOWED_SORT_FIELDS)
@@ -166,7 +197,7 @@ class ProjectAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
-     * @param  Project  $project
+     * @param Project $project
      */
     private function setProject(Project $project): void
     {
@@ -223,6 +254,7 @@ class ProjectAPI extends Endpoint implements CrudEndpoint
                 new ParamRule(
                     self::PARAMETER_PROJECT_ADMINS_EMP_NUMBERS,
                     new Rule(Rules::ARRAY_TYPE),
+                    // TODO:: handle unique array items
                     new Rule(Rules::LENGTH, [null, self::PARAMETER_RULE_PROJECT_ADMIN_MAX_COUNT])
                 ),
             ),
@@ -286,7 +318,8 @@ class ProjectAPI extends Endpoint implements CrudEndpoint
         return new ParamRuleCollection(
             new ParamRule(
                 CommonParams::PARAMETER_ID,
-                new Rule(Rules::POSITIVE)
+                new Rule(Rules::POSITIVE),
+                new Rule(Rules::IN_ACCESSIBLE_ENTITY_ID, [Project::class])
             ),
             $this->getModelParamRule()
         );

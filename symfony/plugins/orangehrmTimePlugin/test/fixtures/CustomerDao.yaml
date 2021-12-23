@@ -1,0 +1,154 @@
+Config:
+  - { name: 'authorize_user_role_manager_class', value: 'BasicUserRoleManager' }
+  - { name: 'timesheet_period_and_start_date', value: '<TimesheetPeriod><PeriodType>Weekly</PeriodType><ClassName>WeeklyTimesheetPeriod</ClassName><StartDate>1</StartDate><Heading>Week</Heading></TimesheetPeriod>' }
+  - { name: 'timesheet_period_set', value: "Yes" }
+  - { name: 'timesheet_time_format', value: 1 }
+
+TerminationReason:
+  - { "id": "1","name": "Other" }
+  - { "id": "2","name": "Retired" }
+  - { "id": "3","name": "Contract Not Renewed" }
+  - { "id": "4","name": "Resigned - Company Requested" }
+  - { "id": "5","name": "Resigned - Self Proposed" }
+  - { "id": "6","name": "Resigned" }
+  - { "id": "7","name": "Deceased" }
+  - { "id": "8","name": "Physically Disabled/Compensated" }
+  - { "id": "9","name": "Laid-off" }
+  - { "id": "10","name": "Dismissed" }
+
+EmployeeTerminationRecord:
+  - { "id": "1", "reason_id": "6","termination_date": "2021-09-15","note": "" }
+
+Employee:
+  - { "emp_number": 1,"employee_id": "0001","emp_lastname": "Adalwin","emp_firstname": "Odis","emp_middle_name": "" }
+  - { "emp_number": 2,"employee_id": "0002","emp_lastname": "Anderson","emp_firstname": "Linda","emp_middle_name": "Jane" }
+  - { "emp_number": 3,"employee_id": "0003","emp_lastname": "Duval","emp_firstname": "Alice","emp_middle_name": "" }
+  - { "emp_number": 4,"employee_id": "0004","emp_lastname": "Abbey","emp_firstname": "Kayla","emp_middle_name": "" }
+  - { "emp_number": 5,"employee_id": "0005","emp_lastname": "Abel","emp_firstname": "Ashley","emp_middle_name": "", "termination_id": "1" }
+  - { "emp_number": 6,"employee_id": "0006","emp_lastname": "Morgan","emp_firstname": "Jasmine","emp_middle_name": "" }
+  - { "emp_number": 7,"employee_id": "0024","emp_lastname": "Collings","emp_firstname": "Paul","emp_middle_name": "","emp_work_telephone": "112-898-7612","emp_work_email": "paul1@osohrm.com","joined_date": "1990-10-11" }
+  - { "emp_number": 9,"employee_id": "0034","emp_lastname": "Hamilton","emp_firstname": "Russel","emp_middle_name": "","emp_work_telephone": "","emp_work_email": "russel1@osohrm.com","joined_date": "1998-10-22" }
+  - { "emp_number": 25,"employee_id": "0099","emp_lastname": "White","emp_firstname": "Garry","emp_middle_name": "","emp_work_telephone": "","emp_work_email": "garry1@osohrm.com","joined_date": "2012-10-11" }
+  - { "emp_number": 26,"employee_id": "0103","emp_lastname": "Tencrady","emp_firstname": "Sara","emp_middle_name": "","emp_work_telephone": "","emp_work_email": "sara1@osohrm.com","joined_date": "2015-10-29" }
+  - { "emp_number": 27,"employee_id": "0204","emp_lastname": "Bonaparte","emp_firstname": "Cecil","emp_middle_name": "","emp_work_telephone": "","emp_work_email": "cecil@osohrm.com","joined_date": "2013-05-29" }
+  - { "emp_number": 29,"employee_id": "0212","emp_lastname": "Carter","emp_firstname": "Charlie","emp_middle_name": "","emp_work_telephone": "","emp_work_email": "charlie1@osohrm.com","joined_date": "2013-04-17" }
+  - { "emp_number": 30,"employee_id": "0217","emp_lastname": "Chuki","emp_firstname": "Chenzira","emp_middle_name": "","emp_work_telephone": "","emp_work_email": "chenzira@osohrm.com","joined_date": "2005-10-13" }
+  - { "emp_number": 35,"employee_id": "0239","emp_lastname": "Hu","emp_firstname": "Kiyara","emp_middle_name": "","emp_work_telephone": "","emp_work_email": "kiyara1@osohrm.com","joined_date": "2009-10-15" }
+  - { "emp_number": 36,"employee_id": "0243","emp_lastname": "Jackie","emp_firstname": "Jadine","emp_middle_name": "","emp_work_telephone": "","emp_work_email": "jadine@osohrm.com","joined_date": "2013-12-17" }
+  - { "emp_number": 37,"employee_id": "037","emp_lastname": "OHRM","emp_firstname": "OHRM","emp_middle_name": "","emp_work_telephone": "","emp_work_email": "OHRM@osohrm.com","joined_date": "2013-12-17" }
+
+Customer:
+  - { "customer_id": "10","name": "Apache Software Foundation","description": "non-profit corporation to support Apache software projects","is_deleted": "0" }
+  - { "customer_id": "11","name": "Ball Corporation","description": "company famous for producing glass canning jars","is_deleted": "1" }
+  - { "customer_id": "12","name": "The Coca-Cola Company","description": "Multinational beverage corporation and manufacturer","is_deleted": "0" }
+  - { "customer_id": "13","name": "Fresh Books Software Ltd","description": "","is_deleted": "0" }
+  - { "customer_id": "5","name": "FreeWave Technologies, Inc.","description": "Its wireless data radios are utilized in industrial, government and defense, scientific, and commercial applications","is_deleted": "0" }
+  - { "customer_id": "6","name": "Global Corp and Co","description": "Global Corp introduces itself as a leading manufacturer and exporter of a large number of products catering to high precision equipment, Scientific Laboratory Equipments & Institutional Health Care Products.","is_deleted": "0" }
+  - { "customer_id": "7","name": "ACME Ltd","description": "Leading apparel manufacturing chain.","is_deleted": "0" }
+  - { "customer_id": "8","name": "Internal","description": "","is_deleted": "0" }
+  - { "customer_id": "9","name": "The Priceline Group","description": "American-based provider of travel and related online services to consumers","is_deleted": "0" }
+
+Project:
+  - { "project_id": "1","customer_id": "6","name": "Global Software phase - 1","description": "","is_deleted": "0" }
+  - { "project_id": "2","customer_id": "7","name": "ACME Ltd","description": "","is_deleted": "0" }
+  - { "project_id": "3","customer_id": "10","name": "ASF - Phase 1","description": "","is_deleted": "0" }
+  - { "project_id": "4","customer_id": "6","name": "Global Software phase - 2","description": "","is_deleted": "0" }
+  - { "project_id": "5","customer_id": "13","name": "Fresh Books Software Ltd - Phase I","description": "","is_deleted": "0" }
+  - { "project_id": "6","customer_id": "5","name": "FWT - Phase 1","description": "","is_deleted": "0" }
+  - { "project_id": "7","customer_id": "12","name": "Coke - Phase 1","description": "","is_deleted": "0" }
+  - { "project_id": "8","customer_id": "9","name": "Priceline Group - Phase 1","description": "","is_deleted": "0" }
+  - { "project_id": "9","customer_id": "8","name": "Recruitment","description": "","is_deleted": "0" }
+  - { "project_id": "10","customer_id": "8","name": "Training and Development","description": "","is_deleted": "0" }
+  - { "project_id": "11","customer_id": "8","name": "General HR Tasks","description": "","is_deleted": "0" }
+  - { "project_id": "12","customer_id": "11","name": "General HR Tasks","description": "","is_deleted": "0" }
+
+ProjectActivity:
+  - { "activity_id": "1","project_id": "1","name": "Assessing Project and Resource Requirements","is_deleted": "0" }
+  - { "activity_id": "2","project_id": "1","name": "Bug Fixes","is_deleted": "0" }
+  - { "activity_id": "3","project_id": "1","name": "Estimating","is_deleted": "0" }
+  - { "activity_id": "4","project_id": "1","name": "Feature Development","is_deleted": "0" }
+  - { "activity_id": "5","project_id": "1","name": "Project Management","is_deleted": "0" }
+  - { "activity_id": "6","project_id": "1","name": "Implementation","is_deleted": "0" }
+  - { "activity_id": "7","project_id": "1","name": "QA Testing","is_deleted": "0" }
+  - { "activity_id": "8","project_id": "1","name": "Requirement Gathering","is_deleted": "0" }
+  - { "activity_id": "9","project_id": "1","name": "Support & Maintanence","is_deleted": "0" }
+  - { "activity_id": "10","project_id": "1","name": "Timescales with Clients and Managers","is_deleted": "0" }
+  - { "activity_id": "11","project_id": "2","name": "Administration","is_deleted": "0" }
+  - { "activity_id": "12","project_id": "2","name": "Bug Fixes","is_deleted": "0" }
+  - { "activity_id": "13","project_id": "2","name": "Customizations","is_deleted": "0" }
+  - { "activity_id": "14","project_id": "2","name": "Demonstration","is_deleted": "0" }
+  - { "activity_id": "15","project_id": "2","name": "Employee Relations","is_deleted": "0" }
+  - { "activity_id": "16","project_id": "2","name": "Feature Development","is_deleted": "0" }
+  - { "activity_id": "17","project_id": "2","name": "Handling insurance-related issues","is_deleted": "0" }
+  - { "activity_id": "18","project_id": "3","name": "Bug Fixes","is_deleted": "0" }
+  - { "activity_id": "19","project_id": "3","name": "Feature Development","is_deleted": "0" }
+  - { "activity_id": "20","project_id": "3","name": "Implementation","is_deleted": "0" }
+  - { "activity_id": "21","project_id": "3","name": "Project Management","is_deleted": "0" }
+  - { "activity_id": "22","project_id": "3","name": "QA Testing","is_deleted": "0" }
+  - { "activity_id": "23","project_id": "3","name": "Requirement Gathering","is_deleted": "0" }
+  - { "activity_id": "24","project_id": "3","name": "Support & Maintanence","is_deleted": "0" }
+  - { "activity_id": "25","project_id": "4","name": "Assessing Project and Resource Requirements","is_deleted": "0" }
+  - { "activity_id": "26","project_id": "4","name": "Bug Fixes","is_deleted": "0" }
+  - { "activity_id": "27","project_id": "4","name": "Estimating","is_deleted": "0" }
+  - { "activity_id": "28","project_id": "4","name": "Feature Development","is_deleted": "0" }
+  - { "activity_id": "29","project_id": "4","name": "Implementation","is_deleted": "0" }
+  - { "activity_id": "30","project_id": "4","name": "Project Management","is_deleted": "0" }
+  - { "activity_id": "31","project_id": "4","name": "QA Testing","is_deleted": "0" }
+  - { "activity_id": "32","project_id": "4","name": "Requirement Gathering","is_deleted": "0" }
+  - { "activity_id": "33","project_id": "4","name": "Support & Maintanence","is_deleted": "0" }
+  - { "activity_id": "34","project_id": "4","name": "Timescales with Clients and Managers","is_deleted": "0" }
+  - { "activity_id": "35","project_id": "5","name": "Bug Fixes","is_deleted": "0" }
+  - { "activity_id": "36","project_id": "5","name": "Feature Development","is_deleted": "0" }
+  - { "activity_id": "37","project_id": "5","name": "Implementation","is_deleted": "0" }
+  - { "activity_id": "38","project_id": "5","name": "Project Management","is_deleted": "0" }
+  - { "activity_id": "39","project_id": "5","name": "QA Testing","is_deleted": "0" }
+  - { "activity_id": "40","project_id": "5","name": "Requirement Gathering","is_deleted": "0" }
+  - { "activity_id": "41","project_id": "5","name": "Support & Maintanence","is_deleted": "0" }
+  - { "activity_id": "42","project_id": "6","name": "Bug Fixes","is_deleted": "0" }
+  - { "activity_id": "43","project_id": "6","name": "Feature Development","is_deleted": "0" }
+  - { "activity_id": "44","project_id": "6","name": "Implementation","is_deleted": "0" }
+  - { "activity_id": "45","project_id": "6","name": "Project Management","is_deleted": "0" }
+  - { "activity_id": "46","project_id": "6","name": "QA Testing","is_deleted": "0" }
+  - { "activity_id": "47","project_id": "6","name": "Requirement Gathering","is_deleted": "0" }
+  - { "activity_id": "48","project_id": "6","name": "Support & Maintanence","is_deleted": "0" }
+  - { "activity_id": "49","project_id": "7","name": "Administration","is_deleted": "0" }
+  - { "activity_id": "50","project_id": "7","name": "Bug Fixes","is_deleted": "0" }
+  - { "activity_id": "51","project_id": "7","name": "Demonstration","is_deleted": "0" }
+  - { "activity_id": "52","project_id": "7","name": "Employee Relations","is_deleted": "0" }
+  - { "activity_id": "53","project_id": "7","name": "Feature Development","is_deleted": "0" }
+  - { "activity_id": "54","project_id": "7","name": "Handling insurance-related issues","is_deleted": "0" }
+  - { "activity_id": "55","project_id": "7","name": "Implementation","is_deleted": "0" }
+  - { "activity_id": "56","project_id": "7","name": "Job Design","is_deleted": "0" }
+  - { "activity_id": "57","project_id": "7","name": "Maintaining HR records","is_deleted": "0" }
+  - { "activity_id": "58","project_id": "8","name": "Bug Fixes","is_deleted": "0" }
+  - { "activity_id": "59","project_id": "8","name": "Customizations","is_deleted": "0" }
+  - { "activity_id": "60","project_id": "8","name": "Feature Development","is_deleted": "0" }
+  - { "activity_id": "61","project_id": "8","name": "Implementation","is_deleted": "0" }
+  - { "activity_id": "62","project_id": "8","name": "Maintenance","is_deleted": "0" }
+  - { "activity_id": "63","project_id": "8","name": "Project Management","is_deleted": "0" }
+  - { "activity_id": "64","project_id": "8","name": "QA Testing","is_deleted": "0" }
+  - { "activity_id": "65","project_id": "8","name": "Support","is_deleted": "0" }
+  - { "activity_id": "66","project_id": "9","name": "Job Analysis","is_deleted": "0" }
+  - { "activity_id": "67","project_id": "9","name": "Publish Vacancies","is_deleted": "0" }
+  - { "activity_id": "68","project_id": "9","name": "Shortlisting Candidates","is_deleted": "0" }
+  - { "activity_id": "69","project_id": "9","name": "Conducting Interviews and Tests","is_deleted": "0" }
+  - { "activity_id": "70","project_id": "9","name": "Onboarding New Hires","is_deleted": "0" }
+  - { "activity_id": "71","project_id": "10","name": "Training Need Analysis","is_deleted": "0" }
+  - { "activity_id": "72","project_id": "10","name": "Training Program Creation","is_deleted": "0" }
+  - { "activity_id": "73","project_id": "10","name": "Manage Training Programs","is_deleted": "0" }
+  - { "activity_id": "74","project_id": "10","name": "Training Feedback Analysis","is_deleted": "0" }
+  - { "activity_id": "75","project_id": "11","name": "Payroll Administration","is_deleted": "0" }
+  - { "activity_id": "76","project_id": "11","name": "Manage Employee Inquiries","is_deleted": "0" }
+  - { "activity_id": "77","project_id": "11","name": "HR Audit","is_deleted": "0" }
+  - { "activity_id": "78","project_id": "11","name": "Performance Evaluation","is_deleted": "0" }
+
+ProjectAdmin:
+  - { "project_id": "2","emp_number": "5" }
+  - { "project_id": "2","emp_number": "2" }
+  - { "project_id": "6","emp_number": "2" }
+  - { "project_id": "7","emp_number": "2" }
+  - { "project_id": "8","emp_number": "7" }
+  - { "project_id": "9","emp_number": "7" }
+  - { "project_id": "10","emp_number": "7" }
+  - { "project_id": "11","emp_number": "7" }
+  - { "project_id": "12","emp_number": "5" }

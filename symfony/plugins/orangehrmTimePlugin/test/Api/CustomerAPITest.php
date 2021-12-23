@@ -35,7 +35,7 @@ class CustomerAPITest extends EndpointIntegrationTestCase
      */
     public function testGetAll(TestCaseParams $testCaseParams): void
     {
-        $this->populateFixtures('CustomerService.yml');
+        $this->populateFixtures('CustomerAPITest.yaml');
         $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
         $this->registerServices($testCaseParams);
         $this->registerMockDateTimeHelper($testCaseParams);
@@ -53,7 +53,7 @@ class CustomerAPITest extends EndpointIntegrationTestCase
      */
     public function testCreate(TestCaseParams $testCaseParams): void
     {
-        $this->populateFixtures('CustomerService.yml');
+        $this->populateFixtures('CustomerAPITest.yaml');
         $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
         $this->registerServices($testCaseParams);
         $this->registerMockDateTimeHelper($testCaseParams);
@@ -71,7 +71,7 @@ class CustomerAPITest extends EndpointIntegrationTestCase
      */
     public function testGetOne(TestCaseParams $testCaseParams): void
     {
-        $this->populateFixtures('CustomerService.yml');
+        $this->populateFixtures('CustomerAPITest.yaml');
         $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
         $this->registerServices($testCaseParams);
         $this->registerMockDateTimeHelper($testCaseParams);
@@ -89,7 +89,7 @@ class CustomerAPITest extends EndpointIntegrationTestCase
      */
     public function testUpdate(TestCaseParams $testCaseParams): void
     {
-        $this->populateFixtures('CustomerService.yml');
+        $this->populateFixtures('CustomerAPITest.yaml');
         $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
         $this->registerServices($testCaseParams);
         $this->registerMockDateTimeHelper($testCaseParams);
@@ -107,7 +107,7 @@ class CustomerAPITest extends EndpointIntegrationTestCase
      */
     public function testDelete(TestCaseParams $testCaseParams): void
     {
-        $this->populateFixtures('CustomerService.yml');
+        $this->populateFixtures('CustomerAPITest.yaml');
         $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
         $this->registerServices($testCaseParams);
         $this->registerMockDateTimeHelper($testCaseParams);

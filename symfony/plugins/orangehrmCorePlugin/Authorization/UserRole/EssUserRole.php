@@ -19,45 +19,16 @@
 
 namespace OrangeHRM\Core\Authorization\UserRole;
 
-/**
- * Description of EssUserRole
- *
- * @author samith
- */
 class EssUserRole extends AbstractUserRole
 {
-    public function getAccessibleEmployeeIds($operation = null, $returnType = null, $requiredPermissions = [])
+    /**
+     * @inheritDoc
+     */
+    protected function getAccessibleIdsForEntity(string $entityType, array $requiredPermissions = []): array
     {
-        return [];
-    }
-
-    public function getAccessibleEmployeePropertyList($properties, $orderField, $orderBy, $requiredPermissions = [])
-    {
-        return [];
-    }
-
-    public function getAccessibleEmployees($operation = null, $returnType = null, $requiredPermissions = []): array
-    {
-        return [];
-    }
-
-    public function getAccessibleLocationIds($operation = null, $returnType = null, $requiredPermissions = [])
-    {
-        return [];
-    }
-
-    public function getAccessibleOperationalCountryIds($operation = null, $returnType = null, $requiredPermissions = [])
-    {
-        return [];
-    }
-
-    public function getAccessibleSystemUserIds($operation = null, $returnType = null, $requiredPermissions = [])
-    {
-        return [];
-    }
-
-    public function getAccessibleUserRoleIds($operation = null, $returnType = null, $requiredPermissions = [])
-    {
-        return [];
+        switch ($entityType) {
+            default:
+                return [];
+        }
     }
 }

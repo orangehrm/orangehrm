@@ -43,7 +43,7 @@ class ProjectAPITest extends EndpointIntegrationTestCase
     public function testCreate(TestCaseParams $testCaseParams): void
     {
         TestDataService::truncateSpecificTables([ProjectAdmin::class]);
-        $this->populateFixtures('ProjectDao.yml');
+        $this->populateFixtures('ProjectAPITest.yaml');
         $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
         $this->registerServices($testCaseParams);
         $this->registerMockDateTimeHelper($testCaseParams);
@@ -62,7 +62,7 @@ class ProjectAPITest extends EndpointIntegrationTestCase
     public function testGetAll(TestCaseParams $testCaseParams): void
     {
         TestDataService::truncateSpecificTables([ProjectAdmin::class]);
-        $this->populateFixtures('ProjectDao.yml');
+        $this->populateFixtures('ProjectAPITest.yaml');
         $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
         $this->registerServices($testCaseParams);
         $this->registerMockDateTimeHelper($testCaseParams);
@@ -81,7 +81,7 @@ class ProjectAPITest extends EndpointIntegrationTestCase
     public function testGetOne(TestCaseParams $testCaseParams): void
     {
         TestDataService::truncateSpecificTables([ProjectAdmin::class]);
-        $this->populateFixtures('ProjectDao.yml');
+        $this->populateFixtures('ProjectAPITest.yaml');
         $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
         $this->registerServices($testCaseParams);
         $this->registerMockDateTimeHelper($testCaseParams);
@@ -100,7 +100,7 @@ class ProjectAPITest extends EndpointIntegrationTestCase
     public function testUpdate(TestCaseParams $testCaseParams): void
     {
         TestDataService::truncateSpecificTables([ProjectAdmin::class]);
-        $this->populateFixtures('ProjectDao.yml');
+        $this->populateFixtures('ProjectAPITest.yaml');
         $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
         $this->registerServices($testCaseParams);
         $this->registerMockDateTimeHelper($testCaseParams);
@@ -119,7 +119,7 @@ class ProjectAPITest extends EndpointIntegrationTestCase
     public function testDelete(TestCaseParams $testCaseParams): void
     {
         TestDataService::truncateSpecificTables([ProjectAdmin::class]);
-        $this->populateFixtures('ProjectDao.yml');
+        $this->populateFixtures('ProjectAPITest.yaml');
         $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
         $this->registerServices($testCaseParams);
         $this->registerMockDateTimeHelper($testCaseParams);

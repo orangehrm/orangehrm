@@ -21,13 +21,14 @@ namespace OrangeHRM\Time\Dao;
 
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Entity\Project;
+use OrangeHRM\Entity\ProjectAdmin;
 use OrangeHRM\ORM\Paginator;
 use OrangeHRM\Time\Dto\ProjectSearchFilterParams;
 
 class ProjectDao extends BaseDao
 {
     /**
-     * @param  Project  $project
+     * @param Project $project
      * @return Project
      */
     public function saveProject(Project $project): Project
@@ -37,7 +38,7 @@ class ProjectDao extends BaseDao
     }
 
     /**
-     * @param  int[]  $ids
+     * @param int[] $ids
      * @return int
      */
     public function deleteProjects(array $ids): int
@@ -52,7 +53,7 @@ class ProjectDao extends BaseDao
     }
 
     /**
-     * @param  int  $id
+     * @param int $id
      * @return Project|null
      */
     public function getProjectById(int $id): ?Project
@@ -64,7 +65,7 @@ class ProjectDao extends BaseDao
     }
 
     /**
-     * @param  ProjectSearchFilterParams  $projectSearchFilterParamHolder
+     * @param ProjectSearchFilterParams $projectSearchFilterParamHolder
      * @return Project[]
      */
     public function getProjects(ProjectSearchFilterParams $projectSearchFilterParamHolder): array
@@ -74,7 +75,7 @@ class ProjectDao extends BaseDao
     }
 
     /**
-     * @param  ProjectSearchFilterParams  $projectSearchFilterParamHolder
+     * @param ProjectSearchFilterParams $projectSearchFilterParamHolder
      * @return Paginator
      */
     protected function getProjectsPaginator(ProjectSearchFilterParams $projectSearchFilterParamHolder): Paginator
@@ -85,9 +86,9 @@ class ProjectDao extends BaseDao
 
         $this->setSortingAndPaginationParams($qb, $projectSearchFilterParamHolder);
 
-        if (!is_null($projectSearchFilterParamHolder->getProjectId())) {
-            $qb->andWhere('project.id = :projectId')
-                ->setParameter('projectId', $projectSearchFilterParamHolder->getProjectId());
+        if (!is_null($projectSearchFilterParamHolder->getProjectIds())) {
+            $qb->andWhere($qb->expr()->in('project.id', ':projectIds'))
+                ->setParameter('projectIds', $projectSearchFilterParamHolder->getProjectIds());
         }
         if (!is_null($projectSearchFilterParamHolder->getCustomerId())) {
             $qb->andWhere('customer.id = :customerId')
@@ -97,13 +98,17 @@ class ProjectDao extends BaseDao
             $qb->andWhere('projectAdmin.empNumber = :empNumber')
                 ->setParameter('empNumber', $projectSearchFilterParamHolder->getEmpNumber());
         }
+        if (!empty($projectSearchFilterParamHolder->getName())) {
+            $qb->andWhere($qb->expr()->like('project.name', ':projectName'))
+                ->setParameter('projectName', '%' . $projectSearchFilterParamHolder->getName() . '%');
+        }
         $qb->andWhere('project.deleted = :deleted')
             ->setParameter('deleted', false);
         return $this->getPaginator($qb);
     }
 
     /**
-     * @param  ProjectSearchFilterParams  $projectSearchFilterParamHolder
+     * @param ProjectSearchFilterParams $projectSearchFilterParamHolder
      * @return int
      */
     public function getProjectsCount(ProjectSearchFilterParams $projectSearchFilterParamHolder): int
@@ -112,8 +117,8 @@ class ProjectDao extends BaseDao
     }
 
     /**
-     * @param  string  $projectName
-     * @param  int|null  $projectId
+     * @param string $projectName
+     * @param int|null $projectId
      * @return bool
      */
     public function isProjectNameTaken(string $projectName, ?int $projectId = null): bool
@@ -126,5 +131,56 @@ class ProjectDao extends BaseDao
             $q->setParameter('projectId', $projectId);
         }
         return $this->getPaginator($q)->count() === 0;
+    }
+
+    /**
+     * @param int|null $empNumber
+     * @return bool
+     */
+    public function isProjectAdmin(?int $empNumber): bool
+    {
+        if (is_null($empNumber)) {
+            return false;
+        }
+        $q = $this->createQueryBuilder(ProjectAdmin::class, 'projectAdmin')
+            ->andWhere('projectAdmin.employee = :empNumber')
+            ->setParameter('empNumber', $empNumber);
+        return $this->getPaginator($q)->count() > 0;
+    }
+
+    /**
+     * @param bool $includeDeleted
+     * @return int[]
+     */
+    public function getProjectIdList(bool $includeDeleted = false): array
+    {
+        $q = $this->createQueryBuilder(Project::class, 'project');
+        $q->select('project.id');
+        if (!$includeDeleted) {
+            $q->andWhere('project.deleted = :deleted')
+                ->setParameter('deleted', false);
+        }
+        $result = $q->getQuery()->getArrayResult();
+        return array_column($result, 'id');
+    }
+
+    /**
+     * @param int $projectAdminEmpNumber
+     * @param bool $includeDeleted
+     * @return int[]
+     */
+    public function getProjectIdListForProjectAdmin(int $projectAdminEmpNumber, bool $includeDeleted = false): array
+    {
+        $q = $this->createQueryBuilder(Project::class, 'project')
+            ->select('project.id')
+            ->innerJoin('project.projectAdmins', 'projectAdmin')
+            ->andWhere('projectAdmin.empNumber = :projectAdminEmpNumber')
+            ->setParameter('projectAdminEmpNumber', $projectAdminEmpNumber);
+        if (!$includeDeleted) {
+            $q->andWhere('project.deleted = :deleted')
+                ->setParameter('deleted', false);
+        }
+        $result = $q->getQuery()->getArrayResult();
+        return array_column($result, 'id');
     }
 }

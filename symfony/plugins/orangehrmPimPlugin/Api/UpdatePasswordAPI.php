@@ -20,7 +20,7 @@
 namespace OrangeHRM\Pim\Api;
 
 use OrangeHRM\Admin\Api\Model\UserModel;
-use OrangeHRM\Admin\Service\UserService;
+use OrangeHRM\Admin\Traits\Service\UserServiceTrait;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
@@ -31,27 +31,17 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
-use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
-use OrangeHRM\Framework\Services;
 
 class UpdatePasswordAPI extends Endpoint implements ResourceEndpoint
 {
     use UserRoleManagerTrait;
-    use ServiceContainerTrait;
+    use UserServiceTrait;
 
     public const PARAMETER_CURRENT_PASSWORD = 'currentPassword';
     public const PARAMETER_NEW_PASSWORD = 'newPassword';
 
     public const PARAM_RULE_STRING_MAX_LENGTH = 64;
-
-    /**
-     * @return UserService|null
-     */
-    public function getSystemUserService(): ?UserService
-    {
-        return $this->getContainer()->get(Services::USER_SERVICE);
-    }
 
     /**
      * @inheritDoc
@@ -80,7 +70,7 @@ class UpdatePasswordAPI extends Endpoint implements ResourceEndpoint
             self::PARAMETER_NEW_PASSWORD
         );
         $user->setUserPassword($newPassword);
-        $user = $this->getSystemUserService()->saveSystemUser($user, true);
+        $user = $this->getUserService()->saveSystemUser($user, true);
         return new EndpointResourceResult(UserModel::class, $user);
     }
 
@@ -105,7 +95,7 @@ class UpdatePasswordAPI extends Endpoint implements ResourceEndpoint
                                 self::PARAMETER_CURRENT_PASSWORD
                             );
                             $userId = $this->getUserRoleManager()->getUser()->getId();
-                            return $this->getSystemUserService()->isCurrentPassword($userId, $currentPassword);
+                            return $this->getUserService()->isCurrentPassword($userId, $currentPassword);
                         }
                     ])
                 )

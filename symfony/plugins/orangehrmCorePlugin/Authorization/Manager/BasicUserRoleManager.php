@@ -19,7 +19,7 @@
 
 namespace OrangeHRM\Core\Authorization\Manager;
 
-use OrangeHRM\Admin\Service\UserService;
+use OrangeHRM\Admin\Traits\Service\UserServiceTrait;
 use OrangeHRM\Core\Authorization\Dao\HomePageDao;
 use OrangeHRM\Core\Authorization\Dto\DataGroupPermissionCollection;
 use OrangeHRM\Core\Authorization\Dto\DataGroupPermissionFilterParams;
@@ -38,17 +38,15 @@ use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\User;
 use OrangeHRM\Entity\UserRole;
 use OrangeHRM\Entity\WorkflowStateMachine;
-use OrangeHRM\Framework\Services;
 use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
+use OrangeHRM\Time\Traits\Service\ProjectServiceTrait;
 
-/**
- * Description of BasicUserRoleManager
- *
- */
 class BasicUserRoleManager extends AbstractUserRoleManager
 {
     use EmployeeServiceTrait;
     use ClassHelperTrait;
+    use ProjectServiceTrait;
+    use UserServiceTrait;
 
     public const PERMISSION_TYPE_DATA_GROUP = 'data_group';
     public const PERMISSION_TYPE_ACTION = 'action';
@@ -59,13 +57,9 @@ class BasicUserRoleManager extends AbstractUserRoleManager
     public const OPERATION_DELETE = 'delete';
 
     protected ?ScreenPermissionService $screenPermissionService = null;
-    protected $operationalCountryService;
-    protected $locationService;
     protected ?DataGroupService $dataGroupService = null;
     protected $subordinates = null;
     protected ?MenuService $menuService = null;
-    protected $projectService;
-    protected $vacancyService;
     protected ?HomePageDao $homePageDao = null;
     protected ?AccessFlowStateMachineService $accessFlowStateMachineService = null;
 
@@ -73,7 +67,6 @@ class BasicUserRoleManager extends AbstractUserRoleManager
      * @var AbstractUserRole[]
      */
     protected array $userRoleClasses = [];
-    protected $decoratorClasses;
 
     public function __construct()
     {
@@ -119,40 +112,10 @@ class BasicUserRoleManager extends AbstractUserRoleManager
         return $this->userRoleClasses[$roleName] ?? null;
     }
 
-    public function getLocationService()
-    {
-        // TODO
-        if (empty($this->locationService)) {
-            $this->locationService = new LocationService();
-        }
-        return $this->locationService;
-    }
-
-    public function setLocationService($locationService)
-    {
-        // TODO
-        $this->locationService = $locationService;
-    }
-
-    public function getOperationalCountryService()
-    {
-        // TODO
-        if (empty($this->operationalCountryService)) {
-            $this->operationalCountryService = new OperationalCountryService();
-        }
-        return $this->operationalCountryService;
-    }
-
-    public function setOperationalCountryService($operationalCountryService)
-    {
-        // TODO
-        $this->operationalCountryService = $operationalCountryService;
-    }
-
     /**
      * @return ScreenPermissionService
      */
-    public function getScreenPermissionService(): ScreenPermissionService
+    protected function getScreenPermissionService(): ScreenPermissionService
     {
         if (!$this->screenPermissionService instanceof ScreenPermissionService) {
             $this->screenPermissionService = new ScreenPermissionService();
@@ -169,17 +132,9 @@ class BasicUserRoleManager extends AbstractUserRoleManager
     }
 
     /**
-     * @return UserService
-     */
-    public function getUserService(): UserService
-    {
-        return $this->getContainer()->get(Services::USER_SERVICE);
-    }
-
-    /**
      * @return MenuService
      */
-    public function getMenuService(): MenuService
+    protected function getMenuService(): MenuService
     {
         if (!$this->menuService instanceof MenuService) {
             $this->menuService = new MenuService();
@@ -188,49 +143,9 @@ class BasicUserRoleManager extends AbstractUserRoleManager
     }
 
     /**
-     * @param MenuService $menuService
-     */
-    public function setMenuService(MenuService $menuService): void
-    {
-        $this->menuService = $menuService;
-    }
-
-    public function getProjectService()
-    {
-        // TODO
-        if (is_null($this->projectService)) {
-            $this->projectService = new ProjectService();
-        }
-
-        return $this->projectService;
-    }
-
-    public function setProjectService($projectService)
-    {
-        // TODO
-        $this->projectService = $projectService;
-    }
-
-    public function getVacancyService()
-    {
-        // TODO
-        if (is_null($this->vacancyService)) {
-            $this->vacancyService = new VacancyService();
-        }
-
-        return $this->vacancyService;
-    }
-
-    public function setVacancyService($vacancyService)
-    {
-        // TODO
-        $this->vacancyService = $vacancyService;
-    }
-
-    /**
      * @return HomePageDao
      */
-    public function getHomePageDao(): HomePageDao
+    protected function getHomePageDao(): HomePageDao
     {
         if (!$this->homePageDao instanceof HomePageDao) {
             $this->homePageDao = new HomePageDao();
@@ -249,20 +164,12 @@ class BasicUserRoleManager extends AbstractUserRoleManager
     /**
      * @return AccessFlowStateMachineService
      */
-    public function getAccessFlowStateMachineService(): AccessFlowStateMachineService
+    protected function getAccessFlowStateMachineService(): AccessFlowStateMachineService
     {
         if (!$this->accessFlowStateMachineService instanceof AccessFlowStateMachineService) {
             $this->accessFlowStateMachineService = new AccessFlowStateMachineService();
         }
         return $this->accessFlowStateMachineService;
-    }
-
-    /**
-     * @param AccessFlowStateMachineService $accessFlowStateMachineService
-     */
-    public function setAccessFlowStateMachineService(AccessFlowStateMachineService $accessFlowStateMachineService): void
-    {
-        $this->accessFlowStateMachineService = $accessFlowStateMachineService;
     }
 
     /**
@@ -277,6 +184,7 @@ class BasicUserRoleManager extends AbstractUserRoleManager
         array $requestedPermissions = []
     ): array {
         // TODO
+        throw AuthorizationException::methodNotImplemented(__METHOD__);
         $allEmployees = [];
 
         $filteredRoles = $this->filterRoles($this->userRoles, $rolesToExclude, $rolesToInclude);
@@ -818,7 +726,6 @@ class BasicUserRoleManager extends AbstractUserRoleManager
     /**
      * @param int $empNumber
      * @return bool
-     * @throws DaoException
      * @throws CoreServiceException
      */
     protected function isSupervisorFor(int $empNumber): bool
@@ -835,12 +742,15 @@ class BasicUserRoleManager extends AbstractUserRoleManager
         return false;
     }
 
-    protected function isProjectAdmin($empNumber)
+    /**
+     * @param int|null $empNumber
+     * @return bool
+     */
+    protected function isProjectAdmin(?int $empNumber): bool
     {
-        // TODO:: should remove this return
-        return false;
-        // TODO
-        return $this->getProjectService()->isProjectAdmin($empNumber);
+        return $this->getProjectService()
+            ->getProjectDao()
+            ->isProjectAdmin($empNumber);
     }
 
     private function isHiringManager($empNumber)
@@ -862,20 +772,12 @@ class BasicUserRoleManager extends AbstractUserRoleManager
     /**
      * @return DataGroupService
      */
-    public function getDataGroupService(): DataGroupService
+    protected function getDataGroupService(): DataGroupService
     {
         if (!$this->dataGroupService instanceof DataGroupService) {
             $this->dataGroupService = new DataGroupService();
         }
         return $this->dataGroupService;
-    }
-
-    /**
-     * @param DataGroupService $dataGroupService
-     */
-    public function setDataGroupService(DataGroupService $dataGroupService): void
-    {
-        $this->dataGroupService = $dataGroupService;
     }
 
     /**

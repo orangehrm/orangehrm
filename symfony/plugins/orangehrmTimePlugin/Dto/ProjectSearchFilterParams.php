@@ -30,9 +30,9 @@ class ProjectSearchFilterParams extends FilterParams
     ];
 
     /**
-     * @var int|null
+     * @var int[]|null
      */
-    protected ?int $projectId = null;
+    protected ?array $projectIds = null;
 
     /**
      * @var int|null
@@ -44,25 +44,30 @@ class ProjectSearchFilterParams extends FilterParams
      */
     protected ?int $empNumber = null;
 
+    /**
+     * @var string|null
+     */
+    protected ?string $name = null;
+
     public function __construct()
     {
-        $this->setSortField('project.name', );
+        $this->setSortField('project.name');
     }
 
     /**
-     * @return int|null
+     * @return int[]|null
      */
-    public function getProjectId(): ?int
+    public function getProjectIds(): ?array
     {
-        return $this->projectId;
+        return $this->projectIds;
     }
 
     /**
-     * @param  int|null  $projectId
+     * @param int[]|null $projectIds
      */
-    public function setProjectId(?int $projectId): void
+    public function setProjectIds(?array $projectIds): void
     {
-        $this->projectId = $projectId;
+        $this->projectIds = $projectIds;
     }
 
     /**
@@ -74,7 +79,7 @@ class ProjectSearchFilterParams extends FilterParams
     }
 
     /**
-     * @param  int|null  $customerId
+     * @param int|null $customerId
      */
     public function setCustomerId(?int $customerId): void
     {
@@ -90,10 +95,26 @@ class ProjectSearchFilterParams extends FilterParams
     }
 
     /**
-     * @param  int|null  $empNumber
+     * @param int|null $empNumber
      */
     public function setEmpNumber(?int $empNumber): void
     {
         $this->empNumber = $empNumber;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string|null $name
+     */
+    public function setName(?string $name): void
+    {
+        $this->name = $name;
     }
 }

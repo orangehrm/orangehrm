@@ -41,7 +41,7 @@ class ProjectDaoTest extends KernelTestCase
     {
         $this->projectDao = new ProjectDao();
         TestDataService::truncateSpecificTables([ProjectAdmin::class]);
-        $this->fixture = Config::get(Config::PLUGINS_DIR).'/orangehrmTimePlugin/test/fixtures/ProjectDao.yml';
+        $this->fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmTimePlugin/test/fixtures/ProjectDao.yml';
         TestDataService::populate($this->fixture);
     }
 
@@ -96,5 +96,59 @@ class ProjectDaoTest extends KernelTestCase
     {
         $result = $this->projectDao->isProjectNameTaken('Project_03_updated');
         $this->assertTrue($result);
+    }
+
+    public function testIsProjectAdmin(): void
+    {
+        $this->assertTrue($this->projectDao->isProjectAdmin(1));
+        $this->assertTrue($this->projectDao->isProjectAdmin(3));
+        $this->assertFalse($this->projectDao->isProjectAdmin(4));
+        $this->assertFalse($this->projectDao->isProjectAdmin(5));
+        $this->assertFalse($this->projectDao->isProjectAdmin(100));
+        $this->assertFalse($this->projectDao->isProjectAdmin(null));
+    }
+
+    public function testGetProjectIdList(): void
+    {
+        $result = $this->projectDao->getProjectIdList();
+        $this->assertEquals([1, 2], $result);
+
+        // With deleted
+        $result = $this->projectDao->getProjectIdList(true);
+        $this->assertEquals([1, 3, 2], $result);
+
+        // Test for single result
+        $this->getEntityManager()->remove($this->getEntityReference(Project::class, 2));
+        $this->getEntityManager()->remove($this->getEntityReference(Project::class, 3));
+        $this->getEntityManager()->flush();
+        $result = $this->projectDao->getProjectIdList();
+        $this->assertEquals([1], $result);
+
+        // Test for empty result
+        $this->getEntityManager()->remove($this->getEntityReference(Project::class, 1));
+        $this->getEntityManager()->flush();
+        $result = $this->projectDao->getProjectIdList();
+        $this->assertEmpty($result);
+    }
+
+    public function testGetProjectIdListForProjectAdmin(): void
+    {
+        $result = $this->projectDao->getProjectIdListForProjectAdmin(1);
+        $this->assertEquals([1], $result);
+
+        $result = $this->projectDao->getProjectIdListForProjectAdmin(3);
+        $this->assertEquals([1, 2], $result);
+
+        // Employee not a project admin
+        $result = $this->projectDao->getProjectIdListForProjectAdmin(4);
+        $this->assertEmpty($result);
+
+        // Employee not exists
+        $result = $this->projectDao->getProjectIdListForProjectAdmin(100);
+        $this->assertEmpty($result);
+
+        // With deleted
+        $result = $this->projectDao->getProjectIdListForProjectAdmin(1, true);
+        $this->assertEquals([1, 3], $result);
     }
 }

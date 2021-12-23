@@ -108,6 +108,14 @@ apiv2_time_timesheet_action_log:
   defaults:
     _api: OrangeHRM\Time\Api\TimesheetActionLogAPI
 
+apiv2_time_timesheet_project_activity_unique_validation:
+  path: /api/v2/time/validation/{timesheetId}/project-activity
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _key: activityId
+    _api: OrangeHRM\Time\Api\TimesheetProjectActivityUniqueValidationAPI
+
 apiv2_time_my_timesheet_entries_comments:
   path: /api/v2/time/timesheets/{timesheetId}/entries/comment
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle

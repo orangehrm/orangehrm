@@ -23,21 +23,24 @@ use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Time\Controller\Traits\PermissionTrait;
 
 class SaveProjectController extends AbstractVueController
 {
+    use PermissionTrait;
+
     /**
      * @inheritDoc
      */
     public function preRender(Request $request): void
     {
-        $id = $request->get('id');
-        if (!is_null($id)) {
+        if ($request->attributes->has('id')) {
             $component = new Component('project-edit');
-            $component->addProp(new Prop('project-id', Prop::TYPE_NUMBER, $id));
+            $component->addProp(new Prop('project-id', Prop::TYPE_NUMBER, $request->attributes->getInt('id')));
         } else {
             $component = new Component('project-save');
         }
         $this->setComponent($component);
+        $this->setPermissions(['time_projects', 'time_project_activities']);
     }
 }

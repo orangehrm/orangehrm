@@ -17,33 +17,21 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Core\Authorization\UserRole;
+namespace OrangeHRM\Admin\Traits\Service;
 
-use OrangeHRM\Core\Authorization\Exception\AuthorizationException;
+use OrangeHRM\Admin\Service\UserService;
+use OrangeHRM\Core\Traits\ServiceContainerTrait;
+use OrangeHRM\Framework\Services;
 
-class InterviewerUserRole extends AbstractUserRole
+trait UserServiceTrait
 {
-    /**
-     * @inheritDoc
-     */
-    protected function getAccessibleIdsForEntity(string $entityType, array $requiredPermissions = []): array
-    {
-        switch ($entityType) {
-            case 'Vacancy':
-                // TODO:: implement and remove below line
-                throw AuthorizationException::entityNotImplemented($entityType, __METHOD__);
-                return $this->getAccessibleVacancyIds($requiredPermissions);
-            default:
-                return [];
-        }
-    }
+    use ServiceContainerTrait;
 
     /**
-     * @param array $requiredPermissions
-     * @return int[]
+     * @return UserService
      */
-    protected function getAccessibleVacancyIds(array $requiredPermissions = []): array
+    protected function getUserService(): UserService
     {
-        return $this->getVacancyService()->getVacancyIdListForInterviewer($this->getEmployeeNumber());
+        return $this->getContainer()->get(Services::USER_SERVICE);
     }
 }

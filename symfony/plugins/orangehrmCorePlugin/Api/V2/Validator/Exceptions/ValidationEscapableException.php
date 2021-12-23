@@ -17,18 +17,11 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Core\Api\V2\Exception;
+namespace OrangeHRM\Core\Api\V2\Validator\Exceptions;
 
-use Exception;
-use OrangeHRM\Core\Api\V2\Validator\Exceptions\ValidationEscapableException;
-use Throwable;
-
-class ForbiddenException extends Exception implements ValidationEscapableException
+/**
+ * Marker interface to identify whether the validator need to ignore this exception
+ */
+interface ValidationEscapableException
 {
-    public const DEFAULT_ERROR_MESSAGE = "Unauthorized";
-
-    public function __construct($message = self::DEFAULT_ERROR_MESSAGE, $code = 0, Throwable $previous = null)
-    {
-        parent::__construct($message, $code, $previous);
-    }
 }

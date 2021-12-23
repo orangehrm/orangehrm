@@ -17,33 +17,32 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Core\Authorization\UserRole;
+namespace OrangeHRM\Time\Controller\Traits;
 
-use OrangeHRM\Core\Authorization\Exception\AuthorizationException;
+use LogicException;
+use OrangeHRM\Core\Controller\AbstractVueController;
+use OrangeHRM\Core\Helper\VueControllerHelper;
+use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 
-class InterviewerUserRole extends AbstractUserRole
+trait PermissionTrait
 {
-    /**
-     * @inheritDoc
-     */
-    protected function getAccessibleIdsForEntity(string $entityType, array $requiredPermissions = []): array
-    {
-        switch ($entityType) {
-            case 'Vacancy':
-                // TODO:: implement and remove below line
-                throw AuthorizationException::entityNotImplemented($entityType, __METHOD__);
-                return $this->getAccessibleVacancyIds($requiredPermissions);
-            default:
-                return [];
-        }
-    }
+    use UserRoleManagerTrait;
 
     /**
-     * @param array $requiredPermissions
-     * @return int[]
+     * @param array $dataGroups
      */
-    protected function getAccessibleVacancyIds(array $requiredPermissions = []): array
+    protected function setPermissions(array $dataGroups)
     {
-        return $this->getVacancyService()->getVacancyIdListForInterviewer($this->getEmployeeNumber());
+        $permissions = $this->getUserRoleManagerHelper()
+            ->geEntityIndependentDataGroupPermissionCollection($dataGroups);
+        if (!$this instanceof AbstractVueController) {
+            throw new LogicException(
+                PermissionTrait::class . ' should use in instanceof' . AbstractVueController::class
+            );
+        }
+        $this->getContext()->set(
+            VueControllerHelper::PERMISSIONS,
+            $permissions->toArray()
+        );
     }
 }

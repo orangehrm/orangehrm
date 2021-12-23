@@ -115,21 +115,16 @@ class UserDao extends BaseDao
     /**
      * Return an array of System User Ids
      * @return array
-     * @throws DaoException
      */
     public function getSystemUserIdList(): array
     {
-        try {
-            $query = $this->createQueryBuilder(User::class, 'u');
-            $query->select('u.id');
-            $query->andWhere('u.deleted = :deleted');
-            $query->setParameter('deleted', false);
+        $query = $this->createQueryBuilder(User::class, 'u');
+        $query->select('u.id');
+        $query->andWhere('u.deleted = :deleted');
+        $query->setParameter('deleted', false);
 
-            $result = $query->getQuery()->getScalarResult();
-            return array_column($result, 'id');
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        $result = $query->getQuery()->getScalarResult();
+        return array_column($result, 'id');
     }
 
     /**
@@ -154,22 +149,15 @@ class UserDao extends BaseDao
     }
 
     /**
-     * Get System Users
-     *
      * @return UserRole[]
-     * @throws DaoException
      */
     public function getAssignableUserRoles(): array
     {
-        try {
-            $query = $this->createQueryBuilder(UserRole::class, 'ur');
-            $query->andWhere($query->expr()->in('ur.isAssignable', 1));
-            $query->addOrderBy('ur.name', ListSorter::ASCENDING);
+        $query = $this->createQueryBuilder(UserRole::class, 'ur');
+        $query->andWhere($query->expr()->in('ur.isAssignable', 1));
+        $query->addOrderBy('ur.name', ListSorter::ASCENDING);
 
-            return $query->getQuery()->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        return $query->getQuery()->execute();
     }
 
     /**

@@ -20,7 +20,6 @@
 namespace OrangeHRM\Pim\Dao;
 
 use OrangeHRM\Core\Dao\BaseDao;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Traits\Service\TextHelperTrait;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\EmployeeWorkShift;
@@ -331,13 +330,10 @@ class EmployeeDao extends BaseDao
     }
 
     /**
-     * Get Employee id list
-     *
      * @param bool $excludeTerminatedEmployees
-     * @return int[] EmployeeId List
-     * @throws DaoException
+     * @return int[]
      */
-    public function getEmployeeIdList(bool $excludeTerminatedEmployees = false): array
+    public function getEmpNumberList(bool $excludeTerminatedEmployees = false): array
     {
         $q = $this->createQueryBuilder(Employee::class, 'e');
         $q->select('e.empNumber');

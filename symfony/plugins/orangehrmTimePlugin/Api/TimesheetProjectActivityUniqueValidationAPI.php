@@ -17,9 +17,8 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Admin\Api;
+namespace OrangeHRM\Time\Api;
 
-use OrangeHRM\Admin\Traits\Service\UserServiceTrait;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
@@ -30,36 +29,47 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
-use OrangeHRM\Entity\User;
+use OrangeHRM\Entity\Timesheet;
+use OrangeHRM\Time\Traits\Service\TimesheetServiceTrait;
 
-class ValidationUserNameAPI extends Endpoint implements ResourceEndpoint
+class TimesheetProjectActivityUniqueValidationAPI extends Endpoint implements ResourceEndpoint
 {
-    use UserServiceTrait;
+    use TimesheetServiceTrait;
 
-    public const PARAMETER_USER_NAME = 'userName';
-    public const PARAMETER_USER_Id = 'userId';
-    public const PARAMETER_IS_CHANGEABLE_USERNAME = 'valid';
-
-    public const PARAM_RULE_USER_NAME_MAX_LENGTH = 40;
+    public const PARAMETER_TIMESHEET_ID = 'timesheetId';
+    public const PARAMETER_ACTIVITY_ID = 'activityId';
+    public const PARAMETER_PROJECT_ID = 'projectId';
+    public const PARAMETER_DUPLICATE = 'duplicate';
 
     /**
      * @inheritDoc
      */
     public function getOne(): EndpointResult
     {
-        $userName = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_QUERY, self::PARAMETER_USER_NAME);
-        $userId = $this->getRequestParams()->getIntOrNull(RequestParams::PARAM_TYPE_QUERY, self::PARAMETER_USER_Id);
-        if (!is_null($userId)) {
-            $user = $this->getUserService()->getSystemUserDao()->getSystemUser($userId);
-            $this->throwRecordNotFoundExceptionIfNotExist($user, User::class);
-        }
-        $isChangeableUserName = $this->getUserService()
-            ->getSystemUserDao()
-            ->isUserNameExistByUserName($userName, $userId);
+        $timesheetId = $this->getRequestParams()->getInt(
+            RequestParams::PARAM_TYPE_ATTRIBUTE,
+            self::PARAMETER_TIMESHEET_ID
+        );
+        $activityId = $this->getRequestParams()->getInt(
+            RequestParams::PARAM_TYPE_QUERY,
+            self::PARAMETER_ACTIVITY_ID
+        );
+        $projectId = $this->getRequestParams()->getInt(
+            RequestParams::PARAM_TYPE_QUERY,
+            self::PARAMETER_PROJECT_ID
+        );
+
+        $timesheet = $this->getTimesheetService()->getTimesheetDao()->getTimesheetById($timesheetId);
+        $this->throwRecordNotFoundExceptionIfNotExist($timesheet, Timesheet::class);
+
+        $isDuplicateItem = $this->getTimesheetService()
+            ->getTimesheetDao()
+            ->isDuplicateTimesheetItem($timesheetId, $activityId, $projectId);
+
         return new EndpointResourceResult(
             ArrayModel::class,
             [
-                self::PARAMETER_IS_CHANGEABLE_USERNAME => $isChangeableUserName,
+                self::PARAMETER_DUPLICATE => $isDuplicateItem
             ]
         );
     }
@@ -71,16 +81,17 @@ class ValidationUserNameAPI extends Endpoint implements ResourceEndpoint
     {
         return new ParamRuleCollection(
             new ParamRule(
-                self::PARAMETER_USER_NAME,
-                new Rule(Rules::STRING_TYPE),
-                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_USER_NAME_MAX_LENGTH]),
+                self::PARAMETER_TIMESHEET_ID,
+                new Rule(Rules::POSITIVE),
             ),
-            $this->getValidationDecorator()->notRequiredParamRule(
-                new ParamRule(
-                    self::PARAMETER_USER_Id,
-                    new Rule(Rules::POSITIVE),
-                )
-            )
+            new ParamRule(
+                self::PARAMETER_PROJECT_ID,
+                new Rule(Rules::POSITIVE),
+            ),
+            new ParamRule(
+                self::PARAMETER_ACTIVITY_ID,
+                new Rule(Rules::POSITIVE),
+            ),
         );
     }
 
