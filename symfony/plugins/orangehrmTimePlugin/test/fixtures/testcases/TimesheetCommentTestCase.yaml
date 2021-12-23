@@ -6,6 +6,8 @@ Create:
       core.config_service: \OrangeHRM\Core\Service\ConfigService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      time.project_service: \OrangeHRM\Time\Service\ProjectService
+      time.project_activity_service: \OrangeHRM\Time\Service\ProjectActivityService
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     attributes:
@@ -13,12 +15,12 @@ Create:
     body:
       projectId: 1
       activityId: 1
-      date: "2021-12-23"
+      date: "2011-05-23"
       comment: "Good Job"
     query: [ ]
     data:
       id: 4
-      date: "2021-12-23"
+      date: "2011-05-23"
       comment: "Good Job"
       project:
         id: 1
@@ -37,6 +39,8 @@ Create:
       core.config_service: \OrangeHRM\Core\Service\ConfigService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      time.project_service: \OrangeHRM\Time\Service\ProjectService
+      time.project_activity_service: \OrangeHRM\Time\Service\ProjectActivityService
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     attributes:
@@ -44,12 +48,12 @@ Create:
     body:
       projectId: 1
       activityId: 1
-      date: "2021-12-23"
+      date: "2011-04-19"
       comment: "Defect free"
     query: [ ]
     data:
       id: 4
-      date: "2021-12-23"
+      date: "2011-04-19"
       comment: "Defect free"
       project:
         id: 1
@@ -68,6 +72,8 @@ Create:
       core.config_service: \OrangeHRM\Core\Service\ConfigService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      time.project_service: \OrangeHRM\Time\Service\ProjectService
+      time.project_activity_service: \OrangeHRM\Time\Service\ProjectActivityService
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     attributes:
@@ -75,12 +81,12 @@ Create:
     body:
       projectId: 1
       activityId: 1
-      date: "2021-12-23"
+      date: "2011-05-23"
       comment: "Wow"
     query: [ ]
     data:
       id: 4
-      date: "2021-12-23"
+      date: "2011-05-23"
       comment: "Wow"
       project:
         id: 1
@@ -100,6 +106,8 @@ Create:
       admin.user_service: \OrangeHRM\Admin\Service\UserService
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
       core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+      time.project_service: \OrangeHRM\Time\Service\ProjectService
+      time.project_activity_service: \OrangeHRM\Time\Service\ProjectActivityService
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     attributes:
@@ -107,7 +115,7 @@ Create:
     body:
       projectId: 1
       activityId: 1
-      date: "2021-12-23"
+      date: "2011-04-19"
       comment: "Wow"
     query: [ ]
     exception:
@@ -123,6 +131,8 @@ Create:
       admin.user_service: \OrangeHRM\Admin\Service\UserService
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
       core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+      time.project_service: \OrangeHRM\Time\Service\ProjectService
+      time.project_activity_service: \OrangeHRM\Time\Service\ProjectActivityService
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     attributes:
@@ -130,7 +140,7 @@ Create:
     body:
       projectId: 1
       activityId: 1
-      date: "2021-12-23"
+      date: "2011-04-19"
       comment: "Wow"
     query: [ ]
     exception:
@@ -148,6 +158,28 @@ Create:
       date: "asdad"
       comment: "Wow"
     invalidOnly: [ 'projectId', 'activityId', 'date' ]
+
+  'Timesheet comment create With invalid parameter (future Date)':
+    userId: 1
+    attributes:
+      timesheetId: 3
+    body:
+      projectId: 1
+      activityId: 1
+      date: "2021-12-12"
+      comment: "Wow"
+    invalidOnly: [ 'date' ]
+
+  'Timesheet comment create With invalid parameter (past Date)':
+    userId: 1
+    attributes:
+      timesheetId: 3
+    body:
+      projectId: 1
+      activityId: 1
+      date: "2000-12-12"
+      comment: "Wow"
+    invalidOnly: [ 'date' ]
 
 Update:
   'Timesheet comment update (Admin to ESS)':
@@ -279,6 +311,26 @@ Update:
       message: 'Unauthorized'
     meta: [ ]
 
+  'Timesheet comment update with un available timesheet Id':
+    userId: 1
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      timesheetId: 200
+      id: 2
+    body:
+      comment: "Good Job Adalwin"
+    query: [ ]
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException'
+      message: 'Record Not Found'
+    meta: [ ]
+
 GetOne:
   'Timesheet comment fetch single (Admin to ESS)':
     userId: 1
@@ -397,6 +449,24 @@ GetOne:
     exception:
       class: '\OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
       message: 'Unauthorized'
+    meta: [ ]
+
+  'Timesheet comment fetch one with un available timesheet Id':
+    userId: 1
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      timesheetId: 20
+      id: 2
+    query: [ ]
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException'
+      message: 'Record Not Found'
     meta: [ ]
 
   'Timesheet comment fetch single With invalid parameter':
