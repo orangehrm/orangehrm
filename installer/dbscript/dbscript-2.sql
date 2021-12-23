@@ -4250,7 +4250,8 @@ VALUES ('apiv2_time_time_sheet_config', 'API-v2 Time - Time Sheet Start Day Conf
        ('apiv2_time_my_timesheets_entries', 'API-v2 Time - Timesheet Entries', 1, 0, 1, 0),
        ('apiv2_time_my_timesheet', 'API-v2 Time - My Timesheet', 1, 1, 1, 0),
        ('apiv2_time_timesheet_action_log', 'API-v2 Time - Timesheet action log', 1, 0, 0, 0),
-       ('apiv2_time_timesheet_comment', 'API-v2 Time - Timesheet comment', 1, 1, 1, 0);
+       ('apiv2_time_timesheet_comment', 'API-v2 Time - Timesheet comment', 1, 1, 1, 0),
+       ('apiv2_time_validation_project_activity_name', 'API-v2 Time - Project Activity Name Validation', 1, 0, 0, 0);
 
 SET @time_module_id := (SELECT `id` FROM ohrm_module WHERE name = 'time' LIMIT 1);
 
@@ -4264,6 +4265,7 @@ SET @apiv2_time_my_timesheets_entries_data_group_id := (SELECT `id` FROM ohrm_da
 SET @apiv2_time_my_timesheet_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_time_my_timesheet' LIMIT 1);
 SET @apiv2_time_timesheet_action_log_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_time_timesheet_action_log' LIMIT 1);
 SET @apiv2_time_timesheet_comment_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_time_timesheet_comment' LIMIT 1);
+SET @apiv2_time_validation_project_activity_name_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_time_validation_project_activity_name' LIMIT 1);
 
 INSERT INTO ohrm_api_permission (`api_name`, `module_id`, `data_group_id`)
 VALUES ('OrangeHRM\\Time\\Api\\TimeConfigPeriodAPI', @time_module_id, @apiv2_time_time_sheet_config_data_group_id),
@@ -4275,7 +4277,8 @@ VALUES ('OrangeHRM\\Time\\Api\\TimeConfigPeriodAPI', @time_module_id, @apiv2_tim
        ('OrangeHRM\\Time\\Api\\MyTimesheetItemAPI', @time_module_id, @apiv2_time_my_timesheets_entries_data_group_id),
        ('OrangeHRM\\Time\\Api\\MyTimesheetAPI', @time_module_id, @apiv2_time_my_timesheet_data_group_id),
        ('OrangeHRM\\Time\\Api\\TimesheetActionLogAPI', @time_module_id, @apiv2_time_timesheet_action_log_data_group_id),
-       ('OrangeHRM\\Time\\Api\\TimesheetCommentAPI', @time_module_id, @apiv2_time_timesheet_comment_data_group_id);
+       ('OrangeHRM\\Time\\Api\\TimesheetCommentAPI', @time_module_id, @apiv2_time_timesheet_comment_data_group_id),
+       ('OrangeHRM\\Time\\Api\\ValidationProjectActivityNameAPI', @time_module_id, @apiv2_time_validation_project_activity_name_data_group_id);
 
 SET @admin_role_id := (SELECT `id` FROM ohrm_user_role WHERE `name` = 'Admin' LIMIT 1);
 
@@ -4294,7 +4297,8 @@ VALUES (1, 0, 1, 0, 0, @apiv2_time_time_sheet_config_data_group_id, @admin_role_
        (1, 0, 0, 0, 0, @apiv2_time_timesheet_action_log_data_group_id, @admin_role_id),
        (1, 0, 0, 0, 0, @apiv2_time_timesheet_action_log_data_group_id, @ess_role_id),
        (1, 1, 1, 0, 0, @apiv2_time_timesheet_comment_data_group_id, @admin_role_id),
-       (1, 1, 1, 0, 0, @apiv2_time_timesheet_comment_data_group_id, @ess_role_id);
+       (1, 1, 1, 0, 0, @apiv2_time_timesheet_comment_data_group_id, @ess_role_id),
+       (1, 0, 0, 0, 0, @apiv2_time_validation_project_activity_name_data_group_id, @admin_role_id);
 
 UPDATE `ohrm_screen` SET `module_id`= 5  WHERE `action_url` = 'viewCustomers';
 UPDATE `ohrm_screen` SET `module_id`= 5  WHERE `action_url` = 'viewProjects';

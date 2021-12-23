@@ -109,4 +109,14 @@ class ProjectActivityDaoTest extends TestCase
         $result = $this->projectActivityDao->deleteProjectActivities($toTobedeletedIds);
         $this->assertEquals(1, $result);
     }
+
+    public function testDeleteProjectActivityNameValidation(): void
+    {
+        $result_1 = $this->projectActivityDao->isProjectNameTaken(1, "Defect Tracking");
+        $result_2 = $this->projectActivityDao->isProjectNameTaken(1, "Activity1 For Pro1");
+        $result_3 = $this->projectActivityDao->isProjectNameTaken(1, "Activity1 For Pro1", 2);
+        $this->assertTrue($result_1);
+        $this->assertFalse($result_2);
+        $this->assertFalse($result_3);
+    }
 }
