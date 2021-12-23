@@ -10,7 +10,7 @@ GetOne:
       projectId: 1
       activityId: 1
     data:
-      valid: false
+      duplicate: true
     meta: [ ]
 
   'Timesheet item is not duplicate':
@@ -24,7 +24,7 @@ GetOne:
       projectId: 1
       activityId: 2
     data:
-      valid: true
+      duplicate: false
     meta: [ ]
 
   'Timesheet not found':

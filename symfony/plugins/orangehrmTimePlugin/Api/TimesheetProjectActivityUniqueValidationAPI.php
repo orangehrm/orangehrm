@@ -39,7 +39,7 @@ class TimesheetProjectActivityUniqueValidationAPI extends Endpoint implements Re
     public const PARAMETER_TIMESHEET_ID = 'timesheetId';
     public const PARAMETER_ACTIVITY_ID = 'activityId';
     public const PARAMETER_PROJECT_ID = 'projectId';
-    public const PARAMETER_DUPLICATE = 'valid';
+    public const PARAMETER_DUPLICATE = 'duplicate';
 
     /**
      * @inheritDoc
