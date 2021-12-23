@@ -84,7 +84,7 @@ class ValidationProjectActivityNameAPI extends Endpoint implements ResourceEndpo
             $this->throwRecordNotFoundExceptionIfNotExist($projectActivity, ProjectActivity::class);
         }
 
-        $isChangeableProjectActivityName = $this->getProjectActivityService()
+        $isChangeableProjectActivityName = !$this->getProjectActivityService()
             ->getProjectActivityDao()
             ->isProjectNameTaken($projectId, $projectActivityName, $projectActivityId);
 

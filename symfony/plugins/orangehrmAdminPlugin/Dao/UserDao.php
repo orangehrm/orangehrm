@@ -362,7 +362,7 @@ class UserDao extends BaseDao
     }
 
     /**
-     **this function for validating the username availability. ( false -> username already exist, true - username is not exist )
+     **this function for validating the username availability. ( true -> username already exist, false - username is not exist )
      * @param string $userName
      * @param int|null $userId
      * @return bool
@@ -376,6 +376,6 @@ class UserDao extends BaseDao
             $q->andWhere('u.id != :userId'); // we need to skip the current username on checking, otherwise count always return 1
             $q->setParameter('userId', $userId);
         }
-        return $this->getPaginator($q)->count() === 0;
+        return $this->getPaginator($q)->count() > 0;
     }
 }

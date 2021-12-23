@@ -145,7 +145,7 @@ class ProjectActivityDao extends BaseDao
     }
 
     /**
-     **this function for validating the project activity name availability. ( false -> project activity name already exist, true - project activity name is not exist )
+     **this function for validating the project activity name availability. ( true -> project activity name already exist, false - project activity name is not exist )
      * @param int $projectId
      * @param string $projectActivityName
      * @param int|null $projectActivityId
@@ -162,6 +162,6 @@ class ProjectActivityDao extends BaseDao
             $q->andWhere('projectActivity.id != :projectActivityId'); // we need to skip the current project activity Name on update, otherwise count always return 1
             $q->setParameter('projectActivityId', $projectActivityId);
         }
-        return $this->getPaginator($q)->count() === 0;
+        return $this->getPaginator($q)->count() > 0;
     }
 }

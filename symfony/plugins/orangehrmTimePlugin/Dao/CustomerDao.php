@@ -111,7 +111,7 @@ class CustomerDao extends BaseDao
     }
 
     /**
-     **this function for validating the customer name availability. ( false -> customer name already exist, true - customer name is not exist )
+     **this function for validating the customer name availability. ( true -> customer name already exist, false - customer name is not exist )
      * @param string $customerName
      * @param int|null $customerId
      * @return bool
@@ -127,7 +127,7 @@ class CustomerDao extends BaseDao
             ); // we need to skip the current customer on update, otherwise count always return 1
             $q->setParameter('customerId', $customerId);
         }
-        return $this->getPaginator($q)->count() === 0;
+        return $this->getPaginator($q)->count() > 0;
     }
 
     /**
