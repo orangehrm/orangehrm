@@ -19,8 +19,8 @@
 
 namespace OrangeHRM\Time\Api\ValidationRules;
 
-use OrangeHRM\Core\Api\V2\Validator\Rules\AbstractRule;
 use DateTime;
+use OrangeHRM\Core\Api\V2\Validator\Rules\AbstractRule;
 use OrangeHRM\Entity\Timesheet;
 use OrangeHRM\Time\Traits\Service\TimesheetServiceTrait;
 
@@ -28,7 +28,7 @@ class TimesheetCommentDateParamRule extends AbstractRule
 {
     use TimesheetServiceTrait;
 
-    private  $timesheetId;
+    private $timesheetId;
 
     /**
      * @var Timesheet|null
@@ -44,17 +44,20 @@ class TimesheetCommentDateParamRule extends AbstractRule
     }
 
     /**
-     *check date within the startDate and endDate of the timesheet
      * @inheritDoc
      */
     public function validate($input): bool
     {
-        $timesheet = $this->getTimesheetService()->getTimesheetDao()->getTimesheetById($this->timesheetId);
+        $timesheet = $this->getTimesheetService()
+            ->getTimesheetDao()
+            ->getTimesheetById($this->timesheetId);
+
         if (is_numeric($this->timesheetId) && $this->timesheetId > 0) {
             if (!$timesheet instanceof Timesheet) {
-               return false;
+                return false;
             }
         }
+
         return $timesheet->getStartDate() <= new DateTime($input) && new DateTime($input) <= $timesheet->getEndDate();
     }
 }

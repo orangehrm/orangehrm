@@ -157,7 +157,7 @@ class TimesheetDaoTest extends KernelTestCase
 
     public function testGetTimesheetItemById(): void
     {
-        $result = $this->timesheetDao->getTimesheetItemByTimesheetIdAndTimesheetItemId(1,1);
+        $result = $this->timesheetDao->getTimesheetItemByTimesheetIdAndTimesheetItemId(1, 1);
 
         $this->assertTrue($result instanceof TimesheetItem);
         $this->assertEquals(new DateTime("2020-09-28"), $result->getDate());
