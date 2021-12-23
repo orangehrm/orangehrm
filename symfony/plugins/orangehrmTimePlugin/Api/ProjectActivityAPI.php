@@ -96,7 +96,10 @@ class ProjectActivityAPI extends Endpoint implements CrudEndpoint
     {
         $projectActivity = new ProjectActivity();
         $this->setParamsToProjectActivity($projectActivity);
-        $this->getProjectService()->getProjectActivityDao()->saveProjectActivity($projectActivity);
+        $this->getProjectService()
+            ->getProjectActivityDao()
+            ->saveProjectActivity($projectActivity);
+
         return new EndpointResourceResult(ProjectActivityModel::class, $projectActivity,);
     }
 
@@ -129,7 +132,10 @@ class ProjectActivityAPI extends Endpoint implements CrudEndpoint
     {
         try {
             $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
-            $this->getProjectService()->getProjectActivityDao()->deleteProjectActivities($ids);
+            $this->getProjectService()
+                ->getProjectActivityDao()
+                ->deleteProjectActivities($ids);
+
             return new EndpointResourceResult(ArrayModel::class, $ids);
         } catch (ProjectServiceException $projectServiceException) {
             throw $this->getBadRequestException($projectServiceException->getMessage());
@@ -169,6 +175,7 @@ class ProjectActivityAPI extends Endpoint implements CrudEndpoint
             ->getProjectActivityDao()
             ->getProjectActivityByProjectIdAndProjectActivityId($projectId, $projectActivityId);
         $this->throwRecordNotFoundExceptionIfNotExist($projectActivity, ProjectActivity::class);
+
         return new EndpointResourceResult(ProjectActivityModel::class, $projectActivity);
     }
 
@@ -200,7 +207,10 @@ class ProjectActivityAPI extends Endpoint implements CrudEndpoint
             ->getProjectActivityByProjectIdAndProjectActivityId($projectId, $projectActivityId);
         $this->throwRecordNotFoundExceptionIfNotExist($projectActivity, ProjectActivity::class);
         $this->setParamsToProjectActivity($projectActivity);
-        $this->getProjectService()->getProjectActivityDao()->saveProjectActivity($projectActivity);
+        $this->getProjectService()
+            ->getProjectActivityDao()
+            ->saveProjectActivity($projectActivity);
+
         return new EndpointResourceResult(ProjectActivityModel::class, $projectActivity,);
     }
 
