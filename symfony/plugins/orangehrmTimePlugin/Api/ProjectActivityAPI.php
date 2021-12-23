@@ -97,7 +97,7 @@ class ProjectActivityAPI extends Endpoint implements CrudEndpoint
         $projectActivity = new ProjectActivity();
         $this->setParamsToProjectActivity($projectActivity);
         $this->getProjectService()->getProjectActivityDao()->saveProjectActivity($projectActivity);
-        return new EndpointResourceResult(ProjectActivityModel::class, $projectActivity, );
+        return new EndpointResourceResult(ProjectActivityModel::class, $projectActivity);
     }
 
     /**
@@ -201,7 +201,7 @@ class ProjectActivityAPI extends Endpoint implements CrudEndpoint
         $this->throwRecordNotFoundExceptionIfNotExist($projectActivity, ProjectActivity::class);
         $this->setParamsToProjectActivity($projectActivity);
         $this->getProjectService()->getProjectActivityDao()->saveProjectActivity($projectActivity);
-        return new EndpointResourceResult(ProjectActivityModel::class, $projectActivity, );
+        return new EndpointResourceResult(ProjectActivityModel::class, $projectActivity,);
     }
 
     /**
