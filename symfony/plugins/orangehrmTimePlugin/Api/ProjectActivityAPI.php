@@ -36,7 +36,6 @@ use OrangeHRM\Entity\ProjectActivity;
 use OrangeHRM\Time\Api\Model\ProjectActivityModel;
 use OrangeHRM\Time\Dto\ProjectActivitySearchFilterParams;
 use OrangeHRM\Time\Exception\ProjectServiceException;
-use OrangeHRM\Time\Service\ProjectActivityService;
 use OrangeHRM\Time\Traits\Service\ProjectServiceTrait;
 
 class ProjectActivityAPI extends Endpoint implements CrudEndpoint

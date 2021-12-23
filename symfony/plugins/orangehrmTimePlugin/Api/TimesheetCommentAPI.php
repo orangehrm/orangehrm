@@ -38,7 +38,6 @@ use OrangeHRM\Entity\TimesheetItem;
 use OrangeHRM\Time\Api\Model\TimesheetItemModel;
 use OrangeHRM\Time\Api\Traits\TimesheetPermissionTrait;
 use OrangeHRM\Time\Api\ValidationRules\TimesheetCommentDateParamRule;
-use OrangeHRM\Time\Traits\Service\ProjectActivityServiceTrait;
 use OrangeHRM\Time\Traits\Service\ProjectServiceTrait;
 use OrangeHRM\Time\Traits\Service\TimesheetServiceTrait;
 

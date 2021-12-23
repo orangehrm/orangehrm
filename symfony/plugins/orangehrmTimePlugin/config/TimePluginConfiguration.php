@@ -25,7 +25,6 @@ use OrangeHRM\Framework\Services;
 use OrangeHRM\Time\Service\CustomerService;
 use OrangeHRM\Time\Service\ProjectService;
 use OrangeHRM\Time\Service\TimesheetService;
-use OrangeHRM\Time\Service\ProjectActivityService;
 
 class TimePluginConfiguration implements PluginConfigurationInterface
 {
