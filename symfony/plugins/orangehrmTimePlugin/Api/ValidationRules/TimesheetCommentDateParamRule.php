@@ -1,5 +1,4 @@
 <?php
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -18,42 +17,47 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Time\Service;
+namespace OrangeHRM\Time\Api\ValidationRules;
 
-use OrangeHRM\Time\Dao\ProjectActivityDao;
-use OrangeHRM\Time\Dao\ProjectDao;
+use DateTime;
+use OrangeHRM\Core\Api\V2\Validator\Rules\AbstractRule;
+use OrangeHRM\Entity\Timesheet;
+use OrangeHRM\Time\Traits\Service\TimesheetServiceTrait;
 
-class ProjectService
+class TimesheetCommentDateParamRule extends AbstractRule
 {
-    /**
-     * @var ProjectDao|null
-     */
-    private ?ProjectDao $projectDao = null;
+    use TimesheetServiceTrait;
+
+    private $timesheetId;
 
     /**
-     * @var ProjectActivityDao|null
+     * @var Timesheet|null
      */
-    protected ?ProjectActivityDao $projectActivityDao = null;
+    private ?Timesheet $timesheet = null;
 
     /**
-     * @return ProjectDao
+     * @param int $timesheetId
      */
-    public function getProjectDao(): ProjectDao
+    public function __construct($timesheetId)
     {
-        if (is_null($this->projectDao)) {
-            $this->projectDao = new ProjectDao();
-        }
-        return $this->projectDao;
+        $this->timesheetId = $timesheetId;
     }
 
     /**
-     * @return ProjectActivityDao
+     * @inheritDoc
      */
-    public function getProjectActivityDao(): ProjectActivityDao
+    public function validate($input): bool
     {
-        if (!$this->projectActivityDao instanceof ProjectActivityDao) {
-            $this->projectActivityDao = new ProjectActivityDao();
+        $timesheet = $this->getTimesheetService()
+            ->getTimesheetDao()
+            ->getTimesheetById($this->timesheetId);
+
+        if (is_numeric($this->timesheetId) && $this->timesheetId > 0) {
+            if (!$timesheet instanceof Timesheet) {
+                return false;
+            }
         }
-        return $this->projectActivityDao;
+
+        return $timesheet->getStartDate() <= new DateTime($input) && new DateTime($input) <= $timesheet->getEndDate();
     }
 }

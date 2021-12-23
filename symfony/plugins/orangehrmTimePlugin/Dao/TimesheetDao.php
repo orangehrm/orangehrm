@@ -77,12 +77,13 @@ class TimesheetDao extends BaseDao
     }
 
     /**
+     * @param int $timesheetId
      * @param int $timesheetItemId
      * @return TimesheetItem|null
      */
-    public function getTimesheetItemById(int $timesheetItemId): ?TimesheetItem
+    public function getTimesheetItemByTimesheetIdAndTimesheetItemId(int $timesheetId, int $timesheetItemId): ?TimesheetItem
     {
-        $timesheetItem = $this->getRepository(TimesheetItem::class)->find($timesheetItemId);
+        $timesheetItem = $this->getRepository(TimesheetItem::class)->findOneBy(['id' => $timesheetItemId, 'timesheet' => $timesheetId]);
         return ($timesheetItem instanceof TimesheetItem) ? $timesheetItem : null;
     }
 
