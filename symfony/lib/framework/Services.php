@@ -250,9 +250,4 @@ final class Services
      * @see \OrangeHRM\Time\Service\TimesheetService
      */
     public const TIMESHEET_SERVICE = 'time.timesheet_service';
-
-    /**
-     * @see \OrangeHRM\Time\Service\ProjectActivityService
-     */
-    public const PROJECT_ACTIVITY_SERVICE = 'time.project_activity_service';
 }

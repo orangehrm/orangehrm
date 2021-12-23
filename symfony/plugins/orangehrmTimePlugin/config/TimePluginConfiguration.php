@@ -48,9 +48,5 @@ class TimePluginConfiguration implements PluginConfigurationInterface
             Services::TIMESHEET_SERVICE,
             TimesheetService::class
         );
-        $this->getContainer()->register(
-            Services::PROJECT_ACTIVITY_SERVICE,
-            ProjectActivityService::class
-        );
     }
 }

@@ -1,6 +1,8 @@
 GetAll:
   'get all project activitites':
     userId: 1
+    services:
+      time.project_service: \OrangeHRM\Time\Service\ProjectService
     attributes:
       projectId: 1
     body: [ ]
@@ -18,6 +20,8 @@ GetAll:
 GetOne:
   'get one project activity by Id':
     userId: 1
+    services:
+      time.project_service: \OrangeHRM\Time\Service\ProjectService
     attributes:
       projectId: 1
       id: 1
@@ -31,6 +35,8 @@ GetOne:
 Create:
   'create new project activity':
     userId: 1
+    services:
+      time.project_service: \OrangeHRM\Time\Service\ProjectService
     attributes:
       projectId: 1
     body:
@@ -44,6 +50,8 @@ Create:
 Update:
   'update an existing project activity':
     userId: 1
+    services:
+      time.project_service: \OrangeHRM\Time\Service\ProjectService
     attributes:
       projectId: 1
       id: 1
@@ -58,6 +66,8 @@ Update:
 Delete:
   'delete an existing project activity (Exception)':
     userId: 1
+    services:
+      time.project_service: \OrangeHRM\Time\Service\ProjectService
     attributes:
       projectId: 1
     body:
@@ -69,6 +79,8 @@ Delete:
 
   'delete an existing project activity (Non-Exception)':
     userId: 1
+    services:
+      time.project_service: \OrangeHRM\Time\Service\ProjectService
     attributes:
       projectId: 1
     body:

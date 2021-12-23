@@ -37,29 +37,16 @@ use OrangeHRM\Time\Api\Model\ProjectActivityModel;
 use OrangeHRM\Time\Dto\ProjectActivitySearchFilterParams;
 use OrangeHRM\Time\Exception\ProjectServiceException;
 use OrangeHRM\Time\Service\ProjectActivityService;
+use OrangeHRM\Time\Traits\Service\ProjectServiceTrait;
 
 class ProjectActivityAPI extends Endpoint implements CrudEndpoint
 {
+    use ProjectServiceTrait;
+
     public const PARAMETER_PROJECT_ID = 'projectId';
     public const PARAMETER_NAME = 'name';
 
     public const PARAM_RULE_STRING_MAX_LENGTH = 100;
-
-    /**
-     * @var ProjectActivityService|null
-     */
-    protected ?ProjectActivityService $projectActivityService = null;
-
-    /**
-     * @return ProjectActivityService
-     */
-    protected function getProjectActivityService(): ProjectActivityService
-    {
-        if (!$this->projectActivityService instanceof ProjectActivityService) {
-            $this->projectActivityService = new ProjectActivityService();
-        }
-        return $this->projectActivityService;
-    }
 
     /**
      * @inheritDoc
@@ -72,11 +59,11 @@ class ProjectActivityAPI extends Endpoint implements CrudEndpoint
         );
         $projectActivitySearchFilterParams = new ProjectActivitySearchFilterParams();
         $this->setSortingAndPaginationParams($projectActivitySearchFilterParams);
-        $projectActivities = $this->getProjectActivityService()
+        $projectActivities = $this->getProjectService()
             ->getProjectActivityDao()
             ->getProjectActivityListByProjectId($projectId, $projectActivitySearchFilterParams);
 
-        $projectActivityCount = $this->getProjectActivityService()
+        $projectActivityCount = $this->getProjectService()
             ->getProjectActivityDao()
             ->getProjectActivityCount($projectId, $projectActivitySearchFilterParams);
 
@@ -110,8 +97,8 @@ class ProjectActivityAPI extends Endpoint implements CrudEndpoint
     {
         $projectActivity = new ProjectActivity();
         $this->setParamsToProjectActivity($projectActivity);
-        $this->getProjectActivityService()->getProjectActivityDao()->saveProjectActivity($projectActivity);
-        return new EndpointResourceResult(ProjectActivityModel::class, $projectActivity, );
+        $this->getProjectService()->getProjectActivityDao()->saveProjectActivity($projectActivity);
+        return new EndpointResourceResult(ProjectActivityModel::class, $projectActivity,);
     }
 
     /**
@@ -143,7 +130,7 @@ class ProjectActivityAPI extends Endpoint implements CrudEndpoint
     {
         try {
             $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
-            $this->getProjectActivityService()->getProjectActivityDao()->deleteProjectActivities($ids);
+            $this->getProjectService()->getProjectActivityDao()->deleteProjectActivities($ids);
             return new EndpointResourceResult(ArrayModel::class, $ids);
         } catch (ProjectServiceException $projectServiceException) {
             throw $this->getBadRequestException($projectServiceException->getMessage());
@@ -179,7 +166,7 @@ class ProjectActivityAPI extends Endpoint implements CrudEndpoint
     public function getOne(): EndpointResult
     {
         list($projectId, $projectActivityId) = $this->getUrlAttributes();
-        $projectActivity = $this->getProjectActivityService()
+        $projectActivity = $this->getProjectService()
             ->getProjectActivityDao()
             ->getProjectActivityByProjectIdAndProjectActivityId($projectId, $projectActivityId);
         $this->throwRecordNotFoundExceptionIfNotExist($projectActivity, ProjectActivity::class);
@@ -209,13 +196,13 @@ class ProjectActivityAPI extends Endpoint implements CrudEndpoint
     public function update(): EndpointResult
     {
         list($projectId, $projectActivityId) = $this->getUrlAttributes();
-        $projectActivity = $this->getProjectActivityService()
+        $projectActivity = $this->getProjectService()
             ->getProjectActivityDao()
             ->getProjectActivityByProjectIdAndProjectActivityId($projectId, $projectActivityId);
         $this->throwRecordNotFoundExceptionIfNotExist($projectActivity, ProjectActivity::class);
         $this->setParamsToProjectActivity($projectActivity);
-        $this->getProjectActivityService()->getProjectActivityDao()->saveProjectActivity($projectActivity);
-        return new EndpointResourceResult(ProjectActivityModel::class, $projectActivity, );
+        $this->getProjectService()->getProjectActivityDao()->saveProjectActivity($projectActivity);
+        return new EndpointResourceResult(ProjectActivityModel::class, $projectActivity,);
     }
 
     /**

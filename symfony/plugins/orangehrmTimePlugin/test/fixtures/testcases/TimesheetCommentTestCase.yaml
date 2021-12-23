@@ -7,7 +7,6 @@ Create:
       admin.user_service: \OrangeHRM\Admin\Service\UserService
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
       time.project_service: \OrangeHRM\Time\Service\ProjectService
-      time.project_activity_service: \OrangeHRM\Time\Service\ProjectActivityService
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     attributes:
@@ -40,7 +39,6 @@ Create:
       admin.user_service: \OrangeHRM\Admin\Service\UserService
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
       time.project_service: \OrangeHRM\Time\Service\ProjectService
-      time.project_activity_service: \OrangeHRM\Time\Service\ProjectActivityService
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     attributes:
@@ -73,7 +71,6 @@ Create:
       admin.user_service: \OrangeHRM\Admin\Service\UserService
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
       time.project_service: \OrangeHRM\Time\Service\ProjectService
-      time.project_activity_service: \OrangeHRM\Time\Service\ProjectActivityService
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     attributes:
@@ -107,7 +104,6 @@ Create:
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
       core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
       time.project_service: \OrangeHRM\Time\Service\ProjectService
-      time.project_activity_service: \OrangeHRM\Time\Service\ProjectActivityService
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     attributes:
@@ -132,7 +128,6 @@ Create:
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
       core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
       time.project_service: \OrangeHRM\Time\Service\ProjectService
-      time.project_activity_service: \OrangeHRM\Time\Service\ProjectActivityService
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     attributes:

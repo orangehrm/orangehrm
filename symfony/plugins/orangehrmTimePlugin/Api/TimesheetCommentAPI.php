@@ -47,7 +47,6 @@ class TimesheetCommentAPI extends Endpoint implements CrudEndpoint
     use TimesheetServiceTrait;
     use TimesheetPermissionTrait;
     use ProjectServiceTrait;
-    use ProjectActivityServiceTrait;
 
     public const PARAMETER_PROJECT_ID = 'projectId';
     public const PARAMETER_TIMESHEET_ID = 'timesheetId';
@@ -95,7 +94,7 @@ class TimesheetCommentAPI extends Endpoint implements CrudEndpoint
             RequestParams::PARAM_TYPE_BODY,
             self::PARAMETER_PROJECT_ACTIVITY_ID
         );
-        $projectActivity = $this->getProjectActivityService()
+        $projectActivity = $this->getProjectService()
             ->getProjectActivityDao()
             ->getProjectActivityByProjectIdAndProjectActivityId($projectId, $projectActivityId);
         $this->throwRecordNotFoundExceptionIfNotExist($projectActivity, ProjectActivity::class);
