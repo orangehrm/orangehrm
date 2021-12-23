@@ -144,21 +144,6 @@ class LocationServiceTest extends KernelTestCase
         $this->assertEquals($result, 2);
     }
 
-    public function testGetLocationList(): void
-    {
-        $locationList = TestDataService::loadObjectList(Location::class, $this->fixture, 'Location');
-
-        $locationDao = $this->getMockBuilder(LocationDao::class)->getMock();
-        $locationDao->expects($this->once())
-            ->method('getLocationList')
-            ->will($this->returnValue($locationList));
-
-        $this->locationService->setLocationDao($locationDao);
-
-        $result = $this->locationService->getLocationList();
-        $this->assertEquals($result, $locationList);
-    }
-
     public function testGetLocationIdsForEmployees(): void
     {
         $empNumbers = [2, 34, 1, 20];

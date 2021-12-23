@@ -130,15 +130,16 @@ class LocationDao extends BaseDao
     }
 
     /**
-     * Returns all the Locations in the system
-     *
-     * @return Location[]
+     * @return int[]
      */
-    public function getLocationList(): array
+    public function getLocationsIdList(): array
     {
         $q = $this->createQueryBuilder(Location::class, 'l');
+        $q->select('l.id');
         $q->addOrderBy('l.name', ListSorter::ASCENDING);
-        return $q->getQuery()->execute();
+
+        $result = $q->getQuery()->getArrayResult();
+        return array_column($result, 'id');
     }
 
     /**

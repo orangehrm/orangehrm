@@ -19,86 +19,102 @@
 
 namespace OrangeHRM\Core\Authorization\UserRole;
 
+use OrangeHRM\Admin\Service\LocationService;
+use OrangeHRM\Core\Authorization\Exception\AuthorizationException;
+use OrangeHRM\Entity\Customer;
 use OrangeHRM\Entity\Employee;
-use OrangeHRM\ORM\ListSorter;
-use OrangeHRM\Pim\Dto\EmployeeSearchFilterParams;
+use OrangeHRM\Entity\Location;
+use OrangeHRM\Entity\Project;
+use OrangeHRM\Entity\User;
+use OrangeHRM\Entity\UserRole;
+use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
+use OrangeHRM\Time\Traits\Service\CustomerServiceTrait;
+use OrangeHRM\Time\Traits\Service\ProjectServiceTrait;
 
-/**
- * Description of AdminUserRole
- *
- * @author Chameera Senarathna
- */
 class AdminUserRole extends AbstractUserRole
 {
-    public function getAccessibleEmployeeIds($operation = null, $returnType = null, $requiredPermissions = [])
-    {
-        return $this->getEmployeeService()->getEmployeeIdList(false);
-    }
+    use EmployeeServiceTrait;
+    use ProjectServiceTrait;
+    use CustomerServiceTrait;
 
-    public function getAccessibleEmployeePropertyList($properties, $orderField, $orderBy, $requiredPermissions = [])
+    protected ?LocationService $locationService = null;
+
+    /**
+     * @return LocationService
+     */
+    protected function getLocationService(): LocationService
     {
-        return $this->getEmployeeService()->getEmployeePropertyList($properties, $orderField, $orderBy, false);
+        if (!$this->locationService instanceof LocationService) {
+            $this->locationService = new LocationService();
+        }
+        return $this->locationService;
     }
 
     /**
-     * @param null $operation
-     * @param null $returnType
-     * @param array $requiredPermissions
-     * @return array|Employee[]
-     * @throws \OrangeHRM\Core\Exception\DaoException
-     * @throws \OrangeHRM\Core\Exception\SearchParamException
+     * @inheritDoc
      */
-    public function getAccessibleEmployees($operation = null, $returnType = null, $requiredPermissions = []): array
+    protected function getAccessibleIdsForEntity(string $entityType, array $requiredPermissions = []): array
     {
-        $employeeSearchFilterParams = new EmployeeSearchFilterParams();
-        $employeeSearchFilterParams->setSortField('employee.empNumber');
-        $employeeSearchFilterParams->setSortOrder(ListSorter::ASCENDING);
-        $employeeSearchFilterParams->setIncludeEmployees(EmployeeSearchFilterParams::INCLUDE_EMPLOYEES_CURRENT_AND_PAST);
-        $employees = $this->getEmployeeService()->getEmployeeList($employeeSearchFilterParams);
-
-        $employeesWithIds = [];
-
-        foreach ($employees as $employee) {
-            $employeesWithIds[$employee->getEmpNumber()] = $employee;
+        switch ($entityType) {
+            case Employee::class:
+                return $this->getAccessibleEmployeeIds($requiredPermissions);
+            case User::class:
+                return $this->getAccessibleSystemUserIds($requiredPermissions);
+            case UserRole::class:
+                return $this->getAccessibleUserRoleIds($requiredPermissions);
+            case Location::class:
+                return $this->getAccessibleLocationIds($requiredPermissions);
+            case Project::class:
+                return $this->getAccessibleProjectIds($requiredPermissions);
+            case Customer::class:
+                return $this->getAccessibleCustomerIds($requiredPermissions);
+            case 'Vacancy':
+                // TODO:: implement and remove below line
+                throw AuthorizationException::entityNotImplemented($entityType, __METHOD__);
+                return $this->getAccessibleVacancyIds($requiredPermissions);
+            default:
+                return [];
         }
-
-        return $employeesWithIds;
     }
 
-    public function getAccessibleLocationIds($operation = null, $returnType = null, $requiredPermissions = [])
+    /**
+     * @param array $requiredPermissions
+     * @return int[]
+     */
+    protected function getAccessibleEmployeeIds(array $requiredPermissions = []): array
     {
-        $locations = $this->getLocationService()->getLocationList();
-
-        $ids = [];
-
-        foreach ($locations as $location) {
-            $ids[] = $location->getId();
-        }
-
-        return $ids;
+        return $this->getEmployeeService()->getEmployeeDao()->getEmpNumberList(false);
     }
 
-    public function getAccessibleOperationalCountryIds($operation = null, $returnType = null, $requiredPermissions = [])
+    /**
+     * @param array $requiredPermissions
+     * @return int[]
+     */
+    protected function getAccessibleLocationIds(array $requiredPermissions = []): array
     {
-        $operationalCountries = $this->getOperationalCountryService()->getOperationalCountryList();
-
-        $ids = [];
-
-        foreach ($operationalCountries as $country) {
-            $ids[] = $country->getId();
-        }
-
-        return $ids;
+        return $this->getLocationService()->getLocationDao()->getLocationsIdList();
     }
 
-    public function getAccessibleSystemUserIds($operation = null, $returnType = null, $requiredPermissions = [])
+    /**
+     * @param array $requiredPermissions
+     * @return int[]
+     */
+    protected function getAccessibleSystemUserIds(array $requiredPermissions = []): array
     {
-        return $this->getSystemUserService()->getSystemUserIdList();
+        return $this->getUserService()
+            ->getSystemUserDao()
+            ->getSystemUserIdList();
     }
 
-    public function getAccessibleUserRoleIds($operation = null, $returnType = null, $requiredPermissions = [])
+    /**
+     * @param array $requiredPermissions
+     * @return int[]
+     */
+    protected function getAccessibleUserRoleIds(array $requiredPermissions = []): array
     {
-        $userRoles = $this->getSystemUserService()->getAssignableUserRoles();
+        $userRoles = $this->getUserService()
+            ->getSystemUserDao()
+            ->getAssignableUserRoles();
 
         $ids = [];
 
@@ -109,29 +125,42 @@ class AdminUserRole extends AbstractUserRole
         return $ids;
     }
 
-    public function getEmployeesWithRole($entities = [])
+    /**
+     * @param array $entities
+     * @return Employee[]
+     */
+    public function getEmployeesWithRole(array $entities = []): array
     {
-        return $this->getSystemUserService()->getEmployeesByUserRole($this->roleName);
+        return $this->getUserService()->getEmployeesByUserRole($this->roleName);
     }
 
     /**
-     * Returns all projects (active and inactive)
+     * @param array $requiredPermissions
+     * @return int[]
      */
-    public function getAccessibleProjects($operation = null, $returnType = null, $requiredPermissions = [])
+    protected function getAccessibleProjectIds(array $requiredPermissions = []): array
     {
-        $activeProjectList = $this->getProjectService()->getAllProjects($activeOnly = true);
-        return $activeProjectList;
+        return $this->getProjectService()
+            ->getProjectDao()
+            ->getProjectIdList();
     }
 
     /**
-     * Returns all project ids (active and inactive)
+     * @param array $requiredPermissions
+     * @return int[]
      */
-    public function getAccessibleProjectIds($operation = null, $returnType = null, $requiredPermissions = [])
+    protected function getAccessibleCustomerIds(array $requiredPermissions): array
     {
-        return $this->getProjectService()->getProjectListForUserRole(null, null);
+        return $this->getCustomerService()
+            ->getCustomerDao()
+            ->getCustomerIdList();
     }
 
-    public function getAccessibleVacancyIds($operation = null, $returnType = null, $requiredPermissions = [])
+    /**
+     * @param array $requiredPermissions
+     * @return int[]
+     */
+    protected function getAccessibleVacancyIds(array $requiredPermissions = []): array
     {
         return $this->getVacancyService()->getVacancyIdList();
     }

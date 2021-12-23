@@ -22,9 +22,12 @@ namespace OrangeHRM\Time\Controller;
 use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Time\Controller\Traits\PermissionTrait;
 
 class ProjectController extends AbstractVueController
 {
+    use PermissionTrait;
+
     /**
      * @inheritDoc
      */
@@ -32,5 +35,6 @@ class ProjectController extends AbstractVueController
     {
         $component = new Component('project-list');
         $this->setComponent($component);
+        $this->setPermissions(['time_projects', 'time_project_activities']);
     }
 }

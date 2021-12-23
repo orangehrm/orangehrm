@@ -32,6 +32,7 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\Customer;
 use OrangeHRM\Time\Api\Model\CustomerModel;
 use OrangeHRM\Time\Dto\CustomerSearchFilterParams;
@@ -40,6 +41,7 @@ use OrangeHRM\Time\Traits\Service\CustomerServiceTrait;
 class CustomerAPI extends Endpoint implements CrudEndpoint
 {
     use CustomerServiceTrait;
+    use UserRoleManagerTrait;
 
     public const PARAMETER_NAME = 'name';
     public const PARAMETER_DESCRIPTION = 'description';
@@ -55,6 +57,8 @@ class CustomerAPI extends Endpoint implements CrudEndpoint
     {
         $customerSearchParamHolder = new CustomerSearchFilterParams();
         $this->setSortingAndPaginationParams($customerSearchParamHolder);
+        $accessibleCustomerIds = $this->getUserRoleManager()->getAccessibleEntityIds(Customer::class);
+        $customerSearchParamHolder->setCustomerIds($accessibleCustomerIds);
         $customerSearchParamHolder->setName(
             $this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_QUERY, self::FILTER_NAME)
         );
@@ -151,7 +155,11 @@ class CustomerAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForGetOne(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(CommonParams::PARAMETER_ID),
+            new ParamRule(
+                CommonParams::PARAMETER_ID,
+                new Rule(Rules::POSITIVE),
+                new Rule(Rules::IN_ACCESSIBLE_ENTITY_ID, [Customer::class])
+            )
         );
     }
 

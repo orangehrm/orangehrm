@@ -106,16 +106,6 @@ class LocationService
     }
 
     /**
-     * Get all locations
-     *
-     * @return Location[]
-     */
-    public function getLocationList(): array
-    {
-        return $this->getLocationDao()->getLocationList();
-    }
-
-    /**
      * Get LocationIds for Employees with the given employee numbers
      *
      * @param int[] $empNumbers Array of employee numbers

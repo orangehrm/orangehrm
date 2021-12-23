@@ -33,6 +33,7 @@
               v-model="project.name"
               :label="$t('general.name')"
               :rules="rules.name"
+              :disabled="!$can.update(`time_projects`)"
               required
             />
           </oxd-grid-item>
@@ -41,9 +42,11 @@
               v-model="project.customer"
               :label="$t('time.customer_name')"
               :rules="rules.customer"
+              :disabled="!$can.update(`time_projects`)"
               required
             />
             <oxd-button
+              v-if="$can.update(`time_projects`)"
               icon-name="plus"
               display-type="text"
               :label="$t('time.add_customer')"
@@ -59,6 +62,7 @@
                 type="textarea"
                 :label="$t('general.description')"
                 placeholder="Type description here"
+                :disabled="!$can.update(`time_projects`)"
                 :rules="rules.description"
               />
             </oxd-grid-item>
@@ -67,12 +71,13 @@
                 v-for="(projectAdmin, index) in projectAdmins"
                 :key="index"
                 v-model="projectAdmin.value"
-                :show-delete="index > 0"
+                :show-delete="index > 0 && $can.update(`time_projects`)"
                 :rules="index > 0 ? rules.projectAdmin : []"
+                :disabled="!$can.update(`time_projects`)"
                 @remove="onRemoveAdmin(index)"
               />
               <oxd-button
-                v-if="projectAdmins.length < 5"
+                v-if="projectAdmins.length < 5 && $can.update(`time_projects`)"
                 icon-name="plus"
                 display-type="text"
                 :label="$t('general.add_another')"
@@ -90,7 +95,7 @@
             :label="$t('general.cancel')"
             @click="onCancel"
           />
-          <submit-button />
+          <submit-button v-if="$can.update(`time_projects`)" />
         </oxd-form-actions>
       </oxd-form>
     </div>
@@ -153,11 +158,7 @@ export default {
       project: {...defaultProjectModel},
       showCustomerModal: false,
       rules: {
-        name: [
-          required,
-          shouldNotExceedCharLength(50),
-          promiseDebounce(this.validateProjectName, 500),
-        ],
+        name: [required, shouldNotExceedCharLength(50)],
         description: [shouldNotExceedCharLength(255)],
         customer: [required],
         projectAdmin: [
@@ -202,6 +203,7 @@ export default {
         }
       })
       .finally(() => {
+        this.rules.name.push(promiseDebounce(this.validateProjectName, 500));
         this.isLoading = false;
       });
   },
