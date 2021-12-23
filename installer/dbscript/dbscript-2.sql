@@ -4309,7 +4309,8 @@ VALUES (1, 0, 1, 0, 0, @apiv2_time_time_sheet_config_data_group_id, @admin_role_
        (1, 0, 0, 0, 0, @apiv2_time_project_activity_unique_validation_data_group_id, @ess_role_id),
        (1, 1, 1, 0, 0, @apiv2_time_timesheet_comment_data_group_id, @admin_role_id),
        (1, 1, 1, 0, 0, @apiv2_time_timesheet_comment_data_group_id, @ess_role_id),
-       (1, 0, 0, 0, 0, @apiv2_time_validation_project_activity_name_data_group_id, @admin_role_id);
+       (1, 0, 0, 0, 0, @apiv2_time_validation_project_activity_name_data_group_id, @admin_role_id),
+       (1, 0, 0, 0, 0, @apiv2_time_validation_project_activity_name_data_group_id, @project_admin_role_id);
 
 UPDATE `ohrm_screen` SET `module_id`= 5  WHERE `action_url` = 'viewCustomers';
 UPDATE `ohrm_screen` SET `module_id`= 5  WHERE `action_url` = 'viewProjects';
