@@ -39,7 +39,7 @@ abstract class AbstractEndpointResult implements EndpointResult
     /**
      * AbstractEndpointResult constructor.
      * @param string $modelClass
-     * @param array|object $data
+     * @param array|object|string|int $data
      * @param ParameterBag|null $meta
      * @param ParameterBag|null $rels
      * @throws NormalizeException

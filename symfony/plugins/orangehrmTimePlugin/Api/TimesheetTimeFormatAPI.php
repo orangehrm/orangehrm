@@ -41,9 +41,7 @@ class TimesheetTimeFormatAPI extends Endpoint implements ResourceEndpoint
     public function getOne(): EndpointResult
     {
         $timeFormat = $this->getConfigService()->getTimesheetTimeFormatConfig();
-        $timeConfigFormat = new TimeConfigFormat();
-        $timeConfigFormat->setTimeFormat($timeFormat);
-        return new EndpointResourceResult(TimeFormatModel::class, $timeConfigFormat);
+        return new EndpointResourceResult(TimeFormatModel::class, $timeFormat);
     }
 
     /**

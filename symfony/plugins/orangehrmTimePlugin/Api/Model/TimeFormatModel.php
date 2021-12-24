@@ -20,29 +20,20 @@
 namespace OrangeHRM\Time\Api\Model;
 
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
-use OrangeHRM\Time\Dto\TimeConfigFormat;
 
 class TimeFormatModel implements Normalizable
 {
     /**
-     * @var TimeConfigFormat
+     * @var int
      */
-    private TimeConfigFormat $timeConfigFormat;
+    private int $timeFormat;
 
     /**
-     * @param  TimeConfigFormat  $timeConfigFormat
+     * @param  int  $timeConfigFormat
      */
-    public function __construct(TimeConfigFormat $timeConfigFormat)
+    public function __construct(int $timeConfigFormat)
     {
-        $this->timeConfigFormat = $timeConfigFormat;
-    }
-
-    /**
-     * @return TimeConfigFormat
-     */
-    public function getTimeConfigFormat(): TimeConfigFormat
-    {
-        return $this->timeConfigFormat;
+        $this->timeFormat = $timeConfigFormat;
     }
 
     /**
@@ -50,10 +41,9 @@ class TimeFormatModel implements Normalizable
      */
     public function toArray(): array
     {
-        $timeConfigFormat = $this->getTimeConfigFormat();
         return [
-            'formatId' => $timeConfigFormat->getTimeFormat(),
-            'format' => $timeConfigFormat->getTimeFormat() === '1' ? 'HH:MM' : 'HH.MM'
+            'formatId' => $this->timeFormat,
+            'format' => $this->timeFormat === 1 ? 'HH:mm' : 'HH.mm'
         ];
     }
 }
