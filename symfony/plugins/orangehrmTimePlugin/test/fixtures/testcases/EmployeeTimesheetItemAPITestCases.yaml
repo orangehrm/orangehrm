@@ -46,7 +46,7 @@ GetAll:
       message: 'Record Not Found'
 
   'for not allowed timesheet':
-    userId: 1
+    userId: 4
     services:
       time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
@@ -1794,7 +1794,7 @@ Update:
       message: 'Record Not Found'
 
   'for not allowed timesheet':
-    userId: 1
+    userId: 4
     services:
       time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService

@@ -572,13 +572,16 @@ class TimesheetService
                     $timesheetDates
                 );
             }
-            $timesheetRows[$timesheetRowKey]->incrementTotal($timesheetItem->getDuration());
-            $timesheetRows[$timesheetRowKey]->assignTimesheetItem($timesheetItem);
 
-            $date = $this->getDateTimeHelper()->formatDateTimeToYmd($timesheetItem->getDate());
-            if ($timesheetColumns[$date] instanceof TimesheetColumn) {
-                $timesheetColumns[$date]->incrementTotal($timesheetItem->getDuration());
+            if (!is_null($timesheetItem->getDuration())) {
+                $timesheetRows[$timesheetRowKey]->incrementTotal($timesheetItem->getDuration());
+
+                $date = $this->getDateTimeHelper()->formatDateTimeToYmd($timesheetItem->getDate());
+                if ($timesheetColumns[$date] instanceof TimesheetColumn) {
+                    $timesheetColumns[$date]->incrementTotal($timesheetItem->getDuration());
+                }
             }
+            $timesheetRows[$timesheetRowKey]->assignTimesheetItem($timesheetItem);
         }
         return [$timesheetRows, $timesheetColumns];
     }

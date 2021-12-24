@@ -51,11 +51,11 @@ class TimesheetItem
     private DateTime $date;
 
     /**
-     * @var int
+     * @var int|null
      *
      * @ORM\Column(name="duration", type="bigint", length=20, nullable=true)
      */
-    private int $duration;
+    private ?int $duration = null;
 
     /**
      * @var string|null
@@ -129,17 +129,17 @@ class TimesheetItem
     }
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getDuration(): int
+    public function getDuration(): ?int
     {
         return $this->duration;
     }
 
     /**
-     * @param int $duration
+     * @param int|null $duration
      */
-    public function setDuration(int $duration): void
+    public function setDuration(?int $duration): void
     {
         $this->duration = $duration;
     }
