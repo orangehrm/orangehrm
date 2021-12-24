@@ -576,4 +576,13 @@ class ConfigService
     {
         $this->_setConfigValue(self::KEY_TIMESHEET_PERIOD_SET, $value ? 'Yes' : 'No');
     }
+
+    /**
+     * @return string|null
+     * @throws CoreServiceException
+     */
+    public function getTimesheetTimeFormatConfig(): ?string
+    {
+        return $this->_getConfigValue(self::KEY_TIMESHEET_TIME_FORMAT);
+    }
 }

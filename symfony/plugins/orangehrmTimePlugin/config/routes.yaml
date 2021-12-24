@@ -114,6 +114,14 @@ apiv2_time_my_timesheet_entries_comment:
   defaults:
     _api: OrangeHRM\Time\Api\TimesheetCommentAPI
 
+apiv2_time_my_timesheet_time_format_config:
+  path: /api/v2/time/timesheets/time-format
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    id: 0
+    _api: OrangeHRM\Time\Api\TimesheetTimeFormatAPI
+
 ##########################
 #        Screens
 ##########################
