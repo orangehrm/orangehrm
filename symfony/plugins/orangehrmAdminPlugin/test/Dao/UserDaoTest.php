@@ -206,7 +206,7 @@ class UserDaoTest extends TestCase
 
     public function testUserStatusByUserName(): void
     {
-        $status = $this->systemUserDao->isUserNameExistByUserName('samantha');
+        $status = !$this->systemUserDao->isUserNameExistByUserName('samantha');
         $this->assertEquals(false, $status);
     }
 }

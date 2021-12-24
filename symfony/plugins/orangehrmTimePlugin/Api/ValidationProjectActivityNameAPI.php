@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Time\Api;
 
+use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
@@ -29,43 +30,55 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
-use OrangeHRM\Entity\Customer;
-use OrangeHRM\Time\Traits\Service\CustomerServiceTrait;
+use OrangeHRM\Entity\ProjectActivity;
+use OrangeHRM\Time\Traits\Service\ProjectServiceTrait;
 
-class ValidationCustomerNameAPI extends Endpoint implements ResourceEndpoint
+class ValidationProjectActivityNameAPI extends Endpoint implements ResourceEndpoint
 {
-    use CustomerServiceTrait;
+    use ProjectServiceTrait;
 
-    public const PARAMETER_CUSTOMER_NAME = 'customerName';
-    public const PARAMETER_CUSTOMER_Id = 'customerId';
-    public const PARAMETER_IS_CHANGEABLE_CUSTOMER_NAME = 'valid';
+    public const PARAMETER_PROJECT_ACTIVITY_NAME = 'activityName';
+    public const PARAMETER_PROJECT_ACTIVITY_Id = 'activityId';
+    public const PARAMETER_IS_CHANGEABLE_PROJECT_ACTIVITY_NAME = 'valid';
 
-    public const PARAM_RULE_CUSTOMER_NAME_MAX_LENGTH = 50;
+    public const PARAM_RULE_PROJECT_ACTIVITY_NAME_MAX_LENGTH = 50;
+
 
     /**
      * @inheritDoc
      */
     public function getOne(): EndpointResult
     {
-        $customerName = $this->getRequestParams()->getString(
+        $projectActivityName = $this->getRequestParams()->getString(
             RequestParams::PARAM_TYPE_QUERY,
-            self::PARAMETER_CUSTOMER_NAME
+            self::PARAMETER_PROJECT_ACTIVITY_NAME
         );
-        $customerId = $this->getRequestParams()->getIntOrNull(
+
+        $projectId = $this->getRequestParams()->getInt(
+            RequestParams::PARAM_TYPE_ATTRIBUTE,
+            CommonParams::PARAMETER_ID
+        );
+
+        $projectActivityId = $this->getRequestParams()->getIntOrNull(
             RequestParams::PARAM_TYPE_QUERY,
-            self::PARAMETER_CUSTOMER_Id
+            self::PARAMETER_PROJECT_ACTIVITY_Id
         );
-        if (!is_null($customerId)) {
-            $user = $this->getCustomerService()->getCustomerDao()->getCustomer($customerId);
-            $this->throwRecordNotFoundExceptionIfNotExist($user, Customer::class);
+
+        if (!is_null($projectActivityId)) {
+            $projectActivity = $this->getProjectService()
+                ->getProjectActivityDao()
+                ->getProjectActivityByProjectIdAndProjectActivityId($projectId, $projectActivityId);
+            $this->throwRecordNotFoundExceptionIfNotExist($projectActivity, ProjectActivity::class);
         }
-        $isChangeableCustomerName = !$this->getCustomerService()
-            ->getCustomerDao()
-            ->isCustomerNameTaken($customerName, $customerId);
+
+        $isChangeableProjectActivityName = !$this->getProjectService()
+            ->getProjectActivityDao()
+            ->isProjectActivityNameTaken($projectId, $projectActivityName, $projectActivityId);
+
         return new EndpointResourceResult(
             ArrayModel::class,
             [
-                self::PARAMETER_IS_CHANGEABLE_CUSTOMER_NAME => $isChangeableCustomerName,
+                self::PARAMETER_IS_CHANGEABLE_PROJECT_ACTIVITY_NAME => $isChangeableProjectActivityName,
             ]
         );
     }
@@ -76,14 +89,22 @@ class ValidationCustomerNameAPI extends Endpoint implements ResourceEndpoint
     public function getValidationRuleForGetOne(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(
-                self::PARAMETER_CUSTOMER_NAME,
-                new Rule(Rules::STRING_TYPE),
-                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_CUSTOMER_NAME_MAX_LENGTH]),
+            $this->getValidationDecorator()->requiredParamRule(
+                new ParamRule(
+                    CommonParams::PARAMETER_ID,
+                    new Rule(Rules::POSITIVE)
+                ),
+            ),
+            $this->getValidationDecorator()->requiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_PROJECT_ACTIVITY_NAME,
+                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_PROJECT_ACTIVITY_NAME_MAX_LENGTH]),
+                ),
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
-                    self::PARAMETER_CUSTOMER_Id,
+                    self::PARAMETER_PROJECT_ACTIVITY_Id,
                     new Rule(Rules::POSITIVE),
                 )
             )

@@ -1,0 +1,41 @@
+GetOne:
+  'get flag by project activity name (Can change)':
+    userId: 1
+    services:
+      time.project_service: \OrangeHRM\Time\Service\ProjectService
+    attributes:
+      id: 1
+    body: [ ]
+    query:
+      activityName: 'Defect Tracking'
+    data:
+      valid: true
+    meta: [ ]
+
+  'get flag by project activity name (Cant change)':
+    userId: 1
+    services:
+      time.project_service: \OrangeHRM\Time\Service\ProjectService
+    attributes:
+      id: 1
+    body: [ ]
+    query:
+      activityName: 'Activity2 For Pro1'
+      activityId: 1
+    data:
+      valid: false
+    meta: [ ]
+
+  'get flag by project activity name With invalid parameter':
+    userId: 1
+    attributes: [ ]
+    query:
+      activityName: 'Test'
+    invalidOnly: [ 'id' ]
+
+  'get flag by project activity name With invalid parameter (Activity Name)':
+    userId: 1
+    attributes:
+      id: 1
+    query: [ ]
+    invalidOnly: [ 'activityName' ]

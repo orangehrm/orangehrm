@@ -53,7 +53,7 @@ class ValidationUserNameAPI extends Endpoint implements ResourceEndpoint
             $user = $this->getUserService()->getSystemUserDao()->getSystemUser($userId);
             $this->throwRecordNotFoundExceptionIfNotExist($user, User::class);
         }
-        $isChangeableUserName = $this->getUserService()
+        $isChangeableUserName = !$this->getUserService()
             ->getSystemUserDao()
             ->isUserNameExistByUserName($userName, $userId);
         return new EndpointResourceResult(

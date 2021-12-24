@@ -78,12 +78,36 @@ class CustomerDaoTest extends KernelTestCase
         $this->assertTrue($result[0] instanceof Customer);
     }
 
+    public function testFilterByCustomerName(): void
+    {
+        $customerFilterParams = new CustomerSearchFilterParams();
+        $customerFilterParams->setName("Orange");
+        $result = $this->customerDao->searchCustomers($customerFilterParams);
+        $this->assertCount(1, $result);
+        $this->assertTrue($result[0] instanceof Customer);
+        $this->assertEquals('Orange', $result[0]->getName());
+    }
+
     public function testGetCustomerById(): void
     {
         $this->populateCustomerServiceFixture();
         $result = $this->customerDao->getCustomerById(1);
         $this->assertEquals('Orange', $result->getName());
         $this->assertEquals('HRM', $result->getDescription());
+    }
+
+    public function testGetCustomerByIdOnNull(): void
+    {
+        $result = $this->customerDao->getCustomerById(10);
+        $this->assertFalse($result instanceof Customer);
+        $this->assertEquals(null, $result);
+    }
+
+    public function testGetCustomer(): void
+    {
+        $result = $this->customerDao->getCustomer(100);
+        $this->assertFalse($result instanceof Customer);
+        $this->assertEquals(null, $result);
     }
 
     public function testUpdateCustomer(): void
