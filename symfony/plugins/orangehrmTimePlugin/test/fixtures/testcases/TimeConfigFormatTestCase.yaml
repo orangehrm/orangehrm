@@ -6,6 +6,6 @@ GetOne:
     body: [ ]
     query: [ ]
     data:
-      formatId: '1'
-      format: 'HH:MM'
+      formatId: 1
+      format: 'HH:mm'
     meta: [ ]
