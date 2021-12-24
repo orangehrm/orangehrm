@@ -100,14 +100,14 @@ class CustomerDaoTest extends KernelTestCase
     {
         $result = $this->customerDao->getCustomerById(10);
         $this->assertFalse($result instanceof Customer);
-        $this->assertEquals(null, $result);
+        $this->assertNull($result);
     }
 
     public function testGetCustomer(): void
     {
         $result = $this->customerDao->getCustomer(100);
         $this->assertFalse($result instanceof Customer);
-        $this->assertEquals(null, $result);
+        $this->assertNull($result);
     }
 
     public function testUpdateCustomer(): void

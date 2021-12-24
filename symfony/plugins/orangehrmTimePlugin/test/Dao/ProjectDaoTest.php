@@ -66,6 +66,17 @@ class ProjectDaoTest extends KernelTestCase
         $this->assertInstanceOf(Project::class, $projects[1]);
     }
 
+    public function testFilterProjectByCustomerOrProjectName(): void
+    {
+        $projectParamHolder = new ProjectSearchFilterParams();
+        $projectParamHolder->setCustomerOrProjectName("Orange");
+        $projects = $this->projectDao->getProjects($projectParamHolder);
+        $this->assertCount(1, $projects);
+        $this->assertInstanceOf(Project::class, $projects[0]);
+        $this->assertEquals("Orange", $projects[0]->getCustomer()->getName());
+        $this->assertEquals("project_03", $projects[0]->getName());
+    }
+
     public function testGetProjectById(): void
     {
         $project = $this->projectDao->getProjectById(1);

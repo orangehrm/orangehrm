@@ -60,6 +60,7 @@ class ProjectAPI extends Endpoint implements CrudEndpoint
     public const FILTER_EMPLOYEE_NUMBER = 'empNumber';
     public const FILTER_NAME = 'name';
     public const FILTER_ONLY_ALLOWED = 'onlyAllowed';
+    public const FILTER_CUSTOMER_OR_PROJECT_NAME = 'customerOrProjectName';
 
     public const MODEL_DEFAULT = 'default';
     public const MODEL_DETAILED = 'detailed';
@@ -122,6 +123,12 @@ class ProjectAPI extends Endpoint implements CrudEndpoint
                 self::FILTER_NAME
             )
         );
+        $projectParamHolder->setCustomerOrProjectName(
+            $this->getRequestParams()->getStringOrNull(
+                RequestParams::PARAM_TYPE_QUERY,
+                self::FILTER_CUSTOMER_OR_PROJECT_NAME
+            )
+        );
         $projects = $this->getProjectService()->getProjectDao()->getProjects($projectParamHolder);
         $count = $this->getProjectService()->getProjectDao()->getProjectsCount($projectParamHolder);
         return new EndpointCollectionResult(
@@ -166,6 +173,13 @@ class ProjectAPI extends Endpoint implements CrudEndpoint
             new ParamRule(
                 self::FILTER_ONLY_ALLOWED,
                 new Rule(Rules::BOOL_VAL)
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::FILTER_CUSTOMER_OR_PROJECT_NAME,
+                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::LENGTH, [null, self::PARAMETER_RULE_NAME_MAX_LENGTH])
+                ),
             ),
             $this->getModelParamRule(),
             ...$this->getSortingAndPaginationParamsRules(ProjectSearchFilterParams::ALLOWED_SORT_FIELDS)

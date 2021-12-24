@@ -55,6 +55,15 @@ class ProjectActivityDao extends BaseDao
         $q->andWhere('projectActivity.project = :projectId');
         $q->andWhere('projectActivity.deleted = :status');
         $q->setParameter('projectId', $projectId);
+
+        if (!is_null($projectActivitySearchFilterParams->getProjectActivityName())) {
+            $q->andWhere($q->expr()->like('projectActivity.name', ':projectActivityName'))
+                ->setParameter(
+                    'projectActivityName',
+                    '%' . $projectActivitySearchFilterParams->getProjectActivityName() . '%'
+                );
+        }
+
         $q->setParameter('status', false);
         $this->setSortingAndPaginationParams($q, $projectActivitySearchFilterParams);
         return $this->getPaginator($q);

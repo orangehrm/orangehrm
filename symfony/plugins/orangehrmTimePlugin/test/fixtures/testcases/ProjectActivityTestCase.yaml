@@ -11,11 +11,30 @@ GetAll:
       0:
         id: 1
         name: 'Activity1 For Pro1'
+        deleted: false
       1:
         id: 2
         name: 'Activity2 For Pro1'
+        deleted: false
     meta:
       total: 2
+
+  'get all project activitites filter by project activity name':
+    userId: 1
+    services:
+      time.project_service: \OrangeHRM\Time\Service\ProjectService
+    attributes:
+      projectId: 1
+    body: [ ]
+    query:
+      projectActivityName: Activity1
+    data:
+      0:
+        id: 1
+        name: 'Activity1 For Pro1'
+        deleted: false
+    meta:
+      total: 1
 
 GetOne:
   'get one project activity by Id':
@@ -30,6 +49,7 @@ GetOne:
     data:
       id: 1
       name: 'Activity1 For Pro1'
+      deleted: false
     meta: [ ]
 
 Create:
@@ -45,6 +65,7 @@ Create:
     data:
       id: 3
       name: 'Activity3 For Pro1'
+      deleted: false
     meta: [ ]
 
 Update:
@@ -61,6 +82,7 @@ Update:
     data:
       id: 1
       name: 'Debug'
+      deleted: false
     meta: [ ]
 
 Delete:

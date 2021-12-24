@@ -45,6 +45,7 @@ class ProjectActivityAPI extends Endpoint implements CrudEndpoint
     public const PARAMETER_PROJECT_ID = 'projectId';
     public const PARAMETER_NAME = 'name';
 
+    public const FILTER_PROJECT_ACTIVITY_NAME = 'projectActivityName';
     public const PARAM_RULE_STRING_MAX_LENGTH = 100;
 
     /**
@@ -57,6 +58,12 @@ class ProjectActivityAPI extends Endpoint implements CrudEndpoint
             self::PARAMETER_PROJECT_ID
         );
         $projectActivitySearchFilterParams = new ProjectActivitySearchFilterParams();
+        $projectActivitySearchFilterParams->setProjectActivityName(
+            $this->getRequestParams()->getStringOrNull(
+                RequestParams::PARAM_TYPE_QUERY,
+                self::FILTER_PROJECT_ACTIVITY_NAME
+            )
+        );
         $this->setSortingAndPaginationParams($projectActivitySearchFilterParams);
         $projectActivities = $this->getProjectService()
             ->getProjectActivityDao()
@@ -84,6 +91,13 @@ class ProjectActivityAPI extends Endpoint implements CrudEndpoint
             new ParamRule(
                 self::PARAMETER_PROJECT_ID,
                 new Rule(Rules::POSITIVE)
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::FILTER_PROJECT_ACTIVITY_NAME,
+                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_STRING_MAX_LENGTH])
+                ),
             ),
             ...$this->getSortingAndPaginationParamsRules(ProjectActivitySearchFilterParams::ALLOWED_SORT_FIELDS)
         );

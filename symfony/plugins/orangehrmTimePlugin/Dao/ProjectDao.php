@@ -98,6 +98,15 @@ class ProjectDao extends BaseDao
             $qb->andWhere('projectAdmin.empNumber = :empNumber')
                 ->setParameter('empNumber', $projectSearchFilterParamHolder->getEmpNumber());
         }
+        if (!is_null($projectSearchFilterParamHolder->getCustomerOrProjectName())) {
+            $qb->andWhere(
+                $qb->expr()->orX(
+                    $qb->expr()->like('project.name', ':customerOrProjectName'),
+                    $qb->expr()->like('customer.name', ':customerOrProjectName'),
+                )
+            );
+            $qb->setParameter('customerOrProjectName', '%' . $projectSearchFilterParamHolder->getCustomerOrProjectName() . '%');
+        }
         if (!empty($projectSearchFilterParamHolder->getName())) {
             $qb->andWhere($qb->expr()->like('project.name', ':projectName'))
                 ->setParameter('projectName', '%' . $projectSearchFilterParamHolder->getName() . '%');
