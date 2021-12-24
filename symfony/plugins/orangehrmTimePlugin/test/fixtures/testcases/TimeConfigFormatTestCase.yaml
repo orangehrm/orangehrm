@@ -1,0 +1,11 @@
+GetOne:
+  'Time format':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    body: [ ]
+    query: [ ]
+    data:
+      formatId: 1
+      format: 'HH:mm'
+    meta: [ ]
