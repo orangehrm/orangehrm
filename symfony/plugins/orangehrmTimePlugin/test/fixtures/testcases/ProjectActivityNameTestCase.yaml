@@ -1,6 +1,8 @@
 GetOne:
   'get flag by project activity name (Can change)':
     userId: 1
+    services:
+      time.project_service: \OrangeHRM\Time\Service\ProjectService
     attributes:
       id: 1
     body: [ ]
@@ -12,6 +14,8 @@ GetOne:
 
   'get flag by project activity name (Cant change)':
     userId: 1
+    services:
+      time.project_service: \OrangeHRM\Time\Service\ProjectService
     attributes:
       id: 1
     body: [ ]

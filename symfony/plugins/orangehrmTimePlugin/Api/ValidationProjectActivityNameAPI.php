@@ -31,31 +31,18 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Entity\ProjectActivity;
-use OrangeHRM\Time\Service\ProjectActivityService;
+use OrangeHRM\Time\Traits\Service\ProjectServiceTrait;
 
 class ValidationProjectActivityNameAPI extends Endpoint implements ResourceEndpoint
 {
+    use ProjectServiceTrait;
+
     public const PARAMETER_PROJECT_ACTIVITY_NAME = 'activityName';
     public const PARAMETER_PROJECT_ACTIVITY_Id = 'activityId';
     public const PARAMETER_IS_CHANGEABLE_PROJECT_ACTIVITY_NAME = 'valid';
 
     public const PARAM_RULE_PROJECT_ACTIVITY_NAME_MAX_LENGTH = 50;
 
-    /**
-     * @var ProjectActivityService|null
-     */
-    protected ?ProjectActivityService $projectActivityService = null;
-
-    /**
-     * @return ProjectActivityService
-     */
-    protected function getProjectActivityService(): ProjectActivityService
-    {
-        if (!$this->projectActivityService instanceof ProjectActivityService) {
-            $this->projectActivityService = new ProjectActivityService();
-        }
-        return $this->projectActivityService;
-    }
 
     /**
      * @inheritDoc
@@ -78,13 +65,13 @@ class ValidationProjectActivityNameAPI extends Endpoint implements ResourceEndpo
         );
 
         if (!is_null($projectActivityId)) {
-            $projectActivity = $this->getProjectActivityService()
+            $projectActivity = $this->getProjectService()
                 ->getProjectActivityDao()
                 ->getProjectActivityByProjectIdAndProjectActivityId($projectId, $projectActivityId);
             $this->throwRecordNotFoundExceptionIfNotExist($projectActivity, ProjectActivity::class);
         }
 
-        $isChangeableProjectActivityName = !$this->getProjectActivityService()
+        $isChangeableProjectActivityName = !$this->getProjectService()
             ->getProjectActivityDao()
             ->isProjectActivityNameTaken($projectId, $projectActivityName, $projectActivityId);
 
