@@ -62,6 +62,15 @@ class ProjectActivityDaoTest extends TestCase
         $this->assertCount(2, $result);
     }
 
+    public function testGetProjectActivityListByFilterProjectActivityName(): void
+    {
+        $projectActivitySearchFilterParams = new ProjectActivitySearchFilterParams();
+        $projectActivitySearchFilterParams->setProjectActivityName("Activity1");
+        $result = $this->projectActivityDao->getProjectActivityListByProjectId(1, $projectActivitySearchFilterParams);
+        $this->assertCount(1, $result);
+        $this->assertEquals("Activity1 For Pro1", $result[0]->getName());
+    }
+
     public function testGetProjectActivityById(): void
     {
         $projectActivity = $this->projectActivityDao->getProjectActivityByProjectIdAndProjectActivityId(1, 1);

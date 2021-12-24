@@ -25,8 +25,29 @@ class ProjectActivitySearchFilterParams extends FilterParams
 {
     public const ALLOWED_SORT_FIELDS = ['projectActivity.name'];
 
+    /**
+     * @var string|null
+     */
+    protected ?string $projectActivityName = null;
+
     public function __construct()
     {
         $this->setSortField('projectActivity.name');
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getProjectActivityName(): ?string
+    {
+        return $this->projectActivityName;
+    }
+
+    /**
+     * @param string|null $projectActivityName
+     */
+    public function setProjectActivityName(?string $projectActivityName): void
+    {
+        $this->projectActivityName = $projectActivityName;
     }
 }

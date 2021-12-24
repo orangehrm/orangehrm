@@ -317,6 +317,44 @@ GetAll:
     meta:
       total: 1
 
+  'Get projects list filter by Customer or project name (customer name)':
+    userId: 1
+    services:
+      time.project_service: \OrangeHRM\Time\Service\ProjectService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      customerOrProjectName: 'Oran'
+    data:
+      - id: 1
+        name: 'project_03'
+        description: 'Project description for project_03'
+        deleted: false
+    meta:
+      total: 1
+
+  'Get projects list filter by Customer or project name (project name)':
+    userId: 1
+    services:
+      time.project_service: \OrangeHRM\Time\Service\ProjectService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      customerOrProjectName: 'project_03'
+    data:
+      - id: 1
+        name: 'project_03'
+        description: 'Project description for project_03'
+        deleted: false
+    meta:
+      total: 1
+
 GetOne:
   'Get project by ID - default':
     userId: 1

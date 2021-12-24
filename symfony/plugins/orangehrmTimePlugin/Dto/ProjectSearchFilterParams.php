@@ -47,6 +47,11 @@ class ProjectSearchFilterParams extends FilterParams
     /**
      * @var string|null
      */
+    protected ?string $customerOrProjectName = null;
+
+    /**
+     * @var string|null
+     */
     protected ?string $name = null;
 
     public function __construct()
@@ -116,5 +121,21 @@ class ProjectSearchFilterParams extends FilterParams
     public function setName(?string $name): void
     {
         $this->name = $name;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getCustomerOrProjectName(): ?string
+    {
+        return $this->customerOrProjectName;
+    }
+
+    /**
+     * @param string|null $customerOrProjectName
+     */
+    public function setCustomerOrProjectName(?string $customerOrProjectName): void
+    {
+        $this->customerOrProjectName = $customerOrProjectName;
     }
 }

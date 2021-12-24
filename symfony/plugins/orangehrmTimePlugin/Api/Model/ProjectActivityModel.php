@@ -34,6 +34,14 @@ class ProjectActivityModel implements Normalizable
             [
                 'id',
                 'name',
+                ['isDeleted']
+            ]
+        );
+        $this->setAttributeNames(
+            [
+                'id',
+                'name',
+                'deleted'
             ]
         );
     }
