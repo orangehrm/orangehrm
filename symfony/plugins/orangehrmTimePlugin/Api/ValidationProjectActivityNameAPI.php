@@ -30,6 +30,7 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Entity\Project;
 use OrangeHRM\Entity\ProjectActivity;
 use OrangeHRM\Time\Traits\Service\ProjectServiceTrait;
 
@@ -63,6 +64,9 @@ class ValidationProjectActivityNameAPI extends Endpoint implements ResourceEndpo
             RequestParams::PARAM_TYPE_QUERY,
             self::PARAMETER_PROJECT_ACTIVITY_Id
         );
+
+        $project = $this->getProjectService()->getProjectDao()->getProjectById($projectId);
+        $this->throwRecordNotFoundExceptionIfNotExist($project, Project::class);
 
         if (!is_null($projectActivityId)) {
             $projectActivity = $this->getProjectService()
