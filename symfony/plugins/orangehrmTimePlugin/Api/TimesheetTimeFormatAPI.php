@@ -28,7 +28,6 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Exception\CoreServiceException;
 use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Time\Api\Model\TimeFormatModel;
-use OrangeHRM\Time\Dto\TimeConfigFormat;
 
 class TimesheetTimeFormatAPI extends Endpoint implements ResourceEndpoint
 {
