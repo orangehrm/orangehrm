@@ -152,4 +152,25 @@ class ProjectActivityDao extends BaseDao
             ->setParameter('ids', $toBeDeletedActivityIds);
         return $q->getQuery()->execute();
     }
+
+    /**
+     **this function for validating the project activity name availability. ( true -> project activity name already exist, false - project activity name is not exist )
+     * @param int $projectId
+     * @param string $projectActivityName
+     * @param int|null $projectActivityId
+     * @return bool
+     */
+    public function isProjectActivityNameTaken(int $projectId, string $projectActivityName, ?int $projectActivityId = null): bool
+    {
+        $q = $this->createQueryBuilder(ProjectActivity::class, 'projectActivity');
+        $q->andWhere('projectActivity.name = :projectActivityName');
+        $q->andWhere('projectActivity.project = :projectId');
+        $q->setParameter('projectActivityName', $projectActivityName);
+        $q->setParameter('projectId', $projectId);
+        if (!is_null($projectActivityId)) {
+            $q->andWhere('projectActivity.id != :projectActivityId'); // we need to skip the current project activity Name on update, otherwise count always return 1
+            $q->setParameter('projectActivityId', $projectActivityId);
+        }
+        return $this->getPaginator($q)->count() > 0;
+    }
 }
