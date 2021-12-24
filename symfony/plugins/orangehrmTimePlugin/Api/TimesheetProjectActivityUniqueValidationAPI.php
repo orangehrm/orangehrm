@@ -30,11 +30,13 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Entity\Timesheet;
+use OrangeHRM\Time\Api\Traits\TimesheetPermissionTrait;
 use OrangeHRM\Time\Traits\Service\TimesheetServiceTrait;
 
 class TimesheetProjectActivityUniqueValidationAPI extends Endpoint implements ResourceEndpoint
 {
     use TimesheetServiceTrait;
+    use TimesheetPermissionTrait;
 
     public const PARAMETER_TIMESHEET_ID = 'timesheetId';
     public const PARAMETER_ACTIVITY_ID = 'activityId';
@@ -61,6 +63,7 @@ class TimesheetProjectActivityUniqueValidationAPI extends Endpoint implements Re
 
         $timesheet = $this->getTimesheetService()->getTimesheetDao()->getTimesheetById($timesheetId);
         $this->throwRecordNotFoundExceptionIfNotExist($timesheet, Timesheet::class);
+        $this->checkTimesheetAccessible($timesheet);
 
         $isDuplicateItem = $this->getTimesheetService()
             ->getTimesheetDao()
