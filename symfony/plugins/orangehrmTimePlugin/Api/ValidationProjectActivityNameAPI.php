@@ -86,7 +86,7 @@ class ValidationProjectActivityNameAPI extends Endpoint implements ResourceEndpo
 
         $isChangeableProjectActivityName = !$this->getProjectActivityService()
             ->getProjectActivityDao()
-            ->isProjectNameTaken($projectId, $projectActivityName, $projectActivityId);
+            ->isProjectActivityNameTaken($projectId, $projectActivityName, $projectActivityId);
 
         return new EndpointResourceResult(
             ArrayModel::class,

@@ -151,7 +151,7 @@ class ProjectActivityDao extends BaseDao
      * @param int|null $projectActivityId
      * @return bool
      */
-    public function isProjectNameTaken(int $projectId, string $projectActivityName, ?int $projectActivityId = null): bool
+    public function isProjectActivityNameTaken(int $projectId, string $projectActivityName, ?int $projectActivityId = null): bool
     {
         $q = $this->createQueryBuilder(ProjectActivity::class, 'projectActivity');
         $q->andWhere('projectActivity.name = :projectActivityName');
