@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -32,22 +31,17 @@ class ProjectAdmin
      * @var Project
      *
      * @ORM\Id
-     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Project", inversedBy="projectAdmin", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(name="project_id", referencedColumnName="project_id",nullable=false)
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Project", cascade={"persist"})
+     * @ORM\JoinColumn(name="project_id", referencedColumnName="project_id", nullable=false)
      */
     private Project $project;
 
     /**
-     * @var Employee[]
+     * @var Employee
      *
      * @ORM\Id
-     * @ORM\ManyToMany (targetEntity="OrangeHRM\Entity\Employee", inversedBy="projectAdmin", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(name="emp_number", referencedColumnName="emp_number" ,nullable=false)
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Employee", cascade={"persist"})
+     * @ORM\JoinColumn(name="emp_number", referencedColumnName="emp_number", nullable=false)
      */
-    private iterable $employee;
-
-    public function __construct()
-    {
-        $this->employee = new ArrayCollection();
-    }
+    private Employee $employee;
 }

@@ -1,0 +1,64 @@
+GetOne:
+  'TimesheetItem is duplicate':
+    userId: 1
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+    attributes:
+      timesheetId: 1
+    body: [ ]
+    query:
+      projectId: 1
+      activityId: 1
+    data:
+      duplicate: true
+    meta: [ ]
+
+  'Timesheet item is not duplicate':
+    userId: 1
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+    attributes:
+      timesheetId: 1
+    body: [ ]
+    query:
+      projectId: 1
+      activityId: 2
+    data:
+      duplicate: false
+    meta: [ ]
+
+  'Timesheet not found':
+    userId: 1
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+    attributes:
+      timesheetId: 10
+    body: [ ]
+    query:
+      projectId: 1
+      activityId: 1
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException'
+      message: 'Record Not Found'
+
+  'Without ProjectId':
+    userId: 1
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+    attributes:
+      timesheetId: 1
+    body: [ ]
+    query:
+      activityId: 1
+    invalidOnly: [ 'projectId' ]
+
+  'Without ActivityId':
+    userId: 1
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+    attributes:
+      timesheetId: 1
+    body: [ ]
+    query:
+      projectId: 1
+    invalidOnly: [ 'activityId' ]

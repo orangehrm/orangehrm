@@ -115,21 +115,16 @@ class UserDao extends BaseDao
     /**
      * Return an array of System User Ids
      * @return array
-     * @throws DaoException
      */
     public function getSystemUserIdList(): array
     {
-        try {
-            $query = $this->createQueryBuilder(User::class, 'u');
-            $query->select('u.id');
-            $query->andWhere('u.deleted = :deleted');
-            $query->setParameter('deleted', false);
+        $query = $this->createQueryBuilder(User::class, 'u');
+        $query->select('u.id');
+        $query->andWhere('u.deleted = :deleted');
+        $query->setParameter('deleted', false);
 
-            $result = $query->getQuery()->getScalarResult();
-            return array_column($result, 'id');
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        $result = $query->getQuery()->getScalarResult();
+        return array_column($result, 'id');
     }
 
     /**
@@ -154,22 +149,15 @@ class UserDao extends BaseDao
     }
 
     /**
-     * Get System Users
-     *
      * @return UserRole[]
-     * @throws DaoException
      */
     public function getAssignableUserRoles(): array
     {
-        try {
-            $query = $this->createQueryBuilder(UserRole::class, 'ur');
-            $query->andWhere($query->expr()->in('ur.isAssignable', 1));
-            $query->addOrderBy('ur.name', ListSorter::ASCENDING);
+        $query = $this->createQueryBuilder(UserRole::class, 'ur');
+        $query->andWhere($query->expr()->in('ur.isAssignable', 1));
+        $query->addOrderBy('ur.name', ListSorter::ASCENDING);
 
-            return $query->getQuery()->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        return $query->getQuery()->execute();
     }
 
     /**
@@ -374,7 +362,7 @@ class UserDao extends BaseDao
     }
 
     /**
-     **this function for validating the username availability. ( false -> username already exist, true - username is not exist )
+     **this function for validating the username availability. ( true -> username already exist, false - username is not exist )
      * @param string $userName
      * @param int|null $userId
      * @return bool
@@ -388,6 +376,6 @@ class UserDao extends BaseDao
             $q->andWhere('u.id != :userId'); // we need to skip the current username on checking, otherwise count always return 1
             $q->setParameter('userId', $userId);
         }
-        return $this->getPaginator($q)->count() === 0;
+        return $this->getPaginator($q)->count() > 0;
     }
 }

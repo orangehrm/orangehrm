@@ -59,7 +59,7 @@ class ValidationCustomerNameAPI extends Endpoint implements ResourceEndpoint
             $user = $this->getCustomerService()->getCustomerDao()->getCustomer($customerId);
             $this->throwRecordNotFoundExceptionIfNotExist($user, Customer::class);
         }
-        $isChangeableCustomerName = $this->getCustomerService()
+        $isChangeableCustomerName = !$this->getCustomerService()
             ->getCustomerDao()
             ->isCustomerNameTaken($customerName, $customerId);
         return new EndpointResourceResult(

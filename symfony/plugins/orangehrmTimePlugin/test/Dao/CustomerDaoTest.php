@@ -43,12 +43,23 @@ class CustomerDaoTest extends KernelTestCase
     protected function setUp(): void
     {
         $this->customerDao = new CustomerDao();
+    }
+
+    private function populateCustomerServiceFixture(): void
+    {
         $this->fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmTimePlugin/test/fixtures/CustomerService.yml';
+        TestDataService::populate($this->fixture);
+    }
+
+    private function populateCustomerDaoFixture(): void
+    {
+        $this->fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmTimePlugin/test/fixtures/CustomerDao.yaml';
         TestDataService::populate($this->fixture);
     }
 
     public function testAddCustomer(): void
     {
+        $this->populateCustomerServiceFixture();
         $customer = new Customer();
         $customer->setName('Customer 2');
         $customer->setDescription('Description 2');
@@ -60,35 +71,95 @@ class CustomerDaoTest extends KernelTestCase
 
     public function testGetCustomerList(): void
     {
+        $this->populateCustomerServiceFixture();
         $customerFilterParams = new CustomerSearchFilterParams();
         $result = $this->customerDao->searchCustomers($customerFilterParams);
         $this->assertCount(3, $result);
         $this->assertTrue($result[0] instanceof Customer);
     }
 
+    public function testFilterByCustomerName(): void
+    {
+        $customerFilterParams = new CustomerSearchFilterParams();
+        $customerFilterParams->setName("Orange");
+        $result = $this->customerDao->searchCustomers($customerFilterParams);
+        $this->assertCount(1, $result);
+        $this->assertTrue($result[0] instanceof Customer);
+        $this->assertEquals('Orange', $result[0]->getName());
+    }
+
     public function testGetCustomerById(): void
     {
+        $this->populateCustomerServiceFixture();
         $result = $this->customerDao->getCustomerById(1);
         $this->assertEquals('Orange', $result->getName());
         $this->assertEquals('HRM', $result->getDescription());
     }
 
+    public function testGetCustomerByIdOnNull(): void
+    {
+        $result = $this->customerDao->getCustomerById(10);
+        $this->assertFalse($result instanceof Customer);
+        $this->assertEquals(null, $result);
+    }
+
+    public function testGetCustomer(): void
+    {
+        $result = $this->customerDao->getCustomer(100);
+        $this->assertFalse($result instanceof Customer);
+        $this->assertEquals(null, $result);
+    }
+
     public function testUpdateCustomer(): void
     {
+        $this->populateCustomerServiceFixture();
         $customer = $this->customerDao->getCustomerById(1);
-        $customer->setName("TTTT");
-        $customer->setDescription("DDD");
+        $customer->setName('TTTT');
+        $customer->setDescription('DDD');
         $result = $this->customerDao->saveCustomer($customer);
         $this->assertTrue($result instanceof Customer);
-        $this->assertEquals("TTTT", $result->getName());
-        $this->assertEquals("DDD", $result->getDescription());
+        $this->assertEquals('TTTT', $result->getName());
+        $this->assertEquals('DDD', $result->getDescription());
         $this->assertEquals(1, $result->getId());
     }
 
     public function testDeleteCustomer(): void
     {
+        $this->populateCustomerServiceFixture();
         $customerId = [1, 2];
         $result = $this->customerDao->deleteCustomer($customerId);
         $this->assertEquals(2, $result);
+    }
+
+    public function testGetCustomerIdList(): void
+    {
+        $this->populateCustomerServiceFixture();
+        $result = $this->customerDao->getCustomerIdList();
+        $this->assertEquals([1, 2, 3], $result);
+
+        $result = $this->customerDao->getCustomerIdList(true);
+        $this->assertEquals([1, 2, 3, 4], $result);
+    }
+
+    public function testGetCustomerIdListForProjectAdmin(): void
+    {
+        $this->populateCustomerDaoFixture();
+        $result = $this->customerDao->getCustomerIdListForProjectAdmin(1);
+        $this->assertEmpty($result);
+
+        $result = $this->customerDao->getCustomerIdListForProjectAdmin(2);
+        $this->assertEquals([7, 5, 12], $result);
+
+        $result = $this->customerDao->getCustomerIdListForProjectAdmin(5);
+        $this->assertEquals([7], $result);
+
+        $result = $this->customerDao->getCustomerIdListForProjectAdmin(7);
+        $this->assertEquals([9, 8], $result);
+
+        $result = $this->customerDao->getCustomerIdListForProjectAdmin(9);
+        $this->assertEmpty($result);
+
+        $result = $this->customerDao->getCustomerIdListForProjectAdmin(5, true);
+        $this->assertEquals([7, 11], $result);
     }
 }

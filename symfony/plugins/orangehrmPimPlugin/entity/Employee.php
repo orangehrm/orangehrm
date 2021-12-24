@@ -458,7 +458,7 @@ class Employee
      * @var EmployeeMembership[]
      *
      * @ORM\JoinColumn(name="emp_number", referencedColumnName="emp_number")
-     * @ORM\OneToMany (targetEntity="OrangeHRM\Entity\EmployeeMembership", mappedBy="employee")
+     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\EmployeeMembership", mappedBy="employee")
      */
     private iterable $memberships;
 

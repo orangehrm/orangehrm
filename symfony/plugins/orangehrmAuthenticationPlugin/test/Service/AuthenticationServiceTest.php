@@ -38,13 +38,6 @@ use OrangeHRM\Tests\Util\KernelTestCase;
  */
 class AuthenticationServiceTest extends KernelTestCase
 {
-    public function testGetSystemUserService(): void
-    {
-        $this->createKernelWithMockServices([Services::USER_SERVICE => new UserService()]);
-        $authenticationService = new AuthenticationService();
-        $this->assertTrue($authenticationService->getSystemUserService() instanceof UserService);
-    }
-
     public function testsSetCredentialsWithInvalidCredentials(): void
     {
         $userService = $this->getMockBuilder(UserService::class)
@@ -55,11 +48,11 @@ class AuthenticationServiceTest extends KernelTestCase
             ->willReturn(null);
 
         $authenticationService = $this->getMockBuilder(AuthenticationService::class)
-            ->onlyMethods(['getSystemUserService'])
+            ->onlyMethods(['getUserService'])
             ->getMock();
 
         $authenticationService->expects($this->once())
-            ->method('getSystemUserService')
+            ->method('getUserService')
             ->willReturn($userService);
 
         $credentials = new UserCredential('username', 'password');
@@ -86,11 +79,11 @@ class AuthenticationServiceTest extends KernelTestCase
             ->willReturn($user);
 
         $authenticationService = $this->getMockBuilder(AuthenticationService::class)
-            ->onlyMethods(['getSystemUserService'])
+            ->onlyMethods(['getUserService'])
             ->getMock();
 
         $authenticationService->expects($this->once())
-            ->method('getSystemUserService')
+            ->method('getUserService')
             ->willReturn($userService);
 
         $credentials = new UserCredential('username', 'password');
@@ -124,11 +117,11 @@ class AuthenticationServiceTest extends KernelTestCase
             ->willReturn($user);
 
         $authenticationService = $this->getMockBuilder(AuthenticationService::class)
-            ->onlyMethods(['getSystemUserService'])
+            ->onlyMethods(['getUserService'])
             ->getMock();
 
         $authenticationService->expects($this->once())
-            ->method('getSystemUserService')
+            ->method('getUserService')
             ->willReturn($userService);
 
         $credentials = new UserCredential('username', 'password');
@@ -174,11 +167,11 @@ class AuthenticationServiceTest extends KernelTestCase
             ->willReturn($user);
 
         $authenticationService = $this->getMockBuilder(AuthenticationService::class)
-            ->onlyMethods(['getSystemUserService'])
+            ->onlyMethods(['getUserService'])
             ->getMock();
 
         $authenticationService->expects($this->once())
-            ->method('getSystemUserService')
+            ->method('getUserService')
             ->willReturn($userService);
 
         $credentials = new UserCredential('username', 'password');
@@ -211,7 +204,7 @@ class AuthenticationServiceTest extends KernelTestCase
             ->willReturn($user);
 
         $authenticationService = $this->getMockBuilder(AuthenticationService::class)
-            ->onlyMethods(['getSystemUserService', 'getAuthUser'])
+            ->onlyMethods(['getUserService', 'getAuthUser'])
             ->getMock();
 
         $session = $this->getMockBuilder(Session::class)
@@ -224,7 +217,7 @@ class AuthenticationServiceTest extends KernelTestCase
 
         $authUser = \OrangeHRM\Authentication\Auth\User::getInstance();
         $authenticationService->expects($this->once())
-            ->method('getSystemUserService')
+            ->method('getUserService')
             ->willReturn($userService);
         $authenticationService->expects($this->exactly(3))
             ->method('getAuthUser')
@@ -258,7 +251,7 @@ class AuthenticationServiceTest extends KernelTestCase
             ->willReturn($user);
 
         $authenticationService = $this->getMockBuilder(AuthenticationService::class)
-            ->onlyMethods(['getSystemUserService', 'getAuthUser'])
+            ->onlyMethods(['getUserService', 'getAuthUser'])
             ->getMock();
 
         $session = $this->getMockBuilder(Session::class)
@@ -271,7 +264,7 @@ class AuthenticationServiceTest extends KernelTestCase
 
         $authUser = \OrangeHRM\Authentication\Auth\User::getInstance();
         $authenticationService->expects($this->once())
-            ->method('getSystemUserService')
+            ->method('getUserService')
             ->willReturn($userService);
         $authenticationService->expects($this->exactly(4))
             ->method('getAuthUser')

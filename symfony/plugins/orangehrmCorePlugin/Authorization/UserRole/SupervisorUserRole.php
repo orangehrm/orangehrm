@@ -19,88 +19,65 @@
 
 namespace OrangeHRM\Core\Authorization\UserRole;
 
-use OrangeHRM\Core\Authorization\Manager\BasicUserRoleManager;
+use OrangeHRM\Admin\Service\LocationService;
 use OrangeHRM\Entity\Employee;
+use OrangeHRM\Entity\Location;
+use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
 
-/**
- * Description of SupervisorUserRole
- *
- * @author Chameera Senarathna
- */
 class SupervisorUserRole extends AbstractUserRole
 {
-    public function getAccessibleEmployeeIds($operation = null, $returnType = null, $requiredPermissions = [])
+    use EmployeeServiceTrait;
+
+    protected ?LocationService $locationService = null;
+
+    /**
+     * @return LocationService
+     */
+    protected function getLocationService(): LocationService
     {
-        $employeeIdArray = [];
-
-        $empNumber = $this->getEmployeeNumber();
-        if (!empty($empNumber)) {
-            $employeeIdArray = $this->getEmployeeService()->getSubordinateIdListBySupervisorId($empNumber);
+        if (!$this->locationService instanceof LocationService) {
+            $this->locationService = new LocationService();
         }
-
-        return $employeeIdArray;
-    }
-
-    public function getAccessibleEmployeePropertyList($properties, $orderField, $orderBy, $requiredPermissions = [])
-    {
-        $employeeProperties = [];
-
-        $empNumber = $this->getEmployeeNumber();
-        if (!empty($empNumber)) {
-            $employeeProperties = $this->getEmployeeService()->getSubordinatePropertyListBySupervisorId($empNumber, $properties, $orderField, $orderBy, true);
-        }
-
-        return $employeeProperties;
+        return $this->locationService;
     }
 
     /**
-     * @param null $operation
-     * @param null $returnType
-     * @param array $requiredPermissions
-     * @return array|Employee[]
+     * @inheritDoc
      */
-    public function getAccessibleEmployees($operation = null, $returnType = null, $requiredPermissions = []): array
+    protected function getAccessibleIdsForEntity(string $entityType, array $requiredPermissions = []): array
     {
-        $employees = [];
+        switch ($entityType) {
+            case Employee::class:
+                return $this->getAccessibleEmployeeIds($requiredPermissions);
+            case Location::class:
+                return $this->getAccessibleLocationIds($requiredPermissions);
+            default:
+                return [];
+        }
+    }
 
+    /**
+     * @param array $requiredPermissions
+     * @return int[]
+     */
+    protected function getAccessibleEmployeeIds(array $requiredPermissions = []): array
+    {
+        $empNumbers = [];
         $empNumber = $this->getEmployeeNumber();
         if (!empty($empNumber)) {
-            $employees = $this->getEmployeeService()->getSubordinateList($empNumber, true);
+            $empNumbers = $this->getEmployeeService()->getSubordinateIdListBySupervisorId($empNumber);
         }
-
-        $employeesWithIds = [];
-
-        foreach ($employees as $employee) {
-            $employeesWithIds[$employee->getEmpNumber()] = $employee;
-        }
-
-        return $employeesWithIds;
+        return $empNumbers;
     }
 
-    public function getAccessibleLocationIds($operation = null, $returnType = null, $requiredPermissions = [])
+    /**
+     * @param array $requiredPermissions
+     * @return int[]
+     * @todo
+     */
+    protected function getAccessibleLocationIds(array $requiredPermissions = []): array
     {
-        $locationIds = [];
-
-        if ($operation == BasicUserRoleManager::OPERATION_VIEW) {
-            // Return locations of subordinates
-            $empNumbers = $this->getAccessibleEmployeeIds();
-            $locationIds = $this->getLocationService()->getLocationIdsForEmployees($empNumbers);
-        }
-        return $locationIds;
-    }
-
-    public function getAccessibleOperationalCountryIds($operation = null, $returnType = null, $requiredPermissions = [])
-    {
-        return [];
-    }
-
-    public function getAccessibleSystemUserIds($operation = null, $returnType = null, $requiredPermissions = [])
-    {
-        return [];
-    }
-
-    public function getAccessibleUserRoleIds($operation = null, $returnType = null, $requiredPermissions = [])
-    {
-        return [];
+        $empNumbers = $this->getAccessibleEmployeeIds();
+        return $this->getLocationService()->getLocationIdsForEmployees($empNumbers);
     }
 }

@@ -19,31 +19,21 @@
 
 namespace OrangeHRM\Authentication\Service;
 
-use OrangeHRM\Admin\Service\UserService;
+use OrangeHRM\Admin\Traits\Service\UserServiceTrait;
 use OrangeHRM\Authentication\Dao\LoginLogDao;
 use OrangeHRM\Authentication\Dto\UserCredential;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Exception\ServiceException;
-use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Entity\LoginLog;
-use OrangeHRM\Framework\Services;
 
 class LoginService
 {
-    use ServiceContainerTrait;
+    use UserServiceTrait;
 
     /**
      * @var LoginLogDao|null
      */
     private ?LoginLogDao $loginLogDao = null;
-
-    /**
-     * @return UserService
-     */
-    public function getSystemUserService(): UserService
-    {
-        return $this->getContainer()->get(Services::USER_SERVICE);
-    }
 
     /**
      * @return LoginLogDao|null
@@ -64,7 +54,7 @@ class LoginService
      */
     public function addLogin(UserCredential $credentials): LoginLog
     {
-        $user = $this->getSystemUserService()->getCredentials($credentials);
+        $user = $this->getUserService()->getCredentials($credentials);
         $loginLog = new LoginLog();
         $loginLog->setUserId($user->getId());
         $loginLog->setUserName($user->getUserName());

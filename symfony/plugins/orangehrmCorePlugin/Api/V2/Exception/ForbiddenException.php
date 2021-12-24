@@ -20,9 +20,10 @@
 namespace OrangeHRM\Core\Api\V2\Exception;
 
 use Exception;
+use OrangeHRM\Core\Api\V2\Validator\Exceptions\ValidationEscapableException;
 use Throwable;
 
-class ForbiddenException extends Exception
+class ForbiddenException extends Exception implements ValidationEscapableException
 {
     public const DEFAULT_ERROR_MESSAGE = "Unauthorized";
 

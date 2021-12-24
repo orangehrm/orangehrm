@@ -17,26 +17,32 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Tests\Time\Service;
+namespace OrangeHRM\Time\Controller\Traits;
 
-use OrangeHRM\Tests\Util\TestCase;
-use OrangeHRM\Time\Dao\ProjectActivityDao;
-use OrangeHRM\Time\Service\ProjectActivityService;
+use LogicException;
+use OrangeHRM\Core\Controller\AbstractVueController;
+use OrangeHRM\Core\Helper\VueControllerHelper;
+use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 
-class ProjectActivityServiceTest extends TestCase
+trait PermissionTrait
 {
+    use UserRoleManagerTrait;
+
     /**
-     * @var ProjectActivityService
+     * @param array $dataGroups
      */
-    private ProjectActivityService $projectActivityService;
-
-    protected function setUp(): void
+    protected function setPermissions(array $dataGroups)
     {
-        $this->projectActivityService = new ProjectActivityService();
-    }
-
-    public function testGetProjectActivityDao(): void
-    {
-        $this->assertTrue($this->projectActivityService->getProjectActivityDao() instanceof ProjectActivityDao);
+        $permissions = $this->getUserRoleManagerHelper()
+            ->geEntityIndependentDataGroupPermissionCollection($dataGroups);
+        if (!$this instanceof AbstractVueController) {
+            throw new LogicException(
+                PermissionTrait::class . ' should use in instanceof' . AbstractVueController::class
+            );
+        }
+        $this->getContext()->set(
+            VueControllerHelper::PERMISSIONS,
+            $permissions->toArray()
+        );
     }
 }

@@ -154,10 +154,10 @@ class EmployeeDaoTest extends KernelTestCase
 
     public function testGetEmployeeIdList(): void
     {
-        $employeeIdList = $this->employeeDao->getEmployeeIdList();
+        $employeeIdList = $this->employeeDao->getEmpNumberList();
         $this->assertEquals(5, count($employeeIdList));
 
-        $employeeIdList = $this->employeeDao->getEmployeeIdList();
+        $employeeIdList = $this->employeeDao->getEmpNumberList();
         $employees = TestDataService::loadObjectList(Employee::class, $this->fixture, 'Employee');
         $employeeIdArray = $this->getEmployeeIds($employees);
         $this->assertEquals($employeeIdArray, $employeeIdList);
@@ -168,7 +168,7 @@ class EmployeeDaoTest extends KernelTestCase
         $q = $this->getEntityManager()->createQueryBuilder()->from(Employee::class, 'e');
         $q->delete()->where('e.empNumber > 1')->getQuery()->execute();
 
-        $employeeIdList = $this->employeeDao->getEmployeeIdList();
+        $employeeIdList = $this->employeeDao->getEmpNumberList();
         $this->assertTrue(is_array($employeeIdList));
         $this->assertEquals(1, count($employeeIdList));
         $this->assertEquals(1, $employeeIdList[0]);
@@ -339,13 +339,13 @@ class EmployeeDaoTest extends KernelTestCase
 
     public function testIsWorkEmailAvailableByCurrentEmail(): void
     {
-        $status = $this->employeeDao->isWorkEmailAvailableByCurrentEmail('kayla0001@xample.com', 'kayla@xample.com');
+        $status = !$this->employeeDao->isWorkEmailAvailableByCurrentEmail('kayla0001@xample.com', 'kayla@xample.com');
         $this->assertEquals(true, $status);
     }
 
     public function testIsWorkEmailAvailable(): void
     {
-        $status = $this->employeeDao->isWorkEmailAvailable('renukshan@xample.com');
+        $status = !$this->employeeDao->isWorkEmailAvailable('renukshan@xample.com');
         $this->assertEquals(false, $status);
     }
 }

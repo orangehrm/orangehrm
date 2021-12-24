@@ -268,17 +268,6 @@ class EmployeeService
     }
 
     /**
-     * Returns employee IDs of all the employees in the system
-     *
-     * @param bool $excludeTerminatedEmployees Exclude Terminated employees or not
-     * @return int[] List of employee IDs
-     */
-    public function getEmployeeIdList(bool $excludeTerminatedEmployees = false): array
-    {
-        return $this->getEmployeeDao()->getEmployeeIdList($excludeTerminatedEmployees);
-    }
-
-    /**
      * @param int[] $empNumbers
      * @return int
      */

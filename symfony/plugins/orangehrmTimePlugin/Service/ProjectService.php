@@ -20,6 +20,7 @@
 
 namespace OrangeHRM\Time\Service;
 
+use OrangeHRM\Time\Dao\ProjectActivityDao;
 use OrangeHRM\Time\Dao\ProjectDao;
 
 class ProjectService
@@ -30,6 +31,11 @@ class ProjectService
     private ?ProjectDao $projectDao = null;
 
     /**
+     * @var ProjectActivityDao|null
+     */
+    protected ?ProjectActivityDao $projectActivityDao = null;
+
+    /**
      * @return ProjectDao
      */
     public function getProjectDao(): ProjectDao
@@ -38,5 +44,16 @@ class ProjectService
             $this->projectDao = new ProjectDao();
         }
         return $this->projectDao;
+    }
+
+    /**
+     * @return ProjectActivityDao
+     */
+    public function getProjectActivityDao(): ProjectActivityDao
+    {
+        if (!$this->projectActivityDao instanceof ProjectActivityDao) {
+            $this->projectActivityDao = new ProjectActivityDao();
+        }
+        return $this->projectActivityDao;
     }
 }

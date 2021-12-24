@@ -17,22 +17,11 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Time\Service;
+namespace OrangeHRM\Core\Api\V2\Validator\Exceptions;
 
-use OrangeHRM\Time\Dao\ProjectActivityDao;
-
-class ProjectActivityService
+/**
+ * Marker interface to identify whether the validator need to ignore this exception
+ */
+interface ValidationEscapableException
 {
-    protected ?ProjectActivityDao $projectActivityDao = null;
-
-    /**
-     * @return ProjectActivityDao
-     */
-    public function getProjectActivityDao(): ProjectActivityDao
-    {
-        if (!$this->projectActivityDao instanceof ProjectActivityDao) {
-            $this->projectActivityDao = new ProjectActivityDao();
-        }
-        return $this->projectActivityDao;
-    }
 }

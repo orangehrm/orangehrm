@@ -73,7 +73,7 @@ class CustomerServiceTest extends TestCase
             ->will($this->returnValue($customerList));
         $this->customerService->setCustomerDao($customerDao);
         $result = $this->customerService->searchCustomers($customerSearchParam);
-        $this->assertCount(3, $result);
+        $this->assertCount(4, $result);
         $this->assertTrue($result[0] instanceof Customer);
     }
 

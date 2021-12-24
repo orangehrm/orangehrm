@@ -20,7 +20,7 @@
 
 <template>
   <div v-if="!loading">
-    <oxd-divider class="orangehrm-horizontal-margin" />
+    <oxd-divider v-if="showDivider" class="orangehrm-horizontal-margin" />
     <div class="orangehrm-horizontal-padding orangehrm-vertical-padding">
       <div v-if="selected > 0">
         <oxd-text tag="span">
@@ -57,6 +57,11 @@ export default {
     total: {
       type: Number,
       required: true,
+    },
+    showDivider: {
+      type: Boolean,
+      required: false,
+      default: true,
     },
   },
 

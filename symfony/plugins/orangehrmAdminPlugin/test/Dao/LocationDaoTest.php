@@ -66,7 +66,7 @@ class LocationDaoTest extends TestCase
 
     public function testGetLocationList(): void
     {
-        $result = $this->locationDao->getLocationList();
+        $result = $this->locationDao->getLocationsIdList();
         $this->assertEquals(4, count($result));
     }
 

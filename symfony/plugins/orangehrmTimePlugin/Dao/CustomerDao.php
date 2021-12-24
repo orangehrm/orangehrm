@@ -88,6 +88,10 @@ class CustomerDao extends BaseDao
             $q->andWhere($q->expr()->like('customer.name', ':customerName'))
                 ->setParameter('customerName', '%' . $customerSearchFilterParams->getName() . '%');
         }
+        if (!is_null($customerSearchFilterParams->getCustomerIds())) {
+            $q->andWhere($q->expr()->in('customer.id', ':customerIds'))
+                ->setParameter('customerIds', $customerSearchFilterParams->getCustomerIds());
+        }
 
         $q->andWhere('customer.deleted = :deleted');
         $q->setParameter('deleted', false);
@@ -107,7 +111,7 @@ class CustomerDao extends BaseDao
     }
 
     /**
-     **this function for validating the customer name availability. ( false -> customer name already exist, true - customer name is not exist )
+     **this function for validating the customer name availability. ( true -> customer name already exist, false - customer name is not exist )
      * @param string $customerName
      * @param int|null $customerId
      * @return bool
@@ -118,10 +122,12 @@ class CustomerDao extends BaseDao
         $q->andWhere('customer.name = :customerName');
         $q->setParameter('customerName', $customerName);
         if (!is_null($customerId)) {
-            $q->andWhere('customer.id != :customerId'); // we need to skip the current customer on update, otherwise count always return 1
+            $q->andWhere(
+                'customer.id != :customerId'
+            ); // we need to skip the current customer on update, otherwise count always return 1
             $q->setParameter('customerId', $customerId);
         }
-        return $this->getPaginator($q)->count() === 0;
+        return $this->getPaginator($q)->count() > 0;
     }
 
     /**
@@ -136,5 +142,43 @@ class CustomerDao extends BaseDao
             return $customer;
         }
         return null;
+    }
+
+    /**
+     * @param bool $includeDeleted
+     * @return int[]
+     */
+    public function getCustomerIdList(bool $includeDeleted = false): array
+    {
+        $q = $this->createQueryBuilder(Customer::class, 'customer')
+            ->select('customer.id');
+        if (!$includeDeleted) {
+            $q->andWhere('customer.deleted = :deleted')
+                ->setParameter('deleted', false);
+        }
+        $result = $q->getQuery()->getArrayResult();
+        return array_column($result, 'id');
+    }
+
+    /**
+     * @param int $projectAdminEmpNumber
+     * @param bool $includeDeleted
+     * @return int[]
+     */
+    public function getCustomerIdListForProjectAdmin(int $projectAdminEmpNumber, bool $includeDeleted = false): array
+    {
+        $q = $this->createQueryBuilder(Customer::class, 'customer')
+            ->select('customer.id')
+            ->distinct()
+            ->leftJoin('customer.projects', 'project')
+            ->innerJoin('project.projectAdmins', 'projectAdmin')
+            ->andWhere('projectAdmin.empNumber = :projectAdminEmpNumber')
+            ->setParameter('projectAdminEmpNumber', $projectAdminEmpNumber);
+        if (!$includeDeleted) {
+            $q->andWhere('customer.deleted = :deleted')
+                ->setParameter('deleted', false);
+        }
+        $result = $q->getQuery()->getArrayResult();
+        return array_column($result, 'id');
     }
 }

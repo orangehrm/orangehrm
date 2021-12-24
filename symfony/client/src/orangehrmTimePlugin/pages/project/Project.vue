@@ -51,7 +51,10 @@
 
     <br />
     <div class="orangehrm-paper-container">
-      <div class="orangehrm-header-container">
+      <div
+        v-if="$can.create(`time_projects`)"
+        class="orangehrm-header-container"
+      >
         <oxd-button
           icon-name="plus"
           display-type="secondary"
@@ -63,6 +66,7 @@
         :selected="checkedItems.length"
         :loading="isLoading"
         :total="total"
+        :show-divider="$can.create(`time_projects`)"
         @delete="onClickDeleteSelected"
       ></table-header>
       <div class="orangehrm-container">
@@ -71,10 +75,10 @@
           v-model:order="sortDefinition"
           :headers="headers"
           :items="items?.data"
-          :selectable="true"
           :clickable="false"
           :loading="isLoading"
           row-decorator="oxd-table-decorator-card"
+          :selectable="$can.delete(`time_projects`)"
         />
       </div>
       <div class="orangehrm-bottom-container">
@@ -192,7 +196,12 @@ export default {
   },
   data() {
     return {
-      headers: [
+      checkedItems: [],
+    };
+  },
+  computed: {
+    headers() {
+      const headers = [
         {
           name: 'customer',
           title: 'Customer Name',
@@ -211,30 +220,36 @@ export default {
           title: 'Project Admins',
           style: {flex: '20%'},
         },
-        {
-          name: 'actions',
-          slot: 'action',
-          title: 'Actions',
-          style: {flex: 1},
-          cellType: 'oxd-table-cell-actions',
-          cellConfig: {
-            delete: {
-              onClick: this.onClickDelete,
-              props: {
-                name: 'trash',
-              },
-            },
-            edit: {
-              onClick: this.onClickEdit,
-              props: {
-                name: 'pencil-fill',
-              },
-            },
+      ];
+      const headerActions = {
+        name: 'actions',
+        slot: 'action',
+        title: 'Actions',
+        style: {flex: 1},
+        cellType: 'oxd-table-cell-actions',
+        cellConfig: {},
+      };
+      if (this.$can.delete(`time_projects`)) {
+        headerActions.cellConfig.delete = {
+          onClick: this.onClickDelete,
+          props: {
+            name: 'trash',
           },
-        },
-      ],
-      checkedItems: [],
-    };
+        };
+      }
+      if (this.$can.update(`time_project_activities`)) {
+        headerActions.cellConfig.edit = {
+          onClick: this.onClickEdit,
+          props: {
+            name: 'pencil-fill',
+          },
+        };
+      }
+      if (Object.keys(headerActions.cellConfig).length > 0) {
+        headers.push(headerActions);
+      }
+      return headers;
+    },
   },
   methods: {
     onClickAdd() {

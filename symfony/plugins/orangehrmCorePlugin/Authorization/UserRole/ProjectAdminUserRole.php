@@ -19,62 +19,50 @@
 
 namespace OrangeHRM\Core\Authorization\UserRole;
 
-/**
- * Project Admin User Role
- *
- */
+use OrangeHRM\Entity\Customer;
+use OrangeHRM\Entity\Project;
+use OrangeHRM\Time\Traits\Service\CustomerServiceTrait;
+use OrangeHRM\Time\Traits\Service\ProjectServiceTrait;
+
 class ProjectAdminUserRole extends AbstractUserRole
 {
-    /**
-     * Returns all projects (active and inactive)
-     */
-    public function getAccessibleProjects($operation = null, $returnType = null, $requiredPermissions = [])
-    {
-        $projectList = $this->getProjectService()->getProjectListByProjectAdmin($this->getEmployeeNumber());
-        return $projectList;
-    }
+    use ProjectServiceTrait;
+    use CustomerServiceTrait;
 
     /**
-     * Returns all project ids (active and inactive)
+     * @inheritDoc
      */
-    public function getAccessibleProjectIds($operation = null, $returnType = null, $requiredPermissions = [])
+    protected function getAccessibleIdsForEntity(string $entityType, array $requiredPermissions = []): array
     {
-        return $this->getProjectService()->getProjectListForUserRole(ProjectAdminUserRoleDecorator::PROJECT_ADMIN_USER, $this->getEmployeeNumber());
+        switch ($entityType) {
+            case Project::class:
+                return $this->getAccessibleProjectIds($requiredPermissions);
+            case Customer::class:
+                return $this->getAccessibleCustomerIds($requiredPermissions);
+            default:
+                return [];
+        }
     }
 
-
-    public function getAccessibleEmployeeIds($operation = null, $returnType = null, $requiredPermissions = [])
+    /**
+     * @param array $requiredPermissions
+     * @return int[]
+     */
+    protected function getAccessibleProjectIds(array $requiredPermissions = []): array
     {
-        return [];
+        return $this->getProjectService()
+            ->getProjectDao()
+            ->getProjectIdListForProjectAdmin($this->getEmployeeNumber());
     }
 
-    public function getAccessibleEmployeePropertyList($properties, $orderField, $orderBy, $requiredPermissions = [])
+    /**
+     * @param array $requiredPermissions
+     * @return int[]
+     */
+    protected function getAccessibleCustomerIds(array $requiredPermissions): array
     {
-        return [];
-    }
-
-    public function getAccessibleEmployees($operation = null, $returnType = null, $requiredPermissions = []): array
-    {
-        return [];
-    }
-
-    public function getAccessibleLocationIds($operation = null, $returnType = null, $requiredPermissions = [])
-    {
-        return [];
-    }
-
-    public function getAccessibleOperationalCountryIds($operation = null, $returnType = null, $requiredPermissions = [])
-    {
-        return [];
-    }
-
-    public function getAccessibleSystemUserIds($operation = null, $returnType = null, $requiredPermissions = [])
-    {
-        return [];
-    }
-
-    public function getAccessibleUserRoleIds($operation = null, $returnType = null, $requiredPermissions = [])
-    {
-        return [];
+        return $this->getCustomerService()
+            ->getCustomerDao()
+            ->getCustomerIdListForProjectAdmin($this->getEmployeeNumber());
     }
 }

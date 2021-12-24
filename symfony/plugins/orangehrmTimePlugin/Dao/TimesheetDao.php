@@ -26,7 +26,7 @@ use OrangeHRM\Entity\Timesheet;
 use OrangeHRM\Entity\TimesheetActionLog;
 use OrangeHRM\Entity\TimesheetItem;
 use OrangeHRM\ORM\Paginator;
-use OrangeHRM\Time\Dto\MyTimesheetSearchFilterParams;
+use OrangeHRM\Time\Dto\TimesheetSearchFilterParams;
 use OrangeHRM\Time\Dto\TimesheetActionLogSearchFilterParams;
 use OrangeHRM\Time\Traits\Service\TimesheetServiceTrait;
 
@@ -77,12 +77,13 @@ class TimesheetDao extends BaseDao
     }
 
     /**
+     * @param int $timesheetId
      * @param int $timesheetItemId
      * @return TimesheetItem|null
      */
-    public function getTimesheetItemById(int $timesheetItemId): ?TimesheetItem
+    public function getTimesheetItemByTimesheetIdAndTimesheetItemId(int $timesheetId, int $timesheetItemId): ?TimesheetItem
     {
-        $timesheetItem = $this->getRepository(TimesheetItem::class)->find($timesheetItemId);
+        $timesheetItem = $this->getRepository(TimesheetItem::class)->findOneBy(['id' => $timesheetItemId, 'timesheet' => $timesheetId]);
         return ($timesheetItem instanceof TimesheetItem) ? $timesheetItem : null;
     }
 
@@ -828,28 +829,28 @@ class TimesheetDao extends BaseDao
     }
 
     /**
-     * @param  MyTimesheetSearchFilterParams  $myTimesheetParamHolder
+     * @param  TimesheetSearchFilterParams  $timesheetParamHolder
      * @return array
      */
     public function getTimesheetByStartAndEndDate(
-        MyTimesheetSearchFilterParams $myTimesheetParamHolder
+        TimesheetSearchFilterParams $timesheetParamHolder
     ): array {
         $qb = $this->getTimesheetPaginator(
-            $myTimesheetParamHolder,
+            $timesheetParamHolder,
         );
         return $qb->getQuery()->execute();
     }
 
     /**
-     * @param  MyTimesheetSearchFilterParams  $myTimesheetParamHolder
+     * @param  TimesheetSearchFilterParams  $timesheetParamHolder
      * @return Paginator
      */
     private function getTimesheetPaginator(
-        MyTimesheetSearchFilterParams $myTimesheetParamHolder
+        TimesheetSearchFilterParams $timesheetParamHolder
     ): Paginator {
         $qb = $this->createQueryBuilder(Timesheet::class, 'timesheet');
 
-        $this->setSortingAndPaginationParams($qb, $myTimesheetParamHolder);
+        $this->setSortingAndPaginationParams($qb, $timesheetParamHolder);
 
         $qb->andWhere(
             $qb->expr()->between(
@@ -858,22 +859,22 @@ class TimesheetDao extends BaseDao
                 ':endDate'
             )
         )
-            ->setParameter('startDate', $myTimesheetParamHolder->getFromDate())
-            ->setParameter('endDate', $myTimesheetParamHolder->getToDate());
+            ->setParameter('startDate', $timesheetParamHolder->getFromDate())
+            ->setParameter('endDate', $timesheetParamHolder->getToDate());
 
         $qb->andWhere('timesheet.employee = :empNumber')
-            ->setParameter('empNumber', $myTimesheetParamHolder->getAuthEmpNumber());
+            ->setParameter('empNumber', $timesheetParamHolder->getEmpNumber());
 
         return $this->getPaginator($qb);
     }
 
     /**
-     * @param  MyTimesheetSearchFilterParams  $myTimesheetParamHolder
+     * @param  TimesheetSearchFilterParams  $timesheetParamHolder
      * @return int
      */
-    public function getTimesheetCount(MyTimesheetSearchFilterParams $myTimesheetParamHolder): int
+    public function getTimesheetCount(TimesheetSearchFilterParams $timesheetParamHolder): int
     {
-        return $this->getTimesheetPaginator($myTimesheetParamHolder)->count();
+        return $this->getTimesheetPaginator($timesheetParamHolder)->count();
     }
 
     /**
@@ -969,5 +970,27 @@ class TimesheetDao extends BaseDao
             $this->getEntityManager()->persist($timesheetItem);
         }
         $this->getEntityManager()->flush();
+    }
+
+    /**
+     * @param  int  $timesheetId
+     * @param  int  $activityId
+     * @param  int  $projectId
+     * @return bool
+     */
+    public function isDuplicateTimesheetItem(
+        int $timesheetId,
+        int $activityId,
+        int $projectId
+    ): bool {
+        $qb = $this->createQueryBuilder(TimesheetItem::class, 'timesheetItem');
+        $qb->andWhere('timesheetItem.timesheet = :timesheetId');
+        $qb->setParameter('timesheetId', $timesheetId);
+        $qb->andWhere('timesheetItem.project = :projectId');
+        $qb->setParameter('projectId', $projectId);
+        $qb->andwhere('timesheetItem.projectActivity = :activityId');
+        $qb->setParameter('activityId', $activityId);
+
+        return $this->getPaginator($qb)->count() > 0;
     }
 }

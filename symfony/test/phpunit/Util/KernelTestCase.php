@@ -29,6 +29,7 @@ use OrangeHRM\Framework\Framework;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\ORM\Doctrine;
+use OrangeHRM\Time\Service\ProjectService;
 
 abstract class KernelTestCase extends TestCase
 {
@@ -38,13 +39,16 @@ abstract class KernelTestCase extends TestCase
      * Value of this key should be bool, default: true
      */
     public const OPTIONS_WITH_HELPER_SERVICES = 'withHelperServices';
+    public const OPTIONS_WITH_BASE_SERVICES = 'withBaseServices';
 
     private array $options = [
         self::OPTIONS_WITH_HELPER_SERVICES => true,
+        self::OPTIONS_WITH_BASE_SERVICES => true,
     ];
 
     protected function tearDown(): void
     {
+        $this->getEntityManager()->clear();
         $this->createKernel();
     }
 
@@ -74,6 +78,7 @@ abstract class KernelTestCase extends TestCase
             ->setFactory([Doctrine::class, 'getEntityManager']);
 
         $this->setHelperServices();
+        $this->setBaseServices();
 
         return $this->getMockBuilder(Framework::class)
             ->onlyMethods(['handle'])
@@ -117,6 +122,13 @@ abstract class KernelTestCase extends TestCase
             $this->getContainer()->set(Services::TEXT_HELPER_SERVICE, new TextHelperService());
             $this->getContainer()->set(Services::NUMBER_HELPER_SERVICE, new NumberHelperService());
             $this->getContainer()->set(Services::CLASS_HELPER, new ClassHelper());
+        }
+    }
+
+    private function setBaseServices(): void
+    {
+        if (isset($this->options[self::OPTIONS_WITH_BASE_SERVICES]) && $this->options[self::OPTIONS_WITH_BASE_SERVICES]) {
+            $this->getContainer()->set(Services::PROJECT_SERVICE, new ProjectService());
         }
     }
 }

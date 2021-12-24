@@ -30,6 +30,12 @@ class CustomerSearchFilterParams extends FilterParams
      */
     protected ?string $name = null;
 
+    /**
+     * @var int[]|null
+     */
+    protected ?array $customerIds = null;
+
+
     public function __construct()
     {
         $this->setSortField('customer.name');
@@ -49,5 +55,21 @@ class CustomerSearchFilterParams extends FilterParams
     public function setName(?string $name): void
     {
         $this->name = $name;
+    }
+
+    /**
+     * @return int[]|null
+     */
+    public function getCustomerIds(): ?array
+    {
+        return $this->customerIds;
+    }
+
+    /**
+     * @param int[]|null $customerIds
+     */
+    public function setCustomerIds(?array $customerIds): void
+    {
+        $this->customerIds = $customerIds;
     }
 }

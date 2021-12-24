@@ -19,12 +19,10 @@
 
 namespace OrangeHRM\Admin\Service;
 
-use Exception;
 use OrangeHRM\Admin\Dao\UserDao;
 use OrangeHRM\Admin\Dto\UserSearchFilterParams;
 use OrangeHRM\Authentication\Dto\UserCredential;
 use OrangeHRM\Core\Exception\DaoException;
-use OrangeHRM\Core\Exception\ServiceException;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Core\Utility\PasswordHash;
 use OrangeHRM\Entity\Employee;
@@ -46,7 +44,7 @@ class UserService
     /**
      * @return UserDao
      */
-    public function getSystemUserDao(): ?UserDao
+    public function getSystemUserDao(): UserDao
     {
         if (empty($this->systemUserDao)) {
             $this->systemUserDao = new UserDao();
@@ -87,19 +85,14 @@ class UserService
      * @param User $systemUser
      * @param bool $changePassword
      * @return User|null
-     * @throws ServiceException
      */
     public function saveSystemUser(User $systemUser, bool $changePassword = false): ?User
     {
-        try {
-            if ($changePassword) {
-                $systemUser->setUserPassword($this->hashPassword($systemUser->getUserPassword()));
-            }
-
-            return $this->getSystemUserDao()->saveSystemUser($systemUser);
-        } catch (Exception $e) {
-            throw new ServiceException($e->getMessage(), $e->getCode(), $e);
+        if ($changePassword) {
+            $systemUser->setUserPassword($this->hashPassword($systemUser->getUserPassword()));
         }
+
+        return $this->getSystemUserDao()->saveSystemUser($systemUser);
     }
 
     /**
@@ -107,67 +100,30 @@ class UserService
      * @param string $userName
      * @param int $userId
      * @return User|null
-     * @throws ServiceException
      */
     public function isExistingSystemUser(string $userName, int $userId): ?User
     {
-        try {
-            $credentials = new UserCredential($userName);
-            return $this->getSystemUserDao()->isExistingSystemUser($credentials, $userId);
-        } catch (Exception $e) {
-            throw new ServiceException($e->getMessage(), $e->getCode(), $e);
-        }
+        $credentials = new UserCredential($userName);
+        return $this->getSystemUserDao()->isExistingSystemUser($credentials, $userId);
     }
 
     /**
      * Get System User for given User Id
      * @param int $userId
      * @return User|null
-     * @throws ServiceException
      */
     public function getSystemUser(int $userId): ?User
     {
-        try {
-            return $this->getSystemUserDao()->getSystemUser($userId);
-        } catch (Exception $e) {
-            throw new ServiceException($e->getMessage(), $e->getCode(), $e);
-        }
+        return $this->getSystemUserDao()->getSystemUser($userId);
     }
 
     /**
      * Get System Users
      * @return User[]
-     * @throws ServiceException
      */
     public function getSystemUsers(): array
     {
-        try {
-            return $this->getSystemUserDao()->getSystemUsers();
-        } catch (Exception $e) {
-            throw new ServiceException($e->getMessage(), $e->getCode(), $e);
-        }
-    }
-
-    /**
-     * Return an array of System User Ids
-     *
-     * <pre>
-     *
-     * The output will be an array like below.
-     *
-     * array(
-     *          0 => 1,
-     *          1 => 2,
-     *          2 => 3
-     * )
-     * </pre>
-     *
-     * @return array
-     * @throws DaoException
-     */
-    public function getSystemUserIdList(): array
-    {
-        return $this->getSystemUserDao()->getSystemUserIdList();
+        return $this->getSystemUserDao()->getSystemUsers();
     }
 
     /**
@@ -182,33 +138,13 @@ class UserService
     }
 
     /**
-     * Get Pre Defined User Roles
-     *
-     * @return User[]
-     * @throws ServiceException
-     */
-    public function getAssignableUserRoles(): array
-    {
-        try {
-            return $this->getSystemUserDao()->getAssignableUserRoles();
-        } catch (Exception $e) {
-            throw new ServiceException($e->getMessage(), $e->getCode(), $e);
-        }
-    }
-
-    /**
      * Get User role with given name
      * @param string $roleName
      * @return UserRole|null
-     * @throws ServiceException
      */
     public function getUserRole(string $roleName): ?UserRole
     {
-        try {
-            return $this->getSystemUserDao()->getUserRole($roleName);
-        } catch (Exception $e) {
-            throw new ServiceException($e->getMessage(), $e->getCode(), $e);
-        }
+        return $this->getSystemUserDao()->getUserRole($roleName);
     }
 
     /**
@@ -233,29 +169,19 @@ class UserService
     /**
      * @param UserSearchFilterParams $userSearchParamHolder
      * @return int
-     * @throws ServiceException
      */
     public function getSearchSystemUsersCount(UserSearchFilterParams $userSearchParamHolder): int
     {
-        try {
-            return $this->getSystemUserDao()->getSearchSystemUsersCount($userSearchParamHolder);
-        } catch (Exception $e) {
-            throw new ServiceException($e->getMessage(), $e->getCode(), $e);
-        }
+        return $this->getSystemUserDao()->getSearchSystemUsersCount($userSearchParamHolder);
     }
 
     /**
      * @param UserSearchFilterParams $userSearchParamHolder
      * @return array
-     * @throws ServiceException
      */
     public function searchSystemUsers(UserSearchFilterParams $userSearchParamHolder): array
     {
-        try {
-            return $this->getSystemUserDao()->searchSystemUsers($userSearchParamHolder);
-        } catch (Exception $e) {
-            throw new ServiceException($e->getMessage(), $e->getCode(), $e);
-        }
+        return $this->getSystemUserDao()->searchSystemUsers($userSearchParamHolder);
     }
 
     /**
@@ -316,7 +242,6 @@ class UserService
      * @param UserCredential $credentials
      * @return User|null
      * @throws DaoException
-     * @throws ServiceException
      */
     public function getCredentials(UserCredential $credentials): ?User
     {

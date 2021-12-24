@@ -21,7 +21,7 @@ namespace OrangeHRM\Admin\Api;
 
 use OrangeHRM\Admin\Api\Model\UserModel;
 use OrangeHRM\Admin\Dto\UserSearchFilterParams;
-use OrangeHRM\Admin\Service\UserService;
+use OrangeHRM\Admin\Traits\Service\UserServiceTrait;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
@@ -34,13 +34,11 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
-use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Entity\User;
-use OrangeHRM\Framework\Services;
 
 class UserAPI extends Endpoint implements CrudEndpoint
 {
-    use ServiceContainerTrait;
+    use UserServiceTrait;
 
     public const PARAMETER_USERNAME = 'username';
     public const PARAMETER_PASSWORD = 'password';
@@ -55,20 +53,12 @@ class UserAPI extends Endpoint implements CrudEndpoint
     public const FILTER_STATUS = 'status';
 
     /**
-     * @return UserService|null
-     */
-    public function getSystemUserService(): ?UserService
-    {
-        return $this->getContainer()->get(Services::USER_SERVICE);
-    }
-
-    /**
      * @inheritDoc
      */
     public function getOne(): EndpointResourceResult
     {
         $userId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
-        $user = $this->getSystemUserService()->getSystemUser($userId);
+        $user = $this->getUserService()->getSystemUser($userId);
         $this->throwRecordNotFoundExceptionIfNotExist($user, User::class);
 
         return new EndpointResourceResult(UserModel::class, $user);
@@ -116,8 +106,8 @@ class UserAPI extends Endpoint implements CrudEndpoint
             )
         );
 
-        $users = $this->getSystemUserService()->searchSystemUsers($userSearchParamHolder);
-        $count = $this->getSystemUserService()->getSearchSystemUsersCount($userSearchParamHolder);
+        $users = $this->getUserService()->searchSystemUsers($userSearchParamHolder);
+        $count = $this->getUserService()->getSearchSystemUsersCount($userSearchParamHolder);
         return new EndpointCollectionResult(
             UserModel::class,
             $users,
@@ -147,7 +137,7 @@ class UserAPI extends Endpoint implements CrudEndpoint
         $user = new User();
         $this->setUserParams($user);
 
-        $user = $this->getSystemUserService()->saveSystemUser($user, true);
+        $user = $this->getUserService()->saveSystemUser($user, true);
         return new EndpointResourceResult(UserModel::class, $user);
     }
 
@@ -207,11 +197,11 @@ class UserAPI extends Endpoint implements CrudEndpoint
             self::PARAMETER_CHANGE_PASSWORD
         );
 
-        $user = $this->getSystemUserService()->getSystemUser($userId);
+        $user = $this->getUserService()->getSystemUser($userId);
         $this->throwRecordNotFoundExceptionIfNotExist($user, User::class);
 
         $this->setUserParams($user, $changePassword);
-        $user = $this->getSystemUserService()->saveSystemUser($user, $changePassword);
+        $user = $this->getUserService()->saveSystemUser($user, $changePassword);
         return new EndpointResourceResult(UserModel::class, $user);
     }
 
@@ -236,7 +226,7 @@ class UserAPI extends Endpoint implements CrudEndpoint
     public function delete(): EndpointResourceResult
     {
         $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
-        $this->getSystemUserService()->deleteSystemUsers($ids);
+        $this->getUserService()->deleteSystemUsers($ids);
         return new EndpointResourceResult(ArrayModel::class, $ids);
     }
 
@@ -245,7 +235,7 @@ class UserAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForDelete(): ParamRuleCollection
     {
-        $undeletableIds = $this->getSystemUserService()->getUndeletableUserIds();
+        $undeletableIds = $this->getUserService()->getUndeletableUserIds();
         return new ParamRuleCollection(
             new ParamRule(
                 CommonParams::PARAMETER_IDS,
