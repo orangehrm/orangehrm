@@ -32,12 +32,12 @@ use OrangeHRM\Core\Service\TextHelperService;
 use OrangeHRM\Core\Subscriber\ApiAuthorizationSubscriber;
 use OrangeHRM\Core\Subscriber\ExceptionSubscriber;
 use OrangeHRM\Core\Subscriber\MailerSubscriber;
+use OrangeHRM\Core\Subscriber\ModuleNotAvailableSubscriber;
 use OrangeHRM\Core\Subscriber\ModuleUnderDevelopmentSubscriber;
 use OrangeHRM\Core\Subscriber\RequestBodySubscriber;
 use OrangeHRM\Core\Subscriber\RequestForwardableExceptionSubscriber;
 use OrangeHRM\Core\Subscriber\ScreenAuthorizationSubscriber;
 use OrangeHRM\Core\Subscriber\SessionSubscriber;
-use OrangeHRM\Core\Subscriber\ModuleNotAvailableSubscriber;
 use OrangeHRM\Core\Subscriber\TimeSheetPeriodSubscriber;
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Framework\Event\EventDispatcher;
@@ -47,6 +47,7 @@ use OrangeHRM\Framework\Http\Session\Session;
 use OrangeHRM\Framework\PluginConfigurationInterface;
 use OrangeHRM\Framework\Services;
 use Symfony\Component\HttpFoundation\Session\Storage\Handler\NativeFileSessionHandler;
+use Symfony\Component\HttpKernel\EventListener\SessionListener;
 use Symfony\Component\HttpKernel\KernelEvents;
 
 class CorePluginConfiguration implements PluginConfigurationInterface
@@ -94,10 +95,7 @@ class CorePluginConfiguration implements PluginConfigurationInterface
         $dispatcher->addSubscriber(new ExceptionSubscriber());
         $dispatcher->addListener(
             KernelEvents::REQUEST,
-            [
-                new Symfony\Component\HttpKernel\EventListener\SessionListener($this->getContainer()),
-                'onKernelRequest'
-            ]
+            [new SessionListener($this->getContainer()), 'onKernelRequest'],
         );
         $dispatcher->addSubscriber(new SessionSubscriber());
         $dispatcher->addSubscriber(new RequestForwardableExceptionSubscriber());
