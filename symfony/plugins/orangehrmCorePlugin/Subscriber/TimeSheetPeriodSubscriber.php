@@ -56,7 +56,7 @@ class TimeSheetPeriodSubscriber extends AbstractEventSubscriber
      */
     public function onRequestEvent(RequestEvent $event): void
     {
-        if ($event->isMasterRequest()) {
+        if ($event->isMainRequest()) {
             if ($this->getTextHelper()->strStartsWith($event->getRequest()->getPathInfo(), '/' . 'time')) {
                 $status = $this->getConfigService()->isTimesheetPeriodDefined();
                 /**if time sheet period start day is not defined
