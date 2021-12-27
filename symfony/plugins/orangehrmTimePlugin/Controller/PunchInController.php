@@ -22,6 +22,7 @@ namespace OrangeHRM\Time\Controller;
 use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Core\Vue\Prop;
 
 
 class PunchInController extends AbstractVueController
@@ -32,6 +33,7 @@ class PunchInController extends AbstractVueController
     public function preRender(Request $request): void
     {
         $component = new Component('attendance-punch-in');
+        $component->addProp(new Prop('is-admin', Prop::TYPE_BOOLEAN, true));
         $this->setComponent($component);
     }
 }

@@ -38,13 +38,23 @@
       </oxd-grid>
     </oxd-form-row>
 
+    <!-- select timezone -->
+    <oxd-form-row v-if="isAdmin">
+      <oxd-input-field
+        type="select"
+        :label="$t('time.timezone')"
+        :options="timezones"
+        required
+      />
+    </oxd-form-row>
+
     <!-- Note input -->
     <oxd-form-row>
       <oxd-grid :cols="2" class="orangehrm-full-width-grid">
         <oxd-grid-item>
           <oxd-input-field
             v-model="punchIn.note"
-            :label="$t('general.date')"
+            :label="$t('general.note')"
             type="textarea"
             placeholder="Type here."
             :rules="rules.note"
@@ -78,12 +88,16 @@ export default {
       type: Boolean,
       default: true,
     },
+    isAdmin: {
+      type: Boolean,
+      default: false,
+    },
   },
 
   setup() {
     //date punch-in data submiting Api
     const http = new APIService(
-      'https://884b404a-f4d0-4908-9eb5-ef0c8afec15c.mock.pstmn.io',
+      'https://26064ad1-d77c-4cf4-b25b-bbc522482bb3.mock.pstmn.io',
       '/api/v2/attendance/records',
     );
 
@@ -99,9 +113,19 @@ export default {
         date: null,
         time: null,
         note: null,
+        punchedInTime: null,
       },
 
       punched: false,
+
+      timezones: [
+        {id: 1, label: 'Pacific/Midway'},
+        {id: 1, label: 'America/Adaky'},
+        {id: 1, label: 'Europe/Lisbon'},
+        {id: 1, label: 'Africa/Algiers'},
+        {id: 1, label: 'Europe/Brussels'},
+        {id: 2, label: 'Europe/Minsk    '},
+      ],
 
       rules: {
         date: [required],
@@ -113,15 +137,28 @@ export default {
   beforeMount() {
     this.isLoading = true;
 
+    //get latest time and date from BE
     this.http
-      .getAll({date: formatDate(freshDate(), 'yyyy-MM-dd')})
+      .request({url: '/api/v2/attendance/curruntdate', method: 'GET'})
       .then(res => {
         const {data} = res.data;
-        this.punchIn.date = data[0].punchIn.date;
-        this.punchIn.time = data[0].punchIn.time;
+        this.punchIn.date = data.date;
+        this.punchIn.time = data.time;
 
-        this.isLoading = false;
-      });
+        //get last punched in time and date
+        return this.recordId
+          ? this.http.getAll({date: formatDate(freshDate(), 'yyyy-MM-dd')})
+          : null;
+      })
+      .then(res => {
+        if (res) {
+          const {data} = res.data;
+          console.log(data);
+          this.punchIn.punchedInTime =
+            data[0].punchIn.utcDate + ' ' + data[0].punchIn.utcTime;
+        }
+      })
+      .finally(() => (this.isLoading = false));
   },
   methods: {
     onSave() {
