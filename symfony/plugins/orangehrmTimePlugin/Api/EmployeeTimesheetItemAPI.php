@@ -304,7 +304,6 @@ class EmployeeTimesheetItemAPI extends Endpoint implements CrudEndpoint
             $this->getTimesheetIdParamRule(),
             new ParamRule(
                 self::PARAMETER_ENTRIES,
-                new Rule(Rules::NOT_EMPTY),
                 new Rule(
                     TimesheetEntriesParamRule::class,
                     [$this->getRequest()->getAttributes()->get(self::PARAMETER_TIMESHEET_ID)]

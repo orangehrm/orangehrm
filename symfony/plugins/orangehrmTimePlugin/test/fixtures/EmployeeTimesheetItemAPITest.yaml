@@ -66,7 +66,7 @@ User:
   - { "id": 27,"user_role_id": 2,"emp_number": 27,"user_name": "Cecil.Bonaparte","user_password": "password","deleted": "0","status": "1","date_entered": "2020-10-08 22:55:37","date_modified": null,"modified_user_id": null,"created_by": "7" }
   - { "id": 29,"user_role_id": 2,"emp_number": 29,"user_name": "Charlie.Carter","user_password": "password","deleted": "0","status": "1","date_entered": "2020-10-08 22:56:21","date_modified": null,"modified_user_id": null,"created_by": "7" }
   - { "id": 30,"user_role_id": 2,"emp_number": 30,"user_name": "Chenzira.Chuki","user_password": "password","deleted": "0","status": "1","date_entered": "2020-10-08 22:56:44","date_modified": null,"modified_user_id": null,"created_by": "7" }
-  - { "id": 37,"user_role_id": 3,"emp_number": 37,"user_name": "OHRM","user_password": "OHRM","deleted": "0","status": "1","date_entered": "2020-10-09 22:56:44","date_modified": null,"modified_user_id": null,"created_by": "1" }
+  - { "id": 37,"user_role_id": 2,"emp_number": 37,"user_name": "OHRM","user_password": "OHRM","deleted": "0","status": "1","date_entered": "2020-10-09 22:56:44","date_modified": null,"modified_user_id": null,"created_by": "1" }
 
 Customer:
   - { "customer_id": "1","name": "Apache Software Foundation","description": "non-profit corporation to support Apache software projects","is_deleted": "0" }

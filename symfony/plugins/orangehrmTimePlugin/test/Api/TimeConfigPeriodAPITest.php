@@ -19,7 +19,9 @@
 
 namespace OrangeHRM\Tests\Time\Api;
 
+use OrangeHRM\Entity\Config;
 use OrangeHRM\Framework\Services;
+use OrangeHRM\ORM\Doctrine;
 use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
 use OrangeHRM\Tests\Util\Integration\TestCaseParams;
 use OrangeHRM\Time\Api\TimeConfigPeriodAPI;
@@ -41,6 +43,17 @@ class TimeConfigPeriodAPITest extends EndpointIntegrationTestCase
         $this->registerMockDateTimeHelper($testCaseParams);
         $api = $this->getApiEndpointMock(TimeConfigPeriodAPI::class, $testCaseParams);
         $this->assertValidTestCase($api, 'getOne', $testCaseParams);
+    }
+
+    public static function getOnePreHook(TestCaseParams $testCaseParams)
+    {
+        if ($testCaseParams->getName() == 'Timesheet period update') {
+            /** @var Config $config */
+            $config = Doctrine::getEntityManager()->getRepository(Config::class)->find('timesheet_period_set');
+            $config->setValue('No');
+            Doctrine::getEntityManager()->persist($config);
+            Doctrine::getEntityManager()->flush($config);
+        }
     }
 
     public function dataProviderForTestGetOne(): array
