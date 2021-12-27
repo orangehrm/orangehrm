@@ -24,6 +24,7 @@ use OrangeHRM\Framework\Services;
 use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
 use OrangeHRM\Tests\Util\Integration\TestCaseParams;
 use OrangeHRM\Tests\Util\TestDataService;
+use OrangeHRM\Time\Api\EmployeeTimesheetAPI;
 use OrangeHRM\Time\Api\MyTimesheetAPI;
 
 /**
@@ -90,28 +91,28 @@ class TimesheetAPITest extends EndpointIntegrationTestCase
 
     public function testGetOne(): void
     {
-        $api = new MyTimesheetAPI($this->getRequest());
+        $api = new EmployeeTimesheetAPI($this->getRequest());
         $this->expectNotImplementedException();
         $api->getOne();
     }
 
     public function testGetValidationRuleForGetOne(): void
     {
-        $api = new MyTimesheetAPI($this->getRequest());
+        $api = new EmployeeTimesheetAPI($this->getRequest());
         $this->expectNotImplementedException();
         $api->getValidationRuleForGetOne();
     }
 
     public function testDelete(): void
     {
-        $api = new MyTimesheetAPI($this->getRequest());
+        $api = new EmployeeTimesheetAPI($this->getRequest());
         $this->expectNotImplementedException();
         $api->delete();
     }
 
     public function testGetValidationRuleForDelete(): void
     {
-        $api = new MyTimesheetAPI($this->getRequest());
+        $api = new EmployeeTimesheetAPI($this->getRequest());
         $this->expectNotImplementedException();
         $api->getValidationRuleForDelete();
     }
