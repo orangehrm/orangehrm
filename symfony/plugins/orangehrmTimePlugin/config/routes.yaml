@@ -201,3 +201,13 @@ time_employee_view_timesheet:
   path: /time/viewTimesheet/employeeId/{id}
   controller: OrangeHRM\Time\Controller\EmployeeTimesheetController::handle
   methods: [ GET ]
+
+attendance_punch_in:
+  path: /attendance/punchIn
+  controller: OrangeHRM\Time\Controller\PunchInController::handle
+  methods: [ GET ]
+
+attendance_punch_out:
+  path: /attendance/punchOut
+  controller: OrangeHRM\Time\Controller\PunchOutController::handle
+  methods: [ GET ]

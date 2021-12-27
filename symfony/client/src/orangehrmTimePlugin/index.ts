@@ -27,6 +27,8 @@ import ProjectSave from './pages/project/ProjectSave.vue';
 import ProjectEdit from './pages/project/ProjectEdit.vue';
 import EmployeeTimesheet from './pages/timesheets/EmployeeTimesheet.vue';
 import ViewEmployeeTimesheet from './pages/timesheets/ViewEmployeeTimesheet.vue';
+import PunchIn from './pages/attendance/PunchIn.vue';
+import PunchOut from './pages/attendance/PunchOut.vue';
 
 export default {
   'time-sheet-period': TimeSheetPeriodConfig,
@@ -40,4 +42,6 @@ export default {
   'project-edit': ProjectEdit,
   'employee-timesheet': EmployeeTimesheet,
   'view-employee-timesheet': ViewEmployeeTimesheet,
+  'attendance-punch-in': PunchIn,
+  'attendance-punch-out': PunchOut,
 };
