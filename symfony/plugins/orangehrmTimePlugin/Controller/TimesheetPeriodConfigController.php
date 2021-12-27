@@ -19,16 +19,33 @@
 
 namespace OrangeHRM\Time\Controller;
 
+use OrangeHRM\Core\Authorization\Service\HomePageService;
 use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Framework\Http\Request;
 
-class TimeSheetPeriodConfigController extends AbstractVueController
+class TimesheetPeriodConfigController extends AbstractVueController
 {
     use ConfigServiceTrait;
     use UserRoleManagerTrait;
+
+    /**
+     * @var HomePageService|null
+     */
+    protected ?HomePageService $homePageService = null;
+
+    /**
+     * @return HomePageService
+     */
+    public function getHomePageService(): HomePageService
+    {
+        if (!$this->homePageService instanceof HomePageService) {
+            $this->homePageService = new HomePageService();
+        }
+        return $this->homePageService;
+    }
 
     /**
      * @inheritDoc
@@ -37,19 +54,18 @@ class TimeSheetPeriodConfigController extends AbstractVueController
     {
         // to block defineTimesheetPeriod (URL)
         $status = $this->getConfigService()->isTimesheetPeriodDefined();
-        if ($status) {
-            $employeeRole = $this->getUserRoleManager()->getUser()->getUserRole()->getName();
-            if ($employeeRole === 'Admin') {
-                // Admin user -> will navigate to employee time sheet
-                $component = new Component('employee-timesheet');
+        if (!$status) {
+            if ($this->getUserRoleManager()->getDataGroupPermissions('attendance_configuration')->canUpdate()) {
+                // config page of define start week
+                $component = new Component('time-sheet-period');
             } else {
-                // ESS user -> will navigate to my time sheet
-                $component = new Component('my-timesheet');
+                // normal user -> warning page
+                $component = new Component('time-sheet-period-not-defined');
             }
+            $this->setComponent($component);
         } else {
-            // config page of define start week
-            $component = new Component('time-sheet-period');
+            $defaultPath = $this->getHomePageService()->getTimeModuleDefaultPath();
+            $this->setResponse($this->redirect($defaultPath));
         }
-        $this->setComponent($component);
     }
 }

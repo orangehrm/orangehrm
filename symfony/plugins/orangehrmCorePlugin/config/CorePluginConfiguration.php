@@ -38,9 +38,8 @@ use OrangeHRM\Core\Subscriber\RequestBodySubscriber;
 use OrangeHRM\Core\Subscriber\RequestForwardableExceptionSubscriber;
 use OrangeHRM\Core\Subscriber\ScreenAuthorizationSubscriber;
 use OrangeHRM\Core\Subscriber\SessionSubscriber;
-use OrangeHRM\Core\Subscriber\TimeSheetPeriodSubscriber;
+use OrangeHRM\Core\Traits\EventDispatcherTrait;
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
-use OrangeHRM\Framework\Event\EventDispatcher;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\Http\Session\NativeSessionStorage;
 use OrangeHRM\Framework\Http\Session\Session;
@@ -53,6 +52,7 @@ use Symfony\Component\HttpKernel\KernelEvents;
 class CorePluginConfiguration implements PluginConfigurationInterface
 {
     use ServiceContainerTrait;
+    use EventDispatcherTrait;
 
     /**
      * @inheritDoc
@@ -90,23 +90,20 @@ class CorePluginConfiguration implements PluginConfigurationInterface
 
     private function registerCoreSubscribers(): void
     {
-        /** @var EventDispatcher $dispatcher */
-        $dispatcher = $this->getContainer()->get(Services::EVENT_DISPATCHER);
-        $dispatcher->addSubscriber(new ExceptionSubscriber());
-        $dispatcher->addListener(
+        $this->getEventDispatcher()->addSubscriber(new ExceptionSubscriber());
+        $this->getEventDispatcher()->addListener(
             KernelEvents::REQUEST,
             [new SessionListener($this->getContainer()), 'onKernelRequest'],
         );
-        $dispatcher->addSubscriber(new SessionSubscriber());
-        $dispatcher->addSubscriber(new RequestForwardableExceptionSubscriber());
-        $dispatcher->addSubscriber(new ScreenAuthorizationSubscriber());
-        $dispatcher->addSubscriber(new ApiAuthorizationSubscriber());
-        $dispatcher->addSubscriber(new RequestBodySubscriber());
-        $dispatcher->addSubscriber(new ModuleUnderDevelopmentSubscriber());
-        $dispatcher->addSubscriber(new MailerSubscriber());
-        $dispatcher->addSubscriber(new ModuleNotAvailableSubscriber());
-        $dispatcher->addSubscriber(new RegistrationEventPersistSubscriber());
-        $dispatcher->addSubscriber(new RegistrationEventPublishSubscriber());
-        $dispatcher->addSubscriber(new TimeSheetPeriodSubscriber());
+        $this->getEventDispatcher()->addSubscriber(new SessionSubscriber());
+        $this->getEventDispatcher()->addSubscriber(new RequestForwardableExceptionSubscriber());
+        $this->getEventDispatcher()->addSubscriber(new ScreenAuthorizationSubscriber());
+        $this->getEventDispatcher()->addSubscriber(new ApiAuthorizationSubscriber());
+        $this->getEventDispatcher()->addSubscriber(new RequestBodySubscriber());
+        $this->getEventDispatcher()->addSubscriber(new ModuleUnderDevelopmentSubscriber());
+        $this->getEventDispatcher()->addSubscriber(new MailerSubscriber());
+        $this->getEventDispatcher()->addSubscriber(new ModuleNotAvailableSubscriber());
+        $this->getEventDispatcher()->addSubscriber(new RegistrationEventPersistSubscriber());
+        $this->getEventDispatcher()->addSubscriber(new RegistrationEventPublishSubscriber());
     }
 }

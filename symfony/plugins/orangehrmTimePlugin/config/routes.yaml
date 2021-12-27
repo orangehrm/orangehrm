@@ -149,7 +149,7 @@ time_module:
 
 view_time_sheet_config:
   path: /time/defineTimesheetPeriod
-  controller: OrangeHRM\Time\Controller\TimeSheetPeriodConfigController::handle
+  controller: OrangeHRM\Time\Controller\TimesheetPeriodConfigController::handle
   methods: [ GET ]
 
 view_customers:
