@@ -880,6 +880,16 @@
           "source": "Edit Project",
           "target": "Edit Project",
           "description": "Edit Project Information; Customers, Projects and Activities."
+        },
+        "punch_in": {
+          "source": "Punch In",
+          "target": "Punch In",
+          "description": "Date and time of action performed."
+        },
+        "time": {
+          "source": "Time",
+          "target": "Time",
+          "description": "This feature allows capturing the date and time that an employee reports to work."
         }
       }
     }
