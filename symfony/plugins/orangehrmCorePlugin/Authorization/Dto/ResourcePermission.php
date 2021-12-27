@@ -19,6 +19,8 @@
 
 namespace OrangeHRM\Core\Authorization\Dto;
 
+use OrangeHRM\Entity\DataGroupPermission;
+
 class ResourcePermission
 {
     /**
@@ -127,5 +129,19 @@ class ResourcePermission
         $canUpdate = $permissions['canUpdate'] ?? $default;
         $canDelete = $permissions['canDelete'] ?? $default;
         return new self($canRead, $canCreate, $canUpdate, $canDelete);
+    }
+
+    /**
+     * @param DataGroupPermission $dataGroupPermission
+     * @return self
+     */
+    public static function createFromDataGroupPermission(DataGroupPermission $dataGroupPermission): self
+    {
+        return new self(
+            $dataGroupPermission->canRead(),
+            $dataGroupPermission->canCreate(),
+            $dataGroupPermission->canUpdate(),
+            $dataGroupPermission->canDelete()
+        );
     }
 }
