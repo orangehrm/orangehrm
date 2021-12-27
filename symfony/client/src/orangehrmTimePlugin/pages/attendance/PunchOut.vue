@@ -2,7 +2,7 @@
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
       <oxd-text tag="h6" class="orangehrm-main-title">
-        Punch Out
+        {{ $t('time.punch_out') }}
       </oxd-text>
 
       <oxd-divider />

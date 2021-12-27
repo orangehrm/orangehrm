@@ -34,6 +34,7 @@ class PunchOutController extends AbstractVueController
         $component = new Component('attendance-punch-out');
         $component->addProp(new Prop('record-id', Prop::TYPE_NUMBER, "001"));
         $component->addProp(new Prop('editable', Prop::TYPE_BOOLEAN, false));
+        $component->addProp(new Prop('is-admin', Prop::TYPE_BOOLEAN, true));
         $this->setComponent($component);
     }
 }

@@ -936,10 +936,20 @@
           "target": "Punch In",
           "description": "Date and time of action performed."
         },
+        "punch_out": {
+          "source": "Punch Out",
+          "target": "Punch Out",
+          "description": "This feature allows capturing the date and time that an employee leaves office after finishing work.."
+        },
         "time": {
           "source": "Time",
           "target": "Time",
           "description": "This feature allows capturing the date and time that an employee reports to work."
+        },
+        "timezone": {
+          "source": "Timezone",
+          "target": "Timezone",
+          "description": "ime Zones are a geographical world globe division of 15o each, starting at Greenwich, in England, created to help people know what time is it now in another part of the world."
         }
       }
     }
