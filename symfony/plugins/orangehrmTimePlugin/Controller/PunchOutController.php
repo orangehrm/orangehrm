@@ -22,6 +22,7 @@ namespace OrangeHRM\Time\Controller;
 use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Core\Vue\Prop;
 
 class PunchOutController extends AbstractVueController
 {
@@ -31,6 +32,8 @@ class PunchOutController extends AbstractVueController
     public function preRender(Request $request): void
     {
         $component = new Component('attendance-punch-out');
+        $component->addProp(new Prop('record-id', Prop::TYPE_NUMBER, "001"));
+        $component->addProp(new Prop('editable', Prop::TYPE_BOOLEAN, false));
         $this->setComponent($component);
     }
 }

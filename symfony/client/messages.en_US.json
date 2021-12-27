@@ -930,6 +930,16 @@
           "source": "Edit Timesheet",
           "target": "Edit Timesheet",
           "description": ""
+        },
+        "punch_in": {
+          "source": "Punch In",
+          "target": "Punch In",
+          "description": "Date and time of action performed."
+        },
+        "time": {
+          "source": "Time",
+          "target": "Time",
+          "description": "This feature allows capturing the date and time that an employee reports to work."
         }
       }
     }
