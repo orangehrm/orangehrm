@@ -41,6 +41,11 @@ export default {
       required: false,
       default: true,
     },
+    excludeProjectIds: {
+      type: Array,
+      required: false,
+      default: () => [],
+    },
   },
   setup() {
     const http = new APIService(
@@ -55,18 +60,22 @@ export default {
     async loadProjects(serachParam) {
       return new Promise(resolve => {
         if (serachParam.trim()) {
-          this.http
-            .getAll({name: serachParam.trim(), onlyAllowed: this.onlyAllowed})
-            .then(({data}) => {
-              resolve(
-                data.data.map(project => {
-                  return {
-                    id: project.id,
-                    label: project.name,
-                  };
-                }),
-              );
-            });
+          const params = {
+            name: serachParam.trim(),
+            onlyAllowed: this.onlyAllowed,
+          };
+          if (this.excludeProjectIds.length > 0)
+            params.excludeProjectIds = this.excludeProjectIds;
+          this.http.getAll(params).then(({data}) => {
+            resolve(
+              data.data.map(project => {
+                return {
+                  id: project.id,
+                  label: project.name,
+                };
+              }),
+            );
+          });
         } else {
           resolve([]);
         }

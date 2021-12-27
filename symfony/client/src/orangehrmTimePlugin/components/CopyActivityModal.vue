@@ -37,6 +37,7 @@
           :label="$t('time.project_name')"
           required
           :only-allowed="false"
+          :exclude-project-ids="[projectId]"
         />
       </oxd-form-row>
       <template v-if="activities && activities.length > 0">
