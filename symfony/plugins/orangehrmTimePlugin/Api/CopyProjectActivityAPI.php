@@ -30,7 +30,8 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Entity\Project;
-use OrangeHRM\Time\Dto\ProjectActivitySearchFilterParams;
+use OrangeHRM\Time\Api\Model\CopyActivityModel;
+use OrangeHRM\Time\Dto\CopyActivityField;
 use OrangeHRM\Time\Traits\Service\ProjectServiceTrait;
 
 class CopyProjectActivityAPI extends Endpoint implements CrudEndpoint
@@ -39,6 +40,7 @@ class CopyProjectActivityAPI extends Endpoint implements CrudEndpoint
 
     public const PARAMETER_FROM_PROJECT_ID = 'fromProjectId';
     public const PARAMETER_TO_PROJECT_ID = 'toProjectId';
+    public const PARAMETER_ACTIVITY_IDS = 'activityIds';
 
     /**
      * @inheritDoc
@@ -61,7 +63,10 @@ class CopyProjectActivityAPI extends Endpoint implements CrudEndpoint
      */
     public function create(): EndpointResult
     {
-        throw $this->getNotImplementedException();
+        list($toProjectId) = $this->getUrlAttributes();
+        $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_ACTIVITY_IDS);
+        $this->getProjectService()->getProjectActivityDao()->saveCopyActivity($toProjectId, $ids);
+        return new EndpointResourceResult(ArrayModel::class, $ids);
     }
 
     /**
@@ -69,7 +74,19 @@ class CopyProjectActivityAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForCreate(): ParamRuleCollection
     {
-        throw $this->getNotImplementedException();
+        return new ParamRuleCollection(
+            $this->getValidationDecorator()->requiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_ACTIVITY_IDS,
+                    new Rule(Rules::ARRAY_TYPE),
+                    new Rule(
+                        Rules::EACH,
+                        [new Rules\Composite\AllOf(new Rule(Rules::POSITIVE))]
+                    )
+                ),
+            ),
+            ...$this->getCommonBodyValidationRules(),
+        );
     }
 
     /**
@@ -93,26 +110,17 @@ class CopyProjectActivityAPI extends Endpoint implements CrudEndpoint
      */
     public function getOne(): EndpointResult
     {
-        $fromProjectId = $this->getRequestParams()->getInt(
-            RequestParams::PARAM_TYPE_ATTRIBUTE,
-            self::PARAMETER_FROM_PROJECT_ID
-        );
-
-        $toProjectId = $this->getRequestParams()->getInt(
-            RequestParams::PARAM_TYPE_ATTRIBUTE,
-            self::PARAMETER_TO_PROJECT_ID
-        );
-
+        list($toProjectId, $fromProjectId) = $this->getUrlAttributes();
         $baseProject = $this->getProjectService()->getProjectDao()->getProjectById($fromProjectId);
         $this->throwRecordNotFoundExceptionIfNotExist($baseProject, Project::class);
         $targetProject = $this->getProjectService()->getProjectDao()->getProjectById($toProjectId);
         $this->throwRecordNotFoundExceptionIfNotExist($targetProject, Project::class);
 
-        $projectActivitySearchFilterParams = new ProjectActivitySearchFilterParams();
-        $result = $this->getProjectService()
-            ->getCommonProjectActivitiesByProjectId($projectActivitySearchFilterParams, $fromProjectId, $toProjectId);
+        $copyActivityField = new CopyActivityField();
+        $copyActivityField->setFromProjectId($fromProjectId);
+        $copyActivityField->setToProjectId($toProjectId);
 
-        return new EndpointResourceResult(ArrayModel::class, $result);
+        return new EndpointResourceResult(CopyActivityModel::class, $copyActivityField);
     }
 
     /**
@@ -127,13 +135,40 @@ class CopyProjectActivityAPI extends Endpoint implements CrudEndpoint
                     new Rule(Rules::POSITIVE),
                 )
             ),
+            ...$this->getCommonBodyValidationRules(),
+        );
+    }
+
+    /**
+     * @return ParamRule[]
+     */
+    private function getCommonBodyValidationRules(): array
+    {
+        return [
             $this->getValidationDecorator()->requiredParamRule(
                 new ParamRule(
                     self::PARAMETER_TO_PROJECT_ID,
                     new Rule(Rules::POSITIVE),
                 )
             ),
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    private function getUrlAttributes(): array
+    {
+        $fromProjectId = $this->getRequestParams()->getInt(
+            RequestParams::PARAM_TYPE_ATTRIBUTE,
+            self::PARAMETER_FROM_PROJECT_ID
         );
+
+        $toProjectId = $this->getRequestParams()->getInt(
+            RequestParams::PARAM_TYPE_ATTRIBUTE,
+            self::PARAMETER_TO_PROJECT_ID
+        );
+        return [$toProjectId, $fromProjectId];
     }
 
     /**

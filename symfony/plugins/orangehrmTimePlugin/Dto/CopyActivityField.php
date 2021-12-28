@@ -1,5 +1,4 @@
 <?php
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -18,43 +17,49 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Time\Service;
+namespace OrangeHRM\Time\Dto;
 
-use OrangeHRM\Time\Dao\ProjectActivityDao;
-use OrangeHRM\Time\Dao\ProjectDao;
-use OrangeHRM\Time\Dto\ProjectActivitySearchFilterParams;
-
-class ProjectService
+class CopyActivityField
 {
     /**
-     * @var ProjectDao|null
+     * @var int
      */
-    private ?ProjectDao $projectDao = null;
+    private int $fromProjectId;
 
     /**
-     * @var ProjectActivityDao|null
+     * @var int
      */
-    protected ?ProjectActivityDao $projectActivityDao = null;
+    private int $toProjectId;
 
     /**
-     * @return ProjectDao
+     * @return int
      */
-    public function getProjectDao(): ProjectDao
+    public function getFromProjectId(): int
     {
-        if (is_null($this->projectDao)) {
-            $this->projectDao = new ProjectDao();
-        }
-        return $this->projectDao;
+        return $this->fromProjectId;
     }
 
     /**
-     * @return ProjectActivityDao
+     * @param int $fromProjectId
      */
-    public function getProjectActivityDao(): ProjectActivityDao
+    public function setFromProjectId(int $fromProjectId): void
     {
-        if (!$this->projectActivityDao instanceof ProjectActivityDao) {
-            $this->projectActivityDao = new ProjectActivityDao();
-        }
-        return $this->projectActivityDao;
+        $this->fromProjectId = $fromProjectId;
+    }
+
+    /**
+     * @return int
+     */
+    public function getToProjectId(): int
+    {
+        return $this->toProjectId;
+    }
+
+    /**
+     * @param int $toProjectId
+     */
+    public function setToProjectId(int $toProjectId): void
+    {
+        $this->toProjectId = $toProjectId;
     }
 }

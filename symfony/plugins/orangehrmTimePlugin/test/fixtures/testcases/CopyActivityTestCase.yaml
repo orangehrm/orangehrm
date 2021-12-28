@@ -4,8 +4,8 @@ GetOne:
     services:
       time.project_service: \OrangeHRM\Time\Service\ProjectService
     attributes:
-      fromProjectId: 1
-      toProjectId: 2
+      toProjectId: 1
+      fromProjectId: 2
     body: [ ]
     query: [ ]
     data:
@@ -62,3 +62,17 @@ GetOne:
     attributes:
       toProjectId: 1
     invalidOnly: [ 'fromProjectId' ]
+
+Create:
+  'Save project activities':
+    userId: 1
+    services:
+      time.project_service: \OrangeHRM\Time\Service\ProjectService
+    attributes:
+      toProjectId: 1
+    body:
+      activityIds: [ 4,5 ]
+    query: [ ]
+    data:
+      [ 4, 5 ]
+    meta: [ ]

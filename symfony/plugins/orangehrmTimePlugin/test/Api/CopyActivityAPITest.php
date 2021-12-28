@@ -48,6 +48,24 @@ class CopyActivityAPITest extends EndpointIntegrationTestCase
         return $this->getTestCases('CopyActivityTestCase.yaml', 'GetOne');
     }
 
+    /**
+     * @dataProvider dataProviderForTestCreate
+     */
+    public function testCreate(TestCaseParams $testCaseParams): void
+    {
+        $this->populateFixtures('CopyActivityAPI.yaml');
+        $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
+        $this->registerServices($testCaseParams);
+        $this->registerMockDateTimeHelper($testCaseParams);
+        $api = $this->getApiEndpointMock(CopyProjectActivityAPI::class, $testCaseParams);
+        $this->assertValidTestCase($api, 'create', $testCaseParams);
+    }
+
+    public function dataProviderForTestCreate(): array
+    {
+        return $this->getTestCases('CopyActivityTestCase.yaml', 'Create');
+    }
+
     public function testUpdate(): void
     {
         $api = new CopyProjectActivityAPI($this->getRequest());
@@ -74,19 +92,5 @@ class CopyActivityAPITest extends EndpointIntegrationTestCase
         $api = new CopyProjectActivityAPI($this->getRequest());
         $this->expectNotImplementedException();
         $api->getValidationRuleForDelete();
-    }
-
-    public function testCreate(): void
-    {
-        $api = new CopyProjectActivityAPI($this->getRequest());
-        $this->expectNotImplementedException();
-        $api->create();
-    }
-
-    public function testGetValidationRuleForCreate(): void
-    {
-        $api = new CopyProjectActivityAPI($this->getRequest());
-        $this->expectNotImplementedException();
-        $api->getValidationRuleForCreate();
     }
 }
