@@ -20,6 +20,7 @@
 namespace OrangeHRM\Tests\Time\Api;
 
 use OrangeHRM\Config\Config;
+use OrangeHRM\Entity\WorkflowStateMachine;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
 use OrangeHRM\Tests\Util\Integration\TestCaseParams;
@@ -33,12 +34,17 @@ use OrangeHRM\Time\Api\MyTimesheetAPI;
  */
 class MyTimesheetAPITest extends EndpointIntegrationTestCase
 {
+    protected function setUp(): void
+    {
+        TestDataService::truncateSpecificTables([WorkflowStateMachine::class]);
+    }
+
     /**
      * @dataProvider dataProviderForTestCreate
      */
     public function testCreate(TestCaseParams $testCaseParams): void
     {
-        TestDataService::populate(Config::get(Config::TEST_DIR) . '/phpunit/fixtures/WorkflowStateMachine.yaml', true);
+        TestDataService::populate(Config::get(Config::TEST_DIR).'/phpunit/fixtures/WorkflowStateMachine.yaml', true);
         $this->populateFixtures('MyTimesheetAPITest.yml', null, true);
         $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
         $this->registerServices($testCaseParams);
@@ -75,7 +81,7 @@ class MyTimesheetAPITest extends EndpointIntegrationTestCase
      */
     public function testUpdate(TestCaseParams $testCaseParams): void
     {
-        TestDataService::populate(Config::get(Config::TEST_DIR) . '/phpunit/fixtures/WorkflowStateMachine.yaml', true);
+        TestDataService::populate(Config::get(Config::TEST_DIR).'/phpunit/fixtures/WorkflowStateMachine.yaml', true);
         $this->populateFixtures('MyTimesheetAPITest.yml', null, true);
         $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
         $this->registerServices($testCaseParams);
