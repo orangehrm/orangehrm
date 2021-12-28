@@ -22,7 +22,6 @@ namespace OrangeHRM\Time\Service;
 
 use OrangeHRM\Time\Dao\ProjectActivityDao;
 use OrangeHRM\Time\Dao\ProjectDao;
-use OrangeHRM\Time\Dto\ProjectActivitySearchFilterParams;
 
 class ProjectService
 {
