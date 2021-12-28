@@ -64,6 +64,11 @@ GetAll:
       userId: 1
       services:
         time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+        core.config_service: \OrangeHRM\Core\Service\ConfigService
+        admin.user_service: \OrangeHRM\Admin\Service\UserService
+        pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      factories:
+        core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
       attributes:
         empNumber: 2
       query:
@@ -153,6 +158,11 @@ GetAll:
     userId: 1
     services:
       time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     attributes:
       empNumber: 2
     query:
@@ -169,7 +179,7 @@ GetAll:
     meta:
       total: 1
 
-  'Get employee timesheets - wrong emp number':
+  'Get employee timesheets - non existing emp number':
     userId: 1
     services:
       time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
@@ -185,6 +195,11 @@ GetAll:
     userId: 3
     services:
       time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     attributes:
       empNumber: 2
     query:
