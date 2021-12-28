@@ -39,14 +39,12 @@
     </oxd-form-row>
 
     <!-- select timezone -->
-    <oxd-form-row v-if="isAdmin">
-      <oxd-input-field
-        type="select"
-        :label="$t('time.timezone')"
-        :options="timezones"
-        required
-      />
-    </oxd-form-row>
+
+    <oxd-grid :cols="4" v-if="isAdmin">
+      <oxd-grid-item>
+        <time-zone v-model="punchIn.timezone" />
+      </oxd-grid-item>
+    </oxd-grid>
 
     <!-- Note input -->
     <oxd-form-row>
@@ -77,8 +75,13 @@ import {
 import {APIService} from '@ohrm/core/util/services/api.service';
 import {navigate} from '@/core/util/helper/navigation';
 import {freshDate, formatDate} from '@/core/util/helper/datefns';
+import promiseDebounce from '@ohrm/oxd/utils/promiseDebounce';
+import Timezones from '@/orangehrmTimePlugin/components/timezones.vue';
 
 export default {
+  components: {
+    'time-zone': Timezones,
+  },
   props: {
     recordId: {
       type: String,
@@ -97,7 +100,7 @@ export default {
   setup() {
     //date punch-in data submiting Api
     const http = new APIService(
-      'https://26064ad1-d77c-4cf4-b25b-bbc522482bb3.mock.pstmn.io',
+      'https://62fc498d-0f01-41d2-b3ed-bd7280ebc66c.mock.pstmn.io',
       '/api/v2/attendance/records',
     );
 
@@ -108,29 +111,18 @@ export default {
   data() {
     return {
       isLoading: false,
-
       punchIn: {
         date: null,
         time: null,
         note: null,
         punchedInTime: null,
+        timezone: null,
       },
-
       punched: false,
-
-      timezones: [
-        {id: 1, label: 'Pacific/Midway'},
-        {id: 1, label: 'America/Adaky'},
-        {id: 1, label: 'Europe/Lisbon'},
-        {id: 1, label: 'Africa/Algiers'},
-        {id: 1, label: 'Europe/Brussels'},
-        {id: 2, label: 'Europe/Minsk    '},
-      ],
-
       rules: {
-        date: [required],
+        date: [required, promiseDebounce(this.validateDate, 500)],
+        time: [required, promiseDebounce(this.validateDate, 500)],
         note: [shouldNotExceedCharLength(255)],
-        time: [required],
       },
     };
   },
@@ -153,7 +145,6 @@ export default {
       .then(res => {
         if (res) {
           const {data} = res.data;
-          console.log(data);
           this.punchIn.punchedInTime =
             data[0].punchIn.utcDate + ' ' + data[0].punchIn.utcTime;
         }
@@ -166,6 +157,8 @@ export default {
       const payload = {
         date: this.punchIn.date,
         time: this.punchIn.time,
+        timezones:
+          this.punchIn.timezone?.offset ?? new Date().getTimezoneOffset(),
         note: this.punchIn.note,
       };
 
@@ -192,6 +185,18 @@ export default {
             this.isLoading = false;
           });
       }
+    },
+
+    //sending time and date to validaton => todo
+    validateDate() {
+      return new Promise((resolve, reject) => {
+        this.http
+          .request({url: '/api/v2/attendance/validatedate', method: 'GET'})
+          .then(res => {
+            const {data} = res.data;
+            return data ? resolve(true) : resolve('Overlapping Records Found');
+          });
+      });
     },
   },
 };

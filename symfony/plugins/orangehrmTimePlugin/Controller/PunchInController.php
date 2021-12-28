@@ -33,7 +33,8 @@ class PunchInController extends AbstractVueController
     public function preRender(Request $request): void
     {
         $component = new Component('attendance-punch-in');
-        $component->addProp(new Prop('is-admin', Prop::TYPE_BOOLEAN, true));
+        $component->addProp(new Prop('is-admin', Prop::TYPE_BOOLEAN, false));
+        $component->addProp(new Prop('editable', Prop::TYPE_BOOLEAN, true));
         $this->setComponent($component);
     }
 }

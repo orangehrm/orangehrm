@@ -9,18 +9,18 @@
 
       <!-- wrapper -->
       <div class="orangehrm-paper-container">
-        <punch-form v-bind="$attrs"></punch-form>
+        <record-attendance v-bind="$attrs"></record-attendance>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import PunchForm from '@/orangehrmTimePlugin/components/PunchIn.vue';
+import RecordAttendance from '@/orangehrmTimePlugin/components/RecordAttendance.vue';
 export default {
   inheritAttrs: false,
   components: {
-    'punch-form': PunchForm,
+    'record-attendance': RecordAttendance,
   },
 };
 </script>
