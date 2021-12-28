@@ -70,11 +70,14 @@ class DetailedTimesheetModel implements CollectionNormalizable
                     continue;
                 }
                 $date = $this->getDateTimeHelper()->formatDateTimeToYmd($timesheetItem->getDate());
+                $duration = $timesheetItem->getDuration()
+                    ? $this->getDateTimeHelper()->convertSecondsToTimeString($timesheetItem->getDuration())
+                    : null;
                 $row['dates'][$date] = [
                     'id' => $timesheetItem->getId(),
                     'date' => $date,
                     'comment' => $timesheetItem->getComment(),
-                    'duration' => $this->getDateTimeHelper()->convertSecondsToTimeString($timesheetItem->getDuration()),
+                    'duration' => $duration,
                 ];
             }
             $timesheetRows[] = $row;

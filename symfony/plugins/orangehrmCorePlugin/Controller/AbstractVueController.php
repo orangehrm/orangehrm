@@ -40,23 +40,28 @@ abstract class AbstractVueController extends AbstractViewController
     /**
      * @var Environment|null
      */
-    protected ?Environment $twig = null;
+    private ?Environment $twig = null;
     /**
      * @var string
      */
-    protected string $template = 'vue.html.twig';
+    private string $template = 'vue.html.twig';
     /**
      * @var null|Component
      */
-    protected ?Component $component = null;
+    private ?Component $component = null;
     /**
      * @var AttributeBag
      */
-    protected AttributeBag $context;
+    private AttributeBag $context;
     /**
      * @var VueControllerHelper
      */
-    protected VueControllerHelper $vueControllerHelper;
+    private VueControllerHelper $vueControllerHelper;
+
+    /**
+     * @var bool
+     */
+    private bool $handled = false;
 
     public function __construct()
     {
@@ -104,7 +109,7 @@ abstract class AbstractVueController extends AbstractViewController
      */
     public function setComponent(Component $component): void
     {
-        if ($this->getResponse()->getStatusCode() !== Response::HTTP_OK) {
+        if ($this->isHandled()) {
             throw VueControllerException::alreadyHandled();
         }
         $this->component = $component;
@@ -172,12 +177,20 @@ abstract class AbstractVueController extends AbstractViewController
      */
     public function handle(Request $request)
     {
-        $this->preRender($request);
-        $content = $this->render($request);
-        $this->postRender($request);
+        if (!$this->isHandled()) {
+            $this->preRender($request);
+        }
+        if (!$this->isHandled()) {
+            $content = $this->render($request);
+        }
+        if (!$this->isHandled()) {
+            $this->postRender($request);
+        }
 
         $response = $this->getResponse();
-        $response->setContent($content);
+        if (isset($content)) {
+            $response->setContent($content);
+        }
 
         return $response;
     }
@@ -198,6 +211,32 @@ abstract class AbstractVueController extends AbstractViewController
         // TODO:: develop UI for bad request controllers
         $component = new Component('bad-request');
         $this->setComponent($component);
+        $this->setHandled(true);
         return parent::handleBadRequest($response);
+    }
+
+    /**
+     * @param RedirectResponse|Response|null $response
+     */
+    protected function setResponse($response): void
+    {
+        parent::setResponse($response);
+        $this->setHandled(!is_null($response));
+    }
+
+    /**
+     * @return bool
+     */
+    protected function isHandled(): bool
+    {
+        return $this->handled;
+    }
+
+    /**
+     * @param bool $handled
+     */
+    protected function setHandled(bool $handled): void
+    {
+        $this->handled = $handled;
     }
 }

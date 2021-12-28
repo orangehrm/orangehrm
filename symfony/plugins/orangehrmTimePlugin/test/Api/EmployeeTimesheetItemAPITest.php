@@ -19,46 +19,50 @@
 
 namespace OrangeHRM\Tests\Time\Api;
 
-use OrangeHRM\Entity\Config;
+use OrangeHRM\Config\Config;
 use OrangeHRM\Framework\Services;
-use OrangeHRM\ORM\Doctrine;
 use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
 use OrangeHRM\Tests\Util\Integration\TestCaseParams;
-use OrangeHRM\Time\Api\TimeConfigPeriodAPI;
+use OrangeHRM\Tests\Util\TestDataService;
+use OrangeHRM\Time\Api\EmployeeTimesheetItemAPI;
 
 /**
  * @group Time
  * @group APIv2
  */
-class TimeConfigPeriodAPITest extends EndpointIntegrationTestCase
+class EmployeeTimesheetItemAPITest extends EndpointIntegrationTestCase
 {
     /**
-     * @dataProvider dataProviderForTestGetOne
+     * @dataProvider dataProviderForTestGetAll
      */
-    public function testGetOne(TestCaseParams $testCaseParams): void
+    public function testGetAll(TestCaseParams $testCaseParams): void
     {
-        $this->populateFixtures('TimeConfig.yaml');
+        TestDataService::populate(Config::get(Config::TEST_DIR) . '/phpunit/fixtures/WorkflowStateMachine.yaml', true);
+        $this->populateFixtures('EmployeeTimesheetItemAPITest.yaml', null, true);
         $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
         $this->registerServices($testCaseParams);
         $this->registerMockDateTimeHelper($testCaseParams);
-        $api = $this->getApiEndpointMock(TimeConfigPeriodAPI::class, $testCaseParams);
-        $this->assertValidTestCase($api, 'getOne', $testCaseParams);
+        $api = $this->getApiEndpointMock(EmployeeTimesheetItemAPI::class, $testCaseParams);
+        $this->assertValidTestCase($api, 'getAll', $testCaseParams);
     }
 
-    public static function getOnePreHook(TestCaseParams $testCaseParams)
+    public function dataProviderForTestGetAll(): array
     {
-        if ($testCaseParams->getName() == 'Timesheet period update') {
-            /** @var Config $config */
-            $config = Doctrine::getEntityManager()->getRepository(Config::class)->find('timesheet_period_set');
-            $config->setValue('No');
-            Doctrine::getEntityManager()->persist($config);
-            Doctrine::getEntityManager()->flush($config);
-        }
+        return $this->getTestCases('EmployeeTimesheetItemAPITestCases.yaml', 'GetAll');
     }
 
-    public function dataProviderForTestGetOne(): array
+    public function testCreate(): void
     {
-        return $this->getTestCases('TimeConfigPeriodTestcase.yaml', 'GetOne');
+        $api = new EmployeeTimesheetItemAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->create();
+    }
+
+    public function testGetValidationRuleForCreate(): void
+    {
+        $api = new EmployeeTimesheetItemAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->getValidationRuleForCreate();
     }
 
     /**
@@ -66,30 +70,46 @@ class TimeConfigPeriodAPITest extends EndpointIntegrationTestCase
      */
     public function testUpdate(TestCaseParams $testCaseParams): void
     {
-        $this->populateFixtures('TimeConfig.yaml');
+        TestDataService::populate(Config::get(Config::TEST_DIR) . '/phpunit/fixtures/WorkflowStateMachine.yaml', true);
+        $this->populateFixtures('EmployeeTimesheetItemAPITest.yaml', null, true);
         $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
+
         $this->registerServices($testCaseParams);
         $this->registerMockDateTimeHelper($testCaseParams);
-        $api = $this->getApiEndpointMock(TimeConfigPeriodAPI::class, $testCaseParams);
+        $api = $this->getApiEndpointMock(EmployeeTimesheetItemAPI::class, $testCaseParams);
         $this->assertValidTestCase($api, 'update', $testCaseParams);
     }
 
     public function dataProviderForTestUpdate(): array
     {
-        return $this->getTestCases('TimeConfigPeriodTestcase.yaml', 'Update');
+        return $this->getTestCases('EmployeeTimesheetItemAPITestCases.yaml', 'Update');
     }
 
     public function testDelete(): void
     {
-        $api = new TimeConfigPeriodAPI($this->getRequest());
+        $api = new EmployeeTimesheetItemAPI($this->getRequest());
         $this->expectNotImplementedException();
         $api->delete();
     }
 
     public function testGetValidationRuleForDelete(): void
     {
-        $api = new TimeConfigPeriodAPI($this->getRequest());
+        $api = new EmployeeTimesheetItemAPI($this->getRequest());
         $this->expectNotImplementedException();
         $api->getValidationRuleForDelete();
+    }
+
+    public function testGetOne(): void
+    {
+        $api = new EmployeeTimesheetItemAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->getOne();
+    }
+
+    public function testGetValidationRuleForGetOne(): void
+    {
+        $api = new EmployeeTimesheetItemAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->getValidationRuleForGetOne();
     }
 }

@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Core\Controller;
 
+use InvalidArgumentException;
 use OrangeHRM\Core\Traits\ControllerTrait;
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Framework\Http\RedirectResponse;
@@ -30,9 +31,9 @@ abstract class AbstractController
     use ControllerTrait;
 
     /**
-     * @var Response|null
+     * @var Response|RedirectResponse|null
      */
-    protected ?Response $response = null;
+    protected $response = null;
 
     /**
      * @return Response
@@ -43,14 +44,31 @@ abstract class AbstractController
     }
 
     /**
-     * @return Response
+     * @return Response|RedirectResponse
      */
-    protected function getResponse(): Response
+    protected function getResponse()
     {
-        if (!$this->response instanceof Response) {
+        if (!($this->response instanceof Response || $this->response instanceof RedirectResponse)) {
             $this->response = $this->getNewResponse();
         }
         return $this->response;
+    }
+
+    /**
+     * @param RedirectResponse|Response|null $response
+     */
+    protected function setResponse($response): void
+    {
+        if (!($response instanceof Response ||
+            $response instanceof RedirectResponse ||
+            is_null($response))
+        ) {
+            throw new InvalidArgumentException(
+                'Only allowed null, ' . Response::class . ', ' . RedirectResponse::class
+            );
+        }
+
+        $this->response = $response;
     }
 
     /**
@@ -61,8 +79,8 @@ abstract class AbstractController
     {
         $request = $this->getCurrentRequest();
         $baseUrl = $request->getSchemeAndHttpHost() . $request->getBaseUrl();
-        if (substr($path, 0, 1) !== "/") {
-            $path = "/" . $path;
+        if (substr($path, 0, 1) !== '/') {
+            $path = '/' . $path;
         }
         return new RedirectResponse($baseUrl . $path);
     }
