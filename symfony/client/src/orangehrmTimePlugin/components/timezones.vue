@@ -19,28 +19,37 @@
  -->
 
 <template>
-  <div class="orangehrm-background-container">
-    <div class="orangehrm-card-container">
-      <oxd-text tag="h6" class="orangehrm-main-title">
-        {{ $t('time.punch_in') }}
-      </oxd-text>
-
-      <oxd-divider />
-
-      <!-- wrapper -->
-      <div class="orangehrm-paper-container">
-        <record-attendance v-bind="$attrs"></record-attendance>
-      </div>
-    </div>
-  </div>
+  <oxd-input-field
+    type="select"
+    :options="options"
+    :label="$t('time.timezone')"
+  />
 </template>
 
 <script>
-import RecordAttendance from '@/orangehrmTimePlugin/components/RecordAttendance.vue';
+import {APIService} from '@ohrm/core/util/services/api.service';
 export default {
-  inheritAttrs: false,
-  components: {
-    'record-attendance': RecordAttendance,
+  setup() {
+    //date punch-in data submiting Api
+    const http = new APIService(
+      'https://62fc498d-0f01-41d2-b3ed-bd7280ebc66c.mock.pstmn.io',
+      '/api/v2/time/timezones',
+    );
+    return {
+      http,
+    };
+  },
+
+  data() {
+    return {
+      options: [],
+    };
+  },
+  beforeMount() {
+    this.http.getAll().then(res => {
+      const {data} = res;
+      this.options = data.data.timezones;
+    });
   },
 };
 </script>
