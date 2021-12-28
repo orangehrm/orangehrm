@@ -1,0 +1,64 @@
+GetOne:
+  'Copy Activity by Project Id':
+    userId: 1
+    services:
+      time.project_service: \OrangeHRM\Time\Service\ProjectService
+    attributes:
+      fromProjectId: 1
+      toProjectId: 2
+    body: [ ]
+    query: [ ]
+    data:
+      0:
+        id: 6
+        name: "Debug"
+        unique: false
+      1:
+        id: 4
+        name: "Jest"
+        unique: true
+      2:
+        id: 5
+        name: "Release"
+        unique: true
+    meta: [ ]
+
+  'Copy Activity by Project Id (Un available from project id)':
+    userId: 1
+    services:
+      time.project_service: \OrangeHRM\Time\Service\ProjectService
+    attributes:
+      fromProjectId: 100
+      toProjectId: 2
+    body: [ ]
+    query: [ ]
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException'
+      message: 'Record Not Found'
+    meta: [ ]
+
+  'Copy Activity by Project Id (Un available To project id)':
+    userId: 1
+    services:
+      time.project_service: \OrangeHRM\Time\Service\ProjectService
+    attributes:
+      fromProjectId: 1
+      toProjectId: 200
+    body: [ ]
+    query: [ ]
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException'
+      message: 'Record Not Found'
+    meta: [ ]
+
+  'Copy Activity by Project Id with invalid param (To project id)':
+    userId: 1
+    attributes:
+      fromProjectId: 1
+    invalidOnly: [ 'toProjectId' ]
+
+  'Copy Activity by Project Id with invalid param (From project id)':
+    userId: 1
+    attributes:
+      toProjectId: 1
+    invalidOnly: [ 'fromProjectId' ]

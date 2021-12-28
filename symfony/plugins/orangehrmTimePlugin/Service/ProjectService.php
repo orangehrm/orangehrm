@@ -22,6 +22,7 @@ namespace OrangeHRM\Time\Service;
 
 use OrangeHRM\Time\Dao\ProjectActivityDao;
 use OrangeHRM\Time\Dao\ProjectDao;
+use OrangeHRM\Time\Dto\ProjectActivitySearchFilterParams;
 
 class ProjectService
 {
@@ -55,5 +56,69 @@ class ProjectService
             $this->projectActivityDao = new ProjectActivityDao();
         }
         return $this->projectActivityDao;
+    }
+
+    /**
+     * @param ProjectActivitySearchFilterParams $projectActivitySearchFilterParams
+     * @param int $fromProjectId
+     * @param int $toProjectId
+     * @return array
+     */
+    public function getCommonProjectActivitiesByProjectId(
+        ProjectActivitySearchFilterParams $projectActivitySearchFilterParams,
+        int $fromProjectId,
+        int $toProjectId
+    ): array {
+        $projectActivitiesForTargetProject = $this->getProjectActivityDao()
+            ->getProjectActivityListByProjectId(
+                $toProjectId,
+                $projectActivitySearchFilterParams
+            ); //Project that we are going to pull from / Base
+
+        $projectActivitiesForBaseProject = $this->getProjectActivityDao()
+            ->getProjectActivityListByProjectId(
+                $fromProjectId,
+                $projectActivitySearchFilterParams
+            );
+
+        $targetActivity = [];
+        foreach ($projectActivitiesForTargetProject as $projectActivityForTargetProject => $value) {
+            $targetActivity[$projectActivityForTargetProject] = [
+                "id" => $value->getId(),
+                "name" => $value->getName(),
+            ];
+        }
+
+        $baseActivity = [];
+        foreach ($projectActivitiesForBaseProject as $projectActivityForBaseProject => $value) {
+            $baseActivity[$projectActivityForBaseProject] = [
+                "id" => $value->getId(),
+                "name" => $value->getName(),
+            ];
+        }
+
+        $result = [];
+        for ($i = 0; $i < count($targetActivity); $i++) {
+            $contains = false;
+            for ($j = 0; $j < count($baseActivity); $j++) {
+                if ($targetActivity[$i]['name'] == $baseActivity[$j]['name']) {
+                    $contains = true;
+                    $result[$i] = [
+                        'id' => $targetActivity[$i]['id'],
+                        'name' => $targetActivity[$i]['name'],
+                        'unique' => false
+                    ];
+                    break;
+                }
+            }
+            if (!$contains) {
+                $result[$i] = [
+                    'id' => $targetActivity[$i]['id'],
+                    'name' => $targetActivity[$i]['name'],
+                    'unique' => true
+                ];
+            }
+        }
+        return $result;
     }
 }
