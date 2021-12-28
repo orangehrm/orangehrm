@@ -792,10 +792,11 @@ class BasicUserRoleManager extends AbstractUserRoleManager
     ): ResourcePermission {
         $filteredRoles = $this->filterRoles($this->userRoles, $rolesToExclude, $rolesToInclude, $entities);
 
-        $finalPermission = ['read' => false, 'create' => false, 'update' => false, 'delete' => false];
+        $resourcePermission = new ResourcePermission(false, false, false, false);
 
         foreach ($filteredRoles as $role) {
             $userRoleId = $role->getId();
+            // TODO:: improve fetch matching data groups using single query
             $permissions = $this->getDataGroupService()->getDataGroupPermission(
                 $dataGroupName,
                 $userRoleId,
@@ -803,30 +804,11 @@ class BasicUserRoleManager extends AbstractUserRoleManager
             );
 
             foreach ($permissions as $permission) {
-                if ($permission->canRead()) {
-                    $finalPermission ['read'] = true;
-                }
-
-                if ($permission->canCreate()) {
-                    $finalPermission ['create'] = true;
-                }
-
-                if ($permission->canUpdate()) {
-                    $finalPermission ['update'] = true;
-                }
-
-                if ($permission->canDelete()) {
-                    $finalPermission ['delete'] = true;
-                }
+                $resourcePermission = $resourcePermission->orWith(ResourcePermission::createFromDataGroupPermission($permission));
             }
         }
 
-        return new ResourcePermission(
-            $finalPermission ['read'],
-            $finalPermission ['create'],
-            $finalPermission ['update'],
-            $finalPermission ['delete']
-        );
+        return $resourcePermission;
     }
 
     /**

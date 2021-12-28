@@ -94,7 +94,7 @@ apiv2_time_my_timesheets_entries:
   defaults:
     _api: OrangeHRM\Time\Api\MyTimesheetItemAPI
 
-apiv2_time_employee_timesheets_entries:
+apiv2_time_employees_timesheets_entries:
   path: /api/v2/time/employees/timesheets/{timesheetId}/entries
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
   methods: [ GET, PUT ]
@@ -149,7 +149,7 @@ time_module:
 
 view_time_sheet_config:
   path: /time/defineTimesheetPeriod
-  controller: OrangeHRM\Time\Controller\TimeSheetPeriodConfigController::handle
+  controller: OrangeHRM\Time\Controller\TimesheetPeriodConfigController::handle
   methods: [ GET ]
 
 view_customers:

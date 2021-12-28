@@ -36,6 +36,7 @@ use OrangeHRM\Framework\Services;
 use Symfony\Component\HttpFoundation\UrlHelper;
 use Symfony\Component\HttpKernel\Event\ControllerEvent;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
 class AuthenticationSubscriber extends AbstractEventSubscriber
@@ -49,6 +50,9 @@ class AuthenticationSubscriber extends AbstractEventSubscriber
     public static function getSubscribedEvents(): array
     {
         return [
+            KernelEvents::REQUEST => [
+                ['onRequestEvent', 99000],
+            ],
             KernelEvents::CONTROLLER => [
                 ['onControllerEvent', 100000],
             ],
@@ -59,10 +63,20 @@ class AuthenticationSubscriber extends AbstractEventSubscriber
     }
 
     /**
+     * @param RequestEvent $event
+     */
+    public function onRequestEvent(RequestEvent $event): void
+    {
+        if (!$this->getAuthUser()->isAuthenticated()) {
+            $event->stopPropagation();
+        }
+    }
+
+    /**
      * @param ControllerEvent $event
      * @throws Exception
      */
-    public function onControllerEvent(ControllerEvent $event)
+    public function onControllerEvent(ControllerEvent $event): void
     {
         if ($this->getAuthUser()->isAuthenticated()) {
             return;
@@ -105,7 +119,7 @@ class AuthenticationSubscriber extends AbstractEventSubscriber
      * @param ExceptionEvent $event
      * @throws Exception
      */
-    public function onExceptionEvent(ExceptionEvent $event)
+    public function onExceptionEvent(ExceptionEvent $event): void
     {
         $exception = $event->getThrowable();
         if ($exception instanceof SessionExpiredException) {

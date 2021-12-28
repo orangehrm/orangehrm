@@ -17,37 +17,23 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Core\Subscriber;
+namespace OrangeHRM\Time\Subscriber;
 
 use OrangeHRM\Core\Api\V2\Exception\ForbiddenException;
-use OrangeHRM\Core\Controller\Common\DisabledModuleController;
 use OrangeHRM\Core\Controller\Exception\RequestForwardableException;
-use OrangeHRM\Core\Service\ModuleService;
+use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Core\Traits\Service\TextHelperTrait;
+use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Framework\Event\AbstractEventSubscriber;
+use OrangeHRM\Time\Controller\TimesheetPeriodConfigController;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
-class ModuleNotAvailableSubscriber extends AbstractEventSubscriber
+class TimesheetPeriodSubscriber extends AbstractEventSubscriber
 {
     use TextHelperTrait;
-
-    /**
-     * @var ModuleService|null
-     */
-    protected ?ModuleService $moduleService = null;
-
-    /**
-     * Get Module Service
-     * @return ModuleService|null
-     */
-    public function getModuleService(): ModuleService
-    {
-        if (is_null($this->moduleService)) {
-            $this->moduleService = new ModuleService();
-        }
-        return $this->moduleService;
-    }
+    use ConfigServiceTrait;
+    use UserRoleManagerTrait;
 
     /**
      * @inheritDoc
@@ -56,28 +42,36 @@ class ModuleNotAvailableSubscriber extends AbstractEventSubscriber
     {
         return [
             KernelEvents::REQUEST => [
-                ['onRequestEvent', 200],
+                ['onRequestEvent', 100],
             ],
         ];
     }
 
     /**
      * @param RequestEvent $event
-     * @throws ForbiddenException
-     * @throws RequestForwardableException
      * @return void
+     * @throws RequestForwardableException
+     * @throws ForbiddenException
      */
     public function onRequestEvent(RequestEvent $event): void
     {
         if ($event->isMainRequest()) {
-            $disabledModules = $this->getModuleService()->getModuleDao()->getDisabledModuleList();
-            foreach ($disabledModules as $disabledModule) {
-                if ($this->getTextHelper()->strStartsWith($event->getRequest()->getPathInfo(), '/' . $disabledModule['name'])) {
-                    throw new RequestForwardableException(DisabledModuleController::class . '::handle');
-                }
-                if ($this->getTextHelper()->strStartsWith($event->getRequest()->getPathInfo(), '/api/v2/' . $disabledModule['name'])) {
+            $isTimeControllerPath = $this->getTextHelper()->strStartsWith($event->getRequest()->getPathInfo(), '/time');
+            $isTimeApiPath = $this->getTextHelper()->strStartsWith($event->getRequest()->getPathInfo(), '/api/v2/time');
+            if ($isTimeControllerPath || $isTimeApiPath) {
+                $status = $this->getConfigService()->isTimesheetPeriodDefined();
+
+                if (!$status && $isTimeControllerPath) {
+                    throw new RequestForwardableException(TimesheetPeriodConfigController::class . '::handle');
+                } elseif (!$status && $isTimeApiPath &&
+                    $this->getTextHelper()->strStartsWith(
+                        $event->getRequest()->getPathInfo(),
+                        '/api/v2/time/time-sheet-period'
+                    )) {
+                    return;
+                } elseif (!$status && $isTimeApiPath) {
                     throw new ForbiddenException('Unauthorized');
-                }
+                }  // else: Timesheet period defined
             }
         }
     }

@@ -37,6 +37,7 @@ require_once $pathToDevAutoload;
 
 use OrangeHRM\DevTools\Command\AddDataGroupCommand;
 use OrangeHRM\DevTools\Command\AddRolePermissionCommand;
+use OrangeHRM\DevTools\Command\EventDispatcherDebugCommand;
 use OrangeHRM\DevTools\Command\PHPFixCodingStandards;
 use OrangeHRM\Framework\ServiceContainer;
 use OrangeHRM\Framework\Services;
@@ -48,6 +49,7 @@ $application = new Application();
 $application->add(new AddDataGroupCommand());
 $application->add(new AddRolePermissionCommand());
 $application->add(new PHPFixCodingStandards());
+$application->add(new EventDispatcherDebugCommand());
 
 ServiceContainer::getContainer()->register(Services::DOCTRINE)
     ->setFactory([Doctrine::class, 'getEntityManager']);

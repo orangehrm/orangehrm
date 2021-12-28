@@ -24,6 +24,10 @@ use DateTimeZone;
 
 class TestCaseParams
 {
+    public const HOOK_PRE_ASSERT_VALID_TEST_CASE = 'preAssertValidTestCase';
+
+    private ?string $name = null;
+
     private ?int $userId = null;
 
     private ?array $services = null;
@@ -47,6 +51,24 @@ class TestCaseParams
     private ?string $exceptionMessage = null;
 
     private ?DateTime $now = null;
+
+    private ?array $hooks = null;
+
+    /**
+     * @return string|null
+     */
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string|null $name
+     */
+    public function setName(?string $name): void
+    {
+        $this->name = $name;
+    }
 
     /**
      * @return int|null
@@ -256,5 +278,33 @@ class TestCaseParams
             }
             $this->now = new DateTime($now['datetime'], $timezone);
         }
+    }
+
+    /**
+     * @return array|null
+     */
+    public function getHooks(): ?array
+    {
+        return $this->hooks;
+    }
+
+    /**
+     * @param string $name
+     * @return callable|null
+     */
+    public function getHook(string $name): ?callable
+    {
+        if (isset($this->hooks[$name]) && is_callable($this->hooks[$name])) {
+            return $this->hooks[$name];
+        }
+        return null;
+    }
+
+    /**
+     * @param array|null $hooks
+     */
+    public function setHooks(?array $hooks): void
+    {
+        $this->hooks = $hooks;
     }
 }

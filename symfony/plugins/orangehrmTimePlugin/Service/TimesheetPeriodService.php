@@ -36,7 +36,7 @@ class TimesheetPeriodService
     {
         // TODO
         $xmlString = $this->getConfigService()->getTimeSheetPeriodConfig();
-        $xml = simplexml_load_String($xmlString);
+        $xml = simplexml_load_string($xmlString);
         return $this->getDaysOfTheTimesheetPeriod($xml, $currentDate);
     }
 
@@ -81,7 +81,7 @@ class TimesheetPeriodService
     {
         // TODO
         $xmlString = $this->getConfigService()->getTimeSheetPeriodConfig();
-        $xml = simplexml_load_String($xmlString);
+        $xml = simplexml_load_string($xmlString);
         return $xml->Heading;
     }
 
@@ -91,7 +91,7 @@ class TimesheetPeriodService
     public function getTimesheetStartDate(): string
     {
         $xmlString = $this->getConfigService()->getTimeSheetPeriodConfig();
-        $xml = simplexml_load_String($xmlString);
+        $xml = simplexml_load_string($xmlString);
         return (string)$xml->StartDate;
     }
 }
