@@ -31,7 +31,7 @@ use OrangeHRM\Time\Api\MyTimesheetAPI;
  * @group Time
  * @group APIv2
  */
-class TimesheetAPITest extends EndpointIntegrationTestCase
+class MyTimesheetAPITest extends EndpointIntegrationTestCase
 {
     /**
      * @dataProvider dataProviderForTestCreate
