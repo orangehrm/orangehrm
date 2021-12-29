@@ -15,6 +15,7 @@
         "ext-zip": "*",
         "ext-dom": "*",
         "ext-xml": "*",
+        "ext-simplexml": "*",
         "symfony/http-foundation": "~5.4.0",
         "symfony/routing": "~5.4.0",
         "symfony/http-kernel": "~5.4.0",

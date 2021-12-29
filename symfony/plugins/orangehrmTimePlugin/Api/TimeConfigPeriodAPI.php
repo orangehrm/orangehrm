@@ -103,6 +103,10 @@ class TimeConfigPeriodAPI extends Endpoint implements ResourceEndpoint
      */
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
+        $status = $this->getTimesheetPeriodService()->isTimesheetPeriodDefined();
+        if ($status) {
+            throw $this->getBadRequestException('Already defined');
+        }
         return new ParamRuleCollection(
             new ParamRule(
                 CommonParams::PARAMETER_ID

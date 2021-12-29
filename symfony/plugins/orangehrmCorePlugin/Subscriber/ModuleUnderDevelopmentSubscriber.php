@@ -57,7 +57,7 @@ class ModuleUnderDevelopmentSubscriber extends AbstractEventSubscriber
 
     public function onRequestEvent(RequestEvent $event)
     {
-        if ($event->isMasterRequest()) {
+        if ($event->isMainRequest()) {
             foreach (self::MODULE_UNDER_DEVELOPMENT as $path) {
                 if ($this->getTextHelper()->strStartsWith($event->getRequest()->getPathInfo(), '/' . $path)) {
                     throw new RequestForwardableException(ModuleUnderDevelopmentController::class . '::handle');

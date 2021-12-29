@@ -24,20 +24,21 @@ use OrangeHRM\Framework\Services;
 use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
 use OrangeHRM\Tests\Util\Integration\TestCaseParams;
 use OrangeHRM\Tests\Util\TestDataService;
+use OrangeHRM\Time\Api\EmployeeTimesheetAPI;
 use OrangeHRM\Time\Api\MyTimesheetAPI;
 
 /**
  * @group Time
  * @group APIv2
  */
-class TimesheetAPITest extends EndpointIntegrationTestCase
+class EmployeeTimesheetAPITest extends EndpointIntegrationTestCase
 {
     /**
      * @dataProvider dataProviderForTestCreate
      */
     public function testCreate(TestCaseParams $testCaseParams): void
     {
-        TestDataService::populate(Config::get(Config::TEST_DIR) . '/phpunit/fixtures/WorkflowStateMachine.yaml', true);
+        TestDataService::populate(Config::get(Config::TEST_DIR).'/phpunit/fixtures/WorkflowStateMachine.yaml', true);
         $this->populateFixtures('MyTimesheetAPITest.yml', null, true);
         $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
         $this->registerServices($testCaseParams);
@@ -56,17 +57,17 @@ class TimesheetAPITest extends EndpointIntegrationTestCase
      */
     public function testGetAll(TestCaseParams $testCaseParams): void
     {
-        $this->populateFixtures('MyTimesheetAPITest.yml', null, true);
+        $this->populateFixtures('EmployeeTimesheetAPITest.yml', null, true);
         $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
         $this->registerServices($testCaseParams);
         $this->registerMockDateTimeHelper($testCaseParams);
-        $api = $this->getApiEndpointMock(MyTimesheetAPI::class, $testCaseParams);
+        $api = $this->getApiEndpointMock(EmployeeTimesheetAPI::class, $testCaseParams);
         $this->assertValidTestCase($api, 'getAll', $testCaseParams);
     }
 
     public function dataProviderForTestGetAll(): array
     {
-        return $this->getTestCases('TimesheetTestCase.yaml', 'GetAll');
+        return $this->getTestCases('EmployeeTimesheetAPITestCases.yaml', 'GetAll');
     }
 
     /**
@@ -74,7 +75,7 @@ class TimesheetAPITest extends EndpointIntegrationTestCase
      */
     public function testUpdate(TestCaseParams $testCaseParams): void
     {
-        TestDataService::populate(Config::get(Config::TEST_DIR) . '/phpunit/fixtures/WorkflowStateMachine.yaml', true);
+        TestDataService::populate(Config::get(Config::TEST_DIR).'/phpunit/fixtures/WorkflowStateMachine.yaml', true);
         $this->populateFixtures('MyTimesheetAPITest.yml', null, true);
         $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
         $this->registerServices($testCaseParams);
@@ -90,28 +91,28 @@ class TimesheetAPITest extends EndpointIntegrationTestCase
 
     public function testGetOne(): void
     {
-        $api = new MyTimesheetAPI($this->getRequest());
+        $api = new EmployeeTimesheetAPI($this->getRequest());
         $this->expectNotImplementedException();
         $api->getOne();
     }
 
     public function testGetValidationRuleForGetOne(): void
     {
-        $api = new MyTimesheetAPI($this->getRequest());
+        $api = new EmployeeTimesheetAPI($this->getRequest());
         $this->expectNotImplementedException();
         $api->getValidationRuleForGetOne();
     }
 
     public function testDelete(): void
     {
-        $api = new MyTimesheetAPI($this->getRequest());
+        $api = new EmployeeTimesheetAPI($this->getRequest());
         $this->expectNotImplementedException();
         $api->delete();
     }
 
     public function testGetValidationRuleForDelete(): void
     {
-        $api = new MyTimesheetAPI($this->getRequest());
+        $api = new EmployeeTimesheetAPI($this->getRequest());
         $this->expectNotImplementedException();
         $api->getValidationRuleForDelete();
     }

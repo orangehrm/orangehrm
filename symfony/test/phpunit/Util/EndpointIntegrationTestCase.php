@@ -69,13 +69,15 @@ abstract class EndpointIntegrationTestCase extends EndpointTestCase
             }
         }
 
-        $testCases = TestDataService::loadFixtures(
+        $testCasesAssoc = TestDataService::loadFixtures(
             $pathToTestCasesDir . DIRECTORY_SEPARATOR . $testCasesFilePath,
             $testCaseKey
         );
 
-        return array_map(function (array $params) {
+        $testCases = [];
+        foreach ($testCasesAssoc as $name => $params) {
             $testCaseParams = new TestCaseParams();
+            $testCaseParams->setName($name);
             $testCaseParams->setUserId($params['userId'] ?? null);
             $testCaseParams->setServices($params['services'] ?? null);
             $testCaseParams->setFactories($params['factories'] ?? null);
@@ -90,8 +92,10 @@ abstract class EndpointIntegrationTestCase extends EndpointTestCase
                 $testCaseParams->setExceptionClass($params['exception']['class'] ?? null);
                 $testCaseParams->setExceptionMessage($params['exception']['message'] ?? null);
             }
-            return [$testCaseParams];
-        }, $testCases);
+            $testCaseParams->setHooks($params['hooks'] ?? null);
+            $testCases[$name] = [$testCaseParams];
+        }
+        return $testCases;
     }
 
     /**
@@ -120,6 +124,11 @@ abstract class EndpointIntegrationTestCase extends EndpointTestCase
      */
     protected function assertValidTestCase(Endpoint $api, string $operation, TestCaseParams $testCaseParams): void
     {
+        $callable = $testCaseParams->getHook(TestCaseParams::HOOK_PRE_ASSERT_VALID_TEST_CASE);
+        is_null($callable) ?: call_user_func_array(
+            $callable,
+            [$testCaseParams, $api, $operation]
+        );
         $validationMethod = 'getValidationRuleFor' . ucfirst($operation);
         $params = array_merge(
             $testCaseParams->getAttributes() ?? [],

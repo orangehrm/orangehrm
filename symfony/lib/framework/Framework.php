@@ -38,6 +38,7 @@ use Symfony\Component\HttpKernel\Controller\ArgumentResolver;
 use Symfony\Component\HttpKernel\EventListener\RouterListener;
 use Symfony\Component\HttpKernel\HttpKernel;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
+use Symfony\Component\HttpKernel\KernelEvents;
 
 class Framework extends HttpKernel
 {
@@ -119,7 +120,9 @@ class Framework extends HttpKernel
         $routerListener = new RouterListener($matcher, $requestStack, $context, $logger, null, $this->isDebug());
         /** @var EventDispatcher $dispatcher */
         $dispatcher = ServiceContainer::getContainer()->get(Services::EVENT_DISPATCHER);
-        $dispatcher->addSubscriber($routerListener);
+        $dispatcher->addListener(KernelEvents::REQUEST, [$routerListener, 'onKernelRequest'], 99500);
+        $dispatcher->addListener(KernelEvents::FINISH_REQUEST, [$routerListener, 'onKernelFinishRequest']);
+        $dispatcher->addListener(KernelEvents::EXCEPTION, [$routerListener, 'onKernelException'], -64);
 
         $urlGenerator = new UrlGenerator($routes, $context, $logger);
         ServiceContainer::getContainer()->set(Services::URL_GENERATOR, $urlGenerator);
@@ -148,7 +151,7 @@ class Framework extends HttpKernel
      */
     public function handleRequest(
         Request $request,
-        int $type = HttpKernelInterface::MASTER_REQUEST,
+        int $type = HttpKernelInterface::MAIN_REQUEST,
         bool $catch = true
     ): Response {
         $this->configureRouter($request);
