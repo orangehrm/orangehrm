@@ -32,6 +32,17 @@
     <div v-if="loading" class="orangehrm-timesheet-loader">
       <oxd-loading-spinner />
     </div>
+    <div
+      v-else-if="!loading && !columns"
+      class="orangehrm-timesheet-body-message"
+    >
+      <oxd-alert
+        type="warn"
+        :show="true"
+        :message="$t('time.no_timesheets_found')"
+      ></oxd-alert>
+    </div>
+
     <div v-else class="orangehrm-timesheet-body">
       <table :class="tableClasses">
         <thead class="orangehrm-timesheet-table-header">
@@ -47,7 +58,7 @@
             <th
               v-for="day in daysOfWeek"
               :key="day.id"
-              class="orangehrm-timesheet-table-header-cell"
+              class="orangehrm-timesheet-table-header-cell --center"
             >
               <span class="--day">
                 {{ day.day }}
@@ -59,8 +70,8 @@
             <!-- timesheet days of week -->
 
             <th
-              v-if="totals"
-              class="orangehrm-timesheet-table-header-cell --freeze-right"
+              v-if="!editable"
+              class="orangehrm-timesheet-table-header-cell --center --freeze-right"
             >
               {{ $t('general.total') }}
             </th>
@@ -71,7 +82,7 @@
           <!-- timesheet activities -->
           <tr
             v-for="(record, i) in records"
-            :key="record.id"
+            :key="`${record.project.id}_${record.activity.id}`"
             class="orangehrm-timesheet-table-body-row"
           >
             <td :class="fixedCellClasses">
@@ -80,7 +91,7 @@
                 :model-value="record.project"
                 @update:modelValue="updateProject($event, i)"
               />
-              <span v-else>{{ record.project.label }}</span>
+              <span v-else>{{ record.project.name }}</span>
             </td>
             <td class="orangehrm-timesheet-table-body-cell">
               <activity-dropdown
@@ -89,35 +100,39 @@
                 :model-value="record.activity"
                 @update:modelValue="updateActivity($event, i)"
               />
-              <span v-else>{{ record.activity.label }}</span>
+              <span v-else>{{ record.activity.name }}</span>
             </td>
             <td
-              v-for="day in record.days"
-              :key="day.id"
+              v-for="(column, date) in columns"
+              :key="`${record.project.id}_${record.activity.id}_${date}`"
               :class="{
                 'orangehrm-timesheet-table-body-cell': true,
-                '--highlight-3': !editable && !day.workday,
+                '--center': true,
+                '--highlight-3': !editable && column.workday,
               }"
             >
               <oxd-icon-button
+                v-if="record.dates[date] && record.dates[date].comment"
                 name="chat-dots"
                 class="orangehrm-timesheet-icon-comment"
-                @click="viewComment(day)"
+                @click="viewComment(date)"
               />
               <oxd-input-field
                 v-if="editable"
-                :model-value="day.trackedTime"
-                @update:modelValue="updateTime($event, i, day)"
+                :model-value="
+                  record.dates[date] ? record.dates[date].duration : null
+                "
+                @update:modelValue="updateTime($event, i, date)"
               />
               <span v-else>
-                {{ day.trackedTime ?? '00:00' }}
+                {{ record.dates[date] ? record.dates[date].duration : '00:00' }}
               </span>
             </td>
             <td
-              v-if="totals"
-              class="orangehrm-timesheet-table-body-cell --freeze-right --highlight"
+              v-if="!editable"
+              class="orangehrm-timesheet-table-body-cell --center --freeze-right --highlight"
             >
-              {{ record.totalTrackedTime }}
+              {{ record.total.label }}
             </td>
             <td v-if="editable" class="orangehrm-timesheet-table-body-cell">
               <oxd-icon-button
@@ -130,7 +145,10 @@
           <!-- timesheet activities -->
 
           <!-- totals -->
-          <tr v-if="totals" class="orangehrm-timesheet-table-body-row --total">
+          <tr
+            v-if="!editable && records.length > 0"
+            class="orangehrm-timesheet-table-body-row --total"
+          >
             <td
               class="orangehrm-timesheet-table-body-cell --freeze-left --highlight"
             >
@@ -139,15 +157,15 @@
             <td></td>
             <!-- total per day -->
             <td
-              v-for="(total, key) in totals"
-              :key="key"
-              class="orangehrm-timesheet-table-body-cell"
+              v-for="date in columns"
+              :key="`total-${date}`"
+              class="orangehrm-timesheet-table-body-cell --center"
             >
-              {{ total }}
+              {{ date.total.label }}
             </td>
             <!-- total per day -->
             <td
-              class="orangehrm-timesheet-table-body-cell --freeze-right --highlight-2"
+              class="orangehrm-timesheet-table-body-cell --center --freeze-right --highlight-2"
             >
               {{ subtotal }}
             </td>
@@ -168,6 +186,15 @@
             </td>
           </tr>
           <!-- add row -->
+
+          <tr
+            v-if="records.length === 0"
+            class="orangehrm-timesheet-table-body-row"
+          >
+            <td colspan="9" class="orangehrm-timesheet-table-body-cell">
+              {{ $t('general.no_records_found') }}
+            </td>
+          </tr>
         </tbody>
       </table>
     </div>
@@ -193,6 +220,7 @@
 <script>
 import {nanoid} from 'nanoid';
 import {parseDate} from '@ohrm/core/util/helper/datefns';
+import Alert from '@ohrm/oxd/core/components/Alert/Alert';
 import Spinner from '@ohrm/oxd/core/components/Loader/Spinner.vue';
 import ActivityDropdown from '@/orangehrmTimePlugin/components/ActivityDropdown.vue';
 import ProjectAutocomplete from '@/orangehrmTimePlugin/components/ProjectAutocomplete.vue';
@@ -202,6 +230,7 @@ export default {
   name: 'Timesheet',
 
   components: {
+    'oxd-alert': Alert,
     'oxd-loading-spinner': Spinner,
     'activity-dropdown': ActivityDropdown,
     'project-autocomplete': ProjectAutocomplete,
@@ -209,15 +238,11 @@ export default {
   },
 
   props: {
-    days: {
-      type: Array,
-      default: () => [],
-    },
     records: {
       type: Array,
       default: () => [],
     },
-    totals: {
+    columns: {
       type: Object,
       required: false,
       default: () => null,
@@ -247,6 +272,9 @@ export default {
   },
 
   computed: {
+    days() {
+      return this.columns ? Object.keys(this.columns) : [];
+    },
     daysOfWeek() {
       const days = [
         this.$t('general.sun'),
@@ -257,16 +285,14 @@ export default {
         this.$t('general.fri'),
         this.$t('general.sat'),
       ];
-      return Array.isArray(this.days)
-        ? this.days.map(day => {
-            const date = parseDate(day, 'yyyy-MM-dd');
-            return {
-              id: date.valueOf(),
-              day: date.getDate(),
-              title: days[date.getDay()],
-            };
-          })
-        : [];
+      return this.days.map(day => {
+        const date = parseDate(day, 'yyyy-MM-dd');
+        return {
+          id: date.valueOf(),
+          day: date.getDate(),
+          title: days[date.getDay()],
+        };
+      });
     },
     tableClasses() {
       return {
@@ -348,8 +374,8 @@ export default {
       });
       this.syncRecords(updated);
     },
-    viewComment(day) {
-      this.commentModalState = day.date;
+    viewComment(date) {
+      this.commentModalState = date;
       this.showCommentModal = true;
     },
     syncRecords(updated) {
