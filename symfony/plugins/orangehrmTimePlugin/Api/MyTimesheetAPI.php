@@ -32,9 +32,22 @@ class MyTimesheetAPI extends EmployeeTimesheetAPI
         return $this->getAuthUser()->getEmpNumber();
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
         $paramRuleCollection = parent::getValidationRuleForGetAll();
+        $paramRuleCollection->removeParamValidation(CommonParams::PARAMETER_EMP_NUMBER);
+        return $paramRuleCollection;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getValidationRuleForCreate(): ParamRuleCollection
+    {
+        $paramRuleCollection = parent::getValidationRuleForCreate();
         $paramRuleCollection->removeParamValidation(CommonParams::PARAMETER_EMP_NUMBER);
         return $paramRuleCollection;
     }

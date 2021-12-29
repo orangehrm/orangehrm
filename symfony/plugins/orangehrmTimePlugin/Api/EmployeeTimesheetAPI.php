@@ -262,6 +262,7 @@ class EmployeeTimesheetAPI extends Endpoint implements CrudEndpoint
                     new Rule(MyTimesheetDateRule::class),
                 ),
             ),
+            $this->getEmpNumberParamRule(),
         );
     }
 
