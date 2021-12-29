@@ -20,8 +20,10 @@
 
 namespace OrangeHRM\Time\Service;
 
+use OrangeHRM\Entity\ProjectActivity;
 use OrangeHRM\Time\Dao\ProjectActivityDao;
 use OrangeHRM\Time\Dao\ProjectDao;
+use OrangeHRM\Time\Exception\ProjectServiceException;
 
 class ProjectService
 {
@@ -55,5 +57,60 @@ class ProjectService
             $this->projectActivityDao = new ProjectActivityDao();
         }
         return $this->projectActivityDao;
+    }
+
+    /**
+     * @param int $toProjectId
+     * @param int $fromProjectId
+     * @param int[] $fromProjectActivityIds
+     * @return void
+     * @throws ProjectServiceException
+     */
+    public function validateProjectActivityName(int $toProjectId, int $fromProjectId, array $fromProjectActivityIds)
+    {
+        $fromProjectActivities = $this->getProjectActivityDao()
+            ->getProjectActivitiesByProjectIds($fromProjectActivityIds);
+        $commonActivityList = [];
+        foreach ($fromProjectActivities as $fromProjectActivity) {
+            $activities = $this->getProjectActivityDao()
+                ->getDuplicatedActivityIds($fromProjectActivity->getProject()->getId(), $toProjectId); //common activity
+            $commonActivityList = $this->getProjectActivityAsMap($activities);
+        }
+
+        foreach ($fromProjectActivityIds as $fromProjectActivityId){
+            if (is_null($this->getProjectActivityDao()->getProjectActivityById($fromProjectActivityId))) {
+                throw ProjectServiceException::projectActivityNotFound();
+            }
+        }
+
+        foreach ($fromProjectActivityIds as $fromProjectActivityId){
+            if (is_null($this->getProjectActivityDao()->getProjectActivityByProjectIdAndProjectActivityId($fromProjectId, $fromProjectActivityId))) {
+                throw ProjectServiceException::projectActivityNotBelongsToGivenProjectId();
+            }
+        }
+
+        $fromProjectActivityList = $this->getProjectActivityAsMap($fromProjectActivities);
+        foreach ($fromProjectActivityList as $fromProjectActivity) {
+            $name = $fromProjectActivity['name'];
+            if (!isset($commonActivityList[$name]) === false) {
+                throw ProjectServiceException::duplicateProjectActivityNameFound();
+            }
+        }
+    }
+
+    /**
+     * @param ProjectActivity[] $projectActivities
+     * @return array
+     */
+    public function getProjectActivityAsMap(array $projectActivities): array
+    {
+        $projectActivityList = [];
+        foreach ($projectActivities as $value) {
+            $projectActivityList[$value->getName()] = [
+                "id" => $value->getId(),
+                "name" => $value->getName(),
+            ];
+        }
+        return $projectActivityList;
     }
 }

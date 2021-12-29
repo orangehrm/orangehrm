@@ -23,8 +23,9 @@ Customer:
   1: { customer_id: 2, name: 'Apple', description: 'main customer', is_deleted: 0 }
 
 Project:
-  0: { project_id: 1, customer_id: 1, name: 'OrangeHRM', description: 'firstproject', is_deleted: 0 }
-  1: { project_id: 2, customer_id: 2, name: 'OrangeHRM2', description: 'secondproject', is_deleted: 0 }
+  0: { project_id: 1, customer_id: 1, name: 'OrangeHRM', description: 'first project', is_deleted: 0 }
+  1: { project_id: 2, customer_id: 2, name: 'OrangeHRM2', description: 'second project', is_deleted: 0 }
+  2: { project_id: 3, customer_id: 2, name: 'OrangeHRM3', description: 'third project', is_deleted: 0 }
 
 ProjectActivity:
   0: { activity_id: 1, project_id: 1, name: 'Debug', is_deleted: 0 }
@@ -33,3 +34,4 @@ ProjectActivity:
   3: { activity_id: 4, project_id: 2, name: 'Jest', is_deleted: 0 }
   4: { activity_id: 5, project_id: 2, name: 'Release', is_deleted: 0 }
   5: { activity_id: 6, project_id: 2, name: 'Debug', is_deleted: 0 }
+  6: { activity_id: 7, project_id: 3, name: 'DOD', is_deleted: 0 }

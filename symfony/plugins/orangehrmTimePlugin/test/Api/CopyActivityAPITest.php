@@ -31,21 +31,21 @@ use OrangeHRM\Time\Api\CopyProjectActivityAPI;
 class CopyActivityAPITest extends EndpointIntegrationTestCase
 {
     /**
-     * @dataProvider dataProviderForTestGetOne
+     * @dataProvider dataProviderForTestGetAll
      */
-    public function testGetOne(TestCaseParams $testCaseParams): void
+    public function testGetAll(TestCaseParams $testCaseParams): void
     {
         $this->populateFixtures('CopyActivityAPI.yaml');
         $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
         $this->registerServices($testCaseParams);
         $this->registerMockDateTimeHelper($testCaseParams);
         $api = $this->getApiEndpointMock(CopyProjectActivityAPI::class, $testCaseParams);
-        $this->assertValidTestCase($api, 'getOne', $testCaseParams);
+        $this->assertValidTestCase($api, 'getAll', $testCaseParams);
     }
 
-    public function dataProviderForTestGetOne(): array
+    public function dataProviderForTestGetAll(): array
     {
-        return $this->getTestCases('CopyActivityTestCase.yaml', 'GetOne');
+        return $this->getTestCases('CopyActivityTestCase.yaml', 'GetAll');
     }
 
     /**
@@ -66,19 +66,6 @@ class CopyActivityAPITest extends EndpointIntegrationTestCase
         return $this->getTestCases('CopyActivityTestCase.yaml', 'Create');
     }
 
-    public function testUpdate(): void
-    {
-        $api = new CopyProjectActivityAPI($this->getRequest());
-        $this->expectNotImplementedException();
-        $api->update();
-    }
-
-    public function testGetValidationRuleForUpdate(): void
-    {
-        $api = new CopyProjectActivityAPI($this->getRequest());
-        $this->expectNotImplementedException();
-        $api->getValidationRuleForUpdate();
-    }
 
     public function testDelete(): void
     {

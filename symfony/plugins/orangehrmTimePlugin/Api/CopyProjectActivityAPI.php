@@ -19,10 +19,11 @@
 
 namespace OrangeHRM\Time\Api;
 
-use OrangeHRM\Core\Api\V2\CrudEndpoint;
+use OrangeHRM\Core\Api\V2\CollectionEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
+use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
@@ -32,9 +33,10 @@ use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Entity\Project;
 use OrangeHRM\Time\Api\Model\CopyActivityModel;
 use OrangeHRM\Time\Dto\CopyActivityField;
+use OrangeHRM\Time\Exception\ProjectServiceException;
 use OrangeHRM\Time\Traits\Service\ProjectServiceTrait;
 
-class CopyProjectActivityAPI extends Endpoint implements CrudEndpoint
+class CopyProjectActivityAPI extends Endpoint implements CollectionEndpoint
 {
     use ProjectServiceTrait;
 
@@ -47,7 +49,14 @@ class CopyProjectActivityAPI extends Endpoint implements CrudEndpoint
      */
     public function getAll(): EndpointResult
     {
-        throw $this->getNotImplementedException();
+        list($toProjectId, $fromProjectId) = $this->getUrlAttributes();
+        $this->checkProjectAvailability($toProjectId, $fromProjectId);
+
+        $copyActivityField = new CopyActivityField();
+        $copyActivityField->setFromProjectId($fromProjectId);
+        $copyActivityField->setToProjectId($toProjectId);
+
+        return new EndpointResourceResult(CopyActivityModel::class, $copyActivityField);
     }
 
     /**
@@ -55,7 +64,9 @@ class CopyProjectActivityAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
-        throw $this->getNotImplementedException();
+        return new ParamRuleCollection(
+            ...$this->getCommonURLValidationRules(),
+        );
     }
 
     /**
@@ -63,10 +74,18 @@ class CopyProjectActivityAPI extends Endpoint implements CrudEndpoint
      */
     public function create(): EndpointResult
     {
-        list($toProjectId) = $this->getUrlAttributes();
-        $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_ACTIVITY_IDS);
-        $this->getProjectService()->getProjectActivityDao()->saveCopyActivity($toProjectId, $ids);
-        return new EndpointResourceResult(ArrayModel::class, $ids);
+        try {
+            list($toProjectId, $fromProjectId) = $this->getUrlAttributes();
+            $this->checkProjectAvailability($toProjectId, $fromProjectId);
+
+            $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_ACTIVITY_IDS);
+            $this->getProjectService()->validateProjectActivityName($toProjectId, $fromProjectId, $ids);
+            $this->getProjectService()->getProjectActivityDao()->saveCopyActivity($toProjectId, $ids);
+
+            return new EndpointResourceResult(ArrayModel::class, $ids);
+        } catch (ProjectServiceException $projectServiceException) {
+            throw $this->getBadRequestException($projectServiceException->getMessage());
+        }
     }
 
     /**
@@ -85,7 +104,7 @@ class CopyProjectActivityAPI extends Endpoint implements CrudEndpoint
                     )
                 ),
             ),
-            ...$this->getCommonBodyValidationRules(),
+            ...$this->getCommonURLValidationRules(),
         );
     }
 
@@ -106,48 +125,20 @@ class CopyProjectActivityAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
-     * @inheritDoc
-     */
-    public function getOne(): EndpointResult
-    {
-        list($toProjectId, $fromProjectId) = $this->getUrlAttributes();
-        $baseProject = $this->getProjectService()->getProjectDao()->getProjectById($fromProjectId);
-        $this->throwRecordNotFoundExceptionIfNotExist($baseProject, Project::class);
-        $targetProject = $this->getProjectService()->getProjectDao()->getProjectById($toProjectId);
-        $this->throwRecordNotFoundExceptionIfNotExist($targetProject, Project::class);
-
-        $copyActivityField = new CopyActivityField();
-        $copyActivityField->setFromProjectId($fromProjectId);
-        $copyActivityField->setToProjectId($toProjectId);
-
-        return new EndpointResourceResult(CopyActivityModel::class, $copyActivityField);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getValidationRuleForGetOne(): ParamRuleCollection
-    {
-        return new ParamRuleCollection(
-            $this->getValidationDecorator()->requiredParamRule(
-                new ParamRule(
-                    self::PARAMETER_FROM_PROJECT_ID,
-                    new Rule(Rules::POSITIVE),
-                )
-            ),
-            ...$this->getCommonBodyValidationRules(),
-        );
-    }
-
-    /**
      * @return ParamRule[]
      */
-    private function getCommonBodyValidationRules(): array
+    private function getCommonURLValidationRules(): array
     {
         return [
             $this->getValidationDecorator()->requiredParamRule(
                 new ParamRule(
                     self::PARAMETER_TO_PROJECT_ID,
+                    new Rule(Rules::POSITIVE),
+                )
+            ),
+            $this->getValidationDecorator()->requiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_FROM_PROJECT_ID,
                     new Rule(Rules::POSITIVE),
                 )
             ),
@@ -172,18 +163,17 @@ class CopyProjectActivityAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
-     * @inheritDoc
+     * @param int $toProjectId
+     * @param int $fromProjectId
+     * @return void
+     * @throws RecordNotFoundException
      */
-    public function update(): EndpointResult
+    private function checkProjectAvailability(int $toProjectId, int $fromProjectId)
     {
-        throw $this->getNotImplementedException();
-    }
+        $toProject = $this->getProjectService()->getProjectDao()->getProjectById($toProjectId);
+        $this->throwRecordNotFoundExceptionIfNotExist($toProject, Project::class);
 
-    /**
-     * @inheritDoc
-     */
-    public function getValidationRuleForUpdate(): ParamRuleCollection
-    {
-        throw $this->getNotImplementedException();
+        $fromProject = $this->getProjectService()->getProjectDao()->getProjectById($fromProjectId);
+        $this->throwRecordNotFoundExceptionIfNotExist($fromProject, Project::class);
     }
 }

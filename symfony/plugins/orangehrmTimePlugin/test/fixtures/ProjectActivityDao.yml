@@ -31,6 +31,8 @@ Project:
 ProjectActivity:
   0: { activity_id: 1, project_id: 1, name: 'Activity1 For Pro1', is_deleted: 0 }
   1: { activity_id: 2, project_id: 1, name: 'Activity2 For Pro1', is_deleted: 0 }
+  2: { activity_id: 3, project_id: 2, name: 'Activity1 For Pro1', is_deleted: 0 }
+  3: { activity_id: 4, project_id: 2, name: 'Activity2 For Pro2', is_deleted: 0 }
 
 Timesheet:
   0: { timesheet_id: 1, state: 'CREATED', start_date: '2011-04-18',end_date: '2011-04-19', employee_id: 1 }

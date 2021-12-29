@@ -199,11 +199,10 @@ class ProjectActivityDao extends BaseDao
     }
 
     /**
-     * @param int $toProjectId
      * @param array $fromProjectActivityIds
-     * @return array
+     * @return ProjectActivity[]
      */
-    public function saveCopyActivity(int $toProjectId, array $fromProjectActivityIds): array
+    public function getProjectActivitiesByProjectIds(array $fromProjectActivityIds): array
     {
         // this will get all activities which belongs to $fromProjectActivityIds
         $q = $this->createQueryBuilder(ProjectActivity::class, 'activity');
@@ -211,7 +210,17 @@ class ProjectActivityDao extends BaseDao
             ->setParameter('fromProjectActivityIds', $fromProjectActivityIds);
 
         /** @var ProjectActivity[] $fromProjectActivities */
-        $fromProjectActivities = $q->getQuery()->execute();
+        return $q->getQuery()->execute();
+    }
+
+    /**
+     * @param int $toProjectId
+     * @param array $fromProjectActivityIds
+     * @return void
+     */
+    public function saveCopyActivity(int $toProjectId, array $fromProjectActivityIds): void
+    {
+        $fromProjectActivities = $this->getProjectActivitiesByProjectIds($fromProjectActivityIds);
 
         foreach ($fromProjectActivities as $fromProjectActivity) {
             $toProjectActivity = new ProjectActivity();
@@ -221,6 +230,15 @@ class ProjectActivityDao extends BaseDao
             $this->getEntityManager()->persist($toProjectActivity);
         }
         $this->getEntityManager()->flush();
-        return $fromProjectActivityIds;
+    }
+
+    /**
+     * @param int $projectActivityId
+     * @return ProjectActivity|null
+     */
+    public function getProjectActivityById(int $projectActivityId): ?ProjectActivity
+    {
+        $projectActivity = $this->getRepository(ProjectActivity::class)->find($projectActivityId);
+        return ($projectActivity instanceof ProjectActivity) ? $projectActivity : null;
     }
 }

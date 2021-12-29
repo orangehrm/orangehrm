@@ -1,4 +1,4 @@
-GetOne:
+GetAll:
   'Copy Activity by Project Id':
     userId: 1
     services:
@@ -70,9 +70,91 @@ Create:
       time.project_service: \OrangeHRM\Time\Service\ProjectService
     attributes:
       toProjectId: 1
+      fromProjectId: 2
     body:
       activityIds: [ 4,5 ]
     query: [ ]
     data:
       [ 4, 5 ]
     meta: [ ]
+
+  'Save project activities (Duplicate activity id)':
+    userId: 1
+    services:
+      time.project_service: \OrangeHRM\Time\Service\ProjectService
+    attributes:
+      toProjectId: 1
+      fromProjectId: 2
+    body:
+      activityIds: [ 4,5,6 ]
+    query: [ ]
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\BadRequestException'
+      message: 'Already exist'
+    meta: [ ]
+
+  'Save project activities (Not belongs to root project id)':
+    userId: 1
+    services:
+      time.project_service: \OrangeHRM\Time\Service\ProjectService
+    attributes:
+      toProjectId: 1
+      fromProjectId: 2
+    body:
+      activityIds: [ 4,5,7 ]
+    query: [ ]
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\BadRequestException'
+      message: 'Project Activity Not Belongs To Given ProjectId'
+    meta: [ ]
+
+  'Save project activities (Un existing project activity id)':
+    userId: 1
+    services:
+      time.project_service: \OrangeHRM\Time\Service\ProjectService
+    attributes:
+      toProjectId: 1
+      fromProjectId: 2
+    body:
+      activityIds: [ 4,5,700 ]
+    query: [ ]
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\BadRequestException'
+      message: 'Project activity not found'
+    meta: [ ]
+
+  'Save project activities (Un existing to project id)':
+    userId: 1
+    services:
+      time.project_service: \OrangeHRM\Time\Service\ProjectService
+    attributes:
+      toProjectId: 100
+      fromProjectId: 2
+    body:
+      activityIds: [ 4,5 ]
+    query: [ ]
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException'
+      message: 'Record Not Found'
+    meta: [ ]
+
+  'Save project activities (Un existing from project id)':
+    userId: 1
+    services:
+      time.project_service: \OrangeHRM\Time\Service\ProjectService
+    attributes:
+      toProjectId: 1
+      fromProjectId: 200
+    body:
+      activityIds: [ 4,5 ]
+    query: [ ]
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException'
+      message: 'Record Not Found'
+    meta: [ ]
+
+  'Save project activities with invalid param (From project id)':
+    userId: 1
+    attributes:
+      toProjectId: 1
+    invalidOnly: [ 'activityIds', 'fromProjectId' ]

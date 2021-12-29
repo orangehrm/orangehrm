@@ -128,4 +128,33 @@ class ProjectActivityDaoTest extends TestCase
         $this->assertFalse($result_2);
         $this->assertFalse($result_3);
     }
+
+    public function testGetDuplicatedActivityIds(): void
+    {
+        $result = $this->projectActivityDao->getDuplicatedActivityIds(1, 2);
+        $this->assertCount(1, $result);
+        $this->assertEquals("Activity1 For Pro1", $result[0]->getName());
+    }
+
+    public function testGetProjectActivitiesByProjectIds(): void
+    {
+        $result = $this->projectActivityDao->getProjectActivitiesByProjectIds([1, 2]);
+        $this->assertCount(2, $result);
+        $this->assertEquals("Activity1 For Pro1", $result[0]->getName());
+        $this->assertEquals("Activity2 For Pro1", $result[1]->getName());
+    }
+
+    public function testSaveCopyActivity(): void
+    {
+        $this->projectActivityDao->saveCopyActivity(1, [4]);
+        $projectActivity = $this->projectActivityDao->getProjectActivityByProjectIdAndProjectActivityId(1, 5);
+        $this->assertEquals("Activity2 For Pro2", $projectActivity->getName());
+    }
+
+    public function testGetProjectActivityByActivityId(): void
+    {
+        $projectActivity = $this->projectActivityDao->getProjectActivityById(1);
+        $this->assertEquals("Activity1 For Pro1", $projectActivity->getName());
+        $this->assertEquals(1, $projectActivity->getProject()->getId());
+    }
 }
