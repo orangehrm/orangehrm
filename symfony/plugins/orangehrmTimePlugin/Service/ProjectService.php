@@ -77,14 +77,19 @@ class ProjectService
             $commonActivityList = $this->getProjectActivityAsMap($activities);
         }
 
-        foreach ($fromProjectActivityIds as $fromProjectActivityId){
+        foreach ($fromProjectActivityIds as $fromProjectActivityId) {
             if (is_null($this->getProjectActivityDao()->getProjectActivityById($fromProjectActivityId))) {
                 throw ProjectServiceException::projectActivityNotFound();
             }
         }
 
-        foreach ($fromProjectActivityIds as $fromProjectActivityId){
-            if (is_null($this->getProjectActivityDao()->getProjectActivityByProjectIdAndProjectActivityId($fromProjectId, $fromProjectActivityId))) {
+        foreach ($fromProjectActivityIds as $fromProjectActivityId) {
+            if (is_null(
+                $this->getProjectActivityDao()->getProjectActivityByProjectIdAndProjectActivityId(
+                    $fromProjectId,
+                    $fromProjectActivityId
+                )
+            )) {
                 throw ProjectServiceException::projectActivityNotBelongsToGivenProjectId();
             }
         }
