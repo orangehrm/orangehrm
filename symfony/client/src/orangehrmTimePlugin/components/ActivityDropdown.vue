@@ -24,7 +24,7 @@
 
 <script>
 import {ref, watchEffect} from 'vue';
-// import {APIService} from '@ohrm/core/util/services/api.service';
+import {APIService} from '@ohrm/core/util/services/api.service';
 
 export default {
   name: 'ActivityDropdown',
@@ -37,29 +37,24 @@ export default {
   },
   setup(props) {
     const options = ref([]);
-    // const http = new APIService(
-    //   window.appGlobal.baseUrl,
-    //   'api/v2/time/activities',
-    // );
+    const http = new APIService(window.appGlobal.baseUrl, '');
 
     watchEffect(async () => {
       if (props.projectId) {
-        // http
-        //   .getAll({
-        //     projectId: props.projectId,
-        //   })
-        //   .then(({data}) => {
-        //     options.value = data.data.map(item => {
-        //       return {
-        //         id: item.id,
-        //         label: item.name,
-        //       };
-        //     });
-        //   });
-        options.value = [
-          {id: 100, label: 'Nuclear Fission'},
-          {id: 101, label: 'Fat Boy'},
-        ];
+        http
+          .request({
+            method: 'GET',
+            url: `/api/v2/time/project/${props.projectId}/activities`,
+          })
+          .then(({data}) => {
+            options.value = data.data.map(item => {
+              return {
+                id: item.id,
+                label: item.name,
+                isDeleted: item.deleted,
+              };
+            });
+          });
       } else {
         options.value = [];
       }

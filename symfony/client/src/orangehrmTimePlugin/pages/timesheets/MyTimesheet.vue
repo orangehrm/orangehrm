@@ -75,12 +75,10 @@
 </template>
 
 <script>
-import {computed, reactive, toRefs, watchEffect} from 'vue';
-import useToast from '@/core/util/composable/useToast';
-import {navigate} from '@ohrm/core/util/helper/navigation';
+import {toRefs} from 'vue';
 import {APIService} from '@/core/util/services/api.service';
-import {freshDate, formatDate, parseDate} from '@ohrm/core/util/helper/datefns';
 import Timesheet from '@/orangehrmTimePlugin/components/Timesheet.vue';
+import useTimesheet from '@/orangehrmTimePlugin/util/composable/useTimesheet';
 import TimesheetPeriod from '@/orangehrmTimePlugin/components/TimesheetPeriod.vue';
 import TimesheetActions from '@/orangehrmTimePlugin/components/TimesheetActions.vue';
 
@@ -92,167 +90,25 @@ export default {
   },
 
   setup() {
-    const {noRecordsFound, success} = useToast();
-    const http = new APIService(window.appGlobal.baseUrl, '');
-    const state = reactive({
-      isLoading: false,
-      timesheetId: null,
-      timesheetRecords: [],
-      timesheetStatus: null,
-      timesheetColumns: null,
-      timesheetSubtotal: null,
-      timesheetAllowedActions: [],
-      date: formatDate(freshDate(), 'yyyy-MM-dd'),
-    });
+    const http = new APIService(
+      window.appGlobal.baseUrl,
+      '/api/v2/time/timesheets',
+    );
 
-    const fetchTimesheet = date => {
-      return new Promise(resolve => {
-        http
-          .request({
-            method: 'GET',
-            url: '/api/v2/time/timesheets',
-            params: {date},
-          })
-          .then(response => {
-            const {data} = response.data;
-            if (Array.isArray(data) && data.length > 0) {
-              const {id} = data[0];
-              resolve(id);
-            } else {
-              resolve(null);
-            }
-          });
-      });
-    };
-
-    const updateTimesheet = (timesheetId, action, comment = null) => {
-      return new Promise(resolve => {
-        http
-          .request({
-            method: 'PUT',
-            url: `/api/v2/time/timesheets/${timesheetId}`,
-            data: {
-              action,
-              comment,
-            },
-          })
-          .then(response => {
-            const {data} = response.data;
-            resolve(data);
-          });
-      });
-    };
-
-    const fetchTimesheetEntries = timesheetId => {
-      return new Promise(resolve => {
-        http
-          .request({
-            type: 'GET',
-            url: `api/v2/time/timesheets/${timesheetId}/entries`,
-          })
-          .then(response => {
-            const {data, meta} = response.data;
-            const {timesheet, allowedActions, ...rest} = meta;
-            resolve({data, meta: rest, timesheet, allowedActions});
-          });
-      });
-    };
-
-    const loadTimesheet = date => {
-      state.isLoading = true;
-      fetchTimesheet(date)
-        .then(id => {
-          state.timesheetId = id;
-          return id ? fetchTimesheetEntries(id) : null;
-        })
-        .then(response => {
-          if (response !== null) {
-            const {data, meta, timesheet, allowedActions} = response;
-            state.timesheetRecords = data;
-            state.timesheetColumns = meta.columns;
-            state.timesheetSubtotal = meta.sum.label;
-            state.timesheetStatus = timesheet.status.name;
-            state.timesheetAllowedActions = allowedActions;
-            data.length === 0 && noRecordsFound();
-          } else {
-            state.timesheetRecords = [];
-            state.timesheetColumns = null;
-            state.timesheetStatus = null;
-            state.timesheetSubtotal = null;
-            state.timesheetAllowedActions = [];
-          }
-        })
-        .finally(() => {
-          state.isLoading = false;
-        });
-    };
-
-    watchEffect(async () => loadTimesheet(state.date));
-
-    const onClickPrevious = () => {
-      const currDate = parseDate(state.date, 'yyyy-MM-dd') ?? freshDate();
-      currDate.setDate(currDate.getDate() - 7);
-      state.date = formatDate(currDate, 'yyyy-MM-dd');
-    };
-
-    const onClickNext = () => {
-      const currDate = parseDate(state.date, 'yyyy-MM-dd') ?? freshDate();
-      currDate.setDate(currDate.getDate() + 7);
-      state.date = formatDate(currDate, 'yyyy-MM-dd');
-    };
-
-    const onClickEdit = () => {
-      navigate('/time/editTimesheet/{id}', {id: state.timesheetId});
-    };
-
-    const onClickSubmit = () => {
-      state.isLoading = true;
-      updateTimesheet(state.timesheetId, 'SUBMIT').then(() => {
-        success({
-          title: 'Success',
-          message: 'Timesheet Submitted',
-        });
-        state.timesheetId = null;
-        loadTimesheet(state.date);
-      });
-    };
-
-    const onClickCreateTimesheet = () => {
-      state.isLoading = true;
-      http
-        .request({
-          method: 'POST',
-          url: '/api/v2/time/timesheets',
-          data: {date: state.date},
-        })
-        .then(() => {
-          success({
-            title: 'Success',
-            message: 'Timesheet Successfully Created',
-          });
-          loadTimesheet(state.date);
-        });
-    };
-
-    const showCreateTimesheet = computed(() => {
-      return !state.isLoading && !state.timesheetId;
-    });
-
-    const canSubmitTimesheet = computed(() => {
-      return state.timesheetAllowedActions.find(i => i.action === 'SUBMIT');
-    });
-
-    const canEditTimesheet = computed(() => {
-      return state.timesheetAllowedActions.find(i => i.action === 'MODIFY');
-    });
-
-    const canCreateTimesheet = computed(() => {
-      const currDate = parseDate(state.date, 'yyyy-MM-dd') ?? freshDate();
-      return currDate > freshDate();
-    });
+    const {
+      state,
+      onClickEdit,
+      onClickNext,
+      onClickSubmit,
+      onClickPrevious,
+      canEditTimesheet,
+      canSubmitTimesheet,
+      canCreateTimesheet,
+      showCreateTimesheet,
+      onClickCreateTimesheet,
+    } = useTimesheet(http);
 
     return {
-      http,
       onClickEdit,
       onClickNext,
       onClickSubmit,

@@ -21,22 +21,27 @@
 <template>
   <div class="orangehrm-background-container">
     <timesheet
-      v-model:records="timesheet.data"
+      v-model:records="timesheetRecords"
       :editable="true"
       :loading="isLoading"
-      :days="timesheet.meta.days"
+      :columns="timesheetColumns"
+      @submitValid="onSave"
     >
       <template #header-title>
-        <oxd-text tag="h6" class="orangehrm-main-title">
+        <oxd-text v-if="myTimesheet" tag="h6" class="orangehrm-main-title">
           {{ $t('time.my_timesheet') }}
         </oxd-text>
       </template>
       <template #header-options>
-        <oxd-text tag="p" class="orangehrm-timeperiod-title">
+        <oxd-text
+          v-if="timesheetDateRange"
+          tag="p"
+          class="orangehrm-timeperiod-title"
+        >
           {{ $t('time.timesheet_period') }}
         </oxd-text>
         <oxd-text tag="h6" class="orangehrm-main-title">
-          2021-11-22 - 2021-11-28
+          {{ timesheetDateRange }}
         </oxd-text>
       </template>
 
@@ -63,13 +68,11 @@
 </template>
 
 <script>
+import {onBeforeMount, computed, toRefs} from 'vue';
+import useToast from '@/core/util/composable/useToast';
 import {APIService} from '@/core/util/services/api.service';
 import Timesheet from '@/orangehrmTimePlugin/components/Timesheet.vue';
-
-const myTimesheetModal = {
-  data: [],
-  meta: {},
-};
+import useTimesheetAPIs from '@/orangehrmTimePlugin/util/composable/useTimesheetAPIs';
 
 export default {
   components: {
@@ -77,48 +80,102 @@ export default {
   },
 
   props: {
+    myTimesheet: {
+      type: Boolean,
+      default: false,
+    },
     timesheetId: {
       type: Number,
       required: true,
     },
   },
 
-  setup() {
+  setup(props) {
     const http = new APIService(
-      //   window.appGlobal.baseUrl,
-      'https://884b404a-f4d0-4908-9eb5-ef0c8afec15c.mock.pstmn.io',
-      '/api/v2/time/my-timesheet',
+      window.appGlobal.baseUrl,
+      `/api/v2/time/timesheets`,
     );
 
-    return {http};
-  },
+    let timesheetModal = [];
 
-  data() {
-    return {
-      isLoading: false,
-      timesheet: {...myTimesheetModal},
-    };
-  },
+    const {updateSuccess} = useToast();
+    const {
+      state,
+      fetchTimesheetEntries,
+      updateTimesheetEntries,
+    } = useTimesheetAPIs(http);
 
-  beforeMount() {
-    this.isLoading = true;
-    this.http
-      .get(this.timesheetId)
-      .then(response => {
-        const {data, meta} = response.data;
-        this.timesheet = {data, meta};
-        myTimesheetModal.data = data;
-        myTimesheetModal.meta = meta;
-      })
-      .finally(() => {
-        this.isLoading = false;
+    const loadTimesheet = () => {
+      state.isLoading = true;
+      fetchTimesheetEntries(props.timesheetId).then(response => {
+        const {data, meta, timesheet, allowedActions} = response;
+        state.timesheet = timesheet;
+        state.employee = meta.employee;
+        state.timesheetColumns = meta.columns;
+        state.timesheetSubtotal = meta.sum.label;
+        state.timesheetStatus = timesheet.status.name;
+        state.timesheetAllowedActions = allowedActions;
+        if (data.length > 0) {
+          state.timesheetRecords = data;
+          timesheetModal = JSON.parse(JSON.stringify(data));
+        } else {
+          state.timesheetRecords.push({
+            project: null,
+            activity: null,
+            dates: {},
+          });
+          timesheetModal.push({
+            project: null,
+            activity: null,
+            dates: {},
+          });
+        }
+        state.isLoading = false;
       });
-  },
+    };
 
-  methods: {
-    onClickReset() {
-      this.timesheet = {...myTimesheetModal};
-    },
+    const onClickReset = () => {
+      state.timesheetRecords = JSON.parse(JSON.stringify(timesheetModal));
+    };
+
+    const onSave = () => {
+      state.isLoading = true;
+      const payload = {
+        entries: state.timesheetRecords.map(record => {
+          const dates = {};
+          for (const date in record.dates) {
+            dates[date] = {
+              duration: record.dates[date].duration,
+            };
+          }
+          return {
+            projectId: record.project.id,
+            activityId: record.activity.id,
+            dates,
+          };
+        }),
+        deletedEntries: [],
+      };
+      updateTimesheetEntries(props.timesheetId, payload).then(() => {
+        updateSuccess();
+        loadTimesheet();
+      });
+    };
+
+    const timesheetDateRange = computed(() => {
+      return state.timesheet
+        ? `${state.timesheet.startDate} - ${state.timesheet.endDate}`
+        : '';
+    });
+
+    onBeforeMount(() => loadTimesheet());
+
+    return {
+      onSave,
+      onClickReset,
+      ...toRefs(state),
+      timesheetDateRange,
+    };
   },
 };
 </script>

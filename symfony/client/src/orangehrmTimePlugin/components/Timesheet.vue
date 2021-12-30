@@ -82,29 +82,29 @@
           <!-- timesheet activities -->
           <tr
             v-for="(record, i) in records"
-            :key="`${record.project.id}_${record.activity.id}`"
+            :key="`${record.project}_${record.activity}`"
             class="orangehrm-timesheet-table-body-row"
           >
             <td :class="fixedCellClasses">
               <project-autocomplete
                 v-if="editable"
-                :model-value="record.project"
+                :model-value="getProject(record.project)"
                 @update:modelValue="updateProject($event, i)"
               />
-              <span v-else>{{ record.project.name }}</span>
+              <span v-else>{{ record.project && record.project.name }}</span>
             </td>
             <td class="orangehrm-timesheet-table-body-cell">
               <activity-dropdown
                 v-if="editable"
                 :project-id="record.project && record.project.id"
-                :model-value="record.activity"
+                :model-value="getActivity(record.activity)"
                 @update:modelValue="updateActivity($event, i)"
               />
-              <span v-else>{{ record.activity.name }}</span>
+              <span v-else>{{ record.activity && record.activity.name }}</span>
             </td>
             <td
               v-for="(column, date) in columns"
-              :key="`${record.project.id}_${record.activity.id}_${date}`"
+              :key="`${record.project}_${record.activity}_${date}`"
               :class="{
                 'orangehrm-timesheet-table-body-cell': true,
                 '--center': true,
@@ -218,7 +218,6 @@
 </template>
 
 <script>
-import {nanoid} from 'nanoid';
 import {parseDate} from '@ohrm/core/util/helper/datefns';
 import Alert from '@ohrm/oxd/core/components/Alert/Alert';
 import Spinner from '@ohrm/oxd/core/components/Loader/Spinner.vue';
@@ -323,21 +322,12 @@ export default {
       });
     },
     addRow() {
-      const days = this.days.map(date => {
-        return {
-          id: nanoid(8),
-          date: date,
-          comment: null,
-          trackedTime: null,
-        };
-      });
       const updated = [
         ...this.records,
         {
-          id: nanoid(8),
           project: null,
           activity: null,
-          days,
+          dates: {},
         },
       ];
       this.syncRecords(updated);
@@ -345,12 +335,14 @@ export default {
     updateTime($value, index, date) {
       const updated = this.records.map((record, i) => {
         if (i === index) {
-          for (let x = 0; x < record.days.length; x++) {
-            if (record.days[x] === date) {
-              record.days[x].trackedTime = $value;
-              break;
-            }
-          }
+          const _date = {
+            [date]: {
+              date: date,
+              comment: null,
+              duration: $value,
+            },
+          };
+          record.dates = {...record.dates, ..._date};
         }
         return record;
       });
@@ -359,16 +351,17 @@ export default {
     updateProject($value, index) {
       const updated = this.records.map((record, i) => {
         if (i === index) {
-          record.project = $value;
+          record.project = $value ? {id: $value.id, name: $value.label} : null;
         }
         return record;
       });
+      if ($value === null) this.updateActivity(null, index);
       this.syncRecords(updated);
     },
     updateActivity($value, index) {
       const updated = this.records.map((record, i) => {
         if (i === index) {
-          record.activity = $value;
+          record.activity = $value ? {id: $value.id, name: $value.label} : null;
         }
         return record;
       });
@@ -385,6 +378,12 @@ export default {
     onCommentModalClose() {
       this.showCommentModal = false;
       this.commentModalState = null;
+    },
+    getProject(project) {
+      return project ? {id: project.id, label: project.name} : null;
+    },
+    getActivity(activity) {
+      return activity ? {id: activity.id, label: activity.name} : null;
     },
   },
 };
