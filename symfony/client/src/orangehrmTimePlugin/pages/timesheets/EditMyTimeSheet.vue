@@ -68,6 +68,10 @@
 </template>
 
 <script>
+import {
+  secondsTohhmm,
+  parseTimeInSeconds,
+} from '@ohrm/core/util/helper/datefns';
 import {onBeforeMount, computed, toRefs} from 'vue';
 import useToast from '@/core/util/composable/useToast';
 import {APIService} from '@/core/util/services/api.service';
@@ -144,8 +148,9 @@ export default {
         entries: state.timesheetRecords.map(record => {
           const dates = {};
           for (const date in record.dates) {
+            const _duration = parseTimeInSeconds(record.dates[date].duration);
             dates[date] = {
-              duration: record.dates[date].duration,
+              duration: _duration > 0 ? secondsTohhmm(_duration) : '00:00',
             };
           }
           return {
@@ -154,7 +159,19 @@ export default {
             dates,
           };
         }),
-        deletedEntries: [],
+        deletedEntries: timesheetModal
+          .filter(
+            record =>
+              state.timesheetRecords.findIndex(
+                item =>
+                  item.project.id === record.project.id &&
+                  item.activity.id === record.activity.id,
+              ) < 0,
+          )
+          .map(record => ({
+            projectId: record.project.id,
+            activityId: record.activity.id,
+          })),
       };
       updateTimesheetEntries(props.timesheetId, payload).then(() => {
         updateSuccess();

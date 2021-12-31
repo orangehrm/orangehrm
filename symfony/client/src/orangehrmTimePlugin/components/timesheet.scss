@@ -164,6 +164,7 @@ $card-padding: $card-padding-top-bottom $card-padding-left-right;
         }
       }
       &-row {
+        vertical-align: baseline;
         border-bottom: $oxd-border $oxd-interface-gray-lighten-2-color;
         &.--total {
           background-color: $oxd-interface-gray-lighten-1-color;
@@ -177,6 +178,9 @@ $card-padding: $card-padding-top-bottom $card-padding-left-right;
       th,
       td {
         padding: 0.5rem 1rem;
+        &.--duration-input {
+          padding: 0.5rem 0.25rem;
+        }
       }
     }
   }

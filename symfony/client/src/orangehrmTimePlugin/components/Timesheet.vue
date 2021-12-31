@@ -82,12 +82,13 @@
           <!-- timesheet activities -->
           <tr
             v-for="(record, i) in records"
-            :key="`${record.project}_${record.activity}`"
+            :key="record"
             class="orangehrm-timesheet-table-body-row"
           >
             <td :class="fixedCellClasses">
               <project-autocomplete
                 v-if="editable"
+                :rules="rules.project"
                 :model-value="getProject(record.project)"
                 @update:modelValue="updateProject($event, i)"
               />
@@ -96,6 +97,7 @@
             <td class="orangehrm-timesheet-table-body-cell">
               <activity-dropdown
                 v-if="editable"
+                :rules="rules.activity"
                 :project-id="record.project && record.project.id"
                 :model-value="getActivity(record.activity)"
                 @update:modelValue="updateActivity($event, i)"
@@ -108,6 +110,7 @@
               :class="{
                 'orangehrm-timesheet-table-body-cell': true,
                 '--center': true,
+                '--duration-input': editable,
                 '--highlight-3': !editable && column.workday,
               }"
             >
@@ -119,9 +122,8 @@
               />
               <oxd-input-field
                 v-if="editable"
-                :model-value="
-                  record.dates[date] ? record.dates[date].duration : null
-                "
+                :rules="rules.duration"
+                :model-value="getDuration(record.dates[date])"
                 @update:modelValue="updateTime($event, i, date)"
               />
               <span v-else>
@@ -218,7 +220,7 @@
 </template>
 
 <script>
-import {parseDate} from '@ohrm/core/util/helper/datefns';
+import {parseDate, parseTimeInSeconds} from '@ohrm/core/util/helper/datefns';
 import Alert from '@ohrm/oxd/core/components/Alert/Alert';
 import Spinner from '@ohrm/oxd/core/components/Loader/Spinner.vue';
 import ActivityDropdown from '@/orangehrmTimePlugin/components/ActivityDropdown.vue';
@@ -267,6 +269,22 @@ export default {
     return {
       showCommentModal: false,
       commentModalState: null,
+      rules: {
+        project: [v => v !== null || 'Select a Project'],
+        activity: [
+          v => v !== null || 'Select an Activity',
+          v =>
+            this.records.filter(record => record.activity?.id === v?.id)
+              .length < 2 || 'Duplicate Record',
+        ],
+        duration: [
+          v =>
+            v === '' ||
+            v === null ||
+            parseTimeInSeconds(v) >= 0 ||
+            'Should Be Less Than 24 and in HH:MM or Decimal Format',
+        ],
+      },
     };
   },
 
@@ -384,6 +402,10 @@ export default {
     },
     getActivity(activity) {
       return activity ? {id: activity.id, label: activity.name} : null;
+    },
+    getDuration(date) {
+      // TODO: convert to format from user config
+      return date ? date.duration : null;
     },
   },
 };
