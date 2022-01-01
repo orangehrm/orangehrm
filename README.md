@@ -45,6 +45,8 @@ https://github.com/orangehrm/orangehrm/wiki/Resources
 ## Demo
 Live demo is available at : https://opensource-demo.orangehrmlive.com/index.php/auth/login
 
+Or Run with another tool [![TeamCode try-it-now](https://static01.teamcode.com/badge/teamcode-badge-run-in-cloud-en.svg)](https://www.teamcode.com/tin/clone?applicationId=275693725772488704)
+
 ## Releases
 Sourceforge : https://sourceforge.net/p/orangehrm
 
