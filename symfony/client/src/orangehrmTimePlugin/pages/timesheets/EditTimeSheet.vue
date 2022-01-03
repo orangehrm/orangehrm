@@ -24,7 +24,9 @@
       v-model:records="timesheetRecords"
       :editable="true"
       :loading="isLoading"
+      :timesheet-id="timesheetId"
       :columns="timesheetColumns"
+      @reload="onReload"
       @submitValid="onSave"
     >
       <template #header-title>
@@ -51,7 +53,11 @@
         </oxd-text>
       </template>
       <template #footer-options>
-        <oxd-button display-type="ghost" :label="$t('general.cancel')" />
+        <oxd-button
+          display-type="ghost"
+          :label="$t('general.cancel')"
+          @click="onClickCancel"
+        />
         <oxd-button
           display-type="ghost"
           :label="$t('general.reset')"
@@ -74,6 +80,7 @@ import {
 } from '@ohrm/core/util/helper/datefns';
 import {onBeforeMount, computed, toRefs} from 'vue';
 import useToast from '@/core/util/composable/useToast';
+import {navigate} from '@ohrm/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
 import Timesheet from '@/orangehrmTimePlugin/components/Timesheet.vue';
 import useTimesheetAPIs from '@/orangehrmTimePlugin/util/composable/useTimesheetAPIs';
@@ -102,7 +109,7 @@ export default {
 
     let timesheetModal = [];
 
-    const {updateSuccess} = useToast();
+    const {saveSuccess} = useToast();
     const {
       state,
       fetchTimesheetEntries,
@@ -142,6 +149,12 @@ export default {
       state.timesheetRecords = JSON.parse(JSON.stringify(timesheetModal));
     };
 
+    const onClickCancel = () => {
+      navigate('/time/viewMyTimesheet');
+    };
+
+    const onReload = () => loadTimesheet();
+
     const onSave = () => {
       state.isLoading = true;
       const payload = {
@@ -164,8 +177,8 @@ export default {
             record =>
               state.timesheetRecords.findIndex(
                 item =>
-                  item.project.id === record.project.id &&
-                  item.activity.id === record.activity.id,
+                  item.project.id === record.project?.id &&
+                  item.activity.id === record.activity?.id,
               ) < 0,
           )
           .map(record => ({
@@ -173,10 +186,13 @@ export default {
             activityId: record.activity.id,
           })),
       };
-      updateTimesheetEntries(props.timesheetId, payload).then(() => {
-        updateSuccess();
-        loadTimesheet();
-      });
+      updateTimesheetEntries(props.timesheetId, payload)
+        .then(() => {
+          return saveSuccess();
+        })
+        .then(() => {
+          navigate('/time/viewMyTimesheet');
+        });
     };
 
     const timesheetDateRange = computed(() => {
@@ -189,7 +205,9 @@ export default {
 
     return {
       onSave,
+      onReload,
       onClickReset,
+      onClickCancel,
       ...toRefs(state),
       timesheetDateRange,
     };

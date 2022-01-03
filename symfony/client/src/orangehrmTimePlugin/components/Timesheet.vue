@@ -115,19 +115,22 @@
               }"
             >
               <oxd-icon-button
-                v-if="record.dates[date] && record.dates[date].comment"
-                name="chat-dots"
+                v-show="isCommentVisible(record.dates[date], i, date)"
+                display-type="secondary"
                 class="orangehrm-timesheet-icon-comment"
-                @click="viewComment(date)"
+                :name="getCommentIcon(record.dates[date])"
+                @mousedown="viewComment(record, record.dates[date], date)"
               />
               <oxd-input-field
                 v-if="editable"
-                :rules="rules.duration"
+                :rules="validateDuration(date)"
                 :model-value="getDuration(record.dates[date])"
+                @blur="onDurationBlur"
+                @focus="onDurationFocus(i, date)"
                 @update:modelValue="updateTime($event, i, date)"
               />
               <span v-else>
-                {{ record.dates[date] ? record.dates[date].duration : '00:00' }}
+                {{ getDuration(record.dates[date]) ?? '00:00' }}
               </span>
             </td>
             <td
@@ -212,17 +215,18 @@
 
     <timesheet-comment-modal
       v-if="showCommentModal"
-      :date="commentModalState"
       :editable="editable"
+      :data="commentModalState"
+      :timesheet-id="timesheetId"
       @close="onCommentModalClose"
     ></timesheet-comment-modal>
   </oxd-form>
 </template>
 
 <script>
-import {parseDate, parseTimeInSeconds} from '@ohrm/core/util/helper/datefns';
 import Alert from '@ohrm/oxd/core/components/Alert/Alert';
 import Spinner from '@ohrm/oxd/core/components/Loader/Spinner.vue';
+import {parseDate, parseTimeInSeconds} from '@ohrm/core/util/helper/datefns';
 import ActivityDropdown from '@/orangehrmTimePlugin/components/ActivityDropdown.vue';
 import ProjectAutocomplete from '@/orangehrmTimePlugin/components/ProjectAutocomplete.vue';
 import TimesheetCommentModal from '@/orangehrmTimePlugin/components/TimesheetCommentModal.vue';
@@ -261,12 +265,17 @@ export default {
       type: Boolean,
       default: false,
     },
+    timesheetId: {
+      type: Number,
+      default: null,
+    },
   },
 
-  emits: ['update:records'],
+  emits: ['update:records', 'reload'],
 
   data() {
     return {
+      focusedField: null,
       showCommentModal: false,
       commentModalState: null,
       rules: {
@@ -277,13 +286,6 @@ export default {
             this.records.filter(record => record.activity?.id === v?.id)
               .length < 2 || 'Duplicate Record',
         ],
-        duration: [
-          v =>
-            v === '' ||
-            v === null ||
-            parseTimeInSeconds(v) >= 0 ||
-            'Should Be Less Than 24 and in HH:MM or Decimal Format',
-        ],
       },
     };
   },
@@ -291,6 +293,16 @@ export default {
   computed: {
     days() {
       return this.columns ? Object.keys(this.columns) : [];
+    },
+    dailyTotals() {
+      const totals = {};
+      for (const date in this.columns) {
+        totals[date] = this.records.reduce((acc, record) => {
+          const duration = parseTimeInSeconds(record.dates[date]?.duration);
+          return duration > 0 ? acc + duration : acc;
+        }, 0);
+      }
+      return totals;
     },
     daysOfWeek() {
       const days = [
@@ -356,7 +368,7 @@ export default {
           const _date = {
             [date]: {
               date: date,
-              comment: null,
+              comment: record.dates[date]?.comment,
               duration: $value,
             },
           };
@@ -385,17 +397,31 @@ export default {
       });
       this.syncRecords(updated);
     },
-    viewComment(date) {
-      this.commentModalState = date;
-      this.showCommentModal = true;
-    },
     syncRecords(updated) {
       if (!this.editable) return;
       this.$emit('update:records', updated);
     },
-    onCommentModalClose() {
+    viewComment(record, entry, date) {
+      if (record.project?.id && record.activity?.id) {
+        this.commentModalState = {
+          date,
+          id: entry?.id,
+          project: record.project,
+          activity: record.activity,
+          customer: record.customer,
+        };
+        this.showCommentModal = true;
+      } else {
+        this.$toast.warn({
+          title: 'Warning',
+          message: 'Select a Project and an Activity',
+        });
+      }
+    },
+    onCommentModalClose($event) {
       this.showCommentModal = false;
       this.commentModalState = null;
+      $event && this.$emit('reload');
     },
     getProject(project) {
       return project ? {id: project.id, label: project.name} : null;
@@ -403,9 +429,47 @@ export default {
     getActivity(activity) {
       return activity ? {id: activity.id, label: activity.name} : null;
     },
-    getDuration(date) {
+    getDuration(entry) {
       // TODO: convert to format from user config
-      return date ? date.duration : null;
+      return entry?.duration ? entry.duration : null;
+    },
+    getCommentIcon(entry) {
+      return entry?.comment ? 'chat-dots-fill' : 'chat-dots';
+    },
+    isCommentVisible(entry, index, date) {
+      if (entry?.comment) return true;
+      if (this.editable) {
+        return (
+          this.focusedField &&
+          this.focusedField.index === index &&
+          this.focusedField.date === date
+        );
+      }
+      return false;
+    },
+    onDurationFocus(index, date) {
+      this.focusedField = {index, date};
+    },
+    onDurationBlur() {
+      this.focusedField = null;
+    },
+    validateDuration(date) {
+      const validateFormat = v => {
+        return (
+          v === '' ||
+          v === null ||
+          parseTimeInSeconds(v) >= 0 ||
+          'Should Be Less Than 24 and in HH:MM or Decimal Format'
+        );
+      };
+
+      const validateTotal = () => {
+        return this.dailyTotals[date] > 86400
+          ? 'Total Should Be Less Than 24 Hours'
+          : true;
+      };
+
+      return [validateFormat, validateTotal];
     },
   },
 };

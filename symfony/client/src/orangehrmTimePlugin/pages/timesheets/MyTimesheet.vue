@@ -24,6 +24,7 @@
       :loading="isLoading"
       :columns="timesheetColumns"
       :records="timesheetRecords"
+      :timesheet-id="timesheetId"
       :subtotal="timesheetSubtotal"
     >
       <template #header-title>
@@ -34,6 +35,7 @@
       <template #header-options>
         <timesheet-period
           v-model="date"
+          :value="timesheetPeriod"
           @previous="onClickPrevious"
           @next="onClickNext"
         ></timesheet-period>
@@ -101,6 +103,7 @@ export default {
       onClickNext,
       onClickSubmit,
       onClickPrevious,
+      timesheetPeriod,
       canEditTimesheet,
       canSubmitTimesheet,
       canCreateTimesheet,
@@ -114,6 +117,7 @@ export default {
       onClickSubmit,
       onClickPrevious,
       ...toRefs(state),
+      timesheetPeriod,
       canEditTimesheet,
       canSubmitTimesheet,
       canCreateTimesheet,

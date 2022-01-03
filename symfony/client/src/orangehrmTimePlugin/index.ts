@@ -21,7 +21,7 @@ import Customer from './pages/customer/Customer.vue';
 import SaveCustomer from './pages/customer/SaveCustomer.vue';
 import EditCustomer from './pages/customer/EditCustomer.vue';
 import MyTimesheet from './pages/timesheets/MyTimesheet.vue';
-import EditMyTimeSheet from './pages/timesheets/EditMyTimeSheet.vue';
+import EditTimeSheet from './pages/timesheets/EditTimeSheet.vue';
 import Project from './pages/project/Project.vue';
 import ProjectSave from './pages/project/ProjectSave.vue';
 import ProjectEdit from './pages/project/ProjectEdit.vue';
@@ -34,7 +34,7 @@ export default {
   'customer-save': SaveCustomer,
   'customer-edit': EditCustomer,
   'my-timesheet': MyTimesheet,
-  'edit-my-timesheet': EditMyTimeSheet,
+  'edit-timesheet': EditTimeSheet,
   'project-list': Project,
   'project-save': ProjectSave,
   'project-edit': ProjectEdit,

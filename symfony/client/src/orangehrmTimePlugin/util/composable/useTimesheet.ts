@@ -134,12 +134,19 @@ export default function useTimesheet(http: APIService) {
     return currDate > freshDate();
   });
 
+  const timesheetPeriod = computed(() => {
+    return state.timesheet
+      ? `${state.timesheet.startDate} - ${state.timesheet.endDate}`
+      : null;
+  });
+
   return {
     state,
     onClickEdit,
     onClickNext,
     onClickSubmit,
     onClickPrevious,
+    timesheetPeriod,
     canEditTimesheet,
     canSubmitTimesheet,
     canCreateTimesheet,

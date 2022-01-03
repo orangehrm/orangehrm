@@ -34,8 +34,10 @@ class EditTimesheetController extends AbstractVueController
         $id = $request->get('id');
         // TODO: show 404 if no id
         if ($id) {
-            $component = new Component('edit-my-timesheet');
+            $component = new Component('edit-timesheet');
             $component->addProp(new Prop('timesheet-id', Prop::TYPE_NUMBER, $id));
+            // TODO: Only pass myTimesheet prop if user editing own timesheet
+            $component->addProp(new Prop('my-timesheet', Prop::TYPE_BOOLEAN, true));
         }
 
         $this->setComponent($component);
