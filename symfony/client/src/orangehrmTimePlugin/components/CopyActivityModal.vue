@@ -132,6 +132,7 @@ export default {
           .request({
             method: 'GET',
             url: `api/v2/time/projects/${this.projectId}/activities/copy/${value.id}`,
+            params: {limit: 0},
           })
           .then(response => {
             const {data} = response.data;
