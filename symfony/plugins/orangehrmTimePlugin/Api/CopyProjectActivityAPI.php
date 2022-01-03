@@ -73,8 +73,8 @@ class CopyProjectActivityAPI extends Endpoint implements CollectionEndpoint
         return new EndpointCollectionResult(
             CopyActivityModel::class,
             [$projectActivitiesForFromProject, $duplicateActivities], new ParameterBag(
-            [CommonParams::PARAMETER_TOTAL => $projectActivityCount]
-        )
+                [CommonParams::PARAMETER_TOTAL => $projectActivityCount]
+            )
         );
     }
 
