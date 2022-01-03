@@ -160,15 +160,19 @@ class ProjectActivityDao extends BaseDao
      * @param int|null $projectActivityId
      * @return bool
      */
-    public function isProjectActivityNameTaken(int $projectId, string $projectActivityName, ?int $projectActivityId = null): bool
-    {
+    public function isProjectActivityNameTaken(
+        int $projectId,
+        string $projectActivityName,
+        ?int $projectActivityId = null
+    ): bool {
         $q = $this->createQueryBuilder(ProjectActivity::class, 'projectActivity');
         $q->andWhere('projectActivity.name = :projectActivityName');
         $q->andWhere('projectActivity.project = :projectId');
         $q->setParameter('projectActivityName', $projectActivityName);
         $q->setParameter('projectId', $projectId);
         if (!is_null($projectActivityId)) {
-            $q->andWhere('projectActivity.id != :projectActivityId'); // we need to skip the current project activity Name on update, otherwise count always return 1
+            // we need to skip the current project activity Name on update, otherwise count always return 1
+            $q->andWhere('projectActivity.id != :projectActivityId');
             $q->setParameter('projectActivityId', $projectActivityId);
         }
         return $this->getPaginator($q)->count() > 0;
@@ -228,5 +232,37 @@ class ProjectActivityDao extends BaseDao
             $this->getEntityManager()->persist($toProjectActivity);
         }
         $this->getEntityManager()->flush();
+    }
+
+    /**
+     * @param array $projectActivityIdPairs e.g. [[1, 2], [1, 3], [activityId, projectId]]
+     * @return int
+     */
+    public function getActivitiesCountByProjectActivityIdPairs(array $projectActivityIdPairs): int
+    {
+        $paginator = $this->getActivitiesPaginatorByProjectActivityIdPairs($projectActivityIdPairs);
+        return is_null($paginator) ? 0 : $paginator->count();
+    }
+
+    /**
+     * @param array $projectActivityIdPairs
+     * @return Paginator|null
+     */
+    private function getActivitiesPaginatorByProjectActivityIdPairs(array $projectActivityIdPairs): ?Paginator
+    {
+        if (empty($projectActivityIdPairs)) {
+            return null;
+        }
+        $qb = $this->createQueryBuilder(ProjectActivity::class, 'activity');
+        foreach ($projectActivityIdPairs as $i => $projectActivityIdPair) {
+            $qb->orWhere(
+                $qb->expr()->andX(
+                    $qb->expr()->eq('activity.id', ":activityId_$i"),
+                    $qb->expr()->eq('activity.project', ":projectId_$i")
+                )
+            )->setParameter("activityId_$i", $projectActivityIdPair[0])
+                ->setParameter("projectId_$i", $projectActivityIdPair[1]);
+        }
+        return $this->getPaginator($qb);
     }
 }

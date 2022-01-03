@@ -22,6 +22,7 @@ namespace OrangeHRM\Time\Dao;
 use DateTime;
 use LogicException;
 use OrangeHRM\Core\Dao\BaseDao;
+use OrangeHRM\Entity\ProjectActivity;
 use OrangeHRM\Entity\Timesheet;
 use OrangeHRM\Entity\TimesheetActionLog;
 use OrangeHRM\Entity\TimesheetItem;
@@ -81,9 +82,12 @@ class TimesheetDao extends BaseDao
      * @param int $timesheetItemId
      * @return TimesheetItem|null
      */
-    public function getTimesheetItemByTimesheetIdAndTimesheetItemId(int $timesheetId, int $timesheetItemId): ?TimesheetItem
-    {
-        $timesheetItem = $this->getRepository(TimesheetItem::class)->findOneBy(['id' => $timesheetItemId, 'timesheet' => $timesheetId]);
+    public function getTimesheetItemByTimesheetIdAndTimesheetItemId(
+        int $timesheetId,
+        int $timesheetItemId
+    ): ?TimesheetItem {
+        $timesheetItem = $this->getRepository(TimesheetItem::class)
+            ->findOneBy(['id' => $timesheetItemId, 'timesheet' => $timesheetId]);
         return ($timesheetItem instanceof TimesheetItem) ? $timesheetItem : null;
     }
 
@@ -784,8 +788,8 @@ class TimesheetDao extends BaseDao
     }
 
     /**
-     * @param  int  $timesheetId
-     * @param  TimesheetActionLogSearchFilterParams  $timesheetActionLogParamHolder
+     * @param int $timesheetId
+     * @param TimesheetActionLogSearchFilterParams $timesheetActionLogParamHolder
      * @return TimesheetActionLog[]
      */
     public function getTimesheetActionLogs(
@@ -797,8 +801,8 @@ class TimesheetDao extends BaseDao
     }
 
     /**
-     * @param  int  $timesheetId
-     * @param  TimesheetActionLogSearchFilterParams  $timesheetActionLogParamHolder
+     * @param int $timesheetId
+     * @param TimesheetActionLogSearchFilterParams $timesheetActionLogParamHolder
      * @return Paginator
      */
     protected function getTimesheetActionLogsPaginator(
@@ -818,7 +822,7 @@ class TimesheetDao extends BaseDao
 
     /**
      * @param $timesheetId
-     * @param  TimesheetActionLogSearchFilterParams  $timesheetActionLogParamHolder
+     * @param TimesheetActionLogSearchFilterParams $timesheetActionLogParamHolder
      * @return int
      */
     public function getTimesheetActionLogsCount(
@@ -829,7 +833,7 @@ class TimesheetDao extends BaseDao
     }
 
     /**
-     * @param  TimesheetSearchFilterParams  $timesheetParamHolder
+     * @param TimesheetSearchFilterParams $timesheetParamHolder
      * @return array
      */
     public function getTimesheetByStartAndEndDate(
@@ -842,7 +846,7 @@ class TimesheetDao extends BaseDao
     }
 
     /**
-     * @param  TimesheetSearchFilterParams  $timesheetParamHolder
+     * @param TimesheetSearchFilterParams $timesheetParamHolder
      * @return Paginator
      */
     private function getTimesheetPaginator(
@@ -869,7 +873,7 @@ class TimesheetDao extends BaseDao
     }
 
     /**
-     * @param  TimesheetSearchFilterParams  $timesheetParamHolder
+     * @param TimesheetSearchFilterParams $timesheetParamHolder
      * @return int
      */
     public function getTimesheetCount(TimesheetSearchFilterParams $timesheetParamHolder): int
@@ -924,9 +928,15 @@ class TimesheetDao extends BaseDao
             $projectIdParamKey = 'projectId_' . $i;
             $activityIdParamKey = 'activityId_' . $i;
 
+            /** @var TimesheetItem $timesheetItem */
             $timesheetId = $timesheetItem->getTimesheet()->getId();
             $projectId = $timesheetItem->getProject()->getId();
             $activityId = $timesheetItem->getProjectActivity()->getId();
+            if ($timesheetItem->getProjectActivity()->getProject()->getId() !== $projectId) {
+                throw new LogicException(
+                    "The project activity (id: $activityId) not belongs to provided project (id: $projectId)"
+                );
+            }
             $timesheetRowKey = $timesheetId . '_' . $projectId . '_' . $activityId;
             if (isset($timesheetRowKeys[$timesheetRowKey])) {
                 continue;
@@ -973,9 +983,9 @@ class TimesheetDao extends BaseDao
     }
 
     /**
-     * @param  int  $timesheetId
-     * @param  int  $activityId
-     * @param  int  $projectId
+     * @param int $timesheetId
+     * @param int $activityId
+     * @param int $projectId
      * @return bool
      */
     public function isDuplicateTimesheetItem(

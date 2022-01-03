@@ -24,12 +24,14 @@ use OrangeHRM\Core\Api\V2\Validator\Rules\AbstractRule;
 use OrangeHRM\Core\Api\V2\Validator\Rules\ApiDate;
 use OrangeHRM\Entity\Timesheet;
 use OrangeHRM\Time\Api\EmployeeTimesheetItemAPI;
+use OrangeHRM\Time\Traits\Service\ProjectServiceTrait;
 use OrangeHRM\Time\Traits\Service\TimesheetServiceTrait;
 use Respect\Validation\Rules\Time;
 
 class TimesheetEntriesParamRule extends AbstractRule
 {
     use TimesheetServiceTrait;
+    use ProjectServiceTrait;
 
     private ?ApiDate $apiDateRule = null;
     private ?Time $timeRule = null;
@@ -82,6 +84,8 @@ class TimesheetEntriesParamRule extends AbstractRule
             }
         }
 
+        $projectActivityIdPairs = [];
+        $rowCount = 0;
         foreach ($entries as $entry) {
             if (count(array_keys($entry)) != 3) {
                 return false;
@@ -139,6 +143,21 @@ class TimesheetEntriesParamRule extends AbstractRule
                     return false;
                 }
             }
+
+            $projectActivityIdPairs[] = [$activityId, $projectId];
+            $rowCount++;
+        }
+
+        $count = $this->getProjectService()
+            ->getProjectActivityDao()
+            ->getActivitiesCountByProjectActivityIdPairs($projectActivityIdPairs);
+        /**
+         * 1. Check project ids, and activity ids available
+         * 2. Check an activity belongs to particular project id
+         * 3. Validate duplicated project and activity rows
+         */
+        if ($rowCount !== $count) {
+            return false;
         }
         return true;
     }
