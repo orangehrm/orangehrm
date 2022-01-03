@@ -173,4 +173,60 @@ class ProjectActivityDao extends BaseDao
         }
         return $this->getPaginator($q)->count() > 0;
     }
+
+    /**
+     * @param int $fromProjectId
+     * @param int $toProjectId
+     * @return ProjectActivity[]
+     */
+    public function getDuplicatedActivities(int $fromProjectId, int $toProjectId): array
+    {
+        $q = $this->createQueryBuilder(ProjectActivity::class, 'activity');
+        $q->andWhere(
+            $q->expr()->orX(
+                $q->expr()->eq('activity.project', ':fromProjectId'),
+                $q->expr()->eq('activity.project', ':toProjectId')
+            )
+        )
+            ->setParameter('fromProjectId', $fromProjectId)
+            ->setParameter('toProjectId', $toProjectId)
+            ->andWhere('activity.deleted = :deleted')
+            ->setParameter('deleted', false);
+        $q->groupBy('activity.name')
+            ->having('counter >= 2')
+            ->select('activity, COUNT(activity.id) AS HIDDEN counter');
+        return $q->getQuery()->execute();
+    }
+
+    /**
+     * @param int[] $projectActivityIds
+     * @return ProjectActivity[]
+     */
+    public function getProjectActivitiesByActivityIds(array $projectActivityIds): array
+    {
+        // this will get all activities which belongs to $fromProjectActivityIds
+        $q = $this->createQueryBuilder(ProjectActivity::class, 'activity');
+        $q->andWhere($q->expr()->in('activity.id', ':projectActivityIds'))
+            ->setParameter('projectActivityIds', $projectActivityIds);
+
+        return $q->getQuery()->execute();
+    }
+
+    /**
+     * @param int $toProjectId
+     * @param array $fromProjectActivityIds
+     * @return void
+     */
+    public function copyActivities(int $toProjectId, array $fromProjectActivityIds): void
+    {
+        $fromProjectActivities = $this->getProjectActivitiesByActivityIds($fromProjectActivityIds);
+        foreach ($fromProjectActivities as $fromProjectActivity) {
+            $toProjectActivity = new ProjectActivity();
+            $toProjectActivity->getDecorator()->setProjectById($toProjectId);
+            $toProjectActivity->setName($fromProjectActivity->getName());
+
+            $this->getEntityManager()->persist($toProjectActivity);
+        }
+        $this->getEntityManager()->flush();
+    }
 }

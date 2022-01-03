@@ -111,6 +111,11 @@ class ProjectDao extends BaseDao
             $qb->andWhere($qb->expr()->like('project.name', ':projectName'))
                 ->setParameter('projectName', '%' . $projectSearchFilterParamHolder->getName() . '%');
         }
+        if (!empty($projectSearchFilterParamHolder->getExcludeProjectIds())) {
+            $qb->andWhere($qb->expr()->notIn('project.id', ':excludeProjectIds'))
+                ->setParameter('excludeProjectIds', $projectSearchFilterParamHolder->getExcludeProjectIds());
+        }
+
         $qb->andWhere('project.deleted = :deleted')
             ->setParameter('deleted', false);
         return $this->getPaginator($qb);

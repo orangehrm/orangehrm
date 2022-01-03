@@ -355,6 +355,25 @@ GetAll:
     meta:
       total: 1
 
+  'Get projects list filter by exclude project ids':
+    userId: 1
+    services:
+      time.project_service: \OrangeHRM\Time\Service\ProjectService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      excludeProjectIds: [ 1 ]
+    data:
+      - id: 2
+        name: 'project_02'
+        description: 'Project description for project_02'
+        deleted: false
+    meta:
+      total: 1
+
 GetOne:
   'Get project by ID - default':
     userId: 1
