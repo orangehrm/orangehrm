@@ -77,7 +77,9 @@ class ProjectService
         $duplicatedActivities = $this->getProjectActivityDao()
             ->getDuplicatedActivities($fromProjectId, $toProjectId);
 
-        $fetchedFromProjectActivityIds = array_map(fn(ProjectActivity $projectActivity) => $projectActivity->getId(), $fromProjectActivities);
+        $fetchedFromProjectActivityIds = array_map(
+            fn(ProjectActivity $projectActivity) =>
+            $projectActivity->getId(), $fromProjectActivities);
 
         if (!empty(array_diff($fromProjectActivityIds, $fetchedFromProjectActivityIds))) {
             throw ProjectServiceException::projectActivityNotFound();
