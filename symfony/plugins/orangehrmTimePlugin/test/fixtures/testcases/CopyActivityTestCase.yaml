@@ -21,7 +21,8 @@ GetAll:
         id: 5
         name: "Release"
         unique: true
-    meta: [ ]
+    meta:
+      total: 3
 
   'Copy Activity by Project Id (Un available from project id)':
     userId: 1
@@ -32,10 +33,7 @@ GetAll:
       toProjectId: 2
     body: [ ]
     query: [ ]
-    exception:
-      class: '\OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException'
-      message: 'Record Not Found'
-    meta: [ ]
+    invalidOnly: [ 'fromProjectId' ]
 
   'Copy Activity by Project Id (Un available To project id)':
     userId: 1
@@ -46,10 +44,7 @@ GetAll:
       toProjectId: 200
     body: [ ]
     query: [ ]
-    exception:
-      class: '\OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException'
-      message: 'Record Not Found'
-    meta: [ ]
+    invalidOnly: [ 'toProjectId' ]
 
   'Copy Activity by Project Id with invalid param (To project id)':
     userId: 1
@@ -133,10 +128,7 @@ Create:
     body:
       activityIds: [ 4,5 ]
     query: [ ]
-    exception:
-      class: '\OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException'
-      message: 'Record Not Found'
-    meta: [ ]
+    invalidOnly: [ 'toProjectId' ]
 
   'Save project activities (Un existing from project id)':
     userId: 1
@@ -148,10 +140,7 @@ Create:
     body:
       activityIds: [ 4,5 ]
     query: [ ]
-    exception:
-      class: '\OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException'
-      message: 'Record Not Found'
-    meta: [ ]
+    invalidOnly: [ 'fromProjectId' ]
 
   'Save project activities with invalid param (From project id)':
     userId: 1

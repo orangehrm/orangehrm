@@ -19,31 +19,33 @@
 
 namespace OrangeHRM\Time\Api\Model;
 
-use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
-use OrangeHRM\Time\Dto\CopyActivityField;
-use OrangeHRM\Time\Dto\ProjectActivitySearchFilterParams;
+use OrangeHRM\Core\Api\V2\Serializer\CollectionNormalizable;
+use OrangeHRM\Core\Api\V2\Serializer\ModelConstructorArgsAwareInterface;
+use OrangeHRM\Entity\ProjectActivity;
 use OrangeHRM\Time\Traits\Service\ProjectServiceTrait;
 
-class CopyActivityModel implements Normalizable
+class CopyActivityModel implements CollectionNormalizable, ModelConstructorArgsAwareInterface
 {
     use ProjectServiceTrait;
 
     /**
-     * @var CopyActivityField
+     * @var ProjectActivity[]
      */
-    private CopyActivityField $copyActivityField;
+    private array $projectActivitiesForFromProject;
 
     /**
-     * @return CopyActivityField
+     * @var ProjectActivity[]
      */
-    public function getCopyActivityField(): CopyActivityField
-    {
-        return $this->copyActivityField;
-    }
+    private array $duplicatedActivities;
 
-    public function __construct(CopyActivityField $copyActivity)
+    /**
+     * @param ProjectActivity[] $projectActivitiesForFromProject
+     * @param ProjectActivity[] $duplicatedActivities
+     */
+    public function __construct(array $projectActivitiesForFromProject, array $duplicatedActivities)
     {
-        $this->copyActivityField = $copyActivity;
+        $this->projectActivitiesForFromProject = $projectActivitiesForFromProject;
+        $this->duplicatedActivities = $duplicatedActivities;
     }
 
     /**
@@ -51,48 +53,21 @@ class CopyActivityModel implements Normalizable
      */
     public function toArray(): array
     {
-        $copyActivityField = $this->getCopyActivityField();
-        $projectActivitySearchFilterParams = new ProjectActivitySearchFilterParams();
-
-        $projectActivitiesForFromProject = $this->getProjectService()
-            ->getProjectActivityDao()
-            ->getProjectActivityListByProjectId(
-                $copyActivityField->getFromProjectId(),
-                $projectActivitySearchFilterParams
-            ); //target
-
-        $projectActivitiesForToProject = $this->getProjectService()
-            ->getProjectActivityDao()
-            ->getProjectActivityListByProjectId(
-                $copyActivityField->getToProjectId(),
-                $projectActivitySearchFilterParams
-            );
-
-        $toProjectActivities = [];
-        foreach ($projectActivitiesForFromProject as $value) {
-            $toProjectActivities[$value->getName()] = [
-                "id" => $value->getId(),
-                "name" => $value->getName(),
-            ];
-        }
-
-        $fromProjectActivities = [];
-        foreach ($projectActivitiesForToProject as $value) {
-            $fromProjectActivities[$value->getName()] = [
-                "id" => $value->getId(),
-                "name" => $value->getName(),
-            ];
-        }
-
         $result = [];
-        foreach ($toProjectActivities as $toProjectActivity) {
-            $name = $toProjectActivity['name'];
+        $duplicatedActivities = [];
+        foreach ($this->duplicatedActivities as $duplicatedActivity) {
+            $duplicatedActivities [$duplicatedActivity->getName()] = $duplicatedActivity->getId();
+        }
+
+        foreach ($this->projectActivitiesForFromProject as $fromProjectActivity) {
+            $name = $fromProjectActivity->getName();
             $result[] = [
-                'id' => $toProjectActivity['id'],
+                'id' => $fromProjectActivity->getId(),
                 'name' => $name,
-                'unique' => !isset($fromProjectActivities[$name])
+                'unique' => !isset($duplicatedActivities[$name])
             ];
         }
+
         return $result;
     }
 }

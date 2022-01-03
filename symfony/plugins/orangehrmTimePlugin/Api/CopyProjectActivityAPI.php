@@ -19,12 +19,14 @@
 
 namespace OrangeHRM\Time\Api;
 
+use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CollectionEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
+use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
-use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
+use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
@@ -32,7 +34,7 @@ use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Entity\Project;
 use OrangeHRM\Time\Api\Model\CopyActivityModel;
-use OrangeHRM\Time\Dto\CopyActivityField;
+use OrangeHRM\Time\Dto\ProjectActivitySearchFilterParams;
 use OrangeHRM\Time\Exception\ProjectServiceException;
 use OrangeHRM\Time\Traits\Service\ProjectServiceTrait;
 
@@ -50,13 +52,29 @@ class CopyProjectActivityAPI extends Endpoint implements CollectionEndpoint
     public function getAll(): EndpointResult
     {
         list($toProjectId, $fromProjectId) = $this->getUrlAttributes();
-        $this->checkProjectAvailability($toProjectId, $fromProjectId);
+        $projectActivitySearchFilterParams = new ProjectActivitySearchFilterParams();
+        $this->setSortingAndPaginationParams($projectActivitySearchFilterParams);
 
-        $copyActivityField = new CopyActivityField();
-        $copyActivityField->setFromProjectId($fromProjectId);
-        $copyActivityField->setToProjectId($toProjectId);
+        $projectActivitiesForFromProject = $this->getProjectService()
+            ->getProjectActivityDao()
+            ->getProjectActivityListByProjectId(
+                $fromProjectId,
+                $projectActivitySearchFilterParams
+            );
 
-        return new EndpointResourceResult(CopyActivityModel::class, $copyActivityField);
+        $duplicateActivities = $this->getProjectService()
+            ->getProjectActivityDao()
+            ->getDuplicatedActivities($fromProjectId, $toProjectId);
+
+        $projectActivityCount = $this->getProjectService()
+            ->getProjectActivityDao()
+            ->getProjectActivityCount($fromProjectId, $projectActivitySearchFilterParams);
+
+        return new EndpointCollectionResult(
+            CopyActivityModel::class,
+            [$projectActivitiesForFromProject, $duplicateActivities], new ParameterBag(
+            [CommonParams::PARAMETER_TOTAL => $projectActivityCount]
+        ));
     }
 
     /**
@@ -66,6 +84,7 @@ class CopyProjectActivityAPI extends Endpoint implements CollectionEndpoint
     {
         return new ParamRuleCollection(
             ...$this->getCommonURLValidationRules(),
+            ...$this->getSortingAndPaginationParamsRules(ProjectActivitySearchFilterParams::ALLOWED_SORT_FIELDS)
         );
     }
 
@@ -76,11 +95,9 @@ class CopyProjectActivityAPI extends Endpoint implements CollectionEndpoint
     {
         try {
             list($toProjectId, $fromProjectId) = $this->getUrlAttributes();
-            $this->checkProjectAvailability($toProjectId, $fromProjectId);
-
             $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_ACTIVITY_IDS);
             $this->getProjectService()->validateProjectActivityName($toProjectId, $fromProjectId, $ids);
-            $this->getProjectService()->getProjectActivityDao()->saveCopyActivity($toProjectId, $ids);
+            $this->getProjectService()->getProjectActivityDao()->copyActivities($toProjectId, $ids);
 
             return new EndpointResourceResult(ArrayModel::class, $ids);
         } catch (ProjectServiceException $projectServiceException) {
@@ -134,12 +151,14 @@ class CopyProjectActivityAPI extends Endpoint implements CollectionEndpoint
                 new ParamRule(
                     self::PARAMETER_TO_PROJECT_ID,
                     new Rule(Rules::POSITIVE),
+                    new Rule(Rules::ENTITY_ID_EXISTS, [Project::class]),
                 )
             ),
             $this->getValidationDecorator()->requiredParamRule(
                 new ParamRule(
                     self::PARAMETER_FROM_PROJECT_ID,
                     new Rule(Rules::POSITIVE),
+                    new Rule(Rules::ENTITY_ID_EXISTS, [Project::class]),
                 )
             ),
         ];
@@ -160,20 +179,5 @@ class CopyProjectActivityAPI extends Endpoint implements CollectionEndpoint
             self::PARAMETER_TO_PROJECT_ID
         );
         return [$toProjectId, $fromProjectId];
-    }
-
-    /**
-     * @param int $toProjectId
-     * @param int $fromProjectId
-     * @return void
-     * @throws RecordNotFoundException
-     */
-    private function checkProjectAvailability(int $toProjectId, int $fromProjectId)
-    {
-        $toProject = $this->getProjectService()->getProjectDao()->getProjectById($toProjectId);
-        $this->throwRecordNotFoundExceptionIfNotExist($toProject, Project::class);
-
-        $fromProject = $this->getProjectService()->getProjectDao()->getProjectById($fromProjectId);
-        $this->throwRecordNotFoundExceptionIfNotExist($fromProject, Project::class);
     }
 }

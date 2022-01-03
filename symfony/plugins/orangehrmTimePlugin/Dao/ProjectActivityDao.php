@@ -179,7 +179,7 @@ class ProjectActivityDao extends BaseDao
      * @param int $toProjectId
      * @return ProjectActivity[]
      */
-    public function getDuplicatedActivityIds(int $fromProjectId, int $toProjectId): array
+    public function getDuplicatedActivities(int $fromProjectId, int $toProjectId): array
     {
         $q = $this->createQueryBuilder(ProjectActivity::class, 'activity');
         $q->andWhere(
@@ -199,17 +199,16 @@ class ProjectActivityDao extends BaseDao
     }
 
     /**
-     * @param array $fromProjectActivityIds
+     * @param int[] $projectActivityIds
      * @return ProjectActivity[]
      */
-    public function getProjectActivitiesByProjectIds(array $fromProjectActivityIds): array
+    public function getProjectActivitiesByActivityIds(array $projectActivityIds): array
     {
         // this will get all activities which belongs to $fromProjectActivityIds
         $q = $this->createQueryBuilder(ProjectActivity::class, 'activity');
-        $q->andWhere($q->expr()->in('activity.id', ':fromProjectActivityIds'))
-            ->setParameter('fromProjectActivityIds', $fromProjectActivityIds);
+        $q->andWhere($q->expr()->in('activity.id', ':projectActivityIds'))
+            ->setParameter('projectActivityIds', $projectActivityIds);
 
-        /** @var ProjectActivity[] $fromProjectActivities */
         return $q->getQuery()->execute();
     }
 
@@ -218,10 +217,9 @@ class ProjectActivityDao extends BaseDao
      * @param array $fromProjectActivityIds
      * @return void
      */
-    public function saveCopyActivity(int $toProjectId, array $fromProjectActivityIds): void
+    public function copyActivities(int $toProjectId, array $fromProjectActivityIds): void
     {
-        $fromProjectActivities = $this->getProjectActivitiesByProjectIds($fromProjectActivityIds);
-
+        $fromProjectActivities = $this->getProjectActivitiesByActivityIds($fromProjectActivityIds);
         foreach ($fromProjectActivities as $fromProjectActivity) {
             $toProjectActivity = new ProjectActivity();
             $toProjectActivity->getDecorator()->setProjectById($toProjectId);
@@ -230,15 +228,5 @@ class ProjectActivityDao extends BaseDao
             $this->getEntityManager()->persist($toProjectActivity);
         }
         $this->getEntityManager()->flush();
-    }
-
-    /**
-     * @param int $projectActivityId
-     * @return ProjectActivity|null
-     */
-    public function getProjectActivityById(int $projectActivityId): ?ProjectActivity
-    {
-        $projectActivity = $this->getRepository(ProjectActivity::class)->find($projectActivityId);
-        return ($projectActivity instanceof ProjectActivity) ? $projectActivity : null;
     }
 }
