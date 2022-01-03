@@ -54,14 +54,9 @@ class CopyProjectActivityAPI extends Endpoint implements CollectionEndpoint
         list($toProjectId, $fromProjectId) = $this->getUrlAttributes();
         $projectActivitySearchFilterParams = new ProjectActivitySearchFilterParams();
         $this->setSortingAndPaginationParams($projectActivitySearchFilterParams);
-
         $projectActivitiesForFromProject = $this->getProjectService()
             ->getProjectActivityDao()
-            ->getProjectActivityListByProjectId(
-                $fromProjectId,
-                $projectActivitySearchFilterParams
-            );
-
+            ->getProjectActivityListByProjectId($fromProjectId, $projectActivitySearchFilterParams);
         $duplicateActivities = $this->getProjectService()
             ->getProjectActivityDao()
             ->getDuplicatedActivities($fromProjectId, $toProjectId);
