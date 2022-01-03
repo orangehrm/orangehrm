@@ -2063,6 +2063,93 @@ Update:
         }
       ]
 
+  'with non-existing projectId in entries':
+    userId: 1
+    invalidOnly: [ 'entries' ]
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+    attributes:
+      timesheetId: 1
+    body:
+      entries: [
+        {
+          projectId: 1,
+          activityId: 1,
+          dates: {
+            "2020-10-05": {
+              "duration": "23:59"
+            }
+          }
+        },
+        {
+          projectId: 200,
+          activityId: 1,
+          dates: {
+            "2020-10-05": {
+              "duration": "23:59"
+            }
+          }
+        }
+      ]
+
+  'with non-existing activityId in entries':
+    userId: 1
+    invalidOnly: [ 'entries' ]
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+    attributes:
+      timesheetId: 1
+    body:
+      entries: [
+        {
+          projectId: 1,
+          activityId: 200,
+          dates: {
+            "2020-10-05": {
+              "duration": "23:59"
+            }
+          }
+        },
+        {
+          projectId: 1,
+          activityId: 1,
+          dates: {
+            "2020-10-05": {
+              "duration": "23:59"
+            }
+          }
+        }
+      ]
+
+  'with activityId which not belongs to specified projectId in entries':
+    userId: 1
+    invalidOnly: [ 'entries' ]
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+    attributes:
+      timesheetId: 1
+    body:
+      entries: [
+        {
+          projectId: 1,
+          activityId: 78,
+          dates: {
+            "2020-10-05": {
+              "duration": "23:59"
+            }
+          }
+        },
+        {
+          projectId: 1,
+          activityId: 1,
+          dates: {
+            "2020-10-05": {
+              "duration": "23:59"
+            }
+          }
+        }
+      ]
+
   'without activityId in deletedEntries':
     userId: 1
     invalidOnly: [ 'deletedEntries' ]
