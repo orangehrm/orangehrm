@@ -73,10 +73,8 @@ class ProjectService
     ): void {
         $fromProjectActivities = $this->getProjectActivityDao()
             ->getProjectActivitiesByActivityIds($fromProjectActivityIds);
-
         $duplicatedActivities = $this->getProjectActivityDao()
             ->getDuplicatedActivities($fromProjectId, $toProjectId);
-
         $fetchedFromProjectActivityIds = array_map(
             fn(ProjectActivity $projectActivity) => $projectActivity->getId(),
             $fromProjectActivities
@@ -85,13 +83,11 @@ class ProjectService
         if (!empty(array_diff($fromProjectActivityIds, $fetchedFromProjectActivityIds))) {
             throw ProjectServiceException::projectActivityNotFound();
         }
-
         $duplicatedActivitiesMap = $this->getProjectActivityAsMap($duplicatedActivities);
         foreach ($fromProjectActivities as $fromProjectActivity) {
             if ($fromProjectActivity->getProject()->getId() !== $fromProjectId) {
                 throw ProjectServiceException::projectActivityNotFound();
             }
-
             $name = $fromProjectActivity->getName();
             if (isset($duplicatedActivitiesMap[$name])) {
                 throw ProjectServiceException::duplicateProjectActivityNameFound();
