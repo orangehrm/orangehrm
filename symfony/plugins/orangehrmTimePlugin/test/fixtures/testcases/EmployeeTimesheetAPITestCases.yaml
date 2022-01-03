@@ -1,3 +1,261 @@
+Create:
+  'Time sheet create (Wednesday) - self admin':
+    userId: 1
+    now:
+      datetime: '2021-12-09'
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+    body:
+      date: "2021-12-08"
+    attributes:
+      empNumber: 1
+    query: [ ]
+    data:
+      id: 6
+      status:
+        id: "NOT SUBMITTED"
+        name: "Not Submitted"
+      startDate: "2021-12-06"
+      endDate: "2021-12-12"
+    meta: [ ]
+
+    'Time sheet create (Wednesday) - self ESS':
+      userId: 2
+      now:
+        datetime: '2021-12-09'
+      services:
+        time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+        core.config_service: \OrangeHRM\Core\Service\ConfigService
+      body:
+        date: "2021-12-08"
+      attributes:
+        empNumber: 2
+      query: [ ]
+      data:
+        id: 6
+        status:
+          id: "NOT SUBMITTED"
+          name: "Not Submitted"
+        startDate: "2021-12-06"
+        endDate: "2021-12-12"
+      meta: [ ]
+
+  'Time sheet create (Wednesday) - Supervisor to Subordinate':
+    userId: 3
+    now:
+      datetime: '2021-12-09'
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    body:
+      date: "2021-12-08"
+    attributes:
+      empNumber: 2
+    query: [ ]
+    data:
+      id: 6
+      status:
+        id: "NOT SUBMITTED"
+        name: "Not Submitted"
+      startDate: "2021-12-06"
+      endDate: "2021-12-12"
+    meta: [ ]
+
+  'Time sheet create (Wednesday) - Supervisor to non assigned Subordinate':
+    userId: 3
+    now:
+      datetime: '2021-12-09'
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    body:
+      date: "2021-12-08"
+    attributes:
+      empNumber: 4
+    query: [ ]
+    invalidOnly: [ 'empNumber' ]
+
+  'Time sheet create (Tuesday)':
+    userId: 1
+    now:
+      datetime: '2021-12-09'
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    body:
+      date: "2021-12-07"
+    attributes:
+      empNumber: 2
+    query: [ ]
+    data:
+      id: 6
+      status:
+        id: "NOT SUBMITTED"
+        name: "Not Submitted"
+      startDate: "2021-12-06"
+      endDate: "2021-12-12"
+    meta: [ ]
+
+  'Time sheet create (Monday)':
+    userId: 1
+    now:
+      datetime: '2021-12-09'
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    body:
+      date: "2021-12-06"
+    query: [ ]
+    attributes:
+      empNumber: 2
+    data:
+      id: 6
+      status:
+        id: "NOT SUBMITTED"
+        name: "Not Submitted"
+      startDate: "2021-12-06"
+      endDate: "2021-12-12"
+    meta: [ ]
+
+  'Time sheet create (Thursday)':
+    userId: 1
+    now:
+      datetime: '2021-12-09'
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    body:
+      date: "2021-12-02"
+    attributes:
+      empNumber: 2
+    query: [ ]
+    data:
+      id: 6
+      status:
+        id: "NOT SUBMITTED"
+        name: "Not Submitted"
+      startDate: "2021-11-29"
+      endDate: "2021-12-05"
+    meta: [ ]
+
+  'Time sheet create (Friday)':
+    userId: 1
+    now:
+      datetime: '2021-12-09'
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    body:
+      date: "2021-12-03"
+    attributes:
+      empNumber: 2
+    query: [ ]
+    data:
+      id: 6
+      status:
+        id: "NOT SUBMITTED"
+        name: "Not Submitted"
+      startDate: "2021-11-29"
+      endDate: "2021-12-05"
+    meta: [ ]
+
+  'Time sheet create (Saturday)':
+    userId: 1
+    now:
+      datetime: '2021-12-09'
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    body:
+      date: "2021-12-04"
+    attributes:
+      empNumber: 2
+    query: [ ]
+    data:
+      id: 6
+      status:
+        id: "NOT SUBMITTED"
+        name: "Not Submitted"
+      startDate: "2021-11-29"
+      endDate: "2021-12-05"
+    meta: [ ]
+
+  'Time sheet create (Sunday)':
+    userId: 1
+    now:
+      datetime: '2021-12-09'
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    body:
+      date: "2021-12-05"
+    attributes:
+      empNumber: 2
+    query: [ ]
+    data:
+      id: 6
+      status:
+        id: "NOT SUBMITTED"
+        name: "Not Submitted"
+      startDate: "2021-11-29"
+      endDate: "2021-12-05"
+    meta: [ ]
+
+  'Time sheet create with out date':
+    userId: 1
+    attributes:
+      empNumber: 1
+    invalidOnly: [ 'date' ]
+
+  'Time sheet create with future date':
+    userId: 1
+    attributes:
+      empNumber: 1
+    body:
+      date: "2222-12-05"
+    invalidOnly: [ 'date' ]
+
+  'Time sheet create with duplicate':
+    userId: 1
+    attributes:
+      empNumber: 1
+    body:
+      date: "2011-04-18"
+    invalidOnly: [ 'date' ]
+
 GetAll:
   'Get employee timesheets - self':
     userId: 2
