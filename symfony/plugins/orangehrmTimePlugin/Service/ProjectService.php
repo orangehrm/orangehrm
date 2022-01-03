@@ -81,7 +81,7 @@ class ProjectService
             fn(ProjectActivity $projectActivity) => $projectActivity->getId(),
             $fromProjectActivities
         );
-        
+
         if (!empty(array_diff($fromProjectActivityIds, $fetchedFromProjectActivityIds))) {
             throw ProjectServiceException::projectActivityNotFound();
         }
