@@ -88,6 +88,7 @@
             <td :class="fixedCellClasses">
               <project-autocomplete
                 v-if="editable"
+                :only-allowed="false"
                 :rules="rules.project"
                 :model-value="getProject(record)"
                 @update:modelValue="updateProject($event, i)"
@@ -387,11 +388,12 @@ export default {
     updateProject($value, index) {
       const updated = this.records.map((record, i) => {
         if (i === index) {
-          record.project = $value ? {id: $value.id, name: $value.label} : null;
+          record.project = $value ? $value : null;
+          record.customer = $value?._customer ? $value._customer : null;
         }
         return record;
       });
-      if ($value === null) this.updateActivity(null, index);
+      this.updateActivity(null, index);
       this.syncRecords(updated);
     },
     updateActivity($value, index) {
@@ -431,9 +433,16 @@ export default {
     },
     getProject(record) {
       const {project, customer} = record;
-      return project
-        ? {id: project.id, label: `${customer.name} - ${project.name}`}
-        : null;
+      if (project && project.label) {
+        return project;
+      }
+      if (project && customer) {
+        return {
+          id: project.id,
+          label: `${customer.name} - ${project.name}`,
+        };
+      }
+      return null;
     },
     getActivity(activity) {
       return activity ? {id: activity.id, label: activity.name} : null;

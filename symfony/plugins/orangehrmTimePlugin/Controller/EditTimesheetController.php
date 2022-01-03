@@ -31,11 +31,10 @@ class EditTimesheetController extends AbstractVueController
      */
     public function preRender(Request $request): void
     {
-        $id = $request->get('id');
         // TODO: show 404 if no id
-        if ($id) {
+        if ($request->attributes->has('id')) {
             $component = new Component('edit-timesheet');
-            $component->addProp(new Prop('timesheet-id', Prop::TYPE_NUMBER, $id));
+            $component->addProp(new Prop('timesheet-id', Prop::TYPE_NUMBER, $request->attributes->getInt('id')));
             // TODO: Only pass myTimesheet prop if user editing own timesheet
             $component->addProp(new Prop('my-timesheet', Prop::TYPE_BOOLEAN, true));
         }

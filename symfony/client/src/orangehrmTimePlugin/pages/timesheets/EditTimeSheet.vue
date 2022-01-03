@@ -173,14 +173,16 @@ export default {
           };
         }),
         deletedEntries: timesheetModal
-          .filter(
-            record =>
+          .filter(record => {
+            if (!record.project) return false;
+            return (
               state.timesheetRecords.findIndex(
                 item =>
-                  item.project.id === record.project?.id &&
-                  item.activity.id === record.activity?.id,
-              ) < 0,
-          )
+                  item.project.id === record.project.id &&
+                  item.activity.id === record.activity.id,
+              ) < 0
+            );
+          })
           .map(record => ({
             projectId: record.project.id,
             activityId: record.activity.id,
