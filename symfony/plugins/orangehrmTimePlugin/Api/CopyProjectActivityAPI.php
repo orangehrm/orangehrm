@@ -120,7 +120,7 @@ class CopyProjectActivityAPI extends Endpoint implements CollectionEndpoint
                         Rules::EACH,
                         [new Rules\Composite\AllOf(new Rule(Rules::POSITIVE))]
                     )
-                ),
+                )
             ),
             ...$this->getCommonURLValidationRules()
         );
@@ -152,14 +152,14 @@ class CopyProjectActivityAPI extends Endpoint implements CollectionEndpoint
                 new ParamRule(
                     self::PARAMETER_TO_PROJECT_ID,
                     new Rule(Rules::POSITIVE),
-                    new Rule(Rules::ENTITY_ID_EXISTS, [Project::class]),
+                    new Rule(Rules::ENTITY_ID_EXISTS, [Project::class])
                 )
             ),
             $this->getValidationDecorator()->requiredParamRule(
                 new ParamRule(
                     self::PARAMETER_FROM_PROJECT_ID,
                     new Rule(Rules::POSITIVE),
-                    new Rule(Rules::ENTITY_ID_EXISTS, [Project::class]),
+                    new Rule(Rules::ENTITY_ID_EXISTS, [Project::class])
                 )
             )
         ];
