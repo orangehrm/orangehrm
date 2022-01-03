@@ -26,7 +26,10 @@
     :create-options="loadProjects"
   >
     <template #option="{data}">
-      <span>{{ data.label }}</span>
+      <span>
+        {{ data._customer ? `${data._customer} - ` : '' }}
+        {{ data.label }}
+      </span>
     </template>
   </oxd-input-field>
 </template>
@@ -63,6 +66,7 @@ export default {
           const params = {
             name: serachParam.trim(),
             onlyAllowed: this.onlyAllowed,
+            model: 'detailed',
           };
           if (this.excludeProjectIds.length > 0)
             params.excludeProjectIds = this.excludeProjectIds;
@@ -72,6 +76,7 @@ export default {
                 return {
                   id: project.id,
                   label: project.name,
+                  _customer: project.customer?.name,
                 };
               }),
             );

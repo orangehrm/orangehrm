@@ -81,8 +81,8 @@ $card-padding: $card-padding-top-bottom $card-padding-left-right;
   }
   &-body {
     overflow-x: auto;
-    @include oxd-respond-to('md') {
-      overflow: unset;
+    &-message {
+      padding: $card-padding;
     }
   }
   &-table {
@@ -125,6 +125,9 @@ $card-padding: $card-padding-top-bottom $card-padding-left-right;
       &-cell {
         padding: 1rem $card-padding-left-right;
         font-weight: 700;
+        &.--center {
+          text-align: center;
+        }
       }
       &-row {
         border-bottom: $oxd-border $oxd-interface-gray-lighten-2-color;
@@ -137,6 +140,7 @@ $card-padding: $card-padding-top-bottom $card-padding-left-right;
     &-body {
       &-cell {
         position: relative;
+        max-width: 150px;
         padding: 1rem $card-padding-left-right;
         &.--highlight {
           font-weight: 700;
@@ -155,8 +159,12 @@ $card-padding: $card-padding-top-bottom $card-padding-left-right;
           align-items: center;
           gap: 0.5rem;
         }
+        &.--center {
+          text-align: center;
+        }
       }
       &-row {
+        vertical-align: baseline;
         border-bottom: $oxd-border $oxd-interface-gray-lighten-2-color;
         &.--total {
           background-color: $oxd-interface-gray-lighten-1-color;
@@ -170,6 +178,9 @@ $card-padding: $card-padding-top-bottom $card-padding-left-right;
       th,
       td {
         padding: 0.5rem 1rem;
+        &.--duration-input {
+          padding: 0.5rem 0.25rem;
+        }
       }
     }
   }

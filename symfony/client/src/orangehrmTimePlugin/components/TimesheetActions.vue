@@ -19,7 +19,7 @@
  -->
 
 <template>
-  <div class="orangehrm-paper-container">
+  <div v-if="total > 0" class="orangehrm-paper-container">
     <div class="orangehrm-header-container">
       <oxd-text tag="h6" class="orangehrm-main-title">
         {{ $t('time.actions_performed_on_the_timesheet') }}
@@ -43,6 +43,7 @@
       />
     </div>
   </div>
+  <div v-else></div>
 </template>
 
 <script>
@@ -53,10 +54,13 @@ const actionsNormalizer = data => {
   return data.map(item => {
     return {
       id: item.id,
-      action: item.action,
+      action: item.action?.label,
       date: item.date,
       comment: item.comment,
-      performedBy: `${item.performedBy?.firstName} ${item.performedBy?.lastName}`,
+      performedBy: `${item.performedEmployee?.firstName} ${
+        item.performedEmployee?.lastName
+      } 
+       ${item.performedEmployee.terminationId ? ' (Past Employee)' : ''}`,
     };
   });
 };
@@ -73,9 +77,8 @@ export default {
 
   setup(props) {
     const http = new APIService(
-      //   window.appGlobal.baseUrl,
-      'https://884b404a-f4d0-4908-9eb5-ef0c8afec15c.mock.pstmn.io',
-      `/api/v2/time/timesheet-actions-performed/${props.timesheetId}`,
+      window.appGlobal.baseUrl,
+      `/api/v2/time/timesheets/${props.timesheetId}/action-logs`,
     );
 
     const {
@@ -88,6 +91,7 @@ export default {
       isLoading,
       execQuery,
     } = usePaginate(http, {
+      toastNoRecords: false,
       normalizer: actionsNormalizer,
     });
 

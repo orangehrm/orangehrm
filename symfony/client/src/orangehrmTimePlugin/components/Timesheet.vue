@@ -32,6 +32,17 @@
     <div v-if="loading" class="orangehrm-timesheet-loader">
       <oxd-loading-spinner />
     </div>
+    <div
+      v-else-if="!loading && !columns"
+      class="orangehrm-timesheet-body-message"
+    >
+      <oxd-alert
+        type="warn"
+        :show="true"
+        :message="$t('time.no_timesheets_found')"
+      ></oxd-alert>
+    </div>
+
     <div v-else class="orangehrm-timesheet-body">
       <table :class="tableClasses">
         <thead class="orangehrm-timesheet-table-header">
@@ -47,7 +58,7 @@
             <th
               v-for="day in daysOfWeek"
               :key="day.id"
-              class="orangehrm-timesheet-table-header-cell"
+              class="orangehrm-timesheet-table-header-cell --center"
             >
               <span class="--day">
                 {{ day.day }}
@@ -59,8 +70,8 @@
             <!-- timesheet days of week -->
 
             <th
-              v-if="totals"
-              class="orangehrm-timesheet-table-header-cell --freeze-right"
+              v-if="!editable"
+              class="orangehrm-timesheet-table-header-cell --center --freeze-right"
             >
               {{ $t('general.total') }}
             </th>
@@ -71,53 +82,68 @@
           <!-- timesheet activities -->
           <tr
             v-for="(record, i) in records"
-            :key="record.id"
+            :key="record"
             class="orangehrm-timesheet-table-body-row"
           >
             <td :class="fixedCellClasses">
               <project-autocomplete
                 v-if="editable"
-                :model-value="record.project"
+                :rules="rules.project"
+                :model-value="getProject(record)"
                 @update:modelValue="updateProject($event, i)"
               />
-              <span v-else>{{ record.project.label }}</span>
+              <span v-else>
+                {{
+                  record.project
+                    ? `${record.customer.name} - ${record.project.name}`
+                    : ''
+                }}
+              </span>
             </td>
             <td class="orangehrm-timesheet-table-body-cell">
               <activity-dropdown
                 v-if="editable"
+                :rules="rules.activity"
                 :project-id="record.project && record.project.id"
-                :model-value="record.activity"
+                :model-value="getActivity(record.activity)"
                 @update:modelValue="updateActivity($event, i)"
               />
-              <span v-else>{{ record.activity.label }}</span>
+              <span v-else>{{ record.activity && record.activity.name }}</span>
             </td>
             <td
-              v-for="day in record.days"
-              :key="day.id"
+              v-for="(column, date) in columns"
+              :key="`${record.project}_${record.activity}_${date}`"
               :class="{
                 'orangehrm-timesheet-table-body-cell': true,
-                '--highlight-3': !editable && !day.workday,
+                '--center': true,
+                '--duration-input': editable,
+                '--highlight-3': !editable && column.workday,
               }"
             >
               <oxd-icon-button
-                name="chat-dots"
+                v-show="isCommentVisible(record.dates[date], i, date)"
+                display-type="secondary"
                 class="orangehrm-timesheet-icon-comment"
-                @click="viewComment(day)"
+                :name="getCommentIcon(record.dates[date])"
+                @mousedown="viewComment(record, record.dates[date], date)"
               />
               <oxd-input-field
                 v-if="editable"
-                :model-value="day.trackedTime"
-                @update:modelValue="updateTime($event, i, day)"
+                :rules="validateDuration(date)"
+                :model-value="getDuration(record.dates[date])"
+                @blur="onDurationBlur"
+                @focus="onDurationFocus(i, date)"
+                @update:modelValue="updateTime($event, i, date)"
               />
               <span v-else>
-                {{ day.trackedTime ?? '00:00' }}
+                {{ getDuration(record.dates[date]) ?? '00:00' }}
               </span>
             </td>
             <td
-              v-if="totals"
-              class="orangehrm-timesheet-table-body-cell --freeze-right --highlight"
+              v-if="!editable"
+              class="orangehrm-timesheet-table-body-cell --center --freeze-right --highlight"
             >
-              {{ record.totalTrackedTime }}
+              {{ record.total.label }}
             </td>
             <td v-if="editable" class="orangehrm-timesheet-table-body-cell">
               <oxd-icon-button
@@ -130,7 +156,10 @@
           <!-- timesheet activities -->
 
           <!-- totals -->
-          <tr v-if="totals" class="orangehrm-timesheet-table-body-row --total">
+          <tr
+            v-if="!editable && records.length > 0"
+            class="orangehrm-timesheet-table-body-row --total"
+          >
             <td
               class="orangehrm-timesheet-table-body-cell --freeze-left --highlight"
             >
@@ -139,15 +168,15 @@
             <td></td>
             <!-- total per day -->
             <td
-              v-for="(total, key) in totals"
-              :key="key"
-              class="orangehrm-timesheet-table-body-cell"
+              v-for="date in columns"
+              :key="`total-${date}`"
+              class="orangehrm-timesheet-table-body-cell --center"
             >
-              {{ total }}
+              {{ date.total.label }}
             </td>
             <!-- total per day -->
             <td
-              class="orangehrm-timesheet-table-body-cell --freeze-right --highlight-2"
+              class="orangehrm-timesheet-table-body-cell --center --freeze-right --highlight-2"
             >
               {{ subtotal }}
             </td>
@@ -168,6 +197,15 @@
             </td>
           </tr>
           <!-- add row -->
+
+          <tr
+            v-if="records.length === 0"
+            class="orangehrm-timesheet-table-body-row"
+          >
+            <td colspan="9" class="orangehrm-timesheet-table-body-cell">
+              {{ $t('general.no_records_found') }}
+            </td>
+          </tr>
         </tbody>
       </table>
     </div>
@@ -183,17 +221,18 @@
 
     <timesheet-comment-modal
       v-if="showCommentModal"
-      :date="commentModalState"
       :editable="editable"
+      :data="commentModalState"
+      :timesheet-id="timesheetId"
       @close="onCommentModalClose"
     ></timesheet-comment-modal>
   </oxd-form>
 </template>
 
 <script>
-import {nanoid} from 'nanoid';
-import {parseDate} from '@ohrm/core/util/helper/datefns';
+import Alert from '@ohrm/oxd/core/components/Alert/Alert';
 import Spinner from '@ohrm/oxd/core/components/Loader/Spinner.vue';
+import {parseDate, parseTimeInSeconds} from '@ohrm/core/util/helper/datefns';
 import ActivityDropdown from '@/orangehrmTimePlugin/components/ActivityDropdown.vue';
 import ProjectAutocomplete from '@/orangehrmTimePlugin/components/ProjectAutocomplete.vue';
 import TimesheetCommentModal from '@/orangehrmTimePlugin/components/TimesheetCommentModal.vue';
@@ -202,6 +241,7 @@ export default {
   name: 'Timesheet',
 
   components: {
+    'oxd-alert': Alert,
     'oxd-loading-spinner': Spinner,
     'activity-dropdown': ActivityDropdown,
     'project-autocomplete': ProjectAutocomplete,
@@ -209,15 +249,11 @@ export default {
   },
 
   props: {
-    days: {
-      type: Array,
-      default: () => [],
-    },
     records: {
       type: Array,
       default: () => [],
     },
-    totals: {
+    columns: {
       type: Object,
       required: false,
       default: () => null,
@@ -235,18 +271,45 @@ export default {
       type: Boolean,
       default: false,
     },
+    timesheetId: {
+      type: Number,
+      default: null,
+    },
   },
 
-  emits: ['update:records'],
+  emits: ['update:records', 'reload'],
 
   data() {
     return {
+      focusedField: null,
       showCommentModal: false,
       commentModalState: null,
+      rules: {
+        project: [v => v !== null || 'Select a Project'],
+        activity: [
+          v => v !== null || 'Select an Activity',
+          v =>
+            this.records.filter(record => record.activity?.id === v?.id)
+              .length < 2 || 'Duplicate Record',
+        ],
+      },
     };
   },
 
   computed: {
+    days() {
+      return this.columns ? Object.keys(this.columns) : [];
+    },
+    dailyTotals() {
+      const totals = {};
+      for (const date in this.columns) {
+        totals[date] = this.records.reduce((acc, record) => {
+          const duration = parseTimeInSeconds(record.dates[date]?.duration);
+          return duration > 0 ? acc + duration : acc;
+        }, 0);
+      }
+      return totals;
+    },
     daysOfWeek() {
       const days = [
         this.$t('general.sun'),
@@ -257,16 +320,14 @@ export default {
         this.$t('general.fri'),
         this.$t('general.sat'),
       ];
-      return Array.isArray(this.days)
-        ? this.days.map(day => {
-            const date = parseDate(day, 'yyyy-MM-dd');
-            return {
-              id: date.valueOf(),
-              day: date.getDate(),
-              title: days[date.getDay()],
-            };
-          })
-        : [];
+      return this.days.map(day => {
+        const date = parseDate(day, 'yyyy-MM-dd');
+        return {
+          id: date.valueOf(),
+          day: date.getDate(),
+          title: days[date.getDay()],
+        };
+      });
     },
     tableClasses() {
       return {
@@ -297,21 +358,12 @@ export default {
       });
     },
     addRow() {
-      const days = this.days.map(date => {
-        return {
-          id: nanoid(8),
-          date: date,
-          comment: null,
-          trackedTime: null,
-        };
-      });
       const updated = [
         ...this.records,
         {
-          id: nanoid(8),
           project: null,
           activity: null,
-          days,
+          dates: {},
         },
       ];
       this.syncRecords(updated);
@@ -319,12 +371,14 @@ export default {
     updateTime($value, index, date) {
       const updated = this.records.map((record, i) => {
         if (i === index) {
-          for (let x = 0; x < record.days.length; x++) {
-            if (record.days[x] === date) {
-              record.days[x].trackedTime = $value;
-              break;
-            }
-          }
+          const _date = {
+            [date]: {
+              date: date,
+              comment: record.dates[date]?.comment,
+              duration: $value,
+            },
+          };
+          record.dates = {...record.dates, ..._date};
         }
         return record;
       });
@@ -333,32 +387,98 @@ export default {
     updateProject($value, index) {
       const updated = this.records.map((record, i) => {
         if (i === index) {
-          record.project = $value;
+          record.project = $value ? {id: $value.id, name: $value.label} : null;
         }
         return record;
       });
+      if ($value === null) this.updateActivity(null, index);
       this.syncRecords(updated);
     },
     updateActivity($value, index) {
       const updated = this.records.map((record, i) => {
         if (i === index) {
-          record.activity = $value;
+          record.activity = $value ? {id: $value.id, name: $value.label} : null;
         }
         return record;
       });
       this.syncRecords(updated);
     },
-    viewComment(day) {
-      this.commentModalState = day.date;
-      this.showCommentModal = true;
-    },
     syncRecords(updated) {
       if (!this.editable) return;
       this.$emit('update:records', updated);
     },
-    onCommentModalClose() {
+    viewComment(record, entry, date) {
+      if (record.project?.id && record.activity?.id) {
+        this.commentModalState = {
+          date,
+          id: entry?.id,
+          project: record.project,
+          activity: record.activity,
+          customer: record.customer,
+        };
+        this.showCommentModal = true;
+      } else {
+        this.$toast.warn({
+          title: 'Warning',
+          message: 'Select a Project and an Activity',
+        });
+      }
+    },
+    onCommentModalClose($event) {
       this.showCommentModal = false;
       this.commentModalState = null;
+      $event && this.$emit('reload');
+    },
+    getProject(record) {
+      const {project, customer} = record;
+      return project
+        ? {id: project.id, label: `${customer.name} - ${project.name}`}
+        : null;
+    },
+    getActivity(activity) {
+      return activity ? {id: activity.id, label: activity.name} : null;
+    },
+    getDuration(entry) {
+      // TODO: convert to format from user config
+      return entry?.duration ? entry.duration : null;
+    },
+    getCommentIcon(entry) {
+      return entry?.comment ? 'chat-dots-fill' : 'chat-dots';
+    },
+    isCommentVisible(entry, index, date) {
+      if (entry?.comment) return true;
+      if (this.editable) {
+        return (
+          this.focusedField &&
+          this.focusedField.index === index &&
+          this.focusedField.date === date
+        );
+      }
+      return false;
+    },
+    onDurationFocus(index, date) {
+      this.focusedField = {index, date};
+    },
+    onDurationBlur() {
+      this.focusedField = null;
+    },
+    validateDuration(date) {
+      const validateFormat = v => {
+        return (
+          v === '' ||
+          v === null ||
+          parseTimeInSeconds(v) >= 0 ||
+          'Should Be Less Than 24 and in HH:MM or Decimal Format'
+        );
+      };
+
+      const validateTotal = () => {
+        return this.dailyTotals[date] > 86400
+          ? 'Total Should Be Less Than 24 Hours'
+          : true;
+      };
+
+      return [validateFormat, validateTotal];
     },
   },
 };

@@ -325,6 +325,11 @@
           "source": "Add Another",
           "target": "Add Another",
           "description": "Adding another project admin for a particular project."
+        },
+        "no_records_found": {
+          "source": "No Records Found",
+          "target": "No Records Found",
+          "description": "This message appears when there is no records found"
         }
       }
     },
@@ -880,6 +885,16 @@
           "source": "Edit Project",
           "target": "Edit Project",
           "description": "Edit Project Information; Customers, Projects and Activities."
+        },
+        "no_timesheets_found": {
+          "source": "No Timesheets Found",
+          "target": "No Timesheets Found",
+          "description": "This message appears when there is no Time sheets Found"
+        },
+        "create_timesheet": {
+          "source": "Create Timesheet",
+          "target": "Create Timesheet",
+          "description": ""
         }
       }
     }
