@@ -66,16 +66,23 @@ class ProjectService
      * @return void
      * @throws ProjectServiceException
      */
-    public function validateProjectActivityName(int $toProjectId, int $fromProjectId, array $fromProjectActivityIds): void
-    {
+    public function validateProjectActivityName(
+        int $toProjectId,
+        int $fromProjectId,
+        array $fromProjectActivityIds
+    ): void {
         $fromProjectActivities = $this->getProjectActivityDao()
             ->getProjectActivitiesByActivityIds($fromProjectActivityIds);
 
         $duplicatedActivities = $this->getProjectActivityDao()
             ->getDuplicatedActivities($fromProjectId, $toProjectId);
 
-        $fetchedFromProjectActivityIds = array_map(fn(ProjectActivity $projectActivity) => $projectActivity->getId(), $fromProjectActivities);
-        if(!empty(array_diff($fromProjectActivityIds, $fetchedFromProjectActivityIds))) {
+        $fetchedFromProjectActivityIds = array_map(
+            fn(ProjectActivity $projectActivity) => $projectActivity->getId(),
+            $fromProjectActivities
+        );
+        
+        if (!empty(array_diff($fromProjectActivityIds, $fetchedFromProjectActivityIds))) {
             throw ProjectServiceException::projectActivityNotFound();
         }
 
