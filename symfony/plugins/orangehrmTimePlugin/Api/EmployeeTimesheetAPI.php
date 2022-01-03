@@ -70,6 +70,8 @@ class EmployeeTimesheetAPI extends Endpoint implements CrudEndpoint
     public const FILTER_TO_DATE = 'toDate';
     public const FILTER_DATE = 'date';
 
+    public const PARAM_RULE_COMMENT_MAX_LENGTH = 2000;
+
     /**
      * @inheritDoc
      */
@@ -361,7 +363,8 @@ class EmployeeTimesheetAPI extends Endpoint implements CrudEndpoint
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::PARAMETER_COMMENT,
-                    new Rule(Rules::STRING_TYPE)
+                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_COMMENT_MAX_LENGTH]),
                 )
             ),
         );
