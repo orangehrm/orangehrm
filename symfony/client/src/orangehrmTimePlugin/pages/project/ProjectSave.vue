@@ -41,6 +41,7 @@
               v-model="project.customer"
               :rules="rules.customer"
               :label="$t('time.customer_name')"
+              :key="project.customer"
               required
             />
             <oxd-button
@@ -115,7 +116,7 @@ import ProjectAdminAutocomplete from '@/orangehrmTimePlugin/components/ProjectAd
 
 const defaultProjectModel = {
   name: null,
-  customer: null,
+  customer: {id: null, label: null},
   description: null,
   projectAdminEmpNumbers: [],
 };
