@@ -1547,9 +1547,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ohrm/oxd@npm:1.0.4":
-  version: 1.0.4
-  resolution: "@ohrm/oxd@npm:1.0.4"
+"@ohrm/oxd@npm:1.0.5-alpha1":
+  version: 1.0.5-alpha1
+  resolution: "@ohrm/oxd@npm:1.0.5-alpha1"
   dependencies:
     "@revolist/vue3-datagrid": ^3.0.96
     bootstrap-icons: ^1.3.0
@@ -1558,7 +1558,7 @@ __metadata:
     mitt: ^2.1.0
     nanoid: ^3.1.21
     vue: ^3.2.2
-  checksum: 52f1e38d2905b49385b759cc40a27d43709f94bfa50434d0d43b0777297f6a291ace36ea429781d3fde067b65b0085414c4154a002f3946d56d0e2bb71bf1d80
+  checksum: db499a30758abd407cb00a48cf18076035fdcf2cc4621bc011beaef8e8da1f371264404b80a9b67f45ccf9ceab54038f46fc35420d0fcc65816bd70814372540
   languageName: node
   linkType: hard
 
@@ -10426,7 +10426,7 @@ fsevents@~2.3.2:
   version: 0.0.0-use.local
   resolution: "orangehrm@workspace:."
   dependencies:
-    "@ohrm/oxd": 1.0.4
+    "@ohrm/oxd": 1.0.5-alpha1
     "@types/jest": ^24.0.19
     "@typescript-eslint/eslint-plugin": ^2.33.0
     "@typescript-eslint/parser": ^2.33.0

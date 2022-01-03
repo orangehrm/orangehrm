@@ -26,7 +26,10 @@
     :create-options="loadProjects"
   >
     <template #option="{data}">
-      <span>{{ data.label }}</span>
+      <span>
+        {{ data._customer ? `${data._customer} - ` : '' }}
+        {{ data.label }}
+      </span>
     </template>
   </oxd-input-field>
 </template>
@@ -56,13 +59,18 @@ export default {
       return new Promise(resolve => {
         if (serachParam.trim()) {
           this.http
-            .getAll({name: serachParam.trim(), onlyAllowed: this.onlyAllowed})
+            .getAll({
+              name: serachParam.trim(),
+              onlyAllowed: this.onlyAllowed,
+              model: 'detailed',
+            })
             .then(({data}) => {
               resolve(
                 data.data.map(project => {
                   return {
                     id: project.id,
                     label: project.name,
+                    _customer: project.customer?.name,
                   };
                 }),
               );

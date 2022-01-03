@@ -21,7 +21,7 @@
 <template>
   <oxd-dialog
     :style="{width: '90%', maxWidth: '450px'}"
-    @update:show="onCancel"
+    @update:show="onCancel(false)"
   >
     <div class="orangehrm-modal-header">
       <oxd-text type="card-title">
@@ -36,13 +36,13 @@
             {{ $t('time.project') }}:
           </oxd-text>
           <oxd-text tag="p" class="orangehrm-timesheet-text">
-            {{ data?.project.label }}
+            {{ data?.customer.name }} - {{ data?.project.name }}
           </oxd-text>
           <oxd-text tag="p" class="orangehrm-timesheet-title">
             {{ $t('time.activity') }}:
           </oxd-text>
           <oxd-text tag="p" class="orangehrm-timesheet-text">
-            {{ data?.activity.label }}
+            {{ data?.activity.name }}
           </oxd-text>
           <oxd-text tag="p" class="orangehrm-timesheet-title">
             {{ $t('general.date') }}:
@@ -67,7 +67,7 @@
           type="button"
           display-type="ghost"
           label="Cancel"
-          @click="onCancel"
+          @click="onCancel(false)"
         />
         <submit-button v-show="editable" />
       </oxd-form-actions>
@@ -89,22 +89,24 @@ export default {
     'oxd-dialog': Dialog,
   },
   props: {
-    date: {
-      type: String,
-      required: false,
-      default: null,
+    data: {
+      type: Object,
+      required: true,
     },
     editable: {
       type: Boolean,
       required: true,
     },
+    timesheetId: {
+      type: Number,
+      required: true,
+    },
   },
   emits: ['close'],
-  setup() {
+  setup(props) {
     const http = new APIService(
-      // window.appGlobal.baseUrl,
-      'https://884b404a-f4d0-4908-9eb5-ef0c8afec15c.mock.pstmn.io',
-      `api/v2/time/timesheet-comments`,
+      window.appGlobal.baseUrl,
+      `api/v2/time/timesheets/${props.timesheetId}/entries/${props.data?.id}/comment`,
     );
     return {
       http,
@@ -114,42 +116,68 @@ export default {
     return {
       isLoading: false,
       comment: null,
-      data: null,
       rules: {
-        comment: [required, shouldNotExceedCharLength(255)],
+        comment: [required, shouldNotExceedCharLength(2000)],
       },
     };
   },
   beforeMount() {
-    this.isLoading = true;
-    this.http
-      .getAll({
-        date: this.date,
-      })
-      .then(response => {
-        const {data} = response.data;
-        this.data = data;
-        this.comment = data?.comment;
-      })
-      .finally(() => {
-        this.isLoading = false;
-      });
+    if (this.data?.id) {
+      this.isLoading = true;
+      this.http
+        .getAll()
+        .then(response => {
+          const {data} = response.data;
+          this.comment = data?.comment;
+        })
+        .finally(() => {
+          this.isLoading = false;
+        });
+    }
   },
   methods: {
     onSave() {
       this.isLoading = true;
-      this.http
-        .create({
-          comment: this.comment,
-        })
-        .then(() => {
-          this.$toast.saveSuccess();
-          this.onCancel();
+      if (this.data?.id) {
+        this.updateComment(this.comment).then(() => {
+          this.$toast.updateSuccess();
+          this.onCancel(true);
         });
+      } else {
+        this.saveComment(
+          this.data.date,
+          this.comment,
+          this.data.project.id,
+          this.data.activity.id,
+        ).then(() => {
+          this.$toast.saveSuccess();
+          this.onCancel(true);
+        });
+      }
     },
-    onCancel() {
+    updateComment(comment) {
+      return this.http.request({
+        method: 'PUT',
+        data: {
+          comment,
+        },
+      });
+    },
+    saveComment(date, comment, projectId, activityId) {
+      return this.http.request({
+        method: 'POST',
+        data: {
+          date,
+          comment,
+          projectId,
+          activityId,
+        },
+        url: `api/v2/time/timesheets/${this.timesheetId}/entries/comment`,
+      });
+    },
+    onCancel(reload) {
       this.comment = null;
-      this.$emit('close', true);
+      this.$emit('close', reload);
     },
   },
 };
