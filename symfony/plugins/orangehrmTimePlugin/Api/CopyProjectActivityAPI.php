@@ -122,7 +122,7 @@ class CopyProjectActivityAPI extends Endpoint implements CollectionEndpoint
                     )
                 ),
             ),
-            ...$this->getCommonURLValidationRules(),
+            ...$this->getCommonURLValidationRules()
         );
     }
 
@@ -161,7 +161,7 @@ class CopyProjectActivityAPI extends Endpoint implements CollectionEndpoint
                     new Rule(Rules::POSITIVE),
                     new Rule(Rules::ENTITY_ID_EXISTS, [Project::class]),
                 )
-            ),
+            )
         ];
     }
 
