@@ -90,7 +90,7 @@ class ProjectService
                     $fromProjectActivityId
                 )
             )) {
-                throw ProjectServiceException::projectActivityNotBelongsToGivenProjectId();
+                throw ProjectServiceException::projectActivityNotFound();
             }
         }
 

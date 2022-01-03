@@ -105,7 +105,7 @@ Create:
     query: [ ]
     exception:
       class: '\OrangeHRM\Core\Api\V2\Exception\BadRequestException'
-      message: 'Project Activity Not Belongs To Given ProjectId'
+      message: 'Unable to locate project activity'
     meta: [ ]
 
   'Save project activities (Un existing project activity id)':
@@ -120,7 +120,7 @@ Create:
     query: [ ]
     exception:
       class: '\OrangeHRM\Core\Api\V2\Exception\BadRequestException'
-      message: 'Project activity not found'
+      message: 'Unable to locate project activity'
     meta: [ ]
 
   'Save project activities (Un existing to project id)':

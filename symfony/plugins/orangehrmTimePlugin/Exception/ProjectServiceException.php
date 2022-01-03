@@ -44,14 +44,6 @@ class ProjectServiceException extends Exception
      */
     public static function projectActivityNotFound(): self
     {
-        return new self('Project activity not found');
-    }
-
-    /**
-     * @return static
-     */
-    public static function projectActivityNotBelongsToGivenProjectId(): self
-    {
-        return new self('Project Activity Not Belongs To Given ProjectId');
+        return new self('Unable to locate project activity');
     }
 }
