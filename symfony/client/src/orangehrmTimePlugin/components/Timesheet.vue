@@ -89,10 +89,16 @@
               <project-autocomplete
                 v-if="editable"
                 :rules="rules.project"
-                :model-value="getProject(record.project)"
+                :model-value="getProject(record)"
                 @update:modelValue="updateProject($event, i)"
               />
-              <span v-else>{{ record.project && record.project.name }}</span>
+              <span v-else>
+                {{
+                  record.project
+                    ? `${record.customer.name} - ${record.project.name}`
+                    : ''
+                }}
+              </span>
             </td>
             <td class="orangehrm-timesheet-table-body-cell">
               <activity-dropdown
@@ -423,8 +429,11 @@ export default {
       this.commentModalState = null;
       $event && this.$emit('reload');
     },
-    getProject(project) {
-      return project ? {id: project.id, label: project.name} : null;
+    getProject(record) {
+      const {project, customer} = record;
+      return project
+        ? {id: project.id, label: `${customer.name} - ${project.name}`}
+        : null;
     },
     getActivity(activity) {
       return activity ? {id: activity.id, label: activity.name} : null;
