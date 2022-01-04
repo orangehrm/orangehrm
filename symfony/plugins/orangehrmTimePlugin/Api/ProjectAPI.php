@@ -327,7 +327,7 @@ class ProjectAPI extends Endpoint implements CrudEndpoint
     {
         $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
         foreach ($ids as $id) {
-            $hasTimesheetItems = $this->getProjectService()->getProjectDao()->hasTimesheetItems($id);
+            $hasTimesheetItems = $this->getProjectService()->getProjectDao()->hasTimesheetItemsForProject($id);
             if ($hasTimesheetItems) {
                 throw new BadRequestException('Not Allowed to delete Project(s) Which Have Time Logged Against Them');
             }

@@ -201,12 +201,15 @@ class ProjectDao extends BaseDao
         return array_column($result, 'id');
     }
 
-
-    public function hasTimesheetItems(int $id): bool
+    /**
+     * @param  int  $projectId
+     * @return bool
+     */
+    public function hasTimesheetItemsForProject(int $projectId): bool
     {
         $qb = $this->createQueryBuilder(TimesheetItem::class, 'timesheetItem');
         $qb->andWhere('timesheetItem.project = :projectId');
-        $qb->setParameter('projectId', $id);
+        $qb->setParameter('projectId', $projectId);
         return $this->getPaginator($qb)->count() > 0;
     }
 }

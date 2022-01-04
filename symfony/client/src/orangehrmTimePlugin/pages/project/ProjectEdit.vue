@@ -124,7 +124,7 @@ import ProjectAdminAutocomplete from '@/orangehrmTimePlugin/components/ProjectAd
 
 const defaultProjectModel = {
   name: null,
-  customer: null,
+  customer: {id: null, label: null},
   description: null,
   projectAdminEmpNumbers: [],
 };
