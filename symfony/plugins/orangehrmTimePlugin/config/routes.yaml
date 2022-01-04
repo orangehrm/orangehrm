@@ -159,6 +159,16 @@ apiv2_time_copy_activity:
   defaults:
     _api: OrangeHRM\Time\Api\CopyProjectActivityAPI
 
+apiv2_time_employee_reports:
+  path: /api/v2/time/reports
+  controller: OrangeHRM\Time\Controller\ReportMockController::getReportHeaders
+  methods: [ GET ]
+
+apiv2_time_employee_reports_data:
+  path: /api/v2/time/reports/data
+  controller: OrangeHRM\Time\Controller\ReportMockController::getReportData
+  methods: [ GET ]
+
 ##########################
 #        Screens
 ##########################
