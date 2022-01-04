@@ -20,7 +20,6 @@
 namespace OrangeHRM\Time\Controller;
 
 use OrangeHRM\Core\Controller\AbstractController;
-use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\Http\Response;
 
