@@ -222,3 +222,8 @@ time_employee_view_timesheet:
   path: /time/viewTimesheet/employeeId/{id}
   controller: OrangeHRM\Time\Controller\EmployeeTimesheetController::handle
   methods: [ GET ]
+
+time_employee_report:
+  path: /time/displayEmployeeReportCriteria
+  controller: OrangeHRM\Time\Controller\EmployeeTimeReport::handle
+  methods: [ GET ]

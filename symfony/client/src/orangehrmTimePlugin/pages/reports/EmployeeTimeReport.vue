@@ -1,0 +1,182 @@
+<!--
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ */
+ -->
+
+<template>
+  <reports-table
+    module="time"
+    name="time_employee_report"
+    :filters="serializedFilters"
+    :column-count="3"
+  >
+    <template #default="{generateReport}">
+      <oxd-table-filter :filter-title="$t('time.employee_report')">
+        <oxd-form @submitValid="generateReport">
+          <oxd-form-row>
+            <oxd-grid :cols="2" class="orangehrm-full-width-grid">
+              <oxd-grid-item>
+                <employee-autocomplete
+                  v-model="filters.employee"
+                  :rules="rules.employee"
+                  :params="{
+                    includeEmployees: 'currentAndPast',
+                  }"
+                  required
+                />
+              </oxd-grid-item>
+            </oxd-grid>
+          </oxd-form-row>
+
+          <oxd-form-row>
+            <oxd-grid :cols="2" class="orangehrm-full-width-grid">
+              <oxd-grid-item>
+                <project-autocomplete v-model="filters.project" />
+              </oxd-grid-item>
+              <oxd-grid-item>
+                <activity-dropdown
+                  v-model="filters.activity"
+                  :label="$t('time.activity_name')"
+                  :project-id="filters.project && filters.project.id"
+                />
+              </oxd-grid-item>
+            </oxd-grid>
+          </oxd-form-row>
+
+          <oxd-form-row>
+            <oxd-grid :cols="4" class="orangehrm-full-width-grid">
+              <oxd-grid-item>
+                <date-input
+                  v-model="filters.fromDate"
+                  placeholder="From"
+                  :rules="rules.fromDate"
+                  :label="$t('time.project_date_range')"
+                />
+              </oxd-grid-item>
+              <oxd-grid-item>
+                <date-input
+                  v-model="filters.toDate"
+                  label="&nbsp"
+                  placeholder="To"
+                  :rules="rules.toDate"
+                />
+              </oxd-grid-item>
+              <oxd-grid-item class="orangehrm-switch-filter --span-column-2">
+                <oxd-text class="orangehrm-switch-filter-text" tag="p">
+                  {{ $t('time.only_include_approved_timesheets') }}
+                </oxd-text>
+                <oxd-switch-input v-model="filters.includeTimesheet" />
+              </oxd-grid-item>
+            </oxd-grid>
+          </oxd-form-row>
+
+          <oxd-divider />
+
+          <oxd-form-actions>
+            <required-text />
+            <oxd-button
+              type="submit"
+              display-type="secondary"
+              :label="$t('general.view')"
+            />
+          </oxd-form-actions>
+        </oxd-form>
+      </oxd-table-filter>
+      <br />
+    </template>
+  </reports-table>
+</template>
+
+<script>
+import {computed, ref} from 'vue';
+import {
+  required,
+  validDateFormat,
+  endDateShouldBeAfterStartDate,
+  startDateShouldBeBeforeEndDate,
+} from '@/core/util/validation/rules';
+import ReportsTable from '@/core/components/table/ReportsTable';
+import SwitchInput from '@ohrm/oxd/core/components/Input/SwitchInput';
+import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
+import ActivityDropdown from '@/orangehrmTimePlugin/components/ActivityDropdown.vue';
+import ProjectAutocomplete from '@/orangehrmTimePlugin/components/ProjectAutocomplete.vue';
+
+const defaultFilters = {
+  employee: null,
+  project: null,
+  activity: null,
+  fromDate: null,
+  toDate: null,
+  includeTimesheet: false,
+};
+
+export default {
+  components: {
+    'reports-table': ReportsTable,
+    'oxd-switch-input': SwitchInput,
+    'activity-dropdown': ActivityDropdown,
+    'project-autocomplete': ProjectAutocomplete,
+    'employee-autocomplete': EmployeeAutocomplete,
+  },
+
+  setup() {
+    const filters = ref({...defaultFilters});
+
+    const rules = {
+      employee: [required],
+      fromDate: [
+        validDateFormat(),
+        startDateShouldBeBeforeEndDate(
+          () => filters.value.toDate,
+          'From date should be before to date',
+          {allowSameDate: true},
+        ),
+      ],
+      toDate: [
+        validDateFormat(),
+        endDateShouldBeAfterStartDate(
+          () => filters.value.fromDate,
+          'To date should be after from date',
+          {allowSameDate: true},
+        ),
+      ],
+    };
+
+    const serializedFilters = computed(() => {
+      return {
+        empNumber: filters.value.employee?.id,
+        projectId: filters.value.project?.id,
+        activityId: filters.value.activity?.id,
+        fromDate: filters.value.fromDate,
+        toDate: filters.value.toDate,
+        includeTimesheet: filters.value.includeTimesheet
+          ? 'onlyApproved'
+          : 'all',
+      };
+    });
+
+    return {
+      rules,
+      filters,
+      serializedFilters,
+    };
+  },
+};
+</script>
+
+<style src="./employee-time-report.scss" lang="scss" scoped></style>

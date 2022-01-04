@@ -27,6 +27,7 @@ import ProjectSave from './pages/project/ProjectSave.vue';
 import ProjectEdit from './pages/project/ProjectEdit.vue';
 import EmployeeTimesheet from './pages/timesheets/EmployeeTimesheet.vue';
 import ViewEmployeeTimesheet from './pages/timesheets/ViewEmployeeTimesheet.vue';
+import EmployeeTimeReport from './pages/reports/EmployeeTimeReport.vue';
 
 export default {
   'time-sheet-period': TimeSheetPeriodConfig,
@@ -40,4 +41,5 @@ export default {
   'project-edit': ProjectEdit,
   'employee-timesheet': EmployeeTimesheet,
   'view-employee-timesheet': ViewEmployeeTimesheet,
+  'employee-time-report': EmployeeTimeReport,
 };
