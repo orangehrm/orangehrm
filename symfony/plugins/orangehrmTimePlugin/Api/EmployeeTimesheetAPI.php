@@ -327,7 +327,7 @@ class EmployeeTimesheetAPI extends Endpoint implements CrudEndpoint
             $actionKey = array_flip(TimesheetService::TIMESHEET_ACTION_MAP)[$action];
 
             $allowedActions = $this->getTimesheetService()
-                ->getAllowedWorkflowsForTimesheet($this->getEmpNumber(), $timesheet);
+                ->getAllowedWorkflowsForTimesheet($this->getAuthUser()->getEmpNumber(), $timesheet);
 
             if (!isset($allowedActions[$actionKey])) {
                 throw $this->getBadRequestException();
@@ -370,6 +370,7 @@ class EmployeeTimesheetAPI extends Endpoint implements CrudEndpoint
                     new Rule(Rules::LENGTH, [null, self::PARAM_RULE_COMMENT_MAX_LENGTH]),
                 )
             ),
+            $this->getEmpNumberParamRule(),
         );
     }
 
