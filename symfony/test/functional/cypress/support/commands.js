@@ -44,7 +44,7 @@ Cypress.Commands.add(
       cy.request({
         method: 'POST',
         url: '/index.php/auth/validate',
-        form: false,
+        form: true,
         body: {
           username,
           password,
