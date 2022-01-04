@@ -47,8 +47,8 @@ use OrangeHRM\Entity\WorkflowStateMachine;
 use OrangeHRM\ORM\Exception\TransactionException;
 use OrangeHRM\Time\Api\Model\TimesheetModel;
 use OrangeHRM\Time\Api\Traits\TimesheetPermissionTrait;
-use OrangeHRM\Time\Api\ValidationRules\MyTimesheetActionRule;
 use OrangeHRM\Time\Api\ValidationRules\TimesheetDateRule;
+use OrangeHRM\Time\Api\ValidationRules\MyTimesheetActionRule;
 use OrangeHRM\Time\Dto\TimesheetSearchFilterParams;
 use OrangeHRM\Time\Service\TimesheetService;
 use OrangeHRM\Time\Traits\Service\TimesheetServiceTrait;
@@ -259,7 +259,10 @@ class EmployeeTimesheetAPI extends Endpoint implements CrudEndpoint
                 new ParamRule(
                     self::PARAMETER_DATE,
                     new Rule(Rules::API_DATE),
-                    new Rule(TimesheetDateRule::class),
+                    new Rule(
+                        TimesheetDateRule::class,
+                        [$this->getRequest()->getAttributes()->get(CommonParams::PARAMETER_EMP_NUMBER)]
+                    ),
                 ),
             ),
             $this->getEmpNumberParamRule(),

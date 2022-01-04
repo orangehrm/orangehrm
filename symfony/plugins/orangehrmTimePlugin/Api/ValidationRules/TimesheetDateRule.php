@@ -21,7 +21,6 @@ namespace OrangeHRM\Time\Api\ValidationRules;
 
 use DateTime;
 use OrangeHRM\Core\Api\V2\Validator\Rules\AbstractRule;
-use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Time\Traits\Service\TimesheetServiceTrait;
 
@@ -29,7 +28,16 @@ class TimesheetDateRule extends AbstractRule
 {
     use TimesheetServiceTrait;
     use DateTimeHelperTrait;
-    use AuthUserTrait;
+
+    private $empNumber;
+
+    /**
+     * @param  int  $empNumber
+     */
+    public function __construct($empNumber)
+    {
+        $this->empNumber = $empNumber;
+    }
 
     /**
      * @inheritDoc
@@ -38,6 +46,6 @@ class TimesheetDateRule extends AbstractRule
     {
         return !(new DateTime($input) > $this->getDateTimeHelper()->getNow()) &&
             !($this->getTimesheetService()
-                ->hasTimesheetForDate($this->getAuthUser()->getEmpNumber(), new DateTime($input)));
+                ->hasTimesheetForDate($this->empNumber, new DateTime($input)));
     }
 }

@@ -121,6 +121,9 @@ class CustomerDao extends BaseDao
         $q = $this->createQueryBuilder(Customer::class, 'customer');
         $q->andWhere('customer.name = :customerName');
         $q->setParameter('customerName', $customerName);
+        //if the customer is deleted, the name is not counted as a duplicated name
+        $q->andWhere('customer.deleted = :deleted');
+        $q->setParameter('deleted', false);
         if (!is_null($customerId)) {
             $q->andWhere(
                 'customer.id != :customerId'

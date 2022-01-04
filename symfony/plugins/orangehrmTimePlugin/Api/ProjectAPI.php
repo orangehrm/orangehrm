@@ -25,6 +25,7 @@ use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
+use OrangeHRM\Core\Api\V2\Exception\BadRequestException;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
@@ -38,12 +39,16 @@ use OrangeHRM\Entity\Project;
 use OrangeHRM\Time\Api\Model\ProjectDetailedModel;
 use OrangeHRM\Time\Api\Model\ProjectModel;
 use OrangeHRM\Time\Dto\ProjectSearchFilterParams;
+use OrangeHRM\Time\Traits\Service\CustomerServiceTrait;
 use OrangeHRM\Time\Traits\Service\ProjectServiceTrait;
+use OrangeHRM\Time\Traits\Service\TimesheetServiceTrait;
 
 class ProjectAPI extends Endpoint implements CrudEndpoint
 {
     use ProjectServiceTrait;
     use UserRoleManagerTrait;
+    use CustomerServiceTrait;
+    use TimesheetServiceTrait;
 
     public const PARAMETER_CUSTOMER_ID = 'customerId';
     public const PARAMETER_NAME = 'name';
@@ -225,6 +230,12 @@ class ProjectAPI extends Endpoint implements CrudEndpoint
      */
     public function create(): EndpointResourceResult
     {
+        $customerId = $this->getRequestParams()->getInt(
+            RequestParams::PARAM_TYPE_BODY,
+            self::PARAMETER_CUSTOMER_ID
+        );
+        $customer = $this->getCustomerService()->getCustomerDao()->getCustomerById($customerId);
+        $this->throwRecordNotFoundExceptionIfNotExist($customer, Customer::class, 'Customer no longer exists');
         $project = new Project();
         $this->setProject($project);
         $this->getProjectService()->getProjectDao()->saveProject($project);
@@ -310,10 +321,17 @@ class ProjectAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @inheritDoc
+     * @throws BadRequestException
      */
     public function delete(): EndpointResult
     {
         $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
+        foreach ($ids as $id) {
+            $hasTimesheetItems = $this->getProjectService()->getProjectDao()->hasTimesheetItemsForProject($id);
+            if ($hasTimesheetItems) {
+                throw new BadRequestException('Not Allowed to delete Project(s) Which Have Time Logged Against Them');
+            }
+        }
         $this->getProjectService()->getProjectDao()->deleteProjects($ids);
         return new EndpointResourceResult(ArrayModel::class, $ids);
     }

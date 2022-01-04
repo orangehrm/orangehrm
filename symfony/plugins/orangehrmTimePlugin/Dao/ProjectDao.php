@@ -22,6 +22,7 @@ namespace OrangeHRM\Time\Dao;
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Entity\Project;
 use OrangeHRM\Entity\ProjectAdmin;
+use OrangeHRM\Entity\TimesheetItem;
 use OrangeHRM\ORM\Paginator;
 use OrangeHRM\Time\Dto\ProjectSearchFilterParams;
 
@@ -140,6 +141,8 @@ class ProjectDao extends BaseDao
         $q = $this->createQueryBuilder(Project::class, 'project');
         $q->andWhere('project.name = :projectName');
         $q->setParameter('projectName', $projectName);
+        $q->andWhere('project.deleted = :deleted');
+        $q->setParameter('deleted', false);
         if (!is_null($projectId)) {
             $q->andWhere('project.id != :projectId');
             $q->setParameter('projectId', $projectId);
@@ -196,5 +199,17 @@ class ProjectDao extends BaseDao
         }
         $result = $q->getQuery()->getArrayResult();
         return array_column($result, 'id');
+    }
+
+    /**
+     * @param  int  $projectId
+     * @return bool
+     */
+    public function hasTimesheetItemsForProject(int $projectId): bool
+    {
+        $qb = $this->createQueryBuilder(TimesheetItem::class, 'timesheetItem');
+        $qb->andWhere('timesheetItem.project = :projectId');
+        $qb->setParameter('projectId', $projectId);
+        return $this->getPaginator($qb)->count() > 0;
     }
 }
