@@ -136,7 +136,7 @@ class ProjectDao extends BaseDao
         $q->andWhere('project.name = :projectName');
         $q->setParameter('projectName', $projectName);
         $q->andWhere('project.deleted = :deleted');
-        $q->setParameter('deleted',false);
+        $q->setParameter('deleted', false);
         if (!is_null($projectId)) {
             $q->andWhere('project.id != :projectId');
             $q->setParameter('projectId', $projectId);
