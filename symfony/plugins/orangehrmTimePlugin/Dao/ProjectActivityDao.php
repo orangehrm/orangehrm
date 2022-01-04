@@ -253,15 +253,19 @@ class ProjectActivityDao extends BaseDao
         if (empty($projectActivityIdPairs)) {
             return null;
         }
-        $qb = $this->createQueryBuilder(ProjectActivity::class, 'activity');
+        $qb = $this->createQueryBuilder(ProjectActivity::class, 'activity')
+            ->leftJoin('activity.project', 'project');
         foreach ($projectActivityIdPairs as $i => $projectActivityIdPair) {
             $qb->orWhere(
                 $qb->expr()->andX(
                     $qb->expr()->eq('activity.id', ":activityId_$i"),
-                    $qb->expr()->eq('activity.project', ":projectId_$i")
+                    $qb->expr()->eq('activity.project', ":projectId_$i"),
+                    $qb->expr()->eq('activity.deleted', ":deleted_$i"),
+                    $qb->expr()->eq('project.deleted', ":deleted_$i")
                 )
             )->setParameter("activityId_$i", $projectActivityIdPair[0])
-                ->setParameter("projectId_$i", $projectActivityIdPair[1]);
+                ->setParameter("projectId_$i", $projectActivityIdPair[1])
+                ->setParameter("deleted_$i", false);
         }
         return $this->getPaginator($qb);
     }

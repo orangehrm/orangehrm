@@ -155,6 +155,7 @@ class TimesheetEntriesParamRule extends AbstractRule
          * 1. Check project ids, and activity ids available
          * 2. Check an activity belongs to particular project id
          * 3. Validate duplicated project and activity rows
+         * 4. Consider deleted project ids, and deleted activity ids
          */
         if ($rowCount !== $count) {
             return false;

@@ -85,7 +85,7 @@ Project:
   - { "project_id": "3","customer_id": "1","name": "ASF - Phase 1","description": "","is_deleted": "0" }
   - { "project_id": "4","customer_id": "6","name": "Global Software phase - 2","description": "","is_deleted": "0" }
   - { "project_id": "5","customer_id": "4","name": "Fresh Books Software Ltd - Phase I","description": "","is_deleted": "0" }
-  - { "project_id": "6","customer_id": "5","name": "FWT - Phase 1","description": "","is_deleted": "0" }
+  - { "project_id": "6","customer_id": "5","name": "FWT - Phase 1","description": "","is_deleted": "1" }
   - { "project_id": "7","customer_id": "3","name": "Coke - Phase 1","description": "","is_deleted": "0" }
   - { "project_id": "8","customer_id": "9","name": "Priceline Group - Phase 1","description": "","is_deleted": "0" }
   - { "project_id": "9","customer_id": "8","name": "Recruitment","description": "","is_deleted": "0" }
@@ -143,7 +143,7 @@ ProjectActivity:
   - { "activity_id": "48","project_id": "6","name": "Support & Maintanence","is_deleted": "0" }
   - { "activity_id": "49","project_id": "7","name": "Administration","is_deleted": "0" }
   - { "activity_id": "50","project_id": "7","name": "Bug Fixes","is_deleted": "0" }
-  - { "activity_id": "51","project_id": "7","name": "Demonstration","is_deleted": "0" }
+  - { "activity_id": "51","project_id": "7","name": "Demonstration","is_deleted": "1" }
   - { "activity_id": "52","project_id": "7","name": "Employee Relations","is_deleted": "0" }
   - { "activity_id": "53","project_id": "7","name": "Feature Development","is_deleted": "0" }
   - { "activity_id": "54","project_id": "7","name": "Handling insurance-related issues","is_deleted": "0" }
