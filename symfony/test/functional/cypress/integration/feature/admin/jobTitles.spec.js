@@ -40,6 +40,15 @@ describe('Admin - Job Titles', function () {
     noteInvalid: dummyText.substring(0, 401),
   };
 
+  // Read
+  describe('list job title', function () {
+    it('job title list is loaded', function () {
+      cy.loginTo(this.user, '/admin/viewJobTitleList');
+      cy.wait('@getJobTitles');
+      cy.toast('info', 'No Records Found');
+    });
+  });
+
   // Create
   describe('create job title', function () {
     it('add job title', function () {
@@ -73,15 +82,6 @@ describe('Admin - Job Titles', function () {
           .setValue(jobTitleModel.noteInvalid)
           .isInvalid('Should be less than 400 characters');
       });
-    });
-  });
-
-  // Read
-  describe('list job title', function () {
-    it('job title list is loaded', function () {
-      cy.loginTo(this.user, '/admin/viewJobTitleList');
-      cy.wait('@getJobTitles');
-      cy.toast('info', 'No Records Found');
     });
   });
 

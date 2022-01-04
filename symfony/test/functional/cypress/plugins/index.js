@@ -28,7 +28,6 @@ module.exports = (on, config) => {
   on('task', {
     async 'db:reset'() {
       // TODO: Call Backend API to DB Reset
-      console.info('db:reset completed');
       return null;
     },
   });

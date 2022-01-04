@@ -23,7 +23,9 @@ const jobTitlesApi = `/api/v2/admin/job-titles`;
 describe('Admin - Job Title API', function () {
   beforeEach(function () {
     cy.task('db:reset');
-    cy.apiLogin(user.admin.userName, user.admin.password);
+    cy.fixture('user').then(({admin}) => {
+      cy.apiLogin(admin);
+    });
   });
 
   const dummyText = faker.lorem.paragraph(20);
@@ -52,6 +54,21 @@ describe('Admin - Job Title API', function () {
       }).then((response) => {
         expect(response.status).to.eq(200);
       });
+    });
+  });
+
+  describe('DELETE /job-titles', function () {
+    it('creates a new job title', function () {
+      cy.request('GET', jobTitlesApi)
+        .then((response) => {
+          expect(response.status).to.eq(200);
+          return cy.request('DELETE', jobTitlesApi, {
+            ids: response.body.data.map((item) => item.id),
+          });
+        })
+        .then((response) => {
+          expect(response.status).to.eq(200);
+        });
     });
   });
 });
