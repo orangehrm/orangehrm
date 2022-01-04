@@ -51,4 +51,14 @@ class MyTimesheetAPI extends EmployeeTimesheetAPI
         $paramRuleCollection->removeParamValidation(CommonParams::PARAMETER_EMP_NUMBER);
         return $paramRuleCollection;
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function getValidationRuleForUpdate(): ParamRuleCollection
+    {
+        $paramRuleCollection = parent::getValidationRuleForUpdate();
+        $paramRuleCollection->removeParamValidation(CommonParams::PARAMETER_EMP_NUMBER);
+        return $paramRuleCollection;
+    }
 }

@@ -25,7 +25,6 @@ use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
 use OrangeHRM\Tests\Util\Integration\TestCaseParams;
 use OrangeHRM\Tests\Util\TestDataService;
 use OrangeHRM\Time\Api\EmployeeTimesheetAPI;
-use OrangeHRM\Time\Api\MyTimesheetAPI;
 
 /**
  * @group Time
@@ -75,18 +74,18 @@ class EmployeeTimesheetAPITest extends EndpointIntegrationTestCase
      */
     public function testUpdate(TestCaseParams $testCaseParams): void
     {
-        TestDataService::populate(Config::get(Config::TEST_DIR).'/phpunit/fixtures/WorkflowStateMachine.yaml', true);
-        $this->populateFixtures('MyTimesheetAPITest.yml', null, true);
+        TestDataService::populate(Config::get(Config::TEST_DIR) . '/phpunit/fixtures/WorkflowStateMachine.yaml', true);
+        $this->populateFixtures('EmployeeTimesheetAPITest.yml', null, true);
         $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
         $this->registerServices($testCaseParams);
         $this->registerMockDateTimeHelper($testCaseParams);
-        $api = $this->getApiEndpointMock(MyTimesheetAPI::class, $testCaseParams);
+        $api = $this->getApiEndpointMock(EmployeeTimesheetAPI::class, $testCaseParams);
         $this->assertValidTestCase($api, 'update', $testCaseParams);
     }
 
     public function dataProviderForTestUpdate(): array
     {
-        return $this->getTestCases('TimesheetTestCase.yaml', 'Update');
+        return $this->getTestCases('EmployeeTimesheetAPITestCases.yaml', 'Update');
     }
 
     public function testGetOne(): void
