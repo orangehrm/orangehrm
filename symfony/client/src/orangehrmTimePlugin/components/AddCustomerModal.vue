@@ -28,20 +28,18 @@
         />
       </oxd-form-row>
       <oxd-divider />
-      <oxd-form-actions>
+      <oxd-form-actions class="orangehrm-form-action">
         <required-text />
-        <div class="orangehrm-form-action">
-          <oxd-button
-            display-type="ghost"
-            :label="$t('general.cancel')"
-            @click="onCancel"
-          />
-          <oxd-button
-            display-type="secondary"
-            :label="$t('general.save')"
-            type="submit"
-          />
-        </div>
+        <oxd-button
+          display-type="ghost"
+          :label="$t('general.cancel')"
+          @click="onCancel"
+        />
+        <oxd-button
+          display-type="secondary"
+          :label="$t('general.save')"
+          type="submit"
+        />
       </oxd-form-actions>
     </oxd-form>
   </oxd-dialog>

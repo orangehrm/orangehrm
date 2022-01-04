@@ -112,11 +112,9 @@
 
 .orangehrm-form-action {
   gap: 10px;
-  display: flex;
-  flex-direction: row;
+  flex-wrap: wrap !important;
   @media screen and (max-width: 600px) {
-    flex-direction: column;
-    ::v-deep(.oxd-button--medium) {
+    .orangehrm-form-hint {
       width: 100%;
     }
   }

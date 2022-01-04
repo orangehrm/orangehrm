@@ -2150,6 +2150,64 @@ Update:
         }
       ]
 
+  'with deleted projectId in entries':
+    userId: 1
+    invalidOnly: [ 'entries' ]
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+    attributes:
+      timesheetId: 1
+    body:
+      entries: [
+        {
+          projectId: 1,
+          activityId: 1,
+          dates: {
+            "2020-10-05": {
+              "duration": "23:59"
+            }
+          }
+        },
+        {
+          projectId: 6,
+          activityId: 42,
+          dates: {
+            "2020-10-05": {
+              "duration": "23:59"
+            }
+          }
+        }
+      ]
+
+  'with deleted activityId in entries':
+    userId: 1
+    invalidOnly: [ 'entries' ]
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+    attributes:
+      timesheetId: 1
+    body:
+      entries: [
+        {
+          projectId: 1,
+          activityId: 1,
+          dates: {
+            "2020-10-05": {
+              "duration": "23:59"
+            }
+          }
+        },
+        {
+          projectId: 7,
+          activityId: 51,
+          dates: {
+            "2020-10-05": {
+              "duration": "23:59"
+            }
+          }
+        }
+      ]
+
   'without activityId in deletedEntries':
     userId: 1
     invalidOnly: [ 'deletedEntries' ]

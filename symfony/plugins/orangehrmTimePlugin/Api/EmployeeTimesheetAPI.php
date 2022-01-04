@@ -187,7 +187,7 @@ class EmployeeTimesheetAPI extends Endpoint implements CrudEndpoint
             $timesheetParamHolder->setToDate($this->getToDateParam());
         }
 
-        $myTimesheets = $this->getTimesheetService()->getTimesheetDao()->getTimesheetByStartAndEndDate(
+        $timesheets = $this->getTimesheetService()->getTimesheetDao()->getTimesheetByStartAndEndDate(
             $timesheetParamHolder
         );
         $count = $this->getTimesheetService()->getTimesheetDao()->getTimesheetCount(
@@ -195,7 +195,7 @@ class EmployeeTimesheetAPI extends Endpoint implements CrudEndpoint
         );
         return new EndpointCollectionResult(
             TimesheetModel::class,
-            $myTimesheets,
+            $timesheets,
             new ParameterBag([CommonParams::PARAMETER_TOTAL => $count])
         );
     }
