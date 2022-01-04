@@ -152,6 +152,13 @@ apiv2_time_my_timesheet_time_format_config:
     id: 0
     _api: OrangeHRM\Time\Api\TimesheetTimeFormatAPI
 
+apiv2_time_copy_activity:
+  path: /api/v2/time/projects/{toProjectId}/activities/copy/{fromProjectId}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST ]
+  defaults:
+    _api: OrangeHRM\Time\Api\CopyProjectActivityAPI
+
 ##########################
 #        Screens
 ##########################

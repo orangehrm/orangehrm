@@ -163,7 +163,6 @@ export default {
         description: [shouldNotExceedCharLength(255)],
         customer: [required],
         projectAdmin: [
-          required,
           shouldNotExceedCharLength(100),
           value => {
             return this.projectAdmins.filter(

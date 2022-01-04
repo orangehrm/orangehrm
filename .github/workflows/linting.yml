@@ -24,3 +24,16 @@ jobs:
 
       - name: Check PHP Coding Standards
         run: php devTools/core/console.php php-cs-fix --php php7.4
+
+      - name: Creating diff
+        if: ${{ failure() }}
+        run: |
+          git status
+          git diff > ${{ github.sha }}.diff
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v2
+        if: ${{ failure() }}
+        with:
+          name: diff-${{ github.sha }}
+          path: ${{ github.sha }}.diff

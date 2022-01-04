@@ -26,7 +26,7 @@
     :create-options="loadProjects"
   >
     <template #option="{data}">
-      <span>{{ data.label }}</span>
+      <span> {{ data.label }} </span>
     </template>
   </oxd-input-field>
 </template>
@@ -40,6 +40,11 @@ export default {
       type: Boolean,
       required: false,
       default: true,
+    },
+    excludeProjectIds: {
+      type: Array,
+      required: false,
+      default: () => [],
     },
   },
   setup() {
@@ -55,18 +60,26 @@ export default {
     async loadProjects(serachParam) {
       return new Promise(resolve => {
         if (serachParam.trim()) {
-          this.http
-            .getAll({name: serachParam.trim(), onlyAllowed: this.onlyAllowed})
-            .then(({data}) => {
-              resolve(
-                data.data.map(project => {
-                  return {
-                    id: project.id,
-                    label: project.name,
-                  };
-                }),
-              );
-            });
+          const params = {
+            name: serachParam.trim(),
+            onlyAllowed: this.onlyAllowed,
+            model: 'detailed',
+            excludeProjectIds:
+              this.excludeProjectIds.length > 0
+                ? this.excludeProjectIds
+                : undefined,
+          };
+          this.http.getAll(params).then(({data}) => {
+            resolve(
+              data.data.map(project => {
+                return {
+                  id: project.id,
+                  label: `${project.customer?.name} - ${project.name}`,
+                  _customer: project.customer,
+                };
+              }),
+            );
+          });
         } else {
           resolve([]);
         }

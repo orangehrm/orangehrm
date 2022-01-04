@@ -37,6 +37,7 @@
           :label="$t('time.project_name')"
           required
           :only-allowed="false"
+          :exclude-project-ids="[projectId]"
         />
       </oxd-form-row>
       <template v-if="activities && activities.length > 0">
@@ -91,11 +92,7 @@ export default {
   },
   emits: ['close'],
   setup() {
-    const http = new APIService(
-      // window.appGlobal.baseUrl,
-      'https://884b404a-f4d0-4908-9eb5-ef0c8afec15c.mock.pstmn.io',
-      `api/v2/time/project`,
-    );
+    const http = new APIService(window.appGlobal.baseUrl, '');
     return {
       http,
     };
@@ -134,10 +131,8 @@ export default {
         this.http
           .request({
             method: 'GET',
-            url: `api/v2/time/project/${value.id}/activities`,
-            params: {
-              targetProjectId: this.projectId,
-            },
+            url: `api/v2/time/projects/${this.projectId}/activities/copy/${value.id}`,
+            params: {limit: 0},
           })
           .then(response => {
             const {data} = response.data;
@@ -156,8 +151,12 @@ export default {
     onSave() {
       this.isLoading = true;
       this.http
-        .update(this.projectId, {
-          activities: this.selectedActivities,
+        .request({
+          method: 'POST',
+          url: `api/v2/time/projects/${this.projectId}/activities/copy/${this.project.id}`,
+          data: {
+            activityIds: this.selectedActivities,
+          },
         })
         .then(() => {
           this.$toast.updateSuccess();

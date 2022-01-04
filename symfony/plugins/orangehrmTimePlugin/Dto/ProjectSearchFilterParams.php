@@ -54,6 +54,11 @@ class ProjectSearchFilterParams extends FilterParams
      */
     protected ?string $name = null;
 
+    /**
+     * @var int[]|null
+     */
+    protected ?array $excludeProjectIds = null;
+
     public function __construct()
     {
         $this->setSortField('project.name');
@@ -137,5 +142,21 @@ class ProjectSearchFilterParams extends FilterParams
     public function setCustomerOrProjectName(?string $customerOrProjectName): void
     {
         $this->customerOrProjectName = $customerOrProjectName;
+    }
+
+    /**
+     * @return int[]|null
+     */
+    public function getExcludeProjectIds(): ?array
+    {
+        return $this->excludeProjectIds;
+    }
+
+    /**
+     * @param int[]|null $excludeProjectIds
+     */
+    public function setExcludeProjectIds(?array $excludeProjectIds): void
+    {
+        $this->excludeProjectIds = $excludeProjectIds;
     }
 }

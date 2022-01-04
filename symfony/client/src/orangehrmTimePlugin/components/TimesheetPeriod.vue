@@ -27,53 +27,23 @@
       <oxd-icon-button
         class="orangehrm-timeperiod-icon"
         name="chevron-left"
-        @click="onClickPervious"
+        @click="$emit('previous', $event)"
       />
-      <date-input v-model="date" />
+      <date-input v-bind="$attrs" />
       <oxd-icon-button
         class="orangehrm-timeperiod-icon"
         name="chevron-right"
-        @click="onClickNext"
+        @click="$emit('next', $event)"
       />
     </div>
   </div>
 </template>
 
 <script>
-import {reactive, toRefs} from 'vue';
-import {formatDate} from '@ohrm/core/util/helper/datefns';
-
 export default {
   name: 'TimesheetPeriod',
   inheritAttrs: false,
-
-  props: {
-    employeeId: {
-      type: Number,
-      required: false,
-      default: null,
-    },
-  },
-  setup() {
-    const state = reactive({
-      date: formatDate(new Date(), 'yyyy-MM-dd'),
-      periods: [],
-    });
-
-    const onClickPervious = () => {
-      // do nothing
-    };
-
-    const onClickNext = () => {
-      // do nothing
-    };
-
-    return {
-      onClickNext,
-      onClickPervious,
-      ...toRefs(state),
-    };
-  },
+  emits: ['previous', 'next'],
 };
 </script>
 

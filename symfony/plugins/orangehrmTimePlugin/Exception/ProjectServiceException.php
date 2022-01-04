@@ -30,4 +30,20 @@ class ProjectServiceException extends Exception
     {
         return new self('Not Allowed to Delete Project Activities Which Have Time Logged Against');
     }
+
+    /**
+     * @return static
+     */
+    public static function duplicateProjectActivityNameFound(): self
+    {
+        return new self('Already exist');
+    }
+
+    /**
+     * @return static
+     */
+    public static function projectActivityNotFound(): self
+    {
+        return new self('Unable to locate project activity');
+    }
 }

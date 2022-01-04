@@ -66,6 +66,7 @@ class ProjectAPI extends Endpoint implements CrudEndpoint
     public const FILTER_NAME = 'name';
     public const FILTER_ONLY_ALLOWED = 'onlyAllowed';
     public const FILTER_CUSTOMER_OR_PROJECT_NAME = 'customerOrProjectName';
+    public const FILTER_EXCLUDE_PROJECT_IDS = 'excludeProjectIds';
 
     public const MODEL_DEFAULT = 'default';
     public const MODEL_DETAILED = 'detailed';
@@ -134,6 +135,12 @@ class ProjectAPI extends Endpoint implements CrudEndpoint
                 self::FILTER_CUSTOMER_OR_PROJECT_NAME
             )
         );
+        $projectParamHolder->setExcludeProjectIds(
+            $this->getRequestParams()->getArray(
+                RequestParams::PARAM_TYPE_QUERY,
+                self::FILTER_EXCLUDE_PROJECT_IDS,
+            )
+        );
         $projects = $this->getProjectService()->getProjectDao()->getProjects($projectParamHolder);
         $count = $this->getProjectService()->getProjectDao()->getProjectsCount($projectParamHolder);
         return new EndpointCollectionResult(
@@ -184,6 +191,20 @@ class ProjectAPI extends Endpoint implements CrudEndpoint
                     self::FILTER_CUSTOMER_OR_PROJECT_NAME,
                     new Rule(Rules::STRING_TYPE),
                     new Rule(Rules::LENGTH, [null, self::PARAMETER_RULE_NAME_MAX_LENGTH])
+                ),
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::FILTER_EXCLUDE_PROJECT_IDS,
+                    new Rule(Rules::ARRAY_TYPE),
+                    new Rule(
+                        Rules::EACH,
+                        [
+                            new Rules\Composite\AllOf(
+                                new Rule(Rules::POSITIVE)
+                            )
+                        ]
+                    )
                 ),
             ),
             $this->getModelParamRule(),

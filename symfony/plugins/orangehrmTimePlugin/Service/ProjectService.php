@@ -20,8 +20,10 @@
 
 namespace OrangeHRM\Time\Service;
 
+use OrangeHRM\Entity\ProjectActivity;
 use OrangeHRM\Time\Dao\ProjectActivityDao;
 use OrangeHRM\Time\Dao\ProjectDao;
+use OrangeHRM\Time\Exception\ProjectServiceException;
 
 class ProjectService
 {
@@ -55,5 +57,63 @@ class ProjectService
             $this->projectActivityDao = new ProjectActivityDao();
         }
         return $this->projectActivityDao;
+    }
+
+    /**
+     * @param int $toProjectId
+     * @param int $fromProjectId
+     * @param int[] $fromProjectActivityIds
+     * @return void
+     * @throws ProjectServiceException
+     */
+    public function validateProjectActivityName(
+        int $toProjectId,
+        int $fromProjectId,
+        array $fromProjectActivityIds
+    ): void {
+        $fromProjectActivities = $this->getProjectActivityDao()
+            ->getProjectActivitiesByActivityIds($fromProjectActivityIds);
+
+        $duplicatedActivities = $this->getProjectActivityDao()
+            ->getDuplicatedActivities($fromProjectId, $toProjectId);
+
+        $fetchedFromProjectActivityIds = array_map(
+            function (ProjectActivity $projectActivity) {
+                return $projectActivity->getId();
+            },
+            $fromProjectActivities
+        );
+
+        if (!empty(array_diff($fromProjectActivityIds, $fetchedFromProjectActivityIds))) {
+            throw ProjectServiceException::projectActivityNotFound();
+        }
+
+        $duplicatedActivitiesMap = $this->getProjectActivityAsMap($duplicatedActivities);
+        foreach ($fromProjectActivities as $fromProjectActivity) {
+            if ($fromProjectActivity->getProject()->getId() !== $fromProjectId) {
+                throw ProjectServiceException::projectActivityNotFound();
+            }
+
+            $name = $fromProjectActivity->getName();
+            if (isset($duplicatedActivitiesMap[$name])) {
+                throw ProjectServiceException::duplicateProjectActivityNameFound();
+            }
+        }
+    }
+
+    /**
+     * @param ProjectActivity[] $projectActivities
+     * @return array
+     */
+    public function getProjectActivityAsMap(array $projectActivities): array
+    {
+        $projectActivityList = [];
+        foreach ($projectActivities as $value) {
+            $projectActivityList[$value->getName()] = [
+                "id" => $value->getId(),
+                "name" => $value->getName(),
+            ];
+        }
+        return $projectActivityList;
     }
 }

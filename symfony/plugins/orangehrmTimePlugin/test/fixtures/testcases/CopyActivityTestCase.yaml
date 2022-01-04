@@ -1,0 +1,149 @@
+GetAll:
+  'Copy Activity by Project Id':
+    userId: 1
+    services:
+      time.project_service: \OrangeHRM\Time\Service\ProjectService
+    attributes:
+      toProjectId: 1
+      fromProjectId: 2
+    body: [ ]
+    query: [ ]
+    data:
+      0:
+        id: 6
+        name: "Debug"
+        unique: false
+      1:
+        id: 4
+        name: "Jest"
+        unique: true
+      2:
+        id: 5
+        name: "Release"
+        unique: true
+    meta:
+      total: 3
+
+  'Copy Activity by Project Id (Un available from project id)':
+    userId: 1
+    services:
+      time.project_service: \OrangeHRM\Time\Service\ProjectService
+    attributes:
+      fromProjectId: 100
+      toProjectId: 2
+    body: [ ]
+    query: [ ]
+    invalidOnly: [ 'fromProjectId' ]
+
+  'Copy Activity by Project Id (Un available To project id)':
+    userId: 1
+    services:
+      time.project_service: \OrangeHRM\Time\Service\ProjectService
+    attributes:
+      fromProjectId: 1
+      toProjectId: 200
+    body: [ ]
+    query: [ ]
+    invalidOnly: [ 'toProjectId' ]
+
+  'Copy Activity by Project Id with invalid param (To project id)':
+    userId: 1
+    attributes:
+      fromProjectId: 1
+    invalidOnly: [ 'toProjectId' ]
+
+  'Copy Activity by Project Id with invalid param (From project id)':
+    userId: 1
+    attributes:
+      toProjectId: 1
+    invalidOnly: [ 'fromProjectId' ]
+
+Create:
+  'Save project activities':
+    userId: 1
+    services:
+      time.project_service: \OrangeHRM\Time\Service\ProjectService
+    attributes:
+      toProjectId: 1
+      fromProjectId: 2
+    body:
+      activityIds: [ 4,5 ]
+    query: [ ]
+    data:
+      [ 4, 5 ]
+    meta: [ ]
+
+  'Save project activities (Duplicate activity id)':
+    userId: 1
+    services:
+      time.project_service: \OrangeHRM\Time\Service\ProjectService
+    attributes:
+      toProjectId: 1
+      fromProjectId: 2
+    body:
+      activityIds: [ 4,5,6 ]
+    query: [ ]
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\BadRequestException'
+      message: 'Already exist'
+    meta: [ ]
+
+  'Save project activities (Not belongs to root project id)':
+    userId: 1
+    services:
+      time.project_service: \OrangeHRM\Time\Service\ProjectService
+    attributes:
+      toProjectId: 1
+      fromProjectId: 2
+    body:
+      activityIds: [ 4,5,7 ]
+    query: [ ]
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\BadRequestException'
+      message: 'Unable to locate project activity'
+    meta: [ ]
+
+  'Save project activities (Un existing project activity id)':
+    userId: 1
+    services:
+      time.project_service: \OrangeHRM\Time\Service\ProjectService
+    attributes:
+      toProjectId: 1
+      fromProjectId: 2
+    body:
+      activityIds: [ 4,5,700 ]
+    query: [ ]
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\BadRequestException'
+      message: 'Unable to locate project activity'
+    meta: [ ]
+
+  'Save project activities (Un existing to project id)':
+    userId: 1
+    services:
+      time.project_service: \OrangeHRM\Time\Service\ProjectService
+    attributes:
+      toProjectId: 100
+      fromProjectId: 2
+    body:
+      activityIds: [ 4,5 ]
+    query: [ ]
+    invalidOnly: [ 'toProjectId' ]
+
+  'Save project activities (Un existing from project id)':
+    userId: 1
+    services:
+      time.project_service: \OrangeHRM\Time\Service\ProjectService
+    attributes:
+      toProjectId: 1
+      fromProjectId: 200
+    body:
+      activityIds: [ 4,5 ]
+    query: [ ]
+    invalidOnly: [ 'fromProjectId' ]
+
+  'Save project activities with invalid param (From project id)':
+    userId: 1
+    attributes:
+      toProjectId: 1
+    invalidOnly: [ 'activityIds', 'fromProjectId' ]

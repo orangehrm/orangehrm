@@ -25,7 +25,7 @@ use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Time\Traits\Service\TimesheetServiceTrait;
 
-class MyTimesheetDateRule extends AbstractRule
+class TimesheetDateRule extends AbstractRule
 {
     use TimesheetServiceTrait;
     use DateTimeHelperTrait;

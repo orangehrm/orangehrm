@@ -48,7 +48,7 @@ use OrangeHRM\ORM\Exception\TransactionException;
 use OrangeHRM\Time\Api\Model\TimesheetModel;
 use OrangeHRM\Time\Api\Traits\TimesheetPermissionTrait;
 use OrangeHRM\Time\Api\ValidationRules\MyTimesheetActionRule;
-use OrangeHRM\Time\Api\ValidationRules\MyTimesheetDateRule;
+use OrangeHRM\Time\Api\ValidationRules\TimesheetDateRule;
 use OrangeHRM\Time\Dto\TimesheetSearchFilterParams;
 use OrangeHRM\Time\Service\TimesheetService;
 use OrangeHRM\Time\Traits\Service\TimesheetServiceTrait;
@@ -70,10 +70,10 @@ class EmployeeTimesheetAPI extends Endpoint implements CrudEndpoint
     public const FILTER_TO_DATE = 'toDate';
     public const FILTER_DATE = 'date';
 
+    public const PARAM_RULE_COMMENT_MAX_LENGTH = 2000;
+
     /**
      * @inheritDoc
-     * @throws BadRequestException
-     * @throws Exception
      */
     public function getAll(): EndpointCollectionResult
     {
@@ -259,9 +259,10 @@ class EmployeeTimesheetAPI extends Endpoint implements CrudEndpoint
                 new ParamRule(
                     self::PARAMETER_DATE,
                     new Rule(Rules::API_DATE),
-                    new Rule(MyTimesheetDateRule::class),
+                    new Rule(TimesheetDateRule::class),
                 ),
             ),
+            $this->getEmpNumberParamRule(),
         );
     }
 
@@ -363,6 +364,7 @@ class EmployeeTimesheetAPI extends Endpoint implements CrudEndpoint
                 new ParamRule(
                     self::PARAMETER_COMMENT,
                     new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_COMMENT_MAX_LENGTH]),
                 )
             ),
         );

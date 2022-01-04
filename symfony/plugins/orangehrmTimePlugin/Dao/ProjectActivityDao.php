@@ -160,17 +160,109 @@ class ProjectActivityDao extends BaseDao
      * @param int|null $projectActivityId
      * @return bool
      */
-    public function isProjectActivityNameTaken(int $projectId, string $projectActivityName, ?int $projectActivityId = null): bool
-    {
+    public function isProjectActivityNameTaken(
+        int $projectId,
+        string $projectActivityName,
+        ?int $projectActivityId = null
+    ): bool {
         $q = $this->createQueryBuilder(ProjectActivity::class, 'projectActivity');
         $q->andWhere('projectActivity.name = :projectActivityName');
         $q->andWhere('projectActivity.project = :projectId');
         $q->setParameter('projectActivityName', $projectActivityName);
         $q->setParameter('projectId', $projectId);
         if (!is_null($projectActivityId)) {
-            $q->andWhere('projectActivity.id != :projectActivityId'); // we need to skip the current project activity Name on update, otherwise count always return 1
+            // we need to skip the current project activity Name on update, otherwise count always return 1
+            $q->andWhere('projectActivity.id != :projectActivityId');
             $q->setParameter('projectActivityId', $projectActivityId);
         }
         return $this->getPaginator($q)->count() > 0;
+    }
+
+    /**
+     * @param int $fromProjectId
+     * @param int $toProjectId
+     * @return ProjectActivity[]
+     */
+    public function getDuplicatedActivities(int $fromProjectId, int $toProjectId): array
+    {
+        $q = $this->createQueryBuilder(ProjectActivity::class, 'activity');
+        $q->andWhere(
+            $q->expr()->orX(
+                $q->expr()->eq('activity.project', ':fromProjectId'),
+                $q->expr()->eq('activity.project', ':toProjectId')
+            )
+        )
+            ->setParameter('fromProjectId', $fromProjectId)
+            ->setParameter('toProjectId', $toProjectId)
+            ->andWhere('activity.deleted = :deleted')
+            ->setParameter('deleted', false);
+        $q->groupBy('activity.name')
+            ->having('counter >= 2')
+            ->select('activity, COUNT(activity.id) AS HIDDEN counter');
+        return $q->getQuery()->execute();
+    }
+
+    /**
+     * @param int[] $projectActivityIds
+     * @return ProjectActivity[]
+     */
+    public function getProjectActivitiesByActivityIds(array $projectActivityIds): array
+    {
+        // this will get all activities which belongs to $fromProjectActivityIds
+        $q = $this->createQueryBuilder(ProjectActivity::class, 'activity');
+        $q->andWhere($q->expr()->in('activity.id', ':projectActivityIds'))
+            ->setParameter('projectActivityIds', $projectActivityIds);
+
+        return $q->getQuery()->execute();
+    }
+
+    /**
+     * @param int $toProjectId
+     * @param array $fromProjectActivityIds
+     * @return void
+     */
+    public function copyActivities(int $toProjectId, array $fromProjectActivityIds): void
+    {
+        $fromProjectActivities = $this->getProjectActivitiesByActivityIds($fromProjectActivityIds);
+        foreach ($fromProjectActivities as $fromProjectActivity) {
+            $toProjectActivity = new ProjectActivity();
+            $toProjectActivity->getDecorator()->setProjectById($toProjectId);
+            $toProjectActivity->setName($fromProjectActivity->getName());
+
+            $this->getEntityManager()->persist($toProjectActivity);
+        }
+        $this->getEntityManager()->flush();
+    }
+
+    /**
+     * @param array $projectActivityIdPairs e.g. [[1, 2], [1, 3], [activityId, projectId]]
+     * @return int
+     */
+    public function getActivitiesCountByProjectActivityIdPairs(array $projectActivityIdPairs): int
+    {
+        $paginator = $this->getActivitiesPaginatorByProjectActivityIdPairs($projectActivityIdPairs);
+        return is_null($paginator) ? 0 : $paginator->count();
+    }
+
+    /**
+     * @param array $projectActivityIdPairs
+     * @return Paginator|null
+     */
+    private function getActivitiesPaginatorByProjectActivityIdPairs(array $projectActivityIdPairs): ?Paginator
+    {
+        if (empty($projectActivityIdPairs)) {
+            return null;
+        }
+        $qb = $this->createQueryBuilder(ProjectActivity::class, 'activity');
+        foreach ($projectActivityIdPairs as $i => $projectActivityIdPair) {
+            $qb->orWhere(
+                $qb->expr()->andX(
+                    $qb->expr()->eq('activity.id', ":activityId_$i"),
+                    $qb->expr()->eq('activity.project', ":projectId_$i")
+                )
+            )->setParameter("activityId_$i", $projectActivityIdPair[0])
+                ->setParameter("projectId_$i", $projectActivityIdPair[1]);
+        }
+        return $this->getPaginator($qb);
     }
 }

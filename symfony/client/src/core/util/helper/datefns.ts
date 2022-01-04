@@ -147,9 +147,24 @@ const diffInTime = (
 const secondsTohhmm = (seconds: number): string => {
   const hours = Math.floor(seconds / 3600);
   const minutes = Math.floor((seconds - hours * 3600) / 60);
-  return `${hours.toString().padStart(2, '0')}.${minutes
+  return `${hours.toString().padStart(2, '0')}:${minutes
     .toString()
     .padStart(2, '0')}`;
+};
+
+const parseTimeInSeconds = (value: string): number => {
+  // Check if HH:mm format matches else if decimal format
+  if (/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/.test(value)) {
+    const time = value.split(':');
+    return parseInt(time[0]) * 60 * 60 + parseInt(time[1]) * 60;
+  } else if (
+    parseFloat(value) < 24 &&
+    /^([0-9])+(?:\.[0-9]{1,2})?$/.test(value)
+  ) {
+    return parseFloat(value) * 60 * 60;
+  } else {
+    return -1;
+  }
 };
 
 export {
@@ -169,4 +184,5 @@ export {
   diffInTime,
   secondsTohhmm,
   compareTime,
+  parseTimeInSeconds,
 };

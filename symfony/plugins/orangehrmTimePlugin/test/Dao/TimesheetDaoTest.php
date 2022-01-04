@@ -21,6 +21,7 @@ namespace OrangeHRM\Tests\Time\Dao;
 
 use DateTime;
 use Exception;
+use LogicException;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\Timesheet;
@@ -61,7 +62,7 @@ class TimesheetDaoTest extends KernelTestCase
     protected function setUp(): void
     {
         $this->timesheetDao = new TimesheetDao();
-        $this->fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmTimePlugin/test/fixtures/MyTimesheetAPITest.yml';
+        $this->fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmTimePlugin/test/fixtures/TimesheetDao.yml';
         TestDataService::populate($this->fixture);
     }
 
@@ -186,5 +187,16 @@ class TimesheetDaoTest extends KernelTestCase
         $this->assertEquals(new DateTime("2011-04-24"), $result->getEndDate());
         $this->assertEquals("CREATED", $result->getState());
         $this->assertEquals(1, $result->getEmployee()->getEmpNumber());
+    }
+
+    public function testSaveAndUpdateTimesheetItemsExceptionCase(): void
+    {
+        $timesheetItem = new TimesheetItem();
+        $timesheetItem->getDecorator()->setProjectById(1);
+        $timesheetItem->getDecorator()->setProjectActivityById(3);
+        $timesheetItem->getDecorator()->setTimesheetById(1);
+        $this->expectException(LogicException::class);
+        $this->expectExceptionMessage('The project activity (id: 3) not belongs to provided project (id: 1)');
+        $this->timesheetDao->saveAndUpdateTimesheetItems([$timesheetItem]);
     }
 }
