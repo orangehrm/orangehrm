@@ -42,6 +42,7 @@
               v-model="project.customer"
               :label="$t('time.customer_name')"
               :rules="rules.customer"
+              :key="project.customer"
               :disabled="!$can.update(`time_projects`)"
               required
             />

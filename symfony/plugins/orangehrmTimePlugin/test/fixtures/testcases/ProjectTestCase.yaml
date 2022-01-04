@@ -12,7 +12,7 @@ Create:
       customerId: 1
       projectAdminsEmpNumbers: [ 1,2 ]
     data:
-      id: 4
+      id: 5
       name: 'Test Project'
       description: 'This is a test project'
       customer:
@@ -110,8 +110,12 @@ GetAll:
         name: 'project_03'
         description: 'Project description for project_03'
         deleted: false
+      - id: 4
+        name: 'project_04'
+        description: 'Project description for project_04'
+        deleted: false
     meta:
-      total: 2
+      total: 3
 
   'Get projects list filter by name':
     userId: 1
@@ -195,7 +199,7 @@ GetAll:
         description: 'Project description for project_03'
         deleted: false
     meta:
-      total: 2
+      total: 3
 
   'Get projects list detailed':
     userId: 1
@@ -244,8 +248,17 @@ GetAll:
             middleName: ''
             terminationId: null
         deleted: false
+      - id: 4
+        name: 'project_04'
+        description: 'Project description for project_04'
+        customer:
+          id: 1
+          name: 'Orange'
+          deleted: false
+        projectAdmins: [ ]
+        deleted: false
     meta:
-      total: 2
+      total: 3
 
   'Get projects list detailed - filter by project id':
     userId: 1
@@ -364,8 +377,12 @@ GetAll:
         name: 'project_03'
         description: 'Project description for project_03'
         deleted: false
+      - id: 4
+        name: 'project_04'
+        description: 'Project description for project_04'
+        deleted: false
     meta:
-      total: 1
+      total: 2
 
   'Get projects list filter by Customer or project name (project name)':
     userId: 1
@@ -540,8 +557,20 @@ Delete:
     attributes: [ ]
     query: [ ]
     body:
-      ids: [ 1,2 ]
+      ids: [ 2,4 ]
     data:
-      - 1
       - 2
+      - 4
     meta: [ ]
+
+  'Delete Projects with Timesheet item':
+    userId: 1
+    services:
+      time.project_service: \OrangeHRM\Time\Service\ProjectService
+    attributes: [ ]
+    query: [ ]
+    body:
+      ids: [ 1,2 ]
+    exception:
+      class: 'OrangeHRM\Core\Api\V2\Exception\BadRequestException'
+      message: 'Not Allowed to delete Project(s) Which Have Time Logged Against Them'

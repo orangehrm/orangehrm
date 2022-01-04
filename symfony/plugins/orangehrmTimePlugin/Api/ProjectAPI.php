@@ -25,6 +25,7 @@ use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
+use OrangeHRM\Core\Api\V2\Exception\BadRequestException;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
@@ -299,10 +300,17 @@ class ProjectAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @inheritDoc
+     * @throws BadRequestException
      */
     public function delete(): EndpointResult
     {
         $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
+        foreach ($ids as $id) {
+            $hasTimesheetItems = $this->getProjectService()->getProjectDao()->hasTimesheetItems($id);
+            if ($hasTimesheetItems) {
+                throw new BadRequestException('Not Allowed to delete Project(s) Which Have Time Logged Against Them');
+            }
+        }
         $this->getProjectService()->getProjectDao()->deleteProjects($ids);
         return new EndpointResourceResult(ArrayModel::class, $ids);
     }
