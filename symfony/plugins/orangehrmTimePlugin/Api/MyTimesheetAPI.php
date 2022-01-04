@@ -20,7 +20,12 @@
 namespace OrangeHRM\Time\Api;
 
 use OrangeHRM\Core\Api\CommonParams;
+use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
+use OrangeHRM\Core\Api\V2\Validator\Rule;
+use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Core\Api\V2\Validator\ValidatorException;
+use OrangeHRM\Time\Api\ValidationRules\TimesheetDateRule;
 
 class MyTimesheetAPI extends EmployeeTimesheetAPI
 {
@@ -44,11 +49,24 @@ class MyTimesheetAPI extends EmployeeTimesheetAPI
 
     /**
      * @inheritDoc
+     * @throws ValidatorException
      */
     public function getValidationRuleForCreate(): ParamRuleCollection
     {
         $paramRuleCollection = parent::getValidationRuleForCreate();
         $paramRuleCollection->removeParamValidation(CommonParams::PARAMETER_EMP_NUMBER);
+        $paramRuleCollection->removeParamValidation(self::PARAMETER_DATE);
+        $paramRuleCollection->addParamValidation(
+            new ParamRule(
+                self::PARAMETER_DATE,
+                new Rule(Rules::API_DATE),
+                new Rule(
+                    TimesheetDateRule::class,
+                    [$this->getAuthUser()->getEmpNumber()]
+                ),
+            )
+        );
+
         return $paramRuleCollection;
     }
 }
