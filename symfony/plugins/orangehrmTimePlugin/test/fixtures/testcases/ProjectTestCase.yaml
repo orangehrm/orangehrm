@@ -2,6 +2,7 @@ Create:
   'Add new project':
     userId: 1
     services:
+      time.customer_service: \OrangeHRM\Time\Service\CustomerService
       time.project_service: \OrangeHRM\Time\Service\ProjectService
     attributes: [ ]
     query: [ ]
@@ -48,6 +49,7 @@ Create:
   'Add new project - without name':
     userId: 1
     services:
+      time.customer_service: \OrangeHRM\Time\Service\CustomerService
       time.project_service: \OrangeHRM\Time\Service\ProjectService
     attributes: [ ]
     query: [ ]
@@ -56,6 +58,35 @@ Create:
       customerId: 1
       projectAdminsEmpNumbers: [ 1 ]
     invalidOnly: [ 'name' ]
+
+  'Add new project - Non existing customer Id':
+    userId: 1
+    services:
+      time.project_service: \OrangeHRM\Time\Service\ProjectService
+    attributes: [ ]
+    query: [ ]
+    body:
+      name: 'Test Project'
+      description: 'This is a test project'
+      customerId: 20
+      projectAdminsEmpNumbers: [ 1 ]
+    invalidOnly: [ 'customerId' ]
+
+  'Add new project - Deleted customer Id':
+    userId: 1
+    services:
+      time.customer_service: \OrangeHRM\Time\Service\CustomerService
+      time.project_service: \OrangeHRM\Time\Service\ProjectService
+    attributes: [ ]
+    query: [ ]
+    body:
+      name: 'Test Project'
+      description: 'This is a test project'
+      customerId: 3
+      projectAdminsEmpNumbers: [ 1 ]
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException'
+      message: 'Customer no longer exists'
 
 GetAll:
   'Get projects list default':

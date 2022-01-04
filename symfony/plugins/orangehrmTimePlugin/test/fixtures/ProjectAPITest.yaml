@@ -26,7 +26,7 @@ User:
 Customer:
   - { name: 'Orange', description: 'HRM', deleted: false }
   - { name: 'CUS', description: 'DES', deleted: false }
-  - { name: 'CUS2', description: 'DES2', deleted: false }
+  - { name: 'CUS2', description: 'DES2', deleted: true }
 
 Project:
   - { "project_id": 1, customer_id: 1, name: 'project_03', description: 'Project description for project_03', is_deleted: false }
