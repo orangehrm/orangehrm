@@ -109,3 +109,15 @@
     color: $oxd-interface-gray-darken-2-color;
   }
 }
+
+.orangehrm-form-action {
+  gap: 10px;
+  display: flex;
+  flex-direction: row;
+  @media screen and (max-width: 600px) {
+    flex-direction: column;
+    ::v-deep(.oxd-button--medium) {
+      width: 100%;
+    }
+  }
+}
