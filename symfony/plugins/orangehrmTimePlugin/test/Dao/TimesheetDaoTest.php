@@ -213,7 +213,7 @@ class TimesheetDaoTest extends KernelTestCase
         $defaultTimesheetSearchFilterParams->setEmpNumber(2);
         $defaultTimesheetSearchFilterParams->setFromDate(new DateTime('2011-06-13'));
         $defaultTimesheetSearchFilterParams->setToDate(new DateTime('2011-06-19'));
-        $timesheet = $this->timesheetDao->getLatestTimesheet($defaultTimesheetSearchFilterParams);
+        $timesheet = $this->timesheetDao->getDefaultTimesheet($defaultTimesheetSearchFilterParams);
         $this->assertTrue($timesheet instanceof Timesheet);
         $this->assertEquals(4, $timesheet->getId());
         $this->assertEquals(new DateTime('2011-06-13'), $timesheet->getStartDate());
@@ -222,7 +222,7 @@ class TimesheetDaoTest extends KernelTestCase
         //without date params
         $defaultTimesheetSearchFilterParams = new DefaultTimesheetSearchFilterParams();
         $defaultTimesheetSearchFilterParams->setEmpNumber(2);
-        $timesheet = $this->timesheetDao->getLatestTimesheet($defaultTimesheetSearchFilterParams);
+        $timesheet = $this->timesheetDao->getDefaultTimesheet($defaultTimesheetSearchFilterParams);
         $this->assertTrue($timesheet instanceof Timesheet);
         $this->assertEquals(4, $timesheet->getId());
         $this->assertEquals(new DateTime('2011-06-13'), $timesheet->getStartDate());
@@ -232,7 +232,7 @@ class TimesheetDaoTest extends KernelTestCase
         $defaultTimesheetSearchFilterParams->setEmpNumber(2);
         $defaultTimesheetSearchFilterParams->setFromDate(new DateTime('2011-06-20'));
         $defaultTimesheetSearchFilterParams->setToDate(new DateTime('2011-06-26'));
-        $timesheet = $this->timesheetDao->getLatestTimesheet($defaultTimesheetSearchFilterParams);
+        $timesheet = $this->timesheetDao->getDefaultTimesheet($defaultTimesheetSearchFilterParams);
         $this->assertFalse($timesheet instanceof Timesheet);
     }
 }

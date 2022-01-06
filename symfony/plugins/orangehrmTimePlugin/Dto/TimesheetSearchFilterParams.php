@@ -29,19 +29,14 @@ class TimesheetSearchFilterParams extends FilterParams
     ];
 
     /**
-     * @var DateTime
+     * @var DateTime|null
      */
-    protected DateTime $fromDate;
+    protected ?DateTime $fromDate = null;
 
     /**
-     * @var DateTime
+     * @var DateTime|null
      */
-    protected DateTime $toDate;
-
-    /**
-     * @var DateTime
-     */
-    protected DateTime $date;
+    protected ?DateTime $toDate = null;
 
     /**
      * @var int
@@ -54,51 +49,35 @@ class TimesheetSearchFilterParams extends FilterParams
     }
 
     /**
-     * @return DateTime
+     * @return DateTime|null
      */
-    public function getFromDate(): DateTime
+    public function getFromDate(): ?DateTime
     {
         return $this->fromDate;
     }
 
     /**
-     * @param  DateTime  $fromDate
+     * @param  DateTime|null  $fromDate
      */
-    public function setFromDate(DateTime $fromDate): void
+    public function setFromDate(?DateTime $fromDate): void
     {
         $this->fromDate = $fromDate;
     }
 
     /**
-     * @return DateTime
+     * @return DateTime|null
      */
-    public function getToDate(): DateTime
+    public function getToDate(): ?DateTime
     {
         return $this->toDate;
     }
 
     /**
-     * @param  DateTime  $toDate
+     * @param  DateTime|null  $toDate
      */
-    public function setToDate(DateTime $toDate): void
+    public function setToDate(?DateTime $toDate): void
     {
         $this->toDate = $toDate;
-    }
-
-    /**
-     * @return DateTime
-     */
-    public function getDate(): DateTime
-    {
-        return $this->date;
-    }
-
-    /**
-     * @param  DateTime  $date
-     */
-    public function setDate(DateTime $date): void
-    {
-        $this->date = $date;
     }
 
     /**

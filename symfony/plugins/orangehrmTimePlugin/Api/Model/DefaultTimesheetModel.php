@@ -40,30 +40,22 @@ class DefaultTimesheetModel implements Normalizable
     public function toArray(): array
     {
         $dates = [
+            'id' => null,
+            'status' => [
+                'id' => null,
+                'name' => null
+            ],
             'startDate' => $this->timesheet->getDecorator()->getStartDate(),
             'endDate' => $this->timesheet->getDecorator()->getEndDate()
         ];
         if ($this->timesheet->getId() === 0) {
-            return array_merge(
-                [
-                    'id' => null,
-                    'status' => [
-                        'id' => null,
-                        'name' => null
-                    ]
-                ],
-                $dates
-            );
+            return $dates;
         }
-        return array_merge(
-            [
-                'id' => $this->timesheet->getId(),
-                'status' => [
-                    'id' => $this->timesheet->getState(),
-                    'name' => $this->timesheet->getDecorator()->getTimesheetState()
-                ]
-            ],
-            $dates
-        );
+        $dates['id'] = $this->timesheet->getId();
+        $dates['status'] = [
+            'id' => $this->timesheet->getState(),
+            'name' => $this->timesheet->getDecorator()->getTimesheetState()
+        ];
+        return $dates;
     }
 }

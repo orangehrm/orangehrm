@@ -47,8 +47,8 @@ use OrangeHRM\Entity\WorkflowStateMachine;
 use OrangeHRM\ORM\Exception\TransactionException;
 use OrangeHRM\Time\Api\Model\TimesheetModel;
 use OrangeHRM\Time\Api\Traits\TimesheetPermissionTrait;
-use OrangeHRM\Time\Api\ValidationRules\TimesheetDateRule;
 use OrangeHRM\Time\Api\ValidationRules\MyTimesheetActionRule;
+use OrangeHRM\Time\Api\ValidationRules\TimesheetDateRule;
 use OrangeHRM\Time\Dto\TimesheetSearchFilterParams;
 use OrangeHRM\Time\Service\TimesheetService;
 use OrangeHRM\Time\Traits\Service\TimesheetServiceTrait;
@@ -92,7 +92,6 @@ class EmployeeTimesheetAPI extends Endpoint implements CrudEndpoint
      */
     protected function validateDateInputs(): void
     {
-        $date = $this->getDate();
         $fromDate = $this->getFromDateParam();
         $toDate = $this->getToDateParam();
 
@@ -104,11 +103,6 @@ class EmployeeTimesheetAPI extends Endpoint implements CrudEndpoint
         //if toDate available and fromDate is not available
         if ($toDate && is_null($fromDate)) {
             throw $this->getBadRequestException("From Date is required");
-        }
-
-        //if single Date is available with from date and to date
-        if ($fromDate && $date) {
-            throw $this->getBadRequestException("You can't pass date param together with fromDate and toDate params");
         }
 
         //if to date earlier than from date
@@ -153,39 +147,13 @@ class EmployeeTimesheetAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
-     * @return DateTime|null
-     */
-    protected function getDate(): ?DateTime
-    {
-        return $this->getRequestParams()->getDateTimeOrNull(
-            RequestParams::PARAM_TYPE_QUERY,
-            self::FILTER_DATE,
-            null,
-        );
-    }
-
-    /**
      * @throws NormalizeException
      * @throws Exception
      */
     protected function getTimeSheets(TimesheetSearchFilterParams $timesheetParamHolder): EndpointCollectionResult
     {
-        if (!is_null($this->getDate())) {
-            list($fromDate, $toDate) = $this->getTimesheetService()->extractStartDateAndEndDateFromDate(
-                $this->getDate()
-            );
-            $timesheetParamHolder->setFromDate(new DateTime($fromDate));
-            $timesheetParamHolder->setToDate(new DateTime($toDate));
-        } elseif (is_null($this->getFromDateParam()) && is_null($this->getDate())) {
-            list($fromDate, $toDate) = $this->getTimesheetService()->extractStartDateAndEndDateFromDate(
-                $this->getDateTimeHelper()->getNow()
-            );
-            $timesheetParamHolder->setFromDate(new DateTime($fromDate));
-            $timesheetParamHolder->setToDate(new DateTime($toDate));
-        } else {
-            $timesheetParamHolder->setFromDate($this->getFromDateParam());
-            $timesheetParamHolder->setToDate($this->getToDateParam());
-        }
+        $timesheetParamHolder->setFromDate($this->getFromDateParam());
+        $timesheetParamHolder->setToDate($this->getToDateParam());
 
         $timesheets = $this->getTimesheetService()->getTimesheetDao()->getTimesheetByStartAndEndDate(
             $timesheetParamHolder
@@ -206,12 +174,6 @@ class EmployeeTimesheetAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            $this->getValidationDecorator()->notRequiredParamRule(
-                new ParamRule(
-                    self::FILTER_DATE,
-                    new Rule(Rules::API_DATE)
-                )
-            ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::FILTER_FROM_DATE,

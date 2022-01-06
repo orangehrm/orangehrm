@@ -53,12 +53,12 @@ class DefaultTimesheetAPI extends Endpoint implements ResourceEndpoint
     public function getOne(): EndpointResult
     {
         $defaultTimesheetSearchFilterParams = new DefaultTimesheetSearchFilterParams();
-        //check whether timesheet is for auth user or employee
-        if (is_null($this->getEmpNumber())) {
-            $defaultTimesheetSearchFilterParams->setEmpNumber($this->getAuthUser()->getEmpNumber());
-        } else {
-            $defaultTimesheetSearchFilterParams->setEmpNumber($this->getEmpNumber());
-        }
+        $empNumber = $this->getRequestParams()->getInt(
+            RequestParams::PARAM_TYPE_QUERY,
+            CommonParams::PARAMETER_EMP_NUMBER,
+            $this->getAuthUser()->getEmpNumber()
+        );
+        $defaultTimesheetSearchFilterParams->setEmpNumber($empNumber);
         //if date param is available extract from date and to date
         if (!is_null($this->getDate())) {
             list($fromDate, $toDate) = $this->getTimesheetService()
@@ -69,7 +69,7 @@ class DefaultTimesheetAPI extends Endpoint implements ResourceEndpoint
         //if date param is given, returns timesheet from extracted boundaries
         //if no date parameter found, then returns the latest record for specific emp number DESC by date
         //if no timesheet found for given params, returns null
-        $timesheet = $this->getTimesheetService()->getTimesheetDao()->getLatestTimesheet(
+        $timesheet = $this->getTimesheetService()->getTimesheetDao()->getDefaultTimesheet(
             $defaultTimesheetSearchFilterParams
         );
         //check whether timesheet is available
@@ -77,7 +77,6 @@ class DefaultTimesheetAPI extends Endpoint implements ResourceEndpoint
             //if timesheet not available, create new timesheet object and assign values
             $timesheet = new Timesheet();
             $timesheet->setId(0);
-            $timesheet->setState('');
 
             if (!is_null($this->getDate())) {
                 //if date param is given, extract the relevant timesheet period that belongs it
@@ -101,19 +100,7 @@ class DefaultTimesheetAPI extends Endpoint implements ResourceEndpoint
     {
         return $this->getRequestParams()->getDateTimeOrNull(
             RequestParams::PARAM_TYPE_QUERY,
-            self::FILTER_DATE,
-            null,
-        );
-    }
-
-    /**
-     * @return int|null
-     */
-    protected function getEmpNumber(): ?int
-    {
-        return $this->getRequestParams()->getIntOrNull(
-            RequestParams::PARAM_TYPE_QUERY,
-            CommonParams::PARAMETER_EMP_NUMBER
+            self::FILTER_DATE
         );
     }
 
