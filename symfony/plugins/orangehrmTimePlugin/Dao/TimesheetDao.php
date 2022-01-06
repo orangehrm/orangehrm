@@ -25,9 +25,11 @@ use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Entity\Timesheet;
 use OrangeHRM\Entity\TimesheetActionLog;
 use OrangeHRM\Entity\TimesheetItem;
+use OrangeHRM\ORM\ListSorter;
 use OrangeHRM\ORM\Paginator;
-use OrangeHRM\Time\Dto\TimesheetSearchFilterParams;
+use OrangeHRM\Time\Dto\DefaultTimesheetSearchFilterParams;
 use OrangeHRM\Time\Dto\TimesheetActionLogSearchFilterParams;
+use OrangeHRM\Time\Dto\TimesheetSearchFilterParams;
 use OrangeHRM\Time\Traits\Service\TimesheetServiceTrait;
 
 class TimesheetDao extends BaseDao
@@ -184,16 +186,17 @@ class TimesheetDao extends BaseDao
         $qb = $this->createQueryBuilder(Timesheet::class, 'timesheet');
 
         $this->setSortingAndPaginationParams($qb, $timesheetParamHolder);
-
-        $qb->andWhere(
-            $qb->expr()->between(
-                'timesheet.startDate',
-                ':startDate',
-                ':endDate'
+        if (!is_null($timesheetParamHolder->getToDate() && !is_null($timesheetParamHolder->getFromDate()))) {
+            $qb->andWhere(
+                $qb->expr()->between(
+                    'timesheet.startDate',
+                    ':startDate',
+                    ':endDate'
+                )
             )
-        )
-            ->setParameter('startDate', $timesheetParamHolder->getFromDate())
-            ->setParameter('endDate', $timesheetParamHolder->getToDate());
+                ->setParameter('startDate', $timesheetParamHolder->getFromDate())
+                ->setParameter('endDate', $timesheetParamHolder->getToDate());
+        }
 
         $qb->andWhere('timesheet.employee = :empNumber')
             ->setParameter('empNumber', $timesheetParamHolder->getEmpNumber());
@@ -331,5 +334,29 @@ class TimesheetDao extends BaseDao
         $qb->setParameter('activityId', $activityId);
 
         return $this->getPaginator($qb)->count() > 0;
+    }
+
+    /**
+     * @param  DefaultTimesheetSearchFilterParams  $defaultTimesheetSearchFilterParams
+     * @return Timesheet|null
+     */
+    public function getDefaultTimesheet(
+        DefaultTimesheetSearchFilterParams $defaultTimesheetSearchFilterParams
+    ): ?Timesheet {
+        $qb = $this->createQueryBuilder(Timesheet::class, 'timesheet');
+        $qb->andWhere('timesheet.employee = :empNumber');
+        $qb->setParameter('empNumber', $defaultTimesheetSearchFilterParams->getEmpNumber());
+        if (!is_null($defaultTimesheetSearchFilterParams->getFromDate()) && !is_null(
+            $defaultTimesheetSearchFilterParams->getToDate()
+        )) {
+            $qb->andWhere('timesheet.startDate = :fromDate');
+            $qb->setParameter('fromDate', $defaultTimesheetSearchFilterParams->getFromDate());
+            $qb->andWhere('timesheet.endDate = :toDate');
+            $qb->setParameter('toDate', $defaultTimesheetSearchFilterParams->getToDate());
+        } else {
+            $qb->orderBy('timesheet.startDate', ListSorter::DESCENDING);
+            $qb->setMaxResults(1);
+        }
+        return $qb->getQuery()->getOneOrNullResult();
     }
 }

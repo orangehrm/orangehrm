@@ -298,26 +298,6 @@ GetAll:
     meta:
       total: 1
 
-    Get employee timesheets - date param only':
-      userId: 1
-      services:
-        time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
-        core.config_service: \OrangeHRM\Core\Service\ConfigService
-      attributes:
-        empNumber: 1
-      query:
-        date: '2011-04-19'
-      body: [ ]
-      data:
-        - id: 1
-          status:
-            id: "CREATED"
-            name: "Created"
-          startDate: "2011-04-18"
-          endDate: "2011-04-24"
-      meta:
-        total: 1
-
     'Get employee timesheets - no time sheet':
       userId: 1
       services:
@@ -362,21 +342,6 @@ GetAll:
         class: '\OrangeHRM\Core\Api\V2\Exception\BadRequestException'
         message: 'From Date is required'
 
-    'Get employee timesheets - fromDate, toDate and Date':
-      userId: 1
-      services:
-        time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
-      attributes:
-        empNumber: 1
-      query:
-        fromDate: "2021-11-29"
-        toDate: "2021-12-05"
-        date: "2021-11-30"
-      body: [ ]
-      exception:
-        class: '\OrangeHRM\Core\Api\V2\Exception\BadRequestException'
-        message: "You can't pass date param together with fromDate and toDate params"
-
     'Get employee timesheets - fromDate >= toDate':
       userId: 1
       services:
@@ -390,27 +355,6 @@ GetAll:
       exception:
         class: '\OrangeHRM\Core\Api\V2\Exception\BadRequestException'
         message: "From date should be earlier than to date"
-
-    'Get employee timesheets - without params':
-      userId: 1
-      now:
-        datetime: '2011-04-19'
-      services:
-        time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
-        core.config_service: \OrangeHRM\Core\Service\ConfigService
-      attributes:
-        empNumber: 1
-      query:
-      body: [ ]
-      data:
-        - id: 1
-          status:
-            id: "CREATED"
-            name: "Created"
-          startDate: "2011-04-18"
-          endDate: "2011-04-24"
-      meta:
-        total: 1
 
   'Get employee timesheets - Admin to Employee':
     userId: 1

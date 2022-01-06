@@ -22,12 +22,8 @@ namespace OrangeHRM\Time\Dto;
 use DateTime;
 use OrangeHRM\Core\Dto\FilterParams;
 
-class TimesheetSearchFilterParams extends FilterParams
+class DefaultTimesheetSearchFilterParams extends FilterParams
 {
-    public const ALLOWED_SORT_FIELDS = [
-        'timesheet.startDate',
-    ];
-
     /**
      * @var DateTime|null
      */
@@ -42,11 +38,6 @@ class TimesheetSearchFilterParams extends FilterParams
      * @var int
      */
     protected int $empNumber;
-
-    public function __construct()
-    {
-        $this->setSortField('timesheet.startDate');
-    }
 
     /**
      * @return DateTime|null
