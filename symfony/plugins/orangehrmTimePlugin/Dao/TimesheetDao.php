@@ -26,8 +26,9 @@ use OrangeHRM\Entity\Timesheet;
 use OrangeHRM\Entity\TimesheetActionLog;
 use OrangeHRM\Entity\TimesheetItem;
 use OrangeHRM\ORM\Paginator;
-use OrangeHRM\Time\Dto\TimesheetSearchFilterParams;
+use OrangeHRM\Time\Dto\DefaultTimesheetSearchFilterParams;
 use OrangeHRM\Time\Dto\TimesheetActionLogSearchFilterParams;
+use OrangeHRM\Time\Dto\TimesheetSearchFilterParams;
 use OrangeHRM\Time\Traits\Service\TimesheetServiceTrait;
 
 class TimesheetDao extends BaseDao
@@ -331,5 +332,27 @@ class TimesheetDao extends BaseDao
         $qb->setParameter('activityId', $activityId);
 
         return $this->getPaginator($qb)->count() > 0;
+    }
+
+    /**
+     * @param  DefaultTimesheetSearchFilterParams  $defaultTimesheetSearchFilterParams
+     * @return Timesheet|null
+     */
+    public function getLatestTimesheet(
+        DefaultTimesheetSearchFilterParams $defaultTimesheetSearchFilterParams
+    ): ?Timesheet {
+        $qb = $this->createQueryBuilder(Timesheet::class, 'timesheet');
+        $qb->AndWhere('timesheet.employee = :empNumber');
+        $qb->setParameter('empNumber', $defaultTimesheetSearchFilterParams->getEmpNumber());
+        if ($defaultTimesheetSearchFilterParams->getFromDate() && $defaultTimesheetSearchFilterParams->getToDate()) {
+            $qb->andWhere('timesheet.startDate = :fromDate');
+            $qb->setParameter('fromDate', $defaultTimesheetSearchFilterParams->getFromDate());
+            $qb->andWhere('timesheet.endDate = :toDate');
+            $qb->setParameter('toDate', $defaultTimesheetSearchFilterParams->getToDate());
+        } else {
+            $qb->orderBy('timesheet.startDate', 'DESC');
+            $qb->setMaxResults(1);
+        }
+        return $qb->getQuery()->getOneOrNullResult();
     }
 }

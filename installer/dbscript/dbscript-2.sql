@@ -4261,7 +4261,8 @@ VALUES ('apiv2_time_time_sheet_config', 'API-v2 Time - Time Sheet Start Day Conf
        ('apiv2_time_validation_project_activity_name', 'API-v2 Time - Project Activity Name Validation', 1, 0, 0, 0),
        ('apiv2_time_project_activity_unique_validation', 'API-v2 Time - Project Activity Unique Validation', 1, 0, 0, 0),
        ('api_v2_time_copy_activities', 'API-v2 Time - Project Copy activities', 1, 1, 0, 0),
-       ('apiv2_time_employee_timesheets', 'API-v2 Time - Employee Timesheets', 1, 1, 1, 0);
+       ('apiv2_time_employee_timesheets', 'API-v2 Time - Employee Timesheets', 1, 1, 1, 0),
+       ('apiv2_time_default_timesheet', 'API-v2 Time - Default Timesheet', 1, 0, 0, 0);
 
 SET @time_module_id := (SELECT `id` FROM ohrm_module WHERE name = 'time' LIMIT 1);
 
@@ -4281,6 +4282,7 @@ SET @apiv2_time_config_time_format_data_group_id := (SELECT `id` FROM ohrm_data_
 SET @apiv2_time_validation_project_activity_name_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_time_validation_project_activity_name' LIMIT 1);
 SET @api_v2_time_copy_activities_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'api_v2_time_copy_activities' LIMIT 1);
 SET @apiv2_time_employee_timesheets_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_time_employee_timesheets' LIMIT 1);
+SET @apiv2_time_default_timesheet_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_time_default_timesheet' LIMIT 1);
 
 INSERT INTO ohrm_api_permission (`api_name`, `module_id`, `data_group_id`)
 VALUES ('OrangeHRM\\Time\\Api\\TimeConfigPeriodAPI', @time_module_id, @apiv2_time_time_sheet_config_data_group_id),
@@ -4298,7 +4300,8 @@ VALUES ('OrangeHRM\\Time\\Api\\TimeConfigPeriodAPI', @time_module_id, @apiv2_tim
        ('OrangeHRM\\Time\\Api\\ValidationProjectActivityNameAPI', @time_module_id, @apiv2_time_validation_project_activity_name_data_group_id),
        ('OrangeHRM\\Time\\Api\\TimesheetProjectActivityUniqueValidationAPI', @time_module_id, @apiv2_time_project_activity_unique_validation_data_group_id),
        ('OrangeHRM\\Time\\Api\\CopyProjectActivityAPI', @time_module_id, @api_v2_time_copy_activities_data_group_id),
-       ('OrangeHRM\\Time\\Api\\EmployeeTimesheetAPI', @time_module_id, @apiv2_time_employee_timesheets_data_group_id);
+       ('OrangeHRM\\Time\\Api\\EmployeeTimesheetAPI', @time_module_id, @apiv2_time_employee_timesheets_data_group_id),
+       ('OrangeHRM\\Time\\Api\\DefaultTimesheetAPI', @time_module_id, @apiv2_time_default_timesheet_data_group_id);
 
 INSERT INTO ohrm_user_role_data_group (`can_read`, `can_create`, `can_update`, `can_delete`, `self`, `data_group_id`, `user_role_id`)
 VALUES (1, 0, 1, 0, 0, @apiv2_time_time_sheet_config_data_group_id, @admin_role_id),
@@ -4333,7 +4336,9 @@ VALUES (1, 0, 1, 0, 0, @apiv2_time_time_sheet_config_data_group_id, @admin_role_
        (1, 1, 0, 0, 0, @api_v2_time_copy_activities_data_group_id, @admin_role_id),
        (1, 1, 0, 0, 0, @api_v2_time_copy_activities_data_group_id, @project_admin_role_id),
        (1, 1, 1, 0, 0, @apiv2_time_employee_timesheets_data_group_id, @admin_role_id),
-       (1, 1, 1, 0, 0, @apiv2_time_employee_timesheets_data_group_id, @supervisor_role_id);
+       (1, 1, 1, 0, 0, @apiv2_time_employee_timesheets_data_group_id, @supervisor_role_id),
+       (1, 0, 0, 0, 0, @apiv2_time_default_timesheet_data_group_id, @admin_role_id),
+       (1, 0, 0, 0, 0, @apiv2_time_default_timesheet_data_group_id, @ess_role_id);
 
 UPDATE `ohrm_screen` SET `module_id`= 5  WHERE `action_url` = 'viewCustomers';
 UPDATE `ohrm_screen` SET `module_id`= 5  WHERE `action_url` = 'viewProjects';
