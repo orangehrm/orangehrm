@@ -23,14 +23,14 @@ use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Framework\Http\Request;
 
-class EmployeeTimeReport extends AbstractVueController
+class ProjectActivityReportController extends AbstractVueController
 {
     /**
      * @inheritDoc
      */
     public function preRender(Request $request): void
     {
-        $component = new Component('employee-time-report');
+        $component = new Component('project-activity-report');
         $this->setComponent($component);
     }
 }

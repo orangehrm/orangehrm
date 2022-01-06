@@ -21,41 +21,21 @@
 <template>
   <reports-table
     module="time"
-    name="time_employee_report"
+    name="time_project_report"
     :filters="serializedFilters"
-    :column-count="3"
+    :column-count="2"
   >
     <template #default="{generateReport}">
-      <oxd-table-filter :filter-title="$t('time.employee_report')">
+      <oxd-table-filter :filter-title="$t('time.project_report')">
         <oxd-form @submitValid="generateReport">
-          <oxd-form-row>
-            <oxd-grid :cols="2" class="orangehrm-full-width-grid">
-              <oxd-grid-item>
-                <employee-autocomplete
-                  v-model="filters.employee"
-                  :rules="rules.employee"
-                  :params="{
-                    includeEmployees: 'currentAndPast',
-                  }"
-                  required
-                />
-              </oxd-grid-item>
-            </oxd-grid>
-          </oxd-form-row>
-
           <oxd-form-row>
             <oxd-grid :cols="2" class="orangehrm-full-width-grid">
               <oxd-grid-item>
                 <project-autocomplete
                   v-model="filters.project"
+                  :rules="rules.project"
                   :label="$t('time.project_name')"
-                />
-              </oxd-grid-item>
-              <oxd-grid-item>
-                <activity-dropdown
-                  v-model="filters.activity"
-                  :label="$t('time.activity_name')"
-                  :project-id="filters.project && filters.project.id"
+                  required
                 />
               </oxd-grid-item>
             </oxd-grid>
@@ -115,14 +95,10 @@ import {
 } from '@/core/util/validation/rules';
 import ReportsTable from '@/core/components/table/ReportsTable';
 import SwitchInput from '@ohrm/oxd/core/components/Input/SwitchInput';
-import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
-import ActivityDropdown from '@/orangehrmTimePlugin/components/ActivityDropdown.vue';
 import ProjectAutocomplete from '@/orangehrmTimePlugin/components/ProjectAutocomplete.vue';
 
 const defaultFilters = {
-  employee: null,
   project: null,
-  activity: null,
   fromDate: null,
   toDate: null,
   includeTimesheet: false,
@@ -132,16 +108,14 @@ export default {
   components: {
     'reports-table': ReportsTable,
     'oxd-switch-input': SwitchInput,
-    'activity-dropdown': ActivityDropdown,
     'project-autocomplete': ProjectAutocomplete,
-    'employee-autocomplete': EmployeeAutocomplete,
   },
 
   setup() {
     const filters = ref({...defaultFilters});
 
     const rules = {
-      employee: [required],
+      project: [required],
       fromDate: [
         validDateFormat(),
         startDateShouldBeBeforeEndDate(
@@ -162,9 +136,7 @@ export default {
 
     const serializedFilters = computed(() => {
       return {
-        empNumber: filters.value.employee?.id,
         projectId: filters.value.project?.id,
-        activityId: filters.value.activity?.id,
         fromDate: filters.value.fromDate,
         toDate: filters.value.toDate,
         includeTimesheet: filters.value.includeTimesheet

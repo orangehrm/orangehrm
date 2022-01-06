@@ -73,6 +73,42 @@ class ReportMockController extends AbstractController
                 );
                 break;
 
+            case "time_project_report":
+                $response->setContent(
+                    json_encode([
+                        "data" => [
+                            "headers" => [
+                                [
+                                    "name" => "Activity Name",
+                                    "prop" => "activityName",
+                                    "pin" => null,
+                                    "cellProperties" => [
+                                        "class" => [
+                                            "cell-action" => true,
+                                        ],
+                                    ],
+                                ],
+                                [
+                                    "name" => "Time (Hours)",
+                                    "prop" => "time",
+                                    "pin" => null,
+                                    "cellProperties" => [
+                                        "class" => [
+                                            "col-alt" => true,
+                                        ],
+                                    ],
+                                ],
+                            ],
+                            "filters" => [],
+                        ],
+                        "meta" => [
+                            "headers" => null,
+                            "filters" => null,
+                        ]
+                    ])
+                );
+                break;
+
             default:
                 $response->setContent(json_encode([]));
                 break;
@@ -137,6 +173,58 @@ class ReportMockController extends AbstractController
                     ])
                 );
                 break;
+
+                case "time_project_report":
+                    $response->setContent(
+                        json_encode([
+                            "data" => [
+                                [
+                                    "activityName" => "Nuclear Fission",
+                                    "time" => "10:00",
+                                    "_url" => [
+                                        "activityName" => "/time/displayProjectActivityDetailsReport?empNumber=1&fromDate=2022-01-01&toDate=2022-12-31&activityId=1",
+                                    ],
+                                ],
+                                [
+                                    "activityName" => "Uranium enrichment",
+                                    "time" => "00:01",
+                                    "_url" => [
+                                        "activityName" => "/time/displayProjectActivityDetailsReport?empNumber=1&fromDate=2022-01-01&toDate=2022-12-31&activityId=2",
+                                    ],
+                                ],
+                                [
+                                    "activityName" => "Design posters",
+                                    "time" => "01:00",
+                                    "_url" => [
+                                        "activityName" => "/time/displayProjectActivityDetailsReport?empNumber=1&fromDate=2022-01-01&toDate=2022-12-31&activityId=3",
+                                    ],
+                                ],
+                                [
+                                    "activityName" => "Ground state excitment",
+                                    "time" => "44:17",
+                                    "_url" => [
+                                        "activityName" => "/time/displayProjectActivityDetailsReport?empNumber=1&fromDate=2022-01-01&toDate=2022-12-31&activityId=4",
+                                    ],
+                                ],
+                                [
+                                    "activityName" => "Develop report table UI",
+                                    "time" => "00:21",
+                                    "_url" => [
+                                        "activityName" => "/time/displayProjectActivityDetailsReport?empNumber=1&fromDate=2022-01-01&toDate=2022-12-31&activityId=5",
+                                    ],
+                                ],
+                            ],
+                            "meta" => [
+                                "total" => 5,
+                                "sum" => [
+                                    "hours" => 2,
+                                    "minutes" => 30,
+                                    "label" => "02:59",
+                                ],
+                            ],
+                        ])
+                    );
+                    break;
 
             default:
                 $response->setContent(json_encode([]));
