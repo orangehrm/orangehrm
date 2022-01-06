@@ -242,3 +242,8 @@ time_project_activity_report:
   path: /time/displayProjectReportCriteria
   controller: OrangeHRM\Time\Controller\ProjectActivityReportController::handle
   methods: [ GET ]
+
+time_activity_details_report:
+  path: /time/displayProjectActivityDetailsReport
+  controller: OrangeHRM\Time\Controller\ActivityDetailsReportController::handle
+  methods: [ GET ]

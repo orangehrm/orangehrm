@@ -109,6 +109,38 @@ class ReportMockController extends AbstractController
                 );
                 break;
 
+            case "time_project_activity_report":
+                $response->setContent(
+                    json_encode([
+                        "data" => [
+                            "headers" => [
+                                [
+                                    "name" => "Employee Name",
+                                    "prop" => "employeeName",
+                                    "pin" => null,
+                                    "cellProperties" => null,
+                                ],
+                                [
+                                    "name" => "Time (Hours)",
+                                    "prop" => "time",
+                                    "pin" => null,
+                                    "cellProperties" => [
+                                        "class" => [
+                                            "col-alt" => true,
+                                        ],
+                                    ],
+                                ],
+                            ],
+                            "filters" => [],
+                        ],
+                        "meta" => [
+                            "headers" => null,
+                            "filters" => null,
+                        ]
+                    ])
+                );
+                break;
+
             default:
                 $response->setContent(json_encode([]));
                 break;
@@ -139,27 +171,27 @@ class ReportMockController extends AbstractController
                             [
                                 "projectName" => "Manhattan Project",
                                 "activityName" => "Nuclear Fission",
-                                "time" => "10:00",
+                                "time" => "10.00",
                             ],
                             [
                                 "projectName" => "Manhattan Project",
                                 "activityName" => "Uranium enrichment",
-                                "time" => "00:01",
+                                "time" => "0.01",
                             ],
                             [
                                 "projectName" => "Project Chicago",
                                 "activityName" => "Design posters",
-                                "time" => "01:00",
+                                "time" => "1.00",
                             ],
                             [
                                 "projectName" => "Manhattan Project",
                                 "activityName" => "Ground state excitment",
-                                "time" => "44:17",
+                                "time" => "4.17",
                             ],
                             [
                                 "projectName" => "OHRM5X",
                                 "activityName" => "Develop report table UI",
-                                "time" => "00:21",
+                                "time" => "0.21",
                             ],
                         ],
                         "meta" => [
@@ -167,7 +199,7 @@ class ReportMockController extends AbstractController
                             "sum" => [
                                 "hours" => 2,
                                 "minutes" => 30,
-                                "label" => "02:59",
+                                "label" => "2.59",
                             ],
                         ],
                     ])
@@ -180,37 +212,37 @@ class ReportMockController extends AbstractController
                             "data" => [
                                 [
                                     "activityName" => "Nuclear Fission",
-                                    "time" => "10:00",
+                                    "time" => "0.00",
                                     "_url" => [
-                                        "activityName" => "/time/displayProjectActivityDetailsReport?empNumber=1&fromDate=2022-01-01&toDate=2022-12-31&activityId=1",
+                                        "activityName" => "/time/displayProjectActivityDetailsReport?fromDate=2022-01-01&toDate=2022-12-31&projectId=1&activityId=1&includeTimesheet=all",
                                     ],
                                 ],
                                 [
                                     "activityName" => "Uranium enrichment",
-                                    "time" => "00:01",
+                                    "time" => "0.01",
                                     "_url" => [
-                                        "activityName" => "/time/displayProjectActivityDetailsReport?empNumber=1&fromDate=2022-01-01&toDate=2022-12-31&activityId=2",
+                                        "activityName" => "/time/displayProjectActivityDetailsReport?fromDate=2022-01-01&toDate=2022-12-31&projectId=1&activityId=2&includeTimesheet=onlyApproved",
                                     ],
                                 ],
                                 [
                                     "activityName" => "Design posters",
-                                    "time" => "01:00",
+                                    "time" => "1.00",
                                     "_url" => [
-                                        "activityName" => "/time/displayProjectActivityDetailsReport?empNumber=1&fromDate=2022-01-01&toDate=2022-12-31&activityId=3",
+                                        "activityName" => "/time/displayProjectActivityDetailsReport?fromDate=2022-01-01&toDate=2022-12-31&projectId=2&activityId=3&includeTimesheet=all",
                                     ],
                                 ],
                                 [
                                     "activityName" => "Ground state excitment",
-                                    "time" => "44:17",
+                                    "time" => "4.17",
                                     "_url" => [
-                                        "activityName" => "/time/displayProjectActivityDetailsReport?empNumber=1&fromDate=2022-01-01&toDate=2022-12-31&activityId=4",
+                                        "activityName" => "/time/displayProjectActivityDetailsReport?fromDate=2022-01-01&toDate=2022-12-31&projectId=1&activityId=4&includeTimesheet=onlyApproved",
                                     ],
                                 ],
                                 [
                                     "activityName" => "Develop report table UI",
-                                    "time" => "00:21",
+                                    "time" => "0.21",
                                     "_url" => [
-                                        "activityName" => "/time/displayProjectActivityDetailsReport?empNumber=1&fromDate=2022-01-01&toDate=2022-12-31&activityId=5",
+                                        "activityName" => "/time/displayProjectActivityDetailsReport?fromDate=2022-01-01&toDate=2022-12-31&projectId=1&activityId=5&includeTimesheet=all",
                                     ],
                                 ],
                             ],
@@ -219,12 +251,49 @@ class ReportMockController extends AbstractController
                                 "sum" => [
                                     "hours" => 2,
                                     "minutes" => 30,
-                                    "label" => "02:59",
+                                    "label" => "2.59",
                                 ],
                             ],
                         ])
                     );
                     break;
+
+                    case "time_project_activity_report":
+                        $response->setContent(
+                            json_encode([
+                                "data" => [
+                                    [
+                                        "employeeName" => "Micheal Knight",
+                                        "time" => "0.00",
+                                    ],
+                                    [
+                                        "employeeName" => "Richie McCaw",
+                                        "time" => "0.01",
+                                    ],
+                                    [
+                                        "employeeName" => "Jhonny Wilkinson",
+                                        "time" => "1.00",
+                                    ],
+                                    [
+                                        "employeeName" => "Brian Habana",
+                                        "time" => "4.17",
+                                    ],
+                                    [
+                                        "employeeName" => "Sonny Bill Willams",
+                                        "time" => "0.21",
+                                    ],
+                                ],
+                                "meta" => [
+                                    "total" => 5,
+                                    "sum" => [
+                                        "hours" => 2,
+                                        "minutes" => 30,
+                                        "label" => "2.59",
+                                    ],
+                                ],
+                            ])
+                        );
+                        break;
 
             default:
                 $response->setContent(json_encode([]));

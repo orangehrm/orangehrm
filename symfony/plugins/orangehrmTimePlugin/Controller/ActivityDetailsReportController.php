@@ -24,14 +24,14 @@ use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Framework\Http\Request;
 
-class ProjectActivityReportController extends AbstractVueController
+class ActivityDetailsReportController extends AbstractVueController
 {
     /**
      * @inheritDoc
      */
     public function preRender(Request $request): void
     {
-        $component = new Component('project-activity-report');
+        $component = new Component('activity-details-report');
 
         $projectId = $request->query->getInt("projectId");
         $activityId = $request->query->getInt("activityId");
@@ -53,6 +53,20 @@ class ProjectActivityReportController extends AbstractVueController
                     [
                         "id" => 1,
                         "label" => "Project Manhattan"
+                    ]
+                )
+            );
+        }
+
+        if (!is_null($activityId)) {
+            // TODO: Get activity object
+            $component->addProp(
+                new Prop(
+                    'activity',
+                    Prop::TYPE_OBJECT,
+                    [
+                        "id" => 1,
+                        "label" => "Develop timesheet component"
                     ]
                 )
             );
