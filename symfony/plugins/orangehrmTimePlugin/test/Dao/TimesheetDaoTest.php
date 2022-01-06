@@ -31,6 +31,7 @@ use OrangeHRM\Tests\Util\KernelTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 use OrangeHRM\Time\Dao\TimesheetDao;
 use OrangeHRM\Time\Dto\EmployeeTimesheetActionSearchFilterParams;
+use OrangeHRM\Time\Dto\DefaultTimesheetSearchFilterParams;
 use OrangeHRM\Time\Dto\TimesheetActionLogSearchFilterParams;
 use OrangeHRM\Time\Dto\TimesheetSearchFilterParams;
 
@@ -225,5 +226,40 @@ class TimesheetDaoTest extends KernelTestCase
             ->getEmployeeTimesheetListCountByState($employeeTimesheetActionSearchParamHolder);
 
         $this->assertEquals(1, $result);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function testGetLatestTimesheet(): void
+    {
+        $this->fixture = Config::get(Config::PLUGINS_DIR).'/orangehrmTimePlugin/test/fixtures/DefaultTimesheetTest.yml';
+        TestDataService::populate($this->fixture);
+        $defaultTimesheetSearchFilterParams = new DefaultTimesheetSearchFilterParams();
+        //with date params
+        $defaultTimesheetSearchFilterParams->setEmpNumber(2);
+        $defaultTimesheetSearchFilterParams->setFromDate(new DateTime('2011-06-13'));
+        $defaultTimesheetSearchFilterParams->setToDate(new DateTime('2011-06-19'));
+        $timesheet = $this->timesheetDao->getDefaultTimesheet($defaultTimesheetSearchFilterParams);
+        $this->assertTrue($timesheet instanceof Timesheet);
+        $this->assertEquals(4, $timesheet->getId());
+        $this->assertEquals(new DateTime('2011-06-13'), $timesheet->getStartDate());
+        $this->assertEquals(new DateTime('2011-06-19'), $timesheet->getEndDate());
+
+        //without date params
+        $defaultTimesheetSearchFilterParams = new DefaultTimesheetSearchFilterParams();
+        $defaultTimesheetSearchFilterParams->setEmpNumber(2);
+        $timesheet = $this->timesheetDao->getDefaultTimesheet($defaultTimesheetSearchFilterParams);
+        $this->assertTrue($timesheet instanceof Timesheet);
+        $this->assertEquals(4, $timesheet->getId());
+        $this->assertEquals(new DateTime('2011-06-13'), $timesheet->getStartDate());
+        $this->assertEquals(new DateTime('2011-06-19'), $timesheet->getEndDate());
+
+        //no result
+        $defaultTimesheetSearchFilterParams->setEmpNumber(2);
+        $defaultTimesheetSearchFilterParams->setFromDate(new DateTime('2011-06-20'));
+        $defaultTimesheetSearchFilterParams->setToDate(new DateTime('2011-06-26'));
+        $timesheet = $this->timesheetDao->getDefaultTimesheet($defaultTimesheetSearchFilterParams);
+        $this->assertFalse($timesheet instanceof Timesheet);
     }
 }

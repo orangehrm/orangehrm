@@ -101,6 +101,14 @@ apiv2_time_employee_time_sheet:
   defaults:
     _api: OrangeHRM\Time\Api\EmployeeTimesheetAPI
 
+apiv2_time_default_time_sheet:
+  path: /api/v2/time/timesheets/default
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    id: 0
+    _api: OrangeHRM\Time\Api\DefaultTimesheetAPI
+
 apiv2_time_my_timesheets_entries:
   path: /api/v2/time/timesheets/{timesheetId}/entries
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
@@ -165,6 +173,16 @@ apiv2_time_employee_timesheets:
   methods: [ GET ]
   defaults:
     _api: OrangeHRM\Time\Api\EmployeeTimesheetActionAPI
+    
+apiv2_time_employee_reports:
+  path: /api/v2/time/reports
+  controller: OrangeHRM\Time\Controller\ReportMockController::getReportHeaders
+  methods: [ GET ]
+
+apiv2_time_employee_reports_data:
+  path: /api/v2/time/reports/data
+  controller: OrangeHRM\Time\Controller\ReportMockController::getReportData
+  methods: [ GET ]
 
 ##########################
 #        Screens
@@ -228,4 +246,9 @@ time_employee_timesheet:
 time_employee_view_timesheet:
   path: /time/viewTimesheet/employeeId/{id}
   controller: OrangeHRM\Time\Controller\EmployeeTimesheetController::handle
+  methods: [ GET ]
+
+time_employee_report:
+  path: /time/displayEmployeeReportCriteria
+  controller: OrangeHRM\Time\Controller\EmployeeTimeReport::handle
   methods: [ GET ]

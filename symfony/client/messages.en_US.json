@@ -895,6 +895,26 @@
           "source": "Create Timesheet",
           "target": "Create Timesheet",
           "description": ""
+        },
+        "employee_report": {
+          "source": "Employee Report",
+          "target": "Employee Report",
+          "description": "Generate reports that are relevant to employees"
+        },
+        "activity_name": {
+          "source": "Activity Name",
+          "target": "Activity Name",
+          "description": "Name of the work performed"
+        },
+        "project_date_range": {
+          "source": "Project Date Range",
+          "target": "Project Date Range",
+          "description": "if you want to view projects reports with time sheets,Select the “Project Name” from the drop down menu and the “Project Date Range” by selecting the dates."
+        },
+        "only_include_approved_timesheets": {
+          "source": "Only Include Approved Timesheets",
+          "target": "Only Include Approved Timesheets",
+          "description": "You may also click on the “Only Include Approved Time sheets” if you want to view only projects reports with approved time sheets."
         }
       }
     }
