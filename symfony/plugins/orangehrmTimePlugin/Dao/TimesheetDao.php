@@ -26,8 +26,9 @@ use OrangeHRM\Entity\Timesheet;
 use OrangeHRM\Entity\TimesheetActionLog;
 use OrangeHRM\Entity\TimesheetItem;
 use OrangeHRM\ORM\Paginator;
-use OrangeHRM\Time\Dto\TimesheetSearchFilterParams;
+use OrangeHRM\Time\Dto\EmployeeTimesheetActionSearchFilterParams;
 use OrangeHRM\Time\Dto\TimesheetActionLogSearchFilterParams;
+use OrangeHRM\Time\Dto\TimesheetSearchFilterParams;
 use OrangeHRM\Time\Traits\Service\TimesheetServiceTrait;
 
 class TimesheetDao extends BaseDao
@@ -331,5 +332,47 @@ class TimesheetDao extends BaseDao
         $qb->setParameter('activityId', $activityId);
 
         return $this->getPaginator($qb)->count() > 0;
+    }
+
+    /**
+     * @param EmployeeTimesheetActionSearchFilterParams $employeeTimesheetActionSearchFilterParams
+     * @return Timesheet[]
+     */
+    public function getEmployeeTimesheetListByState(
+        EmployeeTimesheetActionSearchFilterParams $employeeTimesheetActionSearchFilterParams
+    ): array {
+        $paginator = $this->getEmployeeTimesheetPaginator($employeeTimesheetActionSearchFilterParams);
+        return $paginator->getQuery()->execute();
+    }
+
+    /**
+     * @param EmployeeTimesheetActionSearchFilterParams $employeeTimesheetActionSearchFilterParams
+     * @return Paginator
+     */
+    public function getEmployeeTimesheetPaginator(
+        EmployeeTimesheetActionSearchFilterParams $employeeTimesheetActionSearchFilterParams
+    ): Paginator {
+        $q = $this->createQueryBuilder(Timesheet::class, 'timesheet');
+        $q->leftJoin('timesheet.employee', 'employee');
+        $q->andWhere($q->expr()->in('timesheet.state', ':states'));
+
+        if (!is_null($employeeTimesheetActionSearchFilterParams->getEmployeeNumbers())) {
+            $q->andWhere($q->expr()->in('timesheet.employee', ':empNumbers'))
+                ->setParameter('empNumbers', $employeeTimesheetActionSearchFilterParams->getEmployeeNumbers());
+        }
+        $q->setParameter('states', $employeeTimesheetActionSearchFilterParams->getActionableStatesList());
+        $this->setSortingAndPaginationParams($q, $employeeTimesheetActionSearchFilterParams);
+        return $this->getPaginator($q);
+    }
+
+    /**
+     * @param EmployeeTimesheetActionSearchFilterParams $employeeTimesheetActionSearchFilterParams
+     * @return int
+     */
+    public function getEmployeeTimesheetListCountByState(
+        EmployeeTimesheetActionSearchFilterParams $employeeTimesheetActionSearchFilterParams
+    ): int {
+        $paginator = $this->getEmployeeTimesheetPaginator($employeeTimesheetActionSearchFilterParams);
+        return $paginator->count();
     }
 }
