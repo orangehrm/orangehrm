@@ -86,6 +86,4 @@ class DefaultTimesheetSearchFilterParams extends FilterParams
     {
         $this->empNumber = $empNumber;
     }
-
-
 }

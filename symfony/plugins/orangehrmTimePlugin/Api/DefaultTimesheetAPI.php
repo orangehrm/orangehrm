@@ -74,7 +74,7 @@ class DefaultTimesheetAPI extends Endpoint implements ResourceEndpoint
         );
         //check whether timesheet is available
         if (is_null($timesheet)) {
-            //if timesheet not available, create new timesheet object and assign id as 0 and state as ''
+            //if timesheet not available, create new timesheet object and assign values
             $timesheet = new Timesheet();
             $timesheet->setId(0);
             $timesheet->setState('');
