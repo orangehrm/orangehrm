@@ -38,10 +38,10 @@
           </oxd-grid-item>
           <oxd-grid-item>
             <customer-autocomplete
+              :key="project.customer"
               v-model="project.customer"
               :rules="rules.customer"
               :label="$t('time.customer_name')"
-              :key="project.customer"
               required
             />
             <oxd-button
