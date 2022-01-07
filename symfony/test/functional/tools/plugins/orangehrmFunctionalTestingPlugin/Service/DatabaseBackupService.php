@@ -80,6 +80,7 @@ class DatabaseBackupService
      */
     public function createInitialSavepoint(): array
     {
+        $this->_deleteSavepoint(self::INITIAL_SAVEPOINT_NAME);
         return $this->_createSavepoint(self::INITIAL_SAVEPOINT_NAME);
     }
 
@@ -138,7 +139,7 @@ class DatabaseBackupService
                     throw new Exception('No savepoint for the given name');
                 }
 
-                $conn->executeStatement("TRUNCATE TABLE `$tableName`");
+                $conn->executeStatement("DELETE FROM `$tableName`");
                 $data = $cacheItem->get()['data'];
                 foreach ($data as $row) {
                     $conn->insert($tableName, $row);
@@ -146,13 +147,13 @@ class DatabaseBackupService
                 $tables[] = [$table, count($data)];
             }
             $this->commitTransaction();
-            $conn->getWrappedConnection()->exec('SET FOREIGN_KEY_CHECKS=1;');
 
             return $tables;
         } catch (Exception $e) {
             $this->rollBackTransaction();
-            $conn->executeStatement('SET FOREIGN_KEY_CHECKS=1;');
             throw $e;
+        } finally {
+            $conn->executeStatement('SET FOREIGN_KEY_CHECKS=1;');
         }
     }
 

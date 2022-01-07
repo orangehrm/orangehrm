@@ -17,7 +17,13 @@
  * Boston, MA  02110-1301, USA
  */
 
+use Composer\Autoload\ClassLoader;
 use OrangeHRM\Config\Config;
+use OrangeHRM\Core\Service\CacheService;
+use OrangeHRM\Framework\ServiceContainer;
+use OrangeHRM\Framework\Services;
+use OrangeHRM\FunctionalTesting\Service\DatabaseBackupService;
+use OrangeHRM\ORM\Doctrine;
 
 require realpath(__DIR__ . '/../../../vendor/autoload.php');
 
@@ -31,5 +37,14 @@ $filesystem->symlink(
     Config::get(Config::PLUGINS_DIR) . '/orangehrmFunctionalTestingPlugin',
     true
 );
-echo 'Successfully copied `symfony/test/functional/tools/plugins/orangehrmFunctionalTestingPlugin` ' .
+echo "\nSuccessfully copied `symfony/test/functional/tools/plugins/orangehrmFunctionalTestingPlugin` " .
     "to symfony/plugins/orangehrmFunctionalTestingPlugin\n";
+
+$loader = new ClassLoader();
+$loader->addPsr4('OrangeHRM\\FunctionalTesting\\', [realpath(__DIR__ . '/plugins/orangehrmFunctionalTestingPlugin')]);
+$loader->register();
+ServiceContainer::getContainer()->register(Services::CACHE)->setFactory([CacheService::class, 'getCache']);
+ServiceContainer::getContainer()->register(Services::DOCTRINE)->setFactory([Doctrine::class, 'getEntityManager']);
+$databaseBackupService = new DatabaseBackupService();
+$databaseBackupService->createInitialSavepoint();
+echo "\nCreated initial savepoint for the database\n";
