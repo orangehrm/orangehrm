@@ -35,7 +35,7 @@ class EmailSubscriberServiceTest extends TestCase
         $this->emailSubscriberService = new EmailSubscriberService();
     }
 
-    public function testGetReportGeneratorDao(): void
+    public function testGetEmailSubscriberDao(): void
     {
         $this->assertTrue($this->emailSubscriberService->getEmailSubscriberDao() instanceof EmailSubscriberDao);
     }

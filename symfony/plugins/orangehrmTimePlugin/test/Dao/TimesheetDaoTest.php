@@ -30,6 +30,7 @@ use OrangeHRM\Entity\TimesheetItem;
 use OrangeHRM\Tests\Util\KernelTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 use OrangeHRM\Time\Dao\TimesheetDao;
+use OrangeHRM\Time\Dto\EmployeeTimesheetListSearchFilterParams;
 use OrangeHRM\Time\Dto\DefaultTimesheetSearchFilterParams;
 use OrangeHRM\Time\Dto\TimesheetActionLogSearchFilterParams;
 use OrangeHRM\Time\Dto\TimesheetSearchFilterParams;
@@ -199,6 +200,32 @@ class TimesheetDaoTest extends KernelTestCase
         $this->expectException(LogicException::class);
         $this->expectExceptionMessage('The project activity (id: 3) not belongs to provided project (id: 1)');
         $this->timesheetDao->saveAndUpdateTimesheetItems([$timesheetItem]);
+    }
+
+    public function testGetEmployeeTimesheetList(): void
+    {
+        $employeeTimesheetActionSearchParamHolder = new EmployeeTimesheetListSearchFilterParams();
+        $employeeTimesheetActionSearchParamHolder->setEmployeeNumbers([2]);
+        $employeeTimesheetActionSearchParamHolder->setActionableStatesList(["SUBMITTED"]);
+        $result = $this->timesheetDao
+            ->getEmployeeTimesheetList($employeeTimesheetActionSearchParamHolder);
+
+        $this->assertTrue($result[0] instanceof Timesheet);
+        $this->assertEquals(new DateTime("2011-05-22"), $result[0]->getStartDate());
+        $this->assertEquals(new DateTime("2011-05-29"), $result[0]->getEndDate());
+        $this->assertEquals("SUBMITTED", $result[0]->getState());
+        $this->assertEquals(2, $result[0]->getEmployee()->getEmpNumber());
+    }
+
+    public function testGetEmployeeTimesheetListCount(): void
+    {
+        $employeeTimesheetActionSearchParamHolder = new EmployeeTimesheetListSearchFilterParams();
+        $employeeTimesheetActionSearchParamHolder->setEmployeeNumbers([2]);
+        $employeeTimesheetActionSearchParamHolder->setActionableStatesList(["SUBMITTED"]);
+        $result = $this->timesheetDao
+            ->getEmployeeTimesheetListCount($employeeTimesheetActionSearchParamHolder);
+
+        $this->assertEquals(1, $result);
     }
 
     /**
