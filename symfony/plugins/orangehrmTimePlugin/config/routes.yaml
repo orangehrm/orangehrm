@@ -177,6 +177,21 @@ apiv2_time_employee_reports_data:
   controller: OrangeHRM\Time\Controller\ReportMockController::getReportData
   methods: [ GET ]
 
+apiv2_time_reports:
+  path: /api/v2/time/reports
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Time\Api\TimeReportAPI
+    _key: name
+
+apiv2_time_reports_data:
+  path: /api/v2/time/reports/data
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Time\Api\TimeReportDataAPI
+
 ##########################
 #        Screens
 ##########################
