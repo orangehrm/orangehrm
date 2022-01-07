@@ -33,32 +33,26 @@ class ProjectActivityReportController extends AbstractVueController
     {
         $component = new Component('project-activity-report');
 
-        $projectId = $request->query->getInt("projectId");
-        $activityId = $request->query->getInt("activityId");
-        $fromDate = $request->query->get("fromDate");
-        $toDate = $request->query->get("toDate");
-        $includeTimesheet = $request->query->get("includeTimesheet");
-
-        if (!is_null($fromDate) && !is_null($toDate)) {
-            $component->addProp(new Prop('from-date', Prop::TYPE_STRING, $fromDate));
-            $component->addProp(new Prop('to-date', Prop::TYPE_STRING, $toDate));
+        if ($request->query->has('fromDate') && $request->query->has('toDate')) {
+            $component->addProp(new Prop('from-date', Prop::TYPE_STRING, $request->query->get('fromDate')));
+            $component->addProp(new Prop('to-date', Prop::TYPE_STRING, $request->query->get('toDate')));
         }
 
-        if (!is_null($projectId)) {
+        if ($request->query->has('projectId')) {
             // TODO: Get project object
             $component->addProp(
                 new Prop(
                     'project',
                     Prop::TYPE_OBJECT,
                     [
-                        "id" => 1,
-                        "label" => "Project Manhattan"
+                        'id' => $request->query->getInt('projectId'),
+                        'label' => 'Project Manhattan'
                     ]
                 )
             );
         }
 
-        if (!is_null($includeTimesheet) && $includeTimesheet=="onlyApproved") {
+        if ($request->query->has('includeTimesheet') && $request->query->get('includeTimesheet') == 'onlyApproved') {
             $component->addProp(
                 new Prop(
                     'include-timesheet',
