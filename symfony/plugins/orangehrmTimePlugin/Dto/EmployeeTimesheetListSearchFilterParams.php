@@ -21,7 +21,7 @@ namespace OrangeHRM\Time\Dto;
 
 use OrangeHRM\Core\Dto\FilterParams;
 
-class EmployeeTimesheetActionSearchFilterParams extends FilterParams
+class EmployeeTimesheetListSearchFilterParams extends FilterParams
 {
     public const ALLOWED_SORT_FIELDS = ['employee.lastName'];
 

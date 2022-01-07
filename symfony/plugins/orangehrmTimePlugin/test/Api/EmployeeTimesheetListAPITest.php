@@ -24,13 +24,13 @@ use OrangeHRM\Framework\Services;
 use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
 use OrangeHRM\Tests\Util\Integration\TestCaseParams;
 use OrangeHRM\Tests\Util\TestDataService;
-use OrangeHRM\Time\Api\EmployeeTimesheetActionAPI;
+use OrangeHRM\Time\Api\EmployeeTimesheetListAPI;
 
 /**
  * @group Time
  * @group APIv2
  */
-class EmployeeTimesheetActionAPITest extends EndpointIntegrationTestCase
+class EmployeeTimesheetListAPITest extends EndpointIntegrationTestCase
 {
     /**
      * @dataProvider dataProviderForTestGetAll
@@ -38,43 +38,43 @@ class EmployeeTimesheetActionAPITest extends EndpointIntegrationTestCase
     public function testGetAll(TestCaseParams $testCaseParams): void
     {
         TestDataService::populate(Config::get(Config::TEST_DIR) . '/phpunit/fixtures/WorkflowStateMachine.yaml');
-        $this->populateFixtures('EmployeeTimesheetActionAPI.yaml', null, true);
+        $this->populateFixtures('EmployeeTimesheetListAPI.yaml', null, true);
         $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
         $this->registerServices($testCaseParams);
         $this->registerMockDateTimeHelper($testCaseParams);
-        $api = $this->getApiEndpointMock(EmployeeTimesheetActionAPI::class, $testCaseParams);
+        $api = $this->getApiEndpointMock(EmployeeTimesheetListAPI::class, $testCaseParams);
         $this->assertValidTestCase($api, 'getAll', $testCaseParams);
     }
 
     public function dataProviderForTestGetAll(): array
     {
-        return $this->getTestCases('EmployeeTimesheetActionTestCase.yaml', 'GetAll');
+        return $this->getTestCases('EmployeeTimesheetListTestCase.yaml', 'GetAll');
     }
 
     public function testCreate(): void
     {
-        $api = new EmployeeTimesheetActionAPI($this->getRequest());
+        $api = new EmployeeTimesheetListAPI($this->getRequest());
         $this->expectNotImplementedException();
         $api->create();
     }
 
     public function testGetValidationRuleForCreate(): void
     {
-        $api = new EmployeeTimesheetActionAPI($this->getRequest());
+        $api = new EmployeeTimesheetListAPI($this->getRequest());
         $this->expectNotImplementedException();
         $api->getValidationRuleForCreate();
     }
 
     public function testDelete(): void
     {
-        $api = new EmployeeTimesheetActionAPI($this->getRequest());
+        $api = new EmployeeTimesheetListAPI($this->getRequest());
         $this->expectNotImplementedException();
         $api->delete();
     }
 
     public function testGetValidationRuleForDelete(): void
     {
-        $api = new EmployeeTimesheetActionAPI($this->getRequest());
+        $api = new EmployeeTimesheetListAPI($this->getRequest());
         $this->expectNotImplementedException();
         $api->getValidationRuleForDelete();
     }

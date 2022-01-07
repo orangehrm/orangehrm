@@ -27,8 +27,8 @@ use OrangeHRM\Entity\TimesheetActionLog;
 use OrangeHRM\Entity\TimesheetItem;
 use OrangeHRM\ORM\ListSorter;
 use OrangeHRM\ORM\Paginator;
-use OrangeHRM\Time\Dto\EmployeeTimesheetActionSearchFilterParams;
 use OrangeHRM\Time\Dto\DefaultTimesheetSearchFilterParams;
+use OrangeHRM\Time\Dto\EmployeeTimesheetListSearchFilterParams;
 use OrangeHRM\Time\Dto\TimesheetActionLogSearchFilterParams;
 use OrangeHRM\Time\Dto\TimesheetSearchFilterParams;
 use OrangeHRM\Time\Traits\Service\TimesheetServiceTrait;
@@ -338,42 +338,46 @@ class TimesheetDao extends BaseDao
     }
 
     /**
-     * @param EmployeeTimesheetActionSearchFilterParams $employeeTimesheetActionSearchFilterParams
+     * @param EmployeeTimesheetListSearchFilterParams $employeeTimesheetActionSearchFilterParams
      * @return Timesheet[]
      */
-    public function getEmployeeTimesheetListByState(
-        EmployeeTimesheetActionSearchFilterParams $employeeTimesheetActionSearchFilterParams
+    public function getEmployeeTimesheetList(
+        EmployeeTimesheetListSearchFilterParams $employeeTimesheetActionSearchFilterParams
     ): array {
         $paginator = $this->getEmployeeTimesheetPaginator($employeeTimesheetActionSearchFilterParams);
         return $paginator->getQuery()->execute();
     }
 
     /**
-     * @param EmployeeTimesheetActionSearchFilterParams $employeeTimesheetActionSearchFilterParams
+     * @param EmployeeTimesheetListSearchFilterParams $employeeTimesheetActionSearchFilterParams
      * @return Paginator
      */
     public function getEmployeeTimesheetPaginator(
-        EmployeeTimesheetActionSearchFilterParams $employeeTimesheetActionSearchFilterParams
+        EmployeeTimesheetListSearchFilterParams $employeeTimesheetActionSearchFilterParams
     ): Paginator {
         $q = $this->createQueryBuilder(Timesheet::class, 'timesheet');
         $q->leftJoin('timesheet.employee', 'employee');
-        $q->andWhere($q->expr()->in('timesheet.state', ':states'));
 
         if (!is_null($employeeTimesheetActionSearchFilterParams->getEmployeeNumbers())) {
             $q->andWhere($q->expr()->in('timesheet.employee', ':empNumbers'))
                 ->setParameter('empNumbers', $employeeTimesheetActionSearchFilterParams->getEmployeeNumbers());
         }
-        $q->setParameter('states', $employeeTimesheetActionSearchFilterParams->getActionableStatesList());
+
+        if (!empty($employeeTimesheetActionSearchFilterParams->getActionableStatesList())) {
+            $q->andWhere($q->expr()->in('timesheet.state', ':states'))
+                ->setParameter('states', $employeeTimesheetActionSearchFilterParams->getActionableStatesList());
+        }
+
         $this->setSortingAndPaginationParams($q, $employeeTimesheetActionSearchFilterParams);
         return $this->getPaginator($q);
     }
 
     /**
-     * @param EmployeeTimesheetActionSearchFilterParams $employeeTimesheetActionSearchFilterParams
+     * @param EmployeeTimesheetListSearchFilterParams $employeeTimesheetActionSearchFilterParams
      * @return int
      */
-    public function getEmployeeTimesheetListCountByState(
-        EmployeeTimesheetActionSearchFilterParams $employeeTimesheetActionSearchFilterParams
+    public function getEmployeeTimesheetListCount(
+        EmployeeTimesheetListSearchFilterParams $employeeTimesheetActionSearchFilterParams
     ): int {
         $paginator = $this->getEmployeeTimesheetPaginator($employeeTimesheetActionSearchFilterParams);
         return $paginator->count();
