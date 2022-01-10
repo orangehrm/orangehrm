@@ -19,22 +19,77 @@
 
 namespace OrangeHRM\Time\Report;
 
+use OrangeHRM\Core\Api\V2\Exception\ForbiddenException;
+use OrangeHRM\Core\Api\V2\RequestParams;
+use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
+use OrangeHRM\Core\Api\V2\Validator\Rule;
+use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Dto\FilterParams;
 use OrangeHRM\Core\Report\Api\EndpointAwareReport;
 use OrangeHRM\Core\Report\Api\EndpointProxy;
+use OrangeHRM\Core\Report\Filter\Filter;
 use OrangeHRM\Core\Report\Filter\FilterDefinition;
+use OrangeHRM\Core\Report\Header\Column;
+use OrangeHRM\Core\Report\Header\Header;
 use OrangeHRM\Core\Report\Header\HeaderDefinition;
 use OrangeHRM\Core\Report\ReportData;
+use OrangeHRM\Core\Traits\Service\TextHelperTrait;
+use OrangeHRM\Core\Traits\UserRoleManagerTrait;
+use OrangeHRM\Entity\Project;
+use OrangeHRM\Time\Dto\ProjectReportSearchFilterParams;
 
 class ProjectReport implements EndpointAwareReport
 {
+    use UserRoleManagerTrait;
+    use TextHelperTrait;
+
+    public const PARAMETER_ACTIVITY_NAME = 'activityName';
+    public const PARAMETER_ACTIVITY_ID = 'activityId';
+    public const PARAMETER_TIME = 'time';
+    public const PARAMETER_ACTIVITY_DELETED = 'deleted';
+
+    public const FILTER_PARAMETER_PROJECT_ID = 'projectId';
+    public const FILTER_PARAMETER_DATE_FROM = 'fromDate';
+    public const FILTER_PARAMETER_DATE_TO = 'toDate';
+    public const FILTER_PARAMETER_PARAMETER_INCLUDE_TIMESHEET = 'includeTimesheet';
+
+    public const DEFAULT_COLUMN_SIZE = 150;
+
     /**
      * @inheritDoc
      */
     public function prepareFilterParams(EndpointProxy $endpoint): FilterParams
     {
-        // TODO: Implement prepareFilterParams() method.
+        $filterParams = new ProjectReportSearchFilterParams();
+        $filterParams->setProjectId(
+            $endpoint->getRequestParams()->getInt(
+                RequestParams::PARAM_TYPE_QUERY,
+                self::FILTER_PARAMETER_PROJECT_ID
+            )
+        );
+        $endpoint->setSortingAndPaginationParams($filterParams);
+
+        $filterParams->setFromDate(
+            $endpoint->getRequestParams()->getDateTimeOrNull(
+                RequestParams::PARAM_TYPE_QUERY,
+                self::FILTER_PARAMETER_DATE_FROM
+            )
+        );
+        $filterParams->setToDate(
+            $endpoint->getRequestParams()->getDateTimeOrNull(
+                RequestParams::PARAM_TYPE_QUERY,
+                self::FILTER_PARAMETER_DATE_TO
+            )
+        );
+        $filterParams->setIncludeApproveTimesheet(
+            $endpoint->getRequestParams()->getStringOrNull(
+                RequestParams::PARAM_TYPE_QUERY,
+                self::FILTER_PARAMETER_PARAMETER_INCLUDE_TIMESHEET
+            )
+        );
+
+        return $filterParams;
     }
 
     /**
@@ -42,7 +97,68 @@ class ProjectReport implements EndpointAwareReport
      */
     public function getValidationRule(EndpointProxy $endpoint): ParamRuleCollection
     {
-        // TODO: Implement getValidationRule() method.
+        return new ParamRuleCollection(
+            $endpoint->getValidationDecorator()->requiredParamRule(
+                new ParamRule(
+                    self::FILTER_PARAMETER_PROJECT_ID,
+                    new Rule(Rules::ENTITY_ID_EXISTS, [Project::class])
+                ),
+            ),
+            $endpoint->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(self::FILTER_PARAMETER_DATE_FROM, new Rule(Rules::API_DATE))
+            ),
+            $endpoint->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(self::FILTER_PARAMETER_DATE_TO, new Rule(Rules::API_DATE))
+            ),
+            $endpoint->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::FILTER_PARAMETER_PARAMETER_INCLUDE_TIMESHEET,
+                    new Rule(Rules::STRING_TYPE),
+                    new Rule(
+                        Rules::IN,
+                        [ProjectReportSearchFilterParams::INCLUDE_TIMESHEET]
+                    )
+                )
+            ),
+            ...
+            $endpoint->getSortingAndPaginationParamsRules(
+                ProjectReportSearchFilterParams::ALLOWED_SORT_FIELDS
+            )
+        );
+    }
+
+    /**
+     * @return Header
+     */
+    public function getHeaderDefinition(): HeaderDefinition
+    {
+        return new Header(
+            [
+                (new Column(self::PARAMETER_ACTIVITY_NAME))->setName('Activity Name')
+                    ->setCellProperties(['class' => ['cell-action' => true]])
+                    ->setSize(self::DEFAULT_COLUMN_SIZE),
+                (new Column(self::PARAMETER_TIME))->setName('Time (Hours)')
+                    ->setCellProperties(['class' => ['col-alt' => true]])
+                    ->setSize(self::DEFAULT_COLUMN_SIZE),
+            ]
+        );
+    }
+
+    /**
+     * @return Filter
+     */
+    public function getFilterDefinition(): FilterDefinition
+    {
+        return new Filter();
+    }
+
+    /**
+     * @param ProjectReportSearchFilterParams $filterParams
+     * @return ProjectReportData
+     */
+    public function getData(FilterParams $filterParams): ReportData
+    {
+        return new ProjectReportData($filterParams);
     }
 
     /**
@@ -50,30 +166,9 @@ class ProjectReport implements EndpointAwareReport
      */
     public function checkReportAccessibility(EndpointProxy $endpoint): void
     {
-        // TODO: Implement checkReportAccessibility() method.
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getHeaderDefinition(): HeaderDefinition
-    {
-        // TODO: Implement getHeaderDefinition() method.
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getFilterDefinition(): FilterDefinition
-    {
-        // TODO: Implement getFilterDefinition() method.
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getData(FilterParams $filterParams): ReportData
-    {
-        // TODO: Implement getData() method.
+        if (!$this->getUserRoleManagerHelper()
+            ->getEntityIndependentDataGroupPermissions('time_report_project_report')->canRead()) {
+            throw new ForbiddenException();
+        }
     }
 }
