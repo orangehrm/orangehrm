@@ -4288,7 +4288,7 @@ SET @api_v2_time_copy_activities_data_group_id := (SELECT `id` FROM ohrm_data_gr
 SET @apiv2_time_employee_timesheets_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_time_employee_timesheets' LIMIT 1);
 SET @apiv2_time_employee_timesheet_list_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_time_employee_timesheet_list' LIMIT 1);
 SET @apiv2_time_default_timesheet_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_time_default_timesheet' LIMIT 1);
-SET @apiv2_time_reports_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_time_reports' LIMIT 1),
+SET @apiv2_time_reports_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_time_reports' LIMIT 1);
 SET @apiv2_time_reports_data_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_time_reports_data' LIMIT 1);
 SET @time_report_project_report_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'time_report_project_report' LIMIT 1);
 
