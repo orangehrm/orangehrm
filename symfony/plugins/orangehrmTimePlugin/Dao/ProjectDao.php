@@ -27,6 +27,7 @@ use OrangeHRM\Entity\TimesheetItem;
 use OrangeHRM\ORM\Paginator;
 use OrangeHRM\Time\Dto\ProjectReportSearchFilterParams;
 use OrangeHRM\Time\Dto\ProjectSearchFilterParams;
+use phpDocumentor\Reflection\Types\Mixed_;
 
 class ProjectDao extends BaseDao
 {
@@ -255,9 +256,9 @@ class ProjectDao extends BaseDao
 
     /**
      * @param ProjectReportSearchFilterParams $projectReportSearchFilterParams
-     * @return int|mixed|string
+     * @return string
      */
-    public function getTotalDurationForProjectReport(ProjectReportSearchFilterParams $projectReportSearchFilterParams)
+    public function getTotalDurationForProjectReport(ProjectReportSearchFilterParams $projectReportSearchFilterParams): string
     {
         $q = $this->createQueryBuilder(TimesheetItem::class, 'timesheetItem');
         $q->select('SUM(COALESCE(timesheetItem.duration, 0)) AS totalDuration');
@@ -284,16 +285,9 @@ class ProjectDao extends BaseDao
         }
 
         // TODO BA
-        if (!is_null($projectReportSearchFilterParams->getFromDate()) && !is_null(
-                $projectReportSearchFilterParams->getToDate()
-            )) {
-            $q->andWhere(
-                $q->expr()->between(
-                    'timesheetItem.date',
-                    ':fromDate',
-                    ':toDate'
-                )
-            )
+        if (!is_null($projectReportSearchFilterParams->getFromDate()) && !is_null($projectReportSearchFilterParams->getToDate()))
+        {
+            $q->andWhere($q->expr()->between('timesheetItem.date', ':fromDate', ':toDate'))
                 ->setParameter('fromDate', $projectReportSearchFilterParams->getFromDate())
                 ->setParameter('toDate', $projectReportSearchFilterParams->getToDate());
         }
