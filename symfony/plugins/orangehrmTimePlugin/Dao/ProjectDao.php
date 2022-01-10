@@ -237,7 +237,7 @@ class ProjectDao extends BaseDao
      * @param ProjectReportSearchFilterParams $projectReportSearchFilterParams
      * @return Paginator
      */
-    public function getProjectReportCriteria(ProjectReportSearchFilterParams $projectReportSearchFilterParams
+    private function getProjectReportCriteria(ProjectReportSearchFilterParams $projectReportSearchFilterParams
     ): Paginator {
         $q = $this->createQueryBuilder(TimesheetItem::class, 'timesheetItem');
         $q->select(
@@ -274,7 +274,7 @@ class ProjectDao extends BaseDao
      * @param QueryBuilder $q
      * @return void
      */
-    public function getCommonQuery(
+    private function getCommonQuery(
         ProjectReportSearchFilterParams $projectReportSearchFilterParams,
         QueryBuilder $q
     ): void {
