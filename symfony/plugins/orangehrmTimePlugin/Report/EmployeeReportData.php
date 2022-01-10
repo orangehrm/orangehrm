@@ -17,32 +17,31 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Time\Api;
+namespace OrangeHRM\Time\Report;
 
-use OrangeHRM\Core\Api\Rest\ReportAPI;
-use OrangeHRM\Core\Api\V2\Exception\BadRequestException;
-use OrangeHRM\Core\Report\Api\EndpointAwareReport;
-use OrangeHRM\Time\Report\EmployeeReport;
-use OrangeHRM\Time\Report\ProjectReport;
+use OrangeHRM\Core\Api\V2\ParameterBag;
+use OrangeHRM\Core\Report\ReportData;
+use OrangeHRM\Time\Dto\EmployeeReportsSearchFilterParams;
 
-class TimeReportAPI extends ReportAPI
+class EmployeeReportData implements ReportData
 {
-    public const TIME_REPORT_MAP = [
-        'project_report' => ProjectReport::class,
-        'employee' => EmployeeReport::class,
-    ];
+    private EmployeeReportsSearchFilterParams $employeeReportsSearchFilterParams;
 
     /**
-     * @inheritDoc
-     * @throws BadRequestException
+     * @param  EmployeeReportsSearchFilterParams  $employeeReportsSearchFilterParams
      */
-    protected function getReport(): EndpointAwareReport
+    public function __construct(EmployeeReportsSearchFilterParams $employeeReportsSearchFilterParams)
     {
-        $reportName = $this->getReportName();
-        if (!isset(TimeReportAPI::TIME_REPORT_MAP[$reportName])) {
-            throw $this->getBadRequestException('Invalid report name');
-        }
-        $reportClass = TimeReportAPI::TIME_REPORT_MAP[$reportName];
-        return new $reportClass();
+        $this->employeeReportsSearchFilterParams = $employeeReportsSearchFilterParams;
+    }
+
+    public function normalize(): array
+    {
+        // TODO: Implement normalize() method.
+    }
+
+    public function getMeta(): ?ParameterBag
+    {
+        // TODO: Implement getMeta() method.
     }
 }
