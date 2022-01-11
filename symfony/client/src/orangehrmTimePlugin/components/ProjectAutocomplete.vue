@@ -46,6 +46,10 @@ export default {
       required: false,
       default: () => [],
     },
+    excludeCustomerName: {
+      type: Boolean,
+      default: false,
+    },
   },
   setup() {
     const http = new APIService(
@@ -61,20 +65,25 @@ export default {
       return new Promise(resolve => {
         if (serachParam.trim()) {
           const params = {
-            name: serachParam.trim(),
+            name: this.excludeCustomerName ? serachParam.trim() : undefined,
             onlyAllowed: this.onlyAllowed,
             model: 'detailed',
             excludeProjectIds:
               this.excludeProjectIds.length > 0
                 ? this.excludeProjectIds
                 : undefined,
+            customerOrProjectName: !this.excludeCustomerName
+              ? serachParam.trim()
+              : undefined,
           };
           this.http.getAll(params).then(({data}) => {
             resolve(
               data.data.map(project => {
                 return {
                   id: project.id,
-                  label: `${project.customer?.name} - ${project.name}`,
+                  label: this.excludeCustomerName
+                    ? project.name
+                    : `${project.customer?.name} - ${project.name}`,
                   _customer: project.customer,
                 };
               }),
