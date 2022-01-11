@@ -58,9 +58,8 @@ import {navigate} from '@ohrm/core/util/helper/navigation';
 const actionsNormalizer = data => {
   return data.map(item => {
     return {
-      id: item.id,
-      action: item.action,
-      period: `${item.period.fromDate} - ${item.period.toDate}`,
+      id: item.employee.empNumber,
+      period: `${item.startDate} - ${item.endDate}`,
       employee: `${item.employee?.firstName} ${item.employee?.lastName}`,
     };
   });

@@ -60,6 +60,12 @@
           @click="onClickEdit"
         />
         <oxd-button
+          v-if="canResetTimesheet"
+          display-type="ghost"
+          :label="$t('general.reset')"
+          @click="onClickReset"
+        />
+        <oxd-button
           v-if="canSubmitTimesheet"
           display-type="secondary"
           :label="$t('general.submit')"
@@ -69,9 +75,13 @@
     </timesheet>
     <br />
     <save-timesheet-action
-      v-if="timesheetId"
+      v-if="timesheetId && (canRejectTimesheet || canApproveTimesheet)"
       :key="timesheetId"
-      :timesheet-id="timesheetId"
+      :is-loading="isLoading"
+      :reject-timesheet="onClickReject"
+      :approve-timesheet="onClickApprove"
+      :can-reject-timesheet="!!canRejectTimesheet"
+      :can-approve-timesheet="!!canApproveTimesheet"
     ></save-timesheet-action>
     <br />
     <timesheet-actions
@@ -115,12 +125,18 @@ export default {
       state,
       onClickEdit,
       onClickNext,
+      onClickReset,
       onClickSubmit,
+      onClickReject,
+      onClickApprove,
       onClickPrevious,
       timesheetPeriod,
       canEditTimesheet,
+      canResetTimesheet,
       canSubmitTimesheet,
+      canRejectTimesheet,
       canCreateTimesheet,
+      canApproveTimesheet,
       showCreateTimesheet,
       onClickCreateTimesheet,
     } = useTimesheet(http, props.employee.empNumber);
@@ -132,12 +148,18 @@ export default {
       ...rest,
       onClickEdit,
       onClickNext,
+      onClickReset,
       onClickSubmit,
+      onClickReject,
+      onClickApprove,
       onClickPrevious,
       timesheetPeriod,
       canEditTimesheet,
+      canResetTimesheet,
       canSubmitTimesheet,
+      canRejectTimesheet,
       canCreateTimesheet,
+      canApproveTimesheet,
       showCreateTimesheet,
       onClickCreateTimesheet,
     };

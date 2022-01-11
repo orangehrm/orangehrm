@@ -184,14 +184,17 @@ export default function useTimesheetAPIs(http: APIService) {
   const updateTimesheet = (
     timesheetId: number,
     action: string,
-    comment: string | null = null,
+    comment?: string | null,
+    empNumber?: number,
   ): Promise<AxiosResponse<TimesheetUpdateResponse>> => {
     return http.request({
       method: 'PUT',
-      url: `/api/v2/time/timesheets/${timesheetId}`,
+      url: empNumber
+        ? `api/v2/time/employees/${empNumber}/timesheets/${timesheetId}`
+        : `api/v2/time/timesheets/${timesheetId}`,
       data: {
         action,
-        comment,
+        comment: comment ? comment : undefined,
       },
     });
   };
