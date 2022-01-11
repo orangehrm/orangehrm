@@ -920,6 +920,16 @@
           "source": "Project Report",
           "target": "Project Report",
           "description": "The Admin can view can reports for all projects and the ESS - Supervisors can view reports of projects administered by them or projects assigned to them. To view project reports go to Time&gt;&gt; Reports&gt;&gt; Project Reports"
+        },
+        "edit_timesheet_for": {
+          "source": "Edit Timesheet for",
+          "target": "Edit Timesheet for",
+          "description": "You may edit time sheet details for a certain period of time."
+        },
+        "edit_timesheet": {
+          "source": "Edit Timesheet",
+          "target": "Edit Timesheet",
+          "description": ""
         }
       }
     }

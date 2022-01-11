@@ -71,9 +71,8 @@ export default {
 
   setup() {
     const http = new APIService(
-      //   window.appGlobal.baseUrl,
-      'https://884b404a-f4d0-4908-9eb5-ef0c8afec15c.mock.pstmn.io',
-      '/api/v2/time/timesheet-actions-pending',
+      window.appGlobal.baseUrl,
+      '/api/v2/time/employees/timesheets/list',
     );
 
     const {

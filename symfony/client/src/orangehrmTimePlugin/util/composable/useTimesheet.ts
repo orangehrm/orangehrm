@@ -23,7 +23,7 @@ import {navigate} from '@ohrm/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
 import {freshDate, formatDate, parseDate} from '@ohrm/core/util/helper/datefns';
 
-export default function useTimesheet(http: APIService) {
+export default function useTimesheet(http: APIService, empNumber?: number) {
   const {
     state,
     fetchTimesheet,
@@ -36,15 +36,18 @@ export default function useTimesheet(http: APIService) {
 
   const loadTimesheet = (date: string | null) => {
     state.isLoading = true;
-    fetchTimesheet(date)
-      .then(id => {
-        state.timesheetId = id;
-        return id ? fetchTimesheetEntries(id) : null;
+    fetchTimesheet(date, empNumber)
+      .then(response => {
+        const {data} = response.data;
+        state.timesheet = data;
+        state.timesheetId = data.id;
+        return data.id
+          ? fetchTimesheetEntries(data.id, empNumber !== undefined)
+          : null;
       })
       .then(response => {
         if (response !== null) {
           const {data, meta, timesheet, allowedActions} = response;
-          state.timesheet = timesheet;
           state.timesheetRecords = data;
           state.employee = meta.employee;
           state.timesheetColumns = meta.columns;
@@ -54,7 +57,6 @@ export default function useTimesheet(http: APIService) {
           data.length === 0 && noRecordsFound();
         } else {
           state.employee = null;
-          state.timesheet = null;
           state.timesheetRecords = [];
           state.timesheetColumns = null;
           state.timesheetStatus = null;
@@ -105,7 +107,9 @@ export default function useTimesheet(http: APIService) {
     http
       .request({
         method: 'POST',
-        url: '/api/v2/time/timesheets',
+        url: empNumber
+          ? `api/v2/time/employees/${empNumber}/timesheets`
+          : '/api/v2/time/timesheets',
         data: {date: state.date},
       })
       .then(() => {
