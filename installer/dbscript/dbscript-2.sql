@@ -4265,8 +4265,7 @@ VALUES ('apiv2_time_time_sheet_config', 'API-v2 Time - Time Sheet Start Day Conf
        ('apiv2_time_employee_timesheet_list', 'API-v2 Time - Employee Timesheet List', 1, 0, 0, 0),
        ('apiv2_time_default_timesheet', 'API-v2 Time - Default Timesheet', 1, 0, 0, 0),
        ('apiv2_time_reports', 'API-v2 Time - Reports', 1, 0, 0, 0),
-       ('apiv2_time_reports_data', 'API-v2 Time - Reports Data', 1, 0, 0, 0),
-       ('time_report_employee_report', 'Time - Employee Report', 1, 0, 0, 0);
+       ('apiv2_time_reports_data', 'API-v2 Time - Reports Data', 1, 0, 0, 0);
 
 SET @time_module_id := (SELECT `id` FROM ohrm_module WHERE name = 'time' LIMIT 1);
 
@@ -4290,7 +4289,6 @@ SET @apiv2_time_employee_timesheet_list_data_group_id := (SELECT `id` FROM ohrm_
 SET @apiv2_time_default_timesheet_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_time_default_timesheet' LIMIT 1);
 SET @apiv2_time_reports_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_time_reports' LIMIT 1);
 SET @apiv2_time_reports_data_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_time_reports_data' LIMIT 1);
-SET @time_report_employee_report_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'time_report_employee_report' LIMIT 1);
 
 INSERT INTO ohrm_api_permission (`api_name`, `module_id`, `data_group_id`)
 VALUES ('OrangeHRM\\Time\\Api\\TimeConfigPeriodAPI', @time_module_id, @apiv2_time_time_sheet_config_data_group_id),
@@ -4355,8 +4353,7 @@ VALUES (1, 0, 1, 0, 0, @apiv2_time_time_sheet_config_data_group_id, @admin_role_
        (1, 0, 0, 0, 0, @apiv2_time_reports_data_group_id, @admin_role_id),
        (1, 0, 0, 0, 0, @apiv2_time_reports_data_group_id, @project_admin_role_id),
        (1, 0, 0, 0, 0, @apiv2_time_reports_data_data_group_id, @admin_role_id),
-       (1, 0, 0, 0, 0, @apiv2_time_reports_data_data_group_id, @project_admin_role_id),
-       (1, 0, 0, 0, 0, @time_report_employee_report_data_group_id, @admin_role_id);
+       (1, 0, 0, 0, 0, @apiv2_time_reports_data_data_group_id, @project_admin_role_id);
 
 UPDATE `ohrm_screen` SET `module_id`= 5  WHERE `action_url` = 'viewCustomers';
 UPDATE `ohrm_screen` SET `module_id`= 5  WHERE `action_url` = 'viewProjects';

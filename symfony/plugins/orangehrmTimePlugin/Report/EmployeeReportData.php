@@ -19,29 +19,62 @@
 
 namespace OrangeHRM\Time\Report;
 
+use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Report\ReportData;
+use OrangeHRM\Core\Traits\Service\NumberHelperTrait;
 use OrangeHRM\Time\Dto\EmployeeReportsSearchFilterParams;
+use OrangeHRM\Time\Traits\Service\TimesheetServiceTrait;
 
 class EmployeeReportData implements ReportData
 {
-    private EmployeeReportsSearchFilterParams $employeeReportsSearchFilterParams;
+    use TimesheetServiceTrait;
+    use NumberHelperTrait;
+
+    private EmployeeReportsSearchFilterParams $filterParams;
 
     /**
-     * @param  EmployeeReportsSearchFilterParams  $employeeReportsSearchFilterParams
+     * @param  EmployeeReportsSearchFilterParams  $filterParams
      */
-    public function __construct(EmployeeReportsSearchFilterParams $employeeReportsSearchFilterParams)
+    public function __construct(EmployeeReportsSearchFilterParams $filterParams)
     {
-        $this->employeeReportsSearchFilterParams = $employeeReportsSearchFilterParams;
+        $this->filterParams = $filterParams;
     }
 
     public function normalize(): array
     {
-        // TODO: Implement normalize() method.
+        $timesheetItems = $this->getTimesheetService()
+            ->getTimesheetDao()
+            ->getTimesheetItemsForEmployeeReport($this->filterParams);
+        $result = [];
+        foreach ($timesheetItems as $timesheetItem) {
+            $projectName = $timesheetItem[0]->getProject()->getCustomer()->getName().' - '.$timesheetItem[0]->getProject()->getName();
+            $activityName = $timesheetItem[0]->getProjectActivity()->getName();
+            $duration = $this->getNumberHelper()->numberFormat($timesheetItem['totalDurationByGroup']/3600, 2);
+            $result[] = [
+                EmployeeReport::PARAMETER_PROJECT_NAME => $projectName,
+                EmployeeReport::PARAMETER_ACTIVITY_NAME => $activityName,
+                EmployeeReport::PARAMETER_DURATION => $duration
+            ];
+        }
+        return $result;
     }
 
     public function getMeta(): ?ParameterBag
     {
-        // TODO: Implement getMeta() method.
+        $totalDuration = (int)$this->getTimesheetService()->getTimesheetDao()->getTotalDurationForEmployeeReport($this->filterParams);
+
+        return new ParameterBag(
+            [
+                CommonParams::PARAMETER_TOTAL => $this->getTimesheetService()
+                    ->getTimesheetDao()
+                    ->getTimesheetItemsCountForEmployeeReport($this->filterParams),
+                'sum' => [
+                    'hours' => floor($totalDuration / 3600),
+                    'minutes' => ($totalDuration / 60) % 60,
+                    'label' => $this->getNumberHelper()->numberFormat($totalDuration / 3600, 2),
+                ],
+            ]
+        );
     }
 }

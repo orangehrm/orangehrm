@@ -27,6 +27,7 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Dto\FilterParams;
+use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Report\Api\EndpointAwareReport;
 use OrangeHRM\Core\Report\Api\EndpointProxy;
 use OrangeHRM\Core\Report\Filter\Filter;
@@ -50,8 +51,6 @@ class EmployeeReport implements EndpointAwareReport
     public const FILTER_PARAMETER_FROM_DATE = 'fromDate';
     public const FILTER_PARAMETER_TO_DATE = 'toDate';
     public const FILTER_PARAMETER_TIMESHEET_STATE = 'timesheetState';
-
-    public const DEFAULT_COLUMN_SIZE = 150;
 
     /**
      * @inheritDoc
@@ -82,7 +81,7 @@ class EmployeeReport implements EndpointAwareReport
         $filterParams->setProjectId(
             $endpoint->getRequestParams()->getIntOrNull(
                 RequestParams::PARAM_TYPE_QUERY,
-                self::FILTER_PARAMETER_ACTIVITY_ID
+                self::FILTER_PARAMETER_PROJECT_ID
             )
         );
         $filterParams->setIncludeTimesheets(
@@ -97,7 +96,7 @@ class EmployeeReport implements EndpointAwareReport
                 self::FILTER_PARAMETER_FROM_DATE
             )
         );
-        $filterParams->setFromDate(
+        $filterParams->setToDate(
             $endpoint->getRequestParams()->getDateTimeOrNull(
                 RequestParams::PARAM_TYPE_QUERY,
                 self::FILTER_PARAMETER_TO_DATE
@@ -115,7 +114,7 @@ class EmployeeReport implements EndpointAwareReport
             new ParamRule(
                 CommonParams::PARAMETER_EMP_NUMBER,
                 new Rule(Rules::ENTITY_ID_EXISTS, [Employee::class]),
-//                new Rule(Rules::IN_ACCESSIBLE_EMP_NUMBERS)
+                new Rule(Rules::IN_ACCESSIBLE_EMP_NUMBERS)
             ),
             $endpoint->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
@@ -157,11 +156,12 @@ class EmployeeReport implements EndpointAwareReport
 
     /**
      * @inheritDoc
+     * @throws DaoException
      */
     public function checkReportAccessibility(EndpointProxy $endpoint): void
     {
         if (!$this->getUserRoleManagerHelper()
-            ->getEntityIndependentDataGroupPermissions('time_report_employee_report')
+            ->getEntityIndependentDataGroupPermissions('time_employee_reports')
             ->canRead()) {
             throw new ForbiddenException();
         }
@@ -174,16 +174,10 @@ class EmployeeReport implements EndpointAwareReport
     {
         return new Header(
             [
-                (new Column(self::PARAMETER_PROJECT_NAME))->setName('Project Name')
-                    ->setPin(Column::PIN_COL_START)
-                    ->setCellProperties(['class' => ['cell-action' => true]])
-                    ->setSize(self::DEFAULT_COLUMN_SIZE),
+                (new Column(self::PARAMETER_PROJECT_NAME))->setName('Project Name'),
                 (new Column(self::PARAMETER_ACTIVITY_NAME))->setName('Activity Name')
-                    ->setCellProperties(['class' => ['cell-action' => true]])
-                    ->setSize(self::DEFAULT_COLUMN_SIZE),
+                    ->setCellProperties(['class' => ['col-alt' => true]]),
                 (new Column(self::PARAMETER_DURATION))->setName('Time (Hours)')
-                    ->setCellProperties(['class' => ['cell-action' => true]])
-                    ->setSize(self::DEFAULT_COLUMN_SIZE),
             ]
         );
     }
@@ -197,7 +191,7 @@ class EmployeeReport implements EndpointAwareReport
     }
 
     /**
-     * @param  FilterParams  $filterParams
+     * @param  EmployeeReportsSearchFilterParams $filterParams
      * @return EmployeeReportData
      */
     public function getData(FilterParams $filterParams): EmployeeReportData

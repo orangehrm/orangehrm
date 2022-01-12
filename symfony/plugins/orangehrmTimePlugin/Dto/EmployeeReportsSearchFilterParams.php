@@ -24,7 +24,7 @@ use OrangeHRM\Leave\Dto\DateRangeSearchFilterParams;
 
 class EmployeeReportsSearchFilterParams extends DateRangeSearchFilterParams
 {
-    public const ALLOWED_SORT_FIELDS = ['project.name'];
+    public const ALLOWED_SORT_FIELDS = ['customer.name'];
 
     public const INCLUDE_TIMESHEETS_APPROVED_ONLY = 'onlyApproved';
     public const INCLUDE_TIMESHEETS_ALL = 'all';
@@ -62,7 +62,7 @@ class EmployeeReportsSearchFilterParams extends DateRangeSearchFilterParams
 
     public function __construct()
     {
-        $this->setSortField('project.name');
+        $this->setSortField('customer.name');
     }
 
     /**
