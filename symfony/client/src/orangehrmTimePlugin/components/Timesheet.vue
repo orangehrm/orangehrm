@@ -146,7 +146,10 @@
             >
               {{ record.total.label }}
             </td>
-            <td v-if="editable" class="orangehrm-timesheet-table-body-cell">
+            <td
+              v-if="editable"
+              class="orangehrm-timesheet-table-body-cell --flex"
+            >
               <oxd-icon-button
                 name="trash"
                 class="orangehrm-timesheet-icon"
@@ -278,7 +281,7 @@ export default {
     },
   },
 
-  emits: ['update:records', 'reload'],
+  emits: ['update:records'],
 
   data() {
     return {
@@ -426,10 +429,9 @@ export default {
         });
       }
     },
-    onCommentModalClose($event) {
+    onCommentModalClose() {
       this.showCommentModal = false;
       this.commentModalState = null;
-      $event && this.$emit('reload');
     },
     getProject(record) {
       const {project, customer} = record;

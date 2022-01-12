@@ -58,7 +58,9 @@ import {navigate} from '@ohrm/core/util/helper/navigation';
 const actionsNormalizer = data => {
   return data.map(item => {
     return {
-      id: item.employee.empNumber,
+      id: item.id,
+      startDate: item.startDate,
+      empNumber: item.employee.empNumber,
       period: `${item.startDate} - ${item.endDate}`,
       employee: `${item.employee?.firstName} ${item.employee?.lastName}`,
     };
@@ -137,7 +139,11 @@ export default {
 
   methods: {
     onClickView(item) {
-      navigate('/time/viewTimesheet/employeeId/{id}', {id: item.id});
+      navigate(
+        '/time/viewTimesheet/employeeId/{empNumber}',
+        {empNumber: item.empNumber},
+        {startDate: item.startDate},
+      );
     },
   },
 };

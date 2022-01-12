@@ -108,10 +108,16 @@ export default {
     'timesheet-actions': TimesheetActions,
     'save-timesheet-action': SaveTimesheetAction,
   },
+
   props: {
     employee: {
       type: Object,
       required: true,
+    },
+    startDate: {
+      type: String,
+      required: false,
+      default: null,
     },
   },
 
@@ -139,7 +145,7 @@ export default {
       canApproveTimesheet,
       showCreateTimesheet,
       onClickCreateTimesheet,
-    } = useTimesheet(http, props.employee.empNumber);
+    } = useTimesheet(http, props.startDate, props.employee.empNumber);
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const {employee, ...rest} = toRefs(state);

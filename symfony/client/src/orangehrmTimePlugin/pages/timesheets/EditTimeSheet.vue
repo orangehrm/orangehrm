@@ -26,7 +26,6 @@
       :loading="isLoading"
       :timesheet-id="timesheetId"
       :columns="timesheetColumns"
-      @reload="onReload"
       @submitValid="onSave"
     >
       <template #header-title>
@@ -47,11 +46,6 @@
         </oxd-text>
       </template>
 
-      <template #footer-title>
-        <oxd-text tag="p" class="orangehrm-form-hint">
-          * {{ $t('time.deleted_project_activities_are_not_editable') }}
-        </oxd-text>
-      </template>
       <template #footer-options>
         <oxd-button
           display-type="ghost"
@@ -152,14 +146,24 @@ export default {
     };
 
     const onClickCancel = () => {
-      props.myTimesheet
-        ? navigate('/time/viewMyTimesheet')
-        : navigate('/time/viewTimesheet/employeeId/{id}', {
+      if (props.myTimesheet) {
+        navigate(
+          '/time/viewMyTimesheet',
+          {},
+          {
+            startDate: state.timesheet.startDate,
+          },
+        );
+      } else {
+        navigate(
+          '/time/viewTimesheet/employeeId/{id}',
+          {
             id: state.employee?.empNumber,
-          });
+          },
+          {startDate: state.timesheet.startDate},
+        );
+      }
     };
-
-    const onReload = () => loadTimesheet();
 
     const onSave = () => {
       state.isLoading = true;
@@ -207,7 +211,6 @@ export default {
 
     return {
       onSave,
-      onReload,
       onClickReset,
       onClickCancel,
       ...toRefs(state),

@@ -23,7 +23,11 @@ import {navigate} from '@ohrm/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
 import {freshDate, formatDate, parseDate} from '@ohrm/core/util/helper/datefns';
 
-export default function useTimesheet(http: APIService, empNumber?: number) {
+export default function useTimesheet(
+  http: APIService,
+  date: string | null,
+  empNumber?: number,
+) {
   const {
     state,
     fetchTimesheet,
@@ -31,8 +35,7 @@ export default function useTimesheet(http: APIService, empNumber?: number) {
     fetchTimesheetEntries,
   } = useTimesheetAPIs(http);
   const {noRecordsFound, success} = useToast();
-
-  state.date = formatDate(freshDate(), 'yyyy-MM-dd');
+  state.date = date ? date : formatDate(freshDate(), 'yyyy-MM-dd');
 
   const loadTimesheet = (date: string | null): void => {
     state.isLoading = true;
@@ -198,7 +201,7 @@ export default function useTimesheet(http: APIService, empNumber?: number) {
 
   const timesheetPeriod = computed(() => {
     return state.timesheet
-      ? `${state.timesheet.startDate} - ${state.timesheet.endDate}`
+      ? `${state.timesheet.startDate} to ${state.timesheet.endDate}`
       : null;
   });
 

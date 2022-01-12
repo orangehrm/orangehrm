@@ -46,6 +46,10 @@ class EmployeeTimesheetController extends AbstractVueController
             }
 
             $component = new Component('view-employee-timesheet');
+            if ($request->query->has('startDate')) {
+                $component->addProp(new Prop('start-date', Prop::TYPE_STRING, $request->query->get('startDate')));
+            }
+
             $component->addProp(
                 new Prop(
                     'employee',
