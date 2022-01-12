@@ -16,24 +16,16 @@
  * Boston, MA  02110-1301, USA
  */
 
-import faker from 'faker';
-
 const jobTitlesApi = `/api/v2/admin/job-titles`;
 
 describe('Admin - Job Title API', function () {
   beforeEach(function () {
     cy.task('db:reset');
+    cy.fixture('chars').as('strings');
     cy.fixture('user').then(({admin}) => {
       cy.apiLogin(admin);
     });
   });
-
-  const dummyText = faker.lorem.paragraph(20);
-  const jobTitleModel = {
-    title: faker.name.title(),
-    description: dummyText.substring(0, 150),
-    note: dummyText.substring(0, 150),
-  };
 
   describe('GET /job-titles', function () {
     it('gets a list of job titles', function () {
@@ -47,10 +39,10 @@ describe('Admin - Job Title API', function () {
   describe('POST /job-titles', function () {
     it('creates a new job title', function () {
       cy.request('POST', jobTitlesApi, {
-        title: jobTitleModel.title,
-        description: jobTitleModel.description,
+        title: this.strings.chars50.text,
+        description: this.strings.chars120.text,
         specification: null,
-        note: jobTitleModel.note,
+        note: this.strings.chars120.text,
       }).then((response) => {
         expect(response.status).to.eq(200);
       });
