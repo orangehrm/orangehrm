@@ -16,7 +16,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-import {ref} from 'vue';
+import {ref, computed} from 'vue';
 import Form from '@ohrm/oxd/core/components/Form/Form.vue';
 
 type useFormArgs = {
@@ -29,13 +29,17 @@ export default function useForm({refName = 'formRef'}: useFormArgs = {}) {
 
   const submit = () => form.value?.onSubmit(new Event('submit'));
   const reset = () => form.value?.onReset();
+  const validate = () => form.value?.validate();
+
+  const invalid = computed(() => form.value?.isFromInvalid);
+  const errorbag = computed(() => form.value?.errorbag);
 
   return {
     reset,
     submit,
+    validate,
     [refName]: form,
-    fieldset: form.value?.fieldset,
-    errorbag: form.value?.errorbag,
-    invalid: form.value?.isFromInvalid,
+    errorbag,
+    invalid,
   };
 }

@@ -23,9 +23,14 @@ use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
+use OrangeHRM\Time\Traits\Service\TimesheetServiceTrait;
 
 class EditTimesheetController extends AbstractVueController
 {
+    use AuthUserTrait;
+    use TimesheetServiceTrait;
+
     /**
      * @inheritDoc
      */
@@ -33,10 +38,16 @@ class EditTimesheetController extends AbstractVueController
     {
         // TODO: show 404 if no id
         if ($request->attributes->has('id')) {
+            $timesheetId = $request->attributes->getInt('id');
             $component = new Component('edit-timesheet');
-            $component->addProp(new Prop('timesheet-id', Prop::TYPE_NUMBER, $request->attributes->getInt('id')));
-            // TODO: Only pass myTimesheet prop if user editing own timesheet
-            $component->addProp(new Prop('my-timesheet', Prop::TYPE_BOOLEAN, true));
+            $component->addProp(new Prop('timesheet-id', Prop::TYPE_NUMBER, $timesheetId));
+
+            $timesheet = $this->getTimesheetService()->getTimesheetDao()->getTimesheetById($timesheetId);
+            $timesheetOwnerEmpNumber = $timesheet->getEmployee()->getEmpNumber();
+            $currentUserEmpNumber = $this->getAuthUser()->getEmpNumber();
+            if ($timesheetOwnerEmpNumber === $currentUserEmpNumber) {
+                $component->addProp(new Prop('my-timesheet', Prop::TYPE_BOOLEAN, true));
+            }
         }
 
         $this->setComponent($component);

@@ -135,10 +135,8 @@ export interface Record {
 }
 
 export interface TimesheetResponse {
-  data: Timesheet[];
-  meta: {
-    total: number;
-  };
+  data: Timesheet;
+  meta: string[];
 }
 
 export interface TimesheetUpdateResponse {
@@ -169,43 +167,41 @@ export default function useTimesheetAPIs(http: APIService) {
     date: null,
   });
 
-  const fetchTimesheet = (date: string | null): Promise<number | null> => {
-    return new Promise(resolve => {
-      http
-        .request({
-          method: 'GET',
-          url: '/api/v2/time/timesheets',
-          params: {date},
-        })
-        .then((response: AxiosResponse<TimesheetResponse>) => {
-          const {data} = response.data;
-          if (data.length > 0) {
-            const {id} = data[0];
-            resolve(id);
-          } else {
-            resolve(null);
-          }
-        });
+  const fetchTimesheet = (
+    date: string | null,
+    empNumber?: number,
+  ): Promise<AxiosResponse<TimesheetResponse>> => {
+    return http.request({
+      method: 'GET',
+      url: '/api/v2/time/timesheets/default',
+      params: {
+        date,
+        empNumber,
+      },
     });
   };
 
   const updateTimesheet = (
     timesheetId: number,
     action: string,
-    comment: string | null = null,
+    comment?: string | null,
+    empNumber?: number,
   ): Promise<AxiosResponse<TimesheetUpdateResponse>> => {
     return http.request({
       method: 'PUT',
-      url: `/api/v2/time/timesheets/${timesheetId}`,
+      url: empNumber
+        ? `api/v2/time/employees/${empNumber}/timesheets/${timesheetId}`
+        : `api/v2/time/timesheets/${timesheetId}`,
       data: {
         action,
-        comment,
+        comment: comment ? comment : undefined,
       },
     });
   };
 
   const fetchTimesheetEntries = (
     timesheetId: number,
+    isEmployeeTimesheet?: boolean,
   ): Promise<{
     data: Record[];
     meta: Meta;
@@ -216,7 +212,9 @@ export default function useTimesheetAPIs(http: APIService) {
       http
         .request({
           method: 'GET',
-          url: `api/v2/time/timesheets/${timesheetId}/entries`,
+          url: isEmployeeTimesheet
+            ? `api/v2/time/employees/timesheets/${timesheetId}/entries`
+            : `api/v2/time/timesheets/${timesheetId}/entries`,
         })
         .then((response: AxiosResponse<EntriesResponse>) => {
           const {data, meta} = response.data;
@@ -229,10 +227,13 @@ export default function useTimesheetAPIs(http: APIService) {
   const updateTimesheetEntries = (
     timesheetId: number,
     payload: EntriesUpdateRequest,
+    isEmployeeTimesheet?: boolean,
   ): Promise<AxiosResponse<TimesheetUpdateResponse>> => {
     return http.request({
       method: 'PUT',
-      url: `/api/v2/time/timesheets/${timesheetId}/entries`,
+      url: isEmployeeTimesheet
+        ? `api/v2/time/employees/timesheets/${timesheetId}/entries`
+        : `api/v2/time/timesheets/${timesheetId}/entries`,
       data: {
         ...payload,
       },
