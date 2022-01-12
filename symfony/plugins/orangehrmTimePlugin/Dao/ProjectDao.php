@@ -219,7 +219,8 @@ class ProjectDao extends BaseDao
      * @param ProjectReportSearchFilterParams $projectReportSearchFilterParams
      * @return array
      */
-    public function getProjectReportCriteriaList(ProjectReportSearchFilterParams $projectReportSearchFilterParams
+    public function getProjectReportCriteriaList(
+        ProjectReportSearchFilterParams $projectReportSearchFilterParams
     ): array {
         return $this->getProjectReportCriteria($projectReportSearchFilterParams)->getQuery()->execute();
     }
@@ -228,7 +229,8 @@ class ProjectDao extends BaseDao
      * @param ProjectReportSearchFilterParams $projectReportSearchFilterParams
      * @return int
      */
-    public function getProjectReportCriteriaListCount(ProjectReportSearchFilterParams $projectReportSearchFilterParams
+    public function getProjectReportCriteriaListCount(
+        ProjectReportSearchFilterParams $projectReportSearchFilterParams
     ): int {
         return $this->getProjectReportCriteria($projectReportSearchFilterParams)->count();
     }
@@ -237,7 +239,8 @@ class ProjectDao extends BaseDao
      * @param ProjectReportSearchFilterParams $projectReportSearchFilterParams
      * @return Paginator
      */
-    private function getProjectReportCriteria(ProjectReportSearchFilterParams $projectReportSearchFilterParams
+    private function getProjectReportCriteria(
+        ProjectReportSearchFilterParams $projectReportSearchFilterParams
     ): Paginator {
         $q = $this->getProjectReportQueryBuilderWrapper($projectReportSearchFilterParams)->getQueryBuilder();
         $q->select(
@@ -255,7 +258,8 @@ class ProjectDao extends BaseDao
      * @param ProjectReportSearchFilterParams $projectReportSearchFilterParams
      * @return string
      */
-    public function getTotalDurationForProjectReport(ProjectReportSearchFilterParams $projectReportSearchFilterParams
+    public function getTotalDurationForProjectReport(
+        ProjectReportSearchFilterParams $projectReportSearchFilterParams
     ): string {
         $q = $this->getProjectReportQueryBuilderWrapper($projectReportSearchFilterParams)->getQueryBuilder();
         $q->select('SUM(COALESCE(timesheetItem.duration, 0)) AS totalDuration');
@@ -280,23 +284,23 @@ class ProjectDao extends BaseDao
         }
 
         if (!is_null($projectReportSearchFilterParams->getFromDate()) && !is_null(
-                $projectReportSearchFilterParams->getToDate()
-            )) {
+            $projectReportSearchFilterParams->getToDate()
+        )) {
             $q->andWhere($q->expr()->between('timesheetItem.date', ':fromDate', ':toDate'))
                 ->setParameter('fromDate', $projectReportSearchFilterParams->getFromDate())
                 ->setParameter('toDate', $projectReportSearchFilterParams->getToDate());
         }
 
         if (!is_null($projectReportSearchFilterParams->getFromDate()) && is_null(
-                $projectReportSearchFilterParams->getToDate()
-            )) {
+            $projectReportSearchFilterParams->getToDate()
+        )) {
             $q->andWhere($q->expr()->gte('timesheetItem.date', ':fromDate'))
                 ->setParameter('fromDate', $projectReportSearchFilterParams->getFromDate());
         }
 
         if (!is_null($projectReportSearchFilterParams->getToDate()) && is_null(
-                $projectReportSearchFilterParams->getFromDate()
-            )) {
+            $projectReportSearchFilterParams->getFromDate()
+        )) {
             $q->andWhere($q->expr()->lte('timesheetItem.date', ':toDate'))
                 ->setParameter('toDate', $projectReportSearchFilterParams->getToDate());
         }

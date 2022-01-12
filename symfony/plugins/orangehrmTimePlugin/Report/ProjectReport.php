@@ -111,7 +111,8 @@ class ProjectReport implements EndpointAwareReport
             ),
             $endpoint->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
-                    self::FILTER_PARAMETER_DATE_TO, new Rule(Rules::API_DATE),
+                    self::FILTER_PARAMETER_DATE_TO,
+                    new Rule(Rules::API_DATE),
                     new Rule(Rules::CALLBACK, [
                         function () use ($endpoint) {
                             $fromDate = $endpoint->getRequestParams()->getDateTimeOrNull(
@@ -145,8 +146,8 @@ class ProjectReport implements EndpointAwareReport
                 )
             ),
             ...$endpoint->getSortingAndPaginationParamsRules(
-            ProjectReportSearchFilterParams::ALLOWED_SORT_FIELDS
-        )
+                ProjectReportSearchFilterParams::ALLOWED_SORT_FIELDS
+            )
         );
     }
 
