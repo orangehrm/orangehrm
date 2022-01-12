@@ -255,8 +255,8 @@ class ProjectDao extends BaseDao
      * @param ProjectReportSearchFilterParams $projectReportSearchFilterParams
      * @return string
      */
-    public function getTotalDurationForProjectReport(ProjectReportSearchFilterParams $projectReportSearchFilterParams): string
-    {
+    public function getTotalDurationForProjectReport(ProjectReportSearchFilterParams $projectReportSearchFilterParams
+    ): string {
         $q = $this->getProjectReportQueryBuilderWrapper($projectReportSearchFilterParams)->getQueryBuilder();
         $q->select('SUM(COALESCE(timesheetItem.duration, 0)) AS totalDuration');
         return $q->getQuery()->getSingleScalarResult() === null ? '0' : $q->getQuery()->getSingleScalarResult();
@@ -266,8 +266,9 @@ class ProjectDao extends BaseDao
      * @param ProjectReportSearchFilterParams $projectReportSearchFilterParams
      * @return QueryBuilderWrapper
      */
-    private function getProjectReportQueryBuilderWrapper(ProjectReportSearchFilterParams $projectReportSearchFilterParams): QueryBuilderWrapper
-    {
+    private function getProjectReportQueryBuilderWrapper(
+        ProjectReportSearchFilterParams $projectReportSearchFilterParams
+    ): QueryBuilderWrapper {
         $q = $this->createQueryBuilder(TimesheetItem::class, 'timesheetItem');
         $q->leftJoin('timesheetItem.projectActivity', 'projectActivity');
         $q->leftJoin('timesheetItem.timesheet', 'timesheet');
@@ -278,29 +279,32 @@ class ProjectDao extends BaseDao
             $q->setParameter('projectId', $projectReportSearchFilterParams->getProjectId());
         }
 
-        if (!is_null($projectReportSearchFilterParams->getFromDate()) && !is_null($projectReportSearchFilterParams->getToDate()))
-        {
+        if (!is_null($projectReportSearchFilterParams->getFromDate()) && !is_null(
+                $projectReportSearchFilterParams->getToDate()
+            )) {
             $q->andWhere($q->expr()->between('timesheetItem.date', ':fromDate', ':toDate'))
                 ->setParameter('fromDate', $projectReportSearchFilterParams->getFromDate())
                 ->setParameter('toDate', $projectReportSearchFilterParams->getToDate());
         }
 
-        if (!is_null($projectReportSearchFilterParams->getFromDate()) && is_null($projectReportSearchFilterParams->getToDate()))
-        {
+        if (!is_null($projectReportSearchFilterParams->getFromDate()) && is_null(
+                $projectReportSearchFilterParams->getToDate()
+            )) {
             $q->andWhere($q->expr()->gte('timesheetItem.date', ':fromDate'))
                 ->setParameter('fromDate', $projectReportSearchFilterParams->getFromDate());
         }
 
-        if (!is_null($projectReportSearchFilterParams->getToDate()) && is_null($projectReportSearchFilterParams->getFromDate()))
-        {
+        if (!is_null($projectReportSearchFilterParams->getToDate()) && is_null(
+                $projectReportSearchFilterParams->getFromDate()
+            )) {
             $q->andWhere($q->expr()->lte('timesheetItem.date', ':toDate'))
                 ->setParameter('toDate', $projectReportSearchFilterParams->getToDate());
         }
 
         // TODO GET FROM WORKFLOW STATE MACHINE
         if (is_null($projectReportSearchFilterParams->getIncludeApproveTimesheet()) ||
-            $projectReportSearchFilterParams->getIncludeApproveTimesheet() === ProjectReportSearchFilterParams::INCLUDE_TIMESHEET_ALL)
-        {
+            $projectReportSearchFilterParams->getIncludeApproveTimesheet(
+            ) === ProjectReportSearchFilterParams::INCLUDE_TIMESHEET_ALL) {
             $q->andWhere($q->expr()->in('timesheet.state', ':states'));
             $q->setParameter('states', ProjectReportSearchFilterParams::TIMESHEET_STATE);
         } else {
