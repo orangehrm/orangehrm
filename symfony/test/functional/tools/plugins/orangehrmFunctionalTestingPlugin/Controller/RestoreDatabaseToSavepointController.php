@@ -17,38 +17,24 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Core\Subscriber;
+namespace OrangeHRM\FunctionalTesting\Controller;
 
-use OrangeHRM\Framework\Event\AbstractEventSubscriber;
-use Symfony\Component\HttpKernel\Event\RequestEvent;
-use Symfony\Component\HttpKernel\KernelEvents;
+use OrangeHRM\Core\Controller\PublicControllerInterface;
+use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Framework\Http\Response;
 
-class RequestBodySubscriber extends AbstractEventSubscriber
+class RestoreDatabaseToSavepointController extends AbstractController implements PublicControllerInterface
 {
     /**
-     * @inheritDoc
+     * @param Request $request
+     * @return Response
      */
-    public static function getSubscribedEvents(): array
+    public function handle(Request $request): Response
     {
-        return [
-            KernelEvents::REQUEST => [
-                ['onRequestEvent', 99000],
-            ],
-        ];
-    }
-
-    public function onRequestEvent(RequestEvent $event)
-    {
-        $request = $event->getRequest();
-
-        // 'application/json', 'application/x-json'
-        if ($request->getContentType() === 'json') {
-            if ($request->getContent() !== '') {
-                $data = json_decode($request->getContent(), true);
-                if (is_array($data)) {
-                    $request->request->add($data);
-                }
-            }
-        }
+        $savepointName = $request->request->get('savepointName');
+        $tables = $this->getDatabaseBackupService()->restoreToSavepoint($savepointName);
+        $response = $this->getResponse();
+        $response->setContent(json_encode(['count' => count($tables)]));
+        return $response;
     }
 }
