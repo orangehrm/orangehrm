@@ -101,14 +101,37 @@ class ProjectReport implements EndpointAwareReport
             $endpoint->getValidationDecorator()->requiredParamRule(
                 new ParamRule(
                     self::FILTER_PARAMETER_PROJECT_ID,
+                    new Rule(Rules::POSITIVE),
                     new Rule(Rules::ENTITY_ID_EXISTS, [Project::class])
-                ),
+                )
             ),
             $endpoint->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(self::FILTER_PARAMETER_DATE_FROM, new Rule(Rules::API_DATE))
             ),
             $endpoint->getValidationDecorator()->notRequiredParamRule(
-                new ParamRule(self::FILTER_PARAMETER_DATE_TO, new Rule(Rules::API_DATE))
+                new ParamRule(
+                    self::FILTER_PARAMETER_DATE_TO, new Rule(Rules::API_DATE),
+                    new Rule(Rules::CALLBACK, [
+                        function () use ($endpoint) {
+                            $fromDate = $endpoint->getRequestParams()->getDateTimeOrNull(
+                                RequestParams::PARAM_TYPE_QUERY,
+                                self::FILTER_PARAMETER_DATE_FROM
+                            );
+
+                            $toDate = $endpoint->getRequestParams()->getDateTimeOrNull(
+                                RequestParams::PARAM_TYPE_QUERY,
+                                self::FILTER_PARAMETER_DATE_TO
+                            );
+
+                            if (!is_null($fromDate) && !is_null($toDate)) {
+                                if ($fromDate > $toDate) {
+                                    return false;
+                                }
+                            }
+                            return true;
+                        }
+                    ])
+                )
             ),
             $endpoint->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
@@ -120,10 +143,9 @@ class ProjectReport implements EndpointAwareReport
                     )
                 )
             ),
-            ...
-            $endpoint->getSortingAndPaginationParamsRules(
-                ProjectReportSearchFilterParams::ALLOWED_SORT_FIELDS
-            )
+            ...$endpoint->getSortingAndPaginationParamsRules(
+            ProjectReportSearchFilterParams::ALLOWED_SORT_FIELDS
+        )
         );
     }
 
@@ -167,7 +189,7 @@ class ProjectReport implements EndpointAwareReport
     public function checkReportAccessibility(EndpointProxy $endpoint): void
     {
         if (!$this->getUserRoleManagerHelper()
-            ->getEntityIndependentDataGroupPermissions('time_report_project_report')->canRead()) {
+            ->getEntityIndependentDataGroupPermissions('time_project_reports')->canRead()) {
             throw new ForbiddenException();
         }
     }

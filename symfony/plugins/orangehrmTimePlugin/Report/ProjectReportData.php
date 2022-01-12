@@ -53,7 +53,7 @@ class ProjectReportData implements ReportData
         $toDateYmd = $this->getDateTimeHelper()->formatDateTimeToYmd($this->filterParams->getToDate());
         $projectId = $this->filterParams->getProjectId();
         $includeTimesheet = $this->filterParams->getIncludeApproveTimesheet() === null ?
-            'all' : $this->filterParams->getIncludeApproveTimesheet();
+            ProjectReportSearchFilterParams::INCLUDE_TIMESHEET_ALL : $this->filterParams->getIncludeApproveTimesheet();
         $projectActivityDetailsReportURL = '/time/displayProjectActivityDetailsReport';
         $result = [];
         foreach ($projects as $project) {
@@ -63,7 +63,7 @@ class ProjectReportData implements ReportData
                 ProjectReport::PARAMETER_ACTIVITY_NAME => $project['name'],
                 ProjectReport::PARAMETER_ACTIVITY_DELETED => $project['deleted'],
                 ProjectReport::PARAMETER_TIME => $this->getNumberHelper()
-                    ->numberFormat((int)$project['totalDuration'] / 3600, 2),
+                    ->numberFormat((float)$project['totalDuration'] / 3600, 2),
                 '_url' => [
                     ProjectReport::PARAMETER_ACTIVITY_NAME => $projectActivityDetailsReportURL .
                         "?fromDate=$fromDateYmd" .
