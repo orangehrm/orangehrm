@@ -52,6 +52,8 @@ class EmployeeReport implements EndpointAwareReport
     public const FILTER_PARAMETER_TO_DATE = 'toDate';
     public const FILTER_PARAMETER_TIMESHEET_STATE = 'timesheetState';
 
+    public const DEFAULT_COLUMN_SIZE = 150;
+
     /**
      * @inheritDoc
      */
@@ -194,10 +196,13 @@ class EmployeeReport implements EndpointAwareReport
     {
         return new Header(
             [
-                (new Column(self::PARAMETER_PROJECT_NAME))->setName('Project Name'),
+                (new Column(self::PARAMETER_PROJECT_NAME))->setName('Project Name')
+                    ->setSize(self::DEFAULT_COLUMN_SIZE),
                 (new Column(self::PARAMETER_ACTIVITY_NAME))->setName('Activity Name')
-                    ->setCellProperties(['class' => ['col-alt' => true]]),
+                    ->setCellProperties(['class' => ['col-alt' => true]])
+                    ->setSize(self::DEFAULT_COLUMN_SIZE),
                 (new Column(self::PARAMETER_DURATION))->setName('Time (Hours)')
+                    ->setSize(self::DEFAULT_COLUMN_SIZE)
             ]
         );
     }

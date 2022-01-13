@@ -7,6 +7,7 @@ GetAll:
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
       core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
       time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
@@ -22,6 +23,13 @@ GetAll:
         hours: 2
         minutes: 0
         label: '2.00'
+      employee:
+        empNumber: 1
+        lastName: 'Abbey'
+        firstName: 'Kayla'
+        middleName: 'T'
+        employeeId: 'E001'
+        terminationId: null
 
   'get employee report data - without filters - supervisor to subordinate':
     userId: 3
@@ -31,6 +39,7 @@ GetAll:
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
       core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
       time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
@@ -52,6 +61,13 @@ GetAll:
         hours: 5
         minutes: 0
         label: '5.00'
+      employee:
+        empNumber: 2
+        lastName: 'Abel'
+        firstName: 'Ashley'
+        middleName: 'ST'
+        employeeId: 'E002'
+        terminationId: null
 
   'get employee report data - without filters - supervisor to non assigned subordinate':
     userId: 3
@@ -62,6 +78,7 @@ GetAll:
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
       core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
       time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
@@ -80,6 +97,7 @@ GetAll:
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
       core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
       time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
@@ -98,6 +116,7 @@ GetAll:
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
       core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
       time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
@@ -115,6 +134,7 @@ GetAll:
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
       core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
       time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
@@ -131,6 +151,13 @@ GetAll:
         hours: 3
         minutes: 0
         label: '3.00'
+      employee:
+        empNumber: 2
+        lastName: 'Abel'
+        firstName: 'Ashley'
+        middleName: 'ST'
+        employeeId: 'E002'
+        terminationId: null
 
   'get employee report data - with filter - activityId':
     userId: 1
@@ -140,6 +167,7 @@ GetAll:
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
       core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
       time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
@@ -156,6 +184,13 @@ GetAll:
         hours: 3
         minutes: 0
         label: '3.00'
+      employee:
+        empNumber: 2
+        lastName: 'Abel'
+        firstName: 'Ashley'
+        middleName: 'ST'
+        employeeId: 'E002'
+        terminationId: null
 
   'get employee report data - with filter - fromDate':
     userId: 1
@@ -165,6 +200,7 @@ GetAll:
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
       core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
       time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
@@ -181,6 +217,13 @@ GetAll:
         hours: 1
         minutes: 0
         label: '1.00'
+      employee:
+        empNumber: 2
+        lastName: 'Abel'
+        firstName: 'Ashley'
+        middleName: 'ST'
+        employeeId: 'E002'
+        terminationId: null
 
   'get employee report data - with filter - toDate':
     userId: 1
@@ -190,6 +233,7 @@ GetAll:
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
       core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
       time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
@@ -209,6 +253,13 @@ GetAll:
         hours: 1
         minutes: 30
         label: '1.50'
+      employee:
+        empNumber: 2
+        lastName: 'Abel'
+        firstName: 'Ashley'
+        middleName: 'ST'
+        employeeId: 'E002'
+        terminationId: null
 
   'get employee report data - with filter - from date and to date':
     userId: 1
@@ -218,6 +269,7 @@ GetAll:
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
       core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
       time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
@@ -235,6 +287,34 @@ GetAll:
         hours: 1
         minutes: 00
         label: '1.00'
+      employee:
+        empNumber: 2
+        lastName: 'Abel'
+        firstName: 'Ashley'
+        middleName: 'ST'
+        employeeId: 'E002'
+        terminationId: null
+
+  'get employee report date - with filter - fromDate > toDate':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      name: 'employee'
+      empNumber: 2
+      fromDate: '2020-10-26'
+      toDate: '2020-10-02'
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
+      message: 'Invalid Parameter'
+
   'get employee report data - with filter - timesheetState - all':
     userId: 1
     services:
@@ -243,6 +323,7 @@ GetAll:
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
       core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
       time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
@@ -259,6 +340,13 @@ GetAll:
         hours: 1
         minutes: 00
         label: '1.00'
+      employee:
+        empNumber: 3
+        lastName: 'Saputhanthri'
+        firstName: 'Renukshan'
+        middleName: 'RT'
+        employeeId: 'E003'
+        terminationId: null
 
   'get employee report data - with filter - timesheetState - onlyApproved':
     userId: 1
@@ -268,6 +356,7 @@ GetAll:
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
       core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
       time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
@@ -284,6 +373,13 @@ GetAll:
         hours: 1
         minutes: 00
         label: '1.00'
+      employee:
+        empNumber: 2
+        lastName: 'Abel'
+        firstName: 'Ashley'
+        middleName: 'ST'
+        employeeId: 'E002'
+        terminationId: null
 
   'get employee report data - with filter - all filters':
     userId: 1
@@ -293,6 +389,7 @@ GetAll:
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
       core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
       time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
@@ -313,6 +410,13 @@ GetAll:
         hours: 1
         minutes: 00
         label: '1.00'
+      employee:
+        empNumber: 2
+        lastName: 'Abel'
+        firstName: 'Ashley'
+        middleName: 'ST'
+        employeeId: 'E002'
+        terminationId: null
 
   'get employee report data - with filter - all filters - no result found':
     userId: 1
@@ -322,6 +426,7 @@ GetAll:
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
       core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
       time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
@@ -339,3 +444,10 @@ GetAll:
         hours: 0
         minutes: 00
         label: '0.00'
+      employee:
+        empNumber: 2
+        lastName: 'Abel'
+        firstName: 'Ashley'
+        middleName: 'ST'
+        employeeId: 'E002'
+        terminationId: null

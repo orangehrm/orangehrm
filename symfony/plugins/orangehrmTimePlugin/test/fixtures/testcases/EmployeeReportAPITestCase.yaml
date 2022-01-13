@@ -15,19 +15,19 @@ GetOne:
       headers:
         - name: 'Project Name'
           prop: 'projectName'
-          size: null
+          size: 150
           pin: null
           cellProperties: null
         - name: 'Activity Name'
           prop: 'activityName'
-          size: null
+          size: 150
           pin: null
           cellProperties:
             class:
               col-alt: true
         - name: 'Time (Hours)'
           prop: 'duration'
-          size: null
+          size: 150
           pin: null
           cellProperties: null
       filters: [ ]
