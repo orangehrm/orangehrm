@@ -174,15 +174,15 @@ apiv2_time_employee_timesheets_list:
   defaults:
     _api: OrangeHRM\Time\Api\EmployeeTimesheetListAPI
     
-apiv2_time_employee_reports:
-  path: /api/v2/time/reports
-  controller: OrangeHRM\Time\Controller\ReportMockController::getReportHeaders
-  methods: [ GET ]
-
-apiv2_time_employee_reports_data:
-  path: /api/v2/time/reports/data
-  controller: OrangeHRM\Time\Controller\ReportMockController::getReportData
-  methods: [ GET ]
+#apiv2_time_employee_reports:
+#  path: /api/v2/time/reports
+#  controller: OrangeHRM\Time\Controller\ReportMockController::getReportHeaders
+#  methods: [ GET ]
+#
+#apiv2_time_employee_reports_data:
+#  path: /api/v2/time/reports/data
+#  controller: OrangeHRM\Time\Controller\ReportMockController::getReportData
+#  methods: [ GET ]
 
 apiv2_time_reports:
   path: /api/v2/time/reports

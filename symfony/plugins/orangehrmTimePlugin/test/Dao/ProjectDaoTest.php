@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Tests\Time\Dao;
 
+use DateTime;
 use Exception;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Entity\Project;
@@ -26,6 +27,7 @@ use OrangeHRM\Entity\ProjectAdmin;
 use OrangeHRM\Tests\Util\KernelTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 use OrangeHRM\Time\Dao\ProjectDao;
+use OrangeHRM\Time\Dto\ProjectReportSearchFilterParams;
 use OrangeHRM\Time\Dto\ProjectSearchFilterParams;
 
 class ProjectDaoTest extends KernelTestCase
@@ -171,5 +173,71 @@ class ProjectDaoTest extends KernelTestCase
         // With deleted
         $result = $this->projectDao->getProjectIdListForProjectAdmin(1, true);
         $this->assertEquals([1, 3], $result);
+    }
+
+    public function testGetProjectReportCriteriaListAndTotalHours(): void
+    {
+        $projectReportSearchFilterParams = new ProjectReportSearchFilterParams();
+        $projectReportSearchFilterParams->setProjectId(1);
+        $projectReportSearchFilterParams->setIncludeApproveTimesheet(
+            ProjectReportSearchFilterParams::INCLUDE_TIMESHEET_ALL
+        );
+        $result = $this->projectDao->getProjectReportCriteriaList($projectReportSearchFilterParams);
+        $totalHours = $this->projectDao->getTotalDurationForProjectReport($projectReportSearchFilterParams);
+        $this->assertEquals("Debug", $result[0]['name']);
+        $this->assertEquals("10800", $result[0]['totalDuration']);
+        $this->assertEquals(24800, $totalHours);
+
+        $projectReportSearchFilterParams = new ProjectReportSearchFilterParams();
+        $projectReportSearchFilterParams->setProjectId(1);
+        $projectReportSearchFilterParams->setFromDate(new DateTime("2011-01-01"));
+        $result = $this->projectDao->getProjectReportCriteriaList($projectReportSearchFilterParams);
+        $totalHours = $this->projectDao->getTotalDurationForProjectReport($projectReportSearchFilterParams);
+        $this->assertEquals("QA", $result[1]['name']);
+        $this->assertEquals("7000", $result[1]['totalDuration']);
+        $this->assertEquals(24800, $totalHours);
+
+        $projectReportSearchFilterParams = new ProjectReportSearchFilterParams();
+        $projectReportSearchFilterParams->setProjectId(1);
+        $projectReportSearchFilterParams->setToDate(new DateTime("2011-12-31"));
+        $result = $this->projectDao->getProjectReportCriteriaList($projectReportSearchFilterParams);
+        $totalHours = $this->projectDao->getTotalDurationForProjectReport($projectReportSearchFilterParams);
+        $this->assertEquals("TBS", $result[2]['name']);
+        $this->assertEquals("7000", $result[2]['totalDuration']);
+        $this->assertEquals(24800, $totalHours);
+
+        $projectReportSearchFilterParams = new ProjectReportSearchFilterParams();
+        $projectReportSearchFilterParams->setProjectId(1);
+        $projectReportSearchFilterParams->setFromDate(new DateTime("2011-01-01"));
+        $projectReportSearchFilterParams->setToDate(new DateTime("2011-12-31"));
+        $result = $this->projectDao->getProjectReportCriteriaList($projectReportSearchFilterParams);
+        $totalHours = $this->projectDao->getTotalDurationForProjectReport($projectReportSearchFilterParams);
+        $this->assertCount(3, $result);
+        $this->assertEquals(24800, $totalHours);
+
+        $projectReportSearchFilterParams = new ProjectReportSearchFilterParams();
+        $projectReportSearchFilterParams->setProjectId(1);
+        $projectReportSearchFilterParams->setFromDate(new DateTime("2011-01-01"));
+        $projectReportSearchFilterParams->setToDate(new DateTime("2011-12-31"));
+        $projectReportSearchFilterParams->setIncludeApproveTimesheet(
+            ProjectReportSearchFilterParams::INCLUDE_TIMESHEET_ONLY_APPROVED
+        );
+        $result = $this->projectDao->getProjectReportCriteriaList($projectReportSearchFilterParams);
+        $totalHours = $this->projectDao->getTotalDurationForProjectReport($projectReportSearchFilterParams);
+        $this->assertCount(0, $result);
+        $this->assertEquals(0, $totalHours);
+    }
+
+    public function testGetProjectReportCriteriaListCount(): void
+    {
+        $projectReportSearchFilterParams = new ProjectReportSearchFilterParams();
+        $projectReportSearchFilterParams->setProjectId(1);
+        $projectReportSearchFilterParams->setFromDate(new DateTime("2011-01-01"));
+        $projectReportSearchFilterParams->setToDate(new DateTime("2011-12-31"));
+        $projectReportSearchFilterParams->setIncludeApproveTimesheet(
+            ProjectReportSearchFilterParams::INCLUDE_TIMESHEET_ONLY_APPROVED
+        );
+        $result = $this->projectDao->getProjectReportCriteriaListCount($projectReportSearchFilterParams);
+        $this->assertEquals(0, $result);
     }
 }

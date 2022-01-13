@@ -24,6 +24,8 @@ use OrangeHRM\Entity\Project;
 use OrangeHRM\Entity\ProjectAdmin;
 use OrangeHRM\Entity\TimesheetItem;
 use OrangeHRM\ORM\Paginator;
+use OrangeHRM\ORM\QueryBuilderWrapper;
+use OrangeHRM\Time\Dto\ProjectReportSearchFilterParams;
 use OrangeHRM\Time\Dto\ProjectSearchFilterParams;
 
 class ProjectDao extends BaseDao
@@ -211,5 +213,96 @@ class ProjectDao extends BaseDao
         $qb->andWhere('timesheetItem.project = :projectId');
         $qb->setParameter('projectId', $projectId);
         return $this->getPaginator($qb)->count() > 0;
+    }
+
+    /**
+     * @param ProjectReportSearchFilterParams $projectReportSearchFilterParams
+     * @return array
+     */
+    public function getProjectReportCriteriaList(
+        ProjectReportSearchFilterParams $projectReportSearchFilterParams
+    ): array {
+        return $this->getProjectReportCriteriaPaginator($projectReportSearchFilterParams)->getQuery()->execute();
+    }
+
+    /**
+     * @param ProjectReportSearchFilterParams $projectReportSearchFilterParams
+     * @return int
+     */
+    public function getProjectReportCriteriaListCount(
+        ProjectReportSearchFilterParams $projectReportSearchFilterParams
+    ): int {
+        return $this->getProjectReportCriteriaPaginator($projectReportSearchFilterParams)->count();
+    }
+
+    /**
+     * @param ProjectReportSearchFilterParams $projectReportSearchFilterParams
+     * @return Paginator
+     */
+    private function getProjectReportCriteriaPaginator(
+        ProjectReportSearchFilterParams $projectReportSearchFilterParams
+    ): Paginator {
+        $q = $this->getProjectReportQueryBuilderWrapper($projectReportSearchFilterParams)->getQueryBuilder();
+        $q->select(
+            'projectActivity.id AS activityId,
+            projectActivity.name, 
+            projectActivity.deleted AS deleted, 
+            SUM(COALESCE(timesheetItem.duration, 0)) AS totalDuration'
+        );
+        $q->groupBy('projectActivity.id');
+
+        return $this->getPaginator($q);
+    }
+
+    /**
+     * @param ProjectReportSearchFilterParams $projectReportSearchFilterParams
+     * @return int
+     */
+    public function getTotalDurationForProjectReport(
+        ProjectReportSearchFilterParams $projectReportSearchFilterParams
+    ): int {
+        $q = $this->getProjectReportQueryBuilderWrapper($projectReportSearchFilterParams)->getQueryBuilder();
+        $q->select('SUM(COALESCE(timesheetItem.duration, 0)) AS totalDuration');
+        return $q->getQuery()->getSingleScalarResult() === null ? 0 : $q->getQuery()->getSingleScalarResult();
+    }
+
+    /**
+     * @param ProjectReportSearchFilterParams $projectReportSearchFilterParams
+     * @return QueryBuilderWrapper
+     */
+    private function getProjectReportQueryBuilderWrapper(
+        ProjectReportSearchFilterParams $projectReportSearchFilterParams
+    ): QueryBuilderWrapper {
+        $q = $this->createQueryBuilder(TimesheetItem::class, 'timesheetItem');
+        $q->leftJoin('timesheetItem.projectActivity', 'projectActivity');
+        $q->leftJoin('timesheetItem.timesheet', 'timesheet');
+        $this->setSortingAndPaginationParams($q, $projectReportSearchFilterParams);
+
+        if (!is_null($projectReportSearchFilterParams->getProjectId())) {
+            $q->andWhere('timesheetItem.project = :projectId');
+            $q->setParameter('projectId', $projectReportSearchFilterParams->getProjectId());
+        }
+
+        if (!is_null($projectReportSearchFilterParams->getFromDate()) && !is_null(
+            $projectReportSearchFilterParams->getToDate()
+        )) {
+            $q->andWhere($q->expr()->between('timesheetItem.date', ':fromDate', ':toDate'))
+                ->setParameter('fromDate', $projectReportSearchFilterParams->getFromDate())
+                ->setParameter('toDate', $projectReportSearchFilterParams->getToDate());
+        } elseif (!is_null($projectReportSearchFilterParams->getFromDate())) {
+            $q->andWhere($q->expr()->gte('timesheetItem.date', ':fromDate'))
+                ->setParameter('fromDate', $projectReportSearchFilterParams->getFromDate());
+        } elseif (!is_null($projectReportSearchFilterParams->getToDate())) {
+            $q->andWhere($q->expr()->lte('timesheetItem.date', ':toDate'))
+                ->setParameter('toDate', $projectReportSearchFilterParams->getToDate());
+        }
+
+        if ($projectReportSearchFilterParams->getIncludeApproveTimesheet(
+            ) === ProjectReportSearchFilterParams::INCLUDE_TIMESHEET_ONLY_APPROVED) {
+            $q->andWhere('timesheet.state = :state');
+            $q->setParameter('state', ProjectReportSearchFilterParams::TIMESHEET_STATE_APPROVED);
+        }
+
+        return $this->getQueryBuilderWrapper($q);
     }
 }
