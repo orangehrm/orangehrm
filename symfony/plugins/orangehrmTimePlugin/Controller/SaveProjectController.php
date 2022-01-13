@@ -40,6 +40,8 @@ class SaveProjectController extends AbstractVueController implements CapableView
     {
         if ($request->attributes->has('id')) {
             $component = new Component('project-edit');
+            // TODO: Get activity ids of this project that has been used in timesheets
+            $component->addProp(new Prop('unselectable-ids', Prop::TYPE_ARRAY, []));
             $component->addProp(new Prop('project-id', Prop::TYPE_NUMBER, $request->attributes->getInt('id')));
         } else {
             $component = new Component('project-save');
