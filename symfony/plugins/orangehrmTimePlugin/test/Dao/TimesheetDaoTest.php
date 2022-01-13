@@ -271,7 +271,7 @@ class TimesheetDaoTest extends KernelTestCase
     {
         $this->fixture = Config::get(
             Config::PLUGINS_DIR
-        ).'/orangehrmTimePlugin/test/fixtures/TimesheetReportDataTest.yml';
+        ).'/orangehrmTimePlugin/test/fixtures/EmployeeReportDataTest.yml';
         TestDataService::populate($this->fixture);
         //without filters
         $employeeReportsSearchFilterParams = new EmployeeReportsSearchFilterParams();
@@ -381,7 +381,7 @@ class TimesheetDaoTest extends KernelTestCase
     {
         $this->fixture = Config::get(
             Config::PLUGINS_DIR
-        ).'/orangehrmTimePlugin/test/fixtures/TimesheetReportDataTest.yml';
+        ).'/orangehrmTimePlugin/test/fixtures/EmployeeReportDataTest.yml';
         TestDataService::populate($this->fixture);
         $employeeReportsSearchFilterParams = new EmployeeReportsSearchFilterParams();
         $employeeReportsSearchFilterParams->setEmpNumber(2);

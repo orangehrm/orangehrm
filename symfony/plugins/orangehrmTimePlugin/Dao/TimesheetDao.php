@@ -467,14 +467,20 @@ class TimesheetDao extends BaseDao
             $q->setParameter('activityId', $filterParams->getActivityId());
         }
 
+        //Timesheet items after fromDate (including fromDate) and Timesheet items before toDate (including toDate)
+        if (!is_null($filterParams->getFromDate()) && !is_null($filterParams->getToDate())) {
+            $q->andWhere($q->expr()->between('timesheetItem.date', ':fromDate', ':toDate'));
+            $q->setParameter('fromDate', $filterParams->getFromDate());
+            $q->setParameter('toDate', $filterParams->getToDate());
+        }
         //Timesheet items after fromDate (including fromDate)
-        if (!is_null($filterParams->getFromDate())) {
+        elseif (!is_null($filterParams->getFromDate())) {
             $q->andWhere($q->expr()->gte('timesheetItem.date', ':fromDate'));
             $q->setParameter('fromDate', $filterParams->getFromDate());
         }
 
         //Timesheet items before toDate (including toDate)
-        if (!is_null($filterParams->getToDate())) {
+        elseif (!is_null($filterParams->getToDate())) {
             $q->andWhere($q->expr()->lte('timesheetItem.date', ':toDate'));
             $q->setParameter('toDate', $filterParams->getToDate());
         }
@@ -482,17 +488,18 @@ class TimesheetDao extends BaseDao
         if ($filterParams->getIncludeTimesheets(
             ) === EmployeeReportsSearchFilterParams::INCLUDE_TIMESHEETS_APPROVED_ONLY) {
             $q->andWhere('timesheet.state = :state');
-            $q->setParameter('state', EmployeeReportsSearchFilterParams::TIMESHEET_STATE[1]);
+            $q->setParameter('state', EmployeeReportsSearchFilterParams::TIMESHEET_APPROVED_STATE);
         }
+        //else: neither fromDate nor toDate is available
 
         return $this->getQueryBuilderWrapper($q);
     }
 
     /**
      * @param  EmployeeReportsSearchFilterParams  $filterParams
-     * @return string
+     * @return int
      */
-    public function getTotalDurationForEmployeeReport(EmployeeReportsSearchFilterParams $filterParams): string
+    public function getTotalDurationForEmployeeReport(EmployeeReportsSearchFilterParams $filterParams): int
     {
         $qb = $this->getTimesheetItemsForEmployeeReportQueryBuilderWrapper($filterParams)->getQueryBuilder();
         //COALESCE usage => if timesheetItem.duration == null, it will be converted to 0

@@ -34,11 +34,7 @@ class EmployeeReportsSearchFilterParams extends DateRangeSearchFilterParams
         self::INCLUDE_TIMESHEETS_ALL,
     ];
 
-    public const TIMESHEET_STATE = [
-        'SUBMITTED',
-        'APPROVED',
-        'REJECTED'
-    ];
+    public const TIMESHEET_APPROVED_STATE = 'APPROVED';
 
     /**
      * @var int

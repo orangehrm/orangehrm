@@ -62,7 +62,7 @@ class EmployeeReportData implements ReportData
 
     public function getMeta(): ?ParameterBag
     {
-        $totalDuration = (int)$this->getTimesheetService()->getTimesheetDao()->getTotalDurationForEmployeeReport($this->filterParams);
+        $totalDuration = $this->getTimesheetService()->getTimesheetDao()->getTotalDurationForEmployeeReport($this->filterParams);
 
         return new ParameterBag(
             [
