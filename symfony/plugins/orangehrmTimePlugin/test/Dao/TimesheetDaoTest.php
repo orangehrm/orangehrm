@@ -30,8 +30,9 @@ use OrangeHRM\Entity\TimesheetItem;
 use OrangeHRM\Tests\Util\KernelTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 use OrangeHRM\Time\Dao\TimesheetDao;
-use OrangeHRM\Time\Dto\EmployeeTimesheetListSearchFilterParams;
 use OrangeHRM\Time\Dto\DefaultTimesheetSearchFilterParams;
+use OrangeHRM\Time\Dto\EmployeeReportsSearchFilterParams;
+use OrangeHRM\Time\Dto\EmployeeTimesheetListSearchFilterParams;
 use OrangeHRM\Time\Dto\TimesheetActionLogSearchFilterParams;
 use OrangeHRM\Time\Dto\TimesheetSearchFilterParams;
 
@@ -261,5 +262,131 @@ class TimesheetDaoTest extends KernelTestCase
         $defaultTimesheetSearchFilterParams->setToDate(new DateTime('2011-06-26'));
         $timesheet = $this->timesheetDao->getDefaultTimesheet($defaultTimesheetSearchFilterParams);
         $this->assertFalse($timesheet instanceof Timesheet);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function testGetTimesheetItemsForEmployeeReportAndTotalHours(): void
+    {
+        $this->fixture = Config::get(
+            Config::PLUGINS_DIR
+        ).'/orangehrmTimePlugin/test/fixtures/TimesheetReportDataTest.yml';
+        TestDataService::populate($this->fixture);
+        //without filters
+        $employeeReportsSearchFilterParams = new EmployeeReportsSearchFilterParams();
+        $employeeReportsSearchFilterParams->setEmpNumber(2);
+        $timesheetItems = $this->timesheetDao->getTimesheetItemsForEmployeeReport($employeeReportsSearchFilterParams);
+        $totalDuration = $this->timesheetDao->getTotalDurationForEmployeeReport($employeeReportsSearchFilterParams);
+        $this->assertEquals('Core project 01', $timesheetItems[0][0]->getProject()->getName());
+        $this->assertEquals(10800, $timesheetItems[0]['totalDurationByGroup']);
+        $this->assertEquals(18000, $totalDuration);
+
+        //with filters - projectId
+        $employeeReportsSearchFilterParams = new EmployeeReportsSearchFilterParams();
+        $employeeReportsSearchFilterParams->setEmpNumber(2);
+        $employeeReportsSearchFilterParams->setProjectId(2);
+        $timesheetItems = $this->timesheetDao->getTimesheetItemsForEmployeeReport($employeeReportsSearchFilterParams);
+        $totalDuration = $this->timesheetDao->getTotalDurationForEmployeeReport($employeeReportsSearchFilterParams);
+        $this->assertEquals('Core project 01', $timesheetItems[0][0]->getProject()->getName());
+        $this->assertEquals(10800, $timesheetItems[0]['totalDurationByGroup']);
+        $this->assertEquals(10800, $totalDuration);
+
+        //with filter - activityId
+        $employeeReportsSearchFilterParams = new EmployeeReportsSearchFilterParams();
+        $employeeReportsSearchFilterParams->setEmpNumber(2);
+        $employeeReportsSearchFilterParams->setActivityId(2);
+        $timesheetItems = $this->timesheetDao->getTimesheetItemsForEmployeeReport($employeeReportsSearchFilterParams);
+        $totalDuration = $this->timesheetDao->getTotalDurationForEmployeeReport($employeeReportsSearchFilterParams);
+        $this->assertEquals('Core project 01', $timesheetItems[0][0]->getProject()->getName());
+        $this->assertEquals(10800, $timesheetItems[0]['totalDurationByGroup']);
+        $this->assertEquals(10800, $totalDuration);
+
+        //with filter - fromDate
+        $employeeReportsSearchFilterParams = new EmployeeReportsSearchFilterParams();
+        $employeeReportsSearchFilterParams->setEmpNumber(2);
+        $employeeReportsSearchFilterParams->setFromDate(new DateTime('2020-10-23'));
+        $timesheetItems = $this->timesheetDao->getTimesheetItemsForEmployeeReport($employeeReportsSearchFilterParams);
+        $totalDuration = $this->timesheetDao->getTotalDurationForEmployeeReport($employeeReportsSearchFilterParams);
+        $this->assertEquals('Core project 02', $timesheetItems[0][0]->getProject()->getName());
+        $this->assertEquals(3600, $timesheetItems[0]['totalDurationByGroup']);
+        $this->assertEquals(3600, $totalDuration);
+
+        //with filter - toDate
+        $employeeReportsSearchFilterParams = new EmployeeReportsSearchFilterParams();
+        $employeeReportsSearchFilterParams->setEmpNumber(2);
+        $employeeReportsSearchFilterParams->setToDate(new DateTime('2020-10-23'));
+        $timesheetItems = $this->timesheetDao->getTimesheetItemsForEmployeeReport($employeeReportsSearchFilterParams);
+        $totalDuration = $this->timesheetDao->getTotalDurationForEmployeeReport($employeeReportsSearchFilterParams);
+        $this->assertEquals('Core project 01', $timesheetItems[0][0]->getProject()->getName());
+        $this->assertEquals(10800, $timesheetItems[0]['totalDurationByGroup']);
+        $this->assertEquals(14400, $totalDuration);
+
+        //with filter - from date and to date
+        $employeeReportsSearchFilterParams = new EmployeeReportsSearchFilterParams();
+        $employeeReportsSearchFilterParams->setEmpNumber(2);
+        $employeeReportsSearchFilterParams->setFromDate(new DateTime('2020-09-28'));
+        $employeeReportsSearchFilterParams->setToDate(new DateTime('2020-09-29'));
+        $timesheetItems = $this->timesheetDao->getTimesheetItemsForEmployeeReport($employeeReportsSearchFilterParams);
+        $totalDuration = $this->timesheetDao->getTotalDurationForEmployeeReport($employeeReportsSearchFilterParams);
+        $this->assertEquals('Core project 00', $timesheetItems[0][0]->getProject()->getName());
+        $this->assertEquals(3600, $timesheetItems[0]['totalDurationByGroup']);
+        $this->assertEquals(3600, $totalDuration);
+
+        //with filter - timesheetState - all
+        $employeeReportsSearchFilterParams = new EmployeeReportsSearchFilterParams();
+        $employeeReportsSearchFilterParams->setEmpNumber(2);
+        $employeeReportsSearchFilterParams->setIncludeTimesheets(
+            EmployeeReportsSearchFilterParams::INCLUDE_TIMESHEETS_ALL
+        );
+        $timesheetItems = $this->timesheetDao->getTimesheetItemsForEmployeeReport($employeeReportsSearchFilterParams);
+        $totalDuration = $this->timesheetDao->getTotalDurationForEmployeeReport($employeeReportsSearchFilterParams);
+        $this->assertEquals('Core project 02', $timesheetItems[1][0]->getProject()->getName());
+        $this->assertEquals(3600, $timesheetItems[1]['totalDurationByGroup']);
+        $this->assertEquals(18000, $totalDuration);
+
+        //with filter - timesheetState - onlyApproved
+        $employeeReportsSearchFilterParams = new EmployeeReportsSearchFilterParams();
+        $employeeReportsSearchFilterParams->setEmpNumber(2);
+        $employeeReportsSearchFilterParams->setIncludeTimesheets(
+            EmployeeReportsSearchFilterParams::INCLUDE_TIMESHEETS_APPROVED_ONLY
+        );
+        $timesheetItems = $this->timesheetDao->getTimesheetItemsForEmployeeReport($employeeReportsSearchFilterParams);
+        $totalDuration = $this->timesheetDao->getTotalDurationForEmployeeReport($employeeReportsSearchFilterParams);
+        $this->assertEquals('Core project 02', $timesheetItems[0][0]->getProject()->getName());
+        $this->assertEquals(3600, $timesheetItems[0]['totalDurationByGroup']);
+        $this->assertEquals(3600, $totalDuration);
+
+        //with filter - all filters
+        $employeeReportsSearchFilterParams = new EmployeeReportsSearchFilterParams();
+        $employeeReportsSearchFilterParams->setEmpNumber(1);
+        $employeeReportsSearchFilterParams->setProjectId(1);
+        $employeeReportsSearchFilterParams->setActivityId(1);
+        $employeeReportsSearchFilterParams->setFromDate(new DateTime('2020-09-27'));
+        $employeeReportsSearchFilterParams->setToDate(new DateTime('2020-10-25'));
+        $employeeReportsSearchFilterParams->setIncludeTimesheets(
+            EmployeeReportsSearchFilterParams::INCLUDE_TIMESHEETS_APPROVED_ONLY
+        );
+        $timesheetItems = $this->timesheetDao->getTimesheetItemsForEmployeeReport($employeeReportsSearchFilterParams);
+        $totalDuration = $this->timesheetDao->getTotalDurationForEmployeeReport($employeeReportsSearchFilterParams);
+        $this->assertEquals('Core project 00', $timesheetItems[0][0]->getProject()->getName());
+        $this->assertEquals(7200, $timesheetItems[0]['totalDurationByGroup']);
+        $this->assertEquals(7200, $totalDuration);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function testGetTimesheetItemsCountForEmployeeReport(): void
+    {
+        $this->fixture = Config::get(
+            Config::PLUGINS_DIR
+        ).'/orangehrmTimePlugin/test/fixtures/TimesheetReportDataTest.yml';
+        TestDataService::populate($this->fixture);
+        $employeeReportsSearchFilterParams = new EmployeeReportsSearchFilterParams();
+        $employeeReportsSearchFilterParams->setEmpNumber(2);
+        $employeeReportsSearchFilterParams->setIncludeTimesheets('onlyApproved');
+        $count = $this->timesheetDao->getTimesheetItemsCountForEmployeeReport($employeeReportsSearchFilterParams);
+        $this->assertEquals(1, $count);
     }
 }

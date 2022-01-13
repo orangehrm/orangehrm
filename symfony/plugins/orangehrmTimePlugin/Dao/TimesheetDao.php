@@ -411,7 +411,7 @@ class TimesheetDao extends BaseDao
 
     /**
      * @param  EmployeeReportsSearchFilterParams  $filterParams
-     * @return TimesheetItem[]
+     * @return array
      */
     public function getTimesheetItemsForEmployeeReport(
         EmployeeReportsSearchFilterParams $filterParams

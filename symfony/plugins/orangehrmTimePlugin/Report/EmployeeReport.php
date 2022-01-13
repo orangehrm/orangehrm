@@ -137,7 +137,27 @@ class EmployeeReport implements EndpointAwareReport
             $endpoint->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::FILTER_PARAMETER_TO_DATE,
-                    new Rule(Rules::API_DATE)
+                    new Rule(Rules::API_DATE),
+                    new Rule(Rules::CALLBACK, [
+                        function () use ($endpoint) {
+                            $fromDate = $endpoint->getRequestParams()->getDateTimeOrNull(
+                                RequestParams::PARAM_TYPE_QUERY,
+                                self::FILTER_PARAMETER_FROM_DATE
+                            );
+
+                            $toDate = $endpoint->getRequestParams()->getDateTimeOrNull(
+                                RequestParams::PARAM_TYPE_QUERY,
+                                self::FILTER_PARAMETER_TO_DATE
+                            );
+
+                            if (!is_null($fromDate) && !is_null($toDate)) {
+                                if ($fromDate > $toDate) {
+                                    return false;
+                                }
+                            }
+                            return true;
+                        }
+                    ])
                 )
             ),
             $endpoint->getValidationDecorator()->notRequiredParamRule(
@@ -191,7 +211,7 @@ class EmployeeReport implements EndpointAwareReport
     }
 
     /**
-     * @param  EmployeeReportsSearchFilterParams $filterParams
+     * @param  EmployeeReportsSearchFilterParams  $filterParams
      * @return EmployeeReportData
      */
     public function getData(FilterParams $filterParams): EmployeeReportData
