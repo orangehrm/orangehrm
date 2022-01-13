@@ -102,6 +102,7 @@ class ProjectReport implements EndpointAwareReport
                 new ParamRule(
                     self::FILTER_PARAMETER_PROJECT_ID,
                     new Rule(Rules::POSITIVE),
+                    new Rule(Rules::ENTITY_ID_EXISTS, [Project::class]),
                     new Rule(Rules::IN_ACCESSIBLE_ENTITY_ID, [Project::class])
                 )
             ),
