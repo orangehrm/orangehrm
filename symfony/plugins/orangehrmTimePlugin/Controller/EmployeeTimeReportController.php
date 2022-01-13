@@ -17,38 +17,20 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Core\Subscriber;
+namespace OrangeHRM\Time\Controller;
 
-use OrangeHRM\Framework\Event\AbstractEventSubscriber;
-use Symfony\Component\HttpKernel\Event\RequestEvent;
-use Symfony\Component\HttpKernel\KernelEvents;
+use OrangeHRM\Core\Controller\AbstractVueController;
+use OrangeHRM\Core\Vue\Component;
+use OrangeHRM\Framework\Http\Request;
 
-class RequestBodySubscriber extends AbstractEventSubscriber
+class EmployeeTimeReportController extends AbstractVueController
 {
     /**
      * @inheritDoc
      */
-    public static function getSubscribedEvents(): array
+    public function preRender(Request $request): void
     {
-        return [
-            KernelEvents::REQUEST => [
-                ['onRequestEvent', 99000],
-            ],
-        ];
-    }
-
-    public function onRequestEvent(RequestEvent $event)
-    {
-        $request = $event->getRequest();
-
-        // 'application/json', 'application/x-json'
-        if ($request->getContentType() === 'json') {
-            if ($request->getContent() !== '') {
-                $data = json_decode($request->getContent(), true);
-                if (is_array($data)) {
-                    $request->request->add($data);
-                }
-            }
-        }
+        $component = new Component('employee-time-report');
+        $this->setComponent($component);
     }
 }

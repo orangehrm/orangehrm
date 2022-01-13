@@ -21,41 +21,32 @@
 <template>
   <reports-table
     module="time"
-    name="time_employee_report"
+    name="time_project_activity_report"
+    :prefetch="true"
     :filters="serializedFilters"
-    :column-count="3"
+    :column-count="2"
   >
     <template #default="{generateReport}">
-      <oxd-table-filter :filter-title="$t('time.employee_report')">
+      <oxd-table-filter :filter-title="$t('time.project_report')">
         <oxd-form @submitValid="generateReport">
-          <oxd-form-row>
-            <oxd-grid :cols="2" class="orangehrm-full-width-grid">
-              <oxd-grid-item>
-                <employee-autocomplete
-                  v-model="filters.employee"
-                  :rules="rules.employee"
-                  :params="{
-                    includeEmployees: 'currentAndPast',
-                  }"
-                  required
-                />
-              </oxd-grid-item>
-            </oxd-grid>
-          </oxd-form-row>
-
           <oxd-form-row>
             <oxd-grid :cols="2" class="orangehrm-full-width-grid">
               <oxd-grid-item>
                 <project-autocomplete
                   v-model="filters.project"
+                  :rules="rules.project"
                   :label="$t('time.project_name')"
+                  required
+                  disabled
                 />
               </oxd-grid-item>
               <oxd-grid-item>
                 <activity-dropdown
                   v-model="filters.activity"
+                  :rules="rules.activity"
                   :label="$t('time.activity_name')"
                   :project-id="filters.project && filters.project.id"
+                  required
                 />
               </oxd-grid-item>
             </oxd-grid>
@@ -69,6 +60,7 @@
                   placeholder="From"
                   :rules="rules.fromDate"
                   :label="$t('time.project_date_range')"
+                  disabled
                 />
               </oxd-grid-item>
               <oxd-grid-item>
@@ -77,13 +69,14 @@
                   label="&nbsp"
                   placeholder="To"
                   :rules="rules.toDate"
+                  disabled
                 />
               </oxd-grid-item>
               <oxd-grid-item class="orangehrm-switch-filter --span-column-2">
                 <oxd-text class="orangehrm-switch-filter-text" tag="p">
                   {{ $t('time.only_include_approved_timesheets') }}
                 </oxd-text>
-                <oxd-switch-input v-model="filters.includeTimesheet" />
+                <oxd-switch-input v-model="filters.includeTimesheet" disabled />
               </oxd-grid-item>
             </oxd-grid>
           </oxd-form-row>
@@ -93,10 +86,11 @@
           <oxd-form-actions>
             <required-text />
             <oxd-button
-              type="submit"
-              display-type="secondary"
-              :label="$t('general.view')"
+              display-type="ghost"
+              :label="$t('general.back')"
+              @click="onClickBack"
             />
+            <submit-button :label="$t('general.view')" />
           </oxd-form-actions>
         </oxd-form>
       </oxd-table-filter>
@@ -113,14 +107,13 @@ import {
   endDateShouldBeAfterStartDate,
   startDateShouldBeBeforeEndDate,
 } from '@/core/util/validation/rules';
+import {navigate} from '@/core/util/helper/navigation';
 import ReportsTable from '@/core/components/table/ReportsTable';
 import SwitchInput from '@ohrm/oxd/core/components/Input/SwitchInput';
-import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
 import ActivityDropdown from '@/orangehrmTimePlugin/components/ActivityDropdown.vue';
 import ProjectAutocomplete from '@/orangehrmTimePlugin/components/ProjectAutocomplete.vue';
 
 const defaultFilters = {
-  employee: null,
   project: null,
   activity: null,
   fromDate: null,
@@ -134,14 +127,46 @@ export default {
     'oxd-switch-input': SwitchInput,
     'activity-dropdown': ActivityDropdown,
     'project-autocomplete': ProjectAutocomplete,
-    'employee-autocomplete': EmployeeAutocomplete,
   },
 
-  setup() {
-    const filters = ref({...defaultFilters});
+  props: {
+    project: {
+      type: Object,
+      required: true,
+    },
+    activity: {
+      type: Object,
+      required: true,
+    },
+    fromDate: {
+      type: String,
+      required: false,
+      default: null,
+    },
+    toDate: {
+      type: String,
+      required: false,
+      default: null,
+    },
+    includeTimesheet: {
+      type: Boolean,
+      default: false,
+    },
+  },
+
+  setup(props) {
+    const filters = ref({
+      ...defaultFilters,
+      fromDate: props.fromDate,
+      toDate: props.toDate,
+      includeTimesheet: props.includeTimesheet,
+      ...(props.project && {project: props.project}),
+      ...(props.activity && {activity: props.activity}),
+    });
 
     const rules = {
-      employee: [required],
+      project: [required],
+      activity: [required],
       fromDate: [
         validDateFormat(),
         startDateShouldBeBeforeEndDate(
@@ -162,7 +187,6 @@ export default {
 
     const serializedFilters = computed(() => {
       return {
-        empNumber: filters.value.employee?.id,
         projectId: filters.value.project?.id,
         activityId: filters.value.activity?.id,
         fromDate: filters.value.fromDate,
@@ -173,9 +197,19 @@ export default {
       };
     });
 
+    const onClickBack = () => {
+      navigate('/time/displayProjectReportCriteria', undefined, {
+        projectId: props.project.id,
+        fromDate: props.fromDate,
+        toDate: props.fromDate,
+        includeTimesheet: props.includeTimesheet ? 'onlyApproved' : 'all',
+      });
+    };
+
     return {
       rules,
       filters,
+      onClickBack,
       serializedFilters,
     };
   },

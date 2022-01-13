@@ -59,8 +59,9 @@ const actionsNormalizer = data => {
   return data.map(item => {
     return {
       id: item.id,
-      action: item.action,
-      period: `${item.period.fromDate} - ${item.period.toDate}`,
+      startDate: item.startDate,
+      empNumber: item.employee.empNumber,
+      period: `${item.startDate} - ${item.endDate}`,
       employee: `${item.employee?.firstName} ${item.employee?.lastName}`,
     };
   });
@@ -71,9 +72,8 @@ export default {
 
   setup() {
     const http = new APIService(
-      //   window.appGlobal.baseUrl,
-      'https://884b404a-f4d0-4908-9eb5-ef0c8afec15c.mock.pstmn.io',
-      '/api/v2/time/timesheet-actions-pending',
+      window.appGlobal.baseUrl,
+      '/api/v2/time/employees/timesheets/list',
     );
 
     const {
@@ -139,7 +139,11 @@ export default {
 
   methods: {
     onClickView(item) {
-      navigate('/time/viewTimesheet/employeeId/{id}', {id: item.id});
+      navigate(
+        '/time/viewTimesheet/employeeId/{empNumber}',
+        {empNumber: item.empNumber},
+        {startDate: item.startDate},
+      );
     },
   },
 };

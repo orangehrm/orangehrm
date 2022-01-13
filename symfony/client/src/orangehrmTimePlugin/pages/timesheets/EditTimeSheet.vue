@@ -26,12 +26,11 @@
       :loading="isLoading"
       :timesheet-id="timesheetId"
       :columns="timesheetColumns"
-      @reload="onReload"
       @submitValid="onSave"
     >
       <template #header-title>
-        <oxd-text v-if="myTimesheet" tag="h6" class="orangehrm-main-title">
-          {{ $t('time.my_timesheet') }}
+        <oxd-text tag="h6" class="orangehrm-main-title">
+          {{ title }}
         </oxd-text>
       </template>
       <template #header-options>
@@ -47,11 +46,6 @@
         </oxd-text>
       </template>
 
-      <template #footer-title>
-        <oxd-text tag="p" class="orangehrm-form-hint">
-          * {{ $t('time.deleted_project_activities_are_not_editable') }}
-        </oxd-text>
-      </template>
       <template #footer-options>
         <oxd-button
           display-type="ghost"
@@ -78,7 +72,7 @@ import {
   secondsTohhmm,
   parseTimeInSeconds,
 } from '@ohrm/core/util/helper/datefns';
-import {onBeforeMount, computed, toRefs} from 'vue';
+import {onBeforeMount, toRefs} from 'vue';
 import useToast from '@/core/util/composable/useToast';
 import {navigate} from '@ohrm/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
@@ -118,31 +112,33 @@ export default {
 
     const loadTimesheet = () => {
       state.isLoading = true;
-      fetchTimesheetEntries(props.timesheetId).then(response => {
-        const {data, meta, timesheet, allowedActions} = response;
-        state.timesheet = timesheet;
-        state.employee = meta.employee;
-        state.timesheetColumns = meta.columns;
-        state.timesheetSubtotal = meta.sum.label;
-        state.timesheetStatus = timesheet.status.name;
-        state.timesheetAllowedActions = allowedActions;
-        if (data.length > 0) {
-          state.timesheetRecords = data;
-          timesheetModal = JSON.parse(JSON.stringify(data));
-        } else {
-          state.timesheetRecords.push({
-            project: null,
-            activity: null,
-            dates: {},
-          });
-          timesheetModal.push({
-            project: null,
-            activity: null,
-            dates: {},
-          });
-        }
-        state.isLoading = false;
-      });
+      fetchTimesheetEntries(props.timesheetId, !props.myTimesheet).then(
+        response => {
+          const {data, meta, timesheet, allowedActions} = response;
+          state.timesheet = timesheet;
+          state.employee = meta.employee;
+          state.timesheetColumns = meta.columns;
+          state.timesheetSubtotal = meta.sum.label;
+          state.timesheetStatus = timesheet.status.name;
+          state.timesheetAllowedActions = allowedActions;
+          if (data.length > 0) {
+            state.timesheetRecords = data;
+            timesheetModal = JSON.parse(JSON.stringify(data));
+          } else {
+            state.timesheetRecords.push({
+              project: null,
+              activity: null,
+              dates: {},
+            });
+            timesheetModal.push({
+              project: null,
+              activity: null,
+              dates: {},
+            });
+          }
+          state.isLoading = false;
+        },
+      );
     };
 
     const onClickReset = () => {
@@ -150,10 +146,24 @@ export default {
     };
 
     const onClickCancel = () => {
-      navigate('/time/viewMyTimesheet');
+      if (props.myTimesheet) {
+        navigate(
+          '/time/viewMyTimesheet',
+          {},
+          {
+            startDate: state.timesheet.startDate,
+          },
+        );
+      } else {
+        navigate(
+          '/time/viewTimesheet/employeeId/{id}',
+          {
+            id: state.employee?.empNumber,
+          },
+          {startDate: state.timesheet.startDate},
+        );
+      }
     };
-
-    const onReload = () => loadTimesheet();
 
     const onSave = () => {
       state.isLoading = true;
@@ -188,31 +198,38 @@ export default {
             activityId: record.activity.id,
           })),
       };
-      updateTimesheetEntries(props.timesheetId, payload)
+      updateTimesheetEntries(props.timesheetId, payload, !props.myTimesheet)
         .then(() => {
           return saveSuccess();
         })
         .then(() => {
-          navigate('/time/viewMyTimesheet');
+          onClickCancel();
         });
     };
-
-    const timesheetDateRange = computed(() => {
-      return state.timesheet
-        ? `${state.timesheet.startDate} - ${state.timesheet.endDate}`
-        : '';
-    });
 
     onBeforeMount(() => loadTimesheet());
 
     return {
       onSave,
-      onReload,
       onClickReset,
       onClickCancel,
       ...toRefs(state),
-      timesheetDateRange,
     };
+  },
+
+  computed: {
+    title() {
+      return this.myTimesheet || !this.employee
+        ? this.$t('time.edit_timesheet')
+        : `${this.$t('time.edit_timesheet_for')} ${this.employee.firstName} ${
+            this.employee.lastName
+          }`;
+    },
+    timesheetDateRange() {
+      return this.timesheet
+        ? `${this.timesheet.startDate} - ${this.timesheet.endDate}`
+        : '';
+    },
   },
 };
 </script>

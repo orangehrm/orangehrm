@@ -52,7 +52,6 @@
 </template>
 
 <script>
-import {APIService} from '@/core/util/services/api.service';
 import {required} from '@/core/util/validation/rules';
 import {navigate} from '@ohrm/core/util/helper/navigation';
 import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
@@ -62,16 +61,6 @@ export default {
   components: {
     'employee-autocomplete': EmployeeAutocomplete,
     'timesheet-pending-actions': TimesheetPendingActions,
-  },
-
-  setup() {
-    const http = new APIService(
-      //   window.appGlobal.baseUrl,
-      'https://884b404a-f4d0-4908-9eb5-ef0c8afec15c.mock.pstmn.io',
-      '/api/v2/time/my-timesheet',
-    );
-
-    return {http};
   },
 
   data() {

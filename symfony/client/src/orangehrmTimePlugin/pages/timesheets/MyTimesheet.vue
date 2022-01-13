@@ -91,7 +91,15 @@ export default {
     'timesheet-actions': TimesheetActions,
   },
 
-  setup() {
+  props: {
+    startDate: {
+      type: String,
+      required: false,
+      default: null,
+    },
+  },
+
+  setup(props) {
     const http = new APIService(
       window.appGlobal.baseUrl,
       '/api/v2/time/timesheets',
@@ -109,7 +117,7 @@ export default {
       canCreateTimesheet,
       showCreateTimesheet,
       onClickCreateTimesheet,
-    } = useTimesheet(http);
+    } = useTimesheet(http, props.startDate);
 
     return {
       onClickEdit,

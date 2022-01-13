@@ -1,3 +1,4 @@
+<?php
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -16,30 +17,14 @@
  * Boston, MA  02110-1301, USA
  */
 
-import {ref, computed} from 'vue';
-import Form from '@ohrm/oxd/core/components/Form/Form.vue';
+use OrangeHRM\Config\Config;
 
-type useFormArgs = {
-  refName?: string;
-};
+require realpath(__DIR__ . '/../../../vendor/autoload.php');
 
-export default function useForm({refName = 'formRef'}: useFormArgs = {}) {
-  // https://v3.vuejs.org/guide/typescript-support.html#typing-template-refs
-  const form = ref<InstanceType<typeof Form>>();
-
-  const submit = () => form.value?.onSubmit(new Event('submit'));
-  const reset = () => form.value?.onReset();
-  const validate = () => form.value?.validate();
-
-  const invalid = computed(() => form.value?.isFromInvalid);
-  const errorbag = computed(() => form.value?.errorbag);
-
-  return {
-    reset,
-    submit,
-    validate,
-    [refName]: form,
-    errorbag,
-    invalid,
-  };
+if (Config::PRODUCT_MODE === Config::MODE_PROD) {
+    echo "Not allowed to execute in prod mode`\n";
+    exit;
 }
+$filesystem = new Symfony\Component\Filesystem\Filesystem();
+$filesystem->remove([Config::get(Config::PLUGINS_DIR) . '/orangehrmFunctionalTestingPlugin']);
+echo "\nSuccessfully deleted `symfony/plugins/orangehrmFunctionalTestingPlugin`\n";

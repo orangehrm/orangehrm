@@ -28,7 +28,10 @@
               <customer-autocomplete v-model="filters.customer" />
             </oxd-grid-item>
             <oxd-grid-item>
-              <project-autocomplete v-model="filters.project" />
+              <project-autocomplete
+                v-model="filters.project"
+                :exclude-customer-name="true"
+              />
             </oxd-grid-item>
             <oxd-grid-item>
               <project-admin-autocomplete v-model="filters.projectAdmin" />

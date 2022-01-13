@@ -17,38 +17,19 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Core\Subscriber;
+use Composer\Autoload\ClassLoader;
+use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Framework\PluginConfigurationInterface;
 
-use OrangeHRM\Framework\Event\AbstractEventSubscriber;
-use Symfony\Component\HttpKernel\Event\RequestEvent;
-use Symfony\Component\HttpKernel\KernelEvents;
-
-class RequestBodySubscriber extends AbstractEventSubscriber
+class FunctionalTestingPluginConfiguration implements PluginConfigurationInterface
 {
     /**
      * @inheritDoc
      */
-    public static function getSubscribedEvents(): array
+    public function initialize(Request $request): void
     {
-        return [
-            KernelEvents::REQUEST => [
-                ['onRequestEvent', 99000],
-            ],
-        ];
-    }
-
-    public function onRequestEvent(RequestEvent $event)
-    {
-        $request = $event->getRequest();
-
-        // 'application/json', 'application/x-json'
-        if ($request->getContentType() === 'json') {
-            if ($request->getContent() !== '') {
-                $data = json_decode($request->getContent(), true);
-                if (is_array($data)) {
-                    $request->request->add($data);
-                }
-            }
-        }
+        $loader = new ClassLoader();
+        $loader->addPsr4('OrangeHRM\\FunctionalTesting\\', [realpath(__DIR__ . '/..')]);
+        $loader->register();
     }
 }

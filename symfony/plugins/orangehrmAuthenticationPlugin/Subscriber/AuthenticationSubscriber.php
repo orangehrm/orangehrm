@@ -51,7 +51,7 @@ class AuthenticationSubscriber extends AbstractEventSubscriber
     {
         return [
             KernelEvents::REQUEST => [
-                ['onRequestEvent', 99000],
+                ['onRequestEvent', 98000],
             ],
             KernelEvents::CONTROLLER => [
                 ['onControllerEvent', 100000],

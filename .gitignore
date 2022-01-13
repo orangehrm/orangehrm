@@ -10,6 +10,6 @@ apidoc
 logInsatall.log
 .phpunit.result.cache
 coverage/
-symfony/test/functional/cypress/fixtures/admin.json
+symfony/plugins/orangehrmFunctionalTestingPlugin
 .php-cs-fixer.cache
 .php-cs-fixer.php
