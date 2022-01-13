@@ -38,11 +38,7 @@ class ProjectReportSearchFilterParams extends DateRangeSearchFilterParams
         self::INCLUDE_TIMESHEET_ONLY_APPROVED,
     ];
 
-    public const TIMESHEET_STATE = [
-        'SUBMITTED',
-        'APPROVED',
-        'REJECTED'
-    ];
+    public const TIMESHEET_STATE_APPROVED = "APPROVED";
 
     /**
      * @var string|null

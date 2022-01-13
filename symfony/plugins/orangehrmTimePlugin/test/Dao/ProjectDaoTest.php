@@ -220,7 +220,7 @@ class ProjectDaoTest extends KernelTestCase
         $projectReportSearchFilterParams->setFromDate(new DateTime("2011-01-01"));
         $projectReportSearchFilterParams->setToDate(new DateTime("2011-12-31"));
         $projectReportSearchFilterParams->setIncludeApproveTimesheet(
-            ProjectReportSearchFilterParams::TIMESHEET_STATE[1]
+            ProjectReportSearchFilterParams::INCLUDE_TIMESHEET_ONLY_APPROVED
         );
         $result = $this->projectDao->getProjectReportCriteriaList($projectReportSearchFilterParams);
         $totalHours = $this->projectDao->getTotalDurationForProjectReport($projectReportSearchFilterParams);
@@ -235,7 +235,7 @@ class ProjectDaoTest extends KernelTestCase
         $projectReportSearchFilterParams->setFromDate(new DateTime("2011-01-01"));
         $projectReportSearchFilterParams->setToDate(new DateTime("2011-12-31"));
         $projectReportSearchFilterParams->setIncludeApproveTimesheet(
-            ProjectReportSearchFilterParams::TIMESHEET_STATE[1]
+            ProjectReportSearchFilterParams::INCLUDE_TIMESHEET_ONLY_APPROVED
         );
         $result = $this->projectDao->getProjectReportCriteriaListCount($projectReportSearchFilterParams);
         $this->assertEquals(0, $result);

@@ -284,36 +284,23 @@ class ProjectDao extends BaseDao
         }
 
         if (!is_null($projectReportSearchFilterParams->getFromDate()) && !is_null(
-            $projectReportSearchFilterParams->getToDate()
-        )) {
+                $projectReportSearchFilterParams->getToDate()
+            )) {
             $q->andWhere($q->expr()->between('timesheetItem.date', ':fromDate', ':toDate'))
                 ->setParameter('fromDate', $projectReportSearchFilterParams->getFromDate())
                 ->setParameter('toDate', $projectReportSearchFilterParams->getToDate());
-        }
-
-        if (!is_null($projectReportSearchFilterParams->getFromDate()) && is_null(
-            $projectReportSearchFilterParams->getToDate()
-        )) {
+        } elseif (!is_null($projectReportSearchFilterParams->getFromDate())) {
             $q->andWhere($q->expr()->gte('timesheetItem.date', ':fromDate'))
                 ->setParameter('fromDate', $projectReportSearchFilterParams->getFromDate());
-        }
-
-        if (!is_null($projectReportSearchFilterParams->getToDate()) && is_null(
-            $projectReportSearchFilterParams->getFromDate()
-        )) {
+        } elseif (!is_null($projectReportSearchFilterParams->getToDate())) {
             $q->andWhere($q->expr()->lte('timesheetItem.date', ':toDate'))
                 ->setParameter('toDate', $projectReportSearchFilterParams->getToDate());
         }
 
-        // TODO GET FROM WORKFLOW STATE MACHINE
-        if (is_null($projectReportSearchFilterParams->getIncludeApproveTimesheet()) ||
-            $projectReportSearchFilterParams->getIncludeApproveTimesheet(
-            ) === ProjectReportSearchFilterParams::INCLUDE_TIMESHEET_ALL) {
-            $q->andWhere($q->expr()->in('timesheet.state', ':states'));
-            $q->setParameter('states', ProjectReportSearchFilterParams::TIMESHEET_STATE);
-        } else {
+        if ($projectReportSearchFilterParams->getIncludeApproveTimesheet(
+            ) === ProjectReportSearchFilterParams::INCLUDE_TIMESHEET_ONLY_APPROVED) {
             $q->andWhere('timesheet.state = :state');
-            $q->setParameter('state', ProjectReportSearchFilterParams::TIMESHEET_STATE[1]);
+            $q->setParameter('state', ProjectReportSearchFilterParams::TIMESHEET_STATE_APPROVED);
         }
 
         return $this->getQueryBuilderWrapper($q);
