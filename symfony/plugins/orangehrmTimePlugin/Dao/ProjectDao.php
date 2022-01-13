@@ -222,7 +222,7 @@ class ProjectDao extends BaseDao
     public function getProjectReportCriteriaList(
         ProjectReportSearchFilterParams $projectReportSearchFilterParams
     ): array {
-        return $this->getProjectReportCriteria($projectReportSearchFilterParams)->getQuery()->execute();
+        return $this->getProjectReportCriteriaPaginator($projectReportSearchFilterParams)->getQuery()->execute();
     }
 
     /**
@@ -232,14 +232,14 @@ class ProjectDao extends BaseDao
     public function getProjectReportCriteriaListCount(
         ProjectReportSearchFilterParams $projectReportSearchFilterParams
     ): int {
-        return $this->getProjectReportCriteria($projectReportSearchFilterParams)->count();
+        return $this->getProjectReportCriteriaPaginator($projectReportSearchFilterParams)->count();
     }
 
     /**
      * @param ProjectReportSearchFilterParams $projectReportSearchFilterParams
      * @return Paginator
      */
-    private function getProjectReportCriteria(
+    private function getProjectReportCriteriaPaginator(
         ProjectReportSearchFilterParams $projectReportSearchFilterParams
     ): Paginator {
         $q = $this->getProjectReportQueryBuilderWrapper($projectReportSearchFilterParams)->getQueryBuilder();
@@ -256,14 +256,14 @@ class ProjectDao extends BaseDao
 
     /**
      * @param ProjectReportSearchFilterParams $projectReportSearchFilterParams
-     * @return string
+     * @return int
      */
     public function getTotalDurationForProjectReport(
         ProjectReportSearchFilterParams $projectReportSearchFilterParams
-    ): string {
+    ): int {
         $q = $this->getProjectReportQueryBuilderWrapper($projectReportSearchFilterParams)->getQueryBuilder();
         $q->select('SUM(COALESCE(timesheetItem.duration, 0)) AS totalDuration');
-        return $q->getQuery()->getSingleScalarResult() === null ? '0' : $q->getQuery()->getSingleScalarResult();
+        return $q->getQuery()->getSingleScalarResult() === null ? 0 : $q->getQuery()->getSingleScalarResult();
     }
 
     /**

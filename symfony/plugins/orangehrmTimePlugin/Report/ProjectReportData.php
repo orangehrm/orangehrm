@@ -48,7 +48,9 @@ class ProjectReportData implements ReportData
      */
     public function normalize(): array
     {
-        $projects = $this->getProjectService()->getProjectDao()->getProjectReportCriteriaList($this->filterParams);
+        $projectActivities = $this->getProjectService()
+            ->getProjectDao()
+            ->getProjectReportCriteriaList($this->filterParams);
         $fromDateYmd = $this->getDateTimeHelper()->formatDateTimeToYmd($this->filterParams->getFromDate());
         $toDateYmd = $this->getDateTimeHelper()->formatDateTimeToYmd($this->filterParams->getToDate());
         $projectId = $this->filterParams->getProjectId();
@@ -56,14 +58,14 @@ class ProjectReportData implements ReportData
             ProjectReportSearchFilterParams::INCLUDE_TIMESHEET_ALL : $this->filterParams->getIncludeApproveTimesheet();
         $projectActivityDetailsReportURL = '/time/displayProjectActivityDetailsReport';
         $result = [];
-        foreach ($projects as $project) {
-            $activityId = $project['activityId'];
+        foreach ($projectActivities as $projectActivity) {
+            $activityId = $projectActivity['activityId'];
             $result[] = [
                 ProjectReport::PARAMETER_ACTIVITY_ID => $activityId,
-                ProjectReport::PARAMETER_ACTIVITY_NAME => $project['name'],
-                ProjectReport::PARAMETER_ACTIVITY_DELETED => $project['deleted'],
+                ProjectReport::PARAMETER_ACTIVITY_NAME => $projectActivity['name'],
+                ProjectReport::PARAMETER_ACTIVITY_DELETED => $projectActivity['deleted'],
                 ProjectReport::PARAMETER_TIME => $this->getNumberHelper()
-                    ->numberFormat((float)$project['totalDuration'] / 3600, 2),
+                    ->numberFormat((float)$projectActivity['totalDuration'] / 3600, 2),
                 '_url' => [
                     ProjectReport::PARAMETER_ACTIVITY_NAME => $projectActivityDetailsReportURL .
                         "?fromDate=$fromDateYmd" .
@@ -83,7 +85,7 @@ class ProjectReportData implements ReportData
     public function getMeta(): ?ParameterBag
     {
         $project = $this->getProjectService()->getProjectDao()->getProjectById($this->filterParams->getProjectId());
-        $total = (int)$this->getProjectService()
+        $total = $this->getProjectService()
             ->getProjectDao()
             ->getTotalDurationForProjectReport($this->filterParams);
 
