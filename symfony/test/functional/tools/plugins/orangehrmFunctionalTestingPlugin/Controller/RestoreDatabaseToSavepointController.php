@@ -17,20 +17,24 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Time\Controller;
+namespace OrangeHRM\FunctionalTesting\Controller;
 
-use OrangeHRM\Core\Controller\AbstractVueController;
-use OrangeHRM\Core\Vue\Component;
+use OrangeHRM\Core\Controller\PublicControllerInterface;
 use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Framework\Http\Response;
 
-class EmployeeTimeReport extends AbstractVueController
+class RestoreDatabaseToSavepointController extends AbstractController implements PublicControllerInterface
 {
     /**
-     * @inheritDoc
+     * @param Request $request
+     * @return Response
      */
-    public function preRender(Request $request): void
+    public function handle(Request $request): Response
     {
-        $component = new Component('employee-time-report');
-        $this->setComponent($component);
+        $savepointName = $request->request->get('savepointName');
+        $tables = $this->getDatabaseBackupService()->restoreToSavepoint($savepointName);
+        $response = $this->getResponse();
+        $response->setContent(json_encode(['count' => count($tables)]));
+        return $response;
     }
 }

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -24,41 +23,51 @@ use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Core\Traits\UserRoleManagerTrait;
-use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
-use OrangeHRM\Core\Controller\Common\NoRecordsFoundController;
-use OrangeHRM\Core\Controller\Exception\RequestForwardableException;
 
-class EmployeeTimesheetController extends AbstractVueController
+class ProjectActivityReportController extends AbstractVueController
 {
-    use UserRoleManagerTrait;
-    use EmployeeServiceTrait;
-
     /**
      * @inheritDoc
      */
     public function preRender(Request $request): void
     {
-        if ($request->attributes->has('id')) {
-            $empNumber = $request->attributes->getInt('id');
-            if (!$this->getUserRoleManagerHelper()->isEmployeeAccessible($empNumber)) {
-                throw new RequestForwardableException(NoRecordsFoundController::class . '::handle');
-            }
+        $component = new Component('project-activity-report');
 
-            $component = new Component('view-employee-timesheet');
-            if ($request->query->has('startDate')) {
-                $component->addProp(new Prop('start-date', Prop::TYPE_STRING, $request->query->get('startDate')));
-            }
+        if ($request->query->has('fromDate') && $request->query->has('toDate')) {
+            $component->addProp(new Prop('from-date', Prop::TYPE_STRING, $request->query->get('fromDate')));
+            $component->addProp(new Prop('to-date', Prop::TYPE_STRING, $request->query->get('toDate')));
+        }
 
+        if ($request->query->has('projectId')) {
+            // TODO: Get project object
             $component->addProp(
                 new Prop(
-                    'employee',
+                    'project',
                     Prop::TYPE_OBJECT,
-                    $this->getEmployeeService()->getEmployeeAsArray($empNumber)
+                    [
+                        'id' => $request->query->getInt('projectId'),
+                        'label' => 'Project Manhattan'
+                    ]
+                )
+            );
+        }
+
+        if ($request->query->has('includeTimesheet') && $request->query->get('includeTimesheet') == 'onlyApproved') {
+            $component->addProp(
+                new Prop(
+                    'include-timesheet',
+                    Prop::TYPE_BOOLEAN,
+                    true
                 )
             );
         } else {
-            $component = new Component('employee-timesheet');
+            $component->addProp(
+                new Prop(
+                    'include-timesheet',
+                    Prop::TYPE_BOOLEAN,
+                    false
+                )
+            );
         }
 
         $this->setComponent($component);

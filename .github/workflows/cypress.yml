@@ -92,6 +92,7 @@ jobs:
 
       - name: Run tests
         run: |
+          docker exec os_dev_php80 bash -c 'php symfony/test/functional/tools/prepare.php'
           cd html/symfony/test/functional
           sed -i 's~http://php80/orangehrm/web/index.php~http://php80/web/index.php~g' cypress.json
           sed -i 's~false~true~g' cypress.json

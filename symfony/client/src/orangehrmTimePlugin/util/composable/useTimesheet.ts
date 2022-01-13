@@ -23,7 +23,11 @@ import {navigate} from '@ohrm/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
 import {freshDate, formatDate, parseDate} from '@ohrm/core/util/helper/datefns';
 
-export default function useTimesheet(http: APIService) {
+export default function useTimesheet(
+  http: APIService,
+  date: string | null,
+  empNumber?: number,
+) {
   const {
     state,
     fetchTimesheet,
@@ -31,20 +35,22 @@ export default function useTimesheet(http: APIService) {
     fetchTimesheetEntries,
   } = useTimesheetAPIs(http);
   const {noRecordsFound, success} = useToast();
+  state.date = date ? date : formatDate(freshDate(), 'yyyy-MM-dd');
 
-  state.date = formatDate(freshDate(), 'yyyy-MM-dd');
-
-  const loadTimesheet = (date: string | null) => {
+  const loadTimesheet = (date: string | null): void => {
     state.isLoading = true;
-    fetchTimesheet(date)
-      .then(id => {
-        state.timesheetId = id;
-        return id ? fetchTimesheetEntries(id) : null;
+    fetchTimesheet(date, empNumber)
+      .then(response => {
+        const {data} = response.data;
+        state.timesheet = data;
+        state.timesheetId = data.id;
+        return data.id
+          ? fetchTimesheetEntries(data.id, empNumber !== undefined)
+          : null;
       })
       .then(response => {
         if (response !== null) {
           const {data, meta, timesheet, allowedActions} = response;
-          state.timesheet = timesheet;
           state.timesheetRecords = data;
           state.employee = meta.employee;
           state.timesheetColumns = meta.columns;
@@ -54,7 +60,6 @@ export default function useTimesheet(http: APIService) {
           data.length === 0 && noRecordsFound();
         } else {
           state.employee = null;
-          state.timesheet = null;
           state.timesheetRecords = [];
           state.timesheetColumns = null;
           state.timesheetStatus = null;
@@ -69,27 +74,27 @@ export default function useTimesheet(http: APIService) {
 
   watchEffect(async () => state.date && loadTimesheet(state.date));
 
-  const onClickPrevious = () => {
+  const onClickPrevious = (): void => {
     const currDate = parseDate(String(state.date), 'yyyy-MM-dd') ?? freshDate();
     currDate.setDate(currDate.getDate() - 7);
     state.date = formatDate(currDate, 'yyyy-MM-dd');
   };
 
-  const onClickNext = () => {
+  const onClickNext = (): void => {
     const currDate = parseDate(String(state.date), 'yyyy-MM-dd') ?? freshDate();
     currDate.setDate(currDate.getDate() + 7);
     state.date = formatDate(currDate, 'yyyy-MM-dd');
   };
 
-  const onClickEdit = () => {
+  const onClickEdit = (): void => {
     state.timesheetId &&
       navigate('/time/editTimesheet/{id}', {id: state.timesheetId});
   };
 
-  const onClickSubmit = () => {
+  const onClickSubmit = (): void => {
     if (state.timesheetId) {
       state.isLoading = true;
-      updateTimesheet(state.timesheetId, 'SUBMIT').then(() => {
+      updateTimesheet(state.timesheetId, 'SUBMIT', null, empNumber).then(() => {
         success({
           title: 'Success',
           message: 'Timesheet Submitted',
@@ -100,12 +105,60 @@ export default function useTimesheet(http: APIService) {
     }
   };
 
-  const onClickCreateTimesheet = () => {
+  const onClickReset = (): void => {
+    if (state.timesheetId) {
+      state.isLoading = true;
+      updateTimesheet(state.timesheetId, 'RESET', null, empNumber).then(() => {
+        success({
+          title: 'Success',
+          message: 'Timesheet Reset',
+        });
+        state.timesheetId = null;
+        loadTimesheet(state.date);
+      });
+    }
+  };
+
+  const onClickApprove = (comment?: string): void => {
+    if (state.timesheetId) {
+      state.isLoading = true;
+      updateTimesheet(state.timesheetId, 'APPROVE', comment, empNumber).then(
+        () => {
+          success({
+            title: 'Success',
+            message: 'Timesheet Approved',
+          });
+          state.timesheetId = null;
+          loadTimesheet(state.date);
+        },
+      );
+    }
+  };
+
+  const onClickReject = (comment?: string): void => {
+    if (state.timesheetId) {
+      state.isLoading = true;
+      updateTimesheet(state.timesheetId, 'REJECT', comment, empNumber).then(
+        () => {
+          success({
+            title: 'Success',
+            message: 'Timesheet Rejected',
+          });
+          state.timesheetId = null;
+          loadTimesheet(state.date);
+        },
+      );
+    }
+  };
+
+  const onClickCreateTimesheet = (): void => {
     state.isLoading = true;
     http
       .request({
         method: 'POST',
-        url: '/api/v2/time/timesheets',
+        url: empNumber
+          ? `api/v2/time/employees/${empNumber}/timesheets`
+          : '/api/v2/time/timesheets',
         data: {date: state.date},
       })
       .then(() => {
@@ -125,6 +178,18 @@ export default function useTimesheet(http: APIService) {
     return state.timesheetAllowedActions.find(i => i.action === 'SUBMIT');
   });
 
+  const canApproveTimesheet = computed(() => {
+    return state.timesheetAllowedActions.find(i => i.action === 'APPROVE');
+  });
+
+  const canRejectTimesheet = computed(() => {
+    return state.timesheetAllowedActions.find(i => i.action === 'REJECT');
+  });
+
+  const canResetTimesheet = computed(() => {
+    return state.timesheetAllowedActions.find(i => i.action === 'RESET');
+  });
+
   const canEditTimesheet = computed(() => {
     return state.timesheetAllowedActions.find(i => i.action === 'MODIFY');
   });
@@ -136,7 +201,7 @@ export default function useTimesheet(http: APIService) {
 
   const timesheetPeriod = computed(() => {
     return state.timesheet
-      ? `${state.timesheet.startDate} - ${state.timesheet.endDate}`
+      ? `${state.timesheet.startDate} to ${state.timesheet.endDate}`
       : null;
   });
 
@@ -144,12 +209,18 @@ export default function useTimesheet(http: APIService) {
     state,
     onClickEdit,
     onClickNext,
+    onClickReset,
     onClickSubmit,
+    onClickReject,
+    onClickApprove,
     onClickPrevious,
     timesheetPeriod,
     canEditTimesheet,
+    canResetTimesheet,
     canSubmitTimesheet,
+    canRejectTimesheet,
     canCreateTimesheet,
+    canApproveTimesheet,
     showCreateTimesheet,
     onClickCreateTimesheet,
   };

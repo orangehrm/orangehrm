@@ -24,7 +24,7 @@
       {{ $t('time.timesheet_action') }}
     </oxd-text>
     <oxd-divider />
-    <oxd-form @submitValid="onSave">
+    <oxd-form ref="formRef" :loading="isLoading">
       <oxd-form-row>
         <oxd-grid :cols="2" class="orangehrm-full-width-grid">
           <oxd-grid-item>
@@ -41,57 +41,83 @@
 
       <oxd-divider />
       <oxd-form-actions>
-        <submit-button :label="$t('general.approve')" />
+        <oxd-button
+          v-if="canRejectTimesheet"
+          :label="$t('general.reject')"
+          display-type="danger"
+          @click="onClickReject"
+        />
+        <oxd-button
+          v-if="canApproveTimesheet"
+          :label="$t('general.approve')"
+          display-type="secondary"
+          class="orangehrm-left-space"
+          @click="onClickApprove('test')"
+        />
       </oxd-form-actions>
     </oxd-form>
   </div>
 </template>
 
 <script>
-import {required} from '@/core/util/validation/rules';
-import {APIService} from '@/core/util/services/api.service';
+import {ref} from 'vue';
+import useForm from '@ohrm/core/util/composable/useForm';
+import {shouldNotExceedCharLength} from '@/core/util/validation/rules';
 
 export default {
   name: 'SaveTimesheetAction',
 
   props: {
-    timesheetId: {
-      type: Number,
+    isLoading: {
+      type: Boolean,
+      required: true,
+    },
+    rejectTimesheet: {
+      type: Function,
+      required: true,
+    },
+    approveTimesheet: {
+      type: Function,
+      required: true,
+    },
+    canRejectTimesheet: {
+      type: Boolean,
+      required: true,
+    },
+    canApproveTimesheet: {
+      type: Boolean,
       required: true,
     },
   },
 
-  setup() {
-    const http = new APIService(
-      //   window.appGlobal.baseUrl,
-      'https://884b404a-f4d0-4908-9eb5-ef0c8afec15c.mock.pstmn.io',
-      '/api/v2/time/timesheet-actions',
-    );
+  setup(props) {
+    const {formRef, invalid, validate} = useForm();
+
+    const comment = ref('');
+
+    const rules = {
+      comment: [shouldNotExceedCharLength(250)],
+    };
+
+    const onClickApprove = () => {
+      validate().then(
+        () => invalid.value === false && props.approveTimesheet(comment.value),
+      );
+    };
+
+    const onClickReject = () => {
+      validate().then(
+        () => invalid.value === false && props.rejectTimesheet(comment.value),
+      );
+    };
 
     return {
-      http,
+      rules,
+      comment,
+      formRef,
+      onClickReject,
+      onClickApprove,
     };
-  },
-  data() {
-    return {
-      comment: null,
-      rules: {
-        comment: [required],
-      },
-    };
-  },
-
-  methods: {
-    onSave() {
-      this.http
-        .update(this.timesheetId, {
-          comment: this.comment,
-          action: 'approve',
-        })
-        .then(() => {
-          return this.$toast.updateSuccess();
-        });
-    },
   },
 };
 </script>

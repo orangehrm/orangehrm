@@ -36,7 +36,7 @@
             {{ $t('time.project') }}:
           </oxd-text>
           <oxd-text tag="p" class="orangehrm-timesheet-text">
-            {{ data?.customer.name }} - {{ data?.project.name }}
+            {{ projectName }}
           </oxd-text>
           <oxd-text tag="p" class="orangehrm-timesheet-title">
             {{ $t('time.activity') }}:
@@ -120,6 +120,14 @@ export default {
         comment: [required, shouldNotExceedCharLength(2000)],
       },
     };
+  },
+  computed: {
+    projectName() {
+      const {project, customer} = this.data;
+      return project?.label
+        ? project.label
+        : `${customer?.name} - ${project?.name}`;
+    },
   },
   beforeMount() {
     if (this.data?.id) {

@@ -22,10 +22,10 @@
   <div class="orangehrm-background-container">
     <timesheet
       :loading="isLoading"
-      :records="timesheet.data"
-      :days="timesheet.meta.days"
-      :totals="timesheet.meta.totals"
-      :subtotal="timesheet.meta.subtotal"
+      :columns="timesheetColumns"
+      :records="timesheetRecords"
+      :timesheet-id="timesheetId"
+      :subtotal="timesheetSubtotal"
     >
       <template #header-title>
         <oxd-text tag="h6" class="orangehrm-main-title">
@@ -33,132 +33,149 @@
         </oxd-text>
       </template>
       <template #header-options>
-        <timesheet-period :employee-id="employeeId"></timesheet-period>
-        <oxd-button
-          icon-name="plus"
-          display-type="ghost"
-          :label="$t('time.add_timesheet')"
-          @click="onClickAddTimesheet"
-        />
+        <timesheet-period
+          v-model="date"
+          :value="timesheetPeriod"
+          @next="onClickNext"
+          @previous="onClickPrevious"
+        ></timesheet-period>
       </template>
       <template #footer-title>
-        <oxd-text type="subtitle-2">
-          {{ $t('general.status') }}: Not Submitted
+        <oxd-text v-show="timesheetStatus" type="subtitle-2">
+          {{ $t('general.status') }}: {{ timesheetStatus }}
         </oxd-text>
       </template>
       <template #footer-options>
         <oxd-button
+          v-if="showCreateTimesheet"
+          display-type="secondary"
+          :disabled="canCreateTimesheet"
+          :label="$t('time.create_timesheet')"
+          @click="onClickCreateTimesheet"
+        />
+        <oxd-button
+          v-if="canEditTimesheet"
           display-type="ghost"
           :label="$t('general.edit')"
           @click="onClickEdit"
         />
         <oxd-button
-          type="submit"
+          v-if="canResetTimesheet"
+          display-type="ghost"
+          :label="$t('general.reset')"
+          @click="onClickReset"
+        />
+        <oxd-button
+          v-if="canSubmitTimesheet"
           display-type="secondary"
           :label="$t('general.submit')"
+          @click="onClickSubmit"
         />
       </template>
     </timesheet>
     <br />
     <save-timesheet-action
-      v-if="timesheet.id"
-      :timesheet-id="timesheet.id"
+      v-if="timesheetId && (canRejectTimesheet || canApproveTimesheet)"
+      :key="timesheetId"
+      :is-loading="isLoading"
+      :reject-timesheet="onClickReject"
+      :approve-timesheet="onClickApprove"
+      :can-reject-timesheet="!!canRejectTimesheet"
+      :can-approve-timesheet="!!canApproveTimesheet"
     ></save-timesheet-action>
     <br />
     <timesheet-actions
-      v-if="timesheet.id"
-      :timesheet-id="timesheet.id"
+      v-if="timesheetId"
+      :key="timesheetId"
+      :timesheet-id="timesheetId"
     ></timesheet-actions>
-
-    <add-timesheet-modal
-      v-if="showSaveModal"
-      :employee-id="employeeId"
-      @close="onSaveModalClose"
-    ></add-timesheet-modal>
   </div>
 </template>
 
 <script>
-import {navigate} from '@ohrm/core/util/helper/navigation';
+import {toRefs} from 'vue';
 import {APIService} from '@/core/util/services/api.service';
 import Timesheet from '@/orangehrmTimePlugin/components/Timesheet.vue';
+import useTimesheet from '@/orangehrmTimePlugin/util/composable/useTimesheet';
 import TimesheetPeriod from '@/orangehrmTimePlugin/components/TimesheetPeriod.vue';
 import TimesheetActions from '@/orangehrmTimePlugin/components/TimesheetActions.vue';
-import AddTimesheetModal from '@/orangehrmTimePlugin/components/AddTimesheetModal.vue';
 import SaveTimesheetAction from '@/orangehrmTimePlugin/components/SaveTimesheetAction.vue';
-
-const employeeTimesheetModal = {
-  id: null,
-  data: [],
-  meta: {},
-};
 
 export default {
   components: {
     timesheet: Timesheet,
     'timesheet-period': TimesheetPeriod,
     'timesheet-actions': TimesheetActions,
-    'add-timesheet-modal': AddTimesheetModal,
     'save-timesheet-action': SaveTimesheetAction,
   },
+
   props: {
-    employeeId: {
-      type: Number,
+    employee: {
+      type: Object,
       required: true,
+    },
+    startDate: {
+      type: String,
+      required: false,
+      default: null,
     },
   },
 
-  setup() {
+  setup(props) {
     const http = new APIService(
-      //   window.appGlobal.baseUrl,
-      'https://884b404a-f4d0-4908-9eb5-ef0c8afec15c.mock.pstmn.io',
-      '/api/v2/time/employee-timesheet',
+      window.appGlobal.baseUrl,
+      '/api/v2/time/timesheets',
     );
 
-    return {http};
-  },
+    const {
+      state,
+      onClickEdit,
+      onClickNext,
+      onClickReset,
+      onClickSubmit,
+      onClickReject,
+      onClickApprove,
+      onClickPrevious,
+      timesheetPeriod,
+      canEditTimesheet,
+      canResetTimesheet,
+      canSubmitTimesheet,
+      canRejectTimesheet,
+      canCreateTimesheet,
+      canApproveTimesheet,
+      showCreateTimesheet,
+      onClickCreateTimesheet,
+    } = useTimesheet(http, props.startDate, props.employee.empNumber);
 
-  data() {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const {employee, ...rest} = toRefs(state);
+
     return {
-      isLoading: false,
-      timesheet: {...employeeTimesheetModal},
-      showSaveModal: false,
+      ...rest,
+      onClickEdit,
+      onClickNext,
+      onClickReset,
+      onClickSubmit,
+      onClickReject,
+      onClickApprove,
+      onClickPrevious,
+      timesheetPeriod,
+      canEditTimesheet,
+      canResetTimesheet,
+      canSubmitTimesheet,
+      canRejectTimesheet,
+      canCreateTimesheet,
+      canApproveTimesheet,
+      showCreateTimesheet,
+      onClickCreateTimesheet,
     };
   },
 
   computed: {
     title() {
-      const employee = this.timesheet.meta?.employee;
-      const empName = employee
-        ? `${employee?.firstName} ${employee?.lastName}`
-        : '';
-      return `${this.$t('time.timesheet_for')} ${empName}`;
-    },
-  },
-
-  beforeMount() {
-    this.isLoading = true;
-    this.http
-      .get(this.employeeId)
-      .then(response => {
-        const {data, meta} = response.data;
-        const id = meta.id;
-        this.timesheet = {id, data, meta};
-      })
-      .finally(() => {
-        this.isLoading = false;
-      });
-  },
-
-  methods: {
-    onClickAddTimesheet() {
-      this.showSaveModal = true;
-    },
-    onSaveModalClose() {
-      this.showSaveModal = false;
-    },
-    onClickEdit() {
-      navigate('/time/editTimesheet/{id}', {id: this.timesheet?.id});
+      return `${this.$t('time.timesheet_for')} ${this.employee?.firstName} ${
+        this.employee?.lastName
+      }`;
     },
   },
 };

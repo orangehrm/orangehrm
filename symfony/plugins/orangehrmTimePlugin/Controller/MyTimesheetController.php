@@ -23,6 +23,7 @@ use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Core\Vue\Component;
+use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Entity\Timesheet;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Time\Traits\Service\TimesheetServiceTrait;
@@ -40,6 +41,9 @@ class MyTimesheetController extends AbstractVueController
     {
         $this->createDefaultTimesheetIfNotExist();
         $component = new Component('my-timesheet');
+        if ($request->query->has('startDate')) {
+            $component->addProp(new Prop('start-date', Prop::TYPE_STRING, $request->query->get('startDate')));
+        }
         $this->setComponent($component);
     }
 

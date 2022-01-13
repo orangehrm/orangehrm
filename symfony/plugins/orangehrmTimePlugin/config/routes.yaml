@@ -265,5 +265,15 @@ time_employee_view_timesheet:
 
 time_employee_report:
   path: /time/displayEmployeeReportCriteria
-  controller: OrangeHRM\Time\Controller\EmployeeTimeReport::handle
+  controller: OrangeHRM\Time\Controller\EmployeeTimeReportController::handle
+  methods: [ GET ]
+
+time_project_activity_report:
+  path: /time/displayProjectReportCriteria
+  controller: OrangeHRM\Time\Controller\ProjectActivityReportController::handle
+  methods: [ GET ]
+
+time_activity_details_report:
+  path: /time/displayProjectActivityDetailsReport
+  controller: OrangeHRM\Time\Controller\ActivityDetailsReportController::handle
   methods: [ GET ]
