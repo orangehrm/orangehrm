@@ -35,8 +35,6 @@ use OrangeHRM\Core\Report\Filter\FilterDefinition;
 use OrangeHRM\Core\Report\Header\Column;
 use OrangeHRM\Core\Report\Header\Header;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
-use OrangeHRM\Entity\Project;
-use OrangeHRM\Entity\ProjectActivity;
 use OrangeHRM\Time\Dto\EmployeeReportsSearchFilterParams;
 
 class EmployeeReport implements EndpointAwareReport
@@ -121,14 +119,12 @@ class EmployeeReport implements EndpointAwareReport
             $endpoint->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::FILTER_PARAMETER_PROJECT_ID,
-                    new Rule(Rules::ENTITY_ID_EXISTS, [Project::class]),
                     new Rule(Rules::POSITIVE)
                 )
             ),
             $endpoint->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::FILTER_PARAMETER_ACTIVITY_ID,
-                    new Rule(Rules::ENTITY_ID_EXISTS, [ProjectActivity::class]),
                     new Rule(Rules::POSITIVE)
                 )
             ),
