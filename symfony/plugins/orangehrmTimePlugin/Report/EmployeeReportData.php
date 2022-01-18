@@ -53,8 +53,8 @@ class EmployeeReportData implements ReportData
             ->getTimesheetItemsForEmployeeReport($this->filterParams);
         $result = [];
         foreach ($timesheetItems as $timesheetItem) {
-            $projectName = $timesheetItem[0]->getProject()->getCustomer()->getName(
-                ).' - '.$timesheetItem[0]->getProject()->getName();
+            $projectName = $timesheetItem[0]->getProject()->getCustomer()->getName()
+                . ' - ' . $timesheetItem[0]->getProject()->getName();
             $activityName = $timesheetItem[0]->getProjectActivity()->getName();
             $duration = $this->getNumberHelper()->numberFormat($timesheetItem['totalDurationByGroup'] / 3600, 2);
             $result[] = [
@@ -68,12 +68,12 @@ class EmployeeReportData implements ReportData
 
     public function getMeta(): ?ParameterBag
     {
-        $employee = $this->getEmployeeService()->getEmployeeDao()->getEmployeeByEmpNumber(
-            $this->filterParams->getEmpNumber()
-        );
-        $totalDuration = $this->getTimesheetService()->getTimesheetDao()->getTotalDurationForEmployeeReport(
-            $this->filterParams
-        );
+        $employee = $this->getEmployeeService()
+            ->getEmployeeDao()
+            ->getEmployeeByEmpNumber($this->filterParams->getEmpNumber());
+        $totalDuration = $this->getTimesheetService()
+            ->getTimesheetDao()
+            ->getTotalDurationForEmployeeReport($this->filterParams);
 
         return new ParameterBag(
             [

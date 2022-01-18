@@ -10,7 +10,7 @@ GetAll:
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
-      name: 'project_report'
+      name: 'project'
       projectId: 1
     data: [
       {
@@ -66,7 +66,7 @@ GetAll:
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
-      name: 'project_report'
+      name: 'project'
       projectId: 1
       fromDate: '2011-01-01'
     data: [
@@ -123,7 +123,7 @@ GetAll:
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
-      name: 'project_report'
+      name: 'project'
       projectId: 1
       toDate: '2011-04-25'
     data: [
@@ -171,7 +171,7 @@ GetAll:
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
-      name: 'project_report'
+      name: 'project'
       projectId: 1
       fromDate: '2011-04-18'
       toDate: '2011-04-21'
@@ -220,7 +220,7 @@ GetAll:
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
-      name: 'project_report'
+      name: 'project'
       projectId: 1
       includeTimesheet: 'onlyApproved'
     data: [
@@ -268,7 +268,7 @@ GetAll:
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
-      name: 'project_report'
+      name: 'project'
       projectId: 1
       fromDate: '2011-04-18'
       toDate: '2011-04-30'
@@ -318,7 +318,7 @@ GetAll:
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
-      name: 'project_report'
+      name: 'project'
       projectId: 1
       toDate: '2011-04-30'
       includeTimesheet: 'onlyApproved'
@@ -383,7 +383,7 @@ GetAll:
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
-      name: 'project_report'
+      name: 'project'
       projectId: 100
       toDate: '2011-04-30'
       includeTimesheet: 'onlyApproved'
@@ -402,7 +402,7 @@ GetAll:
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
-      name: 'project_report'
+      name: 'project'
       projectId: 1
       toDate: '2011-04-31'
       includeTimesheet: 'onlyApproved'
@@ -421,7 +421,7 @@ GetAll:
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
-      name: 'project_report'
+      name: 'project'
       projectId: 1
       fromDate: '2011-05-01'
       toDate: '2011-04-30'
@@ -440,7 +440,7 @@ GetAll:
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
-      name: 'project_report'
+      name: 'project'
       projectId: 1
     exception:
       class: '\OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
@@ -457,7 +457,7 @@ GetAll:
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
-      name: 'project_report'
+      name: 'project'
       projectId: 1
     data: [
       {
@@ -513,7 +513,7 @@ GetAll:
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
-      name: 'project_report'
+      name: 'project'
       projectId: 1
       fromDate: '2011-04-18'
       toDate: '2011-04-30'

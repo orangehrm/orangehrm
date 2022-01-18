@@ -10,7 +10,7 @@ GetOne:
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
-      name: 'project_report'
+      name: 'project'
     data:
       "headers": [
         {

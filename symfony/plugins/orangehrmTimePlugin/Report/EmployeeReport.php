@@ -35,7 +35,8 @@ use OrangeHRM\Core\Report\Filter\FilterDefinition;
 use OrangeHRM\Core\Report\Header\Column;
 use OrangeHRM\Core\Report\Header\Header;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
-use OrangeHRM\Entity\Employee;
+use OrangeHRM\Entity\Project;
+use OrangeHRM\Entity\ProjectActivity;
 use OrangeHRM\Time\Dto\EmployeeReportsSearchFilterParams;
 
 class EmployeeReport implements EndpointAwareReport
@@ -115,18 +116,19 @@ class EmployeeReport implements EndpointAwareReport
         return new ParamRuleCollection(
             new ParamRule(
                 CommonParams::PARAMETER_EMP_NUMBER,
-                new Rule(Rules::ENTITY_ID_EXISTS, [Employee::class]),
                 new Rule(Rules::IN_ACCESSIBLE_EMP_NUMBERS)
             ),
             $endpoint->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::FILTER_PARAMETER_PROJECT_ID,
+                    new Rule(Rules::ENTITY_ID_EXISTS, [Project::class]),
                     new Rule(Rules::POSITIVE)
                 )
             ),
             $endpoint->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::FILTER_PARAMETER_ACTIVITY_ID,
+                    new Rule(Rules::ENTITY_ID_EXISTS, [ProjectActivity::class]),
                     new Rule(Rules::POSITIVE)
                 )
             ),
@@ -152,10 +154,8 @@ class EmployeeReport implements EndpointAwareReport
                                 self::FILTER_PARAMETER_TO_DATE
                             );
 
-                            if (!is_null($fromDate) && !is_null($toDate)) {
-                                if ($fromDate > $toDate) {
-                                    return false;
-                                }
+                            if (!(is_null($fromDate) || is_null($toDate)) && $fromDate > $toDate) {
+                                return false;
                             }
                             return true;
                         }

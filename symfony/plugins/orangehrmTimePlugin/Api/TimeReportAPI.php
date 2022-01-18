@@ -28,7 +28,7 @@ use OrangeHRM\Time\Report\ProjectReport;
 class TimeReportAPI extends ReportAPI
 {
     public const TIME_REPORT_MAP = [
-        'project_report' => ProjectReport::class,
+        'project' => ProjectReport::class,
         'employee' => EmployeeReport::class,
     ];
 
