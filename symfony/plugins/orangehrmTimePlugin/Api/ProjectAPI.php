@@ -166,13 +166,15 @@ class ProjectAPI extends Endpoint implements CrudEndpoint
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::FILTER_EMPLOYEE_NUMBER,
-                    new Rule(Rules::POSITIVE)
+                    new Rule(Rules::POSITIVE),
+                    new Rule(Rules::IN_ACCESSIBLE_EMP_NUMBERS)
                 ),
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::FILTER_CUSTOMER_ID,
-                    new Rule(Rules::POSITIVE)
+                    new Rule(Rules::POSITIVE),
+                    new Rule(Rules::IN_ACCESSIBLE_ENTITY_ID, [Customer::class])
                 ),
             ),
             $this->getValidationDecorator()->notRequiredParamRule(

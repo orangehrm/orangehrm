@@ -19,15 +19,19 @@
 
 namespace OrangeHRM\Time\Controller;
 
+use OrangeHRM\Core\Authorization\Controller\CapableViewController;
 use OrangeHRM\Core\Controller\AbstractVueController;
+use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
+use OrangeHRM\Entity\Project;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Time\Controller\Traits\PermissionTrait;
 
-class SaveProjectController extends AbstractVueController
+class SaveProjectController extends AbstractVueController implements CapableViewController
 {
     use PermissionTrait;
+    use UserRoleManagerTrait;
 
     /**
      * @inheritDoc
@@ -42,5 +46,13 @@ class SaveProjectController extends AbstractVueController
         }
         $this->setComponent($component);
         $this->setPermissions(['time_projects', 'time_project_activities']);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function isCapable(Request $request): bool
+    {
+        return $this->getUserRoleManager()->isEntityAccessible(Project::class, $request->attributes->get('id'));
     }
 }

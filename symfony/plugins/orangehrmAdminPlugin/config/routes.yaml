@@ -530,3 +530,23 @@ edit_email_subscription:
   path: /admin/saveSubscriber/{id}
   controller: OrangeHRM\Admin\Controller\SaveEmailSubscriptionController::handle
   methods: [ GET ]
+
+admin_localization: # remove this
+  path: /admin/localization
+  controller: OrangeHRM\Core\Controller\Common\ModuleUnderDevelopmentController::handle
+  methods: [ GET ]
+
+admin_language_package: # remove this
+  path: /admin/languagePackage
+  controller: OrangeHRM\Core\Controller\Common\ModuleUnderDevelopmentController::handle
+  methods: [ GET ]
+
+admin_open_id_provider: # remove this
+  path: /admin/openIdProvider
+  controller: OrangeHRM\Core\Controller\Common\ModuleUnderDevelopmentController::handle
+  methods: [ GET ]
+
+admin_register_oauth_client: # remove this
+  path: /admin/registerOAuthClient
+  controller: OrangeHRM\Core\Controller\Common\ModuleUnderDevelopmentController::handle
+  methods: [ GET ]
