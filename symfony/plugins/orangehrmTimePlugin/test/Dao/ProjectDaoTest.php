@@ -125,8 +125,8 @@ class ProjectDaoTest extends KernelTestCase
     {
         $this->assertTrue($this->projectDao->isProjectAdmin(1));
         $this->assertTrue($this->projectDao->isProjectAdmin(3));
-        $this->assertFalse($this->projectDao->isProjectAdmin(4));
-        $this->assertFalse($this->projectDao->isProjectAdmin(5));
+        $this->assertFalse($this->projectDao->isProjectAdmin(4)); // employee who don't have any project
+        $this->assertFalse($this->projectDao->isProjectAdmin(5)); // employee who have only deleted project
         $this->assertFalse($this->projectDao->isProjectAdmin(100));
         $this->assertFalse($this->projectDao->isProjectAdmin(null));
     }

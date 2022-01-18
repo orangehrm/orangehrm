@@ -162,8 +162,11 @@ class ProjectDao extends BaseDao
             return false;
         }
         $q = $this->createQueryBuilder(ProjectAdmin::class, 'projectAdmin')
+            ->leftJoin('projectAdmin.project', 'project')
             ->andWhere('projectAdmin.employee = :empNumber')
-            ->setParameter('empNumber', $empNumber);
+            ->setParameter('empNumber', $empNumber)
+            ->andWhere('project.deleted = :deleted')
+            ->setParameter('deleted', false);
         return $this->getPaginator($q)->count() > 0;
     }
 
