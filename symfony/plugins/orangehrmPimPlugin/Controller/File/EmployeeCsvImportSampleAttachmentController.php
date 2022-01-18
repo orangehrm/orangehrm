@@ -21,7 +21,6 @@
 namespace OrangeHRM\Pim\Controller\File;
 
 use OrangeHRM\Core\Controller\AbstractFileController;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\Http\Response;
 
@@ -30,7 +29,6 @@ class EmployeeCsvImportSampleAttachmentController extends AbstractFileController
     /**
      * @param Request $request
      * @return Response
-     * @throws DaoException
      */
     public function handle(Request $request): Response
     {
