@@ -4,6 +4,7 @@ Employee:
   - { empNumber: 3, firstName: 'Renukshan', lastName: 'Saputhanthri' }
   - { empNumber: 4, firstName: 'Chaturanga', lastName: 'Namal' }
   - { empNumber: 5, firstName: 'Indiran', lastName: 'Nadarajah' }
+  - { empNumber: 6,employeeId: "0006",lastName: "Abbey", firstName: "Kayla" }
 
 UserRole:
   - { id: 1, name: Admin, display_name: Admin, is_assignable: 1, is_predefined: 1 }
@@ -36,6 +37,7 @@ ProjectAdmin:
   - { project_id: 3, emp_number: 3 }
   - { project_id: 1, emp_number: 3 }
   - { project_id: 3, emp_number: 5 }
+  - { project_id: 2, emp_number: 6 }
 
 ProjectActivity:
   - { activity_id: 1, project_id: 1, name: 'Debug', is_deleted: 0 }
