@@ -1,0 +1,4 @@
+buzz_module_under_development: # remove this
+  path: /buzz/{screen}
+  controller: OrangeHRM\Core\Controller\Common\ModuleUnderDevelopmentController::handle
+  methods: [ GET ]

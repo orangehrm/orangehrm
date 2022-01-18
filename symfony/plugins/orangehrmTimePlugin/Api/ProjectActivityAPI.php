@@ -32,6 +32,7 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Entity\Project;
 use OrangeHRM\Entity\ProjectActivity;
 use OrangeHRM\Time\Api\Model\ProjectActivityModel;
 use OrangeHRM\Time\Dto\ProjectActivitySearchFilterParams;
@@ -88,10 +89,7 @@ class ProjectActivityAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(
-                self::PARAMETER_PROJECT_ID,
-                new Rule(Rules::POSITIVE)
-            ),
+            $this->getProjectIdParamRule(),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::FILTER_PROJECT_ACTIVITY_NAME,
@@ -100,6 +98,18 @@ class ProjectActivityAPI extends Endpoint implements CrudEndpoint
                 ),
             ),
             ...$this->getSortingAndPaginationParamsRules(ProjectActivitySearchFilterParams::ALLOWED_SORT_FIELDS)
+        );
+    }
+
+    /**
+     * @return ParamRule
+     */
+    private function getProjectIdParamRule(): ParamRule
+    {
+        return new ParamRule(
+            self::PARAMETER_PROJECT_ID,
+            new Rule(Rules::POSITIVE),
+            new Rule(Rules::IN_ACCESSIBLE_ENTITY_ID, [Project::class])
         );
     }
 
@@ -156,12 +166,7 @@ class ProjectActivityAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForDelete(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            $this->getValidationDecorator()->requiredParamRule(
-                new ParamRule(
-                    self::PARAMETER_PROJECT_ID,
-                    new Rule(Rules::POSITIVE)
-                )
-            ),
+            $this->getValidationDecorator()->requiredParamRule($this->getProjectIdParamRule()),
             new ParamRule(
                 CommonParams::PARAMETER_IDS,
                 new Rule(Rules::ARRAY_TYPE),
@@ -196,10 +201,7 @@ class ProjectActivityAPI extends Endpoint implements CrudEndpoint
                 CommonParams::PARAMETER_ID,
                 new Rule(Rules::POSITIVE)
             ),
-            new ParamRule(
-                self::PARAMETER_PROJECT_ID,
-                new Rule(Rules::POSITIVE)
-            )
+            $this->getProjectIdParamRule(),
         );
     }
 
@@ -238,12 +240,7 @@ class ProjectActivityAPI extends Endpoint implements CrudEndpoint
     private function getCommonBodyValidationRules(): array
     {
         return [
-            $this->getValidationDecorator()->requiredParamRule(
-                new ParamRule(
-                    self::PARAMETER_PROJECT_ID,
-                    new Rule(Rules::POSITIVE)
-                ),
-            ),
+            $this->getValidationDecorator()->requiredParamRule($this->getProjectIdParamRule()),
             $this->getValidationDecorator()->requiredParamRule(
                 new ParamRule(
                     self::PARAMETER_NAME,

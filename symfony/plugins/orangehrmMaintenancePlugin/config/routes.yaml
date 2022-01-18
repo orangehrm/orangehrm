@@ -1,0 +1,4 @@
+maintenance_module_under_development: # remove this
+  path: /maintenance/{screen}
+  controller: OrangeHRM\Core\Controller\Common\ModuleUnderDevelopmentController::handle
+  methods: [ GET ]

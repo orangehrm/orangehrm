@@ -33,7 +33,6 @@ use OrangeHRM\Core\Subscriber\ApiAuthorizationSubscriber;
 use OrangeHRM\Core\Subscriber\ExceptionSubscriber;
 use OrangeHRM\Core\Subscriber\MailerSubscriber;
 use OrangeHRM\Core\Subscriber\ModuleNotAvailableSubscriber;
-use OrangeHRM\Core\Subscriber\ModuleUnderDevelopmentSubscriber;
 use OrangeHRM\Core\Subscriber\RequestBodySubscriber;
 use OrangeHRM\Core\Subscriber\RequestForwardableExceptionSubscriber;
 use OrangeHRM\Core\Subscriber\ScreenAuthorizationSubscriber;
@@ -100,7 +99,6 @@ class CorePluginConfiguration implements PluginConfigurationInterface
         $this->getEventDispatcher()->addSubscriber(new ScreenAuthorizationSubscriber());
         $this->getEventDispatcher()->addSubscriber(new ApiAuthorizationSubscriber());
         $this->getEventDispatcher()->addSubscriber(new RequestBodySubscriber());
-        $this->getEventDispatcher()->addSubscriber(new ModuleUnderDevelopmentSubscriber());
         $this->getEventDispatcher()->addSubscriber(new MailerSubscriber());
         $this->getEventDispatcher()->addSubscriber(new ModuleNotAvailableSubscriber());
         $this->getEventDispatcher()->addSubscriber(new RegistrationEventPersistSubscriber());

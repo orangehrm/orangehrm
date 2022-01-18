@@ -20,8 +20,10 @@
 namespace OrangeHRM\Core\Controller\Exception;
 
 use Exception;
+use OrangeHRM\Framework\Http\Response;
+use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 
-class RequestForwardableException extends Exception
+class RequestForwardableException extends Exception implements HttpExceptionInterface
 {
     /**
      * @var string
@@ -37,6 +39,16 @@ class RequestForwardableException extends Exception
      * @var array
      */
     private array $query;
+
+    /**
+     * @var int
+     */
+    private int $statusCode = Response::HTTP_OK;
+
+    /**
+     * @var array
+     */
+    private array $headers = [];
 
     /**
      * @param string $controller
@@ -96,5 +108,37 @@ class RequestForwardableException extends Exception
     public function setQuery(array $query): void
     {
         $this->query = $query;
+    }
+
+    /**
+     * @return int
+     */
+    public function getStatusCode(): int
+    {
+        return $this->statusCode;
+    }
+
+    /**
+     * @param int $statusCode
+     */
+    public function setStatusCode(int $statusCode): void
+    {
+        $this->statusCode = $statusCode;
+    }
+
+    /**
+     * @return array
+     */
+    public function getHeaders(): array
+    {
+        return $this->headers;
+    }
+
+    /**
+     * @param array $headers
+     */
+    public function setHeaders(array $headers): void
+    {
+        $this->headers = $headers;
     }
 }
