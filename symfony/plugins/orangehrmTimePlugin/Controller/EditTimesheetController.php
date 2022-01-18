@@ -19,17 +19,21 @@
 
 namespace OrangeHRM\Time\Controller;
 
+use OrangeHRM\Core\Authorization\Controller\CapableViewController;
 use OrangeHRM\Core\Controller\AbstractVueController;
+use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
+use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
+use OrangeHRM\Entity\Timesheet;
 use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Time\Traits\Service\TimesheetServiceTrait;
 
-class EditTimesheetController extends AbstractVueController
+class EditTimesheetController extends AbstractVueController implements CapableViewController
 {
     use AuthUserTrait;
     use TimesheetServiceTrait;
+    use UserRoleManagerTrait;
 
     /**
      * @inheritDoc
@@ -51,5 +55,23 @@ class EditTimesheetController extends AbstractVueController
         }
 
         $this->setComponent($component);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function isCapable(Request $request): bool
+    {
+        if ($request->attributes->has('id')) {
+            $timesheet = $this->getTimesheetService()
+                ->getTimesheetDao()
+                ->getTimesheetById($request->attributes->getInt('id'));
+            if ($timesheet instanceof Timesheet) {
+                return $this->getUserRoleManagerHelper()
+                    ->isEmployeeAccessible($timesheet->getEmployee()->getEmpNumber());
+            }
+            return false;
+        }
+        return true;
     }
 }
