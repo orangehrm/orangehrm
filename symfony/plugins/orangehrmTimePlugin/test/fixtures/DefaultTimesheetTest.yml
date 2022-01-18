@@ -8,6 +8,7 @@ Employee:
   - { empNumber: 2, firstName: 'Ashley', lastName: 'Abel', middleName: 'ST',employeeId: 'E002', emp_work_email: 'ashley@xample.com', emp_oth_email: 'ashley2@xample.com' }
   - { empNumber: 3, firstName: 'Renukshan', lastName: 'Saputhanthri', middleName: 'RT', employeeId: 'E003', emp_work_email: 'renukshan@xample.com', emp_oth_email: 'renukshan2@xample.com' }
   - { empNumber: 4, firstName: 'Sherin', lastName: 'Sherin', middleName: 'Sherin', employeeId: 'E004', emp_work_email: 'sherin@xample.com', emp_oth_email: 'sherin@xample.com' }
+  - { empNumber: 5, firstName: 'Sandeepa', lastName: 'Ranathunga', middleName: 'RA', employeeId: 'E005', emp_work_email: 'sandeepa@xample.com', emp_oth_email: 'sandeepa@xample.com' }
 
 ReportingMethod:
   - { "reporting_method_id": "1","reporting_method_name": "Direct" }
@@ -26,6 +27,7 @@ User:
   - { "id": 2, "user_role_id": 2, "emp_number": 2, "user_name": "Adalwin","user_password": "Adalwin","deleted": "0","status": "1","date_entered": "2021-09-15 16:47:14","created_by": "1" }
   - { "id": 3, "user_role_id": 3, "emp_number": 3, "user_name": "Anderson","user_password": "Anderson","deleted": "0","status": "1","date_entered": "2021-09-15 16:47:53","created_by": "1" }
   - { "id": 4, "user_role_id": 2, "emp_number": 4, "user_name": "Sherin","user_password": "Sherin","deleted": "0","status": "1","date_entered": "2021-09-15 17:47:59","created_by": "1" }
+  - { "id": 5, "user_role_id": 2, "emp_number": 5, "user_name": "Sandeepa","user_password": "Sandeepa","deleted": "0","status": "1","date_entered": "2021-09-15 17:47:59","created_by": "1" }
 
 Customer:
   - { name: 'Orange', description: 'HRM', deleted: false }
