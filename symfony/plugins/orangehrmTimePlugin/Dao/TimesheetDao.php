@@ -506,4 +506,25 @@ class TimesheetDao extends BaseDao
         $qb->select('COALESCE(SUM(timesheetItem.duration),0) AS totalDuration');
         return $qb->getQuery()->getSingleScalarResult();
     }
+
+    /**
+     * @param int $timesheetId
+     * @param int $projectId
+     * @param int $activityId
+     * @param DateTime $date
+     * @return TimesheetItem | null
+     */
+    public function getTimesheetItemByProjectIdAndTimesheetIdAndActivityIdAndDate(
+        int $timesheetId,
+        int $projectId,
+        int $activityId,
+        DateTime $date
+    ): ?TimesheetItem {
+        return $this->getRepository(TimesheetItem::class)->findOneBy([
+            'timesheet' => $timesheetId,
+            'project' => $projectId,
+            'projectActivity' => $activityId,
+            'date' => $date
+        ]);
+    }
 }
