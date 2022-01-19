@@ -42,7 +42,6 @@ class ProjectActivityReportController extends AbstractVueController
         }
 
         if ($request->query->has('projectId')) {
-            // TODO: Get project object
             $project = $this->getProjectService()
                 ->getProjectDao()
                 ->getProjectById($request->query->getInt('projectId'));
