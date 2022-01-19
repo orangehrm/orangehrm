@@ -1,4 +1,5 @@
 <?php
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -317,8 +318,7 @@ class ProjectDao extends BaseDao
                 ->setParameter('toDate', $projectReportSearchFilterParams->getToDate());
         }
 
-        if ($projectReportSearchFilterParams->getIncludeApproveTimesheet(
-            ) === ProjectReportSearchFilterParams::INCLUDE_TIMESHEET_ONLY_APPROVED) {
+        if ($projectReportSearchFilterParams->getIncludeApproveTimesheet() === ProjectReportSearchFilterParams::INCLUDE_TIMESHEET_ONLY_APPROVED) {
             $q->andWhere('timesheet.state = :state');
             $q->setParameter('state', ProjectReportSearchFilterParams::TIMESHEET_STATE_APPROVED);
         }
@@ -442,5 +442,18 @@ class ProjectDao extends BaseDao
 
         $result = $q->getQuery()->getArrayResult();
         return array_column($result, 'empNumber');
+    }
+
+    /**
+     * @return int[]
+     */
+    public function getUnselectableProjectIds(): array
+    {
+        $qb = $this->createQueryBuilder(TimesheetItem::class, 'timesheetItem');
+        $qb->leftJoin('timesheetItem.project', 'project');
+        $qb->select('project.id');
+        $qb->addGroupBy('project.id');
+        $result = $qb->getQuery()->getArrayResult();
+        return array_column($result, 'id');
     }
 }

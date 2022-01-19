@@ -25,10 +25,12 @@ use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Time\Controller\Traits\PermissionTrait;
+use OrangeHRM\Time\Traits\Service\ProjectServiceTrait;
 
 class ProjectController extends AbstractVueController
 {
     use PermissionTrait;
+    use ProjectServiceTrait;
 
     /**
      * @inheritDoc
@@ -36,8 +38,10 @@ class ProjectController extends AbstractVueController
     public function preRender(Request $request): void
     {
         $component = new Component('project-list');
-        // TODO: Get project ids that has been used in timesheets
-        $component->addProp(new Prop('unselectable-ids', Prop::TYPE_ARRAY, []));
+        $unSelectableProjectIds = $this->getProjectService()
+            ->getProjectDao()
+            ->getUnselectableProjectIds();
+        $component->addProp(new Prop('unselectable-ids', Prop::TYPE_ARRAY, $unSelectableProjectIds));
         $this->setComponent($component);
         $this->setPermissions(['time_projects', 'time_project_activities']);
     }
