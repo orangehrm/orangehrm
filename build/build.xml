@@ -95,18 +95,18 @@
         <exclude name="symfony/plugins/orangehrmCorePlugin/lib/**"/>
         <exclude name="symfony/plugins/orangehrmPimPlugin/lib/**"/>
 
-        <exclude name="symfony/plugins/orangehrmAttendancePlugin/**"/>
-        <exclude name="symfony/plugins/orangehrmBuzzPlugin/**"/>
+        <exclude name="symfony/plugins/orangehrmAttendancePlugin/lib"/>
+        <exclude name="symfony/plugins/orangehrmBuzzPlugin/lib"/>
         <exclude name="symfony/plugins/orangehrmCoreWebServicePlugin/**"/>
         <exclude name="symfony/plugins/orangehrmCorporateBrandingPlugin/**"/>
-        <exclude name="symfony/plugins/orangehrmCorporateDirectoryPlugin/**"/>
-        <exclude name="symfony/plugins/orangehrmDashboardPlugin/**"/>
-        <exclude name="symfony/plugins/orangehrmMaintenancePlugin/**"/>
-        <exclude name="symfony/plugins/orangehrmMarketPlacePlugin/**"/>
+        <exclude name="symfony/plugins/orangehrmCorporateDirectoryPlugin/lib"/>
+        <exclude name="symfony/plugins/orangehrmDashboardPlugin/lib"/>
+        <exclude name="symfony/plugins/orangehrmMaintenancePlugin/lib"/>
+        <exclude name="symfony/plugins/orangehrmMarketPlacePlugin/lib"/>
         <exclude name="symfony/plugins/orangehrmOpenidAuthenticationPlugin/**"/>
-        <exclude name="symfony/plugins/orangehrmPerformancePlugin/**"/>
+        <exclude name="symfony/plugins/orangehrmPerformancePlugin/lib"/>
         <exclude name="symfony/plugins/orangehrmPerformanceTrackerPlugin/**"/>
-        <exclude name="symfony/plugins/orangehrmRecruitmentPlugin/**"/>
+        <exclude name="symfony/plugins/orangehrmRecruitmentPlugin/lib"/>
         <exclude name="symfony/plugins/orangehrmRESTPlugin/**"/>
 
         <!-- 5.x related -->
