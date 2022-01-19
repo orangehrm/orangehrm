@@ -1,6 +1,6 @@
 <template>
   <oxd-form :loading="isLoading" @submitValid="onSave">
-    <oxd-grid :cols="2" v-if="punchIn.punchedInTime">
+    <oxd-grid v-if="punchIn.punchedInTime" :cols="2">
       <oxd-grid-item>
         <br />
         <oxd-text type="subtitle-2">
@@ -40,7 +40,7 @@
 
     <!-- select timezone -->
 
-    <oxd-grid :cols="4" v-if="isAdmin">
+    <oxd-grid v-if="isAdmin" :cols="4">
       <oxd-grid-item>
         <time-zone v-model="punchIn.timezone" />
       </oxd-grid-item>
@@ -189,7 +189,7 @@ export default {
 
     //sending time and date to validaton => todo
     validateDate() {
-      return new Promise((resolve, reject) => {
+      return new Promise(resolve => {
         this.http
           .request({url: '/api/v2/attendance/validatedate', method: 'GET'})
           .then(res => {

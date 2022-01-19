@@ -18,9 +18,9 @@
 <script>
 import RecordAttendance from '@/orangehrmTimePlugin/components/RecordAttendance.vue';
 export default {
-  inheritAttrs: false,
   components: {
     'record-attendance': RecordAttendance,
   },
+  inheritAttrs: false,
 };
 </script>
