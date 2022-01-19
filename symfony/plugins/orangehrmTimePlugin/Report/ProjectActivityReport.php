@@ -19,24 +19,21 @@
 
 namespace OrangeHRM\Time\Report;
 
-use OrangeHRM\Core\Api\V2\Exception\ForbiddenException;
+use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
+use OrangeHRM\Core\Api\V2\Validator\Rule;
+use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Core\Api\V2\Validator\ValidatorException;
 use OrangeHRM\Core\Dto\FilterParams;
-use OrangeHRM\Core\Report\Api\EndpointAwareReport;
 use OrangeHRM\Core\Report\Api\EndpointProxy;
-use OrangeHRM\Core\Report\Filter\Filter;
-use OrangeHRM\Core\Report\Filter\FilterDefinition;
 use OrangeHRM\Core\Report\Header\Column;
 use OrangeHRM\Core\Report\Header\Header;
 use OrangeHRM\Core\Report\Header\HeaderDefinition;
 use OrangeHRM\Core\Report\ReportData;
-use OrangeHRM\Core\Traits\Service\TextHelperTrait;
-use OrangeHRM\Core\Traits\UserRoleManagerTrait;
+use OrangeHRM\Entity\ProjectActivity;
 
-class ProjectActivityReport extends ProjectReport implements EndpointAwareReport
+class ProjectActivityReport extends ProjectReport
 {
-    use UserRoleManagerTrait;
-    use TextHelperTrait;
 
     public const PARAMETER_EMPLOYEE_NAME = 'employeeName';
 
@@ -45,26 +42,25 @@ class ProjectActivityReport extends ProjectReport implements EndpointAwareReport
      */
     public function prepareFilterParams(EndpointProxy $endpoint): FilterParams
     {
-        // TODO: Implement prepareFilterParams() method.
+        //TODO
     }
 
     /**
-     * @inheritDoc
+     * @param EndpointProxy $endpoint
+     * @return ParamRuleCollection
+     * @throws ValidatorException
      */
     public function getValidationRule(EndpointProxy $endpoint): ParamRuleCollection
     {
-        // TODO: Implement getValidationRule() method.
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function checkReportAccessibility(EndpointProxy $endpoint): void
-    {
-        if (!$this->getUserRoleManagerHelper()
-            ->getEntityIndependentDataGroupPermissions('time_project_reports')->canRead()) {
-            throw new ForbiddenException();
-        }
+        $paramRuleCollection = parent::getValidationRule($endpoint);
+        $paramRuleCollection->addParamValidation(
+            new ParamRule(
+                ProjectReport::PARAMETER_ACTIVITY_ID,
+                new Rule(Rules::POSITIVE),
+                new Rule(Rules::ENTITY_ID_EXISTS, [ProjectActivity::class]),
+            )
+        );
+        return $paramRuleCollection;
     }
 
     /**
@@ -81,14 +77,6 @@ class ProjectActivityReport extends ProjectReport implements EndpointAwareReport
                     ->setSize(ProjectReport::DEFAULT_COLUMN_SIZE),
             ]
         );
-    }
-
-    /**
-     * @return Filter
-     */
-    public function getFilterDefinition(): FilterDefinition
-    {
-        return new Filter();
     }
 
     /**
