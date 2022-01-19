@@ -267,13 +267,3 @@ time_activity_details_report:
   path: /time/displayProjectActivityDetailsReport
   controller: OrangeHRM\Time\Controller\ActivityDetailsReportController::handle
   methods: [ GET ]
-  
-attendance_punch_in:
-  path: /attendance/punchIn
-  controller: OrangeHRM\Time\Controller\PunchInController::handle
-  methods: [ GET ]
-
-attendance_punch_out:
-  path: /attendance/punchOut
-  controller: OrangeHRM\Time\Controller\PunchOutController::handle
-  methods: [ GET ]

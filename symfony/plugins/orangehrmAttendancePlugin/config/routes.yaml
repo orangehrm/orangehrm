@@ -1,0 +1,13 @@
+##########################
+#        Screens
+##########################
+
+attendance_punch_in:
+  path: /attendance/punchIn
+  controller: OrangeHRM\Attendance\Controller\PunchInController::handle
+  methods: [ GET ]
+
+attendance_punch_out:
+  path: /attendance/punchOut
+  controller: OrangeHRM\Attendance\Controller\PunchOutController::handle
+  methods: [ GET ]
