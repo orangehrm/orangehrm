@@ -1,3 +1,13 @@
+apiv2_attendance_configure:
+  path: /api/v2/attendance/configure
+  controller: OrangeHRM\Attendance\Controller\AttendanceMockController::getAttendanceConfig
+  methods: [ GET ]
+
+apiv2_save_attendance_configure:
+  path: /api/v2/attendance/configure
+  controller: OrangeHRM\Attendance\Controller\AttendanceMockController::setAttendanceConfig
+  methods: [ PUT ]
+
 ##########################
 #        Screens
 ##########################
@@ -10,4 +20,9 @@ attendance_punch_in:
 attendance_punch_out:
   path: /attendance/punchOut
   controller: OrangeHRM\Attendance\Controller\PunchOutController::handle
+  methods: [ GET ]
+
+attendance_configure:
+  path: /attendance/configure
+  controller: OrangeHRM\Attendance\Controller\AttendanceConfigurationController::handle
   methods: [ GET ]

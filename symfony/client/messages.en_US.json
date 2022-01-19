@@ -950,6 +950,11 @@
           "source": "Timezone",
           "target": "Timezone",
           "description": "ime Zones are a geographical world globe division of 15o each, starting at Greenwich, in England, created to help people know what time is it now in another part of the world."
+        },
+        "attendance_configuration": {
+          "source": "Attendance Configuration",
+          "target": "Attendance Configuration",
+          "description": "The admin can select what privileges the employees and supervisors will have on the punch in/out and attendance. For configuration, go to Time&gt;&gt; Attendance&gt;&gt; Configuration."
         }
       }
     }
