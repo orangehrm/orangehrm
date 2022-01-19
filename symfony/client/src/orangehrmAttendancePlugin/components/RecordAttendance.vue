@@ -1,3 +1,23 @@
+<!--
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ */
+ -->
+
 <template>
   <oxd-form :loading="isLoading" @submitValid="onSave">
     <oxd-grid v-if="punchIn.punchedInTime" :cols="2">
@@ -42,7 +62,7 @@
 
     <oxd-grid v-if="isAdmin" :cols="4">
       <oxd-grid-item>
-        <time-zone v-model="punchIn.timezone" />
+        <timezone-dropdown v-model="punchIn.timezone" />
       </oxd-grid-item>
     </oxd-grid>
 
@@ -76,11 +96,12 @@ import {APIService} from '@ohrm/core/util/services/api.service';
 import {navigate} from '@/core/util/helper/navigation';
 import {freshDate, formatDate} from '@/core/util/helper/datefns';
 import promiseDebounce from '@ohrm/oxd/utils/promiseDebounce';
-import Timezones from '@/orangehrmTimePlugin/components/timezones.vue';
+import TimezoneDropdown from '@/orangehrmAttendancePlugin/components/TimezoneDropdown.vue';
 
 export default {
+  name: 'RecordAttendance',
   components: {
-    'time-zone': Timezones,
+    'timezone-dropdown': TimezoneDropdown,
   },
   props: {
     recordId: {
