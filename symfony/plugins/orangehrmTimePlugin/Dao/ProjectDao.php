@@ -289,29 +289,29 @@ class ProjectDao extends BaseDao
     }
 
     /**
-     * @param ProjectActivityDetailedReportSearchFilterParams $projectActivityDetailedReportSearchFilterParams
+     * @param ProjectReportSearchFilterParams $projectReportSearchFilterParams
      * @param QueryBuilder $q
      * @return QueryBuilderWrapper
      */
     private function getCommonQueryBuilderWrapper(
-        ProjectReportSearchFilterParams $projectActivityDetailedReportSearchFilterParams,
+        ProjectReportSearchFilterParams $projectReportSearchFilterParams,
         QueryBuilder $q
     ): QueryBuilderWrapper {
-        if (!is_null($projectActivityDetailedReportSearchFilterParams->getFromDate()) && !is_null(
-                $projectActivityDetailedReportSearchFilterParams->getToDate()
+        if (!is_null($projectReportSearchFilterParams->getFromDate()) && !is_null(
+                $projectReportSearchFilterParams->getToDate()
             )) {
             $q->andWhere($q->expr()->between('timesheetItem.date', ':fromDate', ':toDate'))
-                ->setParameter('fromDate', $projectActivityDetailedReportSearchFilterParams->getFromDate())
-                ->setParameter('toDate', $projectActivityDetailedReportSearchFilterParams->getToDate());
-        } elseif (!is_null($projectActivityDetailedReportSearchFilterParams->getFromDate())) {
+                ->setParameter('fromDate', $projectReportSearchFilterParams->getFromDate())
+                ->setParameter('toDate', $projectReportSearchFilterParams->getToDate());
+        } elseif (!is_null($projectReportSearchFilterParams->getFromDate())) {
             $q->andWhere($q->expr()->gte('timesheetItem.date', ':fromDate'))
-                ->setParameter('fromDate', $projectActivityDetailedReportSearchFilterParams->getFromDate());
-        } elseif (!is_null($projectActivityDetailedReportSearchFilterParams->getToDate())) {
+                ->setParameter('fromDate', $projectReportSearchFilterParams->getFromDate());
+        } elseif (!is_null($projectReportSearchFilterParams->getToDate())) {
             $q->andWhere($q->expr()->lte('timesheetItem.date', ':toDate'))
-                ->setParameter('toDate', $projectActivityDetailedReportSearchFilterParams->getToDate());
+                ->setParameter('toDate', $projectReportSearchFilterParams->getToDate());
         }
 
-        if ($projectActivityDetailedReportSearchFilterParams->getIncludeApproveTimesheet(
+        if ($projectReportSearchFilterParams->getIncludeApproveTimesheet(
             ) === ProjectReportSearchFilterParams::INCLUDE_TIMESHEET_ONLY_APPROVED) {
             $q->andWhere('timesheet.state = :state');
             $q->setParameter('state', ProjectReportSearchFilterParams::TIMESHEET_STATE_APPROVED);
