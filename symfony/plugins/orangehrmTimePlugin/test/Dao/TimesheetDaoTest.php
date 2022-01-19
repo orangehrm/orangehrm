@@ -389,4 +389,15 @@ class TimesheetDaoTest extends KernelTestCase
         $count = $this->timesheetDao->getTimesheetItemsCountForEmployeeReport($employeeReportsSearchFilterParams);
         $this->assertEquals(1, $count);
     }
+
+    public function testTimesheetAvailability(): void
+    {
+        $timesheetItem = $this->timesheetDao->getTimesheetItemByProjectIdAndTimesheetIdAndActivityIdAndDate(
+            1,
+            1,
+            1,
+            new DateTime("2021-01-01")
+        );
+        $this->assertNull($timesheetItem);
+    }
 }

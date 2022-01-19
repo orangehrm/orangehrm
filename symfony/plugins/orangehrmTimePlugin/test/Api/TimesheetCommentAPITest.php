@@ -27,24 +27,6 @@ use OrangeHRM\Time\Api\TimesheetCommentAPI;
 class TimesheetCommentAPITest extends EndpointIntegrationTestCase
 {
     /**
-     * @dataProvider dataProviderForTestCreate
-     */
-    public function testCreate(TestCaseParams $testCaseParams): void
-    {
-        $this->populateFixtures('TimesheetComment.yaml');
-        $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
-        $this->registerServices($testCaseParams);
-        $this->registerMockDateTimeHelper($testCaseParams);
-        $api = $this->getApiEndpointMock(TimesheetCommentAPI::class, $testCaseParams);
-        $this->assertValidTestCase($api, 'create', $testCaseParams);
-    }
-
-    public function dataProviderForTestCreate(): array
-    {
-        return $this->getTestCases('TimesheetCommentTestCase.yaml', 'Create');
-    }
-
-    /**
      * @dataProvider dataProviderForTestUpdate
      */
     public function testUpdate(TestCaseParams $testCaseParams): void
@@ -92,19 +74,5 @@ class TimesheetCommentAPITest extends EndpointIntegrationTestCase
         $api = new TimesheetCommentAPI($this->getRequest());
         $this->expectNotImplementedException();
         $api->getValidationRuleForDelete();
-    }
-
-    public function testGetAll(): void
-    {
-        $api = new TimesheetCommentAPI($this->getRequest());
-        $this->expectNotImplementedException();
-        $api->getAll();
-    }
-
-    public function testGetValidationRuleForGetAll(): void
-    {
-        $api = new TimesheetCommentAPI($this->getRequest());
-        $this->expectNotImplementedException();
-        $api->getValidationRuleForGetAll();
     }
 }

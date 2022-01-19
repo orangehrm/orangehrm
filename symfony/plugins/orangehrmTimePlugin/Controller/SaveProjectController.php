@@ -53,6 +53,9 @@ class SaveProjectController extends AbstractVueController implements CapableView
      */
     public function isCapable(Request $request): bool
     {
-        return $this->getUserRoleManager()->isEntityAccessible(Project::class, $request->attributes->get('id'));
+        if ($request->attributes->has('id')) {
+            return $this->getUserRoleManager()->isEntityAccessible(Project::class, $request->attributes->get('id'));
+        }
+        return true;
     }
 }

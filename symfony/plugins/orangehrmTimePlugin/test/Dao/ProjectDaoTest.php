@@ -125,8 +125,8 @@ class ProjectDaoTest extends KernelTestCase
     {
         $this->assertTrue($this->projectDao->isProjectAdmin(1));
         $this->assertTrue($this->projectDao->isProjectAdmin(3));
-        $this->assertFalse($this->projectDao->isProjectAdmin(4));
-        $this->assertFalse($this->projectDao->isProjectAdmin(5));
+        $this->assertFalse($this->projectDao->isProjectAdmin(4)); // employee who don't have any project
+        $this->assertFalse($this->projectDao->isProjectAdmin(5)); // employee who have only deleted project
         $this->assertFalse($this->projectDao->isProjectAdmin(100));
         $this->assertFalse($this->projectDao->isProjectAdmin(null));
     }
@@ -239,5 +239,23 @@ class ProjectDaoTest extends KernelTestCase
         );
         $result = $this->projectDao->getProjectReportCriteriaListCount($projectReportSearchFilterParams);
         $this->assertEquals(0, $result);
+    }
+
+    public function testGetAccessibleEmpNumbersForProjectAdmin(): void
+    {
+        $result = $this->projectDao->getAccessibleEmpNumbersForProjectAdmin(1);
+        $this->assertEquals([1, 2, 3], $result);
+        $result = $this->projectDao->getAccessibleEmpNumbersForProjectAdmin(2);
+        $this->assertEquals([1, 2, 3], $result);
+        $result = $this->projectDao->getAccessibleEmpNumbersForProjectAdmin(6);
+        $this->assertEquals([3, 6], $result);
+        $result = $this->projectDao->getAccessibleEmpNumbersForProjectAdmin(4);
+        $this->assertEmpty($result);
+        $result = $this->projectDao->getAccessibleEmpNumbersForProjectAdmin(5);
+        $this->assertEmpty($result);
+        $result = $this->projectDao->getAccessibleEmpNumbersForProjectAdmin(100);
+        $this->assertEmpty($result);
+        $result = $this->projectDao->getAccessibleEmpNumbersForProjectAdmin(null);
+        $this->assertEmpty($result);
     }
 }

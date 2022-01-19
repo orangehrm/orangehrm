@@ -110,7 +110,10 @@ class ProjectDao extends BaseDao
                     $qb->expr()->like('customer.name', ':customerOrProjectName'),
                 )
             );
-            $qb->setParameter('customerOrProjectName', '%' . $projectSearchFilterParamHolder->getCustomerOrProjectName() . '%');
+            $qb->setParameter(
+                'customerOrProjectName',
+                '%' . $projectSearchFilterParamHolder->getCustomerOrProjectName() . '%'
+            );
         }
         if (!empty($projectSearchFilterParamHolder->getName())) {
             $qb->andWhere($qb->expr()->like('project.name', ':projectName'))
@@ -164,8 +167,11 @@ class ProjectDao extends BaseDao
             return false;
         }
         $q = $this->createQueryBuilder(ProjectAdmin::class, 'projectAdmin')
+            ->leftJoin('projectAdmin.project', 'project')
             ->andWhere('projectAdmin.employee = :empNumber')
-            ->setParameter('empNumber', $empNumber);
+            ->setParameter('empNumber', $empNumber)
+            ->andWhere('project.deleted = :deleted')
+            ->setParameter('deleted', false);
         return $this->getPaginator($q)->count() > 0;
     }
 
@@ -206,7 +212,7 @@ class ProjectDao extends BaseDao
     }
 
     /**
-     * @param  int  $projectId
+     * @param int $projectId
      * @return bool
      */
     public function hasTimesheetItemsForProject(int $projectId): bool
@@ -296,7 +302,8 @@ class ProjectDao extends BaseDao
     private function getCommonQueryBuilderWrapper(
         ProjectReportSearchFilterParams $projectReportSearchFilterParams,
         QueryBuilder $q
-    ): QueryBuilderWrapper {
+    ): QueryBuilderWrapper
+    {
         if (!is_null($projectReportSearchFilterParams->getFromDate()) && !is_null(
                 $projectReportSearchFilterParams->getToDate()
             )) {
@@ -404,10 +411,40 @@ class ProjectDao extends BaseDao
     public function getTotalDurationForProjectActivityDetailedReport(
         ProjectActivityDetailedReportSearchFilterParams $projectActivityDetailedReportSearchFilterParams
     ): int {
-        $q = $this->getProjectActivityDetailedReportQueryBuilderWrapper(
-            $projectActivityDetailedReportSearchFilterParams
-        )->getQueryBuilder();
-        $q->select('SUM(COALESCE(timesheetItem.duration, 0)) AS totalDuration');
-        return $q->getQuery()->getSingleScalarResult() === null ? 0 : $q->getQuery()->getSingleScalarResult();
+            $q = $this->getProjectActivityDetailedReportQueryBuilderWrapper(
+                $projectActivityDetailedReportSearchFilterParams
+            )->getQueryBuilder();
+            $q->select('SUM(COALESCE(timesheetItem.duration, 0)) AS totalDuration');
+            return $q->getQuery()->getSingleScalarResult() === null ? 0 : $q->getQuery()->getSingleScalarResult();
+        }
+
+    /**
+     * @param int|null $projectAdminEmpNumber
+     * @return int[]
+     */
+    public function getAccessibleEmpNumbersForProjectAdmin(?int $projectAdminEmpNumber): array
+    {
+        if (is_null($projectAdminEmpNumber)) {
+            return [];
+        }
+        $q = $this->createQueryBuilder(ProjectAdmin::class, 'projectAdmin');
+        $q->andWhere(
+            $q->expr()->in(
+                'projectAdmin.project',
+                $this->createQueryBuilder(Project::class, 'project')
+                    ->select('project.id')
+                    ->innerJoin('project.projectAdmins', 'admin')
+                    ->andWhere('admin.empNumber = :projectAdminEmpNumber')
+                    ->andWhere('project.deleted = :deleted')
+                    ->getDQL()
+            )
+        )
+            ->setParameter('projectAdminEmpNumber', $projectAdminEmpNumber)
+            ->setParameter('deleted', false)
+            ->select('IDENTITY(projectAdmin.employee) AS empNumber')
+            ->distinct();
+
+        $result = $q->getQuery()->getArrayResult();
+        return array_column($result, 'empNumber');
     }
 }

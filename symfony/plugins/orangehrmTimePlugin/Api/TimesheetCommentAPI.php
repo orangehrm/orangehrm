@@ -20,13 +20,13 @@
 namespace OrangeHRM\Time\Api;
 
 use OrangeHRM\Core\Api\CommonParams;
-use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
 use OrangeHRM\Core\Api\V2\Exception\ForbiddenException;
 use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
 use OrangeHRM\Core\Api\V2\RequestParams;
+use OrangeHRM\Core\Api\V2\ResourceEndpoint;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
@@ -41,7 +41,7 @@ use OrangeHRM\Time\Api\ValidationRules\TimesheetCommentDateParamRule;
 use OrangeHRM\Time\Traits\Service\ProjectServiceTrait;
 use OrangeHRM\Time\Traits\Service\TimesheetServiceTrait;
 
-class TimesheetCommentAPI extends Endpoint implements CrudEndpoint
+class TimesheetCommentAPI extends Endpoint implements ResourceEndpoint
 {
     use TimesheetServiceTrait;
     use TimesheetPermissionTrait;
@@ -58,32 +58,14 @@ class TimesheetCommentAPI extends Endpoint implements CrudEndpoint
     /**
      * @inheritDoc
      */
-    public function getAll(): EndpointResult
+    public function update(): EndpointResult
     {
-        throw $this->getNotImplementedException();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getValidationRuleForGetAll(): ParamRuleCollection
-    {
-        throw $this->getNotImplementedException();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function create(): EndpointResult
-    {
-        $timesheetItem = new TimesheetItem();
         $timesheetId = $this->getRequestParams()->getInt(
             RequestParams::PARAM_TYPE_ATTRIBUTE,
             self::PARAMETER_TIMESHEET_ID
         );
         $this->checkAuthorityAccessible($timesheetId);
 
-        $this->setCommentToTimesheetItem($timesheetItem);
         $date = $this->getRequestParams()->getDateTime(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_DATE);
         $projectId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_PROJECT_ID);
         $project = $this->getProjectService()->getProjectDao()->getProjectById($projectId);
@@ -98,6 +80,19 @@ class TimesheetCommentAPI extends Endpoint implements CrudEndpoint
             ->getProjectActivityByProjectIdAndProjectActivityId($projectId, $projectActivityId);
         $this->throwRecordNotFoundExceptionIfNotExist($projectActivity, ProjectActivity::class);
 
+        $timesheetItem = $this->getTimesheetService()
+            ->getTimesheetDao()
+            ->getTimesheetItemByProjectIdAndTimesheetIdAndActivityIdAndDate(
+                $timesheetId,
+                $projectId,
+                $projectActivityId,
+                $date
+            );
+
+        if (is_null($timesheetItem)) {
+            $timesheetItem = new TimesheetItem();
+        }
+        $this->setCommentToTimesheetItem($timesheetItem);
         $timesheetItem->getDecorator()->setTimesheetById($timesheetId);
         $timesheetItem->setDate($date);
         $timesheetItem->getDecorator()->setProjectById($projectId);
@@ -124,7 +119,7 @@ class TimesheetCommentAPI extends Endpoint implements CrudEndpoint
     /**
      * @inheritDoc
      */
-    public function getValidationRuleForCreate(): ParamRuleCollection
+    public function getValidationRuleForUpdate(): ParamRuleCollection
     {
         return new ParamRuleCollection(
             $this->getValidationDecorator()->requiredParamRule(
@@ -235,32 +230,6 @@ class TimesheetCommentAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
-     * @inheritDoc
-     */
-    public function update(): EndpointResult
-    {
-        $timesheetItemId = $this->getRequestParams()->getInt(
-            RequestParams::PARAM_TYPE_ATTRIBUTE,
-            CommonParams::PARAMETER_ID
-        );
-        $timesheetId = $this->getRequestParams()->getInt(
-            RequestParams::PARAM_TYPE_ATTRIBUTE,
-            self::PARAMETER_TIMESHEET_ID
-        );
-        $this->checkAuthorityAccessible($timesheetId);
-
-        $timesheetItem = $this->getTimesheetService()
-            ->getTimesheetDao()
-            ->getTimesheetItemByTimesheetIdAndTimesheetItemId($timesheetId, $timesheetItemId);
-        $this->throwRecordNotFoundExceptionIfNotExist($timesheetItem, TimesheetItem::class);
-
-        $this->setCommentToTimesheetItem($timesheetItem);
-        $this->getTimesheetService()->getTimesheetDao()->saveTimesheetItem($timesheetItem);
-
-        return new EndpointResourceResult(TimesheetItemModel::class, $timesheetItem);
-    }
-
-    /**
      * @param int $timesheetId
      * @return void
      * @throws ForbiddenException
@@ -271,19 +240,5 @@ class TimesheetCommentAPI extends Endpoint implements CrudEndpoint
         $timesheet = $this->getTimesheetService()->getTimesheetDao()->getTimesheetById($timesheetId);
         $this->throwRecordNotFoundExceptionIfNotExist($timesheet, Timesheet::class);
         $this->checkTimesheetAccessible($timesheet);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getValidationRuleForUpdate(): ParamRuleCollection
-    {
-        return new ParamRuleCollection(
-            new ParamRule(
-                CommonParams::PARAMETER_ID,
-                new Rule(Rules::POSITIVE)
-            ),
-            ...$this->getCommonBodyValidationRules(),
-        );
     }
 }
