@@ -21,7 +21,7 @@
 <template>
   <reports-table
     module="time"
-    name="time_employee_report"
+    name="employee"
     :filters="serializedFilters"
     :column-count="3"
   >
@@ -83,7 +83,7 @@
                 <oxd-text class="orangehrm-switch-filter-text" tag="p">
                   {{ $t('time.only_include_approved_timesheets') }}
                 </oxd-text>
-                <oxd-switch-input v-model="filters.includeTimesheet" />
+                <oxd-switch-input v-model="filters.timesheetState" />
               </oxd-grid-item>
             </oxd-grid>
           </oxd-form-row>
@@ -125,7 +125,7 @@ const defaultFilters = {
   activity: null,
   fromDate: null,
   toDate: null,
-  includeTimesheet: false,
+  timesheetState: false,
 };
 
 export default {
@@ -167,9 +167,7 @@ export default {
         activityId: filters.value.activity?.id,
         fromDate: filters.value.fromDate,
         toDate: filters.value.toDate,
-        includeTimesheet: filters.value.includeTimesheet
-          ? 'onlyApproved'
-          : 'all',
+        timesheetState: filters.value.timesheetState ? 'onlyApproved' : 'all',
       };
     });
 
