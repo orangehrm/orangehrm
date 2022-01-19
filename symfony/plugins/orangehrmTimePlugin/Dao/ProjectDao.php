@@ -302,11 +302,10 @@ class ProjectDao extends BaseDao
     private function getCommonQueryBuilderWrapper(
         ProjectReportSearchFilterParams $projectReportSearchFilterParams,
         QueryBuilder $q
-    ): QueryBuilderWrapper
-    {
+    ): QueryBuilderWrapper {
         if (!is_null($projectReportSearchFilterParams->getFromDate()) && !is_null(
-                $projectReportSearchFilterParams->getToDate()
-            )) {
+            $projectReportSearchFilterParams->getToDate()
+        )) {
             $q->andWhere($q->expr()->between('timesheetItem.date', ':fromDate', ':toDate'))
                 ->setParameter('fromDate', $projectReportSearchFilterParams->getFromDate())
                 ->setParameter('toDate', $projectReportSearchFilterParams->getToDate());
@@ -411,12 +410,12 @@ class ProjectDao extends BaseDao
     public function getTotalDurationForProjectActivityDetailedReport(
         ProjectActivityDetailedReportSearchFilterParams $projectActivityDetailedReportSearchFilterParams
     ): int {
-            $q = $this->getProjectActivityDetailedReportQueryBuilderWrapper(
-                $projectActivityDetailedReportSearchFilterParams
-            )->getQueryBuilder();
-            $q->select('SUM(COALESCE(timesheetItem.duration, 0)) AS totalDuration');
-            return $q->getQuery()->getSingleScalarResult() === null ? 0 : $q->getQuery()->getSingleScalarResult();
-        }
+        $q = $this->getProjectActivityDetailedReportQueryBuilderWrapper(
+            $projectActivityDetailedReportSearchFilterParams
+        )->getQueryBuilder();
+        $q->select('SUM(COALESCE(timesheetItem.duration, 0)) AS totalDuration');
+        return $q->getQuery()->getSingleScalarResult() === null ? 0 : $q->getQuery()->getSingleScalarResult();
+    }
 
     /**
      * @param int|null $projectAdminEmpNumber
