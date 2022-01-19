@@ -456,4 +456,19 @@ class ProjectDao extends BaseDao
         $result = $qb->getQuery()->getArrayResult();
         return array_column($result, 'id');
     }
+
+    /**
+     * @return int[]
+     */
+    public function getActivityIdsOfProjectInTimesheetItems($projectId): array
+    {
+        $qb = $this->createQueryBuilder(TimesheetItem::class, 'timesheetItem');
+        $qb->leftJoin('timesheetItem.projectActivity', 'projectActivity');
+        $qb->select('projectActivity.id');
+        $qb->andWhere('timesheetItem.project = :projectId');
+        $qb->setParameter('projectId', $projectId);
+        $qb->addGroupBy('projectActivity.id');
+        $result = $qb->getQuery()->getArrayResult();
+        return array_column($result, 'id');
+    }
 }
