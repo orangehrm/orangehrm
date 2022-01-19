@@ -27,30 +27,31 @@
 </template>
 
 <script>
+import {ref, onBeforeMount} from 'vue';
 import {APIService} from '@ohrm/core/util/services/api.service';
 export default {
   name: 'TimezoneDropdown',
   setup() {
-    //date punch-in data submiting Api
+    const options = ref([]);
     const http = new APIService(
-      'https://62fc498d-0f01-41d2-b3ed-bd7280ebc66c.mock.pstmn.io',
-      '/api/v2/time/timezones',
+      window.appGlobal.baseUrl,
+      '/api/v2/attendance/timezones',
     );
-    return {
-      http,
-    };
-  },
 
-  data() {
-    return {
-      options: [],
-    };
-  },
-  beforeMount() {
-    this.http.getAll().then(res => {
-      const {data} = res;
-      this.options = data.data.timezones;
+    onBeforeMount(() => {
+      http.getAll().then(({data}) => {
+        options.value = data.data.map(item => {
+          return {
+            id: item.id,
+            label: item.name,
+            _offset: item.offset,
+          };
+        });
+      });
     });
+    return {
+      options,
+    };
   },
 };
 </script>

@@ -167,6 +167,15 @@ const parseTimeInSeconds = (value: string): number => {
   }
 };
 
+const setClockInterval = (interval: number, callback: Function) => {
+  interval = interval < 1000 ? 1000 : interval; // minimum interval 1000 miliseconds
+  const timer = () => {
+    callback();
+    setTimeout(timer, interval - (new Date().getTime() % interval));
+  };
+  timer();
+};
+
 export {
   isDate,
   freshDate,
@@ -185,4 +194,5 @@ export {
   secondsTohhmm,
   compareTime,
   parseTimeInSeconds,
+  setClockInterval,
 };

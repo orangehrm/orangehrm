@@ -8,6 +8,26 @@ apiv2_save_attendance_configure:
   controller: OrangeHRM\Attendance\Controller\AttendanceMockController::setAttendanceConfig
   methods: [ PUT ]
 
+apiv2_attendance_currentdatetime:
+  path: /api/v2/attendance/currentdatetime
+  controller: OrangeHRM\Attendance\Controller\AttendanceMockController::getCurrentDateTime
+  methods: [ GET ]
+
+apiv2_attendance_validate_datetime:
+  path: /api/v2/attendance/validatedate
+  controller: OrangeHRM\Attendance\Controller\AttendanceMockController::validateDateTime
+  methods: [ GET ]
+
+apiv2_attendance_records:
+  path: /api/v2/attendance/records/{id?}
+  controller: OrangeHRM\Attendance\Controller\AttendanceMockController::sendAttendanceResponse
+  methods: [ GET, POST, PUT ]
+
+apiv2_attendance_timezones:
+  path: /api/v2/attendance/timezones
+  controller: OrangeHRM\Attendance\Controller\AttendanceMockController::getTimezones
+  methods: [ GET ]
+
 ##########################
 #        Screens
 ##########################

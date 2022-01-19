@@ -32,9 +32,15 @@ class PunchInController extends AbstractVueController
      */
     public function preRender(Request $request): void
     {
+        // TODO: check if previous record is a punch out.
+        // if not redirect to punch out
         $component = new Component('attendance-punch-in');
+
+        // TODO: If logged in user is an admin, send true
         $component->addProp(new Prop('is-admin', Prop::TYPE_BOOLEAN, false));
-        $component->addProp(new Prop('editable', Prop::TYPE_BOOLEAN, true));
+
+        // TODO: If attendance config is set to user editable, send true
+        $component->addProp(new Prop('is-editable', Prop::TYPE_BOOLEAN, true));
         $this->setComponent($component);
     }
 }

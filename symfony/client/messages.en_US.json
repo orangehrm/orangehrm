@@ -955,6 +955,21 @@
           "source": "Attendance Configuration",
           "target": "Attendance Configuration",
           "description": "The admin can select what privileges the employees and supervisors will have on the punch in/out and attendance. For configuration, go to Time&gt;&gt; Attendance&gt;&gt; Configuration."
+        },
+        "punched_in_time": {
+          "source": "Punched In Time",
+          "target": "Punched In Time",
+          "description": ""
+        },
+        "in": {
+          "source": "In",
+          "target": "In",
+          "description": ""
+        },
+        "out": {
+          "source": "Out",
+          "target": "Out",
+          "description": ""
         }
       }
     }

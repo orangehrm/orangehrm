@@ -20,39 +20,36 @@
 
 <template>
   <oxd-form :loading="isLoading" @submitValid="onSave">
-    <oxd-grid v-if="punchIn.punchedInTime" :cols="2">
-      <oxd-grid-item>
-        <br />
-        <oxd-text type="subtitle-2">
-          <b>Punched In Time</b>
-          <br />
-          {{ punchIn.punchedInTime }}
-        </oxd-text>
-        <br />
-      </oxd-grid-item>
-    </oxd-grid>
-
     <oxd-form-row>
       <oxd-grid :cols="4" class="orangehrm-full-width-grid">
+        <oxd-grid-item v-if="attendanceRecord.previousRecord">
+          <oxd-input-group :label="$t('time.punched_in_time')">
+            <oxd-text type="subtitle-2">
+              {{ attendanceRecord.previousRecord.utcDate }} -
+              {{ attendanceRecord.previousRecord.utcTime }}
+            </oxd-text>
+          </oxd-input-group>
+        </oxd-grid-item>
+
         <!-- Date Selector -->
-        <oxd-grid-item>
+        <oxd-grid-item class="--offset-row-2">
           <oxd-input-field
-            v-model="punchIn.date"
+            v-model="attendanceRecord.date"
             :label="$t('general.date')"
-            type="date"
             :rules="rules.date"
-            :disabled="!editable"
+            :disabled="!isEditable"
+            type="date"
           />
         </oxd-grid-item>
 
         <!-- Time  Selector -->
-        <oxd-grid-item>
+        <oxd-grid-item class="--offset-row-2">
           <oxd-input-field
-            v-model="punchIn.time"
+            v-model="attendanceRecord.time"
             :label="$t('time.time')"
-            type="time"
+            :disabled="!isEditable"
             :rules="rules.time"
-            :disabled="!editable"
+            type="time"
           />
         </oxd-grid-item>
       </oxd-grid>
@@ -62,27 +59,29 @@
 
     <oxd-grid v-if="isAdmin" :cols="4">
       <oxd-grid-item>
-        <timezone-dropdown v-model="punchIn.timezone" />
+        <timezone-dropdown v-model="attendanceRecord.timezone" />
       </oxd-grid-item>
     </oxd-grid>
 
     <!-- Note input -->
     <oxd-form-row>
-      <oxd-grid :cols="2" class="orangehrm-full-width-grid">
-        <oxd-grid-item>
+      <oxd-grid :cols="4" class="orangehrm-full-width-grid">
+        <oxd-grid-item class="--span-column-2">
           <oxd-input-field
-            v-model="punchIn.note"
-            :label="$t('general.note')"
-            type="textarea"
-            placeholder="Type here."
+            v-model="attendanceRecord.note"
             :rules="rules.note"
+            :label="$t('general.note')"
+            placeholder="Type here."
+            type="textarea"
           />
         </oxd-grid-item>
       </oxd-grid>
     </oxd-form-row>
     <oxd-divider class="orangehrm-horizontal-margin" />
     <oxd-form-actions>
-      <submit-button :disabled="punched" :label="!recordId ? 'In' : 'Out'" />
+      <submit-button
+        :label="!attendanceRecordId ? $t('time.in') : $t('time.out')"
+      />
     </oxd-form-actions>
   </oxd-form>
 </template>
@@ -92,11 +91,19 @@ import {
   required,
   shouldNotExceedCharLength,
 } from '@/core/util/validation/rules';
-import {APIService} from '@ohrm/core/util/services/api.service';
 import {navigate} from '@/core/util/helper/navigation';
-import {freshDate, formatDate} from '@/core/util/helper/datefns';
+import {setClockInterval} from '@/core/util/helper/datefns';
 import promiseDebounce from '@ohrm/oxd/utils/promiseDebounce';
+import {APIService} from '@ohrm/core/util/services/api.service';
 import TimezoneDropdown from '@/orangehrmAttendancePlugin/components/TimezoneDropdown.vue';
+
+const attendanceRecordModal = {
+  date: null,
+  time: null,
+  note: null,
+  timezone: null,
+  previousRecord: null,
+};
 
 export default {
   name: 'RecordAttendance',
@@ -104,27 +111,24 @@ export default {
     'timezone-dropdown': TimezoneDropdown,
   },
   props: {
-    recordId: {
-      type: String,
-      default: null,
-    },
-    editable: {
-      type: Boolean,
-      default: true,
-    },
     isAdmin: {
       type: Boolean,
       default: false,
     },
+    isEditable: {
+      type: Boolean,
+      default: true,
+    },
+    attendanceRecordId: {
+      type: Number,
+      default: null,
+    },
   },
-
   setup() {
-    //date punch-in data submiting Api
     const http = new APIService(
-      'https://62fc498d-0f01-41d2-b3ed-bd7280ebc66c.mock.pstmn.io',
+      window.appGlobal.baseUrl,
       '/api/v2/attendance/records',
     );
-
     return {
       http,
     };
@@ -132,14 +136,7 @@ export default {
   data() {
     return {
       isLoading: false,
-      punchIn: {
-        date: null,
-        time: null,
-        note: null,
-        punchedInTime: null,
-        timezone: null,
-      },
-      punched: false,
+      attendanceRecord: {...attendanceRecordModal},
       rules: {
         date: [required, promiseDebounce(this.validateDate, 500)],
         time: [required, promiseDebounce(this.validateDate, 500)],
@@ -149,70 +146,77 @@ export default {
   },
   beforeMount() {
     this.isLoading = true;
-
-    //get latest time and date from BE
-    this.http
-      .request({url: '/api/v2/attendance/curruntdate', method: 'GET'})
-      .then(res => {
-        const {data} = res.data;
-        this.punchIn.date = data.date;
-        this.punchIn.time = data.time;
-
-        //get last punched in time and date
-        return this.recordId
-          ? this.http.getAll({date: formatDate(freshDate(), 'yyyy-MM-dd')})
+    // fetch and set attendance record on initial load
+    this.setCurrentDateTime()
+      .then(() => {
+        // then set record date/time every minute
+        setClockInterval(60000, this.setCurrentDateTime);
+        return this.attendanceRecordId
+          ? this.http.get(this.attendanceRecordId)
           : null;
       })
-      .then(res => {
-        if (res) {
-          const {data} = res.data;
-          this.punchIn.punchedInTime =
-            data[0].punchIn.utcDate + ' ' + data[0].punchIn.utcTime;
+      .then(response => {
+        if (response) {
+          const {data} = response.data;
+          this.attendanceRecord.previousRecord = data;
         }
       })
-      .finally(() => (this.isLoading = false));
+      .finally(() => {
+        this.isLoading = false;
+      });
   },
   methods: {
     onSave() {
       this.isLoading = true;
       const payload = {
-        date: this.punchIn.date,
-        time: this.punchIn.time,
+        date: this.attendanceRecord.date,
+        time: this.attendanceRecord.time,
         timezones:
-          this.punchIn.timezone?.offset ?? new Date().getTimezoneOffset(),
-        note: this.punchIn.note,
+          this.attendanceRecord.timezone?._offset ??
+          new Date().getTimezoneOffset(),
+        note: this.attendanceRecord.note,
       };
 
-      if (!this.recordId) {
+      if (!this.attendanceRecordId) {
         this.http
           .create(payload)
           .then(() => {
-            this.punched = true;
             return this.$toast.saveSuccess();
           })
-          .then(() => navigate('/attendance/punchOut'))
-          .finally(() => {
-            this.isLoading = false;
-          });
+          .then(() => navigate('/attendance/punchOut'));
       } else {
         this.http
-          .update(this.recordId, payload)
+          .update(this.attendanceRecordId, payload)
           .then(() => {
-            this.punched = true;
             return this.$toast.updateSuccess();
           })
-          .then(() => navigate('/attendance/punchIn'))
-          .finally(() => {
-            this.isLoading = false;
-          });
+          .then(() => navigate('/attendance/punchIn'));
       }
     },
-
-    //sending time and date to validaton => todo
+    setCurrentDateTime() {
+      return new Promise((resolve, reject) => {
+        this.http
+          .request({method: 'GET', url: '/api/v2/attendance/currentdatetime'})
+          .then(res => {
+            const {data} = res.data;
+            this.attendanceRecord.date = data.date;
+            this.attendanceRecord.time = data.time;
+            resolve();
+          })
+          .catch(error => reject(error));
+      });
+    },
     validateDate() {
       return new Promise(resolve => {
         this.http
-          .request({url: '/api/v2/attendance/validatedate', method: 'GET'})
+          .request({
+            method: 'GET',
+            url: '/api/v2/attendance/validatedate',
+            params: {
+              date: this.attendanceRecord.date,
+              time: this.attendanceRecord.time,
+            },
+          })
           .then(res => {
             const {data} = res.data;
             return data ? resolve(true) : resolve('Overlapping Records Found');

@@ -68,4 +68,119 @@ class AttendanceMockController extends AbstractController
         $response->setStatusCode(Response::HTTP_OK);
         return $response->send();
     }
+
+    /**
+     * @return Response
+     */
+    public function getCurrentDateTime(): Response
+    {
+        $response = new Response();
+        $response->setContent(
+            json_encode([
+                "data" => [
+                    "date" => date("Y-m-d"),
+                    "time" => date("H:i"),
+                    "utcDate" => gmdate("Y-m-d"),
+                    "utcTime" => gmdate("H:i"),
+                    "timezoneOffset" => date("Z") / 3600,
+                ],
+                "meta" => []
+            ])
+        );
+
+        $response->setStatusCode(Response::HTTP_OK);
+        return $response->send();
+    }
+
+    /**
+     * @param Request $request
+     * @return Response
+     */
+    public function validateDateTime(Request $request): Response
+    {
+        $response = new Response();
+        // $date = $request->query->get("date");
+        // $time = $request->query->get("time");
+        $response->setContent(
+            json_encode([
+                "data" => true,
+                "meta" => []
+            ])
+        );
+
+        $response->setStatusCode(Response::HTTP_OK);
+        return $response->send();
+    }
+
+    /**
+     * @return Response
+     */
+    public function sendAttendanceResponse(): Response
+    {
+        $response = new Response();
+        $response->setContent(
+            json_encode([
+                "data" => [
+                    "date" => date("Y-m-d"),
+                    "time" => date("H:i"),
+                    "utcDate" => gmdate("Y-m-d"),
+                    "utcTime" => gmdate("H:i"),
+                    "timezoneOffset" => date("Z") / 3600,
+                ],
+                "meta" => []
+            ])
+        );
+
+        $response->setStatusCode(Response::HTTP_OK);
+        return $response->send();
+    }
+
+    /**
+     * @return Response
+     */
+    public function getTimezones(): Response
+    {
+        $response = new Response();
+        $response->setContent(
+            json_encode([
+                "data" => [
+                    0 => [
+                        'id' => 1,
+                        'name' => 'Pacific/Midway',
+                        'offset' => -330,
+                    ],
+                    1 => [
+                        'id' => 2,
+                        'name' => 'America/Adaky',
+                        'offset' => -130,
+                    ],
+                    2 => [
+                        'id' => 3,
+                        'name' => 'Europe/Lisbon',
+                        'offset' => -300,
+                    ],
+                    3 => [
+                        'id' => 4,
+                        'name' => 'Africa/Algiers',
+                        'offset' => -200,
+                    ],
+                    4 => [
+                        'id' => 5,
+                        'name' => 'Europe/Brussels',
+                        'offset' => -150,
+                    ],
+                    5 => [
+                        'id' => 6,
+                        'name' => 'Europe/Minsk',
+                        'offset' => -80,
+                    ],
+
+                ],
+                "meta" => []
+            ])
+        );
+
+        $response->setStatusCode(Response::HTTP_OK);
+        return $response->send();
+    }
 }
