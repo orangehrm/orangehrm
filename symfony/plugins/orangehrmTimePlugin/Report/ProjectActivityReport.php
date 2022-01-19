@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Time\Report;
 
+use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
@@ -31,18 +32,59 @@ use OrangeHRM\Core\Report\Header\Header;
 use OrangeHRM\Core\Report\Header\HeaderDefinition;
 use OrangeHRM\Core\Report\ReportData;
 use OrangeHRM\Entity\ProjectActivity;
+use OrangeHRM\Time\Dto\ProjectActivityDetailedReportSearchFilterParams;
 
 class ProjectActivityReport extends ProjectReport
 {
-
+    public const PARAMETER_EMPLOYEE_NUMBER = 'employeeNumber';
     public const PARAMETER_EMPLOYEE_NAME = 'employeeName';
+    public const PARAMETER_EMPLOYEE_FIRST_NAME = 'employeeFirstName';
+    public const PARAMETER_EMPLOYEE_LAST_NAME = 'employeeLastName';
+
+    public const FILTER_PARAMETER_PROJECT_ACTIVITY_ID = 'activityId';
 
     /**
      * @inheritDoc
      */
     public function prepareFilterParams(EndpointProxy $endpoint): FilterParams
     {
-        //TODO
+        $filterParams = new ProjectActivityDetailedReportSearchFilterParams();
+        $filterParams->setProjectId(
+            $endpoint->getRequestParams()->getInt(
+                RequestParams::PARAM_TYPE_QUERY,
+                self::FILTER_PARAMETER_PROJECT_ID
+            )
+        );
+
+        $filterParams->setProjectActivityId(
+            $endpoint->getRequestParams()->getInt(
+                RequestParams::PARAM_TYPE_QUERY,
+                self::FILTER_PARAMETER_PROJECT_ACTIVITY_ID
+            )
+        );
+
+        $endpoint->setSortingAndPaginationParams($filterParams);
+
+        $filterParams->setFromDate(
+            $endpoint->getRequestParams()->getDateTimeOrNull(
+                RequestParams::PARAM_TYPE_QUERY,
+                self::FILTER_PARAMETER_DATE_FROM
+            )
+        );
+        $filterParams->setToDate(
+            $endpoint->getRequestParams()->getDateTimeOrNull(
+                RequestParams::PARAM_TYPE_QUERY,
+                self::FILTER_PARAMETER_DATE_TO
+            )
+        );
+        $filterParams->setIncludeApproveTimesheet(
+            $endpoint->getRequestParams()->getStringOrNull(
+                RequestParams::PARAM_TYPE_QUERY,
+                self::FILTER_PARAMETER_PARAMETER_INCLUDE_TIMESHEET
+            )
+        );
+
+        return $filterParams;
     }
 
     /**
@@ -54,11 +96,13 @@ class ProjectActivityReport extends ProjectReport
     {
         $paramRuleCollection = parent::getValidationRule($endpoint);
         $paramRuleCollection->addParamValidation(
-            new ParamRule(
-                ProjectReport::PARAMETER_ACTIVITY_ID,
-                new Rule(Rules::POSITIVE),
-                new Rule(Rules::ENTITY_ID_EXISTS, [ProjectActivity::class]),
-            )
+            $endpoint->getValidationDecorator()->requiredParamRule(
+                new ParamRule(
+                    ProjectReport::PARAMETER_ACTIVITY_ID,
+                    new Rule(Rules::POSITIVE),
+                    new Rule(Rules::ENTITY_ID_EXISTS, [ProjectActivity::class]),
+                )
+            ),
         );
         return $paramRuleCollection;
     }
@@ -80,10 +124,11 @@ class ProjectActivityReport extends ProjectReport
     }
 
     /**
-     * @inheritDoc
+     * @param ProjectActivityDetailedReportSearchFilterParams $filterParams
+     * @return ProjectActivityDetailedReportData
      */
     public function getData(FilterParams $filterParams): ReportData
     {
-        // TODO: Implement getData() method.
+        return new ProjectActivityDetailedReportData($filterParams);
     }
 }
