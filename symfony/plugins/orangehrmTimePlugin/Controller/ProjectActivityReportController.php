@@ -23,9 +23,12 @@ use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Time\Traits\Service\ProjectServiceTrait;
 
 class ProjectActivityReportController extends AbstractVueController
 {
+    use ProjectServiceTrait;
+
     /**
      * @inheritDoc
      */
@@ -39,14 +42,17 @@ class ProjectActivityReportController extends AbstractVueController
         }
 
         if ($request->query->has('projectId')) {
-            // TODO: Get project object
+            $project = $this->getProjectService()
+                ->getProjectDao()
+                ->getProjectById($request->query->getInt('projectId'));
+
             $component->addProp(
                 new Prop(
                     'project',
                     Prop::TYPE_OBJECT,
                     [
-                        'id' => $request->query->getInt('projectId'),
-                        'label' => 'Project Manhattan'
+                        'id' => $project->getId(),
+                        'label' => $project->getName()
                     ]
                 )
             );
