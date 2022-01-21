@@ -20,10 +20,11 @@
 namespace OrangeHRM\Time\Dto;
 
 use OrangeHRM\Core\Dto\FilterParams;
+use OrangeHRM\Core\Exception\SearchParamException;
 
 class EmployeeTimesheetListSearchFilterParams extends FilterParams
 {
-    public const ALLOWED_SORT_FIELDS = ['employee.lastName'];
+    public const ALLOWED_SORT_FIELDS = ['timesheet.startDate'];
 
     /**
      * @var int[]|null
@@ -35,9 +36,13 @@ class EmployeeTimesheetListSearchFilterParams extends FilterParams
      */
     protected ?array $actionableStatesList = null;
 
+    /**
+     * @throws SearchParamException
+     */
     public function __construct()
     {
-        $this->setSortField('employee.lastName');
+        $this->setSortField('timesheet.startDate');
+        $this->setSortOrder('DESC');
     }
 
     /**
