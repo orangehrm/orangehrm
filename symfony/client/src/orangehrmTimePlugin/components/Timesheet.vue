@@ -130,6 +130,7 @@
               />
               <oxd-input-field
                 v-if="editable"
+                autocomplete="off"
                 :rules="validateDuration(date)"
                 :model-value="getDuration(record.dates[date])"
                 @blur="onDurationBlur"
