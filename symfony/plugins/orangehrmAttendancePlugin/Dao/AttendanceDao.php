@@ -17,7 +17,13 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-class AttendanceDao {
+namespace OrangeHRM\Attendance\Dao;
+
+use OrangeHRM\Core\Dao\BaseDao;
+use OrangeHRM\Entity\AttendanceRecord;
+use OrangeHRM\Entity\WorkflowStateMachine;
+
+class AttendanceDao extends BaseDao {
 
     /**
      * save punchRecord
@@ -157,7 +163,9 @@ class AttendanceDao {
      */
     public function getSavedConfiguration($workflow, $state, $role, $action, $resultingState) {
 
-
+        $qb=$this->createQueryBuilder(WorkflowStateMachine::class,'wokrflowStateMachine');
+        $qb->where('workflow = :workflow');
+        $qb->setParameter('workflow',$workflow);
         try {
 
             $query = Doctrine_Query::create()

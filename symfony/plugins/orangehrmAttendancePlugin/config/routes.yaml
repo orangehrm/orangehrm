@@ -1,0 +1,6 @@
+apiv2_time_validate_project_name:
+  path: /api/v2/attendance/configs
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    _api: OrangeHRM\Attendance\Api\AttendanceConfigurationAPI
