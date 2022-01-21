@@ -275,7 +275,7 @@ class ProjectDaoTest extends KernelTestCase
             $projectActivityDetailedReportSearchFilterParams
         );
         $this->assertEquals(1, $result[0]['employeeNumber']);
-        $this->assertEquals("Abbey Kayla", $result[0]['fullName']);
+        $this->assertEquals("Kayla Abbey", $result[0]['fullName']);
         $this->assertEquals("10800", $result[0]['totalDuration']);
         $this->assertEquals(10800, $totalHours);
 
@@ -290,7 +290,7 @@ class ProjectDaoTest extends KernelTestCase
             $projectActivityDetailedReportSearchFilterParams
         );
         $this->assertEquals(1, $result[0]['employeeNumber']);
-        $this->assertEquals("Abbey Kayla", $result[0]['fullName']);
+        $this->assertEquals("Kayla Abbey", $result[0]['fullName']);
         $this->assertEquals("10800", $result[0]['totalDuration']);
         $this->assertEquals(10800, $totalHours);
 
@@ -306,7 +306,7 @@ class ProjectDaoTest extends KernelTestCase
             $projectActivityDetailedReportSearchFilterParams
         );
         $this->assertEquals(1, $result[0]['employeeNumber']);
-        $this->assertEquals("Abbey Kayla", $result[0]['fullName']);
+        $this->assertEquals("Kayla Abbey", $result[0]['fullName']);
         $this->assertEquals("10800", $result[0]['totalDuration']);
         $this->assertEquals(10800, $totalHours);
 

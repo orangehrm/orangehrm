@@ -16,9 +16,9 @@ GetAll:
     data: [
       {
         "employeeNumber": 1,
-        "employeeName": "Abbey Kayla",
-        "employeeLastName": Abbey,
-        "employeeFirstName": Kayla,
+        "employeeName": "Kayla Abbey",
+        "employeeFirstName": "Kayla",
+        "employeeLastName": "Abbey",
         "time": "3.00"
       }
     ]
@@ -53,9 +53,9 @@ GetAll:
     data: [
       {
         "employeeNumber": 1,
-        "employeeName": "Abbey Kayla",
-        "employeeLastName": Abbey,
-        "employeeFirstName": Kayla,
+        "employeeName": "Kayla Abbey",
+        "employeeFirstName": "Kayla",
+        "employeeLastName": "Abbey",
         "time": "3.00"
       }
     ]
@@ -90,9 +90,9 @@ GetAll:
     data: [
       {
         "employeeNumber": 1,
-        "employeeName": "Abbey Kayla",
-        "employeeLastName": Abbey,
-        "employeeFirstName": Kayla,
+        "employeeName": "Kayla Abbey",
+        "employeeFirstName": "Kayla",
+        "employeeLastName": "Abbey",
         "time": "3.00"
       }
     ]
@@ -128,9 +128,9 @@ GetAll:
     data: [
       {
         "employeeNumber": 1,
-        "employeeName": "Abbey Kayla",
-        "employeeLastName": Abbey,
-        "employeeFirstName": Kayla,
+        "employeeName": "Kayla Abbey",
+        "employeeFirstName": "Kayla",
+        "employeeLastName": "Abbey",
         "time": "3.00"
       }
     ]
@@ -165,9 +165,9 @@ GetAll:
     data: [
       {
         "employeeNumber": 1,
-        "employeeName": "Abbey Kayla",
-        "employeeLastName": Abbey,
-        "employeeFirstName": Kayla,
+        "employeeName": "Kayla Abbey",
+        "employeeFirstName": "Kayla",
+        "employeeLastName": "Abbey",
         "time": "3.00"
       }
     ]
@@ -204,9 +204,9 @@ GetAll:
     data: [
       {
         "employeeNumber": 1,
-        "employeeName": "Abbey Kayla",
-        "employeeLastName": Abbey,
-        "employeeFirstName": Kayla,
+        "employeeName": "Kayla Abbey",
+        "employeeFirstName": "Kayla",
+        "employeeLastName": "Abbey",
         "time": "3.00"
       }
     ]
@@ -242,9 +242,9 @@ GetAll:
     data: [
       {
         "employeeNumber": 1,
-        "employeeName": "Abbey Kayla",
-        "employeeLastName": Abbey,
-        "employeeFirstName": Kayla,
+        "employeeName": "Kayla Abbey",
+        "employeeFirstName": "Kayla",
+        "employeeLastName": "Abbey",
         "time": "3.00"
       }
     ]
@@ -392,9 +392,9 @@ GetAll:
     data: [
       {
         "employeeNumber": 1,
-        "employeeName": "Abbey Kayla",
-        "employeeLastName": Abbey,
-        "employeeFirstName": Kayla,
+        "employeeName": "Kayla Abbey",
+        "employeeFirstName": "Kayla",
+        "employeeLastName": "Abbey",
         "time": "3.00"
       }
     ]
@@ -431,9 +431,9 @@ GetAll:
     data: [
       {
         "employeeNumber": 1,
-        "employeeName": "Abbey Kayla",
-        "employeeLastName": Abbey,
+        "employeeName": "Kayla Abbey",
         "employeeFirstName": Kayla,
+        "employeeLastName": Abbey,
         "time": "3.00"
       }
     ]

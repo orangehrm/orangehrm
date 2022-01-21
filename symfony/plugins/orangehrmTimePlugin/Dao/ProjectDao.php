@@ -362,9 +362,9 @@ class ProjectDao extends BaseDao
         )->getQueryBuilder();
         $q->select(
             'employee.empNumber AS employeeNumber,
-            CONCAT(employee.lastName, \' \', employee.firstName) AS fullName,
-            employee.lastName AS employeeLastName, 
+            CONCAT(employee.firstName, \' \', employee.lastName) AS fullName,
             employee.firstName AS employeeFirstName, 
+            employee.lastName AS employeeLastName, 
             SUM(COALESCE(timesheetItem.duration, 0)) AS totalDuration'
         );
 
