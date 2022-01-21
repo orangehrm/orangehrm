@@ -57,10 +57,7 @@ class ProjectActivityDetailedReportData implements ReportData
         $result = [];
         foreach ($employees as $employee) {
             $result[] = [
-                ProjectActivityReport::PARAMETER_EMPLOYEE_NUMBER => $employee['employeeNumber'],
                 ProjectActivityReport::PARAMETER_EMPLOYEE_NAME => $employee['fullName'],
-                ProjectActivityReport::PARAMETER_EMPLOYEE_FIRST_NAME => $employee['employeeFirstName'],
-                ProjectActivityReport::PARAMETER_EMPLOYEE_LAST_NAME => $employee['employeeLastName'],
                 ProjectReport::PARAMETER_TIME => $this->getNumberHelper()
                     ->numberFormat((float)$employee['totalDuration'] / 3600, 2),
             ];

@@ -361,10 +361,7 @@ class ProjectDao extends BaseDao
             $projectActivityDetailedReportSearchFilterParams
         )->getQueryBuilder();
         $q->select(
-            'employee.empNumber AS employeeNumber,
-            CONCAT(employee.firstName, \' \', employee.lastName) AS fullName,
-            employee.firstName AS employeeFirstName, 
-            employee.lastName AS employeeLastName, 
+            'CONCAT(employee.firstName, \' \', employee.lastName) AS fullName,
             SUM(COALESCE(timesheetItem.duration, 0)) AS totalDuration'
         );
 

@@ -15,10 +15,7 @@ GetAll:
       activityId: 1
     data: [
       {
-        "employeeNumber": 1,
         "employeeName": "Kayla Abbey",
-        "employeeFirstName": "Kayla",
-        "employeeLastName": "Abbey",
         "time": "3.00"
       }
     ]
@@ -52,10 +49,7 @@ GetAll:
       fromDate: '2011-01-01'
     data: [
       {
-        "employeeNumber": 1,
         "employeeName": "Kayla Abbey",
-        "employeeFirstName": "Kayla",
-        "employeeLastName": "Abbey",
         "time": "3.00"
       }
     ]
@@ -89,10 +83,7 @@ GetAll:
       toDate: '2011-04-25'
     data: [
       {
-        "employeeNumber": 1,
         "employeeName": "Kayla Abbey",
-        "employeeFirstName": "Kayla",
-        "employeeLastName": "Abbey",
         "time": "3.00"
       }
     ]
@@ -127,10 +118,7 @@ GetAll:
       toDate: '2011-04-21'
     data: [
       {
-        "employeeNumber": 1,
         "employeeName": "Kayla Abbey",
-        "employeeFirstName": "Kayla",
-        "employeeLastName": "Abbey",
         "time": "3.00"
       }
     ]
@@ -164,10 +152,7 @@ GetAll:
       includeTimesheet: 'onlyApproved'
     data: [
       {
-        "employeeNumber": 1,
         "employeeName": "Kayla Abbey",
-        "employeeFirstName": "Kayla",
-        "employeeLastName": "Abbey",
         "time": "3.00"
       }
     ]
@@ -203,10 +188,7 @@ GetAll:
       includeTimesheet: 'onlyApproved'
     data: [
       {
-        "employeeNumber": 1,
         "employeeName": "Kayla Abbey",
-        "employeeFirstName": "Kayla",
-        "employeeLastName": "Abbey",
         "time": "3.00"
       }
     ]
@@ -241,10 +223,7 @@ GetAll:
       includeTimesheet: 'onlyApproved'
     data: [
       {
-        "employeeNumber": 1,
         "employeeName": "Kayla Abbey",
-        "employeeFirstName": "Kayla",
-        "employeeLastName": "Abbey",
         "time": "3.00"
       }
     ]
@@ -391,10 +370,7 @@ GetAll:
       activityId: 1
     data: [
       {
-        "employeeNumber": 1,
         "employeeName": "Kayla Abbey",
-        "employeeFirstName": "Kayla",
-        "employeeLastName": "Abbey",
         "time": "3.00"
       }
     ]
@@ -430,10 +406,7 @@ GetAll:
       includeTimesheet: 'onlyApproved'
     data: [
       {
-        "employeeNumber": 1,
         "employeeName": "Kayla Abbey",
-        "employeeFirstName": Kayla,
-        "employeeLastName": Abbey,
         "time": "3.00"
       }
     ]

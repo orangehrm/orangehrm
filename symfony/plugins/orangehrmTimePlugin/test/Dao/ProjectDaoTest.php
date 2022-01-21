@@ -274,7 +274,6 @@ class ProjectDaoTest extends KernelTestCase
         $totalHours = $this->projectDao->getTotalDurationForProjectActivityDetailedReport(
             $projectActivityDetailedReportSearchFilterParams
         );
-        $this->assertEquals(1, $result[0]['employeeNumber']);
         $this->assertEquals("Kayla Abbey", $result[0]['fullName']);
         $this->assertEquals("10800", $result[0]['totalDuration']);
         $this->assertEquals(10800, $totalHours);
@@ -289,7 +288,6 @@ class ProjectDaoTest extends KernelTestCase
         $totalHours = $this->projectDao->getTotalDurationForProjectActivityDetailedReport(
             $projectActivityDetailedReportSearchFilterParams
         );
-        $this->assertEquals(1, $result[0]['employeeNumber']);
         $this->assertEquals("Kayla Abbey", $result[0]['fullName']);
         $this->assertEquals("10800", $result[0]['totalDuration']);
         $this->assertEquals(10800, $totalHours);
@@ -305,7 +303,6 @@ class ProjectDaoTest extends KernelTestCase
         $totalHours = $this->projectDao->getTotalDurationForProjectActivityDetailedReport(
             $projectActivityDetailedReportSearchFilterParams
         );
-        $this->assertEquals(1, $result[0]['employeeNumber']);
         $this->assertEquals("Kayla Abbey", $result[0]['fullName']);
         $this->assertEquals("10800", $result[0]['totalDuration']);
         $this->assertEquals(10800, $totalHours);
