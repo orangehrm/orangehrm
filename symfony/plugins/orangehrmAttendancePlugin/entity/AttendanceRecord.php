@@ -58,56 +58,56 @@ class AttendanceRecord
      *
      * @ORM\Column(name="punch_in_utc_time", type="datetime", nullable=true)
      */
-    private ?DateTime $punchInUtcTime;
+    private ?DateTime $punchInUtcTime = null;
 
     /**
      * @var string|null
      *
      * @ORM\Column(name="punch_in_note", type="string", length=255, nullable=true)
      */
-    private ?string $punchInNote;
+    private ?string $punchInNote = null;
 
     /**
      * @var string|null
      *
      * @ORM\Column(name="punch_in_time_offset", type="string", length=255, nullable=true)
      */
-    private ?string $punchInTimeOffset;
+    private ?string $punchInTimeOffset = null;
 
     /**
      * @var DateTime|null
      *
      * @ORM\Column(name="punch_in_user_time", type="datetime", nullable=true)
      */
-    private ?DateTime $punchInUserTime;
+    private ?DateTime $punchInUserTime = null;
 
     /**
      * @var DateTime|null
      *
      * @ORM\Column(name="punch_out_utc_time", type="datetime", nullable=true)
      */
-    private ?DateTime $punchOutUtcTime;
+    private ?DateTime $punchOutUtcTime = null;
 
     /**
      * @var string|null
      *
      * @ORM\Column(name="punch_out_note", type="string", length=255, nullable=true)
      */
-    private ?string $punchOutNote;
+    private ?string $punchOutNote = null;
 
     /**
      * @var string|null
      *
      * @ORM\Column(name="punch_out_time_offset", type="string", length=255, nullable=true)
      */
-    private ?string $punchOutTimeOffset;
+    private ?string $punchOutTimeOffset = null;
 
     /**
      * @var DateTime|null
      *
      * @ORM\Column(name="punch_out_user_time", type="datetime", nullable=true)
      */
-    private ?DateTime $punchOutUserTime;
+    private ?DateTime $punchOutUserTime = null;
 
     /**
      * @var string
