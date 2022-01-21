@@ -23,9 +23,12 @@ use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Time\Traits\Service\ProjectServiceTrait;
 
 class ActivityDetailsReportController extends AbstractVueController
 {
+    use ProjectServiceTrait;
+
     /**
      * @inheritDoc
      */
@@ -39,28 +42,37 @@ class ActivityDetailsReportController extends AbstractVueController
         }
 
         if ($request->query->has('projectId')) {
-            // TODO: Get project object
+            $project = $this->getProjectService()
+                ->getProjectDao()
+                ->getProjectById($request->query->getInt('projectId'));
+
             $component->addProp(
                 new Prop(
                     'project',
                     Prop::TYPE_OBJECT,
                     [
-                        'id' => $request->query->getInt('projectId'),
-                        'label' => 'Project Manhattan'
+                        'id' => $project->getId(),
+                        'label' => $project->getName()
                     ]
                 )
             );
         }
 
         if ($request->query->has('activityId')) {
-            // TODO: Get activity object
+            $projectActivity = $this->getProjectService()
+                ->getProjectActivityDao()
+                ->getProjectActivityByProjectIdAndProjectActivityId(
+                    $request->query->getInt('projectId'),
+                    $request->query->getInt('activityId')
+                );
+
             $component->addProp(
                 new Prop(
                     'activity',
                     Prop::TYPE_OBJECT,
                     [
-                        'id' => $request->query->getInt('activityId'),
-                        'label' => 'Develop timesheet component'
+                        'id' => $projectActivity->getId(),
+                        'label' => $projectActivity->getName()
                     ]
                 )
             );

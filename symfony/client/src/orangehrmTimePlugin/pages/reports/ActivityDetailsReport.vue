@@ -21,7 +21,7 @@
 <template>
   <reports-table
     module="time"
-    name="time_project_activity_report"
+    name="activity_detailed"
     :prefetch="true"
     :filters="serializedFilters"
     :column-count="2"
