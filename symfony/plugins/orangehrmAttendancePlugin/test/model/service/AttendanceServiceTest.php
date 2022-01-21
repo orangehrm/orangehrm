@@ -1,5 +1,8 @@
 <?php
 
+use OrangeHRM\Attendance\Dao\AttendanceDao;
+use OrangeHRM\Attendance\Service\AttendanceService;
+
 /**
  *  @group Attendance
  */

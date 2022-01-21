@@ -47,4 +47,32 @@ class TimesheetTimeFormatAPITest extends EndpointIntegrationTestCase
     {
         return $this->getTestCases('TimeConfigFormatTestCase.yaml', 'GetOne');
     }
+
+    public function testDelete(): void
+    {
+        $api = new TimesheetTimeFormatAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->delete();
+    }
+
+    public function testGetValidationRuleForDelete(): void
+    {
+        $api = new TimesheetTimeFormatAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->getValidationRuleForDelete();
+    }
+
+    public function testUpdate(): void
+    {
+        $api = new TimesheetTimeFormatAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->update();
+    }
+
+    public function testGetValidationRuleForUpdate(): void
+    {
+        $api = new TimesheetTimeFormatAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->getValidationRuleForUpdate();
+    }
 }
