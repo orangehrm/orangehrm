@@ -25,8 +25,8 @@
         <oxd-grid-item v-if="attendanceRecord.previousRecord">
           <oxd-input-group :label="$t('time.punched_in_time')">
             <oxd-text type="subtitle-2">
-              {{ attendanceRecord.previousRecord.utcDate }} -
-              {{ attendanceRecord.previousRecord.utcTime }}
+              {{ attendanceRecord.previousRecord.date }} -
+              {{ attendanceRecord.previousRecord.time }}
             </oxd-text>
           </oxd-input-group>
         </oxd-grid-item>
@@ -57,7 +57,7 @@
 
     <!-- select timezone -->
 
-    <oxd-grid v-if="isAdmin" :cols="4">
+    <oxd-grid v-if="isTimezoneEditable" :cols="4">
       <oxd-grid-item>
         <timezone-dropdown v-model="attendanceRecord.timezone" />
       </oxd-grid-item>
@@ -92,7 +92,7 @@ import {
   shouldNotExceedCharLength,
 } from '@/core/util/validation/rules';
 import {navigate} from '@/core/util/helper/navigation';
-import {setClockInterval} from '@/core/util/helper/datefns';
+import {setClockInterval, formatDate} from '@/core/util/helper/datefns';
 import promiseDebounce from '@ohrm/oxd/utils/promiseDebounce';
 import {APIService} from '@ohrm/core/util/services/api.service';
 import TimezoneDropdown from '@/orangehrmAttendancePlugin/components/TimezoneDropdown.vue';
@@ -111,13 +111,13 @@ export default {
     'timezone-dropdown': TimezoneDropdown,
   },
   props: {
-    isAdmin: {
-      type: Boolean,
-      default: false,
-    },
     isEditable: {
       type: Boolean,
       default: true,
+    },
+    isTimezoneEditable: {
+      type: Boolean,
+      default: false,
     },
     attendanceRecordId: {
       type: Number,
@@ -150,7 +150,7 @@ export default {
     this.setCurrentDateTime()
       .then(() => {
         // then set record date/time every minute
-        setClockInterval(60000, this.setCurrentDateTime);
+        setClockInterval(this.setCurrentDateTime, 60000);
         return this.attendanceRecordId
           ? this.http.get(this.attendanceRecordId)
           : null;
@@ -199,8 +199,9 @@ export default {
           .request({method: 'GET', url: '/api/v2/attendance/currentdatetime'})
           .then(res => {
             const {data} = res.data;
-            this.attendanceRecord.date = data.date;
-            this.attendanceRecord.time = data.time;
+            const currentDate = new Date(data.timestamp);
+            this.attendanceRecord.date = formatDate(currentDate, 'yyyy-MM-dd');
+            this.attendanceRecord.time = formatDate(currentDate, 'HH:mm');
             resolve();
           })
           .catch(error => reject(error));

@@ -36,9 +36,6 @@ class PunchOutController extends AbstractVueController
         // if not redirect to punch in
         $component->addProp(new Prop('attendance-record-id', Prop::TYPE_NUMBER, 1));
 
-        // TODO: If logged in user is an admin, send true
-        $component->addProp(new Prop('is-admin', Prop::TYPE_BOOLEAN, false));
-
         // TODO: If attendance config is set to user editable, send true
         $component->addProp(new Prop('is-editable', Prop::TYPE_BOOLEAN, true));
         $this->setComponent($component);

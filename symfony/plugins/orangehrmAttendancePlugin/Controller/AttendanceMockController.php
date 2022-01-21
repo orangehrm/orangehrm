@@ -80,9 +80,7 @@ class AttendanceMockController extends AbstractController
                 "data" => [
                     "date" => date("Y-m-d"),
                     "time" => date("H:i"),
-                    "utcDate" => gmdate("Y-m-d"),
-                    "utcTime" => gmdate("H:i"),
-                    "timezoneOffset" => date("Z") / 3600,
+                    "timestamp" => microtime(true) * 1000, // Unix timestamp in miliseconds [UTC by deafult]
                 ],
                 "meta" => []
             ])
@@ -123,8 +121,6 @@ class AttendanceMockController extends AbstractController
                 "data" => [
                     "date" => date("Y-m-d"),
                     "time" => date("H:i"),
-                    "utcDate" => gmdate("Y-m-d"),
-                    "utcTime" => gmdate("H:i"),
                     "timezoneOffset" => date("Z") / 3600,
                 ],
                 "meta" => []
@@ -146,6 +142,7 @@ class AttendanceMockController extends AbstractController
                 "data" => [
                     0 => [
                         'id' => 1,
+                        // TODO: Add GMT Label to show output in UI as (GMT -3.30) Pacific/Midway
                         'name' => 'Pacific/Midway',
                         'offset' => -330,
                     ],
