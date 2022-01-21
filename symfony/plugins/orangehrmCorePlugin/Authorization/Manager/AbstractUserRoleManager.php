@@ -82,6 +82,7 @@ abstract class AbstractUserRoleManager
      * @param array $rolesToInclude
      * @param array $requestedPermissions
      * @return array
+     * @deprecated
      */
     abstract public function getAccessibleEntities(
         string $entityType,
@@ -157,6 +158,7 @@ abstract class AbstractUserRoleManager
      * @param array $rolesToInclude
      * @param array $requiredPermissions
      * @return array
+     * @deprecated
      */
     abstract public function getAccessibleEntityProperties(
         string $entityType,
