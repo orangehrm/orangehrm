@@ -27,6 +27,7 @@ use OrangeHRM\Entity\ProjectAdmin;
 use OrangeHRM\Tests\Util\KernelTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 use OrangeHRM\Time\Dao\ProjectDao;
+use OrangeHRM\Time\Dto\ProjectActivityDetailedReportSearchFilterParams;
 use OrangeHRM\Time\Dto\ProjectReportSearchFilterParams;
 use OrangeHRM\Time\Dto\ProjectSearchFilterParams;
 
@@ -257,5 +258,87 @@ class ProjectDaoTest extends KernelTestCase
         $this->assertEmpty($result);
         $result = $this->projectDao->getAccessibleEmpNumbersForProjectAdmin(null);
         $this->assertEmpty($result);
+    }
+
+    public function testGetProjectActivityDetailedReportCriteriaListAndTotalHours(): void
+    {
+        $projectActivityDetailedReportSearchFilterParams = new ProjectActivityDetailedReportSearchFilterParams();
+        $projectActivityDetailedReportSearchFilterParams->setProjectId(1);
+        $projectActivityDetailedReportSearchFilterParams->setProjectActivityId(1);
+        $projectActivityDetailedReportSearchFilterParams->setIncludeApproveTimesheet(
+            ProjectReportSearchFilterParams::INCLUDE_TIMESHEET_ALL
+        );
+        $result = $this->projectDao->getProjectActivityDetailedReportCriteriaList(
+            $projectActivityDetailedReportSearchFilterParams
+        );
+        $totalHours = $this->projectDao->getTotalDurationForProjectActivityDetailedReport(
+            $projectActivityDetailedReportSearchFilterParams
+        );
+        $this->assertEquals(1, $result[0]['employeeNumber']);
+        $this->assertEquals("Abbey Kayla", $result[0]['fullName']);
+        $this->assertEquals("10800", $result[0]['totalDuration']);
+        $this->assertEquals(10800, $totalHours);
+
+        $projectActivityDetailedReportSearchFilterParams = new ProjectActivityDetailedReportSearchFilterParams();
+        $projectActivityDetailedReportSearchFilterParams->setProjectId(1);
+        $projectActivityDetailedReportSearchFilterParams->setProjectActivityId(1);
+        $projectActivityDetailedReportSearchFilterParams->setFromDate(new DateTime("2011-01-01"));
+        $result = $this->projectDao->getProjectActivityDetailedReportCriteriaList(
+            $projectActivityDetailedReportSearchFilterParams
+        );
+        $totalHours = $this->projectDao->getTotalDurationForProjectActivityDetailedReport(
+            $projectActivityDetailedReportSearchFilterParams
+        );
+        $this->assertEquals(1, $result[0]['employeeNumber']);
+        $this->assertEquals("Abbey Kayla", $result[0]['fullName']);
+        $this->assertEquals("10800", $result[0]['totalDuration']);
+        $this->assertEquals(10800, $totalHours);
+
+
+        $projectActivityDetailedReportSearchFilterParams = new ProjectActivityDetailedReportSearchFilterParams();
+        $projectActivityDetailedReportSearchFilterParams->setProjectId(1);
+        $projectActivityDetailedReportSearchFilterParams->setProjectActivityId(1);
+        $projectActivityDetailedReportSearchFilterParams->setToDate(new DateTime("2011-12-31"));
+        $result = $this->projectDao->getProjectActivityDetailedReportCriteriaList(
+            $projectActivityDetailedReportSearchFilterParams
+        );
+        $totalHours = $this->projectDao->getTotalDurationForProjectActivityDetailedReport(
+            $projectActivityDetailedReportSearchFilterParams
+        );
+        $this->assertEquals(1, $result[0]['employeeNumber']);
+        $this->assertEquals("Abbey Kayla", $result[0]['fullName']);
+        $this->assertEquals("10800", $result[0]['totalDuration']);
+        $this->assertEquals(10800, $totalHours);
+
+        $projectActivityDetailedReportSearchFilterParams = new ProjectActivityDetailedReportSearchFilterParams();
+        $projectActivityDetailedReportSearchFilterParams->setProjectId(1);
+        $projectActivityDetailedReportSearchFilterParams->setProjectActivityId(2);
+        $projectActivityDetailedReportSearchFilterParams->setFromDate(new DateTime("2011-01-01"));
+        $projectActivityDetailedReportSearchFilterParams->setToDate(new DateTime("2011-12-31"));
+        $result = $this->projectDao->getProjectActivityDetailedReportCriteriaList(
+            $projectActivityDetailedReportSearchFilterParams
+        );
+        $totalHours = $this->projectDao->getTotalDurationForProjectActivityDetailedReport(
+            $projectActivityDetailedReportSearchFilterParams
+        );
+        $this->assertCount(1, $result);
+        $this->assertEquals(7000, $totalHours);
+
+        $projectActivityDetailedReportSearchFilterParams = new ProjectActivityDetailedReportSearchFilterParams();
+        $projectActivityDetailedReportSearchFilterParams->setProjectId(1);
+        $projectActivityDetailedReportSearchFilterParams->setProjectActivityId(2);
+        $projectActivityDetailedReportSearchFilterParams->setFromDate(new DateTime("2011-01-01"));
+        $projectActivityDetailedReportSearchFilterParams->setToDate(new DateTime("2011-12-31"));
+        $projectActivityDetailedReportSearchFilterParams->setIncludeApproveTimesheet(
+            ProjectReportSearchFilterParams::INCLUDE_TIMESHEET_ONLY_APPROVED
+        );
+        $result = $this->projectDao->getProjectActivityDetailedReportCriteriaList(
+            $projectActivityDetailedReportSearchFilterParams
+        );
+        $totalHours = $this->projectDao->getTotalDurationForProjectActivityDetailedReport(
+            $projectActivityDetailedReportSearchFilterParams
+        );
+        $this->assertCount(0, $result);
+        $this->assertEquals(0, $totalHours);
     }
 }

@@ -36,6 +36,9 @@ class ProjectActivityDetailedReportData implements ReportData
     use DateTimeHelperTrait;
     use NormalizerServiceTrait;
 
+    /**
+     * @var ProjectActivityDetailedReportSearchFilterParams
+     */
     private ProjectActivityDetailedReportSearchFilterParams $filterParams;
 
     public function __construct(ProjectActivityDetailedReportSearchFilterParams $filterParams)

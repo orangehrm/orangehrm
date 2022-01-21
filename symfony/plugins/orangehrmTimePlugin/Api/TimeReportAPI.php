@@ -30,7 +30,8 @@ class TimeReportAPI extends ReportAPI
 {
     public const TIME_REPORT_MAP = [
         'project' => ProjectReport::class,
-        'activity_detailed' => ProjectActivityReport::class, //detailed report of project report
+        //activity_detailed -> detailed report of project report (Break down overview of project report)
+        'activity_detailed' => ProjectActivityReport::class,
         'employee' => EmployeeReport::class,
     ];
 
