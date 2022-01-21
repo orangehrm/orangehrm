@@ -32,13 +32,21 @@ use OrangeHRM\Time\Api\TimeReportDataAPI;
  */
 class ProjectReportDataAPITest extends EndpointIntegrationTestCase
 {
+    public static function setUpBeforeClass(): void
+    {
+        TestDataService::populate(Config::get(Config::TEST_DIR) . '/phpunit/fixtures/DataGroupPermission.yaml', true);
+        TestDataService::populate(
+            Config::get(Config::PLUGINS_DIR) .
+            '/orangehrmTimePlugin/test/fixtures/ProjectReportDataAPITest.yaml',
+            true
+        );
+    }
+
     /**
      * @dataProvider dataProviderForTestGetAll
      */
     public function testGetAll(TestCaseParams $testCaseParams): void
     {
-        TestDataService::populate(Config::get(Config::TEST_DIR) . '/phpunit/fixtures/DataGroupPermission.yaml', true);
-        $this->populateFixtures('ProjectReportDataAPITest.yaml', null, true);
         $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
         $this->registerServices($testCaseParams);
         $this->registerMockDateTimeHelper($testCaseParams);
