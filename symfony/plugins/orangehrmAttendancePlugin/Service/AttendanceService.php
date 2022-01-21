@@ -17,6 +17,11 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
+
+namespace OrangeHRM\Attendance\Service;
+
+use OrangeHRM\Attendance\Dao\AttendanceDao;
+
 class AttendanceService {
 
     private $attendanceDao;

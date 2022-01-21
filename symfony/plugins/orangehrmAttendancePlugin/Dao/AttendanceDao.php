@@ -157,35 +157,31 @@ class AttendanceDao extends BaseDao {
     }
 
     /**
-     * get Saved Configuration
-     * @param $workflow, $state, $role, $action, $resultingState
-     * @return boolean
+     * @param $workflow
+     * @param $state
+     * @param $role
+     * @param $action
+     * @param $resultingState
+     * @return bool
      */
-    public function getSavedConfiguration($workflow, $state, $role, $action, $resultingState) {
-
-        $qb=$this->createQueryBuilder(WorkflowStateMachine::class,'wokrflowStateMachine');
-        $qb->where('workflow = :workflow');
+    public function getSavedConfiguration($workflow, $state, $role, $action, $resultingState): bool
+    {
+        $qb=$this->createQueryBuilder(WorkflowStateMachine::class,'workflowStateMachine');
+        $qb->where('workflowStateMachine.workflow = :workflow');
         $qb->setParameter('workflow',$workflow);
-        try {
+        $qb->andWhere('workflowStateMachine.state = :state');
+        $qb->setParameter('state',$state);
+        $qb->andWhere('workflowStateMachine.role = :role');
+        $qb->setParameter('role',$role);
+        $qb->andWhere('workflowStateMachine.action = :action');
+        $qb->setParameter('action',$action);
+        $qb->andWhere('workflowStateMachine.resultingState = :resultingState');
+        $qb->setParameter('resultingState',$resultingState);
 
-            $query = Doctrine_Query::create()
-                    ->from("WorkflowStateMachine")
-                    ->where("workflow = ?", $workflow)
-                    ->andWhere("state = ?", $state)
-                    ->andWhere("role = ?", $role)
-                    ->andWhere("action = ?", $action)
-                    ->andWhere("resultingState = ?", $resultingState);
-            $results = $query->execute();
-
-            if ($results[0]->getId() == null) {
-
-                return false;
-            } else {
-                return true;
-            }
-        } catch (Exception $ex) {
-            throw new DaoException($ex->getMessage());
-        }
+        $results = $qb->getQuery()->execute();
+        if(is_null($results[0]->getId()))
+            return false;
+        return true;
     }
 
     /**
