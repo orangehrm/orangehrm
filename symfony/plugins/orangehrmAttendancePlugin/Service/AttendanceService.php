@@ -20,7 +20,10 @@
 
 namespace OrangeHRM\Attendance\Service;
 
+use OrangeHRM\Attendance\Api\AttendanceConfigurationAPI;
 use OrangeHRM\Attendance\Dao\AttendanceDao;
+use OrangeHRM\Entity\AttendanceRecord;
+use OrangeHRM\Entity\WorkflowStateMachine;
 
 class AttendanceService {
 
@@ -90,12 +93,15 @@ class AttendanceService {
     }
 
     /**
-     * get saved Attendance configuration
-     * @param $workflow, $state, $role, $action, $resultingState
-     * @return boolean
+     * @param $workflow
+     * @param $state
+     * @param $role
+     * @param $action
+     * @param $resultingState
+     * @return bool
      */
-    public function getSavedConfiguration($workflow, $state, $role, $action, $resultingState) {
-
+    public function getSavedConfiguration($workflow, $state, $role, $action, $resultingState): bool
+    {
         return $this->getAttendanceDao()->getSavedConfiguration($workflow, $state, $role, $action, $resultingState);
     }
 
@@ -313,6 +319,48 @@ class AttendanceService {
     public function getAttendanceRecordsByEmpNumbers($empNumbers, $dateFrom = null, $dateTo = null)
     {
         return $this->getAttendanceDao()->getAttendanceRecordsByEmpNumbers($empNumbers, $dateFrom, $dateTo);
+    }
+
+    /**
+     * @return bool
+     */
+    public function getUserCanChangeCurrentTimeConfiguration(): bool
+    {
+        return $this->getSavedConfiguration(
+            WorkflowStateMachine::FLOW_ATTENDANCE,
+            AttendanceRecord::STATE_INITIAL,
+            AttendanceConfigurationAPI::ESS_USER,
+            WorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_TIME,
+            AttendanceRecord::STATE_INITIAL
+        );
+    }
+
+    /**
+     * @return bool
+     */
+    public function getUserCanModifyAttendanceConfiguration(): bool
+    {
+        return $this->getSavedConfiguration(
+            WorkflowStateMachine::FLOW_ATTENDANCE,
+            AttendanceRecord::STATE_PUNCHED_IN,
+            AttendanceConfigurationAPI::ESS_USER,
+            WorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_IN_TIME,
+            AttendanceRecord::STATE_PUNCHED_IN
+        );
+    }
+
+    /**
+     * @return bool
+     */
+    public function getSupervisorCanModifyAttendanceConfiguration(): bool
+    {
+        return $this->getSavedConfiguration(
+            WorkflowStateMachine::FLOW_ATTENDANCE,
+            AttendanceRecord::STATE_PUNCHED_IN,
+            AttendanceConfigurationAPI::SUPERVISOR,
+            WorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_IN_TIME,
+            AttendanceRecord::STATE_PUNCHED_IN
+        );
     }
 }
 

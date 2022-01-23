@@ -4372,3 +4372,18 @@ INSERT INTO ohrm_user_role_data_group (`can_read`, `can_create`, `can_update`, `
 VALUES (1, 1, 1, 1, 0, @time_project_activities_data_group_id, @admin_role_id),
        (1, 1, 1, 1, 0, @time_project_activities_data_group_id, @project_admin_role_id);
 UPDATE `ohrm_user_role_data_group` SET `can_update` = 0 WHERE `data_group_id` = @time_project_data_group_id AND `user_role_id` = @project_admin_role_id;
+
+-- Attendance Module
+
+INSERT INTO ohrm_data_group (`name`, `description`, `can_read`, `can_create`,`can_update`, `can_delete`)
+VALUES ('apiv2_attendance_configuration', 'API-v2 Attendance - Attendance Configuration', 1, 0, 1, 0);
+
+SET @attendance_module_id := (SELECT `id` FROM ohrm_module WHERE name = 'attendance' LIMIT 1);
+
+SET @apiv2_attendance_configuration_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_attendance_configuration' LIMIT 1);
+
+INSERT INTO ohrm_api_permission (`api_name`, `module_id`, `data_group_id`)
+VALUES ('OrangeHRM\\Attendance\\Api\\AttendanceConfigurationAPI', @attendance_module_id, @apiv2_attendance_configuration_data_group_id);
+
+INSERT INTO ohrm_user_role_data_group (`can_read`, `can_create`, `can_update`, `can_delete`, `self`, `data_group_id`, `user_role_id`)
+VALUES (1, 0, 1, 0, 0, @apiv2_attendance_configuration_data_group_id, @admin_role_id);

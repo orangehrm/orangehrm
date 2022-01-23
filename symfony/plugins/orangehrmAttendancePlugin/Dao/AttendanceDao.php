@@ -157,31 +157,37 @@ class AttendanceDao extends BaseDao {
     }
 
     /**
-     * @param $workflow
-     * @param $state
-     * @param $role
-     * @param $action
-     * @param $resultingState
+     * @param  string  $workflow
+     * @param  string  $state
+     * @param  string  $role
+     * @param  string  $action
+     * @param  string  $resultingState
      * @return bool
      */
-    public function getSavedConfiguration($workflow, $state, $role, $action, $resultingState): bool
-    {
-        $qb=$this->createQueryBuilder(WorkflowStateMachine::class,'workflowStateMachine');
+    public function getSavedConfiguration(
+        string $workflow,
+        string $state,
+        string $role,
+        string $action,
+        string $resultingState
+    ): bool {
+        $qb = $this->createQueryBuilder(WorkflowStateMachine::class, 'workflowStateMachine');
         $qb->where('workflowStateMachine.workflow = :workflow');
-        $qb->setParameter('workflow',$workflow);
+        $qb->setParameter('workflow', $workflow);
         $qb->andWhere('workflowStateMachine.state = :state');
-        $qb->setParameter('state',$state);
+        $qb->setParameter('state', $state);
         $qb->andWhere('workflowStateMachine.role = :role');
-        $qb->setParameter('role',$role);
+        $qb->setParameter('role', $role);
         $qb->andWhere('workflowStateMachine.action = :action');
-        $qb->setParameter('action',$action);
+        $qb->setParameter('action', $action);
         $qb->andWhere('workflowStateMachine.resultingState = :resultingState');
-        $qb->setParameter('resultingState',$resultingState);
+        $qb->setParameter('resultingState', $resultingState);
 
-        $results = $qb->getQuery()->execute();
-        if(is_null($results[0]->getId()))
-            return false;
-        return true;
+        $result = $qb->getQuery()->execute();
+        if ($result) {
+            return true;
+        }
+        return false;
     }
 
     /**
