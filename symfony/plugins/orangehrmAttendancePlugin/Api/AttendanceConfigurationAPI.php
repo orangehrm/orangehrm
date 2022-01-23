@@ -32,12 +32,14 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Service\AccessFlowStateMachineService;
+use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\AttendanceRecord;
 use OrangeHRM\Entity\WorkflowStateMachine;
 
 class AttendanceConfigurationAPI extends Endpoint implements ResourceEndpoint
 {
     use AttendanceServiceTrait;
+    use UserRoleManagerTrait;
 
     public const PARAMETER_USER_CAN_CHANGE_THE_CURRENT_TIME = 'userCanChangeCurrentTime';
     public const PARAMETER_USER_CAN_MODIFY_ATTENDANCE = 'userCanModifyAttendance';
