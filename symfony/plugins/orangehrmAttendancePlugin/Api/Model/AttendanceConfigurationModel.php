@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Attendance\Api;
+namespace OrangeHRM\Attendance\Api\Model;
 
 use OrangeHRM\Attendance\Dto\AttendanceConfiguration;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;

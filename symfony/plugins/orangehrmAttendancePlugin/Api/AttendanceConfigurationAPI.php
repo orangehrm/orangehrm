@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Attendance\Api;
 
+use OrangeHRM\Attendance\Api\Model\AttendanceConfigurationModel;
 use OrangeHRM\Attendance\Dto\AttendanceConfiguration;
 use OrangeHRM\Attendance\Traits\Service\AttendanceServiceTrait;
 use OrangeHRM\Core\Api\CommonParams;
