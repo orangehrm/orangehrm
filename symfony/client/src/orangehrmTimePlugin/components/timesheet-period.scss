@@ -17,28 +17,37 @@
 @import '@ohrm/oxd/styles/_mixins.scss';
 
 .orangehrm-timeperiod {
-  &-title {
-    font-size: 12px;
-    width: fit-content;
-  }
-  &-wrapper,
   &-picker {
-    display: flex;
-    align-items: center;
-  }
-  &-wrapper {
-    flex-direction: column;
     gap: 0.5rem;
+    display: grid;
+    align-items: center;
+    grid-template:
+      'prev   title  next'
+      'picker picker picker' / 36px auto 36px;
     @include oxd-respond-to('md') {
-      flex-direction: row;
+      grid-template: 'title prev picker next' / auto auto minmax(
+          240px,
+          max-content
+        ) auto;
     }
   }
+  &-title {
+    text-align: center;
+    font-size: 12px;
+    grid-area: title;
+  }
   &-icon {
-    margin: 0 10px;
+    &.--prev {
+      grid-area: prev;
+    }
+    &.--next {
+      grid-area: next;
+    }
   }
 }
 .oxd-input-group {
   margin-bottom: 0;
+  grid-area: picker;
 }
 ::v-deep(.oxd-input-group__label-wrapper) {
   display: none;

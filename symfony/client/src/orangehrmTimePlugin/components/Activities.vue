@@ -106,6 +106,10 @@ export default {
       type: Number,
       required: true,
     },
+    unselectableIds: {
+      type: Array,
+      default: () => [],
+    },
   },
 
   setup(props) {
@@ -113,6 +117,16 @@ export default {
       window.appGlobal.baseUrl,
       `/api/v2/time/project/${props.projectId}/activities`,
     );
+
+    const activitiesNormalizer = data => {
+      return data.map(item => {
+        const selectable = props.unselectableIds.findIndex(id => id == item.id);
+        return {
+          ...item,
+          isSelectable: selectable === -1,
+        };
+      });
+    };
 
     const {
       showPaginator,
@@ -123,7 +137,9 @@ export default {
       response,
       isLoading,
       execQuery,
-    } = usePaginate(http);
+    } = usePaginate(http, {
+      normalizer: activitiesNormalizer,
+    });
 
     return {
       http,
@@ -207,6 +223,10 @@ export default {
       });
     },
     onClickDelete(item) {
+      const isSelectable = this.unselectableIds.findIndex(id => id == item.id);
+      if (isSelectable > -1) {
+        return this.$toast.cannotDelete();
+      }
       this.$refs.deleteDialog.showDialog().then(confirmation => {
         if (confirmation === 'ok') {
           this.deleteItems([item.id]);

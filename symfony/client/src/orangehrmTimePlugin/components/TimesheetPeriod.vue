@@ -19,23 +19,21 @@
  -->
 
 <template>
-  <div class="orangehrm-timeperiod-wrapper">
+  <div class="orangehrm-timeperiod-picker">
     <oxd-text tag="p" class="orangehrm-timeperiod-title">
       {{ $t('time.timesheet_period') }}
     </oxd-text>
-    <div class="orangehrm-timeperiod-picker">
-      <oxd-icon-button
-        class="orangehrm-timeperiod-icon"
-        name="chevron-left"
-        @click="$emit('previous', $event)"
-      />
-      <date-input v-bind="$attrs" />
-      <oxd-icon-button
-        class="orangehrm-timeperiod-icon"
-        name="chevron-right"
-        @click="$emit('next', $event)"
-      />
-    </div>
+    <oxd-icon-button
+      class="orangehrm-timeperiod-icon --prev"
+      name="chevron-left"
+      @click="$emit('previous', $event)"
+    />
+    <date-input v-bind="$attrs" />
+    <oxd-icon-button
+      class="orangehrm-timeperiod-icon --next"
+      name="chevron-right"
+      @click="$emit('next', $event)"
+    />
   </div>
 </template>
 

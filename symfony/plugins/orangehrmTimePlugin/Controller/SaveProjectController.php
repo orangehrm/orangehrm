@@ -27,11 +27,13 @@ use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Entity\Project;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Time\Controller\Traits\PermissionTrait;
+use OrangeHRM\Time\Traits\Service\ProjectServiceTrait;
 
 class SaveProjectController extends AbstractVueController implements CapableViewController
 {
     use PermissionTrait;
     use UserRoleManagerTrait;
+    use ProjectServiceTrait;
 
     /**
      * @inheritDoc
@@ -40,6 +42,10 @@ class SaveProjectController extends AbstractVueController implements CapableView
     {
         if ($request->attributes->has('id')) {
             $component = new Component('project-edit');
+            $unselectableActivityIds = $this->getProjectService()
+                ->getProjectDao()
+                ->getActivityIdsOfProjectInTimesheetItems($request->attributes->getInt('id'));
+            $component->addProp(new Prop('unselectable-ids', Prop::TYPE_ARRAY, $unselectableActivityIds));
             $component->addProp(new Prop('project-id', Prop::TYPE_NUMBER, $request->attributes->getInt('id')));
         } else {
             $component = new Component('project-save');
