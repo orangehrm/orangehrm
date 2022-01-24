@@ -34,13 +34,13 @@
               <oxd-text tag="p" class="orangehrm-attendance-field-label">
                 Employee can change current time when punching in/out
               </oxd-text>
-              <oxd-switch-input v-model="config.userCanChangeCurrentTime" />
+              <oxd-switch-input v-model="config.canUserChangeCurrentTime" />
             </div>
             <div class="orangehrm-attendance-field-row">
               <oxd-text tag="p" class="orangehrm-attendance-field-label">
                 Employee can edit/delete own attendance records
               </oxd-text>
-              <oxd-switch-input v-model="config.userCanModifyAttendance" />
+              <oxd-switch-input v-model="config.canUserModifyAttendance" />
             </div>
             <div class="orangehrm-attendance-field-row">
               <oxd-text tag="p" class="orangehrm-attendance-field-label">
@@ -48,7 +48,7 @@
                 subordinates
               </oxd-text>
               <oxd-switch-input
-                v-model="config.supervisorCanModifyAttendance"
+                v-model="config.canSupervisorModifyAttendance"
               />
             </div>
           </oxd-grid>
@@ -69,9 +69,9 @@ import {APIService} from '@/core/util/services/api.service';
 import SwitchInput from '@ohrm/oxd/core/components/Input/SwitchInput';
 
 const configsModel = {
-  userCanChangeCurrentTime: false,
-  userCanModifyAttendance: false,
-  supervisorCanModifyAttendance: false,
+  canUserChangeCurrentTime: false,
+  canUserModifyAttendance: false,
+  canSupervisorModifyAttendance: false,
 };
 
 export default {
@@ -81,7 +81,7 @@ export default {
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      'api/v2/attendance/configure',
+      'api/v2/attendance/configs',
     );
     return {
       http,
