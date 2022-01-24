@@ -46,9 +46,9 @@ class AttendanceConfigurationModel implements Normalizable
     {
         $attendanceConfiguration = $this->getAttendanceConfiguration();
         return [
-            "userCanChangeCurrentTime" => $attendanceConfiguration->isUserCanChangeCurrentTime(),
-            "userCanModifyAttendance" => $attendanceConfiguration->isUserCanModifyAttendance(),
-            "supervisorCanModifyAttendance" => $attendanceConfiguration->isSupervisorCanModifyAttendance()
+            "canUserChangeCurrentTime" => $attendanceConfiguration->canUserChangeCurrentTime(),
+            "canUserModifyAttendance" => $attendanceConfiguration->canUserModifyAttendance(),
+            "canSupervisorModifyAttendance" => $attendanceConfiguration->canSupervisorModifyAttendance()
         ];
     }
 }

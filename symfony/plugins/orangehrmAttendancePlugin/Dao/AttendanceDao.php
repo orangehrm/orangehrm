@@ -164,7 +164,7 @@ class AttendanceDao extends BaseDao {
      * @param  string  $resultingState
      * @return bool
      */
-    public function getSavedConfiguration(
+    public function hasSavedConfiguration(
         string $workflow,
         string $state,
         string $role,

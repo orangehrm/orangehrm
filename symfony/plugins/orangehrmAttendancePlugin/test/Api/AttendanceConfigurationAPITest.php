@@ -33,7 +33,7 @@ class AttendanceConfigurationAPITest extends EndpointIntegrationTestCase
      */
     public function testGetOne(TestCaseParams $testCaseParams): void
     {
-        TestDataService::populate(Config::get(Config::TEST_DIR).'/phpunit/fixtures/WorkflowStateMachine.yaml', true);
+        TestDataService::populate(Config::get(Config::TEST_DIR).'/phpunit/fixtures/WorkflowStateMachine.yaml', false);
         $this->populateFixtures('AttendanceConfiguration.yml', null, true);
         $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
         $this->registerServices($testCaseParams);
@@ -44,7 +44,7 @@ class AttendanceConfigurationAPITest extends EndpointIntegrationTestCase
 
     public function dataProviderForTestGetOne(): array
     {
-        return $this->getTestCases('AttendanceConfigurationAPITestCase.yaml', 'GetOne');
+        return $this->getTestCases('AttendanceConfigurationAPITestCases.yaml', 'GetOne');
     }
 
     /**
@@ -52,7 +52,7 @@ class AttendanceConfigurationAPITest extends EndpointIntegrationTestCase
      */
     public function testUpdate(TestCaseParams $testCaseParams): void
     {
-        TestDataService::populate(Config::get(Config::TEST_DIR).'/phpunit/fixtures/WorkflowStateMachine.yaml', true);
+        TestDataService::populate(Config::get(Config::TEST_DIR).'/phpunit/fixtures/WorkflowStateMachine.yaml', false);
         $this->populateFixtures('AttendanceConfiguration.yml', null, true);
         $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
 
@@ -64,7 +64,7 @@ class AttendanceConfigurationAPITest extends EndpointIntegrationTestCase
 
     public function dataProviderForTestUpdate(): array
     {
-        return $this->getTestCases('AttendanceConfigurationAPITestCase.yaml', 'Update');
+        return $this->getTestCases('AttendanceConfigurationAPITestCases.yaml', 'Update');
     }
 
     public function testDelete(): void

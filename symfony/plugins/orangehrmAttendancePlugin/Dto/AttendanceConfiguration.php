@@ -21,55 +21,57 @@ namespace OrangeHRM\Attendance\Dto;
 
 class AttendanceConfiguration
 {
-    private bool $userCanChangeCurrentTime;
-    private bool $userCanModifyAttendance;
-    private bool $supervisorCanModifyAttendance;
+    private bool $canUserChangeCurrentTime;
+    private bool $canUserModifyAttendance;
+    private bool $canSupervisorModifyAttendance;
 
     /**
      * @return bool
      */
-    public function isUserCanChangeCurrentTime(): bool
+    public function canUserChangeCurrentTime(): bool
     {
-        return $this->userCanChangeCurrentTime;
+        return $this->canUserChangeCurrentTime;
     }
 
     /**
-     * @param  bool  $userCanChangeCurrentTime
+     * @param  bool  $canUserChangeCurrentTime
      */
-    public function setUserCanChangeCurrentTime(bool $userCanChangeCurrentTime): void
+    public function setCanUserChangeCurrentTime(bool $canUserChangeCurrentTime): void
     {
-        $this->userCanChangeCurrentTime = $userCanChangeCurrentTime;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isUserCanModifyAttendance(): bool
-    {
-        return $this->userCanModifyAttendance;
-    }
-
-    /**
-     * @param  bool  $userCanModifyAttendance
-     */
-    public function setUserCanModifyAttendance(bool $userCanModifyAttendance): void
-    {
-        $this->userCanModifyAttendance = $userCanModifyAttendance;
+        $this->canUserChangeCurrentTime = $canUserChangeCurrentTime;
     }
 
     /**
      * @return bool
      */
-    public function isSupervisorCanModifyAttendance(): bool
+    public function canUserModifyAttendance(): bool
     {
-        return $this->supervisorCanModifyAttendance;
+        return $this->canUserModifyAttendance;
     }
 
     /**
-     * @param  bool  $supervisorCanModifyAttendance
+     * @param  bool  $canUserModifyAttendance
      */
-    public function setSupervisorCanModifyAttendance(bool $supervisorCanModifyAttendance): void
+    public function setCanUserModifyAttendance(bool $canUserModifyAttendance): void
     {
-        $this->supervisorCanModifyAttendance = $supervisorCanModifyAttendance;
+        $this->canUserModifyAttendance = $canUserModifyAttendance;
     }
+
+    /**
+     * @return bool
+     */
+    public function canSupervisorModifyAttendance(): bool
+    {
+        return $this->canSupervisorModifyAttendance;
+    }
+
+    /**
+     * @param  bool  $canSupervisorModifyAttendance
+     */
+    public function setCanSupervisorModifyAttendance(bool $canSupervisorModifyAttendance): void
+    {
+        $this->canSupervisorModifyAttendance = $canSupervisorModifyAttendance;
+    }
+
+
 }
