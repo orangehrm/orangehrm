@@ -21,6 +21,8 @@ namespace OrangeHRM\Time\Controller;
 
 use OrangeHRM\Core\Authorization\Controller\CapableViewController;
 use OrangeHRM\Core\Controller\AbstractVueController;
+use OrangeHRM\Core\Controller\Common\NoRecordsFoundController;
+use OrangeHRM\Core\Controller\Exception\RequestForwardableException;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Core\Vue\Component;
@@ -70,7 +72,7 @@ class EditTimesheetController extends AbstractVueController implements CapableVi
                 return $this->getUserRoleManagerHelper()
                     ->isEmployeeAccessible($timesheet->getEmployee()->getEmpNumber());
             }
-            return false;
+            throw new RequestForwardableException(NoRecordsFoundController::class . '::handle');
         }
         return true;
     }
