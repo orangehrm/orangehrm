@@ -32,7 +32,6 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
-use OrangeHRM\Entity\Project;
 use OrangeHRM\Entity\ProjectActivity;
 use OrangeHRM\Time\Api\Model\ProjectActivityModel;
 use OrangeHRM\Time\Dto\ProjectActivitySearchFilterParams;
@@ -108,8 +107,7 @@ class ProjectActivityAPI extends Endpoint implements CrudEndpoint
     {
         return new ParamRule(
             self::PARAMETER_PROJECT_ID,
-            new Rule(Rules::POSITIVE),
-            new Rule(Rules::IN_ACCESSIBLE_ENTITY_ID, [Project::class])
+            new Rule(Rules::POSITIVE)
         );
     }
 
