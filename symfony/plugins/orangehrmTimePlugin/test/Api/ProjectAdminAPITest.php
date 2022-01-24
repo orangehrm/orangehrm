@@ -20,24 +20,21 @@
 namespace OrangeHRM\Tests\Time\Api;
 
 use OrangeHRM\Config\Config;
+use OrangeHRM\Entity\DataGroupPermission;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
 use OrangeHRM\Tests\Util\Integration\TestCaseParams;
 use OrangeHRM\Tests\Util\TestDataService;
-use OrangeHRM\Time\Api\TimeReportDataAPI;
+use OrangeHRM\Time\Api\ProjectAdminAPI;
 
-/**
- * @group Time
- * @group APIv2
- */
-class ProjectReportDataAPITest extends EndpointIntegrationTestCase
+class ProjectAdminAPITest extends EndpointIntegrationTestCase
 {
     public static function setUpBeforeClass(): void
     {
-        TestDataService::populate(Config::get(Config::TEST_DIR) . '/phpunit/fixtures/DataGroupPermission.yaml', true);
+        TestDataService::truncateSpecificTables([DataGroupPermission::class]);
         TestDataService::populate(
             Config::get(Config::PLUGINS_DIR) .
-            '/orangehrmTimePlugin/test/fixtures/ProjectReportDataAPITest.yaml',
+            '/orangehrmTimePlugin/test/fixtures/ProjectAdminAPITest.yaml',
             true
         );
     }
@@ -50,12 +47,40 @@ class ProjectReportDataAPITest extends EndpointIntegrationTestCase
         $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
         $this->registerServices($testCaseParams);
         $this->registerMockDateTimeHelper($testCaseParams);
-        $api = $this->getApiEndpointMock(TimeReportDataAPI::class, $testCaseParams);
+        $api = $this->getApiEndpointMock(ProjectAdminAPI::class, $testCaseParams);
         $this->assertValidTestCase($api, 'getAll', $testCaseParams);
     }
 
     public function dataProviderForTestGetAll(): array
     {
-        return $this->getTestCases('ProjectReportDataAPITestCase.yaml', 'GetAll');
+        return $this->getTestCases('ProjectAdminAPITestCases.yaml', 'GetAll');
+    }
+
+    public function testCreate(): void
+    {
+        $api = new ProjectAdminAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->create();
+    }
+
+    public function testGetValidationRuleForCreate(): void
+    {
+        $api = new ProjectAdminAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->getValidationRuleForCreate();
+    }
+
+    public function testDelete(): void
+    {
+        $api = new ProjectAdminAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->delete();
+    }
+
+    public function testGetValidationRuleForDelete(): void
+    {
+        $api = new ProjectAdminAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->getValidationRuleForDelete();
     }
 }

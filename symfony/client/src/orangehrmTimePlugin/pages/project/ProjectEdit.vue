@@ -101,7 +101,10 @@
       </oxd-form>
     </div>
     <br />
-    <activities :project-id="projectId"></activities>
+    <activities
+      :project-id="projectId"
+      :unselectable-ids="unselectableIds"
+    ></activities>
     <add-customer-modal
       v-if="showCustomerModal"
       @close="onCustomerModalClose"
@@ -141,6 +144,10 @@ export default {
     projectId: {
       type: Number,
       required: true,
+    },
+    unselectableIds: {
+      type: Array,
+      default: () => [],
     },
   },
   setup() {

@@ -46,11 +46,15 @@ export default {
       type: Object,
       default: () => ({}),
     },
+    apiPath: {
+      type:String,
+      default: 'api/v2/pim/employees',
+    }
   },
-  setup() {
+  setup(props) {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      'api/v2/pim/employees',
+      props.apiPath,
     );
     return {
       http,

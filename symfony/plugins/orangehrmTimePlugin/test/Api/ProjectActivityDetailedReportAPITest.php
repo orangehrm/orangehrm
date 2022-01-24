@@ -30,7 +30,7 @@ use OrangeHRM\Time\Api\TimeReportAPI;
  * @group Time
  * @group APIv2
  */
-class ProjectReportAPITest extends EndpointIntegrationTestCase
+class ProjectActivityDetailedReportAPITest extends EndpointIntegrationTestCase
 {
     /**
      * @dataProvider dataProviderForTestGetOne
@@ -38,6 +38,7 @@ class ProjectReportAPITest extends EndpointIntegrationTestCase
     public function testGetOne(TestCaseParams $testCaseParams): void
     {
         TestDataService::populate(Config::get(Config::TEST_DIR) . '/phpunit/fixtures/DataGroupPermission.yaml', true);
+        $this->populateFixtures('ProjectActivityDetailedReportAPITest.yaml', null, true);
         $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
         $this->registerServices($testCaseParams);
         $api = $this->getApiEndpointMock(TimeReportAPI::class, $testCaseParams);
@@ -46,7 +47,7 @@ class ProjectReportAPITest extends EndpointIntegrationTestCase
 
     public function dataProviderForTestGetOne(): array
     {
-        return $this->getTestCases('ProjectReportAPITestCase.yaml', 'GetOne');
+        return $this->getTestCases('ProjectActivityDetailedReportAPITestCase.yaml', 'GetOne');
     }
 
     public function testDelete(): void

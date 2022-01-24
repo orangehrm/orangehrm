@@ -1,0 +1,424 @@
+GetAll:
+  'Get all project activity detailed breakdown with out filter':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      name: 'activity_detailed'
+      projectId: 1
+      activityId: 1
+    data: [
+      {
+        "employeeName": "Kayla Abbey",
+        "time": "3.00"
+      }
+    ]
+    meta:
+      total: 1
+      sum: {
+        hours: 3.0,
+        minutes: 0,
+        label: "3.00"
+      },
+      projectActivity: {
+        id: 1,
+        name: "Debug",
+        deleted: false
+      }
+
+  'Get all project activity detailed breakdown with from date filter':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      name: 'activity_detailed'
+      projectId: 1
+      activityId: 1
+      fromDate: '2011-01-01'
+    data: [
+      {
+        "employeeName": "Kayla Abbey",
+        "time": "3.00"
+      }
+    ]
+    meta:
+      total: 1
+      sum: {
+        hours: 3.0,
+        minutes: 0,
+        label: "3.00"
+      },
+      projectActivity: {
+        id: 1,
+        name: "Debug",
+        deleted: false
+      }
+
+  'Get all project activity detailed breakdown with to date filter':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      name: 'activity_detailed'
+      projectId: 1
+      activityId: 1
+      toDate: '2011-04-25'
+    data: [
+      {
+        "employeeName": "Kayla Abbey",
+        "time": "3.00"
+      }
+    ]
+    meta:
+      total: 1
+      sum: {
+        hours: 3.0,
+        minutes: 0,
+        label: "3.00"
+      },
+      projectActivity: {
+        id: 1,
+        name: "Debug",
+        deleted: false
+      }
+
+  'Get all project activity detailed breakdown with date range filter':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      name: 'activity_detailed'
+      projectId: 1
+      activityId: 1
+      fromDate: '2011-04-18'
+      toDate: '2011-04-21'
+    data: [
+      {
+        "employeeName": "Kayla Abbey",
+        "time": "3.00"
+      }
+    ]
+    meta:
+      total: 1
+      sum: {
+        hours: 3.0,
+        minutes: 0,
+        label: "3.00"
+      },
+      projectActivity: {
+        id: 1,
+        name: "Debug",
+        deleted: false
+      }
+
+  'Get all project activity detailed breakdown with only approved timesheet filter':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      name: 'activity_detailed'
+      projectId: 1
+      activityId: 1
+      includeTimesheet: 'onlyApproved'
+    data: [
+      {
+        "employeeName": "Kayla Abbey",
+        "time": "3.00"
+      }
+    ]
+    meta:
+      total: 1
+      sum: {
+        hours: 3.0,
+        minutes: 0,
+        label: "3.00"
+      },
+      projectActivity: {
+        id: 1,
+        name: "Debug",
+        deleted: false
+      }
+
+  'Get all project activity detailed breakdown with approved timesheet only and date range filter':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      name: 'activity_detailed'
+      projectId: 1
+      activityId: 1
+      fromDate: '2011-04-18'
+      toDate: '2011-04-30'
+      includeTimesheet: 'onlyApproved'
+    data: [
+      {
+        "employeeName": "Kayla Abbey",
+        "time": "3.00"
+      }
+    ]
+    meta:
+      total: 1
+      sum: {
+        hours: 3.0,
+        minutes: 0,
+        label: "3.00"
+      },
+      projectActivity: {
+        id: 1,
+        name: "Debug",
+        deleted: false
+      }
+
+  'Get all project activity detailed breakdown with approved timesheet only and to date filter':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      name: 'activity_detailed'
+      projectId: 1
+      activityId: 1
+      toDate: '2011-04-30'
+      includeTimesheet: 'onlyApproved'
+    data: [
+      {
+        "employeeName": "Kayla Abbey",
+        "time": "3.00"
+      }
+    ]
+    meta:
+      total: 1
+      sum: {
+        hours: 3.0,
+        minutes: 0,
+        label: "3.00"
+      },
+      projectActivity: {
+        id: 1,
+        name: "Debug",
+        deleted: false
+      }
+
+  'with invalid report name':
+    userId: 1
+    services:
+      core.class_helper: \OrangeHRM\Core\Helper\ClassHelper
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      name: 'invalid'
+      activityId: 1
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\BadRequestException'
+      message: 'Invalid report name'
+
+  'with un available project id':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      name: 'activity_detailed'
+      projectId: 100
+      activityId: 1
+      toDate: '2011-04-30'
+      includeTimesheet: 'onlyApproved'
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
+      message: 'Invalid Parameter'
+
+  'with un available project activity id':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      name: 'activity_detailed'
+      projectId: 1
+      activityId: 100
+      toDate: '2011-04-30'
+      includeTimesheet: 'onlyApproved'
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
+      message: 'Invalid Parameter'
+
+  'with wrong date':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      name: 'activity_detailed'
+      projectId: 1
+      activityId: 1
+      toDate: '2011-04-31'
+      includeTimesheet: 'onlyApproved'
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
+      message: 'Invalid Parameter'
+
+  'with wrong from date':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      name: 'activity_detailed'
+      projectId: 1
+      activityId: 1
+      fromDate: '2011-05-01'
+      toDate: '2011-04-30'
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
+      message: 'Invalid Parameter'
+
+  'check un authorized access':
+    userId: 4
+    services:
+      core.class_helper: \OrangeHRM\Core\Helper\ClassHelper
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      name: 'project'
+      projectId: 1
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
+      message: 'Unauthorized'
+
+  'Get all project activity detailed breakdown with out filter (Project Admin)':
+    userId: 2
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      name: 'activity_detailed'
+      projectId: 1
+      activityId: 1
+    data: [
+      {
+        "employeeName": "Kayla Abbey",
+        "time": "3.00"
+      }
+    ]
+    meta:
+      total: 1
+      sum: {
+        hours: 3.0,
+        minutes: 0,
+        label: "3.00"
+      },
+      projectActivity: {
+        id: 1,
+        name: "Debug",
+        deleted: false
+      }
+
+  'Get all project activity detailed breakdown with only approved and date range filter (Project Admin)':
+    userId: 2
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      name: 'activity_detailed'
+      projectId: 1
+      activityId: 1
+      fromDate: '2011-04-18'
+      toDate: '2011-04-30'
+      includeTimesheet: 'onlyApproved'
+    data: [
+      {
+        "employeeName": "Kayla Abbey",
+        "time": "3.00"
+      }
+    ]
+    meta:
+      total: 1
+      sum: {
+        hours: 3.0,
+        minutes: 0,
+        label: "3.00"
+      },
+      projectActivity: {
+        id: 1,
+        name: "Debug",
+        deleted: false
+      }

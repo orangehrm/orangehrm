@@ -45,14 +45,15 @@ $card-padding: $card-padding-top-bottom $card-padding-left-right;
       }
     }
     &--options {
+      width: 100%;
       display: flex;
-      gap: 0.4rem;
       flex-direction: column;
       padding: $card-padding;
-      justify-content: center;
-      align-items: center;
+      box-sizing: border-box;
       @include oxd-respond-to('md') {
-        gap: unset;
+        width: unset;
+        justify-content: center;
+        align-items: center;
         flex-direction: row;
       }
     }

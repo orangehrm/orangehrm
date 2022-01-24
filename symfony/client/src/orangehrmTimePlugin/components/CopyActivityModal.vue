@@ -110,10 +110,13 @@ export default {
             if (this.activities !== null && this.activities.length === 0) {
               return 'No assigned activities';
             } else if (
-              this.activities !== null &&
+              Array.isArray(this.activities) &&
               this.selectedActivities.length === 0
             ) {
-              return 'No activities selected';
+              const hasUnique = this.activities.find(
+                activity => activity.unique === true,
+              );
+              return hasUnique ? 'No activities selected' : 'Already exists';
             } else {
               return true;
             }
