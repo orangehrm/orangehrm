@@ -69,6 +69,10 @@ class EditTimesheetController extends AbstractVueController implements CapableVi
                 ->getTimesheetDao()
                 ->getTimesheetById($request->attributes->getInt('id'));
             if ($timesheet instanceof Timesheet) {
+                if ($this->getUserRoleManagerHelper()->isSelfByEmpNumber($timesheet->getEmployee()->getEmpNumber())
+                    && $timesheet->getState() === 'APPROVED') {
+                    return false;
+                }
                 return $this->getUserRoleManagerHelper()
                     ->isEmployeeAccessible($timesheet->getEmployee()->getEmpNumber());
             }
