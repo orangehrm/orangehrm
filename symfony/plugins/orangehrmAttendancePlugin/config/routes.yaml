@@ -1,0 +1,46 @@
+apiv2_attendance_configuration:
+  path: /api/v2/attendance/configs
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    id: 0
+    _api: OrangeHRM\Attendance\Api\AttendanceConfigurationAPI
+
+apiv2_attendance_currentdatetime:
+  path: /api/v2/attendance/currentdatetime
+  controller: OrangeHRM\Attendance\Controller\AttendanceMockController::getCurrentDateTime
+  methods: [ GET ]
+
+apiv2_attendance_validate_datetime:
+  path: /api/v2/attendance/validatedate
+  controller: OrangeHRM\Attendance\Controller\AttendanceMockController::validateDateTime
+  methods: [ GET ]
+
+apiv2_attendance_records:
+  path: /api/v2/attendance/records/{id?}
+  controller: OrangeHRM\Attendance\Controller\AttendanceMockController::sendAttendanceResponse
+  methods: [ GET, POST, PUT ]
+
+apiv2_attendance_timezones:
+  path: /api/v2/attendance/timezones
+  controller: OrangeHRM\Attendance\Controller\AttendanceMockController::getTimezones
+  methods: [ GET ]
+
+##########################
+#        Screens
+##########################
+
+attendance_punch_in:
+  path: /attendance/punchIn
+  controller: OrangeHRM\Attendance\Controller\PunchInController::handle
+  methods: [ GET ]
+
+attendance_punch_out:
+  path: /attendance/punchOut
+  controller: OrangeHRM\Attendance\Controller\PunchOutController::handle
+  methods: [ GET ]
+
+attendance_configure:
+  path: /attendance/configure
+  controller: OrangeHRM\Attendance\Controller\AttendanceConfigurationController::handle
+  methods: [ GET ]

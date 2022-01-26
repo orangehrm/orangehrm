@@ -68,7 +68,7 @@ GetAll:
         middleName: 'ST'
         employeeId: 'E002'
         terminationId: null
-
+          
   'get employee report data - without filters - supervisor to non assigned subordinate':
     userId: 3
     services:
@@ -159,6 +159,25 @@ GetAll:
         employeeId: 'E002'
         terminationId: null
 
+  'get employee report data - with filters - projectId - non existing projectId':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      name: 'employee'
+      empNumber: 2
+      projectId: 25
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
+      message: 'Invalid Parameter'
+
   'get employee report data - with filter - activityId':
     userId: 1
     services:
@@ -191,6 +210,25 @@ GetAll:
         middleName: 'ST'
         employeeId: 'E002'
         terminationId: null
+
+  'get employee report data - with filter - activityId - non existing activityId':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      name: 'employee'
+      empNumber: 2
+      activityId: 25
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
+      message: 'Invalid Parameter'
 
   'get employee report data - with filter - fromDate':
     userId: 1

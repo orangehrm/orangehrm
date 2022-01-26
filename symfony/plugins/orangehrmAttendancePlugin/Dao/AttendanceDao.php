@@ -17,7 +17,13 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-class AttendanceDao {
+namespace OrangeHRM\Attendance\Dao;
+
+use OrangeHRM\Core\Dao\BaseDao;
+use OrangeHRM\Entity\AttendanceRecord;
+use OrangeHRM\Entity\WorkflowStateMachine;
+
+class AttendanceDao extends BaseDao {
 
     /**
      * save punchRecord
@@ -151,33 +157,37 @@ class AttendanceDao {
     }
 
     /**
-     * get Saved Configuration
-     * @param $workflow, $state, $role, $action, $resultingState
-     * @return boolean
+     * @param  string  $workflow
+     * @param  string  $state
+     * @param  string  $role
+     * @param  string  $action
+     * @param  string  $resultingState
+     * @return bool
      */
-    public function getSavedConfiguration($workflow, $state, $role, $action, $resultingState) {
+    public function hasSavedConfiguration(
+        string $workflow,
+        string $state,
+        string $role,
+        string $action,
+        string $resultingState
+    ): bool {
+        $qb = $this->createQueryBuilder(WorkflowStateMachine::class, 'workflowStateMachine');
+        $qb->where('workflowStateMachine.workflow = :workflow');
+        $qb->setParameter('workflow', $workflow);
+        $qb->andWhere('workflowStateMachine.state = :state');
+        $qb->setParameter('state', $state);
+        $qb->andWhere('workflowStateMachine.role = :role');
+        $qb->setParameter('role', $role);
+        $qb->andWhere('workflowStateMachine.action = :action');
+        $qb->setParameter('action', $action);
+        $qb->andWhere('workflowStateMachine.resultingState = :resultingState');
+        $qb->setParameter('resultingState', $resultingState);
 
-
-        try {
-
-            $query = Doctrine_Query::create()
-                    ->from("WorkflowStateMachine")
-                    ->where("workflow = ?", $workflow)
-                    ->andWhere("state = ?", $state)
-                    ->andWhere("role = ?", $role)
-                    ->andWhere("action = ?", $action)
-                    ->andWhere("resultingState = ?", $resultingState);
-            $results = $query->execute();
-
-            if ($results[0]->getId() == null) {
-
-                return false;
-            } else {
-                return true;
-            }
-        } catch (Exception $ex) {
-            throw new DaoException($ex->getMessage());
+        $result = $qb->getQuery()->execute();
+        if ($result) {
+            return true;
         }
+        return false;
     }
 
     /**

@@ -34,7 +34,10 @@
               />
             </oxd-grid-item>
             <oxd-grid-item>
-              <project-admin-autocomplete v-model="filters.projectAdmin" />
+              <project-admin-autocomplete
+                v-model="filters.projectAdmin"
+                :show-delete="false"
+              />
             </oxd-grid-item>
           </oxd-grid>
         </oxd-form-row>
@@ -107,25 +110,6 @@ import ProjectAutocomplete from '@/orangehrmTimePlugin/components/ProjectAutocom
 import CustomerAutocomplete from '@/orangehrmTimePlugin/components/CustomerAutocomplete.vue';
 import ProjectAdminAutocomplete from '@/orangehrmTimePlugin/components/ProjectAdminAutocomplete.vue';
 
-const userdataNormalizer = data => {
-  return data.map(item => {
-    return {
-      id: item.id,
-      project: item.name,
-      customer: item.customer?.deleted
-        ? item.customer?.name + ' (Deleted)'
-        : item.customer?.name,
-      projectAdmins: item.projectAdmins
-        ?.map(projectAdmin => {
-          return projectAdmin.terminationId
-            ? `${projectAdmin.firstName} ${projectAdmin.lastName} (Past Employee)`
-            : `${projectAdmin.firstName} ${projectAdmin.lastName}`;
-        })
-        .join(', '),
-    };
-  });
-};
-
 const defaultFilters = {
   customer: null,
   project: null,
@@ -145,7 +129,34 @@ export default {
     'delete-confirmation': DeleteConfirmationDialog,
     'project-admin-autocomplete': ProjectAdminAutocomplete,
   },
-  setup() {
+  props: {
+    unselectableIds: {
+      type: Array,
+      default: () => [],
+    },
+  },
+  setup(props) {
+    const projectNormalizer = data => {
+      return data.map(item => {
+        const selectable = props.unselectableIds.findIndex(id => id == item.id);
+        return {
+          id: item.id,
+          project: item.name,
+          customer: item.customer?.deleted
+            ? item.customer?.name + ' (Deleted)'
+            : item.customer?.name,
+          projectAdmins: item.projectAdmins
+            ?.map(projectAdmin => {
+              return projectAdmin.terminationId
+                ? `${projectAdmin.firstName} ${projectAdmin.lastName} (Past Employee)`
+                : `${projectAdmin.firstName} ${projectAdmin.lastName}`;
+            })
+            .join(', '),
+          isSelectable: selectable === -1,
+        };
+      });
+    };
+
     const filters = ref({...defaultFilters});
     const {sortDefinition, sortField, sortOrder, onSort} = useSort({
       sortDefinition: defaultSortOrder,
@@ -178,7 +189,7 @@ export default {
       execQuery,
     } = usePaginate(http, {
       query: serializedFilters,
-      normalizer: userdataNormalizer,
+      normalizer: projectNormalizer,
     });
 
     onSort(execQuery);
@@ -262,6 +273,10 @@ export default {
       navigate('/time/saveProject/{id}', {id: item.id});
     },
     onClickDelete(item) {
+      const isSelectable = this.unselectableIds.findIndex(id => id == item.id);
+      if (isSelectable > -1) {
+        return this.$toast.cannotDelete();
+      }
       this.$refs.deleteDialog.showDialog().then(confirmation => {
         if (confirmation === 'ok') {
           this.deleteData([item.id]);
