@@ -3,7 +3,6 @@
 #  controller: OrangeHRM\Core\Controller\Common\ModuleUnderDevelopmentController::handle
 #  methods: [ GET ]
 
-
 performance_todo: # remove this
   path: /performance/viewMyPerformanceTrackerList
   controller: OrangeHRM\Performance\Controller\MyTrackerController::handle
