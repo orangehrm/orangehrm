@@ -1,4 +1,21 @@
-performance_module_under_development: # remove this
-  path: /performance/{screen}
-  controller: OrangeHRM\Core\Controller\Common\ModuleUnderDevelopmentController::handle
+# performance_module_under_development: # remove this
+# path: /performance/{screen}
+# controller: OrangeHRM\Core\Controller\Common\ModuleUnderDevelopmentController::handle
+# methods: [ GET ]
+
+
+
+performance_tracker_list:
+  path: /performance/addPerformanceTracker
+  controller: OrangeHRM\Performance\Controller\TrackerListController::handle
+  methods: [ GET ]
+
+add_performance_tracker:
+  path: /performance/savePerformanceTracker
+  controller: OrangeHRM\Performance\Controller\SavePerformanceTrackerController::handle
+  methods: [ GET ]
+
+edit_performance_tracker:
+  path: /performance/savePerformanceTracker/{id}
+  controller: OrangeHRM\Performance\Controller\SavePerformanceTrackerController::handle
   methods: [ GET ]
