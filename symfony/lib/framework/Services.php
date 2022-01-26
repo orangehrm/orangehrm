@@ -250,4 +250,13 @@ final class Services
      * @see \OrangeHRM\Time\Service\TimesheetService
      */
     public const TIMESHEET_SERVICE = 'time.timesheet_service';
+
+    ///////////////////////////////////////////////////////////////
+    /// Attendance plugin services
+    ///////////////////////////////////////////////////////////////
+
+    /**
+     * @see \OrangeHRM\Attendance\Service\AttendanceService
+     */
+    public const ATTENDANCE_SERVICE = 'attendance.attendance_service';
 }

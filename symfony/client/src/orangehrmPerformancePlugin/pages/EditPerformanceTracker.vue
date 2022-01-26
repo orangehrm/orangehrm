@@ -19,20 +19,22 @@
  -->
 
 <template>
-<div class="orangehrm-background-container">
+  <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
-      <oxd-text tag="h6" class="orangehrm-main-title">Edit Performance Tracker</oxd-text>
+      <oxd-text tag="h6" class="orangehrm-main-title"
+        >Edit Performance Tracker</oxd-text
+      >
       <oxd-divider />
       <oxd-form :loading="isLoading" @submitValid="onSave">
         <oxd-form-row>
           <oxd-grid :cols="2" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <oxd-input-field
-                  v-model="tracker.name"
-                  :rules="rules.tracker"
-                  label="Tracker Name"
-                  required
-                />
+                v-model="tracker.name"
+                :rules="rules.tracker"
+                label="Tracker Name"
+                required
+              />
             </oxd-grid-item>
           </oxd-grid>
         </oxd-form-row>
@@ -40,18 +42,18 @@
           <oxd-grid :cols="2" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <employee-autocomplete
-                  v-model="tracker.employee"
-                  :rules="rules.employee"
-                  label="Employee Name"
-                  required
+                v-model="tracker.employee"
+                :rules="rules.employee"
+                label="Employee Name"
+                required
               />
             </oxd-grid-item>
             <oxd-grid-item>
               <reviewers-autocomplete
-                  v-model="tracker.reviewers"
-                  :rules="rules.reviewers"
-                  label="Reviewers"
-                  required
+                v-model="tracker.reviewers"
+                :rules="rules.reviewers"
+                label="Reviewers"
+                required
               />
             </oxd-grid-item>
           </oxd-grid>
@@ -60,108 +62,117 @@
         <oxd-form-actions>
           <required-text />
           <oxd-button
-              type="button"
-              display-type="ghost"
-              label="Cancel"
-              @click="onCancel"
+            type="button"
+            display-type="ghost"
+            label="Cancel"
+            @click="onCancel"
           />
           <submit-button />
         </oxd-form-actions>
       </oxd-form>
     </div>
-</div>
+  </div>
 </template>
 
 <script>
- import {navigate} from '@/core/util/helper/navigation';
- import {APIService} from '@/core/util/services/api.service';
- import EmployeeAutocomplete from "@/core/components/inputs/EmployeeAutocomplete";
- import PasswordInput from "@/core/components/inputs/PasswordInput";
- import ReviewersAutoComplete from '@/orangehrmPerformancePlugin/components/ReviewersAutoComplete';
- import {required, shouldNotExceedCharLength} from '@/core/util/validation/rules';
+import {navigate} from '@/core/util/helper/navigation';
+import {APIService} from '@/core/util/services/api.service';
+import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
+import PasswordInput from '@/core/components/inputs/PasswordInput';
+import ReviewersAutoComplete from '@/orangehrmPerformancePlugin/components/ReviewersAutoComplete';
+import {
+  required,
+  shouldNotExceedCharLength,
+} from '@/core/util/validation/rules';
 
- const trackerModel = {
-   name:null,
-   employee: null,
-   reviewers: [],
- };
+const trackerModel = {
+  name: null,
+  employee: null,
+  reviewers: [],
+};
 
- export default {
-   components: {
-     'employee-autocomplete': EmployeeAutocomplete,
-     'reviewers-autocomplete': ReviewersAutoComplete,
-   },
-   props: {
-     performaceTrackerId: {
-       type: String,
-       required: true,
-     },
-   },
-   setup() {
-     const http = new APIService(
-         'https://796aa478-538c-47e3-8133-bc2f05a479b1.mock.pstmn.io',
-         '/api/v2/performance/addPerformanceTracker',);
-     return {
-       http,
-     };
-   },
-   data(){
-     return {
-       isLoading: false,
-       tracker: {...trackerModel},
-       rules:{
-         tracker:[required, shouldNotExceedCharLength(200)],
-         employee:[required],
-         reviewers:[required],
-       },
-     };
-   },
-   beforeMount() {
-     this.isLoading = true;
-     this.http
-         .get(this.performaceTrackerId) //performace-tracker-id
-         .then(response => {
-           const {data} = response.data;
-           this.tracker.id = data.id;
-           this.tracker.name = data.name;
-           this.tracker.employee = data.employee;
-           this.tracker.empNumbers = data.employees.map(employee => {
-             return {
-               id: employee.empNumber,
-               label: `${employee.firstName} ${employee.middleName} ${employee.lastName}`,
-               isPastEmployee: employee.terminationId ? true : false,
-             };
-           });
-           return this.http.getAll();
-        })
-         .then(response => {
-           const {data} = response.data;
-           this.rules.name.push(v => {
-             const index = data.findIndex(item => item.name == v);
-             if (index > -1) {
-               const {id} = data[index];
-               return id != this.tracker.id ? 'Already exists' : true;
-             } else {
-               return true;
-             }
-           });
-         })
-         .finally(() => {
-           this.isLoading = false;
-         });
+export default {
+  components: {
+    'employee-autocomplete': EmployeeAutocomplete,
+    'reviewers-autocomplete': ReviewersAutoComplete,
+  },
+  props: {
+    performaceTrackerId: {
+      type: String,
+      required: true,
+    },
+  },
+  setup() {
+    const http = new APIService(
+      'https://796aa478-538c-47e3-8133-bc2f05a479b1.mock.pstmn.io',
+      '/api/v2/performance/savePerformanceTracker',
+    );
+    return {
+      http,
+    };
+  },
+  data() {
+    return {
+      isLoading: false,
+      tracker: {...trackerModel},
+      rules: {
+        tracker: [required, shouldNotExceedCharLength(200)],
+        employee: [required],
+        reviewers: [required],
       },
+    };
+  },
+  beforeMount() {
+    this.isLoading = true;
+    this.http
+      .get(this.performaceTrackerId) //performace-tracker-id
+      .then(response => {
+        const {data} = response.data;
+        console.log(data);
+        this.tracker.id = data.id;
+        this.tracker.name = data.trackerName;
+        this.tracker.employee = data.employee ? {
+          id:data.employee.empNumber,
+              label: `${data.employee.firstName} ${data.employee.middleName} ${data.employee.lastName}`,
+              isPastEmployee: data.employee.terminationId ? true : false,
+            } : null;
+        this.tracker.reviewers = data.reviewers.map(employee => {
+          return {
+            id: employee.empNumber,
+            label: `${employee.firstName} ${employee.middleName} ${employee.lastName}`,
+            isPastEmployee: employee.terminationId ? true : false,
+          };
+        });
+        return this.http.getAll();
+      })
+      .finally(() => {
+        this.isLoading = false;
+      });
+  },
 
-   methods:{
-     onCancel() {
-       navigate('/performance/addPerformanceTracker');
-     },
-     onSave() {
-       console.log('test save');
-     }
-   }
- }
+  methods: {
+    onCancel() {
+      navigate('/performance/addPerformanceTracker');
+    },
+    onSave() {
+      this.isLoading = true;
+      const payload = {
+        name: this.tracker.name.trim(),
+        employee: this.tracker.employee,
+        reviewer: this.tracker.reviewers.map(employee => employee.id),
+      }
+      this.http
+      .update(this.performaceTrackerId, payload)
+      .then(() => {
+        return this.$toast.saveSuccess();
+      })
+      .then(() => {
+        // go back
+        this.onCancel();
+      });
+    },
+  },
+};
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

@@ -21,17 +21,21 @@ namespace OrangeHRM\Time\Controller;
 
 use OrangeHRM\Core\Authorization\Controller\CapableViewController;
 use OrangeHRM\Core\Controller\AbstractVueController;
+use OrangeHRM\Core\Controller\Common\NoRecordsFoundController;
+use OrangeHRM\Core\Controller\Exception\RequestForwardableException;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Entity\Project;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Time\Controller\Traits\PermissionTrait;
+use OrangeHRM\Time\Traits\Service\ProjectServiceTrait;
 
 class SaveProjectController extends AbstractVueController implements CapableViewController
 {
     use PermissionTrait;
     use UserRoleManagerTrait;
+    use ProjectServiceTrait;
 
     /**
      * @inheritDoc
@@ -40,6 +44,10 @@ class SaveProjectController extends AbstractVueController implements CapableView
     {
         if ($request->attributes->has('id')) {
             $component = new Component('project-edit');
+            $unselectableActivityIds = $this->getProjectService()
+                ->getProjectDao()
+                ->getActivityIdsOfProjectInTimesheetItems($request->attributes->getInt('id'));
+            $component->addProp(new Prop('unselectable-ids', Prop::TYPE_ARRAY, $unselectableActivityIds));
             $component->addProp(new Prop('project-id', Prop::TYPE_NUMBER, $request->attributes->getInt('id')));
         } else {
             $component = new Component('project-save');
@@ -54,7 +62,11 @@ class SaveProjectController extends AbstractVueController implements CapableView
     public function isCapable(Request $request): bool
     {
         if ($request->attributes->has('id')) {
-            return $this->getUserRoleManager()->isEntityAccessible(Project::class, $request->attributes->get('id'));
+            $id = $request->attributes->get('id');
+            if (!$this->getProjectService()->getProjectDao()->getProjectById($id) instanceof Project) {
+                throw new RequestForwardableException(NoRecordsFoundController::class . '::handle');
+            }
+            return $this->getUserRoleManager()->isEntityAccessible(Project::class, $id);
         }
         return true;
     }

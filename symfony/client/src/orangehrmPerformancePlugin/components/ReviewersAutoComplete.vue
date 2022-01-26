@@ -20,63 +20,58 @@
 
 <template>
   <employee-autocomplete
-    label ="Reviewers"
+    label="Reviewers"
     :multiple="true"
     :clear="false"
     :create-options="loadEmployees"
     required
   />
-
-
 </template>
 
 <script>
+import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
+import {APIService} from '@/core/util/services/api.service';
 
- import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
- import {APIService} from '@/core/util/services/api.service';
-
- export default {
-  name:'ReviewersAutoComplete',
-  components:{
+export default {
+  name: 'ReviewersAutoComplete',
+  components: {
     'employee-autocomplete': EmployeeAutocomplete,
   },
-  setup(){
+  setup() {
     const http = new APIService(
-        window.appGlobal.baseUrl,
-        'api/v2/admin/work-shifts/employees',   //this should be replaced with a new backend API for getting employee list from backend.
+      window.appGlobal.baseUrl,
+      'api/v2/admin/work-shifts/employees', //this should be replaced with a new backend API for getting employee list from backend.
     );
     return {
       http,
     };
   },
-   methods: {
-     async loadEmployees(serachParam) {
-       return new Promise(resolve => {
-         if (serachParam.trim()) {
-           this.http
-               .getAll({
-                 nameOrId: serachParam.trim(),
-               })
-               .then(({data}) => {
-                 resolve(
-                     data.data.map(employee => {
-                       return {
-                         id: employee.empNumber,
-                         label: `${employee.firstName} ${employee.middleName} ${employee.lastName}`,
-                         isPastEmployee: employee.terminationId ? true : false,
-                       };
-                     }),
-                 );
-               });
-         } else {
-           resolve([]);
-         }
-       });
-     },
-   },
- }
+  methods: {
+    async loadEmployees(serachParam) {
+      return new Promise(resolve => {
+        if (serachParam.trim()) {
+          this.http
+            .getAll({
+              nameOrId: serachParam.trim(),
+            })
+            .then(({data}) => {
+              resolve(
+                data.data.map(employee => {
+                  return {
+                    id: employee.empNumber,
+                    label: `${employee.firstName} ${employee.middleName} ${employee.lastName}`,
+                    isPastEmployee: employee.terminationId ? true : false,
+                  };
+                }),
+              );
+            });
+        } else {
+          resolve([]);
+        }
+      });
+    },
+  },
+};
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

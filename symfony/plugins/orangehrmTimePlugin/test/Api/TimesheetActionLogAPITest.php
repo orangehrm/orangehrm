@@ -57,7 +57,7 @@ class TimesheetActionLogAPITest extends EndpointIntegrationTestCase
     {
         $api = new TimesheetActionLogAPI($this->getRequest());
         $this->expectNotImplementedException();
-        $api->delete();
+        $api->create();
     }
 
     public function testGetValidationRuleForCreate(): void

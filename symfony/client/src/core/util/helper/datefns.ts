@@ -167,6 +167,21 @@ const parseTimeInSeconds = (value: string): number => {
   }
 };
 
+/**
+ * setClockInterval will repeatedly calls a function or executes a code snippet,
+ * while being in sync with system clock. minimum resoluton 1 second.
+ * @param callback {function():void} callback function to execute
+ * @param interval {number} interval in miliseconds. default 1000
+ */
+const setClockInterval = (callback: (args: void) => void, interval = 1000) => {
+  interval = interval < 1000 ? 1000 : interval; // minimum interval 1000 miliseconds
+  const timer = () => {
+    callback();
+    setTimeout(timer, interval - (new Date().getTime() % interval));
+  };
+  timer();
+};
+
 export {
   isDate,
   freshDate,
@@ -185,4 +200,5 @@ export {
   secondsTohhmm,
   compareTime,
   parseTimeInSeconds,
+  setClockInterval,
 };

@@ -19,54 +19,51 @@
  -->
 <template>
   <div class="orangehrm-background-container">
-    <div class="orangehrm-paper-container">
-      <div class="orangehrm-header-container">
-        <oxd-text class="orangehrm-main-title" tag="h6">Performance Trackers
-        </oxd-text>
-      </div>
+    <oxd-table-filter filter-title="Performance Trackers">
       <oxd-form @submitValid="filterItems">
         <oxd-form-row>
           <oxd-grid :cols="4" class="orangehrm-full-width-grid">
             <oxd-grid-item>
-              <employee-autocomplete v-model="filters.empNumber"/>
+              <employee-autocomplete
+                  v-model="filters.empNumber"
+              />
             </oxd-grid-item>
           </oxd-grid>
         </oxd-form-row>
-        <oxd-divider/>
+        <oxd-divider />
         <oxd-form-actions>
           <oxd-button
-              display-type="ghost"
-              label="Reset"
-              @click="onClickReset"
+            display-type="ghost"
+            label="Reset"
+            @click="onClickReset"
           />
           <oxd-button
-              class="orangehrm-left-space"
-              display-type="secondary"
-              label="Search"
-              type="submit"
+            class="orangehrm-left-space"
+            display-type="secondary"
+            label="Search"
+            type="submit"
           />
         </oxd-form-actions>
       </oxd-form>
-    </div>
-  </div>
-  <br/>
-  <div class="orangehrm-paper-container">
-    <div class="orangehrm-header-container">
-      <oxd-button
+    </oxd-table-filter>
+  <br />
+    <div class="orangehrm-paper-container">
+      <div class="orangehrm-header-container">
+        <oxd-button
           display-type="secondary"
           icon-name="plus"
           label="Add"
           @click="onClickAdd"
-      />
-    </div>
-    <table-header
+        />
+      </div>
+      <table-header
         :loading="isLoading"
         :selected="checkedItems.length"
         :total="total"
         @delete="onClickDeleteSelected"
-    ></table-header>
-    <div class="orangehrm-container">
-      <oxd-card-table
+      ></table-header>
+      <div class="orangehrm-container">
+        <oxd-card-table
           v-model:order="sortDefinition"
           v-model:selected="checkedItems"
           :clickable="false"
@@ -75,24 +72,22 @@
           :loading="isLoading"
           :selectable="true"
           row-decorator="oxd-table-decorator-card"
-      />
-    </div>
-    <!-- Pagination comes here -->
-    <div class="orangehrm-bottom-container">
-      <oxd-pagination
+        />
+      </div>
+      <!-- Pagination comes here -->
+      <div class="orangehrm-bottom-container">
+        <oxd-pagination
           v-if="showPaginator"
           v-model:current="currentPage"
           :length="pages"
-      ></oxd-pagination>
+        ></oxd-pagination>
+      </div>
     </div>
     <delete-confirmation ref="deleteDialog"></delete-confirmation>
-  </div>
-
+</div>
 </template>
 
 <script>
-
-
 import {computed, ref} from 'vue';
 import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmationDialog';
 import {navigate} from '@/core/util/helper/navigation';
@@ -101,21 +96,25 @@ import useSort from '@/core/util/composable/useSort';
 import usePaginate from '@/core/util/composable/usePaginate';
 import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
 
-
 const trackerNormalizer = data => {
   return data.map(row => {
     return {
       id: row.id,
-      employee: row.name,
-      tracker: row.tracker,
+      tracker: row.trackerName,
+      addDate: row.addedDate,
+      matureDate: row.modifiedDate,
+      empName: `${row.employee?.firstName} ${row.employee?.lastName}
+          ${row.employee?.terminationId ? ' (Past Employee)' : ''}`,
     };
   });
 };
 
 const defaultFilters = {
   empNumber: null,
+  includeEmployees: {
+    param: 'currentAndPast',
+  },
 };
-
 
 const defaultSortOrder = {
   'e.name': 'ASC',
@@ -125,7 +124,7 @@ const defaultSortOrder = {
 };
 
 export default {
-  name: 'trackerList',
+  name: 'TrackerList',
 
   components: {
     'delete-confirmation': DeleteConfirmationDialog,
@@ -140,8 +139,8 @@ export default {
 
   setup() {
     const http = new APIService(
-        'https://796aa478-538c-47e3-8133-bc2f05a479b1.mock.pstmn.io',
-        '/api/v2/performance/addPerformanceTracker',
+      'https://796aa478-538c-47e3-8133-bc2f05a479b1.mock.pstmn.io',
+      '/api/v2/performance/addPerformanceTracker',
     );
 
     const filters = ref({...defaultFilters});
@@ -155,6 +154,7 @@ export default {
         empNumber: filters.value.empNumber?.id,
         sortField: sortField.value,
         sortOrder: sortOrder.value,
+        includeEmployees: filters.value.includeEmployees?.param,
       };
     });
     const {
@@ -170,7 +170,7 @@ export default {
       normalizer: trackerNormalizer,
       prefetch: true,
       toastNoRecords: true,
-    })
+    });
 
     onSort(execQuery);
 
@@ -185,14 +185,14 @@ export default {
       execQuery,
       sortDefinition,
       filters,
-    }
+    };
   },
 
   data() {
     return {
       headers: [
         {
-          name: 'employee',
+          name: 'empName',
           title: 'Employee',
           slot: 'title',
           sortField: 'e.name',
@@ -288,16 +288,16 @@ export default {
       if (items instanceof Array) {
         this.isLoading = true;
         this.http
-            .deleteAll({
-              ids: items,
-            })
-            .then(() => {
-              return this.$toast.deleteSuccess();
-            })
-            .then(() => {
-              this.isLoading = false;
-              this.resetDataTable();
-            });
+          .deleteAll({
+            ids: items,
+          })
+          .then(() => {
+            return this.$toast.deleteSuccess();
+          })
+          .then(() => {
+            this.isLoading = false;
+            this.resetDataTable();
+          });
       }
     },
     async resetDataTable() {
@@ -311,10 +311,8 @@ export default {
       this.filters = {...defaultFilters};
       this.filterItems();
     },
-  }
-}
+  },
+};
 </script>
 
-<style>
-
-</style>
+<style></style>

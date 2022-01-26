@@ -32,6 +32,9 @@
               <employee-autocomplete
                 v-model="employee"
                 :rules="rules.employee"
+                :params="{
+                  includeEmployees: 'currentAndPast',
+                }"
                 required
               />
             </oxd-grid-item>
