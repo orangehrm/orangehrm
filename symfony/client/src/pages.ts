@@ -68,6 +68,7 @@ import EmailSubscription from '@/orangehrmAdminPlugin/pages/emailSubscription/Em
 import EditEmailSubscription from '@/orangehrmAdminPlugin/pages/emailSubscription/EditEmailSubscription.vue';
 import HelpPages from '@/orangehrmHelpPlugin';
 import TimePages from '@/orangehrmTimePlugin';
+import EmployeeTrackers from '@/orangehrmPerformancePlugin/pages/EmployeeTrackers.vue';
 
 export default {
   'job-title-list': JobTitle,
@@ -123,4 +124,5 @@ export default {
   'email-subscription-edit': EditEmailSubscription,
   ...HelpPages,
   ...TimePages,
+  'employee-trackers': EmployeeTrackers,
 };
