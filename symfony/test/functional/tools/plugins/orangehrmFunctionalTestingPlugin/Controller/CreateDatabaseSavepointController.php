@@ -28,8 +28,6 @@ class CreateDatabaseSavepointController extends AbstractController implements Pu
 {
     use CacheTrait;
 
-    public const DB_SAVEPOINT_CACHE_KEY_PREFIX = 'db.savepoint';
-
     /**
      * @param Request $request
      * @return Response

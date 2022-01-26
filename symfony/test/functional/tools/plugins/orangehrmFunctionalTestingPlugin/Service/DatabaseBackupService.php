@@ -32,7 +32,7 @@ class DatabaseBackupService
     use CacheTrait;
 
     public const DB_SAVEPOINT_CACHE_KEY_PREFIX = 'db.savepoint';
-    public const INITIAL_SAVEPOINT_NAME = '__initial';
+    public const INITIAL_SAVEPOINT_CACHE_KEY_PREFIX = 'db.initial.savepoint';
 
     /**
      * @return Connection
@@ -55,12 +55,21 @@ class DatabaseBackupService
 
     /**
      * @param string $savepointName
-     * @param string|null $tableName
      * @return string
      */
-    private function genSavepointCacheKey(string $savepointName, ?string $tableName): string
+    private function genSavepointCacheKeyPrefix(string $savepointName): string
     {
-        return self::DB_SAVEPOINT_CACHE_KEY_PREFIX . ".$savepointName.$tableName";
+        return self::DB_SAVEPOINT_CACHE_KEY_PREFIX . ".$savepointName";
+    }
+
+    /**
+     * @param string $savepointCacheKeyPrefix
+     * @param string $tableName
+     * @return string
+     */
+    private function genSavepointCacheKey(string $savepointCacheKeyPrefix, string $tableName): string
+    {
+        return "$savepointCacheKeyPrefix.$tableName";
     }
 
     /**
@@ -69,10 +78,7 @@ class DatabaseBackupService
      */
     public function createSavepoint(string $savepointName): array
     {
-        if ($savepointName === self::INITIAL_SAVEPOINT_NAME) {
-            throw new Exception('Not allowed to use reserved savepoint name');
-        }
-        return $this->_createSavepoint($savepointName);
+        return $this->_createSavepoint($this->genSavepointCacheKeyPrefix($savepointName));
     }
 
     /**
@@ -80,15 +86,15 @@ class DatabaseBackupService
      */
     public function createInitialSavepoint(): array
     {
-        $this->_deleteSavepoint(self::INITIAL_SAVEPOINT_NAME);
-        return $this->_createSavepoint(self::INITIAL_SAVEPOINT_NAME);
+        $this->deleteAllSavepoints();
+        return $this->_createSavepoint(self::INITIAL_SAVEPOINT_CACHE_KEY_PREFIX);
     }
 
     /**
-     * @param string $savepointName
+     * @param string $savepointCacheKeyPrefix
      * @return array
      */
-    private function _createSavepoint(string $savepointName): array
+    private function _createSavepoint(string $savepointCacheKeyPrefix): array
     {
         $conn = $this->getConnection();
 
@@ -99,17 +105,23 @@ class DatabaseBackupService
             $results = $conn->fetchAllAssociative("SELECT * FROM `$tableName`");
 
             /** @var CacheItem $cacheItem */
-            $cacheItem = $this->getCache()->getItem($this->genSavepointCacheKey($savepointName, $tableName));
+            $cacheItem = $this->getCache()->getItem($this->genSavepointCacheKey($savepointCacheKeyPrefix, $tableName));
             if ($cacheItem->isHit()) {
                 throw new Exception('Savepoint already created for the given name');
             }
 
             $this->getCache()->get(
-                $this->genSavepointCacheKey($savepointName, $tableName),
+                $this->genSavepointCacheKey($savepointCacheKeyPrefix, $tableName),
                 function () use ($tableName, $results) {
                     return ['tableName' => $tableName, 'data' => $results];
                 }
             );
+
+            /** @var CacheItem $cacheItem */
+            $cacheItem = $this->getCache()->getItem($this->genSavepointCacheKey($savepointCacheKeyPrefix, $tableName));
+            if (!$cacheItem->isHit()) {
+                throw new Exception('Savepoint creation failed');
+            }
 
             $tables[] = $table;
         }
@@ -125,6 +137,23 @@ class DatabaseBackupService
      */
     public function restoreToSavepoint(string $savepointName): array
     {
+        return $this->_restoreToSavepoint($this->genSavepointCacheKeyPrefix($savepointName));
+    }
+
+    /**
+     * @return array
+     */
+    public function restoreToInitialSavepoint(): array
+    {
+        return $this->_restoreToSavepoint(self::INITIAL_SAVEPOINT_CACHE_KEY_PREFIX);
+    }
+
+    /**
+     * @param string $savepointCacheKeyPrefix
+     * @return array
+     */
+    private function _restoreToSavepoint(string $savepointCacheKeyPrefix): array
+    {
         $conn = $this->getConnection();
         $conn->executeStatement('SET FOREIGN_KEY_CHECKS=0;');
         $this->beginTransaction();
@@ -134,7 +163,9 @@ class DatabaseBackupService
             foreach ($allTables as $table) {
                 $tableName = $table->getName();
                 /** @var CacheItem $cacheItem */
-                $cacheItem = $this->getCache()->getItem($this->genSavepointCacheKey($savepointName, $tableName));
+                $cacheItem = $this->getCache()->getItem(
+                    $this->genSavepointCacheKey($savepointCacheKeyPrefix, $tableName)
+                );
                 if (!$cacheItem->isHit()) {
                     throw new Exception('No savepoint for the given name');
                 }
@@ -163,18 +194,40 @@ class DatabaseBackupService
      */
     public function deleteSavepoint(string $savepointName): bool
     {
-        if ($savepointName === self::INITIAL_SAVEPOINT_NAME) {
-            throw new Exception('Not allowed to delete reserved savepoint name');
-        }
-        return $this->_deleteSavepoint($savepointName);
+        return $this->_deleteSavepoint($this->genSavepointCacheKeyPrefix($savepointName));
     }
 
     /**
-     * @param string $savepointName
+     * @param string[] $savepointNames
      * @return bool
      */
-    private function _deleteSavepoint(string $savepointName): bool
+    public function deleteSavepoints(array $savepointNames = []): bool
     {
-        return $this->getCache()->clear($this->genSavepointCacheKey($savepointName, null));
+        if (empty($savepointNames)) {
+            return $this->_deleteSavepoint(self::DB_SAVEPOINT_CACHE_KEY_PREFIX);
+        }
+        $successSavepointNames = [];
+        foreach ($savepointNames as $savepointName) {
+            $successSavepointNames[] = $this->_deleteSavepoint($this->genSavepointCacheKeyPrefix($savepointName));
+        }
+        return count($savepointNames) === count($successSavepointNames);
+    }
+
+    /**
+     * @param string $savepointCacheKeyPrefix
+     * @return bool
+     */
+    private function _deleteSavepoint(string $savepointCacheKeyPrefix): bool
+    {
+        return $this->getCache()->clear($savepointCacheKeyPrefix);
+    }
+
+    /**
+     * @return bool
+     */
+    private function deleteAllSavepoints(): bool
+    {
+        return $this->getCache()->clear(self::DB_SAVEPOINT_CACHE_KEY_PREFIX) &&
+            $this->getCache()->clear(self::INITIAL_SAVEPOINT_CACHE_KEY_PREFIX);
     }
 }

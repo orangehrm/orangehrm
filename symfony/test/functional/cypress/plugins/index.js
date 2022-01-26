@@ -40,27 +40,23 @@ module.exports = (on, config) => {
 
   /**
    * Creates a savepoint of DB data
-   * @param {String} savePointName
+   * @param {String} savepointName
    * @returns {AxiosResponse | error}
    */
-  const createSavePoint = async (savePointName) => {
+  const createSavePoint = async (savepointName) => {
     return await asyncWrapper(
-      axios.post(`${testingApiEndpoint}/database/create-savepoint`, {
-        savePointName,
-      }),
+      axios.post(`${testingApiEndpoint}/database/create-savepoint`, {savepointName}),
     );
   };
 
   /**
    * Restore the DB to defined savepoint
-   * @param {String} savePointName
+   * @param {String} savepointName
    * @returns {AxiosResponse | error}
    */
-  const restoreToSavePoint = async (savePointName) => {
+  const restoreToSavePoint = async (savepointName) => {
     return await asyncWrapper(
-      axios.post(`${testingApiEndpoint}/database/restore-to-savepoint`, {
-        savePointName,
-      }),
+      axios.post(`${testingApiEndpoint}/database/restore-to-savepoint`, {savepointName}),
     );
   };
 

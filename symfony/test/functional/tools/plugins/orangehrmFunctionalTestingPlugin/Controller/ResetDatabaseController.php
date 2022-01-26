@@ -32,7 +32,7 @@ class ResetDatabaseController extends AbstractController implements PublicContro
      */
     public function handle(Request $request): Response
     {
-        $tables = $this->getDatabaseBackupService()->restoreToSavepoint(DatabaseBackupService::INITIAL_SAVEPOINT_NAME);
+        $tables = $this->getDatabaseBackupService()->restoreToInitialSavepoint();
         $response = $this->getResponse();
         $response->setContent(json_encode(['count' => count($tables)]));
         return $response;
