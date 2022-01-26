@@ -22,7 +22,6 @@ namespace OrangeHRM\FunctionalTesting\Controller;
 use OrangeHRM\Core\Controller\PublicControllerInterface;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\Http\Response;
-use OrangeHRM\FunctionalTesting\Service\DatabaseBackupService;
 
 class ResetDatabaseController extends AbstractController implements PublicControllerInterface
 {

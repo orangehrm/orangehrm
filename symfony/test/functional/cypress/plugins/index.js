@@ -45,7 +45,9 @@ module.exports = (on, config) => {
    */
   const createSavePoint = async (savepointName) => {
     return await asyncWrapper(
-      axios.post(`${testingApiEndpoint}/database/create-savepoint`, {savepointName}),
+      axios.post(`${testingApiEndpoint}/database/create-savepoint`, {
+        savepointName,
+      }),
     );
   };
 
@@ -56,7 +58,9 @@ module.exports = (on, config) => {
    */
   const restoreToSavePoint = async (savepointName) => {
     return await asyncWrapper(
-      axios.post(`${testingApiEndpoint}/database/restore-to-savepoint`, {savepointName}),
+      axios.post(`${testingApiEndpoint}/database/restore-to-savepoint`, {
+        savepointName,
+      }),
     );
   };
 
