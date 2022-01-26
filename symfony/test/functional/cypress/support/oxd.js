@@ -25,6 +25,9 @@ const OXD_INPUT_ELEMENTS = {
   date: '.oxd-date-input',
   time: '.oxd-time-input',
   textbox: '.oxd-textarea',
+  select: '.oxd-select-text-input',
+  multiselect: '.oxd-select-text-input',
+  autocomplete: '.oxd-autocomplete-text-input',
 };
 
 const OXD_TOASTS = {

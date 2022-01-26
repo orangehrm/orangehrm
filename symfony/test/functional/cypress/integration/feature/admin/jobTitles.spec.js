@@ -51,9 +51,11 @@ describe('Admin - Job Titles', function () {
       });
       cy.wait('@postJobTitles');
       cy.toast('success', 'Successfully Saved');
+      cy.task('db:snapshot', {name: 'jobTitle'});
     });
 
     it('add job title form validations should work', function () {
+      cy.task('db:restore', {name: 'jobTitle'});
       cy.loginTo(this.user, '/admin/saveJobTitle');
       cy.wait('@getJobTitles');
       cy.getOXD('form').within(() => {

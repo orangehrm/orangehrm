@@ -17,6 +17,17 @@
  */
 
 /// <reference types="cypress" />
+const axios = require('axios');
+
+const asyncWrapper = async (promise) => {
+  try {
+    return [await promise, null];
+  } catch (err) {
+    // eslint-disable-next-line no-console
+    console.error(err);
+    return [null, err];
+  }
+};
 
 /**
  * @type {Cypress.PluginConfig}
@@ -25,10 +36,71 @@
 module.exports = (on, config) => {
   // `on` is used to hook into various events Cypress emits
   // `config` is the resolved Cypress config
+  const testingApiEndpoint = `${config.baseUrl}/functional-testing`;
+
+  /**
+   * Creates a savepoint of DB data
+   * @param {String} savePointName
+   * @returns {AxiosResponse | error}
+   */
+  const createSavePoint = async (savePointName) => {
+    return await asyncWrapper(
+      axios.post(`${testingApiEndpoint}/database/create-savepoint`, {
+        savePointName,
+      }),
+    );
+  };
+
+  /**
+   * Restore the DB to defined savepoint
+   * @param {String} savePointName
+   * @returns {AxiosResponse | error}
+   */
+  const restoreToSavePoint = async (savePointName) => {
+    return await asyncWrapper(
+      axios.post(`${testingApiEndpoint}/database/restore-to-savepoint`, {
+        savePointName,
+      }),
+    );
+  };
+
+  /**
+   * Reset the DB back to fresh install state
+   * @returns {AxiosResponse | error}
+   */
+  const resetDatabase = async () => {
+    return await asyncWrapper(
+      axios.post(`${testingApiEndpoint}/database/reset`),
+    );
+  };
+
+  /**
+   * Truncate the data of given tables
+   * @param {Array<String>} tables
+   * @returns {AxiosResponse | error}
+   */
+  const truncateTable = async (tables) => {
+    return await asyncWrapper(
+      axios.post(`${testingApiEndpoint}/truncate-table`, {tables}),
+    );
+  };
+
   on('task', {
     async 'db:reset'() {
-      // TODO: Call Backend API to DB Reset
-      return null;
+      const [response] = await resetDatabase();
+      return response ? response.data : undefined;
+    },
+    async 'db:truncate'(payload) {
+      const [response] = await truncateTable(payload.tables);
+      return response ? response.data : undefined;
+    },
+    async 'db:snapshot'(payload) {
+      const [response] = await createSavePoint(payload.name);
+      return response ? response.data : undefined;
+    },
+    async 'db:restore'(payload) {
+      const [response] = await restoreToSavePoint(payload.name);
+      return response ? response.data : undefined;
     },
   });
 };
