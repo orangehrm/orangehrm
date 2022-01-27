@@ -24,9 +24,7 @@
         <oxd-form-row>
           <oxd-grid :cols="4" class="orangehrm-full-width-grid">
             <oxd-grid-item>
-              <employee-autocomplete
-                  v-model="filters.empNumber"
-              />
+              <employee-autocomplete v-model="filters.empNumber" />
             </oxd-grid-item>
           </oxd-grid>
         </oxd-form-row>
@@ -46,7 +44,7 @@
         </oxd-form-actions>
       </oxd-form>
     </oxd-table-filter>
-  <br />
+    <br />
     <div class="orangehrm-paper-container">
       <div class="orangehrm-header-container">
         <oxd-button
@@ -84,7 +82,7 @@
       </div>
     </div>
     <delete-confirmation ref="deleteDialog"></delete-confirmation>
-</div>
+  </div>
 </template>
 
 <script>
@@ -118,7 +116,7 @@ const defaultFilters = {
 
 const defaultSortOrder = {
   'e.name': 'ASC',
-  't.tracker': 'ASC',
+  't.trackerName': 'ASC',
   't.addDate': 'ASC',
   't.matDate': 'ASC',
 };
@@ -202,7 +200,7 @@ export default {
           name: 'tracker',
           title: 'Tracker',
           style: {flex: 1},
-          sortField: 't.trackername',
+          sortField: 't.trackerName',
         },
         {
           name: 'addDate',

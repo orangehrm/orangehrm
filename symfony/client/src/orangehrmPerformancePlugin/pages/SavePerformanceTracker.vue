@@ -81,7 +81,6 @@ import {
   required,
   shouldNotExceedCharLength,
 } from '@/core/util/validation/rules';
-import promiseDebounce from "@ohrm/oxd/utils/promiseDebounce";
 
 const trackerModel = {
   name: null,
@@ -108,10 +107,7 @@ export default {
       isLoading: false,
       tracker: {...trackerModel},
       rules: {
-        tracker: [
-          required,
-          shouldNotExceedCharLength(200),
-        ],
+        tracker: [required, shouldNotExceedCharLength(200)],
         employee: [required],
         reviewers: [required],
       },

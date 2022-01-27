@@ -78,7 +78,6 @@
 import {navigate} from '@/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
 import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
-import PasswordInput from '@/core/components/inputs/PasswordInput';
 import ReviewersAutoComplete from '@/orangehrmPerformancePlugin/components/ReviewersAutoComplete';
 import {
   required,
@@ -128,14 +127,15 @@ export default {
       .get(this.performaceTrackerId) //performace-tracker-id
       .then(response => {
         const {data} = response.data;
-        console.log(data);
         this.tracker.id = data.id;
         this.tracker.name = data.trackerName;
-        this.tracker.employee = data.employee ? {
-          id:data.employee.empNumber,
+        this.tracker.employee = data.employee
+          ? {
+              id: data.employee.empNumber,
               label: `${data.employee.firstName} ${data.employee.middleName} ${data.employee.lastName}`,
               isPastEmployee: data.employee.terminationId ? true : false,
-            } : null;
+            }
+          : null;
         this.tracker.reviewers = data.reviewers.map(employee => {
           return {
             id: employee.empNumber,
@@ -160,16 +160,16 @@ export default {
         name: this.tracker.name.trim(),
         employee: this.tracker.employee,
         reviewer: this.tracker.reviewers.map(employee => employee.id),
-      }
+      };
       this.http
-      .update(this.performaceTrackerId, payload)
-      .then(() => {
-        return this.$toast.saveSuccess();
-      })
-      .then(() => {
-        // go back
-        this.onCancel();
-      });
+        .update(this.performaceTrackerId, payload)
+        .then(() => {
+          return this.$toast.saveSuccess();
+        })
+        .then(() => {
+          // go back
+          this.onCancel();
+        });
     },
   },
 };
