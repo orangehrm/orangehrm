@@ -54,7 +54,7 @@ class AttendanceDaoTest extends KernelTestCase
 
     public function testGetTopAttendanceRecordByEmployeeId(): void
     {
-        $attendanceRecord = $this->attendanceDao->getTopAttendanceRecordByEmployeeId(1);
+        $attendanceRecord = $this->attendanceDao->getLatestAttendanceRecordByEmployeeId(1);
         $this->assertEquals(1, $attendanceRecord->getEmployee()->getEmpNumber());
         $this->assertEquals('Kayla', $attendanceRecord->getEmployee()->getFirstName());
         $this->assertEquals('Abbey', $attendanceRecord->getEmployee()->getLastName());

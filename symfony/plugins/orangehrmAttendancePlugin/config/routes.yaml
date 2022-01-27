@@ -32,7 +32,7 @@ apiv2_employee_attendance_record:
   methods: [ GET ]
   defaults:
     id: 0
-    _api: OrangeHRM\Attendance\Api\EmployeeAttendanceAPI
+    _api: OrangeHRM\Attendance\Api\EmployeeLatestAttendanceRecordAPI
 
 ##########################
 #        Screens

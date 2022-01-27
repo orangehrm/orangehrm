@@ -19,7 +19,7 @@
 
 namespace OrangeHRM\Attendance\Api;
 
-use OrangeHRM\Attendance\Api\Model\EmployeeAttendanceModel;
+use OrangeHRM\Attendance\Api\Model\EmployeeLatestAttendanceRecordModel;
 use OrangeHRM\Attendance\Traits\Service\AttendanceServiceTrait;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\Endpoint;
@@ -34,7 +34,7 @@ use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Entity\AttendanceRecord;
 
-class EmployeeAttendanceAPI extends Endpoint implements ResourceEndpoint
+class EmployeeLatestAttendanceRecordAPI extends Endpoint implements ResourceEndpoint
 {
     use AttendanceServiceTrait;
     use AuthUserTrait;
@@ -51,10 +51,10 @@ class EmployeeAttendanceAPI extends Endpoint implements ResourceEndpoint
         );
         $attendanceRecord = $this->getAttendanceService()
             ->getAttendanceDao()
-            ->getTopAttendanceRecordByEmployeeId($employeeNumber);
+            ->getLatestAttendanceRecordByEmployeeId($employeeNumber);
         $this->throwRecordNotFoundExceptionIfNotExist($attendanceRecord, AttendanceRecord::class);
 
-        return new EndpointResourceResult(EmployeeAttendanceModel::class, $attendanceRecord);
+        return new EndpointResourceResult(EmployeeLatestAttendanceRecordModel::class, $attendanceRecord);
     }
 
     /**

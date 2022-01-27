@@ -23,7 +23,7 @@ use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\AttendanceRecord;
 
-class EmployeeAttendanceModel implements Normalizable
+class EmployeeLatestAttendanceRecordModel implements Normalizable
 {
     use ModelTrait;
 
@@ -58,17 +58,17 @@ class EmployeeAttendanceModel implements Normalizable
         $this->setAttributeNames(
             [
                 'id',
-                ['punchIn', 'UTCDate'],
-                ['punchIn', 'UTCTime'],
+                ['punchIn', 'utcDate'],
+                ['punchIn', 'utcTime'],
                 ['punchIn', 'userDate'],
                 ['punchIn', 'userTime'],
-                ['punchIn', 'punchInTimeOffset'],
+                ['punchIn', 'offset'],
                 ['punchIn', 'note'],
-                ['punchOut', 'UTCDate'],
-                ['punchOut', 'UTCTime'],
+                ['punchOut', 'utcDate'],
+                ['punchOut', 'utcTime'],
                 ['punchOut', 'userDate'],
                 ['punchOut', 'userTime'],
-                ['punchOut', 'punchInTimeOffset'],
+                ['punchOut', 'offset'],
                 ['punchOut', 'note'],
                 ['state', 'id'],
                 ['state', 'name'],

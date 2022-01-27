@@ -15,19 +15,19 @@ GetOne:
     data:
       id: 4
       punchIn: {
-        "UTCDate": "2011-05-28",
-        "UTCTime": "11:10",
+        "utcDate": "2011-05-28",
+        "utcTime": "11:10",
         "userDate": "2011-05-28",
         "userTime": "10:10",
-        "punchInTimeOffset": "5.5",
+        "offset": "5.5",
         "note": "Im punched In"
       },
       punchOut: {
-        "UTCDate": "2011-05-28",
-        "UTCTime": "04:10",
+        "utcDate": "2011-05-28",
+        "utcTime": "04:10",
         "userDate": "2011-05-28",
         "userTime": "05:10",
-        "punchInTimeOffset": "5.5",
+        "offset": "5.5",
         "note": "Punched Out"
       },
       "state": {
@@ -60,19 +60,19 @@ GetOne:
     data:
       id: 4
       punchIn: {
-        "UTCDate": "2011-05-28",
-        "UTCTime": "11:10",
+        "utcDate": "2011-05-28",
+        "utcTime": "11:10",
         "userDate": "2011-05-28",
         "userTime": "10:10",
-        "punchInTimeOffset": "5.5",
+        "offset": "5.5",
         "note": "Im punched In"
       },
       punchOut: {
-        "UTCDate": "2011-05-28",
-        "UTCTime": "04:10",
+        "utcDate": "2011-05-28",
+        "utcTime": "04:10",
         "userDate": "2011-05-28",
         "userTime": "05:10",
-        "punchInTimeOffset": "5.5",
+        "offset": "5.5",
         "note": "Punched Out"
       },
       "state": {
@@ -100,19 +100,19 @@ GetOne:
     data:
       id: 4
       punchIn: {
-        "UTCDate": "2011-05-28",
-        "UTCTime": "11:10",
+        "utcDate": "2011-05-28",
+        "utcTime": "11:10",
         "userDate": "2011-05-28",
         "userTime": "10:10",
-        "punchInTimeOffset": "5.5",
+        "offset": "5.5",
         "note": "Im punched In"
       },
       punchOut: {
-        "UTCDate": "2011-05-28",
-        "UTCTime": "04:10",
+        "utcDate": "2011-05-28",
+        "utcTime": "04:10",
         "userDate": "2011-05-28",
         "userTime": "05:10",
-        "punchInTimeOffset": "5.5",
+        "offset": "5.5",
         "note": "Punched Out"
       },
       "state": {

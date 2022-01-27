@@ -626,7 +626,7 @@ class AttendanceDao extends BaseDao {
      * @param int $employeeNumber
      * @return AttendanceRecord|null
      */
-    public function getTopAttendanceRecordByEmployeeId(int $employeeNumber): ?AttendanceRecord
+    public function getLatestAttendanceRecordByEmployeeId(int $employeeNumber): ?AttendanceRecord
     {
         $q = $this->createQueryBuilder(AttendanceRecord::class, 'attendanceRecord');
         $q->andWhere('attendanceRecord.employee = :empNumber');

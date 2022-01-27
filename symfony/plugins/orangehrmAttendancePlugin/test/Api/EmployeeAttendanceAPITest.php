@@ -19,7 +19,7 @@
 
 namespace OrangeHRM\Attendance\test\Api;
 
-use OrangeHRM\Attendance\Api\EmployeeAttendanceAPI;
+use OrangeHRM\Attendance\Api\EmployeeLatestAttendanceRecordAPI;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
 use OrangeHRM\Tests\Util\Integration\TestCaseParams;
@@ -35,43 +35,43 @@ class EmployeeAttendanceAPITest extends EndpointIntegrationTestCase
      */
     public function testGetOne(TestCaseParams $testCaseParams): void
     {
-        $this->populateFixtures('EmployeeAttendance.yaml');
+        $this->populateFixtures('EmployeeLatestAttendanceRecord.yaml');
         $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
         $this->registerServices($testCaseParams);
         $this->registerMockDateTimeHelper($testCaseParams);
-        $api = $this->getApiEndpointMock(EmployeeAttendanceAPI::class, $testCaseParams);
+        $api = $this->getApiEndpointMock(EmployeeLatestAttendanceRecordAPI::class, $testCaseParams);
         $this->assertValidTestCase($api, 'getOne', $testCaseParams);
     }
 
     public function dataProviderForTestGetOne(): array
     {
-        return $this->getTestCases('EmployeeAttendanceTestCase.yaml', 'GetOne');
+        return $this->getTestCases('EmployeeLatestAttendanceRecordTestCase.yaml', 'GetOne');
     }
 
     public function testUpdate(): void
     {
-        $api = new EmployeeAttendanceAPI($this->getRequest());
+        $api = new EmployeeLatestAttendanceRecordAPI($this->getRequest());
         $this->expectNotImplementedException();
         $api->update();
     }
 
     public function testGetValidationRuleForUpdate(): void
     {
-        $api = new EmployeeAttendanceAPI($this->getRequest());
+        $api = new EmployeeLatestAttendanceRecordAPI($this->getRequest());
         $this->expectNotImplementedException();
         $api->getValidationRuleForUpdate();
     }
 
     public function testDelete(): void
     {
-        $api = new EmployeeAttendanceAPI($this->getRequest());
+        $api = new EmployeeLatestAttendanceRecordAPI($this->getRequest());
         $this->expectNotImplementedException();
         $api->delete();
     }
 
     public function testGetValidationRuleForDelete(): void
     {
-        $api = new EmployeeAttendanceAPI($this->getRequest());
+        $api = new EmployeeLatestAttendanceRecordAPI($this->getRequest());
         $this->expectNotImplementedException();
         $api->getValidationRuleForDelete();
     }
