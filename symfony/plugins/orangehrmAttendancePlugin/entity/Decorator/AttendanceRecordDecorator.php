@@ -20,17 +20,19 @@
 namespace OrangeHRM\Entity\Decorator;
 
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
+use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\AttendanceRecord;
 use OrangeHRM\Entity\Employee;
 
 class AttendanceRecordDecorator
 {
     use EntityManagerHelperTrait;
+    use DateTimeHelperTrait;
 
     protected AttendanceRecord $attendanceRecord;
 
     /**
-     * @param  AttendanceRecord  $attendanceRecord
+     * @param AttendanceRecord $attendanceRecord
      */
     public function __construct(AttendanceRecord $attendanceRecord)
     {
@@ -51,5 +53,83 @@ class AttendanceRecordDecorator
         $this->getAttendanceRecord()->setEmployee($employee);
     }
 
+    /**
+     * @return string
+     */
+    public function getAttendanceState(): string
+    {
+        return ucwords(strtolower($this->getAttendanceRecord()->getState()));
+    }
 
+    /**
+     * @return string
+     */
+    public function getPunchInUTCDate(): string
+    {
+        return $this->getDateTimeHelper()->formatDateTimeToYmd($this->getAttendanceRecord()->getPunchInUtcTime());
+    }
+
+    /**
+     * @return string
+     */
+    public function getPunchInUTCTime(): string
+    {
+        return $this->getDateTimeHelper()->formatDateTimeToTimeString(
+            $this->getAttendanceRecord()->getPunchInUtcTime()
+        );
+    }
+
+    /**
+     * @return string
+     */
+    public function getPunchInUserDate(): string
+    {
+        return $this->getDateTimeHelper()->formatDateTimeToYmd($this->getAttendanceRecord()->getPunchInUserTime());
+    }
+
+    /**
+     * @return string
+     */
+    public function getPunchInUserTime(): string
+    {
+        return $this->getDateTimeHelper()->formatDateTimeToTimeString(
+            $this->getAttendanceRecord()->getPunchInUserTime()
+        );
+    }
+
+    /**
+     * @return string
+     */
+    public function getPunchOutUTCDate(): string
+    {
+        return $this->getDateTimeHelper()->formatDateTimeToYmd($this->getAttendanceRecord()->getPunchOutUtcTime());
+    }
+
+    /**
+     * @return string
+     */
+    public function getPunchOutUTCtime(): string
+    {
+        return $this->getDateTimeHelper()->formatDateTimeToTimeString(
+            $this->getAttendanceRecord()->getPunchOutUtcTime()
+        );
+    }
+
+    /**
+     * @return string
+     */
+    public function getPunchOutUserDate(): string
+    {
+        return $this->getDateTimeHelper()->formatDateTimeToYmd($this->getAttendanceRecord()->getPunchOutUserTime());
+    }
+
+    /**
+     * @return string
+     */
+    public function getPunchOutUserTime(): string
+    {
+        return $this->getDateTimeHelper()->formatDateTimeToTimeString(
+            $this->getAttendanceRecord()->getPunchOutUserTime()
+        );
+    }
 }

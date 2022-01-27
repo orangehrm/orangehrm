@@ -16,15 +16,23 @@ apiv2_attendance_validate_datetime:
   controller: OrangeHRM\Attendance\Controller\AttendanceMockController::validateDateTime
   methods: [ GET ]
 
-apiv2_attendance_records:
-  path: /api/v2/attendance/records/{id?}
-  controller: OrangeHRM\Attendance\Controller\AttendanceMockController::sendAttendanceResponse
-  methods: [ GET, POST, PUT ]
+#apiv2_attendance_records:
+#  path: /api/v2/attendance/records/{id?}
+#  controller: OrangeHRM\Attendance\Controller\AttendanceMockController::sendAttendanceResponse
+#  methods: [ GET, POST, PUT ]
 
 apiv2_attendance_timezones:
   path: /api/v2/attendance/timezones
   controller: OrangeHRM\Attendance\Controller\AttendanceMockController::getTimezones
   methods: [ GET ]
+
+apiv2_employee_attendance_record:
+  path: /api/v2/attendance/records/latest
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    id: 0
+    _api: OrangeHRM\Attendance\Api\EmployeeAttendanceAPI
 
 ##########################
 #        Screens
