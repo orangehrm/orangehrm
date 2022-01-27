@@ -24,6 +24,7 @@ use OrangeHRM\Framework\ServiceContainer;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\FunctionalTesting\Service\DatabaseBackupService;
 use OrangeHRM\ORM\Doctrine;
+use Symfony\Component\Filesystem\Filesystem;
 
 require realpath(__DIR__ . '/../../../vendor/autoload.php');
 
@@ -48,3 +49,12 @@ ServiceContainer::getContainer()->register(Services::DOCTRINE)->setFactory([Doct
 $databaseBackupService = new DatabaseBackupService();
 $databaseBackupService->createInitialSavepoint();
 echo "\nCreated initial savepoint for the database\n";
+
+$filesystem = new Filesystem();
+echo "\nAttempt to acquire the cache directory permission\n";
+try {
+    $filesystem->chmod(Config::get(Config::CACHE_DIR), 0777, 0000, true);
+    echo "Successfully acquired cache directory permission\n";
+} catch (Throwable $e) {
+    echo "Failed to acquire cache directory permission\n";
+}

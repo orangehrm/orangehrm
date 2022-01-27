@@ -17,3 +17,8 @@ functional_testing_restore_db_to_savepoint:
   path: /functional-testing/database/restore-to-savepoint
   controller: OrangeHRM\FunctionalTesting\Controller\RestoreDatabaseToSavepointController::handle
   methods: [ POST ]
+
+functional_testing_delete_savepoints:
+  path: /functional-testing/database/delete-savepoints
+  controller: OrangeHRM\FunctionalTesting\Controller\DeleteSavepointController::handle
+  methods: [ POST ]

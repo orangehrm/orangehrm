@@ -1,3 +1,4 @@
+<?php
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -16,8 +17,25 @@
  * Boston, MA  02110-1301, USA
  */
 
-// Import commands.js using ES2015 syntax:
-import './commands';
+namespace OrangeHRM\FunctionalTesting\Controller;
 
-// Alternatively you can use CommonJS syntax:
-// require('./commands')
+use OrangeHRM\Core\Controller\PublicControllerInterface;
+use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Framework\Http\Response;
+
+class DeleteSavepointController extends AbstractController implements PublicControllerInterface
+{
+    /**
+     * @param Request $request
+     * @return Response
+     */
+    public function handle(Request $request): Response
+    {
+        $savepointNames = $request->request->get('savepointNames', []);
+        $response = $this->getResponse();
+        $response->setContent(
+            json_encode(['success' => $this->getDatabaseBackupService()->deleteSavepoints($savepointNames)])
+        );
+        return $response;
+    }
+}
