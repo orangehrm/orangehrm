@@ -21,13 +21,13 @@
 <template>
   <div class="orangehrm-background-container">
     <oxd-table-filter filter-title="Employee Performance Trackers">
-      <oxd-form @submitValid="filterItems">
+      <oxd-form @submitValid="filterItems" @reset="resetDataTable">
         <oxd-form-row>
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <employee-autocomplete
-                v-model="filters.empName"
-                :params="{
+                  v-model="filters.empName"
+                  :params="{
                   includeEmployees: filters.includeEmployees.param,
                 }"
               >
@@ -35,53 +35,52 @@
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
-                v-model="filters.includeEmployees"
-                type="select"
-                label="Include"
-                :clear="false"
-                :options="includeOpts"
-                :show-empty-selector="false"
+                  v-model="filters.includeEmployees"
+                  type="select"
+                  label="Include"
+                  :clear="false"
+                  :options="includeOpts"
+                  :show-empty-selector="false"
               />
             </oxd-grid-item>
           </oxd-grid>
         </oxd-form-row>
-        <oxd-divider />
+        <oxd-divider/>
         <oxd-form-actions>
-          <oxd-button display-type="ghost" label="Reset" type="reset" />
+          <oxd-button display-type="ghost" label="Reset" type="reset"/>
           <oxd-button
-            class="orangehrm-left-space"
-            display-type="secondary"
-            label="Search"
-            type="submit"
+              class="orangehrm-left-space"
+              display-type="secondary"
+              label="Search"
+              type="submit"
           />
         </oxd-form-actions>
       </oxd-form>
     </oxd-table-filter>
-    <br />
+    <br/>
     <div class="orangehrm-paper-container">
       <table-header
-        :selected="checkedItems.length"
-        :total="total"
-        :loading="isLoading"
+          :selected="0"
+          :total="total"
+          :loading="isLoading"
       ></table-header>
       <div class="orangehrm-container">
         <oxd-card-table
-          v-model:selected="checkedItems"
-          v-model:order="sortDefinition"
-          :headers="headers"
-          :items="items?.data"
-          :selectable="false"
-          :clickable="true"
-          :loading="isLoading"
-          class="orangehrm-employee-list"
-          row-decorator="oxd-table-decorator-card"
+            v-model:order="sortDefinition"
+            :headers="headers"
+            :items="items?.data"
+            :selectable="false"
+            :clickable="true"
+            :loading="isLoading"
+            class="orangehrm-employee-list"
+            row-decorator="oxd-table-decorator-card"
         />
       </div>
       <div class="orangehrm-bottom-container">
         <oxd-pagination
-          v-if="showPaginator"
-          v-model:current="currentPage"
-          :length="pages"
+            v-if="showPaginator"
+            v-model:current="currentPage"
+            :length="pages"
         />
       </div>
     </div>
@@ -94,17 +93,6 @@ import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete'
 import {APIService} from '@/core/util/services/api.service';
 import usePaginate from '@ohrm/core/util/composable/usePaginate';
 import useSort from '@ohrm/core/util/composable/useSort';
-
-const userdataNormalizer = data => {
-  return data.map(item => {
-    return {
-      empName: item.empName,
-      trackers: item.trackers,
-      modifiedDate: item.modifiedDate,
-      addedDate: item.addedDate,
-    };
-  });
-};
 
 const defaultFilters = {
   empName: null,
@@ -142,8 +130,8 @@ export default {
     });
 
     const http = new APIService(
-      'https://5875ebe4-9692-48a9-90dc-b79dac993a70.mock.pstmn.io',
-      '/api/v2/Performance/EmployeeTrackers',
+        'https://5875ebe4-9692-48a9-90dc-b79dac993a70.mock.pstmn.io',
+        '/api/v2/Performance/EmployeeTrackers',
     );
     const {
       showPaginator,
@@ -156,7 +144,6 @@ export default {
       execQuery,
     } = usePaginate(http, {
       query: serializedFilter,
-      normalizer: userdataNormalizer,
     });
 
     onSort(execQuery);
@@ -207,7 +194,7 @@ export default {
         {
           name: 'actions',
           title: 'Actions',
-          slot: 'action',
+          slot: 'action ',
           style: {flex: 1},
           cellType: 'oxd-table-cell-actions',
           cellConfig: {
@@ -218,7 +205,7 @@ export default {
                 name: 'view',
                 label: 'View',
                 class: 'orangehrm-left-space',
-                displayType: 'text',
+                displayType: 'ghost',
               },
             },
           },
@@ -229,13 +216,11 @@ export default {
         {id: 2, param: 'currentAndPast', label: 'Current and Past Employees'},
         {id: 3, param: 'onlyPast', label: 'Past Employees Only'},
       ],
-      checkedItems: [],
     };
   },
 
   methods: {
     async resetDataTable() {
-      this.checkedItems = [];
       await this.execQuery();
     },
     async filterItems() {
@@ -244,5 +229,3 @@ export default {
   },
 };
 </script>
-
-<style scoped></style>
