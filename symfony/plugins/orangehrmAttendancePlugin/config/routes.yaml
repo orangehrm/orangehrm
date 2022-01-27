@@ -26,7 +26,7 @@ apiv2_attendance_timezones:
   controller: OrangeHRM\Attendance\Controller\AttendanceMockController::getTimezones
   methods: [ GET ]
 
-apiv2_employee_attendance_record:
+apiv2_employee_latest_attendance_record:
   path: /api/v2/attendance/records/latest
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
   methods: [ GET ]
