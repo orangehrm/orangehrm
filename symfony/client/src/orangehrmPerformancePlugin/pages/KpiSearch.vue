@@ -21,7 +21,7 @@
 <template>
   <div class="orangehrm-background-container">
     <oxd-table-filter filter-title="Key Performance Indicators for Job Title">
-      <oxd-form @submitValid="filterItems" @reset="filterItems">
+      <oxd-form @submitValid="filterItems" @reset="resetDataTable">
         <oxd-form-row>
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item>
@@ -90,7 +90,7 @@ import {navigate} from '@ohrm/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
 import usePaginate from '@/core/util/composable/usePaginate';
 import useSort from '@/core/util/composable/useSort';
-import JobtitleDropdown from '@/orangehrmPerformancePlugin/components/JobtitleDropdown.vue';
+import JobtitleDropdown from '@/orangehrmPimPlugin/components/JobtitleDropdown.vue';
 
 const kpiNormalizer = data => {
   return data.map(item => {

@@ -21,9 +21,9 @@
 <template>
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
-      <oxd-text class="orangehrm-main-title"
-        >Add Key Performance Indicator</oxd-text
-      >
+      <oxd-text class="orangehrm-main-title">
+        Add Key Performance Indicator
+      </oxd-text>
       <oxd-divider />
 
       <oxd-form :loading="isLoading" @submitValid="onSave">
@@ -105,7 +105,7 @@ import {
   minValueShouldBeLowerThanMaxValue,
 } from '@ohrm/core/util/validation/rules';
 import {APIService} from '@/core/util/services/api.service';
-import JobtitleDropdown from '@/orangehrmPerformancePlugin/components/JobtitleDropdown.vue';
+import JobtitleDropdown from '@/orangehrmPimPlugin/components/JobtitleDropdown.vue';
 
 const initialKpi = {
   title: '',
@@ -116,12 +116,7 @@ const initialKpi = {
 };
 
 const rateError = v => {
-  if (digitsOnly(v)) {
-    return (
-      (v >= 0 && v <= 100 && Math.round(v) === v) ||
-      'Should be a number between 0-100'
-    );
-  }
+  if (digitsOnly(v) === true && v >= 0 && v <= 100) return true;
   return 'Should be a number between 0-100';
 };
 
@@ -145,10 +140,6 @@ export default {
     return {
       isLoading: false,
       kpi: {...initialKpi},
-      jobTitle: [
-        {id: 1, label: 'Job 1'},
-        {id: 2, label: 'Job 2'},
-      ],
       rules: {
         title: [required, shouldNotExceedCharLength(100)],
         jobTitle: [required],
@@ -177,15 +168,13 @@ export default {
     },
     onSave() {
       this.isLoading = true;
-      const jobTitleObj = {
-        id: this.kpi.jobTitle.id,
-        title: this.kpi.jobTitle.label,
-        isDeleted: false,
-      };
       this.http
         .create({
-          ...this.kpi,
-          jobTitle: jobTitleObj,
+          title: this.kpi.title,
+          jobTitleId: this.kpi.jobTitle.id,
+          minRate: this.kpi.minRate,
+          maxRate: this.kpi.maxRate,
+          isDefault: this.kpi.isDefault,
         })
         .then(() => {
           return this.$toast.saveSuccess();
@@ -198,18 +187,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-@import '@ohrm/oxd/styles/_mixins.scss';
-
-.orangehrm-module-field-row {
-  grid-column-start: 1;
-  display: flex;
-  justify-content: space-between;
-  padding: 2rem 0;
-}
-.orangehrm-module-field-label {
-  @include oxd-input-control();
-  padding: 0;
-  flex-basis: 75%;
-}
-</style>
+<style src="./kpi.scss" lang="scss" scoped></style>
