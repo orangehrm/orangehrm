@@ -100,9 +100,10 @@ import SwitchInput from '@ohrm/oxd/core/components/Input/SwitchInput';
 import {navigate} from '@ohrm/core/util/helper/navigation';
 import {
   required,
-  digitsOnly,
   shouldNotExceedCharLength,
   minValueShouldBeLowerThanMaxValue,
+  maxValueShouldBeGreaterThanMinValue,
+  numberShouldBeBetweenMinandMaxValue,
 } from '@ohrm/core/util/validation/rules';
 import {APIService} from '@/core/util/services/api.service';
 import JobtitleDropdown from '@/orangehrmPimPlugin/components/JobtitleDropdown.vue';
@@ -113,11 +114,6 @@ const initialKpi = {
   minRate: null,
   maxRate: null,
   isDefault: false,
-};
-
-const rateError = v => {
-  if (digitsOnly(v) === true && v >= 0 && v <= 100) return true;
-  return 'Should be a number between 0-100';
 };
 
 export default {
@@ -151,16 +147,16 @@ export default {
         jobTitle: [required],
         minRate: [
           required,
-          rateError,
-          v =>
-            !this.kpi.maxRate ||
-            v <= this.kpi.maxRate ||
+          numberShouldBeBetweenMinandMaxValue(0, 100),
+          minValueShouldBeLowerThanMaxValue(
+            () => this.kpi.maxRate,
             'Minimum Rating should be less than Maximum Rating',
+          ),
         ],
         maxRate: [
           required,
-          rateError,
-          minValueShouldBeLowerThanMaxValue(
+          numberShouldBeBetweenMinandMaxValue(0, 100),
+          maxValueShouldBeGreaterThanMinValue(
             () => this.kpi.minRate,
             'Maximum Rating should be greater than Minimum Rating',
           ),
