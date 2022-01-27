@@ -65,6 +65,19 @@ module.exports = (on, config) => {
   };
 
   /**
+   * Delete defined savepoints from system
+   * @param {String} savepointName
+   * @returns {AxiosResponse | error}
+   */
+  const deleteSavePoints = async (savepointNames) => {
+    return await asyncWrapper(
+      axios.post(`${testingApiEndpoint}/database/delete-savepoints`, {
+        savepointNames,
+      }),
+    );
+  };
+
+  /**
    * Reset the DB back to fresh install state
    * @returns {AxiosResponse | error}
    */
@@ -102,5 +115,14 @@ module.exports = (on, config) => {
       const [response] = await restoreToSavePoint(payload.name);
       return response ? response.data : undefined;
     },
+    async 'db:clearSnapshots'(payload) {
+      const [response] = await deleteSavePoints(payload.names);
+      return response ? response.data : undefined;
+    },
+  });
+
+  on('before:run', async () => {
+    const [response] = await deleteSavePoints({names: undefined});
+    return response ? response.data : undefined;
   });
 };
