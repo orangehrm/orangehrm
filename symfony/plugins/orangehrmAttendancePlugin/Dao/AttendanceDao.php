@@ -22,6 +22,7 @@ namespace OrangeHRM\Attendance\Dao;
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Entity\AttendanceRecord;
 use OrangeHRM\Entity\WorkflowStateMachine;
+use DateTime;
 
 class AttendanceDao extends BaseDao {
 
@@ -130,30 +131,23 @@ class AttendanceDao extends BaseDao {
     }
 
     /**
-     * check For Punch In OverLapping Records
-     * @param $punchInTime, $employeeId
-     * @return string 1,0
+     * @param DateTime $punchInTime
+     * @param int $employeeNumber
+     * @return bool
      */
-    public function checkForPunchInOverLappingRecords($punchInTime, $employeeId) {
-        $isValid = "1";
+    public function checkForPunchInOverLappingRecords(DateTime $punchInTime, int $employeeNumber): bool
+    {
+        $q = $this->createQueryBuilder(AttendanceRecord::class, 'attendanceRecord');
+        $q->andWhere('attendanceRecord.employee = :empNumber');
 
-        try {
+        $q->andWhere($q->expr()->lte('attendanceRecord.punchInUtcTime', ':punchInUtcTime'))
+            ->setParameter('punchInUtcTime', $punchInTime);
+        $q->andWhere($q->expr()->gt('attendanceRecord.punchOutUtcTime', ':punchOutUtcTime'))
+            ->setParameter('punchOutUtcTime', $punchInTime);
 
-            $query1 = Doctrine_Query::create()
-                    ->from("AttendanceRecord")
-                    ->where("employeeId = ?", $employeeId)
-                    ->andWhere("punchInUtcTime <= ?", $punchInTime)
-                    ->andWhere("punchOutUtcTime > ?", $punchInTime);
-            $records1 = $query1->execute();
-
-            if ((count($records1) > 0)) {
-
-                $isValid = "0";
-            }
-        } catch (Exception $ex) {
-            throw new DaoException($ex->getMessage());
-        }
-        return $isValid;
+        $q->setParameter('empNumber', $employeeNumber);
+        // if any records found in the data source (count greater than 0) -> overlap found
+        return $this->getPaginator($q)->count() > 0;
     }
 
     /**
