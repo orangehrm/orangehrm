@@ -62,17 +62,17 @@ class AttendanceRecordDecorator
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getPunchInUTCDate(): string
+    public function getPunchInUTCDate(): ?string
     {
         return $this->getDateTimeHelper()->formatDateTimeToYmd($this->getAttendanceRecord()->getPunchInUtcTime());
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getPunchInUTCTime(): string
+    public function getPunchInUTCTime(): ?string
     {
         return $this->getDateTimeHelper()->formatDateTimeToTimeString(
             $this->getAttendanceRecord()->getPunchInUtcTime()
@@ -80,17 +80,17 @@ class AttendanceRecordDecorator
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getPunchInUserDate(): string
+    public function getPunchInUserDate(): ?string
     {
         return $this->getDateTimeHelper()->formatDateTimeToYmd($this->getAttendanceRecord()->getPunchInUserTime());
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getPunchInUserTime(): string
+    public function getPunchInUserTime(): ?string
     {
         return $this->getDateTimeHelper()->formatDateTimeToTimeString(
             $this->getAttendanceRecord()->getPunchInUserTime()
@@ -98,17 +98,17 @@ class AttendanceRecordDecorator
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getPunchOutUTCDate(): string
+    public function getPunchOutUTCDate(): ?string
     {
         return $this->getDateTimeHelper()->formatDateTimeToYmd($this->getAttendanceRecord()->getPunchOutUtcTime());
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getPunchOutUTCtime(): string
+    public function getPunchOutUTCtime(): ?string
     {
         return $this->getDateTimeHelper()->formatDateTimeToTimeString(
             $this->getAttendanceRecord()->getPunchOutUtcTime()
@@ -116,17 +116,17 @@ class AttendanceRecordDecorator
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getPunchOutUserDate(): string
+    public function getPunchOutUserDate(): ?string
     {
         return $this->getDateTimeHelper()->formatDateTimeToYmd($this->getAttendanceRecord()->getPunchOutUserTime());
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getPunchOutUserTime(): string
+    public function getPunchOutUserTime(): ?string
     {
         return $this->getDateTimeHelper()->formatDateTimeToTimeString(
             $this->getAttendanceRecord()->getPunchOutUserTime()
