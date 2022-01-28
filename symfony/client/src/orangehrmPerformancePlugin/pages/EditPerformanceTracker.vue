@@ -22,7 +22,7 @@
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
       <oxd-text tag="h6" class="orangehrm-main-title">
-        >Edit Performance Tracker</oxd-text
+        Edit Performance Tracker
       </oxd-text>
       <oxd-divider />
       <oxd-form :loading="isLoading" @submitValid="onSave">
@@ -143,7 +143,6 @@ export default {
             isPastEmployee: employee.terminationId ? true : false,
           };
         });
-        return this.http.getAll();
       })
       .finally(() => {
         this.isLoading = false;
@@ -164,7 +163,7 @@ export default {
       this.http
         .update(this.performaceTrackerId, payload)
         .then(() => {
-          return this.$toast.saveSuccess();
+          return this.$toast.updateSuccess();
         })
         .then(() => {
           // go back
@@ -175,4 +174,4 @@ export default {
 };
 </script>
 
-<style scoped></style>
+
