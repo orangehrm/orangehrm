@@ -970,6 +970,16 @@
           "source": "Out",
           "target": "Out",
           "description": ""
+        },
+        "employee_attendance_records": {
+          "source": "Employee Attendance Records",
+          "target": "Employee Attendance Records",
+          "description": ""
+        },
+        "add_attendance_records": {
+          "source": "Add Attendance Records",
+          "target": "Add Attendance Records",
+          "description": "Insert attendance-related records"
         }
       }
     }

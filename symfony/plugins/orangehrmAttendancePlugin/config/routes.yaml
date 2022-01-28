@@ -52,3 +52,8 @@ attendance_configure:
   path: /attendance/configure
   controller: OrangeHRM\Attendance\Controller\AttendanceConfigurationController::handle
   methods: [ GET ]
+
+attendance_view_employee_attendance:
+  path: /attendance/viewAttendanceRecord
+  controller: OrangeHRM\Attendance\Controller\ViewEmployeeAttendanceController::handle
+  methods: [ GET ]
