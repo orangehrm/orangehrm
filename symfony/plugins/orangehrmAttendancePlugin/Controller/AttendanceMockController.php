@@ -23,9 +23,17 @@ namespace OrangeHRM\Attendance\Controller;
 use OrangeHRM\Core\Controller\AbstractController;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\Http\Response;
+use OrangeHRM\Pim\Dto\EmployeeSearchFilterParams;
+use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
+use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
+use OrangeHRM\Pim\Service\Model\EmployeeModel;
 
 class AttendanceMockController extends AbstractController
 {
+
+    use EmployeeServiceTrait;
+    use NormalizerServiceTrait;
+
     /**
      * @return Response
      */
@@ -173,6 +181,72 @@ class AttendanceMockController extends AbstractController
                     ],
 
                 ],
+                "meta" => []
+            ])
+        );
+
+        $response->setStatusCode(Response::HTTP_OK);
+        return $response->send();
+    }
+
+    /**
+     * @return Response
+     */
+    public function sendEmployeeAttendanceRecordsResponse(): Response
+    {
+        $response = new Response();
+        $id = 1;
+        $employees = $this->getEmployeeService()->getEmployeeList(new EmployeeSearchFilterParams());
+
+        $response->setContent(
+            json_encode([
+                "data" => array_merge(...array_map(function ($employee) use (&$id) {
+                    // TODO: Need to show past employees by default
+                    $employee = $this->getNormalizerService()->normalize(EmployeeModel::class, $employee);
+                    return array_map(function () use (&$employee, &$id) {
+                        return [
+                            "id" => $id++,
+                            "employee" => $employee,
+                            "total" => sprintf('%0.2f', rand(0, 12)),
+                            "duration" => sprintf('%0.2f', rand(0, 12)),
+                            "records" => [
+                                "in" => [
+                                    "date" => date("Y-m-d"),
+                                    "time" => date("H:i"),
+                                    "note" => "Arrived at work",
+                                    "timezone" => "GMT 5.50",
+                                    "timezoneOffset" => date("Z") / 3600,
+                                ],
+                                "out" => [
+                                    "date" => date("Y-m-d"),
+                                    "time" => date("H:i"),
+                                    "note" => "Left work",
+                                    "timezone" => "GMT 5.50",
+                                    "timezoneOffset" => date("Z") / 3600,
+                                ]
+                            ]
+                        ];
+                    }, array_fill(0, 5, null));
+                }, $employees)),
+                "meta" => [
+                    "total" => $id - 1
+                ]
+            ])
+        );
+
+        $response->setStatusCode(Response::HTTP_OK);
+        return $response->send();
+    }
+
+    /**
+     * @return Response
+     */
+    public function deleteEmployeeAttendanceRecords(): Response
+    {
+        $response = new Response();
+        $response->setContent(
+            json_encode([
+                "data" => [],
                 "meta" => []
             ])
         );

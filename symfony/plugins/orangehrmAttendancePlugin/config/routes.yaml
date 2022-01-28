@@ -34,6 +34,16 @@ apiv2_employee_latest_attendance_record:
     id: 0
     _api: OrangeHRM\Attendance\Api\EmployeeLatestAttendanceRecordAPI
 
+apiv2_attendance_employee_attendance_records:
+  path: /api/v2/attendance/employees/records
+  controller: OrangeHRM\Attendance\Controller\AttendanceMockController::sendEmployeeAttendanceRecordsResponse
+  methods: [ GET ]
+
+apiv2_attendance_delete_employee_attendance_records:
+  path: /api/v2/attendance/employees/records
+  controller: OrangeHRM\Attendance\Controller\AttendanceMockController::deleteEmployeeAttendanceRecords
+  methods: [ DELETE ]
+
 ##########################
 #        Screens
 ##########################
