@@ -81,7 +81,7 @@ class AttendanceDaoTest extends PHPUnit_Framework_TestCase {
         $employeeId = 2;
         $actionableStatesList = array(PluginAttendanceRecord::STATE_PUNCHED_IN);
 
-        $attendanceRecord = $this->attendanceDao->getLastPunchRecord($employeeId, $actionableStatesList);
+        $attendanceRecord = $this->attendanceDao->getLastPunchRecordByEmployeeNumberAndActionableList($employeeId, $actionableStatesList);
 
         $this->assertEquals($attendanceRecord->getId(), 2);
         $this->assertEquals($attendanceRecord->getEmployeeId(), $employeeId);
@@ -96,7 +96,7 @@ class AttendanceDaoTest extends PHPUnit_Framework_TestCase {
         $employeeId = 4;
         $actionableStatesList = array(PluginAttendanceRecord::STATE_PUNCHED_IN);
 
-        $attendanceRecord = $this->attendanceDao->getLastPunchRecord($employeeId, $actionableStatesList);
+        $attendanceRecord = $this->attendanceDao->getLastPunchRecordByEmployeeNumberAndActionableList($employeeId, $actionableStatesList);
 
         $this->assertNull($attendanceRecord);
     }

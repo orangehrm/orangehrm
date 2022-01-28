@@ -19,14 +19,12 @@
 
 namespace OrangeHRM\Attendance\Api;
 
-use DateTime;
-use OrangeHRM\Attendance\Exception\AttendanceServiceException;
+use OrangeHRM\Attendance\Api\Model\EmployeeLatestAttendanceRecordModel;
 use OrangeHRM\Attendance\Traits\Service\AttendanceServiceTrait;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
-use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\ResourceEndpoint;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
@@ -34,65 +32,29 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
+use OrangeHRM\Entity\AttendanceRecord;
 
-class AttendancePunchInRecordOverlapAPI extends Endpoint implements ResourceEndpoint
+class EmployeeLatestAttendanceRecordAPI extends Endpoint implements ResourceEndpoint
 {
-    use AuthUserTrait;
     use AttendanceServiceTrait;
-
-    public const PARAMETER_DATE = 'date';
-    public const PARAMETER_TIME = 'time';
-    public const PARAMETER_TIME_ZONE_OFFSET = 'offset';
-    public const PARAMETER_IS_PUNCH_IN_OVERLAP = 'valid';
+    use AuthUserTrait;
 
     /**
      * @inheritDoc
      */
     public function getOne(): EndpointResult
     {
-        try {
-            $employeeNumber = $this->getRequestParams()->getInt(
-                RequestParams::PARAM_TYPE_QUERY,
-                CommonParams::PARAMETER_EMP_NUMBER,
-                $this->getAuthUser()->getEmpNumber()
-            );
-
-            $punchInUtcTime = $this->getUTCTimeByOffsetAndDateTime();
-            $isPunchInOverlap = !$this->getAttendanceService()
-                ->getAttendanceDao()
-                ->checkForPunchInOverLappingRecords(new  DateTime($punchInUtcTime), $employeeNumber);
-
-            return new EndpointResourceResult(
-                ArrayModel::class,
-                [
-                    self::PARAMETER_IS_PUNCH_IN_OVERLAP => $isPunchInOverlap,
-                ]
-            );
-        } catch (AttendanceServiceException $attendanceServiceException) {
-            throw $this->getBadRequestException($attendanceServiceException->getMessage());
-        }
-    }
-
-    /**
-     * @return string
-     */
-    protected function getUTCTimeByOffsetAndDateTime(): string
-    {
-        $date = $this->getRequestParams()->getString(
+        $employeeNumber = $this->getRequestParams()->getInt(
             RequestParams::PARAM_TYPE_QUERY,
-            self::PARAMETER_DATE,
+            CommonParams::PARAMETER_EMP_NUMBER,
+            $this->getAuthUser()->getEmpNumber()
         );
-        $time = $this->getRequestParams()->getString(
-            RequestParams::PARAM_TYPE_QUERY,
-            self::PARAMETER_TIME,
-        );
-        $timeZoneOffset = $this->getRequestParams()->getString(
-            RequestParams::PARAM_TYPE_QUERY,
-            self::PARAMETER_TIME_ZONE_OFFSET,
-        );
+        $attendanceRecord = $this->getAttendanceService()
+            ->getAttendanceDao()
+            ->getLatestAttendanceRecordByEmployeeNumber($employeeNumber);
+        $this->throwRecordNotFoundExceptionIfNotExist($attendanceRecord, AttendanceRecord::class);
 
-        $dateTime = $date . ' ' . $time;
-        return date('Y-m-d H:i', strtotime($dateTime) - $timeZoneOffset * 3600);
+        return new EndpointResourceResult(EmployeeLatestAttendanceRecordModel::class, $attendanceRecord);
     }
 
     /**
@@ -108,24 +70,6 @@ class AttendancePunchInRecordOverlapAPI extends Endpoint implements ResourceEndp
                 new ParamRule(
                     CommonParams::PARAMETER_EMP_NUMBER,
                     new Rule(Rules::IN_ACCESSIBLE_EMP_NUMBERS)
-                )
-            ),
-            $this->getValidationDecorator()->requiredParamRule(
-                new ParamRule(
-                    self::PARAMETER_DATE,
-                    new Rule(Rules::API_DATE)
-                )
-            ),
-            $this->getValidationDecorator()->requiredParamRule(
-                new ParamRule(
-                    self::PARAMETER_TIME,
-                    new Rule(Rules::STRING_TYPE)
-                )
-            ),
-            $this->getValidationDecorator()->requiredParamRule(
-                new ParamRule(
-                    self::PARAMETER_TIME_ZONE_OFFSET,
-                    new Rule(Rules::STRING_TYPE)
                 )
             )
         );

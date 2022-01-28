@@ -90,7 +90,7 @@ class AttendanceService {
      */
     public function getLastPunchRecord($employeeId, $actionableStatesList) {
 
-        return $this->getAttendanceDao()->getLastPunchRecord($employeeId, $actionableStatesList);
+        return $this->getAttendanceDao()->getLastPunchRecordByEmployeeNumberAndActionableList($employeeId, $actionableStatesList);
     }
 
     /**

@@ -20,10 +20,10 @@
 namespace OrangeHRM\Attendance\Api;
 
 use DateTime;
+use OrangeHRM\Attendance\Exception\AttendanceServiceException;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
-use OrangeHRM\Core\Api\V2\Exception\BadRequestException;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\RequestParams;
 
@@ -53,8 +53,8 @@ class AttendancePunchOutRecordOverlapAPI extends AttendancePunchInRecordOverlapA
                     self::PARAMETER_IS_PUNCH_OUT_OVERLAP => $isPunchInOverlap,
                 ]
             );
-        } catch (BadRequestException $exception) {
-            throw $this->getBadRequestException($exception->getMessage());
+        } catch (AttendanceServiceException $attendanceServiceException) {
+            throw $this->getBadRequestException($attendanceServiceException->getMessage());
         }
     }
 }

@@ -22,7 +22,6 @@ namespace OrangeHRM\FunctionalTesting\Controller;
 use OrangeHRM\Core\Controller\PublicControllerInterface;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\Http\Response;
-use OrangeHRM\FunctionalTesting\Service\DatabaseBackupService;
 
 class ResetDatabaseController extends AbstractController implements PublicControllerInterface
 {
@@ -32,7 +31,7 @@ class ResetDatabaseController extends AbstractController implements PublicContro
      */
     public function handle(Request $request): Response
     {
-        $tables = $this->getDatabaseBackupService()->restoreToSavepoint(DatabaseBackupService::INITIAL_SAVEPOINT_NAME);
+        $tables = $this->getDatabaseBackupService()->restoreToInitialSavepoint();
         $response = $this->getResponse();
         $response->setContent(json_encode(['count' => count($tables)]));
         return $response;

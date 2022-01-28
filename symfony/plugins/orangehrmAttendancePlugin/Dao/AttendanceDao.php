@@ -1,5 +1,4 @@
 <?php
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -17,13 +16,15 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
+
 namespace OrangeHRM\Attendance\Dao;
 
+use DateTime;
+use OrangeHRM\Attendance\Exception\AttendanceServiceException;
 use OrangeHRM\Core\Api\V2\Exception\BadRequestException;
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Entity\AttendanceRecord;
 use OrangeHRM\Entity\WorkflowStateMachine;
-use DateTime;
 use OrangeHRM\ORM\ListSorter;
 use Respect\Validation\Rules\Date;
 
@@ -48,7 +49,7 @@ class AttendanceDao extends BaseDao {
      * @param string[] $actionableStatesList
      * @return AttendanceRecord|null
      */
-    public function getLastPunchRecord(int $employeeNumber, array $actionableStatesList): ?AttendanceRecord
+    public function getLastPunchRecordByEmployeeNumberAndActionableList(int $employeeNumber, array $actionableStatesList): ?AttendanceRecord
     {
         $q = $this->createQueryBuilder(AttendanceRecord::class, 'attendanceRecord');
         $q->andWhere('attendanceRecord.employee = :empNumber');
@@ -69,15 +70,15 @@ class AttendanceDao extends BaseDao {
     public function checkForPunchOutOverLappingRecords(DateTime $punchOutTime, int $employeeNumber): bool
     {
         $actionableStatesList = [AttendanceRecord::STATE_PUNCHED_IN];
-        $attendanceRecord = $this->getLastPunchRecord($employeeNumber, $actionableStatesList);
+        $attendanceRecord = $this->getLastPunchRecordByEmployeeNumberAndActionableList($employeeNumber, $actionableStatesList);
 
-        if (is_null($attendanceRecord)){
-            throw new BadRequestException("Cannot Proceed Punch Out Employee Already Punched Out");
+        if (is_null($attendanceRecord)) {
+            throw AttendanceServiceException::punchOutAlreadyExist();
         }
 
         $punchInUtcTime = $attendanceRecord->getPunchInUtcTime();
         if ($punchInUtcTime > $punchOutTime) {
-            throw new BadRequestException("Punch Out Time Should Be Later Than Punch In Time");
+            throw AttendanceServiceException::punchOutTimeBehindThanPunchInTime();
         }
 
         $q1 = $this->createQueryBuilder(AttendanceRecord::class, 'attendanceRecord');
@@ -128,9 +129,9 @@ class AttendanceDao extends BaseDao {
      */
     public function checkForPunchInOverLappingRecords(DateTime $punchInTime, int $employeeNumber): bool
     {
-        $attendanceRecord = $this->getLastAttendanceRecordByEmployeeNumber($employeeNumber);
+        $attendanceRecord = $this->getLatestAttendanceRecordByEmployeeNumber($employeeNumber);
         if ($attendanceRecord->getState() === AttendanceRecord::STATE_PUNCHED_IN){
-            throw new BadRequestException("Cannot Proceed Punch In Employee Already Punched In");
+            throw AttendanceServiceException::punchInAlreadyExist();
         }
 
         $q = $this->createQueryBuilder(AttendanceRecord::class, 'attendanceRecord');
@@ -615,15 +616,14 @@ class AttendanceDao extends BaseDao {
      * @param int $employeeNumber
      * @return AttendanceRecord|null
      */
-    public function getLastAttendanceRecordByEmployeeNumber(int $employeeNumber): ?AttendanceRecord
+    public function getLatestAttendanceRecordByEmployeeNumber(int $employeeNumber): ?AttendanceRecord
     {
         $q = $this->createQueryBuilder(AttendanceRecord::class, 'attendanceRecord');
         $q->andWhere('attendanceRecord.employee = :empNumber');
         $q->setParameter('empNumber', $employeeNumber);
         $q->orderBy('attendanceRecord.id', ListSorter::DESCENDING);
         $q->setMaxResults(1);
+
         return $q->getQuery()->getOneOrNullResult();
     }
 }
-
-

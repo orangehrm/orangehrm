@@ -1,0 +1,150 @@
+GetOne:
+  'get the top attendance record by employee number (Admin)':
+    userId: 1
+    services:
+      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes: [ ]
+    body: [ ]
+    query:
+      empNumber: 2
+    data:
+      id: 4
+      punchIn: {
+        "utcDate": "2011-05-28",
+        "utcTime": "11:10",
+        "userDate": "2011-05-28",
+        "userTime": "10:10",
+        "offset": "5.5",
+        "note": "Im punched In"
+      },
+      punchOut: {
+        "utcDate": "2011-05-28",
+        "utcTime": "04:10",
+        "userDate": "2011-05-28",
+        "userTime": "05:10",
+        "offset": "5.5",
+        "note": "Punched Out"
+      },
+      "state": {
+        "id": "PUNCHED IN",
+        "name": "Punched In"
+      },
+      "employee": {
+        "empNumber": 2,
+        "lastName": "Abel",
+        "firstName": "Ashley",
+        "middleName": "ST",
+        "employeeId": "E002",
+        "terminationId": null
+      }
+    meta: [ ]
+
+  'get the top attendance record by employee number (Supervisor to ESS)':
+    userId: 3
+    services:
+      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes: [ ]
+    body: [ ]
+    query:
+      empNumber: 2
+    data:
+      id: 4
+      punchIn: {
+        "utcDate": "2011-05-28",
+        "utcTime": "11:10",
+        "userDate": "2011-05-28",
+        "userTime": "10:10",
+        "offset": "5.5",
+        "note": "Im punched In"
+      },
+      punchOut: {
+        "utcDate": "2011-05-28",
+        "utcTime": "04:10",
+        "userDate": "2011-05-28",
+        "userTime": "05:10",
+        "offset": "5.5",
+        "note": "Punched Out"
+      },
+      "state": {
+        "id": "PUNCHED IN",
+        "name": "Punched In"
+      },
+      "employee": {
+        "empNumber": 2,
+        "lastName": "Abel",
+        "firstName": "Ashley",
+        "middleName": "ST",
+        "employeeId": "E002",
+        "terminationId": null
+      }
+    meta: [ ]
+
+  'get the top attendance record by employee number (Self)':
+    userId: 2
+    services:
+      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+    attributes: [ ]
+    body: [ ]
+    query:
+      empNumber: 2
+    data:
+      id: 4
+      punchIn: {
+        "utcDate": "2011-05-28",
+        "utcTime": "11:10",
+        "userDate": "2011-05-28",
+        "userTime": "10:10",
+        "offset": "5.5",
+        "note": "Im punched In"
+      },
+      punchOut: {
+        "utcDate": "2011-05-28",
+        "utcTime": "04:10",
+        "userDate": "2011-05-28",
+        "userTime": "05:10",
+        "offset": "5.5",
+        "note": "Punched Out"
+      },
+      "state": {
+        "id": "PUNCHED IN",
+        "name": "Punched In"
+      },
+      "employee": {
+        "empNumber": 2,
+        "lastName": "Abel",
+        "firstName": "Ashley",
+        "middleName": "ST",
+        "employeeId": "E002",
+        "terminationId": null
+      }
+    meta: [ ]
+
+  'get the top attendance record by employee number (Supervisor to un assigned Subordinate)':
+    userId: 3
+    services:
+      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+    attributes: [ ]
+    body: [ ]
+    query:
+      empNumber: 1
+    invalidOnly: [ 'empNumber' ]
+
+  'get the top attendance record by employee number (non exist employee number)':
+    userId: 1
+    services:
+      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+    attributes: [ ]
+    body: [ ]
+    query:
+      empNumber: 100
+    invalidOnly: [ 'empNumber' ]

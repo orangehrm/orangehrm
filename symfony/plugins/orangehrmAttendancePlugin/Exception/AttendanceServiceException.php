@@ -1,3 +1,4 @@
+<?php
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -16,8 +17,33 @@
  * Boston, MA  02110-1301, USA
  */
 
-// Import commands.js using ES2015 syntax:
-import './commands';
+namespace OrangeHRM\Attendance\Exception;
 
-// Alternatively you can use CommonJS syntax:
-// require('./commands')
+use Exception;
+
+class AttendanceServiceException extends Exception
+{
+    /**
+     * @return static
+     */
+    public static function punchOutAlreadyExist(): self
+    {
+        return new self('Cannot Proceed Punch Out Employee Already Punched Out');
+    }
+
+    /**
+     * @return static
+     */
+    public static function punchInAlreadyExist(): self
+    {
+        return new self('Cannot Proceed Punch In Employee Already Punched In');
+    }
+
+    /**
+     * @return static
+     */
+    public static function punchOutTimeBehindThanPunchInTime(): self
+    {
+        return new self('Punch Out Time Should Be Later Than Punch In Time');
+    }
+}
