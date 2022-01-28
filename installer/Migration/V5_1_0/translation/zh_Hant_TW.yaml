@@ -36,3 +36,7 @@ translations:
     - { target: Oct, unitId: oct, group: general }
     - { target: Nov, unitId: nov, group: general }
     - { target: Dec, unitId: dec, group: general }
+    - { target: 性能追蹤器, unitId: performance_trackers, group: performance }
+    - { target: 新增日期, unitId: added_date, group: performance }
+    - { target: 修改日期, unitId: modified_date, group: performance }
+    - { target: 跟踪器名稱, unitId: tracker_name, group: performance }

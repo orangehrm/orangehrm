@@ -36,3 +36,7 @@ translations:
     - { target: Oct, unitId: oct, group: general }
     - { target: Nov, unitId: nov, group: general }
     - { target: Dec, unitId: dec, group: general }
+    - { target: 'Gestionnaires de Performance', unitId: performance_trackers, group: performance }
+    - { target: 'Date ajoutée', unitId: added_date, group: performance }
+    - { target: 'Date modifiée', unitId: modified_date, group: performance }
+    - { target: 'Nom du gestionnaire', unitId: tracker_name, group: performance }

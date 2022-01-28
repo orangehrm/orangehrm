@@ -36,3 +36,7 @@ translations:
     - { target: Oct, unitId: oct, group: general }
     - { target: Nov, unitId: nov, group: general }
     - { target: Dec, unitId: dec, group: general }
+    - { target: 'Rastreadores de desempeño', unitId: performance_trackers, group: performance }
+    - { target: 'Fecha Agregada', unitId: added_date, group: performance }
+    - { target: 'Fecha Modificada', unitId: modified_date, group: performance }
+    - { target: 'Nombre de Búsqueda', unitId: tracker_name, group: performance }

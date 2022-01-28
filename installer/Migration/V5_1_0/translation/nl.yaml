@@ -36,3 +36,6 @@ translations:
     - { target: Oct, unitId: oct, group: general }
     - { target: Nov, unitId: nov, group: general }
     - { target: Dec, unitId: dec, group: general }
+    - { target: 'Datum toegevoegd', unitId: added_date, group: performance }
+    - { target: 'Datum gemodificeerd', unitId: modified_date, group: performance }
+    - { target: 'Naam tracker', unitId: tracker_name, group: performance }
