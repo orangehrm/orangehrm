@@ -1,4 +1,4 @@
-performance_myTrackers: # remove this
+performance_myTrackers:
   path: /performance/viewMyPerformanceTrackerList
   controller: OrangeHRM\Performance\Controller\MyTrackerController::handle
   methods: [ GET ]
