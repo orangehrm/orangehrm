@@ -16,10 +16,10 @@ apiv2_attendance_validate_datetime:
   controller: OrangeHRM\Attendance\Controller\AttendanceMockController::validateDateTime
   methods: [ GET ]
 
-#apiv2_attendance_records:
-#  path: /api/v2/attendance/records/{id?}
-#  controller: OrangeHRM\Attendance\Controller\AttendanceMockController::sendAttendanceResponse
-#  methods: [ GET, POST, PUT ]
+apiv2_attendance_record:
+  path: /api/v2/attendance/record/{id?}
+  controller: OrangeHRM\Attendance\Controller\AttendanceMockController::sendAttendanceResponse
+  methods: [ GET, POST, PUT ]
 
 apiv2_attendance_timezones:
   path: /api/v2/attendance/timezones
@@ -42,6 +42,16 @@ apiv2_attendance_employee_attendance_records:
 apiv2_attendance_delete_employee_attendance_records:
   path: /api/v2/attendance/employees/records
   controller: OrangeHRM\Attendance\Controller\AttendanceMockController::deleteEmployeeAttendanceRecords
+  methods: [ GET ]
+
+apiv2_attendance_my_attendance_records:
+  path: /api/v2/attendance/records
+  controller: OrangeHRM\Attendance\Controller\AttendanceMockController::sendMyAttendanceRecordsResponse
+  methods: [ GET ]
+
+apiv2_attendance_delete_my_attendance_records:
+  path: /api/v2/attendance/records
+  controller: OrangeHRM\Attendance\Controller\AttendanceMockController::deleteMyAttendanceRecords
   methods: [ DELETE ]
 
 ##########################
@@ -66,4 +76,9 @@ attendance_configure:
 attendance_view_employee_attendance:
   path: /attendance/viewAttendanceRecord
   controller: OrangeHRM\Attendance\Controller\ViewEmployeeAttendanceController::handle
+  methods: [ GET ]
+  
+attendance_view_my_attendance:
+  path: /attendance/viewMyAttendanceRecord
+  controller: OrangeHRM\Attendance\Controller\ViewMyAttendanceController::handle
   methods: [ GET ]

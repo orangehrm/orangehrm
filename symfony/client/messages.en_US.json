@@ -980,6 +980,11 @@
           "source": "Add Attendance Records",
           "target": "Add Attendance Records",
           "description": "Insert attendance-related records"
+        },
+        "my_attendance_records": {
+          "source": "My Attendance Records",
+          "target": "My Attendance Records",
+          "description": ""
         }
       }
     }

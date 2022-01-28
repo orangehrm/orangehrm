@@ -27,10 +27,11 @@ use OrangeHRM\Pim\Dto\EmployeeSearchFilterParams;
 use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
 use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
 use OrangeHRM\Pim\Service\Model\EmployeeModel;
+use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 
 class AttendanceMockController extends AbstractController
 {
-
+    use AuthUserTrait;
     use EmployeeServiceTrait;
     use NormalizerServiceTrait;
 
@@ -228,6 +229,47 @@ class AttendanceMockController extends AbstractController
                         ];
                     }, array_fill(0, 5, null));
                 }, $employees)),
+                "meta" => [
+                    "total" => $id - 1
+                ]
+            ])
+        );
+
+        $response->setStatusCode(Response::HTTP_OK);
+        return $response->send();
+    }
+
+    public function sendMyAttendanceRecordsResponse(): Response
+    {
+        $response = new Response();
+        $id = 1;
+        $employee = $this->getEmployeeService()->getEmployeeAsArray($this->getAuthUser()->getEmpNumber());
+        $response->setContent(
+            json_encode([
+                "data" => array_map(function () use (&$employee, &$id) {
+                    return [
+                        "id" => $id++,
+                        "employee" => $employee,
+                        "total" => sprintf('%0.2f', rand(0, 12)),
+                        "duration" => sprintf('%0.2f', rand(0, 12)),
+                        "records" => [
+                            "in" => [
+                                "date" => date("Y-m-d"),
+                                "time" => date("H:i"),
+                                "note" => "Arrived at work",
+                                "timezone" => "GMT 5.50",
+                                "timezoneOffset" => date("Z") / 3600,
+                            ],
+                            "out" => [
+                                "date" => date("Y-m-d"),
+                                "time" => date("H:i"),
+                                "note" => "Left work",
+                                "timezone" => "GMT 5.50",
+                                "timezoneOffset" => date("Z") / 3600,
+                            ]
+                        ]
+                    ];
+                }, array_fill(0, 5, null)),
                 "meta" => [
                     "total" => $id - 1
                 ]

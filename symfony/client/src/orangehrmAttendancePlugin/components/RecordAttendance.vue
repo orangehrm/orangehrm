@@ -127,7 +127,7 @@ export default {
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      '/api/v2/attendance/records',
+      '/api/v2/attendance/record',
     );
     return {
       http,
