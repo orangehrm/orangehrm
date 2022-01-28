@@ -21,9 +21,9 @@
 <template>
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
-      <oxd-text class="orangehrm-main-title" tag="h6"
-        >Add Performance Tracker</oxd-text
-      >
+      <oxd-text class="orangehrm-main-title" tag="h6">
+        Add Performance Tracker
+      </oxd-text>
       <oxd-divider />
       <oxd-form :loading="isLoading" @submitValid="onSave">
         <oxd-form-row>
@@ -136,5 +136,3 @@ export default {
   },
 };
 </script>
-
-<style scoped></style>

@@ -37,10 +37,16 @@ export default {
   components: {
     'employee-autocomplete': EmployeeAutocomplete,
   },
+  props: {
+    includeEmployees: {
+      type:String,
+      default: 'currentAndPast',
+    },
+  },
   setup() {
     const http = new APIService(
-      window.appGlobal.baseUrl,
-      'api/v2/admin/work-shifts/employees', //this should be replaced with a new backend API for getting employee list from backend.
+        'https://796aa478-538c-47e3-8133-bc2f05a479b1.mock.pstmn.io',
+        '/api/v2/pim/employees',
     );
     return {
       http,
@@ -53,6 +59,7 @@ export default {
           this.http
             .getAll({
               nameOrId: serachParam.trim(),
+              includeEmployees: this.includeEmployees,
             })
             .then(({data}) => {
               resolve(
@@ -73,5 +80,8 @@ export default {
   },
 };
 </script>
-
-<style scoped></style>
+<style scoped>
+.past-employee-tag {
+  margin-left: auto;
+}
+</style>
