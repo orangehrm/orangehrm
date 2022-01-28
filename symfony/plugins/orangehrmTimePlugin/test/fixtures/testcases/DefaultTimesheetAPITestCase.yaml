@@ -159,6 +159,29 @@ GetOne:
       endDate: "2011-06-19"
     meta: [ ]
 
+  'Get default timesheet - without date parm - admin to employee - no timesheet found':
+    userId: 1
+    now:
+      datetime: '2021-12-20'
+    services:
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      empNumber: 5
+    body: [ ]
+    data:
+      id: null
+      status:
+        id: null
+        name: null
+      startDate: "2021-12-20"
+      endDate: "2021-12-26"
+    meta: [ ]
+
   'Get default timesheet - without date parm - supervisor to subordinate':
     userId: 3
     services:

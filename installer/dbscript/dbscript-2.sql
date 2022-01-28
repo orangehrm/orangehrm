@@ -4265,7 +4265,8 @@ VALUES ('apiv2_time_time_sheet_config', 'API-v2 Time - Time Sheet Start Day Conf
        ('apiv2_time_employee_timesheet_list', 'API-v2 Time - Employee Timesheet List', 1, 0, 0, 0),
        ('apiv2_time_default_timesheet', 'API-v2 Time - Default Timesheet', 1, 0, 0, 0),
        ('apiv2_time_reports', 'API-v2 Time - Reports', 1, 0, 0, 0),
-       ('apiv2_time_reports_data', 'API-v2 Time - Reports Data', 1, 0, 0, 0);
+       ('apiv2_time_reports_data', 'API-v2 Time - Reports Data', 1, 0, 0, 0),
+       ('apiv2_time_project_admins', 'API-v2 Time - Project Admins', 1, 0, 0, 0);
 
 SET @time_module_id := (SELECT `id` FROM ohrm_module WHERE name = 'time' LIMIT 1);
 
@@ -4289,6 +4290,7 @@ SET @apiv2_time_employee_timesheet_list_data_group_id := (SELECT `id` FROM ohrm_
 SET @apiv2_time_default_timesheet_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_time_default_timesheet' LIMIT 1);
 SET @apiv2_time_reports_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_time_reports' LIMIT 1);
 SET @apiv2_time_reports_data_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_time_reports_data' LIMIT 1);
+SET @apiv2_time_project_admins_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_time_project_admins' LIMIT 1);
 
 INSERT INTO ohrm_api_permission (`api_name`, `module_id`, `data_group_id`)
 VALUES ('OrangeHRM\\Time\\Api\\TimeConfigPeriodAPI', @time_module_id, @apiv2_time_time_sheet_config_data_group_id),
@@ -4310,7 +4312,8 @@ VALUES ('OrangeHRM\\Time\\Api\\TimeConfigPeriodAPI', @time_module_id, @apiv2_tim
        ('OrangeHRM\\Time\\Api\\EmployeeTimesheetListAPI', @time_module_id, @apiv2_time_employee_timesheet_list_data_group_id),
        ('OrangeHRM\\Time\\Api\\DefaultTimesheetAPI', @time_module_id, @apiv2_time_default_timesheet_data_group_id),
        ('OrangeHRM\\Time\\Api\\TimeReportAPI', @time_module_id, @apiv2_time_reports_data_group_id),
-       ('OrangeHRM\\Time\\Api\\TimeReportDataAPI', @time_module_id, @apiv2_time_reports_data_data_group_id);
+       ('OrangeHRM\\Time\\Api\\TimeReportDataAPI', @time_module_id, @apiv2_time_reports_data_data_group_id),
+       ('OrangeHRM\\Time\\Api\\ProjectAdminAPI', @time_module_id, @apiv2_time_project_admins_data_group_id);
 
 INSERT INTO ohrm_user_role_data_group (`can_read`, `can_create`, `can_update`, `can_delete`, `self`, `data_group_id`, `user_role_id`)
 VALUES (1, 0, 1, 0, 0, @apiv2_time_time_sheet_config_data_group_id, @admin_role_id),
@@ -4355,7 +4358,9 @@ VALUES (1, 0, 1, 0, 0, @apiv2_time_time_sheet_config_data_group_id, @admin_role_
        (1, 0, 0, 0, 0, @apiv2_time_reports_data_group_id, @supervisor_role_id),
        (1, 0, 0, 0, 0, @apiv2_time_reports_data_data_group_id, @admin_role_id),
        (1, 0, 0, 0, 0, @apiv2_time_reports_data_data_group_id, @project_admin_role_id),
-       (1, 0, 0, 0, 0, @apiv2_time_reports_data_data_group_id, @supervisor_role_id);
+       (1, 0, 0, 0, 0, @apiv2_time_reports_data_data_group_id, @supervisor_role_id),
+       (1, 0, 0, 0, 0, @apiv2_time_project_admins_data_group_id, @admin_role_id),
+       (1, 0, 0, 0, 0, @apiv2_time_project_admins_data_group_id, @project_admin_role_id);
 
 UPDATE `ohrm_screen` SET `module_id`= 5  WHERE `action_url` = 'viewCustomers';
 UPDATE `ohrm_screen` SET `module_id`= 5  WHERE `action_url` = 'viewProjects';
@@ -4372,3 +4377,18 @@ INSERT INTO ohrm_user_role_data_group (`can_read`, `can_create`, `can_update`, `
 VALUES (1, 1, 1, 1, 0, @time_project_activities_data_group_id, @admin_role_id),
        (1, 1, 1, 1, 0, @time_project_activities_data_group_id, @project_admin_role_id);
 UPDATE `ohrm_user_role_data_group` SET `can_update` = 0 WHERE `data_group_id` = @time_project_data_group_id AND `user_role_id` = @project_admin_role_id;
+
+-- Attendance Module
+
+INSERT INTO ohrm_data_group (`name`, `description`, `can_read`, `can_create`,`can_update`, `can_delete`)
+VALUES ('apiv2_attendance_configuration', 'API-v2 Attendance - Attendance Configuration', 1, 0, 1, 0);
+
+SET @attendance_module_id := (SELECT `id` FROM ohrm_module WHERE name = 'attendance' LIMIT 1);
+
+SET @apiv2_attendance_configuration_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_attendance_configuration' LIMIT 1);
+
+INSERT INTO ohrm_api_permission (`api_name`, `module_id`, `data_group_id`)
+VALUES ('OrangeHRM\\Attendance\\Api\\AttendanceConfigurationAPI', @attendance_module_id, @apiv2_attendance_configuration_data_group_id);
+
+INSERT INTO ohrm_user_role_data_group (`can_read`, `can_create`, `can_update`, `can_delete`, `self`, `data_group_id`, `user_role_id`)
+VALUES (1, 0, 1, 0, 0, @apiv2_attendance_configuration_data_group_id, @admin_role_id);

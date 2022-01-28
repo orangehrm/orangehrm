@@ -126,10 +126,11 @@
                 display-type="secondary"
                 class="orangehrm-timesheet-icon-comment"
                 :name="getCommentIcon(record.dates[date])"
-                @mousedown="viewComment(record, record.dates[date], date)"
+                @mousedown="viewComment(record, record.dates[date], i, date)"
               />
               <oxd-input-field
                 v-if="editable"
+                autocomplete="off"
                 :rules="validateDuration(date)"
                 :model-value="getDuration(record.dates[date])"
                 @blur="onDurationBlur"
@@ -378,8 +379,26 @@ export default {
           const _date = {
             [date]: {
               date: date,
-              comment: record.dates[date]?.comment,
               duration: $value,
+              id: record.dates[date]?.id,
+              comment: record.dates[date]?.comment,
+            },
+          };
+          record.dates = {...record.dates, ..._date};
+        }
+        return record;
+      });
+      this.syncRecords(updated);
+    },
+    updateComment(id, comment, index, date) {
+      const updated = this.records.map((record, i) => {
+        if (i === index) {
+          const _date = {
+            [date]: {
+              id: id,
+              date: date,
+              comment: comment,
+              duration: record.dates[date]?.duration,
             },
           };
           record.dates = {...record.dates, ..._date};
@@ -412,10 +431,11 @@ export default {
       if (!this.editable) return;
       this.$emit('update:records', updated);
     },
-    viewComment(record, entry, date) {
+    viewComment(record, entry, index, date) {
       if (record.project?.id && record.activity?.id) {
         this.commentModalState = {
           date,
+          index,
           id: entry?.id,
           project: record.project,
           activity: record.activity,
@@ -429,7 +449,12 @@ export default {
         });
       }
     },
-    onCommentModalClose() {
+    onCommentModalClose($event) {
+      if ($event) {
+        const {id, comment} = $event;
+        const {index, date} = this.commentModalState;
+        this.updateComment(id, comment, index, date);
+      }
       this.showCommentModal = false;
       this.commentModalState = null;
     },

@@ -20,13 +20,13 @@
 namespace Orangehrm\Rest\Api\User\Attendance;
 
 use AttendanceRecord;
-use AttendanceService;
 use BasicUserRoleManager;
 use DaoException;
 use Employee;
 use EmployeeSearchParameterHolder;
 use EmployeeService;
 use ListSorter;
+use OrangeHRM\Attendance\Service\AttendanceService;
 use Orangehrm\Rest\Api\EndPoint;
 use Orangehrm\Rest\Api\Exception\BadRequestException;
 use Orangehrm\Rest\Api\Exception\InvalidParamException;

@@ -173,9 +173,10 @@ export default {
 
   computed: {
     title() {
-      return `${this.$t('time.timesheet_for')} ${this.employee?.firstName} ${
-        this.employee?.lastName
-      }`;
+      const empName = this.employee.terminationId
+        ? `${this.employee.firstName} ${this.employee.lastName} (Past Employee)`
+        : `${this.employee.firstName} ${this.employee.lastName}`;
+      return `${this.$t('time.timesheet_for')} ${empName}`;
     },
   },
 };

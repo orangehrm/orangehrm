@@ -45,6 +45,21 @@ class InAccessibleEntityIdOption
     private string $exceptionMessage = ForbiddenException::DEFAULT_ERROR_MESSAGE;
 
     /**
+     * @var array
+     */
+    private array $requiredPermissions = [];
+
+    /**
+     * @var string[]
+     */
+    private array $rolesToExclude = [];
+
+    /**
+     * @var string[]
+     */
+    private array $rolesToInclude = [];
+
+    /**
      * @return ValidationEscapableException
      */
     public function getThrowable(): ValidationEscapableException
@@ -116,6 +131,60 @@ class InAccessibleEntityIdOption
     public function setThrowIfOnlyEntityExist(bool $throwIfOnlyEntityExist): self
     {
         $this->throwIfOnlyEntityExist = $throwIfOnlyEntityExist;
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getRequiredPermissions(): array
+    {
+        return $this->requiredPermissions;
+    }
+
+    /**
+     * @param array $requiredPermissions
+     * @return self
+     */
+    public function setRequiredPermissions(array $requiredPermissions): self
+    {
+        $this->requiredPermissions = $requiredPermissions;
+        return $this;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getRolesToExclude(): array
+    {
+        return $this->rolesToExclude;
+    }
+
+    /**
+     * @param string[] $rolesToExclude
+     * @return self
+     */
+    public function setRolesToExclude(array $rolesToExclude): self
+    {
+        $this->rolesToExclude = $rolesToExclude;
+        return $this;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getRolesToInclude(): array
+    {
+        return $this->rolesToInclude;
+    }
+
+    /**
+     * @param string[] $rolesToInclude
+     * @return self
+     */
+    public function setRolesToInclude(array $rolesToInclude): self
+    {
+        $this->rolesToInclude = $rolesToInclude;
         return $this;
     }
 }

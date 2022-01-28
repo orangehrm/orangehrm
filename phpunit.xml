@@ -64,5 +64,11 @@
       <directory>symfony/plugins/orangehrmTimePlugin/test/Api</directory>
       <directory>symfony/plugins/orangehrmTimePlugin/test/Entity</directory>
     </testsuite>
+    <testsuite name="Attendance">
+<!--      <directory>symfony/plugins/orangehrmAttendancePlugin/test/Service</directory>-->
+<!--      <directory>symfony/plugins/orangehrmAttendancePlugin/test/Dao</directory>-->
+<!--      <directory>symfony/plugins/orangehrmAttendancePlugin/test/Api</directory>-->
+      <directory>symfony/plugins/orangehrmAttendancePlugin/test/Entity</directory>
+    </testsuite>
   </testsuites>
 </phpunit>

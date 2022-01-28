@@ -219,11 +219,15 @@ export default {
 
   computed: {
     title() {
-      return this.myTimesheet || !this.employee
-        ? this.$t('time.edit_timesheet')
-        : `${this.$t('time.edit_timesheet_for')} ${this.employee.firstName} ${
-            this.employee.lastName
-          }`;
+      if (this.myTimesheet) {
+        return this.$t('time.edit_timesheet');
+      } else if (this.employee) {
+        const empName = this.employee?.terminationId
+          ? `${this.employee.firstName} ${this.employee.lastName} (Past Employee)`
+          : `${this.employee.firstName} ${this.employee.lastName}`;
+        return `${this.$t('time.edit_timesheet_for')} ${empName}`;
+      }
+      return '';
     },
     timesheetDateRange() {
       return this.timesheet
