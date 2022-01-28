@@ -26,22 +26,6 @@ apiv2_attendance_timezones:
   controller: OrangeHRM\Attendance\Controller\AttendanceMockController::getTimezones
   methods: [ GET ]
 
-apiv2_attendance_punch_in_record_overlap:
-  path: /api/v2/attendance/punch-in/records/overlaps
-  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
-  methods: [ GET ]
-  defaults:
-    id: 0
-    _api: OrangeHRM\Attendance\Api\AttendancePunchInRecordOverlapAPI
-
-apiv2_attendance_punch_out_record_overlap:
-  path: /api/v2/attendance/punch-out/records/overlaps
-  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
-  methods: [ GET ]
-  defaults:
-    id: 0
-    _api: OrangeHRM\Attendance\Api\AttendancePunchOutRecordOverlapAPI
-
 ##########################
 #        Screens
 ##########################
