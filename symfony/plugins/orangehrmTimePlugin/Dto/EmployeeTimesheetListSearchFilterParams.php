@@ -21,6 +21,7 @@ namespace OrangeHRM\Time\Dto;
 
 use OrangeHRM\Core\Dto\FilterParams;
 use OrangeHRM\Core\Exception\SearchParamException;
+use OrangeHRM\ORM\ListSorter;
 
 class EmployeeTimesheetListSearchFilterParams extends FilterParams
 {
@@ -42,7 +43,7 @@ class EmployeeTimesheetListSearchFilterParams extends FilterParams
     public function __construct()
     {
         $this->setSortField('timesheet.startDate');
-        $this->setSortOrder('DESC');
+        $this->setSortOrder(ListSorter::DESCENDING);
     }
 
     /**
