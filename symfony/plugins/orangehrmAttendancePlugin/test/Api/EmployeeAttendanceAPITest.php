@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Attendance\test\Api;
+namespace OrangeHRM\Tests\Attendance\Api;
 
 use OrangeHRM\Attendance\Api\EmployeeLatestAttendanceRecordAPI;
 use OrangeHRM\Framework\Services;

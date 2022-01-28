@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Attendance\test\Dao;
+namespace OrangeHRM\Tests\Attendance\Dao;
 
 use Exception;
 use OrangeHRM\Attendance\Dao\AttendanceDao;
