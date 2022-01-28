@@ -371,6 +371,7 @@ class TimesheetDao extends BaseDao
         }
 
         $this->setSortingAndPaginationParams($q, $employeeTimesheetActionSearchFilterParams);
+        $q->addOrderBy('employee.lastName');
         return $this->getPaginator($q);
     }
 
