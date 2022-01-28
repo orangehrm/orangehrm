@@ -21,7 +21,7 @@
 <template>
   <oxd-dialog
     :style="{width: '90%', maxWidth: '450px'}"
-    @update:show="onCancel(false)"
+    @update:show="onCancel"
   >
     <div class="orangehrm-modal-header">
       <oxd-text type="card-title">
@@ -42,13 +42,13 @@
             {{ $t('time.activity') }}:
           </oxd-text>
           <oxd-text tag="p" class="orangehrm-timesheet-text">
-            {{ data?.activity.name }}
+            {{ data.activity.name }}
           </oxd-text>
           <oxd-text tag="p" class="orangehrm-timesheet-title">
             {{ $t('general.date') }}:
           </oxd-text>
           <oxd-text tag="p" class="orangehrm-timesheet-text">
-            {{ data?.date }}
+            {{ data.date }}
           </oxd-text>
         </oxd-grid>
       </oxd-form-row>
@@ -67,7 +67,7 @@
           type="button"
           display-type="ghost"
           label="Cancel"
-          @click="onCancel(false)"
+          @click="onCancel"
         />
         <submit-button v-show="editable" />
       </oxd-form-actions>
@@ -76,12 +76,12 @@
 </template>
 
 <script>
-import {APIService} from '@/core/util/services/api.service';
-import Dialog from '@ohrm/oxd/core/components/Dialog/Dialog';
 import {
   required,
   shouldNotExceedCharLength,
 } from '@ohrm/core/util/validation/rules';
+import {APIService} from '@/core/util/services/api.service';
+import Dialog from '@ohrm/oxd/core/components/Dialog/Dialog';
 
 export default {
   name: 'TimesheetCommentModal',
@@ -103,10 +103,10 @@ export default {
     },
   },
   emits: ['close'],
-  setup(props) {
+  setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      `api/v2/time/timesheets/${props.timesheetId}/entries/${props.data?.id}/comment`,
+      `api/v2/time/timesheets`,
     );
     return {
       http,
@@ -133,7 +133,10 @@ export default {
     if (this.data?.id) {
       this.isLoading = true;
       this.http
-        .getAll()
+        .request({
+          method: 'GET',
+          url: `api/v2/time/timesheets/${this.timesheetId}/entries/${this.data.id}/comment`,
+        })
         .then(response => {
           const {data} = response.data;
           this.comment = data?.comment;
@@ -146,46 +149,26 @@ export default {
   methods: {
     onSave() {
       this.isLoading = true;
-      if (this.data?.id) {
-        this.updateComment(this.comment).then(() => {
-          this.$toast.updateSuccess();
-          this.onCancel(true);
-        });
-      } else {
-        this.saveComment(
-          this.data.date,
-          this.comment,
-          this.data.project.id,
-          this.data.activity.id,
-        ).then(() => {
+      this.http
+        .request({
+          method: 'PUT',
+          url: `api/v2/time/timesheets/${this.timesheetId}/entries/comment`,
+          data: {
+            date: this.data.date,
+            comment: this.comment,
+            projectId: this.data.project.id,
+            activityId: this.data.activity.id,
+          },
+        })
+        .then(response => {
+          const {data} = response.data;
           this.$toast.saveSuccess();
-          this.onCancel(true);
+          this.$emit('close', data);
         });
-      }
     },
-    updateComment(comment) {
-      return this.http.request({
-        method: 'PUT',
-        data: {
-          comment,
-        },
-      });
-    },
-    saveComment(date, comment, projectId, activityId) {
-      return this.http.request({
-        method: 'POST',
-        data: {
-          date,
-          comment,
-          projectId,
-          activityId,
-        },
-        url: `api/v2/time/timesheets/${this.timesheetId}/entries/comment`,
-      });
-    },
-    onCancel(reload) {
+    onCancel() {
       this.comment = null;
-      this.$emit('close', reload);
+      this.$emit('close');
     },
   },
 };

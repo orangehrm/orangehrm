@@ -51,6 +51,7 @@ class BasicUserRoleManager extends AbstractUserRoleManager
     public const PERMISSION_TYPE_DATA_GROUP = 'data_group';
     public const PERMISSION_TYPE_ACTION = 'action';
     public const PERMISSION_TYPE_WORKFLOW_ACTION = 'workflow_action';
+    public const PERMISSION_TYPE_USER_ROLE_SPECIFIC = 'user_role_specific';
 
     public const OPERATION_VIEW = 'view';
     public const OPERATION_EDIT = 'edit';

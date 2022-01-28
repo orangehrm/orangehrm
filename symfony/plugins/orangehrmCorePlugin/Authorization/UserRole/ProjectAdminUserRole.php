@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Core\Authorization\UserRole;
 
+use OrangeHRM\Core\Authorization\Manager\BasicUserRoleManager;
 use OrangeHRM\Entity\Customer;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\Project;
@@ -29,6 +30,8 @@ class ProjectAdminUserRole extends AbstractUserRole
 {
     use ProjectServiceTrait;
     use CustomerServiceTrait;
+
+    public const INCLUDE_EMPLOYEE = 'include_employee';
 
     /**
      * @inheritDoc
@@ -53,9 +56,17 @@ class ProjectAdminUserRole extends AbstractUserRole
      */
     protected function getAccessibleEmployeeIds(array $requiredPermissions = []): array
     {
-        return $this->getProjectService()
-            ->getProjectDao()
-            ->getAccessibleEmpNumbersForProjectAdmin($this->getEmployeeNumber());
+        if (isset($requiredPermissions[BasicUserRoleManager::PERMISSION_TYPE_USER_ROLE_SPECIFIC])) {
+            $permissions = $requiredPermissions[BasicUserRoleManager::PERMISSION_TYPE_USER_ROLE_SPECIFIC];
+            if (is_array($permissions) &&
+                isset($permissions[self::INCLUDE_EMPLOYEE]) &&
+                $permissions[self::INCLUDE_EMPLOYEE] === true) {
+                return $this->getProjectService()
+                    ->getProjectDao()
+                    ->getAccessibleEmpNumbersForProjectAdmin($this->getEmployeeNumber());
+            }
+        }
+        return [];
     }
 
     /**

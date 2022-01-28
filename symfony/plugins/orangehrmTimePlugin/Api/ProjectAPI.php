@@ -33,8 +33,12 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Core\Api\V2\Validator\Rules\InAccessibleEntityIdOption;
+use OrangeHRM\Core\Authorization\Manager\BasicUserRoleManager;
+use OrangeHRM\Core\Authorization\UserRole\ProjectAdminUserRole;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\Customer;
+use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\Project;
 use OrangeHRM\Time\Api\Model\ProjectDetailedModel;
 use OrangeHRM\Time\Api\Model\ProjectModel;
@@ -167,7 +171,17 @@ class ProjectAPI extends Endpoint implements CrudEndpoint
                 new ParamRule(
                     self::FILTER_EMPLOYEE_NUMBER,
                     new Rule(Rules::POSITIVE),
-                    new Rule(Rules::IN_ACCESSIBLE_EMP_NUMBERS)
+                    new Rule(
+                        Rules::IN_ACCESSIBLE_ENTITY_ID,
+                        [
+                            Employee::class,
+                            (new InAccessibleEntityIdOption())
+                                ->setRolesToExclude(['Supervisor'])
+                                ->setRequiredPermissions(
+                                    [BasicUserRoleManager::PERMISSION_TYPE_USER_ROLE_SPECIFIC => [ProjectAdminUserRole::INCLUDE_EMPLOYEE => true]]
+                                )
+                        ]
+                    )
                 ),
             ),
             $this->getValidationDecorator()->notRequiredParamRule(

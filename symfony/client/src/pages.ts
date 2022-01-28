@@ -68,7 +68,7 @@ import EmailSubscription from '@/orangehrmAdminPlugin/pages/emailSubscription/Em
 import EditEmailSubscription from '@/orangehrmAdminPlugin/pages/emailSubscription/EditEmailSubscription.vue';
 import HelpPages from '@/orangehrmHelpPlugin';
 import TimePages from '@/orangehrmTimePlugin';
-import Todo from '@/orangehrmPerformancePlugin/pages/Todo.vue';
+import AttendancePages from '@/orangehrmAttendancePlugin';
 import MyTracker from '@/orangehrmPerformancePlugin/pages/MyTracker.vue';
 
 export default {
@@ -125,6 +125,6 @@ export default {
   'email-subscription-edit': EditEmailSubscription,
   ...HelpPages,
   ...TimePages,
-  'todo-list': Todo,
+  ...AttendancePages,
   'my-tracker': MyTracker,
 };
