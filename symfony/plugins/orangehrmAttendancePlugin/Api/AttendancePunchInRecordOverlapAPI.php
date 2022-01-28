@@ -25,6 +25,7 @@ use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
+use OrangeHRM\Core\Api\V2\Exception\BadRequestException;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\ResourceEndpoint;
@@ -34,7 +35,7 @@ use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 
-class AttendanceRecordOverlapAPI extends Endpoint implements ResourceEndpoint
+class AttendancePunchInRecordOverlapAPI extends Endpoint implements ResourceEndpoint
 {
     use AuthUserTrait;
     use AttendanceServiceTrait;
@@ -49,11 +50,34 @@ class AttendanceRecordOverlapAPI extends Endpoint implements ResourceEndpoint
      */
     public function getOne(): EndpointResult
     {
-        $employeeNumber = $this->getRequestParams()->getInt(
-            RequestParams::PARAM_TYPE_QUERY,
-            CommonParams::PARAMETER_EMP_NUMBER,
-            $this->getAuthUser()->getEmpNumber()
-        );
+        try {
+            $employeeNumber = $this->getRequestParams()->getInt(
+                RequestParams::PARAM_TYPE_QUERY,
+                CommonParams::PARAMETER_EMP_NUMBER,
+                $this->getAuthUser()->getEmpNumber()
+            );
+
+            $punchInUtcTime = $this->getUTCTimeByOffsetAndDateTime();
+            $isPunchInOverlap = !$this->getAttendanceService()
+                ->getAttendanceDao()
+                ->checkForPunchInOverLappingRecords(new  DateTime($punchInUtcTime), $employeeNumber);
+
+            return new EndpointResourceResult(
+                ArrayModel::class,
+                [
+                    self::PARAMETER_IS_PUNCH_IN_OVERLAP => $isPunchInOverlap,
+                ]
+            );
+        } catch (BadRequestException $exception) {
+            throw $this->getBadRequestException($exception->getMessage());
+        }
+    }
+
+    /**
+     * @return string
+     */
+    protected function getUTCTimeByOffsetAndDateTime(): string
+    {
         $date = $this->getRequestParams()->getString(
             RequestParams::PARAM_TYPE_QUERY,
             self::PARAMETER_DATE,
@@ -68,17 +92,7 @@ class AttendanceRecordOverlapAPI extends Endpoint implements ResourceEndpoint
         );
 
         $dateTime = $date . ' ' . $time;
-        $punchInUtcTime = date('Y-m-d H:i', strtotime($dateTime) - $timeZoneOffset * 3600);
-        $isPunchInOverlap = !$this->getAttendanceService()
-            ->getAttendanceDao()
-            ->checkForPunchInOverLappingRecords(new  DateTime($punchInUtcTime), $employeeNumber);
-
-        return new EndpointResourceResult(
-            ArrayModel::class,
-            [
-                self::PARAMETER_IS_PUNCH_IN_OVERLAP => $isPunchInOverlap,
-            ]
-        );
+        return date('Y-m-d H:i', strtotime($dateTime) - $timeZoneOffset * 3600);
     }
 
     /**

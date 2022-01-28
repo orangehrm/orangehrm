@@ -4381,14 +4381,25 @@ UPDATE `ohrm_user_role_data_group` SET `can_update` = 0 WHERE `data_group_id` = 
 -- Attendance Module
 
 INSERT INTO ohrm_data_group (`name`, `description`, `can_read`, `can_create`,`can_update`, `can_delete`)
-VALUES ('apiv2_attendance_configuration', 'API-v2 Attendance - Attendance Configuration', 1, 0, 1, 0);
+VALUES ('apiv2_attendance_configuration', 'API-v2 Attendance - Attendance Configuration', 1, 0, 1, 0),
+       ('apiv2_attendance_punch_in_overlaps', 'API-v2 Attendance - PunchIn Overlaps', 1, 0, 0, 0),
+       ('apiv2_attendance_punch_out_overlaps', 'API-v2 Attendance - PunchOut Overlaps', 1, 0, 0, 0);
 
 SET @attendance_module_id := (SELECT `id` FROM ohrm_module WHERE name = 'attendance' LIMIT 1);
 
 SET @apiv2_attendance_configuration_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_attendance_configuration' LIMIT 1);
+SET @apiv2_attendance_punch_in_overlaps_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_attendance_punch_in_overlaps' LIMIT 1);
+SET @apiv2_attendance_punch_out_overlaps_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_attendance_punch_out_overlaps' LIMIT 1);
 
 INSERT INTO ohrm_api_permission (`api_name`, `module_id`, `data_group_id`)
-VALUES ('OrangeHRM\\Attendance\\Api\\AttendanceConfigurationAPI', @attendance_module_id, @apiv2_attendance_configuration_data_group_id);
+VALUES ('OrangeHRM\\Attendance\\Api\\AttendanceConfigurationAPI', @attendance_module_id, @apiv2_attendance_configuration_data_group_id),
+       ('OrangeHRM\\Attendance\\Api\\AttendancePunchInRecordOverlapAPI', @attendance_module_id, @apiv2_attendance_punch_in_overlaps_data_group_id),
+       ('OrangeHRM\\Attendance\\Api\\AttendancePunchOutRecordOverlapAPI', @attendance_module_id, @apiv2_attendance_punch_out_overlaps_data_group_id);
 
 INSERT INTO ohrm_user_role_data_group (`can_read`, `can_create`, `can_update`, `can_delete`, `self`, `data_group_id`, `user_role_id`)
-VALUES (1, 0, 1, 0, 0, @apiv2_attendance_configuration_data_group_id, @admin_role_id);
+VALUES (1, 0, 1, 0, 0, @apiv2_attendance_configuration_data_group_id, @admin_role_id),
+       (1, 0, 0, 0, 0, @apiv2_attendance_punch_in_overlaps_data_group_id, @admin_role_id),
+       (1, 0, 0, 0, 0, @apiv2_attendance_punch_in_overlaps_data_group_id, @ess_role_id),
+       (1, 0, 0, 0, 0, @apiv2_attendance_punch_out_overlaps_data_group_id, @admin_role_id),
+       (1, 0, 0, 0, 0, @apiv2_attendance_punch_out_overlaps_data_group_id, @ess_role_id);
+
