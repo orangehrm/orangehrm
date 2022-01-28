@@ -22,6 +22,7 @@ namespace OrangeHRM\Attendance\Dao;
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Entity\AttendanceRecord;
 use OrangeHRM\Entity\WorkflowStateMachine;
+use OrangeHRM\ORM\ListSorter;
 
 class AttendanceDao extends BaseDao {
 
@@ -620,6 +621,19 @@ class AttendanceDao extends BaseDao {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
     }
+
+    /**
+     * @param int $employeeNumber
+     * @return AttendanceRecord|null
+     */
+    public function getLatestAttendanceRecordByEmployeeId(int $employeeNumber): ?AttendanceRecord
+    {
+        $q = $this->createQueryBuilder(AttendanceRecord::class, 'attendanceRecord');
+        $q->andWhere('attendanceRecord.employee = :empNumber');
+        $q->setParameter('empNumber', $employeeNumber);
+        $q->orderBy('attendanceRecord.id', ListSorter::DESCENDING);
+        $q->setMaxResults(1);
+
+        return $q->getQuery()->getOneOrNullResult();
+    }
 }
-
-
