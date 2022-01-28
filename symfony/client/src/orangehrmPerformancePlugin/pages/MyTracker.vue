@@ -26,16 +26,11 @@
           My Performance Trackers List
         </oxd-text>
       </div>
-      <table-header
-        :selected="checkedItems.length"
-        :total="total"
-        :loading="isLoading"
-      >
+      <table-header :selected="0" :total="total" :loading="isLoading">
       </table-header>
       <div class="orangehrm-container">
         <oxd-card-table
           v-model:order="sortDefinition"
-          v-model:selected="checkedItems"
           :headers="headers"
           :items="items?.data"
           :loading="isLoading"
@@ -155,10 +150,7 @@ export default {
           },
         },
       ],
-      checkedItems: [],
     };
   },
 };
 </script>
-
-<style scoped></style>
