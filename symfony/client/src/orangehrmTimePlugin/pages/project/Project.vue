@@ -275,7 +275,11 @@ export default {
     onClickDelete(item) {
       const isSelectable = this.unselectableIds.findIndex(id => id == item.id);
       if (isSelectable > -1) {
-        return this.$toast.cannotDelete();
+        return this.$toast.error({
+          title: 'Error',
+          message:
+            'Not allowed to delete project(s) which have time logged against them',
+        });
       }
       this.$refs.deleteDialog.showDialog().then(confirmation => {
         if (confirmation === 'ok') {
