@@ -48,10 +48,14 @@
   </oxd-table-filter>
   <br />
   <div class="orangehrm-paper-container">
+    <div class="orangehrm-header-container">
+      <oxd-text class="orangehrm-header-total" tag="span">
+        {{ $t('time.total_duration') }}: {{ totalDuration }}
+      </oxd-text>
+    </div>
     <table-header
       :total="total"
       :loading="isLoading"
-      :show-divider="false"
       :selected="checkedItems.length"
       @delete="onClickDeleteSelected"
     ></table-header>
@@ -63,6 +67,7 @@
         :selectable="true"
         :clickable="false"
         :loading="isLoading"
+        class="orangehrm-my-attendance"
         row-decorator="oxd-table-decorator-card"
       />
     </div>
@@ -137,6 +142,11 @@ export default {
       prefetch: false,
     });
 
+    const totalDuration = computed(() => {
+      const meta = response.value?.meta;
+      return meta ? parseFloat(meta.total).toFixed(2) : '0.00';
+    });
+
     return {
       http,
       rules,
@@ -149,6 +159,7 @@ export default {
       currentPage,
       showPaginator,
       items: response,
+      totalDuration,
     };
   },
 
@@ -182,7 +193,7 @@ export default {
         },
         {
           name: 'actions',
-          slot: 'action',
+          slot: 'title',
           title: 'Actions',
           style: {flex: 1},
           cellType: 'oxd-table-cell-actions',
@@ -250,3 +261,5 @@ export default {
   },
 };
 </script>
+
+<style src="./view-my-attendance.scss" lang="scss" scoped></style>

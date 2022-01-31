@@ -296,4 +296,21 @@ class AttendanceMockController extends AbstractController
         $response->setStatusCode(Response::HTTP_OK);
         return $response->send();
     }
+
+    /**
+     * @return Response
+     */
+    public function deleteMyAttendanceRecords(): Response
+    {
+        $response = new Response();
+        $response->setContent(
+            json_encode([
+                "data" => [],
+                "meta" => []
+            ])
+        );
+
+        $response->setStatusCode(Response::HTTP_OK);
+        return $response->send();
+    }
 }

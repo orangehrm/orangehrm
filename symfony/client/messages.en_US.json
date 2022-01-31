@@ -985,6 +985,11 @@
           "source": "My Attendance Records",
           "target": "My Attendance Records",
           "description": ""
+        },
+        "total_duration": {
+          "source": "Total Duration (Hours)",
+          "target": "Total Duration (Hours)",
+          "description": ""
         }
       }
     }

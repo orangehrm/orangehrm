@@ -42,7 +42,7 @@ apiv2_attendance_employee_attendance_records:
 apiv2_attendance_delete_employee_attendance_records:
   path: /api/v2/attendance/employees/records
   controller: OrangeHRM\Attendance\Controller\AttendanceMockController::deleteEmployeeAttendanceRecords
-  methods: [ GET ]
+  methods: [ DELETE ]
 
 apiv2_attendance_my_attendance_records:
   path: /api/v2/attendance/records
