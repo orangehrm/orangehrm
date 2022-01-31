@@ -52,6 +52,7 @@
               <reviewers-autocomplete
                 v-model="tracker.reviewers"
                 :rules="rules.reviewers"
+                :excludeEmployee="tracker.employee"
                 label="Reviewers"
                 required
               />

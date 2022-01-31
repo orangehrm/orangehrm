@@ -42,6 +42,10 @@ export default {
       type:String,
       default: 'currentAndPast',
     },
+    excludeEmployee: {
+      type: Object,
+      required: false,
+    },
   },
   setup() {
     const http = new APIService(
@@ -60,6 +64,7 @@ export default {
             .getAll({
               nameOrId: serachParam.trim(),
               includeEmployees: this.includeEmployees,
+              excludeEmployee: this.excludeEmployee.id,
             })
             .then(({data}) => {
               resolve(
