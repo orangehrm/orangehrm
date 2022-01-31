@@ -282,7 +282,7 @@ class TestDataService
             try {
                 $pdo->getWrappedConnection()->setAttribute(PDO::ATTR_AUTOCOMMIT, 0);
                 $pdo->getWrappedConnection()->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-                $pdo->beginTransaction();
+                Doctrine::getEntityManager()->beginTransaction();
 
                 foreach ($tableNames as $tableName) {
                     $query = 'DELETE FROM ' . $tableName;
@@ -295,12 +295,13 @@ class TestDataService
                     implode("','", $tableNames) . "')";
                 $pdo->exec($query);
 
-                $pdo->commit();
-                $pdo->getWrappedConnection()->setAttribute(PDO::ATTR_AUTOCOMMIT, 1);
+                Doctrine::getEntityManager()->commit();
             } catch (Exception $e) {
-                $pdo->rollBack();
+                Doctrine::getEntityManager()->rollback();
                 echo __FILE__ . ':' . __LINE__ . "\n Transaction failed: " . $e->getMessage() .
                     "\nQuery: [" . $query . "]\n" . 'Fixture: ' . self::$lastFixture . "\n\n";
+            } finally {
+                $pdo->getWrappedConnection()->setAttribute(PDO::ATTR_AUTOCOMMIT, 1);
             }
 
             // Clear table cache
