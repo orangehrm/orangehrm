@@ -942,8 +942,8 @@
           "description": "This feature allows capturing the date and time that an employee leaves office after finishing work.."
         },
         "time": {
-          "source": "Time",
-          "target": "Time",
+          "source": "Time (HH:MM)",
+          "target": "Time (HH:MM)",
           "description": "This feature allows capturing the date and time that an employee reports to work."
         },
         "timezone": {
