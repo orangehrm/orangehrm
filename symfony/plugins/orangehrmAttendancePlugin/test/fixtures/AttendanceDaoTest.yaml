@@ -8,6 +8,7 @@ Employee:
   - { empNumber: 2, firstName: 'Ashley', lastName: 'Abel', middleName: 'ST',employeeId: 'E002', emp_work_email: 'ashley@xample.com', emp_oth_email: 'ashley2@xample.com' }
   - { empNumber: 3, firstName: 'Renukshan', lastName: 'Saputhanthri', middleName: 'RT', employeeId: 'E003', emp_work_email: 'renukshan@xample.com', emp_oth_email: 'renukshan2@xample.com' }
   - { empNumber: 4, firstName: 'Sherin', lastName: 'Sherin', middleName: 'Sherin', employeeId: 'E004', emp_work_email: 'sherin@xample.com', emp_oth_email: 'sherin@xample.com' }
+  - { empNumber: 5, firstName: 'Adolf', lastName: 'Hitler', middleName: 'Muso', employeeId: 'E005', emp_work_email: 'hitler@jerm.com', emp_oth_email: 'hitler@jerm.com' }
 
 UserRole:
   - { id: 1, name: Admin, display_name: Admin, is_assignable: 1, is_predefined: 1 }
@@ -21,7 +22,11 @@ User:
   - { "id": 4, "user_role_id": 2, "emp_number": 4, "user_name": "Sherin","user_password": "Sherin","deleted": "0","status": "1","date_entered": "2021-09-15 17:47:59","created_by": "1" }
 
 AttendanceRecord:
-  0: { id: 1, employee_id: 1, punch_in_utc_time: '2011-05-27 12:10:00', punch_in_note: 'Im punched In',punch_in_time_offset: 'Asia/Calcutta',punch_in_user_time: '2011-05-27 12:10:00',punch_out_utc_time: '2011-05-28 12:10:00',punch_out_note: ' Punched Out',punch_out_time_offset: '5.5',punch_out_user_time: '2011-05-28 12:10:00', state: 'PUNCHED IN' }
-  1: { id: 2, employee_id: 2, punch_in_utc_time: '2011-04-20 1:10:00', punch_in_note: 'Im punched In',punch_in_time_offset: 'Asia/Calcutta',punch_in_user_time: '2011-04-20 1:10:00',punch_out_utc_time: '2011-04-20 5:10:00',punch_out_note: ' Punched Out',punch_out_time_offset: '5.5',punch_out_user_time: '2011-04-20 5:10:00', state: 'PUNCHED IN' }
-  2: { id: 3, employee_id: 3, punch_in_utc_time: '2011-04-20 1:10:00', punch_in_note: 'Im punched In',punch_in_time_offset: 'Asia/Calcutta',punch_in_user_time: '2011-04-20 1:10:00',punch_out_utc_time: '2011-04-20 5:10:00',punch_out_note: ' Punched Out',punch_out_time_offset: '5.5',punch_out_user_time: '2011-04-20 5:10:00', state: 'PUNCHED OUT' }
-  3: { id: 4, employee_id: 4, punch_in_utc_time: '2011-04-02 5:10:00', punch_in_note: 'Im punched In',punch_in_time_offset: 'Asia/Calcutta',punch_in_user_time: '2011-04-02 17:10:00',punch_out_utc_time: '2011-04-02 5:10:00',punch_out_note: ' Punched Out',punch_out_time_offset: '5.5',punch_out_user_time: '2011-04-02 5:10:00', state: 'PUNCHED OUT' }
+  0: { id: 1, employee_id: 1, punch_in_utc_time: '2011-05-27 12:10:00', punch_in_note: 'Im punched In',punch_in_time_offset: '5.5',punch_in_user_time: '2011-05-27 12:10:00',punch_out_utc_time: '2011-05-28 12:10:00',punch_out_note: ' Punched Out',punch_out_time_offset: '5.5',punch_out_user_time: '2011-05-28 12:10:00', state: 'PUNCHED OUT' }
+  1: { id: 2, employee_id: 2, punch_in_utc_time: '2011-04-21 09:25:00', punch_in_note: 'Im punched In',punch_in_time_offset: '5.5',punch_in_user_time: '2011-04-21 14:55:00',punch_out_utc_time: '2011-04-21 09:30:00',punch_out_note: ' Punched Out',punch_out_time_offset: '5.5',punch_out_user_time: '2011-04-21 15:00:00', state: 'PUNCHED OUT' }
+  2: { id: 3, employee_id: 3, punch_in_utc_time: '2011-04-20 09:25:00', punch_in_note: 'Im punched In',punch_in_time_offset: '5.5',punch_in_user_time: '2011-04-20 14:55:00',punch_out_utc_time: '2011-04-20 09:30:00',punch_out_note: ' Punched Out',punch_out_time_offset: '5.5',punch_out_user_time: '2011-04-20 15:00:00', state: 'PUNCHED OUT' }
+  3: { id: 4, employee_id: 4, punch_in_utc_time: '2011-04-02 5:10:00', punch_in_note: 'Im punched In',punch_in_time_offset: '5.5',punch_in_user_time: '2011-04-02 17:10:00',punch_out_utc_time: '2011-04-02 5:10:00',punch_out_note: ' Punched Out',punch_out_time_offset: '5.5',punch_out_user_time: '2011-04-02 5:10:00', state: 'PUNCHED OUT' }
+  4: { id: 5, employee_id: 4, punch_in_utc_time: '2022-01-27 09:23:00', punch_in_note: 'Im punched In',punch_in_time_offset: '5.5',punch_in_user_time: '2022-01-27 14:53:00', state: 'PUNCHED IN' }
+  5: { id: 6, employee_id: 3, punch_in_utc_time: '2011-04-16 09:25:00', punch_in_note: 'Im punched In',punch_in_time_offset: '5.5',punch_in_user_time: '2011-04-16 14:55:00', state: 'PUNCHED IN' }
+  6: { id: 7, employee_id: 2, punch_in_utc_time: '2011-04-20 09:25:00', punch_in_note: 'Im punched In',punch_in_time_offset: '5.5',punch_in_user_time: '2011-04-20 14:55:00', state: 'PUNCHED IN' }
+  7: { id: 9, employee_id: 5, punch_in_utc_time: '2011-04-21 09:25:00', punch_in_note: 'Im punched In',punch_in_time_offset: '5.5',punch_in_user_time: '2011-04-21 14:55:00',punch_out_utc_time: '2011-04-21 09:30:00',punch_out_note: ' Punched Out',punch_out_time_offset: '5.5',punch_out_user_time: '2011-04-21 15:00:00', state: 'PUNCHED OUT' }

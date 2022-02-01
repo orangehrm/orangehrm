@@ -24,6 +24,10 @@ use OrangeHRM\Framework\Services;
 use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
 use OrangeHRM\Tests\Util\Integration\TestCaseParams;
 
+/**
+ * @group Attendance
+ * @group APIv2
+ */
 class AttendancePunchInRecordOverlapAPITest extends EndpointIntegrationTestCase
 {
     /**

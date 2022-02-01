@@ -19,8 +19,10 @@
 
 namespace OrangeHRM\Tests\Attendance\Dao;
 
+use DateTime;
 use Exception;
 use OrangeHRM\Attendance\Dao\AttendanceDao;
+use OrangeHRM\Attendance\Exception\AttendanceServiceException;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Tests\Util\KernelTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
@@ -52,7 +54,7 @@ class AttendanceDaoTest extends KernelTestCase
         TestDataService::populate($this->fixture);
     }
 
-    public function testGetTopAttendanceRecordByEmployeeId(): void
+    public function testGetLatestAttendanceRecordByEmployeeId(): void
     {
         $attendanceRecord = $this->attendanceDao->getLatestAttendanceRecordByEmployeeNumber(1);
         $this->assertEquals(1, $attendanceRecord->getEmployee()->getEmpNumber());
@@ -62,6 +64,63 @@ class AttendanceDaoTest extends KernelTestCase
         $this->assertEquals('2011-05-27', $attendanceRecord->getPunchInUserTime()->format('Y-m-d'));
         $this->assertEquals('2011-05-28', $attendanceRecord->getPunchOutUtcTime()->format('Y-m-d'));
         $this->assertEquals('2011-05-28', $attendanceRecord->getPunchOutUserTime()->format('Y-m-d'));
-        $this->assertEquals('PUNCHED IN', $attendanceRecord->getState());
+        $this->assertEquals('PUNCHED OUT', $attendanceRecord->getState());
+    }
+
+    public function testPunchInOverlapRecords(): void
+    {
+        try {
+            $this->attendanceDao->checkForPunchInOverLappingRecords(new DateTime("2022-01-27 09:23:00"), 4);
+        } catch (Exception $exception) {
+            $this->assertTrue($exception instanceof AttendanceServiceException);
+            $this->assertEquals("Cannot Proceed Punch In Employee Already Punched In", $exception->getMessage());
+        }
+
+        $overlapStatus = $this->attendanceDao->checkForPunchInOverLappingRecords(
+            new DateTime("2011-04-22 09:25:00"),
+            5
+        );
+        $this->assertFalse($overlapStatus);
+
+        $overlapStatus = $this->attendanceDao->checkForPunchInOverLappingRecords(
+            new DateTime("2011-04-21 09:26:00"),
+            5
+        );
+        $this->assertTrue($overlapStatus);
+    }
+
+    public function testPunchOutOverlapRecords(): void
+    {
+        try {
+            $this->attendanceDao->checkForPunchOutOverLappingRecords(
+                new DateTime("2022-01-27 09:23:00"),
+                1
+            );
+        } catch (Exception $exception) {
+            $this->assertTrue($exception instanceof AttendanceServiceException);
+            $this->assertEquals("Cannot Proceed Punch Out Employee Already Punched Out", $exception->getMessage());
+        }
+
+        try {
+            $this->attendanceDao->checkForPunchOutOverLappingRecords(
+                new DateTime("2022-01-27 09:20:00"),
+                4
+            );
+        } catch (Exception $exception) {
+            $this->assertTrue($exception instanceof AttendanceServiceException);
+            $this->assertEquals("Punch Out Time Should Be Later Than Punch In Time", $exception->getMessage());
+        }
+
+        $overlapStatus = $this->attendanceDao->checkForPunchOutOverLappingRecords(
+            new DateTime("2011-04-21 09:26:00"),
+            2
+        );
+        $this->assertFalse($overlapStatus);
+
+        $overlapStatus = $this->attendanceDao->checkForPunchOutOverLappingRecords(
+            new DateTime("2011-04-20 09:29:00"),
+            2
+        );
+        $this->assertTrue($overlapStatus);
     }
 }

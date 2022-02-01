@@ -42,7 +42,7 @@ class AttendancePunchInRecordOverlapAPI extends Endpoint implements ResourceEndp
 
     public const PARAMETER_DATE = 'date';
     public const PARAMETER_TIME = 'time';
-    public const PARAMETER_TIME_ZONE_OFFSET = 'offset';
+    public const PARAMETER_TIME_ZONE_OFFSET = 'timezoneOffset';
     public const PARAMETER_IS_PUNCH_IN_OVERLAP = 'valid';
 
     /**
@@ -60,7 +60,7 @@ class AttendancePunchInRecordOverlapAPI extends Endpoint implements ResourceEndp
             $punchInUtcTime = $this->getUTCTimeByOffsetAndDateTime();
             $isPunchInOverlap = !$this->getAttendanceService()
                 ->getAttendanceDao()
-                ->checkForPunchInOverLappingRecords(new  DateTime($punchInUtcTime), $employeeNumber);
+                ->checkForPunchInOverLappingRecords(new DateTime($punchInUtcTime), $employeeNumber);
 
             return new EndpointResourceResult(
                 ArrayModel::class,
