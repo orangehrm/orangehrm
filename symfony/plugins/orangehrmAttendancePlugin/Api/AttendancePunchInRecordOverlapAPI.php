@@ -100,10 +100,7 @@ class AttendancePunchInRecordOverlapAPI extends Endpoint implements ResourceEndp
      */
     public function getValidationRuleForGetOne(): ParamRuleCollection
     {
-        return new ParamRuleCollection(
-            new ParamRule(
-                CommonParams::PARAMETER_ID,
-            ),
+        $paramRules = new ParamRuleCollection(
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     CommonParams::PARAMETER_EMP_NUMBER,
@@ -129,6 +126,8 @@ class AttendancePunchInRecordOverlapAPI extends Endpoint implements ResourceEndp
                 )
             )
         );
+        $paramRules->addExcludedParamKey(CommonParams::PARAMETER_ID);
+        return $paramRules;
     }
 
     /**
