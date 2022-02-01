@@ -980,6 +980,16 @@
           "source": "Add Attendance Records",
           "target": "Add Attendance Records",
           "description": "Insert attendance-related records"
+        },
+        "my_attendance_records": {
+          "source": "My Attendance Records",
+          "target": "My Attendance Records",
+          "description": ""
+        },
+        "total_duration": {
+          "source": "Total Duration (Hours)",
+          "target": "Total Duration (Hours)",
+          "description": ""
         }
       }
     }
