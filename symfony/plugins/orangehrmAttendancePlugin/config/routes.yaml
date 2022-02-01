@@ -34,6 +34,22 @@ apiv2_employee_latest_attendance_record:
     id: 0
     _api: OrangeHRM\Attendance\Api\EmployeeLatestAttendanceRecordAPI
 
+apiv2_attendance_punch_in_record_overlap:
+  path: /api/v2/attendance/punch-in/overlaps
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    id: 0
+    _api: OrangeHRM\Attendance\Api\AttendancePunchInRecordOverlapAPI
+
+apiv2_attendance_punch_out_record_overlap:
+  path: /api/v2/attendance/punch-out/overlaps
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    id: 0
+    _api: OrangeHRM\Attendance\Api\AttendancePunchOutRecordOverlapAPI
+
 apiv2_attendance_employee_attendance_records:
   path: /api/v2/attendance/employees/records
   controller: OrangeHRM\Attendance\Controller\AttendanceMockController::sendEmployeeAttendanceRecordsResponse

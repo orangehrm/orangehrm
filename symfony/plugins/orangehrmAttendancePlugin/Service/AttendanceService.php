@@ -84,16 +84,6 @@ class AttendanceService {
     }
 
     /**
-     * get last punched Attendance Record
-     * @param $employeeId,$actionaleStatesList
-     * @return AttendanceRecord
-     */
-    public function getLastPunchRecord($employeeId, $actionableStatesList) {
-
-        return $this->getAttendanceDao()->getLastPunchRecord($employeeId, $actionableStatesList);
-    }
-
-    /**
      * check For Punch Out OverLapping Records
      * @param $punchInTime, $punchOutTime, $employeeId
      * @return string 1,0

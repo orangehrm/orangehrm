@@ -51,7 +51,7 @@ class EmployeeLatestAttendanceRecordAPI extends Endpoint implements ResourceEndp
         );
         $attendanceRecord = $this->getAttendanceService()
             ->getAttendanceDao()
-            ->getLatestAttendanceRecordByEmployeeId($employeeNumber);
+            ->getLatestAttendanceRecordByEmployeeNumber($employeeNumber);
         $this->throwRecordNotFoundExceptionIfNotExist($attendanceRecord, AttendanceRecord::class);
 
         return new EndpointResourceResult(EmployeeLatestAttendanceRecordModel::class, $attendanceRecord);

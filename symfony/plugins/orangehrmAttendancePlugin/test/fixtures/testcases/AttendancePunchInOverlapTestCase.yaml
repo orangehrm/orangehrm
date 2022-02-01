@@ -1,0 +1,188 @@
+GetOne:
+  'check the invalid attendance punch in by employee number (Admin)':
+    userId: 1
+    services:
+      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes: [ ]
+    body: [ ]
+    query:
+      empNumber: 4
+      timezoneOffset: '5.5'
+      date: '2022-01-28'
+      time: '10:22'
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\BadRequestException'
+      message: 'Cannot Proceed Punch In Employee Already Punched In'
+    meta: [ ]
+
+  'check the invalid attendance punch in by employee number (Supervisor to ESS)':
+    userId: 3
+    services:
+      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes: [ ]
+    body: [ ]
+    query:
+      empNumber: 4
+      timezoneOffset: '5.5'
+      date: '2022-01-28'
+      time: '10:22'
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\BadRequestException'
+      message: 'Cannot Proceed Punch In Employee Already Punched In'
+    meta: [ ]
+
+  'check the valid attendance punch in by employee number (Admin)':
+    userId: 1
+    services:
+      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes: [ ]
+    body: [ ]
+    query:
+      empNumber: 2
+      timezoneOffset: '5.5'
+      date: '2022-01-28'
+      time: '10:22'
+    data:
+      valid: true
+    meta: [ ]
+
+  'check the valid attendance punch in by employee number (Supervisor to ESS)':
+    userId: 3
+    services:
+      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes: [ ]
+    body: [ ]
+    query:
+      empNumber: 2
+      timezoneOffset: '5.5'
+      date: '2022-01-28'
+      time: '10:22'
+    data:
+      valid: true
+    meta: [ ]
+
+  'check the valid attendance punch in by employee number (Supervisor to Un Assigned ESS)':
+    userId: 3
+    services:
+      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes: [ ]
+    body: [ ]
+    query:
+      empNumber: 1
+      timezoneOffset: '5.5'
+      date: '2022-01-28'
+      time: '10:22'
+    invalidOnly: [ 'empNumber' ]
+
+  'check the valid attendance punch in by employee number (Self)':
+    userId: 3
+    services:
+      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+    attributes: [ ]
+    body: [ ]
+    query:
+      timezoneOffset: '5.5'
+      date: '2022-01-28'
+      time: '10:22'
+    data:
+      valid: true
+    meta: [ ]
+
+  'check the in valid attendance punch in by employee number (Self - Duration between 2 difrrent time zone)':
+    userId: 5
+    services:
+      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+    attributes: [ ]
+    body: [ ]
+    query:
+      timezoneOffset: '5.5'
+      date: '2012-01-25'
+      time: '10:22'
+    data:
+      valid: false
+    meta: [ ]
+
+  'check the invalid attendance punch in by employee number (Self - Overlap)':
+    userId: 3
+    services:
+      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+    attributes: [ ]
+    body: [ ]
+    query:
+      timezoneOffset: '5.5'
+      date: '2022-01-27'
+      time: '14:58'
+    data:
+      valid: false
+    meta: [ ]
+
+  'check the invalid attendance punch in by employee number (Admin - Overlap)':
+    userId: 1
+    services:
+      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes: [ ]
+    body: [ ]
+    query:
+      empNumber: 3
+      timezoneOffset: '5.5'
+      date: '2022-01-27'
+      time: '14:58'
+    data:
+      valid: false
+    meta: [ ]
+
+  'check the  punch in overlap by employee number (non exist employee number)':
+    userId: 1
+    services:
+      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+    attributes: [ ]
+    body: [ ]
+    query:
+      empNumber: 100
+      timezoneOffset: '5.5'
+      date: '2022-01-28'
+      time: '10:22'
+    invalidOnly: [ 'empNumber' ]
+
+  'check the  invalid time':
+    userId: 1
+    services:
+      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+    attributes: [ ]
+    body: [ ]
+    query:
+      empNumber: 1
+      timezoneOffset: '5.5'
+      date: '2022-01-28'
+      time: '10:60'
+    invalidOnly: [ 'time' ]
