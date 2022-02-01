@@ -173,3 +173,16 @@ GetOne:
       date: '2022-01-28'
       time: '10:22'
     invalidOnly: [ 'empNumber' ]
+
+  'check the  invalid time':
+    userId: 1
+    services:
+      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+    attributes: [ ]
+    body: [ ]
+    query:
+      empNumber: 1
+      timezoneOffset: '5.5'
+      date: '2022-01-28'
+      time: '10:60'
+    invalidOnly: [ 'time' ]

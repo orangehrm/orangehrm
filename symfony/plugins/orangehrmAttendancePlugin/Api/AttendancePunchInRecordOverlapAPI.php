@@ -119,7 +119,7 @@ class AttendancePunchInRecordOverlapAPI extends Endpoint implements ResourceEndp
             $this->getValidationDecorator()->requiredParamRule(
                 new ParamRule(
                     self::PARAMETER_TIME,
-                    new Rule(Rules::STRING_TYPE)
+                    new Rule(Rules::TIME, ['H:i'])
                 )
             ),
             $this->getValidationDecorator()->requiredParamRule(
