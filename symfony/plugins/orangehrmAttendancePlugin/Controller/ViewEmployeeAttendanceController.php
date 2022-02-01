@@ -1,3 +1,4 @@
+<?php
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -16,14 +17,20 @@
  * Boston, MA  02110-1301, USA
  */
 
-import PunchIn from './pages/PunchIn.vue';
-import PunchOut from './pages/PunchOut.vue';
-import AttendanceConfiguration from './pages/AttendanceConfiguration.vue';
-import ViewEmployeeAttendance from './pages/ViewEmployeeAttendance.vue';
+namespace OrangeHRM\Attendance\Controller;
 
-export default {
-  'attendance-punch-in': PunchIn,
-  'attendance-punch-out': PunchOut,
-  'attendance-configuration': AttendanceConfiguration,
-  'view-employee-attendance': ViewEmployeeAttendance,
-};
+use OrangeHRM\Core\Controller\AbstractVueController;
+use OrangeHRM\Core\Vue\Component;
+use OrangeHRM\Framework\Http\Request;
+
+class ViewEmployeeAttendanceController extends AbstractVueController
+{
+    /**
+     * @inheritDoc
+     */
+    public function preRender(Request $request): void
+    {
+        $component = new Component('view-employee-attendance');
+        $this->setComponent($component);
+    }
+}
