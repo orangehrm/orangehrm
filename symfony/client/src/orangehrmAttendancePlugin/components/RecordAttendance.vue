@@ -39,6 +39,8 @@
             :rules="rules.date"
             :disabled="!isEditable"
             type="date"
+            placeholder="yyyy-mm-dd"
+            required
           />
         </oxd-grid-item>
 
@@ -50,6 +52,8 @@
             :disabled="!isEditable"
             :rules="rules.time"
             type="time"
+            placeholder="HH:MM"
+            required
           />
         </oxd-grid-item>
       </oxd-grid>
@@ -77,8 +81,9 @@
         </oxd-grid-item>
       </oxd-grid>
     </oxd-form-row>
-    <oxd-divider class="orangehrm-horizontal-margin" />
+    <oxd-divider />
     <oxd-form-actions>
+      <required-text />
       <submit-button
         :label="!attendanceRecordId ? $t('time.in') : $t('time.out')"
       />
@@ -140,7 +145,7 @@ export default {
       rules: {
         date: [required, promiseDebounce(this.validateDate, 500)],
         time: [required, promiseDebounce(this.validateDate, 500)],
-        note: [shouldNotExceedCharLength(255)],
+        note: [shouldNotExceedCharLength(250)],
       },
     };
   },

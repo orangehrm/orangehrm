@@ -160,12 +160,13 @@ class TimesheetCommentAPI extends Endpoint implements ResourceEndpoint
                     new Rule(Rules::POSITIVE),
                 ),
             ),
-            $this->getValidationDecorator()->requiredParamRule(
+            $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::PARAMETER_COMMENT,
                     new Rule(Rules::STRING_TYPE),
                     new Rule(Rules::LENGTH, [null, self::PARAM_RULE_COMMENT_MAX_LENGTH])
                 ),
+                true
             ),
         ];
     }

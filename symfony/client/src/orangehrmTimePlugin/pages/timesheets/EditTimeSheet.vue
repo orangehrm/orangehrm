@@ -112,6 +112,8 @@ export default {
 
     const loadTimesheet = () => {
       state.isLoading = true;
+      timesheetModal = [];
+      state.timesheetRecords = [];
       fetchTimesheetEntries(props.timesheetId, !props.myTimesheet).then(
         response => {
           const {data, meta, timesheet, allowedActions} = response;
@@ -141,9 +143,7 @@ export default {
       );
     };
 
-    const onClickReset = () => {
-      state.timesheetRecords = JSON.parse(JSON.stringify(timesheetModal));
-    };
+    const onClickReset = () => loadTimesheet();
 
     const onClickCancel = () => {
       if (props.myTimesheet) {
