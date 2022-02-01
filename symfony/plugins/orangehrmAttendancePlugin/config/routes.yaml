@@ -50,6 +50,16 @@ apiv2_attendance_punch_out_record_overlap:
     id: 0
     _api: OrangeHRM\Attendance\Api\AttendancePunchOutRecordOverlapAPI
 
+apiv2_attendance_employee_attendance_records:
+  path: /api/v2/attendance/employees/records
+  controller: OrangeHRM\Attendance\Controller\AttendanceMockController::sendEmployeeAttendanceRecordsResponse
+  methods: [ GET ]
+
+apiv2_attendance_delete_employee_attendance_records:
+  path: /api/v2/attendance/employees/records
+  controller: OrangeHRM\Attendance\Controller\AttendanceMockController::deleteEmployeeAttendanceRecords
+  methods: [ DELETE ]
+
 ##########################
 #        Screens
 ##########################
@@ -67,4 +77,9 @@ attendance_punch_out:
 attendance_configure:
   path: /attendance/configure
   controller: OrangeHRM\Attendance\Controller\AttendanceConfigurationController::handle
+  methods: [ GET ]
+
+attendance_view_employee_attendance:
+  path: /attendance/viewAttendanceRecord
+  controller: OrangeHRM\Attendance\Controller\ViewEmployeeAttendanceController::handle
   methods: [ GET ]
