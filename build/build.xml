@@ -93,6 +93,7 @@
             <!-- <exclude name="symfony/log/*"/> -->
             <exclude name="symfony/lib/vendor/symfony/test/**"/>
             <exclude name="symfony/plugins/orangehrmFunctionalTestPlugin/**"/>
+            <exclude name="symfony/plugins/*/test/**"/>
         </fileset>
     </copy>
 
