@@ -31,17 +31,13 @@ use Respect\Validation\Rules\Date;
 class AttendanceDao extends BaseDao {
 
     /**
-     * save punchRecord
-     * @param AttendanceRecord $attendanceRecord
+     * @param  AttendanceRecord  $attendanceRecord
      * @return AttendanceRecord
      */
-    public function savePunchRecord(AttendanceRecord $attendanceRecord) {
-        try {
-            $attendanceRecord->save();
-            return $attendanceRecord;
-        } catch (Exception $ex) {
-            throw new DaoException($ex->getMessage());
-        }
+    public function savePunchRecord(AttendanceRecord $attendanceRecord): AttendanceRecord
+    {
+        $this->persist($attendanceRecord);
+        return $attendanceRecord;
     }
 
     /**
@@ -130,6 +126,9 @@ class AttendanceDao extends BaseDao {
     public function checkForPunchInOverLappingRecords(DateTime $punchInTime, int $employeeNumber): bool
     {
         $attendanceRecord = $this->getLatestAttendanceRecordByEmployeeNumber($employeeNumber);
+        if(is_null($attendanceRecord)){
+            return false;
+        }
         if ($attendanceRecord->getState() === AttendanceRecord::STATE_PUNCHED_IN){
             throw AttendanceServiceException::punchInAlreadyExist();
         }
