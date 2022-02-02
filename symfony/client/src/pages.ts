@@ -1,4 +1,3 @@
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -70,8 +69,6 @@ import EditEmailSubscription from '@/orangehrmAdminPlugin/pages/emailSubscriptio
 import HelpPages from '@/orangehrmHelpPlugin';
 import TimePages from '@/orangehrmTimePlugin';
 import AttendancePages from '@/orangehrmAttendancePlugin';
-// TODO:: remove
-import DummyScreen from '@/orangehrmAdminPlugin/pages/DummyScreen.vue';
 
 export default {
   'job-title-list': JobTitle,
@@ -128,6 +125,4 @@ export default {
   ...HelpPages,
   ...TimePages,
   ...AttendancePages,
-  // TODO:: remove
-  'dummy-screen': DummyScreen,
 };

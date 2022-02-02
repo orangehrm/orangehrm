@@ -44,7 +44,7 @@ app.use(toaster, {
 app.use(loader);
 app.use(acl);
 app.use(translate, {
-  languagePack: require('../messages.en_US.json'),
+  langugePack: require('../messages.en_US.json'),
 });
 
 // @ts-expect-error

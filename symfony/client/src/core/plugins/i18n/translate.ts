@@ -37,7 +37,7 @@ export type Language = {
 };
 
 export interface LanguageOptions {
-  languagePack: Language;
+  langugePack: Language;
 }
 
 export type TranslateAPI = (key: string, fallback?: string) => string;
@@ -62,7 +62,7 @@ function defineMixin(language: Language): ComponentOptions {
 
 export default {
   install: (app: App, options: LanguageOptions) => {
-    const translations = options.languagePack;
+    const translations = options.langugePack;
     if (!translations) {
       throw new Error('Language pack not found!');
     }
