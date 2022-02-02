@@ -98,3 +98,8 @@ attendance_view_my_attendance:
   path: /attendance/viewMyAttendanceRecord
   controller: OrangeHRM\Attendance\Controller\ViewMyAttendanceController::handle
   methods: [ GET ]
+
+attendance_edit_attendance:
+  path: /attendance/editAttendanceRecord/{id}
+  controller: OrangeHRM\Attendance\Controller\EditAttendanceController::handle
+  methods: [ GET ]
