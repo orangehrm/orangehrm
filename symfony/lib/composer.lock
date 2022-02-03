@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d34e3dac48c02d51fe9c3b620ff494b2",
+    "content-hash": "a75ed49678e02e0d395419df90bf7b53",
     "packages": [
         {
             "name": "bjeavons/zxcvbn-php",
@@ -274,6 +274,117 @@
             "description": "A simple library to encode and decode JSON Web Tokens (JWT) in PHP. Should conform to the current spec.",
             "homepage": "https://github.com/firebase/php-jwt",
             "time": "2017-06-27T22:17:23+00:00"
+        },
+        {
+            "name": "friendsofsymfony1/doctrine1",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/orangehrm/doctrine1.git",
+                "reference": "d6c2c675ab38dbc823fedbdad2b805577f2cf922"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/orangehrm/doctrine1/zipball/d6c2c675ab38dbc823fedbdad2b805577f2cf922",
+                "reference": "d6c2c675ab38dbc823fedbdad2b805577f2cf922",
+                "shasum": ""
+            },
+            "require": {
+                "ext-mbstring": "*",
+                "ext-pdo": "*",
+                "php": ">=5.3"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.4-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Doctrine_": "lib/"
+                }
+            },
+            "license": [
+                "LGPL-2.1-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Konsta Vesterinen",
+                    "email": "kvesteri@cc.hut.fi"
+                },
+                {
+                    "name": "Jonathan Wage",
+                    "email": "jonwage@gmail.com"
+                },
+                {
+                    "name": "Doctrine1 Contributors",
+                    "homepage": "https://github.com/FriendsOfSymfony1/doctrine1/graphs/contributors"
+                }
+            ],
+            "description": "PHP Database ORM for Symfony1. Do NOT use for new projects: please move to a newest Symfony release and Doctrine2",
+            "homepage": "http://www.doctrine-project.org",
+            "keywords": [
+                "database",
+                "doctrine1",
+                "orm",
+                "symfony1"
+            ],
+            "support": {
+                "issues": "https://github.com/FriendsOfSymfony1/doctrine1/issues",
+                "source": "https://github.com/FriendsOfSymfony1/doctrine1"
+            },
+            "time": "2019-04-16T12:12:17+00:00"
+        },
+        {
+            "name": "friendsofsymfony1/symfony1",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/FriendsOfSymfony1/symfony1.git",
+                "reference": "6f521e9ef9e800c655313a5f21ac3f55552fbcf4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/FriendsOfSymfony1/symfony1/zipball/6f521e9ef9e800c655313a5f21ac3f55552fbcf4",
+                "reference": "6f521e9ef9e800c655313a5f21ac3f55552fbcf4",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0",
+                "swiftmailer/swiftmailer": "~5.2 || ^6.0"
+            },
+            "replace": {
+                "lexpress/symfony1": "^1.5"
+            },
+            "require-dev": {
+                "psr/log": "*"
+            },
+            "suggest": {
+                "friendsofsymfony1/doctrine1": "Doctrine plugin",
+                "propel/sf-propel-o-r-m-plugin": "Propel plugin",
+                "psr/log": "Psr logger"
+            },
+            "bin": [
+                "data/bin/symfony"
+            ],
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.5-dev"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "autoload.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Fork of symfony 1.4 with dic, form enhancements, latest swiftmailer and better performance",
+            "time": "2021-05-25T11:33:01+00:00"
         },
         {
             "name": "google/apiclient",
@@ -570,12 +681,12 @@
                 }
             },
             "autoload": {
-                "psr-4": {
-                    "GuzzleHttp\\Psr7\\": "src/"
-                },
                 "files": [
                     "src/functions_include.php"
-                ]
+                ],
+                "psr-4": {
+                    "GuzzleHttp\\Psr7\\": "src/"
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -653,114 +764,6 @@
                 "source": "https://github.com/orangehrm/LightOpenID/tree/master"
             },
             "time": "2017-04-18T10:54:52+00:00"
-        },
-        {
-            "name": "lexpress/doctrine1",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/FriendsOfSymfony1/doctrine1.git",
-                "reference": "3ef85915e56b29475e9bff85bfc1f80d41028a7f"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony1/doctrine1/zipball/3ef85915e56b29475e9bff85bfc1f80d41028a7f",
-                "reference": "3ef85915e56b29475e9bff85bfc1f80d41028a7f",
-                "shasum": ""
-            },
-            "require": {
-                "ext-mbstring": "*",
-                "ext-pdo": "*",
-                "php": ">=5.3"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.4-dev"
-                }
-            },
-            "autoload": {
-                "psr-0": {
-                    "Doctrine_": "lib/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "LGPL-2.1-or-later"
-            ],
-            "authors": [
-                {
-                    "name": "Konsta Vesterinen",
-                    "email": "kvesteri@cc.hut.fi"
-                },
-                {
-                    "name": "Jonathan Wage",
-                    "email": "jonwage@gmail.com"
-                },
-                {
-                    "name": "Doctrine1 Contributors",
-                    "homepage": "https://github.com/FriendsOfSymfony1/doctrine1/graphs/contributors"
-                }
-            ],
-            "description": "PHP Database ORM for Symfony1. Do NOT use for new projects: please move to a newest Symfony release and Doctrine2",
-            "homepage": "http://www.doctrine-project.org",
-            "keywords": [
-                "database",
-                "doctrine1",
-                "orm",
-                "symfony1"
-            ],
-            "abandoned": "friendsofsymfony1/doctrine1",
-            "time": "2020-07-10T03:00:50+00:00"
-        },
-        {
-            "name": "lexpress/symfony1",
-            "version": "dev-ohrm",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/orangehrm/symfony1.git",
-                "reference": "38e9b72dac7e9b92453796cc00194709e21d95b8"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/orangehrm/symfony1/zipball/38e9b72dac7e9b92453796cc00194709e21d95b8",
-                "reference": "38e9b72dac7e9b92453796cc00194709e21d95b8",
-                "shasum": ""
-            },
-            "require": {
-                "oomphinc/composer-installers-extender": "^1.1",
-                "swiftmailer/swiftmailer": "~5.2"
-            },
-            "require-dev": {
-                "psr/log": "*"
-            },
-            "suggest": {
-                "lexpress/doctrine1": "Doctrine plugin",
-                "propel/sf-propel-o-r-m-plugin": "Propel plugin",
-                "psr/log": "Psr logger"
-            },
-            "bin": [
-                "data/bin/symfony"
-            ],
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.5-dev"
-                }
-            },
-            "autoload": {
-                "files": [
-                    "autoload.php"
-                ]
-            },
-            "license": [
-                "MIT"
-            ],
-            "description": "Fork of symfony 1.4 with dic, form enhancements, latest swiftmailer and better performance",
-            "support": {
-                "source": "https://github.com/orangehrm/symfony1/tree/ohrm"
-            },
-            "time": "2020-04-21T02:58:39+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -1159,16 +1162,16 @@
         },
         {
             "name": "respect/validation",
-            "version": "1.1.11",
+            "version": "1.1.31",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Respect/Validation.git",
-                "reference": "03f4abbd08149fb1b803a6a7d767dd3f925ce1d1"
+                "reference": "45d109fc830644fecc1145200d6351ce4f2769d0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Respect/Validation/zipball/03f4abbd08149fb1b803a6a7d767dd3f925ce1d1",
-                "reference": "03f4abbd08149fb1b803a6a7d767dd3f925ce1d1",
+                "url": "https://api.github.com/repos/Respect/Validation/zipball/45d109fc830644fecc1145200d6351ce4f2769d0",
+                "reference": "45d109fc830644fecc1145200d6351ce4f2769d0",
                 "shasum": ""
             },
             "require": {
@@ -1176,10 +1179,9 @@
                 "symfony/polyfill-mbstring": "^1.2"
             },
             "require-dev": {
-                "egulias/email-validator": "~1.2",
-                "malkusch/bav": "~1.0",
+                "egulias/email-validator": "~1.2 || ~2.1",
                 "mikey179/vfsstream": "^1.5",
-                "phpunit/phpunit": "~4.0",
+                "phpunit/phpunit": "~4.0 || ~5.0",
                 "symfony/validator": "~2.6.9",
                 "zendframework/zend-validator": "~2.3"
             },
@@ -1187,8 +1189,7 @@
                 "egulias/email-validator": "Strict (RFC compliant) email validation",
                 "ext-bcmath": "Arbitrary Precision Mathematics",
                 "ext-mbstring": "Multibyte String Functions",
-                "fabpot/php-cs-fixer": "Fix PSR2 and other coding style issues",
-                "malkusch/bav": "German bank account validation",
+                "friendsofphp/php-cs-fixer": "Fix PSR2 and other coding style issues",
                 "symfony/validator": "Use Symfony validator through Respect\\Validation",
                 "zendframework/zend-validator": "Use Zend Framework validator through Respect\\Validation"
             },
@@ -1205,7 +1206,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "BSD Style"
+                "BSD-3-Clause"
             ],
             "authors": [
                 {
@@ -1220,7 +1221,7 @@
                 "validation",
                 "validator"
             ],
-            "time": "2017-01-26T14:39:48+00:00"
+            "time": "2019-05-28T06:10:06+00:00"
         },
         {
             "name": "scssphp/scssphp",
@@ -1344,6 +1345,7 @@
                 "mail",
                 "mailer"
             ],
+            "abandoned": "symfony/mailer",
             "time": "2018-07-31T09:26:32+00:00"
         },
         {
@@ -3680,12 +3682,12 @@
             "version": "1.4.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/webmozart/assert.git",
+                "url": "https://github.com/webmozarts/assert.git",
                 "reference": "83e253c8e0be5b0257b881e1827274667c5c17a9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webmozart/assert/zipball/83e253c8e0be5b0257b881e1827274667c5c17a9",
+                "url": "https://api.github.com/repos/webmozarts/assert/zipball/83e253c8e0be5b0257b881e1827274667c5c17a9",
                 "reference": "83e253c8e0be5b0257b881e1827274667c5c17a9",
                 "shasum": ""
             },
@@ -3756,12 +3758,12 @@
             ],
             "type": "library",
             "autoload": {
-                "psr-4": {
-                    "OpenApi\\": "src"
-                },
                 "files": [
                     "src/functions.php"
-                ]
+                ],
+                "psr-4": {
+                    "OpenApi\\": "src"
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -3793,9 +3795,9 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "lexpress/symfony1": 20,
-        "lexpress/doctrine1": 20,
-        "iignatov/lightopenid": 20
+        "iignatov/lightopenid": 20,
+        "friendsofsymfony1/symfony1": 20,
+        "friendsofsymfony1/doctrine1": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

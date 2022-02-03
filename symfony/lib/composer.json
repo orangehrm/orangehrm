@@ -22,17 +22,17 @@
     "vendor-dir": "vendor"
   },
   "require": {
-    "lexpress/symfony1": "dev-ohrm",
-    "lexpress/doctrine1": "dev-master",
     "oomphinc/composer-installers-extender": "^1.1",
     "iignatov/lightopenid": "dev-master",
     "phpseclib/phpseclib": "~2.0",
-    "respect/validation": "1.1.11",
+    "respect/validation": "1.1.31",
     "psr/log": "^1.0",
     "google/apiclient": "^2.0",
     "bjeavons/zxcvbn-php": "^0.3",
     "bshaffer/oauth2-server-php": "^1.11",
-    "scssphp/scssphp": "^1.8"
+    "scssphp/scssphp": "^1.8",
+    "friendsofsymfony1/symfony1": "dev-master",
+    "friendsofsymfony1/doctrine1": "dev-master"
   },
   "require-dev": {
     "codeception/codeception": "^2.2",
@@ -42,7 +42,7 @@
   "extra": {
     "installer-types": ["library"],
     "installer-paths": {
-      "vendor/symfony/": ["lexpress/symfony1"]
+      "vendor/symfony/": ["friendsofsymfony1/symfony1"]
     }
   },
   "autoload": {
