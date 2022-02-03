@@ -17,55 +17,66 @@
  */
 
 import {App, ComponentOptions} from 'vue';
+import {APIService} from '@/core/util/services/api.service';
 
 export type Language = {
-  source_language: string;
-  target_language: string;
-  date: string;
-  modules: {
-    [moduleName: string]: {
-      version: string;
-      messages: {
-        [key: string]: {
-          source: string;
-          target: string;
-          description: string;
-        };
-      };
-    };
+  [key: string]: {
+    source: string;
+    target: string;
+    description: string;
   };
 };
 
 export interface LanguageOptions {
-  langugePack: Language;
+  baseUrl: string;
+  resourceUrl: string;
+  languagePack: Language;
 }
 
 export type TranslateAPI = (key: string, fallback?: string) => string;
 
 const translate = (language: Language) => {
   return (key: string, fallback = ''): string => {
-    const [moduleName, messageKey] = key.split('.');
-    if (moduleName && messageKey) {
-      return language.modules[moduleName]?.messages[messageKey]?.target;
-    }
-    return fallback;
+    return language[key] ? language[key].target : fallback;
   };
 };
 
-function defineMixin(language: Language): ComponentOptions {
+const defineMixin = (language: Language): ComponentOptions => {
   return {
     beforeCreate(): void {
       this.$t = translate(language);
     },
   };
+};
+
+function createI18n(options: LanguageOptions) {
+
+  const http = new APIService(options.baseUrl, options.resourceUrl);
+
+  return {
+    init: function() {
+      http
+        .request({
+          method: 'GET',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            // 'Cache-Control': 'no-store, no-cache, must-revalidate',
+            'Cache-Control': 'public, only-if-cached, stale-if-error',
+          },
+        })
+        .then(response => {
+          console.log(response);
+        });
+      return this;
+    },
+    install: function(app: App) {
+      if (!options.languagePack) {
+        throw new Error('Language pack not found!');
+      }
+      app.mixin(defineMixin(options.languagePack));
+    },
+  };
 }
 
-export default {
-  install: (app: App, options: LanguageOptions) => {
-    const translations = options.langugePack;
-    if (!translations) {
-      throw new Error('Language pack not found!');
-    }
-    app.mixin(defineMixin(translations));
-  },
-};
+export default createI18n;
