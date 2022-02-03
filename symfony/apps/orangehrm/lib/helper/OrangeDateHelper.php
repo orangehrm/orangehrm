@@ -64,7 +64,7 @@ function get_datepicker_date_format($symfonyDateFormat) {
     $len = strlen($symfonyDateFormat);
 
     for ($i = 0; $i < $len; $i++) {
-        $char = $symfonyDateFormat{$i};
+        $char = $symfonyDateFormat[$i];
         switch ($char) {
             case 'j':
                 $jsDateFormat .= 'd';

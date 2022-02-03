@@ -1,9 +1,5 @@
 <?php
 
-
-
-require_once ROOT_PATH . '/symfony/lib/vendor/symfony/lib/helper/TagHelper.php';
-
 /**
  * Test class for Button.
  * @group Core
@@ -21,6 +17,7 @@ class ButtonTest extends PHPUnit_Framework_TestCase {
      * This method is called before a test is executed.
      */
     protected function setUp() {
+        ProjectConfiguration::getActive()->loadHelpers(['Tag']);
         $this->button = new Button;
     }
 

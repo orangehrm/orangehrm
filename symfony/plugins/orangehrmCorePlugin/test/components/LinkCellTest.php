@@ -19,6 +19,7 @@ class LinkCellTest extends PHPUnit_Framework_TestCase {
      * This method is called before a test is executed.
      */
     protected function setUp() {
+        ProjectConfiguration::getActive()->loadHelpers(['Tag']);
         $this->linkCell = new LinkCell;
     }
 

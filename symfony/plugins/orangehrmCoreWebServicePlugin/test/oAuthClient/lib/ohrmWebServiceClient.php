@@ -247,7 +247,7 @@ class Curl
             $this->debug(print_r($response, true));
             return false;
         }
-        return parent::decodeResponse($response);
+        return $this->decodeResponse($response);
     }
    
     protected function doCurlCall(array $curlOptions)

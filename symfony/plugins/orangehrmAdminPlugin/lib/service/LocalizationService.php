@@ -61,7 +61,7 @@ class LocalizationService {
         $len = strlen($pattern);
 
         for ($i = 0; $i < $len; $i++) {
-            $char = $pattern{$i};
+            $char = $pattern[$i];
             switch ($char) {
                 case 'j':
                     $symfonyDateFormat .= 'd';
