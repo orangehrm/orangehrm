@@ -85,13 +85,10 @@
 <script>
 import {computed, ref} from 'vue';
 import {required} from '@/core/util/validation/rules';
+import {navigate} from '@/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
 import usePaginate from '@ohrm/core/util/composable/usePaginate';
 import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmationDialog';
-
-const defaultFilters = {
-  date: null,
-};
 
 const attendanceRecordNormalizer = data => {
   return data.map(item => {
@@ -111,11 +108,20 @@ export default {
     'delete-confirmation': DeleteConfirmationDialog,
   },
 
-  setup() {
+  props: {
+    date: {
+      type: String,
+      default: null,
+    },
+  },
+
+  setup(props) {
     const rules = {
       date: [required],
     };
-    const filters = ref({...defaultFilters});
+    const filters = ref({
+      date: props.date ? props.date : null,
+    });
 
     const serializedFilters = computed(() => {
       return {
@@ -139,7 +145,7 @@ export default {
     } = usePaginate(http, {
       query: serializedFilters,
       normalizer: attendanceRecordNormalizer,
-      prefetch: false,
+      prefetch: props.date !== null,
     });
 
     const totalDuration = computed(() => {
@@ -206,6 +212,7 @@ export default {
               },
             },
             edit: {
+              onClick: this.onClickEdit,
               props: {
                 name: 'pencil-fill',
               },
@@ -218,6 +225,9 @@ export default {
   },
 
   methods: {
+    onClickEdit(item) {
+      navigate('/attendance/editAttendanceRecord/{id}', {id: item.id});
+    },
     onClickDeleteSelected() {
       const ids = this.checkedItems.map(index => {
         return this.items?.data[index].id;

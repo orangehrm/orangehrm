@@ -25,7 +25,11 @@
         <oxd-text tag="h6" class="orangehrm-main-title">
           {{ $t('time.edit_attendance_records') }}
         </oxd-text>
-        <oxd-text class="orangehrm-header-total" tag="span">
+        <oxd-text
+          v-if="totalDuration"
+          tag="span"
+          class="orangehrm-header-total"
+        >
           {{ $t('time.total_duration') }}: {{ totalDuration }}
         </oxd-text>
       </div>
@@ -33,7 +37,7 @@
 
       <div class="orangehrm-paper-container">
         <oxd-form :loading="isLoading" @submitValid="onSave">
-          <oxd-grid :cols="2" class="orangehrm-full-width-grid">
+          <oxd-grid :cols="2" class="orangehrm-full-width-grid no-gap">
             <oxd-form-row>
               <oxd-grid :cols="2" class="orangehrm-full-width-grid">
                 <oxd-grid-item>
@@ -46,7 +50,7 @@
                   <oxd-input-field
                     v-model="attendance.punchIn.date"
                     :label="$t('general.date')"
-                    :rules="rules.date"
+                    :rules="rules.punchIn.date"
                     type="date"
                     placeholder="yyyy-mm-dd"
                     required
@@ -57,7 +61,7 @@
                   <oxd-input-field
                     v-model="attendance.punchIn.time"
                     :label="$t('time.time')"
-                    :rules="rules.time"
+                    :rules="rules.punchIn.time"
                     type="time"
                     placeholder="HH:MM"
                     required
@@ -67,7 +71,7 @@
                 <oxd-grid-item class="--span-column-2">
                   <oxd-input-field
                     v-model="attendance.punchIn.note"
-                    :rules="rules.note"
+                    :rules="rules.punchIn.note"
                     :label="$t('general.note')"
                     placeholder="Type here."
                     type="textarea"
@@ -76,7 +80,7 @@
               </oxd-grid>
             </oxd-form-row>
 
-            <oxd-form-row>
+            <oxd-form-row v-if="attendance.punchOut">
               <oxd-grid :cols="2" class="orangehrm-full-width-grid">
                 <oxd-grid-item>
                   <oxd-text type="subtitle-2">
@@ -88,7 +92,7 @@
                   <oxd-input-field
                     v-model="attendance.punchOut.date"
                     :label="$t('general.date')"
-                    :rules="rules.date"
+                    :rules="rules.punchIn.date"
                     type="date"
                     placeholder="yyyy-mm-dd"
                     required
@@ -99,7 +103,7 @@
                   <oxd-input-field
                     v-model="attendance.punchOut.time"
                     :label="$t('time.time')"
-                    :rules="rules.time"
+                    :rules="rules.punchIn.time"
                     type="time"
                     placeholder="HH:MM"
                     required
@@ -109,7 +113,7 @@
                 <oxd-grid-item class="--span-column-2">
                   <oxd-input-field
                     v-model="attendance.punchOut.note"
-                    :rules="rules.note"
+                    :rules="rules.punchIn.note"
                     :label="$t('general.note')"
                     placeholder="Type here."
                     type="textarea"
@@ -140,6 +144,9 @@ import {
   required,
   shouldNotExceedCharLength,
 } from '@/core/util/validation/rules';
+import {navigate} from '@/core/util/helper/navigation';
+import {diffInTime} from '@/core/util/helper/datefns';
+import {APIService} from '@/core/util/services/api.service';
 
 const attendanceRecordModal = {
   date: null,
@@ -149,6 +156,21 @@ const attendanceRecordModal = {
 };
 
 export default {
+  props: {
+    attendanceId: {
+      type: Number,
+      required: true,
+    },
+  },
+  setup() {
+    const http = new APIService(
+      window.appGlobal.baseUrl,
+      `api/v2/attendance/employees/record`,
+    );
+    return {
+      http,
+    };
+  },
   data() {
     return {
       isLoading: false,
@@ -157,16 +179,66 @@ export default {
         punchOut: {...attendanceRecordModal},
       },
       rules: {
-        date: [required],
-        time: [required],
-        note: [shouldNotExceedCharLength(250)],
+        punchIn: {
+          date: [required],
+          time: [required],
+          note: [shouldNotExceedCharLength(250)],
+        },
+        punchOut: {
+          date: [required],
+          time: [required],
+          note: [shouldNotExceedCharLength(250)],
+        },
       },
-      totalDuration: '0.00',
     };
+  },
+  computed: {
+    totalDuration() {
+      if (!this.attendance.punchOut?.date) return null;
+      const startTime = `${this.attendance.punchIn.date} ${this.attendance.punchIn.time}`;
+      const endTime = `${this.attendance.punchOut.date} ${this.attendance.punchOut.time}`;
+      return parseFloat(
+        diffInTime(startTime, endTime, 'yyyy-MM-dd HH:mm') / 3600,
+      ).toFixed(2);
+    },
+  },
+  beforeMount() {
+    this.isLoading = true;
+    this.http
+      .get(this.attendanceId)
+      .then(response => {
+        const {data} = response.data;
+        this.attendance.punchIn = data.in;
+        this.attendance.punchOut = data.out;
+      })
+      .finally(() => {
+        this.isLoading = false;
+      });
   },
   methods: {
     onCancel() {
-      console.log('go previ');
+      navigate('/attendance/viewMyAttendanceRecord', undefined, {
+        date: this.attendance.punchIn?.date,
+      });
+    },
+    onSave() {
+      this.isLoading = true;
+      const payload = {
+        in: {...this.attendance.punchIn},
+      };
+      if (this.attendance.punchOut) {
+        payload.out = {
+          ...this.attendance.punchOut,
+        };
+      }
+      this.http
+        .update(this.attendanceId, payload)
+        .then(() => {
+          return this.$toast.updateSuccess();
+        })
+        .then(() => {
+          this.onCancel();
+        });
     },
   },
 };

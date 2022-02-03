@@ -21,6 +21,7 @@ namespace OrangeHRM\Attendance\Controller;
 
 use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Vue\Component;
+use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Framework\Http\Request;
 
 class ViewMyAttendanceController extends AbstractVueController
@@ -31,6 +32,9 @@ class ViewMyAttendanceController extends AbstractVueController
     public function preRender(Request $request): void
     {
         $component = new Component('view-my-attendance');
+        if ($request->query->has('date')) {
+            $component->addProp(new Prop('date', Prop::TYPE_STRING, $request->query->get('date')));
+        }
         $this->setComponent($component);
     }
 }
