@@ -22,6 +22,7 @@ namespace OrangeHRM\Attendance\Api;
 use DateTime;
 use Exception;
 use OrangeHRM\Attendance\Api\Model\AttendanceRecordModel;
+use OrangeHRM\Attendance\Exception\AttendanceServiceException;
 use OrangeHRM\Attendance\Traits\Service\AttendanceServiceTrait;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
@@ -83,47 +84,53 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
      */
     public function create(): EndpointResourceResult
     {
-        $empNumber = $this->getRequestParams()->getInt(
-            RequestParams::PARAM_TYPE_ATTRIBUTE,
-            CommonParams::PARAMETER_EMP_NUMBER,
-            $this->getAuthUser()->getEmpNumber()
-        );
-        $date = $this->getRequestParams()->getString(
-            RequestParams::PARAM_TYPE_BODY,
-            self::PARAMETER_DATE
-        );
-        $time = $this->getRequestParams()->getString(
-            RequestParams::PARAM_TYPE_BODY,
-            self::PARAMETER_TIME
-        );
-        $timezoneOffset = $this->getRequestParams()->getString(
-            RequestParams::PARAM_TYPE_BODY,
-            self::PARAMETER_TIMEZONE_OFFSET
-        );
-        $note = $this->getRequestParams()->getStringOrNull(
-            RequestParams::PARAM_TYPE_BODY,
-            self::PARAMETER_NOTE
-        );
+        try {
+            $empNumber = $this->getRequestParams()->getInt(
+                RequestParams::PARAM_TYPE_ATTRIBUTE,
+                CommonParams::PARAMETER_EMP_NUMBER,
+                $this->getAuthUser()->getEmpNumber()
+            );
+            $date = $this->getRequestParams()->getString(
+                RequestParams::PARAM_TYPE_BODY,
+                self::PARAMETER_DATE
+            );
+            $time = $this->getRequestParams()->getString(
+                RequestParams::PARAM_TYPE_BODY,
+                self::PARAMETER_TIME
+            );
+            $timezoneOffset = $this->getRequestParams()->getString(
+                RequestParams::PARAM_TYPE_BODY,
+                self::PARAMETER_TIMEZONE_OFFSET
+            );
+            $note = $this->getRequestParams()->getStringOrNull(
+                RequestParams::PARAM_TYPE_BODY,
+                self::PARAMETER_NOTE
+            );
 
-        $attendanceRecord = new AttendanceRecord();
-        $attendanceRecord->getDecorator()->setEmployeeByEmpNumber($empNumber);
-        $punchInDateTime = $this->extractDateTime($date, $time, $timezoneOffset);
-        $overlappingPunchInRecord = $this->getAttendanceService()
-            ->getAttendanceDao()
-            ->checkForPunchInOverLappingRecords(new DateTime($punchInDateTime), $empNumber);
-        if ($overlappingPunchInRecord) {
-            throw new Exception('Overlapping punch in record detected!');
+            $attendanceRecord = new AttendanceRecord();
+            $attendanceRecord->getDecorator()->setEmployeeByEmpNumber($empNumber);
+            $punchInTimeStamp = $this->extractTimeStamp($date, $time, $timezoneOffset);
+            $punchInDateTime = new DateTime();
+            $punchInDateTime = $punchInDateTime->setTimestamp($punchInTimeStamp - $timezoneOffset * 3600);
+            $overlappingPunchInRecord = $this->getAttendanceService()
+                ->getAttendanceDao()
+                ->checkForPunchInOverLappingRecords($punchInDateTime, $empNumber);
+            if ($overlappingPunchInRecord) {
+                throw AttendanceServiceException::punchInOverlapFound();
+            }
+            $this->setPunchInAttendanceRecord(
+                $attendanceRecord,
+                AttendanceRecord::STATE_PUNCHED_IN,
+                date('Y-m-d H:i', $punchInTimeStamp - $timezoneOffset * 3600),
+                date('Y-m-d H:i', $punchInTimeStamp),
+                $timezoneOffset,
+                $note
+            );
+            $attendanceRecord = $this->getAttendanceService()->getAttendanceDao()->savePunchRecord($attendanceRecord);
+            return new EndpointResourceResult(AttendanceRecordModel::class, $attendanceRecord);
+        } catch (AttendanceServiceException $e) {
+            throw $this->getBadRequestException($e->getMessage());
         }
-        $this->setPunchInAttendanceRecord(
-            $attendanceRecord,
-            AttendanceRecord::STATE_PUNCHED_IN,
-            date('Y-m-d H:i', $punchInDateTime - $timezoneOffset * 3600),
-            date('Y-m-d H:i', $punchInDateTime),
-            $timezoneOffset,
-            $note
-        );
-        $attendanceRecord = $this->getAttendanceService()->getAttendanceDao()->savePunchRecord($attendanceRecord);
-        return new EndpointResourceResult(AttendanceRecordModel::class, $attendanceRecord);
     }
 
     /**
@@ -133,13 +140,13 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
      * @return int
      * @throws Exception
      */
-    protected function extractDateTime(string $date, string $time, float $timezoneOffset): int
+    protected function extractTimeStamp(string $date, string $time, float $timezoneOffset): int
     {
         //configuration - user can change current time disabled
         if (!$this->canUserChangeCurrentTime()) {
             $dateTime = strtotime($date.' '.$time);
             if (!$this->isCurrantDateTimeValid($timezoneOffset, $dateTime)) {
-                throw new Exception('Provided date and time invalid');
+                throw AttendanceServiceException::invalidDateTime();
             }
         } //configuration - user can change current time enabled (Edit Mode)
         else {

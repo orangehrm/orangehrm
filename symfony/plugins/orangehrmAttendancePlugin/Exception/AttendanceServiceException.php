@@ -46,4 +46,20 @@ class AttendanceServiceException extends Exception
     {
         return new self('Punch Out Time Should Be Later Than Punch In Time');
     }
+
+    /**
+     * @return static
+     */
+    public static function punchInOverlapFound(): self
+    {
+        return new self('PunchIn overlap found');
+    }
+
+    /**
+     * @return static
+     */
+    public static function invalidDateTime(): self
+    {
+        return new self('Provided date and time Invalid');
+    }
 }

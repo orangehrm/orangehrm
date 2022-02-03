@@ -1,0 +1,63 @@
+Create:
+  'Add my attendance Record - user can change time':
+    userId: 2
+    services:
+      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+    body:
+      date: '2021-12-27'
+      time: '08:42'
+      timezoneOffset: 5.5
+      note: 'punch in'
+    data:
+      id: 7
+      punchIn:
+        utcDate: '2021-12-27'
+        utcTime: '03:12'
+        userDate: '2021-12-27'
+        userTime: '08:42'
+        offset: '5.5'
+        note: 'punch in'
+      punchOut:
+        utcDate: null
+        utcTime: null
+        userDate: null
+        userTime: null
+        offset: null
+        note: null
+      state:
+        id: 'PUNCHED IN'
+        name: 'Punched In'
+      employee:
+        empNumber: 2
+        lastName: 'Abel'
+        firstName: 'Ashley'
+        middleName: 'ST'
+        employeeId: 'E002'
+        terminationId: null
+    meta: [ ]
+
+  'Add my attendance Record - user can change time - punch in record already exists':
+    userId: 4
+    services:
+      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+    body:
+      date: '2021-12-27'
+      time: '08:42'
+      timezoneOffset: 5.5
+      note: 'punch in'
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\BadRequestException'
+      message: 'Cannot Proceed Punch In Employee Already Punched In'
+
+  'Add my attendance Record - user can change time - punch in overlap record':
+    userId: 3
+    services:
+      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+    body:
+      date: '2022-01-27'
+      time: '14:58'
+      timezoneOffset: 5.5
+      note: 'punch in'
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\BadRequestException'
+      message: 'PunchIn overlap found'
