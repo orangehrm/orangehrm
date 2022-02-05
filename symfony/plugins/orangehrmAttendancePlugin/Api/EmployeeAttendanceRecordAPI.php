@@ -190,6 +190,29 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @param  AttendanceRecord  $attendanceRecord
+     * @param  string  $state
+     * @param  DateTime  $punchOutUtcTime
+     * @param  DateTime  $punchOutUserTime
+     * @param  float  $punchOutTimezoneOffset
+     * @param  string  $punchOutNote
+     */
+    protected function setPunchOutAttendanceRecord(
+        AttendanceRecord $attendanceRecord,
+        string $state,
+        DateTime $punchOutUtcTime,
+        DateTime $punchOutUserTime,
+        float $punchOutTimezoneOffset,
+        string $punchOutNote
+    ): void {
+        $attendanceRecord->setState($state);
+        $attendanceRecord->setPunchOutUtcTime($punchOutUtcTime);
+        $attendanceRecord->setPunchOutUserTime($punchOutUserTime);
+        $attendanceRecord->setPunchOutTimeOffset($punchOutTimezoneOffset);
+        $attendanceRecord->setPunchOutNote($punchOutNote);
+    }
+
+    /**
      * @inheritDoc
      */
     public function getValidationRuleForCreate(): ParamRuleCollection
@@ -263,10 +286,60 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @inheritDoc
+     * @throws Exception
      */
     public function update(): EndpointResult
     {
-        throw $this->getNotImplementedException();
+        try {
+            $empNumber = $this->getRequestParams()->getInt(
+                RequestParams::PARAM_TYPE_ATTRIBUTE,
+                CommonParams::PARAMETER_EMP_NUMBER,
+                $this->getAuthUser()->getEmpNumber()
+            );
+            $date = $this->getRequestParams()->getString(
+                RequestParams::PARAM_TYPE_BODY,
+                self::PARAMETER_DATE
+            );
+            $time = $this->getRequestParams()->getString(
+                RequestParams::PARAM_TYPE_BODY,
+                self::PARAMETER_TIME
+            );
+            $timezoneOffset = $this->getRequestParams()->getString(
+                RequestParams::PARAM_TYPE_BODY,
+                self::PARAMETER_TIMEZONE_OFFSET
+            );
+            $note = $this->getRequestParams()->getStringOrNull(
+                RequestParams::PARAM_TYPE_BODY,
+                self::PARAMETER_NOTE
+            );
+
+            $lastPunchInRecord = $this->getAttendanceService()
+                ->getAttendanceDao()
+                ->getLastPunchRecordByEmployeeNumberAndActionableList($empNumber, [AttendanceRecord::STATE_PUNCHED_IN]);
+            if (is_null($lastPunchInRecord)) {
+                throw AttendanceServiceException::punchOutAlreadyExist();
+            }
+            $punchOutTimestamp = $this->extractTimestamp($date, $time, $timezoneOffset);
+            $punchOutUTCDateTime = $this->getDateTimeHelper()->getUTCDateTime($punchOutTimestamp, $timezoneOffset);
+            $overlappingPunchOutRecords = $this->getAttendanceService()
+                ->getAttendanceDao()
+                ->checkForPunchOutOverLappingRecords($punchOutUTCDateTime, $empNumber);
+            if (!$overlappingPunchOutRecords) {
+                throw AttendanceServiceException::punchOutOverlapFound();
+            }
+            $this->setPunchOutAttendanceRecord(
+                $lastPunchInRecord,
+                AttendanceRecord::STATE_PUNCHED_OUT,
+                $punchOutUTCDateTime,
+                $this->getDateTimeHelper()->getDateTimeByTimestamp($punchOutTimestamp),
+                $timezoneOffset,
+                $note
+            );
+            $attendanceRecord = $this->getAttendanceService()->getAttendanceDao()->savePunchRecord($lastPunchInRecord);
+            return new EndpointResourceResult(AttendanceRecordModel::class, $attendanceRecord);
+        } catch (AttendanceServiceException $e) {
+            throw $this->getBadRequestException($e->getMessage());
+        }
     }
 
     /**
@@ -274,6 +347,8 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
-        throw $this->getNotImplementedException();
+        return new ParamRuleCollection(
+            ...$this->getCommonValidationRules()
+        );
     }
 }
