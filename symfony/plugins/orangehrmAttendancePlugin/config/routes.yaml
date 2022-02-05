@@ -73,7 +73,7 @@ apiv2_attendance_delete_my_attendance_records:
 apiv2_attendance_my_attendance_records:
   path: /api/v2/attendance/records
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
-  methods: [ POST ]
+  methods: [ POST, PUT ]
   defaults:
     _api: OrangeHRM\Attendance\Api\MyAttendanceRecordAPI
 

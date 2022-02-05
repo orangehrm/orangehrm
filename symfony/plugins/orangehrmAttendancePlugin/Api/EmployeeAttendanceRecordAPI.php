@@ -35,12 +35,14 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
+use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\AttendanceRecord;
 
 class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
 {
     use AttendanceServiceTrait;
     use AuthUserTrait;
+    use DateTimeHelperTrait;
 
     public const PARAMETER_DATE = 'date';
     public const PARAMETER_TIME = 'time';
@@ -109,20 +111,19 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
 
             $attendanceRecord = new AttendanceRecord();
             $attendanceRecord->getDecorator()->setEmployeeByEmpNumber($empNumber);
-            $punchInTimeStamp = $this->extractTimeStamp($date, $time, $timezoneOffset);
-            $punchInDateTime = new DateTime();
-            $punchInDateTime = $punchInDateTime->setTimestamp($punchInTimeStamp - $timezoneOffset * 3600);
-            $overlappingPunchInRecord = $this->getAttendanceService()
+            $punchInTimestamp = $this->extractTimestamp($date, $time, $timezoneOffset);
+            $punchInUTCDateTime = $this->getDateTimeHelper()->getUTCDateTime($punchInTimestamp, $timezoneOffset);
+            $overlappingPunchInRecords = $this->getAttendanceService()
                 ->getAttendanceDao()
-                ->checkForPunchInOverLappingRecords($punchInDateTime, $empNumber);
-            if ($overlappingPunchInRecord) {
+                ->checkForPunchInOverLappingRecords($punchInUTCDateTime, $empNumber);
+            if ($overlappingPunchInRecords) {
                 throw AttendanceServiceException::punchInOverlapFound();
             }
             $this->setPunchInAttendanceRecord(
                 $attendanceRecord,
                 AttendanceRecord::STATE_PUNCHED_IN,
-                date('Y-m-d H:i', $punchInTimeStamp - $timezoneOffset * 3600),
-                date('Y-m-d H:i', $punchInTimeStamp),
+                $punchInUTCDateTime,
+                $this->getDateTimeHelper()->getDateTimeByTimestamp($punchInTimestamp),
                 $timezoneOffset,
                 $note
             );
@@ -140,26 +141,15 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
      * @return int
      * @throws Exception
      */
-    protected function extractTimeStamp(string $date, string $time, float $timezoneOffset): int
+    protected function extractTimestamp(string $date, string $time, float $timezoneOffset): int
     {
-        //configuration - user can change current time disabled
-        if (!$this->canUserChangeCurrentTime()) {
-            $dateTime = strtotime($date.' '.$time);
-            if (!$this->isCurrantDateTimeValid($timezoneOffset, $dateTime)) {
-                throw AttendanceServiceException::invalidDateTime();
-            }
-        } //configuration - user can change current time enabled (Edit Mode)
-        else {
-            $dateTime = mktime(
-                date('H', strtotime($time)),
-                date('i', strtotime($time)),
-                0,
-                date('m', strtotime($date)),
-                date('d', strtotime($date)),
-                date('Y', strtotime($date))
-            );
+        $dateTime = $this->getDateTimeHelper()->getDateTimeByString($date.' '.$time);
+        $timeStamp = $this->getDateTimeHelper()->getTimestampByDateTime($dateTime);
+        //user can change current time config disabled and system generated date time is not valid
+        if (!$this->canUserChangeCurrentTime() && !$this->isCurrantDateTimeValid($timezoneOffset, $timeStamp)) {
+            throw AttendanceServiceException::invalidDateTime();
         }
-        return $dateTime;
+        return $timeStamp;
     }
 
     /**
@@ -179,23 +169,22 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
     /**
      * @param  AttendanceRecord  $attendanceRecord
      * @param  string  $state
-     * @param  string  $punchInUtcTime
-     * @param  string  $punchInUserTime
+     * @param  DateTime  $punchInUtcTime
+     * @param  DateTime  $punchInUserTime
      * @param  float  $punchInTimezoneOffset
      * @param  string  $punchInNote
-     * @throws Exception
      */
     protected function setPunchInAttendanceRecord(
         AttendanceRecord $attendanceRecord,
         string $state,
-        string $punchInUtcTime,
-        string $punchInUserTime,
+        DateTime $punchInUtcTime,
+        DateTime $punchInUserTime,
         float $punchInTimezoneOffset,
         string $punchInNote
     ): void {
         $attendanceRecord->setState($state);
-        $attendanceRecord->setPunchInUtcTime(new DateTime($punchInUtcTime));
-        $attendanceRecord->setPunchInUserTime(new DateTime($punchInUserTime));
+        $attendanceRecord->setPunchInUtcTime($punchInUtcTime);
+        $attendanceRecord->setPunchInUserTime($punchInUserTime);
         $attendanceRecord->setPunchInTimeOffset($punchInTimezoneOffset);
         $attendanceRecord->setPunchInNote($punchInNote);
     }

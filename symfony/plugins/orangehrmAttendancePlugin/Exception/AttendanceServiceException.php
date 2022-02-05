@@ -52,7 +52,15 @@ class AttendanceServiceException extends Exception
      */
     public static function punchInOverlapFound(): self
     {
-        return new self('PunchIn overlap found');
+        return new self('Punch-In overlap found');
+    }
+
+    /**
+     * @return static
+     */
+    public static function punchOutOverlapFound(): self
+    {
+        return new self('Punch-Out overlap found');
     }
 
     /**
