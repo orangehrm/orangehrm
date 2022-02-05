@@ -170,4 +170,14 @@ class DateTimeHelperService
     {
         return $dateTime->getTimestamp();
     }
+
+    /**
+     * @param  DateTime  $dateTime
+     * @param  float  $timezoneOffset
+     * @return int
+     */
+    public function getTimestampDifference(DateTime $dateTime, float $timezoneOffset): int
+    {
+        return $timezoneOffset * 3600 - $dateTime->getOffset();
+    }
 }

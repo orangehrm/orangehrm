@@ -168,17 +168,19 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
-     * @param  float  $timeZoneOffset
-     * @param  int  $dateTime
+     * If the configuration disabled for users to edit the date time, we should check the user provided timestamp with the
+     * exact timestamp in the user's timezone. Those two should be same if the user provides true data. The margin of error
+     * can be +/- 60 seconds
+     * @param  float  $timezoneOffset
+     * @param  int  $userProvidedTimestamp
      * @return bool
      */
-    protected function isCurrantDateTimeValid(float $timeZoneOffset, int $dateTime): bool
+    protected function isCurrantDateTimeValid(float $timezoneOffset, int $userProvidedTimestamp): bool
     {
-        $timeStampDiff = $timeZoneOffset * 3600 - date('Z');
-        $currentDate = date('Y-m-d', time() + $timeStampDiff);
-        $currentTime = date('H:i', time() + $timeStampDiff);
-        $currentDateTime = strtotime($currentDate.' '.$currentTime);
-        return (($currentDateTime - $dateTime) < 60 && ($currentDateTime - $dateTime) > -60);
+        $serverDateTime = $this->getDateTimeHelper()->getNow();
+        $timestampDiff = $this->getDateTimeHelper()->getTimestampDifference($serverDateTime, $timezoneOffset);
+        $userActualTimestamp = $this->getDateTimeHelper()->getTimestampByDateTime($serverDateTime) + $timestampDiff;
+        return (($userActualTimestamp - $userProvidedTimestamp) < 60 && ($userActualTimestamp - $userProvidedTimestamp) > -60);
     }
 
     /**
