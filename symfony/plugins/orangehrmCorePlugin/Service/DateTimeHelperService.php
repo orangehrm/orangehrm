@@ -131,4 +131,43 @@ class DateTimeHelperService
     {
         return new DateTime('now', $timezone);
     }
+
+    /**
+     * @param $baseTimestamp
+     * @return DateTime
+     */
+    public function getDateTimeByTimestamp($baseTimestamp): DateTime
+    {
+        $dateTime = new DateTime();
+        return $dateTime->setTimestamp($baseTimestamp);
+    }
+
+    /**
+     * @param  int  $baseTimestamp
+     * @param  float  $timezoneOffset
+     * @return DateTime
+     */
+    public function getUTCDateTime(int $baseTimestamp, float $timezoneOffset): DateTime
+    {
+        $utcDateTime = new DateTime();
+        return $utcDateTime->setTimestamp($baseTimestamp - $timezoneOffset * 3600);
+    }
+
+    /**
+     * @param  string  $dateTime
+     * @return DateTime
+     */
+    public function getDateTimeByString(string $dateTime): DateTime
+    {
+        return DateTime::createFromFormat('Y-m-d H:i', $dateTime);
+    }
+
+    /**
+     * @param  DateTime  $dateTime
+     * @return int
+     */
+    public function getTimestampByDateTime(DateTime $dateTime): int
+    {
+        return $dateTime->getTimestamp();
+    }
 }
