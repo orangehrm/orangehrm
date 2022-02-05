@@ -25,6 +25,9 @@ Subunit:
 TerminationReason:
   - { id: 1, name: 'Other' }
 
+EmployeeTerminationRecord:
+  - { "id": "1", "reason_id": "1","termination_date": "2021-09-15","note": "" }
+
 EmploymentStatus:
   - { id: 1, name: 'Full Time' }
   - { id: 2, name: 'Part Time' }
