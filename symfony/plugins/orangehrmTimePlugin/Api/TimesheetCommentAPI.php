@@ -112,7 +112,7 @@ class TimesheetCommentAPI extends Endpoint implements ResourceEndpoint
      */
     private function setCommentToTimesheetItem(TimesheetItem $timesheetItem): void
     {
-        $comment = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_COMMENT);
+        $comment = $this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_COMMENT);
         $timesheetItem->setComment($comment);
     }
 
