@@ -60,4 +60,4 @@ Create:
       note: 'punch in'
     exception:
       class: '\OrangeHRM\Core\Api\V2\Exception\BadRequestException'
-      message: 'PunchIn overlap found'
+      message: 'Punch-In overlap found'

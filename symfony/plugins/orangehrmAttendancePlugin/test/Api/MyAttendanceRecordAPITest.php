@@ -72,20 +72,6 @@ class MyAttendanceRecordAPITest extends EndpointIntegrationTestCase
         return $this->getTestCases('MyAttendanceRecordAPITestCases.yaml', 'Create');
     }
 
-    public function testUpdate(): void
-    {
-        $api = new MyAttendanceRecordAPI($this->getRequest());
-        $this->expectNotImplementedException();
-        $api->update();
-    }
-
-    public function testGetValidationRuleForUpdate(): void
-    {
-        $api = new MyAttendanceRecordAPI($this->getRequest());
-        $this->expectNotImplementedException();
-        $api->getValidationRuleForUpdate();
-    }
-
     public function testDelete(): void
     {
         $api = new MyAttendanceRecordAPI($this->getRequest());
