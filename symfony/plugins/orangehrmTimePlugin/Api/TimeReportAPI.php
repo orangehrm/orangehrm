@@ -22,6 +22,7 @@ namespace OrangeHRM\Time\Api;
 use OrangeHRM\Core\Api\Rest\ReportAPI;
 use OrangeHRM\Core\Api\V2\Exception\BadRequestException;
 use OrangeHRM\Core\Report\Api\EndpointAwareReport;
+use OrangeHRM\Time\Report\AttendanceReport;
 use OrangeHRM\Time\Report\EmployeeReport;
 use OrangeHRM\Time\Report\ProjectActivityReport;
 use OrangeHRM\Time\Report\ProjectReport;
@@ -33,6 +34,7 @@ class TimeReportAPI extends ReportAPI
         //activity_detailed -> detailed report of project report (Break down overview of project report)
         'activity_detailed' => ProjectActivityReport::class,
         'employee' => EmployeeReport::class,
+        'attendance' => AttendanceReport::class,
     ];
 
     /**

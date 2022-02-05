@@ -538,6 +538,13 @@ class Employee
     private EmployeeWorkShift $employeeWorkShift;
 
     /**
+     * @var AttendanceRecord
+     *
+     * @ORM\OneToOne(targetEntity="OrangeHRM\Entity\AttendanceRecord", mappedBy="employee")
+     */
+    private AttendanceRecord $attendanceRecord;
+
+    /**
      * Constructor
      */
     public function __construct()
