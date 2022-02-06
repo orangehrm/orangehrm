@@ -85,4 +85,22 @@ class MyAttendanceRecordAPITest extends EndpointIntegrationTestCase
         $this->expectNotImplementedException();
         $api->getValidationRuleForDelete();
     }
+
+    /**
+     * @dataProvider dataProviderForTestUpdate
+     */
+    public function testUpdate(TestCaseParams $testCaseParams): void
+    {
+        $this->populateFixtures('MyAttendanceRecord.yaml');
+        $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
+        $this->registerServices($testCaseParams);
+        $this->registerMockDateTimeHelper($testCaseParams);
+        $api = $this->getApiEndpointMock(MyAttendanceRecordAPI::class, $testCaseParams);
+        $this->assertValidTestCase($api, 'update', $testCaseParams);
+    }
+
+    public function dataProviderForTestUpdate(): array
+    {
+        return $this->getTestCases('MyAttendanceRecordAPITestCases.yaml', 'Update');
+    }
 }
