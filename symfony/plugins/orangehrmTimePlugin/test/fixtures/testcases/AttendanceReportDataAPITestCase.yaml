@@ -75,12 +75,24 @@ GetAll:
         "time": "9.00"
       },
       {
+        "employeeName": "Vladimir Lenin",
+        "time": "0.00"
+      },
+      {
+        "employeeName": "Benito Mussolini (Past employee)",
+        "time": "0.00"
+      },
+      {
         "employeeName": "Sherin Sherin",
+        "time": "0.00"
+      },
+      {
+        "employeeName": "Tony Stark",
         "time": "0.00"
       }
     ]
     meta:
-      total: 2
+      total: 5
 
   'Get all attendance record breakdownbreakdown with to date filter':
     userId: 1
@@ -113,19 +125,32 @@ GetAll:
         "time": "0.08"
       },
       {
+        "employeeName": "Vladimir Lenin",
+        "time": "0.00"
+      },
+      {
+        "employeeName": "Benito Mussolini (Past employee)",
+        "time": "0.00"
+      },
+      {
         "employeeName": "Renukshan Saputhanthri",
         "time": "9.00"
       },
       {
         "employeeName": "Sherin Sherin",
         "time": "9.00"
-      }, {
+      },
+      {
+        "employeeName": "Tony Stark",
+        "time": "0.00"
+      },
+      {
         "employeeName": "mother teresa",
         "time": "0.40"
       }
     ]
     meta:
-      total: 7
+      total: 10
 
   'Get all attendance record breakdownbreakdown with date range filter':
     userId: 1
@@ -147,14 +172,26 @@ GetAll:
         "time": "9.00"
       },
       {
+        "employeeName": "Vladimir Lenin",
+        "time": "0.00"
+      },
+      {
+        "employeeName": "Benito Mussolini (Past employee)",
+        "time": "0.00"
+      },
+      {
         "employeeName": "Sherin Sherin",
+        "time": "0.00"
+      },
+      {
+        "employeeName": "Tony Stark",
         "time": "0.00"
       }
     ]
     meta:
-      total: 2
+      total: 5
 
-  'Get all attendance record breakdownbreakdown based on the job title filter':
+  'Get all attendance record breakdown based on the job title filter':
     userId: 1
     services:
       core.config_service: \OrangeHRM\Core\Service\ConfigService
@@ -184,7 +221,7 @@ GetAll:
     meta:
       total: 3
 
-  'Get all attendance record breakdownbreakdown based on the sub unit filter':
+  'Get all attendance record breakdown based on the sub unit filter':
     userId: 1
     services:
       core.config_service: \OrangeHRM\Core\Service\ConfigService
@@ -207,7 +244,7 @@ GetAll:
     meta:
       total: 1
 
-  'Get all attendance record breakdownbreakdown based on the employment status filter':
+  'Get all attendance record breakdown based on the employment status filter':
     userId: 1
     services:
       core.config_service: \OrangeHRM\Core\Service\ConfigService
@@ -264,7 +301,7 @@ GetAll:
     meta:
       total: 10
 
-  'Get all attendance record breakdownbreakdown based on the all filters':
+  'Get all attendance record breakdown based on the all filters':
     userId: 1
     services:
       core.config_service: \OrangeHRM\Core\Service\ConfigService
@@ -313,7 +350,7 @@ GetAll:
     meta:
       total: 1
 
-  'Get all attendance record breakdownbreakdown for an employee with date range filter':
+  'Get all attendance record breakdown for an employee with date range filter':
     userId: 1
     services:
       core.config_service: \OrangeHRM\Core\Service\ConfigService
@@ -337,7 +374,7 @@ GetAll:
     meta:
       total: 1
 
-  'Get all attendance record breakdownbreakdown for an non existing employee':
+  'Get all attendance record breakdown for an non existing employee':
     userId: 1
     services:
       core.config_service: \OrangeHRM\Core\Service\ConfigService

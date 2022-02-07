@@ -146,7 +146,7 @@ class AttendanceDaoTest extends KernelTestCase
 
         $this->assertEquals("Ashley Abel", $result[1]['fullName']);
         $this->assertEquals("32400", $result[1]['total']);
-        $this->assertEquals(7, $totalRecords);
+        $this->assertEquals(10, $totalRecords);
 
         $attendanceReportSearchFilterParams = new AttendanceReportSearchFilterParams();
         $attendanceReportSearchFilterParams->setToDate(new DateTime("2011-12-31"));
@@ -154,13 +154,13 @@ class AttendanceDaoTest extends KernelTestCase
         $totalRecords = $this->attendanceDao->getAttendanceReportCriteriaListCount($attendanceReportSearchFilterParams);
         $this->assertEquals("mahatma gandhi", $result[2]['fullName']);
         $this->assertEquals("86460", $result[2]['total']);
-        $this->assertEquals(7, $totalRecords);
+        $this->assertEquals(10, $totalRecords);
 
         $attendanceReportSearchFilterParams = new AttendanceReportSearchFilterParams();
         $attendanceReportSearchFilterParams->setFromDate(new DateTime("2011-01-01"));
         $attendanceReportSearchFilterParams->setToDate(new DateTime("2021-01-31"));
         $result = $this->attendanceDao->getAttendanceReportCriteriaList($attendanceReportSearchFilterParams);
-        $this->assertCount(7, $result);
+        $this->assertCount(10, $result);
 
         $attendanceReportSearchFilterParams = new AttendanceReportSearchFilterParams();
         $this->createKernelWithMockServices(

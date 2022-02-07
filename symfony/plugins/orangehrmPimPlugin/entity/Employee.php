@@ -538,11 +538,11 @@ class Employee
     private EmployeeWorkShift $employeeWorkShift;
 
     /**
-     * @var AttendanceRecord
+     * @var AttendanceRecord[]
      *
-     * @ORM\OneToOne(targetEntity="OrangeHRM\Entity\AttendanceRecord", mappedBy="employee")
+     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\AttendanceRecord", mappedBy="employee")
      */
-    private AttendanceRecord $attendanceRecord;
+    private iterable $attendanceRecords;
 
     /**
      * Constructor
@@ -566,6 +566,7 @@ class Employee
         $this->users = new ArrayCollection();
         $this->subordinates = new ArrayCollection();
         $this->supervisors = new ArrayCollection();
+        $this->attendanceRecords = new ArrayCollection();
     }
 
     /**

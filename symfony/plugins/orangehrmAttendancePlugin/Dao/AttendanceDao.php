@@ -637,6 +637,7 @@ class AttendanceDao extends BaseDao {
         AttendanceReportSearchFilterParams $attendanceReportSearchFilterParams
     ): array {
         $paginator = $this->getAttendanceReportPaginator($attendanceReportSearchFilterParams);
+//        dump ($paginator->getQuery()->getSQL());
         return $paginator->getQuery()->execute();
     }
 
@@ -648,15 +649,16 @@ class AttendanceDao extends BaseDao {
     ): Paginator {
         $q = $this->createQueryBuilder(Employee::class, 'employee');
         $q->select(
-            'CONCAT(employee.firstName, \' \', employee.lastName) AS fullName,
-             IDENTITY(employee.employeeTerminationRecord) AS termination,
-             employee.empNumber as empNumber,
-             SUM(TIME_DIFF(COALESCE(attendanceRecord.punchOutUtcTime, 0), COALESCE(attendanceRecord.punchInUtcTime, 0), \'${second}\')) AS total'
+            'CONCAT(employee.firstName, \' \', employee.lastName) AS fullName',
+            'attendanceRecord.id',
+            'IDENTITY(employee.employeeTerminationRecord) AS termination',
+            'employee.empNumber as empNumber',
+            "SUM(TIME_DIFF(COALESCE(attendanceRecord.punchOutUtcTime, 0), COALESCE(attendanceRecord.punchInUtcTime, 0),'second')) AS total"
         );
         $q->leftJoin('employee.jobTitle', 'jobTitle');
         $q->leftJoin('employee.subDivision', 'subunit');
         $q->leftJoin('employee.empStatus', 'empStatus');
-        $q->leftJoin('employee.attendanceRecord', 'attendanceRecord');
+        $q->leftJoin('employee.attendanceRecords', 'attendanceRecord');
 
         $this->setSortingAndPaginationParams($q, $attendanceReportSearchFilterParams);
 
@@ -680,18 +682,20 @@ class AttendanceDao extends BaseDao {
                 ->setParameter('empStatusId', $attendanceReportSearchFilterParams->getEmploymentStatusId());
         }
 
-        if (!is_null($attendanceReportSearchFilterParams->getFromDate()) && !is_null(
-                $attendanceReportSearchFilterParams->getToDate()
-            )) {
-            $q->andWhere($q->expr()->gte('attendanceRecord.punchInUserTime', ':fromDate'))
+        if (!is_null($attendanceReportSearchFilterParams->getFromDate())) {
+            $q->andWhere($q->expr()->orX(
+                $q->expr()->isNull('attendanceRecord.id'),
+                $q->expr()->gte('attendanceRecord.punchInUserTime', ':fromDate')
+            ))
                 ->setParameter('fromDate', $attendanceReportSearchFilterParams->getFromDate());
-            $q->andWhere($q->expr()->lte('attendanceRecord.punchInUserTime', ':toDate'))
-                ->setParameter('toDate', $attendanceReportSearchFilterParams->getToDate());
-        } elseif (!is_null($attendanceReportSearchFilterParams->getFromDate())) {
-            $q->andWhere($q->expr()->gte('attendanceRecord.punchInUserTime', ':fromDate'))
-                ->setParameter('fromDate', $attendanceReportSearchFilterParams->getFromDate());
-        } elseif (!is_null($attendanceReportSearchFilterParams->getToDate())) {
-            $q->andWhere($q->expr()->lte('attendanceRecord.punchOutUserTime', ':toDate'))
+        }
+
+        if (!is_null($attendanceReportSearchFilterParams->getToDate())) {
+            $q->andWhere($q->expr()->orX(
+            $q->expr()->isNull('attendanceRecord.id'),
+            $q->expr()->isNull('attendanceRecord.punchOutUserTime'),
+            $q->expr()->lte('attendanceRecord.punchOutUserTime', ':toDate')
+            ))
                 ->setParameter('toDate', $attendanceReportSearchFilterParams->getToDate());
         }
 
