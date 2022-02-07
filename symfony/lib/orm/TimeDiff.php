@@ -41,7 +41,11 @@ class TimeDiff extends FunctionNode
      */
     public $type;
 
-    public function parse(Parser $parser)
+    /**
+     * @param Parser $parser
+     * @return void
+     */
+    public function parse(Parser $parser): void
     {
         $parser->match(Lexer::T_IDENTIFIER);
         $parser->match(Lexer::T_OPEN_PARENTHESIS);
@@ -53,7 +57,11 @@ class TimeDiff extends FunctionNode
         $parser->match(Lexer::T_CLOSE_PARENTHESIS);
     }
 
-    public function getSql(SqlWalker $sqlWalker)
+    /**
+     * @param SqlWalker $sqlWalker
+     * @return string
+     */
+    public function getSql(SqlWalker $sqlWalker): string
     {
         switch ($this->type) {
             case "minute":

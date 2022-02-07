@@ -121,7 +121,7 @@ class AttendanceReport implements EndpointAwareReport
         return new ParamRuleCollection(
             $endpoint->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
-                    CommonParams::PARAMETER_EMP_NUMBER,
+                    self::FILTER_EMP_NUMBER,
                     new Rule(Rules::IN_ACCESSIBLE_EMP_NUMBERS)
                 )
             ),
@@ -174,7 +174,6 @@ class AttendanceReport implements EndpointAwareReport
      */
     public function getHeaderDefinition(): HeaderDefinition
     {
-        // TODO need to finalize
         return new Header(
             [
                 (new Column(self::PARAMETER_EMPLOYEE_NAME))->setName('Employee Name')

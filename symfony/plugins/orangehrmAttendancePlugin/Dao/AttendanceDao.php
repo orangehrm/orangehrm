@@ -632,6 +632,7 @@ class AttendanceDao extends BaseDao {
     /**
      * @param AttendanceReportSearchFilterParams $attendanceReportSearchFilterParams
      * @return array
+     * Example [ Employee full name (first name and last name), attendance record id, termination id, employee number, total hours in sec ]
      */
     public function getAttendanceReportCriteriaList(
         AttendanceReportSearchFilterParams $attendanceReportSearchFilterParams
