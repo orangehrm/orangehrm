@@ -57,6 +57,7 @@ class Doctrine
             $useSimpleAnnotationReader
         );
         $config->setAutoGenerateProxyClasses(true);
+        $config->addCustomStringFunction('TIME_DIFF', 'OrangeHRM\ORM\TimeDiff');
 
         $pathToConf = realpath(Config::get(Config::BASE_DIR) . '/lib/confs/Conf.php');
         if (!$pathToConf) {

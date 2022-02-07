@@ -21,11 +21,14 @@ namespace OrangeHRM\Tests\Attendance\Dao;
 
 use DateTime;
 use Exception;
+use OrangeHRM\Admin\Service\CompanyStructureService;
 use OrangeHRM\Attendance\Dao\AttendanceDao;
 use OrangeHRM\Attendance\Exception\AttendanceServiceException;
 use OrangeHRM\Config\Config;
+use OrangeHRM\Framework\Services;
 use OrangeHRM\Tests\Util\KernelTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
+use OrangeHRM\Time\Dto\AttendanceReportSearchFilterParams;
 
 /**
  * @group Attendance
@@ -122,5 +125,77 @@ class AttendanceDaoTest extends KernelTestCase
             2
         );
         $this->assertTrue($overlapStatus);
+    }
+
+    public function testAttendanceSummeryReport(): void
+    {
+        $this->fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmTimePlugin/test/fixtures/AttendanceReportDataAPITest.yaml';
+        TestDataService::populate($this->fixture);
+        $attendanceReportSearchFilterParams = new AttendanceReportSearchFilterParams();
+        $result = $this->attendanceDao->getAttendanceReportCriteriaList($attendanceReportSearchFilterParams);
+        $totalRecords = $this->attendanceDao->getAttendanceReportCriteriaListCount($attendanceReportSearchFilterParams);
+        $this->assertEquals("Kayla Abbey", $result[0]['fullName']);
+        $this->assertEquals("64800", $result[0]['total']);
+        $this->assertEquals(1, $result[0]['empNumber']);
+        $this->assertEquals(10, $totalRecords);
+
+        $attendanceReportSearchFilterParams = new AttendanceReportSearchFilterParams();
+        $attendanceReportSearchFilterParams->setFromDate(new DateTime("2011-01-01"));
+        $result = $this->attendanceDao->getAttendanceReportCriteriaList($attendanceReportSearchFilterParams);
+        $totalRecords = $this->attendanceDao->getAttendanceReportCriteriaListCount($attendanceReportSearchFilterParams);
+
+        $this->assertEquals("Ashley Abel", $result[1]['fullName']);
+        $this->assertEquals("32400", $result[1]['total']);
+        $this->assertEquals(10, $totalRecords);
+
+        $attendanceReportSearchFilterParams = new AttendanceReportSearchFilterParams();
+        $attendanceReportSearchFilterParams->setToDate(new DateTime("2011-12-31"));
+        $result = $this->attendanceDao->getAttendanceReportCriteriaList($attendanceReportSearchFilterParams);
+        $totalRecords = $this->attendanceDao->getAttendanceReportCriteriaListCount($attendanceReportSearchFilterParams);
+        $this->assertEquals("mahatma gandhi", $result[2]['fullName']);
+        $this->assertEquals("86460", $result[2]['total']);
+        $this->assertEquals(10, $totalRecords);
+
+        $attendanceReportSearchFilterParams = new AttendanceReportSearchFilterParams();
+        $attendanceReportSearchFilterParams->setFromDate(new DateTime("2011-01-01"));
+        $attendanceReportSearchFilterParams->setToDate(new DateTime("2021-01-31"));
+        $result = $this->attendanceDao->getAttendanceReportCriteriaList($attendanceReportSearchFilterParams);
+        $this->assertCount(10, $result);
+
+        $attendanceReportSearchFilterParams = new AttendanceReportSearchFilterParams();
+        $this->createKernelWithMockServices(
+            [
+                Services::COMPANY_STRUCTURE_SERVICE => new CompanyStructureService(),
+            ]
+        );
+        $attendanceReportSearchFilterParams->setFromDate(new DateTime("2011-01-01"));
+        $attendanceReportSearchFilterParams->setToDate(new DateTime("2021-12-31"));
+        $attendanceReportSearchFilterParams->setJobTitleId(1);
+        $attendanceReportSearchFilterParams->setEmploymentStatusId(1);
+        $attendanceReportSearchFilterParams->setSubUnitId(2);
+        $result = $this->attendanceDao->getAttendanceReportCriteriaList($attendanceReportSearchFilterParams);
+        $totalRecords = $this->attendanceDao->getAttendanceReportCriteriaListCount($attendanceReportSearchFilterParams);
+
+        $this->assertEquals("Kayla Abbey", $result[0]['fullName']);
+        $this->assertEquals(1, $result[0]['empNumber']);
+        $this->assertNull($result[0]['termination']);
+        $this->assertEquals("Adolf Hitler", $result[1]['fullName']);
+        $this->assertEquals(5, $result[1]['empNumber']);
+        $this->assertNull($result[1]['termination']);
+        $this->assertEquals(2, $totalRecords);
+
+        $attendanceReportSearchFilterParams->setFromDate(new DateTime("2011-01-01"));
+        $attendanceReportSearchFilterParams->setToDate(new DateTime("2021-12-31"));
+        $attendanceReportSearchFilterParams->setEmployeeNumbers([1]);
+        $attendanceReportSearchFilterParams->setJobTitleId(1);
+        $attendanceReportSearchFilterParams->setEmploymentStatusId(1);
+        $attendanceReportSearchFilterParams->setSubUnitId(2);
+        $result = $this->attendanceDao->getAttendanceReportCriteriaList($attendanceReportSearchFilterParams);
+        $totalRecords = $this->attendanceDao->getAttendanceReportCriteriaListCount($attendanceReportSearchFilterParams);
+
+        $this->assertEquals("Kayla Abbey", $result[0]['fullName']);
+        $this->assertEquals(1, $result[0]['empNumber']);
+        $this->assertNull($result[0]['termination']);
+        $this->assertEquals(1, $totalRecords);
     }
 }
