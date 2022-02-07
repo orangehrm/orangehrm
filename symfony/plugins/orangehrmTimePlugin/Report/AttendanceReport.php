@@ -163,8 +163,8 @@ class AttendanceReport implements EndpointAwareReport
                 )
             ),
             ...$endpoint->getSortingAndPaginationParamsRules(
-            AttendanceReportSearchFilterParams::ALLOWED_SORT_FIELDS
-        )
+                AttendanceReportSearchFilterParams::ALLOWED_SORT_FIELDS
+            )
         );
     }
 
