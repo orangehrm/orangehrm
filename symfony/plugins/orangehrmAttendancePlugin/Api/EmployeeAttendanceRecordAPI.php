@@ -49,21 +49,6 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
     public const PARAMETER_TIMEZONE_OFFSET = 'timezoneOffset';
     public const PARAMETER_NOTE = 'note';
 
-    private ?bool $canUserChangeCurrentTime = null;
-    private ?bool $canUserModifyAttendance = null;
-    private ?bool $canSupervisorModifyAttendance = null;
-
-    /**
-     * @return bool
-     */
-    public function canUserChangeCurrentTime(): bool
-    {
-        if (is_null($this->canUserChangeCurrentTime)) {
-            $this->canUserChangeCurrentTime = $this->getAttendanceService()->canUserChangeCurrentTimeConfiguration();
-        }
-        return $this->canUserChangeCurrentTime;
-    }
-
     /**
      * @inheritDoc
      */
@@ -88,8 +73,7 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
     {
         try {
             $attendanceRecord = new AttendanceRecord();
-            //get request params and convert the keys of the array into variables
-            extract($this->getCommonRequestParams());
+            list($empNumber, $date, $time, $timezoneOffset, $note) = $this->getCommonRequestParams();
             $attendanceRecord->getDecorator()->setEmployeeByEmpNumber($empNumber);
             $punchInTimestamp = $this->extractTimestamp($date, $time, $timezoneOffset);
             $punchInUTCDateTime = $this->getDateTimeHelper()->getUTCDateTime($punchInTimestamp, $timezoneOffset);
@@ -119,33 +103,28 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
      */
     protected function getCommonRequestParams(): array
     {
-        $empNumber = $this->getRequestParams()->getInt(
-            RequestParams::PARAM_TYPE_ATTRIBUTE,
-            CommonParams::PARAMETER_EMP_NUMBER,
-            $this->getAuthUser()->getEmpNumber()
-        );
-        $date = $this->getRequestParams()->getString(
-            RequestParams::PARAM_TYPE_BODY,
-            self::PARAMETER_DATE
-        );
-        $time = $this->getRequestParams()->getString(
-            RequestParams::PARAM_TYPE_BODY,
-            self::PARAMETER_TIME
-        );
-        $timezoneOffset = $this->getRequestParams()->getString(
-            RequestParams::PARAM_TYPE_BODY,
-            self::PARAMETER_TIMEZONE_OFFSET
-        );
-        $note = $this->getRequestParams()->getStringOrNull(
-            RequestParams::PARAM_TYPE_BODY,
-            self::PARAMETER_NOTE
-        );
         return [
-            'empNumber' => $empNumber,
-            'date' => $date,
-            'time' => $time,
-            'timezoneOffset' => $timezoneOffset,
-            'note' => $note
+            $this->getRequestParams()->getInt(
+                RequestParams::PARAM_TYPE_ATTRIBUTE,
+                CommonParams::PARAMETER_EMP_NUMBER,
+                $this->getAuthUser()->getEmpNumber()
+            ),
+            $this->getRequestParams()->getString(
+                RequestParams::PARAM_TYPE_BODY,
+                self::PARAMETER_DATE
+            ),
+            $this->getRequestParams()->getString(
+                RequestParams::PARAM_TYPE_BODY,
+                self::PARAMETER_TIME
+            ),
+            $this->getRequestParams()->getString(
+                RequestParams::PARAM_TYPE_BODY,
+                self::PARAMETER_TIMEZONE_OFFSET
+            ),
+            $this->getRequestParams()->getStringOrNull(
+                RequestParams::PARAM_TYPE_BODY,
+                self::PARAMETER_NOTE
+            )
         ];
     }
 
@@ -158,8 +137,29 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
      */
     protected function extractTimestamp(string $date, string $time, float $timezoneOffset): int
     {
-        $dateTime = $this->getDateTimeHelper()->getDateTimeByString($date.' '.$time);
-        return $this->getDateTimeHelper()->getTimestampByDateTime($dateTime);
+        $dateTime = new DateTime($date.' '.$time);
+        $timeStamp = $dateTime->getTimestamp();
+        //user can change current time config disabled and system generated date time is not valid
+        if (!$this->getAttendanceService()->canUserChangeCurrentTime() && !$this->isCurrantDateTimeValid($timezoneOffset, $timeStamp)) {
+            throw AttendanceServiceException::invalidDateTime();
+        }
+        return $timeStamp;
+    }
+
+    /**
+     * If the configuration disabled for users to edit the date time, we should check the user provided timestamp with the
+     * exact timestamp in the user's timezone. Those two should be same if the user provides true data. The margin of error
+     * can be +/- 60 seconds
+     * @param  float  $timezoneOffset
+     * @param  int  $userProvidedTimestamp
+     * @return bool
+     */
+    protected function isCurrantDateTimeValid(float $timezoneOffset, int $userProvidedTimestamp): bool
+    {
+        $serverDateTime = $this->getDateTimeHelper()->getNow();
+        $timestampDiff = $this->getDateTimeHelper()->getTimestampDifference($serverDateTime, $timezoneOffset);
+        $userActualTimestamp = $serverDateTime->getTimestamp() + $timestampDiff;
+        return (($userActualTimestamp - $userProvidedTimestamp) < 60 && ($userActualTimestamp - $userProvidedTimestamp) > -60);
     }
 
     /**
@@ -195,6 +195,9 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
         );
     }
 
+    /**
+     * @return array
+     */
     protected function getCommonValidationRules(): array
     {
         return [
@@ -264,7 +267,7 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
     public function update(): EndpointResult
     {
         try {
-            extract($this->getCommonRequestParams());
+            list($empNumber, $date, $time, $timezoneOffset, $note) = $this->getCommonRequestParams();
             $lastPunchInRecord = $this->getAttendanceService()
                 ->getAttendanceDao()
                 ->getLastPunchRecordByEmployeeNumberAndActionableList($empNumber, [AttendanceRecord::STATE_PUNCHED_IN]);

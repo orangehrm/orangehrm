@@ -52,7 +52,7 @@ class AttendanceServiceException extends Exception
      */
     public static function punchInOverlapFound(): self
     {
-        return new self('Punch-In overlap found');
+        return new self('Punch-In Overlap Found');
     }
 
     /**
@@ -60,7 +60,7 @@ class AttendanceServiceException extends Exception
      */
     public static function punchOutOverlapFound(): self
     {
-        return new self('Punch-Out overlap found');
+        return new self('Punch-Out Overlap Found');
     }
 
     /**
@@ -68,6 +68,6 @@ class AttendanceServiceException extends Exception
      */
     public static function invalidDateTime(): self
     {
-        return new self('Provided date and time Invalid');
+        return new self('Provided Date And Time Invalid');
     }
 }

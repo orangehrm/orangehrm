@@ -15,14 +15,14 @@ Create:
         utcTime: '03:12'
         userDate: '2021-12-27'
         userTime: '08:42'
-        offset: '5.5'
+        timezoneOffset: '5.5'
         note: 'punch in'
       punchOut:
         utcDate: null
         utcTime: null
         userDate: null
         userTime: null
-        offset: null
+        timezoneOffset: null
         note: null
       state:
         id: 'PUNCHED IN'
@@ -51,6 +51,7 @@ Create:
 
   'Add my attendance Record - user can change time - punch in overlap record':
     userId: 3
+    now: ['2021-01-27 15:30']
     services:
       attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
     body:
@@ -60,7 +61,7 @@ Create:
       note: 'punch in'
     exception:
       class: '\OrangeHRM\Core\Api\V2\Exception\BadRequestException'
-      message: 'Punch-In overlap found'
+      message: 'Punch-In Overlap Found'
 
 Update:
   'Punch out my attendance Record - user can change time':
@@ -79,14 +80,14 @@ Update:
         utcTime: '09:23'
         userDate: '2022-01-24'
         userTime: '14:53'
-        offset: '5.5'
+        timezoneOffset: '5.5'
         note: 'Im punched In'
       punchOut:
         utcDate: '2022-01-24'
         utcTime: '11:59'
         userDate: '2022-01-24'
         userTime: '17:29'
-        offset: '5.5'
+        timezoneOffset: '5.5'
         note: 'Im punched out'
       state:
         id: 'PUNCHED OUT'
@@ -116,14 +117,14 @@ Update:
         utcTime: '09:23'
         userDate: '2022-01-24'
         userTime: '14:53'
-        offset: '5.5'
+        timezoneOffset: '5.5'
         note: 'Im punched In'
       punchOut:
         utcDate: '2022-01-25'
         utcTime: '11:15'
         userDate: '2022-01-25'
         userTime: '17:45'
-        offset: '6.5'
+        timezoneOffset: '6.5'
         note: 'Im punched out'
       state:
         id: 'PUNCHED OUT'
@@ -153,14 +154,14 @@ Update:
         utcTime: '09:23'
         userDate: '2022-01-24'
         userTime: '14:53'
-        offset: '5.5'
+        timezoneOffset: '5.5'
         note: 'Im punched In'
       punchOut:
         utcDate: '2022-01-24'
         utcTime: '14:58'
         userDate: '2022-01-24'
         userTime: '19:28'
-        offset: '4.5'
+        timezoneOffset: '4.5'
         note: 'Im punched out'
       state:
         id: 'PUNCHED OUT'
@@ -224,4 +225,4 @@ Update:
       note: 'punch out'
     exception:
       class: '\OrangeHRM\Core\Api\V2\Exception\BadRequestException'
-      message: 'Punch-Out overlap found'
+      message: 'Punch-Out Overlap Found'
