@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\Time\Report;
 
-use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\Exception\ForbiddenException;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
@@ -164,8 +163,8 @@ class AttendanceReport implements EndpointAwareReport
                 )
             ),
             ...$endpoint->getSortingAndPaginationParamsRules(
-                AttendanceReportSearchFilterParams::ALLOWED_SORT_FIELDS
-            )
+            AttendanceReportSearchFilterParams::ALLOWED_SORT_FIELDS
+        )
         );
     }
 
