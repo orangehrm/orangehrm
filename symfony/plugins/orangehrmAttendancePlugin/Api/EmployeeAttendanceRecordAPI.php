@@ -159,28 +159,7 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
     protected function extractTimestamp(string $date, string $time, float $timezoneOffset): int
     {
         $dateTime = $this->getDateTimeHelper()->getDateTimeByString($date.' '.$time);
-        $timeStamp = $this->getDateTimeHelper()->getTimestampByDateTime($dateTime);
-        //user can change current time config disabled and system generated date time is not valid
-        if (!$this->canUserChangeCurrentTime() && !$this->isCurrantDateTimeValid($timezoneOffset, $timeStamp)) {
-            throw AttendanceServiceException::invalidDateTime();
-        }
-        return $timeStamp;
-    }
-
-    /**
-     * If the configuration disabled for users to edit the date time, we should check the user provided timestamp with the
-     * exact timestamp in the user's timezone. Those two should be same if the user provides true data. The margin of error
-     * can be +/- 60 seconds
-     * @param  float  $timezoneOffset
-     * @param  int  $userProvidedTimestamp
-     * @return bool
-     */
-    protected function isCurrantDateTimeValid(float $timezoneOffset, int $userProvidedTimestamp): bool
-    {
-        $serverDateTime = $this->getDateTimeHelper()->getNow();
-        $timestampDiff = $this->getDateTimeHelper()->getTimestampDifference($serverDateTime, $timezoneOffset);
-        $userActualTimestamp = $this->getDateTimeHelper()->getTimestampByDateTime($serverDateTime) + $timestampDiff;
-        return (($userActualTimestamp - $userProvidedTimestamp) < 60 && ($userActualTimestamp - $userProvidedTimestamp) > -60);
+        return $this->getDateTimeHelper()->getTimestampByDateTime($dateTime);
     }
 
     /**
