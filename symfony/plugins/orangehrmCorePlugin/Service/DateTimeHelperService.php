@@ -133,10 +133,10 @@ class DateTimeHelperService
     }
 
     /**
-     * @param $baseTimestamp
+     * @param  int  $baseTimestamp
      * @return DateTime
      */
-    public function getDateTimeByTimestamp($baseTimestamp): DateTime
+    public function getDateTimeByTimestamp(int $baseTimestamp): DateTime
     {
         $dateTime = new DateTime();
         return $dateTime->setTimestamp($baseTimestamp);
@@ -151,24 +151,6 @@ class DateTimeHelperService
     {
         $utcDateTime = new DateTime();
         return $utcDateTime->setTimestamp($baseTimestamp - $timezoneOffset * 3600);
-    }
-
-    /**
-     * @param  string  $dateTime
-     * @return DateTime
-     */
-    public function getDateTimeByString(string $dateTime): DateTime
-    {
-        return DateTime::createFromFormat('Y-m-d H:i', $dateTime);
-    }
-
-    /**
-     * @param  DateTime  $dateTime
-     * @return int
-     */
-    public function getTimestampByDateTime(DateTime $dateTime): int
-    {
-        return $dateTime->getTimestamp();
     }
 
     /**

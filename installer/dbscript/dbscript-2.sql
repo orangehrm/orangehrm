@@ -4415,5 +4415,5 @@ VALUES (1, 0, 1, 0, 0, @apiv2_attendance_configuration_data_group_id, @admin_rol
        (1, 0, 0, 0, 0, @apiv2_attendance_punch_out_overlaps_data_group_id, @ess_role_id),
        (0, 1, 1, 0, 1, @apiv2_attendance_my_attendance_record_data_group_id, @admin_role_id),
        (0, 1, 1, 0, 1, @apiv2_attendance_my_attendance_record_data_group_id, @ess_role_id),
-       (0, 1, 1, 0, 1, @apiv2_attendance_employee_attendance_record_data_group_id, @admin_role_id),
+       (0, 1, 1, 0, 0, @apiv2_attendance_employee_attendance_record_data_group_id, @admin_role_id),
        (0, 1, 1, 0, 0, @apiv2_attendance_employee_attendance_record_data_group_id, @supervisor_role_id);
