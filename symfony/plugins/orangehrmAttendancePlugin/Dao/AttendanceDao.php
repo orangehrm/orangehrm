@@ -637,7 +637,6 @@ class AttendanceDao extends BaseDao {
         AttendanceReportSearchFilterParams $attendanceReportSearchFilterParams
     ): array {
         $paginator = $this->getAttendanceReportPaginator($attendanceReportSearchFilterParams);
-//        dump ($paginator->getQuery()->getSQL());
         return $paginator->getQuery()->execute();
     }
 
