@@ -59,6 +59,7 @@ class AttendanceDao extends BaseDao {
     }
 
     /**
+     * returns false if overlap found
      * @param DateTime $punchOutTime
      * @param int $employeeNumber
      * @return bool
