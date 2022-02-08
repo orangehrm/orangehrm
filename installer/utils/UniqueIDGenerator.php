@@ -20,9 +20,6 @@
  */
 /* Check if running through upgrader and skip including if so */
 $confPHP = ROOT_PATH . '/lib/confs/Conf.php';
-if (file_exists($confPHP)) {
-	@require_once ROOT_PATH . '/installer/utils/DMLFunctions.php';
-}
 
 /**
  * Class to generate unique incrementing ID's.
@@ -60,100 +57,6 @@ class UniqueIDGenerator {
 			self::$instance = new UniqueIDGenerator();
 		}
 		return self::$instance;
-	}
-
-	/**
-	 * Get the next unique ID for the given table and field
-	 * If $prefix is specified, uses that when generating the ID
-	 * eg: $prefix = "NAT" gives ID's like "NAT013".
-	 *
-	 * @param string $tableName    The table Name
-	 * @param string $fieldName    The field Name
-	 * @param string $prefix       Optional prefix used in the ID
-	 * @param int    $minNumLength Minimum width of the numeric part if the ID.
-	 *                             If the number is less than this width, it is
-	 *                             left padded with zeros. (only used when a $prefix is given)
-	 *
-	 * @return mixed The next ID.
-	 */
-	public function getNextID($tableName, $fieldName, $prefix = null, $minNumWidth = 3) {
-
-		$updateSql = sprintf(self::INCREMENT_ID_SQL, strtolower($tableName), strtolower($fieldName));
-
-		$dbConnection = new DMLFunctions();
-		$result = $dbConnection->executeQuery($updateSql);
-		if (!$result || (mysql_affected_rows() == 0)) {
-			throw new IDGeneratorException("Error getting next ID for $tableName, $fieldName");
-		}
-
-		$result = $dbConnection->executeQuery(self::GET_ID_SQL);
-		if (!$result) {
-			throw new IDGeneratorException("Error in query for last inserted ID for $tableName, $fieldName");
-		}
-
-		$row = mysql_fetch_array($result, MYSQL_NUM);
-		if (empty($row)) {
-			throw new IDGeneratorException("Error getting last inserted ID for $tableName, $fieldName");
-		}
-
-		/* LAST_INSERT_ID always returns a value */
-		$nextId = $row[0];
-
-		if (!empty($prefix)) {
-			$nextId = $prefix . str_pad($nextId, $minNumWidth, "0", STR_PAD_LEFT);
-		}
-
-		return $nextId;
-	}
-
-	/**
-	 * Get the last highest unique ID for the given table and field
-	 * If $prefix is specified, uses that when generating the ID
-	 * eg: $prefix = "NAT" gives ID's like "NAT013".
-	 *
-	 * @param string $tableName    The table Name
-	 * @param string $fieldName    The field Name
-	 * @param string $prefix       Optional prefix used in the ID
-	 * @param int    $minNumLength Minimum width of the numeric part if the ID.
-	 *                             If the number is less than this width, it is
-	 *                             left padded with zeros. (only used when a $prefix is given)
-	 *
-	 * @return mixed The last ID.
-	 */
-	public function getLastID($tableName, $fieldName, $prefix = null, $minNumWidth = 3) {
-
-		/* Get existing lastId value */
-		$sql = sprintf(self::SELECT_SQL, $tableName, $fieldName);
-		$dbConnection = new DMLFunctions();
-		$result = $dbConnection->executeQuery($sql);
-
-		if ($result && (mysql_num_rows($result) == 1)) {
-
-			$row = mysql_fetch_array($result, MYSQL_NUM);
-			$lastId = $row[0];
-			if (!empty($prefix)) {
-				$lastId = $prefix . str_pad($lastId, $minNumWidth, "0", STR_PAD_LEFT);
-			}
-			return $lastId;
-		} else {
-			throw new IDGeneratorException("Error querying last ID. SQL = $sql");
-		}
-	}
-
-	/**
-	 * Resets unique ID's to lowest possible values.
-	 * Calling this method will lose all previous ID values and reset
-	 * them to the max of existing ID's.
-	 */
-	public function resetIDs() {
-
-		$sql = self::RESET_SQL;
-		$dbConnection = new DMLFunctions();
-		$result = $dbConnection->executeQuery($sql);
-		if (!$result) {
-			throw new IDGeneratorException("Error resetting id's to zero. = $sql");
-		}
-		$this->initTable();
 	}
 
 	/**

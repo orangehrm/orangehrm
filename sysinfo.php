@@ -185,9 +185,9 @@ function reload() {
             <td align="right" class="tdValues"><strong>
             <?php
 
-            	$mysqlClient = mysql_get_client_info();
+            	$mysqlClient = mysqli_get_client_info();
 
-               if(function_exists('mysql_connect')) {
+               if(function_exists('mysqli_connect')) {
 
                   if(intval(substr($mysqlClient,0,1)) < 4 || substr($mysqlClient,0,3) == '4.0') {
 	                  echo "<b><font color='#C4C781'>ver 4.1.x or later recommended (reported ver " .$mysqlClient. ')</font></b>';

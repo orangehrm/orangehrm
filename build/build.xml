@@ -22,7 +22,7 @@
 -->
 <project name="OrangeHRM" basedir="." default="dist">
 
-  <property name="version" value="4.9"/>
+  <property name="version" value="4.10"/>
   <property name="package.name" value="orangehrm-${version}"/>
   <resolvepath propertyName="project.dir" file=".."/>
   <resolvepath propertyName="dist.dir" file="dist"/>
@@ -93,6 +93,7 @@
             <!-- <exclude name="symfony/log/*"/> -->
             <exclude name="symfony/lib/vendor/symfony/test/**"/>
             <exclude name="symfony/plugins/orangehrmFunctionalTestPlugin/**"/>
+            <exclude name="symfony/plugins/*/test/**"/>
         </fileset>
     </copy>
 

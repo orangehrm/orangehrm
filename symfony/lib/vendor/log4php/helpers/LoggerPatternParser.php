@@ -112,7 +112,7 @@ class LoggerPatternParser {
 	 * @return string
 	 */
 	public function extractOption() {
-		if(($this->i < $this->patternLength) and ($this->pattern{$this->i} == '{')) {
+		if(($this->i < $this->patternLength) and ($this->pattern[$this->i] == '{')) {
 			$end = strpos($this->pattern, '}' , $this->i);
 			if($end !== false) {
 				$r = substr($this->pattern, ($this->i + 1), ($end - $this->i - 1));
@@ -151,7 +151,7 @@ class LoggerPatternParser {
 		$this->i = 0;
 		$this->currentLiteral = '';
 		while($this->i < $this->patternLength) {
-			$c = $this->pattern{$this->i++};
+			$c = $this->pattern[$this->i++];
 
 			switch($this->state) {
 				case self::LITERAL_STATE:
@@ -162,7 +162,7 @@ class LoggerPatternParser {
 					}
 					if($c == self::ESCAPE_CHAR) {
 						// peek at the next char.
-						switch($this->pattern{$this->i}) {
+						switch($this->pattern[$this->i]) {
 							case self::ESCAPE_CHAR:
 								$this->currentLiteral .= $c;
 								$this->i++; // move pointer
@@ -304,7 +304,7 @@ class LoggerPatternParser {
 				break;
 			case 'u':
 				if($this->i < $this->patternLength) {
-					$cNext = $this->pattern{$this->i};
+					$cNext = $this->pattern[$this->i];
 					if(ord($cNext) >= ord('0') and ord($cNext) <= ord('9')) {
 						$pc = new LoggerUserFieldPatternConverter($this->formattingInfo, (string)(ord($cNext) - ord('0')));
 						$this->currentLiteral = '';
@@ -338,4 +338,3 @@ class LoggerPatternParser {
 		$this->formattingInfo->reset();
 	}
 }
-
