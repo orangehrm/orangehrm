@@ -990,6 +990,11 @@
           "source": "Total Duration (Hours)",
           "target": "Total Duration (Hours)",
           "description": ""
+        },
+        "edit_attendance_records": {
+          "source": "Edit Attendance Records",
+          "target": "Edit Attendance Records",
+          "description": ""
         }
       }
     }
