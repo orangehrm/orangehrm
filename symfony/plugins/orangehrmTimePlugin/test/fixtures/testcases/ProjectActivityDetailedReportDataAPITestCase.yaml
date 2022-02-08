@@ -422,3 +422,36 @@ GetAll:
         name: "Debug",
         deleted: false
       }
+
+  'Get all project activity detailed breakdown with out filter for past employee':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      name: 'activity_detailed'
+      projectId: 1
+      activityId: 3
+    data: [
+      {
+        "employeeName": "Ashley Abel (Past employee)",
+        "time": "1.94"
+      }
+    ]
+    meta:
+      total: 1
+      sum: {
+        hours: 1.0,
+        minutes: 56,
+        label: "1.94"
+      },
+      projectActivity: {
+        id: 3,
+        name: "TBS",
+        deleted: false
+      }

@@ -56,8 +56,9 @@ class ProjectActivityDetailedReportData implements ReportData
             ->getProjectActivityDetailedReportCriteriaList($this->filterParams);
         $result = [];
         foreach ($employees as $employee) {
+            $termination = $employee['termination'];
             $result[] = [
-                ProjectActivityReport::PARAMETER_EMPLOYEE_NAME => $employee['fullName'],
+                ProjectActivityReport::PARAMETER_EMPLOYEE_NAME => $termination === null ? $employee['fullName'] : $employee['fullName'] . ' (Past employee)',
                 ProjectReport::PARAMETER_TIME => $this->getNumberHelper()
                     ->numberFormat((float)$employee['totalDuration'] / 3600, 2),
             ];
