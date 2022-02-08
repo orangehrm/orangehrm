@@ -16,43 +16,54 @@
  * Boston, MA  02110-1301, USA
  */
 
-import {App, ComponentOptions} from 'vue';
+import {AxiosResponse} from 'axios';
+import {App, ComponentOptions, ref} from 'vue';
+import IntlMessageFormat from 'intl-messageformat';
 import {APIService} from '@/core/util/services/api.service';
 
 export type Language = {
+  [key: string]: IntlMessageFormat;
+};
+
+export interface LanguageResponse {
   [key: string]: {
     source: string;
     target: string;
     description: string;
   };
-};
+}
 
 export interface LanguageOptions {
   baseUrl: string;
   resourceUrl: string;
-  languagePack: Language;
 }
 
 export type TranslateAPI = (key: string, fallback?: string) => string;
 
-const translate = (language: Language) => {
-  return (key: string, fallback = ''): string => {
-    return language[key] ? language[key].target : fallback;
+const langStrings = ref<Language>({});
+
+const translate = () => {
+  // TODO: Other format options
+  return (key: string, parameters: {[key: string]: string}): string => {
+    if (!langStrings.value[key]) return key;
+    const translatedString = langStrings.value[key].format<string>(parameters);
+    // TODO: Array remove if not necessary ?
+    return Array.isArray(translatedString)
+      ? translatedString.join(' ')
+      : translatedString;
   };
 };
 
-const defineMixin = (language: Language): ComponentOptions => {
+const defineMixin = (): ComponentOptions => {
   return {
     beforeCreate(): void {
-      this.$t = translate(language);
+      this.$t = translate();
     },
   };
 };
 
 function createI18n(options: LanguageOptions) {
-
   const http = new APIService(options.baseUrl, options.resourceUrl);
-
   return {
     init: function() {
       http
@@ -61,20 +72,23 @@ function createI18n(options: LanguageOptions) {
           headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json',
-            // 'Cache-Control': 'no-store, no-cache, must-revalidate',
-            'Cache-Control': 'public, only-if-cached, stale-if-error',
+            // TODO: max-age header
+            'Cache-Control': 'public, only-if-cached, stale-while-revalidate',
           },
         })
-        .then(response => {
-          console.log(response);
+        .then((response: AxiosResponse<LanguageResponse>) => {
+          const {data} = response;
+          for (const key in data) {
+            langStrings.value[key] = new IntlMessageFormat(
+              data[key].target || data[key].source,
+            );
+          }
         });
       return this;
     },
     install: function(app: App) {
-      if (!options.languagePack) {
-        throw new Error('Language pack not found!');
-      }
-      app.mixin(defineMixin(options.languagePack));
+      // Re add json file as a fallback
+      app.mixin(defineMixin());
     },
   };
 }

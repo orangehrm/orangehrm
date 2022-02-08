@@ -41,18 +41,17 @@ app.use(toaster, {
   position: 'bottom',
 });
 
+// @ts-expect-error
+const baseUrl = window.appGlobal.baseUrl;
+
 const i18n = createI18n({
-  baseUrl: 'http://php74/orangehrm5/web/index.php',
+  baseUrl: baseUrl,
   resourceUrl: 'core/i18n/messages',
-  languagePack: require('../messages.en_US.json'),
 }).init();
 
 app.use(loader);
 app.use(acl);
 app.use(i18n);
-
-// @ts-expect-error
-const baseUrl = window.appGlobal.baseUrl;
 
 // https://github.com/vuejs/vue-next/pull/982
 declare module '@vue/runtime-core' {
