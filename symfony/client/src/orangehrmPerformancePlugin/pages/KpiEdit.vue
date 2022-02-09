@@ -51,20 +51,20 @@
           <oxd-grid :cols="4" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <oxd-input-field
-                v-model.number="kpi.minRate"
+                v-model.number="kpi.minRating"
                 label="Minimum Rating"
                 required
                 autcomplete="off"
-                :rules="rules.minRate"
+                :rules="rules.minRating"
               />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
-                v-model.number="kpi.maxRate"
+                v-model.number="kpi.maxRating"
                 label="Maximum Rating"
                 required
                 autcomplete="off"
-                :rules="rules.maxRate"
+                :rules="rules.maxRating"
               />
             </oxd-grid-item>
             <oxd-grid-item>
@@ -111,8 +111,8 @@ import JobtitleDropdown from '@/orangehrmPimPlugin/components/JobtitleDropdown.v
 const initialKpi = {
   title: '',
   jobTitle: null,
-  minRate: null,
-  maxRate: null,
+  minRating: null,
+  maxRating: null,
   isDefault: false,
 };
 
@@ -130,7 +130,7 @@ export default {
   },
   setup() {
     const http = new APIService(
-      'https://02594277-e771-4db3-a5ec-ad645ec49c02.mock.pstmn.io',
+      window.appGlobal.baseUrl,
       'api/v2/performance/kpi',
     );
 
@@ -145,19 +145,19 @@ export default {
       rules: {
         title: [required, shouldNotExceedCharLength(100)],
         jobTitle: [required],
-        minRate: [
+        minRating: [
           required,
           numberShouldBeBetweenMinandMaxValue(0, 100),
           minValueShouldBeLowerThanMaxValue(
-            () => this.kpi.maxRate,
+            () => this.kpi.maxRating,
             'Minimum Rating should be less than Maximum Rating',
           ),
         ],
-        maxRate: [
+        maxRating: [
           required,
           numberShouldBeBetweenMinandMaxValue(0, 100),
           maxValueShouldBeGreaterThanMinValue(
-            () => this.kpi.minRate,
+            () => this.kpi.minRating,
             'Maximum Rating should be greater than Minimum Rating',
           ),
         ],
@@ -171,10 +171,10 @@ export default {
       .then(response => {
         const {data} = response.data;
         this.kpi.title = data.title;
-        this.kpi.jobTitle = {id: data.jobTitle.id, label: data.jobTitle.title};
-        this.kpi.minRate = data.minRate;
-        this.kpi.maxRate = data.maxRate;
-        this.kpi.isDefault = data.isDefault;
+        this.kpi.jobTitle = {id: data.jobTitle.id, label: data.jobTitle.name};
+        this.kpi.minRating = data.minRating;
+        this.kpi.maxRating = data.maxRating;
+        this.kpi.isDefault = data.isDefault === 1;
       })
       .finally(() => {
         this.isLoading = false;
@@ -190,9 +190,9 @@ export default {
         .update(this.kpiId, {
           title: this.kpi.title,
           jobTitleId: this.kpi.jobTitle.id,
-          minRate: this.kpi.minRate,
-          maxRate: this.kpi.maxRate,
-          isDefault: this.kpi.isDefault,
+          minRating: this.kpi.minRating,
+          maxRating: this.kpi.maxRating,
+          isDefault: this.kpi.isDefault ? 1 : null,
         })
         .then(() => {
           return this.$toast.updateSuccess();

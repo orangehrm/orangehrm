@@ -2,16 +2,21 @@
 
 namespace OrangeHRM\Entity;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use OrangeHRM\Entity\Decorator\DecoratorTrait;
+use OrangeHRM\Entity\Decorator\KpiDecorator;
 
 /**
- * Kpi
+ * @method KpiDecorator getDecorator()
  *
  * @ORM\Table(name="ohrm_kpi")
  * @ORM\Entity
  */
 class Kpi
 {
+    use DecoratorTrait;
+
     /**
      * @var int
      *
@@ -19,59 +24,160 @@ class Kpi
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="job_title_code", type="string", length=10)
-     */
-    private $jobTitleCode;
+    private int $id;
 
     /**
      * @var string
      *
      * @ORM\Column(name="kpi_indicators", type="string", length=255)
      */
-    private $kpi_indicators;
+    private string $title;
 
     /**
      * @var int
      *
      * @ORM\Column(name="min_rating", type="integer", length=11)
      */
-    private $min_rating;
+    private int $minRating;
 
     /**
      * @var int
      *
      * @ORM\Column(name="max_rating", type="integer", length=11)
      */
-    private $max_rating;
+    private int $maxRating;
 
     /**
-     * @var int
+     * @var int|null
      *
-     * @ORM\Column(name="default_kpi", type="integer", length=2)
+     * @ORM\Column(name="default_kpi", type="integer", length=2, nullable=true)
      */
-    private $default_kpi;
+    private ?int $defaultKpi = null;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var DateTime|null
      *
-     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\JobTitle", mappedBy="Kpi")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="jobTitleCode", referencedColumnName="id")
-     * })
+     * @ORM\Column(name="deleted_at", type="datetime")
      */
-    private $JobTitle;
+    private ?DateTime $deletedAt = null;
 
     /**
-     * Constructor
+     * @var JobTitle|null
+     *
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\JobTitle")
+     * @ORM\JoinColumn(name="job_title_code", referencedColumnName="id", nullable=true)
      */
-    public function __construct()
+    private ?JobTitle $jobTitle = null;
+
+    /**
+     * @return int
+     */
+    public function getId(): int
     {
-        $this->JobTitle = new \Doctrine\Common\Collections\ArrayCollection();
+        return $this->id;
     }
 
+    /**
+     * @param int $id
+     */
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTitle(): string
+    {
+        return $this->title;
+    }
+
+    /**
+     * @param string $title
+     */
+    public function setTitle(string $title): void
+    {
+        $this->title = $title;
+    }
+
+    /**
+     * @return int
+     */
+    public function getMinRating(): int
+    {
+        return $this->minRating;
+    }
+
+    /**
+     * @param int $minRating
+     */
+    public function setMinRating(int $minRating): void
+    {
+        $this->minRating = $minRating;
+    }
+
+    /**
+     * @return int
+     */
+    public function getMaxRating(): int
+    {
+        return $this->maxRating;
+    }
+
+    /**
+     * @param int $maxRating
+     */
+    public function setMaxRating(int $maxRating): void
+    {
+        $this->maxRating = $maxRating;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getDefaultKpi(): ?int
+    {
+        return $this->defaultKpi;
+    }
+
+    /**
+     * @param int|null $defaultKpi
+     */
+    public function setDefaultKpi(?int $defaultKpi): void
+    {
+        $this->defaultKpi = $defaultKpi;
+    }
+
+    /**
+     * @return JobTitle|null
+     */
+    public function getJobTitle(): ?JobTitle
+    {
+        return $this->jobTitle;
+    }
+
+    /**
+     * @param JobTitle|null $jobTitle
+     */
+    public function setJobTitle(?JobTitle $jobTitle): void
+    {
+        $this->jobTitle = $jobTitle;
+    }
+
+    /**
+     * @return DateTime|null
+     */
+    public function getDeletedAt(): ?DateTime
+    {
+        return $this->deletedAt;
+    }
+
+    /**
+     * @param DateTime|null $deletedAt
+     */
+    public function setDeletedAt(?DateTime $deletedAt): void
+    {
+        $this->deletedAt = $deletedAt;
+    }
 }

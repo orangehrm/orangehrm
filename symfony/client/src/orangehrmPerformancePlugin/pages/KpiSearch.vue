@@ -97,11 +97,11 @@ const kpiNormalizer = data => {
     return {
       id: item.id,
       title: item.title,
-      jobTitle: item.jobTitle.title,
+      jobTitleName: item.jobTitle.name,
       jobTitleId: item.jobTitle.id,
-      minRate: item.minRate,
-      maxRate: item.maxRate,
-      isDefault: item.isDefault ? 'Yes' : '',
+      minRating: item.minRating,
+      maxRating: item.maxRating,
+      isDefault: item.isDefault === 1 ? 'Yes' : '',
     };
   });
 };
@@ -111,8 +111,8 @@ const defaultFilters = {
 };
 
 const defaultSortOrder = {
-  title: 'ASC',
-  jobTitle: 'DEFAULT',
+  'kpi.title': 'ASC',
+  'jobTitle.jobTitleName': 'DEFAULT',
 };
 
 export default {
@@ -137,7 +137,7 @@ export default {
     });
 
     const http = new APIService(
-      'https://02594277-e771-4db3-a5ec-ad645ec49c02.mock.pstmn.io',
+      window.appGlobal.baseUrl,
       'api/v2/performance/kpi',
     );
 
@@ -178,22 +178,22 @@ export default {
           name: 'title',
           title: 'Key Performance Indicator',
           slot: 'title',
-          sortField: 'title',
+          sortField: 'kpi.title',
           style: {flex: '25%'},
         },
         {
-          name: 'jobTitle',
+          name: 'jobTitleName',
           title: 'Job Title',
-          sortField: 'jobTitle',
+          sortField: 'jobTitle.jobTitleName',
           style: {flex: '25%'},
         },
         {
-          name: 'minRate',
+          name: 'minRating',
           title: 'Min Rate',
           style: {flex: 1},
         },
         {
-          name: 'maxRate',
+          name: 'maxRating',
           title: 'Max Rate',
           style: {flex: 1},
         },
