@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Tests\Performance\Entity;
 
+use OrangeHRM\Entity\JobTitle;
 use OrangeHRM\Entity\Kpi;
 use OrangeHRM\Tests\Util\EntityTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
@@ -37,6 +38,7 @@ class KpiTest extends EntityTestCase
     public function testKpiEntity(): void
     {
         $kpi = new Kpi();
+        $kpi->setId(1);
         $kpi->setTitle('Code Clarity');
         $kpi->getDecorator()->setJobTitleById(1);
         $kpi->setMinRating(0);
@@ -47,6 +49,7 @@ class KpiTest extends EntityTestCase
 
         /** @var Kpi $kpi */
         $kpi = $this->getRepository(Kpi::class)->find(1);
+        $this->assertEquals(1, $kpi->getId());
         $this->assertEquals('Code Clarity', $kpi->getTitle());
         $this->assertEquals(1, $kpi->getJobTitle()->getId());
         $this->assertEquals(0, $kpi->getMinRating());

@@ -24,3 +24,12 @@ Kpi:
   10: { id: 11, job_title_code: 2, kpi_indicators: 'Authored Tests', min_rating: 1, max_rating: 2 }
   11: { id: 12, job_title_code: 1, kpi_indicators: 'Decision-Making Analysis', min_rating: 1, max_rating: 55 }
   12: { id: 13, job_title_code: 3, kpi_indicators: 'Driven to Deliver', min_rating: 1, max_rating: 40 }
+
+Employee:
+  - { empNumber: 1, firstName: 'Kayla', lastName: 'Abbey', middleName: 'T', employeeId: '0001' }
+
+UserRole:
+  - { id: 1, name: Admin, display_name: Admin, is_assignable: 1, is_predefined: 1 }
+
+User:
+  - { id: 1, user_role_id: 1, emp_number: 1, user_name: 'kayla', user_password: 'Kayla' }

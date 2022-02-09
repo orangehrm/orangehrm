@@ -54,10 +54,6 @@ class KpiDaoTest extends KernelTestCase
         $kpi->setMaxRating(100);
         $result = $this->kpiDao->saveKpi($kpi);
         $this->assertEquals($kpi, $result);
-
-        $kpi->getDecorator()->setJobTitleById(100);
-        $this->expectException(Exception::class);
-        $this->kpiDao->saveKpi($kpi);
     }
 
     public function testGetKpiById(): void
@@ -67,6 +63,9 @@ class KpiDaoTest extends KernelTestCase
         $this->assertEquals('Quality Assurance', $result->getJobTitle()->getJobTitleName());
         $this->assertEquals(1, $result->getMinRating());
         $this->assertEquals(50, $result->getMaxRating());
+
+        $result = $this->kpiDao->getKpiById(100);
+        $this->assertNull($result);
     }
 
     public function testGetKpiList(): void
