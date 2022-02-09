@@ -498,6 +498,25 @@ class Employee
     private iterable $users;
 
     /**
+     *
+     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\PerformanceTracker", mappedBy="employee")
+     */
+    private iterable $performanceTrackers;
+
+    /**
+     *
+     * @ORM\OneToMany (targetEntity="OrangeHRM\Entity\PerformanceTracker", mappedBy="addedBy")
+     */
+
+    private iterable $performanceTrackerAdders;
+
+    /**
+     *
+     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\PerformanceTrackerReviewer", mappedBy="employee")
+     */
+    private iterable $performanceReviewers;
+
+    /**
      * @var EmpPicture|null
      *
      * @ORM\OneToOne(targetEntity="OrangeHRM\Entity\EmpPicture", mappedBy="employee")

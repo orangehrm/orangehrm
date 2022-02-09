@@ -259,4 +259,12 @@ final class Services
      * @see \OrangeHRM\Attendance\Service\AttendanceService
      */
     public const ATTENDANCE_SERVICE = 'attendance.attendance_service';
+
+    ///////////////////////////////////////////////////////////////
+    /// Performance plugin services
+    ///////////////////////////////////////////////////////////////
+    /**
+     * @see \OrangeHRM\Performance\Service\PerformanceTrackerService
+     */
+    public const PERFORMANCE_TRACKER_SERVICE ='performance.performance_tracker_service';
 }

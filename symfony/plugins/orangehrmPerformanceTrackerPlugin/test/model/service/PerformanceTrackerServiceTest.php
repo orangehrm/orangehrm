@@ -17,6 +17,8 @@
  * Boston, MA  02110-1301, USA
  */
 
+use OrangeHRM\Performance\test\Service\PerformanceTrackerService;
+
 /**
  * @group PerformanceTracker
  */

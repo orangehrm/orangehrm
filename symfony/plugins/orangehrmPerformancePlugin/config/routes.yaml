@@ -1,3 +1,34 @@
+apiv2_performance_performance_trackers:
+  path: /api/v2/performance/performance-trackers
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET]
+  defaults:
+    _api: OrangeHRM\Performance\Api\PerformanceTrackerAPI
+
+apiv2_performance_performance_trackerId:
+  path: /api/v2/performance/performance-tracker/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT]
+  defaults:
+    _api: OrangeHRM\Performance\Api\PerformanceTrackerAPI
+
+apiv2_performance_save_performance_tracker:
+  path: /api/v2/performance/performance-tracker
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ POST]
+  defaults:
+    _api: OrangeHRM\Performance\Api\PerformanceTrackerAPI
+
+
+apiv2_performance_delete_performance_trackers:
+  path: /api/v2/performance/performance-trackers
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ DELETE]
+  defaults:
+    _api: OrangeHRM\Performance\Api\PerformanceTrackerAPI
+########################
+# Screens
+#######################
 performance_tracker_list:
   path: /performance/addPerformanceTracker
   controller: OrangeHRM\Performance\Controller\TrackerListController::handle

@@ -18,6 +18,8 @@
  * Boston, MA  02110-1301, USA
  */
 
+use OrangeHRM\Performance\Dao\PerformanceTrackerDao;
+
 /**
  * @group PerformanceTracker
  */
@@ -32,7 +34,7 @@ class PerformanceTrackerDaoTest extends PHPUnit_Framework_TestCase {
      */
     protected function setUp() {
         $this->performanceTrackerDao = new PerformanceTrackerDao();
-        $this->fixture = sfConfig::get('sf_plugins_dir') . '/orangehrmPerformanceTrackerPlugin/test/fixtures/PerformanceTrackerDao.yml';
+        $this->fixture = sfConfig::get('sf_plugins_dir') . '/orangehrmPerformanceTrackerPlugin/test/fixtures/PerformanceTracker.yml';
         TestDataService::populate($this->fixture);
     }
 

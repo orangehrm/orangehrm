@@ -5,12 +5,27 @@
  * and open the template in the editor.
  */
 
+namespace OrangeHRM\Performance\test\Service;
+
+use BaseService;
+use CSVBuilder;
+use DaoException;
+use EmployeeDao;
+use OrangeHRM\Performance\Dao\PerformanceTrackerDao;
+use PerformanceTrack;
+use PerformanceTrackerLog;
+use PerformanceTrackerReviewer;
+use type;
+use function __;
+use function set_datepicker_date_format;
+
 /**
  * Description of PerformanceTrackService
  *
  * @author indiran
  */
-class PerformanceTrackerService extends BaseService {
+class PerformanceTrackerService
+{
 
     /**
      * @ignore
@@ -22,7 +37,8 @@ class PerformanceTrackerService extends BaseService {
      * Construct
      * @ignore
      */
-    public function __construct() {
+    public function __construct()
+    {
         //$this->employeeDao = new EmployeeDao();
         $this->setPerformanceTrackDao(new PerformanceTrackerDao());
     }
@@ -32,7 +48,8 @@ class PerformanceTrackerService extends BaseService {
      * @return EmployeeDao
      * @ignore
      */
-    public function getEmployeeDao() {
+    public function getEmployeeDao()
+    {
         return $this->employeeDao;
     }
 
@@ -42,7 +59,8 @@ class PerformanceTrackerService extends BaseService {
      * @return void
      * @ignore
      */
-    public function setEmployeeDao(EmployeeDao $employeeDao) {
+    public function setEmployeeDao(EmployeeDao $employeeDao)
+    {
         $this->employeeDao = $employeeDao;
     }
 
@@ -51,7 +69,8 @@ class PerformanceTrackerService extends BaseService {
      * @return PerformanceTrackerDao
      * @ignore
      */
-    public function getPerformanceTrackDao() {
+    public function getPerformanceTrackDao()
+    {
         return $this->performanceTrackerDao;
     }
 
@@ -61,20 +80,24 @@ class PerformanceTrackerService extends BaseService {
      * @return void
      * @ignore
      */
-    public function setPerformanceTrackDao(PerformanceTrackerDao $PerformanceTrackDao) {
+    public function setPerformanceTrackDao(PerformanceTrackerDao $PerformanceTrackDao)
+    {
         $this->performanceTrackerDao = $PerformanceTrackDao;
     }
 
-    public function savePerformanceTrack(PerformanceTrack $performanceTrack) {
+    public function savePerformanceTrack(PerformanceTrack $performanceTrack)
+    {
         return $this->getPerformanceTrackDao()->savePerformanceTrack($performanceTrack);
     }
 
-    public function savePerformanceTrackerLog(PerformanceTrackerLog $performanceTrackerLog) {
+    public function savePerformanceTrackerLog(PerformanceTrackerLog $performanceTrackerLog)
+    {
         //save performanceTrack
         return $this->getPerformanceTrackDao()->savePerformanceTrackerLog($performanceTrackerLog);
     }
 
-    public function DeletePerformanceTracker($performanceTrackId) {
+    public function DeletePerformanceTracker($performanceTrackId)
+    {
         //set performance track state to deleted 
         $performanceTrack = $this->getPerformanceTrack($performanceTrackId);
         if ($performanceTrack instanceof PerformanceTrack) {
@@ -99,7 +122,7 @@ class PerformanceTrackerService extends BaseService {
                     $reviewers->add($reviewer);
                 }
             }
-            $performanceTrack->setPerformanceTrackerReviewer($reviewers); 
+            $performanceTrack->setPerformanceTrackerReviewer($reviewers);
             $this->savePerformanceTrack($performanceTrack);
         }
         return; // $this->savePerformanceTrack($performanceTrack);
@@ -111,7 +134,8 @@ class PerformanceTrackerService extends BaseService {
      * @returns boolean
      * @throws DaoException
      */
-    public function getPerformanceTrack($performanceTrackId) {
+    public function getPerformanceTrack($performanceTrackId)
+    {
         return $this->getPerformanceTrackDao()->getPerformanceTrack($performanceTrackId);
     }
 
@@ -121,82 +145,96 @@ class PerformanceTrackerService extends BaseService {
      * @returns boolean
      * @throws DaoException
      */
-    public function getPerformanceTrackerLog($performanceTrackLogId) {
+    public function getPerformanceTrackerLog($performanceTrackLogId)
+    {
         return $this->getPerformanceTrackDao()->getPerformanceTrackerLog($performanceTrackLogId);
     }
 
-    public function getPerformanceReviewersIdListByTrackId($reviewId) {
+    public function getPerformanceReviewersIdListByTrackId($reviewId)
+    {
         return $this->getPerformanceTrackDao()->getPerformanceReviewersIdListByTrackId($reviewId);
     }
 
-    public function getPerformanceTrackListByReviewer($searchParameter) {
+    public function getPerformanceTrackListByReviewer($searchParameter)
+    {
         return $this->getPerformanceTrackDao()->getPerformanceTrackListByReviewer($searchParameter);
     }
 
-    public function getPerformanceTrackerLogListByReviewer($reviewerId) {
+    public function getPerformanceTrackerLogListByReviewer($reviewerId)
+    {
         return $this->getPerformanceTrackDao()->getPerformanceTrackerLogListByReviewer($reviewerId);
     }
 
-    public function getPerformanceTrackerLogListByTrack($trackId) {
+    public function getPerformanceTrackerLogListByTrack($trackId)
+    {
         return $this->getPerformanceTrackDao()->getPerformanceTrackerLogListByTrack($trackId);
     }
 
-    public function getPerformanceTrackList($searchParameter) {
+    public function getPerformanceTrackList($searchParameter)
+    {
         return $this->getPerformanceTrackDao()->getPerformanceTrackList($searchParameter);
     }
 
-    public function getPerformanceTrackerLogList() {
+    public function getPerformanceTrackerLogList()
+    {
         return $this->getPerformanceTrackDao()->getPerformanceTrackerLogList();
     }
 
-    public function deleteReviweres($trackId, $reviwerArray) {
+    public function deleteReviweres($trackId, $reviwerArray)
+    {
         return $this->getPerformanceTrackDao()->deleteReviweres($trackId, $reviwerArray);
     }
 
-    public function getTrackReviewersIdListByReview($reviewId) {
+    public function getTrackReviewersIdListByReview($reviewId)
+    {
         return $this->getPerformanceTrackDao()->getTrackReviewersIdListByReview($reviewId);
     }
 
-    public function getPerformanceTrackerByEmployee($parameters) {
+    public function getPerformanceTrackerByEmployee($parameters)
+    {
         return $this->getPerformanceTrackDao()->getPerformanceTrackerByEmployee($parameters);
     }
 
-    public function getPerformanceTrackerLogByEmployeeNumber($empNumber) {
+    public function getPerformanceTrackerLogByEmployeeNumber($empNumber)
+    {
         return $this->getPerformanceTrackDao()->getPerformanceTrackerLogByEmployeeNumber($empNumber);
     }
 
-    public function isTrackerExistForEmployee($empNumber) {
+    public function isTrackerExistForEmployee($empNumber)
+    {
         return $this->getPerformanceTrackDao()->getPerformanceTrackerLogByEmployeeNumber($empNumber);
     }
-    
-    
+
+
     /**
      * This method is used to check whether a particular performance track is accessible by logged in employee.
      * @param type $performanceTrackId
      * @param type $loggedInEmpNumber
      * @return boolean
      */
-    public function isTrackerAccessibleForEmployee($performanceTrackId,$loggedInEmpNumber){
-        $isAccessible = false;        
-        $reviwers = $this->getPerformanceReviewersIdListByTrackId($performanceTrackId);        
-        if(in_array($loggedInEmpNumber, $reviwers)){
+    public function isTrackerAccessibleForEmployee($performanceTrackId, $loggedInEmpNumber)
+    {
+        $isAccessible = false;
+        $reviwers = $this->getPerformanceReviewersIdListByTrackId($performanceTrackId);
+        if (in_array($loggedInEmpNumber, $reviwers)) {
             $isAccessible = true;
         }
         return $isAccessible;
     }
-    
-	/**
+
+    /**
      *
      * @param array $searchResult
-     * @return string 
+     * @return string
      */
-    public function getCsvContentDetail($searchResult) {
+    public function getCsvContentDetail($searchResult)
+    {
         $headers = array("Reviewer", "Log", "Comment", "Performance", "Added Date", "Modified Date");
-        foreach($headers as &$header){
-        	$header = __($header);
+        foreach ($headers as &$header) {
+            $header = __($header);
         }
-        
-        $csvResultSet = array ();        
+
+        $csvResultSet = array();
         foreach ($searchResult as $log) {
             $csvRow = array();
             $csvRow [] = $log->getReviewerName();
@@ -207,25 +245,28 @@ class PerformanceTrackerService extends BaseService {
             $csvRow [] = set_datepicker_date_format($log->getModifiedDate());
             $csvResultSet[] = $csvRow;
         }
-        
+
         $csvBuilder = new CSVBuilder();
         return $csvBuilder->createCSVString($headers, $csvResultSet);
     }
-    
-    public function getPerformanceTrackListCount() {
+
+    public function getPerformanceTrackListCount()
+    {
         $searchParameter = array('limit' => null);
         $trackerList = $this->getPerformanceTrackDao()->getPerformanceTrackList($searchParameter);
         return count($trackerList);
     }
-    
-    public function getPerformanceTrackListCountByReviewer($searchParameter){
-        $searchParameter['limit'] =  null;
+
+    public function getPerformanceTrackListCountByReviewer($searchParameter)
+    {
+        $searchParameter['limit'] = null;
         $trackerList = $this->getPerformanceTrackDao()->getPerformanceTrackListByReviewer($searchParameter);
         return count($trackerList);
     }
-    
-    public function getPerformanceTrackListCountByEmployee($searchParameter){
-        $searchParameter['limit'] =  null;
+
+    public function getPerformanceTrackListCountByEmployee($searchParameter)
+    {
+        $searchParameter['limit'] = null;
         $trackerList = $this->getPerformanceTrackDao()->getPerformanceTrackerByEmployee($searchParameter);
         return count($trackerList);
     }
