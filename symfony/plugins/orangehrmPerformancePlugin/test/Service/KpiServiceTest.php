@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\Tests\Performance\Service;
 
-use Exception;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Entity\Kpi;
 use OrangeHRM\Performance\Dao\KpiDao;

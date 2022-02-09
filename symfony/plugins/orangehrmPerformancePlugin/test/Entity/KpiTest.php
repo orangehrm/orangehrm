@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\Tests\Performance\Entity;
 
-use OrangeHRM\Entity\JobTitle;
 use OrangeHRM\Entity\Kpi;
 use OrangeHRM\Tests\Util\EntityTestCase;
 use OrangeHRM\Tests\Util\TestDataService;

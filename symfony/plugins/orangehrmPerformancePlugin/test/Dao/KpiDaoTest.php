@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\Tests\Performance\Dao;
 
-use Doctrine\DBAL\Exception;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Service\DateTimeHelperService;
 use OrangeHRM\Entity\Kpi;
