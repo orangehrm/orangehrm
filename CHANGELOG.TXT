@@ -1,3 +1,8 @@
+New & Changed Features for OrangeHRM ver 4.10
+    New Feature
+    -----------
+    PHP 7.4 compatibility
+
 New & Changed Features for OrangeHRM ver 4.9
     New Feature
     -----------

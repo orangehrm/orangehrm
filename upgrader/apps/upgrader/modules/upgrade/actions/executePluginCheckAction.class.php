@@ -30,7 +30,6 @@ class executePluginCheckAction extends sfAction
         $installedAddons = $upgradeUtility->getInstalledAddons();
         $addonByName = array_column($installedAddons, null, 'title');
         $this->getUser()->setAttribute('hasPlugins', count($installedAddons) > 0);
-        $this->getUser()->setAttribute('includesThemePlugin', in_array('Corporate Branding', array_keys($addonByName)));
         if (count($installedAddons) === 0 || $this->getUser()->getAttribute('plugins.ready')) {
             $this->redirect('upgrade/selectVersion');
         }
