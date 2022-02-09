@@ -4372,3 +4372,24 @@ INSERT INTO ohrm_user_role_data_group (`can_read`, `can_create`, `can_update`, `
 VALUES (1, 1, 1, 1, 0, @time_project_activities_data_group_id, @admin_role_id),
        (1, 1, 1, 1, 0, @time_project_activities_data_group_id, @project_admin_role_id);
 UPDATE `ohrm_user_role_data_group` SET `can_update` = 0 WHERE `data_group_id` = @time_project_data_group_id AND `user_role_id` = @project_admin_role_id;
+
+INSERT INTO ohrm_data_group (`name`, `description`, `can_read`, `can_create`, `can_update`, `can_delete`)
+VALUES ('apiv2_kpi', 'API-v2 Performance - KPI', 1, 1, 1, 1);
+
+SET @performance_module_id := (SELECT `id` FROM ohrm_module WHERE name = 'performance' LIMIT 1);
+SET @apiv2_kpi_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_kpi' LIMIT 1);
+
+INSERT INTO ohrm_api_permission (`api_name`, `module_id`, `data_group_id`)
+VALUES ('OrangeHRM\\Performance\\Api\\KpiAPI', @performance_module_id, @apiv2_kpi_data_group_id);
+
+SET @apiv2_kpi_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_kpi' LIMIT 1);
+SET @admin_role_id := (SELECT `id` FROM ohrm_user_role WHERE `name` = 'Admin' LIMIT 1);
+
+INSERT INTO ohrm_user_role_data_group (`can_read`, `can_create`, `can_update`, `can_delete`, `self`, `data_group_id`, `user_role_id`)
+VALUES (1, 1, 1, 1, 0, @apiv2_kpi_data_group_id, @admin_role_id);
+
+ALTER TABLE ohrm_kpi CHANGE job_title_code job_title_code INT(13) NOT NULL;
+
+ALTER TABLE ohrm_kpi
+ADD CONSTRAINT FOREIGN KEY (job_title_code)
+REFERENCES ohrm_job_title (id) ON DELETE CASCADE;

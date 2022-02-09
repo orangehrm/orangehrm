@@ -83,10 +83,16 @@
             "OrangeHRM\\Tests\\Pim\\": "./plugins/orangehrmPimPlugin/test",
             "OrangeHRM\\Tests\\OAuth\\": "./plugins/orangehrmCoreOAuthPlugin/test",
             "OrangeHRM\\Tests\\Time\\": "./plugins/orangehrmTimePlugin/test",
-            "OrangeHRM\\Tests\\Attendance\\": "./plugins/orangehrmAttendancePlugin/test"
+            "OrangeHRM\\Tests\\Attendance\\": "./plugins/orangehrmAttendancePlugin/test",
+            "OrangeHRM\\Tests\\Performance\\": "./plugins/orangehrmPerformancePlugin/test"
         }
     },
     "scripts": {
         "test": "cd ../ && phpunit"
+    },
+    "config": {
+        "allow-plugins": {
+            "composer/package-versions-deprecated": true
+        }
     }
 }
