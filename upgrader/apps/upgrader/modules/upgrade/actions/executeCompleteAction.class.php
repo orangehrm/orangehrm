@@ -15,20 +15,18 @@ class executeCompleteAction extends sfAction {
                 'php symfony cc',
                 'php symfony doctrine:build-model'
             ];
-            if ($this->getUser()->getAttribute('includesThemePlugin')) {
-                $dbInfo = $this->getUser()->getAttribute('dbInfo');
-                $upgradeUtility->getDbConnection(
-                    $dbInfo['host'],
-                    $dbInfo['username'],
-                    $dbInfo['password'],
-                    $dbInfo['database'],
-                    $dbInfo['port']
-                );
-                $query = 'select `value` from hs_hr_config where `key` = "themeName"';
-                $result = $upgradeUtility->fetchArray($upgradeUtility->executeSql($query));
-                if ($result['value'] != 'default') {
-                    $commands[] = 'php symfony orangehrm:publish-themes';
-                }
+            $dbInfo = $this->getUser()->getAttribute('dbInfo');
+            $upgradeUtility->getDbConnection(
+                $dbInfo['host'],
+                $dbInfo['username'],
+                $dbInfo['password'],
+                $dbInfo['database'],
+                $dbInfo['port']
+            );
+            $query = 'select `value` from hs_hr_config where `key` = "themeName"';
+            $result = $upgradeUtility->fetchArray($upgradeUtility->executeSql($query));
+            if ($result['value'] != 'default') {
+                $commands[] = 'php symfony orangehrm:publish-themes';
             }
             $commands[] = 'php symfony orangehrm:publish-assets';
             chdir(ROOT_PATH . DIRECTORY_SEPARATOR . 'symfony');
