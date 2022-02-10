@@ -40,18 +40,32 @@ export interface LanguageOptions {
 
 export type TranslateAPI = (key: string, fallback?: string) => string;
 
-const langStrings = ref<Language>({});
+export const langStrings = ref<Language>({});
 
-const translate = () => {
-  // TODO: Other format options
-  return (key: string, parameters: {[key: string]: string}): string => {
+/**
+ * A factory function that will return translator function
+ * @return {function(key, parameters): string}
+ */
+export const translate = () => (
+  key: string,
+  parameters: {[key: string]: string} = {},
+): string => {
+  // IntlMessageFormat.format method will throw error if not every argument in the message pattern
+  // has been provided. sourrounded by try catch to fallback incase of param resolution
+  try {
     if (!langStrings.value[key]) return key;
     const translatedString = langStrings.value[key].format<string>(parameters);
-    // TODO: Array remove if not necessary ?
-    return Array.isArray(translatedString)
-      ? translatedString.join(' ')
-      : translatedString;
-  };
+    if (Array.isArray(translatedString)) {
+      return typeof translatedString[0] === 'string'
+        ? translatedString[0]
+        : key;
+    }
+    return translatedString;
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error(error);
+    return key;
+  }
 };
 
 const defineMixin = (): ComponentOptions => {
@@ -72,22 +86,25 @@ function createI18n(options: LanguageOptions) {
           headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json',
-            // TODO: max-age header
-            'Cache-Control': 'public, only-if-cached, stale-while-revalidate',
+            'Cache-Control':
+              'public, only-if-cached, stale-while-revalidate, max-age=60',
           },
         })
         .then((response: AxiosResponse<LanguageResponse>) => {
           const {data} = response;
           for (const key in data) {
+            // https://formatjs.io/docs/intl-messageformat#intlmessageformat-constructor
             langStrings.value[key] = new IntlMessageFormat(
               data[key].target || data[key].source,
+              undefined,
+              undefined,
+              {ignoreTag: true}, // no html/xml markup parsing
             );
           }
         });
       return this;
     },
     install: function(app: App) {
-      // Re add json file as a fallback
       app.mixin(defineMixin());
     },
   };

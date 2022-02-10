@@ -23,6 +23,9 @@ import {
   isEqual,
   parseDate,
 } from '../helper/datefns';
+import {translate as translatorFactory} from '@/core/plugins/i18n/translate';
+
+const translate = translatorFactory();
 
 /**
  * @param {string|number|Array} value
@@ -33,15 +36,15 @@ export const required = function(
   value: string | number | Array<any>,
 ): boolean | string {
   if (typeof value === 'string') {
-    return (!!value && value.trim() !== '') || 'Required';
+    return (!!value && value.trim() !== '') || translate('general.required');
   } else if (typeof value === 'number') {
-    return !Number.isNaN(value) || 'Required';
+    return !Number.isNaN(value) || 'general.required';
   } else if (Array.isArray(value)) {
-    return (!!value && value.length !== 0) || 'Required';
+    return (!!value && value.length !== 0) || translate('general.required');
   } else if (typeof value === 'object') {
-    return value !== null || 'Required';
+    return value !== null || translate('general.required');
   } else {
-    return 'Required';
+    return translate('general.required');
   }
 };
 
