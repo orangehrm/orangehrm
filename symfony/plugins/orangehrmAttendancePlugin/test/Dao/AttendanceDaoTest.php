@@ -20,10 +20,13 @@
 namespace OrangeHRM\Tests\Attendance\Dao;
 
 use DateTime;
+use DateTimeZone;
 use Exception;
 use OrangeHRM\Attendance\Dao\AttendanceDao;
 use OrangeHRM\Attendance\Exception\AttendanceServiceException;
 use OrangeHRM\Config\Config;
+use OrangeHRM\Core\Service\DateTimeHelperService;
+use OrangeHRM\Framework\Services;
 use OrangeHRM\Tests\Util\KernelTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 
@@ -33,6 +36,8 @@ use OrangeHRM\Tests\Util\TestDataService;
  */
 class AttendanceDaoTest extends KernelTestCase
 {
+    public const TIMEZONE_UTC = 'UTC';
+
     /**
      * @var AttendanceDao
      */
@@ -50,12 +55,15 @@ class AttendanceDaoTest extends KernelTestCase
     protected function setUp(): void
     {
         $this->attendanceDao = new AttendanceDao();
-        $this->fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmAttendancePlugin/test/fixtures/AttendanceDaoTest.yaml';
+        $this->fixture = Config::get(
+                Config::PLUGINS_DIR
+            ).'/orangehrmAttendancePlugin/test/fixtures/AttendanceDaoTest.yaml';
         TestDataService::populate($this->fixture);
     }
 
     public function testGetLatestAttendanceRecordByEmployeeId(): void
     {
+        $this->createKernelWithMockServices([Services::DATETIME_HELPER_SERVICE => new DateTimeHelperService()]);
         $attendanceRecord = $this->attendanceDao->getLatestAttendanceRecordByEmployeeNumber(1);
         $this->assertEquals(1, $attendanceRecord->getEmployee()->getEmpNumber());
         $this->assertEquals('Kayla', $attendanceRecord->getEmployee()->getFirstName());
@@ -69,21 +77,26 @@ class AttendanceDaoTest extends KernelTestCase
 
     public function testPunchInOverlapRecords(): void
     {
+        $utcTimeZone = new DateTimeZone(self::TIMEZONE_UTC);
+
         try {
-            $this->attendanceDao->checkForPunchInOverLappingRecords(new DateTime("2022-01-27 09:23:00"), 4);
+            $this->attendanceDao->checkForPunchInOverLappingRecords(
+                new DateTime("2022-01-27 09:23:00", $utcTimeZone),
+                4
+            );
         } catch (Exception $exception) {
             $this->assertTrue($exception instanceof AttendanceServiceException);
             $this->assertEquals("Cannot Proceed Punch In Employee Already Punched In", $exception->getMessage());
         }
 
         $overlapStatus = $this->attendanceDao->checkForPunchInOverLappingRecords(
-            new DateTime("2011-04-22 09:25:00"),
+            new DateTime("2011-04-22 09:25:00", $utcTimeZone),
             5
         );
         $this->assertFalse($overlapStatus);
 
         $overlapStatus = $this->attendanceDao->checkForPunchInOverLappingRecords(
-            new DateTime("2011-04-21 09:26:00"),
+            new DateTime("2011-04-21 09:26:00", $utcTimeZone),
             5
         );
         $this->assertTrue($overlapStatus);
@@ -91,9 +104,10 @@ class AttendanceDaoTest extends KernelTestCase
 
     public function testPunchOutOverlapRecords(): void
     {
+        $utcTimeZone = new DateTimeZone(self::TIMEZONE_UTC);
         try {
             $this->attendanceDao->checkForPunchOutOverLappingRecords(
-                new DateTime("2022-01-27 09:23:00"),
+                new DateTime("2022-01-27 09:23:00", $utcTimeZone),
                 1
             );
         } catch (Exception $exception) {
@@ -103,7 +117,7 @@ class AttendanceDaoTest extends KernelTestCase
 
         try {
             $this->attendanceDao->checkForPunchOutOverLappingRecords(
-                new DateTime("2022-01-27 09:20:00"),
+                new DateTime("2022-01-27 09:20:00", $utcTimeZone),
                 4
             );
         } catch (Exception $exception) {
@@ -112,13 +126,13 @@ class AttendanceDaoTest extends KernelTestCase
         }
 
         $overlapStatus = $this->attendanceDao->checkForPunchOutOverLappingRecords(
-            new DateTime("2011-04-21 09:26:00"),
+            new DateTime("2011-04-21 09:26:00", $utcTimeZone),
             2
         );
         $this->assertFalse($overlapStatus);
 
         $overlapStatus = $this->attendanceDao->checkForPunchOutOverLappingRecords(
-            new DateTime("2011-04-20 09:29:00"),
+            new DateTime("2011-04-20 09:29:00", $utcTimeZone),
             2
         );
         $this->assertTrue($overlapStatus);

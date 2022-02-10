@@ -17,40 +17,45 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Attendance\test\Api;
+namespace OrangeHRM\Tests\Attendance\Api;
 
 use OrangeHRM\Attendance\Api\EmployeeAttendanceRecordAPI;
-use OrangeHRM\Attendance\Api\MyAttendanceRecordAPI;
+use OrangeHRM\Config\Config;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
 use OrangeHRM\Tests\Util\Integration\TestCaseParams;
+use OrangeHRM\Tests\Util\TestDataService;
 
+/**
+ * @group Attendance
+ * @group APIv2
+ */
 class EmployeeAttendanceRecordAPITest extends EndpointIntegrationTestCase
 {
     public function testGetAll(): void
     {
-        $api = new MyAttendanceRecordAPI($this->getRequest());
+        $api = new EmployeeAttendanceRecordAPI($this->getRequest());
         $this->expectNotImplementedException();
         $api->getAll();
     }
 
     public function testGetValidationRuleForGetAll(): void
     {
-        $api = new MyAttendanceRecordAPI($this->getRequest());
+        $api = new EmployeeAttendanceRecordAPI($this->getRequest());
         $this->expectNotImplementedException();
         $api->getValidationRuleForGetAll();
     }
 
     public function testGetOne(): void
     {
-        $api = new MyAttendanceRecordAPI($this->getRequest());
+        $api = new EmployeeAttendanceRecordAPI($this->getRequest());
         $this->expectNotImplementedException();
         $api->getOne();
     }
 
     public function testGetValidationRuleForGetOne(): void
     {
-        $api = new MyAttendanceRecordAPI($this->getRequest());
+        $api = new EmployeeAttendanceRecordAPI($this->getRequest());
         $this->expectNotImplementedException();
         $api->getValidationRuleForGetOne();
     }
@@ -60,7 +65,8 @@ class EmployeeAttendanceRecordAPITest extends EndpointIntegrationTestCase
      */
     public function testCreate(TestCaseParams $testCaseParams): void
     {
-        $this->populateFixtures('EmployeeAttendanceRecord.yaml');
+        TestDataService::populate(Config::get(Config::TEST_DIR).'/phpunit/fixtures/WorkflowStateMachine.yaml', false);
+        $this->populateFixtures('EmployeeAttendanceRecord.yaml',null, true);
         $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
         $this->registerServices($testCaseParams);
         $this->registerMockDateTimeHelper($testCaseParams);
@@ -75,14 +81,14 @@ class EmployeeAttendanceRecordAPITest extends EndpointIntegrationTestCase
 
     public function testDelete(): void
     {
-        $api = new MyAttendanceRecordAPI($this->getRequest());
+        $api = new EmployeeAttendanceRecordAPI($this->getRequest());
         $this->expectNotImplementedException();
         $api->delete();
     }
 
     public function testGetValidationRuleForDelete(): void
     {
-        $api = new MyAttendanceRecordAPI($this->getRequest());
+        $api = new EmployeeAttendanceRecordAPI($this->getRequest());
         $this->expectNotImplementedException();
         $api->getValidationRuleForDelete();
     }
@@ -92,7 +98,8 @@ class EmployeeAttendanceRecordAPITest extends EndpointIntegrationTestCase
      */
     public function testUpdate(TestCaseParams $testCaseParams): void
     {
-        $this->populateFixtures('EmployeeAttendanceRecord.yaml');
+        TestDataService::populate(Config::get(Config::TEST_DIR).'/phpunit/fixtures/WorkflowStateMachine.yaml', false);
+        $this->populateFixtures('EmployeeAttendanceRecord.yaml',null, true);
         $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
         $this->registerServices($testCaseParams);
         $this->registerMockDateTimeHelper($testCaseParams);

@@ -20,6 +20,7 @@
 namespace OrangeHRM\Attendance\Api;
 
 use DateTime;
+use DateTimeZone;
 use OrangeHRM\Attendance\Exception\AttendanceServiceException;
 use OrangeHRM\Attendance\Traits\Service\AttendanceServiceTrait;
 use OrangeHRM\Core\Api\CommonParams;
@@ -34,16 +35,20 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
+use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 
 class AttendancePunchInRecordOverlapAPI extends Endpoint implements ResourceEndpoint
 {
     use AuthUserTrait;
     use AttendanceServiceTrait;
+    use DateTimeHelperTrait;
 
     public const PARAMETER_DATE = 'date';
     public const PARAMETER_TIME = 'time';
     public const PARAMETER_TIME_ZONE_OFFSET = 'timezoneOffset';
     public const PARAMETER_IS_PUNCH_IN_OVERLAP = 'valid';
+
+    public const TIMEZONE_UTC = 'UTC';
 
     /**
      * @inheritDoc
@@ -60,7 +65,7 @@ class AttendancePunchInRecordOverlapAPI extends Endpoint implements ResourceEndp
             $punchInUtcTime = $this->getUTCTimeByOffsetAndDateTime();
             $isPunchInOverlap = !$this->getAttendanceService()
                 ->getAttendanceDao()
-                ->checkForPunchInOverLappingRecords(new DateTime($punchInUtcTime), $employeeNumber);
+                ->checkForPunchInOverLappingRecords($punchInUtcTime, $employeeNumber);
 
             return new EndpointResourceResult(
                 ArrayModel::class,
@@ -74,9 +79,9 @@ class AttendancePunchInRecordOverlapAPI extends Endpoint implements ResourceEndp
     }
 
     /**
-     * @return string
+     * @return DateTime
      */
-    protected function getUTCTimeByOffsetAndDateTime(): string
+    protected function getUTCTimeByOffsetAndDateTime(): DateTime
     {
         $date = $this->getRequestParams()->getString(
             RequestParams::PARAM_TYPE_QUERY,
@@ -92,7 +97,11 @@ class AttendancePunchInRecordOverlapAPI extends Endpoint implements ResourceEndp
         );
 
         $dateTime = $date . ' ' . $time;
-        return date('Y-m-d H:i', strtotime($dateTime) - $timeZoneOffset * 3600);
+        $dateTime = new DateTime(
+            $dateTime,
+            $this->getDateTimeHelper()->getTimezoneByTimezoneOffset($timeZoneOffset)
+        );
+        return $dateTime->setTimezone(new DateTimeZone(self::TIMEZONE_UTC));
     }
 
     /**

@@ -3,10 +3,6 @@ Config:
   - { name: 'timesheet_period_set', value: 'Yes' }
   - { name: 'timesheet_period_and_start_date', value: '<TimesheetPeriod><PeriodType>Weekly</PeriodType><ClassName>WeeklyTimesheetPeriod</ClassName><StartDate>1</StartDate><Heading>Week</Heading></TimesheetPeriod>' }
 
-WorkflowStateMachine:
-  - { "id": "86", "workflow": "1", "state": "INITIAL", "role": "ESS USER", "action": "8", "resulting_state": "INITIAL" }
-  - { "id": "87", "workflow": "1", "state": "PUNCHED IN", "role": "ESS USER", "action": "8", "resulting_state": "PUNCHED IN" }
-
 Employee:
   - { empNumber: 1, firstName: 'Kayla', lastName: 'Abbey', middleName: 'T', employeeId: 'E001', emp_work_email: 'kayla@xample.com', emp_oth_email: 'kayla2@xample.com' }
   - { empNumber: 2, firstName: 'Ashley', lastName: 'Abel', middleName: 'ST',employeeId: 'E002', emp_work_email: 'ashley@xample.com', emp_oth_email: 'ashley2@xample.com' }

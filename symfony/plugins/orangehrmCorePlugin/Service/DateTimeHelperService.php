@@ -133,33 +133,18 @@ class DateTimeHelperService
     }
 
     /**
-     * @param  int  $baseTimestamp
-     * @return DateTime
+     * @param  float | string $timezoneOffset
+     * @return DateTimeZone eg:- 5.5 -> +0530, -5.5 -> -0530
      */
-    public function getDateTimeByTimestamp(int $baseTimestamp): DateTime
+    public function getTimezoneByTimezoneOffset($timezoneOffset): DateTimeZone
     {
-        $dateTime = new DateTime();
-        return $dateTime->setTimestamp($baseTimestamp);
-    }
-
-    /**
-     * @param  int  $baseTimestamp
-     * @param  float  $timezoneOffset
-     * @return DateTime
-     */
-    public function getUTCDateTime(int $baseTimestamp, float $timezoneOffset): DateTime
-    {
-        $utcDateTime = new DateTime();
-        return $utcDateTime->setTimestamp($baseTimestamp - $timezoneOffset * 3600);
-    }
-
-    /**
-     * @param  DateTime  $dateTime
-     * @param  float  $timezoneOffset
-     * @return int
-     */
-    public function getTimestampDifference(DateTime $dateTime, float $timezoneOffset): int
-    {
-        return $timezoneOffset * 3600 - $dateTime->getOffset();
+        if (is_string($timezoneOffset)) {
+            $timezoneOffset = (float)$timezoneOffset;
+        }
+        $absoluteOffset = abs($timezoneOffset);
+        $hours = floor($absoluteOffset);
+        $minutes = ($absoluteOffset * 60) % 60 == 0 ? '00' : ($absoluteOffset * 60) % 60;
+        $hours = $hours < 10 ? '0'.$hours : $hours;
+        return new DateTimeZone(($timezoneOffset > 0 ? '+' : '-').$hours.$minutes);
     }
 }

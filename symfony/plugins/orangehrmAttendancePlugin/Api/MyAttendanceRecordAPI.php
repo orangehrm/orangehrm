@@ -19,37 +19,67 @@
 
 namespace OrangeHRM\Attendance\Api;
 
+use DateTime;
+use DateTimeZone;
+use Exception;
 use OrangeHRM\Attendance\Exception\AttendanceServiceException;
+use OrangeHRM\Entity\WorkflowStateMachine;
 
 class MyAttendanceRecordAPI extends EmployeeAttendanceRecordAPI
 {
-
     /**
      * @inheritDoc
      */
-    protected function extractTimestamp(string $date, string $time, float $timezoneOffset): int
+    protected function extractPunchDateTime(string $dateTime, float $timezoneOffset): DateTime
     {
-        $dateTime = $this->getDateTimeHelper()->getDateTimeByString($date.' '.$time);
-        $timeStamp = $this->getDateTimeHelper()->getTimestampByDateTime($dateTime);
+        $timezone = $this->getDateTimeHelper()->getTimezoneByTimezoneOffset($timezoneOffset);
+        $userDateTime = new DateTime($dateTime, $timezone);
         //user can change current time config disabled and system generated date time is not valid
-        if (!$this->canUserChangeCurrentTime() && !$this->isCurrantDateTimeValid($timezoneOffset, $timeStamp)) {
+        if (!$this->getAttendanceService()->canUserChangeCurrentTime() && !$this->isCurrantDateTimeValid(
+                $dateTime,
+                $timezone
+            )) {
             throw AttendanceServiceException::invalidDateTime();
         }
-        return $timeStamp;
+        return $userDateTime;
     }
+
     /**
      * If the configuration disabled for users to edit the date time, we should check the user provided timestamp with the
      * exact timestamp in the user's timezone. Those two should be same if the user provides true data. The margin of error
-     * can be +/- 60 seconds
-     * @param  float  $timezoneOffset
-     * @param  int  $userProvidedTimestamp
+     * can be +/- 180 seconds
+     * @param  string  $dateTime
+     * @param  DateTimeZone  $timezone
      * @return bool
+     * @throws Exception
      */
-    protected function isCurrantDateTimeValid(float $timezoneOffset, int $userProvidedTimestamp): bool
+    protected function isCurrantDateTimeValid(string $dateTime, DateTimeZone $timezone): bool
     {
-        $serverDateTime = $this->getDateTimeHelper()->getNow();
-        $timestampDiff = $this->getDateTimeHelper()->getTimestampDifference($serverDateTime, $timezoneOffset);
-        $userActualTimestamp = $this->getDateTimeHelper()->getTimestampByDateTime($serverDateTime) + $timestampDiff;
-        return (($userActualTimestamp - $userProvidedTimestamp) < 60 && ($userActualTimestamp - $userProvidedTimestamp) > -60);
+        $currentDateTime = $this->getDateTimeHelper()->getNow($timezone);
+        $userProvidedDateTime = new DateTime($dateTime, $timezone);
+        $dateTimeDifference = $currentDateTime->getTimestamp() - $userProvidedDateTime->getTimestamp();
+        return ($dateTimeDifference < 180 && $dateTimeDifference > -180);
+    }
+
+    /**
+     * @param  array  $allowedActions
+     * @return void
+     */
+    protected function userAllowedPunchInActions(array $allowedActions): void{
+       $allowed = in_array(
+            WorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_TIME,
+            $allowedActions
+        );
+    }
+
+    /**
+     * @param  array  $allowedActions
+     * @return void
+     */
+    protected function userAllowedPunchOutActions(array $allowedActions): void{
+        $allowed = in_array(
+            WorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_TIME,
+            $allowedActions
+        );
     }
 }

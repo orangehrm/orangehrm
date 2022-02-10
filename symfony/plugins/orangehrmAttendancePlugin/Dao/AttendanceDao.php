@@ -72,12 +72,10 @@ class AttendanceDao extends BaseDao {
         if (is_null($attendanceRecord)) {
             throw AttendanceServiceException::punchOutAlreadyExist();
         }
-
-        $punchInUtcTime = $attendanceRecord->getPunchInUtcTime();
+        $punchInUtcTime = $attendanceRecord->getDecorator()->getPunchInUTCDateTime();
         if ($punchInUtcTime > $punchOutTime) {
             throw AttendanceServiceException::punchOutTimeBehindThanPunchInTime();
         }
-
         $q1 = $this->createQueryBuilder(AttendanceRecord::class, 'attendanceRecord');
         $q1->andWhere('attendanceRecord.employee = :empNumber');
         $q1->andWhere($q1->expr()->gt('attendanceRecord.punchInUtcTime', ':punchInUtcTime'))

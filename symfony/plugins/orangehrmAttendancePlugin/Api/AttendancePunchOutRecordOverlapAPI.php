@@ -45,7 +45,7 @@ class AttendancePunchOutRecordOverlapAPI extends AttendancePunchInRecordOverlapA
             $punchOutUtcTime = $this->getUTCTimeByOffsetAndDateTime();
             $isPunchInOverlap = $this->getAttendanceService()
                 ->getAttendanceDao()
-                ->checkForPunchOutOverLappingRecords(new DateTime($punchOutUtcTime), $employeeNumber);
+                ->checkForPunchOutOverLappingRecords($punchOutUtcTime, $employeeNumber);
 
             return new EndpointResourceResult(
                 ArrayModel::class,

@@ -54,9 +54,11 @@ class InAccessibleEmpNumbers extends AbstractRule
         if ($this->includeLoggedInEmpNumber && $input == $this->getAuthUser()->getEmpNumber()) {
             return true;
         }
+        if (!$this->includeLoggedInEmpNumber && $input == $this->getAuthUser()->getEmpNumber()) {
+            return false;
+        }
 
         $accessibleEmpNumbers = $this->getUserRoleManager()->getAccessibleEntityIds(Employee::class);
-
         return in_array($input, $accessibleEmpNumbers);
     }
 }
