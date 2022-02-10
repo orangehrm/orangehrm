@@ -72,6 +72,7 @@ import TimePages from '@/orangehrmTimePlugin';
 import AttendancePages from '@/orangehrmAttendancePlugin';
 import MaintenancePages from '@/orangehrmMaintenancePlugin';
 import MyTracker from '@/orangehrmPerformancePlugin/pages/MyTracker.vue';
+import EmployeeTrackers from '@/orangehrmPerformancePlugin/pages/EmployeeTrackers.vue';
 
 export default {
   'job-title-list': JobTitle,
@@ -131,4 +132,5 @@ export default {
   ...AttendancePages,
   ...MaintenancePages,
   'my-tracker': MyTracker,
+  'employee-trackers': EmployeeTrackers,
 };
