@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\Attendance\Api;
 
-use DateTime;
 use OrangeHRM\Attendance\Exception\AttendanceServiceException;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;

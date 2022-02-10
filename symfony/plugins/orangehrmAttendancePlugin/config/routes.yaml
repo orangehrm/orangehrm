@@ -30,16 +30,6 @@ apiv2_attendance_punch_out_record_overlap:
     id: 0
     _api: OrangeHRM\Attendance\Api\AttendancePunchOutRecordOverlapAPI
 
-apiv2_attendance_delete_employee_attendance_records:
-  path: /api/v2/attendance/employees/records
-  controller: OrangeHRM\Attendance\Controller\AttendanceMockController::deleteEmployeeAttendanceRecords
-  methods: [ DELETE ]
-
-apiv2_attendance_delete_my_attendance_records:
-  path: /api/v2/attendance/records
-  controller: OrangeHRM\Attendance\Controller\AttendanceMockController::deleteMyAttendanceRecords
-  methods: [ DELETE ]
-
 apiv2_attendance_my_attendance_records:
   path: /api/v2/attendance/records
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
@@ -112,6 +102,16 @@ apiv2_attendance_timezones:
   path: /api/v2/attendance/timezones
   controller: OrangeHRM\Attendance\Controller\AttendanceMockController::getTimezones
   methods: [ GET ]
+
+apiv2_attendance_delete_employee_attendance_records:
+  path: /api/v2/attendance/employees/records
+  controller: OrangeHRM\Attendance\Controller\AttendanceMockController::deleteEmployeeAttendanceRecords
+  methods: [ DELETE ]
+
+apiv2_attendance_delete_my_attendance_records:
+  path: /api/v2/attendance/records
+  controller: OrangeHRM\Attendance\Controller\AttendanceMockController::deleteMyAttendanceRecords
+  methods: [ DELETE ]
 
 apiv2_attendance_edit_attendance_record:
   path: /api/v2/attendance/employees/record/{id?}

@@ -36,9 +36,9 @@ class MyAttendanceRecordAPI extends EmployeeAttendanceRecordAPI
         $userDateTime = new DateTime($dateTime, $timezone);
         //user can change current time config disabled and system generated date time is not valid
         if (!$this->getAttendanceService()->canUserChangeCurrentTime() && !$this->isCurrantDateTimeValid(
-                $dateTime,
-                $timezone
-            )) {
+            $dateTime,
+            $timezone
+        )) {
             throw AttendanceServiceException::invalidDateTime();
         }
         return $userDateTime;
@@ -65,8 +65,9 @@ class MyAttendanceRecordAPI extends EmployeeAttendanceRecordAPI
      * @param  array  $allowedActions
      * @return void
      */
-    protected function userAllowedPunchInActions(array $allowedActions): void{
-       $allowed = in_array(
+    protected function userAllowedPunchInActions(array $allowedActions): void
+    {
+        $allowed = in_array(
             WorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_TIME,
             $allowedActions
         );
@@ -76,7 +77,8 @@ class MyAttendanceRecordAPI extends EmployeeAttendanceRecordAPI
      * @param  array  $allowedActions
      * @return void
      */
-    protected function userAllowedPunchOutActions(array $allowedActions): void{
+    protected function userAllowedPunchOutActions(array $allowedActions): void
+    {
         $allowed = in_array(
             WorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_TIME,
             $allowedActions

@@ -26,6 +26,7 @@ use InvalidArgumentException;
 
 class DateTimeHelperService
 {
+    public const TIMEZONE_UTC = 'UTC';
     /**
      * Format given \DateTime object to Y-m-d string.
      * Return null if null given

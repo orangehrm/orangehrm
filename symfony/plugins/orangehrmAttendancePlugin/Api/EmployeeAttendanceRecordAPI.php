@@ -36,10 +36,12 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Core\Service\DateTimeHelperService;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\AttendanceRecord;
+use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\WorkflowStateMachine;
 
 class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
@@ -53,8 +55,6 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
     public const PARAMETER_TIME = 'time';
     public const PARAMETER_TIMEZONE_OFFSET = 'timezoneOffset';
     public const PARAMETER_NOTE = 'note';
-
-    public const TIMEZONE_UTC = 'UTC';
 
     /**
      * @inheritDoc
@@ -79,20 +79,21 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
     public function create(): EndpointResourceResult
     {
         try {
+            list($empNumber, $date, $time, $timezoneOffset, $note) = $this->getCommonRequestParams();
             $allowedWorkflowItems = $this->getUserRoleManager()->getAllowedActions(
                 WorkflowStateMachine::FLOW_ATTENDANCE,
                 AttendanceRecord::STATE_INITIAL,
-                array(),
-                array(),
-                array('Employee' => $this->getAuthUser()->getEmpNumber())
+                [],
+                [],
+                [Employee::class => $empNumber]
             );
             $this->userAllowedPunchInActions(array_keys($allowedWorkflowItems));
-            list($empNumber, $date, $time, $timezoneOffset, $note) = $this->getCommonRequestParams();
             $attendanceRecord = new AttendanceRecord();
             $attendanceRecord->getDecorator()->setEmployeeByEmpNumber($empNumber);
             $punchInDateTime = $this->extractPunchDateTime($date.' '.$time, $timezoneOffset);
-            $punchInUTCDateTime = $this->extractPunchDateTime($date.' '.$time, $timezoneOffset)
-                ->setTimezone(new DateTimeZone(self::TIMEZONE_UTC));
+            $punchInUTCDateTime = (clone $punchInDateTime)->setTimezone(
+                new DateTimeZone(DateTimeHelperService::TIMEZONE_UTC)
+            );
             $overlappingPunchInRecords = $this->getAttendanceService()
                 ->getAttendanceDao()
                 ->checkForPunchInOverLappingRecords($punchInUTCDateTime, $empNumber);
@@ -155,7 +156,7 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
             WorkflowStateMachine::ATTENDANCE_ACTION_PROXY_PUNCH_IN,
             $allowedActions
         )) {
-            throw new ForbiddenException();
+            $this->getForbiddenException();
         }
     }
 
@@ -278,15 +279,15 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
     public function update(): EndpointResult
     {
         try {
+            list($empNumber, $date, $time, $timezoneOffset, $note) = $this->getCommonRequestParams();
             $allowedWorkflowItems = $this->getUserRoleManager()->getAllowedActions(
                 WorkflowStateMachine::FLOW_ATTENDANCE,
                 AttendanceRecord::STATE_PUNCHED_IN,
-                array(),
-                array(),
-                array('Employee' => $this->getAuthUser()->getEmpNumber())
+                [],
+                [],
+                [Employee::class => $empNumber]
             );
             $this->userAllowedPunchOutActions(array_keys($allowedWorkflowItems));
-            list($empNumber, $date, $time, $timezoneOffset, $note) = $this->getCommonRequestParams();
             $lastPunchInRecord = $this->getAttendanceService()
                 ->getAttendanceDao()
                 ->getLastPunchRecordByEmployeeNumberAndActionableList($empNumber, [AttendanceRecord::STATE_PUNCHED_IN]);
@@ -294,8 +295,9 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
                 throw AttendanceServiceException::punchOutAlreadyExist();
             }
             $punchOutDateTime = $this->extractPunchDateTime($date.' '.$time, $timezoneOffset);
-            $punchOutUTCDateTime = $this->extractPunchDateTime($date.' '.$time, $timezoneOffset)
-                ->setTimezone(new DateTimeZone(self::TIMEZONE_UTC));
+            $punchOutUTCDateTime = (clone $punchOutDateTime)->setTimezone(
+                new DateTimeZone(DateTimeHelperService::TIMEZONE_UTC)
+            );
             $overlappingPunchOutRecords = $this->getAttendanceService()
                 ->getAttendanceDao()
                 ->checkForPunchOutOverLappingRecords($punchOutUTCDateTime, $empNumber);
@@ -328,7 +330,7 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
             WorkflowStateMachine::ATTENDANCE_ACTION_PROXY_PUNCH_OUT,
             $allowedActions
         )) {
-            throw new ForbiddenException();
+            $this->getForbiddenException();
         }
     }
 

@@ -39,7 +39,7 @@ class AttendanceRecordDecorator
     private ?DateTime $punchOutUTCDateTime = null;
 
     /**
-     * @param AttendanceRecord $attendanceRecord
+     * @param  AttendanceRecord  $attendanceRecord
      */
     public function __construct(AttendanceRecord $attendanceRecord)
     {
@@ -146,10 +146,10 @@ class AttendanceRecordDecorator
     public function getPunchInUserDateTime(): ?DateTime
     {
         $punchInUserTime = $this->getAttendanceRecord()->getPunchInUserTime();
-        if(is_null($punchInUserTime)){
+        if (is_null($punchInUserTime)) {
             return null;
         }
-        if(is_null($this->punchInUserDateTime) && is_object($punchInUserTime)){
+        if (is_null($this->punchInUserDateTime) && is_object($punchInUserTime)) {
             $this->punchInUserDateTime = new DateTime(
                 $punchInUserTime->format('Y-m-d H:i:s'),
                 $this->getDateTimeHelper()
@@ -163,39 +163,24 @@ class AttendanceRecordDecorator
     }
 
     /**
-     * @param  DateTime|null  $punchInUserTime
-     */
-    public function setPunchInUserDateTime(?DateTime $punchInUserTime): void
-    {
-        $this->punchInUserDateTime = $punchInUserTime;
-    }
-
-    /**
      * @return DateTime|null
      */
     public function getPunchInUTCDateTime(): ?DateTime
     {
         $punchInUTCTime = $this->getAttendanceRecord()->getPunchInUtcTime();
-        if(is_null($punchInUTCTime)){
+        if (is_null($punchInUTCTime)) {
             return null;
         }
-        if(is_null($this->punchInUTCDateTime) && is_object($punchInUTCTime)){
+        if (is_null($this->punchInUTCDateTime) && is_object($punchInUTCTime)) {
             $this->punchInUTCDateTime = new DateTime(
                 $punchInUTCTime->format('Y-m-d H:i:s'),
                 $this->getDateTimeHelper()
                     ->getTimezoneByTimezoneOffset(
-                        self::TIMEZONE_UTC)
+                        self::TIMEZONE_UTC
+                    )
             );
         }
         return $this->punchInUTCDateTime;
-    }
-
-    /**
-     * @param  DateTime|null  $punchInUTCTime
-     */
-    public function setPunchInUTCDateTime(?DateTime $punchInUTCTime): void
-    {
-        $this->punchInUTCDateTime = $punchInUTCTime;
     }
 
     /**
@@ -204,10 +189,10 @@ class AttendanceRecordDecorator
     public function getPunchOutUserDateTime(): ?DateTime
     {
         $punchOutUserTime = $this->getAttendanceRecord()->getPunchOutUserTime();
-        if(is_null($punchOutUserTime)){
+        if (is_null($punchOutUserTime)) {
             return null;
         }
-        if(is_null($this->punchOutUserDateTime) && is_object($punchOutUserTime)){
+        if (is_null($this->punchOutUserDateTime) && is_object($punchOutUserTime)) {
             $this->punchOutUserDateTime = new DateTime(
                 $punchOutUserTime->format('Y-m-d H:i:s'),
                 $this->getDateTimeHelper()
@@ -220,38 +205,23 @@ class AttendanceRecordDecorator
     }
 
     /**
-     * @param  DateTime|null  $punchOutUserTime
-     */
-    public function setPunchOutUserDateTime(?DateTime $punchOutUserTime): void
-    {
-        $this->punchOutUserDateTime = $punchOutUserTime;
-    }
-
-    /**
      * @return DateTime|null
      */
     public function getPunchOutUTCDateTime(): ?DateTime
     {
         $punchOutUTCTime = $this->getAttendanceRecord()->getPunchOutUtcTime();
-        if(is_null($punchOutUTCTime)){
+        if (is_null($punchOutUTCTime)) {
             return null;
         }
-        if(is_null($this->punchOutUTCDateTime) && is_object($punchOutUTCTime)){
+        if (is_null($this->punchOutUTCDateTime) && is_object($punchOutUTCTime)) {
             $this->punchOutUTCDateTime = new DateTime(
                 $punchOutUTCTime->format('Y-m-d H:i:s'),
                 $this->getDateTimeHelper()
                     ->getTimezoneByTimezoneOffset(
-                        self::TIMEZONE_UTC)
+                        self::TIMEZONE_UTC
+                    )
             );
         }
         return $this->punchOutUTCDateTime;
-    }
-
-    /**
-     * @param  DateTime|null  $punchOutUTCTime
-     */
-    public function setPunchOutUTCDateTime(?DateTime $punchOutUTCTime): void
-    {
-        $this->punchOutUTCDateTime = $punchOutUTCTime;
     }
 }
