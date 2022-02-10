@@ -51,6 +51,7 @@ class KpiDaoTest extends KernelTestCase
         $kpi->setTitle('indicator 4');
         $kpi->setMinRating(0);
         $kpi->setMaxRating(100);
+        $kpi->setDefaultKpi(true);
         $result = $this->kpiDao->saveKpi($kpi);
         $this->assertEquals($kpi, $result);
     }
@@ -62,6 +63,7 @@ class KpiDaoTest extends KernelTestCase
         $this->assertEquals('Quality Assurance', $result->getJobTitle()->getJobTitleName());
         $this->assertEquals(1, $result->getMinRating());
         $this->assertEquals(50, $result->getMaxRating());
+        $this->assertTrue($result->isDefaultKpi());
 
         $result = $this->kpiDao->getKpiById(100);
         $this->assertNull($result);
@@ -98,5 +100,9 @@ class KpiDaoTest extends KernelTestCase
         $toBeDeletedIds = [2, 3];
         $result = $this->kpiDao->deleteKpi($toBeDeletedIds);
         $this->assertEquals(2, $result);
+
+        $toBeDeletedIds = [];
+        $result = $this->kpiDao->deleteKpi($toBeDeletedIds);
+        $this->assertEquals(0, $result);
     }
 }

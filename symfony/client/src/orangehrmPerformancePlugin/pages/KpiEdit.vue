@@ -174,7 +174,7 @@ export default {
         this.kpi.jobTitle = {id: data.jobTitle.id, label: data.jobTitle.name};
         this.kpi.minRating = data.minRating;
         this.kpi.maxRating = data.maxRating;
-        this.kpi.isDefault = data.isDefault === 1;
+        this.kpi.isDefault = data.isDefault;
       })
       .finally(() => {
         this.isLoading = false;
@@ -192,7 +192,7 @@ export default {
           jobTitleId: this.kpi.jobTitle.id,
           minRating: this.kpi.minRating,
           maxRating: this.kpi.maxRating,
-          isDefault: this.kpi.isDefault ? 1 : null,
+          isDefault: this.kpi.isDefault,
         })
         .then(() => {
           return this.$toast.updateSuccess();

@@ -101,7 +101,7 @@ const kpiNormalizer = data => {
       jobTitleId: item.jobTitle.id,
       minRating: item.minRating,
       maxRating: item.maxRating,
-      isDefault: item.isDefault === 1 ? 'Yes' : '',
+      isDefault: item.isDefault? 'Yes' : '',
     };
   });
 };

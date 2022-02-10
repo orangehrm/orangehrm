@@ -38,7 +38,7 @@ class KpiModel implements Normalizable
                 ['getJobTitle', 'getJobTitleName'],
                 'minRating',
                 'maxRating',
-                'defaultKpi',
+                ['isDefaultKpi'],
             ]
         );
         $this->setAttributeNames(

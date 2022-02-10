@@ -170,7 +170,7 @@ export default {
           jobTitleId: this.kpi.jobTitle.id,
           minRating: this.kpi.minRating,
           maxRating: this.kpi.maxRating,
-          isDefault: this.kpi.isDefault ? 1 : null,
+          isDefault: this.kpi.isDefault,
         })
         .then(() => {
           return this.$toast.saveSuccess();

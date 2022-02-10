@@ -42,7 +42,7 @@ class KpiTest extends EntityTestCase
         $kpi->getDecorator()->setJobTitleById(1);
         $kpi->setMinRating(0);
         $kpi->setMaxRating(100);
-        $kpi->setDefaultKpi(1);
+        $kpi->setDefaultKpi(true);
         $kpi->setDeletedAt(null);
         $this->persist($kpi);
 
@@ -53,7 +53,7 @@ class KpiTest extends EntityTestCase
         $this->assertEquals(1, $kpi->getJobTitle()->getId());
         $this->assertEquals(0, $kpi->getMinRating());
         $this->assertEquals(100, $kpi->getMaxRating());
-        $this->assertEquals(1, $kpi->getDefaultKpi());
+        $this->assertTrue($kpi->isDefaultKpi());
         $this->assertNull($kpi->getDeletedAt());
     }
 }

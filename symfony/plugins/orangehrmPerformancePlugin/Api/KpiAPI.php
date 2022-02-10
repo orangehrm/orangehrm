@@ -26,7 +26,6 @@ use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
 use OrangeHRM\Core\Api\V2\Exception\BadRequestException;
-use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
@@ -62,9 +61,8 @@ class KpiAPI extends Endpoint implements CrudEndpoint
     {
         $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
         $kpi = $this->getKpiService()->getKpiDao()->getKpiById($id);
-        if (!$kpi instanceof Kpi) {
-            throw new RecordNotFoundException();
-        }
+        $this->throwRecordNotFoundExceptionIfNotExist($kpi, Kpi::class);
+
         return new EndpointResourceResult(KpiModel::class, $kpi);
     }
 
@@ -73,7 +71,12 @@ class KpiAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForGetOne(): ParamRuleCollection
     {
-        return new ParamRuleCollection(new ParamRule(CommonParams::PARAMETER_ID));
+        return new ParamRuleCollection(
+            new ParamRule(
+                CommonParams::PARAMETER_ID,
+                new Rule(Rules::POSITIVE)
+            )
+        );
     }
 
     /**
@@ -139,7 +142,8 @@ class KpiAPI extends Endpoint implements CrudEndpoint
         $kpi->setTitle(
             $this->getRequestParams()->getString(
                 RequestParams::PARAM_TYPE_BODY,
-                self::PARAMETER_TITLE)
+                self::PARAMETER_TITLE
+            )
         );
         $jobTitleId = $this->getRequestParams()->getInt(
             RequestParams::PARAM_TYPE_BODY,
@@ -161,10 +165,10 @@ class KpiAPI extends Endpoint implements CrudEndpoint
             )
         );
         $kpi->setDefaultKpi(
-            $this->getRequestParams()->getIntOrNull(
+            $this->getRequestParams()->getBooleanOrNull(
                 RequestParams::PARAM_TYPE_BODY,
                 self::PARAMETER_DEFAULT_KPI
-            )
+            ) ? 1 : null
         );
     }
 
@@ -174,12 +178,6 @@ class KpiAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForCreate(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            $this->getValidationDecorator()->notRequiredParamRule(
-                new ParamRule(
-                    self::PARAMETER_DEFAULT_KPI,
-                    new Rule(Rules::INT_TYPE)
-                )
-            ),
             ...$this->getCommonBodyValidationRules()
         );
     }
@@ -210,6 +208,12 @@ class KpiAPI extends Endpoint implements CrudEndpoint
                 new Rule(Rules::INT_TYPE),
                 new Rule(Rules::BETWEEN, [0, 100])
             ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_DEFAULT_KPI,
+                    new Rule(Rules::BOOL_TYPE)
+                )
+            )
         ];
     }
 
@@ -238,13 +242,7 @@ class KpiAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(CommonParams::PARAMETER_ID),
-            $this->getValidationDecorator()->notRequiredParamRule(
-                new ParamRule(
-                    self::PARAMETER_DEFAULT_KPI,
-                    new Rule(Rules::INT_TYPE)
-                )
-            ),
+            new ParamRule(CommonParams::PARAMETER_ID, new Rule(Rules::POSITIVE)),
             ...$this->getCommonBodyValidationRules()
         );
     }

@@ -87,7 +87,7 @@ Create:
       jobTitleId: 2
       minRating: 0
       maxRating: 10
-      isDefault: 1
+      isDefault: true
     data:
       id: 14
       title: 'Supporting Each Other'
@@ -96,14 +96,14 @@ Create:
         name: 'Software Engineer'
       minRating: 0
       maxRating: 10
-      isDefault: 1
+      isDefault: true
 
 Update:
   'without params':
     userId: 1
     services:
       performance.kpi_service: \OrangeHRM\Performance\Service\KpiService
-    invalidOnly: [ 'title', 'jobTitleId', 'minRating', 'maxRating' ]
+    invalidOnly: [ 'id', 'title', 'jobTitleId', 'minRating', 'maxRating' ]
 
   'without job title id':
     userId: 1
@@ -207,7 +207,7 @@ Update:
       jobTitleId: 1
       minRating: 0
       maxRating: 10
-      isDefault: 1
+      isDefault: true
     data:
       id: 2
       title: 'Positive Commitment'
@@ -216,7 +216,7 @@ Update:
         name: 'Software Architect'
       minRating: 0
       maxRating: 10
-      isDefault: 1
+      isDefault: true
 
 GetAll:
   'without query params':
@@ -1072,6 +1072,12 @@ GetAll:
       total: 0
 
 GetOne:
+  'without id attribute':
+    userId: 1
+    services:
+      performance.kpi_service: \OrangeHRM\Performance\Service\KpiService
+    invalidOnly: ['id']
+
   'with nonexistent kpi id':
     userId: 1
     services:
@@ -1109,6 +1115,16 @@ GetOne:
       isDefault: 1
 
 Delete:
+  'with no ids':
+    userId: 1
+    services:
+      performance.kpi_service: \OrangeHRM\Performance\Service\KpiService
+    now:
+      datetime: '2022-02-03 02:16:18'
+    body:
+      ids: [ ]
+    data: [ ]
+
   'with one id':
     userId: 1
     services:

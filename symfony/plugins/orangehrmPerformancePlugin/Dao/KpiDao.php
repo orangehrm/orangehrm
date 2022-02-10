@@ -79,8 +79,9 @@ class KpiDao extends BaseDao
     {
         $q = $this->createQueryBuilder(Kpi::class, 'kpi');
         $q->leftJoin('kpi.jobTitle', 'jobTitle');
-        $q->andWhere('kpi.deletedAt is NULL');
-        $q->andWhere('jobTitle.isDeleted = 0');
+        $q->andWhere($q->expr()->isNull('kpi.deletedAt'));
+        $q->andWhere('jobTitle.isDeleted = :jobTitleIsDeleted')
+            ->setParameter('jobTitleIsDeleted', false);
         $this->setSortingAndPaginationParams($q, $kpiSearchFilterParams);
 
         if (!is_null($kpiSearchFilterParams->getJobTitleId())) {
@@ -94,7 +95,7 @@ class KpiDao extends BaseDao
     }
 
     /**
-     * @param array $toBeDeletedKpiIds
+     * @param int[] $toBeDeletedKpiIds
      * @return int
      */
     public function deleteKpi(array $toBeDeletedKpiIds): int

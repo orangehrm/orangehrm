@@ -48,11 +48,11 @@ class Kpi
     private int $maxRating;
 
     /**
-     * @var int|null
+     * @var bool|null
      *
-     * @ORM\Column(name="default_kpi", type="integer", length=2, nullable=true)
+     * @ORM\Column(name="default_kpi", type="boolean", nullable=true)
      */
-    private ?int $defaultKpi = null;
+    private ?bool $defaultKpi = null;
 
     /**
      * @var DateTime|null
@@ -134,17 +134,17 @@ class Kpi
     }
 
     /**
-     * @return int|null
+     * @return bool|null
      */
-    public function getDefaultKpi(): ?int
+    public function isDefaultKpi(): ?bool
     {
         return $this->defaultKpi;
     }
 
     /**
-     * @param int|null $defaultKpi
+     * @param bool|null $defaultKpi
      */
-    public function setDefaultKpi(?int $defaultKpi): void
+    public function setDefaultKpi(?bool $defaultKpi): void
     {
         $this->defaultKpi = $defaultKpi;
     }
