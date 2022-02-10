@@ -20,6 +20,7 @@
 namespace OrangeHRM\Entity\Decorator;
 
 use DateTime;
+use OrangeHRM\Core\Service\DateTimeHelperService;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\AttendanceRecord;
@@ -30,7 +31,6 @@ class AttendanceRecordDecorator
     use EntityManagerHelperTrait;
     use DateTimeHelperTrait;
 
-    public const TIMEZONE_UTC = 'UTC';
     protected AttendanceRecord $attendanceRecord;
 
     private ?DateTime $punchInUserDateTime = null;
@@ -176,7 +176,7 @@ class AttendanceRecordDecorator
                 $punchInUTCTime->format('Y-m-d H:i:s'),
                 $this->getDateTimeHelper()
                     ->getTimezoneByTimezoneOffset(
-                        self::TIMEZONE_UTC
+                        DateTimeHelperService::TIMEZONE_UTC
                     )
             );
         }
@@ -218,7 +218,7 @@ class AttendanceRecordDecorator
                 $punchOutUTCTime->format('Y-m-d H:i:s'),
                 $this->getDateTimeHelper()
                     ->getTimezoneByTimezoneOffset(
-                        self::TIMEZONE_UTC
+                        DateTimeHelperService::TIMEZONE_UTC
                     )
             );
         }

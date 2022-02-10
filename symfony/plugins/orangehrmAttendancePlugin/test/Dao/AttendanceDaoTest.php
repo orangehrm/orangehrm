@@ -38,8 +38,6 @@ use OrangeHRM\Time\Dto\AttendanceReportSearchFilterParams;
  */
 class AttendanceDaoTest extends KernelTestCase
 {
-    public const TIMEZONE_UTC = 'UTC';
-
     /**
      * @var AttendanceDao
      */
@@ -58,8 +56,8 @@ class AttendanceDaoTest extends KernelTestCase
     {
         $this->attendanceDao = new AttendanceDao();
         $this->fixture = Config::get(
-            Config::PLUGINS_DIR
-        ).'/orangehrmAttendancePlugin/test/fixtures/AttendanceDaoTest.yaml';
+                Config::PLUGINS_DIR
+            ).'/orangehrmAttendancePlugin/test/fixtures/AttendanceDaoTest.yaml';
         TestDataService::populate($this->fixture);
     }
 
