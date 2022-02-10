@@ -34,6 +34,7 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Core\Service\DateTimeHelperService;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 
@@ -47,8 +48,6 @@ class AttendancePunchInRecordOverlapAPI extends Endpoint implements ResourceEndp
     public const PARAMETER_TIME = 'time';
     public const PARAMETER_TIME_ZONE_OFFSET = 'timezoneOffset';
     public const PARAMETER_IS_PUNCH_IN_OVERLAP = 'valid';
-
-    public const TIMEZONE_UTC = 'UTC';
 
     /**
      * @inheritDoc
@@ -101,7 +100,7 @@ class AttendancePunchInRecordOverlapAPI extends Endpoint implements ResourceEndp
             $dateTime,
             $this->getDateTimeHelper()->getTimezoneByTimezoneOffset($timeZoneOffset)
         );
-        return $dateTime->setTimezone(new DateTimeZone(self::TIMEZONE_UTC));
+        return $dateTime->setTimezone(new DateTimeZone(DateTimeHelperService::TIMEZONE_UTC));
     }
 
     /**
