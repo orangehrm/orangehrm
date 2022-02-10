@@ -54,7 +54,7 @@ class AttendanceRecord
     /**
      * @var Employee
      *
-     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Employee", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Employee", inversedBy="attendanceRecords", cascade={"persist", "remove"})
      * @ORM\JoinColumn(name="employee_id", referencedColumnName="emp_number",nullable=false)
      */
     private Employee $employee;

@@ -1,0 +1,4 @@
+core_i18n_messages:
+  path: /core/i18n/messages
+  controller: OrangeHRM\I18N\Controller\I18NMessagesController::handle
+  methods: [ GET ]

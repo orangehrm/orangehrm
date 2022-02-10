@@ -17,24 +17,15 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Attendance\Controller;
+use OrangeHRM\Framework\ServiceContainer;
+use OrangeHRM\Framework\Services;
+use OrangeHRM\ORM\Doctrine;
+use OrangeHRM\Tools\Migrations\Version20220125;
 
-use OrangeHRM\Core\Controller\AbstractVueController;
-use OrangeHRM\Core\Vue\Component;
-use OrangeHRM\Core\Vue\Prop;
-use OrangeHRM\Framework\Http\Request;
+require_once realpath(__DIR__ . '/../../symfony/vendor/autoload.php');
 
-class ViewMyAttendanceController extends AbstractVueController
-{
-    /**
-     * @inheritDoc
-     */
-    public function preRender(Request $request): void
-    {
-        $component = new Component('view-my-attendance');
-        if ($request->query->has('date')) {
-            $component->addProp(new Prop('date', Prop::TYPE_STRING, $request->query->get('date')));
-        }
-        $this->setComponent($component);
-    }
-}
+ServiceContainer::getContainer()->register(Services::DOCTRINE)
+    ->setFactory([Doctrine::class, 'getEntityManager']);
+
+$migration = new Version20220125();
+$migration->up();

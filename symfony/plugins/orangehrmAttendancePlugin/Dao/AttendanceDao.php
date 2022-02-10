@@ -21,11 +21,13 @@ namespace OrangeHRM\Attendance\Dao;
 
 use DateTime;
 use OrangeHRM\Attendance\Exception\AttendanceServiceException;
-use OrangeHRM\Core\Api\V2\Exception\BadRequestException;
+use OrangeHRM\Entity\Employee;
+use OrangeHRM\ORM\Paginator;
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Entity\AttendanceRecord;
 use OrangeHRM\Entity\WorkflowStateMachine;
 use OrangeHRM\ORM\ListSorter;
+use OrangeHRM\Time\Dto\AttendanceReportSearchFilterParams;
 use Respect\Validation\Rules\Date;
 
 class AttendanceDao extends BaseDao {
@@ -623,5 +625,91 @@ class AttendanceDao extends BaseDao {
         $q->setMaxResults(1);
 
         return $q->getQuery()->getOneOrNullResult();
+    }
+
+    /**
+     * @param AttendanceReportSearchFilterParams $attendanceReportSearchFilterParams
+     * @return array
+     * Example [ Employee full name (first name and last name), attendance record id, termination id, employee number, total hours in sec ]
+     */
+    public function getAttendanceReportCriteriaList(
+        AttendanceReportSearchFilterParams $attendanceReportSearchFilterParams
+    ): array {
+        $paginator = $this->getAttendanceReportPaginator($attendanceReportSearchFilterParams);
+        return $paginator->getQuery()->execute();
+    }
+
+    /**
+     * @param AttendanceReportSearchFilterParams $attendanceReportSearchFilterParams
+     * @return Paginator
+     */
+    private function getAttendanceReportPaginator(AttendanceReportSearchFilterParams $attendanceReportSearchFilterParams
+    ): Paginator {
+        $q = $this->createQueryBuilder(Employee::class, 'employee');
+        $q->select(
+            'CONCAT(employee.firstName, \' \', employee.lastName) AS fullName',
+            'attendanceRecord.id',
+            'IDENTITY(employee.employeeTerminationRecord) AS termination',
+            'employee.empNumber as empNumber',
+            "SUM(TIME_DIFF(COALESCE(attendanceRecord.punchOutUtcTime, 0), COALESCE(attendanceRecord.punchInUtcTime, 0),'second')) AS total"
+        );
+        $q->leftJoin('employee.jobTitle', 'jobTitle');
+        $q->leftJoin('employee.subDivision', 'subunit');
+        $q->leftJoin('employee.empStatus', 'empStatus');
+        $q->leftJoin('employee.attendanceRecords', 'attendanceRecord');
+
+        $this->setSortingAndPaginationParams($q, $attendanceReportSearchFilterParams);
+
+        if (!is_null($attendanceReportSearchFilterParams->getEmployeeNumbers())) {
+            $q->andWhere($q->expr()->in('employee.empNumber', ':empNumbers'))
+                ->setParameter('empNumbers', $attendanceReportSearchFilterParams->getEmployeeNumbers());
+        }
+
+        if (!is_null($attendanceReportSearchFilterParams->getJobTitleId())) {
+            $q->andWhere('jobTitle.id = :jobTitleId')
+                ->setParameter('jobTitleId', $attendanceReportSearchFilterParams->getJobTitleId());
+        }
+
+        if (!is_null($attendanceReportSearchFilterParams->getSubunitId())) {
+            $q->andWhere($q->expr()->in('subunit.id', ':subunitIds'))
+                ->setParameter('subunitIds', $attendanceReportSearchFilterParams->getSubunitIdChain());
+        }
+
+        if (!is_null($attendanceReportSearchFilterParams->getEmploymentStatusId())) {
+            $q->andWhere('empStatus.id = :empStatusId')
+                ->setParameter('empStatusId', $attendanceReportSearchFilterParams->getEmploymentStatusId());
+        }
+
+        if (!is_null($attendanceReportSearchFilterParams->getFromDate())) {
+            $q->andWhere($q->expr()->orX(
+                $q->expr()->isNull('attendanceRecord.id'),
+                $q->expr()->gte('attendanceRecord.punchInUserTime', ':fromDate')
+            ))
+                ->setParameter('fromDate', $attendanceReportSearchFilterParams->getFromDate());
+        }
+
+        if (!is_null($attendanceReportSearchFilterParams->getToDate())) {
+            $q->andWhere($q->expr()->orX(
+            $q->expr()->isNull('attendanceRecord.id'),
+            $q->expr()->isNull('attendanceRecord.punchOutUserTime'),
+            $q->expr()->lte('attendanceRecord.punchOutUserTime', ':toDate')
+            ))
+                ->setParameter('toDate', $attendanceReportSearchFilterParams->getToDate());
+        }
+
+        $q->groupBy('employee.empNumber');
+
+        return $this->getPaginator($q);
+    }
+
+    /**
+     * @param AttendanceReportSearchFilterParams $attendanceReportSearchFilterParams
+     * @return int
+     */
+    public function getAttendanceReportCriteriaListCount(
+        AttendanceReportSearchFilterParams $attendanceReportSearchFilterParams
+    ): int {
+        $paginator = $this->getAttendanceReportPaginator($attendanceReportSearchFilterParams);
+        return $paginator->count();
     }
 }
