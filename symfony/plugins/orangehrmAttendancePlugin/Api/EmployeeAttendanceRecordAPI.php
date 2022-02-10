@@ -156,7 +156,7 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
             WorkflowStateMachine::ATTENDANCE_ACTION_PROXY_PUNCH_IN,
             $allowedActions
         )) {
-            $this->getForbiddenException();
+            throw $this->getForbiddenException();
         }
     }
 
@@ -330,7 +330,7 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
             WorkflowStateMachine::ATTENDANCE_ACTION_PROXY_PUNCH_OUT,
             $allowedActions
         )) {
-            $this->getForbiddenException();
+            throw $this->getForbiddenException();
         }
     }
 

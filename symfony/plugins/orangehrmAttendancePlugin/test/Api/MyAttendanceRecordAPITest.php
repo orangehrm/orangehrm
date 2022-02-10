@@ -20,9 +20,11 @@
 namespace OrangeHRM\Tests\Attendance\Api;
 
 use OrangeHRM\Attendance\Api\MyAttendanceRecordAPI;
+use OrangeHRM\Entity\WorkflowStateMachine;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
 use OrangeHRM\Tests\Util\Integration\TestCaseParams;
+use OrangeHRM\Tests\Util\TestDataService;
 
 /**
  * @group Attendance
@@ -30,6 +32,7 @@ use OrangeHRM\Tests\Util\Integration\TestCaseParams;
  */
 class MyAttendanceRecordAPITest extends EndpointIntegrationTestCase
 {
+
     public function testGetAll(): void
     {
         $api = new MyAttendanceRecordAPI($this->getRequest());
@@ -63,7 +66,8 @@ class MyAttendanceRecordAPITest extends EndpointIntegrationTestCase
      */
     public function testCreate(TestCaseParams $testCaseParams): void
     {
-        $this->populateFixtures('MyAttendanceRecord.yaml');
+        TestDataService::truncateSpecificTables([WorkflowStateMachine::class]);
+        $this->populateFixtures('MyAttendanceRecord.yaml', null, true);
         $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
         $this->registerServices($testCaseParams);
         $this->registerMockDateTimeHelper($testCaseParams);
@@ -95,7 +99,8 @@ class MyAttendanceRecordAPITest extends EndpointIntegrationTestCase
      */
     public function testUpdate(TestCaseParams $testCaseParams): void
     {
-        $this->populateFixtures('MyAttendanceRecord.yaml');
+        TestDataService::truncateSpecificTables([WorkflowStateMachine::class]);
+        $this->populateFixtures('MyAttendanceRecord.yaml', null, true);
         $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
         $this->registerServices($testCaseParams);
         $this->registerMockDateTimeHelper($testCaseParams);
