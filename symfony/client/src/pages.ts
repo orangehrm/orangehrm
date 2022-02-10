@@ -69,6 +69,7 @@ import EditEmailSubscription from '@/orangehrmAdminPlugin/pages/emailSubscriptio
 import HelpPages from '@/orangehrmHelpPlugin';
 import TimePages from '@/orangehrmTimePlugin';
 import AttendancePages from '@/orangehrmAttendancePlugin';
+import MyTracker from '@/orangehrmPerformancePlugin/pages/MyTracker.vue';
 import EmployeeTrackers from '@/orangehrmPerformancePlugin/pages/EmployeeTrackers.vue';
 
 export default {
@@ -126,5 +127,6 @@ export default {
   ...HelpPages,
   ...TimePages,
   ...AttendancePages,
+  'my-tracker': MyTracker,
   'employee-trackers': EmployeeTrackers,
 };
