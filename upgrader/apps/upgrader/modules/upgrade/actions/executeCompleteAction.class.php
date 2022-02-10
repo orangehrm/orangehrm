@@ -40,7 +40,7 @@ class executeCompleteAction extends sfAction {
                     command output: " . implode("\n", $output));
             }
         }
-        $this->mainAppUrl   = str_replace("/upgrader/web/index.php/upgrade/executeComplete", "", $currentUri);
+        $this->mainAppUrl   = str_replace("/upgrader/web/index.php/upgrade/executeComplete", "/index.php", $currentUri);
         $_SESSION['Installation'] = "You have successfully upgraded OrangeHRM";
     }
 }
