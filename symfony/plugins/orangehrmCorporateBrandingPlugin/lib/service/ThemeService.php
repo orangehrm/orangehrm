@@ -85,8 +85,10 @@ class ThemeService
         $variablesArray['imagesPath'] = '"../images/"';
         $variablesArray['login-social-links-display'] = $theme->getSocialMediaIcons();
         $loginVariables = [];
-        $loginVariables['login-logo-inner-color'] = $variablesArray['primaryColor'] === $defaultThemeVariables['primaryColor'] ? '#F0D47BFF' : $variablesArray['primaryColor'];
-        $loginVariables['login-logo-outer-color'] = $variablesArray['secondaryColor'] === $defaultThemeVariables['secondaryColor'] ? '#C08117FF' : $variablesArray['secondaryColor'];
+        $isPrimaryAndSecondaryColorChanged = $variablesArray['primaryColor'] !== $defaultThemeVariables['primaryColor'] ||
+            $variablesArray['secondaryColor'] !== $defaultThemeVariables['secondaryColor'];
+        $loginVariables['login-logo-inner-color'] = $isPrimaryAndSecondaryColorChanged ? $variablesArray['primaryColor'] : '#F0D47BFF';
+        $loginVariables['login-logo-outer-color'] = $isPrimaryAndSecondaryColorChanged ? $variablesArray['secondaryColor'] : '#C08117FF';
         $loginVariables['imagesPath'] = '"../images/"';
         $css = Sass::instance()->compileSCSS($variablesArray);
         $loginCss = Sass::instance()->compileLoginSCSS($loginVariables);
