@@ -20,6 +20,7 @@ import {AxiosResponse} from 'axios';
 import {App, ComponentOptions, ref} from 'vue';
 import IntlMessageFormat from 'intl-messageformat';
 import {APIService} from '@/core/util/services/api.service';
+import {mergeConfig} from '@ohrm/oxd/services/store';
 
 export type Language = {
   [key: string]: IntlMessageFormat;
@@ -48,7 +49,8 @@ export const langStrings = ref<Language>({});
  */
 export const translate = () => (
   key: string,
-  parameters: {[key: string]: string} = {},
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  parameters: {[key: string]: any} = {},
 ): string => {
   // IntlMessageFormat.format method will throw error if not every argument in the message pattern
   // has been provided. sourrounded by try catch to fallback incase of param resolution
@@ -92,8 +94,10 @@ function createI18n(options: LanguageOptions) {
         })
         .then((response: AxiosResponse<LanguageResponse>) => {
           const {data} = response;
+          const language: {[key: string]: string} = {};
           for (const key in data) {
             // https://formatjs.io/docs/intl-messageformat#intlmessageformat-constructor
+            language[key] = data[key].target || data[key].source;
             langStrings.value[key] = new IntlMessageFormat(
               data[key].target || data[key].source,
               undefined,
@@ -101,6 +105,9 @@ function createI18n(options: LanguageOptions) {
               {ignoreTag: true}, // no html/xml markup parsing
             );
           }
+          mergeConfig({
+            language,
+          });
         });
       return this;
     },
