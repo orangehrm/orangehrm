@@ -47,7 +47,6 @@ class DetailedPerformanceTrackerModel implements Normalizable
 
     public function toArray(): array
     {
-        //$detailedPerformanceTracker = $this->getPerformanceTracker();
         $reviewers = $this->getNormalizerService()->normalizeArray(
             PerformanceTrackReviewerModel::class,
             $this->getPerformanceTrackerService()

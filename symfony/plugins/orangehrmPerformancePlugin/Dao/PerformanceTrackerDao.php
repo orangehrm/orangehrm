@@ -114,7 +114,6 @@ class PerformanceTrackerDao extends BaseDao
     {
         foreach ($reviewers as $reviewer) {
             $performanceTrackerReviewer = new PerformanceTrackerReviewer();
-            //$employee = $this->getRepository(Employee::class)->find($reviewer);
             $performanceTrackerReviewer->getDecorator()->setReviewerByEmpNumber($reviewer);
             $performanceTrackerReviewer->setPerformanceTracker($performanceTracker);
             $performanceTrackerReviewer->setAddedDate($this->getDateTimeHelper()->getNow());
@@ -217,5 +216,4 @@ class PerformanceTrackerDao extends BaseDao
             ->getQuery()
             ->execute();
     }
-
 }
