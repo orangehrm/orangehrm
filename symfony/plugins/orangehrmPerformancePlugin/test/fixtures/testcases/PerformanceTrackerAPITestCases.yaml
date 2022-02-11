@@ -11,10 +11,11 @@ GetOne:
       trackerName: 'test tracker name'
       addedDate: '2011-12-12'
       modifiedDate: null
-      empNumber: 1
-      lastName: 'Abbey'
-      firstName: 'Kayla'
-      terminationId: null
+      employee:
+        empNumber: 1
+        lastName: 'Abbey'
+        firstName: 'Kayla'
+        terminationId: null
       reviewers: [ ]
 
   'get one performance tracker with reviewer':
@@ -29,21 +30,29 @@ GetOne:
       trackerName: 'test tracker2 name'
       addedDate: '2011-12-12'
       modifiedDate: null
-      empNumber: 2
-      lastName: 'Abel'
-      firstName: 'Ashley'
-      terminationId: null
+      employee:
+        empNumber: 2
+        lastName: 'Abel'
+        firstName: 'Ashley'
+        terminationId: null
       reviewers:
         0:
           id: 1
           empNumber: 2
           lastName: 'Abel'
           firstName: 'Ashley'
+          middleName: 'ST'
+          employeeId: 'E002'
+          terminationId: null
+
         1:
           id: 2
           empNumber: 3
           lastName: 'Saputhanthri'
           firstName: 'Renukshan'
+          middleName: 'RT'
+          employeeId: 'E003'
+          terminationId: null
 
 GetAll:
   'Get all trackers':

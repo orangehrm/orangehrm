@@ -5,21 +5,12 @@
  * and open the template in the editor.
  */
 
-namespace OrangeHRM\Performance\Service;
-use Doctrine_Collection;
-use OrangeHRM\Performance\Dao\KpiDao;
-use OrangeHRM\Performance\Dao\PerformanceReviewDao;
-use PerformanceReview;
-use sfDoctrineRecord;
-use type;
-
 /**
  * Description of PerformanceReviewService
  *
  * @author nadeera
  */
-class PerformanceReviewService
-{
+class PerformanceReviewService {
 
     public $dao;
 
@@ -27,8 +18,7 @@ class PerformanceReviewService
      *
      * @return PerformanceReviewDao
      */
-    public function getDao()
-    {
+    public function getDao() {
         if ($this->dao != null) {
             return $this->dao;
         } else {
@@ -40,8 +30,7 @@ class PerformanceReviewService
      *
      * @param KpiDao $dao
      */
-    public function setDao($dao)
-    {
+    public function setDao($dao) {
         $this->dao = $dao;
     }
 
@@ -50,8 +39,7 @@ class PerformanceReviewService
      * @param sfDoctrineRecord $review
      * @return PerformanceReview
      */
-    public function saveReview(sfDoctrineRecord $review)
-    {
+    public function saveReview(sfDoctrineRecord $review){
         return $this->getDao()->saveReview($review);
     }
 
@@ -60,8 +48,7 @@ class PerformanceReviewService
      * @param array $parameters
      * @return Doctrine_Collection
      */
-    public function searchReview($parameters, $order = null)
-    {
+    public function searchReview($parameters, $order = null){
         return $this->getDao()->searchReview($parameters, $order);
     }
 
@@ -69,8 +56,7 @@ class PerformanceReviewService
      *
      * @return boolean
      */
-    public function deleteReview($ids)
-    {
+    public function deleteReview($ids){
 
         return $this->getDao()->deleteReview($ids);
     }
@@ -80,8 +66,7 @@ class PerformanceReviewService
      * @param integer $id
      * @return type
      */
-    public function deleteReviewersByReviewId($id)
-    {
+    public function deleteReviewersByReviewId($id){
 
         return $this->getDao()->deleteReviewersByReviewId($id);
     }
@@ -91,9 +76,8 @@ class PerformanceReviewService
      * @param type $id
      * @return type
      */
-    public function getReviewRating($id = null)
-    {
-        $parameters ['id'] = $id;
+    public function getReviewRating($id = null){
+        $parameters ['id'] =  $id;
         return $this->getDao()->searchRating($parameters);
     }
 
@@ -102,29 +86,24 @@ class PerformanceReviewService
      * @param type $id
      * @return type
      */
-    public function searchReviewRating($parameters)
-    {
+    public function searchReviewRating( $parameters ){
         return $this->getDao()->searchRating($parameters);
     }
 
-    public function getReviwerEmployeeList($reviwerEmployeeId)
-    {
-        return $this->getDao()->getReviwerEmployeeList($reviwerEmployeeId);
+    public function getReviwerEmployeeList( $reviwerEmployeeId ){
+        return $this->getDao()->getReviwerEmployeeList( $reviwerEmployeeId );
     }
 
-    public function getCountReviewList($parameters)
-    {
+    public function getCountReviewList($parameters){
         $reviewList = $this->getDao()->searchReview($parameters);
         return count($reviewList);
     }
 
-    public function getReviewById($id)
-    {
+    public function getReviewById($id){
         return $this->getDao()->getReviewById($id);
     }
 
-    public function getReviewsByReviewerId($reviwerId)
-    {
+    public function getReviewsByReviewerId($reviwerId){
         return $this->getDao()->getReviewsByReviewerId($reviwerId);
     }
 }
