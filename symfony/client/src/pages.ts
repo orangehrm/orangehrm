@@ -72,6 +72,9 @@ import AttendancePages from '@/orangehrmAttendancePlugin';
 import PerformanceTrackerList from '@/orangehrmPerformancePlugin/pages/PerformanceTrackers.vue';
 import SavePerformanceTracker from '@/orangehrmPerformancePlugin/pages/SavePerformanceTracker.vue';
 import EditPerformanceTracker from '@/orangehrmPerformancePlugin/pages/EditPerformanceTracker.vue';
+import MyTracker from '@/orangehrmPerformancePlugin/pages/MyTracker.vue';
+import EmployeeTrackers from '@/orangehrmPerformancePlugin/pages/EmployeeTrackers.vue';
+
 
 export default {
   'job-title-list': JobTitle,
@@ -131,4 +134,6 @@ export default {
   'performance-tracker-list': PerformanceTrackerList,
   'performance-tracker-save': SavePerformanceTracker,
   'performance-tracker-edit': EditPerformanceTracker,
+  'my-tracker': MyTracker,
+  'employee-trackers': EmployeeTrackers,
 };

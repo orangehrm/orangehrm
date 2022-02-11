@@ -52,3 +52,13 @@ edit_performance_tracker:
   path: /performance/savePerformanceTracker/{id}
   controller: OrangeHRM\Performance\Controller\SavePerformanceTrackerController::handle
   methods: [ GET ]
+
+performance_myTrackers:
+  path: /performance/viewMyPerformanceTrackerList
+  controller: OrangeHRM\Performance\Controller\MyTrackerController::handle
+  methods: [ GET ]
+
+performance_employee_tracker:
+  path: /performance/viewEmployeePerformanceTrackerList
+  controller: OrangeHRM\Performance\Controller\PerformanceController::handle
+  methods: [ GET ]
