@@ -268,7 +268,7 @@ class EmployeeTimesheetItemAPI extends Endpoint implements CrudEndpoint
             $allowedActions = $this->getTimesheetService()
                 ->getAllowedWorkflowsForTimesheet($this->getAuthUser()->getEmpNumber(), $timesheet);
 
-            if (count($allowedActions) === 1 && $allowedActions[0]->getResultingState() === 'APPROVED'){
+            if (count($allowedActions) === 1 && $allowedActions[0]->getResultingState() === 'APPROVED') {
                 throw $this->getBadRequestException('Performed action not allowed');
             }
 
@@ -294,7 +294,7 @@ class EmployeeTimesheetItemAPI extends Endpoint implements CrudEndpoint
                 $detailedTimesheet,
                 $this->getResultMetaForGetAll($detailedTimesheet),
             );
-        } catch (RecordNotFoundException | ForbiddenException | BadRequestException $e) {
+        } catch (RecordNotFoundException|ForbiddenException|BadRequestException $e) {
             $this->rollBackTransaction();
             throw $e;
         } catch (Exception $e) {
