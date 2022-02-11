@@ -24,7 +24,12 @@
         <oxd-form-row>
           <oxd-grid :cols="4" class="orangehrm-full-width-grid">
             <oxd-grid-item>
-              <employee-autocomplete v-model="filters.empNumber"/>
+              <employee-autocomplete
+                  v-model="filters.empNumber"
+                  :params="{
+                  includeEmployees: 'currentAndPast',
+                  }"
+              />
             </oxd-grid-item>
           </oxd-grid>
         </oxd-form-row>
@@ -108,16 +113,14 @@ const trackerNormalizer = data => {
 
 const defaultFilters = {
   empNumber: null,
-  includeEmployees: {
-    param: 'currentAndPast',
-  },
+
 };
 
 const defaultSortOrder = {
-  'e.name': 'ASC',
-  't.trackerName': 'ASC',
-  't.addDate': 'ASC',
-  't.matDate': 'ASC',
+  'performanceTracker.modifiedDate': 'DESC',
+  'employee.lastName': 'ASC',
+  'performanceTracker.trackerName': 'ASC',
+  'performanceTracker.addedDate': 'ASC',
 };
 
 export default {
@@ -136,8 +139,8 @@ export default {
 
   setup() {
     const http = new APIService(
-        'https://796aa478-538c-47e3-8133-bc2f05a479b1.mock.pstmn.io',
-        '/api/v2/performance/addPerformanceTracker',
+        window.appGlobal.baseUrl,
+        '/api/v2/performance/performance-trackers',
     );
 
     const filters = ref({...defaultFilters});
@@ -146,7 +149,7 @@ export default {
       sortDefinition: defaultSortOrder,
     });
 
-    const serializedFIlters = computed(() => {
+    const serializedFilters = computed(() => {
       return {
         empNumber: filters.value.empNumber?.id,
         sortField: sortField.value,
@@ -163,7 +166,7 @@ export default {
       isLoading,
       execQuery,
     } = usePaginate(http, {
-      query: serializedFIlters,
+      query: serializedFilters,
       normalizer: trackerNormalizer,
       prefetch: true,
       toastNoRecords: true,
@@ -192,25 +195,25 @@ export default {
           name: 'empName',
           title: 'Employee',
           slot: 'title',
-          sortField: 'e.name',
+          sortField: 'employee.lastName',
           style: {flex: 1},
         },
         {
           name: 'tracker',
           title: 'Tracker',
           style: {flex: 1},
-          sortField: 't.trackerName',
+          sortField: 'performanceTracker.trackerName',
         },
         {
           name: 'addDate',
           title: 'Added Date',
-          sortField: 't.addDate',
+          sortField: 'performanceTracker.addedDate',
           style: {flex: 1},
         },
         {
           name: 'matureDate',
           title: 'Matured Date',
-          sortField: 't.matDate',
+          sortField: 'performanceTracker.modifiedDate',
           style: {flex: 1},
         },
         {
@@ -249,7 +252,7 @@ export default {
     },
     onClickDeleteSelected() {
       const ids = this.checkedItems.map(index => {
-        return this.items?.data[index].id;
+        return this.response?.data[index].id;
       });
       this.$refs.deleteDialog.showDialog().then(confirmation => {
         if (confirmation === 'ok') {
@@ -298,4 +301,3 @@ export default {
   },
 };
 </script>
-

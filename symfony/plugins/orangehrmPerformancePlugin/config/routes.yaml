@@ -26,9 +26,18 @@ apiv2_performance_delete_performance_trackers:
   methods: [ DELETE]
   defaults:
     _api: OrangeHRM\Performance\Api\PerformanceTrackerAPI
+
+apiv2_performance_reviewer_autocomplete:
+  path: /api/v2/performance/reviewers
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Performance\Api\PerformanceTrackerReviewerAPI
+
 ########################
 # Screens
 #######################
+
 performance_tracker_list:
   path: /performance/addPerformanceTracker
   controller: OrangeHRM\Performance\Controller\TrackerListController::handle

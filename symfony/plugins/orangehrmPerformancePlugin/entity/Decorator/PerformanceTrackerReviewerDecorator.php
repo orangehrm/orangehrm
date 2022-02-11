@@ -31,7 +31,7 @@ class PerformanceTrackerReviewerDecorator
 
     public function __construct(PerformanceTrackerReviewer $performanceTrackerReviewer)
     {
-        $this->performanceTrackerReviewer =$performanceTrackerReviewer;
+        $this->performanceTrackerReviewer = $performanceTrackerReviewer;
     }
 
     /**
@@ -42,7 +42,11 @@ class PerformanceTrackerReviewerDecorator
         return $this->performanceTrackerReviewer;
     }
 
-    public function setReviewerByEmpNumber(int $empNumber)
+    /**
+     * @param int $empNumber
+     * @return void
+     */
+    public function setReviewerByEmpNumber(int $empNumber): void
     {
         $employee = $this->getReference(Employee::class, $empNumber);
         $this->performanceTrackerReviewer->setReviewer($employee);

@@ -24,9 +24,6 @@ use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\PerformanceTrackerReviewer;
 
-/**
- *
- */
 class PerformanceTrackReviewerModel implements Normalizable
 {
     use ModelTrait;
@@ -38,16 +35,23 @@ class PerformanceTrackReviewerModel implements Normalizable
             [
                 'id',
                 ['getReviewer', 'getEmpNumber'],
-                ['getReviewer', 'getFirstName'],
                 ['getReviewer', 'getLastName'],
+                ['getReviewer', 'getFirstName'],
+                ['getReviewer', 'getMiddleName'],
+                ['getReviewer', 'getEmployeeId'],
+                ['getReviewer', 'getEmployeeTerminationRecord', 'getId'],
+
             ]
         );
         $this->setAttributeNames(
             [
                 'id',
-                [ 'empNumber'],
-                [ 'firstName'],
-                [ 'lastName'],
+                'empNumber',
+                'lastName',
+                'firstName',
+                'middleName',
+                'employeeId',
+                'terminationId',
             ]
         );
     }

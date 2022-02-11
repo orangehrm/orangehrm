@@ -17,28 +17,57 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Performance\Service;
+namespace OrangeHRM\Performance\Dto;
 
-use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
-use OrangeHRM\Performance\Dao\PerformanceTrackerDao;
+use OrangeHRM\Core\Dto\FilterParams;
 
-class PerformanceTrackerService
+class PerformanceTrackerReviewerSearchFilterParams extends FilterParams
 {
-    use NormalizerServiceTrait;
+    /**
+     * @var int|null
+     */
+    protected ?int $trackerEmpNumber = null;
 
     /**
-     * @var PerformanceTrackerDao|null
+     * @var string|null
      */
-    private ?PerformanceTrackerDao $performanceTrackerDao = null;
+    protected ?string $nameOrId = null;
 
-    /**
-     * @return PerformanceTrackerDao
-     */
-    public function getPerformanceTrackerDao(): PerformanceTrackerDao
+    public function __construct()
     {
-        if (!($this->performanceTrackerDao instanceof PerformanceTrackerDao)) {
-            $this->performanceTrackerDao = new PerformanceTrackerDao();
-        }
-        return $this->performanceTrackerDao;
+        $this->setSortField('employee.empNumber');
     }
+
+    /**
+     * @return int|null
+     */
+    public function getTrackerempNumber(): ?int
+    {
+        return $this->trackerEmpNumber;
+    }
+
+    /**
+     * @param int|null $TrackerempNumber
+     */
+    public function setTrackerempNumber(?int $trackerEmpNumber): void
+    {
+        $this->trackerEmpNumber = $trackerEmpNumber;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getNameOrId(): ?string
+    {
+        return $this->nameOrId;
+    }
+
+    /**
+     * @param string|null $nameOrId
+     */
+    public function setNameOrId(?string $nameOrId): void
+    {
+        $this->nameOrId = $nameOrId;
+    }
+
 }

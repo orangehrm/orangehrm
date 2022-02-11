@@ -37,14 +37,10 @@ class PerformanceTrackerModel implements Normalizable
                 ['getDecorator','getAddedDate'],
                 ['getDecorator','getModifiedDate'],
                 'status',
-                ['getEmployee', 'getEmpNumber'],
+                ['getEmployee', 'getEmpNumber',],
                 ['getEmployee', 'getLastName'],
                 ['getEmployee', 'getFirstName'],
-                //['getAddedBy',  'getEmpNumber'],
-                //['getAddedBy', 'getLastName'],
-
-                //['getPerformanceTrackerReviewer', ['getEmpNumber', 'getLastName', 'getFirstName', 'getMiddleName']],
-               // ['getPerformanceTrackerReviewer', 'getLastName'],
+                ['getEmployee', 'getEmployeeTerminationRecord', 'getId' ],
             ]
         );
         $this->setAttributeNames(
@@ -57,10 +53,7 @@ class PerformanceTrackerModel implements Normalizable
                 ['employee', 'empNumber'],
                 ['employee', 'lastName'],
                 ['employee', 'firstName'],
-                //['addedBy', 'empNumber'],
-                //['addedBy', 'lastName'],
-                //['reviewers', ['empNumber', 'lastName', 'firstName', 'middleName']]
-               // ['Reviewer', 'LastName'],
+                ['employee', 'terminationId'],
             ]
         );
     }

@@ -40,6 +40,16 @@ class PerformanceTrackerDecorator
     }
 
     /**
+     * @param int $empNumber
+     * @return void
+     */
+    public function setEmployeeByEmpNumber(int $empNumber): void
+    {
+        $employee = $this->getReference(Employee::class, $empNumber);
+        $this->getPerformanceTracker()->setEmployee($employee);
+    }
+
+    /**
      * @return PerformanceTracker
      */
     public function getPerformanceTracker(): PerformanceTracker
@@ -47,24 +57,28 @@ class PerformanceTrackerDecorator
         return $this->performanceTracker;
     }
 
-    public function setEmployeeByEmpNumber(int $empNumber): void
-    {
-        $employee = $this->getReference(Employee::class, $empNumber);
-        $this->getPerformanceTracker()->setEmployee($employee);
-    }
-
+    /**
+     * @param int $empNumber
+     * @return void
+     */
     public function setAddedByByEmpNumber(int $empNumber): void
     {
         $employee = $this->getReference(Employee::class, $empNumber);
         $this->getPerformanceTracker()->setAddedBy($employee);
     }
 
-    public function getAddedDate()
+    /**
+     * @return string|null
+     */
+    public function getAddedDate(): ?string
     {
         return $this->getDateTimeHelper()->formatDateTimeToYmd($this->getPerformanceTracker()->getAddedDate());
     }
 
-    public function getModifiedDate()
+    /**
+     * @return string|null
+     */
+    public function getModifiedDate(): ?string
     {
         return $this->getDateTimeHelper()->formatDateTimeToYmd($this->getPerformanceTracker()->getModifiedDate());
     }

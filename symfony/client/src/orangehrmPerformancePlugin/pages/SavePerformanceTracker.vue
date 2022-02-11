@@ -97,8 +97,8 @@ export default {
   },
   setup() {
     const http = new APIService(
-      'https://796aa478-538c-47e3-8133-bc2f05a479b1.mock.pstmn.io',
-      '/api/v2/performance/savePerformanceTracker',
+        window.appGlobal.baseUrl,
+        '/api/v2/performance/performance-tracker',
     );
     return {
       http,
@@ -123,9 +123,9 @@ export default {
       this.isLoading = true;
       this.http
         .create({
-          name: this.tracker.name.trim(),
-          employee: this.tracker.employee,
-          reviewer: this.tracker.reviewers.map(employee => employee.id),
+          trackerName: this.tracker.name.trim(),
+          empNumber: this.tracker.employee.id,
+          reviewers: this.tracker.reviewers.map(employee => employee.id),
         })
         .then(() => {
           return this.$toast.saveSuccess();

@@ -40,17 +40,18 @@ export default {
   props: {
     includeEmployees: {
       type:String,
-      default: 'currentAndPast',
+      default: 'onlyCurrent',
     },
     excludeEmployee: {
       type: Object,
-      required: false,
+      required: true,
     },
   },
   setup() {
     const http = new APIService(
-        'https://796aa478-538c-47e3-8133-bc2f05a479b1.mock.pstmn.io',
-        '/api/v2/pim/employees',
+        window.appGlobal.baseUrl,
+        'api/v2/performance/reviewers',
+        //'/api/v2/pim/employees',
     );
     return {
       http,
@@ -63,8 +64,8 @@ export default {
           this.http
             .getAll({
               nameOrId: serachParam.trim(),
-              includeEmployees: this.includeEmployees,
-              excludeEmployee: this.excludeEmployee.id,
+              //includeEmployees: this.includeEmployees,
+              empNumber: this.excludeEmployee.id,   //to be added back when a seperate API is created for reviewers
             })
             .then(({data}) => {
               resolve(

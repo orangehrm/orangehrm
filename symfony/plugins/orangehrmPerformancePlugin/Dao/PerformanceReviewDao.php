@@ -5,19 +5,33 @@
  * and open the template in the editor.
  */
 
+namespace OrangeHRM\Performance\Dao;
+use OrangeHRM\Core\Dao\BaseDao;
+use DaoException;
+use Doctrine;
+use Doctrine_Collection;
+use Doctrine_Query;
+use Exception;
+use PerformanceReview;
+use sfDoctrineRecord;
+use type;
+
 /**
  * Description of PerformanceReviewDao
  *
  * @author nadeera
  */
-class PerformanceReviewDao extends BaseDao {
+class PerformanceReviewDao extends BaseDao
+{
 
     /**
      *
      * @param sfDoctrineRecord $review
-     * @return PerformanceReview      
+     * @return PerformanceReview
+     * @throws Exception
      */
-    public function saveReview(sfDoctrineRecord $review) {
+    public function saveReview(sfDoctrineRecord $review)
+    {
         try {
             $review->save();
             $review->refresh();
@@ -31,10 +45,11 @@ class PerformanceReviewDao extends BaseDao {
     /**
      *
      * @param array $parameters
+     * @param null $orderby
      * @return Doctrine_Collection
-     * @throws DaoException 
      */
-    public function searchReview($parameters, $orderby = null) {
+    public function searchReview(array $parameters, $orderby = null): Doctrine_Collection
+    {
         if ($orderby['orderBy'] == null) {
             $sortFeild = 'e.emp_firstname,r.group.piority';
         }
@@ -116,13 +131,14 @@ class PerformanceReviewDao extends BaseDao {
     /**
      *
      * @param type $reviwerEmployeeId
-     * @return type 
+     * @return type
      */
-    public function getReviwerEmployeeList($reviwerEmployeeId) {
+    public function getReviwerEmployeeList(int $reviwerEmployeeId): array
+    {
         try {
 
             $query = Doctrine_Query:: create()
-                    ->from('PerformanceReview p');
+                ->from('PerformanceReview p');
 
             $query->leftJoin("p.Employee e");
             $query->leftJoin("p.reviewers r");
@@ -144,14 +160,15 @@ class PerformanceReviewDao extends BaseDao {
      *
      * @param integer $ids
      * @return boolean
-     * @throws DaoException 
+     * @throws DaoException
      */
-    public function deleteReview($ids) {
+    public function deleteReview($ids): bool
+    {
         try {
             if (sizeof($ids)) {
                 $q = Doctrine_Query::create()
-                        ->delete('PerformanceReview')
-                        ->whereIn('id', $ids);
+                    ->delete('PerformanceReview')
+                    ->whereIn('id', $ids);
                 $q->execute();
             }
             return true;
@@ -165,13 +182,14 @@ class PerformanceReviewDao extends BaseDao {
      *
      * @param integer $id
      * @return boolean
-     * @throws DaoException 
+     * @throws DaoException
      */
-    public function deleteReviewersByReviewId($id) {
+    public function deleteReviewersByReviewId(int $id): bool
+    {
         try {
             $q = Doctrine_Query::create()
-                    ->delete('Reviewer')
-                    ->whereIn('review_id', $id);
+                ->delete('Reviewer')
+                ->whereIn('review_id', $id);
             $q->execute();
             return true;
             //@codeCoverageIgnoreStart
@@ -182,11 +200,11 @@ class PerformanceReviewDao extends BaseDao {
 
     /**
      *
-     * @param integer $id
+     * @param null $parameters
      * @return boolean
-     * @throws DaoException 
      */
-    public function searchRating($parameters = null) {
+    public function searchRating($parameters = null): bool
+    {
 
 
         try {
@@ -219,9 +237,10 @@ class PerformanceReviewDao extends BaseDao {
         }//@codeCoverageIgnoreEnd
     }
 
-    public function getReviewById($id) {
+    public function getReviewById($id)
+    {
         try {
-            $result = Doctrine :: getTable('PerformanceReview')->find($id);
+            $result = Doctrine:: getTable('PerformanceReview')->find($id);
             return $result;
             //@codeCoverageIgnoreStart
         } catch (Exception $e) {
@@ -229,7 +248,8 @@ class PerformanceReviewDao extends BaseDao {
         }//@codeCoverageIgnoreEnd
     }
 
-    public function getReviewsByReviewerId($reviwerId) {
+    public function getReviewsByReviewerId($reviwerId)
+    {
         try {
             $query = Doctrine_Query:: create()->from('PerformanceReview p');
             $query->leftJoin("p.reviewers r");

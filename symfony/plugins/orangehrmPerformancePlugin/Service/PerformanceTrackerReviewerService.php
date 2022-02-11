@@ -17,28 +17,29 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Performance\Controller;
+namespace OrangeHRM\Performance\Service;
 
-use OrangeHRM\Core\Controller\AbstractVueController;
-use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
-use OrangeHRM\Core\Vue\Component;
-use OrangeHRM\Core\Vue\Prop;
-use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
+use OrangeHRM\Performance\Dao\PerformanceTrackReviewerDao;
 
-class SavePerformanceTrackerController extends AbstractVueController
+class PerformanceTrackerReviewerService
 {
+    use NormalizerServiceTrait;
+
     /**
-     * @inheritDoc
+     * @var PerformanceTrackReviewerDao|null
      */
-    public function preRender(Request $request): void
+    private ?PerformanceTrackReviewerDao $performanceTrackReviewerDao = null;
+
+    /**
+     * @return PerformanceTrackReviewerDao|null
+     */
+    public function getPerformanceTrackReviewerDao(): ?PerformanceTrackReviewerDao
     {
-        $id = $request->get('id');
-        if($id){
-            $component = new Component( 'performance-tracker-edit');
-            $component->addProp(new Prop('performace-tracker-id', Prop::TYPE_NUMBER, $id));
-        }else{
-            $component = new Component( 'performance-tracker-save');
+        if (!($this->performanceTrackReviewerDao instanceof PerformanceTrackReviewerDao)) {
+            $this->performanceTrackReviewerDao = new PerformanceTrackReviewerDao();
         }
-        $this->setComponent($component);
+        return $this->performanceTrackReviewerDao;
     }
+
 }

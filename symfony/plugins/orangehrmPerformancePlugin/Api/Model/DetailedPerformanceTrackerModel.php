@@ -22,9 +22,9 @@ namespace OrangeHRM\Performance\Api\Model;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
+use OrangeHRM\Entity\EmployeeTerminationRecord;
 use OrangeHRM\Entity\PerformanceTracker;
 use OrangeHRM\Performance\Traits\Service\PerformanceTrackerServiceTrait;
-use OrangeHRM\Pim\Api\Model\EmployeeModel;
 
 class DetailedPerformanceTrackerModel implements Normalizable
 {
@@ -45,36 +45,37 @@ class DetailedPerformanceTrackerModel implements Normalizable
         $this->performanceTracker = $performanceTracker;
     }
 
-    /**
-     * @return PerformanceTracker
-     */
-    public function getPerformanceTracker(): PerformanceTracker
-    {
-        return $this->performanceTracker;
-    }
-
-
     public function toArray(): array
     {
-        $detailedPerformanceTracker = $this->getPerformanceTracker();
+        //$detailedPerformanceTracker = $this->getPerformanceTracker();
         $reviewers = $this->getNormalizerService()->normalizeArray(
             PerformanceTrackReviewerModel::class,
             $this->getPerformanceTrackerService()
                 ->getPerformanceTrackerDao()
-                ->getReviewerListByTrackerId($detailedPerformanceTracker->getId())
+                ->getReviewerListByTrackerId($this->performanceTracker->getId())
         );
+
+        $terminationRecord = $this->performanceTracker->getEmployee()->getEmployeeTerminationRecord();
         return [
-            'id' => $detailedPerformanceTracker->getId(),
-            'trackerName' => $detailedPerformanceTracker->getTrackerName(),
-            'addedDate' => $detailedPerformanceTracker->getDecorator()->getAddedDate(),
-            'modifiedDate' => $detailedPerformanceTracker->getDecorator()->getModifiedDate(),
-            'empNumber' => $detailedPerformanceTracker->getEmployee()->getEmpNumber(),
-            'lastName' => $detailedPerformanceTracker->getEmployee()->getLastName(),
-            'firstName' => $detailedPerformanceTracker->getEmployee()->getFirstName(),
-            'terminationId' =>$detailedPerformanceTracker->getEmployee()->getEmployeeTerminationRecord(),
+            'id' => $this->performanceTracker->getId(),
+            'trackerName' => $this->performanceTracker->getTrackerName(),
+            'addedDate' => $this->performanceTracker->getDecorator()->getAddedDate(),
+            'modifiedDate' => $this->performanceTracker->getDecorator()->getModifiedDate(),
+            'employee' => [
+                'empNumber' => $this->performanceTracker->getEmployee()->getEmpNumber(),
+                'lastName' => $this->performanceTracker->getEmployee()->getLastName(),
+                'firstName' => $this->performanceTracker->getEmployee()->getFirstName(),
+                'terminationId' => $terminationRecord instanceof EmployeeTerminationRecord ? $terminationRecord->getId() : null,
+            ],
             'reviewers' => $reviewers,
         ];
+    }
 
-
+    /**
+     * @return PerformanceTracker
+     */
+    private function getPerformanceTracker(): PerformanceTracker
+    {
+        return $this->performanceTracker;
     }
 }

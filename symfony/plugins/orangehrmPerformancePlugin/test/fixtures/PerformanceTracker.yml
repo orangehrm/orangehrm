@@ -85,9 +85,9 @@ EmpDependent:
     0: {emp_number: '1', ed_seqno: '1', ed_name: 'yasitha', ed_relationship_type: 'child', ed_date_of_birth: '2007-02-23'}
     1: {emp_number: '1', ed_seqno: '2', ed_name: 'renukshan', ed_relationship_type: 'other', ed_relationship: 'friend', ed_date_of_birth: '2004-02-23'}
 
-EmpChildren:
-    0: {emp_number: '1', seqno: '1', ec_name: 'Anuradha', ec_date_of_birth: '2001-01-01'}
-    1: {emp_number: '1', seqno: '2', ec_name: 'Sumith', ec_date_of_birth: '2003-01-09'}
+#EmpChildren:
+#    0: {emp_number: '1', seqno: '1', ec_name: 'Anuradha', ec_date_of_birth: '2001-01-01'}
+#    1: {emp_number: '1', seqno: '2', ec_name: 'Sumith', ec_date_of_birth: '2003-01-09'}
     
 EmpPicture:
     0: {emp_number: '1', epic_filename: 'test_file.jpg', epic_type: 'test/type', epic_file_size: '2000'}
@@ -96,8 +96,8 @@ Nationality:
     0: {id: 1, name: 'Test Nationality'}
 
 EmployeeAttachment:
-    0: {emp_number: '1', attach_id: '1', size: '1024', description: 'A file', filename: 'test.mdb', attachment: '', file_type: 'file/mdb', screen: 'personal', attached_by: '0' attached_by_name:'admin'}
-    1: {emp_number: '1', attach_id: '2', size: '2024', description: '2nd file', filename: 'test2.mdb', attachment: '', file_type: 'file/mdb', screen: 'personal', attached_by: '0' attached_by_name:'admin'}
+    0: {emp_number: '1', attach_id: '1', size: '1024', description: 'A file', filename: 'test.mdb', attachment: '', file_type: 'file/mdb', screen: 'personal', attached_by: '0' }
+    1: {emp_number: '1', attach_id: '2', size: '2024', description: '2nd file', filename: 'test2.mdb', attachment: '', file_type: 'file/mdb', screen: 'personal', attached_by: '0' }
 
 WorkShift:
     0: {id: 1, name: 'John Conner', hoursPerDay: 8}
@@ -123,7 +123,7 @@ EmployeeSalary:
     0: {id: 1, empNumber: 1, payGradeId: 1, currencyCode: 'LKR', amount: '10000.00', salaryName: 'Main Salary'}
     1: {id: 2, empNumber: 1, payGradeId: 2, currencyCode: 'USD', amount: '20000.00', salaryName: 'Allowance'}
 
-PerformanceTrack: 
+PerformanceTracker:
     0: {id: 1, emp_number: 1, added_date: '2011-12-12', status: 1}
     1: {id: 2, emp_number: 2, added_date: '2011-12-12', status: 1}
 

@@ -17,28 +17,24 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Performance\Controller;
+namespace OrangeHRM\Performance\Traits\Service;
 
-use OrangeHRM\Core\Controller\AbstractVueController;
-use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
-use OrangeHRM\Core\Vue\Component;
-use OrangeHRM\Core\Vue\Prop;
-use OrangeHRM\Framework\Http\Request;
+use Exception;
+use OrangeHRM\Core\Traits\ServiceContainerTrait;
+use OrangeHRM\Framework\Services;
+use OrangeHRM\Performance\Service\PerformanceTrackerReviewerService;
 
-class SavePerformanceTrackerController extends AbstractVueController
+trait PerformanceTrackerReviewerServiceTrait
 {
+    use ServiceContainerTrait;
+
     /**
-     * @inheritDoc
+     * @return PerformanceTrackerReviewerService
+     * @throws Exception
      */
-    public function preRender(Request $request): void
+    protected function getPerformanceTrackerReviewerService(): PerformanceTrackerReviewerService
     {
-        $id = $request->get('id');
-        if($id){
-            $component = new Component( 'performance-tracker-edit');
-            $component->addProp(new Prop('performace-tracker-id', Prop::TYPE_NUMBER, $id));
-        }else{
-            $component = new Component( 'performance-tracker-save');
-        }
-        $this->setComponent($component);
+        return $this->getContainer()->get(Services::PERFORMANCE_TRACKER_REVIEWER_SERVICE);
     }
+
 }

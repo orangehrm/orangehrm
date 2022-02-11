@@ -65,14 +65,14 @@ class PerformanceTracker
      *
      * @ORM\Column(name="modified_date", type="datetime", nullable=true)
      */
-    private ?DateTime $modifiedDate=null;
+    private ?DateTime $modifiedDate = null;
 
     /**
      * @var int|null
      *
      * @ORM\Column(name="status", type="integer", nullable=true)
      */
-    private ?int $status=null;
+    private ?int $status = null;
 
     /**
      * @var Employee
@@ -102,7 +102,6 @@ class PerformanceTracker
      */
     public function __construct()
     {
-        //$this->PerformanceTrackerLog = new ArrayCollection();
         $this->PerformanceTrackerReviewer = new ArrayCollection();
     }
 
@@ -233,7 +232,5 @@ class PerformanceTracker
     {
         $this->addedBy = $addedBy;
     }
-
-
 
 }

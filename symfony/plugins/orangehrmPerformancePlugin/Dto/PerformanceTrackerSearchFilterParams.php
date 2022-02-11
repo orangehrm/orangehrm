@@ -23,13 +23,21 @@ use OrangeHRM\Core\Dto\FilterParams;
 
 class PerformanceTrackerSearchFilterParams extends FilterParams
 {
-    public const ALLOWED_SORT_FIELDS = ['performanceTracker.trackerName', 'performanceTracker.addedDate', 'employee.empNumber','performanceTracker.addedDate'];
+    public const ALLOWED_SORT_FIELDS = [
+        'performanceTracker.trackerName',
+        'performanceTracker.addedDate',
+        'employee.empNumber', 'employee.lastName',
+        'performanceTracker.modifiedDate'
+    ];
 
+    /**
+     * @var int|null
+     */
     protected ?int $empNumber = null;
 
     public function __construct()
     {
-        $this->setSortField('performanceTracker.trackerName');
+        $this->setSortField('performanceTracker.modifiedDate');
     }
 
     /**

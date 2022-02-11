@@ -20,28 +20,23 @@
 
 namespace OrangeHRM\Tests\Performance\Service;
 
-use OrangeHRM\Config\Config;
 use OrangeHRM\Performance\Dao\PerformanceTrackerDao;
 use OrangeHRM\Performance\Service\PerformanceTrackerService;
 use OrangeHRM\Tests\Util\KernelTestCase;
-use OrangeHRM\Tests\Util\TestDataService;
 
 class PerformanceTrackerServiceTest extends KernelTestCase
 {
-    private PerformanceTrackerService $performanceTrackerService;
     protected $fixture;
-
-    protected function setUp(): void
-    {
-       $this->performanceTrackerService = new PerformanceTrackerService();
-        //$this->fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmPerformancePlugin/test/fixtures/PerformanceTracker2.yml';
-        //TestDataService::populate($this->fixture);
-    }
+    private PerformanceTrackerService $performanceTrackerService;
 
     public function testGetPerformanceTrackerDao()
     {
         $result = $this->performanceTrackerService->getPerformanceTrackerDao();
         $this->assertTrue($result instanceof PerformanceTrackerDao);
-        //$this->assertInstanceOf(PerformanceTrackerDao::class,$result);
+    }
+
+    protected function setUp(): void
+    {
+        $this->performanceTrackerService = new PerformanceTrackerService();
     }
 }

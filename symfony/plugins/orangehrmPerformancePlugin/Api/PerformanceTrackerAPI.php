@@ -25,23 +25,19 @@ use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
-use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
-use OrangeHRM\Core\Api\V2\Serializer\NormalizeException;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\PerformanceTracker;
 use OrangeHRM\Performance\Api\Model\DetailedPerformanceTrackerModel;
 use OrangeHRM\Performance\Api\Model\PerformanceTrackerModel;
 use OrangeHRM\Performance\Dto\PerformanceTrackerSearchFilterParams;
-use OrangeHRM\Performance\Service\PerformanceTrackerService;
 use OrangeHRM\Performance\Traits\Service\PerformanceTrackerServiceTrait;
 
 class PerformanceTrackerAPI extends Endpoint implements CrudEndpoint
@@ -50,17 +46,13 @@ class PerformanceTrackerAPI extends Endpoint implements CrudEndpoint
     use DateTimeHelperTrait;
     use PerformanceTrackerServiceTrait;
 
-    const FILTER_EMPLOYEE_NUMBER = 'empNumber';
-    const PARAMETER_TRACKER_NAME = 'trackerName';
-    //const PARAMETER_EMP_ID = 'empNumber';
-    const PARAM_RULE_TRACKER_NAME_MAX_LENGTH = 200;
-    const PARAMETER_REVIEWERS = 'reviewers';
-
-
+    public const FILTER_EMPLOYEE_NUMBER = 'empNumber';
+    public const PARAMETER_TRACKER_NAME = 'trackerName';
+    public const PARAM_RULE_TRACKER_NAME_MAX_LENGTH = 200;
+    public const PARAMETER_REVIEWERS = 'reviewers';
 
     /**
-     * @throws DaoException
-     * @throws NormalizeException
+     * @inheritDoc
      */
     public function getAll(): EndpointResult
     {
@@ -73,15 +65,22 @@ class PerformanceTrackerAPI extends Endpoint implements CrudEndpoint
                 self::FILTER_EMPLOYEE_NUMBER
             )
         );
-        $performanceTrackers = $this->getPerformanceTrackerService()->getPerformanceTrackerDao()->getPerformanceTrackList($performanceTrackerSearchParamHolder);
-        $count =$this->getPerformanceTrackerService()->getPerformanceTrackerDao()->getPerformanceTrackerCount($performanceTrackerSearchParamHolder);
+        $performanceTrackers = $this->getPerformanceTrackerService()
+            ->getPerformanceTrackerDao()
+            ->getPerformanceTrackList($performanceTrackerSearchParamHolder);
+        $count = $this->getPerformanceTrackerService()
+            ->getPerformanceTrackerDao()
+            ->getPerformanceTrackerCount($performanceTrackerSearchParamHolder);
         return new EndpointCollectionResult(
             PerformanceTrackerModel::class,
             $performanceTrackers,
-            new ParameterBag([CommonParams::PARAMETER_TOTAL=> $count])
+            new ParameterBag([CommonParams::PARAMETER_TOTAL => $count])
         );
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
         return new ParamRuleCollection(
@@ -95,35 +94,42 @@ class PerformanceTrackerAPI extends Endpoint implements CrudEndpoint
         );
     }
 
+    /**
+     * @inheritDoc
+     */
     public function create(): EndpointResult
     {
-       $performanceTracker = new PerformanceTracker();
-       $reviewers =$this->getRequestParams()->getArray(
-           RequestParams::PARAM_TYPE_BODY,
-           self::PARAMETER_REVIEWERS
-       );
-       $this->setPerformanceTrackerParams($performanceTracker,1);
-       $this->getPerformanceTrackerService()->getPerformanceTrackerDao()->savePerformanceTracker($performanceTracker,$reviewers);
-       return new EndpointResourceResult(PerformanceTrackerModel::class, $performanceTracker);
+        $performanceTracker = new PerformanceTracker();
+        $reviewers = $this->getRequestParams()->getArray(
+            RequestParams::PARAM_TYPE_BODY,
+            self::PARAMETER_REVIEWERS
+        );
+        $this->setPerformanceTrackerParams($performanceTracker);
+        $performanceTracker->setAddedDate($this->getDateTimeHelper()->getNow());
+        $this->getPerformanceTrackerService()
+            ->getPerformanceTrackerDao()
+            ->savePerformanceTracker($performanceTracker, $reviewers);
+        return new EndpointResourceResult(PerformanceTrackerModel::class, $performanceTracker);
     }
 
-    private function setPerformanceTrackerParams(PerformanceTracker $performanceTracker ,int $num): void
+    /**
+     * @param PerformanceTracker $performanceTracker
+     * @param int $num
+     * @return void
+     */
+    private function setPerformanceTrackerParams(PerformanceTracker $performanceTracker): void
     {
         $performanceTracker->setTrackerName(
             $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_TRACKER_NAME)
         );
-        $empNumber =$this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_EMP_NUMBER);
+        $empNumber = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_EMP_NUMBER);
         $performanceTracker->getDecorator()->setEmployeeByEmpNumber($empNumber);
-        $addedEmp =$this->getAuthUser()->getEmpNumber();
-        $performanceTracker->getDecorator()->setAddedByByEmpNumber($addedEmp);
-        if($num == 1){
-            $performanceTracker->setAddedDate($this->getDateTimeHelper()->getNow());
-        }else{
-            $performanceTracker->setModifiedDate($this->getDateTimeHelper()->getNow());
-        }
-
+        $performanceTracker->getDecorator()->setAddedByByEmpNumber($this->getAuthUser()->getEmpNumber());
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getValidationRuleForCreate(): ParamRuleCollection
     {
         return new ParamRuleCollection(
@@ -144,7 +150,7 @@ class PerformanceTrackerAPI extends Endpoint implements CrudEndpoint
             ),
             new ParamRule(
                 CommonParams::PARAMETER_EMP_NUMBER,
-                new Rule(Rules::POSITIVE)
+                new Rule(Rules::IN_ACCESSIBLE_EMP_NUMBERS)
             ),
             new ParamRule(
                 self::PARAMETER_REVIEWERS,
@@ -153,13 +159,24 @@ class PerformanceTrackerAPI extends Endpoint implements CrudEndpoint
         ];
     }
 
+    /**
+     * @inheritDoc
+     */
     public function delete(): EndpointResult
     {
-        $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
-        $this->getPerformanceTrackerService()->getPerformanceTrackerDao()->deletePerformanceTracker($ids);
+        $ids = $this->getRequestParams()->getArray(
+            RequestParams::PARAM_TYPE_BODY,
+            CommonParams::PARAMETER_IDS
+        );
+        $this->getPerformanceTrackerService()
+            ->getPerformanceTrackerDao()
+            ->deletePerformanceTracker($ids);
         return new EndpointResourceResult(ArrayModel::class, $ids);
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getValidationRuleForDelete(): ParamRuleCollection
     {
         return new ParamRuleCollection(
@@ -170,50 +187,59 @@ class PerformanceTrackerAPI extends Endpoint implements CrudEndpoint
         );
     }
 
-
     /**
      * @inheritDoc
      */
     public function getOne(): EndpointResult
     {
         $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
-        $performanceTracker = $this->getPerformanceTrackerService()->getPerformanceTrackerDao()->getPerformanceTrack($id);
+        $performanceTracker = $this->getPerformanceTrackerService()
+            ->getPerformanceTrackerDao()
+            ->getPerformanceTrack($id);
         $this->throwRecordNotFoundExceptionIfNotExist($performanceTracker, PerformanceTracker::class);
         return new EndpointResourceResult(DetailedPerformanceTrackerModel::class, $performanceTracker);
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getValidationRuleForGetOne(): ParamRuleCollection
     {
-        return new ParamRuleCollection(new ParamRule(CommonParams::PARAMETER_ID));
+        return new ParamRuleCollection(new ParamRule(
+            CommonParams::PARAMETER_ID,
+            new Rule(Rules::POSITIVE)
+        ));
 
     }
 
     /**
-     * @throws DaoException
-     * @throws RecordNotFoundException
-     * @throws NormalizeException
+     * @inheritDoc
      */
     public function update(): EndpointResult
     {
         $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
-        $performanceTracker = $this->getPerformanceTrackerService()->getPerformanceTrackerDao()->getPerformanceTrack($id);
+        $performanceTracker = $this->getPerformanceTrackerService()
+            ->getPerformanceTrackerDao()
+            ->getPerformanceTrack($id);
         $this->throwRecordNotFoundExceptionIfNotExist($performanceTracker, PerformanceTracker::class);
-        $this->setPerformanceTrackerParams($performanceTracker, 2);
-        $reviewers =$this->getRequestParams()->getArray(
+        $this->setPerformanceTrackerParams($performanceTracker);
+        $performanceTracker->setModifiedDate($this->getDateTimeHelper()->getNow());
+        $reviewers = $this->getRequestParams()->getArray(
             RequestParams::PARAM_TYPE_BODY,
             self::PARAMETER_REVIEWERS
         );
-        $this->getPerformanceTrackerService()->getPerformanceTrackerDao()->updatePerformanceTracker($performanceTracker, $reviewers);
+        $this->getPerformanceTrackerService()
+            ->getPerformanceTrackerDao()
+            ->updatePerformanceTracker($performanceTracker, $reviewers);
         return new EndpointResourceResult(DetailedPerformanceTrackerModel::class, $performanceTracker);
 
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
-        /*return new ParamRuleCollection(
-            new ParamRule(CommonParams::PARAMETER_ID),
-            ...$this->getCommonBodyParamRulesCollection()
-        );*/
         return new ParamRuleCollection(
             new ParamRule(CommonParams::PARAMETER_ID),
             ...$this->getCommonBodyParamRulesCollection()
