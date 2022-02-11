@@ -150,7 +150,7 @@ class PerformanceTrackerAPI extends Endpoint implements CrudEndpoint
             ),
             new ParamRule(
                 CommonParams::PARAMETER_EMP_NUMBER,
-                new Rule(Rules::IN_ACCESSIBLE_EMP_NUMBERS,)
+                new Rule(Rules::IN_ACCESSIBLE_EMP_NUMBERS)
             ),
             new ParamRule(
                 self::PARAMETER_REVIEWERS,
