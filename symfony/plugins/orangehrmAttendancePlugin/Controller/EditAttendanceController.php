@@ -29,7 +29,6 @@ use OrangeHRM\Core\Controller\Exception\RequestForwardableException;
 
 class EditAttendanceController extends AbstractVueController
 {
-
     /**
      * @inheritDoc
      */

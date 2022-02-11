@@ -26,6 +26,7 @@ use InvalidArgumentException;
 
 class DateTimeHelperService
 {
+    public const TIMEZONE_UTC = 'UTC';
     /**
      * Format given \DateTime object to Y-m-d string.
      * Return null if null given
@@ -130,5 +131,21 @@ class DateTimeHelperService
     public function getNow(DateTimeZone $timezone = null): DateTime
     {
         return new DateTime('now', $timezone);
+    }
+
+    /**
+     * @param  float | string $timezoneOffset
+     * @return DateTimeZone eg:- 5.5 -> +0530, -5.5 -> -0530
+     */
+    public function getTimezoneByTimezoneOffset($timezoneOffset): DateTimeZone
+    {
+        if (is_string($timezoneOffset)) {
+            $timezoneOffset = (float)$timezoneOffset;
+        }
+        $absoluteOffset = abs($timezoneOffset);
+        $hours = floor($absoluteOffset);
+        $minutes = ($absoluteOffset * 60) % 60 == 0 ? '00' : ($absoluteOffset * 60) % 60;
+        $hours = $hours < 10 ? '0'.$hours : $hours;
+        return new DateTimeZone(($timezoneOffset > 0 ? '+' : '-').$hours.$minutes);
     }
 }
