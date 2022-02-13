@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Attendance\Api;
 
+use DateTimeZone;
 use OrangeHRM\Attendance\Api\Model\CurrentDateTimeModel;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\Endpoint;
@@ -26,6 +27,7 @@ use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
 use OrangeHRM\Core\Api\V2\ResourceEndpoint;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
+use OrangeHRM\Core\Service\DateTimeHelperService;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 
 class CurrentDateTimeAPI extends Endpoint implements ResourceEndpoint
@@ -37,7 +39,7 @@ class CurrentDateTimeAPI extends Endpoint implements ResourceEndpoint
      */
     public function getOne(): EndpointResourceResult
     {
-        $currentDateTime = $this->getDateTimeHelper()->getNow();
+        $currentDateTime = $this->getDateTimeHelper()->getNow(new DateTimeZone(DateTimeHelperService::TIMEZONE_UTC));
         return new EndpointResourceResult(CurrentDateTimeModel::class, $currentDateTime);
     }
 

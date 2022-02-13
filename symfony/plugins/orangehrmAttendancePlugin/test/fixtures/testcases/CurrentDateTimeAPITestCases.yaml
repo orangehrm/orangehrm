@@ -2,19 +2,17 @@ GetOne:
   'Get current date time as Admin user':
     userId: 1
     now:
-      datetime: '2022-02-11 09:31:00'
+      datetime: '2022-02-11 05:40:00'
     data:
-      date: '2022-02-11'
-      time: '09:31'
-      timestamp: 1644525060000
+      utcDate: '2022-02-11'
+      utcTime: '05:40'
     meta: [ ]
 
   'Get current date time as ESS user':
     userId: 1
     now:
-      datetime: '2022-02-11 09:31:00'
+      datetime: '2022-02-11 05:40:00'
     data:
-      date: '2022-02-11'
-      time: '09:31'
-      timestamp: 1644525060000
+      utcDate: '2022-02-11'
+      utcTime: '05:40'
     meta: [ ]

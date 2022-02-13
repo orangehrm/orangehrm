@@ -40,9 +40,8 @@ class CurrentDateTimeModel implements Normalizable
     public function toArray(): array
     {
         return [
-            "date" => $this->currentDateTime->format('Y-m-d'),
-            "time" => $this->currentDateTime->format('H:i'),
-            "timestamp" => $this->currentDateTime->getTimestamp() * 1000
+            "utcDate" => $this->currentDateTime->format('Y-m-d'),
+            "utcTime" => $this->currentDateTime->format('H:i')
         ];
     }
 }
