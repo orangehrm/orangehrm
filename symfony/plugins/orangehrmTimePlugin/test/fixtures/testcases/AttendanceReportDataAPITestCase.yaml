@@ -488,3 +488,41 @@ GetAll:
     ]
     meta:
       total: 1
+
+  'Get all attendance record breakdown with employee number filter - Supervisor':
+    userId: 3
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+      admin.company_structure_service: \OrangeHRM\Admin\Service\CompanyStructureService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      name: 'attendance'
+      empNumber: 3
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
+      message: 'Invalid Parameter'
+
+  'Get all attendance record breakdown with filter (in existing)':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+      admin.company_structure_service: \OrangeHRM\Admin\Service\CompanyStructureService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      name: 'attendance'
+      jobTitleId: 100
+      subunitId: 100
+      employmentStatusId: 100
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
+      message: 'Invalid Parameter'
