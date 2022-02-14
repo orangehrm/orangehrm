@@ -189,10 +189,10 @@ class AttendanceDaoTest extends KernelTestCase
 
         $this->assertEquals("Kayla Abbey", $result[0]['fullName']);
         $this->assertEquals(1, $result[0]['empNumber']);
-        $this->assertNull($result[0]['termination']);
+        $this->assertNull($result[0]['terminationId']);
         $this->assertEquals("Adolf Hitler", $result[1]['fullName']);
         $this->assertEquals(5, $result[1]['empNumber']);
-        $this->assertNull($result[1]['termination']);
+        $this->assertNull($result[1]['terminationId']);
         $this->assertEquals(2, $totalRecords);
 
         $attendanceReportSearchFilterParams->setFromDate(new DateTime("2011-01-01"));
@@ -206,7 +206,7 @@ class AttendanceDaoTest extends KernelTestCase
 
         $this->assertEquals("Kayla Abbey", $result[0]['fullName']);
         $this->assertEquals(1, $result[0]['empNumber']);
-        $this->assertNull($result[0]['termination']);
+        $this->assertNull($result[0]['terminationId']);
         $this->assertEquals(1, $totalRecords);
     }
 }

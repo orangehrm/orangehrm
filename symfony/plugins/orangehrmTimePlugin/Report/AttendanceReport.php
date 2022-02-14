@@ -37,6 +37,9 @@ use OrangeHRM\Core\Report\ReportData;
 use OrangeHRM\Core\Traits\Service\TextHelperTrait;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\Employee;
+use OrangeHRM\Entity\EmploymentStatus;
+use OrangeHRM\Entity\JobTitle;
+use OrangeHRM\Entity\Subunit;
 use OrangeHRM\Time\Dto\AttendanceReportSearchFilterParams;
 
 class AttendanceReport implements EndpointAwareReport
@@ -121,17 +124,29 @@ class AttendanceReport implements EndpointAwareReport
             $endpoint->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::FILTER_EMP_NUMBER,
-                    new Rule(Rules::IN_ACCESSIBLE_EMP_NUMBERS)
+                    new Rule(Rules::ENTITY_ID_EXISTS, [Employee::class]),
+                    new Rule(
+                        Rules::IN_ACCESSIBLE_EMP_NUMBERS
+                    ) // this is for restrict the supervisor access when supervisor trying to access own record
                 )
             ),
             $endpoint->getValidationDecorator()->notRequiredParamRule(
-                new ParamRule(self::FILTER_JOB_TITLE_ID, new Rule(Rules::POSITIVE))
+                new ParamRule(
+                    self::FILTER_JOB_TITLE_ID,
+                    new Rule(Rules::ENTITY_ID_EXISTS, [JobTitle::class])
+                )
             ),
             $endpoint->getValidationDecorator()->notRequiredParamRule(
-                new ParamRule(self::FILTER_SUBUNIT_ID, new Rule(Rules::POSITIVE))
+                new ParamRule(
+                    self::FILTER_SUBUNIT_ID,
+                    new Rule(Rules::ENTITY_ID_EXISTS, [Subunit::class])
+                )
             ),
             $endpoint->getValidationDecorator()->notRequiredParamRule(
-                new ParamRule(self::FILTER_EMPLOYMENT_STATUS_ID, new Rule(Rules::POSITIVE))
+                new ParamRule(
+                    self::FILTER_EMPLOYMENT_STATUS_ID,
+                    new Rule(Rules::ENTITY_ID_EXISTS, [EmploymentStatus::class])
+                )
             ),
             $endpoint->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(self::FILTER_PARAMETER_DATE_FROM, new Rule(Rules::API_DATE))
@@ -206,8 +221,16 @@ class AttendanceReport implements EndpointAwareReport
      */
     public function checkReportAccessibility(EndpointProxy $endpoint): void
     {
-        if (!$this->getUserRoleManagerHelper()
-            ->getEntityIndependentDataGroupPermissions('attendance_summary')->canRead()) {
+        $employeeNumber = $endpoint->getRequestParams()->getIntOrNull(
+            RequestParams::PARAM_TYPE_QUERY,
+            self::FILTER_EMP_NUMBER
+        );
+        if (!$this->getUserRoleManager()->getDataGroupPermissions(
+            'attendance_summary',
+            [],
+            [],
+            $this->getUserRoleManagerHelper()->isSelfByEmpNumber($employeeNumber)
+        )->canRead()) {
             throw new ForbiddenException();
         }
     }

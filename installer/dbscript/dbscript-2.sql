@@ -4400,6 +4400,7 @@ SET @apiv2_attendance_my_attendance_record_data_group_id := (SELECT `id` FROM oh
 SET @apiv2_attendance_employee_attendance_record_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_attendance_employee_attendance_record' LIMIT 1);
 SET @apiv2_attendance_timezones_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_attendance_timezones' LIMIT 1);
 SET @apiv2_attendance_current_date_time_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_attendance_current_date_time' LIMIT 1);
+SET @attendance_summary_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'attendance_summary' LIMIT 1);
 
 INSERT INTO ohrm_api_permission (`api_name`, `module_id`, `data_group_id`)
 VALUES ('OrangeHRM\\Attendance\\Api\\AttendanceConfigurationAPI', @attendance_module_id, @apiv2_attendance_configuration_data_group_id),
@@ -4427,3 +4428,4 @@ VALUES (1, 0, 1, 0, 0, @apiv2_attendance_configuration_data_group_id, @admin_rol
        (1, 0, 0, 0, 0, @apiv2_attendance_timezones_data_group_id, @ess_role_id),
        (1, 0, 0, 0, 0, @apiv2_attendance_current_date_time_data_group_id, @admin_role_id),
        (1, 0, 0, 0, 0, @apiv2_attendance_current_date_time_data_group_id, @ess_role_id);
+       (1, 0, 0, 0, 1, @attendance_summary_data_group_id, @admin_role_id);

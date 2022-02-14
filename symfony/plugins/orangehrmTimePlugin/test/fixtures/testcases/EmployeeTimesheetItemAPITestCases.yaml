@@ -3366,8 +3366,8 @@ Update:
         "startDate": "2020-09-28",
         "endDate": "2020-10-04",
         "status": {
-          "id": "APPROVED",
-          "name": "Approved"
+          "id": "SUBMITTED",
+          "name": "Submitted"
         },
       },
       "sum": {
@@ -3447,6 +3447,10 @@ Update:
         {
           "action": "VIEW",
           "name": "View",
+        },
+        {
+          "action": "MODIFY",
+          "name": "Modify",
         }
       ]
     }
@@ -3646,8 +3650,8 @@ Update:
         "startDate": "2020-09-28",
         "endDate": "2020-10-04",
         "status": {
-          "id": "APPROVED",
-          "name": "Approved"
+          "id": "SUBMITTED",
+          "name": "Submitted"
         },
       },
       "sum": {
@@ -3727,6 +3731,10 @@ Update:
         {
           "action": "VIEW",
           "name": "View",
+        },
+        {
+          "action": "MODIFY",
+          "name": "Modify",
         }
       ]
     }
@@ -4012,3 +4020,29 @@ Update:
         }
       ]
     }
+
+  'editing the approved timesheet':
+    userId: 9
+    services:
+      core.class_helper: \OrangeHRM\Core\Helper\ClassHelper
+      time.timesheet_service: \OrangeHRM\Time\Service\TimesheetService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      timesheetId: 4
+    body:
+      entries: [ ],
+      deletedEntries: [
+        {
+          projectId: 1,
+          activityId: 6
+        }
+      ]
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\BadRequestException'
+      message: 'Performed action not allowed'
