@@ -124,7 +124,9 @@ class AttendanceReport implements EndpointAwareReport
             $endpoint->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::FILTER_EMP_NUMBER,
-                    new Rule(Rules::IN_ACCESSIBLE_EMP_NUMBERS, [false]
+                    new Rule(
+                        Rules::IN_ACCESSIBLE_EMP_NUMBERS,
+                        [false]
                     ) // this is for restrict the supervisor access when supervisor trying to access own record
                 )
             ),
@@ -179,8 +181,8 @@ class AttendanceReport implements EndpointAwareReport
                 )
             ),
             ...$endpoint->getSortingAndPaginationParamsRules(
-            AttendanceReportSearchFilterParams::ALLOWED_SORT_FIELDS
-        )
+                AttendanceReportSearchFilterParams::ALLOWED_SORT_FIELDS
+            )
         );
     }
 
