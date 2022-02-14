@@ -32,7 +32,6 @@
       </div>
       <div class="orangehrm-text-center-align">
         <oxd-text type="subtitle-2">
-          <!-- Interpolation example -->
           {{
             $t('leave.entitlement_value_confirmation_message', {
               oldvalue: current,
