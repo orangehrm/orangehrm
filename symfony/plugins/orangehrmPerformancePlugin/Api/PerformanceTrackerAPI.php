@@ -106,6 +106,7 @@ class PerformanceTrackerAPI extends Endpoint implements CrudEndpoint
         );
         $this->setPerformanceTrackerParams($performanceTracker);
         $performanceTracker->setAddedDate($this->getDateTimeHelper()->getNow());
+        $performanceTracker->setStatus(1);
         $this->getPerformanceTrackerService()
             ->getPerformanceTrackerDao()
             ->savePerformanceTracker($performanceTracker, $reviewers);
@@ -135,7 +136,6 @@ class PerformanceTrackerAPI extends Endpoint implements CrudEndpoint
         return new ParamRuleCollection(
             ...$this->getCommonBodyParamRulesCollection()
         );
-
     }
 
     /**
@@ -209,7 +209,6 @@ class PerformanceTrackerAPI extends Endpoint implements CrudEndpoint
             CommonParams::PARAMETER_ID,
             new Rule(Rules::POSITIVE)
         ));
-
     }
 
     /**

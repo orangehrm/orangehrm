@@ -44,6 +44,7 @@
               <employee-autocomplete
                 v-model="tracker.employee"
                 :rules="rules.employee"
+                :readonly ="isReadOnly"
                 label="Employee Name"
                 required
               />
@@ -115,6 +116,7 @@ export default {
     return {
       isLoading: false,
       tracker: {...trackerModel},
+      isReadOnly: false,
       rules: {
         tracker: [required, shouldNotExceedCharLength(200)],
         employee: [required],
