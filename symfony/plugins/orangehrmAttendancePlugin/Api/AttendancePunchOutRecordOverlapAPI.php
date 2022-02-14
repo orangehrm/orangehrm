@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\Attendance\Api;
 
-use DateTime;
 use OrangeHRM\Attendance\Exception\AttendanceServiceException;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
@@ -45,7 +44,7 @@ class AttendancePunchOutRecordOverlapAPI extends AttendancePunchInRecordOverlapA
             $punchOutUtcTime = $this->getUTCTimeByOffsetAndDateTime();
             $isPunchInOverlap = $this->getAttendanceService()
                 ->getAttendanceDao()
-                ->checkForPunchOutOverLappingRecords(new DateTime($punchOutUtcTime), $employeeNumber);
+                ->checkForPunchOutOverLappingRecords($punchOutUtcTime, $employeeNumber);
 
             return new EndpointResourceResult(
                 ArrayModel::class,

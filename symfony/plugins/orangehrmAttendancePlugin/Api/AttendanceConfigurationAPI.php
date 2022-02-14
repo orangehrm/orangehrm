@@ -37,7 +37,6 @@ use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\ORM\Exception\TransactionException;
 
-
 class AttendanceConfigurationAPI extends Endpoint implements ResourceEndpoint
 {
     use AttendanceServiceTrait;

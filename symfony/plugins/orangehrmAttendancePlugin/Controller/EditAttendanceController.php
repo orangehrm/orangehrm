@@ -1,4 +1,5 @@
 <?php
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -23,18 +24,24 @@ use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Core\Controller\Common\NoRecordsFoundController;
+use OrangeHRM\Core\Controller\Exception\RequestForwardableException;
 
-class ViewMyAttendanceController extends AbstractVueController
+class EditAttendanceController extends AbstractVueController
 {
     /**
      * @inheritDoc
      */
     public function preRender(Request $request): void
     {
-        $component = new Component('view-my-attendance');
-        if ($request->query->has('date')) {
-            $component->addProp(new Prop('date', Prop::TYPE_STRING, $request->query->get('date')));
+        if ($request->attributes->has('id')) {
+            $component = new Component('edit-attendance');
+            $component->addProp(new Prop('attendance-id', Prop::TYPE_NUMBER, $request->attributes->getInt('id')));
+        } else {
+            // TODO: show 404 if no id or id is invalid
+            throw new RequestForwardableException(NoRecordsFoundController::class . '::handle');
         }
+
         $this->setComponent($component);
     }
 }

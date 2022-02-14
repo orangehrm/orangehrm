@@ -24,7 +24,6 @@ use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Core\Vue\Prop;
 
-
 class PunchInController extends AbstractVueController
 {
     /**

@@ -313,4 +313,65 @@ class AttendanceMockController extends AbstractController
         $response->setStatusCode(Response::HTTP_OK);
         return $response->send();
     }
+
+    /**
+     * @return Response
+     */
+    public function sendAttendanceEditResponse(Request $request): Response
+    {
+        $response = new Response();
+        $id = $request->attributes->getInt('id');
+        $employee = $this->getEmployeeService()->getEmployeeAsArray($this->getAuthUser()->getEmpNumber());
+
+        if ($id == 1) {
+            // Simulate no out record scenario
+            $response->setContent(
+                json_encode([
+                    "data" => [
+                        "id" => $id,
+                        "in" => [
+                            "date" => date("Y-m-d"),
+                            "time" => date("H:i"),
+                            "note" => "Arrived at work",
+                            "timezone" => "GMT 5.50",
+                            "timezoneOffset" => date("Z") / 3600,
+                        ],
+                        "out" => null
+                    ],
+                    "meta" => [
+                        "employee" => $employee,
+                    ]
+                ])
+            );
+        } else {
+            $response->setContent(
+                json_encode([
+                    "data" => [
+                        "id" => $id,
+                        "in" => [
+                            "date" => date("Y-m-d"),
+                            "time" => date("H:i"),
+                            "note" => "Arrived at work",
+                            "timezone" => "GMT 5.50",
+                            "timezoneOffset" => date("Z") / 3600,
+                        ],
+                        "out" => [
+                            "date" => date("Y-m-d"),
+                            "time" => date("H:i"),
+                            "note" => "Left work",
+                            "timezone" => "GMT 5.50",
+                            "timezoneOffset" => date("Z") / 3600,
+                        ]
+                    ],
+                    "meta" => [
+                        "employee" => $employee,
+                    ]
+                ])
+            );
+        }
+
+
+        $response->setStatusCode(Response::HTTP_OK);
+        return $response->send();
+    }
 }

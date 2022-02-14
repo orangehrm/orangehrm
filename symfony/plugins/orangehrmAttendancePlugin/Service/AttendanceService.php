@@ -30,6 +30,8 @@ class AttendanceService {
     public const ESS_USER = "ESS USER";
     public const SUPERVISOR = "SUPERVISOR";
 
+    private ?bool $canUserChangeCurrentTime = null;
+
     /**
      * @var AttendanceDao|null
      */
@@ -71,6 +73,17 @@ class AttendanceService {
     public function setAttendanceDao(AttendanceDao $attendanceDao) {
 
         $this->attendanceDao = $attendanceDao;
+    }
+
+    /**
+     * @return bool
+     */
+    public function canUserChangeCurrentTime(): bool
+    {
+        if (is_null($this->canUserChangeCurrentTime)) {
+            $this->canUserChangeCurrentTime = $this->canUserChangeCurrentTimeConfiguration();
+        }
+        return $this->canUserChangeCurrentTime;
     }
 
     /**
