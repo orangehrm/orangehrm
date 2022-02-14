@@ -69,6 +69,8 @@ import EditEmailSubscription from '@/orangehrmAdminPlugin/pages/emailSubscriptio
 import HelpPages from '@/orangehrmHelpPlugin';
 import TimePages from '@/orangehrmTimePlugin';
 import AttendancePages from '@/orangehrmAttendancePlugin';
+import MyTracker from '@/orangehrmPerformancePlugin/pages/MyTracker.vue';
+import EmployeeTrackers from '@/orangehrmPerformancePlugin/pages/EmployeeTrackers.vue';
 import KpiSearch from '@/orangehrmPerformancePlugin/pages/KpiSearch.vue';
 import KpiSave from '@/orangehrmPerformancePlugin/pages/KpiSave.vue';
 import KpiEdit from '@/orangehrmPerformancePlugin/pages/KpiEdit.vue';
@@ -128,6 +130,8 @@ export default {
   ...HelpPages,
   ...TimePages,
   ...AttendancePages,
+  'my-tracker': MyTracker,
+  'employee-trackers': EmployeeTrackers,
   'kpi-search': KpiSearch,
   'kpi-save': KpiSave,
   'kpi-edit': KpiEdit,

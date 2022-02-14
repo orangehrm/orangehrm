@@ -17,21 +17,49 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
+
+namespace OrangeHRM\Attendance\Service;
+
+use OrangeHRM\Attendance\Dao\AttendanceDao;
+use OrangeHRM\Core\Service\AccessFlowStateMachineService;
+use OrangeHRM\Entity\AttendanceRecord;
+use OrangeHRM\Entity\WorkflowStateMachine;
+
 class AttendanceService {
 
-    private $attendanceDao;
+    public const ESS_USER = "ESS USER";
+    public const SUPERVISOR = "SUPERVISOR";
+
+    /**
+     * @var AttendanceDao|null
+     */
+    private ?AttendanceDao $attendanceDao = null;
+
+    /**
+     * @var AccessFlowStateMachineService|null
+     */
+    private ?AccessFlowStateMachineService $accessFlowStateMachineService = null;
+
+    /**
+     * @return AccessFlowStateMachineService
+     */
+    protected function getAccessFlowStateMachineService(): AccessFlowStateMachineService
+    {
+        if (is_null($this->accessFlowStateMachineService)) {
+            $this->accessFlowStateMachineService = new AccessFlowStateMachineService();
+        }
+        return $this->accessFlowStateMachineService;
+    }
 
     /**
      * Get Attendance Data Access Object
      * @return AttendanceDao
      */
-    public function getAttendanceDao() {
-
+    public function getAttendanceDao(): AttendanceDao
+    {
         if (is_null($this->attendanceDao)) {
-
             $this->attendanceDao = new AttendanceDao();
         }
-
         return $this->attendanceDao;
     }
 
@@ -82,16 +110,6 @@ class AttendanceService {
      */
     public function checkForPunchInOverLappingRecords($punchInTime, $employeeId) {
         return $this->getAttendanceDao()->checkForPunchInOverLappingRecords($punchInTime, $employeeId);
-    }
-
-    /**
-     * get saved Attendance configuration
-     * @param $workflow, $state, $role, $action, $resultingState
-     * @return boolean
-     */
-    public function getSavedConfiguration($workflow, $state, $role, $action, $resultingState) {
-
-        return $this->getAttendanceDao()->getSavedConfiguration($workflow, $state, $role, $action, $resultingState);
     }
 
     /**
@@ -308,6 +326,440 @@ class AttendanceService {
     public function getAttendanceRecordsByEmpNumbers($empNumbers, $dateFrom = null, $dateTo = null)
     {
         return $this->getAttendanceDao()->getAttendanceRecordsByEmpNumbers($empNumbers, $dateFrom, $dateTo);
+    }
+
+    /**
+     * @return bool
+     */
+    public function canUserChangeCurrentTimeConfiguration(): bool
+    {
+        return $this->getAttendanceDao()->hasSavedConfiguration(
+            WorkflowStateMachine::FLOW_ATTENDANCE,
+            AttendanceRecord::STATE_INITIAL,
+            self::ESS_USER,
+            WorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_TIME,
+            AttendanceRecord::STATE_INITIAL
+        );
+    }
+
+    /**
+     * @return bool
+     */
+    public function canUserModifyAttendanceConfiguration(): bool
+    {
+        return $this->getAttendanceDao()->hasSavedConfiguration(
+            WorkflowStateMachine::FLOW_ATTENDANCE,
+            AttendanceRecord::STATE_PUNCHED_IN,
+            self::ESS_USER,
+            WorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_IN_TIME,
+            AttendanceRecord::STATE_PUNCHED_IN
+        );
+    }
+
+    /**
+     * @return bool
+     */
+    public function canSupervisorModifyAttendanceConfiguration(): bool
+    {
+        return $this->getAttendanceDao()->hasSavedConfiguration(
+            WorkflowStateMachine::FLOW_ATTENDANCE,
+            AttendanceRecord::STATE_PUNCHED_IN,
+            self::SUPERVISOR,
+            WorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_IN_TIME,
+            AttendanceRecord::STATE_PUNCHED_IN
+        );
+    }
+
+    public function enableUserCanChangeCurrentTimeConfiguration(): void
+    {
+        $isPunchInEditable = $this->getAttendanceDao()->hasSavedConfiguration(
+            WorkflowStateMachine::FLOW_ATTENDANCE,
+            AttendanceRecord::STATE_INITIAL,
+            self::ESS_USER,
+            WorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_TIME,
+            AttendanceRecord::STATE_INITIAL
+        );
+
+        if (!$isPunchInEditable) {
+            $this->saveConfiguration(
+                WorkflowStateMachine::FLOW_ATTENDANCE,
+                AttendanceRecord::STATE_INITIAL,
+                self::ESS_USER,
+                WorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_TIME,
+                AttendanceRecord::STATE_INITIAL
+            );
+        }
+        $isPunchOutEditable = $this->getAttendanceDao()->hasSavedConfiguration(
+            WorkflowStateMachine::FLOW_ATTENDANCE,
+            AttendanceRecord::STATE_PUNCHED_IN,
+            self::ESS_USER,
+            WorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_TIME,
+            AttendanceRecord::STATE_PUNCHED_IN
+        );
+
+        if (!$isPunchOutEditable) {
+            $this->saveConfiguration(
+                WorkflowStateMachine::FLOW_ATTENDANCE,
+                AttendanceRecord::STATE_PUNCHED_IN,
+                self::ESS_USER,
+                WorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_TIME,
+                AttendanceRecord::STATE_PUNCHED_IN
+            );
+        }
+    }
+
+    public function disableUserCanChangeCurrentTimeConfiguration(): void
+    {
+        $this->getAccessFlowStateMachineService()->deleteWorkflowStateMachineRecord(
+            WorkflowStateMachine::FLOW_ATTENDANCE,
+            AttendanceRecord::STATE_INITIAL,
+            self::ESS_USER,
+            WorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_TIME,
+            AttendanceRecord::STATE_INITIAL
+        );
+        $this->getAccessFlowStateMachineService()->deleteWorkflowStateMachineRecord(
+            WorkflowStateMachine::FLOW_ATTENDANCE,
+            AttendanceRecord::STATE_PUNCHED_IN,
+            self::ESS_USER,
+            WorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_TIME,
+            AttendanceRecord::STATE_PUNCHED_IN
+        );
+    }
+
+    public function enableUserCanModifyAttendanceConfiguration(): void
+    {
+        $isPunchInRecordEditable = $this->getAttendanceDao()->hasSavedConfiguration(
+            WorkflowStateMachine::FLOW_ATTENDANCE,
+            AttendanceRecord::STATE_PUNCHED_IN,
+            self::ESS_USER,
+            WorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_IN_TIME,
+            AttendanceRecord::STATE_PUNCHED_IN
+        );
+
+        if (!$isPunchInRecordEditable) {
+            $this->saveConfiguration(
+                WorkflowStateMachine::FLOW_ATTENDANCE,
+                AttendanceRecord::STATE_PUNCHED_IN,
+                self::ESS_USER,
+                WorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_IN_TIME,
+                AttendanceRecord::STATE_PUNCHED_IN
+            );
+        }
+        $isPunchOutRecordEditable = $this->getAttendanceDao()->hasSavedConfiguration(
+            WorkflowStateMachine::FLOW_ATTENDANCE,
+            AttendanceRecord::STATE_PUNCHED_OUT,
+            self::ESS_USER,
+            WorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_OUT_TIME,
+            AttendanceRecord::STATE_PUNCHED_OUT
+        );
+
+        if (!$isPunchOutRecordEditable) {
+            $this->saveConfiguration(
+                WorkflowStateMachine::FLOW_ATTENDANCE,
+                AttendanceRecord::STATE_PUNCHED_OUT,
+                self::ESS_USER,
+                WorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_OUT_TIME,
+                AttendanceRecord::STATE_PUNCHED_OUT
+            );
+        }
+
+        $isPunchInTimeEditableWhenTheStateIsPunchedIn = $this->getAttendanceDao()->hasSavedConfiguration(
+            WorkflowStateMachine::FLOW_ATTENDANCE,
+            AttendanceRecord::STATE_PUNCHED_OUT,
+            self::ESS_USER,
+            WorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_IN_TIME,
+            AttendanceRecord::STATE_PUNCHED_OUT
+        );
+
+        if (!$isPunchInTimeEditableWhenTheStateIsPunchedIn) {
+            $this->saveConfiguration(
+                WorkflowStateMachine::FLOW_ATTENDANCE,
+                AttendanceRecord::STATE_PUNCHED_OUT,
+                self::ESS_USER,
+                WorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_IN_TIME,
+                AttendanceRecord::STATE_PUNCHED_OUT
+            );
+        }
+
+        $isPunchInRecordDeletable = $this->getAttendanceDao()->hasSavedConfiguration(
+            WorkflowStateMachine::FLOW_ATTENDANCE,
+            AttendanceRecord::STATE_PUNCHED_IN,
+            self::ESS_USER,
+            WorkflowStateMachine::ATTENDANCE_ACTION_DELETE,
+            AttendanceRecord::STATE_NA
+        );
+
+        if (!$isPunchInRecordDeletable) {
+            $this->saveConfiguration(
+                WorkflowStateMachine::FLOW_ATTENDANCE,
+                AttendanceRecord::STATE_PUNCHED_IN,
+                self::ESS_USER,
+                WorkflowStateMachine::ATTENDANCE_ACTION_DELETE,
+                AttendanceRecord::STATE_NA
+            );
+        }
+
+        $isPunchOutRecordDeletable = $this->getAttendanceDao()->hasSavedConfiguration(
+            WorkflowStateMachine::FLOW_ATTENDANCE,
+            AttendanceRecord::STATE_PUNCHED_OUT,
+            self::ESS_USER,
+            WorkflowStateMachine::ATTENDANCE_ACTION_DELETE,
+            AttendanceRecord::STATE_NA
+        );
+
+        if (!$isPunchOutRecordDeletable) {
+            $this->saveConfiguration(
+                WorkflowStateMachine::FLOW_ATTENDANCE,
+                AttendanceRecord::STATE_PUNCHED_OUT,
+                self::ESS_USER,
+                WorkflowStateMachine::ATTENDANCE_ACTION_DELETE,
+                AttendanceRecord::STATE_NA
+            );
+        }
+    }
+
+    public function disableUserCanModifyAttendanceConfiguration(): void
+    {
+        $this->getAccessFlowStateMachineService()->deleteWorkflowStateMachineRecord(
+            WorkflowStateMachine::FLOW_ATTENDANCE,
+            AttendanceRecord::STATE_PUNCHED_IN,
+            self::ESS_USER,
+            WorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_IN_TIME,
+            AttendanceRecord::STATE_PUNCHED_IN
+        );
+        $this->getAccessFlowStateMachineService()->deleteWorkflowStateMachineRecord(
+            WorkflowStateMachine::FLOW_ATTENDANCE,
+            AttendanceRecord::STATE_PUNCHED_OUT,
+            self::ESS_USER,
+            WorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_OUT_TIME,
+            AttendanceRecord::STATE_PUNCHED_OUT
+        );
+        $this->getAccessFlowStateMachineService()->deleteWorkflowStateMachineRecord(
+            WorkflowStateMachine::FLOW_ATTENDANCE,
+            AttendanceRecord::STATE_PUNCHED_OUT,
+            self::ESS_USER,
+            WorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_IN_TIME,
+            AttendanceRecord::STATE_PUNCHED_OUT
+        );
+        $this->getAccessFlowStateMachineService()->deleteWorkflowStateMachineRecord(
+            WorkflowStateMachine::FLOW_ATTENDANCE,
+            AttendanceRecord::STATE_PUNCHED_IN,
+            self::ESS_USER,
+            WorkflowStateMachine::ATTENDANCE_ACTION_DELETE,
+            AttendanceRecord::STATE_NA
+        );
+        $this->getAccessFlowStateMachineService()->deleteWorkflowStateMachineRecord(
+            WorkflowStateMachine::FLOW_ATTENDANCE,
+            AttendanceRecord::STATE_PUNCHED_OUT,
+            self::ESS_USER,
+            WorkflowStateMachine::ATTENDANCE_ACTION_DELETE,
+            AttendanceRecord::STATE_NA
+        );
+    }
+
+    public function enableSupervisorCanModifyAttendanceConfiguration(): void
+    {
+        $isPunchInEditable = $this->getAttendanceDao()->hasSavedConfiguration(
+            WorkflowStateMachine::FLOW_ATTENDANCE,
+            AttendanceRecord::STATE_PUNCHED_IN,
+            self::SUPERVISOR,
+            WorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_IN_TIME,
+            AttendanceRecord::STATE_PUNCHED_IN
+        );
+        if (!$isPunchInEditable) {
+            $this->saveConfiguration(
+                WorkflowStateMachine::FLOW_ATTENDANCE,
+                AttendanceRecord::STATE_PUNCHED_IN,
+                self::SUPERVISOR,
+                WorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_IN_TIME,
+                AttendanceRecord::STATE_PUNCHED_IN
+            );
+        }
+
+        $isPunchInEditableInStatePunchedOut = $this->getAttendanceDao()->hasSavedConfiguration(
+            WorkflowStateMachine::FLOW_ATTENDANCE,
+            AttendanceRecord::STATE_PUNCHED_OUT,
+            self::SUPERVISOR,
+            WorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_IN_TIME,
+            AttendanceRecord::STATE_PUNCHED_OUT
+        );
+        if (!$isPunchInEditableInStatePunchedOut) {
+            $this->saveConfiguration(
+                WorkflowStateMachine::FLOW_ATTENDANCE,
+                AttendanceRecord::STATE_PUNCHED_OUT,
+                self::SUPERVISOR,
+                WorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_IN_TIME,
+                AttendanceRecord::STATE_PUNCHED_OUT
+            );
+        }
+
+        $isPunchOutEditable = $this->getAttendanceDao()->hasSavedConfiguration(
+            WorkflowStateMachine::FLOW_ATTENDANCE,
+            AttendanceRecord::STATE_PUNCHED_OUT,
+            self::SUPERVISOR,
+            WorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_OUT_TIME,
+            AttendanceRecord::STATE_PUNCHED_OUT
+        );
+
+        if (!$isPunchOutEditable) {
+            $this->saveConfiguration(
+                WorkflowStateMachine::FLOW_ATTENDANCE,
+                AttendanceRecord::STATE_PUNCHED_OUT,
+                self::SUPERVISOR,
+                WorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_OUT_TIME,
+                AttendanceRecord::STATE_PUNCHED_OUT
+            );
+        }
+
+        $isPunchInDeletable = $this->getAttendanceDao()->hasSavedConfiguration(
+            WorkflowStateMachine::FLOW_ATTENDANCE,
+            AttendanceRecord::STATE_PUNCHED_IN,
+            self::SUPERVISOR,
+            WorkflowStateMachine::ATTENDANCE_ACTION_DELETE,
+            AttendanceRecord::STATE_NA
+        );
+
+        if (!$isPunchInDeletable) {
+            $this->saveConfiguration(
+                WorkflowStateMachine::FLOW_ATTENDANCE,
+                AttendanceRecord::STATE_PUNCHED_IN,
+                self::SUPERVISOR,
+                WorkflowStateMachine::ATTENDANCE_ACTION_DELETE,
+                AttendanceRecord::STATE_NA
+            );
+        }
+
+        $isPunchOutDeletable = $this->getAttendanceDao()->hasSavedConfiguration(
+            WorkflowStateMachine::FLOW_ATTENDANCE,
+            AttendanceRecord::STATE_PUNCHED_OUT,
+            self::SUPERVISOR,
+            WorkflowStateMachine::ATTENDANCE_ACTION_DELETE,
+            AttendanceRecord::STATE_NA
+        );
+
+        if (!$isPunchOutDeletable) {
+            $this->saveConfiguration(
+                WorkflowStateMachine::FLOW_ATTENDANCE,
+                AttendanceRecord::STATE_PUNCHED_OUT,
+                self::SUPERVISOR,
+                WorkflowStateMachine::ATTENDANCE_ACTION_DELETE,
+                AttendanceRecord::STATE_NA
+            );
+        }
+
+        $isProxyPunchIn = $this->getAttendanceDao()->hasSavedConfiguration(
+            WorkflowStateMachine::FLOW_ATTENDANCE,
+            AttendanceRecord::STATE_INITIAL,
+            self::SUPERVISOR,
+            WorkflowStateMachine::ATTENDANCE_ACTION_PROXY_PUNCH_IN,
+            AttendanceRecord::STATE_PUNCHED_IN
+        );
+
+        if (!$isProxyPunchIn) {
+            $this->saveConfiguration(
+                WorkflowStateMachine::FLOW_ATTENDANCE,
+                AttendanceRecord::STATE_INITIAL,
+                self::SUPERVISOR,
+                WorkflowStateMachine::ATTENDANCE_ACTION_PROXY_PUNCH_IN,
+                AttendanceRecord::STATE_PUNCHED_IN
+            );
+        }
+
+        $isProxyPunchOut = $this->getAttendanceDao()->hasSavedConfiguration(
+            WorkflowStateMachine::FLOW_ATTENDANCE,
+            AttendanceRecord::STATE_PUNCHED_IN,
+            self::SUPERVISOR,
+            WorkflowStateMachine::ATTENDANCE_ACTION_PROXY_PUNCH_OUT,
+            AttendanceRecord::STATE_PUNCHED_OUT
+        );
+
+        if (!$isProxyPunchOut) {
+            $this->saveConfiguration(
+                WorkflowStateMachine::FLOW_ATTENDANCE,
+                AttendanceRecord::STATE_PUNCHED_IN,
+                self::SUPERVISOR,
+                WorkflowStateMachine::ATTENDANCE_ACTION_PROXY_PUNCH_OUT,
+                AttendanceRecord::STATE_PUNCHED_OUT
+            );
+        }
+    }
+
+    public function disableSupervisorCanModifyAttendanceConfiguration(): void
+    {
+        $this->getAccessFlowStateMachineService()->deleteWorkflowStateMachineRecord(
+            WorkflowStateMachine::FLOW_ATTENDANCE,
+            AttendanceRecord::STATE_PUNCHED_IN,
+            self::SUPERVISOR,
+            WorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_IN_TIME,
+            AttendanceRecord::STATE_PUNCHED_IN
+        );
+        $this->getAccessFlowStateMachineService()->deleteWorkflowStateMachineRecord(
+            WorkflowStateMachine::FLOW_ATTENDANCE,
+            AttendanceRecord::STATE_PUNCHED_OUT,
+            self::SUPERVISOR,
+            WorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_OUT_TIME,
+            AttendanceRecord::STATE_PUNCHED_OUT
+        );
+        $this->getAccessFlowStateMachineService()->deleteWorkflowStateMachineRecord(
+            WorkflowStateMachine::FLOW_ATTENDANCE,
+            AttendanceRecord::STATE_PUNCHED_OUT,
+            self::SUPERVISOR,
+            WorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_IN_TIME,
+            AttendanceRecord::STATE_PUNCHED_OUT
+        );
+        $this->getAccessFlowStateMachineService()->deleteWorkflowStateMachineRecord(
+            WorkflowStateMachine::FLOW_ATTENDANCE,
+            AttendanceRecord::STATE_PUNCHED_IN,
+            self::SUPERVISOR,
+            WorkflowStateMachine::ATTENDANCE_ACTION_DELETE,
+            AttendanceRecord::STATE_NA
+        );
+        $this->getAccessFlowStateMachineService()->deleteWorkflowStateMachineRecord(
+            WorkflowStateMachine::FLOW_ATTENDANCE,
+            AttendanceRecord::STATE_PUNCHED_OUT,
+            self::SUPERVISOR,
+            WorkflowStateMachine::ATTENDANCE_ACTION_DELETE,
+            AttendanceRecord::STATE_NA
+        );
+
+        $this->getAccessFlowStateMachineService()->deleteWorkflowStateMachineRecord(
+            WorkflowStateMachine::FLOW_ATTENDANCE,
+            AttendanceRecord::STATE_INITIAL,
+            self::SUPERVISOR,
+            WorkflowStateMachine::ATTENDANCE_ACTION_PROXY_PUNCH_IN,
+            AttendanceRecord::STATE_PUNCHED_IN
+        );
+        $this->getAccessFlowStateMachineService()->deleteWorkflowStateMachineRecord(
+            WorkflowStateMachine::FLOW_ATTENDANCE,
+            AttendanceRecord::STATE_PUNCHED_IN,
+            self::SUPERVISOR,
+            WorkflowStateMachine::ATTENDANCE_ACTION_PROXY_PUNCH_OUT,
+            AttendanceRecord::STATE_PUNCHED_OUT
+        );
+    }
+
+    /**
+     * @param  string  $flow
+     * @param  string  $state
+     * @param  string  $role
+     * @param  string  $action
+     * @param  string  $resultingState
+     * @return void
+     */
+    private function saveConfiguration(
+        string $flow,
+        string $state,
+        string $role,
+        string $action,
+        string $resultingState
+    ): void {
+        $workflowStateMachineRecord = new WorkflowStateMachine();
+        $workflowStateMachineRecord->setWorkflow(WorkflowStateMachine::FLOW_ATTENDANCE);
+        $workflowStateMachineRecord->setState($state);
+        $workflowStateMachineRecord->setRole($role);
+        $workflowStateMachineRecord->setAction($action);
+        $workflowStateMachineRecord->setResultingState($resultingState);
+        $this->getAccessFlowStateMachineService()->saveWorkflowStateMachineRecord($workflowStateMachineRecord);
     }
 }
 

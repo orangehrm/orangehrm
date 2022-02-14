@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 apiv2_performance_kpi:
   path: /api/v2/performance/kpi/{id}
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
@@ -15,6 +16,16 @@ apiv2_performance_kpis:
 ##########################
 #        Screens
 ##########################
+
+performance_myTrackers:
+  path: /performance/viewMyPerformanceTrackerList
+  controller: OrangeHRM\Performance\Controller\MyTrackerController::handle
+  methods: [ GET ]
+
+performance_employee_tracker:
+  path: /performance/viewEmployeePerformanceTrackerList
+  controller: OrangeHRM\Performance\Controller\PerformanceController::handle
+  methods: [ GET ]
 
 performance_kpi_search:
   path: /performance/searchKpi

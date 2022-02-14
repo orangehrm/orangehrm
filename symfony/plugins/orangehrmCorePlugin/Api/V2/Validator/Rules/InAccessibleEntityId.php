@@ -57,7 +57,14 @@ class InAccessibleEntityId extends AbstractRule
             }
         }
 
-        $accessible = $this->getUserRoleManager()->isEntityAccessible($this->entityName, $input);
+        $accessible = $this->getUserRoleManager()->isEntityAccessible(
+            $this->entityName,
+            $input,
+            null,
+            $this->option->getRolesToExclude(),
+            $this->option->getRolesToInclude(),
+            $this->option->getRequiredPermissions()
+        );
         if ($this->option->isThrow() && !$accessible) {
             throw $this->option->getThrowable();
         } elseif (!$accessible) {

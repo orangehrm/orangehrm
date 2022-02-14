@@ -150,7 +150,7 @@ class AttendanceDaoTest extends PHPUnit_Framework_TestCase {
         $action = "EDIT";
         $resultingState = "INITIAL";
 
-        $RecordExist = $this->attendanceDao->getSavedConfiguration($workflow, $state, $role, $action, $resultingState);
+        $RecordExist = $this->attendanceDao->hasSavedConfiguration($workflow, $state, $role, $action, $resultingState);
 
         $this->assertTrue($RecordExist);
 
@@ -160,7 +160,7 @@ class AttendanceDaoTest extends PHPUnit_Framework_TestCase {
         $action = "EDIT";
         $resultingState = "PUNCHED OUT";
 
-        $RecordExist = $this->attendanceDao->getSavedConfiguration($workflow, $state, $role, $action, $resultingState);
+        $RecordExist = $this->attendanceDao->hasSavedConfiguration($workflow, $state, $role, $action, $resultingState);
 
         $this->assertFalse($RecordExist);
     }

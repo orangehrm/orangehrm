@@ -35,6 +35,12 @@ class AttendanceRecord
 {
     use DecoratorTrait;
 
+    public const STATE_PUNCHED_IN = "PUNCHED IN";
+    public const STATE_PUNCHED_OUT = "PUNCHED OUT";
+    public const STATE_CREATED = "CREATED";
+    public const STATE_INITIAL = "INITIAL";
+    public const STATE_NA = "NA";
+
     /**
      * @var int
      *

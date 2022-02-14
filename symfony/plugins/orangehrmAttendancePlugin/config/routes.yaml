@@ -1,12 +1,10 @@
-apiv2_attendance_configure:
-  path: /api/v2/attendance/configure
-  controller: OrangeHRM\Attendance\Controller\AttendanceMockController::getAttendanceConfig
-  methods: [ GET ]
-
-apiv2_save_attendance_configure:
-  path: /api/v2/attendance/configure
-  controller: OrangeHRM\Attendance\Controller\AttendanceMockController::setAttendanceConfig
-  methods: [ PUT ]
+apiv2_attendance_configuration:
+  path: /api/v2/attendance/configs
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    id: 0
+    _api: OrangeHRM\Attendance\Api\AttendanceConfigurationAPI
 
 apiv2_attendance_currentdatetime:
   path: /api/v2/attendance/currentdatetime

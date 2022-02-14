@@ -62,7 +62,9 @@ const actionsNormalizer = data => {
       startDate: item.startDate,
       empNumber: item.employee.empNumber,
       period: `${item.startDate} - ${item.endDate}`,
-      employee: `${item.employee?.firstName} ${item.employee?.lastName}`,
+      employee: `${item.employee?.firstName} ${item.employee?.lastName} ${
+        item.employee?.terminationId ? ' (Past Employee)' : ''
+      }`,
     };
   });
 };

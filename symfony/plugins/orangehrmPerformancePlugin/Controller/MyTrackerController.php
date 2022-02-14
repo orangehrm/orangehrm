@@ -1,4 +1,4 @@
-<!--
+<?php
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -16,33 +16,21 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
- -->
 
-<template>
-  <div class="orangehrm-timeperiod-picker">
-    <oxd-text tag="p" class="orangehrm-timeperiod-title">
-      {{ $t('time.timesheet_period') }}
-    </oxd-text>
-    <oxd-icon-button
-      class="orangehrm-timeperiod-icon --prev"
-      name="chevron-left"
-      @click="$emit('previous', $event)"
-    />
-    <date-input v-bind="$attrs" />
-    <oxd-icon-button
-      class="orangehrm-timeperiod-icon --next"
-      name="chevron-right"
-      @click="$emit('next', $event)"
-    />
-  </div>
-</template>
+namespace OrangeHRM\Performance\Controller;
 
-<script>
-export default {
-  name: 'TimesheetPeriod',
-  inheritAttrs: false,
-  emits: ['previous', 'next'],
-};
-</script>
+use OrangeHRM\Core\Controller\AbstractVueController;
+use OrangeHRM\Core\Vue\Component;
+use OrangeHRM\Framework\Http\Request;
 
-<style src="./timesheet-period.scss" lang="scss" scoped></style>
+class MyTrackerController extends AbstractVueController
+{
+    /**
+     * @inheritDoc
+     */
+    public function preRender(Request $request): void
+    {
+        $component = new Component('my-tracker');
+        $this->setComponent($component);
+    }
+}
