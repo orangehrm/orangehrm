@@ -22,7 +22,7 @@ namespace OrangeHRM\Attendance\Api\Model;
 use DateTime;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 
-class CurrentDateTimeModel implements Normalizable
+class DateTimeModel implements Normalizable
 {
     /**
      * @var DateTime
