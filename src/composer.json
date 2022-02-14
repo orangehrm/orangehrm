@@ -91,7 +91,8 @@
             "OrangeHRM\\Tests\\Time\\": "./plugins/orangehrmTimePlugin/test",
             "OrangeHRM\\Tests\\Attendance\\": "./plugins/orangehrmAttendancePlugin/test",
             "OrangeHRM\\Tests\\Maintenance\\": "./plugins/orangehrmMaintenancePlugin/test",
-            "OrangeHRM\\Tests\\I18N\\": "./plugins/orangehrmI18NPlugin/test"
+            "OrangeHRM\\Tests\\I18N\\": "./plugins/orangehrmI18NPlugin/test",
+            "OrangeHRM\\Tests\\Performance\\": "./plugins/orangehrmPerformancePlugin/test"
         }
     },
     "scripts": {
