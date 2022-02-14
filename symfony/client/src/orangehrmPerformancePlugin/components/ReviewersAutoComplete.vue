@@ -39,19 +39,19 @@ export default {
   },
   props: {
     includeEmployees: {
-      type:String,
+      type: String,
       default: 'onlyCurrent',
     },
     excludeEmployee: {
       type: Object,
-      required: true,
+      required: false,
+      default: null,
     },
   },
   setup() {
     const http = new APIService(
-        window.appGlobal.baseUrl,
-        'api/v2/performance/reviewers',
-        //'/api/v2/pim/employees',
+      window.appGlobal.baseUrl,
+      'api/v2/performance/reviewers',
     );
     return {
       http,
@@ -64,8 +64,8 @@ export default {
           this.http
             .getAll({
               nameOrId: serachParam.trim(),
-              //includeEmployees: this.includeEmployees,
-              empNumber: this.excludeEmployee.id,   //to be added back when a seperate API is created for reviewers
+              empNumber:
+                this.excludeEmployee == null ? null : this.excludeEmployee.id, //to be added back when a seperate API is created for reviewers
             })
             .then(({data}) => {
               resolve(

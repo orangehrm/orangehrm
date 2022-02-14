@@ -25,63 +25,63 @@
           <oxd-grid :cols="4" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <employee-autocomplete
-                  v-model="filters.empNumber"
-                  :params="{
+                v-model="filters.empNumber"
+                :params="{
                   includeEmployees: 'currentAndPast',
-                  }"
+                }"
               />
             </oxd-grid-item>
           </oxd-grid>
         </oxd-form-row>
-        <oxd-divider/>
+        <oxd-divider />
         <oxd-form-actions>
           <oxd-button
-              display-type="ghost"
-              label="Reset"
-              @click="onClickReset"
+            display-type="ghost"
+            label="Reset"
+            @click="onClickReset"
           />
           <oxd-button
-              class="orangehrm-left-space"
-              display-type="secondary"
-              label="Search"
-              type="submit"
+            class="orangehrm-left-space"
+            display-type="secondary"
+            label="Search"
+            type="submit"
           />
         </oxd-form-actions>
       </oxd-form>
     </oxd-table-filter>
-    <br/>
+    <br />
     <div class="orangehrm-paper-container">
       <div class="orangehrm-header-container">
         <oxd-button
-            display-type="secondary"
-            icon-name="plus"
-            label="Add"
-            @click="onClickAdd"
+          display-type="secondary"
+          icon-name="plus"
+          label="Add"
+          @click="onClickAdd"
         />
       </div>
       <table-header
-          :loading="isLoading"
-          :selected="checkedItems.length"
-          :total="total"
-          @delete="onClickDeleteSelected"
+        :loading="isLoading"
+        :selected="checkedItems.length"
+        :total="total"
+        @delete="onClickDeleteSelected"
       ></table-header>
       <div class="orangehrm-container">
         <oxd-card-table
-            v-model:order="sortDefinition"
-            v-model:selected="checkedItems"
-            :clickable="false"
-            :headers="headers"
-            :items="response?.data"
-            :loading="isLoading"
-            :selectable="true"
-            row-decorator="oxd-table-decorator-card"
+          v-model:order="sortDefinition"
+          v-model:selected="checkedItems"
+          :clickable="false"
+          :headers="headers"
+          :items="response?.data"
+          :loading="isLoading"
+          :selectable="true"
+          row-decorator="oxd-table-decorator-card"
         />
       </div>
       <div class="orangehrm-bottom-container">
         <oxd-pagination
-            v-if="showPaginator"
-            v-model:current="currentPage"
-            :length="pages"
+          v-if="showPaginator"
+          v-model:current="currentPage"
+          :length="pages"
         ></oxd-pagination>
       </div>
     </div>
@@ -113,7 +113,6 @@ const trackerNormalizer = data => {
 
 const defaultFilters = {
   empNumber: null,
-
 };
 
 const defaultSortOrder = {
@@ -139,8 +138,8 @@ export default {
 
   setup() {
     const http = new APIService(
-        window.appGlobal.baseUrl,
-        '/api/v2/performance/performance-trackers',
+      window.appGlobal.baseUrl,
+      '/api/v2/performance/performance-trackers',
     );
 
     const filters = ref({...defaultFilters});
@@ -212,7 +211,7 @@ export default {
         },
         {
           name: 'matureDate',
-          title: 'Matured Date',
+          title: 'Modified Date',
           sortField: 'performanceTracker.modifiedDate',
           style: {flex: 1},
         },
@@ -275,16 +274,16 @@ export default {
       if (items instanceof Array) {
         this.isLoading = true;
         this.http
-            .deleteAll({
-              ids: items,
-            })
-            .then(() => {
-              return this.$toast.deleteSuccess();
-            })
-            .then(() => {
-              this.isLoading = false;
-              this.resetDataTable();
-            });
+          .deleteAll({
+            ids: items,
+          })
+          .then(() => {
+            return this.$toast.deleteSuccess();
+          })
+          .then(() => {
+            this.isLoading = false;
+            this.resetDataTable();
+          });
       }
     },
     async resetDataTable() {

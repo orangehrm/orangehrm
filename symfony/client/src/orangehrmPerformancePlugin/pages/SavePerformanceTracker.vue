@@ -51,7 +51,7 @@
               <reviewers-autocomplete
                 v-model="tracker.reviewers"
                 :rules="rules.reviewers"
-                :excludeEmployee="tracker.employee"
+                :exclude-employee="tracker.employee"
                 label="Reviewers"
                 required
               />
@@ -97,8 +97,8 @@ export default {
   },
   setup() {
     const http = new APIService(
-        window.appGlobal.baseUrl,
-        '/api/v2/performance/performance-tracker',
+      window.appGlobal.baseUrl,
+      '/api/v2/performance/performance-tracker',
     );
     return {
       http,
@@ -110,7 +110,21 @@ export default {
       tracker: {...trackerModel},
       rules: {
         tracker: [required, shouldNotExceedCharLength(200)],
-        employee: [required],
+        employee: [
+          required,
+          value => {
+            if (value === null) {
+              return true;
+            }
+            const valid = this.tracker.reviewers.findIndex(reviewer => {
+              return reviewer.id === value.id;
+            });
+            if (valid == -1) {
+              return true;
+            }
+            return 'Employee cannot be someone added as a reviewer';
+          },
+        ],
         reviewers: [required],
       },
     };
