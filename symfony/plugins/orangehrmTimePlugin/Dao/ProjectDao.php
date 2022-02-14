@@ -393,7 +393,7 @@ class ProjectDao extends BaseDao
         )->getQueryBuilder();
         $q->select(
             'CONCAT(employee.firstName, \' \', employee.lastName) AS fullName,
-            IDENTITY(employee.employeeTerminationRecord) AS termination,
+            IDENTITY(employee.employeeTerminationRecord) AS terminationId,
             SUM(COALESCE(timesheetItem.duration, 0)) AS totalDuration'
         );
 
