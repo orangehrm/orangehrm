@@ -4427,5 +4427,5 @@ VALUES (1, 0, 1, 0, 0, @apiv2_attendance_configuration_data_group_id, @admin_rol
        (1, 0, 0, 0, 0, @apiv2_attendance_timezones_data_group_id, @admin_role_id),
        (1, 0, 0, 0, 0, @apiv2_attendance_timezones_data_group_id, @ess_role_id),
        (1, 0, 0, 0, 0, @apiv2_attendance_current_date_time_data_group_id, @admin_role_id),
-       (1, 0, 0, 0, 0, @apiv2_attendance_current_date_time_data_group_id, @ess_role_id);
+       (1, 0, 0, 0, 0, @apiv2_attendance_current_date_time_data_group_id, @ess_role_id),
        (1, 0, 0, 0, 1, @attendance_summary_data_group_id, @admin_role_id);
