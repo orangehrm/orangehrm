@@ -124,30 +124,27 @@ class AttendanceReport implements EndpointAwareReport
             $endpoint->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::FILTER_EMP_NUMBER,
+                    new Rule(Rules::ENTITY_ID_EXISTS, [Employee::class]),
                     new Rule(
-                        Rules::IN_ACCESSIBLE_EMP_NUMBERS,
-                        [false]
+                        Rules::IN_ACCESSIBLE_EMP_NUMBERS
                     ) // this is for restrict the supervisor access when supervisor trying to access own record
                 )
             ),
             $endpoint->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::FILTER_JOB_TITLE_ID,
-                    new Rule(Rules::POSITIVE),
                     new Rule(Rules::ENTITY_ID_EXISTS, [JobTitle::class])
                 )
             ),
             $endpoint->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::FILTER_SUBUNIT_ID,
-                    new Rule(Rules::POSITIVE),
                     new Rule(Rules::ENTITY_ID_EXISTS, [Subunit::class])
                 )
             ),
             $endpoint->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::FILTER_EMPLOYMENT_STATUS_ID,
-                    new Rule(Rules::POSITIVE),
                     new Rule(Rules::ENTITY_ID_EXISTS, [EmploymentStatus::class])
                 )
             ),
@@ -181,8 +178,8 @@ class AttendanceReport implements EndpointAwareReport
                 )
             ),
             ...$endpoint->getSortingAndPaginationParamsRules(
-                AttendanceReportSearchFilterParams::ALLOWED_SORT_FIELDS
-            )
+            AttendanceReportSearchFilterParams::ALLOWED_SORT_FIELDS
+        )
         );
     }
 
@@ -224,8 +221,16 @@ class AttendanceReport implements EndpointAwareReport
      */
     public function checkReportAccessibility(EndpointProxy $endpoint): void
     {
-        if (!$this->getUserRoleManagerHelper()
-            ->getEntityIndependentDataGroupPermissions('attendance_summary')->canRead()) {
+        $employeeNumber = $endpoint->getRequestParams()->getIntOrNull(
+            RequestParams::PARAM_TYPE_QUERY,
+            self::FILTER_EMP_NUMBER
+        );
+        if (!$this->getUserRoleManager()->getDataGroupPermissions(
+            'attendance_summary',
+            [],
+            [],
+            $this->getUserRoleManagerHelper()->isSelfByEmpNumber($employeeNumber)
+        )->canRead()) {
             throw new ForbiddenException();
         }
     }

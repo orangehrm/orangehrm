@@ -489,7 +489,7 @@ GetAll:
     meta:
       total: 1
 
-  'Get all attendance record breakdown with employee number filter - Supervisor':
+  'Get all attendance record breakdown for supervisor - Accessing own':
     userId: 3
     services:
       core.config_service: \OrangeHRM\Core\Service\ConfigService
@@ -504,10 +504,10 @@ GetAll:
       name: 'attendance'
       empNumber: 3
     exception:
-      class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
-      message: 'Invalid Parameter'
+      class: '\OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
+      message: 'Unauthorized'
 
-  'Get all attendance record breakdown with filter (in existing)':
+  'Get all attendance record breakdown with filter (non existing)':
     userId: 1
     services:
       core.config_service: \OrangeHRM\Core\Service\ConfigService
@@ -526,3 +526,25 @@ GetAll:
     exception:
       class: '\OrangeHRM\Core\Api\V2\Exception\InvalidParamException'
       message: 'Invalid Parameter'
+
+  'Get all attendance record breakdown for Admin - Accessing own':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      name: 'attendance'
+      empNumber: 1
+    data: [
+      {
+        "employeeName": "Kayla Abbey",
+        "time": "18.00"
+      },
+    ]
+    meta:
+      total: 1
