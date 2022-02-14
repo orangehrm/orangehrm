@@ -52,7 +52,7 @@ class AttendanceReportData implements ReportData
 
         $result = [];
         foreach ($employeeAttendanceRecords as $employeeAttendanceRecord) {
-            $termination = $employeeAttendanceRecord['termination'];
+            $termination = $employeeAttendanceRecord['terminationId'];
             $result[] = [
                 AttendanceReport::PARAMETER_EMPLOYEE_NAME => $termination === null ? $employeeAttendanceRecord['fullName'] : $employeeAttendanceRecord['fullName'] . ' (Past employee)',
                 AttendanceReport::PARAMETER_TIME => $this->getNumberHelper()

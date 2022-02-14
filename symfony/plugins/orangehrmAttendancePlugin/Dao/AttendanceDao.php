@@ -649,7 +649,7 @@ class AttendanceDao extends BaseDao {
         $q->select(
             'CONCAT(employee.firstName, \' \', employee.lastName) AS fullName',
             'attendanceRecord.id',
-            'IDENTITY(employee.employeeTerminationRecord) AS termination',
+            'IDENTITY(employee.employeeTerminationRecord) AS terminationId',
             'employee.empNumber as empNumber',
             "SUM(TIME_DIFF(COALESCE(attendanceRecord.punchOutUtcTime, 0), COALESCE(attendanceRecord.punchInUtcTime, 0),'second')) AS total"
         );
