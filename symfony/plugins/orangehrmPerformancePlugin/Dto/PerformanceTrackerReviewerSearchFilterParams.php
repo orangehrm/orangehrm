@@ -69,5 +69,4 @@ class PerformanceTrackerReviewerSearchFilterParams extends FilterParams
     {
         $this->nameOrId = $nameOrId;
     }
-
 }

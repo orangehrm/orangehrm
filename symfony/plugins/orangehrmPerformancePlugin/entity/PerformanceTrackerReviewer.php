@@ -33,8 +33,8 @@ use OrangeHRM\Entity\Decorator\PerformanceTrackerReviewerDecorator;
  * @ORM\Entity
  */
 
-class PerformanceTrackerReviewer{
-
+class PerformanceTrackerReviewer
+{
     use DecoratorTrait;
     /**
      * @var int
@@ -147,5 +147,4 @@ class PerformanceTrackerReviewer{
     {
         $this->added_date = $added_date;
     }
-
 }

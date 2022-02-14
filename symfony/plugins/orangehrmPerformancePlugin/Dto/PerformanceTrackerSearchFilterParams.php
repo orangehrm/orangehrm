@@ -55,5 +55,4 @@ class PerformanceTrackerSearchFilterParams extends FilterParams
     {
         $this->empNumber = $empNumber;
     }
-
 }

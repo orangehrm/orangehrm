@@ -30,12 +30,12 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Performance\Dto\PerformanceTrackerReviewerSearchFilterParams;
-use OrangeHRM\Performance\Traits\Service\PerformanceTrackerReviewerServiceTrait;
+use OrangeHRM\Performance\Traits\Service\PerformanceTrackerServiceTrait;
 use OrangeHRM\Pim\Api\Model\EmployeeModel;
 
 class PerformanceTrackerReviewerAPI extends Endpoint implements CrudEndpoint
 {
-    use PerformanceTrackerReviewerServiceTrait;
+    use PerformanceTrackerServiceTrait;
 
     public const FILTER_EMPLOYEE_NUMBER = 'empNumber';
     public const FILTER_NAME_OR_ID = 'nameOrId';
@@ -62,8 +62,8 @@ class PerformanceTrackerReviewerAPI extends Endpoint implements CrudEndpoint
                 self::FILTER_NAME_OR_ID
             )
         );
-        $reviewers = $this->getPerformanceTrackerReviewerService()
-            ->getPerformanceTrackReviewerDao()
+        $reviewers = $this->getPerformanceTrackerService()
+            ->getPerformanceTrackerDao()
             ->getReviewerList($performanceTrackerReviewerSearchParamHolder);
         return new EndpointCollectionResult(
             EmployeeModel::class,

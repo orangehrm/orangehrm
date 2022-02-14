@@ -51,5 +51,4 @@ class PerformanceTrackerReviewerDecorator
         $employee = $this->getReference(Employee::class, $empNumber);
         $this->performanceTrackerReviewer->setReviewer($employee);
     }
-
 }
