@@ -6,6 +6,7 @@
  */
 
 namespace OrangeHRM\Performance\Dao;
+
 use OrangeHRM\Core\Dao\BaseDao;
 use DaoException;
 use Doctrine;
@@ -23,7 +24,6 @@ use type;
  */
 class PerformanceReviewDao extends BaseDao
 {
-
     /**
      *
      * @param sfDoctrineRecord $review
@@ -67,8 +67,7 @@ class PerformanceReviewDao extends BaseDao
         $offset = ($parameters['page'] > 0) ? (($parameters['page'] - 1) * $parameters['limit']) : 0;
 
         try {
-
-            $query = Doctrine_Query:: create()->from('PerformanceReview p');
+            $query = Doctrine_Query::create()->from('PerformanceReview p');
             $query->leftJoin("p.Employee e");
             $query->leftJoin("p.reviewers r");
             $query->leftJoin("r.rating rating");
@@ -136,8 +135,7 @@ class PerformanceReviewDao extends BaseDao
     public function getReviwerEmployeeList(int $reviwerEmployeeId): array
     {
         try {
-
-            $query = Doctrine_Query:: create()
+            $query = Doctrine_Query::create()
                 ->from('PerformanceReview p');
 
             $query->leftJoin("p.Employee e");
@@ -205,8 +203,6 @@ class PerformanceReviewDao extends BaseDao
      */
     public function searchRating($parameters = null): bool
     {
-
-
         try {
             $q = Doctrine_Query::create()->from('ReviewerRating');
             if (isset($parameters['id']) && sizeof($parameters) == 1) {
@@ -240,7 +236,7 @@ class PerformanceReviewDao extends BaseDao
     public function getReviewById($id)
     {
         try {
-            $result = Doctrine:: getTable('PerformanceReview')->find($id);
+            $result = Doctrine::getTable('PerformanceReview')->find($id);
             return $result;
             //@codeCoverageIgnoreStart
         } catch (Exception $e) {
@@ -251,7 +247,7 @@ class PerformanceReviewDao extends BaseDao
     public function getReviewsByReviewerId($reviwerId)
     {
         try {
-            $query = Doctrine_Query:: create()->from('PerformanceReview p');
+            $query = Doctrine_Query::create()->from('PerformanceReview p');
             $query->leftJoin("p.reviewers r");
             $query->andWhere('r.employeeNumber = ?', $reviwerId);
             return $query->execute();
@@ -260,5 +256,4 @@ class PerformanceReviewDao extends BaseDao
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }//@codeCoverageIgnoreEnd
     }
-
 }

@@ -21,12 +21,10 @@ namespace OrangeHRM\Tests\Performance\Dao;
 
 use OrangeHRM\Core\Service\DateTimeHelperService;
 use OrangeHRM\Framework\Services;
-use OrangeHRM\ORM\Doctrine;
 use OrangeHRM\Performance\Dao\PerformanceTrackerDao;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Performance\Dto\PerformanceTrackerSearchFilterParams;
 use OrangeHRM\Tests\Util\KernelTestCase;
-use OrangeHRM\Tests\Util\TestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 use OrangeHRM\Entity\PerformanceTracker;
 
@@ -45,21 +43,21 @@ class PerformanceTrackerDaoTest extends KernelTestCase
     public function testGetPerformanceTrack(): void
     {
         $result =$this->performanceTrackerDao->getPerformanceTrack(1);
-        $this->assertEquals('test tracker name',$result->getTrackerName());
+        $this->assertEquals('test tracker name', $result->getTrackerName());
     }
 
     public function testGetPerformanceTrackList(): void
     {
         $performanceTrackerFilterParams = new PerformanceTrackerSearchFilterParams();
         $result = $this->performanceTrackerDao->getPerformanceTrackList($performanceTrackerFilterParams);
-        $this->assertCount(2,$result);
+        $this->assertCount(2, $result);
     }
 
     public function testGetPerformanceTrackerCount(): void
     {
         $performanceTrackerFilterParams = new PerformanceTrackerSearchFilterParams();
         $result = $this->performanceTrackerDao->getPerformanceTrackerCount($performanceTrackerFilterParams);
-        $this->assertEquals(2,$result);
+        $this->assertEquals(2, $result);
     }
 
 
@@ -80,9 +78,8 @@ class PerformanceTrackerDaoTest extends KernelTestCase
         $performanceTracker->setTrackerName('Devp vue apps');
         $performanceTracker->getDecorator()->setEmployeeByEmpNumber(1);
         $reviewArray = [1,2];
-        $result =$this->performanceTrackerDao->savePerformanceTracker($performanceTracker,$reviewArray);
+        $result =$this->performanceTrackerDao->savePerformanceTracker($performanceTracker, $reviewArray);
         $this->assertEquals("Devp vue apps", $result->getTrackerName());
-
     }
 
     public function testDeletePerformanceTracker(): void
@@ -98,9 +95,7 @@ class PerformanceTrackerDaoTest extends KernelTestCase
         $performancanceTracker =$this->performanceTrackerDao->getPerformanceTrack(1);
         $performancanceTracker->setTrackerName('UpdatedTracker');
         $reviewers = [1,3];
-        $result = $this->performanceTrackerDao->updatePerformanceTracker($performancanceTracker,$reviewers);
+        $result = $this->performanceTrackerDao->updatePerformanceTracker($performancanceTracker, $reviewers);
         $this->assertEquals("UpdatedTracker", $result->getTrackerName());
     }
-
-
 }

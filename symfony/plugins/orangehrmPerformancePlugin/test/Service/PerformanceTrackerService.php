@@ -7,7 +7,6 @@
 
 namespace OrangeHRM\Performance\test\Service;
 
-use BaseService;
 use CSVBuilder;
 use DaoException;
 use EmployeeDao;
@@ -26,7 +25,6 @@ use function set_datepicker_date_format;
  */
 class PerformanceTrackerService
 {
-
     /**
      * @ignore
      */
@@ -98,10 +96,9 @@ class PerformanceTrackerService
 
     public function DeletePerformanceTracker($performanceTrackId)
     {
-        //set performance track state to deleted 
+        //set performance track state to deleted
         $performanceTrack = $this->getPerformanceTrack($performanceTrackId);
         if ($performanceTrack instanceof PerformanceTrack) {
-
             $performanceTrack->setStatus(PerformanceTrack::STATUS_DELETED);
             //set performance track logs state to deleted
             $loglist = $performanceTrack->getPerformanceTrackerLog();
@@ -114,7 +111,7 @@ class PerformanceTrackerService
             }
             $performanceTrack->setPerformanceTrackerLog($loglist);
 
-            //set performance track reviewers state to deleted 
+            //set performance track reviewers state to deleted
             $reviewers = $performanceTrack->getPerformanceTrackerReviewer();
             foreach ($reviewers as $reviewer) {
                 if ($reviewer instanceof PerformanceTrackerReviewer) {
@@ -229,14 +226,14 @@ class PerformanceTrackerService
      */
     public function getCsvContentDetail($searchResult)
     {
-        $headers = array("Reviewer", "Log", "Comment", "Performance", "Added Date", "Modified Date");
+        $headers = ["Reviewer", "Log", "Comment", "Performance", "Added Date", "Modified Date"];
         foreach ($headers as &$header) {
             $header = __($header);
         }
 
-        $csvResultSet = array();
+        $csvResultSet = [];
         foreach ($searchResult as $log) {
-            $csvRow = array();
+            $csvRow = [];
             $csvRow [] = $log->getReviewerName();
             $csvRow [] = $log->getLog();
             $csvRow [] = $log->getComment();
@@ -252,7 +249,7 @@ class PerformanceTrackerService
 
     public function getPerformanceTrackListCount()
     {
-        $searchParameter = array('limit' => null);
+        $searchParameter = ['limit' => null];
         $trackerList = $this->getPerformanceTrackDao()->getPerformanceTrackList($searchParameter);
         return count($trackerList);
     }
@@ -270,5 +267,4 @@ class PerformanceTrackerService
         $trackerList = $this->getPerformanceTrackDao()->getPerformanceTrackerByEmployee($searchParameter);
         return count($trackerList);
     }
-
 }

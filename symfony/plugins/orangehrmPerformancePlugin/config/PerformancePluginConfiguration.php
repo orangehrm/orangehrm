@@ -21,7 +21,6 @@ use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\PluginConfigurationInterface;
 use OrangeHRM\Framework\Services;
-use OrangeHRM\Performance\Service\PerformanceTrackerReviewerService;
 use OrangeHRM\Performance\Service\PerformanceTrackerService;
 
 class PerformancePluginConfiguration implements PluginConfigurationInterface
@@ -36,11 +35,6 @@ class PerformancePluginConfiguration implements PluginConfigurationInterface
         $this->getContainer()->register(
             Services::PERFORMANCE_TRACKER_SERVICE,
             PerformanceTrackerService::class
-        );
-
-        $this->getContainer()->register(
-            Services::PERFORMANCE_TRACKER_REVIEWER_SERVICE,
-            PerformanceTrackerReviewerService::class
         );
     }
 }

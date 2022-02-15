@@ -75,7 +75,6 @@ import EditPerformanceTracker from '@/orangehrmPerformancePlugin/pages/EditPerfo
 import MyTracker from '@/orangehrmPerformancePlugin/pages/MyTracker.vue';
 import EmployeeTrackers from '@/orangehrmPerformancePlugin/pages/EmployeeTrackers.vue';
 
-
 export default {
   'job-title-list': JobTitle,
   'job-title-edit': EditJobTitle,

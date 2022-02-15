@@ -30,7 +30,7 @@ class TrackerListController extends AbstractVueController
      */
     public function preRender(Request $request): void
     {
-        $component = new Component( 'performance-tracker-list');
+        $component = new Component('performance-tracker-list');
         $this->setComponent($component);
     }
 }

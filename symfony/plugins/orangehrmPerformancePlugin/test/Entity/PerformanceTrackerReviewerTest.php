@@ -30,9 +30,11 @@ class PerformanceTrackerReviewerTest extends EntityTestCase
     protected function setUp(): void
     {
         TestDataService::truncateSpecificTables([PerformanceTrackerReviewer::class]);
-
     }
 
+    /**
+     * @return void
+     */
     public function testerformanceTrackerEntity(): void
     {
         $performanceTracker = $this->getRepository(PerformanceTracker::class)->find(1);
@@ -43,6 +45,6 @@ class PerformanceTrackerReviewerTest extends EntityTestCase
         $this->persist($performanceTrackerReviewer);
 
         $result =$this->getRepository(PerformanceTrackerReviewer::class)->find(1);
-        $this->assertEquals('Devp vue apps',$result->getTrackerName());
+        $this->assertEquals('Devp vue apps', $result->getTrackerName());
     }
 }

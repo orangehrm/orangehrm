@@ -10,7 +10,6 @@ use OrangeHRM\Tests\Util\Integration\TestCaseParams;
 
 class PerformanceTrackerAPITest extends EndpointIntegrationTestCase
 {
-
     /**
      * @dataProvider dataProviderForTestGetOne
      *
@@ -18,7 +17,7 @@ class PerformanceTrackerAPITest extends EndpointIntegrationTestCase
      */
     public function testGetOne(TestCaseParams $testCaseParams): void
     {
-        $this->populateFixtures('PerformanceTrackerAPI.yml');
+        $this->populateFixtures('PerformanceTrackerAPITest.yml');
         $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
         $this->registerServices($testCaseParams);
         $this->registerMockDateTimeHelper($testCaseParams);
@@ -28,7 +27,7 @@ class PerformanceTrackerAPITest extends EndpointIntegrationTestCase
 
     public function dataProviderForTestGetOne(): array
     {
-        return $this->getTestCases('PerformanceTrackerAPITest.yaml', 'GetOne');
+        return $this->getTestCases('PerformanceTrackerAPITestCases.yaml', 'GetOne');
     }
 
     /**
@@ -36,7 +35,7 @@ class PerformanceTrackerAPITest extends EndpointIntegrationTestCase
      */
     public function testGetAll(TestCaseParams $testCaseParams): void
     {
-        $this->populateFixtures('PerformanceTracker2.yml');
+        $this->populateFixtures('PerformanceTrackerAPITest.yml');
         $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
         $this->registerServices($testCaseParams);
         $this->registerMockDateTimeHelper($testCaseParams);
@@ -46,7 +45,7 @@ class PerformanceTrackerAPITest extends EndpointIntegrationTestCase
 
     public function dataProviderForTestGetAll(): array
     {
-        return $this->getTestCases('PerformanceTrackerAPITest.yaml', 'GetAll');
+        return $this->getTestCases('PerformanceTrackerAPITestCases.yaml', 'GetAll');
     }
 
     /**
@@ -54,7 +53,7 @@ class PerformanceTrackerAPITest extends EndpointIntegrationTestCase
      */
     public function testCreate(TestCaseParams $testCaseParams): void
     {
-        $this->populateFixtures('PerformanceTracker2.yml');
+        $this->populateFixtures('PerformanceTrackerAPITest.yml');
         $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
         $this->registerServices($testCaseParams);
         $this->registerMockDateTimeHelper($testCaseParams);
@@ -64,7 +63,7 @@ class PerformanceTrackerAPITest extends EndpointIntegrationTestCase
 
     public function dataProviderForTestCreate(): array
     {
-        return $this->getTestCases('PerformanceTrackerAPITest.yaml', 'Create');
+        return $this->getTestCases('PerformanceTrackerAPITestCases.yaml', 'Create');
     }
 
     /**
@@ -72,7 +71,7 @@ class PerformanceTrackerAPITest extends EndpointIntegrationTestCase
      */
     public function testUpdate(TestCaseParams $testCaseParams): void
     {
-        $this->populateFixtures('PerformanceTracker2.yml');
+        $this->populateFixtures('PerformanceTrackerAPITest.yml');
         $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
         $this->registerServices($testCaseParams);
         $this->registerMockDateTimeHelper($testCaseParams);
@@ -82,7 +81,7 @@ class PerformanceTrackerAPITest extends EndpointIntegrationTestCase
 
     public function dataProviderForTestUpdate(): array
     {
-        return $this->getTestCases('PerformanceTrackerAPITest.yaml', 'Update');
+        return $this->getTestCases('PerformanceTrackerAPITestCases.yaml', 'Update');
     }
 
     /**
@@ -90,7 +89,7 @@ class PerformanceTrackerAPITest extends EndpointIntegrationTestCase
      */
     public function testDelete(TestCaseParams $testCaseParams): void
     {
-        $this->populateFixtures('PerformanceTracker2.yml');
+        $this->populateFixtures('PerformanceTrackerAPITest.yml');
         $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
         $this->registerServices($testCaseParams);
         $this->registerMockDateTimeHelper($testCaseParams);
@@ -100,7 +99,6 @@ class PerformanceTrackerAPITest extends EndpointIntegrationTestCase
 
     public function dataProviderForTestDelete(): array
     {
-        return $this->getTestCases('PerformanceTrackerAPITest.yaml', 'Delete');
+        return $this->getTestCases('PerformanceTrackerAPITestCases.yaml', 'Delete');
     }
-
 }

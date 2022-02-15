@@ -22,8 +22,8 @@ use OrangeHRM\Tests\Util\TestDataService;
 /**
  * @group performance
  */
-class PerformanceReviewDaoTest extends TestCase {
-
+class PerformanceReviewDaoTest extends TestCase
+{
     private $performanceReviewDao;
     protected $fixture;
 
@@ -37,6 +37,4 @@ class PerformanceReviewDaoTest extends TestCase {
         $this->fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmPerformancePlugin/test/fixtures/PerformanceReviews.yml';
         TestDataService::populate($this->fixture);
     }
-
-
 }

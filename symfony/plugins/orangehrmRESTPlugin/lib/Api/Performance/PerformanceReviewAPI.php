@@ -20,8 +20,8 @@
 namespace Orangehrm\Rest\Api\Performance;
 
 use Orangehrm\Rest\Api\EndPoint;
-use Orangehrm\Rest\Api\Exception\RecordNotFoundException;
 use Orangehrm\Rest\Api\Exception\InvalidParamException;
+use Orangehrm\Rest\Api\Exception\RecordNotFoundException;
 use Orangehrm\Rest\Http\Response;
 
 class PerformanceReviewAPI extends EndPoint
@@ -31,11 +31,11 @@ class PerformanceReviewAPI extends EndPoint
 
     /**
      *
-     * @return \PerformanceReviewService
+     * @return \OrangeHRM\Performance\Service\PerformanceReviewService
      */
     public function getPerformanceReviewService() {
         if ($this->performanceReviewService == null) {
-            return new \PerformanceReviewService();
+            return new \OrangeHRM\Performance\Service\PerformanceReviewService();
         } else {
             return $this->performanceReviewService;
         }
