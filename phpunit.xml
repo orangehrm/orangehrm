@@ -70,5 +70,11 @@
       <directory>symfony/plugins/orangehrmAttendancePlugin/test/Api</directory>
       <directory>symfony/plugins/orangehrmAttendancePlugin/test/Entity</directory>
     </testsuite>
+    <testsuite name="Maintenance">
+      <directory>symfony/plugins/orangehrmMaintenancePlugin/test/Service</directory>
+      <directory>symfony/plugins/orangehrmMaintenancePlugin/test/Dao</directory>
+<!--      <directory>symfony/plugins/orangehrmMaintenancePlugin/test/Api</directory>-->
+<!--      <directory>symfony/plugins/orangehrmMaintenancePlugin/test/Entity</directory>-->
+    </testsuite>
   </testsuites>
 </phpunit>

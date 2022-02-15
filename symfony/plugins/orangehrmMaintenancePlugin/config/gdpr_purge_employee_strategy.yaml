@@ -1,0 +1,50 @@
+Entities :
+
+  Employee:
+    PurgeStrategy:
+      ReplaceWithValue:
+        match_by:
+          - {match: empNumber}
+        parameters:
+          - {field: "firstName" ,class: 'FormatWithPurgeString'}
+          - {field: "lastName" ,class: 'FormatWithPurgeString'}
+          - {field: "middleName" ,class: 'FormatWithEmptyString'}
+#          - {field: "nickName" ,class: 'FormatWithEmptyString'}
+#          - {field: "smoker" ,class: 'FormatWithZero'}
+#          - {field: "emp_gender" ,class: 'FormatWithNull'}
+#          - {field: "emp_marital_status" ,class: 'FormatWithNull'}
+#          - {field: "nation_code" ,class: 'FormatWithNull'}
+#          - {field: "ssn" ,class: 'FormatWithEmptyString'}
+#          - {field: "sin" ,class: 'FormatWithEmptyString'}
+#          - {field: "otherId" ,class: 'FormatWithEmptyString'}
+#          - {field: "licenseNo" ,class: 'FormatWithEmptyString'}
+#          - {field: "emp_dri_lice_exp_date" ,class: 'FormatWithNull'}
+#          - {field: "militaryService" ,class: 'FormatWithEmptyString'}
+#          - {field: "emp_status" ,class: 'FormatWithNull'}
+#          - {field: "job_title_code" ,class: 'FormatWithNull'}
+#          - {field: "work_station" ,class: 'FormatWithNull'}
+#          - {field: "street1" ,class: 'FormatWithEmptyString'}
+#          - {field: "street2" ,class: 'FormatWithEmptyString'}
+#          - {field: "city" ,class: 'FormatWithEmptyString'}
+#          - {field: "country" ,class: 'FormatWithEmptyString'}
+#          - {field: "province" ,class: 'FormatWithEmptyString'}
+#          - {field: "emp_zipcode" ,class: 'FormatWithNull'}
+#          - {field: "emp_hm_telephone" ,class: 'FormatWithNull'}
+#          - {field: "emp_birthday" ,class: 'FormatWithNull'}
+#          - {field: "emp_mobile" ,class: 'FormatWithNull'}
+#          - {field: "emp_work_telephone" ,class: 'FormatWithNull'}
+#          - {field: "emp_work_email" ,class: 'FormatWithNull'}
+#          - {field: "emp_oth_email" ,class: 'FormatWithNull'}
+#          - {field: "custom1" ,class: 'FormatWithNull'}
+#          - {field: "custom2" ,class: 'FormatWithNull'}
+#          - {field: "custom3" ,class: 'FormatWithNull'}
+#          - {field: "custom4" ,class: 'FormatWithNull'}
+#          - {field: "custom5" ,class: 'FormatWithNull'}
+#          - {field: "custom6" ,class: 'FormatWithNull'}
+#          - {field: "custom7" ,class: 'FormatWithNull'}
+#          - {field: "custom8" ,class: 'FormatWithNull'}
+#          - {field: "custom9" ,class: 'FormatWithNull'}
+#          - {field: "custom10" ,class: 'FormatWithNull'}
+#          - {field: "purged_at" ,class: 'FormatWithPurgeTime'}
+#          - {field: "eeo_cat_code" ,class: 'FormatWithNull'}
+#          - {field: "joined_date" ,class: 'FormatWithNull'}
