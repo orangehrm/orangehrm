@@ -27,11 +27,6 @@ use OrangeHRM\Tests\Util\TestDataService;
 
 class PerformanceTrackerReviewerTest extends EntityTestCase
 {
-    protected function setUp(): void
-    {
-        TestDataService::truncateSpecificTables([PerformanceTrackerReviewer::class]);
-    }
-
     /**
      * @return void
      */
@@ -39,12 +34,17 @@ class PerformanceTrackerReviewerTest extends EntityTestCase
     {
         $performanceTracker = $this->getRepository(PerformanceTracker::class)->find(1);
         $performanceTrackerReviewer = new PerformanceTrackerReviewer();
-        $performanceTrackerReviewer->setPerformanceTracker();
-        $performanceTrackerReviewer->getDecorator()->setEmployeeByEmpNumber(1);
+        $performanceTrackerReviewer->setPerformanceTracker($performanceTracker);
+        $performanceTrackerReviewer->getDecorator()->setReviewerByEmpNumber(1);
         $performanceTrackerReviewer->setAddedDate(new DateTime('03/02/2022'));
         $this->persist($performanceTrackerReviewer);
 
-        $result =$this->getRepository(PerformanceTrackerReviewer::class)->find(1);
-        $this->assertEquals('Devp vue apps', $result->getTrackerName());
+        $result = $this->getRepository(PerformanceTrackerReviewer::class)->find(1);
+        $this->assertEquals(1, $result->getPerformanceTracker()->getId());
+    }
+
+    protected function setUp(): void
+    {
+        TestDataService::truncateSpecificTables([PerformanceTrackerReviewer::class]);
     }
 }

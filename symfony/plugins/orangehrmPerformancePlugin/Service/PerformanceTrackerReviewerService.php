@@ -20,6 +20,8 @@
 namespace OrangeHRM\Performance\Service;
 
 use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
+use OrangeHRM\Entity\PerformanceTracker;
+use OrangeHRM\Performance\Dao\PerformanceTrackerDao;
 use OrangeHRM\Performance\Dao\PerformanceTrackReviewerDao;
 
 class PerformanceTrackerReviewerService
@@ -27,18 +29,18 @@ class PerformanceTrackerReviewerService
     use NormalizerServiceTrait;
 
     /**
-     * @var PerformanceTrackReviewerDao|null
+     * @var PerformanceTrackerDao|null
      */
-    private ?PerformanceTrackReviewerDao $performanceTrackReviewerDao = null;
+    private ?PerformanceTrackerDao $performanceTrackerDao = null;
 
     /**
-     * @return PerformanceTrackReviewerDao|null
+     * @return PerformanceTrackerDao|null
      */
-    public function getPerformanceTrackReviewerDao(): ?PerformanceTrackReviewerDao
+    public function getPerformanceTrackerDao(): ?PerformanceTrackerDao
     {
-        if (!($this->performanceTrackReviewerDao instanceof PerformanceTrackReviewerDao)) {
-            $this->performanceTrackReviewerDao = new PerformanceTrackReviewerDao();
+        if (!($this->performanceTrackerDao instanceof PerformanceTrackerDao)) {
+            $this->performanceTrackerDao = new PerformanceTrackerDao();
         }
-        return $this->performanceTrackReviewerDao;
+        return $this->performanceTrackerDao;
     }
 }
