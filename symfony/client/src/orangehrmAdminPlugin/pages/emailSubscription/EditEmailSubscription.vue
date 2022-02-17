@@ -127,11 +127,20 @@ export default {
   data() {
     return {
       headers: [
-        {name: 'name', slot: 'title', title: 'Name', style: {flex: '30%'}},
-        {name: 'email', title: 'Email', style: {flex: '55%'}},
+        {
+          name: 'name',
+          slot: 'title',
+          title: this.$t('general.yes'),
+          style: {flex: '30%'}
+        },
+        {
+          name: 'email',
+          title: this.$t('general.email'),
+          style: {flex: '55%'}
+        },
         {
           name: 'actions',
-          title: 'Actions',
+          title: this.$t('leave.actions'),
           slot: 'action',
           style: {flex: '15%'},
           cellType: 'oxd-table-cell-actions',
