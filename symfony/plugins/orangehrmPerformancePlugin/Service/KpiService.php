@@ -17,31 +17,37 @@
  * Boston, MA  02110-1301, USA
  */
 
+namespace OrangeHRM\Performance\Service;
 
-use OrangeHRM\Core\Traits\ServiceContainerTrait;
-use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Framework\PluginConfigurationInterface;
-use OrangeHRM\Framework\Services;
-use OrangeHRM\Performance\Service\KpiService;
-use OrangeHRM\Performance\Service\PerformanceTrackerService;
+use OrangeHRM\Entity\Kpi;
+use OrangeHRM\Performance\Dao\KpiDao;
+use OrangeHRM\Performance\Exception\KpiServiceException;
 
-
-class PerformancePluginConfiguration implements PluginConfigurationInterface
+class KpiService
 {
-    use ServiceContainerTrait;
+    private ?KpiDao $kpiDao = null;
 
     /**
-     * @inheritDoc
+     * @return KpiDao
      */
-    public function initialize(Request $request): void
+    public function getKpiDao(): KpiDao
     {
-        $this->getContainer()->register(
-            Services::PERFORMANCE_TRACKER_SERVICE,
-            PerformanceTrackerService::class
-        );
-        $this->getContainer()->register(
-            Services::KPI_SERVICE,
-            KpiService::class
-        );
+        if (!($this->kpiDao instanceof KpiDao)) {
+            $this->kpiDao = new KpiDao();
+        }
+        return $this->kpiDao;
+    }
+
+    /**
+     * @param Kpi $kpi
+     * @return Kpi
+     * @throws KpiServiceException
+     */
+    public function saveKpi(Kpi $kpi): Kpi
+    {
+        if ($kpi->getMinRating() >= $kpi->getMaxRating()) {
+            throw KpiServiceException::minGreaterThanMax();
+        }
+        return $this->getKpiDao()->saveKpi($kpi);
     }
 }

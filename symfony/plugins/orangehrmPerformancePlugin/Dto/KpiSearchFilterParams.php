@@ -17,31 +17,34 @@
  * Boston, MA  02110-1301, USA
  */
 
+namespace OrangeHRM\Performance\Dto;
 
-use OrangeHRM\Core\Traits\ServiceContainerTrait;
-use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Framework\PluginConfigurationInterface;
-use OrangeHRM\Framework\Services;
-use OrangeHRM\Performance\Service\KpiService;
-use OrangeHRM\Performance\Service\PerformanceTrackerService;
+use OrangeHRM\Core\Dto\FilterParams;
 
-
-class PerformancePluginConfiguration implements PluginConfigurationInterface
+class KpiSearchFilterParams extends FilterParams
 {
-    use ServiceContainerTrait;
+    public const ALLOWED_SORT_FIELDS = ['kpi.title', 'jobTitle.jobTitleName'];
+
+    protected ?int $jobTitleId = null;
+
+    public function __construct()
+    {
+        $this->setSortField('kpi.title');
+    }
 
     /**
-     * @inheritDoc
+     * @return int|null
      */
-    public function initialize(Request $request): void
+    public function getJobTitleId(): ?int
     {
-        $this->getContainer()->register(
-            Services::PERFORMANCE_TRACKER_SERVICE,
-            PerformanceTrackerService::class
-        );
-        $this->getContainer()->register(
-            Services::KPI_SERVICE,
-            KpiService::class
-        );
+        return $this->jobTitleId;
+    }
+
+    /**
+     * @param int|null $jobTitleId
+     */
+    public function setJobTitleId(?int $jobTitleId): void
+    {
+        $this->jobTitleId = $jobTitleId;
     }
 }

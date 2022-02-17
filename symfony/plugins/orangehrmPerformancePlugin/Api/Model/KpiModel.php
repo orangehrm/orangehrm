@@ -17,31 +17,40 @@
  * Boston, MA  02110-1301, USA
  */
 
+namespace OrangeHRM\Performance\Api\Model;
 
-use OrangeHRM\Core\Traits\ServiceContainerTrait;
-use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Framework\PluginConfigurationInterface;
-use OrangeHRM\Framework\Services;
-use OrangeHRM\Performance\Service\KpiService;
-use OrangeHRM\Performance\Service\PerformanceTrackerService;
+use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
+use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
+use OrangeHRM\Entity\Kpi;
 
-
-class PerformancePluginConfiguration implements PluginConfigurationInterface
+class KpiModel implements Normalizable
 {
-    use ServiceContainerTrait;
+    use ModelTrait;
 
-    /**
-     * @inheritDoc
-     */
-    public function initialize(Request $request): void
+    public function __construct(Kpi $kpi)
     {
-        $this->getContainer()->register(
-            Services::PERFORMANCE_TRACKER_SERVICE,
-            PerformanceTrackerService::class
+        $this->setEntity($kpi);
+        $this->setFilters(
+            [
+                'id',
+                'title',
+                ['getJobTitle', 'getId'],
+                ['getJobTitle', 'getJobTitleName'],
+                'minRating',
+                'maxRating',
+                ['isDefaultKpi'],
+            ]
         );
-        $this->getContainer()->register(
-            Services::KPI_SERVICE,
-            KpiService::class
+        $this->setAttributeNames(
+            [
+                'id',
+                'title',
+                ['jobTitle', 'id'],
+                ['jobTitle', 'name'],
+                'minRating',
+                'maxRating',
+                'isDefault',
+            ]
         );
     }
 }

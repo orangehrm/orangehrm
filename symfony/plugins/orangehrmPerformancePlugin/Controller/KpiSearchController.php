@@ -17,31 +17,20 @@
  * Boston, MA  02110-1301, USA
  */
 
+namespace OrangeHRM\Performance\Controller;
 
-use OrangeHRM\Core\Traits\ServiceContainerTrait;
+use OrangeHRM\Core\Controller\AbstractVueController;
+use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Framework\PluginConfigurationInterface;
-use OrangeHRM\Framework\Services;
-use OrangeHRM\Performance\Service\KpiService;
-use OrangeHRM\Performance\Service\PerformanceTrackerService;
 
-
-class PerformancePluginConfiguration implements PluginConfigurationInterface
+class KpiSearchController extends AbstractVueController
 {
-    use ServiceContainerTrait;
-
     /**
      * @inheritDoc
      */
-    public function initialize(Request $request): void
+    public function preRender(Request $request): void
     {
-        $this->getContainer()->register(
-            Services::PERFORMANCE_TRACKER_SERVICE,
-            PerformanceTrackerService::class
-        );
-        $this->getContainer()->register(
-            Services::KPI_SERVICE,
-            KpiService::class
-        );
+        $component = new Component('kpi-search');
+        $this->setComponent($component);
     }
 }

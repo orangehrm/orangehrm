@@ -74,6 +74,9 @@ import SavePerformanceTracker from '@/orangehrmPerformancePlugin/pages/SavePerfo
 import EditPerformanceTracker from '@/orangehrmPerformancePlugin/pages/EditPerformanceTracker.vue';
 import MyTracker from '@/orangehrmPerformancePlugin/pages/MyTracker.vue';
 import EmployeeTrackers from '@/orangehrmPerformancePlugin/pages/EmployeeTrackers.vue';
+import KpiSearch from '@/orangehrmPerformancePlugin/pages/KpiSearch.vue';
+import KpiSave from '@/orangehrmPerformancePlugin/pages/KpiSave.vue';
+import KpiEdit from '@/orangehrmPerformancePlugin/pages/KpiEdit.vue';
 
 export default {
   'job-title-list': JobTitle,
@@ -135,4 +138,7 @@ export default {
   'performance-tracker-edit': EditPerformanceTracker,
   'my-tracker': MyTracker,
   'employee-trackers': EmployeeTrackers,
+  'kpi-search': KpiSearch,
+  'kpi-save': KpiSave,
+  'kpi-edit': KpiEdit,
 };

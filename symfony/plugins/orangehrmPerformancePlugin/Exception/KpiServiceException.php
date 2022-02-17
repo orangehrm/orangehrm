@@ -17,31 +17,17 @@
  * Boston, MA  02110-1301, USA
  */
 
+namespace OrangeHRM\Performance\Exception;
 
-use OrangeHRM\Core\Traits\ServiceContainerTrait;
-use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Framework\PluginConfigurationInterface;
-use OrangeHRM\Framework\Services;
-use OrangeHRM\Performance\Service\KpiService;
-use OrangeHRM\Performance\Service\PerformanceTrackerService;
+use Exception;
 
-
-class PerformancePluginConfiguration implements PluginConfigurationInterface
+class KpiServiceException extends Exception
 {
-    use ServiceContainerTrait;
-
     /**
-     * @inheritDoc
+     * @return static
      */
-    public function initialize(Request $request): void
+    public static function minGreaterThanMax(): self
     {
-        $this->getContainer()->register(
-            Services::PERFORMANCE_TRACKER_SERVICE,
-            PerformanceTrackerService::class
-        );
-        $this->getContainer()->register(
-            Services::KPI_SERVICE,
-            KpiService::class
-        );
+        return new self("Minimum rating should be less than Maximum rating");
     }
 }
