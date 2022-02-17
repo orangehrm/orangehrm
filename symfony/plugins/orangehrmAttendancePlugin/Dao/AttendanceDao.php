@@ -21,12 +21,12 @@ namespace OrangeHRM\Attendance\Dao;
 
 use DateTime;
 use OrangeHRM\Attendance\Exception\AttendanceServiceException;
-use OrangeHRM\Entity\Employee;
-use OrangeHRM\ORM\Paginator;
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Entity\AttendanceRecord;
+use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\WorkflowStateMachine;
 use OrangeHRM\ORM\ListSorter;
+use OrangeHRM\ORM\Paginator;
 use OrangeHRM\Time\Dto\AttendanceReportSearchFilterParams;
 use Respect\Validation\Rules\Date;
 
@@ -237,23 +237,12 @@ class AttendanceDao extends BaseDao {
     }
 
     /**
-     * Get Attendance Record By Id
-     * @param $attendanceRecordId
-     * @return attendanceRecord
+     * @param  int  $attendanceRecordId
+     * @return AttendanceRecord | null
      */
-    public function getAttendanceRecordById($attendanceRecordId) {
-
-        try {
-            $q = Doctrine_Query:: create()
-                    ->from('AttendanceRecord')
-                    ->where("id = ?", $attendanceRecordId);
-
-            $result = $q->execute();
-
-            return $result[0];
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
+    public function getAttendanceRecordById(int $attendanceRecordId): AttendanceRecord
+    {
+        return $this->getRepository(AttendanceRecord::class)->find($attendanceRecordId);
     }
 
     /**
