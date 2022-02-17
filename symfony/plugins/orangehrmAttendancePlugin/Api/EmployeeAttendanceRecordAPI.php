@@ -56,6 +56,8 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
     public const PARAMETER_TIMEZONE_OFFSET = 'timezoneOffset';
     public const PARAMETER_NOTE = 'note';
 
+    public const PARAMETER_RULE_NOTE_MAX_LENGTH = 250;
+
     /**
      * @inheritDoc
      */
@@ -234,8 +236,10 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::PARAMETER_NOTE,
-                    new Rule(Rules::STRING_TYPE)
-                )
+                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::LENGTH, [null, self::PARAMETER_RULE_NOTE_MAX_LENGTH])
+                ),
+                true
             )
         ];
     }
