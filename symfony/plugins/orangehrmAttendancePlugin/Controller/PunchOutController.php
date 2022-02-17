@@ -19,25 +19,55 @@
 
 namespace OrangeHRM\Attendance\Controller;
 
+use OrangeHRM\Attendance\Traits\Service\AttendanceServiceTrait;
 use OrangeHRM\Core\Controller\AbstractVueController;
+use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Entity\AttendanceRecord;
 use OrangeHRM\Core\Vue\Prop;
 
 class PunchOutController extends AbstractVueController
 {
+
+    use AttendanceServiceTrait;
+    use AuthUserTrait;
+
     /**
      * @inheritDoc
      */
-    public function preRender(Request $request): void
+    public function handle(Request $request)
     {
-        $component = new Component('attendance-punch-out');
-        // TODO: check if previous record is a punch in. if so send the record id.
-        // if not redirect to punch in
-        $component->addProp(new Prop('attendance-record-id', Prop::TYPE_NUMBER, 1));
+        // check if previous record is a punch in.
+        $attendanceRecord = $this->getAttendanceService()
+            ->getAttendanceDao()
+            ->getLastPunchRecordByEmployeeNumberAndActionableList(
+                $this->getAuthUser()->getEmpNumber(),
+                [AttendanceRecord::STATE_PUNCHED_IN]
+            );
 
-        // TODO: If attendance config is set to user editable, send true
-        $component->addProp(new Prop('is-editable', Prop::TYPE_BOOLEAN, true));
+        //previous record is not present redirect to punch in
+        if (!$attendanceRecord instanceof AttendanceRecord) {
+            return $this->redirect('/attendance/punchIn');
+        }
+
+        $component = new Component('attendance-punch-out');
+        $component->addProp(new Prop('attendance-record-id', Prop::TYPE_NUMBER, $attendanceRecord->getId()));
+
+        //if configuration enabled, editable is true
+        if ($this->getAttendanceService()->canUserChangeCurrentTime()) {
+            $component->addProp(new Prop('is-editable', Prop::TYPE_BOOLEAN, true));
+        }
         $this->setComponent($component);
+
+        if (!$this->isHandled()) {
+            $content = $this->render($request);
+        }
+        $response = $this->getResponse();
+        if (isset($content)) {
+            $response->setContent($content);
+        }
+        
+        return $response;
     }
 }

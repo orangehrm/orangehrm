@@ -180,7 +180,7 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
      * @param  DateTime  $punchInUtcTime
      * @param  DateTime  $punchInUserTime
      * @param  float  $punchInTimezoneOffset
-     * @param  string  $punchInNote
+     * @param  string|null  $punchInNote
      */
     protected function setPunchInAttendanceRecord(
         AttendanceRecord $attendanceRecord,
@@ -188,7 +188,7 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
         DateTime $punchInUtcTime,
         DateTime $punchInUserTime,
         float $punchInTimezoneOffset,
-        string $punchInNote
+        ?string $punchInNote
     ): void {
         $attendanceRecord->setState($state);
         $attendanceRecord->setPunchInUtcTime($punchInUtcTime);
@@ -340,7 +340,7 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
      * @param  DateTime  $punchOutUtcTime
      * @param  DateTime  $punchOutUserTime
      * @param  float  $punchOutTimezoneOffset
-     * @param  string  $punchOutNote
+     * @param  string|null  $punchOutNote
      */
     protected function setPunchOutAttendanceRecord(
         AttendanceRecord $attendanceRecord,
@@ -348,7 +348,7 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
         DateTime $punchOutUtcTime,
         DateTime $punchOutUserTime,
         float $punchOutTimezoneOffset,
-        string $punchOutNote
+        ?string $punchOutNote
     ): void {
         $attendanceRecord->setState($state);
         $attendanceRecord->setPunchOutUtcTime($punchOutUtcTime);

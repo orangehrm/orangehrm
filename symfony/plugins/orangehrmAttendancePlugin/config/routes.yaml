@@ -98,16 +98,6 @@ attendance_edit_attendance:
 #        Mock
 ##########################
 
-apiv2_attendance_validate_datetime:
-  path: /api/v2/attendance/validatedate
-  controller: OrangeHRM\Attendance\Controller\AttendanceMockController::validateDateTime
-  methods: [ GET ]
-
-apiv2_attendance_record:
-  path: /api/v2/attendance/record/{id?}
-  controller: OrangeHRM\Attendance\Controller\AttendanceMockController::sendAttendanceResponse
-  methods: [ GET, POST, PUT ]
-
 apiv2_attendance_delete_employee_attendance_records:
   path: /api/v2/attendance/employees/records
   controller: OrangeHRM\Attendance\Controller\AttendanceMockController::deleteEmployeeAttendanceRecords

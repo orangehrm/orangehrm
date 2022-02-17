@@ -995,6 +995,11 @@
           "source": "Edit Attendance Records",
           "target": "Edit Attendance Records",
           "description": ""
+        },
+        "overlapping_records_found": {
+          "source": "Overlapping Records Found",
+          "target": "Overlapping Records Found",
+          "description": "To avoid the leave overlaps with other employees, when applying a leave an employee should be able to check the availability of others of same division subunit)"
         }
       }
     }

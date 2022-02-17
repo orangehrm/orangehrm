@@ -25,8 +25,8 @@
         <oxd-grid-item v-if="attendanceRecord.previousRecord">
           <oxd-input-group :label="$t('time.punched_in_time')">
             <oxd-text type="subtitle-2">
-              {{ attendanceRecord.previousRecord.date }} -
-              {{ attendanceRecord.previousRecord.time }}
+              {{ attendanceRecord.previousRecord.userDate }} -
+              {{ attendanceRecord.previousRecord.userTime }}
             </oxd-text>
           </oxd-input-group>
         </oxd-grid-item>
@@ -34,6 +34,7 @@
         <!-- Date Selector -->
         <oxd-grid-item class="--offset-row-2">
           <oxd-input-field
+            :key="attendanceRecord.time"
             v-model="attendanceRecord.date"
             :label="$t('general.date')"
             :rules="rules.date"
@@ -96,8 +97,12 @@ import {
   required,
   shouldNotExceedCharLength,
 } from '@/core/util/validation/rules';
-import {navigate} from '@/core/util/helper/navigation';
-import {setClockInterval, formatDate} from '@/core/util/helper/datefns';
+import {
+  parseDate,
+  formatDate,
+  setClockInterval,
+} from '@/core/util/helper/datefns';
+import {reloadPage} from '@/core/util/helper/navigation';
 import promiseDebounce from '@ohrm/oxd/utils/promiseDebounce';
 import {APIService} from '@ohrm/core/util/services/api.service';
 import TimezoneDropdown from '@/orangehrmAttendancePlugin/components/TimezoneDropdown.vue';
@@ -118,7 +123,7 @@ export default {
   props: {
     isEditable: {
       type: Boolean,
-      default: true,
+      default: false,
     },
     isTimezoneEditable: {
       type: Boolean,
@@ -132,7 +137,7 @@ export default {
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      '/api/v2/attendance/record',
+      '/api/v2/attendance/records',
     );
     return {
       http,
@@ -157,13 +162,16 @@ export default {
         // then set record date/time every minute
         setClockInterval(this.setCurrentDateTime, 60000);
         return this.attendanceRecordId
-          ? this.http.get(this.attendanceRecordId)
+          ? this.http.request({
+              method: 'GET',
+              url: '/api/v2/attendance/records/latest',
+            })
           : null;
       })
       .then(response => {
         if (response) {
           const {data} = response.data;
-          this.attendanceRecord.previousRecord = data;
+          this.attendanceRecord.previousRecord = data.punchIn;
         }
       })
       .finally(() => {
@@ -173,38 +181,39 @@ export default {
   methods: {
     onSave() {
       this.isLoading = true;
-      const payload = {
-        date: this.attendanceRecord.date,
-        time: this.attendanceRecord.time,
-        timezones:
-          this.attendanceRecord.timezone?._offset ??
-          new Date().getTimezoneOffset(),
-        note: this.attendanceRecord.note,
-      };
+      // getTimezoneOffset return difference in minutes between UTC and client
+      // offset is positive if the local timezone is behind UTC and negative if it is ahead
+      const tzOffset = (new Date().getTimezoneOffset() / 60) * -1;
 
-      if (!this.attendanceRecordId) {
-        this.http
-          .create(payload)
-          .then(() => {
-            return this.$toast.saveSuccess();
-          })
-          .then(() => navigate('/attendance/punchOut'));
-      } else {
-        this.http
-          .update(this.attendanceRecordId, payload)
-          .then(() => {
-            return this.$toast.updateSuccess();
-          })
-          .then(() => navigate('/attendance/punchIn'));
-      }
+      this.http
+        .request({
+          method: this.attendanceRecordId ? 'PUT' : 'POST',
+          data: {
+            date: this.attendanceRecord.date,
+            time: this.attendanceRecord.time,
+            note: this.attendanceRecord.note,
+            timezoneOffset: this.attendanceRecord.timezone?._offset ?? tzOffset,
+          },
+        })
+        .then(() => {
+          return this.attendanceRecordId
+            ? this.$toast.updateSuccess()
+            : this.$toast.saveSuccess();
+        })
+        .then(() => {
+          reloadPage();
+        });
     },
     setCurrentDateTime() {
       return new Promise((resolve, reject) => {
         this.http
-          .request({method: 'GET', url: '/api/v2/attendance/currentdatetime'})
+          .request({method: 'GET', url: '/api/v2/attendance/current-datetime'})
           .then(res => {
-            const {data} = res.data;
-            const currentDate = new Date(data.timestamp);
+            const {utcDate, utcTime} = res.data.data;
+            const currentDate = parseDate(
+              `${utcDate} ${utcTime} +00:00`,
+              'yyyy-MM-dd HH:mm xxx',
+            );
             this.attendanceRecord.date = formatDate(currentDate, 'yyyy-MM-dd');
             this.attendanceRecord.time = formatDate(currentDate, 'HH:mm');
             resolve();
@@ -213,19 +222,33 @@ export default {
       });
     },
     validateDate() {
+      const tzOffset = (new Date().getTimezoneOffset() / 60) * -1;
       return new Promise(resolve => {
         this.http
           .request({
             method: 'GET',
-            url: '/api/v2/attendance/validatedate',
+            url: `/api/v2/attendance/${
+              this.attendanceRecordId ? 'punch-out' : 'punch-in'
+            }/overlaps`,
             params: {
               date: this.attendanceRecord.date,
               time: this.attendanceRecord.time,
+              timezoneOffset:
+                this.attendanceRecord.timezone?._offset ?? tzOffset,
+            },
+            // Prevent triggering response interceptor on 400
+            validateStatus: status => {
+              return (status >= 200 && status < 300) || status == 400;
             },
           })
           .then(res => {
-            const {data} = res.data;
-            return data ? resolve(true) : resolve('Overlapping Records Found');
+            const {data, error} = res.data;
+            if (error) {
+              return resolve(error.message);
+            }
+            return data.valid === true
+              ? resolve(true)
+              : resolve(this.$t('time.overlapping_records_found'));
           });
       });
     },
