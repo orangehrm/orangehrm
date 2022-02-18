@@ -137,7 +137,8 @@ class AttendanceEditPunchInRecordOverlapAPI extends Endpoint implements Resource
             );
         } else {
             // if open punch in record
-            $punchOutDateTime = new DateTime(date("Y-m-d", 0) . ' ' . date("H:i:s", 0));
+            $punchOutDateTime = new DateTime('now', new DateTimeZone(DateTimeHelperService::TIMEZONE_UTC));
+            $punchOutDateTime->setTimestamp(0);
         }
         return [
             $punchInDateTime->setTimezone(new DateTimeZone(DateTimeHelperService::TIMEZONE_UTC)),
