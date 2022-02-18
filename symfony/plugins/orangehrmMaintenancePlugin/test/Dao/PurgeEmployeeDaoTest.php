@@ -4,6 +4,7 @@ namespace OrangeHRM\Tests\Maintenance\Dao;
 
 use OrangeHRM\Config\Config;
 use OrangeHRM\Entity\Employee;
+use OrangeHRM\Entity\EmployeeSalary;
 use OrangeHRM\Maintenance\Dao\PurgeEmployeeDao;
 use OrangeHRM\Tests\Util\TestCase;
 use OrangeHRM\Tests\Util\TestDataService;
@@ -62,5 +63,13 @@ class PurgeEmployeeDaoTest extends TestCase
         $this->assertEquals("Devi", $saveResult->getFirstName());
         $this->assertEquals("DS", $saveResult->getLastName());
         $this->assertEquals("Nar", $saveResult->getMiddleName());
+    }
+
+    public function testDeleteEntity(): void
+    {
+        $empSalary = $this->getEntityManager()->getRepository(EmployeeSalary::class)->find(1);
+        $this->employeePurgeDao->deleteEntity($empSalary);
+
+        $this->assertCount(2, $this->getEntityManager()->getRepository(EmployeeSalary::class)->findAll());
     }
 }

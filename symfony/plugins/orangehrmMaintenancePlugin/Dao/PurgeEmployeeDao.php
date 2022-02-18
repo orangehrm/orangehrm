@@ -20,7 +20,9 @@
 namespace OrangeHRM\Maintenance\Dao;
 
 use OrangeHRM\Core\Dao\BaseDao;
+use OrangeHRM\Entity\EmpDirectDebit;
 use OrangeHRM\Entity\Employee;
+use OrangeHRM\Entity\EmployeeSalary;
 
 class PurgeEmployeeDao extends BaseDao
 {
@@ -80,6 +82,20 @@ class PurgeEmployeeDao extends BaseDao
     public function saveEntity($entity) //HOW TO PUT TYPE??
     {
         $this->persist($entity);
+
+        if ($entity instanceof Employee) {
+            $this->getEntityManager()->clear();
+        }
+
         return $entity;
+    }
+
+    public function deleteEntity($entity)
+    {
+        $this->remove($entity);
+
+        if ($entity instanceof EmployeeSalary) {
+            $this->getEntityManager()->clear(EmpDirectDebit::class);
+        }
     }
 }
