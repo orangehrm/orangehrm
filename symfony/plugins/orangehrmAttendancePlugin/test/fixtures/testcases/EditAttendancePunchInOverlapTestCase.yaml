@@ -12,7 +12,6 @@ GetOne:
     body: [ ]
     query:
       recordId: 4
-      empNumber: 4
       punchInTimezoneOffset: '5.5'
       punchInDate: '2022-02-12'
       punchInTime: '15:10'
@@ -36,7 +35,6 @@ GetOne:
     body: [ ]
     query:
       recordId: 4
-      empNumber: 4
       punchInTimezoneOffset: '5.5'
       punchInDate: '2022-02-12'
       punchInTime: '16:10'
@@ -60,7 +58,6 @@ GetOne:
     body: [ ]
     query:
       recordId: 4
-      empNumber: 4
       punchInTimezoneOffset: '5.5'
       punchInDate: '2022-02-12'
       punchInTime: '15:15'
@@ -78,25 +75,33 @@ GetOne:
       core.config_service: \OrangeHRM\Core\Service\ConfigService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     attributes: [ ]
     body: [ ]
     query:
       recordId: 1
-      empNumber: 1
       punchInTimezoneOffset: '5.5'
       punchInDate: '2022-02-12'
       punchInTime: '15:15'
       punchOutTimezoneOffset: '5.5'
       punchOutDate: '2022-02-12'
       punchOutTime: '15:49'
-    invalidOnly: [ 'empNumber' ]
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
+      message: 'Unauthorized'
 
   'check the valid attendance punch in by employee number (Self)':
     userId: 4
     services:
       attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     attributes: [ ]
     body: [ ]
     query:
@@ -115,6 +120,12 @@ GetOne:
     userId: 4
     services:
       attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     attributes: [ ]
     body: [ ]
     query:
@@ -141,7 +152,6 @@ GetOne:
     attributes: [ ]
     body: [ ]
     query:
-      empNumber: 4
       recordId: 5
       punchInTimezoneOffset: '5.5'
       punchInDate: '2022-02-12'
@@ -165,7 +175,6 @@ GetOne:
     attributes: [ ]
     body: [ ]
     query:
-      empNumber: 5
       recordId: 6
       punchInTimezoneOffset: '5.5'
       punchInDate: '2022-02-01'
@@ -186,7 +195,6 @@ GetOne:
     attributes: [ ]
     body: [ ]
     query:
-      empNumber: 5
       recordId: 7
       punchInTimezoneOffset: '5.5'
       punchInDate: '2022-02-13'
@@ -194,23 +202,6 @@ GetOne:
     data:
       valid: false
     meta: [ ]
-
-  'check the  punch in overlap by employee number (non exist employee number)':
-    userId: 1
-    services:
-      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
-    attributes: [ ]
-    body: [ ]
-    query:
-      recordId: 4
-      empNumber: 100
-      punchInTimezoneOffset: '5.5'
-      punchInDate: '2022-02-12'
-      punchInTime: '14:55'
-      punchOutTimezoneOffset: '5.5'
-      punchOutDate: '2022-02-13'
-      punchOutTime: '11:00'
-    invalidOnly: [ 'empNumber' ]
 
   'check the  invalid time':
     userId: 1
@@ -241,11 +232,12 @@ GetOne:
     body: [ ]
     query:
       recordId: 400
-      empNumber: 4
       punchInTimezoneOffset: '5.5'
       punchInDate: '2022-02-12'
       punchInTime: '15:10'
       punchOutTimezoneOffset: '5.5'
       punchOutDate: '2022-02-12'
       punchOutTime: '15:49'
-    invalidOnly: [ 'recordId' ]
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException'
+      message: 'Record Not Found'

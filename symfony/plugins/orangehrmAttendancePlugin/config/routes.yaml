@@ -61,7 +61,7 @@ apiv2_attendance_current_datetime:
     _api: OrangeHRM\Attendance\Api\CurrentDateTimeAPI
 
 apiv2_attendance_edit_punch_in_record_overlap:
-  path: /api/v2/attendance/edit-punch-in/overlaps
+  path: /api/v2/attendance/records/punch-in-overlaps
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
   methods: [ GET ]
   defaults:
@@ -69,7 +69,7 @@ apiv2_attendance_edit_punch_in_record_overlap:
     _api: OrangeHRM\Attendance\Api\AttendanceEditPunchInRecordOverlapAPI
 
 apiv2_attendance_edit_punch_out_record_overlap:
-  path: /api/v2/attendance/edit-punch-out/overlaps
+  path: /api/v2/attendance/records/punch-out-overlaps
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
   methods: [ GET ]
   defaults:
@@ -99,7 +99,7 @@ attendance_view_employee_attendance:
   path: /attendance/viewAttendanceRecord
   controller: OrangeHRM\Attendance\Controller\ViewEmployeeAttendanceController::handle
   methods: [ GET ]
-  
+
 attendance_view_my_attendance:
   path: /attendance/viewMyAttendanceRecord
   controller: OrangeHRM\Attendance\Controller\ViewMyAttendanceController::handle

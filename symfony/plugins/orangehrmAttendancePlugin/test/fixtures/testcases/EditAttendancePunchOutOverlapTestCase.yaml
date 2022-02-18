@@ -12,7 +12,6 @@ GetOne:
     body: [ ]
     query:
       recordId: 4
-      empNumber: 4
       punchInTimezoneOffset: '5.5'
       punchInDate: '2022-02-12'
       punchInTime: '14:53'
@@ -36,7 +35,6 @@ GetOne:
     body: [ ]
     query:
       recordId: 4
-      empNumber: 4
       punchInTimezoneOffset: '5.5'
       punchInDate: '2022-02-12'
       punchInTime: '14:53'
@@ -54,25 +52,33 @@ GetOne:
       core.config_service: \OrangeHRM\Core\Service\ConfigService
       admin.user_service: \OrangeHRM\Admin\Service\UserService
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     attributes: [ ]
     body: [ ]
     query:
       recordId: 1
-      empNumber: 1
       punchInTimezoneOffset: '5.5'
       punchInDate: '2022-02-12'
       punchInTime: '14:53'
       punchOutTimezoneOffset: '5.5'
       punchOutDate: '2022-02-12'
       punchOutTime: '14:55'
-    invalidOnly: [ 'empNumber' ]
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
+      message: 'Unauthorized'
 
   'check the valid attendance punch out by employee number (Self)':
     userId: 4
     services:
       attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     attributes: [ ]
     body: [ ]
     query:
@@ -91,6 +97,12 @@ GetOne:
     userId: 4
     services:
       attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     attributes: [ ]
     body: [ ]
     query:
@@ -109,6 +121,12 @@ GetOne:
     userId: 4
     services:
       attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     attributes: [ ]
     body: [ ]
     query:
@@ -136,7 +154,6 @@ GetOne:
     body: [ ]
     query:
       recordId: 4
-      empNumber: 4
       punchInTimezoneOffset: '5.5'
       punchInDate: '2022-02-12'
       punchInTime: '14:53'
@@ -146,47 +163,3 @@ GetOne:
     data:
       valid: false
     meta: [ ]
-
-  'check the  punch out overlap by employee number (non exist employee number)':
-    userId: 1
-    services:
-      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
-      core.config_service: \OrangeHRM\Core\Service\ConfigService
-      admin.user_service: \OrangeHRM\Admin\Service\UserService
-      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
-    factories:
-      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
-    attributes: [ ]
-    body: [ ]
-    query:
-      recordId: 4
-      empNumber: 40
-      punchInTimezoneOffset: '5.5'
-      punchInDate: '2022-02-12'
-      punchInTime: '14:53'
-      punchOutTimezoneOffset: '5.5'
-      punchOutDate: '2022-02-13'
-      punchOutTime: '10:30'
-    invalidOnly: [ 'empNumber' ]
-
-  'check the  unavailable attendance record':
-    userId: 1
-    services:
-      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
-      core.config_service: \OrangeHRM\Core\Service\ConfigService
-      admin.user_service: \OrangeHRM\Admin\Service\UserService
-      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
-    factories:
-      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
-    attributes: [ ]
-    body: [ ]
-    query:
-      recordId: 40
-      empNumber: 4
-      punchInTimezoneOffset: '5.5'
-      punchInDate: '2022-02-12'
-      punchInTime: '14:53'
-      punchOutTimezoneOffset: '5.5'
-      punchOutDate: '2022-02-13'
-      punchOutTime: '10:30'
-    invalidOnly: [ 'recordId' ]

@@ -104,15 +104,14 @@ class AttendanceDao extends BaseDao {
      * @param DateTime $punchInTime
      * @param int $employeeNumber
      * @param int $recordId
-     * @param DateTime $punchOutTime
+     * @param DateTime|null $punchOutTime
      * @return bool
+     * @throws AttendanceServiceException
      */
-    public function checkForPunchInOverLappingRecordsWhenEditing(DateTime $punchInTime, int $employeeNumber, int $recordId, DateTime $punchOutTime): bool
+    public function checkForPunchInOverLappingRecordsWhenEditing(DateTime $punchInTime, int $employeeNumber, int $recordId, ?DateTime $punchOutTime = null): bool
     {
-        if ($punchOutTime->format('Y-m-d') !== '1970-01-01') {
-            if ($punchInTime > $punchOutTime) {
-                throw AttendanceServiceException::punchOutTimeBehindThanPunchInTime();
-            }
+        if (!is_null($punchOutTime) && $punchInTime > $punchOutTime) {
+            throw AttendanceServiceException::punchOutTimeBehindThanPunchInTime();
         }
 
         return $this->getCommonQueryForPunchInOverlap($punchInTime, $employeeNumber, $recordId);
@@ -309,23 +308,13 @@ class AttendanceDao extends BaseDao {
     }
 
     /**
-     * Get Attendance Record By Id
-     * @param $attendanceRecordId
-     * @return attendanceRecord
+     * @param int $attendanceRecordId
+     * @return AttendanceRecord|null
      */
-    public function getAttendanceRecordById($attendanceRecordId) {
-
-        try {
-            $q = Doctrine_Query:: create()
-                    ->from('AttendanceRecord')
-                    ->where("id = ?", $attendanceRecordId);
-
-            $result = $q->execute();
-
-            return $result[0];
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
+    public function getAttendanceRecordById(int $attendanceRecordId): ?AttendanceRecord
+    {
+        $attendanceRecord = $this->getRepository(AttendanceRecord::class)->find($attendanceRecordId);
+        return ($attendanceRecord instanceof AttendanceRecord) ? $attendanceRecord : null;
     }
 
     /**

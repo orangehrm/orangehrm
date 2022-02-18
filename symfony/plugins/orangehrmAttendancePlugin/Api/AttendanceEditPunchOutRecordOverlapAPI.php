@@ -21,6 +21,7 @@ namespace OrangeHRM\Attendance\Api;
 
 use DateTime;
 use DateTimeZone;
+use OrangeHRM\Attendance\Api\Traits\AttendanceRecordPermissionTrait;
 use OrangeHRM\Attendance\Exception\AttendanceServiceException;
 use OrangeHRM\Attendance\Traits\Service\AttendanceServiceTrait;
 use OrangeHRM\Core\Api\CommonParams;
@@ -37,13 +38,13 @@ use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Service\DateTimeHelperService;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
-use OrangeHRM\Entity\AttendanceRecord;
 
 class AttendanceEditPunchOutRecordOverlapAPI extends Endpoint implements ResourceEndpoint
 {
     use DateTimeHelperTrait;
     use AuthUserTrait;
     use AttendanceServiceTrait;
+    use AttendanceRecordPermissionTrait;
 
     public const PARAMETER_RECORD_ID = 'recordId';
     public const PARAMETER_PUNCH_IN_DATE = 'punchInDate';
@@ -60,17 +61,17 @@ class AttendanceEditPunchOutRecordOverlapAPI extends Endpoint implements Resourc
     public function getOne(): EndpointResult
     {
         try {
-            $employeeNumber = $this->getRequestParams()->getInt(
-                RequestParams::PARAM_TYPE_QUERY,
-                CommonParams::PARAMETER_EMP_NUMBER,
-                $this->getAuthUser()->getEmpNumber()
-            );
-
             $recordId = $this->getRequestParams()->getInt(
                 RequestParams::PARAM_TYPE_QUERY,
                 self::PARAMETER_RECORD_ID
             );
 
+            $attendanceRecord = $this->getAttendanceService()
+                ->getAttendanceDao()
+                ->getAttendanceRecordById($recordId);
+
+            $this->throwRecordNotFoundExceptionIfNotExist($attendanceRecord);
+            $this->checkAttendanceRecordAccessible($attendanceRecord);
             list($punchInUtc, $punchOutUtc) = $this->getUTCTimeByOffsetAndDateTime();
 
             $isPunchInOverlap = $this->getAttendanceService()
@@ -78,7 +79,7 @@ class AttendanceEditPunchOutRecordOverlapAPI extends Endpoint implements Resourc
                 ->checkForPunchInOutOverLappingRecordsWhenEditing(
                     $punchInUtc,
                     $punchOutUtc,
-                    $employeeNumber,
+                    $attendanceRecord->getEmployee()->getEmpNumber(),
                     $recordId
                 );
 
@@ -99,17 +100,10 @@ class AttendanceEditPunchOutRecordOverlapAPI extends Endpoint implements Resourc
     public function getValidationRuleForGetOne(): ParamRuleCollection
     {
         $paramRules = new ParamRuleCollection(
-            $this->getValidationDecorator()->notRequiredParamRule(
-                new ParamRule(
-                    CommonParams::PARAMETER_EMP_NUMBER,
-                    new Rule(Rules::IN_ACCESSIBLE_EMP_NUMBERS)
-                )
-            ),
             $this->getValidationDecorator()->requiredParamRule(
                 new ParamRule(
                     self::PARAMETER_RECORD_ID,
-                    new Rule(Rules::POSITIVE),
-                    new Rule(Rules::ENTITY_ID_EXISTS, [AttendanceRecord::class])
+                    new Rule(Rules::POSITIVE)
                 )
             ),
             $this->getValidationDecorator()->requiredParamRule(
