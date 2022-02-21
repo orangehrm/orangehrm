@@ -120,7 +120,7 @@ class ReportMockController extends AbstractController
                             "sum" => [
                                 "hours" => 2,
                                 "minutes" => 30,
-                                "label" => "02:59",
+                                "label" => "2.50",
                             ],
                         ],
                     ])
