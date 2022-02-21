@@ -20,14 +20,11 @@
 namespace OrangeHRM\FunctionalTesting\Controller;
 
 use OrangeHRM\Core\Controller\PublicControllerInterface;
-use OrangeHRM\Core\Traits\CacheTrait;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\Http\Response;
 
 class CreateDatabaseSavepointController extends AbstractController implements PublicControllerInterface
 {
-    use CacheTrait;
-
     /**
      * @param Request $request
      * @return Response
