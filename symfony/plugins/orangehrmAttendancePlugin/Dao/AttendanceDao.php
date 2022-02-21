@@ -240,7 +240,7 @@ class AttendanceDao extends BaseDao {
      * @param  int  $attendanceRecordId
      * @return AttendanceRecord | null
      */
-    public function getAttendanceRecordById(int $attendanceRecordId): AttendanceRecord
+    public function getAttendanceRecordById(int $attendanceRecordId): ?AttendanceRecord
     {
         return $this->getRepository(AttendanceRecord::class)->find($attendanceRecordId);
     }

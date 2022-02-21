@@ -23,11 +23,13 @@ use DateTime;
 use DateTimeZone;
 use Exception;
 use OrangeHRM\Attendance\Api\Model\AttendanceRecordModel;
+use OrangeHRM\Attendance\Exception\AttendanceServiceException;
 use OrangeHRM\Attendance\Traits\Service\AttendanceServiceTrait;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
+use OrangeHRM\Core\Api\V2\Exception\BadRequestException;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\ResourceEndpoint;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
@@ -78,75 +80,138 @@ class AttendanceRecordAPI extends Endpoint implements ResourceEndpoint
      */
     public function update(): EndpointResult
     {
-        $id = $this->getRequestParams()->getInt(
+        $recordId = $this->getRequestParams()->getInt(
             RequestParams::PARAM_TYPE_ATTRIBUTE,
             CommonParams::PARAMETER_ID
         );
-        //get the attendance record from id
-        $attendanceRecord = $this->getAttendanceService()->getAttendanceDao()->getAttendanceRecordById($id);
-        $attendanceRecordOwnedEmpNumber = $attendanceRecord->getEmployee()->getEmpNumber();
-        $loggedInUserEmpNumber = $this->getAuthUser()->getEmpNumber();
-
-        //If own attendance record, get the allowed actions list as an ESS user
-        if ($loggedInUserEmpNumber === $attendanceRecordOwnedEmpNumber) {
-            $allowedWorkflowItems = $this->getUserRoleManager()->getAllowedActions(
-                WorkflowStateMachine::FLOW_ATTENDANCE,
-                $attendanceRecord->getState(),
-                [],
-                [],
-                [Employee::class => $loggedInUserEmpNumber]
-            );
-        } //If edit for others, get the allowed actions list as a Supervisor
-        else {
-            $allowedWorkflowItems = $this->getUserRoleManager()->getAllowedActions(
-                WorkflowStateMachine::FLOW_ATTENDANCE,
-                $attendanceRecord->getState(),
-                [],
-                [],
-                [Employee::class => $attendanceRecordOwnedEmpNumber]
-            );
-        }
-        //check whether edit action allowed for the user
-        if (!in_array(WorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_IN_TIME, array_keys($allowedWorkflowItems))) {
+        $attendanceRecord = $this->getAttendanceService()->getAttendanceDao()->getAttendanceRecordById($recordId);
+        $this->throwRecordNotFoundExceptionIfNotExist($attendanceRecord, AttendanceRecord::class);
+        if (!$this->isAuthUserAllowedToPerformTheActions($attendanceRecord)) {
             throw $this->getForbiddenException();
         }
-
-        list(
-            $punchInDate,
-            $punchInTime,
-            $punchInNote,
-            $punchOutDate,
-            $punchOutTime,
-            $punchOutNote
-            ) = $this->getRequestBodyParams();
-
-        //current state is punched in and editing it
-        $punchInTimezoneOffset = $attendanceRecord->getPunchInTimeOffset();
-        $punchInDateTime = $this->extractPunchDateTime($punchInDate.' '.$punchInTime, $punchInTimezoneOffset);
-        $punchInUTCDateTime = (clone $punchInDateTime)->setTimezone(
-            new DateTimeZone(DateTimeHelperService::TIMEZONE_UTC)
-        );
-        //TODO::check for overlap
-        //if there are no overlaps
-        $attendanceRecord->setPunchInUserTime($punchInDateTime);
-        $attendanceRecord->setPunchInUtcTime($punchInUTCDateTime);
-        $attendanceRecord->setPunchInNote($punchInNote);
-        
-        //current state is punched out and editing it
-        if ($attendanceRecord->getState() === AttendanceRecord::STATE_PUNCHED_OUT) {
-            $punchOutTimezoneOffset = $attendanceRecord->getPunchInTimeOffset();
-            $punchOutDateTime = $this->extractPunchDateTime($punchOutDate.' '.$punchOutTime, $punchOutTimezoneOffset);
-            $punchOutUTCDateTime = (clone $punchOutDateTime)->setTimezone(
-                new DateTimeZone(DateTimeHelperService::TIMEZONE_UTC)
-            );
-            //TODO::check for overlap
-            //if there are no overlaps
-            $attendanceRecord->setPunchOutUserTime($punchOutDateTime);
-            $attendanceRecord->setPunchOutUtcTime($punchOutUTCDateTime);
-            $attendanceRecord->setPunchOutNote($punchOutNote);
-        }
+        $attendanceRecord = $this->setAttendanceRecord($attendanceRecord);
         $attendanceRecord = $this->getAttendanceService()->getAttendanceDao()->savePunchRecord($attendanceRecord);
         return new EndpointResourceResult(AttendanceRecordModel::class, $attendanceRecord);
+    }
+
+    /**
+     * @param  AttendanceRecord  $attendanceRecord
+     * @return bool
+     */
+    private function isAuthUserAllowedToPerformTheActions(AttendanceRecord $attendanceRecord): bool
+    {
+        $attendanceRecordOwnedEmpNumber = $attendanceRecord->getEmployee()->getEmpNumber();
+        $loggedInUserEmpNumber = $this->getAuthUser()->getEmpNumber();
+        $rolesToInclude = [];
+        //check the configuration as ESS since Admin user is always allowed to update
+        if ($attendanceRecordOwnedEmpNumber === $loggedInUserEmpNumber) {
+            $rolesToInclude = ['ESS'];
+        }
+        //If edit own attendance record, get the allowed actions list as an ESS user
+        //If edit for someone, get the allowed actions list as a Supervisor
+        //Admin is always allowed to edit others records
+        $allowedWorkflowItems = $this->getUserRoleManager()->getAllowedActions(
+            WorkflowStateMachine::FLOW_ATTENDANCE,
+            $attendanceRecord->getState(),
+            [],
+            $rolesToInclude,
+            [Employee::class => $attendanceRecordOwnedEmpNumber]
+        );
+        $workflowItem = $attendanceRecord->getState() === AttendanceRecord::STATE_PUNCHED_IN ?
+            WorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_IN_TIME :
+            WorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_OUT_TIME;
+        //check whether work flow item allowed for the user
+        if (!in_array($workflowItem, array_keys($allowedWorkflowItems))) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * @throws BadRequestException
+     */
+    private function setAttendanceRecord(AttendanceRecord $attendanceRecord): AttendanceRecord
+    {
+        try {
+            list(
+                $punchInDate,
+                $punchInTime,
+                $punchInNote,
+                $punchOutDate,
+                $punchOutTime,
+                $punchOutNote
+                ) = $this->getRequestBodyParams();
+
+            $recordId = $attendanceRecord->getId();
+            $punchInTimezoneOffset = $attendanceRecord->getPunchInTimeOffset();
+            $punchInDateTime = $this->extractPunchDateTime($punchInDate.' '.$punchInTime, $punchInTimezoneOffset);
+            $punchInUTCDateTime = (clone $punchInDateTime)->setTimezone(
+                new DateTimeZone(DateTimeHelperService::TIMEZONE_UTC)
+            );
+            $attendanceRecordOwnedEmpNumber = $attendanceRecord->getEmployee()->getEmpNumber();
+            //current state is punched in and editing it
+            if ($attendanceRecord->getState() === AttendanceRecord::STATE_PUNCHED_IN) {
+                $overlappingAttendanceRecords = $this->getAttendanceService()
+                    ->getAttendanceDao()
+                    ->checkForPunchInOverLappingRecordsWhenEditing(
+                        $punchInUTCDateTime,
+                        $attendanceRecordOwnedEmpNumber,
+                        $recordId
+                    );
+                if ($overlappingAttendanceRecords) {
+                    throw AttendanceServiceException::punchInOverlapFound();
+                }
+                //if there are no overlaps
+                $attendanceRecord->setPunchInUserTime($punchInDateTime);
+                $attendanceRecord->setPunchInUtcTime($punchInUTCDateTime);
+                $attendanceRecord->setPunchInNote($punchInNote);
+            } //current state is punched out and editing it
+            else {
+                if (is_null($punchOutDate) || is_null($punchOutTime)) {
+                    throw AttendanceServiceException::punchOutDateTimeNull();
+                }
+                $punchOutTimezoneOffset = $attendanceRecord->getPunchOutTimeOffset();
+                $punchOutDateTime = $this->extractPunchDateTime(
+                    $punchOutDate.' '.$punchOutTime,
+                    $punchOutTimezoneOffset
+                );
+                $punchOutUTCDateTime = (clone $punchOutDateTime)->setTimezone(
+                    new DateTimeZone(DateTimeHelperService::TIMEZONE_UTC)
+                );
+                $punchInOverlappingAttendanceRecords = $this->getAttendanceService()
+                    ->getAttendanceDao()
+                    ->checkForPunchInOverLappingRecordsWhenEditing(
+                        $punchInUTCDateTime,
+                        $attendanceRecordOwnedEmpNumber,
+                        $recordId,
+                        $punchOutUTCDateTime
+                    );
+                if ($punchInOverlappingAttendanceRecords) {
+                    throw AttendanceServiceException::punchInOverlapFound();
+                }
+                $punchOutOverlappingAttendanceRecords = $this->getAttendanceService()
+                    ->getAttendanceDao()
+                    ->checkForPunchInOutOverLappingRecordsWhenEditing(
+                        $punchInUTCDateTime,
+                        $punchOutUTCDateTime,
+                        $attendanceRecordOwnedEmpNumber,
+                        $recordId,
+                    );
+                if (!$punchOutOverlappingAttendanceRecords) {
+                    throw AttendanceServiceException::punchOutOverlapFound();
+                }
+                //if there are no overlaps
+                $attendanceRecord->setPunchInUserTime($punchInDateTime);
+                $attendanceRecord->setPunchInUtcTime($punchInUTCDateTime);
+                $attendanceRecord->setPunchInNote($punchInNote);
+                $attendanceRecord->setPunchOutUserTime($punchOutDateTime);
+                $attendanceRecord->setPunchOutUtcTime($punchOutUTCDateTime);
+                $attendanceRecord->setPunchOutNote($punchOutNote);
+            }
+            return $attendanceRecord;
+        } catch (AttendanceServiceException $e) {
+            throw $this->getBadRequestException($e->getMessage());
+        }
     }
 
     /**
@@ -167,11 +232,11 @@ class AttendanceRecordAPI extends Endpoint implements ResourceEndpoint
                 RequestParams::PARAM_TYPE_BODY,
                 self::PARAMETER_PUNCH_IN_NOTE
             ),
-            $this->getRequestParams()->getString(
+            $this->getRequestParams()->getStringOrNull(
                 RequestParams::PARAM_TYPE_BODY,
                 self::PARAMETER_PUNCH_OUT_DATE
             ),
-            $this->getRequestParams()->getString(
+            $this->getRequestParams()->getStringOrNull(
                 RequestParams::PARAM_TYPE_BODY,
                 self::PARAMETER_PUNCH_OUT_TIME
             ),
@@ -186,7 +251,6 @@ class AttendanceRecordAPI extends Endpoint implements ResourceEndpoint
      * @param  string  $dateTime
      * @param  float  $timezoneOffset
      * @return DateTime
-     * @throws Exception
      */
     protected function extractPunchDateTime(string $dateTime, float $timezoneOffset): DateTime
     {
@@ -204,7 +268,7 @@ class AttendanceRecordAPI extends Endpoint implements ResourceEndpoint
         return new ParamRuleCollection(
             new ParamRule(
                 CommonParams::PARAMETER_ID,
-                new Rule(Rules::ENTITY_ID_EXISTS, [AttendanceRecord::class])
+                new Rule(Rules::POSITIVE)
             ),
             new ParamRule(
                 self::PARAMETER_PUNCH_IN_DATE,
@@ -221,19 +285,24 @@ class AttendanceRecordAPI extends Endpoint implements ResourceEndpoint
                 ),
                 true
             ),
-            new ParamRule(
-                self::PARAMETER_PUNCH_OUT_DATE,
-                new Rule(Rules::API_DATE)
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_PUNCH_OUT_DATE,
+                    new Rule(Rules::API_DATE)
+                ),
             ),
-            new ParamRule(
-                self::PARAMETER_PUNCH_OUT_TIME,
-                new Rule(Rules::TIME, ['H:i'])
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_PUNCH_OUT_TIME,
+                    new Rule(Rules::TIME, ['H:i'])
+                ),
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::PARAMETER_PUNCH_OUT_NOTE,
                     new Rule(Rules::STRING_TYPE)
-                )
+                ),
+                true
             )
         );
     }
