@@ -63,7 +63,7 @@ apiv2_attendance_current_datetime:
 apiv2_attendance_employee_attendance_record:
   path: /api/v2/attendance/records/{id}
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
-  methods: [ PUT ]
+  methods: [ GET, PUT ]
   defaults:
     _api: OrangeHRM\Attendance\Api\AttendanceRecordAPI
 

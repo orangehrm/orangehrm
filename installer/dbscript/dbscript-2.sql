@@ -4389,7 +4389,7 @@ VALUES ('apiv2_attendance_configuration', 'API-v2 Attendance - Attendance Config
        ('apiv2_attendance_employee_attendance_record', 'API-v2 Attendance - Employee Attendance Record', 0, 1, 1, 0),
        ('apiv2_attendance_timezones', 'API-v2 Attendance - Timezones', 1, 0, 0, 0),
        ('apiv2_attendance_current_date_time', 'API-v2 Attendance - Current DateTime', 1, 0, 0, 0),
-       ('apiv2_attendance_record', 'API-v2 Attendance - Attendance Record', 0, 0, 1, 0);
+       ('apiv2_attendance_record', 'API-v2 Attendance - Attendance Record', 1, 0, 1, 0);
 
 SET @attendance_module_id := (SELECT `id` FROM ohrm_module WHERE name = 'attendance' LIMIT 1);
 
@@ -4432,5 +4432,5 @@ VALUES (1, 0, 1, 0, 0, @apiv2_attendance_configuration_data_group_id, @admin_rol
        (1, 0, 0, 0, 0, @apiv2_attendance_current_date_time_data_group_id, @admin_role_id),
        (1, 0, 0, 0, 0, @apiv2_attendance_current_date_time_data_group_id, @ess_role_id),
        (1, 0, 0, 0, 1, @attendance_summary_data_group_id, @admin_role_id),
-       (0, 0, 1, 0, 0, @apiv2_attendance_record_data_group_id, @admin_role_id),
-       (0, 0, 1, 0, 0, @apiv2_attendance_record_data_group_id, @ess_role_id);
+       (1, 0, 1, 0, 0, @apiv2_attendance_record_data_group_id, @admin_role_id),
+       (1, 0, 1, 0, 0, @apiv2_attendance_record_data_group_id, @ess_role_id);

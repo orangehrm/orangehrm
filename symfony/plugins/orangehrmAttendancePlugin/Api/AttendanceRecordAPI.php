@@ -63,7 +63,16 @@ class AttendanceRecordAPI extends Endpoint implements ResourceEndpoint
      */
     public function getOne(): EndpointResult
     {
-        throw $this->getNotImplementedException();
+        $recordId = $this->getRequestParams()->getInt(
+            RequestParams::PARAM_TYPE_ATTRIBUTE,
+            CommonParams::PARAMETER_ID
+        );
+        $attendanceRecord = $this->getAttendanceService()->getAttendanceDao()->getAttendanceRecordById($recordId);
+        $this->throwRecordNotFoundExceptionIfNotExist($attendanceRecord, AttendanceRecord::class);
+        if (!$this->isAuthUserAllowedToPerformTheActions($attendanceRecord)) {
+            throw $this->getForbiddenException();
+        }
+        return new EndpointResourceResult(AttendanceRecordModel::class, $attendanceRecord);
     }
 
     /**
@@ -71,7 +80,12 @@ class AttendanceRecordAPI extends Endpoint implements ResourceEndpoint
      */
     public function getValidationRuleForGetOne(): ParamRuleCollection
     {
-        throw $this->getNotImplementedException();
+        return new ParamRuleCollection(
+            new ParamRule(
+                CommonParams::PARAMETER_ID,
+                new Rule(Rules::POSITIVE)
+            )
+        );
     }
 
     /**
