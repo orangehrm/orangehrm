@@ -22,14 +22,24 @@
   <oxd-form :loading="isLoading" @submitValid="onSave">
     <oxd-form-row>
       <oxd-grid :cols="4" class="orangehrm-full-width-grid">
-        <oxd-grid-item v-if="attendanceRecord.previousRecord">
-          <oxd-input-group :label="$t('time.punched_in_time')">
-            <oxd-text type="subtitle-2">
-              {{ attendanceRecord.previousRecord.userDate }} -
-              {{ attendanceRecord.previousRecord.userTime }}
-            </oxd-text>
-          </oxd-input-group>
-        </oxd-grid-item>
+        <template v-if="attendanceRecord.previousRecord">
+          <oxd-grid-item>
+            <oxd-input-group :label="$t('time.punched_in_time')">
+              <oxd-text type="subtitle-2">
+                {{ attendanceRecord.previousRecord.userDate }} -
+                {{ attendanceRecord.previousRecord.userTime }}
+              </oxd-text>
+            </oxd-input-group>
+          </oxd-grid-item>
+
+          <oxd-grid-item v-if="attendanceRecord.previousRecord.note">
+            <oxd-input-group :label="$t('time.punched_in_note')">
+              <oxd-text type="subtitle-2">
+                {{ attendanceRecord.previousRecord.note }}
+              </oxd-text>
+            </oxd-input-group>
+          </oxd-grid-item>
+        </template>
 
         <!-- Date Selector -->
         <oxd-grid-item class="--offset-row-2">
