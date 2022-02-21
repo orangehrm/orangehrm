@@ -36,11 +36,9 @@
               <oxd-grid-item>
                 <employee-autocomplete
                   v-model="filters.employee"
-                  :rules="rules.employee"
                   :params="{
                     includeEmployees: 'currentAndPast',
                   }"
-                  required
                 />
               </oxd-grid-item>
 
@@ -80,7 +78,6 @@
           <oxd-divider />
 
           <oxd-form-actions>
-            <required-text />
             <oxd-button
               type="submit"
               display-type="secondary"
@@ -102,7 +99,6 @@
 <script>
 import {computed, ref} from 'vue';
 import {
-  required,
   validDateFormat,
   endDateShouldBeAfterStartDate,
   startDateShouldBeBeforeEndDate,
@@ -142,7 +138,6 @@ export default {
     });
 
     const rules = {
-      employee: [required],
       fromDate: [
         validDateFormat(),
         startDateShouldBeBeforeEndDate(
