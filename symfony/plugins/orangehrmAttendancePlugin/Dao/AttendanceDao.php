@@ -78,45 +78,8 @@ class AttendanceDao extends BaseDao {
         if ($punchInUtcTime > $punchOutTime) {
             throw AttendanceServiceException::punchOutTimeBehindThanPunchInTime();
         }
-        $q1 = $this->createQueryBuilder(AttendanceRecord::class, 'attendanceRecord');
-        $q1->andWhere('attendanceRecord.employee = :empNumber');
-        $q1->andWhere($q1->expr()->gt('attendanceRecord.punchInUtcTime', ':punchInUtcTime'))
-            ->setParameter('punchInUtcTime', $punchInUtcTime);
-        $q1->andWhere($q1->expr()->lt('attendanceRecord.punchInUtcTime', ':punchOutUtcTime'))
-            ->setParameter('punchOutUtcTime', $punchOutTime);
-        $q1->setParameter('empNumber', $employeeNumber);
 
-        /* @var AttendanceRecord[] $attendance */
-        $attendance =  $q1->getQuery()->execute();
-        if ((count($attendance) > 0)) {
-            return false;
-        }
-
-        $q2 = $this->createQueryBuilder(AttendanceRecord::class, 'attendanceRecord');
-        $q2->andWhere('attendanceRecord.employee = :empNumber');
-        $q2->andWhere($q2->expr()->lt('attendanceRecord.punchInUtcTime', ':punchInUtcTime'))
-            ->setParameter('punchInUtcTime', $punchInUtcTime);
-        $q2->andWhere($q2->expr()->gt('attendanceRecord.punchOutUtcTime', ':punchOutUtcTime'))
-            ->setParameter('punchOutUtcTime', $punchOutTime);
-        $q2->setParameter('empNumber', $employeeNumber);
-
-        if (($this->getPaginator($q2)->count() > 0)) {
-            return false;
-        }
-
-        $q3 = $this->createQueryBuilder(AttendanceRecord::class, 'attendanceRecord');
-        $q3->andWhere('attendanceRecord.employee = :empNumber');
-        $q3->andWhere($q3->expr()->gt('attendanceRecord.punchInUtcTime', ':punchInUtcTime'))
-            ->setParameter('punchInUtcTime', $punchInUtcTime);
-        $q3->andWhere($q3->expr()->lt('attendanceRecord.punchOutUtcTime', ':punchOutUtcTime'))
-            ->setParameter('punchOutUtcTime', $punchOutTime);
-        $q3->setParameter('empNumber', $employeeNumber);
-
-        if (($this->getPaginator($q3)->count() > 0)) {
-            return false;
-        }
-
-        return true;
+        return $this->getCommonQueryForPunchOutOverlap($punchInUtcTime,$punchOutTime, $employeeNumber);
     }
 
     /**
@@ -134,6 +97,111 @@ class AttendanceDao extends BaseDao {
             throw AttendanceServiceException::punchInAlreadyExist();
         }
 
+        return $this->getCommonQueryForPunchInOverlap($punchInTime, $employeeNumber);
+    }
+
+    /**
+     * @param DateTime $punchInTime
+     * @param int $employeeNumber
+     * @param int $recordId
+     * @param DateTime|null $punchOutTime
+     * @return bool
+     * @throws AttendanceServiceException
+     */
+    public function checkForPunchInOverLappingRecordsWhenEditing(DateTime $punchInTime, int $employeeNumber, int $recordId, ?DateTime $punchOutTime = null): bool
+    {
+        if (!is_null($punchOutTime) && $punchInTime > $punchOutTime) {
+            throw AttendanceServiceException::punchOutTimeBehindThanPunchInTime();
+        }
+
+        return $this->getCommonQueryForPunchInOverlap($punchInTime, $employeeNumber, $recordId);
+    }
+
+    /**
+     * @param DateTime $punchInTime
+     * @param DateTime $punchOutTime
+     * @param int $employeeNumber
+     * @param int $recordId
+     * @return bool
+     */
+    public function checkForPunchInOutOverLappingRecordsWhenEditing(DateTime $punchInTime, DateTime $punchOutTime, int $employeeNumber, int $recordId): bool
+    {
+        if ($punchInTime > $punchOutTime) {
+            throw AttendanceServiceException::punchOutTimeBehindThanPunchInTime();
+        }
+
+        return $this->getCommonQueryForPunchOutOverlap($punchInTime, $punchOutTime, $employeeNumber, $recordId);
+    }
+
+    /**
+     * @param DateTime $punchInUtcTime
+     * @param DateTime $punchOutTime
+     * @param int $employeeNumber
+     * @param int|null $recordId
+     * @return bool
+     */
+    private function getCommonQueryForPunchOutOverlap(DateTime $punchInUtcTime, DateTime $punchOutTime, int $employeeNumber, ?int $recordId = null): bool
+    {
+        $q1 = $this->createQueryBuilder(AttendanceRecord::class, 'attendanceRecord');
+        $q1->andWhere('attendanceRecord.employee = :empNumber');
+        $q1->andWhere($q1->expr()->gt('attendanceRecord.punchInUtcTime', ':punchInUtcTime'))
+            ->setParameter('punchInUtcTime', $punchInUtcTime);
+        $q1->andWhere($q1->expr()->lt('attendanceRecord.punchInUtcTime', ':punchOutUtcTime'))
+            ->setParameter('punchOutUtcTime', $punchOutTime);
+        $q1->setParameter('empNumber', $employeeNumber);
+        if (!is_null($recordId)) {
+            $q1->andWhere('attendanceRecord.id != :recordId');
+            $q1->setParameter('recordId', $recordId);
+        }
+
+        /* @var AttendanceRecord[] $attendance */
+        $attendance =  $q1->getQuery()->execute();
+        if ((count($attendance) > 0)) {
+            return false;
+        }
+
+        $q2 = $this->createQueryBuilder(AttendanceRecord::class, 'attendanceRecord');
+        $q2->andWhere('attendanceRecord.employee = :empNumber');
+        $q2->andWhere($q2->expr()->lt('attendanceRecord.punchInUtcTime', ':punchInUtcTime'))
+            ->setParameter('punchInUtcTime', $punchInUtcTime);
+        $q2->andWhere($q2->expr()->gt('attendanceRecord.punchOutUtcTime', ':punchOutUtcTime'))
+            ->setParameter('punchOutUtcTime', $punchOutTime);
+        $q2->setParameter('empNumber', $employeeNumber);
+        if (!is_null($recordId)) {
+            $q2->andWhere('attendanceRecord.id != :recordId');
+            $q2->setParameter('recordId', $recordId);
+        }
+
+        if (($this->getPaginator($q2)->count() > 0)) {
+            return false;
+        }
+
+        $q3 = $this->createQueryBuilder(AttendanceRecord::class, 'attendanceRecord');
+        $q3->andWhere('attendanceRecord.employee = :empNumber');
+        $q3->andWhere($q3->expr()->gt('attendanceRecord.punchInUtcTime', ':punchInUtcTime'))
+            ->setParameter('punchInUtcTime', $punchInUtcTime);
+        $q3->andWhere($q3->expr()->lt('attendanceRecord.punchOutUtcTime', ':punchOutUtcTime'))
+            ->setParameter('punchOutUtcTime', $punchOutTime);
+        $q3->setParameter('empNumber', $employeeNumber);
+        if (!is_null($recordId)) {
+            $q3->andWhere('attendanceRecord.id != :recordId');
+            $q3->setParameter('recordId', $recordId);
+        }
+
+        if (($this->getPaginator($q3)->count() > 0)) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * @param DateTime $punchInTime
+     * @param int $employeeNumber
+     * @param int|null $recordId
+     * @return bool
+     */
+    public function getCommonQueryForPunchInOverlap(DateTime $punchInTime, int $employeeNumber, ?int $recordId = null): bool
+    {
         $q = $this->createQueryBuilder(AttendanceRecord::class, 'attendanceRecord');
         $q->andWhere('attendanceRecord.employee = :empNumber');
 
@@ -141,8 +209,11 @@ class AttendanceDao extends BaseDao {
             ->setParameter('punchInUtcTime', $punchInTime);
         $q->andWhere($q->expr()->gt('attendanceRecord.punchOutUtcTime', ':punchOutUtcTime'))
             ->setParameter('punchOutUtcTime', $punchInTime);
-
         $q->setParameter('empNumber', $employeeNumber);
+        if (!is_null($recordId)) {
+            $q->andWhere('attendanceRecord.id != :recordId');
+            $q->setParameter('recordId', $recordId);
+        }
         // if any records found in the data source (count greater than 0) -> overlap found
         return $this->getPaginator($q)->count() > 0;
     }
@@ -237,146 +308,13 @@ class AttendanceDao extends BaseDao {
     }
 
     /**
-     * @param  int  $attendanceRecordId
-     * @return AttendanceRecord | null
+     * @param int $attendanceRecordId
+     * @return AttendanceRecord|null
      */
     public function getAttendanceRecordById(int $attendanceRecordId): ?AttendanceRecord
     {
-        return $this->getRepository(AttendanceRecord::class)->find($attendanceRecordId);
-    }
-
-    /**
-     * checkForPunchOutOverLappingRecordsWhenEditing
-     * @param $punchInTime,$punchOutTime,$employeeId
-     * @return string 1,0
-     */
-    public function checkForPunchInOutOverLappingRecordsWhenEditing($punchInTime, $punchOutTime, $employeeId, $recordId) {
-
-        $isValid = "1";
-
-        try {
-
-            $query1 = Doctrine_Query::create()
-                    ->from("AttendanceRecord")
-                    ->where("employeeId = ?", $employeeId)
-                    ->andWhere("punchInUtcTime <= ?", $punchInTime)
-                    ->andWhere("punchOutUtcTime > ?", $punchInTime);
-            $records1 = $query1->execute();
-
-            if ((count($records1) == 1) && ($records1[0]->getId() == $recordId)) {
-
-            } elseif ((count($records1) > 0)) {
-
-                $isValid = "0";
-            }
-
-
-            $query2 = Doctrine_Query::create()
-                    ->from("AttendanceRecord")
-                    ->where("employeeId = ?", $employeeId)
-                    ->andWhere("punchInUtcTime >= ?", $punchInTime)
-                    ->andWhere("punchOutUtcTime < ?", $punchOutTime);
-            $records2 = $query2->execute();
-
-
-
-            if ((count($records2) == 1) && ($records2[0]->getId() == $recordId)) {
-
-            } elseif ((count($records2) > 0)) {
-
-                $isValid = "0";
-            }
-
-            $query3 = Doctrine_Query::create()
-                    ->from("AttendanceRecord")
-                    ->where("employeeId = ?", $employeeId)
-                    ->andWhere("punchInUtcTime > ?", $punchInTime)
-                    ->andWhere("punchInUtcTime < ?", $punchOutTime);
-            $records3 = $query3->execute();
-
-            if ((count($records3) == 1) && ($records3[0]->getId() == $recordId)) {
-
-            } elseif ((count($records3) > 0)) {
-
-                $isValid = "0";
-            }
-
-            $query4 = Doctrine_Query::create()
-                    ->from("attendanceRecord")
-                    ->where("employeeId = ?", $employeeId)
-                    ->andWhere("punchInUtcTime < ?", $punchInTime)
-                    ->andWhere("punchOutUtcTime > ?", $punchOutTime);
-            $records4 = $query4->execute();
-
-            if ((count($records4) == 1) && ($records4[0]->getId() == $recordId)) {
-
-            } elseif ((count($records4) > 0)) {
-
-                $isValid = "0";
-            }
-
-            $query5 = Doctrine_Query::create()
-                    ->from("attendanceRecord")
-                    ->where("employeeId = ?", $employeeId)
-                    ->andWhere('punchInUtcTime > ?', $punchInTime)
-                    ->andWhere('punchOutUtcTime < ?', $punchOutTime);
-            $records5 = $query5->execute();
-
-
-            if ((count($records5) == 1) && ($records5[0]->getId() == $recordId)) {
-
-            } elseif ((count($records5) > 0)) {
-
-                $isValid = "0";
-            }
-        } catch (Exception $ex) {
-            throw new DaoException($ex->getMessage());
-        }
-        return $isValid;
-    }
-
-    public function checkForPunchInOverLappingRecordsWhenEditing($punchInTime, $employeeId, $recordId, $punchOutTime) {
-
-
-        $isValid = "1";
-
-
-        try {
-
-            $query1 = Doctrine_Query::create()
-                    ->from("AttendanceRecord")
-                    ->where("employeeId = ?", $employeeId)
-                    ->andWhere("punchInUtcTime < ?", $punchInTime)
-                    ->andWhere("punchOutUtcTime > ?", $punchInTime);
-            $records1 = $query1->execute();
-
-
-
-            if ((count($records1) == 1) && ($records1[0]->getId() == $recordId)) {
-
-            } elseif ((count($records1) > 0)) {
-
-                $isValid = "0";
-            }
-
-            $query2 = Doctrine_Query::create()
-                    ->from("AttendanceRecord")
-                    ->where("employeeId = ?", $employeeId)
-                    ->andWhere("punchInUtcTime > ?", $punchInTime)
-                    ->andWhere("punchOutUtcTime < ?", $punchOutTime);
-            $records2 = $query2->execute();
-
-
-            if ((count($records2) == 1) && ($records2[0]->getId() == $recordId)) {
-
-            } elseif ((count($records2) > 0)) {
-
-                $isValid = "0";
-            }
-        } catch (Exception $ex) {
-            throw new DaoException($ex->getMessage());
-        }
-        return $isValid;
+        $attendanceRecord = $this->getRepository(AttendanceRecord::class)->find($attendanceRecordId);
+        return ($attendanceRecord instanceof AttendanceRecord) ? $attendanceRecord : null;
     }
 
     /**

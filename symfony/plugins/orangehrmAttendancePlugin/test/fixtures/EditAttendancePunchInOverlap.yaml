@@ -1,0 +1,40 @@
+Config:
+  - { name: 'authorize_user_role_manager_class', value: 'BasicUserRoleManager' }
+  - { name: 'timesheet_period_set', value: 'Yes' }
+  - { name: 'timesheet_period_and_start_date', value: '<TimesheetPeriod><PeriodType>Weekly</PeriodType><ClassName>WeeklyTimesheetPeriod</ClassName><StartDate>1</StartDate><Heading>Week</Heading></TimesheetPeriod>' }
+
+Employee:
+  - { empNumber: 1, firstName: 'Kayla', lastName: 'Abbey', middleName: 'T', employeeId: 'E001', emp_work_email: 'kayla@xample.com', emp_oth_email: 'kayla2@xample.com' }
+  - { empNumber: 2, firstName: 'Ashley', lastName: 'Abel', middleName: 'ST',employeeId: 'E002', emp_work_email: 'ashley@xample.com', emp_oth_email: 'ashley2@xample.com' }
+  - { empNumber: 3, firstName: 'Renukshan', lastName: 'Saputhanthri', middleName: 'RT', employeeId: 'E003', emp_work_email: 'renukshan@xample.com', emp_oth_email: 'renukshan2@xample.com' }
+  - { empNumber: 4, firstName: 'Sherin', lastName: 'Sherin', middleName: 'Sherin', employeeId: 'E004', emp_work_email: 'sherin@xample.com', emp_oth_email: 'sherin@xample.com' }
+  - { empNumber: 5, firstName: 'mahatma', lastName: 'Gandhi', middleName: 'Gandhi', employeeId: 'E005', emp_work_email: 'Gandhi@xample.com', emp_oth_email: 'Gandhi@xample.com' }
+
+ReportingMethod:
+  - { "reporting_method_id": "1","reporting_method_name": "Direct" }
+  - { "reporting_method_id": "2","reporting_method_name": "Indirect" }
+
+ReportTo:
+  - { "erep_sup_emp_number": "3","erep_sub_emp_number": "2","erep_reporting_mode": "1" }
+  - { "erep_sup_emp_number": "3","erep_sub_emp_number": "4","erep_reporting_mode": "1" }
+
+UserRole:
+  - { id: 1, name: Admin, display_name: Admin, is_assignable: 1, is_predefined: 1 }
+  - { id: 2, name: ESS, display_name: ESS, is_assignable: 1, is_predefined: 1 }
+  - { id: 3, name: Supervisor, display_name: Supervisor, is_assignable: 0, is_predefined: 1 }
+
+User:
+  - { "id": 1, "user_role_id": 1, "emp_number": 1, "user_name": "admin","user_password": "admin","deleted": "0","status": "1","date_modified": "2021-09-15 16:51:16","modified_user_id": "1" }
+  - { "id": 2, "user_role_id": 2, "emp_number": 2, "user_name": "Adalwin","user_password": "Adalwin","deleted": "0","status": "1","date_entered": "2021-09-15 16:47:14","created_by": "1" }
+  - { "id": 3, "user_role_id": 3, "emp_number": 3, "user_name": "Anderson","user_password": "Anderson","deleted": "0","status": "1","date_entered": "2021-09-15 16:47:53","created_by": "1" }
+  - { "id": 4, "user_role_id": 2, "emp_number": 4, "user_name": "Sherin","user_password": "Sherin","deleted": "0","status": "1","date_entered": "2021-09-15 17:47:59","created_by": "1" }
+  - { "id": 5, "user_role_id": 2, "emp_number": 5, "user_name": "Gandhi","user_password": "peacefulEveryWhere","deleted": "0","status": "1","date_entered": "2021-09-15 17:47:59","created_by": "1" }
+
+AttendanceRecord:
+  0: { id: 1, employee_id: 1, punch_in_utc_time: '2022-02-14 09:23:00', punch_in_note: 'Im punched In',punch_in_time_offset: '5.5',punch_in_user_time: '2022-02-14 14:53:00',punch_out_utc_time: '2022-02-14 10:19:00',punch_out_note: 'Punched Out',punch_out_time_offset: '5.5',punch_out_user_time: '2022-02-14 15:49:00', state: 'PUNCHED OUT' }
+  1: { id: 2, employee_id: 2, punch_in_utc_time: '2022-02-13 09:23:00', punch_in_note: 'Im punched In',punch_in_time_offset: '5.5',punch_in_user_time: '2022-02-13 14:53:00',punch_out_utc_time: '2022-02-13 10:19:00',punch_out_note: 'Punched Out',punch_out_time_offset: '5.5',punch_out_user_time: '2022-02-13 15:49:00', state: 'PUNCHED OUT' }
+  2: { id: 3, employee_id: 3, punch_in_utc_time: '2022-02-19 09:23:00', punch_in_note: 'Im punched In',punch_in_time_offset: '5.5',punch_in_user_time: '2022-02-19 14:53:00',punch_out_utc_time: '2022-02-19 10:19:00',punch_out_note: 'Punched Out',punch_out_time_offset: '5.5',punch_out_user_time: '2022-02-19 15:49:00', state: 'PUNCHED OUT' }
+  3: { id: 4, employee_id: 4, punch_in_utc_time: '2022-02-12 09:23:00', punch_in_note: 'Im punched In',punch_in_time_offset: '5.5',punch_in_user_time: '2022-02-12 14:53:00',punch_out_utc_time: '2022-02-12 10:19:00',punch_out_note: 'Punched Out',punch_out_time_offset: '5.5',punch_out_user_time: '2022-02-12 15:49:00', state: 'PUNCHED OUT' }
+  4: { id: 5, employee_id: 4, punch_in_utc_time: '2022-02-13 04:30:00', punch_in_note: 'Im punched In',punch_in_time_offset: '5.5',punch_in_user_time: '2022-02-13 10:00:00', punch_out_utc_time: '2022-02-13 05:30:00',punch_out_note: 'Punched Out',punch_out_time_offset: '5.5',punch_out_user_time: '2022-02-13 11:00:00', state: 'PUNCHED OUT' }
+  5: { id: 6, employee_id: 5, punch_in_utc_time: '2022-02-13 04:30:00', punch_in_note: 'Im punched In',punch_in_time_offset: '5.5',punch_in_user_time: '2022-02-13 10:00:00', punch_out_utc_time: '2022-02-13 05:30:00',punch_out_note: 'Punched Out',punch_out_time_offset: '5.5',punch_out_user_time: '2022-02-13 11:00:00', state: 'PUNCHED OUT' }
+  6: { id: 7, employee_id: 5, punch_in_utc_time: '2022-02-01 04:30:00', punch_in_note: 'Im punched In',punch_in_time_offset: '5.5',punch_in_user_time: '2022-02-01 10:00:00', state: 'PUNCHED IN' }
