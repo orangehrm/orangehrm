@@ -35,7 +35,7 @@ class PunchInController extends AbstractVueController
     /**
      * @inheritDoc
      */
-    public function handle(Request $request)
+    public function preRender(Request $request): void
     {
         // check if previous record is a punch in.
         $attendanceRecord = $this->getAttendanceService()
@@ -46,7 +46,8 @@ class PunchInController extends AbstractVueController
             );
         //previous record is punched in, redirect to punch out
         if ($attendanceRecord instanceof AttendanceRecord) {
-            return $this->redirect('/attendance/punchOut');
+            $this->setResponse($this->redirect('/attendance/punchOut'));
+            return;
         }
 
         $component = new Component('attendance-punch-in');
@@ -55,15 +56,5 @@ class PunchInController extends AbstractVueController
             $component->addProp(new Prop('is-editable', Prop::TYPE_BOOLEAN, true));
         }
         $this->setComponent($component);
-
-        if (!$this->isHandled()) {
-            $content = $this->render($request);
-        }
-        $response = $this->getResponse();
-        if (isset($content)) {
-            $response->setContent($content);
-        }
-        
-        return $response;
     }
 }

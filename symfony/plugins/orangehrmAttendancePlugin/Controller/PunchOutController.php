@@ -29,14 +29,13 @@ use OrangeHRM\Core\Vue\Prop;
 
 class PunchOutController extends AbstractVueController
 {
-
     use AttendanceServiceTrait;
     use AuthUserTrait;
 
     /**
      * @inheritDoc
      */
-    public function handle(Request $request)
+    public function preRender(Request $request): void
     {
         // check if previous record is a punch in.
         $attendanceRecord = $this->getAttendanceService()
@@ -48,7 +47,8 @@ class PunchOutController extends AbstractVueController
 
         //previous record is not present redirect to punch in
         if (!$attendanceRecord instanceof AttendanceRecord) {
-            return $this->redirect('/attendance/punchIn');
+            $this->setResponse($this->redirect('/attendance/punchIn'));
+            return;
         }
 
         $component = new Component('attendance-punch-out');
@@ -59,15 +59,5 @@ class PunchOutController extends AbstractVueController
             $component->addProp(new Prop('is-editable', Prop::TYPE_BOOLEAN, true));
         }
         $this->setComponent($component);
-
-        if (!$this->isHandled()) {
-            $content = $this->render($request);
-        }
-        $response = $this->getResponse();
-        if (isset($content)) {
-            $response->setContent($content);
-        }
-        
-        return $response;
     }
 }
