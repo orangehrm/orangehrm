@@ -1,19 +1,19 @@
-FROM php:7.3.15-apache-buster
+FROM php:7.4.27-apache-buster
 
 LABEL maintainer="samanthaj@orangehrm.com"
 
-ENV OHRM_VERSION 4.9
-ENV OHRM_MD5 60784f25c9414af461614cb59912eabe
-ENV IONCUBE_MD5 1e6b0d8a8db6c5536c99bd7e67eb6a4f
-ENV IONCUBE_VER '10.4.4'
+ENV OHRM_VERSION 4.10
+ENV OHRM_MD5 19afa66ac9ac1b516837ffec9227f3bb
+ENV IONCUBE_MD5 824c56a47b7fb3c85e41c2fbc55b6908
+ENV IONCUBE_VER '11.0.1'
 
 RUN set -ex; \
     curl -fSL -o ioncube.tar.gz "https://downloads.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64_${IONCUBE_VER}.tar.gz"; \
     echo "${IONCUBE_MD5} ioncube.tar.gz" | md5sum -c -; \
     tar -xvvzf ioncube.tar.gz; \
-    mv ioncube/ioncube_loader_lin_7.3.so `php-config --extension-dir`; \
+    mv ioncube/ioncube_loader_lin_7.4.so `php-config --extension-dir`; \
     rm -rf ioncube.tar.gz ioncube; \
-    docker-php-ext-enable ioncube_loader_lin_7.3
+    docker-php-ext-enable ioncube_loader_lin_7.4
 
 RUN set -ex; \
 	savedAptMark="$(apt-mark showmanual)"; \
@@ -34,13 +34,12 @@ RUN set -ex; \
 	mv orangehrm-$OHRM_VERSION html; \
 	rm -rf orangehrm.zip; \
 	chown www-data:www-data html; \
-	chown -R www-data:www-data html/symfony/cache html/symfony/log; \
-	chmod -R 775 html/symfony/cache html/symfony/log; \
+	chown -R www-data:www-data html/symfony/cache html/symfony/log html/symfony/web; \
+	chmod -R 775 html/symfony/cache html/symfony/log html/symfony/web; \
 	\
 	docker-php-ext-configure gd \
-		--with-freetype-dir=/usr \
-		--with-png-dir=/usr \
-		--with-jpeg-dir=/usr \
+		--with-freetype \
+		--with-jpeg \
 	; \
 	docker-php-ext-configure ldap \
 	    --with-libdir=lib/x86_64-linux-gnu/ \
@@ -73,7 +72,7 @@ RUN { \
 		echo 'opcache.memory_consumption=128'; \
 		echo 'opcache.interned_strings_buffer=8'; \
 		echo 'opcache.max_accelerated_files=4000'; \
-		echo 'opcache.revalidate_freq=60'; \
+		echo 'opcache.revalidate_freq=2'; \
 		echo 'opcache.fast_shutdown=1'; \
 		echo 'opcache.enable_cli=1'; \
 	} > /usr/local/etc/php/conf.d/opcache-recommended.ini; \
