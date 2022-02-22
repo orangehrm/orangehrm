@@ -1,7 +1,7 @@
 {
   "scripts": {
     "test": "cypress run",
-    "open": "cypress open",
+    "open": "cypress open -e runner=interactive",
     "format": "prettier . --write",
     "lint": "eslint . --ext .js,.ts, --max-warnings=0"
   },

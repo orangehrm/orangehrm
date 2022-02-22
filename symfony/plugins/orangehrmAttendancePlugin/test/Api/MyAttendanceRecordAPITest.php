@@ -32,7 +32,6 @@ use OrangeHRM\Tests\Util\TestDataService;
  */
 class MyAttendanceRecordAPITest extends EndpointIntegrationTestCase
 {
-
     public function testGetAll(): void
     {
         $api = new MyAttendanceRecordAPI($this->getRequest());

@@ -4389,6 +4389,7 @@ VALUES ('apiv2_attendance_configuration', 'API-v2 Attendance - Attendance Config
        ('apiv2_attendance_employee_attendance_record', 'API-v2 Attendance - Employee Attendance Record', 0, 1, 1, 0),
        ('apiv2_attendance_timezones', 'API-v2 Attendance - Timezones', 1, 0, 0, 0),
        ('apiv2_attendance_current_date_time', 'API-v2 Attendance - Current DateTime', 1, 0, 0, 0),
+       ('apiv2_attendance_record', 'API-v2 Attendance - Attendance Record', 1, 0, 1, 0),
        ('apiv2_attendance_edit_punch_in_overlaps', 'API-v2 Attendance - Edit Punch In Overlaps', 1, 0, 0, 0),
        ('apiv2_attendance_edit_punch_out_overlaps', 'API-v2 Attendance - Edit Punch Out Overlaps', 1, 0, 0, 0);
 
@@ -4403,6 +4404,7 @@ SET @apiv2_attendance_employee_attendance_record_data_group_id := (SELECT `id` F
 SET @apiv2_attendance_timezones_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_attendance_timezones' LIMIT 1);
 SET @apiv2_attendance_current_date_time_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_attendance_current_date_time' LIMIT 1);
 SET @attendance_summary_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'attendance_summary' LIMIT 1);
+SET @apiv2_attendance_record_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_attendance_record' LIMIT 1);
 SET @apiv2_attendance_edit_punch_in_overlaps_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_attendance_edit_punch_in_overlaps' LIMIT 1);
 SET @apiv2_attendance_edit_punch_out_overlaps_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_attendance_edit_punch_out_overlaps' LIMIT 1);
 
@@ -4415,6 +4417,7 @@ VALUES ('OrangeHRM\\Attendance\\Api\\AttendanceConfigurationAPI', @attendance_mo
        ('OrangeHRM\\Attendance\\Api\\EmployeeAttendanceRecordAPI', @attendance_module_id, @apiv2_attendance_employee_attendance_record_data_group_id),
        ('OrangeHRM\\Attendance\\Api\\TimezonesAPI', @attendance_module_id, @apiv2_attendance_timezones_data_group_id),
        ('OrangeHRM\\Attendance\\Api\\CurrentDateTimeAPI', @attendance_module_id, @apiv2_attendance_current_date_time_data_group_id),
+       ('OrangeHRM\\Attendance\\Api\\AttendanceRecordAPI', @attendance_module_id, @apiv2_attendance_record_data_group_id),
        ('OrangeHRM\\Attendance\\Api\\AttendanceEditPunchInRecordOverlapAPI', @attendance_module_id, @apiv2_attendance_edit_punch_in_overlaps_data_group_id),
        ('OrangeHRM\\Attendance\\Api\\AttendanceEditPunchOutRecordOverlapAPI', @attendance_module_id, @apiv2_attendance_edit_punch_out_overlaps_data_group_id);
 
@@ -4435,6 +4438,8 @@ VALUES (1, 0, 1, 0, 0, @apiv2_attendance_configuration_data_group_id, @admin_rol
        (1, 0, 0, 0, 0, @apiv2_attendance_current_date_time_data_group_id, @admin_role_id),
        (1, 0, 0, 0, 0, @apiv2_attendance_current_date_time_data_group_id, @ess_role_id),
        (1, 0, 0, 0, 1, @attendance_summary_data_group_id, @admin_role_id),
+       (1, 0, 1, 0, 0, @apiv2_attendance_record_data_group_id, @admin_role_id),
+       (1, 0, 1, 0, 0, @apiv2_attendance_record_data_group_id, @ess_role_id),
        (1, 0, 0, 0, 0, @apiv2_attendance_edit_punch_in_overlaps_data_group_id, @admin_role_id),
        (1, 0, 0, 0, 0, @apiv2_attendance_edit_punch_in_overlaps_data_group_id, @ess_role_id),
        (1, 0, 0, 0, 0, @apiv2_attendance_edit_punch_out_overlaps_data_group_id, @admin_role_id),
