@@ -20,8 +20,8 @@
 
 <template>
   <reports-table
-    module="attendance"
-    name="attendance_summary_report"
+    module="time"
+    name="attendance"
     :prefetch="false"
     :filters="serializedFilters"
     :column-count="2"
@@ -89,10 +89,11 @@
       <br />
     </template>
 
-    <template #footer="{data}">
+    <!-- Todo: uncomment after metadata received -->
+    <!-- <template #footer="{data}">
       {{ $t('time.total_duration') }}:
       {{ data.meta ? data.meta.sum.label : '0.00' }}
-    </template>
+    </template> -->
   </reports-table>
 </template>
 
@@ -113,7 +114,7 @@ const defaultFilters = {
   fromDate: null,
   toDate: null,
   jobTitle: null,
-  subUnit: null,
+  subunit: null,
   empStatus: null,
 };
 
@@ -158,9 +159,12 @@ export default {
 
     const serializedFilters = computed(() => {
       return {
-        employeeId: filters.value.employee?.id,
+        empNumber: filters.value.employee?.id,
         fromDate: filters.value.fromDate,
         toDate: filters.value.toDate,
+        jobTitleId: filters.value.jobTitle?.id,
+        subunitId: filters.value.subunit?.id,
+        employmentStatusId: filters.value.empStatus?.id,
       };
     });
 

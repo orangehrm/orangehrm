@@ -140,13 +140,3 @@ apiv2_attendance_edit_attendance_record:
   path: /api/v2/attendance/employees/record/{id?}
   controller: OrangeHRM\Attendance\Controller\AttendanceMockController::sendAttendanceEditResponse
   methods: [ GET, PUT ]
-
-apiv2_attendance_summary_reports:
-  path: /api/v2/attendance/reports
-  controller: OrangeHRM\Attendance\Controller\ReportMockController::getReportHeaders
-  methods: [ GET ]
-
-apiv2_attendance_summary_reports_data:
-  path: /api/v2/attendance/reports/data
-  controller: OrangeHRM\Attendance\Controller\ReportMockController::getReportData
-  methods: [ GET ]
