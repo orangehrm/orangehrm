@@ -372,3 +372,119 @@ Update:
     exception:
       class: 'OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
       message: 'Unauthorized'
+
+Delete:
+  'Admin delete employee record':
+    userId: 1
+    services:
+      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      empNumber: 2
+    body:
+      ids: [ 2 ]
+    data:
+      - 2
+
+  'Supervisor delete subordinates records - config disabled':
+    userId: 3
+    services:
+      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      empNumber: 2
+    body:
+      ids: [ 2 ]
+    exception:
+      class: 'OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
+      message: 'Unauthorized'
+
+  'Supervisor delete non assingned subordinates record':
+    userId: 3
+    services:
+      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      empNumber: 5
+    body:
+      ids: [ 7 ]
+    invalidOnly: [ 'empNumber' ]
+
+  'Supervisor delete subordinates record - config enabled':
+    userId: 3
+    services:
+      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    hooks:
+      preAssertValidTestCase: [ '\OrangeHRM\Tests\Attendance\Api\EmployeeAttendanceRecordAPITest', 'enableSupervisorCanModifyAttendancePreHook' ]
+    attributes:
+      empNumber: 2
+    body:
+      ids: [ 2 ]
+    data:
+      - 2
+
+  'Supervisor provide non existing record of subordinate with existing ones - Config Enabled':
+    userId: 3
+    services:
+      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    hooks:
+      preAssertValidTestCase: [ '\OrangeHRM\Tests\Attendance\Api\EmployeeAttendanceRecordAPITest', 'enableSupervisorCanModifyAttendancePreHook' ]
+    attributes:
+      empNumber: 2
+    body:
+      ids: [ 2, 15 ]
+    exception:
+      class: 'OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException'
+      message: 'Record Not Found'
+
+  'Delete self(Admin)':
+    userId: 1
+    services:
+      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      empNumber: 1
+    body:
+      ids: [ 1 ]
+    invalidOnly: [ 'empNumber' ]
+
+  'Delete self(ESS)':
+    userId: 2
+    services:
+      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      empNumber: 2
+    body:
+      ids: [ 2 ]
+    invalidOnly: [ 'empNumber' ]
