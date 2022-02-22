@@ -29,7 +29,6 @@ use OrangeHRM\ORM\Doctrine;
 use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
 use OrangeHRM\Tests\Util\Integration\TestCaseParams;
 
-
 /**
  * @group Attendance
  * @group APIv2
@@ -41,7 +40,7 @@ class AttendanceRecordAPITest extends EndpointIntegrationTestCase
      */
     public function testGetOne(TestCaseParams $testCaseParams): void
     {
-        $this->populateFixtures('AttendanceRecord.yaml',null, true);
+        $this->populateFixtures('AttendanceRecord.yaml', null, true);
         $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
         $this->registerServices($testCaseParams);
         $this->registerMockDateTimeHelper($testCaseParams);
