@@ -13,7 +13,7 @@ class orangehrmMaintenancePluginAllTests {
         $suite = new PHPUnit\Framework\TestSuite('orangehrmMaintenancePluginAllTest');
 
         $suite->addTestFile(dirname(__FILE__) . '/model/dao/MaintenanceDaoTest.php');
-        $suite->addTestFile(dirname(__FILE__) . '/model/service/MaintenanceServiceTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/model/service/MaintenanceDaoTest.php');
         return $suite;
     }
 
