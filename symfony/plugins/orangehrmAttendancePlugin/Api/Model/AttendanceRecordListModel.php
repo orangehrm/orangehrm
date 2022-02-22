@@ -19,11 +19,12 @@
 
 namespace OrangeHRM\Attendance\Api\Model;
 
-use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
+use OrangeHRM\Core\Api\V2\Serializer\CollectionNormalizable;
+use OrangeHRM\Core\Api\V2\Serializer\ModelConstructorArgsAwareInterface;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Core\Traits\Service\NumberHelperTrait;
 
-class AttendanceRecordListModel implements Normalizable
+class AttendanceRecordListModel implements CollectionNormalizable, ModelConstructorArgsAwareInterface
 {
     use NumberHelperTrait;
     use DateTimeHelperTrait;
@@ -46,23 +47,28 @@ class AttendanceRecordListModel implements Normalizable
         $result = [];
         foreach ($this->attendanceRecords as $employeeAttendanceRecord) {
             $result[] = [
-                'PunchInDate' => $this->getDateTimeHelper()->formatDateTimeToYmd(
-                    $employeeAttendanceRecord['punchInTime']
-                ),
-                'PunchInTime' => $this->getDateTimeHelper()->formatDateTimeToTimeString(
-                    $employeeAttendanceRecord['punchInTime']
-                ),
-                'PunchInOffset' => $employeeAttendanceRecord['punchInTimeOffset'],
-                'PunchInNote' => $employeeAttendanceRecord['punchInNote'],
-                'PunchOutDate' => $this->getDateTimeHelper()->formatDateTimeToYmd(
-                    $employeeAttendanceRecord['punchOutTime']
-                ),
-                'PunchOutTime' => $this->getDateTimeHelper()->formatDateTimeToTimeString(
-                    $employeeAttendanceRecord['punchOutTime']
-                ),
-                'PunchOutOffset' => $employeeAttendanceRecord['punchOutTimeOffset'],
-                'PunchOutNote' => $employeeAttendanceRecord['punchOutNote'],
-                'Duration' => $this->getNumberHelper()
+                'id' => $employeeAttendanceRecord['id'],
+                'punchIn' => [
+                    'userDate' => $this->getDateTimeHelper()->formatDateTimeToYmd(
+                        $employeeAttendanceRecord['punchInTime']
+                    ),
+                    'userTime' => $this->getDateTimeHelper()->formatDateTimeToTimeString(
+                        $employeeAttendanceRecord['punchInTime']
+                    ),
+                    'offset' => $employeeAttendanceRecord['punchInTimeOffset'],
+                    'note' => $employeeAttendanceRecord['punchInNote'],
+                ],
+                'punchOut' => [
+                    'userDate' => $this->getDateTimeHelper()->formatDateTimeToYmd(
+                        $employeeAttendanceRecord['punchOutTime']
+                    ),
+                    'userTime' => $this->getDateTimeHelper()->formatDateTimeToTimeString(
+                        $employeeAttendanceRecord['punchOutTime']
+                    ),
+                    'offset' => $employeeAttendanceRecord['punchOutTimeOffset'],
+                    'note' => $employeeAttendanceRecord['punchOutNote'],
+                ],
+                'duration' => $this->getNumberHelper()
                     ->numberFormat((float)$employeeAttendanceRecord['total'] / 3600, 2)
             ];
         }

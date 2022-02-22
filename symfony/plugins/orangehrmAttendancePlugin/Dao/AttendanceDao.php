@@ -646,8 +646,8 @@ class AttendanceDao extends BaseDao {
      * @param AttendanceRecordSearchFilterParams $attendanceRecordSearchFilterParams
      * @return array
      */
-    public function getAttendanceRecordList(AttendanceRecordSearchFilterParams $attendanceRecordSearchFilterParams): array
-    {
+    public function getAttendanceRecordList(AttendanceRecordSearchFilterParams $attendanceRecordSearchFilterParams
+    ): array {
         return $this->getAttendanceRecordListPaginator($attendanceRecordSearchFilterParams)->getQuery()->execute();
     }
 
@@ -655,7 +655,8 @@ class AttendanceDao extends BaseDao {
      * @param AttendanceRecordSearchFilterParams $attendanceRecordSearchFilterParams
      * @return Paginator
      */
-    private function getAttendanceRecordListPaginator(AttendanceRecordSearchFilterParams $attendanceRecordSearchFilterParams
+    private function getAttendanceRecordListPaginator(
+        AttendanceRecordSearchFilterParams $attendanceRecordSearchFilterParams
     ): Paginator {
         $q = $this->getAttendanceRecordListQueryBuilderWrapper($attendanceRecordSearchFilterParams)->getQueryBuilder();
         $q->select(
@@ -691,36 +692,13 @@ class AttendanceDao extends BaseDao {
 
     /**
      * @param AttendanceRecordSearchFilterParams $attendanceRecordSearchFilterParams
-     * @return int
-     */
-    public function getAttendanceRecordListCount(
-        AttendanceRecordSearchFilterParams $attendanceRecordSearchFilterParams
-    ): int {
-        $paginator = $this->getAttendanceRecordListPaginator($attendanceRecordSearchFilterParams);
-        return $paginator->count();
-    }
-
-    /**
-     * @param AttendanceRecordSearchFilterParams $attendanceRecordSearchFilterParams
-     * @return int
-     */
-    public function getTotalWorkingTime(AttendanceRecordSearchFilterParams $attendanceRecordSearchFilterParams): int
-    {
-        $q = $this->getAttendanceRecordListQueryBuilderWrapper($attendanceRecordSearchFilterParams)->getQueryBuilder();
-        $q->select(
-            "SUM(TIME_DIFF(COALESCE(attendanceRecord.punchOutUtcTime, 0), COALESCE(attendanceRecord.punchInUtcTime, 0),'second')) AS total"
-        );
-        $q->groupBy('employee.empNumber');
-        return $q->getQuery()->getSingleScalarResult() === null ? 0 : $q->getQuery()->getSingleScalarResult();
-    }
-
-    /**
-     * @param AttendanceRecordSearchFilterParams $attendanceRecordSearchFilterParams
      * @param QueryBuilder $q
      * @return QueryBuilderWrapper
      */
-    public function getCommonQueryBuilderWrapper(AttendanceRecordSearchFilterParams $attendanceRecordSearchFilterParams, QueryBuilder $q) :QueryBuilderWrapper
-    {
+    public function getCommonQueryBuilderWrapper(
+        AttendanceRecordSearchFilterParams $attendanceRecordSearchFilterParams,
+        QueryBuilder $q
+    ): QueryBuilderWrapper {
         if (!is_null($attendanceRecordSearchFilterParams->getEmployeeNumbers())) {
             $q->andWhere($q->expr()->in('employee.empNumber', ':empNumbers'))
                 ->setParameter('empNumbers', $attendanceRecordSearchFilterParams->getEmployeeNumbers());
@@ -746,5 +724,30 @@ class AttendanceDao extends BaseDao {
                 ->setParameter('toDate', $attendanceRecordSearchFilterParams->getToDate());
         }
         return $this->getQueryBuilderWrapper($q);
+    }
+
+    /**
+     * @param AttendanceRecordSearchFilterParams $attendanceRecordSearchFilterParams
+     * @return int
+     */
+    public function getAttendanceRecordListCount(
+        AttendanceRecordSearchFilterParams $attendanceRecordSearchFilterParams
+    ): int {
+        $paginator = $this->getAttendanceRecordListPaginator($attendanceRecordSearchFilterParams);
+        return $paginator->count();
+    }
+
+    /**
+     * @param AttendanceRecordSearchFilterParams $attendanceRecordSearchFilterParams
+     * @return int
+     */
+    public function getTotalWorkingTime(AttendanceRecordSearchFilterParams $attendanceRecordSearchFilterParams): int
+    {
+        $q = $this->getAttendanceRecordListQueryBuilderWrapper($attendanceRecordSearchFilterParams)->getQueryBuilder();
+        $q->select(
+            "SUM(TIME_DIFF(COALESCE(attendanceRecord.punchOutUtcTime, 0), COALESCE(attendanceRecord.punchInUtcTime, 0),'second')) AS total"
+        );
+        $q->groupBy('employee.empNumber');
+        return $q->getQuery()->getSingleScalarResult() === null ? 0 : $q->getQuery()->getSingleScalarResult();
     }
 }

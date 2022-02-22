@@ -59,11 +59,8 @@ class MyAttendanceRecordAPI extends EmployeeAttendanceRecordAPI
         );
 
         $attendanceRecordSearchFilterParams->setEmployeeNumbers([$employeeNumber]);
-
-        $from = $date . ' ' . '00:00:00';
-        $to = $date . ' ' . '23:59:59';
-        $attendanceRecordSearchFilterParams->setFromDate(new DateTime($from));
-        $attendanceRecordSearchFilterParams->setToDate(new DateTime($to));
+        $attendanceRecordSearchFilterParams->setFromDate(new DateTime($date . ' ' . '00:00:00'));
+        $attendanceRecordSearchFilterParams->setToDate(new DateTime($date . ' ' . '23:59:59'));
 
         $attendanceRecords = $this->getAttendanceService()
             ->getAttendanceDao()
