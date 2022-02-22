@@ -68,11 +68,20 @@ class AttendanceReportData implements ReportData
      */
     public function getMeta(): ?ParameterBag
     {
+        $total = $this->getAttendanceService()
+            ->getAttendanceDao()
+            ->getTotalAttendanceDuration($this->filterParams);
+
         return new ParameterBag(
             [
                 CommonParams::PARAMETER_TOTAL => $this->getAttendanceService()
                     ->getAttendanceDao()
-                    ->getAttendanceReportCriteriaListCount($this->filterParams)
+                    ->getAttendanceReportCriteriaListCount($this->filterParams),
+                'sum' => [
+                    'hours' => floor($total / 3600),
+                    'minutes' => ($total / 60) % 60,
+                    'label' => $this->getNumberHelper()->numberFormat($total / 3600, 2),
+                ],
             ]
         );
     }
