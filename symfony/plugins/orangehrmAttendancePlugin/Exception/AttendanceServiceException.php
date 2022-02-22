@@ -70,4 +70,12 @@ class AttendanceServiceException extends Exception
     {
         return new self('Provided Date And Time Invalid');
     }
+
+    /**
+     * @return static
+     */
+    public static function punchOutDateTimeNull(): self
+    {
+        return new self('Punch Out Date And Time Should Not Be Null');
+    }
 }

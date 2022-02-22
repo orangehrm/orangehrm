@@ -20,11 +20,9 @@
 namespace OrangeHRM\Tests\Attendance\Api;
 
 use OrangeHRM\Attendance\Api\CurrentDateTimeAPI;
-use OrangeHRM\Config\Config;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
 use OrangeHRM\Tests\Util\Integration\TestCaseParams;
-use OrangeHRM\Tests\Util\TestDataService;
 
 /**
  * @group Attendance

@@ -60,6 +60,13 @@ apiv2_attendance_current_datetime:
     id: 0
     _api: OrangeHRM\Attendance\Api\CurrentDateTimeAPI
 
+apiv2_attendance_employee_attendance_record:
+  path: /api/v2/attendance/records/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    _api: OrangeHRM\Attendance\Api\AttendanceRecordAPI
+
 apiv2_attendance_edit_punch_in_record_overlap:
   path: /api/v2/attendance/records/punch-in-overlaps
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle

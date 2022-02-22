@@ -25,8 +25,8 @@ use OrangeHRM\Core\Service\AccessFlowStateMachineService;
 use OrangeHRM\Entity\AttendanceRecord;
 use OrangeHRM\Entity\WorkflowStateMachine;
 
-class AttendanceService {
-
+class AttendanceService
+{
     public const ESS_USER = "ESS USER";
     public const SUPERVISOR = "SUPERVISOR";
 
@@ -70,8 +70,8 @@ class AttendanceService {
      * @param AttendanceDao $AttendanceDao
      * @return void
      */
-    public function setAttendanceDao(AttendanceDao $attendanceDao) {
-
+    public function setAttendanceDao(AttendanceDao $attendanceDao)
+    {
         $this->attendanceDao = $attendanceDao;
     }
 
@@ -91,8 +91,8 @@ class AttendanceService {
      * @param AttendanceRecord $attendanceRecord
      * @return AttendanceRecord
      */
-    public function savePunchRecord(AttendanceRecord $attendanceRecord) {
-
+    public function savePunchRecord(AttendanceRecord $attendanceRecord)
+    {
         return $this->attendanceDao->savePunchRecord($attendanceRecord);
     }
 
@@ -101,9 +101,9 @@ class AttendanceService {
      * @param $punchInTime, $punchOutTime, $employeeId
      * @return string 1,0
      */
-    public function checkForPunchOutOverLappingRecords($punchInTime, $punchOutTime, $employeeId,$recordId) {
-
-        return $this->getAttendanceDao()->checkForPunchOutOverLappingRecords($punchInTime, $punchOutTime, $employeeId,$recordId);
+    public function checkForPunchOutOverLappingRecords($punchInTime, $punchOutTime, $employeeId, $recordId)
+    {
+        return $this->getAttendanceDao()->checkForPunchOutOverLappingRecords($punchInTime, $punchOutTime, $employeeId, $recordId);
     }
 
     /**
@@ -111,7 +111,8 @@ class AttendanceService {
      * @param $punchInTime, $employeeId
      * @return string 1,0
      */
-    public function checkForPunchInOverLappingRecords($punchInTime, $employeeId) {
+    public function checkForPunchInOverLappingRecords($punchInTime, $employeeId)
+    {
         return $this->getAttendanceDao()->checkForPunchInOverLappingRecords($punchInTime, $employeeId);
     }
 
@@ -120,8 +121,8 @@ class AttendanceService {
      * @param $employeeId, $date
      * @return array of records
      */
-    public function getAttendanceRecord($employeeId, $date) {
-
+    public function getAttendanceRecord($employeeId, $date)
+    {
         return $this->getAttendanceDao()->getAttendanceRecord($employeeId, $date);
     }
 
@@ -130,8 +131,8 @@ class AttendanceService {
      * @param $attendanceRecordId
      * @return boolean
      */
-    public function deleteAttendanceRecords($attendanceRecordId) {
-
+    public function deleteAttendanceRecords($attendanceRecordId)
+    {
         return $this->getAttendanceDao()->deleteAttendanceRecords($attendanceRecordId);
     }
 
@@ -140,8 +141,8 @@ class AttendanceService {
      * @param $attendanceRecordId
      * @return Attendance Record
      */
-    public function getAttendanceRecordById($attendanceRecordId) {
-
+    public function getAttendanceRecordById($attendanceRecordId)
+    {
         return $this->getAttendanceDao()->getAttendanceRecordById($attendanceRecordId);
     }
 
@@ -150,7 +151,8 @@ class AttendanceService {
      * @param $value
      * @return Timezone offset
      */
-    public function getTimezone($value) {
+    public function getTimezone($value)
+    {
         $timezoneArray = $this->getTimezoneArray();
         return $timezoneArray[$value];
     }
@@ -160,9 +162,8 @@ class AttendanceService {
      * @param
      * @return time zone values array
      */
-    public function getTimezoneArray() {
-
-
+    public function getTimezoneArray()
+    {
         $this->timezoneArray[0] = 'GMT';
         $this->timezoneArray[1] = '1.0';
         $this->timezoneArray[2] = '2.0';
@@ -199,13 +200,11 @@ class AttendanceService {
      * @param $clientTimeZoneOffset
      * @return time zone string
      */
-    public function getLocalTimezone($clientTimeZoneOffset) {
-
-
+    public function getLocalTimezone($clientTimeZoneOffset)
+    {
         $offset = $clientTimeZoneOffset;
         $zonelist =
-                array
-                    (
+                [
                     'Kwajalein' => -12.00,
                     'Pacific/Midway' => -11.00,
                     'Pacific/Honolulu' => -10.00,
@@ -240,39 +239,43 @@ class AttendanceService {
                     'Asia/Magadan' => 11.00,
                     'Pacific/Fiji' => 12.00,
                     'Pacific/Tongatapu' => 13.00
-        );
+        ];
         $index = array_keys($zonelist, $offset);
-        if (sizeof($index) != 1)
+        if (sizeof($index) != 1) {
             return false;
+        }
         return $index[0];
     }
 
 
-     /**
-     * check For Punch In OverLapping Records when Editing
-     * @param $punchInTime, $employeeId
-     * @return string 1,0
-     */
-    public function checkForPunchInOverLappingRecordsWhenEditing($punchInTime, $employeeId,$recordId, $punchOut) {
-        return $this->getAttendanceDao()->checkForPunchInOverLappingRecordsWhenEditing($punchInTime, $employeeId,$recordId, $punchOut);
+    /**
+    * check For Punch In OverLapping Records when Editing
+    * @param $punchInTime, $employeeId
+    * @return string 1,0
+    */
+    public function checkForPunchInOverLappingRecordsWhenEditing($punchInTime, $employeeId, $recordId, $punchOut)
+    {
+        return $this->getAttendanceDao()->checkForPunchInOverLappingRecordsWhenEditing($punchInTime, $employeeId, $recordId, $punchOut);
     }
 
 
-     /**
-     * check For Punch out OverLapping Records when Editing
-     * @param $punchInTime, $employeeId
-     * @return string 1,0
-     */
-    public function checkForPunchOutOverLappingRecordsWhenEditing($punchIn, $punchOut, $employeeId,$recordId) {
+    /**
+    * check For Punch out OverLapping Records when Editing
+    * @param $punchInTime, $employeeId
+    * @return string 1,0
+    */
+    public function checkForPunchOutOverLappingRecordsWhenEditing($punchIn, $punchOut, $employeeId, $recordId)
+    {
         return $this->getAttendanceDao()->checkForPunchInOutOverLappingRecordsWhenEditing($punchIn, $punchOut, $employeeId, $recordId);
     }
 
-     /**
-     * check For Punch out/in OverLapping Records when Editing
-     * @param $punchInTime, $employeeId
-     * @return string 1,0
-     */
-    public function checkForPunchInOutOverLappingRecordsWhenEditing($punchIn, $punchOut, $employeeId,$recordId) {
+    /**
+    * check For Punch out/in OverLapping Records when Editing
+    * @param $punchInTime, $employeeId
+    * @return string 1,0
+    */
+    public function checkForPunchInOutOverLappingRecordsWhenEditing($punchIn, $punchOut, $employeeId, $recordId)
+    {
         return $this->getAttendanceDao()->checkForPunchInOutOverLappingRecordsWhenEditing($punchIn, $punchOut, $employeeId, $recordId);
     }
 
@@ -285,8 +288,9 @@ class AttendanceService {
      * @param date $dateTo
      * @return array
      */
-    public function searchAttendanceRecords($employeeId = null, $employeementStatus = null, $subDivision = null, $dateFrom = null , $dateTo = null ){
-        return $this->getAttendanceDao()->searchAttendanceRecords($employeeId, $employeementStatus, $subDivision, $dateFrom, $dateTo );
+    public function searchAttendanceRecords($employeeId = null, $employeementStatus = null, $subDivision = null, $dateFrom = null, $dateTo = null)
+    {
+        return $this->getAttendanceDao()->searchAttendanceRecords($employeeId, $employeementStatus, $subDivision, $dateFrom, $dateTo);
     }
 
     /**
@@ -314,9 +318,9 @@ class AttendanceService {
         );
     }
 
-    public function getAttendanceRecordsBetweenTwoDays(string $fromDate, string $toDate,int $employeeId,string $state)
+    public function getAttendanceRecordsBetweenTwoDays(string $fromDate, string $toDate, int $employeeId, string $state)
     {
-        return $this->getAttendanceDao()->getAttendanceRecordsBetweenTwoDays($fromDate,$toDate,$employeeId,$state);
+        return $this->getAttendanceDao()->getAttendanceRecordsBetweenTwoDays($fromDate, $toDate, $employeeId, $state);
     }
 
     /**
@@ -765,4 +769,3 @@ class AttendanceService {
         $this->getAccessFlowStateMachineService()->saveWorkflowStateMachineRecord($workflowStateMachineRecord);
     }
 }
-

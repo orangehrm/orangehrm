@@ -21,17 +21,17 @@ namespace OrangeHRM\Attendance\Dao;
 
 use DateTime;
 use OrangeHRM\Attendance\Exception\AttendanceServiceException;
-use OrangeHRM\Entity\Employee;
-use OrangeHRM\ORM\Paginator;
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Entity\AttendanceRecord;
+use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\WorkflowStateMachine;
 use OrangeHRM\ORM\ListSorter;
+use OrangeHRM\ORM\Paginator;
 use OrangeHRM\Time\Dto\AttendanceReportSearchFilterParams;
 use Respect\Validation\Rules\Date;
 
-class AttendanceDao extends BaseDao {
-
+class AttendanceDao extends BaseDao
+{
     /**
      * @param  AttendanceRecord  $attendanceRecord
      * @return AttendanceRecord
@@ -57,7 +57,6 @@ class AttendanceDao extends BaseDao {
         $q->orderBy('attendanceRecord.id', ListSorter::DESCENDING);
         $q->setMaxResults(1);
         return $q->getQuery()->getOneOrNullResult();
-
     }
 
     /**
@@ -79,7 +78,7 @@ class AttendanceDao extends BaseDao {
             throw AttendanceServiceException::punchOutTimeBehindThanPunchInTime();
         }
 
-        return $this->getCommonQueryForPunchOutOverlap($punchInUtcTime,$punchOutTime, $employeeNumber);
+        return $this->getCommonQueryForPunchOutOverlap($punchInUtcTime, $punchOutTime, $employeeNumber);
     }
 
     /**
@@ -90,10 +89,10 @@ class AttendanceDao extends BaseDao {
     public function checkForPunchInOverLappingRecords(DateTime $punchInTime, int $employeeNumber): bool
     {
         $attendanceRecord = $this->getLatestAttendanceRecordByEmployeeNumber($employeeNumber);
-        if(is_null($attendanceRecord)){
+        if (is_null($attendanceRecord)) {
             return false;
         }
-        if ($attendanceRecord->getState() === AttendanceRecord::STATE_PUNCHED_IN){
+        if ($attendanceRecord->getState() === AttendanceRecord::STATE_PUNCHED_IN) {
             throw AttendanceServiceException::punchInAlreadyExist();
         }
 
@@ -257,13 +256,12 @@ class AttendanceDao extends BaseDao {
      * @param $$employeeId,$date
      * @return attendance records
      */
-    public function getAttendanceRecord($employeeId, $date) {
-
+    public function getAttendanceRecord($employeeId, $date)
+    {
         $from = $date . " " . "00:" . "00:" . "00";
         $end = $date . " " . "23:" . "59:" . "59";
 
         try {
-
             $query = Doctrine_Query::create()
                     ->from("attendanceRecord")
                     ->where("employeeId = ?", $employeeId)
@@ -271,10 +269,8 @@ class AttendanceDao extends BaseDao {
                     ->andWhere("punchInUserTime <= ?", $end);
             $records = $query->execute();
             if (is_null($records[0]->getId())) {
-
                 return null;
             } else {
-
                 return $records;
             }
         } catch (Exception $ex) {
@@ -287,10 +283,10 @@ class AttendanceDao extends BaseDao {
      * @param $attendanceRecordId
      * @return boolean
      */
-    public function deleteAttendanceRecords($attendanceRecordId) {
-
+    public function deleteAttendanceRecords($attendanceRecordId)
+    {
         try {
-            $q = Doctrine_Query:: create()
+            $q = Doctrine_Query::create()
                     ->delete('AttendanceRecord')
                     ->where("id = ?", $attendanceRecordId);
 
@@ -322,13 +318,12 @@ class AttendanceDao extends BaseDao {
      * @param $punchInTime,$punchOutTime,$employeeId
      * @return string 1,0
      */
-    public function checkForPunchOutOverLappingRecordsWhenEditing($punchInTime, $punchOutTime, $employeeId, $recordId) {
-
+    public function checkForPunchOutOverLappingRecordsWhenEditing($punchInTime, $punchOutTime, $employeeId, $recordId)
+    {
         $isValid = "1";
 
 
         try {
-
             $query1 = Doctrine_Query::create()
                     ->from("AttendanceRecord")
                     ->where("employeeId = ?", $employeeId)
@@ -337,9 +332,7 @@ class AttendanceDao extends BaseDao {
             $records1 = $query1->execute();
 
             if ((count($records1) == 1) && ($records1[0]->getId() == $recordId)) {
-
             } elseif ((count($records1) > 0)) {
-
                 $isValid = "0";
             }
 
@@ -353,9 +346,7 @@ class AttendanceDao extends BaseDao {
             $records3 = $query3->execute();
 
             if ((count($records3) == 1) && ($records3[0]->getId() == $recordId)) {
-
             } elseif ((count($records3) > 0)) {
-
                 $isValid = "0";
             }
 
@@ -368,9 +359,7 @@ class AttendanceDao extends BaseDao {
 
 
             if ((count($records4) == 1) && ($records4[0]->getId() == $recordId)) {
-
             } elseif ((count($records4) > 0)) {
-
                 $isValid = "0";
             }
         } catch (Exception $ex) {
@@ -379,51 +368,49 @@ class AttendanceDao extends BaseDao {
         return $isValid;
     }
 
-     /**
-     *
-     * @param int $employeeId
-     * @param string $employeementStatus
-     * @param int $subDivision
-     * @param date $dateFrom
-     * @param date $dateTo
-     * @return array
-     */
+    /**
+    *
+    * @param int $employeeId
+    * @param string $employeementStatus
+    * @param int $subDivision
+    * @param date $dateFrom
+    * @param date $dateTo
+    * @return array
+    */
 
-    public function searchAttendanceRecords($employeeIds = null, $employeementStatus = null, $subDivision = null, $dateFrom = null , $dateTo = null ){
-
-         $q = Doctrine_Query::create()
+    public function searchAttendanceRecords($employeeIds = null, $employeementStatus = null, $subDivision = null, $dateFrom = null, $dateTo = null)
+    {
+        $q = Doctrine_Query::create()
                  ->select("e.emp_number, e.termination_id, e.emp_firstname, e.emp_middle_name, e.emp_lastname, a.punch_in_user_time as in_date_time, a.punch_out_user_time as out_date_time, punch_in_note, punch_out_note, TIMESTAMPDIFF(MINUTE, a.punch_in_user_time, a.punch_out_user_time) as duration")
                 ->from("AttendanceRecord a")
                 ->leftJoin("a.Employee e")
                 ->orderBy('a.punch_in_user_time DESC');
 
-        if( $employeeIds != null){
-
-            if(is_array($employeeIds)){
+        if ($employeeIds != null) {
+            if (is_array($employeeIds)) {
                 $q->andWhereIn("e.emp_number", $employeeIds);
             } else {
                 $q->andWhere(" e.emp_number = ?", $employeeIds);
             }
         }
 
-        if( $employeementStatus != null){
+        if ($employeementStatus != null) {
             $q->andWhere("e.emp_status = ?", $employeementStatus);
         } else {
-            if($employeeIds <= 0){
+            if ($employeeIds <= 0) {
                 $q->andWhere("(e.termination_id IS NULL)");
             }
         }
 
-        if( $subDivision > 0){
-
+        if ($subDivision > 0) {
             $companyService = new CompanyStructureService();
             $subDivisions = $companyService->getCompanyStructureDao()->getSubunitById($subDivision);
 
-            $subUnitIds = array($subDivision);
-             if (!empty($subDivisions)) {
+            $subUnitIds = [$subDivision];
+            if (!empty($subDivisions)) {
                 $descendents = $subDivisions->getNode()->getDescendants();
 
-                foreach($descendents as $descendent) {
+                foreach ($descendents as $descendent) {
                     $subUnitIds[] = $descendent->id;
                 }
             }
@@ -431,17 +418,16 @@ class AttendanceDao extends BaseDao {
             $q->andWhereIn("e.work_station", $subUnitIds);
         }
 
-        if( $dateFrom != null){
+        if ($dateFrom != null) {
             $q->andWhere("a.punch_in_user_time >=?", $dateFrom);
         }
 
-        if( $dateTo != null){
+        if ($dateTo != null) {
             $q->andWhere("a.punch_out_user_time <=?", $dateTo);
         }
 
-        $result = $q->execute(array(), Doctrine::HYDRATE_SCALAR);
+        $result = $q->execute([], Doctrine::HYDRATE_SCALAR);
         return $result;
-
     }
 
     /**
@@ -452,8 +438,8 @@ class AttendanceDao extends BaseDao {
      */
     public function getLatestPunchInRecord(int $employeeId, $state)
     {
-        if($state == PluginAttendanceRecord::STATE_PUNCHED_IN) {
-           try {
+        if ($state == PluginAttendanceRecord::STATE_PUNCHED_IN) {
+            try {
                 $query = Doctrine_Query::create()
                     ->from("attendanceRecord")
                     ->where("employeeId = ?", $employeeId)
@@ -463,7 +449,7 @@ class AttendanceDao extends BaseDao {
             } catch (Exception $ex) {
                 throw new DaoException($ex->getMessage());
             }
-        } else if($state == PluginAttendanceRecord::STATE_PUNCHED_OUT) {
+        } elseif ($state == PluginAttendanceRecord::STATE_PUNCHED_OUT) {
             try {
                 $query = Doctrine_Query::create()
                     ->from("attendanceRecord")
@@ -485,7 +471,8 @@ class AttendanceDao extends BaseDao {
      * @return array|Doctrine_Collection|Doctrine_Collection_OnDemand|int
      * @throws DaoException
      */
-    public function getAttendanceRecordsBetweenTwoDays(string $fromDate, string $toDate,int $employeeId,string $state){
+    public function getAttendanceRecordsBetweenTwoDays(string $fromDate, string $toDate, int $employeeId, string $state)
+    {
         try {
             $query = Doctrine_Query::create()
                 ->from("attendanceRecord")
@@ -493,7 +480,7 @@ class AttendanceDao extends BaseDao {
                 ->andWhere('punchInUserTime >= ?', $fromDate)
                 ->andWhere('punchInUserTime <= ?', $toDate)
                 ->orderBy('punchInUtcTime');
-            if($state!='ALL'){
+            if ($state!='ALL') {
                 $query->andWhere("state = ?", $state);
             }
             return $query->execute();
@@ -570,7 +557,8 @@ class AttendanceDao extends BaseDao {
      * @param AttendanceReportSearchFilterParams $attendanceReportSearchFilterParams
      * @return Paginator
      */
-    private function getAttendanceReportPaginator(AttendanceReportSearchFilterParams $attendanceReportSearchFilterParams
+    private function getAttendanceReportPaginator(
+        AttendanceReportSearchFilterParams $attendanceReportSearchFilterParams
     ): Paginator {
         $q = $this->createQueryBuilder(Employee::class, 'employee');
         $q->select(
@@ -617,9 +605,9 @@ class AttendanceDao extends BaseDao {
 
         if (!is_null($attendanceReportSearchFilterParams->getToDate())) {
             $q->andWhere($q->expr()->orX(
-            $q->expr()->isNull('attendanceRecord.id'),
-            $q->expr()->isNull('attendanceRecord.punchOutUserTime'),
-            $q->expr()->lte('attendanceRecord.punchOutUserTime', ':toDate')
+                $q->expr()->isNull('attendanceRecord.id'),
+                $q->expr()->isNull('attendanceRecord.punchOutUserTime'),
+                $q->expr()->lte('attendanceRecord.punchOutUserTime', ':toDate')
             ))
                 ->setParameter('toDate', $attendanceReportSearchFilterParams->getToDate());
         }
