@@ -39,6 +39,15 @@ abstract class PurgeStrategy
         $this->parameters = $infoArray['parameters'] ?? null;
     }
 
+    /**
+     * @param int $employeeNumber
+     * @return mixed
+     */
+    abstract public function purge(int $employeeNumber): void;
+
+    /**
+     * @return PurgeEmployeeService
+     */
     public function getPurgeEmployeeService(): PurgeEmployeeService
     {
         if (!isset($this->purgeEmployeeService)) {
@@ -46,12 +55,6 @@ abstract class PurgeStrategy
         }
         return $this->purgeEmployeeService;
     }
-
-    /**
-     * @param int $employeeNumber
-     * @return mixed
-     */
-    abstract public function purge(int $employeeNumber);
 
     /**
      * @param int $employeeNumber
@@ -72,9 +75,8 @@ abstract class PurgeStrategy
      * @param array $matchByValues
      * @param string $table
      * @return array
-     * WRAPPER FUNCTION REMOVE?
      */
-    public function getEntityRecords(array $matchByValues, string $table): array
+    protected function getEntityRecords(array $matchByValues, string $table): array
     {
         return $this->getPurgeEmployeeService()->extractDataFromEmpNumber($matchByValues, $table);
     }

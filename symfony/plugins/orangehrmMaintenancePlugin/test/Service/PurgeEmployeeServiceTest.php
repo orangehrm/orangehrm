@@ -70,8 +70,8 @@ class PurgeEmployeeServiceTest extends KernelTestCase
         $this->purgeEmployeeService = new PurgeEmployeeService();
         $this->employeeService = new EmployeeService();
         $this->fixture = Config::get(
-                Config::PLUGINS_DIR
-            ) . '/orangehrmMaintenancePlugin/test/fixtures/PurgeEmployeeService.yml';
+            Config::PLUGINS_DIR
+        ) . '/orangehrmMaintenancePlugin/test/fixtures/PurgeEmployeeService.yml';
         TestDataService::populate($this->fixture);
     }
 
@@ -126,8 +126,7 @@ class PurgeEmployeeServiceTest extends KernelTestCase
         $this->assertEquals('FormatWithEmptyString', $parameters[2]['class']);
     }
 
-    public function testPurgeEmployeeData(
-    ): void //EDITED ENTITIES - EmpWorkExperience, EmployeeSalary (another method found)
+    public function testPurgeEmployeeData(): void
     {
         $this->createKernelWithMockServices([Services::DATETIME_HELPER_SERVICE => new DateTimeHelperService()]);
         $this->purgeEmployeeService->purgeEmployeeData(1);
@@ -210,16 +209,14 @@ class PurgeEmployeeServiceTest extends KernelTestCase
 
         $empLeaveRequestComments = $this->getRepository(LeaveRequestComment::class)->findBy(['createdByEmployee' => 1]);
         $this->assertCount(3, $empLeaveRequestComments);
-        foreach ($empLeaveRequestComments as $empLeaveRequestComment)  {
+        foreach ($empLeaveRequestComments as $empLeaveRequestComment) {
             $this->assertEquals("Purge", $empLeaveRequestComment->getComment());
-//            $this->assertNull($empLeaveRequestComment->getCreatedAt());
         }
 
         $empLeaveComments = $this->getRepository(LeaveComment::class)->findBy(['createdByEmployee' => 1]);
         $this->assertCount(2, $empLeaveComments);
-        foreach ($empLeaveComments as $empLeaveComment)  {
+        foreach ($empLeaveComments as $empLeaveComment) {
             $this->assertEquals("Purge", $empLeaveComment->getComment());
-//            $this->assertNull($empLeaveRequestComment->getCreatedAt());
         }
 
         $empAttendanceRecords = $this->getRepository(AttendanceRecord::class)->findBy(['employee' => 1]);

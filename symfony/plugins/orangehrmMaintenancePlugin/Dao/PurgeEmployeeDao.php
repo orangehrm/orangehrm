@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Maintenance\Dao;
 
+use Doctrine\Persistence\Mapping\MappingException;
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Entity\EmpDirectDebit;
 use OrangeHRM\Entity\Employee;
@@ -29,7 +30,7 @@ class PurgeEmployeeDao extends BaseDao
     /**
      * @return Employee[]
      */
-    public function getEmployeePurgingList(): array //searchParamFilter
+    public function getEmployeePurgingList(): array
     {
         $qb = $this->createQueryBuilder(Employee::class, 'employee');
         $qb->andWhere($qb->expr()->isNotNull('employee.employeeTerminationRecord'));
@@ -46,7 +47,6 @@ class PurgeEmployeeDao extends BaseDao
      */
     public function extractDataFromEmpNumber(array $matchByValues, string $table): array
     {
-        //This function extracts data from a given table by matching the empNumber field in the table
         $employeeId = reset($matchByValues);
         $field = key($matchByValues);
 
@@ -56,30 +56,13 @@ class PurgeEmployeeDao extends BaseDao
 
         return $qb->getQuery()->execute();
     }
-//        $table2 = $matchByValues['join'] ?? null;
-//        if (!is_null($table2)) {
-//            $qb->innerJoin('t.' . $table2, 'tt');
-//        }
-
-//        $table2 = $matchByValues['join'];
-//        if ($matchByValues['join']) {
-//            $q = Doctrine_Query::create()
-//                ->select('*')
-//                ->from($table . ' l')
-//                ->innerJoin('l.' . $table2 . ' t')
-//                ->where($field . " = ?", $employeeId);
-//        } else {
-//            $q = Doctrine_Query::create()
-//                ->select('*')
-//                ->from($table)
-//                ->where($field . " = ?", $employeeId);
-//        }
 
     /**
-     * @param $entity
-     * @return mixed
+     * @param object $entity
+     * @return object
+     * @throws MappingException
      */
-    public function saveEntity($entity) //HOW TO PUT TYPE??
+    public function saveEntity(object $entity): object
     {
         $this->persist($entity);
 
@@ -90,7 +73,11 @@ class PurgeEmployeeDao extends BaseDao
         return $entity;
     }
 
-    public function deleteEntity($entity)
+    /**
+     * @param object $entity
+     * @throws MappingException
+     */
+    public function deleteEntity(object $entity): void
     {
         $this->remove($entity);
 

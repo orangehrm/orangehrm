@@ -22,7 +22,7 @@ namespace OrangeHRM\Maintenance\FormatValueStrategy;
 interface ValueFormatter
 {
     /**
-     * @param $entityValue
+     * @param mixed $entityValue
      * @return mixed
      */
     public function getFormattedValue($entityValue);

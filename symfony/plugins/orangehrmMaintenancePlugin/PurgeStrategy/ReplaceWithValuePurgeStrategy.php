@@ -36,7 +36,10 @@ class ReplaceWithValuePurgeStrategy extends PurgeStrategy
         }
     }
 
-    public function purgeRecord($purgeEntity): void
+    /**
+     * @param object $purgeEntity
+     */
+    public function purgeRecord(object $purgeEntity): void
     {
         $replaceFields = $this->getParameters();
         foreach ($replaceFields as $replaceColumnArrayData) {
@@ -48,14 +51,16 @@ class ReplaceWithValuePurgeStrategy extends PurgeStrategy
             $setCurrentField = 'set' . ucfirst($currentField);
             $purgeEntity->$setCurrentField($replace);
         }
-        $this->getPurgeEmployeeService()->saveEntity($purgeEntity);
+        $this->getPurgeEmployeeService()
+            ->getPurgeEmployeeDao()
+            ->saveEntity($purgeEntity);
     }
 
     /**
      * @param string $strategy
      * @return ValueFormatter
      */
-    public function getReplaceStrategy(string $strategy): ValueFormatter
+    protected function getReplaceStrategy(string $strategy): ValueFormatter
     {
         $formatValueStrategy = 'OrangeHRM\\Maintenance\\FormatValueStrategy\\' . $strategy;
         return new $formatValueStrategy();

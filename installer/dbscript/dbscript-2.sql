@@ -4417,3 +4417,20 @@ VALUES (1, 0, 1, 0, 0, @apiv2_attendance_configuration_data_group_id, @admin_rol
        (0, 1, 1, 0, 1, @apiv2_attendance_my_attendance_record_data_group_id, @ess_role_id),
        (0, 1, 1, 0, 0, @apiv2_attendance_employee_attendance_record_data_group_id, @admin_role_id),
        (0, 1, 1, 0, 0, @apiv2_attendance_employee_attendance_record_data_group_id, @supervisor_role_id);
+
+-- Maintenance Module
+
+INSERT INTO ohrm_data_group (`name`, `description`, `can_read`, `can_create`, `can_update`, `can_delete`)
+VALUES ('apiv2_purge', 'API-v2 Maintenance - Purge Employee', 1, 0, 0, 1);
+
+SET @maintenance_module_id := (SELECT `id` FROM ohrm_module WHERE name = 'maintenance' LIMIT 1);
+SET @apiv2_purge_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_purge' LIMIT 1);
+
+INSERT INTO ohrm_api_permission (`api_name`, `module_id`, `data_group_id`)
+VALUES ('OrangeHRM\\Maintenance\\Api\\PurgeEmployeeAPI', @maintenance_module_id, @apiv2_purge_data_group_id);
+
+SET @apiv2_purge_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_purge' LIMIT 1);
+SET @admin_role_id := (SELECT `id` FROM ohrm_user_role WHERE `name` = 'Admin' LIMIT 1);
+
+INSERT INTO ohrm_user_role_data_group (`can_read`, `can_create`, `can_update`, `can_delete`, `self`, `data_group_id`,`user_role_id`)
+VALUES (1, 0, 0, 1, 0, @apiv2_purge_data_group_id, @admin_role_id);

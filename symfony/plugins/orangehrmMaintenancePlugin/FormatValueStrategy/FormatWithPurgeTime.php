@@ -26,7 +26,7 @@ class FormatWithPurgeTime implements ValueFormatter
 {
     use DateTimeHelperTrait;
     /**
-     * @param $entityValue
+     * @param DateTime $entityValue
      * @return DateTime
      */
     public function getFormattedValue($entityValue): DateTime

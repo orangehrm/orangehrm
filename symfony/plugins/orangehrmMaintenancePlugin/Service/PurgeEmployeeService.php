@@ -47,15 +47,6 @@ class PurgeEmployeeService
     }
 
     /**
-     * @param $entity
-     * @return mixed
-     */
-    public function saveEntity($entity)
-    {
-        return $this->employeePurgeDao->saveEntity($entity);
-    }
-
-    /**
      * @param int $empNumber
      * @throws TransactionException
      */
@@ -79,27 +70,7 @@ class PurgeEmployeeService
             $this->rollBackTransaction();
             throw new TransactionException($exception);
         }
-
     }
-
-
-//        $connection = Doctrine_Manager::getInstance()->getCurrentConnection();
-//        try {
-//            $connection->beginTransaction();
-//            $purgeableEntities = $this->getPurgeableEntities(self::EMPLOYEE_GDPR);
-//            foreach ($purgeableEntities as $purgeableEntityClassName => $purgeStrategies) {
-//                foreach ($purgeStrategies['PurgeStrategy'] as $strategy => $strategyInfoArray) {
-//                    $strategy = $this->getPurgeStrategy($purgeableEntityClassName, $strategy, $strategyInfoArray);
-//                    $strategy->purge($empNumber);
-//                }
-//            }
-//            $connection->commit();
-//        } catch (Exception $e) {
-//            $connection->rollback();
-//            Logger::getLogger('maintenance')->error($e->getCode() . ' - ' . $e->getMessage(), $e);
-//            throw new Exception($e->getMessage(), $e->getCode(), $e);
-//        }
-
 
     /**
      * @param string $fileName
@@ -120,8 +91,11 @@ class PurgeEmployeeService
      * @param array $strategyInfoArray
      * @return PurgeStrategy
      */
-    public function getPurgeStrategy(string $purgeableEntityClassName, string $strategy, array $strategyInfoArray): PurgeStrategy
-    {
+    public function getPurgeStrategy(
+        string $purgeableEntityClassName,
+        string $strategy,
+        array $strategyInfoArray
+    ): PurgeStrategy {
         $purgeStrategyClass = 'OrangeHRM\\Maintenance\\PurgeStrategy\\' . $strategy . "PurgeStrategy";
         return new $purgeStrategyClass($purgeableEntityClassName, $strategyInfoArray);
     }

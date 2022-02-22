@@ -19,10 +19,10 @@
 
 namespace OrangeHRM\Maintenance\FormatValueStrategy;
 
-class FormatWithZero implements ValueFormatter {
-
+class FormatWithZero implements ValueFormatter
+{
     /**
-     * @param $entityValue
+     * @param int $entityValue
      * @return int
      */
     public function getFormattedValue($entityValue): int

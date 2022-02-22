@@ -22,7 +22,7 @@ namespace OrangeHRM\Maintenance\FormatValueStrategy;
 class FormatWithEmptyString implements ValueFormatter
 {
     /**
-     * @param $entityValue
+     * @param string $entityValue
      * @return string
      */
     public function getFormattedValue($entityValue): string

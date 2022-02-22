@@ -10,7 +10,7 @@ Entities:
           - { field: "middleName" ,class: 'FormatWithEmptyString' }
           - { field: "nickName" ,class: 'FormatWithEmptyString' }
           - { field: "smoker" ,class: 'FormatWithZero' }
-          - { field: "ethnicRaceCode", class: 'FormatWithNull' } #added
+#          - { field: "ethnicRaceCode", class: 'FormatWithNull' } #added
           - { field: "birthday" ,class: 'FormatWithNull' }
           - { field: "nationality" ,class: 'FormatWithNull' }
           - { field: "gender" ,class: 'FormatWithNull' }
@@ -139,7 +139,7 @@ Entities:
         match_by:
           - { match: employee }
 
-  User: #renamed
+  User:
     PurgeStrategy:
       Destroy:
         match_by:
@@ -190,7 +190,6 @@ Entities:
           - { match: createdByEmployee }
         parameters:
           - { field: "comment" ,class: 'FormatWithPurgeString' }
-#          - { field: "createdAt" ,class: 'FormatWithNull' } #should this be added ?
 #          - { field: "created_by_name" ,class: 'FormatWithEmptyString' } #this field is not there in the entity
 
 #  LeaveRequest:
@@ -205,10 +204,9 @@ Entities:
     PurgeStrategy:
       ReplaceWithValue:
         match_by:
-          - { match: createdByEmployee}
+          - { match: createdByEmployee }
         parameters:
           - { field: "comment" ,class: 'FormatWithPurgeString' }
-#          - { field: "createdAt" ,class: 'FormatWithNull' } #should this be added?
 #          - { field: "created_by_name" ,class: 'FormatWithEmptyString' } #this field  not there in the entity
 
 #  Leave:
@@ -218,7 +216,6 @@ Entities:
 #          - {match: emp_number}
 #        parameters:
 #          - {field: "comments" ,class: 'FormatWithPurgeString'} #this field is not there in the entity
-          #should other related fields be nulled (lengthHours, lengthDays, status, startTime, endTime)
 
   AttendanceRecord:
     PurgeStrategy:
@@ -233,6 +230,6 @@ Entities:
     PurgeStrategy:
       ReplaceWithValue:
         match_by:
-          - {match: employee}
+          - { match: employee }
         parameters:
-          - {field: "comment" ,class: 'FormatWithPurgeString'}
+          - { field: "comment" ,class: 'FormatWithPurgeString' }
