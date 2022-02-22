@@ -27,7 +27,6 @@ use OrangeHRM\Core\Controller\AbstractVueController;
 
 class AttendanceSummaryReportController extends AbstractVueController
 {
-
     protected ?CompanyStructureService $companyStructureService = null;
 
     /**
