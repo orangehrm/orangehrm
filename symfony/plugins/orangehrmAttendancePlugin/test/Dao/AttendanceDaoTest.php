@@ -145,27 +145,33 @@ class AttendanceDaoTest extends KernelTestCase
         $attendanceReportSearchFilterParams = new AttendanceReportSearchFilterParams();
         $result = $this->attendanceDao->getAttendanceReportCriteriaList($attendanceReportSearchFilterParams);
         $totalRecords = $this->attendanceDao->getAttendanceReportCriteriaListCount($attendanceReportSearchFilterParams);
+        $totalHours = $this->attendanceDao->getTotalAttendanceDuration($attendanceReportSearchFilterParams);
         $this->assertEquals("Kayla Abbey", $result[0]['fullName']);
         $this->assertEquals("64800", $result[0]['total']);
         $this->assertEquals(1, $result[0]['empNumber']);
         $this->assertEquals(10, $totalRecords);
+        $this->assertEquals(250200, $totalHours);
+
 
         $attendanceReportSearchFilterParams = new AttendanceReportSearchFilterParams();
         $attendanceReportSearchFilterParams->setFromDate(new DateTime("2011-01-01"));
         $result = $this->attendanceDao->getAttendanceReportCriteriaList($attendanceReportSearchFilterParams);
         $totalRecords = $this->attendanceDao->getAttendanceReportCriteriaListCount($attendanceReportSearchFilterParams);
-
+        $totalHours = $this->attendanceDao->getTotalAttendanceDuration($attendanceReportSearchFilterParams);
         $this->assertEquals("Ashley Abel", $result[1]['fullName']);
         $this->assertEquals("32400", $result[1]['total']);
         $this->assertEquals(10, $totalRecords);
+        $this->assertEquals(250200, $totalHours);
 
         $attendanceReportSearchFilterParams = new AttendanceReportSearchFilterParams();
         $attendanceReportSearchFilterParams->setToDate(new DateTime("2011-12-31"));
         $result = $this->attendanceDao->getAttendanceReportCriteriaList($attendanceReportSearchFilterParams);
         $totalRecords = $this->attendanceDao->getAttendanceReportCriteriaListCount($attendanceReportSearchFilterParams);
+        $totalHours = $this->attendanceDao->getTotalAttendanceDuration($attendanceReportSearchFilterParams);
         $this->assertEquals("mahatma gandhi", $result[2]['fullName']);
         $this->assertEquals("86460", $result[2]['total']);
         $this->assertEquals(10, $totalRecords);
+        $this->assertEquals(217800, $totalHours);
 
         $attendanceReportSearchFilterParams = new AttendanceReportSearchFilterParams();
         $attendanceReportSearchFilterParams->setFromDate(new DateTime("2011-01-01"));
@@ -186,7 +192,7 @@ class AttendanceDaoTest extends KernelTestCase
         $attendanceReportSearchFilterParams->setSubUnitId(2);
         $result = $this->attendanceDao->getAttendanceReportCriteriaList($attendanceReportSearchFilterParams);
         $totalRecords = $this->attendanceDao->getAttendanceReportCriteriaListCount($attendanceReportSearchFilterParams);
-
+        $totalHours = $this->attendanceDao->getTotalAttendanceDuration($attendanceReportSearchFilterParams);
         $this->assertEquals("Kayla Abbey", $result[0]['fullName']);
         $this->assertEquals(1, $result[0]['empNumber']);
         $this->assertNull($result[0]['terminationId']);
@@ -194,6 +200,7 @@ class AttendanceDaoTest extends KernelTestCase
         $this->assertEquals(5, $result[1]['empNumber']);
         $this->assertNull($result[1]['terminationId']);
         $this->assertEquals(2, $totalRecords);
+        $this->assertEquals(32700, $totalHours);
 
         $attendanceReportSearchFilterParams->setFromDate(new DateTime("2011-01-01"));
         $attendanceReportSearchFilterParams->setToDate(new DateTime("2021-12-31"));
@@ -203,10 +210,11 @@ class AttendanceDaoTest extends KernelTestCase
         $attendanceReportSearchFilterParams->setSubUnitId(2);
         $result = $this->attendanceDao->getAttendanceReportCriteriaList($attendanceReportSearchFilterParams);
         $totalRecords = $this->attendanceDao->getAttendanceReportCriteriaListCount($attendanceReportSearchFilterParams);
-
+        $totalHours = $this->attendanceDao->getTotalAttendanceDuration($attendanceReportSearchFilterParams);
         $this->assertEquals("Kayla Abbey", $result[0]['fullName']);
         $this->assertEquals(1, $result[0]['empNumber']);
         $this->assertNull($result[0]['terminationId']);
         $this->assertEquals(1, $totalRecords);
+        $this->assertEquals(32400, $totalHours);
     }
 }
