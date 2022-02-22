@@ -570,7 +570,6 @@ class AttendanceDao extends BaseDao
         );
         $q->groupBy('employee.empNumber');
         return $this->getPaginator($q);
-
     }
     /**
      * @param AttendanceReportSearchFilterParams $attendanceReportSearchFilterParams
@@ -642,7 +641,8 @@ class AttendanceDao extends BaseDao
      * @param AttendanceReportSearchFilterParams $attendanceReportSearchFilterParams
      * @return int
      */
-    public function getTotalAttendanceDuration(AttendanceReportSearchFilterParams $attendanceReportSearchFilterParams
+    public function getTotalAttendanceDuration(
+        AttendanceReportSearchFilterParams $attendanceReportSearchFilterParams
     ): int {
         $q = $this->getAttendanceReportQueryBuilderWrapper($attendanceReportSearchFilterParams)->getQueryBuilder();
         $q->select(
