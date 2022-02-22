@@ -125,4 +125,11 @@ module.exports = (on, config) => {
     const [response] = await deleteSavePoints({names: undefined});
     return response ? response.data : undefined;
   });
+
+  on('before:spec', async () => {
+    if (config.env.runner === 'interactive') {
+      const [response] = await deleteSavePoints({names: undefined});
+      return response ? response.data : undefined;
+    }
+  });
 };
