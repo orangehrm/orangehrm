@@ -89,11 +89,10 @@
       <br />
     </template>
 
-    <!-- Todo: uncomment after metadata received -->
-    <!-- <template #footer="{data}">
+    <template #footer="{data}">
       {{ $t('time.total_duration') }}:
       {{ data.meta ? data.meta.sum.label : '0.00' }}
-    </template> -->
+    </template>
   </reports-table>
 </template>
 
