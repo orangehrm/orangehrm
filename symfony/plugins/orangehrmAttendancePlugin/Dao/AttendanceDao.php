@@ -27,6 +27,7 @@ use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\WorkflowStateMachine;
 use OrangeHRM\ORM\ListSorter;
 use OrangeHRM\ORM\Paginator;
+use OrangeHRM\ORM\QueryBuilderWrapper;
 use OrangeHRM\Time\Dto\AttendanceReportSearchFilterParams;
 use Respect\Validation\Rules\Date;
 
@@ -557,10 +558,9 @@ class AttendanceDao extends BaseDao
      * @param AttendanceReportSearchFilterParams $attendanceReportSearchFilterParams
      * @return Paginator
      */
-    private function getAttendanceReportPaginator(
-        AttendanceReportSearchFilterParams $attendanceReportSearchFilterParams
-    ): Paginator {
-        $q = $this->createQueryBuilder(Employee::class, 'employee');
+    public function getAttendanceReportPaginator(AttendanceReportSearchFilterParams $attendanceReportSearchFilterParams): Paginator
+    {
+        $q = $this->getAttendanceReportQueryBuilderWrapper($attendanceReportSearchFilterParams)->getQueryBuilder();
         $q->select(
             'CONCAT(employee.firstName, \' \', employee.lastName) AS fullName',
             'attendanceRecord.id',
@@ -568,6 +568,17 @@ class AttendanceDao extends BaseDao
             'employee.empNumber as empNumber',
             "SUM(TIME_DIFF(COALESCE(attendanceRecord.punchOutUtcTime, 0), COALESCE(attendanceRecord.punchInUtcTime, 0),'second')) AS total"
         );
+        $q->groupBy('employee.empNumber');
+        return $this->getPaginator($q);
+    }
+    /**
+     * @param AttendanceReportSearchFilterParams $attendanceReportSearchFilterParams
+     * @return QueryBuilderWrapper
+     */
+    private function getAttendanceReportQueryBuilderWrapper(
+        AttendanceReportSearchFilterParams $attendanceReportSearchFilterParams
+    ): QueryBuilderWrapper {
+        $q = $this->createQueryBuilder(Employee::class, 'employee');
         $q->leftJoin('employee.jobTitle', 'jobTitle');
         $q->leftJoin('employee.subDivision', 'subunit');
         $q->leftJoin('employee.empStatus', 'empStatus');
@@ -612,9 +623,7 @@ class AttendanceDao extends BaseDao
                 ->setParameter('toDate', $attendanceReportSearchFilterParams->getToDate());
         }
 
-        $q->groupBy('employee.empNumber');
-
-        return $this->getPaginator($q);
+        return $this->getQueryBuilderWrapper($q);
     }
 
     /**
@@ -626,5 +635,19 @@ class AttendanceDao extends BaseDao
     ): int {
         $paginator = $this->getAttendanceReportPaginator($attendanceReportSearchFilterParams);
         return $paginator->count();
+    }
+
+    /**
+     * @param AttendanceReportSearchFilterParams $attendanceReportSearchFilterParams
+     * @return int
+     */
+    public function getTotalAttendanceDuration(
+        AttendanceReportSearchFilterParams $attendanceReportSearchFilterParams
+    ): int {
+        $q = $this->getAttendanceReportQueryBuilderWrapper($attendanceReportSearchFilterParams)->getQueryBuilder();
+        $q->select(
+            "SUM(TIME_DIFF(COALESCE(attendanceRecord.punchOutUtcTime, 0), COALESCE(attendanceRecord.punchInUtcTime, 0),'second')) AS total"
+        );
+        return $q->getQuery()->getSingleScalarResult() === null ? 0 : $q->getQuery()->getSingleScalarResult();
     }
 }
