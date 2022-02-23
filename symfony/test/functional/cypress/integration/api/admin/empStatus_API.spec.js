@@ -14,7 +14,6 @@ describe('Admin - Employment Status API ', function () {
       cy.request('POST', empStatusAPI, {
         name: this.strings.chars50.text,
       }).then((response) => {
-        console.log(response);
         expect(response.status).to.eq(200);
         expect(response.body.data.name).to.eq(this.strings.chars50.text);
         cy.task('db:snapshot', {name: 'emp-Status-POST1'});
@@ -78,7 +77,6 @@ describe('Admin - Employment Status API ', function () {
       cy.task('db:restore', {name: 'emp-Status-POST1'});
       cy.request('GET', empStatusAPI).then((response) => {
         const statuslist = response.body.data.map((item) => item.id);
-        console.log(response);
         expect(response.status).to.eq(200);
         return cy
           .request('PUT', empStatusAPI + '/' + statuslist[0], {
