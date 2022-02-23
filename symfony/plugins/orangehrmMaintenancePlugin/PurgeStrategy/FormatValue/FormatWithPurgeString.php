@@ -17,16 +17,20 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Maintenance\FormatValueStrategy;
+namespace OrangeHRM\Maintenance\PurgeStrategy\FormatValue;
 
-class FormatWithNull implements ValueFormatter
+use OrangeHRM\Maintenance\FormatValueStrategy\ValueFormatter;
+
+class FormatWithPurgeString implements ValueFormatter
 {
+    private const PURGE = 'Purge';
+
     /**
-     * @param mixed $entityValue
-     * @return null
+     * @param string $entityValue
+     * @return string
      */
-    public function getFormattedValue($entityValue)
+    public function getFormattedValue($entityValue): string
     {
-        return null;
+        return self::PURGE;
     }
 }

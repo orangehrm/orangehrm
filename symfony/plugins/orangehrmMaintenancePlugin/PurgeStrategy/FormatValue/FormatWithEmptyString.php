@@ -17,7 +17,9 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Maintenance\FormatValueStrategy;
+namespace OrangeHRM\Maintenance\PurgeStrategy\FormatValue;
+
+use OrangeHRM\Maintenance\FormatValueStrategy\ValueFormatter;
 
 class FormatWithEmptyString implements ValueFormatter
 {

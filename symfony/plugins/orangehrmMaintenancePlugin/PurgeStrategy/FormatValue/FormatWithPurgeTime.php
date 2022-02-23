@@ -17,16 +17,21 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Maintenance\FormatValueStrategy;
+namespace OrangeHRM\Maintenance\PurgeStrategy\FormatValue;
 
-class FormatWithZero implements ValueFormatter
+use DateTime;
+use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
+use OrangeHRM\Maintenance\FormatValueStrategy\ValueFormatter;
+
+class FormatWithPurgeTime implements ValueFormatter
 {
+    use DateTimeHelperTrait;
     /**
-     * @param int $entityValue
-     * @return int
+     * @param DateTime $entityValue
+     * @return DateTime
      */
-    public function getFormattedValue($entityValue): int
+    public function getFormattedValue($entityValue): DateTime
     {
-        return 0;
+        return $this->getDateTimeHelper()->getNow();
     }
 }

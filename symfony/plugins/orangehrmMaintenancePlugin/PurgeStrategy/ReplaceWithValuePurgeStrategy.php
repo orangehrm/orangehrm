@@ -62,7 +62,7 @@ class ReplaceWithValuePurgeStrategy extends PurgeStrategy
      */
     protected function getReplaceStrategy(string $strategy): ValueFormatter
     {
-        $formatValueStrategy = 'OrangeHRM\\Maintenance\\FormatValueStrategy\\' . $strategy;
+        $formatValueStrategy = 'OrangeHRM\\Maintenance\\PurgeStrategy\\FormatValue\\' . $strategy;
         return new $formatValueStrategy();
     }
 }
