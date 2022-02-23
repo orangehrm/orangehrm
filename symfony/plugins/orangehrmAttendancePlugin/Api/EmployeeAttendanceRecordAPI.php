@@ -44,7 +44,6 @@ use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\AttendanceRecord;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\WorkflowStateMachine;
-use phpDocumentor\Reflection\DocBlock\Tags\See;
 
 class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
 {
