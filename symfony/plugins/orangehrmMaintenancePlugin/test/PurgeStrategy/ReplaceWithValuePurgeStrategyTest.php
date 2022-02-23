@@ -60,7 +60,7 @@ class ReplaceWithValuePurgeStrategyTest extends TestCase
         $this->replaceWithValuePurgeStrategy = new ReplaceWithValuePurgeStrategy($entityClassName, $infoArray);
         $this->fixture = Config::get(
                 Config::PLUGINS_DIR
-            ) . '/orangehrmMaintenancePlugin/test/fixtures/DestroyPurgeStrategy.yml';
+            ) . '/orangehrmMaintenancePlugin/test/fixtures/ReplaceWithValuePurgeStrategy.yml';
         TestDataService::populate($this->fixture);
     }
 
