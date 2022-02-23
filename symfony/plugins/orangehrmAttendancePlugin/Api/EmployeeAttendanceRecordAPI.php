@@ -270,7 +270,7 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
                 ->getAttendanceDao()
                 ->getAttendanceRecordsByEmpNumberAndIds($attendanceRecordOwnedEmpNumber, $attendanceRecordIds);
             $userAllowedAttendanceRecordIds = array_map(
-                fn(AttendanceRecord $attendanceRecord) => $attendanceRecord->getId(),
+                fn (AttendanceRecord $attendanceRecord) => $attendanceRecord->getId(),
                 $userAllowedAttendanceRecords
             );
             if (count($userAllowedAttendanceRecordIds) !== count($attendanceRecordIds)) {
