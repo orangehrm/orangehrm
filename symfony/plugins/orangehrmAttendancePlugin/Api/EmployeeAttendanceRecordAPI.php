@@ -31,6 +31,7 @@ use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
 use OrangeHRM\Core\Api\V2\Exception\ForbiddenException;
+use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
@@ -249,7 +250,65 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
      */
     public function delete(): EndpointResult
     {
-        throw $this->getNotImplementedException();
+        $attendanceRecordIds = $this->getRequestParams()->getArray(
+            RequestParams::PARAM_TYPE_BODY,
+            CommonParams::PARAMETER_IDS
+        );
+        $attendanceRecordOwnedEmpNumber = $this->getRequestParams()->getIntOrNull(
+            RequestParams::PARAM_TYPE_ATTRIBUTE,
+            CommonParams::PARAMETER_EMP_NUMBER,
+            $this->getAuthUser()->getEmpNumber()
+        );
+        if (!$this->isAuthUserAllowedToPerformDeleteActions($attendanceRecordOwnedEmpNumber)) {
+            throw $this->getForbiddenException();
+        }
+        $userAttendanceRecords = $this->getAttendanceService()
+            ->getAttendanceDao()
+            ->getAttendanceRecordIdsByEmpNumber($attendanceRecordOwnedEmpNumber);
+        $userAttendanceRecordIds = [];
+        foreach ($userAttendanceRecords as $userAttendanceRecord) {
+            $userAttendanceRecordIds[] = $userAttendanceRecord['attendanceRecordId'];
+        }
+        /**
+         * Here we check whether the logged user is going to delete the records of himself or record of allowed user
+         * This prevents accidental record deletion of other employees
+         * result of array_diff is not empty means there are ids to delete that do not belong to intended user
+         * @see https://www.php.net/manual/en/function.array-diff.php
+         */
+        if (!empty(array_diff($attendanceRecordIds, $userAttendanceRecordIds))) {
+            $this->throwRecordNotFoundExceptionIfNotExist(null, AttendanceRecord::class);
+        }
+        $this->getAttendanceService()->getAttendanceDao()->deleteAttendanceRecords($attendanceRecordIds);
+        return new EndpointResourceResult(ArrayModel::class, $attendanceRecordIds);
+    }
+
+    /**
+     * @param  int  $attendanceRecordOwnedEmpNumber
+     * @return bool
+     */
+    private function isAuthUserAllowedToPerformDeleteActions(int $attendanceRecordOwnedEmpNumber): bool
+    {
+        $loggedInUserEmpNumber = $this->getAuthUser()->getEmpNumber();
+        $rolesToInclude = [];
+        //check the configuration as ESS since Admin user is always allowed to delete self records
+        if ($attendanceRecordOwnedEmpNumber === $loggedInUserEmpNumber) {
+            $rolesToInclude = ['ESS'];
+        }
+        //If delete own attendance record, get the allowed actions list as an ESS user
+        //If delete someone else's attendance record, get the allowed actions list as a Supervisor
+        //Admin is always allowed to edit others records
+        $allowedWorkflowItems = $this->getUserRoleManager()->getAllowedActions(
+            WorkflowStateMachine::FLOW_ATTENDANCE,
+            AttendanceRecord::STATE_PUNCHED_IN,
+            [],
+            $rolesToInclude,
+            [Employee::class => $attendanceRecordOwnedEmpNumber]
+        );
+        //check whether work flow item allowed for the user
+        if (!in_array(WorkflowStateMachine::ATTENDANCE_ACTION_DELETE, array_keys($allowedWorkflowItems))) {
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -257,8 +316,20 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForDelete(): ParamRuleCollection
     {
-        throw $this->getNotImplementedException();
+        return new ParamRuleCollection(
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    CommonParams::PARAMETER_EMP_NUMBER,
+                    new Rule(Rules::IN_ACCESSIBLE_EMP_NUMBERS, [false])
+                )
+            ),
+            new ParamRule(
+                CommonParams::PARAMETER_IDS,
+                new Rule(Rules::ARRAY_TYPE)
+            ),
+        );
     }
+
 
     /**
      * @inheritDoc

@@ -20,8 +20,12 @@
 namespace OrangeHRM\Tests\Attendance\Api;
 
 use OrangeHRM\Attendance\Api\MyAttendanceRecordAPI;
+use OrangeHRM\Attendance\Service\AttendanceService;
+use OrangeHRM\Core\Service\AccessFlowStateMachineService;
+use OrangeHRM\Entity\AttendanceRecord;
 use OrangeHRM\Entity\WorkflowStateMachine;
 use OrangeHRM\Framework\Services;
+use OrangeHRM\ORM\Doctrine;
 use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
 use OrangeHRM\Tests\Util\Integration\TestCaseParams;
 use OrangeHRM\Tests\Util\TestDataService;
@@ -79,18 +83,22 @@ class MyAttendanceRecordAPITest extends EndpointIntegrationTestCase
         return $this->getTestCases('MyAttendanceRecordAPITestCases.yaml', 'Create');
     }
 
-    public function testDelete(): void
+    /**
+     * @dataProvider dataProviderForTestDelete
+     */
+    public function testDelete(TestCaseParams $testCaseParams): void
     {
-        $api = new MyAttendanceRecordAPI($this->getRequest());
-        $this->expectNotImplementedException();
-        $api->delete();
+        $this->populateFixtures('AttendanceRecord.yaml', null, true);
+        $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
+        $this->registerServices($testCaseParams);
+        $this->registerMockDateTimeHelper($testCaseParams);
+        $api = $this->getApiEndpointMock(MyAttendanceRecordAPI::class, $testCaseParams);
+        $this->assertValidTestCase($api, 'delete', $testCaseParams);
     }
 
-    public function testGetValidationRuleForDelete(): void
+    public function dataProviderForTestDelete(): array
     {
-        $api = new MyAttendanceRecordAPI($this->getRequest());
-        $this->expectNotImplementedException();
-        $api->getValidationRuleForDelete();
+        return $this->getTestCases('MyAttendanceRecordAPITestCases.yaml', 'Delete');
     }
 
     /**
@@ -110,5 +118,27 @@ class MyAttendanceRecordAPITest extends EndpointIntegrationTestCase
     public function dataProviderForTestUpdate(): array
     {
         return $this->getTestCases('MyAttendanceRecordAPITestCases.yaml', 'Update');
+    }
+
+    public static function enableUserCanModifyAttendancePreHook()
+    {
+        $workflowStateMachine = new WorkflowStateMachine();
+        $workflowStateMachine->setWorkflow(WorkflowStateMachine::FLOW_ATTENDANCE);
+        $workflowStateMachine->setState(AttendanceRecord::STATE_PUNCHED_IN);
+        $workflowStateMachine->setRole(AttendanceService::ESS_USER);
+        $workflowStateMachine->setAction(WorkflowStateMachine::ATTENDANCE_ACTION_DELETE);
+        $workflowStateMachine->setResultingState(AttendanceRecord::STATE_PUNCHED_IN);
+        Doctrine::getEntityManager()->persist($workflowStateMachine);
+        Doctrine::getEntityManager()->flush($workflowStateMachine);
+        $workflowStateMachine = new WorkflowStateMachine();
+        $workflowStateMachine->setWorkflow(WorkflowStateMachine::FLOW_ATTENDANCE);
+        $workflowStateMachine->setState(AttendanceRecord::STATE_PUNCHED_OUT);
+        $workflowStateMachine->setRole(AttendanceService::ESS_USER);
+        $workflowStateMachine->setAction(WorkflowStateMachine::ATTENDANCE_ACTION_DELETE);
+        $workflowStateMachine->setResultingState(AttendanceRecord::STATE_PUNCHED_OUT);
+        Doctrine::getEntityManager()->persist($workflowStateMachine);
+        Doctrine::getEntityManager()->flush($workflowStateMachine);
+
+        AccessFlowStateMachineService::resetWorkflowCache();
     }
 }

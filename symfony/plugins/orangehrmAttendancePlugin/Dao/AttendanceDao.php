@@ -280,28 +280,16 @@ class AttendanceDao extends BaseDao
     }
 
     /**
-     * get delete attendance records
-     * @param $attendanceRecordId
-     * @return boolean
+     * @param  int[]  $attendanceRecordIds
+     * @return int
      */
-    public function deleteAttendanceRecords($attendanceRecordId)
+    public function deleteAttendanceRecords(array $attendanceRecordIds): int
     {
-        try {
-            $q = Doctrine_Query::create()
-                    ->delete('AttendanceRecord')
-                    ->where("id = ?", $attendanceRecordId);
-
-
-            $result = $q->execute();
-
-            if (!empty($result)) {
-                return true;
-            } else {
-                return false;
-            }
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
+        $qb = $this->createQueryBuilder(AttendanceRecord::class, 'attendanceRecord');
+        $qb->delete()
+            ->where($qb->expr()->in('attendanceRecord.id', ':ids'))
+            ->setParameter('ids', $attendanceRecordIds);
+        return $qb->getQuery()->execute();
     }
 
     /**
@@ -312,6 +300,19 @@ class AttendanceDao extends BaseDao
     {
         $attendanceRecord = $this->getRepository(AttendanceRecord::class)->find($attendanceRecordId);
         return ($attendanceRecord instanceof AttendanceRecord) ? $attendanceRecord : null;
+    }
+
+    /**
+     * @param  int  $empNumber
+     * @return array
+     */
+    public function getAttendanceRecordIdsByEmpNumber(int $empNumber): array
+    {
+        $qb = $this->createQueryBuilder(AttendanceRecord::class, 'attendanceRecord');
+        $qb->select('attendanceRecord.id AS attendanceRecordId');
+        $qb->andWhere('attendanceRecord.employee = :empNumber');
+        $qb->setParameter('empNumber', $empNumber);
+        return $qb->getQuery()->execute();
     }
 
     /**
