@@ -78,4 +78,12 @@ class AttendanceServiceException extends Exception
     {
         return new self('Punch Out Date And Time Should Not Be Null');
     }
+
+    /**
+     * @return static
+     */
+    public static function deletableAttendanceRecordIdsEmpty(): self
+    {
+        return new self('No IDS Found');
+    }
 }

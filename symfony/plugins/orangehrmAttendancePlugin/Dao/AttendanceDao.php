@@ -304,14 +304,16 @@ class AttendanceDao extends BaseDao
 
     /**
      * @param  int  $empNumber
-     * @return array
+     * @param  int[]  $attendanceRecordIds
+     * @return AttendanceRecord[]
      */
-    public function getAttendanceRecordIdsByEmpNumber(int $empNumber): array
+    public function getAttendanceRecordsByEmpNumberAndIds(int $empNumber, array $attendanceRecordIds): array
     {
         $qb = $this->createQueryBuilder(AttendanceRecord::class, 'attendanceRecord');
-        $qb->select('attendanceRecord.id AS attendanceRecordId');
         $qb->andWhere('attendanceRecord.employee = :empNumber');
         $qb->setParameter('empNumber', $empNumber);
+        $qb->andWhere($qb->expr()->in('attendanceRecord.id', ':ids'));
+        $qb->setParameter('ids', $attendanceRecordIds);
         return $qb->getQuery()->execute();
     }
 
