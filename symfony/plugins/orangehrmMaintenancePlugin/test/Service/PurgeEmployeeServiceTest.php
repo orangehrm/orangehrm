@@ -20,6 +20,7 @@
 namespace OrangeHRM\Tests\Maintenance\Service;
 
 use DateTime;
+use Exception;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Service\DateTimeHelperService;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
@@ -50,6 +51,7 @@ use OrangeHRM\Framework\Services;
 use OrangeHRM\Maintenance\Dao\PurgeEmployeeDao;
 use OrangeHRM\Maintenance\PurgeStrategy\PurgeStrategy;
 use OrangeHRM\Maintenance\Service\PurgeEmployeeService;
+use OrangeHRM\ORM\Exception\TransactionException;
 use OrangeHRM\Pim\Service\EmployeeService;
 use OrangeHRM\Tests\Util\KernelTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
@@ -70,8 +72,8 @@ class PurgeEmployeeServiceTest extends KernelTestCase
         $this->purgeEmployeeService = new PurgeEmployeeService();
         $this->employeeService = new EmployeeService();
         $this->fixture = Config::get(
-            Config::PLUGINS_DIR
-        ) . '/orangehrmMaintenancePlugin/test/fixtures/PurgeEmployeeService.yml';
+                Config::PLUGINS_DIR
+            ) . '/orangehrmMaintenancePlugin/test/fixtures/PurgeEmployeeService.yml';
         TestDataService::populate($this->fixture);
     }
 
@@ -270,5 +272,22 @@ class PurgeEmployeeServiceTest extends KernelTestCase
         foreach ($empTimesheetItems as $empTimesheetItem) {
             $this->assertEquals("Purge", $empTimesheetItem->getComment());
         }
+    }
+
+    public function testPurgeEmployeeDataWithTransactionException(): void
+    {
+        $purgeEmployeeServiceMock = $this->getMockBuilder(PurgeEmployeeService::class)
+            ->onlyMethods(['getPurgeableEntities'])
+            ->getMock();
+
+        $purgeEmployeeServiceMock->expects($this->once())
+            ->method('getPurgeableEntities')
+            ->willReturnCallback(function() {
+                throw new Exception();
+            });
+
+        $this->expectException(TransactionException::class);
+        $this->createKernelWithMockServices([Services::DATETIME_HELPER_SERVICE => new DateTimeHelperService()]);
+        $purgeEmployeeServiceMock->purgeEmployeeData(1);
     }
 }
