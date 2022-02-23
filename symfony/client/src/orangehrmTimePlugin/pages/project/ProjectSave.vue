@@ -143,6 +143,7 @@ export default {
       showCustomerModal: false,
       projectAdmins: [{value: null}],
       project: {...defaultProjectModel},
+      projectId: null,
       rules: {
         name: [
           required,
@@ -200,11 +201,12 @@ export default {
             .map(({value}) => value && value.id)
             .filter(Number),
         })
-        .then(() => {
+        .then(result => {
+          this.projectId = result.data?.data.id;
           return this.$toast.saveSuccess();
         })
         .then(() => {
-          this.onCancel();
+          navigate('/time/saveProject/{id}', {id: this.projectId});
         });
     },
     validateProjectName(project) {
