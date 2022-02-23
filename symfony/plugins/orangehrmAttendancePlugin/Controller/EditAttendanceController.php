@@ -34,6 +34,7 @@ class EditAttendanceController extends AbstractVueController
      */
     public function preRender(Request $request): void
     {
+        // TODO: Check if user can edit attendance record
         if ($request->attributes->has('id')) {
             $component = new Component('edit-attendance');
             $component->addProp(new Prop('attendance-id', Prop::TYPE_NUMBER, $request->attributes->getInt('id')));

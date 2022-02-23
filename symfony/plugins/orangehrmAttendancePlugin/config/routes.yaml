@@ -130,17 +130,3 @@ attendance_summary_report:
   path: /time/displayAttendanceSummaryReportCriteria
   controller: OrangeHRM\Attendance\Controller\AttendanceSummaryReportController::handle
   methods: [ GET ]  
-
-##########################
-#        Mock
-##########################
-
-apiv2_attendance_delete_employee_attendance_records:
-  path: /api/v2/attendance/employees/records
-  controller: OrangeHRM\Attendance\Controller\AttendanceMockController::deleteEmployeeAttendanceRecords
-  methods: [ DELETE ]
-
-apiv2_attendance_delete_my_attendance_records:
-  path: /api/v2/attendance/records
-  controller: OrangeHRM\Attendance\Controller\AttendanceMockController::deleteMyAttendanceRecords
-  methods: [ DELETE ]
