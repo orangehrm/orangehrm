@@ -269,10 +269,10 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
             $userAllowedAttendanceRecords = $this->getAttendanceService()
                 ->getAttendanceDao()
                 ->getAttendanceRecordsByEmpNumberAndIds($attendanceRecordOwnedEmpNumber, $attendanceRecordIds);
-            $userAllowedAttendanceRecordIds = [];
-            foreach ($userAllowedAttendanceRecords as $userAllowedAttendanceRecord) {
-                $userAllowedAttendanceRecordIds[] = $userAllowedAttendanceRecord->getId();
-            }
+            $userAllowedAttendanceRecordIds = array_map(
+                fn(AttendanceRecord $attendanceRecord) => $attendanceRecord->getId(),
+                $userAllowedAttendanceRecords
+            );
             if (count($userAllowedAttendanceRecordIds) !== count($attendanceRecordIds)) {
                 throw $this->getForbiddenException();
             }
@@ -282,8 +282,6 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
             throw $this->getBadRequestException($e->getMessage());
         }
     }
-
-
 
     /**
      * @param  int  $attendanceRecordOwnedEmpNumber
@@ -332,7 +330,6 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
             ),
         );
     }
-
 
     /**
      * @inheritDoc

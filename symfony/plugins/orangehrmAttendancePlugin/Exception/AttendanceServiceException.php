@@ -84,6 +84,6 @@ class AttendanceServiceException extends Exception
      */
     public static function deletableAttendanceRecordIdsEmpty(): self
     {
-        return new self('No IDS Found');
+        return new self('No IDs Found');
     }
 }

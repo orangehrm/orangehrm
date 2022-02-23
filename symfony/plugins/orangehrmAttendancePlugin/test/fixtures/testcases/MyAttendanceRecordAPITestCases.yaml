@@ -370,4 +370,4 @@ Delete:
       ids: [ ]
     exception:
       class: '\OrangeHRM\Core\Api\V2\Exception\BadRequestException'
-      message: 'No IDS Found'
+      message: 'No IDs Found'
