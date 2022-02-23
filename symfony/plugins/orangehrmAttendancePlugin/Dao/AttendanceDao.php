@@ -694,22 +694,12 @@ class AttendanceDao extends BaseDao
         }
 
         if (!is_null($attendanceRecordSearchFilterParams->getFromDate())) {
-            $q->andWhere(
-                $q->expr()->orX(
-                    $q->expr()->isNull('attendanceRecord.id'),
-                    $q->expr()->gte('attendanceRecord.punchInUserTime', ':fromDate')
-                )
-            )
+            $q->andWhere($q->expr()->gte('attendanceRecord.punchInUserTime', ':fromDate'))
                 ->setParameter('fromDate', $attendanceRecordSearchFilterParams->getFromDate());
         }
 
         if (!is_null($attendanceRecordSearchFilterParams->getToDate())) {
-            $q->andWhere(
-                $q->expr()->orX(
-                    $q->expr()->isNull('attendanceRecord.id'),
-                    $q->expr()->lte('attendanceRecord.punchInUserTime', ':toDate')
-                )
-            )
+            $q->andWhere($q->expr()->lte('attendanceRecord.punchInUserTime', ':toDate'))
                 ->setParameter('toDate', $attendanceRecordSearchFilterParams->getToDate());
         }
         return $this->getQueryBuilderWrapper($q);
@@ -728,15 +718,16 @@ class AttendanceDao extends BaseDao
 
     /**
      * @param AttendanceRecordSearchFilterParams $attendanceRecordSearchFilterParams
-     * @return int
+     * @return array|null
      */
-    public function getTotalWorkingTime(AttendanceRecordSearchFilterParams $attendanceRecordSearchFilterParams): int
+    public function getTotalWorkingTime(AttendanceRecordSearchFilterParams $attendanceRecordSearchFilterParams): ?array
     {
         $q = $this->getAttendanceRecordListQueryBuilderWrapper($attendanceRecordSearchFilterParams)->getQueryBuilder();
         $q->select(
             "SUM(TIME_DIFF(COALESCE(attendanceRecord.punchOutUtcTime, 0), COALESCE(attendanceRecord.punchInUtcTime, 0),'second')) AS total"
         );
         $q->groupBy('employee.empNumber');
-        return $q->getQuery()->getSingleScalarResult() === null ? 0 : $q->getQuery()->getSingleScalarResult();
+
+        return $q->getQuery()->getOneOrNullResult();
     }
 }

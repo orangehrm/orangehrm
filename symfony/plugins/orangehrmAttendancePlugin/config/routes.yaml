@@ -45,6 +45,13 @@ apiv2_attendance_employee_attendance_records:
     _key: empNumber
     _api: OrangeHRM\Attendance\Api\EmployeeAttendanceRecordAPI
 
+apiv2_attendance_employee_attendance_recordss:
+  path: /api/v2/attendance/employee/records
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Attendance\Api\EmployeeAttendanceRecordAPI
+
 apiv2_attendance_timezones:
   path: /api/v2/attendance/timezones
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle

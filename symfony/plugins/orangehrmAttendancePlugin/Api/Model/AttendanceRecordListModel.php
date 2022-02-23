@@ -72,7 +72,6 @@ class AttendanceRecordListModel implements CollectionNormalizable, ModelConstruc
                     ->numberFormat((float)$employeeAttendanceRecord['total'] / 3600, 2)
             ];
         }
-
         return $result;
     }
 }

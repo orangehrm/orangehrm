@@ -22,19 +22,10 @@ namespace OrangeHRM\Attendance\Api;
 use DateTime;
 use DateTimeZone;
 use Exception;
-use OrangeHRM\Attendance\Api\Model\AttendanceRecordListModel;
-use OrangeHRM\Attendance\Dto\AttendanceRecordSearchFilterParams;
 use OrangeHRM\Attendance\Exception\AttendanceServiceException;
 use OrangeHRM\Attendance\Traits\Service\AttendanceServiceTrait;
 use OrangeHRM\Core\Api\CommonParams;
-use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
-use OrangeHRM\Core\Api\V2\EndpointResult;
-use OrangeHRM\Core\Api\V2\ParameterBag;
-use OrangeHRM\Core\Api\V2\RequestParams;
-use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
-use OrangeHRM\Core\Api\V2\Validator\Rule;
-use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\Service\NumberHelperTrait;
 use OrangeHRM\Entity\WorkflowStateMachine;
@@ -48,44 +39,9 @@ class MyAttendanceRecordAPI extends EmployeeAttendanceRecordAPI
     /**
      * @inheritDoc
      */
-    public function getAll(): EndpointResult
+    protected function getEmpNumber(): int
     {
-        $attendanceRecordSearchFilterParams = new AttendanceRecordSearchFilterParams();
-        $this->setSortingAndPaginationParams($attendanceRecordSearchFilterParams);
-        $employeeNumber = $this->getAuthUser()->getEmpNumber();
-        $date = $this->getRequestParams()->getString(
-            RequestParams::PARAM_TYPE_QUERY,
-            self::PARAMETER_DATE,
-        );
-
-        $attendanceRecordSearchFilterParams->setEmployeeNumbers([$employeeNumber]);
-        $attendanceRecordSearchFilterParams->setFromDate(new DateTime($date . ' ' . '00:00:00'));
-        $attendanceRecordSearchFilterParams->setToDate(new DateTime($date . ' ' . '23:59:59'));
-
-        $attendanceRecords = $this->getAttendanceService()
-            ->getAttendanceDao()
-            ->getAttendanceRecordList($attendanceRecordSearchFilterParams);
-
-        $attendanceRecordCount = $this->getAttendanceService()
-            ->getAttendanceDao()
-            ->getAttendanceRecordListCount($attendanceRecordSearchFilterParams);
-
-        $attendanceRecordTotalDuration = $this->getAttendanceService()
-            ->getAttendanceDao()
-            ->getTotalWorkingTime($attendanceRecordSearchFilterParams);
-
-        return new EndpointCollectionResult(
-            AttendanceRecordListModel::class,
-            [$attendanceRecords],
-            new ParameterBag([
-                CommonParams::PARAMETER_TOTAL => $attendanceRecordCount,
-                'sum' => [
-                    'hours' => floor($attendanceRecordTotalDuration / 3600),
-                    'minutes' => ($attendanceRecordTotalDuration / 60) % 60,
-                    'label' => $this->getNumberHelper()->numberFormat($attendanceRecordTotalDuration / 3600, 2),
-                ],
-            ])
-        );
+        return $this->getAuthUser()->getEmpNumber();
     }
 
     /**
@@ -93,15 +49,9 @@ class MyAttendanceRecordAPI extends EmployeeAttendanceRecordAPI
      */
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
-        return new ParamRuleCollection(
-            $this->getValidationDecorator()->requiredParamRule(
-                new ParamRule(
-                    self::PARAMETER_DATE,
-                    new Rule(Rules::API_DATE)
-                ),
-            ),
-            ...$this->getSortingAndPaginationParamsRules(AttendanceRecordSearchFilterParams::ALLOWED_SORT_FIELDS)
-        );
+        $paramRuleCollection = parent::getValidationRuleForGetAll();
+        $paramRuleCollection->removeParamValidation(CommonParams::PARAMETER_EMP_NUMBER);
+        return $paramRuleCollection;
     }
 
     /**
