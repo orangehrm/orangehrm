@@ -37,20 +37,6 @@ use OrangeHRM\Tests\Util\TestDataService;
  */
 class EmployeeAttendanceRecordAPITest extends EndpointIntegrationTestCase
 {
-    public function testGetAll(): void
-    {
-        $api = new EmployeeAttendanceRecordAPI($this->getRequest());
-        $this->expectNotImplementedException();
-        $api->getAll();
-    }
-
-    public function testGetValidationRuleForGetAll(): void
-    {
-        $api = new EmployeeAttendanceRecordAPI($this->getRequest());
-        $this->expectNotImplementedException();
-        $api->getValidationRuleForGetAll();
-    }
-
     public function testGetOne(): void
     {
         $api = new EmployeeAttendanceRecordAPI($this->getRequest());

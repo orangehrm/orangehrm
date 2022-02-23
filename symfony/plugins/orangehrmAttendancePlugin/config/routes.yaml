@@ -33,7 +33,7 @@ apiv2_attendance_punch_out_record_overlap:
 apiv2_attendance_my_attendance_records:
   path: /api/v2/attendance/records
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
-  methods: [ POST, PUT, DELETE ]
+  methods: [ GET, POST, PUT, DELETE ]
   defaults:
     _api: OrangeHRM\Attendance\Api\MyAttendanceRecordAPI
 
@@ -43,6 +43,13 @@ apiv2_attendance_employee_attendance_records:
   methods: [ POST, PUT, DELETE ]
   defaults:
     _key: empNumber
+    _api: OrangeHRM\Attendance\Api\EmployeeAttendanceRecordAPI
+
+apiv2_attendance_employee_attendance_record_breakdown:
+  path: /api/v2/attendance/employee/records
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
     _api: OrangeHRM\Attendance\Api\EmployeeAttendanceRecordAPI
 
 apiv2_attendance_timezones:
