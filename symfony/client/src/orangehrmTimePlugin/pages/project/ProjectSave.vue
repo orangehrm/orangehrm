@@ -70,6 +70,7 @@
                 v-model="projectAdmin.value"
                 :show-delete="index > 0"
                 :rules="index > 0 ? rules.projectAdmin : []"
+                includeEmployees="onlyCurrent"
                 @remove="onRemoveAdmin(index)"
               />
               <oxd-button
