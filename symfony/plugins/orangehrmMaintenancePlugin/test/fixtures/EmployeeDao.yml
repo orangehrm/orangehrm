@@ -45,6 +45,109 @@ EmployeeSkill:
   0: {emp_number: '1', skill_id: 1, years_of_exp: '4', comments: 'com1'}
   1: {emp_number: '2', skill_id: 2, years_of_exp: '2', comments: 'com2'}
 
+Language:
+  0: {id: 1, name: 'Spanish'}
+  1: {id: 2, name: 'English'}
+  2: {id: 3, name: 'French'}
+
 EmployeeLanguage:
-  0: {emp_number: '1', langId: 1, fluency: '2', competency: '1', comments: 'comment1'}
-  1: {emp_number: '1', langId: 2, fluency: '1', competency: '2', comments: 'comment2'}
+  0: {emp_number: '1', lang_id: 1, fluency: '2', competency: '1', comments: 'comment1'}
+  1: {emp_number: '2', lang_id: 2, fluency: '1', competency: '2', comments: 'comment2'}
+
+Membership:
+  0: { id: 1, name: 'membership 1' }
+  1: { id: 2, name: 'membership 2' }
+  2: { id: 3, name: 'membership 3' }
+
+EmployeeMembership:
+  0: {emp_number: '1', membship_code: 1, ememb_subscript_amount: '4', ememb_subscript_ownership: 'individual', ememb_subs_currency: 'Rs', ememb_commence_date: '2011-05-20', ememb_renewal_date: '2011-05-22'}
+  1: {emp_number: '2', membship_code: 2, ememb_subscript_amount: '6', ememb_subscript_ownership: 'company', ememb_subs_currency: 'Rb', ememb_commence_date: '2011-05-21', ememb_renewal_date: '2011-05-24'}
+
+EmpUsTaxExemption:
+  0: {emp_number: '1', federalStatus: 'Single', federalExemptions: '2', state: 'Alaska', stateStatus: 'Single', stateExemptions: '1', unemploymentState: 'Alaska', workState: 'Alaska'}
+
+License:
+  0: {id: 1, name: 'li1'}
+  1: {id: 2, name: 'li1'}
+
+EmployeeLicense:
+  0: {emp_number: '1', license_id: 1, license_no: '2bja8768', license_issued_date: '2004-02-23', license_expiry_date: '2007-02-23'}
+  1: {emp_number: '1', license_id: 2, license_no: '2bjghj768', license_issued_date: '2002-02-23', license_expiry_date: '2004-02-23'}
+
+
+PayGrade:
+  0: {id: 1, name: 'Salary Grade A'}
+  1: {id: 2, name: 'Salary Grade B'}
+
+CurrencyType:
+  0: {code: 1, currency_id : 'USD', currency_name : 'United States Dollar'}
+  1: {code: 2, currency_id : 'LKR', currency_name : 'Australian Dollar'}
+
+PayPeriod:
+  - { "payperiod_code": "1","payperiod_name": "Weekly" }
+  - { "payperiod_code": "2","payperiod_name": "Bi Weekly" }
+  - { "payperiod_code": "3","payperiod_name": "Semi Monthly" }
+  - { "payperiod_code": "4","payperiod_name": "Monthly" }
+  - { "payperiod_code": "5","payperiod_name": "Monthly on first pay of month." }
+  - { "payperiod_code": "6","payperiod_name": "Hourly" }
+
+EmployeeSalary:
+  0: {id: 1, payperiod_code: "1", emp_number: 1, sal_grd_code: 1, currency_id: 'LKR', ebsal_basic_salary: '10000.00', salary_component: 'Main Salary'}
+  1: {id: 2, payperiod_code: "1", emp_number: 2, sal_grd_code: 2, currency_id: 'USD', ebsal_basic_salary: '20000.00', salary_component: 'Allowance'}
+
+Country:
+  3: {cou_code: 'LK', name: 'SRI LANKA', cou_name: 'Sri Lanka', iso3: 'LKA', numcode: 144 }
+  4: {cou_code: 'US', name: 'UNITED STATES', cou_name: 'United States', iso3: 'USA', numcode: 840 }
+  2: {cou_code: 'SG', name: 'SINGAPORE', cou_name: 'Singapore', iso3: 'SGP', numcode: 702 }
+  0: {cou_code: 'BR', name: 'BRAZIL', cou_name: 'Brazil', iso3: 'BRA', numcode: 076 }
+  1: {cou_code: 'JP', name: 'JAPAN', cou_name: 'Japan', iso3: 'JPN', numcode: 392 }
+
+
+Location:
+  0: {id: 1, name: 'location 1', country_code: 'LK', province: 'province 1', city: 'city 1', address: 'address 1', zip_code: 'zip001', phone: '0777000001', fax: '0112000001', notes: 'note 1' }
+  1: {id: 2, name: 'location 2', country_code: 'LK', province: 'province 2', city: 'city 2', address: 'address 2', zip_code: 'zip002', phone: '0777000002', fax: '0112000002', notes: 'note 2' }
+  2: {id: 3, name: 'location 3', country_code: 'US', province: 'AK', city: 'city 3', address: 'address 3', zip_code: 'zip003', phone: '0777000003', fax: '0112000002', notes: 'note 3' }
+  3: {id: 4, name: 'location 4', country_code: 'JP', province: 'province 3', city: 'city 4', address: 'address 2', zip_code: 'zip002', phone: '0777000002', fax: '0112000002', notes: 'note 2' }
+
+EmpLocations:
+  0: {emp_number: 1, location_id: 1 }
+  3: {emp_number: 2, location_id: 2 }
+
+EmpContract:
+  - { emp_number: 1, econ_extend_id: 1, econ_extend_start_date: '2020-05-23',  econ_extend_end_date: '2021-05-23'}
+
+#ReportingMethod:
+#  - { "reporting_method_id": "1","reporting_method_name": "Direct" }
+#  - { "reporting_method_id": "2","reporting_method_name": "Indirect" }
+#
+#ReportTo:
+#  - { "erep_sup_emp_number": "1","erep_sub_emp_number": "2","erep_reporting_mode": "1" }
+
+LeaveType:
+  0: {id: 1, name: 'Casual', deleted: 0}
+  1: {id: 2, name: 'Medical', deleted: 0}
+  2: {id: 3, name: 'Company', deleted: 1}
+  3: {id: 4, name: 'Annual', deleted: 0}
+
+LeaveRequest:
+  0: {id: 1, leave_type_id: 1, date_applied: '2010-08-30', emp_number: 1}
+  1: {id: 2, leave_type_id: 1, date_applied: '2010-08-02', emp_number: 1}
+  2: {id: 3, leave_type_id: 2, date_applied: '2010-08-03', emp_number: 1}
+
+Leave:
+  0: {id: 1, length_hours: 8,start_time : '2010-08-30', end_time: '2010-08-30', length_days: 1, leave_request_id: 1, leave_type_id: 1, emp_number: 1, date: '2010-09-01', status: 1}
+
+AttendanceRecord:
+  0: {id: 1, employee_id: 1, punch_in_utc_time: '2011-05-27 12:10:00', punch_in_note: 'Im punched In',punch_in_time_offset: 'Asia/Calcutta',punch_in_user_time: '2011-05-27 12:10:00',punch_out_utc_time: '2011-05-27 12:10:00',punch_out_note: ' Punched Out',punch_out_time_offset: 'Asia/Calcutta',punch_out_user_time: '2011-05-27 12:10:00', state: 'PUNCHED IN'}
+  1: {id: 2, employee_id: 2, punch_in_utc_time: '2011-04-20 1:10:00', punch_in_note: 'Im punched In',punch_in_time_offset: 'Asia/Calcutta',punch_in_user_time: '2011-04-20 1:10:00',punch_out_utc_time: '2011-04-20 5:10:00',punch_out_note: ' Punched Out',punch_out_time_offset: 'Asia/Calcutta',punch_out_user_time: '2011-04-20 5:10:00', state: 'PUNCHED IN'}
+  2: {id: 3, employee_id: 2, punch_in_utc_time: '2011-04-20 1:10:00', punch_in_note: 'Im punched In',punch_in_time_offset: 'Asia/Calcutta',punch_in_user_time: '2011-04-20 1:10:00',punch_out_utc_time: '2011-04-20 5:10:00',punch_out_note: ' Punched Out',punch_out_time_offset: 'Asia/Calcutta',punch_out_user_time: '2011-04-20 5:10:00', state: 'PUNCHED OUT'}
+
+Customer:
+  0: {customer_id: 1, is_deleted: 0, name: 'Xavier', description: 'customer description 1'}
+  1: {customer_id: 2, is_deleted: 0, name: 'ACME', description: 'customer description 2'}
+
+Project:
+  0: {project_id: 1, customer_id: 1, name: 'NUS'}
+
+TimesheetItem:
+  0: {timesheet_item_id: 1, timesheet_id: 1, date: '2011-04-12', duration: 7200, comment: 'Good', project_id: 2, employee_id: 1, activity_id: 1}

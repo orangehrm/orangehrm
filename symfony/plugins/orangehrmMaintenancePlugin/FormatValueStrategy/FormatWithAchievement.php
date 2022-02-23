@@ -41,6 +41,8 @@ class FormatWithAchievement implements ValueFormatter
                 return self::ACHIEVEMENT_POSITIVE_DISPLAY_STRING;
             case self::ACHIEVEMENT_NEGATTIVE:
                 return self::ACHIEVEMENT_NEGATTIVE_DISPLAY_STRING;
+            default:
+                return null;
 
         }
     }

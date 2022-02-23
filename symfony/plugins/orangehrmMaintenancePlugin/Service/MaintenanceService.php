@@ -27,6 +27,7 @@ use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Maintenance\AccessStrategy\AccessStrategy;
 use OrangeHRM\Maintenance\Dao\MaintenanceDao;
 use OrangeHRM\ORM\Doctrine;
+use OrangeHRM\ORM\Exception\TransactionException;
 use PHPUnit\Util\Exception;
 use Symfony\Component\Yaml\Yaml;
 
@@ -60,7 +61,10 @@ class MaintenanceService
     }
 
 
-
+    /**
+     * @throws TransactionException
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function accessEmployeeData($empNumber):array{
         $connection=Doctrine::getEntityManager()->getConnection();
         try {
@@ -87,8 +91,7 @@ class MaintenanceService
 //             @codeCoverageIgnoreStart
         } catch (Exception $e) {
             $connection->rollback();
-            Logger::getLogger('maintenance')->error($e->getCode() . ' - ' . $e->getMessage(), $e);
-            throw new Exception($e->getMessage(), $e->getCode(), $e);
+            throw new TransactionException($e);
         }
     }
 

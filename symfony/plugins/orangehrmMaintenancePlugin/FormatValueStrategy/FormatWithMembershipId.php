@@ -40,7 +40,7 @@ class FormatWithMembershipId implements ValueFormatter
      */
     public function getFormattedValue($entityValue): ?string
     {
-        $a = $this->getMembershipService()->getMembershipById($entityValue);
+        $a = $this->getMembershipService()->getMembershipById($entityValue->getId());
         return $a->getName();
     }
 

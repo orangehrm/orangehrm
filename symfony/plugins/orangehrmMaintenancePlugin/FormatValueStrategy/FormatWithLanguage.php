@@ -38,7 +38,7 @@ class FormatWithLanguage implements ValueFormatter
      */
     public function getFormattedValue($entityValue): ?string
     {
-        return $this->getLanguageService()->getLanguageById($entityValue)->getName();
+        return $this->getLanguageService()->getLanguageById($entityValue->getId())->getName();
     }
 
     /**

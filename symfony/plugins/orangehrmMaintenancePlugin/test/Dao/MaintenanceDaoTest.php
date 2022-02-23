@@ -25,7 +25,7 @@ class MaintenanceDaoTest extends TestCase
 
     public function testExtractDataFromEmpNumber():void{
         $result=$this->dao->extractDataFromEmpNumber(array("empNumber"=>"1"),"Employee");
-        $this->assertEquals('Kaylas',$result[0]->getFirstName());
+        $this->assertEquals('Kayla',$result[0]->getFirstName());
     }
 
 }

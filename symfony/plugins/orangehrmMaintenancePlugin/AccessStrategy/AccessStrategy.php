@@ -128,12 +128,14 @@ abstract class AccessStrategy
      */
     public function getMatchByValues(int $employeeNumber):array
     {
+
         $entityFieldMap = array();
         $entityFieldMap[$this->getMatchBy()[0]['match']] = $employeeNumber;
 
         if (in_array('join',$this->getMatchBy()[0])) {
             $entityFieldMap['join'] = $this->getMatchBy()[0]['join'];
         }
+
         return $entityFieldMap;
     }
 
@@ -144,6 +146,7 @@ abstract class AccessStrategy
      */
     public function getEntityRecords(array $matchByValues, string $table):?array
     {
+
         return $this->getMaintenanceService()->extractDataFromEmpNumber($matchByValues, $table);
     }
 

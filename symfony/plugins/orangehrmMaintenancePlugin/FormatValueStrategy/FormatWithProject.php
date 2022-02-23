@@ -34,6 +34,7 @@ class FormatWithProject implements ValueFormatter
      */
     public function getFormattedValue($entityValue): ?string
     {
+        //TODO [getProjectById function not implemented]
         return $this->getProjectService()->getProjectById($entityValue)->getName();
     }
 

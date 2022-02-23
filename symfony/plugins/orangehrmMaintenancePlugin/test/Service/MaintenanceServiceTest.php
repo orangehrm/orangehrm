@@ -3,6 +3,8 @@
 namespace OrangeHRM\Maintenance\test\Service;
 
 use OrangeHRM\Config\Config;
+use OrangeHRM\Entity\Employee;
+use OrangeHRM\Maintenance\AccessStrategy\AccessStrategy;
 use OrangeHRM\Maintenance\Service\MaintenanceService;
 use OrangeHRM\Tests\Util\TestCase;
 use OrangeHRM\Tests\Util\TestDataService;
@@ -22,9 +24,15 @@ class MaintenanceServiceTest extends TestCase
 
     public function testAccessEmployeeData():void {
         $result=$this->maintenanceService->accessEmployeeData(1);
-//        var_dump($result);
-//        die;
         $this->assertEquals('Kayla',$result['Employee'][0]['firstName']);
-
+        $this->assertCount(1,$result['Employee']);
     }
+
+
+    public function testGetAccessStrategy():void{
+        $result=$this->maintenanceService->getAccessStrategy('Employee','Basic',array());
+        $this->assertInstanceOf(AccessStrategy::class,$result);
+    }
+
+
 }

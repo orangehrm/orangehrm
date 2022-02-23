@@ -37,6 +37,7 @@ class FormatWithEmployeeName implements ValueFormatter
      */
     public function getFormattedValue($entityValue): ?string
     {
+
         return $this->getEmployeeService()->getEmployee($entityValue)->getFullName();
     }
 

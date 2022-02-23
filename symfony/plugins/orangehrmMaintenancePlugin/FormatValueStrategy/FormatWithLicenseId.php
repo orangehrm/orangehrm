@@ -22,21 +22,23 @@ namespace OrangeHRM\Maintenance\FormatValueStrategy;
 
 
 use OrangeHRM\Admin\Service\LicenseService;
+use OrangeHRM\Core\Exception\DaoException;
 
 /**
  * Class FormatWithLicenseId
  */
 class FormatWithLicenseId implements ValueFormatter
 {
-    private $licenseService = null;
+    private ?LicenseService $licenseService = null;
 
     /**
      * @param $entityValue
      * @return null|string
+     * @throws DaoException
      */
     public function getFormattedValue($entityValue): ?string
     {
-        return $this->getLicenseService()->getLicenseById($entityValue)->getName();
+        return $this->getLicenseService()->getLicenseById($entityValue->getId())->getName();
     }
 
     /**
@@ -44,11 +46,9 @@ class FormatWithLicenseId implements ValueFormatter
      */
     public function getLicenseService(): LicenseService
     {
-
         if (!($this->licenseService instanceof LicenseService)) {
             $this->licenseService = new LicenseService();
         }
-
         return $this->licenseService;
     }
 }

@@ -32,7 +32,6 @@ class BasicAccessStrategy extends AccessStrategy
 
         $entityAccessData = array();
         $matchByValues = $this->getMatchByValues($employeeNumber);
-
         $accessEntities = $this->getEntityRecords($matchByValues, $this->getEntityClassName());
 
         foreach ($accessEntities as $accessEntity) {

@@ -34,6 +34,7 @@ class FormatWithActivity implements ValueFormatter
      */
     public function getFormattedValue($entityValue): ?string
     {
+        //TODO [getActivityByActivityId function not implemented]
         return $this->getTimesheetService()->getActivityByActivityId($entityValue)->getName();
     }
 
