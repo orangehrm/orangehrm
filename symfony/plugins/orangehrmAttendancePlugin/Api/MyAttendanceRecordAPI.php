@@ -63,9 +63,9 @@ class MyAttendanceRecordAPI extends EmployeeAttendanceRecordAPI
         $userDateTime = new DateTime($dateTime, $timezone);
         //user can change current time config disabled and system generated date time is not valid
         if (!$this->getAttendanceService()->canUserChangeCurrentTime() && !$this->isCurrantDateTimeValid(
-                $dateTime,
-                $timezone
-            )) {
+            $dateTime,
+            $timezone
+        )) {
             throw AttendanceServiceException::invalidDateTime();
         }
         return $userDateTime;

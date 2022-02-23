@@ -657,7 +657,8 @@ class AttendanceDao extends BaseDao
      * @param AttendanceRecordSearchFilterParams $attendanceRecordSearchFilterParams
      * @return array
      */
-    public function getAttendanceRecordList(AttendanceRecordSearchFilterParams $attendanceRecordSearchFilterParams
+    public function getAttendanceRecordList(
+        AttendanceRecordSearchFilterParams $attendanceRecordSearchFilterParams
     ): array {
         return $this->getAttendanceRecordListPaginator($attendanceRecordSearchFilterParams)->getQuery()->execute();
     }
