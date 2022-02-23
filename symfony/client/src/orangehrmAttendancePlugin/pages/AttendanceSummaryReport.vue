@@ -21,54 +21,47 @@
 <template>
   <reports-table
     module="time"
-    name="employee"
+    name="attendance"
+    :prefetch="false"
     :filters="serializedFilters"
-    :column-count="3"
+    :column-count="2"
   >
     <template #default="{generateReport}">
-      <oxd-table-filter :filter-title="$t('time.employee_report')">
+      <oxd-table-filter
+        :filter-title="$t('time.attendance_total_summary_report')"
+      >
         <oxd-form @submitValid="generateReport">
           <oxd-form-row>
-            <oxd-grid :cols="2" class="orangehrm-full-width-grid">
+            <oxd-grid :cols="3" class="orangehrm-full-width-grid">
               <oxd-grid-item>
                 <employee-autocomplete
                   v-model="filters.employee"
-                  :rules="rules.employee"
                   :params="{
                     includeEmployees: 'currentAndPast',
                   }"
-                  required
                 />
               </oxd-grid-item>
-            </oxd-grid>
-          </oxd-form-row>
 
-          <oxd-form-row>
-            <oxd-grid :cols="2" class="orangehrm-full-width-grid">
               <oxd-grid-item>
-                <project-autocomplete
-                  v-model="filters.project"
-                  :label="$t('time.project_name')"
-                />
+                <jobtitle-dropdown v-model="filters.jobTitle" />
               </oxd-grid-item>
               <oxd-grid-item>
-                <activity-dropdown
-                  v-model="filters.activity"
-                  :label="$t('time.activity_name')"
-                  :project-id="filters.project && filters.project.id"
+                <oxd-input-field
+                  v-model="filters.subunit"
+                  type="select"
+                  :label="$t('general.sub_unit')"
+                  :options="subunits"
                 />
               </oxd-grid-item>
-            </oxd-grid>
-          </oxd-form-row>
-
-          <oxd-form-row>
-            <oxd-grid :cols="4" class="orangehrm-full-width-grid">
+              <oxd-grid-item>
+                <employment-status-dropdown v-model="filters.empStatus" />
+              </oxd-grid-item>
               <oxd-grid-item>
                 <date-input
                   v-model="filters.fromDate"
                   placeholder="From"
                   :rules="rules.fromDate"
-                  :label="$t('time.project_date_range')"
+                  :label="$t('general.date_range')"
                 />
               </oxd-grid-item>
               <oxd-grid-item>
@@ -79,19 +72,12 @@
                   :rules="rules.toDate"
                 />
               </oxd-grid-item>
-              <oxd-grid-item class="orangehrm-switch-filter --span-column-2">
-                <oxd-text class="orangehrm-switch-filter-text" tag="p">
-                  {{ $t('time.only_include_approved_timesheets') }}
-                </oxd-text>
-                <oxd-switch-input v-model="filters.timesheetState" />
-              </oxd-grid-item>
             </oxd-grid>
           </oxd-form-row>
 
           <oxd-divider />
 
           <oxd-form-actions>
-            <required-text />
             <oxd-button
               type="submit"
               display-type="secondary"
@@ -113,40 +99,45 @@
 <script>
 import {computed, ref} from 'vue';
 import {
-  required,
   validDateFormat,
   endDateShouldBeAfterStartDate,
   startDateShouldBeBeforeEndDate,
 } from '@/core/util/validation/rules';
 import ReportsTable from '@/core/components/table/ReportsTable';
-import SwitchInput from '@ohrm/oxd/core/components/Input/SwitchInput';
+import JobtitleDropdown from '@/orangehrmPimPlugin/components/JobtitleDropdown';
 import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
-import ActivityDropdown from '@/orangehrmTimePlugin/components/ActivityDropdown.vue';
-import ProjectAutocomplete from '@/orangehrmTimePlugin/components/ProjectAutocomplete.vue';
+import EmploymentStatusDropdown from '@/orangehrmPimPlugin/components/EmploymentStatusDropdown';
 
 const defaultFilters = {
   employee: null,
-  project: null,
-  activity: null,
   fromDate: null,
   toDate: null,
-  timesheetState: false,
+  jobTitle: null,
+  subunit: null,
+  empStatus: null,
 };
 
 export default {
   components: {
     'reports-table': ReportsTable,
-    'oxd-switch-input': SwitchInput,
-    'activity-dropdown': ActivityDropdown,
-    'project-autocomplete': ProjectAutocomplete,
+    'jobtitle-dropdown': JobtitleDropdown,
     'employee-autocomplete': EmployeeAutocomplete,
+    'employment-status-dropdown': EmploymentStatusDropdown,
+  },
+
+  props: {
+    subunits: {
+      type: Array,
+      default: () => [],
+    },
   },
 
   setup() {
-    const filters = ref({...defaultFilters});
+    const filters = ref({
+      ...defaultFilters,
+    });
 
     const rules = {
-      employee: [required],
       fromDate: [
         validDateFormat(),
         startDateShouldBeBeforeEndDate(
@@ -168,11 +159,11 @@ export default {
     const serializedFilters = computed(() => {
       return {
         empNumber: filters.value.employee?.id,
-        projectId: filters.value.project?.id,
-        activityId: filters.value.activity?.id,
         fromDate: filters.value.fromDate,
         toDate: filters.value.toDate,
-        timesheetState: filters.value.timesheetState ? 'onlyApproved' : 'all',
+        jobTitleId: filters.value.jobTitle?.id,
+        subunitId: filters.value.subunit?.id,
+        employmentStatusId: filters.value.empStatus?.id,
       };
     });
 
@@ -184,5 +175,3 @@ export default {
   },
 };
 </script>
-
-<style src="./time-reports.scss" lang="scss" scoped></style>
