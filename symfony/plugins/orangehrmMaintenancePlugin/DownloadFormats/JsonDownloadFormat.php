@@ -17,37 +17,20 @@
  * Boston, MA 02110-1301, USA
  */
 
+namespace OrangeHRM\Maintenance\DownloadFormats;
+
 /**
- * Class DownloadFormat
+ * Class JsonDownloadFormat
  */
-abstract class DownloadFormat
+class JsonDownloadFormat extends DownloadFormat
 {
     /**
      * @param $values
-     * @return mixed
+     * @return mixed|string
      */
-    public abstract function getFormattedString($values);
-
-    /**
-     * @param $empNumber
-     * @return string
-     * @throws DaoException
-     */
-    public function getDownloadFileName($empNumber)
+    public function getFormattedString($values)
     {
-        $employee = $this->getEmployeeService()->getEmployee($empNumber);
-        $fileName = $employee->getFullName() . '.json';
-        return $fileName;
+        return json_encode($values);
     }
 
-    /**
-     * @return EmployeeService
-     */
-    public function getEmployeeService()
-    {
-        if (!isset($this->employeeService)) {
-            $this->employeeService = new EmployeeService();
-        }
-        return $this->employeeService;
-    }
 }
