@@ -93,7 +93,7 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
             $this->userAllowedPunchInActions(array_keys($allowedWorkflowItems));
             $attendanceRecord = new AttendanceRecord();
             $attendanceRecord->getDecorator()->setEmployeeByEmpNumber($empNumber);
-            $punchInDateTime = $this->extractPunchDateTime($date.' '.$time, $timezoneOffset);
+            $punchInDateTime = $this->extractPunchDateTime($date . ' ' . $time, $timezoneOffset);
             $punchInUTCDateTime = (clone $punchInDateTime)->setTimezone(
                 new DateTimeZone(DateTimeHelperService::TIMEZONE_UTC)
             );
@@ -149,7 +149,7 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
-     * @param  array  $allowedActions
+     * @param array $allowedActions
      * @return void
      * @throws ForbiddenException
      */
@@ -164,8 +164,8 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
-     * @param  string  $dateTime
-     * @param  float  $timezoneOffset
+     * @param string $dateTime
+     * @param float $timezoneOffset
      * @return DateTime
      * @throws Exception
      */
@@ -178,12 +178,12 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
-     * @param  AttendanceRecord  $attendanceRecord
-     * @param  string  $state
-     * @param  DateTime  $punchInUtcTime
-     * @param  DateTime  $punchInUserTime
-     * @param  float  $punchInTimezoneOffset
-     * @param  string|null  $punchInNote
+     * @param AttendanceRecord $attendanceRecord
+     * @param string $state
+     * @param DateTime $punchInUtcTime
+     * @param DateTime $punchInUserTime
+     * @param float $punchInTimezoneOffset
+     * @param string|null $punchInNote
      */
     protected function setPunchInAttendanceRecord(
         AttendanceRecord $attendanceRecord,
@@ -284,7 +284,7 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
-     * @param  int  $attendanceRecordOwnedEmpNumber
+     * @param int $attendanceRecordOwnedEmpNumber
      * @return bool
      */
     private function isAuthUserAllowedToPerformDeleteActions(int $attendanceRecordOwnedEmpNumber): bool
@@ -369,7 +369,7 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
             if (is_null($lastPunchInRecord)) {
                 throw AttendanceServiceException::punchOutAlreadyExist();
             }
-            $punchOutDateTime = $this->extractPunchDateTime($date.' '.$time, $timezoneOffset);
+            $punchOutDateTime = $this->extractPunchDateTime($date . ' ' . $time, $timezoneOffset);
             $punchOutUTCDateTime = (clone $punchOutDateTime)->setTimezone(
                 new DateTimeZone(DateTimeHelperService::TIMEZONE_UTC)
             );
@@ -395,7 +395,7 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
-     * @param  array  $allowedActions
+     * @param array $allowedActions
      * @return void
      * @throws ForbiddenException
      */
@@ -410,12 +410,12 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
-     * @param  AttendanceRecord  $attendanceRecord
-     * @param  string  $state
-     * @param  DateTime  $punchOutUtcTime
-     * @param  DateTime  $punchOutUserTime
-     * @param  float  $punchOutTimezoneOffset
-     * @param  string|null  $punchOutNote
+     * @param AttendanceRecord $attendanceRecord
+     * @param string $state
+     * @param DateTime $punchOutUtcTime
+     * @param DateTime $punchOutUserTime
+     * @param float $punchOutTimezoneOffset
+     * @param string|null $punchOutNote
      */
     protected function setPunchOutAttendanceRecord(
         AttendanceRecord $attendanceRecord,
