@@ -24,7 +24,7 @@ use OrangeHRM\Maintenance\FormatValueStrategy\ValueFormatter;
 class FormatWithZero implements ValueFormatter
 {
     /**
-     * @param int $entityValue
+     * @param int|null $entityValue
      * @return int
      */
     public function getFormattedValue($entityValue): int

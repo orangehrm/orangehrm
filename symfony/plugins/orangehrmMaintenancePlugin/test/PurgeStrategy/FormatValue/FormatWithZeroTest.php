@@ -17,20 +17,23 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Maintenance\PurgeStrategy\FormatValue;
+namespace OrangeHRM\Tests\Maintenance\PurgeStrategy\FormatValue;
 
-use OrangeHRM\Maintenance\FormatValueStrategy\ValueFormatter;
+use OrangeHRM\Maintenance\PurgeStrategy\FormatValue\FormatWithZero;
+use OrangeHRM\Tests\Util\TestCase;
 
-class FormatWithPurgeString implements ValueFormatter
+class FormatWithZeroTest extends TestCase
 {
-    private const PURGE = 'Purge';
+    private FormatWithZero $formatWithZero;
 
-    /**
-     * @param string|null $entityValue
-     * @return string
-     */
-    public function getFormattedValue($entityValue): string
+    protected function setUp(): void
     {
-        return self::PURGE;
+        $this->formatWithZero = new FormatWithZero();
+    }
+
+    public function testGetFormattedValue(): void
+    {
+        $this->assertEquals(0, $this->formatWithZero->getFormattedValue(1));
+        $this->assertEquals(0, $this->formatWithZero->getFormattedValue(null));
     }
 }
