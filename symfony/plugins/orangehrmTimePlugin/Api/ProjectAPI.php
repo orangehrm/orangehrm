@@ -111,9 +111,6 @@ class ProjectAPI extends Endpoint implements CrudEndpoint
         );
         if (!is_null($projectId)) {
             $projectParamHolder->setProjectIds([$projectId]);
-        } elseif ($onlyAllowed) {
-            $accessibleProjectIds = $this->getUserRoleManager()->getAccessibleEntityIds(Project::class);
-            $projectParamHolder->setProjectIds($accessibleProjectIds);
         }
         $projectParamHolder->setCustomerId(
             $this->getRequestParams()->getIntOrNull(
