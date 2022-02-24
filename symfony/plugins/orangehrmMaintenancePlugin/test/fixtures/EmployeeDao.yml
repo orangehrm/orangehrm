@@ -135,7 +135,7 @@ LeaveRequest:
   2: {id: 3, leave_type_id: 2, date_applied: '2010-08-03', emp_number: 1}
 
 Leave:
-  0: {id: 1, length_hours: 8,start_time : '2010-08-30', end_time: '2010-08-30', length_days: 1, leave_request_id: 1, leave_type_id: 1, emp_number: 1, date: '2010-09-01', status: 1}
+  0: {id: 1, length_hours: 8,start_time : '10:00:00', end_time: '10:00:00', length_days: 1, leave_request_id: 1, leave_type_id: 1, emp_number: 1, date: '2010-09-01', status: 1}
 
 AttendanceRecord:
   0: {id: 1, employee_id: 1, punch_in_utc_time: '2011-05-27 12:10:00', punch_in_note: 'Im punched In',punch_in_time_offset: 'Asia/Calcutta',punch_in_user_time: '2011-05-27 12:10:00',punch_out_utc_time: '2011-05-27 12:10:00',punch_out_note: ' Punched Out',punch_out_time_offset: 'Asia/Calcutta',punch_out_user_time: '2011-05-27 12:10:00', state: 'PUNCHED IN'}
