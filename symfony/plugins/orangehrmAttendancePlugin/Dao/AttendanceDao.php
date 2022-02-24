@@ -763,7 +763,8 @@ class AttendanceDao extends BaseDao
      * @param EmployeeAttendanceSummarySearchFilterParams $employeeAttendanceSummarySearchFilterParams
      * @return array
      */
-    public function getEmployeeAttendanceSummaryList(EmployeeAttendanceSummarySearchFilterParams $employeeAttendanceSummarySearchFilterParams): array {
+    public function getEmployeeAttendanceSummaryList(EmployeeAttendanceSummarySearchFilterParams $employeeAttendanceSummarySearchFilterParams): array
+    {
         return $this->getEmployeeAttendanceSummaryPaginator($employeeAttendanceSummarySearchFilterParams)->getQuery()->execute();
     }
 
