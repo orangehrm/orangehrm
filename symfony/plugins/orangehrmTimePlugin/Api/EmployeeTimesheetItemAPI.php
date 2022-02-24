@@ -24,6 +24,7 @@ use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
+use OrangeHRM\Core\Api\V2\Exception\BadRequestException;
 use OrangeHRM\Core\Api\V2\Exception\ForbiddenException;
 use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
 use OrangeHRM\Core\Api\V2\ParameterBag;
@@ -264,6 +265,13 @@ class EmployeeTimesheetItemAPI extends Endpoint implements CrudEndpoint
         $this->beginTransaction();
         try {
             $timesheet = $this->getTimesheet();
+            $allowedActions = $this->getTimesheetService()
+                ->getAllowedWorkflowsForTimesheet($this->getAuthUser()->getEmpNumber(), $timesheet);
+
+            if (count($allowedActions) === 1 && $allowedActions[0]->getResultingState() === 'APPROVED') {
+                throw $this->getBadRequestException('Performed action not allowed');
+            }
+
             // delete
             $toBeDeletedEntries = $this->getRequestParams()->getArray(
                 RequestParams::PARAM_TYPE_BODY,
@@ -286,7 +294,7 @@ class EmployeeTimesheetItemAPI extends Endpoint implements CrudEndpoint
                 $detailedTimesheet,
                 $this->getResultMetaForGetAll($detailedTimesheet),
             );
-        } catch (RecordNotFoundException | ForbiddenException $e) {
+        } catch (RecordNotFoundException|ForbiddenException|BadRequestException $e) {
             $this->rollBackTransaction();
             throw $e;
         } catch (Exception $e) {

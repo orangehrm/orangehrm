@@ -36,10 +36,7 @@ use OrangeHRM\Time\Dto\ProjectActivityDetailedReportSearchFilterParams;
 
 class ProjectActivityReport extends ProjectReport
 {
-    public const PARAMETER_EMPLOYEE_NUMBER = 'employeeNumber';
     public const PARAMETER_EMPLOYEE_NAME = 'employeeName';
-    public const PARAMETER_EMPLOYEE_FIRST_NAME = 'employeeFirstName';
-    public const PARAMETER_EMPLOYEE_LAST_NAME = 'employeeLastName';
 
     public const FILTER_PARAMETER_PROJECT_ACTIVITY_ID = 'activityId';
 

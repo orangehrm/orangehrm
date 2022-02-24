@@ -52,7 +52,7 @@ class AttendanceReportData implements ReportData
 
         $result = [];
         foreach ($employeeAttendanceRecords as $employeeAttendanceRecord) {
-            $termination = $employeeAttendanceRecord['termination'];
+            $termination = $employeeAttendanceRecord['terminationId'];
             $result[] = [
                 AttendanceReport::PARAMETER_EMPLOYEE_NAME => $termination === null ? $employeeAttendanceRecord['fullName'] : $employeeAttendanceRecord['fullName'] . ' (Past employee)',
                 AttendanceReport::PARAMETER_TIME => $this->getNumberHelper()
@@ -68,11 +68,20 @@ class AttendanceReportData implements ReportData
      */
     public function getMeta(): ?ParameterBag
     {
+        $total = $this->getAttendanceService()
+            ->getAttendanceDao()
+            ->getTotalAttendanceDuration($this->filterParams);
+
         return new ParameterBag(
             [
                 CommonParams::PARAMETER_TOTAL => $this->getAttendanceService()
                     ->getAttendanceDao()
-                    ->getAttendanceReportCriteriaListCount($this->filterParams)
+                    ->getAttendanceReportCriteriaListCount($this->filterParams),
+                'sum' => [
+                    'hours' => floor($total / 3600),
+                    'minutes' => ($total / 60) % 60,
+                    'label' => $this->getNumberHelper()->numberFormat($total / 3600, 2),
+                ],
             ]
         );
     }

@@ -83,7 +83,7 @@ class TimesheetItem
     /**
      * @var ProjectActivity
      *
-     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\ProjectActivity")
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\ProjectActivity", inversedBy="timesheetItems")
      * @ORM\JoinColumn(name="activity_id", referencedColumnName="activity_id")
      */
     private ProjectActivity $projectActivity;

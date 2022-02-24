@@ -20,8 +20,13 @@
 namespace OrangeHRM\Tests\Attendance\Api;
 
 use OrangeHRM\Attendance\Api\EmployeeAttendanceRecordAPI;
+use OrangeHRM\Attendance\Service\AttendanceService;
 use OrangeHRM\Config\Config;
+use OrangeHRM\Core\Service\AccessFlowStateMachineService;
+use OrangeHRM\Entity\AttendanceRecord;
+use OrangeHRM\Entity\WorkflowStateMachine;
 use OrangeHRM\Framework\Services;
+use OrangeHRM\ORM\Doctrine;
 use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
 use OrangeHRM\Tests\Util\Integration\TestCaseParams;
 use OrangeHRM\Tests\Util\TestDataService;
@@ -32,20 +37,6 @@ use OrangeHRM\Tests\Util\TestDataService;
  */
 class EmployeeAttendanceRecordAPITest extends EndpointIntegrationTestCase
 {
-    public function testGetAll(): void
-    {
-        $api = new EmployeeAttendanceRecordAPI($this->getRequest());
-        $this->expectNotImplementedException();
-        $api->getAll();
-    }
-
-    public function testGetValidationRuleForGetAll(): void
-    {
-        $api = new EmployeeAttendanceRecordAPI($this->getRequest());
-        $this->expectNotImplementedException();
-        $api->getValidationRuleForGetAll();
-    }
-
     public function testGetOne(): void
     {
         $api = new EmployeeAttendanceRecordAPI($this->getRequest());
@@ -79,18 +70,22 @@ class EmployeeAttendanceRecordAPITest extends EndpointIntegrationTestCase
         return $this->getTestCases('EmployeeAttendanceRecordAPITestCases.yaml', 'Create');
     }
 
-    public function testDelete(): void
+    /**
+     * @dataProvider dataProviderForTestDelete
+     */
+    public function testDelete(TestCaseParams $testCaseParams): void
     {
-        $api = new EmployeeAttendanceRecordAPI($this->getRequest());
-        $this->expectNotImplementedException();
-        $api->delete();
+        $this->populateFixtures('AttendanceRecord.yaml', null, true);
+        $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
+        $this->registerServices($testCaseParams);
+        $this->registerMockDateTimeHelper($testCaseParams);
+        $api = $this->getApiEndpointMock(EmployeeAttendanceRecordAPI::class, $testCaseParams);
+        $this->assertValidTestCase($api, 'delete', $testCaseParams);
     }
 
-    public function testGetValidationRuleForDelete(): void
+    public function dataProviderForTestDelete(): array
     {
-        $api = new EmployeeAttendanceRecordAPI($this->getRequest());
-        $this->expectNotImplementedException();
-        $api->getValidationRuleForDelete();
+        return $this->getTestCases('EmployeeAttendanceRecordAPITestCases.yaml', 'Delete');
     }
 
     /**
@@ -110,5 +105,27 @@ class EmployeeAttendanceRecordAPITest extends EndpointIntegrationTestCase
     public function dataProviderForTestUpdate(): array
     {
         return $this->getTestCases('EmployeeAttendanceRecordAPITestCases.yaml', 'Update');
+    }
+
+    public static function enableSupervisorCanModifyAttendancePreHook()
+    {
+        $workflowStateMachine = new WorkflowStateMachine();
+        $workflowStateMachine->setWorkflow(WorkflowStateMachine::FLOW_ATTENDANCE);
+        $workflowStateMachine->setState(AttendanceRecord::STATE_PUNCHED_IN);
+        $workflowStateMachine->setRole(AttendanceService::SUPERVISOR);
+        $workflowStateMachine->setAction(WorkflowStateMachine::ATTENDANCE_ACTION_DELETE);
+        $workflowStateMachine->setResultingState(AttendanceRecord::STATE_PUNCHED_IN);
+        Doctrine::getEntityManager()->persist($workflowStateMachine);
+        Doctrine::getEntityManager()->flush($workflowStateMachine);
+        $workflowStateMachine = new WorkflowStateMachine();
+        $workflowStateMachine->setWorkflow(WorkflowStateMachine::FLOW_ATTENDANCE);
+        $workflowStateMachine->setState(AttendanceRecord::STATE_PUNCHED_OUT);
+        $workflowStateMachine->setRole(AttendanceService::SUPERVISOR);
+        $workflowStateMachine->setAction(WorkflowStateMachine::ATTENDANCE_ACTION_DELETE);
+        $workflowStateMachine->setResultingState(AttendanceRecord::STATE_PUNCHED_OUT);
+        Doctrine::getEntityManager()->persist($workflowStateMachine);
+        Doctrine::getEntityManager()->flush($workflowStateMachine);
+
+        AccessFlowStateMachineService::resetWorkflowCache();
     }
 }

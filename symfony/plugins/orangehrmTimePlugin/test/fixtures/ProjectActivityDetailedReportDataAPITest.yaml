@@ -4,9 +4,15 @@ Config:
   - { name: 'timesheet_period_set', value: "Yes" }
   - { name: 'timesheet_time_format', value: 1 }
 
+TerminationReason:
+  - { id: 1, name: 'Other' }
+
+EmployeeTerminationRecord:
+  - { "id": "1", "reason_id": "1","termination_date": "2021-09-15","note": "" }
+
 Employee:
   0: { empNumber: 1, firstName: 'Kayla', lastName: 'Abbey' }
-  1: { empNumber: 2, firstName: 'Ashley', lastName: 'Abel' }
+  1: { empNumber: 2, firstName: 'Ashley', lastName: 'Abel', termination_id: 1 }
   2: { empNumber: 3, firstName: 'Renukshan', lastName: 'Saputhanthri' }
   3: { empNumber: 4, firstName: 'Chaturanga', lastName: 'Namal' }
   4: { empNumber: 5, firstName: 'Indiran', lastName: 'Nadarajah' }

@@ -23,10 +23,37 @@ use DateTime;
 use DateTimeZone;
 use Exception;
 use OrangeHRM\Attendance\Exception\AttendanceServiceException;
+use OrangeHRM\Attendance\Traits\Service\AttendanceServiceTrait;
+use OrangeHRM\Core\Api\CommonParams;
+use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
+use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
+use OrangeHRM\Core\Traits\Service\NumberHelperTrait;
 use OrangeHRM\Entity\WorkflowStateMachine;
 
 class MyAttendanceRecordAPI extends EmployeeAttendanceRecordAPI
 {
+    use AttendanceServiceTrait;
+    use AuthUserTrait;
+    use NumberHelperTrait;
+
+    /**
+     * @inheritDoc
+     */
+    protected function getEmpNumber(): int
+    {
+        return $this->getAuthUser()->getEmpNumber();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getValidationRuleForGetAll(): ParamRuleCollection
+    {
+        $paramRuleCollection = parent::getValidationRuleForGetAll();
+        $paramRuleCollection->removeParamValidation(CommonParams::PARAMETER_EMP_NUMBER);
+        return $paramRuleCollection;
+    }
+
     /**
      * @inheritDoc
      */
@@ -48,8 +75,8 @@ class MyAttendanceRecordAPI extends EmployeeAttendanceRecordAPI
      * If the configuration disabled for users to edit the date time, we should check the user provided timestamp with the
      * exact timestamp in the user's timezone. Those two should be same if the user provides true data. The margin of error
      * can be +/- 180 seconds
-     * @param  string  $dateTime
-     * @param  DateTimeZone  $timezone
+     * @param string $dateTime
+     * @param DateTimeZone $timezone
      * @return bool
      * @throws Exception
      */
@@ -62,7 +89,7 @@ class MyAttendanceRecordAPI extends EmployeeAttendanceRecordAPI
     }
 
     /**
-     * @param  array  $allowedActions
+     * @param array $allowedActions
      * @return void
      */
     protected function userAllowedPunchInActions(array $allowedActions): void
@@ -74,7 +101,7 @@ class MyAttendanceRecordAPI extends EmployeeAttendanceRecordAPI
     }
 
     /**
-     * @param  array  $allowedActions
+     * @param array $allowedActions
      * @return void
      */
     protected function userAllowedPunchOutActions(array $allowedActions): void

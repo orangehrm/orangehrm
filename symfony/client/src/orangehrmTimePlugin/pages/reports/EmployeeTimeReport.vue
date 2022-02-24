@@ -102,6 +102,11 @@
       </oxd-table-filter>
       <br />
     </template>
+
+    <template #footer="{data}">
+      {{ $t('time.total_duration') }}:
+      {{ data.meta ? data.meta.sum.label : '0.00' }}
+    </template>
   </reports-table>
 </template>
 

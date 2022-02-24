@@ -20,28 +20,43 @@
 
 namespace OrangeHRM\Attendance\Controller;
 
+use OrangeHRM\Attendance\Traits\Service\AttendanceServiceTrait;
 use OrangeHRM\Core\Controller\AbstractVueController;
-use OrangeHRM\Core\Vue\Component;
-use OrangeHRM\Core\Vue\Prop;
-use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Core\Controller\Common\DisabledModuleController;
 use OrangeHRM\Core\Controller\Common\NoRecordsFoundController;
 use OrangeHRM\Core\Controller\Exception\RequestForwardableException;
+use OrangeHRM\Core\Vue\Component;
+use OrangeHRM\Core\Vue\Prop;
+use OrangeHRM\Entity\AttendanceRecord;
+use OrangeHRM\Framework\Http\Request;
 
 class EditAttendanceController extends AbstractVueController
 {
+    use AttendanceServiceTrait;
+
     /**
      * @inheritDoc
      */
     public function preRender(Request $request): void
     {
         if ($request->attributes->has('id')) {
+            $attendanceRecordId = $request->attributes->getInt('id');
+            $attendanceRecord = $this->getAttendanceService()
+                ->getAttendanceDao()
+                ->getAttendanceRecordById($attendanceRecordId);
+            //no attendance record for the given id
+            if (!$attendanceRecord instanceof AttendanceRecord) {
+                throw new RequestForwardableException(NoRecordsFoundController::class . '::handle');
+            }
+            //check auth user's permission to update attendance record
+            if (!$this->getAttendanceService()->isAuthUserAllowedToPerformTheEditActions($attendanceRecord)) {
+                throw new RequestForwardableException(DisabledModuleController::class . '::handle');
+            }
             $component = new Component('edit-attendance');
-            $component->addProp(new Prop('attendance-id', Prop::TYPE_NUMBER, $request->attributes->getInt('id')));
+            $component->addProp(new Prop('attendance-id', Prop::TYPE_NUMBER, $attendanceRecordId));
         } else {
-            // TODO: show 404 if no id or id is invalid
             throw new RequestForwardableException(NoRecordsFoundController::class . '::handle');
         }
-
         $this->setComponent($component);
     }
 }
