@@ -28,16 +28,18 @@ use OrangeHRM\Entity\EmployeeSalary;
 class PurgeEmployeeDao extends BaseDao
 {
     /**
-     * @return Employee[]
+     * @param int $empNumber
+     * @return bool
      */
-    public function getEmployeePurgingList(): array
+    public function isEmployeePurgeable(int $empNumber): bool
     {
         $qb = $this->createQueryBuilder(Employee::class, 'employee');
+        $qb->andWhere('employee.empNumber = :empNumber')
+            ->setParameter('empNumber', $empNumber);
         $qb->andWhere($qb->expr()->isNotNull('employee.employeeTerminationRecord'));
         $qb->andWhere($qb->expr()->isNull('employee.purgedAt'));
-        $qb->addOrderBy('employee.empNumber');
 
-        return $qb->getQuery()->execute();
+        return !empty($qb->getQuery()->execute());
     }
 
     /**

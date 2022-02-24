@@ -44,17 +44,12 @@ class PurgeEmployeeDaoTest extends TestCase
         TestDataService::populate($this->fixture);
     }
 
-    public function testGetEmployeePurgingList(): void
+    public function testIsEmployeePurgeable(): void
     {
-        $employeePurgeList = $this->employeePurgeDao->getEmployeePurgingList();
-
-        $this->assertCount(3, $employeePurgeList);
-        $this->assertEquals(1, $employeePurgeList[0]->getEmpNumber());
-        $this->assertEquals("Linda", $employeePurgeList[1]->getFirstName());
-        $this->assertEquals(
-            "Resigned",
-            $employeePurgeList[2]->getEmployeeTerminationRecord()->getTerminationReason()->getName()
-        );
+        $this->assertTrue($this->employeePurgeDao->isEmployeePurgeable(1));
+        $this->assertTrue($this->employeePurgeDao->isEmployeePurgeable(2));
+        $this->assertFalse($this->employeePurgeDao->isEmployeePurgeable(3));
+        $this->assertFalse($this->employeePurgeDao->isEmployeePurgeable(4));
     }
 
     public function testExtractDataFromEmpNumber(): void
