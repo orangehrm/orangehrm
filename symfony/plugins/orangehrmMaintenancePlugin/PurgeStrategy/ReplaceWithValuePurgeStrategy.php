@@ -51,9 +51,7 @@ class ReplaceWithValuePurgeStrategy extends PurgeStrategy
             $setCurrentField = $replaceColumnArrayData['setter'] ?? 'set' . ucfirst($currentField);
             $purgeEntity->$setCurrentField($replace);
         }
-        $this->getPurgeEmployeeService()
-            ->getPurgeEmployeeDao()
-            ->saveEntity($purgeEntity);
+        $this->getEntityManager()->persist($purgeEntity);
     }
 
     /**

@@ -19,11 +19,8 @@
 
 namespace OrangeHRM\Maintenance\Dao;
 
-use Doctrine\Persistence\Mapping\MappingException;
 use OrangeHRM\Core\Dao\BaseDao;
-use OrangeHRM\Entity\EmpDirectDebit;
 use OrangeHRM\Entity\Employee;
-use OrangeHRM\Entity\EmployeeSalary;
 
 class PurgeEmployeeDao extends BaseDao
 {
@@ -57,34 +54,5 @@ class PurgeEmployeeDao extends BaseDao
             ->setParameter('empNumber', $empNumber);
 
         return $qb->getQuery()->execute();
-    }
-
-    /**
-     * @param object $entity
-     * @return object
-     * @throws MappingException
-     */
-    public function saveEntity(object $entity): object
-    {
-        $this->persist($entity);
-
-        if ($entity instanceof Employee) {
-            $this->getEntityManager()->clear();
-        }
-
-        return $entity;
-    }
-
-    /**
-     * @param object $entity
-     * @throws MappingException
-     */
-    public function deleteEntity(object $entity): void
-    {
-        $this->remove($entity);
-
-        if ($entity instanceof EmployeeSalary) {
-            $this->getEntityManager()->clear(EmpDirectDebit::class);
-        }
     }
 }

@@ -54,6 +54,7 @@ class DestroyReportToPurgeStrategyTest extends TestCase
     public function testPurge(): void
     {
         $this->destroyReportToPurgeStrategy->purge(1);
+        $this->getEntityManager()->flush();
 
         $empReportTo = $this->getRepository(ReportTo::class);
         $this->assertEmpty($empReportTo->findBy(['subordinate' => 1]));

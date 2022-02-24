@@ -83,6 +83,7 @@ class ReplaceWithValuePurgeStrategyTest extends TestCase
     {
         $purgeEmployee = $this->getRepository(Employee::class)->find(1);
         $this->replaceWithValuePurgeStrategy->purgeRecord($purgeEmployee);
+        $this->getEntityManager()->flush();
 
         $employee = $this->getRepository(Employee::class)->find(1);
         $this->assertEquals('Purge', $employee->getFirstName());

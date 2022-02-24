@@ -30,7 +30,7 @@ class DestroyReportToPurgeStrategy extends PurgeStrategy
         foreach ($matchByValuesArray as $matchByValues) {
             $purgeEntities = $this->getEntityRecords($matchByValues, $this->getEntityClassName());
             foreach ($purgeEntities as $purgeEntity) {
-                $this->getPurgeEmployeeService()->getPurgeEmployeeDao()->deleteEntity($purgeEntity);
+                $this->getEntityManager()->remove($purgeEntity);
             }
         }
     }

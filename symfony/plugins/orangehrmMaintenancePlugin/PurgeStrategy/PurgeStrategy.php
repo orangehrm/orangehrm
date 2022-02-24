@@ -19,11 +19,14 @@
 
 namespace OrangeHRM\Maintenance\PurgeStrategy;
 
+use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Maintenance\Dto\InfoArray;
 use OrangeHRM\Maintenance\Service\PurgeEmployeeService;
 
 abstract class PurgeStrategy
 {
+    use EntityManagerHelperTrait;
+
     protected string $entityClassName;
     protected ?array $parameters;
     protected ?array $entityFieldMap;

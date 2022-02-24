@@ -29,7 +29,7 @@ class DestroyPurgeStrategy extends PurgeStrategy
         $matchByValues = $this->getMatchByValues($employeeNumber);
         $purgeEntities = $this->getEntityRecords($matchByValues, $this->getEntityClassName());
         foreach ($purgeEntities as $purgeEntity) {
-            $this->getPurgeEmployeeService()->getPurgeEmployeeDao()->deleteEntity($purgeEntity);
+            $this->getEntityManager()->remove($purgeEntity);
         }
     }
 }

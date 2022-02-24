@@ -48,3 +48,7 @@ Employee:
 EmpPicture:
   - { emp_number: 1, epic_picture: 'test blob 1', epic_filename: 'profile.jpeg',  epic_type: 'image/jpeg', epic_file_size: '20692', epic_file_width: '200', epic_file_height: '200' }
   - { emp_number: 2, epic_picture: 'test blob 2', epic_filename: 'profile2.jpeg',  epic_type: 'image/jpeg', epic_file_size: '20692', epic_file_width: '200', epic_file_height: '200' }
+
+EmpUsTaxExemption:
+  - { emp_number: 1, federalStatus: 'Single', federalExemptions: 2, state: 'AK', stateStatus: 'Single', stateExemptions: 1, unemploymentState: 'AK', workState: 'AK' }
+  - { emp_number: 2, federalStatus: 'Married', federalExemptions: 2, state: 'DC', stateStatus: 'Married', stateExemptions: 1, unemploymentState: 'DC', workState: 'DC' }

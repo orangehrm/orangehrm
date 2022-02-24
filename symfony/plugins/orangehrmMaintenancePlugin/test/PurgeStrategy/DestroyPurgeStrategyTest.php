@@ -53,6 +53,7 @@ class DestroyPurgeStrategyTest extends TestCase
     public function testPurge(): void
     {
         $this->destroyPurgeStrategy->purge(1);
+        $this->getEntityManager()->flush();
 
         $empPictures = $this->getRepository(EmpPicture::class)->findBy(['employee' => 1]);
         $this->assertEmpty($empPictures);

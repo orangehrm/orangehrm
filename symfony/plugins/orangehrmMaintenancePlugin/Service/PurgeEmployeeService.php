@@ -67,6 +67,7 @@ class PurgeEmployeeService
                     $purgeStrategy->purge($empNumber);
                 }
             }
+            $this->getEntityManager()->flush();
             $this->commitTransaction();
         } catch (Exception $exception) {
             $this->rollBackTransaction();
