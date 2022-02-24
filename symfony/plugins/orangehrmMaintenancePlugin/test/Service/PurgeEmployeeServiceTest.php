@@ -49,10 +49,10 @@ use OrangeHRM\Entity\TimesheetItem;
 use OrangeHRM\Entity\User;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Maintenance\Dao\PurgeEmployeeDao;
-use OrangeHRM\Maintenance\PurgeStrategy\PurgeStrategy;
+use OrangeHRM\Maintenance\PurgeStrategy\DestroyPurgeStrategy;
+use OrangeHRM\Maintenance\PurgeStrategy\ReplaceWithValuePurgeStrategy;
 use OrangeHRM\Maintenance\Service\PurgeEmployeeService;
 use OrangeHRM\ORM\Exception\TransactionException;
-use OrangeHRM\Pim\Service\EmployeeService;
 use OrangeHRM\Tests\Util\KernelTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 
@@ -70,7 +70,6 @@ class PurgeEmployeeServiceTest extends KernelTestCase
     protected function setUp(): void
     {
         $this->purgeEmployeeService = new PurgeEmployeeService();
-        $this->employeeService = new EmployeeService();
         $this->fixture = Config::get(
                 Config::PLUGINS_DIR
             ) . '/orangehrmMaintenancePlugin/test/fixtures/PurgeEmployeeService.yml';
@@ -92,7 +91,30 @@ class PurgeEmployeeServiceTest extends KernelTestCase
     public function testGetPurgeableEntities(): void
     {
         $purgeableEntities = $this->purgeEmployeeService->getPurgeableEntities('gdpr_purge_employee_strategy');
-        $this->assertIsArray($purgeableEntities);
+
+        $this->assertCount(22, $purgeableEntities);
+        $this->assertArrayHasKey("Employee", $purgeableEntities);
+        $this->assertArrayHasKey("EmpPicture", $purgeableEntities);
+        $this->assertArrayHasKey("EmployeeAttachment", $purgeableEntities);
+        $this->assertArrayHasKey("EmpEmergencyContact", $purgeableEntities);
+        $this->assertArrayHasKey("EmpDependent", $purgeableEntities);
+        $this->assertArrayHasKey("EmployeeImmigrationRecord", $purgeableEntities);
+        $this->assertArrayHasKey("EmpWorkExperience", $purgeableEntities);
+        $this->assertArrayHasKey("EmployeeEducation", $purgeableEntities);
+        $this->assertArrayHasKey("EmployeeSkill", $purgeableEntities);
+        $this->assertArrayHasKey("EmployeeLanguage", $purgeableEntities);
+        $this->assertArrayHasKey("EmployeeMembership", $purgeableEntities);
+        $this->assertArrayHasKey("EmpUsTaxExemption", $purgeableEntities);
+        $this->assertArrayHasKey("EmployeeLicense", $purgeableEntities);
+        $this->assertArrayHasKey("EmployeeSalary", $purgeableEntities);
+        $this->assertArrayHasKey("EmpLocations", $purgeableEntities);
+        $this->assertArrayHasKey("EmpContract", $purgeableEntities);
+        $this->assertArrayHasKey("User", $purgeableEntities);
+        $this->assertArrayHasKey("ReportTo", $purgeableEntities);
+        $this->assertArrayHasKey("LeaveRequestComment", $purgeableEntities);
+        $this->assertArrayHasKey("LeaveComment", $purgeableEntities);
+        $this->assertArrayHasKey("AttendanceRecord", $purgeableEntities);
+        $this->assertArrayHasKey("TimesheetItem", $purgeableEntities);
     }
 
     public function testGetPurgeStrategy(): void
@@ -115,17 +137,44 @@ class PurgeEmployeeServiceTest extends KernelTestCase
             $strategy,
             $strategyInfoArray
         );
-
-        $this->assertInstanceOf(PurgeStrategy::class, $purgeStrategy);
+        $this->assertInstanceOf(ReplaceWithValuePurgeStrategy::class, $purgeStrategy);
 
         $matchByValues = $purgeStrategy->getMatchByValues(1);
-        $this->assertCount(1, $purgeStrategy->getMatchByValues(1));
-        $this->assertEquals('empNumber', key($matchByValues));
+        $expected = ['empNumber' => 1];
+        $this->assertEquals($expected, $matchByValues);
 
         $parameters = $purgeStrategy->getParameters();
-        $this->assertCount(3, $parameters);
-        $this->assertEquals('firstName', $parameters[0]['field']);
-        $this->assertEquals('FormatWithEmptyString', $parameters[2]['class']);
+        $expected = [
+            ['field' => 'firstName', 'class' => 'FormatWithPurgeString'],
+            ['field' => 'lastName', 'class' => 'FormatWithPurgeString'],
+            ['field' => 'middleName', 'class' => 'FormatWithEmptyString'],
+        ];
+        $this->assertEquals($expected, $parameters);
+    }
+
+    public function testGetPurgeStrategy2(): void
+    {
+        $purgeableEntityClassName = 'EmpPicture';
+        $strategy = 'Destroy';
+        $strategyInfoArray = [
+            'match_by' => [
+                ['match' => 'employee']
+            ]
+        ];
+
+        $purgeStrategy = $this->purgeEmployeeService->getPurgeStrategy(
+            $purgeableEntityClassName,
+            $strategy,
+            $strategyInfoArray
+        );
+        $this->assertInstanceOf(DestroyPurgeStrategy::class, $purgeStrategy);
+
+        $matchByValues = $purgeStrategy->getMatchByValues(1);
+        $expected = ['employee' => 1];
+        $this->assertEquals($expected, $matchByValues);
+
+        $parameters = $purgeStrategy->getParameters();
+        $this->assertNull($parameters);
     }
 
     public function testPurgeEmployeeData(): void
@@ -282,7 +331,7 @@ class PurgeEmployeeServiceTest extends KernelTestCase
 
         $purgeEmployeeServiceMock->expects($this->once())
             ->method('getPurgeableEntities')
-            ->willReturnCallback(function() {
+            ->willReturnCallback(function () {
                 throw new Exception();
             });
 

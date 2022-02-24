@@ -33,7 +33,7 @@ class PurgeEmployeeService
     private const GDPR_PURGE_EMPLOYEE = 'gdpr_purge_employee_strategy';
 
     private ?PurgeEmployeeDao $employeePurgeDao = null;
-    private array $purgeableEntities;
+    private ?array $purgeableEntities = null;
 
     /**
      * @return PurgeEmployeeDao
@@ -78,7 +78,7 @@ class PurgeEmployeeService
      */
     public function getPurgeableEntities(string $fileName): array
     {
-        if (!isset($this->purgeableEntities)) {
+        if (is_null($this->purgeableEntities)) {
             $path = realpath(dirname(__FILE__, 2)) . '/config/' . $fileName . '.yaml';
             $this->purgeableEntities = Yaml::parseFile($path);
         }
