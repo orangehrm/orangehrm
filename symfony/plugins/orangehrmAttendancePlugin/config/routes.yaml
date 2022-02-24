@@ -40,17 +40,16 @@ apiv2_attendance_my_attendance_records:
 apiv2_attendance_employee_attendance_records:
   path: /api/v2/attendance/employees/{empNumber}/records
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
-  methods: [ POST, PUT, DELETE ]
+  methods: [ GET, POST, PUT, DELETE ]
   defaults:
-    _key: empNumber
     _api: OrangeHRM\Attendance\Api\EmployeeAttendanceRecordAPI
 
-apiv2_attendance_employee_attendance_record_breakdown:
-  path: /api/v2/attendance/employee/records
+apiv2_attendance_employee_attendance_record_summary:
+  path: /api/v2/attendance/employees/summary
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
   methods: [ GET ]
   defaults:
-    _api: OrangeHRM\Attendance\Api\EmployeeAttendanceRecordAPI
+    _api: OrangeHRM\Attendance\Api\EmployeeAttendanceSummaryAPI
 
 apiv2_attendance_timezones:
   path: /api/v2/attendance/timezones
@@ -127,7 +126,7 @@ attendance_edit_attendance:
 attendance_summary_report:
   path: /time/displayAttendanceSummaryReportCriteria
   controller: OrangeHRM\Attendance\Controller\AttendanceSummaryReportController::handle
-  methods: [ GET ]  
+  methods: [ GET ]
 
 ##########################
 #        Mock

@@ -20,8 +20,10 @@
 namespace OrangeHRM\Attendance\Dao;
 
 use DateTime;
+use Doctrine\ORM\Query\Expr;
 use Doctrine\ORM\QueryBuilder;
 use OrangeHRM\Attendance\Dto\AttendanceRecordSearchFilterParams;
+use OrangeHRM\Attendance\Dto\EmployeeAttendanceSummarySearchFilterParams;
 use OrangeHRM\Attendance\Exception\AttendanceServiceException;
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Entity\AttendanceRecord;
@@ -753,5 +755,65 @@ class AttendanceDao extends BaseDao
         $q->groupBy('employee.empNumber');
 
         return $q->getQuery()->getOneOrNullResult();
+    }
+
+    /**
+     * @param EmployeeAttendanceSummarySearchFilterParams $employeeAttendanceSummarySearchFilterParams
+     * @return array
+     */
+    public function getEmployeeAttendanceSummaryList(EmployeeAttendanceSummarySearchFilterParams $employeeAttendanceSummarySearchFilterParams): array {
+        return $this->getEmployeeAttendanceSummaryPaginator($employeeAttendanceSummarySearchFilterParams)->getQuery()->execute();
+    }
+
+    /**
+     * @param EmployeeAttendanceSummarySearchFilterParams $employeeAttendanceSummarySearchFilterParams
+     * @return int
+     */
+    public function getEmployeeAttendanceSummaryListCount(
+        EmployeeAttendanceSummarySearchFilterParams $employeeAttendanceSummarySearchFilterParams
+    ): int {
+        $paginator = $this->getEmployeeAttendanceSummaryPaginator($employeeAttendanceSummarySearchFilterParams);
+        return $paginator->count();
+    }
+
+    /**
+     * @param EmployeeAttendanceSummarySearchFilterParams $employeeAttendanceSummarySearchFilterParams
+     * @return Paginator
+     */
+    private function getEmployeeAttendanceSummaryPaginator(EmployeeAttendanceSummarySearchFilterParams $employeeAttendanceSummarySearchFilterParams): Paginator
+    {
+        $q = $this->getEmployeeAttendanceSummaryQueryBuilderWrapper($employeeAttendanceSummarySearchFilterParams)->getQueryBuilder();
+        $q->select(
+            'CONCAT(employee.firstName, \' \', employee.lastName) AS fullName',
+            'IDENTITY(employee.employeeTerminationRecord) AS terminationId',
+            'employee.empNumber',
+            "SUM(TIME_DIFF(COALESCE(attendanceRecord.punchOutUtcTime, 0), COALESCE(attendanceRecord.punchInUtcTime, 0),'second')) AS total"
+        );
+        $q->groupBy('employee.empNumber');
+        $q->addOrderBy('total', ListSorter::DESCENDING);
+        return $this->getPaginator($q);
+    }
+
+    /**
+     * @param EmployeeAttendanceSummarySearchFilterParams $employeeAttendanceSummarySearchFilterParams
+     * @return QueryBuilderWrapper
+     */
+    private function getEmployeeAttendanceSummaryQueryBuilderWrapper(EmployeeAttendanceSummarySearchFilterParams $employeeAttendanceSummarySearchFilterParams): QueryBuilderWrapper
+    {
+        $q = $this->createQueryBuilder(Employee::class, 'employee');
+        $q->leftJoin('employee.attendanceRecords', 'attendanceRecord', Expr\Join::WITH, $q->expr()->andX(
+            $q->expr()->gte('attendanceRecord.punchInUserTime', ':fromDate'),
+            $q->expr()->lte('attendanceRecord.punchInUserTime', ':toDate')
+        ));
+        $q->setParameter('fromDate', $employeeAttendanceSummarySearchFilterParams->getFromDate());
+        $q->setParameter('toDate', $employeeAttendanceSummarySearchFilterParams->getToDate());
+
+        if (!is_null($employeeAttendanceSummarySearchFilterParams->getEmployeeNumbers())) {
+            $q->andWhere($q->expr()->in('employee.empNumber', ':empNumbers'))
+                ->setParameter('empNumbers', $employeeAttendanceSummarySearchFilterParams->getEmployeeNumbers());
+        }
+
+        $this->setSortingAndPaginationParams($q, $employeeAttendanceSummarySearchFilterParams);
+        return $this->getQueryBuilderWrapper($q);
     }
 }
