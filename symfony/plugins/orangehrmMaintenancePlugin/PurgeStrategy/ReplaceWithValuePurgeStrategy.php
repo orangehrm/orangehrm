@@ -44,11 +44,11 @@ class ReplaceWithValuePurgeStrategy extends PurgeStrategy
         $replaceFields = $this->getParameters();
         foreach ($replaceFields as $replaceColumnArrayData) {
             $currentField = $replaceColumnArrayData['field'];
-            $getCurrentField = 'get' . ucfirst($currentField);
+            $getCurrentField = $replaceColumnArrayData['getter'] ?? 'get' . ucfirst($currentField);
             $currentFieldValue = $purgeEntity->$getCurrentField();
             $replaceStrategy = $this->getReplaceStrategy($replaceColumnArrayData['class']);
             $replace = $replaceStrategy->getFormattedValue($currentFieldValue);
-            $setCurrentField = 'set' . ucfirst($currentField);
+            $setCurrentField = $replaceColumnArrayData['setter'] ?? 'set' . ucfirst($currentField);
             $purgeEntity->$setCurrentField($replace);
         }
         $this->getPurgeEmployeeService()
