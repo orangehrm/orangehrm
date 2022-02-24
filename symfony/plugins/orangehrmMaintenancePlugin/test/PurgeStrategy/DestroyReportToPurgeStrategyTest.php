@@ -43,8 +43,8 @@ class DestroyReportToPurgeStrategyTest extends TestCase
         ];
         $this->destroyReportToPurgeStrategy = new DestroyReportToPurgeStrategy($entityClassName, $infoArray);
         $this->fixture = Config::get(
-                Config::PLUGINS_DIR
-            ) . '/orangehrmMaintenancePlugin/test/fixtures/DestroyReportToPurgeStrategy.yml';
+            Config::PLUGINS_DIR
+        ) . '/orangehrmMaintenancePlugin/test/fixtures/DestroyReportToPurgeStrategy.yml';
         TestDataService::populate($this->fixture);
     }
 

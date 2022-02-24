@@ -26,6 +26,7 @@ use OrangeHRM\Maintenance\FormatValueStrategy\ValueFormatter;
 class FormatWithPurgeTime implements ValueFormatter
 {
     use DateTimeHelperTrait;
+
     /**
      * @param DateTime|null $entityValue
      * @return DateTime

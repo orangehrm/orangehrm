@@ -42,8 +42,8 @@ class DestroyPurgeStrategyTest extends TestCase
         ];
         $this->destroyPurgeStrategy = new DestroyPurgeStrategy($entityClassName, $infoArray);
         $this->fixture = Config::get(
-                Config::PLUGINS_DIR
-            ) . '/orangehrmMaintenancePlugin/test/fixtures/DestroyPurgeStrategy.yml';
+            Config::PLUGINS_DIR
+        ) . '/orangehrmMaintenancePlugin/test/fixtures/DestroyPurgeStrategy.yml';
         TestDataService::populate($this->fixture);
     }
 

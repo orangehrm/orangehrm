@@ -71,8 +71,8 @@ class PurgeEmployeeServiceTest extends KernelTestCase
     {
         $this->purgeEmployeeService = new PurgeEmployeeService();
         $this->fixture = Config::get(
-                Config::PLUGINS_DIR
-            ) . '/orangehrmMaintenancePlugin/test/fixtures/PurgeEmployeeService.yml';
+            Config::PLUGINS_DIR
+        ) . '/orangehrmMaintenancePlugin/test/fixtures/PurgeEmployeeService.yml';
         TestDataService::populate($this->fixture);
     }
 

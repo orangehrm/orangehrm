@@ -51,8 +51,8 @@ class PurgeStrategyTest extends TestCase
             [$entityClassName, $infoArray]
         );
         $this->fixture = Config::get(
-                Config::PLUGINS_DIR
-            ) . '/orangehrmMaintenancePlugin/test/fixtures/PurgeStrategy.yml';
+            Config::PLUGINS_DIR
+        ) . '/orangehrmMaintenancePlugin/test/fixtures/PurgeStrategy.yml';
         TestDataService::populate($this->fixture);
     }
 
