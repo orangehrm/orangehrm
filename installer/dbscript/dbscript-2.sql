@@ -4418,6 +4418,9 @@ VALUES (1, 0, 1, 0, 0, @apiv2_attendance_configuration_data_group_id, @admin_rol
        (0, 1, 1, 0, 0, @apiv2_attendance_employee_attendance_record_data_group_id, @admin_role_id),
        (0, 1, 1, 0, 0, @apiv2_attendance_employee_attendance_record_data_group_id, @supervisor_role_id);
 
+ALTER TABLE `ohrm_leave` DROP `comments`;
+ALTER TABLE `ohrm_leave_request` DROP `comments`;
+
 -- Maintenance Module
 
 INSERT INTO ohrm_data_group (`name`, `description`, `can_read`, `can_create`, `can_update`, `can_delete`)

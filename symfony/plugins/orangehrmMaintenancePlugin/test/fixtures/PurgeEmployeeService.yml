@@ -215,11 +215,11 @@ LeaveType:
   3: {id: 4, name: 'Annual', deleted: 0}
 
 LeaveRequest:
-  0: {id: 1, leave_type_id: 1, date_applied: '2010-08-30', emp_number: 1, comments: 'employee 1 comment'}
-  1: {id: 2, leave_type_id: 1, date_applied: '2010-08-02', emp_number: 1, comments: 'employee 1 comment'}
-  2: {id: 3, leave_type_id: 2, date_applied: '2010-08-03', emp_number: 3, comments: 'employee 3 comment'}
-  3: {id: 4, leave_type_id: 1, date_applied: '2010-08-04', emp_number: 3, comments: 'employee 3 comment'}
-  4: {id: 5, leave_type_id: 2, date_applied: '2010-08-05', emp_number: 4, comments: 'employee 4 comment'}
+  0: {id: 1, leave_type_id: 1, date_applied: '2010-08-30', emp_number: 1}
+  1: {id: 2, leave_type_id: 1, date_applied: '2010-08-02', emp_number: 1}
+  2: {id: 3, leave_type_id: 2, date_applied: '2010-08-03', emp_number: 3}
+  3: {id: 4, leave_type_id: 1, date_applied: '2010-08-04', emp_number: 3}
+  4: {id: 5, leave_type_id: 2, date_applied: '2010-08-05', emp_number: 4}
 
 LeaveRequestComment:
   0: {id: 1, leave_request_id: 1, created: '2010-08-30 18:55:00', created_by_id: 1,created_by_emp_number: 1, comments: 'employee 1 comment'}

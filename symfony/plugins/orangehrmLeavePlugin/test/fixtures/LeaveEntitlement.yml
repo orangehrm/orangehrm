@@ -41,14 +41,14 @@ LeaveEntitlement:
   - { id: 7, leave_type_id: 9, emp_number: 7, no_of_days: 5, days_used: 0, fromDate: '2014-01-01', toDate: '2014-12-31', creditedDate: '2014-01-01', note: '', entitlement_type: 1, deleted: 0 }
 
 LeaveRequest:
-  - { id: 1, leave_type_id: 1, dateApplied: '2010-08-30', emp_number: 1, comments: 'my comment1' }
-  - { id: 2, leave_type_id: 1, dateApplied: '2010-08-02', emp_number: 1, comments: 'my comment2' }
-  - { id: 3, leave_type_id: 2, dateApplied: '2010-08-03', emp_number: 1, comments: 'my comment3' }
-  - { id: 4, leave_type_id: 8, dateApplied: '2010-08-02', emp_number: 6, comments: 'my comment4' }
-  - { id: 5, leave_type_id: 1, dateApplied: '2013-08-02', emp_number: 7, comments: 'my comment5' }
-  - { id: 6, leave_type_id: 1, dateApplied: '2012-08-02', emp_number: 7, comments: 'my comment6' }
-  - { id: 7, leave_type_id: 1, dateApplied: '2014-01-02', emp_number: 7, comments: 'my comment7' }
-  - { id: 8, leave_type_id: 1, dateApplied: '2013-03-02', emp_number: 7, comments: 'my comment7' }
+  - { id: 1, leave_type_id: 1, dateApplied: '2010-08-30', emp_number: 1 }
+  - { id: 2, leave_type_id: 1, dateApplied: '2010-08-02', emp_number: 1 }
+  - { id: 3, leave_type_id: 2, dateApplied: '2010-08-03', emp_number: 1 }
+  - { id: 4, leave_type_id: 8, dateApplied: '2010-08-02', emp_number: 6 }
+  - { id: 5, leave_type_id: 1, dateApplied: '2013-08-02', emp_number: 7 }
+  - { id: 6, leave_type_id: 1, dateApplied: '2012-08-02', emp_number: 7 }
+  - { id: 7, leave_type_id: 1, dateApplied: '2014-01-02', emp_number: 7 }
+  - { id: 8, leave_type_id: 1, dateApplied: '2013-03-02', emp_number: 7 }
 
 Leave:
   - { id: 1, length_hours: 8, length_days: 1, leave_request_id: 1, leave_type_id: 1, emp_number: 1, date: '2010-09-01', status: 1 }
