@@ -29,6 +29,14 @@ class LangStringHelper
     use EntityManagerHelperTrait;
 
     /**
+     * @return QueryBuilder
+     */
+    protected function createQueryBuilder(): QueryBuilder
+    {
+        return $this->getEntityManager()->getConnection()->createQueryBuilder();
+    }
+
+    /**
      * @param string $moduleName
      * @return int
      * @throws Exception
@@ -44,20 +52,12 @@ class LangStringHelper
     }
 
     /**
-     * @return QueryBuilder
-     */
-    protected function createQueryBuilder(): QueryBuilder
-    {
-        return $this->getEntityManager()->getConnection()->createQueryBuilder();
-    }
-
-    /**
      * @param int $groupId
      * @return LangString[]
      */
     public function getLangStringArray(int $groupId): array
     {
-        // TODO: MOVE TO Seperate file
+        // TODO: Move to seperate yml file
         $langArray[] = new LangString(
             'shift_name', $groupId,
             'Shift Name', null,
@@ -173,7 +173,7 @@ class LangStringHelper
      * @return array
      * @throws Exception
      */
-    private function getLangStringRecord(string $langStringValue,int $groupId): array
+    public function getLangStringRecord(string $langStringValue,int $groupId): array
     {
         $q = $this->createQueryBuilder();
         $q->select('langString.id')
