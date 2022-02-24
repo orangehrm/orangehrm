@@ -318,40 +318,41 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
      */
     public function delete(): EndpointResult
     {
-        $attendanceRecordIds = $this->getRequestParams()->getArray(
-            RequestParams::PARAM_TYPE_BODY,
-            CommonParams::PARAMETER_IDS
-        );
-        $attendanceRecordOwnedEmpNumber = $this->getRequestParams()->getIntOrNull(
-            RequestParams::PARAM_TYPE_ATTRIBUTE,
-            CommonParams::PARAMETER_EMP_NUMBER,
-            $this->getAuthUser()->getEmpNumber()
-        );
-        if (!$this->isAuthUserAllowedToPerformDeleteActions($attendanceRecordOwnedEmpNumber)) {
-            throw $this->getForbiddenException();
+        try {
+            $attendanceRecordIds = $this->getRequestParams()->getArray(
+                RequestParams::PARAM_TYPE_BODY,
+                CommonParams::PARAMETER_IDS
+            );
+            $attendanceRecordOwnedEmpNumber = $this->getRequestParams()->getIntOrNull(
+                RequestParams::PARAM_TYPE_ATTRIBUTE,
+                CommonParams::PARAMETER_EMP_NUMBER,
+                $this->getAuthUser()->getEmpNumber()
+            );
+            if (!$this->isAuthUserAllowedToPerformDeleteActions($attendanceRecordOwnedEmpNumber)) {
+                throw $this->getForbiddenException();
+            }
+            if (empty($attendanceRecordIds)) {
+                throw AttendanceServiceException::deletableAttendanceRecordIdsEmpty();
+            }
+            $userAllowedAttendanceRecords = $this->getAttendanceService()
+                ->getAttendanceDao()
+                ->getAttendanceRecordsByEmpNumberAndIds($attendanceRecordOwnedEmpNumber, $attendanceRecordIds);
+            $userAllowedAttendanceRecordIds = array_map(
+                fn (AttendanceRecord $attendanceRecord) => $attendanceRecord->getId(),
+                $userAllowedAttendanceRecords
+            );
+            if (count($userAllowedAttendanceRecordIds) !== count($attendanceRecordIds)) {
+                throw $this->getForbiddenException();
+            }
+            $this->getAttendanceService()->getAttendanceDao()->deleteAttendanceRecords($attendanceRecordIds);
+            return new EndpointResourceResult(ArrayModel::class, $attendanceRecordIds);
+        } catch (AttendanceServiceException $e) {
+            throw $this->getBadRequestException($e->getMessage());
         }
-        $userAttendanceRecords = $this->getAttendanceService()
-            ->getAttendanceDao()
-            ->getAttendanceRecordIdsByEmpNumber($attendanceRecordOwnedEmpNumber);
-        $userAttendanceRecordIds = [];
-        foreach ($userAttendanceRecords as $userAttendanceRecord) {
-            $userAttendanceRecordIds[] = $userAttendanceRecord['attendanceRecordId'];
-        }
-        /**
-         * Here we check whether the logged user is going to delete the records of himself or record of allowed user
-         * This prevents accidental record deletion of other employees
-         * result of array_diff is not empty means there are ids to delete that do not belong to intended user
-         * @see https://www.php.net/manual/en/function.array-diff.php
-         */
-        if (!empty(array_diff($attendanceRecordIds, $userAttendanceRecordIds))) {
-            $this->throwRecordNotFoundExceptionIfNotExist(null, AttendanceRecord::class);
-        }
-        $this->getAttendanceService()->getAttendanceDao()->deleteAttendanceRecords($attendanceRecordIds);
-        return new EndpointResourceResult(ArrayModel::class, $attendanceRecordIds);
     }
 
     /**
-     * @param  int  $attendanceRecordOwnedEmpNumber
+     * @param int $attendanceRecordOwnedEmpNumber
      * @return bool
      */
     private function isAuthUserAllowedToPerformDeleteActions(int $attendanceRecordOwnedEmpNumber): bool
@@ -397,7 +398,6 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
             ),
         );
     }
-
 
     /**
      * @inheritDoc
