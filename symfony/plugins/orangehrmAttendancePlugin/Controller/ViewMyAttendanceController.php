@@ -23,9 +23,12 @@ use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Attendance\Traits\Service\AttendanceServiceTrait;
 
 class ViewMyAttendanceController extends AbstractVueController
 {
+    use AttendanceServiceTrait;
+
     /**
      * @inheritDoc
      */
@@ -34,6 +37,10 @@ class ViewMyAttendanceController extends AbstractVueController
         $component = new Component('view-my-attendance');
         if ($request->query->has('date')) {
             $component->addProp(new Prop('date', Prop::TYPE_STRING, $request->query->get('date')));
+        }
+        //if configuration enabled, editable is true
+        if ($this->getAttendanceService()->canUserModifyAttendanceConfiguration()) {
+            $component->addProp(new Prop('is-editable', Prop::TYPE_BOOLEAN, true));
         }
         $this->setComponent($component);
     }

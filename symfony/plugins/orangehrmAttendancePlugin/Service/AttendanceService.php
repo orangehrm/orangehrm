@@ -22,11 +22,17 @@ namespace OrangeHRM\Attendance\Service;
 
 use OrangeHRM\Attendance\Dao\AttendanceDao;
 use OrangeHRM\Core\Service\AccessFlowStateMachineService;
+use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
+use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\AttendanceRecord;
+use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\WorkflowStateMachine;
 
 class AttendanceService
 {
+    use AuthUserTrait;
+    use UserRoleManagerTrait;
+
     public const ESS_USER = "ESS USER";
     public const SUPERVISOR = "SUPERVISOR";
 
@@ -767,5 +773,33 @@ class AttendanceService
         $workflowStateMachineRecord->setAction($action);
         $workflowStateMachineRecord->setResultingState($resultingState);
         $this->getAccessFlowStateMachineService()->saveWorkflowStateMachineRecord($workflowStateMachineRecord);
+    }
+
+    /**
+     * @param AttendanceRecord $attendanceRecord
+     * @return bool
+     */
+    public function isAuthUserAllowedToPerformTheEditActions(AttendanceRecord $attendanceRecord): bool
+    {
+        $attendanceRecordOwnedEmpNumber = $attendanceRecord->getEmployee()->getEmpNumber();
+        $loggedInUserEmpNumber = $this->getAuthUser()->getEmpNumber();
+        $rolesToInclude = [];
+        if ($attendanceRecordOwnedEmpNumber === $loggedInUserEmpNumber) {
+            $rolesToInclude = ['ESS'];
+        }
+        $allowedWorkflowItems = $this->getUserRoleManager()->getAllowedActions(
+            WorkflowStateMachine::FLOW_ATTENDANCE,
+            $attendanceRecord->getState(),
+            [],
+            $rolesToInclude,
+            [Employee::class => $attendanceRecordOwnedEmpNumber]
+        );
+        $workflowItem = $attendanceRecord->getState() === AttendanceRecord::STATE_PUNCHED_IN ?
+            WorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_IN_TIME :
+            WorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_OUT_TIME;
+        if (!in_array($workflowItem, array_keys($allowedWorkflowItems))) {
+            return false;
+        }
+        return true;
     }
 }
