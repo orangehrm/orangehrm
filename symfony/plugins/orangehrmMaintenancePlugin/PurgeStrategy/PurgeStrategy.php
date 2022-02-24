@@ -78,7 +78,7 @@ abstract class PurgeStrategy
      */
     protected function getEntityRecords(array $matchByValues, string $table): array
     {
-        return $this->getPurgeEmployeeService()->extractDataFromEmpNumber($matchByValues, $table);
+        return $this->getPurgeEmployeeService()->getPurgeEmployeeDao()->extractDataFromEmpNumber($matchByValues, $table);
     }
 
     /**

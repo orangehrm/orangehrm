@@ -99,15 +99,4 @@ class PurgeEmployeeService
         $purgeStrategyClass = 'OrangeHRM\\Maintenance\\PurgeStrategy\\' . $strategy . "PurgeStrategy";
         return new $purgeStrategyClass($purgeableEntityClassName, $strategyInfoArray);
     }
-
-    /**
-     * @param array $matchByValues
-     * @param string $table
-     * @return array
-     * LIKE A WRAPPER FUNCTION REMOVE LATER MAYBE
-     */
-    public function extractDataFromEmpNumber(array $matchByValues, string $table): array
-    {
-        return $this->getPurgeEmployeeDao()->extractDataFromEmpNumber($matchByValues, $table);
-    }
 }
