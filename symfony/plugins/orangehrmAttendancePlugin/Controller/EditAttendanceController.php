@@ -22,6 +22,7 @@ namespace OrangeHRM\Attendance\Controller;
 
 use OrangeHRM\Attendance\Traits\Service\AttendanceServiceTrait;
 use OrangeHRM\Core\Controller\AbstractVueController;
+use OrangeHRM\Core\Controller\Common\DisabledModuleController;
 use OrangeHRM\Core\Controller\Common\NoRecordsFoundController;
 use OrangeHRM\Core\Controller\Exception\RequestForwardableException;
 use OrangeHRM\Core\Vue\Component;
@@ -47,11 +48,11 @@ class EditAttendanceController extends AbstractVueController
             if (!$attendanceRecord instanceof AttendanceRecord) {
                 throw new RequestForwardableException(NoRecordsFoundController::class . '::handle');
             }
-            $component = new Component('edit-attendance');
             //check auth user's permission to update attendance record
-            if ($this->getAttendanceService()->isAuthUserAllowedToPerformTheEditActions($attendanceRecord)) {
-                $component->addProp(new Prop('is-editable', Prop::TYPE_BOOLEAN, true));
+            if (!$this->getAttendanceService()->isAuthUserAllowedToPerformTheEditActions($attendanceRecord)) {
+                throw new RequestForwardableException(DisabledModuleController::class . '::handle');
             }
+            $component = new Component('edit-attendance');
             $component->addProp(new Prop('attendance-id', Prop::TYPE_NUMBER, $attendanceRecordId));
         } else {
             throw new RequestForwardableException(NoRecordsFoundController::class . '::handle');
