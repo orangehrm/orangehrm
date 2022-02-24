@@ -22,6 +22,7 @@ namespace OrangeHRM\Tests\Maintenance\PurgeStrategy;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Entity\EmpPicture;
+use OrangeHRM\Maintenance\Dto\InfoArray;
 use OrangeHRM\Maintenance\PurgeStrategy\DestroyPurgeStrategy;
 use OrangeHRM\Tests\Util\TestCase;
 use OrangeHRM\Tests\Util\TestDataService;
@@ -35,11 +36,13 @@ class DestroyPurgeStrategyTest extends TestCase
     protected function setUp(): void
     {
         $entityClassName = 'EmpPicture';
-        $infoArray = [
+        $strategyInfoArray = [
             'match_by' => [
                 ['match' => 'employee']
             ],
         ];
+        $infoArray = new InfoArray($strategyInfoArray);
+
         $this->destroyPurgeStrategy = new DestroyPurgeStrategy($entityClassName, $infoArray);
         $this->fixture = Config::get(
             Config::PLUGINS_DIR

@@ -49,6 +49,7 @@ use OrangeHRM\Entity\TimesheetItem;
 use OrangeHRM\Entity\User;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Maintenance\Dao\PurgeEmployeeDao;
+use OrangeHRM\Maintenance\Dto\InfoArray;
 use OrangeHRM\Maintenance\PurgeStrategy\DestroyPurgeStrategy;
 use OrangeHRM\Maintenance\PurgeStrategy\ReplaceWithValuePurgeStrategy;
 use OrangeHRM\Maintenance\Service\PurgeEmployeeService;
@@ -131,11 +132,12 @@ class PurgeEmployeeServiceTest extends KernelTestCase
                 ['field' => 'middleName', 'class' => 'FormatWithEmptyString'],
             ]
         ];
+        $infoArray = new InfoArray($strategyInfoArray);
 
         $purgeStrategy = $this->purgeEmployeeService->getPurgeStrategy(
             $purgeableEntityClassName,
             $strategy,
-            $strategyInfoArray
+            $infoArray
         );
         $this->assertInstanceOf(ReplaceWithValuePurgeStrategy::class, $purgeStrategy);
 
@@ -161,11 +163,12 @@ class PurgeEmployeeServiceTest extends KernelTestCase
                 ['match' => 'employee']
             ]
         ];
+        $infoArray = new InfoArray($strategyInfoArray);
 
         $purgeStrategy = $this->purgeEmployeeService->getPurgeStrategy(
             $purgeableEntityClassName,
             $strategy,
-            $strategyInfoArray
+            $infoArray
         );
         $this->assertInstanceOf(DestroyPurgeStrategy::class, $purgeStrategy);
 

@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Maintenance\PurgeStrategy;
 
+use OrangeHRM\Maintenance\Dto\InfoArray;
 use OrangeHRM\Maintenance\Service\PurgeEmployeeService;
 
 abstract class PurgeStrategy
@@ -30,13 +31,13 @@ abstract class PurgeStrategy
 
     /**
      * @param string $entityClassName
-     * @param array $infoArray
+     * @param InfoArray $infoArray
      */
-    public function __construct(string $entityClassName, array $infoArray)
+    public function __construct(string $entityClassName, InfoArray $infoArray)
     {
         $this->entityClassName = $entityClassName;
-        $this->entityFieldMap = $infoArray['match_by'][0] ?? null;
-        $this->parameters = $infoArray['parameters'] ?? null;
+        $this->entityFieldMap = $infoArray->getMatchArray();
+        $this->parameters = $infoArray->getParameterArray();
     }
 
     /**

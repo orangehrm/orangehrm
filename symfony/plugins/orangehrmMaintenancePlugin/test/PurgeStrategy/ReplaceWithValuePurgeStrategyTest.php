@@ -22,6 +22,7 @@ namespace OrangeHRM\Tests\Maintenance\PurgeStrategy;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Entity\Employee;
+use OrangeHRM\Maintenance\Dto\InfoArray;
 use OrangeHRM\Maintenance\FormatValueStrategy\ValueFormatter;
 use OrangeHRM\Maintenance\PurgeStrategy\FormatValue\FormatWithEmptyString;
 use OrangeHRM\Maintenance\PurgeStrategy\FormatValue\FormatWithNull;
@@ -45,7 +46,7 @@ class ReplaceWithValuePurgeStrategyTest extends TestCase
     protected function setUp(): void
     {
         $entityClassName = 'Employee';
-        $infoArray = [
+        $strategyInfoArray = [
             'match_by' => [
                 ['match' => 'empNumber']
             ],
@@ -57,6 +58,8 @@ class ReplaceWithValuePurgeStrategyTest extends TestCase
                 ['field' => 'birthday', 'class' => 'FormatWithNull']
             ]
         ];
+        $infoArray = new InfoArray($strategyInfoArray);
+
         $this->replaceWithValuePurgeStrategy = new ReplaceWithValuePurgeStrategy($entityClassName, $infoArray);
         $this->fixture = Config::get(
             Config::PLUGINS_DIR
@@ -113,7 +116,7 @@ class ReplaceWithValuePurgeStrategyTest extends TestCase
             ReplaceWithValuePurgeStrategy::class,
             'getReplaceStrategy',
             [$strategy],
-            ['Employee', ['match_by' => [], 'parameters' => []]]
+            ['', new InfoArray([])]
         );
     }
 }

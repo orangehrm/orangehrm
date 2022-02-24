@@ -22,6 +22,7 @@ namespace OrangeHRM\Maintenance\Service;
 use Exception;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Maintenance\Dao\PurgeEmployeeDao;
+use OrangeHRM\Maintenance\Dto\InfoArray;
 use OrangeHRM\Maintenance\PurgeStrategy\PurgeStrategy;
 use OrangeHRM\ORM\Exception\TransactionException;
 use Symfony\Component\Yaml\Yaml;
@@ -57,10 +58,11 @@ class PurgeEmployeeService
             $purgeableEntities = $this->getPurgeableEntities(self::GDPR_PURGE_EMPLOYEE);
             foreach ($purgeableEntities as $purgeableEntityClassName => $purgeStrategies) {
                 foreach ($purgeStrategies['PurgeStrategy'] as $strategy => $strategyInfoArray) {
+                    $infoArray = new InfoArray($strategyInfoArray);
                     $purgeStrategy = $this->getPurgeStrategy(
                         $purgeableEntityClassName,
                         $strategy,
-                        $strategyInfoArray
+                        $infoArray
                     );
                     $purgeStrategy->purge($empNumber);
                 }
@@ -88,15 +90,15 @@ class PurgeEmployeeService
     /**
      * @param string $purgeableEntityClassName
      * @param string $strategy
-     * @param array $strategyInfoArray
+     * @param InfoArray $infoArray
      * @return PurgeStrategy
      */
     public function getPurgeStrategy(
         string $purgeableEntityClassName,
         string $strategy,
-        array $strategyInfoArray
+        InfoArray $infoArray
     ): PurgeStrategy {
         $purgeStrategyClass = 'OrangeHRM\\Maintenance\\PurgeStrategy\\' . $strategy . "PurgeStrategy";
-        return new $purgeStrategyClass($purgeableEntityClassName, $strategyInfoArray);
+        return new $purgeStrategyClass($purgeableEntityClassName, $infoArray);
     }
 }

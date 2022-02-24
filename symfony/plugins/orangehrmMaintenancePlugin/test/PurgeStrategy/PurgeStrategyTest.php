@@ -22,6 +22,7 @@ namespace OrangeHRM\Tests\Maintenance\PurgeStrategy;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Entity\Employee;
+use OrangeHRM\Maintenance\Dto\InfoArray;
 use OrangeHRM\Maintenance\PurgeStrategy\PurgeStrategy;
 use OrangeHRM\Maintenance\Service\PurgeEmployeeService;
 use OrangeHRM\Tests\Util\TestCase;
@@ -37,7 +38,7 @@ class PurgeStrategyTest extends TestCase
     protected function setUp(): void
     {
         $entityClassName = 'Employee';
-        $infoArray = [
+        $strategyInfoArray = [
             'match_by' => [
                 ['match' => 'empNumber', 'join' => 'AnotherEntity']
             ],
@@ -46,6 +47,8 @@ class PurgeStrategyTest extends TestCase
                 ['field' => 'lastName', 'class' => 'FormatWithPurgeStringTest']
             ]
         ];
+        $infoArray = new InfoArray($strategyInfoArray);
+
         $this->purgeStrategyMock = $this->getMockForAbstractClass(
             PurgeStrategy::class,
             [$entityClassName, $infoArray]

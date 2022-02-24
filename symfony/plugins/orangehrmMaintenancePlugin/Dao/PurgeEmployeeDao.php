@@ -47,12 +47,12 @@ class PurgeEmployeeDao extends BaseDao
      */
     public function extractDataFromEmpNumber(array $matchByValues, string $table): array
     {
-        $employeeId = reset($matchByValues);
+        $empNumber = reset($matchByValues);
         $field = key($matchByValues);
 
-        $qb = $this->createQueryBuilder('OrangeHRM\\Entity\\' . $table, 't');
-        $qb->andWhere($qb->expr()->eq('t.' . $field, ':employeeId'))
-            ->setParameter('employeeId', $employeeId);
+        $qb = $this->createQueryBuilder('OrangeHRM\\Entity\\' . $table, 'entity');
+        $qb->andWhere($qb->expr()->eq('entity.' . $field, ':empNumber'))
+            ->setParameter('empNumber', $empNumber);
 
         return $qb->getQuery()->execute();
     }

@@ -22,6 +22,7 @@ namespace OrangeHRM\Tests\Maintenance\PurgeStrategy;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Entity\ReportTo;
+use OrangeHRM\Maintenance\Dto\InfoArray;
 use OrangeHRM\Maintenance\PurgeStrategy\DestroyReportToPurgeStrategy;
 use OrangeHRM\Tests\Util\TestCase;
 use OrangeHRM\Tests\Util\TestDataService;
@@ -36,11 +37,13 @@ class DestroyReportToPurgeStrategyTest extends TestCase
     protected function setUp(): void
     {
         $entityClassName = 'ReportTo';
-        $infoArray = [
+        $strategyInfoArray = [
             'match_by' => [
                 ['match' => 'THIS IS A EXCEPTION']
             ]
         ];
+        $infoArray = new InfoArray($strategyInfoArray);
+
         $this->destroyReportToPurgeStrategy = new DestroyReportToPurgeStrategy($entityClassName, $infoArray);
         $this->fixture = Config::get(
             Config::PLUGINS_DIR
