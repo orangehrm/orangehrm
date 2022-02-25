@@ -20,21 +20,21 @@
 
 <template>
   <div class="orangehrm-background-container">
-    <oxd-table-filter filter-title="Locations">
+    <oxd-table-filter :filter-title="$t('admin.locations')">
       <oxd-form @submitValid="filterItems">
         <oxd-form-row>
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item>
-              <oxd-input-field v-model="filters.name" label="Name" />
+              <oxd-input-field v-model="filters.name" :label="$t('general.name')" />
             </oxd-grid-item>
             <oxd-grid-item>
-              <oxd-input-field v-model="filters.city" label="City" />
+              <oxd-input-field v-model="filters.city" :label="$t('general.city')" />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
                 v-model="filters.countryCode"
                 type="select"
-                label="Country"
+                :label="$t('general.country')"
                 :clear="false"
                 :options="countries"
               />
@@ -47,13 +47,13 @@
         <oxd-form-actions>
           <oxd-button
             display-type="ghost"
-            label="Reset"
+            :label="$t('general.reset')"
             @click="onClickReset"
           />
           <oxd-button
             class="orangehrm-left-space"
             display-type="secondary"
-            label="Search"
+            :label="$t('general.search')"
             type="submit"
           />
         </oxd-form-actions>
@@ -67,7 +67,7 @@
         <div>
           <oxd-button
             v-if="$can.create(`locations`)"
-            label="Add"
+            :label="$t('general.add')"
             icon-name="plus"
             display-type="secondary"
             @click="onClickAdd"
@@ -222,37 +222,37 @@ export default {
         {
           name: 'name',
           slot: 'title',
-          title: 'Name',
+          title: this.$t('general.name'),
           style: {flex: 1},
           sortField: 'location.name',
         },
         {
           name: 'city',
-          title: 'City',
+          title: this.$t('general.city'),
           style: {flex: 1},
           sortField: 'location.city',
         },
         {
           name: 'country',
-          title: 'Country',
+          title: this.$t('general.country'),
           style: {flex: 1},
           sortField: 'country.countryName',
         },
         {
           name: 'phone',
-          title: 'Phone',
+          title: this.$t('general.phone'),
           style: {flex: 1},
           sortField: 'location.phone',
         },
         {
           name: 'noOfEmployees',
-          title: 'Number of Employees',
+          title: this.$t('admin.number_of_employees'),
           style: {flex: 1},
           sortField: 'noOfEmployees',
         },
         {
           name: 'actions',
-          title: 'Actions',
+          title: this.$t('leave.actions'),
           slot: 'action',
           style: {flex: 1},
           cellType: 'oxd-table-cell-actions',

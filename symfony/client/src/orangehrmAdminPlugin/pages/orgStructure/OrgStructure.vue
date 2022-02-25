@@ -22,13 +22,13 @@
   <div class="orangehrm-background-container">
     <div class="orangehrm-paper-container">
       <div class="orangehrm-header-container">
-        <oxd-text tag="h6" class="orangehrm-main-title"
-          >Organization Structure</oxd-text
-        >
+        <oxd-text tag="h6" class="orangehrm-main-title">
+          {{ $t('admin.organization_structure') }}
+        </oxd-text>
         <oxd-switch-input
           v-if="!isLoading"
           v-model="editable"
-          option-label="Edit"
+          :option-label="$t('general.edit')"
           label-position="left"
         />
       </div>
@@ -42,12 +42,13 @@
           :class="{
             '--parent': data && data.children != 0,
           }"
-          >{{ data.name }}</oxd-text
-        >
+          >
+          {{ data.name }}
+        </oxd-text>
         <oxd-button
           v-show="editable"
           class="org-structure-add"
-          label="Add"
+          :label="$t('general.add')"
           icon-name="plus"
           display-type="secondary"
           @click="onAddOrglevel(data)"

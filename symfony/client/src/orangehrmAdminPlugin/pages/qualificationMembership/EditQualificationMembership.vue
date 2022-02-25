@@ -21,7 +21,7 @@
 <template>
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
-      <oxd-text tag="h6" class="orangehrm-main-title">Edit Membership</oxd-text>
+      <oxd-text tag="h6" class="orangehrm-main-title">{{ $t('general.edit_membership') }}</oxd-text>
 
       <oxd-divider />
 
@@ -29,7 +29,7 @@
         <oxd-form-row>
           <oxd-input-field
             v-model="membership.name"
-            label="Name"
+            :label="$t('general.name')"
             :rules="rules.name"
             required
           />
@@ -42,7 +42,7 @@
           <oxd-button
             type="button"
             display-type="ghost"
-            label="Cancel"
+            :label="$t('general.cancel')"
             @click="onCancel"
           />
           <submit-button />

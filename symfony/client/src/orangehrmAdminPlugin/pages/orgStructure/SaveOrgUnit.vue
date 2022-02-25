@@ -24,21 +24,21 @@
     @update:show="onCancel"
   >
     <div class="orangehrm-modal-header">
-      <oxd-text type="card-title">Add Organization Unit</oxd-text>
+      <oxd-text type="card-title">{{ $t('admin.add_organization_unit') }}</oxd-text>
     </div>
     <oxd-divider />
     <oxd-form :loading="isLoading" @submitValid="onSave">
       <oxd-form-row>
         <oxd-input-field
           v-model="orgUnit.unitId"
-          label="Unit Id"
+          :label="$t('admin.unit_id')"
           :rules="rules.unitId"
         />
       </oxd-form-row>
       <oxd-form-row>
         <oxd-input-field
           v-model="orgUnit.name"
-          label="Name"
+          :label="$t('general.name')"
           :rules="rules.name"
           required
         />
@@ -47,13 +47,13 @@
         <oxd-input-field
           v-model="orgUnit.description"
           type="textarea"
-          label="Description"
+          :label="$t('general.description')"
           placeholder="Type description here"
           :rules="rules.description"
         />
       </oxd-form-row>
       <oxd-text tag="p" class="level-label">
-        This unit will be added under <b>{{ data?.name }}</b>
+        {{ $t('admin.this_unit_will_be_added_under') }} <b>{{ data?.name }}</b>
       </oxd-text>
       <oxd-divider />
 
@@ -62,7 +62,7 @@
         <oxd-button
           type="button"
           display-type="ghost"
-          label="Cancel"
+          :label="$t('general.cancel')"
           @click="onCancel"
         />
         <submit-button />

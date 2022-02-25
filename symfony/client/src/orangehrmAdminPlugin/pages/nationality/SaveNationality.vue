@@ -22,7 +22,7 @@
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
       <oxd-text tag="h6" class="orangehrm-main-title">
-        Add Nationality
+        {{ $t('admin.add_nationality') }}
       </oxd-text>
 
       <oxd-divider />
@@ -31,7 +31,7 @@
         <oxd-form-row>
           <oxd-input-field
             v-model="nationality.name"
-            label="Name"
+            :label="$t('general.name')"
             :rules="rules.name"
             required
           />
@@ -44,7 +44,7 @@
           <oxd-button
             type="button"
             display-type="ghost"
-            label="Cancel"
+            :label="$t('general.cancel')"
             @click="onCancel"
           />
           <submit-button />

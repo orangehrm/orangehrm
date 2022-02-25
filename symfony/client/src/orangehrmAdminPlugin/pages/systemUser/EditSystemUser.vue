@@ -21,7 +21,7 @@
 <template>
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
-      <oxd-text tag="h6" class="orangehrm-main-title">Edit User</oxd-text>
+      <oxd-text tag="h6" class="orangehrm-main-title">{{ $t('admin.edit_user') }}</oxd-text>
       <oxd-divider />
 
       <oxd-form :loading="isLoading" @submitValid="onSave">
@@ -31,7 +31,7 @@
               <oxd-input-field
                 v-model="user.role"
                 type="select"
-                label="User Role"
+                :label="$t('general.user_role')"
                 :rules="rules.role"
                 :options="userRoles"
                 required
@@ -49,7 +49,7 @@
               <oxd-input-field
                 v-model="user.status"
                 type="select"
-                label="Status"
+                :label="$t('general.status')"
                 :rules="rules.status"
                 :options="userStatuses"
                 required
@@ -59,7 +59,7 @@
             <oxd-grid-item>
               <oxd-input-field
                 v-model="user.username"
-                label="Username"
+                :label="$t('general.username')"
                 :rules="rules.username"
                 required
                 autocomplete="off"
@@ -92,7 +92,7 @@
           <oxd-button
             type="button"
             display-type="ghost"
-            label="Cancel"
+            :label="$t('general.cancel')"
             @click="onCancel"
           />
           <submit-button />

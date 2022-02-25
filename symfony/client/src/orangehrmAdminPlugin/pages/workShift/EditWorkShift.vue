@@ -21,7 +21,7 @@
 <template>
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
-      <oxd-text tag="h6" class="orangehrm-main-title">Edit Work Shift</oxd-text>
+      <oxd-text tag="h6" class="orangehrm-main-title">{{ $t('admin.edit_work_shift') }}</oxd-text>
       <oxd-divider />
 
       <oxd-form :loading="isLoading" @submitValid="onSave">
@@ -30,7 +30,7 @@
             <oxd-grid-item>
               <oxd-input-field
                 v-model="workShift.name"
-                label="Shift Name"
+                :label="$t('admin.shift_name')"
                 :rules="rules.name"
               />
             </oxd-grid-item>
@@ -80,7 +80,7 @@
         <oxd-divider />
         <oxd-form-actions>
           <required-text />
-          <oxd-button display-type="ghost" label="Cancel" @click="onCancel" />
+          <oxd-button display-type="ghost" :label="$t('general.cancel')" @click="onCancel" />
           <submit-button />
         </oxd-form-actions>
       </oxd-form>
