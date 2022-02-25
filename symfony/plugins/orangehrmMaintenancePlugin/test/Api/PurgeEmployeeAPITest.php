@@ -24,15 +24,12 @@ use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory;
 use OrangeHRM\Core\Service\ConfigService;
-use OrangeHRM\Entity\User;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Maintenance\Api\PurgeEmployeeAPI;
 use OrangeHRM\Maintenance\Service\PurgeEmployeeService;
 use OrangeHRM\Pim\Service\EmployeeService;
 use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
 use OrangeHRM\Tests\Util\Integration\TestCaseParams;
-use OrangeHRM\Tests\Util\Mock\MockAuthUser;
-use OrangeHRM\Tests\Util\TestCase;
 
 /**
  * @group Maintenance
