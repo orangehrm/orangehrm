@@ -32,6 +32,7 @@ use OrangeHRM\Pim\Service\EmployeeService;
 use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
 use OrangeHRM\Tests\Util\Integration\TestCaseParams;
 use OrangeHRM\Tests\Util\Mock\MockAuthUser;
+use OrangeHRM\Tests\Util\TestCase;
 
 /**
  * @group Maintenance
@@ -67,24 +68,13 @@ class PurgeEmployeeAPITest extends EndpointIntegrationTestCase
 
     public function testGetValidationRuleForDelete(): void
     {
-        $authUser = $this->getMockBuilder(MockAuthUser::class)
-            ->onlyMethods(['getUserId', 'getEmpNumber'])
-            ->disableOriginalConstructor()
-            ->getMock();
-        $authUser->method('getUserId')
-            ->willReturn(1);
-        $authUser->method('getEmpNumber')
-            ->willReturn(
-                $this->getEntityReference(
-                    User::class,
-                    1
-                )->getEmployee()->getEmpNumber()
-            );
+        $testCaseParams = new TestCaseParams();
+        $testCaseParams->setUserId(1);
         $this->createKernelWithMockServices([
             Services::CONFIG_SERVICE => new ConfigService(),
             Services::USER_SERVICE => new UserService(),
             Services::EMPLOYEE_SERVICE => new EmployeeService(),
-            Services::AUTH_USER => $authUser,
+            Services::AUTH_USER => $this->getMockAuthUser($testCaseParams),
         ]);
         $this->getContainer()->register(Services::USER_ROLE_MANAGER)->setFactory(
             [UserRoleManagerFactory::class, 'getNewUserRoleManager']
