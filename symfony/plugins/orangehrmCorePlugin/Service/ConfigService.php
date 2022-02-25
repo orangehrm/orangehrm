@@ -35,6 +35,8 @@ class ConfigService
 {
     use DateTimeHelperTrait;
 
+    public const FALLBACK_LANGUAGE_CODE = 'en_US';
+
     /**
      * @var ConfigDao|null
      */
@@ -328,11 +330,11 @@ class ConfigService
 
     /**
      * @return string
-     * @throws CoreServiceException
      */
     public function getAdminLocalizationDefaultLanguage(): string
     {
-        return $this->_getConfigValue(self::KEY_ADMIN_LOCALIZATION_DEFAULT_LANGUAGE);
+        $langCode = $this->_getConfigValue(self::KEY_ADMIN_LOCALIZATION_DEFAULT_LANGUAGE);
+        return empty($langCode) ? self::FALLBACK_LANGUAGE_CODE : $langCode;
     }
 
 //    /**

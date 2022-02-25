@@ -259,4 +259,18 @@ final class Services
      * @see \OrangeHRM\Attendance\Service\AttendanceService
      */
     public const ATTENDANCE_SERVICE = 'attendance.attendance_service';
+
+    ///////////////////////////////////////////////////////////////
+    /// I18N plugin services
+    ///////////////////////////////////////////////////////////////
+
+    /**
+     * @see \OrangeHRM\I18N\Service\I18NService
+     */
+    public const I18N_SERVICE = 'i18n.i18n_service';
+
+    /**
+     * @see \OrangeHRM\I18N\Service\I18NHelper
+     */
+    public const I18N_HELPER = 'i18n.i18n_helper';
 }
