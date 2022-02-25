@@ -228,16 +228,16 @@ Entities :
         parameters:
           - {field: "startDate" }
           - {field: "endDate" }
-#
-#  SystemUser:
-#    AccessStrategy:
-#      Basic:
-#        match_by:
-#          - {match: emp_number}
-#        parameters:
-#          - {field: "user_name" }
-#          - {field: "date_entered" }
-#          - {field: "date_modified" }
+
+  User:
+    AccessStrategy:
+      Basic:
+        match_by:
+          - {match: employee}
+        parameters:
+          - {field: "userName" }
+          - {field: "dateEntered" }
+          - {field: "dateModified" }
 #
 #  ReportTo:
 #    AccessStrategy:

@@ -151,3 +151,14 @@ Project:
 
 TimesheetItem:
   0: {timesheet_item_id: 1, timesheet_id: 1, date: '2011-04-12', duration: 7200, comment: 'Good', project_id: 2, employee_id: 1, activity_id: 1}
+
+UserRole:
+  0: { id: 1, name: Admin, display_name: Admin, is_assignable: 1, is_predefined: 1 }
+  1: { id: 2, name: ESS, display_name: ESS, is_assignable: 1, is_predefined: 1 }
+  2: { id: 3, name: Supervisor, display_name: Supervisor, is_assignable: 0, is_predefined: 1 }
+
+User:
+  0: { id: 1, user_role_id: 1, emp_number: 1, user_name: 'samantha', user_password: 'samantha' }
+  1: { id: 2, user_role_id: 3, emp_number: 1, user_name: 'yashika', user_password: 'yashika' }
+  2: { id: 3, user_role_id: 1, emp_number: 3, user_name: 'Renukshan', user_password: 'Renukshan', status: 0 }
+  3: { id: 4, user_role_id: 2, emp_number: 4, user_name: 'Chaturanga', user_password: 'Chaturanga', deleted: 1 }

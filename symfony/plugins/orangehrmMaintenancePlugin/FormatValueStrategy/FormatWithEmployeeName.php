@@ -19,14 +19,14 @@
 
 namespace OrangeHRM\Maintenance\FormatValueStrategy;
 
-use OrangeHRM\Pim\Service\EmployeeService;
+use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
 
 /**
  * Class FormatWithEmployeeName
  */
 class FormatWithEmployeeName implements ValueFormatter
 {
-    private ?EmployeeService $employeeService = null;
+    use EmployeeServiceTrait;
 
     /**
      * @param $entityValue
@@ -34,17 +34,6 @@ class FormatWithEmployeeName implements ValueFormatter
      */
     public function getFormattedValue($entityValue): ?string
     {
-        return $this->getEmployeeService()->getEmployee($entityValue)->getFullName();
-    }
-
-    /**
-     * @return EmployeeService
-     */
-    public function getEmployeeService(): EmployeeService
-    {
-        if (!isset($this->employeeService)) {
-            $this->employeeService = new EmployeeService();
-        }
-        return $this->employeeService;
+        return $this->getEmployeeService()->getEmployeeByEmpNumber($entityValue)->getFullName();
     }
 }

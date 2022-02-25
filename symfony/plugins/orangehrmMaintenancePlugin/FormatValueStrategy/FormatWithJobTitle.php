@@ -21,14 +21,13 @@ namespace OrangeHRM\Maintenance\FormatValueStrategy;
 
 use OrangeHRM\Admin\Dao\JobTitleDao;
 use OrangeHRM\Admin\Service\JobTitleService;
-use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
 
 /**
  * Class FormatWithJobTitle
  */
 class FormatWithJobTitle implements ValueFormatter
 {
-    use EmployeeServiceTrait;
+    private ?JobTitleService $jobTitleService;
 
     /**
      * @return JobTitleService
