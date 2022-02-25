@@ -35,12 +35,12 @@ class LangStringHelper
      */
     public function getModuleId(string $moduleName): int
     {
-        $query = $this->createQueryBuilder();
-        $query->select('module.id')
+        $q = $this->createQueryBuilder();
+        $q->select('module.id')
             ->from('ohrm_i18n_group', 'module')
             ->where('module.name = :group')
             ->setParameter('group', $moduleName);
-        return $query->executeQuery()->fetchOne();
+        return $q->executeQuery()->fetchOne();
     }
 
     /**
@@ -57,7 +57,7 @@ class LangStringHelper
      */
     public function getLangStringArray(int $groupId): array
     {
-        // TODO: MOVE TO Seperate file
+        // TODO: To be loaded using the Yaml ones they are finalised for each plugin
         $langArray[] = new LangString(
             'shift_name', $groupId,
             'Shift Name', null,
@@ -97,19 +97,30 @@ class LangStringHelper
      */
     public function deleteNonCustomLangStrings(int $groupId): void
     {
+        $groupStrings = $this->getLangStringRecords($groupId);
+        $q = $this->createQueryBuilder();
+        $q->delete('ohrm_i18n_translate')
+            ->where('ohrm_i18n_translate.customized != 1')
+            ->andWhere($q->expr()->in('ohrm_i18n_translate.lang_string_id', ':groupIds'))
+            ->setParameter('groupIds', $groupStrings, Connection::PARAM_INT_ARRAY)
+            ->executeQuery();
+        $q2 = $this->createQueryBuilder();
         $deleteStrings = $this->getNonCustomLangStringIds($groupId);
-
-        $query = $this->createQueryBuilder();
-        $query->delete('ohrm_i18n_translate')
-            ->andWhere($query->expr()->in('ohrm_i18n_translate.lang_string_id', ':deleteIds'))
+        $q2->delete('ohrm_i18n_lang_string')
+            ->andWhere($q2->expr()->in('ohrm_i18n_lang_string.id', ':deleteIds'))
             ->setParameter('deleteIds', $deleteStrings, Connection::PARAM_INT_ARRAY)
             ->executeQuery();
+    }
 
-        $query2 = $this->createQueryBuilder();
-        $query2->delete('ohrm_i18n_lang_string')
-            ->andWhere($query2->expr()->in('ohrm_i18n_lang_string.id', ':deleteIds'))
-            ->setParameter('deleteIds', $deleteStrings, Connection::PARAM_INT_ARRAY)
-            ->executeQuery();
+    private function getLangStringRecords(int $groupId)
+    {
+        $q = $this->createQueryBuilder();
+        $q->select('langString.id')
+            ->from('ohrm_i18n_lang_string', 'langString')
+            ->where('langString.group_id = :module')
+            ->setParameter('module', $groupId);
+        $results = $q->executeQuery()->fetchAllAssociative();
+        return array_column($results, 'id');
     }
 
     /**
@@ -119,26 +130,26 @@ class LangStringHelper
      */
     private function getNonCustomLangStringIds(int $groupId): array
     {
-        $query = $this->createQueryBuilder();
-        $query->select('translate.lang_string_id')
+        $q = $this->createQueryBuilder();
+        $q->select('translate.lang_string_id')
             ->from('ohrm_i18n_lang_string', 'langString')
             ->leftJoin('langString', 'ohrm_i18n_translate', 'translate', 'langString.id = translate.lang_string_id')
             ->where('langString.group_id = :module')
             ->andWhere('translate.customized = 1')
             ->setParameter('module', $groupId);
-        $results = $query->executeQuery()->fetchAllAssociative();
-
+        $results = $q->executeQuery()->fetchAllAssociative();
         $customStrings = array_column($results, 'lang_string_id');
-
-        $query2 = $this->createQueryBuilder();
-        $query2->select('langString.id')
+        if ($customStrings == null) {
+            return $this->getLangStringRecords($groupId);
+        }
+        $q2 = $this->createQueryBuilder();
+        $q2->select('langString.id')
             ->from('ohrm_i18n_lang_string', 'langString')
-            ->andWhere($query2->expr()->notIn('langString.id', ':customStrings'))
+            ->andWhere($q2->expr()->notIn('langString.id', ':customStrings'))
             ->andWhere('langString.group_id = :module')
             ->setParameter('customStrings', $customStrings, Connection::PARAM_INT_ARRAY)
             ->setParameter('module', $groupId);
-        $results2 = $query2->executeQuery()->fetchAllAssociative();
-
+        $results2 = $q2->executeQuery()->fetchAllAssociative();
         return array_column($results2, 'id');
     }
 
@@ -153,14 +164,7 @@ class LangStringHelper
         foreach ($langStringArray as $langString) {
             $result = $this->getLangStringRecord($langString->getValue(), $groupId);
             if ($result == null) {
-                $langStringObj = new LangString(
-                    $langString->getUnitId(),
-                    $langString->getGroupId(),
-                    $langString->getValue(),
-                    $langString->getVersion(),
-                    $langString->getNote()
-                );
-                $this->saveLangString($langStringObj);
+                $this->saveLangString($langString);
             } else {
                 $this->updateLangStrings($langString->getUnitId(), array_column($result, 'id'));
             }
@@ -173,7 +177,7 @@ class LangStringHelper
      * @return array
      * @throws Exception
      */
-    private function getLangStringRecord(string $langStringValue,int $groupId): array
+    private function getLangStringRecord(string $langStringValue, int $groupId): array
     {
         $q = $this->createQueryBuilder();
         $q->select('langString.id')
@@ -186,14 +190,14 @@ class LangStringHelper
     }
 
     /**
-     * @param LangString $LangStringObj
+     * @param LangString $LangString
      * @return void
      * @throws Exception
      */
-    private function saveLangString(LangString $LangStringObj): void
+    private function saveLangString(LangString $LangString): void
     {
-        $insertQuery = $this->createQueryBuilder();
-        $insertQuery->insert('ohrm_i18n_lang_string')
+        $q = $this->createQueryBuilder();
+        $q->insert('ohrm_i18n_lang_string')
             ->values([
                 'value' => ':string',
                 'group_id' => ':module',
@@ -201,11 +205,11 @@ class LangStringHelper
                 'version' => ':version',
                 'note' => ':note',
             ])
-            ->setParameter('string', $LangStringObj->getValue())
-            ->setParameter('module', $LangStringObj->getGroupId())
-            ->setParameter('unitId', $LangStringObj->getUnitId())
-            ->setParameter('version', $LangStringObj->getVersion())
-            ->setParameter('note', $LangStringObj->getNote())
+            ->setParameter('string', $LangString->getValue())
+            ->setParameter('module', $LangString->getGroupId())
+            ->setParameter('unitId', $LangString->getUnitId())
+            ->setParameter('version', $LangString->getVersion())
+            ->setParameter('note', $LangString->getNote())
             ->executeQuery();
     }
 
@@ -217,8 +221,8 @@ class LangStringHelper
      */
     private function updateLangStrings(string $unitId, array $id): void
     {
-        $updateQuery = $this->createQueryBuilder();
-        $updateQuery->update('ohrm_i18n_lang_string')
+        $q = $this->createQueryBuilder();
+        $q->update('ohrm_i18n_lang_string')
             ->set('ohrm_i18n_lang_string.unit_id', ':key')
             ->where('ohrm_i18n_lang_string.id = :id')
             ->setParameter('key', $unitId)

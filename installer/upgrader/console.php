@@ -21,12 +21,11 @@ use OrangeHRM\Framework\ServiceContainer;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\ORM\Doctrine;
 use OrangeHRM\Tools\Migrations\Version20220125;
-use OrangeHRM\Tools\Migrations\Version20220221;
 
 require_once realpath(__DIR__ . '/../../symfony/vendor/autoload.php');
 
 ServiceContainer::getContainer()->register(Services::DOCTRINE)
     ->setFactory([Doctrine::class, 'getEntityManager']);
 
-$migration = new Version20220221();
+$migration = new Version20220125();
 $migration->up();
