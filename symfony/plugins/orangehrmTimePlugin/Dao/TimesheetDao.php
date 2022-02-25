@@ -452,6 +452,7 @@ class TimesheetDao extends BaseDao
     ): QueryBuilderWrapper {
         $q = $this->createQueryBuilder(TimesheetItem::class, 'timesheetItem');
         $q->leftJoin('timesheetItem.timesheet', 'timesheet');
+        $q->leftJoin('timesheetItem.projectActivity', 'projectActivity');
         $q->leftJoin('timesheetItem.project', 'project');
         $q->leftJoin('project.customer', 'customer');
         $q->andWhere('timesheetItem.employee = :empNumber');
@@ -492,6 +493,9 @@ class TimesheetDao extends BaseDao
             $q->setParameter('state', EmployeeReportsSearchFilterParams::TIMESHEET_APPROVED_STATE);
         }
         //else: neither fromDate nor toDate is available
+
+        $q->addOrderBy('project.name', ListSorter::ASCENDING);
+        $q->addOrderBy('projectActivity.name', ListSorter::ASCENDING);
 
         return $this->getQueryBuilderWrapper($q);
     }

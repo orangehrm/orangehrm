@@ -29,7 +29,7 @@
         :column-count="colCount"
       >
         <template #pagination>
-          <oxd-text class="orangehrm-horizontal-margin --count" tag="span">
+          <oxd-text class="oxd-text--count" tag="span">
             {{ itemCountText }}
           </oxd-text>
           <oxd-pagination
@@ -37,6 +37,11 @@
             v-model:current="currentPage"
             :length="pages"
           />
+        </template>
+        <template #footer>
+          <oxd-text class="oxd-text--footer" tag="span">
+            <slot name="footer" :data="response"></slot>
+          </oxd-text>
         </template>
       </oxd-report-table>
     </div>
@@ -196,6 +201,7 @@ export default {
       items,
       headers,
       colCount,
+      response,
       isLoading,
       currentPage,
       itemCountText,

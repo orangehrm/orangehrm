@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use OrangeHRM\Entity\Decorator\DecoratorTrait;
 use OrangeHRM\Entity\Decorator\ProjectActivityDecorator;
@@ -63,6 +64,18 @@ class ProjectActivity
      * @ORM\Column(name="name", type="string", length=110)
      */
     private string $name;
+
+    /**
+     * @var TimesheetItem[]
+     *
+     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\TimesheetItem", mappedBy="projectActivity")
+     */
+    private iterable $timesheetItems;
+
+    public function __construct()
+    {
+        $this->timesheetItems = new ArrayCollection();
+    }
 
     /**
      * @return int

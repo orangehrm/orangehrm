@@ -73,7 +73,6 @@ class EmployeeTimesheetItemAPITest extends EndpointIntegrationTestCase
         TestDataService::populate(Config::get(Config::TEST_DIR) . '/phpunit/fixtures/WorkflowStateMachine.yaml', true);
         $this->populateFixtures('EmployeeTimesheetItemAPITest.yaml', null, true);
         $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
-
         $this->registerServices($testCaseParams);
         $this->registerMockDateTimeHelper($testCaseParams);
         $api = $this->getApiEndpointMock(EmployeeTimesheetItemAPI::class, $testCaseParams);

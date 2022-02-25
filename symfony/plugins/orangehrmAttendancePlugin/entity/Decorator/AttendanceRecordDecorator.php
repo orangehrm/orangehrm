@@ -19,6 +19,8 @@
 
 namespace OrangeHRM\Entity\Decorator;
 
+use DateTime;
+use OrangeHRM\Core\Service\DateTimeHelperService;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\AttendanceRecord;
@@ -31,8 +33,13 @@ class AttendanceRecordDecorator
 
     protected AttendanceRecord $attendanceRecord;
 
+    private ?DateTime $punchInUserDateTime = null;
+    private ?DateTime $punchInUTCDateTime = null;
+    private ?DateTime $punchOutUserDateTime = null;
+    private ?DateTime $punchOutUTCDateTime = null;
+
     /**
-     * @param AttendanceRecord $attendanceRecord
+     * @param  AttendanceRecord  $attendanceRecord
      */
     public function __construct(AttendanceRecord $attendanceRecord)
     {
@@ -131,5 +138,90 @@ class AttendanceRecordDecorator
         return $this->getDateTimeHelper()->formatDateTimeToTimeString(
             $this->getAttendanceRecord()->getPunchOutUserTime()
         );
+    }
+
+    /**
+     * @return DateTime|null
+     */
+    public function getPunchInUserDateTime(): ?DateTime
+    {
+        $punchInUserTime = $this->getAttendanceRecord()->getPunchInUserTime();
+        if (is_null($punchInUserTime)) {
+            return null;
+        }
+        if (is_null($this->punchInUserDateTime) && is_object($punchInUserTime)) {
+            $this->punchInUserDateTime = new DateTime(
+                $punchInUserTime->format('Y-m-d H:i:s'),
+                $this->getDateTimeHelper()
+                    ->getTimezoneByTimezoneOffset(
+                        $this->getAttendanceRecord()->getPunchInTimeOffset()
+                    )
+            );
+            $this->getAttendanceRecord()->setPunchInUserTime();
+        }
+        return $this->punchInUserDateTime;
+    }
+
+    /**
+     * @return DateTime|null
+     */
+    public function getPunchInUTCDateTime(): ?DateTime
+    {
+        $punchInUTCTime = $this->getAttendanceRecord()->getPunchInUtcTime();
+        if (is_null($punchInUTCTime)) {
+            return null;
+        }
+        if (is_null($this->punchInUTCDateTime) && is_object($punchInUTCTime)) {
+            $this->punchInUTCDateTime = new DateTime(
+                $punchInUTCTime->format('Y-m-d H:i:s'),
+                $this->getDateTimeHelper()
+                    ->getTimezoneByTimezoneOffset(
+                        DateTimeHelperService::TIMEZONE_UTC
+                    )
+            );
+        }
+        return $this->punchInUTCDateTime;
+    }
+
+    /**
+     * @return DateTime|null
+     */
+    public function getPunchOutUserDateTime(): ?DateTime
+    {
+        $punchOutUserTime = $this->getAttendanceRecord()->getPunchOutUserTime();
+        if (is_null($punchOutUserTime)) {
+            return null;
+        }
+        if (is_null($this->punchOutUserDateTime) && is_object($punchOutUserTime)) {
+            $this->punchOutUserDateTime = new DateTime(
+                $punchOutUserTime->format('Y-m-d H:i:s'),
+                $this->getDateTimeHelper()
+                    ->getTimezoneByTimezoneOffset(
+                        $this->getAttendanceRecord()->getPunchOutTimeOffset()
+                    )
+            );
+        }
+        return $this->punchOutUserDateTime;
+    }
+
+    /**
+     * @return DateTime|null
+     */
+    public function getPunchOutUTCDateTime(): ?DateTime
+    {
+        $punchOutUTCTime = $this->getAttendanceRecord()->getPunchOutUtcTime();
+        if (is_null($punchOutUTCTime)) {
+            return null;
+        }
+        if (is_null($this->punchOutUTCDateTime) && is_object($punchOutUTCTime)) {
+            $this->punchOutUTCDateTime = new DateTime(
+                $punchOutUTCTime->format('Y-m-d H:i:s'),
+                $this->getDateTimeHelper()
+                    ->getTimezoneByTimezoneOffset(
+                        DateTimeHelperService::TIMEZONE_UTC
+                    )
+            );
+        }
+        return $this->punchOutUTCDateTime;
     }
 }

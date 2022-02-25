@@ -1,3 +1,14 @@
+apiv2_maintenance_purge:
+  path: /api/v2/maintenance/purge
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ DELETE ]
+  defaults:
+    _api: OrangeHRM\Maintenance\Api\PurgeEmployeeAPI
+
+##########################
+#        Screens
+##########################
+
 maintenance_module_under_development: # remove this
   path: /maintenance/{screen}
   controller: OrangeHRM\Core\Controller\Common\ModuleUnderDevelopmentController::handle

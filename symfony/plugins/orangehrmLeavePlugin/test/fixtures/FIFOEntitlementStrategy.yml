@@ -34,10 +34,10 @@ LeaveEntitlement:
   
   
 LeaveRequest:
-  0: {id: 1, leave_type_id: 1, date_applied: '2010-08-30', emp_number: 1, comments: 'my comment1'}
-  1: {id: 2, leave_type_id: 1, date_applied: '2010-08-02', emp_number: 1, comments: 'my comment2'}
-  2: {id: 3, leave_type_id: 2, date_applied: '2010-08-03', emp_number: 1, comments: 'my comment3'}
-  3: {id: 4, leave_type_id: 8, date_applied: '2010-08-02', emp_number: 6, comments: 'my comment4'}
+  0: {id: 1, leave_type_id: 1, date_applied: '2010-08-30', emp_number: 1}
+  1: {id: 2, leave_type_id: 1, date_applied: '2010-08-02', emp_number: 1}
+  2: {id: 3, leave_type_id: 2, date_applied: '2010-08-03', emp_number: 1}
+  3: {id: 4, leave_type_id: 8, date_applied: '2010-08-02', emp_number: 6}
   
 Leave:
   0: {id: 1, length_hours: 8, length_days: 1, leave_request_id: 1, leave_type_id: 1, emp_number: 1, date: '2010-09-01', status: 1}
@@ -62,5 +62,3 @@ LeavePeriodHistory:
   1: { id: 2, leave_period_start_month: 1, leave_period_start_day: 2, created_at: '2012-01-02' }
   2: { id: 3, leave_period_start_month: 1, leave_period_start_day: 3, created_at: '2012-01-02' }
   3: { id: 4, leave_period_start_month: 1, leave_period_start_day: 1, created_at: '2012-01-01' }  
-    
-  

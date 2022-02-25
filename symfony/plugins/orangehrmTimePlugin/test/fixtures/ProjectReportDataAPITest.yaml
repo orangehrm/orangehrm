@@ -46,7 +46,8 @@ ProjectActivity:
   0: { activity_id: 1, project_id: 1, name: 'Debug', is_deleted: 0 }
   1: { activity_id: 2, project_id: 1, name: 'QA', is_deleted: 0 }
   2: { activity_id: 3, project_id: 1, name: 'TBS', is_deleted: 0 }
-  3: { activity_id: 4, project_id: 2, name: 'SDLC', is_deleted: 0 }
+  3: { activity_id: 4, project_id: 2  , name: 'SDLC', is_deleted: 0 }
+  4: { activity_id: 5, project_id: 1  , name: 'SCRUM', is_deleted: 0 }
 
 Timesheet:
   0: { timesheet_id: 1, state: 'APPROVED', start_date: '2011-04-18',end_date: '2011-04-24', employee_id: 1 }

@@ -307,4 +307,9 @@ class AccessFlowStateMachineService
     {
         return $this->getAccessFlowStateMachineDao()->handleUserRoleRename($oldRoleName, $newRoleName);
     }
+
+    public static function resetWorkflowCache(): void
+    {
+        self::$allowedWorkflowItemCache = [];
+    }
 }

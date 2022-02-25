@@ -23,6 +23,7 @@ namespace OrangeHRM\Time\Dao;
 use Doctrine\ORM\QueryBuilder;
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Entity\Project;
+use OrangeHRM\Entity\ProjectActivity;
 use OrangeHRM\Entity\ProjectAdmin;
 use OrangeHRM\Entity\TimesheetItem;
 use OrangeHRM\ORM\Paginator;
@@ -254,6 +255,7 @@ class ProjectDao extends BaseDao
         $q = $this->getProjectReportQueryBuilderWrapper($projectReportSearchFilterParams)->getQueryBuilder();
         $q->select(
             'projectActivity.id AS activityId,
+            timesheet.id,
             projectActivity.name, 
             projectActivity.deleted AS deleted, 
             SUM(COALESCE(timesheetItem.duration, 0)) AS totalDuration'
@@ -282,17 +284,46 @@ class ProjectDao extends BaseDao
     private function getProjectReportQueryBuilderWrapper(
         ProjectReportSearchFilterParams $projectReportSearchFilterParams
     ): QueryBuilderWrapper {
-        $q = $this->createQueryBuilder(TimesheetItem::class, 'timesheetItem');
-        $q->leftJoin('timesheetItem.projectActivity', 'projectActivity');
+        $q = $this->createQueryBuilder(ProjectActivity::class, 'projectActivity');
+
+        $q->leftJoin('projectActivity.project', 'project');
+        $q->leftJoin('projectActivity.timesheetItems', 'timesheetItem');
         $q->leftJoin('timesheetItem.timesheet', 'timesheet');
+
         $this->setSortingAndPaginationParams($q, $projectReportSearchFilterParams);
 
         if (!is_null($projectReportSearchFilterParams->getProjectId())) {
-            $q->andWhere('timesheetItem.project = :projectId');
+            $q->andWhere('projectActivity.project = :projectId');
             $q->setParameter('projectId', $projectReportSearchFilterParams->getProjectId());
         }
 
-        return $this->getCommonQueryBuilderWrapper($projectReportSearchFilterParams, $q);
+        if (!is_null($projectReportSearchFilterParams->getFromDate())) {
+            $q->andWhere(
+                $q->expr()->orX(
+                    $q->expr()->isNull('timesheet.id'),
+                    $q->expr()->gte('timesheetItem.date', ':fromDate')
+                )
+            )
+                ->setParameter('fromDate', $projectReportSearchFilterParams->getFromDate());
+        }
+
+        if (!is_null($projectReportSearchFilterParams->getToDate())) {
+            $q->andWhere(
+                $q->expr()->orX(
+                    $q->expr()->isNull('timesheet.id'),
+                    $q->expr()->lte('timesheetItem.date', ':toDate')
+                )
+            )
+                ->setParameter('toDate', $projectReportSearchFilterParams->getToDate());
+        }
+
+        if ($projectReportSearchFilterParams->getIncludeApproveTimesheet(
+            ) === ProjectReportSearchFilterParams::INCLUDE_TIMESHEET_ONLY_APPROVED) {
+            $q->andWhere('timesheet.state = :state');
+            $q->setParameter('state', ProjectReportSearchFilterParams::TIMESHEET_STATE_APPROVED);
+        }
+
+        return $this->getQueryBuilderWrapper($q);
     }
 
     /**
@@ -362,6 +393,7 @@ class ProjectDao extends BaseDao
         )->getQueryBuilder();
         $q->select(
             'CONCAT(employee.firstName, \' \', employee.lastName) AS fullName,
+            IDENTITY(employee.employeeTerminationRecord) AS terminationId,
             SUM(COALESCE(timesheetItem.duration, 0)) AS totalDuration'
         );
 

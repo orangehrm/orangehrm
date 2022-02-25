@@ -64,7 +64,7 @@
         v-model:selected="checkedItems"
         :headers="headers"
         :items="items?.data"
-        :selectable="true"
+        :selectable="isEditable"
         :clickable="false"
         :loading="isLoading"
         class="orangehrm-my-attendance"
@@ -85,22 +85,22 @@
 <script>
 import {computed, ref} from 'vue';
 import {required} from '@/core/util/validation/rules';
+import {navigate} from '@/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
 import usePaginate from '@ohrm/core/util/composable/usePaginate';
+import {freshDate, formatDate} from '@ohrm/core/util/helper/datefns';
+import RecordCell from '@/orangehrmAttendancePlugin/components/RecordCell.vue';
 import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmationDialog';
-
-const defaultFilters = {
-  date: null,
-};
 
 const attendanceRecordNormalizer = data => {
   return data.map(item => {
+    const {punchIn, punchOut} = item;
     return {
       id: item.id,
-      punchIn: `${item.records.in.date} ${item.records.in.time} ${item.records.in.timezone}`,
-      punchOut: `${item.records.out.date} ${item.records.out.time} ${item.records.out.timezone}`,
-      punchInNote: item.records.in.note,
-      punchOutNote: item.records.out.note,
+      punchIn: punchIn,
+      punchOut: punchOut,
+      punchInNote: punchIn.note,
+      punchOutNote: punchOut.note,
       duration: item.duration,
     };
   });
@@ -111,11 +111,24 @@ export default {
     'delete-confirmation': DeleteConfirmationDialog,
   },
 
-  setup() {
+  props: {
+    date: {
+      type: String,
+      default: null,
+    },
+    isEditable: {
+      type: Boolean,
+      default: false,
+    },
+  },
+
+  setup(props) {
     const rules = {
       date: [required],
     };
-    const filters = ref({...defaultFilters});
+    const filters = ref({
+      date: props.date ? props.date : formatDate(freshDate(), 'yyyy-MM-dd'),
+    });
 
     const serializedFilters = computed(() => {
       return {
@@ -139,12 +152,11 @@ export default {
     } = usePaginate(http, {
       query: serializedFilters,
       normalizer: attendanceRecordNormalizer,
-      prefetch: false,
     });
 
     const totalDuration = computed(() => {
       const meta = response.value?.meta;
-      return meta ? parseFloat(meta.total).toFixed(2) : '0.00';
+      return meta ? meta.sum.label : '0.00';
     });
 
     return {
@@ -170,6 +182,7 @@ export default {
           name: 'punchIn',
           title: 'Punch In',
           style: {flex: 1},
+          cellRenderer: this.cellRenderer,
         },
         {
           name: 'punchInNote',
@@ -180,6 +193,7 @@ export default {
           name: 'punchOut',
           title: 'Punch Out',
           style: {flex: 1},
+          cellRenderer: this.cellRenderer,
         },
         {
           name: 'punchOutNote',
@@ -192,25 +206,28 @@ export default {
           style: {flex: 1},
         },
         {
-          name: 'actions',
-          slot: 'title',
-          title: 'Actions',
-          style: {flex: 1},
-          cellType: 'oxd-table-cell-actions',
-          cellConfig: {
-            delete: {
-              onClick: this.onClickDelete,
-              component: 'oxd-icon-button',
-              props: {
-                name: 'trash',
+          ...(this.isEditable && {
+            name: 'actions',
+            slot: 'title',
+            title: 'Actions',
+            style: {flex: 1},
+            cellType: 'oxd-table-cell-actions',
+            cellConfig: {
+              delete: {
+                onClick: this.onClickDelete,
+                component: 'oxd-icon-button',
+                props: {
+                  name: 'trash',
+                },
+              },
+              edit: {
+                onClick: this.onClickEdit,
+                props: {
+                  name: 'pencil-fill',
+                },
               },
             },
-            edit: {
-              props: {
-                name: 'pencil-fill',
-              },
-            },
-          },
+          }),
         },
       ],
       checkedItems: [],
@@ -218,6 +235,20 @@ export default {
   },
 
   methods: {
+    cellRenderer(...args) {
+      const cellData = args[1];
+      return {
+        component: RecordCell,
+        props: {
+          date: cellData.userDate,
+          time: cellData.userTime,
+          offset: cellData.offset,
+        },
+      };
+    },
+    onClickEdit(item) {
+      navigate('/attendance/editAttendanceRecord/{id}', {id: item.id});
+    },
     onClickDeleteSelected() {
       const ids = this.checkedItems.map(index => {
         return this.items?.data[index].id;

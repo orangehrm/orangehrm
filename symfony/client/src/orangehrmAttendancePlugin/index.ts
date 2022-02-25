@@ -21,6 +21,8 @@ import PunchOut from './pages/PunchOut.vue';
 import AttendanceConfiguration from './pages/AttendanceConfiguration.vue';
 import ViewEmployeeAttendance from './pages/ViewEmployeeAttendance.vue';
 import ViewMyAttendance from './pages/ViewMyAttendance.vue';
+import EditAttendance from './pages/EditAttendance.vue';
+import AttendanceSummaryReport from './pages/AttendanceSummaryReport.vue';
 
 export default {
   'attendance-punch-in': PunchIn,
@@ -28,4 +30,6 @@ export default {
   'attendance-configuration': AttendanceConfiguration,
   'view-employee-attendance': ViewEmployeeAttendance,
   'view-my-attendance': ViewMyAttendance,
+  'edit-attendance': EditAttendance,
+  'attendance-summary-report': AttendanceSummaryReport,
 };

@@ -330,6 +330,11 @@
           "source": "No Records Found",
           "target": "No Records Found",
           "description": "This message appears when there is no records found"
+        },
+        "date_range": {
+          "source": "Date Range",
+          "target": "Date Range",
+          "description": ""
         }
       }
     },
@@ -961,6 +966,11 @@
           "target": "Punched In Time",
           "description": ""
         },
+        "punched_in_note": {
+          "source": "Punched In Note",
+          "target": "Punched In Note",
+          "description": ""
+        },
         "in": {
           "source": "In",
           "target": "In",
@@ -990,6 +1000,21 @@
           "source": "Total Duration (Hours)",
           "target": "Total Duration (Hours)",
           "description": ""
+        },
+        "edit_attendance_records": {
+          "source": "Edit Attendance Records",
+          "target": "Edit Attendance Records",
+          "description": ""
+        },
+        "overlapping_records_found": {
+          "source": "Overlapping Records Found",
+          "target": "Overlapping Records Found",
+          "description": "To avoid the leave overlaps with other employees, when applying a leave an employee should be able to check the availability of others of same division subunit)"
+        },
+        "attendance_total_summary_report": {
+          "source": "Attendance Total Summary Report",
+          "target": "Attendance Total Summary Report",
+          "description": "Select the “Employee Name” from the drop down list, his/her “Job Title” and “Sub- Unit” he/she falls under and his/her “Employment Status”. The default job title/sub-unit/employment status is “All”. You may also select the date range you want to view the report for."
         }
       }
     }
