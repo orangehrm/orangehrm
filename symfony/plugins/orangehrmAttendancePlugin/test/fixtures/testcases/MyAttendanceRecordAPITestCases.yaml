@@ -61,7 +61,7 @@ Create:
 
   'Add my attendance Record - user can change time - punch in overlap record':
     userId: 3
-    now: ['2021-01-27 15:30']
+    now: [ '2021-01-27 15:30' ]
     services:
       attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
       core.config_service: \OrangeHRM\Core\Service\ConfigService
@@ -371,3 +371,47 @@ Delete:
     exception:
       class: '\OrangeHRM\Core\Api\V2\Exception\BadRequestException'
       message: 'No IDs Found'
+
+GetAll:
+  'Get My attendance records by date':
+    userId: 6
+    services:
+      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+    attributes: [ ]
+    body: [ ]
+    query:
+      date: '2011-04-25'
+    data: [
+      {
+        id: 8,
+        punchIn: {
+          "userDate": "2011-04-25",
+          "userTime": "14:55",
+          "offset": "5.5",
+          "note": "Im punched In"
+        },
+        punchOut: {
+          "userDate": null,
+          "userTime": null,
+          "offset": null,
+          "note": null
+        },
+        duration: "0.00"
+      }
+    ]
+    meta:
+      total: 1
+      sum: {
+        "hours": 0.0,
+        "minutes": 0,
+        "label": "0.00"
+      }
+
+  'Get My attendance records by without date':
+    userId: 6
+    services:
+      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+    attributes: [ ]
+    body: [ ]
+    query: [ ]
+    invalidOnly: [ 'date' ]

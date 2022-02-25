@@ -37,6 +37,24 @@ use OrangeHRM\Tests\Util\TestDataService;
  */
 class EmployeeAttendanceRecordAPITest extends EndpointIntegrationTestCase
 {
+    /**
+     * @dataProvider dataProviderForTestGetAll
+     */
+    public function testGetAll(TestCaseParams $testCaseParams): void
+    {
+        $this->populateFixtures('EmployeeAttendanceRecord.yaml');
+        $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
+        $this->registerServices($testCaseParams);
+        $this->registerMockDateTimeHelper($testCaseParams);
+        $api = $this->getApiEndpointMock(EmployeeAttendanceRecordAPI::class, $testCaseParams);
+        $this->assertValidTestCase($api, 'getAll', $testCaseParams);
+    }
+
+    public function dataProviderForTestGetAll(): array
+    {
+        return $this->getTestCases('EmployeeAttendanceRecordAPITestCases.yaml', 'GetAll');
+    }
+
     public function testGetOne(): void
     {
         $api = new EmployeeAttendanceRecordAPI($this->getRequest());
