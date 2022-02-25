@@ -17,13 +17,15 @@
  * Boston, MA 02110-1301, USA
  */
 
+use OrangeHRM\Maintenance\Service\MaintenanceService;
+
 /**
  * Class AuthenticateVerifyServiceTest
  * @group maintenance
  */
 class MaintenanceServiceTest extends PHPUnit_Framework_TestCase
 {
-    protected $fixture;
+    private $fixture;
     private $maintenanceService;
 
     /**

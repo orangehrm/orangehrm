@@ -1,0 +1,369 @@
+DownloadFormat : 'JsonDownloadFormat'
+Entities :
+  Employee:
+    AccessStrategy:
+      Basic:
+        match_by:
+          - {match: empNumber}
+        parameters:
+          - {field: "firstName"}
+          - {field: "lastName" }
+          - {field: "middleName"}
+          - {field: "employeeId" }
+          - {field: "nickName" , getter: 'getNickName'}
+          - {field: "smoker" ,class: 'FormatWithSmoker'}
+          - {field: "gender" ,class: 'FormatWithGender'}
+          - {field: "maritalStatus" }
+          - {field: "nationCode" ,class: 'FormatWithNationality' , getter : 'getNationality'}
+          - {field: "ssnNumber" , getter: 'getSsnNumber' }
+          - {field: "sinNumber" , getter: 'getSinNumber' }
+          - {field: "otherId" }
+          - {field: "licenses" , getter: 'getLicenses' }
+          - {field: "drivingLicenseNo", getter: 'getDrivingLicenseNo' }
+          - {field: "militaryService" }
+          - {field: "empStatus" , getter: 'getEmpStatus' }
+          - {field: "jobTitle" ,class: 'FormatWithJobTitle' , getter: 'getJobTitle'}
+          - {field: "subDivision" ,class: 'FormatWithWorkStation' , getter: 'getSubDivision'}
+          - {field: "street1" }
+          - {field: "street2" }
+          - {field: "city" }
+          - {field: "country" }
+          - {field: "province" }
+          - {field: "zipcode" , getter: 'getZipcode'}
+          - {field: "homeTelephone" , getter: 'getHomeTelephone'  }
+          - {field: "birthday" , getter: 'getBirthday'  }
+          - {field: "mobile", getter: 'getMobile' }
+          - {field: "workTelephone" , getter: 'getWorkTelephone'  }
+          - {field: "workEmail" , getter: 'getWorkEmail'  }
+          - {field: "otherEmail" , getter: 'getOtherEmail'  }
+          - {field: "custom1" }
+          - {field: "custom2" }
+          - {field: "custom3" }
+          - {field: "custom4" }
+          - {field: "custom5" }
+          - {field: "custom6" }
+          - {field: "custom7" }
+          - {field: "custom8" }
+          - {field: "custom9" }
+          - {field: "custom10" }
+          - {field: "purgedAt" , getter : 'getPurgedAt' }
+          - {field: "jobCategory" ,class: 'FormatWithJobCategory' , getter: 'getJobCategory'}
+          - {field: "joinedDate", getter : 'getJoinedDate'  }
+#
+#  EmpPicture:
+#    PurgeStrategy:
+#      Destroy:
+#        match_by:
+#          - {match: emp_number}
+#    AccessStrategy:
+#      Basic:
+#        match_by:
+#          - {match: emp_number}
+#        parameters:
+#          - {field: "picture" ,class: 'FormatWithBase64Encode'}
+#          - {field: "filename" }
+#          - {field: "file_type" }
+#
+  EmployeeAttachment:
+    AccessStrategy:
+      Basic:
+        match_by:
+          - {match: employee}
+        parameters:
+          - {field: "filename" }
+          - {field: "size" }
+#          - {field: "attachment", class: 'FormatWithBase64Encode'}
+          - {field: "fileType" }
+          - {field: "attachedTime" }
+
+  EmpEmergencyContact:
+    AccessStrategy:
+      Basic:
+        match_by:
+          - {match: employee}
+        parameters:
+          - {field: "name" }
+          - {field: "relationship" }
+          - {field: "homePhone" }
+          - {field: "mobilePhone" }
+          - {field: "officePhone" }
+
+  EmpDependent:
+    AccessStrategy:
+      Basic:
+        match_by:
+          - {match: employee}
+        parameters:
+          - {field: "name" }
+          - {field: "relationshipType" }
+          - {field: "relationship" }
+          - {field: "dateOfBirth" }
+
+  EmployeeImmigrationRecord:
+    AccessStrategy:
+      Basic:
+        match_by:
+          - {match: employee}
+        parameters:
+          - {field: "number" }
+          - {field: "issuedDate" }
+          - {field: "expiryDate" }
+          - {field: "comment" }
+          - {field: "type" ,class: 'FormatWithPassportType'}
+          - {field: "status" }
+          - {field: "reviewDate" }
+          - {field: "countryCode" ,class: 'FormatWithCountryCode'}
+
+  EmpWorkExperience:
+    AccessStrategy:
+      Basic:
+        match_by:
+          - {match: employee}
+        parameters:
+          - {field: "employer" }
+          - {field: "jobTitle" }
+          - {field: "fromDate" }
+          - {field: "toDate" }
+          - {field: "comments" }
+          - {field: "internal" }
+
+  EmployeeEducation:
+    AccessStrategy:
+      Basic:
+        match_by:
+          - {match: employee}
+        parameters:
+          - {field: "education" ,class: 'FormatWithEducation'}
+          - {field: "institute" }
+          - {field: "major" }
+          - {field: "year" }
+          - {field: "score" }
+          - {field: "startDate" }
+          - {field: "endDate" }
+
+  EmployeeSkill:
+    AccessStrategy:
+      Basic:
+        match_by:
+          - {match: employee}
+        parameters:
+          - {field: "skill" ,class: 'FormatWithSkill'}
+          - {field: "yearsOfExp" }
+          - {field: "comments" }
+
+  EmployeeLanguage:
+    AccessStrategy:
+      Basic:
+        match_by:
+          - {match: employee}
+        parameters:
+          - {field: "language" ,class: 'FormatWithLanguage'}
+          - {field: "fluency" ,class: 'FormatWithFluency'}
+          - {field: "competency" ,class: 'FormatWithCompetency'}
+          - {field: "comment" }
+
+  EmployeeMembership:
+    AccessStrategy:
+      Basic:
+        match_by:
+          - {match: employee}
+        parameters:
+          - {field: "membership" ,class: 'FormatWithMembershipId'}
+          - {field: "subscriptionFee" }
+          - {field: "subscriptionPaidBy" }
+          - {field: "subscriptionCurrency" }
+          - {field: "subscriptionCommenceDate" }
+          - {field: "subscriptionRenewalDate" }
+
+  EmpUsTaxExemption:
+    AccessStrategy:
+      Basic:
+        match_by:
+          - {match: employee}
+        parameters:
+          - {field: "federalStatus" }
+          - {field: "federalExemptions" }
+          - {field: "state" }
+          - {field: "stateStatus" }
+          - {field: "stateExemptions" }
+          - {field: "unemploymentState" }
+
+  EmployeeLicense:
+    AccessStrategy:
+      Basic:
+        match_by:
+          - {match: employee}
+        parameters:
+          - {field: "license" ,class: 'FormatWithLicenseId'}
+          - {field: "licenseNo" }
+          - {field: "licenseIssuedDate" }
+          - {field: "licenseExpiryDate" }
+
+  EmployeeSalary:
+    AccessStrategy:
+      Basic:
+        match_by:
+          - {match: employee}
+        parameters:
+          - {field: "payGrade" ,class: 'FormatWithPayGradeId'}
+          - {field: "currencyType" }
+          - {field: "amount" }
+#          - {field: "payPeriod" ,class: 'FormatWithPayPeriodId'}
+          - {field: "salaryName" }
+          - {field: "comment" }
+
+  EmpLocations:
+    AccessStrategy:
+      Basic:
+        match_by:
+          - {match: employee}
+        parameters:
+          - {field: "location" ,class: 'FormatWithLocationId'}
+
+  EmpContract:
+    AccessStrategy:
+      Basic:
+        match_by:
+          - {match: employee}
+        parameters:
+          - {field: "startDate" }
+          - {field: "endDate" }
+
+  User:
+    AccessStrategy:
+      Basic:
+        match_by:
+          - {match: employee}
+        parameters:
+          - {field: "userName" }
+          - {field: "dateEntered" }
+          - {field: "dateModified" }
+#
+#  ReportTo:
+#    AccessStrategy:
+#      ReportTo:
+#        match_by:
+#          - {match: supervisor}
+#        parameters:
+#          - {field: "supervisor" ,class: 'FormatWithEmployeeName'}
+#          - {field: "subordinate" ,class: 'FormatWithEmployeeName'}
+#          - {field: "reportingMethod" ,class: 'FormatWithReportMethod'}
+#
+#  PerformanceReview:
+#    AccessStrategy:
+#      Basic:
+#        match_by:
+#          - {match: employee_number}
+#        parameters:
+#          - {field: "jobTitleCode" ,class: 'FormatWithJobTitle'}
+#          - {field: "workPeriodStart" }
+#          - {field: "workPeriodEnd" }
+#          - {field: "departmentId" }
+#          - {field: "dueDate" }
+#          - {field: "completedDate" }
+#          - {field: "activatedDate" }
+#          - {field: "finalComment" }
+#          - {field: "finalRate" }
+#
+#  ReviewerRating:
+#    AccessStrategy:
+#      Basic:
+#        match_by:
+#          - {match: employee_number, join: performanceReview}
+#        parameters:
+#          - {field: "kpiId" ,class: 'FormatWithKPIId'}
+#          - {field: "rating" }
+#          - {field: "comment" }
+#
+#  Reviewer:
+#    AccessStrategy:
+#      Basic:
+#        match_by:
+#          - {match: t.employee_number, join: review}
+#        parameters:
+#          - {field: "employeeNumber" }
+#          - {field: "completedDate" }
+#          - {field: "comment" }
+#
+#  PerformanceTrackerLog:
+#    AccessStrategy:
+#      Basic:
+#        match_by:
+#          - {match: emp_number, join: PerformanceTrack}
+#        parameters:
+#          - {field: "log" }
+#          - {field: "comment" }
+#          - {field: "achievement" ,class: 'FormatWithAchievement'}
+#          - {field: "added_date" }
+#          - {field: "modified_date" }
+#
+#  LeaveRequestComment:
+#    AccessStrategy:
+#      Basic:
+#        match_by:
+#          - {match: emp_number, join: LeaveRequest}
+#        parameters:
+#          - {field: "created" }
+#          - {field: "created_by_name" }
+#          - {field: "comments" }
+#
+  LeaveRequest:
+    AccessStrategy:
+      Basic:
+        match_by:
+          - {match: employee}
+        parameters:
+          - {field: "leaveType" }
+          - {field: "dateApplied" }
+#          - {field: "comments" }
+#
+#  LeaveComment:
+#    AccessStrategy:
+#      Basic:
+#        match_by:
+#          - {match: emp_number, join: Leave}
+#        parameters:
+#          - {field: "created_by_name" }
+#          - {field: "created" }
+#          - {field: "comments" }
+  Leave:
+    AccessStrategy:
+      Basic:
+        match_by:
+          - {match: employee}
+        parameters:
+          - {field: "date" }
+          - {field: "lengthHours" }
+          - {field: "lengthDays" }
+#          - {field: "comments" }
+          - {field: "startTime" }
+          - {field: "endTime" }
+
+##Time modul
+  AttendanceRecord:
+    AccessStrategy:
+      Basic:
+        match_by:
+          - {match: employee}
+        parameters:
+          - {field: "punchInUtcTime" }
+          - {field: "punchInNote" }
+          - {field: "punchInTimeOffset" }
+          - {field: "punchInUserTime" }
+          - {field: "punchOutUtcTime" }
+          - {field: "punchOutNote" }
+          - {field: "punchOutTimeOffset" }
+          - {field: "punchOutUserTime" }
+          - {field: "state" }
+
+  TimesheetItem:
+    AccessStrategy:
+      Basic:
+        match_by:
+          - {match: employee}
+        parameters:
+#          - {field: "projectId" ,class: 'FormatWithProject' ,getter: 'getId'}
+#          - {field: "activityId" ,class: 'FormatWithActivity'}
+          - {field: "date" }
+          - {field: "duration" }
+          - {field: "comment" }
