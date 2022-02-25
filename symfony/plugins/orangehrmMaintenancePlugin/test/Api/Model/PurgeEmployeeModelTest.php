@@ -17,28 +17,25 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Maintenance\Api\Model;
+namespace OrangeHRM\Tests\Maintenance\Api\Model;
 
-use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
+use OrangeHRM\Maintenance\Api\Model\PurgeEmployeeModel;
+use OrangeHRM\Tests\Util\TestCase;
 
-class PurgeEmployeeModel implements Normalizable
+class PurgeEmployeeModelTest extends TestCase
 {
-    private int $empNumber;
-
-    public function __construct(int $empNumber)
+    public function testToArray(): void
     {
-        $this->empNumber = $empNumber;
-    }
+        $empNumber = 1;
+        $purgeEmployeeModel = new PurgeEmployeeModel($empNumber);
 
-    /**
-     * @inheritDoc
-     */
-    public function toArray(): array
-    {
-        return [
+        $result = $purgeEmployeeModel->toArray();
+        $expected = [
             'purged' => [
-                'empNumber' => $this->empNumber
+                'empNumber' => 1
             ]
         ];
+
+        $this->assertEquals($expected, $result);
     }
 }

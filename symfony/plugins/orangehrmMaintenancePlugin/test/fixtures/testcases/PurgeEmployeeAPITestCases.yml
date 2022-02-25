@@ -1,100 +1,92 @@
 Delete:
   'with no empNumber':
     userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     invalidOnly: [ 'empNumber' ]
 
   'with invalid empNumber':
     userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     body:
       empNumber: -1
     invalidOnly: [ 'empNumber' ]
 
   'with nonexistent empNumber':
     userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     body:
       empNumber: 1000
+    invalidOnly: [ 'empNumber' ]
+
+  'with logged in user empNumber':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    body:
+      empNumber: 1
+    invalidOnly: [ 'empNumber' ]
+
+  'with not terminated empNumber':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    body:
+      empNumber: 3
     exception:
       class: '\OrangeHRM\Core\Api\V2\Exception\BadRequestException'
-      message: 'Employee is not terminated / does not exist'
+      message: 'Employee Cannot Be Purged'
+
+  'with purged empNumber':
+    userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    body:
+      empNumber: 7
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\BadRequestException'
+      message: 'Employee Cannot Be Purged'
 
   'with valid empNumber':
     userId: 1
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     now:
       datetime: '2022-02-21 21:28:00'
     body:
-      empNumber: 1
-    data: {
-      "empNumber": 1,
-      "firstName": "Purge",
-      "lastName": "Purge",
-      "middleName": "",
-      "nickName": "",
-      "smoker": 0,
-      "ethnicRaceCode": null,
-      "birthday": null,
-      "nationality": null,
-      "gender": null,
-      "maritalStatus": null,
-      "ssnNumber": "",
-      "sinNumber": "",
-      "otherId": "",
-      "drivingLicenseNo": "",
-      "drivingLicenseExpiredDate": null,
-      "militaryService": "",
-      "empStatus": null,
-      "jobTitle": null,
-      "jobCategory": null,
-      "subDivision": null,
-      "street1": "",
-      "street2": "",
-      "city": "",
-      "country": "",
-      "province": "",
-      "zipcode": null,
-      "homeTelephone": null,
-      "mobile": null,
-      "workTelephone": null,
-      "workEmail": null,
-      "joinedDate": null,
-      "otherEmail": null,
-      "custom1": null,
-      "custom2": null,
-      "custom3": null,
-      "custom4": null,
-      "custom5": null,
-      "custom6": null,
-      "custom7": null,
-      "custom8": null,
-      "custom9": null,
-      "custom10": null,
-      "empPicture": [ ],
-      "employeeAttachment": [ ],
-      "empEmergencyContact": [ ],
-      "empDependent": [ ],
-      "employeeImmigrationRecord": [ ],
-      "empWorkExperience": [ ],
-      "employeeEducation": [ ],
-      "employeeSkill": [ ],
-      "employeeLanguage": [ ],
-      "employeeMembership": [ ],
-      "empUsTaxExemption": [ ],
-      "employeeLicense": [ ],
-      "employeeSalary": [ ],
-      "empLocations": [ ],
-      "empContract": [ ],
-      "user": [ ],
-      "reportTo": [ ],
-      "leaveRequestComment": {
-        "comment": "Purge"
-      },
-      "leaveComment": {
-        "comment": "Purge"
-      },
-      "attendanceNote": {
-        "punchInNote": "Purge",
-        "punchOutNote": "Purge"
-      },
-      "timesheetItem": {
-        "comment": "Purge"
-      }
-    }
+      empNumber: 2
+    data:
+      purged:
+        empNumber: 2
+    meta: [ ]
+    rels: [ ]

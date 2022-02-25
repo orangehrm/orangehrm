@@ -46,6 +46,36 @@ class PurgeEmployeeAPI extends Endpoint implements CollectionEndpoint
         return $this->purgeEmployeeService;
     }
 
+    /**
+     * @inheritDoc
+     * @throws BadRequestException|TransactionException
+     */
+    public function delete(): EndpointResult
+    {
+        $empNumber = $this->getRequestParams()->getInt(
+            RequestParams::PARAM_TYPE_BODY,
+            CommonParams::PARAMETER_EMP_NUMBER
+        );
+        if ($this->getPurgeEmployeeService()->getPurgeEmployeeDao()->isEmployeePurgeable($empNumber)) {
+            $this->getPurgeEmployeeService()->purgeEmployeeData($empNumber);
+            return new EndpointResourceResult(PurgeEmployeeModel::class, $empNumber);
+        }
+        throw $this->getBadRequestException("Employee Cannot Be Purged");
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getValidationRuleForDelete(): ParamRuleCollection
+    {
+        return new ParamRuleCollection(
+            new ParamRule(
+                CommonParams::PARAMETER_EMP_NUMBER,
+                new Rule(Rules::IN_ACCESSIBLE_EMP_NUMBERS, [false]),
+            )
+        );
+    }
+
     public function getAll(): EndpointResult
     {
         throw $this->getNotImplementedException();
@@ -64,35 +94,5 @@ class PurgeEmployeeAPI extends Endpoint implements CollectionEndpoint
     public function getValidationRuleForCreate(): ParamRuleCollection
     {
         throw $this->getNotImplementedException();
-    }
-
-    /**
-     * @inheritDoc
-     * @throws BadRequestException|TransactionException
-     */
-    public function delete(): EndpointResult
-    {
-        $empNumbers = $this->getRequestParams()->getInt(
-            RequestParams::PARAM_TYPE_BODY,
-            CommonParams::PARAMETER_EMP_NUMBER
-        );
-        $purgeableEmployees = $this->getPurgeEmployeeService()->getPurgeEmployeeDao()->getEmployeePurgingList();
-        foreach ($purgeableEmployees as $purgeableEmployee) {
-            if ($purgeableEmployee->getEmpNumber() === $empNumbers) {
-                $this->getPurgeEmployeeService()->purgeEmployeeData($empNumbers);
-                return new EndpointResourceResult(PurgeEmployeeModel::class, $purgeableEmployee);
-            }
-        }
-        throw $this->getBadRequestException("Employee is not terminated / does not exist");
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getValidationRuleForDelete(): ParamRuleCollection
-    {
-        return new ParamRuleCollection(
-            new ParamRule(CommonParams::PARAMETER_EMP_NUMBER, new Rule(Rules::POSITIVE))
-        );
     }
 }
