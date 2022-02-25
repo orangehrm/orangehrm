@@ -787,7 +787,10 @@ class AttendanceDao extends BaseDao
     {
         $q = $this->getEmployeeAttendanceSummaryQueryBuilderWrapper($employeeAttendanceSummarySearchFilterParams)->getQueryBuilder();
         $q->select(
-            'CONCAT(employee.firstName, \' \', employee.lastName) AS fullName',
+            'employee.lastName AS lastName',
+            'employee.firstName AS firstName',
+            'employee.middleName AS middleName',
+            'employee.employeeId AS employeeId',
             'IDENTITY(employee.employeeTerminationRecord) AS terminationId',
             'employee.empNumber',
             "SUM(TIME_DIFF(COALESCE(attendanceRecord.punchOutUtcTime, 0), COALESCE(attendanceRecord.punchInUtcTime, 0),'second')) AS total"

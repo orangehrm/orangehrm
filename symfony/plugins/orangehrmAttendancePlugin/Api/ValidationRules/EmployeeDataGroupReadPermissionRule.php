@@ -24,17 +24,17 @@ use OrangeHRM\Core\Api\V2\Validator\Rules\AbstractRule;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 
-class EmployeeAccessibleRule extends AbstractRule
+class EmployeeDataGroupReadPermissionRule extends AbstractRule
 {
     use AuthUserTrait;
     use UserRoleManagerTrait;
 
-    private $dataGroupName;
+    private string $dataGroupName;
 
     /**
-     * @param $dataGroupName
+     * @param string $dataGroupName
      */
-    public function __construct($dataGroupName)
+    public function __construct(string $dataGroupName)
     {
         $this->dataGroupName = $dataGroupName;
     }

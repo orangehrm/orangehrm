@@ -21,7 +21,7 @@ namespace OrangeHRM\Attendance\Api;
 
 use DateTime;
 use OrangeHRM\Attendance\Api\Model\EmployeeAttendanceSummaryListModel;
-use OrangeHRM\Attendance\Api\ValidationRules\EmployeeAccessibleRule;
+use OrangeHRM\Attendance\Api\ValidationRules\EmployeeDataGroupReadPermissionRule;
 use OrangeHRM\Attendance\Dto\EmployeeAttendanceSummarySearchFilterParams;
 use OrangeHRM\Attendance\Traits\Service\AttendanceServiceTrait;
 use OrangeHRM\Core\Api\CommonParams;
@@ -106,7 +106,7 @@ class EmployeeAttendanceSummaryAPI extends Endpoint implements CollectionEndpoin
                 new ParamRule(
                     CommonParams::PARAMETER_EMP_NUMBER,
                     new Rule(Rules::POSITIVE),
-                    new Rule(EmployeeAccessibleRule::class, ['apiv2_attendance_employee_attendance_summary']),
+                    new Rule(EmployeeDataGroupReadPermissionRule::class, ['apiv2_attendance_employee_attendance_summary']),
                     new Rule(Rules::IN_ACCESSIBLE_ENTITY_ID, [Employee::class])
                 )
             ),

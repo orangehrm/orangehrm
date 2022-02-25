@@ -24,7 +24,7 @@ use DateTimeZone;
 use Exception;
 use OrangeHRM\Attendance\Api\Model\AttendanceRecordListModel;
 use OrangeHRM\Attendance\Api\Model\AttendanceRecordModel;
-use OrangeHRM\Attendance\Api\ValidationRules\EmployeeAccessibleRule;
+use OrangeHRM\Attendance\Api\ValidationRules\EmployeeDataGroupReadPermissionRule;
 use OrangeHRM\Attendance\Dto\AttendanceRecordSearchFilterParams;
 use OrangeHRM\Attendance\Exception\AttendanceServiceException;
 use OrangeHRM\Attendance\Traits\Service\AttendanceServiceTrait;
@@ -139,7 +139,7 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
                     CommonParams::PARAMETER_EMP_NUMBER,
                     new Rule(Rules::POSITIVE),
                     new Rule(Rules::ENTITY_ID_EXISTS, [Employee::class]),
-                    new Rule(EmployeeAccessibleRule::class, ['apiv2_attendance_employee_attendance_record']),
+                    new Rule(EmployeeDataGroupReadPermissionRule::class, ['apiv2_attendance_employee_attendance_record']),
                     new Rule(Rules::IN_ACCESSIBLE_ENTITY_ID, [Employee::class])
                 )
             ),

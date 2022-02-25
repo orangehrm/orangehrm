@@ -252,7 +252,8 @@ class AttendanceDaoTest extends KernelTestCase
             $employeeAttendanceSummarySearchFilterParams
         );
 
-        $this->assertEquals("Kayla Abbey", $attendanceRecords[0]['fullName']);
+        $this->assertEquals("Kayla", $attendanceRecords[0]['firstName']);
+        $this->assertEquals("Abbey", $attendanceRecords[0]['lastName']);
         $this->assertEquals(1, $attendanceRecords[0]['empNumber']);
         $this->assertNull($attendanceRecords[0]['terminationId']);
         $this->assertEquals(5, $attendanceRecordCount);
@@ -268,7 +269,8 @@ class AttendanceDaoTest extends KernelTestCase
             $employeeAttendanceSummarySearchFilterParams
         );
 
-        $this->assertEquals("Renukshan Saputhanthri", $attendanceRecords[0]['fullName']);
+        $this->assertEquals("Renukshan", $attendanceRecords[0]['firstName']);
+        $this->assertEquals("Saputhanthri", $attendanceRecords[0]['lastName']);
         $this->assertEquals(3, $attendanceRecords[0]['empNumber']);
         $this->assertNull($attendanceRecords[0]['terminationId']);
         $this->assertEquals(1, $attendanceRecordCount);

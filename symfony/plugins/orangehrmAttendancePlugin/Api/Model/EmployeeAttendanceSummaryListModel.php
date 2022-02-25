@@ -46,12 +46,21 @@ class EmployeeAttendanceSummaryListModel implements CollectionNormalizable, Mode
     {
         $result = [];
         foreach ($this->employeeAttendanceSummaryRecords as $employeeAttendanceRecord) {
-            $termination = $employeeAttendanceRecord['terminationId'];
             $result[] = [
                 'empNumber' => $employeeAttendanceRecord['empNumber'],
-                'employeeName' => $termination === null ? $employeeAttendanceRecord['fullName'] : $employeeAttendanceRecord['fullName'] . ' (Past employee)',
-                'totalDuration' => $this->getNumberHelper()
-                    ->numberFormat((float)$employeeAttendanceRecord['total'] / 3600, 2)
+                'lastName' => $employeeAttendanceRecord['lastName'],
+                'firstName' => $employeeAttendanceRecord['firstName'],
+                'middleName' => $employeeAttendanceRecord['middleName'],
+                'employeeId' => $employeeAttendanceRecord['employeeId'],
+                'terminationId' => $employeeAttendanceRecord['terminationId'],
+                'sum' => [
+                    'hours' => floor((float)$employeeAttendanceRecord['total'] / 3600),
+                    'minutes' => ((float)$employeeAttendanceRecord['total'] / 60) % 60,
+                    'label' => $this->getNumberHelper()->numberFormat(
+                        (float)$employeeAttendanceRecord['total'] / 3600,
+                        2
+                    ),
+                ],
             ];
         }
         return $result;
