@@ -19,39 +19,22 @@
 
 namespace OrangeHRM\Maintenance\FormatValueStrategy;
 
-
-
-use OrangeHRM\Admin\Dao\PayGradeDao;
-use OrangeHRM\Admin\Service\PayGradeService;
-use OrangeHRM\Core\Exception\DaoException;
+use OrangeHRM\Core\Traits\ServiceContainerTrait;
+use OrangeHRM\Framework\Services;
 
 /**
  * Class FormatWithPayGradeId
  */
 class FormatWithPayGradeId implements ValueFormatter
 {
-
-    private ?PayGradeService $payGradeService=null;
+    use ServiceContainerTrait;
 
     /**
      * @param $entityValue
      * @return null|string
-     * @throws DaoException
      */
     public function getFormattedValue($entityValue): ?string
     {
-        return $this->getPayGradeService()->getPayGradeById($entityValue->getId())->getName();
-    }
-
-    /**
-     * @return PayGradeService
-     */
-    public function getPayGradeService(): ?PayGradeService
-    {
-        if (is_null($this->payGradeService)) {
-            $this->payGradeService = new PayGradeService();
-            $this->payGradeService->setPayGradeDao(new PayGradeDao());
-        }
-        return $this->payGradeService;
+        return $this->getContainer()->get(Services::PAY_GRADE_SERVICE)->getPayGradeById($entityValue->getId())->getName();
     }
 }

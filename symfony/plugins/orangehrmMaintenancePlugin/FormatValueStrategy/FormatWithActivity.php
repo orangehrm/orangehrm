@@ -19,14 +19,15 @@
 
 namespace OrangeHRM\Maintenance\FormatValueStrategy;
 
-use \OrangeHRM\Time\Service\TimesheetService;
+use OrangeHRM\Core\Traits\ServiceContainerTrait;
+use OrangeHRM\Framework\Services;
 
 /**
  * Class FormatWithActivity
  */
 class FormatWithActivity implements ValueFormatter
 {
-    protected ?TimesheetService $timesheetService = null;
+    use ServiceContainerTrait;
 
     /**
      * @param $entityValue
@@ -34,21 +35,10 @@ class FormatWithActivity implements ValueFormatter
      */
     public function getFormattedValue($entityValue): ?string
     {
-        //TODO [getActivityByActivityId function not implemented]
-        return $this->getTimesheetService()->getActivityByActivityId($entityValue)->getName();
-    }
-
-    /**
-     * @return TimesheetService
-     */
-    public function getTimesheetService():TimesheetService
-    {
-
-        if (is_null($this->timesheetService)) {
-
-            $this->timesheetService = new TimesheetService();
+        $result=$this->getContainer()->get(Services::TIMESHEET_SERVICE)->getActivityByActivityId($entityValue);
+        if (!is_null($result)) {
+            return $result->toArray()[0]['name'];
         }
-
-        return $this->timesheetService;
+        return null;
     }
 }

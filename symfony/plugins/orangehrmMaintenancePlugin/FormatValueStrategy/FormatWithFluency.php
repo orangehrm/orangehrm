@@ -24,19 +24,19 @@ namespace OrangeHRM\Maintenance\FormatValueStrategy;
  */
 class FormatWithFluency implements ValueFormatter
 {
-    const FLUENCY_WRITING = 1;
-    const FLUENCY_WRITING_DISPLAY_STRING = 'Writing';
+    public const FLUENCY_WRITING = 1;
+    public const FLUENCY_WRITING_DISPLAY_STRING = 'Writing';
 
-    const FLUENCY_SPEAKING = 2;
-    const FLUENCY_SPEAKING_DISPLAY_STRING = 'Speaking';
+    public const FLUENCY_SPEAKING = 2;
+    public const FLUENCY_SPEAKING_DISPLAY_STRING = 'Speaking';
 
-    const FLUENCY_READING_DISPLAY_STRING = 'Reading';
+    public const FLUENCY_READING_DISPLAY_STRING = 'Reading';
 
     /**
      * @param $entityValue
      * @return string
      */
-    public function getFormattedValue($entityValue):string
+    public function getFormattedValue($entityValue): string
     {
         switch ($entityValue) {
             case self::FLUENCY_WRITING:

@@ -19,21 +19,21 @@
 
 namespace OrangeHRM\Maintenance\FormatValueStrategy;
 
-
+use OrangeHRM\Admin\Dao\JobTitleDao;
 use OrangeHRM\Admin\Service\JobTitleService;
-use OrangeHRM\Core\Exception\DaoException;
+use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
 
 /**
  * Class FormatWithJobTitle
  */
 class FormatWithJobTitle implements ValueFormatter
 {
-    private ?JobTitleService $jobTitleService = null;
+    use EmployeeServiceTrait;
 
     /**
      * @return JobTitleService
      */
-    public function getJobTitleService():JobTitleService
+    public function getJobTitleService(): JobTitleService
     {
         if (is_null($this->jobTitleService)) {
             $this->jobTitleService = new JobTitleService();
@@ -45,10 +45,10 @@ class FormatWithJobTitle implements ValueFormatter
     /**
      * @param $entityValue
      * @return string|null
-     * @throws DaoException
      */
     public function getFormattedValue($entityValue): ?string
     {
+        //TODO
         return $this->getJobTitleService()->getJobTitleById($entityValue)->getJobTitleName();
     }
 }

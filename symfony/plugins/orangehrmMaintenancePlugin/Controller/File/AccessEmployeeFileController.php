@@ -20,21 +20,33 @@
 namespace OrangeHRM\Maintenance\Controller\File;
 
 use OrangeHRM\Core\Controller\AbstractFileController;
+use OrangeHRM\Core\Traits\Service\TextHelperTrait;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\Http\Response;
+use OrangeHRM\Maintenance\DownloadFormats\JsonDownloadFormat;
 use OrangeHRM\Maintenance\Service\MaintenanceService;
-
 
 class AccessEmployeeFileController extends AbstractFileController
 {
+    use TextHelperTrait;
+
     /**
      * @var MaintenanceService|null
      */
     protected ?MaintenanceService $maintenanceService = null;
+    protected ?JsonDownloadFormat $downloadFormat=null;
 
     /**
      * @return MaintenanceService
      */
+
+    public function getDownloadFormat(): JsonDownloadFormat
+    {
+        if (!$this->downloadFormat instanceof JsonDownloadFormat) {
+            $this->downloadFormat = new JsonDownloadFormat();
+        }
+        return $this->downloadFormat;
+    }
     public function getMaintenanceService(): MaintenanceService
     {
         if (!$this->maintenanceService instanceof MaintenanceService) {
@@ -49,15 +61,15 @@ class AccessEmployeeFileController extends AbstractFileController
      */
     public function handle(Request $request): Response
     {
-        $empNumber = $request->attributes->get('empNo');
+        $empNumber = $request->attributes->get('empNumber');
         $response = $this->getResponse();
 
-        if($empNumber){
+        if ($empNumber) {
             $content = json_encode($this->getMaintenanceService()->accessEmployeeData($empNumber));
             $this->setCommonHeadersToResponse(
-                'employee.json',
+                $this->getDownloadFormat()->getDownloadFileName($empNumber),
                 'application/json',
-                mb_strlen($content),
+                $this->getTextHelper()->strLength($content),
                 $response
             );
             $response->setContent($content);

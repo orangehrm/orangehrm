@@ -19,9 +19,7 @@
 
 namespace OrangeHRM\Maintenance\FormatValueStrategy;
 
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Pim\Service\EmployeeService;
-
 
 /**
  * Class FormatWithEmployeeName
@@ -33,18 +31,16 @@ class FormatWithEmployeeName implements ValueFormatter
     /**
      * @param $entityValue
      * @return null|String
-     * @throws DaoException
      */
     public function getFormattedValue($entityValue): ?string
     {
-
         return $this->getEmployeeService()->getEmployee($entityValue)->getFullName();
     }
 
     /**
      * @return EmployeeService
      */
-    public function getEmployeeService():EmployeeService
+    public function getEmployeeService(): EmployeeService
     {
         if (!isset($this->employeeService)) {
             $this->employeeService = new EmployeeService();

@@ -24,8 +24,8 @@ namespace OrangeHRM\Maintenance\FormatValueStrategy;
  */
 class FormatWithSmoker implements ValueFormatter
 {
-    const SMOKER_ID = 1;
-    const SMOKER_ID_DISPLAY_STRING = 'Smoker';
+    public const SMOKER_ID = 1;
+    public const SMOKER_ID_DISPLAY_STRING = 'Smoker';
 
     /**
      * @param $entityValue

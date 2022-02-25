@@ -24,17 +24,17 @@ namespace OrangeHRM\Maintenance\FormatValueStrategy;
  */
 class FormatWithGender implements ValueFormatter
 {
-    const GENDER_MALE = 1;
-    const GENDER_MALE_DISPLAY_STRING = 'Male';
+    public const GENDER_MALE = 1;
+    public const GENDER_MALE_DISPLAY_STRING = 'Male';
 
-    const GENDER_FEMALE = 2;
-    const GENDER_FEMALE_DISPLAY_STRING = 'Female';
+    public const GENDER_FEMALE = 2;
+    public const GENDER_FEMALE_DISPLAY_STRING = 'Female';
 
     /**
      * @param $entityValue
      * @return null|string
      */
-    public function getFormattedValue($entityValue):?string
+    public function getFormattedValue($entityValue): ?string
     {
         switch ($entityValue) {
             case self::GENDER_MALE:
@@ -44,6 +44,5 @@ class FormatWithGender implements ValueFormatter
             default:
                 return null;
         }
-
     }
 }

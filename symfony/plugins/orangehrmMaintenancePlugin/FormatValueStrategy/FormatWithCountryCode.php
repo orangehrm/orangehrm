@@ -19,41 +19,26 @@
 
 namespace OrangeHRM\Maintenance\FormatValueStrategy;
 
-
-
-use OrangeHRM\Admin\Service\CountryService;
-use OrangeHRM\Core\Exception\DaoException;
+use OrangeHRM\Core\Traits\ServiceContainerTrait;
+use OrangeHRM\Framework\Services;
 
 /**
  * Class FormatWithCountryCode
  */
 class FormatWithCountryCode implements ValueFormatter
 {
-    protected ?CountryService $countryService=null;
+    use ServiceContainerTrait;
 
     /**
      * @param $entityValue
      * @return null|string
-     * @throws DaoException
      */
     public function getFormattedValue($entityValue): ?string
     {
-       $result=$this->getCountryService()->getCountryByCountryCode($entityValue);
-        if($result){
-            return $this->getCountryService()->getCountryByCountryCode($entityValue)->toArray()[0]['name'];
+        $result=$this->getContainer()->get(Services::COUNTRY_SERVICE)->getCountryByCountryCode($entityValue);
+        if (!is_null($result)) {
+            return $result->toArray()[0]['name'];
         }
         return null;
-
-    }
-
-    /**
-     * @return CountryService
-     */
-    public function getCountryService():CountryService
-    {
-        if (is_null($this->countryService)) {
-            $this->countryService = new CountryService();
-        }
-        return $this->countryService;
     }
 }

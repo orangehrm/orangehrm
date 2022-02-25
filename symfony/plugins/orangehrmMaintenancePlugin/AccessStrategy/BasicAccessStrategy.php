@@ -19,18 +19,15 @@
 
 namespace OrangeHRM\Maintenance\AccessStrategy;
 
-use OrangeHRM\Core\Exception\DaoException;
-
 class BasicAccessStrategy extends AccessStrategy
 {
     /**
      * @param int $employeeNumber
      * @return array
      */
-    public function access(int $employeeNumber):array
+    public function access(int $employeeNumber): array
     {
-
-        $entityAccessData = array();
+        $entityAccessData = [];
         $matchByValues = $this->getMatchByValues($employeeNumber);
         $accessEntities = $this->getEntityRecords($matchByValues, $this->getEntityClassName());
 

@@ -18,6 +18,7 @@
  */
 
 namespace OrangeHRM\Maintenance\FormatValueStrategy;
+
 use OrangeHRM\Admin\Service\EducationService;
 use OrangeHRM\Core\Exception\DaoException;
 
@@ -35,15 +36,15 @@ class FormatWithEducation implements ValueFormatter
      */
     public function getFormattedValue($entityValue): ?string
     {
+        // TODO
         return $this->getEducationService()->getEducationById($entityValue->getId())->getName();
     }
 
     /**
      * @return EducationService
      */
-    public function getEducationService():EducationService
+    public function getEducationService(): EducationService
     {
-
         if (!($this->educationService instanceof EducationService)) {
             $this->educationService = new EducationService();
         }

@@ -24,10 +24,10 @@ namespace OrangeHRM\Maintenance\FormatValueStrategy;
  */
 class FormatWithPassportType implements ValueFormatter
 {
-    const PASSPORT = 1;
-    const PASSPORT_DISPLAY_STRING = 'Passport';
+    public const PASSPORT = 1;
+    public const PASSPORT_DISPLAY_STRING = 'Passport';
 
-    const VISA_DISPLAY_STRING = 'Visa';
+    public const VISA_DISPLAY_STRING = 'Visa';
 
     /**
      * @param $entityValue

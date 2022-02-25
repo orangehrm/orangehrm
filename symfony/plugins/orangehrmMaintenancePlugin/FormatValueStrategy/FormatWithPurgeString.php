@@ -24,7 +24,7 @@ namespace OrangeHRM\Maintenance\FormatValueStrategy;
  */
 class FormatWithPurgeString implements ValueFormatter
 {
-    const PURGE = 'Purge';
+    public const PURGE = 'Purge';
 
     /**
      * @param $entityValue
@@ -34,5 +34,4 @@ class FormatWithPurgeString implements ValueFormatter
     {
         return self::PURGE;
     }
-
 }

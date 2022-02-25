@@ -24,22 +24,22 @@ namespace OrangeHRM\Maintenance\FormatValueStrategy;
  */
 class FormatWithCompetency implements ValueFormatter
 {
-    const COMPETENCY_POOR = 1;
-    const COMPETENCY_POOR_DISPLAY_STRING = 'Poor';
+    public const COMPETENCY_POOR = 1;
+    public const COMPETENCY_POOR_DISPLAY_STRING = 'Poor';
 
-    const COMPETENCY_BASIC = 2;
-    const COMPETENCY_BASIC_DISPLAY_STRING = 'Basic';
+    public const COMPETENCY_BASIC = 2;
+    public const COMPETENCY_BASIC_DISPLAY_STRING = 'Basic';
 
-    const COMPETENCY_GOOD = 3;
-    const COMPETENCY_GOOD_DISPLAY_STRING = 'Good';
+    public const COMPETENCY_GOOD = 3;
+    public const COMPETENCY_GOOD_DISPLAY_STRING = 'Good';
 
-    const COMPETENCY_MOTHER_TONGUE_DISPLAY_STRING = 'Mother Tongue';
+    public const COMPETENCY_MOTHER_TONGUE_DISPLAY_STRING = 'Mother Tongue';
 
     /**
      * @param $entityValue
      * @return string
      */
-    public function getFormattedValue($entityValue):string
+    public function getFormattedValue($entityValue): string
     {
         switch ($entityValue) {
             case self::COMPETENCY_POOR:

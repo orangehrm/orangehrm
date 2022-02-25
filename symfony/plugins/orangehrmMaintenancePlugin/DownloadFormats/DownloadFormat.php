@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\Maintenance\DownloadFormats;
 
-
 use OrangeHRM\Pim\Service\EmployeeService;
 
 /**
@@ -31,7 +30,7 @@ abstract class DownloadFormat
      * @param $values
      * @return mixed
      */
-    public abstract function getFormattedString($values);
+    abstract public function getFormattedString($values);
 
     /**
      * @param $empNumber
@@ -40,8 +39,7 @@ abstract class DownloadFormat
     public function getDownloadFileName($empNumber)
     {
         $employee = $this->getEmployeeService()->getEmployeeByEmpNumber($empNumber);
-        //TODO [getFullName function not implemented]
-        $fileName = $employee->getFullName() . '.json';
+        $fileName = $employee->getDecorator()->getFirstAndLastNames(). '.json';
         return $fileName;
     }
 

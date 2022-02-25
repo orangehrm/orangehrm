@@ -23,7 +23,6 @@ use OrangeHRM\Admin\Dao\JobCategoryDao;
 use OrangeHRM\Admin\Service\JobCategoryService;
 use OrangeHRM\Core\Exception\DaoException;
 
-
 /**
  * Class FormatWithJobCategory
  */
@@ -38,13 +37,14 @@ class FormatWithJobCategory implements ValueFormatter
      */
     public function getFormattedValue($entityValue): ?string
     {
+        //TODO
         return $this->getJobCategoryService()->getJobCategoryById($entityValue)->getName();
     }
 
     /**
      * @return JobCategoryService|null
      */
-    public function getJobCategoryService():JobCategoryService
+    public function getJobCategoryService(): JobCategoryService
     {
         if (is_null($this->jobCatService)) {
             $this->jobCatService = new JobCategoryService();

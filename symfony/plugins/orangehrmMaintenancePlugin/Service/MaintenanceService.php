@@ -20,9 +20,6 @@
 
 namespace OrangeHRM\Maintenance\Service;
 
-
-use Doctrine\ORM\EntityManager;
-use Doctrine\Persistence\ManagerRegistry;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Maintenance\AccessStrategy\AccessStrategy;
 use OrangeHRM\Maintenance\Dao\MaintenanceDao;
@@ -37,14 +34,13 @@ use Symfony\Component\Yaml\Yaml;
 class MaintenanceService
 {
     private ?MaintenanceDao $maintenanceDao=null;
-    const EMPLOYEE_GDPR = 'gdpr_access_employee_strategy';
+    public const EMPLOYEE_GDPR = 'gdpr_access_employee_strategy';
     private ?array $purgeableEntities = null;
 
     public function getPurgeableEntities($fileName)
     {   //TODO
 
         if (!isset($this->purgeableEntities)) {
-
             $this->purgeableEntities = Yaml::parse(file_get_contents(realpath(dirname(__FILE__) . '/../config/' . $fileName . '.yml')));
         }
 
@@ -53,9 +49,8 @@ class MaintenanceService
     }
 
 
-    public function getAccessStrategy($accessibleEntityClassName, $strategy, $strategyInfoArray):AccessStrategy
+    public function getAccessStrategy($accessibleEntityClassName, $strategy, $strategyInfoArray): AccessStrategy
     {
-
         $accessStrategy = 'OrangeHRM\Maintenance\AccessStrategy'."\\".$strategy . "AccessStrategy";
         return new $accessStrategy($accessibleEntityClassName, $strategyInfoArray);
     }
@@ -65,17 +60,16 @@ class MaintenanceService
      * @throws TransactionException
      * @throws \Doctrine\DBAL\Exception
      */
-    public function accessEmployeeData($empNumber):array{
+    public function accessEmployeeData($empNumber): array
+    {
         $connection=Doctrine::getEntityManager()->getConnection();
         try {
             $connection->beginTransaction();
             $accessibleEntities = $this->getPurgeableEntities(self::EMPLOYEE_GDPR);
-            $entityAccessData = array();
+            $entityAccessData = [];
 
             foreach ($accessibleEntities as $accessibleEntityClassName => $accessStrategies) {
-
                 if (array_key_exists("AccessStrategy", $accessStrategies)) {
-
                     foreach ($accessStrategies['AccessStrategy'] as $strategy => $strategyInfoArray) {
                         $strategy = $this->getAccessStrategy($accessibleEntityClassName, $strategy, $strategyInfoArray);
                         $data = $strategy->access($empNumber);
@@ -100,7 +94,7 @@ class MaintenanceService
     /**
      * @return maintenanceDao
      */
-    public function getMaintenanceDao():MaintenanceDao
+    public function getMaintenanceDao(): MaintenanceDao
     {
         if (!isset($this->maintenanceDao)) {
             $this->maintenanceDao = new MaintenanceDao();
@@ -112,7 +106,7 @@ class MaintenanceService
      * @return array
      * @throws DaoException
      */
-    public function getPurgeEmployeeList():array
+    public function getPurgeEmployeeList(): array
     {
         return $this->getMaintenanceDao()->getEmployeePurgingList();
     }
@@ -123,7 +117,7 @@ class MaintenanceService
      * @return mixed
      * @throws DaoException
      */
-    public function extractDataFromEmpNumber($matchByValues, $table):array
+    public function extractDataFromEmpNumber($matchByValues, $table): array
     {
         return $this->getMaintenanceDao()->extractDataFromEmpNumber($matchByValues, $table);
     }
@@ -133,7 +127,7 @@ class MaintenanceService
      * @return bool
      * @throws DaoException
      */
-    public function saveEntity($entity):bool
+    public function saveEntity($entity): bool
     {
         return $this->getMaintenanceDao()->saveEntity($entity);
     }

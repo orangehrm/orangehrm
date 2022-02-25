@@ -19,8 +19,6 @@
 
 namespace OrangeHRM\Maintenance\FormatValueStrategy;
 
-
-
 use OrangeHRM\Pim\Service\ReportingMethodConfigurationService;
 
 /**
@@ -44,7 +42,6 @@ class FormatWithReportMethod implements ValueFormatter
      */
     public function getReportingMethodConfigurationService(): ?ReportingMethodConfigurationService
     {
-
         if (!($this->reportingMethodConfigurationService instanceof ReportingMethodConfigurationService)) {
             $this->reportingMethodConfigurationService = new ReportingMethodConfigurationService();
         }

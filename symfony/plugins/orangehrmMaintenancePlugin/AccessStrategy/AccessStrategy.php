@@ -23,12 +23,11 @@ use OrangeHRM\Maintenance\Service\MaintenanceService;
 
 abstract class AccessStrategy
 {
-
-    protected array $parameters = array();
+    protected array $parameters = [];
     protected ?string $entityClassName = null;
-    protected array $matchByArray = array();
-    protected array $matchingCriteria = array();
-    protected  ?MaintenanceService  $maintenanceService = null;
+    protected array $matchByArray = [];
+    protected array $matchingCriteria = [];
+    protected ?MaintenanceService  $maintenanceService = null;
     protected $getRealValueClass = null;
 
     /**
@@ -36,9 +35,8 @@ abstract class AccessStrategy
      * @param string $entityClassName
      * @param array $infoArray
      */
-    public function __construct(string $entityClassName,array $infoArray)
+    public function __construct(string $entityClassName, array $infoArray)
     {
-
         $this->setEntityClassName($entityClassName);
         if (isset($infoArray['match_by'])) {
             $this->setMatchBy($infoArray['match_by']);
@@ -52,12 +50,12 @@ abstract class AccessStrategy
      * @param int $employeeNumber
      * @return array|null
      */
-    public abstract function access(int $employeeNumber):?array;
+    abstract public function access(int $employeeNumber): ?array;
 
     /**
      * @return array
      */
-    public function getParameters():array
+    public function getParameters(): array
     {
         return $this->parameters;
     }
@@ -90,7 +88,7 @@ abstract class AccessStrategy
     /**
      * @return array
      */
-    public function getMatchBy():array
+    public function getMatchBy(): array
     {
         return $this->matchByArray;
     }
@@ -106,7 +104,7 @@ abstract class AccessStrategy
     /**
      * @return MaintenanceService
      */
-    public function getMaintenanceService():MaintenanceService
+    public function getMaintenanceService(): MaintenanceService
     {
         if (!isset($this->maintenanceService)) {
             $this->maintenanceService = new MaintenanceService();
@@ -117,7 +115,7 @@ abstract class AccessStrategy
     /**
      * @param MaintenanceService $maintenanceService
      */
-    public function setMaintenanceService(MaintenanceService $maintenanceService):void
+    public function setMaintenanceService(MaintenanceService $maintenanceService): void
     {
         $this->maintenanceService = $maintenanceService;
     }
@@ -126,13 +124,12 @@ abstract class AccessStrategy
      * @param int $employeeNumber
      * @return array
      */
-    public function getMatchByValues(int $employeeNumber):array
+    public function getMatchByValues(int $employeeNumber): array
     {
-
-        $entityFieldMap = array();
+        $entityFieldMap = [];
         $entityFieldMap[$this->getMatchBy()[0]['match']] = $employeeNumber;
 
-        if (in_array('join',$this->getMatchBy()[0])) {
+        if (in_array('join', $this->getMatchBy()[0])) {
             $entityFieldMap['join'] = $this->getMatchBy()[0]['join'];
         }
 
@@ -144,9 +141,8 @@ abstract class AccessStrategy
      * @param string $table
      * @return array|null
      */
-    public function getEntityRecords(array $matchByValues, string $table):?array
+    public function getEntityRecords(array $matchByValues, string $table): ?array
     {
-
         return $this->getMaintenanceService()->extractDataFromEmpNumber($matchByValues, $table);
     }
 
@@ -155,9 +151,8 @@ abstract class AccessStrategy
      * @param string $currentValue
      * @return string|null
      */
-    public function getFormattedValue( $accessClassName,  $currentValue)
+    public function getFormattedValue($accessClassName, $currentValue)
     {
-
         $accessClassName='OrangeHRM\Maintenance\FormatValueStrategy'."\\".$accessClassName;
         $this->getRealValueClass = new  $accessClassName();
         return $this->getRealValueClass->getFormattedValue($currentValue);
@@ -167,20 +162,19 @@ abstract class AccessStrategy
      * @param $accessEntity
      * @return array
      */
-    public function addRecordsToArray($accessEntity):array
+    public function addRecordsToArray($accessEntity): array
     {
         $parameters = $this->getParameters();
-        $data = array();
+        $data = [];
 
         foreach ($parameters as $field) {
             $columnName=$field['field'];
-            if(isset($field['getter'])){
+            if (isset($field['getter'])) {
                 $getterMethod = $field['getter'];
-            }else{
+            } else {
                 $getterMethod = 'get'.ucfirst($columnName);
             }
             if ($accessEntity->$getterMethod()) {
-
                 $value = $accessEntity->$getterMethod();
 
                 if (isset($field['class'])) {

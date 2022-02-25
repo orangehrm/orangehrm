@@ -18,24 +18,24 @@
  */
 
 namespace OrangeHRM\Maintenance\Dao;
+
 use Exception;
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Core\Exception\DaoException;
+
 //use Doctrine_Collection;
 //use Doctrine_Query;
-use OrangeHRM\Entity\Employee;
 
 /**
  * Class MaintenanceDao
  */
 class MaintenanceDao extends BaseDao
 {
-
     /**
      * @return Doctrine_Collection
      * @throws DaoException
      */
-    public function getEmployeePurgingList():array
+    public function getEmployeePurgingList(): array
     {
         try {
             $q = Doctrine_Query::create()
@@ -57,16 +57,14 @@ class MaintenanceDao extends BaseDao
      * @return mixed
      * @throws DaoException
      */
-    public function extractDataFromEmpNumber($matchByValues, $table):array
+    public function extractDataFromEmpNumber($matchByValues, $table): array
     {
-
         $tableName='OrangeHRM\Entity'."\\".$table;
         $employeeId = reset($matchByValues);
         $field = key($matchByValues);
-        $q=$this->createQueryBuilder($tableName,'e');
-        $q->andWhere('e.'.$field ."=:empId")->setParameter('empId',$employeeId);
+        $q=$this->createQueryBuilder($tableName, 'e');
+        $q->andWhere('e.'.$field ."=:empId")->setParameter('empId', $employeeId);
         return $q->getQuery()->execute();
-
     }
 
     /**
@@ -74,7 +72,7 @@ class MaintenanceDao extends BaseDao
      * @return bool
      * @throws DaoException
      */
-    public function saveEntity($entity):bool
+    public function saveEntity($entity): bool
     {
         try {
             $entity->save();
@@ -122,6 +120,5 @@ class MaintenanceDao extends BaseDao
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
         // @codeCoverageIgnoreEnd
-
     }
 }

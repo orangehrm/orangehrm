@@ -19,17 +19,17 @@
 
 namespace OrangeHRM\Maintenance\FormatValueStrategy;
 
-
-
-use OrangeHRM\ORM\Doctrine;
+use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
+use OrangeHRM\Entity\PayPeriod;
 
 /**
  * Class FormatWithPayGradeId
  */
 class FormatWithPayPeriodId implements ValueFormatter
 {
+    use EntityManagerHelperTrait;
+    public const NO_PAY_GRADE = 'No Pay Grade Details';
 
-    const NO_PAY_GRADE = 'No Pay Grade Details';
 
     /**
      * @param $entityValue
@@ -37,12 +37,11 @@ class FormatWithPayPeriodId implements ValueFormatter
      */
     public function getFormattedValue($entityValue): string
     {
-        $payPeriods = Doctrine::getTable('Payperiod')->findAll();
+        $payPeriods =$this->getRepository(PayPeriod::class)->findAll();
         if ($payPeriods[$entityValue - 1]->getName()) {
             return $payPeriods[$entityValue - 1]->getName();
         } else {
             return self::NO_PAY_GRADE;
         }
-
     }
 }

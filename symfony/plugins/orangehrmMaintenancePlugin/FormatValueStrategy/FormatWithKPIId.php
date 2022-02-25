@@ -19,13 +19,11 @@
 
 namespace OrangeHRM\Maintenance\FormatValueStrategy;
 
-
 /**
  * Class FormatWithKPIId
  */
 class FormatWithKPIId implements ValueFormatter
 {
-
     private ?\KpiService $kpiService = null;
 
     /**
@@ -47,5 +45,4 @@ class FormatWithKPIId implements ValueFormatter
         }
         return $this->kpiService;
     }
-
 }

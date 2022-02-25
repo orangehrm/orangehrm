@@ -24,7 +24,6 @@ namespace OrangeHRM\Maintenance\FormatValueStrategy;
  */
 class FormatWithNull implements ValueFormatter
 {
-
     /**
      * @param $entityValue
      * @return string|null

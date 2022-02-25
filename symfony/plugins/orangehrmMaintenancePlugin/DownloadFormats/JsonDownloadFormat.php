@@ -32,5 +32,4 @@ class JsonDownloadFormat extends DownloadFormat
     {
         return json_encode($values);
     }
-
 }

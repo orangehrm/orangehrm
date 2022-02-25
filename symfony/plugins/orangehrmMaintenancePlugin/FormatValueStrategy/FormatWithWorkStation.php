@@ -19,17 +19,14 @@
 
 namespace OrangeHRM\Maintenance\FormatValueStrategy;
 
-
-
-use OrangeHRM\Admin\Dao\CompanyStructureDao;
-use OrangeHRM\Admin\Service\CompanyStructureService;
+use OrangeHRM\Admin\Traits\Service\CompanyStructureServiceTrait;
 
 /**
  * Class FormatWithWorkStation
  */
 class FormatWithWorkStation implements ValueFormatter
 {
-    private ?CompanyStructureService $companyStructureService = null;
+    use CompanyStructureServiceTrait;
 
     /**
      * @param $entityValue
@@ -37,18 +34,10 @@ class FormatWithWorkStation implements ValueFormatter
      */
     public function getFormattedValue($entityValue): ?string
     {
-        return $this->getCompanyStructureService()->getSubunitById($entityValue)->getName();
-    }
-
-    /**
-     * @return CompanyStructureService|null
-     */
-    public function getCompanyStructureService(): ?CompanyStructureService
-    {
-        if (is_null($this->companyStructureService)) {
-            $this->companyStructureService = new CompanyStructureService();
-            $this->companyStructureService->setCompanyStructureDao(new CompanyStructureDao());
+        $result=$this->getCompanyStructureService()->getSubunitById($entityValue);
+        if (!is_null($result)) {
+            return $result->getName();
         }
-        return $this->companyStructureService;
+        return  null;
     }
 }

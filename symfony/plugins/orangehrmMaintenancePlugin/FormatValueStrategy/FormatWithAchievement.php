@@ -24,11 +24,11 @@ namespace OrangeHRM\Maintenance\FormatValueStrategy;
  */
 class FormatWithAchievement implements ValueFormatter
 {
-    const ACHIEVEMENT_POSITIVE = 1;
-    const ACHIEVEMENT_POSITIVE_DISPLAY_STRING = 'Positive';
+    public const ACHIEVEMENT_POSITIVE = 1;
+    public const ACHIEVEMENT_POSITIVE_DISPLAY_STRING = 'Positive';
 
-    const ACHIEVEMENT_NEGATTIVE = 2;
-    const ACHIEVEMENT_NEGATTIVE_DISPLAY_STRING = 'Negative';
+    public const ACHIEVEMENT_NEGATTIVE = 2;
+    public const ACHIEVEMENT_NEGATTIVE_DISPLAY_STRING = 'Negative';
 
     /**
      * @param $entityValue
