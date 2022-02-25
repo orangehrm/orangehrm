@@ -28,11 +28,13 @@ use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\MenuItem;
 use OrangeHRM\Entity\Screen;
 use OrangeHRM\Entity\UserRole;
+use OrangeHRM\I18N\Traits\Service\I18NHelperTrait;
 
 class MenuService
 {
     use UserRoleManagerTrait;
     use ModuleScreenHelperTrait;
+    use I18NHelperTrait;
 
     /**
      * @var MenuDao|null
@@ -328,7 +330,7 @@ class MenuService
         }
         $newMenuItem = [
             'id' => $menuItem['id'],
-            'name' => $menuItem['menuTitle'],
+            'name' => $this->getI18NHelper()->transBySource($menuItem['menuTitle']),
             'url' => $url,
         ];
 
