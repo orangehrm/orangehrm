@@ -24,7 +24,11 @@ use OrangeHRM\Leave\Dto\DateRangeSearchFilterParams;
 
 class EmployeeReportsSearchFilterParams extends DateRangeSearchFilterParams
 {
-    public const ALLOWED_SORT_FIELDS = ['customer.name'];
+    public const ALLOWED_SORT_FIELDS = [
+        'customer.name',
+        'project.name',
+        'projectActivity.name'
+    ];
 
     public const INCLUDE_TIMESHEETS_APPROVED_ONLY = 'onlyApproved';
     public const INCLUDE_TIMESHEETS_ALL = 'all';
@@ -70,7 +74,7 @@ class EmployeeReportsSearchFilterParams extends DateRangeSearchFilterParams
     }
 
     /**
-     * @param  int  $empNumber
+     * @param int $empNumber
      */
     public function setEmpNumber(int $empNumber): void
     {
@@ -86,7 +90,7 @@ class EmployeeReportsSearchFilterParams extends DateRangeSearchFilterParams
     }
 
     /**
-     * @param  int|null  $projectId
+     * @param int|null $projectId
      */
     public function setProjectId(?int $projectId): void
     {
@@ -102,7 +106,7 @@ class EmployeeReportsSearchFilterParams extends DateRangeSearchFilterParams
     }
 
     /**
-     * @param  int|null  $activityId
+     * @param int|null $activityId
      */
     public function setActivityId(?int $activityId): void
     {
@@ -118,7 +122,7 @@ class EmployeeReportsSearchFilterParams extends DateRangeSearchFilterParams
     }
 
     /**
-     * @param  string|null  $includeTimesheets
+     * @param string|null $includeTimesheets
      * @return void
      */
     public function setIncludeTimesheets(?string $includeTimesheets): void

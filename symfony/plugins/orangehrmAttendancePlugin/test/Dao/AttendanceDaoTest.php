@@ -24,6 +24,8 @@ use DateTimeZone;
 use Exception;
 use OrangeHRM\Admin\Service\CompanyStructureService;
 use OrangeHRM\Attendance\Dao\AttendanceDao;
+use OrangeHRM\Attendance\Dto\AttendanceRecordSearchFilterParams;
+use OrangeHRM\Attendance\Dto\EmployeeAttendanceSummarySearchFilterParams;
 use OrangeHRM\Attendance\Exception\AttendanceServiceException;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Service\DateTimeHelperService;
@@ -216,5 +218,62 @@ class AttendanceDaoTest extends KernelTestCase
         $this->assertNull($result[0]['terminationId']);
         $this->assertEquals(1, $totalRecords);
         $this->assertEquals(32400, $totalHours);
+    }
+
+    public function testAttendanceList(): void
+    {
+        $attendanceRecordSearchFilterParams = new AttendanceRecordSearchFilterParams();
+        $attendanceRecordSearchFilterParams->setFromDate(new DateTime("2011-04-20 00:00:00"));
+        $attendanceRecordSearchFilterParams->setToDate(new DateTime("2011-04-20 23:59:59"));
+        $attendanceRecordSearchFilterParams->setEmployeeNumbers([2]);
+        $attendanceRecords = $this->attendanceDao->getAttendanceRecordList($attendanceRecordSearchFilterParams);
+        $attendanceRecordCount = $this->attendanceDao->getAttendanceRecordListCount(
+            $attendanceRecordSearchFilterParams
+        );
+        $attendanceRecordDuration = $this->attendanceDao->getTotalWorkingTime($attendanceRecordSearchFilterParams);
+
+        $this->assertEquals("Ashley Abel", $attendanceRecords[0]['fullName']);
+        $this->assertEquals(2, $attendanceRecords[0]['empNumber']);
+        $this->assertNull($attendanceRecords[0]['terminationId']);
+        $this->assertEquals(1, $attendanceRecordCount);
+        $this->assertNull($attendanceRecordDuration['total']);
+    }
+
+    public function testEmployeeAttendanceSummaryList(): void
+    {
+        $employeeAttendanceSummarySearchFilterParams = new EmployeeAttendanceSummarySearchFilterParams();
+        $employeeAttendanceSummarySearchFilterParams->setFromDate(new DateTime("2011-04-20 00:00:00"));
+        $employeeAttendanceSummarySearchFilterParams->setToDate(new DateTime("2011-04-20 23:59:59"));
+        $employeeAttendanceSummarySearchFilterParams->setEmployeeNumbers(null);
+        $attendanceRecords = $this->attendanceDao->getEmployeeAttendanceSummaryList(
+            $employeeAttendanceSummarySearchFilterParams
+        );
+        $attendanceRecordCount = $this->attendanceDao->getEmployeeAttendanceSummaryListCount(
+            $employeeAttendanceSummarySearchFilterParams
+        );
+
+        $this->assertEquals("Kayla", $attendanceRecords[0]['firstName']);
+        $this->assertEquals("Abbey", $attendanceRecords[0]['lastName']);
+        $this->assertEquals(1, $attendanceRecords[0]['empNumber']);
+        $this->assertNull($attendanceRecords[0]['terminationId']);
+        $this->assertEquals(5, $attendanceRecordCount);
+
+        $employeeAttendanceSummarySearchFilterParams = new EmployeeAttendanceSummarySearchFilterParams();
+        $employeeAttendanceSummarySearchFilterParams->setFromDate(new DateTime("2011-04-20 00:00:00"));
+        $employeeAttendanceSummarySearchFilterParams->setToDate(new DateTime("2011-04-20 23:59:59"));
+        $employeeAttendanceSummarySearchFilterParams->setEmployeeNumbers([3]);
+        $attendanceRecords = $this->attendanceDao->getEmployeeAttendanceSummaryList(
+            $employeeAttendanceSummarySearchFilterParams
+        );
+        $attendanceRecordCount = $this->attendanceDao->getEmployeeAttendanceSummaryListCount(
+            $employeeAttendanceSummarySearchFilterParams
+        );
+
+        $this->assertEquals("Renukshan", $attendanceRecords[0]['firstName']);
+        $this->assertEquals("Saputhanthri", $attendanceRecords[0]['lastName']);
+        $this->assertEquals(3, $attendanceRecords[0]['empNumber']);
+        $this->assertNull($attendanceRecords[0]['terminationId']);
+        $this->assertEquals(1, $attendanceRecordCount);
+        $this->assertEquals("300", $attendanceRecords[0]['total']);
     }
 }

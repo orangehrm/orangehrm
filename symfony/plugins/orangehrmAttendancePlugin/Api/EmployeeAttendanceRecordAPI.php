@@ -24,6 +24,7 @@ use DateTimeZone;
 use Exception;
 use OrangeHRM\Attendance\Api\Model\AttendanceRecordListModel;
 use OrangeHRM\Attendance\Api\Model\AttendanceRecordModel;
+use OrangeHRM\Attendance\Api\ValidationRules\EmployeeDataGroupReadPermissionRule;
 use OrangeHRM\Attendance\Dto\AttendanceRecordSearchFilterParams;
 use OrangeHRM\Attendance\Exception\AttendanceServiceException;
 use OrangeHRM\Attendance\Traits\Service\AttendanceServiceTrait;
@@ -116,7 +117,7 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
     protected function getEmpNumber(): ?int
     {
         return $this->getRequestParams()->getInt(
-            RequestParams::PARAM_TYPE_QUERY,
+            RequestParams::PARAM_TYPE_ATTRIBUTE,
             CommonParams::PARAMETER_EMP_NUMBER
         );
     }
@@ -136,7 +137,10 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
             $this->getValidationDecorator()->requiredParamRule(
                 new ParamRule(
                     CommonParams::PARAMETER_EMP_NUMBER,
-                    new Rule(Rules::IN_ACCESSIBLE_EMP_NUMBERS, [false])
+                    new Rule(Rules::POSITIVE),
+                    new Rule(Rules::ENTITY_ID_EXISTS, [Employee::class]),
+                    new Rule(EmployeeDataGroupReadPermissionRule::class, ['apiv2_attendance_employee_attendance_record']),
+                    new Rule(Rules::IN_ACCESSIBLE_ENTITY_ID, [Employee::class])
                 )
             ),
             ...$this->getSortingAndPaginationParamsRules(AttendanceRecordSearchFilterParams::ALLOWED_SORT_FIELDS)

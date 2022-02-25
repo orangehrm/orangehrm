@@ -15,7 +15,7 @@ Create:
       time: '08:42'
       timezoneOffset: 5.5
       note: 'punch in'
-    invalidOnly: ['empNumber']
+    invalidOnly: [ 'empNumber' ]
 
   'Admin - add employee attendance Record of employee':
     userId: 1
@@ -501,7 +501,101 @@ Delete:
     attributes:
       empNumber: 2
     body:
-      ids: [  ]
+      ids: [ ]
     exception:
       class: '\OrangeHRM\Core\Api\V2\Exception\BadRequestException'
       message: 'No IDs Found'
+
+GetAll:
+  'Get employee attendance break down by date':
+    userId: 1
+    services:
+      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      empNumber: 6
+    body: [ ]
+    query:
+      date: '2011-04-25'
+    data: [
+      {
+        id: 8,
+        punchIn: {
+          "userDate": "2011-04-25",
+          "userTime": "14:55",
+          "offset": "5.5",
+          "note": "Im punched In"
+        },
+        punchOut: {
+          "userDate": null,
+          "userTime": null,
+          "offset": null,
+          "note": null
+        },
+        duration: "0.00"
+      }
+    ]
+    meta:
+      total: 1
+      sum: {
+        "hours": 0.0,
+        "minutes": 0,
+        "label": "0.00"
+      }
+
+  'Get employee attendance break down by date (Supervisor to un assigned ESS)':
+    userId: 3
+    services:
+      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      empNumber: 1
+    body: [ ]
+    query:
+      date: '2011-04-25'
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
+      message: 'Unauthorized'
+
+  'Get employee attendance break down by date (Supervisor to assigned ESS)':
+    userId: 3
+    services:
+      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      empNumber: 2
+    body: [ ]
+    query:
+      date: '2011-04-25'
+    data: [ ]
+    meta:
+      total: 0
+      sum: {
+        "hours": 0.0,
+        "minutes": 0,
+        "label": "0.00"
+      }
+
+  'Get employee attendance break down without date and employee Number':
+    userId: 1
+    services:
+      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+    attributes: [ ]
+    body: [ ]
+    query: [ ]
+    invalidOnly: [ 'date', 'empNumber' ]

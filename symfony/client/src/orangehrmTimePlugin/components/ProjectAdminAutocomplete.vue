@@ -24,7 +24,7 @@
       :label="!showDelete ? $t('time.project_admin') : null"
       api-path="api/v2/time/project-admins"
       :params="{
-        includeEmployees: 'currentAndPast',
+        includeEmployees,
       }"
       v-bind="$attrs"
     />
@@ -51,6 +51,10 @@ export default {
     showDelete: {
       type: Boolean,
       required: true,
+    },
+    includeEmployee: {
+      type: String,
+      default: 'currentAndPast',
     },
   },
   emits: ['remove'],
