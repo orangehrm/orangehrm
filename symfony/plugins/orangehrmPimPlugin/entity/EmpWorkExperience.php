@@ -71,7 +71,7 @@ class EmpWorkExperience
 
     /**
      * @var Employee
-     *
+     * @ORM\Id
      * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Employee", inversedBy="workExperience", cascade={"persist"})
      * @ORM\JoinColumn(name="emp_number", referencedColumnName="emp_number")
      */
