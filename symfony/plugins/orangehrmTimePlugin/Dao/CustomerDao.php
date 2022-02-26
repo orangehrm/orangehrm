@@ -21,8 +21,10 @@ namespace OrangeHRM\Time\Dao;
 
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Entity\Customer;
+use OrangeHRM\Entity\TimesheetItem;
 use OrangeHRM\ORM\Paginator;
 use OrangeHRM\Time\Dto\CustomerSearchFilterParams;
+use OrangeHRM\Time\Exception\CustomerServiceException;
 
 class CustomerDao extends BaseDao
 {
@@ -43,9 +45,16 @@ class CustomerDao extends BaseDao
     /**
      * @param int[] $deletedIds
      * @return int
+     * @throws CustomerServiceException
      */
     public function deleteCustomer(array $deletedIds): int
     {
+        foreach ($deletedIds as $toBeDeletedCustomerId) {
+            if ($this->hasCustomerGotTimesheetItems($toBeDeletedCustomerId)) {
+                throw CustomerServiceException::CustomerExist();
+            }
+        }
+
         $q = $this->createQueryBuilder(Customer::class, 'cus');
         $q->update()
             ->set('cus.deleted', ':deleted')
@@ -183,5 +192,20 @@ class CustomerDao extends BaseDao
         }
         $result = $q->getQuery()->getArrayResult();
         return array_column($result, 'id');
+    }
+
+    /**
+     * @param int $customerId
+     * @return bool
+     */
+    public function hasCustomerGotTimesheetItems(int $customerId): bool
+    {
+        $q = $this->createQueryBuilder(TimesheetItem::class, 'timesheetItem');
+        $q->leftJoin('timesheetItem.project', 'project');
+        $q->leftJoin('project.customer', 'customer');
+        $q->andWhere('customer.id = :customerId');
+        $q->setParameter('customerId', $customerId);
+        $count = $this->getPaginator($q)->count();
+        return ($count > 0);
     }
 }

@@ -26,6 +26,7 @@ use OrangeHRM\Tests\Util\KernelTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 use OrangeHRM\Time\Dao\CustomerDao;
 use OrangeHRM\Time\Dto\CustomerSearchFilterParams;
+use OrangeHRM\Time\Exception\CustomerServiceException;
 
 /**
  * @group Time
@@ -126,7 +127,7 @@ class CustomerDaoTest extends KernelTestCase
     public function testDeleteCustomer(): void
     {
         $this->populateCustomerServiceFixture();
-        $customerId = [1, 2];
+        $customerId = [2, 3];
         $result = $this->customerDao->deleteCustomer($customerId);
         $this->assertEquals(2, $result);
     }
@@ -161,5 +162,17 @@ class CustomerDaoTest extends KernelTestCase
 
         $result = $this->customerDao->getCustomerIdListForProjectAdmin(5, true);
         $this->assertEquals([7, 11], $result);
+    }
+
+    public function testExceptionForDeleteCustomer(): void
+    {
+        try {
+            $this->populateCustomerServiceFixture();
+            $toTobedeletedIds = [1];
+            $this->customerDao->deleteCustomer($toTobedeletedIds);
+            $this->fail('Exception expected');
+        } catch (Exception $exception) {
+            $this->assertTrue($exception instanceof CustomerServiceException);
+        }
     }
 }

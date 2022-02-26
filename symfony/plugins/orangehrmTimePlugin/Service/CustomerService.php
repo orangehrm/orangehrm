@@ -75,14 +75,4 @@ class CustomerService
     {
         return $this->getCustomerDao()->getCustomerById($customerId);
     }
-
-    /**
-     * Delete Customers
-     * @param int[] $deletedIds
-     * @return int
-     */
-    public function deleteCustomers(array $deletedIds): int
-    {
-        return $this->getCustomerDao()->deleteCustomer($deletedIds);
-    }
 }

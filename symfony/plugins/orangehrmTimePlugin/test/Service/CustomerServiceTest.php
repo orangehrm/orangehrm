@@ -89,17 +89,4 @@ class CustomerServiceTest extends TestCase
         $result = $this->customerService->getCustomer(1);
         $this->assertEquals($customerList[0], $result);
     }
-
-    public function testDeleteCustomer(): void
-    {
-        $customerId = [1, 2];
-        $customerDao = $this->getMockBuilder(CustomerDao::class)->getMock();
-        $customerDao->expects($this->once())
-            ->method('deleteCustomer')
-            ->with($customerId)
-            ->will($this->returnValue(2));
-        $this->customerService->setCustomerDao($customerDao);
-        $result = $this->customerService->deleteCustomers($customerId);
-        $this->assertEquals(2, $result);
-    }
 }
