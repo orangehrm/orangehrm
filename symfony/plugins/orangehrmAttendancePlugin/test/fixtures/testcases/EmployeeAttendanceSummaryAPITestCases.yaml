@@ -1,0 +1,256 @@
+GetAll:
+  'Get employee attendance summary by date without employee number - Admin':
+    userId: 1
+    services:
+      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes: [ ]
+    body: [ ]
+    query:
+      date: '2022-02-01'
+    data: [
+      {
+        "empNumber": 1,
+        "lastName": "Abbey",
+        "firstName": "Kayla",
+        "middleName": "T",
+        "employeeId": "E001",
+        "terminationId": null,
+        "sum": {
+          "hours": 0.0,
+          "minutes": 0,
+          "label": "0.00"
+        }
+      },
+      {
+        "empNumber": 2,
+        "lastName": "Abel",
+        "firstName": "Ashley",
+        "middleName": "ST",
+        "employeeId": "E002",
+        "terminationId": null,
+        "sum": {
+          "hours": 0.0,
+          "minutes": 0,
+          "label": "0.00"
+        }
+      },
+      {
+        "empNumber": 5,
+        "lastName": "Gandhi",
+        "firstName": "mahatma",
+        "middleName": "Gandhi",
+        "employeeId": "E005",
+        "terminationId": null,
+        "sum": {
+          "hours": 0.0,
+          "minutes": 0,
+          "label": "0.00"
+        }
+      },
+      {
+        "empNumber": 3,
+        "lastName": "Saputhanthri",
+        "firstName": "Renukshan",
+        "middleName": "RT",
+        "employeeId": "E003",
+        "terminationId": 1,
+        "sum": {
+          "hours": 0.0,
+          "minutes": 0,
+          "label": "0.00"
+        }
+      },
+      {
+        "empNumber": 4,
+        "lastName": "Sherin",
+        "firstName": "Sherin",
+        "middleName": "Sherin",
+        "employeeId": "E004",
+        "terminationId": null,
+        "sum": {
+          "hours": 0.0,
+          "minutes": 0,
+          "label": "0.00"
+        }
+      }
+    ]
+    meta:
+      total: 5
+
+  'Get employee attendance summary by date with employee number':
+    userId: 1
+    services:
+      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes: [ ]
+    body: [ ]
+    query:
+      date: '2022-02-13'
+      empNumber: 4
+    data: [
+      {
+        "empNumber": 4,
+        "lastName": "Sherin",
+        "firstName": "Sherin",
+        "middleName": "Sherin",
+        "employeeId": "E004",
+        "terminationId": null,
+        "sum": {
+          "hours": 1.0,
+          "minutes": 0,
+          "label": "1.00"
+        }
+      }
+    ]
+    meta:
+      total: 1
+
+  'Get employee attendance summary by date without employee number - Supervisor':
+    userId: 3
+    services:
+      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes: [ ]
+    body: [ ]
+    query:
+      date: '2022-02-13'
+    data: [
+      {
+        "empNumber": 2,
+        "lastName": "Abel",
+        "firstName": "Ashley",
+        "middleName": "ST",
+        "employeeId": "E002",
+        "terminationId": null,
+        "sum": {
+          "hours": 0.0,
+          "minutes": 56,
+          "label": "0.93"
+        }
+      },
+      {
+        "empNumber": 4,
+        "lastName": "Sherin",
+        "firstName": "Sherin",
+        "middleName": "Sherin",
+        "employeeId": "E004",
+        "terminationId": null,
+        "sum": {
+          "hours": 1.0,
+          "minutes": 0,
+          "label": "1.00"
+        }
+      }
+    ]
+    meta:
+      total: 2
+
+  'Get employee attendance summary by date with employee number - Supervisor (Assigned Subordinate)':
+    userId: 3
+    services:
+      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes: [ ]
+    body: [ ]
+    query:
+      date: '2022-02-13'
+      empNumber: 2
+    data: [
+      {
+        "empNumber": 2,
+        "lastName": "Abel",
+        "firstName": "Ashley",
+        "middleName": "ST",
+        "employeeId": "E002",
+        "terminationId": null,
+        "sum": {
+          "hours": 0.0,
+          "minutes": 56,
+          "label": "0.93"
+        }
+      }
+    ]
+    meta:
+      total: 1
+
+  'Get employee attendance summary by date with employee number - Supervisor (Un Assigned Subordinate)':
+    userId: 3
+    services:
+      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes: [ ]
+    body: [ ]
+    query:
+      date: '2022-02-13'
+      empNumber: 1
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
+      message: 'Unauthorized'
+
+  'Get employee attendance summary by date with employee number - Supervisor (Self Access)':
+    userId: 3
+    services:
+      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes: [ ]
+    body: [ ]
+    query:
+      date: '2022-02-13'
+      empNumber: 3
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
+      message: 'Unauthorized'
+
+  'Get employee attendance summary by un available employee number - Admin':
+    userId: 1
+    attributes: [ ]
+    body: [ ]
+    query:
+      date: '2022-02-13'
+      empNumber: 30
+    invalidOnly: [ 'empNumber' ]
+
+  'Get employee attendance summary by un available employee number - Supervisor':
+    userId: 3
+    attributes: [ ]
+    body: [ ]
+    query:
+      date: '2022-02-13'
+      empNumber: 30
+    invalidOnly: [ 'empNumber' ]
+
+  'Get employee attendance summary by without date':
+    userId: 1
+    attributes: [ ]
+    body: [ ]
+    query: [ ]
+    invalidOnly: [ 'date' ]
