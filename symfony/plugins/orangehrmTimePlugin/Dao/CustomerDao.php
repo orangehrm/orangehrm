@@ -208,4 +208,18 @@ class CustomerDao extends BaseDao
         $count = $this->getPaginator($q)->count();
         return ($count > 0);
     }
+
+    /**
+     * @return int[]
+     */
+    public function getUnselectableCustomerIds(): array
+    {
+        $q = $this->createQueryBuilder(TimesheetItem::class, 'timesheetItem');
+        $q->leftJoin('timesheetItem.project', 'project');
+        $q->leftJoin('project.customer', 'customer');
+        $q->select('customer.id');
+        $q->groupBy('customer.id');
+        $result = $q->getQuery()->getArrayResult();
+        return array_column($result, 'id');
+    }
 }

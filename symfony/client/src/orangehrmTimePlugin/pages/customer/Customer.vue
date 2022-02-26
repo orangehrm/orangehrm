@@ -81,7 +81,24 @@ export default {
   components: {
     'delete-confirmation': DeleteConfirmationDialog,
   },
-  setup() {
+  props: {
+    unselectableIds: {
+      type: Array,
+      default: () => [],
+    },
+  },
+  setup(props) {
+    const customerNormalizer = data => {
+      return data.map(item => {
+        const selectable = props.unselectableIds.findIndex(id => id == item.id);
+        return {
+          id: item.id,
+          name: item.name,
+          description: item.description,
+          isSelectable: selectable === -1,
+        };
+      });
+    };
     const {sortDefinition, sortField, sortOrder, onSort} = useSort({
       sortDefinition: defaultSortOrder,
     });
@@ -106,6 +123,7 @@ export default {
       execQuery,
     } = usePaginate(http, {
       query: serializedFilters,
+      normalizer: customerNormalizer,
     });
     onSort(execQuery);
     return {
@@ -176,6 +194,14 @@ export default {
       });
     },
     onClickDelete(item) {
+      const isSelectable = this.unselectableIds.findIndex(id => id == item.id);
+      if (isSelectable > -1) {
+        return this.$toast.error({
+          title: 'Error',
+          message:
+            'Not Allowed to Delete Customer(s) Which Have Time Logged Against',
+        });
+      }
       this.$refs.deleteDialog.showDialog().then(confirmation => {
         if (confirmation === 'ok') {
           this.deleteItems([item.id]);

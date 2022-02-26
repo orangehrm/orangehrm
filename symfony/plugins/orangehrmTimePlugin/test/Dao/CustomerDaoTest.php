@@ -175,4 +175,12 @@ class CustomerDaoTest extends KernelTestCase
             $this->assertTrue($exception instanceof CustomerServiceException);
         }
     }
+
+    public function testGetUnselectableCustomerIds(): void
+    {
+        $this->populateCustomerServiceFixture();
+        $customerIds = $this->customerDao->getUnselectableCustomerIds();
+        $this->assertCount(1, $customerIds);
+        $this->assertEquals(1, $customerIds[0]);
+    }
 }

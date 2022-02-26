@@ -21,16 +21,24 @@ namespace OrangeHRM\Time\Controller;
 
 use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Vue\Component;
+use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Time\Traits\Service\CustomerServiceTrait;
 
 class CustomerController extends AbstractVueController
 {
+    use CustomerServiceTrait;
+
     /**
      * @inheritDoc
      */
     public function preRender(Request $request): void
     {
         $component = new Component('customer-list');
+        $unSelectableCustomerIds = $this->getCustomerService()
+            ->getCustomerDao()
+            ->getUnselectableCustomerIds();
+        $component->addProp(new Prop('unselectable-ids', Prop::TYPE_ARRAY, $unSelectableCustomerIds));
         $this->setComponent($component);
     }
 }
