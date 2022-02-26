@@ -13,3 +13,8 @@ maintenance_module_under_development: # remove this
   path: /maintenance/{screen}
   controller: OrangeHRM\Core\Controller\Common\ModuleUnderDevelopmentController::handle
   methods: [ GET ]
+
+maintainence_employee_json:
+  path: /maintenance/accessEmployeeData/{empNumber}
+  controller: OrangeHRM\Maintenance\Controller\File\AccessEmployeeFileController::handle
+  methods: [ GET ]

@@ -18,6 +18,8 @@
  * Boston, MA 02110-1301, USA
  */
 
+use OrangeHRM\Maintenance\Service\MaintenanceService;
+
 /**
  * Class PurgeEmployeeForm
  */

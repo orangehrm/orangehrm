@@ -17,6 +17,8 @@
  * Boston, MA 02110-1301, USA
  */
 
+use OrangeHRM\Maintenance\Dao\MaintenanceDao;
+
 /**
  * Class MaintenanceDaoTest
  * @group maintenance
