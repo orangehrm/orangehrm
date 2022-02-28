@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\Admin\Service\Model;
 
-
 use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\I18NLanguage;

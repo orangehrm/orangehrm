@@ -42,13 +42,15 @@ class LocalizationController extends AbstractVueController
         $localizationService = $this->getContainer()->get(Services::LOCALIZATION_SERVICE);
         $component->addProp(
             new Prop(
-                'language-list', Prop::TYPE_ARRAY,
+                'language-list',
+                Prop::TYPE_ARRAY,
                 $localizationService->getSupportedLanguages()
             )
         );
         $component->addProp(
             new Prop(
-                'date-format-list', Prop::TYPE_ARRAY,
+                'date-format-list',
+                Prop::TYPE_ARRAY,
                 $localizationService->getLocalizationDateFormats()
             )
         );

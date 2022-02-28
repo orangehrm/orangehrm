@@ -23,7 +23,6 @@ use OrangeHRM\Admin\Dao\I18NDao;
 use OrangeHRM\Admin\Dto\I18NLanguageSearchFilterParams;
 use OrangeHRM\Admin\Service\Model\I18NLanguageModel;
 use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
-use Exception;
 
 class I18NService
 {

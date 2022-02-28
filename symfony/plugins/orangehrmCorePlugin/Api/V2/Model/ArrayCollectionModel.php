@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\Core\Api\V2\Model;
 
-
 use OrangeHRM\Core\Api\V2\Serializer\CollectionNormalizable;
 
 class ArrayCollectionModel implements CollectionNormalizable

@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\Tests\Admin\Dao;
 
-
 use OrangeHRM\Admin\Dao\I18NDao;
 use OrangeHRM\Admin\Dto\I18NLanguageSearchFilterParams;
 use OrangeHRM\Config\Config;
@@ -34,7 +33,6 @@ use Symfony\Component\Yaml\Yaml;
  */
 class I18NDaoTest extends TestCase
 {
-
     private I18NDao $i18NDao;
     protected string $fixture;
 
@@ -78,5 +76,4 @@ class I18NDaoTest extends TestCase
     {
         return $this->getTestCases('searchLanguages');
     }
-
 }

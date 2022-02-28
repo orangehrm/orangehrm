@@ -171,6 +171,4 @@ class I18NLanguage
     {
         $this->modifiedAt = $modifiedAt;
     }
-
-
 }

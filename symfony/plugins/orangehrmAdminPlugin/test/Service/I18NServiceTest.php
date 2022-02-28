@@ -34,7 +34,6 @@ use OrangeHRM\Tests\Util\TestCase;
  */
 class I18NServiceTest extends TestCase
 {
-
     private I18NService $i18NService;
 
     /**
