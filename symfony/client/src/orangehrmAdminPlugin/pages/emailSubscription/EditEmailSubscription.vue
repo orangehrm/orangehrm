@@ -130,7 +130,7 @@ export default {
         {
           name: 'name',
           slot: 'title',
-          title: this.$t('general.yes'),
+          title: this.$t('general.name'),
           style: {flex: '30%'}
         },
         {

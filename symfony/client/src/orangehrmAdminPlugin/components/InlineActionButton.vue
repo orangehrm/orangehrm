@@ -24,7 +24,7 @@
       <slot></slot>
     </oxd-text>
     <oxd-button
-      label="Add"
+      :label="$t('general.add')"
       icon-name="plus"
       display-type="text"
       v-bind="$attrs"
