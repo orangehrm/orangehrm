@@ -21,60 +21,82 @@ namespace OrangeHRM\Attendance\Api;
 
 use DateTime;
 use DateTimeZone;
-use OrangeHRM\Attendance\Api\Model\TimezoneModel;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CollectionEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
+use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\ParameterBag;
+use OrangeHRM\Core\Api\V2\RequestParams;
+use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
+use OrangeHRM\Core\Api\V2\Validator\Rule;
+use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 
 class TimezonesAPI extends Endpoint implements CollectionEndpoint
 {
     use DateTimeHelperTrait;
+
+    public const FILTER_TIMEZONE_NAME = 'timezoneName';
+
     /**
      * @inheritDoc
      */
     public function getAll(): EndpointCollectionResult
     {
-        $timezonesIdentifiers = DateTimeZone::listIdentifiers();
+        $filterName = $this->getRequestParams()->getStringOrNull(
+            RequestParams::PARAM_TYPE_QUERY,
+            self::FILTER_TIMEZONE_NAME
+        );
+        $identifiers = DateTimeZone::listIdentifiers();
+        $filteredIdentifiers = array_filter(
+            $identifiers,
+            function ($item) use ($filterName) {
+                if (stripos($item, $filterName) !== false) {
+                    return true;
+                }
+                return false;
+            }
+        );
         $timezones = [];
-        foreach ($timezonesIdentifiers as $timezoneIdentifier) {
+        foreach ($filteredIdentifiers as $timezoneIdentifier) {
             $timezone = new DateTimeZone($timezoneIdentifier);
             $offsetInSeconds = $timezone->getOffset(new DateTime());
             $timezones[$timezoneIdentifier] = $offsetInSeconds;
         }
         asort($timezones);
         $sortedTimezones = [];
-        $index = 0;
         foreach ($timezones as $identifier => $offsetInSeconds) {
-            $offset = (float)($offsetInSeconds/3600);
+            $offset = number_format((float)($offsetInSeconds / 3600), 1);
             $timezoneValue = gmdate('H:i', abs($offsetInSeconds));
             $offsetPrefix = $offsetInSeconds > 0 ? '+' : '-';
             $sortedTimezones[] = [
-                'id' => $index,
                 'name' => $identifier,
-                'gmtLabel' =>"(GMT${offsetPrefix}${timezoneValue})",
+                'label' => "${offsetPrefix}${timezoneValue}",
                 'offset' => $offset
             ];
-            $index++;
         }
-
         return new EndpointCollectionResult(
-            TimezoneModel::class,
+            ArrayModel::class,
             $sortedTimezones,
             new ParameterBag([CommonParams::PARAMETER_TOTAL => count($sortedTimezones)])
         );
     }
+
 
     /**
      * @inheritDoc
      */
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
-        return new ParamRuleCollection();
+        return new ParamRuleCollection(
+            new ParamRule(
+                self::FILTER_TIMEZONE_NAME,
+                new Rule(Rules::STRING_TYPE)
+            )
+        );
     }
 
     /**
