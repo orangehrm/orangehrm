@@ -17,10 +17,23 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Framework\Routing;
+use OrangeHRM\Core\Traits\ServiceContainerTrait;
+use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Framework\PluginConfigurationInterface;
+use OrangeHRM\Framework\Services;
+use OrangeHRM\I18N\Service\I18NHelper;
+use OrangeHRM\I18N\Service\I18NService;
 
-use Symfony\Component\Routing\Matcher\UrlMatcher as RoutingUrlMatcher;
-
-class UrlMatcher extends RoutingUrlMatcher
+class I18nPluginConfiguration implements PluginConfigurationInterface
 {
+    use ServiceContainerTrait;
+
+    /**
+     * @inheritDoc
+     */
+    public function initialize(Request $request): void
+    {
+        $this->getContainer()->register(Services::I18N_SERVICE, I18NService::class);
+        $this->getContainer()->register(Services::I18N_HELPER, I18NHelper::class);
+    }
 }

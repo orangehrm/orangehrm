@@ -23,5 +23,4 @@ use Symfony\Component\Routing\Generator\UrlGenerator as RoutingUrlGenerator;
 
 class UrlGenerator extends RoutingUrlGenerator
 {
-
 }

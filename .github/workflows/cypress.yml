@@ -1,6 +1,12 @@
 name: Cypress
 
-on: [ push, pull_request ]
+on:
+  push:
+    branches-ignore:
+      - 5.0-i18n
+  pull_request:
+    branches-ignore:
+      - 5.0-i18n
 
 jobs:
   cypress:

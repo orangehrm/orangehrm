@@ -21,21 +21,22 @@ namespace OrangeHRM\Core\Service;
 
 use OrangeHRM\Config\Config;
 use OrangeHRM\Framework\Cache\FilesystemAdapter;
-use Symfony\Component\Cache\Adapter\AbstractAdapter;
+use Symfony\Component\Cache\Adapter\AdapterInterface;
+use Symfony\Contracts\Cache\CacheInterface;
 
 class CacheService
 {
     /**
-     * @var AbstractAdapter|null
+     * @var AdapterInterface|null
      */
-    private static ?AbstractAdapter $cache = null;
+    private static ?AdapterInterface $cache = null;
 
     /**
-     * @return AbstractAdapter
+     * @return AdapterInterface|CacheInterface
      */
-    public static function getCache(): AbstractAdapter
+    public static function getCache(): AdapterInterface
     {
-        if (!self::$cache instanceof AbstractAdapter) {
+        if (!self::$cache instanceof AdapterInterface) {
             self::$cache = new FilesystemAdapter('orangehrm', 0, Config::get(Config::CACHE_DIR));
         }
         return self::$cache;
