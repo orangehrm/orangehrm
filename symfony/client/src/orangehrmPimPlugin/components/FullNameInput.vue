@@ -27,6 +27,7 @@
       placeholder="First name"
       :model-value="firstName"
       :rules="rules.firstName"
+      :disabled="disabled"
       @update:modelValue="$emit('update:firstName', $event)"
     />
     <oxd-input-field
@@ -35,6 +36,7 @@
       placeholder="Middle name"
       :model-value="middleName"
       :rules="rules.middleName"
+      :disabled="disabled"
       @update:modelValue="$emit('update:middleName', $event)"
     />
     <oxd-input-field
@@ -43,6 +45,7 @@
       placeholder="Last name"
       :model-value="lastName"
       :rules="rules.lastName"
+      :disabled="disabled"
       @update:modelValue="$emit('update:lastName', $event)"
     />
   </oxd-input-group>
@@ -68,6 +71,10 @@ export default {
     rules: {
       type: Object,
       required: true,
+    },
+    disabled: {
+      type: Boolean,
+      default: false,
     },
   },
   emits: ['update:firstName', 'update:middleName', 'update:lastName'],

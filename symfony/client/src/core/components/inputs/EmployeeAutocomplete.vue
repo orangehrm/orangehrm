@@ -21,7 +21,7 @@
 <template>
   <oxd-input-field
     type="autocomplete"
-    label="Employee Name"
+    :label="label"
     :clear="false"
     :create-options="loadEmployees"
   >
@@ -49,6 +49,10 @@ export default {
     apiPath: {
       type: String,
       default: 'api/v2/pim/employees',
+    },
+    label: {
+      type: String,
+      default: 'Employee Name',
     },
   },
   setup(props) {

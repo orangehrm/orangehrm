@@ -69,6 +69,7 @@ import EditEmailSubscription from '@/orangehrmAdminPlugin/pages/emailSubscriptio
 import HelpPages from '@/orangehrmHelpPlugin';
 import TimePages from '@/orangehrmTimePlugin';
 import AttendancePages from '@/orangehrmAttendancePlugin';
+import PurgeEmployee from '@/orangehrmMaintenancePlugin/pages/PurgeEmployee.vue';
 
 export default {
   'job-title-list': JobTitle,
@@ -125,4 +126,5 @@ export default {
   ...HelpPages,
   ...TimePages,
   ...AttendancePages,
+  'purge-employee': PurgeEmployee,
 };
