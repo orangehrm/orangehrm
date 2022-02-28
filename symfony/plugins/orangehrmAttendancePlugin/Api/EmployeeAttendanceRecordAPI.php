@@ -209,7 +209,7 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
                 RequestParams::PARAM_TYPE_BODY,
                 self::PARAMETER_TIME
             ),
-            $this->getRequestParams()->getString(
+            $this->getRequestParams()->getFloat(
                 RequestParams::PARAM_TYPE_BODY,
                 self::PARAMETER_TIMEZONE_OFFSET
             ),
