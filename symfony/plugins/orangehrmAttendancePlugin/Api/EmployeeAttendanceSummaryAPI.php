@@ -106,7 +106,11 @@ class EmployeeAttendanceSummaryAPI extends Endpoint implements CollectionEndpoin
                 new ParamRule(
                     CommonParams::PARAMETER_EMP_NUMBER,
                     new Rule(Rules::POSITIVE),
-                    new Rule(EmployeeDataGroupReadPermissionRule::class, ['apiv2_attendance_employee_attendance_summary']),
+                    new Rule(Rules::ENTITY_ID_EXISTS, [Employee::class]),
+                    new Rule(
+                        EmployeeDataGroupReadPermissionRule::class,
+                        ['apiv2_attendance_employee_attendance_summary']
+                    ),
                     new Rule(Rules::IN_ACCESSIBLE_ENTITY_ID, [Employee::class])
                 )
             ),
