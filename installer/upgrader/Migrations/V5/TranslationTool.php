@@ -24,6 +24,7 @@ use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Query\QueryBuilder;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use Symfony\Component\Yaml\Yaml;
+use function PHPUnit\Framework\throwException;
 
 class TranslationTool
 {
@@ -54,7 +55,7 @@ class TranslationTool
         $xml = simplexml_load_file($filepath);
         $transArray = ['translations' => []];
         foreach ($xml->file->body->children() as $string) {
-            $translation = new Source(
+            $translation = new TransUnit(
                 $string->source,
                 $string->target
             );
@@ -82,7 +83,7 @@ class TranslationTool
         foreach ($langStrings as $langString) {
             foreach ($translations as $translation) {
                 if ($translation['source'] === $langString['value']) {
-                    $sourceObj = new Source($langString['value'], $translation['target']);
+                    $sourceObj = new TransUnit($langString['value'], $translation['target']);
                     $this->saveTranslationRecord($groupName, $sourceObj, $language);
                     break;
                 }
@@ -92,15 +93,18 @@ class TranslationTool
 
     /**
      * @param string $groupName
-     * @param Source $source
+     * @param TransUnit $source
      * @param string $language
      * @return void
      * @throws Exception
      */
-    private function saveTranslationRecord(string $groupName, Source $source, string $language): void
+    private function saveTranslationRecord(string $groupName, TransUnit $source, string $language): void
     {
         $groupId = $this->getLangStringHelper()->getModuleId($groupName);
         $langStringId = $this->getLangStringHelper()->getLangStringRecord($source->getSource(), $groupId);
+        if($langStringId == null){
+           throw new Exception('Cannot add a translation to a non existent lang string: '.$source->getSource());
+        }
         $langId = $this->getLanguageId($language);
         $existTranslation = $this->getTranslationRecord($langStringId, $langId);
         if ($existTranslation != null) {

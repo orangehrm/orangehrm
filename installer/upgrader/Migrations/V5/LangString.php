@@ -22,10 +22,6 @@ namespace OrangeHRM\Tools\Migrations\V5;
 class LangString
 {
     /**
-     * @var int
-     */
-    private int $id;
-    /**
      * @var string
      */
     private string $unitId;
@@ -60,14 +56,6 @@ class LangString
         $this->value = $value;
         $this->version = $version;
         $this->note = $note;
-    }
-
-    /**
-     * @return int
-     */
-    public function getId(): int
-    {
-        return $this->id;
     }
 
     /**

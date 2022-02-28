@@ -19,7 +19,7 @@
 
 namespace OrangeHRM\Tools\Migrations\V5;
 
-class Source
+class TransUnit
 {
     /**
      * @var string
