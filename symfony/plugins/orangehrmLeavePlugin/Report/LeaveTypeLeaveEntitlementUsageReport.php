@@ -38,6 +38,7 @@ use OrangeHRM\Entity\JobTitle;
 use OrangeHRM\Entity\LeaveType;
 use OrangeHRM\Entity\Location;
 use OrangeHRM\Entity\Subunit;
+use OrangeHRM\I18N\Traits\Service\I18NHelperTrait;
 use OrangeHRM\Leave\Api\LeaveCommonParams;
 use OrangeHRM\Leave\Dto\LeaveTypeLeaveEntitlementUsageReportSearchFilterParams;
 use OrangeHRM\Leave\Traits\Service\LeavePeriodServiceTrait;
@@ -47,6 +48,7 @@ class LeaveTypeLeaveEntitlementUsageReport implements EndpointAwareReport
     use AuthUserTrait;
     use UserRoleManagerTrait;
     use LeavePeriodServiceTrait;
+    use I18NHelperTrait;
 
     public const PARAMETER_EMPLOYEE_NAME = 'employeeName';
     public const PARAMETER_ENTITLEMENT_DAYS = 'entitlementDays';
@@ -69,7 +71,7 @@ class LeaveTypeLeaveEntitlementUsageReport implements EndpointAwareReport
     {
         return new Header(
             [
-                (new Column(self::PARAMETER_EMPLOYEE_NAME))->setName('Employee')
+                (new Column(self::PARAMETER_EMPLOYEE_NAME))->setName($this->getI18NHelper()->trans('general.employee'))
                     ->setPin(Column::PIN_COL_START)
                     ->setSize(self::DEFAULT_COLUMN_SIZE),
                 (new Column(self::PARAMETER_ENTITLEMENT_DAYS))->setName('Leave Entitlements (Days)')

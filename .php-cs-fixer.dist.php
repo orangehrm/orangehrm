@@ -2,6 +2,7 @@
 
 $finder = PhpCsFixer\Finder::create()
     ->in(__DIR__)
+    ->in('symfony/lib')
     ->exclude('symfony/client')
     ->exclude('symfony/vendor')
     ->exclude('symfony/cache')
