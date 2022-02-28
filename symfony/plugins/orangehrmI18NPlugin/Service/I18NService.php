@@ -19,21 +19,35 @@
 
 namespace OrangeHRM\I18N\Service;
 
+use InvalidArgumentException;
 use OrangeHRM\Core\Traits\CacheTrait;
 use OrangeHRM\Core\Traits\ETagHelperTrait;
+use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\I18N\Dao\I18NDao;
+use OrangeHRM\I18N\Dto\TranslationCollection;
 use Symfony\Component\Cache\CacheItem;
+use Symfony\Component\Translation\Loader\ArrayLoader;
+use Symfony\Component\Translation\Translator;
 
 class I18NService
 {
     use CacheTrait;
     use ETagHelperTrait;
+    use ConfigServiceTrait;
 
     public const CORE_I18N_CACHE_KEY_PREFIX = 'core.i18n';
-    public const CORE_I18N_TRANSLATION_CACHE_KEY_SUFFIX = 'translation';
-    public const CORE_I18N_ETAG_CACHE_KEY_SUFFIX = 'etag';
+    public const TRANSLATION_CACHE_KEY_SUFFIX = 'translation';
+    public const TRANSLATION_KEY_TARGET_ARRAY_CACHE_KEY_SUFFIX = 'translation_key_target_array';
+    public const TRANSLATION_SOURCE_TARGET_ARRAY_CACHE_KEY_SUFFIX = 'translation_source_target_array';
+    public const ETAG_CACHE_KEY_SUFFIX = 'etag';
+    public const TRANSLATOR_DEFAULT_FORMAT = 'array';
+    public const TRANSLATOR_DEFAULT_DOMAIN = 'messages+intl-icu';
+    public const TRANSLATION_TYPE_KEY_TARGET = 'key_target';
+    public const TRANSLATION_TYPE_SOURCE_TARGET = 'source_target';
 
     private ?I18NDao $i18nDao = null;
+    private ?Translator $translator = null;
+    private array $loadedLanguages = [];
 
     /**
      * @return I18NDao
@@ -48,11 +62,66 @@ class I18NService
 
     /**
      * @param string $langCode
+     * @param string $type
+     */
+    private function addLanguage(string $langCode, string $type): void
+    {
+        $key = "${langCode}_$type";
+        if (isset($this->loadedLanguages[$key])) {
+            throw new InvalidArgumentException("Already added resource under: $langCode");
+        }
+        $this->loadedLanguages[$key] = [
+            'locale' => $langCode,
+            'type' => $type,
+        ];
+    }
+
+    /**
+     * @param string $langCode
+     * @param string $type
+     * @return bool
+     */
+    private function isLanguageLoaded(string $langCode, string $type): bool
+    {
+        return isset($this->loadedLanguages["${langCode}_$type"]);
+    }
+
+    /**
+     * @param string $langCode
+     * @return string
+     */
+    protected function generateCacheKeyPrefixForLang(string $langCode): string
+    {
+        return self::CORE_I18N_CACHE_KEY_PREFIX . ".$langCode";
+    }
+
+    /**
+     * @param string $langCode
      * @return string
      */
     protected function generateTranslationCacheKey(string $langCode): string
     {
-        return self::CORE_I18N_CACHE_KEY_PREFIX . ".$langCode." . self::CORE_I18N_TRANSLATION_CACHE_KEY_SUFFIX;
+        return $this->generateCacheKeyPrefixForLang($langCode) . '.' . self::TRANSLATION_CACHE_KEY_SUFFIX;
+    }
+
+    /**
+     * @param string $langCode
+     * @return string
+     */
+    protected function generateTranslationKeyTargetArrayCacheKey(string $langCode): string
+    {
+        return $this->generateCacheKeyPrefixForLang($langCode) . '.' .
+            self::TRANSLATION_KEY_TARGET_ARRAY_CACHE_KEY_SUFFIX;
+    }
+
+    /**
+     * @param string $langCode
+     * @return string
+     */
+    protected function generateTranslationSourceTargetArrayCacheKey(string $langCode): string
+    {
+        return $this->generateCacheKeyPrefixForLang($langCode) . '.' .
+            self::TRANSLATION_SOURCE_TARGET_ARRAY_CACHE_KEY_SUFFIX;
     }
 
     /**
@@ -61,18 +130,20 @@ class I18NService
      */
     protected function generateETagCacheKey(string $langCode): string
     {
-        return self::CORE_I18N_CACHE_KEY_PREFIX . ".$langCode." . self::CORE_I18N_ETAG_CACHE_KEY_SUFFIX;
+        return $this->generateCacheKeyPrefixForLang($langCode) . '.' . self::ETAG_CACHE_KEY_SUFFIX;
     }
 
     /**
      * @param string $langCode
-     * @return array<string, array> e.g. array('general.employee' => ['source' => 'Employee', 'target' => 'Employé']
+     * @return TranslationCollection
      */
-    protected function getTranslationMessages(string $langCode): array
+    protected function getTranslationCollection(string $langCode): TranslationCollection
     {
         $results = $this->getI18NDao()->getAllTranslationMessagesByLangCode($langCode);
 
-        $resource = [];
+        $keyAndSourceTarget = [];
+        $keyAndTarget = [];
+        $sourceAndTarget = [];
         foreach ($results as $result) {
             $unitId = $result['unitId'];
             unset($result['unitId']);
@@ -82,9 +153,11 @@ class I18NService
             $group = isset($result['groupName']) ? $result['groupName'] . '.' : '';
             unset($result['groupName']);
             $key = $group . $unitId;
-            $resource[$key] = $result;
+            $keyAndSourceTarget[$key] = $result;
+            $keyAndTarget[$key] = $result['target'] ?? $result['source'];
+            $sourceAndTarget[$result['source']] = $result['target'] ?? $result['source'];
         }
-        return $resource;
+        return new TranslationCollection($keyAndSourceTarget, $keyAndTarget, $sourceAndTarget);
     }
 
     /**
@@ -93,10 +166,29 @@ class I18NService
      */
     protected function getTranslationMessagesAsJsonStringAlongWithCache(string $langCode): string
     {
+        $translations = null;
+        $this->getCache()->get(
+            $this->generateTranslationKeyTargetArrayCacheKey($langCode),
+            function () use ($langCode, &$translations) {
+                $translations instanceof TranslationCollection ?:
+                    $translations = $this->getTranslationCollection($langCode);
+                return $translations->getKeyAndTarget();
+            }
+        );
+        $this->getCache()->get(
+            $this->generateTranslationSourceTargetArrayCacheKey($langCode),
+            function () use ($langCode, &$translations) {
+                $translations instanceof TranslationCollection ?:
+                    $translations = $this->getTranslationCollection($langCode);
+                return $translations->getSourceAndTarget();
+            }
+        );
         return $this->getCache()->get(
             $this->generateTranslationCacheKey($langCode),
-            function () use ($langCode) {
-                return json_encode($this->getTranslationMessages($langCode));
+            function () use ($langCode, &$translations) {
+                $translations instanceof TranslationCollection ?:
+                    $translations = $this->getTranslationCollection($langCode);
+                return json_encode($translations->getKeyAndSourceTarget());
             }
         );
     }
@@ -128,6 +220,43 @@ class I18NService
 
     /**
      * @param string $langCode
+     * @return array
+     */
+    public function getTranslationMessagesKeyTargetArray(string $langCode): array
+    {
+        $this->getETagByLangCode($langCode); // To avoid flow issues
+        $cacheItem = $this->getCache()->getItem($this->generateTranslationKeyTargetArrayCacheKey($langCode));
+        return $this->cleanAndRefetchIfCacheNotHit($langCode, $cacheItem);
+    }
+
+    /**
+     * @param string $langCode
+     * @return array
+     */
+    public function getTranslationMessagesSourceTargetArray(string $langCode): array
+    {
+        $this->getETagByLangCode($langCode); // To avoid flow issues
+        $cacheItem = $this->getCache()->getItem($this->generateTranslationSourceTargetArrayCacheKey($langCode));
+        return $this->cleanAndRefetchIfCacheNotHit($langCode, $cacheItem);
+    }
+
+    /**
+     * @param string $langCode
+     * @param CacheItem $cacheItem
+     * @return array
+     */
+    private function cleanAndRefetchIfCacheNotHit(string $langCode, CacheItem $cacheItem): array
+    {
+        if (!$cacheItem->isHit()) {
+            $this->getCache()->clear($this->generateCacheKeyPrefixForLang($langCode));
+            $this->getETagByLangCode($langCode);
+            $cacheItem = $this->getCache()->getItem($cacheItem->getKey());
+        }
+        return $cacheItem->get();
+    }
+
+    /**
+     * @param string $langCode
      * @return string
      */
     public function getETagByLangCode(string $langCode): string
@@ -142,5 +271,72 @@ class I18NService
             $cacheItem = $this->getCache()->getItem($cacheKey);
         }
         return $cacheItem->get();
+    }
+
+    /**
+     * @return Translator
+     * @internal
+     */
+    public function getTranslator(): Translator
+    {
+        if (!$this->translator instanceof Translator) {
+            $langCode = $this->getConfigService()->getAdminLocalizationDefaultLanguage();
+            $this->translator = new Translator($langCode);
+            $this->translator->addLoader(self::TRANSLATOR_DEFAULT_FORMAT, new ArrayLoader());
+        }
+        return $this->translator;
+    }
+
+    /**
+     * @param string $langCode
+     * @internal
+     */
+    public function setTranslatorLanguage(string $langCode): void
+    {
+        $this->getTranslator()->setLocale($langCode);
+    }
+
+    /**
+     * @param string $key
+     * @param array $parameters
+     * @param string|null $langCode
+     * @return string
+     * @internal
+     */
+    public function trans(string $key, array $parameters = [], string $langCode = null): string
+    {
+        $langCode !== null ?: $langCode = $this->getTranslator()->getLocale();
+        if (!$this->isLanguageLoaded($langCode, self::TRANSLATION_TYPE_KEY_TARGET)) {
+            $this->getTranslator()->addResource(
+                self::TRANSLATOR_DEFAULT_FORMAT,
+                $this->getTranslationMessagesKeyTargetArray($langCode),
+                $langCode,
+                self::TRANSLATOR_DEFAULT_DOMAIN
+            );
+            $this->addLanguage($langCode, self::TRANSLATION_TYPE_KEY_TARGET);
+        }
+        return $this->getTranslator()->trans($key, $parameters, null, $langCode);
+    }
+
+    /**
+     * @param string $sourceLangString
+     * @param array $parameters
+     * @param string|null $langCode
+     * @return string
+     * @internal
+     */
+    public function transBySource(string $sourceLangString, array $parameters = [], string $langCode = null): string
+    {
+        $langCode !== null ?: $langCode = $this->getTranslator()->getLocale();
+        if (!$this->isLanguageLoaded($langCode, self::TRANSLATION_TYPE_SOURCE_TARGET)) {
+            $this->getTranslator()->addResource(
+                self::TRANSLATOR_DEFAULT_FORMAT,
+                $this->getTranslationMessagesSourceTargetArray($langCode),
+                $langCode,
+                self::TRANSLATOR_DEFAULT_DOMAIN
+            );
+            $this->addLanguage($langCode, self::TRANSLATION_TYPE_SOURCE_TARGET);
+        }
+        return $this->getTranslator()->trans($sourceLangString, $parameters, null, $langCode);
     }
 }

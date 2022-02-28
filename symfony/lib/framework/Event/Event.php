@@ -23,5 +23,4 @@ use Symfony\Contracts\EventDispatcher\Event as BaseEvent;
 
 class Event extends BaseEvent
 {
-
 }

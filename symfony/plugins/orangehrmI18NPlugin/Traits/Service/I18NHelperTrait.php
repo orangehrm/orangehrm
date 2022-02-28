@@ -17,10 +17,21 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Framework\Routing;
+namespace OrangeHRM\I18N\Traits\Service;
 
-use Symfony\Component\Routing\Matcher\UrlMatcher as RoutingUrlMatcher;
+use OrangeHRM\Core\Traits\ServiceContainerTrait;
+use OrangeHRM\Framework\Services;
+use OrangeHRM\I18N\Service\I18NHelper;
 
-class UrlMatcher extends RoutingUrlMatcher
+trait I18NHelperTrait
 {
+    use ServiceContainerTrait;
+
+    /**
+     * @return I18NHelper
+     */
+    public function getI18NHelper(): I18NHelper
+    {
+        return $this->getContainer()->get(Services::I18N_HELPER);
+    }
 }

@@ -23,5 +23,4 @@ use Symfony\Component\DependencyInjection\ContainerBuilder as BaseContainerBuild
 
 class ContainerBuilder extends BaseContainerBuilder
 {
-
 }
