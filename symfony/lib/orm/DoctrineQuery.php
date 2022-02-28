@@ -24,7 +24,6 @@ use Exception;
 
 final class DoctrineQuery extends AbstractQuery
 {
-
     public function getSQL()
     {
         throw new Exception('Not implement');

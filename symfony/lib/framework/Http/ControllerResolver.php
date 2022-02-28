@@ -23,5 +23,4 @@ use Symfony\Component\HttpKernel\Controller\ControllerResolver as BaseController
 
 class ControllerResolver extends BaseControllerResolver
 {
-
 }

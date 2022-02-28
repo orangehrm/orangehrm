@@ -23,5 +23,4 @@ use Symfony\Component\HttpFoundation\Session\Storage\NativeSessionStorage as Htt
 
 class NativeSessionStorage extends HttpNativeSessionStorage
 {
-
 }

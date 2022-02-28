@@ -17,10 +17,19 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Framework\Routing;
+namespace OrangeHRM\Tests\Util\Mock;
 
-use Symfony\Component\Routing\Matcher\UrlMatcher as RoutingUrlMatcher;
+use OrangeHRM\Core\Service\CacheService;
+use Symfony\Component\Cache\Adapter\AdapterInterface;
+use Symfony\Component\Cache\Adapter\ArrayAdapter;
 
-class UrlMatcher extends RoutingUrlMatcher
+class MockCacheService extends CacheService
 {
+    /**
+     * @return AdapterInterface
+     */
+    public static function getCache(): AdapterInterface
+    {
+        return new ArrayAdapter();
+    }
 }
