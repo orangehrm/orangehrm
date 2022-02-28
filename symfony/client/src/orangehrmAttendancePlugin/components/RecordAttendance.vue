@@ -110,6 +110,7 @@ import {
 import {
   parseDate,
   formatDate,
+  guessTimezone,
   setClockInterval,
 } from '@/core/util/helper/datefns';
 import {reloadPage, navigate} from '@/core/util/helper/navigation';
@@ -174,6 +175,17 @@ export default {
   },
   beforeMount() {
     this.isLoading = true;
+    // set default timezone
+    if (this.isTimezoneEditable) {
+      const tz = guessTimezone();
+      this.attendanceRecord.timezone = {
+        id: tz.name,
+        label: tz.label,
+        _name: tz.name,
+        _offset: tz.offset,
+      };
+    }
+
     // fetch and set attendance record on initial load
     this.setCurrentDateTime()
       .then(() => {

@@ -298,7 +298,8 @@ const setClockInterval = (callback: (args: void) => void, interval = 1000) => {
  * ES6 Intl API. in the offchance it's not possible it will revert value using
  * default timezone list.
  * @typedef {Object} Timezone
- * @property {string} label - timezone's english name
+ * @property {string} name - timezone's english name
+ * @property {string} label - timezone's english formatted label
  * @property {number} offset - timezone's offset in hours
  */
 const guessTimezone = () => {
@@ -312,8 +313,18 @@ const guessTimezone = () => {
     timezoneName = resolvedTz ? resolvedTz.label : defaultTimezones[0].label;
   }
 
+  const formattedOffset =
+    (timezoneOffset > 0 ? '+' : '-') +
+    String(timezoneOffset)
+      .split('.')
+      .map((substr, i) =>
+        i === 0 ? substr.padStart(2, '0') : substr.padEnd(2, '0'),
+      )
+      .join(':');
+
   return {
-    label: timezoneName,
+    name: timezoneName,
+    label: `(GMT ${formattedOffset}) ${timezoneName}`,
     offset: timezoneOffset,
   };
 };
