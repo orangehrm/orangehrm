@@ -17,22 +17,19 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Core\Traits;
+namespace OrangeHRM\Tests\Util\Mock;
 
-use OrangeHRM\Framework\Cache\FilesystemAdapter;
-use OrangeHRM\Framework\Services;
+use OrangeHRM\Core\Service\CacheService;
 use Symfony\Component\Cache\Adapter\AdapterInterface;
-use Symfony\Contracts\Cache\CacheInterface;
+use Symfony\Component\Cache\Adapter\ArrayAdapter;
 
-trait CacheTrait
+class MockCacheService extends CacheService
 {
-    use ServiceContainerTrait;
-
     /**
-     * @return AdapterInterface|CacheInterface|FilesystemAdapter
+     * @return AdapterInterface
      */
-    protected function getCache(): AdapterInterface
+    public static function getCache(): AdapterInterface
     {
-        return $this->getContainer()->get(Services::CACHE);
+        return new ArrayAdapter();
     }
 }

@@ -2,11 +2,7 @@ name: Test
 
 on:
   push:
-    branches-ignore:
-      - 5.0-i18n
   pull_request:
-    branches-ignore:
-      - 5.0-i18n
 
 jobs:
   test:

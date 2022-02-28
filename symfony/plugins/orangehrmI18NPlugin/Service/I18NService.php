@@ -137,7 +137,7 @@ class I18NService
      * @param string $langCode
      * @return TranslationCollection
      */
-    protected function getTranslationMessages(string $langCode): TranslationCollection
+    protected function getTranslationCollection(string $langCode): TranslationCollection
     {
         $results = $this->getI18NDao()->getAllTranslationMessagesByLangCode($langCode);
 
@@ -166,23 +166,29 @@ class I18NService
      */
     protected function getTranslationMessagesAsJsonStringAlongWithCache(string $langCode): string
     {
-        $translationCollection = $this->getTranslationMessages($langCode);
+        $translations = null;
         $this->getCache()->get(
             $this->generateTranslationKeyTargetArrayCacheKey($langCode),
-            function () use ($langCode, $translationCollection) {
-                return $translationCollection->getKeyAndTarget();
+            function () use ($langCode, &$translations) {
+                $translations instanceof TranslationCollection ?:
+                    $translations = $this->getTranslationCollection($langCode);
+                return $translations->getKeyAndTarget();
             }
         );
         $this->getCache()->get(
             $this->generateTranslationSourceTargetArrayCacheKey($langCode),
-            function () use ($langCode, $translationCollection) {
-                return $this->getTranslationMessages($langCode)->getSourceAndTarget();
+            function () use ($langCode, &$translations) {
+                $translations instanceof TranslationCollection ?:
+                    $translations = $this->getTranslationCollection($langCode);
+                return $translations->getSourceAndTarget();
             }
         );
         return $this->getCache()->get(
             $this->generateTranslationCacheKey($langCode),
-            function () use ($langCode, $translationCollection) {
-                return json_encode($translationCollection->getKeyAndSourceTarget());
+            function () use ($langCode, &$translations) {
+                $translations instanceof TranslationCollection ?:
+                    $translations = $this->getTranslationCollection($langCode);
+                return json_encode($translations->getKeyAndSourceTarget());
             }
         );
     }
@@ -299,7 +305,7 @@ class I18NService
      */
     public function trans(string $key, array $parameters = [], string $langCode = null): string
     {
-        $langCode !== null ?: $langCode = $this->getConfigService()->getAdminLocalizationDefaultLanguage();
+        $langCode !== null ?: $langCode = $this->getTranslator()->getLocale();
         if (!$this->isLanguageLoaded($langCode, self::TRANSLATION_TYPE_KEY_TARGET)) {
             $this->getTranslator()->addResource(
                 self::TRANSLATOR_DEFAULT_FORMAT,
@@ -321,7 +327,7 @@ class I18NService
      */
     public function transBySource(string $sourceLangString, array $parameters = [], string $langCode = null): string
     {
-        $langCode !== null ?: $langCode = $this->getConfigService()->getAdminLocalizationDefaultLanguage();
+        $langCode !== null ?: $langCode = $this->getTranslator()->getLocale();
         if (!$this->isLanguageLoaded($langCode, self::TRANSLATION_TYPE_SOURCE_TARGET)) {
             $this->getTranslator()->addResource(
                 self::TRANSLATOR_DEFAULT_FORMAT,

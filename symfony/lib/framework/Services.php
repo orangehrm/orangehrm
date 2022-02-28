@@ -19,6 +19,8 @@
 
 namespace OrangeHRM\Framework;
 
+use Symfony\Component\Cache\Adapter\AdapterInterface;
+
 final class Services
 {
     /**
@@ -132,7 +134,7 @@ final class Services
 
     /**
      * @see \OrangeHRM\Framework\Cache\FilesystemAdapter
-     * @see \Symfony\Component\Cache\Adapter\AbstractAdapter
+     * @see \Symfony\Component\Cache\Adapter\AdapterInterface
      */
     public const CACHE = 'core.cache';
 
