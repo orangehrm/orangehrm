@@ -56,7 +56,6 @@ class EditEmployeeAttendanceController extends AbstractVueController
             $component->addProp(new Prop('is-employee-edit', Prop::TYPE_BOOLEAN, true));
             $component->addProp(new Prop('is-timezone-editable', Prop::TYPE_BOOLEAN, true));
             $component->addProp(new Prop('attendance-id', Prop::TYPE_NUMBER, $attendanceRecordId));
-            
         } else {
             throw new RequestForwardableException(NoRecordsFoundController::class . '::handle');
         }

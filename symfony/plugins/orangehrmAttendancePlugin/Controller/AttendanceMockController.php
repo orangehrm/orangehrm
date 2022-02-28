@@ -26,7 +26,6 @@ use OrangeHRM\Framework\Http\Response;
 
 class AttendanceMockController extends AbstractController
 {
-
     private function timezone_list()
     {
         $timezones = [];

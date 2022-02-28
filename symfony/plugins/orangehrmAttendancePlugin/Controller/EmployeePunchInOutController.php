@@ -27,8 +27,6 @@ use OrangeHRM\Entity\AttendanceRecord;
 use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Core\Controller\Exception\RequestForwardableException;
 
-use function PHPUnit\Framework\isNull;
-
 class EmployeePunchInOutController extends AbstractVueController
 {
     use AttendanceServiceTrait;
@@ -59,7 +57,7 @@ class EmployeePunchInOutController extends AbstractVueController
             $component->addProp(new Prop('employee-id', Prop::TYPE_NUMBER, $empNumber));
             $component->addProp(new Prop('is-timezone-editable', Prop::TYPE_BOOLEAN, true));
 
-            if($attendanceRecord) {
+            if ($attendanceRecord) {
                 $component->addProp(new Prop('attendance-record-id', Prop::TYPE_NUMBER, $attendanceRecord->getId()));
             }
 
