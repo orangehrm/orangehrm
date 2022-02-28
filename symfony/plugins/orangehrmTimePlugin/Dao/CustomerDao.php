@@ -72,8 +72,7 @@ class CustomerDao extends BaseDao
             $this->deleteRelativeProjectsForCustomer($deletedIds);
             $this->commitTransaction();
             return $status;
-        }
-        catch (Exception $e){
+        } catch (Exception $e) {
             $this->rollBackTransaction();
             throw new TransactionException($e);
         }
