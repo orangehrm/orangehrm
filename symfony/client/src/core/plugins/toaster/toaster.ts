@@ -8,6 +8,9 @@ import {
   TYPE_WARN,
 } from '@ohrm/oxd/core/components/Toast/types';
 import {nanoid} from 'nanoid';
+import {translate as translatorFactory} from '@/core/plugins/i18n/translate';
+
+const translate = translatorFactory();
 
 interface Toast {
   id: string;
@@ -194,38 +197,38 @@ export default {
 
     const saveSuccess = () =>
       success({
-        title: 'Success',
-        message: 'Successfully Saved',
+        title: translate('general.success'),
+        message: translate('general.successfully_saved'),
       });
 
     const addSuccess = () =>
       success({
-        title: 'Success',
-        message: 'Successfully Added',
+        title: translate('general.success'),
+        message: translate('general.successfully_added'),
       });
 
     const updateSuccess = () =>
       success({
-        title: 'Success',
-        message: 'Successfully Updated',
+        title: translate('general.success'),
+        message: translate('general.successfully_updated'),
       });
 
     const deleteSuccess = () =>
       success({
-        title: 'Success',
-        message: 'Successfully Deleted',
+        title: translate('general.success'),
+        message: translate('general.successfully_deleted'),
       });
 
     const cannotDelete = () =>
       error({
-        title: 'Error',
-        message: 'Cannot be deleted',
+        title: translate('general.error'),
+        message: translate('general.cannot_be_deleted'),
       });
 
     const noRecordsFound = () =>
       info({
-        title: 'Info',
-        message: 'No Records Found',
+        title: translate('general.info'),
+        message: translate('general.no_records_found'),
       });
 
     state.class = options.class ? options.class : 'oxd-toast-container--toast';

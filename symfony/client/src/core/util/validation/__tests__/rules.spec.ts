@@ -28,6 +28,27 @@ import {
   minValueShouldBeLowerThanMaxValue,
 } from '../rules';
 
+jest.mock('@/core/plugins/i18n/translate', () => {
+  const t = (langString: string) => {
+    const mockStrings: {[key: string]: string} = {
+      'general.required': 'Required',
+      'general.to_date_should_be_after_from_date':
+        'To date should be after From date',
+      'general.allows_phone_numbers_only': 'Allows numbers and only + - / ( )',
+      'general.start_time_should_be_before_end_time':
+        'Start time should be before end time',
+      'general.end_time_should_be_after_start_time':
+        'End time should be after start time',
+      'general.start_date_should_be_before_end_date':
+        'Start date should be before end date',
+      'general.end_date_should_be_after_start_date':
+        'End date should be after start date',
+    };
+    return mockStrings[langString];
+  };
+  return {translate: jest.fn(() => t)};
+});
+
 describe('core/util/validation/rules::required', () => {
   test('required::empty string', () => {
     const result = required('');
