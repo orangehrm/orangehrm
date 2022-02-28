@@ -20,8 +20,11 @@
 namespace OrangeHRM\Tests\Admin\Service;
 
 use Exception;
-use OrangeHRM\Admin\Service\I18NService;
+use OrangeHRM\Admin\Dao\LocalizationDao;
+use OrangeHRM\Admin\Dto\I18NLanguageSearchFilterParams;
 use OrangeHRM\Admin\Service\LocalizationService;
+use OrangeHRM\Core\Service\NormalizerService;
+use OrangeHRM\Entity\I18NLanguage;
 use OrangeHRM\Tests\Util\TestCase;
 
 /**
@@ -49,18 +52,56 @@ class LocalizationServiceTest extends TestCase
     public function testGetSupportedLanguages(): void
     {
         $expectedResult = ['A', 5, '%'];
-        $i18NService = $this->getMockBuilder(I18NService::class)
+        $this->localizationService = $this->getMockBuilder(LocalizationService::class)
             ->onlyMethods(['getLanguagesArray'])
             ->getMock();
-        $i18NService->expects($spy = $this->once())
+        $this->localizationService->expects($this->once())
             ->method('getLanguagesArray')
             ->will($this->returnValue($expectedResult));
-        $this->localizationService = $this->getMockBuilder(LocalizationService::class)
-            ->onlyMethods(['getI18NService'])
-            ->getMock();
-        $this->localizationService->expects($this->once())
-            ->method('getI18NService')
-            ->will($this->returnValue($i18NService));
         $this->assertEquals($expectedResult, $this->localizationService->getSupportedLanguages());
+    }
+
+    public function testSearchLanguages(): void
+    {
+        $expectedArray = ['A', 5, '%'];
+        $i18nLanguageFilterParams = new I18NLanguageSearchFilterParams();
+        $localizationDao = $this->getMockBuilder(LocalizationDao::class)->getMock();
+        $localizationDao->expects($this->once())
+            ->method('searchLanguages')
+            ->with($i18nLanguageFilterParams)
+            ->will($this->returnValue($expectedArray));
+        $localizationService = $this->getMockBuilder(LocalizationService::class)
+            ->onlyMethods(['getLocalizationDao'])
+            ->getMock();
+        $localizationService->expects($this->once())
+            ->method('getLocalizationDao')
+            ->willReturn($localizationDao);
+        $result = $localizationService->searchLanguages($i18nLanguageFilterParams);
+        $this->assertEquals($expectedArray, $result);
+    }
+
+    public function testGetCountryArray(): void
+    {
+        $language = new I18NLanguage();
+        $language->setName('Valerian');
+        $language->setCode('VLR');
+
+        $localizationService = $this->getMockBuilder(LocalizationService::class)
+            ->onlyMethods(['getNormalizerService', 'searchLanguages'])
+            ->getMock();
+
+        $i18nLanguageFilterParams = new I18NLanguageSearchFilterParams();
+        $localizationService->expects($this->once())
+            ->method('searchLanguages')
+            ->with($i18nLanguageFilterParams)
+            ->will($this->returnValue([$language]));
+        $localizationService->expects($this->once())
+            ->method('getNormalizerService')
+            ->will($this->returnValue(new NormalizerService()));
+
+        $languages = $localizationService->getLanguagesArray($i18nLanguageFilterParams);
+        $this->assertCount(1, $languages);
+        $this->assertEquals('Valerian', $languages[0]['label']);
+        $this->assertEquals('VLR', $languages[0]['id']);
     }
 }

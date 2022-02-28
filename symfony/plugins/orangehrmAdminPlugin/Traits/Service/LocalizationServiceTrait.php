@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Core\Traits\Service;
+namespace OrangeHRM\Admin\Traits\Service;
 
 use OrangeHRM\Admin\Service\LocalizationService;
 use OrangeHRM\Core\Traits\ServiceContainerTrait;

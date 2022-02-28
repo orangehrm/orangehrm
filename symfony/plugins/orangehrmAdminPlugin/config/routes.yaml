@@ -539,9 +539,9 @@ edit_email_subscription:
   controller: OrangeHRM\Admin\Controller\SaveEmailSubscriptionController::handle
   methods: [ GET ]
 
-admin_localization: # remove this
+admin_localization:
   path: /admin/localization
-  controller: OrangeHRM\Core\Controller\Common\ModuleUnderDevelopmentController::handle
+  controller: OrangeHRM\Admin\Controller\LocalizationController::handle
   methods: [ GET ]
 
 admin_language_package: # remove this
@@ -557,9 +557,4 @@ admin_open_id_provider: # remove this
 admin_register_oauth_client: # remove this
   path: /admin/registerOAuthClient
   controller: OrangeHRM\Core\Controller\Common\ModuleUnderDevelopmentController::handle
-  methods: [ GET ]
-
-configure_localization:
-  path: /admin/localization
-  controller: OrangeHRM\Admin\Controller\LocalizationController::handle
   methods: [ GET ]

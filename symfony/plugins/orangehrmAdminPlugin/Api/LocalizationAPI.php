@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Admin\Api;
 
+use OrangeHRM\Admin\Traits\Service\LocalizationServiceTrait;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
@@ -32,7 +33,6 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
-use OrangeHRM\Core\Traits\Service\LocalizationServiceTrait;
 
 class LocalizationAPI extends Endpoint implements CrudEndpoint
 {

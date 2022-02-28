@@ -19,12 +19,31 @@
 
 namespace OrangeHRM\Admin\Service;
 
+use Exception;
+use OrangeHRM\Admin\Dao\LocalizationDao;
 use OrangeHRM\Admin\Dto\I18NLanguageSearchFilterParams;
-use OrangeHRM\Core\Traits\Service\I18NServiceTrait;
+use OrangeHRM\Admin\Service\Model\I18NLanguageModel;
+use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
 
 class LocalizationService
 {
-    use I18NServiceTrait;
+    use NormalizerServiceTrait;
+
+    /**
+     * @var LocalizationDao|null
+     */
+    private ?LocalizationDao $localizationDao = null;
+
+    /**
+     * @return LocalizationDao
+     */
+    public function getLocalizationDao(): LocalizationDao
+    {
+        if (!$this->localizationDao instanceof LocalizationDao) {
+            $this->localizationDao = new LocalizationDao();
+        }
+        return $this->localizationDao;
+    }
 
     /**
      * @return string[]
@@ -48,7 +67,7 @@ class LocalizationService
 
     /**
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     public function getSupportedLanguages(): array
     {
@@ -56,6 +75,25 @@ class LocalizationService
         $i18NLanguageSearchParams->setAddedOnly(true);
         $i18NLanguageSearchParams->setEnabledOnly(true);
 
-        return $this->getI18NService()->getLanguagesArray($i18NLanguageSearchParams);
+        return $this->getLanguagesArray($i18NLanguageSearchParams);
+    }
+
+    /**
+     * @param I18NLanguageSearchFilterParams $i18NLanguageSearchParams
+     * @return array
+     */
+    public function searchLanguages(I18NLanguageSearchFilterParams $i18NLanguageSearchParams): array
+    {
+        return $this->getLocalizationDao()->searchLanguages($i18NLanguageSearchParams);
+    }
+
+    /**
+     * @param I18NLanguageSearchFilterParams $i18NLanguageSearchParams
+     * @return array
+     */
+    public function getLanguagesArray(I18NLanguageSearchFilterParams $i18NLanguageSearchParams): array
+    {
+        $languages = $this->searchLanguages($i18NLanguageSearchParams);
+        return $this->getNormalizerService()->normalizeArray(I18NLanguageModel::class, $languages);
     }
 }

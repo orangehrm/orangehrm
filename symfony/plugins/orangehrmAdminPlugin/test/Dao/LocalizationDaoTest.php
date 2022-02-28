@@ -19,7 +19,8 @@
 
 namespace OrangeHRM\Tests\Admin\Dao;
 
-use OrangeHRM\Admin\Dao\I18NDao;
+use Exception;
+use OrangeHRM\Admin\Dao\LocalizationDao;
 use OrangeHRM\Admin\Dto\I18NLanguageSearchFilterParams;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Tests\Util\TestCase;
@@ -29,19 +30,18 @@ use Symfony\Component\Yaml\Yaml;
 /**
  * @group Admin
  * @group Dao
- * @group I18N
  */
-class I18NDaoTest extends TestCase
+class LocalizationDaoTest extends TestCase
 {
-    private I18NDao $i18NDao;
+    private LocalizationDao $i18NDao;
     protected string $fixture;
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     protected function setUp(): void
     {
-        $this->i18NDao = new I18NDao();
+        $this->i18NDao = new LocalizationDao();
         $this->fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmAdminPlugin/test/fixtures/I18NDao.yml';
         TestDataService::populate($this->fixture);
     }
@@ -50,7 +50,6 @@ class I18NDaoTest extends TestCase
      * @param $addedOnly
      * @param $enabledOnly
      * @param $expectedIds
-     * @throws \OrangeHRM\Core\Exception\DaoException
      * @dataProvider searchLanguagesDataProvider
      */
     public function testSearchLanguages($addedOnly, $enabledOnly, $expectedIds): void
@@ -67,8 +66,10 @@ class I18NDaoTest extends TestCase
 
     public function getTestCases($key)
     {
-        $testCases = Yaml::parseFile(Config::get(Config::PLUGINS_DIR) .
-            '/orangehrmAdminPlugin/test/testCases/I18NDaoTestCases.yml');
+        $testCases = Yaml::parseFile(
+            Config::get(Config::PLUGINS_DIR) .
+            '/orangehrmAdminPlugin/test/testCases/I18NDaoTestCases.yml'
+        );
         return $testCases[$key];
     }
 
