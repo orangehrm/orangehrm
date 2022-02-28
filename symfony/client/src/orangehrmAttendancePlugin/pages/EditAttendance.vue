@@ -250,14 +250,20 @@ export default {
       if (!this.attendance.punchOut?.userDate) return null;
 
       const startTime = `${this.attendance.punchIn.userDate} ${this.attendance.punchIn.userTime}`;
-      const punchInTz = parseFloat(this.attendance.punchIn.timezoneOffset);
+      const punchInTz =
+        this.attendance.punchIn.timezone?._offset ??
+        parseFloat(this.attendance.punchIn.timezoneOffset);
       const startTimezone =
-        (punchInTz > 0 ? ' +' : ' -') + secondsTohhmm(punchInTz * 3600);
+        (punchInTz > 0 ? ' +' : ' -') +
+        secondsTohhmm(Math.abs(punchInTz) * 3600);
 
       const endTime = `${this.attendance.punchOut.userDate} ${this.attendance.punchOut.userTime}`;
-      const punchOutTz = parseFloat(this.attendance.punchOut.timezoneOffset);
+      const punchOutTz =
+        this.attendance.punchOut.timezone?._offset ??
+        parseFloat(this.attendance.punchOut.timezoneOffset);
       const endTimezone =
-        (punchOutTz > 0 ? ' +' : ' -') + secondsTohhmm(punchOutTz * 3600);
+        (punchOutTz > 0 ? ' +' : ' -') +
+        secondsTohhmm(Math.abs(punchOutTz) * 3600);
 
       // yyyy-MM-dd HH:mm xxx <=> 2022-03-07 14:26 +05:30
       return parseFloat(
@@ -304,11 +310,17 @@ export default {
         punchInDate: this.attendance.punchIn.userDate,
         punchInTime: this.attendance.punchIn.userTime,
         punchInNote: this.attendance.punchIn.note,
+        punchInOffset: this.attendance.punchIn.timezone
+          ? this.attendance.punchIn.timezone._offset
+          : this.attendance.punchIn.timezoneOffset,
       };
       if (this.attendance.punchOut) {
         payload.punchOutDate = this.attendance.punchOut.userDate;
         payload.punchOutTime = this.attendance.punchOut.userTime;
         payload.punchOutNote = this.attendance.punchOut.note;
+        payload.punchOutOffset = this.attendance.punchOut.timezone
+          ? this.attendance.punchOut.timezone._offset
+          : this.attendance.punchOut.timezoneOffset;
       }
       this.http
         .update(this.attendanceId, payload)
@@ -327,10 +339,14 @@ export default {
             url: `api/v2/attendance/records/${apiPath}`,
             params: {
               recordId: this.attendanceId,
-              punchInTimezoneOffset: this.attendance.punchIn.timezoneOffset,
+              punchInTimezoneOffset: this.attendance.punchIn.timezone
+                ? this.attendance.punchIn.timezone._offset
+                : this.attendance.punchIn.timezoneOffset,
               punchInDate: this.attendance.punchIn.userDate,
               punchInTime: this.attendance.punchIn.userTime,
-              punchOutTimezoneOffset: this.attendance.punchOut?.timezoneOffset,
+              punchOutTimezoneOffset: this.attendance.punchOut?.timezone
+                ? this.attendance.punchOut.timezone._offset
+                : this.attendance.punchOut?.timezoneOffset,
               punchOutDate: this.attendance.punchOut?.userDate,
               punchOutTime: this.attendance.punchOut?.userTime,
             },

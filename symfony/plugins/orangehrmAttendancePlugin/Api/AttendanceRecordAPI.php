@@ -30,6 +30,7 @@ use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
 use OrangeHRM\Core\Api\V2\Exception\BadRequestException;
+use OrangeHRM\Core\Api\V2\Exception\ForbiddenException;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\ResourceEndpoint;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
@@ -54,9 +55,11 @@ class AttendanceRecordAPI extends Endpoint implements ResourceEndpoint
     public const PARAMETER_PUNCH_IN_DATE = 'punchInDate';
     public const PARAMETER_PUNCH_IN_TIME = 'punchInTime';
     public const PARAMETER_PUNCH_IN_NOTE = 'punchInNote';
+    public const PARAMETER_PUNCH_IN_OFFSET = 'punchInOffset';
     public const PARAMETER_PUNCH_OUT_DATE = 'punchOutDate';
     public const PARAMETER_PUNCH_OUT_TIME = 'punchOutTime';
     public const PARAMETER_PUNCH_OUT_NOTE = 'punchOutNote';
+    public const PARAMETER_PUNCH_OUT_OFFSET = 'punchOutOffset';
 
     /**
      * @inheritDoc
@@ -109,7 +112,7 @@ class AttendanceRecordAPI extends Endpoint implements ResourceEndpoint
     }
 
     /**
-     * @param  AttendanceRecord  $attendanceRecord
+     * @param AttendanceRecord $attendanceRecord
      * @return bool
      */
     private function isAuthUserAllowedToPerformTheActions(AttendanceRecord $attendanceRecord): bool
@@ -142,7 +145,7 @@ class AttendanceRecordAPI extends Endpoint implements ResourceEndpoint
     }
 
     /**
-     * @throws BadRequestException
+     * @throws BadRequestException|ForbiddenException
      */
     private function setAttendanceRecord(AttendanceRecord $attendanceRecord): AttendanceRecord
     {
@@ -150,19 +153,25 @@ class AttendanceRecordAPI extends Endpoint implements ResourceEndpoint
             list(
                 $punchInDate,
                 $punchInTime,
+                $punchInOffset,
                 $punchInNote,
                 $punchOutDate,
                 $punchOutTime,
+                $punchOutOffset,
                 $punchOutNote
                 ) = $this->getRequestBodyParams();
 
             $recordId = $attendanceRecord->getId();
-            $punchInTimezoneOffset = $attendanceRecord->getPunchInTimeOffset();
-            $punchInDateTime = $this->extractPunchDateTime($punchInDate.' '.$punchInTime, $punchInTimezoneOffset);
+            $attendanceRecordOwnedEmpNumber = $attendanceRecord->getEmployee()->getEmpNumber();
+            if ($this->isTimezoneEditable($punchInOffset, $attendanceRecordOwnedEmpNumber)) {
+                $punchInTimezoneOffset = $punchInOffset;
+            } else {
+                $punchInTimezoneOffset = $attendanceRecord->getPunchInTimeOffset();
+            }
+            $punchInDateTime = $this->extractPunchDateTime($punchInDate . ' ' . $punchInTime, $punchInTimezoneOffset);
             $punchInUTCDateTime = (clone $punchInDateTime)->setTimezone(
                 new DateTimeZone(DateTimeHelperService::TIMEZONE_UTC)
             );
-            $attendanceRecordOwnedEmpNumber = $attendanceRecord->getEmployee()->getEmpNumber();
             //current state is punched in and editing it
             if ($attendanceRecord->getState() === AttendanceRecord::STATE_PUNCHED_IN) {
                 $overlappingAttendanceRecords = $this->getAttendanceService()
@@ -179,14 +188,23 @@ class AttendanceRecordAPI extends Endpoint implements ResourceEndpoint
                 $attendanceRecord->setPunchInUserTime($punchInDateTime);
                 $attendanceRecord->setPunchInUtcTime($punchInUTCDateTime);
                 $attendanceRecord->setPunchInNote($punchInNote);
+                if ($this->isTimezoneEditable($punchInOffset, $attendanceRecordOwnedEmpNumber)) {
+                    $attendanceRecord->setPunchInTimeOffset($punchInOffset);
+                }
             } //current state is punched out and editing it
             else {
                 if (is_null($punchOutDate) || is_null($punchOutTime)) {
                     throw AttendanceServiceException::punchOutDateTimeNull();
                 }
-                $punchOutTimezoneOffset = $attendanceRecord->getPunchOutTimeOffset();
+
+                if ($this->isTimezoneEditable($punchOutOffset, $attendanceRecordOwnedEmpNumber)) {
+                    $punchOutTimezoneOffset = $punchOutOffset;
+                } else {
+                    $punchOutTimezoneOffset = $attendanceRecord->getPunchOutTimeOffset();
+                }
+
                 $punchOutDateTime = $this->extractPunchDateTime(
-                    $punchOutDate.' '.$punchOutTime,
+                    $punchOutDate . ' ' . $punchOutTime,
                     $punchOutTimezoneOffset
                 );
                 $punchOutUTCDateTime = (clone $punchOutDateTime)->setTimezone(
@@ -218,9 +236,15 @@ class AttendanceRecordAPI extends Endpoint implements ResourceEndpoint
                 $attendanceRecord->setPunchInUserTime($punchInDateTime);
                 $attendanceRecord->setPunchInUtcTime($punchInUTCDateTime);
                 $attendanceRecord->setPunchInNote($punchInNote);
+                if ($this->isTimezoneEditable($punchInOffset, $attendanceRecordOwnedEmpNumber)) {
+                    $attendanceRecord->setPunchInTimeOffset($punchInOffset);
+                }
                 $attendanceRecord->setPunchOutUserTime($punchOutDateTime);
                 $attendanceRecord->setPunchOutUtcTime($punchOutUTCDateTime);
                 $attendanceRecord->setPunchOutNote($punchOutNote);
+                if ($this->isTimezoneEditable($punchOutOffset, $attendanceRecordOwnedEmpNumber)) {
+                    $attendanceRecord->setPunchOutTimeOffset($punchOutOffset);
+                }
             }
             return $attendanceRecord;
         } catch (AttendanceServiceException $e) {
@@ -242,6 +266,10 @@ class AttendanceRecordAPI extends Endpoint implements ResourceEndpoint
                 RequestParams::PARAM_TYPE_BODY,
                 self::PARAMETER_PUNCH_IN_TIME
             ),
+            $this->getRequestParams()->getFloatOrNull(
+                RequestParams::PARAM_TYPE_BODY,
+                self::PARAMETER_PUNCH_IN_OFFSET
+            ),
             $this->getRequestParams()->getStringOrNull(
                 RequestParams::PARAM_TYPE_BODY,
                 self::PARAMETER_PUNCH_IN_NOTE
@@ -254,6 +282,10 @@ class AttendanceRecordAPI extends Endpoint implements ResourceEndpoint
                 RequestParams::PARAM_TYPE_BODY,
                 self::PARAMETER_PUNCH_OUT_TIME
             ),
+            $this->getRequestParams()->getFloatOrNull(
+                RequestParams::PARAM_TYPE_BODY,
+                self::PARAMETER_PUNCH_OUT_OFFSET
+            ),
             $this->getRequestParams()->getStringOrNull(
                 RequestParams::PARAM_TYPE_BODY,
                 self::PARAMETER_PUNCH_OUT_NOTE
@@ -262,8 +294,8 @@ class AttendanceRecordAPI extends Endpoint implements ResourceEndpoint
     }
 
     /**
-     * @param  string  $dateTime
-     * @param  float  $timezoneOffset
+     * @param string $dateTime
+     * @param float $timezoneOffset
      * @return DateTime
      */
     protected function extractPunchDateTime(string $dateTime, float $timezoneOffset): DateTime
@@ -272,6 +304,24 @@ class AttendanceRecordAPI extends Endpoint implements ResourceEndpoint
             $dateTime,
             $this->getDateTimeHelper()->getTimezoneByTimezoneOffset($timezoneOffset)
         );
+    }
+
+    /**
+     * @param float|null $timezoneOffset
+     * @param int $attendanceRecordOwnedEmpNumber
+     * @return bool
+     * @throws ForbiddenException
+     */
+    protected function isTimezoneEditable(?float $timezoneOffset, int $attendanceRecordOwnedEmpNumber): bool
+    {
+        //user not allowed to update self timezone
+        if (!is_null($timezoneOffset) && $attendanceRecordOwnedEmpNumber === $this->getAuthUser()->getEmpNumber()) {
+            throw $this->getForbiddenException();
+        } elseif (!is_null($timezoneOffset) && $attendanceRecordOwnedEmpNumber !== $this->getAuthUser()->getEmpNumber()) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -294,6 +344,12 @@ class AttendanceRecordAPI extends Endpoint implements ResourceEndpoint
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
+                    self::PARAMETER_PUNCH_IN_OFFSET,
+                    new Rule(Rules::TIMEZONE_OFFSET)
+                )
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
                     self::PARAMETER_PUNCH_IN_NOTE,
                     new Rule(Rules::STRING_TYPE)
                 ),
@@ -310,6 +366,12 @@ class AttendanceRecordAPI extends Endpoint implements ResourceEndpoint
                     self::PARAMETER_PUNCH_OUT_TIME,
                     new Rule(Rules::TIME, ['H:i'])
                 ),
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_PUNCH_OUT_OFFSET,
+                    new Rule(Rules::TIMEZONE_OFFSET)
+                )
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(

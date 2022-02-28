@@ -246,10 +246,11 @@ export default {
           .then(res => {
             const {utcDate, utcTime} = res.data.data;
             const currentDate = parseDate(
-              `${this.date ? this.date : utcDate} ${utcTime} +00:00`,
+              `${utcDate} ${utcTime} +00:00`,
               'yyyy-MM-dd HH:mm xxx',
             );
-            this.attendanceRecord.date = formatDate(currentDate, 'yyyy-MM-dd');
+            this.attendanceRecord.date =
+              this.date ?? formatDate(currentDate, 'yyyy-MM-dd');
             this.attendanceRecord.time = formatDate(currentDate, 'HH:mm');
             resolve();
           })
