@@ -32,8 +32,12 @@
       </div>
       <div class="orangehrm-text-center-align">
         <oxd-text type="subtitle-2">
-          Existing Entitlement value {{ current }} will be updated to
-          {{ updateAs }}
+          {{
+            $t('leave.entitlement_value_confirmation_message', {
+              oldvalue: current,
+              newvalue: updateAs,
+            })
+          }}
         </oxd-text>
       </div>
       <div class="orangehrm-modal-footer">
