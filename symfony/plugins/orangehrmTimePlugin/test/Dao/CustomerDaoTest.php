@@ -25,7 +25,9 @@ use OrangeHRM\Entity\Customer;
 use OrangeHRM\Tests\Util\KernelTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 use OrangeHRM\Time\Dao\CustomerDao;
+use OrangeHRM\Time\Dao\ProjectDao;
 use OrangeHRM\Time\Dto\CustomerSearchFilterParams;
+use OrangeHRM\Time\Dto\ProjectSearchFilterParams;
 use OrangeHRM\Time\Exception\CustomerServiceException;
 
 /**
@@ -35,6 +37,7 @@ use OrangeHRM\Time\Exception\CustomerServiceException;
 class CustomerDaoTest extends KernelTestCase
 {
     private CustomerDao $customerDao;
+    private ProjectDao $projectDao;
     protected string $fixture;
 
     /**
@@ -44,6 +47,7 @@ class CustomerDaoTest extends KernelTestCase
     protected function setUp(): void
     {
         $this->customerDao = new CustomerDao();
+        $this->projectDao = new ProjectDao();
     }
 
     private function populateCustomerServiceFixture(): void
@@ -127,9 +131,10 @@ class CustomerDaoTest extends KernelTestCase
     public function testDeleteCustomer(): void
     {
         $this->populateCustomerServiceFixture();
-        $customerId = [2, 3];
-        $result = $this->customerDao->deleteCustomer($customerId);
+        $result = $this->customerDao->deleteCustomer([2, 3]);
+        $projectCount = $this->projectDao->getProjectsCount(new ProjectSearchFilterParams());
         $this->assertEquals(2, $result);
+        $this->assertEquals(1, $projectCount);
     }
 
     public function testGetCustomerIdList(): void
