@@ -156,7 +156,7 @@ import {
   required,
   shouldNotExceedCharLength,
 } from '@/core/util/validation/rules';
-import {diffInTime} from '@/core/util/helper/datefns';
+import {diffInTime, secondsTohhmm} from '@/core/util/helper/datefns';
 import {navigate} from '@/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
 import promiseDebounce from '@ohrm/oxd/utils/promiseDebounce';
@@ -248,10 +248,24 @@ export default {
   computed: {
     totalDuration() {
       if (!this.attendance.punchOut?.userDate) return null;
+
       const startTime = `${this.attendance.punchIn.userDate} ${this.attendance.punchIn.userTime}`;
+      const punchInTz = parseFloat(this.attendance.punchIn.timezoneOffset);
+      const startTimezone =
+        (punchInTz > 0 ? ' +' : ' -') + secondsTohhmm(punchInTz * 3600);
+
       const endTime = `${this.attendance.punchOut.userDate} ${this.attendance.punchOut.userTime}`;
+      const punchOutTz = parseFloat(this.attendance.punchOut.timezoneOffset);
+      const endTimezone =
+        (punchOutTz > 0 ? ' +' : ' -') + secondsTohhmm(punchOutTz * 3600);
+
+      // yyyy-MM-dd HH:mm xxx <=> 2022-03-07 14:26 +05:30
       return parseFloat(
-        diffInTime(startTime, endTime, 'yyyy-MM-dd HH:mm') / 3600,
+        diffInTime(
+          startTime + startTimezone,
+          endTime + endTimezone,
+          'yyyy-MM-dd HH:mm xxx',
+        ) / 3600,
       ).toFixed(2);
     },
   },
