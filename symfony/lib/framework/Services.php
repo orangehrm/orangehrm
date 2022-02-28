@@ -19,8 +19,6 @@
 
 namespace OrangeHRM\Framework;
 
-use Symfony\Component\Cache\Adapter\AdapterInterface;
-
 final class Services
 {
     /**
