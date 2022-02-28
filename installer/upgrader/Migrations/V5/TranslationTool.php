@@ -24,7 +24,6 @@ use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Query\QueryBuilder;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use Symfony\Component\Yaml\Yaml;
-use function PHPUnit\Framework\throwException;
 
 class TranslationTool
 {
@@ -55,14 +54,11 @@ class TranslationTool
         $xml = simplexml_load_file($filepath);
         $transArray = ['translations' => []];
         foreach ($xml->file->body->children() as $string) {
-            $translation = new TransUnit(
-                $string->source,
-                $string->target
-            );
+            $translation = new TransUnit($string->source, $string->target);
             $transArray['translations'][] = ['source' => $translation->getSource(), 'target' => $translation->getTarget()];
         }
         $Yaml = Yaml::dump($transArray, 2, 4);
-        $filename = 'installer/upgrader/Migrations/V5/messages' . $language . '.yml';
+        $filename = 'installer/upgrader/Migrations/V5/messages.' . $language . '.yml';
         file_put_contents($filename, $Yaml);
     }
 
@@ -100,10 +96,10 @@ class TranslationTool
      */
     private function saveTranslationRecord(string $groupName, TransUnit $source, string $language): void
     {
-        $groupId = $this->getLangStringHelper()->getModuleId($groupName);
+        $groupId = $this->getLangStringHelper()->getGroupId($groupName);
         $langStringId = $this->getLangStringHelper()->getLangStringRecord($source->getSource(), $groupId);
-        if($langStringId == null){
-           throw new Exception('Cannot add a translation to a non existent lang string: '.$source->getSource());
+        if ($langStringId == null) {
+            throw new Exception('Cannot add a translation to a non existent lang string: ' . $source->getSource());
         }
         $langId = $this->getLanguageId($language);
         $existTranslation = $this->getTranslationRecord($langStringId, $langId);
@@ -111,16 +107,7 @@ class TranslationTool
             // TODO hanldle customized translations
         } else {
             $insetQuery = $this->createQueryBuilder();
-            $insetQuery->insert('ohrm_i18n_translate')
-                ->values([
-                    'lang_string_id' => ':langStringId',
-                    'language_id' => ':langId',
-                    'value' => ':target',
-                ])
-                ->setParameter('langStringId', array_column($langStringId, 'id'), Connection::PARAM_INT_ARRAY)
-                ->setParameter('langId', $langId)
-                ->setParameter('target', $source->getTarget())
-                ->executeQuery();
+            $insetQuery->insert('ohrm_i18n_translate')->values(['lang_string_id' => ':langStringId', 'language_id' => ':langId', 'value' => ':target',])->setParameter('langStringId', array_column($langStringId, 'id'), Connection::PARAM_INT_ARRAY)->setParameter('langId', $langId)->setParameter('target', $source->getTarget())->executeQuery();
         }
     }
 
@@ -143,10 +130,7 @@ class TranslationTool
     private function getLanguageId(string $langCode): int
     {
         $searchQuery = $this->createQueryBuilder();
-        $searchQuery->select('language.id')
-            ->from('ohrm_i18n_language', 'language')
-            ->where('language.code = :langCode')
-            ->setParameter('langCode', $langCode);
+        $searchQuery->select('language.id')->from('ohrm_i18n_language', 'language')->where('language.code = :langCode')->setParameter('langCode', $langCode);
         return $searchQuery->executeQuery()->fetchOne();
     }
 
@@ -167,12 +151,7 @@ class TranslationTool
     private function getTranslationRecord(array $langStringId, int $langId): string
     {
         $searchQuery = $this->createQueryBuilder();
-        $searchQuery->select('translate.id')
-            ->from('ohrm_i18n_translate', 'translate')
-            ->where('translate.language_id = :langCode')
-            ->andWhere('translate.lang_string_id = :langStringId')
-            ->setParameter('langCode', $langId)
-            ->setParameter('langStringId', array_column($langStringId, 'id'), Connection::PARAM_INT_ARRAY);
+        $searchQuery->select('translate.id')->from('ohrm_i18n_translate', 'translate')->where('translate.language_id = :langCode')->andWhere('translate.lang_string_id = :langStringId')->setParameter('langCode', $langId)->setParameter('langStringId', array_column($langStringId, 'id'), Connection::PARAM_INT_ARRAY);
         return $searchQuery->executeQuery()->fetchOne();
     }
 

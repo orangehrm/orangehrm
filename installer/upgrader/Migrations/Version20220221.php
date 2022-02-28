@@ -35,8 +35,8 @@ class Version20220221
 
     public function up(): void
     {
-        $groupId = $this->getLangStringHelper()->getModuleId('admin');
-        $langArray = $this->getLangStringHelper()->getLangStringArray($groupId);
+        $groupId = $this->getLangStringHelper()->getGroupId('admin');
+        $langArray = $this->getLangStringHelper()->getLangStringArray('admin');
         $this->getLangStringHelper()->deleteNonCustomLangStrings($groupId);
         $this->getLangStringHelper()->versionMigrateLangStrings($langArray, $groupId);
     }
