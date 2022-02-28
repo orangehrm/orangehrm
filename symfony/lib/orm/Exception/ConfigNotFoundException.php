@@ -21,5 +21,4 @@ namespace OrangeHRM\ORM\Exception;
 
 class ConfigNotFoundException extends \Exception
 {
-
 }

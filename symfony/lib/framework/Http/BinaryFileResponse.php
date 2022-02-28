@@ -23,5 +23,4 @@ use Symfony\Component\HttpFoundation\BinaryFileResponse as HttpBinaryFileRespons
 
 class BinaryFileResponse extends HttpBinaryFileResponse
 {
-
 }
