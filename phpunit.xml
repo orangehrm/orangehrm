@@ -76,7 +76,6 @@
       <directory>symfony/plugins/orangehrmMaintenancePlugin/test/PurgeStrategy</directory>
       <directory>symfony/plugins/orangehrmMaintenancePlugin/test/Dto</directory>
       <directory>symfony/plugins/orangehrmMaintenancePlugin/test/Api</directory>
-<!--      <directory>symfony/plugins/orangehrmMaintenancePlugin/test/Entity</directory>-->
     </testsuite>
   </testsuites>
 </phpunit>
