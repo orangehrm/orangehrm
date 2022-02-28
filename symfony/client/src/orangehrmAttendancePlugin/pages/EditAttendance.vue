@@ -68,6 +68,12 @@
                   />
                 </oxd-grid-item>
 
+                <oxd-grid-item v-if="isTimezoneEditable" class="--offset-row-3">
+                  <timezone-autocomplete
+                    v-model="attendance.punchIn.timezone"
+                  />
+                </oxd-grid-item>
+
                 <oxd-grid-item class="--span-column-2">
                   <oxd-input-field
                     v-model="attendance.punchIn.note"
@@ -110,6 +116,12 @@
                   />
                 </oxd-grid-item>
 
+                <oxd-grid-item v-if="isTimezoneEditable" class="--offset-row-3">
+                  <timezone-autocomplete
+                    v-model="attendance.punchOut.timezone"
+                  />
+                </oxd-grid-item>
+
                 <oxd-grid-item class="--span-column-2">
                   <oxd-input-field
                     v-model="attendance.punchOut.note"
@@ -148,6 +160,7 @@ import {navigate} from '@/core/util/helper/navigation';
 import {diffInTime} from '@/core/util/helper/datefns';
 import {APIService} from '@/core/util/services/api.service';
 import promiseDebounce from '@ohrm/oxd/utils/promiseDebounce';
+import TimezoneAutocomplete from '@/orangehrmAttendancePlugin/components/TimezoneAutocomplete.vue';
 
 const attendanceRecordModal = {
   userDate: null,
@@ -155,14 +168,26 @@ const attendanceRecordModal = {
   utcDate: null,
   utcTime: null,
   note: null,
+  timezone: null,
   timezoneOffset: null,
 };
 
 export default {
+  components: {
+    'timezone-autocomplete': TimezoneAutocomplete,
+  },
   props: {
     attendanceId: {
       type: Number,
       required: true,
+    },
+    isEmployeeEdit: {
+      type: Boolean,
+      default: false,
+    },
+    isTimezoneEditable: {
+      type: Boolean,
+      default: false,
     },
   },
   setup() {
@@ -178,6 +203,7 @@ export default {
     return {
       isLoading: false,
       attendance: {
+        employee: null,
         punchIn: {...attendanceRecordModal},
         punchOut: {...attendanceRecordModal},
       },
@@ -235,6 +261,7 @@ export default {
       .get(this.attendanceId)
       .then(response => {
         const {data} = response.data;
+        this.attendance.employee = data.employee;
         this.attendance.punchIn = data.punchIn;
         this.attendance.punchOut = data.punchOut?.userDate
           ? data.punchOut
@@ -246,9 +273,16 @@ export default {
   },
   methods: {
     onCancel() {
-      navigate('/attendance/viewMyAttendanceRecord', undefined, {
-        date: this.attendance.punchIn?.userDate,
-      });
+      if (this.isEmployeeEdit) {
+        navigate('/attendance/viewAttendanceRecord', undefined, {
+          employeeId: this.attendance.employee?.empNumber,
+          date: this.attendance.punchIn?.userDate,
+        });
+      } else {
+        navigate('/attendance/viewMyAttendanceRecord', undefined, {
+          date: this.attendance.punchIn?.userDate,
+        });
+      }
     },
     onSave() {
       this.isLoading = true;

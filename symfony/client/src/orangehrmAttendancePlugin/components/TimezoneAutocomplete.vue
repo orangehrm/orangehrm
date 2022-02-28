@@ -20,38 +20,55 @@
 
 <template>
   <oxd-input-field
-    type="select"
-    :options="options"
+    type="autocomplete"
+    :clear="false"
     :label="$t('time.timezone')"
-  />
+    :create-options="loadTimezones"
+  >
+    <template #option="{data}">
+      <span>{{ data.label }}</span>
+    </template>
+  </oxd-input-field>
 </template>
 
 <script>
-import {ref, onBeforeMount} from 'vue';
 import {APIService} from '@ohrm/core/util/services/api.service';
 export default {
-  name: 'TimezoneDropdown',
+  name: 'TimezoneAutocomplete',
   setup() {
-    const options = ref([]);
     const http = new APIService(
       window.appGlobal.baseUrl,
       '/api/v2/attendance/timezones',
     );
 
-    onBeforeMount(() => {
-      http.getAll().then(({data}) => {
-        options.value = data.data.map(item => {
-          return {
-            id: item.id,
-            label: item.name,
-            _offset: item.offset,
-          };
-        });
-      });
-    });
     return {
-      options,
+      http,
     };
+  },
+  methods: {
+    async loadTimezones(serachParam) {
+      return new Promise(resolve => {
+        if (serachParam.trim()) {
+          this.http
+            .getAll({
+              name: serachParam.trim(),
+            })
+            .then(({data}) => {
+              resolve(
+                data.data.map(timezone => {
+                  return {
+                    id: timezone.id,
+                    label: timezone.label,
+                    _offset: parseFloat(timezone.offset),
+                  };
+                }),
+              );
+            });
+        } else {
+          resolve([]);
+        }
+      });
+    },
   },
 };
 </script>

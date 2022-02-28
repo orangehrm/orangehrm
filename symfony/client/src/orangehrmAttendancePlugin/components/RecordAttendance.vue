@@ -74,7 +74,7 @@
 
     <oxd-grid v-if="isTimezoneEditable" :cols="4">
       <oxd-grid-item>
-        <timezone-dropdown v-model="attendanceRecord.timezone" />
+        <timezone-autocomplete v-model="attendanceRecord.timezone" />
       </oxd-grid-item>
     </oxd-grid>
 
@@ -112,10 +112,10 @@ import {
   formatDate,
   setClockInterval,
 } from '@/core/util/helper/datefns';
-import {reloadPage} from '@/core/util/helper/navigation';
+import {reloadPage, navigate} from '@/core/util/helper/navigation';
 import promiseDebounce from '@ohrm/oxd/utils/promiseDebounce';
 import {APIService} from '@ohrm/core/util/services/api.service';
-import TimezoneDropdown from '@/orangehrmAttendancePlugin/components/TimezoneDropdown.vue';
+import TimezoneAutocomplete from '@/orangehrmAttendancePlugin/components/TimezoneAutocomplete.vue';
 
 const attendanceRecordModal = {
   date: null,
@@ -128,7 +128,7 @@ const attendanceRecordModal = {
 export default {
   name: 'RecordAttendance',
   components: {
-    'timezone-dropdown': TimezoneDropdown,
+    'timezone-autocomplete': TimezoneAutocomplete,
   },
   props: {
     isEditable: {
@@ -143,12 +143,20 @@ export default {
       type: Number,
       default: null,
     },
+    employeeId: {
+      type: Number,
+      default: null,
+    },
+    date: {
+      type: String,
+      default: null,
+    },
   },
-  setup() {
-    const http = new APIService(
-      window.appGlobal.baseUrl,
-      '/api/v2/attendance/records',
-    );
+  setup(props) {
+    const apiPath = props.employeeId
+      ? `/api/v2/attendance/employees/${props.employeeId}/records`
+      : '/api/v2/attendance/records';
+    const http = new APIService(window.appGlobal.baseUrl, apiPath);
     return {
       http,
     };
@@ -170,11 +178,11 @@ export default {
     this.setCurrentDateTime()
       .then(() => {
         // then set record date/time every minute
-        setClockInterval(this.setCurrentDateTime, 60000);
+        !this.date && setClockInterval(this.setCurrentDateTime, 60000);
         return this.attendanceRecordId
           ? this.http.request({
               method: 'GET',
-              url: '/api/v2/attendance/records/latest',
+              url: `/api/v2/attendance/records/${this.attendanceRecordId}`,
             })
           : null;
       })
@@ -211,7 +219,12 @@ export default {
             : this.$toast.saveSuccess();
         })
         .then(() => {
-          reloadPage();
+          this.employeeId
+            ? navigate('/attendance/viewAttendanceRecord', undefined, {
+                employeeId: this.employeeId,
+                date: this.date,
+              })
+            : reloadPage();
         });
     },
     setCurrentDateTime() {
@@ -221,7 +234,7 @@ export default {
           .then(res => {
             const {utcDate, utcTime} = res.data.data;
             const currentDate = parseDate(
-              `${utcDate} ${utcTime} +00:00`,
+              `${this.date ? this.date : utcDate} ${utcTime} +00:00`,
               'yyyy-MM-dd HH:mm xxx',
             );
             this.attendanceRecord.date = formatDate(currentDate, 'yyyy-MM-dd');
@@ -245,6 +258,7 @@ export default {
               time: this.attendanceRecord.time,
               timezoneOffset:
                 this.attendanceRecord.timezone?._offset ?? tzOffset,
+              empNumber: this.employeeId,
             },
             // Prevent triggering response interceptor on 400
             validateStatus: status => {
