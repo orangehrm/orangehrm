@@ -304,7 +304,7 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
             ),
             new ParamRule(
                 self::PARAMETER_TIMEZONE_OFFSET,
-                new Rule(Rules::FLOAT_TYPE)
+                new Rule(Rules::TIMEZONE_OFFSET)
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
