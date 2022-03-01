@@ -22,7 +22,7 @@
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
       <oxd-text tag="h6" class="orangehrm-main-title">
-        Edit Job Category
+        {{ $t('admin.edit_job_category') }}
       </oxd-text>
 
       <oxd-divider />
@@ -31,7 +31,7 @@
         <oxd-form-row>
           <oxd-input-field
             v-model="category.name"
-            label="Name"
+            :label="$t('general.name')"
             :rules="rules.name"
             required
           />
@@ -44,7 +44,7 @@
           <oxd-button
             type="button"
             display-type="ghost"
-            label="Cancel"
+            :label="$t('general.cancel')"
             @click="onCancel"
           />
           <submit-button />
@@ -57,7 +57,7 @@
 <script>
 import {navigate} from '@ohrm/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
-import {required} from '@ohrm/core/util/validation/rules';
+import {required, shouldNotExceedCharLength} from '@ohrm/core/util/validation/rules';
 
 export default {
   props: {
@@ -85,7 +85,7 @@ export default {
         name: '',
       },
       rules: {
-        name: [],
+        name: [required, shouldNotExceedCharLength(50)],
       },
       errors: [],
     };
@@ -103,15 +103,11 @@ export default {
       })
       .then(response => {
         const {data} = response.data;
-        this.rules.name.push(required);
-        this.rules.name.push(v => {
-          return (v && v.length <= 50) || this.$t('general.should_not_exceed_50_charcters');
-        });
         this.rules.name.push(v => {
           const index = data.findIndex(item => item.name == v);
           if (index > -1) {
             const {id} = data[index];
-            return id != this.category.id ? 'Already exists' : true;
+            return id != this.category.id ? this.$t('general.already_exists') : true;
           } else {
             return true;
           }

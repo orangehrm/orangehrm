@@ -220,7 +220,7 @@ export default {
             if (index > -1) {
               const {id} = data[index];
               return parseInt(id, 10) !== parseInt(this.locationId, 10)
-                  ? 'Already exists'
+                  ? this.$t('general.already_exists')
                   : true;
             } else {
               return true;
