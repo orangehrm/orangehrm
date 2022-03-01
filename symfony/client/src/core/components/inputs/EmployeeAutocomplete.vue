@@ -21,7 +21,7 @@
 <template>
   <oxd-input-field
     type="autocomplete"
-    :label="label"
+    label="Employee Name"
     :clear="false"
     :create-options="loadEmployees"
   >
@@ -50,10 +50,6 @@ export default {
       type: String,
       default: 'api/v2/pim/employees',
     },
-    label: {
-      type: String,
-      default: 'Employee Name',
-    },
   },
   setup(props) {
     const http = new APIService(window.appGlobal.baseUrl, props.apiPath);
@@ -76,6 +72,7 @@ export default {
                   return {
                     id: employee.empNumber,
                     label: `${employee.firstName} ${employee.middleName} ${employee.lastName}`,
+                    _employee: employee,
                     isPastEmployee: employee.terminationId ? true : false,
                   };
                 }),

@@ -27,13 +27,16 @@
 
       <oxd-divider />
 
-      <oxd-form @submit="displayEmployee">
+      <oxd-form @submit="displayPurgeableEmployee">
         <oxd-form-row>
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <employee-autocomplete
-                v-model="filters.employee"
-                :params="{includeEmployees: filters.includeEmployees?.param}"
+                v-model="purgeableEmployee.employee"
+                :rules="rules.employee"
+                :params="{
+                  includeEmployees: purgeableEmployee.includeEmployeesParam,
+                }"
                 label="Past Employee"
                 required
               />
@@ -58,10 +61,10 @@
       <oxd-divider />
 
       <oxd-form :loading="isLoading">
-        <div class="orangehrm-edit-employee">
-          <div class="orangehrm-edit-employee-imagesection">
-            <div class="orangehrm-edit-employee-image-wrapper">
-              <div class="orangehrm-edit-employee-image">
+        <div class="orangehrm-purge-employee">
+          <div class="orangehrm-purge-employee-imagesection">
+            <div class="orangehrm-purge-employee-image-wrapper">
+              <div class="orangehrm-purge-employee-image">
                 <img
                   alt="profile picture"
                   class="employee-image"
@@ -75,9 +78,9 @@
               <oxd-grid :cols="1" class="orangehrm-full-width-grid">
                 <oxd-grid-item>
                   <full-name-input
-                    v-model:firstName="purgeableEmployee.firstName"
-                    v-model:middleName="purgeableEmployee.middleName"
-                    v-model:lastName="purgeableEmployee.lastName"
+                    v-model:firstName="selectedEmployee.firstName"
+                    v-model:middleName="selectedEmployee.middleName"
+                    v-model:lastName="selectedEmployee.lastName"
                     :rules="rules"
                     disabled
                   />
@@ -88,7 +91,7 @@
               <oxd-grid :cols="3" class="orangehrm-full-width-grid">
                 <oxd-grid-item>
                   <oxd-input-field
-                    v-model="purgeableEmployee.employeeId"
+                    v-model="selectedEmployee.employeeId"
                     label="Employee Id"
                     :rules="rules.employeeId"
                     disabled
@@ -110,9 +113,6 @@
 </template>
 
 <script>
-import {computed, ref} from 'vue';
-import usePaginate from '@/core/util/composable/usePaginate';
-import {APIService} from '@/core/util/services/api.service';
 import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
 import RequiredText from '@/core/components/labels/RequiredText';
 import FullNameInput from '@/orangehrmPimPlugin/components/FullNameInput';
@@ -121,54 +121,27 @@ import {
   shouldNotExceedCharLength,
 } from '@/core/util/validation/rules';
 
-const defaultFilters = {
-  employee: null,
-  includeEmployees: {
-    param: 'onlyPast',
-  },
-};
-
 const defaultPic = `${window.appGlobal.baseUrl}/../dist/img/user-default-400.png`;
 
-const purgeableEmployeeModel = {
-  empNumber: '',
+const selectedEmployeeModel = {
   firstName: '',
   middleName: '',
   lastName: '',
   employeeId: '',
+  empNumber: '',
+};
+
+const purgeableEmployeeModel = {
+  employee: null,
+  includeEmployeesParam: 'onlyPast',
 };
 
 export default {
   name: 'PurgeEmployee',
   components: {
-    FullNameInput,
-    RequiredText,
+    'full-name-input': FullNameInput,
+    'required-text': RequiredText,
     'employee-autocomplete': EmployeeAutocomplete,
-  },
-
-  setup() {
-    const filters = ref({...defaultFilters});
-
-    const serializedFilters = computed(() => {
-      return {
-        empNumber: filters.value.employee?.id,
-        includeEmployees: filters.value.includeEmployees?.param,
-      };
-    });
-
-    const http = new APIService(
-      window.appGlobal.baseUrl,
-      'api/v2/pim/employees',
-    );
-    const {response, execQuery} = usePaginate(http, {
-      query: serializedFilters,
-    });
-
-    return {
-      execQuery,
-      items: response,
-      filters,
-    };
   },
 
   data() {
@@ -176,33 +149,30 @@ export default {
       isLoading: false,
       showPurgeableEmployee: false,
       purgeableEmployee: {...purgeableEmployeeModel},
+      selectedEmployee: {...selectedEmployeeModel},
       imgSrc: defaultPic,
       rules: {
-        firstName: [required, shouldNotExceedCharLength(30)],
+        employee: [required],
+        firstName: [shouldNotExceedCharLength(30)],
         middleName: [shouldNotExceedCharLength(30)],
-        lastName: [required, shouldNotExceedCharLength(30)],
+        lastName: [shouldNotExceedCharLength(30)],
         employeeId: [shouldNotExceedCharLength(10)],
       },
     };
   },
 
   methods: {
-    async displayEmployee() {
-      this.purgeableEmployee = {...purgeableEmployeeModel};
+    displayPurgeableEmployee() {
+      this.selectedEmployee = {...selectedEmployeeModel};
       this.imgSrc = defaultPic;
       this.isLoading = true;
-      if (this.filters.employee) {
+      if (this.purgeableEmployee.employee) {
+        this.selectedEmployee = {...this.purgeableEmployee.employee._employee};
+        this.imgSrc = `${window.appGlobal.baseUrl}/pim/viewPhoto/empNumber/${this.purgeableEmployee.employee._employee.empNumber}`;
         this.showPurgeableEmployee = true;
-        await this.execQuery();
-        this.purgeableEmployee = {
-          ...purgeableEmployeeModel,
-          ...this.items?.data[0],
-        };
-        this.imgSrc = `${window.appGlobal.baseUrl}/pim/viewPhoto/empNumber/${this.purgeableEmployee.empNumber}`;
       } else {
         this.showPurgeableEmployee = false;
       }
-
       this.isLoading = false;
     },
   },
@@ -213,7 +183,7 @@ export default {
 @import '@ohrm/oxd/styles/_mixins.scss';
 @import '@ohrm/oxd/styles/_colors.scss';
 
-.orangehrm-edit-employee {
+.orangehrm-purge-employee {
   display: flex;
   @include oxd-respond-to('xs') {
     flex-direction: column;
