@@ -50,38 +50,44 @@ class TimezonesAPI extends Endpoint implements CollectionEndpoint
             RequestParams::PARAM_TYPE_QUERY,
             self::FILTER_TIMEZONE_NAME
         );
+
         $identifiers = DateTimeZone::listIdentifiers();
-        $filteredIdentifiers = array_filter(
-            $identifiers,
-            function ($item) use ($filterName) {
-                if (stripos($item, $filterName) !== false) {
-                    return true;
+
+        if (is_null($filterName)) {
+            $filteredIdentifiers = $identifiers;
+        } else {
+            $filteredIdentifiers = array_filter(
+                $identifiers,
+                function ($item) use ($filterName) {
+                    if (stripos($item, $filterName) !== false) {
+                        return true;
+                    }
+                    return false;
                 }
-                return false;
-            }
-        );
+            );
+        }
+
         $timezones = [];
         foreach ($filteredIdentifiers as $timezoneIdentifier) {
             $timezone = new DateTimeZone($timezoneIdentifier);
             $offsetInSeconds = $timezone->getOffset(new DateTime());
-            $timezones[$timezoneIdentifier] = $offsetInSeconds;
-        }
-        asort($timezones);
-        $sortedTimezones = [];
-        foreach ($timezones as $identifier => $offsetInSeconds) {
             $offset = number_format((float)($offsetInSeconds / 3600), 1);
             $timezoneValue = gmdate('H:i', abs($offsetInSeconds));
             $offsetPrefix = $offsetInSeconds > 0 ? '+' : '-';
-            $sortedTimezones[] = [
-                'name' => $identifier,
+            $timezones[$timezoneIdentifier] = [
+                'name' => $timezoneIdentifier,
                 'label' => "${offsetPrefix}${timezoneValue}",
                 'offset' => $offset
             ];
         }
+        usort(
+            $timezones,
+            fn ($timezone1, $timezone2) => $timezone1['offset'] > $timezone2['offset']
+        );
         return new EndpointCollectionResult(
             ArrayModel::class,
-            $sortedTimezones,
-            new ParameterBag([CommonParams::PARAMETER_TOTAL => count($sortedTimezones)])
+            array_values($timezones),
+            new ParameterBag([CommonParams::PARAMETER_TOTAL => count($timezones)])
         );
     }
 
@@ -92,9 +98,12 @@ class TimezonesAPI extends Endpoint implements CollectionEndpoint
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(
-                self::FILTER_TIMEZONE_NAME,
-                new Rule(Rules::STRING_TYPE)
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::FILTER_TIMEZONE_NAME,
+                    new Rule(Rules::STRING_TYPE)
+                ),
+                true
             )
         );
     }
