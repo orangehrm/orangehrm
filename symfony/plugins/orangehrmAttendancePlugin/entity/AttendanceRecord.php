@@ -81,6 +81,13 @@ class AttendanceRecord
     private ?string $punchInTimeOffset = null;
 
     /**
+     * @var string|null
+     *
+     * @ORM\Column(name="punch_in_timezone_name", type="string", length=100, nullable=true)
+     */
+    private ?string $punchInTimezoneName = null;
+
+    /**
      * @var DateTime|null
      *
      * @ORM\Column(name="punch_in_user_time", type="datetime", nullable=true)
@@ -107,6 +114,13 @@ class AttendanceRecord
      * @ORM\Column(name="punch_out_time_offset", type="string", length=255, nullable=true)
      */
     private ?string $punchOutTimeOffset = null;
+
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="punch_out_timezone_name", type="string", length=100, nullable=true)
+     */
+    private ?string $punchOutTimezoneName = null;
 
     /**
      * @var DateTime|null
@@ -296,5 +310,37 @@ class AttendanceRecord
     public function setState(string $state): void
     {
         $this->state = $state;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getPunchInTimezoneName(): ?string
+    {
+        return $this->punchInTimezoneName;
+    }
+
+    /**
+     * @param string|null $punchInTimezoneName
+     */
+    public function setPunchInTimezoneName(?string $punchInTimezoneName): void
+    {
+        $this->punchInTimezoneName = $punchInTimezoneName;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getPunchOutTimezoneName(): ?string
+    {
+        return $this->punchOutTimezoneName;
+    }
+
+    /**
+     * @param string|null $punchOutTimezoneName
+     */
+    public function setPunchOutTimezoneName(?string $punchOutTimezoneName): void
+    {
+        $this->punchOutTimezoneName = $punchOutTimezoneName;
     }
 }
