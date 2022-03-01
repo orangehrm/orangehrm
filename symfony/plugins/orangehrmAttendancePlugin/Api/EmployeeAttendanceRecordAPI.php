@@ -35,8 +35,8 @@ use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
 use OrangeHRM\Core\Api\V2\Exception\ForbiddenException;
-use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
+use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
@@ -62,6 +62,7 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
     public const PARAMETER_DATE = 'date';
     public const PARAMETER_TIME = 'time';
     public const PARAMETER_TIMEZONE_OFFSET = 'timezoneOffset';
+    public const PARAMETER_TIMEZONE_NAME = 'timezoneName';
     public const PARAMETER_NOTE = 'note';
 
     public const PARAMETER_RULE_NOTE_MAX_LENGTH = 250;
@@ -139,7 +140,10 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
                     CommonParams::PARAMETER_EMP_NUMBER,
                     new Rule(Rules::POSITIVE),
                     new Rule(Rules::ENTITY_ID_EXISTS, [Employee::class]),
-                    new Rule(EmployeeDataGroupReadPermissionRule::class, ['apiv2_attendance_employee_attendance_record']),
+                    new Rule(
+                        EmployeeDataGroupReadPermissionRule::class,
+                        ['apiv2_attendance_employee_attendance_record']
+                    ),
                     new Rule(Rules::IN_ACCESSIBLE_ENTITY_ID, [Employee::class])
                 )
             ),
@@ -154,7 +158,7 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
     public function create(): EndpointResourceResult
     {
         try {
-            list($empNumber, $date, $time, $timezoneOffset, $note) = $this->getCommonRequestParams();
+            list($empNumber, $date, $time, $timezoneOffset, $timezoneName, $note) = $this->getCommonRequestParams();
             $allowedWorkflowItems = $this->getUserRoleManager()->getAllowedActions(
                 WorkflowStateMachine::FLOW_ATTENDANCE,
                 AttendanceRecord::STATE_INITIAL,
@@ -181,6 +185,7 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
                 $punchInUTCDateTime,
                 $punchInDateTime,
                 $timezoneOffset,
+                $timezoneName,
                 $note
             );
             $attendanceRecord = $this->getAttendanceService()->getAttendanceDao()->savePunchRecord($attendanceRecord);
@@ -212,6 +217,10 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
             $this->getRequestParams()->getFloat(
                 RequestParams::PARAM_TYPE_BODY,
                 self::PARAMETER_TIMEZONE_OFFSET
+            ),
+            $this->getRequestParams()->getString(
+                RequestParams::PARAM_TYPE_BODY,
+                self::PARAMETER_TIMEZONE_NAME
             ),
             $this->getRequestParams()->getStringOrNull(
                 RequestParams::PARAM_TYPE_BODY,
@@ -255,6 +264,7 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
      * @param DateTime $punchInUtcTime
      * @param DateTime $punchInUserTime
      * @param float $punchInTimezoneOffset
+     * @param string $punchInTimezoneName
      * @param string|null $punchInNote
      */
     protected function setPunchInAttendanceRecord(
@@ -263,12 +273,14 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
         DateTime $punchInUtcTime,
         DateTime $punchInUserTime,
         float $punchInTimezoneOffset,
+        string $punchInTimezoneName,
         ?string $punchInNote
     ): void {
         $attendanceRecord->setState($state);
         $attendanceRecord->setPunchInUtcTime($punchInUtcTime);
         $attendanceRecord->setPunchInUserTime($punchInUserTime);
         $attendanceRecord->setPunchInTimeOffset($punchInTimezoneOffset);
+        $attendanceRecord->setPunchInTimezoneName($punchInTimezoneName);
         $attendanceRecord->setPunchInNote($punchInNote);
     }
 
@@ -305,6 +317,10 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
             new ParamRule(
                 self::PARAMETER_TIMEZONE_OFFSET,
                 new Rule(Rules::TIMEZONE_OFFSET)
+            ),
+            new ParamRule(
+                self::PARAMETER_TIMEZONE_NAME,
+                new Rule(Rules::TIMEZONE_NAME)
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
@@ -426,7 +442,7 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
     public function update(): EndpointResult
     {
         try {
-            list($empNumber, $date, $time, $timezoneOffset, $note) = $this->getCommonRequestParams();
+            list($empNumber, $date, $time, $timezoneOffset, $timezoneName, $note) = $this->getCommonRequestParams();
             $allowedWorkflowItems = $this->getUserRoleManager()->getAllowedActions(
                 WorkflowStateMachine::FLOW_ATTENDANCE,
                 AttendanceRecord::STATE_PUNCHED_IN,
@@ -457,6 +473,7 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
                 $punchOutUTCDateTime,
                 $punchOutDateTime,
                 $timezoneOffset,
+                $timezoneName,
                 $note
             );
             $attendanceRecord = $this->getAttendanceService()->getAttendanceDao()->savePunchRecord($lastPunchInRecord);
@@ -487,6 +504,7 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
      * @param DateTime $punchOutUtcTime
      * @param DateTime $punchOutUserTime
      * @param float $punchOutTimezoneOffset
+     * @param string $punchOutTimezoneName
      * @param string|null $punchOutNote
      */
     protected function setPunchOutAttendanceRecord(
@@ -495,12 +513,14 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
         DateTime $punchOutUtcTime,
         DateTime $punchOutUserTime,
         float $punchOutTimezoneOffset,
+        string $punchOutTimezoneName,
         ?string $punchOutNote
     ): void {
         $attendanceRecord->setState($state);
         $attendanceRecord->setPunchOutUtcTime($punchOutUtcTime);
         $attendanceRecord->setPunchOutUserTime($punchOutUserTime);
         $attendanceRecord->setPunchOutTimeOffset($punchOutTimezoneOffset);
+        $attendanceRecord->setPunchOutTimezoneName($punchOutTimezoneName);
         $attendanceRecord->setPunchOutNote($punchOutNote);
     }
 
