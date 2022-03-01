@@ -8,6 +8,9 @@ Config:
   - { name: 'admin.default_workshift_end_time', value: '17:00' }
   - { name: 'admin.default_workshift_start_time', value: '09:00' }
 
+I18NLanguage:
+  - { "id": "4","name": "English (United States)","code": "en_US","enabled": "1","added": "1","modified_at": null }
+
 WorkWeek:
   - { id: 1, mon: 0, tue: 0, wed: 0, thu: 0, fri: 4, sat: 8, sun: 0 }
 
