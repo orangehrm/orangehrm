@@ -18,11 +18,15 @@
  */
 
 use Composer\Autoload\ClassLoader;
+use OrangeHRM\Core\Traits\EventDispatcherTrait;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\PluginConfigurationInterface;
+use OrangeHRM\FunctionalTesting\Subscriber\FunctionalTestingPluginSubscriber;
 
 class FunctionalTestingPluginConfiguration implements PluginConfigurationInterface
 {
+    use EventDispatcherTrait;
+
     /**
      * @inheritDoc
      */
@@ -31,5 +35,7 @@ class FunctionalTestingPluginConfiguration implements PluginConfigurationInterfa
         $loader = new ClassLoader();
         $loader->addPsr4('OrangeHRM\\FunctionalTesting\\', [realpath(__DIR__ . '/..')]);
         $loader->register();
+
+        $this->getEventDispatcher()->addSubscriber(new FunctionalTestingPluginSubscriber());
     }
 }

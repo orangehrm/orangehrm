@@ -171,6 +171,7 @@ class DatabaseBackupService
                 }
 
                 $conn->executeStatement("DELETE FROM `$tableName`");
+                $conn->executeStatement("ALTER TABLE `$tableName` AUTO_INCREMENT = 1");
                 $data = $cacheItem->get()['data'];
                 foreach ($data as $row) {
                     $conn->insert($tableName, $row);

@@ -35,23 +35,15 @@ Cypress.Commands.add(
   },
 );
 
-Cypress.Commands.add(
-  'apiLogin',
-  ({username, password}, url = '/auth/login') => {
-    cy.visit(url);
-    cy.get('input[name=_token]').then(($token) => {
-      const csrfToken = $token.val();
-      cy.request({
-        method: 'POST',
-        url: '/index.php/auth/validate',
-        form: true,
-        body: {
-          username,
-          password,
-          _token: csrfToken,
-        },
-      });
-    });
+Cypress.Commands.add('apiLogin', ({username, password}) => {
+  cy.request({
+    method: 'POST',
+    url: '/functional-testing/auth/validate',
+    body: {
+      username,
+      password,
+    },
+  }).then(() => {
     // getCookie code was added to support session migration added in OHRM5X-666
     // After login, session id will be changed
     // This results in two cookies appearing during cypress testing
@@ -66,8 +58,8 @@ Cypress.Commands.add(
         cy.clearCookies();
         cy.setCookie('_orangehrm', cookies[0].value, cookies[0]);
       });
-  },
-);
+  });
+});
 
 Cypress.Commands.add('getOXD', (type, options = {}) => {
   return cy.get(OXD_ELEMENTS[type], options);

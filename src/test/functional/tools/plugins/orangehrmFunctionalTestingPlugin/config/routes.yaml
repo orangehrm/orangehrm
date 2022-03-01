@@ -22,3 +22,8 @@ functional_testing_delete_savepoints:
   path: /functional-testing/database/delete-savepoints
   controller: OrangeHRM\FunctionalTesting\Controller\DeleteSavepointController::handle
   methods: [ POST ]
+
+functional_testing_auth_validate:
+  path: /functional-testing/auth/validate
+  controller: OrangeHRM\FunctionalTesting\Controller\AuthValidateController::handle
+  methods: [ POST ]
