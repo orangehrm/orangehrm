@@ -70,7 +70,7 @@ class TranslationTool
      */
     private function addTranslations(string $language, string $groupName): void
     {
-        $filepath = 'installer/upgrader/Migrations/V5/messages' . $language . '.yml';
+        $filepath = 'installer/upgrader/Migrations/V5/messages.' . $language . '.yml';
         $yml = Yaml::parseFile($filepath);
         $translations = array_shift($yml);
         $filepath2 = 'installer/upgrader/Migrations/V5/' . $groupName . 'LangString.yaml';

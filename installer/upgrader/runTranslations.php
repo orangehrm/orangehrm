@@ -29,3 +29,4 @@ ServiceContainer::getContainer()->register(Services::DOCTRINE)
 
 $translate = new TranslationTool();
 $translate->up('admin');
+$translate->up('general');
