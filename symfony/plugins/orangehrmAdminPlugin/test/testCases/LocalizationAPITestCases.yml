@@ -1,61 +1,49 @@
 getValidationRuleForUpdate:
   valid:
-    parameters: { language: 'de', dateFormat: 'Y-m-d', useBrowserLanguage: true, browserLanguage: 'fr' }
-    isValid: true
-  language null:
-    parameters: { language: null, dateFormat: 'Y-m-d', useBrowserLanguage: true, browserLanguage: 'fr' }
-    isValid: false
-  no language:
-    parameters: { dateFormat: 'Y-m-d', useBrowserLanguage: true, browserLanguage: 'fr' }
-    isValid: false
-  empty language:
-    parameters: { language: '', dateFormat: 'Y-m-d', useBrowserLanguage: true, browserLanguage: 'fr' }
-    isValid: false
-  invalid language:
-    parameters: { language: 'qw', dateFormat: 'Y-m-d', useBrowserLanguage: true, browserLanguage: 'fr' }
-    isValid: false
-  date format null:
-    parameters: { language: 'de', dateFormat: null, useBrowserLanguage: true, browserLanguage: 'fr' }
-    isValid: false
-  no date format:
-    parameters: { language: 'de', useBrowserLanguage: true, browserLanguage: 'fr' }
-    isValid: false
-  empty date format:
-    parameters: { language: 'de', dateFormat: '', useBrowserLanguage: true, browserLanguage: 'fr' }
-    isValid: false
-  invalid date format:
-    parameters: { language: 'de', dateFormat: 'Ym-d', useBrowserLanguage: true, browserLanguage: 'fr' }
-    isValid: false
-  useBrowserLanguage false:
-    parameters: { language: 'de', dateFormat: 'Y-m-d', useBrowserLanguage: false, browserLanguage: 'fr' }
-    isValid: true
-  useBrowserLanguage 0:
-    parameters: { language: 'de', dateFormat: 'Y-m-d', useBrowserLanguage: 0, browserLanguage: 'fr' }
-    isValid: true
-  useBrowserLanguage 1:
-    parameters: { language: 'de', dateFormat: 'Y-m-d', useBrowserLanguage: 1, browserLanguage: 'fr' }
-    isValid: true
-  useBrowserLanguage null:
-    parameters: { language: 'de', dateFormat: 'Y-m-d', useBrowserLanguage: null, browserLanguage: 'fr' }
-    isValid: true
-  useBrowserLanguage empty:
-    parameters: { language: 'de', dateFormat: 'Y-m-d', useBrowserLanguage: '', browserLanguage: 'fr' }
-    isValid: true
-  no useBrowserLanguage:
-    parameters: { language: 'de', dateFormat: 'Y-m-d', browserLanguage: 'fr' }
-    isValid: true
-  browserLanguage random text:
-    parameters: { language: 'de', dateFormat: 'Y-m-d', useBrowserLanguage: true, browserLanguage: 'sadasd' }
-    isValid: true
-  browserLanguage number:
-    parameters: { language: 'de', dateFormat: 'Y-m-d', useBrowserLanguage: true, browserLanguage: 11 }
-    isValid: false
-  browserLanguage null:
-    parameters: { language: 'de', dateFormat: 'Y-m-d', useBrowserLanguage: true, browserLanguage: null }
-    isValid: true
-  no browserLanguage:
     parameters: { language: 'de', dateFormat: 'Y-m-d', useBrowserLanguage: true }
     isValid: true
-  browserLanguage empty:
-    parameters: { language: 'de', dateFormat: 'Y-m-d', useBrowserLanguage: true, browserLanguage: '' }
+  language null:
+    parameters: { language: null, dateFormat: 'Y-m-d', useBrowserLanguage: true }
     isValid: false
+  no language:
+    parameters: { dateFormat: 'Y-m-d', useBrowserLanguage: true }
+    isValid: false
+  empty language:
+    parameters: { language: '', dateFormat: 'Y-m-d', useBrowserLanguage: true }
+    isValid: false
+  invalid language:
+    parameters: { language: 'qw', dateFormat: 'Y-m-d', useBrowserLanguage: true }
+    isValid: false
+  date format null:
+    parameters: { language: 'de', dateFormat: null, useBrowserLanguage: true }
+    isValid: false
+  no date format:
+    parameters: { language: 'de', useBrowserLanguage: true }
+    isValid: false
+  empty date format:
+    parameters: { language: 'de', dateFormat: '', useBrowserLanguage: true }
+    isValid: false
+  invalid date format:
+    parameters: { language: 'de', dateFormat: 'Ym-d', useBrowserLanguage: true }
+    isValid: false
+  useBrowserLanguage false:
+    parameters: { language: 'de', dateFormat: 'Y-m-d', useBrowserLanguage: false }
+    isValid: true
+  useBrowserLanguage 0:
+    parameters: { language: 'de', dateFormat: 'Y-m-d', useBrowserLanguage: 0 }
+    isValid: true
+  useBrowserLanguage 1:
+    parameters: { language: 'de', dateFormat: 'Y-m-d', useBrowserLanguage: 1 }
+    isValid: true
+  useBrowserLanguage null:
+    parameters: { language: 'de', dateFormat: 'Y-m-d', useBrowserLanguage: null }
+    isValid: true
+  useBrowserLanguage empty:
+    parameters: { language: 'de', dateFormat: 'Y-m-d', useBrowserLanguage: '' }
+    isValid: true
+  no useBrowserLanguage:
+    parameters: { language: 'de', dateFormat: 'Y-m-d' }
+    isValid: true
+  browserLanguage random text:
+    parameters: { language: 'de', dateFormat: 'Y-m-d', useBrowserLanguage: true }
+    isValid: true

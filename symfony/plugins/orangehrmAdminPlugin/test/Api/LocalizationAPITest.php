@@ -27,7 +27,7 @@ use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Service\ConfigService;
 use OrangeHRM\Tests\Util\EndpointTestCase;
 use OrangeHRM\Tests\Util\MockObject;
-use Symfony\Component\Yaml\Yaml;
+use OrangeHRM\Tests\Util\TestDataService;
 
 /**
  * @group Admin
@@ -46,7 +46,7 @@ class LocalizationAPITest extends EndpointTestCase
             ->getMock();
         $configService->expects($this->once())
             ->method('getAdminLocalizationUseBrowserLanguage')
-            ->will($this->returnValue('Yes'));
+            ->will($this->returnValue(true));
         $configService->expects($this->once())
             ->method('getAdminLocalizationDefaultLanguage')
             ->will($this->returnValue('fr'));
@@ -64,15 +64,15 @@ class LocalizationAPITest extends EndpointTestCase
             ]
         )->onlyMethods(['getConfigService'])
             ->getMock();
-        $api->expects($this->once())
+        $api->expects($this->exactly(3))
             ->method('getConfigService')
             ->will($this->returnValue($configService));
 
         $result = $api->getOne();
         $this->assertEquals(
             [
-                "defaultLanguage" => 'fr',
-                "defaultDateFormat" => 'Y/m/d',
+                "language" => 'fr',
+                "dateFormat" => 'Y/m/d',
                 "useBrowserLanguage" => true
             ],
             $result->normalize()
@@ -93,7 +93,7 @@ class LocalizationAPITest extends EndpointTestCase
 
     public function testUpdate(): void
     {
-        $language = 'de';
+        $language = 'fr';
         $dateFormat = 'm-d-Y';
         $configService = $this->getMockBuilder(ConfigService::class)
             ->onlyMethods([
@@ -110,14 +110,8 @@ class LocalizationAPITest extends EndpointTestCase
             ->with($language);
         $configService->expects($this->once())
             ->method('setAdminLocalizationUseBrowserLanguage')
-            ->with('Yes');
+            ->with(true);
 
-        $localizationService = $this->getMockBuilder(LocalizationService::class)
-            ->onlyMethods(['getSupportedLanguages'])
-            ->getMock();
-        $localizationService->expects($this->once())
-            ->method('getSupportedLanguages')
-            ->will($this->returnValue([['id' => 'fr'], ['id' => 'de']]));
         /** @var MockObject&LocalizationAPI $api */
         $api = $this->getApiEndpointMockBuilder(
             LocalizationAPI::class,
@@ -128,23 +122,21 @@ class LocalizationAPITest extends EndpointTestCase
                 RequestParams::PARAM_TYPE_BODY => [
                     LocalizationAPI::PARAMETER_LANGUAGE => 'fr',
                     LocalizationAPI::PARAMETER_DATE_FORMAT => $dateFormat,
-                    LocalizationAPI::PARAMETER_BROWSER_LANGUAGE => $language,
                     LocalizationAPI::PARAMETER_USE_BROWSER_LANGUAGE => true,
                 ]
             ]
         )->onlyMethods(['getConfigService', 'getLocalizationService'])
             ->getMock();
-        $api->expects($this->once())
+        $api->expects($this->exactly(3))
             ->method('getConfigService')
             ->will($this->returnValue($configService));
-        $api->expects($this->once())
-            ->method('getLocalizationService')
-            ->will($this->returnValue($localizationService));
+        $api->expects($this->never())
+            ->method('getLocalizationService');
         $result = $api->update();
         $this->assertEquals(
             [
-                "defaultLanguage" => $language,
-                "defaultDateFormat" => $dateFormat,
+                "language" => $language,
+                "dateFormat" => $dateFormat,
                 "useBrowserLanguage" => true
             ],
             $result->normalize()
@@ -163,13 +155,15 @@ class LocalizationAPITest extends EndpointTestCase
             ->getMock();
         $localizationService->expects($this->once())
             ->method('getSupportedLanguages')
-            ->will($this->returnValue([
-                ['id' => 'fr'],
-                ['id' => 'de'],
-                ['id' => 'nl'],
-                ['id' => 'es'],
-                ['id' => 'en_US']
-            ]));
+            ->will(
+                $this->returnValue([
+                    ['id' => 'fr'],
+                    ['id' => 'de'],
+                    ['id' => 'nl'],
+                    ['id' => 'es'],
+                    ['id' => 'en_US']
+                ])
+            );
         /** @var MockObject&LocalizationAPI $api */
         $api = $this->getApiEndpointMockBuilder(
             LocalizationAPI::class,
@@ -183,7 +177,7 @@ class LocalizationAPITest extends EndpointTestCase
             ]
         )->onlyMethods(['getLocalizationService'])
             ->getMock();
-        $api->expects($this->once())
+        $api->expects($this->exactly(2))
             ->method('getLocalizationService')
             ->will($this->returnValue($localizationService));
 
@@ -239,15 +233,12 @@ class LocalizationAPITest extends EndpointTestCase
         $api->getValidationRuleForDelete();
     }
 
-    public function getTestCases($key)
+    public function getValidationRuleForUpdateDataProvider(): array
     {
-        $testCases = Yaml::parseFile(Config::get(Config::PLUGINS_DIR) .
-            '/orangehrmAdminPlugin/test/testCases/LocalizationAPITestCases.yml');
-        return $testCases[$key];
-    }
-
-    public function getValidationRuleForUpdateDataProvider()
-    {
-        return $this->getTestCases('getValidationRuleForUpdate');
+        return TestDataService::loadFixtures(
+            Config::get(Config::PLUGINS_DIR) .
+            '/orangehrmAdminPlugin/test/testCases/LocalizationAPITestCases.yml',
+            'getValidationRuleForUpdate'
+        );
     }
 }
