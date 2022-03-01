@@ -21,9 +21,9 @@ namespace OrangeHRM\Core\Api\Rest;
 
 use OrangeHRM\Core\Api\V2\CollectionEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
-use OrangeHRM\Core\Api\V2\EndpointResourceResult;
+use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
-use OrangeHRM\Core\Api\V2\Model\ArrayModel;
+use OrangeHRM\Core\Api\V2\Model\ArrayCollectionModel;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 
@@ -37,7 +37,7 @@ class DataGroupAPI extends Endpoint implements CollectionEndpoint
     public function getAll(): EndpointResult
     {
         $dataGroupPermissionCollection = $this->getUserRoleManager()->getDataGroupPermissionCollection();
-        return new EndpointResourceResult(ArrayModel::class, $dataGroupPermissionCollection->toArray());
+        return new EndpointCollectionResult(ArrayCollectionModel::class, $dataGroupPermissionCollection->toArray());
     }
 
     /**
