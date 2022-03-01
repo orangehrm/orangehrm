@@ -1,0 +1,5 @@
+searchLanguages:
+  0: { addedOnly: null, enabledOnly: null, expectedIds: [ 4,1,2,3 ] }
+  1: { addedOnly: null, enabledOnly: true, expectedIds: [ 4,1,2 ] }
+  2: { addedOnly: true, enabledOnly: true, expectedIds: [ 1,2 ] }
+  3: { addedOnly: true, enabledOnly: null, expectedIds: [ 1,2 ] }
