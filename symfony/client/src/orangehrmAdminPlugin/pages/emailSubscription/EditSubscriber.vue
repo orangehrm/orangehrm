@@ -123,7 +123,7 @@ export default {
             const index = data.findIndex(item => item.email == v);
             if (index > -1) {
               const {id} = data[index];
-              return id != this.data.id ? 'Already exists' : true;
+              return id != this.data.id ? this.$t('general.already_exists') : true;
             } else {
               return true;
             }

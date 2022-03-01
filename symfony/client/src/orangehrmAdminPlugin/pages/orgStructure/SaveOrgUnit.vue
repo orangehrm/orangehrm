@@ -130,7 +130,7 @@ export default {
                 String(item.name).toLowerCase() == String(v).toLowerCase(),
             );
             if (index > -1) {
-              return 'Organization unit name should be unique';
+              return this.$t('admin.organization_unit_name_should_be_unique');
             } else {
               return true;
             }

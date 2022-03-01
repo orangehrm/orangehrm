@@ -80,7 +80,7 @@
         <oxd-divider />
         <oxd-form-actions>
           <required-text />
-          <oxd-button display-type="ghost" label="Cancel" @click="onCancel" />
+          <oxd-button display-type="ghost" :label="$t('general.cancel')" @click="onCancel" />
           <submit-button />
         </oxd-form-actions>
       </oxd-form>
@@ -140,7 +140,7 @@ export default {
           validTimeFormat,
           endTimeShouldBeAfterStartTime(
             () => this.workShift.startTime,
-            'To time should be after from time',
+              this.$t('general.to_time_should_be_after_from_time'),
           ),
         ],
       },
@@ -163,7 +163,7 @@ export default {
         const {data} = response.data;
         this.rules.name.push(v => {
           const index = data.findIndex(item => item.name == v);
-          return index === -1 || 'Already exists';
+          return index === -1 || this.$t('general.already_exists');
         });
       })
       .finally(() => {

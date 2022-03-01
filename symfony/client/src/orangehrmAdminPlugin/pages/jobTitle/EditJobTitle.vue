@@ -187,7 +187,7 @@ export default {
           const index = data.findIndex(item => item.title == v);
           if (index > -1) {
             const {id} = data[index];
-            return id != this.jobTitleId ? 'Already exists' : true;
+            return id != this.jobTitleId ? this.$t('general.already_exists') : true;
           } else {
             return true;
           }

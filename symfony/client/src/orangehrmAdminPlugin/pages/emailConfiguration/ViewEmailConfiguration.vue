@@ -332,13 +332,13 @@ export default {
           const testEmailStatus = response.data.meta?.testEmailStatus;
           if (testEmailStatus === 1 && this.sendTestMailEditable) {
             this.$toast.success({
-              title: 'Success',
-              message: 'Test Email Sent',
+              title: this.$t('buzz.success'),
+              message: this.$t('admin.test_email_sent'),
             });
           } else if (testEmailStatus === 0 && this.sendTestMailEditable) {
             this.$toast.warn({
-              title: 'Failed',
-              message: 'Test Email Not Sent',
+              title: this.$t('general.failed'),
+              message: this.$t('admin.test_email_not_sent'),
             });
           }
           return this.$toast.saveSuccess();

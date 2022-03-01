@@ -160,7 +160,7 @@ export default {
         status: [v => (!!v && v.length != 0) || 'Required'],
       },
       userRoles: [
-        {id: 1, label: 'Admin'},
+        {id: 1, label: this.$t('admin.admin') },
         {id: 2, label: 'ESS'},
       ],
       userStatuses: [

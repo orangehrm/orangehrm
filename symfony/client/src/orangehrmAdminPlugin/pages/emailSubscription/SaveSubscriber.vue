@@ -115,7 +115,7 @@ export default {
           this.rules.email.push(v => {
             const index = data.findIndex(item => item.email == v);
             if (index > -1) {
-              return 'Already exists';
+              return this.$t('general.already_exists');
             } else {
               return true;
             }

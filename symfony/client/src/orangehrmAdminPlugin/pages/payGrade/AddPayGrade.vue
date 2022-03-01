@@ -100,7 +100,7 @@ export default {
           const index = data.findIndex(
             item => String(item.name).toLowerCase() == String(v).toLowerCase(),
           );
-          return index === -1 || 'Already exists';
+          return index === -1 || this.$t('general.already_exists');
         });
         this.isLoading = false;
       })

@@ -102,13 +102,13 @@ export default {
         const {data} = response.data;
         this.rules.name.push(required);
         this.rules.name.push(v => {
-          return (v && v.length <= 100) || 'Should not exceed 100 characters';
+          return (v && v.length <= 100) || this.$t('general.should_not_exceed_100_charcters');
         });
         this.rules.name.push(v => {
           const index = data.findIndex(item => item.name === v);
           if (index > -1) {
             const {id} = data[index];
-            return id !== this.qualification.id ? 'Already exists' : true;
+            return id !== this.qualification.id ? this.$t('general.already_exists') : true;
           } else {
             return true;
           }

@@ -121,7 +121,7 @@ export default {
           );
           if (index > -1) {
             const {id} = data[index];
-            return id != this.grade.id ? 'Already exists' : true;
+            return id != this.grade.id ? this.$t('general.already_exists') : true;
           } else {
             return true;
           }

@@ -138,7 +138,7 @@ export default {
             if (index > -1) {
               const {id} = data[index];
               return id != this.data.id
-                ? 'Organization unit name should be unique'
+                ? this.$t('admin.organization_unit_name_should_be_unique')
                 : true;
             } else {
               return true;

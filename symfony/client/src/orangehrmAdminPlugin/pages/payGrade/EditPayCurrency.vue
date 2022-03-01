@@ -116,7 +116,7 @@ export default {
           digitsOnly,
           minValueShouldBeLowerThanMaxValue(
             () => this.payCurrency.minSalary,
-            'Should be higher than Minimum Salary',
+            this.$t('admin.should_be_higher_than_minimum_salary'),
           ),
         ],
       },
