@@ -21,16 +21,55 @@ namespace OrangeHRM\Attendance\Controller;
 
 use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Vue\Component;
+use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
+use OrangeHRM\Core\Traits\UserRoleManagerTrait;
+use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
+use OrangeHRM\Core\Controller\Common\NoRecordsFoundController;
+use OrangeHRM\Attendance\Traits\Service\AttendanceServiceTrait;
+use OrangeHRM\Core\Controller\Exception\RequestForwardableException;
 
 class ViewEmployeeAttendanceController extends AbstractVueController
 {
+    use AuthUserTrait;
+    use UserRoleManagerTrait;
+    use EmployeeServiceTrait;
+    use AttendanceServiceTrait;
+
     /**
      * @inheritDoc
      */
     public function preRender(Request $request): void
     {
-        $component = new Component('view-employee-attendance');
+        if ($request->query->has('employeeId')) {
+            $empNumber = $request->query->getInt('employeeId');
+            if (!$this->getUserRoleManagerHelper()->isEmployeeAccessible($empNumber)) {
+                throw new RequestForwardableException(NoRecordsFoundController::class . '::handle');
+            }
+
+            $component = new Component('view-employee-attendance-detailed');
+            $component->addProp(
+                new Prop(
+                    'employee',
+                    Prop::TYPE_OBJECT,
+                    $this->getEmployeeService()->getEmployeeAsArray($empNumber)
+                )
+            );
+
+            if (
+                $this->getAttendanceService()->canSupervisorModifyAttendanceConfiguration()
+                && $this->getAuthUser()->getEmpNumber() !== $empNumber
+            ) {
+                $component->addProp(new Prop('is-editable', Prop::TYPE_BOOLEAN, true));
+            }
+        } else {
+            $component = new Component('view-employee-attendance-summary');
+        }
+
+        if ($request->query->has('date')) {
+            $component->addProp(new Prop('date', Prop::TYPE_STRING, $request->query->get('date')));
+        }
         $this->setComponent($component);
     }
 }
