@@ -26,7 +26,7 @@ use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
 use OrangeHRM\Core\Api\V2\Exception\NotImplementedException;
-use OrangeHRM\Core\Api\V2\Model\ArrayCollectionModel;
+use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
@@ -42,19 +42,16 @@ class LocalizationAPI extends Endpoint implements CrudEndpoint
     public const PARAMETER_LANGUAGE = 'language';
     public const PARAMETER_DATE_FORMAT = 'dateFormat';
     public const PARAMETER_USE_BROWSER_LANGUAGE = 'useBrowserLanguage';
-    public const PARAMETER_BROWSER_LANGUAGE = 'browserLanguage';
 
     /**
      * @inheritDoc
      */
     public function getOne(): EndpointResourceResult
     {
-        $configService = $this->getConfigService();
-        $useBrowserLanguage = $configService->getAdminLocalizationUseBrowserLanguage() ?? 'No';
-        return new EndpointResourceResult(ArrayCollectionModel::class, [
-            'defaultLanguage' => $configService->getAdminLocalizationDefaultLanguage(),
-            'defaultDateFormat' => $configService->getAdminLocalizationDefaultDateFormat(),
-            'useBrowserLanguage' => strtolower($useBrowserLanguage) === 'yes',
+        return new EndpointResourceResult(ArrayModel::class, [
+            self::PARAMETER_LANGUAGE => $this->getConfigService()->getAdminLocalizationDefaultLanguage(),
+            self::PARAMETER_DATE_FORMAT => $this->getConfigService()->getAdminLocalizationDefaultDateFormat(),
+            self::PARAMETER_USE_BROWSER_LANGUAGE => $this->getConfigService()->getAdminLocalizationUseBrowserLanguage(),
         ]);
     }
 
@@ -63,11 +60,9 @@ class LocalizationAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForGetOne(): ParamRuleCollection
     {
-        return new ParamRuleCollection(
-            new ParamRule(
-                CommonParams::PARAMETER_ID
-            ),
-        );
+        $paramRules = new ParamRuleCollection();
+        $paramRules->addExcludedParamKey(CommonParams::PARAMETER_ID);
+        return $paramRules;
     }
 
     /**
@@ -77,28 +72,18 @@ class LocalizationAPI extends Endpoint implements CrudEndpoint
     {
         $language = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_LANGUAGE);
         $dateFormat = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_DATE_FORMAT);
-        $browserLanguage = $this->getRequestParams()->getString(
-            RequestParams::PARAM_TYPE_BODY,
-            self::PARAMETER_BROWSER_LANGUAGE
-        );
         $useBrowserLanguage = $this->getRequestParams()->getBoolean(
             RequestParams::PARAM_TYPE_BODY,
             self::PARAMETER_USE_BROWSER_LANGUAGE
         );
 
-        $languageArray = array_column($this->getLocalizationService()->getSupportedLanguages(), 'id');
-
-        if ($useBrowserLanguage && in_array($browserLanguage, $languageArray)) {
-            $language = $browserLanguage;
-        }
-        $configService = $this->getConfigService();
-        $configService->setAdminLocalizationDefaultDateFormat($dateFormat);
-        $configService->setAdminLocalizationDefaultLanguage($language);
-        $configService->setAdminLocalizationUseBrowserLanguage($useBrowserLanguage ? 'Yes' : 'No');
-        return new EndpointResourceResult(ArrayCollectionModel::class, [
-            'defaultLanguage' => $language,
-            'defaultDateFormat' => $dateFormat,
-            'useBrowserLanguage' => $useBrowserLanguage,
+        $this->getConfigService()->setAdminLocalizationDefaultDateFormat($dateFormat);
+        $this->getConfigService()->setAdminLocalizationDefaultLanguage($language);
+        $this->getConfigService()->setAdminLocalizationUseBrowserLanguage($useBrowserLanguage);
+        return new EndpointResourceResult(ArrayModel::class, [
+            self::PARAMETER_LANGUAGE => $language,
+            self::PARAMETER_DATE_FORMAT => $dateFormat,
+            self::PARAMETER_USE_BROWSER_LANGUAGE => $useBrowserLanguage,
         ]);
     }
 
@@ -107,13 +92,9 @@ class LocalizationAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
-        $localizationService = $this->getLocalizationService();
-        $dateFormats = $localizationService->getLocalizationDateFormats();
-        $languageArray = $localizationService->getSupportedLanguages();
-        return new ParamRuleCollection(
-            new ParamRule(
-                CommonParams::PARAMETER_ID
-            ),
+        $dateFormats = $this->getLocalizationService()->getLocalizationDateFormats();
+        $languageArray = $this->getLocalizationService()->getSupportedLanguages();
+        $paramRules = new ParamRuleCollection(
             new ParamRule(
                 self::PARAMETER_LANGUAGE,
                 new Rule(Rules::IN, [array_column($languageArray, 'id')])
@@ -126,13 +107,9 @@ class LocalizationAPI extends Endpoint implements CrudEndpoint
                 self::PARAMETER_USE_BROWSER_LANGUAGE,
                 new Rule(Rules::BOOL_VAL)
             ),
-            $this->getValidationDecorator()->notRequiredParamRule(
-                new ParamRule(
-                    self::PARAMETER_BROWSER_LANGUAGE,
-                    new Rule(Rules::STRING_TYPE)
-                )
-            )
         );
+        $paramRules->addExcludedParamKey(CommonParams::PARAMETER_ID);
+        return $paramRules;
     }
 
     /**
@@ -140,7 +117,7 @@ class LocalizationAPI extends Endpoint implements CrudEndpoint
      */
     public function getAll(): EndpointResult
     {
-        throw new NotImplementedException();
+        throw $this->getNotImplementedException();
     }
 
     /**
@@ -148,7 +125,7 @@ class LocalizationAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
-        throw new NotImplementedException();
+        throw $this->getNotImplementedException();
     }
 
     /**
@@ -156,7 +133,7 @@ class LocalizationAPI extends Endpoint implements CrudEndpoint
      */
     public function create(): EndpointResult
     {
-        throw new NotImplementedException();
+        throw $this->getNotImplementedException();
     }
 
     /**
@@ -164,7 +141,7 @@ class LocalizationAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForCreate(): ParamRuleCollection
     {
-        throw new NotImplementedException();
+        throw $this->getNotImplementedException();
     }
 
     /**
@@ -172,7 +149,7 @@ class LocalizationAPI extends Endpoint implements CrudEndpoint
      */
     public function delete(): EndpointResult
     {
-        throw new NotImplementedException();
+        throw $this->getNotImplementedException();
     }
 
     /**
@@ -180,6 +157,6 @@ class LocalizationAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForDelete(): ParamRuleCollection
     {
-        throw new NotImplementedException();
+        throw $this->getNotImplementedException();
     }
 }

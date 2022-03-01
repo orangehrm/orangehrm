@@ -25,8 +25,8 @@
         <oxd-text tag="h6" class="orangehrm-main-title">Localization</oxd-text>
         <oxd-switch-input
           v-model="editable"
-          optionLabel="Edit"
-          labelPosition="left"
+          option-label="Edit"
+          label-position="left"
         />
       </div>
       <oxd-divider />
@@ -36,9 +36,10 @@
           <oxd-grid :cols="2" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <oxd-input-field
-                label="Language"
-                type="dropdown"
                 v-model="configuration.language"
+                label="Language"
+                type="select"
+                :show-empty-selector="false"
                 :rules="rules.language"
                 :options="languageList"
                 :disabled="!editable"
@@ -54,8 +55,8 @@
                 Use Browser Language If Set
               </oxd-text>
               <oxd-switch-input
-                :disabled="!editable"
                 v-model="configuration.useBrowserLanguage"
+                :disabled="!editable"
               >
               </oxd-switch-input>
             </oxd-grid-item>
@@ -65,9 +66,10 @@
           <oxd-grid :cols="2" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <oxd-input-field
-                label="Date Format"
-                type="dropdown"
                 v-model="configuration.dateFormat"
+                label="Date Format"
+                type="select"
+                :show-empty-selector="false"
                 :rules="rules.dateFormat"
                 :options="dateFormatList"
                 :disabled="!editable"
@@ -93,6 +95,9 @@ import SwitchInput from '@ohrm/oxd/core/components/Input/SwitchInput';
 import {required} from '@ohrm/core/util/validation/rules';
 
 export default {
+  components: {
+    'oxd-switch-input': SwitchInput,
+  },
   props: {
     dateFormatList: {
       type: Array,
@@ -113,10 +118,6 @@ export default {
     };
   },
 
-  components: {
-    'oxd-switch-input': SwitchInput,
-  },
-
   data() {
     return {
       editable: false,
@@ -133,6 +134,24 @@ export default {
       errors: [],
     };
   },
+  created() {
+    this.isLoading = true;
+    this.http.http
+      .get('api/v2/admin/localization')
+      .then(response => {
+        const {data} = response.data;
+        this.configuration.useBrowserLanguage = data.useBrowserLanguage;
+        this.configuration.language = this.languageList.find(
+          item => item.id === data.language,
+        );
+        this.configuration.dateFormat = this.dateFormatList.find(
+          item => item.id === data.dateFormat,
+        );
+      })
+      .finally(() => {
+        this.isLoading = false;
+      });
+  },
 
   methods: {
     onSave() {
@@ -142,7 +161,6 @@ export default {
           language: this.configuration.language[0]?.id,
           dateFormat: this.configuration.dateFormat[0]?.id,
           useBrowserLanguage: this.configuration.useBrowserLanguage,
-          browserLanguage: navigator.language,
         })
         .then(() => {
           return this.$toast.updateSuccess();
@@ -152,28 +170,6 @@ export default {
           this.editable = false;
         });
     },
-  },
-  created() {
-    this.isLoading = true;
-    this.http.http
-      .get('api/v2/admin/localization')
-      .then(response => {
-        const {data} = response.data;
-        this.configuration.useBrowserLanguage = data.useBrowserLanguage;
-        this.configuration.language = [
-          this.languageList.find(l => {
-            return l.id === data.defaultLanguage;
-          }),
-        ];
-        this.configuration.dateFormat = [
-          this.dateFormatList.find(f => {
-            return f.id === data.defaultDateFormat;
-          }),
-        ];
-      })
-      .finally(() => {
-        this.isLoading = false;
-      });
   },
 };
 </script>
@@ -185,5 +181,9 @@ export default {
     font-size: 0.8rem;
     margin-right: 1rem;
   }
+}
+
+.orangehrm-header-container {
+  padding: 0;
 }
 </style>
