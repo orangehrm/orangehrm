@@ -20,106 +20,46 @@
 
 <template>
   <div class="orangehrm-background-container">
-    <div class="orangehrm-card-container">
-      <oxd-text tag="h6" class="orangehrm-main-title">
-        Purge Employee Records
-      </oxd-text>
-
-      <oxd-divider />
-
-      <oxd-form @submit="displayPurgeableEmployee">
-        <oxd-form-row>
-          <oxd-grid :cols="3" class="orangehrm-full-width-grid">
-            <oxd-grid-item>
-              <employee-autocomplete
-                v-model="purgeableEmployee.employee"
-                :rules="rules.employee"
-                :params="{
-                  includeEmployees: purgeableEmployee.includeEmployeesParam,
-                }"
-                label="Past Employee"
-                required
-              />
-            </oxd-grid-item>
-          </oxd-grid>
-        </oxd-form-row>
-
-        <oxd-divider />
-
-        <oxd-form-actions>
-          <required-text />
-          <oxd-button display-type="secondary" label="Search" type="submit" />
-        </oxd-form-actions>
-      </oxd-form>
-    </div>
+    <verify-password
+      v-if="!verified"
+      :title-label="title"
+      @verify="passwordVerified"
+    />
+    <purge-employee-records
+      v-if="verified"
+      ref="purgeRecords"
+      :employee="purgeableEmployee.employee"
+      :include-employees-param="purgeableEmployee.includeEmployeesParam"
+      :title-label="title"
+      autocomplete-label="Past Employee"
+      @selected="displayPurgeableEmployee"
+    />
     <br />
-    <div v-if="showPurgeableEmployee" class="orangehrm-card-container">
-      <oxd-text tag="h6" class="orangehrm-main-title">
-        Selected Employee
-      </oxd-text>
+    <selected-employee
+      v-if="showPurgeableEmployee"
+      :employee="selectedEmployee"
+      :img-src="imgSrc"
+      button-label="Purge"
+      @submit="onClickPurge"
+    />
 
-      <oxd-divider />
-
-      <oxd-form :loading="isLoading">
-        <div class="orangehrm-purge-employee">
-          <div class="orangehrm-purge-employee-imagesection">
-            <div class="orangehrm-purge-employee-image-wrapper">
-              <div class="orangehrm-purge-employee-image">
-                <img
-                  alt="profile picture"
-                  class="employee-image"
-                  :src="imgSrc"
-                />
-              </div>
-            </div>
-          </div>
-          <div class="orangehrm-edit-employee-content">
-            <oxd-form-row>
-              <oxd-grid :cols="1" class="orangehrm-full-width-grid">
-                <oxd-grid-item>
-                  <full-name-input
-                    v-model:firstName="selectedEmployee.firstName"
-                    v-model:middleName="selectedEmployee.middleName"
-                    v-model:lastName="selectedEmployee.lastName"
-                    :rules="rules"
-                    disabled
-                  />
-                </oxd-grid-item>
-              </oxd-grid>
-            </oxd-form-row>
-            <oxd-form-row>
-              <oxd-grid :cols="3" class="orangehrm-full-width-grid">
-                <oxd-grid-item>
-                  <oxd-input-field
-                    v-model="selectedEmployee.employeeId"
-                    label="Employee Id"
-                    :rules="rules.employeeId"
-                    disabled
-                  />
-                </oxd-grid-item>
-              </oxd-grid>
-            </oxd-form-row>
-          </div>
-        </div>
-
-        <oxd-divider />
-
-        <oxd-form-actions>
-          <oxd-button display-type="secondary" label="Purge" type="submit" />
-        </oxd-form-actions>
-      </oxd-form>
-    </div>
+    <purge-confirmation
+      ref="purgeDialog"
+      title="Purge Employee"
+      subtitle="You are about to purge the employee permanently. Are you sure you want to continue? This operation cannot be undone"
+      cancel-label="No, Cancel"
+      delete-label="Yes, Purge"
+      icon=""
+    ></purge-confirmation>
   </div>
 </template>
 
 <script>
-import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
-import RequiredText from '@/core/components/labels/RequiredText';
-import FullNameInput from '@/orangehrmPimPlugin/components/FullNameInput';
-import {
-  required,
-  shouldNotExceedCharLength,
-} from '@/core/util/validation/rules';
+import {APIService} from '@/core/util/services/api.service';
+import SelectedEmployee from '@/orangehrmMaintenancePlugin/components/SelectedEmployee';
+import EmployeeRecords from '@/orangehrmMaintenancePlugin/components/EmployeeRecords';
+import VerifyPassword from '@/orangehrmMaintenancePlugin/components/VerifyPassword';
+import ConfirmationDialog from '@/core/components/dialogs/ConfirmationDialog';
 
 const defaultPic = `${window.appGlobal.baseUrl}/../dist/img/user-default-400.png`;
 
@@ -139,96 +79,62 @@ const purgeableEmployeeModel = {
 export default {
   name: 'PurgeEmployee',
   components: {
-    'full-name-input': FullNameInput,
-    'required-text': RequiredText,
-    'employee-autocomplete': EmployeeAutocomplete,
+    'purge-confirmation': ConfirmationDialog,
+    'verify-password': VerifyPassword,
+    'purge-employee-records': EmployeeRecords,
+    'selected-employee': SelectedEmployee,
+  },
+
+  setup() {
+    const http = new APIService(
+      window.appGlobal.baseUrl,
+      '/api/v2/maintenance/purge',
+    );
+
+    return {
+      http,
+    };
   },
 
   data() {
     return {
-      isLoading: false,
+      title: 'Purge Employee Records',
+      verified: false,
       showPurgeableEmployee: false,
       purgeableEmployee: {...purgeableEmployeeModel},
       selectedEmployee: {...selectedEmployeeModel},
       imgSrc: defaultPic,
-      rules: {
-        employee: [required],
-        firstName: [shouldNotExceedCharLength(30)],
-        middleName: [shouldNotExceedCharLength(30)],
-        lastName: [shouldNotExceedCharLength(30)],
-        employeeId: [shouldNotExceedCharLength(10)],
-      },
     };
   },
 
   methods: {
-    displayPurgeableEmployee() {
+    displayPurgeableEmployee(employee) {
       this.selectedEmployee = {...selectedEmployeeModel};
       this.imgSrc = defaultPic;
-      this.isLoading = true;
-      if (this.purgeableEmployee.employee) {
-        this.selectedEmployee = {...this.purgeableEmployee.employee._employee};
-        this.imgSrc = `${window.appGlobal.baseUrl}/pim/viewPhoto/empNumber/${this.purgeableEmployee.employee._employee.empNumber}`;
+      if (employee) {
+        this.selectedEmployee = {...employee};
+        this.imgSrc = `${window.appGlobal.baseUrl}/pim/viewPhoto/empNumber/${employee.empNumber}`;
         this.showPurgeableEmployee = true;
       } else {
         this.showPurgeableEmployee = false;
       }
-      this.isLoading = false;
+    },
+    onClickPurge(empNumber) {
+      this.$refs.purgeDialog.showDialog().then(confirmation => {
+        if (confirmation === 'ok') {
+          this.purgeEmployee(empNumber);
+        }
+      });
+    },
+    purgeEmployee() {
+      this.showPurgeableEmployee = false;
+      this.purgeableEmployee = {...purgeableEmployeeModel};
+      this.selectedEmployee = {...selectedEmployeeModel};
+      this.imgSrc = defaultPic;
+    },
+    passwordVerified() {
+      this.verified = true;
     },
   },
 };
 </script>
-
-<style lang="scss" scoped>
-@import '@ohrm/oxd/styles/_mixins.scss';
-@import '@ohrm/oxd/styles/_colors.scss';
-
-.orangehrm-purge-employee {
-  display: flex;
-  @include oxd-respond-to('xs') {
-    flex-direction: column;
-  }
-  @include oxd-respond-to('md') {
-    flex-direction: row;
-  }
-
-  &-content {
-    flex: 1;
-  }
-
-  &-image-wrapper {
-    padding-bottom: 1.2rem;
-    @include oxd-respond-to('md') {
-      padding-top: 1.2rem;
-      padding-left: 7rem;
-      padding-right: 7rem;
-    }
-  }
-
-  &-image {
-    width: 120px;
-    height: 120px;
-    border-radius: 100%;
-    display: flex;
-    cursor: pointer;
-    overflow: hidden;
-    justify-content: center;
-    box-sizing: border-box;
-    border: 0.5rem solid $oxd-background-pastel-white-color;
-    box-shadow: 1px 1px 18px 11px hsl(238deg 13% 76% / 24%);
-  }
-
-  &-imagesection {
-    display: flex;
-    align-items: center;
-    @include oxd-respond-to('xs') {
-      flex-direction: row-reverse;
-      justify-content: center;
-    }
-    @include oxd-respond-to('md') {
-      flex-direction: column;
-      justify-content: center;
-    }
-  }
-}
-</style>
