@@ -17,49 +17,43 @@
  * Boston, MA  02110-1301, USA
  */
 
-use OrangeHRM\Admin\Service\CompanyStructureService;
-use OrangeHRM\Admin\Service\CountryService;
+namespace OrangeHRM\Admin\Controller;
+
 use OrangeHRM\Admin\Service\LocalizationService;
-use OrangeHRM\Admin\Service\PayGradeService;
-use OrangeHRM\Admin\Service\UserService;
-use OrangeHRM\Admin\Service\WorkShiftService;
+use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
+use OrangeHRM\Core\Vue\Component;
+use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Framework\PluginConfigurationInterface;
 use OrangeHRM\Framework\Services;
 
-class AdminPluginConfiguration implements PluginConfigurationInterface
+class LocalizationController extends AbstractVueController
 {
     use ServiceContainerTrait;
 
     /**
      * @inheritDoc
      */
-    public function initialize(Request $request): void
+    public function preRender(Request $request): void
     {
-        $this->getContainer()->register(
-            Services::COUNTRY_SERVICE,
-            CountryService::class
+        $component = new Component('localization-configuration');
+
+        /** @var LocalizationService $localizationService */
+        $localizationService = $this->getContainer()->get(Services::LOCALIZATION_SERVICE);
+        $component->addProp(
+            new Prop(
+                'language-list',
+                Prop::TYPE_ARRAY,
+                $localizationService->getSupportedLanguages()
+            )
         );
-        $this->getContainer()->register(
-            Services::USER_SERVICE,
-            UserService::class
+        $component->addProp(
+            new Prop(
+                'date-format-list',
+                Prop::TYPE_ARRAY,
+                $localizationService->getLocalizationDateFormats()
+            )
         );
-        $this->getContainer()->register(
-            Services::PAY_GRADE_SERVICE,
-            PayGradeService::class
-        );
-        $this->getContainer()->register(
-            Services::COMPANY_STRUCTURE_SERVICE,
-            CompanyStructureService::class
-        );
-        $this->getContainer()->register(
-            Services::WORK_SHIFT_SERVICE,
-            WorkShiftService::class
-        );
-        $this->getContainer()->register(
-            Services::LOCALIZATION_SERVICE,
-            LocalizationService::class
-        );
+        $this->setComponent($component);
     }
 }
