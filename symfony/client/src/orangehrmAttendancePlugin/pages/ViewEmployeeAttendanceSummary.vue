@@ -26,7 +26,6 @@
           <oxd-grid-item>
             <employee-autocomplete
               v-model="filters.employee"
-              :rules="rules.employee"
               :params="{
                 includeEmployees: 'currentAndPast',
               }"
@@ -57,27 +56,17 @@
   </oxd-table-filter>
   <br />
   <div class="orangehrm-paper-container">
-    <div v-if="showAddButton" class="orangehrm-header-container">
-      <oxd-button
-        icon-name="plus"
-        display-type="secondary"
-        :label="$t('time.add_attendance_records')"
-        @click="onClickAdd"
-      />
-    </div>
     <table-header
       :total="total"
+      :selected="0"
       :loading="isLoading"
-      :show-divider="showAddButton"
-      :selected="checkedItems.length"
-      @delete="onClickDeleteSelected"
+      :show-divider="false"
     ></table-header>
     <div class="orangehrm-container">
       <oxd-card-table
-        v-model:selected="checkedItems"
         :headers="headers"
         :items="items?.data"
-        :selectable="true"
+        :selectable="false"
         :clickable="false"
         :loading="isLoading"
         row-decorator="oxd-table-decorator-card"
@@ -90,35 +79,25 @@
         :length="pages"
       />
     </div>
-    <delete-confirmation ref="deleteDialog"></delete-confirmation>
   </div>
 </template>
 
 <script>
 import {computed, ref} from 'vue';
 import {required} from '@/core/util/validation/rules';
+import {navigate} from '@/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
 import usePaginate from '@ohrm/core/util/composable/usePaginate';
+import {freshDate, formatDate} from '@ohrm/core/util/helper/datefns';
 import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
-import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmationDialog';
-
-const defaultFilters = {
-  date: null,
-  employee: null,
-};
 
 const attendanceRecordNormalizer = data => {
   return data.map(item => {
     return {
-      id: item.id,
-      empName: `${item.employee?.firstName} ${item.employee?.lastName}
-          ${item.employee?.terminationId ? ' (Past Employee)' : ''}`,
-      punchIn: `${item.records.in.date} ${item.records.in.time} ${item.records.in.timezone}`,
-      punchOut: `${item.records.out.date} ${item.records.out.time} ${item.records.out.timezone}`,
-      punchInNote: item.records.in.note,
-      punchOutNote: item.records.out.note,
-      duration: item.duration,
-      total: item.total,
+      id: item.empNumber,
+      empName: `${item?.firstName} ${item?.lastName}
+          ${item?.terminationId ? ' (Past Employee)' : ''}`,
+      duration: item.sum?.label,
     };
   });
 };
@@ -126,15 +105,24 @@ const attendanceRecordNormalizer = data => {
 export default {
   components: {
     'employee-autocomplete': EmployeeAutocomplete,
-    'delete-confirmation': DeleteConfirmationDialog,
   },
 
-  setup() {
+  props: {
+    date: {
+      type: String,
+      default: null,
+    },
+  },
+
+  setup(props) {
     const rules = {
-      employee: [],
       date: [required],
     };
-    const filters = ref({...defaultFilters});
+
+    const filters = ref({
+      date: props.date ? props.date : formatDate(freshDate(), 'yyyy-MM-dd'),
+      employee: null,
+    });
 
     const serializedFilters = computed(() => {
       return {
@@ -145,12 +133,11 @@ export default {
 
     const http = new APIService(
       window.appGlobal.baseUrl,
-      'api/v2/attendance/employees/records',
+      'api/v2/attendance/employees/summary',
     );
     const {
       total,
       pages,
-      pageSize,
       response,
       isLoading,
       execQuery,
@@ -159,7 +146,6 @@ export default {
     } = usePaginate(http, {
       query: serializedFilters,
       normalizer: attendanceRecordNormalizer,
-      prefetch: false,
     });
 
     return {
@@ -168,7 +154,6 @@ export default {
       total,
       pages,
       filters,
-      pageSize,
       isLoading,
       execQuery,
       currentPage,
@@ -184,116 +169,65 @@ export default {
           name: 'empName',
           slot: 'title',
           title: 'Employee Name',
-          style: {flex: 1},
-        },
-        {
-          name: 'punchIn',
-          title: 'Punch In',
-          style: {flex: 1},
-        },
-        {
-          name: 'punchInNote',
-          title: 'Punch In Note',
-          style: {flex: 1},
-        },
-        {
-          name: 'punchOut',
-          title: 'Punch Out',
-          style: {flex: 1},
-        },
-        {
-          name: 'punchOutNote',
-          title: 'Punch Out Note',
-          style: {flex: 1},
+          style: {flex: '40%'},
         },
         {
           name: 'duration',
-          title: 'Duration (Hours)',
-          style: {flex: 1},
-        },
-        {
-          name: 'total',
-          title: 'Total (Hours)',
-          style: {flex: 1},
+          title: 'Total Duration (Hours)',
+          style: {flex: '40%'},
         },
         {
           name: 'actions',
-          slot: 'action',
+          slot: 'footer',
           title: 'Actions',
-          style: {flex: 1},
+          style: {flex: '20%'},
           cellType: 'oxd-table-cell-actions',
           cellConfig: {
-            delete: {
-              onClick: this.onClickDelete,
-              component: 'oxd-icon-button',
+            view: {
+              onClick: this.onClickView,
+              component: 'oxd-button',
               props: {
-                name: 'trash',
-              },
-            },
-            edit: {
-              props: {
-                name: 'pencil-fill',
+                label: 'View',
+                displayType: 'text',
+                size: 'medium',
               },
             },
           },
         },
       ],
-      checkedItems: [],
     };
   },
 
-  computed: {
-    showAddButton() {
-      // TODO: Check BE config/permission
-      return this.filters.employee ? true : false;
-    },
-  },
-
   methods: {
-    onClickDeleteSelected() {
-      const ids = this.checkedItems.map(index => {
-        return this.items?.data[index].id;
-      });
-      this.$refs.deleteDialog.showDialog().then(confirmation => {
-        if (confirmation === 'ok') {
-          this.deleteItems(ids);
-        }
-      });
-    },
-    onClickDelete(item) {
-      this.$refs.deleteDialog.showDialog().then(confirmation => {
-        if (confirmation === 'ok') {
-          this.deleteItems([item.id]);
-        }
-      });
-    },
-    deleteItems(items) {
-      if (items instanceof Array) {
-        this.isLoading = true;
-        this.http
-          .deleteAll({
-            ids: items,
-          })
-          .then(() => {
-            return this.$toast.deleteSuccess();
-          })
-          .then(() => {
-            this.isLoading = false;
-            this.resetDataTable();
-          });
-      }
-    },
-    onClickAdd() {
-      if (!this.filters.employee) return;
-      // do something
-    },
     async resetDataTable() {
-      this.checkedItems = [];
       await this.execQuery();
     },
     async filterItems() {
+      if (this.filters.employee && this.filters.date) {
+        return navigate('/attendance/viewAttendanceRecord', undefined, {
+          employeeId: this.filters.employee.id,
+          date: this.filters.date,
+        });
+      }
       await this.execQuery();
+    },
+    onClickView(item) {
+      navigate('/attendance/viewAttendanceRecord', undefined, {
+        employeeId: item.id,
+        date: this.filters.date,
+      });
     },
   },
 };
 </script>
+
+<style lang="scss" scoped>
+::v-deep(.card-footer-slot) {
+  .oxd-table-cell-actions {
+    justify-content: flex-end;
+  }
+  .oxd-table-cell-actions > * {
+    margin: 0 !important;
+  }
+}
+</style>

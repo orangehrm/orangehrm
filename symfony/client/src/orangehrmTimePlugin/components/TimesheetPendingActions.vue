@@ -129,7 +129,7 @@ export default {
               component: 'oxd-button',
               props: {
                 label: 'View',
-                displayType: 'ghost',
+                displayType: 'text',
                 size: 'medium',
               },
             },

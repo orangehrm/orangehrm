@@ -18,18 +18,20 @@
 
 import PunchIn from './pages/PunchIn.vue';
 import PunchOut from './pages/PunchOut.vue';
-import AttendanceConfiguration from './pages/AttendanceConfiguration.vue';
-import ViewEmployeeAttendance from './pages/ViewEmployeeAttendance.vue';
-import ViewMyAttendance from './pages/ViewMyAttendance.vue';
 import EditAttendance from './pages/EditAttendance.vue';
+import ViewMyAttendance from './pages/ViewMyAttendance.vue';
+import AttendanceConfiguration from './pages/AttendanceConfiguration.vue';
 import AttendanceSummaryReport from './pages/AttendanceSummaryReport.vue';
+import ViewEmployeeAttendanceSummary from './pages/ViewEmployeeAttendanceSummary.vue';
+import ViewEmployeeAttendanceDetailed from './pages/ViewEmployeeAttendanceDetailed.vue';
 
 export default {
   'attendance-punch-in': PunchIn,
   'attendance-punch-out': PunchOut,
-  'attendance-configuration': AttendanceConfiguration,
-  'view-employee-attendance': ViewEmployeeAttendance,
-  'view-my-attendance': ViewMyAttendance,
   'edit-attendance': EditAttendance,
+  'view-my-attendance': ViewMyAttendance,
+  'attendance-configuration': AttendanceConfiguration,
   'attendance-summary-report': AttendanceSummaryReport,
+  'view-employee-attendance-summary': ViewEmployeeAttendanceSummary,
+  'view-employee-attendance-detailed': ViewEmployeeAttendanceDetailed,
 };

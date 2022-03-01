@@ -68,6 +68,12 @@
                   />
                 </oxd-grid-item>
 
+                <oxd-grid-item v-if="isTimezoneEditable" class="--offset-row-3">
+                  <timezone-autocomplete
+                    v-model="attendance.punchIn.timezone"
+                  />
+                </oxd-grid-item>
+
                 <oxd-grid-item class="--span-column-2">
                   <oxd-input-field
                     v-model="attendance.punchIn.note"
@@ -110,6 +116,12 @@
                   />
                 </oxd-grid-item>
 
+                <oxd-grid-item v-if="isTimezoneEditable" class="--offset-row-3">
+                  <timezone-autocomplete
+                    v-model="attendance.punchOut.timezone"
+                  />
+                </oxd-grid-item>
+
                 <oxd-grid-item class="--span-column-2">
                   <oxd-input-field
                     v-model="attendance.punchOut.note"
@@ -144,10 +156,11 @@ import {
   required,
   shouldNotExceedCharLength,
 } from '@/core/util/validation/rules';
+import {diffInTime, secondsTohhmm} from '@/core/util/helper/datefns';
 import {navigate} from '@/core/util/helper/navigation';
-import {diffInTime} from '@/core/util/helper/datefns';
 import {APIService} from '@/core/util/services/api.service';
 import promiseDebounce from '@ohrm/oxd/utils/promiseDebounce';
+import TimezoneAutocomplete from '@/orangehrmAttendancePlugin/components/TimezoneAutocomplete.vue';
 
 const attendanceRecordModal = {
   userDate: null,
@@ -155,14 +168,26 @@ const attendanceRecordModal = {
   utcDate: null,
   utcTime: null,
   note: null,
+  timezone: null,
   timezoneOffset: null,
 };
 
 export default {
+  components: {
+    'timezone-autocomplete': TimezoneAutocomplete,
+  },
   props: {
     attendanceId: {
       type: Number,
       required: true,
+    },
+    isEmployeeEdit: {
+      type: Boolean,
+      default: false,
+    },
+    isTimezoneEditable: {
+      type: Boolean,
+      default: false,
     },
   },
   setup() {
@@ -178,6 +203,7 @@ export default {
     return {
       isLoading: false,
       attendance: {
+        employee: null,
         punchIn: {...attendanceRecordModal},
         punchOut: {...attendanceRecordModal},
       },
@@ -222,10 +248,30 @@ export default {
   computed: {
     totalDuration() {
       if (!this.attendance.punchOut?.userDate) return null;
+
       const startTime = `${this.attendance.punchIn.userDate} ${this.attendance.punchIn.userTime}`;
+      const punchInTz =
+        this.attendance.punchIn.timezone?._offset ??
+        parseFloat(this.attendance.punchIn.timezoneOffset);
+      const startTimezone =
+        (punchInTz > 0 ? ' +' : ' -') +
+        secondsTohhmm(Math.abs(punchInTz) * 3600);
+
       const endTime = `${this.attendance.punchOut.userDate} ${this.attendance.punchOut.userTime}`;
+      const punchOutTz =
+        this.attendance.punchOut.timezone?._offset ??
+        parseFloat(this.attendance.punchOut.timezoneOffset);
+      const endTimezone =
+        (punchOutTz > 0 ? ' +' : ' -') +
+        secondsTohhmm(Math.abs(punchOutTz) * 3600);
+
+      // yyyy-MM-dd HH:mm xxx <=> 2022-03-07 14:26 +05:30
       return parseFloat(
-        diffInTime(startTime, endTime, 'yyyy-MM-dd HH:mm') / 3600,
+        diffInTime(
+          startTime + startTimezone,
+          endTime + endTimezone,
+          'yyyy-MM-dd HH:mm xxx',
+        ) / 3600,
       ).toFixed(2);
     },
   },
@@ -235,6 +281,7 @@ export default {
       .get(this.attendanceId)
       .then(response => {
         const {data} = response.data;
+        this.attendance.employee = data.employee;
         this.attendance.punchIn = data.punchIn;
         this.attendance.punchOut = data.punchOut?.userDate
           ? data.punchOut
@@ -246,9 +293,16 @@ export default {
   },
   methods: {
     onCancel() {
-      navigate('/attendance/viewMyAttendanceRecord', undefined, {
-        date: this.attendance.punchIn?.userDate,
-      });
+      if (this.isEmployeeEdit) {
+        navigate('/attendance/viewAttendanceRecord', undefined, {
+          employeeId: this.attendance.employee?.empNumber,
+          date: this.attendance.punchIn?.userDate,
+        });
+      } else {
+        navigate('/attendance/viewMyAttendanceRecord', undefined, {
+          date: this.attendance.punchIn?.userDate,
+        });
+      }
     },
     onSave() {
       this.isLoading = true;
@@ -256,11 +310,17 @@ export default {
         punchInDate: this.attendance.punchIn.userDate,
         punchInTime: this.attendance.punchIn.userTime,
         punchInNote: this.attendance.punchIn.note,
+        punchInOffset: this.attendance.punchIn.timezone
+          ? this.attendance.punchIn.timezone._offset
+          : this.attendance.punchIn.timezoneOffset,
       };
       if (this.attendance.punchOut) {
         payload.punchOutDate = this.attendance.punchOut.userDate;
         payload.punchOutTime = this.attendance.punchOut.userTime;
         payload.punchOutNote = this.attendance.punchOut.note;
+        payload.punchOutOffset = this.attendance.punchOut.timezone
+          ? this.attendance.punchOut.timezone._offset
+          : this.attendance.punchOut.timezoneOffset;
       }
       this.http
         .update(this.attendanceId, payload)
@@ -279,10 +339,14 @@ export default {
             url: `api/v2/attendance/records/${apiPath}`,
             params: {
               recordId: this.attendanceId,
-              punchInTimezoneOffset: this.attendance.punchIn.timezoneOffset,
+              punchInTimezoneOffset: this.attendance.punchIn.timezone
+                ? this.attendance.punchIn.timezone._offset
+                : this.attendance.punchIn.timezoneOffset,
               punchInDate: this.attendance.punchIn.userDate,
               punchInTime: this.attendance.punchIn.userTime,
-              punchOutTimezoneOffset: this.attendance.punchOut?.timezoneOffset,
+              punchOutTimezoneOffset: this.attendance.punchOut?.timezone
+                ? this.attendance.punchOut.timezone._offset
+                : this.attendance.punchOut?.timezoneOffset,
               punchOutDate: this.attendance.punchOut?.userDate,
               punchOutTime: this.attendance.punchOut?.userTime,
             },
