@@ -1,0 +1,211 @@
+langStrings:
+  -
+    value: 'Name'
+    unitId: name
+  -
+    value: 'City'
+    unitId: city
+  -
+    value: 'Country'
+    unitId: country
+  -
+    value: 'Reset'
+    unitId: reset
+  -
+    value: 'Search'
+    unitId: search
+  -
+    value: 'Add'
+    unitId: add
+  -
+    value: 'Phone'
+    unitId: phone
+  -
+    value: 'State/Province'
+    unitId: state/province
+  -
+    value: 'Zip/Postal Code'
+    unitId: zip/postal_code
+  -
+    value: 'Note'
+    unitId: note
+  -
+    value: 'Cancel'
+    unitId: cancel
+  -
+    value: 'Yes'
+    unitId: yes
+  -
+    value: 'No'
+    unitId: no
+  -
+    value: 'Email'
+    unitId: email
+  -
+    value: 'Fax'
+    unitId: fax
+  -
+    value: 'Nationality'
+    unitId: nationality
+  -
+    value: 'Edit'
+    unitId: edit
+  -
+    value: 'Address Street 1'
+    unitId: address_street_1
+  -
+    value: 'Address Street 2'
+    unitId: address_street_2
+  -
+    value: 'Description'
+    unitId: description
+  -
+    value: 'Currency'
+    unitId: currency
+  -
+    value: 'Currencies'
+    unitId: currencies
+  -
+    value: 'Edit Education'
+    unitId: edit_education
+  -
+    value: 'Level'
+    unitId: level
+  -
+    value: 'Education'
+    unitId: education
+  -
+    value: 'Add Education'
+    unitId: add_education
+  -
+    value: 'Edit Language'
+    unitId: edit_language
+  -
+    value: 'Add Language'
+    unitId: add_language
+  -
+    value: 'Languages'
+    unitId: languages
+  -
+    value: 'Edit License'
+    unitId: edit_license
+  -
+    value: 'Add License'
+    unitId: add_license
+  -
+    value: 'Edit Membership'
+    unitId: edit_membership
+  -
+    value: 'Add Membership'
+    unitId: add_membership
+  -
+    value: 'Memberships'
+    unitId: memberships
+  -
+    value: 'Edit Skill'
+    unitId: edit_skill
+  -
+    value: 'Add Skill'
+    unitId: add_skill
+  -
+    value: 'Skills'
+    unitId: skills
+  -
+    value: 'User Role'
+    unitId: user_role
+  -
+    value: 'Status'
+    unitId: status
+  -
+    value: 'Username'
+    unitId: username
+  -
+    value: 'Employee Name'
+    unitId: employee_name
+  -
+    value: 'From'
+    unitId: from
+  -
+    value: 'To'
+    unitId: to
+  -
+    value: 'Already exists'
+    unitId: already_exists
+  -
+    value: 'To time should be after from time'
+    unitId: to_time_should_be_after_from_time
+  -
+    value: 'Failed'
+    unitId: failed
+  -
+    value: 'Should not exceed {amount} characters'
+    unitId: should_not_exceed_n_charcters
+  -
+    value: 'Admin'
+    unitId: admin
+  -
+    value: 'Required'
+    unitId: required
+  -
+    value: 'Save'
+    unitId: save
+  -
+    value: 'Should be a valid date in hh:mm format'
+    unitId: should_be_a_valid_date_in_hh:mm_format
+  -
+    value: 'Job Category'
+    unitId: job_category
+  -
+    value: 'Allows Phone Numbers Only'
+    unitId: allows_phone_numbers_only
+  -
+    value: 'Should be a valid date in {format} format'
+    unitId: should_be_a_valid_date_in_x_format
+  -
+    value: 'Should be less than {amount}'
+    unitId: should_be_less_than_n
+  -
+    value: 'Should be a number'
+    unitId: should_be_a_number
+  -
+    value: 'End date should be after Start date'
+    unitId: end_date_should_be_after_start_date
+  -
+    value: 'End time should be after Start time'
+    unitId: end_time_should_be_after_start_time
+  -
+    value: 'Attachment Size Exceeded'
+    unitId: attachment_size_exceeded
+  -
+    value: 'File type not allowed'
+    unitId: file_type_not_allowed
+  -
+    value: 'Expected format: admin@example.com'
+    unitId: expected_format_not_matched
+  -
+    value: 'Employment Status'
+    unitId: employment_status
+  -
+    value: 'Allows numbers and only + - / ( )'
+    unitId: allows_phone_numbers_only
+  -
+    value: 'Start date should be before end date'
+    unitId: start_date_should_be_before_end_date
+  -
+    value: 'Start time should be before end time'
+    unitId: start_time_should_be_before_end_time
+  -
+    value: 'Should be least {amount} characters'
+    unitId: should_be_least_n_characters
+  -
+    value: 'Should be higher than minimum value'
+    unitId: should_be_higher_than_minimum_value
+  -
+    value: 'ESS'
+    unitId: ess
+  -
+    value: 'Enabled'
+    unitId: enabled
+  -
+    value: 'Disabled'
+    unitId: disabled

@@ -1,10 +1,13 @@
 langStrings:
   -
-    value: Add Job Titles
-    unitId: add_job_titles
+    value: Add Job Title
+    unitId: add_job_title
+  -
+    value: Edit Job Titles
+    unitId: edit_job_title
   -
     value: Job Title
-    unitId: job_title
+    unitId: job_titles
   -
     value: Locations
     unitId: locations
@@ -218,3 +221,12 @@ langStrings:
   -
     value: Should be higher than Minimum Salary
     unitId: should_be_higher_than_minimum_salary
+  -
+    value: Job Categories
+    unitId: job_categories
+  -
+    value: Add Job Category
+    unitId: add_job_category
+
+  - value: Edit Job Category
+    unitId: edit_job_category
