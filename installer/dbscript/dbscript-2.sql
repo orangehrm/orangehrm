@@ -3618,7 +3618,8 @@ VALUES ('apiv2_admin_education', 'API-v2 Admin - Education', 1, 1, 1, 1),
        ('apiv2_admin_work_shift_employee', 'API-v2 Admin - Work Shift Employee', 1, 0, 0, 0),
        ('apiv2_admin_email_subscriptions', 'API-v2 Admin - Email Subscription', 1, 0, 1, 0),
        ('apiv2_admin_email_subscribers', 'API-v2 Admin - Email Subscriber', 1, 1, 1, 1),
-       ('apiv2_admin_validation_user_name', 'Admin-v2 Admin - User Name Validation', 1, 0, 0, 0);
+       ('apiv2_admin_validation_user_name', 'Admin-v2 Admin - User Name Validation', 1, 0, 0, 0),
+       ('apiv2_admin_localization', 'API-v2 Admin - Localization', 1, 0, 1, 0);
 
 SET @admin_module_id := (SELECT `id` FROM ohrm_module WHERE name = 'admin' LIMIT 1);
 SET @apiv2_admin_education_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_admin_education' LIMIT 1);
@@ -3645,6 +3646,7 @@ SET @apiv2_admin_work_shift_employee_data_group_id := (SELECT `id` FROM ohrm_dat
 SET @apiv2_admin_email_subscriptions_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_admin_email_subscriptions' LIMIT 1);
 SET @apiv2_admin_email_subscribers_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_admin_email_subscribers' LIMIT 1);
 SET @apiv2_admin_validation_user_name_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_admin_validation_user_name' LIMIT 1);
+SET @apiv2_admin_localization_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_admin_localization' LIMIT 1);
 
 INSERT INTO ohrm_api_permission (`api_name`, `module_id`, `data_group_id`)
 VALUES ('OrangeHRM\\Admin\\Api\\EducationAPI', @admin_module_id, @apiv2_admin_education_data_group_id),
@@ -3671,7 +3673,8 @@ VALUES ('OrangeHRM\\Admin\\Api\\EducationAPI', @admin_module_id, @apiv2_admin_ed
        ('OrangeHRM\\Admin\\Api\\WorkShiftEmployeeAPI', @admin_module_id, @apiv2_admin_work_shift_employee_data_group_id),
        ('OrangeHRM\\Admin\\Api\\EmailSubscriptionAPI', @admin_module_id, @apiv2_admin_email_subscriptions_data_group_id),
        ('OrangeHRM\\Admin\\Api\\EmailSubscriberAPI', @admin_module_id, @apiv2_admin_email_subscribers_data_group_id),
-       ('OrangeHRM\\Admin\\Api\\ValidationUserNameAPI', @admin_module_id, @apiv2_admin_validation_user_name_data_group_id);
+       ('OrangeHRM\\Admin\\Api\\ValidationUserNameAPI', @admin_module_id, @apiv2_admin_validation_user_name_data_group_id),
+       ('OrangeHRM\\Admin\\Api\\LocalizationAPI', @admin_module_id, @apiv2_admin_localization_data_group_id);
 
 INSERT INTO ohrm_user_role_data_group (`can_read`, `can_create`, `can_update`, `can_delete`, `self`, `data_group_id`, `user_role_id`)
 VALUES (1, 1, 1, 1, 0, @apiv2_admin_education_data_group_id, @admin_role_id),
@@ -3702,7 +3705,8 @@ VALUES (1, 1, 1, 1, 0, @apiv2_admin_education_data_group_id, @admin_role_id),
        (1, 0, 0, 0, 0, @apiv2_admin_work_shift_employee_data_group_id, @admin_role_id),
        (1, 0, 1, 0, 0, @apiv2_admin_email_subscriptions_data_group_id, @admin_role_id),
        (1, 1, 1, 1, 0, @apiv2_admin_email_subscribers_data_group_id, @admin_role_id),
-       (1, 0, 0, 0, 0, @apiv2_admin_validation_user_name_data_group_id, @admin_role_id);
+       (1, 0, 0, 0, 0, @apiv2_admin_validation_user_name_data_group_id, @admin_role_id),
+       (1, 0, 1, 0, 0, @apiv2_admin_localization_data_group_id, @admin_role_id);
 
 INSERT INTO ohrm_data_group (`name`, `description`, `can_read`, `can_create`, `can_update`, `can_delete`)
 VALUES ('apiv2_pim_custom_field', 'API-v2 PIM - Custom Fields', 1, 1, 1, 1),
