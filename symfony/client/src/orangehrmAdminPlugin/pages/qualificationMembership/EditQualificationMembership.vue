@@ -55,7 +55,7 @@
 <script>
 import {navigate} from '@ohrm/core/util/helper/navigation';
 import {APIService} from '@ohrm/core/util/services/api.service';
-import {required} from '@ohrm/core/util/validation/rules';
+import {required, shouldNotExceedCharLength} from '@ohrm/core/util/validation/rules';
 
 export default {
   props: {
@@ -82,7 +82,7 @@ export default {
         name: '',
       },
       rules: {
-        name: [],
+        name: [required, shouldNotExceedCharLength(50)],
       },
     };
   },
@@ -100,10 +100,6 @@ export default {
       })
       .then(response => {
         const {data} = response.data;
-        this.rules.name.push(required);
-        this.rules.name.push(v => {
-          return (v && v.length <= 50) || 'Should not exceed 50 characters';
-        });
         this.rules.name.push(v => {
           const index = data.findIndex(item => item.name === v);
           if (index > -1) {

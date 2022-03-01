@@ -256,12 +256,12 @@ export default {
         },
       ],
       userRoles: [
-        {id: 1, label: 'Admin'},
-        {id: 2, label: 'ESS'},
+        {id: 1, label: this.$t('general.admin')},
+        {id: 2, label: this.$t('general.ess') },
       ],
       userStatuses: [
-        {id: 1, label: 'Enabled'},
-        {id: 2, label: 'Disabled'},
+        {id: 1, label: this.$t('general.enabled')},
+        {id: 2, label: this.$t('general.disabled')},
       ],
       checkedItems: [],
     };

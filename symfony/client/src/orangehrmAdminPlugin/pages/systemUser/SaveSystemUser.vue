@@ -134,17 +134,17 @@ export default {
           shouldNotExceedCharLength(40),
           promiseDebounce(this.validateUserName, 500),
         ],
-        role: [v => (!!v && v.length != 0) || 'Required'],
+        role: [required],
         employee: [required],
-        status: [v => (!!v && v.length != 0) || 'Required'],
+        status: [required],
       },
       userRoles: [
-        {id: 1, label: 'Admin'},
-        {id: 2, label: 'ESS'},
+        {id: 1, label: this.$t('general.admin')},
+        {id: 2, label: this.$t('general.ess') },
       ],
       userStatuses: [
-        {id: 1, label: 'Enabled'},
-        {id: 2, label: 'Disabled'},
+        {id: 1, label: this.$t('general.enabled')},
+        {id: 2, label: this.$t('general.disabled')},
       ],
     };
   },
@@ -186,7 +186,7 @@ export default {
               const {data} = response.data;
               return data.valid === true
                 ? resolve(true)
-                : resolve('Already exist');
+                : resolve(this.$t('general.already_exists'));
             });
         } else {
           resolve(true);

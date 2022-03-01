@@ -122,11 +122,11 @@ export default {
           style: {flex: 1}},
         {
           name: 'startTime',
-          title: 'From',
+          title: this.$t('general.from'),
           style: {flex: 1}},
         {
           name: 'endTime',
-          title: this.$t('admin.to_upper'),
+          title: this.$t('general.to'),
           style: {flex: 1}},
         {
           name: 'hoursPerDay',

@@ -65,7 +65,7 @@
 <script>
 import {navigate} from '@ohrm/core/util/helper/navigation';
 import {APIService} from '@ohrm/core/util/services/api.service';
-import {required} from '@ohrm/core/util/validation/rules';
+import {required, shouldNotExceedCharLength} from '@ohrm/core/util/validation/rules';
 
 const skillModel = {
   id: '',
@@ -96,13 +96,8 @@ export default {
       isLoading: false,
       skill: {...skillModel},
       rules: {
-        name: [],
-        description: [
-          v =>
-            (v && v.length <= 400) ||
-            v === '' ||
-            'Should not exceed 400 characters',
-        ],
+        name: [required, shouldNotExceedCharLength(120)],
+        description: [shouldNotExceedCharLength(400)],
       },
     };
   },
@@ -121,10 +116,6 @@ export default {
       })
       .then(response => {
         const {data} = response.data;
-        this.rules.name.push(required);
-        this.rules.name.push(v => {
-          return (v && v.length <= 120) || 'Should not exceed 120 characters';
-        });
         this.rules.name.push(v => {
           const index = data.findIndex(item => item.name == v);
           if (index > -1) {
