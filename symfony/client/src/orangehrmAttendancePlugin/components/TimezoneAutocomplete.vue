@@ -51,14 +51,14 @@ export default {
         if (serachParam.trim()) {
           this.http
             .getAll({
-              name: serachParam.trim(),
+              timezoneName: serachParam.trim(),
             })
             .then(({data}) => {
               resolve(
                 data.data.map(timezone => {
                   return {
-                    id: timezone.id,
-                    label: timezone.label,
+                    id: timezone.name,
+                    label: `(GMT${timezone.label}) ${timezone.name}`,
                     _offset: parseFloat(timezone.offset),
                   };
                 }),
