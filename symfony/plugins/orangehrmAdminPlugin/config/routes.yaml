@@ -291,6 +291,14 @@ apiv2_admin_validate_user_name:
     _key: userName
     _api: OrangeHRM\Admin\Api\ValidationUserNameAPI
 
+apiv2_admin_localization:
+  path: /api/v2/admin/localization
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    id: 0
+    _api: OrangeHRM\Admin\Api\LocalizationAPI
+
 ##########################
 #        Files
 ##########################
@@ -531,9 +539,9 @@ edit_email_subscription:
   controller: OrangeHRM\Admin\Controller\SaveEmailSubscriptionController::handle
   methods: [ GET ]
 
-admin_localization: # remove this
+admin_localization:
   path: /admin/localization
-  controller: OrangeHRM\Core\Controller\Common\ModuleUnderDevelopmentController::handle
+  controller: OrangeHRM\Admin\Controller\LocalizationController::handle
   methods: [ GET ]
 
 admin_language_package: # remove this
