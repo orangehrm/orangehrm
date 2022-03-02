@@ -26,12 +26,12 @@
 
     <oxd-divider />
 
-    <oxd-form @submit="emitEmployee" @reset="reset">
+    <oxd-form @submit="emitEmployee">
       <oxd-form-row>
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
           <oxd-grid-item>
             <employee-autocomplete
-              v-model="employeeRecord"
+              v-model="employee"
               :rules="rules.employee"
               :params="{includeEmployees: includeEmployeesParam}"
               :label="autocompleteLabel"
@@ -54,7 +54,16 @@
 <script>
 import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
 import RequiredText from '@/core/components/labels/RequiredText';
-import {required} from '@/core/util/validation/rules';
+
+const employeeValid = employee => {
+  if (typeof employee === 'string') {
+    this.employee = null;
+    return true;
+  }
+  if (typeof employee === 'object') {
+    return employee !== null || 'Invalid';
+  }
+};
 
 export default {
   name: 'EmployeeRecords',
@@ -65,10 +74,6 @@ export default {
   },
 
   props: {
-    employee: {
-      type: [Object, null],
-      required: true,
-    },
     includeEmployeesParam: {
       type: String,
       required: true,
@@ -83,20 +88,23 @@ export default {
     },
   },
 
-  emits: ['selected'],
+  emits: ['search'],
 
   data() {
     return {
-      employeeRecord: this.employee,
+      employee: null,
       rules: {
-        employee: [required],
+        employee: [employeeValid],
       },
     };
   },
 
   methods: {
     emitEmployee() {
-      this.$emit('selected', this.employeeRecord?._employee);
+      this.$emit('search', this.employee?._employee);
+    },
+    reset() {
+      this.employee = null;
     },
   },
 };

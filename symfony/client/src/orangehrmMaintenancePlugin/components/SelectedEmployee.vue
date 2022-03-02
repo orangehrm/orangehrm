@@ -26,7 +26,7 @@
 
     <oxd-divider />
 
-    <oxd-form @submit="emitEmpNumber">
+    <oxd-form :loading="loading" @submit="emitEmpNumber">
       <div class="orangehrm-selected-employee">
         <div class="orangehrm-selected-employee-imagesection">
           <div class="orangehrm-selected-employee-image-wrapper">
@@ -40,9 +40,9 @@
             <oxd-grid :cols="1" class="orangehrm-full-width-grid">
               <oxd-grid-item>
                 <full-name-input
-                  v-model:firstName="selectedEmployee.firstName"
-                  v-model:middleName="selectedEmployee.middleName"
-                  v-model:lastName="selectedEmployee.lastName"
+                  :first-name="selectedEmployee.firstName"
+                  :middle-name="selectedEmployee.middleName"
+                  :last-name="selectedEmployee.lastName"
                   :rules="rules"
                   disabled
                 />
@@ -53,7 +53,7 @@
             <oxd-grid :cols="3" class="orangehrm-full-width-grid">
               <oxd-grid-item>
                 <oxd-input-field
-                  v-model="selectedEmployee.employeeId"
+                  :model-value="selectedEmployee.employeeId"
                   label="Employee Id"
                   :rules="rules.employeeId"
                   disabled
@@ -80,6 +80,7 @@
 <script>
 import FullNameInput from '@/orangehrmPimPlugin/components/FullNameInput';
 import {shouldNotExceedCharLength} from '@/core/util/validation/rules';
+import {computed} from 'vue';
 
 export default {
   name: 'SelectedEmployee',
@@ -87,25 +88,34 @@ export default {
   components: {'full-name-input': FullNameInput},
 
   props: {
-    employee: {
+    selectedEmployee: {
       type: Object,
-      required: true,
-    },
-    imgSrc: {
-      type: String,
       required: true,
     },
     buttonLabel: {
       type: String,
       required: true,
     },
+    loading: {
+      type: Boolean,
+      default: false,
+    },
   },
 
   emits: ['submit'],
 
+  setup(props) {
+    const imgSrc = computed(() => {
+      return `${window.appGlobal.baseUrl}/pim/viewPhoto/empNumber/${props.selectedEmployee.empNumber}`;
+    });
+
+    return {
+      imgSrc,
+    };
+  },
+
   data() {
     return {
-      selectedEmployee: this.employee,
       rules: {
         firstName: [shouldNotExceedCharLength(30)],
         middleName: [shouldNotExceedCharLength(30)],
@@ -144,6 +154,14 @@ export default {
     padding-bottom: 1.2rem;
     @include oxd-respond-to('md') {
       padding-top: 1.2rem;
+      padding-left: 2rem;
+      padding-right: 2rem;
+    }
+    @include oxd-respond-to('lg') {
+      padding-left: 5rem;
+      padding-right: 5rem;
+    }
+    @include oxd-respond-to('xl') {
       padding-left: 7rem;
       padding-right: 7rem;
     }

@@ -23,22 +23,21 @@
     <verify-password
       v-if="!verified"
       :title-label="title"
-      @verify="passwordVerified"
+      @verify="onClickVerify"
     />
     <purge-employee-records
       v-if="verified"
       ref="purgeRecords"
-      :employee="purgeableEmployee.employee"
-      :include-employees-param="purgeableEmployee.includeEmployeesParam"
+      include-employees-param="onlyPast"
       :title-label="title"
       autocomplete-label="Past Employee"
-      @selected="displayPurgeableEmployee"
+      @search="onClickSearch"
     />
     <br />
     <selected-employee
       v-if="showPurgeableEmployee"
-      :employee="selectedEmployee"
-      :img-src="imgSrc"
+      :loading="isLoading"
+      :selected-employee="selectedEmployee"
       button-label="Purge"
       @submit="onClickPurge"
     />
@@ -61,19 +60,12 @@ import EmployeeRecords from '@/orangehrmMaintenancePlugin/components/EmployeeRec
 import VerifyPassword from '@/orangehrmMaintenancePlugin/components/VerifyPassword';
 import ConfirmationDialog from '@/core/components/dialogs/ConfirmationDialog';
 
-const defaultPic = `${window.appGlobal.baseUrl}/../dist/img/user-default-400.png`;
-
 const selectedEmployeeModel = {
   firstName: '',
   middleName: '',
   lastName: '',
   employeeId: '',
   empNumber: '',
-};
-
-const purgeableEmployeeModel = {
-  employee: null,
-  includeEmployeesParam: 'onlyPast',
 };
 
 export default {
@@ -100,20 +92,20 @@ export default {
     return {
       title: 'Purge Employee Records',
       verified: false,
+      isLoading: false,
       showPurgeableEmployee: false,
-      purgeableEmployee: {...purgeableEmployeeModel},
       selectedEmployee: {...selectedEmployeeModel},
-      imgSrc: defaultPic,
     };
   },
 
   methods: {
-    displayPurgeableEmployee(employee) {
+    onClickVerify() {
+      this.verified = true;
+    },
+    onClickSearch(employee) {
       this.selectedEmployee = {...selectedEmployeeModel};
-      this.imgSrc = defaultPic;
       if (employee) {
         this.selectedEmployee = {...employee};
-        this.imgSrc = `${window.appGlobal.baseUrl}/pim/viewPhoto/empNumber/${employee.empNumber}`;
         this.showPurgeableEmployee = true;
       } else {
         this.showPurgeableEmployee = false;
@@ -126,14 +118,24 @@ export default {
         }
       });
     },
-    purgeEmployee() {
-      this.showPurgeableEmployee = false;
-      this.purgeableEmployee = {...purgeableEmployeeModel};
-      this.selectedEmployee = {...selectedEmployeeModel};
-      this.imgSrc = defaultPic;
-    },
-    passwordVerified() {
-      this.verified = true;
+    purgeEmployee(empNumber) {
+      this.isLoading = true;
+      this.http
+        .deleteAll({
+          empNumber: empNumber,
+        })
+        .then(() => {
+          return this.$toast.success({
+            title: 'Success',
+            message: 'Successfully Purged',
+          });
+        })
+        .then(() => {
+          this.showPurgeableEmployee = false;
+          this.selectedEmployee = {...selectedEmployeeModel};
+          this.$refs.purgeRecords.reset();
+          this.isLoading = false;
+        });
     },
   },
 };

@@ -105,6 +105,7 @@ export default {
 .orangehrm-maintenance-note {
   display: flex;
   flex-direction: column;
+  overflow-wrap: break-word;
   padding: 1.2rem;
   border-radius: 1.2rem;
   color: $oxd-input-control-font-color;
