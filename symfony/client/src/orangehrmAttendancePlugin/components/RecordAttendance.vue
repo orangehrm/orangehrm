@@ -211,9 +211,8 @@ export default {
   methods: {
     onSave() {
       this.isLoading = true;
-      // getTimezoneOffset return difference in minutes between UTC and client
-      // offset is positive if the local timezone is behind UTC and negative if it is ahead
-      const tzOffset = (new Date().getTimezoneOffset() / 60) * -1;
+
+      const timezone = guessTimezone();
 
       this.http
         .request({
@@ -222,7 +221,9 @@ export default {
             date: this.attendanceRecord.date,
             time: this.attendanceRecord.time,
             note: this.attendanceRecord.note,
-            timezoneOffset: this.attendanceRecord.timezone?._offset ?? tzOffset,
+            timezoneOffset:
+              this.attendanceRecord.timezone?._offset ?? timezone.offset,
+            timezoneName: this.attendanceRecord.timezone?.id ?? timezone.name,
           },
         })
         .then(() => {
