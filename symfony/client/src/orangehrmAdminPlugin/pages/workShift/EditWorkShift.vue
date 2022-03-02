@@ -21,7 +21,9 @@
 <template>
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
-      <oxd-text tag="h6" class="orangehrm-main-title">{{ $t('admin.edit_work_shift') }}</oxd-text>
+      <oxd-text tag="h6" class="orangehrm-main-title">{{
+        $t('admin.edit_work_shift')
+      }}</oxd-text>
       <oxd-divider />
 
       <oxd-form :loading="isLoading" @submitValid="onSave">
@@ -80,7 +82,11 @@
         <oxd-divider />
         <oxd-form-actions>
           <required-text />
-          <oxd-button display-type="ghost" :label="$t('general.cancel')" @click="onCancel" />
+          <oxd-button
+            display-type="ghost"
+            :label="$t('general.cancel')"
+            @click="onCancel"
+          />
           <submit-button />
         </oxd-form-actions>
       </oxd-form>
@@ -178,7 +184,9 @@ export default {
           const index = data.findIndex(item => item.name == v);
           if (index > -1) {
             const {id} = data[index];
-            return id != this.workShift.id ? this.$t('general.already_exists') : true;
+            return id != this.workShift.id
+              ? this.$t('general.already_exists')
+              : true;
           } else {
             return true;
           }

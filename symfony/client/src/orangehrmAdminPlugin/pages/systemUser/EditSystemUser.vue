@@ -21,7 +21,9 @@
 <template>
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
-      <oxd-text tag="h6" class="orangehrm-main-title">{{ $t('admin.edit_user') }}</oxd-text>
+      <oxd-text tag="h6" class="orangehrm-main-title">{{
+        $t('admin.edit_user')
+      }}</oxd-text>
       <oxd-divider />
 
       <oxd-form :loading="isLoading" @submitValid="onSave">
@@ -161,7 +163,7 @@ export default {
       },
       userRoles: [
         {id: 1, label: this.$t('general.admin')},
-        {id: 2, label: this.$t('general.ess') },
+        {id: 2, label: this.$t('general.ess')},
       ],
       userStatuses: [
         {id: 1, label: this.$t('general.enabled')},

@@ -80,7 +80,11 @@
         <oxd-divider />
         <oxd-form-actions>
           <required-text />
-          <oxd-button display-type="ghost" :label="$t('general.cancel')" @click="onCancel" />
+          <oxd-button
+            display-type="ghost"
+            :label="$t('general.cancel')"
+            @click="onCancel"
+          />
           <submit-button />
         </oxd-form-actions>
       </oxd-form>
@@ -140,7 +144,7 @@ export default {
           validTimeFormat,
           endTimeShouldBeAfterStartTime(
             () => this.workShift.startTime,
-              this.$t('general.to_time_should_be_after_from_time'),
+            this.$t('general.to_time_should_be_after_from_time'),
           ),
         ],
       },

@@ -21,7 +21,9 @@
 <template>
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
-      <oxd-text tag="h6" class="orangehrm-main-title">{{ $t('admin.add_location') }}</oxd-text>
+      <oxd-text tag="h6" class="orangehrm-main-title">{{
+        $t('admin.add_location')
+      }}</oxd-text>
 
       <oxd-divider />
 
@@ -125,7 +127,11 @@
 
         <oxd-form-actions>
           <required-text />
-          <oxd-button display-type="ghost" :label="$t('general.cancel')" @click="onCancel" />
+          <oxd-button
+            display-type="ghost"
+            :label="$t('general.cancel')"
+            @click="onCancel"
+          />
           <submit-button v-if="hasCreatePermissions" />
         </oxd-form-actions>
       </oxd-form>

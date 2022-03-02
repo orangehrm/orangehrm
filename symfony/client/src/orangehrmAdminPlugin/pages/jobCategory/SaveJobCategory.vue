@@ -57,7 +57,10 @@
 <script>
 import {navigate} from '@ohrm/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
-import {required, shouldNotExceedCharLength} from '@ohrm/core/util/validation/rules';
+import {
+  required,
+  shouldNotExceedCharLength,
+} from '@ohrm/core/util/validation/rules';
 
 export default {
   setup() {

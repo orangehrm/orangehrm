@@ -21,20 +21,22 @@
 <template>
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
-      <oxd-text class="orangehrm-main-title" tag="h6">{{ $t('admin.edit_location') }}</oxd-text>
+      <oxd-text class="orangehrm-main-title" tag="h6">{{
+        $t('admin.edit_location')
+      }}</oxd-text>
 
-      <oxd-divider/>
+      <oxd-divider />
 
       <oxd-form :loading="isLoading" novalidate="true" @submitValid="onSave">
         <oxd-form-row>
           <oxd-grid :cols="2" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <oxd-input-field
-                  v-model="location.name"
-                  :disabled="!hasUpdatePermissions"
-                  :rules="rules.name"
-                  :label="$t('general.name')"
-                  required
+                v-model="location.name"
+                :disabled="!hasUpdatePermissions"
+                :rules="rules.name"
+                :label="$t('general.name')"
+                required
               />
             </oxd-grid-item>
           </oxd-grid>
@@ -44,81 +46,85 @@
           <oxd-grid :cols="2" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <oxd-input-field
-                  v-model="location.city"
-                  :disabled="!hasUpdatePermissions"
-                  :rules="rules.city"
-                  :label="$t('general.city')"
+                v-model="location.city"
+                :disabled="!hasUpdatePermissions"
+                :rules="rules.city"
+                :label="$t('general.city')"
               />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
-                  v-model="location.province"
-                  :disabled="!hasUpdatePermissions"
-                  :rules="rules.province"
-                  :label="$t('general.state_province')"
+                v-model="location.province"
+                :disabled="!hasUpdatePermissions"
+                :rules="rules.province"
+                :label="$t('general.state_province')"
               />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
-                  v-model="location.zipCode"
-                  :disabled="!hasUpdatePermissions"
-                  :rules="rules.zipCode"
-                  :label="$t('general.zip_postal_code')"
+                v-model="location.zipCode"
+                :disabled="!hasUpdatePermissions"
+                :rules="rules.zipCode"
+                :label="$t('general.zip_postal_code')"
               />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
-                  v-model="location.countryCode"
-                  :clear="false"
-                  :disabled="!hasUpdatePermissions"
-                  :options="countries"
-                  :rules="rules.countryCode"
-                  :label="$t('general.country')"
-                  required
-                  type="select"
+                v-model="location.countryCode"
+                :clear="false"
+                :disabled="!hasUpdatePermissions"
+                :options="countries"
+                :rules="rules.countryCode"
+                :label="$t('general.country')"
+                required
+                type="select"
               />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
-                  v-model="location.phone"
-                  :disabled="!hasUpdatePermissions"
-                  :rules="rules.phone"
-                  :label="$t('general.phone')"
+                v-model="location.phone"
+                :disabled="!hasUpdatePermissions"
+                :rules="rules.phone"
+                :label="$t('general.phone')"
               />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
-                  v-model="location.fax"
-                  :disabled="!hasUpdatePermissions"
-                  :rules="rules.fax"
-                  :label="$t('general.fax')"
+                v-model="location.fax"
+                :disabled="!hasUpdatePermissions"
+                :rules="rules.fax"
+                :label="$t('general.fax')"
               />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
-                  v-model="location.address"
-                  :disabled="!hasUpdatePermissions"
-                  :rules="rules.address"
-                  :label="$t('admin.address')"
-                  type="textarea"
+                v-model="location.address"
+                :disabled="!hasUpdatePermissions"
+                :rules="rules.address"
+                :label="$t('admin.address')"
+                type="textarea"
               />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
-                  v-model="location.note"
-                  :disabled="!hasUpdatePermissions"
-                  :rules="rules.note"
-                  :label="$t('general.note')"
-                  type="textarea"
+                v-model="location.note"
+                :disabled="!hasUpdatePermissions"
+                :rules="rules.note"
+                :label="$t('general.note')"
+                type="textarea"
               />
             </oxd-grid-item>
           </oxd-grid>
         </oxd-form-row>
 
         <oxd-form-actions>
-          <required-text/>
-          <oxd-button display-type="ghost" :label="$t('general.cancel')" @click="onCancel"/>
-          <submit-button v-if="hasUpdatePermissions"/>
+          <required-text />
+          <oxd-button
+            display-type="ghost"
+            :label="$t('general.cancel')"
+            @click="onCancel"
+          />
+          <submit-button v-if="hasUpdatePermissions" />
         </oxd-form-actions>
       </oxd-form>
     </div>
@@ -160,8 +166,8 @@ export default {
 
   setup() {
     const http = new APIService(
-        window.appGlobal.baseUrl,
-        'api/v2/admin/locations',
+      window.appGlobal.baseUrl,
+      'api/v2/admin/locations',
     );
     return {
       http,
@@ -195,41 +201,41 @@ export default {
   created() {
     this.isLoading = true;
     this.http
-        .get(parseInt(this.locationId, 10))
-        .then(response => {
-          const {data} = response.data;
-          this.location.name = data.name;
-          this.location.countryCode = this.countries.find(
-              item => item.id === data.country.countryCode,
-          );
-          this.location.province = data.province;
-          this.location.city = data.city;
-          this.location.address = data.address;
-          this.location.zipCode = data.zipCode;
-          this.location.phone = data.phone;
-          this.location.fax = data.fax;
-          this.location.note = data.note;
+      .get(parseInt(this.locationId, 10))
+      .then(response => {
+        const {data} = response.data;
+        this.location.name = data.name;
+        this.location.countryCode = this.countries.find(
+          item => item.id === data.country.countryCode,
+        );
+        this.location.province = data.province;
+        this.location.city = data.city;
+        this.location.address = data.address;
+        this.location.zipCode = data.zipCode;
+        this.location.phone = data.phone;
+        this.location.fax = data.fax;
+        this.location.note = data.note;
 
-          // Fetch list data for unique test
-          return this.http.getAll({limit: 0});
-        })
-        .then(response => {
-          const {data} = response.data;
-          this.rules.name.push(v => {
-            const index = data.findIndex(item => item.name === v);
-            if (index > -1) {
-              const {id} = data[index];
-              return parseInt(id, 10) !== parseInt(this.locationId, 10)
-                  ? this.$t('general.already_exists')
-                  : true;
-            } else {
-              return true;
-            }
-          });
-        })
-        .finally(() => {
-          this.isLoading = false;
+        // Fetch list data for unique test
+        return this.http.getAll({limit: 0});
+      })
+      .then(response => {
+        const {data} = response.data;
+        this.rules.name.push(v => {
+          const index = data.findIndex(item => item.name === v);
+          if (index > -1) {
+            const {id} = data[index];
+            return parseInt(id, 10) !== parseInt(this.locationId, 10)
+              ? this.$t('general.already_exists')
+              : true;
+          } else {
+            return true;
+          }
         });
+      })
+      .finally(() => {
+        this.isLoading = false;
+      });
   },
 
   methods: {
@@ -239,23 +245,23 @@ export default {
     onSave() {
       this.isLoading = true;
       this.http
-          .update(this.locationId, {
-            name: this.location.name,
-            countryCode: this.location.countryCode.id,
-            province: this.location.province,
-            city: this.location.city,
-            address: this.location.address,
-            zipCode: this.location.zipCode,
-            phone: this.location.phone,
-            fax: this.location.fax,
-            note: this.location.note,
-          })
-          .then(() => {
-            return this.$toast.updateSuccess();
-          })
-          .then(() => {
-            this.onCancel();
-          });
+        .update(this.locationId, {
+          name: this.location.name,
+          countryCode: this.location.countryCode.id,
+          province: this.location.province,
+          city: this.location.city,
+          address: this.location.address,
+          zipCode: this.location.zipCode,
+          phone: this.location.phone,
+          fax: this.location.fax,
+          note: this.location.note,
+        })
+        .then(() => {
+          return this.$toast.updateSuccess();
+        })
+        .then(() => {
+          this.onCancel();
+        });
     },
   },
 };

@@ -75,7 +75,7 @@
                 :show-delete="index > 0 && $can.update(`time_projects`)"
                 :rules="index > 0 ? rules.projectAdmin : []"
                 :disabled="!$can.update(`time_projects`)"
-                includeEmployees="onlyCurrent"
+                include-employees="onlyCurrent"
                 @remove="onRemoveAdmin(index)"
               />
               <oxd-button

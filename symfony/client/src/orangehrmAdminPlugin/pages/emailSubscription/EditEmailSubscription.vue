@@ -131,12 +131,12 @@ export default {
           name: 'name',
           slot: 'title',
           title: this.$t('general.name'),
-          style: {flex: '30%'}
+          style: {flex: '30%'},
         },
         {
           name: 'email',
           title: this.$t('general.email'),
-          style: {flex: '55%'}
+          style: {flex: '55%'},
         },
         {
           name: 'actions',

@@ -25,10 +25,16 @@
         <oxd-form-row>
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item>
-              <oxd-input-field v-model="filters.name" :label="$t('general.name')" />
+              <oxd-input-field
+                v-model="filters.name"
+                :label="$t('general.name')"
+              />
             </oxd-grid-item>
             <oxd-grid-item>
-              <oxd-input-field v-model="filters.city" :label="$t('general.city')" />
+              <oxd-input-field
+                v-model="filters.city"
+                :label="$t('general.city')"
+              />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
