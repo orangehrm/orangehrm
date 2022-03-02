@@ -142,7 +142,7 @@
             <oxd-grid-item>
               <oxd-input-field
                 v-model="organization.province"
-                :label="$t('general.state/province')"
+                :label="$t('general.state_province')"
                 :rules="rules.province"
                 :disabled="!editable"
               />
@@ -150,7 +150,7 @@
             <oxd-grid-item>
               <oxd-input-field
                 v-model="organization.zipCode"
-                :label="$t('general.zip/postal_code')"
+                :label="$t('general.zip_postal_code')"
                 :rules="rules.zipCode"
                 :disabled="!editable"
               />

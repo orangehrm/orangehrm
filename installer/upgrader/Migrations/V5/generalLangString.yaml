@@ -22,10 +22,10 @@ langStrings:
     unitId: phone
   -
     value: 'State/Province'
-    unitId: state/province
+    unitId: state_province
   -
     value: 'Zip/Postal Code'
-    unitId: zip/postal_code
+    unitId: zip_postal_code
   -
     value: 'Note'
     unitId: note
@@ -181,7 +181,7 @@ langStrings:
     unitId: file_type_not_allowed
   -
     value: 'Expected format: admin@example.com'
-    unitId: expected_format_not_matched
+    unitId: expected_email_address_format_not_matched
   -
     value: 'Employment Status'
     unitId: employment_status
