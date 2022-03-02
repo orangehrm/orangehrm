@@ -22,7 +22,7 @@ namespace OrangeHRM\Core\Api\Rest;
 use OrangeHRM\Core\Api\V2\CollectionEndpoint;
 use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
-use OrangeHRM\Core\Api\V2\Model\ArrayModel;
+use OrangeHRM\Core\Api\V2\Model\ArrayCollectionModel;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
@@ -57,7 +57,7 @@ abstract class ReportDataAPI extends EndpointProxy implements CollectionEndpoint
         $data = $report->getData($filterParams);
 
         return new EndpointCollectionResult(
-            ArrayModel::class,
+            ArrayCollectionModel::class,
             $data->normalize(),
             $data->getMeta()
         );
