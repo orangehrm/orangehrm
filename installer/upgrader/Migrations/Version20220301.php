@@ -38,6 +38,7 @@ class Version20220301
 
     public function up(): void
     {
+        //getting all attendance records from data source
         $attendanceRecordList = $this->getAttendanceHelper()->getAttendanceRecords();
         foreach ($attendanceRecordList as $attendanceRecords) {
             $id = $attendanceRecords['id'];
