@@ -21,7 +21,7 @@
 <template>
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
-      <oxd-text tag="h6" class="orangehrm-main-title">Add Report</oxd-text>
+      <oxd-text tag="h6" class="orangehrm-main-title">{{ $t('pim.add_report') }}</oxd-text>
       <oxd-divider />
 
       <oxd-form :loading="isLoading" @submitValid="onSave">
@@ -30,7 +30,7 @@
             <oxd-grid-item>
               <oxd-input-field
                 v-model="report.name"
-                label="Report Name"
+                :label="$t('general.report_name')"
                 placeholder="Type here..."
                 :rules="rules.name"
                 required
@@ -42,14 +42,14 @@
         <oxd-divider />
         <oxd-form-row>
           <oxd-text class="orangehrm-sub-title" tag="h6">
-            Selection Criteria
+            {{ $t('pim.selection_criteria') }}
           </oxd-text>
           <oxd-grid :cols="4" class="orangehrm-full-width-grid">
             <oxd-grid-item class="orangehrm-report-criteria --span-column-2">
               <oxd-input-field
                 v-model="report.criterion"
                 type="select"
-                label="Selection Criteria"
+                :label="$t('pim.selection_criteria')"
                 :options="availableCriteria"
               />
               <oxd-input-group>
@@ -64,7 +64,7 @@
               <oxd-input-field
                 v-model="report.includeEmployees"
                 type="select"
-                label="Include"
+                :label="$t('pim.include')"
                 :options="includeOpts"
                 :show-empty-selector="false"
               />
@@ -89,14 +89,14 @@
         <oxd-divider />
         <oxd-form-row>
           <oxd-text class="orangehrm-sub-title" tag="h6">
-            Display Fields
+            {{ $t('pim.display_fields') }}
           </oxd-text>
           <oxd-grid :cols="4" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <oxd-input-field
                 v-model="report.fieldGroup"
                 type="select"
-                label="Select Display Field Group"
+                :label="$t('pim.select_display_field_group')"
                 :options="availableFieldGroups"
               />
             </oxd-grid-item>
@@ -104,7 +104,7 @@
               <oxd-input-field
                 v-model="report.displayField"
                 type="select"
-                label="Select Display Field"
+                :label="$t('pim.select_display_field')"
                 :options="availableDisplyFields"
               />
               <oxd-input-group>
@@ -141,7 +141,7 @@
           <oxd-button
             type="button"
             display-type="ghost"
-            label="Cancel"
+            :label="$t('general.cancel')"
             @click="onCancel"
           />
           <submit-button />
@@ -243,7 +243,7 @@ export default {
         const {data} = response.data;
         this.rules.name.push(v => {
           const index = data.findIndex(item => item.name == v);
-          return index === -1 || 'Already exists';
+          return index === -1 || this.$t('general.already_exists');
         });
       })
       .finally(() => {
@@ -258,8 +258,8 @@ export default {
     onSave() {
       if (Object.keys(this.report.displayFieldSelected).length === 0) {
         return this.$toast.warn({
-          title: 'Warning',
-          message: 'At least one display field should be added',
+          title: this.$t('general.warning'),
+          message: this.$t('pim.at_least_one_display_field_should_be_added'),
         });
       }
 

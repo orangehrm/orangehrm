@@ -52,14 +52,14 @@
             <oxd-grid-item>
               <oxd-input-field
                 v-model="contact.province"
-                :label="$t('general.state/province')"
+                :label="$t('general.state_province')"
                 :rules="rules.province"
               />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
                 v-model="contact.zipCode"
-                :label="$t('general.zip/postal_code')"
+                :label="$t('general.zip_postal_code')"
                 :rules="rules.zipCode"
               />
             </oxd-grid-item>

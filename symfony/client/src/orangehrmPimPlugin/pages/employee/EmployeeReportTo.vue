@@ -21,7 +21,7 @@
 <template>
   <edit-employee-layout :employee-id="empNumber" screen="report-to">
     <div class="orangehrm-horizontal-padding orangehrm-top-padding">
-      <oxd-text tag="h6" class="orangehrm-main-title">Report to</oxd-text>
+      <oxd-text tag="h6" class="orangehrm-main-title">{{ $t('pim.report_to') }}</oxd-text>
       <oxd-divider />
     </div>
     <employee-supervisors

@@ -39,7 +39,7 @@
     ></edit-membership>
     <div class="orangehrm-horizontal-padding orangehrm-top-padding">
       <profile-action-header @click="onClickAdd">
-        Assigned Memberships
+        {{ $t('pim.assigned_memberships') }}
       </profile-action-header>
     </div>
     <table-header
@@ -162,34 +162,37 @@ export default {
         {
           name: 'membershipName',
           slot: 'title',
-          title: 'Membership',
+          title: this.$t('pim.membership'),
           style: {flex: 1},
         },
         {
           name: 'subscriptionPaidBy',
-          title: 'Subscription Paid By',
+          title: this.$t('pim.subscription_paid_by'),
           style: {flex: 1},
         },
         {
           name: 'subscriptionFee',
-          title: 'Subscription Amount',
+          title: this.$t('pim.subscription_amount'),
           style: {flex: 1},
         },
-        {name: 'subscriptionCurrencyName', title: 'Currency', style: {flex: 1}},
+        {
+          name: 'subscriptionCurrencyName',
+          title: this.$t('general.currency'),
+          style: {flex: 1}},
         {
           name: 'subscriptionCommenceDate',
-          title: 'Subscription Commence Date',
+          title: this.$t('pim.subscription_commence_date'),
           style: {flex: 1},
         },
         {
           name: 'subscriptionRenewalDate',
-          title: 'Subscription Renewal Date',
+          title: this.$t('pim.subscription_renewal_date'),
           style: {flex: 1},
         },
         {
           name: 'actions',
           slot: 'action',
-          title: 'Actions',
+          title: this.$t('general.actions'),
           style: {flex: 1},
           cellType: 'oxd-table-cell-actions',
           cellConfig: {

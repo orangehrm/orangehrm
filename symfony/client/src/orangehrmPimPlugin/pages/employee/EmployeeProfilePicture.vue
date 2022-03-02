@@ -21,9 +21,9 @@
 <template>
   <edit-employee-layout :employee-id="empNumber">
     <div class="orangehrm-horizontal-padding orangehrm-vertical-padding">
-      <oxd-text tag="h6" class="orangehrm-main-title"
-        >Change Profile Picture</oxd-text
-      >
+      <oxd-text tag="h6" class="orangehrm-main-title">
+        {{ $t('pim.change_profile_picture') }}
+      </oxd-text>
       <oxd-divider />
       <oxd-form :loading="isLoading" @submitValid="onSave">
         <oxd-form-row>
@@ -49,6 +49,7 @@
 import {APIService} from '@ohrm/core/util/services/api.service';
 import ProfileImageInput from '@/orangehrmPimPlugin/components/ProfileImageInput';
 import EditEmployeeLayout from '@/orangehrmPimPlugin/components/EditEmployeeLayout';
+import {maxFileSize, required, validFileTypes} from "@/core/util/validation/rules";
 const defaultPic = `${window.appGlobal.baseUrl}/../dist/img/user-default-400.png`;
 
 export default {
@@ -84,18 +85,9 @@ export default {
       isLoading: false,
       empPicture: null,
       rules: {
-        empPicture: [
-          v => {
-            return v !== null || 'Required';
-          },
-          v =>
-            (v && v.size && v.size <= 1024 * 1024) ||
-            'Attachment size exceeded',
-          v =>
-            v === null ||
-            (v &&
-              this.allowedImageTypes.findIndex(item => item === v.type) > -1) ||
-            'File type not allowed',
+        empPicture: [required,
+          maxFileSize(1024 * 1024),
+          validFileTypes(this.allowedImageTypes)
         ],
       },
     };

@@ -35,7 +35,7 @@
     ></edit-immigration>
     <div class="orangehrm-horizontal-padding orangehrm-top-padding">
       <profile-action-header @click="onClickAdd">
-        Assigned Immigration Records
+        {{ $t('pim.assigned_immigration_records') }}
       </profile-action-header>
     </div>
     <table-header
@@ -145,15 +145,15 @@ export default {
   data() {
     return {
       headers: [
-        {name: 'type', slot: 'title', title: 'Document', style: {flex: 1}},
-        {name: 'number', title: 'Number', style: {flex: 1}},
-        {name: 'countryName', title: 'Issued By', style: {flex: 1}},
-        {name: 'issuedDate', title: 'Issued Date', style: {flex: 1}},
-        {name: 'expiryDate', title: 'Expiry Date', style: {flex: 1}},
+        {name: 'type', slot: 'title', title: this.$t('pim.document'), style: {flex: 1}},
+        {name: 'number', title: this.$t('pim.number'), style: {flex: 1}},
+        {name: 'countryName', title: this.$t('pim.issued_by'), style: {flex: 1}},
+        {name: 'issuedDate', title: this.$t('pim.issued_date'), style: {flex: 1}},
+        {name: 'expiryDate', title: this.$t('general.expiry_date'), style: {flex: 1}},
         {
           name: 'actions',
           slot: 'action',
-          title: 'Actions',
+          title: this.$t('general.actions'),
           style: {flex: 1},
           cellType: 'oxd-table-cell-actions',
           cellConfig: {

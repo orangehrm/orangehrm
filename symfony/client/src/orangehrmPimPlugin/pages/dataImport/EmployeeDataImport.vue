@@ -167,7 +167,7 @@ export default {
             });
           }
           return this.$toast.error({
-            title: this.$t('general.failed_to_import'),,
+            title: this.$t('general.failed_to_import'),
             message: this.$t('general.no_records_added'),
           });
         });

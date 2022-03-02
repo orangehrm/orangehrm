@@ -22,12 +22,12 @@
   <edit-employee-layout :employee-id="empNumber" screen="tax">
     <div class="orangehrm-horizontal-padding orangehrm-vertical-padding">
       <oxd-text tag="h6" class="orangehrm-main-title">
-        Tax Exemptions
+        {{ $t('pim.tax_exemptions') }}
       </oxd-text>
       <oxd-divider />
       <oxd-form :loading="isLoading" @submitValid="onSave">
         <oxd-text class="orangehrm-sub-title" tag="h6">
-          Federal Income Tax
+          {{ $t('pim.federal_income_tax') }}
         </oxd-text>
         <oxd-divider />
         <oxd-form-row>
@@ -36,7 +36,7 @@
               <oxd-input-field
                 v-model="taxExemption.federalStatus"
                 type="select"
-                label="Status"
+                :label="$t('general.status')"
                 :options="statuses"
                 :disabled="!$can.update('tax_exemptions')"
               />
@@ -44,7 +44,7 @@
             <oxd-grid-item>
               <oxd-input-field
                 v-model="taxExemption.federalExemptions"
-                label="Exemptions"
+                :label="$t('pim.exemptions')"
                 :rules="rules.federalExemptions"
                 :disabled="!$can.update('tax_exemptions')"
               />
@@ -62,7 +62,7 @@
               <oxd-input-field
                 v-model="taxExemption.taxState"
                 type="select"
-                label="State"
+                :label="$t('general.state')"
                 :options="provinces"
                 :disabled="!$can.update('tax_exemptions')"
               />
@@ -71,7 +71,7 @@
               <oxd-input-field
                 v-model="taxExemption.stateStatus"
                 type="select"
-                label="Status"
+                :label="$t('general.status')"
                 :options="statuses"
                 :disabled="!$can.update('tax_exemptions')"
               />
@@ -79,7 +79,7 @@
             <oxd-grid-item>
               <oxd-input-field
                 v-model="taxExemption.stateExemptions"
-                label="Exemptions"
+                :label="$t('pim.exemptions')"
                 :rules="rules.stateExemptions"
                 :disabled="!$can.update('tax_exemptions')"
               />
@@ -88,7 +88,7 @@
               <oxd-input-field
                 v-model="taxExemption.unemploymentState"
                 type="select"
-                label="Unemployment State"
+                :label="$t('pim.unemployment_state')"
                 :options="provinces"
                 :disabled="!$can.update('tax_exemptions')"
               />
@@ -97,7 +97,7 @@
               <oxd-input-field
                 v-model="taxExemption.workState"
                 type="select"
-                label="Work State"
+                :label="$t('pim.work_state')"
                 :options="provinces"
                 :disabled="!$can.update('tax_exemptions')"
               />
@@ -168,7 +168,7 @@ export default {
         federalExemptions: [
           v => {
             return (
-              v.match(/^\d*\.?\d*$/) !== null || 'Should be a positive number'
+              v.match(/^\d*\.?\d*$/) !== null || this.$t('general.should_be_a_positive_number')
             );
           },
           shouldNotExceedCharLength(2),
@@ -176,7 +176,7 @@ export default {
         stateExemptions: [
           v => {
             return (
-              v.match(/^\d*\.?\d*$/) !== null || 'Should be a positive number'
+              v.match(/^\d*\.?\d*$/) !== null || this.$t('general.should_be_a_positive_number')
             );
           },
           shouldNotExceedCharLength(2),

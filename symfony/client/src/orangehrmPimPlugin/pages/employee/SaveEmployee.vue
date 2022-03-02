@@ -21,7 +21,7 @@
 <template>
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
-      <oxd-text tag="h6" class="orangehrm-main-title">Add Employee</oxd-text>
+      <oxd-text tag="h6" class="orangehrm-main-title">{{ $t('general.add_employee') }}</oxd-text>
       <oxd-divider />
 
       <oxd-form :loading="isLoading" @submitValid="onSave">
@@ -50,7 +50,7 @@
                 <oxd-grid-item>
                   <oxd-input-field
                     v-model="employee.employeeId"
-                    label="Employee Id"
+                    :label="$t('pim.employee_id')"
                     :rules="rules.employeeId"
                   />
                 </oxd-grid-item>
@@ -58,9 +58,9 @@
             </oxd-form-row>
             <oxd-divider />
             <oxd-form-row class="user-form-header">
-              <oxd-text class="user-form-header-text" tag="p"
-                >Create Login Details</oxd-text
-              >
+              <oxd-text class="user-form-header-text" tag="p">
+                {{ $t('pim.create_login_details') }}
+              </oxd-text>
               <oxd-switch-input v-model="createLogin" />
             </oxd-form-row>
 
@@ -70,7 +70,7 @@
                   <oxd-grid-item>
                     <oxd-input-field
                       v-model="user.username"
-                      label="Username"
+                      :label="$t('general.username')"
                       :rules="rules.username"
                       required
                       autocomplete="off"
@@ -79,19 +79,19 @@
 
                   <oxd-grid-item>
                     <oxd-input-group
-                      label="Status"
+                      :label="$t('general.status')"
                       :classes="{wrapper: '--status-grouped-field'}"
                     >
                       <oxd-input-field
                         v-model="user.status"
                         type="radio"
-                        option-label="Enabled"
+                        :option-label="$t('general.enabled')"
                         value="1"
                       />
                       <oxd-input-field
                         v-model="user.status"
                         type="radio"
-                        option-label="Disabled"
+                        :option-label="$t('general.disabled')"
                         value="2"
                       />
                     </oxd-input-group>
@@ -110,7 +110,7 @@
         <oxd-divider />
         <oxd-form-actions>
           <required-text />
-          <oxd-button display-type="ghost" label="Cancel" @click="onCancel" />
+          <oxd-button display-type="ghost" :label="$t('general.cancel')" @click="onCancel" />
           <submit-button />
         </oxd-form-actions>
       </oxd-form>
@@ -127,8 +127,10 @@ import ProfileImageInput from '@/orangehrmPimPlugin/components/ProfileImageInput
 import FullNameInput from '@/orangehrmPimPlugin/components/FullNameInput';
 import PasswordInput from '@/core/components/inputs/PasswordInput';
 import {
+  maxFileSize,
   required,
   shouldNotExceedCharLength,
+  shouldNotLessThanCharLength, validFileTypes,
 } from '@ohrm/core/util/validation/rules';
 
 const defaultPic = `${window.appGlobal.baseUrl}/../dist/img/user-default-400.png`;
@@ -198,22 +200,15 @@ export default {
         lastName: [required, shouldNotExceedCharLength(30)],
         employeeId: [shouldNotExceedCharLength(10)],
         empPicture: [
-          v =>
-            v === null ||
-            (v && v.size && v.size <= 1024 * 1024) ||
-            'Attachment size exceeded',
-          v =>
-            v === null ||
-            (v &&
-              this.allowedImageTypes.findIndex(item => item === v.type) > -1) ||
-            'File type not allowed',
+          maxFileSize(1024 * 1024),
+          validFileTypes(this.allowedImageTypes)
         ],
         username: [
           required,
-          v => (v && v.length >= 5) || 'Should have at least 5 characters',
-          v => (v && v.length <= 40) || 'Should not exceed 40 characters',
+          shouldNotLessThanCharLength(5),
+          shouldNotExceedCharLength(40)
         ],
-        status: [v => (!!v && v.length != 0) || 'Required'],
+        status: [required],
       },
     };
   },

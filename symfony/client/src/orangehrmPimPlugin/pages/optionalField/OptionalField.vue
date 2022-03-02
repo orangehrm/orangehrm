@@ -21,19 +21,19 @@
 <template>
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
-      <oxd-text class="orangehrm-main-title">Optional Fields</oxd-text>
+      <oxd-text class="orangehrm-main-title">{{ $t('pim.optional_fields') }}</oxd-text>
 
       <oxd-divider />
 
       <oxd-form :loading="isLoading" @submitValid="onSave">
         <oxd-form-row>
           <oxd-text class="orangehrm-sub-title" tag="h6">
-            Show Deprecated Fields
+            {{ $t('pim.show_deprecated_fields') }}
           </oxd-text>
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <div class="orangehrm-optional-field-row">
               <oxd-text tag="p" class="orangehrm-optional-field-label">
-                Show Nick Name, Smoker and Military Service in Personal Details
+                {{ $t('pim.show_nick_name_smoker_and_military_service_in_personal_details') }}
               </oxd-text>
               <oxd-switch-input
                 v-model="optionalField.pimShowDeprecatedFields"
@@ -46,24 +46,24 @@
 
         <oxd-form-row>
           <oxd-text class="orangehrm-sub-title" tag="h6">
-            Country Specific Information
+            {{ $t('pim.country_specific_information') }}
           </oxd-text>
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <div class="orangehrm-optional-field-row">
               <oxd-text tag="p" class="orangehrm-optional-field-label">
-                Show SSN field in Personal Details
+                {{ $t('pim.show_ssn_field_in_personal_details') }}
               </oxd-text>
               <oxd-switch-input v-model="optionalField.showSSN" />
             </div>
             <div class="orangehrm-optional-field-row">
               <oxd-text tag="p" class="orangehrm-optional-field-label">
-                Show SIN field in Personal Details
+                {{ $t('pim.show_sin_field_in_personal_details') }}
               </oxd-text>
               <oxd-switch-input v-model="optionalField.showSIN" />
             </div>
             <div class="orangehrm-optional-field-row">
               <oxd-text tag="p" class="orangehrm-optional-field-label">
-                Show US Tax Exemptions menu
+                {{ $t('pim.show_us_tax_exemptions_menu') }}
               </oxd-text>
               <oxd-switch-input v-model="optionalField.showTaxExemptions" />
             </div>
