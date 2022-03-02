@@ -19,10 +19,17 @@
 
 namespace OrangeHRM\Time\Dao;
 
+use Exception;
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Entity\Customer;
+use OrangeHRM\Entity\Project;
+use OrangeHRM\Entity\ProjectActivity;
+use OrangeHRM\Entity\ProjectAdmin;
+use OrangeHRM\Entity\TimesheetItem;
+use OrangeHRM\ORM\Exception\TransactionException;
 use OrangeHRM\ORM\Paginator;
 use OrangeHRM\Time\Dto\CustomerSearchFilterParams;
+use OrangeHRM\Time\Exception\CustomerServiceException;
 
 class CustomerDao extends BaseDao
 {
@@ -43,16 +50,32 @@ class CustomerDao extends BaseDao
     /**
      * @param int[] $deletedIds
      * @return int
+     * @throws TransactionException|CustomerServiceException
      */
     public function deleteCustomer(array $deletedIds): int
     {
-        $q = $this->createQueryBuilder(Customer::class, 'cus');
-        $q->update()
-            ->set('cus.deleted', ':deleted')
-            ->setParameter('deleted', true)
-            ->where($q->expr()->in('cus.id', ':ids'))
-            ->setParameter('ids', $deletedIds);
-        return $q->getQuery()->execute();
+        foreach ($deletedIds as $toBeDeletedCustomerId) {
+            if ($this->hasCustomerGotTimesheetItems($toBeDeletedCustomerId)) {
+                throw CustomerServiceException::CustomerExist();
+            }
+        }
+
+        $this->beginTransaction();
+        try {
+            $q = $this->createQueryBuilder(Customer::class, 'cus');
+            $q->update()
+                ->set('cus.deleted', ':deleted')
+                ->setParameter('deleted', true)
+                ->where($q->expr()->in('cus.id', ':ids'))
+                ->setParameter('ids', $deletedIds);
+            $status =  $q->getQuery()->execute();
+            $this->deleteRelativeProjectsForCustomer($deletedIds);
+            $this->commitTransaction();
+            return $status;
+        } catch (Exception $e) {
+            $this->rollBackTransaction();
+            throw new TransactionException($e);
+        }
     }
 
     /**
@@ -183,5 +206,102 @@ class CustomerDao extends BaseDao
         }
         $result = $q->getQuery()->getArrayResult();
         return array_column($result, 'id');
+    }
+
+    /**
+     * @param int $customerId
+     * @return bool
+     */
+    public function hasCustomerGotTimesheetItems(int $customerId): bool
+    {
+        $q = $this->createQueryBuilder(TimesheetItem::class, 'timesheetItem');
+        $q->leftJoin('timesheetItem.project', 'project');
+        $q->leftJoin('project.customer', 'customer');
+        $q->andWhere('customer.id = :customerId');
+        $q->setParameter('customerId', $customerId);
+        $count = $this->getPaginator($q)->count();
+        return ($count > 0);
+    }
+
+    /**
+     * @return int[]
+     */
+    public function getUnselectableCustomerIds(): array
+    {
+        $q = $this->createQueryBuilder(TimesheetItem::class, 'timesheetItem');
+        $q->leftJoin('timesheetItem.project', 'project');
+        $q->leftJoin('project.customer', 'customer');
+        $q->select('customer.id');
+        $q->groupBy('customer.id');
+        $result = $q->getQuery()->getArrayResult();
+        return array_column($result, 'id');
+    }
+
+    /**
+     * @param int[] $customerIds
+     * @return void
+     */
+    public function deleteRelativeProjectsForCustomer(array $customerIds): void
+    {
+        $q = $this->createQueryBuilder(Project::class, 'project');
+        $q->andWhere($q->expr()->in('project.customer', ':customerIds'));
+        $q->setParameter('customerIds', $customerIds);
+        $q->andWhere('project.deleted = :deleted');
+        $q->setParameter('deleted', false);
+
+        /* @var Project[] $projects */
+        $projects = $q->getQuery()->execute();
+        $projectIds = [];
+        foreach ($projects as $project) {
+            $projectIds[] = $project->getId();
+        }
+        // Delete the records that belong to the customer
+        $this->deleteProjects($projectIds);
+        $this->deleteRelativeProjectActivitiesForProject($projectIds);
+        $this->deleteRelativeProjectAdminsForProject($projectIds);
+    }
+
+    /**
+     * @param int[] $toBeDeletedProjectIds
+     * @return void
+     */
+    private function deleteProjects(array $toBeDeletedProjectIds): void
+    {
+        $q = $this->createQueryBuilder(Project::class, 'project');
+        $q->update()
+            ->set('project.deleted', ':deleted')
+            ->setParameter('deleted', true)
+            ->where($q->expr()->in('project.id', ':ids'))
+            ->setParameter('ids', $toBeDeletedProjectIds);
+        $q->getQuery()->execute();
+    }
+
+    /**
+     * @param int[] $projectIds
+     * @return void
+     */
+    private function deleteRelativeProjectActivitiesForProject(array $projectIds): void
+    {
+        $q = $this->createQueryBuilder(ProjectActivity::class, 'projectActivity');
+        $q->update()
+            ->set('projectActivity.deleted', ':deleted')
+            ->setParameter('deleted', true)
+            ->where($q->expr()->in('projectActivity.project', ':projectIds'))
+            ->setParameter('projectIds', $projectIds);
+        $q->getQuery()->execute();
+    }
+
+    /**
+     * @param array $projectIds
+     * @return void
+     */
+    private function deleteRelativeProjectAdminsForProject(array $projectIds)
+    {
+        $q = $this->createQueryBuilder(ProjectAdmin::class, 'projectAdmin');
+        $q->delete()
+            ->where($q->expr()->in('projectAdmin.project', ':projectIds'))
+            ->setParameter('projectIds', $projectIds)
+            ->getQuery()
+            ->execute();
     }
 }

@@ -216,4 +216,11 @@ class DateTimeHelperServiceTest extends TestCase
         $this->assertEquals((new DateTime())->getTimezone(), $this->dateTimeHelperService->getNow()->getTimezone());
         $this->assertEquals((new DateTime())->getOffset(), $this->dateTimeHelperService->getNow()->getOffset());
     }
+
+    public function testGetTimezoneByTimezoneOffset(): void
+    {
+        $this->assertEquals(new DateTimeZone('+0530'), $this->dateTimeHelperService->getTimezoneByTimezoneOffset(5.5));
+        $this->assertEquals(new DateTimeZone('-0530'), $this->dateTimeHelperService->getTimezoneByTimezoneOffset(-5.5));
+        $this->assertEquals(new DateTimeZone('+0500'), $this->dateTimeHelperService->getTimezoneByTimezoneOffset(5.0));
+    }
 }

@@ -12,6 +12,117 @@ import {
   differenceInCalendarDays,
 } from 'date-fns';
 
+const defaultTimezones = [
+  {
+    offset: 0,
+    label: 'Europe/London',
+  },
+  {
+    offset: 1,
+    label: 'Europe/Belgrade',
+  },
+  {
+    offset: 2,
+    label: 'Europe/Minsk',
+  },
+  {
+    offset: 3,
+    label: 'Asia/Kuwait',
+  },
+  {
+    offset: 4,
+    label: 'Asia/Muscat',
+  },
+  {
+    offset: 5,
+    label: 'Asia/Yekaterinburg',
+  },
+  {
+    offset: 5.5,
+    label: 'Asia/Kolkata',
+  },
+  {
+    offset: 6,
+    label: 'Asia/Dhaka',
+  },
+  {
+    offset: 7,
+    label: 'Asia/Krasnoyarsk',
+  },
+  {
+    offset: 8,
+    label: 'Asia/Brunei',
+  },
+  {
+    offset: 9,
+    label: 'Asia/Seoul',
+  },
+  {
+    offset: 9.5,
+    label: 'Australia/Darwin',
+  },
+  {
+    offset: 10,
+    label: 'Australia/Canberra',
+  },
+  {
+    offset: 11,
+    label: 'Asia/Magadan',
+  },
+  {
+    offset: 12,
+    label: 'Pacific/Fiji',
+  },
+  {
+    offset: -11,
+    label: 'Pacific/Midway',
+  },
+  {
+    offset: -10,
+    label: 'Pacific/Honolulu',
+  },
+  {
+    offset: -9,
+    label: 'America/Anchorage',
+  },
+  {
+    offset: -8,
+    label: 'America/Los_Angeles',
+  },
+  {
+    offset: -7,
+    label: 'America/Denver',
+  },
+  {
+    offset: -6,
+    label: 'America/Tegucigalpa',
+  },
+  {
+    offset: -5,
+    label: 'America/New_York',
+  },
+  {
+    offset: -4,
+    label: 'America/Halifax',
+  },
+  {
+    offset: -3.5,
+    label: 'America/St_Johns',
+  },
+  {
+    offset: -3,
+    label: 'America/Argentina/Buenos_Aires',
+  },
+  {
+    offset: -2,
+    label: 'Atlantic/South_Georgia',
+  },
+  {
+    offset: -1,
+    label: 'Atlantic/Azores',
+  },
+];
+
 const freshDate = () => {
   return new Date(new Date().setHours(0, 0, 0, 0));
 };
@@ -182,6 +293,42 @@ const setClockInterval = (callback: (args: void) => void, interval = 1000) => {
   timer();
 };
 
+/**
+ * guessTimezone will first try to guess the current timezone name using
+ * ES6 Intl API. in the offchance it's not possible it will revert value using
+ * default timezone list.
+ * @typedef {Object} Timezone
+ * @property {string} name - timezone's english name
+ * @property {string} label - timezone's english formatted label
+ * @property {number} offset - timezone's offset in hours
+ */
+const guessTimezone = () => {
+  let timezoneName = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  const timezoneOffset = (new Date().getTimezoneOffset() / 60) * -1;
+  if (timezoneName === undefined) {
+    // assign timezone manually
+    const resolvedTz = defaultTimezones.find(
+      tz => tz.offset === timezoneOffset,
+    );
+    timezoneName = resolvedTz ? resolvedTz.label : defaultTimezones[0].label;
+  }
+
+  const formattedOffset =
+    (timezoneOffset > 0 ? '+' : '-') +
+    String(timezoneOffset)
+      .split('.')
+      .map((substr, i) =>
+        i === 0 ? substr.padStart(2, '0') : substr.padEnd(2, '0'),
+      )
+      .join(':');
+
+  return {
+    name: timezoneName,
+    label: `(GMT ${formattedOffset}) ${timezoneName}`,
+    offset: timezoneOffset,
+  };
+};
+
 export {
   isDate,
   freshDate,
@@ -201,4 +348,5 @@ export {
   compareTime,
   parseTimeInSeconds,
   setClockInterval,
+  guessTimezone,
 };

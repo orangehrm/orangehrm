@@ -1,4 +1,4 @@
-<!--
+<?php
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -16,42 +16,23 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
- -->
 
-<template>
-  <oxd-input-field
-    type="select"
-    :options="options"
-    :label="$t('time.timezone')"
-  />
-</template>
+namespace OrangeHRM\Core\Api\V2\Validator\Rules;
 
-<script>
-import {ref, onBeforeMount} from 'vue';
-import {APIService} from '@ohrm/core/util/services/api.service';
-export default {
-  name: 'TimezoneDropdown',
-  setup() {
-    const options = ref([]);
-    const http = new APIService(
-      window.appGlobal.baseUrl,
-      '/api/v2/attendance/timezones',
-    );
+class TimezoneOffset extends AbstractRule
+{
+    public const WESTERNMOST_TIMEZONE_OFFSET = -12.00;
+    public const EASTERN_MOST_TIMEZONE_OFFSET = 14.00;
 
-    onBeforeMount(() => {
-      http.getAll().then(({data}) => {
-        options.value = data.data.map(item => {
-          return {
-            id: item.id,
-            label: item.name,
-            _offset: item.offset,
-          };
-        });
-      });
-    });
-    return {
-      options,
-    };
-  },
-};
-</script>
+    public function validate($input): bool
+    {
+        if (!(
+            is_numeric($input) &&
+            $input >= self::WESTERNMOST_TIMEZONE_OFFSET &&
+            $input <= self::EASTERN_MOST_TIMEZONE_OFFSET
+        )) {
+            return false;
+        }
+        return true;
+    }
+}

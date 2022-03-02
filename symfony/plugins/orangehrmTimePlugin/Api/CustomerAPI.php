@@ -36,6 +36,7 @@ use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\Customer;
 use OrangeHRM\Time\Api\Model\CustomerModel;
 use OrangeHRM\Time\Dto\CustomerSearchFilterParams;
+use OrangeHRM\Time\Exception\CustomerServiceException;
 use OrangeHRM\Time\Traits\Service\CustomerServiceTrait;
 
 class CustomerAPI extends Endpoint implements CrudEndpoint
@@ -112,9 +113,13 @@ class CustomerAPI extends Endpoint implements CrudEndpoint
      */
     public function delete(): EndpointResult
     {
-        $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
-        $this->getCustomerService()->deleteCustomers($ids);
-        return new EndpointResourceResult(ArrayModel::class, $ids);
+        try {
+            $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
+            $this->getCustomerService()->getCustomerDao()->deleteCustomer($ids);
+            return new EndpointResourceResult(ArrayModel::class, $ids);
+        } catch (CustomerServiceException $customerServiceException) {
+            throw $this->getBadRequestException($customerServiceException->getMessage());
+        }
     }
 
     /**

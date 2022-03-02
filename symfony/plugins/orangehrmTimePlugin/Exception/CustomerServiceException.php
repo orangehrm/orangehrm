@@ -17,28 +17,17 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Time\Controller;
+namespace OrangeHRM\Time\Exception;
 
-use OrangeHRM\Core\Controller\AbstractVueController;
-use OrangeHRM\Core\Vue\Component;
-use OrangeHRM\Core\Vue\Prop;
-use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Time\Traits\Service\CustomerServiceTrait;
+use Exception;
 
-class CustomerController extends AbstractVueController
+class CustomerServiceException extends Exception
 {
-    use CustomerServiceTrait;
-
     /**
-     * @inheritDoc
+     * @return static
      */
-    public function preRender(Request $request): void
+    public static function CustomerExist(): self
     {
-        $component = new Component('customer-list');
-        $unSelectableCustomerIds = $this->getCustomerService()
-            ->getCustomerDao()
-            ->getUnselectableCustomerIds();
-        $component->addProp(new Prop('unselectable-ids', Prop::TYPE_ARRAY, $unSelectableCustomerIds));
-        $this->setComponent($component);
+        return new self('Not Allowed to Delete Customer(s) Which Have Time Logged Against');
     }
 }

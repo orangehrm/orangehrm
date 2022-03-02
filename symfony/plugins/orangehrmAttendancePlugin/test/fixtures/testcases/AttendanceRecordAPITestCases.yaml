@@ -485,6 +485,27 @@ Update:
       punchOutNote: 'Punched Out'
     invalidOnly: [ 'punchInTime' ]
 
+  'Attendance Record Update - Invalid param punchInOffset':
+    userId: 1
+    services:
+      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      id: 2
+    body:
+      punchInDate: '2022-02-09'
+      punchInTime: '15:30'
+      punchInOffset: '-15.0'
+      punchInNote: 'Punched In'
+      punchOutDate: '2022-02-09'
+      punchOutTime: '18:30'
+      punchOutNote: 'Punched Out'
+    invalidOnly: [ 'punchInOffset' ]
+
   'Attendance Record Update - Invalid param punchInNote':
     userId: 1
     services:
@@ -544,6 +565,27 @@ Update:
       punchOutTime: '18.30'
       punchOutNote: 'Punched Out'
     invalidOnly: [ 'punchOutTime' ]
+
+  'Attendance Record Update - Invalid param punchOutOffset':
+    userId: 1
+    services:
+      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      id: 2
+    body:
+      punchInDate: '2022-02-09'
+      punchInTime: '15:30'
+      punchInNote: 'Punched In'
+      punchOutDate: '2022-02-09'
+      punchOutTime: '18:30'
+      punchOutOffset: '45.0'
+      punchOutNote: 'Punched Out'
+    invalidOnly: [ 'punchOutOffset' ]
 
   'Attendance Record Update - Invalid param punchOutNote':
     userId: 1
@@ -722,6 +764,202 @@ Update:
         middleName: 'ST'
         employeeId: 'E002'
         terminationId: null
+
+  'Attendance Record Update - supervisor to subordinate - Config Enabled - with punchInOffset':
+    userId: 3
+    services:
+      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    hooks:
+      preAssertValidTestCase: [ '\OrangeHRM\Tests\Attendance\Api\AttendanceRecordAPITest', 'enableSupervisorCanModifyAttendancePreHook' ]
+    attributes:
+      id: 2
+    body:
+      punchInDate: '2022-02-09'
+      punchInTime: '15:30'
+      punchInOffset: '6.5'
+      punchInNote: 'Punched In'
+      punchOutDate: '2022-02-09'
+      punchOutTime: '18:30'
+      punchOutNote: 'Punched Out'
+    data:
+      id: 2
+      punchIn:
+        utcDate: '2022-02-09'
+        utcTime: '09:00'
+        userDate: '2022-02-09'
+        userTime: '15:30'
+        timezoneOffset: '6.5'
+        note: 'Punched In'
+      punchOut:
+        utcDate: '2022-02-09'
+        utcTime: '13:00'
+        userDate: '2022-02-09'
+        userTime: '18:30'
+        timezoneOffset: '5.5'
+        note: 'Punched Out'
+      state:
+        id: 'PUNCHED OUT'
+        name: 'Punched Out'
+      employee:
+        empNumber: 2
+        lastName: 'Abel'
+        firstName: 'Ashley'
+        middleName: 'ST'
+        employeeId: 'E002'
+        terminationId: null
+
+  'Attendance Record Update - supervisor to subordinate - Config Enabled - with punchOutOffset':
+    userId: 3
+    services:
+      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    hooks:
+      preAssertValidTestCase: [ '\OrangeHRM\Tests\Attendance\Api\AttendanceRecordAPITest', 'enableSupervisorCanModifyAttendancePreHook' ]
+    attributes:
+      id: 2
+    body:
+      punchInDate: '2022-02-09'
+      punchInTime: '15:30'
+      punchInNote: 'Punched In'
+      punchOutDate: '2022-02-09'
+      punchOutTime: '18:30'
+      punchOutOffset: '6.5'
+      punchOutNote: 'Punched Out'
+    data:
+      id: 2
+      punchIn:
+        utcDate: '2022-02-09'
+        utcTime: '10:00'
+        userDate: '2022-02-09'
+        userTime: '15:30'
+        timezoneOffset: '5.5'
+        note: 'Punched In'
+      punchOut:
+        utcDate: '2022-02-09'
+        utcTime: '12:00'
+        userDate: '2022-02-09'
+        userTime: '18:30'
+        timezoneOffset: '6.5'
+        note: 'Punched Out'
+      state:
+        id: 'PUNCHED OUT'
+        name: 'Punched Out'
+      employee:
+        empNumber: 2
+        lastName: 'Abel'
+        firstName: 'Ashley'
+        middleName: 'ST'
+        employeeId: 'E002'
+        terminationId: null
+
+  'Attendance Record Update - supervisor to subordinate - Config Enabled - with punchOutOffset, punchOutOffset':
+    userId: 3
+    services:
+      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    hooks:
+      preAssertValidTestCase: [ '\OrangeHRM\Tests\Attendance\Api\AttendanceRecordAPITest', 'enableSupervisorCanModifyAttendancePreHook' ]
+    attributes:
+      id: 2
+    body:
+      punchInDate: '2022-02-09'
+      punchInTime: '15:30'
+      punchInOffset: '5.5'
+      punchInNote: 'Punched In'
+      punchOutDate: '2022-02-09'
+      punchOutTime: '18:30'
+      punchOutOffset: '6.5'
+      punchOutNote: 'Punched Out'
+    data:
+      id: 2
+      punchIn:
+        utcDate: '2022-02-09'
+        utcTime: '10:00'
+        userDate: '2022-02-09'
+        userTime: '15:30'
+        timezoneOffset: '5.5'
+        note: 'Punched In'
+      punchOut:
+        utcDate: '2022-02-09'
+        utcTime: '12:00'
+        userDate: '2022-02-09'
+        userTime: '18:30'
+        timezoneOffset: '6.5'
+        note: 'Punched Out'
+      state:
+        id: 'PUNCHED OUT'
+        name: 'Punched Out'
+      employee:
+        empNumber: 2
+        lastName: 'Abel'
+        firstName: 'Ashley'
+        middleName: 'ST'
+        employeeId: 'E002'
+        terminationId: null
+
+  'Attendance Record Update - supervisor to subordinate - Config Enabled - with punchOutOffset, punchOutOffset - punchInTime > punchInTime':
+    userId: 3
+    services:
+      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    hooks:
+      preAssertValidTestCase: [ '\OrangeHRM\Tests\Attendance\Api\AttendanceRecordAPITest', 'enableSupervisorCanModifyAttendancePreHook' ]
+    attributes:
+      id: 2
+    body:
+      punchInDate: '2022-02-09'
+      punchInTime: '15:30'
+      punchInOffset: '5.5'
+      punchInNote: 'Punched In'
+      punchOutDate: '2022-02-09'
+      punchOutTime: '18:30'
+      punchOutOffset: '9.5'
+      punchOutNote: 'Punched Out'
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\BadRequestException'
+      message: 'Punch Out Time Should Be Later Than Punch In Time'
+
+  'Attendance Record Update - supervisor self - Config Enabled - self attendance record with punchInOffset':
+    userId: 3
+    services:
+      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    hooks:
+      preAssertValidTestCase: [ '\OrangeHRM\Tests\Attendance\Api\AttendanceRecordAPITest', 'enableUserCanModifyAttendancePreHook' ]
+    attributes:
+      id: 3
+    body:
+      punchInDate: '2022-02-09'
+      punchInTime: '15:30'
+      punchInOffset: '5.5'
+      punchInNote: 'Punched In'
+      punchOutDate: '2022-02-09'
+      punchOutTime: '18:30'
+      punchOutNote: 'Punched Out'
+    exception:
+      class: 'OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
+      message: 'Unauthorized'
 
   'Attendance Record Update - supervisor to non assigned subordinate - Config Enabled':
     userId: 3
