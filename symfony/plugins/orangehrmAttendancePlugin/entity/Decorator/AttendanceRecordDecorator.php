@@ -39,7 +39,7 @@ class AttendanceRecordDecorator
     private ?DateTime $punchOutUTCDateTime = null;
 
     /**
-     * @param  AttendanceRecord  $attendanceRecord
+     * @param AttendanceRecord $attendanceRecord
      */
     public function __construct(AttendanceRecord $attendanceRecord)
     {
@@ -223,5 +223,32 @@ class AttendanceRecordDecorator
             );
         }
         return $this->punchOutUTCDateTime;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPunchInTimezoneLabel(): string
+    {
+        $punchInTimezoneName = $this->getAttendanceRecord()->getPunchInTimezoneName();
+        $punchInTimezoneOffset = $this->getAttendanceRecord()->getPunchInTimeOffset();
+        $timezoneValue = gmdate('H:i', abs($punchInTimezoneOffset * 3600));
+        $offsetPrefix = $punchInTimezoneOffset > 0 ? '+' : '-';
+        return "(GMT${offsetPrefix}${timezoneValue}) ${punchInTimezoneName}";
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getPunchOutTimezoneLabel(): ?string
+    {
+        $punchOutTimezoneName = $this->getAttendanceRecord()->getPunchOutTimezoneName();
+        $punchOutTimezoneOffset = $this->getAttendanceRecord()->getPunchOutTimeOffset();
+        if (is_null($punchOutTimezoneOffset)) {
+            return null;
+        }
+        $timezoneValue = gmdate('H:i', abs($punchOutTimezoneOffset * 3600));
+        $offsetPrefix = $punchOutTimezoneOffset > 0 ? '+' : '-';
+        return "(GMT${offsetPrefix}${timezoneValue}) ${punchOutTimezoneName}";
     }
 }

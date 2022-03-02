@@ -23,6 +23,7 @@ use DateTime;
 use DateTimeZone;
 use Exception;
 use OrangeHRM\Attendance\Api\Model\AttendanceRecordModel;
+use OrangeHRM\Attendance\Api\Model\DetailedAttendanceRecordModel;
 use OrangeHRM\Attendance\Exception\AttendanceServiceException;
 use OrangeHRM\Attendance\Traits\Service\AttendanceServiceTrait;
 use OrangeHRM\Core\Api\CommonParams;
@@ -56,10 +57,12 @@ class AttendanceRecordAPI extends Endpoint implements ResourceEndpoint
     public const PARAMETER_PUNCH_IN_TIME = 'punchInTime';
     public const PARAMETER_PUNCH_IN_NOTE = 'punchInNote';
     public const PARAMETER_PUNCH_IN_OFFSET = 'punchInOffset';
+    public const PARAMETER_PUNCH_IN_TIMEZONE_NAME = 'punchInTimezoneName';
     public const PARAMETER_PUNCH_OUT_DATE = 'punchOutDate';
     public const PARAMETER_PUNCH_OUT_TIME = 'punchOutTime';
     public const PARAMETER_PUNCH_OUT_NOTE = 'punchOutNote';
     public const PARAMETER_PUNCH_OUT_OFFSET = 'punchOutOffset';
+    public const PARAMETER_PUNCH_OUT_TIMEZONE_NAME = 'punchOutTimezoneName';
 
     /**
      * @inheritDoc
@@ -75,7 +78,7 @@ class AttendanceRecordAPI extends Endpoint implements ResourceEndpoint
         if (!$this->isAuthUserAllowedToPerformTheActions($attendanceRecord)) {
             throw $this->getForbiddenException();
         }
-        return new EndpointResourceResult(AttendanceRecordModel::class, $attendanceRecord);
+        return new EndpointResourceResult(DetailedAttendanceRecordModel::class, $attendanceRecord);
     }
 
     /**
@@ -154,16 +157,18 @@ class AttendanceRecordAPI extends Endpoint implements ResourceEndpoint
                 $punchInDate,
                 $punchInTime,
                 $punchInOffset,
+                $punchInTimezoneName,
                 $punchInNote,
                 $punchOutDate,
                 $punchOutTime,
                 $punchOutOffset,
+                $punchOutTimezoneName,
                 $punchOutNote
                 ) = $this->getRequestBodyParams();
 
             $recordId = $attendanceRecord->getId();
             $attendanceRecordOwnedEmpNumber = $attendanceRecord->getEmployee()->getEmpNumber();
-            if ($this->isTimezoneEditable($punchInOffset, $attendanceRecordOwnedEmpNumber)) {
+            if ($this->isTimezoneEditable($punchInOffset, $punchInTimezoneName, $attendanceRecordOwnedEmpNumber)) {
                 $punchInTimezoneOffset = $punchInOffset;
             } else {
                 $punchInTimezoneOffset = $attendanceRecord->getPunchInTimeOffset();
@@ -188,8 +193,9 @@ class AttendanceRecordAPI extends Endpoint implements ResourceEndpoint
                 $attendanceRecord->setPunchInUserTime($punchInDateTime);
                 $attendanceRecord->setPunchInUtcTime($punchInUTCDateTime);
                 $attendanceRecord->setPunchInNote($punchInNote);
-                if ($this->isTimezoneEditable($punchInOffset, $attendanceRecordOwnedEmpNumber)) {
+                if ($this->isTimezoneEditable($punchInOffset, $punchInTimezoneName, $attendanceRecordOwnedEmpNumber)) {
                     $attendanceRecord->setPunchInTimeOffset($punchInOffset);
+                    $attendanceRecord->setPunchInTimezoneName($punchInTimezoneName);
                 }
             } //current state is punched out and editing it
             else {
@@ -197,7 +203,11 @@ class AttendanceRecordAPI extends Endpoint implements ResourceEndpoint
                     throw AttendanceServiceException::punchOutDateTimeNull();
                 }
 
-                if ($this->isTimezoneEditable($punchOutOffset, $attendanceRecordOwnedEmpNumber)) {
+                if ($this->isTimezoneEditable(
+                    $punchOutOffset,
+                    $punchOutTimezoneName,
+                    $attendanceRecordOwnedEmpNumber
+                )) {
                     $punchOutTimezoneOffset = $punchOutOffset;
                 } else {
                     $punchOutTimezoneOffset = $attendanceRecord->getPunchOutTimeOffset();
@@ -236,14 +246,20 @@ class AttendanceRecordAPI extends Endpoint implements ResourceEndpoint
                 $attendanceRecord->setPunchInUserTime($punchInDateTime);
                 $attendanceRecord->setPunchInUtcTime($punchInUTCDateTime);
                 $attendanceRecord->setPunchInNote($punchInNote);
-                if ($this->isTimezoneEditable($punchInOffset, $attendanceRecordOwnedEmpNumber)) {
+                if ($this->isTimezoneEditable($punchInOffset, $punchInTimezoneName, $attendanceRecordOwnedEmpNumber)) {
                     $attendanceRecord->setPunchInTimeOffset($punchInOffset);
+                    $attendanceRecord->setPunchInTimezoneName($punchInTimezoneName);
                 }
                 $attendanceRecord->setPunchOutUserTime($punchOutDateTime);
                 $attendanceRecord->setPunchOutUtcTime($punchOutUTCDateTime);
                 $attendanceRecord->setPunchOutNote($punchOutNote);
-                if ($this->isTimezoneEditable($punchOutOffset, $attendanceRecordOwnedEmpNumber)) {
+                if ($this->isTimezoneEditable(
+                    $punchOutOffset,
+                    $punchOutTimezoneName,
+                    $attendanceRecordOwnedEmpNumber
+                )) {
                     $attendanceRecord->setPunchOutTimeOffset($punchOutOffset);
+                    $attendanceRecord->setPunchOutTimezoneName($punchOutTimezoneName);
                 }
             }
             return $attendanceRecord;
@@ -272,6 +288,10 @@ class AttendanceRecordAPI extends Endpoint implements ResourceEndpoint
             ),
             $this->getRequestParams()->getStringOrNull(
                 RequestParams::PARAM_TYPE_BODY,
+                self::PARAMETER_PUNCH_IN_TIMEZONE_NAME
+            ),
+            $this->getRequestParams()->getStringOrNull(
+                RequestParams::PARAM_TYPE_BODY,
                 self::PARAMETER_PUNCH_IN_NOTE
             ),
             $this->getRequestParams()->getStringOrNull(
@@ -285,6 +305,10 @@ class AttendanceRecordAPI extends Endpoint implements ResourceEndpoint
             $this->getRequestParams()->getFloatOrNull(
                 RequestParams::PARAM_TYPE_BODY,
                 self::PARAMETER_PUNCH_OUT_OFFSET
+            ),
+            $this->getRequestParams()->getStringOrNull(
+                RequestParams::PARAM_TYPE_BODY,
+                self::PARAMETER_PUNCH_OUT_TIMEZONE_NAME
             ),
             $this->getRequestParams()->getStringOrNull(
                 RequestParams::PARAM_TYPE_BODY,
@@ -308,16 +332,22 @@ class AttendanceRecordAPI extends Endpoint implements ResourceEndpoint
 
     /**
      * @param float|null $timezoneOffset
+     * @param string|null $timezoneName
      * @param int $attendanceRecordOwnedEmpNumber
      * @return bool
      * @throws ForbiddenException
      */
-    protected function isTimezoneEditable(?float $timezoneOffset, int $attendanceRecordOwnedEmpNumber): bool
-    {
+    protected function isTimezoneEditable(
+        ?float $timezoneOffset,
+        ?string $timezoneName,
+        int $attendanceRecordOwnedEmpNumber
+    ): bool {
         //user not allowed to update self timezone
-        if (!is_null($timezoneOffset) && $attendanceRecordOwnedEmpNumber === $this->getAuthUser()->getEmpNumber()) {
+        if ((!is_null($timezoneOffset) || !is_null($timezoneName)) &&
+            $attendanceRecordOwnedEmpNumber === $this->getAuthUser()->getEmpNumber()) {
             throw $this->getForbiddenException();
-        } elseif (!is_null($timezoneOffset) && $attendanceRecordOwnedEmpNumber !== $this->getAuthUser()->getEmpNumber()) {
+        } elseif ((!is_null($timezoneOffset) || !is_null($timezoneName)) &&
+            $attendanceRecordOwnedEmpNumber !== $this->getAuthUser()->getEmpNumber()) {
             return true;
         } else {
             return false;
@@ -350,6 +380,12 @@ class AttendanceRecordAPI extends Endpoint implements ResourceEndpoint
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
+                    self::PARAMETER_PUNCH_IN_TIMEZONE_NAME,
+                    new Rule(Rules::TIMEZONE_NAME)
+                )
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
                     self::PARAMETER_PUNCH_IN_NOTE,
                     new Rule(Rules::STRING_TYPE)
                 ),
@@ -371,6 +407,12 @@ class AttendanceRecordAPI extends Endpoint implements ResourceEndpoint
                 new ParamRule(
                     self::PARAMETER_PUNCH_OUT_OFFSET,
                     new Rule(Rules::TIMEZONE_OFFSET)
+                )
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_PUNCH_OUT_TIMEZONE_NAME,
+                    new Rule(Rules::TIMEZONE_NAME)
                 )
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
