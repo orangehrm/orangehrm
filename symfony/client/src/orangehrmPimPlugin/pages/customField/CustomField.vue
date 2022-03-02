@@ -24,20 +24,20 @@
       <div class="orangehrm-header-container">
         <div class="orangehrm-custom-field-title">
           <oxd-text tag="h6" class="orangehrm-main-title">
-            Custom Fields
+            {{ $t('pim.custom_fields') }}
           </oxd-text>
           <template v-if="!isLoading">
             <oxd-text v-if="remainingFields > 0" class="--infotext" tag="p">
-              Remaining number of custom fields: {{ remainingFields }}
+              {{ $t('pim.remaining_no_of_custom_fields') }} {{ remainingFields }}
             </oxd-text>
             <oxd-text v-else class="--infotext" tag="p">
-              All custom fields are in use
+              {{ $t('pim.all_custom_fields_in_use') }}
             </oxd-text>
           </template>
         </div>
         <oxd-button
           v-if="remainingFields > 0"
-          label="Add"
+          :label="$t('general.add')"
           icon-name="plus"
           display-type="secondary"
           @click="onClickAdd"
@@ -155,14 +155,14 @@ export default {
         {
           name: 'fieldName',
           slot: 'title',
-          title: 'Custom Field Name',
+          title: this.$t('pim.custom_field_name'),
           style: {flex: 2},
         },
-        {name: 'screen', title: 'Screen', style: {flex: 2}},
-        {name: 'fieldType', title: 'Field Type', style: {flex: 2}},
+        {name: 'screen', title: this.$t('pim.screen'), style: {flex: 2}},
+        {name: 'fieldType', title: this.$t('pim.field_type'), style: {flex: 2}},
         {
           name: 'actions',
-          title: 'Actions',
+          title: this.$t('general.actions'),
           slot: 'action',
           style: {flex: 1},
           cellType: 'oxd-table-cell-actions',
@@ -216,8 +216,8 @@ export default {
       const isSelectable = this.unselectableIds.findIndex(id => id == item.id);
       if (isSelectable > -1) {
         return this.$toast.error({
-          title: 'Error',
-          message: 'Custom field(s) in use',
+          title: this.$t('general.error'),
+          message: this.$t('pim.custom_fields_in_use'),
         });
       }
       this.$refs.deleteDialog.showDialog().then(confirmation => {

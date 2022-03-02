@@ -21,51 +21,51 @@
 <template>
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
-      <oxd-text class="orangehrm-main-title">Data Import</oxd-text>
+      <oxd-text class="orangehrm-main-title">{{ $t('pim.data_import') }}</oxd-text>
 
       <oxd-divider />
       <div class="orangehrm-information-card-container">
-        <oxd-text class="orangehrm-sub-title">Note:</oxd-text>
+        <oxd-text class="orangehrm-sub-title">{{ $t('general.note') }}:</oxd-text>
         <ul>
           <li>
             <oxd-text class="orangehrm-information-card-text">
-              Column order should not be changed
+              {{ $t('pim.column_order_should_not_be_changed') }}
             </oxd-text>
           </li>
           <li>
             <oxd-text class="orangehrm-information-card-text">
-              First Name and Last Name are compulsory
+              {{ $t('pim.first_name_and_last_name_are_compulsory') }}
             </oxd-text>
           </li>
           <li>
             <oxd-text class="orangehrm-information-card-text">
-              All date fields should be in YYYY-MM-DD format
+              {{ $t('pim.all_date_fields_should_be_in_yyyy_mm_dd_format') }}
             </oxd-text>
           </li>
           <li>
             <oxd-text class="orangehrm-information-card-text">
-              If gender is specified, value should be either Male or Female
+              {{ $t('pim.gender_specified_value_should_be_either_m_or_f') }}
             </oxd-text>
           </li>
           <li>
             <oxd-text class="orangehrm-information-card-text">
-              Each import file should be configured for 100 records or less
+              {{ $t('pim.each_import_file_should_be_configured_for_100_records_or_less') }}
             </oxd-text>
           </li>
           <li>
             <oxd-text class="orangehrm-information-card-text">
-              Multiple import files may be required
+              {{ $t('pim.multiple_import_files_may_be_required') }}
             </oxd-text>
           </li>
           <li>
             <oxd-text class="orangehrm-information-card-text">
-              Sample CSV file:
+              {{ $t('pim.sample_csv_file') }} :
               <a
                 class="download-link"
                 href="#"
                 @click.prevent="onClickDownload"
               >
-                Download
+              {{ $t('general.download') }}
               </a>
             </oxd-text>
           </li>
@@ -79,13 +79,13 @@
               <oxd-input-field
                 v-model="attachment.attachment"
                 type="file"
-                label="Select File"
-                button-label="Browse"
+                :label="$t('general.select_file')"
+                :button-label="$t('general.browse')"
                 :rules="rules.attachment"
                 required
               />
               <oxd-text class="orangehrm-input-hint" tag="p">
-                Accepts up to 1MB
+                {{ $t('general.accepts_up_to_1mb') }}
               </oxd-text>
             </oxd-grid-item>
           </oxd-grid>
@@ -94,7 +94,7 @@
         <oxd-divider />
         <oxd-form-actions>
           <required-text />
-          <submit-button label="Upload" />
+          <submit-button :label="$t('general.upload')" />
         </oxd-form-actions>
       </oxd-form>
     </div>
@@ -162,13 +162,13 @@ export default {
           this.isLoading = false;
           if (importedRecords > 0) {
             return this.$toast.success({
-              title: 'Success',
-              message: 'Number of Records Imported: ' + importedRecords,
+              title: this.$t('general.success'),
+              message: this.$t('pim.number_of_records_imported') + importedRecords,
             });
           }
           return this.$toast.error({
-            title: 'Failed to Import',
-            message: 'No Records Added',
+            title: this.$t('general.failed_to_import'),,
+            message: this.$t('general.no_records_added'),
           });
         });
     },

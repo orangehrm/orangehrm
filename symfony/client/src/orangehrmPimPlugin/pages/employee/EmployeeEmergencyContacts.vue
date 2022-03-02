@@ -33,7 +33,7 @@
     ></edit-emergency-contact>
     <div class="orangehrm-horizontal-padding orangehrm-top-padding">
       <profile-action-header @click="onClickAdd">
-        Assigned Emergency Contacts
+        {{ $t('pim.assigned_emergency_contacts') }}
       </profile-action-header>
     </div>
     <table-header
@@ -126,15 +126,15 @@ export default {
   data() {
     return {
       headers: [
-        {name: 'name', slot: 'title', title: 'Name', style: {flex: 1}},
-        {name: 'relationship', title: 'Relationship', style: {flex: 1}},
-        {name: 'homePhone', title: 'Home Telephone', style: {flex: 1}},
-        {name: 'mobilePhone', title: 'Mobile', style: {flex: 1}},
-        {name: 'officePhone', title: 'Work Telephone', style: {flex: 1}},
+        {name: 'name', slot: 'title', title: this.$t('general.name'), style: {flex: 1}},
+        {name: 'relationship', title: this.$t('pim.relationship'), style: {flex: 1}},
+        {name: 'homePhone', title: this.$t('pim.home_telephone'), style: {flex: 1}},
+        {name: 'mobilePhone', title: this.$t('general.mobile'), style: {flex: 1}},
+        {name: 'officePhone', title: this.$t('pim.work_telephone'), style: {flex: 1}},
         {
           name: 'actions',
           slot: 'action',
-          title: 'Actions',
+          title: this.$t('general.actions'),
           style: {flex: 1},
           cellType: 'oxd-table-cell-actions',
           cellConfig: {
