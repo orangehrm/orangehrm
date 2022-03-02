@@ -51,12 +51,12 @@ apiv2_attendance_employee_attendance_record_summary:
   defaults:
     _api: OrangeHRM\Attendance\Api\EmployeeAttendanceSummaryAPI
 
-# apiv2_attendance_timezones:
-#   path: /api/v2/attendance/timezones
-#   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
-#   methods: [ GET ]
-#   defaults:
-#     _api: OrangeHRM\Attendance\Api\TimezonesAPI
+apiv2_attendance_timezones:
+ path: /api/v2/attendance/timezones
+ controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+ methods: [ GET ]
+ defaults:
+   _api: OrangeHRM\Attendance\Api\TimezonesAPI
 
 apiv2_attendance_current_datetime:
   path: /api/v2/attendance/current-datetime
@@ -138,13 +138,4 @@ attendance_employee_punch_in_out:
 attendance_employee_edit_attendance:
   path: /attendance/editEmployeeAttendanceRecord/{id}
   controller: OrangeHRM\Attendance\Controller\EditEmployeeAttendanceController::handle
-  methods: [ GET ]
-
-##########################
-#        Mock
-##########################
-
-apiv2_attendance_timezones:
-  path: /api/v2/attendance/timezones
-  controller: OrangeHRM\Attendance\Controller\AttendanceMockController::getTimezones
   methods: [ GET ]

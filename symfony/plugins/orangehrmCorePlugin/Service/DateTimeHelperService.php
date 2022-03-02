@@ -134,14 +134,11 @@ class DateTimeHelperService
     }
 
     /**
-     * @param  float | string $timezoneOffset
+     * @param  float $timezoneOffset
      * @return DateTimeZone eg:- 5.5 -> +0530, -5.5 -> -0530
      */
-    public function getTimezoneByTimezoneOffset($timezoneOffset): DateTimeZone
+    public function getTimezoneByTimezoneOffset(float $timezoneOffset): DateTimeZone
     {
-        if (is_string($timezoneOffset)) {
-            $timezoneOffset = (float)$timezoneOffset;
-        }
         $absoluteOffset = abs($timezoneOffset);
         $hours = floor($absoluteOffset);
         $minutes = ($absoluteOffset * 60) % 60 == 0 ? '00' : ($absoluteOffset * 60) % 60;
