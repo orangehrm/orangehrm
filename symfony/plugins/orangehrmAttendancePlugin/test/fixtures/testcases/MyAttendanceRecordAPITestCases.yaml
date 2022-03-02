@@ -8,6 +8,8 @@ Create:
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    hooks:
+      preAssertValidTestCase: [ '\OrangeHRM\Tests\Attendance\Api\MyAttendanceRecordAPITest', 'enableUserCanChangeCurrentTimePreHook' ]
     body:
       date: '2021-12-27'
       time: '08:42'
@@ -51,6 +53,8 @@ Create:
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    hooks:
+      preAssertValidTestCase: [ '\OrangeHRM\Tests\Attendance\Api\MyAttendanceRecordAPITest', 'enableUserCanChangeCurrentTimePreHook' ]
     body:
       date: '2021-12-27'
       time: '08:42'
@@ -63,7 +67,6 @@ Create:
 
   'Add my attendance Record - user can change time - punch in overlap record':
     userId: 3
-    now: [ '2021-01-27 15:30' ]
     services:
       attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
       core.config_service: \OrangeHRM\Core\Service\ConfigService
@@ -71,6 +74,8 @@ Create:
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    hooks:
+      preAssertValidTestCase: [ '\OrangeHRM\Tests\Attendance\Api\MyAttendanceRecordAPITest', 'enableUserCanChangeCurrentTimePreHook' ]
     body:
       date: '2022-01-27'
       time: '14:58'
@@ -80,6 +85,142 @@ Create:
     exception:
       class: '\OrangeHRM\Core\Api\V2\Exception\BadRequestException'
       message: 'Punch-In Overlap Found'
+
+  'Add my attendance Record - user can not change time':
+    userId: 2
+    services:
+      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    now:
+      datetime: '2021-12-27 08:42:00'
+      timezone: 'Asia/Colombo'
+    body:
+      date: '2021-12-27'
+      time: '08:42'
+      timezoneOffset: 5.5
+      timezoneName: 'Asia/Colombo'
+      note: 'punch in'
+    data:
+      id: 9
+      punchIn:
+        utcDate: '2021-12-27'
+        utcTime: '03:12'
+        userDate: '2021-12-27'
+        userTime: '08:42'
+        timezoneOffset: '5.5'
+        note: 'punch in'
+      punchOut:
+        utcDate: null
+        utcTime: null
+        userDate: null
+        userTime: null
+        timezoneOffset: null
+        note: null
+      state:
+        id: 'PUNCHED IN'
+        name: 'Punched In'
+      employee:
+        empNumber: 2
+        lastName: 'Abel'
+        firstName: 'Ashley'
+        middleName: 'ST'
+        employeeId: 'E002'
+        terminationId: null
+    meta: [ ]
+
+  'Add my attendance Record - user can not change time - |punchInDateTime - currentDateTime| < 180':
+    userId: 2
+    services:
+      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    now:
+      datetime: '2021-12-27 08:44:00'
+      timezone: 'Asia/Colombo'
+    body:
+      date: '2021-12-27'
+      time: '08:42'
+      timezoneOffset: 5.5
+      timezoneName: 'Asia/Colombo'
+      note: 'punch in'
+    data:
+      id: 9
+      punchIn:
+        utcDate: '2021-12-27'
+        utcTime: '03:12'
+        userDate: '2021-12-27'
+        userTime: '08:42'
+        timezoneOffset: '5.5'
+        note: 'punch in'
+      punchOut:
+        utcDate: null
+        utcTime: null
+        userDate: null
+        userTime: null
+        timezoneOffset: null
+        note: null
+      state:
+        id: 'PUNCHED IN'
+        name: 'Punched In'
+      employee:
+        empNumber: 2
+        lastName: 'Abel'
+        firstName: 'Ashley'
+        middleName: 'ST'
+        employeeId: 'E002'
+        terminationId: null
+    meta: [ ]
+
+  'Add my attendance Record - user can not change time - |punchInDateTime - currentDateTime| = 180':
+    userId: 2
+    services:
+      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    now:
+      datetime: '2021-12-27 08:45:00'
+      timezone: 'Asia/Colombo'
+    body:
+      date: '2021-12-27'
+      time: '08:42'
+      timezoneOffset: 5.5
+      timezoneName: 'Asia/Colombo'
+      note: 'punch in'
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\BadRequestException'
+      message: 'Provided Date And Time Invalid'
+
+  'Add my attendance Record - user can not change time - |punchInDateTime - currentDateTime| > 180':
+    userId: 2
+    services:
+      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    now:
+      datetime: '2021-12-27 08:49:00'
+      timezone: 'Asia/Colombo'
+    body:
+      date: '2021-12-27'
+      time: '08:42'
+      timezoneOffset: 5.5
+      timezoneName: 'Asia/Colombo'
+      note: 'punch in'
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\BadRequestException'
+      message: 'Provided Date And Time Invalid'
 
 Update:
   'Punch out my attendance Record - user can change time':
@@ -91,6 +232,8 @@ Update:
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    hooks:
+      preAssertValidTestCase: [ '\OrangeHRM\Tests\Attendance\Api\MyAttendanceRecordAPITest', 'enableUserCanChangeCurrentTimePreHook' ]
     body:
       date: '2022-01-24'
       time: '17:29'
@@ -134,6 +277,8 @@ Update:
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    hooks:
+      preAssertValidTestCase: [ '\OrangeHRM\Tests\Attendance\Api\MyAttendanceRecordAPITest', 'enableUserCanChangeCurrentTimePreHook' ]
     body:
       date: '2022-01-25'
       time: '17:45'
@@ -177,6 +322,8 @@ Update:
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    hooks:
+      preAssertValidTestCase: [ '\OrangeHRM\Tests\Attendance\Api\MyAttendanceRecordAPITest', 'enableUserCanChangeCurrentTimePreHook' ]
     body:
       date: '2022-01-24'
       time: '19:28'
@@ -220,6 +367,8 @@ Update:
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    hooks:
+      preAssertValidTestCase: [ '\OrangeHRM\Tests\Attendance\Api\MyAttendanceRecordAPITest', 'enableUserCanChangeCurrentTimePreHook' ]
     body:
       date: '2022-01-24'
       time: '13:24'
@@ -239,6 +388,8 @@ Update:
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    hooks:
+      preAssertValidTestCase: [ '\OrangeHRM\Tests\Attendance\Api\MyAttendanceRecordAPITest', 'enableUserCanChangeCurrentTimePreHook' ]
     body:
       date: '2012-01-24'
       time: '15:19'
@@ -258,6 +409,8 @@ Update:
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    hooks:
+      preAssertValidTestCase: [ '\OrangeHRM\Tests\Attendance\Api\MyAttendanceRecordAPITest', 'enableUserCanChangeCurrentTimePreHook' ]
     body:
       date: '2022-01-24'
       time: '14:30'
@@ -277,6 +430,8 @@ Update:
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    hooks:
+      preAssertValidTestCase: [ '\OrangeHRM\Tests\Attendance\Api\MyAttendanceRecordAPITest', 'enableUserCanChangeCurrentTimePreHook' ]
     body:
       date: '2011-04-27'
       time: '15:40'
@@ -286,6 +441,96 @@ Update:
     exception:
       class: '\OrangeHRM\Core\Api\V2\Exception\BadRequestException'
       message: 'Punch-Out Overlap Found'
+
+  'Punch out my attendance Record - user can not change time - |punchOutDateTime - currentDateTime| < 180':
+    userId: 4
+    services:
+      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    now:
+      datetime: '2022-01-24 17:29:00'
+      timezone: 'Asia/Colombo'
+    body:
+      date: '2022-01-24'
+      time: '17:29'
+      timezoneOffset: 5.5
+      timezoneName: 'Asia/Colombo'
+      note: 'Im punched out'
+    data:
+      id: 5
+      punchIn:
+        utcDate: '2022-01-24'
+        utcTime: '09:23'
+        userDate: '2022-01-24'
+        userTime: '14:53'
+        timezoneOffset: '5.5'
+        note: 'Im punched In'
+      punchOut:
+        utcDate: '2022-01-24'
+        utcTime: '11:59'
+        userDate: '2022-01-24'
+        userTime: '17:29'
+        timezoneOffset: '5.5'
+        note: 'Im punched out'
+      state:
+        id: 'PUNCHED OUT'
+        name: 'Punched Out'
+      employee:
+        empNumber: 4
+        lastName: 'Sherin'
+        firstName: 'Sherin'
+        middleName: 'Sherin'
+        employeeId: 'E004'
+        terminationId: null
+    meta: [ ]
+
+  'Punch out my attendance Record - user can not change time - |punchOutDateTime - currentDateTime| = 180':
+    userId: 4
+    services:
+      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    now:
+      datetime: '2022-01-24 17:32:00'
+      timezone: 'Asia/Colombo'
+    body:
+      date: '2022-01-24'
+      time: '17:29'
+      timezoneOffset: 5.5
+      timezoneName: 'Asia/Colombo'
+      note: 'Im punched out'
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\BadRequestException'
+      message: 'Provided Date And Time Invalid'
+
+  'Punch out my attendance Record - user can not change time - |punchOutDateTime - currentDateTime| > 180':
+    userId: 4
+    services:
+      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    now:
+      datetime: '2022-01-24 17:40:00'
+      timezone: 'Asia/Colombo'
+    body:
+      date: '2022-01-24'
+      time: '17:29'
+      timezoneOffset: 5.5
+      timezoneName: 'Asia/Colombo'
+      note: 'Im punched out'
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\BadRequestException'
+      message: 'Provided Date And Time Invalid'
 
 Delete:
   'Delete self(Admin) - Config Disabled':
