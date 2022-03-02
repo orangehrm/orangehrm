@@ -22,10 +22,10 @@
   <div class="orangehrm-background-container">
     <div class="orangehrm-paper-container">
       <div class="orangehrm-header-container">
-        <oxd-text class="orangehrm-main-title">Termination Reasons</oxd-text>
+        <oxd-text class="orangehrm-main-title">{{ $t('pim.termination_reasons') }}</oxd-text>
         <div>
           <oxd-button
-            label="Add"
+            :label="$t('general.add')"
             icon-name="plus"
             display-type="secondary"
             @click="onClickAdd"
@@ -124,13 +124,13 @@ export default {
         {
           name: 'name',
           slot: 'title',
-          title: 'Name',
+          this.$t('general.name'),
           style: {'flex-basis': '80%'},
         },
         {
           name: 'actions',
           slot: 'action',
-          title: 'Actions',
+          this.$t('general.actions'),
           style: {'flex-shrink': 1},
           cellType: 'oxd-table-cell-actions',
           cellConfig: {
@@ -176,8 +176,8 @@ export default {
       const isSelectable = this.unselectableIds.findIndex(id => id == item.id);
       if (isSelectable > -1) {
         return this.$toast.error({
-          title: 'Error',
-          message: 'Termination Reason(s) in Use',
+          title: this.$t('general.error'),
+          message: this.$t('pim.termination_reasons_in_use'),
         });
       }
 
