@@ -4380,6 +4380,10 @@ UPDATE `ohrm_user_role_data_group` SET `can_update` = 0 WHERE `data_group_id` = 
 
 -- Attendance Module
 
+ALTER TABLE `ohrm_attendance_record`
+ADD COLUMN `punch_in_timezone_name` VARCHAR(100) DEFAULT NULL,
+ADD COLUMN `punch_out_timezone_name` VARCHAR(100) DEFAULT NULL;
+
 INSERT INTO ohrm_data_group (`name`, `description`, `can_read`, `can_create`,`can_update`, `can_delete`)
 VALUES ('apiv2_attendance_configuration', 'API-v2 Attendance - Attendance Configuration', 1, 0, 1, 0),
        ('apiv2_employee_latest_attendance_record', 'API-v2 Attendance - Employee Latest Attendance Record', 1, 0, 0, 0),
