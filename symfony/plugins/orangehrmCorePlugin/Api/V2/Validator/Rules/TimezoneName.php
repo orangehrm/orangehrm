@@ -24,6 +24,9 @@ use Exception;
 
 class TimezoneName extends AbstractRule
 {
+    /**
+     * @inheritDoc
+     */
     public function validate($input): bool
     {
         if (!(is_string($input) && $this->isValidTimezone($input))) {
