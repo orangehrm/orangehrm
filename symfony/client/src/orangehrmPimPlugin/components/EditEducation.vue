@@ -20,7 +20,7 @@
 
 <template>
   <div class="orangehrm-horizontal-padding orangehrm-top-padding">
-    <oxd-text tag="h6" class="orangehrm-main-title">Edit Education</oxd-text>
+    <oxd-text tag="h6" class="orangehrm-main-title">{{ $t('general.edit_education') }}</oxd-text>
     <oxd-divider />
     <oxd-form :loading="isLoading" @submitValid="onSave">
       <oxd-form-row>
@@ -28,7 +28,7 @@
           <oxd-grid-item>
             <oxd-input-field
               v-model="education.name"
-              label="Level"
+              :label="$t('general.level')"
               required
               readonly
               disabled
@@ -37,28 +37,28 @@
           <oxd-grid-item>
             <oxd-input-field
               v-model="education.institute"
-              label="Institute"
+              :label="$t('pim.institute')"
               :rules="rules.institute"
             />
           </oxd-grid-item>
           <oxd-grid-item>
             <oxd-input-field
               v-model="education.major"
-              label="Major/Specialization"
+              :label="$t('pim.major_specialization')"
               :rules="rules.major"
             />
           </oxd-grid-item>
           <oxd-grid-item>
             <oxd-input-field
               v-model="education.year"
-              label="Year"
+              :label="$t('general.year')"
               :rules="rules.year"
             />
           </oxd-grid-item>
           <oxd-grid-item>
             <oxd-input-field
               v-model="education.score"
-              label="GPA/Score"
+              :label="$t('pim.gpa_score')"
               :rules="rules.score"
             />
           </oxd-grid-item>
@@ -70,14 +70,14 @@
           <oxd-grid-item>
             <date-input
               v-model="education.startDate"
-              label="Start Date"
+              :label="$t('general.start_date')"
               :rules="rules.startDate"
             />
           </oxd-grid-item>
           <oxd-grid-item>
             <date-input
               v-model="education.endDate"
-              label="End Date"
+              :label="$t('general.end_date')"
               :rules="rules.endDate"
             />
           </oxd-grid-item>
@@ -89,7 +89,7 @@
         <oxd-button
           type="button"
           display-type="ghost"
-          label="Cancel"
+          :label="$t('general.cancel')"
           @click="onCancel"
         />
         <submit-button />

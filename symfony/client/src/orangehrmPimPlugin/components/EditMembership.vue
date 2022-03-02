@@ -21,7 +21,7 @@
 <template>
   <div class="orangehrm-horizontal-padding orangehrm-vertical-padding">
     <oxd-text tag="h6" class="orangehrm-main-title">
-      Edit Membership
+      {{ $t('general.edit_membership') }}
     </oxd-text>
     <oxd-divider />
     <oxd-form :loading="isLoading" @submitValid="onSave">
@@ -31,7 +31,7 @@
             <oxd-input-field
               v-model="membership.membership"
               type="select"
-              label="Membership"
+              :label="$t('pim.membership')"
               :options="memberships"
               :rules="rules.membership"
               required
@@ -41,14 +41,14 @@
             <oxd-input-field
               v-model="membership.subscriptionPaidBy"
               type="select"
-              label="Subscription Paid By"
+              :label="$t('pim.subscription_paid_by')"
               :options="paidBy"
             />
           </oxd-grid-item>
           <oxd-grid-item>
             <oxd-input-field
               v-model="membership.subscriptionFee"
-              label="Subscription Amount"
+              :label="$t('pim.subscription_amount')"
               :rules="rules.subscriptionFee"
             />
           </oxd-grid-item>
@@ -56,14 +56,14 @@
             <oxd-input-field
               v-model="membership.currencyType"
               type="select"
-              label="Currency"
+              :label="$t('general.currency')"
               :options="currencies"
             />
           </oxd-grid-item>
           <oxd-grid-item>
             <date-input
               v-model="membership.subscriptionCommenceDate"
-              label="Subscription Commence Date"
+              :label="$t('pim.subscription_commence_date')"
               type="date"
               placeholder="yyyy-mm-dd"
               :rules="rules.subscriptionCommenceDate"
@@ -72,7 +72,7 @@
           <oxd-grid-item>
             <date-input
               v-model="membership.subscriptionRenewalDate"
-              label="Subscription Renewal Date"
+              :label="$t('pim.subscription_renewal_date')"
               type="date"
               :years="yearArray"
               placeholder="yyyy-mm-dd"
@@ -87,7 +87,7 @@
         <oxd-button
           type="button"
           display-type="ghost"
-          label="Cancel"
+          :label="$t('general.cancel')"
           @click="onCancel"
         />
         <submit-button />
@@ -101,7 +101,7 @@
 import {
   required,
   validDateFormat,
-  endDateShouldBeAfterStartDate,
+  endDateShouldBeAfterStartDate, maxCurrency, digitsOnly,
 } from '@ohrm/core/util/validation/rules';
 import {yearRange} from '@ohrm/core/util/helper/year-range';
 
@@ -153,16 +153,12 @@ export default {
           validDateFormat(),
           endDateShouldBeAfterStartDate(
             () => this.membership.subscriptionCommenceDate,
-            'Renewal date should be after the commencing date',
+              this.$t('pim.renewal_date_should_be_after_the_commencing_date'),
           ),
         ],
         subscriptionFee: [
-          v => {
-            return v.match(/^\d*\.?\d*$/) !== null || 'Should be a number';
-          },
-          v => {
-            return v < 1000000000 || 'Should be less than 1000,000,000';
-          },
+          digitsOnly(),
+          maxCurrency(1000000000),
         ],
       },
     };

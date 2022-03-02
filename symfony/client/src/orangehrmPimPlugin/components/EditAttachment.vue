@@ -26,7 +26,7 @@
       <oxd-form-row>
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
           <oxd-grid-item>
-            <oxd-input-group label="Current File">
+            <oxd-input-group :label="$t('general.current_file')">
               <oxd-text tag="p">
                 {{ currentFile }}
               </oxd-text>
@@ -41,13 +41,13 @@
             <oxd-input-field
               v-model="attachment.attachment"
               type="file"
-              label="Replace With"
-              button-label="Browse"
+              :label="$t('general.replace_with')"
+              :button-label="$t('general.browse')"
               :rules="rules.attachment"
             />
-            <oxd-text class="orangehrm-input-hint" tag="p"
-              >Accepts up to 1MB</oxd-text
-            >
+            <oxd-text class="orangehrm-input-hint" tag="p">
+              {{ $t('general.accepts_up_to_1mb') }}
+            </oxd-text>
           </oxd-grid-item>
         </oxd-grid>
       </oxd-form-row>
@@ -58,8 +58,8 @@
             <oxd-input-field
               v-model="attachment.description"
               type="textarea"
-              label="Comment"
-              placeholder="Type comment here"
+              :label="$t('general.comment')"
+              :placeholder="$t('general.type_comment_here')"
               :rules="rules.description"
             />
           </oxd-grid-item>
@@ -72,7 +72,7 @@
         <oxd-button
           type="button"
           display-type="ghost"
-          label="Cancel"
+          :label="$t('general.cancel')"
           @click="onCancel"
         />
         <submit-button />
@@ -82,7 +82,7 @@
 </template>
 
 <script>
-import {shouldNotExceedCharLength} from '@ohrm/core/util/validation/rules';
+import {maxFileSize, shouldNotExceedCharLength, validFileTypes} from '@ohrm/core/util/validation/rules';
 const attachmentModel = {
   attachment: null,
   description: '',
@@ -118,15 +118,8 @@ export default {
       rules: {
         description: [shouldNotExceedCharLength(200)],
         attachment: [
-          v =>
-            v === null ||
-            (v && v.size && v.size <= 1024 * 1024) ||
-            'Attachment size exceeded',
-          v =>
-            v === null ||
-            (v &&
-              this.allowedFileTypes.findIndex(item => item === v.type) > -1) ||
-            'File type not allowed',
+          maxFileSize(1024 * 1024),
+          validFileTypes(this.allowedFileTypes)
         ],
       },
     };

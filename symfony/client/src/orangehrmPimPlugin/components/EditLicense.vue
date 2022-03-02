@@ -20,7 +20,7 @@
 
 <template>
   <div class="orangehrm-horizontal-padding orangehrm-top-padding">
-    <oxd-text tag="h6" class="orangehrm-main-title">Edit License</oxd-text>
+    <oxd-text tag="h6" class="orangehrm-main-title">{{ $t('general.edit_license') }}</oxd-text>
     <oxd-divider />
     <oxd-form :loading="isLoading" @submitValid="onSave">
       <oxd-form-row>
@@ -28,7 +28,7 @@
           <oxd-grid-item>
             <oxd-input-field
               v-model="license.name"
-              label="License Type"
+              :label="$t('pim.license_type')"
               required
               readonly
               disabled
@@ -37,7 +37,7 @@
           <oxd-grid-item>
             <oxd-input-field
               v-model="license.licenseNo"
-              label="License Number"
+              :label="$t('pim.license_number')"
               :rules="rules.licenseNo"
             />
           </oxd-grid-item>
@@ -49,14 +49,14 @@
           <oxd-grid-item>
             <date-input
               v-model="license.issuedDate"
-              label="Issued Date"
+              :label="$t('pim.issued_date')"
               :rules="rules.issuedDate"
             />
           </oxd-grid-item>
           <oxd-grid-item>
             <date-input
               v-model="license.expiryDate"
-              label="Expiry Date"
+              :label="$t('general.expiry_date')"
               :rules="rules.expiryDate"
               :years="yearArray"
             />
@@ -69,7 +69,7 @@
         <oxd-button
           type="button"
           display-type="ghost"
-          label="Cancel"
+          :label="$t('general.cancel')"
           @click="onCancel"
         />
         <submit-button />
@@ -122,7 +122,7 @@ export default {
           validDateFormat(),
           endDateShouldBeAfterStartDate(
             () => this.license.issuedDate,
-            'Expiry date should be after issued date',
+              this.$t('pim.expiry_date_should_be_after_issued_date'),
           ),
         ],
       },
