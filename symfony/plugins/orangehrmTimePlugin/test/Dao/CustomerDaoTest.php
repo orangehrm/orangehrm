@@ -25,7 +25,10 @@ use OrangeHRM\Entity\Customer;
 use OrangeHRM\Tests\Util\KernelTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 use OrangeHRM\Time\Dao\CustomerDao;
+use OrangeHRM\Time\Dao\ProjectDao;
 use OrangeHRM\Time\Dto\CustomerSearchFilterParams;
+use OrangeHRM\Time\Dto\ProjectSearchFilterParams;
+use OrangeHRM\Time\Exception\CustomerServiceException;
 
 /**
  * @group Time
@@ -34,6 +37,7 @@ use OrangeHRM\Time\Dto\CustomerSearchFilterParams;
 class CustomerDaoTest extends KernelTestCase
 {
     private CustomerDao $customerDao;
+    private ProjectDao $projectDao;
     protected string $fixture;
 
     /**
@@ -43,6 +47,7 @@ class CustomerDaoTest extends KernelTestCase
     protected function setUp(): void
     {
         $this->customerDao = new CustomerDao();
+        $this->projectDao = new ProjectDao();
     }
 
     private function populateCustomerServiceFixture(): void
@@ -126,9 +131,10 @@ class CustomerDaoTest extends KernelTestCase
     public function testDeleteCustomer(): void
     {
         $this->populateCustomerServiceFixture();
-        $customerId = [1, 2];
-        $result = $this->customerDao->deleteCustomer($customerId);
+        $result = $this->customerDao->deleteCustomer([2, 3]);
+        $projectCount = $this->projectDao->getProjectsCount(new ProjectSearchFilterParams());
         $this->assertEquals(2, $result);
+        $this->assertEquals(1, $projectCount);
     }
 
     public function testGetCustomerIdList(): void
@@ -161,5 +167,25 @@ class CustomerDaoTest extends KernelTestCase
 
         $result = $this->customerDao->getCustomerIdListForProjectAdmin(5, true);
         $this->assertEquals([7, 11], $result);
+    }
+
+    public function testExceptionForDeleteCustomer(): void
+    {
+        try {
+            $this->populateCustomerServiceFixture();
+            $toTobedeletedIds = [1];
+            $this->customerDao->deleteCustomer($toTobedeletedIds);
+            $this->fail('Exception expected');
+        } catch (Exception $exception) {
+            $this->assertTrue($exception instanceof CustomerServiceException);
+        }
+    }
+
+    public function testGetUnselectableCustomerIds(): void
+    {
+        $this->populateCustomerServiceFixture();
+        $customerIds = $this->customerDao->getUnselectableCustomerIds();
+        $this->assertCount(1, $customerIds);
+        $this->assertEquals(1, $customerIds[0]);
     }
 }

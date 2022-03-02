@@ -93,8 +93,20 @@ Delete:
       time.customer_service: \OrangeHRM\Time\Service\CustomerService
     attributes: [ ]
     body:
-      ids: [ 1, 2 ]
+      ids: [ 2, 3 ]
     query: [ ]
     data:
-      [ 1, 2 ]
+      [ 2, 3 ]
     meta: [ ]
+
+  'delete customer Who Have Time Logged Against':
+    userId: 1
+    services:
+      time.customer_service: \OrangeHRM\Time\Service\CustomerService
+    attributes: [ ]
+    body:
+      ids: [ 1, 2, 3 ]
+    query: [ ]
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\BadRequestException'
+      message: 'Not Allowed to Delete Customer(s) Which Have Time Logged Against'
