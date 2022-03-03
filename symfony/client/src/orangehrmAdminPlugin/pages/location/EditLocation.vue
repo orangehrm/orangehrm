@@ -21,20 +21,20 @@
 <template>
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
-      <oxd-text tag="h6" class="orangehrm-main-title">Edit Location</oxd-text>
+      <oxd-text class="orangehrm-main-title" tag="h6">{{ $t('admin.edit_location') }}</oxd-text>
 
       <oxd-divider />
 
-      <oxd-form novalidate="true" :loading="isLoading" @submitValid="onSave">
+      <oxd-form :loading="isLoading" novalidate="true" @submitValid="onSave">
         <oxd-form-row>
           <oxd-grid :cols="2" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <oxd-input-field
                 v-model="location.name"
-                label="Name"
-                :rules="rules.name"
-                required
                 :disabled="!hasUpdatePermissions"
+                :rules="rules.name"
+                :label="$t('general.name')"
+                required
               />
             </oxd-grid-item>
           </oxd-grid>
@@ -45,71 +45,71 @@
             <oxd-grid-item>
               <oxd-input-field
                 v-model="location.city"
-                label="City"
-                :rules="rules.city"
                 :disabled="!hasUpdatePermissions"
+                :rules="rules.city"
+                :label="$t('general.city')"
               />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
                 v-model="location.province"
-                label="State/Province"
-                :rules="rules.province"
                 :disabled="!hasUpdatePermissions"
+                :rules="rules.province"
+                :label="$t('general.state_province')"
               />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
                 v-model="location.zipCode"
-                label="Zip/Postal Code"
-                :rules="rules.zipCode"
                 :disabled="!hasUpdatePermissions"
+                :rules="rules.zipCode"
+                :label="$t('general.zip_postal_code')"
               />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
                 v-model="location.countryCode"
-                type="select"
-                label="Country"
-                :rules="rules.countryCode"
                 :clear="false"
-                :options="countries"
-                required
                 :disabled="!hasUpdatePermissions"
+                :options="countries"
+                :rules="rules.countryCode"
+                :label="$t('general.country')"
+                required
+                type="select"
               />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
                 v-model.trim="location.phone"
-                label="Phone"
-                :rules="rules.phone"
                 :disabled="!hasUpdatePermissions"
+                :rules="rules.phone"
+                :label="$t('general.phone')"
               />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
                 v-model="location.fax"
-                label="Fax"
-                :rules="rules.fax"
                 :disabled="!hasUpdatePermissions"
+                :rules="rules.fax"
+                :label="$t('general.fax')"
               />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
                 v-model="location.address"
-                type="textarea"
-                label="Address"
-                :rules="rules.address"
                 :disabled="!hasUpdatePermissions"
+                :rules="rules.address"
+                :label="$t('admin.address')"
+                type="textarea"
               />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
                 v-model="location.note"
-                type="textarea"
-                label="Note"
-                :rules="rules.note"
                 :disabled="!hasUpdatePermissions"
+                :rules="rules.note"
+                :label="$t('general.note')"
+                type="textarea"
               />
             </oxd-grid-item>
           </oxd-grid>
@@ -117,7 +117,11 @@
 
         <oxd-form-actions>
           <required-text />
-          <oxd-button display-type="ghost" label="Cancel" @click="onCancel" />
+          <oxd-button
+            display-type="ghost"
+            :label="$t('general.cancel')"
+            @click="onCancel"
+          />
           <submit-button v-if="hasUpdatePermissions" />
         </oxd-form-actions>
       </oxd-form>
@@ -220,7 +224,7 @@ export default {
           if (index > -1) {
             const {id} = data[index];
             return parseInt(id, 10) !== parseInt(this.locationId, 10)
-              ? 'Already exists'
+              ? this.$t('general.already_exists')
               : true;
           } else {
             return true;

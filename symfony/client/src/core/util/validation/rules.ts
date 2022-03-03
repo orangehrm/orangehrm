@@ -314,7 +314,7 @@ export const validEmailFormat = function(value: string): boolean | string {
     /^[a-zA-Z0-9.!#$%&'*+\\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$/.test(
       value,
     ) ||
-    translate('general.expected_format_not_matched')
+    translate('general.expected_email_address_format_not_matched')
   );
 };
 
