@@ -33,7 +33,7 @@
     <div class="orangehrm-paper-container">
       <div class="orangehrm-header-container">
         <inline-action-button display-type="secondary" @click="onclickAdd">
-          Currencies
+          {{ $t('admin.currencies') }}
         </inline-action-button>
       </div>
       <table-header
@@ -136,13 +136,26 @@ export default {
   data() {
     return {
       headers: [
-        {name: 'name', slot: 'title', title: 'Currency', style: {flex: 2}},
-        {name: 'minSalary', title: 'Minimum Salary', style: {flex: 1}},
-        {name: 'maxSalary', title: 'Maximum Salary', style: {flex: 1}},
+        {
+          name: 'name',
+          slot: 'title',
+          title: this.$t('general.currency'),
+          style: {flex: 2},
+        },
+        {
+          name: 'minSalary',
+          title: this.$t('admin.minimum_salary'),
+          style: {flex: 1},
+        },
+        {
+          name: 'maxSalary',
+          title: this.$t('admin.maximum_salary'),
+          style: {flex: 1},
+        },
         {
           name: 'actions',
           slot: 'action',
-          title: 'Actions',
+          title: this.$t('leave.actions'),
           style: {flex: 1},
           cellType: 'oxd-table-cell-actions',
           cellConfig: {
