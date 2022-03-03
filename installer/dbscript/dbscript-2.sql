@@ -4477,3 +4477,5 @@ SET @admin_role_id := (SELECT `id` FROM ohrm_user_role WHERE `name` = 'Admin' LI
 
 INSERT INTO ohrm_user_role_data_group (`can_read`, `can_create`, `can_update`, `can_delete`, `self`, `data_group_id`,`user_role_id`)
 VALUES (1, 0, 0, 1, 0, @apiv2_purge_employee_data_group_id, @admin_role_id);
+
+ALTER TABLE `ohrm_screen` ADD `menu_configurator` VARCHAR(255) NULL DEFAULT NULL;

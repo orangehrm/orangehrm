@@ -32,6 +32,16 @@ class ModuleScreen
     private ?string $screen = null;
 
     /**
+     * @var string|null
+     */
+    private ?string $overriddenModule = null;
+
+    /**
+     * @var string|null
+     */
+    private ?string $overriddenScreen = null;
+
+    /**
      * @param string|null $module
      * @param string|null $screen
      */
@@ -39,6 +49,8 @@ class ModuleScreen
     {
         $this->module = $module;
         $this->screen = $screen;
+        $this->overrideModule($module);
+        $this->overrideScreen($screen);
     }
 
     /**
@@ -55,6 +67,7 @@ class ModuleScreen
     public function setModule(?string $module): void
     {
         $this->module = $module;
+        !is_null($this->overriddenModule) ?: $this->overrideModule($module);
     }
 
     /**
@@ -71,5 +84,38 @@ class ModuleScreen
     public function setScreen(?string $screen): void
     {
         $this->screen = $screen;
+        !is_null($this->overriddenScreen) ?: $this->overrideScreen($screen);
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getOverriddenModule(): ?string
+    {
+        return $this->overriddenModule;
+    }
+
+    /**
+     * @param string|null $overriddenModule
+     */
+    public function overrideModule(?string $overriddenModule): void
+    {
+        $this->overriddenModule = $overriddenModule;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getOverriddenScreen(): ?string
+    {
+        return $this->overriddenScreen;
+    }
+
+    /**
+     * @param string|null $overriddenScreen
+     */
+    public function overrideScreen(?string $overriddenScreen): void
+    {
+        $this->overriddenScreen = $overriddenScreen;
     }
 }

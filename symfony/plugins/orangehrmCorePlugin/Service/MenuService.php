@@ -19,10 +19,13 @@
 
 namespace OrangeHRM\Core\Service;
 
+use OrangeHRM\Core\Authorization\Service\ScreenPermissionService;
 use OrangeHRM\Core\Dao\MenuDao;
 use OrangeHRM\Core\Dto\ModuleScreen;
 use OrangeHRM\Core\Exception\DaoException;
-use OrangeHRM\Core\Exception\ServiceException;
+use OrangeHRM\Core\Menu\DetailedMenuItem;
+use OrangeHRM\Core\Menu\MenuConfigurator;
+use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\ModuleScreenHelperTrait;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\MenuItem;
@@ -33,11 +36,19 @@ class MenuService
 {
     use UserRoleManagerTrait;
     use ModuleScreenHelperTrait;
+    use AuthUserTrait;
+
+    public const CORE_MENU_SIDE_PANEL_CACHE_KEY = 'core.menu.side_panel';
+    public const CORE_MENU_TOP_RIBBON_CACHE_KEY = 'core.menu.top_ribbon';
 
     /**
      * @var MenuDao|null
      */
     protected ?MenuDao $menuDao = null;
+    /**
+     * @var ScreenPermissionService|null
+     */
+    protected ?ScreenPermissionService $screenPermissionService = null;
     /**
      * @var int
      */
@@ -68,11 +79,14 @@ class MenuService
     }
 
     /**
-     * @param MenuDao $menuDao
+     * @return ScreenPermissionService
      */
-    public function setMenuDao(MenuDao $menuDao): void
+    public function getScreenPermissionService(): ScreenPermissionService
     {
-        $this->menuDao = $menuDao;
+        if (!$this->screenPermissionService instanceof ScreenPermissionService) {
+            $this->screenPermissionService = new ScreenPermissionService();
+        }
+        return $this->screenPermissionService;
     }
 
     /**
@@ -251,7 +265,6 @@ class MenuService
     /**
      * @return array
      * @throws DaoException
-     * @throws ServiceException
      */
     private function getAccessibleMenuItemDetails(): array
     {
@@ -262,51 +275,113 @@ class MenuService
      * @param string $baseUrl
      * @return array
      * @throws DaoException
-     * @throws ServiceException
      */
     public function getMenuItems(string $baseUrl): array
     {
         $moduleScreen = $this->getCurrentModuleAndScreen();
-        // TODO:: cache menu items
-        $menuItemDetails = $this->getAccessibleMenuItemDetails();
-        $menuItemArray = $menuItemDetails['menuItemArray'];
-        $subMenuItemsArray = [];
-        $sidePanelMenuItems = [];
+
+        $screen = $this->getScreenPermissionService()
+            ->getScreenDao()
+            ->getScreen($moduleScreen->getModule(), $moduleScreen->getScreen());
+        if ($screen instanceof Screen && !is_null($screen->getMenuConfigurator())) {
+            $configuratorClass = $screen->getMenuConfigurator();
+            $configurator = new $configuratorClass();
+            if (!$configurator instanceof MenuConfigurator) {
+                throw new \LogicException("Invalid configurator class: $configuratorClass");
+            }
+            $menuItem = $configurator->configure($screen);
+        }
+
+        $userRoles = $this->getUserRoleManager()->getUserRolesForAuthUser();
+        $sidePanelMenuItems = $this->getMenuDao()->getSidePanelMenuItems($userRoles);
+
+        $normalizedSidePanelMenuItems = [];
         $selectedSidePanelMenuId = null;
-        foreach ($menuItemArray as $menuItem) {
-            if (!empty($menuItem['subMenuItems'])) {
-                $subMenuItemsArray[$menuItem['id']] = $menuItem['subMenuItems'];
+        foreach ($sidePanelMenuItems as $sidePanelMenuItem) {
+            $screen = $sidePanelMenuItem->getScreen();
+            if (is_null($screen)) {
+                throw new \LogicException('Side panel menu item should have screen assigned');
             }
-            $active = $menuItem['module'] === $moduleScreen->getModule();
-            // TODO:: Should fix with OHRM5X-171
-            if ($moduleScreen->getScreen() == 'viewMyDetails') {
-                $active = $menuItem['action'] === $moduleScreen->getScreen();
-            } elseif ($moduleScreen->getModule() == 'pim') {
-                $active = $menuItem['module'] === $moduleScreen->getModule() && $menuItem['action'] != 'viewMyDetails';
-            }
-
+            $menuItem = DetailedMenuItem::createFromMenuItem($sidePanelMenuItem);
+            $active = $screen->getModule()->getName() === $moduleScreen->getOverriddenModule();
             if ($active) {
-                $selectedSidePanelMenuId = $menuItem['id'];
+                $selectedSidePanelMenuId = $sidePanelMenuItem->getId();
             }
-            unset($menuItem['subMenuItems']);
-            $sidePanelMenuItems[] = $this->mapMenuItem($menuItem, $baseUrl, $active);
+            $normalizedSidePanelMenuItems[] = $this->normalizeMenuItem($menuItem, $baseUrl, $active);
         }
 
-        $topMenuItemsArray = [];
-        foreach ($subMenuItemsArray as $parentId => $subMenuItems) {
-            $topMenuItems = [];
-            foreach ($subMenuItems as $subMenuItem) {
-                $active = $subMenuItem['action'] === $moduleScreen->getScreen();
-                $topMenuItems[] = $this->mapMenuItem($subMenuItem, $baseUrl, $active, $moduleScreen);
-            }
-            $topMenuItemsArray[$parentId] = $topMenuItems;
+        $topMenuItems = $this->getMenuDao()->getTopMenuItems($userRoles, $selectedSidePanelMenuId);
+        $normalizedTopMenuItems = [];
+        foreach ($topMenuItems as $topMenuItem) {
+            $normalizedTopMenuItems[] = $this->normalizeTopMenuItem($topMenuItem, $baseUrl, $moduleScreen);
         }
 
-        $topMenuItems = is_null($selectedSidePanelMenuId) ? [] : ($topMenuItemsArray[$selectedSidePanelMenuId] ?? []);
         return [
-            $sidePanelMenuItems,
-            $topMenuItems,
+            $normalizedSidePanelMenuItems,
+            $normalizedTopMenuItems,
         ];
+    }
+
+    /**
+     * @param DetailedMenuItem $detailedMenuItem
+     * @param string $baseUrl
+     * @param bool $active
+     * @return array
+     */
+    private function normalizeMenuItem(
+        DetailedMenuItem $detailedMenuItem,
+        string $baseUrl,
+        bool $active = false
+    ): array {
+        $url = '#';
+        if (!empty($detailedMenuItem->getScreen()) && !empty($detailedMenuItem->getModule())) {
+            $url = $baseUrl . '/' . $detailedMenuItem->getModule() . '/' . $detailedMenuItem->getScreen();
+        }
+        $menuItem = [
+            'id' => $detailedMenuItem->getId(),
+            'name' => $detailedMenuItem->getMenuTitle(),
+            'url' => $url,
+        ];
+
+        if (!is_null($detailedMenuItem->getAdditionalParams()) && isset($detailedMenuItem->getAdditionalParams()['icon'])) {
+            $menuItem = array_merge($menuItem, $detailedMenuItem->getAdditionalParams());
+        }
+
+        if ($active) {
+            $menuItem['active'] = true;
+        }
+        return $menuItem;
+    }
+
+    /**
+     * @param DetailedMenuItem $detailedMenuItem
+     * @param string $baseUrl
+     * @param ModuleScreen|null $moduleScreen
+     * @return array
+     */
+    private function normalizeTopMenuItem(
+        DetailedMenuItem $detailedMenuItem,
+        string $baseUrl,
+        ?ModuleScreen $moduleScreen = null
+    ): array {
+        $active = $detailedMenuItem->getScreen() === $moduleScreen->getScreen();
+        $newMenuItem = $this->normalizeMenuItem($detailedMenuItem, $baseUrl, $active);
+        $newMenuItem['children'] = [];
+        if ($active) {
+            $newMenuItem['active'] = true;
+        }
+
+        // if sub menu item exists
+        if (!empty($detailedMenuItem->getChildMenuItems())) {
+            foreach ($detailedMenuItem->getChildMenuItems() as $subItem) {
+                $active = $subItem->getScreen() === $moduleScreen->getScreen();
+                if ($active) {
+                    $newMenuItem['active'] = true;
+                }
+                $newMenuItem['children'][] = $this->normalizeTopMenuItem($subItem, $baseUrl, $moduleScreen);
+            }
+        }
+        return $newMenuItem;
     }
 
     /**

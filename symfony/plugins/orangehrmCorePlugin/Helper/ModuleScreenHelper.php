@@ -28,23 +28,31 @@ use OrangeHRM\Framework\Services;
 class ModuleScreenHelper
 {
     /**
+     * @var ModuleScreen|null
+     */
+    private static ?ModuleScreen $moduleScreen = null;
+
+    /**
      * @return ModuleScreen
      */
     public static function getCurrentModuleAndScreen(): ModuleScreen
     {
-        $moduleScreen = new ModuleScreen();
-        $request = self::getCurrentRequest();
-        if ($request) {
-            $pathChunks = explode('/', $request->getPathInfo());
-            if (isset($pathChunks[1])) {
-                $moduleScreen->setModule($pathChunks[1]);
+        if (!self::$moduleScreen instanceof ModuleScreen) {
+            $moduleScreen = new ModuleScreen();
+            $request = self::getCurrentRequest();
+            if ($request) {
+                $pathChunks = explode('/', $request->getPathInfo());
+                if (isset($pathChunks[1])) {
+                    $moduleScreen->setModule($pathChunks[1]);
+                }
+                if (isset($pathChunks[2])) {
+                    $moduleScreen->setScreen($pathChunks[2]);
+                }
             }
-            if (isset($pathChunks[2])) {
-                $moduleScreen->setScreen($pathChunks[2]);
-            }
+            self::$moduleScreen = $moduleScreen;
         }
 
-        return $moduleScreen;
+        return self::$moduleScreen;
     }
 
     /**

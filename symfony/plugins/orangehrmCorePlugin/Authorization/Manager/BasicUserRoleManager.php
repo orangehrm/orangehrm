@@ -567,7 +567,7 @@ class BasicUserRoleManager extends AbstractUserRoleManager
     /**
      * @inheritDoc
      */
-    protected function getUserRoles(User $user): array
+    protected function computeUserRoles(User $user): array
     {
         $roles = [$user->getUserRole()];
 
@@ -893,6 +893,7 @@ class BasicUserRoleManager extends AbstractUserRoleManager
     }
 
     /**
+     * @todo fix this in `ohrm_workflow_state_machine`
      * @param string $roleName
      * @param string $workflow
      * @return string

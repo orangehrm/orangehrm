@@ -349,7 +349,7 @@ class UnitTestUserRoleManager extends AbstractUserRoleManager
         return [];
     }
 
-    protected function getUserRoles(User $user): array
+    protected function computeUserRoles(User $user): array
     {
         return [];
     }

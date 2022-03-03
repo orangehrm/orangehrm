@@ -166,7 +166,7 @@ class MockUserRoleManager extends AbstractUserRoleManager
     /**
      * @inheritDoc
      */
-    protected function getUserRoles(User $user): array
+    protected function computeUserRoles(User $user): array
     {
         throw $this->getException(__METHOD__);
     }

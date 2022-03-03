@@ -20,15 +20,19 @@
 namespace OrangeHRM\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use OrangeHRM\Entity\Decorator\DecoratorTrait;
+use OrangeHRM\Entity\Decorator\MenuItemDecorator;
 
 /**
- * MenuItem
+ * @method MenuItemDecorator getDecorator()
  *
  * @ORM\Table(name="ohrm_menu_item")
  * @ORM\Entity
  */
 class MenuItem
 {
+    use DecoratorTrait;
+
     public const STATUS_ENABLED = true;
     public const STATUS_DISABLED = false;
 
@@ -54,7 +58,7 @@ class MenuItem
      * @ORM\OneToOne(targetEntity="OrangeHRM\Entity\MenuItem")
      * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", nullable=true)
      */
-    private ?MenuItem $parent;
+    private ?MenuItem $parent = null;
 
     /**
      * @var int
@@ -75,7 +79,7 @@ class MenuItem
      *
      * @ORM\Column(name="url_extras", type="string", length=255, nullable=true)
      */
-    private ?string $urlExtras;
+    private ?string $urlExtras = null;
 
     /**
      * @var bool
@@ -90,7 +94,7 @@ class MenuItem
      * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Screen")
      * @ORM\JoinColumn(name="screen_id", referencedColumnName="id", nullable=true)
      */
-    private ?Screen $screen;
+    private ?Screen $screen = null;
 
     /**
      * @var array|null
@@ -100,6 +104,7 @@ class MenuItem
     private ?array $additionalParams = [];
 
     /**
+     * @deprecated
      * @var array|MenuItem[]
      */
     protected array $subMenuItems = [];
@@ -250,6 +255,7 @@ class MenuItem
 
     /**
      * @param MenuItem $menuItem
+     * @deprecated
      */
     public function addSubMenuItem(MenuItem $menuItem): void
     {
@@ -258,6 +264,7 @@ class MenuItem
 
     /**
      * @return array|MenuItem[]
+     * @deprecated
      */
     public function getSubMenuItems(): array
     {

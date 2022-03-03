@@ -21,11 +21,12 @@ namespace OrangeHRM\Core\Dao;
 
 use Exception;
 use OrangeHRM\Core\Exception\DaoException;
+use OrangeHRM\Core\Menu\DetailedMenuItem;
 use OrangeHRM\Entity\MenuItem;
-use OrangeHRM\Entity\Module;
 use OrangeHRM\Entity\UserRole;
 use OrangeHRM\ORM\Doctrine;
 use OrangeHRM\ORM\ListSorter;
+use OrangeHRM\ORM\QueryBuilderWrapper;
 
 class MenuDao extends BaseDao
 {
@@ -58,7 +59,7 @@ class MenuDao extends BaseDao
             $q->leftJoin('sp.userRole', 'ur');
 
             $q->andWhere('mo.status = :moduleStatus');
-            $q->setParameter('moduleStatus', Module::ENABLED);
+            $q->setParameter('moduleStatus', true);
 
             $q->andWhere('mi.status = :menuItemStatus');
             $q->setParameter('menuItemStatus', MenuItem::STATUS_ENABLED);
@@ -134,5 +135,110 @@ class MenuDao extends BaseDao
         $q->setParameter('screenName', $screenName);
         $q->setParameter('moduleName', $moduleName);
         return $this->fetchOne($q);
+    }
+
+    /**
+     * @param UserRole[] $userRoles
+     * @return MenuItem[]
+     */
+    public function getSidePanelMenuItems(array $userRoles): array
+    {
+        $q = $this->getMenuItemQueryBuilderWrapper($userRoles);
+        if (is_null($q)) {
+            return [];
+        }
+        $q = $q->getQueryBuilder();
+        $q->andWhere('mi.level = :menuItemLevel')
+            ->setParameter('menuItemLevel', 1);
+        $q->addOrderBy('mi.orderHint', ListSorter::ASCENDING)
+            ->addOrderBy('mi.id', ListSorter::ASCENDING);
+
+        return $q->getQuery()->execute();
+    }
+
+    /**
+     * @param UserRole[] $userRoles
+     * @return DetailedMenuItem[]
+     */
+    public function getTopMenuItems(array $userRoles, int $sideMenuItemId): array
+    {
+        $q = $this->getMenuItemQueryBuilderWrapper($userRoles);
+        if (is_null($q)) {
+            return [];
+        }
+        $q = $q->getQueryBuilder();
+        $q->andWhere('mi.level = :menuItemLevel')
+            ->andWhere('mi.parent = :parentId')
+            ->setParameter('menuItemLevel', 2)
+            ->setParameter('parentId', $sideMenuItemId);
+        $q->addOrderBy('mi.orderHint', ListSorter::ASCENDING)
+            ->addOrderBy('mi.id', ListSorter::ASCENDING);
+
+        /** @var MenuItem[] $secondLevelMenuItems */
+        $secondLevelMenuItems = $q->getQuery()->execute();
+        $secondLevelMenuItemIds = [];
+        foreach ($secondLevelMenuItems as $secondLevelMenuItem) {
+//            $secondLevelMenuItemIds[$secondLevelMenuItem->getId()] = $secondLevelMenuItem;
+            $secondLevelMenuItemIds[$secondLevelMenuItem->getId()] = DetailedMenuItem::createFromMenuItem($secondLevelMenuItem);
+        }
+
+        $q = $this->getMenuItemQueryBuilderWrapper($userRoles)->getQueryBuilder();
+        $q->andWhere('mi.level = :menuItemLevel')
+            ->andWhere($q->expr()->in('mi.parent', ':parentIds'))
+            ->setParameter('menuItemLevel', 3)
+            ->setParameter('parentIds', array_keys($secondLevelMenuItemIds));
+        $q->addOrderBy('mi.id', ListSorter::ASCENDING)
+            ->addOrderBy('mi.orderHint', ListSorter::ASCENDING);
+
+        /** @var MenuItem[] $thirdLevelMenuItems */
+        $thirdLevelMenuItems = $q->getQuery()->execute();
+        foreach ($thirdLevelMenuItems as $thirdLevelMenuItem) {
+            if (isset($secondLevelMenuItemIds[$thirdLevelMenuItem->getParent()->getId()])) {
+//                $secondLevelMenuItemIds[$thirdLevelMenuItem->getParent()->getId()]
+//                    ->getDecorator()
+//                    ->addChild($thirdLevelMenuItem);
+                $secondLevelMenuItemIds[$thirdLevelMenuItem->getParent()->getId()]
+                    ->addChild(DetailedMenuItem::createFromMenuItem($thirdLevelMenuItem));
+            }
+        }
+        return array_values($secondLevelMenuItemIds);
+    }
+
+    /**
+     * @param array $userRoles
+     * @return QueryBuilderWrapper|null
+     */
+    private function getMenuItemQueryBuilderWrapper(array $userRoles): ?QueryBuilderWrapper
+    {
+        $userRoleIds = array_map(fn (UserRole $userRole) => $userRole->getId(), $userRoles);
+        if (empty($userRoleIds)) {
+            return null;
+        }
+
+        $q = $this->createQueryBuilder(MenuItem::class, 'mi');
+        $q->leftJoin('mi.screen', 'sc');
+        $q->leftJoin('sc.module', 'mo');
+        $q->leftJoin('sc.screenPermissions', 'sp');
+        $q->leftJoin('sp.userRole', 'ur');
+
+        $q->andWhere($q->expr()->orX(
+            'mo.status = :moduleStatus',
+            $q->expr()->isNull('mi.screen')
+        ))->setParameter('moduleStatus', true);
+
+        $q->andWhere('mi.status = :menuItemStatus')
+            ->setParameter('menuItemStatus', true);
+
+        $q->andWhere($q->expr()->orX(
+            $q->expr()->andX(
+                'sp.canRead = :screenPermission',
+                $q->expr()->in('ur.id', ':roleIds')
+            ),
+            $q->expr()->isNull('mi.screen')
+        ));
+        $q->setParameter('screenPermission', true)
+            ->setParameter('roleIds', $userRoleIds);
+
+        return $this->getQueryBuilderWrapper($q);
     }
 }
