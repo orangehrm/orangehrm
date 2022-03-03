@@ -22,7 +22,7 @@
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
       <oxd-text tag="h6" class="orangehrm-main-title">
-        Add Pay Grade
+        {{ $t('admin.add_pay_grade') }}
       </oxd-text>
 
       <oxd-divider />
@@ -33,7 +33,7 @@
             <oxd-grid-item>
               <oxd-input-field
                 v-model="grade.name"
-                label="Name"
+                :label="$t('general.name')"
                 :rules="rules.name"
                 required
               />
@@ -48,7 +48,7 @@
           <oxd-button
             type="button"
             display-type="ghost"
-            label="Cancel"
+            :label="$t('general.cancel')"
             @click="onCancel"
           />
           <submit-button />
@@ -100,7 +100,7 @@ export default {
           const index = data.findIndex(
             item => String(item.name).toLowerCase() == String(v).toLowerCase(),
           );
-          return index === -1 || 'Already exists';
+          return index === -1 || this.$t('general.already_exists');
         });
         this.isLoading = false;
       })

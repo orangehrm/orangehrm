@@ -20,7 +20,7 @@
 
 <template>
   <employee-autocomplete
-    label="Assigned Employees"
+    :label="$t('admin.assigned_employees')"
     :multiple="true"
     :clear="false"
     :create-options="loadEmployees"

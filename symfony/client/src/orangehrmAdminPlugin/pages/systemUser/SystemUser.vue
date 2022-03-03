@@ -25,13 +25,16 @@
         <oxd-form-row>
           <oxd-grid :cols="4" class="orangehrm-full-width-grid">
             <oxd-grid-item>
-              <oxd-input-field v-model="filters.username" label="Username" />
+              <oxd-input-field
+                v-model="filters.username"
+                :label="$t('general.username')"
+              />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
                 v-model="filters.userRoleId"
                 type="select"
-                label="User Role"
+                :label="$t('general.user_role')"
                 :options="userRoles"
               />
             </oxd-grid-item>
@@ -42,7 +45,7 @@
               <oxd-input-field
                 v-model="filters.status"
                 type="select"
-                label="Status"
+                :label="$t('general.status')"
                 :options="userStatuses"
               />
             </oxd-grid-item>
@@ -54,13 +57,13 @@
         <oxd-form-actions>
           <oxd-button
             display-type="ghost"
-            label="Reset"
+            :label="$t('general.reset')"
             @click="onClickReset"
           />
           <oxd-button
             class="orangehrm-left-space"
             display-type="secondary"
-            label="Search"
+            :label="$t('general.search')"
             type="submit"
           />
         </oxd-form-actions>
@@ -70,7 +73,7 @@
     <div class="orangehrm-paper-container">
       <div class="orangehrm-header-container">
         <oxd-button
-          label="Add"
+          :label="$t('general.add')"
           icon-name="plus"
           display-type="secondary"
           @click="onClickAdd"
@@ -209,33 +212,33 @@ export default {
       headers: [
         {
           name: 'userName',
-          title: 'Username',
+          title: this.$t('general.username'),
           sortField: 'u.userName',
           style: {flex: 1},
         },
         {
           name: 'role',
-          title: 'User Role',
+          title: this.$t('general.user_role'),
           style: {flex: 1},
           sortField: 'r.displayName',
         },
         {
           name: 'empName',
           slot: 'title',
-          title: 'Employee Name',
+          title: this.$t('general.employee_name'),
           sortField: 'e.firstName',
           style: {flex: 1},
         },
         {
           name: 'status',
-          title: 'Status',
+          title: this.$t('general.status'),
           sortField: 'u.status',
           style: {flex: 1},
         },
         {
           name: 'actions',
           slot: 'action',
-          title: 'Actions',
+          title: this.$t('leave.actions'),
           style: {flex: 1},
           cellType: 'oxd-table-cell-actions',
           cellConfig: {
@@ -256,12 +259,12 @@ export default {
         },
       ],
       userRoles: [
-        {id: 1, label: 'Admin'},
-        {id: 2, label: 'ESS'},
+        {id: 1, label: this.$t('general.admin')},
+        {id: 2, label: this.$t('general.ess')},
       ],
       userStatuses: [
-        {id: 1, label: 'Enabled'},
-        {id: 2, label: 'Disabled'},
+        {id: 1, label: this.$t('general.enabled')},
+        {id: 2, label: this.$t('general.disabled')},
       ],
       checkedItems: [],
     };

@@ -35,10 +35,13 @@ class Version20220221
 
     public function up(): void
     {
-        $groupId = $this->getLangStringHelper()->getGroupId('admin');
-        $langArray = $this->getLangStringHelper()->getLangStringArray('admin');
-        $this->getLangStringHelper()->deleteNonCustomLangStrings($groupId);
-        $this->getLangStringHelper()->versionMigrateLangStrings($langArray, $groupId);
+        $modules = ['admin','general'];
+        foreach ($modules as $module){
+            $groupId = $this->getLangStringHelper()->getGroupId($module);
+            $langArray = $this->getLangStringHelper()->getLangStringArray($module);
+            $this->getLangStringHelper()->deleteNonCustomLangStrings($groupId);
+            $this->getLangStringHelper()->versionMigrateLangStrings($langArray, $groupId);
+        }
     }
 
     /**

@@ -23,7 +23,7 @@
     <div class="orangehrm-paper-container">
       <div class="orangehrm-header-container">
         <oxd-text tag="h6" class="orangehrm-main-title">
-          Email Subscriptions
+          {{ $t('admin.email_subscriptions') }}
         </oxd-text>
       </div>
       <table-header
@@ -95,13 +95,17 @@ export default {
         {
           name: 'type',
           slot: 'title',
-          title: 'Notification Type',
+          title: this.$t('admin.notification_type'),
           style: {flex: '20%'},
         },
-        {name: 'subscribers', title: 'Subscribers', style: {flex: '65%'}},
+        {
+          name: 'subscribers',
+          title: this.$t('admin.subscribers'),
+          style: {flex: '65%'},
+        },
         {
           name: 'actions',
-          title: 'Actions',
+          title: this.$t('leave.actions'),
           slot: 'action',
           style: {flex: '15%'},
           cellType: 'oxd-table-cell-actions',

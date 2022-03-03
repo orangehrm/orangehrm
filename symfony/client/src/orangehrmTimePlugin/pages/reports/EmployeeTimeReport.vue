@@ -49,7 +49,7 @@
                 <project-autocomplete
                   v-model="filters.project"
                   :label="$t('time.project_name')"
-                  :onlyAllowed="false"
+                  :only-allowed="false"
                 />
               </oxd-grid-item>
               <oxd-grid-item>
