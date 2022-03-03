@@ -24,14 +24,14 @@
     @update:show="onCancel"
   >
     <div class="orangehrm-modal-header">
-      <oxd-text type="card-title">Edit Subscriber</oxd-text>
+      <oxd-text type="card-title">{{ $t('admin.edit_subscriber') }}</oxd-text>
     </div>
     <oxd-divider />
     <oxd-form :loading="isLoading" @submitValid="onSave">
       <oxd-form-row>
         <oxd-input-field
           v-model="subscriber.name"
-          label="Name"
+          :label="$t('general.name')"
           :rules="rules.name"
           required
         />
@@ -39,7 +39,7 @@
       <oxd-form-row>
         <oxd-input-field
           v-model="subscriber.email"
-          label="Email"
+          :label="$t('general.email')"
           :rules="rules.email"
           required
         />
@@ -51,7 +51,7 @@
         <oxd-button
           type="button"
           display-type="ghost"
-          label="Cancel"
+          :label="$t('general.cancel')"
           @click="onCancel"
         />
         <submit-button />
@@ -123,7 +123,9 @@ export default {
             const index = data.findIndex(item => item.email == v);
             if (index > -1) {
               const {id} = data[index];
-              return id != this.data.id ? 'Already exists' : true;
+              return id != this.data.id
+                ? this.$t('general.already_exists')
+                : true;
             } else {
               return true;
             }

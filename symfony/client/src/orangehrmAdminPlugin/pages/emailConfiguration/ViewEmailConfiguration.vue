@@ -21,7 +21,9 @@
 <template>
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
-      <oxd-text class="orangehrm-main-title">Email Configuration</oxd-text>
+      <oxd-text class="orangehrm-main-title">{{
+        $t('admin.mail_configuration')
+      }}</oxd-text>
 
       <oxd-divider />
 
@@ -31,30 +33,30 @@
             <oxd-grid-item>
               <oxd-input-field
                 v-model="emailConfiguration.sentAs"
-                label="Mail Sent As"
+                :label="$t('admin.mail_sent_as')"
                 :rules="rules.sentAs"
                 required
               />
             </oxd-grid-item>
             <oxd-grid-item>
-              <oxd-input-group label="Sending Method">
+              <oxd-input-group :label="$t('admin.sending_method')">
                 <div class="send-method-div">
                   <oxd-input-field
                     v-model="emailConfiguration.mailType"
                     type="radio"
-                    option-label="SECURE SMTP"
+                    :option-label="$t('admin.secure_smtp')"
                     value="smtps"
                   />
                   <oxd-input-field
                     v-model="emailConfiguration.mailType"
                     type="radio"
-                    option-label="SMTP"
+                    :option-label="$t('admin.smtp')"
                     value="smtp"
                   />
                   <oxd-input-field
                     v-model="emailConfiguration.mailType"
                     type="radio"
-                    option-label="Sendmail"
+                    :option-label="$t('admin.sendmail')"
                     value="sendmail"
                   />
                 </div>
@@ -65,7 +67,7 @@
         <oxd-form-row v-if="emailConfiguration.mailType === 'sendmail'">
           <oxd-grid :cols="2" class="orangehrm-full-width-grid">
             <oxd-grid-item>
-              <oxd-input-group label="Path to Sendmail">
+              <oxd-input-group :label="$t('admin.path_to_sendmail')">
                 <oxd-text tag="p" class="sendmail-path-value">
                   {{ emailConfiguration.pathToSendmail }}
                 </oxd-text>
@@ -78,7 +80,7 @@
             <oxd-grid-item>
               <oxd-input-field
                 v-model="emailConfiguration.smtpHost"
-                label="SMTP Host"
+                :label="$t('admin.smtp_host')"
                 :rules="rules.smtpHost"
                 required
               />
@@ -86,7 +88,7 @@
             <oxd-grid-item>
               <oxd-input-field
                 v-model="emailConfiguration.smtpPort"
-                label="SMTP Port"
+                :label="$t('admin.smtp_port')"
                 :rules="rules.smtpPort"
               />
             </oxd-grid-item>
@@ -96,19 +98,19 @@
           <oxd-grid :cols="2" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <oxd-input-group
-                label="Use SMTP Authentication"
+                :label="$t('admin.use_smtp_authentication')"
                 :classes="{wrapper: '--status-grouped-field'}"
               >
                 <oxd-input-field
                   v-model="emailConfiguration.smtpAuthType"
                   type="radio"
-                  option-label="Yes"
+                  :option-label="$t('general.yes')"
                   value="login"
                 />
                 <oxd-input-field
                   v-model="emailConfiguration.smtpAuthType"
                   type="radio"
-                  option-label="No"
+                  :option-label="$t('general.no')"
                   value="none"
                 />
               </oxd-input-group>
@@ -125,7 +127,7 @@
             <oxd-grid-item>
               <oxd-input-field
                 v-model="emailConfiguration.smtpUsername"
-                label="SMTP User"
+                :label="$t('admin.smtp_user')"
                 :rules="rules.smtpUsername"
                 required
               />
@@ -133,7 +135,7 @@
             <oxd-grid-item>
               <oxd-input-field
                 v-model="emailConfiguration.smtpPassword"
-                label="SMTP Password"
+                :label="$t('admin.smtp_password')"
                 :rules="rules.smtpPassword"
                 type="password"
                 :placeholder="passwordPlaceHolder"
@@ -147,7 +149,7 @@
             <oxd-grid-item class="organization-name-container">
               <div class="orangehrm-optional-field-row">
                 <oxd-text tag="p" class="orangehrm-optional-field-label">
-                  TLS
+                  {{ $t('admin.tls') }}
                 </oxd-text>
                 <oxd-switch-input v-model="useTLSSecureConnection" />
               </div>
@@ -158,7 +160,11 @@
           <oxd-grid :cols="1" class="orangehrm-full-width-grid">
             <oxd-grid-item class="organization-name-container">
               <oxd-text tag="p" class="tls-hint">
-                Optional - the mail server requires the use of TLS security.
+                {{
+                  $t(
+                    'admin.optional_-_the_mail_server_requires_the_use_of_tls_security',
+                  )
+                }}
               </oxd-text>
             </oxd-grid-item>
           </oxd-grid>
@@ -169,7 +175,7 @@
             <oxd-grid-item class="organization-name-container">
               <div class="orangehrm-optional-field-row">
                 <oxd-text tag="p" class="orangehrm-optional-field-label">
-                  Send Test Mail
+                  {{ $t('admin.send_test_email') }}
                 </oxd-text>
                 <oxd-switch-input v-model="sendTestMailEditable" />
               </div>
@@ -181,7 +187,7 @@
             <oxd-grid-item>
               <oxd-input-field
                 v-model="emailConfiguration.testEmailAddress"
-                label="Test Email Address"
+                :label="$t('admin.test_email_address')"
                 :rules="rules.testEmailAddress"
                 :disabled="!sendTestMailEditable"
                 required
@@ -332,13 +338,13 @@ export default {
           const testEmailStatus = response.data.meta?.testEmailStatus;
           if (testEmailStatus === 1 && this.sendTestMailEditable) {
             this.$toast.success({
-              title: 'Success',
-              message: 'Test Email Sent',
+              title: this.$t('buzz.success'),
+              message: this.$t('admin.test_email_sent'),
             });
           } else if (testEmailStatus === 0 && this.sendTestMailEditable) {
             this.$toast.warn({
-              title: 'Failed',
-              message: 'Test Email Not Sent',
+              title: this.$t('general.failed'),
+              message: this.$t('admin.test_email_not_sent'),
             });
           }
           return this.$toast.saveSuccess();

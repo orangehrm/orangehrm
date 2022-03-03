@@ -154,7 +154,7 @@ export default {
         const {data} = response.data;
         this.rules.title.push(v => {
           const index = data.findIndex(item => item.title == v);
-          return index === -1 || 'Already exists';
+          return index === -1 || this.$t('general.already_exists');
         });
       })
       .finally(() => {
