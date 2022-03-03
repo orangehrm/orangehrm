@@ -17,18 +17,30 @@
  * Boston, MA  02110-1301, USA
  */
 
-use OrangeHRM\Framework\ServiceContainer;
-use OrangeHRM\Framework\Services;
-use OrangeHRM\ORM\Doctrine;
-use OrangeHRM\Tools\Migrations\Version20220125;
-use OrangeHRM\Tools\Migrations\Version20220301;
+namespace OrangeHRM\Tools\Migrations;
 
-require_once realpath(__DIR__ . '/../../symfony/vendor/autoload.php');
+use OrangeHRM\Tools\Migrations\V5\AttendanceHelper;
 
-ServiceContainer::getContainer()->register(Services::DOCTRINE)
-    ->setFactory([Doctrine::class, 'getEntityManager']);
+class Version20220301
+{
+    protected ?AttendanceHelper $attendanceHelper = null;
 
-$migration = new Version20220125();
-$migration->up();
-$migration = new Version20220301();
-$migration->up();
+    /**
+     * @return AttendanceHelper
+     */
+    public function getAttendanceHelper(): AttendanceHelper
+    {
+        if (is_null($this->attendanceHelper)) {
+            $this->attendanceHelper = new AttendanceHelper();
+        }
+        return $this->attendanceHelper;
+    }
+
+    public function up(): void
+    {
+        foreach (AttendanceHelper::TIMEZONE_MAP as $timezone => $offset) {
+            $this->getAttendanceHelper()->updatePunchInTimezoneOffset($offset, $timezone);
+            $this->getAttendanceHelper()->updatePunchOutTimezoneOffset($offset, $timezone);
+        }
+    }
+}

@@ -17,18 +17,35 @@
  * Boston, MA  02110-1301, USA
  */
 
-use OrangeHRM\Framework\ServiceContainer;
-use OrangeHRM\Framework\Services;
-use OrangeHRM\ORM\Doctrine;
-use OrangeHRM\Tools\Migrations\Version20220125;
-use OrangeHRM\Tools\Migrations\Version20220301;
+namespace OrangeHRM\Core\Api\V2\Validator\Rules;
 
-require_once realpath(__DIR__ . '/../../symfony/vendor/autoload.php');
+use DateTimeZone;
+use Exception;
 
-ServiceContainer::getContainer()->register(Services::DOCTRINE)
-    ->setFactory([Doctrine::class, 'getEntityManager']);
+class TimezoneName extends AbstractRule
+{
+    /**
+     * @inheritDoc
+     */
+    public function validate($input): bool
+    {
+        if (!(is_string($input) && $this->isValidTimezone($input))) {
+            return false;
+        }
+        return true;
+    }
 
-$migration = new Version20220125();
-$migration->up();
-$migration = new Version20220301();
-$migration->up();
+    /**
+     * @param string $timezoneName
+     * @return bool
+     */
+    private function isValidTimezone(string $timezoneName): bool
+    {
+        try {
+            new DateTimeZone($timezoneName);
+            return true;
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+}

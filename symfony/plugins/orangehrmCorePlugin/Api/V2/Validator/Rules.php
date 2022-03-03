@@ -45,6 +45,7 @@ final class Rules
     public const ENTITY_UNIQUE_PROPERTY = OHRMRules\EntityUniqueProperty::class;
     public const IN_ACCESSIBLE_ENTITY_ID = OHRMRules\InAccessibleEntityId::class;
     public const TIMEZONE_OFFSET = OHRMRules\TimezoneOffset::class;
+    public const TIMEZONE_NAME = OHRMRules\TimezoneName::class;
 
     public const ALNUM = RespectRules\Alnum::class;
     public const ALPHA = RespectRules\Alpha::class;
