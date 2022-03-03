@@ -112,7 +112,6 @@ export default {
 
 <style>
 .orangehrm-confirmation-dialog {
-  width: 90%;
   max-width: 450px;
 }
 </style>
