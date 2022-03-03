@@ -23,11 +23,6 @@ require_once ROOT_PATH.'/symfony/plugins/orangehrmCorePlugin/Utility/PasswordHas
 require_once ROOT_PATH.'/installer/SystemConfiguration.php';
 require_once ROOT_PATH.'/installer/Messages.php';
 require_once ROOT_PATH.'/symfony/vendor/autoload.php';
-use OrangeHRM\Framework\ServiceContainer;
-use OrangeHRM\Framework\Services;
-use OrangeHRM\ORM\Doctrine;
-use OrangeHRM\Tools\Migrations\Version20220125;
-use OrangeHRM\Tools\Migrations\Version20220301;
 
 class ApplicationSetupUtility {
 
@@ -510,14 +505,6 @@ public static function install() {
 
 		case 5 :	error_log (date("r")." Write Conf - Starting\n",3, self::getErrorLogPath());
 					self::writeConfFile();
-                    // TODO
-                    ServiceContainer::getContainer()->register(Services::DOCTRINE)
-                        ->setFactory([Doctrine::class, 'getEntityManager']);
-                    $migration = new Version20220125();
-                    $migration->up();
-                    $migration = new Version20220301();
-                    $migration->up();
-
 					//self::writeSymfonyDbConfigFile();
 					error_log (date("r")." Write Conf - Done\n",3, self::getErrorLogPath());
 					if (!isset($_SESSION['error'])) {
