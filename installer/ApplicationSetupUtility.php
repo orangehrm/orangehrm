@@ -22,7 +22,6 @@ require_once ROOT_PATH.'/installer/utils/UniqueIDGenerator.php';
 require_once ROOT_PATH.'/symfony/plugins/orangehrmCorePlugin/Utility/PasswordHash.php';
 require_once ROOT_PATH.'/installer/SystemConfiguration.php';
 require_once ROOT_PATH.'/installer/Messages.php';
-require_once ROOT_PATH.'/symfony/vendor/autoload.php';
 
 class ApplicationSetupUtility {
 
