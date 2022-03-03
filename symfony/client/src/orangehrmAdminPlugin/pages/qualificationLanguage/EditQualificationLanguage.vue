@@ -21,7 +21,9 @@
 <template>
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
-      <oxd-text tag="h6" class="orangehrm-main-title">Edit Language</oxd-text>
+      <oxd-text tag="h6" class="orangehrm-main-title">{{
+        $t('general.edit_language')
+      }}</oxd-text>
 
       <oxd-divider />
 
@@ -29,7 +31,7 @@
         <oxd-form-row>
           <oxd-input-field
             v-model="language.name"
-            label="Name"
+            :label="$t('general.name')"
             :rules="rules.name"
             required
           />
@@ -42,7 +44,7 @@
           <oxd-button
             type="button"
             display-type="ghost"
-            label="Cancel"
+            :label="$t('general.cancel')"
             @click="onCancel"
           />
           <submit-button />
@@ -55,7 +57,10 @@
 <script>
 import {navigate} from '@ohrm/core/util/helper/navigation';
 import {APIService} from '@ohrm/core/util/services/api.service';
-import {required} from '@ohrm/core/util/validation/rules';
+import {
+  required,
+  shouldNotExceedCharLength,
+} from '@ohrm/core/util/validation/rules';
 
 export default {
   props: {
@@ -82,7 +87,7 @@ export default {
         name: '',
       },
       rules: {
-        name: [],
+        name: [required, shouldNotExceedCharLength(120)],
       },
     };
   },
@@ -100,15 +105,13 @@ export default {
       })
       .then(response => {
         const {data} = response.data;
-        this.rules.name.push(required);
-        this.rules.name.push(v => {
-          return (v && v.length <= 120) || 'Should not exceed 120 characters';
-        });
         this.rules.name.push(v => {
           const index = data.findIndex(item => item.name === v);
           if (index > -1) {
             const {id} = data[index];
-            return id !== this.language.id ? 'Already Exists' : true;
+            return id !== this.language.id
+              ? this.$t('general.already_exists')
+              : true;
           } else {
             return true;
           }
