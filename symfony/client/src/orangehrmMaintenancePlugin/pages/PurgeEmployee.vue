@@ -27,7 +27,6 @@
     />
     <purge-employee-records
       v-if="verified"
-      ref="purgeRecords"
       include-employees-param="onlyPast"
       :title-label="title"
       autocomplete-label="Past Employee"
@@ -47,13 +46,14 @@
       title="Purge Employee"
       subtitle="You are about to purge the employee permanently. Are you sure you want to continue? This operation cannot be undone"
       cancel-label="No, Cancel"
-      delete-label="Yes, Purge"
+      confirmation-label="Yes, Purge"
       icon=""
     ></purge-confirmation>
   </div>
 </template>
 
 <script>
+import {navigate} from '@/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
 import SelectedEmployee from '@/orangehrmMaintenancePlugin/components/SelectedEmployee';
 import EmployeeRecords from '@/orangehrmMaintenancePlugin/components/EmployeeRecords';
@@ -133,8 +133,8 @@ export default {
         .then(() => {
           this.showPurgeableEmployee = false;
           this.selectedEmployee = {...selectedEmployeeModel};
-          this.$refs.purgeRecords.reset();
           this.isLoading = false;
+          navigate('/maintenance/purgeEmployee');
         });
     },
   },

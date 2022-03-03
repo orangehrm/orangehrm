@@ -55,16 +55,6 @@
 import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
 import RequiredText from '@/core/components/labels/RequiredText';
 
-const employeeValid = employee => {
-  if (typeof employee === 'string') {
-    this.employee = null;
-    return true;
-  }
-  if (typeof employee === 'object') {
-    return employee !== null || 'Invalid';
-  }
-};
-
 export default {
   name: 'EmployeeRecords',
 
@@ -94,7 +84,13 @@ export default {
     return {
       employee: null,
       rules: {
-        employee: [employeeValid],
+        employee: [
+          employee => {
+            if (typeof employee === 'object') {
+              return employee !== null || 'Invalid';
+            }
+          },
+        ],
       },
     };
   },
@@ -102,9 +98,6 @@ export default {
   methods: {
     emitEmployee() {
       this.$emit('search', this.employee?._employee);
-    },
-    reset() {
-      this.employee = null;
     },
   },
 };

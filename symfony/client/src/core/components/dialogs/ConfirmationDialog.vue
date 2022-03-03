@@ -22,7 +22,7 @@
   <teleport to="#app">
     <oxd-dialog
       v-if="show"
-      :style="{maxWidth: '450px'}"
+      class="orangehrm-confirmation-dialog"
       @update:show="onCancel"
     >
       <div class="orangehrm-modal-header">
@@ -41,7 +41,7 @@
           @click="onCancel"
         />
         <oxd-button
-          :label="deleteLabel"
+          :label="confirmationLabel"
           :icon-name="icon"
           display-type="label-danger"
           class="orangehrm-button-margin"
@@ -72,7 +72,7 @@ export default {
       type: String,
       required: true,
     },
-    deleteLabel: {
+    confirmationLabel: {
       type: String,
       required: true,
     },
@@ -108,7 +108,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 .orangehrm-modal-header {
   margin-bottom: 1.2rem;
   display: flex;
@@ -127,5 +127,10 @@ export default {
 
 .orangehrm-text-center-align {
   text-align: center;
+}
+
+.orangehrm-confirmation-dialog {
+  width: 90%;
+  max-width: 450px;
 }
 </style>
