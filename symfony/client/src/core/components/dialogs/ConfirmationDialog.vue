@@ -108,27 +108,9 @@ export default {
 };
 </script>
 
+<style src="./dialog.scss" lang="scss" scoped></style>
+
 <style>
-.orangehrm-modal-header {
-  margin-bottom: 1.2rem;
-  display: flex;
-  justify-content: center;
-}
-
-.orangehrm-modal-footer {
-  margin-top: 1.2rem;
-  display: flex;
-  justify-content: center;
-}
-
-.orangehrm-button-margin {
-  margin: 0.25rem;
-}
-
-.orangehrm-text-center-align {
-  text-align: center;
-}
-
 .orangehrm-confirmation-dialog {
   width: 90%;
   max-width: 450px;

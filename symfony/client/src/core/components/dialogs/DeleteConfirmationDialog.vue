@@ -87,21 +87,4 @@ export default {
 };
 </script>
 
-<style scoped>
-.orangehrm-modal-header {
-  margin-bottom: 1.2rem;
-  display: flex;
-  justify-content: center;
-}
-.orangehrm-modal-footer {
-  margin-top: 1.2rem;
-  display: flex;
-  justify-content: center;
-}
-.orangehrm-button-margin {
-  margin: 0.25rem;
-}
-.orangehrm-text-center-align {
-  text-align: center;
-}
-</style>
+<style src="./dialog.scss" lang="scss" scoped></style>
