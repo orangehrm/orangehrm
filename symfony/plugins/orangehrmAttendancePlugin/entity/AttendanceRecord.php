@@ -60,11 +60,11 @@ class AttendanceRecord
     private Employee $employee;
 
     /**
-     * @var DateTime|null
+     * @var DateTime
      *
-     * @ORM\Column(name="punch_in_utc_time", type="datetime", nullable=true)
+     * @ORM\Column(name="punch_in_utc_time", type="datetime")
      */
-    private ?DateTime $punchInUtcTime = null;
+    private DateTime $punchInUtcTime;
 
     /**
      * @var string|null
@@ -78,21 +78,21 @@ class AttendanceRecord
      *
      * @ORM\Column(name="punch_in_time_offset", type="string", length=255, nullable=true)
      */
-    private ?string $punchInTimeOffset = null;
+    private ?string $punchInTimeOffset;
 
     /**
      * @var string|null
      *
      * @ORM\Column(name="punch_in_timezone_name", type="string", length=100, nullable=true)
      */
-    private ?string $punchInTimezoneName = null;
+    private ?string $punchInTimezoneName;
 
     /**
-     * @var DateTime|null
+     * @var DateTime
      *
-     * @ORM\Column(name="punch_in_user_time", type="datetime", nullable=true)
+     * @ORM\Column(name="punch_in_user_time", type="datetime")
      */
-    private ?DateTime $punchInUserTime = null;
+    private DateTime $punchInUserTime;
 
     /**
      * @var DateTime|null
