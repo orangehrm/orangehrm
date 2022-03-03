@@ -38,19 +38,9 @@ class Version20220301
 
     public function up(): void
     {
-        //getting all attendance records from data source
-        $attendanceRecordList = $this->getAttendanceHelper()->getAttendanceRecords();
-        foreach ($attendanceRecordList as $attendanceRecords) {
-            $id = $attendanceRecords['id'];
-            $punchOutTimeZone = null;
-            $punchInTimeZone = array_search($attendanceRecords['punch_in_time_offset'], AttendanceHelper::TIMEZONE_MAP);
-            if (!is_null($attendanceRecords['punch_out_time_offset'])) {
-                $punchOutTimeZone = array_search(
-                    $attendanceRecords['punch_out_time_offset'],
-                    AttendanceHelper::TIMEZONE_MAP
-                );
-            }
-            $this->getAttendanceHelper()->updateAttendanceRecords($id, $punchInTimeZone, $punchOutTimeZone);
+        foreach (AttendanceHelper::TIMEZONE_MAP as $timezone => $offset) {
+            $this->getAttendanceHelper()->updatePunchInTimezoneOffset($offset, $timezone);
+            $this->getAttendanceHelper()->updatePunchOutTimezoneOffset($offset, $timezone);
         }
     }
 }

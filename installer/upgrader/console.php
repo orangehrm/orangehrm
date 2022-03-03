@@ -29,5 +29,6 @@ ServiceContainer::getContainer()->register(Services::DOCTRINE)
     ->setFactory([Doctrine::class, 'getEntityManager']);
 
 $migration = new Version20220125();
+$migration->up();
 $migration = new Version20220301();
 $migration->up();

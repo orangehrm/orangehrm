@@ -72,34 +72,34 @@ class AttendanceHelper
     }
 
     /**
-     * @return array[]
-     */
-    public function getAttendanceRecords(): array
-    {
-        $q = $this->createQueryBuilder();
-        $q->select('attendanceRecord.*')
-            ->from('ohrm_attendance_record', 'attendanceRecord')
-            ->where($q->expr()->isNull('attendanceRecord.punch_in_timezone'))
-            ->andWhere($q->expr()->isNull('attendanceRecord.punch_out_timezone'));
-        return $q->executeQuery()->fetchAllAssociative();
-    }
-
-    /**
-     * @param int $id
-     * @param string $punchTimezone
-     * @param string|null $punchOutTimezone
+     * @param string $offset
+     * @param string $timezone
      * @return void
      */
-    public function updateAttendanceRecords(int $id, string $punchTimezone, ?string $punchOutTimezone = null): void
+    public function updatePunchInTimezoneOffset(string $offset, string $timezone): void
     {
         $q = $this->createQueryBuilder();
         $q->update('ohrm_attendance_record')
             ->set('ohrm_attendance_record.punch_in_timezone', ':punchInTimezone')
+            ->where('ohrm_attendance_record.punch_in_time_offset = :offset')
+            ->setParameter('punchInTimezone', $timezone)
+            ->setParameter('offset', $offset)
+            ->executeQuery();
+    }
+
+    /**
+     * @param string $offset
+     * @param string $timezone
+     * @return void
+     */
+    public function updatePunchOutTimezoneOffset(string $offset, string $timezone): void
+    {
+        $q = $this->createQueryBuilder();
+        $q->update('ohrm_attendance_record')
             ->set('ohrm_attendance_record.punch_out_timezone', ':punchOutTimezone')
-            ->where('ohrm_attendance_record.id = :id')
-            ->setParameter('punchInTimezone', $punchTimezone)
-            ->setParameter('punchOutTimezone', $punchOutTimezone)
-            ->setParameter('id', $id)
+            ->where('ohrm_attendance_record.punch_out_time_offset = :offset')
+            ->setParameter('punchOutTimezone', $timezone)
+            ->setParameter('offset', $offset)
             ->executeQuery();
     }
 }
