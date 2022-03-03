@@ -282,9 +282,23 @@ export default {
       .then(response => {
         const {data} = response.data;
         this.attendance.employee = data.employee;
-        this.attendance.punchIn = data.punchIn;
+        this.attendance.punchIn = {
+          ...data.punchIn,
+          timezone: {
+            name: data.punchIn.timezone.name,
+            label: data.punchIn.timezone.label,
+            _offset: data.punchIn.timezoneOffset,
+          },
+        };
         this.attendance.punchOut = data.punchOut?.userDate
-          ? data.punchOut
+          ? {
+              ...data.punchOut,
+              timezone: {
+                name: data.punchOut.timezone.name,
+                label: data.punchOut.timezone.label,
+                _offset: data.punchOut.timezoneOffset,
+              },
+            }
           : null;
       })
       .finally(() => {

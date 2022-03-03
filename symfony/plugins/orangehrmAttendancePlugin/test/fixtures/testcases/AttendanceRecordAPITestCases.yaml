@@ -68,7 +68,6 @@ GetOne:
         timezone:
           name: 'Asia/Colombo'
           label: '(GMT+05:30) Asia/Colombo'
-          _offset: '5.5'
         note: 'Im punched In'
       punchOut:
         utcDate: null
@@ -79,7 +78,6 @@ GetOne:
         timezone:
           name: null
           label: null
-          _offset: null
         note: null
       state:
         id: 'PUNCHED IN'
@@ -116,7 +114,6 @@ GetOne:
         timezone:
           name: 'Asia/Colombo'
           label: '(GMT+05:30) Asia/Colombo'
-          _offset: '5.5'
         note: 'Im punched In'
       punchOut:
         utcDate: '2022-02-09'
@@ -127,7 +124,6 @@ GetOne:
         timezone:
           name: 'Asia/Colombo'
           label: '(GMT+05:30) Asia/Colombo'
-          _offset: '5.5'
         note: 'Punched Out'
       state:
         id: 'PUNCHED OUT'
@@ -162,7 +158,6 @@ GetOne:
         timezone:
           name: 'Asia/Colombo'
           label: '(GMT+05:30) Asia/Colombo'
-          _offset: '5.5'
         note: 'Im punched In'
       punchOut:
         utcDate: '2022-02-09'
@@ -173,7 +168,6 @@ GetOne:
         timezone:
           name: 'Asia/Colombo'
           label: '(GMT+05:30) Asia/Colombo'
-          _offset: '5.5'
         note: 'Punched Out'
       state:
         id: 'PUNCHED OUT'
@@ -210,7 +204,6 @@ GetOne:
         timezone:
           name: 'Asia/Colombo'
           label: '(GMT+05:30) Asia/Colombo'
-          _offset: '5.5'
         note: 'Im punched In'
       punchOut:
         utcDate: '2022-02-09'
@@ -221,7 +214,6 @@ GetOne:
         timezone:
           name: 'Asia/Colombo'
           label: '(GMT+05:30) Asia/Colombo'
-          _offset: '5.5'
         note: 'Punched Out'
       state:
         id: 'PUNCHED OUT'
