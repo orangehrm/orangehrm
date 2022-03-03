@@ -14,6 +14,7 @@ Create:
       date: '2021-12-27'
       time: '08:42'
       timezoneOffset: 5.5
+      timezoneName: 'Asia/Colombo'
       note: 'punch in'
     invalidOnly: [ 'empNumber' ]
 
@@ -32,6 +33,7 @@ Create:
       date: '2021-12-27'
       time: '08:42'
       timezoneOffset: 5.5
+      timezoneName: 'Asia/Colombo'
       note: 'punch in'
     data:
       id: 9
@@ -76,6 +78,7 @@ Create:
       date: '2021-12-27'
       time: '08:42'
       timezoneOffset: 5.5
+      timezoneName: 'Asia/Colombo'
       note: 'punch in'
     exception:
       class: '\OrangeHRM\Core\Api\V2\Exception\BadRequestException'
@@ -96,6 +99,7 @@ Create:
       date: '2022-01-27'
       time: '14:58'
       timezoneOffset: 5.5
+      timezoneName: 'Asia/Colombo'
       note: 'punch in'
     exception:
       class: '\OrangeHRM\Core\Api\V2\Exception\BadRequestException'
@@ -117,6 +121,7 @@ Create:
       date: '2021-12-27'
       time: '08:42'
       timezoneOffset: 5.5
+      timezoneName: 'Asia/Colombo'
       note: 'punch in'
     invalidOnly: [ 'empNumber' ]
 
@@ -135,6 +140,7 @@ Create:
       date: '2021-12-27'
       time: '08:42'
       timezoneOffset: 5.5
+      timezoneName: 'Asia/Colombo'
       note: 'punch in'
     exception:
       class: 'OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
@@ -155,6 +161,7 @@ Update:
       date: '2022-01-24'
       time: '17:29'
       timezoneOffset: 5.5
+      timezoneName: 'Asia/Colombo'
       note: 'Im punched out'
     data:
       id: 5
@@ -199,6 +206,7 @@ Update:
       date: '2022-01-25'
       time: '17:45'
       timezoneOffset: 6.5
+      timezoneName: 'Asia/Yangon'
       note: 'Im punched out'
     data:
       id: 5
@@ -243,6 +251,7 @@ Update:
       date: '2022-01-24'
       time: '19:28'
       timezoneOffset: 4.5
+      timezoneName: 'Asia/Kabul'
       note: 'Im punched out'
     data:
       id: 5
@@ -287,6 +296,7 @@ Update:
       date: '2022-01-24'
       time: '13:24'
       timezoneOffset: 4.5
+      timezoneName: 'Asia/Kabul'
       note: 'Im punched out'
     exception:
       class: '\OrangeHRM\Core\Api\V2\Exception\BadRequestException'
@@ -307,6 +317,7 @@ Update:
       date: '2012-01-24'
       time: '15:19'
       timezoneOffset: 5.5
+      timezoneName: 'Asia/Colombo'
       note: 'punch out'
     exception:
       class: '\OrangeHRM\Core\Api\V2\Exception\BadRequestException'
@@ -327,6 +338,7 @@ Update:
       date: '2022-01-24'
       time: '14:30'
       timezoneOffset: 5.5
+      timezoneName: 'Asia/Colombo'
       note: 'punch out'
     exception:
       class: '\OrangeHRM\Core\Api\V2\Exception\BadRequestException'
@@ -347,6 +359,7 @@ Update:
       date: '2011-04-27'
       time: '15:40'
       timezoneOffset: 5.5
+      timezoneName: 'Asia/Colombo'
       note: 'punch out'
     exception:
       class: '\OrangeHRM\Core\Api\V2\Exception\BadRequestException'
@@ -368,6 +381,7 @@ Update:
       date: '2022-01-24'
       time: '17:29'
       timezoneOffset: 5.5
+      timezoneName: 'Asia/Colombo'
       note: 'Im punched out'
     exception:
       class: 'OrangeHRM\Core\Api\V2\Exception\ForbiddenException'

@@ -304,6 +304,8 @@ const setClockInterval = (callback: (args: void) => void, interval = 1000) => {
  */
 const guessTimezone = () => {
   let timezoneName = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  // getTimezoneOffset return difference in minutes between UTC and client
+  // offset is positive if the local timezone is behind UTC and negative if it is ahead
   const timezoneOffset = (new Date().getTimezoneOffset() / 60) * -1;
   if (timezoneName === undefined) {
     // assign timezone manually

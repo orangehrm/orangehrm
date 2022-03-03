@@ -274,7 +274,7 @@ class TestCaseParams
         if (isset($now['datetime'])) {
             $timezone = null;
             if (isset($now['timezone'])) {
-                $timezone = new DateTimeZone(isset($now['timezone']));
+                $timezone = new DateTimeZone($now['timezone']);
             }
             $this->now = new DateTime($now['datetime'], $timezone);
         }

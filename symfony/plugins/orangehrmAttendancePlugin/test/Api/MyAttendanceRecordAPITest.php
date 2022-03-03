@@ -145,4 +145,26 @@ class MyAttendanceRecordAPITest extends EndpointIntegrationTestCase
 
         AccessFlowStateMachineService::resetWorkflowCache();
     }
+
+    public static function enableUserCanChangeCurrentTimePreHook()
+    {
+        $workflowStateMachine = new WorkflowStateMachine();
+        $workflowStateMachine->setWorkflow(WorkflowStateMachine::FLOW_ATTENDANCE);
+        $workflowStateMachine->setState(AttendanceRecord::STATE_INITIAL);
+        $workflowStateMachine->setRole(AttendanceService::ESS_USER);
+        $workflowStateMachine->setAction(WorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_TIME);
+        $workflowStateMachine->setResultingState(AttendanceRecord::STATE_INITIAL);
+        Doctrine::getEntityManager()->persist($workflowStateMachine);
+        Doctrine::getEntityManager()->flush($workflowStateMachine);
+        $workflowStateMachine = new WorkflowStateMachine();
+        $workflowStateMachine->setWorkflow(WorkflowStateMachine::FLOW_ATTENDANCE);
+        $workflowStateMachine->setState(AttendanceRecord::STATE_PUNCHED_IN);
+        $workflowStateMachine->setRole(AttendanceService::ESS_USER);
+        $workflowStateMachine->setAction(WorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_TIME);
+        $workflowStateMachine->setResultingState(AttendanceRecord::STATE_PUNCHED_IN);
+        Doctrine::getEntityManager()->persist($workflowStateMachine);
+        Doctrine::getEntityManager()->flush($workflowStateMachine);
+
+        AccessFlowStateMachineService::resetWorkflowCache();
+    }
 }

@@ -282,9 +282,23 @@ export default {
       .then(response => {
         const {data} = response.data;
         this.attendance.employee = data.employee;
-        this.attendance.punchIn = data.punchIn;
+        this.attendance.punchIn = {
+          ...data.punchIn,
+          timezone: {
+            name: data.punchIn.timezone.name,
+            label: data.punchIn.timezone.label,
+            _offset: data.punchIn.timezoneOffset,
+          },
+        };
         this.attendance.punchOut = data.punchOut?.userDate
-          ? data.punchOut
+          ? {
+              ...data.punchOut,
+              timezone: {
+                name: data.punchOut.timezone.name,
+                label: data.punchOut.timezone.label,
+                _offset: data.punchOut.timezoneOffset,
+              },
+            }
           : null;
       })
       .finally(() => {
@@ -313,6 +327,9 @@ export default {
         punchInOffset: this.attendance.punchIn.timezone
           ? this.attendance.punchIn.timezone._offset
           : this.attendance.punchIn.timezoneOffset,
+        punchInTimezoneName: this.attendance.punchIn.timezone
+          ? this.attendance.punchIn.timezone.id
+          : this.attendance.punchIn.timezone.name,
       };
       if (this.attendance.punchOut) {
         payload.punchOutDate = this.attendance.punchOut.userDate;
@@ -321,6 +338,9 @@ export default {
         payload.punchOutOffset = this.attendance.punchOut.timezone
           ? this.attendance.punchOut.timezone._offset
           : this.attendance.punchOut.timezoneOffset;
+        payload.punchOutTimezoneName = this.attendance.punchOut.timezone
+          ? this.attendance.punchOut.timezone.id
+          : this.attendance.punchOut.timezone.name;
       }
       this.http
         .update(this.attendanceId, payload)
