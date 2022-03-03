@@ -79,11 +79,27 @@ GetAll:
         "time": "9.00"
       },
       {
+        "employeeName": "Ashley Abel",
+        "time": "0.00"
+      },
+      {
+        "employeeName": "mahatma gandhi",
+        "time": "0.00"
+      },
+      {
+        "employeeName": "Adolf Hitler",
+        "time": "0.00"
+      },
+      {
         "employeeName": "Vladimir Lenin",
         "time": "0.00"
       },
       {
         "employeeName": "Benito Mussolini (Past employee)",
+        "time": "0.00"
+      },
+      {
+        "employeeName": "Renukshan Saputhanthri",
         "time": "0.00"
       },
       {
@@ -93,10 +109,14 @@ GetAll:
       {
         "employeeName": "Tony Stark",
         "time": "0.00"
+      },
+      {
+        "employeeName": "mother teresa",
+        "time": "0.00"
       }
     ]
     meta:
-      total: 5
+      total: 10
       sum:
         hours: 9.0
         minutes: 0
@@ -184,11 +204,27 @@ GetAll:
         "time": "9.00"
       },
       {
+        "employeeName": "Ashley Abel",
+        "time": "0.00"
+      },
+      {
+        "employeeName": "mahatma gandhi",
+        "time": "0.00"
+      },
+      {
+        "employeeName": "Adolf Hitler",
+        "time": "0.00"
+      },
+      {
         "employeeName": "Vladimir Lenin",
         "time": "0.00"
       },
       {
         "employeeName": "Benito Mussolini (Past employee)",
+        "time": "0.00"
+      },
+      {
+        "employeeName": "Renukshan Saputhanthri",
         "time": "0.00"
       },
       {
@@ -198,10 +234,14 @@ GetAll:
       {
         "employeeName": "Tony Stark",
         "time": "0.00"
+      },
+      {
+        "employeeName": "mother teresa",
+        "time": "0.00"
       }
     ]
     meta:
-      total: 5
+      total: 10
       sum:
         hours: 9.0
         minutes: 0
@@ -351,16 +391,20 @@ GetAll:
       {
         "employeeName": "Kayla Abbey",
         "time": "9.00"
+      },
+      {
+        "employeeName": "Adolf Hitler",
+        "time": "0.00"
       }
     ]
     meta:
-      total: 1
+      total: 2
       sum:
         hours: 9.0
         minutes: 0
         label: "9.00"
 
-  'Get all attendance record breakdownbreakdown for an employee without filter':
+  'Get all attendance record breakdown for an employee without filter':
     userId: 1
     services:
       core.config_service: \OrangeHRM\Core\Service\ConfigService
