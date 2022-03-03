@@ -190,7 +190,9 @@ export default {
     this.setCurrentDateTime()
       .then(() => {
         // then set record date/time every minute
-        !this.date && setClockInterval(this.setCurrentDateTime, 60000);
+        !this.date &&
+          !this.isEditable &&
+          setClockInterval(this.setCurrentDateTime, 60000);
         return this.attendanceRecordId
           ? this.http.request({
               method: 'GET',
