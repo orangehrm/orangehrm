@@ -86,4 +86,12 @@ class AttendanceServiceException extends Exception
     {
         return new self('No IDs Found');
     }
+
+    /**
+     * @return static
+     */
+    public static function invalidTimezoneDetails(): self
+    {
+        return new self('Valid Timezone Offset and Timezone Name Must Be Provided');
+    }
 }
