@@ -351,12 +351,12 @@ class AttendanceDao extends BaseDao
 
         $this->setSortingAndPaginationParams($q, $attendanceReportSearchFilterParams);
 
-        if (is_null($attendanceReportSearchFilterParams->getFromDate()) && is_null($attendanceReportSearchFilterParams->getToDate())){
+        if (is_null($attendanceReportSearchFilterParams->getFromDate()) && is_null($attendanceReportSearchFilterParams->getToDate())) {
             // both from date and to date is null
             $q->leftJoin('employee.attendanceRecords', 'attendanceRecord');
         }
 
-        if (!is_null($attendanceReportSearchFilterParams->getFromDate()) && is_null($attendanceReportSearchFilterParams->getToDate())){
+        if (!is_null($attendanceReportSearchFilterParams->getFromDate()) && is_null($attendanceReportSearchFilterParams->getToDate())) {
             // from date is not null and to date is null
             $q->leftJoin('employee.attendanceRecords', 'attendanceRecord', Expr\Join::WITH, $q->expr()->andX(
                 $q->expr()->gte('attendanceRecord.punchInUserTime', ':fromDate')
@@ -364,7 +364,7 @@ class AttendanceDao extends BaseDao
             $q->setParameter('fromDate', $attendanceReportSearchFilterParams->getFromDate());
         }
 
-        if (is_null($attendanceReportSearchFilterParams->getFromDate()) && !is_null($attendanceReportSearchFilterParams->getToDate())){
+        if (is_null($attendanceReportSearchFilterParams->getFromDate()) && !is_null($attendanceReportSearchFilterParams->getToDate())) {
             // from date is null and to date is not null
             $q->leftJoin('employee.attendanceRecords', 'attendanceRecord', Expr\Join::WITH, $q->expr()->andX(
                 $q->expr()->lte('attendanceRecord.punchOutUserTime', ':toDate')
@@ -372,7 +372,7 @@ class AttendanceDao extends BaseDao
             $q->setParameter('toDate', $attendanceReportSearchFilterParams->getToDate());
         }
 
-        if (!is_null($attendanceReportSearchFilterParams->getFromDate()) && !is_null($attendanceReportSearchFilterParams->getToDate())){
+        if (!is_null($attendanceReportSearchFilterParams->getFromDate()) && !is_null($attendanceReportSearchFilterParams->getToDate())) {
             // both from date and to date is not null
             $q->leftJoin('employee.attendanceRecords', 'attendanceRecord', Expr\Join::WITH, $q->expr()->andX(
                 $q->expr()->gte('attendanceRecord.punchInUserTime', ':fromDate'),
