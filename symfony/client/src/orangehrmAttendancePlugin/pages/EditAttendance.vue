@@ -69,9 +69,7 @@
                 </oxd-grid-item>
 
                 <oxd-grid-item v-if="isTimezoneEditable" class="--offset-row-3">
-                  <timezone-autocomplete
-                    v-model="attendance.punchIn.timezone"
-                  />
+                  <timezone-dropdown v-model="attendance.punchIn.timezone" />
                 </oxd-grid-item>
 
                 <oxd-grid-item class="--span-column-2">
@@ -117,9 +115,7 @@
                 </oxd-grid-item>
 
                 <oxd-grid-item v-if="isTimezoneEditable" class="--offset-row-3">
-                  <timezone-autocomplete
-                    v-model="attendance.punchOut.timezone"
-                  />
+                  <timezone-dropdown v-model="attendance.punchOut.timezone" />
                 </oxd-grid-item>
 
                 <oxd-grid-item class="--span-column-2">
@@ -160,7 +156,7 @@ import {diffInTime, secondsTohhmm} from '@/core/util/helper/datefns';
 import {navigate} from '@/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
 import promiseDebounce from '@ohrm/oxd/utils/promiseDebounce';
-import TimezoneAutocomplete from '@/orangehrmAttendancePlugin/components/TimezoneAutocomplete.vue';
+import TimezoneDropdown from '@/orangehrmAttendancePlugin/components/TimezoneDropdown.vue';
 
 const attendanceRecordModal = {
   userDate: null,
@@ -174,7 +170,7 @@ const attendanceRecordModal = {
 
 export default {
   components: {
-    'timezone-autocomplete': TimezoneAutocomplete,
+    'timezone-dropdown': TimezoneDropdown,
   },
   props: {
     attendanceId: {
@@ -285,7 +281,7 @@ export default {
         this.attendance.punchIn = {
           ...data.punchIn,
           timezone: {
-            name: data.punchIn.timezone.name,
+            id: data.punchIn.timezone.name,
             label: data.punchIn.timezone.label,
             _offset: data.punchIn.timezoneOffset,
           },
@@ -294,7 +290,7 @@ export default {
           ? {
               ...data.punchOut,
               timezone: {
-                name: data.punchOut.timezone.name,
+                id: data.punchOut.timezone.name,
                 label: data.punchOut.timezone.label,
                 _offset: data.punchOut.timezoneOffset,
               },
