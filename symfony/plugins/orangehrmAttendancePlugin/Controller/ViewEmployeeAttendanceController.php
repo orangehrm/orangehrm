@@ -59,7 +59,7 @@ class ViewEmployeeAttendanceController extends AbstractVueController
 
             if (
                 $this->getAttendanceService()->canSupervisorModifyAttendanceConfiguration()
-                && $this->getAuthUser()->getEmpNumber() !== $empNumber
+                && $this->getAuthUser()->getUserRoleName() === 'Admin'
             ) {
                 $component->addProp(new Prop('is-editable', Prop::TYPE_BOOLEAN, true));
             }

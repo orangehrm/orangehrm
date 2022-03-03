@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Time\Report;
 
+use DateTime;
 use OrangeHRM\Core\Api\V2\Exception\ForbiddenException;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
@@ -99,18 +100,26 @@ class AttendanceReport implements EndpointAwareReport
                 self::FILTER_EMPLOYMENT_STATUS_ID
             )
         );
-        $filterParams->setFromDate(
-            $endpoint->getRequestParams()->getDateTimeOrNull(
+
+        $filterParams->setEmploymentStatusId(
+            $endpoint->getRequestParams()->getIntOrNull(
                 RequestParams::PARAM_TYPE_QUERY,
-                self::FILTER_PARAMETER_DATE_FROM
+                self::FILTER_EMPLOYMENT_STATUS_ID
             )
         );
-        $filterParams->setToDate(
-            $endpoint->getRequestParams()->getDateTimeOrNull(
-                RequestParams::PARAM_TYPE_QUERY,
-                self::FILTER_PARAMETER_DATE_TO
-            )
+
+        $fromDate = $endpoint->getRequestParams()->getStringOrNull(
+            RequestParams::PARAM_TYPE_QUERY,
+            self::FILTER_PARAMETER_DATE_FROM
         );
+
+        $toDate = $endpoint->getRequestParams()->getStringOrNull(
+            RequestParams::PARAM_TYPE_QUERY,
+            self::FILTER_PARAMETER_DATE_TO
+        );
+
+        $filterParams->setFromDate($fromDate ? new DateTime($fromDate . ' ' . '00:00:00') : null);
+        $filterParams->setToDate($toDate ? new DateTime($toDate . ' ' . '23:59:59') : null);
 
         return $filterParams;
     }
@@ -178,8 +187,8 @@ class AttendanceReport implements EndpointAwareReport
                 )
             ),
             ...$endpoint->getSortingAndPaginationParamsRules(
-                AttendanceReportSearchFilterParams::ALLOWED_SORT_FIELDS
-            )
+            AttendanceReportSearchFilterParams::ALLOWED_SORT_FIELDS
+        )
         );
     }
 
