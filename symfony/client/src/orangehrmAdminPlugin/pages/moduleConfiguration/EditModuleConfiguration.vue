@@ -22,7 +22,7 @@
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
       <oxd-text tag="h6" class="orangehrm-main-title">
-        Module Configuration
+        {{ $t('admin.module_configuration') }}
       </oxd-text>
 
       <oxd-divider />
@@ -32,49 +32,49 @@
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <div class="orangehrm-module-field-row">
               <oxd-text tag="p" class="orangehrm-module-field-label">
-                Admin Module
+                {{ $t('admin.admin_module') }}
               </oxd-text>
               <oxd-switch-input v-model="modules.admin" :disabled="true" />
             </div>
             <div class="orangehrm-module-field-row">
               <oxd-text tag="p" class="orangehrm-module-field-label">
-                Pim Module
+                {{ $t('admin.pim_module') }}
               </oxd-text>
               <oxd-switch-input v-model="modules.pim" :disabled="true" />
             </div>
             <div class="orangehrm-module-field-row">
               <oxd-text tag="p" class="orangehrm-module-field-label">
-                Leave Module
+                {{ $t('admin.leave_module') }}
               </oxd-text>
               <oxd-switch-input v-model="modules.leave" />
             </div>
             <div class="orangehrm-module-field-row">
               <oxd-text tag="p" class="orangehrm-module-field-label">
-                Time Module
+                {{ $t('admin.time_module') }}
               </oxd-text>
               <oxd-switch-input v-model="modules.time" />
             </div>
             <div class="orangehrm-module-field-row">
               <oxd-text tag="p" class="orangehrm-module-field-label">
-                Recruitment Module
+                {{ $t('admin.recruitment_module') }}
               </oxd-text>
               <oxd-switch-input v-model="modules.recruitment" />
             </div>
             <div class="orangehrm-module-field-row">
               <oxd-text tag="p" class="orangehrm-module-field-label">
-                Performance Module
+                {{ $t('admin.performance_module') }}
               </oxd-text>
               <oxd-switch-input v-model="modules.performance" />
             </div>
             <div class="orangehrm-module-field-row">
               <oxd-text tag="p" class="orangehrm-module-field-label">
-                Maintenance Module
+                {{ $t('admin.maintenance_module') }}
               </oxd-text>
               <oxd-switch-input v-model="modules.maintenance" />
             </div>
             <div class="orangehrm-module-field-row">
               <oxd-text tag="p" class="orangehrm-module-field-label">
-                Mobile
+                {{ $t('pim.mobile') }}
               </oxd-text>
               <oxd-switch-input disabled />
             </div>

@@ -21,7 +21,9 @@
 <template>
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
-      <oxd-text tag="h6" class="orangehrm-main-title">Edit User</oxd-text>
+      <oxd-text tag="h6" class="orangehrm-main-title">{{
+        $t('admin.edit_user')
+      }}</oxd-text>
       <oxd-divider />
 
       <oxd-form :loading="isLoading" @submitValid="onSave">
@@ -31,7 +33,7 @@
               <oxd-input-field
                 v-model="user.role"
                 type="select"
-                label="User Role"
+                :label="$t('general.user_role')"
                 :rules="rules.role"
                 :options="userRoles"
                 required
@@ -49,7 +51,7 @@
               <oxd-input-field
                 v-model="user.status"
                 type="select"
-                label="Status"
+                :label="$t('general.status')"
                 :rules="rules.status"
                 :options="userStatuses"
                 required
@@ -59,7 +61,7 @@
             <oxd-grid-item>
               <oxd-input-field
                 v-model="user.username"
-                label="Username"
+                :label="$t('general.username')"
                 :rules="rules.username"
                 required
                 autocomplete="off"
@@ -92,7 +94,7 @@
           <oxd-button
             type="button"
             display-type="ghost"
-            label="Cancel"
+            :label="$t('general.cancel')"
             @click="onCancel"
           />
           <submit-button />
@@ -155,17 +157,17 @@ export default {
           shouldNotExceedCharLength(40),
           promiseDebounce(this.validateUserName, 500),
         ],
-        role: [v => (!!v && v.length != 0) || 'Required'],
+        role: [required],
         employee: [required],
-        status: [v => (!!v && v.length != 0) || 'Required'],
+        status: [required],
       },
       userRoles: [
-        {id: 1, label: 'Admin'},
-        {id: 2, label: 'ESS'},
+        {id: 1, label: this.$t('general.admin')},
+        {id: 2, label: this.$t('general.ess')},
       ],
       userStatuses: [
-        {id: 1, label: 'Enabled'},
-        {id: 2, label: 'Disabled'},
+        {id: 1, label: this.$t('general.enabled')},
+        {id: 2, label: this.$t('general.disabled')},
       ],
     };
   },
@@ -186,9 +188,9 @@ export default {
           isPastEmployee: data.employee.terminationId,
         };
         if (data.status) {
-          this.user.status = {id: 1, label: 'Enabled'};
+          this.user.status = {id: 1, label: this.$t('general.enabled')};
         } else {
-          this.user.status = {id: 2, label: 'Disabled'};
+          this.user.status = {id: 2, label: this.$t('general.disabled')};
         }
       })
       .finally(() => {
@@ -234,7 +236,7 @@ export default {
               const {data} = response.data;
               return data.valid === true
                 ? resolve(true)
-                : resolve('Already exist');
+                : resolve(this.$t('general.already_exists'));
             });
         } else {
           resolve(true);
