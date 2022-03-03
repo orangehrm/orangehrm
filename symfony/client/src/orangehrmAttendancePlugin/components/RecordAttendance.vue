@@ -257,6 +257,9 @@ export default {
       });
     },
     validateDate() {
+      if (!this.attendanceRecord.date || !this.attendanceRecord.time) {
+        return true;
+      }
       const tzOffset = (new Date().getTimezoneOffset() / 60) * -1;
       return new Promise(resolve => {
         this.http
