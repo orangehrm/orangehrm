@@ -343,10 +343,10 @@ class AttendanceRecordAPI extends Endpoint implements ResourceEndpoint
         int $attendanceRecordOwnedEmpNumber
     ): bool {
         //user not allowed to update self timezone
-        if ((!is_null($timezoneOffset) || !is_null($timezoneName)) &&
+        if ((!is_null($timezoneOffset) && !is_null($timezoneName)) &&
             $attendanceRecordOwnedEmpNumber === $this->getAuthUser()->getEmpNumber()) {
             throw $this->getForbiddenException();
-        } elseif ((!is_null($timezoneOffset) || !is_null($timezoneName)) &&
+        } elseif ((!is_null($timezoneOffset) && !is_null($timezoneName)) &&
             $attendanceRecordOwnedEmpNumber !== $this->getAuthUser()->getEmpNumber()) {
             return true;
         } else {
