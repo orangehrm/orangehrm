@@ -45,7 +45,7 @@
           :icon-name="icon"
           display-type="label-danger"
           class="orangehrm-button-margin"
-          @click="onDelete"
+          @click="onConfirm"
         />
       </div>
     </oxd-dialog>
@@ -96,7 +96,7 @@ export default {
         this.show = true;
       });
     },
-    onDelete() {
+    onConfirm() {
       this.show = false;
       this.resolve && this.resolve('ok');
     },

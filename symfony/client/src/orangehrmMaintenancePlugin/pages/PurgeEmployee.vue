@@ -91,7 +91,8 @@ export default {
   data() {
     return {
       title: 'Purge Employee Records',
-      verified: false,
+      //TODO change after implementing password verification
+      verified: true,
       isLoading: false,
       showPurgeableEmployee: false,
       selectedEmployee: {...selectedEmployeeModel},
