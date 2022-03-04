@@ -57,7 +57,7 @@
                 v-model="location.province"
                 :disabled="!hasUpdatePermissions"
                 :rules="rules.province"
-                :label="$t('general.state/province')"
+                :label="$t('general.state_province')"
               />
             </oxd-grid-item>
             <oxd-grid-item>
@@ -65,7 +65,7 @@
                 v-model="location.zipCode"
                 :disabled="!hasUpdatePermissions"
                 :rules="rules.zipCode"
-                :label="$t('general.zip/postal_code')"
+                :label="$t('general.zip_postal_code')"
               />
             </oxd-grid-item>
             <oxd-grid-item>

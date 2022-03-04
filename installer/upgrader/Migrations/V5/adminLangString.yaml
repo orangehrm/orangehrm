@@ -3,8 +3,8 @@ langStrings:
     value: Add Job Title
     unitId: add_job_title
   -
-    value: Edit Job Titles
-    unitId: edit_job_titles
+    value: Edit Job Title
+    unitId: edit_job_title
   -
     value: Job Titles
     unitId: job_titles

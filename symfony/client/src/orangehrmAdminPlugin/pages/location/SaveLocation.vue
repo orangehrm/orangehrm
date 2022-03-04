@@ -57,7 +57,7 @@
             <oxd-grid-item>
               <oxd-input-field
                 v-model="location.province"
-                :label="$t('general.state/province')"
+                :label="$t('general.state_province')"
                 :rules="rules.province"
                 :disabled="!hasCreatePermissions"
                 placeholder="Type here ..."
@@ -66,7 +66,7 @@
             <oxd-grid-item>
               <oxd-input-field
                 v-model="location.zipCode"
-                :label="$t('general.zip/postal_code')"
+                :label="$t('general.zip_postal_code')"
                 :rules="rules.zipCode"
                 :disabled="!hasCreatePermissions"
                 placeholder="Type here ..."

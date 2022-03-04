@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Core\Api\V2\Model;
+namespace OrangeHRM\Core\Api\Rest\Model;
 
 use OrangeHRM\Admin\Dto\AboutOrganization;
 use OrangeHRM\Config\Config;

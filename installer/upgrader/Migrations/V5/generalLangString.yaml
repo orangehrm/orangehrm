@@ -181,7 +181,7 @@ langStrings:
     unitId: file_type_not_allowed
   -
     value: 'Expected format: admin@example.com'
-    unitId: expected_format_not_matched
+    unitId: expected_email_address_format_not_matched
   -
     value: 'Employment Status'
     unitId: employment_status
@@ -209,6 +209,7 @@ langStrings:
   -
     value: 'Disabled'
     unitId: disabled
+<<<<<<< HEAD
   -
     value: 'Edit Attachment'
     unitId: edit_attachment
