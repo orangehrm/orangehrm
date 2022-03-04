@@ -168,7 +168,7 @@ class AttendanceRecordAPI extends Endpoint implements ResourceEndpoint
 
             $recordId = $attendanceRecord->getId();
             $attendanceRecordOwnedEmpNumber = $attendanceRecord->getEmployee()->getEmpNumber();
-            if ($this->isTimezoneEditable($punchInOffset, $punchInTimezoneName, $attendanceRecordOwnedEmpNumber)) {
+            if ($this->isAllowedToEditTimezone($punchInOffset, $punchInTimezoneName, $attendanceRecordOwnedEmpNumber)) {
                 $punchInTimezoneOffset = $punchInOffset;
             } else {
                 $punchInTimezoneOffset = $attendanceRecord->getPunchInTimeOffset();
@@ -193,7 +193,7 @@ class AttendanceRecordAPI extends Endpoint implements ResourceEndpoint
                 $attendanceRecord->setPunchInUserTime($punchInDateTime);
                 $attendanceRecord->setPunchInUtcTime($punchInUTCDateTime);
                 $attendanceRecord->setPunchInNote($punchInNote);
-                if ($this->isTimezoneEditable($punchInOffset, $punchInTimezoneName, $attendanceRecordOwnedEmpNumber)) {
+                if ($this->isAllowedToEditTimezone($punchInOffset, $punchInTimezoneName, $attendanceRecordOwnedEmpNumber)) {
                     $attendanceRecord->setPunchInTimeOffset($punchInOffset);
                     $attendanceRecord->setPunchInTimezoneName($punchInTimezoneName);
                 }
@@ -203,7 +203,7 @@ class AttendanceRecordAPI extends Endpoint implements ResourceEndpoint
                     throw AttendanceServiceException::punchOutDateTimeNull();
                 }
 
-                if ($this->isTimezoneEditable(
+                if ($this->isAllowedToEditTimezone(
                     $punchOutOffset,
                     $punchOutTimezoneName,
                     $attendanceRecordOwnedEmpNumber
@@ -246,14 +246,14 @@ class AttendanceRecordAPI extends Endpoint implements ResourceEndpoint
                 $attendanceRecord->setPunchInUserTime($punchInDateTime);
                 $attendanceRecord->setPunchInUtcTime($punchInUTCDateTime);
                 $attendanceRecord->setPunchInNote($punchInNote);
-                if ($this->isTimezoneEditable($punchInOffset, $punchInTimezoneName, $attendanceRecordOwnedEmpNumber)) {
+                if ($this->isAllowedToEditTimezone($punchInOffset, $punchInTimezoneName, $attendanceRecordOwnedEmpNumber)) {
                     $attendanceRecord->setPunchInTimeOffset($punchInOffset);
                     $attendanceRecord->setPunchInTimezoneName($punchInTimezoneName);
                 }
                 $attendanceRecord->setPunchOutUserTime($punchOutDateTime);
                 $attendanceRecord->setPunchOutUtcTime($punchOutUTCDateTime);
                 $attendanceRecord->setPunchOutNote($punchOutNote);
-                if ($this->isTimezoneEditable(
+                if ($this->isAllowedToEditTimezone(
                     $punchOutOffset,
                     $punchOutTimezoneName,
                     $attendanceRecordOwnedEmpNumber
@@ -336,17 +336,26 @@ class AttendanceRecordAPI extends Endpoint implements ResourceEndpoint
      * @param int $attendanceRecordOwnedEmpNumber
      * @return bool
      * @throws ForbiddenException
+     * @throws AttendanceServiceException
      */
-    protected function isTimezoneEditable(
+    protected function isAllowedToEditTimezone(
         ?float $timezoneOffset,
         ?string $timezoneName,
         int $attendanceRecordOwnedEmpNumber
     ): bool {
-        //user not allowed to update self timezone
-        if ((!is_null($timezoneOffset) || !is_null($timezoneName)) &&
+        //auth user trying to update own timezone
+        if ((!is_null($timezoneOffset) && !is_null($timezoneName)) &&
             $attendanceRecordOwnedEmpNumber === $this->getAuthUser()->getEmpNumber()) {
             throw $this->getForbiddenException();
-        } elseif ((!is_null($timezoneOffset) || !is_null($timezoneName)) &&
+        }
+        //auth user trying to update employee timezone, but either timezoneOffset or timezoneName
+        //or both of them are missing
+        elseif ($attendanceRecordOwnedEmpNumber !== $this->getAuthUser()->getEmpNumber() &&
+            (is_null($timezoneOffset) || is_null($timezoneName))) {
+            throw AttendanceServiceException::invalidTimezoneDetails();
+        }
+        //auth user tyring to update employee timezone with valid timezoneOffset and timezoneName
+        elseif ((!is_null($timezoneOffset) && !is_null($timezoneName)) &&
             $attendanceRecordOwnedEmpNumber !== $this->getAuthUser()->getEmpNumber()) {
             return true;
         } else {
