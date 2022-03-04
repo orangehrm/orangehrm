@@ -37,6 +37,8 @@ class ViewEmployeeAttendanceController extends AbstractVueController
     use EmployeeServiceTrait;
     use AttendanceServiceTrait;
 
+    public const USER_ROLE_ADMIN = 'Admin';
+
     /**
      * @inheritDoc
      */
@@ -47,7 +49,6 @@ class ViewEmployeeAttendanceController extends AbstractVueController
             if (!$this->getUserRoleManagerHelper()->isEmployeeAccessible($empNumber)) {
                 throw new RequestForwardableException(NoRecordsFoundController::class . '::handle');
             }
-
             $component = new Component('view-employee-attendance-detailed');
             $component->addProp(
                 new Prop(
@@ -56,10 +57,12 @@ class ViewEmployeeAttendanceController extends AbstractVueController
                     $this->getEmployeeService()->getEmployeeAsArray($empNumber)
                 )
             );
-
+            //If the logged-in user is an Admin, regardless of the configuration,
+            // he is able to add/edit/delete employee attendance records
             if (
-                $this->getAttendanceService()->canSupervisorModifyAttendanceConfiguration()
-                && $this->getAuthUser()->getUserRoleName() === 'Admin'
+                ($this->getAuthUser()->getUserRoleName() === self::USER_ROLE_ADMIN ||
+                    $this->getAttendanceService()->canSupervisorModifyAttendanceConfiguration()) &&
+                $this->getAuthUser()->getEmpNumber() !== $empNumber
             ) {
                 $component->addProp(new Prop('is-editable', Prop::TYPE_BOOLEAN, true));
             }

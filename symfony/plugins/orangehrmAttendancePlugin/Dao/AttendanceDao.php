@@ -348,9 +348,33 @@ class AttendanceDao extends BaseDao
         $q->leftJoin('employee.jobTitle', 'jobTitle');
         $q->leftJoin('employee.subDivision', 'subunit');
         $q->leftJoin('employee.empStatus', 'empStatus');
-        $q->leftJoin('employee.attendanceRecords', 'attendanceRecord');
 
         $this->setSortingAndPaginationParams($q, $attendanceReportSearchFilterParams);
+
+        if (is_null($attendanceReportSearchFilterParams->getFromDate()) && is_null($attendanceReportSearchFilterParams->getToDate())) {
+            // both from date and to date is null
+            $q->leftJoin('employee.attendanceRecords', 'attendanceRecord');
+        } elseif (!is_null($attendanceReportSearchFilterParams->getFromDate()) && is_null($attendanceReportSearchFilterParams->getToDate())) {
+            // from date is not null and to date is null
+            $q->leftJoin('employee.attendanceRecords', 'attendanceRecord', Expr\Join::WITH, $q->expr()->andX(
+                $q->expr()->gte('attendanceRecord.punchInUserTime', ':fromDate')
+            ));
+            $q->setParameter('fromDate', $attendanceReportSearchFilterParams->getFromDate());
+        } elseif (is_null($attendanceReportSearchFilterParams->getFromDate()) && !is_null($attendanceReportSearchFilterParams->getToDate())) {
+            // from date is null and to date is not null
+            $q->leftJoin('employee.attendanceRecords', 'attendanceRecord', Expr\Join::WITH, $q->expr()->andX(
+                $q->expr()->lte('attendanceRecord.punchOutUserTime', ':toDate')
+            ));
+            $q->setParameter('toDate', $attendanceReportSearchFilterParams->getToDate());
+        } elseif (!is_null($attendanceReportSearchFilterParams->getFromDate()) && !is_null($attendanceReportSearchFilterParams->getToDate())) {
+            // both from date and to date is not null
+            $q->leftJoin('employee.attendanceRecords', 'attendanceRecord', Expr\Join::WITH, $q->expr()->andX(
+                $q->expr()->gte('attendanceRecord.punchInUserTime', ':fromDate'),
+                $q->expr()->lte('attendanceRecord.punchOutUserTime', ':toDate')
+            ));
+            $q->setParameter('fromDate', $attendanceReportSearchFilterParams->getFromDate());
+            $q->setParameter('toDate', $attendanceReportSearchFilterParams->getToDate());
+        }
 
         if (!is_null($attendanceReportSearchFilterParams->getEmployeeNumbers())) {
             $q->andWhere($q->expr()->in('employee.empNumber', ':empNumbers'))
@@ -370,23 +394,6 @@ class AttendanceDao extends BaseDao
         if (!is_null($attendanceReportSearchFilterParams->getEmploymentStatusId())) {
             $q->andWhere('empStatus.id = :empStatusId')
                 ->setParameter('empStatusId', $attendanceReportSearchFilterParams->getEmploymentStatusId());
-        }
-
-        if (!is_null($attendanceReportSearchFilterParams->getFromDate())) {
-            $q->andWhere($q->expr()->orX(
-                $q->expr()->isNull('attendanceRecord.id'),
-                $q->expr()->gte('attendanceRecord.punchInUserTime', ':fromDate')
-            ))
-                ->setParameter('fromDate', $attendanceReportSearchFilterParams->getFromDate());
-        }
-
-        if (!is_null($attendanceReportSearchFilterParams->getToDate())) {
-            $q->andWhere($q->expr()->orX(
-                $q->expr()->isNull('attendanceRecord.id'),
-                $q->expr()->isNull('attendanceRecord.punchOutUserTime'),
-                $q->expr()->lte('attendanceRecord.punchOutUserTime', ':toDate')
-            ))
-                ->setParameter('toDate', $attendanceReportSearchFilterParams->getToDate());
         }
 
         return $this->getQueryBuilderWrapper($q);

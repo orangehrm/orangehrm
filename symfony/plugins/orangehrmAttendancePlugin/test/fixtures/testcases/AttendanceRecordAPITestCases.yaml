@@ -308,9 +308,13 @@ Update:
     body:
       punchInDate: '2022-02-09'
       punchInTime: '15:30'
+      punchInOffset: '5.5'
+      punchInTimezoneName: 'Asia/Colombo'
       punchInNote: 'Punched In'
       punchOutDate: '2022-02-09'
       punchOutTime: '18:30'
+      punchOutOffset: '5.5'
+      punchOutTimezoneName: 'Asia/Colombo'
       punchOutNote: 'Punched Out'
     data:
       id: 2
@@ -339,7 +343,82 @@ Update:
         employeeId: 'E002'
         terminationId: null
 
-  'Attendance Record Update - Admin to Employee - change timezone as well':
+  'Attendance Record Update - Admin to Employee - punchInTimeOffset missing':
+    userId: 1
+    services:
+      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      id: 2
+    body:
+      punchInDate: '2022-02-09'
+      punchInTime: '15:30'
+      punchInTimezoneName: 'Asia/Yangon'
+      punchInNote: 'Punched In'
+      punchOutDate: '2022-02-09'
+      punchOutTime: '18:30'
+      punchOutOffset: 6.5
+      punchOutTimezoneName: 'Asia/Yangon'
+      punchOutNote: 'Punched Out'
+    exception:
+      class: 'OrangeHRM\Core\Api\V2\Exception\BadRequestException'
+      message: 'Valid Timezone Offset and Timezone Name Must Be Provided'
+
+  'Attendance Record Update - Admin to Employee - punchInTimezoneName missing':
+    userId: 1
+    services:
+      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      id: 2
+    body:
+      punchInDate: '2022-02-09'
+      punchInTime: '15:30'
+      punchInOffset: 6.5
+      punchInNote: 'Punched In'
+      punchOutDate: '2022-02-09'
+      punchOutTime: '18:30'
+      punchOutOffset: 6.5
+      punchOutTimezoneName: 'Asia/Yangon'
+      punchOutNote: 'Punched Out'
+    exception:
+      class: 'OrangeHRM\Core\Api\V2\Exception\BadRequestException'
+      message: 'Valid Timezone Offset and Timezone Name Must Be Provided'
+
+  'Attendance Record Update - Admin to Employee - punchOutTimeOffset missing':
+    userId: 1
+    services:
+      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      id: 2
+    body:
+      punchInDate: '2022-02-09'
+      punchInTime: '15:30'
+      punchInOffset: 6.5
+      punchInTimezoneName: 'Asia/Yangon'
+      punchInNote: 'Punched In'
+      punchOutDate: '2022-02-09'
+      punchOutTime: '18:30'
+      punchOutTimezoneName: 'Asia/Yangon'
+      punchOutNote: 'Punched Out'
+    exception:
+      class: 'OrangeHRM\Core\Api\V2\Exception\BadRequestException'
+      message: 'Valid Timezone Offset and Timezone Name Must Be Provided'
+
+  'Attendance Record Update - Admin to Employee - punchOutTimezoneName missing':
     userId: 1
     services:
       attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
@@ -359,34 +438,11 @@ Update:
       punchOutDate: '2022-02-09'
       punchOutTime: '18:30'
       punchOutOffset: 6.5
-      punchOutTimezoneName: 'Asia/Yangon'
       punchOutNote: 'Punched Out'
-    data:
-      id: 2
-      punchIn:
-        utcDate: '2022-02-09'
-        utcTime: '09:00'
-        userDate: '2022-02-09'
-        userTime: '15:30'
-        timezoneOffset: '6.5'
-        note: 'Punched In'
-      punchOut:
-        utcDate: '2022-02-09'
-        utcTime: '12:00'
-        userDate: '2022-02-09'
-        userTime: '18:30'
-        timezoneOffset: '6.5'
-        note: 'Punched Out'
-      state:
-        id: 'PUNCHED OUT'
-        name: 'Punched Out'
-      employee:
-        empNumber: 2
-        lastName: 'Abel'
-        firstName: 'Ashley'
-        middleName: 'ST'
-        employeeId: 'E002'
-        terminationId: null
+    exception:
+      class: 'OrangeHRM\Core\Api\V2\Exception\BadRequestException'
+      message: 'Valid Timezone Offset and Timezone Name Must Be Provided'
+
 
   'Attendance Record Update - self (ESS) - Config Disabled':
     userId: 4
@@ -841,53 +897,6 @@ Update:
       class: 'OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
       message: 'Unauthorized'
 
-  'Attendance Record Update - supervisor to subordinate - Config Enabled':
-    userId: 3
-    services:
-      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
-      core.config_service: \OrangeHRM\Core\Service\ConfigService
-      admin.user_service: \OrangeHRM\Admin\Service\UserService
-      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
-    factories:
-      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
-    hooks:
-      preAssertValidTestCase: [ '\OrangeHRM\Tests\Attendance\Api\AttendanceRecordAPITest', 'enableSupervisorCanModifyAttendancePreHook' ]
-    attributes:
-      id: 2
-    body:
-      punchInDate: '2022-02-09'
-      punchInTime: '15:30'
-      punchInNote: 'Punched In'
-      punchOutDate: '2022-02-09'
-      punchOutTime: '18:30'
-      punchOutNote: 'Punched Out'
-    data:
-      id: 2
-      punchIn:
-        utcDate: '2022-02-09'
-        utcTime: '10:00'
-        userDate: '2022-02-09'
-        userTime: '15:30'
-        timezoneOffset: '5.5'
-        note: 'Punched In'
-      punchOut:
-        utcDate: '2022-02-09'
-        utcTime: '13:00'
-        userDate: '2022-02-09'
-        userTime: '18:30'
-        timezoneOffset: '5.5'
-        note: 'Punched Out'
-      state:
-        id: 'PUNCHED OUT'
-        name: 'Punched Out'
-      employee:
-        empNumber: 2
-        lastName: 'Abel'
-        firstName: 'Ashley'
-        middleName: 'ST'
-        employeeId: 'E002'
-        terminationId: null
-
   'Attendance Record Update - admin to employee - Config Enabled - punch in overlap for closed record':
     userId: 1
     services:
@@ -962,103 +971,7 @@ Update:
         employeeId: 'E002'
         terminationId: null
 
-  'Attendance Record Update - supervisor to subordinate - Config Enabled - with punchInOffset':
-    userId: 3
-    services:
-      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
-      core.config_service: \OrangeHRM\Core\Service\ConfigService
-      admin.user_service: \OrangeHRM\Admin\Service\UserService
-      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
-    factories:
-      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
-    hooks:
-      preAssertValidTestCase: [ '\OrangeHRM\Tests\Attendance\Api\AttendanceRecordAPITest', 'enableSupervisorCanModifyAttendancePreHook' ]
-    attributes:
-      id: 2
-    body:
-      punchInDate: '2022-02-09'
-      punchInTime: '15:30'
-      punchInOffset: '6.5'
-      punchInNote: 'Punched In'
-      punchOutDate: '2022-02-09'
-      punchOutTime: '18:30'
-      punchOutNote: 'Punched Out'
-    data:
-      id: 2
-      punchIn:
-        utcDate: '2022-02-09'
-        utcTime: '09:00'
-        userDate: '2022-02-09'
-        userTime: '15:30'
-        timezoneOffset: '6.5'
-        note: 'Punched In'
-      punchOut:
-        utcDate: '2022-02-09'
-        utcTime: '13:00'
-        userDate: '2022-02-09'
-        userTime: '18:30'
-        timezoneOffset: '5.5'
-        note: 'Punched Out'
-      state:
-        id: 'PUNCHED OUT'
-        name: 'Punched Out'
-      employee:
-        empNumber: 2
-        lastName: 'Abel'
-        firstName: 'Ashley'
-        middleName: 'ST'
-        employeeId: 'E002'
-        terminationId: null
-
-  'Attendance Record Update - supervisor to subordinate - Config Enabled - with punchOutOffset':
-    userId: 3
-    services:
-      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
-      core.config_service: \OrangeHRM\Core\Service\ConfigService
-      admin.user_service: \OrangeHRM\Admin\Service\UserService
-      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
-    factories:
-      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
-    hooks:
-      preAssertValidTestCase: [ '\OrangeHRM\Tests\Attendance\Api\AttendanceRecordAPITest', 'enableSupervisorCanModifyAttendancePreHook' ]
-    attributes:
-      id: 2
-    body:
-      punchInDate: '2022-02-09'
-      punchInTime: '15:30'
-      punchInNote: 'Punched In'
-      punchOutDate: '2022-02-09'
-      punchOutTime: '18:30'
-      punchOutOffset: '6.5'
-      punchOutNote: 'Punched Out'
-    data:
-      id: 2
-      punchIn:
-        utcDate: '2022-02-09'
-        utcTime: '10:00'
-        userDate: '2022-02-09'
-        userTime: '15:30'
-        timezoneOffset: '5.5'
-        note: 'Punched In'
-      punchOut:
-        utcDate: '2022-02-09'
-        utcTime: '12:00'
-        userDate: '2022-02-09'
-        userTime: '18:30'
-        timezoneOffset: '6.5'
-        note: 'Punched Out'
-      state:
-        id: 'PUNCHED OUT'
-        name: 'Punched Out'
-      employee:
-        empNumber: 2
-        lastName: 'Abel'
-        firstName: 'Ashley'
-        middleName: 'ST'
-        employeeId: 'E002'
-        terminationId: null
-
-  'Attendance Record Update - supervisor to subordinate - Config Enabled - with punchOutOffset, punchOutOffset':
+  'Attendance Record Update - supervisor to subordinate - Config Enabled - with punchInOffset, punchOutOffset - punchInTime > punchInTime':
     userId: 3
     services:
       attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
@@ -1075,65 +988,18 @@ Update:
       punchInDate: '2022-02-09'
       punchInTime: '15:30'
       punchInOffset: '5.5'
-      punchInNote: 'Punched In'
-      punchOutDate: '2022-02-09'
-      punchOutTime: '18:30'
-      punchOutOffset: '6.5'
-      punchOutNote: 'Punched Out'
-    data:
-      id: 2
-      punchIn:
-        utcDate: '2022-02-09'
-        utcTime: '10:00'
-        userDate: '2022-02-09'
-        userTime: '15:30'
-        timezoneOffset: '5.5'
-        note: 'Punched In'
-      punchOut:
-        utcDate: '2022-02-09'
-        utcTime: '12:00'
-        userDate: '2022-02-09'
-        userTime: '18:30'
-        timezoneOffset: '6.5'
-        note: 'Punched Out'
-      state:
-        id: 'PUNCHED OUT'
-        name: 'Punched Out'
-      employee:
-        empNumber: 2
-        lastName: 'Abel'
-        firstName: 'Ashley'
-        middleName: 'ST'
-        employeeId: 'E002'
-        terminationId: null
-
-  'Attendance Record Update - supervisor to subordinate - Config Enabled - with punchOutOffset, punchOutOffset - punchInTime > punchInTime':
-    userId: 3
-    services:
-      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
-      core.config_service: \OrangeHRM\Core\Service\ConfigService
-      admin.user_service: \OrangeHRM\Admin\Service\UserService
-      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
-    factories:
-      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
-    hooks:
-      preAssertValidTestCase: [ '\OrangeHRM\Tests\Attendance\Api\AttendanceRecordAPITest', 'enableSupervisorCanModifyAttendancePreHook' ]
-    attributes:
-      id: 2
-    body:
-      punchInDate: '2022-02-09'
-      punchInTime: '15:30'
-      punchInOffset: '5.5'
+      punchInTimezoneName: 'Asia/Colombo'
       punchInNote: 'Punched In'
       punchOutDate: '2022-02-09'
       punchOutTime: '18:30'
       punchOutOffset: '9.5'
+      punchOutTimezoneName: 'Australia/Darwin'
       punchOutNote: 'Punched Out'
     exception:
       class: '\OrangeHRM\Core\Api\V2\Exception\BadRequestException'
       message: 'Punch Out Time Should Be Later Than Punch In Time'
 
-  'Attendance Record Update - supervisor self - Config Enabled - self attendance record with punchInOffset':
+  'Attendance Record Update - supervisor self - Config Enabled - self attendance record with punchInOffset and punchInTimezoneName':
     userId: 3
     services:
       attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
@@ -1150,6 +1016,7 @@ Update:
       punchInDate: '2022-02-09'
       punchInTime: '15:30'
       punchInOffset: '5.5'
+      punchInTimezoneName: 'Asia/Colombo'
       punchInNote: 'Punched In'
       punchOutDate: '2022-02-09'
       punchOutTime: '18:30'

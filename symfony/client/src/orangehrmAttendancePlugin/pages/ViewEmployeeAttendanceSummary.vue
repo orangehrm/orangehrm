@@ -35,6 +35,7 @@
             <date-input
               v-model="filters.date"
               :rules="rules.date"
+              :years="yearArray"
               :label="$t('general.date')"
               required
             />
@@ -90,6 +91,7 @@ import {APIService} from '@/core/util/services/api.service';
 import usePaginate from '@ohrm/core/util/composable/usePaginate';
 import {freshDate, formatDate} from '@ohrm/core/util/helper/datefns';
 import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
+import {yearRange} from '@/core/util/helper/year-range';
 
 const attendanceRecordNormalizer = data => {
   return data.map(item => {
@@ -164,6 +166,7 @@ export default {
 
   data() {
     return {
+      yearArray: [...yearRange()],
       headers: [
         {
           name: 'empName',

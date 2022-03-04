@@ -74,7 +74,7 @@
 
     <oxd-grid v-if="isTimezoneEditable" :cols="4">
       <oxd-grid-item>
-        <timezone-autocomplete v-model="attendanceRecord.timezone" />
+        <timezone-dropdown v-model="attendanceRecord.timezone" required />
       </oxd-grid-item>
     </oxd-grid>
 
@@ -116,7 +116,7 @@ import {
 import {reloadPage, navigate} from '@/core/util/helper/navigation';
 import promiseDebounce from '@ohrm/oxd/utils/promiseDebounce';
 import {APIService} from '@ohrm/core/util/services/api.service';
-import TimezoneAutocomplete from '@/orangehrmAttendancePlugin/components/TimezoneAutocomplete.vue';
+import TimezoneDropdown from '@/orangehrmAttendancePlugin/components/TimezoneDropdown.vue';
 
 const attendanceRecordModal = {
   date: null,
@@ -129,7 +129,7 @@ const attendanceRecordModal = {
 export default {
   name: 'RecordAttendance',
   components: {
-    'timezone-autocomplete': TimezoneAutocomplete,
+    'timezone-dropdown': TimezoneDropdown,
   },
   props: {
     isEditable: {
@@ -190,7 +190,9 @@ export default {
     this.setCurrentDateTime()
       .then(() => {
         // then set record date/time every minute
-        !this.date && setClockInterval(this.setCurrentDateTime, 60000);
+        !this.date &&
+          !this.isEditable &&
+          setClockInterval(this.setCurrentDateTime, 60000);
         return this.attendanceRecordId
           ? this.http.request({
               method: 'GET',
@@ -227,9 +229,7 @@ export default {
           },
         })
         .then(() => {
-          return this.attendanceRecordId
-            ? this.$toast.updateSuccess()
-            : this.$toast.saveSuccess();
+          return this.$toast.saveSuccess();
         })
         .then(() => {
           this.employeeId
@@ -259,6 +259,9 @@ export default {
       });
     },
     validateDate() {
+      if (!this.attendanceRecord.date || !this.attendanceRecord.time) {
+        return true;
+      }
       const tzOffset = (new Date().getTimezoneOffset() / 60) * -1;
       return new Promise(resolve => {
         this.http
