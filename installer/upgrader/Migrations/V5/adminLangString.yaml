@@ -4,9 +4,9 @@ langStrings:
     unitId: add_job_title
   -
     value: Edit Job Titles
-    unitId: edit_job_title
+    unitId: edit_job_titles
   -
-    value: Job Title
+    value: Job Titles
     unitId: job_titles
   -
     value: Locations
