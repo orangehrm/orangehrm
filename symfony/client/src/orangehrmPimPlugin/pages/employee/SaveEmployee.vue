@@ -52,7 +52,7 @@
                 <oxd-grid-item>
                   <oxd-input-field
                     v-model="employee.employeeId"
-                    :label="$t('pim.employee_id')"
+                    :label="$t('general.employee_id')"
                     :rules="rules.employeeId"
                   />
                 </oxd-grid-item>

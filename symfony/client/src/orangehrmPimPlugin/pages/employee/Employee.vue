@@ -35,7 +35,7 @@
             <oxd-grid-item>
               <oxd-input-field
                 v-model="filters.employeeId"
-                :label="$t('pim.employee_id')"
+                :label="$t('general.employee_id')"
               />
             </oxd-grid-item>
             <oxd-grid-item>
