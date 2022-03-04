@@ -108,7 +108,9 @@ export default {
           const index = data.findIndex(item => item.name === v);
           if (index > -1) {
             const {id} = data[index];
-            return id !== this.nationality.id ? this.$t('general.already_exists') : true;
+            return id !== this.nationality.id
+              ? this.$t('general.already_exists')
+              : true;
           } else {
             return true;
           }

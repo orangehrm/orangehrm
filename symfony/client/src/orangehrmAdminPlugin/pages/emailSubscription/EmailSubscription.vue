@@ -101,7 +101,8 @@ export default {
         {
           name: 'subscribers',
           title: this.$t('admin.subscribers'),
-          style: {flex: '65%'}},
+          style: {flex: '65%'},
+        },
         {
           name: 'actions',
           title: this.$t('leave.actions'),

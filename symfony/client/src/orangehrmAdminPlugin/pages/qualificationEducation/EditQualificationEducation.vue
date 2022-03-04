@@ -21,7 +21,9 @@
 <template>
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
-      <oxd-text tag="h6" class="orangehrm-main-title">{{ $t('general.edit_education') }}</oxd-text>
+      <oxd-text tag="h6" class="orangehrm-main-title">{{
+        $t('general.edit_education')
+      }}</oxd-text>
 
       <oxd-divider />
 
@@ -55,7 +57,10 @@
 <script>
 import {navigate} from '@ohrm/core/util/helper/navigation';
 import {APIService} from '@ohrm/core/util/services/api.service';
-import {required, shouldNotExceedCharLength} from '@ohrm/core/util/validation/rules';
+import {
+  required,
+  shouldNotExceedCharLength,
+} from '@ohrm/core/util/validation/rules';
 
 export default {
   props: {
@@ -104,7 +109,9 @@ export default {
           const index = data.findIndex(item => item.name === v);
           if (index > -1) {
             const {id} = data[index];
-            return id !== this.qualification.id ? this.$t('general.already_exists') : true;
+            return id !== this.qualification.id
+              ? this.$t('general.already_exists')
+              : true;
           } else {
             return true;
           }

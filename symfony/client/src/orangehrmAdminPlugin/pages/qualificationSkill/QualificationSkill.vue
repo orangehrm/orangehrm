@@ -22,7 +22,9 @@
   <div class="orangehrm-background-container">
     <div class="orangehrm-paper-container">
       <div class="orangehrm-header-container">
-        <oxd-text tag="h6" class="orangehrm-main-title">{{ $t('general.skills') }}</oxd-text>
+        <oxd-text tag="h6" class="orangehrm-main-title">{{
+          $t('general.skills')
+        }}</oxd-text>
         <div>
           <oxd-button
             :label="$t('general.add')"
@@ -107,11 +109,13 @@ export default {
           name: 'name',
           slot: 'title',
           title: this.$t('general.name'),
-          style: {flex: 2}},
+          style: {flex: 2},
+        },
         {
           name: 'description',
           title: this.$t('general.description'),
-          style: {flex: 4}},
+          style: {flex: 4},
+        },
         {
           name: 'actions',
           title: this.$t('leave.actions'),

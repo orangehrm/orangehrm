@@ -22,7 +22,7 @@
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
       <oxd-text tag="h6" class="orangehrm-main-title">
-      {{ $t('admin.add_employment_status') }}
+        {{ $t('admin.add_employment_status') }}
       </oxd-text>
 
       <oxd-divider />
@@ -57,7 +57,10 @@
 <script>
 import {navigate} from '@ohrm/core/util/helper/navigation';
 import {APIService} from '@ohrm/core/util/services/api.service';
-import {required, shouldNotExceedCharLength} from '@ohrm/core/util/validation/rules';
+import {
+  required,
+  shouldNotExceedCharLength,
+} from '@ohrm/core/util/validation/rules';
 
 export default {
   setup() {

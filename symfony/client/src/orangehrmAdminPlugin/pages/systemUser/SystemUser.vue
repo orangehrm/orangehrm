@@ -25,7 +25,10 @@
         <oxd-form-row>
           <oxd-grid :cols="4" class="orangehrm-full-width-grid">
             <oxd-grid-item>
-              <oxd-input-field v-model="filters.username" :label="$t('general.username')" />
+              <oxd-input-field
+                v-model="filters.username"
+                :label="$t('general.username')"
+              />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
@@ -257,7 +260,7 @@ export default {
       ],
       userRoles: [
         {id: 1, label: this.$t('general.admin')},
-        {id: 2, label: this.$t('general.ess') },
+        {id: 2, label: this.$t('general.ess')},
       ],
       userStatuses: [
         {id: 1, label: this.$t('general.enabled')},

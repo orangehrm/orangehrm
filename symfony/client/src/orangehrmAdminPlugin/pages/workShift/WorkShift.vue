@@ -22,7 +22,9 @@
   <div class="orangehrm-background-container">
     <div class="orangehrm-paper-container">
       <div class="orangehrm-header-container">
-        <oxd-text tag="h6" class="orangehrm-main-title">{{ $t('admin.work_shifts') }}</oxd-text>
+        <oxd-text tag="h6" class="orangehrm-main-title">{{
+          $t('admin.work_shifts')
+        }}</oxd-text>
         <div>
           <oxd-button
             :label="$t('general.add')"
@@ -119,19 +121,23 @@ export default {
           name: 'name',
           slot: 'title',
           title: this.$t('general.name'),
-          style: {flex: 1}},
+          style: {flex: 1},
+        },
         {
           name: 'startTime',
           title: this.$t('general.from'),
-          style: {flex: 1}},
+          style: {flex: 1},
+        },
         {
           name: 'endTime',
           title: this.$t('general.to'),
-          style: {flex: 1}},
+          style: {flex: 1},
+        },
         {
           name: 'hoursPerDay',
           title: this.$t('admin.hours_per_day'),
-          style: {flex: 1}},
+          style: {flex: 1},
+        },
         {
           name: 'actions',
           title: this.$t('leave.actions'),

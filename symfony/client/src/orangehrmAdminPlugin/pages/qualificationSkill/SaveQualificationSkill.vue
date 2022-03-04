@@ -21,7 +21,9 @@
 <template>
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
-      <oxd-text tag="h6" class="orangehrm-main-title">{{ $t('general.add_skill') }}</oxd-text>
+      <oxd-text tag="h6" class="orangehrm-main-title">{{
+        $t('general.add_skill')
+      }}</oxd-text>
 
       <oxd-divider />
 
@@ -49,7 +51,11 @@
 
         <oxd-form-actions>
           <required-text />
-          <oxd-button display-type="ghost" :label="$t('general.cancel')" @click="onCancel" />
+          <oxd-button
+            display-type="ghost"
+            :label="$t('general.cancel')"
+            @click="onCancel"
+          />
           <submit-button />
         </oxd-form-actions>
       </oxd-form>
@@ -60,7 +66,10 @@
 <script>
 import {navigate} from '@ohrm/core/util/helper/navigation';
 import {APIService} from '@ohrm/core/util/services/api.service';
-import {required, shouldNotExceedCharLength} from '@ohrm/core/util/validation/rules';
+import {
+  required,
+  shouldNotExceedCharLength,
+} from '@ohrm/core/util/validation/rules';
 
 const skillModel = {
   id: '',

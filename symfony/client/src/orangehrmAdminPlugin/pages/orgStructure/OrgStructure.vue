@@ -42,7 +42,7 @@
           :class="{
             '--parent': data && data.children != 0,
           }"
-          >
+        >
           {{ data.name }}
         </oxd-text>
         <oxd-button

@@ -21,7 +21,9 @@
 <template>
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
-      <oxd-text class="orangehrm-main-title">{{ $t('admin.mail_configuration') }}</oxd-text>
+      <oxd-text class="orangehrm-main-title">{{
+        $t('admin.mail_configuration')
+      }}</oxd-text>
 
       <oxd-divider />
 
@@ -37,7 +39,7 @@
               />
             </oxd-grid-item>
             <oxd-grid-item>
-              <oxd-input-group :label="$t('admin.sending_method')" >
+              <oxd-input-group :label="$t('admin.sending_method')">
                 <div class="send-method-div">
                   <oxd-input-field
                     v-model="emailConfiguration.mailType"
@@ -158,7 +160,11 @@
           <oxd-grid :cols="1" class="orangehrm-full-width-grid">
             <oxd-grid-item class="organization-name-container">
               <oxd-text tag="p" class="tls-hint">
-              {{ $t('admin.optional_-_the_mail_server_requires_the_use_of_tls_security') }}
+                {{
+                  $t(
+                    'admin.optional_-_the_mail_server_requires_the_use_of_tls_security',
+                  )
+                }}
               </oxd-text>
             </oxd-grid-item>
           </oxd-grid>
@@ -169,7 +175,7 @@
             <oxd-grid-item class="organization-name-container">
               <div class="orangehrm-optional-field-row">
                 <oxd-text tag="p" class="orangehrm-optional-field-label">
-                {{ $t('admin.send_test_email') }}
+                  {{ $t('admin.send_test_email') }}
                 </oxd-text>
                 <oxd-switch-input v-model="sendTestMailEditable" />
               </div>

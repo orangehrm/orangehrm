@@ -140,15 +140,18 @@ export default {
           name: 'name',
           slot: 'title',
           title: this.$t('general.currency'),
-          style: {flex: 2}},
+          style: {flex: 2},
+        },
         {
           name: 'minSalary',
           title: this.$t('admin.minimum_salary'),
-          style: {flex: 1}},
+          style: {flex: 1},
+        },
         {
           name: 'maxSalary',
           title: this.$t('admin.maximum_salary'),
-          style: {flex: 1}},
+          style: {flex: 1},
+        },
         {
           name: 'actions',
           slot: 'action',

@@ -21,7 +21,9 @@
 <template>
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
-      <oxd-text tag="h6" class="orangehrm-main-title">{{ $t('general.edit_skill') }}</oxd-text>
+      <oxd-text tag="h6" class="orangehrm-main-title">{{
+        $t('general.edit_skill')
+      }}</oxd-text>
 
       <oxd-divider />
 
@@ -65,7 +67,10 @@
 <script>
 import {navigate} from '@ohrm/core/util/helper/navigation';
 import {APIService} from '@ohrm/core/util/services/api.service';
-import {required, shouldNotExceedCharLength} from '@ohrm/core/util/validation/rules';
+import {
+  required,
+  shouldNotExceedCharLength,
+} from '@ohrm/core/util/validation/rules';
 
 const skillModel = {
   id: '',
@@ -120,7 +125,9 @@ export default {
           const index = data.findIndex(item => item.name == v);
           if (index > -1) {
             const {id} = data[index];
-            return id != this.category.id ? this.$t('general.already_exists') : true;
+            return id != this.category.id
+              ? this.$t('general.already_exists')
+              : true;
           } else {
             return true;
           }

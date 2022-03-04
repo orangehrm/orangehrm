@@ -57,7 +57,10 @@
 <script>
 import {navigate} from '@ohrm/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
-import {required, shouldNotExceedCharLength} from '@ohrm/core/util/validation/rules';
+import {
+  required,
+  shouldNotExceedCharLength,
+} from '@ohrm/core/util/validation/rules';
 
 export default {
   props: {
@@ -107,7 +110,9 @@ export default {
           const index = data.findIndex(item => item.name == v);
           if (index > -1) {
             const {id} = data[index];
-            return id != this.category.id ? this.$t('general.already_exists') : true;
+            return id != this.category.id
+              ? this.$t('general.already_exists')
+              : true;
           } else {
             return true;
           }
