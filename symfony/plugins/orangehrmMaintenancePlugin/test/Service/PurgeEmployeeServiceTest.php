@@ -190,8 +190,8 @@ class PurgeEmployeeServiceTest extends KernelTestCase
         $this->purgeEmployeeService->purgeEmployeeData(1);
 
         $purgedEmployee = $this->getRepository(Employee::class)->findOneBy(['empNumber' => 1]);
-        $this->assertEquals("Purge", $purgedEmployee->getFirstName());
-        $this->assertEquals("Purge", $purgedEmployee->getLastName());
+        $this->assertEquals('Purged', $purgedEmployee->getFirstName());
+        $this->assertEquals('Employee', $purgedEmployee->getLastName());
         $this->assertEquals('', $purgedEmployee->getMiddleName());
         $this->assertEquals('', $purgedEmployee->getNickName());
         $this->assertEquals(0, $purgedEmployee->getSmoker());
@@ -333,14 +333,14 @@ class PurgeEmployeeServiceTest extends KernelTestCase
         $empAttendanceRecords = $this->getRepository(AttendanceRecord::class)->findBy(['employee' => 1]);
         $this->assertCount(2, $empAttendanceRecords);
         foreach ($empAttendanceRecords as $empAttendanceRecord) {
-            $this->assertEquals("Purge", $empAttendanceRecord->getPunchInNote());
-            $this->assertEquals("Purge", $empAttendanceRecord->getPunchOutNote());
+            $this->assertEquals('Purged', $empAttendanceRecord->getPunchInNote());
+            $this->assertEquals('Purged', $empAttendanceRecord->getPunchOutNote());
         }
 
         $empTimesheetItems = $this->getRepository(TimesheetItem::class)->findBy(['employee' => 1]);
         $this->assertCount(2, $empTimesheetItems);
         foreach ($empTimesheetItems as $empTimesheetItem) {
-            $this->assertEquals("Purge", $empTimesheetItem->getComment());
+            $this->assertEquals('Purged', $empTimesheetItem->getComment());
         }
     }
 

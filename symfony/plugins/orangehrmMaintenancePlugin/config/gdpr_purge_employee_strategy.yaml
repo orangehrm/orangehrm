@@ -6,7 +6,7 @@ Entities:
           - { match: empNumber }
         parameters:
           - { field: "firstName", class: 'FormatWithPurgeString' }
-          - { field: "lastName", class: 'FormatWithPurgeString' }
+          - { field: "lastName", class: 'FormatWithEmployeeString' }
           - { field: "middleName", class: 'FormatWithEmptyString' }
           - { field: "nickName", class: 'FormatWithEmptyString' }
           - { field: "smoker", class: 'FormatWithZero' }

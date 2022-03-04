@@ -72,8 +72,8 @@ class ReplaceWithValuePurgeStrategyTest extends TestCase
         $this->replaceWithValuePurgeStrategy->purge(1);
 
         $employee = $this->getRepository(Employee::class)->find(1);
-        $this->assertEquals('Purge', $employee->getFirstName());
-        $this->assertEquals('Purge', $employee->getLastName());
+        $this->assertEquals('Purged', $employee->getFirstName());
+        $this->assertEquals('Purged', $employee->getLastName());
         $this->assertEquals('', $employee->getMiddleName());
         $this->assertEquals(0, $employee->getSmoker());
         $this->assertNull($employee->getBirthday());
@@ -86,8 +86,8 @@ class ReplaceWithValuePurgeStrategyTest extends TestCase
         $this->getEntityManager()->flush();
 
         $employee = $this->getRepository(Employee::class)->find(1);
-        $this->assertEquals('Purge', $employee->getFirstName());
-        $this->assertEquals('Purge', $employee->getLastName());
+        $this->assertEquals('Purged', $employee->getFirstName());
+        $this->assertEquals('Purged', $employee->getLastName());
         $this->assertEquals('', $employee->getMiddleName());
         $this->assertEquals(0, $employee->getSmoker());
         $this->assertNull($employee->getBirthday());

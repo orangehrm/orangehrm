@@ -19,21 +19,21 @@
 
 namespace OrangeHRM\Tests\Maintenance\PurgeStrategy\FormatValue;
 
-use OrangeHRM\Maintenance\PurgeStrategy\FormatValue\FormatWithPurgeString;
+use OrangeHRM\Maintenance\PurgeStrategy\FormatValue\FormatWithEmployeeString;
 use OrangeHRM\Tests\Util\TestCase;
 
-class FormatWithPurgeStringTest extends TestCase
+class FormatWithEmployeeStringTest extends TestCase
 {
-    private FormatWithPurgeString $formatWithPurgeString;
+    private FormatWithEmployeeString $formatWithEmployeeString;
 
     protected function setUp(): void
     {
-        $this->formatWithPurgeString = new FormatWithPurgeString();
+        $this->formatWithEmployeeString = new FormatWithEmployeeString();
     }
 
     public function testGetFormattedValue(): void
     {
-        $this->assertEquals('Purged', $this->formatWithPurgeString->getFormattedValue("First Name"));
-        $this->assertEquals('Purged', $this->formatWithPurgeString->getFormattedValue(null));
+        $this->assertEquals('Employee', $this->formatWithEmployeeString->getFormattedValue('Last Name'));
+        $this->assertEquals('Employee', $this->formatWithEmployeeString->getFormattedValue(null));
     }
 }
