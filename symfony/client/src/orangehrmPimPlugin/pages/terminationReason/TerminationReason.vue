@@ -124,13 +124,13 @@ export default {
         {
           name: 'name',
           slot: 'title',
-          this.$t('general.name'),
+          title: this.$t('general.name'),
           style: {'flex-basis': '80%'},
         },
         {
           name: 'actions',
           slot: 'action',
-          this.$t('general.actions'),
+          title: this.$t('general.actions'),
           style: {'flex-shrink': 1},
           cellType: 'oxd-table-cell-actions',
           cellConfig: {
