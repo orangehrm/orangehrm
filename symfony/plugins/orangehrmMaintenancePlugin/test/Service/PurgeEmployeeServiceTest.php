@@ -42,7 +42,9 @@ use OrangeHRM\Entity\EmployeeSkill;
 use OrangeHRM\Entity\EmpPicture;
 use OrangeHRM\Entity\EmpUsTaxExemption;
 use OrangeHRM\Entity\EmpWorkExperience;
+use OrangeHRM\Entity\Leave;
 use OrangeHRM\Entity\LeaveComment;
+use OrangeHRM\Entity\LeaveRequest;
 use OrangeHRM\Entity\LeaveRequestComment;
 use OrangeHRM\Entity\ReportTo;
 use OrangeHRM\Entity\TimesheetItem;
@@ -93,7 +95,7 @@ class PurgeEmployeeServiceTest extends KernelTestCase
     {
         $purgeableEntities = $this->purgeEmployeeService->getPurgeableEntities('gdpr_purge_employee_strategy');
 
-        $this->assertCount(22, $purgeableEntities);
+        $this->assertCount(24, $purgeableEntities);
         $this->assertArrayHasKey("Employee", $purgeableEntities);
         $this->assertArrayHasKey("EmpPicture", $purgeableEntities);
         $this->assertArrayHasKey("EmployeeAttachment", $purgeableEntities);
@@ -112,8 +114,10 @@ class PurgeEmployeeServiceTest extends KernelTestCase
         $this->assertArrayHasKey("EmpContract", $purgeableEntities);
         $this->assertArrayHasKey("User", $purgeableEntities);
         $this->assertArrayHasKey("ReportTo", $purgeableEntities);
-        $this->assertArrayHasKey("LeaveRequestComment", $purgeableEntities);
         $this->assertArrayHasKey("LeaveComment", $purgeableEntities);
+        $this->assertArrayHasKey("Leave", $purgeableEntities);
+        $this->assertArrayHasKey("LeaveRequestComment", $purgeableEntities);
+        $this->assertArrayHasKey("LeaveRequest", $purgeableEntities);
         $this->assertArrayHasKey("AttendanceRecord", $purgeableEntities);
         $this->assertArrayHasKey("TimesheetItem", $purgeableEntities);
     }
@@ -300,17 +304,31 @@ class PurgeEmployeeServiceTest extends KernelTestCase
         $this->assertEmpty($empReportTo->findBy(['supervisor' => 1]));
         $this->assertCount(4, $empReportTo->findAll());
 
-        $empLeaveRequestComments = $this->getRepository(LeaveRequestComment::class)->findBy(['createdByEmployee' => 1]);
-        $this->assertCount(3, $empLeaveRequestComments);
-        foreach ($empLeaveRequestComments as $empLeaveRequestComment) {
-            $this->assertEquals("Purge", $empLeaveRequestComment->getComment());
-        }
+        $empLeaveComments = $this->getRepository(LeaveComment::class);
 
-        $empLeaveComments = $this->getRepository(LeaveComment::class)->findBy(['createdByEmployee' => 1]);
-        $this->assertCount(2, $empLeaveComments);
-        foreach ($empLeaveComments as $empLeaveComment) {
-            $this->assertEquals("Purge", $empLeaveComment->getComment());
-        }
+        $purgedComments = $empLeaveComments->findBy(['leave' => [1, 2]]);
+        $this->assertEmpty($purgedComments);
+        $preservedComments = $empLeaveComments->findBy(['leave' => [3, 4], 'createdByEmployee' => 1]);
+        $this->assertCount(2, $preservedComments);
+
+        $this->assertCount(3, $empLeaveComments->findAll());
+
+        $empLeave = $this->getRepository(Leave::class);
+        $this->assertEmpty($empLeave->findBy(['employee' => 1]));
+        $this->assertCount(3, $empLeave->findAll());
+
+        $empLeaveRequestComments = $this->getRepository(LeaveRequestComment::class);
+
+        $purgedComments = $empLeaveRequestComments->findBy(['leaveRequest' => [1, 2]]);
+        $this->assertEmpty($purgedComments);
+        $preservedComments = $empLeaveRequestComments->findBy(['leaveRequest' => [3, 4], 'createdByEmployee' => 1]);
+        $this->assertCount(2, $preservedComments);
+
+        $this->assertCount(3, $empLeaveRequestComments->findAll());
+
+        $empLeaveRequests = $this->getRepository(LeaveRequest::class);
+        $this->assertEmpty($empLeaveRequests->findBy(['employee' => 1]));
+        $this->assertCount(3, $empLeaveRequests->findAll());
 
         $empAttendanceRecords = $this->getRepository(AttendanceRecord::class)->findBy(['employee' => 1]);
         $this->assertCount(2, $empAttendanceRecords);

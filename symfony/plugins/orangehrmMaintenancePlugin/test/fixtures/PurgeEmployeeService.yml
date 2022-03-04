@@ -126,9 +126,9 @@ EmpUsTaxExemption:
   - { emp_number: 2, federalStatus: 'Married', federalExemptions: 2, state: 'DC', stateStatus: 'Married', stateExemptions: 1, unemploymentState: 'DC', workState: 'DC' }
 
 License:
-  0: { id: 1, name: 'CIMA' }
-  1: { id: 2, name: 'CCNA' }
-  2: { id: 3, name: 'NAITA' }
+  - { id: 1, name: 'CIMA' }
+  - { id: 2, name: 'CCNA' }
+  - { id: 3, name: 'NAITA' }
 
 EmployeeLicense:
   - { emp_number: 1, license_id: 1, licenseNo: 1, licenseIssuedDate: '2020-01-23', licenseExpiryDate: '2021-01-23' }
@@ -183,15 +183,15 @@ EmpContract:
   - { emp_number: 3, econ_extend_id: 1, econ_extend_start_date: '2022-03-23',  econ_extend_end_date: '2022-07-25' }
 
 UserRole:
-  0: { id: 1, name: Admin, display_name: Admin, is_assignable: 1, is_predefined: 1 }
-  1: { id: 2, name: ESS, display_name: ESS, is_assignable: 1, is_predefined: 1 }
-  2: { id: 3, name: Supervisor, display_name: Supervisor, is_assignable: 0, is_predefined: 1 }
+  - { id: 1, name: Admin, display_name: Admin, is_assignable: 1, is_predefined: 1 }
+  - { id: 2, name: ESS, display_name: ESS, is_assignable: 1, is_predefined: 1 }
+  - { id: 3, name: Supervisor, display_name: Supervisor, is_assignable: 0, is_predefined: 1 }
 
 User:
-  0: { id: 1, user_role_id: 1, emp_number: 1, user_name: 'samantha', user_password: 'samantha' }
-  1: { id: 2, user_role_id: 3, emp_number: 1, user_name: 'yashika', user_password: 'yashika' }
-  2: { id: 3, user_role_id: 1, emp_number: 3, user_name: 'Renukshan', user_password: 'Renukshan', status: 0 }
-  3: { id: 4, user_role_id: 2, emp_number: 4, user_name: 'Chaturanga', user_password: 'Chaturanga', deleted: 1 }
+  - { id: 1, user_role_id: 1, emp_number: 1, user_name: 'samantha', user_password: 'samantha' }
+  - { id: 2, user_role_id: 3, emp_number: 1, user_name: 'yashika', user_password: 'yashika' }
+  - { id: 3, user_role_id: 1, emp_number: 3, user_name: 'Renukshan', user_password: 'Renukshan', status: 0 }
+  - { id: 4, user_role_id: 2, emp_number: 4, user_name: 'Chaturanga', user_password: 'Chaturanga', deleted: 1 }
 
 ReportingMethod:
   - { id: 1, name: 'Direct' }
@@ -209,26 +209,28 @@ ReportTo:
   - { erep_sup_emp_number: 6, erep_sub_emp_number: 1, erep_reporting_mode: 1 }
 
 LeaveType:
-  0: {id: 1, name: 'Casual', deleted: 0}
-  1: {id: 2, name: 'Medical', deleted: 0}
-  2: {id: 3, name: 'Company', deleted: 1}
-  3: {id: 4, name: 'Annual', deleted: 0}
+  - { id: 1, name: 'Casual', deleted: 0 }
+  - { id: 2, name: 'Medical', deleted: 0 }
+  - { id: 3, name: 'Company', deleted: 1 }
+  - { id: 4, name: 'Annual', deleted: 0 }
 
 LeaveRequest:
-  0: {id: 1, leave_type_id: 1, date_applied: '2010-08-30', emp_number: 1}
-  1: {id: 2, leave_type_id: 1, date_applied: '2010-08-02', emp_number: 1}
-  2: {id: 3, leave_type_id: 2, date_applied: '2010-08-03', emp_number: 3}
-  3: {id: 4, leave_type_id: 1, date_applied: '2010-08-04', emp_number: 3}
-  4: {id: 5, leave_type_id: 2, date_applied: '2010-08-05', emp_number: 4}
+  - { id: 1, leave_type_id: 1, date_applied: '2010-08-30', emp_number: 1 }
+  - { id: 2, leave_type_id: 1, date_applied: '2010-08-02', emp_number: 1 }
+  - { id: 3, leave_type_id: 2, date_applied: '2010-08-03', emp_number: 3 }
+  - { id: 4, leave_type_id: 1, date_applied: '2010-08-04', emp_number: 3 }
+  - { id: 5, leave_type_id: 2, date_applied: '2010-08-05', emp_number: 4 }
 
 LeaveRequestComment:
-  0: {id: 1, leave_request_id: 1, created: '2010-08-30 18:55:00', created_by_id: 1,created_by_emp_number: 1, comments: 'employee 1 comment'}
-  1: {id: 2, leave_request_id: 1, created: '2010-08-05 09:55:00', created_by_id: 2,created_by_emp_number: 1, comments: 'employee 1 comment'}
-  2: {id: 3, leave_request_id: 2, created: '2010-12-25 15:18:00', created_by_id: 1,created_by_emp_number: 1, comments: 'employee 1 comment'}
-  3: {id: 4, leave_request_id: 1, created: '2010-08-29 04:55:00', created_by_id: 3,created_by_emp_number: 3, comments: 'employee 3 comment'}
-  4: {id: 5, leave_request_id: 2, created: '2010-08-30 18:55:00', created_by_id: 3,created_by_emp_number: 3, comments: 'employee 3 comment'}
-  5: {id: 6, leave_request_id: 2, created: '2010-08-30 18:55:00', created_by_id: 4,created_by_emp_number: 4, comments: 'employee 4 comment'}
-  6: {id: 7, leave_request_id: 3, created: '2010-08-30 18:55:00', created_by_id: 4,created_by_emp_number: 4, comments: 'employee 4 comment'}
+  - { id: 1, leave_request_id: 1, created: '2010-08-30 18:55:00', created_by_id: 1,created_by_emp_number: 1, comments: 'employee 1 comment on their leave request' }
+  - { id: 2, leave_request_id: 1, created: '2010-08-05 09:55:00', created_by_id: 2,created_by_emp_number: 1, comments: 'employee 1 comment on their leave request' }
+  - { id: 3, leave_request_id: 2, created: '2010-12-25 15:18:00', created_by_id: 1,created_by_emp_number: 1, comments: 'employee 1 comment on their leave request' }
+  - { id: 4, leave_request_id: 1, created: '2010-08-29 04:55:00', created_by_id: 3,created_by_emp_number: 3, comments: 'employee 3 comment on emp 1 leave request' }
+  - { id: 5, leave_request_id: 2, created: '2010-08-30 18:55:00', created_by_id: 3,created_by_emp_number: 3, comments: 'employee 3 comment on emp 1 leave request' }
+  - { id: 6, leave_request_id: 2, created: '2010-08-30 18:55:00', created_by_id: 4,created_by_emp_number: 4, comments: 'employee 4 comment on emp 1 leave request' }
+  - { id: 7, leave_request_id: 3, created: '2010-08-30 18:55:00', created_by_id: 4,created_by_emp_number: 4, comments: 'employee 4 comment on emp 3 leave request' }
+  - { id: 8, leave_request_id: 3, created: '2010-08-30 18:55:00', created_by_id: 1,created_by_emp_number: 1, comments: 'employee 1 comment on emp 3 leave request' }
+  - { id: 9, leave_request_id: 4, created: '2010-08-30 18:55:00', created_by_id: 1,created_by_emp_number: 1, comments: 'employee 1 comment on emp 4 leave request' }
 
 Leave:
   - { "id": "1","date": "2021-09-01","length_hours": "8.00","length_days": "1.0000","status": "1","leave_request_id": 1,"leave_type_id": 1,"emp_number": 1,"start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
@@ -238,10 +240,13 @@ Leave:
   - { "id": "5","date": "2021-09-26","length_hours": "4.00","length_days": "0.5000","status": "1","leave_request_id": 5,"leave_type_id": 3,"emp_number": 4,"start_time": "09:00:00","end_time": "13:00:00","duration_type": "1" }
 
 LeaveComment:
-  - { "id": "1","leave_id": 1,"created": "2021-09-15 19:56:38","created_by_id": "1","created_by_emp_number": 5,"comments": "Cancelled upon request" }
-  - { "id": "2","leave_id": 2,"created": "2021-09-15 19:58:30","created_by_id": "1","created_by_emp_number": 5,"comments": "Rejected" }
-  - { "id": "3","leave_id": 3,"created": "2021-09-15 20:46:12","created_by_id": "1","created_by_emp_number": 1,"comments": "Cancelled" }
-  - { "id": "4","leave_id": 4,"created": "2021-09-15 23:20:54","created_by_id": "1","created_by_emp_number": 1,"comments": "Any reason?" }
+  - { "id": "1","leave_id": 1,"created": "2021-09-15 19:56:38","created_by_id": "3","created_by_emp_number": 3,"comments": "employee 3 comment on emp 1 leave" }
+  - { "id": "2","leave_id": 2,"created": "2021-09-15 19:58:30","created_by_id": "3","created_by_emp_number": 3,"comments": "employee 3 comment on emp 1 leave" }
+  - { "id": "3","leave_id": 3,"created": "2021-09-15 20:46:12","created_by_id": "1","created_by_emp_number": 1,"comments": "employee 1 comment on emp 3 leave" }
+  - { "id": "4","leave_id": 4,"created": "2021-09-15 23:20:54","created_by_id": "1","created_by_emp_number": 1,"comments": "employee 1 comment on emp 4 leave" }
+  - { "id": "5","leave_id": 1,"created": "2021-09-15 23:20:54","created_by_id": "1","created_by_emp_number": 1,"comments": "employee 1 comment on their leave" }
+  - { "id": "6","leave_id": 2,"created": "2021-09-15 23:20:54","created_by_id": "1","created_by_emp_number": 1,"comments": "employee 1 comment on their leave" }
+  - { "id": "7","leave_id": 3,"created": "2021-09-15 19:58:30","created_by_id": "3","created_by_emp_number": 3,"comments": "employee 3 comment on their leave" }
 
 AttendanceRecord:
   - { id: 1, employee_id: 1, punch_in_utc_time: '2011-05-27 12:10:00', punch_in_note: 'Im punched In',punch_in_time_offset: '5.5',punch_in_user_time: '2011-05-27 12:10:00',punch_out_utc_time: '2011-05-28 12:10:00',punch_out_note: ' Punched Out',punch_out_time_offset: '5.5',punch_out_user_time: '2011-05-28 12:10:00', state: 'PUNCHED OUT' }

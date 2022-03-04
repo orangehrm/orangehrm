@@ -48,9 +48,14 @@ class PurgeEmployeeDao extends BaseDao
     {
         $empNumber = reset($matchByValues);
         $field = key($matchByValues);
+        $entity = 'entity';
 
         $qb = $this->createQueryBuilder('OrangeHRM\\Entity\\' . $table, 'entity');
-        $qb->andWhere($qb->expr()->eq('entity.' . $field, ':empNumber'))
+        if (isset($matchByValues['join'])) {
+            $qb->innerJoin('entity.' . $matchByValues['join'], 'joinEntity');
+            $entity = 'joinEntity';
+        }
+        $qb->andWhere($qb->expr()->eq($entity . '.' . $field, ':empNumber'))
             ->setParameter('empNumber', $empNumber);
 
         return $qb->getQuery()->execute();
