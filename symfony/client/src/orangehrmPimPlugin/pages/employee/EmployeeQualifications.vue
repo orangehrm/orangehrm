@@ -1,7 +1,9 @@
 <template>
   <edit-employee-layout :employee-id="empNumber" screen="qualifications">
     <div class="orangehrm-horizontal-padding orangehrm-top-padding">
-      <oxd-text tag="h6" class="orangehrm-main-title">{{ $t('general.qualifications') }}</oxd-text>
+      <oxd-text tag="h6" class="orangehrm-main-title">{{
+        $t('general.qualifications')
+      }}</oxd-text>
       <oxd-divider />
     </div>
     <employee-work-experience

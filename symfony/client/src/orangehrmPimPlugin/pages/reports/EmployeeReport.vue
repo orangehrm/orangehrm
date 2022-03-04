@@ -167,7 +167,7 @@ export default {
         {
           name: 'name',
           slot: 'title',
-          title:  this.$t('general.name'),
+          title: this.$t('general.name'),
           style: {flex: '85%'},
           sortField: 'report.name',
         },

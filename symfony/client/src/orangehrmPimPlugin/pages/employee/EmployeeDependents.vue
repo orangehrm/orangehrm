@@ -141,9 +141,22 @@ export default {
   data() {
     return {
       headers: [
-        {name: 'name', slot: 'title', title: this.$t('general.name'), style: {flex: 1}},
-        {name: 'relationship', title: this.$t('pim.relationship'), style: {flex: 1}},
-        {name: 'dateOfBirth', title: this.$t('pim.date_of_birth'), style: {flex: 1}},
+        {
+          name: 'name',
+          slot: 'title',
+          title: this.$t('general.name'),
+          style: {flex: 1},
+        },
+        {
+          name: 'relationship',
+          title: this.$t('pim.relationship'),
+          style: {flex: 1},
+        },
+        {
+          name: 'dateOfBirth',
+          title: this.$t('pim.date_of_birth'),
+          style: {flex: 1},
+        },
         {
           name: 'actions',
           slot: 'action',

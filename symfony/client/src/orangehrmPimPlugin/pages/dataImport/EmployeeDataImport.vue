@@ -21,11 +21,15 @@
 <template>
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
-      <oxd-text class="orangehrm-main-title">{{ $t('pim.data_import') }}</oxd-text>
+      <oxd-text class="orangehrm-main-title">{{
+        $t('pim.data_import')
+      }}</oxd-text>
 
       <oxd-divider />
       <div class="orangehrm-information-card-container">
-        <oxd-text class="orangehrm-sub-title">{{ $t('general.note') }}:</oxd-text>
+        <oxd-text class="orangehrm-sub-title"
+          >{{ $t('general.note') }}:</oxd-text
+        >
         <ul>
           <li>
             <oxd-text class="orangehrm-information-card-text">
@@ -49,7 +53,11 @@
           </li>
           <li>
             <oxd-text class="orangehrm-information-card-text">
-              {{ $t('pim.each_import_file_should_be_configured_for_100_records_or_less') }}
+              {{
+                $t(
+                  'pim.each_import_file_should_be_configured_for_100_records_or_less',
+                )
+              }}
             </oxd-text>
           </li>
           <li>
@@ -65,7 +73,7 @@
                 href="#"
                 @click.prevent="onClickDownload"
               >
-              {{ $t('general.download') }}
+                {{ $t('general.download') }}
               </a>
             </oxd-text>
           </li>
@@ -163,7 +171,8 @@ export default {
           if (importedRecords > 0) {
             return this.$toast.success({
               title: this.$t('general.success'),
-              message: this.$t('pim.number_of_records_imported') + importedRecords,
+              message:
+                this.$t('pim.number_of_records_imported') + importedRecords,
             });
           }
           return this.$toast.error({

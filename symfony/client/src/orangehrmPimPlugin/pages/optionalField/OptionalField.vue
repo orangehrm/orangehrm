@@ -21,7 +21,9 @@
 <template>
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
-      <oxd-text class="orangehrm-main-title">{{ $t('pim.optional_fields') }}</oxd-text>
+      <oxd-text class="orangehrm-main-title">{{
+        $t('pim.optional_fields')
+      }}</oxd-text>
 
       <oxd-divider />
 
@@ -33,7 +35,11 @@
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <div class="orangehrm-optional-field-row">
               <oxd-text tag="p" class="orangehrm-optional-field-label">
-                {{ $t('pim.show_nick_name_smoker_and_military_service_in_personal_details') }}
+                {{
+                  $t(
+                    'pim.show_nick_name_smoker_and_military_service_in_personal_details',
+                  )
+                }}
               </oxd-text>
               <oxd-switch-input
                 v-model="optionalField.pimShowDeprecatedFields"

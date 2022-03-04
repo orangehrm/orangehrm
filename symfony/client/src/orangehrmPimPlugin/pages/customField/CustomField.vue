@@ -28,7 +28,8 @@
           </oxd-text>
           <template v-if="!isLoading">
             <oxd-text v-if="remainingFields > 0" class="--infotext" tag="p">
-              {{ $t('pim.remaining_no_of_custom_fields') }} {{ remainingFields }}
+              {{ $t('pim.remaining_no_of_custom_fields') }}
+              {{ remainingFields }}
             </oxd-text>
             <oxd-text v-else class="--infotext" tag="p">
               {{ $t('pim.all_custom_fields_in_use') }}

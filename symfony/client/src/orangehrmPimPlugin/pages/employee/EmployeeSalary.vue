@@ -44,7 +44,7 @@
         :action-button-shown="$can.update(`salary_details`)"
         @click="onClickAdd"
       >
-        Assigned Salary Components
+        {{ $t('pim.assigned_salary_components') }}
       </profile-action-header>
     </div>
     <table-header
@@ -172,8 +172,16 @@ export default {
           style: {flex: 1},
         },
         {name: 'amount', title: this.$t('pim.amount'), style: {flex: 1}},
-        {name: 'currency', title: this.$t('general.currency'), style: {flex: 1}},
-        {name: 'frequency', title: this.$t('pim.pay_frequency'), style: {flex: 1}},
+        {
+          name: 'currency',
+          title: this.$t('general.currency'),
+          style: {flex: 1},
+        },
+        {
+          name: 'frequency',
+          title: this.$t('pim.pay_frequency'),
+          style: {flex: 1},
+        },
         {
           name: 'depositAmount',
           title: this.$t('pim.direct_deposit_amount'),

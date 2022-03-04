@@ -178,7 +178,8 @@ export default {
         {
           name: 'subscriptionCurrencyName',
           title: this.$t('general.currency'),
-          style: {flex: 1}},
+          style: {flex: 1},
+        },
         {
           name: 'subscriptionCommenceDate',
           title: this.$t('pim.subscription_commence_date'),

@@ -186,7 +186,9 @@ export default {
           const index = data.findIndex(item => item.fieldName === v);
           if (index > -1) {
             const id = data[index].id;
-            return id != this.customFieldId ? this.$t('general.already_exists') : true;
+            return id != this.customFieldId
+              ? this.$t('general.already_exists')
+              : true;
           } else {
             return true;
           }

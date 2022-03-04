@@ -21,7 +21,9 @@
 <template>
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
-      <oxd-text class="orangehrm-main-title">{{ $t('pim.add_reporting_method') }}</oxd-text>
+      <oxd-text class="orangehrm-main-title">{{
+        $t('pim.add_reporting_method')
+      }}</oxd-text>
 
       <oxd-divider />
 

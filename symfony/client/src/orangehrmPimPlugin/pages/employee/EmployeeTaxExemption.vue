@@ -168,7 +168,8 @@ export default {
         federalExemptions: [
           v => {
             return (
-              v.match(/^\d*\.?\d*$/) !== null || this.$t('general.should_be_a_positive_number')
+              v.match(/^\d*\.?\d*$/) !== null ||
+              this.$t('general.should_be_a_positive_number')
             );
           },
           shouldNotExceedCharLength(2),
@@ -176,7 +177,8 @@ export default {
         stateExemptions: [
           v => {
             return (
-              v.match(/^\d*\.?\d*$/) !== null || this.$t('general.should_be_a_positive_number')
+              v.match(/^\d*\.?\d*$/) !== null ||
+              this.$t('general.should_be_a_positive_number')
             );
           },
           shouldNotExceedCharLength(2),

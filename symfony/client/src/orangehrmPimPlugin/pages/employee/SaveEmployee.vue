@@ -21,7 +21,9 @@
 <template>
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
-      <oxd-text tag="h6" class="orangehrm-main-title">{{ $t('general.add_employee') }}</oxd-text>
+      <oxd-text tag="h6" class="orangehrm-main-title">{{
+        $t('general.add_employee')
+      }}</oxd-text>
       <oxd-divider />
 
       <oxd-form :loading="isLoading" @submitValid="onSave">
@@ -110,7 +112,11 @@
         <oxd-divider />
         <oxd-form-actions>
           <required-text />
-          <oxd-button display-type="ghost" :label="$t('general.cancel')" @click="onCancel" />
+          <oxd-button
+            display-type="ghost"
+            :label="$t('general.cancel')"
+            @click="onCancel"
+          />
           <submit-button />
         </oxd-form-actions>
       </oxd-form>
@@ -130,7 +136,8 @@ import {
   maxFileSize,
   required,
   shouldNotExceedCharLength,
-  shouldNotLessThanCharLength, validFileTypes,
+  shouldNotLessThanCharLength,
+  validFileTypes,
 } from '@ohrm/core/util/validation/rules';
 
 const defaultPic = `${window.appGlobal.baseUrl}/../dist/img/user-default-400.png`;
@@ -201,12 +208,12 @@ export default {
         employeeId: [shouldNotExceedCharLength(10)],
         empPicture: [
           maxFileSize(1024 * 1024),
-          validFileTypes(this.allowedImageTypes)
+          validFileTypes(this.allowedImageTypes),
         ],
         username: [
           required,
           shouldNotLessThanCharLength(5),
-          shouldNotExceedCharLength(40)
+          shouldNotExceedCharLength(40),
         ],
         status: [required],
       },

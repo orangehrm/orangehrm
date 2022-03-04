@@ -21,7 +21,9 @@
 <template>
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
-      <oxd-text tag="h6" class="orangehrm-main-title">{{ $t('pim.edit_report') }}</oxd-text>
+      <oxd-text tag="h6" class="orangehrm-main-title">{{
+        $t('pim.edit_report')
+      }}</oxd-text>
       <oxd-divider />
 
       <oxd-form :loading="isLoading" @submitValid="onSave">
@@ -231,8 +233,16 @@ export default {
         includeEmployees: [required],
       },
       includeOpts: [
-        {id: 1, key: 'onlyCurrent', label: this.$t('general.current_employees_only')},
-        {id: 2, key: 'currentAndPast', label: this.$t('general.current_and_past_employees')},
+        {
+          id: 1,
+          key: 'onlyCurrent',
+          label: this.$t('general.current_employees_only'),
+        },
+        {
+          id: 2,
+          key: 'currentAndPast',
+          label: this.$t('general.current_and_past_employees'),
+        },
         {id: 3, key: 'onlyPast', label: this.$t('general.past_employees_only')},
       ],
     };
@@ -291,7 +301,9 @@ export default {
           const index = data.findIndex(item => item.name == v);
           if (index > -1) {
             const {id} = data[index];
-            return id != this.reportId ? this.$t('general.already_exists') : true;
+            return id != this.reportId
+              ? this.$t('general.already_exists')
+              : true;
           } else {
             return true;
           }

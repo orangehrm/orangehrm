@@ -22,7 +22,9 @@
   <div class="orangehrm-background-container">
     <div class="orangehrm-paper-container">
       <div class="orangehrm-header-container">
-        <oxd-text class="orangehrm-main-title">{{ $t('pim.termination_reasons') }}</oxd-text>
+        <oxd-text class="orangehrm-main-title">{{
+          $t('pim.termination_reasons')
+        }}</oxd-text>
         <div>
           <oxd-button
             :label="$t('general.add')"

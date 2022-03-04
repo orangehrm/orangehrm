@@ -145,11 +145,28 @@ export default {
   data() {
     return {
       headers: [
-        {name: 'type', slot: 'title', title: this.$t('pim.document'), style: {flex: 1}},
+        {
+          name: 'type',
+          slot: 'title',
+          title: this.$t('pim.document'),
+          style: {flex: 1},
+        },
         {name: 'number', title: this.$t('pim.number'), style: {flex: 1}},
-        {name: 'countryName', title: this.$t('pim.issued_by'), style: {flex: 1}},
-        {name: 'issuedDate', title: this.$t('pim.issued_date'), style: {flex: 1}},
-        {name: 'expiryDate', title: this.$t('general.expiry_date'), style: {flex: 1}},
+        {
+          name: 'countryName',
+          title: this.$t('pim.issued_by'),
+          style: {flex: 1},
+        },
+        {
+          name: 'issuedDate',
+          title: this.$t('pim.issued_date'),
+          style: {flex: 1},
+        },
+        {
+          name: 'expiryDate',
+          title: this.$t('general.expiry_date'),
+          style: {flex: 1},
+        },
         {
           name: 'actions',
           slot: 'action',

@@ -49,7 +49,11 @@
 import {APIService} from '@ohrm/core/util/services/api.service';
 import ProfileImageInput from '@/orangehrmPimPlugin/components/ProfileImageInput';
 import EditEmployeeLayout from '@/orangehrmPimPlugin/components/EditEmployeeLayout';
-import {maxFileSize, required, validFileTypes} from "@/core/util/validation/rules";
+import {
+  maxFileSize,
+  required,
+  validFileTypes,
+} from '@/core/util/validation/rules';
 const defaultPic = `${window.appGlobal.baseUrl}/../dist/img/user-default-400.png`;
 
 export default {
@@ -85,9 +89,10 @@ export default {
       isLoading: false,
       empPicture: null,
       rules: {
-        empPicture: [required,
+        empPicture: [
+          required,
           maxFileSize(1024 * 1024),
-          validFileTypes(this.allowedImageTypes)
+          validFileTypes(this.allowedImageTypes),
         ],
       },
     };

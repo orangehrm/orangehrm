@@ -126,11 +126,32 @@ export default {
   data() {
     return {
       headers: [
-        {name: 'name', slot: 'title', title: this.$t('general.name'), style: {flex: 1}},
-        {name: 'relationship', title: this.$t('pim.relationship'), style: {flex: 1}},
-        {name: 'homePhone', title: this.$t('pim.home_telephone'), style: {flex: 1}},
-        {name: 'mobilePhone', title: this.$t('general.mobile'), style: {flex: 1}},
-        {name: 'officePhone', title: this.$t('pim.work_telephone'), style: {flex: 1}},
+        {
+          name: 'name',
+          slot: 'title',
+          title: this.$t('general.name'),
+          style: {flex: 1},
+        },
+        {
+          name: 'relationship',
+          title: this.$t('pim.relationship'),
+          style: {flex: 1},
+        },
+        {
+          name: 'homePhone',
+          title: this.$t('pim.home_telephone'),
+          style: {flex: 1},
+        },
+        {
+          name: 'mobilePhone',
+          title: this.$t('general.mobile'),
+          style: {flex: 1},
+        },
+        {
+          name: 'officePhone',
+          title: this.$t('pim.work_telephone'),
+          style: {flex: 1},
+        },
         {
           name: 'actions',
           slot: 'action',

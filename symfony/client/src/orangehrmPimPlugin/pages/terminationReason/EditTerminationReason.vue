@@ -21,7 +21,9 @@
 <template>
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
-      <oxd-text class="orangehrm-main-title">{{ $t('pim.edit_termination_reason') }}</oxd-text>
+      <oxd-text class="orangehrm-main-title">{{
+        $t('pim.edit_termination_reason')
+      }}</oxd-text>
 
       <oxd-divider />
 
@@ -107,7 +109,9 @@ export default {
           const index = data.findIndex(item => item.name === v);
           if (index > -1) {
             const {id} = data[index];
-            return id !== this.termination.id ? this.$t('general.already_exists') : true;
+            return id !== this.termination.id
+              ? this.$t('general.already_exists')
+              : true;
           } else {
             return true;
           }
