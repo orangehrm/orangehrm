@@ -170,7 +170,7 @@ export default {
           validDateFormat(),
           endDateShouldBeAfterStartDate(
             () => this.immigration.issuedDate,
-              this.$t('pim.expiry_date_should_be_after_issued_date'),
+            this.$t('pim.expiry_date_should_be_after_issued_date'),
           ),
         ],
         status: [shouldNotExceedCharLength(30)],

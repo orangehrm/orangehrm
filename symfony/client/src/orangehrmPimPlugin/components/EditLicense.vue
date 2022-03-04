@@ -20,7 +20,9 @@
 
 <template>
   <div class="orangehrm-horizontal-padding orangehrm-top-padding">
-    <oxd-text tag="h6" class="orangehrm-main-title">{{ $t('general.edit_license') }}</oxd-text>
+    <oxd-text tag="h6" class="orangehrm-main-title">
+      {{ $t('general.edit_license') }}
+    </oxd-text>
     <oxd-divider />
     <oxd-form :loading="isLoading" @submitValid="onSave">
       <oxd-form-row>
@@ -122,7 +124,7 @@ export default {
           validDateFormat(),
           endDateShouldBeAfterStartDate(
             () => this.license.issuedDate,
-              this.$t('pim.expiry_date_should_be_after_issued_date'),
+            this.$t('pim.expiry_date_should_be_after_issued_date'),
           ),
         ],
       },

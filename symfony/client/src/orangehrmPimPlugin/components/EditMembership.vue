@@ -101,7 +101,9 @@
 import {
   required,
   validDateFormat,
-  endDateShouldBeAfterStartDate, maxCurrency, digitsOnly,
+  endDateShouldBeAfterStartDate,
+  maxCurrency,
+  digitsOnly,
 } from '@ohrm/core/util/validation/rules';
 import {yearRange} from '@ohrm/core/util/helper/year-range';
 
@@ -153,13 +155,10 @@ export default {
           validDateFormat(),
           endDateShouldBeAfterStartDate(
             () => this.membership.subscriptionCommenceDate,
-              this.$t('pim.renewal_date_should_be_after_the_commencing_date'),
+            this.$t('pim.renewal_date_should_be_after_the_commencing_date'),
           ),
         ],
-        subscriptionFee: [
-          digitsOnly(),
-          maxCurrency(1000000000),
-        ],
+        subscriptionFee: [digitsOnly(), maxCurrency(1000000000)],
       },
     };
   },

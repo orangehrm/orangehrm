@@ -5,7 +5,7 @@
     </oxd-text>
     <oxd-button
       v-if="actionButtonShown"
-      label="Add"
+      :label="$t('general.add')"
       icon-name="plus"
       display-type="text"
       v-bind="$attrs"

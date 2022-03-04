@@ -20,7 +20,9 @@
 
 <template>
   <div class="orangehrm-card-container">
-    <oxd-text tag="h6" class="orangehrm-main-title">{{ $t('general.edit_attachment') }}</oxd-text>
+    <oxd-text tag="h6" class="orangehrm-main-title">{{
+      $t('general.edit_attachment')
+    }}</oxd-text>
     <oxd-divider />
     <oxd-form :loading="isLoading" @submitValid="onSave">
       <oxd-form-row>
@@ -82,7 +84,11 @@
 </template>
 
 <script>
-import {maxFileSize, shouldNotExceedCharLength, validFileTypes} from '@ohrm/core/util/validation/rules';
+import {
+  maxFileSize,
+  shouldNotExceedCharLength,
+  validFileTypes,
+} from '@ohrm/core/util/validation/rules';
 const attachmentModel = {
   attachment: null,
   description: '',
@@ -119,7 +125,7 @@ export default {
         description: [shouldNotExceedCharLength(200)],
         attachment: [
           maxFileSize(1024 * 1024),
-          validFileTypes(this.allowedFileTypes)
+          validFileTypes(this.allowedFileTypes),
         ],
       },
     };

@@ -43,7 +43,7 @@
         :action-button-shown="$can.create(`supervisor`)"
         @click="onClickAdd"
       >
-        Assigned Supervisors
+        {{ $t('pim.assigned_supervisors') }}
       </profile-action-header>
     </div>
     <table-header
@@ -83,7 +83,7 @@ const supervisorNormalizer = data => {
   return data.map(item => {
     return {
       name: `${item.supervisor?.firstName} ${item.supervisor?.lastName} ${
-        item.supervisor.terminationId ? ' (Past Employee)' : ''
+        item.supervisor.terminationId ? this.$t('general.past_employee') : ''
       }`,
       reportingMethod: item.reportingMethod.name,
       supervisorEmpNumber: item.supervisor.empNumber,
@@ -148,10 +148,15 @@ export default {
   data() {
     return {
       headers: [
-        {name: 'name', slot: 'title', title: 'Name', style: {flex: 1}},
+        {
+          name: 'name',
+          slot: 'title',
+          title: this.$t('general.name'),
+          style: {flex: 1},
+        },
         {
           name: 'reportingMethod',
-          title: 'Reporting Method',
+          title: this.$t('pim.reporting_method'),
           style: {flex: 1},
         },
       ],

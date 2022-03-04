@@ -24,14 +24,16 @@
     @update:show="onCancel(false)"
   >
     <div class="orangehrm-modal-header">
-      <oxd-text type="card-title">Terminate Employment</oxd-text>
+      <oxd-text type="card-title">{{
+        $t('pim.terminate_employment')
+      }}</oxd-text>
     </div>
     <oxd-divider />
     <oxd-form :loading="isLoading" @submitValid="onSave">
       <oxd-form-row>
         <date-input
           v-model="termination.date"
-          label="Termination Date"
+          :label="$t('pim.termination_date')"
           :rules="rules.date"
           required
         />
@@ -40,7 +42,7 @@
         <oxd-input-field
           v-model="termination.terminationReason"
           type="select"
-          label="Termination Reason"
+          :label="$t('pim.termination_reason')"
           :rules="rules.terminationReason"
           :options="terminationReasons"
           required
@@ -50,8 +52,8 @@
         <oxd-input-field
           v-model="termination.note"
           type="textarea"
-          label="Note"
-          placeholder="Type here"
+          :label="$t('general.note')"
+          :placeholder="$t('general.type_here')"
           :rules="rules.note"
         />
       </oxd-form-row>
@@ -62,7 +64,7 @@
         <oxd-button
           type="button"
           display-type="ghost"
-          label="Cancel"
+          :label="$t('general.cancel')"
           @click="onCancel(false)"
         />
         <submit-button />

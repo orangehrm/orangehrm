@@ -20,7 +20,9 @@
 
 <template>
   <div class="orangehrm-horizontal-padding orangehrm-top-padding">
-    <oxd-text tag="h6" class="orangehrm-main-title">{{ $t('general.edit_education') }}</oxd-text>
+    <oxd-text tag="h6" class="orangehrm-main-title">{{
+      $t('general.edit_education')
+    }}</oxd-text>
     <oxd-divider />
     <oxd-form :loading="isLoading" @submitValid="onSave">
       <oxd-form-row>
