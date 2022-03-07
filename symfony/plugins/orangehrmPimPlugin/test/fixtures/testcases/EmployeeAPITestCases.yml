@@ -1147,6 +1147,21 @@ Delete:
       class: '\OrangeHRM\Core\Api\V2\Exception\BadRequestException'
       message: 'Not allowed to delete employees'
 
+  'with nonexistent empNumber':
+    userId: 1
+    services:
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    body:
+      ids: [ 900 ]
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\BadRequestException'
+      message: 'Employees not accessible'
+
+
   'with one id':
     userId: 1
     services:
