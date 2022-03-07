@@ -38,14 +38,6 @@ class EmployeeAPITest extends EndpointIntegrationTestCase
         $this->assertInstanceOf(EmployeePictureService::class, $api->getEmployeePictureService());
     }
 
-    public function testSetEmployeePictureService(): void
-    {
-        $api = new EmployeeAPI($this->getRequest());
-        $api->setEmployeePictureService(new EmployeePictureService());
-
-        $this->assertInstanceOf(EmployeePictureService::class, $api->getEmployeePictureService());
-    }
-
     /**
      * @dataProvider dataProviderForTestGetOne
      */
@@ -101,22 +93,18 @@ class EmployeeAPITest extends EndpointIntegrationTestCase
         return $this->getTestCases('EmployeeAPITestCases.yml', 'Create');
     }
 
-    /**
-     * @dataProvider dataProviderForTestUpdate
-     */
-    public function testUpdate(TestCaseParams $testCaseParams): void
+    public function testUpdate(): void
     {
-        $this->populateFixtures('EmployeeAPITest.yml');
-        $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
-
-        $this->registerServices($testCaseParams);
-        $api = $this->getApiEndpointMock(EmployeeAPI::class, $testCaseParams);
-        $this->assertValidTestCase($api, 'update', $testCaseParams);
+        $api = new EmployeeAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->update();
     }
 
-    public function dataProviderForTestUpdate(): array
+    public function testGetValidationRuleForUpdate(): void
     {
-        return $this->getTestCases('EmployeeAPITestCases.yml', 'Update');
+        $api = new EmployeeAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->getValidationRuleForUpdate();
     }
 
     /**
