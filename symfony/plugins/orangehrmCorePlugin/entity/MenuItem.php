@@ -21,20 +21,14 @@ namespace OrangeHRM\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use OrangeHRM\Entity\Decorator\DecoratorTrait;
-use OrangeHRM\Entity\Decorator\MenuItemDecorator;
 
 /**
- * @method MenuItemDecorator getDecorator()
- *
  * @ORM\Table(name="ohrm_menu_item")
  * @ORM\Entity
  */
 class MenuItem
 {
     use DecoratorTrait;
-
-    public const STATUS_ENABLED = true;
-    public const STATUS_DISABLED = false;
 
     /**
      * @var int
@@ -102,12 +96,6 @@ class MenuItem
      * @ORM\Column(name="additional_params", type="json", nullable=true)
      */
     private ?array $additionalParams = [];
-
-    /**
-     * @deprecated
-     * @var array|MenuItem[]
-     */
-    protected array $subMenuItems = [];
 
     /**
      * @return int
@@ -251,23 +239,5 @@ class MenuItem
     public function setAdditionalParams(?array $additionalParams): void
     {
         $this->additionalParams = $additionalParams;
-    }
-
-    /**
-     * @param MenuItem $menuItem
-     * @deprecated
-     */
-    public function addSubMenuItem(MenuItem $menuItem): void
-    {
-        $this->subMenuItems[] = $menuItem;
-    }
-
-    /**
-     * @return array|MenuItem[]
-     * @deprecated
-     */
-    public function getSubMenuItems(): array
-    {
-        return $this->subMenuItems;
     }
 }

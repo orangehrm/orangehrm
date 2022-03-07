@@ -4479,3 +4479,12 @@ INSERT INTO ohrm_user_role_data_group (`can_read`, `can_create`, `can_update`, `
 VALUES (1, 0, 0, 1, 0, @apiv2_purge_employee_data_group_id, @admin_role_id);
 
 ALTER TABLE `ohrm_screen` ADD `menu_configurator` VARCHAR(255) NULL DEFAULT NULL;
+
+SET @pim_module_id := (SELECT `id` FROM ohrm_module WHERE name = 'pim' LIMIT 1);
+UPDATE `ohrm_screen` SET `menu_configurator` = 'OrangeHRM\\Pim\\Menu\\MyInfoMenuConfigurator' WHERE `module_id` = @pim_module_id AND `action_url` = 'viewMyDetails';
+
+SET @attendance_module_id := (SELECT `id` FROM ohrm_module WHERE name = 'attendance' LIMIT 1);
+UPDATE `ohrm_screen` SET `menu_configurator` = 'OrangeHRM\Attendance\Menu\AttendanceMenuConfigurator' WHERE `module_id` = @attendance_module_id;
+
+SET @time_menu_item := (SELECT `id` FROM ohrm_menu_item WHERE menu_title = 'Time' LIMIT 1);
+UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `parent_id` = @time_menu_item;

@@ -19,105 +19,48 @@
 
 namespace OrangeHRM\Core\Dao;
 
-use Exception;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Menu\DetailedMenuItem;
 use OrangeHRM\Entity\MenuItem;
 use OrangeHRM\Entity\UserRole;
-use OrangeHRM\ORM\Doctrine;
 use OrangeHRM\ORM\ListSorter;
 use OrangeHRM\ORM\QueryBuilderWrapper;
 
 class MenuDao extends BaseDao
 {
     /**
-     * @param UserRole[]|string[] $userRoleList
-     * @return MenuItem[]
-     * @throws DaoException
-     */
-    public function getMenuItemList(array $userRoleList): array
-    {
-        try {
-            if (count($userRoleList) == 0) {
-                return [];
-            }
-
-            $roleNames = [];
-
-            foreach ($userRoleList as $role) {
-                if ($role instanceof UserRole) {
-                    $roleNames[] = $role->getName();
-                } elseif (is_string($role)) {
-                    $roleNames[] = $role;
-                }
-            }
-
-            $q = $this->createQueryBuilder(MenuItem::class, 'mi');
-            $q->leftJoin('mi.screen', 'sc');
-            $q->leftJoin('sc.module', 'mo');
-            $q->leftJoin('sc.screenPermissions', 'sp');
-            $q->leftJoin('sp.userRole', 'ur');
-
-            $q->andWhere('mo.status = :moduleStatus');
-            $q->setParameter('moduleStatus', true);
-
-            $q->andWhere('mi.status = :menuItemStatus');
-            $q->setParameter('menuItemStatus', MenuItem::STATUS_ENABLED);
-
-            $q->andWhere('sp.canRead = :screenPermission');
-            $q->setParameter('screenPermission', true);
-
-            $q->andWhere($q->expr()->in('ur.name', ':roleNames'))
-                ->setParameter('roleNames', $roleNames);
-            $q->orWhere($q->expr()->isNull('mi.screen'));
-            $q->addOrderBy('mi.orderHint', ListSorter::ASCENDING);
-            $q->addOrderBy('mi.id', ListSorter::ASCENDING);
-
-            return $q->getQuery()->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
-    }
-
-    /**
      * @param string $moduleName
      * @param array $menuTitles
      * @return int
-     * @throws DaoException
      */
     public function enableModuleMenuItems(string $moduleName, array $menuTitles = []): int
     {
-        try {
-            $q = $this->createQueryBuilder(MenuItem::class, 'mi');
-            $q->leftJoin('mi.screen', 'sc');
-            $q->leftJoin('sc.module', 'mo');
+        $q = $this->createQueryBuilder(MenuItem::class, 'menuItem');
+        $q->leftJoin('menuItem.screen', 'screen');
+        $q->leftJoin('screen.module', 'module');
 
-            $q->andWhere('mo.name = :moduleName');
-            $q->setParameter('moduleName', $moduleName);
+        $q->andWhere('module.name = :moduleName')
+            ->setParameter('moduleName', $moduleName);
 
-            $q->andWhere('mi.status = :menuItemStatus');
-            $q->setParameter('menuItemStatus', MenuItem::STATUS_DISABLED);
-
-            if (!empty($menuTitles)) {
-                $q->andWhere($q->expr()->in('mi.menuTitle', ':menuTitles'))
-                    ->setParameter('menuTitles', $menuTitles);
-            }
-            $menuItemList = $q->getQuery()->execute();
-            $i = 0;
-
-            foreach ($menuItemList as $menuItem) {
-                if ($menuItem instanceof MenuItem) {
-                    $menuItem->setStatus(MenuItem::STATUS_ENABLED);
-                    Doctrine::getEntityManager()->persist($menuItem);
-                }
-                $i++;
-            }
-            Doctrine::getEntityManager()->flush();
-
-            return $i;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        if (!empty($menuTitles)) {
+            $q->andWhere($q->expr()->in('menuItem.menuTitle', ':menuTitles'))
+                ->setParameter('menuTitles', $menuTitles);
         }
+        $q->select('menuItem.id', 'IDENTITY(menuItem.parent) AS parentId');
+        $menuItemList = $q->getQuery()->execute();
+
+        $ids = array_column($menuItemList, 'id');
+        $parentIds = array_column($menuItemList, 'parentId');
+        $menuItemIds = array_unique(array_merge($ids, $parentIds));
+
+        $q = $this->createQueryBuilder(MenuItem::class, 'menuItem')
+            ->update()
+            ->andWhere($q->expr()->in('menuItem.id', ':ids'))
+            ->andWhere('menuItem.status != :status')
+            ->setParameter('ids', $menuItemIds)
+            ->set('menuItem.status', ':status')
+            ->setParameter('status', true);
+
+        return $q->getQuery()->execute();
     }
 
     /**
@@ -178,8 +121,9 @@ class MenuDao extends BaseDao
         $secondLevelMenuItems = $q->getQuery()->execute();
         $secondLevelMenuItemIds = [];
         foreach ($secondLevelMenuItems as $secondLevelMenuItem) {
-//            $secondLevelMenuItemIds[$secondLevelMenuItem->getId()] = $secondLevelMenuItem;
-            $secondLevelMenuItemIds[$secondLevelMenuItem->getId()] = DetailedMenuItem::createFromMenuItem($secondLevelMenuItem);
+            $secondLevelMenuItemIds[$secondLevelMenuItem->getId()] = DetailedMenuItem::createFromMenuItem(
+                $secondLevelMenuItem
+            );
         }
 
         $q = $this->getMenuItemQueryBuilderWrapper($userRoles)->getQueryBuilder();
@@ -194,9 +138,6 @@ class MenuDao extends BaseDao
         $thirdLevelMenuItems = $q->getQuery()->execute();
         foreach ($thirdLevelMenuItems as $thirdLevelMenuItem) {
             if (isset($secondLevelMenuItemIds[$thirdLevelMenuItem->getParent()->getId()])) {
-//                $secondLevelMenuItemIds[$thirdLevelMenuItem->getParent()->getId()]
-//                    ->getDecorator()
-//                    ->addChild($thirdLevelMenuItem);
                 $secondLevelMenuItemIds[$thirdLevelMenuItem->getParent()->getId()]
                     ->addChild(DetailedMenuItem::createFromMenuItem($thirdLevelMenuItem));
             }
@@ -221,24 +162,36 @@ class MenuDao extends BaseDao
         $q->leftJoin('sc.screenPermissions', 'sp');
         $q->leftJoin('sp.userRole', 'ur');
 
-        $q->andWhere($q->expr()->orX(
-            'mo.status = :moduleStatus',
-            $q->expr()->isNull('mi.screen')
-        ))->setParameter('moduleStatus', true);
+        $q->andWhere('mo.status = :moduleStatus')
+            ->setParameter('moduleStatus', true);
 
+        $q->andWhere('sp.canRead = :screenPermission')
+            ->setParameter('screenPermission', true);
+
+        $q->andWhere($q->expr()->in('ur.id', ':roleIds'))
+            ->setParameter('roleIds', $userRoleIds);
+
+        $q->orWhere($q->expr()->isNull('mi.screen'));
         $q->andWhere('mi.status = :menuItemStatus')
             ->setParameter('menuItemStatus', true);
 
-        $q->andWhere($q->expr()->orX(
-            $q->expr()->andX(
-                'sp.canRead = :screenPermission',
-                $q->expr()->in('ur.id', ':roleIds')
-            ),
-            $q->expr()->isNull('mi.screen')
-        ));
-        $q->setParameter('screenPermission', true)
-            ->setParameter('roleIds', $userRoleIds);
-
         return $this->getQueryBuilderWrapper($q);
+    }
+
+    /**
+     * @param string $title
+     * @param int|null $level
+     * @return MenuItem|null
+     */
+    public function getMenuItemByTitle(string $title, ?int $level = null): ?MenuItem
+    {
+        $q = $this->createQueryBuilder(MenuItem::class, 'menuItem')
+            ->andWhere('menuItem.menuTitle = :title')
+            ->setParameter('title', $title);
+        if (!is_null($level)) {
+            $q->andWhere('menuItem.level = :level')
+                ->setParameter('level', $level);
+        }
+        return $this->fetchOne($q);
     }
 }

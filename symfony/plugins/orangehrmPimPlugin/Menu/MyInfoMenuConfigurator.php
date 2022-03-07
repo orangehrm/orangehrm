@@ -17,51 +17,22 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Entity\Decorator;
+namespace OrangeHRM\Pim\Menu;
 
+use OrangeHRM\Core\Menu\MenuConfigurator;
+use OrangeHRM\Core\Traits\Service\MenuServiceTrait;
 use OrangeHRM\Entity\MenuItem;
+use OrangeHRM\Entity\Screen;
 
-class MenuItemDecorator
+class MyInfoMenuConfigurator implements MenuConfigurator
 {
-    /**
-     * @var MenuItem
-     */
-    private MenuItem $menuItem;
+    use MenuServiceTrait;
 
     /**
-     * @var MenuItem[]
+     * @inheritDoc
      */
-    private array $childMenuItems = [];
-
-    /**
-     * @param MenuItem $menuItem
-     */
-    public function __construct(MenuItem $menuItem)
+    public function configure(Screen $screen): ?MenuItem
     {
-        $this->menuItem = $menuItem;
-    }
-
-    /**
-     * @return MenuItem
-     */
-    protected function getMenuItem(): MenuItem
-    {
-        return $this->menuItem;
-    }
-
-    /**
-     * @param MenuItem $childMenuItem
-     */
-    public function addChild(MenuItem $childMenuItem)
-    {
-        $this->childMenuItems[] = $childMenuItem;
-    }
-
-    /**
-     * @return MenuItem[]
-     */
-    public function getChildMenuItems(): array
-    {
-        return $this->childMenuItems;
+        return $this->getMenuService()->getMenuDao()->getMenuItemByTitle('My Info', 1);
     }
 }

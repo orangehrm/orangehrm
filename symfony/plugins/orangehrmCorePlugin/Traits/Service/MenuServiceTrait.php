@@ -17,29 +17,21 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Core\Authorization\Dao;
+namespace OrangeHRM\Core\Traits\Service;
 
-use OrangeHRM\Core\Dao\BaseDao;
-use OrangeHRM\Entity\Screen;
+use OrangeHRM\Core\Service\MenuService;
+use OrangeHRM\Core\Traits\ServiceContainerTrait;
+use OrangeHRM\Framework\Services;
 
-class ScreenDao extends BaseDao
+trait MenuServiceTrait
 {
-    /**
-     * Get screen for given module and action
-     *
-     * @param string $module Module Name
-     * @param string $action
-     * @return Screen|null
-     */
-    public function getScreen(string $module, string $action): ?Screen
-    {
-        $q = $this->createQueryBuilder(Screen::class, 's');
-        $q->leftJoin('s.module', 'm');
-        $q->andWhere('m.name = :moduleName')
-            ->setParameter('moduleName', $module);
-        $q->andWhere('s.actionUrl = :actionUrl')
-            ->setParameter('actionUrl', $action);
+    use ServiceContainerTrait;
 
-        return $q->getQuery()->getOneOrNullResult();
+    /**
+     * @return MenuService
+     */
+    public function getMenuService(): MenuService
+    {
+        return $this->getContainer()->get(Services::MENU_SERVICE);
     }
 }

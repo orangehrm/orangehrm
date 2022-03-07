@@ -314,11 +314,6 @@ class UnitTestUserRoleManager extends AbstractUserRoleManager
         return [];
     }
 
-    public function getAccessibleMenuItemDetails(): array
-    {
-        return [];
-    }
-
     public function isModuleAccessible(string $module): bool
     {
         return false;

@@ -184,11 +184,6 @@ abstract class AbstractUserRoleManager
     abstract public function getAccessibleModules(): array;
 
     /**
-     * @return array
-     */
-    abstract public function getAccessibleMenuItemDetails(): array;
-
-    /**
      * @param string $module
      * @return bool
      */

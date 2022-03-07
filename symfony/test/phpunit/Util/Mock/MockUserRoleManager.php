@@ -110,14 +110,6 @@ class MockUserRoleManager extends AbstractUserRoleManager
     /**
      * @inheritDoc
      */
-    public function getAccessibleMenuItemDetails(): array
-    {
-        throw $this->getException(__METHOD__);
-    }
-
-    /**
-     * @inheritDoc
-     */
     public function isModuleAccessible(string $module): bool
     {
         throw $this->getException(__METHOD__);

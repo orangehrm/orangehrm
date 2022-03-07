@@ -21,14 +21,11 @@ namespace OrangeHRM\Tests\Core\Dao;
 
 use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Dao\MenuDao;
-use OrangeHRM\Entity\MenuItem;
-use OrangeHRM\Entity\UserRole;
 use OrangeHRM\ORM\Doctrine;
 use OrangeHRM\Tests\Util\TestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 
 /**
- * Description of MenuDaoTest
  * @group Core
  * @group Dao
  */
@@ -47,108 +44,6 @@ class MenuDaoTest extends TestCase
         $this->fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmCorePlugin/test/fixtures/MenuDao.yml';
         TestDataService::populate($this->fixture);
         $this->menuDao = new MenuDao();
-    }
-
-    public function testGetMenuItemListForAdmin()
-    {
-        $userRoleList[0] = new UserRole();
-        $userRoleList[0]->setName('Admin');
-
-        $menuItemList = $this->menuDao->getMenuItemList($userRoleList);
-
-        /* Checking the count */
-        $this->assertEquals(18, count($menuItemList));
-
-        /* Checking the type */
-        $this->assertTrue($menuItemList[0] instanceof MenuItem);
-
-        /* Checking order */
-        $this->assertEquals('Admin', $menuItemList[0]->getMenuTitle());
-        $this->assertEquals('Assign Leave', $menuItemList[17]->getMenuTitle());
-    }
-
-    public function testGetMenuItemListForAdminAndEss()
-    {
-        $userRoleList[0] = new UserRole();
-        $userRoleList[0]->setName('Admin');
-        $userRoleList[1] = new UserRole();
-        $userRoleList[1]->setName('ESS');
-
-        $menuItemList = $this->menuDao->getMenuItemList($userRoleList);
-
-        /* Checking the count */
-        $this->assertEquals(21, count($menuItemList));
-
-        /* Checking the type */
-        $this->assertTrue($menuItemList[0] instanceof MenuItem);
-
-        /* Checking order */
-        $this->assertEquals('Admin', $menuItemList[0]->getMenuTitle());
-        $this->assertEquals('Assign Leave', $menuItemList[17]->getMenuTitle());
-    }
-
-    public function testGetMenuItemListForSupervisor()
-    {
-        $userRoleList[0] = new UserRole();
-        $userRoleList[0]->setName('Supervisor');
-        $userRoleList[1] = new UserRole();
-        $userRoleList[1]->setName('ESS');
-
-        $menuItemList = $this->menuDao->getMenuItemList($userRoleList);
-
-        /* Checking the count */
-        $this->assertEquals(12, count($menuItemList));
-
-        /* Checking the type */
-        $this->assertTrue($menuItemList[0] instanceof MenuItem);
-
-        /* Checking order and eligible items.
-         * Note that items with screenId null
-         * will be available though they are
-         * not permitted.
-         */
-        $this->assertEquals('Admin', $menuItemList[0]->getMenuTitle());
-        $this->assertEquals('Organization', $menuItemList[1]->getMenuTitle());
-        $this->assertEquals('Configuration', $menuItemList[2]->getMenuTitle());
-        $this->assertEquals('Configure', $menuItemList[3]->getMenuTitle());
-        $this->assertEquals('PIM', $menuItemList[4]->getMenuTitle());
-        $this->assertEquals('Employee List', $menuItemList[5]->getMenuTitle());
-        $this->assertEquals('Leave Summary', $menuItemList[6]->getMenuTitle());
-        $this->assertEquals('Leave', $menuItemList[7]->getMenuTitle());
-        $this->assertEquals('Leave List', $menuItemList[8]->getMenuTitle());
-        $this->assertEquals('My Info', $menuItemList[9]->getMenuTitle());
-        $this->assertEquals('My Leave', $menuItemList[10]->getMenuTitle());
-        $this->assertEquals('Apply', $menuItemList[11]->getMenuTitle());
-    }
-
-    public function testGetMenuItemListForEss()
-    {
-        $userRoleList[0] = new UserRole();
-        $userRoleList[0]->setName('ESS');
-
-        $menuItemList = $this->menuDao->getMenuItemList($userRoleList);
-
-        /* Checking the count */
-        $this->assertEquals(10, count($menuItemList));
-
-        /* Checking the type */
-        $this->assertTrue($menuItemList[0] instanceof MenuItem);
-
-        /* Checking order and eligible items.
-         * Note that items with screenId null
-         * will be available though they are
-         * not permitted.
-         */
-        $this->assertEquals('Admin', $menuItemList[0]->getMenuTitle());
-        $this->assertEquals('Organization', $menuItemList[1]->getMenuTitle());
-        $this->assertEquals('Configuration', $menuItemList[2]->getMenuTitle());
-        $this->assertEquals('Configure', $menuItemList[3]->getMenuTitle());
-        $this->assertEquals('PIM', $menuItemList[4]->getMenuTitle());
-        $this->assertEquals('Leave Summary', $menuItemList[5]->getMenuTitle());
-        $this->assertEquals('Leave', $menuItemList[6]->getMenuTitle());
-        $this->assertEquals('My Info', $menuItemList[7]->getMenuTitle());
-        $this->assertEquals('My Leave', $menuItemList[8]->getMenuTitle());
-        $this->assertEquals('Apply', $menuItemList[9]->getMenuTitle());
     }
 
     public function testEnableModuleMenuItems()
