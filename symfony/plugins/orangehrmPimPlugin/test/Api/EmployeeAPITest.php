@@ -31,7 +31,14 @@ use OrangeHRM\Tests\Util\Integration\TestCaseParams;
  */
 class EmployeeAPITest extends EndpointIntegrationTestCase
 {
-    public function testGetSetEmployeePictureService(): void
+    public function testGetEmployeePictureService(): void
+    {
+        $api = new EmployeeAPI($this->getRequest());
+
+        $this->assertInstanceOf(EmployeePictureService::class, $api->getEmployeePictureService());
+    }
+
+    public function testSetEmployeePictureService(): void
     {
         $api = new EmployeeAPI($this->getRequest());
         $api->setEmployeePictureService(new EmployeePictureService());
@@ -92,5 +99,41 @@ class EmployeeAPITest extends EndpointIntegrationTestCase
     public function dataProviderForTestCreate(): array
     {
         return $this->getTestCases('EmployeeAPITestCases.yml', 'Create');
+    }
+
+    /**
+     * @dataProvider dataProviderForTestUpdate
+     */
+    public function testUpdate(TestCaseParams $testCaseParams): void
+    {
+        $this->populateFixtures('EmployeeAPITest.yml');
+        $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
+
+        $this->registerServices($testCaseParams);
+        $api = $this->getApiEndpointMock(EmployeeAPI::class, $testCaseParams);
+        $this->assertValidTestCase($api, 'update', $testCaseParams);
+    }
+
+    public function dataProviderForTestUpdate(): array
+    {
+        return $this->getTestCases('EmployeeAPITestCases.yml', 'Update');
+    }
+
+    /**
+     * @dataProvider dataProviderForTestDelete
+     */
+    public function testDelete(TestCaseParams $testCaseParams): void
+    {
+        $this->populateFixtures('EmployeeAPITest.yml');
+        $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
+
+        $this->registerServices($testCaseParams);
+        $api = $this->getApiEndpointMock(EmployeeAPI::class, $testCaseParams);
+        $this->assertValidTestCase($api, 'delete', $testCaseParams);
+    }
+
+    public function dataProviderForTestDelete(): array
+    {
+        return $this->getTestCases('EmployeeAPITestCases.yml', 'Delete');
     }
 }
