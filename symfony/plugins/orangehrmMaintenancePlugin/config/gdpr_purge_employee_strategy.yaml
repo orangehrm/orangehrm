@@ -207,6 +207,12 @@ Entities:
         match_by:
           - { match: employee }
 
+  LeaveEntitlement:
+    PurgeStrategy:
+      Destroy:
+        match_by:
+          - { match: employee }
+
   AttendanceRecord:
     PurgeStrategy:
       ReplaceWithValue:

@@ -44,6 +44,7 @@ use OrangeHRM\Entity\EmpUsTaxExemption;
 use OrangeHRM\Entity\EmpWorkExperience;
 use OrangeHRM\Entity\Leave;
 use OrangeHRM\Entity\LeaveComment;
+use OrangeHRM\Entity\LeaveEntitlement;
 use OrangeHRM\Entity\LeaveRequest;
 use OrangeHRM\Entity\LeaveRequestComment;
 use OrangeHRM\Entity\ReportTo;
@@ -95,7 +96,7 @@ class PurgeEmployeeServiceTest extends KernelTestCase
     {
         $purgeableEntities = $this->purgeEmployeeService->getPurgeableEntities('gdpr_purge_employee_strategy');
 
-        $this->assertCount(24, $purgeableEntities);
+        $this->assertCount(25, $purgeableEntities);
         $this->assertArrayHasKey("Employee", $purgeableEntities);
         $this->assertArrayHasKey("EmpPicture", $purgeableEntities);
         $this->assertArrayHasKey("EmployeeAttachment", $purgeableEntities);
@@ -118,6 +119,7 @@ class PurgeEmployeeServiceTest extends KernelTestCase
         $this->assertArrayHasKey("Leave", $purgeableEntities);
         $this->assertArrayHasKey("LeaveRequestComment", $purgeableEntities);
         $this->assertArrayHasKey("LeaveRequest", $purgeableEntities);
+        $this->assertArrayHasKey("LeaveEntitlement", $purgeableEntities);
         $this->assertArrayHasKey("AttendanceRecord", $purgeableEntities);
         $this->assertArrayHasKey("TimesheetItem", $purgeableEntities);
     }
@@ -329,6 +331,10 @@ class PurgeEmployeeServiceTest extends KernelTestCase
         $empLeaveRequests = $this->getRepository(LeaveRequest::class);
         $this->assertEmpty($empLeaveRequests->findBy(['employee' => 1]));
         $this->assertCount(3, $empLeaveRequests->findAll());
+
+        $empLeaveEntitlements = $this->getRepository(LeaveEntitlement::class);
+        $this->assertEmpty($empLeaveEntitlements->findBy(['employee' => 1]));
+        $this->assertCount(4, $empLeaveEntitlements->findAll());
 
         $empAttendanceRecords = $this->getRepository(AttendanceRecord::class)->findBy(['employee' => 1]);
         $this->assertCount(2, $empAttendanceRecords);

@@ -214,6 +214,17 @@ LeaveType:
   - { id: 3, name: 'Company', deleted: 1 }
   - { id: 4, name: 'Annual', deleted: 0 }
 
+LeaveEntitlementType:
+  - {id: 1, name: 'Added'}
+
+LeaveEntitlement:
+  - { id: 1, leave_type_id: 1, emp_number: 1, no_of_days: 14, days_used: 0, from_date: '2022-01-01 00:00:00', to_date: '2023-01-01 00:00:00', entitlement_type: 1 }
+  - { id: 2, leave_type_id: 2, emp_number: 1, no_of_days: 5, days_used: 2, from_date: '2022-01-01 00:00:00', to_date: '2023-01-01 00:00:00', entitlement_type: 1 }
+  - { id: 3, leave_type_id: 1, emp_number: 2, no_of_days: 14, days_used: 0, from_date: '2022-01-01 00:00:00', to_date: '2023-01-01 00:00:00', entitlement_type: 1 }
+  - { id: 4, leave_type_id: 2, emp_number: 3, no_of_days: 14, days_used: 0, from_date: '2022-01-01 00:00:00', to_date: '2023-01-01 00:00:00', entitlement_type: 1 }
+  - { id: 5, leave_type_id: 3, emp_number: 4, no_of_days: 14, days_used: 0, from_date: '2022-01-01 00:00:00', to_date: '2023-01-01 00:00:00', entitlement_type: 1 }
+  - { id: 6, leave_type_id: 4, emp_number: 5, no_of_days: 14, days_used: 0, from_date: '2022-01-01 00:00:00', to_date: '2023-01-01 00:00:00', entitlement_type: 1 }
+
 LeaveRequest:
   - { id: 1, leave_type_id: 1, date_applied: '2010-08-30', emp_number: 1 }
   - { id: 2, leave_type_id: 1, date_applied: '2010-08-02', emp_number: 1 }
