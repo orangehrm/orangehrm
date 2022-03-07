@@ -45,6 +45,7 @@ GetOne:
       empNumber: 1
     invalidOnly: [ 'empNumber' ]
 
+  #TODO should not display purged emp details
   'with purged empNumber':
     userId: 1
     services:
@@ -123,4 +124,796 @@ GetOne:
           "middleName": ""
         }
       ]
+    }
+
+GetAll:
+  'without query':
+    userId: 1
+    services:
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    data: [
+      {
+        "empNumber": 1,
+        "lastName": "Admin",
+        "firstName": "Devi",
+        "middleName": "",
+        "employeeId": "0001",
+        "terminationId": null
+      },
+      {
+        "empNumber": 3,
+        "lastName": "de Silva",
+        "firstName": "Devishke",
+        "middleName": "Romesh",
+        "employeeId": "0003",
+        "terminationId": null
+      },
+      {
+        "empNumber": 2,
+        "lastName": "Kumara",
+        "firstName": "Rajitha",
+        "middleName": "",
+        "employeeId": "0002",
+        "terminationId": null
+      },
+      {
+        "empNumber": 5,
+        "lastName": "Perera",
+        "firstName": "Sharuka",
+        "middleName": "",
+        "employeeId": "0005",
+        "terminationId": null
+      }
+    ]
+    meta:
+      total: 4
+
+  'with invalid query':
+    userId: 1
+    services:
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      abcdefg: '1'
+    invalidOnly: [ 'abcdefg' ]
+
+#  'with limit':
+#    userId: 1
+#    services:
+#      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+#      core.config_service: \OrangeHRM\Core\Service\ConfigService
+#      admin.user_service: \OrangeHRM\Admin\Service\UserService
+#    factories:
+#      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+#    query:
+#      limit: '2'
+#    data: [
+#      {
+#        "empNumber": 1,
+#        "lastName": "Admin",
+#        "firstName": "Devi",
+#        "middleName": "",
+#        "employeeId": "0001",
+#        "terminationId": null
+#      },
+#      {
+#        "empNumber": 3,
+#        "lastName": "de Silva",
+#        "firstName": "Devishke",
+#        "middleName": "Romesh",
+#        "employeeId": "0003",
+#        "terminationId": null
+#      }
+#    ]
+#    meta:
+#      total: 4
+
+  'with name':
+    userId: 1
+    services:
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      name: 'dev'
+    data: [
+      {
+        "empNumber": 1,
+        "lastName": "Admin",
+        "firstName": "Devi",
+        "middleName": "",
+        "employeeId": "0001",
+        "terminationId": null
+      },
+      {
+        "empNumber": 3,
+        "lastName": "de Silva",
+        "firstName": "Devishke",
+        "middleName": "Romesh",
+        "employeeId": "0003",
+        "terminationId": null
+      }
+    ]
+    meta:
+      total: 2
+
+  'with nonexistent name':
+    userId: 1
+    services:
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      name: 'abc'
+    data: [ ]
+    meta:
+      total: 0
+
+  'with name or id when name given':
+    userId: 1
+    services:
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      nameOrId: 'admin'
+    data: [
+      {
+        "empNumber": 1,
+        "lastName": "Admin",
+        "firstName": "Devi",
+        "middleName": "",
+        "employeeId": "0001",
+        "terminationId": null
+      }
+    ]
+    meta:
+      total: 1
+
+  'with name or id when id given':
+    userId: 1
+    services:
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      nameOrId: '2'
+    data: [
+      {
+        "empNumber": 2,
+        "lastName": "Kumara",
+        "firstName": "Rajitha",
+        "middleName": "",
+        "employeeId": "0002",
+        "terminationId": null
+      }
+    ]
+    meta:
+      total: 1
+
+  'with name or id when nonexistent id given':
+    userId: 1
+    services:
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      nameOrId: '10'
+    data: [ ]
+    meta:
+      total: 0
+
+  'with employee id':
+    userId: 1
+    services:
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      employeeId: '0005'
+    data: [
+      {
+        "empNumber": 5,
+        "lastName": "Perera",
+        "firstName": "Sharuka",
+        "middleName": "",
+        "employeeId": "0005",
+        "terminationId": null
+      }
+    ]
+    meta:
+      total: 1
+
+  'with nonexistent employee id':
+    userId: 1
+    services:
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      employeeId: '5'
+    data: [ ]
+    meta:
+      total: 0
+
+  'with model detailed':
+    userId: 1
+    services:
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      model: 'detailed'
+    data: [
+      {
+        "empNumber": 1,
+        "lastName": "Admin",
+        "firstName": "Devi",
+        "middleName": "",
+        "employeeId": "0001",
+        "terminationId": null,
+        "jobTitle": {
+          "id": null,
+          "title": null,
+          "isDeleted": null
+        },
+        "subunit": {
+          "id": null,
+          "name": null
+        },
+        "empStatus": {
+          "id": null,
+          "name": null
+        },
+        "supervisors": [ ]
+      },
+      {
+        "empNumber": 3,
+        "lastName": "de Silva",
+        "firstName": "Devishke",
+        "middleName": "Romesh",
+        "employeeId": "0003",
+        "terminationId": null,
+        "jobTitle": {
+          "id": 1,
+          "title": "Software Engineer - Intern",
+          "isDeleted": false
+        },
+        "subunit": {
+          "id": 3,
+          "name": "Development"
+        },
+        "empStatus": {
+          "id": 1,
+          "name": "Intern"
+        },
+        "supervisors": [
+          {
+            "empNumber": 2,
+            "lastName": "Kumara",
+            "firstName": "Rajitha",
+            "middleName": ""
+          }
+        ]
+      },
+      {
+        "empNumber": 2,
+        "lastName": "Kumara",
+        "firstName": "Rajitha",
+        "middleName": "",
+        "employeeId": "0002",
+        "terminationId": null,
+        "jobTitle": {
+          "id": null,
+          "title": null,
+          "isDeleted": null
+        },
+        "subunit": {
+          "id": null,
+          "name": null
+        },
+        "empStatus": {
+          "id": null,
+          "name": null
+        },
+        "supervisors": [ ]
+      },
+      {
+        "empNumber": 5,
+        "lastName": "Perera",
+        "firstName": "Sharuka",
+        "middleName": "",
+        "employeeId": "0005",
+        "terminationId": null,
+        "jobTitle": {
+          "id": null,
+          "title": null,
+          "isDeleted": null
+        },
+        "subunit": {
+          "id": null,
+          "name": null
+        },
+        "empStatus": {
+          "id": null,
+          "name": null
+        },
+        "supervisors": [
+          {
+            "empNumber": 2,
+            "lastName": "Kumara",
+            "firstName": "Rajitha",
+            "middleName": ""
+          }
+        ]
+      }
+    ]
+    meta:
+      total: 4
+
+  'with job title id':
+    userId: 1
+    services:
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      jobTitleId: '1'
+    data: [
+      {
+        "empNumber": 3,
+        "lastName": "de Silva",
+        "firstName": "Devishke",
+        "middleName": "Romesh",
+        "employeeId": "0003",
+        "terminationId": null
+      }
+    ]
+    meta:
+      total: 1
+
+  'with nonexistent job title id':
+    userId: 1
+    services:
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      jobTitleId: '500'
+    data: [ ]
+    meta:
+      total: 0
+
+  'with subunit id':
+    userId: 1
+    services:
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      admin.company_structure_service: \OrangeHRM\Admin\Service\CompanyStructureService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      subunitId: '3'
+    data: [
+      {
+        "empNumber": 3,
+        "lastName": "de Silva",
+        "firstName": "Devishke",
+        "middleName": "Romesh",
+        "employeeId": "0003",
+        "terminationId": null
+      }
+    ]
+    meta:
+      total: 1
+
+  'with nonexistent subunit id':
+    userId: 1
+    services:
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      admin.company_structure_service: \OrangeHRM\Admin\Service\CompanyStructureService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      subunitId: '500'
+    data: [ ]
+    meta:
+      total: 0
+
+  'with emp status id':
+    userId: 1
+    services:
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      empStatusId: '1'
+    data: [
+      {
+        "empNumber": 3,
+        "lastName": "de Silva",
+        "firstName": "Devishke",
+        "middleName": "Romesh",
+        "employeeId": "0003",
+        "terminationId": null
+      }
+    ]
+    meta:
+      total: 1
+
+  'with nonexistent emp status id':
+    userId: 1
+    services:
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      empStatusId: '500'
+    data: [ ]
+    meta:
+      total: 0
+
+  'with include only current employees':
+    userId: 1
+    services:
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      includeEmployees: 1
+    data: [
+      {
+        "empNumber": 1,
+        "lastName": "Admin",
+        "firstName": "Devi",
+        "middleName": "",
+        "employeeId": "0001",
+        "terminationId": null
+      },
+      {
+        "empNumber": 3,
+        "lastName": "de Silva",
+        "firstName": "Devishke",
+        "middleName": "Romesh",
+        "employeeId": "0003",
+        "terminationId": null
+      },
+      {
+        "empNumber": 2,
+        "lastName": "Kumara",
+        "firstName": "Rajitha",
+        "middleName": "",
+        "employeeId": "0002",
+        "terminationId": null
+      },
+      {
+        "empNumber": 5,
+        "lastName": "Perera",
+        "firstName": "Sharuka",
+        "middleName": "",
+        "employeeId": "0005",
+        "terminationId": null
+      }
+    ]
+    meta:
+      total: 4
+
+  'with include current and past employees':
+    userId: 1
+    services:
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      includeEmployees: 2
+    data: [
+      {
+        "empNumber": 1,
+        "lastName": "Admin",
+        "firstName": "Devi",
+        "middleName": "",
+        "employeeId": "0001",
+        "terminationId": null
+      },
+      {
+        "empNumber": 3,
+        "lastName": "de Silva",
+        "firstName": "Devishke",
+        "middleName": "Romesh",
+        "employeeId": "0003",
+        "terminationId": null
+      },
+      {
+        "empNumber": 6,
+        "lastName": "Gamage",
+        "firstName": "Chenuka",
+        "middleName": "",
+        "employeeId": "0006",
+        "terminationId": 2
+      },
+      {
+        "empNumber": 2,
+        "lastName": "Kumara",
+        "firstName": "Rajitha",
+        "middleName": "",
+        "employeeId": "0002",
+        "terminationId": null
+      },
+      {
+        "empNumber": 5,
+        "lastName": "Perera",
+        "firstName": "Sharuka",
+        "middleName": "",
+        "employeeId": "0005",
+        "terminationId": null
+      }
+    ]
+    meta:
+      total: 5
+
+  'with include only past employees':
+    userId: 1
+    services:
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      includeEmployees: 3
+    data: [
+      {
+        "empNumber": 6,
+        "lastName": "Gamage",
+        "firstName": "Chenuka",
+        "middleName": "",
+        "employeeId": "0006",
+        "terminationId": 2
+      }
+    ]
+    meta:
+      total: 1
+
+#  'with supervisor emp numbers':
+#    userId: 1
+#    services:
+#      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+#      core.config_service: \OrangeHRM\Core\Service\ConfigService
+#      admin.user_service: \OrangeHRM\Admin\Service\UserService
+#    factories:
+#      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+#    query:
+#      "supervisorEmpNumbers[]": '2'
+#    data: [
+#      {
+#        "empNumber": 3,
+#        "lastName": "de Silva",
+#        "firstName": "Devishke",
+#        "middleName": "Romesh",
+#        "employeeId": "0003",
+#        "terminationId": null
+#      },
+#      {
+#        "empNumber": 5,
+#        "lastName": "Perera",
+#        "firstName": "Sharuka",
+#        "middleName": "",
+#        "employeeId": "0005",
+#        "terminationId": null
+#      }
+#    ]
+#    meta:
+#      total: 2
+
+  'with sort order':
+    userId: 1
+    services:
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      sortOrder: 'DESC'
+    data: [
+      {
+        "empNumber": 5,
+        "lastName": "Perera",
+        "firstName": "Sharuka",
+        "middleName": "",
+        "employeeId": "0005",
+        "terminationId": null
+      },
+      {
+        "empNumber": 2,
+        "lastName": "Kumara",
+        "firstName": "Rajitha",
+        "middleName": "",
+        "employeeId": "0002",
+        "terminationId": null
+      },
+      {
+        "empNumber": 3,
+        "lastName": "de Silva",
+        "firstName": "Devishke",
+        "middleName": "Romesh",
+        "employeeId": "0003",
+        "terminationId": null
+      },
+      {
+        "empNumber": 1,
+        "lastName": "Admin",
+        "firstName": "Devi",
+        "middleName": "",
+        "employeeId": "0001",
+        "terminationId": null
+      }
+    ]
+    meta:
+      total: 4
+
+  'with sort field':
+    userId: 1
+    services:
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      sortField: 'employee.empNumber'
+    data: [
+      {
+        "empNumber": 1,
+        "lastName": "Admin",
+        "firstName": "Devi",
+        "middleName": "",
+        "employeeId": "0001",
+        "terminationId": null
+      },
+      {
+        "empNumber": 2,
+        "lastName": "Kumara",
+        "firstName": "Rajitha",
+        "middleName": "",
+        "employeeId": "0002",
+        "terminationId": null
+      },
+      {
+        "empNumber": 3,
+        "lastName": "de Silva",
+        "firstName": "Devishke",
+        "middleName": "Romesh",
+        "employeeId": "0003",
+        "terminationId": null
+      },
+      {
+        "empNumber": 5,
+        "lastName": "Perera",
+        "firstName": "Sharuka",
+        "middleName": "",
+        "employeeId": "0005",
+        "terminationId": null
+      }
+    ]
+    meta:
+      total: 4
+
+  'with sort order and sort field':
+    userId: 1
+    services:
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      sortOrder: 'DESC'
+      sortField: 'employee.empNumber'
+    data: [
+      {
+        "empNumber": 5,
+        "lastName": "Perera",
+        "firstName": "Sharuka",
+        "middleName": "",
+        "employeeId": "0005",
+        "terminationId": null
+      },
+      {
+        "empNumber": 3,
+        "lastName": "de Silva",
+        "firstName": "Devishke",
+        "middleName": "Romesh",
+        "employeeId": "0003",
+        "terminationId": null
+      },
+      {
+        "empNumber": 2,
+        "lastName": "Kumara",
+        "firstName": "Rajitha",
+        "middleName": "",
+        "employeeId": "0002",
+        "terminationId": null
+      },
+      {
+        "empNumber": 1,
+        "lastName": "Admin",
+        "firstName": "Devi",
+        "middleName": "",
+        "employeeId": "0001",
+        "terminationId": null
+      }
+    ]
+    meta:
+      total: 4
+
+Create:
+  'without body':
+    userId: 1
+    services:
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    invalidOnly: ['firstName', 'lastName']
+
+  'with only first and last name':
+    userId: 1
+    services:
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    now:
+      datetime: '2022-03-07'
+    body:
+      firstName: "Chamara"
+      lastName: "Abesinghe"
+    data: {
+      "empNumber": 7,
+      "lastName": "Abesinghe",
+      "firstName": "Chamara",
+      "middleName": "",
+      "employeeId": "",
+      "terminationId": null
     }

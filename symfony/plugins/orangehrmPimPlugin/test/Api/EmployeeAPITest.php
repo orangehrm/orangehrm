@@ -56,4 +56,41 @@ class EmployeeAPITest extends EndpointIntegrationTestCase
     {
         return $this->getTestCases('EmployeeAPITestCases.yml', 'GetOne');
     }
+
+    /**
+     * @dataProvider dataProviderForTestGetAll
+     */
+    public function testGetAll(TestCaseParams $testCaseParams): void
+    {
+        $this->populateFixtures('EmployeeAPITest.yml');
+        $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
+
+        $this->registerServices($testCaseParams);
+        $api = $this->getApiEndpointMock(EmployeeAPI::class, $testCaseParams);
+        $this->assertValidTestCase($api, 'getAll', $testCaseParams);
+    }
+
+    public function dataProviderForTestGetAll(): array
+    {
+        return $this->getTestCases('EmployeeAPITestCases.yml', 'GetAll');
+    }
+
+    /**
+     * @dataProvider dataProviderForTestCreate
+     */
+    public function testCreate(TestCaseParams $testCaseParams): void
+    {
+        $this->populateFixtures('EmployeeAPITest.yml');
+        $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
+
+        $this->registerMockDateTimeHelper($testCaseParams);
+        $this->registerServices($testCaseParams);
+        $api = $this->getApiEndpointMock(EmployeeAPI::class, $testCaseParams);
+        $this->assertValidTestCase($api, 'create', $testCaseParams);
+    }
+
+    public function dataProviderForTestCreate(): array
+    {
+        return $this->getTestCases('EmployeeAPITestCases.yml', 'Create');
+    }
 }
