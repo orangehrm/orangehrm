@@ -1,0 +1,126 @@
+GetOne:
+  'without empNumber':
+    userId: 1
+    services:
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    invalidOnly: ['empNumber']
+
+  'without invalid empNumber':
+    userId: 1
+    services:
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      empNumber: -1
+    invalidOnly: [ 'empNumber' ]
+
+  'without nonexistent empNumber':
+    userId: 1
+    services:
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      empNumber: 10
+    invalidOnly: [ 'empNumber' ]
+
+  'without necessary permission':
+    userId: 3
+    services:
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      empNumber: 1
+    invalidOnly: [ 'empNumber' ]
+
+  'with purged empNumber':
+    userId: 1
+    services:
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      empNumber: 4
+    data: {
+      "empNumber": 4,
+      "lastName": "Employee",
+      "firstName": "Purged",
+      "middleName": "",
+      "employeeId": "0004",
+      "terminationId": 1
+    }
+
+  'with valid empNumber':
+    userId: 1
+    services:
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      empNumber: 3
+    data: {
+      "empNumber": 3,
+      "lastName": "de Silva",
+      "firstName": "Devishke",
+      "middleName": "Romesh",
+      "employeeId": "0003",
+      "terminationId": null
+    }
+
+  'with valid empNumber and detailed view':
+    userId: 1
+    services:
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      empNumber: 3
+    query:
+      model: 'detailed'
+    data: {
+      "empNumber": 3,
+      "lastName": "de Silva",
+      "firstName": "Devishke",
+      "middleName": "Romesh",
+      "employeeId": "0003",
+      "terminationId": null,
+      "jobTitle": {
+        "id": 1,
+        "title": "Software Engineer - Intern",
+        "isDeleted": false
+      },
+      "subunit": {
+        "id": 3,
+        "name": "Development"
+      },
+      "empStatus": {
+        "id": 1,
+        "name": "Intern"
+      },
+      "supervisors": [
+        {
+          "empNumber": 2,
+          "lastName": "Kumara",
+          "firstName": "Rajitha",
+          "middleName": ""
+        }
+      ]
+    }
