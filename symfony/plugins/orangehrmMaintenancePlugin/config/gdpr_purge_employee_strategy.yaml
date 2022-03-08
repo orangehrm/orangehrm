@@ -185,33 +185,19 @@ Entities:
 
   LeaveComment:
     PurgeStrategy:
-      Destroy:
+      ReplaceWithValue:
         match_by:
           - { match: employee, join: leave }
-
-  Leave:
-    PurgeStrategy:
-      Destroy:
-        match_by:
-          - { match: employee }
+        parameters:
+          - { field: 'comment', class: 'FormatWithPurgeString' }
 
   LeaveRequestComment:
     PurgeStrategy:
-      Destroy:
+      ReplaceWithValue:
         match_by:
           - { match: employee, join: leaveRequest }
-
-  LeaveRequest:
-    PurgeStrategy:
-      Destroy:
-        match_by:
-          - { match: employee }
-
-  LeaveEntitlement:
-    PurgeStrategy:
-      Destroy:
-        match_by:
-          - { match: employee }
+        parameters:
+          - { field: 'comment', class: 'FormatWithPurgeString' }
 
   AttendanceRecord:
     PurgeStrategy:
