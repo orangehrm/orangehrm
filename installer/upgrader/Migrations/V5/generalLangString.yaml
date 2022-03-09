@@ -209,7 +209,6 @@ langStrings:
   -
     value: 'Disabled'
     unitId: disabled
-<<<<<<< HEAD
   -
     value: 'Edit Attachment'
     unitId: edit_attachment
