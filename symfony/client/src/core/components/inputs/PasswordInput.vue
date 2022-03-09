@@ -29,7 +29,7 @@
           :label="passwordStrength"
         />
         <oxd-input-field
-          label="Password"
+          :label="$t('general.password')"
           type="password"
           :model-value="password"
           :rules="rules.password"
@@ -38,15 +38,14 @@
           @update:modelValue="$emit('update:password', $event)"
         />
         <oxd-text class="user-password-hint" tag="p">
-          For a strong password, please use a hard to guess combination of text
-          with upper and lower case characters, symbols and numbers
+          {{ $t('general.password_strength_message') }}
         </oxd-text>
       </oxd-grid-item>
 
       <oxd-grid-item>
         <oxd-input-field
           ref="passwordConfirm"
-          label="Confirm Password"
+          :label="$t('general.confirm_password')"
           type="password"
           :model-value="passwordConfirm"
           :rules="rules.passwordConfirm"
@@ -90,7 +89,7 @@ export default {
         passwordConfirm: [
           required,
           shouldNotExceedCharLength(64),
-          v => (!!v && v === this.password) || 'Passwords do not match',
+          v => (!!v && v === this.password) || this.$t('general.passwords_do_not_match'),
         ],
       },
     };
@@ -105,13 +104,13 @@ export default {
       }
       switch (strength) {
         case 2:
-          return 'Weak';
+          return this.$t('general.weak');
         case 3:
-          return 'Better';
+          return this.$t('general.better');
         case 4:
-          return 'Strongest';
+          return this.$t('general.strongest');
         default:
-          return 'Very Weak';
+          return this.$t('general.very_weak');
       }
     },
     chipClasses() {

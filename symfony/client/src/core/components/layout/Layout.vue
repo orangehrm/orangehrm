@@ -11,12 +11,12 @@
           class="oxd-userdropdown-link"
           @click="openAboutModel"
         >
-          About
+          {{ $t('general.about') }}
         </a>
       </li>
       <li>
         <a :href="supportUrl" role="menuitem" class="oxd-userdropdown-link">
-          Support
+          {{ $t('general.support') }}
         </a>
       </li>
       <li>
@@ -25,12 +25,12 @@
           role="menuitem"
           class="oxd-userdropdown-link"
         >
-          Change Password
+          {{ $t('general.change_password') }}
         </a>
       </li>
       <li>
         <a :href="logoutUrl" role="menuitem" class="oxd-userdropdown-link">
-          Logout
+          {{ $t('general.logout') }}
         </a>
       </li>
     </template>

@@ -24,7 +24,7 @@
     <div class="orangehrm-horizontal-padding orangehrm-vertical-padding">
       <div v-if="selected > 0">
         <oxd-text tag="span">
-          {{ itemSelectedText }}
+          {{ $t('general.n_records_action',{amount:selected, action:'Selected'} )}}
         </oxd-text>
         <oxd-button
           label="Delete Selected"
@@ -34,7 +34,7 @@
           @click="$emit('delete', $event)"
         />
       </div>
-      <oxd-text v-else tag="span">{{ itemCountText }}</oxd-text>
+      <oxd-text v-else tag="span">{{ $t('general.n_records_action',{amount:total, action:'Found'} )}}</oxd-text>
     </div>
   </div>
 </template>
@@ -67,23 +67,5 @@ export default {
 
   emits: ['delete'],
 
-  setup(props) {
-    const getNoun = count => {
-      if (!count) return `No Records`;
-      return count === 1 ? `(${count}) Record` : `(${count}) Records`;
-    };
-
-    const itemCountText = computed(() => {
-      return `${getNoun(props.total)} Found`;
-    });
-    const itemSelectedText = computed(() => {
-      return `${getNoun(props.selected)} Selected`;
-    });
-
-    return {
-      itemCountText,
-      itemSelectedText,
-    };
-  },
 };
 </script>
