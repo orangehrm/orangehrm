@@ -21,15 +21,16 @@ namespace OrangeHRM\Tests\Core\Dao;
 
 use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Dao\MenuDao;
-use OrangeHRM\ORM\Doctrine;
-use OrangeHRM\Tests\Util\TestCase;
+use OrangeHRM\Entity\MenuItem;
+use OrangeHRM\ORM\Paginator;
+use OrangeHRM\Tests\Util\KernelTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 
 /**
  * @group Core
  * @group Dao
  */
-class MenuDaoTest extends TestCase
+class MenuDaoTest extends KernelTestCase
 {
     /**
      * @var MenuDao
@@ -46,37 +47,54 @@ class MenuDaoTest extends TestCase
         $this->menuDao = new MenuDao();
     }
 
-    public function testEnableModuleMenuItems()
+    public function testEnableModuleMenuItems(): void
     {
-        $conn = Doctrine::getEntityManager()->getConnection()->getWrappedConnection();
-        $statement = $conn->prepare('UPDATE ohrm_menu_item SET status = 0 WHERE parent_id IN (12, 13)');
-        $result = $statement->execute();
-        $this->assertEquals(8, $result->rowCount());
+        $q = $this->getEntityManager()->createQueryBuilder()
+            ->update()
+            ->from(MenuItem::class, 'menuItem');
+        $q->andWhere($q->expr()->in('menuItem.parent', ':ids'))
+            ->setParameter('ids', [12, 13])
+            ->set('menuItem.status', ':status')
+            ->setParameter('status', false);
+        $this->assertEquals(8, $q->getQuery()->execute());
 
-        // Items with screen_id NULL are not enabled (because they are not linked to a screen and hense to a module)
+        // Update parents of menu items also
         $count = $this->menuDao->enableModuleMenuItems('leave');
-        $this->assertEquals(7, $count);
+        $this->assertEquals(8, $count);
 
-        $statement = $conn->prepare(
-            'SELECT count(*) FROM ohrm_menu_item WHERE status = 0 AND parent_id IN (12, 13) AND screen_id IS NOT NULL'
-        );
-        $this->assertEquals(0, $statement->execute()->fetchOne());
+        $q = $this->getEntityManager()->createQueryBuilder()
+            ->select('menuItem')
+            ->from(MenuItem::class, 'menuItem')
+            ->andWhere('menuItem.status = false');
+        $this->assertEquals(0, (new Paginator($q))->count());
+        $q->andWhere($q->expr()->in('menuItem.id', ':ids'))
+            ->setParameter('ids', [12, 13]);
+        $this->assertEquals(0, (new Paginator($q))->count());
     }
 
-    public function testEnableModuleMenuItemsByTitle()
+    public function testEnableModuleMenuItemsByTitle(): void
     {
-        $conn = Doctrine::getEntityManager()->getConnection()->getWrappedConnection();
-        $statement = $conn->prepare('UPDATE ohrm_menu_item SET status = 0 WHERE parent_id IN (12, 13)');
-        $this->assertEquals(8, $statement->execute()->rowCount());
+        $q = $this->getEntityManager()->createQueryBuilder()
+            ->update()
+            ->from(MenuItem::class, 'menuItem');
+        $q->andWhere($q->expr()->in('menuItem.parent', ':ids'))
+            ->setParameter('ids', [12, 13])
+            ->set('menuItem.status', ':status')
+            ->setParameter('status', false);
+        $this->assertEquals(8, $q->getQuery()->execute());
 
-        // Items with screen_id NULL are not enabled (because they are not linked to a screen and hense to a module)
+        // Update parents of menu items also
         $count = $this->menuDao->enableModuleMenuItems('leave', ['Leave Types', 'Leave Summary']);
-        $this->assertEquals(2, $count);
+        $this->assertEquals(3, $count);
 
-        $statement = $conn->prepare('SELECT count(*) FROM ohrm_menu_item WHERE status = 0 AND id IN (15,16)');
-
-        $count = $statement->execute()->fetchOne();
-        $this->assertEquals(0, $count);
+        $q = $this->getEntityManager()->createQueryBuilder()
+            ->select('menuItem')
+            ->from(MenuItem::class, 'menuItem')
+            ->andWhere('menuItem.status = false');
+        $this->assertEquals(5, (new Paginator($q))->count());
+        $q->andWhere($q->expr()->in('menuItem.id', ':ids'))
+            ->setParameter('ids', [15, 16]);
+        $this->assertEquals(0, (new Paginator($q))->count());
     }
 
     public function testGetMenuLevel(): void

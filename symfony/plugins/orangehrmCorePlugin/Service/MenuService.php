@@ -88,12 +88,12 @@ class MenuService
      */
     public function getMenuItems(string $baseUrl): array
     {
-        $moduleScreen = $this->getCurrentModuleAndScreen();
+        $currentModuleAndScreen = $this->getCurrentModuleAndScreen();
 
         $configuratorMenuItems = [];
         $screen = $this->getScreenPermissionService()
             ->getScreenDao()
-            ->getScreen($moduleScreen->getModule(), $moduleScreen->getScreen());
+            ->getScreen($currentModuleAndScreen->getModule(), $currentModuleAndScreen->getScreen());
         if ($screen instanceof Screen && !is_null($screen->getMenuConfigurator())) {
             $configuratorClass = $screen->getMenuConfigurator();
             $configurator = new $configuratorClass();
@@ -104,6 +104,7 @@ class MenuService
         }
 
         $userRoles = $this->getUserRoleManager()->getUserRolesForAuthUser();
+        // TODO:: cache
         $sidePanelMenuItems = $this->getMenuDao()->getSidePanelMenuItems($userRoles);
 
         $normalizedSidePanelMenuItems = [];
@@ -118,7 +119,7 @@ class MenuService
             $active = false;
             if (is_null($selectedSidePanelMenuId) && $active = $this->isActiveSidePanelMenuItem(
                 $detailedSidePanelMenuItem,
-                $moduleScreen,
+                $currentModuleAndScreen,
                 $configuratorMenuItems
             )) {
                 $selectedSidePanelMenuId = $sidePanelMenuItem->getId();
@@ -126,10 +127,16 @@ class MenuService
             $normalizedSidePanelMenuItems[] = $this->normalizeMenuItem($detailedSidePanelMenuItem, $baseUrl, $active);
         }
 
+        // TODO:: cache
         $topMenuItems = $this->getMenuDao()->getTopMenuItems($userRoles, $selectedSidePanelMenuId);
         $normalizedTopMenuItems = [];
         foreach ($topMenuItems as $topMenuItem) {
-            $normalizedTopMenuItems[] = $this->normalizeTopMenuItem($topMenuItem, $baseUrl, $moduleScreen);
+            $normalizedTopMenuItems[] = $this->normalizeTopMenuItem(
+                $topMenuItem,
+                $baseUrl,
+                $configuratorMenuItems,
+                $currentModuleAndScreen
+            );
         }
 
         return [
@@ -173,6 +180,23 @@ class MenuService
     }
 
     /**
+     * @param DetailedMenuItem $menuItem
+     * @param ModuleScreen $currentModuleScreen
+     * @param array<int, MenuItem> $configuratorMenuItems
+     * @return bool
+     */
+    private function isActiveTopMenuItem(
+        DetailedMenuItem $menuItem,
+        ModuleScreen $currentModuleScreen,
+        array $configuratorMenuItems = []
+    ): bool {
+        if (!empty($configuratorMenuItems)) {
+            return isset($configuratorMenuItems[$menuItem->getId()]);
+        }
+        return $menuItem->getScreen() === $currentModuleScreen->getOverriddenScreen();
+    }
+
+    /**
      * @param DetailedMenuItem $detailedMenuItem
      * @param string $baseUrl
      * @param bool $active
@@ -207,31 +231,41 @@ class MenuService
     /**
      * @param DetailedMenuItem $detailedMenuItem
      * @param string $baseUrl
-     * @param ModuleScreen|null $moduleScreen
+     * @param array<int, MenuItem> $configuratorMenuItems
+     * @param ModuleScreen|null $currentModuleAndScreen
      * @return array
      */
     private function normalizeTopMenuItem(
         DetailedMenuItem $detailedMenuItem,
         string $baseUrl,
-        ?ModuleScreen $moduleScreen = null
+        array $configuratorMenuItems = [],
+        ?ModuleScreen $currentModuleAndScreen = null,
+        bool $leaf = false
     ): array {
-        $active = $detailedMenuItem->getScreen() === $moduleScreen->getScreen();
-        $newMenuItem = $this->normalizeMenuItem($detailedMenuItem, $baseUrl, $active);
-        $newMenuItem['children'] = [];
-        if ($active) {
-            $newMenuItem['active'] = true;
-        }
+        $active = $this->isActiveTopMenuItem($detailedMenuItem, $currentModuleAndScreen, $configuratorMenuItems);
+        $menuItem = $this->normalizeMenuItem($detailedMenuItem, $baseUrl, $active);
+        $leaf ?: $menuItem['children'] = [];
 
         // if sub menu item exists
         if (!empty($detailedMenuItem->getChildMenuItems())) {
             foreach ($detailedMenuItem->getChildMenuItems() as $subItem) {
-                $active = $subItem->getScreen() === $moduleScreen->getScreen();
+                $active = $this->isActiveTopMenuItem(
+                    $subItem,
+                    $currentModuleAndScreen,
+                    $configuratorMenuItems
+                );
                 if ($active) {
-                    $newMenuItem['active'] = true;
+                    $menuItem['active'] = true;
                 }
-                $newMenuItem['children'][] = $this->normalizeTopMenuItem($subItem, $baseUrl, $moduleScreen);
+                $menuItem['children'][] = $this->normalizeTopMenuItem(
+                    $subItem,
+                    $baseUrl,
+                    $configuratorMenuItems,
+                    $currentModuleAndScreen,
+                    true
+                );
             }
         }
-        return $newMenuItem;
+        return $menuItem;
     }
 }
