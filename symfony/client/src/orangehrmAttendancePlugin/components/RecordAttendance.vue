@@ -196,7 +196,7 @@ export default {
         return this.attendanceRecordId
           ? this.http.request({
               method: 'GET',
-              url: `/api/v2/attendance/records/${this.attendanceRecordId}`,
+              url: `/api/v2/attendance/records/latest`,
             })
           : null;
       })
