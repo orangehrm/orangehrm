@@ -89,7 +89,9 @@ export default {
         passwordConfirm: [
           required,
           shouldNotExceedCharLength(64),
-          v => (!!v && v === this.password) || this.$t('general.passwords_do_not_match'),
+          v =>
+            (!!v && v === this.password) ||
+            this.$t('general.passwords_do_not_match'),
         ],
       },
     };

@@ -24,7 +24,12 @@
     <div class="orangehrm-horizontal-padding orangehrm-vertical-padding">
       <div v-if="selected > 0">
         <oxd-text tag="span">
-          {{ $t('general.n_records_action',{amount:selected, action:'Selected'} )}}
+          {{
+            $t('general.n_records_action', {
+              amount: selected,
+              action: 'Selected',
+            })
+          }}
         </oxd-text>
         <oxd-button
           label="Delete Selected"
@@ -34,14 +39,14 @@
           @click="$emit('delete', $event)"
         />
       </div>
-      <oxd-text v-else tag="span">{{ $t('general.n_records_action',{amount:total, action:'Found'} )}}</oxd-text>
+      <oxd-text v-else tag="span">{{
+        $t('general.n_records_action', {amount: total, action: 'Found'})
+      }}</oxd-text>
     </div>
   </div>
 </template>
 
 <script>
-import {computed} from 'vue';
-
 export default {
   name: 'TableHeader',
 
@@ -66,6 +71,5 @@ export default {
   },
 
   emits: ['delete'],
-
 };
 </script>

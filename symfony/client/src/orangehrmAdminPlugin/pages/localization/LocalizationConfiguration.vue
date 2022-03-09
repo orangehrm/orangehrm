@@ -22,7 +22,9 @@
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
       <div class="orangehrm-header-container">
-        <oxd-text tag="h6" class="orangehrm-main-title">{{ $t('admin.localization') }}</oxd-text>
+        <oxd-text tag="h6" class="orangehrm-main-title">{{
+          $t('admin.localization')
+        }}</oxd-text>
         <oxd-switch-input
           v-model="editable"
           :option-label="$t('general.edit')"
