@@ -80,7 +80,7 @@ class AttendanceHelper
     {
         $q = $this->createQueryBuilder();
         $q->update('ohrm_attendance_record')
-            ->set('ohrm_attendance_record.punch_in_timezone', ':punchInTimezone')
+            ->set('ohrm_attendance_record.punch_in_timezone_name', ':punchInTimezone')
             ->where('ohrm_attendance_record.punch_in_time_offset = :offset')
             ->setParameter('punchInTimezone', $timezone)
             ->setParameter('offset', $offset)
@@ -96,7 +96,7 @@ class AttendanceHelper
     {
         $q = $this->createQueryBuilder();
         $q->update('ohrm_attendance_record')
-            ->set('ohrm_attendance_record.punch_out_timezone', ':punchOutTimezone')
+            ->set('ohrm_attendance_record.punch_in_timezone_name', ':punchOutTimezone')
             ->where('ohrm_attendance_record.punch_out_time_offset = :offset')
             ->setParameter('punchOutTimezone', $timezone)
             ->setParameter('offset', $offset)
