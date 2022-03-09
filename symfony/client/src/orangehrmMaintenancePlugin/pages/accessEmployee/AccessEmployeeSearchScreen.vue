@@ -19,16 +19,16 @@
  -->
 <template>
   <employee-records
+    :title-label="'Download Personal Data'"
+    :include-employees-param="'currentAndPast'"
     @search="search"
-    :titleLabel="'Download Personal Data'"
-    :includeEmployeesParam="'currentAndPast'"
   ></employee-records>
   <div v-if="employee" class="orangehrm-background-container">
     <selected-employee
-      :buttonLabel="'Download'"
-      :selectedEmployee="getUpdateEmployee"
-      :disableField="true"
-      @submit="getEmployeeNumber"
+      :button-label="'Download'"
+      :selected-employee="getUpdateEmployee"
+      :disable-field="true"
+      @submit="downloadEmployeeData"
     ></selected-employee>
   </div>
 </template>
@@ -36,7 +36,6 @@
 <script>
 import EmployeeRecords from '@/orangehrmMaintenancePlugin/components/EmployeeRecords';
 import SelectedEmployee from '@/orangehrmMaintenancePlugin/components/SelectedEmployee';
-import {APIService} from '@/core/util/services/api.service';
 
 export default {
   components: {
@@ -48,21 +47,21 @@ export default {
       employee: null,
     };
   },
-  methods: {
-    search(employee) {
-      this.employee = employee;
-    },
-    getEmployeeNumber(employeeNumber) {
-      const downUrl = `${window.appGlobal.baseUrl}/maintenance/accessEmployeeData/${employeeNumber}`;
-      window.open(downUrl, '_blank');
-    },
-  },
 
   computed: {
     getUpdateEmployee: {
       get() {
         return this.employee;
       },
+    },
+  },
+  methods: {
+    search(employee) {
+      this.employee = employee;
+    },
+    downloadEmployeeData(employeeNumber) {
+      const downUrl = `${window.appGlobal.baseUrl}/maintenance/accessEmployeeData/${employeeNumber}`;
+      window.open(downUrl, '_blank');
     },
   },
 };

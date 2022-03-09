@@ -38,7 +38,7 @@ class FormatWithActivity implements ValueFormatter
     {
         $result=$this->getContainer()->get(Services::TIMESHEET_SERVICE)->getActivityByActivityId($entityValue);
         if (!is_null($result)) {
-            return $result->toArray()[0]['name'];
+            return $result->getName();
         }
         return null;
     }

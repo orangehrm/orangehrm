@@ -22,9 +22,6 @@ namespace OrangeHRM\Maintenance\AccessStrategy\FormatValue;
 use OrangeHRM\Admin\Service\SkillService;
 use OrangeHRM\Maintenance\FormatValueStrategy\ValueFormatter;
 
-/**
- * Class FormatWithSkill
- */
 class FormatWithSkill implements ValueFormatter
 {
     private ?SkillService $skillService=null;

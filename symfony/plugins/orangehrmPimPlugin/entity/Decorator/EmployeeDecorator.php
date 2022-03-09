@@ -204,4 +204,12 @@ class EmployeeDecorator
     {
         return $this->getEmployee()->getFirstName() . ' ' . $this->getEmployee()->getLastName();
     }
+
+    /**
+     * @return string
+     */
+    public function getFullName(): string
+    {
+        return $this->getEmployee()->getFirstName() . ' ' . $this->getEmployee()->getMiddleName() . ' ' . $this->getEmployee()->getLastName();
+    }
 }

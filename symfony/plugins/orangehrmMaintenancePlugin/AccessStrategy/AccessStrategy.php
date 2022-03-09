@@ -153,7 +153,7 @@ abstract class AccessStrategy
      */
     public function getFormattedValue($accessClassName, $currentValue)
     {
-        $accessClassName='OrangeHRM\Maintenance\FormatValueStrategy'."\\".$accessClassName;
+        $accessClassName='OrangeHRM\Maintenance\AccessStrategy\FormatValue'."\\".$accessClassName;
         $this->getRealValueClass = new  $accessClassName();
         return $this->getRealValueClass->getFormattedValue($currentValue);
     }
@@ -174,9 +174,20 @@ abstract class AccessStrategy
             } else {
                 $getterMethod = 'get'.ucfirst($columnName);
             }
-            if ($accessEntity->$getterMethod()) {
-                $value = $accessEntity->$getterMethod();
 
+            if (is_array($getterMethod)) {
+                $value = $accessEntity;
+                foreach ($getterMethod as $getter) {
+                    $value = $value->$getter();
+                    if (is_null($value)) {
+                        break;
+                    }
+                }
+            } else {
+                $value = $accessEntity->$getterMethod();
+            }
+
+            if (!is_null($value) || $value != "") {
                 if (isset($field['class'])) {
                     $value = $this->getFormattedValue($field['class'], $value);
                 }

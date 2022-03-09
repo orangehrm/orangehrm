@@ -65,14 +65,17 @@ export default {
     includeEmployeesParam: {
       type: String,
       required: false,
+      default: 'currentAndPast',
     },
     titleLabel: {
       type: String,
       required: true,
+      default: 'Employee Name',
     },
     autocompleteLabel: {
       type: String,
       required: false,
+      default: '',
     },
   },
 

@@ -1,13 +1,25 @@
+Nationality:
+  0: { id: 1, name: 'nationality 1' }
+  1: { id: 2, name: 'nationality 2' }
+  2: { id: 3, name: 'nationality 3' }
+
 Employee:
-  0: {empNumber: 1, emp_gender: 1, firstName: 'Kayla', lastName: 'Abbey', middleName: 'T', nickName: 'sd', employeeId: 'E001', emp_work_email: 'kayla@xample.com', emp_oth_email: 'kayla2@xample.com'}
+  0: {empNumber: 1, emp_gender: 1, firstName: 'Kayla', lastName: 'Abbey', middleName: 'T', nickName: 'sd', employeeId: 'E001', emp_work_email: 'kayla@xample.com', emp_oth_email: 'kayla2@xample.com',"nation_code": '1',
+      "emp_birthday": '1975-10-15',
+      "emp_work_telephone": '112-898-7612',
+      }
   1: {empNumber: 2, firstName: 'Ashley', lastName: 'Abel', middleName: 'ST',employeeId: 'E002', emp_work_email: 'ashley@xample.com', emp_oth_email: 'ashley2@xample.com'}
   2: {empNumber: 3, firstName: 'Ajiharan', lastName: 'Saputhanthri', middleName: 'RT', employeeId: 'E003', emp_work_email: 'renukshan@xample.com', emp_oth_email: 'renukshan2@xample.com'}
   3: {empNumber: 4, firstName: 'Chaturanga', lastName: 'Namal', middleName: 'ST', employeeId: 'E004', emp_work_email: '', emp_oth_email: ''}
   4: {empNumber: 5, firstName: 'Indiran', lastName: 'Nadarajah', middleName: 'KT', employeeId: 'E005', emp_work_email: '', emp_oth_email: ''}
 
+EmpPicture:
+  0: {emp_number: '1', epic_picture: "yasitha", epic_filename: 'test_file.jpg', epic_type: 'test/type'}
+  1: {emp_number: '2', epic_picture: "yasitha", epic_filename: 'test_file.jpg', epic_type: 'test/type'}
 
 EmployeeAttachment:
   - { emp_number: 1, eattach_id: 1, screen: 'personal',  eattach_desc: 'Comment 1', eattach_filename: 'attachment.txt', eattach_size: '6', eattach_attachment: 'dGVzdA0K', eattach_type: 'text/plain', attached_by: '1', attached_by_name: 'Admin', attached_time: '2021-02-23' }
+  - { emp_number: 1, eattach_id: 2, screen: 'personal',  eattach_desc: 'Comment 2', eattach_filename: 'attachment.txt', eattach_size: '6', eattach_attachment: 'dGVzdA0K', eattach_type: 'text/plain', attached_by: '1', attached_by_name: 'Admin', attached_time: '2021-02-23' }
 
 
 EmpEmergencyContact:
@@ -22,6 +34,7 @@ EmpDependent:
 
 EmployeeImmigrationRecord:
   -  {emp_number: '1', recordId: '0', type: 1, number: 'HVN0003472', issuedDate: '2010-12-12', expiryDate: '2011-12-12', status: 'some status', countryCode: 'UK', reviewDate: '2011-12-30', ep_comments: 'test comment'}
+  -  {emp_number: '1', recordId: '1', type: 1, number: 'HVN0003472', issuedDate: '2010-12-12', expiryDate: '2011-12-12', status: 'some status', countryCode: 'UK', reviewDate: '2011-12-30', ep_comments: 'test comment'}
 
 EmpWorkExperience:
   -  {emp_number: '1', eexp_seqno: '1', eexp_employer: 'OrangeHRM', eexp_jobtit: 'SE', eexp_from_date: '2005-04-03', eexp_to_date: '2010-04-04', eexp_comments: 'Worked Hard', eexp_internal: '2'}
@@ -43,7 +56,7 @@ Skill:
 
 EmployeeSkill:
   0: {emp_number: '1', skill_id: 1, years_of_exp: '4', comments: 'com1'}
-  1: {emp_number: '2', skill_id: 2, years_of_exp: '2', comments: 'com2'}
+  1: {emp_number: '1', skill_id: 2, years_of_exp: '2', comments: 'com2'}
 
 Language:
   0: {id: 1, name: 'Spanish'}
@@ -52,7 +65,7 @@ Language:
 
 EmployeeLanguage:
   0: {emp_number: '1', lang_id: 1, fluency: '2', competency: '1', comments: 'comment1'}
-  1: {emp_number: '2', lang_id: 2, fluency: '1', competency: '2', comments: 'comment2'}
+  1: {emp_number: '1', lang_id: 2, fluency: '1', competency: '2', comments: 'comment2'}
 
 Membership:
   0: { id: 1, name: 'membership 1' }
@@ -65,6 +78,7 @@ EmployeeMembership:
 
 EmpUsTaxExemption:
   0: {emp_number: '1', federalStatus: 'Single', federalExemptions: '2', state: 'Alaska', stateStatus: 'Single', stateExemptions: '1', unemploymentState: 'Alaska', workState: 'Alaska'}
+  1: {emp_number: '2', federalStatus: 'Single', federalExemptions: '2', state: 'Alaska', stateStatus: 'Single', stateExemptions: '1', unemploymentState: 'Alaska', workState: 'Alaska'}
 
 License:
   0: {id: 1, name: 'li1'}
@@ -93,7 +107,7 @@ PayPeriod:
 
 EmployeeSalary:
   0: {id: 1, payperiod_code: "1", emp_number: 1, sal_grd_code: 1, currency_id: 'LKR', ebsal_basic_salary: '10000.00', salary_component: 'Main Salary'}
-  1: {id: 2, payperiod_code: "1", emp_number: 2, sal_grd_code: 2, currency_id: 'USD', ebsal_basic_salary: '20000.00', salary_component: 'Allowance'}
+  1: {id: 2, payperiod_code: "1", emp_number: 1, sal_grd_code: 2, currency_id: 'USD', ebsal_basic_salary: '20000.00', salary_component: 'Allowance'}
 
 Country:
   3: {cou_code: 'LK', name: 'SRI LANKA', cou_name: 'Sri Lanka', iso3: 'LKA', numcode: 144 }
