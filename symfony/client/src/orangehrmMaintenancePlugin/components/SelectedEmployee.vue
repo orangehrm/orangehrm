@@ -44,7 +44,7 @@
                   :middle-name="selectedEmployee.middleName"
                   :last-name="selectedEmployee.lastName"
                   :rules="rules"
-                  :disabled="disableField"
+                  :disabled="true"
                 />
               </oxd-grid-item>
             </oxd-grid>
@@ -56,7 +56,7 @@
                   :model-value="selectedEmployee.employeeId"
                   label="Employee Id"
                   :rules="rules.employeeId"
-                  :disabled="disableField"
+                  :disabled="true"
                 />
               </oxd-grid-item>
             </oxd-grid>
@@ -99,11 +99,6 @@ export default {
     loading: {
       type: Boolean,
       default: false,
-    },
-    disableField: {
-      type: Boolean,
-      default: false,
-      required: false,
     },
   },
   emits: ['submit'],

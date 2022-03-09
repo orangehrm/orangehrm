@@ -27,7 +27,6 @@
     <selected-employee
       :button-label="'Download'"
       :selected-employee="employee"
-      :disable-field="true"
       @submit="downloadEmployeeData"
     ></selected-employee>
   </div>
