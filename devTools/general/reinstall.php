@@ -41,6 +41,7 @@ if (mysqli_query($conn, "DROP DATABASE `{$c->dbname}`")) {
         executeDbQueries($rootPath, $conn);
         $password = $argv[1] ?? 'admin';
         createDefaultUser($conn, $password);
+        createOrganizationInfo($conn);
         
     } else {
         echo "Couldn't create new '{$c->dbname}' database.<br>\n";
@@ -126,6 +127,11 @@ INSERT INTO `ohrm_user` ( `user_name`, `user_password`,`user_role_id`, `emp_numb
         die;
     }    
     
+}
+
+function createOrganizationInfo($conn) {
+    $q = "INSERT INTO `ohrm_organization_gen_info` (`id`, `name`) VALUES (NULL, 'OrangeHRM')";
+    mysqli_query($conn, $q);
 }
 
 function displayQueries($queryList) {
