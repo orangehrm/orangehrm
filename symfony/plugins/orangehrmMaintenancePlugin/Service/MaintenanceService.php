@@ -38,12 +38,10 @@ class MaintenanceService
     private ?array $purgeableEntities = null;
 
     public function getPurgeableEntities($fileName)
-    {   //TODO
-
+    {
         if (!isset($this->purgeableEntities)) {
             $this->purgeableEntities = Yaml::parse(file_get_contents(realpath(dirname(__FILE__) . '/../config/' . $fileName . '.yml')));
         }
-
 
         return $this->purgeableEntities['Entities'];
     }

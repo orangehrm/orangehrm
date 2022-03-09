@@ -19,15 +19,20 @@
 
 namespace OrangeHRM\Tests\Maintenance\AccessStrategy\FormatValue;
 
+use OrangeHRM\Config\Config;
 use OrangeHRM\Maintenance\AccessStrategy\FormatValue\FormatWithLocationId;
-use OrangeHRM\Tests\Util\TestCase;
+use OrangeHRM\Tests\Util\KernelTestCase;
+use OrangeHRM\Tests\Util\TestDataService;
 
-class FormatWithLocationIdTest extends TestCase
+class FormatWithLocationIdTest extends KernelTestCase
 {
+    private string $fixture;
     private FormatWithLocationId $formatWithLocationId;
 
     protected function setUp(): void
     {
+        $this->fixture=Config::get(Config::PLUGINS_DIR).'/orangehrmMaintenancePlugin/test/fixtures/EmployeeDao.yml';
+        TestDataService::populate($this->fixture);
         $this->formatWithLocationId = new FormatWithLocationId();
     }
 

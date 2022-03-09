@@ -19,15 +19,20 @@
 
 namespace OrangeHRM\Tests\Maintenance\AccessStrategy\FormatValue;
 
+use OrangeHRM\Config\Config;
 use OrangeHRM\Maintenance\AccessStrategy\FormatValue\FormatWithLanguage;
-use OrangeHRM\Tests\Util\TestCase;
+use OrangeHRM\Tests\Util\KernelTestCase;
+use OrangeHRM\Tests\Util\TestDataService;
 
-class FormatWithLanguageTest extends TestCase
+class FormatWithLanguageTest extends KernelTestCase
 {
+    private string $fixture;
     private FormatWithLanguage $formatWithLanguage;
 
     protected function setUp(): void
     {
+        $this->fixture=Config::get(Config::PLUGINS_DIR).'/orangehrmMaintenancePlugin/test/fixtures/EmployeeDao.yml';
+        TestDataService::populate($this->fixture);
         $this->formatWithLanguage = new FormatWithLanguage();
     }
 

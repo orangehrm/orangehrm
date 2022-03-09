@@ -20,16 +20,21 @@
 namespace OrangeHRM\Tests\Maintenance\AccessStrategy\FormatValue;
 
 use OrangeHRM\Admin\Service\PayGradeService;
+use OrangeHRM\Config\Config;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Maintenance\AccessStrategy\FormatValue\FormatWithPayGradeId;
 use OrangeHRM\Tests\Util\KernelTestCase;
+use OrangeHRM\Tests\Util\TestDataService;
 
 class FormatWithPayGradeIdTest extends KernelTestCase
 {
+    private string $fixture;
     private FormatWithPayGradeId $formatWithPayGradeId;
 
     protected function setUp(): void
     {
+        $this->fixture=Config::get(Config::PLUGINS_DIR).'/orangehrmMaintenancePlugin/test/fixtures/EmployeeDao.yml';
+        TestDataService::populate($this->fixture);
         $this->createKernelWithMockServices([Services::PAY_GRADE_SERVICE=>new PayGradeService()]);
         $this->formatWithPayGradeId = new FormatWithPayGradeId();
     }

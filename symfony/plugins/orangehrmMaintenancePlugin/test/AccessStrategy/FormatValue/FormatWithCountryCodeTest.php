@@ -20,16 +20,21 @@
 namespace OrangeHRM\Tests\Maintenance\AccessStrategy\FormatValue;
 
 use OrangeHRM\Admin\Service\CountryService;
+use OrangeHRM\Config\Config;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Maintenance\AccessStrategy\FormatValue\FormatWithCountryCode;
 use OrangeHRM\Tests\Util\KernelTestCase;
+use OrangeHRM\Tests\Util\TestDataService;
 
 class FormatWithCountryCodeTest extends KernelTestCase
 {
+    private string $fixture;
     private FormatWithCountryCode $formatWithCountryCode;
 
     protected function setUp(): void
     {
+        $this->fixture=Config::get(Config::PLUGINS_DIR).'/orangehrmMaintenancePlugin/test/fixtures/EmployeeDao.yml';
+        TestDataService::populate($this->fixture);
         $this->createKernelWithMockServices([Services::COUNTRY_SERVICE=>new CountryService()]);
         $this->formatWithCountryCode = new FormatWithCountryCode();
     }

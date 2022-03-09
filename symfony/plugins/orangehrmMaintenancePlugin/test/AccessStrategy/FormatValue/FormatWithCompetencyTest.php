@@ -19,15 +19,20 @@
 
 namespace OrangeHRM\Tests\Maintenance\AccessStrategy\FormatValue;
 
+use OrangeHRM\Config\Config;
 use OrangeHRM\Maintenance\AccessStrategy\FormatValue\FormatWithCompetency;
-use OrangeHRM\Tests\Util\TestCase;
+use OrangeHRM\Tests\Util\KernelTestCase;
+use OrangeHRM\Tests\Util\TestDataService;
 
-class FormatWithCompetencyTest extends TestCase
+class FormatWithCompetencyTest extends KernelTestCase
 {
+    private string $fixture;
     private FormatWithCompetency $formatWithCompetency;
 
     protected function setUp(): void
     {
+        $this->fixture=Config::get(Config::PLUGINS_DIR).'/orangehrmMaintenancePlugin/test/fixtures/EmployeeDao.yml';
+        TestDataService::populate($this->fixture);
         $this->formatWithCompetency = new FormatWithCompetency();
     }
 

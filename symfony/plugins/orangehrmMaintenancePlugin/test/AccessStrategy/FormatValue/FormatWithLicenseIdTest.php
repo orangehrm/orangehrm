@@ -19,15 +19,20 @@
 
 namespace OrangeHRM\Tests\Maintenance\AccessStrategy\FormatValue;
 
+use OrangeHRM\Config\Config;
 use OrangeHRM\Maintenance\AccessStrategy\FormatValue\FormatWithLicenseId;
-use OrangeHRM\Tests\Util\TestCase;
+use OrangeHRM\Tests\Util\KernelTestCase;
+use OrangeHRM\Tests\Util\TestDataService;
 
-class FormatWithLicenseIdTest extends TestCase
+class FormatWithLicenseIdTest extends KernelTestCase
 {
+    private string $fixture;
     private FormatWithLicenseId $formatWithLicenseId;
 
     protected function setUp(): void
     {
+        $this->fixture=Config::get(Config::PLUGINS_DIR).'/orangehrmMaintenancePlugin/test/fixtures/EmployeeDao.yml';
+        TestDataService::populate($this->fixture);
         $this->formatWithLicenseId = new FormatWithLicenseId();
     }
 

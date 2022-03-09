@@ -35,7 +35,7 @@ class FormatWithLocationId implements ValueFormatter
     public function getFormattedValue($entityValue): ?string
     {
         $result=$this->getLocationService()->getLocationById($entityValue);
-        if(!is_null($result)){
+        if (!is_null($result)) {
             return $result->getName();
         }
         return null;

@@ -34,7 +34,7 @@ class FormatWithJobCategory implements ValueFormatter
     public function getFormattedValue($entityValue): ?string
     {
         $result=$this->getJobCategoryService()->getJobCategoryById($entityValue);
-        if(!is_null($result)){
+        if (!is_null($result)) {
             return $result->getName();
         }
         return null;

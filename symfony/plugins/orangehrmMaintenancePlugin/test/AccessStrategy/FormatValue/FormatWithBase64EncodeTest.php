@@ -18,15 +18,21 @@
  */
 
 namespace OrangeHRM\Tests\Maintenance\AccessStrategy\FormatValue;
-use OrangeHRM\Maintenance\AccessStrategy\FormatValue\FormatWithBase64Encode;
-use OrangeHRM\Tests\Util\TestCase;
 
-class FormatWithBase64EncodeTest extends TestCase
+use OrangeHRM\Config\Config;
+use OrangeHRM\Maintenance\AccessStrategy\FormatValue\FormatWithBase64Encode;
+use OrangeHRM\Tests\Util\KernelTestCase;
+use OrangeHRM\Tests\Util\TestDataService;
+
+class FormatWithBase64EncodeTest extends KernelTestCase
 {
+    private string $fixture;
     private FormatWithBase64Encode $formatWithBase64Encode;
 
     protected function setUp(): void
     {
+        $this->fixture=Config::get(Config::PLUGINS_DIR).'/orangehrmMaintenancePlugin/test/fixtures/EmployeeDao.yml';
+        TestDataService::populate($this->fixture);
         $this->formatWithBase64Encode = new FormatWithBase64Encode();
     }
 

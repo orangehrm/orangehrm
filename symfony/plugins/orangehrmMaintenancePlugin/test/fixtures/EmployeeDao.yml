@@ -163,6 +163,11 @@ Customer:
 Project:
   0: {project_id: 1, customer_id: 1, name: 'NUS'}
 
+ProjectActivity:
+  0: { activity_id: 1, project_id: 1, name: 'Debug', is_deleted: 0 }
+  1: { activity_id: 2, project_id: 1, name: 'Unit test', is_deleted: 0 }
+  2: { activity_id: 3, project_id: 1, name: 'Cypress', is_deleted: 0 }
+
 TimesheetItem:
   0: {timesheet_item_id: 1, timesheet_id: 1, date: '2011-04-12', duration: 7200, comment: 'Good', project_id: 2, employee_id: 1, activity_id: 1}
 

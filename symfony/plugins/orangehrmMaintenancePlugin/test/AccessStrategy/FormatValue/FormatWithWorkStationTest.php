@@ -20,16 +20,21 @@
 namespace OrangeHRM\Tests\Maintenance\AccessStrategy\FormatValue;
 
 use OrangeHRM\Admin\Service\CompanyStructureService;
+use OrangeHRM\Config\Config;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Maintenance\AccessStrategy\FormatValue\FormatWithWorkStation;
 use OrangeHRM\Tests\Util\KernelTestCase;
+use OrangeHRM\Tests\Util\TestDataService;
 
 class FormatWithWorkStationTest extends KernelTestCase
 {
+    private string $fixture;
     private FormatWithWorkStation $formatWithWorkStation;
 
     protected function setUp(): void
     {
+        $this->fixture=Config::get(Config::PLUGINS_DIR).'/orangehrmMaintenancePlugin/test/fixtures/EmployeeDao.yml';
+        TestDataService::populate($this->fixture);
         $this->createKernelWithMockServices([Services::COMPANY_STRUCTURE_SERVICE=>new CompanyStructureService()]);
         $this->formatWithWorkStation = new FormatWithWorkStation();
     }

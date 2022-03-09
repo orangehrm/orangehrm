@@ -19,17 +19,22 @@
 
 namespace OrangeHRM\Tests\Maintenance\AccessStrategy\FormatValue;
 
+use OrangeHRM\Config\Config;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Maintenance\AccessStrategy\FormatValue\FormatWithEmployeeName;
 use OrangeHRM\Pim\Service\EmployeeService;
 use OrangeHRM\Tests\Util\KernelTestCase;
+use OrangeHRM\Tests\Util\TestDataService;
 
 class FormatWithEmployeeNameTest extends KernelTestCase
 {
+    private string $fixture;
     private FormatWithEmployeeName $formatWithEmployeeName;
 
     protected function setUp(): void
     {
+        $this->fixture=Config::get(Config::PLUGINS_DIR).'/orangehrmMaintenancePlugin/test/fixtures/EmployeeDao.yml';
+        TestDataService::populate($this->fixture);
         $this->createKernelWithMockServices([Services::EMPLOYEE_SERVICE=>new EmployeeService()]);
         $this->formatWithEmployeeName = new FormatWithEmployeeName();
     }
