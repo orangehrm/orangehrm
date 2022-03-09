@@ -17,22 +17,24 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Maintenance\test\accessStrategy\FormatValue;
+namespace OrangeHRM\Tests\Maintenance\AccessStrategy\FormatValue;
 
-use OrangeHRM\Maintenance\AccessStrategy\FormatValue\FormatWithLocationId;
+use OrangeHRM\Maintenance\AccessStrategy\FormatValue\FormatWithFluency;
 use OrangeHRM\Tests\Util\TestCase;
 
-class FormatWithLocationIdTest extends TestCase
+class FormatWithFluencyTest extends TestCase
 {
-    private FormatWithLocationId $formatWithLocationId;
+    private FormatWithFluency $formatWithFluency;
 
     protected function setUp(): void
     {
-        $this->formatWithLocationId = new FormatWithLocationId();
+        $this->formatWithFluency = new FormatWithFluency();
     }
 
     public function testGetFormattedValue()
     {
-        $this->assertEquals('location 1', $this->formatWithLocationId->getFormattedValue(1));
+        $this->assertEquals("Writing", $this->formatWithFluency->getFormattedValue(1));
+        $this->assertEquals("Speaking", $this->formatWithFluency->getFormattedValue(2));
+        $this->assertEquals("Reading", $this->formatWithFluency->getFormattedValue(3));
     }
 }

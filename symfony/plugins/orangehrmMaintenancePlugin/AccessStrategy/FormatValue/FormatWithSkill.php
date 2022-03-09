@@ -32,8 +32,11 @@ class FormatWithSkill implements ValueFormatter
      */
     public function getFormattedValue($entityValue): ?string
     {
-        //TODO
-        return $this->getSkillService()->getSkillById($entityValue)->getName();
+        $result=$this->getSkillService()->getSkillById($entityValue);
+        if(!is_null($result)){
+            return $result->getName();
+        }
+        return null;
     }
 
     /**

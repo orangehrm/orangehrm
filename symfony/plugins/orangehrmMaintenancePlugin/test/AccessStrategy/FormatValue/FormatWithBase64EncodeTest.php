@@ -14,28 +14,24 @@
  *
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
- * Boston, MA  02110-1301, USA
+ * Boston, MA 02110-1301, USA
  */
 
-namespace OrangeHRM\Maintenance\test\accessStrategy\FormatValue;
+namespace OrangeHRM\Tests\Maintenance\AccessStrategy\FormatValue;
+use OrangeHRM\Maintenance\AccessStrategy\FormatValue\FormatWithBase64Encode;
+use OrangeHRM\Tests\Util\TestCase;
 
-use OrangeHRM\Framework\Services;
-use OrangeHRM\Maintenance\AccessStrategy\FormatValue\FormatWithEmployeeName;
-use OrangeHRM\Pim\Service\EmployeeService;
-use OrangeHRM\Tests\Util\KernelTestCase;
-
-class FormatWithEmployeeNameTest extends KernelTestCase
+class FormatWithBase64EncodeTest extends TestCase
 {
-    private FormatWithEmployeeName $formatWithEmployeeName;
+    private FormatWithBase64Encode $formatWithBase64Encode;
 
     protected function setUp(): void
     {
-        $this->createKernelWithMockServices([Services::EMPLOYEE_SERVICE=>new EmployeeService()]);
-        $this->formatWithEmployeeName = new FormatWithEmployeeName();
+        $this->formatWithBase64Encode = new FormatWithBase64Encode();
     }
 
     public function testGetFormattedValue()
     {
-        $this->assertEquals('Kayla T Abbey', $this->formatWithEmployeeName->getFormattedValue(1));
+        $this->assertEquals("", $this->formatWithBase64Encode->getFormattedValue(""));
     }
 }

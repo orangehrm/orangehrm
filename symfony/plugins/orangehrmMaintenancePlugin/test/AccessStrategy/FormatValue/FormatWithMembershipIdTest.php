@@ -17,23 +17,22 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Maintenance\test\accessStrategy\FormatValue;
+namespace OrangeHRM\Tests\Maintenance\AccessStrategy\FormatValue;
 
-use OrangeHRM\Maintenance\AccessStrategy\FormatValue\FormatWithPassportType;
+use OrangeHRM\Maintenance\AccessStrategy\FormatValue\FormatWithMembershipId;
 use OrangeHRM\Tests\Util\TestCase;
 
-class FormatWithPassportTypeTest extends TestCase
+class FormatWithMembershipIdTest extends TestCase
 {
-    private FormatWithPassportType $formatWithPassportType;
+    private FormatWithMembershipId $formatWithMembershipId;
 
     protected function setUp(): void
     {
-        $this->formatWithPassportType = new FormatWithPassportType();
+        $this->formatWithMembershipId = new FormatWithMembershipId();
     }
 
     public function testGetFormattedValue()
     {
-        $this->assertEquals('Passport', $this->formatWithPassportType->getFormattedValue(1));
-        $this->assertEquals('Visa', $this->formatWithPassportType->getFormattedValue(2));
+        $this->assertEquals('membership 1', $this->formatWithMembershipId->getFormattedValue(1));
     }
 }

@@ -17,22 +17,25 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Maintenance\test\accessStrategy\FormatValue;
+namespace OrangeHRM\Tests\Maintenance\AccessStrategy\FormatValue;
 
-use OrangeHRM\Maintenance\AccessStrategy\FormatValue\FormatWithProject;
-use OrangeHRM\Tests\Util\TestCase;
+use OrangeHRM\Framework\Services;
+use OrangeHRM\Maintenance\AccessStrategy\FormatValue\FormatWithEmployeeName;
+use OrangeHRM\Pim\Service\EmployeeService;
+use OrangeHRM\Tests\Util\KernelTestCase;
 
-class FormatWithProjectTest extends TestCase
+class FormatWithEmployeeNameTest extends KernelTestCase
 {
-    private FormatWithProject $formatWithProject;
+    private FormatWithEmployeeName $formatWithEmployeeName;
 
     protected function setUp(): void
     {
-        $this->formatWithProject = new FormatWithProject();
+        $this->createKernelWithMockServices([Services::EMPLOYEE_SERVICE=>new EmployeeService()]);
+        $this->formatWithEmployeeName = new FormatWithEmployeeName();
     }
 
     public function testGetFormattedValue()
     {
-        $this->assertEquals('NUS', $this->formatWithProject->getFormattedValue(1));
+        $this->assertEquals('Kayla T Abbey', $this->formatWithEmployeeName->getFormattedValue(1));
     }
 }

@@ -14,25 +14,28 @@
  *
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
- * Boston, MA  02110-1301, USA
+ * Boston, MA 02110-1301, USA
  */
 
-namespace OrangeHRM\Maintenance\test\accessStrategy\FormatValue;
+namespace OrangeHRM\Tests\Maintenance\AccessStrategy\FormatValue;
 
-use OrangeHRM\Maintenance\AccessStrategy\FormatValue\FormatWithSmoker;
+use OrangeHRM\Maintenance\AccessStrategy\FormatValue\FormatWithCompetency;
 use OrangeHRM\Tests\Util\TestCase;
 
-class FormatWithSmokerTest extends TestCase
+class FormatWithCompetencyTest extends TestCase
 {
-    private FormatWithSmoker $formatWithSmoker;
+    private FormatWithCompetency $formatWithCompetency;
 
     protected function setUp(): void
     {
-        $this->formatWithSmoker = new FormatWithSmoker();
+        $this->formatWithCompetency = new FormatWithCompetency();
     }
 
     public function testGetFormattedValue()
     {
-        $this->assertEquals('Smoker', $this->formatWithSmoker->getFormattedValue(1));
+        $this->assertEquals("Poor", $this->formatWithCompetency->getFormattedValue(1));
+        $this->assertEquals("Basic", $this->formatWithCompetency->getFormattedValue(2));
+        $this->assertEquals("Good", $this->formatWithCompetency->getFormattedValue(3));
+        $this->assertEquals("Mother Tongue", $this->formatWithCompetency->getFormattedValue(4));
     }
 }

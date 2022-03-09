@@ -17,22 +17,22 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Maintenance\test\accessStrategy\FormatValue;
+namespace OrangeHRM\Tests\Maintenance\AccessStrategy\FormatValue;
 
-use OrangeHRM\Maintenance\AccessStrategy\FormatValue\FormatWithJobCategory;
+use OrangeHRM\Maintenance\AccessStrategy\FormatValue\FormatWithJobTitle;
 use OrangeHRM\Tests\Util\TestCase;
 
-class FormatWithJobCategoryTest extends TestCase
+class FormatWithJobTitleTest extends TestCase
 {
-    private FormatWithJobCategory $formatWithJobCategory;
+    private FormatWithJobTitle $formatWithJobTitle;
 
     protected function setUp(): void
     {
-        $this->formatWithJobCategory = new FormatWithJobCategory();
+        $this->formatWithJobTitle = new FormatWithJobTitle();
     }
 
     public function testGetFormattedValue()
     {
-        $this->assertEquals("Officials and Managers", $this->formatWithJobCategory->getFormattedValue(1));
+        $this->assertEquals(null, $this->formatWithJobTitle->getFormattedValue(1));
     }
 }

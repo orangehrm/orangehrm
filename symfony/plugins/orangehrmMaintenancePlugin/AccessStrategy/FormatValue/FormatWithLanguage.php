@@ -23,9 +23,7 @@ use OrangeHRM\Maintenance\FormatValueStrategy\ValueFormatter;
 use OrangeHRM\Admin\Service\LanguageService;
 use OrangeHRM\Core\Exception\DaoException;
 
-/**
- * Class FormatWithLanguage
- */
+
 class FormatWithLanguage implements ValueFormatter
 {
     private ?LanguageService $languageService = null;
@@ -33,12 +31,15 @@ class FormatWithLanguage implements ValueFormatter
     /**
      * @param $entityValue
      * @return null|string
-     * @throws DaoException
      */
     public function getFormattedValue($entityValue): ?string
     {
-        // TODO
-        return $this->getLanguageService()->getLanguageById($entityValue)->getName();
+        $result=$this->getLanguageService()->getLanguageById($entityValue);
+        if(!is_null($result)){
+            return $result->getName();
+        }
+        return null;
+
     }
 
     /**

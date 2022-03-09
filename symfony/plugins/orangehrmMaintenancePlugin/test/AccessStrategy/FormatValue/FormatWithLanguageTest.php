@@ -14,25 +14,25 @@
  *
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
- * Boston, MA 02110-1301, USA
+ * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Maintenance\test\accessStrategy\FormatValue;
+namespace OrangeHRM\Tests\Maintenance\AccessStrategy\FormatValue;
 
-use OrangeHRM\Maintenance\AccessStrategy\FormatValue\FormatWithBase64Encode;
+use OrangeHRM\Maintenance\AccessStrategy\FormatValue\FormatWithLanguage;
 use OrangeHRM\Tests\Util\TestCase;
 
-class FormatWithBase64EncodeTest extends TestCase
+class FormatWithLanguageTest extends TestCase
 {
-    private FormatWithBase64Encode $formatWithBase64Encode;
+    private FormatWithLanguage $formatWithLanguage;
 
     protected function setUp(): void
     {
-        $this->formatWithBase64Encode = new FormatWithBase64Encode();
+        $this->formatWithLanguage = new FormatWithLanguage();
     }
 
     public function testGetFormattedValue()
     {
-        $this->assertEquals("", $this->formatWithBase64Encode->getFormattedValue(""));
+        $this->assertEquals('Spanish', $this->formatWithLanguage->getFormattedValue(1));
     }
 }

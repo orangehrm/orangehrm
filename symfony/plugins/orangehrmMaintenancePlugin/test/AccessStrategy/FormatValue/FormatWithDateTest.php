@@ -17,22 +17,22 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Maintenance\test\accessStrategy\FormatValue;
+namespace OrangeHRM\Tests\Maintenance\AccessStrategy\FormatValue;
 
-use OrangeHRM\Maintenance\AccessStrategy\FormatValue\FormatWithEducation;
+use OrangeHRM\Maintenance\AccessStrategy\FormatValue\FormatWithDate;
 use OrangeHRM\Tests\Util\TestCase;
 
-class FormatWithEducationTest extends TestCase
+class FormatWithDateTest extends TestCase
 {
-    private FormatWithEducation $formatWithEducation;
+    private FormatWithDate $formatWithDate;
 
     protected function setUp(): void
     {
-        $this->formatWithEducation = new FormatWithEducation();
+        $this->formatWithDate = new FormatWithDate();
     }
 
     public function testGetFormattedValue()
     {
-        $this->assertEquals("PhD", $this->formatWithEducation->getFormattedValue(1));
+        $this->assertEquals("2020-10-12", $this->formatWithDate->getFormattedValue(new \DateTime('2020-10-12')));
     }
 }

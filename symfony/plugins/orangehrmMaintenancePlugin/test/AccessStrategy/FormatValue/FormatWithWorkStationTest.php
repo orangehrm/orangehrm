@@ -17,22 +17,25 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Maintenance\test\accessStrategy\FormatValue;
+namespace OrangeHRM\Tests\Maintenance\AccessStrategy\FormatValue;
 
-use OrangeHRM\Maintenance\AccessStrategy\FormatValue\FormatWithLanguage;
-use OrangeHRM\Tests\Util\TestCase;
+use OrangeHRM\Admin\Service\CompanyStructureService;
+use OrangeHRM\Framework\Services;
+use OrangeHRM\Maintenance\AccessStrategy\FormatValue\FormatWithWorkStation;
+use OrangeHRM\Tests\Util\KernelTestCase;
 
-class FormatWithLanguageTest extends TestCase
+class FormatWithWorkStationTest extends KernelTestCase
 {
-    private FormatWithLanguage $formatWithLanguage;
+    private FormatWithWorkStation $formatWithWorkStation;
 
     protected function setUp(): void
     {
-        $this->formatWithLanguage = new FormatWithLanguage();
+        $this->createKernelWithMockServices([Services::COMPANY_STRUCTURE_SERVICE=>new CompanyStructureService()]);
+        $this->formatWithWorkStation = new FormatWithWorkStation();
     }
 
     public function testGetFormattedValue()
     {
-        $this->assertEquals('Spanish', $this->formatWithLanguage->getFormattedValue(1));
+        $this->assertEquals(null, $this->formatWithWorkStation->getFormattedValue(1));
     }
 }

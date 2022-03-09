@@ -17,25 +17,22 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Maintenance\test\accessStrategy\FormatValue;
+namespace OrangeHRM\Tests\Maintenance\AccessStrategy\FormatValue;
 
-use OrangeHRM\Admin\Service\CompanyStructureService;
-use OrangeHRM\Framework\Services;
-use OrangeHRM\Maintenance\AccessStrategy\FormatValue\FormatWithWorkStation;
-use OrangeHRM\Tests\Util\KernelTestCase;
+use OrangeHRM\Maintenance\AccessStrategy\FormatValue\FormatWithSmoker;
+use OrangeHRM\Tests\Util\TestCase;
 
-class FormatWithWorkStationTest extends KernelTestCase
+class FormatWithSmokerTest extends TestCase
 {
-    private FormatWithWorkStation $formatWithWorkStation;
+    private FormatWithSmoker $formatWithSmoker;
 
     protected function setUp(): void
     {
-        $this->createKernelWithMockServices([Services::COMPANY_STRUCTURE_SERVICE=>new CompanyStructureService()]);
-        $this->formatWithWorkStation = new FormatWithWorkStation();
+        $this->formatWithSmoker = new FormatWithSmoker();
     }
 
     public function testGetFormattedValue()
     {
-        $this->assertEquals('Organization', $this->formatWithWorkStation->getFormattedValue(1));
+        $this->assertEquals('Smoker', $this->formatWithSmoker->getFormattedValue(1));
     }
 }

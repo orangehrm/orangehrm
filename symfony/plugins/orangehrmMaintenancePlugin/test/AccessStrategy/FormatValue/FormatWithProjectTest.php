@@ -17,22 +17,22 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Maintenance\test\accessStrategy\FormatValue;
+namespace OrangeHRM\Tests\Maintenance\AccessStrategy\FormatValue;
 
-use OrangeHRM\Maintenance\AccessStrategy\FormatValue\FormatWithJobTitle;
+use OrangeHRM\Maintenance\AccessStrategy\FormatValue\FormatWithProject;
 use OrangeHRM\Tests\Util\TestCase;
 
-class FormatWithJobTitleTest extends TestCase
+class FormatWithProjectTest extends TestCase
 {
-    private FormatWithJobTitle $formatWithJobTitle;
+    private FormatWithProject $formatWithProject;
 
     protected function setUp(): void
     {
-        $this->formatWithJobTitle = new FormatWithJobTitle();
+        $this->formatWithProject = new FormatWithProject();
     }
 
     public function testGetFormattedValue()
     {
-        $this->assertEquals(null, $this->formatWithJobTitle->getFormattedValue(1));
+        $this->assertEquals('NUS', $this->formatWithProject->getFormattedValue(1));
     }
 }

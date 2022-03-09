@@ -17,22 +17,22 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Maintenance\test\accessStrategy\FormatValue;
+namespace OrangeHRM\Tests\Maintenance\AccessStrategy\FormatValue;
 
-use OrangeHRM\Maintenance\AccessStrategy\FormatValue\FormatWithSkill;
+use OrangeHRM\Maintenance\AccessStrategy\FormatValue\FormatWithJobCategory;
 use OrangeHRM\Tests\Util\TestCase;
 
-class FormatWithSkillTest extends TestCase
+class FormatWithJobCategoryTest extends TestCase
 {
-    private FormatWithSkill $formatWithSkill;
+    private FormatWithJobCategory $formatWithJobCategory;
 
     protected function setUp(): void
     {
-        $this->formatWithSkill = new FormatWithSkill();
+        $this->formatWithJobCategory = new FormatWithJobCategory();
     }
 
     public function testGetFormattedValue()
     {
-        $this->assertEquals('Driving', $this->formatWithSkill->getFormattedValue(1));
+        $this->assertEquals(null, $this->formatWithJobCategory->getFormattedValue(1));
     }
 }

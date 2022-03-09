@@ -17,22 +17,22 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Maintenance\test\accessStrategy\FormatValue;
+namespace OrangeHRM\Tests\Maintenance\AccessStrategy\FormatValue;
 
-use OrangeHRM\Maintenance\AccessStrategy\FormatValue\FormatWithUtcTime;
+use OrangeHRM\Maintenance\AccessStrategy\FormatValue\FormatWithLicenseId;
 use OrangeHRM\Tests\Util\TestCase;
 
-class FormatWithUtcTimeTest extends TestCase
+class FormatWithLicenseIdTest extends TestCase
 {
-    private FormatWithUtcTime $formatWithUtcTime;
+    private FormatWithLicenseId $formatWithLicenseId;
 
     protected function setUp(): void
     {
-        $this->formatWithUtcTime = new  FormatWithUtcTime();
+        $this->formatWithLicenseId = new FormatWithLicenseId();
     }
 
     public function testGetFormattedValue()
     {
-        $this->assertEquals("2020-10-12 00:00:00", $this->formatWithUtcTime->getFormattedValue(new \DateTime('2020-10-12')));
+        $this->assertEquals(null, $this->formatWithLicenseId->getFormattedValue(1));
     }
 }

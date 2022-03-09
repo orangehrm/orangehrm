@@ -17,22 +17,22 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Maintenance\test\accessStrategy\FormatValue;
+namespace OrangeHRM\Tests\Maintenance\AccessStrategy\FormatValue;
 
-use OrangeHRM\Maintenance\AccessStrategy\FormatValue\FormatWithDate;
+use OrangeHRM\Maintenance\AccessStrategy\FormatValue\FormatWithLocationId;
 use OrangeHRM\Tests\Util\TestCase;
 
-class FormatWithDateTest extends TestCase
+class FormatWithLocationIdTest extends TestCase
 {
-    private FormatWithDate $formatWithDate;
+    private FormatWithLocationId $formatWithLocationId;
 
     protected function setUp(): void
     {
-        $this->formatWithDate = new FormatWithDate();
+        $this->formatWithLocationId = new FormatWithLocationId();
     }
 
     public function testGetFormattedValue()
     {
-        $this->assertEquals("2020-10-12", $this->formatWithDate->getFormattedValue(new \DateTime('2020-10-12')));
+        $this->assertEquals('location 1', $this->formatWithLocationId->getFormattedValue(1));
     }
 }

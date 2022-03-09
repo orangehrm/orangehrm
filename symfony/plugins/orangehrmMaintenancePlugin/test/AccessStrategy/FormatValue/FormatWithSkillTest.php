@@ -17,25 +17,22 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Maintenance\test\accessStrategy\FormatValue;
+namespace OrangeHRM\Tests\Maintenance\AccessStrategy\FormatValue;
 
-use OrangeHRM\Admin\Service\PayGradeService;
-use OrangeHRM\Framework\Services;
-use OrangeHRM\Maintenance\AccessStrategy\FormatValue\FormatWithPayGradeId;
-use OrangeHRM\Tests\Util\KernelTestCase;
+use OrangeHRM\Maintenance\AccessStrategy\FormatValue\FormatWithSkill;
+use OrangeHRM\Tests\Util\TestCase;
 
-class FormatWithPayGradeIdTest extends KernelTestCase
+class FormatWithSkillTest extends TestCase
 {
-    private FormatWithPayGradeId $formatWithPayGradeId;
+    private FormatWithSkill $formatWithSkill;
 
     protected function setUp(): void
     {
-        $this->createKernelWithMockServices([Services::PAY_GRADE_SERVICE=>new PayGradeService()]);
-        $this->formatWithPayGradeId = new FormatWithPayGradeId();
+        $this->formatWithSkill = new FormatWithSkill();
     }
 
     public function testGetFormattedValue()
     {
-        $this->assertEquals('Salary Grade A', $this->formatWithPayGradeId->getFormattedValue(1));
+        $this->assertEquals('Driving', $this->formatWithSkill->getFormattedValue(1));
     }
 }

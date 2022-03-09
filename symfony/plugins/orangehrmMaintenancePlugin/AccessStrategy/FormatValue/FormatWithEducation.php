@@ -32,7 +32,11 @@ class FormatWithEducation implements ValueFormatter
      */
     public function getFormattedValue($entityValue): ?string
     {
-        return $this->getEducationService()->getEducationById($entityValue)->getName();
+        $result=$this->getEducationService()->getEducationById($entityValue);
+        if(!is_null($result)){
+            $result->getName();
+        }
+        return null;
     }
 
     /**

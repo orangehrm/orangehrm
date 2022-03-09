@@ -17,24 +17,25 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Maintenance\test\accessStrategy\FormatValue;
+namespace OrangeHRM\Tests\Maintenance\AccessStrategy\FormatValue;
 
-use OrangeHRM\Maintenance\AccessStrategy\FormatValue\FormatWithGender;
-use OrangeHRM\Tests\Util\TestCase;
+use OrangeHRM\Admin\Service\CountryService;
+use OrangeHRM\Framework\Services;
+use OrangeHRM\Maintenance\AccessStrategy\FormatValue\FormatWithCountryCode;
+use OrangeHRM\Tests\Util\KernelTestCase;
 
-class FormatWithGenderTest extends TestCase
+class FormatWithCountryCodeTest extends KernelTestCase
 {
-    private FormatWithGender $formatWithGender;
+    private FormatWithCountryCode $formatWithCountryCode;
 
     protected function setUp(): void
     {
-        $this->formatWithGender = new FormatWithGender();
+        $this->createKernelWithMockServices([Services::COUNTRY_SERVICE=>new CountryService()]);
+        $this->formatWithCountryCode = new FormatWithCountryCode();
     }
 
     public function testGetFormattedValue()
     {
-        $this->assertEquals("Male", $this->formatWithGender->getFormattedValue(1));
-        $this->assertEquals("Female", $this->formatWithGender->getFormattedValue(2));
-        $this->assertEquals(null, $this->formatWithGender->getFormattedValue(3));
+        $this->assertEquals(null, $this->formatWithCountryCode->getFormattedValue('UK'));
     }
 }

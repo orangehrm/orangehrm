@@ -17,22 +17,24 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Maintenance\test\accessStrategy\FormatValue;
+namespace OrangeHRM\Tests\Maintenance\AccessStrategy\FormatValue;
 
-use OrangeHRM\Maintenance\AccessStrategy\FormatValue\FormatWithNationality;
+use OrangeHRM\Maintenance\AccessStrategy\FormatValue\FormatWithGender;
 use OrangeHRM\Tests\Util\TestCase;
 
-class FormatWithNationalityTest extends TestCase
+class FormatWithGenderTest extends TestCase
 {
-    private FormatWithNationality $formatWithNationality;
+    private FormatWithGender $formatWithGender;
 
     protected function setUp(): void
     {
-        $this->formatWithNationality = new FormatWithNationality();
+        $this->formatWithGender = new FormatWithGender();
     }
 
     public function testGetFormattedValue()
     {
-        $this->assertEquals('nationality 1', $this->formatWithNationality->getFormattedValue(1));
+        $this->assertEquals("Male", $this->formatWithGender->getFormattedValue(1));
+        $this->assertEquals("Female", $this->formatWithGender->getFormattedValue(2));
+        $this->assertEquals(null, $this->formatWithGender->getFormattedValue(3));
     }
 }

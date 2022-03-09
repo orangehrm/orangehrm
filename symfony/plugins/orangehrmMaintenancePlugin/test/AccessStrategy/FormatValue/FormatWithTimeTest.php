@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Maintenance\test\accessStrategy\FormatValue;
+namespace OrangeHRM\Tests\Maintenance\AccessStrategy\FormatValue;
 
 use OrangeHRM\Maintenance\AccessStrategy\FormatValue\FormatWithTime;
 use OrangeHRM\Tests\Util\TestCase;

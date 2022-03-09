@@ -17,22 +17,22 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Maintenance\test\accessStrategy\FormatValue;
+namespace OrangeHRM\Tests\Maintenance\AccessStrategy\FormatValue;
 
-use OrangeHRM\Maintenance\AccessStrategy\FormatValue\FormatWithPayPeriodId;
+use OrangeHRM\Maintenance\AccessStrategy\FormatValue\FormatWithEducation;
 use OrangeHRM\Tests\Util\TestCase;
 
-class FormatWithPayPeriodIdTest extends TestCase
+class FormatWithEducationTest extends TestCase
 {
-    private FormatWithPayPeriodId $formatWithPayPeriodId;
+    private FormatWithEducation $formatWithEducation;
 
     protected function setUp(): void
     {
-        $this->formatWithPayPeriodId = new FormatWithPayPeriodId();
+        $this->formatWithEducation = new FormatWithEducation();
     }
 
     public function testGetFormattedValue()
     {
-        $this->assertEquals('1', $this->formatWithPayPeriodId->getFormattedValue(1));
+        $this->assertEquals(null, $this->formatWithEducation->getFormattedValue(1));
     }
 }

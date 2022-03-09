@@ -17,24 +17,22 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Maintenance\test\accessStrategy\FormatValue;
+namespace OrangeHRM\Tests\Maintenance\AccessStrategy\FormatValue;
 
-use OrangeHRM\Maintenance\AccessStrategy\FormatValue\FormatWithFluency;
+use OrangeHRM\Maintenance\AccessStrategy\FormatValue\FormatWithUtcTime;
 use OrangeHRM\Tests\Util\TestCase;
 
-class FormatWithFluencyTest extends TestCase
+class FormatWithUtcTimeTest extends TestCase
 {
-    private FormatWithFluency $formatWithFluency;
+    private FormatWithUtcTime $formatWithUtcTime;
 
     protected function setUp(): void
     {
-        $this->formatWithFluency = new FormatWithFluency();
+        $this->formatWithUtcTime = new  FormatWithUtcTime();
     }
 
     public function testGetFormattedValue()
     {
-        $this->assertEquals("Writing", $this->formatWithFluency->getFormattedValue(1));
-        $this->assertEquals("Speaking", $this->formatWithFluency->getFormattedValue(2));
-        $this->assertEquals("Reading", $this->formatWithFluency->getFormattedValue(3));
+        $this->assertEquals("2020-10-12 00:00:00", $this->formatWithUtcTime->getFormattedValue(new \DateTime('2020-10-12')));
     }
 }

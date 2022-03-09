@@ -14,28 +14,25 @@
  *
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
- * Boston, MA 02110-1301, USA
+ * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Maintenance\test\accessStrategy\FormatValue;
+namespace OrangeHRM\Tests\Maintenance\AccessStrategy\FormatValue;
 
-use OrangeHRM\Maintenance\AccessStrategy\FormatValue\FormatWithCompetency;
+use OrangeHRM\Maintenance\AccessStrategy\FormatValue\FormatWithNationality;
 use OrangeHRM\Tests\Util\TestCase;
 
-class FormatWithCompetencyTest extends TestCase
+class FormatWithNationalityTest extends TestCase
 {
-    private FormatWithCompetency $formatWithCompetency;
+    private FormatWithNationality $formatWithNationality;
 
     protected function setUp(): void
     {
-        $this->formatWithCompetency = new FormatWithCompetency();
+        $this->formatWithNationality = new FormatWithNationality();
     }
 
     public function testGetFormattedValue()
     {
-        $this->assertEquals("Poor", $this->formatWithCompetency->getFormattedValue(1));
-        $this->assertEquals("Basic", $this->formatWithCompetency->getFormattedValue(2));
-        $this->assertEquals("Good", $this->formatWithCompetency->getFormattedValue(3));
-        $this->assertEquals("Mother Tongue", $this->formatWithCompetency->getFormattedValue(4));
+        $this->assertEquals('nationality 1', $this->formatWithNationality->getFormattedValue(1));
     }
 }

@@ -36,7 +36,6 @@ class FormatWithEducation implements ValueFormatter
      */
     public function getFormattedValue($entityValue): ?string
     {
-        // TODO
         return $this->getEducationService()->getEducationById($entityValue->getId())->getName();
     }
 

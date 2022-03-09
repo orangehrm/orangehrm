@@ -33,6 +33,10 @@ class FormatWithPayGradeId implements ValueFormatter
      */
     public function getFormattedValue($entityValue): ?string
     {
-        return $this->getContainer()->get(Services::PAY_GRADE_SERVICE)->getPayGradeById($entityValue)->getName();
+        $result=$this->getContainer()->get(Services::PAY_GRADE_SERVICE)->getPayGradeById($entityValue);
+        if(!is_null($result)){
+            return $result->getName();
+        }
+        return null;
     }
 }

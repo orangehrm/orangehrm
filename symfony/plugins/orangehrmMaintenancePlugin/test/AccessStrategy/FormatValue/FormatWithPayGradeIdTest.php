@@ -17,25 +17,25 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Maintenance\test\accessStrategy\FormatValue;
+namespace OrangeHRM\Tests\Maintenance\AccessStrategy\FormatValue;
 
-use OrangeHRM\Admin\Service\CountryService;
+use OrangeHRM\Admin\Service\PayGradeService;
 use OrangeHRM\Framework\Services;
-use OrangeHRM\Maintenance\AccessStrategy\FormatValue\FormatWithCountryCode;
+use OrangeHRM\Maintenance\AccessStrategy\FormatValue\FormatWithPayGradeId;
 use OrangeHRM\Tests\Util\KernelTestCase;
 
-class FormatWithCountryCodeTest extends KernelTestCase
+class FormatWithPayGradeIdTest extends KernelTestCase
 {
-    private FormatWithCountryCode $formatWithCountryCode;
+    private FormatWithPayGradeId $formatWithPayGradeId;
 
     protected function setUp(): void
     {
-        $this->createKernelWithMockServices([Services::COUNTRY_SERVICE=>new CountryService()]);
-        $this->formatWithCountryCode = new FormatWithCountryCode();
+        $this->createKernelWithMockServices([Services::PAY_GRADE_SERVICE=>new PayGradeService()]);
+        $this->formatWithPayGradeId = new FormatWithPayGradeId();
     }
 
     public function testGetFormattedValue()
     {
-        $this->assertEquals(null, $this->formatWithCountryCode->getFormattedValue('UK'));
+        $this->assertEquals('Salary Grade A', $this->formatWithPayGradeId->getFormattedValue(1));
     }
 }
