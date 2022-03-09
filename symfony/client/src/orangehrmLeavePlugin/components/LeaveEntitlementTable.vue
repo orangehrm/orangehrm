@@ -27,7 +27,7 @@
         <div>
           <oxd-button
             v-if="$can.create(`leave_entitlements`)"
-            label="Add"
+            :label="$t('general.add')"
             icon-name="plus"
             display-type="secondary"
             @click="onClickAdd"
@@ -78,7 +78,7 @@ const entitlementNormalizer = data => {
     return {
       id: item.id,
       leaveType:
-        item.leaveType.name + `${item.leaveType.deleted ? ' (Deleted)' : ''}`,
+        item.leaveType.name + `${item.leaveType.deleted ? this.$t('general.deleted') : ''}`,
       entitlementType: item.entitlementType.name,
       fromDate: item.fromDate,
       toDate: item.toDate,
@@ -193,30 +193,30 @@ export default {
         {
           name: 'leaveType',
           slot: 'title',
-          title: 'Leave Type',
+          title:  this.$t('leave.leave_type'),
           style: {flex: 1},
         },
         {
           name: 'entitlementType',
-          title: 'Entitlement Type',
+          title: this.$t('leave.leave_type'),
           style: {flex: 1},
         },
         {
           name: 'fromDate',
-          title: 'Valid From',
+          title: this.$t('leave.valid_from'),
           style: {flex: 1},
         },
         {
           name: 'toDate',
-          title: 'Valid To',
+          title: this.$t('leave.valid_to'),
           style: {flex: 1},
         },
-        {name: 'days', title: 'Days', style: {flex: 1}},
+        {name: 'days', title: this.$t('leave.days'), style: {flex: 1}},
       ];
       const headerActions = {
         name: 'actions',
         slot: 'action',
-        title: 'Actions',
+        title: this.$t('general.actions'),
         style: {flex: 1},
         cellType: 'oxd-table-cell-actions',
         cellConfig: {},
@@ -264,9 +264,9 @@ export default {
     onClickDelete(item) {
       if (!item.isSelectable) {
         return this.$toast.error({
-          title: 'Error',
+          title: this.$t('general.error'),
           message:
-            "Entitlement(s) will not be deleted since it's already in use",
+            this.$t('leave.entitlements_will_not_be_deleted_since_already_in_use'),
         });
       }
       this.$refs.deleteDialog.showDialog().then(confirmation => {

@@ -26,19 +26,19 @@
       </oxd-text>
       <oxd-button
         v-if="bulkActions.APPROVE"
-        label="Approve"
+        :label="$t('general.approve')"
         display-type="label-success"
         @click="$emit('onActionClick', 'APPROVE')"
       />
       <oxd-button
         v-if="bulkActions.REJECT"
-        label="Reject"
+        :label="$t('general.reject')"
         display-type="label-danger"
         @click="$emit('onActionClick', 'REJECT')"
       />
       <oxd-button
         v-if="bulkActions.CANCEL"
-        label="Cancel"
+        :label="$t('general.cancel')"
         display-type="label-warn"
         @click="$emit('onActionClick', 'CANCEL')"
       />

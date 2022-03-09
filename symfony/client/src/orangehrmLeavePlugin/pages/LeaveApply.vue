@@ -118,7 +118,7 @@
               v-model:fromTime="leave.duration.fromTime"
               v-model:toTime="leave.duration.toTime"
               :partial="true"
-              :label="$t('leave.start_day')"
+              :label="$t('general.start_day')"
               :work-shift="workShift"
             ></leave-duration-input>
             <leave-duration-input
@@ -127,7 +127,7 @@
               v-model:fromTime="leave.endDuration.fromTime"
               v-model:toTime="leave.endDuration.toTime"
               :partial="true"
-              :label="$t('leave.end_day')"
+              :label="$t('general.end_day')"
               :work-shift="workShift"
             ></leave-duration-input>
           </oxd-grid>
@@ -237,7 +237,7 @@ export default {
           validDateFormat(),
           endDateShouldBeAfterStartDate(
             () => this.leave.fromDate,
-            'To date should be after from date',
+              this.$t('general.to_date_should_be_after_from_date'),
             {allowSameDate: true},
           ),
         ],

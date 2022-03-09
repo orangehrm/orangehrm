@@ -158,7 +158,7 @@ export default {
           const index = data.findIndex(item => item.name == v);
           if (index > -1) {
             const {id} = data[index];
-            return id != this.leaveTypeId ? 'Already exists' : true;
+            return id != this.leaveTypeId ? this.$t('general.already_exists') : true;
           } else {
             return true;
           }

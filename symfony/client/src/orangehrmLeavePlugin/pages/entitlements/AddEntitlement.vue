@@ -73,7 +73,7 @@
               <oxd-input-field
                 v-model="leaveEntitlement.location"
                 type="select"
-                label="Location"
+                :label="$t('general.location')"
                 :options="locations"
               />
             </oxd-grid-item>
@@ -81,13 +81,13 @@
               <oxd-input-field
                 v-model="leaveEntitlement.subunit"
                 type="select"
-                label="Sub Unit"
+                :label="$t('general.sub_unit')"
                 :options="subunits"
               />
             </oxd-grid-item>
             <oxd-grid-item class="orangehrm-leave-entitled">
               <oxd-text class="orangehrm-leave-entitled-text" type="subtitle-2">
-                Matches {{ empMatchCount }} Employees
+                {{ $t('leave.matches_emp_count_employees', {empMatchCount: empMatchCount}) }}
               </oxd-text>
             </oxd-grid-item>
           </oxd-grid>
@@ -219,7 +219,7 @@ export default {
           v => {
             return (
               /^\d+(\.\d{1,2})?$/.test(v) ||
-              'Should be a number with upto 2 decimal places'
+              this.$t('leave.should_be_a_number_with_2_decimal_places')
             );
           },
           max(10000),
@@ -290,7 +290,7 @@ export default {
           const {data} = response.data;
           if (Array.isArray(data)) {
             toast = this.$toast.success({
-              title: 'Success',
+              title: this.$t('general.success'),
               message: `Entitlement added to ${data.length} employee(s)`,
             });
           } else {
