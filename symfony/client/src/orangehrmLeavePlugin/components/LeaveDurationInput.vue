@@ -103,7 +103,7 @@ export default {
           validTimeFormat,
           startTimeShouldBeBeforeEndTime(
             () => this.toTime,
-              this.$t('general.from_time_should_be_before_to_time'),
+            this.$t('general.from_time_should_be_before_to_time'),
           ),
         ],
         toTime: [
@@ -111,7 +111,7 @@ export default {
           validTimeFormat,
           endTimeShouldBeAfterStartTime(
             () => this.fromTime,
-              this.$t('general.to_time_should_be_after_from_time'),
+            this.$t('general.to_time_should_be_after_from_time'),
           ),
           value => {
             if (value) {
@@ -121,7 +121,9 @@ export default {
               );
               const selectedLength = diffInTime(this.fromTime, value);
               if (selectedLength > workLength)
-                return this.$t('leave.duration_should_be_less_than_work_shift_length');
+                return this.$t(
+                  'leave.duration_should_be_less_than_work_shift_length',
+                );
             }
             return true;
           },
@@ -137,8 +139,16 @@ export default {
     options() {
       const durations = [
         {id: 1, label: this.$t('leave.full_day'), key: 'full_day'},
-        {id: 2, label: this.$t('leave.half_day_morning'), key: 'half_day_morning'},
-        {id: 3, label: this.$t('leave.half_day_evening'), key: 'half_day_afternoon'},
+        {
+          id: 2,
+          label: this.$t('leave.half_day_morning'),
+          key: 'half_day_morning',
+        },
+        {
+          id: 3,
+          label: this.$t('leave.half_day_evening'),
+          key: 'half_day_afternoon',
+        },
         {id: 4, label: this.$t('leave.specify_time'), key: 'specify_time'},
       ];
       return this.partial ? durations.filter(i => i.id != 1) : durations;

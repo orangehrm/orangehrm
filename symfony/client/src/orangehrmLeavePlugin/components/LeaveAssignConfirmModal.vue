@@ -32,7 +32,9 @@
       </div>
       <div class="orangehrm-text-center-align">
         <oxd-text type="subtitle-2">
-          {{ $t('leave.employee_does_not_have_enough_balance_for_leave_request') }}
+          {{
+            $t('leave.employee_does_not_have_enough_balance_for_leave_request')
+          }}
           {{ $t('leave.click_ok_to_confirm_leave_assignment') }}
         </oxd-text>
       </div>

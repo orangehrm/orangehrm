@@ -87,7 +87,11 @@
             </oxd-grid-item>
             <oxd-grid-item class="orangehrm-leave-entitled">
               <oxd-text class="orangehrm-leave-entitled-text" type="subtitle-2">
-                {{ $t('leave.matches_emp_count_employees', {empMatchCount: empMatchCount}) }}
+                {{
+                  $t('leave.matches_emp_count_employees', {
+                    empMatchCount: empMatchCount,
+                  })
+                }}
               </oxd-text>
             </oxd-grid-item>
           </oxd-grid>

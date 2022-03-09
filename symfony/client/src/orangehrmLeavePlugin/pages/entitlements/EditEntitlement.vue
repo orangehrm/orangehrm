@@ -229,7 +229,9 @@ export default {
               const {data} = response.data;
               return data.valid === true
                 ? resolve(true)
-                : resolve(this.$t('leave.used_amount_exceeds_the_current_amount'));
+                : resolve(
+                    this.$t('leave.used_amount_exceeds_the_current_amount'),
+                  );
             });
         } else {
           resolve(true);

@@ -34,7 +34,9 @@
     <oxd-divider class="orangehrm-horizontal-margin orangehrm-clear-margins" />
     <div class="orangehrm-horizontal-padding orangehrm-vertical-padding">
       <oxd-text type="subtitle-2">
-        {{ $t('leave.selected_leave_entitlement_applied_to_following_employees') }}
+        {{
+          $t('leave.selected_leave_entitlement_applied_to_following_employees')
+        }}
       </oxd-text>
     </div>
     <div class="orangehrm-container">

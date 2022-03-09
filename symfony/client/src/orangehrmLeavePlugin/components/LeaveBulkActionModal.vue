@@ -26,11 +26,18 @@
       @update:show="onCancel"
     >
       <div class="orangehrm-modal-header">
-        <oxd-text type="card-title"> {{ action }} {{ $t('general.leave') }} </oxd-text>
+        <oxd-text type="card-title">
+          {{ action }} {{ $t('general.leave') }}
+        </oxd-text>
       </div>
       <div class="orangehrm-text-center-align">
         <oxd-text type="subtitle-2">
-          {{ $t('leave.bulk_leave_action_confirm_message_one', {action:action, amount:count}) }}
+          {{
+            $t('leave.bulk_leave_action_confirm_message_one', {
+              action: action,
+              amount: count,
+            })
+          }}
           {{ $t('leave.bulk_leave_action_confirm_message_two') }}
         </oxd-text>
       </div>

@@ -133,7 +133,8 @@ const leavelistNormalizer = data => {
         item.employee?.terminationId ? this.$t('general.past_employee') : ''
       }`,
       leaveType:
-        item.leaveType?.name + `${item.leaveType?.deleted ? this.$t('general.deleted') : ''}`,
+        item.leaveType?.name +
+        `${item.leaveType?.deleted ? this.$t('general.deleted') : ''}`,
       leaveBalance: leaveBalances,
       days: parseFloat(item.noOfDays).toFixed(2),
       status: leaveStatuses,
@@ -324,12 +325,32 @@ export default {
     return {
       headers: [
         {name: 'date', title: this.$t('general.date'), style: {flex: 1}},
-        {name: 'employeeName', title: this.$t('general.employee_name'), style: {flex: 1}},
-        {name: 'leaveType', title: this.$t('leave.leave_type'), style: {flex: 1}},
-        {name: 'leaveBalance', title: this.$t('leave.leave_balance_days'), style: {flex: 1}},
-        {name: 'days', title: this.$t('leave.number_of_days'), style: {flex: 1}},
+        {
+          name: 'employeeName',
+          title: this.$t('general.employee_name'),
+          style: {flex: 1},
+        },
+        {
+          name: 'leaveType',
+          title: this.$t('leave.leave_type'),
+          style: {flex: 1},
+        },
+        {
+          name: 'leaveBalance',
+          title: this.$t('leave.leave_balance_days'),
+          style: {flex: 1},
+        },
+        {
+          name: 'days',
+          title: this.$t('leave.number_of_days'),
+          style: {flex: 1},
+        },
         {name: 'status', title: this.$t('general.status'), style: {flex: 1}},
-        {name: 'comment', title: this.$t('general.comments'), style: {flex: '5%'}},
+        {
+          name: 'comment',
+          title: this.$t('general.comments'),
+          style: {flex: '5%'},
+        },
         {
           name: 'action',
           slot: 'footer',
@@ -470,7 +491,10 @@ export default {
           if (Array.isArray(data))
             this.$toast.success({
               title: this.$t('general.success'),
-              message: this.$t('leave.leave_requests_action',{amount:data.length, action:action }),
+              message: this.$t('leave.leave_requests_action', {
+                amount: data.length,
+                action: action,
+              }),
             });
         })
         .finally(() => {

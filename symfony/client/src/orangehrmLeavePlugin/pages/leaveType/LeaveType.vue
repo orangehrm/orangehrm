@@ -105,7 +105,12 @@ export default {
   data() {
     return {
       headers: [
-        {name: 'name', slot: 'title', title: this.$t('general.name'), style: {flex: 6}},
+        {
+          name: 'name',
+          slot: 'title',
+          title: this.$t('general.name'),
+          style: {flex: 6},
+        },
         {
           name: 'actions',
           title: this.$t('general.actions'),

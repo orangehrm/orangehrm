@@ -78,7 +78,8 @@ const entitlementNormalizer = data => {
     return {
       id: item.id,
       leaveType:
-        item.leaveType.name + `${item.leaveType.deleted ? this.$t('general.deleted') : ''}`,
+        item.leaveType.name +
+        `${item.leaveType.deleted ? this.$t('general.deleted') : ''}`,
       entitlementType: item.entitlementType.name,
       fromDate: item.fromDate,
       toDate: item.toDate,
@@ -193,7 +194,7 @@ export default {
         {
           name: 'leaveType',
           slot: 'title',
-          title:  this.$t('leave.leave_type'),
+          title: this.$t('leave.leave_type'),
           style: {flex: 1},
         },
         {
@@ -265,8 +266,9 @@ export default {
       if (!item.isSelectable) {
         return this.$toast.error({
           title: this.$t('general.error'),
-          message:
-            this.$t('leave.entitlements_will_not_be_deleted_since_already_in_use'),
+          message: this.$t(
+            'leave.entitlements_will_not_be_deleted_since_already_in_use',
+          ),
         });
       }
       this.$refs.deleteDialog.showDialog().then(confirmation => {
