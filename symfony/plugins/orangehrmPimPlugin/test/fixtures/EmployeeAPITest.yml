@@ -1,0 +1,171 @@
+Config:
+  - { name: 'authorize_user_role_manager_class', value: 'BasicUserRoleManager' }
+
+WorkflowStateMachine:
+  - { id: 1, workflow: '0', state: INITIAL, role: SYSTEM, action: '7', resultingState: 'NOT SUBMITTED', rolesToNotify: '', priority: 0 }
+  - { id: 2, workflow: '0', state: SUBMITTED, role: ADMIN, action: '2', resultingState: APPROVED, rolesToNotify: '', priority: 0 }
+  - { id: 3, workflow: '0', state: SUBMITTED, role: ADMIN, action: '3', resultingState: REJECTED, rolesToNotify: '', priority: 0 }
+  - { id: 4, workflow: '0', state: SUBMITTED, role: ADMIN, action: '0', resultingState: SUBMITTED, rolesToNotify: '', priority: 0 }
+  - { id: 5, workflow: '0', state: SUBMITTED, role: ADMIN, action: '5', resultingState: SUBMITTED, rolesToNotify: '', priority: 0 }
+  - { id: 6, workflow: '0', state: SUBMITTED, role: SUPERVISOR, action: '2', resultingState: APPROVED, rolesToNotify: '', priority: 0 }
+  - { id: 7, workflow: '0', state: SUBMITTED, role: SUPERVISOR, action: '3', resultingState: REJECTED, rolesToNotify: '', priority: 0 }
+  - { id: 8, workflow: '0', state: SUBMITTED, role: SUPERVISOR, action: '5', resultingState: SUBMITTED, rolesToNotify: '', priority: 0 }
+  - { id: 9, workflow: '0', state: SUBMITTED, role: SUPERVISOR, action: '0', resultingState: SUBMITTED, rolesToNotify: '', priority: 0 }
+  - { id: 10, workflow: '0', state: SUBMITTED, role: 'ESS USER', action: '0', resultingState: SUBMITTED, rolesToNotify: '', priority: 0 }
+  - { id: 11, workflow: '0', state: SUBMITTED, role: 'ESS USER', action: '5', resultingState: SUBMITTED, rolesToNotify: '', priority: 0 }
+  - { id: 12, workflow: '0', state: 'NOT SUBMITTED', role: 'ESS USER', action: '1', resultingState: SUBMITTED, rolesToNotify: '', priority: 0 }
+  - { id: 13, workflow: '0', state: 'NOT SUBMITTED', role: 'ESS USER', action: '5', resultingState: 'NOT SUBMITTED', rolesToNotify: '', priority: 0 }
+  - { id: 15, workflow: '0', state: 'NOT SUBMITTED', role: 'ESS USER', action: '0', resultingState: 'NOT SUBMITTED', rolesToNotify: '', priority: 0 }
+  - { id: 16, workflow: '0', state: 'NOT SUBMITTED', role: SUPERVISOR, action: '0', resultingState: 'NOT SUBMITTED', rolesToNotify: '', priority: 0 }
+  - { id: 17, workflow: '0', state: 'NOT SUBMITTED', role: SUPERVISOR, action: '5', resultingState: 'NOT SUBMITTED', rolesToNotify: '', priority: 0 }
+  - { id: 18, workflow: '0', state: 'NOT SUBMITTED', role: SUPERVISOR, action: '1', resultingState: SUBMITTED, rolesToNotify: '', priority: 0 }
+  - { id: 19, workflow: '0', state: 'NOT SUBMITTED', role: ADMIN, action: '0', resultingState: 'NOT SUBMITTED', rolesToNotify: '', priority: 0 }
+  - { id: 20, workflow: '0', state: 'NOT SUBMITTED', role: ADMIN, action: '5', resultingState: 'NOT SUBMITTED', rolesToNotify: '', priority: 0 }
+  - { id: 21, workflow: '0', state: 'NOT SUBMITTED', role: ADMIN, action: '1', resultingState: SUBMITTED, rolesToNotify: '', priority: 0 }
+  - { id: 22, workflow: '0', state: REJECTED, role: 'ESS USER', action: '1', resultingState: SUBMITTED, rolesToNotify: '', priority: 0 }
+  - { id: 23, workflow: '0', state: REJECTED, role: 'ESS USER', action: '0', resultingState: REJECTED, rolesToNotify: '', priority: 0 }
+  - { id: 24, workflow: '0', state: REJECTED, role: 'ESS USER', action: '5', resultingState: REJECTED, rolesToNotify: '', priority: 0 }
+  - { id: 25, workflow: '0', state: REJECTED, role: SUPERVISOR, action: '1', resultingState: SUBMITTED, rolesToNotify: '', priority: 0 }
+  - { id: 26, workflow: '0', state: REJECTED, role: SUPERVISOR, action: '0', resultingState: REJECTED, rolesToNotify: '', priority: 0 }
+  - { id: 27, workflow: '0', state: REJECTED, role: SUPERVISOR, action: '5', resultingState: REJECTED, rolesToNotify: '', priority: 0 }
+  - { id: 28, workflow: '0', state: REJECTED, role: ADMIN, action: '0', resultingState: REJECTED, rolesToNotify: '', priority: 0 }
+  - { id: 29, workflow: '0', state: REJECTED, role: ADMIN, action: '5', resultingState: SUBMITTED, rolesToNotify: '', priority: 0 }
+  - { id: 30, workflow: '0', state: REJECTED, role: ADMIN, action: '1', resultingState: SUBMITTED, rolesToNotify: '', priority: 0 }
+  - { id: 31, workflow: '0', state: APPROVED, role: 'ESS USER', action: '0', resultingState: APPROVED, rolesToNotify: '', priority: 0 }
+  - { id: 32, workflow: '0', state: APPROVED, role: SUPERVISOR, action: '0', resultingState: APPROVED, rolesToNotify: '', priority: 0 }
+  - { id: 33, workflow: '0', state: APPROVED, role: ADMIN, action: '0', resultingState: APPROVED, rolesToNotify: '', priority: 0 }
+  - { id: 34, workflow: '0', state: APPROVED, role: ADMIN, action: '4', resultingState: SUBMITTED, rolesToNotify: '', priority: 0 }
+  - { id: 35, workflow: '1', state: 'PUNCHED IN', role: 'ESS USER', action: '1', resultingState: 'PUNCHED OUT', rolesToNotify: '', priority: 0 }
+  - { id: 36, workflow: '1', state: INITIAL, role: 'ESS USER', action: '0', resultingState: 'PUNCHED IN', rolesToNotify: '', priority: 0 }
+  - { id: 37, workflow: '2', state: INITIAL, role: ADMIN, action: '1', resultingState: 'APPLICATION INITIATED', rolesToNotify: '', priority: 0 }
+  - { id: 38, workflow: '2', state: 'APPLICATION INITIATED', role: ADMIN, action: '2', resultingState: SHORTLISTED, rolesToNotify: '', priority: 0 }
+  - { id: 39, workflow: '2', state: 'APPLICATION INITIATED', role: ADMIN, action: '3', resultingState: REJECTED, rolesToNotify: '', priority: 0 }
+  - { id: 40, workflow: '2', state: SHORTLISTED, role: ADMIN, action: '4', resultingState: 'INTERVIEW SCHEDULED', rolesToNotify: '', priority: 0 }
+  - { id: 41, workflow: '2', state: SHORTLISTED, role: ADMIN, action: '3', resultingState: REJECTED, rolesToNotify: '', priority: 0 }
+  - { id: 42, workflow: '2', state: 'INTERVIEW SCHEDULED', role: ADMIN, action: '3', resultingState: REJECTED, rolesToNotify: '', priority: 0 }
+  - { id: 43, workflow: '2', state: 'INTERVIEW SCHEDULED', role: ADMIN, action: '5', resultingState: 'INTERVIEW PASSED', rolesToNotify: '', priority: 0 }
+  - { id: 44, workflow: '2', state: 'INTERVIEW SCHEDULED', role: ADMIN, action: '6', resultingState: 'INTERVIEW FAILED', rolesToNotify: '', priority: 0 }
+  - { id: 45, workflow: '2', state: 'INTERVIEW PASSED', role: ADMIN, action: '4', resultingState: 'INTERVIEW SCHEDULED', rolesToNotify: '', priority: 0 }
+  - { id: 46, workflow: '2', state: 'INTERVIEW PASSED', role: ADMIN, action: '7', resultingState: 'JOB OFFERED', rolesToNotify: '', priority: 0 }
+  - { id: 47, workflow: '2', state: 'INTERVIEW PASSED', role: ADMIN, action: '3', resultingState: REJECTED, rolesToNotify: '', priority: 0 }
+  - { id: 48, workflow: '2', state: 'INTERVIEW FAILED', role: ADMIN, action: '3', resultingState: REJECTED, rolesToNotify: '', priority: 0 }
+  - { id: 49, workflow: '2', state: 'JOB OFFERED', role: ADMIN, action: '8', resultingState: 'OFFER DECLINED', rolesToNotify: '', priority: 0 }
+  - { id: 50, workflow: '2', state: 'JOB OFFERED', role: ADMIN, action: '3', resultingState: REJECTED, rolesToNotify: '', priority: 0 }
+  - { id: 51, workflow: '2', state: 'JOB OFFERED', role: ADMIN, action: '9', resultingState: HIRED, rolesToNotify: '', priority: 0 }
+  - { id: 52, workflow: '2', state: 'OFFER DECLINED', role: ADMIN, action: '3', resultingState: REJECTED, rolesToNotify: '', priority: 0 }
+  - { id: 53, workflow: '2', state: INITIAL, role: 'HIRING MANAGER', action: '1', resultingState: 'APPLICATION INITIATED', rolesToNotify: '', priority: 0 }
+  - { id: 54, workflow: '2', state: 'APPLICATION INITIATED', role: 'HIRING MANAGER', action: '2', resultingState: SHORTLISTED, rolesToNotify: '', priority: 0 }
+  - { id: 55, workflow: '2', state: 'APPLICATION INITIATED', role: 'HIRING MANAGER', action: '3', resultingState: REJECTED, rolesToNotify: '', priority: 0 }
+  - { id: 56, workflow: '2', state: SHORTLISTED, role: 'HIRING MANAGER', action: '4', resultingState: 'INTERVIEW SCHEDULED', rolesToNotify: '', priority: 0 }
+  - { id: 57, workflow: '2', state: SHORTLISTED, role: 'HIRING MANAGER', action: '3', resultingState: REJECTED, rolesToNotify: '', priority: 0 }
+  - { id: 58, workflow: '2', state: 'INTERVIEW SCHEDULED', role: 'HIRING MANAGER', action: '3', resultingState: REJECTED, rolesToNotify: '', priority: 0 }
+  - { id: 59, workflow: '2', state: 'INTERVIEW SCHEDULED', role: 'HIRING MANAGER', action: '5', resultingState: 'INTERVIEW PASSED', rolesToNotify: '', priority: 0 }
+  - { id: 60, workflow: '2', state: 'INTERVIEW SCHEDULED', role: 'HIRING MANAGER', action: '6', resultingState: 'INTERVIEW FAILED', rolesToNotify: '', priority: 0 }
+  - { id: 61, workflow: '2', state: 'INTERVIEW PASSED', role: 'HIRING MANAGER', action: '4', resultingState: 'INTERVIEW SCHEDULED', rolesToNotify: '', priority: 0 }
+  - { id: 62, workflow: '2', state: 'INTERVIEW PASSED', role: 'HIRING MANAGER', action: '7', resultingState: 'JOB OFFERED', rolesToNotify: '', priority: 0 }
+  - { id: 63, workflow: '2', state: 'INTERVIEW PASSED', role: 'HIRING MANAGER', action: '3', resultingState: REJECTED, rolesToNotify: '', priority: 0 }
+  - { id: 64, workflow: '2', state: 'INTERVIEW FAILED', role: 'HIRING MANAGER', action: '3', resultingState: REJECTED, rolesToNotify: '', priority: 0 }
+  - { id: 65, workflow: '2', state: 'JOB OFFERED', role: 'HIRING MANAGER', action: '8', resultingState: 'OFFER DECLINED', rolesToNotify: '', priority: 0 }
+  - { id: 66, workflow: '2', state: 'JOB OFFERED', role: 'HIRING MANAGER', action: '3', resultingState: REJECTED, rolesToNotify: '', priority: 0 }
+  - { id: 67, workflow: '2', state: 'JOB OFFERED', role: 'HIRING MANAGER', action: '9', resultingState: HIRED, rolesToNotify: '', priority: 0 }
+  - { id: 68, workflow: '2', state: 'OFFER DECLINED', role: 'HIRING MANAGER', action: '3', resultingState: REJECTED, rolesToNotify: '', priority: 0 }
+  - { id: 69, workflow: '2', state: 'INTERVIEW SCHEDULED', role: INTERVIEWER, action: '5', resultingState: 'INTERVIEW PASSED', rolesToNotify: '', priority: 0 }
+  - { id: 70, workflow: '2', state: 'INTERVIEW SCHEDULED', role: INTERVIEWER, action: '6', resultingState: 'INTERVIEW FAILED', rolesToNotify: '', priority: 0 }
+  - { id: 71, workflow: '1', state: INITIAL, role: ADMIN, action: '5', resultingState: 'PUNCHED IN', rolesToNotify: '', priority: 0 }
+  - { id: 72, workflow: '1', state: 'PUNCHED IN', role: ADMIN, action: '6', resultingState: 'PUNCHED OUT', rolesToNotify: '', priority: 0 }
+  - { id: 73, workflow: '1', state: 'PUNCHED IN', role: ADMIN, action: '2', resultingState: 'PUNCHED IN', rolesToNotify: '', priority: 0 }
+  - { id: 74, workflow: '1', state: 'PUNCHED IN', role: ADMIN, action: '7', resultingState: N/A, rolesToNotify: '', priority: 0 }
+  - { id: 75, workflow: '1', state: 'PUNCHED OUT', role: ADMIN, action: '2', resultingState: 'PUNCHED OUT', rolesToNotify: '', priority: 0 }
+  - { id: 76, workflow: '1', state: 'PUNCHED OUT', role: ADMIN, action: '3', resultingState: 'PUNCHED OUT', rolesToNotify: '', priority: 0 }
+  - { id: 77, workflow: '1', state: 'PUNCHED OUT', role: ADMIN, action: '7', resultingState: N/A, rolesToNotify: '', priority: 0 }
+  - { id: 78, workflow: '0', state: INITIAL, role: ADMIN, action: '7', resultingState: 'NOT SUBMITTED', rolesToNotify: '', priority: 0 }
+  - { id: 79, workflow: '0', state: INITIAL, role: 'ESS USER', action: '7', resultingState: 'NOT SUBMITTED', rolesToNotify: '', priority: 0 }
+  - { id: 80, workflow: '0', state: INITIAL, role: SUPERVISOR, action: '7', resultingState: 'NOT SUBMITTED', rolesToNotify: '', priority: 0 }
+  - { id: 81, workflow: '3', state: NOT_EXIST, role: ADMIN, action: '1', resultingState: ACTIVE, rolesToNotify: '', priority: 0 }
+  - { id: 82, workflow: '3', state: ACTIVE, role: ADMIN, action: '2', resultingState: NOT_EXIST, rolesToNotify: '', priority: 0 }
+  - { id: 83, workflow: '3', state: ACTIVE, role: ADMIN, action: '3', resultingState: TERMINATED, rolesToNotify: '', priority: 0 }
+  - { id: 84, workflow: '3', state: TERMINATED, role: ADMIN, action: '4', resultingState: ACTIVE, rolesToNotify: '', priority: 0 }
+  - { id: 85, workflow: '3', state: TERMINATED, role: ADMIN, action: '5', resultingState: NOT_EXIST, rolesToNotify: '', priority: 0 }
+  - { id: 86, workflow: '4', state: INITIAL, role: ESS, action: APPLY, resultingState: 'PENDING APPROVAL', rolesToNotify: 'supervisor,subscriber', priority: 0 }
+  - { id: 87, workflow: '4', state: INITIAL, role: ADMIN, action: ASSIGN, resultingState: SCHEDULED, rolesToNotify: 'ess,supervisor,subscriber', priority: 0 }
+  - { id: 88, workflow: '4', state: INITIAL, role: SUPERVISOR, action: ASSIGN, resultingState: SCHEDULED, rolesToNotify: 'ess,supervisor,subscriber', priority: 0 }
+  - { id: 89, workflow: '4', state: 'PENDING APPROVAL', role: ADMIN, action: APPROVE, resultingState: SCHEDULED, rolesToNotify: 'ess,subscriber', priority: 0 }
+  - { id: 90, workflow: '4', state: 'PENDING APPROVAL', role: SUPERVISOR, action: APPROVE, resultingState: SCHEDULED, rolesToNotify: 'ess,subscriber', priority: 0 }
+  - { id: 91, workflow: '4', state: 'PENDING APPROVAL', role: ESS, action: CANCEL, resultingState: CANCELLED, rolesToNotify: 'supervisor,subscriber', priority: 0 }
+  - { id: 92, workflow: '4', state: 'PENDING APPROVAL', role: ADMIN, action: CANCEL, resultingState: CANCELLED, rolesToNotify: 'ess,subscriber', priority: 0 }
+  - { id: 93, workflow: '4', state: 'PENDING APPROVAL', role: SUPERVISOR, action: CANCEL, resultingState: CANCELLED, rolesToNotify: 'ess,subscriber', priority: 0 }
+  - { id: 94, workflow: '4', state: 'PENDING APPROVAL', role: ADMIN, action: REJECT, resultingState: REJECTED, rolesToNotify: 'ess,subscriber', priority: 0 }
+  - { id: 95, workflow: '4', state: 'PENDING APPROVAL', role: SUPERVISOR, action: REJECT, resultingState: REJECTED, rolesToNotify: 'ess,subscriber', priority: 0 }
+  - { id: 96, workflow: '4', state: SCHEDULED, role: ESS, action: CANCEL, resultingState: CANCELLED, rolesToNotify: 'supervisor,subscriber', priority: 0 }
+  - { id: 97, workflow: '4', state: SCHEDULED, role: ADMIN, action: CANCEL, resultingState: CANCELLED, rolesToNotify: 'ess,subscriber', priority: 0 }
+  - { id: 98, workflow: '4', state: SCHEDULED, role: SUPERVISOR, action: CANCEL, resultingState: CANCELLED, rolesToNotify: 'ess,subscriber', priority: 0 }
+  - { id: 99, workflow: '4', state: TAKEN, role: ADMIN, action: CANCEL, resultingState: CANCELLED, rolesToNotify: 'ess,subscriber', priority: 0 }
+  - { id: 100, workflow: '4', state: 'LEAVE TYPE DELETED PENDING APPROVAL', role: ESS, action: CANCEL, resultingState: CANCELLED, rolesToNotify: 'supervisor,subscriber', priority: 0 }
+  - { id: 101, workflow: '4', state: 'LEAVE TYPE DELETED PENDING APPROVAL', role: ADMIN, action: CANCEL, resultingState: CANCELLED, rolesToNotify: 'ess,subscriber', priority: 0 }
+  - { id: 102, workflow: '4', state: 'LEAVE TYPE DELETED PENDING APPROVAL', role: SUPERVISOR, action: CANCEL, resultingState: CANCELLED, rolesToNotify: 'ess,subscriber', priority: 0 }
+  - { id: 103, workflow: '4', state: 'LEAVE TYPE DELETED SCHEDULED', role: ESS, action: CANCEL, resultingState: CANCELLED, rolesToNotify: 'supervisor,subscriber', priority: 0 }
+  - { id: 104, workflow: '4', state: 'LEAVE TYPE DELETED SCHEDULED', role: ADMIN, action: CANCEL, resultingState: CANCELLED, rolesToNotify: 'ess,subscriber', priority: 0 }
+  - { id: 105, workflow: '4', state: 'LEAVE TYPE DELETED SCHEDULED', role: SUPERVISOR, action: CANCEL, resultingState: CANCELLED, rolesToNotify: 'ess,subscriber', priority: 0 }
+  - { id: 106, workflow: '4', state: 'LEAVE TYPE DELETED TAKEN', role: ADMIN, action: CANCEL, resultingState: CANCELLED, rolesToNotify: 'ess,subscriber', priority: 0 }
+
+Subunit:
+  - { id: 1, name: 'Organization', description: 'company description', lft: 1, rgt: 14, level: 0 }
+  - { id: 2, name: 'Open Source', description: 'department description', lft: 2, rgt: 5, level: 1 }
+  - { id: 3, name: 'Development', description: 'sub department description', lft: 6, rgt: 7, level: 1 }
+
+JobTitle:
+  - { id: 1, job_title: 'Software Engineer - Intern', is_deleted: 0 }
+
+JobCategory:
+  - { id: 1, name: "Officials and Managers" }
+
+Nationality:
+  - { "id": 167, "name": "Sri Lanka" }
+
+EmploymentStatus:
+  - { "id": 1, "name": "Intern" }
+
+TerminationReason:
+  - { "id": "1","name": "Other" }
+  - { "id": "2","name": "Retired" }
+  - { "id": "3","name": "Contract Not Renewed" }
+  - { "id": "4","name": "Resigned - Company Requested" }
+  - { "id": "5","name": "Resigned - Self Proposed" }
+  - { "id": "6","name": "Resigned" }
+  - { "id": "7","name": "Deceased" }
+  - { "id": "8","name": "Physically Disabled/Compensated" }
+  - { "id": "9","name": "Laid-off" }
+  - { "id": "10","name": "Dismissed" }
+
+EmployeeTerminationRecord:
+  - {"id":"1","reason_id":"3","termination_date":"2022-03-01","note":null}
+  - {"id":"2","reason_id":"3","termination_date":"2022-03-01","note":null}
+
+Employee:
+  - {"emp_number":"1","employee_id":"0001","emp_lastname":"Admin","emp_firstname":"Devi"}
+  - {"emp_number":"2","employee_id":"0002","emp_lastname":"Kumara","emp_firstname":"Rajitha"}
+  - {"emp_number":"3","employee_id":"0003","emp_lastname":"de Silva","emp_firstname":"Devishke","emp_middle_name":"Romesh","emp_status": 1,"job_title_code": 1,"work_station": 3}
+  - {"emp_number":"4","employee_id":"0004","emp_lastname":"Employee","emp_firstname":"Purged","termination_id":"1","purged_at":"2022-03-07 03:48:17"}
+  - {"emp_number":"5","employee_id":"0005","emp_lastname":"Perera","emp_firstname":"Sharuka"}
+  - {"emp_number":"6","employee_id":"0006","emp_lastname":"Gamage","emp_firstname":"Chenuka","termination_id":"2"}
+
+EmpPicture:
+  - { emp_number: 1, epic_picture: 'testblob', epic_filename: 'profile.jpeg',  epic_type: 'image/jpeg', epic_file_size: '20692', epic_file_width: '200', epic_file_height: '200'}
+
+UserRole:
+  - { id: 1, name: Admin, display_name: Admin, is_assignable: 1, is_predefined: 1 }
+  - { id: 2, name: ESS, display_name: ESS, is_assignable: 1, is_predefined: 1 }
+  - { id: 3, name: Supervisor, display_name: Supervisor, is_assignable: 0, is_predefined: 1 }
+
+User:
+  - {"id":"1","user_role_id":"1","emp_number":"1","user_name":"admin"}
+  - {"id":"2","user_role_id":"2","emp_number":"2","user_name":"rajitha"}
+  - {"id":"3","user_role_id":"2","emp_number":"3","user_name":"devishke"}
+  - {"id":"4","user_role_id":"2","emp_number":"5","user_name":"sharuka"}
+
+ReportingMethod:
+  - { id: 1, name: 'Direct' }
+
+ReportTo:
+  - { "erep_sup_emp_number": "2","erep_sub_emp_number": "3","erep_reporting_mode": "1" }
+  - { "erep_sup_emp_number": "2","erep_sub_emp_number": "5","erep_reporting_mode": "1" }

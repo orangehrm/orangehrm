@@ -95,13 +95,6 @@ class EmployeeAPI extends Endpoint implements CrudEndpoint
         return $this->employeePictureService;
     }
 
-    /**
-     * @param EmployeePictureService $employeePictureService
-     */
-    public function setEmployeePictureService(EmployeePictureService $employeePictureService): void
-    {
-        $this->employeePictureService = $employeePictureService;
-    }
 
     /**
      * @inheritDoc
@@ -437,15 +430,7 @@ class EmployeeAPI extends Endpoint implements CrudEndpoint
      */
     public function update(): EndpointResourceResult
     {
-        $empNumber = $this->getRequestParams()->getInt(
-            RequestParams::PARAM_TYPE_ATTRIBUTE,
-            CommonParams::PARAMETER_EMP_NUMBER
-        );
-        $employee = $this->getEmployeeService()->getEmployeeByEmpNumber($empNumber);
-        $this->throwRecordNotFoundExceptionIfNotExist($employee, Employee::class);
-        $this->setParamsToEmployee($employee);
-        $this->getEmployeeService()->saveEmployee($employee);
-        return new EndpointResourceResult(EmployeeModel::class, $employee);
+        throw $this->getNotImplementedException();
     }
 
     /**
@@ -453,10 +438,7 @@ class EmployeeAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
-        return new ParamRuleCollection(
-            new ParamRule(CommonParams::PARAMETER_EMP_NUMBER, new Rule(Rules::IN_ACCESSIBLE_EMP_NUMBERS)),
-            ...$this->getCommonBodyValidationRules(),
-        );
+        throw $this->getNotImplementedException();
     }
 
     /**

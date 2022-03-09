@@ -44,7 +44,7 @@
                   :middle-name="selectedEmployee.middleName"
                   :last-name="selectedEmployee.lastName"
                   :rules="rules"
-                  :disabled-input="disableField"
+                  :disabled="disableField"
                 />
               </oxd-grid-item>
             </oxd-grid>
@@ -78,12 +78,13 @@
 </template>
 
 <script>
-import {computed} from 'vue';
 import FullNameInput from '@/orangehrmPimPlugin/components/FullNameInput';
 import {shouldNotExceedCharLength} from '@/core/util/validation/rules';
-const defaultPic = `${window.appGlobal.baseUrl}/../dist/img/user-default-400.png`;
+import {computed} from 'vue';
+
 export default {
   name: 'SelectedEmployee',
+
   components: {'full-name-input': FullNameInput},
 
   props: {
@@ -91,7 +92,6 @@ export default {
       type: Object,
       required: true,
     },
-
     buttonLabel: {
       type: String,
       required: true,
@@ -110,9 +110,7 @@ export default {
 
   setup(props) {
     const imgSrc = computed(() => {
-      return props.selectedEmployee?.empNumber
-        ? `${window.appGlobal.baseUrl}/pim/viewPhoto/empNumber/${props.selectedEmployee?.empNumber}`
-        : defaultPic;
+      return `${window.appGlobal.baseUrl}/pim/viewPhoto/empNumber/${props.selectedEmployee.empNumber}`;
     });
 
     return {

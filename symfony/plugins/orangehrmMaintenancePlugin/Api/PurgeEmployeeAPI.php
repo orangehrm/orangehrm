@@ -38,6 +38,9 @@ class PurgeEmployeeAPI extends Endpoint implements CollectionEndpoint
 {
     private ?PurgeEmployeeService $purgeEmployeeService = null;
 
+    /**
+     * @return PurgeEmployeeService
+     */
     public function getPurgeEmployeeService(): PurgeEmployeeService
     {
         if (is_null($this->purgeEmployeeService)) {
@@ -76,21 +79,33 @@ class PurgeEmployeeAPI extends Endpoint implements CollectionEndpoint
         );
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getAll(): EndpointResult
     {
         throw $this->getNotImplementedException();
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
         throw $this->getNotImplementedException();
     }
 
+    /**
+     * @inheritDoc
+     */
     public function create(): EndpointResult
     {
         throw $this->getNotImplementedException();
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getValidationRuleForCreate(): ParamRuleCollection
     {
         throw $this->getNotImplementedException();

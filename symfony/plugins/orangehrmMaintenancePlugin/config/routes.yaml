@@ -5,12 +5,21 @@ apiv2_maintenance_purge:
   defaults:
     _api: OrangeHRM\Maintenance\Api\PurgeEmployeeAPI
 
+maintainence_employee_json:
+  path: /maintenance/accessEmployeeData/{empNumber}
+  controller: OrangeHRM\Maintenance\Controller\File\AccessEmployeeFileController::handle
+  methods: [GET]
+
+##########################
+#        Screens
+##########################
+
 maintainence_access_employee_screen:
   path: /maintenance/accessEmployeeData
   controller: OrangeHRM\Maintenance\Controller\AccessEmployeeController::handle
   methods: [GET]
 
-maintainence_employee_json:
-  path: /maintenance/accessEmployeeData/{empNumber}
-  controller: OrangeHRM\Maintenance\Controller\File\AccessEmployeeFileController::handle
+purge_employee:
+  path: /maintenance/purgeEmployee
+  controller: OrangeHRM\Maintenance\Controller\PurgeEmployeeController::handle
   methods: [GET]

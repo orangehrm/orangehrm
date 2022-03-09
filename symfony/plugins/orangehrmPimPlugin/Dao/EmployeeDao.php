@@ -160,6 +160,8 @@ class EmployeeDao extends BaseDao
                 ->setParameter('supervisorEmpNumbers', $employeeSearchParamHolder->getSupervisorEmpNumbers());
         }
 
+        $q->andWhere($q->expr()->isNull('employee.purgedAt'));
+
         return $this->getQueryBuilderWrapper($q);
     }
 

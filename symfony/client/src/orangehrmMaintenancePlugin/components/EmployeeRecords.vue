@@ -38,9 +38,7 @@
           </oxd-grid-item>
         </oxd-grid>
       </oxd-form-row>
-
       <oxd-divider />
-
       <oxd-form-actions>
         <required-text />
         <oxd-button display-type="secondary" label="Search" type="submit" />
@@ -99,9 +97,6 @@ export default {
   methods: {
     emitEmployee() {
       this.$emit('search', this.employee?._employee);
-    },
-    reset() {
-      this.employee = null;
     },
   },
 };

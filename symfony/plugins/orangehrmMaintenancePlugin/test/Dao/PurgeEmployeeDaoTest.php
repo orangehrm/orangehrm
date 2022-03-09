@@ -56,9 +56,18 @@ class PurgeEmployeeDaoTest extends TestCase
         $matchByValues = ['empNumber' => '1'];
 
         $data = $this->employeePurgeDao->extractDataFromEmpNumber($matchByValues, $table);
-        $this->assertTrue(sizeof($data) > 0);
+        $this->assertCount(1, $data);
         $this->assertEquals('Odis', $data[0]->getFirstName());
         $this->assertEquals('Alwin', $data[0]->getLastName());
         $this->assertEquals('Heath', $data[0]->getMiddleName());
+
+        $table = 'LeaveRequestComment';
+        $matchByValues = ['employee' => 1, 'join' => 'leaveRequest'];
+
+        $data = $this->employeePurgeDao->extractDataFromEmpNumber($matchByValues, $table);
+        $this->assertCount(3, $data);
+        $this->assertEquals('employee 3 comment on emp 1 leave request', $data[0]->getComment());
+        $this->assertEquals('employee 3 comment on emp 1 leave request', $data[1]->getComment());
+        $this->assertEquals('employee 4 comment on emp 1 leave request', $data[2]->getComment());
     }
 }

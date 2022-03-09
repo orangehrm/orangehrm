@@ -17,23 +17,20 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Tests\Maintenance\PurgeStrategy\FormatValue;
+namespace OrangeHRM\Maintenance\PurgeStrategy\FormatValue;
 
-use OrangeHRM\Maintenance\PurgeStrategy\FormatValue\FormatWithPurgeString;
-use OrangeHRM\Tests\Util\TestCase;
+use OrangeHRM\Maintenance\FormatValueStrategy\ValueFormatter;
 
-class FormatWithPurgeStringTest extends TestCase
+class FormatWithEmployeeString implements ValueFormatter
 {
-    private FormatWithPurgeString $formatWithPurgeString;
+    private const EMPLOYEE = 'Employee';
 
-    protected function setUp(): void
+    /**
+     * @param string|null $entityValue
+     * @return string
+     */
+    public function getFormattedValue($entityValue): string
     {
-        $this->formatWithPurgeString = new FormatWithPurgeString();
-    }
-
-    public function testGetFormattedValue(): void
-    {
-        $this->assertEquals('Purged', $this->formatWithPurgeString->getFormattedValue("First Name"));
-        $this->assertEquals('Purged', $this->formatWithPurgeString->getFormattedValue(null));
+        return self::EMPLOYEE;
     }
 }

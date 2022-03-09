@@ -17,23 +17,20 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Tests\Maintenance\PurgeStrategy\FormatValue;
+namespace OrangeHRM\Maintenance\Controller;
 
-use OrangeHRM\Maintenance\PurgeStrategy\FormatValue\FormatWithPurgeString;
-use OrangeHRM\Tests\Util\TestCase;
+use OrangeHRM\Core\Controller\AbstractVueController;
+use OrangeHRM\Core\Vue\Component;
+use OrangeHRM\Framework\Http\Request;
 
-class FormatWithPurgeStringTest extends TestCase
+class PurgeEmployeeController extends AbstractVueController
 {
-    private FormatWithPurgeString $formatWithPurgeString;
-
-    protected function setUp(): void
+    /**
+     * @inheritDoc
+     */
+    public function preRender(Request $request): void
     {
-        $this->formatWithPurgeString = new FormatWithPurgeString();
-    }
-
-    public function testGetFormattedValue(): void
-    {
-        $this->assertEquals('Purged', $this->formatWithPurgeString->getFormattedValue("First Name"));
-        $this->assertEquals('Purged', $this->formatWithPurgeString->getFormattedValue(null));
+        $component = new Component('purge-employee');
+        $this->setComponent($component);
     }
 }

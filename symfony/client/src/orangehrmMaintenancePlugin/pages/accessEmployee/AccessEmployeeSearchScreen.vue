@@ -26,7 +26,7 @@
   <div v-if="employee" class="orangehrm-background-container">
     <selected-employee
       :button-label="'Download'"
-      :selected-employee="getUpdateEmployee"
+      :selected-employee="employee"
       :disable-field="true"
       @submit="downloadEmployeeData"
     ></selected-employee>
@@ -48,13 +48,6 @@ export default {
     };
   },
 
-  computed: {
-    getUpdateEmployee: {
-      get() {
-        return this.employee;
-      },
-    },
-  },
   methods: {
     search(employee) {
       this.employee = employee;
