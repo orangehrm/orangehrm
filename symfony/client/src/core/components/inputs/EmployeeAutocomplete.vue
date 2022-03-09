@@ -72,6 +72,7 @@ export default {
                   return {
                     id: employee.empNumber,
                     label: `${employee.firstName} ${employee.middleName} ${employee.lastName}`,
+                    _employee: employee,
                     isPastEmployee: employee.terminationId ? true : false,
                   };
                 }),

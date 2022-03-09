@@ -1,4 +1,3 @@
-<?php
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -17,23 +16,8 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Tests\Maintenance\PurgeStrategy\FormatValue;
+import PurgeEmployee from './pages/PurgeEmployee.vue';
 
-use OrangeHRM\Maintenance\PurgeStrategy\FormatValue\FormatWithPurgeString;
-use OrangeHRM\Tests\Util\TestCase;
-
-class FormatWithPurgeStringTest extends TestCase
-{
-    private FormatWithPurgeString $formatWithPurgeString;
-
-    protected function setUp(): void
-    {
-        $this->formatWithPurgeString = new FormatWithPurgeString();
-    }
-
-    public function testGetFormattedValue(): void
-    {
-        $this->assertEquals('Purged', $this->formatWithPurgeString->getFormattedValue("First Name"));
-        $this->assertEquals('Purged', $this->formatWithPurgeString->getFormattedValue(null));
-    }
-}
+export default {
+  'purge-employee': PurgeEmployee,
+};

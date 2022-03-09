@@ -112,8 +112,8 @@ class PurgeEmployeeServiceTest extends KernelTestCase
         $this->assertArrayHasKey("EmpContract", $purgeableEntities);
         $this->assertArrayHasKey("User", $purgeableEntities);
         $this->assertArrayHasKey("ReportTo", $purgeableEntities);
-        $this->assertArrayHasKey("LeaveRequestComment", $purgeableEntities);
         $this->assertArrayHasKey("LeaveComment", $purgeableEntities);
+        $this->assertArrayHasKey("LeaveRequestComment", $purgeableEntities);
         $this->assertArrayHasKey("AttendanceRecord", $purgeableEntities);
         $this->assertArrayHasKey("TimesheetItem", $purgeableEntities);
     }
@@ -186,8 +186,8 @@ class PurgeEmployeeServiceTest extends KernelTestCase
         $this->purgeEmployeeService->purgeEmployeeData(1);
 
         $purgedEmployee = $this->getRepository(Employee::class)->findOneBy(['empNumber' => 1]);
-        $this->assertEquals("Purge", $purgedEmployee->getFirstName());
-        $this->assertEquals("Purge", $purgedEmployee->getLastName());
+        $this->assertEquals('Purged', $purgedEmployee->getFirstName());
+        $this->assertEquals('Employee', $purgedEmployee->getLastName());
         $this->assertEquals('', $purgedEmployee->getMiddleName());
         $this->assertEquals('', $purgedEmployee->getNickName());
         $this->assertEquals(0, $purgedEmployee->getSmoker());
@@ -300,29 +300,39 @@ class PurgeEmployeeServiceTest extends KernelTestCase
         $this->assertEmpty($empReportTo->findBy(['supervisor' => 1]));
         $this->assertCount(4, $empReportTo->findAll());
 
-        $empLeaveRequestComments = $this->getRepository(LeaveRequestComment::class)->findBy(['createdByEmployee' => 1]);
-        $this->assertCount(3, $empLeaveRequestComments);
-        foreach ($empLeaveRequestComments as $empLeaveRequestComment) {
-            $this->assertEquals("Purge", $empLeaveRequestComment->getComment());
+        $empLeaveComments = $this->getRepository(LeaveComment::class);
+        $purgedLeaveComments = $empLeaveComments->findBy(['leave' => [1,2]]);
+        $this->assertCount(4, $purgedLeaveComments);
+        foreach ($purgedLeaveComments as $purgedLeaveComment) {
+            $this->assertEquals('Purged', $purgedLeaveComment->getComment());
         }
+        $preservedLeaveComments = $empLeaveComments->findBy(['leave' => [3,4], 'createdByEmployee' => 1]);
+        $this->assertCount(2, $preservedLeaveComments);
+        $this->assertEquals('employee 1 comment on emp 3 leave', $preservedLeaveComments[0]->getComment());
+        $this->assertEquals('employee 1 comment on emp 4 leave', $preservedLeaveComments[1]->getComment());
 
-        $empLeaveComments = $this->getRepository(LeaveComment::class)->findBy(['createdByEmployee' => 1]);
-        $this->assertCount(2, $empLeaveComments);
-        foreach ($empLeaveComments as $empLeaveComment) {
-            $this->assertEquals("Purge", $empLeaveComment->getComment());
+        $empLeaveRequestComments = $this->getRepository(LeaveRequestComment::class);
+        $purgedLeaveRequestComments = $empLeaveRequestComments->findBy(['leaveRequest' => [1,2]]);
+        $this->assertCount(6, $purgedLeaveRequestComments);
+        foreach ($purgedLeaveRequestComments as $purgedLeaveRequestComment) {
+            $this->assertEquals('Purged', $purgedLeaveRequestComment->getComment());
         }
+        $preservedLeaveRequestComments = $empLeaveRequestComments->findBy(['leaveRequest' => [3,4], 'createdByEmployee' => 1]);
+        $this->assertCount(2, $preservedLeaveRequestComments);
+        $this->assertEquals('employee 1 comment on emp 3 leave request', $preservedLeaveRequestComments[0]->getComment());
+        $this->assertEquals('employee 1 comment on emp 4 leave request', $preservedLeaveRequestComments[1]->getComment());
 
         $empAttendanceRecords = $this->getRepository(AttendanceRecord::class)->findBy(['employee' => 1]);
         $this->assertCount(2, $empAttendanceRecords);
         foreach ($empAttendanceRecords as $empAttendanceRecord) {
-            $this->assertEquals("Purge", $empAttendanceRecord->getPunchInNote());
-            $this->assertEquals("Purge", $empAttendanceRecord->getPunchOutNote());
+            $this->assertEquals('Purged', $empAttendanceRecord->getPunchInNote());
+            $this->assertEquals('Purged', $empAttendanceRecord->getPunchOutNote());
         }
 
         $empTimesheetItems = $this->getRepository(TimesheetItem::class)->findBy(['employee' => 1]);
         $this->assertCount(2, $empTimesheetItems);
         foreach ($empTimesheetItems as $empTimesheetItem) {
-            $this->assertEquals("Purge", $empTimesheetItem->getComment());
+            $this->assertEquals('Purged', $empTimesheetItem->getComment());
         }
     }
 

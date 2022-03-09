@@ -5,49 +5,49 @@ Entities:
         match_by:
           - { match: empNumber }
         parameters:
-          - { field: "firstName" ,class: 'FormatWithPurgeString' }
-          - { field: "lastName" ,class: 'FormatWithPurgeString' }
-          - { field: "middleName" ,class: 'FormatWithEmptyString' }
-          - { field: "nickName" ,class: 'FormatWithEmptyString' }
-          - { field: "smoker" ,class: 'FormatWithZero' }
-#          - { field: "ethnicRaceCode", class: 'FormatWithNull' } #added
-          - { field: "birthday" ,class: 'FormatWithNull' }
-          - { field: "nationality" ,class: 'FormatWithNull' }
-          - { field: "gender" ,class: 'FormatWithNull' }
-          - { field: "maritalStatus" ,class: 'FormatWithNull' }
-          - { field: "ssnNumber" ,class: 'FormatWithEmptyString' }
-          - { field: "sinNumber" ,class: 'FormatWithEmptyString' }
-          - { field: "otherId" ,class: 'FormatWithEmptyString' }
-          - { field: "drivingLicenseNo" ,class: 'FormatWithEmptyString' }
-          - { field: "drivingLicenseExpiredDate" ,class: 'FormatWithNull' }
-          - { field: "militaryService" ,class: 'FormatWithEmptyString' }
-          - { field: "empStatus" ,class: 'FormatWithNull' }
-          - { field: "jobTitle" ,class: 'FormatWithNull' }
-          - { field: "jobCategory" ,class: 'FormatWithNull' }
-          - { field: "subDivision" ,class: 'FormatWithNull' }
-          - { field: "street1" ,class: 'FormatWithEmptyString' }
-          - { field: "street2" ,class: 'FormatWithEmptyString' }
-          - { field: "city" ,class: 'FormatWithEmptyString' }
-          - { field: "country" ,class: 'FormatWithEmptyString' }
-          - { field: "province" ,class: 'FormatWithEmptyString' }
-          - { field: "zipcode" ,class: 'FormatWithNull' }
-          - { field: "homeTelephone" ,class: 'FormatWithNull' }
-          - { field: "mobile" ,class: 'FormatWithNull' }
-          - { field: "workTelephone" ,class: 'FormatWithNull' }
-          - { field: "workEmail" ,class: 'FormatWithNull' }
-          - { field: "joinedDate" ,class: 'FormatWithNull' }
-          - { field: "otherEmail" ,class: 'FormatWithNull' }
-          - { field: "custom1" ,class: 'FormatWithNull' }
-          - { field: "custom2" ,class: 'FormatWithNull' }
-          - { field: "custom3" ,class: 'FormatWithNull' }
-          - { field: "custom4" ,class: 'FormatWithNull' }
-          - { field: "custom5" ,class: 'FormatWithNull' }
-          - { field: "custom6" ,class: 'FormatWithNull' }
-          - { field: "custom7" ,class: 'FormatWithNull' }
-          - { field: "custom8" ,class: 'FormatWithNull' }
-          - { field: "custom9" ,class: 'FormatWithNull' }
-          - { field: "custom10" ,class: 'FormatWithNull' }
-          - { field: "purgedAt" ,class: 'FormatWithPurgeTime' }
+          - { field: "firstName", class: 'FormatWithPurgeString' }
+          - { field: "lastName", class: 'FormatWithEmployeeString' }
+          - { field: "middleName", class: 'FormatWithEmptyString' }
+          - { field: "nickName", class: 'FormatWithEmptyString' }
+          - { field: "smoker", class: 'FormatWithZero' }
+          #          - { field: "ethnicRaceCode", class: 'FormatWithNull' } #added
+          - { field: "birthday", class: 'FormatWithNull' }
+          - { field: "nationality", class: 'FormatWithNull' }
+          - { field: "gender", class: 'FormatWithNull' }
+          - { field: "maritalStatus", class: 'FormatWithNull' }
+          - { field: "ssnNumber", class: 'FormatWithEmptyString' }
+          - { field: "sinNumber", class: 'FormatWithEmptyString' }
+          - { field: "otherId", class: 'FormatWithEmptyString' }
+          - { field: "drivingLicenseNo", class: 'FormatWithEmptyString' }
+          - { field: "drivingLicenseExpiredDate", class: 'FormatWithNull' }
+          - { field: "militaryService", class: 'FormatWithEmptyString' }
+          - { field: "empStatus", class: 'FormatWithNull' }
+          - { field: "jobTitle", class: 'FormatWithNull' }
+          - { field: "jobCategory", class: 'FormatWithNull' }
+          - { field: "subDivision", class: 'FormatWithNull' }
+          - { field: "street1", class: 'FormatWithEmptyString' }
+          - { field: "street2", class: 'FormatWithEmptyString' }
+          - { field: "city", class: 'FormatWithEmptyString' }
+          - { field: "country", class: 'FormatWithEmptyString' }
+          - { field: "province", class: 'FormatWithEmptyString' }
+          - { field: "zipcode", class: 'FormatWithNull' }
+          - { field: "homeTelephone", class: 'FormatWithNull' }
+          - { field: "mobile", class: 'FormatWithNull' }
+          - { field: "workTelephone", class: 'FormatWithNull' }
+          - { field: "workEmail", class: 'FormatWithNull' }
+          - { field: "joinedDate", class: 'FormatWithNull' }
+          - { field: "otherEmail", class: 'FormatWithNull' }
+          - { field: "custom1", class: 'FormatWithNull' }
+          - { field: "custom2", class: 'FormatWithNull' }
+          - { field: "custom3", class: 'FormatWithNull' }
+          - { field: "custom4", class: 'FormatWithNull' }
+          - { field: "custom5", class: 'FormatWithNull' }
+          - { field: "custom6", class: 'FormatWithNull' }
+          - { field: "custom7", class: 'FormatWithNull' }
+          - { field: "custom8", class: 'FormatWithNull' }
+          - { field: "custom9", class: 'FormatWithNull' }
+          - { field: "custom10", class: 'FormatWithNull' }
+          - { field: "purgedAt", class: 'FormatWithPurgeTime' }
 
   EmpPicture:
     PurgeStrategy:
@@ -157,7 +157,7 @@ Entities:
 #        match_by:
 #          - { match: employee_number }
 #        parameters:
-#          - { field: "finalComment" ,class: 'FormatWithEmptyString' }
+#          - { field: "finalComment", class: 'FormatWithEmptyString' }
 #
 #  ReviewerRating:
 #    PurgeStrategy:
@@ -165,7 +165,7 @@ Entities:
 #        match_by:
 #          - {match: employee_number,  join: performanceReview}
 #        parameters:
-#          - {field: "comment" ,class: 'FormatWithEmptyString'}
+#          - {field: "comment", class: 'FormatWithEmptyString'}
 #
 #  Reviewer:
 #    PurgeStrategy:
@@ -173,7 +173,7 @@ Entities:
 #        match_by:
 #          - { match: t.employee_number, join: review }
 #        parameters:
-#          - { field: "comment" ,class: 'FormatWithEmptyString' }
+#          - { field: "comment", class: 'FormatWithEmptyString' }
 #
 #  PerformanceTrackerLog:
 #    PurgeStrategy:
@@ -181,41 +181,23 @@ Entities:
 #        match_by:
 #          - { match: emp_number,  join: PerformanceTrack }
 #        parameters:
-#          - { field: "comment" ,class: 'FormatWithEmptyString' }
-
-  LeaveRequestComment:
-    PurgeStrategy:
-      ReplaceWithValue:
-        match_by:
-          - { match: createdByEmployee }
-        parameters:
-          - { field: "comment" ,class: 'FormatWithPurgeString' }
-#          - { field: "created_by_name" ,class: 'FormatWithEmptyString' } #this field is not there in the entity
-
-#  LeaveRequest:
-#    PurgeStrategy:
-#      ReplaceWithValue:
-#        match_by:
-#          - { match: employee }
-#        parameters:
-#          - {field: "comments" ,class: 'FormatWithPurgeString'} #this field is not in the entity
+#          - { field: "comment", class: 'FormatWithEmptyString' }
 
   LeaveComment:
     PurgeStrategy:
       ReplaceWithValue:
         match_by:
-          - { match: createdByEmployee }
+          - { match: employee, join: leave }
         parameters:
-          - { field: "comment" ,class: 'FormatWithPurgeString' }
-#          - { field: "created_by_name" ,class: 'FormatWithEmptyString' } #this field  not there in the entity
+          - { field: 'comment', class: 'FormatWithPurgeString' }
 
-#  Leave:
-#    PurgeStrategy:
-#      ReplaceWithValue:
-#        match_by:
-#          - {match: emp_number}
-#        parameters:
-#          - {field: "comments" ,class: 'FormatWithPurgeString'} #this field is not there in the entity
+  LeaveRequestComment:
+    PurgeStrategy:
+      ReplaceWithValue:
+        match_by:
+          - { match: employee, join: leaveRequest }
+        parameters:
+          - { field: 'comment', class: 'FormatWithPurgeString' }
 
   AttendanceRecord:
     PurgeStrategy:
@@ -223,8 +205,8 @@ Entities:
         match_by:
           - { match: employee }
         parameters:
-          - { field: "punchInNote" ,class: 'FormatWithPurgeString' }
-          - { field: "punchOutNote" ,class: 'FormatWithPurgeString' }
+          - { field: "punchInNote", class: 'FormatWithPurgeString' }
+          - { field: "punchOutNote", class: 'FormatWithPurgeString' }
 
   TimesheetItem:
     PurgeStrategy:
@@ -232,4 +214,4 @@ Entities:
         match_by:
           - { match: employee }
         parameters:
-          - { field: "comment" ,class: 'FormatWithPurgeString' }
+          - { field: "comment", class: 'FormatWithPurgeString' }

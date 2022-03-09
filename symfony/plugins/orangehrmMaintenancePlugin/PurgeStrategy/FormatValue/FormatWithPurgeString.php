@@ -23,7 +23,7 @@ use OrangeHRM\Maintenance\FormatValueStrategy\ValueFormatter;
 
 class FormatWithPurgeString implements ValueFormatter
 {
-    private const PURGE = 'Purge';
+    private const PURGE = 'Purged';
 
     /**
      * @param string|null $entityValue

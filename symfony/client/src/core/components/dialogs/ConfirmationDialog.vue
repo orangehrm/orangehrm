@@ -22,31 +22,30 @@
   <teleport to="#app">
     <oxd-dialog
       v-if="show"
-      :style="{maxWidth: '450px'}"
+      class="orangehrm-confirmation-dialog"
       @update:show="onCancel"
     >
       <div class="orangehrm-modal-header">
-        <oxd-text type="card-title">Are you Sure?</oxd-text>
+        <oxd-text type="card-title">{{ title }}</oxd-text>
       </div>
       <div class="orangehrm-text-center-align">
         <oxd-text type="subtitle-2">
-          The selected record will be permanently deleted. Are you sure you want
-          to continue?
+          {{ subtitle }}
         </oxd-text>
       </div>
       <div class="orangehrm-modal-footer">
         <oxd-button
-          label="No, Cancel"
+          :label="cancelLabel"
           display-type="text"
           class="orangehrm-button-margin"
           @click="onCancel"
         />
         <oxd-button
-          label="Yes, Delete"
-          icon-name="trash"
+          :label="confirmationLabel"
+          :icon-name="icon"
           display-type="label-danger"
           class="orangehrm-button-margin"
-          @click="onDelete"
+          @click="onConfirm"
         />
       </div>
     </oxd-dialog>
@@ -59,6 +58,28 @@ import Dialog from '@ohrm/oxd/core/components/Dialog/Dialog';
 export default {
   components: {
     'oxd-dialog': Dialog,
+  },
+  props: {
+    title: {
+      type: String,
+      required: true,
+    },
+    subtitle: {
+      type: String,
+      required: true,
+    },
+    cancelLabel: {
+      type: String,
+      required: true,
+    },
+    confirmationLabel: {
+      type: String,
+      required: true,
+    },
+    icon: {
+      type: String,
+      required: true,
+    },
   },
   data() {
     return {
@@ -75,7 +96,7 @@ export default {
         this.show = true;
       });
     },
-    onDelete() {
+    onConfirm() {
       this.show = false;
       this.resolve && this.resolve('ok');
     },
@@ -88,3 +109,9 @@ export default {
 </script>
 
 <style src="./dialog.scss" lang="scss" scoped></style>
+
+<style>
+.orangehrm-confirmation-dialog {
+  max-width: 450px;
+}
+</style>
