@@ -19,11 +19,15 @@
 
 namespace OrangeHRM\Maintenance\Controller;
 
+use OrangeHRM\Authentication\Dto\UserCredential;
+use OrangeHRM\Authentication\Exception\AuthenticationException;
 use OrangeHRM\Authentication\Service\AuthenticationService;
 use OrangeHRM\Core\Controller\AbstractController;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Framework\Http\RedirectResponse;
 use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Framework\Routing\UrlGenerator;
+use OrangeHRM\Framework\Services;
 
 class VerifyController extends AbstractController
 {
@@ -46,7 +50,21 @@ class VerifyController extends AbstractController
     {
         $username = $request->request->get(self::PARAMETER_USERNAME, '');
         $password = $request->request->get(self::PARAMETER_PASSWORD, '');
+        $credentials = new UserCredential($username, $password);
 
-        var_dump([$username, $password]);
+        /** @var UrlGenerator $urlGenerator */
+        $urlGenerator = $this->getContainer()->get(Services::URL_GENERATOR);
+        $adminAccessUrl = $urlGenerator->generate('admin_access', [], UrlGenerator::ABSOLUTE_URL);
+
+        try {
+            $success = $this->getAuthenticationService()->setCredentials($credentials, []);
+            if (!$success) {
+                throw AuthenticationException::invalidCredentials();
+            }
+            $purgeUrl = $urlGenerator->generate('purge_employee', [], UrlGenerator::ABSOLUTE_URL);
+            return new RedirectResponse($purgeUrl);
+        } catch (AuthenticationException $e) {
+            return new RedirectResponse($adminAccessUrl);
+        }
     }
 }
