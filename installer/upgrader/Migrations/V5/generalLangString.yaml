@@ -181,7 +181,7 @@ langStrings:
     unitId: file_type_not_allowed
   -
     value: 'Expected format: admin@example.com'
-    unitId: expected_email_address_format_not_matched
+    unitId: expected_format_not_matched
   -
     value: 'Employment Status'
     unitId: employment_status
@@ -401,3 +401,144 @@ langStrings:
   -
     value: 'Type here'
     unitId: type_here
+  -
+    value: 'Date'
+    unitId: date
+  -
+    value: 'Monday'
+    unitId: monday
+  -
+    value: 'Tuesday'
+    unitId: tuesday
+  -
+    value: 'Wednesday'
+    unitId: wednesday
+  -
+    value: 'Thursday'
+    unitId: thursday
+  -
+    value: 'Friday'
+    unitId: friday
+  -
+    value: 'Saturday'
+    unitId: saturday
+  -
+    value: 'Sunday'
+    unitId: sunday
+  -
+    value: 'Employee'
+    unitId: employee
+  -
+    value: 'Generate'
+    unitId: generate
+  -
+    value: 'From Date'
+    unitId: from_date
+  -
+    value: 'To Date'
+    unitId: to_date
+  -
+    value: 'Duration'
+    unitId: duration
+  -
+    value: 'Apply'
+    unitId: apply
+  -
+    value: 'Back'
+    unitId: back
+  -
+    value: 'Confirm'
+    unitId: confirm
+  -
+    value: 'No matching employees'
+    unitId: no_matching_employees
+  -
+    value: 'No employees match the selected filters'
+    unitId: no_employees_match_filters
+  -
+    value: 'Ok'
+    unitId: ok
+  -
+    value: 'Leave'
+    unitId: leave
+  -
+    value: 'Comment here'
+    unitId: comment_here
+  -
+    value: 'From time should be before to time'
+    unitId: from_time_should_be_before_to_time
+  -
+    value: ' (Deleted)'
+    unitId: deleted
+  -
+    value: 'Add Comment'
+    unitId: add_comment
+  -
+    value: 'Approve'
+    unitId: approve
+  -
+    value: 'Reject'
+    unitId: reject
+  -
+    value: '{amount,plural, =0{No Records{action}} one{1 Record {action}} other{# Records {action}}}'
+    unitId: n_records_action
+  -
+    value: 'Password'
+    unitId: password
+  -
+    value: 'For a strong password, please use a hard to guess combination of text with upper and lower case characters, symbols and numbers'
+    unitId: password_strength_message
+  -
+    value: 'Confirm Password'
+    unitId: confirm_password
+  -
+    value: 'Passwords do not match'
+    unitId: passwords_do_not_match
+  -
+    value: 'Weak'
+    unitId: weak
+  -
+    value: 'Very Weak'
+    unitId: very_weak
+  -
+    value: 'Better'
+    unitId: better
+  -
+    value: 'Strongest'
+    unitId: strongest
+  -
+    value: 'About'
+    unitId: about
+  -
+    value: 'Support'
+    unitId: support
+  -
+    value: 'Change Password'
+    unitId: change_password
+  -
+    value: 'Logout'
+    unitId: logout
+  -
+    value: 'No Records Found"'
+    unitId: no_records_found
+  -
+    value: 'Change Password ?'
+    unitId: change_password_question
+  -
+    value: 'Type description here'
+    unitId: type_description_here
+  -
+    value: 'Add note'
+    unitId: add_note
+  -
+    value: 'Successfully Updated'
+    unitId: successfully_updated
+  -
+    value: 'Successfully Saved'
+    unitId: successfully_saved
+  -
+    value: 'Notes'
+    unitId: notes
+  -
+    value: 'Type here ...'
+    unitId: type_here_message
