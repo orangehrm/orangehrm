@@ -70,6 +70,7 @@ import HelpPages from '@/orangehrmHelpPlugin';
 import TimePages from '@/orangehrmTimePlugin';
 import AttendancePages from '@/orangehrmAttendancePlugin';
 import MaintenancePages from '@/orangehrmMaintenancePlugin';
+import AdministratorAccess from '@/orangehrmMaintenancePlugin/pages/AdministratorAccess.vue';
 
 export default {
   'job-title-list': JobTitle,
@@ -127,4 +128,5 @@ export default {
   ...TimePages,
   ...AttendancePages,
   ...MaintenancePages,
+  'admin-access': AdministratorAccess,
 };

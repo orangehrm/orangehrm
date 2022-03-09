@@ -18,3 +18,13 @@ purge_employee:
   path: /maintenance/purgeEmployee
   controller: OrangeHRM\Maintenance\Controller\PurgeEmployeeController::handle
   methods: [ GET ]
+
+admin_access:
+  path: /maintenance/verify
+  controller: OrangeHRM\Maintenance\Controller\AdministratorAccessController::handle
+  methods: [ GET ]
+
+auth_verify:
+  path: /auth/verify
+  controller: OrangeHRM\Maintenance\Controller\VerifyController::handle
+  methods: [ POST ]
