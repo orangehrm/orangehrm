@@ -63,7 +63,7 @@
             :disabled="!isEditable"
             :rules="rules.time"
             type="time"
-            placeholder="HH:MM"
+            :placeholder="$t('time.hh_mm')"
             required
           />
         </oxd-grid-item>
@@ -86,7 +86,7 @@
             v-model="attendanceRecord.note"
             :rules="rules.note"
             :label="$t('general.note')"
-            placeholder="Type here."
+            placeholder="$t('general.type_here')"
             type="textarea"
           />
         </oxd-grid-item>

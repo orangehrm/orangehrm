@@ -112,7 +112,9 @@ const attendanceRecordNormalizer = data => {
     return {
       id: item.id,
       empName: `${item.employee?.firstName} ${item.employee?.lastName}
-          ${item.employee?.terminationId ? ' (Past Employee)' : ''}`,
+          ${
+            item.employee?.terminationId ? this.$t('general.past_employee') : ''
+          }`,
       punchIn: `${item.records.in.date} ${item.records.in.time} ${item.records.in.timezone}`,
       punchOut: `${item.records.out.date} ${item.records.out.time} ${item.records.out.timezone}`,
       punchInNote: item.records.in.note,
@@ -183,43 +185,43 @@ export default {
         {
           name: 'empName',
           slot: 'title',
-          title: 'Employee Name',
+          title: this.$t('general.employee_name'),
           style: {flex: 1},
         },
         {
           name: 'punchIn',
-          title: 'Punch In',
+          title: this.$t('time.punch_in'),
           style: {flex: 1},
         },
         {
           name: 'punchInNote',
-          title: 'Punch In Note',
+          title: this.$t('time.punch_in_note'),
           style: {flex: 1},
         },
         {
           name: 'punchOut',
-          title: 'Punch Out',
+          title: this.$t('time.punch_out'),
           style: {flex: 1},
         },
         {
           name: 'punchOutNote',
-          title: 'Punch Out Note',
+          title: this.$t('time.punch_out_note'),
           style: {flex: 1},
         },
         {
           name: 'duration',
-          title: 'Duration (Hours)',
+          title: this.$t('time.duration_hours'),
           style: {flex: 1},
         },
         {
           name: 'total',
-          title: 'Total (Hours)',
+          title: this.$t('time.total_hours'),
           style: {flex: 1},
         },
         {
           name: 'actions',
           slot: 'action',
-          title: 'Actions',
+          title: this.$t('general.actions'),
           style: {flex: 1},
           cellType: 'oxd-table-cell-actions',
           cellConfig: {

@@ -52,7 +52,7 @@
                     :label="$t('general.date')"
                     :rules="rules.punchIn.userDate"
                     type="date"
-                    placeholder="yyyy-mm-dd"
+                    :placeholder="$t('general.date_format')"
                     required
                   />
                 </oxd-grid-item>
@@ -63,7 +63,7 @@
                     :label="$t('time.time')"
                     :rules="rules.punchIn.userTime"
                     type="time"
-                    placeholder="HH:MM"
+                    :placeholder="$t('time.hh_mm')"
                     required
                   />
                 </oxd-grid-item>
@@ -73,7 +73,7 @@
                     v-model="attendance.punchIn.note"
                     :rules="rules.punchIn.note"
                     :label="$t('general.note')"
-                    placeholder="Type here."
+                    :placeholder="$t('general.type_here')"
                     type="textarea"
                   />
                 </oxd-grid-item>
@@ -94,7 +94,7 @@
                     :label="$t('general.date')"
                     :rules="rules.punchOut.userDate"
                     type="date"
-                    placeholder="yyyy-mm-dd"
+                    :placeholder="$t('general.date_format')"
                     required
                   />
                 </oxd-grid-item>
@@ -105,7 +105,7 @@
                     :label="$t('time.time')"
                     :rules="rules.punchOut.userTime"
                     type="time"
-                    placeholder="HH:MM"
+                    :placeholder="$t('time.hh_mm')"
                     required
                   />
                 </oxd-grid-item>
@@ -115,7 +115,7 @@
                     v-model="attendance.punchOut.note"
                     :rules="rules.punchOut.note"
                     :label="$t('general.note')"
-                    placeholder="Type here."
+                    :placeholder="$t('general.type_here')"
                     type="textarea"
                   />
                 </oxd-grid-item>
