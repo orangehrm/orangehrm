@@ -33,7 +33,7 @@
     ></edit-dependent>
     <div class="orangehrm-horizontal-padding orangehrm-top-padding">
       <profile-action-header @click="onClickAdd">
-        Assigned Dependents
+        {{ $t('pim.assigned_dependents') }}
       </profile-action-header>
     </div>
     <table-header
@@ -141,13 +141,26 @@ export default {
   data() {
     return {
       headers: [
-        {name: 'name', slot: 'title', title: 'Name', style: {flex: 1}},
-        {name: 'relationship', title: 'Relationship', style: {flex: 1}},
-        {name: 'dateOfBirth', title: 'Date of Birth', style: {flex: 1}},
+        {
+          name: 'name',
+          slot: 'title',
+          title: this.$t('general.name'),
+          style: {flex: 1},
+        },
+        {
+          name: 'relationship',
+          title: this.$t('pim.relationship'),
+          style: {flex: 1},
+        },
+        {
+          name: 'dateOfBirth',
+          title: this.$t('pim.date_of_birth'),
+          style: {flex: 1},
+        },
         {
           name: 'actions',
           slot: 'action',
-          title: 'Actions',
+          title: this.$t('general.actions'),
           style: {flex: '0.5'},
           cellType: 'oxd-table-cell-actions',
           cellConfig: {
