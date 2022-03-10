@@ -137,9 +137,6 @@ abstract class AbstractRegistrationEventProcessor
     public function getRegistrationEventGeneralData(): array
     {
         $registrationData = [];
-        if (Config::PRODUCT_MODE !== Config::MODE_PROD) {
-            return $registrationData;
-        }
         try {
             $adminUsers = $this->getUserDao()->getEmployeesByUserRole('Admin');
             $adminEmployee = $adminUsers[0];

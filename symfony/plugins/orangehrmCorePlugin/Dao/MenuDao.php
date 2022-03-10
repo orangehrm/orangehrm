@@ -34,6 +34,17 @@ class MenuDao extends BaseDao
      */
     public function enableModuleMenuItems(string $moduleName, array $menuTitles = []): int
     {
+        return $this->updateStatusOfModuleMenuItems($moduleName, true, $menuTitles);
+    }
+
+    /**
+     * @param string $moduleName
+     * @param bool $status
+     * @param array $menuTitles
+     * @return int
+     */
+    private function updateStatusOfModuleMenuItems(string $moduleName, bool $status, array $menuTitles = []): int
+    {
         $q = $this->createQueryBuilder(MenuItem::class, 'menuItem');
         $q->leftJoin('menuItem.screen', 'screen');
         $q->leftJoin('screen.module', 'module');
@@ -58,7 +69,7 @@ class MenuDao extends BaseDao
             ->andWhere('menuItem.status != :status')
             ->setParameter('ids', $menuItemIds)
             ->set('menuItem.status', ':status')
-            ->setParameter('status', true);
+            ->setParameter('status', $status);
 
         return $q->getQuery()->execute();
     }

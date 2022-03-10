@@ -37,9 +37,6 @@ class MenuService
     use ModuleScreenHelperTrait;
     use AuthUserTrait;
 
-    public const CORE_MENU_SIDE_PANEL_CACHE_KEY = 'core.menu.side_panel';
-    public const CORE_MENU_TOP_RIBBON_CACHE_KEY = 'core.menu.top_ribbon';
-
     /**
      * @var MenuDao|null
      */
