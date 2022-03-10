@@ -17,37 +17,44 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Maintenance\Controller;
+namespace OrangeHRM\Authentication\Subscriber;
 
-use OrangeHRM\Authentication\Controller\AdminPrivilegeControllerInterface;
-use OrangeHRM\Authentication\Controller\Traits\AdministratorAccessTrait;
 use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
-use OrangeHRM\Core\Vue\Component;
-use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Core\Traits\Service\TextHelperTrait;
+use OrangeHRM\Framework\Event\AbstractEventSubscriber;
+use OrangeHRM\Maintenance\Controller\PurgeEmployeeController;
+use Symfony\Component\HttpKernel\Event\ControllerEvent;
+use Symfony\Component\HttpKernel\KernelEvents;
 
-class PurgeEmployeeController extends AbstractVueController implements AdminPrivilegeControllerInterface
+class AdministratorAccessSubscriber extends AbstractEventSubscriber
 {
     use AuthUserTrait;
-    use AdministratorAccessTrait;
+    use TextHelperTrait;
 
     /**
      * @inheritDoc
      */
-    public function preRender(Request $request): void
+    public static function getSubscribedEvents()
     {
-        $component = new Component('purge-employee');
-        $this->setComponent($component);
+        return [
+            KernelEvents::CONTROLLER => [
+                ['onControllerEvent', -10000]
+            ]
+        ];
     }
 
     /**
-     * @inheritDoc
+     * @param ControllerEvent $controllerEvent
+     * @return void
      */
-    public function handle(Request $request)
+    public function onControllerEvent(ControllerEvent $controllerEvent): void
     {
-        if (!$this->getAuthUser()->getHasAdminAccess()) {
-            return $this->redirectToAdministratorAccess($request);
+        if ($controllerEvent->getController()[0] instanceof PurgeEmployeeController) {
+            return;
         }
-        return parent::handle($request);
+        if ($controllerEvent->getController()[0] instanceof AbstractVueController) {
+            $this->getAuthUser()->setHasAdminAccess(false);
+        }
     }
 }

@@ -17,42 +17,35 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Maintenance\Controller;
+namespace OrangeHRM\Authentication\Controller\Traits;
 
-use OrangeHRM\Authentication\Csrf\CsrfTokenManager;
+use LogicException;
+use OrangeHRM\Authentication\Controller\AdminPrivilegeControllerInterface;
 use OrangeHRM\Core\Controller\AbstractVueController;
-use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
-use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
-use OrangeHRM\Core\Vue\Component;
-use OrangeHRM\Core\Vue\Prop;
-use OrangeHRM\Entity\User;
+use OrangeHRM\Framework\Http\RedirectResponse;
 use OrangeHRM\Framework\Http\Request;
 
-class AdministratorAccessController extends AbstractVueController
+trait AdministratorAccessTrait
 {
-    use AuthUserTrait;
-    use EntityManagerHelperTrait;
-
     /**
-     * @inheritDoc
+     * @param Request $request
+     * @return RedirectResponse
      */
-    public function preRender(Request $request): void
+    public function redirectToAdministratorAccess(Request $request): RedirectResponse
     {
-        $component = new Component('admin-access');
-
-        if ($this->getAuthUser()->isAuthenticated()) {
-            $userId = $this->getAuthUser()->getUserId();
-            $username = $this->getRepository(User::class)->find($userId)->getUsername();
-            $component->addProp(
-                new Prop('username', Prop::TYPE_STRING, $username)
+        if (!$this instanceof AdminPrivilegeControllerInterface) {
+            throw new LogicException(
+                'Trait should be used in class that implements ' . AdminPrivilegeControllerInterface::class
+            );
+        }
+        if (!$this instanceof AbstractVueController) {
+            throw new LogicException(
+                'Trait should be used in class that extends ' . AbstractVueController::class
             );
         }
 
-//        $csrfTokenManager = new CsrfTokenManager();
-//        $component->addProp(
-//            new Prop('token', Prop::TYPE_STRING, $csrfTokenManager->getToken('login')->getValue())
-//        );
-
-        $this->setComponent($component);
+        $forwardUrl = $this->getCurrentRequest()->getPathInfo();
+        $backUrl = $request->headers->get('referer');
+        return $this->redirect('auth/adminAccess?forward=' . $forwardUrl . '&back=' . $backUrl);
     }
 }

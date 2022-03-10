@@ -17,19 +17,22 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Maintenance\Controller;
+namespace OrangeHRM\Authentication\Controller;
 
+use OrangeHRM\Authentication\Auth\User as AuthUser;
+use OrangeHRM\Authentication\Csrf\CsrfTokenManager;
 use OrangeHRM\Authentication\Dto\UserCredential;
 use OrangeHRM\Authentication\Exception\AuthenticationException;
 use OrangeHRM\Authentication\Service\AuthenticationService;
 use OrangeHRM\Core\Controller\AbstractController;
+use OrangeHRM\Core\Controller\PublicControllerInterface;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Framework\Http\RedirectResponse;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\Routing\UrlGenerator;
 use OrangeHRM\Framework\Services;
 
-class VerifyController extends AbstractController
+class VerifyController extends AbstractController implements PublicControllerInterface
 {
     use AuthUserTrait;
 
@@ -38,6 +41,9 @@ class VerifyController extends AbstractController
 
     protected ?AuthenticationService $authenticationService = null;
 
+    /**
+     * @return AuthenticationService
+     */
     public function getAuthenticationService(): AuthenticationService
     {
         if (!$this->authenticationService instanceof AuthenticationService) {
@@ -46,6 +52,10 @@ class VerifyController extends AbstractController
         return $this->authenticationService;
     }
 
+    /**
+     * @param Request $request
+     * @return RedirectResponse
+     */
     public function handle(Request $request): RedirectResponse
     {
         $username = $request->request->get(self::PARAMETER_USERNAME, '');
@@ -54,16 +64,28 @@ class VerifyController extends AbstractController
 
         /** @var UrlGenerator $urlGenerator */
         $urlGenerator = $this->getContainer()->get(Services::URL_GENERATOR);
-        $adminAccessUrl = $urlGenerator->generate('admin_access', [], UrlGenerator::ABSOLUTE_URL);
+        $adminAccessUrl = $urlGenerator->generate('auth_admin_access', [], UrlGenerator::ABSOLUTE_URL);
 
         try {
+            $csrfTokenManager = new CsrfTokenManager();
+            $token = $request->request->get('_token');
+            if (!$csrfTokenManager->isValid('administrator-access', $token)) {
+                throw AuthenticationException::invalidCsrfToken();
+            }
             $success = $this->getAuthenticationService()->setCredentials($credentials, []);
             if (!$success) {
                 throw AuthenticationException::invalidCredentials();
             }
-            $purgeUrl = $urlGenerator->generate('purge_employee', [], UrlGenerator::ABSOLUTE_URL);
-            return new RedirectResponse($purgeUrl);
+            $this->getAuthUser()->setHasAdminAccess(true);
+
+            $forwardUrl = $this->getAuthUser()->getAttribute(AuthUser::ADMIN_ACCESS_FORWARD_URL);
+
+            $this->getAuthUser()->removeAttribute(AuthUser::ADMIN_ACCESS_FORWARD_URL);
+            $this->getAuthUser()->removeAttribute(AuthUser::ADMIN_ACCESS_BACK_URL);
+
+            return $this->redirect($forwardUrl);
         } catch (AuthenticationException $e) {
+            $this->getAuthUser()->addFlash(AuthUser::FLASH_VERIFY_ERROR, $e->normalize());
             return new RedirectResponse($adminAccessUrl);
         }
     }

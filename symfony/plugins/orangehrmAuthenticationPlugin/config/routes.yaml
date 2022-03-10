@@ -12,3 +12,13 @@ auth_logout:
   path: /auth/logout
   controller: OrangeHRM\Authentication\Controller\LogoutController::handle
   methods: [ GET ]
+
+auth_admin_access:
+  path: /auth/adminAccess
+  controller: OrangeHRM\Authentication\Controller\AdministratorAccessController::handle
+  methods: [ GET ]
+
+auth_verify:
+  path: /auth/adminVerify
+  controller: OrangeHRM\Authentication\Controller\VerifyController::handle
+  methods: [ POST ]
