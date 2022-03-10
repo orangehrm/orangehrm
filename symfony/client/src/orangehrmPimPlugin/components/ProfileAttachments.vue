@@ -43,7 +43,7 @@
           :action-button-shown="$can.create(`${screen}_attachment`)"
           @click="onClickAdd"
         >
-          Attachments
+          {{ $t('general.attachments') }}
         </profile-action-header>
       </div>
       <table-header
@@ -145,12 +145,29 @@ export default {
   data() {
     return {
       headers: [
-        {name: 'filename', slot: 'title', title: 'File Name', style: {flex: 1}},
-        {name: 'description', title: 'Description', style: {flex: 1}},
-        {name: 'size', title: 'Size', style: {flex: 1}},
-        {name: 'fileType', title: 'Type', style: {flex: 1}},
-        {name: 'attachedDate', title: 'Date Added', style: {flex: 1}},
-        {name: 'attachedByName', title: 'Added By', style: {flex: 1}},
+        {
+          name: 'filename',
+          slot: 'title',
+          title: this.$t('general.file_name'),
+          style: {flex: 1},
+        },
+        {
+          name: 'description',
+          title: this.$t('general.description'),
+          style: {flex: 1},
+        },
+        {name: 'size', title: this.$t('general.size'), style: {flex: 1}},
+        {name: 'fileType', title: this.$t('general.type'), style: {flex: 1}},
+        {
+          name: 'attachedDate',
+          title: this.$t('pim.date_added'),
+          style: {flex: 1},
+        },
+        {
+          name: 'attachedByName',
+          title: this.$t('pim.added_by'),
+          style: {flex: 1},
+        },
       ],
       checkedItems: [],
       showSaveModal: false,
@@ -164,7 +181,7 @@ export default {
       const headerActions = {
         name: 'actions',
         slot: 'action',
-        title: 'Actions',
+        title: this.$t('general.actions'),
         style: {flex: 1},
         cellType: 'oxd-table-cell-actions',
         cellConfig: {},
