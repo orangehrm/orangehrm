@@ -4565,11 +4565,22 @@ SET @attendance_module_id := (SELECT `id` FROM ohrm_module WHERE name = 'attenda
 UPDATE `ohrm_screen` SET `menu_configurator` = 'OrangeHRM\\Attendance\\Menu\\AttendanceMenuConfigurator' WHERE `module_id` = @attendance_module_id;
 
 INSERT INTO ohrm_screen (`name`, `module_id`, `action_url`, `menu_configurator`) VALUES
-('Punch In/Out', @attendance_module_id, 'punchOut', 'OrangeHRM\\Attendance\\Menu\\PunchOutMenuConfigurator');
+('Punch In/Out', @attendance_module_id, 'punchOut', 'OrangeHRM\\Attendance\\Menu\\PunchOutMenuConfigurator'),
+('Edit My Attendance Records', @attendance_module_id, 'editAttendanceRecord', 'OrangeHRM\\Attendance\\Menu\\EditMyAttendanceRecordMenuConfigurator'),
+('Edit Employee Attendance Records', @attendance_module_id, 'editEmployeeAttendanceRecord', 'OrangeHRM\\Attendance\\Menu\\EditEmployeeAttendanceRecordMenuConfigurator'),
+('Employee Punch In/Out', @attendance_module_id, 'proxyPunchInPunchOut', 'OrangeHRM\\Attendance\\Menu\\EmployeePunchInOutMenuConfigurator');
 
 SET @punchOutScreenId := (SELECT `id` FROM ohrm_screen WHERE `module_id` = @attendance_module_id AND `action_url` = 'punchOut' LIMIT 1);
+SET @editAttendanceRecordScreenId := (SELECT `id` FROM ohrm_screen WHERE `module_id` = @attendance_module_id AND `action_url` = 'editAttendanceRecord' LIMIT 1);
+SET @editEmployeeAttendanceRecordScreenId := (SELECT `id` FROM ohrm_screen WHERE `module_id` = @attendance_module_id AND `action_url` = 'editEmployeeAttendanceRecord' LIMIT 1);
+SET @proxyPunchInPunchOutScreenId := (SELECT `id` FROM ohrm_screen WHERE `module_id` = @attendance_module_id AND `action_url` = 'proxyPunchInPunchOut' LIMIT 1);
 INSERT INTO ohrm_user_role_screen (user_role_id, screen_id, can_read, can_create, can_update, can_delete) VALUES
-(@ess_role_id, @punchOutScreenId, 1, 0, 0, 0);
+(@ess_role_id, @punchOutScreenId, 1, 0, 0, 0),
+(@ess_role_id, @editAttendanceRecordScreenId, 1, 0, 0, 0),
+(@admin_role_id, @editEmployeeAttendanceRecordScreenId, 1, 0, 0, 0),
+(@supervisor_role_id, @editEmployeeAttendanceRecordScreenId, 1, 0, 0, 0),
+(@admin_role_id, @proxyPunchInPunchOutScreenId, 1, 0, 0, 0),
+(@supervisor_role_id, @proxyPunchInPunchOutScreenId, 1, 0, 0, 0);
 
 SET @time_menu_item := (SELECT `id` FROM ohrm_menu_item WHERE menu_title = 'Time' LIMIT 1);
 UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `parent_id` = @time_menu_item;
