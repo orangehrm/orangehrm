@@ -20,9 +20,9 @@
 
 <template>
   <div class="orangehrm-horizontal-padding orangehrm-vertical-padding">
-    <oxd-text tag="h6" class="orangehrm-main-title"
-      >Save Emergency Contact</oxd-text
-    >
+    <oxd-text tag="h6" class="orangehrm-main-title">
+      {{ $t('pim.save_emergency_contact') }}
+    </oxd-text>
     <oxd-divider />
     <oxd-form :loading="isLoading" @submitValid="onSave">
       <oxd-form-row>
@@ -30,7 +30,7 @@
           <oxd-grid-item>
             <oxd-input-field
               v-model="contact.name"
-              label="Name"
+              :label="$t('general.name')"
               :rules="rules.name"
               required
             />
@@ -38,7 +38,7 @@
           <oxd-grid-item>
             <oxd-input-field
               v-model="contact.relationship"
-              label="Relationship"
+              :label="$t('pim.relationship')"
               :rules="rules.relationship"
               required
             />
@@ -50,21 +50,21 @@
           <oxd-grid-item>
             <oxd-input-field
               v-model="contact.homePhone"
-              label="Home Telephone"
+              :label="$t('pim.home_telephone')"
               :rules="rules.homePhone"
             />
           </oxd-grid-item>
           <oxd-grid-item>
             <oxd-input-field
               v-model="contact.mobilePhone"
-              label="Mobile"
+              :label="$t('general.mobile')"
               :rules="rules.mobilePhone"
             />
           </oxd-grid-item>
           <oxd-grid-item>
             <oxd-input-field
               v-model="contact.officePhone"
-              label="Work Telephone"
+              :label="$t('pim.work_telephone')"
               :rules="rules.officePhone"
             />
           </oxd-grid-item>
@@ -76,7 +76,7 @@
         <oxd-button
           type="button"
           display-type="ghost"
-          label="Cancel"
+          :label="$t('general.cancel')"
           @click="onCancel"
         />
         <submit-button />
@@ -128,7 +128,7 @@ export default {
               v !== '' ||
               this.contact.mobilePhone !== '' ||
               this.contact.officePhone !== '' ||
-              'At least one phone number is required'
+              this.$t('pim.at_least_one_phone_number_is_required')
             );
           },
         ],

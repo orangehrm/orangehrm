@@ -34,7 +34,7 @@
     ></edit-skill>
     <div class="orangehrm-horizontal-padding orangehrm-vertical-padding">
       <profile-action-header @click="onClickAdd">
-        Skills
+        {{ $t('general.skills') }}
       </profile-action-header>
     </div>
     <table-header
@@ -133,16 +133,21 @@ export default {
   data() {
     return {
       headers: [
-        {name: 'name', slot: 'title', title: 'Skill', style: {flex: 1}},
+        {
+          name: 'name',
+          slot: 'title',
+          title: this.$t('pim.skill'),
+          style: {flex: 1},
+        },
         {
           name: 'yearsOfExperience',
-          title: 'Years of Experience',
+          title: this.$t('pim.years_of_experience'),
           style: {flex: 1},
         },
         {
           name: 'actions',
           slot: 'action',
-          title: 'Actions',
+          title: this.$t('general.actions'),
           style: {'flex-basis': '10em'},
           cellType: 'oxd-table-cell-actions',
           cellConfig: {

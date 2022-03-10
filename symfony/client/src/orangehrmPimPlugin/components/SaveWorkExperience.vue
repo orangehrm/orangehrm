@@ -21,7 +21,7 @@
 <template>
   <div class="orangehrm-horizontal-padding orangehrm-top-padding">
     <oxd-text tag="h6" class="orangehrm-main-title">
-      Add Work Experience
+      {{ $t('pim.add_work_experience') }}
     </oxd-text>
     <oxd-divider />
     <oxd-form :loading="isLoading" @submitValid="onSave">
@@ -30,7 +30,7 @@
           <oxd-grid-item>
             <oxd-input-field
               v-model="workExperience.company"
-              label="Company"
+              :label="$t('pim.company')"
               :rules="rules.company"
               required
             />
@@ -38,7 +38,7 @@
           <oxd-grid-item>
             <oxd-input-field
               v-model="workExperience.jobTitle"
-              label="Job Title"
+              :label="$t('general.job_title')"
               :rules="rules.jobTitle"
               required
             />
@@ -51,14 +51,14 @@
           <oxd-grid-item>
             <date-input
               v-model="workExperience.fromDate"
-              label="From"
+              :label="$t('general.from')"
               :rules="rules.fromDate"
             />
           </oxd-grid-item>
           <oxd-grid-item>
             <date-input
               v-model="workExperience.toDate"
-              label="To"
+              :label="$t('general.to')"
               :rules="rules.toDate"
             />
           </oxd-grid-item>
@@ -71,7 +71,7 @@
             <oxd-input-field
               v-model="workExperience.comment"
               type="textarea"
-              label="Comment"
+              :label="$t('general.comment')"
               :rules="rules.comment"
             />
           </oxd-grid-item>
@@ -83,7 +83,7 @@
         <oxd-button
           type="button"
           display-type="ghost"
-          label="Cancel"
+          :label="$t('general.cancel')"
           @click="onCancel"
         />
         <submit-button />
@@ -133,7 +133,7 @@ export default {
           validDateFormat(),
           endDateShouldBeAfterStartDate(
             () => this.workExperience.fromDate,
-            'To date should be after From date',
+            this.$t('general.to_date_should_be_after_from_date'),
           ),
         ],
         comment: [shouldNotExceedCharLength(200)],

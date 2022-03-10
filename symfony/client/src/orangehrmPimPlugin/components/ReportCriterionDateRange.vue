@@ -104,7 +104,7 @@ export default {
         validDateFormat(),
         startDateShouldBeBeforeEndDate(
           () => props.valueY,
-          'From date should be before to date',
+          this.$t('general.from_date_should_be_before_to_date'),
         ),
       ],
       valueY: [
@@ -112,7 +112,7 @@ export default {
         validDateFormat(),
         endDateShouldBeAfterStartDate(
           () => props.valueX,
-          'To date should be after from date',
+          this.$t('general.to_date_should_be_after_from_date'),
         ),
       ],
     };

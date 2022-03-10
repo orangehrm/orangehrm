@@ -22,7 +22,9 @@
   <div v-if="fields.length !== 0" class="orangehrm-custom-fields">
     <oxd-divider />
     <div class="orangehrm-card-container">
-      <oxd-text tag="h6" class="orangehrm-main-title">Custom Fields</oxd-text>
+      <oxd-text tag="h6" class="orangehrm-main-title">{{
+        $t('pim.custom_fields')
+      }}</oxd-text>
       <oxd-divider />
       <oxd-form :loading="isLoading" @submitValid="onSave">
         <oxd-form-row>

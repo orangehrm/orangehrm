@@ -20,11 +20,11 @@
 
 <template>
   <!-- Always use inside OXD-Form -->
-  <oxd-input-group label="Employee Full Name" :classes="classes">
+  <oxd-input-group :label="$t('general.employee_full_name')" :classes="classes">
     <oxd-input-field
       class="orangehrm-firstname"
       name="First Name"
-      placeholder="First name"
+      :placeholder="$t('general.first_name')"
       :model-value="firstName"
       :rules="rules.firstName"
       :disabled="disabled"
@@ -33,6 +33,7 @@
     <oxd-input-field
       class="orangehrm-middlename"
       name="Middle Name"
+      :placeholder="$t('general.middle_name')"
       :model-value="middleName"
       :rules="rules.middleName"
       :disabled="disabled"
@@ -42,7 +43,7 @@
     <oxd-input-field
       class="orangehrm-lastname"
       name="Last Name"
-      placeholder="Last name"
+      placeholder="$t('general.last_name')"
       :model-value="lastName"
       :rules="rules.lastName"
       :disabled="disabled"

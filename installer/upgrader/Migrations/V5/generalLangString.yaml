@@ -181,7 +181,7 @@ langStrings:
     unitId: file_type_not_allowed
   -
     value: 'Expected format: admin@example.com'
-    unitId: expected_email_address_format_not_matched
+    unitId: expected_format_not_matched
   -
     value: 'Employment Status'
     unitId: employment_status
@@ -209,3 +209,336 @@ langStrings:
   -
     value: 'Disabled'
     unitId: disabled
+  -
+    value: 'Edit Attachment'
+    unitId: edit_attachment
+  -
+    value: 'Actions'
+    unitId: actions
+  -
+    value: 'Error'
+    unitId: error
+  -
+    value: 'Type'
+    unitId: type
+  -
+    value: 'Download'
+    unitId: download
+  -
+    value: 'Select File'
+    unitId: select_file
+  -
+    value: 'Browse'
+    unitId: browse
+  -
+    value: 'Accepts up to 1MB'
+    unitId: accepts_up_to_1mb
+  -
+    value: 'Upload'
+    unitId: upload
+  -
+    value: 'Success'
+    unitId: success
+  -
+    value: 'Failed to Import'
+    unitId: failed_to_import
+  -
+    value: 'No Records Added'
+    unitId: no_records_added
+  -
+    value: 'Employee Id'
+    unitId: employee_id
+  -
+    value: 'Id'
+    unitId: id
+  -
+    value: 'Last Name'
+    unitId: last_name
+  -
+    value: 'Job Title'
+    unitId: job_title
+  -
+    value: 'Employment Status'
+    unitId: employment_status
+  -
+    value: 'Sub Unit'
+    unitId: sub_unit
+  -
+    value: 'Current and Past Employees'
+    unitId: current_and_past_employees
+  -
+    value: 'Past Employees Only'
+    unitId: past_employees_only
+  -
+    value: 'Current Employees Only'
+    unitId: current_employees_only
+  -
+    value: 'Mobile'
+    unitId: mobile
+  -
+    value: 'Email'
+    unitId: email
+  -
+    value: 'Address'
+    unitId: address
+  -
+    value: 'Expiry Date'
+    unitId: expiry_date
+  -
+    value: 'Joined Date'
+    unitId: joined_date
+  -
+    value: 'Location'
+    unitId: location
+  -
+    value: 'Male'
+    unitId: male
+  -
+    value: 'Female'
+    unitId: female
+  -
+    value: 'Qualifications'
+    unitId: qualifications
+  -
+    value: 'State'
+    unitId: state
+  -
+    value: 'Should be a positive number'
+    unitId: should_be_a_positive_number
+  -
+    value: 'Add Employee'
+    unitId: add_employee
+  -
+    value: 'Report Name'
+    unitId: report_name
+  -
+    value: 'Warning'
+    unitId: warning
+  -
+    value: 'Employee Reports'
+    unitId: employee_reports
+  -
+    value: 'Current File'
+    unitId: current_file
+  -
+    value: 'Replace With'
+    unitId: replace_with
+  -
+    value: 'Comment'
+    unitId: comment
+  -
+    value: 'Type comment here'
+    unitId: type_comment_here
+  -
+    value: 'Year'
+    unitId: year
+  -
+    value: 'Start Date'
+    unitId: start_date
+  -
+    value: 'End Date'
+    unitId: end_date
+  -
+    value: 'Comments'
+    unitId: comments
+  -
+    value: 'Type Comments here'
+    unitId: type_comments_here
+  -
+    value: 'Language'
+    unitId: language
+  -
+    value: 'Pay Grade'
+    unitId: pay_grade
+  -
+    value: 'To date should be after From date'
+    unitId: to_date_should_be_after_from_date
+  -
+    value: ' (Past Employee)'
+    unitId: past_employee
+  -
+    value: 'First name'
+    unitId: first_name
+  -
+    value: 'Middle name'
+    unitId: middle_name
+  -
+    value: 'Last name'
+    unitId: last_name
+  -
+    value: 'Employee Full Name'
+    unitId: employee_full_name
+  -
+    value: 'Job Specification'
+    unitId: job_specification
+  -
+    value: 'Attachments'
+    unitId: attachments
+  -
+    value: 'File Name'
+    unitId: file_name
+  -
+    value: 'Size'
+    unitId: size
+  -
+    value: 'Accepts jpg, .png, .gif up to 1MB. Recommended dimensions: 200px X 200px'
+    unitId: accept_jpg_png_upto_1mb_recomended_dimentions_200px_x_200px
+  -
+    value: 'From date should be before to date'
+    unitId: from_date_should_be_before_to_date
+  -
+    value: 'To date should be after from date'
+    unitId: to_date_should_be_after_from_date
+  -
+    value: 'Should be less than upper bound'
+    unitId: should_be_less_than_upper_bound
+  -
+    value: 'Include Header'
+    unitId: include_header
+  -
+    value: 'Add Attachment'
+    unitId: add_attachment
+  -
+    value: 'Type here'
+    unitId: type_here
+  -
+    value: 'Date'
+    unitId: date
+  -
+    value: 'Monday'
+    unitId: monday
+  -
+    value: 'Tuesday'
+    unitId: tuesday
+  -
+    value: 'Wednesday'
+    unitId: wednesday
+  -
+    value: 'Thursday'
+    unitId: thursday
+  -
+    value: 'Friday'
+    unitId: friday
+  -
+    value: 'Saturday'
+    unitId: saturday
+  -
+    value: 'Sunday'
+    unitId: sunday
+  -
+    value: 'Employee'
+    unitId: employee
+  -
+    value: 'Generate'
+    unitId: generate
+  -
+    value: 'From Date'
+    unitId: from_date
+  -
+    value: 'To Date'
+    unitId: to_date
+  -
+    value: 'Duration'
+    unitId: duration
+  -
+    value: 'Apply'
+    unitId: apply
+  -
+    value: 'Back'
+    unitId: back
+  -
+    value: 'Confirm'
+    unitId: confirm
+  -
+    value: 'No matching employees'
+    unitId: no_matching_employees
+  -
+    value: 'No employees match the selected filters'
+    unitId: no_employees_match_filters
+  -
+    value: 'Ok'
+    unitId: ok
+  -
+    value: 'Leave'
+    unitId: leave
+  -
+    value: 'Comment here'
+    unitId: comment_here
+  -
+    value: 'From time should be before to time'
+    unitId: from_time_should_be_before_to_time
+  -
+    value: ' (Deleted)'
+    unitId: deleted
+  -
+    value: 'Add Comment'
+    unitId: add_comment
+  -
+    value: 'Approve'
+    unitId: approve
+  -
+    value: 'Reject'
+    unitId: reject
+  -
+    value: '{amount,plural, =0{No Records{action}} one{1 Record {action}} other{# Records {action}}}'
+    unitId: n_records_action
+  -
+    value: 'Password'
+    unitId: password
+  -
+    value: 'For a strong password, please use a hard to guess combination of text with upper and lower case characters, symbols and numbers'
+    unitId: password_strength_message
+  -
+    value: 'Confirm Password'
+    unitId: confirm_password
+  -
+    value: 'Passwords do not match'
+    unitId: passwords_do_not_match
+  -
+    value: 'Weak'
+    unitId: weak
+  -
+    value: 'Very Weak'
+    unitId: very_weak
+  -
+    value: 'Better'
+    unitId: better
+  -
+    value: 'Strongest'
+    unitId: strongest
+  -
+    value: 'About'
+    unitId: about
+  -
+    value: 'Support'
+    unitId: support
+  -
+    value: 'Change Password'
+    unitId: change_password
+  -
+    value: 'Logout'
+    unitId: logout
+  -
+    value: 'No Records Found"'
+    unitId: no_records_found
+  -
+    value: 'Change Password ?'
+    unitId: change_password_question
+  -
+    value: 'Type description here'
+    unitId: type_description_here
+  -
+    value: 'Add note'
+    unitId: add_note
+  -
+    value: 'Successfully Updated'
+    unitId: successfully_updated
+  -
+    value: 'Successfully Saved'
+    unitId: successfully_saved
+  -
+    value: 'Notes'
+    unitId: notes
+  -
+    value: 'Type here ...'
+    unitId: type_here_message
