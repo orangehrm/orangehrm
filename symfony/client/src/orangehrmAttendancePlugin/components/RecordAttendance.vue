@@ -193,11 +193,12 @@ export default {
         !this.date &&
           !this.isEditable &&
           setClockInterval(this.setCurrentDateTime, 60000);
+        let url = '/api/v2/attendance/records/latest';
+        if (this.employeeId) {
+          url = `/api/v2/attendance/records/latest?empNumber=${this.employeeId}`;
+        }
         return this.attendanceRecordId
-          ? this.http.request({
-              method: 'GET',
-              url: `/api/v2/attendance/records/latest`,
-            })
+          ? this.http.request({method: 'GET', url})
           : null;
       })
       .then(response => {
