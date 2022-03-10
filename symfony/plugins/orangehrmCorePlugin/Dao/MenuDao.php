@@ -142,8 +142,8 @@ class MenuDao extends BaseDao
             ->andWhere($q->expr()->in('mi.parent', ':parentIds'))
             ->setParameter('menuItemLevel', 3)
             ->setParameter('parentIds', array_keys($secondLevelMenuItemIds));
-        $q->addOrderBy('mi.id', ListSorter::ASCENDING)
-            ->addOrderBy('mi.orderHint', ListSorter::ASCENDING);
+        $q->addOrderBy('mi.orderHint', ListSorter::ASCENDING)
+            ->addOrderBy('mi.id', ListSorter::ASCENDING);
 
         /** @var MenuItem[] $thirdLevelMenuItems */
         $thirdLevelMenuItems = $q->getQuery()->execute();

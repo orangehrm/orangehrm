@@ -33,7 +33,7 @@ class QualificationsMenuConfigurator implements MenuConfigurator
      */
     public function configure(Screen $screen): ?MenuItem
     {
-        $this->getCurrentModuleAndScreen()->overrideScreen(str_replace('view', 'save', $screen->getActionUrl()));
+        $this->getCurrentModuleAndScreen()->overrideScreen(str_replace('save', 'view', $screen->getActionUrl()));
         return null;
     }
 }

@@ -37,6 +37,10 @@ class MenuService
     use ModuleScreenHelperTrait;
     use AuthUserTrait;
 
+    public const CORE_MENU_SIDE_PANEL_CACHE_KEY = 'core.menu.side_panel';
+    public const CORE_MENU_TOP_RIBBON_CACHE_KEY = 'core.menu.top_ribbon';
+    public const CORE_MENU_TOP_RIBBON_KEYS_CACHE_KEY = 'core.menu.top_ribbon_keys';
+
     /**
      * @var MenuDao|null
      */
@@ -76,7 +80,66 @@ class MenuService
      */
     public function enableModuleMenuItems(string $moduleName, array $menuTitles = []): int
     {
+        $this->getAuthUser()->removeAttribute(self::CORE_MENU_SIDE_PANEL_CACHE_KEY);
+        foreach ($this->getAuthUser()->getAttribute(self::CORE_MENU_TOP_RIBBON_KEYS_CACHE_KEY, []) as $topRibbonKey) {
+            $cacheKey = $this->generateCacheKeyForTopMenuItem($topRibbonKey);
+            $this->getAuthUser()->removeAttribute($cacheKey);
+        }
+        $this->getAuthUser()->removeAttribute(self::CORE_MENU_TOP_RIBBON_KEYS_CACHE_KEY);
+
         return $this->getMenuDao()->enableModuleMenuItems($moduleName, $menuTitles);
+    }
+
+    /**
+     * @return DetailedMenuItem[]
+     */
+    private function getDetailedSidePanelMenuItemsAlongWithCache(): array
+    {
+        if (!$this->getAuthUser()->hasAttribute(self::CORE_MENU_SIDE_PANEL_CACHE_KEY)) {
+            $userRoles = $this->getUserRoleManager()->getUserRolesForAuthUser();
+            $sidePanelMenuItems = $this->getMenuDao()->getSidePanelMenuItems($userRoles);
+
+            $detailedSidePanelMenuItems = [];
+            foreach ($sidePanelMenuItems as $sidePanelMenuItem) {
+                $screen = $sidePanelMenuItem->getScreen();
+                if (is_null($screen)) {
+                    throw new LogicException('Side panel menu item should have screen assigned');
+                }
+                $detailedSidePanelMenuItems[] = DetailedMenuItem::createFromMenuItem($sidePanelMenuItem);
+            }
+            $this->getAuthUser()->setAttribute(self::CORE_MENU_SIDE_PANEL_CACHE_KEY, $detailedSidePanelMenuItems);
+        }
+
+        return $this->getAuthUser()->getAttribute(self::CORE_MENU_SIDE_PANEL_CACHE_KEY);
+    }
+
+    /**
+     * @param int $sidePanelMenuItemId
+     * @return DetailedMenuItem[]
+     */
+    private function getTopMenuItemsAlongWithCache(int $sidePanelMenuItemId): array
+    {
+        $cacheKey = $this->generateCacheKeyForTopMenuItem($sidePanelMenuItemId);
+        $userRoles = $this->getUserRoleManager()->getUserRolesForAuthUser();
+        if (!$this->getAuthUser()->hasAttribute($cacheKey)) {
+            $topMenuItems = $this->getMenuDao()->getTopMenuItems($userRoles, $sidePanelMenuItemId);
+            $this->getAuthUser()->setAttribute($cacheKey, $topMenuItems);
+
+            $topRibbonKeys = $this->getAuthUser()->getAttribute(self::CORE_MENU_TOP_RIBBON_KEYS_CACHE_KEY, []);
+            $topRibbonKeys[] = $sidePanelMenuItemId;
+            $this->getAuthUser()->setAttribute(self::CORE_MENU_TOP_RIBBON_KEYS_CACHE_KEY, $topRibbonKeys);
+        }
+
+        return $this->getAuthUser()->getAttribute($cacheKey);
+    }
+
+    /**
+     * @param int $sidePanelMenuItemId
+     * @return string
+     */
+    private function generateCacheKeyForTopMenuItem(int $sidePanelMenuItemId): string
+    {
+        return self::CORE_MENU_TOP_RIBBON_CACHE_KEY . ".$sidePanelMenuItemId";
     }
 
     /**
@@ -100,40 +163,33 @@ class MenuService
             $configuratorMenuItems = $this->getMenuItemChainForMenuItem($configurator->configure($screen));
         }
 
-        $userRoles = $this->getUserRoleManager()->getUserRolesForAuthUser();
-        // TODO:: cache
-        $sidePanelMenuItems = $this->getMenuDao()->getSidePanelMenuItems($userRoles);
-
+        $detailedSidePanelMenuItems = $this->getDetailedSidePanelMenuItemsAlongWithCache();
         $normalizedSidePanelMenuItems = [];
         $selectedSidePanelMenuId = null;
-        foreach ($sidePanelMenuItems as $sidePanelMenuItem) {
-            $screen = $sidePanelMenuItem->getScreen();
-            if (is_null($screen)) {
-                throw new LogicException('Side panel menu item should have screen assigned');
-            }
-            $detailedSidePanelMenuItem = DetailedMenuItem::createFromMenuItem($sidePanelMenuItem);
 
+        foreach ($detailedSidePanelMenuItems as $detailedSidePanelMenuItem) {
             $active = false;
             if (is_null($selectedSidePanelMenuId) && $active = $this->isActiveSidePanelMenuItem(
                 $detailedSidePanelMenuItem,
                 $currentModuleAndScreen,
                 $configuratorMenuItems
             )) {
-                $selectedSidePanelMenuId = $sidePanelMenuItem->getId();
+                $selectedSidePanelMenuId = $detailedSidePanelMenuItem->getId();
             }
             $normalizedSidePanelMenuItems[] = $this->normalizeMenuItem($detailedSidePanelMenuItem, $baseUrl, $active);
         }
 
-        // TODO:: cache
-        $topMenuItems = $this->getMenuDao()->getTopMenuItems($userRoles, $selectedSidePanelMenuId);
         $normalizedTopMenuItems = [];
-        foreach ($topMenuItems as $topMenuItem) {
-            $normalizedTopMenuItems[] = $this->normalizeTopMenuItem(
-                $topMenuItem,
-                $baseUrl,
-                $configuratorMenuItems,
-                $currentModuleAndScreen
-            );
+        if (!is_null($selectedSidePanelMenuId)) {
+            $topMenuItems = $this->getTopMenuItemsAlongWithCache($selectedSidePanelMenuId);
+            foreach ($topMenuItems as $topMenuItem) {
+                $normalizedTopMenuItems[] = $this->normalizeTopMenuItem(
+                    $topMenuItem,
+                    $baseUrl,
+                    $configuratorMenuItems,
+                    $currentModuleAndScreen
+                );
+            }
         }
 
         return [

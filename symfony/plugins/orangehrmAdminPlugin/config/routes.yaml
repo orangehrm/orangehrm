@@ -408,12 +408,12 @@ view_license:
   methods: [ GET ]
 
 save_license:
-  path: /admin/saveLicense
+  path: /admin/saveLicenses
   controller: OrangeHRM\Admin\Controller\SaveQualificationLicenseController::handle
   methods: [ GET ]
 
 edit_license:
-  path: /admin/saveLicense/{id}
+  path: /admin/saveLicenses/{id}
   controller: OrangeHRM\Admin\Controller\SaveQualificationLicenseController::handle
   methods: [ GET ]
 

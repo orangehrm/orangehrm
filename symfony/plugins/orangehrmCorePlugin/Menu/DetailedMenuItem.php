@@ -29,6 +29,7 @@ class DetailedMenuItem
     private ?array $additionalParams = [];
     private ?string $module = null;
     private ?string $screen = null;
+
     /**
      * @var DetailedMenuItem[]
      */
