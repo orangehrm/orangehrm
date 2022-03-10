@@ -33,7 +33,7 @@
     <div class="orangehrm-paper-container">
       <div class="orangehrm-header-container">
         <inline-action-button display-type="secondary" @click="onclickAdd">
-          {{ $t('admin.currencies') }}
+          {{ $t('general.currencies') }}
         </inline-action-button>
       </div>
       <table-header

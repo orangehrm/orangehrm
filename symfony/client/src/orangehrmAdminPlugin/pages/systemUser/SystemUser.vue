@@ -20,7 +20,7 @@
 
 <template>
   <div class="orangehrm-background-container">
-    <oxd-table-filter filter-title="System Users">
+    <oxd-table-filter :filter-title="$t('admin.system_users')">
       <oxd-form @submitValid="filterItems">
         <oxd-form-row>
           <oxd-grid :cols="4" class="orangehrm-full-width-grid">
