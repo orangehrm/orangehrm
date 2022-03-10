@@ -230,3 +230,21 @@ langStrings:
 
   - value: 'Edit Job Category'
     unitId: edit_job_category
+  -
+    value: 'System Users'
+    unitId: system_users
+  -
+    value: 'Add Work Shift'
+    unitId: add_work_shift
+  -
+    value: 'Licenses'
+    unitId: licenses
+  -
+    value: 'Localization'
+    unitId: localization
+  -
+    value: 'Use Browser Language If Set'
+    unitId: use_browser_language_if_set
+  -
+    value: 'Date Format'
+    unitId: date_format

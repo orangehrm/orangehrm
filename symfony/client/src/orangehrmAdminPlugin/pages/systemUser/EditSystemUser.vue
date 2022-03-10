@@ -76,7 +76,7 @@
                 :true-value="true"
                 :false-value="false"
                 option-label="Yes"
-                label="Change Password?"
+                :label="$t('general.change_password_question')"
               />
             </oxd-grid-item>
           </oxd-grid>

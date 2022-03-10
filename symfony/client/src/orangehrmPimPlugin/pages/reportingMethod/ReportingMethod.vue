@@ -22,10 +22,12 @@
   <div class="orangehrm-background-container">
     <div class="orangehrm-paper-container">
       <div class="orangehrm-header-container">
-        <oxd-text class="orangehrm-main-title">Reporting Methods</oxd-text>
+        <oxd-text class="orangehrm-main-title">{{
+          $t('pim.reporting_methods')
+        }}</oxd-text>
         <div>
           <oxd-button
-            label="Add"
+            :label="$t('general.add')"
             icon-name="plus"
             display-type="secondary"
             @click="onClickAdd"
@@ -124,13 +126,13 @@ export default {
         {
           name: 'name',
           slot: 'title',
-          title: 'Name',
+          title: this.$t('general.name'),
           style: {'flex-basis': '80%'},
         },
         {
           name: 'actions',
           slot: 'action',
-          title: 'Actions',
+          title: this.$t('general.actions'),
           style: {'flex-shrink': 1},
           cellType: 'oxd-table-cell-actions',
           cellConfig: {
@@ -176,8 +178,8 @@ export default {
       const isSelectable = this.unselectableIds.findIndex(id => id == item.id);
       if (isSelectable > -1) {
         return this.$toast.error({
-          title: 'Error',
-          message: 'Reporting Method(s) in Use',
+          title: this.$t('general.error'),
+          message: this.$t('pim.reporting_methods_in_use'),
         });
       }
       this.$refs.deleteDialog.showDialog().then(confirmation => {

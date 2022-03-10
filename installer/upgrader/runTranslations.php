@@ -30,4 +30,5 @@ ServiceContainer::getContainer()->register(Services::DOCTRINE)
 $translate = new TranslationTool();
 $translate->up('admin');
 $translate->up('general');
+$translate->up('pim');
 $translate->up('leave');

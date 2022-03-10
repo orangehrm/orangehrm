@@ -482,3 +482,63 @@ langStrings:
   -
     value: '{count,plural, =0{No Records{action}} one{1 Record {action}} other{# Records {action}}}'
     unitId: n_records_action
+  -
+    value: 'Password'
+    unitId: password
+  -
+    value: 'For a strong password, please use a hard to guess combination of text with upper and lower case characters, symbols and numbers'
+    unitId: password_strength_message
+  -
+    value: 'Confirm Password'
+    unitId: confirm_password
+  -
+    value: 'Passwords do not match'
+    unitId: passwords_do_not_match
+  -
+    value: 'Weak'
+    unitId: weak
+  -
+    value: 'Very Weak'
+    unitId: very_weak
+  -
+    value: 'Better'
+    unitId: better
+  -
+    value: 'Strongest'
+    unitId: strongest
+  -
+    value: 'About'
+    unitId: about
+  -
+    value: 'Support'
+    unitId: support
+  -
+    value: 'Change Password'
+    unitId: change_password
+  -
+    value: 'Logout'
+    unitId: logout
+  -
+    value: 'No Records Found"'
+    unitId: no_records_found
+  -
+    value: 'Change Password ?'
+    unitId: change_password_question
+  -
+    value: 'Type description here'
+    unitId: type_description_here
+  -
+    value: 'Add note'
+    unitId: add_note
+  -
+    value: 'Successfully Updated'
+    unitId: successfully_updated
+  -
+    value: 'Successfully Saved'
+    unitId: successfully_saved
+  -
+    value: 'Notes'
+    unitId: notes
+  -
+    value: 'Type here ...'
+    unitId: type_here_message
