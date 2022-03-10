@@ -31,7 +31,7 @@ class FormatWithTimeTest extends TestCase
         $this->formatWithTime = new  FormatWithTime();
     }
 
-    public function testGetFormattedValue()
+    public function testGetFormattedValue(): void
     {
         $this->assertEquals("00:00:00", $this->formatWithTime->getFormattedValue(new \DateTime('2020-10-12')));
     }

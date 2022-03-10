@@ -31,13 +31,13 @@ class FormatWithBase64EncodeTest extends KernelTestCase
 
     protected function setUp(): void
     {
-        $this->fixture=Config::get(Config::PLUGINS_DIR).'/orangehrmMaintenancePlugin/test/fixtures/EmployeeDao.yml';
+        $this->fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmMaintenancePlugin/test/fixtures/EmployeeDao.yml';
         TestDataService::populate($this->fixture);
         $this->formatWithBase64Encode = new FormatWithBase64Encode();
     }
 
-    public function testGetFormattedValue()
+    public function testGetFormattedValue(): void
     {
-        $this->assertEquals("", $this->formatWithBase64Encode->getFormattedValue(""));
+        $this->assertEquals("UGljdHVyZTE=", $this->formatWithBase64Encode->getFormattedValue("Picture1"));
     }
 }

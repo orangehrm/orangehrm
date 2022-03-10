@@ -33,14 +33,15 @@ class FormatWithWorkStationTest extends KernelTestCase
 
     protected function setUp(): void
     {
-        $this->fixture=Config::get(Config::PLUGINS_DIR).'/orangehrmMaintenancePlugin/test/fixtures/EmployeeDao.yml';
+        $this->fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmMaintenancePlugin/test/fixtures/EmployeeDao.yml';
         TestDataService::populate($this->fixture);
-        $this->createKernelWithMockServices([Services::COMPANY_STRUCTURE_SERVICE=>new CompanyStructureService()]);
+        $this->createKernelWithMockServices([Services::COMPANY_STRUCTURE_SERVICE => new CompanyStructureService()]);
         $this->formatWithWorkStation = new FormatWithWorkStation();
     }
 
-    public function testGetFormattedValue()
+    public function testGetFormattedValue(): void
     {
-        $this->assertEquals(null, $this->formatWithWorkStation->getFormattedValue(1));
+        $this->assertEquals('Organization', $this->formatWithWorkStation->getFormattedValue(1));
+        $this->assertEquals(null, $this->formatWithWorkStation->getFormattedValue(5));
     }
 }

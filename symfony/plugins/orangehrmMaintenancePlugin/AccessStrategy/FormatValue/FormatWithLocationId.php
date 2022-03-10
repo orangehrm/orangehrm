@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Maintenance\AccessStrategy\FormatValue;
 
+use OrangeHRM\Entity\Location;
 use OrangeHRM\Maintenance\FormatValueStrategy\ValueFormatter;
 
 ;
@@ -34,9 +35,9 @@ class FormatWithLocationId implements ValueFormatter
      */
     public function getFormattedValue($entityValue): ?string
     {
-        $result=$this->getLocationService()->getLocationById($entityValue);
-        if (!is_null($result)) {
-            return $result->getName();
+        $location=$this->getLocationService()->getLocationById($entityValue);
+        if ($location instanceof Location) {
+            return $location->getName();
         }
         return null;
     }

@@ -31,7 +31,7 @@ class FormatWithGenderTest extends TestCase
         $this->formatWithGender = new FormatWithGender();
     }
 
-    public function testGetFormattedValue()
+    public function testGetFormattedValue(): void
     {
         $this->assertEquals("Male", $this->formatWithGender->getFormattedValue(1));
         $this->assertEquals("Female", $this->formatWithGender->getFormattedValue(2));

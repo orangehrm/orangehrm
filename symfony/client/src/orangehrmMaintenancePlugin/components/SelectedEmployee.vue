@@ -44,7 +44,7 @@
                   :middle-name="selectedEmployee.middleName"
                   :last-name="selectedEmployee.lastName"
                   :rules="rules"
-                  :disabled="true"
+                  disabled
                 />
               </oxd-grid-item>
             </oxd-grid>
@@ -56,7 +56,7 @@
                   :model-value="selectedEmployee.employeeId"
                   label="Employee Id"
                   :rules="rules.employeeId"
-                  :disabled="true"
+                  disabled
                 />
               </oxd-grid-item>
             </oxd-grid>
@@ -102,7 +102,6 @@ export default {
     },
   },
   emits: ['submit'],
-
   setup(props) {
     const imgSrc = computed(() => {
       return `${window.appGlobal.baseUrl}/pim/viewPhoto/empNumber/${props.selectedEmployee.empNumber}`;

@@ -31,7 +31,7 @@ class FormatWithPassportTypeTest extends TestCase
         $this->formatWithPassportType = new FormatWithPassportType();
     }
 
-    public function testGetFormattedValue()
+    public function testGetFormattedValue(): void
     {
         $this->assertEquals('Passport', $this->formatWithPassportType->getFormattedValue(1));
         $this->assertEquals('Visa', $this->formatWithPassportType->getFormattedValue(2));

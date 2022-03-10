@@ -33,14 +33,15 @@ class FormatWithCountryCodeTest extends KernelTestCase
 
     protected function setUp(): void
     {
-        $this->fixture=Config::get(Config::PLUGINS_DIR).'/orangehrmMaintenancePlugin/test/fixtures/EmployeeDao.yml';
+        $this->fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmMaintenancePlugin/test/fixtures/EmployeeDao.yml';
         TestDataService::populate($this->fixture);
-        $this->createKernelWithMockServices([Services::COUNTRY_SERVICE=>new CountryService()]);
+        $this->createKernelWithMockServices([Services::COUNTRY_SERVICE => new CountryService()]);
         $this->formatWithCountryCode = new FormatWithCountryCode();
     }
 
-    public function testGetFormattedValue()
+    public function testGetFormattedValue(): void
     {
         $this->assertEquals(null, $this->formatWithCountryCode->getFormattedValue('UK'));
+        $this->assertEquals('UNITED STATES', $this->formatWithCountryCode->getFormattedValue('US'));
     }
 }

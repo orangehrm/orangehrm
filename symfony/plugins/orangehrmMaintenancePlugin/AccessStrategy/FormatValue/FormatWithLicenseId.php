@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Maintenance\AccessStrategy\FormatValue;
 
+use OrangeHRM\Entity\License;
 use OrangeHRM\Maintenance\FormatValueStrategy\ValueFormatter;
 use OrangeHRM\Admin\Service\LicenseService;
 
@@ -32,9 +33,9 @@ class FormatWithLicenseId implements ValueFormatter
      */
     public function getFormattedValue($entityValue): ?string
     {
-        $result=$this->getLicenseService()->getLicenseById($entityValue);
-        if (!is_null($result)) {
-            $result->getName();
+        $license=$this->getLicenseService()->getLicenseById($entityValue);
+        if ($license instanceof License) {
+            return $license->getName();
         }
         return null;
     }

@@ -25,6 +25,7 @@ use OrangeHRM\Maintenance\FormatValueStrategy\ValueFormatter;
 class FormatWithPayPeriodId implements ValueFormatter
 {
     use EntityManagerHelperTrait;
+
     public const NO_PAY_GRADE = 'No Pay Grade Details';
 
     /**

@@ -62,18 +62,15 @@ export default {
   props: {
     includeEmployeesParam: {
       type: String,
-      required: false,
-      default: 'currentAndPast',
+      required: true,
     },
     titleLabel: {
       type: String,
       required: true,
-      default: 'Employee Name',
     },
     autocompleteLabel: {
       type: String,
-      required: false,
-      default: '',
+      required: true,
     },
   },
 

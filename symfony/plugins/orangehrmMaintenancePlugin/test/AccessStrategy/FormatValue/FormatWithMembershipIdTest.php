@@ -31,13 +31,14 @@ class FormatWithMembershipIdTest extends KernelTestCase
 
     protected function setUp(): void
     {
-        $this->fixture=Config::get(Config::PLUGINS_DIR).'/orangehrmMaintenancePlugin/test/fixtures/EmployeeDao.yml';
+        $this->fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmMaintenancePlugin/test/fixtures/EmployeeDao.yml';
         TestDataService::populate($this->fixture);
         $this->formatWithMembershipId = new FormatWithMembershipId();
     }
 
-    public function testGetFormattedValue()
+    public function testGetFormattedValue(): void
     {
         $this->assertEquals('membership 1', $this->formatWithMembershipId->getFormattedValue(1));
+        $this->assertEquals(null, $this->formatWithMembershipId->getFormattedValue(5));
     }
 }

@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Maintenance\AccessStrategy\FormatValue;
 
+use OrangeHRM\Entity\Subunit;
 use OrangeHRM\Maintenance\FormatValueStrategy\ValueFormatter;
 use OrangeHRM\Admin\Traits\Service\CompanyStructureServiceTrait;
 
@@ -32,9 +33,9 @@ class FormatWithWorkStation implements ValueFormatter
      */
     public function getFormattedValue($entityValue): ?string
     {
-        $result=$this->getCompanyStructureService()->getSubunitById($entityValue);
-        if (!is_null($result)) {
-            return $result->getName();
+        $subUnit=$this->getCompanyStructureService()->getSubunitById($entityValue);
+        if ($subUnit instanceof Subunit) {
+            return $subUnit->getName();
         }
         return  null;
     }

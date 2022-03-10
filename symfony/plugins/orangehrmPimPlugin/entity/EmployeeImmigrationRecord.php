@@ -37,6 +37,7 @@ class EmployeeImmigrationRecord
 
     public const DOCUMENT_TYPE_PASSPORT = 1;
     public const DOCUMENT_TYPE_VISA = 2;
+
     public const DOCUMENT_TYPE_MAP = [
         self::DOCUMENT_TYPE_PASSPORT => 'Passport',
         self::DOCUMENT_TYPE_VISA => 'Visa',

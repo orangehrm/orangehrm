@@ -31,13 +31,14 @@ class FormatWithLanguageTest extends KernelTestCase
 
     protected function setUp(): void
     {
-        $this->fixture=Config::get(Config::PLUGINS_DIR).'/orangehrmMaintenancePlugin/test/fixtures/EmployeeDao.yml';
+        $this->fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmMaintenancePlugin/test/fixtures/EmployeeDao.yml';
         TestDataService::populate($this->fixture);
         $this->formatWithLanguage = new FormatWithLanguage();
     }
 
-    public function testGetFormattedValue()
+    public function testGetFormattedValue(): void
     {
         $this->assertEquals('Spanish', $this->formatWithLanguage->getFormattedValue(1));
+        $this->assertEquals(null, $this->formatWithLanguage->getFormattedValue(6));
     }
 }

@@ -31,8 +31,9 @@ class FormatWithPayPeriodIdTest extends TestCase
         $this->formatWithPayPeriodId = new FormatWithPayPeriodId();
     }
 
-    public function testGetFormattedValue()
+    public function testGetFormattedValue(): void
     {
         $this->assertEquals('1', $this->formatWithPayPeriodId->getFormattedValue(1));
+        $this->assertEquals('No Pay Grade Details', $this->formatWithPayPeriodId->getFormattedValue(null));
     }
 }

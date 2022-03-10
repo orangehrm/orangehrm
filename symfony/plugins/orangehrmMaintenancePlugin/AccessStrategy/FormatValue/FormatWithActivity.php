@@ -19,16 +19,13 @@
 
 namespace OrangeHRM\Maintenance\AccessStrategy\FormatValue;
 
-use OrangeHRM\Core\Traits\ServiceContainerTrait;
-use OrangeHRM\Framework\Services;
+use OrangeHRM\Entity\ProjectActivity;
 use OrangeHRM\Maintenance\FormatValueStrategy\ValueFormatter;
+use OrangeHRM\Time\Traits\Service\TimesheetServiceTrait;
 
-/**
- * Class FormatWithActivity
- */
 class FormatWithActivity implements ValueFormatter
 {
-    use ServiceContainerTrait;
+    use TimesheetServiceTrait;
 
     /**
      * @param $entityValue
@@ -36,9 +33,9 @@ class FormatWithActivity implements ValueFormatter
      */
     public function getFormattedValue($entityValue): ?string
     {
-        $result=$this->getContainer()->get(Services::TIMESHEET_SERVICE)->getActivityByActivityId($entityValue);
-        if (!is_null($result)) {
-            return $result->getName();
+        $activity=$this->getTimesheetService()->getActivityByActivityId($entityValue);
+        if ($activity instanceof ProjectActivity) {
+            return $activity->getName();
         }
         return null;
     }

@@ -31,8 +31,9 @@ class FormatWithSmokerTest extends TestCase
         $this->formatWithSmoker = new FormatWithSmoker();
     }
 
-    public function testGetFormattedValue()
+    public function testGetFormattedValue(): void
     {
         $this->assertEquals('Smoker', $this->formatWithSmoker->getFormattedValue(1));
+        $this->assertEquals(null, $this->formatWithSmoker->getFormattedValue(0));
     }
 }

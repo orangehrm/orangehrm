@@ -19,36 +19,17 @@
 
 namespace OrangeHRM\Maintenance\AccessStrategy\FormatValue;
 
+use OrangeHRM\Entity\EmployeeLanguage;
 use OrangeHRM\Maintenance\FormatValueStrategy\ValueFormatter;
 
 class FormatWithCompetency implements ValueFormatter
 {
-    public const COMPETENCY_POOR = 1;
-    public const COMPETENCY_POOR_DISPLAY_STRING = 'Poor';
-
-    public const COMPETENCY_BASIC = 2;
-    public const COMPETENCY_BASIC_DISPLAY_STRING = 'Basic';
-
-    public const COMPETENCY_GOOD = 3;
-    public const COMPETENCY_GOOD_DISPLAY_STRING = 'Good';
-
-    public const COMPETENCY_MOTHER_TONGUE_DISPLAY_STRING = 'Mother Tongue';
-
     /**
      * @param $entityValue
-     * @return string
+     * @return string|null
      */
-    public function getFormattedValue($entityValue): string
+    public function getFormattedValue($entityValue): ?string
     {
-        switch ($entityValue) {
-            case self::COMPETENCY_POOR:
-                return self::COMPETENCY_POOR_DISPLAY_STRING;
-            case self::COMPETENCY_BASIC:
-                return self::COMPETENCY_BASIC_DISPLAY_STRING;
-            case self::COMPETENCY_GOOD:
-                return self::COMPETENCY_GOOD_DISPLAY_STRING;
-            default:
-                return self::COMPETENCY_MOTHER_TONGUE_DISPLAY_STRING;
-        }
+        return EmployeeLanguage::COMPETENCIES[$entityValue] ?? null;
     }
 }

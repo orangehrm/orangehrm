@@ -31,13 +31,14 @@ class FormatWithSkillTest extends KernelTestCase
 
     protected function setUp(): void
     {
-        $this->fixture=Config::get(Config::PLUGINS_DIR).'/orangehrmMaintenancePlugin/test/fixtures/EmployeeDao.yml';
+        $this->fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmMaintenancePlugin/test/fixtures/EmployeeDao.yml';
         TestDataService::populate($this->fixture);
         $this->formatWithSkill = new FormatWithSkill();
     }
 
-    public function testGetFormattedValue()
+    public function testGetFormattedValue(): void
     {
         $this->assertEquals('Driving', $this->formatWithSkill->getFormattedValue(1));
+        $this->assertEquals(null, $this->formatWithSkill->getFormattedValue(6));
     }
 }

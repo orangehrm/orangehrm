@@ -332,11 +332,9 @@ Entities :
           - {field: "date", class : 'FormatWithDate'}
           - {field: "lengthHours" }
           - {field: "lengthDays" }
-#          - {field: "comments" }
           - {field: "startTime", class : 'FormatWithTime' }
           - {field: "endTime", class : 'FormatWithTime' }
 
-##Time modul
   AttendanceRecord:
     AccessStrategy:
       Basic:

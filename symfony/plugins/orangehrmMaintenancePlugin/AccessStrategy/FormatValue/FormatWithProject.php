@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Maintenance\AccessStrategy\FormatValue;
 
+use OrangeHRM\Entity\Project;
 use OrangeHRM\Maintenance\FormatValueStrategy\ValueFormatter;
 use OrangeHRM\Time\Service\ProjectService;
 
@@ -32,11 +33,11 @@ class FormatWithProject implements ValueFormatter
      */
     public function getFormattedValue($entityValue): ?string
     {
-        $result=$this->getProjectService()->getProjectDao()->getProjectById($entityValue);
-        if (is_null($result)) {
-            return null;
+        $project=$this->getProjectService()->getProjectDao()->getProjectById($entityValue);
+        if ($project instanceof Project) {
+            return $project->getName();
         }
-        return $result->getName();
+        return null;
     }
 
     /**

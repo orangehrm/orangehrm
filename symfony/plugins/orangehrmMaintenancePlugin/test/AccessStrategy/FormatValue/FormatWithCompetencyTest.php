@@ -31,12 +31,12 @@ class FormatWithCompetencyTest extends KernelTestCase
 
     protected function setUp(): void
     {
-        $this->fixture=Config::get(Config::PLUGINS_DIR).'/orangehrmMaintenancePlugin/test/fixtures/EmployeeDao.yml';
+        $this->fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmMaintenancePlugin/test/fixtures/EmployeeDao.yml';
         TestDataService::populate($this->fixture);
         $this->formatWithCompetency = new FormatWithCompetency();
     }
 
-    public function testGetFormattedValue()
+    public function testGetFormattedValue(): void
     {
         $this->assertEquals("Poor", $this->formatWithCompetency->getFormattedValue(1));
         $this->assertEquals("Basic", $this->formatWithCompetency->getFormattedValue(2));

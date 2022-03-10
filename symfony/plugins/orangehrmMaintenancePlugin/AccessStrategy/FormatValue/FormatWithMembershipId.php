@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Maintenance\AccessStrategy\FormatValue;
 
+use OrangeHRM\Entity\Membership;
 use OrangeHRM\Maintenance\FormatValueStrategy\ValueFormatter;
 use OrangeHRM\Admin\Dao\MembershipDao;
 use OrangeHRM\Admin\Service\MembershipService;
@@ -33,9 +34,9 @@ class FormatWithMembershipId implements ValueFormatter
      */
     public function getFormattedValue($entityValue): ?string
     {
-        $result = $this->getMembershipService()->getMembershipById($entityValue);
-        if (!is_null($result)) {
-            return $result->getName();
+        $memberShip = $this->getMembershipService()->getMembershipById($entityValue);
+        if ($memberShip instanceof Membership) {
+            return $memberShip->getName();
         }
         return null;
     }

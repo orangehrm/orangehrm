@@ -19,9 +19,9 @@
 
 namespace OrangeHRM\Tests\Maintenance\AccessStrategy\FormatValue;
 
+use OrangeHRM\Config\Config;
 use OrangeHRM\Maintenance\AccessStrategy\FormatValue\FormatWithFluency;
 use OrangeHRM\Tests\Util\KernelTestCase;
-use OrangeHRM\Config\Config;
 use OrangeHRM\Tests\Util\TestDataService;
 
 class FormatWithFluencyTest extends KernelTestCase
@@ -31,12 +31,12 @@ class FormatWithFluencyTest extends KernelTestCase
 
     protected function setUp(): void
     {
-        $this->fixture=Config::get(Config::PLUGINS_DIR).'/orangehrmMaintenancePlugin/test/fixtures/EmployeeDao.yml';
+        $this->fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmMaintenancePlugin/test/fixtures/EmployeeDao.yml';
         TestDataService::populate($this->fixture);
         $this->formatWithFluency = new FormatWithFluency();
     }
 
-    public function testGetFormattedValue()
+    public function testGetFormattedValue(): void
     {
         $this->assertEquals("Writing", $this->formatWithFluency->getFormattedValue(1));
         $this->assertEquals("Speaking", $this->formatWithFluency->getFormattedValue(2));

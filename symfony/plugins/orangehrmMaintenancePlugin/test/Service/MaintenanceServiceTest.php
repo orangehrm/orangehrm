@@ -38,7 +38,7 @@ class MaintenanceServiceTest extends KernelTestCase
     protected function setUp(): void
     {
         $this->maintenanceService=new MaintenanceService();
-        $this->fixture=Config::get(Config::PLUGINS_DIR).'/orangehrmMaintenancePlugin/test/fixtures/EmployeeDao.yml';
+        $this->fixture=Config::get(Config::PLUGINS_DIR).'/orangehrmMaintenancePlugin/test/fixtures/EmployeeMaintenence.yml';
         TestDataService::populate($this->fixture);
         $this->createKernelWithMockServices([Services::COUNTRY_SERVICE=>new CountryService(),
             Services::PAY_GRADE_SERVICE=>new PayGradeService(),Services::EMPLOYEE_SERVICE=>new EmployeeService(),

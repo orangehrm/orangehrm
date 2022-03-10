@@ -31,8 +31,11 @@ class FormatWithUtcTimeTest extends TestCase
         $this->formatWithUtcTime = new  FormatWithUtcTime();
     }
 
-    public function testGetFormattedValue()
+    public function testGetFormattedValue(): void
     {
-        $this->assertEquals("2020-10-12 00:00:00", $this->formatWithUtcTime->getFormattedValue(new \DateTime('2020-10-12')));
+        $this->assertEquals(
+            "2020-10-12 00:00:00",
+            $this->formatWithUtcTime->getFormattedValue(new \DateTime('2020-10-12'))
+        );
     }
 }

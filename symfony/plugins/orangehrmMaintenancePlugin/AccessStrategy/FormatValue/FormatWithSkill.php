@@ -20,6 +20,7 @@
 namespace OrangeHRM\Maintenance\AccessStrategy\FormatValue;
 
 use OrangeHRM\Admin\Service\SkillService;
+use OrangeHRM\Entity\Skill;
 use OrangeHRM\Maintenance\FormatValueStrategy\ValueFormatter;
 
 class FormatWithSkill implements ValueFormatter
@@ -32,9 +33,9 @@ class FormatWithSkill implements ValueFormatter
      */
     public function getFormattedValue($entityValue): ?string
     {
-        $result=$this->getSkillService()->getSkillById($entityValue);
-        if (!is_null($result)) {
-            return $result->getName();
+        $skill=$this->getSkillService()->getSkillById($entityValue);
+        if ($skill instanceof Skill) {
+            return $skill->getName();
         }
         return null;
     }

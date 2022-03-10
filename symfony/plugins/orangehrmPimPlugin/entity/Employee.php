@@ -47,6 +47,17 @@ class Employee
     public const STATE_TERMINATED = 'TERMINATED';
     public const STATE_NOT_EXIST = 'NOT_EXIST';
 
+    public const SMOKER_PERSON = 1;
+
+    public const SMOKER = [
+        self::SMOKER_PERSON => 'Smoker',
+    ];
+
+    public const GENDER = [
+        self::GENDER_MALE => 'Male',
+        self::GENDER_FEMALE => 'Female',
+    ];
+
     /**
      * @var int
      *

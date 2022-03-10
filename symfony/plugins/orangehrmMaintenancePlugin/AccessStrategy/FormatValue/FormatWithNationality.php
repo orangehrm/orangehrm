@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Maintenance\AccessStrategy\FormatValue;
 
+use OrangeHRM\Entity\Nationality;
 use OrangeHRM\Maintenance\FormatValueStrategy\ValueFormatter;
 use OrangeHRM\Admin\Service\NationalityService;
 
@@ -32,9 +33,9 @@ class FormatWithNationality implements ValueFormatter
      */
     public function getFormattedValue($entityValue): ?string
     {
-        $result=$this->getNationalityService()->getNationalityById($entityValue);
-        if (!is_null($result)) {
-            return $result->getName();
+        $nationality=$this->getNationalityService()->getNationalityById($entityValue);
+        if ($nationality instanceof Nationality) {
+            return $nationality->getName();
         }
         return null;
     }

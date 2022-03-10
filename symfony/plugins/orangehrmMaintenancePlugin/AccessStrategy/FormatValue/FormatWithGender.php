@@ -19,29 +19,17 @@
 
 namespace OrangeHRM\Maintenance\AccessStrategy\FormatValue;
 
+use OrangeHRM\Entity\Employee;
 use OrangeHRM\Maintenance\FormatValueStrategy\ValueFormatter;
 
 class FormatWithGender implements ValueFormatter
 {
-    public const GENDER_MALE = 1;
-    public const GENDER_MALE_DISPLAY_STRING = 'Male';
-
-    public const GENDER_FEMALE = 2;
-    public const GENDER_FEMALE_DISPLAY_STRING = 'Female';
-
     /**
      * @param $entityValue
      * @return null|string
      */
     public function getFormattedValue($entityValue): ?string
     {
-        switch ($entityValue) {
-            case self::GENDER_MALE:
-                return self::GENDER_MALE_DISPLAY_STRING;
-            case self::GENDER_FEMALE:
-                return self::GENDER_FEMALE_DISPLAY_STRING;
-            default:
-                return null;
-        }
+        return Employee::GENDER[$entityValue] ?? null;
     }
 }

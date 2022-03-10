@@ -19,24 +19,17 @@
 
 namespace OrangeHRM\Maintenance\AccessStrategy\FormatValue;
 
+use OrangeHRM\Entity\Employee;
 use OrangeHRM\Maintenance\FormatValueStrategy\ValueFormatter;
 
 class FormatWithSmoker implements ValueFormatter
 {
-    public const SMOKER_ID = 1;
-    public const SMOKER_ID_DISPLAY_STRING = 'Smoker';
-
     /**
      * @param $entityValue
      * @return null|string
      */
     public function getFormattedValue($entityValue): ?string
     {
-        switch ($entityValue) {
-            case self::SMOKER_ID:
-                return self::SMOKER_ID_DISPLAY_STRING;
-            default:
-                return null;
-        }
+        return Employee::SMOKER[$entityValue] ?? null;
     }
 }

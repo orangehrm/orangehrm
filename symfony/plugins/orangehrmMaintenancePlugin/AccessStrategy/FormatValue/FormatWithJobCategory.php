@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Maintenance\AccessStrategy\FormatValue;
 
+use OrangeHRM\Entity\JobCategory;
 use OrangeHRM\Maintenance\FormatValueStrategy\ValueFormatter;
 use OrangeHRM\Admin\Dao\JobCategoryDao;
 use OrangeHRM\Admin\Service\JobCategoryService;
@@ -33,9 +34,9 @@ class FormatWithJobCategory implements ValueFormatter
      */
     public function getFormattedValue($entityValue): ?string
     {
-        $result=$this->getJobCategoryService()->getJobCategoryById($entityValue);
-        if (!is_null($result)) {
-            return $result->getName();
+        $category=$this->getJobCategoryService()->getJobCategoryById($entityValue);
+        if ($category instanceof JobCategory) {
+            return $category->getName();
         }
         return null;
     }

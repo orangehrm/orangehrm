@@ -20,6 +20,7 @@
 namespace OrangeHRM\Maintenance\AccessStrategy\FormatValue;
 
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
+use OrangeHRM\Entity\Country;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Maintenance\FormatValueStrategy\ValueFormatter;
 
@@ -33,9 +34,9 @@ class FormatWithCountryCode implements ValueFormatter
      */
     public function getFormattedValue($entityValue): ?string
     {
-        $result=$this->getContainer()->get(Services::COUNTRY_SERVICE)->getCountryByCountryCode($entityValue);
-        if (!is_null($result)) {
-            return $result->getName();
+        $country=$this->getContainer()->get(Services::COUNTRY_SERVICE)->getCountryByCountryCode($entityValue);
+        if ($country instanceof Country) {
+            return $country->getName();
         }
         return null;
     }

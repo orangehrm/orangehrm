@@ -31,13 +31,14 @@ class FormatWithJobTitleTest extends KernelTestCase
 
     protected function setUp(): void
     {
-        $this->fixture=Config::get(Config::PLUGINS_DIR).'/orangehrmMaintenancePlugin/test/fixtures/EmployeeDao.yml';
+        $this->fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmMaintenancePlugin/test/fixtures/EmployeeDao.yml';
         TestDataService::populate($this->fixture);
         $this->formatWithJobTitle = new FormatWithJobTitle();
     }
 
-    public function testGetFormattedValue()
+    public function testGetFormattedValue(): void
     {
-        $this->assertEquals(null, $this->formatWithJobTitle->getFormattedValue(1));
+        $this->assertEquals('Software Architect', $this->formatWithJobTitle->getFormattedValue(1));
+        $this->assertEquals(null, $this->formatWithJobTitle->getFormattedValue(4));
     }
 }

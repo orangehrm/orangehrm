@@ -3,15 +3,28 @@ Nationality:
   1: { id: 2, name: 'nationality 2' }
   2: { id: 3, name: 'nationality 3' }
 
+JobCategory:
+  0: { id: 1, name: 'Job Category 1' }
+  1: { id: 2, name: 'Job Category 2' }
+  2: { id: 3, name: 'Job Category 3' }
+
+JobTitle:
+  - { id: 1, job_title: 'Software Architect', is_deleted: 0 }
+  - { id: 2, job_title: 'Software Engineer', is_deleted: 0 }
+
+Subunit:
+  0: {id: 1, name: 'Organization', unit_id: 'company', description: 'company description', lft: 1, rgt: 6, level: 0}
+  1: {id: 2, name: 'Department 1', unit_id: 'dept', description: 'department description', lft: 2, rgt: 5, level: 1}
+  2: {id: 3, name: 'Sub Department 1', unit_id: 'sub dept', description: 'sub department description', lft: 3, rgt: 4, level: 2}
+
 Employee:
-  0: {empNumber: 1, emp_gender: 1, firstName: 'Kayla', lastName: 'Abbey', middleName: 'T', nickName: 'sd', employeeId: 'E001', emp_work_email: 'kayla@xample.com', emp_oth_email: 'kayla2@xample.com',"nation_code": '1',
+  0: {empNumber: 1, emp_gender: 1, emp_firstname: 'Kayla', emp_lastname: 'Abbey', emp_middle_name: 'T', emp_nick_name: 'sd', employee_id: 'E001', emp_work_email: 'kayla@xample.com', emp_oth_email: 'kayla2@xample.com',"nation_code": '1',
       "emp_birthday": '1975-10-15',
-      "emp_work_telephone": '112-898-7612',
-      }
-  1: {empNumber: 2, firstName: 'Ashley', lastName: 'Abel', middleName: 'ST',employeeId: 'E002', emp_work_email: 'ashley@xample.com', emp_oth_email: 'ashley2@xample.com'}
-  2: {empNumber: 3, firstName: 'Ajiharan', lastName: 'Saputhanthri', middleName: 'RT', employeeId: 'E003', emp_work_email: 'renukshan@xample.com', emp_oth_email: 'renukshan2@xample.com'}
-  3: {empNumber: 4, firstName: 'Chaturanga', lastName: 'Namal', middleName: 'ST', employeeId: 'E004', emp_work_email: '', emp_oth_email: ''}
-  4: {empNumber: 5, firstName: 'Indiran', lastName: 'Nadarajah', middleName: 'KT', employeeId: 'E005', emp_work_email: '', emp_oth_email: ''}
+      "emp_work_telephone": '112-898-7612', "eeo_cat_code" : 1, "job_title_code" : 1, "work_station" : 1}
+
+  1: { empNumber: 2, emp_gender: 1, emp_firstname: 'nihan', emp_lastname: 'singh', emp_middle_name: 'T', emp_nick_name: 'sd', employee_id: 'E002', emp_work_email: 'kayla1@xample.com', emp_oth_email: 'kayla2@xample.com',"nation_code": '1',
+       "emp_birthday": '1975-10-15',
+       "emp_work_telephone": '112-898-7612', "eeo_cat_code": 1, "job_title_code": 1, "work_station": 1}
 
 EmpPicture:
   0: {emp_number: '1', epic_picture: "yasitha", epic_filename: 'test_file.jpg', epic_type: 'test/type'}
@@ -21,20 +34,17 @@ EmployeeAttachment:
   - { emp_number: 1, eattach_id: 1, screen: 'personal',  eattach_desc: 'Comment 1', eattach_filename: 'attachment.txt', eattach_size: '6', eattach_attachment: 'dGVzdA0K', eattach_type: 'text/plain', attached_by: '1', attached_by_name: 'Admin', attached_time: '2021-02-23' }
   - { emp_number: 1, eattach_id: 2, screen: 'personal',  eattach_desc: 'Comment 2', eattach_filename: 'attachment.txt', eattach_size: '6', eattach_attachment: 'dGVzdA0K', eattach_type: 'text/plain', attached_by: '1', attached_by_name: 'Admin', attached_time: '2021-02-23' }
 
-
 EmpEmergencyContact:
   - {emp_number: 1, eec_seqno: '1', eec_name: 'Yasitha', eec_relationship: 'friend', eec_home_no: '0335445678', eec_mobile_no: '0776734567', eec_office_no: '0113456787'}
   - {emp_number: 2, eec_seqno: '2', eec_name: 'Renukshan', eec_relationship: 'friend1', eec_home_no: '0373245675', eec_mobile_no: '0776734237', eec_office_no: '0113676787'}
-
 
 EmpDependent:
   -  {emp_number: '1', ed_seqno: '1', ed_name: 'yasitha', ed_relationship_type: 'child', ed_date_of_birth: '2007-02-23'}
   -  {emp_number: '2', ed_seqno: '2', ed_name: 'renukshan', ed_relationship_type: 'other', ed_relationship: 'friend', ed_date_of_birth: '2004-02-23'}
 
-
 EmployeeImmigrationRecord:
-  -  {emp_number: '1', recordId: '0', type: 1, number: 'HVN0003472', issuedDate: '2010-12-12', expiryDate: '2011-12-12', status: 'some status', countryCode: 'UK', reviewDate: '2011-12-30', ep_comments: 'test comment'}
-  -  {emp_number: '1', recordId: '1', type: 1, number: 'HVN0003472', issuedDate: '2010-12-12', expiryDate: '2011-12-12', status: 'some status', countryCode: 'UK', reviewDate: '2011-12-30', ep_comments: 'test comment'}
+  -  {emp_number: '1', ep_seqno: '0', ep_passport_type_flg: 1, ep_passport_num: 'HVN0003472', ep_passportissueddate: '2010-12-12', ep_passportexpiredate: '2011-12-12', ep_i9_status: 'some status', cou_code: 'UK', ep_i9_review_date: '2011-12-30', ep_comments: 'test comment2'}
+  -  {emp_number: '1', ep_seqno: '1', ep_passport_type_flg: 1, ep_passport_num: 'HVN0003472', ep_passportissueddate: '2010-12-12', ep_passportexpiredate: '2011-12-12', ep_i9_status: 'some status', cou_code: 'UK', ep_i9_review_date: '2011-12-20', ep_comments: 'test comment2'}
 
 EmpWorkExperience:
   -  {emp_number: '1', eexp_seqno: '1', eexp_employer: 'OrangeHRM', eexp_jobtit: 'SE', eexp_from_date: '2005-04-03', eexp_to_date: '2010-04-04', eexp_comments: 'Worked Hard', eexp_internal: '2'}
@@ -77,17 +87,16 @@ EmployeeMembership:
   1: {emp_number: '2', membship_code: 2, ememb_subscript_amount: '6', ememb_subscript_ownership: 'company', ememb_subs_currency: 'Rb', ememb_commence_date: '2011-05-21', ememb_renewal_date: '2011-05-24'}
 
 EmpUsTaxExemption:
-  0: {emp_number: '1', federalStatus: 'Single', federalExemptions: '2', state: 'Alaska', stateStatus: 'Single', stateExemptions: '1', unemploymentState: 'Alaska', workState: 'Alaska'}
-  1: {emp_number: '2', federalStatus: 'Single', federalExemptions: '2', state: 'Alaska', stateStatus: 'Single', stateExemptions: '1', unemploymentState: 'Alaska', workState: 'Alaska'}
+  0: {emp_number: '1', tax_federal_status: 'Single', tax_federal_exceptions: '2', tax_state: 'Alaska', tax_state_status: 'Single', tax_state_exceptions: '1', tax_unemp_state: 'Alaska', tax_work_state: 'Alaska'}
+  1: { emp_number: '2', tax_federal_status: 'Single', tax_federal_exceptions: '2', tax_state: 'Alaska', tax_state_status: 'Single', tax_state_exceptions: '1', tax_unemp_state: 'Alaska', tax_work_state: 'Alaska' }
 
 License:
   0: {id: 1, name: 'li1'}
-  1: {id: 2, name: 'li1'}
+  1: {id: 2, name: 'li2'}
 
 EmployeeLicense:
-  0: {emp_number: '1', license_id: 1, license_no: '2bja8768', license_issued_date: '2004-02-23', license_expiry_date: '2007-02-23'}
-  1: {emp_number: '1', license_id: 2, license_no: '2bjghj768', license_issued_date: '2002-02-23', license_expiry_date: '2004-02-23'}
-
+  0: {emp_number: '1', license_id: 1, license_no: '124566', license_issued_date: '2004-02-23', license_expiry_date: '2007-02-23'}
+  1: {emp_number: '2', license_id: 2, license_no: '124789', license_issued_date: '2002-02-23', license_expiry_date: '2004-02-23'}
 
 PayGrade:
   0: {id: 1, name: 'Salary Grade A'}
@@ -130,12 +139,12 @@ EmpLocations:
 EmpContract:
   - { emp_number: 1, econ_extend_id: 1, econ_extend_start_date: '2020-05-23',  econ_extend_end_date: '2021-05-23'}
 
-#ReportingMethod:
-#  - { "reporting_method_id": "1","reporting_method_name": "Direct" }
-#  - { "reporting_method_id": "2","reporting_method_name": "Indirect" }
-#
-#ReportTo:
-#  - { "erep_sup_emp_number": "1","erep_sub_emp_number": "2","erep_reporting_mode": "1" }
+ReportingMethod:
+  - { "reporting_method_id": "1","reporting_method_name": "Direct" }
+  - { "reporting_method_id": "2","reporting_method_name": "Indirect" }
+
+ReportTo:
+  - { "erep_sup_emp_number": "1","erep_sub_emp_number": "2","erep_reporting_mode": "1" }
 
 LeaveType:
   0: {id: 1, name: 'Casual', deleted: 0}
@@ -179,5 +188,4 @@ UserRole:
 User:
   0: { id: 1, user_role_id: 1, emp_number: 1, user_name: 'samantha', user_password: 'samantha' }
   1: { id: 2, user_role_id: 3, emp_number: 1, user_name: 'yashika', user_password: 'yashika' }
-  2: { id: 3, user_role_id: 1, emp_number: 3, user_name: 'Renukshan', user_password: 'Renukshan', status: 0 }
-  3: { id: 4, user_role_id: 2, emp_number: 4, user_name: 'Chaturanga', user_password: 'Chaturanga', deleted: 1 }
+  2: { id: 3, user_role_id: 1, emp_number: 2, user_name: 'Renukshan', user_password: 'Renukshan', status: 0 }

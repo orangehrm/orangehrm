@@ -33,14 +33,15 @@ class FormatWithPayGradeIdTest extends KernelTestCase
 
     protected function setUp(): void
     {
-        $this->fixture=Config::get(Config::PLUGINS_DIR).'/orangehrmMaintenancePlugin/test/fixtures/EmployeeDao.yml';
+        $this->fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmMaintenancePlugin/test/fixtures/EmployeeDao.yml';
         TestDataService::populate($this->fixture);
-        $this->createKernelWithMockServices([Services::PAY_GRADE_SERVICE=>new PayGradeService()]);
+        $this->createKernelWithMockServices([Services::PAY_GRADE_SERVICE => new PayGradeService()]);
         $this->formatWithPayGradeId = new FormatWithPayGradeId();
     }
 
-    public function testGetFormattedValue()
+    public function testGetFormattedValue(): void
     {
         $this->assertEquals('Salary Grade A', $this->formatWithPayGradeId->getFormattedValue(1));
+        $this->assertEquals(null, $this->formatWithPayGradeId->getFormattedValue(6));
     }
 }

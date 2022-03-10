@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Maintenance\AccessStrategy\FormatValue;
 
+use OrangeHRM\Entity\JobTitle;
 use OrangeHRM\Maintenance\FormatValueStrategy\ValueFormatter;
 use OrangeHRM\Admin\Dao\JobTitleDao;
 use OrangeHRM\Admin\Service\JobTitleService;
@@ -45,9 +46,9 @@ class FormatWithJobTitle implements ValueFormatter
      */
     public function getFormattedValue($entityValue): ?string
     {
-        $result=$this->getJobTitleService()->getJobTitleById($entityValue);
-        if (!is_null($result)) {
-            return $result->getJobTitleName();
+        $jobTitle=$this->getJobTitleService()->getJobTitleById($entityValue);
+        if ($jobTitle instanceof  JobTitle) {
+            return $jobTitle->getJobTitleName();
         }
         return null;
     }

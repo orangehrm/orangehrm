@@ -19,26 +19,17 @@
 
 namespace OrangeHRM\Maintenance\AccessStrategy\FormatValue;
 
+use OrangeHRM\Entity\EmployeeImmigrationRecord;
 use OrangeHRM\Maintenance\FormatValueStrategy\ValueFormatter;
 
 class FormatWithPassportType implements ValueFormatter
 {
-    public const PASSPORT = 1;
-    public const PASSPORT_DISPLAY_STRING = 'Passport';
-
-    public const VISA_DISPLAY_STRING = 'Visa';
-
     /**
      * @param $entityValue
      * @return string
      */
-    public function getFormattedValue($entityValue): string
+    public function getFormattedValue($entityValue): ?string
     {
-        switch ($entityValue) {
-            case self::PASSPORT:
-                return self::PASSPORT_DISPLAY_STRING;
-            default:
-                return self::VISA_DISPLAY_STRING;
-        }
+        return EmployeeImmigrationRecord::DOCUMENT_TYPE_MAP[$entityValue] ?? null;
     }
 }

@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Maintenance\AccessStrategy\FormatValue;
 
+use OrangeHRM\Entity\Education;
 use OrangeHRM\Maintenance\FormatValueStrategy\ValueFormatter;
 use OrangeHRM\Admin\Service\EducationService;
 
@@ -32,9 +33,9 @@ class FormatWithEducation implements ValueFormatter
      */
     public function getFormattedValue($entityValue): ?string
     {
-        $result=$this->getEducationService()->getEducationById($entityValue);
-        if (!is_null($result)) {
-            $result->getName();
+        $education=$this->getEducationService()->getEducationById($entityValue);
+        if ($education instanceof  Education) {
+            return $education->getName();
         }
         return null;
     }

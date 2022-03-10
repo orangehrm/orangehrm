@@ -31,13 +31,14 @@ class FormatWithLicenseIdTest extends KernelTestCase
 
     protected function setUp(): void
     {
-        $this->fixture=Config::get(Config::PLUGINS_DIR).'/orangehrmMaintenancePlugin/test/fixtures/EmployeeDao.yml';
+        $this->fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmMaintenancePlugin/test/fixtures/EmployeeDao.yml';
         TestDataService::populate($this->fixture);
         $this->formatWithLicenseId = new FormatWithLicenseId();
     }
 
-    public function testGetFormattedValue()
+    public function testGetFormattedValue(): void
     {
-        $this->assertEquals(null, $this->formatWithLicenseId->getFormattedValue(1));
+        $this->assertEquals('li1', $this->formatWithLicenseId->getFormattedValue(1));
+        $this->assertEquals(null, $this->formatWithLicenseId->getFormattedValue(4));
     }
 }

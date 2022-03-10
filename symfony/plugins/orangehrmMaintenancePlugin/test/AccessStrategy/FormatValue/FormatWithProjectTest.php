@@ -31,13 +31,14 @@ class FormatWithProjectTest extends KernelTestCase
 
     protected function setUp(): void
     {
-        $this->fixture=Config::get(Config::PLUGINS_DIR).'/orangehrmMaintenancePlugin/test/fixtures/EmployeeDao.yml';
+        $this->fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmMaintenancePlugin/test/fixtures/EmployeeDao.yml';
         TestDataService::populate($this->fixture);
         $this->formatWithProject = new FormatWithProject();
     }
 
-    public function testGetFormattedValue()
+    public function testGetFormattedValue(): void
     {
         $this->assertEquals('NUS', $this->formatWithProject->getFormattedValue(1));
+        $this->assertEquals(null, $this->formatWithProject->getFormattedValue(6));
     }
 }

@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Maintenance\AccessStrategy\FormatValue;
 
+use OrangeHRM\Entity\PayGrade;
 use OrangeHRM\Maintenance\FormatValueStrategy\ValueFormatter;
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Framework\Services;
@@ -33,9 +34,9 @@ class FormatWithPayGradeId implements ValueFormatter
      */
     public function getFormattedValue($entityValue): ?string
     {
-        $result=$this->getContainer()->get(Services::PAY_GRADE_SERVICE)->getPayGradeById($entityValue);
-        if (!is_null($result)) {
-            return $result->getName();
+        $payGrade=$this->getContainer()->get(Services::PAY_GRADE_SERVICE)->getPayGradeById($entityValue);
+        if ($payGrade instanceof  PayGrade) {
+            return $payGrade->getName();
         }
         return null;
     }

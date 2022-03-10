@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Maintenance\AccessStrategy\FormatValue;
 
+use OrangeHRM\Entity\Language;
 use OrangeHRM\Maintenance\FormatValueStrategy\ValueFormatter;
 use OrangeHRM\Admin\Service\LanguageService;
 
@@ -32,9 +33,9 @@ class FormatWithLanguage implements ValueFormatter
      */
     public function getFormattedValue($entityValue): ?string
     {
-        $result=$this->getLanguageService()->getLanguageById($entityValue);
-        if (!is_null($result)) {
-            return $result->getName();
+        $language=$this->getLanguageService()->getLanguageById($entityValue);
+        if ($language instanceof  Language) {
+            return $language->getName();
         }
         return null;
     }
