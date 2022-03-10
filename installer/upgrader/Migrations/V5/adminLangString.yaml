@@ -1,66 +1,67 @@
--
-  value: 'Add Job Title'
-  unitId: add_job_title
--
-  value: 'Edit Job Title'
-  unitId: edit_job_title
--
-  value: 'Job Titles'
-  unitId: job_titles
--
-  value: 'Locations'
-  unitId: locations
--
-  value: 'Number of Employees'
-  unitId: number_of_employees
--
-  value: 'Add Location'
-  unitId: add_location
--
-  value: 'Address'
-  unitId: address
--
-  value: 'Add Location'
-  unitId: add_location
--
-  value: 'Email Configuration'
-  unitId: email_configuration
--
-  value: 'Mail Sent As'
-  unitId: mail_sent_as
--
-  value: 'Sending Method'
-  unitId: sending_method
--
-  value: 'SECURE SMTP'
-  unitId: secure_smtp
--
-  value: 'SMTP'
-  unitId: smtp
--
-  value: 'Sendmail'
-  unitId: sendmail
--
-  value: 'Path to Sendmail'
-  unitId: path_to_sendmail
--
-  value: 'SMTP Host'
-  unitId: smtp_host
--
-  value: 'SMTP Port'
-  unitId: smtp_port
--
-  value: 'Use SMTP Authentication'
-  unitId: use_smtp_authentication
--
-  value: 'SMTP User'
-  unitId: smtp_user
--
-  value: 'SMTP Password'
-  unitId: smtp_password
--
-  value: 'TLS'
-  unitId: tls
+langStrings:
+  -
+    value: 'Add Job Title'
+    unitId: add_job_title
+  -
+    value: 'Edit Job Title'
+    unitId: edit_job_title
+  -
+    value: 'Job Titles'
+    unitId: job_titles
+  -
+    value: 'Locations'
+    unitId: locations
+  -
+    value: 'Number of Employees'
+    unitId: number_of_employees
+  -
+    value: 'Add Location'
+    unitId: add_location
+  -
+    value: 'Address'
+    unitId: address
+  -
+    value: 'Add Location'
+    unitId: add_location
+  -
+    value: 'Email Configuration'
+    unitId: email_configuration
+  -
+    value: 'Mail Sent As'
+    unitId: mail_sent_as
+  -
+    value: 'Sending Method'
+    unitId: sending_method
+  -
+    value: 'SECURE SMTP'
+    unitId: secure_smtp
+  -
+    value: 'SMTP'
+    unitId: smtp
+  -
+    value: 'Sendmail'
+    unitId: sendmail
+  -
+    value: 'Path to Sendmail'
+    unitId: path_to_sendmail
+  -
+    value: 'SMTP Host'
+    unitId: smtp_host
+  -
+    value: 'SMTP Port'
+    unitId: smtp_port
+  -
+    value: 'Use SMTP Authentication'
+    unitId: use_smtp_authentication
+  -
+    value: 'SMTP User'
+    unitId: smtp_user
+  -
+    value: 'SMTP Password'
+    unitId: smtp_password
+  -
+    value: 'TLS'
+    unitId: tls
   -
     value: 'Optional - the mail server requires the use of TLS security.'
     unitId: optional_the_mail_server_requires_the_use_of_tls_security
@@ -115,9 +116,9 @@
   -
     value: 'Time Module'
     unitId: time_module
--
-  value: 'Recruitment Module'
-  unitId: recruitment_module
+  -
+    value: 'Recruitment Module'
+    unitId: recruitment_module
   -
     value: 'Performance Module'
     unitId: performance_module
