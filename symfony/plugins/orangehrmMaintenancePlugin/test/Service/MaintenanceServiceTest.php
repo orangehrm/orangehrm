@@ -38,7 +38,7 @@ class MaintenanceServiceTest extends KernelTestCase
     protected function setUp(): void
     {
         $this->maintenanceService=new MaintenanceService();
-        $this->fixture=Config::get(Config::PLUGINS_DIR).'/orangehrmMaintenancePlugin/test/fixtures/EmployeeDao.yml';
+        $this->fixture=Config::get(Config::PLUGINS_DIR).'/orangehrmMaintenancePlugin/test/fixtures/EmployeeMaintenence.yml';
         TestDataService::populate($this->fixture);
         $this->createKernelWithMockServices([Services::COUNTRY_SERVICE=>new CountryService(),
             Services::PAY_GRADE_SERVICE=>new PayGradeService(),Services::EMPLOYEE_SERVICE=>new EmployeeService(),
@@ -50,7 +50,42 @@ class MaintenanceServiceTest extends KernelTestCase
     {
         $result=$this->maintenanceService->accessEmployeeData(1);
         $this->assertEquals('Kayla', $result['Employee'][0]['firstName']);
+        $this->assertEquals('test_file.jpg', $result['EmpPicture'][0]['filename']);
+        $this->assertEquals('attachment.txt', $result['EmployeeAttachment'][0]['filename']);
+        $this->assertEquals('Yasitha', $result['EmpEmergencyContact'][0]['name']);
+        $this->assertEquals('', $result['EmpDependent'][0]['relationship']);
+        $this->assertEquals('HVN0003472', $result['EmployeeImmigrationRecord'][0]['number']);
+        $this->assertEquals('SE', $result['EmpWorkExperience'][0]['jobTitle']);
+
         $this->assertCount(1, $result['Employee']);
+    }
+
+    public function testGetPurgeableEntities(): void
+    {
+        $purgeableEntities = $this->maintenanceService->getPurgeableEntities('gdpr_access_employee_strategy');
+        $this->assertCount(24, $purgeableEntities);
+        $this->assertArrayHasKey("Employee", $purgeableEntities);
+        $this->assertArrayHasKey("EmpPicture", $purgeableEntities);
+        $this->assertArrayHasKey("EmployeeAttachment", $purgeableEntities);
+        $this->assertArrayHasKey("EmpEmergencyContact", $purgeableEntities);
+        $this->assertArrayHasKey("EmpDependent", $purgeableEntities);
+        $this->assertArrayHasKey("EmployeeImmigrationRecord", $purgeableEntities);
+        $this->assertArrayHasKey("EmpWorkExperience", $purgeableEntities);
+        $this->assertArrayHasKey("EmployeeEducation", $purgeableEntities);
+        $this->assertArrayHasKey("EmployeeSkill", $purgeableEntities);
+        $this->assertArrayHasKey("EmployeeLanguage", $purgeableEntities);
+        $this->assertArrayHasKey("EmployeeMembership", $purgeableEntities);
+        $this->assertArrayHasKey("EmpUsTaxExemption", $purgeableEntities);
+        $this->assertArrayHasKey("EmployeeLicense", $purgeableEntities);
+        $this->assertArrayHasKey("EmployeeSalary", $purgeableEntities);
+        $this->assertArrayHasKey("EmpLocations", $purgeableEntities);
+        $this->assertArrayHasKey("EmpContract", $purgeableEntities);
+        $this->assertArrayHasKey("User", $purgeableEntities);
+        $this->assertArrayHasKey("ReportTo", $purgeableEntities);
+        $this->assertArrayHasKey("LeaveRequestComment", $purgeableEntities);
+        $this->assertArrayHasKey("LeaveComment", $purgeableEntities);
+        $this->assertArrayHasKey("AttendanceRecord", $purgeableEntities);
+        $this->assertArrayHasKey("TimesheetItem", $purgeableEntities);
     }
 
 

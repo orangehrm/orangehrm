@@ -18,6 +18,9 @@
 
 import PurgeEmployee from './pages/PurgeEmployee.vue';
 
+import AccessEmployeeSearchScreen from '../orangehrmMaintenancePlugin/pages/accessEmployee/AccessEmployeeSearchScreen.vue';
+
 export default {
   'purge-employee': PurgeEmployee,
+  'access-employee-search': AccessEmployeeSearchScreen,
 };

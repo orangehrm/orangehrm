@@ -17,36 +17,26 @@
  * Boston, MA 02110-1301, USA
  */
 
-namespace OrangeHRM\Maintenance\FormatValueStrategy;
+namespace OrangeHRM\Maintenance\AccessStrategy\FormatValue;
 
-use OrangeHRM\Admin\Service\EducationService;
-use OrangeHRM\Core\Exception\DaoException;
+use OrangeHRM\Entity\Project;
+use OrangeHRM\Maintenance\FormatValueStrategy\ValueFormatter;
+use OrangeHRM\Time\Traits\Service\ProjectServiceTrait;
 
-/**
- * Class FormatWithEducation
- */
-class FormatWithEducation implements ValueFormatter
+class FormatWithProject implements ValueFormatter
 {
-    private ?EducationService $educationService = null;
+    use ProjectServiceTrait;
 
     /**
      * @param $entityValue
      * @return null|string
-     * @throws DaoException
      */
     public function getFormattedValue($entityValue): ?string
     {
-        return $this->getEducationService()->getEducationById($entityValue->getId())->getName();
-    }
-
-    /**
-     * @return EducationService
-     */
-    public function getEducationService(): EducationService
-    {
-        if (!($this->educationService instanceof EducationService)) {
-            $this->educationService = new EducationService();
+        $project = $this->getProjectService()->getProjectDao()->getProjectById($entityValue);
+        if ($project instanceof Project) {
+            return $project->getName();
         }
-        return $this->educationService;
+        return null;
     }
 }

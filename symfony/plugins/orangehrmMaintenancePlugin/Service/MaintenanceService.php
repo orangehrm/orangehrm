@@ -33,25 +33,37 @@ use Symfony\Component\Yaml\Yaml;
  */
 class MaintenanceService
 {
-    private ?MaintenanceDao $maintenanceDao=null;
+    private ?MaintenanceDao $maintenanceDao = null;
     public const EMPLOYEE_GDPR = 'gdpr_access_employee_strategy';
     private ?array $purgeableEntities = null;
 
-    public function getPurgeableEntities($fileName)
-    {   //TODO
-
+    /**
+     * @param string $fileName
+     * @return array
+     */
+    public function getPurgeableEntities(string $fileName): array
+    {
         if (!isset($this->purgeableEntities)) {
-            $this->purgeableEntities = Yaml::parse(file_get_contents(realpath(dirname(__FILE__) . '/../config/' . $fileName . '.yml')));
+            $this->purgeableEntities = Yaml::parse(
+                file_get_contents(realpath(dirname(__FILE__) . '/../config/' . $fileName . '.yml'))
+            );
         }
-
 
         return $this->purgeableEntities['Entities'];
     }
 
-
-    public function getAccessStrategy($accessibleEntityClassName, $strategy, $strategyInfoArray): AccessStrategy
-    {
-        $accessStrategy = 'OrangeHRM\Maintenance\AccessStrategy'."\\".$strategy . "AccessStrategy";
+    /**
+     * @param string $accessibleEntityClassName
+     * @param string $strategy
+     * @param array $strategyInfoArray
+     * @return AccessStrategy
+     */
+    public function getAccessStrategy(
+        string $accessibleEntityClassName,
+        string $strategy,
+        array $strategyInfoArray
+    ): AccessStrategy {
+        $accessStrategy = 'OrangeHRM\Maintenance\AccessStrategy' . "\\" . $strategy . "AccessStrategy";
         return new $accessStrategy($accessibleEntityClassName, $strategyInfoArray);
     }
 
@@ -60,9 +72,9 @@ class MaintenanceService
      * @throws TransactionException
      * @throws \Doctrine\DBAL\Exception
      */
-    public function accessEmployeeData($empNumber): array
+    public function accessEmployeeData(int $empNumber): array
     {
-        $connection=Doctrine::getEntityManager()->getConnection();
+        $connection = Doctrine::getEntityManager()->getConnection();
         try {
             $connection->beginTransaction();
             $accessibleEntities = $this->getPurgeableEntities(self::EMPLOYEE_GDPR);
@@ -82,14 +94,11 @@ class MaintenanceService
 
             $connection->commit();
             return $entityAccessData;
-//             @codeCoverageIgnoreStart
         } catch (Exception $e) {
             $connection->rollback();
             throw new TransactionException($e);
         }
     }
-
-
 
     /**
      * @return maintenanceDao
@@ -138,6 +147,7 @@ class MaintenanceService
      */
     public function getVacancyListToPurge()
     {
+        //TODO
         return $this->getMaintenanceDao()->getVacancyListToPurge();
     }
 
@@ -148,6 +158,7 @@ class MaintenanceService
      */
     public function getDeniedCandidatesToKeepDataByVacnacyId($vacancyId)
     {
+        //TODO
         return $this->getMaintenanceDao()->getDeniedCandidatesToKeepDataByVacnacyId($vacancyId);
     }
 }

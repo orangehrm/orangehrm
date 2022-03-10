@@ -74,6 +74,7 @@
       <directory>symfony/plugins/orangehrmMaintenancePlugin/test/Service</directory>
       <directory>symfony/plugins/orangehrmMaintenancePlugin/test/Dao</directory>
       <directory>symfony/plugins/orangehrmMaintenancePlugin/test/PurgeStrategy</directory>
+      <directory>symfony/plugins/orangehrmMaintenancePlugin/test/AccessStrategy</directory>
       <directory>symfony/plugins/orangehrmMaintenancePlugin/test/Dto</directory>
       <directory>symfony/plugins/orangehrmMaintenancePlugin/test/Api</directory>
     </testsuite>

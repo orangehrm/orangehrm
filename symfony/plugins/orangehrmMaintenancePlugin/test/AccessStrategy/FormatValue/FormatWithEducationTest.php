@@ -14,39 +14,31 @@
  *
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
- * Boston, MA 02110-1301, USA
+ * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Maintenance\FormatValueStrategy;
+namespace OrangeHRM\Tests\Maintenance\AccessStrategy\FormatValue;
 
-use OrangeHRM\Admin\Service\EducationService;
-use OrangeHRM\Core\Exception\DaoException;
+use OrangeHRM\Config\Config;
+use OrangeHRM\Maintenance\AccessStrategy\FormatValue\FormatWithEducation;
+use OrangeHRM\Tests\Util\KernelTestCase;
+use OrangeHRM\Tests\Util\TestDataService;
 
-/**
- * Class FormatWithEducation
- */
-class FormatWithEducation implements ValueFormatter
+class FormatWithEducationTest extends KernelTestCase
 {
-    private ?EducationService $educationService = null;
+    private string $fixture;
+    private FormatWithEducation $formatWithEducation;
 
-    /**
-     * @param $entityValue
-     * @return null|string
-     * @throws DaoException
-     */
-    public function getFormattedValue($entityValue): ?string
+    protected function setUp(): void
     {
-        return $this->getEducationService()->getEducationById($entityValue->getId())->getName();
+        $this->fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmMaintenancePlugin/test/fixtures/EmployeeDao.yml';
+        TestDataService::populate($this->fixture);
+        $this->formatWithEducation = new FormatWithEducation();
     }
 
-    /**
-     * @return EducationService
-     */
-    public function getEducationService(): EducationService
+    public function testGetFormattedValue(): void
     {
-        if (!($this->educationService instanceof EducationService)) {
-            $this->educationService = new EducationService();
-        }
-        return $this->educationService;
+        $this->assertEquals('PhD', $this->formatWithEducation->getFormattedValue(1));
+        $this->assertEquals(null, $this->formatWithEducation->getFormattedValue(5));
     }
 }

@@ -17,36 +17,27 @@
  * Boston, MA 02110-1301, USA
  */
 
-namespace OrangeHRM\Maintenance\FormatValueStrategy;
+namespace OrangeHRM\Maintenance\AccessStrategy\FormatValue;
 
-use OrangeHRM\Admin\Service\EducationService;
-use OrangeHRM\Core\Exception\DaoException;
+use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
+use OrangeHRM\Maintenance\FormatValueStrategy\ValueFormatter;
 
-/**
- * Class FormatWithEducation
- */
-class FormatWithEducation implements ValueFormatter
+class FormatWithPayPeriod implements ValueFormatter
 {
-    private ?EducationService $educationService = null;
+    use EntityManagerHelperTrait;
+
+    public const NO_PAY_GRADE = 'No Pay Grade Details';
 
     /**
      * @param $entityValue
-     * @return null|string
-     * @throws DaoException
+     * @return string
      */
-    public function getFormattedValue($entityValue): ?string
+    public function getFormattedValue($entityValue): string
     {
-        return $this->getEducationService()->getEducationById($entityValue->getId())->getName();
-    }
-
-    /**
-     * @return EducationService
-     */
-    public function getEducationService(): EducationService
-    {
-        if (!($this->educationService instanceof EducationService)) {
-            $this->educationService = new EducationService();
+        if ($entityValue) {
+            return $entityValue;
+        } else {
+            return self::NO_PAY_GRADE;
         }
-        return $this->educationService;
     }
 }

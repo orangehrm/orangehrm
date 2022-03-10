@@ -23,9 +23,7 @@
     <oxd-text tag="h6" class="orangehrm-main-title">
       {{ titleLabel }}
     </oxd-text>
-
     <oxd-divider />
-
     <oxd-form @submit="emitEmployee">
       <oxd-form-row>
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
@@ -40,9 +38,7 @@
           </oxd-grid-item>
         </oxd-grid>
       </oxd-form-row>
-
       <oxd-divider />
-
       <oxd-form-actions>
         <required-text />
         <oxd-button display-type="secondary" label="Search" type="submit" />

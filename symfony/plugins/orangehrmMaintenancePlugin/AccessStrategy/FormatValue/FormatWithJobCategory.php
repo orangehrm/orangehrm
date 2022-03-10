@@ -17,36 +17,37 @@
  * Boston, MA 02110-1301, USA
  */
 
-namespace OrangeHRM\Maintenance\FormatValueStrategy;
+namespace OrangeHRM\Maintenance\AccessStrategy\FormatValue;
 
-use OrangeHRM\Admin\Service\EducationService;
-use OrangeHRM\Core\Exception\DaoException;
+use OrangeHRM\Admin\Service\JobCategoryService;
+use OrangeHRM\Entity\JobCategory;
+use OrangeHRM\Maintenance\FormatValueStrategy\ValueFormatter;
 
-/**
- * Class FormatWithEducation
- */
-class FormatWithEducation implements ValueFormatter
+class FormatWithJobCategory implements ValueFormatter
 {
-    private ?EducationService $educationService = null;
+    private ?JobCategoryService $jobCatService = null;
 
     /**
      * @param $entityValue
-     * @return null|string
-     * @throws DaoException
+     * @return string|null
      */
     public function getFormattedValue($entityValue): ?string
     {
-        return $this->getEducationService()->getEducationById($entityValue->getId())->getName();
+        $category = $this->getJobCategoryService()->getJobCategoryById($entityValue);
+        if ($category instanceof JobCategory) {
+            return $category->getName();
+        }
+        return null;
     }
 
     /**
-     * @return EducationService
+     * @return JobCategoryService
      */
-    public function getEducationService(): EducationService
+    public function getJobCategoryService(): JobCategoryService
     {
-        if (!($this->educationService instanceof EducationService)) {
-            $this->educationService = new EducationService();
+        if (is_null($this->jobCatService)) {
+            $this->jobCatService = new JobCategoryService();
         }
-        return $this->educationService;
+        return $this->jobCatService;
     }
 }

@@ -17,36 +17,37 @@
  * Boston, MA 02110-1301, USA
  */
 
-namespace OrangeHRM\Maintenance\FormatValueStrategy;
+namespace OrangeHRM\Maintenance\AccessStrategy\FormatValue;
 
-use OrangeHRM\Admin\Service\EducationService;
-use OrangeHRM\Core\Exception\DaoException;
+use OrangeHRM\Admin\Service\JobTitleService;
+use OrangeHRM\Entity\JobTitle;
+use OrangeHRM\Maintenance\FormatValueStrategy\ValueFormatter;
 
-/**
- * Class FormatWithEducation
- */
-class FormatWithEducation implements ValueFormatter
+class FormatWithJobTitle implements ValueFormatter
 {
-    private ?EducationService $educationService = null;
+    private ?JobTitleService $jobTitleService;
 
     /**
-     * @param $entityValue
-     * @return null|string
-     * @throws DaoException
+     * @return JobTitleService
      */
-    public function getFormattedValue($entityValue): ?string
+    public function getJobTitleService(): JobTitleService
     {
-        return $this->getEducationService()->getEducationById($entityValue->getId())->getName();
+        if (!isset($this->jobTitleService)) {
+            $this->jobTitleService = new JobTitleService();
+        }
+        return $this->jobTitleService;
     }
 
     /**
-     * @return EducationService
+     * @param $entityValue
+     * @return string|null
      */
-    public function getEducationService(): EducationService
+    public function getFormattedValue($entityValue): ?string
     {
-        if (!($this->educationService instanceof EducationService)) {
-            $this->educationService = new EducationService();
+        $jobTitle = $this->getJobTitleService()->getJobTitleById($entityValue);
+        if ($jobTitle instanceof JobTitle) {
+            return $jobTitle->getJobTitleName();
         }
-        return $this->educationService;
+        return null;
     }
 }
