@@ -162,8 +162,7 @@ langStrings:
     value: 'Situational Leave'
     unitId: situational_leave
   -
-    value: 'These leave will be excluded from reports unless there''s some activity. 
-    E.g. maternity leave, jury duty leave.'
+    value: "These leave will be excluded from reports unless there's some activity. E.g. maternity leave, jury duty leave."
     unitId: entitlement_situational_description
   -
     value: 'Confirm Leave Assignment'
@@ -262,7 +261,7 @@ langStrings:
     value: 'Valid To'
     unitId: valid_to
   -
-    value: 'Entitlement(s) will not be deleted since it''s already in use'
+    value: "Entitlement(s) will not be deleted since it''s already in use"
     unitId: entitlements_will_not_be_deleted_since_already_in_use
   -
     value: 'Number of Days'

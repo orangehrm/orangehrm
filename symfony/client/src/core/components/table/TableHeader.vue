@@ -24,7 +24,7 @@
     <div class="orangehrm-horizontal-padding orangehrm-vertical-padding">
       <div v-if="selected > 0">
         <oxd-text tag="span">
-          {{ $t('general.n_records_action', {count: selected, action: 'Selected'}) }}
+          {{ $t('general.n_records_selected', {count: selected}) }}
         </oxd-text>
         <oxd-button
           label="Delete Selected"
@@ -35,7 +35,7 @@
         />
       </div>
       <oxd-text v-else tag="span">
-        {{ $t('general.n_records_action', {count: total, action: 'Found'}) }}
+        {{ $t('general.n_records_found', {count: total}) }}
       </oxd-text>
     </div>
   </div>

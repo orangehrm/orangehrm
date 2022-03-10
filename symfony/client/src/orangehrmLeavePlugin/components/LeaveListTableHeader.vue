@@ -22,7 +22,7 @@
   <div class="orangehrm-header-container">
     <div v-if="bulkActions && selected > 0" class="actions">
       <oxd-text tag="span">
-        {{ $t('general.n_records_action', {count: selected, action: 'Selected'}) }}
+        {{ $t('general.n_records_selected', {count: selected}) }}
       </oxd-text>
       <oxd-button
         v-if="bulkActions.APPROVE"
@@ -44,7 +44,7 @@
       />
     </div>
     <oxd-text v-else tag="span">
-      {{ $t('general.n_records_action', {count: total, action: 'Found'}) }}
+      {{ $t('general.n_records_found', {count: total}) }}
     </oxd-text>
   </div>
 </template>
@@ -77,24 +77,6 @@ export default {
 
   emits: ['onActionClick'],
 
-  setup(props) {
-    const getNoun = count => {
-      if (!count) return `No Records`;
-      return count === 1 ? `(${count}) Record` : `(${count}) Records`;
-    };
-
-    const itemCountText = computed(() => {
-      return `${getNoun(props.total)} Found`;
-    });
-    const itemSelectedText = computed(() => {
-      return `${getNoun(props.selected)} Selected`;
-    });
-
-    return {
-      itemCountText,
-      itemSelectedText,
-    };
-  },
 };
 </script>
 
