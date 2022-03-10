@@ -34,7 +34,7 @@
     ></edit-education>
     <div class="orangehrm-horizontal-padding orangehrm-vertical-padding">
       <profile-action-header @click="onClickAdd">
-        Education
+        {{ $t('general.education') }}
       </profile-action-header>
     </div>
     <table-header
@@ -139,18 +139,18 @@ export default {
         {name: 'level', slot: 'title', title: 'Level', style: {flex: 1}},
         {
           name: 'year',
-          title: 'Year',
+          title: this.$t('general.year'),
           style: {flex: 1},
         },
         {
           name: 'score',
-          title: 'GPA/Score',
+          title: this.$t('pim.gpa_score'),
           style: {flex: 1},
         },
         {
           name: 'actions',
           slot: 'action',
-          title: 'Actions',
+          title: this.$t('general.actions'),
           style: {'flex-basis': '10em'},
           cellType: 'oxd-table-cell-actions',
           cellConfig: {

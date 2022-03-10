@@ -21,7 +21,9 @@
 <template>
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
-      <oxd-text class="orangehrm-main-title">Edit Termination Reason</oxd-text>
+      <oxd-text class="orangehrm-main-title">{{
+        $t('pim.edit_termination_reason')
+      }}</oxd-text>
 
       <oxd-divider />
 
@@ -29,7 +31,7 @@
         <oxd-form-row>
           <oxd-input-field
             v-model="termination.name"
-            label="Name"
+            :label="$t('general.name')"
             :rules="rules.name"
             required
           />
@@ -42,7 +44,7 @@
           <oxd-button
             type="button"
             display-type="ghost"
-            label="Cancel"
+            :label="$t('general.cancel')"
             @click="onCancel"
           />
           <submit-button />
@@ -107,7 +109,9 @@ export default {
           const index = data.findIndex(item => item.name === v);
           if (index > -1) {
             const {id} = data[index];
-            return id !== this.termination.id ? 'Already exists' : true;
+            return id !== this.termination.id
+              ? this.$t('general.already_exists')
+              : true;
           } else {
             return true;
           }

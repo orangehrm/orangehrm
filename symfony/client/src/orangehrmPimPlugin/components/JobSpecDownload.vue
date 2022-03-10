@@ -19,7 +19,7 @@
  -->
 
 <template>
-  <oxd-input-group label="Job Specification">
+  <oxd-input-group :label="$t('general.job_specification')">
     <div :class="{'input-container': true, '--disabled': !file.id}">
       <oxd-text
         class="input-container-filename"

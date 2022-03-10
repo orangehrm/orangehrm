@@ -21,7 +21,7 @@
 <template>
   <oxd-input-field
     type="autocomplete"
-    label="Report Name"
+    :label="$t('general.report_name')"
     :clear="false"
     :create-options="loadReports"
   >

@@ -21,45 +21,49 @@
 <template>
   <edit-employee-layout :employee-id="empNumber" screen="contact">
     <div class="orangehrm-horizontal-padding orangehrm-vertical-padding">
-      <oxd-text tag="h6" class="orangehrm-main-title">Contact Details</oxd-text>
+      <oxd-text tag="h6" class="orangehrm-main-title">{{
+        $t('pim.contact_details')
+      }}</oxd-text>
       <oxd-divider />
       <oxd-form :loading="isLoading" @submitValid="onSave">
-        <oxd-text class="orangehrm-sub-title" tag="h6">Address</oxd-text>
+        <oxd-text class="orangehrm-sub-title" tag="h6">{{
+          $t('general.address')
+        }}</oxd-text>
         <oxd-divider />
         <oxd-form-row>
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <oxd-input-field
                 v-model="contact.street1"
-                label="Street 1"
+                :label="$t('pim.street1')"
                 :rules="rules.street1"
               />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
                 v-model="contact.street2"
-                label="Street 2"
+                :label="$t('pim.street2')"
                 :rules="rules.street2"
               />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
                 v-model="contact.city"
-                label="City"
+                :label="$t('general.city')"
                 :rules="rules.city"
               />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
                 v-model="contact.province"
-                label="State/Province"
+                :label="$t('general.state_province')"
                 :rules="rules.province"
               />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
                 v-model="contact.zipCode"
-                label="Zip/Postal Code"
+                :label="$t('general.zip_postal_code')"
                 :rules="rules.zipCode"
               />
             </oxd-grid-item>
@@ -67,56 +71,60 @@
               <oxd-input-field
                 v-model="contact.countryCode"
                 type="select"
-                label="Country"
+                :label="$t('general.country')"
                 :options="countries"
               />
             </oxd-grid-item>
           </oxd-grid>
         </oxd-form-row>
 
-        <oxd-text class="orangehrm-sub-title" tag="h6">Telephone</oxd-text>
+        <oxd-text class="orangehrm-sub-title" tag="h6">{{
+          $t('pim.telephone')
+        }}</oxd-text>
         <oxd-divider />
         <oxd-form-row>
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <oxd-input-field
                 v-model.trim="contact.homeTelephone"
-                label="Home"
+                :label="$t('pim.home')"
                 :rules="rules.homeTelephone"
               />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
                 v-model.trim="contact.mobile"
-                label="Mobile"
+                :label="$t('general.mobile')"
                 :rules="rules.mobile"
               />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
                 v-model.trim="contact.workTelephone"
-                label="Work"
+                :label="$t('pim.work')"
                 :rules="rules.workTelephone"
               />
             </oxd-grid-item>
           </oxd-grid>
         </oxd-form-row>
 
-        <oxd-text class="orangehrm-sub-title" tag="h6">Email</oxd-text>
+        <oxd-text class="orangehrm-sub-title" tag="h6">{{
+          $t('general.email')
+        }}</oxd-text>
         <oxd-divider />
         <oxd-form-row>
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <oxd-input-field
                 v-model="contact.workEmail"
-                label="Work Email"
+                :label="$t('general.work_email')"
                 :rules="rules.workEmail"
               />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
                 v-model="contact.otherEmail"
-                label="Other Email"
+                :label="$t('general.other_email')"
                 :rules="rules.otherEmail"
               />
             </oxd-grid-item>
@@ -254,7 +262,7 @@ export default {
               const {data} = response.data;
               return data.valid === true
                 ? resolve(true)
-                : resolve('Already exist');
+                : resolve(this.$t('general.already_exists'));
             });
         } else {
           resolve(true);
