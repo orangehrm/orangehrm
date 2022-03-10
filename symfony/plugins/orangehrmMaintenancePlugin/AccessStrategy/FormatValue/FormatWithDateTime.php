@@ -19,9 +19,10 @@
 
 namespace OrangeHRM\Maintenance\AccessStrategy\FormatValue;
 
+use DateTime;
 use OrangeHRM\Maintenance\FormatValueStrategy\ValueFormatter;
 
-class FormatWithUtcTime implements ValueFormatter
+class FormatWithDateTime implements ValueFormatter
 {
     /**
      * @param $entityValue
@@ -29,7 +30,7 @@ class FormatWithUtcTime implements ValueFormatter
      */
     public function getFormattedValue($entityValue): ?string
     {
-        if (!is_null($entityValue)) {
+        if ($entityValue instanceof DateTime) {
             return $entityValue->format('Y-m-d H:i:s');
         }
         return null;

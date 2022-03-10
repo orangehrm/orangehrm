@@ -19,23 +19,28 @@
 
 namespace OrangeHRM\Tests\Maintenance\AccessStrategy\FormatValue;
 
-use OrangeHRM\Maintenance\AccessStrategy\FormatValue\FormatWithUtcTime;
+use DateTime;
+use OrangeHRM\Maintenance\AccessStrategy\FormatValue\FormatWithDateTime;
 use OrangeHRM\Tests\Util\TestCase;
 
 class FormatWithUtcTimeTest extends TestCase
 {
-    private FormatWithUtcTime $formatWithUtcTime;
+    private FormatWithDateTime $formatWithUtcTime;
 
     protected function setUp(): void
     {
-        $this->formatWithUtcTime = new  FormatWithUtcTime();
+        $this->formatWithUtcTime = new  FormatWithDateTime();
     }
 
     public function testGetFormattedValue(): void
     {
         $this->assertEquals(
             "2020-10-12 00:00:00",
-            $this->formatWithUtcTime->getFormattedValue(new \DateTime('2020-10-12'))
+            $this->formatWithUtcTime->getFormattedValue(new DateTime('2020-10-12'))
+        );
+        $this->assertEquals(
+            null,
+            $this->formatWithUtcTime->getFormattedValue('2020-10-12')
         );
     }
 }

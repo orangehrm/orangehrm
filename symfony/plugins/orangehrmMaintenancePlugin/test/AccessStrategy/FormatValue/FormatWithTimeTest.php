@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Tests\Maintenance\AccessStrategy\FormatValue;
 
+use DateTime;
 use OrangeHRM\Maintenance\AccessStrategy\FormatValue\FormatWithTime;
 use OrangeHRM\Tests\Util\TestCase;
 
@@ -33,6 +34,7 @@ class FormatWithTimeTest extends TestCase
 
     public function testGetFormattedValue(): void
     {
-        $this->assertEquals("00:00:00", $this->formatWithTime->getFormattedValue(new \DateTime('2020-10-12')));
+        $this->assertEquals("00:00:00", $this->formatWithTime->getFormattedValue(new DateTime('2020-10-12')));
+        $this->assertEquals(null, $this->formatWithTime->getFormattedValue('2020-10-12'));
     }
 }

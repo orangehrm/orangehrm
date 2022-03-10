@@ -19,10 +19,9 @@
 
 namespace OrangeHRM\Maintenance\AccessStrategy\FormatValue;
 
+use OrangeHRM\Admin\Service\MembershipService;
 use OrangeHRM\Entity\Membership;
 use OrangeHRM\Maintenance\FormatValueStrategy\ValueFormatter;
-use OrangeHRM\Admin\Dao\MembershipDao;
-use OrangeHRM\Admin\Service\MembershipService;
 
 class FormatWithMembershipId implements ValueFormatter
 {
@@ -44,11 +43,10 @@ class FormatWithMembershipId implements ValueFormatter
     /**
      * @return MembershipService
      */
-    public function getMembershipService(): ?MembershipService
+    public function getMembershipService(): MembershipService
     {
         if (is_null($this->membershipService)) {
             $this->membershipService = new MembershipService();
-            $this->membershipService->setMembershipDao(new MembershipDao());
         }
         return $this->membershipService;
     }

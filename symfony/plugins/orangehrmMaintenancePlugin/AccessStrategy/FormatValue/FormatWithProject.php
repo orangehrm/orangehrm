@@ -21,11 +21,11 @@ namespace OrangeHRM\Maintenance\AccessStrategy\FormatValue;
 
 use OrangeHRM\Entity\Project;
 use OrangeHRM\Maintenance\FormatValueStrategy\ValueFormatter;
-use OrangeHRM\Time\Service\ProjectService;
+use OrangeHRM\Time\Traits\Service\ProjectServiceTrait;
 
 class FormatWithProject implements ValueFormatter
 {
-    protected ?ProjectService $projectService = null;
+    use ProjectServiceTrait;
 
     /**
      * @param $entityValue
@@ -33,22 +33,10 @@ class FormatWithProject implements ValueFormatter
      */
     public function getFormattedValue($entityValue): ?string
     {
-        $project=$this->getProjectService()->getProjectDao()->getProjectById($entityValue);
+        $project = $this->getProjectService()->getProjectDao()->getProjectById($entityValue);
         if ($project instanceof Project) {
             return $project->getName();
         }
         return null;
-    }
-
-    /**
-     *
-     * @return ProjectService
-     */
-    public function getProjectService(): ?ProjectService
-    {
-        if (is_null($this->projectService)) {
-            $this->projectService = new ProjectService();
-        }
-        return $this->projectService;
     }
 }

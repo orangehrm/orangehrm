@@ -19,16 +19,16 @@
 
 namespace OrangeHRM\Tests\Maintenance\AccessStrategy\FormatValue;
 
-use OrangeHRM\Maintenance\AccessStrategy\FormatValue\FormatWithPayPeriodId;
+use OrangeHRM\Maintenance\AccessStrategy\FormatValue\FormatWithPayPeriod;
 use OrangeHRM\Tests\Util\TestCase;
 
 class FormatWithPayPeriodIdTest extends TestCase
 {
-    private FormatWithPayPeriodId $formatWithPayPeriodId;
+    private FormatWithPayPeriod $formatWithPayPeriodId;
 
     protected function setUp(): void
     {
-        $this->formatWithPayPeriodId = new FormatWithPayPeriodId();
+        $this->formatWithPayPeriodId = new FormatWithPayPeriod();
     }
 
     public function testGetFormattedValue(): void

@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\Maintenance\AccessStrategy\FormatValue;
 
-use OrangeHRM\Entity\Employee;
 use OrangeHRM\Maintenance\FormatValueStrategy\ValueFormatter;
 
 class FormatWithSmoker implements ValueFormatter
@@ -30,6 +29,6 @@ class FormatWithSmoker implements ValueFormatter
      */
     public function getFormattedValue($entityValue): ?string
     {
-        return Employee::SMOKER[$entityValue] ?? null;
+        return $entityValue ? 'Smoker' : null;
     }
 }

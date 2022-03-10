@@ -204,7 +204,7 @@ Entities :
           - {field: "payGrade" ,class: 'FormatWithPayGradeId', getter: ['getpayGrade','getId']}
           - {field: "currencyType" }
           - {field: "amount" }
-          - {field: "payPeriod" ,class: 'FormatWithPayPeriodId', getter: ['getPayPeriod','getName']}
+          - {field: "payPeriod" ,class: 'FormatWithPayPeriod', getter: ['getPayPeriod','getName']}
           - {field: "salaryName" }
           - {field: "comment" }
 
@@ -341,14 +341,14 @@ Entities :
         match_by:
           - {match: employee}
         parameters:
-          - {field: "punchInUtcTime", class : 'FormatWithUtcTime'}
+          - {field: "punchInUtcTime", class : 'FormatWithDateTime'}
           - {field: "punchInNote" }
           - {field: "punchInTimeOffset" }
-          - {field: "punchInUserTime" ,class : 'FormatWithUtcTime'}
-          - {field: "punchOutUtcTime" ,class : 'FormatWithUtcTime' }
+          - {field: "punchInUserTime" ,class : 'FormatWithDateTime'}
+          - {field: "punchOutUtcTime" ,class : 'FormatWithDateTime' }
           - {field: "punchOutNote" }
           - {field: "punchOutTimeOffset" }
-          - {field: "punchOutUserTime" ,class : 'FormatWithUtcTime'}
+          - {field: "punchOutUserTime" ,class : 'FormatWithDateTime'}
           - {field: "state" }
 
   TimesheetItem:

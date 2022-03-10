@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Maintenance\AccessStrategy\FormatValue;
 
+use DateTime;
 use OrangeHRM\Maintenance\FormatValueStrategy\ValueFormatter;
 
 class FormatWithTime implements ValueFormatter
@@ -29,7 +30,7 @@ class FormatWithTime implements ValueFormatter
      */
     public function getFormattedValue($entityValue): ?string
     {
-        if (!is_null($entityValue)) {
+        if ($entityValue instanceof DateTime) {
             return $entityValue->format('H:i:s');
         }
         return null;

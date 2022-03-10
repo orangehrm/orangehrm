@@ -22,7 +22,7 @@ namespace OrangeHRM\Maintenance\AccessStrategy\FormatValue;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Maintenance\FormatValueStrategy\ValueFormatter;
 
-class FormatWithPayPeriodId implements ValueFormatter
+class FormatWithPayPeriod implements ValueFormatter
 {
     use EntityManagerHelperTrait;
 
