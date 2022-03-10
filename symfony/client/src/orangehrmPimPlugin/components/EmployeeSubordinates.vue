@@ -43,7 +43,7 @@
         :action-button-shown="$can.create(`subordinates`)"
         @click="onClickAdd"
       >
-        Assigned Subordinates
+        {{ $t('pim.assigned_subordinates') }}
       </profile-action-header>
     </div>
     <table-header
@@ -83,7 +83,7 @@ const subordinateNormalizer = data => {
   return data.map(item => {
     return {
       name: `${item.subordinate?.firstName} ${item.subordinate?.lastName} ${
-        item.subordinate.terminationId ? ' (Past Employee)' : ''
+        item.subordinate.terminationId ? this.$t('general.past_employee') : ''
       }`,
       reportingMethod: item.reportingMethod.name,
       subordinateEmpNumber: item.subordinate.empNumber,
@@ -148,10 +148,15 @@ export default {
   data() {
     return {
       headers: [
-        {name: 'name', slot: 'title', title: 'Name', style: {flex: 1}},
+        {
+          name: 'name',
+          slot: 'title',
+          title: this.$t('general.name'),
+          style: {flex: 1},
+        },
         {
           name: 'reportingMethod',
-          title: 'Reporting Method',
+          title: this.$t('pim.reporting_method'),
           style: {flex: 1},
         },
       ],
@@ -170,7 +175,7 @@ export default {
       const headerActions = {
         name: 'actions',
         slot: 'action',
-        title: 'Actions',
+        title: this.$t('general.actions'),
         style: {flex: 1},
         cellType: 'oxd-table-cell-actions',
         cellConfig: {},

@@ -33,7 +33,7 @@
     ></edit-work-experience>
     <div class="orangehrm-horizontal-padding orangehrm-vertical-padding">
       <profile-action-header @click="onClickAdd">
-        Work Experience
+        {{ $t('pim.work_experience') }}
       </profile-action-header>
     </div>
     <table-header
@@ -118,15 +118,24 @@ export default {
   data() {
     return {
       headers: [
-        {name: 'company', slot: 'title', title: 'Company', style: {flex: 1}},
-        {name: 'jobTitle', title: 'Job Title', style: {flex: 1}},
-        {name: 'fromDate', title: 'From', style: {flex: 1}},
-        {name: 'toDate', title: 'To', style: {flex: 1}},
-        {name: 'comment', title: 'Comment', style: {flex: 1}},
+        {
+          name: 'company',
+          slot: 'title',
+          title: this.$t('pim.company'),
+          style: {flex: 1},
+        },
+        {
+          name: 'jobTitle',
+          title: this.$t('general.job_title'),
+          style: {flex: 1},
+        },
+        {name: 'fromDate', title: this.$t('general.from'), style: {flex: 1}},
+        {name: 'toDate', title: this.$t('general.to'), style: {flex: 1}},
+        {name: 'comment', title: this.$t('general.comment'), style: {flex: 1}},
         {
           name: 'actions',
           slot: 'action',
-          title: 'Actions',
+          title: this.$t('general.actions'),
           style: {'flex-basis': '10em'},
           cellType: 'oxd-table-cell-actions',
           cellConfig: {

@@ -19,7 +19,11 @@
  -->
 
 <template>
-  <oxd-input-field type="select" label="Sub Unit" :options="options" />
+  <oxd-input-field
+    type="select"
+    :label="$t('general.sub_unit')"
+    :options="options"
+  />
 </template>
 
 <script>

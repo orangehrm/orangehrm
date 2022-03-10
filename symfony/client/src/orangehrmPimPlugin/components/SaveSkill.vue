@@ -20,7 +20,9 @@
 
 <template>
   <div class="orangehrm-horizontal-padding orangehrm-top-padding">
-    <oxd-text tag="h6" class="orangehrm-main-title">Add Skill</oxd-text>
+    <oxd-text tag="h6" class="orangehrm-main-title">{{
+      $t('general.add_skill')
+    }}</oxd-text>
     <oxd-divider />
     <oxd-form :loading="isLoading" @submitValid="onSave">
       <oxd-form-row>
@@ -28,7 +30,7 @@
           <oxd-grid-item>
             <qualification-dropdown
               v-model="skill.skillId"
-              label="Skill"
+              :label="$t('pim.skill')"
               :rules="rules.skillId"
               :api="api"
               required
@@ -37,7 +39,7 @@
           <oxd-grid-item>
             <oxd-input-field
               v-model="skill.yearsOfExperience"
-              label="Years of Experience"
+              :label="$t('pim.years_of_experience')"
               :rules="rules.yearsOfExperience"
             />
           </oxd-grid-item>
@@ -50,7 +52,7 @@
             <oxd-input-field
               v-model="skill.comments"
               type="textarea"
-              label="Comments"
+              :label="$t('general.comments')"
               :rules="rules.comments"
             />
           </oxd-grid-item>
@@ -62,7 +64,7 @@
         <oxd-button
           type="button"
           display-type="ghost"
-          label="Cancel"
+          :label="$t('general.cancel')"
           @click="onCancel"
         />
         <submit-button />
