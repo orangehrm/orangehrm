@@ -480,5 +480,5 @@ langStrings:
     value: 'Reject'
     unitId: reject
   -
-    value: '{amount,plural, =0{No Records{action}} one{One Record {action}} other{(#) Records {action}}}'
+    value: '{count,plural, =0{No Records{action}} one{1 Record {action}} other{# Records {action}}}'
     unitId: n_records_action

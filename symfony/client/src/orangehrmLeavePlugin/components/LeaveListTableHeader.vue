@@ -22,7 +22,7 @@
   <div class="orangehrm-header-container">
     <div v-if="bulkActions && selected > 0" class="actions">
       <oxd-text tag="span">
-        {{ itemSelectedText }}
+        {{ $t('general.n_records_action', {count: selected, action: 'Selected'}) }}
       </oxd-text>
       <oxd-button
         v-if="bulkActions.APPROVE"
@@ -43,7 +43,9 @@
         @click="$emit('onActionClick', 'CANCEL')"
       />
     </div>
-    <oxd-text v-else tag="span">{{ itemCountText }}</oxd-text>
+    <oxd-text v-else tag="span">
+      {{ $t('general.n_records_action', {count: total, action: 'Found'}) }}
+    </oxd-text>
   </div>
 </template>
 
