@@ -19,7 +19,11 @@
  -->
 
 <template>
-  <oxd-input-field type="select" label="Employment Status" :options="options" />
+  <oxd-input-field
+    type="select"
+    :label="$t('general.employment_status')"
+    :options="options"
+  />
 </template>
 
 <script>

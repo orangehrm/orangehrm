@@ -21,7 +21,7 @@
 <template>
   <oxd-input-field
     type="autocomplete"
-    label="Name"
+    :label="$t('general.name')"
     :clear="false"
     :create-options="loadEmployees"
   >
@@ -31,7 +31,7 @@
     <template #option="{data}">
       <span>{{ data.label }}</span>
       <div v-if="data.isPastEmployee" class="past-employee-tag">
-        (Past Employee)
+        {{ $t('general.past_employee') }}
       </div>
     </template>
   </oxd-input-field>

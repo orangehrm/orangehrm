@@ -20,7 +20,9 @@
 
 <template>
   <div class="orangehrm-horizontal-padding orangehrm-top-padding">
-    <oxd-text tag="h6" class="orangehrm-main-title">Add Language</oxd-text>
+    <oxd-text tag="h6" class="orangehrm-main-title">{{
+      $t('general.add_language')
+    }}</oxd-text>
     <oxd-divider />
     <oxd-form :loading="isLoading" @submitValid="onSave">
       <oxd-form-row>
@@ -30,7 +32,7 @@
               :key="allowedLanguages"
               v-model="language.languageId"
               type="select"
-              label="Language"
+              :label="$t('general.language')"
               :options="allowedLanguages"
               :rules="rules.languageId"
               :clear="false"
@@ -42,7 +44,7 @@
               :key="allowedFluencies"
               v-model="language.fluencyId"
               type="select"
-              label="Fluency"
+              :label="$t('pim.fluency')"
               :options="allowedFluencies"
               :rules="rules.fluencyId"
               :clear="false"
@@ -53,7 +55,7 @@
             <oxd-input-field
               v-model="language.competencyId"
               type="select"
-              label="Competency"
+              :label="$t('pim.competency')"
               :options="competencies"
               :rules="rules.competencyId"
               :clear="false"
@@ -69,7 +71,7 @@
             <oxd-input-field
               v-model="language.comment"
               type="textarea"
-              label="Comments"
+              :label="$t('general.comments')"
               :rules="rules.comment"
             />
           </oxd-grid-item>
@@ -81,7 +83,7 @@
         <oxd-button
           type="button"
           display-type="ghost"
-          label="Cancel"
+          :label="$t('general.cancel')"
           @click="onCancel"
         />
         <submit-button />

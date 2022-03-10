@@ -38,7 +38,7 @@
     ></edit-language>
     <div class="orangehrm-horizontal-padding orangehrm-vertical-padding">
       <profile-action-header @click="onClickAdd">
-        Languages
+        {{ $t('general.languages') }}
       </profile-action-header>
     </div>
     <table-header
@@ -150,14 +150,27 @@ export default {
   data() {
     return {
       headers: [
-        {name: 'language', slot: 'title', title: 'Language', style: {flex: 1}},
-        {name: 'fluency', title: 'Fluency', style: {flex: 1}},
-        {name: 'competency', title: 'Competency', style: {flex: 1}},
-        {name: 'comments', title: 'Comments', style: {flex: 1}},
+        {
+          name: 'language',
+          slot: 'title',
+          title: this.$t('general.language'),
+          style: {flex: 1},
+        },
+        {name: 'fluency', title: this.$t('pim.fluency'), style: {flex: 1}},
+        {
+          name: 'competency',
+          title: this.$t('pim.competency'),
+          style: {flex: 1},
+        },
+        {
+          name: 'comments',
+          title: this.$t('general.comments'),
+          style: {flex: 1},
+        },
         {
           name: 'actions',
           slot: 'action',
-          title: 'Actions',
+          title: this.$t('general.actions'),
           style: {'flex-basis': '10em'},
           cellType: 'oxd-table-cell-actions',
           cellConfig: {

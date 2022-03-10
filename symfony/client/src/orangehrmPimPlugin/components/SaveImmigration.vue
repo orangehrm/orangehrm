@@ -21,7 +21,7 @@
 <template>
   <div class="orangehrm-horizontal-padding orangehrm-vertical-padding">
     <oxd-text tag="h6" class="orangehrm-main-title">
-      Add Immigration
+      {{ $t('pim.add_immigration') }}
     </oxd-text>
     <oxd-divider />
     <oxd-form :loading="isLoading" @submitValid="onSave">
@@ -29,19 +29,19 @@
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
           <oxd-grid-item>
             <oxd-input-group
-              label="Document"
+              :label="$t('pim.document')"
               :classes="{wrapper: '--gender-grouped-field'}"
             >
               <oxd-input-field
                 v-model="immigration.type"
                 type="radio"
-                option-label="Passport"
+                :option-label="$t('pim.passport')"
                 value="1"
               />
               <oxd-input-field
                 v-model="immigration.type"
                 type="radio"
-                option-label="Visa"
+                :option-label="$t('pim.visa')"
                 value="2"
               />
             </oxd-input-group>
@@ -53,7 +53,7 @@
           <oxd-grid-item>
             <oxd-input-field
               v-model="immigration.number"
-              label="Number"
+              :label="$t('pim.number')"
               :rules="rules.number"
               required
             />
@@ -61,14 +61,14 @@
           <oxd-grid-item>
             <date-input
               v-model="immigration.issuedDate"
-              label="Issued Date"
+              :label="$t('pim.issued_date')"
               :rules="rules.issuedDate"
             />
           </oxd-grid-item>
           <oxd-grid-item>
             <date-input
               v-model="immigration.expiryDate"
-              label="Expiry Date"
+              :label="$t('general.expiry_date')"
               :years="yearArray"
               :rules="rules.expiryDate"
             />
@@ -76,7 +76,7 @@
           <oxd-grid-item>
             <oxd-input-field
               v-model="immigration.status"
-              label="Eligible Status"
+              :label="$t('pim.eligible_status')"
               :rules="rules.status"
             />
           </oxd-grid-item>
@@ -84,14 +84,14 @@
             <oxd-input-field
               v-model="immigration.countryCode"
               type="select"
-              label="Issued by"
+              :label="$t('pim.issued_by')"
               :options="countries"
             />
           </oxd-grid-item>
           <oxd-grid-item>
             <date-input
               v-model="immigration.reviewDate"
-              label="Eligible Review Date"
+              :label="$t('pim.eligible_review_date')"
               :rules="rules.reviewDate"
             />
           </oxd-grid-item>
@@ -99,8 +99,8 @@
             <oxd-input-field
               v-model="immigration.comment"
               type="textarea"
-              label="Comments"
-              placeholder="Type Comments here"
+              :label="$t('general.comments')"
+              :placeholder="$t('general.type_comments_here')"
               :rules="rules.comment"
             />
           </oxd-grid-item>
@@ -112,7 +112,7 @@
         <oxd-button
           type="button"
           display-type="ghost"
-          label="Cancel"
+          :label="$t('general.cancel')"
           @click="onCancel"
         />
         <submit-button />
@@ -169,7 +169,7 @@ export default {
           validDateFormat(),
           endDateShouldBeAfterStartDate(
             () => this.immigration.issuedDate,
-            'Expiry date should be after issued date',
+            this.$t('pim.expiry_date_should_be_after_issued_date'),
           ),
         ],
         status: [shouldNotExceedCharLength(30)],

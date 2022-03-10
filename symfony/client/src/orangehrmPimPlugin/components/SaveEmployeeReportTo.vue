@@ -20,7 +20,9 @@
 
 <template>
   <div class="orangehrm-horizontal-padding orangehrm-top-padding">
-    <oxd-text tag="h6" class="orangehrm-main-title">Add {{ type }}</oxd-text>
+    <oxd-text tag="h6" class="orangehrm-main-title"
+      >{{ $t('general.add') }} {{ type }}</oxd-text
+    >
     <oxd-divider />
     <oxd-form :loading="isLoading" @submitValid="onSave">
       <oxd-form-row>
@@ -37,7 +39,7 @@
             <oxd-input-field
               v-model="reportTo.reportingMethod"
               type="select"
-              label="Reporting Method"
+              :label="$t('pim.reporting_method')"
               :rules="rules.reportingMethod"
               :options="reportingMethods"
               required
