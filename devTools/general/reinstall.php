@@ -121,7 +121,10 @@ INSERT INTO `hs_hr_employee` (`emp_number`, `employee_id`, `emp_firstname`, `emp
 INSERT INTO `ohrm_user` ( `user_name`, `user_password`,`user_role_id`, `emp_number`) VALUES ('admin','".md5($password)."','1', '1');";
     
     if (mysqli_multi_query($conn, $q)) {
-        echo "Successfully created default Admin. Username: admin, Password: $password<br>\n";
+        echo "Successfully created default Admin. Username: admin, Password: $password\n\n";
+        do {
+            mysqli_store_result($conn);
+        } while (mysqli_next_result($conn));
     } else {
         echo "Error when creating default admin, query: $q. Error details: " . mysqli_error($conn) . ".<br>\n";
         die;
@@ -130,8 +133,10 @@ INSERT INTO `ohrm_user` ( `user_name`, `user_password`,`user_role_id`, `emp_numb
 }
 
 function createOrganizationInfo($conn) {
-    $q = "INSERT INTO `ohrm_organization_gen_info` (`id`, `name`) VALUES (NULL, 'OrangeHRM')";
-    mysqli_query($conn, $q);
+    $q = "
+INSERT INTO `ohrm_organization_gen_info` (`id`, `name`) VALUES (NULL, 'OrangeHRM');
+INSERT INTO `hs_hr_config` (`name`, `value`) VALUES ('instance.identifier', '');";
+    mysqli_multi_query($conn, $q);
 }
 
 function displayQueries($queryList) {
