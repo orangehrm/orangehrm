@@ -50,7 +50,7 @@
           v-model="orgUnit.description"
           type="textarea"
           :label="$t('general.description')"
-          placeholder="Type description here"
+          :placeholder="$t('general.type_description_here')"
           :rules="rules.description"
         />
       </oxd-form-row>

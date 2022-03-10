@@ -22,10 +22,12 @@
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
       <div class="orangehrm-header-container">
-        <oxd-text tag="h6" class="orangehrm-main-title">Localization</oxd-text>
+        <oxd-text tag="h6" class="orangehrm-main-title">{{
+          $t('admin.localization')
+        }}</oxd-text>
         <oxd-switch-input
           v-model="editable"
-          option-label="Edit"
+          :option-label="$t('general.edit')"
           label-position="left"
         />
       </div>
@@ -37,7 +39,7 @@
             <oxd-grid-item>
               <oxd-input-field
                 v-model="configuration.language"
-                label="Language"
+                :label="$t('general.language')"
                 type="select"
                 :show-empty-selector="false"
                 :rules="rules.language"
@@ -52,7 +54,7 @@
           <oxd-grid :cols="2" class="orangehrm-full-width-grid">
             <oxd-grid-item class="switch-form-field">
               <oxd-text class="switch-form-field-text" tag="p">
-                Use Browser Language If Set
+                {{ $t('admin.use_browser_language_if_set') }}
               </oxd-text>
               <oxd-switch-input
                 v-model="configuration.useBrowserLanguage"
@@ -67,7 +69,7 @@
             <oxd-grid-item>
               <oxd-input-field
                 v-model="configuration.dateFormat"
-                label="Date Format"
+                :label="$t('admin.date_format')"
                 type="select"
                 :show-empty-selector="false"
                 :rules="rules.dateFormat"
