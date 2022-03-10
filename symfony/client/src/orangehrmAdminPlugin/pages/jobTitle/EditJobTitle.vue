@@ -44,7 +44,7 @@
                 v-model="jobTitle.description"
                 type="textarea"
                 :label="$t('general.job_description')"
-                placeholder="Type description here"
+                :placeholder="$t('general.type_description_here')"
                 :rules="rules.description"
               />
             </oxd-form-row>
@@ -54,7 +54,7 @@
                 v-model:newFile="jobTitle.newSpecification"
                 v-model:method="jobTitle.method"
                 :label="$t('general.job_specification')"
-                button-label="Browse"
+                :button-label="$t('general.browse')"
                 :file="jobTitle.oldSpecification"
                 :rules="rules.specification"
                 :url="`admin/viewJobSpecification/attachId`"
@@ -67,7 +67,7 @@
                 v-model="jobTitle.note"
                 type="textarea"
                 :label="$t('general.note')"
-                placeholder="Add note"
+                :placeholder="$t('general.add_note')"
                 :rules="rules.note"
                 label-icon="pencil-square"
               />

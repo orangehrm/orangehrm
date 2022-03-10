@@ -35,7 +35,7 @@
                 :rules="rules.name"
                 required
                 :disabled="!hasCreatePermissions"
-                placeholder="Type here ..."
+                :placeholder="$t('general.type_here_message')"
               />
             </oxd-grid-item>
           </oxd-grid>
@@ -49,7 +49,7 @@
                 :label="$t('general.city')"
                 :rules="rules.city"
                 :disabled="!hasCreatePermissions"
-                placeholder="Type here ..."
+                :placeholder="$t('general.type_here_message')"
               />
             </oxd-grid-item>
             <oxd-grid-item>
@@ -58,7 +58,7 @@
                 :label="$t('general.state_province')"
                 :rules="rules.province"
                 :disabled="!hasCreatePermissions"
-                placeholder="Type here ..."
+                :placeholder="$t('general.type_here_message')"
               />
             </oxd-grid-item>
             <oxd-grid-item>
@@ -67,7 +67,7 @@
                 :label="$t('general.zip_postal_code')"
                 :rules="rules.zipCode"
                 :disabled="!hasCreatePermissions"
-                placeholder="Type here ..."
+                :placeholder="$t('general.type_here_message')"
               />
             </oxd-grid-item>
             <oxd-grid-item>
@@ -88,7 +88,7 @@
                 :label="$t('general.phone')"
                 :rules="rules.phone"
                 :disabled="!hasCreatePermissions"
-                placeholder="Type here ..."
+                :placeholder="$t('general.type_here_message')"
               />
             </oxd-grid-item>
             <oxd-grid-item>
@@ -97,7 +97,7 @@
                 :label="$t('general.fax')"
                 :rules="rules.fax"
                 :disabled="!hasCreatePermissions"
-                placeholder="Type here ..."
+                :placeholder="$t('general.type_here_message')"
               />
             </oxd-grid-item>
             <oxd-grid-item>
@@ -107,7 +107,7 @@
                 :label="$t('admin.address')"
                 :rules="rules.address"
                 :disabled="!hasCreatePermissions"
-                placeholder="Type here ..."
+                :placeholder="$t('general.type_here_message')"
               />
             </oxd-grid-item>
             <oxd-grid-item>
@@ -117,7 +117,7 @@
                 :label="$t('general.notes')"
                 :rules="rules.note"
                 :disabled="!hasCreatePermissions"
-                placeholder="Type here ..."
+                :placeholder="$t('general.type_here_message')"
               />
             </oxd-grid-item>
           </oxd-grid>
