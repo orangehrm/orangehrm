@@ -27,7 +27,6 @@
         :action="submitUrl"
         @submitValid="onSubmit"
       >
-        <!--      <input name="_token" :value="token" type="hidden" />-->
         <oxd-text class="orangehrm-admin-access-title">
           Administrator Access
         </oxd-text>
@@ -55,7 +54,7 @@
             name="username"
             label="Username"
             label-icon="person"
-            readonly
+            disabled
           />
         </oxd-form-row>
         <oxd-form-row>

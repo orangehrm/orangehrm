@@ -4477,3 +4477,12 @@ SET @admin_role_id := (SELECT `id` FROM ohrm_user_role WHERE `name` = 'Admin' LI
 
 INSERT INTO ohrm_user_role_data_group (`can_read`, `can_create`, `can_update`, `can_delete`, `self`, `data_group_id`,`user_role_id`)
 VALUES (1, 0, 0, 1, 0, @apiv2_purge_employee_data_group_id, @admin_role_id);
+
+INSERT INTO ohrm_data_group (`name`, `description`, `can_read`, `can_create`, `can_update`, `can_delete`)
+VALUES ('auth_admin_verify', 'Auth - Administrator Verify', 1, 0, 0, 0);
+
+SET @core_module_id := (SELECT `id` FROM ohrm_module WHERE name = 'core' LIMIT 1);
+SET @auth_admin_verify_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'auth_admin_verify' LIMIT 1);
+
+INSERT INTO ohrm_user_role_data_group (`can_read`, `can_create`, `can_update`, `can_delete`, `self`, `data_group_id`,`user_role_id`)
+VALUES (1, 0, 0, 0, 0, @auth_admin_verify_data_group_id, @admin_role_id);

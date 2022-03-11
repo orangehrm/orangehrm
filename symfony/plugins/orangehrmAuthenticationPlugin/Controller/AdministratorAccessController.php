@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Authentication\Controller;
 
+use OrangeHRM\Admin\Traits\Service\UserServiceTrait;
 use OrangeHRM\Authentication\Auth\User as AuthUser;
 use OrangeHRM\Authentication\Csrf\CsrfTokenManager;
 use OrangeHRM\Core\Controller\AbstractVueController;
@@ -27,13 +28,13 @@ use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
-use OrangeHRM\Entity\User;
 use OrangeHRM\Framework\Http\Request;
 
 class AdministratorAccessController extends AbstractVueController implements PublicControllerInterface
 {
     use AuthUserTrait;
     use EntityManagerHelperTrait;
+    use UserServiceTrait;
 
     /**
      * @inheritDoc
@@ -42,7 +43,6 @@ class AdministratorAccessController extends AbstractVueController implements Pub
     {
         $component = new Component('auth-admin-access');
 
-        //TODO throw exception if no forward URL in both query and session
         $forwardUrl = $request->query->get('forward');
         if (isset($forwardUrl)) {
             $this->getAuthUser()->setAttribute(AuthUser::ADMIN_ACCESS_FORWARD_URL, $forwardUrl);
@@ -55,12 +55,8 @@ class AdministratorAccessController extends AbstractVueController implements Pub
             $backUrl = $this->getAuthUser()->getAttribute(AuthUser::ADMIN_ACCESS_BACK_URL);
         }
 
-        $currentRequest = $this->getCurrentRequest();
-        $baseUrl = $currentRequest->getSchemeAndHttpHost() . $currentRequest->getBaseUrl();
-        $formattedBackUrl = str_replace($baseUrl, '', $backUrl);
-
         $component->addProp(
-            new Prop('back-url', Prop::TYPE_STRING, $formattedBackUrl)
+            new Prop('back-url', Prop::TYPE_STRING, $backUrl)
         );
 
         if ($this->getAuthUser()->hasFlash(AuthUser::FLASH_VERIFY_ERROR)) {
@@ -76,10 +72,13 @@ class AdministratorAccessController extends AbstractVueController implements Pub
 
         if ($this->getAuthUser()->isAuthenticated()) {
             $userId = $this->getAuthUser()->getUserId();
-            $username = $this->getRepository(User::class)->find($userId)->getUsername();
-            $component->addProp(
-                new Prop('username', Prop::TYPE_STRING, $username)
-            );
+            $systemUser = $this->getUserService()->getSystemUser($userId);
+            if (isset($systemUser)) {
+                $username = $systemUser->getUserName();
+                $component->addProp(
+                    new Prop('username', Prop::TYPE_STRING, $username)
+                );
+            }
             $component->addProp(
                 new Prop('backUrl', Prop::TYPE_STRING, $backUrl)
             );

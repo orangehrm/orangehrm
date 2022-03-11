@@ -20,18 +20,19 @@
 namespace OrangeHRM\Authentication\Controller\Traits;
 
 use LogicException;
+use OrangeHRM\Authentication\Controller\AdministratorAccessController;
 use OrangeHRM\Authentication\Controller\AdminPrivilegeControllerInterface;
 use OrangeHRM\Core\Controller\AbstractVueController;
-use OrangeHRM\Framework\Http\RedirectResponse;
 use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Framework\Http\Response;
 
 trait AdministratorAccessTrait
 {
     /**
-     * @param Request $request
-     * @return RedirectResponse
+     * @param Request $request Provide request from handle method in controller
+     * @return Response
      */
-    public function redirectToAdministratorAccess(Request $request): RedirectResponse
+    public function forwardToAdministratorAccess(Request $request): Response
     {
         if (!$this instanceof AdminPrivilegeControllerInterface) {
             throw new LogicException(
@@ -44,8 +45,19 @@ trait AdministratorAccessTrait
             );
         }
 
-        $forwardUrl = $this->getCurrentRequest()->getPathInfo();
+        $currentRequest = $this->getCurrentRequest();
+
+        $forwardUrl = $currentRequest->getPathInfo();
+
+        //TODO check referer consistency and limitations
         $backUrl = $request->headers->get('referer');
-        return $this->redirect('auth/adminAccess?forward=' . $forwardUrl . '&back=' . $backUrl);
+        $baseUrl = $currentRequest->getSchemeAndHttpHost() . $currentRequest->getBaseUrl();
+        $formattedBackUrl = str_replace($baseUrl, '', $backUrl);
+
+        return $this->forward(
+            AdministratorAccessController::class . '::handle',
+            [],
+            ['forward' => $forwardUrl, 'back' => $formattedBackUrl]
+        );
     }
 }

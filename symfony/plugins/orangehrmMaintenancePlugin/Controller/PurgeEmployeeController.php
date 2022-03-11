@@ -46,7 +46,7 @@ class PurgeEmployeeController extends AbstractVueController implements AdminPriv
     public function handle(Request $request)
     {
         if (!$this->getAuthUser()->getHasAdminAccess()) {
-            return $this->redirectToAdministratorAccess($request);
+            return $this->forwardToAdministratorAccess($request);
         }
         return parent::handle($request);
     }
