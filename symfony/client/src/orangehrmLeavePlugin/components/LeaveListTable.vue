@@ -223,7 +223,7 @@ export default {
         validDateFormat(),
         endDateShouldBeAfterStartDate(
           () => filters.value.fromDate,
-          'To date should be after from date',
+            this.$t('general.to_date_should_be_after_from_date'),
           {allowSameDate: true},
         ),
       ],
@@ -492,8 +492,8 @@ export default {
             this.$toast.success({
               title: this.$t('general.success'),
               message: this.$t('leave.leave_requests_action', {
-                amount: data.length,
                 action: action,
+                count: data.length,
               }),
             });
         })

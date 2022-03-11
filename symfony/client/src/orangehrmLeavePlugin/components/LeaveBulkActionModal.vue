@@ -35,7 +35,7 @@
           {{
             $t('leave.bulk_leave_action_confirm_message_one', {
               action: action,
-              amount: count,
+              count: count,
             })
           }}
           {{ $t('leave.bulk_leave_action_confirm_message_two') }}
