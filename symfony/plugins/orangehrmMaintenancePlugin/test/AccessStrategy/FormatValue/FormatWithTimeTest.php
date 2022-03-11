@@ -14,39 +14,27 @@
  *
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
- * Boston, MA 02110-1301, USA
+ * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Maintenance\FormatValueStrategy;
+namespace OrangeHRM\Tests\Maintenance\AccessStrategy\FormatValue;
 
-use OrangeHRM\Admin\Service\EducationService;
-use OrangeHRM\Core\Exception\DaoException;
+use DateTime;
+use OrangeHRM\Maintenance\AccessStrategy\FormatValue\FormatWithTime;
+use OrangeHRM\Tests\Util\TestCase;
 
-/**
- * Class FormatWithEducation
- */
-class FormatWithEducation implements ValueFormatter
+class FormatWithTimeTest extends TestCase
 {
-    private ?EducationService $educationService = null;
+    private FormatWithTime $formatWithTime;
 
-    /**
-     * @param $entityValue
-     * @return null|string
-     * @throws DaoException
-     */
-    public function getFormattedValue($entityValue): ?string
+    protected function setUp(): void
     {
-        return $this->getEducationService()->getEducationById($entityValue->getId())->getName();
+        $this->formatWithTime = new  FormatWithTime();
     }
 
-    /**
-     * @return EducationService
-     */
-    public function getEducationService(): EducationService
+    public function testGetFormattedValue(): void
     {
-        if (!($this->educationService instanceof EducationService)) {
-            $this->educationService = new EducationService();
-        }
-        return $this->educationService;
+        $this->assertEquals("00:00:00", $this->formatWithTime->getFormattedValue(new DateTime('2020-10-12')));
+        $this->assertEquals(null, $this->formatWithTime->getFormattedValue('2020-10-12'));
     }
 }

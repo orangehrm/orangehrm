@@ -17,36 +17,22 @@
  * Boston, MA 02110-1301, USA
  */
 
-namespace OrangeHRM\Maintenance\FormatValueStrategy;
+namespace OrangeHRM\Maintenance\AccessStrategy\FormatValue;
 
-use OrangeHRM\Admin\Service\EducationService;
-use OrangeHRM\Core\Exception\DaoException;
+use DateTime;
+use OrangeHRM\Maintenance\FormatValueStrategy\ValueFormatter;
 
-/**
- * Class FormatWithEducation
- */
-class FormatWithEducation implements ValueFormatter
+class FormatWithDateTime implements ValueFormatter
 {
-    private ?EducationService $educationService = null;
-
     /**
      * @param $entityValue
      * @return null|string
-     * @throws DaoException
      */
     public function getFormattedValue($entityValue): ?string
     {
-        return $this->getEducationService()->getEducationById($entityValue->getId())->getName();
-    }
-
-    /**
-     * @return EducationService
-     */
-    public function getEducationService(): EducationService
-    {
-        if (!($this->educationService instanceof EducationService)) {
-            $this->educationService = new EducationService();
+        if ($entityValue instanceof DateTime) {
+            return $entityValue->format('Y-m-d H:i:s');
         }
-        return $this->educationService;
+        return null;
     }
 }

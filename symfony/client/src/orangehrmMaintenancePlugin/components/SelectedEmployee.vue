@@ -101,9 +101,7 @@ export default {
       default: false,
     },
   },
-
   emits: ['submit'],
-
   setup(props) {
     const imgSrc = computed(() => {
       return `${window.appGlobal.baseUrl}/pim/viewPhoto/empNumber/${props.selectedEmployee.empNumber}`;
@@ -124,7 +122,6 @@ export default {
       },
     };
   },
-
   methods: {
     emitEmpNumber() {
       this.$emit('submit', this.selectedEmployee.empNumber);

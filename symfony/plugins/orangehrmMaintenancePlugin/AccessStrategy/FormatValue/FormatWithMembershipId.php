@@ -17,36 +17,37 @@
  * Boston, MA 02110-1301, USA
  */
 
-namespace OrangeHRM\Maintenance\FormatValueStrategy;
+namespace OrangeHRM\Maintenance\AccessStrategy\FormatValue;
 
-use OrangeHRM\Admin\Service\EducationService;
-use OrangeHRM\Core\Exception\DaoException;
+use OrangeHRM\Admin\Service\MembershipService;
+use OrangeHRM\Entity\Membership;
+use OrangeHRM\Maintenance\FormatValueStrategy\ValueFormatter;
 
-/**
- * Class FormatWithEducation
- */
-class FormatWithEducation implements ValueFormatter
+class FormatWithMembershipId implements ValueFormatter
 {
-    private ?EducationService $educationService = null;
+    private ?MembershipService $membershipService = null;
 
     /**
      * @param $entityValue
-     * @return null|string
-     * @throws DaoException
+     * @return string|null
      */
     public function getFormattedValue($entityValue): ?string
     {
-        return $this->getEducationService()->getEducationById($entityValue->getId())->getName();
+        $memberShip = $this->getMembershipService()->getMembershipById($entityValue);
+        if ($memberShip instanceof Membership) {
+            return $memberShip->getName();
+        }
+        return null;
     }
 
     /**
-     * @return EducationService
+     * @return MembershipService
      */
-    public function getEducationService(): EducationService
+    public function getMembershipService(): MembershipService
     {
-        if (!($this->educationService instanceof EducationService)) {
-            $this->educationService = new EducationService();
+        if (is_null($this->membershipService)) {
+            $this->membershipService = new MembershipService();
         }
-        return $this->educationService;
+        return $this->membershipService;
     }
 }

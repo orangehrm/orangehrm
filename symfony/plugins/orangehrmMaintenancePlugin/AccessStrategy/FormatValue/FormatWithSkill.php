@@ -17,36 +17,37 @@
  * Boston, MA 02110-1301, USA
  */
 
-namespace OrangeHRM\Maintenance\FormatValueStrategy;
+namespace OrangeHRM\Maintenance\AccessStrategy\FormatValue;
 
-use OrangeHRM\Admin\Service\EducationService;
-use OrangeHRM\Core\Exception\DaoException;
+use OrangeHRM\Admin\Service\SkillService;
+use OrangeHRM\Entity\Skill;
+use OrangeHRM\Maintenance\FormatValueStrategy\ValueFormatter;
 
-/**
- * Class FormatWithEducation
- */
-class FormatWithEducation implements ValueFormatter
+class FormatWithSkill implements ValueFormatter
 {
-    private ?EducationService $educationService = null;
+    private ?SkillService $skillService=null;
 
     /**
      * @param $entityValue
-     * @return null|string
-     * @throws DaoException
+     * @return string|null
      */
     public function getFormattedValue($entityValue): ?string
     {
-        return $this->getEducationService()->getEducationById($entityValue->getId())->getName();
+        $skill=$this->getSkillService()->getSkillById($entityValue);
+        if ($skill instanceof Skill) {
+            return $skill->getName();
+        }
+        return null;
     }
 
     /**
-     * @return EducationService
+     * @return SkillService
      */
-    public function getEducationService(): EducationService
+    public function getSkillService(): SkillService
     {
-        if (!($this->educationService instanceof EducationService)) {
-            $this->educationService = new EducationService();
+        if (!($this->skillService instanceof SkillService)) {
+            $this->skillService = new SkillService();
         }
-        return $this->educationService;
+        return $this->skillService;
     }
 }

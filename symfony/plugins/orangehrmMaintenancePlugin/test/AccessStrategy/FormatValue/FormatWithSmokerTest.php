@@ -14,39 +14,26 @@
  *
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
- * Boston, MA 02110-1301, USA
+ * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Maintenance\FormatValueStrategy;
+namespace OrangeHRM\Tests\Maintenance\AccessStrategy\FormatValue;
 
-use OrangeHRM\Admin\Service\EducationService;
-use OrangeHRM\Core\Exception\DaoException;
+use OrangeHRM\Maintenance\AccessStrategy\FormatValue\FormatWithSmoker;
+use OrangeHRM\Tests\Util\TestCase;
 
-/**
- * Class FormatWithEducation
- */
-class FormatWithEducation implements ValueFormatter
+class FormatWithSmokerTest extends TestCase
 {
-    private ?EducationService $educationService = null;
+    private FormatWithSmoker $formatWithSmoker;
 
-    /**
-     * @param $entityValue
-     * @return null|string
-     * @throws DaoException
-     */
-    public function getFormattedValue($entityValue): ?string
+    protected function setUp(): void
     {
-        return $this->getEducationService()->getEducationById($entityValue->getId())->getName();
+        $this->formatWithSmoker = new FormatWithSmoker();
     }
 
-    /**
-     * @return EducationService
-     */
-    public function getEducationService(): EducationService
+    public function testGetFormattedValue(): void
     {
-        if (!($this->educationService instanceof EducationService)) {
-            $this->educationService = new EducationService();
-        }
-        return $this->educationService;
+        $this->assertEquals('Smoker', $this->formatWithSmoker->getFormattedValue(1));
+        $this->assertEquals(null, $this->formatWithSmoker->getFormattedValue(0));
     }
 }

@@ -29,7 +29,7 @@ class ReportToAccessStrategy extends AccessStrategy
     {
         $entityAccessData = [];
         $matchByValues = $matchByValues = [
-            'subordinateId' => $employeeNumber
+            'subordinate' => $employeeNumber
         ];
         $accessEntities = $this->getEntityRecords($matchByValues, $this->getEntityClassName());
         foreach ($accessEntities as $accessEntity) {
@@ -38,7 +38,7 @@ class ReportToAccessStrategy extends AccessStrategy
         }
 
         $matchByValues = [
-            'supervisorId' => $employeeNumber
+            'supervisor' => $employeeNumber
         ];
         $accessEntities = $this->getEntityRecords($matchByValues, $this->getEntityClassName());
         foreach ($accessEntities as $accessEntity) {

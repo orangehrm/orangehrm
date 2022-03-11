@@ -17,36 +17,27 @@
  * Boston, MA 02110-1301, USA
  */
 
-namespace OrangeHRM\Maintenance\FormatValueStrategy;
+namespace OrangeHRM\Tests\Maintenance\AccessStrategy\FormatValue;
 
-use OrangeHRM\Admin\Service\EducationService;
-use OrangeHRM\Core\Exception\DaoException;
+use OrangeHRM\Config\Config;
+use OrangeHRM\Maintenance\AccessStrategy\FormatValue\FormatWithBase64Encode;
+use OrangeHRM\Tests\Util\KernelTestCase;
+use OrangeHRM\Tests\Util\TestDataService;
 
-/**
- * Class FormatWithEducation
- */
-class FormatWithEducation implements ValueFormatter
+class FormatWithBase64EncodeTest extends KernelTestCase
 {
-    private ?EducationService $educationService = null;
+    private string $fixture;
+    private FormatWithBase64Encode $formatWithBase64Encode;
 
-    /**
-     * @param $entityValue
-     * @return null|string
-     * @throws DaoException
-     */
-    public function getFormattedValue($entityValue): ?string
+    protected function setUp(): void
     {
-        return $this->getEducationService()->getEducationById($entityValue->getId())->getName();
+        $this->fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmMaintenancePlugin/test/fixtures/EmployeeDao.yml';
+        TestDataService::populate($this->fixture);
+        $this->formatWithBase64Encode = new FormatWithBase64Encode();
     }
 
-    /**
-     * @return EducationService
-     */
-    public function getEducationService(): EducationService
+    public function testGetFormattedValue(): void
     {
-        if (!($this->educationService instanceof EducationService)) {
-            $this->educationService = new EducationService();
-        }
-        return $this->educationService;
+        $this->assertEquals("UGljdHVyZTE=", $this->formatWithBase64Encode->getFormattedValue("Picture1"));
     }
 }

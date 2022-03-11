@@ -17,14 +17,12 @@
  * Boston, MA 02110-1301, USA
  */
 
-namespace OrangeHRM\Maintenance\FormatValueStrategy;
+namespace OrangeHRM\Maintenance\AccessStrategy\FormatValue;
 
+use OrangeHRM\Entity\Education;
+use OrangeHRM\Maintenance\FormatValueStrategy\ValueFormatter;
 use OrangeHRM\Admin\Service\EducationService;
-use OrangeHRM\Core\Exception\DaoException;
 
-/**
- * Class FormatWithEducation
- */
 class FormatWithEducation implements ValueFormatter
 {
     private ?EducationService $educationService = null;
@@ -32,11 +30,14 @@ class FormatWithEducation implements ValueFormatter
     /**
      * @param $entityValue
      * @return null|string
-     * @throws DaoException
      */
     public function getFormattedValue($entityValue): ?string
     {
-        return $this->getEducationService()->getEducationById($entityValue->getId())->getName();
+        $education=$this->getEducationService()->getEducationById($entityValue);
+        if ($education instanceof  Education) {
+            return $education->getName();
+        }
+        return null;
     }
 
     /**
