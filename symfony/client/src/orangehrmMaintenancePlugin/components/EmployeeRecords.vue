@@ -52,6 +52,7 @@
 </template>
 
 <script>
+import {required} from '@/core/util/validation/rules';
 import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
 import RequiredText from '@/core/components/labels/RequiredText';
 
@@ -84,13 +85,7 @@ export default {
     return {
       employee: null,
       rules: {
-        employee: [
-          employee => {
-            if (typeof employee === 'object') {
-              return employee !== null || 'Invalid';
-            }
-          },
-        ],
+        employee: [required],
       },
     };
   },

@@ -20,13 +20,7 @@
 
 <template>
   <div class="orangehrm-background-container">
-    <verify-password
-      v-if="!verified"
-      :title-label="title"
-      @verify="onClickVerify"
-    />
     <purge-employee-records
-      v-if="verified"
       include-employees-param="onlyPast"
       :title-label="title"
       autocomplete-label="Past Employee"
@@ -40,6 +34,9 @@
       button-label="Purge"
       @submit="onClickPurge"
     />
+
+    <br v-if="showPurgeableEmployee" />
+    <maintenance-note />
 
     <purge-confirmation
       ref="purgeDialog"
@@ -57,8 +54,8 @@ import {navigate} from '@/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
 import SelectedEmployee from '@/orangehrmMaintenancePlugin/components/SelectedEmployee';
 import EmployeeRecords from '@/orangehrmMaintenancePlugin/components/EmployeeRecords';
-import VerifyPassword from '@/orangehrmMaintenancePlugin/components/VerifyPassword';
 import ConfirmationDialog from '@/core/components/dialogs/ConfirmationDialog';
+import MaintenanceNote from '@/orangehrmMaintenancePlugin/components/MaintenanceNote';
 
 const selectedEmployeeModel = {
   firstName: '',
@@ -72,9 +69,9 @@ export default {
   name: 'PurgeEmployee',
   components: {
     'purge-confirmation': ConfirmationDialog,
-    'verify-password': VerifyPassword,
     'purge-employee-records': EmployeeRecords,
     'selected-employee': SelectedEmployee,
+    'maintenance-note': MaintenanceNote,
   },
 
   setup() {
@@ -91,8 +88,6 @@ export default {
   data() {
     return {
       title: 'Purge Employee Records',
-      //TODO change after implementing password verification
-      verified: true,
       isLoading: false,
       showPurgeableEmployee: false,
       selectedEmployee: {...selectedEmployeeModel},
@@ -100,9 +95,6 @@ export default {
   },
 
   methods: {
-    onClickVerify() {
-      this.verified = true;
-    },
     onClickSearch(employee) {
       this.selectedEmployee = {...selectedEmployeeModel};
       if (employee) {
