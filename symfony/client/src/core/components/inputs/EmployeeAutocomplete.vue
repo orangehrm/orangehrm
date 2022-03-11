@@ -74,6 +74,7 @@ export default {
                     label: `${employee.firstName} ${employee.middleName} ${employee.lastName}`,
                     _employee: employee,
                     isPastEmployee: employee.terminationId ? true : false,
+                    serachParam: serachParam,
                   };
                 }),
               );

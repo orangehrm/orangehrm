@@ -87,7 +87,9 @@ export default {
         employee: [
           employee => {
             if (typeof employee === 'object') {
-              return employee !== null || 'Invalid';
+              if (!employee) {
+                return employee.serachParam ? 'Invalid' : 'Required';
+              }
             }
           },
         ],

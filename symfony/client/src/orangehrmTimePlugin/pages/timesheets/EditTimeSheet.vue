@@ -72,7 +72,7 @@ import {
   secondsTohhmm,
   parseTimeInSeconds,
 } from '@ohrm/core/util/helper/datefns';
-import {onBeforeMount, toRefs} from 'vue';
+import {onBeforeMount, toRefs, onUpdated} from 'vue';
 import useToast from '@/core/util/composable/useToast';
 import {navigate} from '@ohrm/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
@@ -96,6 +96,7 @@ export default {
   },
 
   setup(props) {
+    let tble = document.querySelector('.orangehrm-timesheet-body');
     const http = new APIService(
       window.appGlobal.baseUrl,
       `/api/v2/time/timesheets`,
@@ -206,6 +207,23 @@ export default {
           onClickCancel();
         });
     };
+
+    const clickCallback = e => {
+      if (e.target.closest('.oxd-select-wrapper')) {
+        tble.scrollTo({top: tble.scrollHeight, behavior: 'smooth'});
+      }
+    };
+
+    const triggerScrollEvent = () => {
+      tble.addEventListener('click', clickCallback);
+    };
+
+    onUpdated(() => {
+      if (!tble) {
+        tble = document.querySelector('.orangehrm-timesheet-body');
+        triggerScrollEvent();
+      }
+    });
 
     onBeforeMount(() => loadTimesheet());
 
