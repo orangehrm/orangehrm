@@ -38,6 +38,9 @@ JobCategory:
   - { id: 2, name: 'Technicians' }
   - { id: 3, name: 'Sales Workers' }
 
+Nationality:
+  - { id: 52, name: Dutch }
+
 Employee:
   - { "emp_number": 1,"employee_id": "0001","emp_lastname": "Adalwin","emp_firstname": "Odis","emp_middle_name": "", job_title_code: 4 }
   - { "emp_number": 2,"employee_id": "0002","emp_lastname": "Anderson","emp_firstname": "Linda","emp_middle_name": "Jane", job_title_code: 1, birthday: '1990-10-02', nation_code: 52, gender: 2, maritalStatus: 'Married', otherId: 'E0002', drivingLicenseNo: '123321', drivingLicenseExpiredDate: '2021-10-29' }
@@ -45,6 +48,10 @@ Employee:
   - { "emp_number": 4,"employee_id": "0004","emp_lastname": "Abbey","emp_firstname": "Kayla","emp_middle_name": "", work_station: 5, maritalStatus: 'Other', otherEmail: 'kayla@mail.com', province: 'Western', country: 'LK', eeo_cat_code: 2, joinedDate: '2019-02-01' }
   - { "emp_number": 5,"employee_id": "0005","emp_lastname": "Abel","emp_firstname": "Ashley","emp_middle_name": "", "termination_id": 1, work_station: 3, emp_status: 2, eeo_cat_code: 1, joinedDate: '2015-10-18' }
   - { "emp_number": 6,"employee_id": "0006","emp_lastname": "Morgan","emp_firstname": "Jasmine","emp_middle_name": "", gender: 1, maritalStatus: 'Single', emp_status: 1, birthday: '1995-10-02' }
+
+Country:
+  - { cou_code: 'LK', name: 'SRI LANKA', cou_name: 'Sri Lanka', iso3: 'LKA', numcode: 144 }
+  - { cou_code: 'US', name: 'UNITED STATES', cou_name: 'United States', iso3: 'USA', numcode: 840 }
 
 Location:
   - { id: 1, name: 'Head', country_code: 'US' }
