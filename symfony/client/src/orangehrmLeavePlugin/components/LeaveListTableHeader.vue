@@ -50,8 +50,6 @@
 </template>
 
 <script>
-import {computed} from 'vue';
-
 export default {
   name: 'LeaveListTableHeader',
 
@@ -76,7 +74,6 @@ export default {
   },
 
   emits: ['onActionClick'],
-
 };
 </script>
 
