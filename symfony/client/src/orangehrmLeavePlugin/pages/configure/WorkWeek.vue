@@ -217,8 +217,8 @@ export default {
 
       if (noWorkingDays === undefined) {
         return this.$toast.warn({
-          title: 'Warning',
-          message: 'At least one day should be a working day',
+          title: this.$t('general.warning'),
+          message: this.$t('leave.at_least_one_day_should_be_a_working_day'),
         });
       }
 

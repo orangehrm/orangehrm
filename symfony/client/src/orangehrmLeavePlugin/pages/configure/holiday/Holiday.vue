@@ -190,19 +190,32 @@ export default {
           validDateFormat(),
           endDateShouldBeAfterStartDate(
             () => this.filters.fromDate,
-            'To date should be after from date',
+            this.$t('general.to_date_should_be_after_from_date'),
             {allowSameDate: true},
           ),
         ],
       },
       headers: [
-        {name: 'name', slot: 'title', title: 'Name', style: {flex: 2}},
-        {name: 'date', title: 'Date', style: {flex: 2}},
-        {name: 'length', title: 'Full Day/ Half Day', style: {flex: 2}},
-        {name: 'recurring', title: 'Repeats Annually', style: {flex: 2}},
+        {
+          name: 'name',
+          slot: 'title',
+          title: this.$t('general.name'),
+          style: {flex: 2},
+        },
+        {name: 'date', title: this.$t('general.date'), style: {flex: 2}},
+        {
+          name: 'length',
+          title: this.$t('leave.full_day_half_day'),
+          style: {flex: 2},
+        },
+        {
+          name: 'recurring',
+          title: this.$t('leave.repeats_annually'),
+          style: {flex: 2},
+        },
         {
           name: 'actions',
-          title: 'Actions',
+          title: this.$t('general.actions'),
           slot: 'action',
           style: {flex: 1},
           cellType: 'oxd-table-cell-actions',
