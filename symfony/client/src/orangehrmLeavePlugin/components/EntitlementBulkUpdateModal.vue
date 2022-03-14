@@ -34,8 +34,9 @@
     <oxd-divider class="orangehrm-horizontal-margin orangehrm-clear-margins" />
     <div class="orangehrm-horizontal-padding orangehrm-vertical-padding">
       <oxd-text type="subtitle-2">
-        The selected leave entitlement will be applied to the following
-        employees.
+        {{
+          $t('leave.selected_leave_entitlement_applied_to_following_employees')
+        }}
       </oxd-text>
     </div>
     <div class="orangehrm-container">
@@ -91,18 +92,18 @@ export default {
       resolve: null,
       headers: [
         {
-          title: 'Employee',
+          title: this.$t('general.employee'),
           name: 'employee',
           slot: 'title',
           style: {flex: 1},
         },
         {
-          title: 'Old Entitlement',
+          title: this.$t('leave.old_entitlement'),
           name: 'current',
           style: {flex: 1},
         },
         {
-          title: 'New Entitlement',
+          title: this.$t('leave.new_entitlement'),
           name: 'updateAs',
           style: {flex: 1},
         },

@@ -42,7 +42,7 @@
     <oxd-input-field
       class="orangehrm-lastname"
       name="Last Name"
-      placeholder="$t('general.last_name')"
+      :placeholder="$t('general.last_name')"
       :model-value="lastName"
       :rules="rules.lastName"
       :disabled="disabled"
