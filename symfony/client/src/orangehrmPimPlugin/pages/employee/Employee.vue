@@ -69,7 +69,11 @@
         <oxd-divider />
 
         <oxd-form-actions>
-          <oxd-button display-type="ghost" :label="$t('general.reset')" type="reset" />
+          <oxd-button
+            display-type="ghost"
+            :label="$t('general.reset')"
+            type="reset"
+          />
           <oxd-button
             class="orangehrm-left-space"
             display-type="secondary"

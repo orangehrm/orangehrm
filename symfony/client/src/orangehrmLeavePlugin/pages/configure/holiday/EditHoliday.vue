@@ -195,7 +195,9 @@ export default {
           const index = data.findIndex(item => item.date === v);
           if (index > -1) {
             const id = data[index].id;
-            return id != this.holidayId ? 'Already exists' : true;
+            return id != this.holidayId
+              ? this.$t('general.already_exists')
+              : true;
           } else {
             return true;
           }

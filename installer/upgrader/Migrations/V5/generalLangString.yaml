@@ -354,7 +354,7 @@ langStrings:
     value: 'To date should be after From date'
     unitId: to_date_should_be_after_from_date
   -
-    value: ' (Past Employee)'
+    value: '(Past Employee)'
     unitId: past_employee
   -
     value: 'First name'
@@ -480,8 +480,11 @@ langStrings:
     value: 'Reject'
     unitId: reject
   -
-    value: '{amount,plural, =0{No Records{action}} one{1 Record {action}} other{# Records {action}}}'
-    unitId: n_records_action
+    value: '{count,plural, =0{No Records Found} one{1 Record Found} other{# Records Found}}'
+    unitId: n_records_found
+  -
+    value: '{count,plural, =0{No Records Selected} one{1 Record Selected} other{# Records Selected}}'
+    unitId: n_records_selected
   -
     value: 'Password'
     unitId: password
@@ -542,3 +545,141 @@ langStrings:
   -
     value: 'Type here ...'
     unitId: type_here_message
+  -
+    value: 'Job'
+    unitId: job
+  -
+    value: 'No, Cancel'
+    unitId: no_cancel
+  -
+    value: 'User Management'
+    unitId: user_management
+  -
+    value: 'Project Info'
+    unitId: project_info
+  -
+    value: 'Organization'
+    unitId: organization
+  -
+    value: 'Users'
+    unitId: users
+  -
+    value: 'Configuration'
+    unitId: configuration
+  -
+    value: 'Language Packages'
+    unitId: language_packages
+  -
+    value: 'Modules'
+    unitId: modules
+  -
+    value: 'Register OAuth Client'
+    unitId: register_oauth_client
+  -
+    value: 'Social Media Authentication'
+    unitId: social_media_authentication
+  -
+    value: 'Employee List'
+    unitId: employee_list
+  -
+    value: 'Reports'
+    unitId: reports
+  -
+    value: 'PIM'
+    unitId: pim
+  -
+    value: 'Recruitment'
+    unitId: recruitment
+  -
+    value: 'Time'
+    unitId: time
+  -
+    value: 'My Info'
+    unitId: my_info
+  -
+    value: 'Performance'
+    unitId: performance
+  -
+    value: 'Dashboard'
+    unitId: dashboard
+  -
+    value: 'Directory'
+    unitId: directory
+  -
+    value: 'Buzz'
+    unitId: buzz
+  -
+    value: 'Maintenance'
+    unitId: maintenance
+  -
+    value: 'My Timesheets'
+    unitId: my_timesheets
+  -
+    value: 'My Records'
+    unitId: my_records
+  -
+    value: 'Employee Timesheets'
+    unitId: employee_timesheets
+  -
+    value: 'Timesheets'
+    unitId: timesheets
+  -
+    value: 'Punch In/Out'
+    unitId: punch_in_out
+  -
+    value: 'Employee Records'
+    unitId: employee_records
+  -
+    value: 'Attendance'
+    unitId: attendance
+  -
+    value: 'Customers'
+    unitId: customers
+  -
+    value: 'Projects'
+    unitId: projects
+  -
+    value: 'Project Reports'
+    unitId: project_reports
+  -
+    value: 'Project Info'
+    unitId: project_info
+  -
+    value: 'Vacancies'
+    unitId: vacancies
+  -
+    value: 'Candidates'
+    unitId: candidates
+  -
+    value: 'KPIs'
+    unitId: kpis
+  -
+    value: 'Manage Reviews'
+    unitId: manage_reviews
+  -
+    value: 'My Reviews'
+    unitId: my_reviews
+  -
+    value: 'My Trackers'
+    unitId: my_trackers
+  -
+    value: 'Review List'
+    unitId: review_list
+  -
+    value: 'Trackers'
+    unitId: trackers
+  -
+    value: 'Employee Trackers'
+    unitId: employee_trackers
+  -
+    value: 'Candidate Records'
+    unitId: candidate_records
+  -
+    value: 'Access Records'
+    unitId: access_records
+  -
+    value: 'Purge Records'
+    unitId: purge_records
+  -
+    value: 'Structure'
+    unitId: structure

@@ -26,23 +26,30 @@
       @update:show="onCancel"
     >
       <div class="orangehrm-modal-header">
-        <oxd-text type="card-title"> {{ action }} Leave </oxd-text>
+        <oxd-text type="card-title">
+          {{ $t('leave.leave_action', {action: action}) }}
+        </oxd-text>
       </div>
       <div class="orangehrm-text-center-align">
         <oxd-text type="subtitle-2">
-          You are about to {{ action }} {{ count }} Leave Request(s). Are you
-          sure you want to continue?
+          {{
+            $t('leave.bulk_leave_action_confirm_message_one', {
+              action: action,
+              count: count,
+            })
+          }}
+          {{ $t('leave.bulk_leave_action_confirm_message_two') }}
         </oxd-text>
       </div>
       <div class="orangehrm-modal-footer">
         <oxd-button
-          label="No, Cancel"
+          :label="$t('general.no_cancel')"
           display-type="text"
           class="orangehrm-button-margin"
           @click="onCancel"
         />
         <oxd-button
-          label="Yes, Confirm"
+          :label="$t('leave.yes_confirm')"
           display-type="secondary"
           @click="onConfirm"
         />
