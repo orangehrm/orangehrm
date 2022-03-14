@@ -254,7 +254,7 @@ export default {
           validDateFormat(),
           endDateShouldBeAfterStartDate(
             () => this.leave.fromDate,
-            'To date should be after from date',
+            this.$t('general.to_date_should_be_after_from_date'),
             {allowSameDate: true},
           ),
         ],

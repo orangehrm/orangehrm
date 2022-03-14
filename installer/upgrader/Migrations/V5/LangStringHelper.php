@@ -41,7 +41,7 @@ class LangStringHelper
         $yml = Yaml::parseFile($filepath);
         $langStrings = array_shift($yml);
         foreach ($langStrings as $langString) {
-            $langArray[] = new LangString($langString['unitId'], $groupId, $langString['value'], null, null);
+            $langArray[] = new LangString($langString['unitId'], $groupId, $langString['value'], null, $langString['note']??null);
         }
         return $langArray;
     }
