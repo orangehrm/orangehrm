@@ -286,3 +286,6 @@ langStrings:
   -
     value: 'Leave Type'
     unitId: leave_type
+  -
+    value: '{action, select, APPROVE {Approve Leave} REJECT {Reject Leave} other {Cancel Leave}}'
+    unitId: leave_action

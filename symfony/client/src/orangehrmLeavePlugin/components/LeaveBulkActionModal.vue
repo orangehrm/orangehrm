@@ -27,7 +27,7 @@
     >
       <div class="orangehrm-modal-header">
         <oxd-text type="card-title">
-          {{ action }} {{ $t('general.leave') }}
+          {{ $t('leave.leave_action', {action: action}) }}
         </oxd-text>
       </div>
       <div class="orangehrm-text-center-align">
