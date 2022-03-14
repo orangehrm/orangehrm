@@ -545,3 +545,9 @@ langStrings:
   -
     value: 'Type here ...'
     unitId: type_here_message
+  -
+    value: 'Job'
+    unitId: job
+  -
+    value: 'No, Cancel'
+    unitId: no_cancel

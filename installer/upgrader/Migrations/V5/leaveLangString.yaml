@@ -219,15 +219,12 @@ langStrings:
     value: 'Pending Approval'
     unitId: pending_approval
   -
-    value: '{action, select, APPROVE {{count, plural, =0 {You are about to Approve no Leave Requests} =1 {You are about to Approve 1 Leave Request} other {You are about to Approve # Leave Requests} }} REJECT {{count, plural, =0  {You are about to Reject no Leave Requests} =1 {You are about to Reject 1 Leave Request} other {You are about to Reject # Leave Requests} }} other {{count, plural, =0    {You are about to Cancel no Leave Requests} =1    {You are about to Cancel 1 Leave Request} other {You are about to Cancel # Leave Requests} }} }'
+    value: '{action, select, APPROVE {{count, plural, =0 {You are about to Approve no Leave Requests} =1 {You are about to Approve 1 Leave Request} other {You are about to Approve # Leave Requests} }} REJECT {{count, plural, =0 {You are about to Reject no Leave Requests} =1 {You are about to Reject 1 Leave Request} other {You are about to Reject # Leave Requests} }} other {{count, plural, =0 {You are about to Cancel no Leave Requests} =1 {You are about to Cancel 1 Leave Request} other {You are about to Cancel # Leave Requests} }} }'
     unitId: bulk_leave_action_confirm_message_one
     note: 'Action might either be Approve, Reject or Cancel of a single/number of leave requests'
   -
     value: 'Are you sure you want to continue?'
     unitId: bulk_leave_action_confirm_message_two
-  -
-    value: 'No, Cancel'
-    unitId: no_cancel
   -
     value: 'Yes, Confirm'
     unitId: yes_confirm
@@ -280,7 +277,7 @@ langStrings:
     value: 'Cancel Leave'
     unitId: cancel_leave
   -
-    value: '{action, select, APPROVE {{count, plural, =0 {No Leave Requests Approved} =1 {1 Leave Requests Approved} other {# Leave Requests Approved} }} REJECT {{count, plural, =0    {No Leave Requests Rejected} =1    {1 Leave Requests Rejected} other {# Leave Requests Rejected} }} other {{count, plural, =0    {No Leave Requests Cancelled} =1    {1 Leave Requests Cancelled} other {# Leave Requests Cancelled} }} }'
+    value: '{action, select, APPROVE {{count, plural, =0 {No Leave Requests Approved} =1 {1 Leave Requests Approved} other {# Leave Requests Approved} }} REJECT {{count, plural, =0 {No Leave Requests Rejected} =1 {1 Leave Requests Rejected} other {# Leave Requests Rejected} }} other {{count, plural, =0 {No Leave Requests Cancelled} =1 {1 Leave Requests Cancelled} other {# Leave Requests Cancelled} }} }'
     unitId: leave_requests_action
     note: 'Action might either be Approve, Reject or Cancel of a single/number of leave requests'
   -
