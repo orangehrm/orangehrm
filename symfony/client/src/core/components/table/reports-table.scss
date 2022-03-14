@@ -49,3 +49,7 @@
     margin-right: 1.2rem;
   }
 }
+
+::v-deep(revogr-scroll-virtual.horizontal) {
+  display: none;
+}
