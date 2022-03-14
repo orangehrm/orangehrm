@@ -79,9 +79,6 @@ class TranslationTestTool
         foreach ($langStrings as $langString) {
             $sourceObj = new TransUnit($langString['value'], 'tr_' . $langString['value']);
             $this->saveTranslationRecord($groupName, $sourceObj, $language);
-            if($groupName == 'time'){
-                var_dump($sourceObj);
-            }
         }
     }
 
