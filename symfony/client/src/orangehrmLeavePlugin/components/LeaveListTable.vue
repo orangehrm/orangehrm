@@ -133,8 +133,7 @@ const leavelistNormalizer = data => {
         item.employee?.terminationId ? ' (past_employee)' : ''
       }`,
       leaveType:
-        item.leaveType?.name +
-        `${item.leaveType?.deleted ? 'deleted' : ''}`,
+        item.leaveType?.name + `${item.leaveType?.deleted ? 'deleted' : ''}`,
       leaveBalance: leaveBalances,
       days: parseFloat(item.noOfDays).toFixed(2),
       status: leaveStatuses,
