@@ -23,6 +23,7 @@
     type="select"
     :options="options"
     :label="$t('time.timezone')"
+    :show-empty-selector="false"
   />
 </template>
 
