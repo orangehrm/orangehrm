@@ -21,7 +21,7 @@ namespace OrangeHRM\Authentication\Controller\Traits;
 
 use LogicException;
 use OrangeHRM\Authentication\Controller\AdministratorAccessController;
-use OrangeHRM\Authentication\Controller\AdminPrivilegeControllerInterface;
+use OrangeHRM\Authentication\Controller\AdminPrivilegeController;
 use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\Http\Response;
@@ -34,9 +34,9 @@ trait AdministratorAccessTrait
      */
     public function forwardToAdministratorAccess(Request $request): Response
     {
-        if (!$this instanceof AdminPrivilegeControllerInterface) {
+        if (!$this instanceof AdminPrivilegeController) {
             throw new LogicException(
-                'Trait should be used in class that implements ' . AdminPrivilegeControllerInterface::class
+                'Trait should be used in class that implements ' . AdminPrivilegeController::class
             );
         }
         if (!$this instanceof AbstractVueController) {

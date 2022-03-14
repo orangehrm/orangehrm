@@ -1,7 +1,4 @@
 <?php
-
-namespace OrangeHRM\Authentication\Controller;
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -19,6 +16,9 @@ namespace OrangeHRM\Authentication\Controller;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-interface AdminPrivilegeControllerInterface
+
+namespace OrangeHRM\Authentication\Controller;
+
+interface AdminPrivilegeController
 {
 }

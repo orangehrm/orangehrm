@@ -34,3 +34,18 @@ export const navigate = function(
 export const reloadPage = function(): void {
   window.location.reload();
 };
+
+/**
+ * Used to navigate back to a given path
+ * If the path is null or an empty string, window.history.back() will be used
+ * @param path Example: /pim/viewEmployeeList
+ */
+export const goBack = function(path: string | null): void {
+  const resolvedPath = path !== null ? path : '';
+
+  if (resolvedPath !== '') {
+    window.location.href = urlFor(resolvedPath);
+  } else {
+    window.history.back();
+  }
+};

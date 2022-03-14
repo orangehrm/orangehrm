@@ -62,41 +62,42 @@ class AdministratorVerifyController extends AbstractController implements Public
      */
     public function handle(Request $request)
     {
-        if ($this->getUserRoleManager()->getDataGroupPermissions('auth_admin_verify')->canRead()) {
-            if ($this->getAuthUser()->isAuthenticated()) {
-                $userId = $this->getAuthUser()->getUserId();
-                $systemUser = $this->getUserService()->getSystemUser($userId);
-                if (isset($systemUser)) {
-                    $username = $systemUser->getUserName();
-                    $password = $request->request->get(self::PARAMETER_PASSWORD, '');
-                    $credentials = new UserCredential($username, $password);
+        if (!$this->getUserRoleManager()->getDataGroupPermissions('auth_admin_verify')->canRead()) {
+            throw new RequestForwardableException(ForbiddenController::class . '::handle');
+        }
 
-                    try {
-                        $csrfTokenManager = new CsrfTokenManager();
-                        $token = $request->request->get('_token');
-                        if (!$csrfTokenManager->isValid('administrator-access', $token)) {
-                            throw AuthenticationException::invalidCsrfToken();
-                        }
-                        //TODO
-                        $success = $this->getAuthenticationService()->setCredentials($credentials, []);
-                        if (!$success) {
-                            throw AuthenticationException::invalidCredentials();
-                        }
-                        $this->getAuthUser()->setHasAdminAccess(true);
+        if ($this->getAuthUser()->isAuthenticated()) {
+            $userId = $this->getAuthUser()->getUserId();
+            $systemUser = $this->getUserService()->getSystemUser($userId);
+            if (isset($systemUser)) {
+                $username = $systemUser->getUserName();
+                $password = $request->request->get(self::PARAMETER_PASSWORD, '');
+                $credentials = new UserCredential($username, $password);
 
-                        $forwardUrl = $this->getAuthUser()->getAttribute(AuthUser::ADMIN_ACCESS_FORWARD_URL);
-
-                        $this->getAuthUser()->removeAttribute(AuthUser::ADMIN_ACCESS_FORWARD_URL);
-                        $this->getAuthUser()->removeAttribute(AuthUser::ADMIN_ACCESS_BACK_URL);
-
-                        return $this->redirect($forwardUrl);
-                    } catch (AuthenticationException $e) {
-                        $this->getAuthUser()->addFlash(AuthUser::FLASH_VERIFY_ERROR, $e->normalize());
-                        return $this->forward(AdministratorAccessController::class . '::handle');
+                try {
+                    $csrfTokenManager = new CsrfTokenManager();
+                    $token = $request->request->get('_token');
+                    if (!$csrfTokenManager->isValid('administrator-access', $token)) {
+                        throw AuthenticationException::invalidCsrfToken();
                     }
+                    //TODO
+                    $success = $this->getAuthenticationService()->setCredentials($credentials, []);
+                    if (!$success) {
+                        throw AuthenticationException::invalidCredentials();
+                    }
+                    $this->getAuthUser()->setHasAdminAccess(true);
+
+                    $forwardUrl = $this->getAuthUser()->getAttribute(AuthUser::ADMIN_ACCESS_FORWARD_URL);
+
+                    $this->getAuthUser()->removeAttribute(AuthUser::ADMIN_ACCESS_FORWARD_URL);
+                    $this->getAuthUser()->removeAttribute(AuthUser::ADMIN_ACCESS_BACK_URL);
+
+                    return $this->redirect($forwardUrl);
+                } catch (AuthenticationException $e) {
+                    $this->getAuthUser()->addFlash(AuthUser::FLASH_VERIFY_ERROR, $e->normalize());
+                    return $this->forward(AdministratorAccessController::class . '::handle');
                 }
             }
         }
-        throw new RequestForwardableException(ForbiddenController::class . '::handle');
     }
 }

@@ -41,9 +41,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@ohrm/oxd/styles/_colors.scss';
-@import '@ohrm/oxd/styles/_variables.scss';
-
 .orangehrm-maintenance-note {
   display: flex;
   flex-direction: column;

@@ -19,14 +19,14 @@
 
 namespace OrangeHRM\Maintenance\Controller;
 
-use OrangeHRM\Authentication\Controller\AdminPrivilegeControllerInterface;
+use OrangeHRM\Authentication\Controller\AdminPrivilegeController;
 use OrangeHRM\Authentication\Controller\Traits\AdministratorAccessTrait;
 use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Framework\Http\Request;
 
-class PurgeEmployeeController extends AbstractVueController implements AdminPrivilegeControllerInterface
+class PurgeEmployeeController extends AbstractVueController implements AdminPrivilegeController
 {
     use AuthUserTrait;
     use AdministratorAccessTrait;

@@ -33,12 +33,10 @@
 
         <br />
 
-        <oxd-text class="orangehrm-admin-access-note">
+        <oxd-text :class="noteClasses">
           You have requested to access a critical Administrator function in
           OrangeHRM and are required to validate your credentials below
         </oxd-text>
-
-        <br v-if="error === null" />
 
         <oxd-alert
           :show="error !== null"
@@ -89,7 +87,7 @@
 
 <script>
 import {urlFor} from '@ohrm/core/util/helper/url';
-import {navigate} from '@/core/util/helper/navigation';
+import {goBack} from '@/core/util/helper/navigation';
 import Alert from '@ohrm/oxd/core/components/Alert/Alert';
 
 export default {
@@ -121,6 +119,10 @@ export default {
   data() {
     return {
       password: '',
+      noteClasses: {
+        'orangehrm-admin-access-note': true,
+        '--padding': this.error === null,
+      },
     };
   },
 
@@ -135,50 +137,46 @@ export default {
       this.$refs.verifyForm.$el.submit();
     },
     onCancel() {
-      if (this.backUrl !== null) {
-        navigate(this.backUrl);
-      } else {
-        window.history.back();
-      }
+      goBack(this.backUrl);
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-@import '../../../node_modules/@ohrm/oxd/styles/mixins';
-@import '../../../node_modules/@ohrm/oxd/styles/colors';
+@import '@ohrm/oxd/styles/_mixins.scss';
 
 .orangehrm-card-container {
   box-shadow: 3px 3px 10px $oxd-interface-gray-color;
   width: 50vh;
 }
 
-.orangehrm-admin-access-container {
-  display: flex;
-  height: 100vh;
-  justify-content: center;
-  align-items: center;
-}
-
-.orangehrm-admin-access-title {
-  font-size: 20px !important;
-  font-weight: 700 !important;
-}
-
-.orangehrm-admin-access-note {
-  font-size: 12px;
-}
-
-.orangehrm-admin-access-button-container {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-}
-
-.orangehrm-admin-access-button {
-  flex: 1;
-  margin-left: 0.6rem;
-  margin-right: 0.6rem;
+.orangehrm-admin-access {
+  &-container {
+    display: flex;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+  }
+  &-title {
+    font-size: 20px;
+    font-weight: 700;
+  }
+  &-note {
+    font-size: 12px;
+    &.--padding {
+      padding-bottom: 1.2rem;
+    }
+  }
+  &-button {
+    flex: 1;
+    margin-left: 0.6rem;
+    margin-right: 0.6rem;
+    &-container {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+    }
+  }
 }
 </style>

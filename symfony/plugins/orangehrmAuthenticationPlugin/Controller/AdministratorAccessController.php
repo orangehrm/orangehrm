@@ -23,14 +23,13 @@ use OrangeHRM\Admin\Traits\Service\UserServiceTrait;
 use OrangeHRM\Authentication\Auth\User as AuthUser;
 use OrangeHRM\Authentication\Csrf\CsrfTokenManager;
 use OrangeHRM\Core\Controller\AbstractVueController;
-use OrangeHRM\Core\Controller\PublicControllerInterface;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Framework\Http\Request;
 
-class AdministratorAccessController extends AbstractVueController implements PublicControllerInterface
+class AdministratorAccessController extends AbstractVueController
 {
     use AuthUserTrait;
     use EntityManagerHelperTrait;
