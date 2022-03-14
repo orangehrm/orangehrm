@@ -22,16 +22,11 @@ namespace OrangeHRM\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Module
- *
  * @ORM\Table(name="ohrm_module")
  * @ORM\Entity
  */
 class Module
 {
-    public const ENABLED = true;
-    public const DISABLED = false;
-
     /**
      * @var int
      *

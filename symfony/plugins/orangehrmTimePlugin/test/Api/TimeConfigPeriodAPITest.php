@@ -20,10 +20,12 @@
 namespace OrangeHRM\Tests\Time\Api;
 
 use OrangeHRM\Entity\Config;
+use OrangeHRM\Entity\User;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\ORM\Doctrine;
 use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
 use OrangeHRM\Tests\Util\Integration\TestCaseParams;
+use OrangeHRM\Tests\Util\Mock\MockAuthUser;
 use OrangeHRM\Time\Api\TimeConfigPeriodAPI;
 
 /**
@@ -67,7 +69,26 @@ class TimeConfigPeriodAPITest extends EndpointIntegrationTestCase
     public function testUpdate(TestCaseParams $testCaseParams): void
     {
         $this->populateFixtures('TimeConfig.yaml');
-        $this->createKernelWithMockServices([Services::AUTH_USER => $this->getMockAuthUser($testCaseParams)]);
+        $authUser = $this->getMockBuilder(MockAuthUser::class)
+            ->onlyMethods(['getUserId', 'getEmpNumber', 'removeAttribute', 'getAttribute'])
+            ->disableOriginalConstructor()
+            ->getMock();
+        $authUser->method('getUserId')
+            ->willReturn($testCaseParams->getUserId());
+        $authUser->method('removeAttribute')
+            ->willReturnCallback(function (string $key) {
+            });
+        $authUser->method('getAttribute')
+            ->willReturnCallback(fn (string $key, $default) => $default);
+        $authUser->method('getEmpNumber')
+            ->willReturn(
+                $this->getEntityReference(
+                    User::class,
+                    $testCaseParams->getUserId()
+                )->getEmployee()->getEmpNumber()
+            );
+
+        $this->createKernelWithMockServices([Services::AUTH_USER => $authUser]);
         $this->registerServices($testCaseParams);
         $this->registerMockDateTimeHelper($testCaseParams);
         $api = $this->getApiEndpointMock(TimeConfigPeriodAPI::class, $testCaseParams);

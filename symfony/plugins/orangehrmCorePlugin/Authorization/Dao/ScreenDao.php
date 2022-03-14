@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
  * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
@@ -19,9 +19,7 @@
 
 namespace OrangeHRM\Core\Authorization\Dao;
 
-use Exception;
 use OrangeHRM\Core\Dao\BaseDao;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\Screen;
 
 class ScreenDao extends BaseDao
@@ -32,21 +30,16 @@ class ScreenDao extends BaseDao
      * @param string $module Module Name
      * @param string $action
      * @return Screen|null
-     * @throws DaoException
      */
     public function getScreen(string $module, string $action): ?Screen
     {
-        try {
-            $q = $this->createQueryBuilder(Screen::class, 's');
-            $q->leftJoin('s.module', 'm');
-            $q->andWhere('m.name = :moduleName')
-                ->setParameter('moduleName', $module);
-            $q->andWhere('s.actionUrl = :actionUrl')
-                ->setParameter('actionUrl', $action);
+        $q = $this->createQueryBuilder(Screen::class, 's');
+        $q->leftJoin('s.module', 'm');
+        $q->andWhere('m.name = :moduleName')
+            ->setParameter('moduleName', $module);
+        $q->andWhere('s.actionUrl = :actionUrl')
+            ->setParameter('actionUrl', $action);
 
-            return $q->getQuery()->getOneOrNullResult();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        return $q->getQuery()->getOneOrNullResult();
     }
 }

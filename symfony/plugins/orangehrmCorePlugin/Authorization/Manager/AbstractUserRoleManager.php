@@ -46,7 +46,7 @@ abstract class AbstractUserRoleManager
     public function setUser(User $user): void
     {
         $this->user = $user;
-        $this->userRoles = $this->getUserRoles($user);
+        $this->userRoles = $this->computeUserRoles($user);
     }
 
     /**
@@ -55,6 +55,14 @@ abstract class AbstractUserRoleManager
     public function getUser(): ?User
     {
         return $this->user;
+    }
+
+    /**
+     * @return UserRole[]
+     */
+    public function getUserRolesForAuthUser(): array
+    {
+        return $this->userRoles;
     }
 
     /**
@@ -176,11 +184,6 @@ abstract class AbstractUserRoleManager
     abstract public function getAccessibleModules(): array;
 
     /**
-     * @return array
-     */
-    abstract public function getAccessibleMenuItemDetails(): array;
-
-    /**
      * @param string $module
      * @return bool
      */
@@ -227,7 +230,7 @@ abstract class AbstractUserRoleManager
      * @param User $user
      * @return UserRole[]
      */
-    abstract protected function getUserRoles(User $user): array;
+    abstract protected function computeUserRoles(User $user): array;
 
     /**
      * Check State Transition possible for User

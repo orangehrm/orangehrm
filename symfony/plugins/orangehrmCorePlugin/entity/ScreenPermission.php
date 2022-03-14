@@ -22,8 +22,6 @@ namespace OrangeHRM\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * ScreenPermission
- *
  * @ORM\Table(name="ohrm_user_role_screen")
  * @ORM\Entity
  */

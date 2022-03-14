@@ -19,41 +19,36 @@
 
 namespace OrangeHRM\Core\Service;
 
+use LogicException;
+use OrangeHRM\Core\Authorization\Service\ScreenPermissionService;
 use OrangeHRM\Core\Dao\MenuDao;
 use OrangeHRM\Core\Dto\ModuleScreen;
-use OrangeHRM\Core\Exception\DaoException;
-use OrangeHRM\Core\Exception\ServiceException;
+use OrangeHRM\Core\Menu\DetailedMenuItem;
+use OrangeHRM\Core\Menu\MenuConfigurator;
+use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\ModuleScreenHelperTrait;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\MenuItem;
 use OrangeHRM\Entity\Screen;
-use OrangeHRM\Entity\UserRole;
 
 class MenuService
 {
     use UserRoleManagerTrait;
     use ModuleScreenHelperTrait;
+    use AuthUserTrait;
+
+    public const CORE_MENU_SIDE_PANEL_CACHE_KEY = 'core.menu.side_panel';
+    public const CORE_MENU_TOP_RIBBON_CACHE_KEY = 'core.menu.top_ribbon';
+    public const CORE_MENU_TOP_RIBBON_KEYS_CACHE_KEY = 'core.menu.top_ribbon_keys';
 
     /**
      * @var MenuDao|null
      */
     protected ?MenuDao $menuDao = null;
     /**
-     * @var int
+     * @var ScreenPermissionService|null
      */
-    protected int $numberOfLevels = 3;
-    /**
-     * @var array
-     */
-    protected array $actionArray = [];
-    /**
-     * @var array
-     */
-    protected array $parentIdArray = [];
-    /**
-     * @var array
-     */
-    protected array $levelArray = [];
+    protected ?ScreenPermissionService $screenPermissionService = null;
 
     /**
      * @return MenuDao
@@ -68,291 +63,273 @@ class MenuService
     }
 
     /**
-     * @param MenuDao $menuDao
+     * @return ScreenPermissionService
      */
-    public function setMenuDao(MenuDao $menuDao): void
+    public function getScreenPermissionService(): ScreenPermissionService
     {
-        $this->menuDao = $menuDao;
-    }
-
-    /**
-     * Returns menu array for given user roles
-     *
-     * Returned array is a multi-dimentional array
-     * containing MenuItem objects
-     *
-     * @param UserRole[]|string[] $userRoleList Array of user role names or Array of UserRole objects
-     *
-     * @return MenuItem[] Array of MenuItem objects
-     * @throws DaoException
-     */
-    public function getMenuItemCollection(array $userRoleList): array
-    {
-        $menuArray = $this->_getMenuItemListAsArray($userRoleList);
-
-        for ($i = $this->numberOfLevels; $i > 0; $i--) {
-            foreach ($menuArray as $menuItem) {
-                $parentId = $menuItem->getParent() instanceof MenuItem ? $menuItem->getParent()->getId() : null;
-
-                if ($menuItem->getLevel() == $i && array_key_exists($parentId, $menuArray)) {
-                    if ($menuItem->getScreen() instanceof Screen || !$this->_areSubMenusEmpty($menuItem)) {
-                        $menuArray[$parentId]->addSubMenuItem($menuItem);
-                    }
-
-                    unset($menuArray[$menuItem->getId()]);
-                }
-            }
+        if (!$this->screenPermissionService instanceof ScreenPermissionService) {
+            $this->screenPermissionService = new ScreenPermissionService();
         }
-
-        foreach ($menuArray as $key => $value) {
-            $subMenuItems = $value->getSubMenuItems();
-
-            if (!($value->getScreen() instanceof Screen) && empty($subMenuItems)) {
-                unset($menuArray[$key]);
-            }
-        }
-
-        return $menuArray;
-    }
-
-    /**
-     * @param UserRole[]|string[] $userRoleList
-     * @return array
-     * @throws DaoException
-     */
-    public function getMenuItemDetails(array $userRoleList): array
-    {
-        $firstLevelItems = $this->getMenuItemCollection($userRoleList);
-        $firstLevelHolder = [];
-
-        foreach ($firstLevelItems as $firstLevelItem) {
-            $secondLevelItems = $firstLevelItem->getSubMenuItems();
-            $secondLevelHolder = [];
-
-            if (!empty($secondLevelItems)) {
-                foreach ($secondLevelItems as $secondLevelItem) {
-                    $thirdLevelItems = $secondLevelItem->getSubMenuItems();
-                    $thirdLevelHolder = [];
-
-                    if (!empty($thirdLevelItems)) {
-                        foreach ($thirdLevelItems as $thirdLevelItem) {
-                            $menuItemDetails = $this->_extractMenuItemToArray($thirdLevelItem);
-                            $this->_populateMenuInfoArrays($thirdLevelItem, $menuItemDetails);
-                            $thirdLevelHolder[] = $menuItemDetails;
-                        }
-                    }
-
-                    $menuItemDetails = $this->_extractMenuItemToArray($secondLevelItem);
-                    $menuItemDetails['subMenuItems'] = $thirdLevelHolder;
-                    $this->_populateMenuInfoArrays($secondLevelItem, $menuItemDetails);
-                    $secondLevelHolder[] = $menuItemDetails;
-                }
-            }
-
-            $menuItemDetails = $this->_extractMenuItemToArray($firstLevelItem);
-            $menuItemDetails['subMenuItems'] = $secondLevelHolder;
-            $this->_populateMenuInfoArrays($firstLevelItem, $menuItemDetails);
-            $firstLevelHolder[] = $menuItemDetails;
-        }
-
-        return [
-            'menuItemArray' => $firstLevelHolder,
-            'actionArray' => $this->actionArray,
-            'parentIdArray' => $this->parentIdArray,
-            'levelArray' => $this->levelArray
-        ];
-    }
-
-    /**
-     * @param MenuItem $menuItem
-     * @param array $menuItemDetails
-     */
-    private function _populateMenuInfoArrays(MenuItem $menuItem, array $menuItemDetails): void
-    {
-        $this->parentIdArray[$menuItemDetails['id']] = $menuItem->getParent() instanceof MenuItem
-            ? $menuItem->getParent()->getId() : null;
-        $this->levelArray[$menuItemDetails['id']] = $menuItemDetails['level'];
-
-        if (!empty($menuItemDetails['module']) && !empty($menuItemDetails['action'])) {
-            $this->actionArray[$menuItemDetails['module'] . '_' . $menuItemDetails['action']] = $menuItemDetails['id'];
-        }
+        return $this->screenPermissionService;
     }
 
     /**
      * @param string $moduleName
      * @param array $menuTitles
      * @return int
-     * @throws DaoException
      */
     public function enableModuleMenuItems(string $moduleName, array $menuTitles = []): int
     {
+        $this->getAuthUser()->removeAttribute(self::CORE_MENU_SIDE_PANEL_CACHE_KEY);
+        foreach ($this->getAuthUser()->getAttribute(self::CORE_MENU_TOP_RIBBON_KEYS_CACHE_KEY, []) as $topRibbonKey) {
+            $cacheKey = $this->generateCacheKeyForTopMenuItem($topRibbonKey);
+            $this->getAuthUser()->removeAttribute($cacheKey);
+        }
+        $this->getAuthUser()->removeAttribute(self::CORE_MENU_TOP_RIBBON_KEYS_CACHE_KEY);
+
         return $this->getMenuDao()->enableModuleMenuItems($moduleName, $menuTitles);
     }
 
     /**
-     * @param MenuItem $menuItem
-     * @return array
+     * @return DetailedMenuItem[]
      */
-    private function _extractMenuItemToArray(MenuItem $menuItem): array
+    private function getDetailedSidePanelMenuItemsAlongWithCache(): array
     {
-        $menu['id'] = $menuItem->getId();
-        $menu['menuTitle'] = $menuItem->getMenuTitle();
-        $menu['level'] = $menuItem->getLevel();
-        $menu['additionalParams'] = $menuItem->getAdditionalParams();
-        $menu['module'] = '';
-        $menu['action'] = '';
-        $menu['subMenuItems'] = [];
+        if (!$this->getAuthUser()->hasAttribute(self::CORE_MENU_SIDE_PANEL_CACHE_KEY)) {
+            $userRoles = $this->getUserRoleManager()->getUserRolesForAuthUser();
+            $sidePanelMenuItems = $this->getMenuDao()->getSidePanelMenuItems($userRoles);
 
-        $screen = $menuItem->getScreen();
-
-        if ($screen instanceof Screen) {
-            $menu['module'] = $screen->getModule()->getName();
-            $menu['action'] = $screen->getActionUrl();
-            $menu['urlExtras'] = $menuItem->getUrlExtras();
-        }
-
-        return $menu;
-    }
-
-    /**
-     * @param UserRole[]|string[] $userRoleList
-     * @return MenuItem[]
-     * @throws DaoException
-     */
-    protected function _getMenuItemListAsArray(array $userRoleList): array
-    {
-        $menuItemList = $this->getMenuDao()->getMenuItemList($userRoleList);
-        $menuArray = [];
-
-        foreach ($menuItemList as $menuItem) {
-            $menuArray[$menuItem->getId()] = $menuItem;
-        }
-
-        return $menuArray;
-    }
-
-    /**
-     * @param MenuItem $menuItem
-     * @return bool
-     */
-    protected function _areSubMenusEmpty(MenuItem $menuItem): bool
-    {
-        $subMenus = $menuItem->getSubMenuItems();
-
-        foreach ($subMenus as $subMenu) {
-            if ($subMenu->getScreen() instanceof Screen) {
-                return false;
+            $detailedSidePanelMenuItems = [];
+            foreach ($sidePanelMenuItems as $sidePanelMenuItem) {
+                $screen = $sidePanelMenuItem->getScreen();
+                if (is_null($screen)) {
+                    throw new LogicException('Side panel menu item should have screen assigned');
+                }
+                $detailedSidePanelMenuItems[] = DetailedMenuItem::createFromMenuItem($sidePanelMenuItem);
             }
+            $this->getAuthUser()->setAttribute(self::CORE_MENU_SIDE_PANEL_CACHE_KEY, $detailedSidePanelMenuItems);
         }
 
-        return true;
+        return $this->getAuthUser()->getAttribute(self::CORE_MENU_SIDE_PANEL_CACHE_KEY);
     }
 
     /**
-     * @return array
-     * @throws DaoException
-     * @throws ServiceException
+     * @param int $sidePanelMenuItemId
+     * @return DetailedMenuItem[]
      */
-    private function getAccessibleMenuItemDetails(): array
+    private function getTopMenuItemsAlongWithCache(int $sidePanelMenuItemId): array
     {
-        return $this->getUserRoleManager()->getAccessibleMenuItemDetails();
+        $cacheKey = $this->generateCacheKeyForTopMenuItem($sidePanelMenuItemId);
+        $userRoles = $this->getUserRoleManager()->getUserRolesForAuthUser();
+        if (!$this->getAuthUser()->hasAttribute($cacheKey)) {
+            $topMenuItems = $this->getMenuDao()->getTopMenuItems($userRoles, $sidePanelMenuItemId);
+            $this->getAuthUser()->setAttribute($cacheKey, $topMenuItems);
+
+            $topRibbonKeys = $this->getAuthUser()->getAttribute(self::CORE_MENU_TOP_RIBBON_KEYS_CACHE_KEY, []);
+            $topRibbonKeys[] = $sidePanelMenuItemId;
+            $this->getAuthUser()->setAttribute(self::CORE_MENU_TOP_RIBBON_KEYS_CACHE_KEY, $topRibbonKeys);
+        }
+
+        return $this->getAuthUser()->getAttribute($cacheKey);
+    }
+
+    /**
+     * @param int $sidePanelMenuItemId
+     * @return string
+     */
+    private function generateCacheKeyForTopMenuItem(int $sidePanelMenuItemId): string
+    {
+        return self::CORE_MENU_TOP_RIBBON_CACHE_KEY . ".$sidePanelMenuItemId";
     }
 
     /**
      * @param string $baseUrl
      * @return array
-     * @throws DaoException
-     * @throws ServiceException
      */
     public function getMenuItems(string $baseUrl): array
     {
-        $moduleScreen = $this->getCurrentModuleAndScreen();
-        // TODO:: cache menu items
-        $menuItemDetails = $this->getAccessibleMenuItemDetails();
-        $menuItemArray = $menuItemDetails['menuItemArray'];
-        $subMenuItemsArray = [];
-        $sidePanelMenuItems = [];
+        $currentModuleAndScreen = $this->getCurrentModuleAndScreen();
+
+        $configuratorMenuItems = [];
+        $screen = $this->getScreenPermissionService()
+            ->getScreenDao()
+            ->getScreen($currentModuleAndScreen->getModule(), $currentModuleAndScreen->getScreen());
+        if ($screen instanceof Screen && !is_null($screen->getMenuConfigurator())) {
+            $configuratorClass = $screen->getMenuConfigurator();
+            $configurator = new $configuratorClass();
+            if (!$configurator instanceof MenuConfigurator) {
+                throw new LogicException("Invalid configurator class: $configuratorClass");
+            }
+            $configuratorMenuItems = $this->getMenuItemChainForMenuItem($configurator->configure($screen));
+        }
+
+        $detailedSidePanelMenuItems = $this->getDetailedSidePanelMenuItemsAlongWithCache();
+        $normalizedSidePanelMenuItems = [];
         $selectedSidePanelMenuId = null;
-        foreach ($menuItemArray as $menuItem) {
-            if (!empty($menuItem['subMenuItems'])) {
-                $subMenuItemsArray[$menuItem['id']] = $menuItem['subMenuItems'];
-            }
-            $active = $menuItem['module'] === $moduleScreen->getModule();
-            // TODO:: Should fix with OHRM5X-171
-            if ($moduleScreen->getScreen() == 'viewMyDetails') {
-                $active = $menuItem['action'] === $moduleScreen->getScreen();
-            } elseif ($moduleScreen->getModule() == 'pim') {
-                $active = $menuItem['module'] === $moduleScreen->getModule() && $menuItem['action'] != 'viewMyDetails';
-            }
 
-            if ($active) {
-                $selectedSidePanelMenuId = $menuItem['id'];
+        foreach ($detailedSidePanelMenuItems as $detailedSidePanelMenuItem) {
+            $active = false;
+            if (is_null($selectedSidePanelMenuId) && $active = $this->isActiveSidePanelMenuItem(
+                $detailedSidePanelMenuItem,
+                $currentModuleAndScreen,
+                $configuratorMenuItems
+            )) {
+                $selectedSidePanelMenuId = $detailedSidePanelMenuItem->getId();
             }
-            unset($menuItem['subMenuItems']);
-            $sidePanelMenuItems[] = $this->mapMenuItem($menuItem, $baseUrl, $active);
+            $normalizedSidePanelMenuItems[] = $this->normalizeMenuItem($detailedSidePanelMenuItem, $baseUrl, $active);
         }
 
-        $topMenuItemsArray = [];
-        foreach ($subMenuItemsArray as $parentId => $subMenuItems) {
-            $topMenuItems = [];
-            foreach ($subMenuItems as $subMenuItem) {
-                $active = $subMenuItem['action'] === $moduleScreen->getScreen();
-                $topMenuItems[] = $this->mapMenuItem($subMenuItem, $baseUrl, $active, $moduleScreen);
+        $normalizedTopMenuItems = [];
+        if (!is_null($selectedSidePanelMenuId)) {
+            $topMenuItems = $this->getTopMenuItemsAlongWithCache($selectedSidePanelMenuId);
+            foreach ($topMenuItems as $topMenuItem) {
+                $normalizedTopMenuItem = $this->normalizeTopMenuItem(
+                    $topMenuItem,
+                    $baseUrl,
+                    $configuratorMenuItems,
+                    $currentModuleAndScreen
+                );
+                is_null($normalizedTopMenuItem) ?: $normalizedTopMenuItems[] = $normalizedTopMenuItem;
             }
-            $topMenuItemsArray[$parentId] = $topMenuItems;
         }
 
-        $topMenuItems = is_null($selectedSidePanelMenuId) ? [] : ($topMenuItemsArray[$selectedSidePanelMenuId] ?? []);
         return [
-            $sidePanelMenuItems,
-            $topMenuItems,
+            $normalizedSidePanelMenuItems,
+            $normalizedTopMenuItems,
         ];
     }
 
     /**
-     * @param array $menuItem
+     * @param MenuItem|null $menuItem
+     * @return array<int, MenuItem>
+     */
+    private function getMenuItemChainForMenuItem(?MenuItem $menuItem): array
+    {
+        if (is_null($menuItem)) {
+            return [];
+        }
+        $chain[$menuItem->getId()] = $menuItem;
+        while (!is_null($menuItem->getParent())) {
+            $menuItem = $menuItem->getParent();
+            $chain[$menuItem->getId()] = $menuItem;
+        }
+        return $chain;
+    }
+
+    /**
+     * @param DetailedMenuItem $sidePanelMenuItem
+     * @param ModuleScreen $currentModuleScreen
+     * @param array<int, MenuItem> $configuratorMenuItems
+     * @return bool
+     */
+    private function isActiveSidePanelMenuItem(
+        DetailedMenuItem $sidePanelMenuItem,
+        ModuleScreen $currentModuleScreen,
+        array $configuratorMenuItems = []
+    ): bool {
+        if (!empty($configuratorMenuItems)) {
+            return isset($configuratorMenuItems[$sidePanelMenuItem->getId()]);
+        }
+        return $sidePanelMenuItem->getModule() === $currentModuleScreen->getOverriddenModule();
+    }
+
+    /**
+     * @param DetailedMenuItem $menuItem
+     * @param ModuleScreen $currentModuleScreen
+     * @param array<int, MenuItem> $configuratorMenuItems
+     * @return bool
+     */
+    private function isActiveTopMenuItem(
+        DetailedMenuItem $menuItem,
+        ModuleScreen $currentModuleScreen,
+        array $configuratorMenuItems = []
+    ): bool {
+        if (!empty($configuratorMenuItems)) {
+            return isset($configuratorMenuItems[$menuItem->getId()]);
+        }
+        return $menuItem->getScreen() === $currentModuleScreen->getOverriddenScreen();
+    }
+
+    /**
+     * @param DetailedMenuItem $detailedMenuItem
      * @param string $baseUrl
      * @param bool $active
-     * @param ModuleScreen|null $moduleScreen
      * @return array
      */
-    private function mapMenuItem(
-        array $menuItem,
+    private function normalizeMenuItem(
+        DetailedMenuItem $detailedMenuItem,
         string $baseUrl,
-        bool $active = false,
-        ?ModuleScreen $moduleScreen = null
+        bool $active = false
     ): array {
         $url = '#';
-        if (!empty($menuItem['action']) && !empty($menuItem['module'])) {
-            $url = $baseUrl . '/' . $menuItem['module'] . '/' . $menuItem['action'];
+        if (!empty($detailedMenuItem->getScreen()) && !empty($detailedMenuItem->getModule())) {
+            $url = $baseUrl . '/' . $detailedMenuItem->getModule() . '/' . $detailedMenuItem->getScreen();
         }
-        $newMenuItem = [
-            'id' => $menuItem['id'],
-            'name' => $menuItem['menuTitle'],
+        $menuItem = [
+            'id' => $detailedMenuItem->getId(),
+            'name' => $detailedMenuItem->getMenuTitle(),
             'url' => $url,
         ];
 
-        if (!is_null($menuItem['additionalParams']) && isset($menuItem['additionalParams']['icon'])) {
-            $newMenuItem = array_merge($newMenuItem, $menuItem['additionalParams']);
+        if (!is_null($detailedMenuItem->getAdditionalParams()) &&
+            isset($detailedMenuItem->getAdditionalParams()['icon'])) {
+            $menuItem = array_merge($menuItem, $detailedMenuItem->getAdditionalParams());
         }
 
         if ($active) {
-            $newMenuItem['active'] = true;
+            $menuItem['active'] = true;
         }
+        return $menuItem;
+    }
+
+    /**
+     * @param DetailedMenuItem $detailedMenuItem
+     * @param string $baseUrl
+     * @param array<int, MenuItem> $configuratorMenuItems
+     * @param ModuleScreen|null $currentModuleAndScreen
+     * @return array|null
+     */
+    private function normalizeTopMenuItem(
+        DetailedMenuItem $detailedMenuItem,
+        string $baseUrl,
+        array $configuratorMenuItems = [],
+        ?ModuleScreen $currentModuleAndScreen = null,
+        bool $leaf = false
+    ): ?array {
+        $active = $this->isActiveTopMenuItem($detailedMenuItem, $currentModuleAndScreen, $configuratorMenuItems);
+        $menuItem = $this->normalizeMenuItem($detailedMenuItem, $baseUrl, $active);
+        $leaf ?: $menuItem['children'] = [];
 
         // if sub menu item exists
-        if (isset($menuItem['subMenuItems'])) {
-            $newMenuItem['children'] = [];
-            foreach ($menuItem['subMenuItems'] as $subItem) {
-                $active = $subItem['action'] === $moduleScreen->getScreen();
+        if (!empty($detailedMenuItem->getChildMenuItems())) {
+            foreach ($detailedMenuItem->getChildMenuItems() as $subItem) {
+                $active = $this->isActiveTopMenuItem(
+                    $subItem,
+                    $currentModuleAndScreen,
+                    $configuratorMenuItems
+                );
                 if ($active) {
-                    $newMenuItem['active'] = true;
+                    $menuItem['active'] = true;
                 }
-                unset($subItem['subMenuItems']);
-                $newMenuItem['children'][] = $this->mapMenuItem($subItem, $baseUrl, $active, $moduleScreen);
+                $normalizedTopMenuItem = $this->normalizeTopMenuItem(
+                    $subItem,
+                    $baseUrl,
+                    $configuratorMenuItems,
+                    $currentModuleAndScreen,
+                    true
+                );
+                is_null($normalizedTopMenuItem) ?: $menuItem['children'][] = $normalizedTopMenuItem;
             }
         }
 
-        return $newMenuItem;
+        /**
+         * This is to hide second level menu items which don't have assigned screen &
+         * no child menu items assigned. When there is no screen assigned to a menu item
+         * no way to derive module or user permission
+         */
+        if (!$leaf && empty($menuItem['children']) && $menuItem['url'] === '#') {
+            return null;
+        }
+        return $menuItem;
     }
 }

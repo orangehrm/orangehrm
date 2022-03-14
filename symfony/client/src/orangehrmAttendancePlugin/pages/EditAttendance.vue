@@ -69,7 +69,10 @@
                 </oxd-grid-item>
 
                 <oxd-grid-item v-if="isTimezoneEditable" class="--offset-row-3">
-                  <timezone-dropdown v-model="attendance.punchIn.timezone" />
+                  <timezone-dropdown
+                    v-model="attendance.punchIn.timezone"
+                    required
+                  />
                 </oxd-grid-item>
 
                 <oxd-grid-item class="--span-column-2">
@@ -115,7 +118,10 @@
                 </oxd-grid-item>
 
                 <oxd-grid-item v-if="isTimezoneEditable" class="--offset-row-3">
-                  <timezone-dropdown v-model="attendance.punchOut.timezone" />
+                  <timezone-dropdown
+                    v-model="attendance.punchOut.timezone"
+                    required
+                  />
                 </oxd-grid-item>
 
                 <oxd-grid-item class="--span-column-2">
@@ -320,23 +326,27 @@ export default {
         punchInDate: this.attendance.punchIn.userDate,
         punchInTime: this.attendance.punchIn.userTime,
         punchInNote: this.attendance.punchIn.note,
-        punchInOffset: this.attendance.punchIn.timezone
-          ? this.attendance.punchIn.timezone._offset
-          : this.attendance.punchIn.timezoneOffset,
-        punchInTimezoneName: this.attendance.punchIn.timezone
-          ? this.attendance.punchIn.timezone.id
-          : this.attendance.punchIn.timezone.name,
+        ...(this.isTimezoneEditable && {
+          punchInOffset: this.attendance.punchIn.timezone
+            ? this.attendance.punchIn.timezone._offset
+            : this.attendance.punchIn.timezoneOffset,
+          punchInTimezoneName: this.attendance.punchIn.timezone
+            ? this.attendance.punchIn.timezone.id
+            : this.attendance.punchIn.timezone.name,
+        }),
       };
       if (this.attendance.punchOut) {
         payload.punchOutDate = this.attendance.punchOut.userDate;
         payload.punchOutTime = this.attendance.punchOut.userTime;
         payload.punchOutNote = this.attendance.punchOut.note;
-        payload.punchOutOffset = this.attendance.punchOut.timezone
-          ? this.attendance.punchOut.timezone._offset
-          : this.attendance.punchOut.timezoneOffset;
-        payload.punchOutTimezoneName = this.attendance.punchOut.timezone
-          ? this.attendance.punchOut.timezone.id
-          : this.attendance.punchOut.timezone.name;
+        if (this.isTimezoneEditable) {
+          payload.punchOutOffset = this.attendance.punchOut.timezone
+            ? this.attendance.punchOut.timezone._offset
+            : this.attendance.punchOut.timezoneOffset;
+          payload.punchOutTimezoneName = this.attendance.punchOut.timezone
+            ? this.attendance.punchOut.timezone.id
+            : this.attendance.punchOut.timezone.name;
+        }
       }
       this.http
         .update(this.attendanceId, payload)

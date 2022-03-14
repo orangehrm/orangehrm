@@ -4477,3 +4477,119 @@ SET @admin_role_id := (SELECT `id` FROM ohrm_user_role WHERE `name` = 'Admin' LI
 
 INSERT INTO ohrm_user_role_data_group (`can_read`, `can_create`, `can_update`, `can_delete`, `self`, `data_group_id`,`user_role_id`)
 VALUES (1, 0, 0, 1, 0, @apiv2_purge_employee_data_group_id, @admin_role_id);
+
+ALTER TABLE `ohrm_screen` ADD `menu_configurator` VARCHAR(255) NULL DEFAULT NULL;
+
+SET @admin_module_id := (SELECT `id` FROM ohrm_module WHERE name = 'admin' LIMIT 1);
+UPDATE `ohrm_screen` SET `menu_configurator` = 'OrangeHRM\\Admin\\Menu\\JobTitleMenuConfigurator' WHERE `module_id` = @admin_module_id AND `action_url` = 'saveJobTitle';
+UPDATE `ohrm_screen` SET `menu_configurator` = 'OrangeHRM\\Admin\\Menu\\LocationMenuConfigurator' WHERE `module_id` = @admin_module_id AND `action_url` = 'saveLocation';
+UPDATE `ohrm_screen` SET `menu_configurator` = 'OrangeHRM\\Admin\\Menu\\PayGradeConfigurator' WHERE `module_id` = @admin_module_id AND `action_url` = 'payGrade';
+UPDATE `ohrm_screen` SET `menu_configurator` = 'OrangeHRM\\Admin\\Menu\\UserMenuConfigurator' WHERE `module_id` = @admin_module_id AND `action_url` = 'saveSystemUser';
+
+INSERT INTO ohrm_screen (`name`, `module_id`, `action_url`, `menu_configurator`) VALUES
+('Save Employment Status', @admin_module_id, 'saveEmploymentStatus', 'OrangeHRM\\Admin\\Menu\\EmploymentStatusMenuConfigurator'),
+('Save Job Category', @admin_module_id, 'saveJobCategory', 'OrangeHRM\\Admin\\Menu\\JobTitleMenuConfigurator'),
+('Save Work Shift', @admin_module_id, 'saveWorkShifts', 'OrangeHRM\\Admin\\Menu\\WorkShiftMenuConfigurator'),
+('Save Skills', @admin_module_id, 'saveSkills', 'OrangeHRM\\Admin\\Menu\\QualificationsMenuConfigurator'),
+('Save Education', @admin_module_id, 'saveEducation', 'OrangeHRM\\Admin\\Menu\\QualificationsMenuConfigurator'),
+('Save Licenses', @admin_module_id, 'saveLicenses', 'OrangeHRM\\Admin\\Menu\\QualificationsMenuConfigurator'),
+('Save Languages', @admin_module_id, 'saveLanguages', 'OrangeHRM\\Admin\\Menu\\QualificationsMenuConfigurator'),
+('Save Memberships', @admin_module_id, 'saveMemberships', 'OrangeHRM\\Admin\\Menu\\MembershipMenuConfigurator'),
+('Save Nationalities', @admin_module_id, 'saveNationality', 'OrangeHRM\\Admin\\Menu\\NationalityMenuConfigurator'),
+('Add/Edit Email Subscriptions', @admin_module_id, 'saveSubscriber', 'OrangeHRM\\Admin\\Menu\\EmailSubscriptionMenuConfigurator');
+
+SET @saveEmploymentStatusScreenId := (SELECT `id` FROM ohrm_screen WHERE `module_id` = @admin_module_id AND `action_url` = 'saveEmploymentStatus' LIMIT 1);
+SET @saveJobCategoryScreenId := (SELECT `id` FROM ohrm_screen WHERE `module_id` = @admin_module_id AND `action_url` = 'saveJobCategory' LIMIT 1);
+SET @saveWorkShiftsScreenId := (SELECT `id` FROM ohrm_screen WHERE `module_id` = @admin_module_id AND `action_url` = 'saveWorkShifts' LIMIT 1);
+SET @saveSkillsScreenId := (SELECT `id` FROM ohrm_screen WHERE `module_id` = @admin_module_id AND `action_url` = 'saveSkills' LIMIT 1);
+SET @saveEducationScreenId := (SELECT `id` FROM ohrm_screen WHERE `module_id` = @admin_module_id AND `action_url` = 'saveEducation' LIMIT 1);
+SET @saveLicensesScreenId := (SELECT `id` FROM ohrm_screen WHERE `module_id` = @admin_module_id AND `action_url` = 'saveLicenses' LIMIT 1);
+SET @saveLanguagesScreenId := (SELECT `id` FROM ohrm_screen WHERE `module_id` = @admin_module_id AND `action_url` = 'saveLanguages' LIMIT 1);
+SET @saveMembershipsScreenId := (SELECT `id` FROM ohrm_screen WHERE `module_id` = @admin_module_id AND `action_url` = 'saveMemberships' LIMIT 1);
+SET @saveNationalityScreenId := (SELECT `id` FROM ohrm_screen WHERE `module_id` = @admin_module_id AND `action_url` = 'saveNationality' LIMIT 1);
+SET @saveSubscriberScreenId := (SELECT `id` FROM ohrm_screen WHERE `module_id` = @admin_module_id AND `action_url` = 'saveSubscriber' LIMIT 1);
+INSERT INTO ohrm_user_role_screen (user_role_id, screen_id, can_read, can_create, can_update, can_delete) VALUES
+(@admin_role_id, @saveEmploymentStatusScreenId, 1, 0, 0, 0),
+(@admin_role_id, @saveJobCategoryScreenId, 1, 0, 0, 0),
+(@admin_role_id, @saveWorkShiftsScreenId, 1, 0, 0, 0),
+(@admin_role_id, @saveSkillsScreenId, 1, 0, 0, 0),
+(@admin_role_id, @saveEducationScreenId, 1, 0, 0, 0),
+(@admin_role_id, @saveLicensesScreenId, 1, 0, 0, 0),
+(@admin_role_id, @saveLanguagesScreenId, 1, 0, 0, 0),
+(@admin_role_id, @saveMembershipsScreenId, 1, 0, 0, 0),
+(@admin_role_id, @saveNationalityScreenId, 1, 0, 0, 0),
+(@admin_role_id, @saveSubscriberScreenId, 1, 0, 0, 0);
+
+SET @pim_module_id := (SELECT `id` FROM ohrm_module WHERE name = 'pim' LIMIT 1);
+UPDATE `ohrm_screen` SET `menu_configurator` = 'OrangeHRM\\Pim\\Menu\\MyInfoMenuConfigurator' WHERE `module_id` = @pim_module_id AND `action_url` = 'viewMyDetails';
+UPDATE `ohrm_screen` SET `menu_configurator` = 'OrangeHRM\\Pim\\Menu\\PimReportMenuConfigurator' WHERE `module_id` = @pim_module_id AND `action_url` = 'definePredefinedReport';
+UPDATE `ohrm_screen` SET `menu_configurator` = 'OrangeHRM\\Pim\\Menu\\PimReportMenuConfigurator' WHERE `module_id` = @pim_module_id AND `action_url` = 'displayPredefinedReport';
+
+INSERT INTO ohrm_screen (`name`, `module_id`, `action_url`, `menu_configurator`) VALUES
+('Save Custom Field', @pim_module_id, 'saveCustomFields', 'OrangeHRM\\Pim\\Menu\\CustomFieldMenuConfigurator'),
+('Save Reporting Method', @pim_module_id, 'saveReportingMethod', 'OrangeHRM\\Pim\\Menu\\ReportingMethodMenuConfigurator'),
+('Save Termination Reason', @pim_module_id, 'saveTerminationReasons', 'OrangeHRM\\Pim\\Menu\\TerminationReasonMenuConfigurator');
+
+SET @saveCustomFieldScreenId := (SELECT `id` FROM ohrm_screen WHERE `module_id` = @pim_module_id AND `action_url` = 'saveCustomFields' LIMIT 1);
+SET @saveReportingMethodScreenId := (SELECT `id` FROM ohrm_screen WHERE `module_id` = @pim_module_id AND `action_url` = 'saveReportingMethod' LIMIT 1);
+SET @saveTerminationReasonScreenId := (SELECT `id` FROM ohrm_screen WHERE `module_id` = @pim_module_id AND `action_url` = 'saveTerminationReasons' LIMIT 1);
+INSERT INTO ohrm_user_role_screen (user_role_id, screen_id, can_read, can_create, can_update, can_delete) VALUES
+(@admin_role_id, @saveCustomFieldScreenId, 1, 0, 0, 0),
+(@admin_role_id, @saveReportingMethodScreenId, 1, 0, 0, 0),
+(@admin_role_id, @saveTerminationReasonScreenId, 1, 0, 0, 0);
+
+SET @leave_module_id := (SELECT `id` FROM ohrm_module WHERE name = 'leave' LIMIT 1);
+UPDATE `ohrm_screen` SET `menu_configurator` = 'OrangeHRM\\Leave\\Menu\\LeaveTypeMenuConfigurator' WHERE `module_id` = @leave_module_id AND `action_url` = 'defineLeaveType';
+UPDATE `ohrm_screen` SET `menu_configurator` = 'OrangeHRM\\Leave\\Menu\\DetailedLeaveRequestMenuConfigurator' WHERE `module_id` = @leave_module_id AND `action_url` = 'viewLeaveRequest';
+
+INSERT INTO ohrm_screen (`name`, `module_id`, `action_url`, `menu_configurator`) VALUES
+('Save Holiday', @leave_module_id, 'saveHolidays', 'OrangeHRM\\Leave\\Menu\\HolidayMenuConfigurator');
+
+SET @saveHolidayScreenId := (SELECT `id` FROM ohrm_screen WHERE `module_id` = @leave_module_id AND `action_url` = 'saveHolidays' LIMIT 1);
+INSERT INTO ohrm_user_role_screen (user_role_id, screen_id, can_read, can_create, can_update, can_delete) VALUES
+(@admin_role_id, @saveHolidayScreenId, 1, 0, 0, 0);
+
+SET @time_module_id := (SELECT `id` FROM ohrm_module WHERE name = 'time' LIMIT 1);
+UPDATE `ohrm_screen` SET `menu_configurator` = 'OrangeHRM\\Time\\Menu\\CustomerMenuConfigurator' WHERE `module_id` = @time_module_id AND `action_url` = 'addCustomer';
+UPDATE `ohrm_screen` SET `menu_configurator` = 'OrangeHRM\\Time\\Menu\\ProjectMenuConfigurator' WHERE `module_id` = @time_module_id AND `action_url` = 'saveProject';
+UPDATE `ohrm_screen` SET `menu_configurator` = 'OrangeHRM\\Time\\Menu\\DetailedProjectActivityReportMenuConfigurator' WHERE `module_id` = @time_module_id AND `action_url` = 'displayProjectActivityDetailsReport';
+
+INSERT INTO ohrm_screen (`name`, `module_id`, `action_url`, `menu_configurator`) VALUES
+('Edit Timesheet', @time_module_id, 'editTimesheet', 'OrangeHRM\\Time\\Menu\\TimesheetMenuConfigurator'),
+('Employee Timesheet', @time_module_id, 'viewTimesheet', 'OrangeHRM\\Time\\Menu\\EmployeeTimesheetMenuConfigurator');
+
+SET @editTimesheetScreenId := (SELECT `id` FROM ohrm_screen WHERE `module_id` = @time_module_id AND `action_url` = 'editTimesheet' LIMIT 1);
+SET @viewTimesheetScreenId := (SELECT `id` FROM ohrm_screen WHERE `module_id` = @time_module_id AND `action_url` = 'viewTimesheet' LIMIT 1);
+INSERT INTO ohrm_user_role_screen (user_role_id, screen_id, can_read, can_create, can_update, can_delete) VALUES
+(@ess_role_id, @editTimesheetScreenId, 1, 0, 0, 0),
+(@ess_role_id, @viewTimesheetScreenId, 1, 0, 0, 0);
+
+SET @attendance_module_id := (SELECT `id` FROM ohrm_module WHERE name = 'attendance' LIMIT 1);
+UPDATE `ohrm_screen` SET `menu_configurator` = 'OrangeHRM\\Attendance\\Menu\\AttendanceMenuConfigurator' WHERE `module_id` = @attendance_module_id;
+
+INSERT INTO ohrm_screen (`name`, `module_id`, `action_url`, `menu_configurator`) VALUES
+('Punch In/Out', @attendance_module_id, 'punchOut', 'OrangeHRM\\Attendance\\Menu\\PunchOutMenuConfigurator'),
+('Edit My Attendance Records', @attendance_module_id, 'editAttendanceRecord', 'OrangeHRM\\Attendance\\Menu\\EditMyAttendanceRecordMenuConfigurator'),
+('Edit Employee Attendance Records', @attendance_module_id, 'editEmployeeAttendanceRecord', 'OrangeHRM\\Attendance\\Menu\\EditEmployeeAttendanceRecordMenuConfigurator'),
+('Employee Punch In/Out', @attendance_module_id, 'proxyPunchInPunchOut', 'OrangeHRM\\Attendance\\Menu\\EmployeePunchInOutMenuConfigurator');
+
+SET @punchOutScreenId := (SELECT `id` FROM ohrm_screen WHERE `module_id` = @attendance_module_id AND `action_url` = 'punchOut' LIMIT 1);
+SET @editAttendanceRecordScreenId := (SELECT `id` FROM ohrm_screen WHERE `module_id` = @attendance_module_id AND `action_url` = 'editAttendanceRecord' LIMIT 1);
+SET @editEmployeeAttendanceRecordScreenId := (SELECT `id` FROM ohrm_screen WHERE `module_id` = @attendance_module_id AND `action_url` = 'editEmployeeAttendanceRecord' LIMIT 1);
+SET @proxyPunchInPunchOutScreenId := (SELECT `id` FROM ohrm_screen WHERE `module_id` = @attendance_module_id AND `action_url` = 'proxyPunchInPunchOut' LIMIT 1);
+INSERT INTO ohrm_user_role_screen (user_role_id, screen_id, can_read, can_create, can_update, can_delete) VALUES
+(@ess_role_id, @punchOutScreenId, 1, 0, 0, 0),
+(@ess_role_id, @editAttendanceRecordScreenId, 1, 0, 0, 0),
+(@admin_role_id, @editEmployeeAttendanceRecordScreenId, 1, 0, 0, 0),
+(@supervisor_role_id, @editEmployeeAttendanceRecordScreenId, 1, 0, 0, 0),
+(@admin_role_id, @proxyPunchInPunchOutScreenId, 1, 0, 0, 0),
+(@supervisor_role_id, @proxyPunchInPunchOutScreenId, 1, 0, 0, 0);
+
+SET @time_menu_item := (SELECT `id` FROM ohrm_menu_item WHERE menu_title = 'Time' LIMIT 1);
+UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `parent_id` = @time_menu_item;
+
+UPDATE `ohrm_module_default_page` SET `action` = 'leave/viewLeaveList' WHERE `module_id` = @leave_module_id AND `user_role_id` = @admin_role_id AND `action` = 'leave/viewLeaveList/reset/1';
+UPDATE `ohrm_module_default_page` SET `action` = 'leave/viewLeaveList' WHERE `module_id` = @leave_module_id AND `user_role_id` = @supervisor_role_id AND `action` = 'leave/viewLeaveList/reset/1';
+
+DROP TABLE `ohrm_data_group_screen`;
+ALTER TABLE `ohrm_menu_item` DROP `url_extras`;
