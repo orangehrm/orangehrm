@@ -19,21 +19,22 @@
 
 namespace OrangeHRM\Attendance\Menu;
 
-use OrangeHRM\Core\Helper\ModuleScreenHelper;
 use OrangeHRM\Core\Menu\MenuConfigurator;
+use OrangeHRM\Core\Traits\ModuleScreenHelperTrait;
 use OrangeHRM\Entity\MenuItem;
 use OrangeHRM\Entity\Screen;
 
 class EditEmployeeAttendanceRecordMenuConfigurator implements MenuConfigurator
 {
+    use ModuleScreenHelperTrait;
+
     /**
      * @inheritDoc
      */
     public function configure(Screen $screen): ?MenuItem
     {
-        $moduleScreen = ModuleScreenHelper::getCurrentModuleAndScreen();
-        $moduleScreen->overrideModule('time');
-        $moduleScreen->overrideScreen('viewAttendanceRecord');
+        $this->getCurrentModuleAndScreen()->overrideModule('time');
+        $this->getCurrentModuleAndScreen()->overrideScreen('viewAttendanceRecord');
         return null;
     }
 }
