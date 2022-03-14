@@ -26,9 +26,9 @@
     :create-options="loadEmployees"
   >
     <template #afterSelected="{data}">
-      <template v-if="data.isPastEmployee">{{
-        $t('general.past_employee')
-      }}</template>
+      <template v-if="data.isPastEmployee">
+        {{ $t('general.past_employee') }}
+      </template>
     </template>
     <template #option="{data}">
       <span>{{ data.label }}</span>
