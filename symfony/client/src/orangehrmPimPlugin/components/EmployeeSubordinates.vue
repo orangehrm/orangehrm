@@ -83,7 +83,9 @@ const subordinateNormalizer = data => {
   return data.map(item => {
     return {
       name: `${item.subordinate?.firstName} ${item.subordinate?.lastName} ${
-        item.subordinate.terminationId ? ''.this.$t('general.past_employee') : ''
+        item.subordinate.terminationId
+          ? ''.this.$t('general.past_employee')
+          : ''
       }`,
       reportingMethod: item.reportingMethod.name,
       subordinateEmpNumber: item.subordinate.empNumber,
