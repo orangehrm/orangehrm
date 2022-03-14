@@ -551,3 +551,135 @@ langStrings:
   -
     value: 'No, Cancel'
     unitId: no_cancel
+  -
+    value: 'User Management'
+    unitId: user_management
+  -
+    value: 'Project Info'
+    unitId: project_info
+  -
+    value: 'Organization'
+    unitId: organization
+  -
+    value: 'Users'
+    unitId: users
+  -
+    value: 'Configuration'
+    unitId: configuration
+  -
+    value: 'Language Packages'
+    unitId: language_packages
+  -
+    value: 'Modules'
+    unitId: modules
+  -
+    value: 'Register OAuth Client'
+    unitId: register_oauth_client
+  -
+    value: 'Social Media Authentication'
+    unitId: social_media_authentication
+  -
+    value: 'Employee List'
+    unitId: employee_list
+  -
+    value: 'Reports'
+    unitId: reports
+  -
+    value: 'PIM'
+    unitId: pim
+  -
+    value: 'Recruitment'
+    unitId: recruitment
+  -
+    value: 'Time'
+    unitId: time
+  -
+    value: 'My Info'
+    unitId: my_info
+  -
+    value: 'Performance'
+    unitId: performance
+  -
+    value: 'Dashboard'
+    unitId: dashboard
+  -
+    value: 'Directory'
+    unitId: directory
+  -
+    value: 'Buzz'
+    unitId: buzz
+  -
+    value: 'Maintenance'
+    unitId: maintenance
+  -
+    value: 'My Timesheets'
+    unitId: my_timesheets
+  -
+    value: 'My Records'
+    unitId: my_records
+  -
+    value: 'Employee Timesheets'
+    unitId: employee_timesheets
+  -
+    value: 'Timesheets'
+    unitId: timesheets
+  -
+    value: 'Punch In/Out'
+    unitId: punch_in_out
+  -
+    value: 'Employee Records'
+    unitId: employee_records
+  -
+    value: 'Attendance'
+    unitId: attendance
+  -
+    value: 'Customers'
+    unitId: customers
+  -
+    value: 'Projects'
+    unitId: projects
+  -
+    value: 'Project Reports'
+    unitId: project_reports
+  -
+    value: 'Project Info'
+    unitId: project_info
+  -
+    value: 'Vacancies'
+    unitId: vacancies
+  -
+    value: 'Candidates'
+    unitId: candidates
+  -
+    value: 'KPIs'
+    unitId: kpis
+  -
+    value: 'Manage Reviews'
+    unitId: manage_reviews
+  -
+    value: 'My Reviews'
+    unitId: my_reviews
+  -
+    value: 'My Trackers'
+    unitId: my_trackers
+  -
+    value: 'Review List'
+    unitId: review_list
+  -
+    value: 'Trackers'
+    unitId: trackers
+  -
+    value: 'Employee Trackers'
+    unitId: employee_trackers
+  -
+    value: 'Candidate Records'
+    unitId: candidate_records
+  -
+    value: 'Access Records'
+    unitId: access_records
+  -
+    value: 'Purge Records'
+    unitId: purge_records
+  -
+    value: 'Structure'
+    unitId: structure
