@@ -4588,5 +4588,8 @@ INSERT INTO ohrm_user_role_screen (user_role_id, screen_id, can_read, can_create
 SET @time_menu_item := (SELECT `id` FROM ohrm_menu_item WHERE menu_title = 'Time' LIMIT 1);
 UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `parent_id` = @time_menu_item;
 
+UPDATE `ohrm_module_default_page` SET `action` = 'leave/viewLeaveList' WHERE `module_id` = @leave_module_id AND `user_role_id` = @admin_role_id AND `action` = 'leave/viewLeaveList/reset/1';
+UPDATE `ohrm_module_default_page` SET `action` = 'leave/viewLeaveList' WHERE `module_id` = @leave_module_id AND `user_role_id` = @supervisor_role_id AND `action` = 'leave/viewLeaveList/reset/1';
+
 DROP TABLE `ohrm_data_group_screen`;
 ALTER TABLE `ohrm_menu_item` DROP `url_extras`;
