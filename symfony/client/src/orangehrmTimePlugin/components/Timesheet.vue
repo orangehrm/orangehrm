@@ -50,7 +50,9 @@
             <th :class="fixedColumnClasses">
               {{ $t('time.project') }}
             </th>
-            <th class="orangehrm-timesheet-table-header-cell">
+            <th
+              class="orangehrm-timesheet-table-header-cell orangehrm-timesheet-table-header-activity"
+            >
               {{ $t('time.activity') }}
             </th>
 
@@ -101,7 +103,9 @@
                 }}
               </span>
             </td>
-            <td class="orangehrm-timesheet-table-body-cell">
+            <td
+              class="orangehrm-timesheet-table-body-cell orangehrm-timesheet-table-body-cell--dropdown"
+            >
               <activity-dropdown
                 v-if="editable"
                 :rules="rules.activity"
@@ -349,6 +353,7 @@ export default {
     fixedCellClasses() {
       return {
         'orangehrm-timesheet-table-body-cell': true,
+        'orangehrm-timesheet-table-body-cell--activity': true,
         '--freeze-left': !this.editable,
       };
     },

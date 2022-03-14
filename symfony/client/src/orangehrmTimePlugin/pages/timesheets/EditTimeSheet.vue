@@ -97,6 +97,11 @@ export default {
 
   setup(props) {
     let tble = document.querySelector('.orangehrm-timesheet-body');
+    let tdFromRight = 0;
+    let windowScrollValue = 0;
+    let activityTds = document.querySelector(
+      '.orangehrm-timesheet-table-body-cell--dropdown',
+    );
     const http = new APIService(
       window.appGlobal.baseUrl,
       `/api/v2/time/timesheets`,
@@ -208,20 +213,62 @@ export default {
         });
     };
 
-    const clickCallback = e => {
-      if (e.target.closest('.oxd-select-wrapper')) {
-        tble.scrollTo({top: tble.scrollHeight, behavior: 'smooth'});
+    const triggerEvent = function(e) {
+      if (e.type === 'scroll') {
+        windowScrollValue = 0;
+        if (activityTds[0].style.right === '') {
+          activityTds.forEach(el => {
+            el.style.position = 'absolute';
+          });
+          tdFromRight = getComputedStyle(activityTds[0]).right;
+        }
+        activityTds.forEach(el => {
+          el.style.right = parseFloat(tdFromRight) + tble.scrollLeft + 'px';
+        });
+        return;
+      }
+      if (e.type === 'resize') {
+        windowScrollValue = tble.scrollLeft;
+        activityTds.forEach(el => {
+          el.style.position = 'relative';
+          el.style.right = '';
+          el.style.left = '';
+        });
+        return;
+      }
+      if (e.type === 'click') {
+        const el = e.target.closest('.oxd-input-field-bottom-space');
+        const tdElement = el?.closest(
+          '.orangehrm-timesheet-table-body-cell--dropdown',
+        );
+        if (tdElement) {
+          activityTds.forEach(ele => {
+            ele.style.position = 'absolute';
+          });
+          tdFromRight = getComputedStyle(activityTds[0]).right;
+          activityTds.forEach(ele => {
+            ele.style.right =
+              parseFloat(tdFromRight) + windowScrollValue + 'px';
+          });
+          windowScrollValue = 0;
+        }
       }
     };
 
-    const triggerScrollEvent = () => {
-      tble.addEventListener('click', clickCallback);
+    const triggerEvents = () => {
+      tdFromRight = getComputedStyle(activityTds[0]).right;
+      tble.addEventListener('scroll', triggerEvent);
+      tble.addEventListener('click', triggerEvent);
+      window.addEventListener('resize', triggerEvent);
     };
 
     onUpdated(() => {
       if (!tble) {
         tble = document.querySelector('.orangehrm-timesheet-body');
-        triggerScrollEvent();
+        activityTds = document.querySelectorAll(
+          '.orangehrm-timesheet-table-body-cell--dropdown',
+        );
+        triggerEvents();
       }
     });
 
@@ -267,5 +314,11 @@ export default {
   font-size: 0.75rem;
   text-overflow: ellipsis;
   overflow: hidden;
+}
+::v-deep(.orangehrm-timesheet-table-body-cell--dropdown) {
+  position: absolute;
+}
+::v-deep(.orangehrm-timesheet-table-header-activity) {
+  padding: 0 4rem !important;
 }
 </style>
