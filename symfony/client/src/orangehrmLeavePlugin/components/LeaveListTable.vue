@@ -130,10 +130,10 @@ const leavelistNormalizer = data => {
       empNumber: item.employee?.empNumber,
       date: leaveDatePeriod,
       employeeName: `${name} ${
-        item.employee?.terminationId ? '(Past Employee)' : ''
+        item.employee?.terminationId ? ' (past_employee)' : ''
       }`,
       leaveType:
-        item.leaveType?.name + `${item.leaveType?.deleted ? ' (Deleted)' : ''}`,
+        item.leaveType?.name + `${item.leaveType?.deleted ? 'deleted' : ''}`,
       leaveBalance: leaveBalances,
       days: parseFloat(item.noOfDays).toFixed(2),
       status: leaveStatuses,
@@ -222,7 +222,7 @@ export default {
         validDateFormat(),
         endDateShouldBeAfterStartDate(
           () => filters.value.fromDate,
-          'To date should be after from date',
+          this.$t('general.to_date_should_be_after_from_date'),
           {allowSameDate: true},
         ),
       ],
@@ -323,17 +323,37 @@ export default {
   data() {
     return {
       headers: [
-        {name: 'date', title: 'Date', style: {flex: 1}},
-        {name: 'employeeName', title: 'Employee Name', style: {flex: 1}},
-        {name: 'leaveType', title: 'Leave Type', style: {flex: 1}},
-        {name: 'leaveBalance', title: 'Leave Balance (Days)', style: {flex: 1}},
-        {name: 'days', title: 'Number of Days', style: {flex: 1}},
-        {name: 'status', title: 'Status', style: {flex: 1}},
-        {name: 'comment', title: 'Comments', style: {flex: '5%'}},
+        {name: 'date', title: this.$t('general.date'), style: {flex: 1}},
+        {
+          name: 'employeeName',
+          title: this.$t('general.employee_name'),
+          style: {flex: 1},
+        },
+        {
+          name: 'leaveType',
+          title: this.$t('leave.leave_type'),
+          style: {flex: 1},
+        },
+        {
+          name: 'leaveBalance',
+          title: this.$t('leave.leave_balance_days'),
+          style: {flex: 1},
+        },
+        {
+          name: 'days',
+          title: this.$t('leave.number_of_days'),
+          style: {flex: 1},
+        },
+        {name: 'status', title: this.$t('general.status'), style: {flex: 1}},
+        {
+          name: 'comment',
+          title: this.$t('general.comments'),
+          style: {flex: '5%'},
+        },
         {
           name: 'action',
           slot: 'footer',
-          title: 'Actions',
+          title: this.$t('general.actions'),
           cellType: 'oxd-table-cell-actions',
           cellRenderer: this.cellRenderer,
           style: {
@@ -372,9 +392,9 @@ export default {
       const cellConfig = {};
       const {approve, reject, cancel, more} = this.leaveActions;
       const dropdownActions = [
-        {label: 'Add Comment', context: 'add_comment'},
-        {label: 'View Leave Details', context: 'leave_details'},
-        {label: 'View PIM Info', context: 'pim_details'},
+        {label: this.$t('general.add_comment'), context: 'add_comment'},
+        {label: this.$t('leave.view_leave_details'), context: 'leave_details'},
+        {label: this.$t('leave.view_pim_info'), context: 'pim_details'},
       ];
 
       row.actions.map(item => {
@@ -392,7 +412,7 @@ export default {
             cellConfig.reject = cancel;
           } else {
             dropdownActions.push({
-              label: 'Cancel Leave',
+              label: this.$t('leave.cancel_leave'),
               context: 'cancel_leave',
             });
           }
@@ -469,8 +489,11 @@ export default {
           const {data} = response.data;
           if (Array.isArray(data))
             this.$toast.success({
-              title: 'Success',
-              message: `${data.length} Leave Request(s) ${action}`,
+              title: this.$t('general.success'),
+              message: this.$t('leave.leave_requests_action', {
+                action: action,
+                count: data.length,
+              }),
             });
         })
         .finally(() => {

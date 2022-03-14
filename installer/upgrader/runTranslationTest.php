@@ -20,14 +20,14 @@
 use OrangeHRM\Framework\ServiceContainer;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\ORM\Doctrine;
-use OrangeHRM\Tools\Migrations\V5\TranslationTool;
+use OrangeHRM\Tools\Migrations\V5\TranslationTestTool;
 
 require_once realpath(__DIR__ . '/../../symfony/vendor/autoload.php');
 
 ServiceContainer::getContainer()->register(Services::DOCTRINE)
     ->setFactory([Doctrine::class, 'getEntityManager']);
 
-$translate = new TranslationTool();
+$translate = new TranslationTestTool();
 $translate->up('admin');
 $translate->up('general');
 $translate->up('pim');

@@ -105,13 +105,13 @@ export default {
     return {
       headers: [
         {
-          title: 'Leave Status',
+          title: this.$t('leave.leave_status'),
           name: 'status',
           slot: 'left',
           style: {flex: 1},
         },
         {
-          title: 'Days',
+          title: this.$t('leave.days'),
           name: 'days',
           slot: 'right',
           style: {
@@ -145,7 +145,7 @@ export default {
       const employee = this.meta?.employee;
       if (employee) {
         return `${employee.firstName} ${employee.lastName}
-          ${employee.terminationId ? ' (Past Employee)' : ''}`;
+          ${employee.terminationId ? this.$t('general.past_employee') : ''}`;
       }
       return '';
     },
