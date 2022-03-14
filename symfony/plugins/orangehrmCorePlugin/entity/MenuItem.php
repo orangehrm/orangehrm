@@ -20,7 +20,6 @@
 namespace OrangeHRM\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use OrangeHRM\Entity\Decorator\DecoratorTrait;
 
 /**
  * @ORM\Table(name="ohrm_menu_item")
@@ -28,8 +27,6 @@ use OrangeHRM\Entity\Decorator\DecoratorTrait;
  */
 class MenuItem
 {
-    use DecoratorTrait;
-
     /**
      * @var int
      *
@@ -67,13 +64,6 @@ class MenuItem
      * @ORM\Column(name="order_hint", type="integer")
      */
     private int $orderHint;
-
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="url_extras", type="string", length=255, nullable=true)
-     */
-    private ?string $urlExtras = null;
 
     /**
      * @var bool
@@ -175,22 +165,6 @@ class MenuItem
     public function setOrderHint(int $orderHint): void
     {
         $this->orderHint = $orderHint;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getUrlExtras(): ?string
-    {
-        return $this->urlExtras;
-    }
-
-    /**
-     * @param string|null $urlExtras
-     */
-    public function setUrlExtras(?string $urlExtras): void
-    {
-        $this->urlExtras = $urlExtras;
     }
 
     /**

@@ -4589,3 +4589,4 @@ SET @time_menu_item := (SELECT `id` FROM ohrm_menu_item WHERE menu_title = 'Time
 UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `parent_id` = @time_menu_item;
 
 DROP TABLE `ohrm_data_group_screen`;
+ALTER TABLE `ohrm_menu_item` DROP `url_extras`;
