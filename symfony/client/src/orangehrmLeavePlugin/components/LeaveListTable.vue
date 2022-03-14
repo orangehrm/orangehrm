@@ -130,11 +130,11 @@ const leavelistNormalizer = data => {
       empNumber: item.employee?.empNumber,
       date: leaveDatePeriod,
       employeeName: `${name} ${
-        item.employee?.terminationId ? this.$t('general.past_employee') : ''
+        item.employee?.terminationId ? ' (past_employee)' : ''
       }`,
       leaveType:
         item.leaveType?.name +
-        `${item.leaveType?.deleted ? this.$t('general.deleted') : ''}`,
+        `${item.leaveType?.deleted ? 'deleted' : ''}`,
       leaveBalance: leaveBalances,
       days: parseFloat(item.noOfDays).toFixed(2),
       status: leaveStatuses,
