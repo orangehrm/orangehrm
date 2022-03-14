@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\Attendance\Api;
 
-use DateTime;
 use DateTimeZone;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CollectionEndpoint;
@@ -34,10 +33,12 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
+use OrangeHRM\Core\Traits\Service\NumberHelperTrait;
 
 class TimezonesAPI extends Endpoint implements CollectionEndpoint
 {
     use DateTimeHelperTrait;
+    use NumberHelperTrait;
 
     public const FILTER_TIMEZONE_NAME = 'timezoneName';
 
@@ -70,8 +71,8 @@ class TimezonesAPI extends Endpoint implements CollectionEndpoint
         $timezones = [];
         foreach ($filteredIdentifiers as $timezoneIdentifier) {
             $timezone = new DateTimeZone($timezoneIdentifier);
-            $offsetInSeconds = $timezone->getOffset(new DateTime());
-            $offset = number_format((float)($offsetInSeconds / 3600), 1);
+            $offsetInSeconds = $timezone->getOffset($this->getDateTimeHelper()->getNow());
+            $offset = $this->getNumberHelper()->numberFormat((float)($offsetInSeconds / 3600), 1);
             $timezoneValue = gmdate('H:i', abs($offsetInSeconds));
             $offsetPrefix = $offsetInSeconds > 0 ? '+' : '-';
             $timezones[$timezoneIdentifier] = [

@@ -1,6 +1,8 @@
 GetAll:
   'Get Timezones by filter(Admin) - kol':
     userId: 1
+    now:
+      datetime: '2022-03-01'
     query:
       timezoneName: 'kol'
     data:
@@ -15,6 +17,8 @@ GetAll:
 
   'Get Timezones by filter(ESS) - kol':
     userId: 2
+    now:
+      datetime: '2022-03-01'
     query:
       timezoneName: 'kol'
     data:
@@ -29,6 +33,8 @@ GetAll:
 
   'Get Timezones by filter(ESS) - tok':
     userId: 2
+    now:
+      datetime: '2022-03-01'
     query:
       timezoneName: 'tok'
     data:
@@ -46,6 +52,8 @@ GetAll:
 
   'Get Timezones by filter(ESS) - yo':
     userId: 2
+    now:
+      datetime: '2022-03-13'
     query:
       timezoneName: 'yo'
     data:
