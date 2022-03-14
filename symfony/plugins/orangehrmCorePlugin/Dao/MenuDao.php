@@ -157,7 +157,7 @@ class MenuDao extends BaseDao
     }
 
     /**
-     * @param array $userRoles
+     * @param UserRole[] $userRoles
      * @return QueryBuilderWrapper|null
      */
     private function getMenuItemQueryBuilderWrapper(array $userRoles): ?QueryBuilderWrapper

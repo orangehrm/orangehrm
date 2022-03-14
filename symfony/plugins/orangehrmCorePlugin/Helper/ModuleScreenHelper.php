@@ -64,4 +64,12 @@ class ModuleScreenHelper
         $requestStack = ServiceContainer::getContainer()->get(Services::REQUEST_STACK);
         return $requestStack->getCurrentRequest();
     }
+
+    /**
+     * Reset current module and screen
+     */
+    public static function resetCurrentModuleAndScreen(): void
+    {
+        self::$moduleScreen = null;
+    }
 }

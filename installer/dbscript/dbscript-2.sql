@@ -4495,7 +4495,8 @@ INSERT INTO ohrm_screen (`name`, `module_id`, `action_url`, `menu_configurator`)
 ('Save Licenses', @admin_module_id, 'saveLicenses', 'OrangeHRM\\Admin\\Menu\\QualificationsMenuConfigurator'),
 ('Save Languages', @admin_module_id, 'saveLanguages', 'OrangeHRM\\Admin\\Menu\\QualificationsMenuConfigurator'),
 ('Save Memberships', @admin_module_id, 'saveMemberships', 'OrangeHRM\\Admin\\Menu\\MembershipMenuConfigurator'),
-('Save Nationalities', @admin_module_id, 'saveNationality', 'OrangeHRM\\Admin\\Menu\\NationalityMenuConfigurator');
+('Save Nationalities', @admin_module_id, 'saveNationality', 'OrangeHRM\\Admin\\Menu\\NationalityMenuConfigurator'),
+('Add/Edit Email Subscriptions', @admin_module_id, 'saveSubscriber', 'OrangeHRM\\Admin\\Menu\\EmailSubscriptionMenuConfigurator');
 
 SET @saveEmploymentStatusScreenId := (SELECT `id` FROM ohrm_screen WHERE `module_id` = @admin_module_id AND `action_url` = 'saveEmploymentStatus' LIMIT 1);
 SET @saveJobCategoryScreenId := (SELECT `id` FROM ohrm_screen WHERE `module_id` = @admin_module_id AND `action_url` = 'saveJobCategory' LIMIT 1);
@@ -4506,6 +4507,7 @@ SET @saveLicensesScreenId := (SELECT `id` FROM ohrm_screen WHERE `module_id` = @
 SET @saveLanguagesScreenId := (SELECT `id` FROM ohrm_screen WHERE `module_id` = @admin_module_id AND `action_url` = 'saveLanguages' LIMIT 1);
 SET @saveMembershipsScreenId := (SELECT `id` FROM ohrm_screen WHERE `module_id` = @admin_module_id AND `action_url` = 'saveMemberships' LIMIT 1);
 SET @saveNationalityScreenId := (SELECT `id` FROM ohrm_screen WHERE `module_id` = @admin_module_id AND `action_url` = 'saveNationality' LIMIT 1);
+SET @saveSubscriberScreenId := (SELECT `id` FROM ohrm_screen WHERE `module_id` = @admin_module_id AND `action_url` = 'saveSubscriber' LIMIT 1);
 INSERT INTO ohrm_user_role_screen (user_role_id, screen_id, can_read, can_create, can_update, can_delete) VALUES
 (@admin_role_id, @saveEmploymentStatusScreenId, 1, 0, 0, 0),
 (@admin_role_id, @saveJobCategoryScreenId, 1, 0, 0, 0),
@@ -4515,7 +4517,8 @@ INSERT INTO ohrm_user_role_screen (user_role_id, screen_id, can_read, can_create
 (@admin_role_id, @saveLicensesScreenId, 1, 0, 0, 0),
 (@admin_role_id, @saveLanguagesScreenId, 1, 0, 0, 0),
 (@admin_role_id, @saveMembershipsScreenId, 1, 0, 0, 0),
-(@admin_role_id, @saveNationalityScreenId, 1, 0, 0, 0);
+(@admin_role_id, @saveNationalityScreenId, 1, 0, 0, 0),
+(@admin_role_id, @saveSubscriberScreenId, 1, 0, 0, 0);
 
 SET @pim_module_id := (SELECT `id` FROM ohrm_module WHERE name = 'pim' LIMIT 1);
 UPDATE `ohrm_screen` SET `menu_configurator` = 'OrangeHRM\\Pim\\Menu\\MyInfoMenuConfigurator' WHERE `module_id` = @pim_module_id AND `action_url` = 'viewMyDetails';

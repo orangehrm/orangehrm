@@ -183,12 +183,13 @@ class MenuService
         if (!is_null($selectedSidePanelMenuId)) {
             $topMenuItems = $this->getTopMenuItemsAlongWithCache($selectedSidePanelMenuId);
             foreach ($topMenuItems as $topMenuItem) {
-                $normalizedTopMenuItems[] = $this->normalizeTopMenuItem(
+                $normalizedTopMenuItem = $this->normalizeTopMenuItem(
                     $topMenuItem,
                     $baseUrl,
                     $configuratorMenuItems,
                     $currentModuleAndScreen
                 );
+                is_null($normalizedTopMenuItem) ?: $normalizedTopMenuItems[] = $normalizedTopMenuItem;
             }
         }
 
@@ -286,7 +287,7 @@ class MenuService
      * @param string $baseUrl
      * @param array<int, MenuItem> $configuratorMenuItems
      * @param ModuleScreen|null $currentModuleAndScreen
-     * @return array
+     * @return array|null
      */
     private function normalizeTopMenuItem(
         DetailedMenuItem $detailedMenuItem,
@@ -294,7 +295,7 @@ class MenuService
         array $configuratorMenuItems = [],
         ?ModuleScreen $currentModuleAndScreen = null,
         bool $leaf = false
-    ): array {
+    ): ?array {
         $active = $this->isActiveTopMenuItem($detailedMenuItem, $currentModuleAndScreen, $configuratorMenuItems);
         $menuItem = $this->normalizeMenuItem($detailedMenuItem, $baseUrl, $active);
         $leaf ?: $menuItem['children'] = [];
@@ -310,14 +311,24 @@ class MenuService
                 if ($active) {
                     $menuItem['active'] = true;
                 }
-                $menuItem['children'][] = $this->normalizeTopMenuItem(
+                $normalizedTopMenuItem = $this->normalizeTopMenuItem(
                     $subItem,
                     $baseUrl,
                     $configuratorMenuItems,
                     $currentModuleAndScreen,
                     true
                 );
+                is_null($normalizedTopMenuItem) ?: $menuItem['children'][] = $normalizedTopMenuItem;
             }
+        }
+
+        /**
+         * This is to hide second level menu items which don't have assigned screen &
+         * no child menu items assigned. When there is no screen assigned to a menu item
+         * no way to derive module or user permission
+         */
+        if (!$leaf && empty($menuItem['children']) && $menuItem['url'] === '#') {
+            return null;
         }
         return $menuItem;
     }

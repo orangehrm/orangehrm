@@ -23,6 +23,7 @@ use OrangeHRM\Admin\Service\UserService;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory;
 use OrangeHRM\Core\Dto\AttributeBag;
+use OrangeHRM\Core\Helper\ModuleScreenHelper;
 use OrangeHRM\Core\Service\ConfigService;
 use OrangeHRM\Core\Service\MenuService;
 use OrangeHRM\Framework\Http\Request;
@@ -57,6 +58,7 @@ class MenuServiceTest extends KernelTestCase
 
     public function testGetMenuItemsForAdmin(): void
     {
+        ModuleScreenHelper::resetCurrentModuleAndScreen();
         $requestStack = new RequestStack();
         $request = Request::create('http://example.com/admin/viewSystemUsers');
         $requestStack->push($request);
@@ -93,7 +95,7 @@ class MenuServiceTest extends KernelTestCase
             Services::EMPLOYEE_SERVICE => new EmployeeService(),
         ]);
         $this->getContainer()->register(Services::USER_ROLE_MANAGER)
-            ->setFactory([UserRoleManagerFactory::class, 'getUserRoleManager']);
+            ->setFactory([UserRoleManagerFactory::class, 'getNewUserRoleManager']);
 
         // Calling twice to check menu caching
         list($sidePanelMenuItems, $topMenuItems) = $this->menuService->getMenuItems('');
@@ -315,6 +317,112 @@ class MenuServiceTest extends KernelTestCase
                         'url' => '/admin/registerOAuthClient',
                     ],
                 ],
+            ],
+        ], $topMenuItems);
+    }
+
+    public function testGetMenuItemsForSupervisor(): void
+    {
+        ModuleScreenHelper::resetCurrentModuleAndScreen();
+        $requestStack = new RequestStack();
+        $request = Request::create('http://example.com/pim/viewEmployeeList');
+        $requestStack->push($request);
+
+        $attributeBag = new AttributeBag();
+        $authUser = $this->getMockBuilder(MockAuthUser::class)
+            ->onlyMethods(['getUserId', 'setAttribute', 'getAttribute', 'hasAttribute'])
+            ->disableOriginalConstructor()
+            ->getMock();
+        $authUser->expects($this->once())
+            ->method('getUserId')
+            ->willReturn(4);
+        $authUser->expects($this->exactly(3))
+            ->method('setAttribute')
+            ->willReturnCallback(function (string $name, $value) use ($attributeBag) {
+                $attributeBag->set($name, $value);
+            });
+        $authUser->expects($this->exactly(5))
+            ->method('getAttribute')
+            ->willReturnCallback(function (string $name, $default = null) use ($attributeBag) {
+                return $attributeBag->get($name, $default);
+            });
+        $authUser->expects($this->exactly(4))
+            ->method('hasAttribute')
+            ->willReturnCallback(function (string $name) use ($attributeBag) {
+                return $attributeBag->has($name);
+            });
+
+        $this->createKernelWithMockServices([
+            Services::REQUEST_STACK => $requestStack,
+            Services::AUTH_USER => $authUser,
+            Services::CONFIG_SERVICE => new ConfigService(),
+            Services::USER_SERVICE => new UserService(),
+            Services::EMPLOYEE_SERVICE => new EmployeeService(),
+        ]);
+        $this->getContainer()->register(Services::USER_ROLE_MANAGER)
+            ->setFactory([UserRoleManagerFactory::class, 'getNewUserRoleManager']);
+
+        // Calling twice to check menu caching
+        list($sidePanelMenuItems, $topMenuItems) = $this->menuService->getMenuItems('');
+        list($sidePanelMenuItems, $topMenuItems) = $this->menuService->getMenuItems('');
+        $this->assertEquals([
+            [
+                'id' => 30,
+                'name' => 'PIM',
+                'url' => '/pim/viewPimModule',
+                'icon' => 'pim',
+                'active' => true,
+            ],
+            [
+                'id' => 41,
+                'name' => 'Leave',
+                'url' => '/leave/viewLeaveModule',
+                'icon' => 'leave',
+            ],
+            [
+                'id' => 52,
+                'name' => 'Time',
+                'url' => '/time/viewTimeModule',
+                'icon' => 'time',
+            ],
+            [
+                'id' => 40,
+                'name' => 'My Info',
+                'url' => '/pim/viewMyDetails',
+                'icon' => 'myinfo',
+            ],
+            [
+                'id' => 83,
+                'name' => 'Performance',
+                'url' => '/performance/viewPerformanceModule',
+                'icon' => 'performance',
+            ],
+            [
+                'id' => 82,
+                'name' => 'Dashboard',
+                'url' => '/dashboard/index',
+                'icon' => 'dashboard',
+            ],
+            [
+                'id' => 93,
+                'name' => 'Directory',
+                'url' => '/directory/viewDirectory',
+                'icon' => 'directory',
+            ],
+            [
+                'id' => 101,
+                'name' => 'Buzz',
+                'url' => '/buzz/viewBuzz',
+                'icon' => 'buzz',
+            ]
+        ], $sidePanelMenuItems);
+        $this->assertEquals([
+            [
+                'id' => 37,
+                'name' => 'Employee List',
+                'url' => '/pim/viewEmployeeList',
+                'children' => [],
+                'active' => true,
             ],
         ], $topMenuItems);
     }
