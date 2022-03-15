@@ -232,7 +232,7 @@ export default {
           style: {flex: 1},
         },
         {
-          ...(true && {
+          ...(this.isEditable && {
             name: 'actions',
             slot: 'title',
             title: 'Actions',
