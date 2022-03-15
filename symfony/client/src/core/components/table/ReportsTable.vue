@@ -21,7 +21,10 @@
 <template>
   <div class="orangehrm-background-container">
     <slot :generateReport="generateReport"></slot>
-    <div v-if="headers.length !== 0" class="orangehrm-paper-container">
+    <div
+      v-if="headers.length !== 0"
+      class="orangehrm-paper-container orangehrm-paper-container--report"
+    >
       <oxd-report-table
         :items="items"
         :headers="headers"

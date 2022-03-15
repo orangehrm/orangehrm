@@ -50,6 +50,8 @@
   }
 }
 
-::v-deep(revogr-scroll-virtual.horizontal) {
-  display: none;
+.orangehrm-paper-container--report {
+  ::v-deep(revogr-scroll-virtual.horizontal) {
+    display: none;
+  }
 }
