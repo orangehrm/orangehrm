@@ -24,7 +24,6 @@ use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\Service\TextHelperTrait;
 use OrangeHRM\Framework\Event\AbstractEventSubscriber;
-use OrangeHRM\Maintenance\Controller\PurgeEmployeeController;
 use Symfony\Component\HttpKernel\Event\ControllerEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
