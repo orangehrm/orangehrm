@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Authentication\Subscriber;
 
+use OrangeHRM\Authentication\Controller\AdminPrivilegeController;
 use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\Service\TextHelperTrait;
@@ -50,7 +51,7 @@ class AdministratorAccessSubscriber extends AbstractEventSubscriber
      */
     public function onControllerEvent(ControllerEvent $controllerEvent): void
     {
-        if ($controllerEvent->getController()[0] instanceof PurgeEmployeeController) {
+        if ($controllerEvent->getController()[0] instanceof AdminPrivilegeController) {
             return;
         }
         if ($controllerEvent->getController()[0] instanceof AbstractVueController) {
