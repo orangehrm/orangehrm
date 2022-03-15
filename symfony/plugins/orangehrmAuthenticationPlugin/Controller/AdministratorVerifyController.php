@@ -27,14 +27,13 @@ use OrangeHRM\Authentication\Exception\AuthenticationException;
 use OrangeHRM\Authentication\Service\AuthenticationService;
 use OrangeHRM\Core\Controller\AbstractController;
 use OrangeHRM\Core\Controller\Exception\RequestForwardableException;
-use OrangeHRM\Core\Controller\PublicControllerInterface;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Framework\Http\RedirectResponse;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\Http\Response;
 
-class AdministratorVerifyController extends AbstractController implements PublicControllerInterface
+class AdministratorVerifyController extends AbstractController
 {
     use AuthUserTrait;
     use UserRoleManagerTrait;
@@ -66,38 +65,32 @@ class AdministratorVerifyController extends AbstractController implements Public
             throw new RequestForwardableException(ForbiddenController::class . '::handle');
         }
 
-        if ($this->getAuthUser()->isAuthenticated()) {
-            $userId = $this->getAuthUser()->getUserId();
-            $systemUser = $this->getUserService()->getSystemUser($userId);
-            if (isset($systemUser)) {
-                $username = $systemUser->getUserName();
-                $password = $request->request->get(self::PARAMETER_PASSWORD, '');
-                $credentials = new UserCredential($username, $password);
+        $username = $this->getUserRoleManager()->getUser()->getUserName();
+        $password = $request->request->get(self::PARAMETER_PASSWORD, '');
+        $credentials = new UserCredential($username, $password);
 
-                try {
-                    $csrfTokenManager = new CsrfTokenManager();
-                    $token = $request->request->get('_token');
-                    if (!$csrfTokenManager->isValid('administrator-access', $token)) {
-                        throw AuthenticationException::invalidCsrfToken();
-                    }
-                    //TODO
-                    $success = $this->getAuthenticationService()->setCredentials($credentials, []);
-                    if (!$success) {
-                        throw AuthenticationException::invalidCredentials();
-                    }
-                    $this->getAuthUser()->setHasAdminAccess(true);
-
-                    $forwardUrl = $this->getAuthUser()->getAttribute(AuthUser::ADMIN_ACCESS_FORWARD_URL);
-
-                    $this->getAuthUser()->removeAttribute(AuthUser::ADMIN_ACCESS_FORWARD_URL);
-                    $this->getAuthUser()->removeAttribute(AuthUser::ADMIN_ACCESS_BACK_URL);
-
-                    return $this->redirect($forwardUrl);
-                } catch (AuthenticationException $e) {
-                    $this->getAuthUser()->addFlash(AuthUser::FLASH_VERIFY_ERROR, $e->normalize());
-                    return $this->forward(AdministratorAccessController::class . '::handle');
-                }
+        try {
+            $csrfTokenManager = new CsrfTokenManager();
+            $token = $request->request->get('_token');
+            if (!$csrfTokenManager->isValid('administrator-access', $token)) {
+                throw AuthenticationException::invalidCsrfToken();
             }
+            //TODO
+            $success = $this->getAuthenticationService()->setCredentials($credentials, []);
+            if (!$success) {
+                throw AuthenticationException::invalidCredentials();
+            }
+            $this->getAuthUser()->setHasAdminAccess(true);
+
+            $forwardUrl = $this->getAuthUser()->getAttribute(AuthUser::ADMIN_ACCESS_FORWARD_URL);
+
+            $this->getAuthUser()->removeAttribute(AuthUser::ADMIN_ACCESS_FORWARD_URL);
+            $this->getAuthUser()->removeAttribute(AuthUser::ADMIN_ACCESS_BACK_URL);
+
+            return $this->redirect($forwardUrl);
+        } catch (AuthenticationException $e) {
+            $this->getAuthUser()->addFlash(AuthUser::FLASH_VERIFY_ERROR, $e->normalize());
+            return $this->forward(AdministratorAccessController::class . '::handle');
         }
     }
 }

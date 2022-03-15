@@ -38,13 +38,11 @@ export const reloadPage = function(): void {
 /**
  * Used to navigate back to a given path
  * If the path is null or an empty string, window.history.back() will be used
- * @param path Example: /pim/viewEmployeeList
+ * @param path Example: /pim/viewEmployeeList, Default null
  */
-export const goBack = function(path: string | null): void {
-  const resolvedPath = path !== null ? path : '';
-
-  if (resolvedPath !== '') {
-    window.location.href = urlFor(resolvedPath);
+export const goBack = function(path: string | null = null): void {
+  if (path !== '' && path !== null) {
+    window.location.href = urlFor(path);
   } else {
     window.history.back();
   }

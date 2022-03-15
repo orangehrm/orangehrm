@@ -19,15 +19,23 @@
 
 namespace OrangeHRM\Authentication\Controller\Traits;
 
+use Exception;
 use LogicException;
 use OrangeHRM\Authentication\Controller\AdministratorAccessController;
 use OrangeHRM\Authentication\Controller\AdminPrivilegeController;
+use OrangeHRM\Authentication\Controller\ForbiddenController;
 use OrangeHRM\Core\Controller\AbstractVueController;
+use OrangeHRM\Core\Controller\Exception\RequestForwardableException;
+use OrangeHRM\Core\Traits\Service\TextHelperTrait;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\Http\Response;
+use OrangeHRM\Framework\Routing\UrlMatcher;
+use OrangeHRM\Framework\Services;
 
 trait AdministratorAccessTrait
 {
+    use TextHelperTrait;
+
     /**
      * @param Request $request Provide request from handle method in controller
      * @return Response
@@ -46,13 +54,25 @@ trait AdministratorAccessTrait
         }
 
         $currentRequest = $this->getCurrentRequest();
-
         $forwardUrl = $currentRequest->getPathInfo();
 
-        //TODO check referer consistency and limitations
         $backUrl = $request->headers->get('referer');
         $baseUrl = $currentRequest->getSchemeAndHttpHost() . $currentRequest->getBaseUrl();
+        $textHelper = $this->getTextHelper();
+
+        // Will fail if backUrl: is null || contains a different base url or host || contains api/v2
+        if (is_null($backUrl) || !$textHelper->strContains($backUrl, $baseUrl) || $textHelper->strContains($backUrl, 'api/v2')) {
+            throw new RequestForwardableException(ForbiddenController::class . '::handle');
+        }
+
         $formattedBackUrl = str_replace($baseUrl, '', $backUrl);
+        /** @var UrlMatcher $urlMatcher */
+        $urlMatcher = $this->getContainer()->get(Services::ROUTER);
+        try {
+            $urlMatcher->match($formattedBackUrl);
+        } catch (Exception $e) {
+            throw new RequestForwardableException(ForbiddenController::class . '::handle');
+        }
 
         return $this->forward(
             AdministratorAccessController::class . '::handle',
