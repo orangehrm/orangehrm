@@ -23,13 +23,16 @@ use OrangeHRM\Authentication\Controller\AdminPrivilegeController;
 use OrangeHRM\Authentication\Controller\Traits\AdministratorAccessTrait;
 use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
+use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Core\Vue\Component;
+use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Framework\Http\Request;
 
 class PurgeEmployeeController extends AbstractVueController implements AdminPrivilegeController
 {
     use AuthUserTrait;
     use AdministratorAccessTrait;
+    use ConfigServiceTrait;
 
     /**
      * @inheritDoc
@@ -37,6 +40,11 @@ class PurgeEmployeeController extends AbstractVueController implements AdminPriv
     public function preRender(Request $request): void
     {
         $component = new Component('purge-employee');
+
+        $component->addProp(
+            new Prop('instance-identifier', Prop::TYPE_STRING, $this->getConfigService()->getInstanceIdentifier())
+        );
+
         $this->setComponent($component);
     }
 

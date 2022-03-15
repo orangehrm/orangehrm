@@ -36,7 +36,7 @@
     />
 
     <br v-if="showPurgeableEmployee" />
-    <maintenance-note />
+    <maintenance-note :instance-identifier="instanceIdentifier" />
 
     <purge-confirmation
       ref="purgeDialog"
@@ -72,6 +72,13 @@ export default {
     'purge-employee-records': EmployeeRecords,
     'selected-employee': SelectedEmployee,
     'maintenance-note': MaintenanceNote,
+  },
+
+  props: {
+    instanceIdentifier: {
+      type: String,
+      default: '',
+    },
   },
 
   setup() {

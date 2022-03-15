@@ -31,10 +31,16 @@
 export default {
   name: 'MaintenanceNote',
 
+  props: {
+    instanceIdentifier: {
+      type: String,
+      required: true,
+    },
+  },
+
   data() {
     return {
-      noteText:
-        'Users who seek access to their data, or who seek to correct, amend, or delete the given information should direct their requests to Data@orangehrm.com with the subject "Purge Records (Instance Identifier : T0hSTV9kZXZpQHRlc3QuY29tX0RldmlfRFNfcGhwNzNfXzQuOV8xNjQ2MDE1NzQw REPLACE WITH REAL INSTANCE IDENTIFIER)"',
+      noteText: `Users who seek access to their data, or who seek to correct, amend, or delete the given information should direct their requests to Data@orangehrm.com with the subject "Purge Records (Instance Identifier: ${this.instanceIdentifier})"`,
     };
   },
 };
