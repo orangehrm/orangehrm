@@ -25,6 +25,7 @@ use OrangeHRM\Authentication\Csrf\CsrfTokenManager;
 use OrangeHRM\Authentication\Dto\UserCredential;
 use OrangeHRM\Authentication\Exception\AuthenticationException;
 use OrangeHRM\Authentication\Service\AuthenticationService;
+use OrangeHRM\Authentication\Service\LoginService;
 use OrangeHRM\Core\Controller\AbstractController;
 use OrangeHRM\Core\Controller\Exception\RequestForwardableException;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
@@ -42,6 +43,7 @@ class AdministratorVerifyController extends AbstractController
     public const PARAMETER_PASSWORD = 'password';
 
     protected ?AuthenticationService $authenticationService = null;
+    protected ?LoginService $loginService = null;
 
     /**
      * @return AuthenticationService
@@ -52,6 +54,17 @@ class AdministratorVerifyController extends AbstractController
             $this->authenticationService = new AuthenticationService();
         }
         return $this->authenticationService;
+    }
+
+    /**
+     * @return LoginService
+     */
+    public function getLoginService(): LoginService
+    {
+        if (!$this->loginService instanceof LoginService) {
+            $this->loginService = new LoginService();
+        }
+        return $this->loginService;
     }
 
     /**
@@ -81,6 +94,7 @@ class AdministratorVerifyController extends AbstractController
                 throw AuthenticationException::invalidCredentials();
             }
             $this->getAuthUser()->setHasAdminAccess(true);
+            $this->getLoginService()->addLogin($credentials);
 
             $forwardUrl = $this->getAuthUser()->getAttribute(AuthUser::ADMIN_ACCESS_FORWARD_URL);
 
