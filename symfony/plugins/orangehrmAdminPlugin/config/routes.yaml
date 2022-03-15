@@ -408,12 +408,12 @@ view_license:
   methods: [ GET ]
 
 save_license:
-  path: /admin/saveLicense
+  path: /admin/saveLicenses
   controller: OrangeHRM\Admin\Controller\SaveQualificationLicenseController::handle
   methods: [ GET ]
 
 edit_license:
-  path: /admin/saveLicense/{id}
+  path: /admin/saveLicenses/{id}
   controller: OrangeHRM\Admin\Controller\SaveQualificationLicenseController::handle
   methods: [ GET ]
 
@@ -492,12 +492,12 @@ view_pay_grades:
   methods: [ GET ]
 
 add_pay_grade:
-  path: /admin/addPayGrade
+  path: /admin/payGrade
   controller: OrangeHRM\Admin\Controller\SavePayGradeController::handle
   methods: [ GET ]
 
 edit_pay_grade:
-  path: /admin/editPayGrade/{id}
+  path: /admin/payGrade/{id}
   controller: OrangeHRM\Admin\Controller\SavePayGradeController::handle
   methods: [ GET ]
 

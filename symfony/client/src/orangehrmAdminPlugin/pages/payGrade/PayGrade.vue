@@ -161,10 +161,10 @@ export default {
 
   methods: {
     onClickAdd() {
-      navigate('/admin/addPayGrade');
+      navigate('/admin/payGrade');
     },
     onClickEdit(item) {
-      navigate('/admin/editPayGrade/{id}', {id: item.id});
+      navigate('/admin/payGrade/{id}', {id: item.id});
     },
     onClickDeleteSelected() {
       const ids = this.checkedItems.map(index => {

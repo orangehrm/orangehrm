@@ -22,8 +22,6 @@ namespace OrangeHRM\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * UniqueId
- *
  * @ORM\Table(name="hs_hr_unique_id")
  * @ORM\Entity
  */

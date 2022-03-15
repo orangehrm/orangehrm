@@ -119,7 +119,7 @@ export default {
         .then(response => {
           const {data} = response.data;
           this.$toast.saveSuccess();
-          navigate('/admin/editPayGrade/{id}', {id: data.id});
+          navigate('/admin/payGrade/{id}', {id: data.id});
         });
     },
     onCancel() {

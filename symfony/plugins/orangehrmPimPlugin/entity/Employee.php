@@ -47,6 +47,11 @@ class Employee
     public const STATE_TERMINATED = 'TERMINATED';
     public const STATE_NOT_EXIST = 'NOT_EXIST';
 
+    public const GENDER = [
+        self::GENDER_MALE => 'Male',
+        self::GENDER_FEMALE => 'Female',
+    ];
+
     /**
      * @var int
      *

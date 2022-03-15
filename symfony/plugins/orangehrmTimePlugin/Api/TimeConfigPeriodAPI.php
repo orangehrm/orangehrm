@@ -92,7 +92,6 @@ class TimeConfigPeriodAPI extends Endpoint implements ResourceEndpoint
         $menuService = $this->getContainer()->get(Services::MENU_SERVICE);
         $menuService->enableModuleMenuItems('time');
         $menuService->enableModuleMenuItems('attendance');
-        $menuService->enableModuleMenuItems('time', ['Project Info', 'Customers', 'Projects']);
         $timeConfigPeriod = new TimeConfigPeriod();
         $timeConfigPeriod->setStartDay($startDay);
         return new EndpointResourceResult(TimeConfigPeriodModel::class, $timeConfigPeriod);

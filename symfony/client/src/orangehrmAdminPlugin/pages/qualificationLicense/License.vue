@@ -138,10 +138,10 @@ export default {
 
   methods: {
     onClickAdd() {
-      navigate('/admin/saveLicense');
+      navigate('/admin/saveLicenses');
     },
     onClickEdit(item) {
-      navigate('/admin/saveLicense/{id}', {id: item.id});
+      navigate('/admin/saveLicenses/{id}', {id: item.id});
     },
     onClickDeleteSelected() {
       const ids = this.checkedItems.map(index => {

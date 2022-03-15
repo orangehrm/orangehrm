@@ -22,8 +22,6 @@ namespace OrangeHRM\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * HomePage
- *
  * @ORM\Table(name="ohrm_home_page")
  * @ORM\Entity
  */
