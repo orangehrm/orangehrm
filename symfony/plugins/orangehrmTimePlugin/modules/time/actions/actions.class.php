@@ -197,10 +197,13 @@ class timeActions extends sfActions {
         $employeeId = $request->getParameter("employeeId");
         $startDate = $request->getParameter("startDate");
 
-//        $userRoleFactory = new UserRoleFactory();
-//        $decoratedUser = $userRoleFactory->decorateUserRole($userId, $employeeId, $userEmployeeNumber);
-//
-//        $allowedActions = $decoratedUser->getAllowedActions(PluginWorkflowStateMachine::FLOW_TIME_TIMESHEET, PluginTimesheet::STATE_INITIAL);
+        $userRoleManager = $this->getContext()->getUserRoleManager();
+        $actions = $userRoleManager->getAllowedActions(WorkflowStateMachine::FLOW_TIME_TIMESHEET, PluginTimesheet::STATE_INITIAL, array(), array(), array('Employee' => $employeeId));
+        if (!isset($actions[WorkflowStateMachine::TIMESHEET_ACTION_CREATE])) {
+            $this->getResponse()->setStatusCode(HttpResponseCode::HTTP_FORBIDDEN);
+            return sfView::NONE;
+        }
+
         $statusArray = $this->getTimesheetService()->createTimesheets($startDate, $employeeId);
         switch ($statusArray['state']) {
 
@@ -244,4 +247,3 @@ class timeActions extends sfActions {
     }
 
 }
-
