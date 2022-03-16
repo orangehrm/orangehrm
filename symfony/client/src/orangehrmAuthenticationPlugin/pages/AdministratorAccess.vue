@@ -27,7 +27,7 @@
         :action="submitUrl"
         @submitValid="onSubmit"
       >
-        <oxd-text class="orangehrm-admin-access-title">
+        <oxd-text tag="h6" class="orangehrm-admin-access-title">
           Administrator Access
         </oxd-text>
 
@@ -159,7 +159,6 @@ export default {
     align-items: center;
   }
   &-title {
-    font-size: 20px;
     font-weight: 700;
   }
   &-note {
