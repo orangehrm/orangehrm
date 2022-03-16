@@ -62,6 +62,11 @@ class MenuServiceTest extends KernelTestCase
         Config::set(Config::I18N_ENABLED, false);
     }
 
+    protected function tearDown(): void
+    {
+        Config::set(Config::I18N_ENABLED, true);
+    }
+
     public function testGetMenuItemsForAdmin(): void
     {
         ModuleScreenHelper::resetCurrentModuleAndScreen();
