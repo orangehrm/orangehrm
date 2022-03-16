@@ -22,7 +22,7 @@
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
       <oxd-text tag="h6" class="orangehrm-main-title">
-        {{ $t('time.attendance_configuration') }}
+        {{ $t('attendance.attendance_configuration') }}
       </oxd-text>
 
       <oxd-divider />
@@ -32,20 +32,31 @@
           <oxd-grid :cols="2" class="orangehrm-full-width-grid">
             <div class="orangehrm-attendance-field-row">
               <oxd-text tag="p" class="orangehrm-attendance-field-label">
-                Employee can change current time when punching in/out
+                {{
+                  $t(
+                    'attendance.employee_can_change_current_time_when_punching_in_out',
+                  )
+                }}
               </oxd-text>
               <oxd-switch-input v-model="config.canUserChangeCurrentTime" />
             </div>
             <div class="orangehrm-attendance-field-row">
               <oxd-text tag="p" class="orangehrm-attendance-field-label">
-                Employee can edit/delete own attendance records
+                {{
+                  $t(
+                    'attendance.employee_can_edit_delete_own_attendance_records',
+                  )
+                }}
               </oxd-text>
               <oxd-switch-input v-model="config.canUserModifyAttendance" />
             </div>
             <div class="orangehrm-attendance-field-row">
               <oxd-text tag="p" class="orangehrm-attendance-field-label">
-                Supervisor can add/edit/delete attendance records of
-                subordinates
+                {{
+                  $t(
+                    'attendance.supervisor_can_add_edit_delete_attendance_records_of_subordinates',
+                  )
+                }}
               </oxd-text>
               <oxd-switch-input
                 v-model="config.canSupervisorModifyAttendance"

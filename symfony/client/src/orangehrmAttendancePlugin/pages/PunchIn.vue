@@ -22,7 +22,7 @@
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
       <oxd-text tag="h6" class="orangehrm-main-title">
-        {{ $t('time.punch_in') }}
+        {{ $t('attendance.punch_in') }}
       </oxd-text>
 
       <oxd-divider />
