@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\Authentication\Controller;
 
-use OrangeHRM\Admin\Traits\Service\UserServiceTrait;
 use OrangeHRM\Authentication\Auth\User as AuthUser;
 use OrangeHRM\Authentication\Csrf\CsrfTokenManager;
 use OrangeHRM\Authentication\Dto\UserCredential;
@@ -38,7 +37,6 @@ class AdministratorVerifyController extends AbstractController
 {
     use AuthUserTrait;
     use UserRoleManagerTrait;
-    use UserServiceTrait;
 
     public const PARAMETER_PASSWORD = 'password';
 
@@ -88,7 +86,6 @@ class AdministratorVerifyController extends AbstractController
             if (!$csrfTokenManager->isValid('administrator-access', $token)) {
                 throw AuthenticationException::invalidCsrfToken();
             }
-            //TODO
             $success = $this->getAuthenticationService()->setCredentials($credentials, []);
             if (!$success) {
                 throw AuthenticationException::invalidCredentials();

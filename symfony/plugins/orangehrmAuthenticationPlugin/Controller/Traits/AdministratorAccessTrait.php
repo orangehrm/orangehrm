@@ -57,11 +57,21 @@ trait AdministratorAccessTrait
         $forwardUrl = $currentRequest->getPathInfo();
 
         $backUrl = $request->headers->get('referer');
+
+        // Some instances where null: if page is accessed via bookmark, user manually entered URL, etc.
+        if (is_null($backUrl)) {
+            return $this->forward(
+                AdministratorAccessController::class . '::handle',
+                [],
+                ['forward' => $forwardUrl, 'back' => $backUrl]
+            );
+        }
+
         $baseUrl = $currentRequest->getSchemeAndHttpHost() . $currentRequest->getBaseUrl();
         $textHelper = $this->getTextHelper();
 
-        // Will fail if backUrl: is null || contains a different base url or host || contains api/v2
-        if (is_null($backUrl) || !$textHelper->strContains($backUrl, $baseUrl) || $textHelper->strContains($backUrl, 'api/v2')) {
+        // Will fail if backUrl: contains a different base url or host || contains api/v2 in the string
+        if (!$textHelper->strContains($backUrl, $baseUrl) || $textHelper->strContains($backUrl, 'api/v2')) {
             throw new RequestForwardableException(ForbiddenController::class . '::handle');
         }
 

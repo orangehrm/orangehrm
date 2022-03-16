@@ -19,12 +19,13 @@
 
 namespace OrangeHRM\Authentication\Controller;
 
-use OrangeHRM\Admin\Traits\Service\UserServiceTrait;
 use OrangeHRM\Authentication\Auth\User as AuthUser;
 use OrangeHRM\Authentication\Csrf\CsrfTokenManager;
+use OrangeHRM\Core\Authorization\Service\HomePageService;
 use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
+use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Framework\Http\Request;
@@ -33,7 +34,20 @@ class AdministratorAccessController extends AbstractVueController
 {
     use AuthUserTrait;
     use EntityManagerHelperTrait;
-    use UserServiceTrait;
+    use UserRoleManagerTrait;
+
+    protected ?HomePageService $homePageService = null;
+
+    /**
+     * @return HomePageService
+     */
+    public function getHomePageService(): HomePageService
+    {
+        if (!$this->homePageService instanceof HomePageService) {
+            $this->homePageService = new HomePageService();
+        }
+        return $this->homePageService;
+    }
 
     /**
      * @inheritDoc
@@ -43,21 +57,18 @@ class AdministratorAccessController extends AbstractVueController
         $component = new Component('auth-admin-access');
 
         $forwardUrl = $request->query->get('forward');
-        if (isset($forwardUrl)) {
-            $this->getAuthUser()->setAttribute(AuthUser::ADMIN_ACCESS_FORWARD_URL, $forwardUrl);
-        }
+        $this->getAuthUser()->setAttribute(AuthUser::ADMIN_ACCESS_FORWARD_URL, $forwardUrl);
 
-        $backUrl = $request->query->get('back');
-        if (isset($backUrl)) {
-            $this->getAuthUser()->setAttribute(AuthUser::ADMIN_ACCESS_BACK_URL, $backUrl);
-        } else {
-            $backUrl = $this->getAuthUser()->getAttribute(AuthUser::ADMIN_ACCESS_BACK_URL);
-        }
+        $backUrl = $this->getAuthUser()->getAttribute(AuthUser::ADMIN_ACCESS_BACK_URL);
 
-        $component->addProp(
-            new Prop('back-url', Prop::TYPE_STRING, $backUrl)
-        );
-
+        /*
+         * IF user has a flash error, set the error prop only
+         * This means the user has been redirected due to invalid credentials
+         * Therefore, backUrl from query param will be null anyway
+         * ELSE there is no flash error, get the backUrl from query parameter
+         * In this case, they have accessed the page and not been redirected due to invalid credentials
+         * If backUrl from query param is null, set backUrl as homepage path
+         */
         if ($this->getAuthUser()->hasFlash(AuthUser::FLASH_VERIFY_ERROR)) {
             $error = $this->getAuthUser()->getFlash(AuthUser::FLASH_VERIFY_ERROR);
             $component->addProp(
@@ -67,21 +78,20 @@ class AdministratorAccessController extends AbstractVueController
                     $error[0] ?? []
                 )
             );
+        } else {
+            $queryBackUrl = $request->query->get('back');
+            $backUrl = $queryBackUrl ?? '/' . $this->getHomePageService()->getHomePagePath();
+            $this->getAuthUser()->setAttribute(AuthUser::ADMIN_ACCESS_BACK_URL, $backUrl);
         }
 
-        if ($this->getAuthUser()->isAuthenticated()) {
-            $userId = $this->getAuthUser()->getUserId();
-            $systemUser = $this->getUserService()->getSystemUser($userId);
-            if (isset($systemUser)) {
-                $username = $systemUser->getUserName();
-                $component->addProp(
-                    new Prop('username', Prop::TYPE_STRING, $username)
-                );
-            }
-            $component->addProp(
-                new Prop('backUrl', Prop::TYPE_STRING, $backUrl)
-            );
-        }
+        $component->addProp(
+            new Prop('back-url', Prop::TYPE_STRING, $backUrl)
+        );
+
+        $username = $this->getUserRoleManager()->getUser()->getUserName();
+        $component->addProp(
+            new Prop('username', Prop::TYPE_STRING, $username)
+        );
 
         $csrfTokenManager = new CsrfTokenManager();
         $component->addProp(
