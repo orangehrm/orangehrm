@@ -1,7 +1,5 @@
 <?php
-$rootPath = realpath(dirname(__FILE__)."/../../../../");
-
-if (@include_once $rootPath."/lib/confs/sysConf.php") {
+if (@include_once ROOT_PATH . "/lib/confs/sysConf.php") {
     $conf = new sysConf();
     $version = $conf->getVersion();
 }
