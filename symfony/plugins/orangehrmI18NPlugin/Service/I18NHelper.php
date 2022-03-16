@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\I18N\Service;
 
+use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Framework\Services;
 
@@ -42,6 +43,9 @@ class I18NHelper
      */
     public function trans(string $key, array $parameters = [], string $langCode = null): string
     {
+        if (!Config::get(Config::I18N_ENABLED)) {
+            return $key;
+        }
         return $this->getI18NService()->trans($key, $parameters, $langCode);
     }
 
@@ -53,6 +57,9 @@ class I18NHelper
      */
     public function transBySource(string $sourceLangString, array $parameters = [], string $langCode = null): string
     {
+        if (!Config::get(Config::I18N_ENABLED)) {
+            return $sourceLangString;
+        }
         return $this->getI18NService()->transBySource($sourceLangString, $parameters, $langCode);
     }
 
