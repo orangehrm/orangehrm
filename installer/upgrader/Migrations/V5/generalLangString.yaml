@@ -740,3 +740,6 @@ langStrings:
   -
     value: 'Other Email'
     unitId: other_email
+  -
+    value: 'Submit'
+    unitId: submit
