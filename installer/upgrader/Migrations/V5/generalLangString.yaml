@@ -683,3 +683,36 @@ langStrings:
   -
     value: 'Structure'
     unitId: structure
+  -
+    value: 'Sun'
+    unitId: sun
+  -
+    value: 'Mon'
+    unitId: mon
+  -
+    value: 'Tue'
+    unitId: tue
+  -
+    value: 'Wed'
+    unitId: wed
+  -
+    value: 'Thu'
+    unitId: thu
+  -
+    value: 'Fri'
+    unitId: fri
+  -
+    value: 'Sat'
+    unitId: sat
+  -
+    value: 'Performed By'
+    unitId: performed_by
+  -
+    value: 'Performed By'
+    unitId: add_another
+  -
+    value: 'View'
+    unitId: view
+  -
+    value: 'Attendance Summary'
+    unitId: attendance_summary
