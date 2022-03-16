@@ -734,3 +734,9 @@ langStrings:
   -
     value: 'Entitlements'
     unitId: entitlements
+  -
+    value: 'Work Email'
+    unitId: work_email
+  -
+    value: 'Other Email'
+    unitId: other_email
