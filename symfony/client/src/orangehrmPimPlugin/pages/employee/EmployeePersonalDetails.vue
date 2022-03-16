@@ -45,7 +45,7 @@
             <oxd-grid-item>
               <oxd-input-field
                 v-model="employee.nickname"
-                label="Nickname"
+                :label="$t('pim.nickname')"
                 :rules="rules.nickname"
               />
             </oxd-grid-item>
