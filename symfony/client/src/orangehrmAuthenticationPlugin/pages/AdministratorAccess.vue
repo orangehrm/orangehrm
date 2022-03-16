@@ -87,7 +87,7 @@
 
 <script>
 import {urlFor} from '@ohrm/core/util/helper/url';
-import {goBack} from '@/core/util/helper/navigation';
+import {navigate} from '@/core/util/helper/navigation';
 import Alert from '@ohrm/oxd/core/components/Alert/Alert';
 
 export default {
@@ -137,7 +137,7 @@ export default {
       this.$refs.verifyForm.$el.submit();
     },
     onCancel() {
-      goBack(this.backUrl);
+      navigate(this.backUrl);
     },
   },
 };
