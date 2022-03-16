@@ -1,0 +1,256 @@
+GetOne:
+  'get one performance tracker':
+    userId: 1
+    services:
+      performance.performance_tracker_service: \OrangeHRM\Performance\Service\PerformanceTrackerService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+    attributes:
+      id: 1
+    data:
+      id: 1
+      trackerName: 'test tracker name'
+      addedDate: '2011-12-12'
+      modifiedDate: null
+      status: 1
+      employee:
+        empNumber: 1
+        lastName: 'Abbey'
+        firstName: 'Kayla'
+        middleName: 'T'
+        employeeId: 'E001'
+        terminationId: null
+      reviewers: [ ]
+
+  'get one performance tracker with reviewer':
+    userId: 1
+    services:
+      performance.performance_tracker_service: \OrangeHRM\Performance\Service\PerformanceTrackerService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+    attributes:
+      id: 2
+    data:
+      id: 2
+      trackerName: 'test tracker2 name'
+      addedDate: '2011-12-12'
+      modifiedDate: null
+      status: 1
+      employee:
+        empNumber: 2
+        lastName: 'Abel'
+        firstName: 'Ashley'
+        terminationId: null
+        middleName: 'ST'
+        employeeId: 'E002'
+      reviewers:
+        0:
+          id: 1
+          empNumber: 2
+          lastName: 'Abel'
+          firstName: 'Ashley'
+          middleName: 'ST'
+          employeeId: 'E002'
+          terminationId: null
+
+        1:
+          id: 2
+          empNumber: 3
+          lastName: 'Saputhanthri'
+          firstName: 'Renukshan'
+          middleName: 'RT'
+          employeeId: 'E003'
+          terminationId: null
+
+GetAll:
+  'Get all trackers':
+    userId: 1
+    services:
+      performance.performance_tracker_service: \OrangeHRM\Performance\Service\PerformanceTrackerService
+    attributes: [ ]
+    data:
+      0:
+        id: 1
+        trackerName: 'test tracker name'
+        addedDate: '2011-12-12'
+        modifiedDate: null
+        status: 1
+        employee:
+          empNumber: 1
+          lastName: 'Abbey'
+          firstName: 'Kayla'
+          terminationId: null
+      1:
+        id: 2
+        trackerName: 'test tracker2 name'
+        addedDate: '2011-12-12'
+        modifiedDate: null
+        status: 1
+        employee:
+          empNumber: 2
+          lastName: 'Abel'
+          firstName: 'Ashley'
+          terminationId: null
+      2:
+        id: 3
+        trackerName: 'test tracker3 name'
+        addedDate: '2011-12-10'
+        modifiedDate: null
+        status: 1
+        employee:
+          empNumber: 4
+          lastName: 'Sherlock'
+          firstName: 'Sherin'
+          terminationId: null
+    meta:
+      total: 3
+
+  'Get all trackers with empNumber':
+    userId: 1
+    services:
+      performance.performance_tracker_service: \OrangeHRM\Performance\Service\PerformanceTrackerService
+    attributes: [ ]
+    query:
+      empNumber: 1
+    data:
+      0:
+        id: 1
+        trackerName: 'test tracker name'
+        addedDate: '2011-12-12'
+        modifiedDate: null
+        status: 1
+        employee:
+          empNumber: 1
+          lastName: 'Abbey'
+          firstName: 'Kayla'
+          terminationId: null
+    meta:
+      total: 1
+  'Get all trackers and sort by addedDate':
+    userId: 1
+    services:
+      performance.performance_tracker_service: \OrangeHRM\Performance\Service\PerformanceTrackerService
+    attributes: [ ]
+    query:
+      sortField: 'performanceTracker.addedDate'
+    data:
+      0:
+        id: 3
+        trackerName: 'test tracker3 name'
+        addedDate: '2011-12-10'
+        modifiedDate: null
+        status: 1
+        employee:
+          empNumber: 4
+          lastName: 'Sherlock'
+          firstName: 'Sherin'
+          terminationId: null
+      1:
+        id: 1
+        trackerName: 'test tracker name'
+        addedDate: '2011-12-12'
+        modifiedDate: null
+        status: 1
+        employee:
+          empNumber: 1
+          lastName: 'Abbey'
+          firstName: 'Kayla'
+          terminationId: null
+      2:
+        id: 2
+        trackerName: 'test tracker2 name'
+        addedDate: '2011-12-12'
+        modifiedDate: null
+        status: 1
+        employee:
+          empNumber: 2
+          lastName: 'Abel'
+          firstName: 'Ashley'
+          terminationId: null
+    meta:
+      total: 3
+
+Create:
+  'Create performance tracker':
+    userId: 3
+    services:
+     performance.performance_tracker_service: \OrangeHRM\Performance\Service\PerformanceTrackerService
+    now:
+      datetime: '2022-02-03'
+    attributes: [ ]
+    body:
+      trackerName: 'New tracker 345'
+      empNumber: 3
+      reviewers: [ 2,4 ]
+    query: [ ]
+    data:
+      id: 4
+      trackerName: 'New tracker 345'
+      addedDate: '2022-02-03'
+      modifiedDate: null
+      status: 1
+      employee:
+        empNumber: 3
+        lastName: 'Saputhanthri'
+        firstName: 'Renukshan'
+        terminationId: null
+
+    meta: [ ]
+
+Update:
+  'update all details':
+    userId: 3
+    services:
+      performance.performance_tracker_service: \OrangeHRM\Performance\Service\PerformanceTrackerService
+      core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
+    now:
+      datetime: '2022-02-03'
+    attributes:
+      id: 1
+    body:
+      trackerName: 'Tracker updated second time'
+      empNumber: 3
+      reviewers: [ 1,2 ]
+    query: [ ]
+    data:
+      id: 1
+      trackerName: 'Tracker updated second time'
+      addedDate: '2011-12-12'
+      modifiedDate: '2022-02-03'
+      status: 1
+      employee:
+        empNumber: 3
+        lastName: 'Saputhanthri'
+        firstName: 'Renukshan'
+        terminationId: null
+        middleName: 'RT'
+        employeeId: 'E003'
+      reviewers:
+        0:
+          id: 5
+          empNumber: 1
+          lastName: 'Abbey'
+          firstName: 'Kayla'
+          middleName: 'T'
+          employeeId: 'E001'
+          terminationId: null
+        1:
+          id: 6
+          empNumber: 2
+          lastName: 'Abel'
+          firstName: 'Ashley'
+          middleName: 'ST'
+          employeeId: 'E002'
+          terminationId: null
+    meta: [ ]
+
+Delete:
+  'delete one':
+    userId: 1
+    services:
+      performance.performance_tracker_service: \OrangeHRM\Performance\Service\PerformanceTrackerService
+    attributes: [ ]
+    body:
+      ids: [1]
+    query: [ ]
+    data:
+      [1]
+    meta: [ ]
