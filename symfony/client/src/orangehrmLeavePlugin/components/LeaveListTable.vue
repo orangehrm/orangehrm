@@ -222,7 +222,7 @@ export default {
         validDateFormat(),
         endDateShouldBeAfterStartDate(
           () => filters.value.fromDate,
-          this.$t('general.to_date_should_be_after_from_date'),
+          'To date should be after From date',
           {allowSameDate: true},
         ),
       ],

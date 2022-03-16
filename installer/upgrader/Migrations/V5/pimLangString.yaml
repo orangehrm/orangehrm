@@ -446,3 +446,6 @@ langStrings:
   -
     value: 'Termination Reason'
     unitId: termination_reason
+  -
+    value: 'Nickname'
+    unitId: nickname

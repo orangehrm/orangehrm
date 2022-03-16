@@ -683,3 +683,63 @@ langStrings:
   -
     value: 'Structure'
     unitId: structure
+  -
+    value: 'Sun'
+    unitId: sun
+  -
+    value: 'Mon'
+    unitId: mon
+  -
+    value: 'Tue'
+    unitId: tue
+  -
+    value: 'Wed'
+    unitId: wed
+  -
+    value: 'Thu'
+    unitId: thu
+  -
+    value: 'Fri'
+    unitId: fri
+  -
+    value: 'Sat'
+    unitId: sat
+  -
+    value: 'Performed By'
+    unitId: performed_by
+  -
+    value: 'Performed By'
+    unitId: add_another
+  -
+    value: 'View'
+    unitId: view
+  -
+    value: 'Attendance Summary'
+    unitId: attendance_summary
+  -
+    value: 'My Leave'
+    unitId: my_leave
+  -
+    value: 'My Entitlements'
+    unitId: my_entitlements
+  -
+    value: 'Add Entitlements'
+    unitId: add_entitlements
+  -
+    value: 'Configure'
+    unitId: configure
+  -
+    value: 'Employee Entitlements'
+    unitId: employee_entitlements
+  -
+    value: 'Entitlements'
+    unitId: entitlements
+  -
+    value: 'Work Email'
+    unitId: work_email
+  -
+    value: 'Other Email'
+    unitId: other_email
+  -
+    value: 'Submit'
+    unitId: submit

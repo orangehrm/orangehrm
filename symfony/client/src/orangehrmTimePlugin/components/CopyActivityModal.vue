@@ -63,7 +63,7 @@
         <oxd-button
           type="button"
           display-type="ghost"
-          label="Cancel"
+          :label="$t('general.cancel')"
           @click="onCancel"
         />
         <submit-button />
@@ -108,7 +108,7 @@ export default {
           required,
           () => {
             if (this.activities !== null && this.activities.length === 0) {
-              return 'No assigned activities';
+              return this.$t('time.no_assigned_activities');
             } else if (
               Array.isArray(this.activities) &&
               this.selectedActivities.length === 0
@@ -116,7 +116,9 @@ export default {
               const hasUnique = this.activities.find(
                 activity => activity.unique === true,
               );
-              return hasUnique ? 'No activities selected' : 'Already exists';
+              return hasUnique
+                ? this.$t('time.no_activities_selected')
+                : this.$t('general.already_exists');
             } else {
               return true;
             }

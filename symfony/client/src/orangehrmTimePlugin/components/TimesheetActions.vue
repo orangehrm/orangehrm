@@ -112,22 +112,22 @@ export default {
         {
           name: 'action',
           slot: 'title',
-          title: 'Action',
+          title: this.$t('general.actions'),
           style: {flex: 1},
         },
         {
           name: 'performedBy',
-          title: 'Performed By',
+          title: this.$t('general.performed_by'),
           style: {flex: 1},
         },
         {
           name: 'date',
-          title: 'Date',
+          title: this.$t('general.date'),
           style: {flex: 1},
         },
         {
           name: 'comment',
-          title: 'Comment',
+          title: this.$t('general.comment'),
           style: {flex: 1},
         },
       ],

@@ -109,18 +109,18 @@ export default {
         {
           name: 'employee',
           slot: 'title',
-          title: 'Employee Name',
+          title: this.$t('general.employee_name'),
           style: {flex: '40%'},
         },
         {
           name: 'period',
-          title: 'Timesheet Period',
+          title: this.$t('general.timesheet_period'),
           style: {flex: '40%'},
         },
         {
           name: 'actions',
           slot: 'footer',
-          title: 'Actions',
+          title: this.$t('general.actions'),
           style: {flex: '20%'},
           cellType: 'oxd-table-cell-actions',
           cellConfig: {

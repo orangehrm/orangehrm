@@ -113,7 +113,9 @@ export default {
           );
           if (index > -1) {
             const {id} = data[index];
-            return id != this.activityId ? 'Already exists' : true;
+            return id != this.activityId
+              ? this.$t('general.already_exists')
+              : true;
           } else {
             return true;
           }

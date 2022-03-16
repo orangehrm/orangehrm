@@ -148,7 +148,8 @@ export default {
           projectAdmins: item.projectAdmins
             ?.map(projectAdmin => {
               return projectAdmin.terminationId
-                ? `${projectAdmin.firstName} ${projectAdmin.lastName} (Past Employee)`
+                ? `${projectAdmin.firstName} ${projectAdmin.lastName}` +
+                    ' (Past Employee)'
                 : `${projectAdmin.firstName} ${projectAdmin.lastName}`;
             })
             .join(', '),
@@ -218,20 +219,20 @@ export default {
       const headers = [
         {
           name: 'customer',
-          title: 'Customer Name',
+          title: this.$t('time.customer_name'),
           sortField: 'customer.name',
           style: {flex: '15%'},
         },
         {
           name: 'project',
           slot: 'title',
-          title: 'Project',
+          title: this.$t('time.project'),
           sortField: 'project.name',
           style: {flex: '15%'},
         },
         {
           name: 'projectAdmins',
-          title: 'Project Admins',
+          title: this.$t('time.project_admins'),
           style: {flex: '20%'},
         },
       ];
@@ -276,9 +277,10 @@ export default {
       const isSelectable = this.unselectableIds.findIndex(id => id == item.id);
       if (isSelectable > -1) {
         return this.$toast.error({
-          title: 'Error',
-          message:
-            'Not allowed to delete project(s) which have time logged against them',
+          title: this.$t('general.error'),
+          message: this.$t(
+            'time.not_allowed_to_delete_projects_which_have_time_logged',
+          ),
         });
       }
       this.$refs.deleteDialog.showDialog().then(confirmation => {
