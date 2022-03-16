@@ -17,45 +17,44 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Maintenance\Controller;
+namespace OrangeHRM\Authentication\Subscriber;
 
 use OrangeHRM\Authentication\Controller\AdminPrivilegeController;
-use OrangeHRM\Authentication\Controller\Traits\AdministratorAccessTrait;
 use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
-use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
-use OrangeHRM\Core\Vue\Component;
-use OrangeHRM\Core\Vue\Prop;
-use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Core\Traits\Service\TextHelperTrait;
+use OrangeHRM\Framework\Event\AbstractEventSubscriber;
+use Symfony\Component\HttpKernel\Event\ControllerEvent;
+use Symfony\Component\HttpKernel\KernelEvents;
 
-class PurgeEmployeeController extends AbstractVueController implements AdminPrivilegeController
+class AdministratorAccessSubscriber extends AbstractEventSubscriber
 {
     use AuthUserTrait;
-    use AdministratorAccessTrait;
-    use ConfigServiceTrait;
+    use TextHelperTrait;
 
     /**
      * @inheritDoc
      */
-    public function preRender(Request $request): void
+    public static function getSubscribedEvents(): array
     {
-        $component = new Component('purge-employee');
-
-        $component->addProp(
-            new Prop('instance-identifier', Prop::TYPE_STRING, $this->getConfigService()->getInstanceIdentifier())
-        );
-
-        $this->setComponent($component);
+        return [
+            KernelEvents::CONTROLLER => [
+                ['onControllerEvent', -10000]
+            ]
+        ];
     }
 
     /**
-     * @inheritDoc
+     * @param ControllerEvent $controllerEvent
+     * @return void
      */
-    public function handle(Request $request)
+    public function onControllerEvent(ControllerEvent $controllerEvent): void
     {
-        if (!$this->getAuthUser()->getHasAdminAccess()) {
-            return $this->forwardToAdministratorAccess($request);
+        if ($controllerEvent->getController()[0] instanceof AdminPrivilegeController) {
+            return;
         }
-        return parent::handle($request);
+        if ($controllerEvent->getController()[0] instanceof AbstractVueController) {
+            $this->getAuthUser()->setHasAdminAccess(false);
+        }
     }
 }

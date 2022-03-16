@@ -4478,6 +4478,14 @@ SET @admin_role_id := (SELECT `id` FROM ohrm_user_role WHERE `name` = 'Admin' LI
 INSERT INTO ohrm_user_role_data_group (`can_read`, `can_create`, `can_update`, `can_delete`, `self`, `data_group_id`,`user_role_id`)
 VALUES (1, 0, 0, 1, 0, @apiv2_purge_employee_data_group_id, @admin_role_id);
 
+INSERT INTO ohrm_data_group (`name`, `description`, `can_read`, `can_create`, `can_update`, `can_delete`)
+VALUES ('maintenance_employee_json', 'Maintenance - Access Employee Data JSON', 1, 0, 0, 0);
+
+SET @maintenance_employee_json_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'maintenance_employee_json' LIMIT 1);
+
+INSERT INTO ohrm_user_role_data_group (`can_read`, `can_create`, `can_update`, `can_delete`, `self`, `data_group_id`,`user_role_id`)
+VALUES (1, 0, 0, 0, 0, @maintenance_employee_json_data_group_id, @admin_role_id);
+
 ALTER TABLE `ohrm_screen` ADD `menu_configurator` VARCHAR(255) NULL DEFAULT NULL;
 
 SET @admin_module_id := (SELECT `id` FROM ohrm_module WHERE name = 'admin' LIMIT 1);
@@ -4593,3 +4601,12 @@ UPDATE `ohrm_module_default_page` SET `action` = 'leave/viewLeaveList' WHERE `mo
 
 DROP TABLE `ohrm_data_group_screen`;
 ALTER TABLE `ohrm_menu_item` DROP `url_extras`;
+
+INSERT INTO ohrm_data_group (`name`, `description`, `can_read`, `can_create`, `can_update`, `can_delete`)
+VALUES ('auth_admin_verify', 'Auth - Administrator Verify', 1, 0, 0, 0);
+
+SET @core_module_id := (SELECT `id` FROM ohrm_module WHERE name = 'core' LIMIT 1);
+SET @auth_admin_verify_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'auth_admin_verify' LIMIT 1);
+
+INSERT INTO ohrm_user_role_data_group (`can_read`, `can_create`, `can_update`, `can_delete`, `self`, `data_group_id`,`user_role_id`)
+VALUES (1, 0, 0, 0, 0, @auth_admin_verify_data_group_id, @admin_role_id);

@@ -18,6 +18,7 @@
  */
 
 use OrangeHRM\Authentication\Auth\User as AuthUser;
+use OrangeHRM\Authentication\Subscriber\AdministratorAccessSubscriber;
 use OrangeHRM\Authentication\Subscriber\AuthenticationSubscriber;
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Framework\Event\EventDispatcher;
@@ -37,6 +38,7 @@ class AuthenticationPluginConfiguration implements PluginConfigurationInterface
         /** @var EventDispatcher $dispatcher */
         $dispatcher = $this->getContainer()->get(Services::EVENT_DISPATCHER);
         $dispatcher->addSubscriber(new AuthenticationSubscriber());
+        $dispatcher->addSubscriber(new AdministratorAccessSubscriber());
         $this->getContainer()->register(Services::AUTH_USER)
             ->setFactory([AuthUser::class, 'getInstance']);
     }

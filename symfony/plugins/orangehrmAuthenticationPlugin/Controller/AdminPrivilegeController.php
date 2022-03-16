@@ -1,3 +1,4 @@
+<?php
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -16,12 +17,8 @@
  * Boston, MA  02110-1301, USA
  */
 
-import Login from './pages/Login.vue';
-import Forbidden from './pages/Forbidden.vue';
-import AdministratorAccess from './pages/AdministratorAccess.vue';
+namespace OrangeHRM\Authentication\Controller;
 
-export default {
-  'auth-login': Login,
-  'auth-forbidden': Forbidden,
-  'auth-admin-access': AdministratorAccess,
-};
+interface AdminPrivilegeController
+{
+}
