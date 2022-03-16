@@ -45,13 +45,6 @@ class ReviewerRating
      */
     private ?string $rating;
 
-    /**
-     * @var int|null
-     *
-     * @ORM\Column(name="kpi_id", type="integer", length=7)
-     */
-    private ?int $kpiId;
-
 
     /**
      * @var string|null
@@ -61,43 +54,137 @@ class ReviewerRating
     private ?string $comment;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var PerformanceReview|null
      *
-     * @ORM\OneToMany(targetEntity="PerformanceReview", mappedBy="ReviewerRating")
+     * @ORM\ManyToOne (targetEntity="OrangeHRM\Entity\PerformanceReview", inversedBy="ReviewerRating")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="review_id", referencedColumnName="id")
      * })
      */
-    private $performanceReview;
+    private ?PerformanceReview $performanceReview;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var Reviewer
      *
-     * @ORM\OneToMany(targetEntity="Reviewer", mappedBy="ReviewerRating")
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Reviewer", inversedBy="ReviewerRating")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="reviewer_id", referencedColumnName="id")
      * })
      */
-    private $reviewer;
+    private Reviewer $reviewer;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var Kpi|null
      *
-     * @ORM\OneToMany(targetEntity="Kpi", mappedBy="ReviewerRating")
+     * @ORM\ManyToOne (targetEntity="OrangeHRM\Entity\Kpi", inversedBy="ReviewerRating")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="kpi_id", referencedColumnName="id")
      * })
      */
-    private $kpi;
+    private ?Kpi $kpi;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->performanceReview = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->reviewer = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->kpi = new \Doctrine\Common\Collections\ArrayCollection();
     }
+
+    /**
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param int $id
+     */
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getRating(): ?string
+    {
+        return $this->rating;
+    }
+
+    /**
+     * @param string|null $rating
+     */
+    public function setRating(?string $rating): void
+    {
+        $this->rating = $rating;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getComment(): ?string
+    {
+        return $this->comment;
+    }
+
+    /**
+     * @param string|null $comment
+     */
+    public function setComment(?string $comment): void
+    {
+        $this->comment = $comment;
+    }
+
+    /**
+     * @return PerformanceReview|null
+     */
+    public function getPerformanceReview(): ?PerformanceReview
+    {
+        return $this->performanceReview;
+    }
+
+    /**
+     * @param PerformanceReview|null $performanceReview
+     */
+    public function setPerformanceReview(?PerformanceReview $performanceReview): void
+    {
+        $this->performanceReview = $performanceReview;
+    }
+
+    /**
+     * @return Reviewer
+     */
+    public function getReviewer(): Reviewer
+    {
+        return $this->reviewer;
+    }
+
+    /**
+     * @param Reviewer $reviewer
+     */
+    public function setReviewer(Reviewer $reviewer): void
+    {
+        $this->reviewer = $reviewer;
+    }
+
+    /**
+     * @return Kpi|null
+     */
+    public function getKpi(): ?Kpi
+    {
+        return $this->kpi;
+    }
+
+    /**
+     * @param Kpi|null $kpi
+     */
+    public function setKpi(?Kpi $kpi): void
+    {
+        $this->kpi = $kpi;
+    }
+
 
 }

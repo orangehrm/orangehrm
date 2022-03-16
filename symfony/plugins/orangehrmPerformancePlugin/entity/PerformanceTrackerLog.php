@@ -44,7 +44,6 @@ class PerformanceTrackerLog
      * @var string|null
      *
      * @ORM\Column(name="log", type="string", length=150, nullable=true)
-     * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private ?string $log;
@@ -53,7 +52,6 @@ class PerformanceTrackerLog
      * @var string|null
      *
      * @ORM\Column(name="comment", type="string", length=3000,nullable=true)
-     * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private ?string $comment;
@@ -62,16 +60,14 @@ class PerformanceTrackerLog
      * @var int|null
      *
      * @ORM\Column(name="status", type="integer", length=11, nullable=true)
-     * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private ?int  $status;
+    private ?int $status;
 
     /**
      * @var string|null
      *
      * @ORM\Column(name="achievement", type="string", length=45,nullable=true)
-     * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private ?string $achievement;
@@ -80,7 +76,6 @@ class PerformanceTrackerLog
      * @var DateTime|null
      *
      * @ORM\Column(name="added_date", type="datetime",nullable=true)
-     * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private ?DateTime $added_date;
@@ -89,7 +84,6 @@ class PerformanceTrackerLog
      * @var DateTime|null
      *
      * @ORM\Column(name="modified_date", type="datetime",nullable=true)
-     * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private ?DateTime $modified_date;
@@ -98,32 +92,32 @@ class PerformanceTrackerLog
     /**
      * @var PerformanceTracker|null
      *
-     * @ORM\ManyToOne (targetEntity="PerformanceTracker", mappedBy="PerformanceTrackerLog")
+     * @ORM\ManyToOne (targetEntity="OrangeHRM\Entity\PerformanceTracker", inversedBy="PerformanceTrackerLog")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="performance_track_id", referencedColumnName="id")
      * })
      */
-    private ?PerformanceTracker $PerformanceTracker;
+    private ?PerformanceTracker $performanceTracker;
 
     /**
      * @var Employee|null
      *
-     * @ORM\ManyToOne(targetEntity="Employee", mappedBy="PerformanceTrackerLog")
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Employee", inversedBy="PerformanceTrackerLog")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="reviewer_id", referencedColumnName="emp_number")
      * })
      */
-    private ?Employee $Employee;
+    private ?Employee $employee;
 
     /**
      * @var User|null
      *
-     * @ORM\ManyToOne(targetEntity="User", mappedBy="PerformanceTrackerLog")
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\User", inversedBy="PerformanceTrackerLog")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      * })
      */
-    private ?User $SystemUser;
+    private ?User $systemUser;
 
     /**
      * @return int
@@ -242,15 +236,15 @@ class PerformanceTrackerLog
      */
     public function getPerformanceTracker(): ?PerformanceTracker
     {
-        return $this->PerformanceTracker;
+        return $this->performanceTracker;
     }
 
     /**
-     * @param PerformanceTracker|null $PerformanceTracker
+     * @param PerformanceTracker|null $performanceTracker
      */
-    public function setPerformanceTracker(?PerformanceTracker $PerformanceTracker): void
+    public function setPerformanceTracker(?PerformanceTracker $performanceTracker): void
     {
-        $this->PerformanceTracker = $PerformanceTracker;
+        $this->performanceTracker = $performanceTracker;
     }
 
     /**
@@ -258,15 +252,15 @@ class PerformanceTrackerLog
      */
     public function getEmployee(): ?Employee
     {
-        return $this->Employee;
+        return $this->employee;
     }
 
     /**
-     * @param Employee|null $Employee
+     * @param Employee|null $employee
      */
-    public function setEmployee(?Employee $Employee): void
+    public function setEmployee(?Employee $employee): void
     {
-        $this->Employee = $Employee;
+        $this->employee = $employee;
     }
 
     /**
@@ -274,17 +268,16 @@ class PerformanceTrackerLog
      */
     public function getSystemUser(): ?User
     {
-        return $this->SystemUser;
+        return $this->systemUser;
     }
 
     /**
-     * @param User|null $SystemUser
+     * @param User|null $systemUser
      */
-    public function setSystemUser(?User $SystemUser): void
+    public function setSystemUser(?User $systemUser): void
     {
-        $this->SystemUser = $SystemUser;
+        $this->systemUser = $systemUser;
     }
-
 
 
 //    /**

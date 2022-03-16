@@ -59,12 +59,19 @@ class MaintenanceDao extends BaseDao
      */
     public function extractDataFromEmpNumber($matchByValues, $table): array
     {
-        $tableName='OrangeHRM\Entity'."\\".$table;
-        $employeeId = reset($matchByValues);
+        $empNumber = reset($matchByValues);
         $field = key($matchByValues);
-        $q=$this->createQueryBuilder($tableName, 'e');
-        $q->andWhere('e.'.$field ."=:empId")->setParameter('empId', $employeeId);
-        return $q->getQuery()->execute();
+        $entity = 'entity';
+
+        $qb = $this->createQueryBuilder('OrangeHRM\\Entity\\' . $table, 'entity');
+        if (isset($matchByValues['join'])) {
+            $qb->innerJoin('entity.' . $matchByValues['join'], 'joinEntity');
+            $entity = 'joinEntity';
+        }
+        $qb->andWhere($qb->expr()->eq($entity . '.' . $field, ':empNumber'))
+            ->setParameter('empNumber', $empNumber);
+
+        return $qb->getQuery()->execute();
     }
 
     /**
