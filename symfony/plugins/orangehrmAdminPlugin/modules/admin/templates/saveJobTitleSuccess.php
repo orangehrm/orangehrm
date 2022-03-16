@@ -66,7 +66,7 @@
                             $attachment = $form->attachment;
                             $linkHtml = "<span id=\"fileLink\"><a target=\"_blank\" href=\"";
                             $linkHtml .= url_for('admin/viewJobSpec?attachId=' . $attachment->getId());
-                            $linkHtml .= "\">{$attachment->getFileName()}</a></span>";
+                            $linkHtml .= "\">" . htmlspecialchars($attachment->getFileName()) . "</a></span>";
                             ?>
                     <li>
 
