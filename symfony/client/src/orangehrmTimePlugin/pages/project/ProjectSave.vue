@@ -60,7 +60,7 @@
                 type="textarea"
                 :label="$t('general.description')"
                 :rules="rules.description"
-                placeholder="Type description here"
+                :placeholder="$t('general.type_description_here')"
               />
             </oxd-grid-item>
             <oxd-grid-item>
@@ -160,7 +160,7 @@ export default {
               ({value: admin}) => admin && admin.id === value?.id,
             ).length < 2
               ? true
-              : 'Already exists';
+              : this.$t('general.already_exists');
           },
         ],
       },
@@ -225,7 +225,7 @@ export default {
               const {data} = response.data;
               return data.valid === true
                 ? resolve(true)
-                : resolve('Already exists');
+                : resolve(this.$t('general.already_exists'));
             });
         } else {
           resolve(true);
