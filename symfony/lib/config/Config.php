@@ -23,6 +23,7 @@ class Config
 {
     public const PLUGINS = 'ohrm_plugins';
     public const BASE_DIR = 'ohrm_base_dir';
+    public const SRC_DIR = 'ohrm_src_dir';
     public const PLUGINS_DIR = 'ohrm_plugins_dir';
     public const PUBLIC_DIR = 'ohrm_public_dir';
     public const LOG_DIR = 'ohrm_log_dir';

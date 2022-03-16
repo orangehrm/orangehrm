@@ -32,24 +32,19 @@ class ConfigHelper
     private function getPathConfigs(): array
     {
         $pathToProjectBase = realpath(__DIR__ . '/../../../');
-        $pathToSymfonyDir = realpath($pathToProjectBase . '/symfony/');
+        $pathToSrcDir = realpath($pathToProjectBase . '/symfony/');
         return [
             Config::BASE_DIR => $pathToProjectBase,
-            'ohrm_symfony_dir' => $pathToSymfonyDir,
-            'ohrm_apps_dir' => realpath($pathToSymfonyDir . '/apps'),
-            'ohrm_lib_dir' => realpath($pathToSymfonyDir . '/lib'),
-            'ohrm_log_dir' => realpath($pathToSymfonyDir . '/log'),
-            'ohrm_data_dir' => realpath($pathToSymfonyDir . '/data'),
-            'ohrm_config_dir' => realpath($pathToSymfonyDir . '/config'),
-            Config::PLUGINS_DIR => realpath($pathToSymfonyDir . '/plugins'),
+            Config::SRC_DIR => $pathToSrcDir,
+            'ohrm_lib_dir' => realpath($pathToSrcDir . '/lib'),
+            'ohrm_log_dir' => realpath($pathToSrcDir . '/log'),
+            'ohrm_data_dir' => realpath($pathToSrcDir . '/data'),
+            'ohrm_config_dir' => realpath($pathToSrcDir . '/config'),
+            Config::PLUGINS_DIR => realpath($pathToSrcDir . '/plugins'),
             Config::PUBLIC_DIR => realpath($pathToProjectBase . '/web'),
-            Config::CACHE_DIR => realpath($pathToSymfonyDir . '/cache'),
-            'ohrm_app_dir' => realpath($pathToSymfonyDir . '/apps/orangehrm'),
-            'ohrm_app_config_dir' => realpath($pathToSymfonyDir . '/apps/orangehrm/config'),
-            'ohrm_app_lib_dir' => realpath($pathToSymfonyDir . '/apps/orangehrm/lib'),
-            'ohrm_app_i18n_dir' => realpath($pathToSymfonyDir . '/apps/orangehrm/i18n'),
-            Config::DOCTRINE_PROXY_DIR => realpath($pathToSymfonyDir . '/config/proxy'),
-            Config::TEST_DIR => realpath($pathToSymfonyDir . '/test'),
+            Config::CACHE_DIR => realpath($pathToSrcDir . '/cache'),
+            Config::DOCTRINE_PROXY_DIR => realpath($pathToSrcDir . '/config/proxy'),
+            Config::TEST_DIR => realpath($pathToSrcDir . '/test'),
         ];
     }
 
@@ -118,12 +113,12 @@ class ConfigHelper
     private function getClientConfigs(): array
     {
         $pathToProjectBase = $this->get(Config::BASE_DIR);
-        $pathToSymfonyDir = realpath($pathToProjectBase . '/symfony/');
+        $pathToSrcDir = $this->get(Config::SRC_DIR);
         $pathToVueBuildDir = realpath($pathToProjectBase . '/web/dist');
         $pathToBuildTimestampFile = realpath($pathToVueBuildDir . '/build');
         return [
-            'ohrm_client_dir' => realpath($pathToSymfonyDir . '/client'),
-            'ohrm_app_template_dir' => realpath($pathToSymfonyDir . '/apps/orangehrm/templates'),
+            'ohrm_client_dir' => realpath($pathToSrcDir . '/client'),
+            'ohrm_app_template_dir' => realpath($pathToSrcDir . '/plugins/orangehrmCorePlugin/templates'),
             'ohrm_vue_build_dir' => $pathToVueBuildDir,
             'ohrm_vue_build_timestamp' => $pathToBuildTimestampFile ? file_get_contents($pathToBuildTimestampFile) : '',
         ];
