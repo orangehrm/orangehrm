@@ -160,12 +160,12 @@ export default {
         {
           name: 'name',
           slot: 'title',
-          title: 'Activity Name',
+          title: this.$t('time.activity_name'),
           style: {'flex-basis': '80%'},
         },
         {
           name: 'actions',
-          title: 'Actions',
+          title: this.$t('general.actions'),
           slot: 'action',
           style: {'flex-shrink': 1},
           cellType: 'oxd-table-cell-actions',
@@ -226,9 +226,10 @@ export default {
       const isSelectable = this.unselectableIds.findIndex(id => id == item.id);
       if (isSelectable > -1) {
         return this.$toast.error({
-          title: 'Error',
-          message:
-            'Not Allowed to Delete Project Activities Which Have Time Logged Against Them',
+          title: this.$t('general.error'),
+          message: this.$t(
+            'time.not_allowed_to_delete_project_activities_which_have_time_logged_against_them',
+          ),
         });
       }
       this.$refs.deleteDialog.showDialog().then(confirmation => {

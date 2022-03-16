@@ -32,3 +32,4 @@ $translate->up('admin');
 $translate->up('general');
 $translate->up('pim');
 $translate->up('leave');
+$translate->up('time');
