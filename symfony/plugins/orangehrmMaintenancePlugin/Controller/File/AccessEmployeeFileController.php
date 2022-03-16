@@ -19,8 +19,11 @@
 
 namespace OrangeHRM\Maintenance\Controller\File;
 
+use OrangeHRM\Authentication\Controller\ForbiddenController;
 use OrangeHRM\Core\Controller\AbstractFileController;
+use OrangeHRM\Core\Controller\Exception\RequestForwardableException;
 use OrangeHRM\Core\Traits\Service\TextHelperTrait;
+use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\Http\Response;
 use OrangeHRM\Maintenance\DownloadFormats\JsonDownloadFormat;
@@ -29,6 +32,7 @@ use OrangeHRM\Maintenance\Service\MaintenanceService;
 class AccessEmployeeFileController extends AbstractFileController
 {
     use TextHelperTrait;
+    use UserRoleManagerTrait;
 
     /**
      * @var MaintenanceService|null
@@ -61,6 +65,10 @@ class AccessEmployeeFileController extends AbstractFileController
      */
     public function handle(Request $request): Response
     {
+        if (!$this->getUserRoleManager()->getDataGroupPermissions('maintenance_employee_json')->canRead()) {
+            throw new RequestForwardableException(ForbiddenController::class . '::handle');
+        }
+
         $empNumber = $request->attributes->get('empNumber');
         $response = $this->getResponse();
 
