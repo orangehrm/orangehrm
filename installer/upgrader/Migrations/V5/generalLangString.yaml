@@ -716,3 +716,21 @@ langStrings:
   -
     value: 'Attendance Summary'
     unitId: attendance_summary
+  -
+    value: 'My Leave'
+    unitId: my_leave
+  -
+    value: 'My Entitlements'
+    unitId: my_entitlements
+  -
+    value: 'Add Entitlements'
+    unitId: add_entitlements
+  -
+    value: 'Configure'
+    unitId: configure
+  -
+    value: 'Employee Entitlements'
+    unitId: employee_entitlements
+  -
+    value: 'Entitlements'
+    unitId: entitlements
