@@ -29,6 +29,7 @@ class Config
     public const CACHE_DIR = 'ohrm_cache_dir';
     public const DOCTRINE_PROXY_DIR = 'ohrm_doctrine_proxy_dir';
     public const TEST_DIR = 'ohrm_test_dir';
+    public const I18N_ENABLED = 'ohrm_i18n_enabled';
 
     public const MODE_DEV = 'dev';
     public const MODE_PROD = 'prod';
