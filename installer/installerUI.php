@@ -135,7 +135,7 @@ switch ($currScreen) {
 ?>
 
 </form>
-<div id="footer"><?php include_once(ROOT_PATH . "/symfony/apps/orangehrm/templates/_copyright.php");?></div>
+<div id="footer"><?php include_once(ROOT_PATH . "/installer/_copyright.php");?></div>
 </div>
 </body>
 </html>
