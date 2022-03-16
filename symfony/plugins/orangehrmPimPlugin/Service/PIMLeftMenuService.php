@@ -23,23 +23,20 @@ use OrangeHRM\Core\Exception\CoreServiceException;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Exception\ServiceException;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
-use OrangeHRM\Core\Traits\CurrentRequestTrait;
+use OrangeHRM\Core\Traits\ControllerTrait;
 use OrangeHRM\Core\Traits\ModuleScreenHelperTrait;
 use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\WorkflowStateMachine;
 
-/**
- * Service used to generate left menu for PIM
- */
 class PIMLeftMenuService
 {
     use UserRoleManagerTrait;
     use AuthUserTrait;
     use ConfigServiceTrait;
     use ModuleScreenHelperTrait;
-    use CurrentRequestTrait;
+    use ControllerTrait;
 
     public const PIM_LEFTMENU_SESSION_KEY = 'pim.leftMenu.cache';
     public const PIM_LEFTMENU_TAXMENU_ENABLED = 'pim.leftMenu.isTaxMenuEnabled';
