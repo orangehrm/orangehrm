@@ -290,12 +290,12 @@ export default {
       showCommentModal: false,
       commentModalState: null,
       rules: {
-        project: [v => v !== null || 'Select a Project'],
+        project: [v => v !== null || this.$t('time.select_a_project')],
         activity: [
-          v => v !== null || 'Select an Activity',
+          v => v !== null || this.$t('time.duplicate_record'),
           v =>
             this.records.filter(record => record.activity?.id === v?.id)
-              .length < 2 || 'Duplicate Record',
+              .length < 2 || this.$t('time.duplicate_record'),
         ],
       },
     };
@@ -444,8 +444,8 @@ export default {
         this.showCommentModal = true;
       } else {
         this.$toast.warn({
-          title: 'Warning',
-          message: 'Select a Project and an Activity',
+          title: this.$t('general.warning'),
+          message: this.$t('time.select_a_project_and_an_activity'),
         });
       }
     },
@@ -504,13 +504,13 @@ export default {
           v === '' ||
           v === null ||
           parseTimeInSeconds(v) >= 0 ||
-          'Should Be Less Than 24 and in HH:MM or Decimal Format'
+          this.$t('time.should_be_less_than_24_and_in_hh_mm_or_decimal_format')
         );
       };
 
       const validateTotal = () => {
         return this.dailyTotals[date] > 86400
-          ? 'Total Should Be Less Than 24 Hours'
+          ? this.$t('time.total_should_be_less_than_24_hours')
           : true;
       };
 

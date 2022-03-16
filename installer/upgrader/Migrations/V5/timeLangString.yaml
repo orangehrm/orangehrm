@@ -1,0 +1,283 @@
+langStrings:
+  -
+    value: 'Activities'
+    unitId: activities
+  -
+    value: 'Copy From'
+    unitId: copy_from
+  -
+    value: 'Activity Name'
+    unitId: activity_name
+  -
+    value: 'Not Allowed to Delete Project Activities Which Have Time Logged Against Them'
+    unitId: not_allowed_to_delete_project_activities_which_have_time_logged_against_them
+  -
+    value: 'Add Customer'
+    unitId: add_customer
+  -
+    value: 'Add Timesheet'
+    unitId: add_timesheet
+  -
+    value: 'Select a Day to Create Timesheet'
+    unitId: select_a_day_to_create_timesheet
+  -
+    value: 'Copy Activity'
+    unitId: copy_activity
+  -
+    value: 'Project Name'
+    unitId: project_name
+  -
+    value: 'No assigned activities'
+    unitId: no_assigned_activities
+  -
+    value: 'No activities selected'
+    unitId: no_activities_selected
+  -
+    value: 'Customer Name'
+    unitId: customer_name
+  -
+    value: test
+    unitId: test
+  -
+    value: test
+    unitId: test
+  -
+    value: test
+    unitId: test
+  -
+    value: test
+    unitId: test
+  -
+    value: test
+    unitId: test
+  -
+    value: test
+    unitId: test
+  -
+    value: test
+    unitId: test
+  -
+    value: test
+    unitId: test
+  -
+    value: test
+    unitId: test
+  -
+    value: test
+    unitId: test
+  -
+    value: test
+    unitId: test
+  -
+    value: test
+    unitId: test
+  -
+    value: test
+    unitId: test
+  -
+    value: test
+    unitId: test
+  -
+    value: test
+    unitId: test
+  -
+    value: test
+    unitId: test
+  -
+    value: test
+    unitId: test
+  -
+    value: test
+    unitId: test
+  -
+    value: test
+    unitId: test
+  -
+    value: test
+    unitId: test
+  -
+    value: test
+    unitId: test
+  -
+    value: test
+    unitId: test
+  -
+    value: test
+    unitId: test
+  -
+    value: test
+    unitId: test
+  -
+    value: test
+    unitId: test
+  -
+    value: test
+    unitId: test
+  -
+    value: test
+    unitId: test
+  -
+    value: test
+    unitId: test
+  -
+    value: test
+    unitId: test
+  -
+    value: test
+    unitId: test
+  -
+    value: test
+    unitId: test
+  -
+    value: test
+    unitId: test
+  -
+    value: test
+    unitId: test
+  -
+    value: test
+    unitId: test
+  -
+    value: test
+    unitId: test
+  -
+    value: test
+    unitId: test
+  -
+    value: test
+    unitId: test
+  -
+    value: test
+    unitId: test
+  -
+    value: test
+    unitId: test
+  -
+    value: test
+    unitId: test
+  -
+    value: test
+    unitId: test
+  -
+    value: test
+    unitId: test
+  -
+    value: test
+    unitId: test
+  -
+    value: test
+    unitId: test
+  -
+    value: test
+    unitId: test
+  -
+    value: test
+    unitId: test
+  -
+    value: test
+    unitId: test
+  -
+    value: test
+    unitId: test
+  -
+    value: test
+    unitId: test
+  -
+    value: test
+    unitId: test
+  -
+    value: test
+    unitId: test
+  -
+    value: test
+    unitId: test
+  -
+    value: test
+    unitId: test
+  -
+    value: test
+    unitId: test
+  -
+    value: test
+    unitId: test
+  -
+    value: test
+    unitId: test
+  -
+    value: test
+    unitId: test
+  -
+    value: test
+    unitId: test
+  -
+    value: test
+    unitId: test
+  -
+    value: test
+    unitId: test
+  -
+    value: test
+    unitId: test
+  -
+    value: test
+    unitId: test
+  -
+    value: test
+    unitId: test
+  -
+    value: test
+    unitId: test
+  -
+    value: test
+    unitId: test
+  -
+    value: test
+    unitId: test
+  -
+    value: test
+    unitId: test
+  -
+    value: test
+    unitId: test
+  -
+    value: test
+    unitId: test
+  -
+    value: test
+    unitId: test
+  -
+    value: test
+    unitId: test
+  -
+    value: test
+    unitId: test
+  -
+    value: test
+    unitId: test
+  -
+    value: test
+    unitId: test
+  -
+    value: test
+    unitId: test
+  -
+    value: test
+    unitId: test
+  -
+    value: test
+    unitId: test
+  -
+    value: test
+    unitId: test
+  -
+    value: test
+    unitId: test
+  -
+    value: test
+    unitId: test
+  -
+    value: test
+    unitId: test
+  -
+    value: test
+    unitId: test

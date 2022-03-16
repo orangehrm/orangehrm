@@ -105,7 +105,7 @@ export default {
                 String(item.name).toLowerCase() == String(v).toLowerCase(),
             );
             if (index > -1) {
-              return 'Already exists';
+              return this.$t('general.already_exists');
             } else {
               return true;
             }

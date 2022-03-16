@@ -39,7 +39,7 @@
             v-model="customer.description"
             type="textarea"
             :label="$t('general.description')"
-            placeholder="Type description here"
+            :placeholder="$t('general.type_description_here')"
             :rules="rules.description"
           />
         </oxd-form-row>
@@ -150,7 +150,7 @@ export default {
               const {data} = response.data;
               return data.valid === true
                 ? resolve(true)
-                : resolve('Already exist');
+                : resolve(this.$t('general.already_exists'));
             });
         } else {
           resolve(true);

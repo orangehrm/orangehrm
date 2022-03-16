@@ -47,7 +47,7 @@
               <oxd-grid-item>
                 <date-input
                   v-model="filters.fromDate"
-                  placeholder="From"
+                  :placeholder="$t('general.from')"
                   :rules="rules.fromDate"
                   :label="$t('time.project_date_range')"
                 />
@@ -56,7 +56,7 @@
                 <date-input
                   v-model="filters.toDate"
                   label="&nbsp"
-                  placeholder="To"
+                  :placeholder="$t('general.to')"
                   :rules="rules.toDate"
                 />
               </oxd-grid-item>
@@ -154,7 +154,7 @@ export default {
         validDateFormat(),
         startDateShouldBeBeforeEndDate(
           () => filters.value.toDate,
-          'From date should be before to date',
+          this.$t('general.from_date_should_be_before_to_date'),
           {allowSameDate: true},
         ),
       ],
@@ -162,7 +162,7 @@ export default {
         validDateFormat(),
         endDateShouldBeAfterStartDate(
           () => filters.value.fromDate,
-          'To date should be after from date',
+          this.$t('general.to_date_should_be_after_from_date'),
           {allowSameDate: true},
         ),
       ],
