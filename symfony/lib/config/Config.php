@@ -23,12 +23,14 @@ class Config
 {
     public const PLUGINS = 'ohrm_plugins';
     public const BASE_DIR = 'ohrm_base_dir';
+    public const SRC_DIR = 'ohrm_src_dir';
     public const PLUGINS_DIR = 'ohrm_plugins_dir';
     public const PUBLIC_DIR = 'ohrm_public_dir';
     public const LOG_DIR = 'ohrm_log_dir';
     public const CACHE_DIR = 'ohrm_cache_dir';
     public const DOCTRINE_PROXY_DIR = 'ohrm_doctrine_proxy_dir';
     public const TEST_DIR = 'ohrm_test_dir';
+    public const I18N_ENABLED = 'ohrm_i18n_enabled';
 
     public const MODE_DEV = 'dev';
     public const MODE_PROD = 'prod';

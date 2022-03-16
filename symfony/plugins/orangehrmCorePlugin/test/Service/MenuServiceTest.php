@@ -26,9 +26,13 @@ use OrangeHRM\Core\Dto\AttributeBag;
 use OrangeHRM\Core\Helper\ModuleScreenHelper;
 use OrangeHRM\Core\Service\ConfigService;
 use OrangeHRM\Core\Service\MenuService;
+use OrangeHRM\Entity\I18NLangString;
+use OrangeHRM\Entity\I18NLanguage;
+use OrangeHRM\Entity\I18NTranslation;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\Http\RequestStack;
 use OrangeHRM\Framework\Services;
+use OrangeHRM\I18N\Service\I18NHelper;
 use OrangeHRM\Pim\Service\EmployeeService;
 use OrangeHRM\Tests\Util\KernelTestCase;
 use OrangeHRM\Tests\Util\Mock\MockAuthUser;
@@ -49,11 +53,18 @@ class MenuServiceTest extends KernelTestCase
             Config::get(Config::PLUGINS_DIR) . '/orangehrmCorePlugin/test/fixtures/MenuService.yaml',
             true
         );
+        TestDataService::truncateSpecificTables([I18NTranslation::class, I18NLangString::class, I18NLanguage::class]);
     }
 
     protected function setUp(): void
     {
         $this->menuService = new MenuService();
+        Config::set(Config::I18N_ENABLED, false);
+    }
+
+    protected function tearDown(): void
+    {
+        Config::set(Config::I18N_ENABLED, true);
     }
 
     public function testGetMenuItemsForAdmin(): void
@@ -93,6 +104,7 @@ class MenuServiceTest extends KernelTestCase
             Services::CONFIG_SERVICE => new ConfigService(),
             Services::USER_SERVICE => new UserService(),
             Services::EMPLOYEE_SERVICE => new EmployeeService(),
+            Services::I18N_HELPER => new I18NHelper(),
         ]);
         $this->getContainer()->register(Services::USER_ROLE_MANAGER)
             ->setFactory([UserRoleManagerFactory::class, 'getNewUserRoleManager']);
@@ -358,6 +370,7 @@ class MenuServiceTest extends KernelTestCase
             Services::CONFIG_SERVICE => new ConfigService(),
             Services::USER_SERVICE => new UserService(),
             Services::EMPLOYEE_SERVICE => new EmployeeService(),
+            Services::I18N_HELPER => new I18NHelper(),
         ]);
         $this->getContainer()->register(Services::USER_ROLE_MANAGER)
             ->setFactory([UserRoleManagerFactory::class, 'getNewUserRoleManager']);
