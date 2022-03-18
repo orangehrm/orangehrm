@@ -33,7 +33,7 @@
     <oxd-input-field
       class="orangehrm-middlename"
       name="Middle Name"
-      placeholder="Middle name"
+      :placeholder="isPlaceholderNeeded ? 'Middle Name' : ''"
       :model-value="middleName"
       :rules="rules.middleName"
       :disabled="disabled"
@@ -75,6 +75,10 @@ export default {
     disabled: {
       type: Boolean,
       default: false,
+    },
+    isPlaceholderNeeded: {
+      type: Boolean,
+      default: true,
     },
   },
   emits: ['update:firstName', 'update:middleName', 'update:lastName'],
