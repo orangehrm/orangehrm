@@ -24,7 +24,7 @@
       <oxd-grid :cols="4" class="orangehrm-full-width-grid">
         <template v-if="attendanceRecord.previousRecord">
           <oxd-grid-item>
-            <oxd-input-group :label="$t('time.punched_in_time')">
+            <oxd-input-group :label="$t('attendance.punched_in_time')">
               <oxd-text type="subtitle-2">
                 {{ attendanceRecord.previousRecord.userDate }} -
                 {{ attendanceRecord.previousRecord.userTime }}
@@ -33,7 +33,7 @@
           </oxd-grid-item>
 
           <oxd-grid-item v-if="attendanceRecord.previousRecord.note">
-            <oxd-input-group :label="$t('time.punched_in_note')">
+            <oxd-input-group :label="$t('attendance.punched_in_note')">
               <oxd-text type="subtitle-2">
                 {{ attendanceRecord.previousRecord.note }}
               </oxd-text>
@@ -50,7 +50,7 @@
             :rules="rules.date"
             :disabled="!isEditable"
             type="date"
-            placeholder="yyyy-mm-dd"
+            :placeholder="$t('general.date_format')"
             required
           />
         </oxd-grid-item>
@@ -59,11 +59,11 @@
         <oxd-grid-item class="--offset-row-2">
           <oxd-input-field
             v-model="attendanceRecord.time"
-            :label="$t('time.time')"
+            :label="$t('attendance.time')"
             :disabled="!isEditable"
             :rules="rules.time"
             type="time"
-            placeholder="HH:MM"
+            :placeholder="$t('attendance.hh_mm')"
             required
           />
         </oxd-grid-item>
@@ -86,7 +86,7 @@
             v-model="attendanceRecord.note"
             :rules="rules.note"
             :label="$t('general.note')"
-            placeholder="Type here."
+            :placeholder="$t('general.type_here')"
             type="textarea"
           />
         </oxd-grid-item>
@@ -96,7 +96,9 @@
     <oxd-form-actions>
       <required-text />
       <submit-button
-        :label="!attendanceRecordId ? $t('time.in') : $t('time.out')"
+        :label="
+          !attendanceRecordId ? $t('attendance.in') : $t('attendance.out')
+        "
       />
     </oxd-form-actions>
   </oxd-form>
@@ -290,7 +292,7 @@ export default {
             }
             return data.valid === true
               ? resolve(true)
-              : resolve(this.$t('time.overlapping_records_found'));
+              : resolve(this.$t('attendance.overlapping_records_found'));
           });
       });
     },

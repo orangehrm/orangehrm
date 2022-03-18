@@ -208,35 +208,35 @@ export default {
         {
           name: 'punchIn',
           slot: 'title',
-          title: 'Punch In',
+          title: this.$t('attendance.punch_in'),
           style: {flex: 1},
           cellRenderer: this.cellRenderer,
         },
         {
           name: 'punchInNote',
-          title: 'Punch In Note',
+          title: this.$t('attendance.punch_in_note'),
           style: {flex: 1},
         },
         {
           name: 'punchOut',
-          title: 'Punch Out',
+          title: this.$t('attendance.punch_out'),
           style: {flex: 1},
           cellRenderer: this.cellRenderer,
         },
         {
           name: 'punchOutNote',
-          title: 'Punch Out Note',
+          title: this.$t('attendance.punch_out_note'),
           style: {flex: 1},
         },
         {
           name: 'duration',
-          title: 'Duration (Hours)',
+          title: this.$t('attendance.duration_hours'),
           style: {flex: 1},
         },
         {
           ...(this.isEditable && {
             name: 'actions',
-            title: 'Actions',
+            title: this.$t('general.actions'),
             slot: 'action',
             style: {flex: 1},
             cellType: 'oxd-table-cell-actions',
