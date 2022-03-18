@@ -108,15 +108,18 @@ export default {
   ::v-deep(.orangehrm-firstname) {
     border-bottom-right-radius: unset;
     border-top-right-radius: unset;
+    text-overflow: ellipsis;
   }
 
   ::v-deep(.orangehrm-lastname) {
     border-bottom-left-radius: unset;
     border-top-left-radius: unset;
+    text-overflow: ellipsis;
   }
 
   ::v-deep(.orangehrm-middlename) {
     border-radius: unset;
+    text-overflow: ellipsis;
   }
 }
 </style>
