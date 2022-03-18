@@ -22,7 +22,7 @@
   <oxd-input-field
     type="select"
     :options="options"
-    :label="$t('time.timezone')"
+    :label="$t('attendance.timezone')"
     :show-empty-selector="false"
   />
 </template>
