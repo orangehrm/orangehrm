@@ -212,8 +212,8 @@ ReviewerRating:
   2: {id: 3, rating: '2', kpi_id: 1, review_id: 2, reviewer_id: 1 ,comment: 'Test comment 3'}
 
 PerformanceTracker:
-  0: {id: 1, emp_number: 1, added_date: '2011-12-12', status: 1}
-  1: {id: 2, emp_number: 2, added_date: '2011-12-12', status: 1}
+  0: {id: 1, emp_number: 1, added_date: '2011-12-12', status: 1, tracker_name : 'tracker1'}
+  1: {id: 2, emp_number: 2, added_date: '2011-12-12', status: 1, tracker_name : 'tracker2'}
 
 PerformanceTrackerLog:
   0: {id: 1, performance_track_id: 1, reviewer_id: 2, added_date: '2011-12-12', status: 1,achievement: 1, comment: 'test comment by 2', log: 'log by 2',  modified_date: '2011-12-12'}
