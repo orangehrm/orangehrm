@@ -318,52 +318,16 @@ CONFCONT;
 
 }
 
-public static function writeSymfonyDbConfigFile() {
+public static function runLanguageStringMigrations() {
+    \OrangeHRM\Framework\ServiceContainer::getContainer()->register(\OrangeHRM\Framework\Services::DOCTRINE)
+        ->setFactory([\OrangeHRM\ORM\Doctrine::class, 'getEntityManager']);
 
-	$dbHost = $_SESSION['dbInfo']['dbHostName'];
-	$dbHostPort = $_SESSION['dbInfo']['dbHostPort'];
-	$dbName = $_SESSION['dbInfo']['dbName'];
-
-	if(isset($_SESSION['dbInfo']['dbOHRMUserName'])) {
-		$dbOHRMUser = $_SESSION['dbInfo']['dbOHRMUserName'];
-		$dbOHRMPassword = $_SESSION['dbInfo']['dbOHRMPassword'];
-	} else {
-		$dbOHRMUser = $_SESSION['dbInfo']['dbUserName'];
-		$dbOHRMPassword = $_SESSION['dbInfo']['dbPassword'];
-	}
-
-    $dsn = "mysql:host=$dbHost;dbname=$dbName;charset=utf8mb4";
-    $testDsn = "mysql:host=$dbHost;dbname=test_$dbName;charset=utf8mb4";
-
-    if (is_numeric($dbHostPort)) {
-        $dsn = "mysql:host=$dbHost;port=$dbHostPort;dbname=$dbName;charset=utf8mb4";
-        $testDsn = "mysql:host=$dbHost;port=$dbHostPort;dbname=test_$dbName;charset=utf8mb4";
-    }
-
-    $confContent = <<< CONFCONT
-all:
-  doctrine:
-    class: sfDoctrineDatabase
-    param:
-      dsn: '$dsn'
-      username: $dbOHRMUser
-      password: $dbOHRMPassword
-      attributes: { export: tables }
-test:
-  doctrine:
-    class: sfDoctrineDatabase
-    param:
-      dsn: '$testDsn'
-      username: $dbOHRMUser
-      password: $dbOHRMPassword
-CONFCONT;
-
-	$filename = ROOT_PATH . '/symfony/config/databases.yml';
-	$handle = fopen($filename, 'w');
-	fwrite($handle, $confContent);
-
-    fclose($handle);
-
+    $migration = new \OrangeHRM\Tools\Migrations\Version20220125();
+    $migration->up();
+    $migration = new \OrangeHRM\Tools\Migrations\Version20220221();
+    $migration->up();
+    $migration = new \OrangeHRM\Tools\Migrations\Version20220301();
+    $migration->up();
 }
 
 public static function writeLog() {
@@ -504,7 +468,7 @@ public static function install() {
 
 		case 5 :	error_log (date("r")." Write Conf - Starting\n",3, self::getErrorLogPath());
 					self::writeConfFile();
-					//self::writeSymfonyDbConfigFile();
+                    self::runLanguageStringMigrations();
 					error_log (date("r")." Write Conf - Done\n",3, self::getErrorLogPath());
 					if (!isset($_SESSION['error'])) {
 						$_SESSION['INSTALLING'] = 6;
