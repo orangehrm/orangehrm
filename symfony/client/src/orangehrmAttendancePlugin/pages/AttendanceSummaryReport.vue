@@ -28,7 +28,7 @@
   >
     <template #default="{generateReport}">
       <oxd-table-filter
-        :filter-title="$t('time.attendance_total_summary_report')"
+        :filter-title="$t('attendance.attendance_total_summary_report')"
       >
         <oxd-form @submitValid="generateReport">
           <oxd-form-row>
@@ -59,7 +59,7 @@
               <oxd-grid-item>
                 <date-input
                   v-model="filters.fromDate"
-                  placeholder="From"
+                  :placeholder="$t('general.from')"
                   :rules="rules.fromDate"
                   :label="$t('general.date_range')"
                 />
@@ -68,7 +68,7 @@
                 <date-input
                   v-model="filters.toDate"
                   label="&nbsp"
-                  placeholder="To"
+                  :placeholder="$t('general.to')"
                   :rules="rules.toDate"
                 />
               </oxd-grid-item>
