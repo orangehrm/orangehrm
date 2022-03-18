@@ -11,7 +11,7 @@
  * @author nadeera
  */
 
-namespace OrangeHRM\Performance\test\Dao;
+namespace OrangeHRM\Tests\Performance\Dao;
 
 use Exception;
 use OrangeHRM\Performance\Dao\PerformanceReviewDao;

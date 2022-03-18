@@ -1,6 +1,6 @@
 <?php
 
-namespace OrangeHRM\Performance\test\Api;
+namespace OrangeHRM\Tests\Performance\Api;
 
 use Exception;
 use OrangeHRM\Framework\Services;

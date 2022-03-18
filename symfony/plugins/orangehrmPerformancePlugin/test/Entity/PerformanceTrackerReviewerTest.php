@@ -20,6 +20,7 @@
 namespace OrangeHRM\Tests\Performance\Entity;
 
 use DateTime;
+use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\PerformanceTracker;
 use OrangeHRM\Entity\PerformanceTrackerReviewer;
 use OrangeHRM\Tests\Util\EntityTestCase;
@@ -27,12 +28,34 @@ use OrangeHRM\Tests\Util\TestDataService;
 
 class PerformanceTrackerReviewerTest extends EntityTestCase
 {
+
+    protected function setUp(): void
+    {
+        TestDataService::truncateSpecificTables([Employee::class]);
+        TestDataService::truncateSpecificTables([PerformanceTrackerReviewer::class]);
+    }
+
     /**
      * @return void
      */
     public function testerformanceTrackerEntity(): void
     {
+
+        $employee=new Employee();
+        $employee->setEmployeeId('E001');
+        $employee->setFirstName('test1');
+        $employee->setLastName('test2');
+        $employee->setMiddleName('middle');
+        $this->persist($employee);
+
+        $performanceTracker = new PerformanceTracker();
+        $performanceTracker->setId(1);
+        $performanceTracker->setStatus(1);
+        $performanceTracker->setTrackerName('tracker1');
+        $performanceTracker->getDecorator()->setEmployeeByEmpNumber(1);
+        $this->persist($performanceTracker);
         $performanceTracker = $this->getRepository(PerformanceTracker::class)->find(1);
+
         $performanceTrackerReviewer = new PerformanceTrackerReviewer();
         $performanceTrackerReviewer->setPerformanceTracker($performanceTracker);
         $performanceTrackerReviewer->getDecorator()->setReviewerByEmpNumber(1);
@@ -43,8 +66,5 @@ class PerformanceTrackerReviewerTest extends EntityTestCase
         $this->assertEquals(1, $result->getPerformanceTracker()->getId());
     }
 
-    protected function setUp(): void
-    {
-        TestDataService::truncateSpecificTables([PerformanceTrackerReviewer::class]);
-    }
+
 }
