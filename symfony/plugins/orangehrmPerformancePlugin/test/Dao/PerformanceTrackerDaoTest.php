@@ -50,14 +50,14 @@ class PerformanceTrackerDaoTest extends KernelTestCase
     {
         $performanceTrackerFilterParams = new PerformanceTrackerSearchFilterParams();
         $result = $this->performanceTrackerDao->getPerformanceTrackList($performanceTrackerFilterParams);
-        $this->assertCount(2, $result);
+        $this->assertCount(3, $result);
     }
 
     public function testGetPerformanceTrackerCount(): void
     {
         $performanceTrackerFilterParams = new PerformanceTrackerSearchFilterParams();
         $result = $this->performanceTrackerDao->getPerformanceTrackerCount($performanceTrackerFilterParams);
-        $this->assertEquals(2, $result);
+        $this->assertEquals(3, $result);
     }
 
 
