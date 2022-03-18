@@ -36,8 +36,8 @@
       :model-value="middleName"
       :rules="rules.middleName"
       :disabled="disabled"
-      @update:modelValue="$emit('update:middleName', $event)"
       v-bind="middleNameProps"
+      @update:modelValue="$emit('update:middleName', $event)"
     />
     <oxd-input-field
       class="orangehrm-lastname"

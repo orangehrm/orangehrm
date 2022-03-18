@@ -78,11 +78,5 @@
       <directory>symfony/plugins/orangehrmMaintenancePlugin/test/Dto</directory>
       <directory>symfony/plugins/orangehrmMaintenancePlugin/test/Api</directory>
     </testsuite>
-    <testsuite name="Performance">
-      <directory>symfony/plugins/orangehrmPerformancePlugin/test/Dao</directory>
-      <directory>symfony/plugins/orangehrmPerformancePlugin/test/Service</directory>
-      <directory>symfony/plugins/orangehrmPerformancePlugin/test/Entity</directory>
-      <directory>symfony/plugins/orangehrmPerformancePlugin/test/Api</directory>
-    </testsuite>
   </testsuites>
 </phpunit>

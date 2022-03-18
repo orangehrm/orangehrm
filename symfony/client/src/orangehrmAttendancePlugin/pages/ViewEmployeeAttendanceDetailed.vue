@@ -56,7 +56,9 @@
     </oxd-form>
   </oxd-table-filter>
   <br />
-  <div class="orangehrm-paper-container">
+  <div
+    class="orangehrm-paper-container orangehrm-paper-container--viewemployee"
+  >
     <div
       v-if="isEditable && filters.employee"
       class="orangehrm-header-container"
@@ -330,3 +332,10 @@ export default {
   },
 };
 </script>
+<style scoped lang="scss">
+.orangehrm-paper-container--viewemployee {
+  ::v-deep(.card-header-slot-content .oxd-table-cell-actions) {
+    justify-content: flex-end;
+  }
+}
+</style>
