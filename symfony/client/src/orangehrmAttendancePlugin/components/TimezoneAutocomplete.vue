@@ -22,7 +22,7 @@
   <oxd-input-field
     type="autocomplete"
     :clear="false"
-    :label="$t('time.timezone')"
+    :label="$t('attendance.timezone')"
     :create-options="loadTimezones"
   >
     <template #option="{data}">

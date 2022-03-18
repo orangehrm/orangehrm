@@ -23,7 +23,7 @@
     <div class="orangehrm-card-container">
       <div class="orangehrm-header">
         <oxd-text tag="h6" class="orangehrm-main-title">
-          {{ $t('time.edit_attendance_records') }}
+          {{ $t('attendance.edit_attendance_records') }}
         </oxd-text>
         <oxd-text
           v-if="totalDuration"
@@ -42,7 +42,7 @@
               <oxd-grid :cols="2" class="orangehrm-full-width-grid">
                 <oxd-grid-item>
                   <oxd-text type="subtitle-2">
-                    {{ $t('time.punch_in') }}
+                    {{ $t('attendance.punch_in') }}
                   </oxd-text>
                 </oxd-grid-item>
 
@@ -52,7 +52,7 @@
                     :label="$t('general.date')"
                     :rules="rules.punchIn.userDate"
                     type="date"
-                    placeholder="yyyy-mm-dd"
+                    :placeholder="$t('general.date_format')"
                     required
                   />
                 </oxd-grid-item>
@@ -60,10 +60,10 @@
                 <oxd-grid-item class="--offset-row-2">
                   <oxd-input-field
                     v-model="attendance.punchIn.userTime"
-                    :label="$t('time.time')"
+                    :label="$t('attendance.time')"
                     :rules="rules.punchIn.userTime"
                     type="time"
-                    placeholder="HH:MM"
+                    :placeholder="$t('attendance.hh_mm')"
                     required
                   />
                 </oxd-grid-item>
@@ -83,7 +83,7 @@
                     v-model="attendance.punchIn.note"
                     :rules="rules.punchIn.note"
                     :label="$t('general.note')"
-                    placeholder="Type here."
+                    :placeholder="$t('general.type_here')"
                     type="textarea"
                   />
                 </oxd-grid-item>
@@ -104,7 +104,7 @@
                     :label="$t('general.date')"
                     :rules="rules.punchOut.userDate"
                     type="date"
-                    placeholder="yyyy-mm-dd"
+                    :placeholder="$t('general.date_format')"
                     required
                   />
                 </oxd-grid-item>
@@ -112,10 +112,10 @@
                 <oxd-grid-item class="--offset-row-2">
                   <oxd-input-field
                     v-model="attendance.punchOut.userTime"
-                    :label="$t('time.time')"
+                    :label="$t('attendance.time')"
                     :rules="rules.punchOut.userTime"
                     type="time"
-                    placeholder="HH:MM"
+                    :placeholder="$t('attendance.hh_mm')"
                     required
                   />
                 </oxd-grid-item>
@@ -135,7 +135,7 @@
                     v-model="attendance.punchOut.note"
                     :rules="rules.punchOut.note"
                     :label="$t('general.note')"
-                    placeholder="Type here."
+                    :placeholder="$t('general.type_here')"
                     type="textarea"
                   />
                 </oxd-grid-item>
@@ -394,7 +394,7 @@ export default {
             }
             return data.valid === true
               ? resolve(true)
-              : resolve(this.$t('time.overlapping_records_found'));
+              : resolve(this.$t('attendance.overlapping_records_found'));
           });
       });
     },
