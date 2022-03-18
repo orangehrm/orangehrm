@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\Authentication\Controller\Traits;
 
-use Exception;
 use LogicException;
 use OrangeHRM\Authentication\Controller\AdministratorAccessController;
 use OrangeHRM\Authentication\Controller\AdminPrivilegeController;
@@ -31,6 +30,9 @@ use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\Http\Response;
 use OrangeHRM\Framework\Routing\UrlMatcher;
 use OrangeHRM\Framework\Services;
+use Symfony\Component\OptionsResolver\Exception\NoConfigurationException;
+use Symfony\Component\Routing\Exception\MethodNotAllowedException;
+use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
 trait AdministratorAccessTrait
 {
@@ -80,7 +82,7 @@ trait AdministratorAccessTrait
         $urlMatcher = $this->getContainer()->get(Services::ROUTER);
         try {
             $urlMatcher->match($formattedBackUrl);
-        } catch (Exception $e) {
+        } catch (ResourceNotFoundException | NoConfigurationException | MethodNotAllowedException $e) {
             throw new RequestForwardableException(ForbiddenController::class . '::handle');
         }
 
