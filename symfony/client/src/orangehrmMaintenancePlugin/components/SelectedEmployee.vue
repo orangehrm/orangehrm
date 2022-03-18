@@ -44,7 +44,7 @@
                   :middle-name="selectedEmployee.middleName"
                   :last-name="selectedEmployee.lastName"
                   :rules="rules"
-                  :is-placeholder-needed="false"
+                  :middle-name-props="{}"
                   disabled
                 />
               </oxd-grid-item>

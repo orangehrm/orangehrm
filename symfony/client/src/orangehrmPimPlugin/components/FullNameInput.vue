@@ -33,11 +33,11 @@
     <oxd-input-field
       class="orangehrm-middlename"
       name="Middle Name"
-      :placeholder="isPlaceholderNeeded ? 'Middle Name' : ''"
       :model-value="middleName"
       :rules="rules.middleName"
       :disabled="disabled"
       @update:modelValue="$emit('update:middleName', $event)"
+      v-bind="middleNameProps"
     />
     <oxd-input-field
       class="orangehrm-lastname"
@@ -76,9 +76,11 @@ export default {
       type: Boolean,
       default: false,
     },
-    isPlaceholderNeeded: {
-      type: Boolean,
-      default: true,
+    middleNameProps: {
+      type: Object,
+      default: () => ({
+        placeholder: 'Middle Name',
+      }),
     },
   },
   emits: ['update:firstName', 'update:middleName', 'update:lastName'],
