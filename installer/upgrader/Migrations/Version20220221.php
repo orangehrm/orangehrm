@@ -35,7 +35,7 @@ class Version20220221
 
     public function up(): void
     {
-        $modules = ['admin','general','pim','leave','time'];
+        $modules = ['admin','general','pim','leave','time','maintenance'];
         foreach ($modules as $module){
             $groupId = $this->getLangStringHelper()->getGroupId($module);
             $langArray = $this->getLangStringHelper()->getLangStringArray($module);

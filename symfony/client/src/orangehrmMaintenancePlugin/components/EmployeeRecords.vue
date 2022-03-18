@@ -41,7 +41,11 @@
       <oxd-divider />
       <oxd-form-actions>
         <required-text />
-        <oxd-button display-type="secondary" label="Search" type="submit" />
+        <oxd-button
+          display-type="secondary"
+          :label="$t('general.search')"
+          type="submit"
+        />
       </oxd-form-actions>
     </oxd-form>
   </div>

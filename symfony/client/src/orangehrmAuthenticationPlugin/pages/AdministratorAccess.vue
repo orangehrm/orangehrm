@@ -28,14 +28,13 @@
         @submitValid="onSubmit"
       >
         <oxd-text tag="h6" class="orangehrm-admin-access-title">
-          Administrator Access
+          {{ $t('general.admin_access') }}
         </oxd-text>
 
         <br />
 
         <oxd-text :class="noteClasses">
-          You have requested to access a critical Administrator function in
-          OrangeHRM and are required to validate your credentials below
+          {{ $t('general.admin_access_note') }}
         </oxd-text>
 
         <oxd-alert
@@ -50,7 +49,7 @@
           <oxd-input-field
             :model-value="username"
             name="username"
-            label="Username"
+            :label="$t('general.username')"
             label-icon="person"
             disabled
           />
@@ -59,7 +58,7 @@
           <oxd-input-field
             v-model="password"
             name="password"
-            label="Password"
+            :label="$t('general.password')"
             label-icon="key"
             type="password"
           />
