@@ -63,6 +63,7 @@
             :label="$t('general.password')"
             label-icon="key"
             type="password"
+            autofocus
           />
         </oxd-form-row>
         <div class="orangehrm-admin-access-button-container">
