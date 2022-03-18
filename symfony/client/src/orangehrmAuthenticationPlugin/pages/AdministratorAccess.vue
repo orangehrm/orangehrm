@@ -28,15 +28,16 @@
         @submitValid="onSubmit"
       >
         <oxd-text tag="h6" class="orangehrm-admin-access-title">
-          Administrator Access
+          {{ $t('general.admin_access') }}
         </oxd-text>
 
         <br />
 
-        <oxd-text :class="noteClasses">
-          You have requested to access a critical Administrator function in
-          OrangeHRM and are required to validate your credentials below
-        </oxd-text>
+        <div :class="noteContainerClass">
+          <oxd-text tag="toast-message">
+            {{ $t('general.admin_access_note') }}
+          </oxd-text>
+        </div>
 
         <oxd-alert
           :show="error !== null"
@@ -50,7 +51,7 @@
           <oxd-input-field
             :model-value="username"
             name="username"
-            label="Username"
+            :label="$t('general.username')"
             label-icon="person"
             disabled
           />
@@ -59,9 +60,10 @@
           <oxd-input-field
             v-model="password"
             name="password"
-            label="Password"
+            :label="$t('general.password')"
             label-icon="key"
             type="password"
+            autofocus
           />
         </oxd-form-row>
         <div class="orangehrm-admin-access-button-container">
@@ -119,9 +121,8 @@ export default {
   data() {
     return {
       password: '',
-      noteClasses: {
-        'orangehrm-admin-access-note': true,
-        '--padding': this.error === null,
+      noteContainerClass: {
+        'orangehrm-admin-access-note-container': this.error === null,
       },
     };
   },
@@ -154,18 +155,15 @@ export default {
 .orangehrm-admin-access {
   &-container {
     display: flex;
-    height: 100vh;
+    height: 100%;
     justify-content: center;
     align-items: center;
   }
   &-title {
     font-weight: 700;
   }
-  &-note {
-    font-size: 12px;
-    &.--padding {
-      padding-bottom: 1.2rem;
-    }
+  &-note-container {
+    padding-bottom: 1.2rem;
   }
   &-button {
     flex: 1;

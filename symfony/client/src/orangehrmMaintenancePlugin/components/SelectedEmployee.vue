@@ -21,7 +21,7 @@
 <template>
   <div class="orangehrm-card-container">
     <oxd-text tag="h6" class="orangehrm-main-title">
-      Selected Employee
+      {{ $t('maintenance.selected_employee') }}
     </oxd-text>
 
     <oxd-divider />
@@ -54,7 +54,7 @@
               <oxd-grid-item>
                 <oxd-input-field
                   :model-value="selectedEmployee.employeeId"
-                  label="Employee Id"
+                  :label="$t('general.employee_id')"
                   :rules="rules.employeeId"
                   disabled
                 />
