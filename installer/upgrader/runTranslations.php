@@ -34,3 +34,4 @@ $translate->up('pim');
 $translate->up('leave');
 $translate->up('time');
 $translate->up('attendance');
+$translate->up('maintenance');
