@@ -33,9 +33,11 @@
 
         <br />
 
-        <oxd-text :class="noteClasses">
-          {{ $t('general.admin_access_note') }}
-        </oxd-text>
+        <div :class="noteContainerClass">
+          <oxd-text tag="toast-message">
+            {{ $t('general.admin_access_note') }}
+          </oxd-text>
+        </div>
 
         <oxd-alert
           :show="error !== null"
@@ -118,9 +120,8 @@ export default {
   data() {
     return {
       password: '',
-      noteClasses: {
-        'orangehrm-admin-access-note': true,
-        '--padding': this.error === null,
+      noteContainerClass: {
+        'orangehrm-admin-access-note-container': this.error === null,
       },
     };
   },
@@ -153,18 +154,15 @@ export default {
 .orangehrm-admin-access {
   &-container {
     display: flex;
-    height: 100vh;
+    height: 100%;
     justify-content: center;
     align-items: center;
   }
   &-title {
     font-weight: 700;
   }
-  &-note {
-    font-size: 12px;
-    &.--padding {
-      padding-bottom: 1.2rem;
-    }
+  &-note-container {
+    padding-bottom: 1.2rem;
   }
   &-button {
     flex: 1;
