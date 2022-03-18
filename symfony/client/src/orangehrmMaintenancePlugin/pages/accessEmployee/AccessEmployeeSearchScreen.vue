@@ -21,7 +21,7 @@
   <employee-records
     title-label="Download Personal Data"
     include-employees-param="currentAndPast"
-    autocomplete-label=""
+    autocomplete-label="Employee Name"
     @search="search"
   ></employee-records>
   <div v-if="employee" class="orangehrm-background-container">
