@@ -34,6 +34,7 @@ use OrangeHRM\Core\HomePage\HomePageEnablerInterface;
 use OrangeHRM\Core\Service\AccessFlowStateMachineService;
 use OrangeHRM\Core\Service\MenuService;
 use OrangeHRM\Core\Traits\ClassHelperTrait;
+use OrangeHRM\Core\Traits\Service\MenuServiceTrait;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\User;
 use OrangeHRM\Entity\UserRole;
@@ -47,6 +48,7 @@ class BasicUserRoleManager extends AbstractUserRoleManager
     use ClassHelperTrait;
     use ProjectServiceTrait;
     use UserServiceTrait;
+    use MenuServiceTrait;
 
     public const PERMISSION_TYPE_DATA_GROUP = 'data_group';
     public const PERMISSION_TYPE_ACTION = 'action';
@@ -130,17 +132,6 @@ class BasicUserRoleManager extends AbstractUserRoleManager
     public function setScreenPermissionService(ScreenPermissionService $screenPermissionService): void
     {
         $this->screenPermissionService = $screenPermissionService;
-    }
-
-    /**
-     * @return MenuService
-     */
-    protected function getMenuService(): MenuService
-    {
-        if (!$this->menuService instanceof MenuService) {
-            $this->menuService = new MenuService();
-        }
-        return $this->menuService;
     }
 
     /**
@@ -513,15 +504,6 @@ class BasicUserRoleManager extends AbstractUserRoleManager
     }
 
     /**
-     * @return array
-     * @throws DaoException
-     */
-    public function getAccessibleMenuItemDetails(): array
-    {
-        return $this->getMenuService()->getMenuItemDetails($this->userRoles);
-    }
-
-    /**
      * @inheritDoc
      * @throws AuthorizationException
      */
@@ -567,7 +549,7 @@ class BasicUserRoleManager extends AbstractUserRoleManager
     /**
      * @inheritDoc
      */
-    protected function getUserRoles(User $user): array
+    protected function computeUserRoles(User $user): array
     {
         $roles = [$user->getUserRole()];
 
@@ -893,6 +875,7 @@ class BasicUserRoleManager extends AbstractUserRoleManager
     }
 
     /**
+     * @todo fix this in `ohrm_workflow_state_machine`
      * @param string $roleName
      * @param string $workflow
      * @return string

@@ -29,12 +29,16 @@ class User
 
     public const SESSION_TIMEOUT_REDIRECT_URL = 'redirect_uri';
     public const IS_AUTHENTICATED = 'user.is_authenticated';
+    public const HAS_ADMIN_ACCESS = 'user.has_admin_access';
+    public const ADMIN_ACCESS_FORWARD_URL = 'admin_access.forward_url';
+    public const ADMIN_ACCESS_BACK_URL = 'admin_access.back_url';
     public const USER_ID = 'user.user_id';
     public const USER_ROLE_ID = 'user.user_role_id';
     public const USER_ROLE_NAME = 'user.user_role_name';
     public const USER_EMPLOYEE_NUMBER = 'user.user_employee_number';
 
     public const FLASH_LOGIN_ERROR = 'flash.login_error';
+    public const FLASH_VERIFY_ERROR = 'flash.admin_access.verify_error';
     public const FLASH_SEND_EMAIL_FLAG = 'flash.send_email_flag';
 
     /**
@@ -221,5 +225,21 @@ class User
     public function setEmpNumber(?int $empNumber): void
     {
         $this->setAttribute(self::USER_EMPLOYEE_NUMBER, $empNumber);
+    }
+
+    /**
+     * @return bool
+     */
+    public function getHasAdminAccess(): bool
+    {
+        return $this->getAttribute(self::HAS_ADMIN_ACCESS, false);
+    }
+
+    /**
+     * @param bool $status
+     */
+    public function setHasAdminAccess(bool $status = true): void
+    {
+        $this->setAttribute(self::HAS_ADMIN_ACCESS, $status);
     }
 }

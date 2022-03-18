@@ -23,8 +23,6 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Screen
- *
  * @ORM\Table(name="ohrm_screen")
  * @ORM\Entity
  */
@@ -60,6 +58,13 @@ class Screen
      * @ORM\JoinColumn(name="module_id", referencedColumnName="id")
      */
     private Module $module;
+
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="menu_configurator", type="string", length=255, nullable=true)
+     */
+    private ?string $menuConfigurator = null;
 
     /**
      * @var ScreenPermission[]|Collection
@@ -130,6 +135,22 @@ class Screen
     public function setModule(Module $module): void
     {
         $this->module = $module;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getMenuConfigurator(): ?string
+    {
+        return $this->menuConfigurator;
+    }
+
+    /**
+     * @param string|null $menuConfigurator
+     */
+    public function setMenuConfigurator(?string $menuConfigurator): void
+    {
+        $this->menuConfigurator = $menuConfigurator;
     }
 
     /**

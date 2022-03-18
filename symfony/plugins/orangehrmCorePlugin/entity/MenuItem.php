@@ -22,16 +22,11 @@ namespace OrangeHRM\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * MenuItem
- *
  * @ORM\Table(name="ohrm_menu_item")
  * @ORM\Entity
  */
 class MenuItem
 {
-    public const STATUS_ENABLED = true;
-    public const STATUS_DISABLED = false;
-
     /**
      * @var int
      *
@@ -54,7 +49,7 @@ class MenuItem
      * @ORM\OneToOne(targetEntity="OrangeHRM\Entity\MenuItem")
      * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", nullable=true)
      */
-    private ?MenuItem $parent;
+    private ?MenuItem $parent = null;
 
     /**
      * @var int
@@ -71,13 +66,6 @@ class MenuItem
     private int $orderHint;
 
     /**
-     * @var string|null
-     *
-     * @ORM\Column(name="url_extras", type="string", length=255, nullable=true)
-     */
-    private ?string $urlExtras;
-
-    /**
      * @var bool
      *
      * @ORM\Column(name="status", type="boolean")
@@ -90,7 +78,7 @@ class MenuItem
      * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Screen")
      * @ORM\JoinColumn(name="screen_id", referencedColumnName="id", nullable=true)
      */
-    private ?Screen $screen;
+    private ?Screen $screen = null;
 
     /**
      * @var array|null
@@ -98,11 +86,6 @@ class MenuItem
      * @ORM\Column(name="additional_params", type="json", nullable=true)
      */
     private ?array $additionalParams = [];
-
-    /**
-     * @var array|MenuItem[]
-     */
-    protected array $subMenuItems = [];
 
     /**
      * @return int
@@ -185,22 +168,6 @@ class MenuItem
     }
 
     /**
-     * @return string|null
-     */
-    public function getUrlExtras(): ?string
-    {
-        return $this->urlExtras;
-    }
-
-    /**
-     * @param string|null $urlExtras
-     */
-    public function setUrlExtras(?string $urlExtras): void
-    {
-        $this->urlExtras = $urlExtras;
-    }
-
-    /**
      * @return bool
      */
     public function getStatus(): bool
@@ -246,21 +213,5 @@ class MenuItem
     public function setAdditionalParams(?array $additionalParams): void
     {
         $this->additionalParams = $additionalParams;
-    }
-
-    /**
-     * @param MenuItem $menuItem
-     */
-    public function addSubMenuItem(MenuItem $menuItem): void
-    {
-        $this->subMenuItems[] = $menuItem;
-    }
-
-    /**
-     * @return array|MenuItem[]
-     */
-    public function getSubMenuItems(): array
-    {
-        return $this->subMenuItems;
     }
 }

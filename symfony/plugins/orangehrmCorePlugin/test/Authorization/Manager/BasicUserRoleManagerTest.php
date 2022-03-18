@@ -1854,7 +1854,7 @@ class TestBasicUserRoleManager extends BasicUserRoleManager
 {
     public function getUserRolesPublic($user)
     {
-        return $this->getUserRoles($user);
+        return $this->computeUserRoles($user);
     }
 
     public function filterUserRolesPublic($userRoles, $rolesToExclude, $rolesToInclude, $entities = [])

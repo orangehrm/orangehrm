@@ -19,7 +19,12 @@
  -->
 
 <template>
-  <oxd-input-field type="select" :options="options" />
+  <oxd-input-field
+    type="select"
+    :options="options"
+    :label="$t('time.timezone')"
+    :show-empty-selector="false"
+  />
 </template>
 
 <script>

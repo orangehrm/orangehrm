@@ -24,10 +24,10 @@ use OrangeHRM\Authentication\Auth\User;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Authorization\Service\ScreenPermissionService;
 use OrangeHRM\Core\Dto\AttributeBag;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Exception\ServiceException;
 use OrangeHRM\Core\Service\MenuService;
 use OrangeHRM\Core\Traits\ModuleScreenHelperTrait;
+use OrangeHRM\Core\Traits\Service\MenuServiceTrait;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Framework\Http\Request;
 
@@ -35,6 +35,7 @@ class VueControllerHelper
 {
     use ModuleScreenHelperTrait;
     use UserServiceTrait;
+    use MenuServiceTrait;
 
     public const COMPONENT_NAME = 'componentName';
     public const COMPONENT_PROPS = 'componentProps';
@@ -114,7 +115,6 @@ class VueControllerHelper
 
     /**
      * @return array
-     * @throws ServiceException|DaoException
      */
     public function getContextParams(): array
     {
@@ -160,7 +160,6 @@ class VueControllerHelper
 
     /**
      * @return array
-     * @throws ServiceException
      */
     protected function getUserObject(): array
     {
@@ -197,7 +196,6 @@ class VueControllerHelper
 
     /**
      * @return array[]
-     * @throws DaoException
      */
     protected function getMenuItems(): array
     {
@@ -210,7 +208,6 @@ class VueControllerHelper
 
     /**
      * @return array|null[]
-     * @throws DaoException
      */
     protected function getContextItems(): array
     {
@@ -220,25 +217,6 @@ class VueControllerHelper
             return [$currentScreen->getName(), null];
         }
         return [null, null];
-    }
-
-    /**
-     * @return MenuService
-     */
-    public function getMenuService(): MenuService
-    {
-        if (!$this->menuService instanceof MenuService) {
-            $this->menuService = new MenuService();
-        }
-        return $this->menuService;
-    }
-
-    /**
-     * @param MenuService $menuService
-     */
-    public function setMenuService(MenuService $menuService): void
-    {
-        $this->menuService = $menuService;
     }
 
     /**
@@ -253,20 +231,13 @@ class VueControllerHelper
     }
 
     /**
-     * @param ScreenPermissionService|null $screenPermissionService
-     */
-    public function setScreenPermissionService(ScreenPermissionService $screenPermissionService): void
-    {
-        $this->screenPermissionService = $screenPermissionService;
-    }
-
-    /**
      * @return array
      */
     public function getBreadcrumb(): array
     {
         // this function will return an array that contains the module name and level in the particular screen dynamically
         $breadcrumb = [];
+        // TODO
         $breadcrumb['moduleName'] = $this->getCurrentModuleAndScreen()->getModule() === 'pim' ? strtoupper(
             $this->getCurrentModuleAndScreen()->getModule()
         ) : ucfirst($this->getCurrentModuleAndScreen()->getModule());
