@@ -128,3 +128,6 @@ langStrings:
   -
     value: 'Employee Report'
     unitId: employee_report
+  -
+    value: 'Select Employee'
+    unitId: select_employee
