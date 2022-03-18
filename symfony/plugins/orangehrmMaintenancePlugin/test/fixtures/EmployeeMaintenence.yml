@@ -201,7 +201,7 @@ Kpi:
 
 
 Reviewer:
-  0: {id: 1, review_id: 1, employee_number: 2, status: 1, reviewer_group_id: 1, completed_date: 'null', comment: 'Test Comment 1'}
+  0: {id: 1, review_id: 1, employee_number: 2, status: 1, reviewer_group_id: 1, completed_date: '2014-10-30', comment: 'Test Comment 1'}
   1: {id: 2, review_id: 1, employee_number: 1, status: 3, reviewer_group_id: 2, completed_date: '2014-10-30', comment: 'Test Comment 2'}
   2: {id: 3, review_id: 2, employee_number: 1, status: 3, reviewer_group_id: 1, completed_date: '2014-10-30', comment: 'Test Comment 3'}
 
