@@ -83,8 +83,11 @@ class addNewVideoAction extends BaseBuzzAction {
                 $this->isSuccessFullyPosted = false;
                 $this->videoForm->bind($request->getParameter($this->videoForm->getName()));
                 if ($this->videoForm->isValid()) {
-                    $this->postSaved = $this->videoForm->save($this->loggedInUser);
-                    $this->isSuccessFullyPosted = true;
+                    $videoFeedUrl = $this->getVideoFeedLinkFromUrl($this->videoForm->getValue('content'));
+                    if ($videoFeedUrl !== 'not' && $videoFeedUrl == $this->videoForm->getValue('linkAddress')) {
+                        $this->postSaved = $this->videoForm->save($this->loggedInUser);
+                        $this->isSuccessFullyPosted = true;
+                    }
                 }
             }
         } catch (Exception $ex) {
