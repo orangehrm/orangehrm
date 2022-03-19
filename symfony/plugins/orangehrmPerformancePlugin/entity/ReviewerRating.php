@@ -22,8 +22,6 @@ namespace OrangeHRM\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * ReviewerRating
- *
  * @ORM\Table(name="ohrm_reviewer_rating")
  * @ORM\Entity
  */
@@ -185,6 +183,4 @@ class ReviewerRating
     {
         $this->kpi = $kpi;
     }
-
-
 }

@@ -25,19 +25,21 @@ use OrangeHRM\Entity\PerformanceTracker;
 use OrangeHRM\Tests\Util\EntityTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 
+/**
+ * @group Performance
+ * @group Entity
+ */
 class PerformanceTrackerTest extends EntityTestCase
 {
     protected function setUp(): void
     {
         TestDataService::truncateSpecificTables([Employee::class]);
         TestDataService::truncateSpecificTables([PerformanceTracker::class]);
-
     }
 
     public function testerformanceTrackerEntity(): void
     {
-
-        $employee=new Employee();
+        $employee = new Employee();
         $employee->setEmployeeId('E001');
         $employee->setFirstName('test1');
         $employee->setLastName('test2');
@@ -51,7 +53,7 @@ class PerformanceTrackerTest extends EntityTestCase
         $performanceTracker->setAddedDate(new DateTime('03/02/2022'));
         $this->persist($performanceTracker);
 
-        $result =$this->getRepository(PerformanceTracker::class)->find(1);
+        $result = $this->getRepository(PerformanceTracker::class)->find(1);
         $this->assertEquals('Devp vue apps', $result->getTrackerName());
     }
 }

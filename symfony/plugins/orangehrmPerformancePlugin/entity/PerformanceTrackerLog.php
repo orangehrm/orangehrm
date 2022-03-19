@@ -23,8 +23,6 @@ use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * PerformanceTrackerLog
- *
  * @ORM\Table(name="ohrm_performance_tracker_log")
  * @ORM\Entity
  */
@@ -278,16 +276,4 @@ class PerformanceTrackerLog
     {
         $this->systemUser = $systemUser;
     }
-
-
-//    /**
-//     * Constructor
-//     */
-//    public function __construct()
-//    {
-//        $this->PerformanceTrack = new \Doctrine\Common\Collections\ArrayCollection();
-//        $this->Employee = new \Doctrine\Common\Collections\ArrayCollection();
-//        $this->SystemUser = new \Doctrine\Common\Collections\ArrayCollection();
-//    }
-
 }

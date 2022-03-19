@@ -25,8 +25,6 @@ use Doctrine\ORM\Mapping as ORM;
 
 
 /**
- * PerformanceReview
- *
  * @ORM\Table(name="ohrm_performance_review")
  * @ORM\Entity
  */
@@ -347,6 +345,4 @@ class PerformanceReview
     {
         $this->employee = $employee;
     }
-
-
 }

@@ -26,6 +26,10 @@ use OrangeHRM\Entity\PerformanceTrackerReviewer;
 use OrangeHRM\Tests\Util\EntityTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 
+/**
+ * @group Performance
+ * @group Entity
+ */
 class PerformanceTrackerReviewerTest extends EntityTestCase
 {
 
@@ -40,8 +44,7 @@ class PerformanceTrackerReviewerTest extends EntityTestCase
      */
     public function testerformanceTrackerEntity(): void
     {
-
-        $employee=new Employee();
+        $employee = new Employee();
         $employee->setEmployeeId('E001');
         $employee->setFirstName('test1');
         $employee->setLastName('test2');

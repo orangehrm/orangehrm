@@ -24,8 +24,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Reviewer
- *
  * @ORM\Table(name="ohrm_reviewer")
  * @ORM\Entity
  */
@@ -222,6 +220,4 @@ class Reviewer
     {
         $this->employee = $employee;
     }
-
-
 }

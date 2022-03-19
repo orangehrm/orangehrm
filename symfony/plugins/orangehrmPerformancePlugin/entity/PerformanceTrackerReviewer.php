@@ -1,5 +1,4 @@
 <?php
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -26,16 +25,15 @@ use OrangeHRM\Entity\Decorator\DecoratorTrait;
 use OrangeHRM\Entity\Decorator\PerformanceTrackerReviewerDecorator;
 
 /**
- * PerformanceTrackerReviewer
- *@method PerformanceTrackerReviewerDecorator getDecorator()
+ * @method PerformanceTrackerReviewerDecorator getDecorator()
  *
  * @ORM\Table(name="ohrm_performance_tracker_reviewer")
  * @ORM\Entity
  */
-
 class PerformanceTrackerReviewer
 {
     use DecoratorTrait;
+
     /**
      * @var int
      *
