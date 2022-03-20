@@ -19,14 +19,14 @@
  -->
 <template>
   <employee-records
-    title-label="Download Personal Data"
+    :title-label="$t('maintenance.download_personal_data')"
     include-employees-param="currentAndPast"
-    autocomplete-label=""
+    :autocomplete-label="$t('general.employee_name')"
     @search="search"
   ></employee-records>
   <div v-if="employee" class="orangehrm-background-container">
     <selected-employee
-      button-label="Download"
+      :button-label="$t('general.download')"
       :selected-employee="employee"
       @submit="downloadEmployeeData"
     ></selected-employee>
