@@ -35,3 +35,4 @@ $translate->up('leave');
 $translate->up('time');
 $translate->up('attendance');
 $translate->up('maintenance');
+$translate->up('help');
