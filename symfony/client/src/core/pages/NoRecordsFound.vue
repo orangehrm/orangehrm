@@ -19,7 +19,11 @@
  -->
 
 <template>
-  <oxd-alert :show="true" type="warn" message="No Records Found"></oxd-alert>
+  <oxd-alert
+    :show="true"
+    type="warn"
+    :message="$t('general.no_records_found')"
+  ></oxd-alert>
 </template>
 
 <script>

@@ -74,7 +74,7 @@
             </div>
             <div class="orangehrm-module-field-row">
               <oxd-text tag="p" class="orangehrm-module-field-label">
-                {{ $t('pim.mobile') }}
+                {{ $t('general.mobile') }}
               </oxd-text>
               <oxd-switch-input disabled />
             </div>

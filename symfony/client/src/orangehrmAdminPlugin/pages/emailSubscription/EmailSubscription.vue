@@ -105,7 +105,7 @@ export default {
         },
         {
           name: 'actions',
-          title: this.$t('leave.actions'),
+          title: this.$t('general.actions'),
           slot: 'action',
           style: {flex: '15%'},
           cellType: 'oxd-table-cell-actions',
