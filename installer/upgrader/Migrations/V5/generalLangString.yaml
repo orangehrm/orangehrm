@@ -806,3 +806,24 @@ langStrings:
   -
     value: 'Accepts upto 1 mb'
     unitId: file_upload_notice
+  -
+    value: 'Personal Details'
+    unitId: personal_details
+  -
+    value: 'Emergency Contacts'
+    unitId: emergency_contacts
+  -
+    value: 'Dependents'
+    unitId: dependents
+  -
+    value: 'Immigration'
+    unitId: immigration
+  -
+    value: 'Salary'
+    unitId: salary
+  -
+    value: 'Report-to'
+    unitId: report_to
+  -
+    value: 'Tax Exemptions'
+    unitId: tax_exemptions
