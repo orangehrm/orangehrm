@@ -80,7 +80,7 @@ export default {
     middleNameProps: {
       type: Object,
       default: () => ({
-        placeholder: 'Middle Name',
+        placeholder: "$t('middle_name')",
       }),
     },
   },
