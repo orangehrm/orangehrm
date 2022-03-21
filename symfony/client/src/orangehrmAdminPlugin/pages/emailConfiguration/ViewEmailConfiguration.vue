@@ -22,7 +22,7 @@
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
       <oxd-text class="orangehrm-main-title">{{
-        $t('admin.mail_configuration')
+        $t('admin.email_configuration')
       }}</oxd-text>
 
       <oxd-divider />
@@ -162,7 +162,7 @@
               <oxd-text tag="p" class="tls-hint">
                 {{
                   $t(
-                    'admin.optional_-_the_mail_server_requires_the_use_of_tls_security',
+                    'admin.optional_the_mail_server_requires_the_use_of_tls_security',
                   )
                 }}
               </oxd-text>
@@ -200,7 +200,7 @@
 
         <oxd-form-actions>
           <required-text />
-          <oxd-button display-type="ghost" label="Reset" @click="onReset" />
+          <oxd-button display-type="ghost" :label="Reset" @click="onReset" />
           <submit-button />
         </oxd-form-actions>
       </oxd-form>
