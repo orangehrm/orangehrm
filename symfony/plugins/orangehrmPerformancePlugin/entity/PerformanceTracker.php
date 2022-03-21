@@ -21,7 +21,6 @@ namespace OrangeHRM\Entity;
 
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use OrangeHRM\Entity\Decorator\DecoratorTrait;
 use OrangeHRM\Entity\Decorator\PerformanceTrackerDecorator;
@@ -90,18 +89,18 @@ class PerformanceTracker
     private Employee $addedBy;
 
     /**
-     * @var Collection
+     * @var PerformanceTrackerReviewer[]
      *
      * @ORM\OneToMany (targetEntity="OrangeHRM\Entity\PerformanceTrackerReviewer", mappedBy="performanceTracker")
      */
-    private $PerformanceTrackerReviewer;
+    private iterable $performanceTrackerReviewer;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->PerformanceTrackerReviewer = new ArrayCollection();
+        $this->performanceTrackerReviewer = new ArrayCollection();
     }
 
     /**
@@ -201,19 +200,20 @@ class PerformanceTracker
     }
 
     /**
-     * @return Collection
+     * @return ArrayCollection|iterable|PerformanceTrackerReviewer[]
      */
+
     public function getPerformanceTrackerReviewer()
     {
-        return $this->PerformanceTrackerReviewer;
+        return $this->performanceTrackerReviewer;
     }
 
     /**
-     * @param Collection $PerformanceTrackerReviewer
+     * @param $performanceTrackerReviewer
      */
-    public function setPerformanceTrackerReviewer($PerformanceTrackerReviewer): void
+    public function setPerformanceTrackerReviewer($performanceTrackerReviewer): void
     {
-        $this->PerformanceTrackerReviewer = $PerformanceTrackerReviewer;
+        $this->performanceTrackerReviewer = $performanceTrackerReviewer;
     }
 
     /**

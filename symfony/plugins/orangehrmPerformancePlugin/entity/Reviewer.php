@@ -22,6 +22,7 @@ namespace OrangeHRM\Entity;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\Types\Iterable_;
 
 /**
  * @ORM\Table(name="ohrm_reviewer")
@@ -69,7 +70,7 @@ class Reviewer
      *   @ORM\JoinColumn(name="id", referencedColumnName="reviewer_id")
      * })
      */
-    private $ratings;
+    private iterable $ratings;
 
     /**
      * @var ReviewerGroup|null
@@ -214,7 +215,7 @@ class Reviewer
     }
 
     /**
-     * @param Employee|null $Employee
+     * @param Employee|null $employee
      */
     public function setEmployee(?Employee $employee): void
     {

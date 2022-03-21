@@ -74,15 +74,6 @@ class PerformanceTrackerReviewer
     private Employee $reviewer;
 
     /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        //$this->PerformanceTrack = new ArrayCollection();
-        //$this->Employee = new ArrayCollection();
-    }
-
-    /**
      * @return int
      */
     public function getId(): int

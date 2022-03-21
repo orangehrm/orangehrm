@@ -59,7 +59,7 @@ class ReviewerGroup
      *   @ORM\JoinColumn(name="id", referencedColumnName="reviewer_group_id")
      * })
      */
-    private $ratings;
+    private iterable $ratings;
 
     /**
      * Constructor
