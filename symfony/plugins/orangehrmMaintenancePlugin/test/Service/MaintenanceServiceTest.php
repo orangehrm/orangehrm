@@ -56,6 +56,7 @@ class MaintenanceServiceTest extends KernelTestCase
         $this->assertEquals('', $result['EmpDependent'][0]['relationship']);
         $this->assertEquals('HVN0003472', $result['EmployeeImmigrationRecord'][0]['number']);
         $this->assertEquals('SE', $result['EmpWorkExperience'][0]['jobTitle']);
+        $this->assertEquals('LKR', $result['EmployeeSalary'][0]['currencyType']);
 
         $this->assertCount(1, $result['Employee']);
     }

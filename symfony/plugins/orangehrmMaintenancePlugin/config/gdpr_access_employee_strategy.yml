@@ -202,7 +202,7 @@ Entities :
           - {match: employee}
         parameters:
           - {field: "payGrade" ,class: 'FormatWithPayGradeId', getter: ['getpayGrade','getId']}
-          - {field: "currencyType" }
+          - {field: "currencyType", getter: ['getCurrencyType','getId'] }
           - {field: "amount" }
           - {field: "payPeriod" ,class: 'FormatWithPayPeriod', getter: ['getPayPeriod','getName']}
           - {field: "salaryName" }
