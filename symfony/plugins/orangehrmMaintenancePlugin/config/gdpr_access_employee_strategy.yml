@@ -242,7 +242,7 @@ Entities :
           - {match: supervisor}
         parameters:
           - {field: "supervisorId" ,class: 'FormatWithEmployeeName' ,getter :['getSupervisor', 'getEmpNumber']}
-          - {field: "subordinateId" ,class: 'FormatWithEmployeeName' ,getter :['getSupervisor', 'getEmpNumber']}
+          - {field: "subordinateId" ,class: 'FormatWithEmployeeName' ,getter :['getSubordinate', 'getEmpNumber']}
           - {field: "reportingMethod"  ,getter :['getReportingMethod', 'getName']}
 
 #  PerformanceReview:
