@@ -741,8 +741,8 @@ langStrings:
     value: 'Other Email'
     unitId: other_email
   -
-    value: 'Submit'
-    unitId: submit
+    value: 'test'
+    unitId: test
   -
     value: 'Date Range'
     unitId: date_range
@@ -755,3 +755,60 @@ langStrings:
   -
     value: 'You have requested to access a critical Administrator function in OrangeHRM and are required to validate your credentials below'
     unitId: admin_access_note
+  -
+    value: 'Company Name'
+    unitId: company_name
+  -
+    value: 'Version'
+    unitId: version
+  -
+    value: 'Active Employees'
+    unitId: active_employees
+  -
+    value: 'Employees Terminated'
+    unitId: employees_terminated
+  -
+    value: 'Are you Sure?'
+    unitId: are_you_sure
+  -
+    value: 'The selected record will be permanently deleted. Are you sure you want to continue?'
+    unitId: delete_confirmation_message
+  -
+    value: 'Yes, Delete'
+    unitId: yes_delete
+  -
+    value: 'Keep Current'
+    unitId: keep_current
+  -
+    value: 'Delete Current'
+    unitId: delete_current
+  -
+    value: 'Replace Current'
+    unitId: replace_current
+  -
+    value: 'Replace Current'
+    unitId: module_forbidden
+  -
+    value: "The page you're trying to access has restricted access"
+    unitId: module_access_restriction
+  -
+    value: 'Launching Soon'
+    unitId: launching_soon
+  -
+    value: 'This page is being developed for the OrangeHRM OS 5.0 Beta version.'
+    unitId: this_page_is_being_developed
+  -
+    value: 'However, you may try out all of the features by installing OrangeHRM OS 4.9.'
+    unitId: try_all_features_by_installing_4x
+  -
+    value: 'Click here'
+    unitId: click_here
+  -
+    value: 'to download OrangeHRM OS 4.9.'
+    unitId: to_download_ohrm_4x
+  -
+    value: 'Bad Request'
+    unitId: bad_request
+  -
+    value: 'Accepts upto 1 mb'
+    unitId: file_upload_notice
