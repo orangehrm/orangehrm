@@ -79,7 +79,7 @@ class sysConf
         $this->timeFormat = "H:i";
         $this->timeInputHint = "HH:MM";
         $this->styleSheet = "orange";
-        $this->version = "4.10";
+        $this->version = "4.10.1";
         $this->registrationUrl = "https://ospenguin.orangehrm.com";
         $this->mode = "dev";
     }
