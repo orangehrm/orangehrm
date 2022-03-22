@@ -259,4 +259,5 @@ final class Services
      * @see \OrangeHRM\Attendance\Service\AttendanceService
      */
     public const ATTENDANCE_SERVICE = 'attendance.attendance_service';
+
 }

@@ -207,6 +207,7 @@ export default {
       headers: [
         {
           name: 'punchIn',
+          slot: 'title',
           title: 'Punch In',
           style: {flex: 1},
           cellRenderer: this.cellRenderer,
@@ -235,8 +236,8 @@ export default {
         {
           ...(this.isEditable && {
             name: 'actions',
-            slot: 'title',
             title: 'Actions',
+            slot: 'action',
             style: {flex: 1},
             cellType: 'oxd-table-cell-actions',
             cellConfig: {
