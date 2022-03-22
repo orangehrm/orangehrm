@@ -245,53 +245,53 @@ Entities :
           - {field: "subordinate" ,class: 'FormatWithEmployeeName' ,getter :['getSupervisor', 'getEmpNumber']}
           - {field: "reportingMethod"  ,getter :['getReportingMethod', 'getName']}
 
-#  PerformanceReview:
-#    AccessStrategy:
-#      Basic:
-#        match_by:
-#          - {match: employee_number}
-#        parameters:
-#          - {field: "jobTitleCode" ,class: 'FormatWithJobTitle'}
-#          - {field: "workPeriodStart" }
-#          - {field: "workPeriodEnd" }
-#          - {field: "departmentId" }
-#          - {field: "dueDate" }
-#          - {field: "completedDate" }
-#          - {field: "activatedDate" }
-#          - {field: "finalComment" }
-#          - {field: "finalRate" }
-#
-#  ReviewerRating:
-#    AccessStrategy:
-#      Basic:
-#        match_by:
-#          - {match: employee_number, join: performanceReview}
-#        parameters:
-#          - {field: "kpiId" ,class: 'FormatWithKPIId'}
-#          - {field: "rating" }
-#          - {field: "comment" }
-#
-#  Reviewer:
-#    AccessStrategy:
-#      Basic:
-#        match_by:
-#          - {match: t.employee_number, join: review}
-#        parameters:
-#          - {field: "employeeNumber" }
-#          - {field: "completedDate" }
-#          - {field: "comment" }
-#
-#  PerformanceTrackerLog:
-#    AccessStrategy:
-#      Basic:
-#        match_by:
-#          - {match: emp_number, join: PerformanceTrack}
-#        parameters:
-#          - {field: "log" }
-#          - {field: "comment" }
-#          - {field: "achievement" ,class: 'FormatWithAchievement'}
-#          - {field: "added_date" }
-#          - {field: "modified_date" }
+  PerformanceReview:
+    AccessStrategy:
+      Basic:
+        match_by:
+          - {match: employee}
+        parameters:
+          - {field: "jobTitle" ,class: 'FormatWithJobTitle', getter: ['getJobTitle','getId']}
+          - {field: "workPeriodStart" }
+          - {field: "workPeriodEnd" }
+          - {field: "department" ,getter: ['getDepartment','getName']}
+          - {field: "dueDate" }
+          - {field: "completedDate" }
+          - {field: "activatedDate" }
+          - {field: "finalComment" }
+          - {field: "finalRate" }
+
+  ReviewerRating:
+    AccessStrategy:
+      Basic:
+        match_by:
+          - {match: reviewer, join: PerformanceReview}
+        parameters:
+          - {field: "kpi" ,getter: ['getKpi','getTitle']}
+          - {field: "rating" }
+          - {field: "comment" }
+
+  Reviewer:
+    AccessStrategy:
+      Basic:
+        match_by:
+          - {match: employee, join: PerformanceReview}
+        parameters:
+          - {field: "employee" }
+          - {field: "completedDate" }
+          - {field: "comment" }
+
+  PerformanceTrackerLog:
+    AccessStrategy:
+      Basic:
+        match_by:
+          - {match: employee, join: PerformanceTracker}
+        parameters:
+          - {field: "log" }
+          - {field: "comment" }
+          - {field: "achievement" ,class: 'FormatWithAchievement'}
+          - {field: "added_date" }
+          - {field: "modified_date" }
 
   LeaveRequestComment:
     AccessStrategy:
