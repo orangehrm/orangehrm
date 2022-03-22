@@ -346,7 +346,7 @@ class PurgeEmployeeServiceTest extends KernelTestCase
         $empPerformanceReviews = $this->getRepository(PerformanceReview::class);
         $purgedPerformanceReviews = $empPerformanceReviews->findBy(['employee' => 1]);
         $this->assertCount(2, $purgedPerformanceReviews);
-        foreach ($purgedPerformanceReviews as $purgedPerformanceReview)  {
+        foreach ($purgedPerformanceReviews as $purgedPerformanceReview) {
             $this->assertEquals('', $purgedPerformanceReview->getFinalComment());
         }
         $preservedPerformanceReviews = $empPerformanceReviews->findBy(['employee' => 2]);
