@@ -56,9 +56,7 @@
     </oxd-form>
   </oxd-table-filter>
   <br />
-  <div
-    class="orangehrm-paper-container orangehrm-paper-container--viewemployee"
-  >
+  <div class="orangehrm-paper-container">
     <div
       v-if="isEditable && filters.employee"
       class="orangehrm-header-container"
@@ -209,6 +207,7 @@ export default {
       headers: [
         {
           name: 'punchIn',
+          slot: 'title',
           title: 'Punch In',
           style: {flex: 1},
           cellRenderer: this.cellRenderer,
@@ -237,8 +236,8 @@ export default {
         {
           ...(this.isEditable && {
             name: 'actions',
-            slot: 'title',
             title: 'Actions',
+            slot: 'action',
             style: {flex: 1},
             cellType: 'oxd-table-cell-actions',
             cellConfig: {
@@ -332,14 +331,3 @@ export default {
   },
 };
 </script>
-<style scoped lang="scss">
-.orangehrm-paper-container--viewemployee {
-  ::v-deep(.card-header-slot) {
-    border-bottom: $oxd-input-control-border--active;
-    margin-bottom: 5px;
-  }
-  ::v-deep(.card-header-slot-content .oxd-table-cell-actions) {
-    justify-content: flex-end;
-  }
-}
-</style>
