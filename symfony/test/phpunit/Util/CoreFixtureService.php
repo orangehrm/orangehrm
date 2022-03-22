@@ -27,6 +27,7 @@ use OrangeHRM\Entity\Country;
 use OrangeHRM\Entity\DataGroupPermission;
 use OrangeHRM\Entity\DisplayField;
 use OrangeHRM\Entity\FilterField;
+use OrangeHRM\Entity\MenuItem;
 use OrangeHRM\Entity\Nationality;
 use OrangeHRM\Entity\ReportGroup;
 use OrangeHRM\Entity\WorkflowStateMachine;
@@ -36,6 +37,7 @@ use OrangeHRM\Tests\Util\Fixture\CountryFixture;
 use OrangeHRM\Tests\Util\Fixture\DataGroupPermissionFixture;
 use OrangeHRM\Tests\Util\Fixture\DisplayFieldFixture;
 use OrangeHRM\Tests\Util\Fixture\FilterFieldFixture;
+use OrangeHRM\Tests\Util\Fixture\MenuItemFixture;
 use OrangeHRM\Tests\Util\Fixture\NationalityFixture;
 use OrangeHRM\Tests\Util\Fixture\ReportGroupFixture;
 use OrangeHRM\Tests\Util\Fixture\WorkflowStateMachineFixture;
@@ -50,6 +52,7 @@ class CoreFixtureService
         DisplayField::class => DisplayFieldFixture::class,
         DataGroupPermission::class => DataGroupPermissionFixture::class,
         WorkflowStateMachine::class => WorkflowStateMachineFixture::class,
+        MenuItem::class => MenuItemFixture::class,
     ];
 
     private ?TextHelperService $textHelperService = null;

@@ -22,17 +22,15 @@ namespace OrangeHRM\Tests\Core\Dao;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Dao\MenuDao;
 use OrangeHRM\Entity\MenuItem;
-use OrangeHRM\Entity\UserRole;
-use OrangeHRM\ORM\Doctrine;
-use OrangeHRM\Tests\Util\TestCase;
+use OrangeHRM\ORM\Paginator;
+use OrangeHRM\Tests\Util\KernelTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 
 /**
- * Description of MenuDaoTest
  * @group Core
  * @group Dao
  */
-class MenuDaoTest extends TestCase
+class MenuDaoTest extends KernelTestCase
 {
     /**
      * @var MenuDao
@@ -49,139 +47,54 @@ class MenuDaoTest extends TestCase
         $this->menuDao = new MenuDao();
     }
 
-    public function testGetMenuItemListForAdmin()
+    public function testEnableModuleMenuItems(): void
     {
-        $userRoleList[0] = new UserRole();
-        $userRoleList[0]->setName('Admin');
+        $q = $this->getEntityManager()->createQueryBuilder()
+            ->update()
+            ->from(MenuItem::class, 'menuItem');
+        $q->andWhere($q->expr()->in('menuItem.parent', ':ids'))
+            ->setParameter('ids', [12, 13])
+            ->set('menuItem.status', ':status')
+            ->setParameter('status', false);
+        $this->assertEquals(8, $q->getQuery()->execute());
 
-        $menuItemList = $this->menuDao->getMenuItemList($userRoleList);
-
-        /* Checking the count */
-        $this->assertEquals(18, count($menuItemList));
-
-        /* Checking the type */
-        $this->assertTrue($menuItemList[0] instanceof MenuItem);
-
-        /* Checking order */
-        $this->assertEquals('Admin', $menuItemList[0]->getMenuTitle());
-        $this->assertEquals('Assign Leave', $menuItemList[17]->getMenuTitle());
-    }
-
-    public function testGetMenuItemListForAdminAndEss()
-    {
-        $userRoleList[0] = new UserRole();
-        $userRoleList[0]->setName('Admin');
-        $userRoleList[1] = new UserRole();
-        $userRoleList[1]->setName('ESS');
-
-        $menuItemList = $this->menuDao->getMenuItemList($userRoleList);
-
-        /* Checking the count */
-        $this->assertEquals(21, count($menuItemList));
-
-        /* Checking the type */
-        $this->assertTrue($menuItemList[0] instanceof MenuItem);
-
-        /* Checking order */
-        $this->assertEquals('Admin', $menuItemList[0]->getMenuTitle());
-        $this->assertEquals('Assign Leave', $menuItemList[17]->getMenuTitle());
-    }
-
-    public function testGetMenuItemListForSupervisor()
-    {
-        $userRoleList[0] = new UserRole();
-        $userRoleList[0]->setName('Supervisor');
-        $userRoleList[1] = new UserRole();
-        $userRoleList[1]->setName('ESS');
-
-        $menuItemList = $this->menuDao->getMenuItemList($userRoleList);
-
-        /* Checking the count */
-        $this->assertEquals(12, count($menuItemList));
-
-        /* Checking the type */
-        $this->assertTrue($menuItemList[0] instanceof MenuItem);
-
-        /* Checking order and eligible items.
-         * Note that items with screenId null
-         * will be available though they are
-         * not permitted.
-         */
-        $this->assertEquals('Admin', $menuItemList[0]->getMenuTitle());
-        $this->assertEquals('Organization', $menuItemList[1]->getMenuTitle());
-        $this->assertEquals('Configuration', $menuItemList[2]->getMenuTitle());
-        $this->assertEquals('Configure', $menuItemList[3]->getMenuTitle());
-        $this->assertEquals('PIM', $menuItemList[4]->getMenuTitle());
-        $this->assertEquals('Employee List', $menuItemList[5]->getMenuTitle());
-        $this->assertEquals('Leave Summary', $menuItemList[6]->getMenuTitle());
-        $this->assertEquals('Leave', $menuItemList[7]->getMenuTitle());
-        $this->assertEquals('Leave List', $menuItemList[8]->getMenuTitle());
-        $this->assertEquals('My Info', $menuItemList[9]->getMenuTitle());
-        $this->assertEquals('My Leave', $menuItemList[10]->getMenuTitle());
-        $this->assertEquals('Apply', $menuItemList[11]->getMenuTitle());
-    }
-
-    public function testGetMenuItemListForEss()
-    {
-        $userRoleList[0] = new UserRole();
-        $userRoleList[0]->setName('ESS');
-
-        $menuItemList = $this->menuDao->getMenuItemList($userRoleList);
-
-        /* Checking the count */
-        $this->assertEquals(10, count($menuItemList));
-
-        /* Checking the type */
-        $this->assertTrue($menuItemList[0] instanceof MenuItem);
-
-        /* Checking order and eligible items.
-         * Note that items with screenId null
-         * will be available though they are
-         * not permitted.
-         */
-        $this->assertEquals('Admin', $menuItemList[0]->getMenuTitle());
-        $this->assertEquals('Organization', $menuItemList[1]->getMenuTitle());
-        $this->assertEquals('Configuration', $menuItemList[2]->getMenuTitle());
-        $this->assertEquals('Configure', $menuItemList[3]->getMenuTitle());
-        $this->assertEquals('PIM', $menuItemList[4]->getMenuTitle());
-        $this->assertEquals('Leave Summary', $menuItemList[5]->getMenuTitle());
-        $this->assertEquals('Leave', $menuItemList[6]->getMenuTitle());
-        $this->assertEquals('My Info', $menuItemList[7]->getMenuTitle());
-        $this->assertEquals('My Leave', $menuItemList[8]->getMenuTitle());
-        $this->assertEquals('Apply', $menuItemList[9]->getMenuTitle());
-    }
-
-    public function testEnableModuleMenuItems()
-    {
-        $conn = Doctrine::getEntityManager()->getConnection()->getWrappedConnection();
-        $statement = $conn->prepare('UPDATE ohrm_menu_item SET status = 0 WHERE parent_id IN (12, 13)');
-        $result = $statement->execute();
-        $this->assertEquals(8, $result->rowCount());
-
-        // Items with screen_id NULL are not enabled (because they are not linked to a screen and hense to a module)
+        // Update parents of menu items also
         $count = $this->menuDao->enableModuleMenuItems('leave');
-        $this->assertEquals(7, $count);
+        $this->assertEquals(8, $count);
 
-        $statement = $conn->prepare(
-            'SELECT count(*) FROM ohrm_menu_item WHERE status = 0 AND parent_id IN (12, 13) AND screen_id IS NOT NULL'
-        );
-        $this->assertEquals(0, $statement->execute()->fetchOne());
+        $q = $this->getEntityManager()->createQueryBuilder()
+            ->select('menuItem')
+            ->from(MenuItem::class, 'menuItem')
+            ->andWhere('menuItem.status = false');
+        $this->assertEquals(0, (new Paginator($q))->count());
+        $q->andWhere($q->expr()->in('menuItem.id', ':ids'))
+            ->setParameter('ids', [12, 13]);
+        $this->assertEquals(0, (new Paginator($q))->count());
     }
 
-    public function testEnableModuleMenuItemsByTitle()
+    public function testEnableModuleMenuItemsByTitle(): void
     {
-        $conn = Doctrine::getEntityManager()->getConnection()->getWrappedConnection();
-        $statement = $conn->prepare('UPDATE ohrm_menu_item SET status = 0 WHERE parent_id IN (12, 13)');
-        $this->assertEquals(8, $statement->execute()->rowCount());
+        $q = $this->getEntityManager()->createQueryBuilder()
+            ->update()
+            ->from(MenuItem::class, 'menuItem');
+        $q->andWhere($q->expr()->in('menuItem.parent', ':ids'))
+            ->setParameter('ids', [12, 13])
+            ->set('menuItem.status', ':status')
+            ->setParameter('status', false);
+        $this->assertEquals(8, $q->getQuery()->execute());
 
-        // Items with screen_id NULL are not enabled (because they are not linked to a screen and hense to a module)
+        // Update parents of menu items also
         $count = $this->menuDao->enableModuleMenuItems('leave', ['Leave Types', 'Leave Summary']);
-        $this->assertEquals(2, $count);
+        $this->assertEquals(3, $count);
 
-        $statement = $conn->prepare('SELECT count(*) FROM ohrm_menu_item WHERE status = 0 AND id IN (15,16)');
-
-        $count = $statement->execute()->fetchOne();
-        $this->assertEquals(0, $count);
+        $q = $this->getEntityManager()->createQueryBuilder()
+            ->select('menuItem')
+            ->from(MenuItem::class, 'menuItem')
+            ->andWhere('menuItem.status = false');
+        $this->assertEquals(5, (new Paginator($q))->count());
+        $q->andWhere($q->expr()->in('menuItem.id', ':ids'))
+            ->setParameter('ids', [15, 16]);
+        $this->assertEquals(0, (new Paginator($q))->count());
     }
 
     public function testGetMenuLevel(): void

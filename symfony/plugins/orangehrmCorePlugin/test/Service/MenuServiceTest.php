@@ -19,160 +19,411 @@
 
 namespace OrangeHRM\Tests\Core\Service;
 
+use OrangeHRM\Admin\Service\UserService;
 use OrangeHRM\Config\Config;
+use OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory;
+use OrangeHRM\Core\Dto\AttributeBag;
+use OrangeHRM\Core\Helper\ModuleScreenHelper;
+use OrangeHRM\Core\Service\ConfigService;
 use OrangeHRM\Core\Service\MenuService;
-use OrangeHRM\Entity\MenuItem;
-use OrangeHRM\Entity\UserRole;
-use OrangeHRM\Tests\Util\TestCase;
+use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Framework\Http\RequestStack;
+use OrangeHRM\Framework\Services;
+use OrangeHRM\Pim\Service\EmployeeService;
+use OrangeHRM\Tests\Util\KernelTestCase;
+use OrangeHRM\Tests\Util\Mock\MockAuthUser;
 use OrangeHRM\Tests\Util\TestDataService;
 
 /**
- * Description of MenuServiceTest
  * @group Core
  * @group Service
  */
-class MenuServiceTest extends TestCase
+class MenuServiceTest extends KernelTestCase
 {
     private MenuService $menuService;
 
-    /**
-     * Set up method
-     */
+    public static function setUpBeforeClass(): void
+    {
+        TestDataService::populate(Config::get(Config::TEST_DIR) . '/phpunit/fixtures/MenuItem.yaml', true);
+        TestDataService::populate(
+            Config::get(Config::PLUGINS_DIR) . '/orangehrmCorePlugin/test/fixtures/MenuService.yaml',
+            true
+        );
+    }
+
     protected function setUp(): void
     {
-        $this->fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmCorePlugin/test/fixtures/MenuDao.yml';
-        TestDataService::populate($this->fixture);
         $this->menuService = new MenuService();
     }
 
-    public function testGetMenuItemCollectionForAdmin(): void
+    public function testGetMenuItemsForAdmin(): void
     {
-        $userRoleList[0] = new UserRole();
-        $userRoleList[0]->setName('Admin');
+        ModuleScreenHelper::resetCurrentModuleAndScreen();
+        $requestStack = new RequestStack();
+        $request = Request::create('http://example.com/admin/viewSystemUsers');
+        $requestStack->push($request);
 
-        $menuArray = $this->menuService->getMenuItemCollection($userRoleList);
+        $attributeBag = new AttributeBag();
+        $authUser = $this->getMockBuilder(MockAuthUser::class)
+            ->onlyMethods(['getUserId', 'setAttribute', 'getAttribute', 'hasAttribute'])
+            ->disableOriginalConstructor()
+            ->getMock();
+        $authUser->expects($this->once())
+            ->method('getUserId')
+            ->willReturn(1);
+        $authUser->expects($this->exactly(3))
+            ->method('setAttribute')
+            ->willReturnCallback(function (string $name, $value) use ($attributeBag) {
+                $attributeBag->set($name, $value);
+            });
+        $authUser->expects($this->exactly(5))
+            ->method('getAttribute')
+            ->willReturnCallback(function (string $name, $default = null) use ($attributeBag) {
+                return $attributeBag->get($name, $default);
+            });
+        $authUser->expects($this->exactly(4))
+            ->method('hasAttribute')
+            ->willReturnCallback(function (string $name) use ($attributeBag) {
+                return $attributeBag->has($name);
+            });
 
-        /* Checking the count of level-1 menu items */
-        $this->assertEquals(3, count($menuArray));
+        $this->createKernelWithMockServices([
+            Services::REQUEST_STACK => $requestStack,
+            Services::AUTH_USER => $authUser,
+            Services::CONFIG_SERVICE => new ConfigService(),
+            Services::USER_SERVICE => new UserService(),
+            Services::EMPLOYEE_SERVICE => new EmployeeService(),
+        ]);
+        $this->getContainer()->register(Services::USER_ROLE_MANAGER)
+            ->setFactory([UserRoleManagerFactory::class, 'getNewUserRoleManager']);
 
-        /* Checking the type */
-        foreach ($menuArray as $menuItem) {
-            $this->assertTrue($menuItem instanceof MenuItem);
-        }
-
-        /* Checking order and eligible items */
-        $this->assertEquals('Admin', $menuArray[1]->getMenuTitle());
-        $this->assertEquals('PIM', $menuArray[7]->getMenuTitle());
-        $this->assertEquals('Leave', $menuArray[12]->getMenuTitle());
+        // Calling twice to check menu caching
+        list($sidePanelMenuItems, $topMenuItems) = $this->menuService->getMenuItems('');
+        list($sidePanelMenuItems, $topMenuItems) = $this->menuService->getMenuItems('');
+        $this->assertEquals([
+            [
+                'id' => 1,
+                'name' => 'Admin',
+                'url' => '/admin/viewAdminModule',
+                'icon' => 'admin',
+                'active' => true,
+            ],
+            [
+                'id' => 30,
+                'name' => 'PIM',
+                'url' => '/pim/viewPimModule',
+                'icon' => 'pim',
+            ],
+            [
+                'id' => 41,
+                'name' => 'Leave',
+                'url' => '/leave/viewLeaveModule',
+                'icon' => 'leave',
+            ],
+            [
+                'id' => 52,
+                'name' => 'Time',
+                'url' => '/time/viewTimeModule',
+                'icon' => 'time',
+            ],
+            [
+                'id' => 65,
+                'name' => 'Recruitment',
+                'url' => '/recruitment/viewRecruitmentModule',
+                'icon' => 'recruitment',
+            ],
+            [
+                'id' => 40,
+                'name' => 'My Info',
+                'url' => '/pim/viewMyDetails',
+                'icon' => 'myinfo',
+            ],
+            [
+                'id' => 83,
+                'name' => 'Performance',
+                'url' => '/performance/viewPerformanceModule',
+                'icon' => 'performance',
+            ],
+            [
+                'id' => 82,
+                'name' => 'Dashboard',
+                'url' => '/dashboard/index',
+                'icon' => 'dashboard',
+            ],
+            [
+                'id' => 93,
+                'name' => 'Directory',
+                'url' => '/directory/viewDirectory',
+                'icon' => 'directory',
+            ],
+            [
+                'id' => 96,
+                'name' => 'Maintenance',
+                'url' => '/maintenance/purgeEmployee',
+                'icon' => 'maintenance',
+            ],
+            [
+                'id' => 101,
+                'name' => 'Buzz',
+                'url' => '/buzz/viewBuzz',
+                'icon' => 'buzz',
+            ]
+        ], $sidePanelMenuItems);
+        $this->assertEquals([
+            [
+                'id' => 2,
+                'name' => 'User Management',
+                'url' => '#',
+                'children' => [
+                    [
+                        'id' => 81,
+                        'name' => 'Users',
+                        'url' => '/admin/viewSystemUsers',
+                        'active' => true,
+                    ]
+                ],
+                'active' => true,
+            ],
+            [
+                'id' => 6,
+                'name' => 'Job',
+                'url' => '#',
+                'children' => [
+                    [
+                        'id' => 7,
+                        'name' => 'Job Titles',
+                        'url' => '/admin/viewJobTitleList',
+                    ],
+                    [
+                        'id' => 8,
+                        'name' => 'Pay Grades',
+                        'url' => '/admin/viewPayGrades',
+                    ],
+                    [
+                        'id' => 9,
+                        'name' => 'Employment Status',
+                        'url' => '/admin/employmentStatus',
+                    ],
+                    [
+                        'id' => 10,
+                        'name' => 'Job Categories',
+                        'url' => '/admin/jobCategory',
+                    ],
+                    [
+                        'id' => 11,
+                        'name' => 'Work Shifts',
+                        'url' => '/admin/workShift',
+                    ]
+                ],
+            ],
+            [
+                'id' => 12,
+                'name' => 'Organization',
+                'url' => '#',
+                'children' => [
+                    [
+                        'id' => 13,
+                        'name' => 'General Information',
+                        'url' => '/admin/viewOrganizationGeneralInformation',
+                    ],
+                    [
+                        'id' => 14,
+                        'name' => 'Locations',
+                        'url' => '/admin/viewLocations',
+                    ],
+                    [
+                        'id' => 15,
+                        'name' => 'Structure',
+                        'url' => '/admin/viewCompanyStructure',
+                    ]
+                ],
+            ],
+            [
+                'id' => 16,
+                'name' => 'Qualifications',
+                'url' => '#',
+                'children' => [
+                    [
+                        'id' => 17,
+                        'name' => 'Skills',
+                        'url' => '/admin/viewSkills',
+                    ],
+                    [
+                        'id' => 18,
+                        'name' => 'Education',
+                        'url' => '/admin/viewEducation',
+                    ],
+                    [
+                        'id' => 19,
+                        'name' => 'Licenses',
+                        'url' => '/admin/viewLicenses',
+                    ],
+                    [
+                        'id' => 20,
+                        'name' => 'Languages',
+                        'url' => '/admin/viewLanguages',
+                    ],
+                    [
+                        'id' => 21,
+                        'name' => 'Memberships',
+                        'url' => '/admin/membership',
+                    ]
+                ],
+            ],
+            [
+                'id' => 22,
+                'name' => 'Nationalities',
+                'url' => '/admin/nationality',
+                'children' => [],
+            ],
+            [
+                'id' => 23,
+                'name' => 'Configuration',
+                'url' => '#',
+                'children' => [
+                    [
+                        'id' => 24,
+                        'name' => 'Email Configuration',
+                        'url' => '/admin/listMailConfiguration',
+                    ],
+                    [
+                        'id' => 25,
+                        'name' => 'Email Subscriptions',
+                        'url' => '/admin/viewEmailNotification',
+                    ],
+                    [
+                        'id' => 27,
+                        'name' => 'Localization',
+                        'url' => '/admin/localization',
+                    ],
+                    [
+                        'id' => 102,
+                        'name' => 'Language Packages',
+                        'url' => '/admin/languagePackage',
+                    ],
+                    [
+                        'id' => 28,
+                        'name' => 'Modules',
+                        'url' => '/admin/viewModules',
+                    ],
+                    [
+                        'id' => 94,
+                        'name' => 'Social Media Authentication',
+                        'url' => '/admin/openIdProvider',
+                    ],
+                    [
+                        'id' => 95,
+                        'name' => 'Register OAuth Client',
+                        'url' => '/admin/registerOAuthClient',
+                    ],
+                ],
+            ],
+        ], $topMenuItems);
     }
 
-    public function testGetMenuItemCollectionForEss(): void
+    public function testGetMenuItemsForSupervisor(): void
     {
-        $userRoleList[0] = new UserRole();
-        $userRoleList[0]->setName('ESS');
+        ModuleScreenHelper::resetCurrentModuleAndScreen();
+        $requestStack = new RequestStack();
+        $request = Request::create('http://example.com/pim/viewEmployeeList');
+        $requestStack->push($request);
 
-        $menuArray = $this->menuService->getMenuItemCollection($userRoleList);
+        $attributeBag = new AttributeBag();
+        $authUser = $this->getMockBuilder(MockAuthUser::class)
+            ->onlyMethods(['getUserId', 'setAttribute', 'getAttribute', 'hasAttribute'])
+            ->disableOriginalConstructor()
+            ->getMock();
+        $authUser->expects($this->once())
+            ->method('getUserId')
+            ->willReturn(4);
+        $authUser->expects($this->exactly(3))
+            ->method('setAttribute')
+            ->willReturnCallback(function (string $name, $value) use ($attributeBag) {
+                $attributeBag->set($name, $value);
+            });
+        $authUser->expects($this->exactly(5))
+            ->method('getAttribute')
+            ->willReturnCallback(function (string $name, $default = null) use ($attributeBag) {
+                return $attributeBag->get($name, $default);
+            });
+        $authUser->expects($this->exactly(4))
+            ->method('hasAttribute')
+            ->willReturnCallback(function (string $name) use ($attributeBag) {
+                return $attributeBag->has($name);
+            });
 
-        /* Checking the count of level-1 menu items */
-        $this->assertEquals(2, count($menuArray));
+        $this->createKernelWithMockServices([
+            Services::REQUEST_STACK => $requestStack,
+            Services::AUTH_USER => $authUser,
+            Services::CONFIG_SERVICE => new ConfigService(),
+            Services::USER_SERVICE => new UserService(),
+            Services::EMPLOYEE_SERVICE => new EmployeeService(),
+        ]);
+        $this->getContainer()->register(Services::USER_ROLE_MANAGER)
+            ->setFactory([UserRoleManagerFactory::class, 'getNewUserRoleManager']);
 
-        /* Checking the type */
-        foreach ($menuArray as $menuItem) { //echo $menuItem->getMenuTitle() . "\n";
-            $this->assertTrue($menuItem instanceof MenuItem);
-        }
-
-        /* Checking order and eligible items */
-        $this->assertEquals('Leave', $menuArray[12]->getMenuTitle());
-        $this->assertEquals('My Info', $menuArray[21]->getMenuTitle());
-    }
-
-    public function testGetMenuItemDetailsForAdmin(): void
-    {
-        $userRoleList[0] = new UserRole();
-        $userRoleList[0]->setName('Admin');
-
-        $menuDetails = $this->menuService->getMenuItemDetails($userRoleList);
-        $menuArray = $menuDetails['menuItemArray'];
-
-        /* Checking the count of level-1 menu items */
-        $this->assertEquals(3, count($menuArray));
-
-        /* Checking order and eligible items */
-        $this->assertEquals('Admin', $menuArray[0]['menuTitle']);
-        $this->assertEquals('PIM', $menuArray[1]['menuTitle']);
-        $this->assertEquals('Leave', $menuArray[2]['menuTitle']);
-
-        $organizationMenu = $menuArray[0]['subMenuItems'];
-        $this->assertEquals('Organization', $organizationMenu[0]['menuTitle']);
-        $this->assertEquals('', $organizationMenu[0]['module']);
-        $this->assertEquals('', $organizationMenu[0]['action']);
-        $this->assertEquals(2, $organizationMenu[0]['level']);
-
-        $LocationsMenu = $organizationMenu[0]['subMenuItems'];
-        $this->assertEquals('Locations', $LocationsMenu[1]['menuTitle']);
-        $this->assertEquals('admin', $LocationsMenu[1]['module']);
-        $this->assertEquals('viewLocations', $LocationsMenu[1]['action']);
-        $this->assertEquals(3, $LocationsMenu[1]['level']);
-    }
-
-    public function testGetMenuItemDetailsForEss(): void
-    {
-        $userRoleList[0] = new UserRole();
-        $userRoleList[0]->setName('ESS');
-
-        $menuDetails = $this->menuService->getMenuItemDetails($userRoleList);
-        $menuArray = $menuDetails['menuItemArray'];
-
-        /* Checking the count of level-1 menu items */
-        $this->assertEquals(2, count($menuArray));
-
-        /* Checking order and eligible items */
-        $this->assertEquals('Leave', $menuArray[0]['menuTitle']);
-        $this->assertEquals('My Info', $menuArray[1]['menuTitle']);
-    }
-
-    public function testGetMenuItemDetailsForSupervisor(): void
-    {
-        $userRoleList[0] = new UserRole();
-        $userRoleList[0]->setName('ESS');
-        $userRoleList[1] = new UserRole();
-        $userRoleList[1]->setName('Supervisor');
-
-        $menuDetails = $this->menuService->getMenuItemDetails($userRoleList);
-        $menuArray = $menuDetails['menuItemArray'];
-
-        /* Checking the count of level-1 menu items */
-        $this->assertEquals(3, count($menuArray));
-
-        /* Checking order and eligible items */
-        $this->assertEquals('PIM', $menuArray[0]['menuTitle']);
-        $this->assertEquals('Leave', $menuArray[1]['menuTitle']);
-        $this->assertEquals('My Info', $menuArray[2]['menuTitle']);
-
-        $pimSubMenus = $menuArray[0]['subMenuItems'];
-        $this->assertEquals('Employee List', $pimSubMenus[0]['menuTitle']);
-    }
-
-    public function testGetMenuItemsDetailsForAdminAndEss(): void
-    {
-        $userRoleList[0] = new UserRole();
-        $userRoleList[0]->setName('ESS');
-        $userRoleList[1] = new UserRole();
-        $userRoleList[1]->setName('Admin');
-
-        $menuDetails = $this->menuService->getMenuItemDetails($userRoleList);
-        $menuArray = $menuDetails['menuItemArray'];
-
-        /* Checking the count of level-1 menu items */
-        $this->assertEquals(4, count($menuArray));
-
-        /* Checking order and eligible items */
-        $this->assertEquals('Admin', $menuArray[0]['menuTitle']);
-        $this->assertEquals('PIM', $menuArray[1]['menuTitle']);
-        $this->assertEquals('Leave', $menuArray[2]['menuTitle']);
-        $this->assertEquals('My Info', $menuArray[3]['menuTitle']);
-
-        $adminSubMenus = $menuArray[0]['subMenuItems'];
-        $this->assertEquals('Organization', $adminSubMenus[0]['menuTitle']);
+        // Calling twice to check menu caching
+        list($sidePanelMenuItems, $topMenuItems) = $this->menuService->getMenuItems('');
+        list($sidePanelMenuItems, $topMenuItems) = $this->menuService->getMenuItems('');
+        $this->assertEquals([
+            [
+                'id' => 30,
+                'name' => 'PIM',
+                'url' => '/pim/viewPimModule',
+                'icon' => 'pim',
+                'active' => true,
+            ],
+            [
+                'id' => 41,
+                'name' => 'Leave',
+                'url' => '/leave/viewLeaveModule',
+                'icon' => 'leave',
+            ],
+            [
+                'id' => 52,
+                'name' => 'Time',
+                'url' => '/time/viewTimeModule',
+                'icon' => 'time',
+            ],
+            [
+                'id' => 40,
+                'name' => 'My Info',
+                'url' => '/pim/viewMyDetails',
+                'icon' => 'myinfo',
+            ],
+            [
+                'id' => 83,
+                'name' => 'Performance',
+                'url' => '/performance/viewPerformanceModule',
+                'icon' => 'performance',
+            ],
+            [
+                'id' => 82,
+                'name' => 'Dashboard',
+                'url' => '/dashboard/index',
+                'icon' => 'dashboard',
+            ],
+            [
+                'id' => 93,
+                'name' => 'Directory',
+                'url' => '/directory/viewDirectory',
+                'icon' => 'directory',
+            ],
+            [
+                'id' => 101,
+                'name' => 'Buzz',
+                'url' => '/buzz/viewBuzz',
+                'icon' => 'buzz',
+            ]
+        ], $sidePanelMenuItems);
+        $this->assertEquals([
+            [
+                'id' => 37,
+                'name' => 'Employee List',
+                'url' => '/pim/viewEmployeeList',
+                'children' => [],
+                'active' => true,
+            ],
+        ], $topMenuItems);
     }
 }

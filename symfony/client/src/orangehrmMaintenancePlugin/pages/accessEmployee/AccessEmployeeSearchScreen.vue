@@ -21,7 +21,7 @@
   <employee-records
     title-label="Download Personal Data"
     include-employees-param="currentAndPast"
-    autocomplete-label=""
+    autocomplete-label="Employee Name"
     @search="search"
   ></employee-records>
   <div v-if="employee" class="orangehrm-background-container">
@@ -31,17 +31,29 @@
       @submit="downloadEmployeeData"
     ></selected-employee>
   </div>
+  <br v-if="!employee" />
+  <maintenance-note :instance-identifier="instanceIdentifier" />
 </template>
 
 <script>
 import EmployeeRecords from '@/orangehrmMaintenancePlugin/components/EmployeeRecords';
 import SelectedEmployee from '@/orangehrmMaintenancePlugin/components/SelectedEmployee';
+import MaintenanceNote from '@/orangehrmMaintenancePlugin/components/MaintenanceNote';
 
 export default {
   components: {
     'employee-records': EmployeeRecords,
     'selected-employee': SelectedEmployee,
+    'maintenance-note': MaintenanceNote,
   },
+
+  props: {
+    instanceIdentifier: {
+      type: String,
+      default: '',
+    },
+  },
+
   data() {
     return {
       employee: null,

@@ -14,16 +14,6 @@
 // if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 // Boston, MA  02110-1301, USA
 
-.orangehrm-my-attendance {
-  ::v-deep(.card-header-slot) {
-    border-bottom: $oxd-input-control-border--active;
-    margin-bottom: 5px;
-  }
-  ::v-deep(.card-header-slot-content .oxd-table-cell-actions) {
-    justify-content: flex-end;
-  }
-}
-
 .orangehrm-header-total {
   margin-left: auto;
 }

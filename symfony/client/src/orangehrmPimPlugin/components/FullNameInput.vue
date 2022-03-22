@@ -33,10 +33,10 @@
     <oxd-input-field
       class="orangehrm-middlename"
       name="Middle Name"
-      placeholder="Middle name"
       :model-value="middleName"
       :rules="rules.middleName"
       :disabled="disabled"
+      v-bind="middleNameProps"
       @update:modelValue="$emit('update:middleName', $event)"
     />
     <oxd-input-field
@@ -76,6 +76,12 @@ export default {
       type: Boolean,
       default: false,
     },
+    middleNameProps: {
+      type: Object,
+      default: () => ({
+        placeholder: 'Middle Name',
+      }),
+    },
   },
   emits: ['update:firstName', 'update:middleName', 'update:lastName'],
   computed: {
@@ -104,15 +110,18 @@ export default {
   ::v-deep(.orangehrm-firstname) {
     border-bottom-right-radius: unset;
     border-top-right-radius: unset;
+    text-overflow: ellipsis;
   }
 
   ::v-deep(.orangehrm-lastname) {
     border-bottom-left-radius: unset;
     border-top-left-radius: unset;
+    text-overflow: ellipsis;
   }
 
   ::v-deep(.orangehrm-middlename) {
     border-radius: unset;
+    text-overflow: ellipsis;
   }
 }
 </style>

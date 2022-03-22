@@ -18,8 +18,10 @@
 
 import Login from './pages/Login.vue';
 import Forbidden from './pages/Forbidden.vue';
+import AdministratorAccess from './pages/AdministratorAccess.vue';
 
 export default {
   'auth-login': Login,
   'auth-forbidden': Forbidden,
+  'auth-admin-access': AdministratorAccess,
 };
