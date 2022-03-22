@@ -57,7 +57,9 @@ class AdministratorAccessController extends AbstractVueController
         $component = new Component('auth-admin-access');
 
         $forwardUrl = $request->query->get('forward');
-        $this->getAuthUser()->setAttribute(AuthUser::ADMIN_ACCESS_FORWARD_URL, $forwardUrl);
+        if (!is_null($forwardUrl)) {
+            $this->getAuthUser()->setAttribute(AuthUser::ADMIN_ACCESS_FORWARD_URL, $forwardUrl);
+        }
 
         $backUrl = $this->getAuthUser()->getAttribute(AuthUser::ADMIN_ACCESS_BACK_URL);
 
