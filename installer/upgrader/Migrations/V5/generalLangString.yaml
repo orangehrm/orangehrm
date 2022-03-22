@@ -399,7 +399,7 @@ langStrings:
     value: 'Add Attachment'
     unitId: add_attachment
   -
-    value: 'Type here.'
+    value: 'Type here'
     unitId: type_here
   -
     value: 'Date'
