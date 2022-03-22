@@ -1357,3 +1357,21 @@ GetAll:
     ]
     meta:
       total: 1
+
+  filter to check for purged employee:
+    userId: 1
+    now:
+      datetime: '2021-01-01'
+    services:
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      leave.leave_request_service: \OrangeHRM\Leave\Service\LeaveRequestService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getUserRoleManager' ]
+    query:
+      includeEmployees: 'onlyPast'
+      statuses: [ 2 ]
+    data: [ ]
+    meta:
+      total: 0

@@ -55,6 +55,7 @@ TerminationReason:
 
 EmployeeTerminationRecord:
   - { "id": "1", "reason_id": "6","termination_date": "2021-09-15","note": "" }
+  - { "id": "2", "reason_id": "6","termination_date": "2021-03-22","note": "" }
 
 # 1=Organization
 #    2=Engineering
@@ -75,6 +76,7 @@ Employee:
   - { "emp_number": 4,"employee_id": "0004","emp_lastname": "Abbey","emp_firstname": "Kayla","emp_middle_name": "",work_station: 5 }
   - { "emp_number": 5,"employee_id": "0005","emp_lastname": "Abel","emp_firstname": "Ashley","emp_middle_name": "", "termination_id": "1" }
   - { "emp_number": 6,"employee_id": "0006","emp_lastname": "Morgan","emp_firstname": "Jasmine","emp_middle_name": "",work_station: 3 }
+  - { "emp_number": 7,"employee_id": "0007","emp_lastname": "Employee","emp_firstname": "Purged","emp_middle_name": "", "termination_id": "2", "purged_at":"2022-03-22" }
 
 ReportingMethod:
   - { "reporting_method_id": "1","reporting_method_name": "Direct" }
@@ -144,6 +146,7 @@ LeaveRequest:
   - { "id": "16","leave_type_id": "1","date_applied": "2021-11-03","emp_number": "1" }
   - { "id": "17","leave_type_id": "2","date_applied": "2021-11-04","emp_number": "1" }
   - { "id": "18","leave_type_id": "6","date_applied": "2021-12-01","emp_number": "2" }
+  - { "id": "19","leave_type_id": "6","date_applied": "2021-03-22","emp_number": "7" }
 
 Leave:
   - { "id": "1","date": "2021-09-01","length_hours": "8.00","length_days": "1.0000","status": "1","leave_request_id": "1","leave_type_id": "6","emp_number": "4","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
@@ -213,6 +216,8 @@ Leave:
   - { "id": "65","date": "2021-12-06","length_hours": "8.00","length_days": "1.0000","status": "2","leave_request_id": "18","leave_type_id": "6","emp_number": "2","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
   - { "id": "66","date": "2021-12-07","length_hours": "8.00","length_days": "1.0000","status": "2","leave_request_id": "18","leave_type_id": "6","emp_number": "2","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
   - { "id": "67","date": "2021-12-08","length_hours": "8.00","length_days": "1.0000","status": "2","leave_request_id": "18","leave_type_id": "6","emp_number": "2","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "68","date": "2021-03-30","length_hours": "8.00","length_days": "1.0000","status": "2","leave_request_id": "19","leave_type_id": "6","emp_number": "7","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
+  - { "id": "69","date": "2021-03-31","length_hours": "8.00","length_days": "1.0000","status": "2","leave_request_id": "19","leave_type_id": "6","emp_number": "7","start_time": "00:00:00","end_time": "00:00:00","duration_type": "0" }
 
 LeaveLeaveEntitlement:
   - { "id": "1","leave_id": "1","entitlement_id": "1","length_days": "1.0000" }
