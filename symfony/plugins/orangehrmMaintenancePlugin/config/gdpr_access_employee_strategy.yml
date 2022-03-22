@@ -70,7 +70,7 @@ Entities :
           - {field: "size" }
           - {field: "attachment", class: 'FormatWithBase64Encode', getter: ['getDecorator', 'getAttachment']}
           - {field: "fileType" }
-          - {field: "attachedTime" }
+          - {field: "attachedTime", class : 'FormatWithDateTime' }
 
   EmpEmergencyContact:
     AccessStrategy:
@@ -168,8 +168,8 @@ Entities :
           - {field: "subscriptionFee" }
           - {field: "subscriptionPaidBy" }
           - {field: "subscriptionCurrency" }
-          - {field: "subscriptionCommenceDate" }
-          - {field: "subscriptionRenewalDate" }
+          - {field: "subscriptionCommenceDate", class: 'FormatWithDate' }
+          - {field: "subscriptionRenewalDate", class: 'FormatWithDate' }
 
   EmpUsTaxExemption:
     AccessStrategy:
@@ -239,22 +239,22 @@ Entities :
     AccessStrategy:
       ReportTo:
         match_by:
-          - {match: supervisor}
+          - {match: subordinate}
         parameters:
           - {field: "supervisorId" ,class: 'FormatWithEmployeeName' ,getter :['getSupervisor', 'getEmpNumber']}
           - {field: "subordinateId" ,class: 'FormatWithEmployeeName' ,getter :['getSubordinate', 'getEmpNumber']}
           - {field: "reportingMethod"  ,getter :['getReportingMethod', 'getName']}
 
-#  PerformanceReview:
+# PerformanceReview:
 #    AccessStrategy:
 #      Basic:
 #        match_by:
-#          - {match: employee_number}
-#        parameters:
-#          - {field: "jobTitleCode" ,class: 'FormatWithJobTitle'}
+#          - {match: employee}
+#       parameters:
+#          - {field: "jobTitle" ,class: 'FormatWithJobTitle', getter: ['getJobTitle','getId']}
 #          - {field: "workPeriodStart" }
 #          - {field: "workPeriodEnd" }
-#          - {field: "departmentId" }
+#          - {field: "department" ,getter: ['getDepartment','getName']}
 #          - {field: "dueDate" }
 #          - {field: "completedDate" }
 #          - {field: "activatedDate" }
@@ -265,9 +265,9 @@ Entities :
 #    AccessStrategy:
 #      Basic:
 #        match_by:
-#          - {match: employee_number, join: performanceReview}
+#          - {match: reviewer, join: PerformanceReview}
 #        parameters:
-#          - {field: "kpiId" ,class: 'FormatWithKPIId'}
+#          - {field: "kpi" ,getter: ['getKpi','getTitle']}
 #          - {field: "rating" }
 #          - {field: "comment" }
 #
@@ -275,9 +275,9 @@ Entities :
 #    AccessStrategy:
 #      Basic:
 #        match_by:
-#          - {match: t.employee_number, join: review}
+#          - {match: employee, join: PerformanceReview}
 #        parameters:
-#          - {field: "employeeNumber" }
+#          - {field: "employee" }
 #          - {field: "completedDate" }
 #          - {field: "comment" }
 #
@@ -285,7 +285,7 @@ Entities :
 #    AccessStrategy:
 #      Basic:
 #        match_by:
-#          - {match: emp_number, join: PerformanceTrack}
+#          - {match: employee, join: PerformanceTracker}
 #        parameters:
 #          - {field: "log" }
 #          - {field: "comment" }
