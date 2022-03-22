@@ -845,9 +845,3 @@ langStrings:
   -
     value: 'yyyy-mm-dd'
     unitId: date_format
-  -
-    value: 'Administrator Access'
-    unitId: admin_access
-  -
-    value: 'You have requested to access a critical Administrator function in OrangeHRM and are required to validate your credentials below'
-    unitId: admin_access_note
