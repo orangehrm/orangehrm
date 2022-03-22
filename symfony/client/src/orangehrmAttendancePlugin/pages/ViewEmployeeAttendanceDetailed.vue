@@ -334,6 +334,10 @@ export default {
 </script>
 <style scoped lang="scss">
 .orangehrm-paper-container--viewemployee {
+  ::v-deep(.card-header-slot) {
+    border-bottom: $oxd-input-control-border--active;
+    margin-bottom: 5px;
+  }
   ::v-deep(.card-header-slot-content .oxd-table-cell-actions) {
     justify-content: flex-end;
   }
