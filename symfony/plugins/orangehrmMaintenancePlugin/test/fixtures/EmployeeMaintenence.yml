@@ -161,6 +161,12 @@ LeaveRequest:
 Leave:
   0: {id: 1, length_hours: 8,start_time : '10:00:00', end_time: '10:00:00', length_days: 1, leave_request_id: 1, leave_type_id: 1, emp_number: 1, date: '2010-09-01', status: 1}
 
+LeaveRequestComment:
+  - { id: 1, leave_request_id: 1, created: '2010-08-29 04:55:00', created_by_id: 3,created_by_emp_number: 1, comments: 'employee 3 comment on emp 1 leave request' }
+  - { id: 2, leave_request_id: 2, created: '2010-08-30 18:55:00', created_by_id: 3,created_by_emp_number: 1, comments: 'employee 3 comment on emp 1 leave request' }
+  - { id: 3, leave_request_id: 2, created: '2010-08-30 18:55:00', created_by_id: 4,created_by_emp_number: 1, comments: 'employee 4 comment on emp 1 leave request' }
+  - { id: 4, leave_request_id: 3, created: '2010-08-30 18:55:00', created_by_id: 4,created_by_emp_number: 2, comments: 'employee 4 comment on emp 3 leave request' }
+
 AttendanceRecord:
   0: {id: 1, employee_id: 1, punch_in_utc_time: '2011-05-27 12:10:00', punch_in_note: 'Im punched In',punch_in_time_offset: 'Asia/Calcutta',punch_in_user_time: '2011-05-27 12:10:00',punch_out_utc_time: '2011-05-27 12:10:00',punch_out_note: ' Punched Out',punch_out_time_offset: 'Asia/Calcutta',punch_out_user_time: '2011-05-27 12:10:00', state: 'PUNCHED IN'}
   1: {id: 2, employee_id: 2, punch_in_utc_time: '2011-04-20 1:10:00', punch_in_note: 'Im punched In',punch_in_time_offset: 'Asia/Calcutta',punch_in_user_time: '2011-04-20 1:10:00',punch_out_utc_time: '2011-04-20 5:10:00',punch_out_note: ' Punched Out',punch_out_time_offset: 'Asia/Calcutta',punch_out_user_time: '2011-04-20 5:10:00', state: 'PUNCHED IN'}

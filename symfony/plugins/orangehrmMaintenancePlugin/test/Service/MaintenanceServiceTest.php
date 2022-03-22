@@ -231,7 +231,7 @@ class MaintenanceServiceTest extends KernelTestCase
 
     public function testLeaveRequestComment():void{
         $result=$this->maintenanceService->accessEmployeeData(1);
-        $this->assertEquals('Casual', $result['LeaveRequestComment'][0]['createdAt']);
+        $this->assertEquals('2010-08-30', $result['LeaveRequestComment'][0]['createdAt']);
         $this->assertEquals('2010-08-30', $result['LeaveRequestComment'][0]['createdBy']);
         $this->assertEquals('2010-08-30', $result['LeaveRequestComment'][0]['comment']);
         $this->assertCount(3, $result['LeaveRequestComment']);
