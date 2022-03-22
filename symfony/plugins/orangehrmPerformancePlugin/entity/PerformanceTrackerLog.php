@@ -115,7 +115,7 @@ class PerformanceTrackerLog
      *   @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      * })
      */
-    private ?User $systemUser;
+    private ?User $user;
 
     /**
      * @return int
@@ -264,16 +264,18 @@ class PerformanceTrackerLog
     /**
      * @return User|null
      */
-    public function getSystemUser(): ?User
+    public function getUser(): ?User
     {
-        return $this->systemUser;
+        return $this->user;
     }
 
     /**
-     * @param User|null $systemUser
+     * @param User|null $user
      */
-    public function setSystemUser(?User $systemUser): void
+    public function setUser(?User $user): void
     {
-        $this->systemUser = $systemUser;
+        $this->user = $user;
     }
+
+
 }
