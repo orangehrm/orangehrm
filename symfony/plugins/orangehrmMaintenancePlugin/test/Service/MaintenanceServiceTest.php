@@ -64,8 +64,8 @@ class MaintenanceServiceTest extends KernelTestCase
 
     public function testReportTo():void{
         $result=$this->maintenanceService->accessEmployeeData(2);
-        $this->assertEquals('Kayla T Abbey', $result['ReportTo'][0]['supervisorId']);
-        $this->assertEquals('Ashley ST Abel', $result['ReportTo'][0]['subordinateId']);
+        $this->assertEquals('Kayla T Abbey', $result['ReportTo'][0]['supervisor']);
+        $this->assertEquals('Ashley ST Abel', $result['ReportTo'][0]['subordinate']);
         $this->assertEquals('Direct', $result['ReportTo'][0]['reportingMethod']);
         $this->assertCount(2, $result['ReportTo']);
     }
@@ -222,13 +222,20 @@ class MaintenanceServiceTest extends KernelTestCase
         $this->assertCount(2, $result['User']);
     }
 
-//    public function testUser():void{
-//        $result=$this->maintenanceService->accessEmployeeData(1);
-//        $this->assertEquals('samantha', $result['User'][0]['userName']);
-//        $this->assertEquals('2011-04-12', $result['User'][0]['dateEntered']);
-//        $this->assertEquals('2011-04-13', $result['User'][0]['dateModified']);
-//        $this->assertCount(2, $result['User']);
-//    }
+    public function testLeaveRequest():void{
+        $result=$this->maintenanceService->accessEmployeeData(1);
+        $this->assertEquals('Casual', $result['LeaveRequest'][0]['leaveType']);
+        $this->assertEquals('2010-08-30', $result['LeaveRequest'][0]['dateApplied']);
+        $this->assertCount(3, $result['LeaveRequest']);
+    }
+
+    public function testLeaveRequestComment():void{
+        $result=$this->maintenanceService->accessEmployeeData(1);
+        $this->assertEquals('Casual', $result['LeaveRequestComment'][0]['createdAt']);
+        $this->assertEquals('2010-08-30', $result['LeaveRequestComment'][0]['createdBy']);
+        $this->assertEquals('2010-08-30', $result['LeaveRequestComment'][0]['comment']);
+        $this->assertCount(3, $result['LeaveRequestComment']);
+    }
 
 
     public function testGetPurgeableEntities(): void

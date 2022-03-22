@@ -201,7 +201,7 @@ Entities :
         match_by:
           - {match: employee}
         parameters:
-          - {field: "payGrade" ,class: 'FormatWithPayGradeId', getter: ['getpayGrade','getId']}
+          - {field: "payGrade" ,class: 'FormatWithPayGradeId', getter: ['getPayGrade','getId']}
           - {field: "currencyType", getter: ['getCurrencyType','getId'] }
           - {field: "amount" }
           - {field: "payPeriod" ,class: 'FormatWithPayPeriod', getter: ['getPayPeriod','getName']}
@@ -241,8 +241,8 @@ Entities :
         match_by:
           - {match: subordinate}
         parameters:
-          - {field: "supervisorId" ,class: 'FormatWithEmployeeName' ,getter :['getSupervisor', 'getEmpNumber']}
-          - {field: "subordinateId" ,class: 'FormatWithEmployeeName' ,getter :['getSubordinate', 'getEmpNumber']}
+          - {field: "supervisor" ,class: 'FormatWithEmployeeName' ,getter :['getSupervisor', 'getEmpNumber']}
+          - {field: "subordinate" ,class: 'FormatWithEmployeeName' ,getter :['getSubordinate', 'getEmpNumber']}
           - {field: "reportingMethod"  ,getter :['getReportingMethod', 'getName']}
 
 # PerformanceReview:
