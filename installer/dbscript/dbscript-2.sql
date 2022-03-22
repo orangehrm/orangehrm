@@ -4615,4 +4615,4 @@ SET @auth_admin_verify_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE 
 INSERT INTO ohrm_user_role_data_group (`can_read`, `can_create`, `can_update`, `can_delete`, `self`, `data_group_id`,`user_role_id`)
 VALUES (1, 0, 0, 0, 0, @auth_admin_verify_data_group_id, @admin_role_id);
 
-INSERT INTO `ohrm_i18n_group` (`name`, `title`) VALUES ('attendance', 'Attendance'), ('help', 'Help');
+INSERT INTO `ohrm_i18n_group` (`name`, `title`) VALUES ('attendance', 'Attendance'), ('help', 'Help'),('authentication', 'Authentication');

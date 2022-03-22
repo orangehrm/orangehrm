@@ -36,3 +36,4 @@ $translate->up('time');
 $translate->up('attendance');
 $translate->up('maintenance');
 $translate->up('help');
+$translate->up('authentication');

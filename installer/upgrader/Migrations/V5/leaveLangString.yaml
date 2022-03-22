@@ -292,3 +292,6 @@ langStrings:
   -
     value: 'Failed to Submit: No Working Days Selected'
     unitId: failed_to_submit_no_working_days_selected
+  -
+    value: '{count, plural, =0{No Entitlement added} one{Entitlement added to 1 employee} other {Entitlement added to # employees}}'
+    unitId: entitlement_added_to_n_employees
