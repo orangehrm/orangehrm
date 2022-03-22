@@ -19,7 +19,9 @@
  -->
 
 <template>
-  <oxd-table-filter :filter-title="$t('time.employee_attendance_records')">
+  <oxd-table-filter
+    :filter-title="$t('attendance.employee_attendance_records')"
+  >
     <oxd-form @submitValid="onClickView">
       <oxd-form-row>
         <oxd-grid :cols="4" class="orangehrm-full-width-grid">

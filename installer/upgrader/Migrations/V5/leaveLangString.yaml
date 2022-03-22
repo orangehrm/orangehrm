@@ -286,3 +286,9 @@ langStrings:
   -
     value: '{action, select, APPROVE {Approve Leave} REJECT {Reject Leave} other {Cancel Leave}}'
     unitId: leave_action
+  -
+    value: 'Failed to Submit'
+    unitId: failed_to_submit
+  -
+    value: 'Failed to Submit: No Working Days Selected'
+    unitId: failed_to_submit_no_working_days_selected

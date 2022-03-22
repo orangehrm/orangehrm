@@ -833,3 +833,18 @@ langStrings:
   -
     value: 'Tax Exemptions'
     unitId: tax_exemptions
+  -
+    value: 'Info'
+    unitId: info
+  -
+    value: 'Should not exceed {amount} characters'
+    unitId: should_be_less_n_characters
+  -
+    value: 'Expected format: admin@example.com'
+    unitId: expected_email_address_format_not_matched
+  -
+    value: '{count, plural, =0{No Entitlement added} one{Entitlement added to 1 employee} other {Entitlement added to # employees}}'
+    unitId: entitlement_added_to_n_employees
+  -
+    value: 'Submit'
+    unitId: submit
