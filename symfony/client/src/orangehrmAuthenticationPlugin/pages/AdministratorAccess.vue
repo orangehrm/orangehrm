@@ -71,14 +71,14 @@
             class="orangehrm-admin-access-button"
             display-type="ghost"
             size="large"
-            label="Cancel"
+            :label="$t('general.cancel')"
             @click="onCancel"
           />
           <oxd-button
             class="orangehrm-admin-access-button"
             display-type="secondary"
             size="large"
-            label="Confirm"
+            :label="$t('general.confirm')"
             type="submit"
           />
         </div>
