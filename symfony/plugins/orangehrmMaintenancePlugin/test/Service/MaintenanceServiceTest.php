@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\Tests\Maintenance\Service;
 
-use DateTime;
 use OrangeHRM\Admin\Service\CountryService;
 use OrangeHRM\Admin\Service\PayGradeService;
 use OrangeHRM\Config\Config;
@@ -65,7 +64,8 @@ class MaintenanceServiceTest extends KernelTestCase
         $this->assertCount(2, $result['Reviewer']);
     }
 
-    public function testReportTo():void{
+    public function testReportTo(): void
+    {
         $result=$this->maintenanceService->accessEmployeeData(2);
         $this->assertEquals('Kayla T Abbey', $result['ReportTo'][0]['supervisor']);
         $this->assertEquals('Ashley ST Abel', $result['ReportTo'][0]['subordinate']);
@@ -73,7 +73,8 @@ class MaintenanceServiceTest extends KernelTestCase
         $this->assertCount(2, $result['ReportTo']);
     }
 
-    public function testEmpPicture():void{
+    public function testEmpPicture(): void
+    {
         $result=$this->maintenanceService->accessEmployeeData(1);
         $this->assertEquals('eWFzaXRoYQ==', $result['EmpPicture'][0]['picture']);
         $this->assertEquals('test_file.jpg', $result['EmpPicture'][0]['filename']);
@@ -81,7 +82,8 @@ class MaintenanceServiceTest extends KernelTestCase
         $this->assertCount(1, $result['EmpPicture']);
     }
 
-    public function testEmployeeAttachment():void{
+    public function testEmployeeAttachment(): void
+    {
         $result=$this->maintenanceService->accessEmployeeData(1);
         $this->assertEquals('attachment.txt', $result['EmployeeAttachment'][0]['filename']);
         $this->assertEquals('6', $result['EmployeeAttachment'][0]['size']);
@@ -91,7 +93,8 @@ class MaintenanceServiceTest extends KernelTestCase
         $this->assertCount(1, $result['EmpPicture']);
     }
 
-    public function testEmpEmergencyContact():void{
+    public function testEmpEmergencyContact(): void
+    {
         $result=$this->maintenanceService->accessEmployeeData(1);
         $this->assertEquals('Yasitha', $result['EmpEmergencyContact'][0]['name']);
         $this->assertEquals('friend', $result['EmpEmergencyContact'][0]['relationship']);
@@ -101,7 +104,8 @@ class MaintenanceServiceTest extends KernelTestCase
         $this->assertCount(2, $result['EmpEmergencyContact']);
     }
 
-    public function testEmpDependent():void{
+    public function testEmpDependent(): void
+    {
         $result=$this->maintenanceService->accessEmployeeData(1);
         $this->assertEquals('yasitha', $result['EmpDependent'][0]['name']);
         $this->assertEquals('friend', $result['EmpDependent'][0]['relationship']);
@@ -110,7 +114,8 @@ class MaintenanceServiceTest extends KernelTestCase
         $this->assertCount(2, $result['EmpDependent']);
     }
 
-    public function testEmployeeImmigrationRecord():void{
+    public function testEmployeeImmigrationRecord(): void
+    {
         $result=$this->maintenanceService->accessEmployeeData(1);
         $this->assertEquals('HVN0003472', $result['EmployeeImmigrationRecord'][0]['number']);
         $this->assertEquals('2010-12-12', $result['EmployeeImmigrationRecord'][0]['issuedDate']);
@@ -123,7 +128,8 @@ class MaintenanceServiceTest extends KernelTestCase
         $this->assertCount(2, $result['EmployeeImmigrationRecord']);
     }
 
-    public function testEmpWorkExperience():void{
+    public function testEmpWorkExperience(): void
+    {
         $result=$this->maintenanceService->accessEmployeeData(1);
         $this->assertEquals('OrangeHRM', $result['EmpWorkExperience'][0]['employer']);
         $this->assertEquals('SE', $result['EmpWorkExperience'][0]['jobTitle']);
@@ -134,7 +140,8 @@ class MaintenanceServiceTest extends KernelTestCase
         $this->assertCount(2, $result['EmpWorkExperience']);
     }
 
-    public function testEmployeeEducation():void{
+    public function testEmployeeEducation(): void
+    {
         $result=$this->maintenanceService->accessEmployeeData(1);
         $this->assertEquals('PhD', $result['EmployeeEducation'][0]['education']);
         $this->assertEquals('ENG', $result['EmployeeEducation'][0]['major']);
@@ -145,7 +152,8 @@ class MaintenanceServiceTest extends KernelTestCase
         $this->assertCount(2, $result['EmployeeEducation']);
     }
 
-    public function testEmployeeSkill():void{
+    public function testEmployeeSkill(): void
+    {
         $result=$this->maintenanceService->accessEmployeeData(1);
         $this->assertEquals('Driving', $result['EmployeeSkill'][0]['skill']);
         $this->assertEquals('4', $result['EmployeeSkill'][0]['yearsOfExp']);
@@ -153,7 +161,8 @@ class MaintenanceServiceTest extends KernelTestCase
         $this->assertCount(2, $result['EmployeeSkill']);
     }
 
-    public function testEmployeeLanguage():void{
+    public function testEmployeeLanguage(): void
+    {
         $result=$this->maintenanceService->accessEmployeeData(1);
         $this->assertEquals('Spanish', $result['EmployeeLanguage'][0]['language']);
         $this->assertEquals('Speaking', $result['EmployeeLanguage'][0]['fluency']);
@@ -162,7 +171,8 @@ class MaintenanceServiceTest extends KernelTestCase
         $this->assertCount(2, $result['EmployeeLanguage']);
     }
 
-    public function testEmployeeMembership():void{
+    public function testEmployeeMembership(): void
+    {
         $result=$this->maintenanceService->accessEmployeeData(1);
         $this->assertEquals('membership 1', $result['EmployeeMembership'][0]['membership']);
         $this->assertEquals('4.00', $result['EmployeeMembership'][0]['subscriptionFee']);
@@ -173,7 +183,8 @@ class MaintenanceServiceTest extends KernelTestCase
         $this->assertCount(2, $result['EmployeeMembership']);
     }
 
-    public function testEmpUsTaxExemption():void{
+    public function testEmpUsTaxExemption(): void
+    {
         $result=$this->maintenanceService->accessEmployeeData(1);
         $this->assertEquals('Single', $result['EmpUsTaxExemption'][0]['federalStatus']);
         $this->assertEquals('2', $result['EmpUsTaxExemption'][0]['federalExemptions']);
@@ -184,7 +195,8 @@ class MaintenanceServiceTest extends KernelTestCase
         $this->assertCount(1, $result['EmpUsTaxExemption']);
     }
 
-    public function testEmployeeLicense():void{
+    public function testEmployeeLicense(): void
+    {
         $result=$this->maintenanceService->accessEmployeeData(1);
         $this->assertEquals('li1', $result['EmployeeLicense'][0]['license']);
         $this->assertEquals('2bja8768', $result['EmployeeLicense'][0]['licenseNo']);
@@ -193,7 +205,8 @@ class MaintenanceServiceTest extends KernelTestCase
         $this->assertCount(2, $result['EmployeeLicense']);
     }
 
-    public function testEmployeeSalary():void{
+    public function testEmployeeSalary(): void
+    {
         $result=$this->maintenanceService->accessEmployeeData(1);
         $this->assertEquals('Salary Grade A', $result['EmployeeSalary'][0]['payGrade']);
         $this->assertEquals('LKR', $result['EmployeeSalary'][0]['currencyType']);
@@ -204,20 +217,23 @@ class MaintenanceServiceTest extends KernelTestCase
         $this->assertCount(2, $result['EmployeeSalary']);
     }
 
-    public function testEmpLocations():void{
+    public function testEmpLocations(): void
+    {
         $result=$this->maintenanceService->accessEmployeeData(1);
         $this->assertEquals('location 1', $result['EmpLocations'][0]['location']);
         $this->assertCount(2, $result['EmpLocations']);
     }
 
-    public function testEmpContract():void{
+    public function testEmpContract(): void
+    {
         $result=$this->maintenanceService->accessEmployeeData(1);
         $this->assertEquals('2020-05-23', $result['EmpContract'][0]['startDate']);
         $this->assertEquals('2021-05-23', $result['EmpContract'][0]['endDate']);
         $this->assertCount(2, $result['EmpContract']);
     }
 
-    public function testUser():void{
+    public function testUser(): void
+    {
         $result=$this->maintenanceService->accessEmployeeData(1);
         $this->assertEquals('samantha', $result['User'][0]['userName']);
         $this->assertEquals('2011-04-12', $result['User'][0]['dateEntered']);
@@ -225,14 +241,16 @@ class MaintenanceServiceTest extends KernelTestCase
         $this->assertCount(2, $result['User']);
     }
 
-    public function testLeaveRequest():void{
+    public function testLeaveRequest(): void
+    {
         $result=$this->maintenanceService->accessEmployeeData(1);
         $this->assertEquals('Casual', $result['LeaveRequest'][0]['leaveType']);
         $this->assertEquals('2010-08-30', $result['LeaveRequest'][0]['dateApplied']);
         $this->assertCount(3, $result['LeaveRequest']);
     }
 
-    public function testLeaveRequestComment():void{
+    public function testLeaveRequestComment(): void
+    {
         $result=$this->maintenanceService->accessEmployeeData(1);
         $this->assertEquals('2010-08-29 04:55:00', $result['LeaveRequestComment'][0]['createdAt']);
         $this->assertEquals('samantha', $result['LeaveRequestComment'][0]['createdBy']);
@@ -240,7 +258,8 @@ class MaintenanceServiceTest extends KernelTestCase
         $this->assertCount(3, $result['LeaveRequestComment']);
     }
 
-    public function testLeaveComment():void{
+    public function testLeaveComment(): void
+    {
         $result=$this->maintenanceService->accessEmployeeData(1);
         $this->assertEquals('samantha', $result['LeaveComment'][0]['createdBy']);
         $this->assertEquals('Kayla T Abbey', $result['LeaveComment'][0]['createdByEmployee']);
@@ -248,7 +267,8 @@ class MaintenanceServiceTest extends KernelTestCase
         $this->assertCount(2, $result['LeaveComment']);
     }
 
-    public function testLeave():void{
+    public function testLeave(): void
+    {
         $result=$this->maintenanceService->accessEmployeeData(1);
         $this->assertEquals('2010-09-01', $result['Leave'][0]['date']);
         $this->assertEquals('8', $result['Leave'][0]['lengthHours']);
@@ -257,7 +277,8 @@ class MaintenanceServiceTest extends KernelTestCase
         $this->assertEquals('10:00:00', $result['Leave'][0]['endTime']);
         $this->assertCount(1, $result['Leave']);
     }
-    public function testAttendanceRecord():void{
+    public function testAttendanceRecord(): void
+    {
         $result=$this->maintenanceService->accessEmployeeData(1);
         $this->assertEquals('2011-05-27 12:10:00', $result['AttendanceRecord'][0]['punchInUtcTime']);
         $this->assertEquals('Im punched In', $result['AttendanceRecord'][0]['punchInNote']);
@@ -270,7 +291,8 @@ class MaintenanceServiceTest extends KernelTestCase
         $this->assertEquals('PUNCHED IN', $result['AttendanceRecord'][0]['state']);
         $this->assertCount(2, $result['AttendanceRecord']);
     }
-    public function testTimesheetItem():void{
+    public function testTimesheetItem(): void
+    {
         $result=$this->maintenanceService->accessEmployeeData(1);
         $this->assertEquals('BUS', $result['TimesheetItem'][0]['project']);
         $this->assertEquals('Debug', $result['TimesheetItem'][0]['projectActivity']);
@@ -280,7 +302,8 @@ class MaintenanceServiceTest extends KernelTestCase
         $this->assertCount(1, $result['TimesheetItem']);
     }
 
-    public function testPerformanceReview():void{
+    public function testPerformanceReview(): void
+    {
         $result=$this->maintenanceService->accessEmployeeData(1);
         $this->assertEquals('Software Architect', $result['PerformanceReview'][0]['jobTitle']);
         $this->assertEquals('2011-01-01', $result['PerformanceReview'][0]['workPeriodStart']);
@@ -294,7 +317,8 @@ class MaintenanceServiceTest extends KernelTestCase
         $this->assertCount(2, $result['PerformanceReview']);
     }
 
-    public function testReviewerRating():void{
+    public function testReviewerRating(): void
+    {
         $result=$this->maintenanceService->accessEmployeeData(1);
         $this->assertEquals('Code Clarity', $result['ReviewerRating'][0]['kpi']);
         $this->assertEquals('5.50', $result['ReviewerRating'][0]['rating']);
@@ -302,7 +326,8 @@ class MaintenanceServiceTest extends KernelTestCase
         $this->assertCount(2, $result['ReviewerRating']);
     }
 
-    public function testReviewer():void{
+    public function testReviewer(): void
+    {
         $result=$this->maintenanceService->accessEmployeeData(1);
         $this->assertEquals('Kayla T Abbey', $result['Reviewer'][0]['employee']);
         $this->assertEquals('2014-10-30 00:00:00', $result['Reviewer'][0]['completedDate']);
@@ -310,7 +335,8 @@ class MaintenanceServiceTest extends KernelTestCase
         $this->assertCount(2, $result['Reviewer']);
     }
 
-    public function testPerformanceTrackerLog():void{
+    public function testPerformanceTrackerLog(): void
+    {
         $result=$this->maintenanceService->accessEmployeeData(1);
         $this->assertEquals('log by 2', $result['PerformanceTrackerLog'][0]['log']);
         $this->assertEquals('test comment by 2', $result['PerformanceTrackerLog'][0]['comment']);
