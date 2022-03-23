@@ -741,12 +741,6 @@ langStrings:
     value: 'Other Email'
     unitId: other_email
   -
-    value: 'Date Range'
-    unitId: date_range
-  -
-    value: 'yyyy-mm-dd'
-    unitId: date_format
-  -
     value: 'Administrator Access'
     unitId: admin_access
   -
