@@ -33,11 +33,10 @@
     <oxd-input-field
       class="orangehrm-middlename"
       name="Middle Name"
-      :placeholder="$t('general.middle_name')"
       :model-value="middleName"
       :rules="rules.middleName"
       :disabled="disabled"
-      v-bind="middleNameProps"
+      :placeholder="middleNameProps ? middleName : $t('general.middle_name')"
       @update:modelValue="$emit('update:middleName', $event)"
     />
     <oxd-input-field
@@ -78,10 +77,8 @@ export default {
       default: false,
     },
     middleNameProps: {
-      type: Object,
-      default: () => ({
-        placeholder: "$t('middle_name')",
-      }),
+      type: Boolean,
+      default: false,
     },
   },
   emits: ['update:firstName', 'update:middleName', 'update:lastName'],
