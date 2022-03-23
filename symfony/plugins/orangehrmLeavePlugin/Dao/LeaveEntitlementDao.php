@@ -99,6 +99,8 @@ class LeaveEntitlementDao extends BaseDao
         $q = $this->createQueryBuilder(LeaveEntitlement::class, 'entitlement')
             ->andWhere('entitlement.deleted = :deleted')
             ->setParameter('deleted', false);
+        $q->leftJoin('entitlement.employee', 'employee')
+            ->andWhere($q->expr()->isNull('employee.purgedAt'));
         $q->leftJoin('entitlement.leaveType', 'leaveType');
         $this->setSortingAndPaginationParams($q, $entitlementSearchFilterParams);
 
