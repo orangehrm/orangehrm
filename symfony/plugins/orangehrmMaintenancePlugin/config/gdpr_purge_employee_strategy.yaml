@@ -151,37 +151,37 @@ Entities:
         match_by:
           - { match: THIS IS A EXCEPTION }
 
-#  PerformanceReview:
-#    PurgeStrategy:
-#      ReplaceWithValue:
-#        match_by:
-#          - { match: employee_number }
-#        parameters:
-#          - { field: "finalComment", class: 'FormatWithEmptyString' }
-#
-#  ReviewerRating:
-#    PurgeStrategy:
-#      ReplaceWithValue:
-#        match_by:
-#          - {match: employee_number,  join: performanceReview}
-#        parameters:
-#          - {field: "comment", class: 'FormatWithEmptyString'}
-#
-#  Reviewer:
-#    PurgeStrategy:
-#      ReplaceWithValue:
-#        match_by:
-#          - { match: t.employee_number, join: review }
-#        parameters:
-#          - { field: "comment", class: 'FormatWithEmptyString' }
-#
-#  PerformanceTrackerLog:
-#    PurgeStrategy:
-#      ReplaceWithValue:
-#        match_by:
-#          - { match: emp_number,  join: PerformanceTrack }
-#        parameters:
-#          - { field: "comment", class: 'FormatWithEmptyString' }
+  PerformanceReview:
+    PurgeStrategy:
+      ReplaceWithValue:
+        match_by:
+          - { match: employee }
+        parameters:
+          - { field: "finalComment", class: 'FormatWithEmptyString' }
+
+  ReviewerRating:
+    PurgeStrategy:
+      ReplaceWithValue:
+        match_by:
+          - {match: employee,  join: performanceReview}
+        parameters:
+          - {field: "comment", class: 'FormatWithEmptyString'}
+
+  Reviewer:
+    PurgeStrategy:
+      ReplaceWithValue:
+        match_by:
+          - { match: employee, join: review }
+        parameters:
+          - { field: "comment", class: 'FormatWithEmptyString' }
+
+  PerformanceTrackerLog:
+    PurgeStrategy:
+      ReplaceWithValue:
+        match_by:
+          - { match: employee,  join: performanceTracker }
+        parameters:
+          - { field: "comment", class: 'FormatWithEmptyString' }
 
   LeaveComment:
     PurgeStrategy:

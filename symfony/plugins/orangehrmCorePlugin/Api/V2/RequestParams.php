@@ -154,7 +154,7 @@ class RequestParams
         if (is_null($param)) {
             return null;
         }
-        return $this->$type->getBoolean($key, $default);
+        return $this->$type->getBoolean($key, $param);
     }
 
     /**

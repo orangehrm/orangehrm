@@ -60,6 +60,9 @@ class MaintenanceServiceTest extends KernelTestCase
         $this->assertEquals('LKR', $result['EmployeeSalary'][0]['currencyType']);
 
         $this->assertCount(1, $result['Employee']);
+        $this->assertCount(2, $result['PerformanceReview']);
+        $this->assertCount(2, $result['ReviewerRating']);
+        $this->assertCount(2, $result['Reviewer']);
     }
 
     public function testReportTo():void{
@@ -232,16 +235,95 @@ class MaintenanceServiceTest extends KernelTestCase
     public function testLeaveRequestComment():void{
         $result=$this->maintenanceService->accessEmployeeData(1);
         $this->assertEquals('2010-08-29 04:55:00', $result['LeaveRequestComment'][0]['createdAt']);
-        $this->assertEquals('1', $result['LeaveRequestComment'][0]['createdBy']);
+        $this->assertEquals('samantha', $result['LeaveRequestComment'][0]['createdBy']);
         $this->assertEquals('employee 3 comment on emp 1 leave request', $result['LeaveRequestComment'][0]['comment']);
         $this->assertCount(3, $result['LeaveRequestComment']);
     }
 
+    public function testLeaveComment():void{
+        $result=$this->maintenanceService->accessEmployeeData(1);
+        $this->assertEquals('samantha', $result['LeaveComment'][0]['createdBy']);
+        $this->assertEquals('Kayla T Abbey', $result['LeaveComment'][0]['createdByEmployee']);
+        $this->assertEquals('Cancelled upon request', $result['LeaveComment'][0]['comment']);
+        $this->assertCount(2, $result['LeaveComment']);
+    }
+
+    public function testLeave():void{
+        $result=$this->maintenanceService->accessEmployeeData(1);
+        $this->assertEquals('2010-09-01', $result['Leave'][0]['date']);
+        $this->assertEquals('8', $result['Leave'][0]['lengthHours']);
+        $this->assertEquals('1', $result['Leave'][0]['lengthDays']);
+        $this->assertEquals('10:00:00', $result['Leave'][0]['startTime']);
+        $this->assertEquals('10:00:00', $result['Leave'][0]['endTime']);
+        $this->assertCount(1, $result['Leave']);
+    }
+    public function testAttendanceRecord():void{
+        $result=$this->maintenanceService->accessEmployeeData(1);
+        $this->assertEquals('2011-05-27 12:10:00', $result['AttendanceRecord'][0]['punchInUtcTime']);
+        $this->assertEquals('Im punched In', $result['AttendanceRecord'][0]['punchInNote']);
+        $this->assertEquals('Asia/Calcutta', $result['AttendanceRecord'][0]['punchInTimeOffset']);
+        $this->assertEquals('2011-05-27 12:10:00', $result['AttendanceRecord'][0]['punchInUserTime']);
+        $this->assertEquals('2011-05-27 12:10:00', $result['AttendanceRecord'][0]['punchOutUtcTime']);
+        $this->assertEquals(' Punched Out', $result['AttendanceRecord'][0]['punchOutNote']);
+        $this->assertEquals('Asia/Calcutta', $result['AttendanceRecord'][0]['punchOutTimeOffset']);
+        $this->assertEquals('2011-05-27 12:10:00', $result['AttendanceRecord'][0]['punchOutUserTime']);
+        $this->assertEquals('PUNCHED IN', $result['AttendanceRecord'][0]['state']);
+        $this->assertCount(2, $result['AttendanceRecord']);
+    }
+    public function testTimesheetItem():void{
+        $result=$this->maintenanceService->accessEmployeeData(1);
+        $this->assertEquals('BUS', $result['TimesheetItem'][0]['project']);
+        $this->assertEquals('Debug', $result['TimesheetItem'][0]['projectActivity']);
+        $this->assertEquals('2011-04-12', $result['TimesheetItem'][0]['date']);
+        $this->assertEquals('7200', $result['TimesheetItem'][0]['duration']);
+        $this->assertEquals('Good', $result['TimesheetItem'][0]['comment']);
+        $this->assertCount(1, $result['TimesheetItem']);
+    }
+
+    public function testPerformanceReview():void{
+        $result=$this->maintenanceService->accessEmployeeData(1);
+        $this->assertEquals('Software Architect', $result['PerformanceReview'][0]['jobTitle']);
+        $this->assertEquals('2011-01-01', $result['PerformanceReview'][0]['workPeriodStart']);
+        $this->assertEquals('2011-01-01', $result['PerformanceReview'][0]['workPeriodEnd']);
+        $this->assertEquals('Organization', $result['PerformanceReview'][0]['department']);
+        $this->assertEquals('2011-01-01', $result['PerformanceReview'][0]['dueDate']);
+        $this->assertEquals('2011-01-01', $result['PerformanceReview'][0]['completedDate']);
+        $this->assertEquals('2011-01-02 00:00:00', $result['PerformanceReview'][0]['activatedDate']);
+        $this->assertEquals('last', $result['PerformanceReview'][0]['finalComment']);
+        $this->assertEquals('2.00', $result['PerformanceReview'][0]['finalRate']);
+        $this->assertCount(2, $result['PerformanceReview']);
+    }
+
+    public function testReviewerRating():void{
+        $result=$this->maintenanceService->accessEmployeeData(1);
+        $this->assertEquals('Code Clarity', $result['ReviewerRating'][0]['kpi']);
+        $this->assertEquals('5.50', $result['ReviewerRating'][0]['rating']);
+        $this->assertEquals('Test comment 1', $result['ReviewerRating'][0]['comment']);
+        $this->assertCount(2, $result['ReviewerRating']);
+    }
+
+    public function testReviewer():void{
+        $result=$this->maintenanceService->accessEmployeeData(1);
+        $this->assertEquals('Kayla T Abbey', $result['Reviewer'][0]['employee']);
+        $this->assertEquals('2014-10-30 00:00:00', $result['Reviewer'][0]['completedDate']);
+        $this->assertEquals('Test Comment 2', $result['Reviewer'][0]['comment']);
+        $this->assertCount(2, $result['Reviewer']);
+    }
+
+    public function testPerformanceTrackerLog():void{
+        $result=$this->maintenanceService->accessEmployeeData(1);
+        $this->assertEquals('log by 2', $result['PerformanceTrackerLog'][0]['log']);
+        $this->assertEquals('test comment by 2', $result['PerformanceTrackerLog'][0]['comment']);
+        $this->assertEquals('Positive', $result['PerformanceTrackerLog'][0]['achievement']);
+        $this->assertEquals('2011-12-12 00:00:00', $result['PerformanceTrackerLog'][0]['addedDate']);
+        $this->assertEquals('2011-12-12 00:00:00', $result['PerformanceTrackerLog'][0]['modifiedDate']);
+        $this->assertCount(1, $result['PerformanceTrackerLog']);
+    }
 
     public function testGetPurgeableEntities(): void
     {
         $purgeableEntities = $this->maintenanceService->getPurgeableEntities('gdpr_access_employee_strategy');
-        $this->assertCount(24, $purgeableEntities);
+        $this->assertCount(28, $purgeableEntities);
         $this->assertArrayHasKey("Employee", $purgeableEntities);
         $this->assertArrayHasKey("EmpPicture", $purgeableEntities);
         $this->assertArrayHasKey("EmployeeAttachment", $purgeableEntities);

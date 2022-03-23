@@ -163,7 +163,7 @@ Leave:
 
 AttendanceRecord:
   0: {id: 1, employee_id: 1, punch_in_utc_time: '2011-05-27 12:10:00', punch_in_note: 'Im punched In',punch_in_time_offset: 'Asia/Calcutta',punch_in_user_time: '2011-05-27 12:10:00',punch_out_utc_time: '2011-05-27 12:10:00',punch_out_note: ' Punched Out',punch_out_time_offset: 'Asia/Calcutta',punch_out_user_time: '2011-05-27 12:10:00', state: 'PUNCHED IN'}
-  1: {id: 2, employee_id: 2, punch_in_utc_time: '2011-04-20 1:10:00', punch_in_note: 'Im punched In',punch_in_time_offset: 'Asia/Calcutta',punch_in_user_time: '2011-04-20 1:10:00',punch_out_utc_time: '2011-04-20 5:10:00',punch_out_note: ' Punched Out',punch_out_time_offset: 'Asia/Calcutta',punch_out_user_time: '2011-04-20 5:10:00', state: 'PUNCHED IN'}
+  1: {id: 2, employee_id: 1, punch_in_utc_time: '2011-04-20 1:10:00', punch_in_note: 'Im punched In',punch_in_time_offset: 'Asia/Calcutta',punch_in_user_time: '2011-04-20 1:10:00',punch_out_utc_time: '2011-04-20 5:10:00',punch_out_note: ' Punched Out',punch_out_time_offset: 'Asia/Calcutta',punch_out_user_time: '2011-04-20 5:10:00', state: 'PUNCHED IN'}
   2: {id: 3, employee_id: 2, punch_in_utc_time: '2011-04-20 1:10:00', punch_in_note: 'Im punched In',punch_in_time_offset: 'Asia/Calcutta',punch_in_user_time: '2011-04-20 1:10:00',punch_out_utc_time: '2011-04-20 5:10:00',punch_out_note: ' Punched Out',punch_out_time_offset: 'Asia/Calcutta',punch_out_user_time: '2011-04-20 5:10:00', state: 'PUNCHED OUT'}
 
 Customer:
@@ -172,6 +172,7 @@ Customer:
 
 Project:
   0: {project_id: 1, customer_id: 1, name: 'NUS'}
+  1: {project_id: 2, customer_id: 1, name: 'BUS'}
 
 ProjectActivity:
   0: { activity_id: 1, project_id: 1, name: 'Debug', is_deleted: 0 }
@@ -198,31 +199,36 @@ LeaveRequestComment:
   - { id: 3, leave_request_id: 2, created: '2010-08-30 18:55:00', created_by_id: 1,created_by_emp_number: 1, comments: 'employee 4 comment on emp 1 leave request' }
   - { id: 4, leave_request_id: 3, created: '2010-08-30 18:55:00', created_by_id: 2,created_by_emp_number: 2, comments: 'employee 4 comment on emp 3 leave request' }
 
-#PerformanceReview:
-#  0: {id: 1, status_id: 1, employee_number: 1, work_period_start: '2011-01-01', work_period_end: '2011-01-01', job_title_code: 1, due_date: '2011-01-01'}
-#  1: {id: 2, status_id: 1, employee_number: 1, work_period_start: '2011-01-01', work_period_end: '2011-01-01', job_title_code: 1, due_date: '2011-01-01'}
-#
-#Kpi:
-#  0: { id: 1, job_title_code: 1, kpi_indicators: 'Capacity Planning', min_rating: 1, max_rating: 100 }
-#  1: { id: 2, job_title_code: 2, kpi_indicators: 'Code Clarity', min_rating: 1, max_rating: 10, default_kpi: 1 }
-#  2: { id: 3, job_title_code: 3, kpi_indicators: 'Planning Methodologies', min_rating: 1, max_rating: 50, default_kpi: 1 }
-#
-#
-#Reviewer:
-#  0: {id: 1, review_id: 1, employee_number: 2, status: 1, reviewer_group_id: 1, completed_date: '2014-10-30', comment: 'Test Comment 1'}
-#  1: {id: 2, review_id: 1, employee_number: 1, status: 3, reviewer_group_id: 2, completed_date: '2014-10-30', comment: 'Test Comment 2'}
-#  2: {id: 3, review_id: 2, employee_number: 1, status: 3, reviewer_group_id: 1, completed_date: '2014-10-30', comment: 'Test Comment 3'}
-#
-#
-#ReviewerRating:
-#  0: {id: 1, rating: '5.5', kpi_id: 2, review_id: 1, reviewer_id: 1 ,comment: 'Test comment 1'}
-#  1: {id: 2, rating: '4', kpi_id: 3, review_id: 1, reviewer_id: 2 ,comment: 'Test comment 2'}
-#  2: {id: 3, rating: '2', kpi_id: 1, review_id: 2, reviewer_id: 1 ,comment: 'Test comment 3'}
-#
-#PerformanceTracker:
-#  0: {id: 1, emp_number: 1, added_date: '2011-12-12', status: 1, tracker_name : 'tracker1'}
-#  1: {id: 2, emp_number: 2, added_date: '2011-12-12', status: 1, tracker_name : 'tracker2'}
-#
-#PerformanceTrackerLog:
-#  0: {id: 1, performance_track_id: 1, reviewer_id: 2, added_date: '2011-12-12', status: 1,achievement: 1, comment: 'test comment by 2', log: 'log by 2',  modified_date: '2011-12-12'}
-#  1: {id: 2, performance_track_id: 2, reviewer_id: 3, added_date: '2011-12-12', status: 1,achievement: 2, comment: 'test comment by 3', log: 'log by 3',  modified_date: '2011-12-12'}
+LeaveComment:
+  - { "id": "1","leave_id": "1","created": "2021-09-15 19:56:38","created_by_id": "1","created_by_emp_number": "1","comments": "Cancelled upon request" }
+  - { "id": "2","leave_id": "1","created": "2021-09-15 19:58:30","created_by_id": "1","created_by_emp_number": "1","comments": "Rejected" }
+
+PerformanceReview:
+  0: {id: 1, status_id: 1,final_comment : 'last', final_rate: '2', employee_number: 1, work_period_start: '2011-01-01',completed_date: '2011-01-01',activated_date: '2011-01-02', work_period_end: '2011-01-01', job_title_code: 1, due_date: '2011-01-01',department_id : '1',}
+  1: {id: 2, status_id: 2,final_comment : 'last', final_rate: '2', employee_number: 1, work_period_start: '2011-01-01',completed_date: '2011-01-02',activated_date: '2011-01-03', work_period_end: '2011-01-01', job_title_code: 1, due_date: '2011-01-01',department_id : '1',}
+
+
+Kpi:
+  0: { id: 1, job_title_code: 1, kpi_indicators: 'Capacity Planning', min_rating: 1, max_rating: 100 }
+  1: { id: 2, job_title_code: 2, kpi_indicators: 'Code Clarity', min_rating: 1, max_rating: 10, default_kpi: 1 }
+  2: { id: 3, job_title_code: 3, kpi_indicators: 'Planning Methodologies', min_rating: 1, max_rating: 50, default_kpi: 1 }
+
+
+Reviewer:
+  0: {id: 1, review_id: 1, employee_number: 2, status: 1, reviewer_group_id: 1, completed_date: '2014-10-30', comment: 'Test Comment 1'}
+  1: {id: 2, review_id: 1, employee_number: 1, status: 3, reviewer_group_id: 2, completed_date: '2014-10-30', comment: 'Test Comment 2'}
+  2: {id: 3, review_id: 2, employee_number: 1, status: 3, reviewer_group_id: 1, completed_date: '2014-10-30', comment: 'Test Comment 3'}
+
+
+ReviewerRating:
+  0: {id: 1, rating: '5.5', kpi_id: 2, review_id: 1, reviewer_id: 1 ,comment: 'Test comment 1'}
+  1: {id: 2, rating: '4', kpi_id: 3, review_id: 1, reviewer_id: 2 ,comment: 'Test comment 2'}
+  2: {id: 3, rating: '2', kpi_id: 1, review_id: 2, reviewer_id: 1 ,comment: 'Test comment 3'}
+
+PerformanceTracker:
+  0: {id: 1, emp_number: 1, added_date: '2011-12-12', status: 1, tracker_name : 'tracker1'}
+  1: {id: 2, emp_number: 2, added_date: '2011-12-12', status: 1, tracker_name : 'tracker2'}
+
+PerformanceTrackerLog:
+  0: {id: 1, performance_track_id: 1, reviewer_id: 1, added_date: '2011-12-12', status: 1,achievement: 1, comment: 'test comment by 2', log: 'log by 2',  modified_date: '2011-12-12'}
+  1: {id: 2, performance_track_id: 2, reviewer_id: 2, added_date: '2011-12-12', status: 1,achievement: 2, comment: 'test comment by 3', log: 'log by 3',  modified_date: '2011-12-12'}

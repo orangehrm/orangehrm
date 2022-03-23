@@ -245,53 +245,53 @@ Entities :
           - {field: "subordinate" ,class: 'FormatWithEmployeeName' ,getter :['getSubordinate', 'getEmpNumber']}
           - {field: "reportingMethod"  ,getter :['getReportingMethod', 'getName']}
 
-# PerformanceReview:
-#    AccessStrategy:
-#      Basic:
-#        match_by:
-#          - {match: employee}
-#       parameters:
-#          - {field: "jobTitle" ,class: 'FormatWithJobTitle', getter: ['getJobTitle','getId']}
-#          - {field: "workPeriodStart" }
-#          - {field: "workPeriodEnd" }
-#          - {field: "department" ,getter: ['getDepartment','getName']}
-#          - {field: "dueDate" }
-#          - {field: "completedDate" }
-#          - {field: "activatedDate" }
-#          - {field: "finalComment" }
-#          - {field: "finalRate" }
-#
-#  ReviewerRating:
-#    AccessStrategy:
-#      Basic:
-#        match_by:
-#          - {match: reviewer, join: PerformanceReview}
-#        parameters:
-#          - {field: "kpi" ,getter: ['getKpi','getTitle']}
-#          - {field: "rating" }
-#          - {field: "comment" }
-#
-#  Reviewer:
-#    AccessStrategy:
-#      Basic:
-#        match_by:
-#          - {match: employee, join: PerformanceReview}
-#        parameters:
-#          - {field: "employee" }
-#          - {field: "completedDate" }
-#          - {field: "comment" }
-#
-#  PerformanceTrackerLog:
-#    AccessStrategy:
-#      Basic:
-#        match_by:
-#          - {match: employee, join: PerformanceTracker}
-#        parameters:
-#          - {field: "log" }
-#          - {field: "comment" }
-#          - {field: "achievement" ,class: 'FormatWithAchievement'}
-#          - {field: "added_date" }
-#          - {field: "modified_date" }
+  PerformanceReview:
+    AccessStrategy:
+      Basic:
+        match_by:
+          - {match: employee}
+        parameters:
+          - {field: "jobTitle" ,class: 'FormatWithJobTitle', getter: ['getJobTitle','getId']}
+          - {field: "workPeriodStart",class : 'FormatWithDate' }
+          - {field: "workPeriodEnd" ,class : 'FormatWithDate'}
+          - {field: "department" ,getter: ['getDepartment','getName']}
+          - {field: "dueDate" ,class : 'FormatWithDate'}
+          - {field: "completedDate",class : 'FormatWithDate' }
+          - {field: "activatedDate",class: 'FormatWithDateTime' }
+          - {field: "finalComment" }
+          - {field: "finalRate" }
+
+  ReviewerRating:
+    AccessStrategy:
+      Basic:
+        match_by:
+          - {match: reviewer, join: PerformanceReview}
+        parameters:
+          - {field: "kpi" ,getter: ['getKpi','getTitle']}
+          - {field: "rating" }
+          - {field: "comment" }
+
+  Reviewer:
+    AccessStrategy:
+      Basic:
+        match_by:
+          - {match: employee, join: PerformanceReview}
+        parameters:
+          - {field: "employee",class: 'FormatWithEmployeeName' ,getter :['getEmployee', 'getEmpNumber'] }
+          - {field: "completedDate",class: 'FormatWithDateTime' }
+          - {field: "comment" }
+
+  PerformanceTrackerLog:
+    AccessStrategy:
+      Basic:
+        match_by:
+          - {match: employee, join: PerformanceTracker}
+        parameters:
+          - {field: "log" }
+          - {field: "comment" }
+          - {field: "achievement" ,class: 'FormatWithAchievement'}
+          - {field: "addedDate" ,class: 'FormatWithDateTime'}
+          - {field: "modifiedDate",class: 'FormatWithDateTime' }
 
   LeaveRequestComment:
     AccessStrategy:
@@ -299,8 +299,8 @@ Entities :
         match_by:
           - {match: createdByEmployee, join: leaveRequest}
         parameters:
-          - {field: "createdAt", class: 'FormatWithDate'}
-          - {field: "createdBy"}
+          - {field: "createdAt", class: 'FormatWithDateTime'}
+          - {field: "createdBy", getter : ['getCreatedBy','getUserName']}
           - {field: "comment" }
 
   LeaveRequest:
@@ -311,7 +311,6 @@ Entities :
         parameters:
           - {field: "leaveType" , getter : ['getLeaveType','getName'] }
           - {field: "dateApplied" ,class : 'FormatWithDate'}
-#          - {field: "comments" }
 
   LeaveComment:
     AccessStrategy:
@@ -319,8 +318,8 @@ Entities :
         match_by:
           - {match: createdByEmployee, join: Leave}
         parameters:
-          - {field: "createdBy" }
-          - {field: "createdByEmployee" }
+          - {field: "createdBy", getter : ['getCreatedBy','getUserName'] }
+          - {field: "createdByEmployee", class: 'FormatWithEmployeeName' ,getter :['getCreatedByEmployee', 'getEmpNumber'] }
           - {field: "comment" }
 
   Leave:
