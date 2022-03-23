@@ -770,6 +770,7 @@ class LeaveEntitlementDao extends BaseDao
         LeaveTypeLeaveEntitlementUsageReportSearchFilterParams $filterParams
     ): Paginator {
         $q = $this->createQueryBuilder(Employee::class, 'employee');
+        $q->andWhere($q->expr()->isNull('employee.purgedAt'));
         $q->leftJoin('employee.locations', 'location');
         $this->setSortingAndPaginationParams($q, $filterParams);
 

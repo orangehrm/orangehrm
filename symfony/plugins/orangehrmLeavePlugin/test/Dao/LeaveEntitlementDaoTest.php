@@ -31,6 +31,7 @@ use OrangeHRM\Framework\Services;
 use OrangeHRM\Leave\Dao\LeaveEntitlementDao;
 use OrangeHRM\Leave\Dto\EmployeeLeaveEntitlementUsageReportSearchFilterParams;
 use OrangeHRM\Leave\Dto\LeaveEntitlementSearchFilterParams;
+use OrangeHRM\Leave\Dto\LeaveTypeLeaveEntitlementUsageReportSearchFilterParams;
 use OrangeHRM\Leave\Dto\LeaveWithDaysLeft;
 use OrangeHRM\Leave\Service\LeaveConfigurationService;
 use OrangeHRM\ORM\ListSorter;
@@ -766,5 +767,19 @@ class LeaveEntitlementDaoTest extends KernelTestCase
         $this->assertEquals('Medical', $result[4]->getName());
         $this->assertEquals('Wesak', $result[7]->getName());
         $this->assertEquals(8, $this->dao->getLeaveTypesCountForEntitlementUsageReport($filterParams));
+    }
+
+    public function testGetEmployeesForEntitlementUsageReportForPastEmployees(): void
+    {
+        $filterParams = new LeaveTypeLeaveEntitlementUsageReportSearchFilterParams();
+        $filterParams->setLeaveTypeId(1);
+        $filterParams->setIncludeEmployees('onlyPast');
+        $filterParams->setFromDate(new DateTime('2022-01-01'));
+        $filterParams->setToDate(new DateTime('2022-12-31'));
+
+        $employees = $this->dao->getEmployeesForEntitlementUsageReport($filterParams);
+
+        $this->assertCount(1, $employees);
+        $this->assertEquals('Kayla', $employees[0]->getFirstName());
     }
 }
