@@ -47,8 +47,15 @@ class getJobSpecificationJsonAction extends sfAction {
         $jobTitle = $this->getJobTitleService()->getJobTitleById($jobTitleId);
         $jobSpecAttachment =  $jobTitle->getJobSpecificationAttachment();
 
-        return $this->renderText(json_encode(array('specId' => $jobSpecAttachment->getId(), 'fileName' => $jobSpecAttachment->getFileName())));
+        return $this->renderText(
+            json_encode(
+                array(
+                    'specId' => $jobSpecAttachment->getId(),
+                    'fileName' => $jobSpecAttachment->getFileName(),
+                    'encodedFileName' => htmlspecialchars($jobSpecAttachment->getFileName()),
+                )
+            )
+        );
     }
 
 }
-
