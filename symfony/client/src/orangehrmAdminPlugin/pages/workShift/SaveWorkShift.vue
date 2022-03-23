@@ -24,7 +24,6 @@
       <oxd-text tag="h6" class="orangehrm-main-title">
         {{ $t('admin.add_work_shift') }}
       </oxd-text>
-
       <oxd-divider />
       <oxd-form :loading="isLoading" @submitValid="onSave">
         <oxd-form-row>

@@ -741,6 +741,7 @@ langStrings:
     value: 'Other Email'
     unitId: other_email
   -
+<<<<<<< HEAD
     value: 'Administrator Access'
     unitId: admin_access
   -
@@ -834,6 +835,8 @@ langStrings:
     value: 'Expected format: admin@example.com'
     unitId: expected_email_address_format_not_matched
   -
+=======
+>>>>>>> 9a7364cabb5b95bfb398b5b9a47aaedc521507bc
     value: 'Submit'
     unitId: submit
   -

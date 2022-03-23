@@ -21,9 +21,9 @@
 <template>
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
-      <oxd-text class="orangehrm-main-title">{{
-        $t('admin.email_configuration')
-      }}</oxd-text>
+      <oxd-text class="orangehrm-main-title">
+        {{ $t('admin.email_configuration') }}
+      </oxd-text>
 
       <oxd-divider />
 

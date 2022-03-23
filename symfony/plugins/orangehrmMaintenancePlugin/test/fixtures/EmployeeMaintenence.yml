@@ -1,3 +1,10 @@
+JobTitle:
+  0: {id: 1, job_title: 'Software Architect', is_deleted: 0}
+  1: {id: 2, job_title: 'Software Engineer', is_deleted: 0}
+  2: {id: 3, job_title: 'Quality Assuarance', is_deleted: 0}
+  3: {id: 4, job_title: 'Sales Person', is_deleted: 1}
+
+
 Nationality:
   0: { id: 1, name: 'nationality 1' }
   1: { id: 2, name: 'nationality 2' }
@@ -182,3 +189,32 @@ User:
   1: { id: 2, user_role_id: 3, emp_number: 1, user_name: 'yashika', user_password: 'yashika' }
   2: { id: 3, user_role_id: 1, emp_number: 3, user_name: 'Renukshan', user_password: 'Renukshan', status: 0 }
   3: { id: 4, user_role_id: 2, emp_number: 4, user_name: 'Chaturanga', user_password: 'Chaturanga', deleted: 1 }
+
+PerformanceReview:
+  0: {id: 1, status_id: 1, employee_number: 1, work_period_start: '2011-01-01', work_period_end: '2011-01-01', job_title_code: 1, due_date: '2011-01-01'}
+  1: {id: 2, status_id: 1, employee_number: 1, work_period_start: '2011-01-01', work_period_end: '2011-01-01', job_title_code: 1, due_date: '2011-01-01'}
+
+Kpi:
+  0: { id: 1, job_title_code: 1, kpi_indicators: 'Capacity Planning', min_rating: 1, max_rating: 100 }
+  1: { id: 2, job_title_code: 2, kpi_indicators: 'Code Clarity', min_rating: 1, max_rating: 10, default_kpi: 1 }
+  2: { id: 3, job_title_code: 3, kpi_indicators: 'Planning Methodologies', min_rating: 1, max_rating: 50, default_kpi: 1 }
+
+
+Reviewer:
+  0: {id: 1, review_id: 1, employee_number: 2, status: 1, reviewer_group_id: 1, completed_date: '2014-10-30', comment: 'Test Comment 1'}
+  1: {id: 2, review_id: 1, employee_number: 1, status: 3, reviewer_group_id: 2, completed_date: '2014-10-30', comment: 'Test Comment 2'}
+  2: {id: 3, review_id: 2, employee_number: 1, status: 3, reviewer_group_id: 1, completed_date: '2014-10-30', comment: 'Test Comment 3'}
+
+
+ReviewerRating:
+  0: {id: 1, rating: '5.5', kpi_id: 2, review_id: 1, reviewer_id: 1 ,comment: 'Test comment 1'}
+  1: {id: 2, rating: '4', kpi_id: 3, review_id: 1, reviewer_id: 2 ,comment: 'Test comment 2'}
+  2: {id: 3, rating: '2', kpi_id: 1, review_id: 2, reviewer_id: 1 ,comment: 'Test comment 3'}
+
+PerformanceTracker:
+  0: {id: 1, emp_number: 1, added_date: '2011-12-12', status: 1, tracker_name : 'tracker1'}
+  1: {id: 2, emp_number: 2, added_date: '2011-12-12', status: 1, tracker_name : 'tracker2'}
+
+PerformanceTrackerLog:
+  0: {id: 1, performance_track_id: 1, reviewer_id: 2, added_date: '2011-12-12', status: 1,achievement: 1, comment: 'test comment by 2', log: 'log by 2',  modified_date: '2011-12-12'}
+  1: {id: 2, performance_track_id: 2, reviewer_id: 3, added_date: '2011-12-12', status: 1,achievement: 2, comment: 'test comment by 3', log: 'log by 3',  modified_date: '2011-12-12'}
