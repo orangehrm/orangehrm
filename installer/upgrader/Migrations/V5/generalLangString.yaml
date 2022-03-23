@@ -807,7 +807,7 @@ langStrings:
     value: 'Bad Request'
     unitId: bad_request
   -
-    value: 'Accepts upto 1 mb'
+    value: 'Accepts upto 1 MB'
     unitId: file_upload_notice
   -
     value: 'Personal Details'
