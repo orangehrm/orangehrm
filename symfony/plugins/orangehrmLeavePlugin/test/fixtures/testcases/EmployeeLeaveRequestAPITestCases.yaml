@@ -824,7 +824,7 @@ GetAll:
       admin.user_service: \OrangeHRM\Admin\Service\UserService
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
     factories:
-      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getUserRoleManager' ]
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
       offset: 10
       limit: 1
@@ -1098,7 +1098,7 @@ GetAll:
       core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
     factories:
-      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getUserRoleManager' ]
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
       leaveTypeId: 1
       statuses: [ 1, 2, 3, 0 ]
@@ -1186,7 +1186,7 @@ GetAll:
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
       admin.company_structure_service: \OrangeHRM\Admin\Service\CompanyStructureService
     factories:
-      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getUserRoleManager' ]
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
       subunitId: 3
       statuses: [ 1, 2, 3, 0 ]
@@ -1273,7 +1273,7 @@ GetAll:
       leave.leave_period_service: \OrangeHRM\Leave\Service\LeavePeriodService
       core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
     factories:
-      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getUserRoleManager' ]
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
       includeEmployees: 'onlyPast'
       statuses: [ 1, 2, 3, 0 ]
@@ -1366,7 +1366,7 @@ GetAll:
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
       leave.leave_request_service: \OrangeHRM\Leave\Service\LeaveRequestService
     factories:
-      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getUserRoleManager' ]
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
       includeEmployees: 'onlyPast'
       statuses: [ 2 ]
