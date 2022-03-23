@@ -36,7 +36,9 @@
       :model-value="middleName"
       :rules="rules.middleName"
       :disabled="disabled"
-      :placeholder="middleNameProps ? middleName : $t('general.middle_name')"
+      :placeholder="
+        middleNamePlaceholder ? middleName : $t('general.middle_name')
+      "
       @update:modelValue="$emit('update:middleName', $event)"
     />
     <oxd-input-field
@@ -76,7 +78,7 @@ export default {
       type: Boolean,
       default: false,
     },
-    middleNameProps: {
+    middleNamePlaceholder: {
       type: Boolean,
       default: false,
     },
