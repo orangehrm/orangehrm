@@ -33,11 +33,10 @@
     <oxd-input-field
       class="orangehrm-middlename"
       name="Middle Name"
-      :placeholder="$t('general.middle_name')"
       :model-value="middleName"
       :rules="rules.middleName"
       :disabled="disabled"
-      :placeholder="showMiddleNamePlaceholder ? 'Middle Name' : ''"
+      :placeholder="showMiddleNamePlaceholder ? $t('general.middle_name') : ''"
       @update:modelValue="$emit('update:middleName', $event)"
     />
     <oxd-input-field
