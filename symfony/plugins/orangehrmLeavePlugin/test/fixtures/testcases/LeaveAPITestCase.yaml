@@ -19,6 +19,8 @@ GetAll:
   'get leaves':
     userId: 1
     services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
       leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
       leave.leave_request_service: \OrangeHRM\Leave\Service\LeaveRequestService
@@ -183,6 +185,8 @@ GetAll:
   'get leaves with offset & limit':
     userId: 1
     services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
       leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
       leave.leave_request_service: \OrangeHRM\Leave\Service\LeaveRequestService
