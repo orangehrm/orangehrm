@@ -69,9 +69,7 @@ Delete:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     body:
       empNumber: 7
-    exception:
-      class: '\OrangeHRM\Core\Api\V2\Exception\BadRequestException'
-      message: 'Employee Cannot Be Purged'
+    invalidOnly: [ 'empNumber' ]
 
   'with valid empNumber':
     userId: 1

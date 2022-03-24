@@ -45,7 +45,6 @@ GetOne:
       empNumber: 1
     invalidOnly: [ 'empNumber' ]
 
-  #TODO should not display purged emp details
   'with purged empNumber':
     userId: 1
     services:
@@ -56,14 +55,7 @@ GetOne:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     attributes:
       empNumber: 4
-    data: {
-      "empNumber": 4,
-      "lastName": "Employee",
-      "firstName": "Purged",
-      "middleName": "",
-      "employeeId": "0004",
-      "terminationId": 1
-    }
+    invalidOnly: [ 'empNumber' ]
 
   'with valid empNumber':
     userId: 1
