@@ -19,17 +19,24 @@
 
 namespace OrangeHRM\Leave\Controller;
 
+use OrangeHRM\Core\Controller\Common\NoRecordsFoundController;
+use OrangeHRM\Core\Controller\Exception\RequestForwardableException;
 use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Core\Vue\Component;
+use OrangeHRM\Entity\LeaveEntitlement;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Admin\Service\LocationService;
 use OrangeHRM\Admin\Service\CompanyStructureService;
 use OrangeHRM\Core\Controller\AbstractVueController;
+use OrangeHRM\Core\Traits\UserRoleManagerTrait;
+use OrangeHRM\Leave\Traits\Service\LeaveEntitlementServiceTrait;
 use OrangeHRM\Leave\Traits\Service\LeavePeriodServiceTrait;
 
 class SaveLeaveEntitlementController extends AbstractVueController
 {
     use LeavePeriodServiceTrait;
+    use LeaveEntitlementServiceTrait;
+    use UserRoleManagerTrait;
 
     protected ?CompanyStructureService $companyStructureService = null;
     protected ?LocationService $locationService = null;
@@ -65,6 +72,15 @@ class SaveLeaveEntitlementController extends AbstractVueController
         if ($id) {
             $component = new Component('leave-edit-entitlement');
             $component->addProp(new Prop('entitlement-id', Prop::TYPE_NUMBER, $id));
+            $leaveEntitlementRecord = $this->getLeaveEntitlementService()
+                ->getLeaveEntitlementDao()
+                ->getLeaveEntitlement($id);
+            if (!$leaveEntitlementRecord instanceof LeaveEntitlement ||
+                !$this->getUserRoleManagerHelper()->isEmployeeAccessible(
+                    $leaveEntitlementRecord->getEmployee()->getEmpNumber()
+                )) {
+                throw new RequestForwardableException(NoRecordsFoundController::class . '::handle');
+            }
         } else {
             $component = new Component('leave-add-entitlement');
         }
