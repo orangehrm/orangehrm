@@ -36,13 +36,12 @@ class DownloadFormatTest extends TestCase
         TestDataService::populate($this->fixture);
     }
 
-    public function testDownloadFileName():void
+    public function testDownloadFileName(): void
     {
         $fileName=$this->jsonDownloadFormat->getDownloadFileName(1);
         $this->assertEquals('Kayla T Abbey.json', $fileName);
 
         $fileName=$this->jsonDownloadFormat->getDownloadFileName(2);
-        $this->assertEquals('Ashley$ ST Abel (Past Employee).json', $fileName);
+        $this->assertEquals('Ashley£$ ST Abel (Past Employee).json', $fileName);
     }
-
 }
