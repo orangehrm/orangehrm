@@ -34,7 +34,7 @@ class SaveEmailSubscriptionController extends AbstractVueController
     {
         $id = $request->get('id');
         // TODO: throw error if id not set
-        if ($id) {
+        if ($request->attributes->has('id')) {
             $component = new Component('email-subscription-edit');
             $component->addProp(new Prop('subscription-id', Prop::TYPE_NUMBER, $id));
             $this->setComponent($component);

@@ -62,6 +62,7 @@
             label="Password"
             label-icon="key"
             type="password"
+            :rules="rules.password"
           />
         </oxd-form-row>
         <div class="orangehrm-admin-access-button-container">
@@ -88,6 +89,7 @@
 <script>
 import {urlFor} from '@ohrm/core/util/helper/url';
 import {navigate} from '@/core/util/helper/navigation';
+import {required} from '@/core/util/validation/rules';
 import Alert from '@ohrm/oxd/core/components/Alert/Alert';
 
 export default {
@@ -119,6 +121,9 @@ export default {
   data() {
     return {
       password: '',
+      rules: {
+        password: [required],
+      },
       noteClasses: {
         'orangehrm-admin-access-note': true,
         '--padding': this.error === null,

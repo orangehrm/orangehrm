@@ -29,7 +29,7 @@ class SaveTerminationReasonController extends AbstractVueController
     public function preRender(Request $request): void
     {
         $id = $request->get('id');
-        if ($id) {
+        if ($request->attributes->has('id')) {
             $component = new Component('termination-reason-edit');
             $component->addProp(new Prop('termination-reason-id', Prop::TYPE_NUMBER, $id));
         } else {

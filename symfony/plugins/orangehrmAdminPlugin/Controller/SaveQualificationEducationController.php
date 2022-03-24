@@ -29,7 +29,7 @@ class SaveQualificationEducationController extends AbstractVueController
     public function preRender(Request $request): void
     {
         $id = $request->get('id');
-        if ($id) {
+        if ($request->attributes->has('id')) {
             $component = new Component('qualification-education-edit');
             $component->addProp(new Prop('education-id', Prop::TYPE_NUMBER, $id));
         } else {

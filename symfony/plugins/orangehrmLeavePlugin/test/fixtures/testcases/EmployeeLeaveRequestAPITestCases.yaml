@@ -824,7 +824,7 @@ GetAll:
       admin.user_service: \OrangeHRM\Admin\Service\UserService
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
     factories:
-      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getUserRoleManager' ]
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
       offset: 10
       limit: 1
@@ -1090,6 +1090,8 @@ GetAll:
     now:
       datetime: '2021-09-19'
     services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
       leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
       leave.leave_request_service: \OrangeHRM\Leave\Service\LeaveRequestService
       leave.leave_entitlement_service: \OrangeHRM\Leave\Service\LeaveEntitlementService
@@ -1098,7 +1100,7 @@ GetAll:
       core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
     factories:
-      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getUserRoleManager' ]
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
       leaveTypeId: 1
       statuses: [ 1, 2, 3, 0 ]
@@ -1178,6 +1180,8 @@ GetAll:
     now:
       datetime: '2021-09-19'
     services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
       leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
       leave.leave_request_service: \OrangeHRM\Leave\Service\LeaveRequestService
       leave.leave_entitlement_service: \OrangeHRM\Leave\Service\LeaveEntitlementService
@@ -1186,7 +1190,7 @@ GetAll:
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
       admin.company_structure_service: \OrangeHRM\Admin\Service\CompanyStructureService
     factories:
-      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getUserRoleManager' ]
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
       subunitId: 3
       statuses: [ 1, 2, 3, 0 ]
@@ -1266,6 +1270,8 @@ GetAll:
     now:
       datetime: '2021-09-19'
     services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
       leave.leave_config_service: \OrangeHRM\Leave\Service\LeaveConfigurationService
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
       leave.leave_request_service: \OrangeHRM\Leave\Service\LeaveRequestService
@@ -1273,7 +1279,7 @@ GetAll:
       leave.leave_period_service: \OrangeHRM\Leave\Service\LeavePeriodService
       core.normalizer_service: \OrangeHRM\Core\Service\NormalizerService
     factories:
-      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getUserRoleManager' ]
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
     query:
       includeEmployees: 'onlyPast'
       statuses: [ 1, 2, 3, 0 ]
@@ -1357,3 +1363,21 @@ GetAll:
     ]
     meta:
       total: 1
+
+  filter to check for purged employee:
+    userId: 1
+    now:
+      datetime: '2021-01-01'
+    services:
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+      leave.leave_request_service: \OrangeHRM\Leave\Service\LeaveRequestService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    query:
+      includeEmployees: 'onlyPast'
+      statuses: [ 2 ]
+    data: [ ]
+    meta:
+      total: 0

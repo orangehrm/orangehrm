@@ -20,19 +20,37 @@
 namespace OrangeHRM\Leave\Controller;
 
 use OrangeHRM\Core\Controller\AbstractVueController;
+use OrangeHRM\Core\Controller\Common\NoRecordsFoundController;
+use OrangeHRM\Core\Controller\Exception\RequestForwardableException;
+use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
+use OrangeHRM\Entity\LeaveRequest;
 use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Leave\Traits\Service\LeaveRequestServiceTrait;
 
 class LeaveRequestController extends AbstractVueController
 {
+    use LeaveRequestServiceTrait;
+    use UserRoleManagerTrait;
+
     public function preRender(Request $request): void
     {
         $id = $request->get('id');
         $mode = $request->get('mode');
         // TODO: 404 if no id
-        if (!$id) {
+        if (!$request->attributes->has('id')) {
             die;
+        }
+
+        $leaveRequestRecord = $this->getLeaveRequestService()
+            ->getLeaveRequestDao()
+            ->getLeaveRequestById($id);
+        if (!$leaveRequestRecord instanceof LeaveRequest ||
+            !$this->getUserRoleManagerHelper()->isEmployeeAccessible(
+                $leaveRequestRecord->getEmployee()->getEmpNumber()
+            )) {
+            throw new RequestForwardableException(NoRecordsFoundController::class . '::handle');
         }
 
         $component = new Component('leave-view-request');

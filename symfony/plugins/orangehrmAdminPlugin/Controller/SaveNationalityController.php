@@ -29,7 +29,7 @@ class SaveNationalityController extends AbstractVueController
     public function preRender(Request $request): void
     {
         $id = $request->get('id');
-        if ($id) {
+        if ($request->attributes->has('id')) {
             $component = new Component('nationality-edit');
             $component->addProp(new Prop('nationality-id', Prop::TYPE_NUMBER, $id));
         } else {

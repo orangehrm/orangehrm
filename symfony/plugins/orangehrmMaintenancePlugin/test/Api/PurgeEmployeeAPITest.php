@@ -65,6 +65,8 @@ class PurgeEmployeeAPITest extends EndpointIntegrationTestCase
 
     public function testGetValidationRuleForDelete(): void
     {
+        $this->populateFixtures('PurgeEmployeeAPITest.yml');
+
         $testCaseParams = new TestCaseParams();
         $testCaseParams->setUserId(1);
         $this->createKernelWithMockServices([

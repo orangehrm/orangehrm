@@ -608,6 +608,8 @@ class LeaveRequestDao extends BaseDao
         }
         $q->addGroupBy('leaveRequest.id');
 
+        $q->andWhere($q->expr()->isNull('employee.purgedAt'));
+
         return $this->getPaginator($q);
     }
 
