@@ -46,6 +46,10 @@ class ViewEmployeeAttendanceController extends AbstractVueController
     {
         if ($request->query->has('employeeId')) {
             $empNumber = $request->query->getInt('employeeId');
+            $employee = $this->getEmployeeService()->getEmployeeDao()->getEmployeeByEmpNumber($empNumber);
+            if(!is_null($employee->getPurgedAt())){
+                throw new RequestForwardableException(NoRecordsFoundController::class . '::handle');
+            }
             if (!$this->getUserRoleManagerHelper()->isEmployeeAccessible($empNumber)) {
                 throw new RequestForwardableException(NoRecordsFoundController::class . '::handle');
             }

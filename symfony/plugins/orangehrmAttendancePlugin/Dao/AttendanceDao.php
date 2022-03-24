@@ -275,7 +275,10 @@ class AttendanceDao extends BaseDao
     public function getAttendanceRecordById(int $attendanceRecordId): ?AttendanceRecord
     {
         $attendanceRecord = $this->getRepository(AttendanceRecord::class)->find($attendanceRecordId);
-        return ($attendanceRecord instanceof AttendanceRecord) ? $attendanceRecord : null;
+        if(is_null($attendanceRecord->getEmployee()->getPurgedAt())){
+            return ($attendanceRecord instanceof AttendanceRecord) ? $attendanceRecord : null;
+        }
+        return null;
     }
 
     /**
@@ -456,6 +459,7 @@ class AttendanceDao extends BaseDao
             "SUM(TIME_DIFF(COALESCE(attendanceRecord.punchOutUtcTime, 0), COALESCE(attendanceRecord.punchInUtcTime, 0),'second')) AS total"
         );
         $q->groupBy('attendanceRecord.id');
+        $q->andWhere($q->expr()->isNull('employee.purgedAt'));
         return $this->getPaginator($q);
     }
 
@@ -563,6 +567,7 @@ class AttendanceDao extends BaseDao
         );
         $q->groupBy('employee.empNumber');
         $q->addOrderBy('total', ListSorter::DESCENDING);
+        $q->andWhere($q->expr()->isNull('employee.purgedAt'));
         return $this->getPaginator($q);
     }
 

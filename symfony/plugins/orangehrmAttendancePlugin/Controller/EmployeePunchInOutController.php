@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Attendance\Controller;
 
+use DoctrineProxies\__CG__\OrangeHRM\Entity\Employee;
 use OrangeHRM\Attendance\Traits\Service\AttendanceServiceTrait;
 use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Controller\Common\NoRecordsFoundController;
@@ -27,10 +28,12 @@ use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Entity\AttendanceRecord;
 use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Core\Controller\Exception\RequestForwardableException;
+use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
 
 class EmployeePunchInOutController extends AbstractVueController
 {
     use AttendanceServiceTrait;
+    use EmployeeServiceTrait;
 
     /**
      * @inheritDoc
@@ -39,6 +42,10 @@ class EmployeePunchInOutController extends AbstractVueController
     {
         if ($request->query->has('employeeId')) {
             $empNumber = $request->query->getInt('employeeId');
+            $employee = $this->getEmployeeService()->getEmployeeDao()->getEmployeeByEmpNumber($empNumber);
+            if(!is_null($employee->getPurgedAt())){
+                throw new RequestForwardableException(NoRecordsFoundController::class . '::handle');
+            }
             // check if previous record is a punch in.
             $attendanceRecord = $this->getAttendanceService()
                 ->getAttendanceDao()

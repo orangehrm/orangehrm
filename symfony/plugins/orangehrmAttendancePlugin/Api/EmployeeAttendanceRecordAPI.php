@@ -50,6 +50,7 @@ use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\AttendanceRecord;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\WorkflowStateMachine;
+use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
 
 class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
 {
@@ -58,6 +59,7 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
     use DateTimeHelperTrait;
     use UserRoleManagerTrait;
     use NumberHelperTrait;
+    use EmployeeServiceTrait;
 
     public const PARAMETER_DATE = 'date';
     public const PARAMETER_TIME = 'time';
@@ -159,6 +161,10 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
     {
         try {
             list($empNumber, $date, $time, $timezoneOffset, $timezoneName, $note) = $this->getCommonRequestParams();
+            $employee = $this->getEmployeeService()->getEmployeeDao()->getEmployeeByEmpNumber($empNumber);
+            if (is_null($employee->getPurgedAt())) {
+                throw $this->getForbiddenException();
+            }
             $allowedWorkflowItems = $this->getUserRoleManager()->getAllowedActions(
                 WorkflowStateMachine::FLOW_ATTENDANCE,
                 AttendanceRecord::STATE_INITIAL,
@@ -269,13 +275,14 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
      */
     protected function setPunchInAttendanceRecord(
         AttendanceRecord $attendanceRecord,
-        string $state,
-        DateTime $punchInUtcTime,
-        DateTime $punchInUserTime,
-        float $punchInTimezoneOffset,
-        string $punchInTimezoneName,
-        ?string $punchInNote
-    ): void {
+        string           $state,
+        DateTime         $punchInUtcTime,
+        DateTime         $punchInUserTime,
+        float            $punchInTimezoneOffset,
+        string           $punchInTimezoneName,
+        ?string          $punchInNote
+    ): void
+    {
         $attendanceRecord->setState($state);
         $attendanceRecord->setPunchInUtcTime($punchInUtcTime);
         $attendanceRecord->setPunchInUserTime($punchInUserTime);
@@ -358,7 +365,7 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
                 ->getAttendanceDao()
                 ->getAttendanceRecordsByEmpNumberAndIds($attendanceRecordOwnedEmpNumber, $attendanceRecordIds);
             $userAllowedAttendanceRecordIds = array_map(
-                fn (AttendanceRecord $attendanceRecord) => $attendanceRecord->getId(),
+                fn(AttendanceRecord $attendanceRecord) => $attendanceRecord->getId(),
                 $userAllowedAttendanceRecords
             );
             if (count($userAllowedAttendanceRecordIds) !== count($attendanceRecordIds)) {
@@ -377,6 +384,10 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
      */
     private function isAuthUserAllowedToPerformDeleteActions(int $attendanceRecordOwnedEmpNumber): bool
     {
+        $employee = $this->getEmployeeService()->getEmployeeDao()->getEmployeeByEmpNumber($attendanceRecordOwnedEmpNumber);
+        if (is_null($employee->getPurgedAt())) {
+            return false;
+        }
         $loggedInUserEmpNumber = $this->getAuthUser()->getEmpNumber();
         $rolesToInclude = [];
         //check the configuration as ESS since Admin user is always allowed to delete self records
@@ -443,6 +454,10 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
     {
         try {
             list($empNumber, $date, $time, $timezoneOffset, $timezoneName, $note) = $this->getCommonRequestParams();
+            $employee = $this->getEmployeeService()->getEmployeeDao()->getEmployeeByEmpNumber($empNumber);
+            if (is_null($employee->getPurgedAt())) {
+                throw $this->getForbiddenException();
+            }
             $allowedWorkflowItems = $this->getUserRoleManager()->getAllowedActions(
                 WorkflowStateMachine::FLOW_ATTENDANCE,
                 AttendanceRecord::STATE_PUNCHED_IN,
@@ -509,13 +524,14 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
      */
     protected function setPunchOutAttendanceRecord(
         AttendanceRecord $attendanceRecord,
-        string $state,
-        DateTime $punchOutUtcTime,
-        DateTime $punchOutUserTime,
-        float $punchOutTimezoneOffset,
-        string $punchOutTimezoneName,
-        ?string $punchOutNote
-    ): void {
+        string           $state,
+        DateTime         $punchOutUtcTime,
+        DateTime         $punchOutUserTime,
+        float            $punchOutTimezoneOffset,
+        string           $punchOutTimezoneName,
+        ?string          $punchOutNote
+    ): void
+    {
         $attendanceRecord->setState($state);
         $attendanceRecord->setPunchOutUtcTime($punchOutUtcTime);
         $attendanceRecord->setPunchOutUserTime($punchOutUserTime);

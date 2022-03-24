@@ -237,6 +237,13 @@ class AttendanceDaoTest extends KernelTestCase
         $this->assertNull($attendanceRecords[0]['terminationId']);
         $this->assertEquals(1, $attendanceRecordCount);
         $this->assertNull($attendanceRecordDuration['total']);
+
+        $attendanceRecordSearchFilterParams2 = new AttendanceRecordSearchFilterParams();
+        $attendanceRecordSearchFilterParams2->setFromDate(new DateTime("2011-04-21 00:00:00"));
+        $attendanceRecordSearchFilterParams2->setToDate(new DateTime("2011-04-21 23:59:59"));
+        $attendanceRecordSearchFilterParams2->setEmployeeNumbers([6]);
+        $attendanceRecord2 = $this->attendanceDao->getAttendanceRecordList($attendanceRecordSearchFilterParams2);
+        $this->assertEmpty($attendanceRecord2);
     }
 
     public function testEmployeeAttendanceSummaryList(): void
@@ -251,7 +258,6 @@ class AttendanceDaoTest extends KernelTestCase
         $attendanceRecordCount = $this->attendanceDao->getEmployeeAttendanceSummaryListCount(
             $employeeAttendanceSummarySearchFilterParams
         );
-
         $this->assertEquals("Kayla", $attendanceRecords[0]['firstName']);
         $this->assertEquals("Abbey", $attendanceRecords[0]['lastName']);
         $this->assertEquals(1, $attendanceRecords[0]['empNumber']);
