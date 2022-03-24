@@ -22,6 +22,7 @@ namespace OrangeHRM\Tests\Leave\Dao;
 use DateTime;
 use Generator;
 use OrangeHRM\Config\Config;
+use OrangeHRM\Core\Service\NumberHelperService;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\LeaveEntitlement;
 use OrangeHRM\Entity\LeaveEntitlementType;
@@ -57,6 +58,9 @@ class LeaveEntitlementDaoTest extends KernelTestCase
     {
         $this->dao = new LeaveEntitlementDao();
         $this->fixture = $this->getFixturePath();
+        $this->createKernelWithMockServices(
+            [Services::NUMBER_HELPER_SERVICE => new NumberHelperService()]
+        );
         TestDataService::populate($this->fixture);
     }
 
@@ -76,15 +80,16 @@ class LeaveEntitlementDaoTest extends KernelTestCase
             $entitlementList[5],
             $entitlementList[1],
             $entitlementList[6],
+            $entitlementList[7]
         ];
         $results = $this->dao->getLeaveEntitlements($parameterHolder);
         $this->_compareEntitlements($expected, $results);
 
         $total = $this->dao->getLeaveEntitlementsCount($parameterHolder);
-        $this->assertEquals(6, $total);
+        $this->assertEquals(7, $total);
 
         $sum = $this->dao->getLeaveEntitlementsSum($parameterHolder);
-        $this->assertEquals(20, $sum);
+        $this->assertEquals(27, $sum);
     }
 
     public function testSearchLeaveEntitlementsSorting(): void
@@ -103,6 +108,7 @@ class LeaveEntitlementDaoTest extends KernelTestCase
             $entitlementList[6],
             $entitlementList[0],
             $entitlementList[5],
+            $entitlementList[7]
         ];
         $results = $this->dao->getLeaveEntitlements($parameterHolder);
         $this->_compareEntitlements($expected, $results);
