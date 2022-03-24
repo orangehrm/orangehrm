@@ -69,7 +69,7 @@ class SaveLeaveEntitlementController extends AbstractVueController
     public function preRender(Request $request): void
     {
         $id = $request->get('id');
-        if ($id) {
+        if ($request->attributes->has('id')) {
             $component = new Component('leave-edit-entitlement');
             $component->addProp(new Prop('entitlement-id', Prop::TYPE_NUMBER, $id));
             $leaveEntitlementRecord = $this->getLeaveEntitlementService()

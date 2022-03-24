@@ -36,7 +36,7 @@ class SaveLocationController extends BaseAdminController
     public function preRender(Request $request): void
     {
         $id = $request->get('id');
-        if ($id) {
+        if ($request->attributes->has('id')) {
             $component = new Component('location-edit');
             $component->addProp(new Prop('location-id', Prop::TYPE_NUMBER, $id));
         } else {

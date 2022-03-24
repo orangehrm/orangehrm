@@ -35,7 +35,7 @@ class SaveWorkShiftController extends AbstractVueController
     public function preRender(Request $request): void
     {
         $id = $request->get('id');
-        if ($id) {
+        if ($request->attributes->has('id')) {
             $component = new Component('work-shift-edit');
             $component->addProp(new Prop('work-shift-id', Prop::TYPE_NUMBER, $id));
         } else {

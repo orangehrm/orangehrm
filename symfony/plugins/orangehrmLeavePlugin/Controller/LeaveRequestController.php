@@ -39,7 +39,7 @@ class LeaveRequestController extends AbstractVueController
         $id = $request->get('id');
         $mode = $request->get('mode');
         // TODO: 404 if no id
-        if (!$id) {
+        if (!$request->attributes->has('id')) {
             die;
         }
 
