@@ -38,7 +38,7 @@ class AccessEmployeeFileController extends AbstractFileController
      * @var MaintenanceService|null
      */
     protected ?MaintenanceService $maintenanceService = null;
-    protected ?JsonDownloadFormat $downloadFormat=null;
+    protected ?JsonDownloadFormat $downloadFormat = null;
 
     /**
      * @return MaintenanceService
@@ -51,6 +51,7 @@ class AccessEmployeeFileController extends AbstractFileController
         }
         return $this->downloadFormat;
     }
+
     public function getMaintenanceService(): MaintenanceService
     {
         if (!$this->maintenanceService instanceof MaintenanceService) {
@@ -73,7 +74,9 @@ class AccessEmployeeFileController extends AbstractFileController
         $response = $this->getResponse();
 
         if ($empNumber) {
-            $content = json_encode($this->getMaintenanceService()->accessEmployeeData($empNumber));
+            $content = $this->getDownloadFormat()->getFormattedString(
+                $this->getMaintenanceService()->accessEmployeeData($empNumber)
+            );
             $this->setCommonHeadersToResponse(
                 $this->getDownloadFormat()->getDownloadFileName($empNumber),
                 'application/json',

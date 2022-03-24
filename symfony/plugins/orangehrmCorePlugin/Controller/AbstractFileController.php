@@ -57,10 +57,8 @@ abstract class AbstractFileController extends AbstractController
      */
     protected function makeAttachmentDisposition(string $filename): string
     {
-        return HeaderUtils::makeDisposition(
-            HeaderUtils::DISPOSITION_ATTACHMENT,
-            $filename
-        );
+        $params['filename*'] = "utf-8''" . rawurlencode($filename);
+        return HeaderUtils::DISPOSITION_ATTACHMENT . '; ' . HeaderUtils::toString($params, ';');
     }
 
     /**

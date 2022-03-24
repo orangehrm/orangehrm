@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Maintenance\DownloadFormats;
 
+use OrangeHRM\Entity\EmployeeTerminationRecord;
 use OrangeHRM\Pim\Service\EmployeeService;
 
 /**
@@ -36,17 +37,20 @@ abstract class DownloadFormat
      * @param $empNumber
      * @return string
      */
-    public function getDownloadFileName($empNumber)
+    public function getDownloadFileName($empNumber): string
     {
         $employee = $this->getEmployeeService()->getEmployeeByEmpNumber($empNumber);
-        $fileName = $employee->getDecorator()->getFirstAndLastNames(). '.json';
-        return $fileName;
+        $pastEmployee = "";
+        if ($employee->getEmployeeTerminationRecord() instanceof EmployeeTerminationRecord) {
+            $pastEmployee = " (Past Employee)";
+        }
+        return $employee->getDecorator()->getFullName() . $pastEmployee . '.json';
     }
 
     /**
      * @return EmployeeService
      */
-    public function getEmployeeService()
+    public function getEmployeeService(): EmployeeService
     {
         if (!isset($this->employeeService)) {
             $this->employeeService = new EmployeeService();

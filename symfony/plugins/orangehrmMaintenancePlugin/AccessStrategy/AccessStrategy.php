@@ -27,7 +27,7 @@ abstract class AccessStrategy
     protected ?string $entityClassName = null;
     protected array $matchByArray = [];
     protected array $matchingCriteria = [];
-    protected ?MaintenanceService  $maintenanceService = null;
+    protected ?MaintenanceService $maintenanceService = null;
     protected $getRealValueClass = null;
 
     /**
@@ -63,7 +63,7 @@ abstract class AccessStrategy
     /**
      * @param array $parametersArray
      */
-    public function setParameters(array  $parametersArray)
+    public function setParameters(array $parametersArray)
     {
         $this->parameters = $parametersArray;
     }
@@ -153,7 +153,7 @@ abstract class AccessStrategy
      */
     public function getFormattedValue($accessClassName, $currentValue)
     {
-        $accessClassName='OrangeHRM\Maintenance\AccessStrategy\FormatValue'."\\".$accessClassName;
+        $accessClassName = 'OrangeHRM\\Maintenance\\AccessStrategy\\FormatValue\\' . $accessClassName;
         $this->getRealValueClass = new  $accessClassName();
         return $this->getRealValueClass->getFormattedValue($currentValue);
     }
@@ -168,11 +168,11 @@ abstract class AccessStrategy
         $data = [];
 
         foreach ($parameters as $field) {
-            $columnName=$field['field'];
+            $columnName = $field['field'];
             if (isset($field['getter'])) {
                 $getterMethod = $field['getter'];
             } else {
-                $getterMethod = 'get'.ucfirst($columnName);
+                $getterMethod = 'get' . ucfirst($columnName);
             }
 
             if (is_array($getterMethod)) {
@@ -187,11 +187,13 @@ abstract class AccessStrategy
                 $value = $accessEntity->$getterMethod();
             }
 
-            if (!is_null($value) || $value != "") {
+            if (!is_null($value) && $value !== "") {
                 if (isset($field['class'])) {
                     $value = $this->getFormattedValue($field['class'], $value);
                 }
-                $data[$columnName] = $value;
+                if (!is_null($value)) {
+                    $data[$columnName] = $value;
+                }
             }
         }
 

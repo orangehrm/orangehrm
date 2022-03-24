@@ -30,10 +30,13 @@ use OrangeHRM\Tests\Util\TestDataService;
  */
 class EmployeeTest extends EntityTestCase
 {
-    public function testEmployeeEntityWithNationality(): void
+    protected function setUp(): void
     {
         TestDataService::truncateSpecificTables([Employee::class, Nationality::class]);
+    }
 
+    public function testEmployeeEntityWithNationality(): void
+    {
         $employee = new Employee();
         $employee->setFirstName('Kayla');
         $employee->setLastName('Abbey');
@@ -60,5 +63,21 @@ class EmployeeTest extends EntityTestCase
         $this->assertEquals('0001', $employee->getEmployeeId());
         $this->assertEquals('Afghan', $employee->getNationality()->getName());
         $this->assertEquals(1, $employee->getNationality()->getId());
+    }
+
+    public function testEmployeeDetailsTrim(): void
+    {
+        TestDataService::truncateSpecificTables([Employee::class, Nationality::class]);
+
+        $employee = new Employee();
+        $employee->setFirstName('Kayla   ');
+        $employee->setLastName(' junior ');
+        $employee->setMiddleName('Abbey ');
+        $employee->setEmployeeId('0001');
+        $this->persist($employee);
+
+        /** @var Employee $employee */
+        $employee = $this->getRepository(Employee::class)->find(1);
+        $this->assertEquals('Kayla Abbey junior', $employee->getDecorator()->getFullName());
     }
 }
