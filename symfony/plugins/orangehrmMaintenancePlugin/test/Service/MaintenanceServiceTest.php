@@ -50,18 +50,15 @@ class MaintenanceServiceTest extends KernelTestCase
     {
         $result=$this->maintenanceService->accessEmployeeData(1);
         $this->assertEquals('Kayla', $result['Employee'][0]['firstName']);
-        $this->assertEquals('test_file.jpg', $result['EmpPicture'][0]['filename']);
-        $this->assertEquals('attachment.txt', $result['EmployeeAttachment'][0]['filename']);
-        $this->assertEquals('Yasitha', $result['EmpEmergencyContact'][0]['name']);
-        $this->assertEquals('friend', $result['EmpDependent'][0]['relationship']);
-        $this->assertEquals('HVN0003472', $result['EmployeeImmigrationRecord'][0]['number']);
-        $this->assertEquals('SE', $result['EmpWorkExperience'][0]['jobTitle']);
-        $this->assertEquals('LKR', $result['EmployeeSalary'][0]['currencyType']);
+        $this->assertEquals('Abbey', $result['Employee'][0]['lastName']);
+        $this->assertEquals('T', $result['Employee'][0]['middleName']);
+        $this->assertEquals('E001', $result['Employee'][0]['employeeId']);
+        $this->assertEquals('sd', $result['Employee'][0]['nickName']);
+        $this->assertEquals('Smoker', $result['Employee'][0]['smoker']);
+        $this->assertEquals('Male', $result['Employee'][0]['gender']);
+        $this->assertEquals('2022-02-01', $result['Employee'][0]['joinedDate']);
 
         $this->assertCount(1, $result['Employee']);
-        $this->assertCount(2, $result['PerformanceReview']);
-        $this->assertCount(2, $result['ReviewerRating']);
-        $this->assertCount(2, $result['Reviewer']);
     }
 
     public function testReportTo(): void

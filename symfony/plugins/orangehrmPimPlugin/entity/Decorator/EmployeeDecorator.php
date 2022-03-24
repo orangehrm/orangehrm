@@ -210,6 +210,6 @@ class EmployeeDecorator
      */
     public function getFullName(): string
     {
-        return $this->getEmployee()->getFirstName() . ' ' . $this->getEmployee()->getMiddleName() . ' ' . $this->getEmployee()->getLastName();
+        return trim($this->getEmployee()->getFirstName()) . ' ' . trim($this->getEmployee()->getMiddleName()) . ' ' . trim($this->getEmployee()->getLastName());
     }
 }

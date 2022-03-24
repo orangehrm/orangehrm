@@ -36,7 +36,7 @@
       :model-value="middleName"
       :rules="rules.middleName"
       :disabled="disabled"
-      v-bind="middleNameProps"
+      :placeholder="showMiddleNamePlaceholder ? 'Middle Name' : ''"
       @update:modelValue="$emit('update:middleName', $event)"
     />
     <oxd-input-field
@@ -76,11 +76,9 @@ export default {
       type: Boolean,
       default: false,
     },
-    middleNameProps: {
-      type: Object,
-      default: () => ({
-        placeholder: 'Middle Name',
-      }),
+    showMiddleNamePlaceholder: {
+      type: Boolean,
+      default: true,
     },
   },
   emits: ['update:firstName', 'update:middleName', 'update:lastName'],

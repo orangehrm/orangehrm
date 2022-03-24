@@ -54,7 +54,7 @@ abstract class DownloadFormat
             $pastEmployee = " (Past Employee)";
         }
         return $this->removeNonAsciiCharacters(
-            $employee->getDecorator()->getFirstAndLastNames() . $pastEmployee . '.json'
+            $employee->getDecorator()->getFullName() . $pastEmployee . '.json'
         );
     }
 
