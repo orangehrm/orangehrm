@@ -42,7 +42,7 @@ class EmployeeTimesheetController extends AbstractVueController
         if ($request->attributes->has('id')) {
             $empNumber = $request->attributes->getInt('id');
             $employee = $this->getEmployeeService()->getEmployeeDao()->getEmployeeByEmpNumber($empNumber);
-            if(!is_null($employee->getPurgedAt())){
+            if (!is_null($employee->getPurgedAt())) {
                 throw new RequestForwardableException(NoRecordsFoundController::class . '::handle');
             }
             if (!$this->getUserRoleManagerHelper()->isEmployeeAccessible($empNumber)) {

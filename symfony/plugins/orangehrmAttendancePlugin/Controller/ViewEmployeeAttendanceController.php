@@ -19,16 +19,16 @@
 
 namespace OrangeHRM\Attendance\Controller;
 
+use OrangeHRM\Attendance\Traits\Service\AttendanceServiceTrait;
 use OrangeHRM\Core\Controller\AbstractVueController;
+use OrangeHRM\Core\Controller\Common\NoRecordsFoundController;
+use OrangeHRM\Core\Controller\Exception\RequestForwardableException;
+use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
+use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
-use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
-use OrangeHRM\Core\Controller\Common\NoRecordsFoundController;
-use OrangeHRM\Attendance\Traits\Service\AttendanceServiceTrait;
-use OrangeHRM\Core\Controller\Exception\RequestForwardableException;
 
 class ViewEmployeeAttendanceController extends AbstractVueController
 {
@@ -47,7 +47,7 @@ class ViewEmployeeAttendanceController extends AbstractVueController
         if ($request->query->has('employeeId')) {
             $empNumber = $request->query->getInt('employeeId');
             $employee = $this->getEmployeeService()->getEmployeeDao()->getEmployeeByEmpNumber($empNumber);
-            if(!is_null($employee->getPurgedAt())){
+            if (!is_null($employee->getPurgedAt())) {
                 throw new RequestForwardableException(NoRecordsFoundController::class . '::handle');
             }
             if (!$this->getUserRoleManagerHelper()->isEmployeeAccessible($empNumber)) {

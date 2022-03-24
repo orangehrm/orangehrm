@@ -46,7 +46,7 @@ class TimesheetDao extends BaseDao
     public function getTimesheetById(int $timesheetId): ?Timesheet
     {
         $timesheet = $this->getRepository(Timesheet::class)->find($timesheetId);
-        if(is_null($timesheet->getEmployee()->getPurgedAt())){
+        if (is_null($timesheet->getEmployee()->getPurgedAt())) {
             return $timesheet;
         }
         return null;
@@ -70,7 +70,8 @@ class TimesheetDao extends BaseDao
     public function getTimesheetItemByTimesheetIdAndTimesheetItemId(
         int $timesheetId,
         int $timesheetItemId
-    ): ?TimesheetItem {
+    ): ?TimesheetItem
+    {
         $timesheetItem = $this->getRepository(TimesheetItem::class)
             ->findOneBy(['id' => $timesheetItemId, 'timesheet' => $timesheetId]);
         return ($timesheetItem instanceof TimesheetItem) ? $timesheetItem : null;
@@ -131,9 +132,10 @@ class TimesheetDao extends BaseDao
      * @return TimesheetActionLog[]
      */
     public function getTimesheetActionLogs(
-        int $timesheetId,
+        int                                  $timesheetId,
         TimesheetActionLogSearchFilterParams $timesheetActionLogParamHolder
-    ): array {
+    ): array
+    {
         $qb = $this->getTimesheetActionLogsPaginator($timesheetId, $timesheetActionLogParamHolder);
         return $qb->getQuery()->execute();
     }
@@ -144,9 +146,10 @@ class TimesheetDao extends BaseDao
      * @return Paginator
      */
     protected function getTimesheetActionLogsPaginator(
-        int $timesheetId,
+        int                                  $timesheetId,
         TimesheetActionLogSearchFilterParams $timesheetActionLogParamHolder
-    ): Paginator {
+    ): Paginator
+    {
         $qb = $this->createQueryBuilder(TimesheetActionLog::class, 'timesheetActionLog');
         $qb->leftJoin('timesheetActionLog.timesheet', 'timesheet');
 
@@ -166,7 +169,8 @@ class TimesheetDao extends BaseDao
     public function getTimesheetActionLogsCount(
         $timesheetId,
         TimesheetActionLogSearchFilterParams $timesheetActionLogParamHolder
-    ): int {
+    ): int
+    {
         return $this->getTimesheetActionLogsPaginator($timesheetId, $timesheetActionLogParamHolder)->count();
     }
 
@@ -176,7 +180,8 @@ class TimesheetDao extends BaseDao
      */
     public function getTimesheetByStartAndEndDate(
         TimesheetSearchFilterParams $timesheetParamHolder
-    ): array {
+    ): array
+    {
         $qb = $this->getTimesheetPaginator(
             $timesheetParamHolder,
         );
@@ -189,7 +194,8 @@ class TimesheetDao extends BaseDao
      */
     private function getTimesheetPaginator(
         TimesheetSearchFilterParams $timesheetParamHolder
-    ): Paginator {
+    ): Paginator
+    {
         $qb = $this->createQueryBuilder(Timesheet::class, 'timesheet');
 
         $this->setSortingAndPaginationParams($qb, $timesheetParamHolder);
@@ -331,7 +337,8 @@ class TimesheetDao extends BaseDao
         int $timesheetId,
         int $activityId,
         int $projectId
-    ): bool {
+    ): bool
+    {
         $qb = $this->createQueryBuilder(TimesheetItem::class, 'timesheetItem');
         $qb->andWhere('timesheetItem.timesheet = :timesheetId');
         $qb->setParameter('timesheetId', $timesheetId);
@@ -349,7 +356,8 @@ class TimesheetDao extends BaseDao
      */
     public function getEmployeeTimesheetList(
         EmployeeTimesheetListSearchFilterParams $employeeTimesheetActionSearchFilterParams
-    ): array {
+    ): array
+    {
         $paginator = $this->getEmployeeTimesheetPaginator($employeeTimesheetActionSearchFilterParams);
         return $paginator->getQuery()->execute();
     }
@@ -360,7 +368,8 @@ class TimesheetDao extends BaseDao
      */
     public function getEmployeeTimesheetPaginator(
         EmployeeTimesheetListSearchFilterParams $employeeTimesheetActionSearchFilterParams
-    ): Paginator {
+    ): Paginator
+    {
         $q = $this->createQueryBuilder(Timesheet::class, 'timesheet');
         $q->leftJoin('timesheet.employee', 'employee');
 
@@ -385,7 +394,8 @@ class TimesheetDao extends BaseDao
      */
     public function getEmployeeTimesheetListCount(
         EmployeeTimesheetListSearchFilterParams $employeeTimesheetActionSearchFilterParams
-    ): int {
+    ): int
+    {
         $paginator = $this->getEmployeeTimesheetPaginator($employeeTimesheetActionSearchFilterParams);
         return $paginator->count();
     }
@@ -396,13 +406,14 @@ class TimesheetDao extends BaseDao
      */
     public function getDefaultTimesheet(
         DefaultTimesheetSearchFilterParams $defaultTimesheetSearchFilterParams
-    ): ?Timesheet {
+    ): ?Timesheet
+    {
         $qb = $this->createQueryBuilder(Timesheet::class, 'timesheet');
         $qb->andWhere('timesheet.employee = :empNumber');
         $qb->setParameter('empNumber', $defaultTimesheetSearchFilterParams->getEmpNumber());
         if (!is_null($defaultTimesheetSearchFilterParams->getFromDate()) && !is_null(
-            $defaultTimesheetSearchFilterParams->getToDate()
-        )) {
+                $defaultTimesheetSearchFilterParams->getToDate()
+            )) {
             $qb->andWhere('timesheet.startDate = :fromDate');
             $qb->setParameter('fromDate', $defaultTimesheetSearchFilterParams->getFromDate());
             $qb->andWhere('timesheet.endDate = :toDate');
@@ -415,31 +426,24 @@ class TimesheetDao extends BaseDao
     }
 
     /**
-     * @param  EmployeeReportsSearchFilterParams  $filterParams
+     * @param EmployeeReportsSearchFilterParams $filterParams
      * @return array
      */
     public function getTimesheetItemsForEmployeeReport(
         EmployeeReportsSearchFilterParams $filterParams
-    ): array {
+    ): array
+    {
         return $this->getTimesheetItemsPaginatorForEmployeeReport($filterParams)->getQuery()->execute();
     }
 
     /**
-     * @param  EmployeeReportsSearchFilterParams  $filterParams
-     * @return int
-     */
-    public function getTimesheetItemsCountForEmployeeReport(EmployeeReportsSearchFilterParams $filterParams): int
-    {
-        return $this->getTimesheetItemsPaginatorForEmployeeReport($filterParams)->count();
-    }
-
-    /**
-     * @param  EmployeeReportsSearchFilterParams  $filterParams
+     * @param EmployeeReportsSearchFilterParams $filterParams
      * @return Paginator
      */
     private function getTimesheetItemsPaginatorForEmployeeReport(
         EmployeeReportsSearchFilterParams $filterParams
-    ): Paginator {
+    ): Paginator
+    {
         $qb = $this->getTimesheetItemsForEmployeeReportQueryBuilderWrapper($filterParams)->getQueryBuilder();
         $qb->addSelect('COALESCE(SUM(timesheetItem.duration),0) AS totalDurationByGroup');
         $qb->addGroupBy('timesheetItem.project');
@@ -448,12 +452,13 @@ class TimesheetDao extends BaseDao
     }
 
     /**
-     * @param  EmployeeReportsSearchFilterParams  $filterParams
+     * @param EmployeeReportsSearchFilterParams $filterParams
      * @return QueryBuilderWrapper
      */
     private function getTimesheetItemsForEmployeeReportQueryBuilderWrapper(
         EmployeeReportsSearchFilterParams $filterParams
-    ): QueryBuilderWrapper {
+    ): QueryBuilderWrapper
+    {
         $q = $this->createQueryBuilder(TimesheetItem::class, 'timesheetItem');
         $q->leftJoin('timesheetItem.timesheet', 'timesheet');
         $q->leftJoin('timesheetItem.projectActivity', 'projectActivity');
@@ -478,21 +483,17 @@ class TimesheetDao extends BaseDao
             $q->andWhere($q->expr()->between('timesheetItem.date', ':fromDate', ':toDate'));
             $q->setParameter('fromDate', $filterParams->getFromDate());
             $q->setParameter('toDate', $filterParams->getToDate());
-        }
-        //Timesheet items after fromDate (including fromDate)
+        } //Timesheet items after fromDate (including fromDate)
         elseif (!is_null($filterParams->getFromDate())) {
             $q->andWhere($q->expr()->gte('timesheetItem.date', ':fromDate'));
             $q->setParameter('fromDate', $filterParams->getFromDate());
-        }
-
-        //Timesheet items before toDate (including toDate)
+        } //Timesheet items before toDate (including toDate)
         elseif (!is_null($filterParams->getToDate())) {
             $q->andWhere($q->expr()->lte('timesheetItem.date', ':toDate'));
             $q->setParameter('toDate', $filterParams->getToDate());
         }
 
-        if ($filterParams->getIncludeTimesheets(
-            ) === EmployeeReportsSearchFilterParams::INCLUDE_TIMESHEETS_APPROVED_ONLY) {
+        if ($filterParams->getIncludeTimesheets() === EmployeeReportsSearchFilterParams::INCLUDE_TIMESHEETS_APPROVED_ONLY) {
             $q->andWhere('timesheet.state = :state');
             $q->setParameter('state', EmployeeReportsSearchFilterParams::TIMESHEET_APPROVED_STATE);
         }
@@ -505,7 +506,16 @@ class TimesheetDao extends BaseDao
     }
 
     /**
-     * @param  EmployeeReportsSearchFilterParams  $filterParams
+     * @param EmployeeReportsSearchFilterParams $filterParams
+     * @return int
+     */
+    public function getTimesheetItemsCountForEmployeeReport(EmployeeReportsSearchFilterParams $filterParams): int
+    {
+        return $this->getTimesheetItemsPaginatorForEmployeeReport($filterParams)->count();
+    }
+
+    /**
+     * @param EmployeeReportsSearchFilterParams $filterParams
      * @return int
      */
     public function getTotalDurationForEmployeeReport(EmployeeReportsSearchFilterParams $filterParams): int
@@ -524,11 +534,12 @@ class TimesheetDao extends BaseDao
      * @return TimesheetItem | null
      */
     public function getTimesheetItemByProjectIdAndTimesheetIdAndActivityIdAndDate(
-        int $timesheetId,
-        int $projectId,
-        int $activityId,
+        int      $timesheetId,
+        int      $projectId,
+        int      $activityId,
         DateTime $date
-    ): ?TimesheetItem {
+    ): ?TimesheetItem
+    {
         return $this->getRepository(TimesheetItem::class)->findOneBy([
             'timesheet' => $timesheetId,
             'project' => $projectId,
