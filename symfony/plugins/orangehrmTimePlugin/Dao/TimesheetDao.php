@@ -45,7 +45,11 @@ class TimesheetDao extends BaseDao
      */
     public function getTimesheetById(int $timesheetId): ?Timesheet
     {
-        return $this->getRepository(Timesheet::class)->find($timesheetId);
+        $timesheet = $this->getRepository(Timesheet::class)->find($timesheetId);
+        if(is_null($timesheet->getEmployee()->getPurgedAt())){
+            return $timesheet;
+        }
+        return null;
     }
 
     /**
@@ -369,7 +373,7 @@ class TimesheetDao extends BaseDao
             $q->andWhere($q->expr()->in('timesheet.state', ':states'))
                 ->setParameter('states', $employeeTimesheetActionSearchFilterParams->getActionableStatesList());
         }
-
+        $q->andWhere($q->expr()->isNull('employee.purgedAt'));
         $this->setSortingAndPaginationParams($q, $employeeTimesheetActionSearchFilterParams);
         $q->addOrderBy('employee.lastName');
         return $this->getPaginator($q);

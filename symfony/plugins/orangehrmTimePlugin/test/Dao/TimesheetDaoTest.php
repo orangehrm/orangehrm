@@ -190,6 +190,9 @@ class TimesheetDaoTest extends KernelTestCase
         $this->assertEquals(new DateTime("2011-04-24"), $result->getEndDate());
         $this->assertEquals("CREATED", $result->getState());
         $this->assertEquals(1, $result->getEmployee()->getEmpNumber());
+
+        $result2 = $this->timesheetDao->getTimesheetById(6);
+        $this->assertEmpty($result2);
     }
 
     public function testSaveAndUpdateTimesheetItemsExceptionCase(): void
@@ -216,6 +219,12 @@ class TimesheetDaoTest extends KernelTestCase
         $this->assertEquals(new DateTime("2011-05-29"), $result[0]->getEndDate());
         $this->assertEquals("SUBMITTED", $result[0]->getState());
         $this->assertEquals(2, $result[0]->getEmployee()->getEmpNumber());
+
+        $employeeTimesheetActionSearchParamHolder2 = new EmployeeTimesheetListSearchFilterParams();
+        $employeeTimesheetActionSearchParamHolder2->setEmployeeNumbers([4]);
+        $result2 = $this->timesheetDao
+            ->getEmployeeTimesheetList($employeeTimesheetActionSearchParamHolder2);
+        $this->assertEmpty($result2);
     }
 
     public function testGetEmployeeTimesheetListCount(): void

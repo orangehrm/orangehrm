@@ -49,6 +49,9 @@ class EditTimesheetController extends AbstractVueController implements CapableVi
             $component->addProp(new Prop('timesheet-id', Prop::TYPE_NUMBER, $timesheetId));
 
             $timesheet = $this->getTimesheetService()->getTimesheetDao()->getTimesheetById($timesheetId);
+            if(!is_null($timesheet->getEmployee()->getPurgedAt())){
+                throw new RequestForwardableException(NoRecordsFoundController::class . '::handle');
+            }
             $timesheetOwnerEmpNumber = $timesheet->getEmployee()->getEmpNumber();
             $currentUserEmpNumber = $this->getAuthUser()->getEmpNumber();
             if ($timesheetOwnerEmpNumber === $currentUserEmpNumber) {
