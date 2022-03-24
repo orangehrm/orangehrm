@@ -70,8 +70,7 @@ class TimesheetDao extends BaseDao
     public function getTimesheetItemByTimesheetIdAndTimesheetItemId(
         int $timesheetId,
         int $timesheetItemId
-    ): ?TimesheetItem
-    {
+    ): ?TimesheetItem {
         $timesheetItem = $this->getRepository(TimesheetItem::class)
             ->findOneBy(['id' => $timesheetItemId, 'timesheet' => $timesheetId]);
         return ($timesheetItem instanceof TimesheetItem) ? $timesheetItem : null;
@@ -134,8 +133,7 @@ class TimesheetDao extends BaseDao
     public function getTimesheetActionLogs(
         int                                  $timesheetId,
         TimesheetActionLogSearchFilterParams $timesheetActionLogParamHolder
-    ): array
-    {
+    ): array {
         $qb = $this->getTimesheetActionLogsPaginator($timesheetId, $timesheetActionLogParamHolder);
         return $qb->getQuery()->execute();
     }
@@ -148,8 +146,7 @@ class TimesheetDao extends BaseDao
     protected function getTimesheetActionLogsPaginator(
         int                                  $timesheetId,
         TimesheetActionLogSearchFilterParams $timesheetActionLogParamHolder
-    ): Paginator
-    {
+    ): Paginator {
         $qb = $this->createQueryBuilder(TimesheetActionLog::class, 'timesheetActionLog');
         $qb->leftJoin('timesheetActionLog.timesheet', 'timesheet');
 
@@ -169,8 +166,7 @@ class TimesheetDao extends BaseDao
     public function getTimesheetActionLogsCount(
         $timesheetId,
         TimesheetActionLogSearchFilterParams $timesheetActionLogParamHolder
-    ): int
-    {
+    ): int {
         return $this->getTimesheetActionLogsPaginator($timesheetId, $timesheetActionLogParamHolder)->count();
     }
 
@@ -180,8 +176,7 @@ class TimesheetDao extends BaseDao
      */
     public function getTimesheetByStartAndEndDate(
         TimesheetSearchFilterParams $timesheetParamHolder
-    ): array
-    {
+    ): array {
         $qb = $this->getTimesheetPaginator(
             $timesheetParamHolder,
         );
@@ -194,8 +189,7 @@ class TimesheetDao extends BaseDao
      */
     private function getTimesheetPaginator(
         TimesheetSearchFilterParams $timesheetParamHolder
-    ): Paginator
-    {
+    ): Paginator {
         $qb = $this->createQueryBuilder(Timesheet::class, 'timesheet');
 
         $this->setSortingAndPaginationParams($qb, $timesheetParamHolder);
@@ -337,8 +331,7 @@ class TimesheetDao extends BaseDao
         int $timesheetId,
         int $activityId,
         int $projectId
-    ): bool
-    {
+    ): bool {
         $qb = $this->createQueryBuilder(TimesheetItem::class, 'timesheetItem');
         $qb->andWhere('timesheetItem.timesheet = :timesheetId');
         $qb->setParameter('timesheetId', $timesheetId);
@@ -356,8 +349,7 @@ class TimesheetDao extends BaseDao
      */
     public function getEmployeeTimesheetList(
         EmployeeTimesheetListSearchFilterParams $employeeTimesheetActionSearchFilterParams
-    ): array
-    {
+    ): array {
         $paginator = $this->getEmployeeTimesheetPaginator($employeeTimesheetActionSearchFilterParams);
         return $paginator->getQuery()->execute();
     }
@@ -368,8 +360,7 @@ class TimesheetDao extends BaseDao
      */
     public function getEmployeeTimesheetPaginator(
         EmployeeTimesheetListSearchFilterParams $employeeTimesheetActionSearchFilterParams
-    ): Paginator
-    {
+    ): Paginator {
         $q = $this->createQueryBuilder(Timesheet::class, 'timesheet');
         $q->leftJoin('timesheet.employee', 'employee');
 
@@ -394,8 +385,7 @@ class TimesheetDao extends BaseDao
      */
     public function getEmployeeTimesheetListCount(
         EmployeeTimesheetListSearchFilterParams $employeeTimesheetActionSearchFilterParams
-    ): int
-    {
+    ): int {
         $paginator = $this->getEmployeeTimesheetPaginator($employeeTimesheetActionSearchFilterParams);
         return $paginator->count();
     }
@@ -406,14 +396,13 @@ class TimesheetDao extends BaseDao
      */
     public function getDefaultTimesheet(
         DefaultTimesheetSearchFilterParams $defaultTimesheetSearchFilterParams
-    ): ?Timesheet
-    {
+    ): ?Timesheet {
         $qb = $this->createQueryBuilder(Timesheet::class, 'timesheet');
         $qb->andWhere('timesheet.employee = :empNumber');
         $qb->setParameter('empNumber', $defaultTimesheetSearchFilterParams->getEmpNumber());
         if (!is_null($defaultTimesheetSearchFilterParams->getFromDate()) && !is_null(
-                $defaultTimesheetSearchFilterParams->getToDate()
-            )) {
+            $defaultTimesheetSearchFilterParams->getToDate()
+        )) {
             $qb->andWhere('timesheet.startDate = :fromDate');
             $qb->setParameter('fromDate', $defaultTimesheetSearchFilterParams->getFromDate());
             $qb->andWhere('timesheet.endDate = :toDate');
@@ -431,8 +420,7 @@ class TimesheetDao extends BaseDao
      */
     public function getTimesheetItemsForEmployeeReport(
         EmployeeReportsSearchFilterParams $filterParams
-    ): array
-    {
+    ): array {
         return $this->getTimesheetItemsPaginatorForEmployeeReport($filterParams)->getQuery()->execute();
     }
 
@@ -442,8 +430,7 @@ class TimesheetDao extends BaseDao
      */
     private function getTimesheetItemsPaginatorForEmployeeReport(
         EmployeeReportsSearchFilterParams $filterParams
-    ): Paginator
-    {
+    ): Paginator {
         $qb = $this->getTimesheetItemsForEmployeeReportQueryBuilderWrapper($filterParams)->getQueryBuilder();
         $qb->addSelect('COALESCE(SUM(timesheetItem.duration),0) AS totalDurationByGroup');
         $qb->addGroupBy('timesheetItem.project');
@@ -457,8 +444,7 @@ class TimesheetDao extends BaseDao
      */
     private function getTimesheetItemsForEmployeeReportQueryBuilderWrapper(
         EmployeeReportsSearchFilterParams $filterParams
-    ): QueryBuilderWrapper
-    {
+    ): QueryBuilderWrapper {
         $q = $this->createQueryBuilder(TimesheetItem::class, 'timesheetItem');
         $q->leftJoin('timesheetItem.timesheet', 'timesheet');
         $q->leftJoin('timesheetItem.projectActivity', 'projectActivity');
@@ -538,8 +524,7 @@ class TimesheetDao extends BaseDao
         int      $projectId,
         int      $activityId,
         DateTime $date
-    ): ?TimesheetItem
-    {
+    ): ?TimesheetItem {
         return $this->getRepository(TimesheetItem::class)->findOneBy([
             'timesheet' => $timesheetId,
             'project' => $projectId,

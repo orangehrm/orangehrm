@@ -281,8 +281,7 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
         float            $punchInTimezoneOffset,
         string           $punchInTimezoneName,
         ?string          $punchInNote
-    ): void
-    {
+    ): void {
         $attendanceRecord->setState($state);
         $attendanceRecord->setPunchInUtcTime($punchInUtcTime);
         $attendanceRecord->setPunchInUserTime($punchInUserTime);
@@ -365,7 +364,7 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
                 ->getAttendanceDao()
                 ->getAttendanceRecordsByEmpNumberAndIds($attendanceRecordOwnedEmpNumber, $attendanceRecordIds);
             $userAllowedAttendanceRecordIds = array_map(
-                fn(AttendanceRecord $attendanceRecord) => $attendanceRecord->getId(),
+                fn (AttendanceRecord $attendanceRecord) => $attendanceRecord->getId(),
                 $userAllowedAttendanceRecords
             );
             if (count($userAllowedAttendanceRecordIds) !== count($attendanceRecordIds)) {
@@ -530,8 +529,7 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
         float            $punchOutTimezoneOffset,
         string           $punchOutTimezoneName,
         ?string          $punchOutNote
-    ): void
-    {
+    ): void {
         $attendanceRecord->setState($state);
         $attendanceRecord->setPunchOutUtcTime($punchOutUtcTime);
         $attendanceRecord->setPunchOutUserTime($punchOutUserTime);
