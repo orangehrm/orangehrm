@@ -153,7 +153,7 @@ abstract class AccessStrategy
      */
     public function getFormattedValue($accessClassName, $currentValue)
     {
-        $accessClassName = 'OrangeHRM\Maintenance\AccessStrategy\FormatValue' . "\\" . $accessClassName;
+        $accessClassName = 'OrangeHRM\\Maintenance\\AccessStrategy\\FormatValue\\' . $accessClassName;
         $this->getRealValueClass = new  $accessClassName();
         return $this->getRealValueClass->getFormattedValue($currentValue);
     }

@@ -36,7 +36,7 @@ class DownloadFormatTest extends TestCase
         TestDataService::populate($this->fixture);
     }
 
-    public function testDownloadFileName()
+    public function testDownloadFileName():void
     {
         $fileName=$this->jsonDownloadFormat->getDownloadFileName(1);
         $this->assertEquals('Kayla T Abbey.json', $fileName);
@@ -45,9 +45,4 @@ class DownloadFormatTest extends TestCase
         $this->assertEquals('Ashley$ ST Abel (Past Employee).json', $fileName);
     }
 
-    public function testRemoveNonAsciiCharacters()
-    {
-        $fileName=$this->jsonDownloadFormat->removeNonAsciiCharacters('test£$&*().json');
-        $this->assertEquals('test$&*().json', $fileName);
-    }
 }

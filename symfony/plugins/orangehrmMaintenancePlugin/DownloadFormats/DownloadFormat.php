@@ -34,15 +34,6 @@ abstract class DownloadFormat
     abstract public function getFormattedString($values);
 
     /**
-     * @param $fileName
-     * @return string
-     */
-    public function removeNonAsciiCharacters($fileName): string
-    {
-        return preg_replace('/[^\x01-\x7F]/', '', $fileName);
-    }
-
-    /**
      * @param $empNumber
      * @return string
      */
@@ -53,9 +44,7 @@ abstract class DownloadFormat
         if ($employee->getEmployeeTerminationRecord() instanceof EmployeeTerminationRecord) {
             $pastEmployee = " (Past Employee)";
         }
-        return $this->removeNonAsciiCharacters(
-            $employee->getDecorator()->getFullName() . $pastEmployee . '.json'
-        );
+        return $employee->getDecorator()->getFullName() . $pastEmployee . '.json';
     }
 
     /**
