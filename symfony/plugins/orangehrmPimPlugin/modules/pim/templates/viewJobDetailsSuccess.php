@@ -54,9 +54,12 @@
                             $specAttachment = $form->jobSpecAttachment;
                             $specId = (!empty($specAttachment)) ? $specAttachment->getId() : "";
                             if (!empty($specId)) {
-                                $linkHtml = "<span id=\"fileLink\"><a target=\"_blank\" class=\"fileLink\" href=\"";
+                                $linkHtml =
+
+
+                                    "<span id=\"fileLink\"><a target=\"_blank\" class=\"fileLink\" href=\"";
                                 $linkHtml .= url_for('admin/viewJobSpec?attachId=' . $specId);
-                                $linkHtml .= "\">{$specAttachment->getFileName()}</a></span>";
+                                $linkHtml .= "\">" . htmlspecialchars($specAttachment->getFileName()) . "</a></span>";
                                 echo $linkHtml;
                             } else {
                                 echo "<span id=\"fileLink\"><label id=\"notDefinedLabel\">" . __('Not Defined') . "</label></span>";
@@ -296,7 +299,7 @@
                     
                     if (data) {
                         specId = (data.specId != null) ? data.specId : specId;
-                        fileName = data.fileName;
+                        fileName = data.encodedFileName;
                     }
                     
                     if(specId != ""){
@@ -445,4 +448,3 @@
     
     //]]>
 </script>
-

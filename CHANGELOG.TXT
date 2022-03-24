@@ -1,3 +1,8 @@
+New & Changed Features for OrangeHRM ver 4.10.1
+    Bug Fixes
+    ---------
+    Security fix [#1044, #1173, #1176]
+
 New & Changed Features for OrangeHRM ver 4.10
     New Feature
     -----------
