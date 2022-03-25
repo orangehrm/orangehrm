@@ -70,7 +70,7 @@ class TimesheetActionLog
      * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\User")
      * @ORM\JoinColumn(name="performed_by", referencedColumnName="id")
      */
-    private User $performedUser;
+    private ?User $performedUser;
 
     /**
      * @var Timesheet
@@ -145,9 +145,9 @@ class TimesheetActionLog
     }
 
     /**
-     * @return User
+     * @return User|null
      */
-    public function getPerformedUser(): User
+    public function getPerformedUser(): ?User
     {
         return $this->performedUser;
     }
