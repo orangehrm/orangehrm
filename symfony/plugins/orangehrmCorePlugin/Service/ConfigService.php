@@ -89,6 +89,31 @@ class ConfigService
         "image/pjpeg",
         "image/png"
     ];
+    public const ALLOWED_FILE_EXTENSIONS = [
+        "txt", //text/plain
+//        "rtf2", //text/rtf
+        "csv", //text/csv
+//        "csv1", //application/csv
+        "rtf", //application/rtf
+        "pdf", //application/pdf
+        "doc", //application/msword
+        "xls", //application/vnd.ms-excel
+        "ppt", //application/vnd.ms-powerpoint
+        "odt", //application/vnd.oasis.opendocument.text
+        "ods", //application/vnd.oasis.opendocument.spreadsheet
+        "odp", //application/vnd.oasis.opendocument.presentation
+        "docx", //application/vnd.openxmlformats-officedocument.wordprocessingml.document
+        "xlsx", //application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+        "pptx", //application/vnd.openxmlformats-officedocument.presentationml.presentation
+        "pps", //application/vnd.openxmlformats-officedocument.presentationml.slideshow
+        "ppsx", //application/vnd.openxmlformats-officedocument.presentationml.slideshow
+//        "image/x-png",
+        "gif", //image/gif
+        "jpeg", //image/jpeg
+        "jpg", //image/jpg
+//        "image/pjpeg",
+        "png" //image/png
+    ];
 
     /**
      * Get ConfigDao
@@ -548,6 +573,14 @@ class ConfigService
     public function getAllowedFileTypes(): array
     {
         return self::ALLOWED_FILE_TYPES;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getAllowedFileExtensions(): array
+    {
+        return self::ALLOWED_FILE_EXTENSIONS;
     }
 
     /**
