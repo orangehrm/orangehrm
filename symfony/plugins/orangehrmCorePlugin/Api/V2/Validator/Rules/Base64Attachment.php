@@ -86,7 +86,6 @@ class Base64Attachment extends AbstractRule
 
                 $fileExtension = $this->allowedTypeExtensions[$input['type']];
                 $this->getTextHelper()->strEndsWith($input['name'], $fileExtension);
-
             } else {
                 return false;
             }
