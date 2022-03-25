@@ -29,7 +29,7 @@ class SaveQualificationLicenseController extends AbstractVueController
     public function preRender(Request $request): void
     {
         $id = $request->get('id');
-        if ($id) {
+        if ($request->attributes->has('id')) {
             $component = new Component('license-edit');
             $component->addProp(new Prop('license-id', Prop::TYPE_NUMBER, $id));
         } else {

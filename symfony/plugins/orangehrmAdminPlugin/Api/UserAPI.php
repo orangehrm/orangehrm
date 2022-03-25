@@ -34,11 +34,15 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
+use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\User;
 
 class UserAPI extends Endpoint implements CrudEndpoint
 {
     use UserServiceTrait;
+    use DateTimeHelperTrait;
+    use AuthUserTrait;
 
     public const PARAMETER_USERNAME = 'username';
     public const PARAMETER_PASSWORD = 'password';
@@ -136,6 +140,8 @@ class UserAPI extends Endpoint implements CrudEndpoint
     {
         $user = new User();
         $this->setUserParams($user);
+        $user->setDateEntered($this->getDateTimeHelper()->getNow());
+        $user->setCreatedBy($this->getAuthUser()->getUserId());
 
         $user = $this->getUserService()->saveSystemUser($user, true);
         return new EndpointResourceResult(UserModel::class, $user);
@@ -201,6 +207,8 @@ class UserAPI extends Endpoint implements CrudEndpoint
         $this->throwRecordNotFoundExceptionIfNotExist($user, User::class);
 
         $this->setUserParams($user, $changePassword);
+        $user->setDateModified($this->getDateTimeHelper()->getNow());
+        $user->setModifiedUserId($this->getAuthUser()->getUserId());
         $user = $this->getUserService()->saveSystemUser($user, $changePassword);
         return new EndpointResourceResult(UserModel::class, $user);
     }

@@ -31,7 +31,7 @@ class SaveEmploymentStatusController extends AbstractVueController
     public function preRender(Request $request): void
     {
         $id = $request->get('id');
-        if ($id) {
+        if ($request->attributes->has('id')) {
             $component = new Component('employment-status-edit');
             $component->addProp(new Prop('employment-status-id', Prop::TYPE_NUMBER, $id));
         } else {

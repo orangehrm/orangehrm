@@ -341,6 +341,7 @@ class EmployeeDao extends BaseDao
         $q->select('e.empNumber');
         $q->addOrderBy('e.empNumber');
         $q->andWhere($q->expr()->isNull('e.purgedAt'));
+
         if ($excludeTerminatedEmployees) {
             $q->andWhere($q->expr()->isNull('e.employeeTerminationRecord'));
         }

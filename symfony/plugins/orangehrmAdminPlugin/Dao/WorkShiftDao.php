@@ -154,6 +154,7 @@ class WorkShiftDao extends BaseDao
     public function getEmployeeListByWorkShiftId(int $workShiftId): array
     {
         $q = $this->createQueryBuilder(Employee::class, 'e');
+        $q->andWhere($q->expr()->isNull('e.purgedAt'));
         $q->leftJoin('e.employeeWorkShift', 'ew');
         $q->andWhere('ew.workShift = :workShift')
             ->setParameter('workShift', $workShiftId);
