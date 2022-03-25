@@ -741,7 +741,6 @@ langStrings:
     value: 'Other Email'
     unitId: other_email
   -
-<<<<<<< HEAD
     value: 'Administrator Access'
     unitId: admin_access
   -
@@ -787,17 +786,14 @@ langStrings:
     value: 'Launching Soon'
     unitId: launching_soon
   -
-    value: 'This page is being developed for the OrangeHRM OS 5.0 Beta version.'
+    value: 'This page is currently under development for OrangeHRM OS 5.0.'
     unitId: this_page_is_being_developed
   -
-    value: 'However, you may try out all of the features by installing OrangeHRM OS 4.9.'
-    unitId: try_all_features_by_installing_4x
+    value: "to download the latest stable release, which includes all of OrangeHRM's features."
+    unitId: download_latest_release_with_all_features
   -
     value: 'Click here'
     unitId: click_here
-  -
-    value: 'to download OrangeHRM OS 4.9.'
-    unitId: to_download_ohrm_4x
   -
     value: 'Bad Request'
     unitId: bad_request
@@ -835,8 +831,6 @@ langStrings:
     value: 'Expected format: admin@example.com'
     unitId: expected_email_address_format_not_matched
   -
-=======
->>>>>>> 9a7364cabb5b95bfb398b5b9a47aaedc521507bc
     value: 'Submit'
     unitId: submit
   -

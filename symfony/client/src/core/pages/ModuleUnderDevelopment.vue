@@ -32,7 +32,6 @@
         />
         <oxd-text tag="p" class="orangehrm-module-under-development-text">
           {{ $t('general.this_page_is_being_developed') }}
-          {{ $t('general.try_all_features_by_installing_4x') }}
           <a
             target="_blank"
             class="orangehrm-module-under-development-link"
@@ -40,7 +39,7 @@
           >
             {{ $t('general.click_here') }}
           </a>
-          {{ $t('general.to_download_ohrm_4x') }}
+          {{ $t('general.download_latest_release_with_all_features') }}
         </oxd-text>
       </div>
     </div>
