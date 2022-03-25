@@ -58,12 +58,15 @@ class MaintenanceServiceTest extends KernelTestCase
         $this->assertEquals('SE', $result['EmpWorkExperience'][0]['jobTitle']);
 
         $this->assertCount(1, $result['Employee']);
+        $this->assertCount(2, $result['PerformanceReview']);
+        $this->assertCount(2, $result['ReviewerRating']);
+        $this->assertCount(2, $result['Reviewer']);
     }
 
     public function testGetPurgeableEntities(): void
     {
         $purgeableEntities = $this->maintenanceService->getPurgeableEntities('gdpr_access_employee_strategy');
-        $this->assertCount(24, $purgeableEntities);
+        $this->assertCount(28, $purgeableEntities);
         $this->assertArrayHasKey("Employee", $purgeableEntities);
         $this->assertArrayHasKey("EmpPicture", $purgeableEntities);
         $this->assertArrayHasKey("EmployeeAttachment", $purgeableEntities);

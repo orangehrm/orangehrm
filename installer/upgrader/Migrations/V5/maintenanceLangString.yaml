@@ -26,3 +26,6 @@ langStrings:
   -
     value: 'Successfully Purged'
     unitId: purge_success
+  -
+    value: 'Download Personal Data'
+    unitId: download_personal_data

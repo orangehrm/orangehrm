@@ -283,3 +283,59 @@ TimesheetItem:
   - { "timesheet_item_id": "4","timesheet_id": "2","date": "2020-10-01","duration": "3600","comment": "Emp 2 Comment","project_id": "1","employee_id": 2,"activity_id": "4" }
   - { "timesheet_item_id": "5","timesheet_id": "2","date": "2020-10-02","duration": "3600","comment": "Emp 4 Comment","project_id": "1","employee_id": 4,"activity_id": "2" }
   - { "timesheet_item_id": "6","timesheet_id": "2","date": "2020-09-28","duration": "18000","comment": "Emp 5 Comment","project_id": "4","employee_id": 5,"activity_id": "5" }
+
+Kpi:
+  - { "id": "1","job_title_code": "1","kpi_indicators": "Code Clarity","min_rating": "0","max_rating": "100","default_kpi": null,"deleted_at": null }
+  - { "id": "2","job_title_code": "1","kpi_indicators": "Speed of Work","min_rating": "0","max_rating": "100","default_kpi": null,"deleted_at": null }
+
+PerformanceTracker:
+  - { "id": "1","emp_number": "1","tracker_name": "Tracker 1","added_date": null,"added_by": "5","status": "1","modified_date": null }
+  - { "id": "2","emp_number": "1","tracker_name": "Tracker 2","added_date": null,"added_by": "6","status": "1","modified_date": null }
+  - { "id": "3","emp_number": "2","tracker_name": "Tracker 1","added_date": null,"added_by": "1","status": "1","modified_date": null }
+
+PerformanceTrackerReviewer:
+  - { "id": "1","performance_track_id": "1","reviewer_id": "5","added_date": "2022-03-21 17:50:49","status": null }
+  - { "id": "2","performance_track_id": "2","reviewer_id": "6","added_date": "2022-03-21 17:51:19","status": null }
+  - { "id": "3","performance_track_id": "3","reviewer_id": "1","added_date": "2022-03-21 17:51:19","status": null }
+
+ReviewerGroup:
+  - { "id": "1","name": "Supervisor","piority": "1" }
+  - { "id": "2","name": "Employee","piority": "2" }
+
+PerformanceReview:
+  - { "id": "1","status_id": "3","employee_number": "1","work_period_start": "2022-01-01","work_period_end": "2022-12-31","job_title_code": "1","department_id": null,"due_date": "2022-04-30","completed_date": "2022-03-31","activated_date": "2022-03-09 18:01:00","final_comment": "Final Comment by Employee 5","final_rate": "80.00" },
+  - { "id": "2","status_id": "3","employee_number": "1","work_period_start": "2022-01-01","work_period_end": "2022-12-31","job_title_code": "1","department_id": null,"due_date": "2022-04-30","completed_date": "2022-03-31","activated_date": "2022-03-09 18:01:00","final_comment": "Final Comment by Employee 6","final_rate": "50.00" },
+  - { "id": "3","status_id": "3","employee_number": "2","work_period_start": "2022-01-01","work_period_end": "2022-12-31","job_title_code": "1","department_id": null,"due_date": "2022-04-30","completed_date": "2022-03-31","activated_date": "2022-03-09 18:01:00","final_comment": "Final Comment by Employee 1","final_rate": "75.00" }
+
+Reviewer:
+  - { "id": "1","review_id": "1","employee_number": "1","status": "2","reviewer_group_id": "2","completed_date": "2022-03-21 18:13:35","comment": "General Comment by Emp 1 on their Review" }
+  - { "id": "2","review_id": "1","employee_number": "5","status": "2","reviewer_group_id": "1","completed_date": "2022-03-21 18:13:35","comment": "General Comment by Sup Emp 5 on Emp 1 review" }
+  - { "id": "3","review_id": "2","employee_number": "1","status": "2","reviewer_group_id": "2","completed_date": "2022-03-21 18:13:35","comment": "General comment by Emp 1 on their review" }
+  - { "id": "4","review_id": "2","employee_number": "6","status": "2","reviewer_group_id": "1","completed_date": "2022-03-21 18:13:35","comment": "General comment by Sup Emp 6 on Emp 1 review" }
+  - { "id": "5","review_id": "3","employee_number": "2","status": "2","reviewer_group_id": "2","completed_date": "2022-03-21 18:13:35","comment": "General comment by Emp 2 on their review" }
+  - { "id": "6","review_id": "3","employee_number": "1","status": "2","reviewer_group_id": "1","completed_date": "2022-03-21 18:13:35","comment": "General comment by Sup Emp 1 on Emp 2 review" }
+
+ReviewerRating:
+  - { "id": "1","rating": "50.00","kpi_id": "1","review_id": "1","reviewer_id": "1","comment": "Kpi 1 - Review 1 - Emp 1" }
+  - { "id": "2","rating": "75.00","kpi_id": "2","review_id": "1","reviewer_id": "1","comment": "Kpi 2 - Review 1 - Emp 1" }
+  - { "id": "3","rating": "40.00","kpi_id": "1","review_id": "1","reviewer_id": "5","comment": "Kpi 1 - Review 1 - Sup Emp 5" }
+  - { "id": "4","rating": "90.00","kpi_id": "2","review_id": "1","reviewer_id": "5","comment": "Kpi 2 - Review 1 - Sup Emp 5" }
+  - { "id": "5","rating": "30.00","kpi_id": "1","review_id": "2","reviewer_id": "1","comment": "Kpi 1 - Review 2 - Emp 1" }
+  - { "id": "6","rating": "40.00","kpi_id": "2","review_id": "2","reviewer_id": "1","comment": "Kpi 2 - Review 2 - Emp 1" }
+  - { "id": "7","rating": "67.00","kpi_id": "1","review_id": "2","reviewer_id": "6","comment": "Kpi 1 - Review 2 - Sup Emp 6" }
+  - { "id": "8","rating": "90.00","kpi_id": "2","review_id": "2","reviewer_id": "6","comment": "Kpi 2 - Review 2 - Sup Emp 6" }
+  - { "id": "9","rating": "10.00","kpi_id": "1","review_id": "3","reviewer_id": "2","comment": "Kpi 1 - Review 3 - Emp 2" }
+  - { "id": "10","rating": "70.00","kpi_id": "2","review_id": "3","reviewer_id": "2","comment": "Kpi 2 - Review 3 - Emp 2" }
+  - { "id": "11","rating": "90.00","kpi_id": "1","review_id": "3","reviewer_id": "1","comment": "Kpi 1 - Review 3 - Sup Emp 1" }
+  - { "id": "12","rating": "100.00","kpi_id": "2","review_id": "3","reviewer_id": "1","comment": "Kpi 2 - Review 3 - Sup Emp 1" }
+
+PerformanceTrackerLog:
+  - { "id": "1","performance_track_id": "1","log": "Log 1 - Tracker 1 (Emp 1)","comment": "Comment by Emp 5","status": "1","added_date": "2022-03-23 17:50:49","modified_date": null,"reviewer_id": "5","achievement": "1","user_id": "3" }
+  - { "id": "2","performance_track_id": "1","log": "Log 2 - Tracker 1 (Emp 1)","comment": "Comment by Emp 5","status": "1","added_date": "2022-03-23 17:50:49","modified_date": null,"reviewer_id": "5","achievement": "1","user_id": "3" }
+  - { "id": "3","performance_track_id": "1","log": "Log 3 - Tracker 1 (Emp 1)","comment": "Comment by Emp 1","status": "1","added_date": "2022-03-23 17:50:49","modified_date": null,"reviewer_id": "1","achievement": "1","user_id": "3" }
+  - { "id": "4","performance_track_id": "2","log": "Log 1 - Tracker 2 (Emp 1)","comment": "Comment by Emp 6","status": "1","added_date": "2022-03-23 17:50:49","modified_date": null,"reviewer_id": "6","achievement": "1","user_id": "3" }
+  - { "id": "5","performance_track_id": "2","log": "Log 2 - Tracker 2 (Emp 1)","comment": "Comment by Emp 6","status": "1","added_date": "2022-03-23 17:50:49","modified_date": null,"reviewer_id": "6","achievement": "1","user_id": "3" }
+  - { "id": "6","performance_track_id": "2","log": "Log 3 - Tracker 2 (Emp 1)","comment": "Comment by Emp 1","status": "1","added_date": "2022-03-23 17:50:49","modified_date": null,"reviewer_id": "1","achievement": "1","user_id": "3" }
+  - { "id": "7","performance_track_id": "3","log": "Log 1 - Tracker 3 (Emp 2)","comment": "Comment by Emp 1","status": "1","added_date": "2022-03-23 17:50:49","modified_date": null,"reviewer_id": "1","achievement": "1","user_id": "3" }
+  - { "id": "8","performance_track_id": "3","log": "Log 2 - Tracker 3 (Emp 2)","comment": "Comment by Emp 1","status": "1","added_date": "2022-03-23 17:50:49","modified_date": null,"reviewer_id": "1","achievement": "1","user_id": "3" }
+  - { "id": "9","performance_track_id": "3","log": "Log 3 - Tracker 3 (Emp 2)","comment": "Comment by Emp 2","status": "1","added_date": "2022-03-23 17:50:49","modified_date": null,"reviewer_id": "2","achievement": "1","user_id": "3" }

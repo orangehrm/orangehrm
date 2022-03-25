@@ -180,6 +180,7 @@ export default {
       headers: [
         {
           name: 'punchIn',
+          slot: 'title',
           title: this.$t('attendance.punch_in'),
           style: {flex: 1},
           cellRenderer: this.cellRenderer,
@@ -208,8 +209,9 @@ export default {
         {
           ...(this.isEditable && {
             name: 'actions',
-            slot: 'title',
+            slot: 'action',
             title: this.$t('general.actions'),
+            style: {flex: 1},
             cellType: 'oxd-table-cell-actions',
             cellConfig: {
               delete: {

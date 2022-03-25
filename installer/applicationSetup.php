@@ -20,5 +20,6 @@
 
 require_once ROOT_PATH.'/installer/utils/UniqueIDGenerator.php';
 require_once ROOT_PATH.'/installer/ApplicationSetupUtility.php';
+require_once ROOT_PATH . '/symfony/vendor/autoload.php';
 
 ApplicationSetupUtility::install();

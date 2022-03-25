@@ -44,7 +44,11 @@ use OrangeHRM\Entity\EmpUsTaxExemption;
 use OrangeHRM\Entity\EmpWorkExperience;
 use OrangeHRM\Entity\LeaveComment;
 use OrangeHRM\Entity\LeaveRequestComment;
+use OrangeHRM\Entity\PerformanceReview;
+use OrangeHRM\Entity\PerformanceTrackerLog;
 use OrangeHRM\Entity\ReportTo;
+use OrangeHRM\Entity\Reviewer;
+use OrangeHRM\Entity\ReviewerRating;
 use OrangeHRM\Entity\TimesheetItem;
 use OrangeHRM\Entity\User;
 use OrangeHRM\Framework\Services;
@@ -93,7 +97,7 @@ class PurgeEmployeeServiceTest extends KernelTestCase
     {
         $purgeableEntities = $this->purgeEmployeeService->getPurgeableEntities('gdpr_purge_employee_strategy');
 
-        $this->assertCount(22, $purgeableEntities);
+        $this->assertCount(26, $purgeableEntities);
         $this->assertArrayHasKey("Employee", $purgeableEntities);
         $this->assertArrayHasKey("EmpPicture", $purgeableEntities);
         $this->assertArrayHasKey("EmployeeAttachment", $purgeableEntities);
@@ -112,6 +116,10 @@ class PurgeEmployeeServiceTest extends KernelTestCase
         $this->assertArrayHasKey("EmpContract", $purgeableEntities);
         $this->assertArrayHasKey("User", $purgeableEntities);
         $this->assertArrayHasKey("ReportTo", $purgeableEntities);
+        $this->assertArrayHasKey("PerformanceReview", $purgeableEntities);
+        $this->assertArrayHasKey("ReviewerRating", $purgeableEntities);
+        $this->assertArrayHasKey("Reviewer", $purgeableEntities);
+        $this->assertArrayHasKey("PerformanceTrackerLog", $purgeableEntities);
         $this->assertArrayHasKey("LeaveComment", $purgeableEntities);
         $this->assertArrayHasKey("LeaveRequestComment", $purgeableEntities);
         $this->assertArrayHasKey("AttendanceRecord", $purgeableEntities);
@@ -334,6 +342,52 @@ class PurgeEmployeeServiceTest extends KernelTestCase
         foreach ($empTimesheetItems as $empTimesheetItem) {
             $this->assertEquals('Purged', $empTimesheetItem->getComment());
         }
+
+        $empPerformanceReviews = $this->getRepository(PerformanceReview::class);
+        $purgedPerformanceReviews = $empPerformanceReviews->findBy(['employee' => 1]);
+        $this->assertCount(2, $purgedPerformanceReviews);
+        foreach ($purgedPerformanceReviews as $purgedPerformanceReview) {
+            $this->assertEquals('', $purgedPerformanceReview->getFinalComment());
+        }
+        $preservedPerformanceReviews = $empPerformanceReviews->findBy(['employee' => 2]);
+        $this->assertCount(1, $preservedPerformanceReviews);
+        $this->assertEquals('Final Comment by Employee 1', $preservedPerformanceReviews[0]->getFinalComment());
+
+        $empReviewerRatings = $this->getRepository(ReviewerRating::class);
+        $purgedReviewerRatings = $empReviewerRatings->findBy(['performanceReview' => [1,2]]);
+        $this->assertCount(8, $purgedReviewerRatings);
+        foreach ($purgedReviewerRatings as $purgedReviewerRating) {
+            $this->assertEquals('', $purgedReviewerRating->getComment());
+        }
+        $preservedReviewerRatings = $empReviewerRatings->findBy(['performanceReview' => 3]);
+        $this->assertCount(4, $preservedReviewerRatings);
+        $this->assertEquals('Kpi 1 - Review 3 - Emp 2', $preservedReviewerRatings[0]->getComment());
+        $this->assertEquals('Kpi 2 - Review 3 - Emp 2', $preservedReviewerRatings[1]->getComment());
+        $this->assertEquals('Kpi 1 - Review 3 - Sup Emp 1', $preservedReviewerRatings[2]->getComment());
+        $this->assertEquals('Kpi 2 - Review 3 - Sup Emp 1', $preservedReviewerRatings[3]->getComment());
+
+        $empReviewers = $this->getRepository(Reviewer::class);
+        $purgedReviewers = $empReviewers->findBy(['review' => [1,2]]);
+        $this->assertCount(4, $purgedReviewers);
+        foreach ($purgedReviewers as $purgedReviewer) {
+            $this->assertEquals('', $purgedReviewer->getComment());
+        }
+        $preservedReviewers = $empReviewers->findBy(['review' => 3]);
+        $this->assertCount(2, $preservedReviewers);
+        $this->assertEquals('General comment by Emp 2 on their review', $preservedReviewers[0]->getComment());
+        $this->assertEquals('General comment by Sup Emp 1 on Emp 2 review', $preservedReviewers[1]->getComment());
+
+        $empPerformanceTrackerLogs = $this->getRepository(PerformanceTrackerLog::class);
+        $purgedPerformanceTrackerLogs = $empPerformanceTrackerLogs->findBy(['performanceTracker' => [1,2]]);
+        $this->assertCount(6, $purgedPerformanceTrackerLogs);
+        foreach ($purgedPerformanceTrackerLogs as $purgedPerformanceTrackerLog) {
+            $this->assertEquals('', $purgedPerformanceTrackerLog->getComment());
+        }
+        $preservedPerformanceTrackerLogs = $empPerformanceTrackerLogs->findBy(['performanceTracker' => 3]);
+        $this->assertCount(3, $preservedPerformanceTrackerLogs);
+        $this->assertEquals('Comment by Emp 1', $preservedPerformanceTrackerLogs[0]->getComment());
+        $this->assertEquals('Comment by Emp 1', $preservedPerformanceTrackerLogs[1]->getComment());
+        $this->assertEquals('Comment by Emp 2', $preservedPerformanceTrackerLogs[2]->getComment());
     }
 
     public function testPurgeEmployeeDataWithTransactionException(): void
