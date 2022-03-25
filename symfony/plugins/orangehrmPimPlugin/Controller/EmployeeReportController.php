@@ -48,8 +48,8 @@ class EmployeeReportController extends AbstractVueController
      */
     public function preRender(Request $request): void
     {
-        $id = $request->get('id');
         if ($request->attributes->has('id')) {
+            $id = $request->attributes->getInt('id');
             $reportName = $this->getReportGeneratorService()->getReportGeneratorDao()->getReportById($id)->getName();
             $component = new Component('employee-report-view');
             $component->addProp(new Prop('report-id', Prop::TYPE_NUMBER, $id));
