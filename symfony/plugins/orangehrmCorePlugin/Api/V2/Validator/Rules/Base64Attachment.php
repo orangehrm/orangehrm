@@ -50,7 +50,7 @@ class Base64Attachment extends AbstractRule
     /**
      * @var array
      */
-    protected array $allowedExtensions;
+    protected array $allowedTypeExtensions;
 
     public function __construct(
         ?array $allowedTypes = null,
@@ -58,14 +58,14 @@ class Base64Attachment extends AbstractRule
         ?int $fileNameMinLength = null,
         bool $checkSizeStrictly = true,
         ?int $maxFileSize = null,
-        ?array $allowedExtensions = null
+        ?array $allowedTypeExtensions = null
     ) {
         $this->allowedTypes = $allowedTypes ?? $this->getConfigService()->getAllowedFileTypes();
         $this->fileNameMaxLength = $fileNameMaxLength;
         $this->fileNameMinLength = $fileNameMinLength;
         $this->checkSizeStrictly = $checkSizeStrictly;
         $this->maxFileSize = $maxFileSize ?? $this->getConfigService()->getMaxAttachmentSize();
-        $this->allowedExtensions = $allowedExtensions ?? $this->getConfigService()->getAllowedFileExtensions();
+        $this->allowedTypeExtensions = $allowedTypeExtensions ?? $this->getConfigService()->getAllowedFileTypeExtensions();
     }
 
     public function validate($input): bool
@@ -84,12 +84,8 @@ class Base64Attachment extends AbstractRule
                     return false;
                 }
 
-                $fileNameSplit = explode('.', $input['name']);
-                $fileExtension = end($fileNameSplit);
-
-                if (!in_array($fileExtension, $this->allowedExtensions)) {
-                    return false;
-                }
+                $fileExtension = $this->allowedTypeExtensions[$input['type']];
+                $this->getTextHelper()->strEndsWith($input['name'], $fileExtension);
 
             } else {
                 return false;

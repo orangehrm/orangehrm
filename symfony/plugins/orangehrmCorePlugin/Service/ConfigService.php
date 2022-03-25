@@ -89,30 +89,29 @@ class ConfigService
         "image/pjpeg",
         "image/png"
     ];
-    public const ALLOWED_FILE_EXTENSIONS = [
-        "txt", //text/plain
-//        "rtf2", //text/rtf
-        "csv", //text/csv
-//        "csv1", //application/csv
-        "rtf", //application/rtf
-        "pdf", //application/pdf
-        "doc", //application/msword
-        "xls", //application/vnd.ms-excel
-        "ppt", //application/vnd.ms-powerpoint
-        "odt", //application/vnd.oasis.opendocument.text
-        "ods", //application/vnd.oasis.opendocument.spreadsheet
-        "odp", //application/vnd.oasis.opendocument.presentation
-        "docx", //application/vnd.openxmlformats-officedocument.wordprocessingml.document
-        "xlsx", //application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
-        "pptx", //application/vnd.openxmlformats-officedocument.presentationml.presentation
-        "pps", //application/vnd.openxmlformats-officedocument.presentationml.slideshow
-        "ppsx", //application/vnd.openxmlformats-officedocument.presentationml.slideshow
-//        "image/x-png",
-        "gif", //image/gif
-        "jpeg", //image/jpeg
-        "jpg", //image/jpg
-//        "image/pjpeg",
-        "png" //image/png
+    public const ALLOWED_FILE_TYPE_EXTENSIONS = [
+        "text/plain" => ".txt",
+        "text/rtf" => ".rtf2",
+        "text/csv" => ".csv",
+        "application/csv" => ".csv1",
+        "application/rtf" => ".rtf",
+        "application/pdf" => ".pdf",
+        "application/msword" => ".doc",
+        "application/vnd.ms-excel" => ".xls",
+        "application/vnd.ms-powerpoint" => ".ppt",
+        "application/vnd.oasis.opendocument.text" => ".odt",
+        "application/vnd.oasis.opendocument.spreadsheet" => ".ods",
+        "application/vnd.oasis.opendocument.presentation" => ".odp",
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document" => ".docx",
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" => ".xlsx",
+        "application/vnd.openxmlformats-officedocument.presentationml.presentation" => ".pptx",
+        "application/vnd.openxmlformats-officedocument.presentationml.slideshow" => ".pps", //also ppsx?
+        "image/x-png", //?
+        "image/gif" => ".gif",
+        "image/jpeg" => ".jpeg",
+        "image/jpg" => ".jpg",
+        "image/pjpeg", //?
+        "image/png" => ".png"
     ];
 
     /**
@@ -578,9 +577,9 @@ class ConfigService
     /**
      * @return string[]
      */
-    public function getAllowedFileExtensions(): array
+    public function getAllowedFileTypeExtensions(): array
     {
-        return self::ALLOWED_FILE_EXTENSIONS;
+        return self::ALLOWED_FILE_TYPE_EXTENSIONS;
     }
 
     /**
