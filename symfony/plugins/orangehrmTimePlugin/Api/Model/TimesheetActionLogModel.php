@@ -59,7 +59,7 @@ class TimesheetActionLogModel implements Normalizable
                 'label' =>$this->timesheetActionLog->getDecorator()->getActionLabel(),
             ],
             'comment' => $this->timesheetActionLog->getComment(),
-            'date' => $this->timesheetActionLog->getDate(),
+            'date' => $this->timesheetActionLog->getDecorator()->getDate(),
             'performedEmployee' => [
                 'empNumber' => $performedUser instanceof User ? $performedUser->getEmployee()->getEmpNumber() : null,
                 'lastName' => $performedUser instanceof User ? $performedUser->getEmployee()->getLastName() : 'employee',
