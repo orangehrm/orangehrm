@@ -19,55 +19,43 @@
 
 namespace OrangeHRM\Time\Api\Model;
 
-use DoctrineProxies\__CG__\OrangeHRM\Entity\EmployeeTerminationRecord;
 use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\TimesheetActionLog;
-use OrangeHRM\Entity\User;
 
 class TimesheetActionLogModel implements Normalizable
 {
     use ModelTrait;
 
-    private TimesheetActionLog $timesheetActionLog;
-
     public function __construct(TimesheetActionLog $timesheetActionLog)
     {
-        $this->timesheetActionLog = $timesheetActionLog;
-    }
+        $this->setEntity($timesheetActionLog);
+        $this->setFilters([
+            'id',
+            'action',
+            ['getDecorator', 'getActionLabel'],
+            'comment',
+            ['getDecorator', 'getDate'],
+            ['getPerformedUser', 'getEmployee', 'getEmpNumber'],
+            ['getPerformedUser', 'getEmployee', 'getLastName'],
+            ['getPerformedUser', 'getEmployee', 'getFirstName'],
+            ['getPerformedUser', 'getEmployee', 'getMiddleName'],
+            ['getPerformedUser', 'getEmployee', 'getEmployeeId'],
+            ['getPerformedUser', 'getEmployee', 'getEmployeeTerminationRecord', 'getId'],
+        ]);
 
-    /**
-     * @return TimesheetActionLog
-     */
-    public function getTimesheetActionLog(): TimesheetActionLog
-    {
-        return $this->timesheetActionLog;
-    }
-
-    public function toArray(): array
-    {
-        $performedUser = $this->getTimesheetActionLog()->getPerformedUser();
-        if ($performedUser instanceof User) {
-            $terminationRecord =$performedUser->getEmployee()->getEmployeeTerminationRecord();
-        } else {
-            $terminationRecord = null;
-        }
-        return [
-            'id' => $this->timesheetActionLog->getId(),
-            'action' => [
-                'name' => $this->timesheetActionLog->getAction(),
-                'label' =>$this->timesheetActionLog->getDecorator()->getActionLabel(),
-            ],
-            'comment' => $this->timesheetActionLog->getComment(),
-            'date' => $this->timesheetActionLog->getDecorator()->getDate(),
-            'performedEmployee' => [
-                'empNumber' => $performedUser instanceof User ? $performedUser->getEmployee()->getEmpNumber() : null,
-                'lastName' => $performedUser instanceof User ? $performedUser->getEmployee()->getLastName() : 'employee',
-                'firstName' => $performedUser instanceof User ? $performedUser->getEmployee()->getFirstName() : 'purged',
-                'middleName' => $performedUser instanceof User ? $performedUser->getEmployee()->getMiddleName() : null,
-                'employeeId' => $performedUser instanceof User ? $performedUser->getEmployee()->getEmployeeId() : null,
-                'terminationId' => $terminationRecord instanceof EmployeeTerminationRecord ? $terminationRecord->getId() : null,
-            ],
-        ];
+        $this->setAttributeNames([
+            'id',
+            ['action', 'name'],
+            ['action', 'label'],
+            'comment',
+            'date',
+            ['performedEmployee', 'empNumber'],
+            ['performedEmployee', 'lastName'],
+            ['performedEmployee', 'firstName'],
+            ['performedEmployee', 'middleName'],
+            ['performedEmployee', 'employeeId'],
+            ['performedEmployee', 'terminationId'],
+        ]);
     }
 }
