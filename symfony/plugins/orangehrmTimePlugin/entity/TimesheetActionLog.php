@@ -65,7 +65,8 @@ class TimesheetActionLog
     private DateTime $date;
 
     /**
-     * @var User
+     * @var User|null
+     *
      *
      * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\User")
      * @ORM\JoinColumn(name="performed_by", referencedColumnName="id")
