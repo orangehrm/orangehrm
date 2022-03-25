@@ -111,4 +111,15 @@ class WorkShiftDaoTest extends TestCase
         $result = $this->workShiftDao->deleteWorkShifts($toTobedeletedIds);
         $this->assertEquals(2, $result);
     }
+
+    public function testGetEmployeeListByWorkShiftId(): void
+    {
+        $firstWorkShiftEmployees = $this->workShiftDao->getEmployeeListByWorkShiftId(1);
+        $this->assertCount(2, $firstWorkShiftEmployees);
+        $this->assertEquals('Kayla', $firstWorkShiftEmployees[0]->getFirstName());
+        $this->assertEquals('Ashley', $firstWorkShiftEmployees[1]->getFirstName());
+
+        $secondWorkShiftEmployees = $this->workShiftDao->getEmployeeListByWorkShiftId(2);
+        $this->assertCount(0, $secondWorkShiftEmployees);
+    }
 }

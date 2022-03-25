@@ -137,4 +137,23 @@ class ReportGeneratorServiceTest extends TestCase
         );
         $this->assertEquals(2, $this->reportGeneratorService->getReportDataCount($filterParams));
     }
+
+    public function testGetNormalizedReportDataForPastEmployees(): void
+    {
+        $filterParams = new PimReportSearchFilterParams();
+        $filterParams->setReportId(6);
+        $reportData = $this->reportGeneratorService->getNormalizedReportData($filterParams);
+
+        $this->assertEquals(
+            [
+                [
+                    'employeeLastname' => 'Abraham',
+                    'employeeFirstname' => 'Tyler',
+                    'empNumber' => 3,
+                ],
+            ],
+            $reportData
+        );
+        $this->assertEquals(1, $this->reportGeneratorService->getReportDataCount($filterParams));
+    }
 }

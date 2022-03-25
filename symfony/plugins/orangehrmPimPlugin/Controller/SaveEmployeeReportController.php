@@ -32,7 +32,7 @@ class SaveEmployeeReportController extends AbstractVueController
     public function preRender(Request $request): void
     {
         $id = $request->get('id');
-        if ($id) {
+        if ($request->attributes->has('id')) {
             $component = new Component("employee-report-edit");
             $component->addProp(new Prop("report-id", Prop::TYPE_NUMBER, $id));
         } else {

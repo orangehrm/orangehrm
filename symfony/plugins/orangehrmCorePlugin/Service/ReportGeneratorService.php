@@ -246,10 +246,10 @@ class ReportGeneratorService
         $displayFields = $this->getReportGeneratorDao()
             ->getSelectedDisplayFieldsByReportId($filterParams->getReportId());
 
-        // TODO:: Support for time, attendance, currently only supports for PIM reports
         $qb = $this->getEntityManager()->createQueryBuilder()
             ->from(Employee::class, 'employee')
-            ->select('employee.empNumber');
+            ->select('employee.empNumber')
+            ->andWhere('employee.purgedAt IS NULL');
 
         $combinedDisplayFields = [];
         $listedDisplayFields = [];

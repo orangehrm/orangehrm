@@ -28,7 +28,7 @@ class ReportToAccessStrategy extends AccessStrategy
     public function access($employeeNumber): ?array
     {
         $entityAccessData = [];
-        $matchByValues = $matchByValues = [
+        $matchByValues = [
             'subordinate' => $employeeNumber
         ];
         $accessEntities = $this->getEntityRecords($matchByValues, $this->getEntityClassName());
