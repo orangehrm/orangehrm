@@ -28,14 +28,14 @@
         @submitValid="onSubmit"
       >
         <oxd-text tag="h6" class="orangehrm-admin-access-title">
-          {{ $t('authentication.admin_access') }}
+          {{ $t('auth.admin_access') }}
         </oxd-text>
 
         <br />
 
         <div :class="noteContainerClass">
           <oxd-text tag="toast-message">
-            {{ $t('authentication.admin_access_note') }}
+            {{ $t('auth.admin_access_note') }}
           </oxd-text>
         </div>
 

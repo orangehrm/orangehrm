@@ -37,4 +37,4 @@ $translate->up('attendance');
 $translate->up('help');
 $translate->up('maintenance');
 $translate->up('help');
-$translate->up('authentication');
+$translate->up('auth');
