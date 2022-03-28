@@ -89,29 +89,26 @@ class ConfigService
         "image/pjpeg",
         "image/png"
     ];
-    public const ALLOWED_FILE_TYPE_EXTENSIONS = [
-        "text/plain" => ".txt",
-        "text/rtf" => ".rtf2",
-        "text/csv" => ".csv",
-        "application/csv" => ".csv1",
-        "application/rtf" => ".rtf",
-        "application/pdf" => ".pdf",
-        "application/msword" => ".doc",
-        "application/vnd.ms-excel" => ".xls",
-        "application/vnd.ms-powerpoint" => ".ppt",
-        "application/vnd.oasis.opendocument.text" => ".odt",
-        "application/vnd.oasis.opendocument.spreadsheet" => ".ods",
-        "application/vnd.oasis.opendocument.presentation" => ".odp",
-        "application/vnd.openxmlformats-officedocument.wordprocessingml.document" => ".docx",
-        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" => ".xlsx",
-        "application/vnd.openxmlformats-officedocument.presentationml.presentation" => ".pptx",
-        "application/vnd.openxmlformats-officedocument.presentationml.slideshow" => ".pps", //also ppsx?
-        "image/x-png", //?
-        "image/gif" => ".gif",
-        "image/jpeg" => ".jpeg",
-        "image/jpg" => ".jpg",
-        "image/pjpeg", //?
-        "image/png" => ".png"
+    public const ALLOWED_FILE_EXTENSIONS = [
+        "txt",
+        "csv",
+        "rtf",
+        "pdf",
+        "doc",
+        "xls",
+        "ppt",
+        "odt",
+        "ods",
+        "odp",
+        "docx",
+        "xlsx",
+        "pptx",
+        "pps",
+        "ppsx",
+        "gif",
+        "jpeg",
+        "jpg",
+        "png"
     ];
 
     /**
@@ -577,9 +574,9 @@ class ConfigService
     /**
      * @return string[]
      */
-    public function getAllowedFileTypeExtensions(): array
+    public function getAllowedFileExtensions(): array
     {
-        return self::ALLOWED_FILE_TYPE_EXTENSIONS;
+        return self::ALLOWED_FILE_EXTENSIONS;
     }
 
     /**
