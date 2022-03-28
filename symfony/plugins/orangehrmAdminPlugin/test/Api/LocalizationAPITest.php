@@ -39,14 +39,10 @@ class LocalizationAPITest extends EndpointTestCase
     {
         $configService = $this->getMockBuilder(ConfigService::class)
             ->onlyMethods([
-                'getAdminLocalizationUseBrowserLanguage',
                 'getAdminLocalizationDefaultLanguage',
                 'getAdminLocalizationDefaultDateFormat'
             ])
             ->getMock();
-        $configService->expects($this->once())
-            ->method('getAdminLocalizationUseBrowserLanguage')
-            ->will($this->returnValue(true));
         $configService->expects($this->once())
             ->method('getAdminLocalizationDefaultLanguage')
             ->will($this->returnValue('fr'));
@@ -64,7 +60,7 @@ class LocalizationAPITest extends EndpointTestCase
             ]
         )->onlyMethods(['getConfigService'])
             ->getMock();
-        $api->expects($this->exactly(3))
+        $api->expects($this->exactly(2))
             ->method('getConfigService')
             ->will($this->returnValue($configService));
 
@@ -73,7 +69,6 @@ class LocalizationAPITest extends EndpointTestCase
             [
                 "language" => 'fr',
                 "dateFormat" => 'Y/m/d',
-                "useBrowserLanguage" => true
             ],
             $result->normalize()
         );
@@ -99,7 +94,6 @@ class LocalizationAPITest extends EndpointTestCase
             ->onlyMethods([
                 'setAdminLocalizationDefaultDateFormat',
                 'setAdminLocalizationDefaultLanguage',
-                'setAdminLocalizationUseBrowserLanguage'
             ])
             ->getMock();
         $configService->expects($this->once())
@@ -108,9 +102,6 @@ class LocalizationAPITest extends EndpointTestCase
         $configService->expects($this->once())
             ->method('setAdminLocalizationDefaultLanguage')
             ->with($language);
-        $configService->expects($this->once())
-            ->method('setAdminLocalizationUseBrowserLanguage')
-            ->with(true);
 
         /** @var MockObject&LocalizationAPI $api */
         $api = $this->getApiEndpointMockBuilder(
@@ -121,13 +112,12 @@ class LocalizationAPITest extends EndpointTestCase
                 ],
                 RequestParams::PARAM_TYPE_BODY => [
                     LocalizationAPI::PARAMETER_LANGUAGE => 'fr',
-                    LocalizationAPI::PARAMETER_DATE_FORMAT => $dateFormat,
-                    LocalizationAPI::PARAMETER_USE_BROWSER_LANGUAGE => true,
+                    LocalizationAPI::PARAMETER_DATE_FORMAT => $dateFormat
                 ]
             ]
         )->onlyMethods(['getConfigService', 'getLocalizationService'])
             ->getMock();
-        $api->expects($this->exactly(3))
+        $api->expects($this->exactly(2))
             ->method('getConfigService')
             ->will($this->returnValue($configService));
         $api->expects($this->never())
@@ -137,7 +127,6 @@ class LocalizationAPITest extends EndpointTestCase
             [
                 "language" => $language,
                 "dateFormat" => $dateFormat,
-                "useBrowserLanguage" => true
             ],
             $result->normalize()
         );
