@@ -25,11 +25,6 @@
         <oxd-text tag="h6" class="orangehrm-main-title">{{
           $t('admin.localization')
         }}</oxd-text>
-        <oxd-switch-input
-          v-model="editable"
-          :option-label="$t('general.edit')"
-          label-position="left"
-        />
       </div>
       <oxd-divider />
 
@@ -42,25 +37,8 @@
                 :label="$t('general.language')"
                 type="select"
                 :show-empty-selector="false"
-                :rules="rules.language"
                 :options="languageList"
-                :disabled="!editable"
-                required
               />
-            </oxd-grid-item>
-          </oxd-grid>
-        </oxd-form-row>
-        <oxd-form-row>
-          <oxd-grid :cols="2" class="orangehrm-full-width-grid">
-            <oxd-grid-item class="switch-form-field">
-              <oxd-text class="switch-form-field-text" tag="p">
-                {{ $t('admin.use_browser_language_if_set') }}
-              </oxd-text>
-              <oxd-switch-input
-                v-model="configuration.useBrowserLanguage"
-                :disabled="!editable"
-              >
-              </oxd-switch-input>
             </oxd-grid-item>
           </oxd-grid>
         </oxd-form-row>
@@ -72,10 +50,7 @@
                 :label="$t('admin.date_format')"
                 type="select"
                 :show-empty-selector="false"
-                :rules="rules.dateFormat"
                 :options="dateFormatList"
-                :disabled="!editable"
-                required
               />
             </oxd-grid-item>
           </oxd-grid>
@@ -83,8 +58,7 @@
         <oxd-divider />
 
         <oxd-form-actions>
-          <required-text />
-          <submit-button v-if="editable" />
+          <submit-button />
         </oxd-form-actions>
       </oxd-form>
     </div>
@@ -93,13 +67,8 @@
 
 <script>
 import {APIService} from '@ohrm/core/util/services/api.service';
-import SwitchInput from '@ohrm/oxd/core/components/Input/SwitchInput';
-import {required} from '@ohrm/core/util/validation/rules';
-
+import {reloadPage} from '@ohrm/core/util/helper/navigation';
 export default {
-  components: {
-    'oxd-switch-input': SwitchInput,
-  },
   props: {
     dateFormatList: {
       type: Array,
@@ -122,16 +91,10 @@ export default {
 
   data() {
     return {
-      editable: false,
       isLoading: false,
       configuration: {
         language: '',
         dateFormat: '',
-        useBrowserLanguage: false,
-      },
-      rules: {
-        language: [required],
-        dateFormat: [required],
       },
       errors: [],
     };
@@ -140,9 +103,7 @@ export default {
     this.isLoading = true;
     this.http.http
       .get('api/v2/admin/localization')
-      .then(response => {
-        const {data} = response.data;
-        this.configuration.useBrowserLanguage = data.useBrowserLanguage;
+      .then(({data: {data}}) => {
         this.configuration.language = this.languageList.find(
           item => item.id === data.language,
         );
@@ -160,31 +121,18 @@ export default {
       this.isLoading = true;
       this.http.http
         .put('api/v2/admin/localization', {
-          language: this.configuration.language[0]?.id,
-          dateFormat: this.configuration.dateFormat[0]?.id,
-          useBrowserLanguage: this.configuration.useBrowserLanguage,
+          language: this.configuration.language?.id,
+          dateFormat: this.configuration.dateFormat?.id,
         })
         .then(() => {
-          return this.$toast.updateSuccess();
-        })
-        .then(() => {
-          this.isLoading = false;
-          this.editable = false;
+          reloadPage();
+          this.$toast.updateSuccess();
         });
     },
   },
 };
 </script>
 <style lang="scss" scoped>
-.switch-form-field {
-  display: flex;
-  padding: 1rem;
-  &-text {
-    font-size: 0.8rem;
-    margin-right: 1rem;
-  }
-}
-
 .orangehrm-header-container {
   padding: 0;
 }
