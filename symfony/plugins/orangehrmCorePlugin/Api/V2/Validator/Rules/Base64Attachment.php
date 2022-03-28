@@ -32,6 +32,10 @@ class Base64Attachment extends AbstractRule
      */
     protected array $allowedTypes;
     /**
+     * @var array
+     */
+    protected array $allowedExtensions;
+    /**
      * @var int|null
      */
     protected ?int $fileNameMaxLength;
@@ -47,25 +51,21 @@ class Base64Attachment extends AbstractRule
      * @var bool
      */
     private bool $checkSizeStrictly;
-    /**
-     * @var array
-     */
-    protected array $allowedExtensions;
 
     public function __construct(
         ?array $allowedTypes = null,
+        ?array $allowedExtensions = null,
         ?int $fileNameMaxLength = null,
         ?int $fileNameMinLength = null,
         bool $checkSizeStrictly = true,
-        ?int $maxFileSize = null,
-        ?array $allowedExtensions = null
+        ?int $maxFileSize = null
     ) {
         $this->allowedTypes = $allowedTypes ?? $this->getConfigService()->getAllowedFileTypes();
+        $this->allowedExtensions = $allowedExtensions ?? $this->getConfigService()->getAllowedFileExtensions();
         $this->fileNameMaxLength = $fileNameMaxLength;
         $this->fileNameMinLength = $fileNameMinLength;
         $this->checkSizeStrictly = $checkSizeStrictly;
         $this->maxFileSize = $maxFileSize ?? $this->getConfigService()->getMaxAttachmentSize();
-        $this->allowedExtensions = $allowedExtensions ?? $this->getConfigService()->getAllowedFileExtensions();
     }
 
     public function validate($input): bool

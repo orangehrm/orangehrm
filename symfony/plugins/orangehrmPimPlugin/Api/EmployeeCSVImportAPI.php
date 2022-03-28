@@ -40,6 +40,7 @@ class EmployeeCSVImportAPI extends Endpoint implements CollectionEndpoint
     public const PARAMETER_ATTACHMENT = 'attachment';
 
     public const PARAM_RULE_IMPORT_FILE_FORMAT = ["text/csv", 'text/comma-separated-values', "application/csv", "application/vnd.ms-excel"];
+    public const PARAM_RULE_IMPORT_FILE_EXTENSIONS = ["csv"];
 
     /**
      * @var null|PimCsvDataImportService
@@ -112,7 +113,7 @@ class EmployeeCSVImportAPI extends Endpoint implements CollectionEndpoint
             self::PARAMETER_ATTACHMENT,
             new Rule(
                 Rules::BASE_64_ATTACHMENT,
-                [self::PARAM_RULE_IMPORT_FILE_FORMAT]
+                [self::PARAM_RULE_IMPORT_FILE_FORMAT, self::PARAM_RULE_IMPORT_FILE_EXTENSIONS]
             )
         );
     }

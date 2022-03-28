@@ -41,6 +41,12 @@ class EmpPicture
         "image/png",
         "image/x-png"
     ];
+    public const ALLOWED_IMAGE_EXTENSIONS = [
+        "gif",
+        "jpeg",
+        "jpg",
+        "png"
+    ];
 
     /**
      * @var Employee
