@@ -33,8 +33,6 @@
                 type="select"
                 :show-empty-selector="false"
                 :options="languageList"
-                :disabled="!editable"
-                required
               />
             </oxd-grid-item>
           </oxd-grid>
@@ -48,8 +46,6 @@
                 type="select"
                 :show-empty-selector="false"
                 :options="dateFormatList"
-                :disabled="!editable"
-                required
               />
             </oxd-grid-item>
           </oxd-grid>
@@ -57,8 +53,7 @@
         <oxd-divider />
 
         <oxd-form-actions>
-          <required-text />
-          <submit-button v-if="editable" />
+          <submit-button />
         </oxd-form-actions>
       </oxd-form>
     </div>
@@ -67,7 +62,6 @@
 
 <script>
 import {APIService} from '@ohrm/core/util/services/api.service';
-import SwitchInput from '@ohrm/oxd/core/components/Input/SwitchInput';
 
 export default {
   props: {
@@ -92,7 +86,6 @@ export default {
 
   data() {
     return {
-      editable: true,
       isLoading: false,
       configuration: {
         language: '',
@@ -106,8 +99,6 @@ export default {
     this.http.http
       .get('api/v2/admin/localization')
       .then(({data: {data}}) => {
-        console.log('data', data);
-
         this.configuration.language = this.languageList.find(
           item => item.id === data.language,
         );
