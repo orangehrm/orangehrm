@@ -77,6 +77,14 @@ class AttendanceDaoTest extends KernelTestCase
         $this->assertEquals('PUNCHED OUT', $attendanceRecord->getState());
     }
 
+    public function testGetAttendanceRecordById(): void
+    {
+        $attendanceRecord = $this->attendanceDao->getAttendanceRecordById(1);
+        $this->assertEquals(1, $attendanceRecord->getId());
+        $attendanceRecord2 = $this->attendanceDao->getAttendanceRecordById(10);
+        $this->assertEmpty($attendanceRecord2);
+    }
+
     public function testPunchInOverlapRecords(): void
     {
         $utcTimeZone = new DateTimeZone(DateTimeHelperService::TIMEZONE_UTC);
