@@ -27,14 +27,8 @@ require_once realpath(__DIR__ . '/../../symfony/vendor/autoload.php');
 ServiceContainer::getContainer()->register(Services::DOCTRINE)
     ->setFactory([Doctrine::class, 'getEntityManager']);
 
-$translate = new TranslationTestTool();
-$translate->up('admin');
-$translate->up('general');
-$translate->up('pim');
-$translate->up('leave');
-$translate->up('time');
-$translate->up('attendance');
-$translate->up('help');
-$translate->up('maintenance');
-$translate->up('help');
-$translate->up('auth');
+$translateTest = new TranslationTestTool();
+$modules = ['admin','general','pim','leave','time','attendance','maintenance','help','auth'];
+foreach ($modules as $module){
+    $translateTest->up($module);
+}

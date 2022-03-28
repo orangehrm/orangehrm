@@ -35,7 +35,7 @@
           <a
             target="_blank"
             class="orangehrm-module-under-development-link"
-            href="https://sourceforge.net/projects/orangehrm/files/stable/4.9/"
+            href="https://sourceforge.net/projects/orangehrm/files/latest/download"
           >
             {{ $t('general.click_here') }}
           </a>

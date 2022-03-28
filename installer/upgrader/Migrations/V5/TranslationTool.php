@@ -38,10 +38,13 @@ class TranslationTool
      */
     public function up(string $groupName)
     {
-        $filename = 'installer/upgrader/Migrations/V5/messages.bg_BG.xml';
-        $langCode = 'bg_BG';
-        $this->readTranslations($filename, $langCode);
-        $this->addTranslations($langCode, $groupName);
+        //$filename = 'installer/upgrader/Migrations/V5/messages.bg_BG.xml';
+        $langCodes = ['bg_BG','zh_Hant_TW','zh_Hans_CN','id_ID','ja_JP','nl'];
+        foreach ($langCodes as $langCode){
+            $filename = 'installer/upgrader/Migrations/V5/translations/messages.' . $langCode . '.xml';
+            $this->readTranslations($filename, $langCode);
+            $this->addTranslations($langCode, $groupName);
+        }
     }
 
     /**
