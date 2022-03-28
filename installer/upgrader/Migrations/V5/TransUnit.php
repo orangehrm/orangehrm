@@ -27,15 +27,15 @@ class TransUnit
     private string $source;
 
     /**
-     * @var string
+     * @var string|null
      */
-    private string $target;
+    private ?string $target;
 
     /**
      * @param string $source
      * @param string $target
      */
-    public function __construct(string $source, string $target)
+    public function __construct(string $source, ?string $target =null)
     {
         $this->source = $source;
         $this->target = $target;
@@ -58,17 +58,17 @@ class TransUnit
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getTarget(): string
+    public function getTarget(): ?string
     {
         return $this->target;
     }
 
     /**
-     * @param string $target
+     * @param string|null $target
      */
-    public function setTarget(string $target): void
+    public function setTarget(?string $target): void
     {
         $this->target = $target;
     }

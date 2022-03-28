@@ -354,8 +354,8 @@ export default {
         .catch(() => {
           this.showLeaveConflict &&
             this.$toast.warn({
-              title: 'Warning',
-              message: 'Failed to Submit',
+              title: this.$t('general.warning'),
+              message: this.$t('leave.failed_to_submit'),
             });
         })
         .finally(() => {

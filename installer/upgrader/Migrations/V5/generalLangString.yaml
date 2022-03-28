@@ -399,7 +399,7 @@ langStrings:
     value: 'Add Attachment'
     unitId: add_attachment
   -
-    value: 'Type here.'
+    value: 'Type here'
     unitId: type_here
   -
     value: 'Date'
@@ -741,6 +741,96 @@ langStrings:
     value: 'Other Email'
     unitId: other_email
   -
+    value: 'Administrator Access'
+    unitId: admin_access
+  -
+    value: 'You have requested to access a critical Administrator function in OrangeHRM and are required to validate your credentials below'
+    unitId: admin_access_note
+  -
+    value: 'Company Name'
+    unitId: company_name
+  -
+    value: 'Version'
+    unitId: version
+  -
+    value: 'Active Employees'
+    unitId: active_employees
+  -
+    value: 'Employees Terminated'
+    unitId: employees_terminated
+  -
+    value: 'Are you Sure?'
+    unitId: are_you_sure
+  -
+    value: 'The selected record will be permanently deleted. Are you sure you want to continue?'
+    unitId: delete_confirmation_message
+  -
+    value: 'Yes, Delete'
+    unitId: yes_delete
+  -
+    value: 'Keep Current'
+    unitId: keep_current
+  -
+    value: 'Delete Current'
+    unitId: delete_current
+  -
+    value: 'Replace Current'
+    unitId: replace_current
+  -
+    value: 'Replace Current'
+    unitId: module_forbidden
+  -
+    value: "The page you're trying to access has restricted access"
+    unitId: module_access_restriction
+  -
+    value: 'Launching Soon'
+    unitId: launching_soon
+  -
+    value: 'This page is currently under development for OrangeHRM OS 5.0.'
+    unitId: this_page_is_being_developed
+  -
+    value: "to download the latest stable release, which includes all of OrangeHRM's features."
+    unitId: download_latest_release_with_all_features
+  -
+    value: 'Click here'
+    unitId: click_here
+  -
+    value: 'Bad Request'
+    unitId: bad_request
+  -
+    value: 'Accepts upto 1 MB'
+    unitId: file_upload_notice
+  -
+    value: 'Personal Details'
+    unitId: personal_details
+  -
+    value: 'Emergency Contacts'
+    unitId: emergency_contacts
+  -
+    value: 'Dependents'
+    unitId: dependents
+  -
+    value: 'Immigration'
+    unitId: immigration
+  -
+    value: 'Salary'
+    unitId: salary
+  -
+    value: 'Report-to'
+    unitId: report_to
+  -
+    value: 'Tax Exemptions'
+    unitId: tax_exemptions
+  -
+    value: 'Info'
+    unitId: info
+  -
+    value: 'Should not exceed {amount} characters'
+    unitId: should_be_less_n_characters
+  -
+    value: 'Expected format: admin@example.com'
+    unitId: expected_email_address_format_not_matched
+  -
     value: 'Submit'
     unitId: submit
   -
@@ -749,9 +839,3 @@ langStrings:
   -
     value: 'yyyy-mm-dd'
     unitId: date_format
-  -
-    value: 'Administrator Access'
-    unitId: admin_access
-  -
-    value: 'You have requested to access a critical Administrator function in OrangeHRM and are required to validate your credentials below'
-    unitId: admin_access_note

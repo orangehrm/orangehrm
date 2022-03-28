@@ -128,7 +128,7 @@ export default {
               onClick: this.onClickView,
               component: 'oxd-button',
               props: {
-                label: 'View',
+                label: this.$t('general.view'),
                 displayType: 'text',
                 size: 'medium',
               },

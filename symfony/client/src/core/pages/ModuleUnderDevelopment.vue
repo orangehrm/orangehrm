@@ -31,17 +31,15 @@
           alt="this module is under development"
         />
         <oxd-text tag="p" class="orangehrm-module-under-development-text">
-          This page is being developed for the OrangeHRM OS 5.0 Beta version.
-          However, you may try out all of the features by installing OrangeHRM
-          OS 4.9.
+          {{ $t('general.this_page_is_being_developed') }}
           <a
             target="_blank"
             class="orangehrm-module-under-development-link"
-            href="https://sourceforge.net/projects/orangehrm/files/stable/4.9/"
+            href="https://sourceforge.net/projects/orangehrm/files/latest/download"
           >
-            Click here
+            {{ $t('general.click_here') }}
           </a>
-          to download OrangeHRM OS 4.9.
+          {{ $t('general.download_latest_release_with_all_features') }}
         </oxd-text>
       </div>
     </div>

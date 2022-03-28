@@ -38,10 +38,12 @@ class TranslationTool
      */
     public function up(string $groupName)
     {
-        $filename = 'installer/upgrader/Migrations/V5/messages.bg_BG.xml';
-        $langCode = 'bg_BG';
-        $this->readTranslations($filename, $langCode);
-        $this->addTranslations($langCode, $groupName);
+        $langCodes = ['bg_BG','nl','zh_Hans_CN'];
+        foreach ($langCodes as $langCode){
+            $filename = 'installer/upgrader/Migrations/V5/translations/messages.' . $langCode . '.xml';
+            $this->readTranslations($filename, $langCode);
+            $this->addTranslations($langCode, $groupName);
+        }
     }
 
     /**
@@ -55,7 +57,9 @@ class TranslationTool
         $transArray = ['translations' => []];
         foreach ($xml->file->body->children() as $string) {
             $translation = new TransUnit($string->source, $string->target);
-            $transArray['translations'][] = ['source' => $translation->getSource(), 'target' => $translation->getTarget()];
+            if (! empty($translation->getTarget())){
+                $transArray['translations'][] = ['source' => $translation->getSource(), 'target' => $translation->getTarget()];
+            }
         }
         $Yaml = Yaml::dump($transArray, 2, 4);
         $filename = 'installer/upgrader/Migrations/V5/messages.' . $language . '.yml';
