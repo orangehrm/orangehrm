@@ -121,8 +121,8 @@ export default {
       this.isLoading = true;
       this.http.http
         .put('api/v2/admin/localization', {
-          language: this.configuration.language[0]?.id,
-          dateFormat: this.configuration.dateFormat[0]?.id,
+          language: this.configuration.language?.id,
+          dateFormat: this.configuration.dateFormat?.id,
         })
         .then(() => {
           return this.$toast.updateSuccess();

@@ -40,7 +40,6 @@ class LocalizationAPI extends Endpoint implements CrudEndpoint
 
     public const PARAMETER_LANGUAGE = 'language';
     public const PARAMETER_DATE_FORMAT = 'dateFormat';
-    public const PARAMETER_USE_BROWSER_LANGUAGE = 'useBrowserLanguage';
 
     /**
      * @inheritDoc
@@ -50,7 +49,6 @@ class LocalizationAPI extends Endpoint implements CrudEndpoint
         return new EndpointResourceResult(ArrayModel::class, [
             self::PARAMETER_LANGUAGE => $this->getConfigService()->getAdminLocalizationDefaultLanguage(),
             self::PARAMETER_DATE_FORMAT => $this->getConfigService()->getAdminLocalizationDefaultDateFormat(),
-            self::PARAMETER_USE_BROWSER_LANGUAGE => $this->getConfigService()->getAdminLocalizationUseBrowserLanguage(),
         ]);
     }
 
@@ -71,18 +69,13 @@ class LocalizationAPI extends Endpoint implements CrudEndpoint
     {
         $language = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_LANGUAGE);
         $dateFormat = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_DATE_FORMAT);
-        $useBrowserLanguage = $this->getRequestParams()->getBoolean(
-            RequestParams::PARAM_TYPE_BODY,
-            self::PARAMETER_USE_BROWSER_LANGUAGE
-        );
 
         $this->getConfigService()->setAdminLocalizationDefaultDateFormat($dateFormat);
         $this->getConfigService()->setAdminLocalizationDefaultLanguage($language);
-        $this->getConfigService()->setAdminLocalizationUseBrowserLanguage($useBrowserLanguage);
+
         return new EndpointResourceResult(ArrayModel::class, [
             self::PARAMETER_LANGUAGE => $language,
             self::PARAMETER_DATE_FORMAT => $dateFormat,
-            self::PARAMETER_USE_BROWSER_LANGUAGE => $useBrowserLanguage,
         ]);
     }
 
@@ -101,10 +94,6 @@ class LocalizationAPI extends Endpoint implements CrudEndpoint
             new ParamRule(
                 self::PARAMETER_DATE_FORMAT,
                 new Rule(Rules::IN, [array_column($dateFormats, 'id')])
-            ),
-            new ParamRule(
-                self::PARAMETER_USE_BROWSER_LANGUAGE,
-                new Rule(Rules::BOOL_VAL)
             ),
         );
         $paramRules->addExcludedParamKey(CommonParams::PARAMETER_ID);
