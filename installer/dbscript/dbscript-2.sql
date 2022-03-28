@@ -4208,7 +4208,7 @@ UPDATE `ohrm_menu_item` SET `screen_id`=@view_performance_module_id WHERE `menu_
 INSERT INTO `ohrm_user_role_screen` (`user_role_id`, `screen_id`, `can_read`, `can_create`, `can_update`, `can_delete`)
 VALUES (@admin_user_role_id, @view_performance_module_id, '1', '0', '0', '0'),
        (@ess_user_role_id, @view_performance_module_id, '1', '0', '0', '0');
-       
+
 SET @leave_apply_email_id := (SELECT `id` FROM ohrm_email WHERE `name` = 'leave.apply' LIMIT 1);
 SET @leave_assign_email_id := (SELECT `id` FROM ohrm_email WHERE `name` = 'leave.assign' LIMIT 1);
 SET @leave_approve_email_id := (SELECT `id` FROM ohrm_email WHERE `name` = 'leave.approve' LIMIT 1);
@@ -4615,4 +4615,4 @@ ALTER TABLE `ohrm_timesheet_action_log` CHANGE `performed_by` `performed_by` INT
 
 ALTER TABLE `ohrm_timesheet_action_log` DROP FOREIGN KEY `ohrm_timesheet_action_log_ibfk_1`;
 
-ALTER TABLE `ohrm_timesheet_action_log` ADD CONSTRAINT `ohrm_timesheet_action_log_performed_by_id` FOREIGN KEY (`performed_by`) REFERENCES `ohrm_user`(`id`) ON DELETE SET NULL;
+ALTER TABLE `ohrm_timesheet_action_log` ADD CONSTRAINT `ohrm_timesheet_action_log_performed_by_id` FOREIGN KEY (`performed_by`) REFERENCES `ohrm_user`(`id`) ON DELETE SET NULL ON UPDATE RESTRICT;
