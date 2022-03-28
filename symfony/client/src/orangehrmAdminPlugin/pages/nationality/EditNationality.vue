@@ -43,7 +43,7 @@
           <oxd-button
             type="button"
             display-type="ghost"
-            label="$t('general.cancel')"
+            :label="$t('general.cancel')"
             @click="onCancel"
           />
           <submit-button />

@@ -28,14 +28,14 @@
         @submitValid="onSubmit"
       >
         <oxd-text tag="h6" class="orangehrm-admin-access-title">
-          {{ $t('general.admin_access') }}
+          {{ $t('auth.admin_access') }}
         </oxd-text>
 
         <br />
 
         <div :class="noteContainerClass">
           <oxd-text tag="toast-message">
-            {{ $t('general.admin_access_note') }}
+            {{ $t('auth.admin_access_note') }}
           </oxd-text>
         </div>
 
@@ -72,14 +72,14 @@
             class="orangehrm-admin-access-button"
             display-type="ghost"
             size="large"
-            label="Cancel"
+            :label="$t('general.cancel')"
             @click="onCancel"
           />
           <oxd-button
             class="orangehrm-admin-access-button"
             display-type="secondary"
             size="large"
-            label="Confirm"
+            :label="$t('general.confirm')"
             type="submit"
           />
         </div>

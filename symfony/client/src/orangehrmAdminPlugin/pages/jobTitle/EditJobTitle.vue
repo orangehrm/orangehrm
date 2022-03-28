@@ -43,7 +43,7 @@
               <oxd-input-field
                 v-model="jobTitle.description"
                 type="textarea"
-                :label="$t('general.job_description')"
+                :label="$t('admin.job_description')"
                 :placeholder="$t('general.type_description_here')"
                 :rules="rules.description"
               />

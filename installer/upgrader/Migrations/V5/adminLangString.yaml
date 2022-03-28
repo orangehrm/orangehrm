@@ -248,3 +248,6 @@ langStrings:
   -
     value: 'Date Format'
     unitId: date_format
+  -
+    value: 'Working Hours'
+    unitId: working_hours

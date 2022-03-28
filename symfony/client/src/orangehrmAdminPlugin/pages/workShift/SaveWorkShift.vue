@@ -21,10 +21,9 @@
 <template>
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
-      <oxd-text tag="h6" class="orangehrm-main-title">{{
-        $t('admin.add_work_shift')
-      }}</oxd-text>
-
+      <oxd-text tag="h6" class="orangehrm-main-title">
+        {{ $t('admin.add_work_shift') }}
+      </oxd-text>
       <oxd-divider />
       <oxd-form :loading="isLoading" @submitValid="onSave">
         <oxd-form-row>
@@ -41,7 +40,9 @@
         <oxd-divider />
 
         <oxd-form-row>
-          <oxd-text class="orangehrm-sub-title">Working Hours*</oxd-text>
+          <oxd-text class="orangehrm-sub-title"
+            >{{ $t('admin.working_hours') }} *</oxd-text
+          >
           <oxd-grid :cols="4" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <time-input
