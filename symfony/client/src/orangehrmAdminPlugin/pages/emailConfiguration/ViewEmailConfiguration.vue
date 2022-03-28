@@ -200,7 +200,11 @@
 
         <oxd-form-actions>
           <required-text />
-          <oxd-button display-type="ghost" :label="$t('general.reset')" @click="onReset" />
+          <oxd-button
+            display-type="ghost"
+            :label="$t('general.reset')"
+            @click="onReset"
+          />
           <submit-button />
         </oxd-form-actions>
       </oxd-form>
