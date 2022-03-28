@@ -276,10 +276,9 @@ class AttendanceDao extends BaseDao
     {
         $attendanceRecord = $this->getRepository(AttendanceRecord::class)->find($attendanceRecordId);
         if ($attendanceRecord instanceof AttendanceRecord) {
-            if (!is_null($attendanceRecord->getEmployee()->getPurgedAt())) {
-                return null;
+            if (is_null($attendanceRecord->getEmployee()->getPurgedAt())) {
+                return $attendanceRecord;
             }
-            return $attendanceRecord;
         }
         return null;
     }

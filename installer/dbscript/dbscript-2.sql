@@ -4615,4 +4615,4 @@ ALTER TABLE `ohrm_timesheet_action_log` CHANGE `performed_by` `performed_by` INT
 
 ALTER TABLE `ohrm_timesheet_action_log` DROP FOREIGN KEY `ohrm_timesheet_action_log_ibfk_1`;
 
-ALTER TABLE `ohrm_timesheet_action_log` ADD CONSTRAINT `ohrm_timesheet_action_log_performed_by_id` FOREIGN KEY (`performed_by`) REFERENCES `ohrm_user`(`id`) ON DELETE SET NULL ON UPDATE RESTRICT;
+ALTER TABLE `ohrm_timesheet_action_log` ADD CONSTRAINT `ohrm_timesheet_action_log_performed_by_id` FOREIGN KEY (`performed_by`) REFERENCES `ohrm_user`(`id`) ON DELETE SET NULL;

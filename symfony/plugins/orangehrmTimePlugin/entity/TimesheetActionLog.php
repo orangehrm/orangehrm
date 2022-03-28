@@ -154,9 +154,9 @@ class TimesheetActionLog
     }
 
     /**
-     * @param  User  $performedUser
+     * @param  User|null  $performedUser
      */
-    public function setPerformedUser(User $performedUser): void
+    public function setPerformedUser(?User $performedUser): void
     {
         $this->performedUser = $performedUser;
     }

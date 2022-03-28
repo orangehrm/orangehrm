@@ -58,7 +58,7 @@ const actionsNormalizer = data => {
       date: item.date,
       comment: item.comment,
       performedBy: `${item.performedEmployee?.firstName ? item.performedEmployee?.firstName : 'Purged'}
-      ${ item.performedEmployee?.lastName ? item.performedEmployee?.lastName : 'Empployee' }
+      ${ item.performedEmployee?.lastName ? item.performedEmployee?.lastName : 'Employee' }
        ${item.performedEmployee.terminationId ? ' (Past Employee)' : ''}`,
     };
   });
