@@ -28,10 +28,9 @@ class SaveLeaveTypeController extends AbstractVueController
 {
     public function preRender(Request $request): void
     {
-        $id = $request->get('id');
         if ($request->attributes->has('id')) {
             $component = new Component('leave-type-edit');
-            $component->addProp(new Prop('leave-type-id', Prop::TYPE_NUMBER, $id));
+            $component->addProp(new Prop('leave-type-id', Prop::TYPE_NUMBER, $request->attributes->getInt('id')));
         } else {
             $component = new Component('leave-type-save');
         }

@@ -32,6 +32,10 @@ class Base64Attachment extends AbstractRule
      */
     protected array $allowedTypes;
     /**
+     * @var array
+     */
+    protected array $allowedExtensions;
+    /**
      * @var int|null
      */
     protected ?int $fileNameMaxLength;
@@ -50,12 +54,14 @@ class Base64Attachment extends AbstractRule
 
     public function __construct(
         ?array $allowedTypes = null,
+        ?array $allowedExtensions = null,
         ?int $fileNameMaxLength = null,
         ?int $fileNameMinLength = null,
         bool $checkSizeStrictly = true,
         ?int $maxFileSize = null
     ) {
         $this->allowedTypes = $allowedTypes ?? $this->getConfigService()->getAllowedFileTypes();
+        $this->allowedExtensions = $allowedExtensions ?? $this->getConfigService()->getAllowedFileExtensions();
         $this->fileNameMaxLength = $fileNameMaxLength;
         $this->fileNameMinLength = $fileNameMinLength;
         $this->checkSizeStrictly = $checkSizeStrictly;
@@ -75,6 +81,11 @@ class Base64Attachment extends AbstractRule
             if (is_string($input['name'])) {
                 $fileNameLength = $this->getTextHelper()->strLength($input['name']);
                 if (!($this->validateMin($fileNameLength) && $this->validateMax($fileNameLength))) {
+                    return false;
+                }
+
+                $fileExtension = pathinfo($input['name'])['extension'];
+                if (!in_array($fileExtension, $this->allowedExtensions)) {
                     return false;
                 }
             } else {

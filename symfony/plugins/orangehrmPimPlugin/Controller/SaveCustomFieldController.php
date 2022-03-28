@@ -45,8 +45,8 @@ class SaveCustomFieldController extends AbstractVueController
 
     public function preRender(Request $request): void
     {
-        $id = $request->get('id');
         if ($request->attributes->has('id')) {
+            $id = $request->attributes->getInt('id');
             $component = new Component('custom-field-edit');
             $component->addProp(new Prop('custom-field-id', Prop::TYPE_NUMBER, $id));
             $component->addProp(new Prop('field-in-use', Prop::TYPE_ARRAY, $this->getCustomFieldService()->getCustomFieldDao()->isCustomFieldInUse($id)));

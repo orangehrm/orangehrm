@@ -130,7 +130,7 @@ class EmployeePictureAPI extends Endpoint implements ResourceEndpoint
                 self::PARAMETER_EMP_PICTURE,
                 new Rule(
                     Rules::BASE_64_ATTACHMENT,
-                    [EmpPicture::ALLOWED_IMAGE_TYPES, self::PARAM_RULE_EMP_PICTURE_FILE_NAME_MAX_LENGTH]
+                    [EmpPicture::ALLOWED_IMAGE_TYPES, EmpPicture::ALLOWED_IMAGE_EXTENSIONS, self::PARAM_RULE_EMP_PICTURE_FILE_NAME_MAX_LENGTH]
                 )
             ),
         );

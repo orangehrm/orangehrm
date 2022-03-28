@@ -270,7 +270,7 @@ class JobTitleAPI extends Endpoint implements CrudEndpoint
             self::PARAMETER_SPECIFICATION,
             new Rule(
                 Rules::BASE_64_ATTACHMENT,
-                [null, self::PARAM_RULE_SPECIFICATION_FILE_NAME_MAX_LENGTH]
+                [null, null, self::PARAM_RULE_SPECIFICATION_FILE_NAME_MAX_LENGTH]
             )
         );
     }

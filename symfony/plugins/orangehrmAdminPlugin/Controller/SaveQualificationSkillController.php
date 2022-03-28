@@ -28,10 +28,9 @@ class SaveQualificationSkillController extends AbstractVueController
 {
     public function preRender(Request $request): void
     {
-        $id = $request->get('id');
         if ($request->attributes->has('id')) {
             $component = new Component('qualification-skill-edit');
-            $component->addProp(new Prop('qualification-skill-id', Prop::TYPE_NUMBER, $id));
+            $component->addProp(new Prop('qualification-skill-id', Prop::TYPE_NUMBER, $request->attributes->getInt('id')));
         } else {
             $component = new Component('qualification-skill-save');
         }
