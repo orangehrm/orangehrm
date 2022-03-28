@@ -19,7 +19,11 @@
  -->
 
 <template>
-  <oxd-alert :show="true" type="warn" message="Bad Request"></oxd-alert>
+  <oxd-alert
+    :show="true"
+    type="warn"
+    :message="$t('general.bad_request')"
+  ></oxd-alert>
 </template>
 
 <script>

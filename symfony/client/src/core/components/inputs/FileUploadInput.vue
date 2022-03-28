@@ -32,21 +32,21 @@
       <div v-if="!disabled" class="orangehrm-file-options">
         <oxd-input-field
           type="radio"
-          option-label="Keep Current"
+          :option-label="$t('general.keep_current')"
           value="keepCurrent"
           :model-value="method"
           @update:modelValue="$emit('update:method', $event)"
         />
         <oxd-input-field
           type="radio"
-          option-label="Delete Current"
+          :option-label="$t('general.delete_current')"
           value="deleteCurrent"
           :model-value="method"
           @update:modelValue="$emit('update:method', $event)"
         />
         <oxd-input-field
           type="radio"
-          option-label="Replace Current"
+          :option-label="$t('general.replace_current')"
           value="replaceCurrent"
           :model-value="method"
           @update:modelValue="$emit('update:method', $event)"

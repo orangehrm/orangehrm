@@ -131,3 +131,24 @@ langStrings:
   -
     value: 'Select Employee'
     unitId: select_employee
+  -
+    value: 'Timesheet Period Start Day has not being defined. Please Contact the HR Administrator'
+    unitId: timesheet_period_not_defined
+  -
+    value: 'My Timesheet'
+    unitId: my_timesheet
+  -
+    value: 'Edit Timesheet'
+    unitId: edit_timesheet
+  -
+    value: 'Create Timesheet'
+    unitId: create_timesheet
+  -
+    value: 'Timesheet for'
+    unitId: timesheet_for
+  -
+    value: 'Edit Timesheet for'
+    unitId: edit_timesheet_for
+  -
+    value: 'Punch Out'
+    unitId: punch_out

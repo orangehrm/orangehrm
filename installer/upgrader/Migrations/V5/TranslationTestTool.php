@@ -39,27 +39,8 @@ class TranslationTestTool
     public function up(string $groupName)
     {
         $filename = 'installer/upgrader/Migrations/V5/messages.bg_BG.xml';
-        $langCode = 'bg_BG';
-        $this->readTranslations($filename, $langCode);
+        $langCode = 'bg_BG';   //the test language will replace Bulgarian
         $this->addTranslations($langCode, $groupName);
-    }
-
-    /**
-     * @param string $filepath
-     * @param string $language
-     * @return void
-     */
-    private function readTranslations(string $filepath, string $language): void
-    {
-        $xml = simplexml_load_file($filepath);
-        $transArray = ['translations' => []];
-        foreach ($xml->file->body->children() as $string) {
-            $translation = new TransUnit($string->source, $string->target);
-            $transArray['translations'][] = ['source' => $translation->getSource(), 'target' => $translation->getTarget()];
-        }
-        $Yaml = Yaml::dump($transArray, 2, 4);
-        $filename = 'installer/upgrader/Migrations/V5/messages.' . $language . '.yml';
-        file_put_contents($filename, $Yaml);
     }
 
     /**
@@ -70,9 +51,6 @@ class TranslationTestTool
      */
     private function addTranslations(string $language, string $groupName): void
     {
-        $filepath = 'installer/upgrader/Migrations/V5/messages.' . $language . '.yml';
-        $yml = Yaml::parseFile($filepath);
-        $translations = array_shift($yml);
         $filepath2 = 'installer/upgrader/Migrations/V5/' . $groupName . 'LangString.yaml';
         $yml2 = Yaml::parseFile($filepath2);
         $langStrings = array_shift($yml2);
