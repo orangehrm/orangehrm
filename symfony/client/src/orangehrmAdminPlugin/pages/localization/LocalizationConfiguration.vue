@@ -67,7 +67,7 @@
 
 <script>
 import {APIService} from '@ohrm/core/util/services/api.service';
-
+import {reloadPage} from '@ohrm/core/util/helper/navigation';
 export default {
   props: {
     dateFormatList: {
@@ -125,10 +125,8 @@ export default {
           dateFormat: this.configuration.dateFormat?.id,
         })
         .then(() => {
-          return this.$toast.updateSuccess();
-        })
-        .then(() => {
-          this.isLoading = false;
+          reloadPage();
+          this.$toast.updateSuccess();
         });
     },
   },

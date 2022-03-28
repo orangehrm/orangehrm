@@ -26,24 +26,3 @@ getValidationRuleForUpdate:
   invalid date format:
     parameters: { language: 'de', dateFormat: 'Ym-d'}
     isValid: false
-  useBrowserLanguage false:
-    parameters: { language: 'de', dateFormat: 'Y-m-d'}
-    isValid: true
-  useBrowserLanguage 0:
-    parameters: { language: 'de', dateFormat: 'Y-m-d' }
-    isValid: true
-  useBrowserLanguage 1:
-    parameters: { language: 'de', dateFormat: 'Y-m-d' }
-    isValid: true
-  useBrowserLanguage null:
-    parameters: { language: 'de', dateFormat: 'Y-m-d' }
-    isValid: true
-  useBrowserLanguage empty:
-    parameters: { language: 'de', dateFormat: 'Y-m-d' }
-    isValid: true
-  no useBrowserLanguage:
-    parameters: { language: 'de', dateFormat: 'Y-m-d' }
-    isValid: true
-  browserLanguage random text:
-    parameters: { language: 'de', dateFormat: 'Y-m-d'}
-    isValid: true
