@@ -23,7 +23,7 @@ Entities :
           - {field: "militaryService" }
           - {field: "empStatus" , getter: 'getEmpStatus' }
           - {field: "jobTitle" ,class: 'FormatWithJobTitle' , getter: ['getJobTitle','getId']}
-          - {field: "subDivision" ,class: 'FormatWithWorkStation' , getter: 'getSubDivision'}
+          - {field: "subDivision" ,class: 'FormatWithWorkStation' , getter: ['getSubDivision', 'getId']}
           - {field: "street1" }
           - {field: "street2" }
           - {field: "city" }
