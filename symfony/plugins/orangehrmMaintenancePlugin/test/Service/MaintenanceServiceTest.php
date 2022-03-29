@@ -76,7 +76,6 @@ class MaintenanceServiceTest extends KernelTestCase
         $this->assertEquals('112-898-7612', $result['Employee'][0]['workTelephone']);
         $this->assertEquals('kayla@xample.com', $result['Employee'][0]['workEmail']);
         $this->assertEquals('kayla2@xample.com', $result['Employee'][0]['otherEmail']);
-        $this->assertEquals('2022-03-29 09:10:32', $result['Employee'][0]['purgedAt']);
         $this->assertEquals('Job Category 1', $result['Employee'][0]['jobCategory']);
         $this->assertEquals('2022-02-01', $result['Employee'][0]['joinedDate']);
         $this->assertEquals('Custom 1', $result['Employee'][0]['custom1']);

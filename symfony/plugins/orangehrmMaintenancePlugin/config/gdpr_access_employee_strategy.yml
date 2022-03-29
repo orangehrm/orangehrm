@@ -46,7 +46,6 @@ Entities :
           - {field: "custom8" }
           - {field: "custom9" }
           - {field: "custom10" }
-          - {field: "purgedAt" ,class : 'FormatWithDateTime', getter : 'getPurgedAt' }
           - {field: "jobCategory" ,class: 'FormatWithJobCategory' , getter: ['getJobCategory','getId']}
           - {field: "joinedDate", class : 'FormatWithDate', getter : 'getJoinedDate'  }
 
