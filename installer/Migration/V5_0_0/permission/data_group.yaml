@@ -1,0 +1,20 @@
+time_project_activities:
+  description: "Time - Project Info - Projects - Activities"
+  allowed:
+    read: true
+    create: true
+    update: true
+    delete: true
+  permissions:
+    Admin:
+      read: true
+      create: true
+      update: true
+      delete: true
+      self: false
+    ProjectAdmin:
+      read: true
+      create: true
+      update: true
+      delete: true
+      self: false

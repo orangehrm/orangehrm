@@ -1,0 +1,16 @@
+apiv2_time_time_sheet_config:
+  description: "API-v2 Time - Time Sheet Start Day Configuration"
+  api: "OrangeHRM\\Time\\Api\\TimeConfigPeriodAPI"
+  module: "time"
+  allowed:
+    read: true
+    create: false
+    update: true
+    delete: false
+  permissions:
+    Admin:
+      read: true
+      create: false
+      update: true
+      delete: false
+      self: false
