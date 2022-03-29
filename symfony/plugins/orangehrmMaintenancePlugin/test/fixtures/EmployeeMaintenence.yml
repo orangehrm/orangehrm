@@ -9,6 +9,10 @@ Subunit:
   1: { id: 2, name: 'Department 1', unit_id: 'dept', description: 'department description', lft: 2, rgt: 5, level: 1 }
   2: { id: 3, name: 'Sub Department 1', unit_id: 'sub dept', description: 'sub department description', lft: 3, rgt: 4, level: 2 }
 
+JobCategory:
+  0: { id: 1, name: 'Job Category 1' }
+  1: { id: 2, name: 'Job Category 2' }
+  2: { id: 3, name: 'Job Category 3' }
 
 Nationality:
   0: { id: 1, name: 'nationality 1' }
@@ -38,7 +42,7 @@ Employee:
        emp_status: "1", eeo_cat_code: "1", work_station: 1, emp_street1: "Street 1", emp_street2: "Street 2",
        city_code: "City",coun_code: "LK",provin_code: "State",emp_zipcode: "12345",
        emp_hm_telephone: "123", emp_mobile: "1234",
-       termination_id: "1", custom1: "Custom 1",job_title_code: "1"
+       termination_id: "1", custom1: "Custom 1",job_title_code: "1",purged_at : '2022-03-29 09:10:32'
   }
 
 

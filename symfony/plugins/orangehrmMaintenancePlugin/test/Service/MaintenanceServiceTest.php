@@ -59,25 +59,34 @@ class MaintenanceServiceTest extends KernelTestCase
         $this->assertEquals('Male', $result['Employee'][0]['gender']);
         $this->assertEquals('2022-02-01', $result['Employee'][0]['joinedDate']);
         $this->assertEquals('Organization', $result['Employee'][0]['subDivision']);
-
         $this->assertEquals('Street 1', $result['Employee'][0]['street1']);
         $this->assertEquals('Street 2', $result['Employee'][0]['street2']);
         $this->assertEquals('City', $result['Employee'][0]['city']);
         $this->assertEquals('LK', $result['Employee'][0]['country']);
         $this->assertEquals('State', $result['Employee'][0]['province']);
         $this->assertEquals('12345', $result['Employee'][0]['zipcode']);
-
         $this->assertEquals('123', $result['Employee'][0]['homeTelephone']);
         $this->assertEquals('1975-10-15', $result['Employee'][0]['birthday']);
-        $this->assertEquals('Organization', $result['Employee'][0]['mobile']);
-        $this->assertEquals('Male', $result['Employee'][0]['workTelephone']);
-        $this->assertEquals('2022-02-01', $result['Employee'][0]['workEmail']);
-        $this->assertEquals('Organization', $result['Employee'][0]['otherEmail']);
+        $this->assertEquals('1234', $result['Employee'][0]['mobile']);
+        $this->assertEquals('112-898-7612', $result['Employee'][0]['workTelephone']);
+        $this->assertEquals('kayla@xample.com', $result['Employee'][0]['workEmail']);
+        $this->assertEquals('kayla2@xample.com', $result['Employee'][0]['otherEmail']);
+        $this->assertEquals('2022-03-29 09:10:32', $result['Employee'][0]['purgedAt']);
+        $this->assertEquals('Job Category 1', $result['Employee'][0]['jobCategory']);
+        $this->assertEquals('2022-02-01', $result['Employee'][0]['joinedDate']);
+        $this->assertEquals('Custom 1', $result['Employee'][0]['custom1']);
 
-        $this->assertEquals('Male', $result['Employee'][0]['purgedAt']);
-        $this->assertEquals('2022-02-01', $result['Employee'][0]['jobCategory']);
-        $this->assertEquals('Organization', $result['Employee'][0]['joinedDate']);
-        $this->assertEquals('Male', $result['Employee'][0]['custom1']);
+        $this->assertEquals('Single', $result['Employee'][0]['maritalStatus']);
+        $this->assertEquals('nationality 1', $result['Employee'][0]['nationCode']);
+
+        $this->assertEquals('123', $result['Employee'][0]['ssnNumber']);
+        $this->assertEquals('1234', $result['Employee'][0]['sinNumber']);
+        $this->assertEquals('12345', $result['Employee'][0]['otherId']);
+
+        $this->assertEquals('123', $result['Employee'][0]['drivingLicenseNo']);
+        $this->assertEquals('123', $result['Employee'][0]['drivingLicenseNo']);
+        $this->assertEquals('Yes', $result['Employee'][0]['militaryService']);
+        $this->assertEquals('Full Time', $result['Employee'][0]['empStatus']);
 
 
 
