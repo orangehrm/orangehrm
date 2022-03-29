@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Tests\Maintenance\Service;
 
+use OrangeHRM\Admin\Service\CompanyStructureService;
 use OrangeHRM\Admin\Service\CountryService;
 use OrangeHRM\Admin\Service\PayGradeService;
 use OrangeHRM\Config\Config;
@@ -42,7 +43,7 @@ class MaintenanceServiceTest extends KernelTestCase
         TestDataService::populate($this->fixture);
         $this->createKernelWithMockServices([Services::COUNTRY_SERVICE=>new CountryService(),
             Services::PAY_GRADE_SERVICE=>new PayGradeService(),Services::EMPLOYEE_SERVICE=>new EmployeeService(),
-            Services::TIMESHEET_SERVICE=>new TimesheetService(),
+            Services::TIMESHEET_SERVICE=>new TimesheetService(),Services::COMPANY_STRUCTURE_SERVICE=>new CompanyStructureService()
             ]);
     }
 
@@ -57,6 +58,28 @@ class MaintenanceServiceTest extends KernelTestCase
         $this->assertEquals('Smoker', $result['Employee'][0]['smoker']);
         $this->assertEquals('Male', $result['Employee'][0]['gender']);
         $this->assertEquals('2022-02-01', $result['Employee'][0]['joinedDate']);
+        $this->assertEquals('Organization', $result['Employee'][0]['subDivision']);
+
+        $this->assertEquals('Street 1', $result['Employee'][0]['street1']);
+        $this->assertEquals('Street 2', $result['Employee'][0]['street2']);
+        $this->assertEquals('City', $result['Employee'][0]['city']);
+        $this->assertEquals('LK', $result['Employee'][0]['country']);
+        $this->assertEquals('State', $result['Employee'][0]['province']);
+        $this->assertEquals('12345', $result['Employee'][0]['zipcode']);
+
+        $this->assertEquals('123', $result['Employee'][0]['homeTelephone']);
+        $this->assertEquals('1975-10-15', $result['Employee'][0]['birthday']);
+        $this->assertEquals('Organization', $result['Employee'][0]['mobile']);
+        $this->assertEquals('Male', $result['Employee'][0]['workTelephone']);
+        $this->assertEquals('2022-02-01', $result['Employee'][0]['workEmail']);
+        $this->assertEquals('Organization', $result['Employee'][0]['otherEmail']);
+
+        $this->assertEquals('Male', $result['Employee'][0]['purgedAt']);
+        $this->assertEquals('2022-02-01', $result['Employee'][0]['jobCategory']);
+        $this->assertEquals('Organization', $result['Employee'][0]['joinedDate']);
+        $this->assertEquals('Male', $result['Employee'][0]['custom1']);
+
+
 
         $this->assertCount(1, $result['Employee']);
     }
