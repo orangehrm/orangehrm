@@ -18,12 +18,12 @@ Entities :
           - {field: "ssnNumber" , getter: 'getSsnNumber' }
           - {field: "sinNumber" , getter: 'getSinNumber' }
           - {field: "otherId" }
-          - {field: "licenses" , getter: 'getLicenses' }
           - {field: "drivingLicenseNo", getter: 'getDrivingLicenseNo' }
+          - {field: "drivingLicenseExpiredDate" ,class: 'FormatWithDate'}
           - {field: "militaryService" }
-          - {field: "empStatus" , getter: 'getEmpStatus' }
+          - {field: "empStatus" , getter: ['getEmpStatus','getName'] }
           - {field: "jobTitle" ,class: 'FormatWithJobTitle' , getter: ['getJobTitle','getId']}
-          - {field: "subDivision" ,class: 'FormatWithWorkStation' , getter: 'getSubDivision'}
+          - {field: "subDivision" ,class: 'FormatWithWorkStation' , getter: ['getSubDivision', 'getId']}
           - {field: "street1" }
           - {field: "street2" }
           - {field: "city" }
@@ -46,7 +46,6 @@ Entities :
           - {field: "custom8" }
           - {field: "custom9" }
           - {field: "custom10" }
-          - {field: "purgedAt" , getter : 'getPurgedAt' }
           - {field: "jobCategory" ,class: 'FormatWithJobCategory' , getter: ['getJobCategory','getId']}
           - {field: "joinedDate", class : 'FormatWithDate', getter : 'getJoinedDate'  }
 
