@@ -17,6 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 
+use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper;
 use OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory;
 use OrangeHRM\Core\Helper\ClassHelper;
@@ -65,6 +66,8 @@ class CorePluginConfiguration implements PluginConfigurationInterface
             'cookie_secure' => $isSecure,
             'cookie_httponly' => true,
             'cookie_path' => $path,
+            'cookie_samesite' => 'Strict',
+            'cookie_lifetime' => Config::MAX_IDLE_TIME
         ];
         $sessionStorage = new NativeSessionStorage($options, new NativeFileSessionHandler());
         $session = new Session($sessionStorage);

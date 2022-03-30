@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Core\Subscriber;
 
+use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Framework\Event\AbstractEventSubscriber;
 use OrangeHRM\Framework\Http\Session\Session;
@@ -47,9 +48,7 @@ class SessionSubscriber extends AbstractEventSubscriber
         /** @var Session $session */
         $session = $this->getContainer()->get(Services::SESSION);
 
-        // TODO:: move to config
-        $maxIdleTime = 1800;
-        if (time() - $session->getMetadataBag()->getLastUsed() > $maxIdleTime) {
+        if (time() - $session->getMetadataBag()->getLastUsed() > Config::MAX_IDLE_TIME) {
             $session->invalidate();
         }
     }
