@@ -9,17 +9,43 @@ Subunit:
   1: { id: 2, name: 'Department 1', unit_id: 'dept', description: 'department description', lft: 2, rgt: 5, level: 1 }
   2: { id: 3, name: 'Sub Department 1', unit_id: 'sub dept', description: 'sub department description', lft: 3, rgt: 4, level: 2 }
 
+JobCategory:
+  0: { id: 1, name: 'Job Category 1' }
+  1: { id: 2, name: 'Job Category 2' }
+  2: { id: 3, name: 'Job Category 3' }
 
 Nationality:
   0: { id: 1, name: 'nationality 1' }
   1: { id: 2, name: 'nationality 2' }
   2: { id: 3, name: 'nationality 3' }
 
+
+EmploymentStatus:
+  0: { id: 1, name: 'Full Time' }
+  1: { id: 2, name: 'Part Time' }
+  2: { id: 3, name: 'Intern' }
+
+TerminationReason:
+  0: {id: 1, name: 'Resigned'}
+  1: {id: 2, name: 'Dismissed'}
+  2: {id: 3, name: 'Laid-off'}
+
+EmployeeTerminationRecord:
+  0: {id: 1, reason_id: 1, date: '2011-12-09'}
+
 Employee:
   0: { empNumber: 1, emp_gender: 1, firstName: 'Kayla', lastName: 'Abbey', middleName: 'T', nickName: 'sd', employeeId: 'E001', emp_work_email: 'kayla@xample.com', emp_oth_email: 'kayla2@xample.com',"nation_code": '1',
-       "emp_birthday": '1975-10-15',
-       "emp_work_telephone": '112-898-7612', emp_smoker: 1, "joined_date": "2022-02-01",
+       emp_birthday : '1975-10-15',
+       emp_work_telephone: '112-898-7612', emp_smoker: 1, joined_date : "2022-02-01",
+       emp_marital_status: "Single", emp_ssn_num: "123", emp_sin_num: "1234",
+       emp_other_id: "12345", emp_dri_lice_num: "123", emp_dri_lice_exp_date: "2022-02-16", emp_military_service: "Yes",
+       emp_status: "1", eeo_cat_code: "1", work_station: 1, emp_street1: "Street 1", emp_street2: "Street 2",
+       city_code: "City",coun_code: "LK",provin_code: "State",emp_zipcode: "12345",
+       emp_hm_telephone: "123", emp_mobile: "1234",
+       termination_id: "1", custom1: "Custom 1",job_title_code: "1",purged_at : '2022-03-29 09:10:32'
   }
+
+
   1: { empNumber: 2, firstName: 'Ashley', lastName: 'Abel', middleName: 'ST',employeeId: 'E002', emp_work_email: 'ashley@xample.com', emp_oth_email: 'ashley2@xample.com' }
   2: { empNumber: 3, firstName: 'Ajiharan', lastName: 'Saputhanthri', middleName: 'RT', employeeId: 'E003', emp_work_email: 'renukshan@xample.com', emp_oth_email: 'renukshan2@xample.com' }
   3: { empNumber: 4, firstName: 'Chaturanga', lastName: 'Namal', middleName: 'ST', employeeId: 'E004', emp_work_email: '', emp_oth_email: '' }
