@@ -69,6 +69,21 @@
             type="submit"
           />
         </oxd-form-actions>
+        <oxd-text
+          :style="{
+            display: 'flex',
+            justifyContent: 'center',
+            marginTop: '0.5rem',
+          }"
+        >
+          Forgot Your &nbsp;
+          <oxd-text
+            tag="span"
+            :style="{color: 'orange', cursor: 'pointer'}"
+            @click="navigateUrl"
+            >Password?</oxd-text
+          >
+        </oxd-text>
       </oxd-form>
       <br />
     </div>
@@ -83,7 +98,7 @@ import LoginLayout from '../components/LoginLayout';
 import Alert from '@ohrm/oxd/core/components/Alert/Alert';
 import {required} from '@ohrm/core/util/validation/rules';
 import {urlFor} from '@ohrm/core/util/helper/url';
-import {reloadPage} from '@ohrm/core/util/helper/navigation';
+import {navigate, reloadPage} from '@ohrm/core/util/helper/navigation';
 
 export default {
   components: {
@@ -128,6 +143,9 @@ export default {
   methods: {
     onSubmit() {
       this.$refs.loginForm.$el.submit();
+    },
+    navigateUrl() {
+      navigate('/auth/requestPasswordResetCode');
     },
   },
 };
