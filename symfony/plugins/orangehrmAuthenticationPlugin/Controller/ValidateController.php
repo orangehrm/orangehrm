@@ -32,6 +32,7 @@ use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Framework\Http\RedirectResponse;
 use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Framework\Http\Session\Session;
 use OrangeHRM\Framework\Routing\UrlGenerator;
 use OrangeHRM\Framework\Services;
 
@@ -119,6 +120,10 @@ class ValidateController extends AbstractController implements PublicControllerI
             $this->getAuthUser()->addFlash(AuthUser::FLASH_LOGIN_ERROR, $e->normalize());
             return new RedirectResponse($loginUrl);
         }
+
+        /** @var Session $session */
+        $session = $this->getContainer()->get(Services::SESSION);
+        $session->migrate(true);
 
         if ($this->getAuthUser()->hasAttribute(AuthUser::SESSION_TIMEOUT_REDIRECT_URL)) {
             $redirectUrl = $this->getAuthUser()->getAttribute(AuthUser::SESSION_TIMEOUT_REDIRECT_URL);
