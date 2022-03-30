@@ -72,7 +72,7 @@
 
     <!-- select timezone -->
 
-    <oxd-grid v-if="isTimezoneEditable" :cols="4">
+    <oxd-grid v-if="isTimezoneEditable" :cols="2">
       <oxd-grid-item>
         <timezone-dropdown v-model="attendanceRecord.timezone" required />
       </oxd-grid-item>
