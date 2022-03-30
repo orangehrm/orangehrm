@@ -19,12 +19,12 @@
 
 namespace OrangeHRM\Authentication\Controller;
 
-
 use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Controller\PublicControllerInterface;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Framework\Http\Request;
-class RequestResetPasswordController  extends AbstractVueController implements PublicControllerInterface
+
+class RequestPasswordController extends AbstractVueController implements PublicControllerInterface
 {
     /**
      * @inheritDoc
@@ -39,8 +39,8 @@ class RequestResetPasswordController  extends AbstractVueController implements P
     /**
      * @inheritDoc
      */
-    public function handle(Request $request){
+    public function handle(Request $request)
+    {
         return parent::handle($request);
     }
-
 }

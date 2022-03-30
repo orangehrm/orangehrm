@@ -1,78 +1,71 @@
 <template>
-  <div class="orangehrm-admin-access-container">
-    <div class="orangehrm-card-container">
-      <oxd-form ref="verifyForm" method="post" @submitValid="submitRequest">
-        <oxd-text tag="h6" class="orangehrm-admin-access-title">
-          Reset password
-        </oxd-text>
-
-        <br />
-
-        <oxd-text :class="noteClasses">
-          Please enter your username to identify your account to reset your
-          password
-        </oxd-text>
-
-        <oxd-form-row>
-          <oxd-input-field
-            :model-value="username"
-            name="username"
-            label="Username"
-            label-icon="person"
-            :rules="rules.username"
+  <div class="orangehrm-forgot-password-container">
+    <div class="orangehrm-forgot-password-wrapper">
+      <div class="orangehrm-card-container">
+        <oxd-form method="post">
+          <oxd-divider />
+          <oxd-text tag="h6" class="orangehrm-forgot-password-title">
+            Reset password
+          </oxd-text>
+          <oxd-divider />
+          <card-note
+            note-text="Please enter your username to identify your account to reset your
+            password"
+            class="orangehrm-forgot-password-card-note"
           />
-        </oxd-form-row>
-
-        <div class="orangehrm-admin-access-button-container">
-          <oxd-button
-            class="orangehrm-admin-access-button"
-            display-type="ghost"
-            size="large"
-            label="Cancel"
-            @click="onCancel"
-          />
-          <oxd-button
-            class="orangehrm-admin-access-button"
-            display-type="secondary"
-            size="large"
-            label="Reset Password"
-            type="submit"
-          />
-        </div>
-      </oxd-form>
+          <oxd-form-row>
+            <oxd-input-field
+              v-model="username"
+              name="username"
+              label="Username"
+              label-icon="person"
+              :rules="rules.username"
+              placeholder="username"
+            />
+          </oxd-form-row>
+          <oxd-divider />
+          <div class="orangehrm-forgot-password-button-container">
+            <oxd-button
+              class="orangehrm-forgot-password-button"
+              display-type="ghost"
+              size="large"
+              label="Cancel"
+              @click="onCancel"
+            />
+            <oxd-button
+              class="orangehrm-forgot-password-button"
+              display-type="secondary"
+              size="large"
+              label="Reset Password"
+              type="submit"
+            />
+          </div>
+        </oxd-form>
+      </div>
     </div>
+    <slot name="footer"></slot>
   </div>
 </template>
 
 <script>
 import {navigate} from '@/core/util/helper/navigation';
 import {required} from '@/core/util/validation/rules';
-
+import CardNote from '../components/CardNote';
 export default {
   name: 'RequestResetPassword',
-  props: {
-    username: {
-      type: String,
-      required: true,
-    },
+  components: {
+    'card-note': CardNote,
   },
-
   data() {
     return {
+      username: '',
       rules: {
         username: [required],
-      },
-      noteClasses: {
-        'orangehrm-admin-access-note': true,
-        '--padding': this.error === null,
       },
     };
   },
 
   methods: {
-    submitRequest() {
-      // this.$refs.verifyForm.$el.submit();
-    },
     onCancel() {
       navigate('/auth/login');
     },
@@ -80,39 +73,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-@import '@ohrm/oxd/styles/_mixins.scss';
-
-.orangehrm-card-container {
-  box-shadow: 3px 3px 10px $oxd-interface-gray-color;
-  width: 60vh;
-}
-
-.orangehrm-admin-access {
-  &-container {
-    display: flex;
-    height: 100vh;
-    justify-content: center;
-    align-items: center;
-  }
-  &-title {
-    font-weight: 700;
-  }
-  &-note {
-    font-size: 12px;
-    &.--padding {
-      padding-bottom: 1.2rem;
-    }
-  }
-  &-button {
-    flex: 1;
-    margin-left: 0.6rem;
-    margin-right: 0.6rem;
-    &-container {
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
-    }
-  }
-}
-</style>
+<style src="./reset-password.scss" lang="scss" scoped></style>

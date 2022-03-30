@@ -1,3 +1,4 @@
+<?php
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -16,19 +17,30 @@
  * Boston, MA  02110-1301, USA
  */
 
-import Login from './pages/Login.vue';
-import Forbidden from './pages/Forbidden.vue';
-import AdministratorAccess from './pages/AdministratorAccess.vue';
-import RequestResetPassword from './pages/RequestResetPassword.vue';
-import ResetPasswordSuccess from './pages/ResetPasswordSuccess.vue';
-import ResetPasswordError from './pages/ResetPasswordError.vue';
-import ResetPassword from './pages/ResetPassword.vue';
-export default {
-  'auth-login': Login,
-  'auth-forbidden': Forbidden,
-  'auth-admin-access': AdministratorAccess,
-  'request-reset-password': RequestResetPassword,
-  'reset-password-success': ResetPasswordSuccess,
-  'reset-password-error': ResetPasswordError,
-  'reset-password': ResetPassword,
-};
+namespace OrangeHRM\Authentication\Controller;
+
+use OrangeHRM\Core\Controller\AbstractVueController;
+use OrangeHRM\Core\Controller\PublicControllerInterface;
+use OrangeHRM\Core\Vue\Component;
+use OrangeHRM\Framework\Http\Request;
+
+class ResetPasswordController extends AbstractVueController implements PublicControllerInterface
+{
+    /**
+     * @inheritDoc
+     */
+    public function preRender(Request $request): void
+    {
+        $component = new Component('reset-password');
+        $this->setTemplate('no_header.html.twig');
+        $this->setComponent($component);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function handle(Request $request)
+    {
+        return parent::handle($request);
+    }
+}

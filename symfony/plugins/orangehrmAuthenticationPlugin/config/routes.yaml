@@ -20,5 +20,20 @@ auth_admin_access_verify:
 
 auth_forgot_password_username:
   path: /auth/requestPasswordResetCode
-  controller: OrangeHRM\Authentication\Controller\RequestResetPasswordController::handle
+  controller: OrangeHRM\Authentication\Controller\RequestPasswordController::handle
+  methods: [ GET ]
+
+auth_request_password_success:
+  path: /auth/requestSucess
+  controller: OrangeHRM\Authentication\Controller\RequestPasswordSuccessController::handle
+  methods: [ GET ]
+
+auth_reset_password_error:
+  path: /auth/resetError
+  controller: OrangeHRM\Authentication\Controller\ResetPasswordErrorController::handle
+  methods: [ GET ]
+
+auth_reset_password:
+  path: /auth/resetPassword
+  controller: OrangeHRM\Authentication\Controller\ResetPasswordController::handle
   methods: [ GET ]
