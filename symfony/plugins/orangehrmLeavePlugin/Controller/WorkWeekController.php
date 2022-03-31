@@ -43,7 +43,7 @@ class WorkWeekController extends AbstractVueController
             ["id" => WorkWeek::WORKWEEK_LENGTH_NON_WORKING_DAY, "label" => 'Non-working Day']
         ];
         $translatedDayTypes =[];
-        foreach ($dayTypes as $dayType){
+        foreach ($dayTypes as $dayType) {
             $translatedDayTypes[] =[
                 'id' => $dayType['id'],
                 'label' =>$this->getI18NHelper()->transBySource($dayType['label']),

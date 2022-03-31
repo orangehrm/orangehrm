@@ -23,7 +23,7 @@ use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Framework\Http\Request;
-use \OrangeHRM\I18N\Traits\Service\I18NHelperTrait;
+use OrangeHRM\I18N\Traits\Service\I18NHelperTrait;
 
 class SaveEmployeeReportController extends AbstractVueController
 {
@@ -57,7 +57,7 @@ class SaveEmployeeReportController extends AbstractVueController
             ["id" => 20, "key" => "location", "label" => "Location"],
         ];
         $translatedSelectionCriteria =[];
-        foreach ($selectionCriteria as $selection){
+        foreach ($selectionCriteria as $selection) {
             $translatedSelectionCriteria[] =[
                 'id' => $selection['id'],
                 'key' => $selection['key'],
@@ -86,7 +86,7 @@ class SaveEmployeeReportController extends AbstractVueController
             ["id" => 5, "label" => "Immigration"],
         ];
         $translatedDisplayFieldGroups =[];
-        foreach ($displayFieldGroups as $displayFieldGroup){
+        foreach ($displayFieldGroups as $displayFieldGroup) {
             $translatedDisplayFieldGroups[] =[
                 'id' => $displayFieldGroup['id'],
                 'label' =>$this->getI18NHelper()->transBySource($displayFieldGroup['label']),
@@ -538,7 +538,7 @@ class SaveEmployeeReportController extends AbstractVueController
             ],
         ];
         $translatedDisplayFields =[];
-        foreach ($displayFields as $displayField){
+        foreach ($displayFields as $displayField) {
             $translatedDisplayFields[] =[
                 'field_group_id' => $displayField['field_group_id'],
                 'fields' => $this->translateFields($displayField['fields'])
@@ -554,7 +554,7 @@ class SaveEmployeeReportController extends AbstractVueController
     private function translateFields(array $fields): array
     {
         $translatedField =[];
-        foreach ($fields as $field){
+        foreach ($fields as $field) {
             $translatedField[] =[
                 'id' => $field['id'],
                 'label' =>$this->getI18NHelper()->transBySource($field['label']),

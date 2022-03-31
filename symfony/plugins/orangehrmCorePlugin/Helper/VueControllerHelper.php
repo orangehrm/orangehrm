@@ -250,11 +250,11 @@ class VueControllerHelper
         if ($menuItem) {
             //TODO needed to fix for add screens
             $breadcrumb['level'] = $menuItem->getLevel() == 3 ? $menuItem->getParent()->getMenuTitle() : null;
-            if(!is_null($breadcrumb['level'])){
+            if (!is_null($breadcrumb['level'])) {
                 $breadcrumb['level'] =$this->getI18NHelper()->transBySource($breadcrumb['level']);
             }
         }
-        if($breadcrumb['moduleName']){
+        if ($breadcrumb['moduleName']) {
             $breadcrumb['moduleName'] =$this->getI18NHelper()->transBySource($breadcrumb['moduleName']);
         }
         return $breadcrumb;

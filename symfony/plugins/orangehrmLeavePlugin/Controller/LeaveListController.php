@@ -100,7 +100,7 @@ class LeaveListController extends AbstractVueController
     {
         $leaveStatuses = self::LEAVE_STATUSES;
         $translatedLeaveStatuses = [];
-        foreach ($leaveStatuses as $leaveStatus){
+        foreach ($leaveStatuses as $leaveStatus) {
             $translatedLeaveStatuses[] = [
                 'id' => $leaveStatus['id'],
                 'label' =>$this->getI18NHelper()->transBySource($leaveStatus['label']),

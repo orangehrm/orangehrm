@@ -57,7 +57,7 @@ class SaveCustomFieldController extends AbstractVueController
         }
         $screenList =CustomFieldController::SCREEN_LIST;
         $translatedScreenList =[];
-        foreach ($screenList as $screen){
+        foreach ($screenList as $screen) {
             $translatedScreenList[] =[
                 'id' => $screen['id'],
                 'label' => $this->getI18NHelper()->transBySource($screen['label'])
@@ -66,7 +66,7 @@ class SaveCustomFieldController extends AbstractVueController
         $component->addProp(new Prop('screen-list', Prop::TYPE_ARRAY, $translatedScreenList));
         $fieldTypeList =CustomFieldController::FIELD_TYPE_LIST;
         $translatedFieldTypeList =[];
-        foreach ($fieldTypeList as $field){
+        foreach ($fieldTypeList as $field) {
             $translatedFieldTypeList[] =[
                 'id' => $field['id'],
                 'label' => $this->getI18NHelper()->transBySource($field['label'])
