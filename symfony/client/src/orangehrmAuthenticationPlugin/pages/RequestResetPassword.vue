@@ -2,7 +2,12 @@
   <div class="orangehrm-forgot-password-container">
     <div class="orangehrm-forgot-password-wrapper">
       <div class="orangehrm-card-container">
-        <oxd-form method="post">
+        <oxd-form
+          ref="verifyForm"
+          method="post"
+          :action="submitUrl"
+          @submitValid="onSubmit"
+        >
           <oxd-text tag="h6" class="orangehrm-forgot-password-title">
             Reset Password
           </oxd-text>
@@ -50,6 +55,7 @@
 import {navigate} from '@/core/util/helper/navigation';
 import {required} from '@/core/util/validation/rules';
 import CardNote from '../components/CardNote';
+import {urlFor} from '@/core/util/helper/url';
 export default {
   name: 'RequestResetPassword',
   components: {
@@ -63,10 +69,17 @@ export default {
       },
     };
   },
-
+  computed: {
+    submitUrl() {
+      return urlFor('/auth/usernameVerify');
+    },
+  },
   methods: {
     onCancel() {
       navigate('/auth/login');
+    },
+    onSubmit() {
+      this.$refs.verifyForm.$el.submit();
     },
   },
 };

@@ -112,7 +112,7 @@ export default {
         confirmPassword: [
           required,
           shouldNotExceedCharLength(64),
-          v => (!!v && v === this.newPassword) || 'Passwords do not match',
+          v => (!!v && v === this.user.newPassword) || 'Passwords do not match',
         ],
       },
     };
