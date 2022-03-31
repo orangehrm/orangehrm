@@ -22,6 +22,7 @@ namespace OrangeHRM\Authentication\Controller;
 use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Controller\PublicControllerInterface;
 use OrangeHRM\Core\Vue\Component;
+use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Framework\Http\Request;
 
 class ResetPasswordController extends AbstractVueController implements PublicControllerInterface
@@ -33,6 +34,9 @@ class ResetPasswordController extends AbstractVueController implements PublicCon
     {
         $component = new Component('reset-password');
         $this->setTemplate('no_header.html.twig');
+        $component->addProp(
+            new Prop('username', Prop::TYPE_STRING, 'test_user')
+        );
         $this->setComponent($component);
     }
 

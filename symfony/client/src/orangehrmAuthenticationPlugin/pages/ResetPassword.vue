@@ -31,14 +31,11 @@
           />
           <oxd-form-row>
             <oxd-input-field
-              v-model="user.username"
+              :model-value="username"
               name="username"
               label="Username"
               label-icon="person"
-              :rules="rules.username"
-              placeholder="username"
-              autocomplete="off"
-              required
+              disabled
             />
           </oxd-form-row>
           <oxd-form-row>
@@ -85,13 +82,23 @@
 </template>
 
 <script>
-import {required} from '@/core/util/validation/rules';
 import CardNote from '../components/CardNote';
+import {checkPassword} from '@ohrm/core/util/helper/password';
+import {
+  required,
+  shouldNotExceedCharLength,
+} from '@ohrm/core/util/validation/rules';
 
 export default {
   name: 'ResetPassword',
   components: {
     'card-note': CardNote,
+  },
+  props: {
+    username: {
+      type: String,
+      required: true,
+    },
   },
   data() {
     return {
@@ -101,9 +108,12 @@ export default {
         confirmPassword: '',
       },
       rules: {
-        username: [required],
-        newPassword: [required],
-        confirmPassword: [required],
+        newPassword: [required, shouldNotExceedCharLength(64), checkPassword],
+        confirmPassword: [
+          required,
+          shouldNotExceedCharLength(64),
+          v => (!!v && v === this.password) || 'Passwords do not match',
+        ],
       },
     };
   },
