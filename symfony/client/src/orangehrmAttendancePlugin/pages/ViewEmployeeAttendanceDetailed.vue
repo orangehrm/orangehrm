@@ -67,6 +67,9 @@
         :label="$t('general.add')"
         @click="onClickAdd"
       />
+      <oxd-text class="orangehrm-header-total" tag="span">
+        {{ $t('time.total_duration') }}: {{ totalDuration }}
+      </oxd-text>
     </div>
     <table-header
       :total="total"
@@ -186,6 +189,11 @@ export default {
       prefetch: true,
     });
 
+    const totalDuration = computed(() => {
+      const meta = response.value?.meta;
+      return meta ? meta.sum.label : '0.00';
+    });
+
     return {
       http,
       rules,
@@ -198,6 +206,7 @@ export default {
       currentPage,
       showPaginator,
       items: response,
+      totalDuration,
     };
   },
 
