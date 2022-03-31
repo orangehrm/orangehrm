@@ -20,6 +20,7 @@
 namespace OrangeHRM\Installer\Migration\V5_0_0;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Schema\ForeignKeyConstraint;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Types\Types;
@@ -40,7 +41,10 @@ class Migration extends AbstractMigration
         );
         $this->getDataGroupHelper()->insertApiPermissions(__DIR__ . '/permission/api.yaml');
         $this->getDataGroupHelper()->insertDataGroupPermissions(__DIR__ . '/permission/data_group.yaml');
+
+        $this->updateMenuConfigurator('attendance', null, 'OrangeHRM\\Attendance\\Menu\\AttendanceMenuConfigurator');
         $this->getDataGroupHelper()->insertScreenPermissions(__DIR__ . '/permission/screen.yaml');
+
         $this->getSchemaHelper()->dropColumn('ohrm_leave', 'comments');
         $this->getSchemaHelper()->dropColumn('ohrm_leave_request', 'comments');
         $this->getSchemaHelper()->dropColumn('ohrm_menu_item', 'url_extras');
@@ -62,12 +66,21 @@ class Migration extends AbstractMigration
         $this->createQueryBuilder()
             ->update('ohrm_user_role_data_group', 'dataGroupPermission')
             ->set('dataGroupPermission.can_update', ':canUpdate')
-            ->setParameter('canUpdate', false)
+            ->setParameter('canUpdate', false, ParameterType::BOOLEAN)
             ->andWhere('dataGroupPermission.data_group_id = :dataGroupId')
             ->setParameter('dataGroupId', $this->getDataGroupHelper()->getDataGroupIdByName('time_projects'))
             ->andWhere('dataGroupPermission.user_role_id = :userRoleId')
             ->setParameter('userRoleId', $this->getDataGroupHelper()->getUserRoleIdByName('ProjectAdmin'))
             ->executeQuery();
+        $this->getDataGroupHelper()->addDataGroupPermissions(
+            'attendance_summary',
+            'Admin',
+            true,
+            false,
+            false,
+            false,
+            true
+        );
 
         $this->updateMenuConfigurator('admin', 'saveJobTitle', 'OrangeHRM\\Admin\\Menu\\JobTitleMenuConfigurator');
         $this->updateMenuConfigurator('admin', 'saveLocation', 'OrangeHRM\\Admin\\Menu\\LocationMenuConfigurator');
@@ -100,8 +113,6 @@ class Migration extends AbstractMigration
             'displayProjectActivityDetailsReport',
             'OrangeHRM\\Time\\Menu\\DetailedProjectActivityReportMenuConfigurator'
         );
-
-        $this->updateMenuConfigurator('attendance', null, 'OrangeHRM\\Attendance\\Menu\\AttendanceMenuConfigurator');
 
         $this->configureLeaveMenuItemsIfLeavePeriodDefined();
         $this->configureTimeMenuItemsIfTimesheetStartDateDefined();
@@ -188,7 +199,7 @@ class Migration extends AbstractMigration
         $this->createQueryBuilder()
             ->update('ohrm_menu_item', 'menuItem')
             ->set('menuItem.status', ':status')
-            ->setParameter('status', $defined)
+            ->setParameter('status', $defined, ParameterType::BOOLEAN)
             ->andWhere('menuItem.parent_id = :parentId')
             ->setParameter('parentId', $parentMenuItemId)
             ->executeQuery();
@@ -203,13 +214,13 @@ class Migration extends AbstractMigration
             'ohrm_attendance_record',
             'punch_in_timezone_name',
             Types::STRING,
-            ['Length' => 100, 'Default' => null]
+            ['Length' => 100, 'Default' => null, 'Notnull' => false]
         );
         $this->getSchemaHelper()->addColumn(
             'ohrm_attendance_record',
             'punch_out_timezone_name',
             Types::STRING,
-            ['Length' => 100, 'Default' => null]
+            ['Length' => 100, 'Default' => null, 'Notnull' => false]
         );
         $attendanceHelper = new AttendanceHelper($this->getConnection());
         foreach (AttendanceHelper::TIMEZONE_MAP as $timezone => $offset) {

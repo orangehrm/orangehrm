@@ -73,56 +73,56 @@
   url: saveCustomFields
   permissions:
     Admin: { read: true, create: false, update: false, delete: false }
-  menuConfigurator: OrangeHRM\\Pim\\Menu\\CustomFieldMenuConfigurator
+  menuConfigurator: OrangeHRM\Pim\Menu\CustomFieldMenuConfigurator
 
 'Save Reporting Method':
   module: pim
   url: saveReportingMethod
   permissions:
     Admin: { read: true, create: false, update: false, delete: false }
-  menuConfigurator: OrangeHRM\\Pim\\Menu\\ReportingMethodMenuConfigurator
+  menuConfigurator: OrangeHRM\Pim\Menu\ReportingMethodMenuConfigurator
 
 'Save Termination Reason':
   module: pim
   url: saveTerminationReasons
   permissions:
     Admin: { read: true, create: false, update: false, delete: false }
-  menuConfigurator: OrangeHRM\\Pim\\Menu\\TerminationReasonMenuConfigurator
+  menuConfigurator: OrangeHRM\Pim\Menu\TerminationReasonMenuConfigurator
 
 'Save Holiday':
   module: leave
   url: saveHolidays
   permissions:
     Admin: { read: true, create: false, update: false, delete: false }
-  menuConfigurator: OrangeHRM\\Leave\\Menu\\HolidayMenuConfigurator
+  menuConfigurator: OrangeHRM\Leave\Menu\HolidayMenuConfigurator
 
 'Edit Timesheet':
   module: time
   url: editTimesheet
   permissions:
     ESS: { read: true, create: false, update: false, delete: false }
-  menuConfigurator: OrangeHRM\\Time\\Menu\\TimesheetMenuConfigurato
+  menuConfigurator: OrangeHRM\Time\Menu\TimesheetMenuConfigurator
 
 'Employee Timesheet':
   module: time
   url: viewTimesheet
   permissions:
     ESS: { read: true, create: false, update: false, delete: false }
-  menuConfigurator: OrangeHRM\\Time\\Menu\\EmployeeTimesheetMenuConfigurator
+  menuConfigurator: OrangeHRM\Time\Menu\EmployeeTimesheetMenuConfigurator
 
 'Punch Out':
   module: attendance
   url: punchOut
   permissions:
     ESS: { read: true, create: false, update: false, delete: false }
-  menuConfigurator: OrangeHRM\\Attendance\\Menu\\PunchOutMenuConfigurator
+  menuConfigurator: OrangeHRM\Attendance\Menu\PunchOutMenuConfigurator
 
 'Edit My Attendance Records':
   module: attendance
   url: editAttendanceRecord
   permissions:
     ESS: { read: true, create: false, update: false, delete: false }
-  menuConfigurator: OrangeHRM\\Attendance\\Menu\\EditMyAttendanceRecordMenuConfigurator
+  menuConfigurator: OrangeHRM\Attendance\Menu\EditMyAttendanceRecordMenuConfigurator
 
 'Edit Employee Attendance Records':
   module: attendance
@@ -130,7 +130,7 @@
   permissions:
     Admin: { read: true, create: false, update: false, delete: false }
     Supervisor: { read: true, create: false, update: false, delete: false }
-  menuConfigurator: OrangeHRM\\Attendance\\Menu\\EditEmployeeAttendanceRecordMenuConfigurator
+  menuConfigurator: OrangeHRM\Attendance\Menu\EditEmployeeAttendanceRecordMenuConfigurator
 
 'Employee Punch In/Out':
   module: attendance
@@ -138,4 +138,4 @@
   permissions:
     Admin: { read: true, create: false, update: false, delete: false }
     Supervisor: { read: true, create: false, update: false, delete: false }
-  menuConfigurator: OrangeHRM\\Attendance\\Menu\\EmployeePunchInOutMenuConfigurator
+  menuConfigurator: OrangeHRM\Attendance\Menu\EmployeePunchInOutMenuConfigurator
