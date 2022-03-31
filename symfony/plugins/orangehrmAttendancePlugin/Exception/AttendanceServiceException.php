@@ -47,7 +47,7 @@ class AttendanceServiceException extends Exception
      */
     public static function punchOutTimeBehindThanPunchInTime(): self
     {
-        return new self((new AttendanceServiceException())->getI18NHelper()->trans('time.punch_out_time_should_be_later_than_punch_in_time'));
+        return new self('Punch Out Time Should Be Later Than Punch In Time');
     }
 
     /**
