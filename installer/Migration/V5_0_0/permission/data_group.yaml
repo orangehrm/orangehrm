@@ -1,30 +1,30 @@
 time_project_activities:
-  description: "Time - Project Info - Projects - Activities"
+  description: 'Time - Project Info - Projects - Activities'
   allowed:
     read: true
     create: true
     update: true
     delete: true
   permissions:
-    Admin: { read: true, create: true, update: true, delete: true, self: false }
-    ProjectAdmin: { read: true, create: true, update: true, delete: true, self: false }
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: true, self: false } }
+    - { role: ProjectAdmin, permission: { read: true, create: true, update: true, delete: true, self: false } }
 
 maintenance_employee_json:
-  description: "Maintenance - Access Employee Data JSON"
+  description: 'Maintenance - Access Employee Data JSON'
   allowed:
     read: true
     create: false
     update: false
     delete: false
   permissions:
-    Admin: { read: true, create: false, update: false, delete: false, self: false }
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: false } }
 
 auth_admin_verify:
-  description: "Auth - Administrator Verify"
+  description: 'Auth - Administrator Verify'
   allowed:
     read: true
     create: false
     update: false
     delete: false
   permissions:
-    Admin: { read: true, create: false, update: false, delete: false, self: false }
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: false } }

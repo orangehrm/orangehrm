@@ -53,19 +53,18 @@ class DataGroupPermission
     }
 
     /**
-     * @param string $userRole
-     * @param array $permission ['read' => true, 'create' => false, 'update' => true, 'delete' => false, 'self' => false]
+     * @param array $userRolePermission ['role' => 'Admin', 'permission' => ['read' => true, 'create' => false, 'update' => true, 'delete' => false, 'self' => false]]
      * @return self
      */
-    public static function createFromArray(string $userRole, array $permission): self
+    public static function createFromArray(array $userRolePermission): self
     {
         return new self(
-            $userRole,
-            $permission['read'] ?? false,
-            $permission['create'] ?? false,
-            $permission['update'] ?? false,
-            $permission['delete'] ?? false,
-            $permission['self'] ?? false
+            $userRolePermission['role'],
+            $userRolePermission['permission']['read'] ?? false,
+            $userRolePermission['permission']['create'] ?? false,
+            $userRolePermission['permission']['update'] ?? false,
+            $userRolePermission['permission']['delete'] ?? false,
+            $userRolePermission['permission']['self'] ?? false
         );
     }
 

@@ -50,8 +50,8 @@ class DataGroup
     public static function createFromArray(string $name, array $dataGroup): self
     {
         $permissions = [];
-        foreach ($dataGroup['permissions'] as $userRole => $permission) {
-            $permissions[] = DataGroupPermission::createFromArray($userRole, $permission);
+        foreach ($dataGroup['permissions'] as $userRolePermission) {
+            $permissions[] = DataGroupPermission::createFromArray($userRolePermission);
         }
         return new self(
             $name,

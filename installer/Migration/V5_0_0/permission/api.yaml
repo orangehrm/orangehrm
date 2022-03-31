@@ -12,7 +12,7 @@ apiv2_time_time_sheet_config:
     update: true
     delete: false
   permissions:
-    Admin: { read: true, create: false, update: true, delete: false, self: false }
+    - { role: Admin, permission: { read: true, create: false, update: true, delete: false, self: false } }
 
 apiv2_time_customers:
   description: 'API-v2 Time - Customers'
@@ -24,8 +24,8 @@ apiv2_time_customers:
     update: true
     delete: true
   permissions:
-    Admin: { read: true, create: true, update: true, delete: true, self: false }
-    ProjectAdmin: { read: true, create: false, update: false, delete: false, self: false }
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: true, self: false } }
+    - { role: ProjectAdmin, permission: { read: true, create: false, update: false, delete: false, self: false } }
 
 apiv2_time_validation_customer_name:
   description: 'API-v2 Time - Customer Name Validation'
@@ -37,7 +37,7 @@ apiv2_time_validation_customer_name:
     update: false
     delete: false
   permissions:
-    Admin: { read: true, create: false, update: false, delete: false, self: false }
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: false } }
 
 apiv2_time_project_activities:
   description: 'API-v2 Time - Project Activities'
@@ -49,9 +49,9 @@ apiv2_time_project_activities:
     update: true
     delete: true
   permissions:
-    Admin: { read: true, create: true, update: true, delete: true, self: false }
-    ESS: { read: true, create: false, update: false, delete: false, self: false }
-    ProjectAdmin: { read: true, create: true, update: true, delete: true, self: false }
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: true, self: false } }
+    - { role: ESS, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: ProjectAdmin, permission: { read: true, create: true, update: true, delete: true, self: false } }
 
 apiv2_time_projects:
   description: 'API-v2 Time - Projects'
@@ -63,9 +63,9 @@ apiv2_time_projects:
     update: true
     delete: true
   permissions:
-    Admin: { read: true, create: true, update: true, delete: true, self: false }
-    ESS: { read: true, create: false, update: false, delete: false, self: false }
-    ProjectAdmin: { read: true, create: false, update: false, delete: false, self: false }
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: true, self: false } }
+    - { role: ESS, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: ProjectAdmin, permission: { read: true, create: false, update: false, delete: false, self: false } }
 
 apiv2_time_project_name_validator:
   description: 'API-v2 Time - Project Name Validation'
@@ -77,7 +77,7 @@ apiv2_time_project_name_validator:
     update: false
     delete: false
   permissions:
-    Admin: { read: true, create: false, update: false, delete: false, self: false }
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: false } }
 
 apiv2_time_my_timesheets_entries:
   description: 'API-v2 Time - My Timesheet Entries'
@@ -89,8 +89,8 @@ apiv2_time_my_timesheets_entries:
     update: true
     delete: false
   permissions:
-    Admin: { read: true, create: false, update: true, delete: false, self: true }
-    ESS: { read: true, create: false, update: true, delete: false, self: true }
+    - { role: Admin, permission: { read: true, create: false, update: true, delete: false, self: true } }
+    - { role: ESS, permission: { read: true, create: false, update: true, delete: false, self: true } }
 
 apiv2_time_employees_timesheets_entries:
   description: 'API-v2 Time - Employee Timesheet Entries'
@@ -102,8 +102,8 @@ apiv2_time_employees_timesheets_entries:
     update: true
     delete: false
   permissions:
-    Admin: { read: true, create: false, update: true, delete: false, self: true }
-    Supervisor: { read: true, create: false, update: true, delete: false, self: true }
+    - { role: Admin, permission: { read: true, create: false, update: true, delete: false, self: true } }
+    - { role: Supervisor, permission: { read: true, create: false, update: true, delete: false, self: true } }
 
 apiv2_time_my_timesheet:
   description: 'API-v2 Time - My Timesheet'
@@ -115,9 +115,9 @@ apiv2_time_my_timesheet:
     update: true
     delete: false
   permissions:
-    Admin: { read: true, create: true, update: true, delete: false, self: false }
-    Supervisor: { read: true, create: true, update: true, delete: false, self: false }
-    ESS: { read: true, create: true, update: true, delete: false, self: false }
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: false, self: false } }
+    - { role: Supervisor, permission: { read: true, create: true, update: true, delete: false, self: false } }
+    - { role: ESS, permission: { read: true, create: true, update: true, delete: false, self: false } }
 
 apiv2_time_timesheet_action_log:
   description: 'API-v2 Time - Timesheet action log'
@@ -129,8 +129,8 @@ apiv2_time_timesheet_action_log:
     update: false
     delete: false
   permissions:
-    Admin: { read: true, create: false, update: false, delete: false, self: false }
-    ESS: { read: true, create: false, update: false, delete: false, self: false }
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: ESS, permission: { read: true, create: false, update: false, delete: false, self: false } }
 
 apiv2_time_timesheet_comment:
   description: 'API-v2 Time - Timesheet comment'
@@ -142,9 +142,9 @@ apiv2_time_timesheet_comment:
     update: true
     delete: false
   permissions:
-    Admin: { read: true, create: true, update: true, delete: false, self: false }
-    ESS: { read: true, create: true, update: true, delete: false, self: false }
-    Supervisor: { read: true, create: true, update: true, delete: false, self: false }
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: false, self: false } }
+    - { role: ESS, permission: { read: true, create: true, update: true, delete: false, self: false } }
+    - { role: Supervisor, permission: { read: true, create: true, update: true, delete: false, self: false } }
 
 apiv2_time_config_time_format:
   description: 'API-v2 Time - Time Config Format'
@@ -156,8 +156,8 @@ apiv2_time_config_time_format:
     update: false
     delete: false
   permissions:
-    Admin: { read: true, create: false, update: false, delete: false, self: false }
-    ESS: { read: true, create: false, update: false, delete: false, self: false }
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: ESS, permission: { read: true, create: false, update: false, delete: false, self: false } }
 
 apiv2_time_validation_project_activity_name:
   description: 'API-v2 Time - Project Activity Name Validation'
@@ -169,8 +169,8 @@ apiv2_time_validation_project_activity_name:
     update: false
     delete: false
   permissions:
-    Admin: { read: true, create: false, update: false, delete: false, self: false }
-    ProjectAdmin: { read: true, create: false, update: false, delete: false, self: false }
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: ProjectAdmin, permission: { read: true, create: false, update: false, delete: false, self: false } }
 
 apiv2_time_project_activity_unique_validation:
   description: 'API-v2 Time - Project Activity Unique Validation'
@@ -182,8 +182,8 @@ apiv2_time_project_activity_unique_validation:
     update: false
     delete: false
   permissions:
-    Admin: { read: true, create: false, update: false, delete: false, self: false }
-    ESS: { read: true, create: false, update: false, delete: false, self: false }
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: ESS, permission: { read: true, create: false, update: false, delete: false, self: false } }
 
 apiv2_time_copy_activities:
   description: 'API-v2 Time - Project Copy activities'
@@ -195,8 +195,8 @@ apiv2_time_copy_activities:
     update: false
     delete: false
   permissions:
-    Admin: { read: true, create: true, update: false, delete: false, self: false }
-    ProjectAdmin: { read: true, create: true, update: false, delete: false, self: false }
+    - { role: Admin, permission: { read: true, create: true, update: false, delete: false, self: false } }
+    - { role: ProjectAdmin, permission: { read: true, create: true, update: false, delete: false, self: false } }
 
 apiv2_time_employee_timesheets:
   description: 'API-v2 Time - Employee Timesheets'
@@ -208,8 +208,8 @@ apiv2_time_employee_timesheets:
     update: true
     delete: false
   permissions:
-    Admin: { read: true, create: true, update: true, delete: false, self: false }
-    Supervisor: { read: true, create: true, update: true, delete: false, self: false }
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: false, self: false } }
+    - { role: Supervisor, permission: { read: true, create: true, update: true, delete: false, self: false } }
 
 apiv2_time_employee_timesheet_list:
   description: 'API-v2 Time - Employee Timesheet List'
@@ -221,8 +221,8 @@ apiv2_time_employee_timesheet_list:
     update: false
     delete: false
   permissions:
-    Admin: { read: true, create: false, update: false, delete: false, self: false }
-    Supervisor: { read: true, create: false, update: false, delete: false, self: false }
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: Supervisor, permission: { read: true, create: false, update: false, delete: false, self: false } }
 
 apiv2_time_default_timesheet:
   description: 'API-v2 Time - Default Timesheet'
@@ -234,8 +234,8 @@ apiv2_time_default_timesheet:
     update: false
     delete: false
   permissions:
-    Admin: { read: true, create: false, update: false, delete: false, self: false }
-    ESS: { read: true, create: false, update: false, delete: false, self: false }
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: ESS, permission: { read: true, create: false, update: false, delete: false, self: false } }
 
 apiv2_time_reports:
   description: 'API-v2 Time - Reports'
@@ -247,9 +247,9 @@ apiv2_time_reports:
     update: false
     delete: false
   permissions:
-    Admin: { read: true, create: false, update: false, delete: false, self: false }
-    ProjectAdmin: { read: true, create: false, update: false, delete: false, self: false }
-    Supervisor: { read: true, create: false, update: false, delete: false, self: false }
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: ProjectAdmin, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: Supervisor, permission: { read: true, create: false, update: false, delete: false, self: false } }
 
 apiv2_time_reports_data:
   description: 'API-v2 Time - Reports Data'
@@ -261,9 +261,9 @@ apiv2_time_reports_data:
     update: false
     delete: false
   permissions:
-    Admin: { read: true, create: false, update: false, delete: false, self: false }
-    ProjectAdmin: { read: true, create: false, update: false, delete: false, self: false }
-    Supervisor: { read: true, create: false, update: false, delete: false, self: false }
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: ProjectAdmin, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: Supervisor, permission: { read: true, create: false, update: false, delete: false, self: false } }
 
 apiv2_time_project_admins:
   description: 'API-v2 Time - Project Admins'
@@ -275,8 +275,8 @@ apiv2_time_project_admins:
     update: false
     delete: false
   permissions:
-    Admin: { read: true, create: false, update: false, delete: false, self: false }
-    ProjectAdmin: { read: true, create: false, update: false, delete: false, self: false }
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: ProjectAdmin, permission: { read: true, create: false, update: false, delete: false, self: false } }
 
 ##########################
 #        Attendance
@@ -292,7 +292,7 @@ apiv2_attendance_configuration:
     update: true
     delete: false
   permissions:
-    Admin: { read: true, create: false, update: true, delete: false, self: false }
+    - { role: Admin, permission: { read: true, create: false, update: true, delete: false, self: false } }
 
 apiv2_attendance_employee_latest_attendance_record:
   description: 'API-v2 Attendance - Employee Latest Attendance Record'
@@ -304,8 +304,8 @@ apiv2_attendance_employee_latest_attendance_record:
     update: false
     delete: false
   permissions:
-    Admin: { read: true, create: false, update: false, delete: false, self: false }
-    ESS: { read: true, create: false, update: false, delete: false, self: false }
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: ESS, permission: { read: true, create: false, update: false, delete: false, self: false } }
 
 apiv2_attendance_punch_in_overlaps:
   description: 'API-v2 Attendance - Punch In Overlaps'
@@ -317,8 +317,8 @@ apiv2_attendance_punch_in_overlaps:
     update: false
     delete: false
   permissions:
-    Admin: { read: true, create: false, update: false, delete: false, self: false }
-    ESS: { read: true, create: false, update: false, delete: false, self: false }
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: ESS, permission: { read: true, create: false, update: false, delete: false, self: false } }
 
 apiv2_attendance_punch_out_overlaps:
   description: 'API-v2 Attendance - Punch Out Overlaps'
@@ -330,8 +330,8 @@ apiv2_attendance_punch_out_overlaps:
     update: false
     delete: false
   permissions:
-    Admin: { read: true, create: false, update: false, delete: false, self: false }
-    ESS: { read: true, create: false, update: false, delete: false, self: false }
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: ESS, permission: { read: true, create: false, update: false, delete: false, self: false } }
 
 apiv2_attendance_my_attendance_record:
   description: 'API-v2 Attendance - My Attendance Record'
@@ -343,8 +343,8 @@ apiv2_attendance_my_attendance_record:
     update: true
     delete: true
   permissions:
-    Admin: { read: true, create: true, update: true, delete: true, self: true }
-    ESS: { read: true, create: true, update: true, delete: true, self: true }
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: true, self: true } }
+    - { role: ESS, permission: { read: true, create: true, update: true, delete: true, self: true } }
 
 apiv2_attendance_employee_attendance_record:
   description: 'API-v2 Attendance - Employee Attendance Record'
@@ -356,8 +356,10 @@ apiv2_attendance_employee_attendance_record:
     update: true
     delete: true
   permissions:
-    Admin: { read: true, create: false, update: false, delete: false, self: true }
-    Supervisor: { read: false, create: false, update: false, delete: false, self: true }
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: true, self: false } }
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: true } }
+    - { role: Supervisor, permission: { read: true, create: true, update: true, delete: true, self: false } }
+    - { role: Supervisor, permission: { read: false, create: false, update: false, delete: false, self: true } }
 
 apiv2_attendance_timezones:
   description: 'API-v2 Attendance - Timezones'
@@ -369,8 +371,8 @@ apiv2_attendance_timezones:
     update: false
     delete: false
   permissions:
-    Admin: { read: true, create: false, update: false, delete: false, self: false }
-    ESS: { read: true, create: false, update: false, delete: false, self: false }
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: ESS, permission: { read: true, create: false, update: false, delete: false, self: false } }
 
 apiv2_attendance_current_date_time:
   description: 'API-v2 Attendance - Current DateTime'
@@ -382,8 +384,8 @@ apiv2_attendance_current_date_time:
     update: false
     delete: false
   permissions:
-    Admin: { read: true, create: false, update: false, delete: false, self: false }
-    ESS: { read: true, create: false, update: false, delete: false, self: false }
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: ESS, permission: { read: true, create: false, update: false, delete: false, self: false } }
 
 apiv2_attendance_record:
   description: 'API-v2 Attendance - Attendance Record'
@@ -395,8 +397,8 @@ apiv2_attendance_record:
     update: true
     delete: false
   permissions:
-    Admin: { read: true, create: false, update: true, delete: false, self: false }
-    ESS: { read: true, create: false, update: true, delete: false, self: false }
+    - { role: Admin, permission: { read: true, create: false, update: true, delete: false, self: false } }
+    - { role: ESS, permission: { read: true, create: false, update: true, delete: false, self: false } }
 
 apiv2_attendance_edit_punch_in_overlaps:
   description: 'API-v2 Attendance - Edit Punch In Overlaps'
@@ -408,8 +410,8 @@ apiv2_attendance_edit_punch_in_overlaps:
     update: false
     delete: false
   permissions:
-    Admin: { read: true, create: false, update: false, delete: false, self: false }
-    ESS: { read: true, create: false, update: false, delete: false, self: false }
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: ESS, permission: { read: true, create: false, update: false, delete: false, self: false } }
 
 apiv2_attendance_edit_punch_out_overlaps:
   description: 'API-v2 Attendance - Edit Punch Out Overlaps'
@@ -421,8 +423,8 @@ apiv2_attendance_edit_punch_out_overlaps:
     update: false
     delete: false
   permissions:
-    Admin: { read: true, create: false, update: false, delete: false, self: false }
-    ESS: { read: true, create: false, update: false, delete: false, self: false }
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: ESS, permission: { read: true, create: false, update: false, delete: false, self: false } }
 
 apiv2_attendance_employee_attendance_summary:
   description: 'API-v2 Attendance - Employee Attendance Summary'
@@ -434,8 +436,10 @@ apiv2_attendance_employee_attendance_summary:
     update: false
     delete: false
   permissions:
-    Admin: { read: true, create: false, update: false, delete: false, self: true }
-    Supervisor: { read: false, create: false, update: false, delete: false, self: true }
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: true } }
+    - { role: Supervisor, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: Supervisor, permission: { read: false, create: false, update: false, delete: false, self: true } }
 
 ##########################
 #        Maintenance
@@ -451,4 +455,4 @@ apiv2_maintenance_purge_employee:
     update: false
     delete: true
   permissions:
-    Admin: { read: true, create: false, update: false, delete: true, self: false }
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: true, self: false } }
