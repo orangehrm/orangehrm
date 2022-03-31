@@ -28,6 +28,21 @@
               <oxd-text type="subtitle-2">
                 {{ attendanceRecord.previousRecord.userDate }} -
                 {{ attendanceRecord.previousRecord.userTime }}
+                <span class="orangehrm-attendance-punchedIn-timezone">
+                  {{
+                    `(GMT ${
+                      attendanceRecord.previousRecord.offset > 0 ? '+' : '-'
+                    }${Math.floor(attendanceRecord.previousRecord.offset)
+                      .toString()
+                      .padStart(2, '0')}:${(
+                      (attendanceRecord.previousRecord.offset -
+                        Math.floor(attendanceRecord.previousRecord.offset)) *
+                      60
+                    )
+                      .toString()
+                      .padEnd(2, '0')})`
+                  }}
+                </span>
               </oxd-text>
             </oxd-input-group>
           </oxd-grid-item>
@@ -201,6 +216,7 @@ export default {
           ? this.http.request({method: 'GET', url})
           : null;
       })
+
       .then(response => {
         if (response) {
           const {data} = response.data;
@@ -297,3 +313,5 @@ export default {
   },
 };
 </script>
+
+<style src="./record-attendance.scss" lang="scss" scoped></style>
