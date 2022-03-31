@@ -20,12 +20,9 @@
 namespace OrangeHRM\Attendance\Exception;
 
 use Exception;
-use OrangeHRM\I18N\Traits\Service\I18NHelperTrait;
 
 class AttendanceServiceException extends Exception
 {
-    use I18NHelperTrait;
-
     /**
      * @return static
      */
