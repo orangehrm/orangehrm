@@ -77,15 +77,15 @@ class Base64Attachment extends AbstractRule
             return false;
         }
 
+        $fileExtension = pathinfo($input['name'])['extension'];
+        if (!in_array($fileExtension, $this->allowedExtensions)) {
+            return false;
+        }
+
         if (!is_null($this->fileNameMinLength) || !is_null($this->fileNameMaxLength)) {
             if (is_string($input['name'])) {
                 $fileNameLength = $this->getTextHelper()->strLength($input['name']);
                 if (!($this->validateMin($fileNameLength) && $this->validateMax($fileNameLength))) {
-                    return false;
-                }
-
-                $fileExtension = pathinfo($input['name'])['extension'];
-                if (!in_array($fileExtension, $this->allowedExtensions)) {
                     return false;
                 }
             } else {
