@@ -317,10 +317,12 @@ const guessTimezone = () => {
 
   const formattedOffset =
     (timezoneOffset > 0 ? '+' : '-') +
-    String(timezoneOffset)
+    String(timezoneOffset.toFixed(2))
       .split('.')
       .map((substr, i) =>
-        i === 0 ? substr.padStart(2, '0') : substr.padEnd(2, '0'),
+        i === 0
+          ? substr.padStart(2, '0')
+          : String(parseInt(substr) * 0.6).padEnd(2, '0'),
       )
       .join(':');
 
