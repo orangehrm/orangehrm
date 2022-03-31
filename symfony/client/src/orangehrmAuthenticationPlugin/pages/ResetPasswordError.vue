@@ -3,7 +3,7 @@
     <div class="orangehrm-forgot-password-wrapper">
       <div class="orangehrm-card-container">
         <oxd-text tag="h6" class="orangehrm-forgot-password-title">
-          Reset password
+          Reset Password
         </oxd-text>
         <oxd-divider />
         <card-note
@@ -11,11 +11,11 @@
           class="orangehrm-forgot-password-card-note"
           note-icon
         />
-        <oxd-text tag="p">
-          <oxd-text tag="span" class="orangehrm-forgot-password-reset">
+        <oxd-text class="orangehrm-forgot-password-reset">
+          <oxd-text tag="span" class="orangehrm-forgot-password-reset--link">
             Click here
           </oxd-text>
-          to request for a new password reset token
+          to request a new password reset token
         </oxd-text>
       </div>
     </div>

@@ -24,15 +24,18 @@
       'orangehrm-forgot-password-note--icon': noteIcon,
     }"
   >
-    <oxd-text v-if="note" class="orangehrm-forgot-password-note--header"
+    <oxd-text v-if="note" class="orangehrm-forgot-password-note-header"
       >Note:</oxd-text
     >
     <oxd-text
       v-if="noteIcon"
       tag="span"
-      class="orangehrm-forgot-password-note-header"
+      class="orangehrm-forgot-password-note-icon"
     >
-      <oxd-icon name="triangle-fill" class="orangehrm-forgot-password-icon" />
+      <oxd-icon
+        name="exclamation-triangle"
+        class="orangehrm-forgot-password-icon"
+      />
     </oxd-text>
     <oxd-text :class="{'orangehrm-forgot-password-note-text': noteIcon}">
       {{ noteText }}</oxd-text
@@ -65,29 +68,36 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import '@ohrm/oxd/styles/_colors.scss';
+@import '@ohrm/oxd/styles/_variables.scss';
 .orangehrm-forgot-password {
   &-icon {
-    font-size: 2rem;
-    color: #f75f5f;
+    font-size: 1.5rem;
+    color: $oxd-feedback-danger-color;
+    padding: 1rem;
   }
   &-note {
     &-text {
-      color: rgb(236, 87, 87);
+      color: $oxd-feedback-danger-color;
     }
   }
   &-note--background {
-    background-color: rgb(243, 243, 243);
-    padding: 0.2rem 0.2rem;
+    background-color: $oxd-interface-gray-lighten-2-color;
+    border-radius: $oxd-border-radius;
+    padding: 1.2rem;
   }
   &-note--icon {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     background-color: rgb(250, 234, 234);
-    padding: 0.2rem 0.2rem;
+    border-radius: $oxd-border-radius;
+    padding: 1rem;
   }
   &-note-header {
-    margin: 4px 1px;
-    font-weight: 700;
+    padding: 0.25rem 0 !important;
+    font-size: 14px !important;
+    font-weight: 700 !important;
   }
 }
 </style>

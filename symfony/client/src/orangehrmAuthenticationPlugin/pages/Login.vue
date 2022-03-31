@@ -76,10 +76,10 @@
             marginTop: '0.5rem',
           }"
         >
-          Forgot Your &nbsp;
+          Forgot Your&nbsp;
           <oxd-text
             tag="span"
-            :style="{color: 'orange', cursor: 'pointer'}"
+            class="orangehrm-login-forgot"
             @click="navigateUrl"
             >Password?</oxd-text
           >

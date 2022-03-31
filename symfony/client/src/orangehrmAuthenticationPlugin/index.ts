@@ -23,6 +23,7 @@ import RequestResetPassword from './pages/RequestResetPassword.vue';
 import ResetPasswordSuccess from './pages/ResetPasswordSuccess.vue';
 import ResetPasswordError from './pages/ResetPasswordError.vue';
 import ResetPassword from './pages/ResetPassword.vue';
+
 export default {
   'auth-login': Login,
   'auth-forbidden': Forbidden,

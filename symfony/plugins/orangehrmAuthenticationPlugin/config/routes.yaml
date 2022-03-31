@@ -24,7 +24,7 @@ auth_forgot_password_username:
   methods: [ GET ]
 
 auth_request_password_success:
-  path: /auth/requestSucess
+  path: /auth/requestSuccess
   controller: OrangeHRM\Authentication\Controller\RequestPasswordSuccessController::handle
   methods: [ GET ]
 

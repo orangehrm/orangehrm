@@ -20,19 +20,19 @@
     <div class="orangehrm-forgot-password-wrapper">
       <div class="orangehrm-card-container">
         <oxd-text tag="h6" class="orangehrm-forgot-password-title">
-          Reset password link successfully
+          Reset Password Link Sent Successfully
         </oxd-text>
         <oxd-divider />
         <card-note
-          note-text="A reset password link has been sent to you via email"
+          note-text="A reset password link has been sent to you via email."
           class="orangehrm-forgot-password-card-note"
         />
         <card-note
-          note-text="You can follow that link and select a new password"
+          note-text="You can follow that link and select a new password."
           class="orangehrm-forgot-password-card-note"
         />
         <card-note
-          note-text="If the email does not arrive,please contact your OrangeHRM Adminstrator"
+          note-text="If the email does not arrive, please contact your OrangeHRM Administrator."
           class="orangehrm-forgot-password-card-note"
           note
         />

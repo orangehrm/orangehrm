@@ -3,9 +3,8 @@
     <div class="orangehrm-forgot-password-wrapper">
       <div class="orangehrm-card-container">
         <oxd-form method="post">
-          <oxd-divider />
           <oxd-text tag="h6" class="orangehrm-forgot-password-title">
-            Reset password
+            Reset Password
           </oxd-text>
           <oxd-divider />
           <card-note

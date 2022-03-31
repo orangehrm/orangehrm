@@ -22,7 +22,7 @@
       <div class="orangehrm-card-container">
         <oxd-form method="post">
           <oxd-text tag="h6" class="orangehrm-forgot-password-title">
-            Reset password
+            Reset Password
           </oxd-text>
           <oxd-divider />
           <card-note
@@ -112,7 +112,7 @@ export default {
         confirmPassword: [
           required,
           shouldNotExceedCharLength(64),
-          v => (!!v && v === this.password) || 'Passwords do not match',
+          v => (!!v && v === this.newPassword) || 'Passwords do not match',
         ],
       },
     };
