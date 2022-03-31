@@ -20,9 +20,12 @@
 namespace OrangeHRM\Attendance\Exception;
 
 use Exception;
+use OrangeHRM\I18N\Traits\Service\I18NHelperTrait;
 
 class AttendanceServiceException extends Exception
 {
+    use I18NHelperTrait;
+
     /**
      * @return static
      */
@@ -44,7 +47,7 @@ class AttendanceServiceException extends Exception
      */
     public static function punchOutTimeBehindThanPunchInTime(): self
     {
-        return new self('Punch Out Time Should Be Later Than Punch In Time');
+        return new self((new AttendanceServiceException)->getI18NHelper()->trans('time.punch_out_time_should_be_later_than_punch_in_time'));
     }
 
     /**

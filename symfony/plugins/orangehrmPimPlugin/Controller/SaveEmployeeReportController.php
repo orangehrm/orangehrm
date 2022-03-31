@@ -537,11 +537,29 @@ class SaveEmployeeReportController extends AbstractVueController
                 ],
             ],
         ];
-
+        $translatedDisplayFields =[];
+        foreach ($displayFields as $displayField){
+            $translatedDisplayFields[] =[
+                'field_group_id' => $displayField['field_group_id'],
+                'fields' => $this->translateFields($displayField['fields'])
+            ];
+        }
         $component->addProp(
-            new Prop("display-fields", Prop::TYPE_ARRAY, $displayFields)
+            new Prop("display-fields", Prop::TYPE_ARRAY, $translatedDisplayFields)
         );
 
         $this->setComponent($component);
+    }
+
+    private function translateFields(array $fields): array
+    {
+        $translatedField =[];
+        foreach ($fields as $field){
+            $translatedField[] =[
+                'id' => $field['id'],
+                'label' =>$this->getI18NHelper()->transBySource($field['label']),
+            ];
+        }
+        return $translatedField;
     }
 }

@@ -842,3 +842,6 @@ langStrings:
   -
     value: 'Cannot be deleted'
     unitId: cannot_be_deleted
+  -
+    value: 'Successfully deleted'
+    unitId: successfully_deleted
