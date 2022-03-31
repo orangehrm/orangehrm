@@ -67,11 +67,11 @@ class DataGroupHelper
      */
     protected function readDataGroupPermissions(string $filepath): array
     {
-        $apiPermissions = [];
+        $dataGroupPermissions = [];
         foreach (Yaml::parseFile($filepath) as $name => $dataGroup) {
-            $apiPermissions[] = DataGroup::createFromArray($name, $dataGroup);
+            $dataGroupPermissions[] = DataGroup::createFromArray($name, $dataGroup);
         }
-        return $apiPermissions;
+        return $dataGroupPermissions;
     }
 
     /**
@@ -80,11 +80,11 @@ class DataGroupHelper
      */
     protected function readScreenPermissions(string $filepath): array
     {
-        $apiPermissions = [];
+        $screenPermissions = [];
         foreach (Yaml::parseFile($filepath) as $name => $dataGroup) {
-            $apiPermissions[] = Screen::createFromArray($name, $dataGroup);
+            $screenPermissions[] = Screen::createFromArray($name, $dataGroup);
         }
-        return $apiPermissions;
+        return $screenPermissions;
     }
 
     /**
