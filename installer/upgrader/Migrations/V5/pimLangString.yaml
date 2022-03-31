@@ -449,3 +449,12 @@ langStrings:
   -
     value: 'Nickname'
     unitId: nickname
+  -
+    value: 'Personal'
+    unitId: personal
+  -
+    value: 'Activate Employment'
+    unitId: activate_employement
+  -
+    value: 'Terminate Employment'
+    unitId: terminate_employement

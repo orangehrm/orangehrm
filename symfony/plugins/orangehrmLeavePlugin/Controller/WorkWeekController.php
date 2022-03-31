@@ -25,11 +25,12 @@ use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Entity\WorkWeek;
 use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\I18N\Traits\Service\I18NHelperTrait;
 
 class WorkWeekController extends AbstractVueController
 {
     use ServiceContainerTrait;
-
+    use I18NHelperTrait;
     /**
      * @inheritDoc
      */
@@ -41,7 +42,14 @@ class WorkWeekController extends AbstractVueController
             ["id" => WorkWeek::WORKWEEK_LENGTH_HALF_DAY, "label" => 'Half Day'],
             ["id" => WorkWeek::WORKWEEK_LENGTH_NON_WORKING_DAY, "label" => 'Non-working Day']
         ];
-        $component->addProp(new Prop('day-types', Prop::TYPE_ARRAY, $dayTypes));
+        $translatedDayTypes =[];
+        foreach ($dayTypes as $dayType){
+            $translatedDayTypes[] =[
+                'id' => $dayType['id'],
+                'label' =>$this->getI18NHelper()->transBySource($dayType['label']),
+            ];
+        }
+        $component->addProp(new Prop('day-types', Prop::TYPE_ARRAY, $translatedDayTypes));
         $this->setComponent($component);
     }
 
