@@ -20,17 +20,14 @@
 
 namespace Orangehrm\Rest\Api\User\Attendance;
 
-use http\Exception\InvalidArgumentException;
 use Orangehrm\Rest\Api\Exception\InvalidParamException;
 use Orangehrm\Rest\Api\Exception\RecordNotFoundException;
 use Orangehrm\Rest\Http\Response;
 use Orangehrm\Rest\Api\Attendance\PunchOutAPI;
 use \PluginAttendanceRecord;
-use OrangeHRM\I18N\Traits\Service\I18NHelperTrait;
 
 class EmployeePunchOutAPI extends PunchOutAPI
 {
-    use I18NHelperTrait;
     /**
      * @return Response
      * @throws InvalidParamException
@@ -71,7 +68,7 @@ class EmployeePunchOutAPI extends PunchOutAPI
         $punchInUtcTime = $attendanceRecord->getPunchInUtcTime();
         $punchOutUtcTime = date('Y-m-d H:i:s', strtotime($dateTime) - $timeZoneOffset * 3600);
         if ($punchInUtcTime > $punchOutUtcTime) {
-            throw new InvalidArgumentException($this->getI18NHelper()->trans('time.punch_out_time_should_be_later_than_punch_in_time'));
+            throw new InvalidParamException('Punch Out Time Should Be Later Than Punch In Time');
         }
         $editable = $this->getAttendanceService()->getPunchTimeUserConfiguration();
         if (!$editable) {
