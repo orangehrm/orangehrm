@@ -17,3 +17,12 @@ langStrings:
   -
     value: 'You have requested to access a critical Administrator function in OrangeHRM and are required to validate your credentials below'
     unitId: admin_access_note
+  -
+    value: 'Your password should not contain spaces.'
+    unitId: your_password_should_not_contain_spaces
+  -
+    value: 'Your password must contain a lower-case letter, an upper-case letter, a digit and a special character. Try a different password'
+    unitId: must_contain_lower_case_upper_case_digit_character_message
+  -
+    value: 'Should have at least 8 characters'
+    unitId: should_have_min_8_characters

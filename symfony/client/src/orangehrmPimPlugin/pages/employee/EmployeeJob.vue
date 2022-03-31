@@ -315,8 +315,8 @@ export default {
     },
     terminationActionLabel() {
       return this.termination?.id
-        ? 'Activate Employment'
-        : 'Terminate Employment';
+        ? this.$t('pim.activate_employement')
+        : this.$t('pim.terminate_employement');
     },
     terminationActionType() {
       return this.termination?.id ? 'ghost-success' : 'label-danger';

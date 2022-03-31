@@ -28,6 +28,7 @@ use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Entity\Leave;
 use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\I18N\Traits\Service\I18NHelperTrait;
 use OrangeHRM\Leave\Traits\Service\LeaveRequestServiceTrait;
 use OrangeHRM\Leave\Traits\Service\LeaveTypeServiceTrait;
 use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
@@ -38,6 +39,7 @@ class LeaveListController extends AbstractVueController
     use UserRoleManagerTrait;
     use EmployeeServiceTrait;
     use LeaveTypeServiceTrait;
+    use I18NHelperTrait;
 
     public const LEAVE_STATUSES = [
         ['id' => Leave::LEAVE_STATUS_LEAVE_REJECTED, 'label' => 'Rejected'],
@@ -96,7 +98,15 @@ class LeaveListController extends AbstractVueController
      */
     protected function addLeaveStatusesProp(Component $component): void
     {
-        $component->addProp(new Prop('leave-statuses', Prop::TYPE_ARRAY, self::LEAVE_STATUSES));
+        $leaveStatuses = self::LEAVE_STATUSES;
+        $translatedLeaveStatuses = [];
+        foreach ($leaveStatuses as $leaveStatus){
+            $translatedLeaveStatuses[] = [
+                'id' => $leaveStatus['id'],
+                'label' =>$this->getI18NHelper()->transBySource($leaveStatus['label']),
+            ];
+        }
+        $component->addProp(new Prop('leave-statuses', Prop::TYPE_ARRAY, $translatedLeaveStatuses));
     }
 
     /**

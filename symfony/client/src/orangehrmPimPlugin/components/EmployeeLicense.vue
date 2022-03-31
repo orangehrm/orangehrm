@@ -34,7 +34,7 @@
     ></edit-license>
     <div class="orangehrm-horizontal-padding orangehrm-vertical-padding">
       <profile-action-header @click="onClickAdd">
-        {{ $t('general.license') }}
+        {{ $t('pim.license') }}
       </profile-action-header>
     </div>
     <table-header
