@@ -6,15 +6,25 @@ time_project_activities:
     update: true
     delete: true
   permissions:
-    Admin:
-      read: true
-      create: true
-      update: true
-      delete: true
-      self: false
-    ProjectAdmin:
-      read: true
-      create: true
-      update: true
-      delete: true
-      self: false
+    Admin: { read: true, create: true, update: true, delete: true, self: false }
+    ProjectAdmin: { read: true, create: true, update: true, delete: true, self: false }
+
+maintenance_employee_json:
+  description: "Maintenance - Access Employee Data JSON"
+  allowed:
+    read: true
+    create: false
+    update: false
+    delete: false
+  permissions:
+    Admin: { read: true, create: false, update: false, delete: false, self: false }
+
+auth_admin_verify:
+  description: "Auth - Administrator Verify"
+  allowed:
+    read: true
+    create: false
+    update: false
+    delete: false
+  permissions:
+    Admin: { read: true, create: false, update: false, delete: false, self: false }

@@ -19,6 +19,102 @@
 
 namespace OrangeHRM\Installer\Util\V1;
 
+use Doctrine\DBAL\Schema\AbstractSchemaManager;
+use Doctrine\DBAL\Schema\Column;
+use Doctrine\DBAL\Schema\ColumnDiff;
+use Doctrine\DBAL\Schema\ForeignKeyConstraint;
+use Doctrine\DBAL\Schema\TableDiff;
+use Doctrine\DBAL\Types\Type;
+use Doctrine\DBAL\Types\Types;
+
 class SchemaHelper
 {
+    private AbstractSchemaManager $schemaManager;
+
+    /**
+     * @param AbstractSchemaManager $schemaManager
+     */
+    public function __construct(AbstractSchemaManager $schemaManager)
+    {
+        $this->schemaManager = $schemaManager;
+    }
+
+    /**
+     * @return AbstractSchemaManager
+     */
+    public function getSchemaManager(): AbstractSchemaManager
+    {
+        return $this->schemaManager;
+    }
+
+    /**
+     * @param string $tableName
+     * @param string $columnName
+     * @return Column|null
+     */
+    public function getTableColumn(string $tableName, string $columnName): ?Column
+    {
+        return $this->getSchemaManager()->listTableColumns($tableName)[$columnName] ?? null;
+    }
+
+    /**
+     * @param string $tableName
+     * @param string $columnName
+     */
+    public function dropColumn(string $tableName, string $columnName): void
+    {
+        $column = $this->getTableColumn($tableName, $columnName);
+        $diff = new TableDiff($tableName, [], [], [$column]);
+        $this->getSchemaManager()->alterTable($diff);
+    }
+
+    /**
+     * @param string $tableName
+     * @param string $columnName
+     * @param string $type e.g. \Doctrine\DBAL\Types\Types\Types::STRING, Types::INTEGER
+     * @param array $options ['Type' => \Doctrine\DBAL\Types\Type, 'Length' => int|null, 'Precision' => int, 'Scale' => int, 'Unsigned' => bool, 'Fixed' => bool, 'Notnull' => bool, 'Default' => mixed, 'Autoincrement' => bool, 'Comment' => string|null
+     */
+    public function addColumn(string $tableName, string $columnName, string $type, array $options = []): void
+    {
+        $column = new Column($columnName, Type::getType($type), $options);
+        $diff = new TableDiff($tableName, [$column]);
+        $this->getSchemaManager()->alterTable($diff);
+    }
+
+    /**
+     * @param string $tableName
+     * @param string $columnName
+     * @param array $options ['Type' => \Doctrine\DBAL\Types\Type, 'Length' => int|null, 'Precision' => int, 'Scale' => int, 'Unsigned' => bool, 'Fixed' => bool, 'Notnull' => bool, 'Default' => mixed, 'Autoincrement' => bool, 'Comment' => string|null
+     */
+    public function changeColumn(string $tableName, string $columnName, array $options = []): void
+    {
+        $column = $this->getTableColumn($tableName, $columnName);
+        $newColumn = clone $column;
+        $newColumn->setOptions($options);
+        $columnDiff = new ColumnDiff($columnName, $newColumn, [], $column);
+        $diff = new TableDiff($tableName, [], [$columnDiff]);
+        $this->getSchemaManager()->alterTable($diff);
+    }
+
+    /**
+     * @param string $tableName
+     * @param string[] $foreignKeys
+     */
+    public function dropForeignKeys(string $tableName, array $foreignKeys): void
+    {
+        $diff = new TableDiff($tableName);
+        $diff->removedForeignKeys = $foreignKeys;
+        $this->getSchemaManager()->alterTable($diff);
+    }
+
+    /**
+     * @param string $localTableName
+     * @param ForeignKeyConstraint $foreignKeyConstraint
+     */
+    public function addForeignKey(string $localTableName, ForeignKeyConstraint $foreignKeyConstraint): void
+    {
+        $diff = new TableDiff($localTableName);
+        $diff->addedForeignKeys = [$foreignKeyConstraint];
+        $this->getSchemaManager()->alterTable($diff);
+    }
 }

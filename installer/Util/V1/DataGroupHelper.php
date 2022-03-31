@@ -21,6 +21,8 @@ namespace OrangeHRM\Installer\Util\V1;
 
 use Doctrine\DBAL\Connection;
 use OrangeHRM\Installer\Util\V1\Dto\Api;
+use OrangeHRM\Installer\Util\V1\Dto\DataGroup;
+use OrangeHRM\Installer\Util\V1\Dto\Screen;
 use Symfony\Component\Yaml\Yaml;
 
 class DataGroupHelper
@@ -54,6 +56,32 @@ class DataGroupHelper
         $apiPermissions = [];
         foreach (Yaml::parseFile($filepath) as $name => $dataGroup) {
             $apiPermissions[] = Api::createFromArray($name, $dataGroup);
+        }
+        return $apiPermissions;
+    }
+
+    /**
+     * @param string $filepath
+     * @return DataGroup[]
+     */
+    protected function readDataGroupPermissions(string $filepath): array
+    {
+        $apiPermissions = [];
+        foreach (Yaml::parseFile($filepath) as $name => $dataGroup) {
+            $apiPermissions[] = DataGroup::createFromArray($name, $dataGroup);
+        }
+        return $apiPermissions;
+    }
+
+    /**
+     * @param string $filepath
+     * @return Screen[]
+     */
+    protected function readScreenPermissions(string $filepath): array
+    {
+        $apiPermissions = [];
+        foreach (Yaml::parseFile($filepath) as $name => $dataGroup) {
+            $apiPermissions[] = Screen::createFromArray($name, $dataGroup);
         }
         return $apiPermissions;
     }
@@ -103,7 +131,7 @@ class DataGroupHelper
                     ]
                 )
                 ->setParameter('api', $apiPermission->getApi())
-                ->setParameter('moduleId', $this->getModuleId($apiPermission->getModule()))
+                ->setParameter('moduleId', $this->getModuleIdByName($apiPermission->getModule()))
                 ->setParameter('dataGroupId', $id);
             $qb->executeQuery();
 
@@ -122,7 +150,7 @@ class DataGroupHelper
                         ]
                     )
                     ->setParameter('dataGroupId', $id)
-                    ->setParameter('userRoleId', $this->getUserRoleId($permission->getUserRole()))
+                    ->setParameter('userRoleId', $this->getUserRoleIdByName($permission->getUserRole()))
                     ->setParameter('read', $permission->canRead())
                     ->setParameter('create', $permission->canCreate())
                     ->setParameter('update', $permission->canUpdate())
@@ -134,10 +162,150 @@ class DataGroupHelper
     }
 
     /**
+     * @param string $filepath
+     */
+    public function insertDataGroupPermissions(string $filepath): void
+    {
+        $dataGroupPermissions = $this->readDataGroupPermissions($filepath);
+        foreach ($dataGroupPermissions as $dataGroupPermission) {
+            $qb = $this->getConnection()->createQueryBuilder()
+                ->insert('ohrm_data_group')
+                ->values(
+                    [
+                        'name' => ':name',
+                        'description' => ':description',
+                        'can_read' => ':read',
+                        'can_create' => ':create',
+                        'can_update' => ':update',
+                        'can_delete' => ':delete',
+                    ]
+                )
+                ->setParameter('name', $dataGroupPermission->getName())
+                ->setParameter('description', $dataGroupPermission->getDescription())
+                ->setParameter('read', $dataGroupPermission->getAllowed()->canRead())
+                ->setParameter('create', $dataGroupPermission->getAllowed()->canCreate())
+                ->setParameter('update', $dataGroupPermission->getAllowed()->canUpdate())
+                ->setParameter('delete', $dataGroupPermission->getAllowed()->canDelete());
+            $qb->executeQuery();
+
+            $id = $this->getDataGroupIdByName($dataGroupPermission->getName());
+
+            foreach ($dataGroupPermission->getPermissions() as $permission) {
+                $qb = $this->getConnection()->createQueryBuilder()
+                    ->insert('ohrm_user_role_data_group')
+                    ->values(
+                        [
+                            'data_group_id' => ':dataGroupId',
+                            'user_role_id' => ':userRoleId',
+                            'can_read' => ':read',
+                            'can_create' => ':create',
+                            'can_update' => ':update',
+                            'can_delete' => ':delete',
+                            'self' => ':self',
+                        ]
+                    )
+                    ->setParameter('dataGroupId', $id)
+                    ->setParameter('userRoleId', $this->getUserRoleIdByName($permission->getUserRole()))
+                    ->setParameter('read', $permission->canRead())
+                    ->setParameter('create', $permission->canCreate())
+                    ->setParameter('update', $permission->canUpdate())
+                    ->setParameter('delete', $permission->canDelete())
+                    ->setParameter('self', $permission->isSelf());
+                $qb->executeQuery();
+            }
+        }
+    }
+
+    /**
+     * @param string $filepath
+     */
+    public function insertScreenPermissions(string $filepath): void
+    {
+        $screenPermissions = $this->readScreenPermissions($filepath);
+        foreach ($screenPermissions as $screenPermission) {
+            $qb = $this->getConnection()->createQueryBuilder()
+                ->insert('ohrm_screen')
+                ->values(
+                    [
+                        'name' => ':name',
+                        'module_id' => ':moduleId',
+                        'action_url' => ':url',
+                        'menu_configurator' => ':menuConfigurator',
+                    ]
+                )
+                ->setParameter('name', $screenPermission->getName())
+                ->setParameter('moduleId', $this->getModuleIdByName($screenPermission->getModule()))
+                ->setParameter('url', $screenPermission->getUrl())
+                ->setParameter('menuConfigurator', $screenPermission->getMenuConfigurator());
+            $qb->executeQuery();
+
+            $id = $this->getScreenIdByModuleAndUrl(
+                $this->getModuleIdByName($screenPermission->getModule()),
+                $screenPermission->getUrl()
+            );
+
+            foreach ($screenPermission->getPermissions() as $permission) {
+                $qb = $this->getConnection()->createQueryBuilder()
+                    ->insert('ohrm_user_role_screen')
+                    ->values(
+                        [
+                            'screen_id' => ':screenId',
+                            'user_role_id' => ':userRoleId',
+                            'can_read' => ':read',
+                            'can_create' => ':create',
+                            'can_update' => ':update',
+                            'can_delete' => ':delete',
+                        ]
+                    )
+                    ->setParameter('screenId', $id)
+                    ->setParameter('userRoleId', $this->getUserRoleIdByName($permission->getUserRole()))
+                    ->setParameter('read', $permission->canRead())
+                    ->setParameter('create', $permission->canCreate())
+                    ->setParameter('update', $permission->canUpdate())
+                    ->setParameter('delete', $permission->canDelete());
+                $qb->executeQuery();
+            }
+        }
+    }
+
+    /**
+     * @param string $dataGroupName
+     * @return int
+     */
+    public function getDataGroupIdByName(string $dataGroupName): int
+    {
+        $qb = $this->getConnection()->createQueryBuilder()
+            ->select('dataGroup.id')
+            ->from('ohrm_data_group', 'dataGroup')
+            ->where('dataGroup.name = :dataGroupName')
+            ->setParameter('dataGroupName', $dataGroupName)
+            ->setMaxResults(1);
+        return $qb->fetchOne();
+    }
+
+    /**
+     * @param string $moduleId
+     * @param string $url
+     * @return int
+     */
+    public function getScreenIdByModuleAndUrl(string $moduleId, string $url): int
+    {
+        $qb = $this->getConnection()->createQueryBuilder()
+            ->select('screen.id')
+            ->from('ohrm_screen', 'screen')
+            ->andWhere('screen.module_id = :moduleId')
+            ->setParameter('moduleId', $moduleId)
+            ->andWhere('screen.action_url = :url')
+            ->setParameter('url', $url)
+            ->setMaxResults(1);
+        return $qb->fetchOne();
+    }
+
+    /**
      * @param string $moduleName
      * @return int
      */
-    protected function getModuleId(string $moduleName): int
+    public function getModuleIdByName(string $moduleName): int
     {
         if (!isset($this->moduleIds[$moduleName])) {
             $qb = $this->getConnection()->createQueryBuilder()
@@ -155,7 +323,7 @@ class DataGroupHelper
      * @param string $userRoleName
      * @return int
      */
-    protected function getUserRoleId(string $userRoleName): int
+    public function getUserRoleIdByName(string $userRoleName): int
     {
         if (!isset($this->userRoleIds[$userRoleName])) {
             $qb = $this->getConnection()->createQueryBuilder()

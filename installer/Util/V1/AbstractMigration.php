@@ -65,7 +65,7 @@ abstract class AbstractMigration
     protected function getSchemaHelper(): SchemaHelper
     {
         if (!$this->schemaHelper instanceof SchemaHelper) {
-            $this->schemaHelper = new SchemaHelper();
+            $this->schemaHelper = new SchemaHelper($this->getSchemaManager());
         }
         return $this->schemaHelper;
     }
