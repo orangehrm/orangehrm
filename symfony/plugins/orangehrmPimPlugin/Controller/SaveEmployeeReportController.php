@@ -61,7 +61,7 @@ class SaveEmployeeReportController extends AbstractVueController
                 'selection-criteria',
                 Prop::TYPE_ARRAY,
                 array_map(
-                    fn(array $criteria) => [
+                    fn (array $criteria) => [
                         'id' => $criteria['id'],
                         'key' => $criteria['key'],
                         'label' => $this->getI18NHelper()->transBySource($criteria['label'])
@@ -93,7 +93,7 @@ class SaveEmployeeReportController extends AbstractVueController
                 'display-field-groups',
                 Prop::TYPE_ARRAY,
                 array_map(
-                    fn(array $displayFieldGroup) => [
+                    fn (array $displayFieldGroup) => [
                         'id' => $displayFieldGroup['id'],
                         'label' => $this->getI18NHelper()->transBySource($displayFieldGroup['label'])
                     ],
@@ -544,10 +544,10 @@ class SaveEmployeeReportController extends AbstractVueController
                 'display-fields',
                 Prop::TYPE_ARRAY,
                 array_map(
-                    fn(array $displayField) => [
+                    fn (array $displayField) => [
                         'field_group_id' => $displayField['field_group_id'],
                         'fields' => array_map(
-                            fn(array $field) => [
+                            fn (array $field) => [
                                 'id' => $field['id'],
                                 'label' => $this->getI18NHelper()->transBySource($field['label']),
                             ],

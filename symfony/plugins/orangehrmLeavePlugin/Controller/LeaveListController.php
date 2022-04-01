@@ -103,7 +103,7 @@ class LeaveListController extends AbstractVueController
                 'leave-statuses',
                 Prop::TYPE_ARRAY,
                 array_map(
-                    fn(array $leaveStatus) => [
+                    fn (array $leaveStatus) => [
                         'id' => $leaveStatus['id'],
                         'label' => $this->getI18NHelper()->transBySource($leaveStatus['label'])
                     ],

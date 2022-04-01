@@ -47,7 +47,7 @@ class WorkWeekController extends AbstractVueController
                 'day-types',
                 Prop::TYPE_ARRAY,
                 array_map(
-                    fn(array $dayType) => [
+                    fn (array $dayType) => [
                         'id' => $dayType['id'],
                         'label' => $this->getI18NHelper()->transBySource($dayType['label'])
                     ],

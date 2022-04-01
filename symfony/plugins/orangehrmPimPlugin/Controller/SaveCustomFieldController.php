@@ -61,7 +61,7 @@ class SaveCustomFieldController extends AbstractVueController
                 'screen-list',
                 Prop::TYPE_ARRAY,
                 array_map(
-                    fn(array $screen) => [
+                    fn (array $screen) => [
                         'id' => $screen['id'],
                         'label' => $this->getI18NHelper()->transBySource($screen['label'])
                     ],
@@ -75,7 +75,7 @@ class SaveCustomFieldController extends AbstractVueController
                 'field-type-list',
                 Prop::TYPE_ARRAY,
                 array_map(
-                    fn(array $fieldType) => [
+                    fn (array $fieldType) => [
                         'id' => $fieldType['id'],
                         'label' => $this->getI18NHelper()->transBySource($fieldType['label'])
                     ],
