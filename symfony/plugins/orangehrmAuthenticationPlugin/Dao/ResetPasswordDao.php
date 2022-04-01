@@ -17,36 +17,16 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Authentication\Controller;
+namespace OrangeHRM\Authentication\Dao;
 
+use OrangeHRM\Core\Dao\BaseDao;
+use OrangeHRM\Entity\ResetPassword;
 
-use OrangeHRM\Core\Controller\AbstractVueController;
-use OrangeHRM\Core\Controller\PublicControllerInterface;
-use OrangeHRM\Core\Vue\Component;
-use OrangeHRM\Core\Vue\Prop;
-use OrangeHRM\Framework\Http\Request;
-
-class ResetPasswordController extends AbstractVueController implements PublicControllerInterface
+class ResetPasswordDao extends BaseDao
 {
-
-    /**
-     * @inheritDoc
-     */
-    public function preRender(Request $request): void
-    {
-        $component = new Component('reset-password');
-        $this->setTemplate('no_header.html.twig');
-        $component->addProp(
-            new Prop('username', Prop::TYPE_STRING, 'test_user')
-        );
-        $this->setComponent($component);
+    public function saveResetPassword(ResetPassword $resetPassword):ResetPassword{
+        $this->persist($resetPassword);
+        return $resetPassword;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function handle(Request $request)
-    {
-        return parent::handle($request);
-    }
 }

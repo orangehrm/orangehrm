@@ -1,5 +1,7 @@
 <?php
 
+use OrangeHRM\Entity\Employee;
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -249,8 +251,9 @@ class PasswordResetService extends BaseService {
      * @param $resetCode
      * @return string
      */
-    protected function generatePasswordResetEmailBody(Employee $receiver, $resetCode) {
-        $resetLink = public_path('index.php/auth/resetPassword', true);
+    protected function generatePasswordResetEmailBody(Employee $receiver, $resetCode): string
+    {
+        $resetLink = 'index.php/auth/resetPassword';
 
         $placeholders = array('firstName', 'lastName', 'passwordResetLink', 'code', 'passwordResetCodeLink');
         $replacements = array(
