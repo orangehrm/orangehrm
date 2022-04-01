@@ -183,28 +183,31 @@ export default {
           name: 'punchIn',
           slot: 'title',
           title: 'Punch In',
-
           style: {flex: 1},
           cellRenderer: this.cellRenderer,
         },
         {
           name: 'punchInNote',
+          slot: 'title',
           title: 'Punch In Note',
           style: {flex: 1},
         },
         {
           name: 'punchOut',
+          slot: 'title',
           title: 'Punch Out',
           style: {flex: 1},
           cellRenderer: this.cellRenderer,
         },
         {
           name: 'punchOutNote',
+          slot: 'title',
           title: 'Punch Out Note',
           style: {flex: 1},
         },
         {
           name: 'duration',
+          slot: 'title',
           title: 'Duration (Hours)',
           style: {flex: 1},
         },
