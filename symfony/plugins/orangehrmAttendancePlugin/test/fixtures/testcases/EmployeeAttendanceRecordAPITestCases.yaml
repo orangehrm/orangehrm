@@ -490,6 +490,23 @@ Delete:
       class: 'OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
       message: 'Unauthorized'
 
+  'Delete self(ESS)':
+    userId: 2
+    services:
+      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    attributes:
+      empNumber: 2
+    body:
+      ids: [ 2 ]
+    exception:
+      class: 'OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
+      message: 'Unauthorized'
+
   'Delete self(Admin) - config enabled':
     userId: 1
     services:
@@ -507,23 +524,6 @@ Delete:
       ids: [ 1 ]
     data:
       - 1
-
-  'Delete self(ESS)':
-    userId: 2
-    services:
-      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
-      core.config_service: \OrangeHRM\Core\Service\ConfigService
-      admin.user_service: \OrangeHRM\Admin\Service\UserService
-      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
-    factories:
-      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
-    attributes:
-      empNumber: 2
-    body:
-      ids: [ 2 ]
-    exception:
-      class: 'OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
-      message: 'Unauthorized'
 
   'Delete - empty ids provided':
     userId: 3
