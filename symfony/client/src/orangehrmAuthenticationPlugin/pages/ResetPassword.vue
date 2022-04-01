@@ -65,7 +65,7 @@
             />
           </oxd-form-row>
           <oxd-divider />
-          <div class="orangehrm-forgot-password-button-container">
+          <div class="orangehrm-forgot-password-buttons">
             <oxd-button
               class="orangehrm-forgot-password-button"
               display-type="secondary"

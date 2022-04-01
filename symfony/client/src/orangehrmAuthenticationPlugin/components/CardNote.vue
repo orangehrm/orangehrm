@@ -19,25 +19,16 @@
 <template>
   <oxd-text
     :class="{
-      'orangehrm-forgot-password-note': true,
-      'orangehrm-forgot-password-note--background': note,
-      'orangehrm-forgot-password-note--icon': noteIcon,
+      'orangehrm-card-note': true,
+      'orangehrm-card-note--background': note,
+      'orangehrm-card-note--icon': noteIcon,
     }"
   >
-    <oxd-text v-if="note" class="orangehrm-forgot-password-note-header"
-      >Note:</oxd-text
-    >
-    <oxd-text
-      v-if="noteIcon"
-      tag="span"
-      class="orangehrm-forgot-password-note-icon"
-    >
-      <oxd-icon
-        name="exclamation-triangle"
-        class="orangehrm-forgot-password-icon"
-      />
+    <oxd-text v-if="note" class="orangehrm-card-note-header">Note:</oxd-text>
+    <oxd-text v-if="noteIcon" tag="span" class="orangehrm-card-note-icon">
+      <oxd-icon name="exclamation-triangle" class="orangehrm-card-icon" />
     </oxd-text>
-    <oxd-text :class="{'orangehrm-forgot-password-note-text': noteIcon}">
+    <oxd-text :class="{'orangehrm-card-note-text': noteIcon}">
       {{ noteText }}</oxd-text
     >
   </oxd-text>
@@ -70,13 +61,14 @@ export default {
 <style scoped lang="scss">
 @import '@ohrm/oxd/styles/_colors.scss';
 @import '@ohrm/oxd/styles/_variables.scss';
-.orangehrm-forgot-password {
+.orangehrm-card {
   &-icon {
     font-size: 1.5rem;
     color: $oxd-feedback-danger-color;
     padding: 1rem;
   }
   &-note {
+    font-size: 12px;
     &-text {
       color: $oxd-feedback-danger-color;
     }

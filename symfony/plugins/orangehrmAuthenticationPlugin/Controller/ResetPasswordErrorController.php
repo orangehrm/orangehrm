@@ -35,12 +35,4 @@ class ResetPasswordErrorController extends AbstractVueController implements Publ
         $this->setTemplate('no_header.html.twig');
         $this->setComponent($component);
     }
-
-    /**
-     * @inheritDoc
-     */
-    public function handle(Request $request)
-    {
-        return parent::handle($request);
-    }
 }

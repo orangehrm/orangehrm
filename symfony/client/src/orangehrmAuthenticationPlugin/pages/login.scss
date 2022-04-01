@@ -49,6 +49,12 @@
   }
 }
 .orangehrm-login-forgot {
-  color: $oxd-primary-one-color;
-  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+  font-size: 14px;
+  &-title {
+    color: $oxd-primary-one-color;
+    cursor: pointer;
+  }
 }

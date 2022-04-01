@@ -20,7 +20,7 @@
     <div class="orangehrm-forgot-password-wrapper">
       <div class="orangehrm-card-container">
         <oxd-text tag="h6" class="orangehrm-forgot-password-title">
-          Reset Password Link Sent Successfully
+          Reset Password link sent successfully
         </oxd-text>
         <oxd-divider />
         <card-note

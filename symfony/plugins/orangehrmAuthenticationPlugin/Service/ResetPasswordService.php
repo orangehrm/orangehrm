@@ -102,12 +102,11 @@ class ResetPasswordService
             if (!($associatedEmployee instanceof Employee)) {
                 throw new ServiceException('User account is not associated with an employee');
             } else {
-                $companyEmail = $this->getRepository(EmailConfiguration::class)->findOneBy(['id' => '1']);
-                if ($companyEmail instanceof EmailConfiguration) {
-                    if (!empty($companyEmail->getSentAs())) {
-                        if (empty($associatedEmployee->getEmployeeTerminationRecord())) {
+                if (empty($associatedEmployee->getEmployeeTerminationRecord())) {
+                    $companyEmail = $this->getRepository(EmailConfiguration::class)->findOneBy(['id' => '1']);
+                    if ($companyEmail instanceof EmailConfiguration) {
+                        if (!empty($companyEmail->getSentAs())) {
                             $workEmail = trim($associatedEmployee->getWorkEmail());
-
                             if (!empty($workEmail)) {
                                 return $user;
                             } else {
@@ -116,13 +115,13 @@ class ResetPasswordService
                                 );
                             }
                         } else {
-                            throw new ServiceException('Please contact HR admin in order to reset the password');
+                            throw new ServiceException('Password reset email could not be sent');
                         }
                     } else {
-                        throw new ServiceException('Password reset email could not be sent');
+                        throw new ServiceException('Company email is not set yet');
                     }
                 } else {
-                    throw new ServiceException('Company email is not set yet');
+                    throw new ServiceException('Please contact HR admin in order to reset the password');
                 }
             }
         } else {

@@ -39,12 +39,4 @@ class ResetPasswordController extends AbstractVueController implements PublicCon
         );
         $this->setComponent($component);
     }
-
-    /**
-     * @inheritDoc
-     */
-    public function handle(Request $request)
-    {
-        return parent::handle($request);
-    }
 }
