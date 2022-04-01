@@ -19,14 +19,16 @@
 
 namespace OrangeHRM\Authentication\Service;
 
-
-use DateTime;
 use OrangeHRM\Admin\Dto\UserSearchFilterParams;
 use OrangeHRM\Admin\Service\UserService;
+use OrangeHRM\Authentication\Dao\ResetPasswordDao;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Exception\ServiceException;
 use OrangeHRM\Core\Service\EmailService;
+use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
+use OrangeHRM\Core\Utility\Base64Url;
+use OrangeHRM\Entity\EmailConfiguration;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\ResetPassword;
 use OrangeHRM\Entity\User;
@@ -34,28 +36,44 @@ use OrangeHRM\Entity\User;
 class ResetPasswordService
 {
     use DateTimeHelperTrait;
+    use EntityManagerHelperTrait;
 
-    protected  ?EmailService $emailService=null;
-    protected  ?userService $userService=null;
+    public const RESET_PASSWORD_TOKEN_RANDOM_BYTES_LENGTH = 16;
+    protected ?EmailService $emailService = null;
+    protected ?userService $userService = null;
+    protected ?ResetPasswordDao $resetPasswordDao = null;
 
-    public function getEmailService():?EmailService{
-        if(!$this->emailService instanceof  EmailService){
-            $this->emailService=new EmailService();
+    public function getEmailService(): ?EmailService
+    {
+        if (!$this->emailService instanceof EmailService) {
+            $this->emailService = new EmailService();
         }
         return $this->emailService;
     }
 
-    public function getUserService(): ?UserService {
+    public function getResetPasswordDao(): ?ResetPasswordDao
+    {
+        if (!$this->resetPasswordDao instanceof ResetPasswordDao) {
+            $this->resetPasswordDao = new ResetPasswordDao();
+        }
+        return $this->resetPasswordDao;
+    }
+
+    public function getUserService(): ?UserService
+    {
         if (!($this->userService instanceof UserService)) {
             $this->userService = new UserService();
         }
         return $this->userService;
     }
 
-    protected function generateEmailBody($templateFile, array $placeholders, array $replacements) {
-        $body = file_get_contents(Config::get('sf_plugins_dir') .
-            DIRECTORY_SEPARATOR.'orangehrmSecurityAuthenticationPlugin'.DIRECTORY_SEPARATOR.
-            'config'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR . $templateFile);
+    protected function generateEmailBody($templateFile, array $placeholders, array $replacements)
+    {
+        $body = file_get_contents(
+            Config::get(
+                Config::PLUGINS_DIR
+            ) . '/orangehrmAuthenticationPlugin/config/data' . '//' . $templateFile
+        );
 
         foreach ($placeholders as $key => $value) {
             $placeholders[$key] = "/\{{$value}\}/";
@@ -65,84 +83,122 @@ class ResetPasswordService
         return $body;
     }
 
-    public function searchForUserRecord($username) {
-        if (empty($username)){
-            throw new ServiceException(__('Could not find a user with given details'));
+    /**
+     * @throws ServiceException
+     */
+    public function searchForUserRecord($username): ?User
+    {
+        if (empty($username)) {
+            throw new ServiceException('Could not find a user with given details');
         }
-         $userfilterParams=new UserSearchFilterParams();
-        $userfilterParams->setUsername($username);
+        $userFilterParams = new UserSearchFilterParams();
+        $userFilterParams->setUsername($username);
         $userService = $this->getUserService();
-        $users = $userService->searchSystemUsers($userfilterParams);
-        if (count($users)>0) {
+        $users = $userService->searchSystemUsers($userFilterParams);
+
+        if (count($users) > 0) {
             $user = $users[0];
             $associatedEmployee = $user->getEmployee();
             if (!($associatedEmployee instanceof Employee)) {
                 throw new ServiceException('User account is not associated with an employee');
             } else {
-                $emailConfiguration=new EmailConfigurationService();
-                $companyEmail=$emailConfiguration->getEmailConfiguration();
-                if(!empty($companyEmail['sentAs'])) {
-                    if (empty($associatedEmployee['termination_id'])) {
-                        $workEmail = trim($associatedEmployee->getEmpWorkEmail());
-                        if (!empty($workEmail)) {
-                            $passResetCode=$this->hasPasswordResetRequest($workEmail);
-                            if (!$passResetCode) {
+                $companyEmail = $this->getRepository(EmailConfiguration::class)->findOneBy(['id' => '1']);
+                if ($companyEmail instanceof EmailConfiguration) {
+                    if (!empty($companyEmail->getSentAs())) {
+                        if (empty($associatedEmployee->getEmployeeTerminationRecord())) {
+                            $workEmail = trim($associatedEmployee->getWorkEmail());
+
+                            if (!empty($workEmail)) {
                                 return $user;
                             } else {
-                                throw new ServiceException(__('There is a password reset request already in the system.'));
+                                throw new ServiceException(
+                                    'Work email is not set. Please contact HR admin in order to reset the password'
+                                );
                             }
-
                         } else {
-                            throw new ServiceException(__('Work email is not set. Please contact HR admin in order to reset the password'));
+                            throw new ServiceException('Please contact HR admin in order to reset the password');
                         }
                     } else {
-                        throw new ServiceException(__('Please contact HR admin in order to reset the password'));
+                        throw new ServiceException('Password reset email could not be sent');
                     }
                 } else {
-                    throw new ServiceException(__('Password reset email could not be sent'));
+                    throw new ServiceException('Company email is not set yet');
                 }
             }
-
         } else {
-            throw new ServiceException(__('Please contact HR admin in order to reset the password'));
+            throw new ServiceException('Please contact HR admin in order to reset the password');
         }
-        return null;
     }
 
 
-    protected function generatePasswordResetEmailBody(Employee $receiver, $resetCode) {
-        $resetLink ='index.php/auth/resetPassword';
+    protected function generatePasswordResetEmailBody(Employee $receiver, $resetCode, $userName)
+    {
+        //TODO
+        $resetLink = 'index.php/auth/resetPassword';
 
-        $placeholders = array('firstName', 'lastName', 'passwordResetLink', 'code', 'passwordResetCodeLink');
-        $replacements = array(
+        $placeholders = [
+            'firstName',
+            'lastName',
+            'middleName',
+            'workEmail',
+            'userName',
+            'passwordResetLink',
+            'code',
+            'passwordResetCodeLink'
+        ];
+        $replacements = [
             $receiver->getFirstName(),
             $receiver->getLastName(),
+            $receiver->getMiddleName(),
+            $receiver->getWorkEmail(),
+            $userName,
             $resetLink,
             $resetCode,
-        );
+        ];
 
         return $this->generateEmailBody('password-reset-request.txt', $placeholders, $replacements);
     }
 
 
-    public function sendPasswordResetCodeEmail(Employee $receiver, $resetCode) {
+    public function sendPasswordResetCodeEmail(Employee $receiver, $resetCode): bool
+    {
         $this->getEmailService()->setMessageTo([$receiver->getWorkEmail()]);
         $this->getEmailService()->setMessageFrom(
-            [$this->getEmailService()->getEmailConfig()->getSentAs() => 'OrangeHRM System']);
+            [$this->getEmailService()->getEmailConfig()->getSentAs() => 'OrangeHRM System']
+        );
         $this->getEmailService()->setMessageSubject('OrangeHRM Password Reset');
-        $this->getEmailService()->setMessageBody($this->generatePasswordResetEmailBody($receiver, $resetCode));
+        $this->getEmailService()->setMessageBody($this->generatePasswordResetEmailBody($receiver, $resetCode, 'Admin'));
         return $this->getEmailService()->sendEmail();
+    }
+
+    /**
+     * @param $identifier
+     * @return array|false|string|string[]
+     */
+    public function generatePasswordResetCode(string $identifier)
+    {
+        return Base64Url::encode(
+            "{$identifier}#SEPARATOR#" .
+            random_bytes(static::RESET_PASSWORD_TOKEN_RANDOM_BYTES_LENGTH)
+        );
+    }
+
+    /**
+     * @param ResetPassword $resetPassword
+     * @return ResetPassword|null
+     */
+    public function saveResetPasswordLog(ResetPassword $resetPassword): ?ResetPassword
+    {
+        return $this->getResetPasswordDao()->saveResetPassword($resetPassword);
     }
 
     /**
      * @throws ServiceException
      */
-    public function logPasswordResetRequest(User $user)
+    public function logPasswordResetRequest(User $user): void
     {
         $identifier = $user->getUserName();
-//        $resetCode = $this->generatePasswordResetCode($identifier);
-        $resetCode = "reset code";
-
+        $resetCode = $this->generatePasswordResetCode($identifier);
         $resetPassword = new ResetPassword();
         $resetPassword->setResetEmail($user->getEmployee()->getWorkEmail());
         $date = $this->getDateTimeHelper()->getNow();
@@ -153,6 +209,6 @@ class ResetPasswordService
         if (!$emailSent) {
             throw new ServiceException('Password reset email could not be sent.');
         }
+        $this->saveResetPasswordLog($resetPassword);
     }
-
 }

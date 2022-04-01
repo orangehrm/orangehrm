@@ -19,7 +19,7 @@ auth_admin_access_verify:
   methods: [ POST ]
 
 auth_forgot_password_username_verify:
-  path: /auth/usernameVerify
+  path: /auth/userNameVerify
   controller: OrangeHRM\Authentication\Controller\RequestResetPasswordController::handle
   methods: [ POST ]
 

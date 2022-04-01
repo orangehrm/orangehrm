@@ -14,19 +14,25 @@
  *
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
- * Boston, MA  02110-1301, USA
+ * Boston, MA 02110-1301, USA
  */
 
-namespace OrangeHRM\Authentication\Dao;
+namespace OrangeHRM\Core\Utility;
 
-use OrangeHRM\Core\Dao\BaseDao;
-use OrangeHRM\Entity\ResetPassword;
-
-class ResetPasswordDao extends BaseDao
+class Base64Url
 {
-    public function saveResetPassword(ResetPassword $resetPassword): ResetPassword
+    public static function encode($value)
     {
-        $this->persist($resetPassword);
-        return $resetPassword;
+        $base64 = base64_encode($value);
+        if ($base64 === false) {
+            return false;
+        }
+
+        return str_replace(['+', '/', '='], ['-', '_', ''], $base64);
+    }
+
+    public static function decode($value)
+    {
+        return base64_decode(str_replace(['-', '_'], ['+', '/'], $value));
     }
 }

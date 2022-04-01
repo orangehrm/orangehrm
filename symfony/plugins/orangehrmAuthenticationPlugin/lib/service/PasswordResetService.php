@@ -197,7 +197,7 @@ class PasswordResetService extends BaseService {
 
         $emailSent = $this->sendPasswordResetCodeEmail($user->getEmployee(), $resetCode);
         if (!$emailSent) {
-            throw new ServiceException(__('Password reset email could not be sent.'));
+            throw new ServiceException('Password reset email could not be sent.');
         }
         $this->saveResetPasswordLog($resetPassword);
 

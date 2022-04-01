@@ -71,7 +71,7 @@ export default {
   },
   computed: {
     submitUrl() {
-      return urlFor('/auth/usernameVerify');
+      return urlFor('/auth/userNameVerify');
     },
   },
   methods: {
