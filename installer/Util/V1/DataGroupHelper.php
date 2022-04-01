@@ -190,21 +190,24 @@ class DataGroupHelper
     {
         $screenPermissions = $this->readScreenPermissions($filepath);
         foreach ($screenPermissions as $screenPermission) {
-            $this->getConnection()->createQueryBuilder()
+            $values = [
+                'name' => ':name',
+                'module_id' => ':moduleId',
+                'action_url' => ':url',
+            ];
+            if (!is_null($screenPermission->getMenuConfigurator())) {
+                $values['menu_configurator'] = ':menuConfigurator';
+            }
+            $qb = $this->getConnection()->createQueryBuilder()
                 ->insert('ohrm_screen')
-                ->values(
-                    [
-                        'name' => ':name',
-                        'module_id' => ':moduleId',
-                        'action_url' => ':url',
-                        'menu_configurator' => ':menuConfigurator',
-                    ]
-                )
+                ->values($values)
                 ->setParameter('name', $screenPermission->getName())
                 ->setParameter('moduleId', $this->getModuleIdByName($screenPermission->getModule()))
-                ->setParameter('url', $screenPermission->getUrl())
-                ->setParameter('menuConfigurator', $screenPermission->getMenuConfigurator())
-                ->executeQuery();
+                ->setParameter('url', $screenPermission->getUrl());
+            if (!is_null($screenPermission->getMenuConfigurator())) {
+                $qb->setParameter('menuConfigurator', $screenPermission->getMenuConfigurator());
+            }
+            $qb->executeQuery();
 
             $id = $this->getScreenIdByModuleAndUrl(
                 $this->getModuleIdByName($screenPermission->getModule()),

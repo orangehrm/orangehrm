@@ -810,7 +810,7 @@ apiv2_pim_defined_reports:
 apiv2_pim_reports:
   description: 'API-v2 PIM - Reports'
   api: OrangeHRM\Pim\Api\PimReportAPI
-  module: null
+  module: pim
   allowed:
     read: true
     create: false
@@ -822,7 +822,7 @@ apiv2_pim_reports:
 apiv2_pim_reports_data:
   description: 'API-v2 PIM - Reports Data'
   api: OrangeHRM\Pim\Api\PimReportDataAPI
-  module: null
+  module: pim
   allowed:
     read: true
     create: false

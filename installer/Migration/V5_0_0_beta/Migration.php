@@ -73,7 +73,7 @@ class Migration extends AbstractMigration
 
         $this->getDataGroupHelper()->insertApiPermissions(__DIR__ . '/permission/api.yaml');
         $this->getDataGroupHelper()->insertDataGroupPermissions(__DIR__ . '/permission/data_group.yaml');
-        $this->getDataGroupHelper()->insertDataGroupPermissions(__DIR__ . '/permission/screen.yaml');
+        $this->getDataGroupHelper()->insertScreenPermissions(__DIR__ . '/permission/screen.yaml');
 
         $this->updateScreenModuleId('pim', 'viewDefinedPredefinedReports', 'PIM Reports List');
         $this->updateScreenModuleId('pim', 'definePredefinedReport', 'Define PIM reports');
@@ -85,7 +85,10 @@ class Migration extends AbstractMigration
             ->set('menuItem.screen_id', ':screenId')
             ->setParameter(
                 'screenId',
-                $this->getDataGroupHelper()->getScreenIdByModuleAndUrl('performance', 'viewPerformanceModule')
+                $this->getDataGroupHelper()->getScreenIdByModuleAndUrl(
+                    $this->getDataGroupHelper()->getModuleIdByName('performance'),
+                    'viewPerformanceModule'
+                )
             )
             ->andWhere('menuItem.menu_title = :menuTitle')
             ->setParameter('menuTitle', 'Performance')
@@ -110,6 +113,7 @@ class Migration extends AbstractMigration
             ->addColumn('sent_at', Types::DATETIME_MUTABLE, ['Notnull' => false, 'Default' => null])
             ->addColumn('status', Types::STRING, ['Length' => 12, 'Notnull' => false, 'Default' => null])
             ->addColumn('content_type', Types::STRING, ['Length' => 20, 'Notnull' => false, 'Default' => null])
+            ->setPrimaryKey(['id'])
             ->create();
 
         $this->getSchemaHelper()->addColumn(
@@ -580,7 +584,7 @@ class Migration extends AbstractMigration
         $this->createQueryBuilder()
             ->update('ohrm_menu_item', 'menuItem')
             ->set('menuItem.additional_params', ':additionalParams')
-            ->setParameter('additionalParams', '{\"icon\":\"' . $iconName . '\"}')
+            ->setParameter('additionalParams', '{"icon":"' . $iconName . '"}')
             ->andWhere('menuItem.menu_title = :menuTitle')
             ->setParameter('menuTitle', $menuTitle)
             ->executeQuery();
