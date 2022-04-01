@@ -19,16 +19,16 @@
 
 namespace OrangeHRM\Attendance\Controller;
 
+use OrangeHRM\Attendance\Traits\Service\AttendanceServiceTrait;
 use OrangeHRM\Core\Controller\AbstractVueController;
+use OrangeHRM\Core\Controller\Common\NoRecordsFoundController;
+use OrangeHRM\Core\Controller\Exception\RequestForwardableException;
+use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
+use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
-use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
-use OrangeHRM\Core\Controller\Common\NoRecordsFoundController;
-use OrangeHRM\Attendance\Traits\Service\AttendanceServiceTrait;
-use OrangeHRM\Core\Controller\Exception\RequestForwardableException;
 
 class ViewEmployeeAttendanceController extends AbstractVueController
 {
@@ -60,9 +60,18 @@ class ViewEmployeeAttendanceController extends AbstractVueController
             //If the logged-in user is an Admin, regardless of the configuration,
             // he is able to add/edit/delete employee attendance records
             if (
-                ($this->getAuthUser()->getUserRoleName() === self::USER_ROLE_ADMIN ||
-                    $this->getAttendanceService()->canSupervisorModifyAttendanceConfiguration()) &&
-                $this->getAuthUser()->getEmpNumber() !== $empNumber
+                (
+                    $this->getAuthUser()->getUserRoleName() === self::USER_ROLE_ADMIN &&
+                    $this->getAuthUser()->getEmpNumber() === $empNumber &&
+                    $this->getAttendanceService()->canUserModifyAttendanceConfiguration()
+                ) ||
+                (
+                    ($this->getAuthUser()->getUserRoleName() === self::USER_ROLE_ADMIN ||
+                        $this->getAttendanceService()->canSupervisorModifyAttendanceConfiguration()) &&
+                    $this->getAuthUser()->getEmpNumber() !== $empNumber
+                )
+
+
             ) {
                 $component->addProp(new Prop('is-editable', Prop::TYPE_BOOLEAN, true));
             }

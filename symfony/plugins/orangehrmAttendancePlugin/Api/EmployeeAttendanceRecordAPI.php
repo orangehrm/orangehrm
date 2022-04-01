@@ -409,7 +409,7 @@ class EmployeeAttendanceRecordAPI extends Endpoint implements CrudEndpoint
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     CommonParams::PARAMETER_EMP_NUMBER,
-                    new Rule(Rules::IN_ACCESSIBLE_EMP_NUMBERS, [false])
+                    new Rule(Rules::IN_ACCESSIBLE_EMP_NUMBERS)
                 )
             ),
             new ParamRule(
