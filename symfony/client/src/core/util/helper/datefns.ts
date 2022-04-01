@@ -333,6 +333,14 @@ const guessTimezone = () => {
   };
 };
 
+const getStandardTimezone = (timezoneOffset: number) => {
+  return `${timezoneOffset > 0 ? '+' : '-'}${Math.floor(timezoneOffset)
+    .toString()
+    .padStart(2, '0')}:${((timezoneOffset - Math.floor(timezoneOffset)) * 60)
+    .toString()
+    .padEnd(2, '0')}`;
+};
+
 export {
   isDate,
   freshDate,
@@ -353,4 +361,5 @@ export {
   parseTimeInSeconds,
   setClockInterval,
   guessTimezone,
+  getStandardTimezone,
 };

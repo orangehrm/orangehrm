@@ -111,6 +111,7 @@ import RecordCell from '@/orangehrmAttendancePlugin/components/RecordCell.vue';
 import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
 import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmationDialog';
 import {yearRange} from '@/core/util/helper/year-range';
+import {getStandardTimezone} from '@/core/util/helper/datefns';
 
 const attendanceRecordNormalizer = data => {
   return data.map(item => {
@@ -279,7 +280,7 @@ export default {
         props: {
           date: cellData.userDate,
           time: cellData.userTime,
-          offset: cellData.offset,
+          offset: getStandardTimezone(cellData.offset),
         },
       };
     },

@@ -91,6 +91,7 @@ import usePaginate from '@ohrm/core/util/composable/usePaginate';
 import {freshDate, formatDate} from '@ohrm/core/util/helper/datefns';
 import RecordCell from '@/orangehrmAttendancePlugin/components/RecordCell.vue';
 import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmationDialog';
+import {getStandardTimezone} from '@/core/util/helper/datefns';
 
 const attendanceRecordNormalizer = data => {
   return data.map(item => {
@@ -244,7 +245,7 @@ export default {
         props: {
           date: cellData.userDate,
           time: cellData.userTime,
-          offset: cellData.offset,
+          offset: getStandardTimezone(cellData.offset),
         },
       };
     },
