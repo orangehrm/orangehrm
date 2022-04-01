@@ -1,0 +1,57 @@
+personal_sensitive_information:
+  description: 'PIM - PIM - Personal Details - Sensitive'
+  allowed:
+    read: true
+    create: false
+    update: true
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: true, delete: false, self: false } }
+    - { role: Admin, permission: { read: true, create: false, update: true, delete: false, self: true } }
+    - { role: ESS, permission: { read: true, create: false, update: false, delete: false, self: true } }
+    - { role: Supervisor, permission: { read: true, create: false, update: true, delete: false, self: false } }
+    - { role: Supervisor, permission: { read: true, create: false, update: false, delete: false, self: true } }
+
+leave_report_employee_leave_entitlements_and_usage:
+  description: 'Leave - Leave Entitlements and Usage Report - Employee'
+  allowed:
+    read: true
+    create: false
+    update: false
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: Supervisor, permission: { read: true, create: false, update: false, delete: false, self: false } }
+
+leave_report_leave_type_leave_entitlements_and_usage:
+  description: 'Leave - Leave Entitlements and Usage Report - Leave Type'
+  allowed:
+    read: true
+    create: false
+    update: false
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: Supervisor, permission: { read: true, create: false, update: false, delete: false, self: false } }
+
+leave_report_my_leave_entitlements_and_usage:
+  description: 'Leave - My Leave Entitlements and Usage Report'
+  allowed:
+    read: true
+    create: false
+    update: false
+    delete: false
+  permissions:
+    - { role: ESS, permission: { read: true, create: false, update: false, delete: false, self: false } }
+
+locations:
+  description: 'Admin - Locations'
+  allowed:
+    read: true
+    create: true
+    update: true
+    delete: true
+  permissions:
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: true, self: false } }
+    - { role: ESS, permission: { read: false, create: false, update: false, delete: false, self: false } }
+    - { role: Supervisor, permission: { read: false, create: false, update: false, delete: false, self: false } }

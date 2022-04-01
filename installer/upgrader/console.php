@@ -19,7 +19,6 @@
 
 use OrangeHRM\Framework\ServiceContainer;
 use OrangeHRM\Framework\Services;
-use OrangeHRM\Installer\Migration\V5_0_0\Migration;
 use OrangeHRM\ORM\Doctrine;
 
 require_once realpath(__DIR__ . '/../../symfony/vendor/autoload.php');
@@ -27,5 +26,7 @@ require_once realpath(__DIR__ . '/../../symfony/vendor/autoload.php');
 ServiceContainer::getContainer()->register(Services::DOCTRINE)
     ->setFactory([Doctrine::class, 'getEntityManager']);
 
-$migration = new Migration();
+$migration = new \OrangeHRM\Installer\Migration\V5_0_0_beta\Migration();
+$migration->up();
+$migration = new \OrangeHRM\Installer\Migration\V5_0_0\Migration();
 $migration->up();

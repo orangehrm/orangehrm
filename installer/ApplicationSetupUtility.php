@@ -323,6 +323,8 @@ public static function runLanguageStringMigrations()
     \OrangeHRM\Framework\ServiceContainer::getContainer()->register(\OrangeHRM\Framework\Services::DOCTRINE)
         ->setFactory([\OrangeHRM\ORM\Doctrine::class, 'getEntityManager']);
 
+    $migration = new \OrangeHRM\Installer\Migration\V5_0_0_beta\Migration();
+    $migration->up();
     $migration = new \OrangeHRM\Installer\Migration\V5_0_0\Migration();
     $migration->up();
 }
