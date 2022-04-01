@@ -23,26 +23,21 @@
     <oxd-form-row>
       <oxd-grid :cols="4" class="orangehrm-full-width-grid">
         <template v-if="attendanceRecord.previousRecord">
-          <oxd-grid-item>
+          <oxd-grid-item
+            :class="
+              !attendanceRecord.previousRecord.note ? '--span-column-2' : ''
+            "
+          >
             <oxd-input-group :label="$t('time.punched_in_time')">
               <oxd-text type="subtitle-2">
                 {{ attendanceRecord.previousRecord.userDate }} -
                 {{ attendanceRecord.previousRecord.userTime }}
-                <span class="orangehrm-attendance-punchedIn-timezone">
-                  {{
-                    `(GMT ${
-                      attendanceRecord.previousRecord.offset > 0 ? '+' : '-'
-                    }${Math.floor(attendanceRecord.previousRecord.offset)
-                      .toString()
-                      .padStart(2, '0')}:${(
-                      (attendanceRecord.previousRecord.offset -
-                        Math.floor(attendanceRecord.previousRecord.offset)) *
-                      60
-                    )
-                      .toString()
-                      .padEnd(2, '0')})`
-                  }}
-                </span>
+                <oxd-text
+                  tag="span"
+                  class="orangehrm-attendance-punchedIn-timezone"
+                >
+                  {{ `(GMT ${previousRecordTimezone})` }}
+                </oxd-text>
               </oxd-text>
             </oxd-input-group>
           </oxd-grid-item>
@@ -127,6 +122,7 @@ import {
   formatDate,
   guessTimezone,
   setClockInterval,
+  getStandardTimezone,
 } from '@/core/util/helper/datefns';
 import {reloadPage, navigate} from '@/core/util/helper/navigation';
 import promiseDebounce from '@ohrm/oxd/utils/promiseDebounce';
@@ -173,6 +169,7 @@ export default {
       ? `/api/v2/attendance/employees/${props.employeeId}/records`
       : '/api/v2/attendance/records';
     const http = new APIService(window.appGlobal.baseUrl, apiPath);
+
     return {
       http,
     };
@@ -186,6 +183,7 @@ export default {
         time: [required, promiseDebounce(this.validateDate, 500)],
         note: [shouldNotExceedCharLength(250)],
       },
+      previousRecordTimezone: null,
     };
   },
   beforeMount() {
@@ -222,6 +220,11 @@ export default {
           const {data} = response.data;
           this.attendanceRecord.previousRecord = data.punchIn;
         }
+      })
+      .then(() => {
+        this.previousRecordTimezone = getStandardTimezone(
+          this.attendanceRecord.previousRecord?.offset,
+        );
       })
       .finally(() => {
         this.isLoading = false;
