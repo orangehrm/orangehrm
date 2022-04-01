@@ -26,6 +26,7 @@ use Doctrine\DBAL\Schema\ForeignKeyConstraint;
 use Doctrine\DBAL\Schema\TableDiff;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Types\Types;
+use OrangeHRM\Installer\Util\V1\Dto\Table;
 
 class SchemaHelper
 {
@@ -84,7 +85,7 @@ class SchemaHelper
     /**
      * @param string $tableName
      * @param string $columnName
-     * @param array $options ['Type' => \Doctrine\DBAL\Types\Type, 'Length' => int|null, 'Precision' => int, 'Scale' => int, 'Unsigned' => bool, 'Fixed' => bool, 'Notnull' => bool, 'Default' => mixed, 'Autoincrement' => bool, 'Comment' => string|null
+     * @param array $options ['Type' => \Doctrine\DBAL\Types\Type, 'Length' => int|null, 'Precision' => int, 'Scale' => int, 'Unsigned' => bool, 'Fixed' => bool, 'Notnull' => bool, 'Default' => mixed, 'Autoincrement' => bool, 'Comment' => string|null]
      */
     public function changeColumn(string $tableName, string $columnName, array $options = []): void
     {
@@ -92,6 +93,30 @@ class SchemaHelper
         $newColumn = clone $column;
         $newColumn->setOptions($options);
         $columnDiff = new ColumnDiff($columnName, $newColumn, [], $column);
+        $diff = new TableDiff($tableName, [], [$columnDiff]);
+        $this->getSchemaManager()->alterTable($diff);
+    }
+
+    /**
+     * @param string $tableName
+     * @param string $currentColumnName
+     * @param string $newColumnName
+     */
+    public function renameColumn(string $tableName, string $currentColumnName, string $newColumnName): void
+    {
+        $column = $this->getTableColumn($tableName, $currentColumnName);
+        $newColumn = new Column($newColumnName, $column->getType(), [
+            'Length' => $column->getLength(),
+            'Precision' => $column->getPrecision(),
+            'Scale' => $column->getScale(),
+            'Unsigned' => $column->getUnsigned(),
+            'Fixed' => $column->getFixed(),
+            'Notnull' => $column->getNotnull(),
+            'Default' => $column->getDefault(),
+            'Autoincrement' => $column->getAutoincrement(),
+            'Comment' => $column->getComment(),
+        ]);
+        $columnDiff = new ColumnDiff($currentColumnName, $newColumn, [], $column);
         $diff = new TableDiff($tableName, [], [$columnDiff]);
         $this->getSchemaManager()->alterTable($diff);
     }
@@ -116,5 +141,23 @@ class SchemaHelper
         $diff = new TableDiff($localTableName);
         $diff->addedForeignKeys = [$foreignKeyConstraint];
         $this->getSchemaManager()->alterTable($diff);
+    }
+
+    /**
+     * @param string $name
+     * @param string $charset e.g. utf8mb4, utf8
+     * @param string|null $collate e.g. utf8mb4_unicode_ci, utf8_general_ci
+     * @return Table
+     */
+    public function createTable(string $name, string $charset = 'utf8', ?string $collate = null): Table
+    {
+        $table = new Table($name);
+
+        // Only applicable for `symfony/vendor/doctrine/dbal/src/Platforms/MySQLPlatform.php`
+        $table->addOption('charset', $charset);
+        $table->addOption('collate', $collate ?? $charset . '_unicode_ci');
+        $table->addOption('engine', 'InnoDB');
+        $table->setSchemaManager($this->getSchemaManager());
+        return $table;
     }
 }
