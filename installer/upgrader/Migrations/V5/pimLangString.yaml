@@ -497,3 +497,15 @@ langStrings:
   -
     value: 'Drop Down'
     unitId: drop_down
+  -
+    value: 'Supervisors'
+    unitId: supervisors
+  -
+    value: 'Subordinates'
+    unitId: subordinates
+  -
+    value: 'Service Period'
+    unitId: service_period
+  -
+    value: 'Age Group'
+    unitId: age_group

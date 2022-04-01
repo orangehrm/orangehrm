@@ -29,6 +29,7 @@ use OrangeHRM\Pim\Service\CustomFieldService;
 class SaveCustomFieldController extends AbstractVueController
 {
     use I18NHelperTrait;
+
     /**
      * @var null|CustomFieldService
      */
@@ -55,24 +56,33 @@ class SaveCustomFieldController extends AbstractVueController
         } else {
             $component = new Component('custom-field-save');
         }
-        $screenList =CustomFieldController::SCREEN_LIST;
-        $translatedScreenList =[];
-        foreach ($screenList as $screen) {
-            $translatedScreenList[] =[
-                'id' => $screen['id'],
-                'label' => $this->getI18NHelper()->transBySource($screen['label'])
-            ];
-        }
-        $component->addProp(new Prop('screen-list', Prop::TYPE_ARRAY, $translatedScreenList));
-        $fieldTypeList =CustomFieldController::FIELD_TYPE_LIST;
-        $translatedFieldTypeList =[];
-        foreach ($fieldTypeList as $field) {
-            $translatedFieldTypeList[] =[
-                'id' => $field['id'],
-                'label' => $this->getI18NHelper()->transBySource($field['label'])
-            ];
-        }
-        $component->addProp(new Prop('field-type-list', Prop::TYPE_ARRAY, $translatedFieldTypeList));
+        $component->addProp(
+            new Prop(
+                'screen-list',
+                Prop::TYPE_ARRAY,
+                array_map(
+                    fn(array $screen) => [
+                        'id' => $screen['id'],
+                        'label' => $this->getI18NHelper()->transBySource($screen['label'])
+                    ],
+                    CustomFieldController::SCREEN_LIST
+                )
+            )
+        );
+
+        $component->addProp(
+            new Prop(
+                'field-type-list',
+                Prop::TYPE_ARRAY,
+                array_map(
+                    fn(array $fieldType) => [
+                        'id' => $fieldType['id'],
+                        'label' => $this->getI18NHelper()->transBySource($fieldType['label'])
+                    ],
+                    CustomFieldController::FIELD_TYPE_LIST
+                )
+            )
+        );
         $this->setComponent($component);
     }
 }

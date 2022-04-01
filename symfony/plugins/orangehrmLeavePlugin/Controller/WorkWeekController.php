@@ -42,14 +42,19 @@ class WorkWeekController extends AbstractVueController
             ["id" => WorkWeek::WORKWEEK_LENGTH_HALF_DAY, "label" => 'Half Day'],
             ["id" => WorkWeek::WORKWEEK_LENGTH_NON_WORKING_DAY, "label" => 'Non-working Day']
         ];
-        $translatedDayTypes =[];
-        foreach ($dayTypes as $dayType) {
-            $translatedDayTypes[] =[
-                'id' => $dayType['id'],
-                'label' =>$this->getI18NHelper()->transBySource($dayType['label']),
-            ];
-        }
-        $component->addProp(new Prop('day-types', Prop::TYPE_ARRAY, $translatedDayTypes));
+        $component->addProp(
+            new Prop(
+                'day-types',
+                Prop::TYPE_ARRAY,
+                array_map(
+                    fn(array $dayType) => [
+                        'id' => $dayType['id'],
+                        'label' => $this->getI18NHelper()->transBySource($dayType['label'])
+                    ],
+                    $dayTypes
+                )
+            )
+        );
         $this->setComponent($component);
     }
 

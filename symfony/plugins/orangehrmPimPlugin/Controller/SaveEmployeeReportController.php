@@ -56,16 +56,19 @@ class SaveEmployeeReportController extends AbstractVueController
             ["id" => 19, "key" => "gender", "label" => "Gender"],
             ["id" => 20, "key" => "location", "label" => "Location"],
         ];
-        $translatedSelectionCriteria =[];
-        foreach ($selectionCriteria as $selection) {
-            $translatedSelectionCriteria[] =[
-                'id' => $selection['id'],
-                'key' => $selection['key'],
-                'label' =>$this->getI18NHelper()->transBySource($selection['label']),
-            ];
-        }
         $component->addProp(
-            new Prop("selection-criteria", Prop::TYPE_ARRAY, $translatedSelectionCriteria)
+            new Prop(
+                'selection-criteria',
+                Prop::TYPE_ARRAY,
+                array_map(
+                    fn(array $criteria) => [
+                        'id' => $criteria['id'],
+                        'key' => $criteria['key'],
+                        'label' => $this->getI18NHelper()->transBySource($criteria['label'])
+                    ],
+                    $selectionCriteria
+                )
+            )
         );
 
         $displayFieldGroups = [
@@ -85,18 +88,17 @@ class SaveEmployeeReportController extends AbstractVueController
             ["id" => 6, "label" => "Job"],
             ["id" => 5, "label" => "Immigration"],
         ];
-        $translatedDisplayFieldGroups =[];
-        foreach ($displayFieldGroups as $displayFieldGroup) {
-            $translatedDisplayFieldGroups[] =[
-                'id' => $displayFieldGroup['id'],
-                'label' =>$this->getI18NHelper()->transBySource($displayFieldGroup['label']),
-            ];
-        }
         $component->addProp(
             new Prop(
-                "display-field-groups",
+                'display-field-groups',
                 Prop::TYPE_ARRAY,
-                $translatedDisplayFieldGroups
+                array_map(
+                    fn(array $displayFieldGroup) => [
+                        'id' => $displayFieldGroup['id'],
+                        'label' => $this->getI18NHelper()->transBySource($displayFieldGroup['label'])
+                    ],
+                    $displayFieldGroups
+                )
             )
         );
 
@@ -537,15 +539,24 @@ class SaveEmployeeReportController extends AbstractVueController
                 ],
             ],
         ];
-        $translatedDisplayFields =[];
-        foreach ($displayFields as $displayField) {
-            $translatedDisplayFields[] =[
-                'field_group_id' => $displayField['field_group_id'],
-                'fields' => $this->translateFields($displayField['fields'])
-            ];
-        }
         $component->addProp(
-            new Prop("display-fields", Prop::TYPE_ARRAY, $translatedDisplayFields)
+            new Prop(
+                'display-fields',
+                Prop::TYPE_ARRAY,
+                array_map(
+                    fn(array $displayField) => [
+                        'field_group_id' => $displayField['field_group_id'],
+                        'fields' => array_map(
+                            fn(array $field) => [
+                                'id' => $field['id'],
+                                'label' => $this->getI18NHelper()->transBySource($field['label']),
+                            ],
+                            $displayField['fields']
+                        )
+                    ],
+                    $displayFields
+                )
+            )
         );
 
         $this->setComponent($component);

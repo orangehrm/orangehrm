@@ -98,15 +98,19 @@ class LeaveListController extends AbstractVueController
      */
     protected function addLeaveStatusesProp(Component $component): void
     {
-        $leaveStatuses = self::LEAVE_STATUSES;
-        $translatedLeaveStatuses = [];
-        foreach ($leaveStatuses as $leaveStatus) {
-            $translatedLeaveStatuses[] = [
-                'id' => $leaveStatus['id'],
-                'label' =>$this->getI18NHelper()->transBySource($leaveStatus['label']),
-            ];
-        }
-        $component->addProp(new Prop('leave-statuses', Prop::TYPE_ARRAY, $translatedLeaveStatuses));
+        $component->addProp(
+            new Prop(
+                'leave-statuses',
+                Prop::TYPE_ARRAY,
+                array_map(
+                    fn(array $leaveStatus) => [
+                        'id' => $leaveStatus['id'],
+                        'label' => $this->getI18NHelper()->transBySource($leaveStatus['label'])
+                    ],
+                    self::LEAVE_STATUSES
+                )
+            )
+        );
     }
 
     /**
