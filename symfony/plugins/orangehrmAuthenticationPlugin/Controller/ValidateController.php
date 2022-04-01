@@ -123,6 +123,7 @@ class ValidateController extends AbstractController implements PublicControllerI
 
         /** @var Session $session */
         $session = $this->getContainer()->get(Services::SESSION);
+        //Recreate the session
         $session->migrate(true);
 
         if ($this->getAuthUser()->hasAttribute(AuthUser::SESSION_TIMEOUT_REDIRECT_URL)) {

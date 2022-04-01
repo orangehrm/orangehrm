@@ -77,8 +77,8 @@ class Base64Attachment extends AbstractRule
             return false;
         }
 
-        $fileExtension = pathinfo($input['name'])['extension'];
-        if (!in_array($fileExtension, $this->allowedExtensions)) {
+        $fileExtension = pathinfo($input['name'])['extension'] ?? null;
+        if (is_null($fileExtension) || !in_array($fileExtension, $this->allowedExtensions)) {
             return false;
         }
 
