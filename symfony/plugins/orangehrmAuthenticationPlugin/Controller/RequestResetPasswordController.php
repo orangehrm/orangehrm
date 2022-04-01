@@ -46,15 +46,15 @@ class RequestResetPasswordController extends AbstractController
      * @param Request $request
      * @return Response|RedirectResponse
      */
-    public function handle(Request $request)
+    public function handle(Request $request): RedirectResponse
     {
         $username = $request->request->get('username');
 
         $this->getResetPasswordService()->searchForUserRecord($username);
         $user = $this->getEntityManager()->getRepository(User::class)->findOneBy(['userName' => $username]);
         if ($user instanceof User) {
-            //TODO
             $this->getResetPasswordService()->logPasswordResetRequest($user);
         }
+        return $this->redirect('auth/requestSuccess');
     }
 }

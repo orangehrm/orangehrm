@@ -67,7 +67,7 @@ class ResetPasswordService
         return $this->userService;
     }
 
-    protected function generateEmailBody($templateFile, array $placeholders, array $replacements)
+    protected function generateEmailBody(string $templateFile, array $placeholders, array $replacements)
     {
         $body = file_get_contents(
             Config::get(
@@ -86,11 +86,8 @@ class ResetPasswordService
     /**
      * @throws ServiceException
      */
-    public function searchForUserRecord($username): ?User
+    public function searchForUserRecord(string $username): ?User
     {
-        if (empty($username)) {
-            throw new ServiceException('Could not find a user with given details');
-        }
         $userFilterParams = new UserSearchFilterParams();
         $userFilterParams->setUsername($username);
         $userService = $this->getUserService();
@@ -130,11 +127,10 @@ class ResetPasswordService
     }
 
 
-    protected function generatePasswordResetEmailBody(Employee $receiver, $resetCode, $userName)
+    protected function generatePasswordResetEmailBody(Employee $receiver, string $resetCode, string $userName)
     {
         //TODO
         $resetLink = 'index.php/auth/resetPassword';
-
         $placeholders = [
             'firstName',
             'lastName',
@@ -159,7 +155,7 @@ class ResetPasswordService
     }
 
 
-    public function sendPasswordResetCodeEmail(Employee $receiver, $resetCode): bool
+    public function sendPasswordResetCodeEmail(Employee $receiver, string $resetCode): bool
     {
         $this->getEmailService()->setMessageTo([$receiver->getWorkEmail()]);
         $this->getEmailService()->setMessageFrom(
@@ -171,7 +167,7 @@ class ResetPasswordService
     }
 
     /**
-     * @param $identifier
+     * @param string $identifier
      * @return array|false|string|string[]
      */
     public function generatePasswordResetCode(string $identifier)
@@ -192,9 +188,11 @@ class ResetPasswordService
     }
 
     /**
+     * @param User $user
+     * @return bool
      * @throws ServiceException
      */
-    public function logPasswordResetRequest(User $user): void
+    public function logPasswordResetRequest(User $user): bool
     {
         $identifier = $user->getUserName();
         $resetCode = $this->generatePasswordResetCode($identifier);
@@ -209,5 +207,6 @@ class ResetPasswordService
             throw new ServiceException('Password reset email could not be sent.');
         }
         $this->saveResetPasswordLog($resetPassword);
+        return true;
     }
 }
