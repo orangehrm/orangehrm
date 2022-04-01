@@ -4616,3 +4616,22 @@ INSERT INTO ohrm_user_role_data_group (`can_read`, `can_create`, `can_update`, `
 VALUES (1, 0, 0, 0, 0, @auth_admin_verify_data_group_id, @admin_role_id);
 
 INSERT INTO `ohrm_i18n_group` (`name`, `title`) VALUES ('attendance', 'Attendance'), ('help', 'Help'),('auth', 'Auth');
+
+ALTER TABLE `ohrm_module` ADD display_name VARCHAR(120);
+
+UPDATE ohrm_module SET display_name = 'Core' WHERE name = 'core';
+UPDATE ohrm_module SET display_name = 'Admin' WHERE name = 'Admin';
+UPDATE ohrm_module SET display_name = 'PIM' WHERE name = 'pim';
+UPDATE ohrm_module SET display_name = 'Leave' WHERE name = 'leave';
+UPDATE ohrm_module SET display_name = 'Time' WHERE name = 'time';
+UPDATE ohrm_module SET display_name = 'Attendance' WHERE name = 'attendance';
+UPDATE ohrm_module SET display_name = 'Recruitment' WHERE name = 'recruitment';
+UPDATE ohrm_module SET display_name = 'Recruitment Apply' WHERE name = 'recruitmentApply';
+UPDATE ohrm_module SET display_name = 'Time' WHERE name = 'time';
+UPDATE ohrm_module SET display_name = 'Communication' WHERE name = 'communication';
+UPDATE ohrm_module SET display_name = 'Dashboard' WHERE name = 'dashboard';
+UPDATE ohrm_module SET display_name = 'Performance' WHERE name = 'performance';
+UPDATE ohrm_module SET display_name = 'Directory' WHERE name = 'directory';
+UPDATE ohrm_module SET display_name = 'Maintenance' WHERE name = 'maintenance';
+UPDATE ohrm_module SET display_name = 'Market Place' WHERE name = 'marketPlace';
+UPDATE ohrm_module SET display_name = 'Buzz' WHERE name = 'buzz';
