@@ -334,11 +334,17 @@ const guessTimezone = () => {
 };
 
 const getStandardTimezone = (timezoneOffset: number) => {
-  return `${timezoneOffset > 0 ? '+' : '-'}${Math.floor(timezoneOffset)
-    .toString()
-    .padStart(2, '0')}:${((timezoneOffset - Math.floor(timezoneOffset)) * 60)
-    .toString()
-    .padEnd(2, '0')}`;
+  return (
+    (timezoneOffset > 0 ? '+' : '-') +
+    String(Math.abs(timezoneOffset).toFixed(2))
+      .split('.')
+      .map((substr, i) =>
+        i === 0
+          ? substr.padStart(2, '0')
+          : String(parseInt(substr) * 0.6).padEnd(2, '0'),
+      )
+      .join(':')
+  );
 };
 
 export {
