@@ -180,9 +180,16 @@ class EmployeeReport implements EndpointAwareReport
      */
     public function checkReportAccessibility(EndpointProxy $endpoint): void
     {
-        if (!$this->getUserRoleManagerHelper()
-            ->getEntityIndependentDataGroupPermissions('time_employee_reports')
-            ->canRead()) {
+        $employeeNumber = $endpoint->getRequestParams()->getIntOrNull(
+            RequestParams::PARAM_TYPE_QUERY,
+            CommonParams::PARAMETER_EMP_NUMBER
+        );
+        if (!$this->getUserRoleManager()->getDataGroupPermissions(
+            'time_employee_reports',
+            [],
+            [],
+            $this->getUserRoleManagerHelper()->isSelfByEmpNumber($employeeNumber)
+        )->canRead()) {
             throw new ForbiddenException();
         }
     }
