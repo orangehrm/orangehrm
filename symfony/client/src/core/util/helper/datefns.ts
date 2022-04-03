@@ -293,6 +293,21 @@ const setClockInterval = (callback: (args: void) => void, interval = 1000) => {
   timer();
 };
 
+//this function returns the timezone in standard format eg:- +05:30 when input given as float eg:- +5.5
+const getStandardTimezone = (timezoneOffset: number) => {
+  return (
+    (timezoneOffset > 0 ? '+' : '-') +
+    String(Math.abs(timezoneOffset).toFixed(2))
+      .split('.')
+      .map((substr, i) =>
+        i === 0
+          ? substr.padStart(2, '0')
+          : String(parseInt(substr) * 0.6).padEnd(2, '0'),
+      )
+      .join(':')
+  );
+};
+
 /**
  * guessTimezone will first try to guess the current timezone name using
  * ES6 Intl API. in the offchance it's not possible it will revert value using
@@ -322,20 +337,6 @@ const guessTimezone = () => {
     label: `(GMT ${formattedOffset}) ${timezoneName}`,
     offset: timezoneOffset,
   };
-};
-
-const getStandardTimezone = (timezoneOffset: number) => {
-  return (
-    (timezoneOffset > 0 ? '+' : '-') +
-    String(Math.abs(timezoneOffset).toFixed(2))
-      .split('.')
-      .map((substr, i) =>
-        i === 0
-          ? substr.padStart(2, '0')
-          : String(parseInt(substr) * 0.6).padEnd(2, '0'),
-      )
-      .join(':')
-  );
 };
 
 export {
