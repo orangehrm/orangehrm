@@ -48,7 +48,6 @@
               type="password"
               :rules="rules.newPassword"
               autocomplete="off"
-              required
             />
           </oxd-form-row>
           <oxd-form-row>
@@ -61,7 +60,6 @@
               type="password"
               :rules="rules.confirmPassword"
               autocomplete="off"
-              required
             />
           </oxd-form-row>
           <oxd-divider />
