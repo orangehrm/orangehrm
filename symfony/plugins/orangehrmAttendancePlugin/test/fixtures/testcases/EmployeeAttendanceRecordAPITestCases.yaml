@@ -16,7 +16,32 @@ Create:
       timezoneOffset: 5.5
       timezoneName: 'Asia/Colombo'
       note: 'punch in'
-    invalidOnly: [ 'empNumber' ]
+    data:
+      id: 9
+      punchIn:
+        utcDate: '2021-12-27'
+        utcTime: '03:12'
+        userDate: '2021-12-27'
+        userTime: '08:42'
+        timezoneOffset: '5.5'
+        note: 'punch in'
+      punchOut:
+        utcDate: null
+        utcTime: null
+        userDate: null
+        userTime: null
+        timezoneOffset: null
+        note: null
+      state:
+        id: 'PUNCHED IN'
+        name: 'Punched In'
+      employee:
+        empNumber: 1
+        lastName: 'Abbey'
+        firstName: 'Kayla'
+        middleName: 'T'
+        employeeId: 'E001'
+        terminationId: null
 
   'Admin - add employee attendance Record of employee':
     userId: 1
@@ -123,7 +148,9 @@ Create:
       timezoneOffset: 5.5
       timezoneName: 'Asia/Colombo'
       note: 'punch in'
-    invalidOnly: [ 'empNumber' ]
+    exception:
+      class: 'OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
+      message: 'Unauthorized'
 
   'Supervisor - add employee attendance Record of employee':
     userId: 3

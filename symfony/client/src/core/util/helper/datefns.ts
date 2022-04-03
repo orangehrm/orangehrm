@@ -315,16 +315,7 @@ const guessTimezone = () => {
     timezoneName = resolvedTz ? resolvedTz.label : defaultTimezones[0].label;
   }
 
-  const formattedOffset =
-    (timezoneOffset > 0 ? '+' : '-') +
-    String(timezoneOffset.toFixed(2))
-      .split('.')
-      .map((substr, i) =>
-        i === 0
-          ? substr.padStart(2, '0')
-          : String(parseInt(substr) * 0.6).padEnd(2, '0'),
-      )
-      .join(':');
+  const formattedOffset = getStandardTimezone(timezoneOffset);
 
   return {
     name: timezoneName,

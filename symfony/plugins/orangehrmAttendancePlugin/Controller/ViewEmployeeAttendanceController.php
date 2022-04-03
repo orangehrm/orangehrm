@@ -40,8 +40,6 @@ class ViewEmployeeAttendanceController extends AbstractVueController
     use EmployeeServiceTrait;
     use AttendanceServiceTrait;
 
-    public const USER_ROLE_ADMIN = 'Admin';
-
     /**
      * @inheritDoc
      */
