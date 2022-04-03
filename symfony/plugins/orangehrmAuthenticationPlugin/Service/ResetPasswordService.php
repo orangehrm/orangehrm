@@ -40,10 +40,13 @@ class ResetPasswordService
 
     public const RESET_PASSWORD_TOKEN_RANDOM_BYTES_LENGTH = 16;
     protected ?EmailService $emailService = null;
-    protected ?userService $userService = null;
+    protected ?UserService $userService = null;
     protected ?ResetPasswordDao $resetPasswordDao = null;
 
-    public function getEmailService(): ?EmailService
+    /**
+     * @return EmailService
+     */
+    public function getEmailService(): EmailService
     {
         if (!$this->emailService instanceof EmailService) {
             $this->emailService = new EmailService();
@@ -51,7 +54,10 @@ class ResetPasswordService
         return $this->emailService;
     }
 
-    public function getResetPasswordDao(): ?ResetPasswordDao
+    /**
+     * @return ResetPasswordDao
+     */
+    public function getResetPasswordDao(): ResetPasswordDao
     {
         if (!$this->resetPasswordDao instanceof ResetPasswordDao) {
             $this->resetPasswordDao = new ResetPasswordDao();
@@ -59,7 +65,10 @@ class ResetPasswordService
         return $this->resetPasswordDao;
     }
 
-    public function getUserService(): ?UserService
+    /**
+     * @return UserService|null
+     */
+    public function getUserService(): UserService
     {
         if (!($this->userService instanceof UserService)) {
             $this->userService = new UserService();
@@ -67,6 +76,12 @@ class ResetPasswordService
         return $this->userService;
     }
 
+    /**
+     * @param string $templateFile
+     * @param array $placeholders
+     * @param array $replacements
+     * @return array|string|string[]|null
+     */
     protected function generateEmailBody(string $templateFile, array $placeholders, array $replacements)
     {
         $body = file_get_contents(
@@ -84,14 +99,15 @@ class ResetPasswordService
     }
 
     /**
+     * @param string $username
+     * @return User|null
      * @throws ServiceException
      */
     public function searchForUserRecord(string $username): ?User
     {
         $userFilterParams = new UserSearchFilterParams();
         $userFilterParams->setUsername($username);
-        $userService = $this->getUserService();
-        $users = $userService->searchSystemUsers($userFilterParams);
+        $users = $this->getUserService()->searchSystemUsers($userFilterParams);
 
         if (count($users) > 0) {
             $user = $users[0];
@@ -199,7 +215,6 @@ class ResetPasswordService
         $resetPassword = new ResetPassword();
         $resetPassword->setResetEmail($user->getEmployee()->getWorkEmail());
         $date = $this->getDateTimeHelper()->getNow();
-        $date->format('Y-m-d H:i:s');
         $resetPassword->setResetRequestDate($date);
         $resetPassword->setResetCode($resetCode);
         $emailSent = $this->sendPasswordResetCodeEmail($user->getEmployee(), $resetCode);

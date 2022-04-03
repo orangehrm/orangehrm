@@ -9,7 +9,7 @@
         <card-note
           note-text="The user account cannot be found or the reset password token has expired"
           class="orangehrm-forgot-password-card-note"
-          note-icon
+          has-note-icon
         />
         <oxd-text class="orangehrm-forgot-password-reset">
           <oxd-text tag="span" class="orangehrm-forgot-password-reset--link">

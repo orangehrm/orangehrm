@@ -33,7 +33,10 @@ class RequestResetPasswordController extends AbstractController
 
     protected ?ResetPasswordService $resetPasswordService = null;
 
-    public function getResetPasswordService(): ?ResetPasswordService
+    /**
+     * @return ResetPasswordService
+     */
+    public function getResetPasswordService(): ResetPasswordService
     {
         if (!$this->resetPasswordService instanceof ResetPasswordService) {
             $this->resetPasswordService = new ResetPasswordService();

@@ -24,6 +24,10 @@ use OrangeHRM\Entity\ResetPassword;
 
 class ResetPasswordDao extends BaseDao
 {
+    /**
+     * @param ResetPassword $resetPassword
+     * @return ResetPassword
+     */
     public function saveResetPassword(ResetPassword $resetPassword): ResetPassword
     {
         $this->persist($resetPassword);

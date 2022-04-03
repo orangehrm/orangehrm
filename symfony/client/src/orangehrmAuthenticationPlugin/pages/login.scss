@@ -15,7 +15,7 @@
 // Boston, MA  02110-1301, USA
 
 @import '@ohrm/oxd/styles/_mixins.scss';
-@import '@ohrm/oxd/styles/_colors.scss';
+
 .orangehrm-login-form {
   margin: 0 auto;
   @include oxd-respond-to('xs') {

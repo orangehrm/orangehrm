@@ -75,8 +75,9 @@
             tag="span"
             class="orangehrm-login-forgot-title"
             @click="navigateUrl"
-            >Password?</oxd-text
           >
+            Password?
+          </oxd-text>
         </oxd-text>
       </oxd-form>
       <br />

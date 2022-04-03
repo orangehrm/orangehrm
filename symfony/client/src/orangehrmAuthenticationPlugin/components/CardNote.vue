@@ -20,22 +20,23 @@
   <oxd-text
     :class="{
       'orangehrm-card-note': true,
-      'orangehrm-card-note--background': note,
-      'orangehrm-card-note--icon': noteIcon,
+      'orangehrm-card-note--background': hasNote,
+      'orangehrm-card-note--icon': hasNoteIcon,
     }"
   >
-    <oxd-text v-if="note" class="orangehrm-card-note-header">Note:</oxd-text>
-    <oxd-text v-if="noteIcon" tag="span" class="orangehrm-card-note-icon">
+    <oxd-text v-if="hasNote" class="orangehrm-sub-title">Note:</oxd-text>
+    <oxd-text v-if="hasNoteIcon" tag="span" class="orangehrm-card-note-icon">
       <oxd-icon name="exclamation-triangle" class="orangehrm-card-icon" />
     </oxd-text>
-    <oxd-text :class="{'orangehrm-card-note-text': noteIcon}">
-      {{ noteText }}</oxd-text
-    >
+    <oxd-text :class="{'orangehrm-card-note-text': hasNoteIcon}">
+      {{ noteText }}
+    </oxd-text>
   </oxd-text>
 </template>
 
 <script>
 import Icon from '@ohrm/oxd/core/components/Icon/Icon.vue';
+
 export default {
   name: 'CardNote',
   components: {
@@ -46,11 +47,11 @@ export default {
       type: String,
       required: true,
     },
-    note: {
+    hasNote: {
       type: Boolean,
       default: false,
     },
-    noteIcon: {
+    hasNoteIcon: {
       type: Boolean,
       required: false,
     },
@@ -61,23 +62,28 @@ export default {
 <style scoped lang="scss">
 @import '@ohrm/oxd/styles/_colors.scss';
 @import '@ohrm/oxd/styles/_variables.scss';
+
 .orangehrm-card {
   &-icon {
     font-size: 1.5rem;
     color: $oxd-feedback-danger-color;
     padding: 1rem;
   }
+
   &-note {
     font-size: 12px;
+
     &-text {
       color: $oxd-feedback-danger-color;
     }
   }
+
   &-note--background {
     background-color: $oxd-interface-gray-lighten-2-color;
     border-radius: $oxd-border-radius;
     padding: 1.2rem;
   }
+
   &-note--icon {
     display: flex;
     align-items: center;
@@ -85,11 +91,6 @@ export default {
     background-color: rgb(250, 234, 234);
     border-radius: $oxd-border-radius;
     padding: 1rem;
-  }
-  &-note-header {
-    padding: 0.25rem 0 !important;
-    font-size: 14px !important;
-    font-weight: 700 !important;
   }
 }
 </style>

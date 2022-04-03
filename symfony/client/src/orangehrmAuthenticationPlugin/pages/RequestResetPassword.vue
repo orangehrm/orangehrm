@@ -3,7 +3,7 @@
     <div class="orangehrm-forgot-password-wrapper">
       <div class="orangehrm-card-container">
         <oxd-form
-          ref="verifyForm"
+          ref="resetForm"
           method="post"
           :action="submitUrl"
           @submitValid="onSubmit"
@@ -79,7 +79,7 @@ export default {
       navigate('/auth/login');
     },
     onSubmit() {
-      this.$refs.verifyForm.$el.submit();
+      this.$refs.resetForm.$el.submit();
     },
   },
 };

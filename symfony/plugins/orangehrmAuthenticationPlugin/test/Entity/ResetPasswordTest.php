@@ -26,21 +26,22 @@ use OrangeHRM\Tests\Util\EntityTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 
 /**
- * @group @Authentication
- * @group @Entity
+ * @group Authentication
+ * @group Entity
  */
 class ResetPasswordTest extends EntityTestCase
 {
     use DateTimeHelperTrait;
+
     protected function setUp(): void
     {
         TestDataService::truncateSpecificTables([ResetPassword::class]);
-        $this->createKernelWithMockServices([Services::DATETIME_HELPER_SERVICE=>new DateTimeHelperService()]);
+        $this->createKernelWithMockServices([Services::DATETIME_HELPER_SERVICE => new DateTimeHelperService()]);
     }
 
     public function testResetPassword(): void
     {
-        $resetPassword=new ResetPassword();
+        $resetPassword = new ResetPassword();
         $resetPassword->setId(1);
         $resetPassword->setResetCode('reset');
         $resetPassword->setResetRequestDate($this->getDateTimeHelper()->getNow());
@@ -48,7 +49,7 @@ class ResetPasswordTest extends EntityTestCase
         $this->persist($resetPassword);
 
         /** @var ResetPassword $resetPassword */
-        $resetPassword=$this->getRepository(ResetPassword::class)->find(1);
+        $resetPassword = $this->getRepository(ResetPassword::class)->find(1);
         $this->assertEquals(1, $resetPassword->getId());
         $this->assertEquals('reset', $resetPassword->getResetCode());
         $this->assertEquals('reset@gmail.com', $resetPassword->getResetEmail());
