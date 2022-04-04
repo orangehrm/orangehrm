@@ -561,7 +561,11 @@ class SaveEmployeeReportController extends AbstractVueController
 
         $this->setComponent($component);
     }
-
+    
+    /**
+     * @param  array $fields
+     * @return array
+     */
     private function translateFields(array $fields): array
     {
         $translatedField =[];
