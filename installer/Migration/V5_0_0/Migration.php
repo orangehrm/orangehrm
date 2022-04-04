@@ -158,6 +158,25 @@ class Migration extends AbstractMigration
             'unit_id',
             ['Type' => Type::getType(Types::STRING), 'Length' => 255]
         );
+
+        $this->getDataGroupHelper()->addDataGroupPermissions(
+            'time_employee_reports',
+            'Admin',
+            true,
+            false,
+            false,
+            false,
+            true
+        );
+        $this->getDataGroupHelper()->addDataGroupPermissions(
+            'time_employee_reports',
+            'Supervisor',
+            false,
+            false,
+            false,
+            false,
+            true
+        );
     }
 
     /**
