@@ -52,6 +52,13 @@ Cypress.Commands.add(
         },
       });
     });
+    // getCookie code was added to support session migration added in OHRM5X-666
+    // After login, session id will be changed
+    // This results in two cookies appearing during cypress testing
+    // If not handled, Session Expiration error will be displayed during tests
+    // For the fix, get both cookies and check expiry time
+    // Cookie with the higher time contains the newly created session
+    // Clear all cookies and set the cookie with higher expiry time
     cy.getCookies()
       .should('have.length', 2)
       .then((cookies) => {
