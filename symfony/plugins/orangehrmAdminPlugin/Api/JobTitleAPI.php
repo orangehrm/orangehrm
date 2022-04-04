@@ -36,6 +36,7 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Core\Api\V2\Validator\Rules\EntityUniquePropertyOption;
 use OrangeHRM\Core\Dto\Base64Attachment;
 use OrangeHRM\Entity\JobSpecificationAttachment;
 use OrangeHRM\Entity\JobTitle;
@@ -223,6 +224,7 @@ class JobTitleAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForCreate(): ParamRuleCollection
     {
         return new ParamRuleCollection(
+            $this->getTitleRule(false),
             $this->getValidationDecorator()->notRequiredParamRule(
                 $this->getSpecificationRule()
             ),
@@ -236,12 +238,6 @@ class JobTitleAPI extends Endpoint implements CrudEndpoint
     protected function getCommonBodyValidationRules(): array
     {
         return [
-            new ParamRule(
-                self::PARAMETER_TITLE,
-                new Rule(Rules::STRING_TYPE),
-                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_TITLE_MAX_LENGTH]),
-                new Rule(Rules::ENTITY_UNIQUE_PROPERTY, [JobTitle::class, 'jobTitleName']),
-            ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::PARAMETER_DESCRIPTION,
@@ -259,6 +255,30 @@ class JobTitleAPI extends Endpoint implements CrudEndpoint
                 true
             ),
         ];
+    }
+
+    /**
+     * @param bool $update
+     * @return ParamRule
+     */
+    protected function getTitleRule(bool $update): ParamRule
+    {
+        $entityProperties = new EntityUniquePropertyOption();
+        $ignoreValues = ['isDeleted' => true];
+        if ($update) {
+            $ignoreValues['getId'] = $this->getRequestParams()->getInt(
+                RequestParams::PARAM_TYPE_ATTRIBUTE,
+                CommonParams::PARAMETER_ID
+            );
+        }
+        $entityProperties->setIgnoreValues($ignoreValues);
+
+        return new ParamRule(
+            self::PARAMETER_TITLE,
+            new Rule(Rules::STRING_TYPE),
+            new Rule(Rules::LENGTH, [null, self::PARAM_RULE_TITLE_MAX_LENGTH]),
+            new Rule(Rules::ENTITY_UNIQUE_PROPERTY, [JobTitle::class, 'jobTitleName', $entityProperties])
+        );
     }
 
     /**
@@ -336,6 +356,7 @@ class JobTitleAPI extends Endpoint implements CrudEndpoint
                 CommonParams::PARAMETER_ID,
                 new Rule(Rules::POSITIVE)
             ),
+            $this->getTitleRule(true),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::PARAMETER_CURRENT_JOB_SPECIFICATION,
