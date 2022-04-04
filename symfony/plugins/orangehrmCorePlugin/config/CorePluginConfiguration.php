@@ -67,7 +67,6 @@ class CorePluginConfiguration implements PluginConfigurationInterface
             'cookie_httponly' => true,
             'cookie_path' => $path,
             'cookie_samesite' => 'Strict',
-            'cookie_lifetime' => Config::MAX_IDLE_TIME
         ];
         $sessionStorage = new NativeSessionStorage($options, new NativeFileSessionHandler());
         $session = new Session($sessionStorage);
