@@ -52,6 +52,25 @@ Cypress.Commands.add(
         },
       });
     });
+    cy.getCookies()
+      .should('have.length', 2)
+      .then((cookies) => {
+        let cookie;
+        if (cookies[0].expiry < cookies[1].expiry) {
+          cookie = cookies[1];
+        } else {
+          cookie = cookies[0];
+        }
+        cy.clearCookies();
+        cy.setCookie('_orangehrm', cookie.value, {
+          domain: cookie.domain,
+          expiry: cookie.expiry,
+          httpOnly: cookie.httpOnly,
+          sameSite: cookie.sameSite,
+          path: cookie.path,
+          secure: cookie.secure,
+        });
+      });
   },
 );
 
