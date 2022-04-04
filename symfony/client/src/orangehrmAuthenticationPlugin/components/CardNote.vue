@@ -85,7 +85,7 @@ export default {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background-color: rgb(250, 234, 234);
+    background-color: rgba(235, 9, 16, 0.06);
     border-radius: $oxd-border-radius;
     padding: 1rem;
   }
