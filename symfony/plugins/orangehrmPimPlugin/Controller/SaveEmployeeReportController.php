@@ -563,7 +563,7 @@ class SaveEmployeeReportController extends AbstractVueController
     }
     
     /**
-     * @param  array $fields
+     * @param array $fields
      * @return array
      */
     private function translateFields(array $fields): array
