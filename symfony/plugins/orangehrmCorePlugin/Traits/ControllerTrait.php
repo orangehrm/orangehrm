@@ -20,6 +20,7 @@
 namespace OrangeHRM\Core\Traits;
 
 use OrangeHRM\Framework\Framework;
+use OrangeHRM\Framework\Http\RedirectResponse;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\Http\RequestStack;
 use OrangeHRM\Framework\Http\Response;
@@ -56,5 +57,19 @@ trait ControllerTrait
         /** @var RequestStack $requestStack */
         $requestStack = $this->getContainer()->get(Services::REQUEST_STACK);
         return $requestStack->getCurrentRequest();
+    }
+
+    /**
+     * @param string $path
+     * @return RedirectResponse
+     */
+    protected function redirect(string $path): RedirectResponse
+    {
+        $request = $this->getCurrentRequest();
+        $baseUrl = $request->getSchemeAndHttpHost() . $request->getBaseUrl();
+        if (substr($path, 0, 1) !== '/') {
+            $path = '/' . $path;
+        }
+        return new RedirectResponse($baseUrl . $path);
     }
 }
