@@ -56,27 +56,15 @@ Cypress.Commands.add(
     // After login, session id will be changed
     // This results in two cookies appearing during cypress testing
     // If not handled, Session Expiration error will be displayed during tests
-    // For the fix, get both cookies and check expiry time
-    // Cookie with the higher time contains the newly created session
-    // Clear all cookies and set the cookie with higher expiry time
+    // For the fix, need to clear cookies and set only the new cookie
+    // The second cookie in the array contains the older session
+    // Note that this behaviour may change if cookie lifetime is set
+    // Clear all cookies and set cookies[0] from the array as the only cookie
     cy.getCookies()
       .should('have.length', 2)
       .then((cookies) => {
-        let cookie;
-        if (cookies[0].expiry < cookies[1].expiry) {
-          cookie = cookies[1];
-        } else {
-          cookie = cookies[0];
-        }
         cy.clearCookies();
-        cy.setCookie('_orangehrm', cookie.value, {
-          domain: cookie.domain,
-          expiry: cookie.expiry,
-          httpOnly: cookie.httpOnly,
-          sameSite: cookie.sameSite,
-          path: cookie.path,
-          secure: cookie.secure,
-        });
+        cy.setCookie('_orangehrm', cookies[0].value, cookies[0]);
       });
   },
 );
