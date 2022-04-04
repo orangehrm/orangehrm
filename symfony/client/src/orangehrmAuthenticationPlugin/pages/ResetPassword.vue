@@ -31,7 +31,7 @@
           />
           <oxd-form-row>
             <oxd-input-field
-              :model-value="username"
+              :value="username"
               name="username"
               label="Username"
               label-icon="person"

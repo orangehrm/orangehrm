@@ -22,7 +22,6 @@ namespace OrangeHRM\Authentication\Controller;
 use OrangeHRM\Admin\Dao\UserDao;
 use OrangeHRM\Authentication\Service\ResetPasswordService;
 use OrangeHRM\Core\Controller\AbstractController;
-use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Entity\User;
 use OrangeHRM\Framework\Http\RedirectResponse;
 use OrangeHRM\Framework\Http\Request;
@@ -30,8 +29,6 @@ use OrangeHRM\Framework\Http\Response;
 
 class RequestResetPasswordController extends AbstractController
 {
-    use EntityManagerHelperTrait;
-
     protected ?ResetPasswordService $resetPasswordService = null;
     protected ?UserDao $userDao=null;
 
@@ -63,7 +60,6 @@ class RequestResetPasswordController extends AbstractController
     public function handle(Request $request): RedirectResponse
     {
         $username = $request->request->get('username');
-
         $this->getResetPasswordService()->searchForUserRecord($username);
         $user = $this->getUserDao()->getUserByUserName($username);
         if ($user instanceof User) {

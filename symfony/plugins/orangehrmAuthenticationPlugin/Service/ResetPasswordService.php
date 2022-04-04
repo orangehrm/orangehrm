@@ -25,6 +25,7 @@ use OrangeHRM\Authentication\Dao\ResetPasswordDao;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Exception\ServiceException;
 use OrangeHRM\Core\Service\EmailService;
+use OrangeHRM\Core\Traits\LoggerTrait;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Core\Utility\Base64Url;
@@ -37,6 +38,7 @@ class ResetPasswordService
 {
     use DateTimeHelperTrait;
     use EntityManagerHelperTrait;
+    use LoggerTrait;
 
     public const RESET_PASSWORD_TOKEN_RANDOM_BYTES_LENGTH = 16;
     protected ?EmailService $emailService = null;
@@ -113,7 +115,7 @@ class ResetPasswordService
             $user = $users[0];
             $associatedEmployee = $user->getEmployee();
             if (!($associatedEmployee instanceof Employee)) {
-                throw new ServiceException('User account is not associated with an employee');
+                $this->getLogger()->error('User account is not associated with an employee');
             } else {
                 if (empty($associatedEmployee->getEmployeeTerminationRecord())) {
                     $companyEmail = $this->getRepository(EmailConfiguration::class)->findOneBy(['id' => '1']);
@@ -123,30 +125,29 @@ class ResetPasswordService
                             if (!empty($workEmail)) {
                                 return $user;
                             } else {
-                                throw new ServiceException(
-                                    'Work email is not set. Please contact HR admin in order to reset the password'
-                                );
+                                $this->getLogger()->error('Work email is not set. Please contact HR admin in order to reset the password');
                             }
                         } else {
-                            throw new ServiceException('Password reset email could not be sent');
+                            $this->getLogger()->error('Password reset email could not be sent');
                         }
                     } else {
-                        throw new ServiceException('Company email is not set yet');
+                        $this->getLogger()->error('Company email is not set yet');
                     }
                 } else {
-                    throw new ServiceException('Please contact HR admin in order to reset the password');
+                    $this->getLogger()->error('Please contact HR admin in order to reset the password');
                 }
             }
         } else {
-            throw new ServiceException('Please contact HR admin in order to reset the password');
+            $this->getLogger()->error('Please contact HR admin in order to reset the password');
         }
+        return null;
     }
 
 
     protected function generatePasswordResetEmailBody(Employee $receiver, string $resetCode, string $userName)
     {
         //TODO
-        $resetLink = 'index.php/auth/resetPassword';
+        $resetLink = Config::BASE_DIR.'/index.php/auth/resetPassword';
         $placeholders = [
             'firstName',
             'lastName',
@@ -219,7 +220,7 @@ class ResetPasswordService
         $resetPassword->setResetCode($resetCode);
         $emailSent = $this->sendPasswordResetCodeEmail($user->getEmployee(), $resetCode);
         if (!$emailSent) {
-            throw new ServiceException('Password reset email could not be sent.');
+            $this->getLogger()->error('Password reset email could not be sent.');
         }
         $this->saveResetPasswordLog($resetPassword);
         return true;
