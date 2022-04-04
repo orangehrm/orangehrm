@@ -68,7 +68,10 @@
                   />
                 </oxd-grid-item>
 
-                <oxd-grid-item v-if="isTimezoneEditable" class="--offset-row-3">
+                <oxd-grid-item
+                  v-if="isTimezoneEditable"
+                  class="--offset-row-3 --span-column-2"
+                >
                   <timezone-dropdown
                     v-model="attendance.punchIn.timezone"
                     required
@@ -117,7 +120,10 @@
                   />
                 </oxd-grid-item>
 
-                <oxd-grid-item v-if="isTimezoneEditable" class="--offset-row-3">
+                <oxd-grid-item
+                  v-if="isTimezoneEditable"
+                  class="--offset-row-3 --span-column-2"
+                >
                   <timezone-dropdown
                     v-model="attendance.punchOut.timezone"
                     required
