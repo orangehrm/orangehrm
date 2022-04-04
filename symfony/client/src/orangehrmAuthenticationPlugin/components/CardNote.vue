@@ -68,7 +68,7 @@ export default {
   }
 
   &-note {
-    font-size: 12px;
+    font-size: $oxd-input-control-font-size;
 
     &-text {
       color: $oxd-feedback-danger-color;

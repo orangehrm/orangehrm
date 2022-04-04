@@ -21,7 +21,7 @@
     <div class="orangehrm-forgot-password-wrapper">
       <div class="orangehrm-card-container">
         <oxd-form method="post">
-          <oxd-text tag="h6" class="orangehrm-forgot-password-title">
+          <oxd-text tag="h6">
             Reset Password
           </oxd-text>
           <oxd-divider />
