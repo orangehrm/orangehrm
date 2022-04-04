@@ -17,7 +17,6 @@
  * Boston, MA  02110-1301, USA
  */
 
-use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper;
 use OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory;
 use OrangeHRM\Core\Helper\ClassHelper;
