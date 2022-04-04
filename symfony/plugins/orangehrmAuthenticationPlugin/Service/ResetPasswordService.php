@@ -19,10 +19,12 @@
 
 namespace OrangeHRM\Authentication\Service;
 
+use OrangeHRM\Admin\Dao\UserDao;
 use OrangeHRM\Admin\Dto\UserSearchFilterParams;
 use OrangeHRM\Admin\Service\UserService;
 use OrangeHRM\Authentication\Dao\ResetPasswordDao;
 use OrangeHRM\Config\Config;
+use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Exception\ServiceException;
 use OrangeHRM\Core\Service\EmailService;
 use OrangeHRM\Core\Traits\LoggerTrait;
@@ -44,6 +46,7 @@ class ResetPasswordService
     protected ?EmailService $emailService = null;
     protected ?UserService $userService = null;
     protected ?ResetPasswordDao $resetPasswordDao = null;
+    protected ?UserDao $userDao=null;
 
     /**
      * @return EmailService
@@ -57,6 +60,17 @@ class ResetPasswordService
     }
 
     /**
+     * @return UserDao
+     */
+    public function getUserDao(): UserDao
+    {
+        if (!$this->userDao instanceof UserDao) {
+            $this->userDao = new UserDao();
+        }
+        return $this->userDao;
+    }
+
+    /**
      * @return ResetPasswordDao
      */
     public function getResetPasswordDao(): ResetPasswordDao
@@ -65,6 +79,33 @@ class ResetPasswordService
             $this->resetPasswordDao = new ResetPasswordDao();
         }
         return $this->resetPasswordDao;
+    }
+
+    /**
+     * @param ResetPassword $resetPassword
+     * @return float
+     */
+    public function hasPasswordResetRequestNotExpired(ResetPassword $resetPassword): float
+    {
+        $strExpireTime = strtotime($resetPassword->getResetRequestDate()->format('Y-m-d H:i:s'));
+        $strCurrentTime = strtotime(date("Y-m-d H:i:s"));
+        return floor(($strCurrentTime-$strExpireTime)/(60*60*24));
+    }
+
+    /**
+     *
+     * @param string $resetCode
+     * @return array
+     */
+    public function extractPasswordResetMetaData(string $resetCode): array
+    {
+        $code = Base64Url::decode($resetCode);
+
+        $metaData = explode('#SEPARATOR#', $code);
+
+        array_pop($metaData);
+
+        return $metaData;
     }
 
     /**
@@ -144,10 +185,17 @@ class ResetPasswordService
     }
 
 
+    /**
+     * @param Employee $receiver
+     * @param string $resetCode
+     * @param string $userName
+     * @return array|string|string[]|null
+     */
     protected function generatePasswordResetEmailBody(Employee $receiver, string $resetCode, string $userName)
     {
-        //TODO
-        $resetLink = Config::BASE_DIR.'/index.php/auth/resetPassword';
+        $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' ? 'https' : 'http';
+        $url = $protocol."://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+        $resetLink=str_replace('userNameVerify', 'resetPassword', $url);
         $placeholders = [
             'firstName',
             'lastName',
@@ -172,6 +220,11 @@ class ResetPasswordService
     }
 
 
+    /**
+     * @param Employee $receiver
+     * @param string $resetCode
+     * @return bool
+     */
     public function sendPasswordResetCodeEmail(Employee $receiver, string $resetCode): bool
     {
         $this->getEmailService()->setMessageTo([$receiver->getWorkEmail()]);
@@ -193,6 +246,36 @@ class ResetPasswordService
             "{$identifier}#SEPARATOR#" .
             random_bytes(static::RESET_PASSWORD_TOKEN_RANDOM_BYTES_LENGTH)
         );
+    }
+
+    /**
+     * @param string $resetCode
+     * @return User|null
+     * @throws DaoException
+     */
+    public function validateUrl(string $resetCode): ?User
+    {
+        $userNameMetaData= $this->extractPasswordResetMetaData($resetCode);
+        $username=$userNameMetaData[0];
+        $resetPassword=$this->getResetPasswordDao()->getResetPasswordLogByResetCode($resetCode);
+        $expDay=$this->hasPasswordResetRequestNotExpired($resetPassword);
+        if ($expDay > 0) {
+            $this->getLogger()->error('not valid URL');
+            return null;
+        }
+        $user=$this->getUserDao()->getUserByUserName($username);
+        if ($user instanceof  User) {
+            if ($user->getEmployee()->getEmployeeTerminationRecord()) {
+                $this->getLogger()->error('employee was terminated');
+                return null;
+            }
+            if (!empty($user->getEmployee()->getWorkEmail())) {
+                return $user;
+            }
+            $this->getLogger()->error('employee work email was not set');
+        }
+        $this->getLogger()->error('user account was deleted');
+        return null;
     }
 
     /**

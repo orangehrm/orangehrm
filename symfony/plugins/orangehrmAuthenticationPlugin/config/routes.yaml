@@ -39,6 +39,6 @@ auth_reset_password_error:
   methods: [ GET ]
 
 auth_reset_password:
-  path: /auth/resetPassword
+  path: /auth/resetPassword/resetCode/{resetCode}
   controller: OrangeHRM\Authentication\Controller\ResetPasswordController::handle
   methods: [ GET ]
