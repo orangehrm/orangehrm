@@ -19,20 +19,49 @@
 
 namespace OrangeHRM\Authentication\Controller;
 
+use OrangeHRM\Authentication\Service\ResetPasswordService;
 use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Controller\PublicControllerInterface;
 use OrangeHRM\Core\Vue\Component;
+use OrangeHRM\Core\Vue\Prop;
+use OrangeHRM\Entity\User;
 use OrangeHRM\Framework\Http\Request;
 
-class RequestPasswordSuccessController extends AbstractVueController implements PublicControllerInterface
+class ResetCodeController extends AbstractVueController implements PublicControllerInterface
 {
+    protected ?ResetPasswordService $resetPasswordService = null;
+
+
+    /**
+     * @return ResetPasswordService
+     */
+    public function getResetPasswordService(): ResetPasswordService
+    {
+        if (!$this->resetPasswordService instanceof ResetPasswordService) {
+            $this->resetPasswordService = new ResetPasswordService();
+        }
+        return $this->resetPasswordService;
+    }
+
+
     /**
      * @inheritDoc
      */
     public function preRender(Request $request): void
     {
-        $component = new Component('reset-password-success');
-        $this->setTemplate('no_header.html.twig');
+        $resetCode=$request->get('resetCode');
+        $user=$this->getResetPasswordService()->validateUrl($resetCode);
+
+        if ($user instanceof  User) {
+            $component = new Component('reset-password');
+            $this->setTemplate('no_header.html.twig');
+            $component->addProp(
+                new Prop('username', Prop::TYPE_STRING, $user->getUserName())
+            );
+        } else {
+            $component = new Component('reset-password-error');
+            $this->setTemplate('no_header.html.twig');
+        }
         $this->setComponent($component);
     }
 }

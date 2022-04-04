@@ -23,22 +23,17 @@ auth_forgot_password_username_verify:
   controller: OrangeHRM\Authentication\Controller\RequestResetPasswordController::handle
   methods: [ POST ]
 
+auth_reset_password:
+  path: /auth/resetPassword
+  controller: OrangeHRM\Authentication\Controller\ResetPasswordController::handle
+  methods: [ POST ]
+
 auth_forgot_password_username:
   path: /auth/requestPasswordResetCode
   controller: OrangeHRM\Authentication\Controller\RequestPasswordController::handle
   methods: [ GET ]
 
-auth_request_password_success:
-  path: /auth/requestSuccess
-  controller: OrangeHRM\Authentication\Controller\RequestPasswordSuccessController::handle
-  methods: [ GET ]
-
-auth_reset_password_error:
-  path: /auth/resetError
-  controller: OrangeHRM\Authentication\Controller\ResetPasswordErrorController::handle
-  methods: [ GET ]
-
-auth_reset_password:
+auth_reset_code:
   path: /auth/resetPassword/resetCode/{resetCode}
-  controller: OrangeHRM\Authentication\Controller\ResetPasswordController::handle
+  controller: OrangeHRM\Authentication\Controller\ResetCodeController::handle
   methods: [ GET ]

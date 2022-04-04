@@ -20,7 +20,12 @@
   <div class="orangehrm-forgot-password-container">
     <div class="orangehrm-forgot-password-wrapper">
       <div class="orangehrm-card-container">
-        <oxd-form method="post">
+        <oxd-form
+          ref="resetForm"
+          method="post"
+          :action="submitUrl"
+          @submitValid="onSubmit"
+        >
           <oxd-text tag="h6">
             Reset Password
           </oxd-text>
@@ -35,7 +40,7 @@
               name="username"
               label="Username"
               label-icon="person"
-              disabled
+              readonly
             />
           </oxd-form-row>
           <oxd-form-row>
@@ -53,7 +58,7 @@
           <oxd-form-row>
             <oxd-input-field
               v-model="user.confirmPassword"
-              name="username"
+              name="confirmPassword"
               label="Confirm Password"
               label-icon="key"
               placeholder="password"
@@ -86,6 +91,8 @@ import {
   required,
   shouldNotExceedCharLength,
 } from '@ohrm/core/util/validation/rules';
+import {navigate} from '@/core/util/helper/navigation';
+import {urlFor} from '@/core/util/helper/url';
 
 export default {
   name: 'ResetPassword',
@@ -114,6 +121,16 @@ export default {
         ],
       },
     };
+  },
+  computed: {
+    submitUrl() {
+      return urlFor('/auth/resetPassword');
+    },
+  },
+  methods: {
+    onSubmit() {
+      this.$refs.resetForm.$el.submit();
+    },
   },
 };
 </script>

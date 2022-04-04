@@ -46,7 +46,7 @@ class ResetPasswordService
     protected ?EmailService $emailService = null;
     protected ?UserService $userService = null;
     protected ?ResetPasswordDao $resetPasswordDao = null;
-    protected ?UserDao $userDao=null;
+    protected ?UserDao $userDao = null;
 
     /**
      * @return EmailService
@@ -89,7 +89,7 @@ class ResetPasswordService
     {
         $strExpireTime = strtotime($resetPassword->getResetRequestDate()->format('Y-m-d H:i:s'));
         $strCurrentTime = strtotime(date("Y-m-d H:i:s"));
-        return floor(($strCurrentTime-$strExpireTime)/(60*60*24));
+        return floor(($strCurrentTime - $strExpireTime) / (60 * 60 * 24));
     }
 
     /**
@@ -166,7 +166,9 @@ class ResetPasswordService
                             if (!empty($workEmail)) {
                                 return $user;
                             } else {
-                                $this->getLogger()->error('Work email is not set. Please contact HR admin in order to reset the password');
+                                $this->getLogger()->error(
+                                    'Work email is not set. Please contact HR admin in order to reset the password'
+                                );
                             }
                         } else {
                             $this->getLogger()->error('Password reset email could not be sent');
@@ -194,8 +196,8 @@ class ResetPasswordService
     protected function generatePasswordResetEmailBody(Employee $receiver, string $resetCode, string $userName)
     {
         $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' ? 'https' : 'http';
-        $url = $protocol."://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-        $resetLink=str_replace('userNameVerify', 'resetPassword', $url);
+        $url = $protocol . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+        $resetLink = str_replace('userNameVerify', 'resetPassword', $url);
         $placeholders = [
             'firstName',
             'lastName',
@@ -248,6 +250,31 @@ class ResetPasswordService
         );
     }
 
+
+    /**
+     * @param User $user
+     * @return User|null
+     */
+    public function validateUser(?User $user, bool $checkMail = true): ?User
+    {
+        if ($user instanceof User) {
+            if ($user->getEmployee()->getEmployeeTerminationRecord()) {
+                $this->getLogger()->error('employee was terminated');
+                return null;
+            }
+            if ($checkMail) {
+                if (!empty($user->getEmployee()->getWorkEmail())) {
+                    return $user;
+                }
+                $this->getLogger()->error('employee work email was not set');
+            } else {
+                return $user;
+            }
+        }
+        $this->getLogger()->error('user account was deleted');
+        return null;
+    }
+
     /**
      * @param string $resetCode
      * @return User|null
@@ -255,27 +282,16 @@ class ResetPasswordService
      */
     public function validateUrl(string $resetCode): ?User
     {
-        $userNameMetaData= $this->extractPasswordResetMetaData($resetCode);
-        $username=$userNameMetaData[0];
-        $resetPassword=$this->getResetPasswordDao()->getResetPasswordLogByResetCode($resetCode);
-        $expDay=$this->hasPasswordResetRequestNotExpired($resetPassword);
+        $userNameMetaData = $this->extractPasswordResetMetaData($resetCode);
+        $username = $userNameMetaData[0];
+        $resetPassword = $this->getResetPasswordDao()->getResetPasswordLogByResetCode($resetCode);
+        $expDay = $this->hasPasswordResetRequestNotExpired($resetPassword);
         if ($expDay > 0) {
             $this->getLogger()->error('not valid URL');
             return null;
         }
-        $user=$this->getUserDao()->getUserByUserName($username);
-        if ($user instanceof  User) {
-            if ($user->getEmployee()->getEmployeeTerminationRecord()) {
-                $this->getLogger()->error('employee was terminated');
-                return null;
-            }
-            if (!empty($user->getEmployee()->getWorkEmail())) {
-                return $user;
-            }
-            $this->getLogger()->error('employee work email was not set');
-        }
-        $this->getLogger()->error('user account was deleted');
-        return null;
+        $user = $this->getUserDao()->getUserByUserName($username);
+        return $this->validateUser($user, true);
     }
 
     /**
@@ -307,5 +323,21 @@ class ResetPasswordService
         }
         $this->saveResetPasswordLog($resetPassword);
         return true;
+    }
+
+    /**
+     * @param string $password
+     * @param string $userName
+     * @return bool
+     * @throws DaoException
+     */
+    public function saveResetPassword(string $password, string $userName): bool
+    {
+        $user = $this->getUserDao()->getUserByUserName($userName);
+        if ($this->validateUser($user, false) instanceof User) {
+            $hashPassword = $this->getUserService()->hashPassword($password);
+            return $this->userDao->updatePassword($user->getId(), $hashPassword);
+        }
+        return false;
     }
 }

@@ -20,14 +20,13 @@
 namespace OrangeHRM\Authentication\Controller;
 
 use OrangeHRM\Authentication\Service\ResetPasswordService;
-use OrangeHRM\Core\Controller\AbstractVueController;
-use OrangeHRM\Core\Controller\PublicControllerInterface;
-use OrangeHRM\Core\Vue\Component;
-use OrangeHRM\Core\Vue\Prop;
-use OrangeHRM\Entity\User;
+use OrangeHRM\Core\Controller\AbstractController;
+use OrangeHRM\Core\Exception\DaoException;
+use OrangeHRM\Framework\Http\RedirectResponse;
 use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Framework\Services;
 
-class ResetPasswordController extends AbstractVueController implements PublicControllerInterface
+class ResetPasswordController extends AbstractController
 {
     protected ?ResetPasswordService $resetPasswordService = null;
 
@@ -43,26 +42,18 @@ class ResetPasswordController extends AbstractVueController implements PublicCon
         return $this->resetPasswordService;
     }
 
-
     /**
-     * @inheritDoc
+     * @param Request $request
+     * @return RedirectResponse
+     * @throws DaoException
      */
-    public function preRender(Request $request): void
+    public function handle(Request $request): RedirectResponse
     {
-        $resetCode=$request->get('resetCode');
-        $user=$this->getResetPasswordService()->validateUrl($resetCode);
-
-        if ($user instanceof  User) {
-            $component = new Component('reset-password');
-            $this->setTemplate('no_header.html.twig');
-            $component->addProp(
-                new Prop('username', Prop::TYPE_STRING, $user->getUserName())
-            );
-            $this->setComponent($component);
-        } else {
-            $component = new Component('reset-password-error');
-            $this->setTemplate('no_header.html.twig');
-            $this->setComponent($component);
-        }
+        $username = $request->request->get('username');
+        $password = $request->request->get('password');
+        $this->getResetPasswordService()->saveResetPassword($password, $username);
+        $session = $this->getContainer()->get(Services::SESSION);
+        $session->invalidate();
+        return $this->redirect("auth/login");
     }
 }
