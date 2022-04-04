@@ -26,10 +26,12 @@ class EntityUniquePropertyOption
     private bool $trim = true;
 
     private Closure $trimFunction;
+    private ?array $ignoreValues;
 
     public function __construct()
     {
         $this->setTrimFunction(fn ($input) => trim($input));
+        $this->ignoreValues = null;
     }
 
     /**
@@ -75,5 +77,32 @@ class EntityUniquePropertyOption
     {
         $this->trimFunction = $trimFunction;
         return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasIgnoreValues(): bool
+    {
+        return isset($this->ignoreValues);
+    }
+
+    /**
+     * @param array $ignoreValues
+     * Getter method => value (if this value is set, entity is ignored)
+     * E.g: ['isDeleted' => true, 'getId' => 11]
+     */
+    public function setIgnoreValues(array $ignoreValues): self
+    {
+        $this->ignoreValues = $ignoreValues;
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getIgnoreValues(): array
+    {
+        return $this->ignoreValues;
     }
 }

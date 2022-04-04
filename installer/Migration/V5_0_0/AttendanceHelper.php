@@ -17,15 +17,13 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Tools\Migrations\V5;
+namespace OrangeHRM\Installer\Migration\V5_0_0;
 
+use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Query\QueryBuilder;
-use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 
 class AttendanceHelper
 {
-    use EntityManagerHelperTrait;
-
     public const TIMEZONE_MAP = [
         'Kwajalein' => '-12.00',
         'Pacific/Midway' => '-11.00',
@@ -63,12 +61,30 @@ class AttendanceHelper
         'Pacific/Tongatapu' => '13.00'
     ];
 
+    private Connection $connection;
+
+    /**
+     * @param Connection $connection
+     */
+    public function __construct(Connection $connection)
+    {
+        $this->connection = $connection;
+    }
+
+    /**
+     * @return Connection
+     */
+    protected function getConnection(): Connection
+    {
+        return $this->connection;
+    }
+
     /**
      * @return QueryBuilder
      */
     protected function createQueryBuilder(): QueryBuilder
     {
-        return $this->getEntityManager()->getConnection()->createQueryBuilder();
+        return $this->getConnection()->createQueryBuilder();
     }
 
     /**

@@ -57,7 +57,32 @@ class EntityUniqueProperty extends AbstractRule
             $input = $this->option->getTrimFunction()(($input));
         }
 
-        $entity = $this->getRepository($this->entityName)->findOneBy([$this->property => $input]);
-        return !($entity instanceof $this->entityName);
+        $entityList = $this->getRepository($this->entityName)->findBy([$this->property => $input]);
+
+        if (empty($entityList)) {
+            return true;
+        }
+
+        return $this->option->hasIgnoreValues() && $this->entitiesHaveIgnoreValues($entityList);
+    }
+
+    /**
+     * @param array $entities
+     * @return bool
+     */
+    private function entitiesHaveIgnoreValues(array $entities): bool
+    {
+        $lastGetter = array_key_last($this->option->getIgnoreValues());
+        foreach ($entities as $entity) {
+            foreach ($this->option->getIgnoreValues() as $getter => $value) {
+                if ($entity->$getter() === $value) {
+                    break; //if entity has ignored value, skip to next entity
+                }
+                if ($getter === $lastGetter) {
+                    return false; //if this point reached, entity has no ignored values
+                }
+            }
+        }
+        return true; //all entities have ignored values
     }
 }

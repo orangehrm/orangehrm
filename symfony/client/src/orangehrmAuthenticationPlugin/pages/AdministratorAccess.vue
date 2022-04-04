@@ -83,6 +83,7 @@
         </div>
       </oxd-form>
     </div>
+    <slot name="footer"></slot>
   </div>
 </template>
 
@@ -159,6 +160,7 @@ export default {
 .orangehrm-admin-access {
   &-container {
     display: flex;
+    flex-direction: column;
     height: 100vh;
     justify-content: center;
     align-items: center;

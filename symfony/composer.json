@@ -64,6 +64,7 @@
             "OrangeHRM\\Time\\": "./plugins/orangehrmTimePlugin",
             "OrangeHRM\\I18N\\": "./plugins/orangehrmI18NPlugin",
             "OrangeHRM\\Tools\\Migrations\\": "../installer/upgrader/Migrations",
+            "OrangeHRM\\Installer\\": "../installer",
             "OrangeHRM\\Entity\\": [
                 "./plugins/orangehrmAdminPlugin/entity",
                 "./plugins/orangehrmPerformancePlugin/entity",

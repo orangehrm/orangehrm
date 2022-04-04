@@ -19,16 +19,19 @@
 
 namespace OrangeHRM\Attendance\Controller;
 
+use OrangeHRM\Attendance\Traits\Service\AttendanceServiceTrait;
 use OrangeHRM\Core\Controller\AbstractVueController;
-use OrangeHRM\Core\Vue\Component;
-use OrangeHRM\Core\Vue\Prop;
-use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Core\Controller\Common\NoRecordsFoundController;
+use OrangeHRM\Core\Controller\Exception\RequestForwardableException;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
+use OrangeHRM\Core\Vue\Component;
+use OrangeHRM\Core\Vue\Prop;
+use OrangeHRM\Entity\AttendanceRecord;
+use OrangeHRM\Entity\Employee;
+use OrangeHRM\Entity\WorkflowStateMachine;
+use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
-use OrangeHRM\Core\Controller\Common\NoRecordsFoundController;
-use OrangeHRM\Attendance\Traits\Service\AttendanceServiceTrait;
-use OrangeHRM\Core\Controller\Exception\RequestForwardableException;
 
 class ViewEmployeeAttendanceController extends AbstractVueController
 {
@@ -36,8 +39,6 @@ class ViewEmployeeAttendanceController extends AbstractVueController
     use UserRoleManagerTrait;
     use EmployeeServiceTrait;
     use AttendanceServiceTrait;
-
-    public const USER_ROLE_ADMIN = 'Admin';
 
     /**
      * @inheritDoc
@@ -57,13 +58,24 @@ class ViewEmployeeAttendanceController extends AbstractVueController
                     $this->getEmployeeService()->getEmployeeAsArray($empNumber)
                 )
             );
-            //If the logged-in user is an Admin, regardless of the configuration,
-            // he is able to add/edit/delete employee attendance records
-            if (
-                ($this->getAuthUser()->getUserRoleName() === self::USER_ROLE_ADMIN ||
-                    $this->getAttendanceService()->canSupervisorModifyAttendanceConfiguration()) &&
-                $this->getAuthUser()->getEmpNumber() !== $empNumber
-            ) {
+            $loggedInUserEmpNumber = $this->getAuthUser()->getEmpNumber();
+            $rolesToInclude = [];
+            //check the configuration as ESS since Admin user is always allowed to delete self records
+            if ($empNumber === $loggedInUserEmpNumber) {
+                $rolesToInclude = ['ESS'];
+            }
+            //If edit/delete own attendance record, get the allowed actions list as an ESS user
+            //since Admin is always allowed to edit/delete own record
+            //If delete someone else's attendance record, get the allowed actions list as a Supervisor
+            //Admin is always allowed to edit/delete others records
+            $allowedWorkflowItems = $this->getUserRoleManager()->getAllowedActions(
+                WorkflowStateMachine::FLOW_ATTENDANCE,
+                AttendanceRecord::STATE_PUNCHED_IN,
+                [],
+                $rolesToInclude,
+                [Employee::class => $empNumber]
+            );
+            if (in_array(WorkflowStateMachine::ATTENDANCE_ACTION_DELETE, array_keys($allowedWorkflowItems))) {
                 $component->addProp(new Prop('is-editable', Prop::TYPE_BOOLEAN, true));
             }
         } else {

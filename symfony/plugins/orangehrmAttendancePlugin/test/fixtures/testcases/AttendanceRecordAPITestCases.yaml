@@ -272,28 +272,6 @@ GetOne:
     invalidOnly: [ 'id' ]
 
 Update:
-  'Attendance Record Update - self (Admin) - Config disabled':
-    userId: 1
-    services:
-      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
-      core.config_service: \OrangeHRM\Core\Service\ConfigService
-      admin.user_service: \OrangeHRM\Admin\Service\UserService
-      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
-    factories:
-      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
-    attributes:
-      id: 1
-    body:
-      punchInDate: '2022-02-09'
-      punchInTime: '15:30'
-      punchInNote: 'Punched In'
-      punchOutDate: '2022-02-09'
-      punchOutTime: '18:30'
-      punchOutNote: 'Punched Out'
-    exception:
-      class: 'OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
-      message: 'Unauthorized'
-
   'Attendance Record Update - Admin to Employee':
     userId: 1
     services:
@@ -442,29 +420,6 @@ Update:
     exception:
       class: 'OrangeHRM\Core\Api\V2\Exception\BadRequestException'
       message: 'Valid Timezone Offset and Timezone Name Must Be Provided'
-
-
-  'Attendance Record Update - self (ESS) - Config Disabled':
-    userId: 4
-    services:
-      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
-      core.config_service: \OrangeHRM\Core\Service\ConfigService
-      admin.user_service: \OrangeHRM\Admin\Service\UserService
-      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
-    factories:
-      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
-    attributes:
-      id: 6
-    body:
-      punchInDate: '2022-02-09'
-      punchInTime: '15:30'
-      punchInNote: 'Punched In'
-      punchOutDate: '2022-02-09'
-      punchOutTime: '18:30'
-      punchOutNote: 'Punched Out'
-    exception:
-      class: 'OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
-      message: 'Unauthorized'
 
   'Attendance Record Update - supervisor to subordinate - Config Disabled':
     userId: 3
@@ -794,6 +749,8 @@ Update:
     body:
       punchInDate: '2022-02-09'
       punchInTime: '15:30'
+      punchInOffset: 5.5
+      punchInTimezoneName: 'Asia/Colombo'
       punchInNote: 'Punched In'
     data:
       id: 1
@@ -838,9 +795,13 @@ Update:
     body:
       punchInDate: '2022-02-10'
       punchInTime: '15:30'
+      punchInOffset: 5.5
+      punchInTimezoneName: 'Asia/Colombo'
       punchInNote: 'Punched In'
       punchOutDate: '2022-02-10'
       punchOutTime: '18:30'
+      punchOutOffset: 5.5
+      punchOutTimezoneName: 'Asia/Colombo'
       punchOutNote: 'Punched Out'
     data:
       id: 2
@@ -893,9 +854,32 @@ Update:
       punchOutOffset: 6.5
       punchOutTimezoneName: 'Asia/Yangon'
       punchOutNote: 'Punched Out'
-    exception:
-      class: 'OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
-      message: 'Unauthorized'
+    data:
+      id: 2
+      punchIn:
+        utcDate: '2022-02-09'
+        utcTime: '09:00'
+        userDate: '2022-02-09'
+        userTime: '15:30'
+        timezoneOffset: '6.5'
+        note: 'Punched In'
+      punchOut:
+        utcDate: '2022-02-09'
+        utcTime: '12:00'
+        userDate: '2022-02-09'
+        userTime: '18:30'
+        timezoneOffset: '6.5'
+        note: 'Punched Out'
+      state:
+        id: 'PUNCHED OUT'
+        name: 'Punched Out'
+      employee:
+        empNumber: 2
+        lastName: 'Abel'
+        firstName: 'Ashley'
+        middleName: 'ST'
+        employeeId: 'E002'
+        terminationId: null
 
   'Attendance Record Update - admin to employee - Config Enabled - punch in overlap for closed record':
     userId: 1
@@ -999,32 +983,6 @@ Update:
       class: '\OrangeHRM\Core\Api\V2\Exception\BadRequestException'
       message: 'Punch Out Time Should Be Later Than Punch In Time'
 
-  'Attendance Record Update - supervisor self - Config Enabled - self attendance record with punchInOffset and punchInTimezoneName':
-    userId: 3
-    services:
-      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
-      core.config_service: \OrangeHRM\Core\Service\ConfigService
-      admin.user_service: \OrangeHRM\Admin\Service\UserService
-      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
-    factories:
-      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
-    hooks:
-      preAssertValidTestCase: [ '\OrangeHRM\Tests\Attendance\Api\AttendanceRecordAPITest', 'enableUserCanModifyAttendancePreHook' ]
-    attributes:
-      id: 3
-    body:
-      punchInDate: '2022-02-09'
-      punchInTime: '15:30'
-      punchInOffset: '5.5'
-      punchInTimezoneName: 'Asia/Colombo'
-      punchInNote: 'Punched In'
-      punchOutDate: '2022-02-09'
-      punchOutTime: '18:30'
-      punchOutNote: 'Punched Out'
-    exception:
-      class: 'OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
-      message: 'Unauthorized'
-
   'Attendance Record Update - supervisor to non assigned subordinate - Config Enabled':
     userId: 3
     services:
@@ -1041,9 +999,13 @@ Update:
     body:
       punchInDate: '2022-02-09'
       punchInTime: '15:30'
+      punchInOffset: '5.5'
+      punchInTimezoneName: 'Asia/Colombo'
       punchInNote: 'Punched In'
       punchOutDate: '2022-02-09'
       punchOutTime: '18:30'
+      punchOutOffset: '5.5'
+      punchOutTimezoneName: 'Asia/Colombo'
       punchOutNote: 'Punched Out'
     exception:
       class: 'OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
@@ -1065,9 +1027,13 @@ Update:
     body:
       punchInDate: '2022-02-09'
       punchInTime: '18:37'
+      punchInOffset: '5.5'
+      punchInTimezoneName: 'Asia/Colombo'
       punchInNote: 'Punched In'
       punchOutDate: '2022-02-09'
       punchOutTime: '18:42'
+      punchOutOffset: '5.5'
+      punchOutTimezoneName: 'Asia/Colombo'
       punchOutNote: 'Punched Out'
     exception:
       class: '\OrangeHRM\Core\Api\V2\Exception\BadRequestException'
@@ -1089,9 +1055,13 @@ Update:
     body:
       punchInDate: '2022-02-09'
       punchInTime: '20:30'
+      punchInOffset: '5.5'
+      punchInTimezoneName: 'Asia/Colombo'
       punchInNote: 'Punched In'
       punchOutDate: '2022-02-09'
       punchOutTime: '15:30'
+      punchOutOffset: '5.5'
+      punchOutTimezoneName: 'Asia/Colombo'
       punchOutNote: 'Punched Out'
     exception:
       class: '\OrangeHRM\Core\Api\V2\Exception\BadRequestException'
@@ -1113,9 +1083,13 @@ Update:
     body:
       punchInDate: '2022-02-09'
       punchInTime: '13:00'
+      punchInOffset: '5.5'
+      punchInTimezoneName: 'Asia/Colombo'
       punchInNote: 'Punched In'
       punchOutDate: '2022-02-09'
       punchOutTime: '18:15'
+      punchOutOffset: '5.5'
+      punchOutTimezoneName: 'Asia/Colombo'
       punchOutNote: 'Punched Out'
     exception:
       class: '\OrangeHRM\Core\Api\V2\Exception\BadRequestException'
@@ -1137,6 +1111,8 @@ Update:
     body:
       punchInDate: '2022-02-09'
       punchInTime: '13:00'
+      punchInOffset: '5.5'
+      punchInTimezoneName: 'Asia/Colombo'
       punchInNote: 'Punched In'
     exception:
       class: '\OrangeHRM\Core\Api\V2\Exception\BadRequestException'

@@ -27,7 +27,7 @@
       <oxd-text tag="p">
         {{ date }} {{ time }}
         <oxd-text tag="span" class="timezone">
-          GMT {{ offset ? parseFloat(offset).toFixed(1) : '0.0' }}
+          GMT {{ offset ? offset : '00:00' }}
         </oxd-text>
       </oxd-text>
     </div>
