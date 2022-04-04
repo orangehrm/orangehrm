@@ -92,28 +92,17 @@ class EntityUniquePropertyOption
      * Getter method => value (if this value is set, entity is ignored)
      * E.g: ['isDeleted' => true, 'getId' => 11]
      */
-    public function setIgnoreValues(array $ignoreValues): void
+    public function setIgnoreValues(array $ignoreValues): self
     {
         $this->ignoreValues = $ignoreValues;
+        return $this;
     }
 
     /**
-     * @param array $entities
-     * @return bool
+     * @return array
      */
-    public function entitiesHaveIgnoreValues(array $entities): bool
+    public function getIgnoreValues(): array
     {
-        $lastGetter = array_key_last($this->ignoreValues);
-        foreach ($entities as $entity) {
-            foreach ($this->ignoreValues as $getter => $value) {
-                if ($entity->$getter() === $value) {
-                    break; //if entity has ignored value, skip to next entity
-                }
-                if ($getter === $lastGetter) {
-                    return false; //if this point reached, entity has no ignored values
-                }
-            }
-        }
-        return true; //all entites have ignored values
+        return $this->ignoreValues;
     }
 }
