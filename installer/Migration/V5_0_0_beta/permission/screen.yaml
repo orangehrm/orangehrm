@@ -1,0 +1,12 @@
+'Save Location':
+  module: admin
+  url: saveLocation
+  permissions:
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: true } }
+
+'View Performance Module':
+  module: performance
+  url: viewPerformanceModule
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false } }
+    - { role: ESS, permission: { read: true, create: false, update: false, delete: false } }

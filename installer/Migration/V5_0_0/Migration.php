@@ -1,0 +1,251 @@
+<?php
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ */
+
+namespace OrangeHRM\Installer\Migration\V5_0_0;
+
+use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
+use Doctrine\DBAL\Schema\ForeignKeyConstraint;
+use Doctrine\DBAL\Types\Type;
+use Doctrine\DBAL\Types\Types;
+use OrangeHRM\Installer\Util\V1\AbstractMigration;
+
+class Migration extends AbstractMigration
+{
+    /**
+     * @inheritDoc
+     */
+    public function up(): void
+    {
+        $this->getSchemaHelper()->addColumn(
+            'ohrm_screen',
+            'menu_configurator',
+            Types::STRING,
+            ['Length' => 255, 'Default' => null, 'Notnull' => false]
+        );
+        $this->getDataGroupHelper()->insertApiPermissions(__DIR__ . '/permission/api.yaml');
+        $this->getDataGroupHelper()->insertDataGroupPermissions(__DIR__ . '/permission/data_group.yaml');
+
+        $this->updateMenuConfigurator('attendance', null, 'OrangeHRM\\Attendance\\Menu\\AttendanceMenuConfigurator');
+        $this->getDataGroupHelper()->insertScreenPermissions(__DIR__ . '/permission/screen.yaml');
+
+        $this->getSchemaHelper()->dropColumn('ohrm_leave', 'comments');
+        $this->getSchemaHelper()->dropColumn('ohrm_leave_request', 'comments');
+        $this->getSchemaHelper()->dropColumn('ohrm_menu_item', 'url_extras');
+        $this->getSchemaManager()->dropTable('ohrm_data_group_screen');
+
+        $this->addTimezoneColumnsToAttendanceRecord();
+
+        $qb = $this->createQueryBuilder()
+            ->update('ohrm_screen', 'screen')
+            ->set('screen.module_id', ':moduleId')
+            ->setParameter('moduleId', $this->getDataGroupHelper()->getModuleIdByName('time'));
+        $qb->where($qb->expr()->in('screen.action_url', ':actionUrls'))
+            ->setParameter(
+                'actionUrls',
+                ['viewCustomers', 'viewProjects', 'addCustomer', 'saveProject'],
+                Connection::PARAM_STR_ARRAY
+            )->executeQuery();
+
+        $this->createQueryBuilder()
+            ->update('ohrm_user_role_data_group', 'dataGroupPermission')
+            ->set('dataGroupPermission.can_update', ':canUpdate')
+            ->setParameter('canUpdate', false, ParameterType::BOOLEAN)
+            ->andWhere('dataGroupPermission.data_group_id = :dataGroupId')
+            ->setParameter('dataGroupId', $this->getDataGroupHelper()->getDataGroupIdByName('time_projects'))
+            ->andWhere('dataGroupPermission.user_role_id = :userRoleId')
+            ->setParameter('userRoleId', $this->getDataGroupHelper()->getUserRoleIdByName('ProjectAdmin'))
+            ->executeQuery();
+        $this->getDataGroupHelper()->addDataGroupPermissions(
+            'attendance_summary',
+            'Admin',
+            true,
+            false,
+            false,
+            false,
+            true
+        );
+
+        $this->updateMenuConfigurator('admin', 'saveJobTitle', 'OrangeHRM\\Admin\\Menu\\JobTitleMenuConfigurator');
+        $this->updateMenuConfigurator('admin', 'saveLocation', 'OrangeHRM\\Admin\\Menu\\LocationMenuConfigurator');
+        $this->updateMenuConfigurator('admin', 'payGrade', 'OrangeHRM\\Admin\\Menu\\PayGradeConfigurator');
+        $this->updateMenuConfigurator('admin', 'saveSystemUser', 'OrangeHRM\\Admin\\Menu\\UserMenuConfigurator');
+
+        $this->updateMenuConfigurator('pim', 'viewMyDetails', 'OrangeHRM\\Pim\\Menu\\MyInfoMenuConfigurator');
+        $this->updateMenuConfigurator(
+            'pim',
+            'definePredefinedReport',
+            'OrangeHRM\\Pim\\Menu\\PimReportMenuConfigurator'
+        );
+        $this->updateMenuConfigurator(
+            'pim',
+            'displayPredefinedReport',
+            'OrangeHRM\\Pim\\Menu\\PimReportMenuConfigurator'
+        );
+
+        $this->updateMenuConfigurator('leave', 'defineLeaveType', 'OrangeHRM\\Leave\\Menu\\LeaveTypeMenuConfigurator');
+        $this->updateMenuConfigurator(
+            'leave',
+            'viewLeaveRequest',
+            'OrangeHRM\\Leave\\Menu\\DetailedLeaveRequestMenuConfigurator'
+        );
+
+        $this->updateMenuConfigurator('time', 'addCustomer', 'OrangeHRM\\Time\\Menu\\CustomerMenuConfigurator');
+        $this->updateMenuConfigurator('time', 'saveProject', 'OrangeHRM\\Time\\Menu\\ProjectMenuConfigurator');
+        $this->updateMenuConfigurator(
+            'time',
+            'displayProjectActivityDetailsReport',
+            'OrangeHRM\\Time\\Menu\\DetailedProjectActivityReportMenuConfigurator'
+        );
+
+        $this->configureLeaveMenuItemsIfLeavePeriodDefined();
+        $this->configureTimeMenuItemsIfTimesheetStartDateDefined();
+
+        $qb = $this->createQueryBuilder()
+            ->update('ohrm_module_default_page', 'defaultPage')
+            ->set('defaultPage.action', ':screenUrl')
+            ->setParameter('screenUrl', 'leave/viewLeaveList')
+            ->andWhere('defaultPage.module_id = :moduleId')
+            ->setParameter('moduleId', $this->getDataGroupHelper()->getModuleIdByName('leave'))
+            ->andWhere('defaultPage.action = :action')
+            ->setParameter('action', 'leave/viewLeaveList/reset/1');
+        $qb->andWhere($qb->expr()->in('defaultPage.user_role_id', ':userRoleIds'))
+            ->setParameter(
+                'userRoleIds',
+                [
+                    $this->getDataGroupHelper()->getUserRoleIdByName('Admin'),
+                    $this->getDataGroupHelper()->getUserRoleIdByName('Supervisor')
+                ],
+                Connection::PARAM_INT_ARRAY
+            )->executeQuery();
+
+        $this->getSchemaHelper()->changeColumn(
+            'ohrm_timesheet_action_log',
+            'performed_by',
+            ['Default' => null, 'Notnull' => false]
+        );
+        $this->getSchemaHelper()->dropForeignKeys('ohrm_timesheet_action_log', ['ohrm_timesheet_action_log_ibfk_1']);
+        $foreignKeyConstraint = new ForeignKeyConstraint(
+            ['performed_by'],
+            'ohrm_user',
+            ['id'],
+            'ohrm_timesheet_action_log_performed_by_id',
+            ['onDelete' => 'SET NULL', 'onUpdate' => 'RESTRICT']
+        );
+        $this->getSchemaHelper()->addForeignKey('ohrm_timesheet_action_log', $foreignKeyConstraint);
+
+        $this->getSchemaHelper()->dropForeignKeys('ohrm_i18n_lang_string', ['sourceId']);
+        $this->getSchemaHelper()->dropColumn('ohrm_i18n_lang_string', 'source_id');
+        $this->getSchemaManager()->dropTable('ohrm_i18n_source');
+        $this->getSchemaHelper()->changeColumn(
+            'ohrm_i18n_lang_string',
+            'unit_id',
+            ['Type' => Type::getType(Types::STRING), 'Length' => 255]
+        );
+    }
+
+    /**
+     * Enable all menu items under `Time` if timesheet start date defined, disable menu items if not
+     */
+    private function configureTimeMenuItemsIfTimesheetStartDateDefined(): void
+    {
+        $this->configureMenuItems('timesheet_period_set', 'Time');
+    }
+
+    /**
+     * Enable all menu items under `Leave` if leave period defined, disable menu items if not
+     */
+    private function configureLeaveMenuItemsIfLeavePeriodDefined(): void
+    {
+        $this->configureMenuItems('leave_period_defined', 'Leave');
+    }
+
+    /**
+     * @param string $configName
+     * @param string $parentMenuTitle
+     */
+    private function configureMenuItems(string $configName, string $parentMenuTitle): void
+    {
+        $defined = $this->getConnection()->createQueryBuilder()
+                ->select('config.value')
+                ->from('hs_hr_config', 'config')
+                ->where('config.name = :configName')
+                ->setParameter('configName', $configName)
+                ->setMaxResults(1)
+                ->fetchOne() == "Yes";
+        $parentMenuItemId = $this->getConnection()->createQueryBuilder()
+            ->select('menuItem.id')
+            ->from('ohrm_menu_item', 'menuItem')
+            ->where('menuItem.menu_title = :menuTitle')
+            ->setParameter('menuTitle', $parentMenuTitle)
+            ->setMaxResults(1)
+            ->fetchOne();
+        $this->createQueryBuilder()
+            ->update('ohrm_menu_item', 'menuItem')
+            ->set('menuItem.status', ':status')
+            ->setParameter('status', $defined, ParameterType::BOOLEAN)
+            ->andWhere('menuItem.parent_id = :parentId')
+            ->setParameter('parentId', $parentMenuItemId)
+            ->executeQuery();
+    }
+
+    /**
+     * Add `punch_in_timezone_name`, `punch_out_timezone_name` columns and set default values
+     */
+    private function addTimezoneColumnsToAttendanceRecord(): void
+    {
+        $this->getSchemaHelper()->addColumn(
+            'ohrm_attendance_record',
+            'punch_in_timezone_name',
+            Types::STRING,
+            ['Length' => 100, 'Default' => null, 'Notnull' => false]
+        );
+        $this->getSchemaHelper()->addColumn(
+            'ohrm_attendance_record',
+            'punch_out_timezone_name',
+            Types::STRING,
+            ['Length' => 100, 'Default' => null, 'Notnull' => false]
+        );
+        $attendanceHelper = new AttendanceHelper($this->getConnection());
+        foreach (AttendanceHelper::TIMEZONE_MAP as $timezone => $offset) {
+            $attendanceHelper->updatePunchInTimezoneOffset($offset, $timezone);
+            $attendanceHelper->updatePunchOutTimezoneOffset($offset, $timezone);
+        }
+    }
+
+    /**
+     * @param string $module
+     * @param string|null $screenUrl
+     * @param string $menuConfiguratorClassName
+     */
+    private function updateMenuConfigurator(string $module, ?string $screenUrl, string $menuConfiguratorClassName): void
+    {
+        $qb = $this->createQueryBuilder()
+            ->update('ohrm_screen', 'screen')
+            ->set('screen.menu_configurator', ':menuConfiguratorClassName')
+            ->setParameter('menuConfiguratorClassName', $menuConfiguratorClassName)
+            ->andWhere('screen.module_id = :moduleId')
+            ->setParameter('moduleId', $this->getDataGroupHelper()->getModuleIdByName($module));
+        if (!is_null($screenUrl)) {
+            $qb->andWhere('screen.action_url = :screenUrl')
+                ->setParameter('screenUrl', $screenUrl);
+        }
+        $qb->executeQuery();
+    }
+}
