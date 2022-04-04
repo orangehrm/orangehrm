@@ -89,6 +89,27 @@ class ConfigService
         "image/pjpeg",
         "image/png"
     ];
+    public const ALLOWED_FILE_EXTENSIONS = [
+        "txt",
+        "csv",
+        "rtf",
+        "pdf",
+        "doc",
+        "xls",
+        "ppt",
+        "odt",
+        "ods",
+        "odp",
+        "docx",
+        "xlsx",
+        "pptx",
+        "pps",
+        "ppsx",
+        "gif",
+        "jpeg",
+        "jpg",
+        "png"
+    ];
 
     /**
      * Get ConfigDao
@@ -548,6 +569,14 @@ class ConfigService
     public function getAllowedFileTypes(): array
     {
         return self::ALLOWED_FILE_TYPES;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getAllowedFileExtensions(): array
+    {
+        return self::ALLOWED_FILE_EXTENSIONS;
     }
 
     /**

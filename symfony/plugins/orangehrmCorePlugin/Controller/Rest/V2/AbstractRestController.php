@@ -178,14 +178,14 @@ abstract class AbstractRestController extends AbstractController
                 Response::formatError(
                     [
                         'error' => [
-                            'status' => '202',
+                            'status' => '422',
                             'message' => $e->getMessage(),
                             'data' => $e->getNormalizedErrorBag()
                         ]
                     ]
                 )
             );
-            $response->setStatusCode(202);
+            $response->setStatusCode(422);
         } catch (NotImplementedException $e) {
             $this->getLogger()->info($e->getMessage());
             $this->getLogger()->info($e->getTraceAsString());

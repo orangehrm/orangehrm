@@ -9,6 +9,7 @@ Employee:
   - { empNumber: 3, firstName: 'Renukshan', lastName: 'Saputhanthri', middleName: 'RT', employeeId: 'E003', emp_work_email: 'renukshan@xample.com', emp_oth_email: 'renukshan2@xample.com' }
   - { empNumber: 4, firstName: 'Sherin', lastName: 'Sherin', middleName: 'Sherin', employeeId: 'E004', emp_work_email: 'sherin@xample.com', emp_oth_email: 'sherin@xample.com' }
   - { empNumber: 5, firstName: 'Adolf', lastName: 'Hitler', middleName: 'Muso', employeeId: 'E005', emp_work_email: 'hitler@jerm.com', emp_oth_email: 'hitler@jerm.com' }
+  - { empNumber: 6, firstName: 'Shaun', lastName: 'Nisandu', middleName: 'Perera', employeeId: 'E006', emp_work_email: 'shark@jerm.com', emp_oth_email: 'sharuk@jerm.com' , purged_at: '2021-09-15' }
 
 UserRole:
   - { id: 1, name: Admin, display_name: Admin, is_assignable: 1, is_predefined: 1 }
@@ -30,3 +31,4 @@ AttendanceRecord:
   5: { id: 6, employee_id: 3, punch_in_utc_time: '2011-04-16 09:25:00', punch_in_note: 'Im punched In',punch_in_time_offset: '5.5',punch_in_user_time: '2011-04-16 14:55:00', state: 'PUNCHED IN' }
   6: { id: 7, employee_id: 2, punch_in_utc_time: '2011-04-20 09:25:00', punch_in_note: 'Im punched In',punch_in_time_offset: '5.5',punch_in_user_time: '2011-04-20 14:55:00', state: 'PUNCHED IN' }
   7: { id: 9, employee_id: 5, punch_in_utc_time: '2011-04-21 09:25:00', punch_in_note: 'Im punched In',punch_in_time_offset: '5.5',punch_in_user_time: '2011-04-21 14:55:00',punch_out_utc_time: '2011-04-21 09:30:00',punch_out_note: ' Punched Out',punch_out_time_offset: '5.5',punch_out_user_time: '2011-04-21 15:00:00', state: 'PUNCHED OUT' }
+  8: { id: 10, employee_id: 6, punch_in_utc_time: '2011-04-24 09:25:00', punch_in_note: 'Im punched In',punch_in_time_offset: '5.5',punch_in_user_time: '2011-04-24 14:55:00',punch_out_utc_time: '2011-04-24 09:30:00',punch_out_note: ' Punched Out',punch_out_time_offset: '5.5',punch_out_user_time: '2011-04-24 15:00:00', state: 'PUNCHED OUT' }

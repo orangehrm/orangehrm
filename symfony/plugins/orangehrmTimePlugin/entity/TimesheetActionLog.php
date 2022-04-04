@@ -65,12 +65,13 @@ class TimesheetActionLog
     private DateTime $date;
 
     /**
-     * @var User
+     * @var User|null
+     *
      *
      * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\User")
      * @ORM\JoinColumn(name="performed_by", referencedColumnName="id")
      */
-    private User $performedUser;
+    private ?User $performedUser;
 
     /**
      * @var Timesheet
@@ -145,17 +146,17 @@ class TimesheetActionLog
     }
 
     /**
-     * @return User
+     * @return User|null
      */
-    public function getPerformedUser(): User
+    public function getPerformedUser(): ?User
     {
         return $this->performedUser;
     }
 
     /**
-     * @param  User  $performedUser
+     * @param  User|null  $performedUser
      */
-    public function setPerformedUser(User $performedUser): void
+    public function setPerformedUser(?User $performedUser): void
     {
         $this->performedUser = $performedUser;
     }

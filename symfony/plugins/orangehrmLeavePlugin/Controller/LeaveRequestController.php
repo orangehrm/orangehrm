@@ -36,12 +36,12 @@ class LeaveRequestController extends AbstractVueController
 
     public function preRender(Request $request): void
     {
-        $id = $request->get('id');
-        $mode = $request->get('mode');
-        // TODO: 404 if no id
+        $mode = $request->attributes->get('mode');
         if (!$request->attributes->has('id')) {
-            die;
+            throw new RequestForwardableException(NoRecordsFoundController::class . '::handle');
         }
+
+        $id = $request->attributes->getInt('id');
 
         $leaveRequestRecord = $this->getLeaveRequestService()
             ->getLeaveRequestDao()

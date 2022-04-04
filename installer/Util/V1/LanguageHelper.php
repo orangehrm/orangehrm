@@ -17,30 +17,8 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Tools\Migrations;
+namespace OrangeHRM\Installer\Util\V1;
 
-use OrangeHRM\Tools\Migrations\V5\AttendanceHelper;
-
-class Version20220301
+class LanguageHelper
 {
-    protected ?AttendanceHelper $attendanceHelper = null;
-
-    /**
-     * @return AttendanceHelper
-     */
-    public function getAttendanceHelper(): AttendanceHelper
-    {
-        if (is_null($this->attendanceHelper)) {
-            $this->attendanceHelper = new AttendanceHelper();
-        }
-        return $this->attendanceHelper;
-    }
-
-    public function up(): void
-    {
-        foreach (AttendanceHelper::TIMEZONE_MAP as $timezone => $offset) {
-            $this->getAttendanceHelper()->updatePunchInTimezoneOffset($offset, $timezone);
-            $this->getAttendanceHelper()->updatePunchOutTimezoneOffset($offset, $timezone);
-        }
-    }
 }

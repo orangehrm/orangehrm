@@ -32,10 +32,9 @@ class SavePayGradeController extends AbstractVueController
      */
     public function preRender(Request $request): void
     {
-        $id = $request->get('id');
         if ($request->attributes->has('id')) {
             $component = new Component('pay-grade-edit');
-            $component->addProp(new Prop('pay-grade-id', Prop::TYPE_NUMBER, $id));
+            $component->addProp(new Prop('pay-grade-id', Prop::TYPE_NUMBER, $request->attributes->getInt('id')));
         } else {
             $component = new Component('pay-grade-add');
         }

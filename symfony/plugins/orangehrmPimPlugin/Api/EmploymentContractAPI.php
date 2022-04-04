@@ -272,7 +272,7 @@ class EmploymentContractAPI extends Endpoint implements ResourceEndpoint
             self::PARAMETER_CONTRACT_ATTACHMENT,
             new Rule(
                 Rules::BASE_64_ATTACHMENT,
-                [null, self::PARAM_RULE_ATTACHMENT_FILE_NAME_MAX_LENGTH]
+                [null, null, self::PARAM_RULE_ATTACHMENT_FILE_NAME_MAX_LENGTH]
             )
         );
         if (!in_array(
