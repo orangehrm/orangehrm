@@ -60,9 +60,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import '@ohrm/oxd/styles/_colors.scss';
-@import '@ohrm/oxd/styles/_variables.scss';
-
 .orangehrm-card {
   &-icon {
     font-size: 1.5rem;
