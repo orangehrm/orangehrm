@@ -16,7 +16,32 @@ Create:
       timezoneOffset: 5.5
       timezoneName: 'Asia/Colombo'
       note: 'punch in'
-    invalidOnly: [ 'empNumber' ]
+    data:
+      id: 9
+      punchIn:
+        utcDate: '2021-12-27'
+        utcTime: '03:12'
+        userDate: '2021-12-27'
+        userTime: '08:42'
+        timezoneOffset: '5.5'
+        note: 'punch in'
+      punchOut:
+        utcDate: null
+        utcTime: null
+        userDate: null
+        userTime: null
+        timezoneOffset: null
+        note: null
+      state:
+        id: 'PUNCHED IN'
+        name: 'Punched In'
+      employee:
+        empNumber: 1
+        lastName: 'Abbey'
+        firstName: 'Kayla'
+        middleName: 'T'
+        employeeId: 'E001'
+        terminationId: null
 
   'Admin - add employee attendance Record of employee':
     userId: 1
@@ -123,7 +148,9 @@ Create:
       timezoneOffset: 5.5
       timezoneName: 'Asia/Colombo'
       note: 'punch in'
-    invalidOnly: [ 'empNumber' ]
+    exception:
+      class: 'OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
+      message: 'Unauthorized'
 
   'Supervisor - add employee attendance Record of employee':
     userId: 3
@@ -473,7 +500,7 @@ Delete:
       class: 'OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
       message: 'Unauthorized'
 
-  'Delete self(Admin)':
+  'Delete self(Admin) - config disabled':
     userId: 1
     services:
       attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
@@ -486,7 +513,9 @@ Delete:
       empNumber: 1
     body:
       ids: [ 1 ]
-    invalidOnly: [ 'empNumber' ]
+    exception:
+      class: 'OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
+      message: 'Unauthorized'
 
   'Delete self(ESS)':
     userId: 2
@@ -501,7 +530,27 @@ Delete:
       empNumber: 2
     body:
       ids: [ 2 ]
-    invalidOnly: [ 'empNumber' ]
+    exception:
+      class: 'OrangeHRM\Core\Api\V2\Exception\ForbiddenException'
+      message: 'Unauthorized'
+
+  'Delete self(Admin) - config enabled':
+    userId: 1
+    services:
+      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    hooks:
+      preAssertValidTestCase: [ '\OrangeHRM\Tests\Attendance\Api\EmployeeAttendanceRecordAPITest', 'enableUserCanModifyAttendancePreHook' ]
+    attributes:
+      empNumber: 1
+    body:
+      ids: [ 1 ]
+    data:
+      - 1
 
   'Delete - empty ids provided':
     userId: 3
@@ -512,6 +561,8 @@ Delete:
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    hooks:
+      preAssertValidTestCase: [ '\OrangeHRM\Tests\Attendance\Api\EmployeeAttendanceRecordAPITest', 'enableSupervisorCanModifyAttendancePreHook' ]
     attributes:
       empNumber: 2
     body:
