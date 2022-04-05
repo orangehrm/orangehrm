@@ -221,6 +221,36 @@ describe('core/util/validation/rules::validPhoneNumberFormat', () => {
 
   test('validPhoneNumberFormat::numberWithSpace', () => {
     const result = validPhoneNumberFormat('456 ');
+    expect(result).toStrictEqual(true);
+  });
+
+  test('validPhoneNumberFormat::numberWithMultipleSpaces', () => {
+    const result = validPhoneNumberFormat('123 456 789');
+    expect(result).toStrictEqual(true);
+  });
+
+  test('validPhoneNumberFormat::numberWithTabs', () => {
+    const result = validPhoneNumberFormat('123\t456\t789');
+    expect(result).toBe('Allows numbers and only + - / ( )');
+  });
+
+  test('validPhoneNumberFormat::numberWithNewLines', () => {
+    const result = validPhoneNumberFormat('123\n456\n789');
+    expect(result).toBe('Allows numbers and only + - / ( )');
+  });
+
+  test('validPhoneNumberFormat::numberWithCarriageReturns', () => {
+    const result = validPhoneNumberFormat('123\r456\r789');
+    expect(result).toBe('Allows numbers and only + - / ( )');
+  });
+
+  test('validPhoneNumberFormat::numberWithFormFeeds', () => {
+    const result = validPhoneNumberFormat('123\f456\f789');
+    expect(result).toBe('Allows numbers and only + - / ( )');
+  });
+
+  test('validPhoneNumberFormat::numberWithVerticalTabs', () => {
+    const result = validPhoneNumberFormat('123\v456\v789');
     expect(result).toBe('Allows numbers and only + - / ( )');
   });
 
