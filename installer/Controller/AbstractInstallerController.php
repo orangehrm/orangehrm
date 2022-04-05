@@ -17,17 +17,16 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Core\Controller;
+namespace OrangeHRM\Installer\Controller;
 
 use InvalidArgumentException;
 use OrangeHRM\Core\Traits\ControllerTrait;
-use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Framework\Http\RedirectResponse;
+use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\Http\Response;
 
-abstract class AbstractController
+abstract class AbstractInstallerController
 {
-    use ServiceContainerTrait;
     use ControllerTrait;
 
     /**
@@ -72,16 +71,18 @@ abstract class AbstractController
     }
 
     /**
-     * @param Response|null $response
-     * @return Response
+     * @param Request $request
+     * @return RedirectResponse|Response
      */
-    protected function handleBadRequest(?Response $response = null): Response
+    public function handle(Request $request)
     {
-        if (is_null($response)) {
-            $response = $this->getResponse();
-        }
-
-        $response->setStatusCode(Response::HTTP_BAD_REQUEST);
-        return $response;
+        // TODO:: check system installed
+        return $this->execute($request);
     }
+
+    /**
+     * @param Request $request
+     * @return Response|RedirectResponse
+     */
+    abstract protected function execute(Request $request);
 }
