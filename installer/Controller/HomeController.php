@@ -28,7 +28,7 @@ class HomeController extends AbstractInstallerController
      * @param Request $request
      * @return RedirectResponse
      */
-    public function handle(Request $request): RedirectResponse
+    protected function execute(Request $request): RedirectResponse
     {
         return $this->redirect('/installer/welcome');
     }

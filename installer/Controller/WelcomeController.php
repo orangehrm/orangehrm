@@ -29,7 +29,7 @@ class WelcomeController extends AbstractInstallerController
      * @param Request $request
      * @return Response
      */
-    public function handle(Request $request): Response
+    protected function execute(Request $request): Response
     {
         $response = $this->getResponse();
         $response->setContent("Welcome to the OrangeHRM ver " . Config::PRODUCT_VERSION . " Setup Wizard");

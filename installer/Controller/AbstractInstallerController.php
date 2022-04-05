@@ -22,6 +22,7 @@ namespace OrangeHRM\Installer\Controller;
 use InvalidArgumentException;
 use OrangeHRM\Core\Traits\ControllerTrait;
 use OrangeHRM\Framework\Http\RedirectResponse;
+use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\Http\Response;
 
 abstract class AbstractInstallerController
@@ -68,4 +69,20 @@ abstract class AbstractInstallerController
 
         $this->response = $response;
     }
+
+    /**
+     * @param Request $request
+     * @return RedirectResponse|Response
+     */
+    public function handle(Request $request)
+    {
+        // TODO:: check system installed
+        return $this->execute($request);
+    }
+
+    /**
+     * @param Request $request
+     * @return Response|RedirectResponse
+     */
+    abstract protected function execute(Request $request);
 }
