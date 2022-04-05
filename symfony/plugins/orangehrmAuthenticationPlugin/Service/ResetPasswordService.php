@@ -48,6 +48,18 @@ class ResetPasswordService
     protected ?ResetPasswordDao $resetPasswordDao = null;
     protected ?UserDao $userDao = null;
 
+
+    /**
+     * @return UserService|null
+     */
+    public function getUserService(): UserService
+    {
+        if (!($this->userService instanceof UserService)) {
+            $this->userService = new UserService();
+        }
+        return $this->userService;
+    }
+
     /**
      * @return EmailService
      */
@@ -109,23 +121,12 @@ class ResetPasswordService
     }
 
     /**
-     * @return UserService|null
-     */
-    public function getUserService(): UserService
-    {
-        if (!($this->userService instanceof UserService)) {
-            $this->userService = new UserService();
-        }
-        return $this->userService;
-    }
-
-    /**
      * @param string $templateFile
      * @param array $placeholders
      * @param array $replacements
      * @return array|string|string[]|null
      */
-    protected function generateEmailBody(string $templateFile, array $placeholders, array $replacements)
+    public function generateEmailBody(string $templateFile, array $placeholders, array $replacements)
     {
         $body = file_get_contents(
             Config::get(
@@ -183,6 +184,7 @@ class ResetPasswordService
         } else {
             $this->getLogger()->error('Please contact HR admin in order to reset the password');
         }
+
         return null;
     }
 
@@ -283,15 +285,19 @@ class ResetPasswordService
     public function validateUrl(string $resetCode): ?User
     {
         $userNameMetaData = $this->extractPasswordResetMetaData($resetCode);
-        $username = $userNameMetaData[0];
-        $resetPassword = $this->getResetPasswordDao()->getResetPasswordLogByResetCode($resetCode);
-        $expDay = $this->hasPasswordResetRequestNotExpired($resetPassword);
-        if ($expDay > 0) {
-            $this->getLogger()->error('not valid URL');
-            return null;
+        if (count($userNameMetaData) > 0) {
+            $username = $userNameMetaData[0];
+            $resetPassword = $this->getResetPasswordDao()->getResetPasswordLogByResetCode($resetCode);
+            $expDay = $this->hasPasswordResetRequestNotExpired($resetPassword);
+            if ($expDay > 0) {
+                $this->getLogger()->error('not valid URL');
+                return null;
+            }
+            $user = $this->getUserDao()->getUserByUserName($username);
+            return $this->validateUser($user, true);
         }
-        $user = $this->getUserDao()->getUserByUserName($username);
-        return $this->validateUser($user, true);
+        $this->getLogger()->error('Invalid reset code');
+        return null;
     }
 
     /**
