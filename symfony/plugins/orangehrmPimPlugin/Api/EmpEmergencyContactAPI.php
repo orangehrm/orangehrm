@@ -175,16 +175,19 @@ class EmpEmergencyContactAPI extends Endpoint implements CrudEndpoint
             new ParamRule(
                 self::PARAMETER_HOME_PHONE,
                 new Rule(Rules::STRING_TYPE),
+                new Rule(Rules::DIGIT, ['+', '-', '/', '(', ')', ' ']),
                 new Rule(Rules::LENGTH, [null, self::PARAM_RULE_Max_Length])
             ),
             new ParamRule(
                 self::PARAMETER_OFFICE_PHONE,
                 new Rule(Rules::STRING_TYPE),
+                new Rule(Rules::DIGIT, ['+', '-', '/', '(', ')', ' ']),
                 new Rule(Rules::LENGTH, [null, self::PARAM_RULE_Max_Length])
             ),
             new ParamRule(
                 self::PARAMETER_MOBILE_PHONE,
                 new Rule(Rules::STRING_TYPE),
+                new Rule(Rules::DIGIT, ['+', '-', '/', '(', ')', ' ']),
                 new Rule(Rules::LENGTH, [null, self::PARAM_RULE_Max_Length])
             ),
         ];
