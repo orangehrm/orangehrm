@@ -193,7 +193,7 @@ class AttendanceRecordAPI extends Endpoint implements ResourceEndpoint
                 $attendanceRecord->setPunchInUserTime($punchInDateTime);
                 $attendanceRecord->setPunchInUtcTime($punchInUTCDateTime);
                 $attendanceRecord->setPunchInNote($punchInNote);
-                if ($this->isAllowedToEditTimezone($punchInOffset, $punchInTimezoneName, $attendanceRecordOwnedEmpNumber)) {
+                if ($this->isAllowedToEditTimezone($punchInOffset, $punchInTimezoneName)) {
                     $attendanceRecord->setPunchInTimeOffset($punchInOffset);
                     $attendanceRecord->setPunchInTimezoneName($punchInTimezoneName);
                 }
@@ -206,7 +206,6 @@ class AttendanceRecordAPI extends Endpoint implements ResourceEndpoint
                 if ($this->isAllowedToEditTimezone(
                     $punchOutOffset,
                     $punchOutTimezoneName,
-                    $attendanceRecordOwnedEmpNumber
                 )) {
                     $punchOutTimezoneOffset = $punchOutOffset;
                 } else {
@@ -246,7 +245,7 @@ class AttendanceRecordAPI extends Endpoint implements ResourceEndpoint
                 $attendanceRecord->setPunchInUserTime($punchInDateTime);
                 $attendanceRecord->setPunchInUtcTime($punchInUTCDateTime);
                 $attendanceRecord->setPunchInNote($punchInNote);
-                if ($this->isAllowedToEditTimezone($punchInOffset, $punchInTimezoneName, $attendanceRecordOwnedEmpNumber)) {
+                if ($this->isAllowedToEditTimezone($punchInOffset, $punchInTimezoneName)) {
                     $attendanceRecord->setPunchInTimeOffset($punchInOffset);
                     $attendanceRecord->setPunchInTimezoneName($punchInTimezoneName);
                 }
@@ -256,7 +255,6 @@ class AttendanceRecordAPI extends Endpoint implements ResourceEndpoint
                 if ($this->isAllowedToEditTimezone(
                     $punchOutOffset,
                     $punchOutTimezoneName,
-                    $attendanceRecordOwnedEmpNumber
                 )) {
                     $attendanceRecord->setPunchOutTimeOffset($punchOutOffset);
                     $attendanceRecord->setPunchOutTimezoneName($punchOutTimezoneName);
@@ -342,10 +340,12 @@ class AttendanceRecordAPI extends Endpoint implements ResourceEndpoint
     ): bool {
         //auth user trying to update employee timezone, but either timezoneOffset or timezoneName
         //or both of them are missing
-        if (is_null($timezoneOffset) || is_null($timezoneName)) {
+        if (is_null($timezoneOffset) && is_null($timezoneName)) {
+            return false;
+        } elseif ((is_null($timezoneOffset) && !is_null($timezoneName)) ||
+            (!is_null($timezoneOffset) && is_null($timezoneName))) {
             throw AttendanceServiceException::invalidTimezoneDetails();
-        }
-        //auth user tyring to update employee timezone with valid timezoneOffset and timezoneName
+        } //auth user tyring to update employee timezone with valid timezoneOffset and timezoneName
         else {
             return true;
         }
