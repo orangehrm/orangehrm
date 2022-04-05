@@ -86,7 +86,7 @@ export default {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background-color: $oxd-alert-bg-color-error;;
+    background-color: $oxd-alert-bg-color-error;
     border-radius: $oxd-border-radius;
     padding: 1rem;
   }
