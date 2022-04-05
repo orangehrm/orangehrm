@@ -60,6 +60,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import '@ohrm/oxd/core/components/Alert/_variables.scss';
 .orangehrm-card {
   &-icon {
     font-size: 1.5rem;
@@ -85,7 +86,7 @@ export default {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background-color: rgba(235, 9, 16, 0.06);
+    background-color: $oxd-alert-bg-color-error;;
     border-radius: $oxd-border-radius;
     padding: 1rem;
   }
