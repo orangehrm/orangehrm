@@ -18,8 +18,8 @@ auth_admin_access_verify:
   controller: OrangeHRM\Authentication\Controller\AdministratorVerifyController::handle
   methods: [ POST ]
 
-auth_forgot_password_username_verify:
-  path: /auth/userNameVerify
+auth_request_reset_password:
+  path: /auth/requestResetPassword
   controller: OrangeHRM\Authentication\Controller\RequestResetPasswordController::handle
   methods: [ POST ]
 
@@ -28,8 +28,8 @@ auth_reset_password:
   controller: OrangeHRM\Authentication\Controller\ResetPasswordController::handle
   methods: [ POST ]
 
-auth_request_password_success:
-  path: /auth/requestSuccess
+auth_send_password_reset:
+  path: /auth/sendPasswordReset
   controller: OrangeHRM\Authentication\Controller\RequestPasswordSuccessController::handle
   methods: [ GET ]
 

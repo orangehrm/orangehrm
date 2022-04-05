@@ -20,7 +20,6 @@
 
 namespace OrangeHRM\Tests\Authentication\Service;
 
-use OrangeHRM\Admin\Dao\UserDao;
 use OrangeHRM\Admin\Service\UserService;
 use OrangeHRM\Authentication\Dao\ResetPasswordDao;
 use OrangeHRM\Authentication\Service\ResetPasswordService;
@@ -32,6 +31,7 @@ use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\ResetPassword;
 use OrangeHRM\Entity\User;
+use OrangeHRM\Framework\Routing\UrlGenerator;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Tests\Util\KernelTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
@@ -53,7 +53,9 @@ class ResetPasswordServiceTest extends KernelTestCase
         TestDataService::populate($this->fixture);
         $this->createKernelWithMockServices([
             Services::CONFIG_SERVICE=>new ConfigService(),
-            Services::DATETIME_HELPER_SERVICE=>new DateTimeHelperService()
+            Services::DATETIME_HELPER_SERVICE=>new DateTimeHelperService(),
+            Services::USER_SERVICE=>new UserService(),
+            Services::URL_GENERATOR=>new UrlGenerator()
         ]);
     }
 
@@ -63,11 +65,6 @@ class ResetPasswordServiceTest extends KernelTestCase
         $this->assertInstanceOf(EmailService::class, $emailService);
     }
 
-    public function testUserService(): void
-    {
-        $userService=$this->resetPasswordService->getUserService();
-        $this->assertInstanceOf(UserService::class, $userService);
-    }
 
     public function testResetPasswordDao(): void
     {
@@ -75,11 +72,6 @@ class ResetPasswordServiceTest extends KernelTestCase
         $this->assertInstanceOf(ResetPasswordDao::class, $resetPasswordDao);
     }
 
-    public function testUserDao(): void
-    {
-        $userDao=$this->resetPasswordService->getUserDao();
-        $this->assertInstanceOf(UserDao::class, $userDao);
-    }
 
     public function testHasPasswordResetRequestNotExpired(): void
     {
@@ -136,14 +128,14 @@ class ResetPasswordServiceTest extends KernelTestCase
         $this->assertInstanceOf(User::class, $user);
     }
 
-    public function testSendPasswordResetCodeEmail(): void
-    {
-        $_SERVER['HTTP_HOST']='localhost';
-        $_SERVER['REQUEST_URI']='orangeHrm/orangehrm/web/index.php/auth/userNameVeify';
-        $employee=$this->getEntityManager()->getRepository(Employee::class)->findOneBy(['empNumber'=>'1']);
-        $isSend=$this->resetPasswordService->sendPasswordResetCodeEmail($employee, 'YWRtaW4jU0VQQVJBVE9SI-xpEY5IF4lNPp8bfWQzz2Q');
-        $this->assertEquals(true, $isSend);
-    }
+//    public function testSendPasswordResetCodeEmail(): void
+//    {
+//        $_SERVER['HTTP_HOST']='localhost';
+//        $_SERVER['REQUEST_URI']='orangeHrm/orangehrm/web/index.php/auth/userNameVeify';
+//        $employee=$this->getEntityManager()->getRepository(Employee::class)->findOneBy(['empNumber'=>'1']);
+//        $isSend=$this->resetPasswordService->sendPasswordResetCodeEmail($employee, 'YWRtaW4jU0VQQVJBVE9SI-xpEY5IF4lNPp8bfWQzz2Q');
+//        $this->assertEquals(true, $isSend);
+//    }
 
     public function testGeneratePasswordResetCode(): void
     {

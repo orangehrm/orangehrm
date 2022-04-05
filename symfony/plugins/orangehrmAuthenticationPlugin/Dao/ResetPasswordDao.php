@@ -63,13 +63,9 @@ class ResetPasswordDao extends BaseDao
      */
     public function getResetPasswordLogByResetCode(string $resetCode): ?ResetPassword
     {
-        try {
-            $q = $this->createQueryBuilder(ResetPassword::class, 'r');
-            $q->andWhere('r.resetCode = :code');
-            $q->setParameter('code', $resetCode);
-            return $q->getQuery()->getOneOrNullResult();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        $q = $this->createQueryBuilder(ResetPassword::class, 'r');
+        $q->andWhere('r.resetCode = :code');
+        $q->setParameter('code', $resetCode);
+        return $q->getQuery()->getOneOrNullResult();
     }
 }

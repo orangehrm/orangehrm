@@ -19,12 +19,12 @@
 
 namespace OrangeHRM\Authentication\Service;
 
-use OrangeHRM\Admin\Dao\UserDao;
 use OrangeHRM\Admin\Dto\UserSearchFilterParams;
-use OrangeHRM\Admin\Service\UserService;
+use OrangeHRM\Admin\Traits\Service\UserServiceTrait;
 use OrangeHRM\Authentication\Dao\ResetPasswordDao;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Service\EmailService;
+use OrangeHRM\Core\Traits\ControllerTrait;
 use OrangeHRM\Core\Traits\LoggerTrait;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
@@ -33,30 +33,24 @@ use OrangeHRM\Entity\EmailConfiguration;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\ResetPassword;
 use OrangeHRM\Entity\User;
+use OrangeHRM\Framework\Routing\UrlGenerator;
+use OrangeHRM\Framework\Services;
 
 class ResetPasswordService
 {
     use DateTimeHelperTrait;
     use EntityManagerHelperTrait;
     use LoggerTrait;
+    use ControllerTrait;
+    use UserServiceTrait;
+
+
 
     public const RESET_PASSWORD_TOKEN_RANDOM_BYTES_LENGTH = 16;
-    protected ?EmailService $emailService = null;
-    protected ?UserService $userService = null;
+
     protected ?ResetPasswordDao $resetPasswordDao = null;
-    protected ?UserDao $userDao = null;
+    protected ?EmailService  $emailService=null;
 
-
-    /**
-     * @return UserService|null
-     */
-    public function getUserService(): UserService
-    {
-        if (!($this->userService instanceof UserService)) {
-            $this->userService = new UserService();
-        }
-        return $this->userService;
-    }
 
     /**
      * @return EmailService
@@ -69,16 +63,6 @@ class ResetPasswordService
         return $this->emailService;
     }
 
-    /**
-     * @return UserDao
-     */
-    public function getUserDao(): UserDao
-    {
-        if (!$this->userDao instanceof UserDao) {
-            $this->userDao = new UserDao();
-        }
-        return $this->userDao;
-    }
 
     /**
      * @return ResetPasswordDao
@@ -194,9 +178,14 @@ class ResetPasswordService
      */
     protected function generatePasswordResetEmailBody(Employee $receiver, string $resetCode, string $userName)
     {
-        $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' ? 'https' : 'http';
-        $url = $protocol . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-        $resetLink = str_replace('userNameVerify', 'resetPassword', $url);
+        /** @var UrlGenerator $urlGenerator */
+        $urlGenerator = $this->getContainer()->get(Services::URL_GENERATOR);
+        $resetLink = $urlGenerator->generate(
+            'auth_reset_code',
+            ['resetCode' => $resetCode],
+            UrlGenerator::ABSOLUTE_URL
+        );
+
         $placeholders = [
             'firstName',
             'lastName',
@@ -204,8 +193,7 @@ class ResetPasswordService
             'workEmail',
             'userName',
             'passwordResetLink',
-            'code',
-            'passwordResetCodeLink'
+
         ];
         $replacements = [
             $receiver->getFirstName(),
@@ -213,8 +201,7 @@ class ResetPasswordService
             $receiver->getMiddleName(),
             $receiver->getWorkEmail(),
             $userName,
-            $resetLink,
-            $resetCode,
+            $resetLink
         ];
 
         return $this->generateEmailBody('password-reset-request.txt', $placeholders, $replacements);
@@ -284,13 +271,13 @@ class ResetPasswordService
         if (count($userNameMetaData) > 0) {
             $username = $userNameMetaData[0];
             $resetPassword = $this->getResetPasswordDao()->getResetPasswordLogByResetCode($resetCode);
-            if ($resetPassword instanceof  ResetPassword) {
+            if ($resetPassword instanceof ResetPassword) {
                 $expDay = $this->hasPasswordResetRequestNotExpired($resetPassword);
                 if ($expDay > 0) {
                     $this->getLogger()->error('not valid URL');
                     return null;
                 }
-                $user = $this->getUserDao()->getUserByUserName($username);
+                $user = $this->getUserService()->getSystemUserDao()->getUserByUserName($username);
                 return $this->validateUser($user, true);
             }
             return null;
@@ -337,10 +324,10 @@ class ResetPasswordService
      */
     public function saveResetPassword(string $password, string $userName): bool
     {
-        $user = $this->getUserDao()->getUserByUserName($userName);
+        $user = $this->getUserService()->getSystemUserDao()->getUserByUserName($userName);
         if ($this->validateUser($user, false) instanceof User) {
             $hashPassword = $this->getUserService()->hashPassword($password);
-            return $this->userDao->updatePassword($user->getId(), $hashPassword);
+            return $this->getUserService()->getSystemUserDao()->updatePassword($user->getId(), $hashPassword);
         }
         return false;
     }

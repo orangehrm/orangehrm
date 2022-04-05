@@ -71,7 +71,7 @@ export default {
   },
   computed: {
     submitUrl() {
-      return urlFor('/auth/userNameVerify');
+      return urlFor('/auth/requestResetPassword');
     },
   },
   methods: {
