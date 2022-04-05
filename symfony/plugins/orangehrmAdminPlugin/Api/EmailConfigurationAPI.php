@@ -175,6 +175,7 @@ class EmailConfigurationAPI extends Endpoint implements ResourceEndpoint
                 new ParamRule(
                     self::PARAMETER_SENT_AS,
                     new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::EMAIL),
                     new Rule(Rules::LENGTH, [null, self::PARAM_RULE_SENT_AS_MAX_LENGTH]),
                 )
             ),
@@ -230,6 +231,7 @@ class EmailConfigurationAPI extends Endpoint implements ResourceEndpoint
                 new ParamRule(
                     self::PARAMETER_TEST_EMAIL_ADDRESS,
                     new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::EMAIL),
                     new Rule(Rules::LENGTH, [null, self::PARAM_RULE_TEST_EMAIL_ADDRESS_MAX_LENGTH]),
                 ),
                 true

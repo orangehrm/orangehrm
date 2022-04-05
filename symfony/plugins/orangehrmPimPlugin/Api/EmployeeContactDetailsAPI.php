@@ -226,6 +226,7 @@ class EmployeeContactDetailsAPI extends Endpoint implements CrudEndpoint
                 new ParamRule(
                     self::PARAMETER_WORK_EMAIL,
                     new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::EMAIL),
                     new Rule(Rules::LENGTH, [null, self::PARAM_RULE_WORK_EMAIL_MAX_LENGTH]),
                 ),
                 true
@@ -234,6 +235,7 @@ class EmployeeContactDetailsAPI extends Endpoint implements CrudEndpoint
                 new ParamRule(
                     self::PARAMETER_OTHER_EMAIL,
                     new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::EMAIL),
                     new Rule(Rules::LENGTH, [null, self::PARAM_RULE_OTHER_EMAIL_MAX_LENGTH]),
                 ),
                 true
