@@ -31,7 +31,6 @@ class ResetCodeController extends AbstractVueController implements PublicControl
 {
     protected ?ResetPasswordService $resetPasswordService = null;
 
-
     /**
      * @return ResetPasswordService
      */
@@ -43,25 +42,23 @@ class ResetCodeController extends AbstractVueController implements PublicControl
         return $this->resetPasswordService;
     }
 
-
     /**
      * @inheritDoc
      */
     public function preRender(Request $request): void
     {
-        $resetCode=$request->get('resetCode');
-        $user=$this->getResetPasswordService()->validateUrl($resetCode);
+        $resetCode = $request->get('resetCode');
+        $user = $this->getResetPasswordService()->validateUrl($resetCode);
 
-        if ($user instanceof  User) {
+        if ($user instanceof User) {
             $component = new Component('reset-password');
-            $this->setTemplate('no_header.html.twig');
             $component->addProp(
                 new Prop('username', Prop::TYPE_STRING, $user->getUserName())
             );
         } else {
             $component = new Component('reset-password-error');
-            $this->setTemplate('no_header.html.twig');
         }
         $this->setComponent($component);
+        $this->setTemplate('no_header.html.twig');
     }
 }

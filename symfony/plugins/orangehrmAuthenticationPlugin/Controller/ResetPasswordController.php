@@ -21,12 +21,13 @@ namespace OrangeHRM\Authentication\Controller;
 
 use OrangeHRM\Authentication\Service\ResetPasswordService;
 use OrangeHRM\Core\Controller\AbstractController;
+use OrangeHRM\Core\Controller\PublicControllerInterface;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Framework\Http\RedirectResponse;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\Services;
 
-class ResetPasswordController extends AbstractController
+class ResetPasswordController extends AbstractController implements PublicControllerInterface
 {
     protected ?ResetPasswordService $resetPasswordService = null;
 

@@ -16,6 +16,7 @@
 
 @import '@ohrm/oxd/styles/_mixins.scss';
 @import '@ohrm/oxd/core/components/Button/_variables.scss';
+
 .orangehrm-login-form {
   margin: 0 auto;
   @include oxd-respond-to('xs') {
@@ -48,6 +49,7 @@
     text-decoration: none;
   }
 }
+
 .orangehrm-login-forgot {
   display: flex;
   justify-content: center;

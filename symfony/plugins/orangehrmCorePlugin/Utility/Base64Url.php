@@ -21,7 +21,11 @@ namespace OrangeHRM\Core\Utility;
 
 class Base64Url
 {
-    public static function encode($value)
+    /**
+     * @param string $value
+     * @return array|false|string|string[]
+     */
+    public static function encode(string $value)
     {
         $base64 = base64_encode($value);
         if ($base64 === false) {
@@ -31,7 +35,11 @@ class Base64Url
         return str_replace(['+', '/', '='], ['-', '_', ''], $base64);
     }
 
-    public static function decode($value)
+    /**
+     * @param string $value
+     * @return false|string
+     */
+    public static function decode(string $value)
     {
         return base64_decode(str_replace(['-', '_'], ['+', '/'], $value));
     }

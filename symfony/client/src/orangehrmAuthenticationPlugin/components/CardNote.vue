@@ -61,6 +61,7 @@ export default {
 
 <style scoped lang="scss">
 @import '@ohrm/oxd/core/components/Alert/_variables.scss';
+
 .orangehrm-card {
   &-icon {
     font-size: 1.5rem;

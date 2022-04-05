@@ -44,13 +44,9 @@ class ResetPasswordService
     use ControllerTrait;
     use UserServiceTrait;
 
-
-
     public const RESET_PASSWORD_TOKEN_RANDOM_BYTES_LENGTH = 16;
-
     protected ?ResetPasswordDao $resetPasswordDao = null;
-    protected ?EmailService  $emailService=null;
-
+    protected ?EmailService $emailService = null;
 
     /**
      * @return EmailService
@@ -62,7 +58,6 @@ class ResetPasswordService
         }
         return $this->emailService;
     }
-
 
     /**
      * @return ResetPasswordDao
@@ -113,7 +108,7 @@ class ResetPasswordService
         $body = file_get_contents(
             Config::get(
                 Config::PLUGINS_DIR
-            ) . '/orangehrmAuthenticationPlugin/config/data' . '//' . $templateFile
+            ) . '/orangehrmAuthenticationPlugin/config/data' . '/' . $templateFile
         );
 
         foreach ($placeholders as $key => $value) {
@@ -169,7 +164,6 @@ class ResetPasswordService
         return null;
     }
 
-
     /**
      * @param Employee $receiver
      * @param string $resetCode
@@ -207,7 +201,6 @@ class ResetPasswordService
         return $this->generateEmailBody('password-reset-request.txt', $placeholders, $replacements);
     }
 
-
     /**
      * @param Employee $receiver
      * @param string $resetCode
@@ -217,7 +210,7 @@ class ResetPasswordService
     {
         $this->getEmailService()->setMessageTo([$receiver->getWorkEmail()]);
         $this->getEmailService()->setMessageFrom(
-            [$this->getEmailService()->getEmailConfig()->getSentAs() => 'OrangeHRM System']
+            [$this->getEmailService()->getEmailConfig()->getSentAs() => 'OrangeHRM']
         );
         $this->getEmailService()->setMessageSubject('OrangeHRM Password Reset');
         $this->getEmailService()->setMessageBody($this->generatePasswordResetEmailBody($receiver, $resetCode, 'Admin'));
@@ -235,7 +228,6 @@ class ResetPasswordService
             random_bytes(static::RESET_PASSWORD_TOKEN_RANDOM_BYTES_LENGTH)
         );
     }
-
 
     /**
      * @param User $user
@@ -287,15 +279,6 @@ class ResetPasswordService
     }
 
     /**
-     * @param ResetPassword $resetPassword
-     * @return ResetPassword|null
-     */
-    public function saveResetPasswordLog(ResetPassword $resetPassword): ?ResetPassword
-    {
-        return $this->getResetPasswordDao()->saveResetPassword($resetPassword);
-    }
-
-    /**
      * @param User $user
      * @return bool
      */
@@ -313,7 +296,7 @@ class ResetPasswordService
             $this->getLogger()->error('Password reset email could not be sent.');
             return false;
         }
-        $this->saveResetPasswordLog($resetPassword);
+        $this->getResetPasswordDao()->saveResetPassword($resetPassword);
         return true;
     }
 
