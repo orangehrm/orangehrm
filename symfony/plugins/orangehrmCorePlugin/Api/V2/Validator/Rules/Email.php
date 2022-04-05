@@ -32,6 +32,10 @@ class Email extends AbstractRule
             return false;
         }
 
+        if (empty((string) $input)) {
+            return true;
+        }
+
         return preg_match(self::EMAIL_REGEX, (string) $input) > 0;
     }
 }
