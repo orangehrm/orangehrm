@@ -28,6 +28,11 @@ auth_reset_password:
   controller: OrangeHRM\Authentication\Controller\ResetPasswordController::handle
   methods: [ POST ]
 
+auth_request_password_success:
+  path: /auth/requestSuccess
+  controller: OrangeHRM\Authentication\Controller\RequestPasswordSuccessController::handle
+  methods: [ GET ]
+
 auth_forgot_password_username:
   path: /auth/requestPasswordResetCode
   controller: OrangeHRM\Authentication\Controller\RequestPasswordController::handle

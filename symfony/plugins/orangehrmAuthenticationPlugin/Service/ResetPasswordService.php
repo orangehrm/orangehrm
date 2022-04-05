@@ -24,8 +24,6 @@ use OrangeHRM\Admin\Dto\UserSearchFilterParams;
 use OrangeHRM\Admin\Service\UserService;
 use OrangeHRM\Authentication\Dao\ResetPasswordDao;
 use OrangeHRM\Config\Config;
-use OrangeHRM\Core\Exception\DaoException;
-use OrangeHRM\Core\Exception\ServiceException;
 use OrangeHRM\Core\Service\EmailService;
 use OrangeHRM\Core\Traits\LoggerTrait;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
@@ -145,7 +143,6 @@ class ResetPasswordService
     /**
      * @param string $username
      * @return User|null
-     * @throws ServiceException
      */
     public function searchForUserRecord(string $username): ?User
     {
@@ -280,7 +277,6 @@ class ResetPasswordService
     /**
      * @param string $resetCode
      * @return User|null
-     * @throws DaoException
      */
     public function validateUrl(string $resetCode): ?User
     {
@@ -288,13 +284,16 @@ class ResetPasswordService
         if (count($userNameMetaData) > 0) {
             $username = $userNameMetaData[0];
             $resetPassword = $this->getResetPasswordDao()->getResetPasswordLogByResetCode($resetCode);
-            $expDay = $this->hasPasswordResetRequestNotExpired($resetPassword);
-            if ($expDay > 0) {
-                $this->getLogger()->error('not valid URL');
-                return null;
+            if ($resetPassword instanceof  ResetPassword) {
+                $expDay = $this->hasPasswordResetRequestNotExpired($resetPassword);
+                if ($expDay > 0) {
+                    $this->getLogger()->error('not valid URL');
+                    return null;
+                }
+                $user = $this->getUserDao()->getUserByUserName($username);
+                return $this->validateUser($user, true);
             }
-            $user = $this->getUserDao()->getUserByUserName($username);
-            return $this->validateUser($user, true);
+            return null;
         }
         $this->getLogger()->error('Invalid reset code');
         return null;
@@ -312,7 +311,6 @@ class ResetPasswordService
     /**
      * @param User $user
      * @return bool
-     * @throws ServiceException
      */
     public function logPasswordResetRequest(User $user): bool
     {
@@ -326,6 +324,7 @@ class ResetPasswordService
         $emailSent = $this->sendPasswordResetCodeEmail($user->getEmployee(), $resetCode);
         if (!$emailSent) {
             $this->getLogger()->error('Password reset email could not be sent.');
+            return false;
         }
         $this->saveResetPasswordLog($resetPassword);
         return true;
@@ -335,7 +334,6 @@ class ResetPasswordService
      * @param string $password
      * @param string $userName
      * @return bool
-     * @throws DaoException
      */
     public function saveResetPassword(string $password, string $userName): bool
     {

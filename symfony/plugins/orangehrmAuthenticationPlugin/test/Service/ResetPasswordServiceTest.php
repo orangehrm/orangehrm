@@ -26,6 +26,7 @@ use OrangeHRM\Authentication\Dao\ResetPasswordDao;
 use OrangeHRM\Authentication\Service\ResetPasswordService;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Service\ConfigService;
+use OrangeHRM\Core\Service\DateTimeHelperService;
 use OrangeHRM\Core\Service\EmailService;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\Employee;
@@ -51,7 +52,8 @@ class ResetPasswordServiceTest extends KernelTestCase
         ) . '/orangehrmAuthenticationPlugin/test/fixtures/ResetPasswordService.yml';
         TestDataService::populate($this->fixture);
         $this->createKernelWithMockServices([
-            Services::CONFIG_SERVICE=>new ConfigService()
+            Services::CONFIG_SERVICE=>new ConfigService(),
+            Services::DATETIME_HELPER_SERVICE=>new DateTimeHelperService()
         ]);
     }
 
@@ -127,10 +129,67 @@ class ResetPasswordServiceTest extends KernelTestCase
         $user=$this->resetPasswordService->searchForUserRecord('samantha');
         $this->assertEquals(null, $user);
 
+        $user=$this->resetPasswordService->searchForUserRecord('yashika');
+        $this->assertEquals(null, $user);
+
         $user=$this->resetPasswordService->searchForUserRecord('Renukshan');
         $this->assertInstanceOf(User::class, $user);
+    }
 
-//        $user=$this->resetPasswordService->searchForUserRecord('Renukshan');
-//        $this->assertInstanceOf(User::class,$user);
+    public function testSendPasswordResetCodeEmail(): void
+    {
+        $_SERVER['HTTP_HOST']='localhost';
+        $_SERVER['REQUEST_URI']='orangeHrm/orangehrm/web/index.php/auth/userNameVeify';
+        $employee=$this->getEntityManager()->getRepository(Employee::class)->findOneBy(['empNumber'=>'1']);
+        $isSend=$this->resetPasswordService->sendPasswordResetCodeEmail($employee, 'YWRtaW4jU0VQQVJBVE9SI-xpEY5IF4lNPp8bfWQzz2Q');
+        $this->assertEquals(true, $isSend);
+    }
+
+    public function testGeneratePasswordResetCode(): void
+    {
+        $result=$this->resetPasswordService->generatePasswordResetCode('Renukshan');
+        $metaData=$this->resetPasswordService->extractPasswordResetMetaData($result);
+        $this->assertEquals('Renukshan', $metaData[0]);
+    }
+
+    public function testSaveResetPassword(): void
+    {
+        $isSave=$this->resetPasswordService->saveResetPassword('Admin1234%', 'Renukshan');
+        $this->assertEquals(true, $isSave);
+
+        $isSave=$this->resetPasswordService->saveResetPassword('Admin1234%', 'Rensdukshan');
+        $this->assertEquals(false, $isSave);
+    }
+
+    public function testLogPasswordResetRequest(): void
+    {
+        $user=$this->getEntityManager()->getRepository(User::class)->findOneBy(['id'=>'3']);
+        $isSave=$this->resetPasswordService->logPasswordResetRequest($user);
+        $this->assertEquals(true, $isSave);
+    }
+
+
+    public function testValidateUrl(): void
+    {
+        $user = $this->resetPasswordService->validateUrl('UmVudWtzaGFuI1NFUEFSQVRPUiMGoPNCPf-4W2qC9iUGPl2n');
+        $this->assertEquals(null, $user);
+
+        $user = $this->resetPasswordService->validateUrl('YWRtaW4jU0VQQVJBVE9SI-xpEY5IF4lNPp8bfWQzz2Q');
+        $this->assertEquals(null, $user);
+    }
+
+    public function testValidateUser(): void
+    {
+        $user=$this->getEntityManager()->getRepository(User::class)->findOneBy(['id'=>'3']);
+        $user = $this->resetPasswordService->validateUser($user);
+        $this->assertInstanceOf(User::class, $user);
+
+        $user=$this->getEntityManager()->getRepository(User::class)->findOneBy(['id'=>'1']);
+        $user = $this->resetPasswordService->validateUser($user);
+        $this->assertEquals(null, $user);
+
+        $user=$this->getEntityManager()->getRepository(User::class)->findOneBy(['id'=>'2']);
+        $user = $this->resetPasswordService->validateUser($user);
+        $this->assertEquals(null, $user);
     }
 }
