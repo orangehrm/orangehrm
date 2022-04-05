@@ -251,7 +251,8 @@ class EmployeeContactDetailsAPI extends Endpoint implements CrudEndpoint
     private function getEntityPropertiesForWorkEmail(): EntityUniquePropertyOption
     {
         $entityProperties = new EntityUniquePropertyOption();
-        $entityProperties->setIgnoreValues([
+        $entityProperties->setIgnoreValues(
+            [
                 'getEmpNumber' => $this->getRequestParams()->getInt(
                     RequestParams::PARAM_TYPE_ATTRIBUTE,
                     self::PARAMETER_EMP_NUMBER
