@@ -91,7 +91,6 @@ import {
   required,
   shouldNotExceedCharLength,
 } from '@ohrm/core/util/validation/rules';
-import {navigate} from '@/core/util/helper/navigation';
 import {urlFor} from '@/core/util/helper/url';
 
 export default {
