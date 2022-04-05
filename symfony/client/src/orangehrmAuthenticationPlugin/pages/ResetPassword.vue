@@ -34,6 +34,7 @@
             note-text="Set a new Password"
             class="orangehrm-forgot-password-card-note"
           />
+          <input name="_token" :value="token" type="hidden" />
           <oxd-form-row>
             <oxd-input-field
               :value="username"
@@ -100,6 +101,10 @@ export default {
   },
   props: {
     username: {
+      type: String,
+      required: true,
+    },
+    token: {
       type: String,
       required: true,
     },

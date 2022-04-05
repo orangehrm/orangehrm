@@ -95,13 +95,6 @@ final class Services
      */
     public const CONFIG_SERVICE = 'core.config_service';
 
-
-    /**
-     * @see \OrangeHRM\Core\Service\EmailService
-     */
-    public const EMAIL_SERVICE = 'core.email_service';
-
-
     /**
      * @see \OrangeHRM\Core\Service\NormalizerService
      */

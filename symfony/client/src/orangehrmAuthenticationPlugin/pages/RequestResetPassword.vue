@@ -36,6 +36,7 @@
             password"
             class="orangehrm-forgot-password-card-note"
           />
+          <input name="_token" :value="token" type="hidden" />
           <oxd-form-row>
             <oxd-input-field
               v-model="username"
@@ -80,6 +81,12 @@ export default {
   name: 'RequestResetPassword',
   components: {
     'card-note': CardNote,
+  },
+  props: {
+    token: {
+      type: String,
+      required: true,
+    },
   },
   data() {
     return {

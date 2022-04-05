@@ -19,9 +19,11 @@
 
 namespace OrangeHRM\Authentication\Controller;
 
+use OrangeHRM\Authentication\Csrf\CsrfTokenManager;
 use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Controller\PublicControllerInterface;
 use OrangeHRM\Core\Vue\Component;
+use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Framework\Http\Request;
 
 class RequestPasswordController extends AbstractVueController implements PublicControllerInterface
@@ -31,7 +33,11 @@ class RequestPasswordController extends AbstractVueController implements PublicC
      */
     public function preRender(Request $request): void
     {
+        $csrfTokenManager = new CsrfTokenManager();
         $component = new Component('request-reset-password');
+        $component->addProp(
+            new Prop('token', Prop::TYPE_STRING, $csrfTokenManager->getToken('request-reset-password')->getValue())
+        );
         $this->setTemplate('no_header.html.twig');
         $this->setComponent($component);
     }
