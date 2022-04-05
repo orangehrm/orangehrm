@@ -80,21 +80,21 @@
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <oxd-input-field
-                v-model="contact.homeTelephone"
+                v-model.trim="contact.homeTelephone"
                 label="Home"
                 :rules="rules.homeTelephone"
               />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
-                v-model="contact.mobile"
+                v-model.trim="contact.mobile"
                 label="Mobile"
                 :rules="rules.mobile"
               />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
-                v-model="contact.workTelephone"
+                v-model.trim="contact.workTelephone"
                 label="Work"
                 :rules="rules.workTelephone"
               />

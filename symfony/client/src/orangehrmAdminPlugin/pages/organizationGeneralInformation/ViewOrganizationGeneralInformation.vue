@@ -81,7 +81,7 @@
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <oxd-input-field
-                v-model="organization.phone"
+                v-model.trim="organization.phone"
                 label="Phone"
                 :rules="rules.phone"
                 :disabled="!editable"

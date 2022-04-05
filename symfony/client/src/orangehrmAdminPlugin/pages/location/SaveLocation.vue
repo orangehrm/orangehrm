@@ -84,7 +84,7 @@
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
-                v-model="location.phone"
+                v-model.trim="location.phone"
                 label="Phone"
                 :rules="rules.phone"
                 :disabled="!hasCreatePermissions"
