@@ -314,7 +314,7 @@ export const validPhoneNumberFormat = function(
 ): boolean | string {
   return (
     !value ||
-    /^[0-9+\-/()]+$/.test(value) ||
+    /^[0-9+\-/()\s]+$/.test(value) ||
     'Allows numbers and only + - / ( )'
   );
 };
