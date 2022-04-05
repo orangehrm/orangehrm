@@ -199,7 +199,7 @@ class EmployeeContactDetailsAPI extends Endpoint implements CrudEndpoint
                 new ParamRule(
                     self::PARAMETER_HOME_TELEPHONE,
                     new Rule(Rules::STRING_TYPE),
-                    new Rule(Rules::DIGIT, ['+', '-', '/', '(', ')', ' ']),
+                    new Rule(Rules::PHONE),
                     new Rule(Rules::LENGTH, [null, self::PARAM_RULE_HOME_TELEPHONE_MAX_LENGTH]),
                 ),
                 true
@@ -208,7 +208,7 @@ class EmployeeContactDetailsAPI extends Endpoint implements CrudEndpoint
                 new ParamRule(
                     self::PARAMETER_WORK_TELEPHONE,
                     new Rule(Rules::STRING_TYPE),
-                    new Rule(Rules::DIGIT, ['+', '-', '/', '(', ')', ' ']),
+                    new Rule(Rules::PHONE),
                     new Rule(Rules::LENGTH, [null, self::PARAM_RULE_WORK_TELEPHONE_MAX_LENGTH]),
                 ),
                 true
@@ -217,7 +217,7 @@ class EmployeeContactDetailsAPI extends Endpoint implements CrudEndpoint
                 new ParamRule(
                     self::PARAMETER_MOBILE,
                     new Rule(Rules::STRING_TYPE),
-                    new Rule(Rules::DIGIT, ['+', '-', '/', '(', ')', ' ']),
+                    new Rule(Rules::PHONE),
                     new Rule(Rules::LENGTH, [null, self::PARAM_RULE_MOBILE_MAX_LENGTH]),
                 ),
                 true

@@ -269,7 +269,7 @@ class OrganizationAPI extends Endpoint implements CrudEndpoint
                 new ParamRule(
                     self::PARAMETER_PHONE,
                     new Rule(Rules::STRING_TYPE),
-                    new Rule(Rules::DIGIT, ['+', '-', '/', '(', ')', ' ']),
+                    new Rule(Rules::PHONE),
                     new Rule(Rules::LENGTH, [null, self::PARAM_RULE_PHONE_MAX_LENGTH]),
                 ),
                 true
