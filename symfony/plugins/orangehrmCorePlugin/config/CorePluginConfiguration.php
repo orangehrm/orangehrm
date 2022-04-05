@@ -65,6 +65,7 @@ class CorePluginConfiguration implements PluginConfigurationInterface
             'cookie_secure' => $isSecure,
             'cookie_httponly' => true,
             'cookie_path' => $path,
+            'cookie_samesite' => 'Strict',
         ];
         $sessionStorage = new NativeSessionStorage($options, new NativeFileSessionHandler());
         $session = new Session($sessionStorage);

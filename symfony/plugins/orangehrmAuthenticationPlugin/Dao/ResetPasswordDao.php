@@ -20,6 +20,8 @@
 namespace OrangeHRM\Authentication\Dao;
 
 use OrangeHRM\Core\Dao\BaseDao;
+use OrangeHRM\Core\Exception\DaoException;
+use Exception;
 use OrangeHRM\Entity\ResetPassword;
 
 class ResetPasswordDao extends BaseDao
@@ -32,5 +34,38 @@ class ResetPasswordDao extends BaseDao
     {
         $this->persist($resetPassword);
         return $resetPassword;
+    }
+
+
+    /**
+     * @param string $email
+     * @return ResetPassword|null
+     * @throws DaoException
+     */
+    public function getResetPasswordLogByEmail(string $email): ?ResetPassword
+    {
+        try {
+            $q = $this->createQueryBuilder(ResetPassword::class, 'r');
+            $q->andWhere('r.reset_email = :email')
+                ->setParameter('email', $email)
+                ->orderBy('r.reset_request_date DESC');
+            return $q->getQuery()->getOneOrNullResult();
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+    }
+
+
+    /**
+     * @param string $resetCode
+     * @return ResetPassword|null
+     * @throws DaoException
+     */
+    public function getResetPasswordLogByResetCode(string $resetCode): ?ResetPassword
+    {
+        $q = $this->createQueryBuilder(ResetPassword::class, 'r');
+        $q->andWhere('r.resetCode = :code');
+        $q->setParameter('code', $resetCode);
+        return $q->getQuery()->getOneOrNullResult();
     }
 }

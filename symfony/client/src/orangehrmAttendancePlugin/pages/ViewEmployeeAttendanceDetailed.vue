@@ -67,6 +67,9 @@
         :label="$t('general.add')"
         @click="onClickAdd"
       />
+      <oxd-text class="orangehrm-header-total" tag="span">
+        {{ $t('time.total_duration') }}: {{ totalDuration }}
+      </oxd-text>
     </div>
     <table-header
       :total="total"
@@ -108,6 +111,7 @@ import RecordCell from '@/orangehrmAttendancePlugin/components/RecordCell.vue';
 import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
 import DeleteConfirmationDialog from '@ohrm/components/dialogs/DeleteConfirmationDialog';
 import {yearRange} from '@/core/util/helper/year-range';
+import {getStandardTimezone} from '@/core/util/helper/datefns';
 
 const attendanceRecordNormalizer = data => {
   return data.map(item => {
@@ -186,6 +190,11 @@ export default {
       prefetch: true,
     });
 
+    const totalDuration = computed(() => {
+      const meta = response.value?.meta;
+      return meta ? meta.sum.label : '0.00';
+    });
+
     return {
       http,
       rules,
@@ -198,6 +207,7 @@ export default {
       currentPage,
       showPaginator,
       items: response,
+      totalDuration,
     };
   },
 
@@ -214,22 +224,26 @@ export default {
         },
         {
           name: 'punchInNote',
+          slot: 'title',
           title: 'Punch In Note',
           style: {flex: 1},
         },
         {
           name: 'punchOut',
+          slot: 'title',
           title: 'Punch Out',
           style: {flex: 1},
           cellRenderer: this.cellRenderer,
         },
         {
           name: 'punchOutNote',
+          slot: 'title',
           title: 'Punch Out Note',
           style: {flex: 1},
         },
         {
           name: 'duration',
+          slot: 'title',
           title: 'Duration (Hours)',
           style: {flex: 1},
         },
@@ -270,7 +284,7 @@ export default {
         props: {
           date: cellData.userDate,
           time: cellData.userTime,
-          offset: cellData.offset,
+          offset: getStandardTimezone(cellData.offset),
         },
       };
     },

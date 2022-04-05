@@ -20,11 +20,11 @@
 namespace OrangeHRM\Authentication\Service;
 
 use OrangeHRM\Admin\Dto\UserSearchFilterParams;
-use OrangeHRM\Admin\Service\UserService;
+use OrangeHRM\Admin\Traits\Service\UserServiceTrait;
 use OrangeHRM\Authentication\Dao\ResetPasswordDao;
 use OrangeHRM\Config\Config;
-use OrangeHRM\Core\Exception\ServiceException;
 use OrangeHRM\Core\Service\EmailService;
+use OrangeHRM\Core\Traits\ControllerTrait;
 use OrangeHRM\Core\Traits\LoggerTrait;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
@@ -33,17 +33,24 @@ use OrangeHRM\Entity\EmailConfiguration;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\ResetPassword;
 use OrangeHRM\Entity\User;
+use OrangeHRM\Framework\Routing\UrlGenerator;
+use OrangeHRM\Framework\Services;
 
 class ResetPasswordService
 {
     use DateTimeHelperTrait;
     use EntityManagerHelperTrait;
     use LoggerTrait;
+    use ControllerTrait;
+    use UserServiceTrait;
+
+
 
     public const RESET_PASSWORD_TOKEN_RANDOM_BYTES_LENGTH = 16;
-    protected ?EmailService $emailService = null;
-    protected ?UserService $userService = null;
+
     protected ?ResetPasswordDao $resetPasswordDao = null;
+    protected ?EmailService  $emailService=null;
+
 
     /**
      * @return EmailService
@@ -55,6 +62,7 @@ class ResetPasswordService
         }
         return $this->emailService;
     }
+
 
     /**
      * @return ResetPasswordDao
@@ -68,14 +76,30 @@ class ResetPasswordService
     }
 
     /**
-     * @return UserService|null
+     * @param ResetPassword $resetPassword
+     * @return float
      */
-    public function getUserService(): UserService
+    public function hasPasswordResetRequestNotExpired(ResetPassword $resetPassword): float
     {
-        if (!($this->userService instanceof UserService)) {
-            $this->userService = new UserService();
-        }
-        return $this->userService;
+        $strExpireTime = strtotime($resetPassword->getResetRequestDate()->format('Y-m-d H:i:s'));
+        $strCurrentTime = strtotime(date("Y-m-d H:i:s"));
+        return floor(($strCurrentTime - $strExpireTime) / (60 * 60 * 24));
+    }
+
+    /**
+     *
+     * @param string $resetCode
+     * @return array
+     */
+    public function extractPasswordResetMetaData(string $resetCode): array
+    {
+        $code = Base64Url::decode($resetCode);
+
+        $metaData = explode('#SEPARATOR#', $code);
+
+        array_pop($metaData);
+
+        return $metaData;
     }
 
     /**
@@ -84,7 +108,7 @@ class ResetPasswordService
      * @param array $replacements
      * @return array|string|string[]|null
      */
-    protected function generateEmailBody(string $templateFile, array $placeholders, array $replacements)
+    public function generateEmailBody(string $templateFile, array $placeholders, array $replacements)
     {
         $body = file_get_contents(
             Config::get(
@@ -103,7 +127,6 @@ class ResetPasswordService
     /**
      * @param string $username
      * @return User|null
-     * @throws ServiceException
      */
     public function searchForUserRecord(string $username): ?User
     {
@@ -125,7 +148,9 @@ class ResetPasswordService
                             if (!empty($workEmail)) {
                                 return $user;
                             } else {
-                                $this->getLogger()->error('Work email is not set. Please contact HR admin in order to reset the password');
+                                $this->getLogger()->error(
+                                    'Work email is not set. Please contact HR admin in order to reset the password'
+                                );
                             }
                         } else {
                             $this->getLogger()->error('Password reset email could not be sent');
@@ -140,14 +165,27 @@ class ResetPasswordService
         } else {
             $this->getLogger()->error('Please contact HR admin in order to reset the password');
         }
+
         return null;
     }
 
 
+    /**
+     * @param Employee $receiver
+     * @param string $resetCode
+     * @param string $userName
+     * @return array|string|string[]|null
+     */
     protected function generatePasswordResetEmailBody(Employee $receiver, string $resetCode, string $userName)
     {
-        //TODO
-        $resetLink = Config::BASE_DIR.'/index.php/auth/resetPassword';
+        /** @var UrlGenerator $urlGenerator */
+        $urlGenerator = $this->getContainer()->get(Services::URL_GENERATOR);
+        $resetLink = $urlGenerator->generate(
+            'auth_reset_code',
+            ['resetCode' => $resetCode],
+            UrlGenerator::ABSOLUTE_URL
+        );
+
         $placeholders = [
             'firstName',
             'lastName',
@@ -155,8 +193,7 @@ class ResetPasswordService
             'workEmail',
             'userName',
             'passwordResetLink',
-            'code',
-            'passwordResetCodeLink'
+
         ];
         $replacements = [
             $receiver->getFirstName(),
@@ -164,14 +201,18 @@ class ResetPasswordService
             $receiver->getMiddleName(),
             $receiver->getWorkEmail(),
             $userName,
-            $resetLink,
-            $resetCode,
+            $resetLink
         ];
 
         return $this->generateEmailBody('password-reset-request.txt', $placeholders, $replacements);
     }
 
 
+    /**
+     * @param Employee $receiver
+     * @param string $resetCode
+     * @return bool
+     */
     public function sendPasswordResetCodeEmail(Employee $receiver, string $resetCode): bool
     {
         $this->getEmailService()->setMessageTo([$receiver->getWorkEmail()]);
@@ -195,6 +236,56 @@ class ResetPasswordService
         );
     }
 
+
+    /**
+     * @param User $user
+     * @return User|null
+     */
+    public function validateUser(?User $user, bool $checkMail = true): ?User
+    {
+        if ($user instanceof User) {
+            if ($user->getEmployee()->getEmployeeTerminationRecord()) {
+                $this->getLogger()->error('employee was terminated');
+                return null;
+            }
+            if ($checkMail) {
+                if (!empty($user->getEmployee()->getWorkEmail())) {
+                    return $user;
+                }
+                $this->getLogger()->error('employee work email was not set');
+            } else {
+                return $user;
+            }
+        }
+        $this->getLogger()->error('user account was deleted');
+        return null;
+    }
+
+    /**
+     * @param string $resetCode
+     * @return User|null
+     */
+    public function validateUrl(string $resetCode): ?User
+    {
+        $userNameMetaData = $this->extractPasswordResetMetaData($resetCode);
+        if (count($userNameMetaData) > 0) {
+            $username = $userNameMetaData[0];
+            $resetPassword = $this->getResetPasswordDao()->getResetPasswordLogByResetCode($resetCode);
+            if ($resetPassword instanceof ResetPassword) {
+                $expDay = $this->hasPasswordResetRequestNotExpired($resetPassword);
+                if ($expDay > 0) {
+                    $this->getLogger()->error('not valid URL');
+                    return null;
+                }
+                $user = $this->getUserService()->getSystemUserDao()->getUserByUserName($username);
+                return $this->validateUser($user, true);
+            }
+            return null;
+        }
+        $this->getLogger()->error('Invalid reset code');
+        return null;
+    }
+
     /**
      * @param ResetPassword $resetPassword
      * @return ResetPassword|null
@@ -207,7 +298,6 @@ class ResetPasswordService
     /**
      * @param User $user
      * @return bool
-     * @throws ServiceException
      */
     public function logPasswordResetRequest(User $user): bool
     {
@@ -221,8 +311,24 @@ class ResetPasswordService
         $emailSent = $this->sendPasswordResetCodeEmail($user->getEmployee(), $resetCode);
         if (!$emailSent) {
             $this->getLogger()->error('Password reset email could not be sent.');
+            return false;
         }
         $this->saveResetPasswordLog($resetPassword);
         return true;
+    }
+
+    /**
+     * @param string $password
+     * @param string $userName
+     * @return bool
+     */
+    public function saveResetPassword(string $password, string $userName): bool
+    {
+        $user = $this->getUserService()->getSystemUserDao()->getUserByUserName($userName);
+        if ($this->validateUser($user, false) instanceof User) {
+            $hashPassword = $this->getUserService()->hashPassword($password);
+            return $this->getUserService()->getSystemUserDao()->updatePassword($user->getId(), $hashPassword);
+        }
+        return false;
     }
 }

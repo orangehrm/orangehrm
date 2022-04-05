@@ -1,0 +1,141 @@
+'Save Employment Status':
+  module: admin
+  url: saveEmploymentStatus
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false } }
+  menuConfigurator: OrangeHRM\Admin\Menu\EmploymentStatusMenuConfigurator
+
+'Save Job Category':
+  module: admin
+  url: saveJobCategory
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false } }
+  menuConfigurator: OrangeHRM\Admin\Menu\JobCategoryMenuConfigurator
+
+'Save Work Shift':
+  module: admin
+  url: saveWorkShifts
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false } }
+  menuConfigurator: OrangeHRM\Admin\Menu\WorkShiftMenuConfigurator
+
+'Save Skills':
+  module: admin
+  url: saveSkills
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false } }
+  menuConfigurator: OrangeHRM\Admin\Menu\QualificationsMenuConfigurator
+
+'Save Education':
+  module: admin
+  url: saveEducation
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false } }
+  menuConfigurator: OrangeHRM\Admin\Menu\QualificationsMenuConfigurator
+
+'Save Licenses':
+  module: admin
+  url: saveLicenses
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false } }
+  menuConfigurator: OrangeHRM\Admin\Menu\QualificationsMenuConfigurator
+
+'Save Languages':
+  module: admin
+  url: saveLanguages
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false } }
+  menuConfigurator: OrangeHRM\Admin\Menu\QualificationsMenuConfigurator
+
+'Save Memberships':
+  module: admin
+  url: saveMemberships
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false } }
+  menuConfigurator: OrangeHRM\Admin\Menu\MembershipMenuConfigurator
+
+'Save Nationalities':
+  module: admin
+  url: saveNationality
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false } }
+  menuConfigurator: OrangeHRM\Admin\Menu\NationalityMenuConfigurator
+
+'Add/Edit Email Subscriptions':
+  module: admin
+  url: saveSubscriber
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false } }
+  menuConfigurator: OrangeHRM\Admin\Menu\EmailSubscriptionMenuConfigurator
+
+'Save Custom Field':
+  module: pim
+  url: saveCustomFields
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false } }
+  menuConfigurator: OrangeHRM\Pim\Menu\CustomFieldMenuConfigurator
+
+'Save Reporting Method':
+  module: pim
+  url: saveReportingMethod
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false } }
+  menuConfigurator: OrangeHRM\Pim\Menu\ReportingMethodMenuConfigurator
+
+'Save Termination Reason':
+  module: pim
+  url: saveTerminationReasons
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false } }
+  menuConfigurator: OrangeHRM\Pim\Menu\TerminationReasonMenuConfigurator
+
+'Save Holiday':
+  module: leave
+  url: saveHolidays
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false } }
+  menuConfigurator: OrangeHRM\Leave\Menu\HolidayMenuConfigurator
+
+'Edit Timesheet':
+  module: time
+  url: editTimesheet
+  permissions:
+    - { role: ESS, permission: { read: true, create: false, update: false, delete: false } }
+  menuConfigurator: OrangeHRM\Time\Menu\TimesheetMenuConfigurator
+
+'Employee Timesheet':
+  module: time
+  url: viewTimesheet
+  permissions:
+    - { role: ESS, permission: { read: true, create: false, update: false, delete: false } }
+  menuConfigurator: OrangeHRM\Time\Menu\EmployeeTimesheetMenuConfigurator
+
+'Punch Out':
+  module: attendance
+  url: punchOut
+  permissions:
+    - { role: ESS, permission: { read: true, create: false, update: false, delete: false } }
+  menuConfigurator: OrangeHRM\Attendance\Menu\PunchOutMenuConfigurator
+
+'Edit My Attendance Records':
+  module: attendance
+  url: editAttendanceRecord
+  permissions:
+    - { role: ESS, permission: { read: true, create: false, update: false, delete: false } }
+  menuConfigurator: OrangeHRM\Attendance\Menu\EditMyAttendanceRecordMenuConfigurator
+
+'Edit Employee Attendance Records':
+  module: attendance
+  url: editEmployeeAttendanceRecord
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false } }
+    - { role: Supervisor, permission: { read: true, create: false, update: false, delete: false } }
+  menuConfigurator: OrangeHRM\Attendance\Menu\EditEmployeeAttendanceRecordMenuConfigurator
+
+'Employee Punch In/Out':
+  module: attendance
+  url: proxyPunchInPunchOut
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false } }
+    - { role: Supervisor, permission: { read: true, create: false, update: false, delete: false } }
+  menuConfigurator: OrangeHRM\Attendance\Menu\EmployeePunchInOutMenuConfigurator

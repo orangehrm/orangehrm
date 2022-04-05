@@ -19,24 +19,41 @@
 
 namespace OrangeHRM\Authentication\Controller;
 
-use OrangeHRM\Core\Controller\AbstractVueController;
-use OrangeHRM\Core\Controller\PublicControllerInterface;
-use OrangeHRM\Core\Vue\Component;
-use OrangeHRM\Core\Vue\Prop;
+use OrangeHRM\Authentication\Service\ResetPasswordService;
+use OrangeHRM\Core\Controller\AbstractController;
+use OrangeHRM\Core\Exception\DaoException;
+use OrangeHRM\Framework\Http\RedirectResponse;
 use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Framework\Services;
 
-class ResetPasswordController extends AbstractVueController implements PublicControllerInterface
+class ResetPasswordController extends AbstractController
 {
+    protected ?ResetPasswordService $resetPasswordService = null;
+
+
     /**
-     * @inheritDoc
+     * @return ResetPasswordService
      */
-    public function preRender(Request $request): void
+    public function getResetPasswordService(): ResetPasswordService
     {
-        $component = new Component('reset-password');
-        $this->setTemplate('no_header.html.twig');
-        $component->addProp(
-            new Prop('username', Prop::TYPE_STRING, 'test_user')
-        );
-        $this->setComponent($component);
+        if (!$this->resetPasswordService instanceof ResetPasswordService) {
+            $this->resetPasswordService = new ResetPasswordService();
+        }
+        return $this->resetPasswordService;
+    }
+
+    /**
+     * @param Request $request
+     * @return RedirectResponse
+     * @throws DaoException
+     */
+    public function handle(Request $request): RedirectResponse
+    {
+        $username = $request->request->get('username');
+        $password = $request->request->get('password');
+        $this->getResetPasswordService()->saveResetPassword($password, $username);
+        $session = $this->getContainer()->get(Services::SESSION);
+        $session->invalidate();
+        return $this->redirect("auth/login");
     }
 }

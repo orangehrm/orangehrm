@@ -333,33 +333,21 @@ class AttendanceRecordAPI extends Endpoint implements ResourceEndpoint
     /**
      * @param float|null $timezoneOffset
      * @param string|null $timezoneName
-     * @param int $attendanceRecordOwnedEmpNumber
      * @return bool
-     * @throws ForbiddenException
      * @throws AttendanceServiceException
      */
     protected function isAllowedToEditTimezone(
         ?float $timezoneOffset,
-        ?string $timezoneName,
-        int $attendanceRecordOwnedEmpNumber
+        ?string $timezoneName
     ): bool {
-        //auth user trying to update own timezone
-        if ((!is_null($timezoneOffset) && !is_null($timezoneName)) &&
-            $attendanceRecordOwnedEmpNumber === $this->getAuthUser()->getEmpNumber()) {
-            throw $this->getForbiddenException();
-        }
         //auth user trying to update employee timezone, but either timezoneOffset or timezoneName
         //or both of them are missing
-        elseif ($attendanceRecordOwnedEmpNumber !== $this->getAuthUser()->getEmpNumber() &&
-            (is_null($timezoneOffset) || is_null($timezoneName))) {
+        if (is_null($timezoneOffset) || is_null($timezoneName)) {
             throw AttendanceServiceException::invalidTimezoneDetails();
         }
         //auth user tyring to update employee timezone with valid timezoneOffset and timezoneName
-        elseif ((!is_null($timezoneOffset) && !is_null($timezoneName)) &&
-            $attendanceRecordOwnedEmpNumber !== $this->getAuthUser()->getEmpNumber()) {
+        else {
             return true;
-        } else {
-            return false;
         }
     }
 

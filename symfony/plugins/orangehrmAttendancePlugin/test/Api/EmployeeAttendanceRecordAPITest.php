@@ -147,4 +147,26 @@ class EmployeeAttendanceRecordAPITest extends EndpointIntegrationTestCase
 
         AccessFlowStateMachineService::resetWorkflowCache();
     }
+
+    public static function enableUserCanModifyAttendancePreHook()
+    {
+        $workflowStateMachine = new WorkflowStateMachine();
+        $workflowStateMachine->setWorkflow(WorkflowStateMachine::FLOW_ATTENDANCE);
+        $workflowStateMachine->setState(AttendanceRecord::STATE_PUNCHED_IN);
+        $workflowStateMachine->setRole(AttendanceService::ESS_USER);
+        $workflowStateMachine->setAction(WorkflowStateMachine::ATTENDANCE_ACTION_DELETE);
+        $workflowStateMachine->setResultingState(AttendanceRecord::STATE_PUNCHED_IN);
+        Doctrine::getEntityManager()->persist($workflowStateMachine);
+        Doctrine::getEntityManager()->flush($workflowStateMachine);
+        $workflowStateMachine = new WorkflowStateMachine();
+        $workflowStateMachine->setWorkflow(WorkflowStateMachine::FLOW_ATTENDANCE);
+        $workflowStateMachine->setState(AttendanceRecord::STATE_PUNCHED_OUT);
+        $workflowStateMachine->setRole(AttendanceService::ESS_USER);
+        $workflowStateMachine->setAction(WorkflowStateMachine::ATTENDANCE_ACTION_DELETE);
+        $workflowStateMachine->setResultingState(AttendanceRecord::STATE_PUNCHED_OUT);
+        Doctrine::getEntityManager()->persist($workflowStateMachine);
+        Doctrine::getEntityManager()->flush($workflowStateMachine);
+
+        AccessFlowStateMachineService::resetWorkflowCache();
+    }
 }

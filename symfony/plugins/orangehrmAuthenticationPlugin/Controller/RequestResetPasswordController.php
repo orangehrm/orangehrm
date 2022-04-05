@@ -19,18 +19,20 @@
 
 namespace OrangeHRM\Authentication\Controller;
 
-use OrangeHRM\Admin\Dao\UserDao;
+use OrangeHRM\Admin\Traits\Service\UserServiceTrait;
 use OrangeHRM\Authentication\Service\ResetPasswordService;
 use OrangeHRM\Core\Controller\AbstractController;
+use OrangeHRM\Core\Controller\PublicControllerInterface;
 use OrangeHRM\Entity\User;
 use OrangeHRM\Framework\Http\RedirectResponse;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\Http\Response;
 
-class RequestResetPasswordController extends AbstractController
+class RequestResetPasswordController extends AbstractController implements PublicControllerInterface
 {
+    use UserServiceTrait;
+
     protected ?ResetPasswordService $resetPasswordService = null;
-    protected ?UserDao $userDao=null;
 
     /**
      * @return ResetPasswordService
@@ -43,16 +45,6 @@ class RequestResetPasswordController extends AbstractController
         return $this->resetPasswordService;
     }
 
-
-    public function getUserDao(): UserDao
-    {
-        if (!$this->userDao instanceof  UserDao) {
-            $this->userDao=new UserDao();
-        }
-        return $this->userDao;
-    }
-
-
     /**
      * @param Request $request
      * @return Response|RedirectResponse
@@ -61,10 +53,10 @@ class RequestResetPasswordController extends AbstractController
     {
         $username = $request->request->get('username');
         $this->getResetPasswordService()->searchForUserRecord($username);
-        $user = $this->getUserDao()->getUserByUserName($username);
+        $user = $this->getUserService()->getSystemUserDao()->getUserByUserName($username);
         if ($user instanceof User) {
             $this->getResetPasswordService()->logPasswordResetRequest($user);
         }
-        return $this->redirect('auth/requestSuccess');
+        return $this->redirect('auth/sendPasswordReset');
     }
 }
