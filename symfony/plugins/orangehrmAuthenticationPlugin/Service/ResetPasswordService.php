@@ -179,25 +179,16 @@ class ResetPasswordService
             ['resetCode' => $resetCode],
             UrlGenerator::ABSOLUTE_URL
         );
-
         $placeholders = [
             'firstName',
-            'lastName',
-            'middleName',
-            'workEmail',
             'userName',
             'passwordResetLink',
-
         ];
         $replacements = [
             $receiver->getFirstName(),
-            $receiver->getLastName(),
-            $receiver->getMiddleName(),
-            $receiver->getWorkEmail(),
             $userName,
             $resetLink
         ];
-
         return $this->generateEmailBody('password-reset-request.txt', $placeholders, $replacements);
     }
 
