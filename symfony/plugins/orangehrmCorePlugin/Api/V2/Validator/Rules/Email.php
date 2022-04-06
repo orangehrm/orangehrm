@@ -32,7 +32,7 @@ class Email extends AbstractRule
             return false;
         }
 
-        if (empty((string) $input)) {
+        if ((string) $input === "") {
             return true;
         }
 
