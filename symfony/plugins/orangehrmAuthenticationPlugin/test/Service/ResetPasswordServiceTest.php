@@ -29,12 +29,10 @@ use OrangeHRM\Core\Service\EmailService;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\ResetPassword;
 use OrangeHRM\Entity\User;
-use OrangeHRM\Framework\Routing\RequestContext;
 use OrangeHRM\Framework\Routing\UrlGenerator;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Tests\Util\KernelTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
-use Symfony\Component\Routing\RouteCollection;
 
 /**
  * @group Authentication
@@ -44,7 +42,6 @@ class ResetPasswordServiceTest extends KernelTestCase
 {
     private string $fixture;
     private ResetPasswordService $resetPasswordService;
-
 
     protected function setUp(): void
     {
@@ -57,7 +54,6 @@ class ResetPasswordServiceTest extends KernelTestCase
             Services::CONFIG_SERVICE => new ConfigService(),
             Services::DATETIME_HELPER_SERVICE => new DateTimeHelperService(),
             Services::USER_SERVICE => new UserService(),
-            Services::URL_GENERATOR => new UrlGenerator(new RouteCollection(), new RequestContext())
         ]);
     }
 
@@ -138,12 +134,27 @@ class ResetPasswordServiceTest extends KernelTestCase
         $this->assertInstanceOf(User::class, $user);
     }
 
-//    public function testSendPasswordResetCodeEmail(): void
-//    {
-//        $employee=$this->getEntityManager()->getRepository(Employee::class)->findOneBy(['empNumber'=>'1']);
-//        $isSend=$this->resetPasswordService->sendPasswordResetCodeEmail($employee, 'YWRtaW4jU0VQQVJBVE9SI-xpEY5IF4lNPp8bfWQzz2Q');
-//        $this->assertEquals(true, $isSend);
-//    }
+    public function testSendPasswordResetCodeEmail(): void
+    {
+        $urlGenerator = $this->getMockBuilder(UrlGenerator::class)
+            ->onlyMethods(['generate'])
+            ->disableOriginalConstructor()
+            ->getMock();
+        $urlGenerator->expects($this->once())
+            ->method('generate')
+            ->willReturn(
+                'http://localhost/orangeHrm/orangehrm/web/index.php/auth/resetPassword/resetCode/YWRtaW4jU0VQQVJBVE9SI6kK4PL4sB8AtJa2y5WNP-Y'
+            );
+        $this->createKernelWithMockServices(
+            [Services::URL_GENERATOR => $urlGenerator, Services::CONFIG_SERVICE => new ConfigService()]
+        );
+        $employee = $this->getEntityManager()->getRepository(Employee::class)->findOneBy(['empNumber' => '1']);
+        $isSend = $this->resetPasswordService->sendPasswordResetCodeEmail(
+            $employee,
+            'YWRtaW4jU0VQQVJBVE9SI6kK4PL4sB8AtJa2y5WNP-Y'
+        );
+        $this->assertEquals(true, $isSend);
+    }
 
     public function testGeneratePasswordResetCode(): void
     {
@@ -161,13 +172,28 @@ class ResetPasswordServiceTest extends KernelTestCase
         $this->assertEquals(false, $isSave);
     }
 
-//    public function testLogPasswordResetRequest(): void
-//    {
-//        $user=$this->getEntityManager()->getRepository(User::class)->findOneBy(['id'=>'3']);
-//        $isSave=$this->resetPasswordService->logPasswordResetRequest($user);
-//        $this->assertEquals(true, $isSave);
-//    }
-
+    public function testLogPasswordResetRequest(): void
+    {
+        $urlGenerator = $this->getMockBuilder(UrlGenerator::class)
+            ->onlyMethods(['generate'])
+            ->disableOriginalConstructor()
+            ->getMock();
+        $urlGenerator->expects($this->once())
+            ->method('generate')
+            ->willReturn(
+                'http://localhost/orangeHrm/orangehrm/web/index.php/auth/resetPassword/resetCode/YWRtaW4jU0VQQVJBVE9SI6kK4PL4sB8AtJa2y5WNP-Y'
+            );
+        $this->createKernelWithMockServices(
+            [
+                Services::URL_GENERATOR => $urlGenerator,
+                Services::CONFIG_SERVICE => new ConfigService(),
+                Services::DATETIME_HELPER_SERVICE => new DateTimeHelperService(),
+            ]
+        );
+        $user = $this->getEntityManager()->getRepository(User::class)->findOneBy(['id' => '3']);
+        $isSave = $this->resetPasswordService->logPasswordResetRequest($user);
+        $this->assertEquals(true, $isSave);
+    }
 
     public function testValidateUrl(): void
     {
