@@ -69,12 +69,11 @@
             type="submit"
           />
         </oxd-form-actions>
-        <oxd-text class="orangehrm-login-forgot" @click="navigateUrl">
-          Forgot Your&nbsp;
-          <oxd-text tag="span" class="orangehrm-login-forgot-title">
-            Password?
+        <div class="orangehrm-login-forgot">
+          <oxd-text class="orangehrm-login-forgot-header" @click="navigateUrl">
+            Forgot Your Password?
           </oxd-text>
-        </oxd-text>
+        </div>
       </oxd-form>
       <br />
     </div>
