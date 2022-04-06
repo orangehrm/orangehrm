@@ -7,7 +7,6 @@ use OrangeHRM\Installer\Util\V1\AbstractMigration;
 
 class Migration extends AbstractMigration
 {
-
     /**
      * @inheritDoc
      */
@@ -20,26 +19,32 @@ class Migration extends AbstractMigration
                 ->create();
         }
 
-        $this->getSchemaHelper()->addColumn('ohrm_oauth_client', 'grant_types', Types::STRING,
+        $this->getSchemaHelper()->addColumn(
+            'ohrm_oauth_client',
+            'grant_types',
+            Types::STRING,
             ['Length' => 80,'Notnull' => false, 'Default' => null]
         );
-        $this->getSchemaHelper()->addColumn('ohrm_oauth_client', 'scope', Types::STRING,
+        $this->getSchemaHelper()->addColumn(
+            'ohrm_oauth_client',
+            'scope',
+            Types::STRING,
             ['Length' => 4000,'Notnull' => false, 'Default' => null]
         );
 
         $this->createQueryBuilder()
-            ->update('ohrm_oauth_client','oauth_client')
-            ->set('grant_types',':grantTypes')
-            ->setParameter('grantTypes','client_credentials')
-            ->set('scope',':scope')
-            ->setParameter('scope','admin')
+            ->update('ohrm_oauth_client', 'oauth_client')
+            ->set('grant_types', ':grantTypes')
+            ->setParameter('grantTypes', 'client_credentials')
+            ->set('scope', ':scope')
+            ->setParameter('scope', 'admin')
             ->executeQuery();
 
         // add the solution for insert ignore
 
         if (!$this->getSchemaHelper()->tableExists('ohrm_rest_api_usage')) {
             $this->getSchemaHelper()->createTable('ohrm_rest_api_usage')
-                ->addColumn('id', Types::INTEGER,['Autoincrement' => true])
+                ->addColumn('id', Types::INTEGER, ['Autoincrement' => true])
                 ->addColumn('client_id', Types::STRING, ['Length'=> 255,'Notnull' => false, 'Default' => null])
                 ->addColumn('user_id', Types::STRING, ['Length'=> 255,'Notnull' => false, 'Default' => null])
                 ->addColumn('scope', Types::STRING, ['Length'=> 255,'Notnull' => false, 'Default' => null])

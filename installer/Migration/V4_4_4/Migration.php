@@ -9,7 +9,6 @@ use OrangeHRM\Installer\Util\V1\AbstractMigration;
 
 class Migration extends AbstractMigration
 {
-
     /**
      * @inheritDoc
      */
@@ -350,11 +349,11 @@ class Migration extends AbstractMigration
         $this->insertConfig('buzz_viewmore_comment', '5');
         $this->insertConfig('buzz_like_count', '5');
         $this->insertConfig('buzz_time_format', 'h:i a');
-        $this->insertConfig('buzz_most_like_posts','5');
-        $this->insertConfig('buzz_post_text_lenth','500');
-        $this->insertConfig('buzz_post_text_lines','5');
-        $this->insertConfig('buzz_cookie_valid_time','5000');
-        $this->insertConfig('buzz_most_like_shares','5');
+        $this->insertConfig('buzz_most_like_posts', '5');
+        $this->insertConfig('buzz_post_text_lenth', '500');
+        $this->insertConfig('buzz_post_text_lines', '5');
+        $this->insertConfig('buzz_cookie_valid_time', '5000');
+        $this->insertConfig('buzz_most_like_shares', '5');
         $this->insertConfig('buzz_image_max_dimension', '1024');
 
         $this->createQueryBuilder()
@@ -365,13 +364,13 @@ class Migration extends AbstractMigration
                     'status' => ':status'
                 ]
             )
-            ->setParameter('name','buzz')
-            ->setParameter('status',1)
+            ->setParameter('name', 'buzz')
+            ->setParameter('status', 1)
             ->executeQuery();
 
         $this->getDataGroupHelper()->insertDataGroupPermissions(__DIR__ . '/permission/data_group.yaml');
 
-        $this->insertConfig('buzz_comment_text_lenth','250');
+        $this->insertConfig('buzz_comment_text_lenth', '250');
 
         $screenId = $this->getConnection()->createQueryBuilder()
             ->select('screen.id')
@@ -404,7 +403,7 @@ class Migration extends AbstractMigration
 
         $this->getDataGroupHelper()->insertScreenPermissions(__DIR__ . '/permission/screen.yaml');
 
-        $this->insertConfig('buzz_max_notification_period','-1 week');
+        $this->insertConfig('buzz_max_notification_period', '-1 week');
     }
 
     private function insertConfig(string $key, string $value): void

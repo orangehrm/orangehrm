@@ -4,7 +4,6 @@ namespace OrangeHRM\Installer\Migration\V4_6_0_1;
 
 class Migration extends \OrangeHRM\Installer\Util\V1\AbstractMigration
 {
-
     /**
      * @inheritDoc
      */

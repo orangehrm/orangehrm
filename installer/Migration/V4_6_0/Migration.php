@@ -10,7 +10,6 @@ use Symfony\Component\Yaml\Yaml;
 
 class Migration extends AbstractMigration
 {
-
     /**
      * @inheritDoc
      */
@@ -108,7 +107,6 @@ class Migration extends AbstractMigration
         $this->insertLanguages($languages);
         $groups = $this->readlanguageYaml(__DIR__ . '/language/groups.yaml');
         $this->insertGroups($groups);
-
     }
 
     /**
@@ -146,7 +144,6 @@ class Migration extends AbstractMigration
                 ->setParameter('added', $language['added'])
                 ->executeQuery();
         }
-
     }
 
     /**
@@ -168,7 +165,5 @@ class Migration extends AbstractMigration
                 ->setParameter('title', $group['title'])
                 ->executeQuery();
         }
-
     }
-
 }

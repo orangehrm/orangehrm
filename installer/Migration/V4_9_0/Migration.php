@@ -7,7 +7,6 @@ use OrangeHRM\Installer\Util\V1\AbstractMigration;
 
 class Migration extends AbstractMigration
 {
-
     /**
      * @inheritDoc
      */
@@ -18,20 +17,20 @@ class Migration extends AbstractMigration
                 ->addColumn('theme_id', Types::INTEGER, ['Length' => 11, 'Autoincrement' => true])
                 ->addColumn('theme_name', Types::INTEGER, ['Notnull' => true])
                 ->addColumn('published', Types::SMALLINT, ['Notnull' => true, 'Default' => 0])
-                ->addColumn('event_time', Types::DATETIME_MUTABLE,['Notnull' => false, 'Default' => null])
-                ->addColumn('publish_time', Types::DATETIME_MUTABLE,['Notnull' => false, 'Default' => null])
-                ->addColumn('data', Types::TEXT,['Notnull' => false, 'Default' => null])
+                ->addColumn('event_time', Types::DATETIME_MUTABLE, ['Notnull' => false, 'Default' => null])
+                ->addColumn('publish_time', Types::DATETIME_MUTABLE, ['Notnull' => false, 'Default' => null])
+                ->addColumn('data', Types::TEXT, ['Notnull' => false, 'Default' => null])
                 ->setPrimaryKey(['theme_id'])
                 ->create();
         }
         $this->getDataGroupHelper()->insertScreenPermissions(__DIR__ . '/permission/screen.yaml');
         $this->insertMenuItems('Corporate Branding', 'Add Theme', 1, 2, 700, '', 1);
-        $this->insertTheme(1,'default','{"primaryColor":"#f28b38","secondaryColor":"#f3f3f3","buttonSuccessColor":"#56ac40","buttonCancelColor":"#848484"}');
-        $this->getSchemaHelper()->addColumn('ohrm_theme','social_media_icons',Types::TEXT,[
+        $this->insertTheme(1, 'default', '{"primaryColor":"#f28b38","secondaryColor":"#f3f3f3","buttonSuccessColor":"#56ac40","buttonCancelColor":"#848484"}');
+        $this->getSchemaHelper()->addColumn('ohrm_theme', 'social_media_icons', Types::TEXT, [
             'Notnull' => false,
             'Default' => 'inline',
         ]);
-        $this->getSchemaHelper()->addColumn('ohrm_theme','login_banner',Types::BLOB);
+        $this->getSchemaHelper()->addColumn('ohrm_theme', 'login_banner', Types::BLOB);
 
         $this->createQueryBuilder()
             ->insert('ohrm_i18n_group')
@@ -41,17 +40,17 @@ class Migration extends AbstractMigration
                     'title' => ':title',
                 ]
             )
-            ->setParameter('name','branding')
-            ->setParameter('title','Corporate Branding')
+            ->setParameter('name', 'branding')
+            ->setParameter('title', 'Corporate Branding')
             ->executeQuery();
 
         $this->createQueryBuilder()
             ->delete('ohrm_marketplace_addon')
             ->andWhere('ohrm_marketplace_addon.plugin_name = :pluginName')
-            ->setParameter('pluginName','orangehrmCorporateBrandingPlugin')
+            ->setParameter('pluginName', 'orangehrmCorporateBrandingPlugin')
             ->executeQuery();
 
-        $this->updateConfig('4.9','instance.version');
+        $this->updateConfig('4.9', 'instance.version');
         $this->updateConfig('81', 'instance.increment_number');
 
         if (!$this->getSchemaHelper()->tableExists('ohrm_registration_event_queue')) {
@@ -64,7 +63,6 @@ class Migration extends AbstractMigration
                 ->setPrimaryKey(['id'])
                 ->create();
         }
-
     }
 
     /**
@@ -85,9 +83,7 @@ class Migration extends AbstractMigration
         int    $order_hint,
         string $urlExtras,
         int    $status
-
-    ): void
-    {
+    ): void {
         $screenId = $this->getConnection()->createQueryBuilder()
             ->select('screen.id')
             ->from('ohrm_screen', 'screen')
@@ -137,7 +133,7 @@ class Migration extends AbstractMigration
                     'variables' => ':variables'
                 ]
             )
-            ->setParameter('themeId',$themeId)
+            ->setParameter('themeId', $themeId)
             ->setParameter('themeName', $themeName)
             ->setParameter('variables', $variables)
             ->executeQuery();
@@ -151,11 +147,11 @@ class Migration extends AbstractMigration
     private function updateConfig(string $value, string $key): void
     {
         $this->createQueryBuilder()
-            ->update('hs_hr_config','config')
-            ->set('config.value',':value')
-            ->setParameter('value',$value)
+            ->update('hs_hr_config', 'config')
+            ->set('config.value', ':value')
+            ->setParameter('value', $value)
             ->andWhere('config.key = :key')
-            ->setParameter('key',$key)
+            ->setParameter('key', $key)
             ->executeQuery();
     }
 }
