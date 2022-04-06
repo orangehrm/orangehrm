@@ -253,8 +253,20 @@ class ResetPasswordService
         $userNameMetaData = $this->extractPasswordResetMetaData($resetCode);
         if (count($userNameMetaData) > 0) {
             $username = $userNameMetaData[0];
+            $user=$this->getUserService()->getSystemUserDao()->getUserByUserName($username);
             $resetPassword = $this->getResetPasswordDao()->getResetPasswordLogByResetCode($resetCode);
             if ($resetPassword instanceof ResetPassword) {
+                if ($user instanceof User) {
+                    if ($user->getEmployee()->getWorkEmail() !== $resetPassword->getResetEmail()) {
+                        $this->getLogger()->error('employee work email was changed');
+                        return null;
+                    }
+                }
+                $currentResetCode=$this->getResetPasswordDao()->getResetPasswordLogByEmail($resetPassword->getResetEmail())->getResetCode();
+                if ($currentResetCode !== $resetCode) {
+                    $this->getLogger()->error('reset code was old one & not valid');
+                    return null;
+                }
                 $expDay = $this->hasPasswordResetRequestNotExpired($resetPassword);
                 if ($expDay > 0) {
                     $this->getLogger()->error('not valid URL');

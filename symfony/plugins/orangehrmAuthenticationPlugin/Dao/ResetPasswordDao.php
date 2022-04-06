@@ -42,10 +42,11 @@ class ResetPasswordDao extends BaseDao
     public function getResetPasswordLogByEmail(string $email): ?ResetPassword
     {
         $q = $this->createQueryBuilder(ResetPassword::class, 'r');
-        $q->andWhere('r.reset_email = :email')
+        $q->andWhere('r.resetEmail = :email')
             ->setParameter('email', $email)
-            ->orderBy('r.reset_request_date DESC');
-        return $q->getQuery()->getOneOrNullResult();
+            ->orderBy('r.resetRequestDate', 'DESC')
+            ->setMaxResults(1);
+        return $q->getQuery()->execute()[0];
     }
 
     /**
