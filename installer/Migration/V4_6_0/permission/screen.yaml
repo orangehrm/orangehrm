@@ -1,0 +1,23 @@
+'Language Packages':
+  module: admin
+  url: languagePackage
+  permissions:
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: false } }
+
+'Language Customization':
+  module: admin
+  url: languageCustomization
+  permissions:
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: false } }
+
+'Save Language Customization':
+  module: admin
+  url: saveLanguageCustomization
+  permissions:
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: false } }
+
+'Export Language Package':
+  module: admin
+  url: exportLanguagePackage
+  permissions:
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: false } }
