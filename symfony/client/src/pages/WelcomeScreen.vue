@@ -12,30 +12,44 @@
     <oxd-text class="orangehrm-welcome-screen-content"
       >Select an installation type</oxd-text
     >
-    <oxd-form ref="loginForm" method="post">
-      <oxd-radio-input
-        id="check1"
-        v-model="selected"
-        value="install"
-        option-label="Fresh Installation"
-      />
-      <oxd-text
-        class="orangehrm-welcome-screen-content orangehrm-welcome-screen-content--note"
-        >Choose this option if you are installing OrangeHRM Starter for the
-        first time</oxd-text
-      >
-      <oxd-radio-input
-        id="check2"
-        v-model="selected"
-        value="upgrade"
-        option-label="Upgrading an Existing Installation"
-      />
-      <oxd-text
-        class="orangehrm-welcome-screen-content orangehrm-welcome-screen-content--note"
-        >Choose this option if you are already using a prior version of
-        OrangeHRM Starter (version 2.6.5 to 4.8) and would like to upgrade to
-        version 5.0</oxd-text
-      >
+    <oxd-form ref="welcomeForm" method="post">
+      <oxd-form-row>
+        <oxd-grid :cols="1" class="orangehrm-full-width-grid">
+          <oxd-grid-item>
+            <oxd-radio-input
+              id="install"
+              v-model="selected"
+              value="install"
+              option-label="Fresh Installation"
+            />
+            <oxd-text
+              class="orangehrm-welcome-screen-content orangehrm-welcome-screen-content--note"
+              >Choose this option if you are installing OrangeHRM Starter for
+              the first time</oxd-text
+            >
+          </oxd-grid-item>
+        </oxd-grid>
+      </oxd-form-row>
+
+      <oxd-form-row>
+        <oxd-grid :cols="1" class="orangehrm-full-width-grid">
+          <oxd-grid-item>
+            <oxd-radio-input
+              id="check2"
+              v-model="selected"
+              value="upgrade"
+              option-label="Upgrading an Existing Installation"
+            />
+            <oxd-text
+              class="orangehrm-welcome-screen-content orangehrm-welcome-screen-content--note"
+              >Choose this option if you are already using a prior version of
+              OrangeHRM Starter (version 2.6.5 to 4.8) and would like to upgrade
+              to version 5.0</oxd-text
+            >
+          </oxd-grid-item>
+        </oxd-grid>
+      </oxd-form-row>
+
       <oxd-text class="orangehrm-welcome-screen-content"
         >Click
         <oxd-text class="orangehrm-welcome-screen-content-bold" tag="span"
@@ -75,7 +89,7 @@ export default {
     color: $oxd-primary-one-color;
   }
   &-content {
-    padding: 1rem;
+    padding: 0.75rem;
     &-bold {
       font-weight: 700;
     }

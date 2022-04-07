@@ -17,7 +17,8 @@
  */
 
 import WelcomeScreen from './pages/WelcomeScreen.vue';
-
+import DatabaseInformationScreen from './pages/DatabaseInformationScreen.vue';
 export default {
   'welcome-screen': WelcomeScreen,
+  'database-information-screen': DatabaseInformationScreen,
 };
