@@ -22,6 +22,7 @@ namespace OrangeHRM\Authentication\Service;
 use OrangeHRM\Admin\Dto\UserSearchFilterParams;
 use OrangeHRM\Admin\Traits\Service\UserServiceTrait;
 use OrangeHRM\Authentication\Dao\ResetPasswordDao;
+use OrangeHRM\Authentication\Dto\UserCredential;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Service\EmailService;
 use OrangeHRM\Core\Traits\ControllerTrait;
@@ -248,7 +249,9 @@ class ResetPasswordService
             $username = $userNameMetaData[0];
             $resetPassword = $this->getResetPasswordDao()->getResetPasswordLogByResetCode($resetCode);
             if ($resetPassword instanceof ResetPassword) {
-                $currentResetCode=$this->getResetPasswordDao()->getResetPasswordLogByEmail($resetPassword->getResetEmail())->getResetCode();
+                $currentResetCode = $this->getResetPasswordDao()->getResetPasswordLogByEmail(
+                    $resetPassword->getResetEmail()
+                )->getResetCode();
                 if ($currentResetCode !== $resetCode) {
                     $this->getLogger()->error('reset code was old one & not valid');
                     return null;
@@ -294,11 +297,11 @@ class ResetPasswordService
      * @param string $userName
      * @return bool
      */
-    public function saveResetPassword(string $password, string $userName): bool
+    public function saveResetPassword(UserCredential $credential): bool
     {
-        $user = $this->getUserService()->getSystemUserDao()->getUserByUserName($userName);
+        $user = $this->getUserService()->getSystemUserDao()->getUserByUserName($credential->getUsername());
         if ($this->validateUser($user) instanceof User) {
-            $hashPassword = $this->getUserService()->hashPassword($password);
+            $hashPassword = $this->getUserService()->hashPassword($credential->getPassword());
             return $this->getUserService()->getSystemUserDao()->updatePassword($user->getId(), $hashPassword);
         }
         return false;
