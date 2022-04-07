@@ -24,7 +24,7 @@ use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Service\DateTimeHelperService;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
-use OrangeHRM\Entity\ResetPassword;
+use OrangeHRM\Entity\ResetPasswordRequest;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Tests\Util\KernelTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
@@ -50,8 +50,8 @@ class ResetPasswordDaoTest extends KernelTestCase
 
     public function testSaveResetPassword(): void
     {
-        $resetPassword=$this->getRepository(ResetPassword::class)->find('1');
-        $resetPassword=$this->resetPasswordDao->saveResetPassword($resetPassword);
+        $resetPassword=$this->getRepository(ResetPasswordRequest::class)->find('1');
+        $resetPassword=$this->resetPasswordDao->saveResetPasswordRequest($resetPassword);
         $this->assertEquals('haran@orangehrm.live.com', $resetPassword->getResetEmail());
         $this->assertEquals('YWRtaW4jU0VQQVJBVE9SI-xpEY5IF4lNPp8bfWQzz2Q', $resetPassword->getResetCode());
     }

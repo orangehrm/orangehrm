@@ -41,7 +41,7 @@ class PasswordResetDao extends BaseDao {
     public function getResetPasswordLogByEmail($email) {
         try {
             $q = Doctrine_Query::create()
-                ->from("ResetPassword")
+                ->from("ResetPasswordRequest")
                 ->where('reset_email = ?', $email)
                 ->orderBy('reset_request_date DESC');
 
@@ -79,7 +79,7 @@ class PasswordResetDao extends BaseDao {
     public function deletePasswordResetRequestsByEmail($email) {
         try {
             $query = Doctrine_Query::create()
-                ->delete('ResetPassword')
+                ->delete('ResetPasswordRequest')
                 ->where('reset_email = ?', $email);
             return $query->execute();
         } catch (Exception $e) {
@@ -87,4 +87,3 @@ class PasswordResetDao extends BaseDao {
         }
     }
 }
-

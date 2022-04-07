@@ -30,9 +30,9 @@ use OrangeHRM\Core\Traits\LoggerTrait;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Core\Utility\Base64Url;
-use OrangeHRM\Entity\EmailConfiguration;
 use OrangeHRM\Entity\Employee;
-use OrangeHRM\Entity\ResetPassword;
+use OrangeHRM\Entity\EmployeeTerminationRecord;
+use OrangeHRM\Entity\ResetPasswordRequest;
 use OrangeHRM\Entity\User;
 use OrangeHRM\Framework\Routing\UrlGenerator;
 use OrangeHRM\Framework\Services;
@@ -72,10 +72,10 @@ class ResetPasswordService
     }
 
     /**
-     * @param ResetPassword $resetPassword
+     * @param ResetPasswordRequest $resetPassword
      * @return float
      */
-    public function hasPasswordResetRequestNotExpired(ResetPassword $resetPassword): float
+    public function hasPasswordResetRequestNotExpired(ResetPasswordRequest $resetPassword): float
     {
         $strExpireTime = strtotime($resetPassword->getResetRequestDate()->format('Y-m-d H:i:s'));
         $strCurrentTime = strtotime(date("Y-m-d H:i:s"));
@@ -130,39 +130,29 @@ class ResetPasswordService
         $userFilterParams->setUsername($username);
         $users = $this->getUserService()->searchSystemUsers($userFilterParams);
 
-        if (count($users) > 0) {
-            $user = $users[0];
-            $associatedEmployee = $user->getEmployee();
-            if (!($associatedEmployee instanceof Employee)) {
-                $this->getLogger()->error('User account is not associated with an employee');
-            } else {
-                if (empty($associatedEmployee->getEmployeeTerminationRecord())) {
-                    $companyEmail = $this->getRepository(EmailConfiguration::class)->findOneBy(['id' => '1']);
-                    if ($companyEmail instanceof EmailConfiguration) {
-                        if (!empty($companyEmail->getSentAs())) {
-                            $workEmail = trim($associatedEmployee->getWorkEmail());
-                            if (!empty($workEmail)) {
-                                return $user;
-                            } else {
-                                $this->getLogger()->error(
-                                    'Work email is not set. Please contact HR admin in order to reset the password'
-                                );
-                            }
-                        } else {
-                            $this->getLogger()->error('Password reset email could not be sent');
-                        }
-                    } else {
-                        $this->getLogger()->error('Company email is not set yet');
-                    }
-                } else {
-                    $this->getLogger()->error('Please contact HR admin in order to reset the password');
-                }
-            }
-        } else {
-            $this->getLogger()->error('Please contact HR admin in order to reset the password');
+        $user = $users[0];
+        if (!$user instanceof User) {
+            return null;
         }
 
-        return null;
+        $associatedEmployee = $user->getEmployee();
+        if (!$associatedEmployee instanceof Employee) {
+            $this->getLogger()->error('User account is not associated with an employee');
+            return null;
+        }
+
+        if ($associatedEmployee->getEmployeeTerminationRecord() instanceof EmployeeTerminationRecord) {
+            $this->getLogger()->error('Please contact HR admin in order to reset the password');
+            return null;
+        }
+
+        if (empty($associatedEmployee->getWorkEmail())) {
+            $this->getLogger()->error(
+                'Work email is not set. Please contact HR admin in order to reset the password'
+            );
+            return null;
+        }
+        return $user;
     }
 
     /**
@@ -248,7 +238,7 @@ class ResetPasswordService
         if (count($userNameMetaData) > 0) {
             $username = $userNameMetaData[0];
             $resetPassword = $this->getResetPasswordDao()->getResetPasswordLogByResetCode($resetCode);
-            if ($resetPassword instanceof ResetPassword) {
+            if ($resetPassword instanceof ResetPasswordRequest) {
                 $currentResetCode = $this->getResetPasswordDao()->getResetPasswordLogByEmail(
                     $resetPassword->getResetEmail()
                 )->getResetCode();
@@ -258,7 +248,7 @@ class ResetPasswordService
                 }
                 $expDay = $this->hasPasswordResetRequestNotExpired($resetPassword);
                 if ($expDay > 0) {
-                    $this->getLogger()->error('not valid URL');
+                    $this->getLogger()->error('Password reset code expired');
                     return null;
                 }
                 $user = $this->getUserService()->getSystemUserDao()->getUserByUserName($username);
@@ -278,7 +268,7 @@ class ResetPasswordService
     {
         $identifier = $user->getUserName();
         $resetCode = $this->generatePasswordResetCode($identifier);
-        $resetPassword = new ResetPassword();
+        $resetPassword = new ResetPasswordRequest();
         $resetPassword->setResetEmail($user->getEmployee()->getWorkEmail());
         $date = $this->getDateTimeHelper()->getNow();
         $resetPassword->setResetRequestDate($date);
@@ -288,7 +278,7 @@ class ResetPasswordService
             $this->getLogger()->error('Password reset email could not be sent.');
             return false;
         }
-        $this->getResetPasswordDao()->saveResetPassword($resetPassword);
+        $this->getResetPasswordDao()->saveResetPasswordRequest($resetPassword);
         return true;
     }
 

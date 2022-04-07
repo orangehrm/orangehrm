@@ -20,16 +20,15 @@
 namespace OrangeHRM\Authentication\Dao;
 
 use OrangeHRM\Core\Dao\BaseDao;
-use OrangeHRM\Core\Exception\DaoException;
-use OrangeHRM\Entity\ResetPassword;
+use OrangeHRM\Entity\ResetPasswordRequest;
 
 class ResetPasswordDao extends BaseDao
 {
     /**
-     * @param ResetPassword $resetPassword
-     * @return ResetPassword
+     * @param ResetPasswordRequest $resetPassword
+     * @return ResetPasswordRequest
      */
-    public function saveResetPassword(ResetPassword $resetPassword): ResetPassword
+    public function saveResetPasswordRequest(ResetPasswordRequest $resetPassword): ResetPasswordRequest
     {
         $this->persist($resetPassword);
         return $resetPassword;
@@ -37,11 +36,11 @@ class ResetPasswordDao extends BaseDao
 
     /**
      * @param string $email
-     * @return ResetPassword|null
+     * @return ResetPasswordRequest|null
      */
-    public function getResetPasswordLogByEmail(string $email): ?ResetPassword
+    public function getResetPasswordLogByEmail(string $email): ?ResetPasswordRequest
     {
-        $q = $this->createQueryBuilder(ResetPassword::class, 'r');
+        $q = $this->createQueryBuilder(ResetPasswordRequest::class, 'r');
         $q->andWhere('r.resetEmail = :email')
             ->setParameter('email', $email)
             ->orderBy('r.resetRequestDate', 'DESC')
@@ -51,12 +50,11 @@ class ResetPasswordDao extends BaseDao
 
     /**
      * @param string $resetCode
-     * @return ResetPassword|null
-     * @throws DaoException
+     * @return ResetPasswordRequest|null
      */
-    public function getResetPasswordLogByResetCode(string $resetCode): ?ResetPassword
+    public function getResetPasswordLogByResetCode(string $resetCode): ?ResetPasswordRequest
     {
-        $q = $this->createQueryBuilder(ResetPassword::class, 'r');
+        $q = $this->createQueryBuilder(ResetPasswordRequest::class, 'r');
         $q->andWhere('r.resetCode = :code');
         $q->setParameter('code', $resetCode);
         return $q->getQuery()->getOneOrNullResult();

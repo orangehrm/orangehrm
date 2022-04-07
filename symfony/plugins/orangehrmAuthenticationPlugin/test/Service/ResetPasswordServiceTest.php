@@ -21,13 +21,14 @@ namespace OrangeHRM\Tests\Authentication\Service;
 
 use OrangeHRM\Admin\Service\UserService;
 use OrangeHRM\Authentication\Dao\ResetPasswordDao;
+use OrangeHRM\Authentication\Dto\UserCredential;
 use OrangeHRM\Authentication\Service\ResetPasswordService;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Service\ConfigService;
 use OrangeHRM\Core\Service\DateTimeHelperService;
 use OrangeHRM\Core\Service\EmailService;
 use OrangeHRM\Entity\Employee;
-use OrangeHRM\Entity\ResetPassword;
+use OrangeHRM\Entity\ResetPasswordRequest;
 use OrangeHRM\Entity\User;
 use OrangeHRM\Framework\Routing\UrlGenerator;
 use OrangeHRM\Framework\Services;
@@ -73,7 +74,7 @@ class ResetPasswordServiceTest extends KernelTestCase
 
     public function testHasPasswordResetRequestNotExpired(): void
     {
-        $resetPassword = $this->getEntityManager()->getRepository(ResetPassword::class)->findOneBy(
+        $resetPassword = $this->getEntityManager()->getRepository(ResetPasswordRequest::class)->findOneBy(
             ['resetCode' => 'YWRtaW4jU0VQQVJBVE9SI-xpEY5IF4lNPp8bfWQzz2Q']
         );
         $exp = $this->resetPasswordService->hasPasswordResetRequestNotExpired($resetPassword);
@@ -165,10 +166,13 @@ class ResetPasswordServiceTest extends KernelTestCase
 
     public function testSaveResetPassword(): void
     {
-        $isSave = $this->resetPasswordService->saveResetPassword('Admin1234%', 'Renukshan');
+        $credential = new UserCredential('Renukshan', 'Admin1234%');
+        $isSave = $this->resetPasswordService->saveResetPassword($credential);
         $this->assertEquals(true, $isSave);
 
-        $isSave = $this->resetPasswordService->saveResetPassword('Admin1234%', 'Rensdukshan');
+        $credential->setUsername('Rensdukshan');
+        $credential->setPassword('Admin1234%');
+        $isSave = $this->resetPasswordService->saveResetPassword($credential);
         $this->assertEquals(false, $isSave);
     }
 

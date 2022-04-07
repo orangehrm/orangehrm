@@ -32,7 +32,7 @@
           class="orangehrm-forgot-password-card-note"
         />
         <card-note
-          note-text="If the email does not arrive, please contact your OrangeHRM Administrator."
+          note-text="If the email does not receive, please contact your OrangeHRM Administrator."
           class="orangehrm-forgot-password-card-note"
           has-note
         />

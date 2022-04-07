@@ -26,7 +26,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="ohrm_reset_password")
  * @ORM\Entity
  */
-class ResetPassword
+class ResetPasswordRequest
 {
     /**
      * @var int
