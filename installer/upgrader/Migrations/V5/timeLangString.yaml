@@ -152,3 +152,21 @@ langStrings:
   -
     value: 'Punch Out'
     unitId: punch_out
+  -
+    value: 'Add Project'
+    unitId: add_project
+  -
+    value: 'Timesheet Successfully Created'
+    unitId: timesheet_successfully_created
+  -
+    value: 'Timesheet Rejected'
+    unitId: timesheet_rejected
+  -
+    value: 'Timesheet Approved'
+    unitId: timesheet_approved
+  -
+    value: 'Timesheet Reset'
+    unitId: timesheet_reset
+  -
+    value: 'Punch Out Time Should Be Later Than Punch In Time'
+    unitId: punch_out_time_should_be_later_than_punch_in_time

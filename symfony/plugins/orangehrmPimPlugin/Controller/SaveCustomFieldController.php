@@ -23,10 +23,13 @@ use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\I18N\Traits\Service\I18NHelperTrait;
 use OrangeHRM\Pim\Service\CustomFieldService;
 
 class SaveCustomFieldController extends AbstractVueController
 {
+    use I18NHelperTrait;
+
     /**
      * @var null|CustomFieldService
      */
@@ -53,8 +56,33 @@ class SaveCustomFieldController extends AbstractVueController
         } else {
             $component = new Component('custom-field-save');
         }
-        $component->addProp(new Prop('screen-list', Prop::TYPE_ARRAY, CustomFieldController::SCREEN_LIST));
-        $component->addProp(new Prop('field-type-list', Prop::TYPE_ARRAY, CustomFieldController::FIELD_TYPE_LIST));
+        $component->addProp(
+            new Prop(
+                'screen-list',
+                Prop::TYPE_ARRAY,
+                array_map(
+                    fn (array $screen) => [
+                        'id' => $screen['id'],
+                        'label' => $this->getI18NHelper()->transBySource($screen['label'])
+                    ],
+                    CustomFieldController::SCREEN_LIST
+                )
+            )
+        );
+
+        $component->addProp(
+            new Prop(
+                'field-type-list',
+                Prop::TYPE_ARRAY,
+                array_map(
+                    fn (array $fieldType) => [
+                        'id' => $fieldType['id'],
+                        'label' => $this->getI18NHelper()->transBySource($fieldType['label'])
+                    ],
+                    CustomFieldController::FIELD_TYPE_LIST
+                )
+            )
+        );
         $this->setComponent($component);
     }
 }

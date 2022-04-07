@@ -295,7 +295,7 @@ export default {
           if (Array.isArray(data)) {
             toast = this.$toast.success({
               title: this.$t('general.success'),
-              message: this.$t('general.entitlement_added_to_n_employees', {
+              message: this.$t('leave.entitlement_added_to_n_employees', {
                 count: data.length,
               }),
             });

@@ -174,7 +174,7 @@ langStrings:
     value: 'Other Id'
     unitId: other_id
   -
-    value: 'Driver''s License Number'
+    value: "Driver's License Number"
     unitId: driver_license_number
   -
     value: 'License Expiry Date'
@@ -426,9 +426,6 @@ langStrings:
     value: 'Should be within Min/Max values'
     unitId: should_be_within_min_max_values
   -
-    value: 'Other'
-    unitId: other
-  -
     value: 'Add Immigration'
     unitId: add_immigration
   -
@@ -449,3 +446,66 @@ langStrings:
   -
     value: 'Nickname'
     unitId: nickname
+  -
+    value: 'Personal'
+    unitId: personal
+  -
+    value: 'Activate Employment'
+    unitId: activate_employement
+  -
+    value: 'Terminate Employment'
+    unitId: terminate_employement
+  -
+    value: 'Employee Last Name'
+    unitId: employee_last_name
+  -
+    value: 'Employee First Name'
+    unitId: employee_first_name
+  -
+    value: 'Employee Middle Name'
+    unitId: employee_middle_name
+  -
+    value: 'Eligibility Status'
+    unitId: eligibility_status
+  -
+    value: 'Eligibility Review Date'
+    unitId: eligibility_review_date
+  -
+    value: 'Document Type'
+    unitId: document_type
+  -
+    value: 'Termination Note'
+    unitId: termination_note
+  -
+    value: 'Direct Deposit Account Number'
+    unitId: direct_deposit_account_number
+  -
+    value: 'Direct Deposit Account Type'
+    unitId: direct_deposit_account_type
+  -
+    value: 'Direct Deposit Account Number'
+    unitId: direct_deposit_account_number
+  -
+    value: 'First Name'
+    unitId: first_name
+  -
+    value: 'Score'
+    unitId: score
+  -
+    value: 'Text or Number'
+    unitId: text_or_number
+  -
+    value: 'Drop Down'
+    unitId: drop_down
+  -
+    value: 'Supervisors'
+    unitId: supervisors
+  -
+    value: 'Subordinates'
+    unitId: subordinates
+  -
+    value: 'Service Period'
+    unitId: service_period
+  -
+    value: 'Age Group'
+    unitId: age_group

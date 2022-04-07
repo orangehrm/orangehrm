@@ -295,3 +295,15 @@ langStrings:
   -
     value: '{count, plural, =0{No Entitlement added} one{Entitlement added to 1 employee} other {Entitlement added to # employees}}'
     unitId: entitlement_added_to_n_employees
+  -
+    value: 'Half Day'
+    unitId: half_day
+  -
+    value: 'Non-working Day'
+    unitId: non_working_day
+  -
+    value: 'Rejected'
+    unitId: rejected
+  -
+    value: 'Cancelled'
+    unitId: cancelled

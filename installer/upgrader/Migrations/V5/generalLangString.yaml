@@ -839,3 +839,9 @@ langStrings:
   -
     value: 'yyyy-mm-dd'
     unitId: date_format
+  -
+    value: 'Cannot be deleted'
+    unitId: cannot_be_deleted
+  -
+    value: 'Successfully deleted'
+    unitId: successfully_deleted

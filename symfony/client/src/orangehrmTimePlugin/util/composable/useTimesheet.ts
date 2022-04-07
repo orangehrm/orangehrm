@@ -22,6 +22,9 @@ import useToast from '@/core/util/composable/useToast';
 import {navigate} from '@ohrm/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
 import {freshDate, formatDate, parseDate} from '@ohrm/core/util/helper/datefns';
+import {translate as translatorFactory} from '@/core/plugins/i18n/translate';
+
+const translate = translatorFactory();
 
 export default function useTimesheet(
   http: APIService,
@@ -96,8 +99,8 @@ export default function useTimesheet(
       state.isLoading = true;
       updateTimesheet(state.timesheetId, 'SUBMIT', null, empNumber).then(() => {
         success({
-          title: 'Success',
-          message: 'Timesheet Submitted',
+          title: translate('general.success'),
+          message: translate('time.timesheet_submitted'),
         });
         state.timesheetId = null;
         loadTimesheet(state.date);
@@ -110,8 +113,8 @@ export default function useTimesheet(
       state.isLoading = true;
       updateTimesheet(state.timesheetId, 'RESET', null, empNumber).then(() => {
         success({
-          title: 'Success',
-          message: 'Timesheet Reset',
+          title: translate('general.success'),
+          message: translate('time.timesheet_reset'),
         });
         state.timesheetId = null;
         loadTimesheet(state.date);
@@ -125,8 +128,8 @@ export default function useTimesheet(
       updateTimesheet(state.timesheetId, 'APPROVE', comment, empNumber).then(
         () => {
           success({
-            title: 'Success',
-            message: 'Timesheet Approved',
+            title: translate('general.success'),
+            message: translate('time.timesheet_approved'),
           });
           state.timesheetId = null;
           loadTimesheet(state.date);
@@ -141,8 +144,8 @@ export default function useTimesheet(
       updateTimesheet(state.timesheetId, 'REJECT', comment, empNumber).then(
         () => {
           success({
-            title: 'Success',
-            message: 'Timesheet Rejected',
+            title: translate('general.success'),
+            message: translate('time.timesheet_rejected'),
           });
           state.timesheetId = null;
           loadTimesheet(state.date);
@@ -163,8 +166,8 @@ export default function useTimesheet(
       })
       .then(() => {
         success({
-          title: 'Success',
-          message: 'Timesheet Successfully Created',
+          title: translate('general.success'),
+          message: translate('time.timesheet_successfully_created'),
         });
         loadTimesheet(state.date);
       });
