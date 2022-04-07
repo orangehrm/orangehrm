@@ -20,6 +20,7 @@ import {
   required,
   afterDate,
   endDateShouldBeAfterStartDate,
+  validEmailFormat,
   validPhoneNumberFormat,
   endTimeShouldBeAfterStartTime,
   startDateShouldBeBeforeEndDate,
@@ -170,6 +171,53 @@ describe('core/util/validation/rules::endDateShouldBeAfterStartDate', () => {
       allowSameDate: true,
     })('2021-08-03');
     expect(result).toEqual('End date should be after start date');
+  });
+});
+
+describe('core/util/validation/rules::validEmailFormat', () => {
+  test('validEmailFormat:invalidEmail', () => {
+    const result = validEmailFormat('abcd');
+    expect(result).toBe('Expected format: admin@example.com');
+  });
+
+  test('validEmailFormat:noAtSign', () => {
+    const result = validEmailFormat('deviohrm.com');
+    expect(result).toBe('Expected format: admin@example.com');
+  });
+
+  test('validEmailFormat:noUsername', () => {
+    const result = validEmailFormat('@ohrm.com');
+    expect(result).toBe('Expected format: admin@example.com');
+  });
+
+  test('validEmailFormat:noFullStopForDomain', () => {
+    const result = validEmailFormat('devi@ohrmcom');
+    expect(result).toBe('Expected format: admin@example.com');
+  });
+
+  test('validEmailFormat:fullStopWithNoDomain', () => {
+    const result = validEmailFormat('devi@ohrm.');
+    expect(result).toBe('Expected format: admin@example.com');
+  });
+
+  test('validEmailFormat:fullStopAfterDomain', () => {
+    const result = validEmailFormat('devi@ohrm.com.');
+    expect(result).toBe('Expected format: admin@example.com');
+  });
+
+  test('validEmailFormat:multipleFullStops', () => {
+    const result = validEmailFormat('devi@ohrm..com');
+    expect(result).toBe('Expected format: admin@example.com');
+  });
+
+  test('validEmailFormat:validEmail', () => {
+    const result = validEmailFormat('devi@ohrm.com');
+    expect(result).toStrictEqual(true);
+  });
+
+  test('validEmailFormat:validEmail2', () => {
+    const result = validEmailFormat('devi@ohrm.co.uk');
+    expect(result).toStrictEqual(true);
   });
 });
 

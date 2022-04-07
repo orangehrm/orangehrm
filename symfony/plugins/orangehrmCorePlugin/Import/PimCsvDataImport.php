@@ -24,6 +24,7 @@ use DateTime;
 use Exception;
 use OrangeHRM\Admin\Service\CountryService;
 use OrangeHRM\Admin\Service\NationalityService;
+use OrangeHRM\Core\Api\V2\Validator\Rules\Email;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Entity\Employee;
@@ -253,7 +254,7 @@ class PimCsvDataImport extends CsvDataImport
      */
     private function isValidEmail(?string $email): bool
     {
-        if (preg_match("/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$/i", $email)) {
+        if (preg_match(Email::EMAIL_REGEX, $email)) {
             return true;
         }
         return false;
