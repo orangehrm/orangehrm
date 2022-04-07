@@ -216,6 +216,6 @@ class ResetPasswordServiceTest extends KernelTestCase
 
         $user = $this->getEntityManager()->getRepository(User::class)->findOneBy(['id' => '2']);
         $user = $this->resetPasswordService->validateUser($user);
-        $this->assertEquals(null, $user);
+        $this->assertInstanceOf(User::class, $user);
     }
 }
