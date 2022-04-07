@@ -46,6 +46,8 @@ final class Rules
     public const IN_ACCESSIBLE_ENTITY_ID = OHRMRules\InAccessibleEntityId::class;
     public const TIMEZONE_OFFSET = OHRMRules\TimezoneOffset::class;
     public const TIMEZONE_NAME = OHRMRules\TimezoneName::class;
+    public const EMAIL = OHRMRules\Email::class;
+    public const PHONE = OHRMRules\Phone::class;
 
     public const ALNUM = RespectRules\Alnum::class;
     public const ALPHA = RespectRules\Alpha::class;
@@ -79,7 +81,6 @@ final class Rules
     public const DIGIT = RespectRules\Digit::class;
     public const DIRECTORY = RespectRules\Directory::class;
     public const DOMAIN = RespectRules\Domain::class;
-    public const EMAIL = RespectRules\Email::class;
     public const ENDS_WITH = RespectRules\EndsWith::class;
     public const EQUALS = RespectRules\Equals::class;
     public const EQUIVALENT = RespectRules\Equivalent::class;
@@ -149,7 +150,6 @@ final class Rules
     public const OPTIONAL = RespectRules\Optional::class;
     public const PERFECT_SQUARE = RespectRules\PerfectSquare::class;
     public const PESEL = RespectRules\Pesel::class;
-    public const PHONE = RespectRules\Phone::class;
     public const PHP_LABEL = RespectRules\PhpLabel::class;
     public const PIS = RespectRules\Pis::class;
     public const POLISH_ID_CARD = RespectRules\PolishIdCard::class;
@@ -197,6 +197,8 @@ final class Rules
      * @RespectRules\CountryCode::class
      * @RespectRules\CurrencyCode::class
      * @RespectRules\Each::class
+     * @RespectRules\Email::class
+     * @RespectRules\Phone::class
      */
 
     private function __construct()

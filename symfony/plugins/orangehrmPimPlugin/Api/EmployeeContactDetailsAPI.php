@@ -30,6 +30,7 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Core\Api\V2\Validator\Rules\EntityUniquePropertyOption;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Pim\Api\Model\EmployeeContactDetailsModel;
@@ -199,6 +200,7 @@ class EmployeeContactDetailsAPI extends Endpoint implements CrudEndpoint
                 new ParamRule(
                     self::PARAMETER_HOME_TELEPHONE,
                     new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::PHONE),
                     new Rule(Rules::LENGTH, [null, self::PARAM_RULE_HOME_TELEPHONE_MAX_LENGTH]),
                 ),
                 true
@@ -207,6 +209,7 @@ class EmployeeContactDetailsAPI extends Endpoint implements CrudEndpoint
                 new ParamRule(
                     self::PARAMETER_WORK_TELEPHONE,
                     new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::PHONE),
                     new Rule(Rules::LENGTH, [null, self::PARAM_RULE_WORK_TELEPHONE_MAX_LENGTH]),
                 ),
                 true
@@ -215,6 +218,7 @@ class EmployeeContactDetailsAPI extends Endpoint implements CrudEndpoint
                 new ParamRule(
                     self::PARAMETER_MOBILE,
                     new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::PHONE),
                     new Rule(Rules::LENGTH, [null, self::PARAM_RULE_MOBILE_MAX_LENGTH]),
                 ),
                 true
@@ -223,6 +227,8 @@ class EmployeeContactDetailsAPI extends Endpoint implements CrudEndpoint
                 new ParamRule(
                     self::PARAMETER_WORK_EMAIL,
                     new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::EMAIL),
+                    new Rule(Rules::ENTITY_UNIQUE_PROPERTY, [Employee::class, 'workEmail', $this->getEntityPropertiesForWorkEmail()]),
                     new Rule(Rules::LENGTH, [null, self::PARAM_RULE_WORK_EMAIL_MAX_LENGTH]),
                 ),
                 true
@@ -231,11 +237,29 @@ class EmployeeContactDetailsAPI extends Endpoint implements CrudEndpoint
                 new ParamRule(
                     self::PARAMETER_OTHER_EMAIL,
                     new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::EMAIL),
                     new Rule(Rules::LENGTH, [null, self::PARAM_RULE_OTHER_EMAIL_MAX_LENGTH]),
                 ),
                 true
             ),
         );
+    }
+
+    /**
+     * @return EntityUniquePropertyOption
+     */
+    private function getEntityPropertiesForWorkEmail(): EntityUniquePropertyOption
+    {
+        $entityProperties = new EntityUniquePropertyOption();
+        $entityProperties->setIgnoreValues(
+            [
+                'getEmpNumber' => $this->getRequestParams()->getInt(
+                    RequestParams::PARAM_TYPE_ATTRIBUTE,
+                    self::PARAMETER_EMP_NUMBER
+                )
+            ]
+        );
+        return $entityProperties;
     }
 
     /**

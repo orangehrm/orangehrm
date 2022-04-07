@@ -20,6 +20,7 @@ import {
   required,
   afterDate,
   endDateShouldBeAfterStartDate,
+  validEmailFormat,
   validPhoneNumberFormat,
   endTimeShouldBeAfterStartTime,
   startDateShouldBeBeforeEndDate,
@@ -173,6 +174,53 @@ describe('core/util/validation/rules::endDateShouldBeAfterStartDate', () => {
   });
 });
 
+describe('core/util/validation/rules::validEmailFormat', () => {
+  test('validEmailFormat:invalidEmail', () => {
+    const result = validEmailFormat('abcd');
+    expect(result).toBe('Expected format: admin@example.com');
+  });
+
+  test('validEmailFormat:noAtSign', () => {
+    const result = validEmailFormat('deviohrm.com');
+    expect(result).toBe('Expected format: admin@example.com');
+  });
+
+  test('validEmailFormat:noUsername', () => {
+    const result = validEmailFormat('@ohrm.com');
+    expect(result).toBe('Expected format: admin@example.com');
+  });
+
+  test('validEmailFormat:noFullStopForDomain', () => {
+    const result = validEmailFormat('devi@ohrmcom');
+    expect(result).toBe('Expected format: admin@example.com');
+  });
+
+  test('validEmailFormat:fullStopWithNoDomain', () => {
+    const result = validEmailFormat('devi@ohrm.');
+    expect(result).toBe('Expected format: admin@example.com');
+  });
+
+  test('validEmailFormat:fullStopAfterDomain', () => {
+    const result = validEmailFormat('devi@ohrm.com.');
+    expect(result).toBe('Expected format: admin@example.com');
+  });
+
+  test('validEmailFormat:multipleFullStops', () => {
+    const result = validEmailFormat('devi@ohrm..com');
+    expect(result).toBe('Expected format: admin@example.com');
+  });
+
+  test('validEmailFormat:validEmail', () => {
+    const result = validEmailFormat('devi@ohrm.com');
+    expect(result).toStrictEqual(true);
+  });
+
+  test('validEmailFormat:validEmail2', () => {
+    const result = validEmailFormat('devi@ohrm.co.uk');
+    expect(result).toStrictEqual(true);
+  });
+});
+
 describe('core/util/validation/rules::validPhoneNumberFormat', () => {
   test('validPhoneNumberFormat::number', () => {
     const result = validPhoneNumberFormat('1234563');
@@ -221,6 +269,36 @@ describe('core/util/validation/rules::validPhoneNumberFormat', () => {
 
   test('validPhoneNumberFormat::numberWithSpace', () => {
     const result = validPhoneNumberFormat('456 ');
+    expect(result).toStrictEqual(true);
+  });
+
+  test('validPhoneNumberFormat::numberWithMultipleSpaces', () => {
+    const result = validPhoneNumberFormat('123 456 789');
+    expect(result).toStrictEqual(true);
+  });
+
+  test('validPhoneNumberFormat::numberWithTabs', () => {
+    const result = validPhoneNumberFormat('123\t456\t789');
+    expect(result).toBe('Allows numbers and only + - / ( )');
+  });
+
+  test('validPhoneNumberFormat::numberWithNewLines', () => {
+    const result = validPhoneNumberFormat('123\n456\n789');
+    expect(result).toBe('Allows numbers and only + - / ( )');
+  });
+
+  test('validPhoneNumberFormat::numberWithCarriageReturns', () => {
+    const result = validPhoneNumberFormat('123\r456\r789');
+    expect(result).toBe('Allows numbers and only + - / ( )');
+  });
+
+  test('validPhoneNumberFormat::numberWithFormFeeds', () => {
+    const result = validPhoneNumberFormat('123\f456\f789');
+    expect(result).toBe('Allows numbers and only + - / ( )');
+  });
+
+  test('validPhoneNumberFormat::numberWithVerticalTabs', () => {
+    const result = validPhoneNumberFormat('123\v456\v789');
     expect(result).toBe('Allows numbers and only + - / ( )');
   });
 

@@ -49,21 +49,21 @@
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
           <oxd-grid-item>
             <oxd-input-field
-              v-model="contact.homePhone"
+              v-model.trim="contact.homePhone"
               label="Home Telephone"
               :rules="rules.homePhone"
             />
           </oxd-grid-item>
           <oxd-grid-item>
             <oxd-input-field
-              v-model="contact.mobilePhone"
+              v-model.trim="contact.mobilePhone"
               label="Mobile"
               :rules="rules.mobilePhone"
             />
           </oxd-grid-item>
           <oxd-grid-item>
             <oxd-input-field
-              v-model="contact.officePhone"
+              v-model.trim="contact.officePhone"
               label="Work Telephone"
               :rules="rules.officePhone"
             />

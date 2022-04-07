@@ -302,7 +302,7 @@ export const validFileTypes = function(fileTypes: string[]) {
 export const validEmailFormat = function(value: string): boolean | string {
   return (
     !value ||
-    /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9]+)+$/.test(
+    /^[a-zA-Z0-9.!#$%&'*+\\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$/.test(
       value,
     ) ||
     'Expected format: admin@example.com'
@@ -314,7 +314,7 @@ export const validPhoneNumberFormat = function(
 ): boolean | string {
   return (
     !value ||
-    /^[0-9+\-/()]+$/.test(value) ||
+    /^[0-9+\-/() ]+$/.test(value) ||
     'Allows numbers and only + - / ( )'
   );
 };
