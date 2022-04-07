@@ -1,4 +1,3 @@
-<!--
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -16,19 +15,9 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
- -->
-<template>
-  <oxd-form>
-    <oxd-form-row>
-      <oxd-grid :cols="2">
-        <oxd-grid-item>
-          <oxd-input-field label="Database Host" />
-        </oxd-grid-item>
-      </oxd-grid>
-    </oxd-form-row>
-  </oxd-form>
-</template>
 
-<script>
-export default {};
-</script>
+import DatabaseConfig from "@/pages/DatabaseConfig.vue";
+
+export default {
+  "database-config": DatabaseConfig,
+};

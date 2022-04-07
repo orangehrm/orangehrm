@@ -3,6 +3,14 @@ const DumpBuildTimestampPlugin = require("./scripts/plugins/DumpBuildTimestampPl
 const { defineConfig } = require("@vue/cli-service");
 
 module.exports = defineConfig({
+  css: {
+    loaderOptions: {
+      sass: {
+        additionalData: `@import "@/styles/_variables.scss";`,
+      },
+    },
+    extract: true,
+  },
   transpileDependencies: true,
   configureWebpack: {
     resolve: {

@@ -18,17 +18,32 @@
  */
  -->
 <template>
-  <oxd-form>
-    <oxd-form-row>
-      <oxd-grid :cols="2">
-        <oxd-grid-item>
-          <oxd-input-field label="Database Host" />
-        </oxd-grid-item>
-      </oxd-grid>
-    </oxd-form-row>
-  </oxd-form>
+  <div class="orangehrm-installer">
+    <div class="orangehrm-installer-sidebar">
+      <div class="orangehrm-installer-steps"></div>
+      <div class="orangehrm-installer-guide"></div>
+      <div class="orangehrm-installer-footer">
+        <slot name="footer"></slot>
+      </div>
+    </div>
+    <div class="orangehrm-installer-header">
+      <img :src="brandingSrc" width="280" alt="orangehrm-branding" />
+    </div>
+    <div class="orangehrm-installer-content">
+      <slot></slot>
+    </div>
+  </div>
 </template>
 
 <script>
-export default {};
+export default {
+  name: "InstallerLayout",
+  data() {
+    return {
+      brandingSrc: `${window.appGlobal.baseUrl}/../images/ohrm_branding.png`,
+    };
+  },
+};
 </script>
+
+<style src="./installer-layout.scss" lang="scss" scoped></style>
