@@ -22,12 +22,16 @@ namespace OrangeHRM\Core\Service;
 
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Import\CsvDataImportFactory;
+use OrangeHRM\Core\Traits\Service\TextHelperTrait;
 
 class CsvDataImportService
 {
+    use TextHelperTrait;
+
     /**
      * @param string $fileContent
      * @param string $importType
+     * @param array $headerValues
      * @return int
      * @throws DaoException
      */
@@ -35,11 +39,25 @@ class CsvDataImportService
     {
         $factory = new CsvDataImportFactory();
         $instance = $factory->getImportClassInstance($importType);
+
+        $stream = fopen('php://memory', 'r+');
+        fwrite($stream, $fileContent);
+        rewind($stream);
+        $employeesDataArray = [];
+
+        while (($data = fgetcsv($stream, 1000, ",")) !== false) {
+            foreach ($data as $key => $datum) {
+                if ($this->getTextHelper()->strContains($datum, "\n")) {
+                    $data[$key] = str_replace("\n", '', $datum);
+                }
+            }
+            $employeesDataArray[] = $data;
+        }
+        fclose($stream);
+
         $rowsImported = 0;
-        $lines = explode("\n", $fileContent);
-        $employeesDataArray = array_map('str_getcsv', $lines);
         if ($headerValues == $employeesDataArray[0]) {
-            for ($i = 1; $i < sizeof($employeesDataArray) - 1; $i++) {
+            for ($i = 1; $i < sizeof($employeesDataArray); $i++) {
                 $result = $instance->import($employeesDataArray[$i]);
                 if ($result) {
                     $rowsImported++;
