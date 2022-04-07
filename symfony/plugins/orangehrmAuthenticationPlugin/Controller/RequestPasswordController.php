@@ -19,25 +19,42 @@
 
 namespace OrangeHRM\Authentication\Controller;
 
+use OrangeHRM\Admin\Service\EmailConfigurationService;
 use OrangeHRM\Authentication\Csrf\CsrfTokenManager;
 use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Controller\PublicControllerInterface;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
+use OrangeHRM\Entity\EmailConfiguration;
 use OrangeHRM\Framework\Http\Request;
 
 class RequestPasswordController extends AbstractVueController implements PublicControllerInterface
 {
+    protected ?EmailConfigurationService $emailConfigurationService=null;
+
+    public function getEmailConfigurationService()
+    {
+        if (!$this->emailConfigurationService instanceof EmailConfigurationService) {
+            $this->emailConfigurationService=new EmailConfigurationService();
+        }
+        return $this->emailConfigurationService;
+    }
     /**
      * @inheritDoc
      */
     public function preRender(Request $request): void
     {
         $csrfTokenManager = new CsrfTokenManager();
-        $component = new Component('request-reset-password');
-        $component->addProp(
-            new Prop('token', Prop::TYPE_STRING, $csrfTokenManager->getToken('request-reset-password')->getValue())
-        );
+        $emailConfig=$this->getEmailConfigurationService()->getEmailConfigurationDao()->getEmailConfiguration();
+        if ($emailConfig instanceof EmailConfiguration && !empty($emailConfig->getSentAs())) {
+            $component = new Component('request-reset-password');
+            $component->addProp(
+                new Prop('token', Prop::TYPE_STRING, $csrfTokenManager->getToken('request-reset-password')->getValue())
+            );
+        } else {
+            $component = new Component('email-configuration-warning');
+        }
+
         $this->setTemplate('no_header.html.twig');
         $this->setComponent($component);
     }

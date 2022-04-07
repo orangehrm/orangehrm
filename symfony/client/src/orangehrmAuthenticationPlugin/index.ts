@@ -23,6 +23,7 @@ import RequestResetPassword from './pages/RequestResetPassword.vue';
 import ResetPasswordSuccess from './pages/ResetPasswordSuccess.vue';
 import ResetPasswordError from './pages/ResetPasswordError.vue';
 import ResetPassword from './pages/ResetPassword.vue';
+import EmailConfigurationWarning from './pages/EmailConfigurationWarning.vue';
 
 export default {
   'auth-login': Login,
@@ -32,4 +33,5 @@ export default {
   'reset-password-success': ResetPasswordSuccess,
   'reset-password-error': ResetPasswordError,
   'reset-password': ResetPassword,
+  'email-configuration-warning': EmailConfigurationWarning,
 };

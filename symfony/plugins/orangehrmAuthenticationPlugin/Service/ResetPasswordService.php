@@ -224,21 +224,14 @@ class ResetPasswordService
      * @param User $user
      * @return User|null
      */
-    public function validateUser(?User $user, bool $checkMail = true): ?User
+    public function validateUser(?User $user): ?User
     {
         if ($user instanceof User) {
             if ($user->getEmployee()->getEmployeeTerminationRecord()) {
                 $this->getLogger()->error('employee was terminated');
                 return null;
             }
-            if ($checkMail) {
-                if (!empty($user->getEmployee()->getWorkEmail())) {
-                    return $user;
-                }
-                $this->getLogger()->error('employee work email was not set');
-            } else {
-                return $user;
-            }
+            return $user;
         }
         $this->getLogger()->error('user account was deleted');
         return null;
@@ -253,15 +246,8 @@ class ResetPasswordService
         $userNameMetaData = $this->extractPasswordResetMetaData($resetCode);
         if (count($userNameMetaData) > 0) {
             $username = $userNameMetaData[0];
-            $user=$this->getUserService()->getSystemUserDao()->getUserByUserName($username);
             $resetPassword = $this->getResetPasswordDao()->getResetPasswordLogByResetCode($resetCode);
             if ($resetPassword instanceof ResetPassword) {
-                if ($user instanceof User) {
-                    if ($user->getEmployee()->getWorkEmail() !== $resetPassword->getResetEmail()) {
-                        $this->getLogger()->error('employee work email was changed');
-                        return null;
-                    }
-                }
                 $currentResetCode=$this->getResetPasswordDao()->getResetPasswordLogByEmail($resetPassword->getResetEmail())->getResetCode();
                 if ($currentResetCode !== $resetCode) {
                     $this->getLogger()->error('reset code was old one & not valid');
@@ -273,7 +259,7 @@ class ResetPasswordService
                     return null;
                 }
                 $user = $this->getUserService()->getSystemUserDao()->getUserByUserName($username);
-                return $this->validateUser($user, true);
+                return $this->validateUser($user, false);
             }
             return null;
         }
@@ -311,7 +297,7 @@ class ResetPasswordService
     public function saveResetPassword(string $password, string $userName): bool
     {
         $user = $this->getUserService()->getSystemUserDao()->getUserByUserName($userName);
-        if ($this->validateUser($user, false) instanceof User) {
+        if ($this->validateUser($user) instanceof User) {
             $hashPassword = $this->getUserService()->hashPassword($password);
             return $this->getUserService()->getSystemUserDao()->updatePassword($user->getId(), $hashPassword);
         }

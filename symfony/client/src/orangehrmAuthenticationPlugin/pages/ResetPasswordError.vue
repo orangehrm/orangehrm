@@ -29,7 +29,11 @@
           has-note-icon
         />
         <oxd-text class="orangehrm-forgot-password-reset">
-          <oxd-text tag="span" class="orangehrm-forgot-password-reset--link">
+          <oxd-text
+            tag="span"
+            class="orangehrm-forgot-password-reset--link"
+            @click="navigateUrl"
+          >
             Click here
           </oxd-text>
           to request a new password reset token
@@ -42,10 +46,16 @@
 
 <script>
 import CardNote from '../components/CardNote';
+import {navigate} from '@/core/util/helper/navigation';
 export default {
   name: 'ResetPasswordError',
   components: {
     'card-note': CardNote,
+  },
+  methods: {
+    navigateUrl() {
+      navigate('/auth/requestPasswordResetCode');
+    },
   },
 };
 </script>

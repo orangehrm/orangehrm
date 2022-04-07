@@ -59,10 +59,11 @@ class RequestResetPasswordController extends AbstractController implements Publi
             throw AuthenticationException::invalidCsrfToken();
         }
         $username = $request->request->get('username');
-        $this->getResetPasswordService()->searchForUserRecord($username);
-        $user = $this->getUserService()->getSystemUserDao()->getUserByUserName($username);
-        if ($user instanceof User) {
-            $this->getResetPasswordService()->logPasswordResetRequest($user);
+        if ($this->getResetPasswordService()->searchForUserRecord($username) instanceof  User) {
+            $user = $this->getUserService()->getSystemUserDao()->getUserByUserName($username);
+            if ($user instanceof User) {
+                $this->getResetPasswordService()->logPasswordResetRequest($user);
+            }
         }
         return $this->redirect('auth/sendPasswordReset');
     }

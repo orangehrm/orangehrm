@@ -50,14 +50,14 @@
           <oxd-divider />
           <div class="orangehrm-forgot-password-button-container">
             <oxd-button
-              class="orangehrm-forgot-password-button"
+              class="orangehrm-forgot-password-button orangehrm-forgot-password-button--cancel"
               display-type="ghost"
               size="large"
               label="Cancel"
               @click="onCancel"
             />
             <oxd-button
-              class="orangehrm-forgot-password-button"
+              class="orangehrm-forgot-password-button orangehrm-forgot-password-button--reset"
               display-type="secondary"
               size="large"
               label="Reset Password"
