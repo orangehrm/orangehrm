@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Tools\Migrations\V5;
+namespace OrangeHRM\Installer\Util\V1\Dto;
 
 class TransUnit
 {

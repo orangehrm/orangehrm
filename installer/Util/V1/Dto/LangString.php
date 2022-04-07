@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Tools\Migrations\V5;
+namespace OrangeHRM\Installer\Util\V1\Dto;
 
 class LangString
 {
@@ -49,8 +49,13 @@ class LangString
      * @param string|null $version
      * @param string|null $note
      */
-    public function __construct(string $unitId, int $groupId, string $value, ?string $version, ?string $note)
-    {
+    public function __construct(
+        string $unitId,
+        int $groupId,
+        string $value,
+        ?string $version = null,
+        ?string $note = null
+    ) {
         $this->unitId = $unitId;
         $this->groupId = $groupId;
         $this->value = $value;
@@ -67,31 +72,11 @@ class LangString
     }
 
     /**
-     * @param string $unitId
-     * @return LangString
-     */
-    public function setUnitId(string $unitId): LangString
-    {
-        $this->unitId = $unitId;
-        return $this;
-    }
-
-    /**
      * @return int
      */
     public function getGroupId(): int
     {
         return $this->groupId;
-    }
-
-    /**
-     * @param int $groupId
-     * @return LangString
-     */
-    public function setGroupId(int $groupId): LangString
-    {
-        $this->groupId = $groupId;
-        return $this;
     }
 
     /**
@@ -103,31 +88,11 @@ class LangString
     }
 
     /**
-     * @param string $value
-     * @return LangString
-     */
-    public function setValue(string $value): LangString
-    {
-        $this->value = $value;
-        return $this;
-    }
-
-    /**
      * @return string|null
      */
     public function getVersion(): ?string
     {
         return $this->version;
-    }
-
-    /**
-     * @param string $version
-     * @return LangString
-     */
-    public function setVersion(string $version): LangString
-    {
-        $this->version = $version;
-        return $this;
     }
 
     /**
@@ -139,12 +104,17 @@ class LangString
     }
 
     /**
-     * @param string $note
-     * @return LangString
+     * @param array $langString
+     * @return static
      */
-    public function setNote(string $note): LangString
+    public static function createFromArray(array $langString): self
     {
-        $this->note = $note;
-        return $this;
+        return new self(
+            $langString['unitId'],
+            $langString['groupId'],
+            $langString['value'],
+            $langString['version'] ?? null,
+            $langString['note'] ?? null,
+        );
     }
 }

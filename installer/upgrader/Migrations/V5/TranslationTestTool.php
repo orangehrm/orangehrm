@@ -23,6 +23,8 @@ use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Query\QueryBuilder;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
+use OrangeHRM\Installer\Migration\V5_0_0\LangStringHelper;
+use OrangeHRM\Installer\Util\V1\Dto\TransUnit;
 use Symfony\Component\Yaml\Yaml;
 
 class TranslationTestTool
@@ -70,7 +72,8 @@ class TranslationTestTool
     private function saveTranslationRecord(string $groupName, TransUnit $source, string $language): void
     {
         $groupId = $this->getLangStringHelper()->getGroupId($groupName);
-        $langStringId = $this->getLangStringHelper()->getLangStringRecord($source->getSource(), $groupId);
+        // TODO:: check below codes
+        $langStringId = $this->getLangStringHelper()->getLangStringIdByValueAndGroup($source->getSource(), $groupId);
         if ($langStringId == null) {
             throw new Exception('Cannot add a translation to a non existent lang string: ' . $source->getSource());
         }
@@ -90,7 +93,7 @@ class TranslationTestTool
     public function getLangStringHelper(): ?LangStringHelper
     {
         if (is_null($this->langStringHelper)) {
-            $this->langStringHelper = new LangStringHelper();
+            $this->langStringHelper = new LangStringHelper($this->getEntityManager()->getConnection());
         }
         return $this->langStringHelper;
     }
