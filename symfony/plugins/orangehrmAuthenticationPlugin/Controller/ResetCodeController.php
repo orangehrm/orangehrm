@@ -50,7 +50,7 @@ class ResetCodeController extends AbstractVueController implements PublicControl
     {
         $csrfTokenManager = new CsrfTokenManager();
 
-        $resetCode = $request->get('resetCode');
+        $resetCode = $request->attributes->get('resetCode');
         $user = $this->getResetPasswordService()->validateUrl($resetCode);
 
         if ($user instanceof User) {

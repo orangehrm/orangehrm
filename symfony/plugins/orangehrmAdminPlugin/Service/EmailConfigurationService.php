@@ -74,4 +74,6 @@ class EmailConfigurationService
     {
         return $this->getEmailService()->sendTestEmail($testEmail);
     }
+
+
 }
