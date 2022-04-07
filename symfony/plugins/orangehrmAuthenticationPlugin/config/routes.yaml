@@ -17,3 +17,8 @@ auth_admin_access_verify:
   path: /auth/adminVerify
   controller: OrangeHRM\Authentication\Controller\AdministratorVerifyController::handle
   methods: [ POST ]
+
+admin_upgrader_home:
+  path: /upgrader/home
+  controller: OrangeHRM\Authentication\Controller\UpgraderHomeController::handle
+  methods: [ GET ]

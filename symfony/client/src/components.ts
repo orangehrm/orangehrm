@@ -31,7 +31,7 @@ import InputGroup from '@ohrm/oxd/core/components/InputField/InputGroup.vue';
 import TableFilter from '@ohrm/oxd/core/components/TableFilter/TableFilter.vue';
 import Grid from '@ohrm/oxd/core/components/Grid/Grid.vue';
 import GridItem from '@ohrm/oxd/core/components/Grid/GridItem.vue';
-
+import RadioInput from '@ohrm/oxd/core/components/Input/RadioInput.vue';
 import SubmitButton from '@ohrm/components/buttons/SubmitButton.vue';
 import TableHeader from '@ohrm/components/table/TableHeader.vue';
 import RequiredText from '@ohrm/components/labels/RequiredText.vue';
@@ -42,6 +42,7 @@ import TimeInput from '@ohrm/components/inputs/TimeInput.vue';
 export default {
   install: (app: App) => {
     app.component('OxdLayout', Layout);
+    app.component('OxdRadioInput', RadioInput);
     app.component('OxdCardTable', CardTable);
     app.component('OxdButton', Button);
     app.component('OxdPagination', Pagination);
