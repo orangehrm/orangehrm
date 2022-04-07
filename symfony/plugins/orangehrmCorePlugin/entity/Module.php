@@ -44,6 +44,29 @@ class Module
     private string $name;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="display_name", type="string", length=120)
+     */
+    private string $displayName;
+
+    /**
+     * @return string
+     */
+    public function getDisplayName(): string
+    {
+        return $this->displayName;
+    }
+
+    /**
+     * @param string $displayName
+     */
+    public function setDisplayName(string $displayName): void
+    {
+        $this->displayName = $displayName;
+    }
+
+    /**
      * @var bool
      *
      * @ORM\Column(name="status", type="boolean")
