@@ -31,7 +31,7 @@ class UpgraderHomeController  extends AbstractVueController implements PublicCon
      */
     public function preRender(Request $request): void
     {
-        $component = new Component('welcome-screen');
+        $component = new Component('database-information-screen');
         $this->setTemplate('no_header.html.twig');
         $this->setComponent($component);
 
