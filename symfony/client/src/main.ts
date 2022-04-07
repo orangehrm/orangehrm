@@ -44,10 +44,10 @@ app.use(toaster, {
 // @ts-expect-error
 const baseUrl = window.appGlobal.baseUrl;
 
-const i18n = createI18n({
+const {i18n, init} = createI18n({
   baseUrl: baseUrl,
   resourceUrl: 'core/i18n/messages',
-}).init();
+});
 
 app.use(loader);
 app.use(acl);
@@ -67,4 +67,4 @@ app.config.globalProperties.global = {
   baseUrl,
 };
 
-app.mount('#app');
+init().then(() => app.mount('#app'));

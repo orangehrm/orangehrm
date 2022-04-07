@@ -17,7 +17,7 @@
  */
 
 import {AxiosResponse} from 'axios';
-import {App, ComponentOptions, ref} from 'vue';
+import {App, ComponentOptions} from 'vue';
 import IntlMessageFormat from 'intl-messageformat';
 import {APIService} from '@/core/util/services/api.service';
 import {mergeConfig} from '@ohrm/oxd/services/store';
@@ -41,7 +41,7 @@ export interface LanguageOptions {
 
 export type TranslateAPI = (key: string, fallback?: string) => string;
 
-export const langStrings = ref<Language>({});
+export const langStrings: Record<string, IntlMessageFormat> = {};
 
 /**
  * A factory function that will return translator function
@@ -55,8 +55,8 @@ export const translate = () => (
   // IntlMessageFormat.format method will throw error if not every argument in the message pattern
   // has been provided. sourrounded by try catch to fallback incase of param resolution
   try {
-    if (!langStrings.value[key]) return key;
-    const translatedString = langStrings.value[key].format<string>(parameters);
+    if (!langStrings[key]) return key;
+    const translatedString = langStrings[key].format<string>(parameters);
     if (Array.isArray(translatedString)) {
       return typeof translatedString[0] === 'string'
         ? translatedString[0]
@@ -82,36 +82,38 @@ function createI18n(options: LanguageOptions) {
   const http = new APIService(options.baseUrl, options.resourceUrl);
   return {
     init: function() {
-      http
-        .request({
-          method: 'GET',
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-            'Cache-Control':
-              'public, only-if-cached, stale-while-revalidate, max-age=60',
-          },
-        })
-        .then((response: AxiosResponse<LanguageResponse>) => {
-          const {data} = response;
-          const language: {[key: string]: string} = {};
-          for (const key in data) {
-            // https://formatjs.io/docs/intl-messageformat#intlmessageformat-constructor
-            language[key] = data[key].target || data[key].source;
-            langStrings.value[key] = new IntlMessageFormat(
-              data[key].target || data[key].source,
-              undefined,
-              undefined,
-              {ignoreTag: true}, // no html/xml markup parsing
-            );
-          }
-          mergeConfig({
-            language,
-          });
-        });
-      return this;
+      return new Promise<void>(resolve => {
+        http
+          .request({
+            method: 'GET',
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+              'Cache-Control':
+                'public, only-if-cached, stale-while-revalidate, max-age=60',
+            },
+          })
+          .then((response: AxiosResponse<LanguageResponse>) => {
+            const {data} = response;
+            const language: {[key: string]: string} = {};
+            for (const key in data) {
+              // https://formatjs.io/docs/intl-messageformat#intlmessageformat-constructor
+              language[key] = data[key].target || data[key].source;
+              langStrings[key] = new IntlMessageFormat(
+                data[key].target || data[key].source,
+                undefined,
+                undefined,
+                {ignoreTag: true}, // no html/xml markup parsing
+              );
+            }
+            mergeConfig({
+              language,
+            });
+          })
+          .finally(() => resolve());
+      });
     },
-    install: function(app: App) {
+    i18n: function(app: App) {
       app.mixin(defineMixin());
     },
   };
