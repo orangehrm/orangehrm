@@ -47,7 +47,7 @@ class Migration extends AbstractMigration
             ->setParameter('clientId', 'orangehrm_mobile_app')
             ->executeQuery()
             ->fetchOne();
-        if($clientId != 'orangehrm_mobile_app'){
+        if ($clientId != 'orangehrm_mobile_app') {
             $this->createQueryBuilder()
                 ->insert('ohrm_oauth_client')
                 ->values(
@@ -59,14 +59,13 @@ class Migration extends AbstractMigration
                         'scope' => ':scope'
                     ]
                 )
-                ->setParameter('clientId','orangehrm_mobile_app')
-                ->setParameter('clientSecret','')
-                ->setParameter('redirectUri','')
-                ->setParameter('grantTypes','password refresh_token')
-                ->setParameter('scope','user')
+                ->setParameter('clientId', 'orangehrm_mobile_app')
+                ->setParameter('clientSecret', '')
+                ->setParameter('redirectUri', '')
+                ->setParameter('grantTypes', 'password refresh_token')
+                ->setParameter('scope', 'user')
                 ->executeQuery()
                 ->fetchOne();
-
         }
 
         if (!$this->getSchemaHelper()->tableExists(['ohrm_rest_api_usage'])) {

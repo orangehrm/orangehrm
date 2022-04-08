@@ -20,12 +20,11 @@
 /**
  * Class SchemaIncrementTask74
  */
-class SchemaIncrementTask74  extends SchemaIncrementTask
+class SchemaIncrementTask74 extends SchemaIncrementTask
 {
-
     public function loadSql()
     {
-        $sql = array ();
+        $sql = [];
         $this->sql = $sql;
     }
 

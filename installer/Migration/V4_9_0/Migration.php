@@ -16,8 +16,8 @@ class Migration extends AbstractMigration
             $this->getSchemaHelper()->createTable('ohrm_theme')
                 ->addColumn('theme_id', Types::INTEGER, ['Length' => 11, 'Autoincrement' => true])
                 ->addColumn('theme_name', Types::STRING, ['Length' => 100, 'Notnull' => false])
-                ->addColumn('main_logo', Types::BLOB,['Notnull' => false])
-                ->addColumn('variables', Types::TEXT,['Notnull' => false])
+                ->addColumn('main_logo', Types::BLOB, ['Notnull' => false])
+                ->addColumn('variables', Types::TEXT, ['Notnull' => false])
                 ->setPrimaryKey(['theme_id'])
                 ->create();
         }

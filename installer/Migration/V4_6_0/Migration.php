@@ -29,10 +29,14 @@ class Migration extends AbstractMigration
                 ->addColumn('id', Types::INTEGER, ['Autoincrement' => true])
                 ->addColumn('name', Types::STRING, ['Length' => 255, 'Default' => null,'Notnull' => false])
                 ->addColumn('code', Types::STRING, ['Length' => 100, 'Notnull' => true])
-                ->addColumn('enabled', Types::SMALLINT,
+                ->addColumn(
+                    'enabled',
+                    Types::SMALLINT,
                     ['Unsigned' => true, 'Notnull' => false, 'Default' => 1]
                 )
-                ->addColumn('added', Types::SMALLINT,
+                ->addColumn(
+                    'added',
+                    Types::SMALLINT,
                     ['Unsigned' => true, 'Notnull' => false, 'Default' => 0]
                 )
                 ->addColumn('modified_at', Types::DATETIME_MUTABLE, ['Default' => null, 'Notnull' =>false])
@@ -47,7 +51,9 @@ class Migration extends AbstractMigration
                 ->addColumn('unit_id', Types::INTEGER, ['Notnull' => true])
                 ->addColumn('source_id', Types::INTEGER)
                 ->addColumn('group_id', Types::INTEGER, ['Default' => null,'Notnull' =>false])
-                ->addColumn('value', Types::TEXT,
+                ->addColumn(
+                    'value',
+                    Types::TEXT,
                     ['Notnull' => true, 'CustomSchemaOptions' => ['collation' => 'utf8mb4_bin']]
                 )
                 ->addColumn('note', Types::TEXT)
@@ -65,7 +71,9 @@ class Migration extends AbstractMigration
                 ->addColumn('translated', Types::SMALLINT, ['Unsigned' => true, 'Default' => 1])
                 ->addColumn('customized', Types::SMALLINT, ['Unsigned' => true, 'Default' => 0])
                 ->addColumn('version', Types::STRING, ['Length' => 20, 'Default' => null,'Notnull' => false])
-                ->addColumn('modified_at', Types::DATETIMETZ_MUTABLE,
+                ->addColumn(
+                    'modified_at',
+                    Types::DATETIMETZ_MUTABLE,
                     ['Notnull' => false, 'Default' => 'CURRENT_TIMESTAMP']
                 )
                 ->setPrimaryKey(['id'])
@@ -76,7 +84,7 @@ class Migration extends AbstractMigration
             $this->getSchemaHelper()->createTable('ohrm_i18n_source')
                 ->addColumn('id', Types::INTEGER, ['Autoincrement' => true])
                 ->addColumn('source', Types::TEXT, ['Length' => 18,'Notnull' => false])
-                ->addColumn('modified_at', Types::DATETIME_MUTABLE,['Notnull' => false,])
+                ->addColumn('modified_at', Types::DATETIME_MUTABLE, ['Notnull' => false,])
                 ->setPrimaryKey(['id'])
                 ->create();
         }

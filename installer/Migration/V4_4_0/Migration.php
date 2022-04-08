@@ -373,7 +373,7 @@ class Migration extends AbstractMigration
         $this->insertConfig('buzz_comment_text_lenth', '250');
 
         $this->getDataGroupHelper()->insertScreenPermissions(__DIR__ . '/permission/screen.yaml');
-        
+
         $screenId = $this->createQueryBuilder()
             ->select('screen.id')
             ->from('ohrm_screen', 'screen')

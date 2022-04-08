@@ -160,4 +160,12 @@ class SchemaHelper
         $table->setSchemaManager($this->getSchemaManager());
         return $table;
     }
+
+    public function tableExists(array $table): bool
+    {
+        if ($this->getSchemaManager()->tablesExist($table)) {
+            return true;
+        }
+        return false;
+    }
 }
