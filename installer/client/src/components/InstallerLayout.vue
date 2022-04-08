@@ -1,4 +1,4 @@
-<?php
+<!--
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -16,21 +16,34 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
+ -->
+<template>
+  <div class="orangehrm-installer">
+    <div class="orangehrm-installer-sidebar">
+      <div class="orangehrm-installer-steps"></div>
+      <div class="orangehrm-installer-guide"></div>
+      <div class="orangehrm-installer-footer">
+        <slot name="footer"></slot>
+      </div>
+    </div>
+    <div class="orangehrm-installer-header">
+      <img :src="brandingSrc" width="280" alt="orangehrm-branding" />
+    </div>
+    <div class="orangehrm-installer-content">
+      <slot></slot>
+    </div>
+  </div>
+</template>
 
-namespace OrangeHRM\Installer\Controller;
+<script>
+export default {
+  name: "InstallerLayout",
+  data() {
+    return {
+      brandingSrc: `${window.appGlobal.baseUrl}/../images/ohrm_branding.png`,
+    };
+  },
+};
+</script>
 
-use OrangeHRM\Core\Vue\Component;
-use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Installer\Controller\AbstractInstallerVueController;
-
-class WelcomeController extends AbstractInstallerVueController
-{
-    /**
-     * @inheritDoc
-     */
-    public function preRender(Request $request): void
-    {
-        $component = new Component('welcome-screen');
-        $this->setComponent($component);
-    }
-}
+<style src="./installer-layout.scss" lang="scss" scoped></style>

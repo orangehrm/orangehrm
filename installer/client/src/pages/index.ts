@@ -1,4 +1,3 @@
-<?php
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -17,20 +16,10 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Installer\Controller;
+import WelcomeScreen from "@/pages/WelcomeScreen.vue";
+import DatabaseConfig from "@/pages/DatabaseConfig.vue";
 
-use OrangeHRM\Core\Vue\Component;
-use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Installer\Controller\AbstractInstallerVueController;
-
-class WelcomeController extends AbstractInstallerVueController
-{
-    /**
-     * @inheritDoc
-     */
-    public function preRender(Request $request): void
-    {
-        $component = new Component('welcome-screen');
-        $this->setComponent($component);
-    }
-}
+export default {
+  "welcome-screen": WelcomeScreen,
+  "database-config": DatabaseConfig,
+};
