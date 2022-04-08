@@ -48,7 +48,10 @@ class EmpEmergencyContactAPI extends Endpoint implements CrudEndpoint
     public const PARAMETER_MOBILE_PHONE = 'mobilePhone';
 
     public const FILTER_NAME = 'name';
-    public const PARAM_RULE_Max_Length = 100;
+    public const PARAM_RULE_MAX_LENGTH = 100;
+    public const PARAM_RULE_HOME_PHONE_MAX_LENGTH = 30;
+    public const PARAM_RULE_OFFICE_PHONE_MAX_LENGTH = 30;
+    public const PARAM_RULE_MOBILE_PHONE_MAX_LENGTH = 30;
 
     /**
      * @var EmpEmergencyContactService|null
@@ -124,7 +127,7 @@ class EmpEmergencyContactAPI extends Endpoint implements CrudEndpoint
                 new ParamRule(
                     self::FILTER_NAME,
                     new Rule(Rules::STRING_TYPE),
-                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_Max_Length]),
+                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_MAX_LENGTH]),
                 ),
             ),
             ...$this->getSortingAndPaginationParamsRules(EmpEmergencyContactSearchFilterParams::ALLOWED_SORT_FIELDS)
@@ -165,30 +168,30 @@ class EmpEmergencyContactAPI extends Endpoint implements CrudEndpoint
             new ParamRule(
                 self::PARAMETER_NAME,
                 new Rule(Rules::STRING_TYPE),
-                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_Max_Length])
+                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_MAX_LENGTH])
             ),
             new ParamRule(
                 self::PARAMETER_RELATIONSHIP,
                 new Rule(Rules::STRING_TYPE),
-                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_Max_Length])
+                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_MAX_LENGTH])
             ),
             new ParamRule(
                 self::PARAMETER_HOME_PHONE,
                 new Rule(Rules::STRING_TYPE),
                 new Rule(Rules::PHONE),
-                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_Max_Length])
+                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_HOME_PHONE_MAX_LENGTH])
             ),
             new ParamRule(
                 self::PARAMETER_OFFICE_PHONE,
                 new Rule(Rules::STRING_TYPE),
                 new Rule(Rules::PHONE),
-                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_Max_Length])
+                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_OFFICE_PHONE_MAX_LENGTH])
             ),
             new ParamRule(
                 self::PARAMETER_MOBILE_PHONE,
                 new Rule(Rules::STRING_TYPE),
                 new Rule(Rules::PHONE),
-                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_Max_Length])
+                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_MOBILE_PHONE_MAX_LENGTH])
             ),
         ];
     }
