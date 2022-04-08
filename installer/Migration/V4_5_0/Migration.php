@@ -12,7 +12,7 @@ class Migration extends AbstractMigration
      */
     public function up(): void
     {
-        if (!$this->getSchemaHelper()->tableExists('ohrm_oauth_scope')) {
+        if (!$this->getSchemaHelper()->tableExists(['ohrm_oauth_scope'])) {
             $this->getSchemaHelper()->createTable('ohrm_oauth_scope')
                 ->addColumn('scope', Types::TEXT)
                 ->addColumn('is_default', Types::BOOLEAN, ['Notnull' => true, 'Default' => false])
@@ -40,9 +40,36 @@ class Migration extends AbstractMigration
             ->setParameter('scope', 'admin')
             ->executeQuery();
 
-        // add the solution for insert ignore
+        $clientId = $this->createQueryBuilder()
+            ->select('oauth_client.client_id')
+            ->from('ohrm_oauth_client', 'oauth_client')
+            ->where('oauth_client.client_id = :clientId')
+            ->setParameter('clientId', 'orangehrm_mobile_app')
+            ->executeQuery()
+            ->fetchOne();
+        if($clientId != 'orangehrm_mobile_app'){
+            $this->createQueryBuilder()
+                ->insert('ohrm_oauth_client')
+                ->values(
+                    [
+                        'client_id' => ':clientId',
+                        'client_secret' => ':clientSecret',
+                        'redirect_uri' => ':redirectUri',
+                        'grant_types' => ':grantTypes',
+                        'scope' => ':scope'
+                    ]
+                )
+                ->setParameter('clientId','orangehrm_mobile_app')
+                ->setParameter('clientSecret','')
+                ->setParameter('redirectUri','')
+                ->setParameter('grantTypes','password refresh_token')
+                ->setParameter('scope','user')
+                ->executeQuery()
+                ->fetchOne();
 
-        if (!$this->getSchemaHelper()->tableExists('ohrm_rest_api_usage')) {
+        }
+
+        if (!$this->getSchemaHelper()->tableExists(['ohrm_rest_api_usage'])) {
             $this->getSchemaHelper()->createTable('ohrm_rest_api_usage')
                 ->addColumn('id', Types::INTEGER, ['Autoincrement' => true])
                 ->addColumn('client_id', Types::STRING, ['Length'=> 255,'Notnull' => false, 'Default' => null])

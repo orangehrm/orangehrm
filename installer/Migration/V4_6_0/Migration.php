@@ -15,42 +15,48 @@ class Migration extends AbstractMigration
      */
     public function up(): void
     {
-        if (!$this->getSchemaHelper()->tableExists('ohrm_i18n_group')) {
+        if (!$this->getSchemaHelper()->tableExists(['ohrm_i18n_group'])) {
             $this->getSchemaHelper()->createTable('ohrm_i18n_group')
                 ->addColumn('id', Types::INTEGER, ['Autoincrement' => true])
                 ->addColumn('name', Types::STRING, ['Length' => 255])
-                ->addColumn('title', Types::STRING, ['Length' => 255, 'Default' => null])
+                ->addColumn('title', Types::STRING, ['Length' => 255, 'Default' => null, 'Notnull' =>false])
                 ->setPrimaryKey(['id'])
                 ->create();
         }
 
-        if (!$this->getSchemaHelper()->tableExists('ohrm_i18n_language')) {
+        if (!$this->getSchemaHelper()->tableExists(['ohrm_i18n_language'])) {
             $this->getSchemaHelper()->createTable('ohrm_i18n_language')
                 ->addColumn('id', Types::INTEGER, ['Autoincrement' => true])
-                ->addColumn('name', Types::STRING, ['Length' => 255, 'Default' => null])
-                ->addColumn('code', Types::STRING, ['Length' => 100, 'Notnull' => false])
-                ->addColumn('enabled', Types::SMALLINT, ['Unsigned' => true, 'Notnull' => false, 'Default' => 1])
-                ->addColumn('added', Types::SMALLINT, ['Unsigned' => true, 'Notnull' => false, 'Default' => 0])
-                ->addColumn('modified_at', Types::DATETIME_MUTABLE, ['Default' => null])
+                ->addColumn('name', Types::STRING, ['Length' => 255, 'Default' => null,'Notnull' => false])
+                ->addColumn('code', Types::STRING, ['Length' => 100, 'Notnull' => true])
+                ->addColumn('enabled', Types::SMALLINT,
+                    ['Unsigned' => true, 'Notnull' => false, 'Default' => 1]
+                )
+                ->addColumn('added', Types::SMALLINT,
+                    ['Unsigned' => true, 'Notnull' => false, 'Default' => 0]
+                )
+                ->addColumn('modified_at', Types::DATETIME_MUTABLE, ['Default' => null, 'Notnull' =>false])
                 ->setPrimaryKey(['id'])
                 ->addUniqueConstraint(['code'])
                 ->create();
         }
 
-        if (!$this->getSchemaHelper()->tableExists('ohrm_i18n_lang_string')) {
+        if (!$this->getSchemaHelper()->tableExists(['ohrm_i18n_lang_string'])) {
             $this->getSchemaHelper()->createTable('ohrm_i18n_lang_string')
                 ->addColumn('id', Types::INTEGER, ['Autoincrement' => true])
                 ->addColumn('unit_id', Types::INTEGER, ['Notnull' => true])
                 ->addColumn('source_id', Types::INTEGER)
-                ->addColumn('group_id', Types::INTEGER, ['Default' => null])
-                ->addColumn('value', Types::TEXT, ['Notnull' => true, 'CustomSchemaOptions' => ['collation' => 'utf8mb4_bin']])
+                ->addColumn('group_id', Types::INTEGER, ['Default' => null,'Notnull' =>false])
+                ->addColumn('value', Types::TEXT,
+                    ['Notnull' => true, 'CustomSchemaOptions' => ['collation' => 'utf8mb4_bin']]
+                )
                 ->addColumn('note', Types::TEXT)
-                ->addColumn('version', Types::STRING, ['Length' => 20, 'Default' => null])
+                ->addColumn('version', Types::STRING, ['Length' => 20, 'Default' => null,'Notnull' =>false])
                 ->setPrimaryKey(['id'])
                 ->create();
         }
 
-        if (!$this->getSchemaHelper()->tableExists('ohrm_i18n_translate')) {
+        if (!$this->getSchemaHelper()->tableExists(['ohrm_i18n_translate'])) {
             $this->getSchemaHelper()->createTable('ohrm_i18n_translate')
                 ->addColumn('id', Types::INTEGER, ['Autoincrement' => true])
                 ->addColumn('lang_string_id', Types::INTEGER, ['Notnull' => false])
@@ -58,8 +64,19 @@ class Migration extends AbstractMigration
                 ->addColumn('value', Types::TEXT)
                 ->addColumn('translated', Types::SMALLINT, ['Unsigned' => true, 'Default' => 1])
                 ->addColumn('customized', Types::SMALLINT, ['Unsigned' => true, 'Default' => 0])
-                ->addColumn('version', Types::STRING, ['Length' => 20, 'Default' => null])
-                ->addColumn('modified_at', Types::DATETIMETZ_MUTABLE, ['Notnull' => false, 'Default' => 'CURRENT_TIMESTAMP'])
+                ->addColumn('version', Types::STRING, ['Length' => 20, 'Default' => null,'Notnull' => false])
+                ->addColumn('modified_at', Types::DATETIMETZ_MUTABLE,
+                    ['Notnull' => false, 'Default' => 'CURRENT_TIMESTAMP']
+                )
+                ->setPrimaryKey(['id'])
+                ->create();
+        }
+
+        if (!$this->getSchemaHelper()->tableExists(['ohrm_i18n_source'])) {
+            $this->getSchemaHelper()->createTable('ohrm_i18n_source')
+                ->addColumn('id', Types::INTEGER, ['Autoincrement' => true])
+                ->addColumn('source', Types::TEXT, ['Length' => 18,'Notnull' => false])
+                ->addColumn('modified_at', Types::DATETIME_MUTABLE,['Notnull' => false,])
                 ->setPrimaryKey(['id'])
                 ->create();
         }

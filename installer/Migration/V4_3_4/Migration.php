@@ -12,7 +12,7 @@ class Migration extends AbstractMigration
      */
     public function up(): void
     {
-        if (!$this->getSchemaHelper()->tableExists('ohrm_employee_subscription')) {
+        if (!$this->getSchemaHelper()->tableExists(['ohrm_employee_subscription'])) {
             $this->getSchemaHelper()->createTable('ohrm_employee_subscription')
                 ->addColumn('id', Types::INTEGER, ['Unsigned' => true, 'Autoincrement' => true])
                 ->addColumn('employee_id', Types::INTEGER, ['Length' => 7, 'Notnull' => true])

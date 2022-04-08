@@ -12,14 +12,12 @@ class Migration extends AbstractMigration
      */
     public function up(): void
     {
-        if (!$this->getSchemaHelper()->tableExists('ohrm_theme')) {
+        if (!$this->getSchemaHelper()->tableExists(['ohrm_theme'])) {
             $this->getSchemaHelper()->createTable('ohrm_theme')
                 ->addColumn('theme_id', Types::INTEGER, ['Length' => 11, 'Autoincrement' => true])
-                ->addColumn('theme_name', Types::INTEGER, ['Notnull' => true])
-                ->addColumn('published', Types::SMALLINT, ['Notnull' => true, 'Default' => 0])
-                ->addColumn('event_time', Types::DATETIME_MUTABLE, ['Notnull' => false, 'Default' => null])
-                ->addColumn('publish_time', Types::DATETIME_MUTABLE, ['Notnull' => false, 'Default' => null])
-                ->addColumn('data', Types::TEXT, ['Notnull' => false, 'Default' => null])
+                ->addColumn('theme_name', Types::STRING, ['Length' => 100, 'Notnull' => false])
+                ->addColumn('main_logo', Types::BLOB,['Notnull' => false])
+                ->addColumn('variables', Types::TEXT,['Notnull' => false])
                 ->setPrimaryKey(['theme_id'])
                 ->create();
         }
@@ -27,7 +25,7 @@ class Migration extends AbstractMigration
         $this->insertMenuItems('Corporate Branding', 'Add Theme', 1, 2, 700, '', 1);
         $this->insertTheme(1, 'default', '{"primaryColor":"#f28b38","secondaryColor":"#f3f3f3","buttonSuccessColor":"#56ac40","buttonCancelColor":"#848484"}');
         $this->getSchemaHelper()->addColumn('ohrm_theme', 'social_media_icons', Types::TEXT, [
-            'Notnull' => false,
+            'Notnull' => true,
             'Default' => 'inline',
         ]);
         $this->getSchemaHelper()->addColumn('ohrm_theme', 'login_banner', Types::BLOB);
@@ -53,13 +51,13 @@ class Migration extends AbstractMigration
         $this->updateConfig('4.9', 'instance.version');
         $this->updateConfig('81', 'instance.increment_number');
 
-        if (!$this->getSchemaHelper()->tableExists('ohrm_registration_event_queue')) {
+        if (!$this->getSchemaHelper()->tableExists(['ohrm_registration_event_queue'])) {
             $this->getSchemaHelper()->createTable('ohrm_registration_event_queue')
                 ->addColumn('id', Types::INTEGER, ['Autoincrement' => true])
+                ->addColumn('event_type', Types::INTEGER, ['Notnull' => true])
                 ->addColumn('published', Types::SMALLINT, ['Unsigned'=> true,'NotNull' => true,'Default' => 0])
-                ->addColumn('event_type', Types::DATETIME_MUTABLE, ['Default' => null])
-                ->addColumn('main_logo', Types::BLOB)
-                ->addColumn('variables', Types::TEXT)
+                ->addColumn('event_time', Types::DATETIME_MUTABLE, ['Default'=> null,'Notnull' => true])
+                ->addColumn('publish_time', Types::DATETIME_MUTABLE, ['Default'=> null,'Notnull' => true])
                 ->setPrimaryKey(['id'])
                 ->create();
         }
@@ -107,7 +105,6 @@ class Migration extends AbstractMigration
             )
             ->setParameter('menuTitle', $menuItem)
             ->setParameter('screenId', $screenId)
-            ->setParameter('level', $level)
             ->setParameter('ParentId', $parentId)
             ->setParameter('level', $level)
             ->setParameter('orderHint', $order_hint)

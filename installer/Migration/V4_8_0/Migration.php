@@ -36,7 +36,7 @@ class Migration extends AbstractMigration
             ->insert('hs_hr_config')
             ->values(
                 [
-                    'key' => ':key',
+                    '`key`' => ':key',
                     'value' => ':value'
                 ]
             )

@@ -1,6 +1,6 @@
 <?php
 
-namespace OrangeHRM\Installer\Migration\V4_4_4;
+namespace OrangeHRM\Installer\Migration\V4_4_0;
 
 use Doctrine\DBAL\Schema\ForeignKeyConstraint;
 use Doctrine\DBAL\Schema\Index;
@@ -14,7 +14,7 @@ class Migration extends AbstractMigration
      */
     public function up(): void
     {
-        if (!$this->getSchemaHelper()->tableExists('ohrm_buzz_post')) {
+        if (!$this->getSchemaHelper()->tableExists(['ohrm_buzz_post'])) {
             $this->getSchemaHelper()->createTable('ohrm_buzz_post')
                 ->addColumn('id', Types::BIGINT, ['Autoincrement' => true])
                 ->addColumn('employee_number', Types::INTEGER, ['Length' => 7])
@@ -33,16 +33,16 @@ class Migration extends AbstractMigration
         );
         $this->getSchemaHelper()->addForeignKey('ohrm_buzz_post', $foreignKeyConstraint);
 
-        if (!$this->getSchemaHelper()->tableExists('ohrm_buzz_share')) {
-            $this->getSchemaHelper()->createTable('ohrm_buzz_post')
+        if (!$this->getSchemaHelper()->tableExists(['ohrm_buzz_share'])) {
+            $this->getSchemaHelper()->createTable('ohrm_buzz_share')
                 ->addColumn('id', Types::BIGINT, ['Length' => 20, 'Autoincrement' => true])
                 ->addColumn('post_id', Types::BIGINT, ['Length' => 20, 'Notnull' => true])
                 ->addColumn('employee_number', Types::INTEGER, ['Length' => 7])
-                ->addColumn('number_of_likes', Types::INTEGER, ['Length' => 6, 'Default' => null])
-                ->addColumn('number_of_unlikes', Types::INTEGER, ['Length' => 6, 'Default' => null])
-                ->addColumn('number_of_comments', Types::INTEGER, ['Length' => 6, 'Default' => null])
+                ->addColumn('number_of_likes', Types::INTEGER, ['Length' => 6, 'Default' => null,'Notnull' => false])
+                ->addColumn('number_of_unlikes', Types::INTEGER, ['Length' => 6, 'Default' => null,'Notnull' => false])
+                ->addColumn('number_of_comments', Types::INTEGER, ['Length' => 6, 'Default' => null,'Notnull' => false])
                 ->addColumn('share_time', Types::DATETIME_MUTABLE, ['Notnull' => true])
-                ->addColumn('type', Types::SMALLINT, ['Default' => null])
+                ->addColumn('type', Types::SMALLINT, ['Default' => null,'Notnull' => false])
                 ->addColumn('text', Types::TEXT)
                 ->addColumn('updated_at', Types::DATETIMETZ_MUTABLE, ['Default' => 'CURRENT_TIMESTAMP', 'CustomSchemaOptions' => ['onUpdate' => 'CURRENT_TIMESTAMP']])
                 ->setPrimaryKey(['id'])
@@ -76,13 +76,13 @@ class Migration extends AbstractMigration
         );
         $this->getSchemaHelper()->addForeignKey('ohrm_buzz_share', $foreignKeyConstraint2);
 
-        if (!$this->getSchemaHelper()->tableExists('ohrm_buzz_comment')) {
+        if (!$this->getSchemaHelper()->tableExists(['ohrm_buzz_comment'])) {
             $this->getSchemaHelper()->createTable('ohrm_buzz_comment')
                 ->addColumn('id', Types::BIGINT, ['Length' => 20, 'Autoincrement' => true])
                 ->addColumn('share_id', Types::BIGINT, ['Length' => 20])
                 ->addColumn('employee_number', Types::INTEGER, ['Length' => 7])
-                ->addColumn('number_of_likes', Types::INTEGER, ['Length' => 6, 'Default' => null])
-                ->addColumn('number_of_unlikes', Types::INTEGER, ['Length' => 6, 'Default' => null])
+                ->addColumn('number_of_likes', Types::INTEGER, ['Length' => 6, 'Default' => null,'Notnull' => false])
+                ->addColumn('number_of_unlikes', Types::INTEGER, ['Length' => 6, 'Default' => null,'Notnull' => false])
                 ->addColumn('comment_text', Types::TEXT)
                 ->addColumn('comment_time', Types::DATETIME_MUTABLE, ['Notnull' => true])
                 ->addColumn('updated_at', Types::DATETIMETZ_MUTABLE, ['Default' => 'CURRENT_TIMESTAMP', 'CustomSchemaOptions' => ['onUpdate' => 'CURRENT_TIMESTAMP']])
@@ -118,7 +118,7 @@ class Migration extends AbstractMigration
         );
         $this->getSchemaHelper()->addForeignKey('ohrm_buzz_comment', $foreignKeyConstraint4);
 
-        if (!$this->getSchemaHelper()->tableExists('ohrm_buzz_like_on_comment')) {
+        if (!$this->getSchemaHelper()->tableExists(['ohrm_buzz_like_on_comment'])) {
             $this->getSchemaHelper()->createTable('ohrm_buzz_like_on_comment')
                 ->addColumn('id', Types::BIGINT, ['Length' => 20, 'Autoincrement' => true])
                 ->addColumn('comment_id', Types::BIGINT, ['Length' => 20, 'Notnull' => true])
@@ -155,7 +155,7 @@ class Migration extends AbstractMigration
         );
         $this->getSchemaHelper()->addForeignKey('ohrm_buzz_like_on_comment', $foreignKeyConstraint6);
 
-        if (!$this->getSchemaHelper()->tableExists('ohrm_buzz_like_on_share')) {
+        if (!$this->getSchemaHelper()->tableExists(['ohrm_buzz_like_on_share'])) {
             $this->getSchemaHelper()->createTable('ohrm_buzz_like_on_share')
                 ->addColumn('id', Types::BIGINT, ['Length' => 20, 'Autoincrement' => true])
                 ->addColumn('share_id', Types::BIGINT, ['Length' => 20])
@@ -192,11 +192,11 @@ class Migration extends AbstractMigration
         );
         $this->getSchemaHelper()->addForeignKey('ohrm_buzz_like_on_share', $foreignKeyConstraint12);
 
-        if (!$this->getSchemaHelper()->tableExists('ohrm_buzz_photo')) {
+        if (!$this->getSchemaHelper()->tableExists(['ohrm_buzz_photo'])) {
             $this->getSchemaHelper()->createTable('ohrm_buzz_photo')
                 ->addColumn('id', Types::BIGINT, ['Length' => 20, 'Autoincrement' => true])
                 ->addColumn('post_id', Types::BIGINT, ['Length' => 20])
-                ->addColumn('photo', Types::MEDIUMBLOB, ['Length' => 7])
+                ->addColumn('photo', Types::BLOB, ['Length' => 7]) //change
                 ->addColumn('filename', Types::STRING, ['Length' => 100])
                 ->addColumn('file_type', Types::STRING, ['Length' => 50])
                 ->addColumn('size', Types::STRING, ['Length' => 20])
@@ -219,7 +219,7 @@ class Migration extends AbstractMigration
         );
         $this->getSchemaHelper()->addForeignKey('ohrm_buzz_photo', $foreignKeyConstraint7);
 
-        if (!$this->getSchemaHelper()->tableExists('ohrm_buzz_link')) {
+        if (!$this->getSchemaHelper()->tableExists(['ohrm_buzz_link'])) {
             $this->getSchemaHelper()->createTable('ohrm_buzz_link')
                 ->addColumn('id', Types::BIGINT, ['Length' => 20, 'Autoincrement' => true])
                 ->addColumn('post_id', Types::BIGINT, ['Length' => 20])
@@ -249,7 +249,7 @@ class Migration extends AbstractMigration
         );
         $this->getSchemaHelper()->addForeignKey('ohrm_buzz_link', $foreignKeyConstraint8);
 
-        if (!$this->getSchemaHelper()->tableExists('ohrm_buzz_unlike_on_comment')) {
+        if (!$this->getSchemaHelper()->tableExists(['ohrm_buzz_unlike_on_comment'])) {
             $this->getSchemaHelper()->createTable('ohrm_buzz_unlike_on_comment')
                 ->addColumn('id', Types::BIGINT, ['Length' => 20, 'Autoincrement' => true])
                 ->addColumn('comment_id', Types::BIGINT, ['Length' => 20, 'Notnull' => true])
@@ -286,7 +286,7 @@ class Migration extends AbstractMigration
         );
         $this->getSchemaHelper()->addForeignKey('ohrm_buzz_unlike_on_comment', $foreignKeyConstraint10);
 
-        if (!$this->getSchemaHelper()->tableExists('ohrm_buzz_unlike_on_share')) {
+        if (!$this->getSchemaHelper()->tableExists(['ohrm_buzz_unlike_on_share'])) {
             $this->getSchemaHelper()->createTable('ohrm_buzz_unlike_on_share')
                 ->addColumn('id', Types::BIGINT, ['Length' => 20, 'Autoincrement' => true])
                 ->addColumn('share_id', Types::BIGINT, ['Length' => 20])
@@ -324,18 +324,18 @@ class Migration extends AbstractMigration
         );
         $this->getSchemaHelper()->addForeignKey('ohrm_buzz_unlike_on_share', $foreignKeyConstraint14);
 
-        if (!$this->getSchemaHelper()->tableExists('ohrm_buzz_notification_metadata')) {
+        if (!$this->getSchemaHelper()->tableExists(['ohrm_buzz_notification_metadata'])) {
             $this->getSchemaHelper()->createTable('ohrm_buzz_notification_metadata')
                 ->addColumn('emp_number', Types::INTEGER, ['Length' => 7])
-                ->addColumn('last_notification_view_time', Types::DATETIME_MUTABLE, ['Default' => null])
-                ->addColumn('last_buzz_view_time', Types::DATETIME_MUTABLE, ['Default' => null])
-                ->addColumn('last_clear_notifications', Types::DATETIME_MUTABLE, ['Default' => null])
+                ->addColumn('last_notification_view_time', Types::DATETIME_MUTABLE, ['Default' => null,'Notnull' => false])
+                ->addColumn('last_buzz_view_time', Types::DATETIME_MUTABLE, ['Default' => null,'Notnull' => false])
+                ->addColumn('last_clear_notifications', Types::DATETIME_MUTABLE, ['Default' => null,'Notnull' => false])
                 ->setPrimaryKey(['emp_number'])
                 ->create();
         }
 
         $foreignKeyConstraint15 = new ForeignKeyConstraint(
-            ['employee_number'],
+            ['emp_number'],
             'hs_hr_employee',
             ['emp_number'],
             'notificationMetadata',
@@ -372,7 +372,9 @@ class Migration extends AbstractMigration
 
         $this->insertConfig('buzz_comment_text_lenth', '250');
 
-        $screenId = $this->getConnection()->createQueryBuilder()
+        $this->getDataGroupHelper()->insertScreenPermissions(__DIR__ . '/permission/screen.yaml');
+        
+        $screenId = $this->createQueryBuilder()
             ->select('screen.id')
             ->from('ohrm_screen', 'screen')
             ->where('screen.name = :screenName')
@@ -389,8 +391,7 @@ class Migration extends AbstractMigration
                     'parent_id' => ':ParentId',
                     'level' => ':level',
                     'order_hint' => ':orderHint',
-                    'url_extras' => ':urlExtras',
-                    'status' => 'status'
+                    'status' => ':status'
                 ]
             )
             ->setParameter('menuTitle', 'Buzz')
@@ -401,8 +402,6 @@ class Migration extends AbstractMigration
             ->setParameter('status', 1)
             ->executeQuery();
 
-        $this->getDataGroupHelper()->insertScreenPermissions(__DIR__ . '/permission/screen.yaml');
-
         $this->insertConfig('buzz_max_notification_period', '-1 week');
     }
 
@@ -412,7 +411,7 @@ class Migration extends AbstractMigration
             ->insert('hs_hr_config')
             ->values(
                 [
-                    'key' => ':key',
+                    '`key`' => ':key',
                     'value' => ':value'
                 ]
             )
