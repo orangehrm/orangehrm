@@ -154,8 +154,4 @@ export default {
     }
   }
 }
-::v-deep(.oxd-radio-wrapper label) {
-  font-size: 16px;
-  font-weight: 700;
-}
 </style>

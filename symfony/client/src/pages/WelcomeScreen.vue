@@ -18,7 +18,7 @@
  */
  -->
 <template>
-  <div class="orangehrm-background-container">
+  <div class="orangehrm-background-container orangehrm-welcome-screen ">
     <oxd-text
       tag="h4"
       class="orangehrm-welcome-screen-title orangehrm-welcome-screen-content"
@@ -118,8 +118,10 @@ export default {
     }
   }
 }
-::v-deep(.oxd-radio-wrapper label) {
-  font-size: 16px;
-  font-weight: 700;
+.orangehrm-welcome-screen {
+  ::v-deep(.oxd-radio-wrapper label) {
+    font-size: 16px;
+    font-weight: 700;
+  }
 }
 </style>
