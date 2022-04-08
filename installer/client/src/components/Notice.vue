@@ -1,4 +1,4 @@
-<?php
+<!--
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -16,21 +16,39 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
+ -->
+<template>
+  <oxd-sheet type="gray-lighten-2">
+    <oxd-text tag="p" class="notice-title">{{ title }}</oxd-text>
+    <div>
+      <slot></slot>
+    </div>
+  </oxd-sheet>
+</template>
 
-namespace OrangeHRM\Installer\Controller;
+<script>
+import Sheet from "@ohrm/oxd/core/components/Sheet/Sheet";
+import Text from "@ohrm/oxd/core/components/Text/Text";
 
-use OrangeHRM\Core\Vue\Component;
-use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Installer\Controller\AbstractInstallerVueController;
+export default {
+  components: {
+    "oxd-sheet": Sheet,
+    "oxd-text": Text,
+  },
+  props: {
+    title: {
+      type: String,
+      required: true,
+    },
+  },
+};
+</script>
 
-class WelcomeController extends AbstractInstallerVueController
-{
-    /**
-     * @inheritDoc
-     */
-    public function preRender(Request $request): void
-    {
-        $component = new Component('welcome-screen');
-        $this->setComponent($component);
-    }
+<style lang="scss" scoped>
+.notice-title {
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
 }
+</style>

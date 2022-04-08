@@ -20,6 +20,7 @@
   grid-template:
     "sidebar header"
     "sidebar content" / minmax(25%, 240px) auto;
+  grid-template-rows: 120px 1fr;
   &-header {
     grid-area: header;
     margin-left: auto;
@@ -40,6 +41,9 @@
   }
   &-content {
     grid-area: content;
+    box-sizing: border-box;
+    padding-left: 2rem;
+    padding-right: 4rem;
   }
   &-footer {
     bottom: 0;

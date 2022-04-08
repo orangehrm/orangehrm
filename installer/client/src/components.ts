@@ -24,6 +24,8 @@ import InputField from "@ohrm/oxd/core/components/InputField/InputField.vue";
 import InputGroup from "@ohrm/oxd/core/components/InputField/InputGroup.vue";
 import Grid from "@ohrm/oxd/core/components/Grid/Grid.vue";
 import GridItem from "@ohrm/oxd/core/components/Grid/GridItem.vue";
+import Text from "@ohrm/oxd/core/components/Text/Text.vue";
+import Button from "@ohrm/oxd/core/components/Button/Button.vue";
 
 import InstallerLayout from "@/components/InstallerLayout.vue";
 
@@ -37,5 +39,7 @@ export default {
     app.component("OxdGrid", Grid);
     app.component("OxdGridItem", GridItem);
     app.component("InstallerLayout", InstallerLayout);
+    app.component("OxdText", Text);
+    app.component("OxdButton", Button);
   },
 };

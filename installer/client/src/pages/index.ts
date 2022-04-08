@@ -16,8 +16,10 @@
  * Boston, MA  02110-1301, USA
  */
 
+import WelcomeScreen from "@/pages/WelcomeScreen.vue";
 import DatabaseConfig from "@/pages/DatabaseConfig.vue";
 
 export default {
+  "welcome-screen": WelcomeScreen,
   "database-config": DatabaseConfig,
 };
