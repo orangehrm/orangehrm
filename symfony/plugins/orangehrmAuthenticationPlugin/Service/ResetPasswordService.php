@@ -252,7 +252,7 @@ class ResetPasswordService
                     return null;
                 }
                 $user = $this->getUserService()->getSystemUserDao()->getUserByUserName($username);
-                return $this->validateUser($user, false);
+                return $this->validateUser($user);
             }
             return null;
         }
