@@ -24,7 +24,9 @@
       'orangehrm-card-note--icon': hasNoteIcon,
     }"
   >
-    <oxd-text v-if="hasNote" class="orangehrm-sub-title">Note:</oxd-text>
+    <oxd-text v-if="hasNote" class="orangehrm-sub-title"
+      >{{ $t('general.note') }}:</oxd-text
+    >
     <oxd-text v-if="hasNoteIcon" tag="span" class="orangehrm-card-note-icon">
       <oxd-icon name="exclamation-triangle" class="orangehrm-card-icon" />
     </oxd-text>
@@ -86,7 +88,6 @@ export default {
   &-note--icon {
     display: flex;
     align-items: center;
-    justify-content: space-between;
     background-color: $oxd-alert-bg-color-error;
     border-radius: $oxd-border-radius;
     padding: 1rem;

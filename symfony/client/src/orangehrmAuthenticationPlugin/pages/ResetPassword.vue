@@ -27,11 +27,11 @@
           @submitValid="onSubmit"
         >
           <oxd-text tag="h6">
-            Reset Password
+            {{ $t('auth.reset_password') }}
           </oxd-text>
           <oxd-divider />
           <card-note
-            note-text="Set a new Password"
+            :note-text="$t('general.set_new_password')"
             class="orangehrm-forgot-password-card-note"
           />
           <input name="_token" :value="token" type="hidden" />
@@ -39,7 +39,7 @@
             <oxd-input-field
               :value="username"
               name="username"
-              label="Username"
+              :label="$t('auth.username')"
               label-icon="person"
               readonly
             />
@@ -48,9 +48,9 @@
             <oxd-input-field
               v-model="user.newPassword"
               name="password"
-              label="New Password"
+              :label="$t('auth.new_password')"
               label-icon="key"
-              placeholder="password"
+              :placeholder="$t('auth.password')"
               type="password"
               :rules="rules.newPassword"
               autocomplete="off"
@@ -60,9 +60,9 @@
             <oxd-input-field
               v-model="user.confirmPassword"
               name="confirmPassword"
-              label="Confirm Password"
+              :label="$t('general.confirm_password')"
               label-icon="key"
-              placeholder="password"
+              :placeholder="$t('auth.password')"
               type="password"
               :rules="rules.confirmPassword"
               autocomplete="off"
@@ -74,7 +74,7 @@
               class="orangehrm-forgot-password-button"
               display-type="secondary"
               size="large"
-              label="Reset Password"
+              :label="$t('auth.reset_password')"
               type="submit"
             />
           </div>

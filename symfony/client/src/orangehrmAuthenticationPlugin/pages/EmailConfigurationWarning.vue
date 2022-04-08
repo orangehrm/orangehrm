@@ -20,11 +20,11 @@
     <div class="orangehrm-forgot-password-wrapper">
       <div class="orangehrm-card-container">
         <oxd-text tag="h6" class="orangehrm-forgot-password-title">
-          Reset Password
+          {{ $t('auth.reset_password') }}
         </oxd-text>
         <oxd-divider />
         <card-note
-          note-text="The OrangeHRM  system is not configured to receive email notifications. Please contact your OrangeHRM administrator to reset your password"
+          :note-text="$t('auth.configured_receive_email_notification_note')"
           class="orangehrm-forgot-password-card-note"
           has-note-icon
         />
@@ -34,9 +34,9 @@
             class="orangehrm-forgot-password-reset--link"
             @click="navigateUrl"
           >
-            Click here
+            {{ $t('general.click_here') }}
           </oxd-text>
-          to go back to login page
+          {{ $t('auth.back_to_login') }}
         </oxd-text>
       </div>
     </div>

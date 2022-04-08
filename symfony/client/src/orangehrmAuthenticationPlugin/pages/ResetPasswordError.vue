@@ -20,11 +20,11 @@
     <div class="orangehrm-forgot-password-wrapper">
       <div class="orangehrm-card-container">
         <oxd-text tag="h6" class="orangehrm-forgot-password-title">
-          Reset Password
+          {{ $t('auth.reset_password') }}
         </oxd-text>
         <oxd-divider />
         <card-note
-          note-text="The user account cannot be found or the reset password token has expired"
+          :note-text="$t('auth.reset_password_token_expired_note')"
           class="orangehrm-forgot-password-card-note"
           has-note-icon
         />
@@ -34,9 +34,9 @@
             class="orangehrm-forgot-password-reset--link"
             @click="navigateUrl"
           >
-            Click here
+            {{ $t('general.click_here') }}
           </oxd-text>
-          to request a new password reset token
+          {{ $t('auth.request_new_password_token') }}
         </oxd-text>
       </div>
     </div>

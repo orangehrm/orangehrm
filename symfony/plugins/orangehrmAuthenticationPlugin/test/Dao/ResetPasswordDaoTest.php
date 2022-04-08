@@ -29,6 +29,10 @@ use OrangeHRM\Framework\Services;
 use OrangeHRM\Tests\Util\KernelTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 
+/**
+ * @group Authentication
+ * @group Dao
+ */
 class ResetPasswordDaoTest extends KernelTestCase
 {
     use DateTimeHelperTrait;

@@ -152,7 +152,8 @@ class ResetPasswordServiceTest extends KernelTestCase
         $employee = $this->getEntityManager()->getRepository(Employee::class)->findOneBy(['empNumber' => '1']);
         $isSend = $this->resetPasswordService->sendPasswordResetCodeEmail(
             $employee,
-            'YWRtaW4jU0VQQVJBVE9SI6kK4PL4sB8AtJa2y5WNP-Y'
+            'YWRtaW4jU0VQQVJBVE9SI6kK4PL4sB8AtJa2y5WNP-Y',
+            'testUser'
         );
         $this->assertEquals(true, $isSend);
     }

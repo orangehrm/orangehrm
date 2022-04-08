@@ -20,19 +20,19 @@
     <div class="orangehrm-forgot-password-wrapper">
       <div class="orangehrm-card-container">
         <oxd-text tag="h6" class="orangehrm-forgot-password-title">
-          Reset Password link sent successfully
+          {{ $t('auth.reset_password_link_sent_successfully') }}
         </oxd-text>
         <oxd-divider />
         <card-note
-          note-text="A reset password link has been sent to you via email."
+          :note-text="$t('auth.reset_password_link_via_email')"
           class="orangehrm-forgot-password-card-note"
         />
         <card-note
-          note-text="You can follow that link and select a new password."
+          :note-text="$t('auth.follow_link_to_select_password')"
           class="orangehrm-forgot-password-card-note"
         />
         <card-note
-          note-text="If the email does not receive, please contact your OrangeHRM Administrator."
+          :note-text="$t('auth.email_not_receive_note')"
           class="orangehrm-forgot-password-card-note"
           has-note
         />

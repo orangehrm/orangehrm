@@ -77,9 +77,9 @@ class ResetPasswordService
      */
     public function hasPasswordResetRequestNotExpired(ResetPasswordRequest $resetPassword): float
     {
-        $strExpireTime = strtotime($resetPassword->getResetRequestDate()->format('Y-m-d H:i:s'));
-        $strCurrentTime = strtotime(date("Y-m-d H:i:s"));
-        return floor(($strCurrentTime - $strExpireTime) / (60 * 60 * 24));
+        $strResetRequestTime = strtotime($resetPassword->getResetRequestDate()->format('Y-m-d H:i:s'));
+        $strCurrentTime = $this->getDateTimeHelper()->getNow()->getTimestamp();
+        return floor(($strCurrentTime - $strResetRequestTime) / (60 * 60 * 24));
     }
 
     /**
@@ -112,11 +112,7 @@ class ResetPasswordService
             ) . '/orangehrmAuthenticationPlugin/config/data' . '/' . $templateFile
         );
 
-        foreach ($placeholders as $key => $value) {
-            $placeholders[$key] = "/\{{$value}\}/";
-        }
-
-        $body = preg_replace($placeholders, $replacements, $body);
+        $body = str_replace($placeholders, $replacements, $body);
         return $body;
     }
 
@@ -188,14 +184,14 @@ class ResetPasswordService
      * @param string $resetCode
      * @return bool
      */
-    public function sendPasswordResetCodeEmail(Employee $receiver, string $resetCode): bool
+    public function sendPasswordResetCodeEmail(Employee $receiver, string $resetCode, string $userName): bool
     {
         $this->getEmailService()->setMessageTo([$receiver->getWorkEmail()]);
         $this->getEmailService()->setMessageFrom(
             [$this->getEmailService()->getEmailConfig()->getSentAs() => 'OrangeHRM']
         );
         $this->getEmailService()->setMessageSubject('OrangeHRM Password Reset');
-        $this->getEmailService()->setMessageBody($this->generatePasswordResetEmailBody($receiver, $resetCode, 'Admin'));
+        $this->getEmailService()->setMessageBody($this->generatePasswordResetEmailBody($receiver, $resetCode, $userName));
         return $this->getEmailService()->sendEmail();
     }
 
@@ -273,7 +269,7 @@ class ResetPasswordService
         $date = $this->getDateTimeHelper()->getNow();
         $resetPassword->setResetRequestDate($date);
         $resetPassword->setResetCode($resetCode);
-        $emailSent = $this->sendPasswordResetCodeEmail($user->getEmployee(), $resetCode);
+        $emailSent = $this->sendPasswordResetCodeEmail($user->getEmployee(), $resetCode, $user->getUserName());
         if (!$emailSent) {
             $this->getLogger()->error('Password reset email could not be sent.');
             return false;
@@ -283,8 +279,7 @@ class ResetPasswordService
     }
 
     /**
-     * @param string $password
-     * @param string $userName
+     * @param UserCredential $credential
      * @return bool
      */
     public function saveResetPassword(UserCredential $credential): bool
