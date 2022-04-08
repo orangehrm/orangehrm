@@ -43,6 +43,8 @@ jest.mock('@/core/plugins/i18n/translate', () => {
         'Start date should be before end date',
       'general.end_date_should_be_after_start_date':
         'End date should be after start date',
+      'general.expected_email_address_format_not_matched':
+        'Expected format: admin@example.com',
     };
     return mockStrings[langString];
   };
