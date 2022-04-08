@@ -21,7 +21,9 @@
 <template>
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
-      <oxd-text tag="h6" class="orangehrm-main-title"> Add License</oxd-text>
+      <oxd-text tag="h6" class="orangehrm-main-title">{{
+        $t('general.add_license')
+      }}</oxd-text>
 
       <oxd-divider />
 
@@ -29,7 +31,7 @@
         <oxd-form-row>
           <oxd-input-field
             v-model="license.name"
-            label="Name"
+            :label="$t('general.name')"
             :rules="rules.name"
             required
           />
@@ -42,7 +44,7 @@
           <oxd-button
             type="button"
             display-type="ghost"
-            label="Cancel"
+            :label="$t('general.cancel')"
             @click="onCancel"
           />
           <submit-button />
@@ -55,7 +57,10 @@
 <script>
 import {navigate} from '@ohrm/core/util/helper/navigation';
 import {APIService} from '@ohrm/core/util/services/api.service';
-import {required} from '@ohrm/core/util/validation/rules';
+import {
+  required,
+  shouldNotExceedCharLength,
+} from '@ohrm/core/util/validation/rules';
 
 export default {
   setup() {
@@ -75,7 +80,7 @@ export default {
         name: '',
       },
       rules: {
-        name: [],
+        name: [required, shouldNotExceedCharLength(100)],
       },
     };
   },
@@ -86,13 +91,9 @@ export default {
       .getAll()
       .then(response => {
         const {data} = response.data;
-        this.rules.name.push(required);
-        this.rules.name.push(v => {
-          return (v && v.length <= 100) || 'Should not exceed 100 characters';
-        });
         this.rules.name.push(v => {
           const index = data.findIndex(item => item.name === v);
-          return index === -1 || 'Already exists';
+          return index === -1 || this.$t('general.already_exists');
         });
       })
       .finally(() => {

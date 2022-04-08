@@ -20,7 +20,9 @@
 
 <template>
   <div class="orangehrm-horizontal-padding orangehrm-top-padding">
-    <oxd-text tag="h6" class="orangehrm-main-title">Edit {{ type }}</oxd-text>
+    <oxd-text tag="h6" class="orangehrm-main-title">
+      {{ $t('general.edit') }} {{ type }}
+    </oxd-text>
     <oxd-divider />
     <oxd-form :loading="isLoading" @submitValid="onSave">
       <oxd-form-row>
@@ -39,7 +41,7 @@
             <oxd-input-field
               v-model="reportTo.reportingMethod"
               type="select"
-              label="Reporting Method"
+              :label="$t('pim.reporting_method')"
               :rules="rules.reportingMethod"
               :options="reportingMethods"
               required
@@ -53,7 +55,7 @@
         <oxd-button
           type="button"
           display-type="ghost"
-          label="Cancel"
+          :label="$t('general.cancel')"
           @click="onCancel"
         />
         <submit-button />

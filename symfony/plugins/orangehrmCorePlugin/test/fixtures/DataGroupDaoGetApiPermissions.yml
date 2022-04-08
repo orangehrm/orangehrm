@@ -1,7 +1,7 @@
 Module:
-  - {id: 1, name: 'core', status: 1}
-  - {id: 2, name: 'admin', status: 1}
-  - {id: 3, name: 'pim', status: 1}
+  - {id: 1, name: 'core', status: 1, displayName: 'Core'}
+  - {id: 2, name: 'admin', status: 1, displayName: 'Admin'}
+  - {id: 3, name: 'pim', status: 1, displayName: 'PIM'}
 
 UserRole:
   - {id: 1, name: Admin, display_name: Admin, is_assignable: 1, is_predefined: 1}

@@ -19,7 +19,9 @@
  -->
 <template>
   <div class="orangehrm-card-container">
-    <oxd-text tag="h6" class="orangehrm-main-title">Add Currency</oxd-text>
+    <oxd-text tag="h6" class="orangehrm-main-title">{{
+      $t('admin.add_currency')
+    }}</oxd-text>
     <oxd-divider />
     <oxd-form :loading="isLoading" @submitValid="onSave">
       <oxd-form-row>
@@ -28,7 +30,7 @@
             <oxd-input-field
               v-model="payCurrency.currencyId"
               type="select"
-              label="Currency"
+              :label="$t('general.currency')"
               :options="currencies"
               :rules="rules.currencyId"
               required
@@ -41,14 +43,14 @@
           <oxd-grid-item>
             <oxd-input-field
               v-model="payCurrency.minSalary"
-              label="Minimum Salary"
+              :label="$t('admin.minimum_salary')"
               :rules="rules.minSalary"
             />
           </oxd-grid-item>
           <oxd-grid-item>
             <oxd-input-field
               v-model="payCurrency.maxSalary"
-              label="Maximum Salary"
+              :label="$t('admin.maximum_salary')"
               :rules="rules.maxSalary"
             />
           </oxd-grid-item>
@@ -61,7 +63,7 @@
         <oxd-button
           type="button"
           display-type="ghost"
-          label="Cancel"
+          :label="$t('general.cancel')"
           @click="onCancel"
         />
         <submit-button />
@@ -114,7 +116,7 @@ export default {
           digitsOnly,
           minValueShouldBeLowerThanMaxValue(
             () => this.payCurrency.minSalary,
-            'Should be higher than Minimum Salary',
+            this.$t('admin.should_be_higher_than_minimum_salary'),
           ),
         ],
       },

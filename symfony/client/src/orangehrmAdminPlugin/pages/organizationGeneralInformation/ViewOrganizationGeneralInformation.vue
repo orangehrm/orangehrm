@@ -22,12 +22,12 @@
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
       <div class="orangehrm-header-container">
-        <oxd-text tag="h6" class="orangehrm-main-title"
-          >General Information</oxd-text
-        >
+        <oxd-text tag="h6" class="orangehrm-main-title">
+          {{ $t('admin.general_information') }}
+        </oxd-text>
         <oxd-switch-input
           v-model="editable"
-          option-label="Edit"
+          :option-label="$t('general.edit')"
           label-position="left"
         />
       </div>
@@ -39,14 +39,14 @@
             <oxd-grid-item class="organization-name-container">
               <oxd-input-field
                 v-model="organization.name"
-                label="Organization Name"
+                :label="$t('admin.organization_name')"
                 :rules="rules.name"
                 :disabled="!editable"
                 required
               />
             </oxd-grid-item>
             <oxd-grid-item>
-              <oxd-input-group label="Number of Employees">
+              <oxd-input-group :label="$t('admin.number_of_employees')">
                 <oxd-text tag="p" class="no-of-employees-value">
                   {{ organization.noOfEmployees }}
                 </oxd-text>
@@ -59,7 +59,7 @@
             <oxd-grid-item>
               <oxd-input-field
                 v-model="organization.registrationNumber"
-                label="Registration Number"
+                :label="$t('admin.registration_number')"
                 :rules="rules.registrationNumber"
                 :disabled="!editable"
               />
@@ -67,7 +67,7 @@
             <oxd-grid-item>
               <oxd-input-field
                 v-model="organization.taxId"
-                label="Tax ID"
+                :label="$t('admin.tax_id')"
                 :rules="rules.taxId"
                 :disabled="!editable"
               />
@@ -81,8 +81,8 @@
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <oxd-input-field
-                v-model="organization.phone"
-                label="Phone"
+                v-model.trim="organization.phone"
+                :label="$t('general.phone')"
                 :rules="rules.phone"
                 :disabled="!editable"
               />
@@ -90,7 +90,7 @@
             <oxd-grid-item>
               <oxd-input-field
                 v-model="organization.fax"
-                label="Fax"
+                :label="$t('general.fax')"
                 :rules="rules.fax"
                 :disabled="!editable"
               />
@@ -98,7 +98,7 @@
             <oxd-grid-item>
               <oxd-input-field
                 v-model="organization.email"
-                label="Email"
+                :label="$t('general.email')"
                 :rules="rules.email"
                 :disabled="!editable"
               />
@@ -113,7 +113,7 @@
             <oxd-grid-item>
               <oxd-input-field
                 v-model="organization.street1"
-                label="Address Street 1"
+                :label="$t('general.address_street_1')"
                 :rules="rules.street1"
                 :disabled="!editable"
               />
@@ -121,7 +121,7 @@
             <oxd-grid-item>
               <oxd-input-field
                 v-model="organization.street2"
-                label="Address Street 2"
+                :label="$t('general.city')"
                 :rules="rules.street2"
                 :disabled="!editable"
               />
@@ -129,7 +129,7 @@
             <oxd-grid-item>
               <oxd-input-field
                 v-model="organization.city"
-                label="City"
+                :label="$t('general.city')"
                 :rules="rules.city"
                 :disabled="!editable"
               />
@@ -142,7 +142,7 @@
             <oxd-grid-item>
               <oxd-input-field
                 v-model="organization.province"
-                label="State/Province"
+                :label="$t('general.state_province')"
                 :rules="rules.province"
                 :disabled="!editable"
               />
@@ -150,7 +150,7 @@
             <oxd-grid-item>
               <oxd-input-field
                 v-model="organization.zipCode"
-                label="Zip/Postal Code"
+                :label="$t('general.zip_postal_code')"
                 :rules="rules.zipCode"
                 :disabled="!editable"
               />
@@ -158,7 +158,7 @@
             <oxd-grid-item>
               <oxd-input-field
                 v-model="organization.country"
-                label="Country"
+                :label="$t('general.country')"
                 type="select"
                 :rules="rules.country"
                 :options="countryList"
@@ -172,7 +172,7 @@
           <oxd-grid-item>
             <oxd-input-field
               v-model="organization.note"
-              label="Note"
+              :label="$t('general.notes')"
               type="textarea"
               :rules="rules.note"
               :disabled="!editable"

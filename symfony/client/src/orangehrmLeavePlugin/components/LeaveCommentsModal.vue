@@ -41,7 +41,7 @@
         <oxd-input-field
           v-model="comment"
           type="textarea"
-          placeholder="Comment here"
+          :placeholder="$t('general.comment_here')"
           :rules="rules.comment"
         />
       </oxd-form-row>
@@ -50,7 +50,7 @@
         <oxd-button
           type="button"
           display-type="ghost"
-          label="Cancel"
+          :label="$t('general.cancel')"
           @click="onCancel"
         />
         <submit-button />

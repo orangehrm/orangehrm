@@ -19,7 +19,9 @@
  -->
 
 <template>
-  <oxd-table-filter :filter-title="$t('time.employee_attendance_records')">
+  <oxd-table-filter
+    :filter-title="$t('attendance.employee_attendance_records')"
+  >
     <oxd-form @submitValid="filterItems">
       <oxd-form-row>
         <oxd-grid :cols="4" class="orangehrm-full-width-grid">
@@ -171,18 +173,18 @@ export default {
         {
           name: 'empName',
           slot: 'title',
-          title: 'Employee Name',
+          title: this.$t('general.employee_name'),
           style: {flex: '40%'},
         },
         {
           name: 'duration',
-          title: 'Total Duration (Hours)',
+          title: this.$t('attendance.total_hours'),
           style: {flex: '40%'},
         },
         {
           name: 'actions',
           slot: 'footer',
-          title: 'Actions',
+          title: this.$t('general.actions'),
           style: {flex: '20%'},
           cellType: 'oxd-table-cell-actions',
           cellConfig: {
@@ -190,7 +192,7 @@ export default {
               onClick: this.onClickView,
               component: 'oxd-button',
               props: {
-                label: 'View',
+                label: this.$t('general.view'),
                 displayType: 'text',
                 size: 'medium',
               },

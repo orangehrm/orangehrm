@@ -22,7 +22,7 @@
   <oxd-alert
     :show="true"
     type="error"
-    message="Credential Required"
+    :message="$t('auth.credential_required')"
   ></oxd-alert>
 </template>
 

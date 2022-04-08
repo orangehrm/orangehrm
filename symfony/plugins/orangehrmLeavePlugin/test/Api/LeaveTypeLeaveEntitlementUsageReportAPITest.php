@@ -20,6 +20,9 @@
 namespace OrangeHRM\Tests\Leave\Api;
 
 use OrangeHRM\Config\Config;
+use OrangeHRM\Entity\I18NLangString;
+use OrangeHRM\Entity\I18NLanguage;
+use OrangeHRM\Entity\I18NTranslation;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Leave\Api\LeaveReportAPI;
 use OrangeHRM\Tests\Util\EndpointIntegrationTestCase;
@@ -30,6 +33,7 @@ class LeaveTypeLeaveEntitlementUsageReportAPITest extends EndpointIntegrationTes
 {
     public static function setUpBeforeClass(): void
     {
+        TestDataService::truncateSpecificTables([I18NTranslation::class, I18NLangString::class, I18NLanguage::class]);
         TestDataService::populate(Config::get(Config::TEST_DIR) . '/phpunit/fixtures/DataGroupPermission.yaml', true);
         TestDataService::populate(
             Config::get(Config::PLUGINS_DIR) .

@@ -20,7 +20,9 @@
 
 <template>
   <login-layout>
-    <oxd-text class="orangehrm-login-title" tag="h5">Login</oxd-text>
+    <oxd-text class="orangehrm-login-title" tag="h5">{{
+      $t('auth.login')
+    }}</oxd-text>
     <div class="orangehrm-login-form">
       <div class="orangehrm-login-error">
         <oxd-alert
@@ -41,9 +43,9 @@
           <oxd-input-field
             v-model="username"
             name="username"
-            label="Username"
+            :label="$t('general.username')"
             label-icon="person"
-            placeholder="username"
+            :placeholder="$t('auth.username')"
             :rules="rules.username"
             autofocus
           />
@@ -53,9 +55,9 @@
           <oxd-input-field
             v-model="password"
             name="password"
-            label="Password"
+            :label="$t('general.password')"
             label-icon="key"
-            placeholder="password"
+            :placeholder="$t('auth.password')"
             type="password"
             :rules="rules.password"
           />
@@ -65,7 +67,7 @@
           <oxd-button
             class="orangehrm-login-button"
             display-type="main"
-            label="Login"
+            :label="$t('auth.login')"
             type="submit"
           />
         </oxd-form-actions>

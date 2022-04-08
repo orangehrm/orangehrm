@@ -34,7 +34,7 @@
     ></edit-license>
     <div class="orangehrm-horizontal-padding orangehrm-vertical-padding">
       <profile-action-header @click="onClickAdd">
-        License
+        {{ $t('pim.license') }}
       </profile-action-header>
     </div>
     <table-header
@@ -137,13 +137,26 @@ export default {
   data() {
     return {
       headers: [
-        {name: 'type', slot: 'title', title: 'License Type', style: {flex: 1}},
-        {name: 'issuedDate', title: 'Issued Date', style: {flex: 1}},
-        {name: 'expiryDate', title: 'Expiry Date', style: {flex: 1}},
+        {
+          name: 'type',
+          slot: 'title',
+          title: this.$t('pim.license_type'),
+          style: {flex: 1},
+        },
+        {
+          name: 'issuedDate',
+          title: this.$t('pim.issued_date'),
+          style: {flex: 1},
+        },
+        {
+          name: 'expiryDate',
+          title: this.$t('general.expiry_date'),
+          style: {flex: 1},
+        },
         {
           name: 'actions',
           slot: 'action',
-          title: 'Actions',
+          title: this.$t('general.actions'),
           style: {'flex-basis': '10em'},
           cellType: 'oxd-table-cell-actions',
           cellConfig: {

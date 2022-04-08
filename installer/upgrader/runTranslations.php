@@ -28,4 +28,7 @@ ServiceContainer::getContainer()->register(Services::DOCTRINE)
     ->setFactory([Doctrine::class, 'getEntityManager']);
 
 $translate = new TranslationTool();
-$translate->up('admin');
+$modules = ['admin','general','pim','leave','time','attendance','maintenance','help','auth'];
+foreach ($modules as $module){
+    $translate->up($module);
+}

@@ -72,20 +72,6 @@ abstract class AbstractController
     }
 
     /**
-     * @param string $path
-     * @return RedirectResponse
-     */
-    protected function redirect(string $path): RedirectResponse
-    {
-        $request = $this->getCurrentRequest();
-        $baseUrl = $request->getSchemeAndHttpHost() . $request->getBaseUrl();
-        if (substr($path, 0, 1) !== '/') {
-            $path = '/' . $path;
-        }
-        return new RedirectResponse($baseUrl . $path);
-    }
-
-    /**
      * @param Response|null $response
      * @return Response
      */

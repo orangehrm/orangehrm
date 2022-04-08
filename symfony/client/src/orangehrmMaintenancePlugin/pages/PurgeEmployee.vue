@@ -22,8 +22,8 @@
   <div class="orangehrm-background-container">
     <purge-employee-records
       include-employees-param="onlyPast"
-      :title-label="title"
-      autocomplete-label="Past Employee"
+      :title-label="$t('maintenance.purge_employee_records')"
+      :autocomplete-label="$t('maintenance.past_employee')"
       @search="onClickSearch"
     />
     <br />
@@ -31,7 +31,7 @@
       v-if="showPurgeableEmployee"
       :loading="isLoading"
       :selected-employee="selectedEmployee"
-      button-label="Purge"
+      :button-label="$t('maintenance.purge')"
       @submit="onClickPurge"
     />
 
@@ -40,10 +40,10 @@
 
     <purge-confirmation
       ref="purgeDialog"
-      title="Purge Employee"
-      subtitle="You are about to purge the employee permanently. Are you sure you want to continue? This operation cannot be undone"
-      cancel-label="No, Cancel"
-      confirmation-label="Yes, Purge"
+      :title="$t('maintenance.purge_employee')"
+      :subtitle="$t('maintenance.purge_employee_warning')"
+      :cancel-label="$t('general.no_cancel')"
+      :confirmation-label="$t('maintenance.yes_purge')"
       icon=""
     ></purge-confirmation>
   </div>
@@ -94,7 +94,6 @@ export default {
 
   data() {
     return {
-      title: 'Purge Employee Records',
       isLoading: false,
       showPurgeableEmployee: false,
       selectedEmployee: {...selectedEmployeeModel},
@@ -126,8 +125,8 @@ export default {
         })
         .then(() => {
           return this.$toast.success({
-            title: 'Success',
-            message: 'Successfully Purged',
+            title: this.$t('general.success'),
+            message: this.$t('maintenance.purge_success'),
           });
         })
         .then(() => {

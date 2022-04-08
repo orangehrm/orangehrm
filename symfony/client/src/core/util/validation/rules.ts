@@ -23,6 +23,9 @@ import {
   isEqual,
   parseDate,
 } from '../helper/datefns';
+import {translate as translatorFactory} from '@/core/plugins/i18n/translate';
+
+const translate = translatorFactory();
 
 /**
  * @param {string|number|Array} value
@@ -33,15 +36,15 @@ export const required = function(
   value: string | number | Array<any>,
 ): boolean | string {
   if (typeof value === 'string') {
-    return (!!value && value.trim() !== '') || 'Required';
+    return (!!value && value.trim() !== '') || translate('general.required');
   } else if (typeof value === 'number') {
-    return !Number.isNaN(value) || 'Required';
+    return !Number.isNaN(value) || 'general.required';
   } else if (Array.isArray(value)) {
-    return (!!value && value.length !== 0) || 'Required';
+    return (!!value && value.length !== 0) || translate('general.required');
   } else if (typeof value === 'object') {
-    return value !== null || 'Required';
+    return value !== null || translate('general.required');
   } else {
-    return 'Required';
+    return translate('general.required');
   }
 };
 
@@ -53,7 +56,7 @@ export const shouldNotExceedCharLength = function(charLength: number) {
     return (
       !value ||
       new String(value).length <= charLength ||
-      `Should be less than ${charLength} characters`
+      translate('general.should_be_less_n_characters', {amount: charLength})
     );
   };
 };
@@ -62,14 +65,20 @@ export const validDateFormat = function(dateFormat = 'yyyy-MM-dd') {
   return function(value: string): boolean | string {
     if (!value) return true;
     const parsed = parseDate(value, dateFormat);
-    return parsed ? true : `Should be a valid date in ${dateFormat} format`;
+    return parsed
+      ? true
+      : translate('general.should_be_a_valid_date_in_x_format', {
+          format: dateFormat,
+        });
   };
 };
 
 export const validTimeFormat = function(value: string): boolean | string {
   if (!value) return true;
   const parsed = parseDate(value, 'HH:mm');
-  return parsed ? true : `Should be a valid time in hh:mm a format`;
+  return parsed
+    ? true
+    : translate('general.should_be_a_valid_date_in_hh:mm_format');
 };
 
 export const max = function(maxValue: number) {
@@ -77,7 +86,7 @@ export const max = function(maxValue: number) {
     return (
       Number.isNaN(parseFloat(value)) ||
       parseFloat(value) < maxValue ||
-      `Should be less than ${maxValue}`
+      translate('general.should_be_less_than_n', {amount: maxValue})
     );
   };
 };
@@ -86,7 +95,7 @@ export const digitsOnly = function(value: string): boolean | string {
   return (
     value == '' ||
     (/^\d+$/.test(value) && !Number.isNaN(parseFloat(value))) ||
-    'Should be a number'
+    translate('general.should_be_a_number')
   );
 };
 
@@ -166,7 +175,7 @@ export const endDateShouldBeAfterStartDate = (
     const resolvedMessage =
       typeof message === 'string'
         ? message
-        : 'End date should be after start date';
+        : translate('general.end_date_should_be_after_start_date');
     if (options.allowSameDate) {
       return (
         sameDate(value, resolvedStartDate) ||
@@ -258,7 +267,7 @@ export const endTimeShouldBeAfterStartTime = (
     const resolvedMessage =
       typeof message === 'string'
         ? message
-        : 'End time should be after start time';
+        : translate('general.end_time_should_be_after_start_time');
     if (options.allowSameTime) {
       return (
         sameTime(value, resolvedStartTime) ||
@@ -283,7 +292,7 @@ export const maxFileSize = function(size: number) {
     return (
       file === null ||
       (file.size && file.size <= size) ||
-      'Attachment size exceeded'
+      translate('general.attachment_size_exceeded')
     );
   };
 };
@@ -294,7 +303,7 @@ export const validFileTypes = function(fileTypes: string[]) {
     return (
       file === null ||
       (file && fileTypes.findIndex(item => item === file.type) > -1) ||
-      'File type not allowed'
+      translate('general.file_type_not_allowed')
     );
   };
 };
@@ -302,10 +311,10 @@ export const validFileTypes = function(fileTypes: string[]) {
 export const validEmailFormat = function(value: string): boolean | string {
   return (
     !value ||
-    /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9]+)+$/.test(
+    /^[a-zA-Z0-9.!#$%&'*+\\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$/.test(
       value,
     ) ||
-    'Expected format: admin@example.com'
+    translate('general.expected_email_address_format_not_matched')
   );
 };
 
@@ -314,8 +323,8 @@ export const validPhoneNumberFormat = function(
 ): boolean | string {
   return (
     !value ||
-    /^[0-9+\-/()]+$/.test(value) ||
-    'Allows numbers and only + - / ( )'
+    /^[0-9+\-/() ]+$/.test(value) ||
+    translate('general.allows_phone_numbers_only')
   );
 };
 
@@ -340,7 +349,7 @@ export const startDateShouldBeBeforeEndDate = (
     const resolvedMessage =
       typeof message === 'string'
         ? message
-        : 'Start date should be before end date';
+        : translate('general.start_date_should_be_before_end_date');
     if (options.allowSameDate) {
       return (
         sameDate(value, resolvedEndDate) ||
@@ -361,9 +370,9 @@ export const maxCurrency = function(maxValue: number) {
     return (
       Number.isNaN(parseFloat(value)) ||
       parseFloat(value) < maxValue ||
-      `Should be less than ${maxValue
-        .toString()
-        .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`
+      translate('general.should_be_less_than_n', {
+        amount: maxValue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','),
+      })
     );
   };
 };
@@ -389,7 +398,7 @@ export const startTimeShouldBeBeforeEndTime = (
     const resolvedMessage =
       typeof message === 'string'
         ? message
-        : 'Start time should be before end time';
+        : translate('general.start_time_should_be_before_end_time');
     if (options.allowSameTime) {
       return (
         sameTime(value, resolvedEndTime) ||
@@ -413,7 +422,7 @@ export const shouldNotLessThanCharLength = function(charLength: number) {
     return (
       !value ||
       String(value).length >= charLength ||
-      `Should be least  ${charLength} characters`
+      translate('general.should_be_least_n_characters', {amount: charLength})
     );
   };
 };
@@ -432,7 +441,7 @@ export const minValueShouldBeLowerThanMaxValue = (
     const resolvedMessage =
       typeof message === 'string'
         ? message
-        : 'Should be higher than Minimum Value';
+        : translate('general.should_be_higher_than_minimum_value');
     if (resolvedMinValue === null || value === null) return true;
     if (resolvedMinValue === undefined || value === undefined) return true;
     if (resolvedMinValue === '' || value === '') return true;

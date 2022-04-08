@@ -22,10 +22,12 @@
   <div class="orangehrm-background-container">
     <div class="orangehrm-paper-container">
       <div class="orangehrm-header-container">
-        <oxd-text tag="h6" class="orangehrm-main-title">Skills</oxd-text>
+        <oxd-text tag="h6" class="orangehrm-main-title">{{
+          $t('general.skills')
+        }}</oxd-text>
         <div>
           <oxd-button
-            label="Add"
+            :label="$t('general.add')"
             icon-name="plus"
             display-type="secondary"
             @click="onClickAdd"
@@ -103,11 +105,20 @@ export default {
   data() {
     return {
       headers: [
-        {name: 'name', slot: 'title', title: 'Name', style: {flex: 2}},
-        {name: 'description', title: 'Description', style: {flex: 4}},
+        {
+          name: 'name',
+          slot: 'title',
+          title: this.$t('general.name'),
+          style: {flex: 2},
+        },
+        {
+          name: 'description',
+          title: this.$t('general.description'),
+          style: {flex: 4},
+        },
         {
           name: 'actions',
-          title: 'Actions',
+          title: this.$t('general.actions'),
           slot: 'action',
           style: {flex: 1},
           cellType: 'oxd-table-cell-actions',

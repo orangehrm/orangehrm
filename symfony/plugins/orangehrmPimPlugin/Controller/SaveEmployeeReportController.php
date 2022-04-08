@@ -23,9 +23,11 @@ use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\I18N\Traits\Service\I18NHelperTrait;
 
 class SaveEmployeeReportController extends AbstractVueController
 {
+    use I18NHelperTrait;
     /**
      * @inheritDoc
      */
@@ -54,7 +56,18 @@ class SaveEmployeeReportController extends AbstractVueController
             ["id" => 20, "key" => "location", "label" => "Location"],
         ];
         $component->addProp(
-            new Prop("selection-criteria", Prop::TYPE_ARRAY, $selectionCriteria)
+            new Prop(
+                'selection-criteria',
+                Prop::TYPE_ARRAY,
+                array_map(
+                    fn (array $criteria) => [
+                        'id' => $criteria['id'],
+                        'key' => $criteria['key'],
+                        'label' => $this->getI18NHelper()->transBySource($criteria['label'])
+                    ],
+                    $selectionCriteria
+                )
+            )
         );
 
         $displayFieldGroups = [
@@ -76,9 +89,15 @@ class SaveEmployeeReportController extends AbstractVueController
         ];
         $component->addProp(
             new Prop(
-                "display-field-groups",
+                'display-field-groups',
                 Prop::TYPE_ARRAY,
-                $displayFieldGroups
+                array_map(
+                    fn (array $displayFieldGroup) => [
+                        'id' => $displayFieldGroup['id'],
+                        'label' => $this->getI18NHelper()->transBySource($displayFieldGroup['label'])
+                    ],
+                    $displayFieldGroups
+                )
             )
         );
 
@@ -520,9 +539,41 @@ class SaveEmployeeReportController extends AbstractVueController
             ],
         ];
         $component->addProp(
-            new Prop("display-fields", Prop::TYPE_ARRAY, $displayFields)
+            new Prop(
+                'display-fields',
+                Prop::TYPE_ARRAY,
+                array_map(
+                    fn (array $displayField) => [
+                        'field_group_id' => $displayField['field_group_id'],
+                        'fields' => array_map(
+                            fn (array $field) => [
+                                'id' => $field['id'],
+                                'label' => $this->getI18NHelper()->transBySource($field['label']),
+                            ],
+                            $displayField['fields']
+                        )
+                    ],
+                    $displayFields
+                )
+            )
         );
 
         $this->setComponent($component);
+    }
+
+    /**
+     * @param array $fields
+     * @return array
+     */
+    private function translateFields(array $fields): array
+    {
+        $translatedField =[];
+        foreach ($fields as $field) {
+            $translatedField[] =[
+                'id' => $field['id'],
+                'label' =>$this->getI18NHelper()->transBySource($field['label']),
+            ];
+        }
+        return $translatedField;
     }
 }

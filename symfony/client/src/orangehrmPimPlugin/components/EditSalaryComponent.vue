@@ -21,7 +21,7 @@
 <template>
   <div class="orangehrm-horizontal-padding orangehrm-vertical-padding">
     <oxd-text tag="h6" class="orangehrm-main-title">
-      Edit Salary Component
+      {{ $t('pim.edit_salary_component') }}
     </oxd-text>
     <oxd-divider />
     <oxd-form :loading="isLoading" @submitValid="onSave">
@@ -30,7 +30,7 @@
           <oxd-grid-item>
             <oxd-input-field
               v-model="salaryComponent.name"
-              label="Salary Component"
+              :label="$t('pim.salary_component')"
               :rules="rules.name"
               required
             />
@@ -39,7 +39,7 @@
             <oxd-input-field
               v-model="salaryComponent.payGradeId"
               type="select"
-              label="Pay Grade"
+              :label="$t('general.pay_grade')"
               :options="paygrades"
             />
           </oxd-grid-item>
@@ -47,7 +47,7 @@
             <oxd-input-field
               v-model="salaryComponent.payFrequencyId"
               type="select"
-              label="Pay Frequency"
+              :label="$t('pim.pay_frequency')"
               :options="payFrequencies"
             />
           </oxd-grid-item>
@@ -56,7 +56,7 @@
               :key="currenciesOpts"
               v-model="salaryComponent.currencyId"
               type="select"
-              label="Currency"
+              :label="$t('general.currency')"
               :options="currenciesOpts"
               :rules="rules.currencyId"
               required
@@ -65,7 +65,7 @@
           <oxd-grid-item>
             <oxd-input-field
               v-model="salaryComponent.salaryAmount"
-              label="Amount"
+              :label="$t('pim.amount')"
               :rules="rules.salaryAmount"
               required
             />
@@ -86,7 +86,7 @@
             <oxd-input-field
               v-model="salaryComponent.comment"
               type="textarea"
-              label="Comments"
+              :label="$t('general.comments')"
               :rules="rules.comment"
             />
           </oxd-grid-item>
@@ -95,7 +95,7 @@
 
       <oxd-form-row class="directdeposit-form-header">
         <oxd-text class="directdeposit-form-header-text" tag="p">
-          Include Direct Deposit Details
+          {{ $t('pim.include_direct_deposit_details') }}
         </oxd-text>
         <oxd-switch-input v-model="includeDirectDeposit" />
       </oxd-form-row>
@@ -105,7 +105,7 @@
           <oxd-grid-item>
             <oxd-input-field
               v-model="directDeposit.directDepositAccount"
-              label="Account Number"
+              :label="$t('pim.account_number')"
               :rules="rules.directDepositAccount"
               required
             />
@@ -114,7 +114,7 @@
             <oxd-input-field
               v-model="directDeposit.directDepositAccountType"
               type="select"
-              label="Account Type"
+              :label="$t('pim.account_type')"
               :rules="rules.directDepositAccountType"
               :options="accountTypes"
               required
@@ -123,7 +123,7 @@
           <oxd-grid-item v-if="showOptionalAccountType">
             <oxd-input-field
               v-model="accountType"
-              label="Please Specify"
+              :label="$t('pim.please_specify')"
               :rules="rules.accountType"
               required
             />
@@ -134,7 +134,7 @@
           <oxd-grid-item>
             <oxd-input-field
               v-model="directDeposit.directDepositRoutingNumber"
-              label="Routing Number"
+              :label="$t('pim.routing_number')"
               :rules="rules.directDepositRoutingNumber"
               required
             />
@@ -142,7 +142,7 @@
           <oxd-grid-item>
             <oxd-input-field
               v-model="directDeposit.directDepositAmount"
-              label="Amount"
+              :label="$t('pim.amount')"
               :rules="rules.directDepositAmount"
               required
             />
@@ -155,7 +155,7 @@
         <oxd-button
           type="button"
           display-type="ghost"
-          label="Cancel"
+          :label="$t('general.cancel')"
           @click="onCancel"
         />
         <submit-button />
@@ -168,6 +168,8 @@
 <script>
 import SwitchInput from '@ohrm/oxd/core/components/Input/SwitchInput';
 import {
+  digitsOnly,
+  maxCurrency,
   required,
   shouldNotExceedCharLength,
 } from '@ohrm/core/util/validation/rules';
@@ -234,15 +236,7 @@ export default {
       usableCurrencies: [],
       rules: {
         name: [required, shouldNotExceedCharLength(100)],
-        salaryAmount: [
-          required,
-          v => {
-            return v.match(/^\d*\.?\d*$/) !== null || 'Should be a number';
-          },
-          v => {
-            return v < 1000000000 || 'Should be less than 1000,000,000';
-          },
-        ],
+        salaryAmount: [required, digitsOnly(), maxCurrency(1000000000)],
         comment: [shouldNotExceedCharLength(250)],
         currencyId: [required],
         directDepositAccount: [required, shouldNotExceedCharLength(100)],
@@ -251,19 +245,9 @@ export default {
         directDepositRoutingNumber: [
           required,
           shouldNotExceedCharLength(9),
-          v => {
-            return v.match(/^\d*\.?\d*$/) !== null || 'Should be a number';
-          },
+          digitsOnly(),
         ],
-        directDepositAmount: [
-          required,
-          v => {
-            return v.match(/^\d*\.?\d*$/) !== null || 'Should be a number';
-          },
-          v => {
-            return v < 1000000000 || 'Should be less than 1000,000,000';
-          },
-        ],
+        directDepositAmount: [required, digitsOnly(), maxCurrency(1000000000)],
       },
     };
   },
@@ -339,11 +323,11 @@ export default {
     this.$nextTick(() => {
       this.rules.salaryAmount.push(v => {
         const min = this.minAmount ? this.minAmount : 0;
-        return v >= min || 'Should be within Min/Max values';
+        return v >= min || this.$t('pim.should_be_within_min_max_values');
       });
       this.rules.salaryAmount.push(v => {
         const max = this.maxAmount ? this.maxAmount : 999999999;
-        return v <= max || 'Should be within Min/Max values';
+        return v <= max || this.$t('pim.should_be_within_min_max_values');
       });
     });
   },
@@ -374,7 +358,7 @@ export default {
           );
           this.directDeposit.directDepositAccountType = accountType
             ? accountType
-            : {id: 'OTHER', label: 'Other'};
+            : {id: 'OTHER', label: this.$t('pim.other')};
           this.accountType =
             accountType.length === 0 ? data.directDebit.accountType : '';
           this.directDeposit.directDepositRoutingNumber =

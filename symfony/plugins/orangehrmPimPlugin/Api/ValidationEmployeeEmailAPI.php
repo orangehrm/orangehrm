@@ -85,7 +85,6 @@ class ValidationEmployeeEmailAPI extends Endpoint implements ResourceEndpoint
             new ParamRule(
                 self::PARAMETER_WORK_EMAIL,
                 new Rule(Rules::STRING_TYPE),
-                new Rule(Rules::EMAIL),
                 new Rule(Rules::LENGTH, [null, self::PARAM_RULE_WORK_EMAIL_MAX_LENGTH]),
             ),
             new ParamRule(CommonParams::PARAMETER_EMP_NUMBER),

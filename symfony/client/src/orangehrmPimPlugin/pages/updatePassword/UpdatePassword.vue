@@ -30,7 +30,7 @@
         <oxd-form-row>
           <oxd-grid :cols="2" class="orangehrm-full-width-grid">
             <oxd-grid-item>
-              <oxd-input-group :label="$t('pim.user_name')">
+              <oxd-input-group :label="$t('general.username')">
                 <oxd-text class="orangehrm-user-name" tag="p">
                   {{ userName }}
                 </oxd-text>
@@ -60,7 +60,7 @@
           <oxd-button
             type="button"
             display-type="ghost"
-            label="Cancel"
+            :label="$t('general.cancel')"
             @click="onCancel"
           />
           <submit-button />
@@ -135,8 +135,8 @@ export default {
           } else {
             this.isLoading = false;
             this.$toast.error({
-              title: 'Error',
-              message: 'Current Password is Incorrect',
+              title: this.$t('general.error'),
+              message: this.$t('pim.current_password_is_incorrect'),
             });
             return Promise.reject();
           }

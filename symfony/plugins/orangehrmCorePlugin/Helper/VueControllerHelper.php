@@ -30,12 +30,14 @@ use OrangeHRM\Core\Traits\ModuleScreenHelperTrait;
 use OrangeHRM\Core\Traits\Service\MenuServiceTrait;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\I18N\Traits\Service\I18NHelperTrait;
 
 class VueControllerHelper
 {
     use ModuleScreenHelperTrait;
     use UserServiceTrait;
     use MenuServiceTrait;
+    use I18NHelperTrait;
 
     public const COMPONENT_NAME = 'componentName';
     public const COMPONENT_PROPS = 'componentProps';
@@ -248,6 +250,12 @@ class VueControllerHelper
         if ($menuItem) {
             //TODO needed to fix for add screens
             $breadcrumb['level'] = $menuItem->getLevel() == 3 ? $menuItem->getParent()->getMenuTitle() : null;
+            if (!is_null($breadcrumb['level'])) {
+                $breadcrumb['level'] =$this->getI18NHelper()->transBySource($breadcrumb['level']);
+            }
+        }
+        if ($breadcrumb['moduleName']) {
+            $breadcrumb['moduleName'] =$this->getI18NHelper()->transBySource($breadcrumb['moduleName']);
         }
         return $breadcrumb;
     }

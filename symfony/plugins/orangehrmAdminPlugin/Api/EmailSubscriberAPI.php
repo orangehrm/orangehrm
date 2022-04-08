@@ -280,6 +280,7 @@ class EmailSubscriberAPI extends Endpoint implements CrudEndpoint
                 new ParamRule(
                     self::PARAMETER_SUBSCRIBER_EMAIL,
                     new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::EMAIL),
                     new Rule(Rules::LENGTH, [null, self::PARAM_RULE_STRING_MAX_LENGTH])
                 ),
             ),

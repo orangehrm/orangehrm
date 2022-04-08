@@ -22,7 +22,7 @@
   <edit-employee-layout :employee-id="empNumber" screen="personal">
     <div class="orangehrm-horizontal-padding orangehrm-vertical-padding">
       <oxd-text tag="h6" class="orangehrm-main-title">
-        Personal Details
+        {{ $t('pim.personal_details') }}
       </oxd-text>
       <oxd-divider />
       <oxd-form :loading="isLoading" @submitValid="onSave">
@@ -45,7 +45,7 @@
             <oxd-grid-item>
               <oxd-input-field
                 v-model="employee.nickname"
-                label="Nickname"
+                :label="$t('pim.nickname')"
                 :rules="rules.nickname"
               />
             </oxd-grid-item>
@@ -58,7 +58,7 @@
             <oxd-grid-item>
               <oxd-input-field
                 v-model="employee.employeeId"
-                label="Employee Id"
+                :label="$t('general.employee_id')"
                 :rules="rules.employeeId"
                 :disabled="!$can.update(`personal_sensitive_information`)"
               />
@@ -66,7 +66,7 @@
             <oxd-grid-item>
               <oxd-input-field
                 v-model="employee.otherId"
-                label="Other Id"
+                :label="$t('pim.other_id')"
                 :rules="rules.otherId"
               />
             </oxd-grid-item>
@@ -75,7 +75,7 @@
             <oxd-grid-item>
               <oxd-input-field
                 v-model="employee.drivingLicenseNo"
-                label="Driver's License Number"
+                :label="$t('pim.driver_license_number')"
                 :rules="rules.drivingLicenseNo"
                 :disabled="!$can.update(`personal_sensitive_information`)"
               />
@@ -83,7 +83,7 @@
             <oxd-grid-item>
               <date-input
                 v-model="employee.drivingLicenseExpiredDate"
-                label="License Expiry Date"
+                :label="$t('pim.license_expiry_date')"
               />
             </oxd-grid-item>
           </oxd-grid>
@@ -91,7 +91,7 @@
             <oxd-grid-item v-if="showSsnField">
               <oxd-input-field
                 v-model="employee.ssnNumber"
-                label="SSN Number"
+                :label="$t('pim.ssn_number')"
                 :rules="rules.ssnNumber"
                 :disabled="!$can.update(`personal_sensitive_information`)"
               />
@@ -99,7 +99,7 @@
             <oxd-grid-item v-if="showSinField">
               <oxd-input-field
                 v-model="employee.sinNumber"
-                label="SIN Number"
+                :label="$t('pim.sin_number')"
                 :rules="rules.sinNumber"
                 :disabled="!$can.update(`personal_sensitive_information`)"
               />
@@ -114,7 +114,7 @@
               <oxd-input-field
                 v-model="employee.nationality"
                 type="select"
-                label="Nationality"
+                :label="$t('general.nationality')"
                 :clear="false"
                 :options="nationalities"
               />
@@ -123,7 +123,7 @@
               <oxd-input-field
                 v-model="employee.maritalStatus"
                 type="select"
-                label="Marital Status"
+                :label="$t('pim.marital_status')"
                 :clear="false"
                 :options="maritalStatuses"
               />
@@ -133,25 +133,25 @@
             <oxd-grid-item>
               <date-input
                 v-model="employee.birthday"
-                label="Date of Birth"
+                :label="$t('pim.date_of_birth')"
                 :disabled="!$can.update(`personal_sensitive_information`)"
               />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-group
-                label="Gender"
+                :label="$t('pim.gender')"
                 :classes="{wrapper: '--gender-grouped-field'}"
               >
                 <oxd-input-field
                   v-model="employee.gender"
                   type="radio"
-                  option-label="Male"
+                  :option-label="$t('general.male')"
                   value="1"
                 />
                 <oxd-input-field
                   v-model="employee.gender"
                   type="radio"
-                  option-label="Female"
+                  :option-label="$t('general.female')"
                   value="2"
                 />
               </oxd-input-group>
@@ -165,7 +165,7 @@
             <oxd-grid-item>
               <oxd-input-field
                 v-model="employee.militaryService"
-                label="Military Service"
+                :label="$t('pim.military_service')"
                 :rules="rules.militaryService"
               />
             </oxd-grid-item>
@@ -173,8 +173,8 @@
               <oxd-input-field
                 v-model="employee.smoker"
                 type="checkbox"
-                label="Smoker"
-                option-label="yes"
+                :label="$t('pim.smoker')"
+                :option-label="$t('general.yes')"
               />
             </oxd-grid-item>
           </oxd-grid>
@@ -300,7 +300,7 @@ export default {
           if (index > -1) {
             const {empNumber} = data[index];
             return empNumber != this.empNumber
-              ? 'Employee Id already exists'
+              ? this.$t('pim.employee_id_exists')
               : true;
           } else {
             return true;

@@ -20,7 +20,7 @@
 
 <template>
   <div class="orangehrm-background-container">
-    <oxd-table-filter filter-title="Employee Reports">
+    <oxd-table-filter :filter-title="$t('general.employee_reports')">
       <oxd-form @submitValid="filterItems">
         <oxd-form-row>
           <oxd-grid :cols="2" class="orangehrm-full-width-grid">
@@ -37,13 +37,13 @@
         <oxd-form-actions>
           <oxd-button
             display-type="ghost"
-            label="Reset"
+            :label="$t('general.reset')"
             @click="onClickReset"
           />
           <oxd-button
             class="orangehrm-left-space"
             display-type="secondary"
-            label="Search"
+            :label="$t('general.search')"
             type="submit"
           />
         </oxd-form-actions>
@@ -55,7 +55,7 @@
     <div class="orangehrm-paper-container">
       <div class="orangehrm-header-container">
         <oxd-button
-          label="Add"
+          :label="$t('general.add')"
           icon-name="plus"
           display-type="secondary"
           @click="onClickAdd"
@@ -167,13 +167,13 @@ export default {
         {
           name: 'name',
           slot: 'title',
-          title: 'Name',
+          title: this.$t('general.name'),
           style: {flex: '85%'},
           sortField: 'report.name',
         },
         {
           name: 'actions',
-          title: 'Actions',
+          title: this.$t('general.actions'),
           slot: 'action',
           style: {flex: '15%'},
           cellType: 'oxd-table-cell-actions',

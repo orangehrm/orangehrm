@@ -78,5 +78,8 @@
       <directory>symfony/plugins/orangehrmMaintenancePlugin/test/Dto</directory>
       <directory>symfony/plugins/orangehrmMaintenancePlugin/test/Api</directory>
     </testsuite>
+    <testsuite name="I18N">
+      <directory>symfony/plugins/orangehrmI18NPlugin/test/Service</directory>
+    </testsuite>
   </testsuites>
 </phpunit>

@@ -19,28 +19,25 @@
 
 namespace OrangeHRM\I18N\Controller;
 
+use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Controller\AbstractFileController;
 use OrangeHRM\Core\Controller\PublicControllerInterface;
 use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\Http\Response;
+use OrangeHRM\Framework\Services;
 use OrangeHRM\I18N\Service\I18NService;
 
 class I18NMessagesController extends AbstractFileController implements PublicControllerInterface
 {
     use ConfigServiceTrait;
 
-    private ?I18NService $i18nService = null;
-
     /**
      * @return I18NService
      */
     public function getI18NService(): I18NService
     {
-        if (!$this->i18nService instanceof I18NService) {
-            $this->i18nService = new I18NService();
-        }
-        return $this->i18nService;
+        return $this->getContainer()->get(Services::I18N_SERVICE);
     }
 
     /**
@@ -69,7 +66,7 @@ class I18NMessagesController extends AbstractFileController implements PublicCon
     {
         $response->headers->set('Content-Type', $contentType);
         $response->setPublic();
-        $response->setMaxAge(0);
+        $response->setMaxAge(Config::MAX_SESSION_IDLE_TIME);
         $response->headers->addCacheControlDirective('must-revalidate', true);
         $response->headers->set('Pragma', 'Public');
     }

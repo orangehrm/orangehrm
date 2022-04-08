@@ -55,7 +55,7 @@
 
 <script>
 import {ref} from 'vue';
-import {required, max} from '@ohrm/core/util/validation/rules';
+import {required, max, digitsOnly} from '@ohrm/core/util/validation/rules';
 
 export default {
   name: 'ReportCriterionRange',
@@ -85,10 +85,6 @@ export default {
       {id: 'between', label: 'Range'},
     ]);
 
-    const digitsOnly = v => {
-      return v.match(/^\d*\.?\d*$/) !== null || 'Should be a number';
-    };
-
     const rules = {
       operator: [required],
       valueXOnly: [required, digitsOnly, max(100)],
@@ -99,7 +95,7 @@ export default {
         v => {
           return (
             parseInt(v) < parseInt(props.valueY) ||
-            'Should be less than upper bound'
+            this.$t('general.should_be_less_than_upper_bound')
           );
         },
       ],

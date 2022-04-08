@@ -61,17 +61,17 @@ describe('Admin - Job Titles', function () {
       cy.getOXD('form').within(() => {
         cy.getOXDInput('Job Title')
           .setValue(this.strings.chars120.text)
-          .isInvalid('Should be less than 100 characters');
+          .isInvalid('Should not exceed 100 characters');
         cy.getOXDInput('Job Title').setValue('').isInvalid('Required');
         cy.getOXDInput('Job Title')
           .setValue(this.strings.chars50.text)
           .isInvalid('Already exists');
         cy.getOXDInput('Job Description')
           .setValue(this.strings.chars450.text)
-          .isInvalid('Should be less than 400 characters');
+          .isInvalid('Should not exceed 400 characters');
         cy.getOXDInput('Note')
           .setValue(this.strings.chars450.text)
-          .isInvalid('Should be less than 400 characters');
+          .isInvalid('Should not exceed 400 characters');
       });
     });
   });

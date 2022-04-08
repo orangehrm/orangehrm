@@ -22,7 +22,7 @@ import pages from './pages';
 import acl, {AclAPI} from './core/plugins/acl/acl';
 import toaster, {ToasterAPI} from './core/plugins/toaster/toaster';
 import loader, {LoaderAPI} from './core/plugins/loader/loader';
-import translate, {TranslateAPI} from './core/plugins/i18n/translate';
+import createI18n, {TranslateAPI} from './core/plugins/i18n/translate';
 import './core/plugins/toaster/toaster.scss';
 import './core/plugins/loader/loader.scss';
 
@@ -41,14 +41,17 @@ app.use(toaster, {
   position: 'bottom',
 });
 
-app.use(loader);
-app.use(acl);
-app.use(translate, {
-  langugePack: require('../messages.en_US.json'),
-});
-
 // @ts-expect-error
 const baseUrl = window.appGlobal.baseUrl;
+
+const {i18n, init} = createI18n({
+  baseUrl: baseUrl,
+  resourceUrl: 'core/i18n/messages',
+});
+
+app.use(loader);
+app.use(acl);
+app.use(i18n);
 
 // https://github.com/vuejs/vue-next/pull/982
 declare module '@vue/runtime-core' {
@@ -64,4 +67,4 @@ app.config.globalProperties.global = {
   baseUrl,
 };
 
-app.mount('#app');
+init().then(() => app.mount('#app'));

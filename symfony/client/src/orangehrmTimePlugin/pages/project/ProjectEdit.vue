@@ -62,7 +62,7 @@
                 v-model="project.description"
                 type="textarea"
                 :label="$t('general.description')"
-                placeholder="Type description here"
+                :placeholder="$t('general.type_description_here')"
                 :disabled="!$can.update(`time_projects`)"
                 :rules="rules.description"
               />
@@ -177,7 +177,7 @@ export default {
               ({value: admin}) => admin && admin.id === value?.id,
             ).length < 2
               ? true
-              : 'Already exists';
+              : this.$t('general.already_exists');
           },
         ],
       },
@@ -274,7 +274,7 @@ export default {
               const {data} = response.data;
               return data.valid === true
                 ? resolve(true)
-                : resolve('Already exist');
+                : resolve(this.$t('general.already_exists'));
             });
         } else {
           resolve(true);

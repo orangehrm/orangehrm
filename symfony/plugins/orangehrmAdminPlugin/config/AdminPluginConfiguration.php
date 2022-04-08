@@ -19,6 +19,7 @@
 
 use OrangeHRM\Admin\Service\CompanyStructureService;
 use OrangeHRM\Admin\Service\CountryService;
+use OrangeHRM\Admin\Service\LocalizationService;
 use OrangeHRM\Admin\Service\PayGradeService;
 use OrangeHRM\Admin\Service\UserService;
 use OrangeHRM\Admin\Service\WorkShiftService;
@@ -55,6 +56,10 @@ class AdminPluginConfiguration implements PluginConfigurationInterface
         $this->getContainer()->register(
             Services::WORK_SHIFT_SERVICE,
             WorkShiftService::class
+        );
+        $this->getContainer()->register(
+            Services::LOCALIZATION_SERVICE,
+            LocalizationService::class
         );
     }
 }

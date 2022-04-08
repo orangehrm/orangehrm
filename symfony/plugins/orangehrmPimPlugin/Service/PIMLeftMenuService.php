@@ -23,23 +23,22 @@ use OrangeHRM\Core\Exception\CoreServiceException;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Exception\ServiceException;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
-use OrangeHRM\Core\Traits\CurrentRequestTrait;
+use OrangeHRM\Core\Traits\ControllerTrait;
 use OrangeHRM\Core\Traits\ModuleScreenHelperTrait;
 use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\WorkflowStateMachine;
+use OrangeHRM\I18N\Traits\Service\I18NHelperTrait;
 
-/**
- * Service used to generate left menu for PIM
- */
 class PIMLeftMenuService
 {
     use UserRoleManagerTrait;
     use AuthUserTrait;
     use ConfigServiceTrait;
     use ModuleScreenHelperTrait;
-    use CurrentRequestTrait;
+    use ControllerTrait;
+    use I18NHelperTrait;
 
     public const PIM_LEFTMENU_SESSION_KEY = 'pim.leftMenu.cache';
     public const PIM_LEFTMENU_TAXMENU_ENABLED = 'pim.leftMenu.isTaxMenuEnabled';
@@ -338,10 +337,11 @@ class PIMLeftMenuService
         $currentModuleScreen = $this->getCurrentModuleAndScreen();
         $baseUrl = $this->getCurrentRequest()->getBaseUrl();
 
+
         foreach ($menuItems as $screen => $properties) {
             $url = $baseUrl . '/' . $properties['module'] . '/' . $screen . '/empNumber/' . $empNumber;
             $menus[] = [
-                'name' => $properties['label'],
+                'name' => $this->getI18NHelper()->transBySource($properties['label']),
                 'url' => $url,
                 'active' => $currentModuleScreen->getScreen() === $screen
             ];

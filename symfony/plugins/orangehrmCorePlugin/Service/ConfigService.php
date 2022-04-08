@@ -35,6 +35,8 @@ class ConfigService
 {
     use DateTimeHelperTrait;
 
+    public const FALLBACK_LANGUAGE_CODE = 'en_US';
+
     /**
      * @var ConfigDao|null
      */
@@ -312,12 +314,11 @@ class ConfigService
     }
 
     /**
-     * @param string $value
-     * @throws CoreServiceException
+     * @param bool $value
      */
-    public function setAdminLocalizationUseBrowserLanguage(string $value): void
+    public function setAdminLocalizationUseBrowserLanguage(bool $value): void
     {
-        $this->_setConfigValue(self::KEY_ADMIN_LOCALIZATION_USE_BROWSER_LANGUAGE, $value);
+        $this->_setConfigValue(self::KEY_ADMIN_LOCALIZATION_USE_BROWSER_LANGUAGE, $value ? 'Yes' : 'No');
     }
 
     /**
@@ -330,17 +331,16 @@ class ConfigService
     }
 
     /**
-     * @return string
-     * @throws CoreServiceException
+     * @return bool
      */
-    public function getAdminLocalizationUseBrowserLanguage(): string
+    public function getAdminLocalizationUseBrowserLanguage(): bool
     {
-        return $this->_getConfigValue(self::KEY_ADMIN_LOCALIZATION_USE_BROWSER_LANGUAGE);
+        $val = $this->_getConfigValue(self::KEY_ADMIN_LOCALIZATION_USE_BROWSER_LANGUAGE);
+        return ($val == 'Yes');
     }
 
     /**
      * @return string
-     * @throws CoreServiceException
      */
     public function getAdminLocalizationDefaultDateFormat(): string
     {
@@ -349,11 +349,11 @@ class ConfigService
 
     /**
      * @return string
-     * @throws CoreServiceException
      */
     public function getAdminLocalizationDefaultLanguage(): string
     {
-        return $this->_getConfigValue(self::KEY_ADMIN_LOCALIZATION_DEFAULT_LANGUAGE);
+        $langCode = $this->_getConfigValue(self::KEY_ADMIN_LOCALIZATION_DEFAULT_LANGUAGE);
+        return empty($langCode) ? self::FALLBACK_LANGUAGE_CODE : $langCode;
     }
 
 //    /**

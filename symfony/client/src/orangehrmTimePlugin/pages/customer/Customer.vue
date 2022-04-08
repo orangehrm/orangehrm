@@ -23,11 +23,11 @@
     <div class="orangehrm-paper-container">
       <div class="orangehrm-header-container">
         <oxd-text tag="h6" class="orangehrm-main-title">
-          {{ $t('time.customers') }}
+          {{ $t('general.customers') }}
         </oxd-text>
         <div>
           <oxd-button
-            label="Add"
+            :label="$t('general.add')"
             icon-name="plus"
             display-type="secondary"
             @click="onClickAdd"
@@ -145,14 +145,14 @@ export default {
         {
           name: 'name',
           slot: 'title',
-          title: 'Name',
+          title: this.$t('general.name'),
           sortField: 'customer.name',
           style: {flex: 2},
         },
         {name: 'description', title: 'Description', style: {flex: 4}},
         {
           name: 'actions',
-          title: 'Actions',
+          title: this.$t('general.actions'),
           slot: 'action',
           style: {flex: 1},
           cellType: 'oxd-table-cell-actions',
@@ -197,9 +197,10 @@ export default {
       const isSelectable = this.unselectableIds.findIndex(id => id == item.id);
       if (isSelectable > -1) {
         return this.$toast.error({
-          title: 'Error',
-          message:
-            'Not Allowed to Delete Customer(s) Which Have Time Logged Against',
+          title: this.$t('general.error'),
+          message: this.$t(
+            'time.not_allowed_to_delete_customer_who_have_time_logged_against',
+          ),
         });
       }
       this.$refs.deleteDialog.showDialog().then(confirmation => {

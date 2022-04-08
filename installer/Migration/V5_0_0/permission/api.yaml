@@ -456,3 +456,20 @@ apiv2_maintenance_purge_employee:
     delete: true
   permissions:
     - { role: Admin, permission: { read: true, create: false, update: false, delete: true, self: false } }
+
+
+##########################
+#        Admin
+##########################
+
+apiv2_admin_localization:
+  description: 'API-v2 Admin - Localization'
+  api: OrangeHRM\Admin\Api\LocalizationAPI
+  module: admin
+  allowed:
+    read: true
+    create: false
+    update: true
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: true, delete: false, self: false } }

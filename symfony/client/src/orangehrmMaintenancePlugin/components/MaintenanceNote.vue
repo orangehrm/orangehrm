@@ -21,9 +21,11 @@
 <template>
   <div class="orangehrm-maintenance-note">
     <div class="orangehrm-maintenance-note-header">
-      <oxd-text>Note</oxd-text>
+      <oxd-text>{{ $t('general.note') }}</oxd-text>
     </div>
-    <oxd-text>{{ noteText }}</oxd-text>
+    <oxd-text>{{
+      $t('maintenance.gdpr_note', {instanceIdentifier: instanceIdentifier})
+    }}</oxd-text>
   </div>
 </template>
 
@@ -36,12 +38,6 @@ export default {
       type: String,
       required: true,
     },
-  },
-
-  data() {
-    return {
-      noteText: `Users who seek access to their data, or who seek to correct, amend, or delete the given information should direct their requests to Data@orangehrm.com with the subject "Purge Records (Instance Identifier: ${this.instanceIdentifier})"`,
-    };
   },
 };
 </script>

@@ -22,34 +22,34 @@
   <div class="orangehrm-header-container">
     <div v-if="bulkActions && selected > 0" class="actions">
       <oxd-text tag="span">
-        {{ itemSelectedText }}
+        {{ $t('general.n_records_selected', {count: selected}) }}
       </oxd-text>
       <oxd-button
         v-if="bulkActions.APPROVE"
-        label="Approve"
+        :label="$t('general.approve')"
         display-type="label-success"
         @click="$emit('onActionClick', 'APPROVE')"
       />
       <oxd-button
         v-if="bulkActions.REJECT"
-        label="Reject"
+        :label="$t('general.reject')"
         display-type="label-danger"
         @click="$emit('onActionClick', 'REJECT')"
       />
       <oxd-button
         v-if="bulkActions.CANCEL"
-        label="Cancel"
+        :label="$t('general.cancel')"
         display-type="label-warn"
         @click="$emit('onActionClick', 'CANCEL')"
       />
     </div>
-    <oxd-text v-else tag="span">{{ itemCountText }}</oxd-text>
+    <oxd-text v-else tag="span">
+      {{ $t('general.n_records_found', {count: total}) }}
+    </oxd-text>
   </div>
 </template>
 
 <script>
-import {computed} from 'vue';
-
 export default {
   name: 'LeaveListTableHeader',
 
@@ -74,25 +74,6 @@ export default {
   },
 
   emits: ['onActionClick'],
-
-  setup(props) {
-    const getNoun = count => {
-      if (!count) return `No Records`;
-      return count === 1 ? `(${count}) Record` : `(${count}) Records`;
-    };
-
-    const itemCountText = computed(() => {
-      return `${getNoun(props.total)} Found`;
-    });
-    const itemSelectedText = computed(() => {
-      return `${getNoun(props.selected)} Selected`;
-    });
-
-    return {
-      itemCountText,
-      itemSelectedText,
-    };
-  },
 };
 </script>
 

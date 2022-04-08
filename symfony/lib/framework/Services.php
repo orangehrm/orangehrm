@@ -132,7 +132,7 @@ final class Services
 
     /**
      * @see \OrangeHRM\Framework\Cache\FilesystemAdapter
-     * @see \Symfony\Component\Cache\Adapter\AbstractAdapter
+     * @see \Symfony\Component\Cache\Adapter\AdapterInterface
      */
     public const CACHE = 'core.cache';
 
@@ -178,6 +178,11 @@ final class Services
      * @see \OrangeHRM\Admin\Service\WorkShiftService
      */
     public const WORK_SHIFT_SERVICE = 'admin.work_shift_service';
+
+    /**
+     * @see \OrangeHRM\Admin\Service\LocalizationService
+     */
+    public const LOCALIZATION_SERVICE = 'admin.localization_service';
 
     ///////////////////////////////////////////////////////////////
     /// Leave plugin services
@@ -260,5 +265,17 @@ final class Services
      */
     public const ATTENDANCE_SERVICE = 'attendance.attendance_service';
 
+    ///////////////////////////////////////////////////////////////
+    /// I18N plugin services
+    ///////////////////////////////////////////////////////////////
 
+    /**
+     * @see \OrangeHRM\I18N\Service\I18NService
+     */
+    public const I18N_SERVICE = 'i18n.i18n_service';
+
+    /**
+     * @see \OrangeHRM\I18N\Service\I18NHelper
+     */
+    public const I18N_HELPER = 'i18n.i18n_helper';
 }

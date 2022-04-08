@@ -1,0 +1,23 @@
+installer_home:
+  path: /
+  controller: OrangeHRM\Installer\Controller\HomeController::handle
+  methods: [ GET ]
+
+installer_welcome:
+  path: /installer/welcome
+  controller: OrangeHRM\Installer\Controller\WelcomeController::handle
+  methods: [ GET ]
+
+upgrader_database_config:
+  path: /upgrader/database-config
+  controller: OrangeHRM\Installer\Controller\Upgrader\DatabaseConfigController::handle
+  methods: [ GET ]
+
+##########################
+#        APIs
+##########################
+
+api_upgrader_database_config:
+  path: /upgrader/api/database-config
+  controller: OrangeHRM\Installer\Controller\Upgrader\Api\DatabaseConfigApi::handle
+  methods: [ POST ]

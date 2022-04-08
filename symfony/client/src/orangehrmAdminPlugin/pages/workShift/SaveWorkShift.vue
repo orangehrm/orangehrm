@@ -21,8 +21,9 @@
 <template>
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
-      <oxd-text tag="h6" class="orangehrm-main-title">Add Work Shift</oxd-text>
-
+      <oxd-text tag="h6" class="orangehrm-main-title">
+        {{ $t('admin.add_work_shift') }}
+      </oxd-text>
       <oxd-divider />
       <oxd-form :loading="isLoading" @submitValid="onSave">
         <oxd-form-row>
@@ -39,7 +40,9 @@
         <oxd-divider />
 
         <oxd-form-row>
-          <oxd-text class="orangehrm-sub-title">Working Hours*</oxd-text>
+          <oxd-text class="orangehrm-sub-title"
+            >{{ $t('admin.working_hours') }} *</oxd-text
+          >
           <oxd-grid :cols="4" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <time-input
@@ -80,7 +83,11 @@
         <oxd-divider />
         <oxd-form-actions>
           <required-text />
-          <oxd-button display-type="ghost" label="Cancel" @click="onCancel" />
+          <oxd-button
+            display-type="ghost"
+            :label="$t('general.cancel')"
+            @click="onCancel"
+          />
           <submit-button />
         </oxd-form-actions>
       </oxd-form>
@@ -140,7 +147,7 @@ export default {
           validTimeFormat,
           endTimeShouldBeAfterStartTime(
             () => this.workShift.startTime,
-            'To time should be after from time',
+            this.$t('general.to_time_should_be_after_from_time'),
           ),
         ],
       },
@@ -163,7 +170,7 @@ export default {
         const {data} = response.data;
         this.rules.name.push(v => {
           const index = data.findIndex(item => item.name == v);
-          return index === -1 || 'Already exists';
+          return index === -1 || this.$t('general.already_exists');
         });
       })
       .finally(() => {

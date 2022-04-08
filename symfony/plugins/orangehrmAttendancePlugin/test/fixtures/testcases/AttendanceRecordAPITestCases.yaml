@@ -829,6 +829,52 @@ Update:
         middleName: 'ST'
         employeeId: 'E002'
         terminationId: null
+  'Attendance Record Update - self (ESS) - Config Enabled - without timezoneOffset and timezoneName':
+    userId: 2
+    services:
+      attendance.attendance_service: \OrangeHRM\Attendance\Service\AttendanceService
+      core.config_service: \OrangeHRM\Core\Service\ConfigService
+      admin.user_service: \OrangeHRM\Admin\Service\UserService
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    factories:
+      core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
+    hooks:
+      preAssertValidTestCase: [ '\OrangeHRM\Tests\Attendance\Api\AttendanceRecordAPITest', 'enableUserCanModifyAttendancePreHook' ]
+    attributes:
+      id: 2
+    body:
+      punchInDate: '2022-02-10'
+      punchInTime: '15:30'
+      punchInNote: 'Punched In'
+      punchOutDate: '2022-02-10'
+      punchOutTime: '18:30'
+      punchOutNote: 'Punched Out'
+    data:
+      id: 2
+      punchIn:
+        utcDate: '2022-02-10'
+        utcTime: '10:00'
+        userDate: '2022-02-10'
+        userTime: '15:30'
+        timezoneOffset: '5.5'
+        note: 'Punched In'
+      punchOut:
+        utcDate: '2022-02-10'
+        utcTime: '13:00'
+        userDate: '2022-02-10'
+        userTime: '18:30'
+        timezoneOffset: '5.5'
+        note: 'Punched Out'
+      state:
+        id: 'PUNCHED OUT'
+        name: 'Punched Out'
+      employee:
+        empNumber: 2
+        lastName: 'Abel'
+        firstName: 'Ashley'
+        middleName: 'ST'
+        employeeId: 'E002'
+        terminationId: null
 
   'Attendance Record Update - self (ESS) - Config Enabled - change timezones':
     userId: 2
