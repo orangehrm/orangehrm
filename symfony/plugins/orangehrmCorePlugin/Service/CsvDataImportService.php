@@ -20,6 +20,7 @@
 
 namespace OrangeHRM\Core\Service;
 
+use OrangeHRM\Core\Exception\CSVUploadFailedException;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Import\CsvDataImportFactory;
 use OrangeHRM\Core\Traits\Service\TextHelperTrait;
@@ -33,7 +34,7 @@ class CsvDataImportService
      * @param string $importType
      * @param array $headerValues
      * @return int
-     * @throws DaoException
+     * @throws DaoException|CSVUploadFailedException
      */
     public function import(string $fileContent, string $importType, array $headerValues): int
     {
@@ -46,6 +47,13 @@ class CsvDataImportService
         $employeesDataArray = [];
 
         while (($data = fgetcsv($stream, 1000, ",")) !== false) {
+            //Each data row should have the same amount of elements as the headerValues array
+            //E.g. for data array: ["Devi","","DS","","","","","","","","","","","","","","","","","","devi@admin.com",""]
+            if (count($data) !== count($headerValues)) {
+                fclose($stream);
+                throw CSVUploadFailedException::validationFailed();
+            }
+
             foreach ($data as $key => $datum) {
                 if ($this->getTextHelper()->strContains($datum, "\n")) {
                     $data[$key] = str_replace("\n", '', $datum);
