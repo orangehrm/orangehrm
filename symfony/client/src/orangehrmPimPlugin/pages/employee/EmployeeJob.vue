@@ -25,7 +25,9 @@
     :allowed-file-types="allowedFileTypes"
   >
     <div class="orangehrm-horizontal-padding orangehrm-vertical-padding">
-      <oxd-text tag="h6" class="orangehrm-main-title">Job Details</oxd-text>
+      <oxd-text tag="h6" class="orangehrm-main-title">{{
+        $t('pim.job_details')
+      }}</oxd-text>
       <oxd-divider />
       <oxd-form :loading="isLoading" @submitValid="onSave">
         <oxd-form-row>
@@ -33,7 +35,7 @@
             <oxd-grid-item>
               <date-input
                 v-model="job.joinedDate"
-                label="Joined Date"
+                :label="$t('general.joined_date')"
                 :rules="rules.joinedDate"
                 :disabled="!hasUpdatePermissions"
               />
@@ -42,7 +44,7 @@
               <oxd-input-field
                 v-model="job.jobTitleId"
                 type="select"
-                label="Job Title"
+                :label="$t('general.job_title')"
                 :options="normalizedJobTitles"
                 :disabled="!hasUpdatePermissions"
               />
@@ -57,7 +59,7 @@
               <oxd-input-field
                 v-model="job.jobCategoryId"
                 type="select"
-                label="Job Catergory"
+                :label="$t('general.job_category')"
                 :options="jobCategories"
                 :disabled="!hasUpdatePermissions"
               />
@@ -66,7 +68,7 @@
               <oxd-input-field
                 v-model="job.subunitId"
                 type="select"
-                label="Sub Unit"
+                :label="$t('general.sub_unit')"
                 :options="subunits"
                 :disabled="!hasUpdatePermissions"
               />
@@ -75,7 +77,7 @@
               <oxd-input-field
                 v-model="job.locationId"
                 type="select"
-                label="Location"
+                :label="$t('general.location')"
                 :options="locations"
                 :disabled="!hasUpdatePermissions"
               />
@@ -84,7 +86,7 @@
               <oxd-input-field
                 v-model="job.empStatusId"
                 type="select"
-                label="Employment Status"
+                :label="$t('general.employment_status')"
                 :options="employmentStatuses"
                 :disabled="!hasUpdatePermissions"
               />
@@ -95,7 +97,7 @@
 
         <oxd-form-row class="user-form-header">
           <oxd-text class="user-form-header-text" tag="p">
-            Include Employment Contract Details
+            {{ $t('pim.include_employment_contract_details') }}
           </oxd-text>
           <oxd-switch-input v-model="showContractDetails" />
         </oxd-form-row>
@@ -106,7 +108,7 @@
               <oxd-grid-item>
                 <date-input
                   v-model="contract.startDate"
-                  label="Contract Start Date"
+                  :label="$t('pim.contract_start_date')"
                   :rules="rules.startDate"
                   :disabled="!hasUpdatePermissions"
                 />
@@ -115,7 +117,7 @@
               <oxd-grid-item>
                 <date-input
                   v-model="contract.endDate"
-                  label="Contract End Date"
+                  :label="$t('pim.contract_end_date')"
                   :rules="rules.endDate"
                   :disabled="!hasUpdatePermissions"
                 />
@@ -128,8 +130,8 @@
                 <file-upload-input
                   v-model:newFile="contract.newAttachment"
                   v-model:method="contract.method"
-                  label="Contract Details"
-                  button-label="Browse"
+                  :label="$t('pim.contract_details')"
+                  :button-label="$t('general.browse')"
                   :file="contract.oldAttachment"
                   :rules="rules.contractAttachment"
                   :url="`pim/viewAttachment/empNumber/${empNumber}/attachId`"
@@ -313,8 +315,8 @@ export default {
     },
     terminationActionLabel() {
       return this.termination?.id
-        ? 'Activate Employment'
-        : 'Terminate Employment';
+        ? this.$t('pim.activate_employement')
+        : this.$t('pim.terminate_employement');
     },
     terminationActionType() {
       return this.termination?.id ? 'ghost-success' : 'label-danger';

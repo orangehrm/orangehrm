@@ -21,7 +21,9 @@
 <template>
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
-      <oxd-text tag="h6" class="orangehrm-main-title">Add Skill</oxd-text>
+      <oxd-text tag="h6" class="orangehrm-main-title">{{
+        $t('general.add_skill')
+      }}</oxd-text>
 
       <oxd-divider />
 
@@ -29,7 +31,7 @@
         <oxd-form-row>
           <oxd-input-field
             v-model="skill.name"
-            label="Name"
+            :label="$t('general.name')"
             :rules="rules.name"
             required
           />
@@ -39,8 +41,8 @@
           <oxd-input-field
             v-model="skill.description"
             type="textarea"
-            label="Description"
-            placeholder="Type description here"
+            :label="$t('general.description')"
+            :placeholder="$t('general.type_description_here')"
             :rules="rules.description"
           />
         </oxd-form-row>
@@ -49,7 +51,11 @@
 
         <oxd-form-actions>
           <required-text />
-          <oxd-button display-type="ghost" label="Cancel" @click="onCancel" />
+          <oxd-button
+            display-type="ghost"
+            :label="$t('general.cancel')"
+            @click="onCancel"
+          />
           <submit-button />
         </oxd-form-actions>
       </oxd-form>
@@ -60,7 +66,10 @@
 <script>
 import {navigate} from '@ohrm/core/util/helper/navigation';
 import {APIService} from '@ohrm/core/util/services/api.service';
-import {required} from '@ohrm/core/util/validation/rules';
+import {
+  required,
+  shouldNotExceedCharLength,
+} from '@ohrm/core/util/validation/rules';
 
 const skillModel = {
   id: '',
@@ -83,13 +92,8 @@ export default {
       isLoading: false,
       skill: {...skillModel},
       rules: {
-        name: [],
-        description: [
-          v =>
-            (v && v.length <= 400) ||
-            v === '' ||
-            'Should not exceed 400 characters',
-        ],
+        name: [required, shouldNotExceedCharLength(120)],
+        description: [shouldNotExceedCharLength(400)],
       },
       errors: [],
     };
@@ -100,13 +104,9 @@ export default {
       .getAll()
       .then(response => {
         const {data} = response.data;
-        this.rules.name.push(required);
-        this.rules.name.push(v => {
-          return (v && v.length <= 120) || 'Should not exceed 120 characters';
-        });
         this.rules.name.push(v => {
           const index = data.findIndex(item => item.name == v);
-          return index === -1 || 'Already exists';
+          return index === -1 || this.$t('general.already_exists');
         });
       })
       .finally(() => {

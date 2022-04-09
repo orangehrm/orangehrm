@@ -21,13 +21,15 @@
     </noscript>
 
     <div id="app">
-    <{{ componentName }}
-    {% for prop in componentProps %}
-        :{{ prop.getName() }}="{{ prop.getValue() }}"
-    {% endfor %}
-    >
-    <template v-slot:footer><br>{% include 'copyright.html.twig' %}<br></template>
-    </{{ componentName }}>
+        <installer-layout>
+            <{{ componentName }}
+            {% for prop in componentProps %}
+                :{{ prop.getName() }}="{{ prop.getValue() }}"
+            {% endfor %}
+            >
+            </{{ componentName }}>
+            <template v-slot:footer><br>{% include 'copyright.html.twig' %}<br></template>
+        </installer-layout>
     </div>
 {% endblock %}
 

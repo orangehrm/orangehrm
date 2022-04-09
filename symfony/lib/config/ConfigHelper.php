@@ -32,45 +32,19 @@ class ConfigHelper
     private function getPathConfigs(): array
     {
         $pathToProjectBase = realpath(__DIR__ . '/../../../');
-        $pathToSymfonyDir = realpath($pathToProjectBase . '/symfony/');
+        $pathToSrcDir = realpath($pathToProjectBase . '/symfony/');
         return [
             Config::BASE_DIR => $pathToProjectBase,
-            'ohrm_symfony_dir' => $pathToSymfonyDir,
-            'ohrm_apps_dir' => realpath($pathToSymfonyDir . '/apps'),
-            'ohrm_lib_dir' => realpath($pathToSymfonyDir . '/lib'),
-            'ohrm_log_dir' => realpath($pathToSymfonyDir . '/log'),
-            'ohrm_data_dir' => realpath($pathToSymfonyDir . '/data'),
-            'ohrm_config_dir' => realpath($pathToSymfonyDir . '/config'),
-            Config::PLUGINS_DIR => realpath($pathToSymfonyDir . '/plugins'),
+            Config::SRC_DIR => $pathToSrcDir,
+            'ohrm_lib_dir' => realpath($pathToSrcDir . '/lib'),
+            'ohrm_log_dir' => realpath($pathToSrcDir . '/log'),
+            'ohrm_data_dir' => realpath($pathToSrcDir . '/data'),
+            'ohrm_config_dir' => realpath($pathToSrcDir . '/config'),
+            Config::PLUGINS_DIR => realpath($pathToSrcDir . '/plugins'),
             Config::PUBLIC_DIR => realpath($pathToProjectBase . '/web'),
-            Config::CACHE_DIR => realpath($pathToSymfonyDir . '/cache'),
-            'ohrm_app_dir' => realpath($pathToSymfonyDir . '/apps/orangehrm'),
-            'ohrm_app_config_dir' => realpath($pathToSymfonyDir . '/apps/orangehrm/config'),
-            'ohrm_app_lib_dir' => realpath($pathToSymfonyDir . '/apps/orangehrm/lib'),
-            'ohrm_app_i18n_dir' => realpath($pathToSymfonyDir . '/apps/orangehrm/i18n'),
-            Config::DOCTRINE_PROXY_DIR => realpath($pathToSymfonyDir . '/config/proxy'),
-            Config::TEST_DIR => realpath($pathToSymfonyDir . '/test'),
-
-            'ohrm_client_dir' => realpath($pathToSymfonyDir . '/client'),
-            'ohrm_app_template_dir' => realpath($pathToSymfonyDir . '/apps/orangehrm/templates'),
-            'ohrm_vue_build_dir' => realpath($pathToProjectBase . '/web/dist'),
-        ];
-    }
-
-    /**
-     * @return string[]
-     */
-    private function getModuleConfigs(): array
-    {
-        return [
-            'sf_login_module' => 'auth',
-            'sf_login_action' => 'login',
-            'sf_secure_module' => 'default',
-            'sf_secure_action' => 'secure',
-            'sf_module_disabled_module' => 'default',
-            'sf_module_disabled_action' => 'disabled',
-            'sf_error_404_module' => 'default',
-            'sf_error_404_action' => 'error404',
+            Config::CACHE_DIR => realpath($pathToSrcDir . '/cache'),
+            Config::DOCTRINE_PROXY_DIR => realpath($pathToSrcDir . '/config/proxy'),
+            Config::TEST_DIR => realpath($pathToSrcDir . '/test'),
         ];
     }
 
@@ -133,11 +107,30 @@ class ConfigHelper
         return null;
     }
 
-    public function getClientConfigs(): array
+    /**
+     * @return array
+     */
+    private function getClientConfigs(): array
     {
-        $pathToBuildTimestampFile = realpath($this->get('ohrm_vue_build_dir') . '/build');
+        $pathToProjectBase = $this->get(Config::BASE_DIR);
+        $pathToSrcDir = $this->get(Config::SRC_DIR);
+        $pathToVueBuildDir = realpath($pathToProjectBase . '/web/dist');
+        $pathToBuildTimestampFile = realpath($pathToVueBuildDir . '/build');
         return [
+            'ohrm_client_dir' => realpath($pathToSrcDir . '/client'),
+            'ohrm_app_template_dir' => realpath($pathToSrcDir . '/plugins/orangehrmCorePlugin/templates'),
+            'ohrm_vue_build_dir' => $pathToVueBuildDir,
             'ohrm_vue_build_timestamp' => $pathToBuildTimestampFile ? file_get_contents($pathToBuildTimestampFile) : '',
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    private function getGlobalConfigs(): array
+    {
+        return [
+            Config::I18N_ENABLED => true,
         ];
     }
 
@@ -147,9 +140,9 @@ class ConfigHelper
     public function getConfigs(): array
     {
         $this->add($this->getPathConfigs());
-        $this->add($this->getModuleConfigs());
         $this->add($this->getPluginConfigs());
         $this->add($this->getClientConfigs());
+        $this->add($this->getGlobalConfigs());
         return $this->getAll();
     }
 
@@ -160,7 +153,7 @@ class ConfigHelper
      */
     protected function get(string $name, $default = null)
     {
-        return isset($this->configs[$name]) ? $this->configs[$name] : $default;
+        return $this->configs[$name] ?? $default;
     }
 
     /**
@@ -174,7 +167,7 @@ class ConfigHelper
     /**
      * @param array $parameters
      */
-    protected function add(array $parameters = [])
+    protected function add(array $parameters = []): void
     {
         $this->configs = array_merge($this->configs, $parameters);
     }

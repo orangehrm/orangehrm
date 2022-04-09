@@ -20,7 +20,9 @@
 
 <template>
   <div class="orangehrm-horizontal-padding orangehrm-vertical-padding">
-    <oxd-text tag="h6" class="orangehrm-main-title">Add Dependent</oxd-text>
+    <oxd-text tag="h6" class="orangehrm-main-title">{{
+      $t('pim.add_dependent')
+    }}</oxd-text>
     <oxd-divider />
     <oxd-form :loading="isLoading" @submitValid="onSave">
       <oxd-form-row>
@@ -28,7 +30,7 @@
           <oxd-grid-item>
             <oxd-input-field
               v-model="dependent.name"
-              label="Name"
+              :label="$t('general.name')"
               :rules="rules.name"
               required
             />
@@ -37,7 +39,7 @@
             <oxd-input-field
               v-model="dependent.relationshipType"
               type="select"
-              label="Relationship"
+              :label="$t('pim.relationship')"
               :rules="rules.relationshipType"
               :options="relationshipOptions"
               required
@@ -46,7 +48,7 @@
           <oxd-grid-item v-if="showRelationship">
             <oxd-input-field
               v-model="dependent.relationship"
-              label="Please Specify"
+              :label="$t('pim.please_specify')"
               :rules="rules.relationship"
               required
             />
@@ -59,7 +61,7 @@
           <oxd-grid-item>
             <date-input
               v-model="dependent.dateOfBirth"
-              label="Date of Birth"
+              :label="$t('pim.date_of_birth')"
               :rules="rules.dateOfBirth"
             />
           </oxd-grid-item>
@@ -71,7 +73,7 @@
         <oxd-button
           type="button"
           display-type="ghost"
-          label="Cancel"
+          :label="$t('general.cancel')"
           @click="onCancel"
         />
         <submit-button />
@@ -118,8 +120,8 @@ export default {
         dateOfBirth: [validDateFormat()],
       },
       relationshipOptions: [
-        {id: 'child', label: 'Child'},
-        {id: 'other', label: 'Other'},
+        {id: 'child', label: this.$t('pim.child')},
+        {id: 'other', label: this.$t('pim.other')},
       ],
     };
   },

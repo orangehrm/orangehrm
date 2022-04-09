@@ -15,6 +15,9 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
+import {translate as translatorFactory} from '@/core/plugins/i18n/translate';
+
+const translate = translatorFactory();
 
 export function getPassLevel(password: string): number[] {
   const level1 = new RegExp(/[a-z]/);
@@ -30,14 +33,14 @@ export function checkPassword(password: string): string | boolean {
   if (password.length >= 8) {
     const pwdLevel = getPassLevel(password);
     if (RegExp(/\s/).test(password)) {
-      return 'Your password should not contain spaces.';
+      return translate('auth.your_password_should_not_contain_spaces');
     }
     if (pwdLevel.reduce((acc, curr) => acc + curr, 0) < 4) {
-      return 'Your password must contain a lower-case letter, an upper-case letter, a digit and a special character. Try a different password';
+      return translate('auth.must_contain_lower_case_upper_case_digit_character_message');
     } else {
       return true;
     }
   } else {
-    return 'Should have at least 8 characters';
+    return translate('auth.should_have_min_8_characters');
   }
 }

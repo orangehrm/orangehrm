@@ -69,9 +69,9 @@ WorkflowStateMachine:
   4: {id: 17, workflow: 3, state: 'TERMINATED', role: 'ADMIN', action: '5', resulting_state: 'NOT EXIT'}
 
 Module:
-  - {id: 1, name: 'core', status: 1}
-  - {id: 2, name: 'admin', status: 1}
-  - {id: 3, name: 'pim', status: 1}
+  - {id: 1, name: 'core', status: 1, displayName: 'Core'}
+  - {id: 2, name: 'admin', status: 1, displayName: 'Admin'}
+  - {id: 3, name: 'pim', status: 1, displayName: 'PIM'}
 
 DataGroup:
   - { id: 1, name: 'personal_information', can_read: 1, can_create: 0, can_update: 1, can_delete: 0 }

@@ -35,7 +35,7 @@
 
   <oxd-grid-item class="orangehrm-report-field">
     <oxd-text class="orangehrm-report-field-header" tag="p">
-      Include Header
+      {{ $t('general.include_header') }}
     </oxd-text>
     <oxd-switch-input
       :model-value="includeHeader"

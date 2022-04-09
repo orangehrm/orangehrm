@@ -142,7 +142,7 @@ export default {
           v => {
             return (
               /^\d+(\.\d{1,2})?$/.test(v) ||
-              'Should be a number with upto 2 decimal places'
+              this.$t('leave.should_be_a_number_with_2_decimal_places')
             );
           },
           max(10000),
@@ -229,7 +229,9 @@ export default {
               const {data} = response.data;
               return data.valid === true
                 ? resolve(true)
-                : resolve('Used amount exceeds the current amount');
+                : resolve(
+                    this.$t('leave.used_amount_exceeds_the_current_amount'),
+                  );
             });
         } else {
           resolve(true);

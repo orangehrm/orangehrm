@@ -30,12 +30,14 @@ use OrangeHRM\Core\Traits\ModuleScreenHelperTrait;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\MenuItem;
 use OrangeHRM\Entity\Screen;
+use OrangeHRM\I18N\Traits\Service\I18NHelperTrait;
 
 class MenuService
 {
     use UserRoleManagerTrait;
     use ModuleScreenHelperTrait;
     use AuthUserTrait;
+    use I18NHelperTrait;
 
     public const CORE_MENU_SIDE_PANEL_CACHE_KEY = 'core.menu.side_panel';
     public const CORE_MENU_TOP_RIBBON_CACHE_KEY = 'core.menu.top_ribbon';
@@ -267,7 +269,7 @@ class MenuService
         }
         $menuItem = [
             'id' => $detailedMenuItem->getId(),
-            'name' => $detailedMenuItem->getMenuTitle(),
+            'name' => $this->getI18NHelper()->transBySource($detailedMenuItem->getMenuTitle()),
             'url' => $url,
         ];
 

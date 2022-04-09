@@ -142,18 +142,18 @@ export default {
         {
           name: 'title',
           slot: 'title',
-          title: 'Job Title',
+          title: this.$t('admin.job_titles'),
           sortField: 'jt.jobTitleName',
           style: {flex: 2},
         },
         {
           name: 'description',
-          title: 'Job Description',
+          title: this.$t('general.job_description'),
           style: {flex: 4},
         },
         {
           name: 'actions',
-          title: 'Actions',
+          title: this.$t('general.actions'),
           slot: 'action',
           style: {flex: 1},
           cellType: 'oxd-table-cell-actions',

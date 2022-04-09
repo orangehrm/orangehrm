@@ -28,15 +28,16 @@
         @submitValid="onSubmit"
       >
         <oxd-text tag="h6" class="orangehrm-admin-access-title">
-          Administrator Access
+          {{ $t('auth.admin_access') }}
         </oxd-text>
 
         <br />
 
-        <oxd-text :class="noteClasses">
-          You have requested to access a critical Administrator function in
-          OrangeHRM and are required to validate your credentials below
-        </oxd-text>
+        <div :class="noteContainerClass">
+          <oxd-text tag="toast-message">
+            {{ $t('auth.admin_access_note') }}
+          </oxd-text>
+        </div>
 
         <oxd-alert
           :show="error !== null"
@@ -50,7 +51,7 @@
           <oxd-input-field
             :model-value="username"
             name="username"
-            label="Username"
+            :label="$t('general.username')"
             label-icon="person"
             disabled
           />
@@ -59,10 +60,11 @@
           <oxd-input-field
             v-model="password"
             name="password"
-            label="Password"
+            :label="$t('general.password')"
             label-icon="key"
             type="password"
             :rules="rules.password"
+            autofocus
           />
         </oxd-form-row>
         <div class="orangehrm-admin-access-button-container">
@@ -70,14 +72,14 @@
             class="orangehrm-admin-access-button"
             display-type="ghost"
             size="large"
-            label="Cancel"
+            :label="$t('general.cancel')"
             @click="onCancel"
           />
           <oxd-button
             class="orangehrm-admin-access-button"
             display-type="secondary"
             size="large"
-            label="Confirm"
+            :label="$t('general.confirm')"
             type="submit"
           />
         </div>
@@ -129,6 +131,9 @@ export default {
         'orangehrm-admin-access-note': true,
         '--padding': this.error === null,
       },
+      noteContainerClass: {
+        'orangehrm-admin-access-note-container': this.error === null,
+      },
     };
   },
 
@@ -161,18 +166,15 @@ export default {
   &-container {
     display: flex;
     flex-direction: column;
-    height: 100vh;
+    height: 100%;
     justify-content: center;
     align-items: center;
   }
   &-title {
     font-weight: 700;
   }
-  &-note {
-    font-size: 12px;
-    &.--padding {
-      padding-bottom: 1.2rem;
-    }
+  &-note-container {
+    padding-bottom: 1.2rem;
   }
   &-button {
     flex: 1;

@@ -53,6 +53,7 @@ class MenuItemFixture extends AbstractFixture
             $result['id'] = $module->getId();
             $result['name'] = $module->getName();
             $result['status'] = $module->getStatus();
+            $result['displayName'] = $module->getDisplayName();
             $moduleResults[] = $result;
         }
 

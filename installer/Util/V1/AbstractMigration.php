@@ -73,7 +73,7 @@ abstract class AbstractMigration
     /**
      * @return DataGroupHelper
      */
-    public function getDataGroupHelper(): DataGroupHelper
+    protected function getDataGroupHelper(): DataGroupHelper
     {
         if (!$this->dataGroupHelper instanceof DataGroupHelper) {
             $this->dataGroupHelper = new DataGroupHelper($this->getConnection());
@@ -84,10 +84,10 @@ abstract class AbstractMigration
     /**
      * @return LanguageHelper
      */
-    public function getLangHelper(): LanguageHelper
+    protected function getLangHelper(): LanguageHelper
     {
         if (!$this->languageHelper instanceof LanguageHelper) {
-            $this->languageHelper = new LanguageHelper();
+            $this->languageHelper = new LanguageHelper($this->getConnection());
         }
         return $this->languageHelper;
     }

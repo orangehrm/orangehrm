@@ -44,7 +44,7 @@
         :action-button-shown="$can.update(`salary_details`)"
         @click="onClickAdd"
       >
-        Assigned Salary Components
+        {{ $t('pim.assigned_salary_components') }}
       </profile-action-header>
     </div>
     <table-header
@@ -168,15 +168,23 @@ export default {
         {
           name: 'name',
           slot: 'title',
-          title: 'Salary Component',
+          title: this.$t('pim.salary_component'),
           style: {flex: 1},
         },
-        {name: 'amount', title: 'Amount', style: {flex: 1}},
-        {name: 'currency', title: 'Currency', style: {flex: 1}},
-        {name: 'frequency', title: 'Pay Frequency', style: {flex: 1}},
+        {name: 'amount', title: this.$t('pim.amount'), style: {flex: 1}},
+        {
+          name: 'currency',
+          title: this.$t('general.currency'),
+          style: {flex: 1},
+        },
+        {
+          name: 'frequency',
+          title: this.$t('pim.pay_frequency'),
+          style: {flex: 1},
+        },
         {
           name: 'depositAmount',
-          title: 'Direct Deposit Amount',
+          title: this.$t('pim.direct_deposit_amount'),
           style: {flex: 1},
         },
       ],
@@ -195,7 +203,7 @@ export default {
       const headerActions = {
         name: 'actions',
         slot: 'action',
-        title: 'Actions',
+        title: this.$t('general.actions'),
         style: {flex: 1},
         cellType: 'oxd-table-cell-actions',
         cellConfig: {},

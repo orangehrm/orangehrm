@@ -19,20 +19,18 @@
 
 namespace OrangeHRM\Installer\Controller;
 
-use OrangeHRM\Config\Config;
+use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Framework\Http\Response;
+use OrangeHRM\Installer\Controller\AbstractInstallerVueController;
 
-class WelcomeController extends AbstractInstallerController
+class WelcomeController extends AbstractInstallerVueController
 {
     /**
-     * @param Request $request
-     * @return Response
+     * @inheritDoc
      */
-    protected function execute(Request $request): Response
+    public function preRender(Request $request): void
     {
-        $response = $this->getResponse();
-        $response->setContent("Welcome to the OrangeHRM ver " . Config::PRODUCT_VERSION . " Setup Wizard");
-        return $response;
+        $component = new Component('welcome-screen');
+        $this->setComponent($component);
     }
 }

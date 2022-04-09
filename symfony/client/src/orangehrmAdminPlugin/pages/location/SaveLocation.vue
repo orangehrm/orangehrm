@@ -21,7 +21,7 @@
 <template>
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
-      <oxd-text tag="h6" class="orangehrm-main-title">Add Location</oxd-text>
+      <oxd-text tag="h6" class="orangehrm-main-title">{{ $t('admin.add_location') }}</oxd-text>
 
       <oxd-divider />
 
@@ -31,11 +31,11 @@
             <oxd-grid-item>
               <oxd-input-field
                 v-model="location.name"
-                label="Name"
+                :label="$t('general.name')"
                 :rules="rules.name"
                 required
                 :disabled="!hasCreatePermissions"
-                placeholder="Type here ..."
+                :placeholder="$t('general.type_here_message')"
               />
             </oxd-grid-item>
           </oxd-grid>
@@ -46,35 +46,35 @@
             <oxd-grid-item>
               <oxd-input-field
                 v-model="location.city"
-                label="City"
+                :label="$t('general.city')"
                 :rules="rules.city"
                 :disabled="!hasCreatePermissions"
-                placeholder="Type here ..."
+                :placeholder="$t('general.type_here_message')"
               />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
                 v-model="location.province"
-                label="State/Province"
+                :label="$t('general.state_province')"
                 :rules="rules.province"
                 :disabled="!hasCreatePermissions"
-                placeholder="Type here ..."
+                :placeholder="$t('general.type_here_message')"
               />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
                 v-model="location.zipCode"
-                label="Zip/Postal Code"
+                :label="$t('general.zip_postal_code')"
                 :rules="rules.zipCode"
                 :disabled="!hasCreatePermissions"
-                placeholder="Type here ..."
+                :placeholder="$t('general.type_here_message')"
               />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
                 v-model="location.countryCode"
                 type="select"
-                label="Country"
+                :label="$t('general.country')"
                 :rules="rules.countryCode"
                 :clear="false"
                 :options="countries"
@@ -84,40 +84,40 @@
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
-                v-model="location.phone"
-                label="Phone"
+                v-model.trim="location.phone"
+                :label="$t('general.phone')"
                 :rules="rules.phone"
                 :disabled="!hasCreatePermissions"
-                placeholder="Type here ..."
+                :placeholder="$t('general.type_here_message')"
               />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
                 v-model="location.fax"
-                label="Fax"
+                :label="$t('general.fax')"
                 :rules="rules.fax"
                 :disabled="!hasCreatePermissions"
-                placeholder="Type here ..."
+                :placeholder="$t('general.type_here_message')"
               />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
                 v-model="location.address"
                 type="textarea"
-                label="Address"
+                :label="$t('admin.address')"
                 :rules="rules.address"
                 :disabled="!hasCreatePermissions"
-                placeholder="Type here ..."
+                :placeholder="$t('general.type_here_message')"
               />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
                 v-model="location.note"
                 type="textarea"
-                label="Note"
+                :label="$t('general.notes')"
                 :rules="rules.note"
                 :disabled="!hasCreatePermissions"
-                placeholder="Type here ..."
+                :placeholder="$t('general.type_here_message')"
               />
             </oxd-grid-item>
           </oxd-grid>
@@ -125,7 +125,11 @@
 
         <oxd-form-actions>
           <required-text />
-          <oxd-button display-type="ghost" label="Cancel" @click="onCancel" />
+          <oxd-button
+            display-type="ghost"
+            :label="$t('general.cancel')"
+            @click="onCancel"
+          />
           <submit-button v-if="hasCreatePermissions" />
         </oxd-form-actions>
       </oxd-form>
@@ -204,7 +208,7 @@ export default {
         const {data} = response.data;
         this.rules.name.push(v => {
           const index = data.findIndex(item => item.name == v);
-          return index === -1 || 'Already exists';
+          return index === -1 || this.$t('general.already_exists');
         });
       })
       .finally(() => {

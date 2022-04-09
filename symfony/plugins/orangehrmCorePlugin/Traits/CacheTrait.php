@@ -21,16 +21,17 @@ namespace OrangeHRM\Core\Traits;
 
 use OrangeHRM\Framework\Cache\FilesystemAdapter;
 use OrangeHRM\Framework\Services;
-use Symfony\Component\Cache\Adapter\AbstractAdapter;
+use Symfony\Component\Cache\Adapter\AdapterInterface;
+use Symfony\Contracts\Cache\CacheInterface;
 
 trait CacheTrait
 {
     use ServiceContainerTrait;
 
     /**
-     * @return AbstractAdapter|FilesystemAdapter
+     * @return AdapterInterface|CacheInterface|FilesystemAdapter
      */
-    protected function getCache(): AbstractAdapter
+    protected function getCache(): AdapterInterface
     {
         return $this->getContainer()->get(Services::CACHE);
     }

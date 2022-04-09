@@ -44,6 +44,13 @@ class Module
     private string $name;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="display_name", type="string", length=120)
+     */
+    private string $displayName;
+
+    /**
      * @var bool
      *
      * @ORM\Column(name="status", type="boolean")
@@ -96,5 +103,21 @@ class Module
     public function setStatus(bool $status): void
     {
         $this->status = $status;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDisplayName(): string
+    {
+        return $this->displayName;
+    }
+
+    /**
+     * @param string $displayName
+     */
+    public function setDisplayName(string $displayName): void
+    {
+        $this->displayName = $displayName;
     }
 }

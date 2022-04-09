@@ -22,7 +22,7 @@
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
       <oxd-text tag="h6" class="orangehrm-main-title">
-        Edit Custom Field
+        {{ $t('pim.edit_custom_field') }}
       </oxd-text>
 
       <oxd-divider />
@@ -33,7 +33,7 @@
             <oxd-grid-item class="organization-name-container">
               <oxd-input-field
                 v-model="customField.fieldName"
-                label="Field Name"
+                :label="$t('pim.field_name')"
                 :rules="rules.fieldName"
                 required
               />
@@ -42,7 +42,7 @@
               <oxd-input-field
                 v-model="customField.screen"
                 type="select"
-                label="Screen"
+                :label="$t('pim.screen')"
                 :rules="rules.screen"
                 :options="screenList"
                 required
@@ -56,7 +56,7 @@
               <oxd-input-field
                 v-model="customField.fieldType"
                 type="select"
-                label="Type"
+                :label="$t('general.type')"
                 :rules="rules.fieldType"
                 :options="fieldTypeList"
                 required
@@ -66,12 +66,12 @@
             <oxd-grid-item v-if="isDropDownField">
               <oxd-input-field
                 v-model="customField.extraData"
-                label="Select Options"
+                :label="$t('pim.select_options')"
                 :rules="rules.extraData"
                 :required="isDropDownField"
               />
               <oxd-text tag="p" class="select-options-hint">
-                Enter allowed options separated by commas
+                {{ $t('pim.enter_allowed_options_separated_by_commas') }}
               </oxd-text>
             </oxd-grid-item>
           </oxd-grid>
@@ -84,7 +84,7 @@
           <oxd-button
             type="button"
             display-type="ghost"
-            label="Cancel"
+            :label="$t('general.cancel')"
             @click="onCancel"
           />
           <submit-button />
@@ -186,7 +186,9 @@ export default {
           const index = data.findIndex(item => item.fieldName === v);
           if (index > -1) {
             const id = data[index].id;
-            return id != this.customFieldId ? 'Already exists' : true;
+            return id != this.customFieldId
+              ? this.$t('general.already_exists')
+              : true;
           } else {
             return true;
           }

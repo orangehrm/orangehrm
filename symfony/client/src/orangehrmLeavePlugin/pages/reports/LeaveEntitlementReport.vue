@@ -77,7 +77,7 @@
                 <oxd-input-field
                   v-model="filters.location"
                   type="select"
-                  label="Location"
+                  :label="$t('general.location')"
                   :options="locations"
                 />
               </oxd-grid-item>
@@ -85,7 +85,7 @@
                 <oxd-input-field
                   v-model="filters.subunit"
                   type="select"
-                  label="Sub Unit"
+                  :label="$t('general.sub_unit')"
                   :options="subunits"
                 />
               </oxd-grid-item>

@@ -23,6 +23,8 @@ use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Query\QueryBuilder;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
+use OrangeHRM\Installer\Migration\V5_0_0\LangStringHelper;
+use OrangeHRM\Installer\Util\V1\Dto\TransUnit;
 use Symfony\Component\Yaml\Yaml;
 
 class TranslationTool
@@ -38,10 +40,12 @@ class TranslationTool
      */
     public function up(string $groupName)
     {
-        $filename = 'installer/upgrader/Migrations/V5/messages.bg_BG.xml';
-        $langCode = 'bg_BG';
-        $this->readTranslations($filename, $langCode);
-        $this->addTranslations($langCode, $groupName);
+        $langCodes = ['bg_BG','nl','zh_Hans_CN'];
+        foreach ($langCodes as $langCode){
+            $filename = 'installer/upgrader/Migrations/V5/translations/messages.' . $langCode . '.xml';
+            $this->readTranslations($filename, $langCode);
+            $this->addTranslations($langCode, $groupName);
+        }
     }
 
     /**
@@ -55,7 +59,9 @@ class TranslationTool
         $transArray = ['translations' => []];
         foreach ($xml->file->body->children() as $string) {
             $translation = new TransUnit($string->source, $string->target);
-            $transArray['translations'][] = ['source' => $translation->getSource(), 'target' => $translation->getTarget()];
+            if (! empty($translation->getTarget())){
+                $transArray['translations'][] = ['source' => $translation->getSource(), 'target' => $translation->getTarget()];
+            }
         }
         $Yaml = Yaml::dump($transArray, 2, 4);
         $filename = 'installer/upgrader/Migrations/V5/messages.' . $language . '.yml';
@@ -70,7 +76,7 @@ class TranslationTool
      */
     private function addTranslations(string $language, string $groupName): void
     {
-        $filepath = 'installer/upgrader/Migrations/V5/messages' . $language . '.yml';
+        $filepath = 'installer/upgrader/Migrations/V5/messages.' . $language . '.yml';
         $yml = Yaml::parseFile($filepath);
         $translations = array_shift($yml);
         $filepath2 = 'installer/upgrader/Migrations/V5/' . $groupName . 'LangString.yaml';
@@ -97,7 +103,8 @@ class TranslationTool
     private function saveTranslationRecord(string $groupName, TransUnit $source, string $language): void
     {
         $groupId = $this->getLangStringHelper()->getGroupId($groupName);
-        $langStringId = $this->getLangStringHelper()->getLangStringRecord($source->getSource(), $groupId);
+        // TODO:: check below codes
+        $langStringId = $this->getLangStringHelper()->getLangStringIdByValueAndGroup($source->getSource(), $groupId);
         if ($langStringId == null) {
             throw new Exception('Cannot add a translation to a non existent lang string: ' . $source->getSource());
         }
@@ -117,7 +124,7 @@ class TranslationTool
     public function getLangStringHelper(): ?LangStringHelper
     {
         if (is_null($this->langStringHelper)) {
-            $this->langStringHelper = new LangStringHelper();
+            $this->langStringHelper = new LangStringHelper($this->getEntityManager()->getConnection());
         }
         return $this->langStringHelper;
     }

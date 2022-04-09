@@ -57,7 +57,7 @@
               <oxd-grid-item>
                 <date-input
                   v-model="filters.fromDate"
-                  placeholder="From"
+                  :placeholder="$t('general.from')"
                   :rules="rules.fromDate"
                   :label="$t('time.project_date_range')"
                   disabled
@@ -67,7 +67,7 @@
                 <date-input
                   v-model="filters.toDate"
                   label="&nbsp"
-                  placeholder="To"
+                  :placeholder="$t('general.to')"
                   :rules="rules.toDate"
                   disabled
                 />

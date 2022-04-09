@@ -23,11 +23,11 @@
     <div class="orangehrm-paper-container">
       <div class="orangehrm-header-container">
         <oxd-text tag="h6" class="orangehrm-main-title">
-          Pay Grades
+          {{ $t('admin.pay_grades') }}
         </oxd-text>
         <div>
           <oxd-button
-            label="Add"
+            :label="$t('general.add')"
             icon-name="plus"
             display-type="secondary"
             @click="onClickAdd"
@@ -124,18 +124,18 @@ export default {
         {
           name: 'name',
           slot: 'title',
-          title: 'Name',
+          title: this.$t('general.name'),
           style: {'flex-basis': '40%'},
         },
         {
           name: 'currency',
-          title: 'Currency',
+          title: this.$t('general.currency'),
           style: {'flex-basis': '40%'},
         },
         {
           name: 'actions',
           slot: 'action',
-          title: 'Actions',
+          title: this.$t('general.actions'),
           style: {'flex-shrink': 1},
           cellType: 'oxd-table-cell-actions',
           cellConfig: {

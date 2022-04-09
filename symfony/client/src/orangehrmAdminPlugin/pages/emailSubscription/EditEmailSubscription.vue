@@ -23,11 +23,11 @@
     <div class="orangehrm-paper-container">
       <div class="orangehrm-header-container">
         <oxd-text tag="h6" class="orangehrm-main-title">
-          Subscribers: {{ title }}
+          {{ $t('admin.subscribers') }}: {{ title }}
         </oxd-text>
         <div>
           <oxd-button
-            label="Add"
+            :label="$t('general.add')"
             icon-name="plus"
             display-type="secondary"
             @click="onClickAdd"
@@ -127,11 +127,20 @@ export default {
   data() {
     return {
       headers: [
-        {name: 'name', slot: 'title', title: 'Name', style: {flex: '30%'}},
-        {name: 'email', title: 'Email', style: {flex: '55%'}},
+        {
+          name: 'name',
+          slot: 'title',
+          title: this.$t('general.name'),
+          style: {flex: '30%'},
+        },
+        {
+          name: 'email',
+          title: this.$t('general.email'),
+          style: {flex: '55%'},
+        },
         {
           name: 'actions',
-          title: 'Actions',
+          title: this.$t('general.actions'),
           slot: 'action',
           style: {flex: '15%'},
           cellType: 'oxd-table-cell-actions',

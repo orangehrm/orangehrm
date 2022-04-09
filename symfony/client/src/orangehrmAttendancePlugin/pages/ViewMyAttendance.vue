@@ -19,7 +19,7 @@
  -->
 
 <template>
-  <oxd-table-filter :filter-title="$t('time.my_attendance_records')">
+  <oxd-table-filter :filter-title="$t('attendance.my_attendance_records')">
     <oxd-form @submitValid="filterItems">
       <oxd-form-row>
         <oxd-grid :cols="4" class="orangehrm-full-width-grid">
@@ -182,40 +182,40 @@ export default {
         {
           name: 'punchIn',
           slot: 'title',
-          title: 'Punch In',
+          title: this.$t('attendance.punch_in'),
           style: {flex: 1},
           cellRenderer: this.cellRenderer,
         },
         {
           name: 'punchInNote',
           slot: 'title',
-          title: 'Punch In Note',
+          title: this.$t('attendance.punch_in_note'),
           style: {flex: 1},
         },
         {
           name: 'punchOut',
           slot: 'title',
-          title: 'Punch Out',
+          title: this.$t('attendance.punch_out'),
           style: {flex: 1},
           cellRenderer: this.cellRenderer,
         },
         {
           name: 'punchOutNote',
           slot: 'title',
-          title: 'Punch Out Note',
+          title: this.$t('attendance.punch_out_note'),
           style: {flex: 1},
         },
         {
           name: 'duration',
           slot: 'title',
-          title: 'Duration (Hours)',
+          title: this.$t('attendance.duration_hours'),
           style: {flex: 1},
         },
         {
           ...(this.isEditable && {
             name: 'actions',
             slot: 'action',
-            title: 'Actions',
+            title: this.$t('general.actions'),
             style: {flex: 1},
             cellType: 'oxd-table-cell-actions',
             cellConfig: {

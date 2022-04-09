@@ -24,21 +24,23 @@
     @update:show="onCancel"
   >
     <div class="orangehrm-modal-header">
-      <oxd-text type="card-title">Edit Organization Unit</oxd-text>
+      <oxd-text type="card-title">{{
+        $t('admin.edit_organization_unit')
+      }}</oxd-text>
     </div>
     <oxd-divider />
     <oxd-form :loading="isLoading" @submitValid="onSave">
       <oxd-form-row>
         <oxd-input-field
           v-model="orgUnit.unitId"
-          label="Unit Id"
+          :label="$t('admin.unit_id')"
           :rules="rules.unitId"
         />
       </oxd-form-row>
       <oxd-form-row>
         <oxd-input-field
           v-model="orgUnit.name"
-          label="Name"
+          :label="$t('general.name')"
           :rules="rules.name"
           required
         />
@@ -47,8 +49,8 @@
         <oxd-input-field
           v-model="orgUnit.description"
           type="textarea"
-          label="Description"
-          placeholder="Type description here"
+          :label="$t('general.description')"
+          :placeholder="$t('general.type_description_here')"
           :rules="rules.description"
         />
       </oxd-form-row>
@@ -60,7 +62,7 @@
         <oxd-button
           type="button"
           display-type="ghost"
-          label="Cancel"
+          :label="$t('general.cancel')"
           @click="onCancel"
         />
         <submit-button />
@@ -138,7 +140,7 @@ export default {
             if (index > -1) {
               const {id} = data[index];
               return id != this.data.id
-                ? 'Organization unit name should be unique'
+                ? this.$t('admin.organization_unit_name_should_be_unique')
                 : true;
             } else {
               return true;

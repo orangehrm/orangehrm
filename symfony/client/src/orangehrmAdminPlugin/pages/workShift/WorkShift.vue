@@ -22,10 +22,12 @@
   <div class="orangehrm-background-container">
     <div class="orangehrm-paper-container">
       <div class="orangehrm-header-container">
-        <oxd-text tag="h6" class="orangehrm-main-title">Work Shifts</oxd-text>
+        <oxd-text tag="h6" class="orangehrm-main-title">{{
+          $t('admin.work_shifts')
+        }}</oxd-text>
         <div>
           <oxd-button
-            label="Add"
+            :label="$t('general.add')"
             icon-name="plus"
             display-type="secondary"
             @click="onClickAdd"
@@ -115,13 +117,30 @@ export default {
   data() {
     return {
       headers: [
-        {name: 'name', slot: 'title', title: 'Name', style: {flex: 1}},
-        {name: 'startTime', title: 'From', style: {flex: 1}},
-        {name: 'endTime', title: 'To', style: {flex: 1}},
-        {name: 'hoursPerDay', title: 'Hours Per Day', style: {flex: 1}},
+        {
+          name: 'name',
+          slot: 'title',
+          title: this.$t('general.name'),
+          style: {flex: 1},
+        },
+        {
+          name: 'startTime',
+          title: this.$t('general.from'),
+          style: {flex: 1},
+        },
+        {
+          name: 'endTime',
+          title: this.$t('general.to'),
+          style: {flex: 1},
+        },
+        {
+          name: 'hoursPerDay',
+          title: this.$t('admin.hours_per_day'),
+          style: {flex: 1},
+        },
         {
           name: 'actions',
-          title: 'Actions',
+          title: this.$t('general.actions'),
           slot: 'action',
           style: {flex: 1},
           cellType: 'oxd-table-cell-actions',

@@ -20,12 +20,36 @@ import {
   required,
   afterDate,
   endDateShouldBeAfterStartDate,
+  validEmailFormat,
   validPhoneNumberFormat,
   endTimeShouldBeAfterStartTime,
   startDateShouldBeBeforeEndDate,
   startTimeShouldBeBeforeEndTime,
   minValueShouldBeLowerThanMaxValue,
 } from '../rules';
+
+jest.mock('@/core/plugins/i18n/translate', () => {
+  const t = (langString: string) => {
+    const mockStrings: {[key: string]: string} = {
+      'general.required': 'Required',
+      'general.to_date_should_be_after_from_date':
+        'To date should be after From date',
+      'general.allows_phone_numbers_only': 'Allows numbers and only + - / ( )',
+      'general.start_time_should_be_before_end_time':
+        'Start time should be before end time',
+      'general.end_time_should_be_after_start_time':
+        'End time should be after start time',
+      'general.start_date_should_be_before_end_date':
+        'Start date should be before end date',
+      'general.end_date_should_be_after_start_date':
+        'End date should be after start date',
+      'general.expected_email_address_format_not_matched':
+        'Expected format: admin@example.com',
+    };
+    return mockStrings[langString];
+  };
+  return {translate: jest.fn(() => t)};
+});
 
 describe('core/util/validation/rules::required', () => {
   test('required::empty string', () => {
@@ -173,6 +197,53 @@ describe('core/util/validation/rules::endDateShouldBeAfterStartDate', () => {
   });
 });
 
+describe('core/util/validation/rules::validEmailFormat', () => {
+  test('validEmailFormat:invalidEmail', () => {
+    const result = validEmailFormat('abcd');
+    expect(result).toBe('Expected format: admin@example.com');
+  });
+
+  test('validEmailFormat:noAtSign', () => {
+    const result = validEmailFormat('deviohrm.com');
+    expect(result).toBe('Expected format: admin@example.com');
+  });
+
+  test('validEmailFormat:noUsername', () => {
+    const result = validEmailFormat('@ohrm.com');
+    expect(result).toBe('Expected format: admin@example.com');
+  });
+
+  test('validEmailFormat:noFullStopForDomain', () => {
+    const result = validEmailFormat('devi@ohrmcom');
+    expect(result).toBe('Expected format: admin@example.com');
+  });
+
+  test('validEmailFormat:fullStopWithNoDomain', () => {
+    const result = validEmailFormat('devi@ohrm.');
+    expect(result).toBe('Expected format: admin@example.com');
+  });
+
+  test('validEmailFormat:fullStopAfterDomain', () => {
+    const result = validEmailFormat('devi@ohrm.com.');
+    expect(result).toBe('Expected format: admin@example.com');
+  });
+
+  test('validEmailFormat:multipleFullStops', () => {
+    const result = validEmailFormat('devi@ohrm..com');
+    expect(result).toBe('Expected format: admin@example.com');
+  });
+
+  test('validEmailFormat:validEmail', () => {
+    const result = validEmailFormat('devi@ohrm.com');
+    expect(result).toStrictEqual(true);
+  });
+
+  test('validEmailFormat:validEmail2', () => {
+    const result = validEmailFormat('devi@ohrm.co.uk');
+    expect(result).toStrictEqual(true);
+  });
+});
+
 describe('core/util/validation/rules::validPhoneNumberFormat', () => {
   test('validPhoneNumberFormat::number', () => {
     const result = validPhoneNumberFormat('1234563');
@@ -221,6 +292,36 @@ describe('core/util/validation/rules::validPhoneNumberFormat', () => {
 
   test('validPhoneNumberFormat::numberWithSpace', () => {
     const result = validPhoneNumberFormat('456 ');
+    expect(result).toStrictEqual(true);
+  });
+
+  test('validPhoneNumberFormat::numberWithMultipleSpaces', () => {
+    const result = validPhoneNumberFormat('123 456 789');
+    expect(result).toStrictEqual(true);
+  });
+
+  test('validPhoneNumberFormat::numberWithTabs', () => {
+    const result = validPhoneNumberFormat('123\t456\t789');
+    expect(result).toBe('Allows numbers and only + - / ( )');
+  });
+
+  test('validPhoneNumberFormat::numberWithNewLines', () => {
+    const result = validPhoneNumberFormat('123\n456\n789');
+    expect(result).toBe('Allows numbers and only + - / ( )');
+  });
+
+  test('validPhoneNumberFormat::numberWithCarriageReturns', () => {
+    const result = validPhoneNumberFormat('123\r456\r789');
+    expect(result).toBe('Allows numbers and only + - / ( )');
+  });
+
+  test('validPhoneNumberFormat::numberWithFormFeeds', () => {
+    const result = validPhoneNumberFormat('123\f456\f789');
+    expect(result).toBe('Allows numbers and only + - / ( )');
+  });
+
+  test('validPhoneNumberFormat::numberWithVerticalTabs', () => {
+    const result = validPhoneNumberFormat('123\v456\v789');
     expect(result).toBe('Allows numbers and only + - / ( )');
   });
 

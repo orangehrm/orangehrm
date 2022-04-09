@@ -20,7 +20,7 @@
 
 <template>
   <div class="orangehrm-background-container">
-    <oxd-table-filter filter-title="Employee Information">
+    <oxd-table-filter :filter-title="$t('pim.employee_information')">
       <oxd-form @submitValid="filterItems" @reset="filterItems">
         <oxd-form-row>
           <oxd-grid :cols="4" class="orangehrm-full-width-grid">
@@ -35,7 +35,7 @@
             <oxd-grid-item>
               <oxd-input-field
                 v-model="filters.employeeId"
-                label="Employee Id"
+                :label="$t('general.employee_id')"
               />
             </oxd-grid-item>
             <oxd-grid-item>
@@ -45,7 +45,7 @@
               <oxd-input-field
                 v-model="filters.includeEmployees"
                 type="select"
-                label="Include"
+                :label="$t('pim.include')"
                 :clear="false"
                 :options="includeOpts"
                 :show-empty-selector="false"
@@ -54,7 +54,7 @@
             <oxd-grid-item>
               <employee-autocomplete
                 v-model="filters.supervisor"
-                label="Supervisor Name"
+                :label="$t('pim.supervisor_name')"
               />
             </oxd-grid-item>
             <oxd-grid-item>
@@ -69,11 +69,15 @@
         <oxd-divider />
 
         <oxd-form-actions>
-          <oxd-button display-type="ghost" label="Reset" type="reset" />
+          <oxd-button
+            display-type="ghost"
+            :label="$t('general.reset')"
+            type="reset"
+          />
           <oxd-button
             class="orangehrm-left-space"
             display-type="secondary"
-            label="Search"
+            :label="$t('general.search')"
             type="submit"
           />
         </oxd-form-actions>
@@ -83,7 +87,7 @@
     <div class="orangehrm-paper-container">
       <div class="orangehrm-header-container">
         <oxd-button
-          label="Add"
+          :label="$t('general.add')"
           icon-name="plus"
           display-type="secondary"
           @click="onClickAdd"
@@ -252,50 +256,50 @@ export default {
         {
           name: 'employeeId',
           slot: 'title',
-          title: 'Id',
+          title: this.$t('general.id'),
           sortField: 'employee.employeeId',
           style: {flex: 1},
         },
         {
           name: 'firstAndMiddleName',
-          title: 'First (& Middle) Name',
+          title: this.$t('pim.first_middle_name'),
           sortField: 'employee.firstName',
           style: {flex: 1},
         },
         {
           name: 'lastName',
-          title: 'Last Name',
+          title: this.$t('general.last_name'),
           sortField: 'employee.lastName',
           style: {flex: 1},
         },
         {
           name: 'jobTitle',
-          title: 'Job Title',
+          title: this.$t('general.job_title'),
           sortField: 'jobTitle.jobTitleName',
           style: {flex: 1},
         },
         {
           name: 'empStatus',
-          title: 'Employment Status',
+          title: this.$t('general.employment_status'),
           sortField: 'empStatus.name',
           style: {flex: 1},
         },
         {
           name: 'subunit',
-          title: 'Sub Unit',
+          title: this.$t('general.sub_unit'),
           sortField: 'subunit.name',
           style: {flex: 1},
         },
         {
           name: 'supervisor',
-          title: 'Supervisor',
+          title: this.$t('pim.supervisor'),
           sortField: 'supervisor.firstName',
           style: {flex: 1},
         },
         {
           name: 'actions',
           slot: 'action',
-          title: 'Actions',
+          title: this.$t('general.actions'),
           style: {flex: 1},
           cellType: 'oxd-table-cell-actions',
           cellConfig: {
@@ -316,9 +320,21 @@ export default {
         },
       ],
       includeOpts: [
-        {id: 1, param: 'onlyCurrent', label: 'Current Employees Only'},
-        {id: 2, param: 'currentAndPast', label: 'Current and Past Employees'},
-        {id: 3, param: 'onlyPast', label: 'Past Employees Only'},
+        {
+          id: 1,
+          param: 'onlyCurrent',
+          label: this.$t('general.current_employees_only'),
+        },
+        {
+          id: 2,
+          param: 'currentAndPast',
+          label: this.$t('general.current_and_past_employees'),
+        },
+        {
+          id: 3,
+          param: 'onlyPast',
+          label: this.$t('general.past_employees_only'),
+        },
       ],
       checkedItems: [],
     };

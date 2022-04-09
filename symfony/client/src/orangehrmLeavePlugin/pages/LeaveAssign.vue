@@ -254,7 +254,7 @@ export default {
           validDateFormat(),
           endDateShouldBeAfterStartDate(
             () => this.leave.fromDate,
-            'To date should be after from date',
+            this.$t('general.to_date_should_be_after_from_date'),
             {allowSameDate: true},
           ),
         ],
@@ -354,8 +354,8 @@ export default {
         .catch(() => {
           this.showLeaveConflict &&
             this.$toast.warn({
-              title: 'Warning',
-              message: 'Failed to Submit',
+              title: this.$t('general.warning'),
+              message: this.$t('leave.failed_to_submit'),
             });
         })
         .finally(() => {

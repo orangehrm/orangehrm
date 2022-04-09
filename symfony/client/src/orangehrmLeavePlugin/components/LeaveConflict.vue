@@ -61,27 +61,27 @@ export default {
       headers: [
         {
           name: 'date',
-          title: 'Date',
+          title: this.$t('general.date'),
           style: {flex: 1},
         },
         {
           name: 'hours',
-          title: 'No. of Hours',
+          title: this.$t('leave.no_of_hours'),
           style: {flex: 1},
         },
         {
           name: 'type',
-          title: 'Leave Type',
+          title: this.$t('leave.leave_type'),
           style: {flex: 1},
         },
         {
           name: 'status',
-          title: 'Status',
+          title: this.$t('general.status'),
           style: {flex: 1},
         },
         {
           name: 'comments',
-          title: 'Comments',
+          title: this.$t('general.comments'),
           style: {flex: 1},
         },
       ],

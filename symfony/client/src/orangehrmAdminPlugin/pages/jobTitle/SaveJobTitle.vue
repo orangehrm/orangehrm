@@ -43,8 +43,8 @@
               <oxd-input-field
                 v-model="jobTitle.description"
                 type="textarea"
-                :label="$t('general.job_description')"
-                placeholder="Type description here"
+                :label="$t('admin.job_description')"
+                :placeholder="$t('general.type_description_here')"
                 :rules="rules.description"
               />
             </oxd-form-row>
@@ -54,7 +54,7 @@
                 v-model="jobTitle.specification"
                 type="file"
                 :label="$t('general.job_specification')"
-                button-label="Browse"
+                :button-label="$t('general.browse')"
                 :rules="rules.specification"
               />
               <oxd-text class="orangehrm-input-hint" tag="p">
@@ -67,7 +67,7 @@
                 v-model="jobTitle.note"
                 type="textarea"
                 :label="$t('general.note')"
-                placeholder="Add note"
+                :placeholder="$t('general.add_note')"
                 label-icon="pencil-square"
                 :rules="rules.note"
               />
@@ -154,7 +154,7 @@ export default {
         const {data} = response.data;
         this.rules.title.push(v => {
           const index = data.findIndex(item => item.title == v);
-          return index === -1 || 'Already exists';
+          return index === -1 || this.$t('general.already_exists');
         });
       })
       .finally(() => {
