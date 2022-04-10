@@ -19,5 +19,5 @@ upgrader_database_config:
 
 api_upgrader_database_config:
   path: /upgrader/api/database-config
-  controller: OrangeHRM\Installer\Controller\Upgrader\Api\DatabaseConfigApi::handle
+  controller: OrangeHRM\Installer\Controller\Upgrader\Api\DatabaseConfigAPI::handle
   methods: [ POST ]

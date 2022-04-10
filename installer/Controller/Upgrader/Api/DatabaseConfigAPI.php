@@ -21,9 +21,12 @@ namespace OrangeHRM\Installer\Controller\Upgrader\Api;
 
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Installer\Controller\AbstractInstallerRestController;
+use OrangeHRM\Installer\Controller\Upgrader\Traits\UpgraderUtilityTrait;
 
-class DatabaseConfigApi extends AbstractInstallerRestController
+class DatabaseConfigAPI extends AbstractInstallerRestController
 {
+    use UpgraderUtilityTrait;
+
     /**
      * @inheritDoc
      */
@@ -35,6 +38,22 @@ class DatabaseConfigApi extends AbstractInstallerRestController
         $dbPassword = $request->request->get('dbPassword');
         $dbName = $request->request->get('dbName');
 
+        $connection = $this->checkDatabaseConnection($dbHost, $dbUser, $dbPassword, $dbName, $dbPort);
+
+        if (!$connection) {
+            $response = $this->getResponse();
+            $response->setStatusCode(400);
+            return
+                [
+                    'error' => [
+                        'status' => $response->getStatusCode(),
+                        'message' => 'Failed to Connect: Check Database Details'
+                    ]
+                ];
+        }
+        else{
+            //TODO check database status
+        }
         return [
             'dbHost' => $dbHost,
             'dbPort' => $dbPort,

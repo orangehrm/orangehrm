@@ -33,7 +33,8 @@
         "symfony/security-csrf": "~5.4.0",
         "guzzlehttp/guzzle": "~7.4",
         "symfony/translation": "~5.4",
-        "symfony/polyfill-intl-messageformatter": "^1.24"
+        "symfony/polyfill-intl-messageformatter": "^1.24",
+        "ext-mysqli": "*"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.5",
