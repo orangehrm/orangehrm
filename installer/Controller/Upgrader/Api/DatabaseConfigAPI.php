@@ -39,9 +39,8 @@ class DatabaseConfigAPI extends AbstractInstallerRestController
         $dbName = $request->request->get('dbName');
 
         $connection = $this->checkDatabaseConnection($dbHost, $dbUser, $dbPassword, $dbName, $dbPort);
-
+        $response = $this->getResponse();
         if (!$connection) {
-            $response = $this->getResponse();
             $response->setStatusCode(400);
             return
                 [
@@ -50,16 +49,22 @@ class DatabaseConfigAPI extends AbstractInstallerRestController
                         'message' => 'Failed to Connect: Check Database Details'
                     ]
                 ];
+        } elseif ($this->checkDatabaseStatus()) {
+            $response->setStatusCode(400);
+            return [
+                'error' => [
+                    'status' => $response->getStatusCode(),
+                    'message' => 'Failed to Proceed: Interrupted Database'
+                ]
+            ];
+        } else {
+            return [
+                'dbHost' => $dbHost,
+                'dbPort' => $dbPort,
+                'dbUser' => $dbUser,
+                'dbPassword' => $dbPassword,
+                'dbName' => $dbName,
+            ];
         }
-        else{
-            //TODO check database status
-        }
-        return [
-            'dbHost' => $dbHost,
-            'dbPort' => $dbPort,
-            'dbUser' => $dbUser,
-            'dbPassword' => $dbPassword,
-            'dbName' => $dbName,
-        ];
     }
 }

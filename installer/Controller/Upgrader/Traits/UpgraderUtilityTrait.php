@@ -45,4 +45,30 @@ trait UpgraderUtilityTrait
         $this->dbConnection = @new mysqli($host, $username, $password, $dbname, $port);
         return !$this->dbConnection->connect_error;
     }
+
+    /**
+     * @return bool
+     */
+    public function checkDatabaseStatus(): bool
+    {
+        $query = "SHOW TABLES LIKE 'ohrm_upgrade_status'";
+        $result = $this->executeSql($query);
+        return $result->num_rows > 0;
+    }
+
+    /**
+     * @param string $query
+     * @return mixed
+     */
+    private function executeSql(string $query)
+    {
+//        UpgradeLogger::writeLogMessage('Executing SQL:' . $query);
+//
+//        if (!$result) {
+//            $logMessage = 'MySQL Error: ' . mysqli_error($this->dbConnection) . ". \nQuery: $query\n";
+//            UpgradeLogger::writeErrorMessage($logMessage, true);
+//        }
+
+        return $this->dbConnection->query($query);
+    }
 }
