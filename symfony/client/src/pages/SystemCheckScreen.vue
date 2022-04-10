@@ -18,66 +18,91 @@
  */
  -->
 <template>
-  <div class="orangehrm-background-container">
-    <oxd-text
-      tag="h4"
-      class="orangehrm-welcome-screen-title orangehrm-welcome-screen-content"
-      >System Check</oxd-text
-    >
-    <oxd-text class="orangehrm-welcome-screen-content"
-      >In order for your orangeHRM installation to function properly,please
-      ensure that all the system check items listed below are green.if any are
-      red please take the necessary steps to fix them.</oxd-text
-    >
-    <oxd-classic-table
-      :headers="[
-        {title: 'Environment', name: 'title'},
-        {title: '', name: 'value'},
-      ]"
-      :items="[{title: 't1', value: 'v1'}]"
-    >
-    </oxd-classic-table>
-  </div>
+  <installer-layout>
+    <oxd-form :loading="isLoading">
+      <div class="orangehrm-system-check">
+        <oxd-text
+          tag="h4"
+          class="orangehrm-system-check-title orangehrm-system-check-content"
+          >System Check</oxd-text
+        >
+        <oxd-text class="orangehrm-system-check-content"
+          >In order for your orangeHRM installation to function properly,please
+          ensure that all the system check items listed below are green.if any
+          are red please take the necessary steps to fix them.</oxd-text
+        >
+
+        <flex-table
+          :title-name="items.environment?.title"
+          :items="items.environment?.items"
+        >
+        </flex-table>
+        <flex-table
+          :title-name="items.environment?.title"
+          :items="items.environment?.items"
+        >
+        </flex-table>
+        <flex-table
+          :title-name="items.environment?.title"
+          :items="items.environment?.items"
+        >
+        </flex-table>
+      </div>
+      <oxd-form-actions class="orangehrm-system-check-action">
+        <oxd-button display-type="ghost" label="Back" />
+        <oxd-button display-type="ghost" label="Re-Check" type="submit" />
+        <oxd-button display-type="ghost" label="Install" type="submit" />
+      </oxd-form-actions>
+    </oxd-form>
+  </installer-layout>
 </template>
 
 <script>
-// import {APIService} from '@ohrm/core/util/services/api.service';
+import {APIService} from '@ohrm/core/util/services/api.service';
+import FlexTable from '../components/FlexTable.vue';
+import InstallerLayout from '@/components/InstallerLayout';
+
 export default {
   name: 'SystemCheckScreen',
+  components: {
+    'flex-table': FlexTable,
+    'installer-layout': InstallerLayout,
+  },
   setup() {
-    // const http = new APIService('', '');
-    const checkData = [
-      {
-        name: 'test',
-        value: 'value',
-        id: 1,
-      },
-      {
-        name: 'test',
-        value: 'value',
-        id: 1,
-      },
-      {
-        name: 'test',
-        value: 'value',
-        id: 1,
-      },
-    ];
-
+    const http = new APIService(
+      'https://8fdc0dda-8987-4f6f-9014-cb8c49a3a717.mock.pstmn.io',
+      'upgrader/systemChecks',
+    );
     return {
-      checkData,
+      http,
     };
   },
   data() {
     return {
       selected: 'Orange',
+      items: () => [],
+      isLoading: false,
     };
+  },
+  mounted() {
+    this.isLoading = true;
+    this.http
+      .request({method: 'get'})
+      .then(res => {
+        this.items = res.data;
+        this.isLoading = false;
+      })
+      .catch(() => {
+        this.isLoading = false;
+      });
   },
 };
 </script>
 
 <style scoped lang="scss">
-.orangehrm-welcome-screen {
+.orangehrm-system-check {
+  height: 100%;
+  font-size: $oxd-input-control-font-size;
   &-action {
     padding: 1rem;
   }
@@ -86,6 +111,12 @@ export default {
   }
   &-content {
     padding: 0.75rem;
+  }
+  &-action {
+    padding-right: 0;
+    button {
+      margin-left: 1rem;
+    }
   }
 }
 </style>

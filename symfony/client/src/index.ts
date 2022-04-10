@@ -22,5 +22,5 @@ import SystemCheckScreen from './pages/SystemCheckScreen.vue';
 export default {
   'welcome-screen': WelcomeScreen,
   'database-information-screen': DatabaseConfigScreen,
-  'system-check-screen':SystemCheckScreen
+  'system-check-screen': SystemCheckScreen,
 };
