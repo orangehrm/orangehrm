@@ -18,23 +18,22 @@
  */
  -->
 <template>
-  <div class="orangehrm-background-container">
-    <oxd-text
-      tag="h4"
-      class="orangehrm-database-info-title orangehrm-database-info-content"
-      >Database Information</oxd-text
-    >
-    <oxd-text class="orangehrm-database-info-content"
-      >Please provide the database information of the database you are going to
-      upgrade.</oxd-text
-    >
-    <oxd-text class="orangehrm-database-info-content"
-      >Make sure it's copy of the database of your current OrangeHRm
-      installation and not the original database.it's highly discouraged to use
-      the original database for upgrading since it won't be recoverable if an
-      error occurred during the upgrade.</oxd-text
-    >
+  <installer-layout>
     <oxd-form ref="databaseForm" method="post">
+      <oxd-text tag="h4" class="orangehrm-database-info-title"
+        >Database Information</oxd-text
+      >
+      <oxd-text class="orangehrm-database-info-content"
+        >Please provide the database information of the database you are going
+        to upgrade.</oxd-text
+      >
+      <oxd-text class="orangehrm-database-info-content"
+        >Make sure it's copy of the database of your current OrangeHRm
+        installation and not the original database.it's highly discouraged to
+        use the original database for upgrading since it won't be recoverable if
+        an error occurred during the upgrade.</oxd-text
+      >
+
       <oxd-form-row>
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
           <oxd-grid-item>
@@ -103,22 +102,27 @@
         />
       </oxd-form-actions>
     </oxd-form>
-  </div>
+  </installer-layout>
 </template>
 
 <script>
 import {
+  digitsOnly,
   required,
   shouldNotExceedCharLength,
 } from '@ohrm/core/util/validation/rules';
 import {checkPassword} from '@ohrm/core/util/helper/password';
+import InstallerLayout from '@/components/InstallerLayout.vue';
 export default {
-  name: 'DatabaseInformationScreen',
+  name: 'DatabaseConfigScreen',
+  components: {
+    'installer-layout': InstallerLayout,
+  },
   data() {
     return {
       rules: {
         hostName: [required],
-        hostPort: [required],
+        hostPort: [required, digitsOnly],
         databaseName: [required],
         userName: [required],
         userPassword: [required, shouldNotExceedCharLength(64), checkPassword],
@@ -134,24 +138,4 @@ export default {
   },
 };
 </script>
-
-<style scoped lang="scss">
-.orangehrm-database-info {
-  &-action {
-    padding: 1rem;
-  }
-  &-title {
-    color: $oxd-primary-one-color;
-  }
-  &-content {
-    padding: 0.75rem;
-    &-bold {
-      font-weight: 700;
-    }
-    &--note {
-      padding-top: 0;
-      padding-left: 2rem;
-    }
-  }
-}
-</style>
+<style src="./installer-page.scss" lang="scss" scoped></style>

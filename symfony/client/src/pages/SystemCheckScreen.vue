@@ -29,20 +29,49 @@
       ensure that all the system check items listed below are green.if any are
       red please take the necessary steps to fix them.</oxd-text
     >
+    <oxd-classic-table
+      :headers="[
+        {title: 'Environment', name: 'title'},
+        {title: '', name: 'value'},
+      ]"
+      :items="[{title: 't1', value: 'v1'}]"
+    >
+    </oxd-classic-table>
   </div>
 </template>
 
 <script>
-import {APIService} from '@ohrm/core/util/services/api.service';
+// import {APIService} from '@ohrm/core/util/services/api.service';
 export default {
   name: 'SystemCheckScreen',
+  setup() {
+    // const http = new APIService('', '');
+    const checkData = [
+      {
+        name: 'test',
+        value: 'value',
+        id: 1,
+      },
+      {
+        name: 'test',
+        value: 'value',
+        id: 1,
+      },
+      {
+        name: 'test',
+        value: 'value',
+        id: 1,
+      },
+    ];
+
+    return {
+      checkData,
+    };
+  },
   data() {
     return {
       selected: 'Orange',
     };
-  },
-  setup() {
-    const http = new APIService('', '');
   },
 };
 </script>

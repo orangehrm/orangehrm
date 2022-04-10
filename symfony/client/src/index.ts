@@ -17,8 +17,10 @@
  */
 
 import WelcomeScreen from './pages/WelcomeScreen.vue';
-import DatabaseInformationScreen from './pages/DatabaseInformationScreen.vue';
+import DatabaseConfigScreen from './pages/DatabaseConfigScreen.vue';
+import SystemCheckScreen from './pages/SystemCheckScreen.vue';
 export default {
   'welcome-screen': WelcomeScreen,
-  'database-information-screen': DatabaseInformationScreen,
+  'database-information-screen': DatabaseConfigScreen,
+  'system-check-screen':SystemCheckScreen
 };
