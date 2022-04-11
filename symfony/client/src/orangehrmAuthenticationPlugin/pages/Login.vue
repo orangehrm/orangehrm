@@ -73,7 +73,7 @@
         </oxd-form-actions>
         <div class="orangehrm-login-forgot">
           <oxd-text class="orangehrm-login-forgot-header" @click="navigateUrl">
-            Forgot Your Password?
+            {{ $t('auth.forgot_password') }}?
           </oxd-text>
         </div>
       </oxd-form>

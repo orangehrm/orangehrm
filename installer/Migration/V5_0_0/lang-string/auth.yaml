@@ -33,9 +33,6 @@ langStrings:
     value: 'Please enter your username to identify your account to reset your password'
     unitId: username_identify_reset_note
   -
-    value: 'Please enter your username to identify your account to reset your password'
-    unitId: username_identify_reset_note
-  -
     value: 'Set a new Password'
     unitId: set_new_password
   -
@@ -65,3 +62,6 @@ langStrings:
   -
     value: 'If the email does not receive, please contact your OrangeHRM Administrator.'
     unitId: email_not_receive_note
+  -
+    value: 'Forgot Your Password'
+    unitId: forgot_password
