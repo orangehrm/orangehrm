@@ -845,3 +845,18 @@ langStrings:
   -
     value: 'Successfully deleted'
     unitId: successfully_deleted
+  -
+    value: 'Searching....'
+    unitId: searching
+  -
+    value: 'No file chosen'
+    unitId: no_file_chosen
+  -
+    value: 'No file selected'
+    unitId: no_file_selected
+  -
+    value: 'Type for hints...'
+    unitId: type_for_hints
+  -
+    value: '-- Select --'
+    unitId: select

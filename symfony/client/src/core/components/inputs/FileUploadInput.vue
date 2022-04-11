@@ -61,6 +61,7 @@
       :label="label"
       :model-value="newFile"
       :disabled="disabled"
+      :placeholder="$t('general.no_file_selected')"
       @update:modelValue="$emit('update:newFile', $event)"
     />
     <oxd-text class="orangehrm-input-hint" tag="p">{{ hint }}</oxd-text>
