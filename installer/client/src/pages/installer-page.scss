@@ -35,3 +35,18 @@
     padding-top: 2rem;
   }
 }
+
+.orangehrm-database-info {
+  height: 100%;
+  &-action {
+    padding: 1rem;
+  }
+  &-title {
+    color: $oxd-primary-one-color;
+    padding: 0 0.75rem 0.75rem 0.75rem;
+  }
+  &-content {
+    font-size: $oxd-input-control-font-size;
+    padding: 0.75rem;
+  }
+}

@@ -16,30 +16,31 @@
  * Boston, MA  02110-1301, USA
  */
 
-import { App } from "vue";
-import Form from "@ohrm/oxd/core/components/Form/Form.vue";
-import FormRow from "@ohrm/oxd/core/components/Form/FormRow.vue";
-import FormActions from "@ohrm/oxd/core/components/Form/FormActions.vue";
-import InputField from "@ohrm/oxd/core/components/InputField/InputField.vue";
-import InputGroup from "@ohrm/oxd/core/components/InputField/InputGroup.vue";
-import Grid from "@ohrm/oxd/core/components/Grid/Grid.vue";
-import GridItem from "@ohrm/oxd/core/components/Grid/GridItem.vue";
-import Text from "@ohrm/oxd/core/components/Text/Text.vue";
-import Button from "@ohrm/oxd/core/components/Button/Button.vue";
-
-import InstallerLayout from "@/components/InstallerLayout.vue";
+import {App} from 'vue';
+import Form from '@ohrm/oxd/core/components/Form/Form.vue';
+import FormRow from '@ohrm/oxd/core/components/Form/FormRow.vue';
+import FormActions from '@ohrm/oxd/core/components/Form/FormActions.vue';
+import InputField from '@ohrm/oxd/core/components/InputField/InputField.vue';
+import InputGroup from '@ohrm/oxd/core/components/InputField/InputGroup.vue';
+import Grid from '@ohrm/oxd/core/components/Grid/Grid.vue';
+import GridItem from '@ohrm/oxd/core/components/Grid/GridItem.vue';
+import Text from '@ohrm/oxd/core/components/Text/Text.vue';
+import Button from '@ohrm/oxd/core/components/Button/Button.vue';
+import Divider from '@ohrm/oxd/core/components/Divider/Divider.vue';
+import InstallerLayout from '@/components/InstallerLayout.vue';
 
 export default {
   install: (app: App) => {
-    app.component("OxdForm", Form);
-    app.component("OxdFormRow", FormRow);
-    app.component("OxdFormActions", FormActions);
-    app.component("OxdInputField", InputField);
-    app.component("OxdInputGroup", InputGroup);
-    app.component("OxdGrid", Grid);
-    app.component("OxdGridItem", GridItem);
-    app.component("InstallerLayout", InstallerLayout);
-    app.component("OxdText", Text);
-    app.component("OxdButton", Button);
+    app.component('OxdDivider', Divider);
+    app.component('OxdForm', Form);
+    app.component('OxdFormRow', FormRow);
+    app.component('OxdFormActions', FormActions);
+    app.component('OxdInputField', InputField);
+    app.component('OxdInputGroup', InputGroup);
+    app.component('OxdGrid', Grid);
+    app.component('OxdGridItem', GridItem);
+    app.component('InstallerLayout', InstallerLayout);
+    app.component('OxdText', Text);
+    app.component('OxdButton', Button);
   },
 };

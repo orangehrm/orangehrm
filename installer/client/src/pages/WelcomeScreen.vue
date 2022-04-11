@@ -18,7 +18,7 @@
  */
  -->
 <template>
-  <oxd-form class="orangehrm-installer-page">
+  <oxd-form class="orangehrm-installer-page" @submit="showModel">
     <oxd-text tag="h5" class="orangehrm-installer-page-title">
       Welcome to OrangeHRM Stater Version 5.0 Setup Wizard
     </oxd-text>
@@ -71,22 +71,40 @@
       <oxd-button display-type="secondary" label="Next" type="submit" />
     </oxd-form-actions>
   </oxd-form>
+  <div v-if="hasShowModel">
+    <database-config-dialog @close-model="closeModel"></database-config-dialog>
+  </div>
 </template>
 
 <script>
-import Notice from "@/components/Notice.vue";
-import RadioInput from "@ohrm/oxd/core/components/Input/RadioInput";
+import Notice from '@/components/Notice.vue';
+import RadioInput from '@ohrm/oxd/core/components/Input/RadioInput';
+import DatabaseConfigDialog from '../components/DatabaseConfigDialog.vue';
 
 export default {
-  name: "WelcomeScreen",
+  name: 'WelcomeScreen',
   components: {
     Notice,
-    "oxd-radio-input": RadioInput,
+    'oxd-radio-input': RadioInput,
+    'database-config-dialog': DatabaseConfigDialog,
   },
   data() {
     return {
-      selected: "install",
+      selected: 'install',
+      hasShowModel: false,
     };
+  },
+  methods: {
+    showModel() {
+      this.hasShowModel = true;
+    },
+    closeModel(isAccept) {
+      if (!isAccept) {
+        this.hasShowModel = isAccept;
+        return;
+      }
+      this.hasShowModel = !isAccept;
+    },
   },
 };
 </script>

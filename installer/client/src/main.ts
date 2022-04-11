@@ -16,15 +16,15 @@
  * Boston, MA  02110-1301, USA
  */
 
-import { createApp } from "vue";
-import Pages from "@/pages";
-import Components from "@/components";
+import {createApp} from 'vue';
+import Pages from '@/pages';
+import Components from '@/components';
 
 const app = createApp({
-  name: "App",
+  name: 'App',
   components: Pages,
 });
 
 app.use(Components);
 
-app.mount("#app");
+app.mount('#app');

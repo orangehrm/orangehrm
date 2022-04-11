@@ -16,10 +16,11 @@
  * Boston, MA  02110-1301, USA
  */
 
-import WelcomeScreen from "@/pages/WelcomeScreen.vue";
-import DatabaseConfig from "@/pages/DatabaseConfig.vue";
-
+import WelcomeScreen from '@/pages/WelcomeScreen.vue';
+import DatabaseConfigScreen from '@/pages/DatabaseConfigScreen.vue';
+import SystemCheckScreen from '@/pages/SystemCheckScreen.vue';
 export default {
-  "welcome-screen": WelcomeScreen,
-  "database-config": DatabaseConfig,
+  'welcome-screen': WelcomeScreen,
+  'database-config-screen': DatabaseConfigScreen,
+  'system-check-screen': SystemCheckScreen,
 };
