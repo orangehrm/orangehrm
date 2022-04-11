@@ -71,10 +71,8 @@ import HelpPages from '@/orangehrmHelpPlugin';
 import TimePages from '@/orangehrmTimePlugin';
 import AttendancePages from '@/orangehrmAttendancePlugin';
 import MaintenancePages from '@/orangehrmMaintenancePlugin';
-import UpgraderPages from './index';
 
 export default {
-  ...UpgraderPages,
   'job-title-list': JobTitle,
   'job-title-edit': EditJobTitle,
   'job-title-save': SaveJobTitle,
