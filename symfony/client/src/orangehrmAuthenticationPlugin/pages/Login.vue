@@ -71,6 +71,11 @@
             type="submit"
           />
         </oxd-form-actions>
+        <div class="orangehrm-login-forgot">
+          <oxd-text class="orangehrm-login-forgot-header" @click="navigateUrl">
+            {{ $t('auth.forgot_password') }}?
+          </oxd-text>
+        </div>
       </oxd-form>
       <br />
     </div>
@@ -85,7 +90,7 @@ import LoginLayout from '../components/LoginLayout';
 import Alert from '@ohrm/oxd/core/components/Alert/Alert';
 import {required} from '@ohrm/core/util/validation/rules';
 import {urlFor} from '@ohrm/core/util/helper/url';
-import {reloadPage} from '@ohrm/core/util/helper/navigation';
+import {navigate, reloadPage} from '@ohrm/core/util/helper/navigation';
 
 export default {
   components: {
@@ -130,6 +135,9 @@ export default {
   methods: {
     onSubmit() {
       this.$refs.loginForm.$el.submit();
+    },
+    navigateUrl() {
+      navigate('/auth/requestPasswordResetCode');
     },
   },
 };

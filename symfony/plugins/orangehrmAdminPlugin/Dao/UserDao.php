@@ -373,9 +373,24 @@ class UserDao extends BaseDao
         $q->andWhere('u.userName = :userName');
         $q->setParameter('userName', $userName);
         if (!is_null($userId)) {
-            $q->andWhere('u.id != :userId'); // we need to skip the current username on checking, otherwise count always return 1
+            $q->andWhere(
+                'u.id != :userId'
+            ); // we need to skip the current username on checking, otherwise count always return 1
             $q->setParameter('userId', $userId);
         }
         return $this->getPaginator($q)->count() > 0;
+    }
+
+    /**
+     * @param string $username
+     * @return User|null
+     */
+    public function getUserByUserName(string $username): ?User
+    {
+        $user = $this->getRepository(User::class)->findOneBy(['userName' => $username]);
+        if ($user instanceof User) {
+            return $user;
+        }
+        return null;
     }
 }

@@ -1,3 +1,4 @@
+<?php
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -13,25 +14,33 @@
  *
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
- * Boston, MA  02110-1301, USA
+ * Boston, MA 02110-1301, USA
  */
 
-import Login from './pages/Login.vue';
-import Forbidden from './pages/Forbidden.vue';
-import AdministratorAccess from './pages/AdministratorAccess.vue';
-import RequestResetPassword from './pages/RequestResetPassword.vue';
-import ResetPasswordSuccess from './pages/ResetPasswordSuccess.vue';
-import ResetPasswordError from './pages/ResetPasswordError.vue';
-import ResetPassword from './pages/ResetPassword.vue';
-import EmailConfigurationWarning from './pages/EmailConfigurationWarning.vue';
+namespace OrangeHRM\Core\Utility;
 
-export default {
-  'auth-login': Login,
-  'auth-forbidden': Forbidden,
-  'auth-admin-access': AdministratorAccess,
-  'request-reset-password': RequestResetPassword,
-  'reset-password-success': ResetPasswordSuccess,
-  'reset-password-error': ResetPasswordError,
-  'reset-password': ResetPassword,
-  'email-configuration-warning': EmailConfigurationWarning,
-};
+class Base64Url
+{
+    /**
+     * @param string $value
+     * @return array|false|string|string[]
+     */
+    public static function encode(string $value)
+    {
+        $base64 = base64_encode($value);
+        if ($base64 === false) {
+            return false;
+        }
+
+        return str_replace(['+', '/', '='], ['-', '_', ''], $base64);
+    }
+
+    /**
+     * @param string $value
+     * @return false|string
+     */
+    public static function decode(string $value)
+    {
+        return base64_decode(str_replace(['-', '_'], ['+', '/'], $value));
+    }
+}
