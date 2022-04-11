@@ -28,7 +28,6 @@ import Text from '@ohrm/oxd/core/components/Text/Text.vue';
 import Button from '@ohrm/oxd/core/components/Button/Button.vue';
 import Divider from '@ohrm/oxd/core/components/Divider/Divider.vue';
 import InstallerLayout from '@/components/InstallerLayout.vue';
-
 export default {
   install: (app: App) => {
     app.component('OxdDivider', Divider);

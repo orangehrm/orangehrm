@@ -32,7 +32,15 @@
 
     <oxd-form-row class="orangehrm-current-version-row">
       <oxd-grid :cols="3" class="orangehrm-full-width-grid">
-        <oxd-grid-item> </oxd-grid-item>
+        <oxd-grid-item>
+          <oxd-input
+            v-model="version"
+            type="select"
+            label="Current OrangeHRM Version"
+            :options="[]"
+            :show-empty-selector="false"
+          ></oxd-input>
+        </oxd-grid-item>
       </oxd-grid>
     </oxd-form-row>
 
@@ -57,10 +65,17 @@
 
 <script>
 import Notice from '@/components/Notice.vue';
+import InputField from '@ohrm/oxd/core/components/InputField/InputField.vue';
 export default {
   name: 'CurrentVersionScreen',
   components: {
     Notice,
+    'oxd-input': InputField,
+  },
+  data() {
+    return {
+      version: '',
+    };
   },
 };
 </script>
@@ -81,6 +96,10 @@ export default {
   &-content {
     font-size: $oxd-input-control-font-size;
     padding: 0.75rem;
+  }
+  ::v-deep(.oxd-grid-3) {
+    width: 100%;
+    margin: 0 !important;
   }
 }
 </style>

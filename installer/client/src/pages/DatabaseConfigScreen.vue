@@ -26,6 +26,13 @@
       >Please provide the database information of the database you are going to
       upgrade.</oxd-text
     >
+    <Notice title="important">
+      <oxd-text tag="p" class="orangehrm-current-version-content">
+        If yey.ohrmou have enabled data encrypted in your current version, you
+        need to copy the file 'lib/confs/key.ohrm' from your current
+        installation to corresponding location in the new version
+      </oxd-text>
+    </Notice>
     <oxd-text class="orangehrm-database-info-content"
       >Make sure it's copy of the database of your current OrangeHRm
       installation and not the original database.it's highly discouraged to use
@@ -114,9 +121,12 @@ import {
   shouldNotExceedCharLength,
 } from '@/core/util/validation/rules';
 import {APIService} from '@/core/util/services/api.service';
-
+import Notice from '@/components/Notice.vue';
 export default {
   name: 'DatabaseConfigScreen',
+  components: {
+    Notice,
+  },
   setup() {
     const http = new APIService(
       'https://8fdc0dda-8987-4f6f-9014-cb8c49a3a717.mock.pstmn.io',
@@ -162,6 +172,11 @@ export default {
   ::v-deep(.oxd-grid-3) {
     width: 100%;
     margin: 0 !important;
+  }
+  &-action {
+    button {
+      margin-left: 0.5rem;
+    }
   }
 }
 </style>
