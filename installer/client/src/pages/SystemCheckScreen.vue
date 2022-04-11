@@ -73,22 +73,22 @@ export default {
   data() {
     return {
       selected: 'Orange',
-      items: () => [],
+      items: null,
       isLoading: false,
     };
   },
   computed: {
     checkErrors() {
-      // if (this.items) {
-      //   let hasErrors=false;
-      //  for(const item in this.items){
-      //    if(!item.checks.every(({value})=>value.status !==3)){
-      //      hasErrors=true;
-      //      break;
-      //    }
-      //  }
-      //  return hasErrors;
-      // }
+      if (this.items) {
+        let hasErrors = false;
+        for (const item of this.items) {
+          if (!item.checks.every(({value}) => value.status !== 3)) {
+            hasErrors = true;
+            break;
+          }
+        }
+        return hasErrors;
+      }
       return false;
     },
   },

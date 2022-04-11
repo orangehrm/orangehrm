@@ -59,7 +59,12 @@
 
     <Notice title="important">
       <oxd-text tag="p" class="orangehrm-installer-page-content">
-        Test
+        OrangeHRM Starter 5.0 only supports Admin,PIM,Leave,Time and
+        Attendance,and Maintenance modules.if you are utilizing other modules pr
+        Add-ons and are thinking about upgrading, we recommended waiting for
+        version5.1.You can,however, continue with the update while ignoring the
+        unsupported modules and add-ons,but please note that data will be
+        inaccessible
       </oxd-text>
     </Notice>
     <br />

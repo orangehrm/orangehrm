@@ -18,50 +18,49 @@
  */
  -->
 <template>
-  <installer-layout>
-    <oxd-form class="orangehrm-current-version">
-      <oxd-text tag="h5" class="orangehrm-current-version-title">
-        Current Version Details
-      </oxd-text>
+  <oxd-form class="orangehrm-current-version">
+    <oxd-text tag="h5" class="orangehrm-current-version-title">
+      Current Version Details
+    </oxd-text>
 
-      <oxd-text class="orangehrm-current-version-content">
-        Select your current OrangeHRM version here.You can't find the version at
-        the bottom of OrangeHRM login page.OrangeHRM upgrader only supports
-        versions listed in the dropdown selecting a different version would lead
-        to an upgrader failure and a database corruption.
-      </oxd-text>
+    <oxd-text class="orangehrm-current-version-content">
+      Select your current OrangeHRM version here.You can't find the version at
+      the bottom of OrangeHRM login page.OrangeHRM upgrader only supports
+      versions listed in the dropdown selecting a different version would lead
+      to an upgrader failure and a database corruption.
+    </oxd-text>
 
-      <oxd-form-row class="orangehrm-current-version-row">
-        <oxd-grid :cols="3" class="orangehrm-full-width-grid">
-          <oxd-grid-item> </oxd-grid-item>
-        </oxd-grid>
-      </oxd-form-row>
+    <oxd-form-row class="orangehrm-current-version-row">
+      <oxd-grid :cols="3" class="orangehrm-full-width-grid">
+        <oxd-grid-item> </oxd-grid-item>
+      </oxd-grid>
+    </oxd-form-row>
 
-      <Notice title="important">
-        <oxd-text tag="p" class="orangehrm-current-version-content">
-          Test
-        </oxd-text>
-      </Notice>
-
+    <Notice title="important">
       <oxd-text tag="p" class="orangehrm-current-version-content">
-        Click <b>Next</b> to commence upgrading your instance
+        If yey.ohrmou have enabled data encrypted in your current version, you
+        need to copy the file 'lib/confs/key.ohrm' from your current
+        installation to corresponding location in the new version
       </oxd-text>
+    </Notice>
 
-      <oxd-form-actions class="orangehrm-current-version-action">
-        <oxd-button display-type="secondary" label="Next" type="submit" />
-      </oxd-form-actions>
-    </oxd-form>
-  </installer-layout>
+    <oxd-text tag="p" class="orangehrm-current-version-content">
+      Click <b>Next</b> to commence upgrading your instance
+    </oxd-text>
+
+    <oxd-form-actions class="orangehrm-current-version-action">
+      <oxd-button display-type="ghost" label="Back" />
+      <oxd-button display-type="secondary" label="Next" type="submit" />
+    </oxd-form-actions>
+  </oxd-form>
 </template>
 
 <script>
-import InstallerLayout from '@/components/InstallerLayout';
 import Notice from '@/components/Notice.vue';
 export default {
   name: 'CurrentVersionScreen',
   components: {
     Notice,
-    'installer-layout': InstallerLayout,
   },
 };
 </script>
@@ -71,6 +70,9 @@ export default {
   height: 100%;
   &-action {
     padding: 1rem;
+    button {
+      margin-left: 0.5rem;
+    }
   }
   &-title {
     color: $oxd-primary-one-color;

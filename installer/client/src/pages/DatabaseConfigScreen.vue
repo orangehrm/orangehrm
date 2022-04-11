@@ -93,6 +93,12 @@
       <required-text />
       <oxd-button
         class="orangehrm-database-info-button"
+        display-type="ghost"
+        label="Back"
+        type="button"
+      />
+      <oxd-button
+        class="orangehrm-database-info-button"
         display-type="secondary"
         label="Next"
         type="submit"
