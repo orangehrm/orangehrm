@@ -19,7 +19,7 @@
  -->
 <template>
   <installer-layout>
-    <oxd-form ref="databaseForm" method="post">
+    <oxd-form @submitValid="onSubmit">
       <oxd-text tag="h4" class="orangehrm-database-info-title"
         >Database Information</oxd-text
       >
@@ -113,10 +113,21 @@ import {
 } from '@ohrm/core/util/validation/rules';
 import {checkPassword} from '@ohrm/core/util/helper/password';
 import InstallerLayout from '@/components/InstallerLayout.vue';
+import {urlFor} from '@/core/util/helper/url';
+import {APIService} from '@/core/util/services/api.service';
 export default {
   name: 'DatabaseConfigScreen',
   components: {
     'installer-layout': InstallerLayout,
+  },
+  setup() {
+    const http = new APIService(
+      'https://8fdc0dda-8987-4f6f-9014-cb8c49a3a717.mock.pstmn.io',
+      'upgrader/databaseConfig',
+    );
+    return {
+      http,
+    };
   },
   data() {
     return {
@@ -135,6 +146,28 @@ export default {
         userPassword: '',
       },
     };
+  },
+  methods: {
+    onSubmit() {
+      const {
+        hostName,
+        hostPort,
+        databaseName,
+        userName,
+        userPassword,
+      } = this.database;
+      this.http
+        .request({
+          method: 'post',
+          data: {hostName, hostPort, databaseName, userName, userPassword},
+        })
+        .then(() => {
+          console.log('success');
+        })
+        .catch(() => {
+          console.log('error');
+        });
+    },
   },
 };
 </script>

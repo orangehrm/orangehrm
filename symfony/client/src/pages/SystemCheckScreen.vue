@@ -23,7 +23,7 @@
       <div class="orangehrm-system-check">
         <oxd-text
           tag="h4"
-          class="orangehrm-system-check-title orangehrm-system-check-content"
+          class="orangehrm-system-check-content orangehrm-system-check-title"
           >System Check</oxd-text
         >
         <oxd-text class="orangehrm-system-check-content"
@@ -31,27 +31,32 @@
           ensure that all the system check items listed below are green.if any
           are red please take the necessary steps to fix them.</oxd-text
         >
+        <flex-table
+          :title-name="items?.environment.title"
+          :items="items?.environment.items"
+        >
+        </flex-table>
 
         <flex-table
-          :title-name="items.environment?.title"
-          :items="items.environment?.items"
+          :title-name="items?.permission.title"
+          :items="items?.permission.items"
         >
         </flex-table>
         <flex-table
-          :title-name="items.environment?.title"
-          :items="items.environment?.items"
-        >
-        </flex-table>
-        <flex-table
-          :title-name="items.environment?.title"
-          :items="items.environment?.items"
+          :title-name="items?.extension.title"
+          :items="items?.extension.items"
         >
         </flex-table>
       </div>
       <oxd-form-actions class="orangehrm-system-check-action">
         <oxd-button display-type="ghost" label="Back" />
         <oxd-button display-type="ghost" label="Re-Check" type="submit" />
-        <oxd-button display-type="ghost" label="Install" type="submit" />
+        <oxd-button
+          display-type="ghost"
+          :disabled="checkErrors"
+          label="Install"
+          type="submit"
+        />
       </oxd-form-actions>
     </oxd-form>
   </installer-layout>
@@ -80,9 +85,22 @@ export default {
   data() {
     return {
       selected: 'Orange',
-      items: () => [],
+      items: null,
       isLoading: false,
     };
+  },
+  computed: {
+    checkErrors() {
+      if (this.items) {
+        const itemArr = [
+          ...this.items?.environment?.items,
+          ...this.items?.permission?.items,
+          ...this.items?.extension?.items,
+        ];
+        return !itemArr?.every(({type}) => type !== 3);
+      }
+      return false;
+    },
   },
   mounted() {
     this.isLoading = true;
@@ -107,6 +125,7 @@ export default {
     padding: 1rem;
   }
   &-title {
+    padding-top: 0;
     color: $oxd-primary-one-color;
   }
   &-content {
