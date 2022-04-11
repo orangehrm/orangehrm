@@ -22,6 +22,7 @@ namespace OrangeHRM\Installer\Controller;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\Http\Response;
 use OrangeHRM\Installer\Exception\NotImplementedException;
+use Throwable;
 
 abstract class AbstractInstallerRestController extends AbstractInstallerController
 {
@@ -45,25 +46,35 @@ abstract class AbstractInstallerRestController extends AbstractInstallerControll
         $response = $this->getResponse();
         $response->headers->set('Content-Type', 'application/json');
         $data = [];
-        switch ($request->getMethod()) {
-            case Request::METHOD_GET:
-                $data = $this->handleGet($request);
-                break;
+        try {
+            switch ($request->getMethod()) {
+                case Request::METHOD_GET:
+                    $data = $this->handleGet($request);
+                    break;
 
-            case Request::METHOD_POST:
-                $data = $this->handlePost($request);
-                break;
+                case Request::METHOD_POST:
+                    $data = $this->handlePost($request);
+                    break;
 
-            case Request::METHOD_PUT:
-                $data = $this->handlePut($request);
-                break;
+                case Request::METHOD_PUT:
+                    $data = $this->handlePut($request);
+                    break;
 
-            case Request::METHOD_DELETE:
-                $data = $this->handleDelete($request);
-                break;
+                case Request::METHOD_DELETE:
+                    $data = $this->handleDelete($request);
+                    break;
 
-            default:
-                throw new NotImplementedException();
+                default:
+                    throw new NotImplementedException();
+            }
+        } catch (NotImplementedException $e) {
+            $response->setContent(json_encode(['error' => $e->getMessage()]));
+            $response->setStatusCode(Response::HTTP_NOT_IMPLEMENTED);
+            return $response;
+        } catch (Throwable $e) {
+            $response->setContent(json_encode(['error' => 'Unexpected Error']));
+            $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
+            return $response;
         }
         $response->setContent(json_encode($data));
         return $response;

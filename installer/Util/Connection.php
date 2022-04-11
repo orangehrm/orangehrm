@@ -19,38 +19,43 @@
 
 namespace OrangeHRM\Installer\Util;
 
+use Doctrine\DBAL\Connection as DBALConnection;
 use Doctrine\DBAL\DriverManager;
+use OrangeHRM\Framework\Http\Session\Session;
+use OrangeHRM\Framework\ServiceContainer;
+use OrangeHRM\Framework\Services;
 
 class Connection
 {
     /**
-     * @var DriverManager|null
+     * @var DBALConnection|null
      */
-    private static ?DriverManager $driverManager = null;
+    private static ?DBALConnection $connection = null;
 
     private function __construct()
     {
-        //ToDo
+        /** @var Session $session */
+        $session = ServiceContainer::getContainer()->get(Services::SESSION);
         $connectionParams = [
-            'dbname' => 'orangehrm5x',
-            'user' => 'root',
-            'password' => 'root',
-            'host' => 'mariadb104',
-            'port' => 3306,
+            'dbname' => $session->get(Constant::DB_NAME),
+            'user' => $session->get(Constant::DB_USER),
+            'password' => $session->get(Constant::DB_PASSWORD),
+            'host' => $session->get(Constant::DB_HOST),
+            'port' => $session->get(Constant::DB_PORT),
             'driver' => 'pdo_mysql',
             'charset' => 'utf8mb4'
         ];
-        self::$driverManager = DriverManager::getConnection($connectionParams);
+        self::$connection = DriverManager::getConnection($connectionParams);
     }
 
     /**
-     * @return DriverManager
+     * @return DBALConnection
      */
-    public static function getDriverManager(): DriverManager
+    public static function getConnection(): DBALConnection
     {
-        if (is_null(self::$driverManager)) {
+        if (is_null(self::$connection)) {
             new self();
         }
-        return self::$driverManager;
+        return self::$connection;
     }
 }
