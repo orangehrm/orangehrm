@@ -17,30 +17,40 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Installer\Controller\Upgrader\Api;
+namespace OrangeHRM\Installer\Util;
 
-use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Installer\Controller\AbstractInstallerRestController;
+use Doctrine\DBAL\DriverManager;
 
-class DatabaseConfigApi extends AbstractInstallerRestController
+class Connection
 {
     /**
-     * @inheritDoc
+     * @var DriverManager|null
      */
-    protected function handlePost(Request $request): array
-    {
-        $dbHost = $request->request->get('dbHost');
-        $dbPort = $request->request->get('dbPort');
-        $dbUser = $request->request->get('dbUser');
-        $dbPassword = $request->request->get('dbPassword');
-        $dbName = $request->request->get('dbName');
+    private static ?DriverManager $driverManager = null;
 
-        return [
-            'dbHost' => $dbHost,
-            'dbPort' => $dbPort,
-            'dbUser' => $dbUser,
-            'dbPassword' => $dbPassword,
-            'dbName' => $dbName,
+    private function __construct()
+    {
+        //ToDo
+        $connectionParams = [
+            'dbname' => 'orangehrm5x',
+            'user' => 'root',
+            'password' => 'root',
+            'host' => 'mariadb104',
+            'port' => 3306,
+            'driver' => 'pdo_mysql',
+            'charset' => 'utf8mb4'
         ];
+        self::$driverManager = DriverManager::getConnection($connectionParams);
+    }
+
+    /**
+     * @return DriverManager
+     */
+    public static function getDriverManager(): DriverManager
+    {
+        if (is_null(self::$driverManager)) {
+            new self();
+        }
+        return self::$driverManager;
     }
 }
