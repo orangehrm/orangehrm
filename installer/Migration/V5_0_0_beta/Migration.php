@@ -397,7 +397,7 @@ class Migration extends AbstractMigration
      */
     public function getVersion(): string
     {
-        return '5.0.beta';
+        return '5.0-beta';
     }
 
     /**
