@@ -96,4 +96,10 @@ abstract class AbstractMigration
      * Define schema increment or data insertion
      */
     abstract public function up(): void;
+
+    /**
+     * Return the version of the migration
+     * @return string
+     */
+    abstract public function getVersion(): string;
 }
