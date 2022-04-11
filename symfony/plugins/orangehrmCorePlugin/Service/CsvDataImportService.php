@@ -41,6 +41,29 @@ class CsvDataImportService
         $factory = new CsvDataImportFactory();
         $instance = $factory->getImportClassInstance($importType);
 
+        $employeesDataArray = $this->getEmployeeArrayFromCSV($fileContent, $headerValues);
+
+        $rowsImported = 0;
+        if ($headerValues == $employeesDataArray[0]) {
+            for ($i = 1; $i < sizeof($employeesDataArray); $i++) {
+                $result = $instance->import($employeesDataArray[$i]);
+                if ($result) {
+                    $rowsImported++;
+                }
+            }
+        }
+        return $rowsImported;
+    }
+
+    /**
+     * Returns a multidimensional array where one array matches a row of the CSV
+     * @param string $fileContent
+     * @param array $headerValues
+     * @return array
+     * @throws CSVUploadFailedException
+     */
+    public function getEmployeeArrayFromCSV(string $fileContent, array $headerValues): array
+    {
         $stream = fopen('php://memory', 'r+');
         fwrite($stream, $fileContent);
         rewind($stream);
@@ -55,23 +78,14 @@ class CsvDataImportService
             }
 
             foreach ($data as $key => $datum) {
-                if ($this->getTextHelper()->strContains($datum, "\n")) {
-                    $data[$key] = str_replace("\n", '', $datum);
+                if (preg_match('/[\n\r\t\v\x00]/', $datum)) {
+                    $parsedData = str_replace(["\n", "\r", "\t", "\v", "\x00"], ' ', $datum);
+                    $data[$key] = trim($parsedData);
                 }
             }
             $employeesDataArray[] = $data;
         }
         fclose($stream);
-
-        $rowsImported = 0;
-        if ($headerValues == $employeesDataArray[0]) {
-            for ($i = 1; $i < sizeof($employeesDataArray); $i++) {
-                $result = $instance->import($employeesDataArray[$i]);
-                if ($result) {
-                    $rowsImported++;
-                }
-            }
-        }
-        return $rowsImported;
+        return $employeesDataArray;
     }
 }
