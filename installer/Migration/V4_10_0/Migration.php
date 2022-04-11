@@ -36,6 +36,6 @@ class Migration extends AbstractMigration
      */
     public function getVersion(): string
     {
-        return '4.10.0';
+        return '4.10';
     }
 }
