@@ -1,6 +1,8 @@
 <template>
   <div class="orangehrm-flex-table">
-    <oxd-text tag="h6">{{ titleName }}</oxd-text>
+    <oxd-text tag="p" class="orangehrm-flex-table-title">{{
+      titleName
+    }}</oxd-text>
     <oxd-divider class="orangehrm-flex-table-divider" />
     <div
       v-for="(item, index) in items"
@@ -46,6 +48,10 @@ export default {
 <style scoped lang="scss">
 .orangehrm-flex-table {
   padding: 0.5rem;
+  &-title {
+    font-weight: 700;
+    font-size: 16px;
+  }
   &-value {
     &.--success {
       color: $oxd-feedback-success-color;

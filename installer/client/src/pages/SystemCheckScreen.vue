@@ -21,7 +21,7 @@
   <oxd-form :loading="isLoading">
     <div class="orangehrm-system-check">
       <oxd-text
-        tag="h4"
+        tag="h5"
         class="orangehrm-system-check-content orangehrm-system-check-title"
         >System Check</oxd-text
       >

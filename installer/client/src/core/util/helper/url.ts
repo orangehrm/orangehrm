@@ -64,3 +64,17 @@ export const prepare = function (
     preparedEndpoint + (queryKeys.length === 0 ? '' : preparedQueryString),
   );
 };
+
+/**
+ *
+ * @param endpoint
+ * @param params
+ * @param query
+ */
+export const urlFor = function (
+  endpoint: string,
+  params: {[key: string]: string | number} = {},
+  query: {[key: string]: string | number | boolean | string[]} = {},
+): string {
+  return window.appGlobal.baseUrl + prepare(endpoint, params, query);
+};

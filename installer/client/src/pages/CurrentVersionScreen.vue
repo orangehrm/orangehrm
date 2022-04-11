@@ -34,10 +34,10 @@
       <oxd-grid :cols="3" class="orangehrm-full-width-grid">
         <oxd-grid-item>
           <oxd-input
-            v-model="version"
+            v-model="config.version"
             type="select"
             label="Current OrangeHRM Version"
-            :options="[]"
+            :options="getItems"
             :show-empty-selector="false"
           ></oxd-input>
         </oxd-grid-item>
@@ -57,7 +57,7 @@
     </oxd-text>
 
     <oxd-form-actions class="orangehrm-current-version-action">
-      <oxd-button display-type="ghost" label="Back" />
+      <oxd-button display-type="ghost" label="Back" @click="navigateUrl" />
       <oxd-button display-type="secondary" label="Next" type="submit" />
     </oxd-form-actions>
   </oxd-form>
@@ -66,16 +66,49 @@
 <script>
 import Notice from '@/components/Notice.vue';
 import InputField from '@ohrm/oxd/core/components/InputField/InputField.vue';
+import {APIService} from '@/core/util/services/api.service';
+import {navigate} from '@/core/util/helper/navigation.ts';
+
 export default {
   name: 'CurrentVersionScreen',
   components: {
     Notice,
     'oxd-input': InputField,
   },
+  setup() {
+    const http = new APIService(
+      'https://8fdc0dda-8987-4f6f-9014-cb8c49a3a717.mock.pstmn.io',
+      'upgrader/current-version',
+    );
+    return {
+      http,
+    };
+  },
   data() {
     return {
-      version: '',
+      config: {
+        version: '',
+      },
+      items: () => [],
     };
+  },
+  computed: {
+    getItems() {
+      if (this.items.length == 0) {
+        return [];
+      }
+      return JSON.parse(JSON.stringify(this.items));
+    },
+  },
+  mounted() {
+    this.http.request({method: 'get'}).then((res) => {
+      this.items = res.data;
+    });
+  },
+  methods: {
+    navigateUrl() {
+      navigate('/upgrader/system-check');
+    },
   },
 };
 </script>
