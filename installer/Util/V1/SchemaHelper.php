@@ -161,11 +161,12 @@ class SchemaHelper
         return $table;
     }
 
+    /**
+     * @param array $table
+     * @return bool
+     */
     public function tableExists(array $table): bool
     {
-        if ($this->getSchemaManager()->tablesExist($table)) {
-            return true;
-        }
-        return false;
+        return $this->getSchemaManager()->tablesExist($table);
     }
 }

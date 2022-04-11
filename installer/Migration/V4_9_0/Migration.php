@@ -1,4 +1,21 @@
 <?php
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ */
 
 namespace OrangeHRM\Installer\Migration\V4_9_0;
 
@@ -48,9 +65,6 @@ class Migration extends AbstractMigration
             ->setParameter('pluginName', 'orangehrmCorporateBrandingPlugin')
             ->executeQuery();
 
-        $this->updateConfig('4.9', 'instance.version');
-        $this->updateConfig('81', 'instance.increment_number');
-
         if (!$this->getSchemaHelper()->tableExists(['ohrm_registration_event_queue'])) {
             $this->getSchemaHelper()->createTable('ohrm_registration_event_queue')
                 ->addColumn('id', Types::INTEGER, ['Autoincrement' => true])
@@ -61,6 +75,14 @@ class Migration extends AbstractMigration
                 ->setPrimaryKey(['id'])
                 ->create();
         }
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getVersion(): string
+    {
+        return '4.9';
     }
 
     /**
@@ -96,7 +118,7 @@ class Migration extends AbstractMigration
                 [
                     'menu_title' => ':menuTitle',
                     'screen_id' => ':screenId',
-                    'parent_id' => ':ParentId',
+                    'parent_id' => ':parentId',
                     'level' => ':level',
                     'order_hint' => ':orderHint',
                     'url_extras' => ':urlExtras',
@@ -105,7 +127,7 @@ class Migration extends AbstractMigration
             )
             ->setParameter('menuTitle', $menuItem)
             ->setParameter('screenId', $screenId)
-            ->setParameter('ParentId', $parentId)
+            ->setParameter('parentId', $parentId)
             ->setParameter('level', $level)
             ->setParameter('orderHint', $order_hint)
             ->setParameter('urlExtras', $urlExtras)

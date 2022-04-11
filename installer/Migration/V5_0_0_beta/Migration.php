@@ -393,6 +393,14 @@ class Migration extends AbstractMigration
     }
 
     /**
+     * @inheritDoc
+     */
+    public function getVersion(): string
+    {
+        return '5.0.0.beta';
+    }
+
+    /**
      * @param string $userRole
      * @param string $url
      */

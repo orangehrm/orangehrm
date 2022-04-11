@@ -1,4 +1,21 @@
 <?php
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ */
 
 namespace OrangeHRM\Installer\Migration\V4_4_0;
 
@@ -38,11 +55,11 @@ class Migration extends AbstractMigration
                 ->addColumn('id', Types::BIGINT, ['Length' => 20, 'Autoincrement' => true])
                 ->addColumn('post_id', Types::BIGINT, ['Length' => 20, 'Notnull' => true])
                 ->addColumn('employee_number', Types::INTEGER, ['Length' => 7])
-                ->addColumn('number_of_likes', Types::INTEGER, ['Length' => 6, 'Default' => null,'Notnull' => false])
-                ->addColumn('number_of_unlikes', Types::INTEGER, ['Length' => 6, 'Default' => null,'Notnull' => false])
-                ->addColumn('number_of_comments', Types::INTEGER, ['Length' => 6, 'Default' => null,'Notnull' => false])
+                ->addColumn('number_of_likes', Types::INTEGER, ['Length' => 6, 'Default' => null, 'Notnull' => false])
+                ->addColumn('number_of_unlikes', Types::INTEGER, ['Length' => 6, 'Default' => null, 'Notnull' => false])
+                ->addColumn('number_of_comments', Types::INTEGER, ['Length' => 6, 'Default' => null, 'Notnull' => false])
                 ->addColumn('share_time', Types::DATETIME_MUTABLE, ['Notnull' => true])
-                ->addColumn('type', Types::SMALLINT, ['Default' => null,'Notnull' => false])
+                ->addColumn('type', Types::SMALLINT, ['Default' => null, 'Notnull' => false])
                 ->addColumn('text', Types::TEXT)
                 ->addColumn('updated_at', Types::DATETIMETZ_MUTABLE, ['Default' => 'CURRENT_TIMESTAMP', 'CustomSchemaOptions' => ['onUpdate' => 'CURRENT_TIMESTAMP']])
                 ->setPrimaryKey(['id'])
@@ -81,8 +98,8 @@ class Migration extends AbstractMigration
                 ->addColumn('id', Types::BIGINT, ['Length' => 20, 'Autoincrement' => true])
                 ->addColumn('share_id', Types::BIGINT, ['Length' => 20])
                 ->addColumn('employee_number', Types::INTEGER, ['Length' => 7])
-                ->addColumn('number_of_likes', Types::INTEGER, ['Length' => 6, 'Default' => null,'Notnull' => false])
-                ->addColumn('number_of_unlikes', Types::INTEGER, ['Length' => 6, 'Default' => null,'Notnull' => false])
+                ->addColumn('number_of_likes', Types::INTEGER, ['Length' => 6, 'Default' => null, 'Notnull' => false])
+                ->addColumn('number_of_unlikes', Types::INTEGER, ['Length' => 6, 'Default' => null, 'Notnull' => false])
                 ->addColumn('comment_text', Types::TEXT)
                 ->addColumn('comment_time', Types::DATETIME_MUTABLE, ['Notnull' => true])
                 ->addColumn('updated_at', Types::DATETIMETZ_MUTABLE, ['Default' => 'CURRENT_TIMESTAMP', 'CustomSchemaOptions' => ['onUpdate' => 'CURRENT_TIMESTAMP']])
@@ -327,9 +344,9 @@ class Migration extends AbstractMigration
         if (!$this->getSchemaHelper()->tableExists(['ohrm_buzz_notification_metadata'])) {
             $this->getSchemaHelper()->createTable('ohrm_buzz_notification_metadata')
                 ->addColumn('emp_number', Types::INTEGER, ['Length' => 7])
-                ->addColumn('last_notification_view_time', Types::DATETIME_MUTABLE, ['Default' => null,'Notnull' => false])
-                ->addColumn('last_buzz_view_time', Types::DATETIME_MUTABLE, ['Default' => null,'Notnull' => false])
-                ->addColumn('last_clear_notifications', Types::DATETIME_MUTABLE, ['Default' => null,'Notnull' => false])
+                ->addColumn('last_notification_view_time', Types::DATETIME_MUTABLE, ['Default' => null, 'Notnull' => false])
+                ->addColumn('last_buzz_view_time', Types::DATETIME_MUTABLE, ['Default' => null, 'Notnull' => false])
+                ->addColumn('last_clear_notifications', Types::DATETIME_MUTABLE, ['Default' => null, 'Notnull' => false])
                 ->setPrimaryKey(['emp_number'])
                 ->create();
         }
@@ -342,6 +359,7 @@ class Migration extends AbstractMigration
             ['onDelete' => 'CASCADE', 'onUpdate' => 'NO ACTION']
         );
         $this->getSchemaHelper()->addForeignKey('ohrm_buzz_notification_metadata', $foreignKeyConstraint15);
+
 
         $this->insertConfig('buzz_refresh_time', '60000');
         $this->insertConfig('buzz_share_count', '10');
@@ -402,9 +420,16 @@ class Migration extends AbstractMigration
             ->setParameter('status', 1)
             ->executeQuery();
 
+        // i.e. -4 weeks, -2 days, -1 day, -1 month
+        // https://www.php.net/manual/en/datetime.formats.relative.php
         $this->insertConfig('buzz_max_notification_period', '-1 week');
     }
 
+    /**
+     * @param string $key
+     * @param string $value
+     * @return void
+     */
     private function insertConfig(string $key, string $value): void
     {
         $this->createQueryBuilder()
@@ -418,5 +443,13 @@ class Migration extends AbstractMigration
             ->setParameter('key', $key)
             ->setParameter('value', $value)
             ->executeQuery();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getVersion(): string
+    {
+        return '4.4';
     }
 }

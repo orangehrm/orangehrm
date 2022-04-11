@@ -1,4 +1,21 @@
 <?php
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ */
 
 namespace OrangeHRM\Installer\Migration\V4_6_0;
 
@@ -19,7 +36,7 @@ class Migration extends AbstractMigration
             $this->getSchemaHelper()->createTable('ohrm_i18n_group')
                 ->addColumn('id', Types::INTEGER, ['Autoincrement' => true])
                 ->addColumn('name', Types::STRING, ['Length' => 255])
-                ->addColumn('title', Types::STRING, ['Length' => 255, 'Default' => null, 'Notnull' =>false])
+                ->addColumn('title', Types::STRING, ['Length' => 255, 'Default' => null, 'Notnull' => false])
                 ->setPrimaryKey(['id'])
                 ->create();
         }
@@ -27,7 +44,7 @@ class Migration extends AbstractMigration
         if (!$this->getSchemaHelper()->tableExists(['ohrm_i18n_language'])) {
             $this->getSchemaHelper()->createTable('ohrm_i18n_language')
                 ->addColumn('id', Types::INTEGER, ['Autoincrement' => true])
-                ->addColumn('name', Types::STRING, ['Length' => 255, 'Default' => null,'Notnull' => false])
+                ->addColumn('name', Types::STRING, ['Length' => 255, 'Default' => null, 'Notnull' => false])
                 ->addColumn('code', Types::STRING, ['Length' => 100, 'Notnull' => true])
                 ->addColumn(
                     'enabled',
@@ -39,7 +56,7 @@ class Migration extends AbstractMigration
                     Types::SMALLINT,
                     ['Unsigned' => true, 'Notnull' => false, 'Default' => 0]
                 )
-                ->addColumn('modified_at', Types::DATETIME_MUTABLE, ['Default' => null, 'Notnull' =>false])
+                ->addColumn('modified_at', Types::DATETIME_MUTABLE, ['Default' => null, 'Notnull' => false])
                 ->setPrimaryKey(['id'])
                 ->addUniqueConstraint(['code'])
                 ->create();
@@ -50,14 +67,14 @@ class Migration extends AbstractMigration
                 ->addColumn('id', Types::INTEGER, ['Autoincrement' => true])
                 ->addColumn('unit_id', Types::INTEGER, ['Notnull' => true])
                 ->addColumn('source_id', Types::INTEGER)
-                ->addColumn('group_id', Types::INTEGER, ['Default' => null,'Notnull' =>false])
+                ->addColumn('group_id', Types::INTEGER, ['Default' => null, 'Notnull' => false])
                 ->addColumn(
                     'value',
                     Types::TEXT,
                     ['Notnull' => true, 'CustomSchemaOptions' => ['collation' => 'utf8mb4_bin']]
                 )
                 ->addColumn('note', Types::TEXT)
-                ->addColumn('version', Types::STRING, ['Length' => 20, 'Default' => null,'Notnull' =>false])
+                ->addColumn('version', Types::STRING, ['Length' => 20, 'Default' => null, 'Notnull' => false])
                 ->setPrimaryKey(['id'])
                 ->create();
         }
@@ -70,7 +87,7 @@ class Migration extends AbstractMigration
                 ->addColumn('value', Types::TEXT)
                 ->addColumn('translated', Types::SMALLINT, ['Unsigned' => true, 'Default' => 1])
                 ->addColumn('customized', Types::SMALLINT, ['Unsigned' => true, 'Default' => 0])
-                ->addColumn('version', Types::STRING, ['Length' => 20, 'Default' => null,'Notnull' => false])
+                ->addColumn('version', Types::STRING, ['Length' => 20, 'Default' => null, 'Notnull' => false])
                 ->addColumn(
                     'modified_at',
                     Types::DATETIMETZ_MUTABLE,
@@ -83,7 +100,7 @@ class Migration extends AbstractMigration
         if (!$this->getSchemaHelper()->tableExists(['ohrm_i18n_source'])) {
             $this->getSchemaHelper()->createTable('ohrm_i18n_source')
                 ->addColumn('id', Types::INTEGER, ['Autoincrement' => true])
-                ->addColumn('source', Types::TEXT, ['Length' => 18,'Notnull' => false])
+                ->addColumn('source', Types::TEXT, ['Length' => 18, 'Notnull' => false])
                 ->addColumn('modified_at', Types::DATETIME_MUTABLE, ['Notnull' => false,])
                 ->setPrimaryKey(['id'])
                 ->create();
@@ -132,6 +149,14 @@ class Migration extends AbstractMigration
         $this->insertLanguages($languages);
         $groups = $this->readlanguageYaml(__DIR__ . '/language/groups.yaml');
         $this->insertGroups($groups);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getVersion(): string
+    {
+        return '4.6';
     }
 
     /**
