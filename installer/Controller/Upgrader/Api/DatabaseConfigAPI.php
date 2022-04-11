@@ -62,7 +62,6 @@ class DatabaseConfigAPI extends AbstractInstallerRestController
                 'dbHost' => $dbHost,
                 'dbPort' => $dbPort,
                 'dbUser' => $dbUser,
-                'dbPassword' => $dbPassword,
                 'dbName' => $dbName,
             ];
         }

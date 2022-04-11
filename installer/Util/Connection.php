@@ -17,49 +17,40 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Installer\Controller\Upgrader\Traits;
+namespace OrangeHRM\Installer\Util;
 
-use mysqli;
+use Doctrine\DBAL\DriverManager;
 
-trait UpgraderUtilityTrait
+class Connection
 {
-    private $dbConnection = null;
-
-    /***
-     * @param string $host
-     * @param string $username
-     * @param string $password
-     * @param string $dbname
-     * @param int|null $port
-     * @return bool
+    /**
+     * @var DriverManager|null
      */
-    public function checkDatabaseConnection(
-        string $host,
-        string $username,
-        string $password,
-        string $dbname,
-        ?int $port
-    ): bool {
-        $this->dbConnection = @new mysqli($host, $username, $password, $dbname, $port);
-        return !$this->dbConnection->connect_error;
+    private static ?DriverManager $driverManager = null;
+
+    private function __construct()
+    {
+        //ToDo
+        $connectionParams = [
+            'dbname' => 'orangehrm5x',
+            'user' => 'root',
+            'password' => 'root',
+            'host' => 'mariadb104',
+            'port' => 3306,
+            'driver' => 'pdo_mysql',
+            'charset' => 'utf8mb4'
+        ];
+        self::$driverManager = DriverManager::getConnection($connectionParams);
     }
 
     /**
-     * @return bool
+     * @return DriverManager
      */
-    public function checkDatabaseStatus(): bool
+    public static function getDriverManager(): DriverManager
     {
-        $query = "SHOW TABLES LIKE 'ohrm_upgrade_status'";
-        $result = $this->executeSql($query);
-        return $result->num_rows > 0;
-    }
-
-    /**
-     * @param string $query
-     * @return mixed
-     */
-    private function executeSql(string $query)
-    {
-        return $this->dbConnection->query($query);
+        if (is_null(self::$driverManager)) {
+            new self();
+        }
+        return self::$driverManager;
     }
 }
