@@ -7,14 +7,18 @@
       <oxd-divider class="orangehrm-database-config-dialog-divider" />
       <oxd-text
         tag="p"
-        class="orangehrm-system-check-content orangehrm-system-check-title"
+        class="orangehrm-database-config-dialog-content orangehrm-database-config--title"
       >
         It appears that you are currently using modules or add-on which are not
         supported by OrangeHRM Starter version 5.0. you may continue to upgrade
         your system to version 5.0, but please keep in mind that any data used
         in these modules will be in accessible.
       </oxd-text>
-      <oxd-classic-table :headers="headers" :items="items"></oxd-classic-table>
+      <oxd-classic-table
+        :headers="headers"
+        :items="items"
+        class="orangehrm-database-config-dialog-table"
+      ></oxd-classic-table>
       <oxd-check-box
         v-model="selected"
         option-label="I want to continue upgrading the orangeHRM system to version 5.0 and i'm aware that any data gathered in incompatible modules/add-ons will be inaccessible"
@@ -99,9 +103,22 @@ export default {
 
 <style scoped lang="scss">
 ::v-deep(.oxd-dialog-sheet) {
-  width: 100%;
+  width: 50%;
 }
 .orangehrm-database-config-dialog {
+  font-size: $oxd-input-control-font-size;
+  &-title {
+    font-weight: 700;
+  }
+  &-content {
+    padding-bottom: 1rem;
+  }
+  &-table {
+    margin-bottom: 2em;
+  }
+  ::v-deep(.oxd-padding-cell) {
+    padding: 0.1rem 0;
+  }
   ::v-deep(.oxd-table-row) {
     border-top: 0px;
   }
@@ -113,6 +130,7 @@ export default {
   }
   &-divider {
     border-top-color: $oxd-interface-gray-darken-1-color;
+    margin: 1rem 0;
   }
   &-button {
     margin-left: 0.5rem;

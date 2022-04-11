@@ -20,7 +20,7 @@
 <template>
   <oxd-form class="orangehrm-installer-page" @submit="showModel">
     <oxd-text tag="h5" class="orangehrm-installer-page-title">
-      Welcome to OrangeHRM Stater Version 5.0 Setup Wizard
+      Welcome to OrangeHRM Starter Version 5.0 Setup Wizard
     </oxd-text>
     <br />
     <oxd-text tag="p" class="orangehrm-installer-page-content">
@@ -62,9 +62,9 @@
         OrangeHRM Starter 5.0 only supports Admin,PIM,Leave,Time and
         Attendance,and Maintenance modules.if you are utilizing other modules pr
         Add-ons and are thinking about upgrading, we recommended waiting for
-        version5.1.You can,however, continue with the update while ignoring the
-        unsupported modules and add-ons,but please note that data will be
-        inaccessible
+        version 5.1. You can, however, continue with the update while ignoring
+        the unsupported modules and add-ons,but please note that data will be
+        inaccessible.
       </oxd-text>
     </Notice>
     <br />
@@ -84,8 +84,8 @@
 <script>
 import Notice from '@/components/Notice.vue';
 import RadioInput from '@ohrm/oxd/core/components/Input/RadioInput';
-import DatabaseConfigDialog from '../components/DatabaseConfigDialog.vue';
-
+import DatabaseConfigDialog from '@/components/DatabaseConfigDialog.vue';
+import {navigate} from '@/core/util/helper/navigation.ts';
 export default {
   name: 'WelcomeScreen',
   components: {
@@ -109,6 +109,7 @@ export default {
         return;
       }
       this.hasShowModel = !isAccept;
+      navigate('/upgrader/database-config');
     },
   },
 };

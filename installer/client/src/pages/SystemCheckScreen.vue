@@ -39,13 +39,18 @@
         ></flex-table>
       </div>
       <oxd-form-actions class="orangehrm-system-check-action">
-        <oxd-button display-type="ghost" label="Back" />
-        <oxd-button display-type="ghost" label="Re-Check" type="submit" />
+        <oxd-button display-type="ghost" label="Back" @click="navigateUrl" />
+        <oxd-button
+          display-type="ghost"
+          label="Re-Check"
+          type="submit"
+          @click="Recheck"
+        />
         <oxd-button
           display-type="ghost"
           :disabled="checkErrors"
-          label="Install"
-          type="submit"
+          label="Next"
+          @click="goToScreen()"
         />
       </oxd-form-actions>
     </div>
@@ -55,6 +60,7 @@
 <script>
 import {APIService} from '@/core/util/services/api.service';
 import FlexTable from '../components/FlexTable.vue';
+import {navigate} from '@/core/util/helper/navigation.ts';
 
 export default {
   name: 'SystemCheckScreen',
@@ -103,6 +109,26 @@ export default {
       .catch(() => {
         this.isLoading = false;
       });
+  },
+  methods: {
+    navigateUrl() {
+      navigate('/upgrader/database-config');
+    },
+    goToScreen() {
+      navigate('/upgrader/current-version');
+    },
+    Recheck() {
+      this.isLoading = true;
+      this.http
+        .request({method: 'get'})
+        .then((res) => {
+          this.items = res.data;
+          this.isLoading = false;
+        })
+        .catch(() => {
+          this.isLoading = false;
+        });
+    },
   },
 };
 </script>

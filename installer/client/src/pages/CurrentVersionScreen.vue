@@ -45,10 +45,10 @@
     </oxd-form-row>
 
     <Notice title="important">
-      <oxd-text tag="p" class="orangehrm-current-version-content">
-        If yey.ohrmou have enabled data encrypted in your current version, you
-        need to copy the file 'lib/confs/key.ohrm' from your current
-        installation to corresponding location in the new version
+      <oxd-text tag="p">
+        If you have enabled data encrypted in your current version, you need to
+        copy the file 'lib/confs/key.ohrm' from your current installation to
+        corresponding location in the new version
       </oxd-text>
     </Notice>
 
@@ -83,6 +83,7 @@ export default {
 <style lang="scss" scoped>
 .orangehrm-current-version {
   height: 100%;
+  font-size: $oxd-input-control-font-size;
   &-action {
     padding: 1rem;
     button {

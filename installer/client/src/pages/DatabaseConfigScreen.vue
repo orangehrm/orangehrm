@@ -19,27 +19,21 @@
  -->
 <template>
   <oxd-form class="orangehrm-database-info" @submit-valid="onSubmit">
-    <oxd-text tag="h4" class="orangehrm-database-info-title"
-      >Database Information</oxd-text
-    >
+    <oxd-text tag="h5" class="orangehrm-database-info-title">
+      Database Information
+    </oxd-text>
     <oxd-text class="orangehrm-database-info-content"
       >Please provide the database information of the database you are going to
       upgrade.</oxd-text
     >
-    <Notice title="important">
+    <Notice title="important" class="orangehrm-database-info-note">
       <oxd-text tag="p" class="orangehrm-current-version-content">
-        If yey.ohrmou have enabled data encrypted in your current version, you
-        need to copy the file 'lib/confs/key.ohrm' from your current
-        installation to corresponding location in the new version
+        Make sure it's copy of the database of your current OrangeHRm
+        installation and not the original database.it's highly discouraged to
+        use the original database for upgrading since it won't be recoverable if
+        an error occurred during the upgrade.
       </oxd-text>
     </Notice>
-    <oxd-text class="orangehrm-database-info-content"
-      >Make sure it's copy of the database of your current OrangeHRm
-      installation and not the original database.it's highly discouraged to use
-      the original database for upgrading since it won't be recoverable if an
-      error occurred during the upgrade.</oxd-text
-    >
-
     <oxd-form-row>
       <oxd-grid :cols="3" class="orangehrm-full-width-grid">
         <oxd-grid-item>
@@ -76,7 +70,7 @@
         <oxd-grid-item>
           <oxd-input-field
             v-model="database.userName"
-            label="Database UserName"
+            label="Database Username"
             :rules="rules.userName"
             required
           />
@@ -91,11 +85,10 @@
         </oxd-grid-item>
       </oxd-grid>
     </oxd-form-row>
-    <oxd-text class="orangehrm-database-info-content"
-      >Click
-      <b>Next</b>
-      to continue</oxd-text
-    >
+    <oxd-text class="orangehrm-database-info-content">
+      Click <b>Next</b>
+      to continue
+    </oxd-text>
     <oxd-form-actions class="orangehrm-database-info-action">
       <required-text />
       <oxd-button
@@ -103,6 +96,7 @@
         display-type="ghost"
         label="Back"
         type="button"
+        @click="navigateUrl"
       />
       <oxd-button
         class="orangehrm-database-info-button"
@@ -121,6 +115,7 @@ import {
   shouldNotExceedCharLength,
 } from '@/core/util/validation/rules';
 import {APIService} from '@/core/util/services/api.service';
+import {navigate} from '@/core/util/helper/navigation.ts';
 import Notice from '@/components/Notice.vue';
 export default {
   name: 'DatabaseConfigScreen',
@@ -139,7 +134,7 @@ export default {
   data() {
     return {
       rules: {
-        hostName: [required],
+        hostName: [required, shouldNotExceedCharLength(100)],
         hostPort: [required, digitsOnly],
         databaseName: [required],
         userName: [required],
@@ -158,10 +153,17 @@ export default {
     onSubmit() {
       const {hostName, hostPort, databaseName, userName, userPassword} =
         this.database;
-      this.http.request({
-        method: 'post',
-        data: {hostName, hostPort, databaseName, userName, userPassword},
-      });
+      this.http
+        .request({
+          method: 'post',
+          data: {hostName, hostPort, databaseName, userName, userPassword},
+        })
+        .then(() => {
+          navigate('/upgrader/system-check');
+        });
+    },
+    navigateUrl() {
+      navigate('/installer/welcome');
     },
   },
 };
@@ -169,6 +171,13 @@ export default {
 <style src="./installer-page.scss" lang="scss" scoped></style>
 <style lang="scss" scoped>
 .orangehrm-database-info {
+  font-size: $oxd-input-control-font-size;
+  &-content {
+    margin: 1rem 0;
+  }
+  &-note {
+    margin: 1rem 0;
+  }
   ::v-deep(.oxd-grid-3) {
     width: 100%;
     margin: 0 !important;
