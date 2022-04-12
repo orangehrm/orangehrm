@@ -56,6 +56,8 @@ class UserAPI extends Endpoint implements CrudEndpoint
     public const FILTER_EMPLOYEE_NUMBER = 'empNumber';
     public const FILTER_STATUS = 'status';
 
+    public const PARAM_RULE_USERNAME_MIN_LENGTH = 5;
+    public const PARAM_RULE_USERNAME_MAX_LENGTH = 40;
     public const PARAM_RULE_PASSWORD_MAX_LENGTH = 64;
 
     /**
@@ -186,16 +188,29 @@ class UserAPI extends Endpoint implements CrudEndpoint
     private function getCommonBodyValidationRules(): array
     {
         return [
-            new ParamRule(self::PARAMETER_USERNAME),
+            new ParamRule(
+                self::PARAMETER_USERNAME,
+                new Rule(Rules::STRING_TYPE),
+                new Rule(Rules::LENGTH, [self::PARAM_RULE_USERNAME_MIN_LENGTH, self::PARAM_RULE_USERNAME_MAX_LENGTH])
+            ),
             new ParamRule(
                 self::PARAMETER_PASSWORD,
                 new Rule(Rules::STRING_TYPE),
                 new Rule(Rules::LENGTH, [null, self::PARAM_RULE_PASSWORD_MAX_LENGTH]),
                 new Rule(Rules::PASSWORD)
             ),
-            new ParamRule(self::PARAMETER_USER_ROLE_ID),
-            new ParamRule(self::PARAMETER_EMPLOYEE_NUMBER),
-            new ParamRule(self::PARAMETER_STATUS),
+            new ParamRule(
+                self::PARAMETER_USER_ROLE_ID,
+                new Rule(Rules::INT_TYPE)
+            ),
+            new ParamRule(
+                CommonParams::PARAMETER_EMP_NUMBER,
+                new Rule(Rules::IN_ACCESSIBLE_EMP_NUMBERS)
+            ),
+            new ParamRule(
+                self::PARAMETER_STATUS,
+                new Rule(Rules::BOOL_TYPE)
+            ),
         ];
     }
 
@@ -230,7 +245,10 @@ class UserAPI extends Endpoint implements CrudEndpoint
                 CommonParams::PARAMETER_ID,
                 new Rule(Rules::POSITIVE)
             ),
-            new ParamRule(self::PARAMETER_CHANGE_PASSWORD),
+            new ParamRule(
+                self::PARAMETER_CHANGE_PASSWORD,
+                new Rule(Rules::BOOL_TYPE)
+            ),
             ...$this->getCommonBodyValidationRules(),
         );
     }
