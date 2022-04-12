@@ -18,7 +18,10 @@
  */
  -->
 <template>
-  <oxd-form class="orangehrm-installer-page" @submit="showModel">
+  <oxd-form
+    class="orangehrm-installer-page orangehrm-upgrader-container"
+    @submit="showModel"
+  >
     <oxd-text tag="h5" class="orangehrm-installer-page-title">
       Welcome to OrangeHRM Starter Version {{ version }} Setup Wizard
     </oxd-text>

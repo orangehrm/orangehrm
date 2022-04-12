@@ -18,15 +18,22 @@
  */
  -->
 <template>
-  <oxd-form class="orangehrm-database-info" @submit-valid="onSubmit">
+  <oxd-form
+    class="orangehrm-database-info orangehrm-upgrader-container"
+    @submit-valid="onSubmit"
+  >
     <oxd-text tag="h5" class="orangehrm-database-info-title">
       Database Information
     </oxd-text>
-    <oxd-text class="orangehrm-database-info-content"
+    <oxd-text
+      class="orangehrm-database-info-content orangehrm-upgrader-container-content"
       >Please provide the database information of the database you are going to
       upgrade.</oxd-text
     >
-    <Notice title="important" class="orangehrm-database-info-note">
+    <Notice
+      title="important"
+      class="orangehrm-database-info-note orangehrm-upgrader-container-notice"
+    >
       <oxd-text tag="p" class="orangehrm-current-version-content">
         Make sure it's copy of the database of your current OrangeHRm
         installation and not the original database.it's highly discouraged to
@@ -85,11 +92,15 @@
         </oxd-grid-item>
       </oxd-grid>
     </oxd-form-row>
-    <oxd-text class="orangehrm-database-info-content">
+    <oxd-text
+      class="orangehrm-database-info-content orangehrm-upgrader-container-content"
+    >
       Click <b>Next</b>
       to continue
     </oxd-text>
-    <oxd-form-actions class="orangehrm-database-info-action">
+    <oxd-form-actions
+      class="orangehrm-database-info-action orangehrm-upgrader-container-action"
+    >
       <required-text />
       <oxd-button
         class="orangehrm-database-info-button"
@@ -171,12 +182,9 @@ export default {
 <style src="./installer-page.scss" lang="scss" scoped></style>
 <style lang="scss" scoped>
 .orangehrm-database-info {
-  font-size: $oxd-input-control-font-size;
-  &-content {
-    margin: 1rem 0;
-  }
-  &-note {
-    margin: 1rem 0;
+  &-title {
+    color: $oxd-primary-one-color;
+    padding: 0 0.75rem 0.75rem 0.75rem;
   }
   ::v-deep(.oxd-grid-3) {
     width: 100%;

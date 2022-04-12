@@ -47,7 +47,7 @@ export default {
 
 <style scoped lang="scss">
 .orangehrm-flex-table {
-  padding: 0.5rem;
+  padding: 0.75rem;
   &-title {
     font-weight: 700;
     font-size: 16px;

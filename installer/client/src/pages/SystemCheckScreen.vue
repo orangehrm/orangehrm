@@ -19,13 +19,14 @@
  -->
 <template>
   <oxd-form :loading="isLoading">
-    <div class="orangehrm-system-check">
+    <div class="orangehrm-system-check orangehrm-upgrader-container">
       <oxd-text
         tag="h5"
-        class="orangehrm-system-check-content orangehrm-system-check-title"
+        class="orangehrm-system-check-content orangehrm-upgrader-container-content orangehrm-system-check-title"
         >System Check</oxd-text
       >
-      <oxd-text class="orangehrm-system-check-content"
+      <oxd-text
+        class="orangehrm-system-check-content orangehrm-upgrader-container-content"
         >In order for your orangeHRM installation to function properly,please
         ensure that all the system check items listed below are green.if any are
         red please take the necessary steps to fix them.</oxd-text
@@ -38,7 +39,9 @@
           :title-name="item?.category"
         ></flex-table>
       </div>
-      <oxd-form-actions class="orangehrm-system-check-action">
+      <oxd-form-actions
+        class="orangehrm-system-check-action orangehrm-upgrader-container-action"
+      >
         <oxd-button display-type="ghost" label="Back" @click="navigateUrl" />
         <oxd-button
           display-type="ghost"
@@ -59,7 +62,7 @@
 
 <script>
 import {APIService} from '@/core/util/services/api.service';
-import FlexTable from '../components/FlexTable.vue';
+import FlexTable from '@/components/FlexTable.vue';
 import {navigate} from '@/core/util/helper/navigation.ts';
 
 export default {
@@ -133,24 +136,17 @@ export default {
 };
 </script>
 
+<style src="./installer-page.scss" lang="scss" scoped></style>
 <style scoped lang="scss">
 .orangehrm-system-check {
-  height: 100%;
-  font-size: $oxd-input-control-font-size;
-  &-action {
-    padding: 1rem;
-  }
   &-title {
     padding-top: 0;
     color: $oxd-primary-one-color;
   }
-  &-content {
-    padding: 0.75rem;
-  }
   &-action {
     padding-right: 0;
     button {
-      margin-left: 1rem;
+      margin-right: 0.5rem;
     }
   }
 }
