@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\Installer\Migration\V4_7_0;
 
-use Doctrine\DBAL\Schema\ForeignKeyConstraint;
 use OrangeHRM\Installer\Util\V1\AbstractMigration;
 
 class Migration extends AbstractMigration
