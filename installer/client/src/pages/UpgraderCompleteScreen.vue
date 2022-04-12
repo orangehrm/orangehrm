@@ -32,7 +32,11 @@
     <oxd-form-actions
       class="orangehrm-upgrader-complete-action orangehrm-upgrader-container-action"
     >
-      <oxd-button display-type="secondary" label="Exit Setup" type="submit" />
+      <oxd-button
+        display-type="secondary"
+        label="Launch OrangeHRM"
+        type="submit"
+      />
     </oxd-form-actions>
   </div>
 </template>
