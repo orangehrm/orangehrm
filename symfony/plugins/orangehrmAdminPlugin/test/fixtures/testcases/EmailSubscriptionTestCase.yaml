@@ -19,7 +19,15 @@ GetAll:
         id: 3
         name: 'Leave Approvals'
         isEnabled: false
-        subscribers: [ ]
+        subscribers:
+          0:
+            id: 3
+            name: 'devi'
+            email: 'devi@ohrm.com'
+          1:
+            id: 4
+            name: 'sharuka'
+            email: 'sharuka@ohrm.com'
     meta:
       total: 5
 
