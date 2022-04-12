@@ -19,8 +19,12 @@
 
 namespace OrangeHRM\Core\Api\V2\Validator\Rules;
 
+use OrangeHRM\Core\Traits\Service\TextHelperTrait;
+
 class Password extends AbstractRule
 {
+    use TextHelperTrait;
+
     private const UPPERCASE_REGEX = '/[A-Z]/';
     private const LOWERCASE_REGEX = '/[a-z]/';
     private const NUMBER_REGEX = '/[0-9]/';
@@ -38,7 +42,7 @@ class Password extends AbstractRule
             $lowercaseMatch > 0 &&
             $numberMatch > 0 &&
             $specialCharMatch > 0 &&
-            strlen($input) >= 8
+            $this->getTextHelper()->strLength($input) >= 8
         );
     }
 }
