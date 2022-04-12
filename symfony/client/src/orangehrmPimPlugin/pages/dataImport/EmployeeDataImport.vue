@@ -90,6 +90,7 @@
                 :label="$t('general.select_file')"
                 :button-label="$t('general.browse')"
                 :rules="rules.attachment"
+                :placeholder="$t('general.no_file_selected')"
                 required
               />
               <oxd-text class="orangehrm-input-hint" tag="p">
