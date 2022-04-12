@@ -44,6 +44,7 @@
             label="Current OrangeHRM Version"
             :options="items"
             :show-empty-selector="false"
+            :rules="rules.version"
             required
           ></oxd-input-field>
         </oxd-grid-item>
@@ -78,6 +79,7 @@
 <script>
 import Notice from '@/components/Notice.vue';
 import {APIService} from '@/core/util/services/api.service';
+import {required} from '@/core/util/validation/rules';
 import {navigate} from '@/core/util/helper/navigation.ts';
 
 export default {
@@ -99,6 +101,9 @@ export default {
       isLoading: false,
       config: {
         version: '',
+      },
+      rules: {
+        version: [required],
       },
       items: [],
     };

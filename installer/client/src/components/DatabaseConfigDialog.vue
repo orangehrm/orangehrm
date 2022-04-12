@@ -101,8 +101,16 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import '@ohrm/oxd/styles/_mixins.scss';
+::v-deep(.oxd-dialog-container-default) {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 ::v-deep(.oxd-dialog-sheet) {
-  width: 50%;
+  @include oxd-respond-to('md') {
+    width: 55%;
+  }
   max-width: 80%;
 }
 .orangehrm-database-config-dialog {
@@ -130,7 +138,9 @@ export default {
   ::v-deep(.oxd-table-header .oxd-table-row:hover) {
     opacity: inherit;
   }
-
+  ::v-deep(.oxd-checkbox-wrapper label) {
+    font-weight: bold;
+  }
   &-divider {
     border-top-color: $oxd-interface-gray-darken-1-color;
     margin: 1rem 0;

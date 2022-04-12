@@ -34,7 +34,7 @@
     <oxd-text tag="p" class="orangehrm-installer-page-content">
       Select an installation type;
     </oxd-text>
-
+    <br />
     <oxd-form-row class="orangehrm-installer-page-row">
       <oxd-radio-input
         v-model="selected"
@@ -115,11 +115,12 @@ export default {
     },
     closeModel(isAccept) {
       this.toggleModal();
+      if (this.selected === 'upgrade' && isAccept) {
+        navigate('/installer/installerUI.php');
+        return;
+      }
       if (isAccept) {
         navigate('/upgrader/database-config');
-      }
-      if (this.selected === 'upgrade') {
-        navigate('/installer/installerUI.php');
       }
     },
   },

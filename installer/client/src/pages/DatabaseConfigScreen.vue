@@ -20,6 +20,7 @@
 <template>
   <oxd-form
     class="orangehrm-database-info orangehrm-upgrader-container"
+    :loading="isLoading"
     @submit-valid="onSubmit"
   >
     <oxd-text tag="h5" class="orangehrm-database-info-title">
@@ -52,7 +53,7 @@
             required
           />
         </oxd-grid-item>
-        <oxd-grid-item>
+        <oxd-grid-item class="orangehrm-database-info-port-grid">
           <oxd-input-field
             v-model="database.hostPort"
             label="Database Host Port"
@@ -99,6 +100,11 @@
       Click <b>Next</b>
       to continue
     </oxd-text>
+    <oxd-text
+      class="orangehrm-database-info-content --error orangehrm-upgrader-container-content"
+    >
+      {{ errorMessage }}
+    </oxd-text>
     <oxd-form-actions
       class="orangehrm-database-info-action orangehrm-upgrader-container-action"
     >
@@ -137,7 +143,7 @@ export default {
   setup() {
     const http = new APIService(
       'https://8fdc0dda-8987-4f6f-9014-cb8c49a3a717.mock.pstmn.io',
-      'upgrader/databaseConfig',
+      '/upgrader/getConfig',
     );
     return {
       http,
@@ -152,6 +158,7 @@ export default {
         userName: [required],
         userPassword: [required, shouldNotExceedCharLength(64)],
       },
+      isLoading: false,
       database: {
         hostName: '',
         hostPort: '',
@@ -159,10 +166,27 @@ export default {
         userName: '',
         userPassword: '',
       },
+      errorMessage: '',
     };
+  },
+  beforeMount() {
+    this.isLoading = true;
+    this.http
+      .request({
+        method: 'get',
+      })
+      .then((res) => {
+        this.database = res.data;
+        this.isLoading = false;
+      })
+      .catch((err) => {
+        this.errorMessage = err.response.data.error;
+        this.isLoading = false;
+      });
   },
   methods: {
     onSubmit() {
+      this.http.apiSection = '/upgrader/databasesConfig';
       const {hostName, hostPort, databaseName, userName, userPassword} =
         this.database;
       this.http
@@ -183,6 +207,21 @@ export default {
 <style src="./installer-page.scss" lang="scss" scoped></style>
 <style lang="scss" scoped>
 .orangehrm-database-info {
+  &-port {
+    &-grid {
+      ::v-deep(.oxd-input) {
+        width: 50%;
+      }
+    }
+  }
+  &-content {
+    &.--error {
+      color: $oxd-feedback-danger-color;
+      background-color: $oxd-alert-bg-color-error;
+      border-radius: $oxd-border-radius;
+      padding: 1rem;
+    }
+  }
   &-title {
     color: $oxd-primary-one-color;
     padding: 0 0.75rem 0.75rem 0.75rem;

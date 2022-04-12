@@ -52,7 +52,7 @@
         />
         <oxd-button
           display-type="ghost"
-          :disabled="hasErrors"
+          :disabled="interrupted"
           label="Next"
           @click="goToScreen()"
         />
@@ -85,29 +85,23 @@ export default {
       selected: 'Orange',
       items: null,
       isLoading: false,
+      isInterrupted: true,
     };
   },
   computed: {
-    hasErrors() {
-      if (this.items) {
-        let hasError = false;
-        for (const item of this.items) {
-          if (!item.checks.every(({value}) => value.status !== 3)) {
-            hasError = true;
-            break;
-          }
-        }
-        return hasError;
-      }
-      return false;
+    interrupted: {
+      get() {
+        return this.isInterrupted;
+      },
     },
   },
   beforeMount() {
     this.isLoading = true;
     this.http
       .request({method: 'get'})
-      .then((res) => {
-        this.items = res.data;
+      .then(({data}) => {
+        this.items = data.data;
+        this.isInterrupted = data.meta.isInterrupted;
         this.isLoading = false;
       })
       .catch(() => {
@@ -125,8 +119,9 @@ export default {
       this.isLoading = true;
       this.http
         .request({method: 'get'})
-        .then((res) => {
-          this.items = res.data;
+        .then(({data}) => {
+          this.items = data.data;
+          this.isInterrupted = data.meta.isInterrupted;
           this.isLoading = false;
         })
         .catch(() => {
