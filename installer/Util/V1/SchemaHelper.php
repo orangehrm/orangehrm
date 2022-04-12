@@ -41,11 +41,14 @@ class SchemaHelper
     }
 
     /**
-     * @return AbstractSchemaManager
+     * @param string $tableName
+     * @param string $columnName
      */
-    public function getSchemaManager(): AbstractSchemaManager
+    public function dropColumn(string $tableName, string $columnName): void
     {
-        return $this->schemaManager;
+        $column = $this->getTableColumn($tableName, $columnName);
+        $diff = new TableDiff($tableName, [], [], [$column]);
+        $this->getSchemaManager()->alterTable($diff);
     }
 
     /**
@@ -59,14 +62,11 @@ class SchemaHelper
     }
 
     /**
-     * @param string $tableName
-     * @param string $columnName
+     * @return AbstractSchemaManager
      */
-    public function dropColumn(string $tableName, string $columnName): void
+    public function getSchemaManager(): AbstractSchemaManager
     {
-        $column = $this->getTableColumn($tableName, $columnName);
-        $diff = new TableDiff($tableName, [], [], [$column]);
-        $this->getSchemaManager()->alterTable($diff);
+        return $this->schemaManager;
     }
 
     /**
@@ -168,5 +168,15 @@ class SchemaHelper
     public function tableExists(array $table): bool
     {
         return $this->getSchemaManager()->tablesExist($table);
+    }
+
+    /**
+     * @param string $tableName
+     * @return void
+     */
+    public function dropPrimaryKey(string $tableName): void
+    {
+        $table = $this->getSchemaManager()->listTableDetails($tableName);
+        $this->getSchemaManager()->dropIndex($table->getPrimaryKey(), $table);
     }
 }

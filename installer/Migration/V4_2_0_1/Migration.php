@@ -17,9 +17,8 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Installer\Migration\V4_7_0;
+namespace OrangeHRM\Installer\Migration\V4_2_0_1;
 
-use Doctrine\DBAL\Schema\ForeignKeyConstraint;
 use OrangeHRM\Installer\Util\V1\AbstractMigration;
 
 class Migration extends AbstractMigration
@@ -29,7 +28,7 @@ class Migration extends AbstractMigration
      */
     public function up(): void
     {
-        // no db chnages for this version
+        // no db changes in this version
     }
 
     /**
@@ -37,6 +36,6 @@ class Migration extends AbstractMigration
      */
     public function getVersion(): string
     {
-        return '4.7';
+        return '4.2.0.1';
     }
 }
