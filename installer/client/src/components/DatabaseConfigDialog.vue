@@ -21,11 +21,10 @@
       ></oxd-classic-table>
       <oxd-check-box
         v-model="selected"
-        option-label="I want to continue upgrading the orangeHRM system to version 5.0 and i'm aware that any data gathered in incompatible modules/add-ons will be inaccessible"
+        option-label="I'm want to continue upgrading the orangeHRM system to version 5.0 and i'm aware that any data gathered in incompatible modules/add-ons will be inaccessible"
       ></oxd-check-box>
       <oxd-divider class="orangehrm-database-config-dialog-divider" />
       <oxd-form-actions class="orangehrm-database-config-dialog-action">
-        <required-text />
         <oxd-button
           class="orangehrm-database-config-dialog-button"
           display-type="ghost"
@@ -104,6 +103,7 @@ export default {
 <style scoped lang="scss">
 ::v-deep(.oxd-dialog-sheet) {
   width: 50%;
+  max-width: 80%;
 }
 .orangehrm-database-config-dialog {
   font-size: $oxd-input-control-font-size;

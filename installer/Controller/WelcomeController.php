@@ -32,9 +32,6 @@ class WelcomeController extends AbstractInstallerVueController
     public function preRender(Request $request): void
     {
         $component = new Component('welcome-screen');
-        $component->addProp(
-            new Prop('version', Prop::TYPE_STRING, '5.0')
-        );
         $this->setComponent($component);
     }
 }

@@ -23,8 +23,9 @@
       <oxd-text
         tag="h5"
         class="orangehrm-system-check-content orangehrm-upgrader-container-content orangehrm-system-check-title"
-        >System Check</oxd-text
       >
+        System Check
+      </oxd-text>
       <oxd-text
         class="orangehrm-system-check-content orangehrm-upgrader-container-content"
         >In order for your orangeHRM installation to function properly,please
@@ -47,11 +48,11 @@
           display-type="ghost"
           label="Re-Check"
           type="submit"
-          @click="Recheck"
+          @click="reCheck"
         />
         <oxd-button
           display-type="ghost"
-          :disabled="checkErrors"
+          :disabled="hasErrors"
           label="Next"
           @click="goToScreen()"
         />
@@ -87,21 +88,21 @@ export default {
     };
   },
   computed: {
-    checkErrors() {
+    hasErrors() {
       if (this.items) {
-        let hasErrors = false;
+        let hasError = false;
         for (const item of this.items) {
           if (!item.checks.every(({value}) => value.status !== 3)) {
-            hasErrors = true;
+            hasError = true;
             break;
           }
         }
-        return hasErrors;
+        return hasError;
       }
       return false;
     },
   },
-  mounted() {
+  beforeMount() {
     this.isLoading = true;
     this.http
       .request({method: 'get'})
@@ -120,7 +121,7 @@ export default {
     goToScreen() {
       navigate('/upgrader/current-version');
     },
-    Recheck() {
+    reCheck() {
       this.isLoading = true;
       this.http
         .request({method: 'get'})

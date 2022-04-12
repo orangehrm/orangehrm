@@ -27,9 +27,10 @@
     </oxd-text>
     <oxd-text
       class="orangehrm-database-info-content orangehrm-upgrader-container-content"
-      >Please provide the database information of the database you are going to
-      upgrade.</oxd-text
     >
+      Please provide the database information of the database you are going to
+      upgrade.
+    </oxd-text>
     <Notice
       title="important"
       class="orangehrm-database-info-note orangehrm-upgrader-container-notice"

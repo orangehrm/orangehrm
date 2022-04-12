@@ -23,6 +23,11 @@ upgrader_current_version:
   controller: OrangeHRM\Installer\Controller\CurrentVersionDetailsController::handle
   methods: [ GET ]
 
+upgrader_complete:
+  path: /upgrader/complete
+  controller: OrangeHRM\Installer\Controller\UpgraderCompleteController::handle
+  methods: [ GET ]
+
 ##########################
 #        APIs
 ##########################

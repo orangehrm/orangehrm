@@ -1,8 +1,8 @@
 <template>
   <div class="orangehrm-flex-table">
-    <oxd-text tag="p" class="orangehrm-flex-table-title">{{
-      titleName
-    }}</oxd-text>
+    <oxd-text tag="p" class="orangehrm-flex-table-title">
+      {{ titleName }}
+    </oxd-text>
     <oxd-divider class="orangehrm-flex-table-divider" />
     <div
       v-for="(item, index) in items"
@@ -10,9 +10,9 @@
       class="orangehrm-flex-table-row"
     >
       <oxd-text class="orangehrm-flex-table-content">{{ item.label }}</oxd-text>
-      <oxd-text :class="getClassObj(item.value.status)">{{
-        item.value.message
-      }}</oxd-text>
+      <oxd-text :class="getClass(item.value.status)">
+        {{ item.value.message }}
+      </oxd-text>
     </div>
   </div>
 </template>
@@ -32,7 +32,7 @@ export default {
     },
   },
   methods: {
-    getClassObj(id) {
+    getClass(id) {
       if (id === 1) {
         return 'orangehrm-flex-table-value --success';
       }

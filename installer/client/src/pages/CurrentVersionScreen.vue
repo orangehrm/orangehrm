@@ -18,7 +18,10 @@
  */
  -->
 <template>
-  <oxd-form class="orangehrm-current-version orangehrm-upgrader-container">
+  <oxd-form
+    class="orangehrm-current-version orangehrm-upgrader-container"
+    :loading="isLoading"
+  >
     <oxd-text tag="h5" class="orangehrm-current-version-title">
       Current Version Details
     </oxd-text>
@@ -39,7 +42,7 @@
             v-model="config.version"
             type="select"
             label="Current OrangeHRM Version"
-            :options="getItems"
+            :options="items"
             :show-empty-selector="false"
             required
           ></oxd-input-field>
@@ -93,22 +96,18 @@ export default {
   },
   data() {
     return {
+      isLoading: false,
       config: {
         version: '',
       },
-      items: () => [],
+      items: [],
     };
   },
-  computed: {
-    getItems() {
-      if (this.items.length == 0) {
-        return [];
-      }
-      return JSON.parse(JSON.stringify(this.items));
-    },
-  },
-  mounted() {
+
+  beforeMount() {
+    this.isLoading = true;
     this.http.request({method: 'get'}).then((res) => {
+      this.isLoading = false;
       this.items = res.data;
     });
   },
@@ -133,7 +132,7 @@ export default {
   }
   ::v-deep(.oxd-grid-3) {
     width: 100%;
-    margin: 0 !important;
+    margin: 0;
   }
 }
 </style>

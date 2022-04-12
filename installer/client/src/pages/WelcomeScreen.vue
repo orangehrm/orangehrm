@@ -20,10 +20,10 @@
 <template>
   <oxd-form
     class="orangehrm-installer-page orangehrm-upgrader-container"
-    @submit="showModel"
+    @submit="toggleModal"
   >
     <oxd-text tag="h5" class="orangehrm-installer-page-title">
-      Welcome to OrangeHRM Starter Version {{ version }} Setup Wizard
+      Welcome to OrangeHRM Starter Version {{ productVersion }} Setup Wizard
     </oxd-text>
     <br />
     <oxd-text tag="p" class="orangehrm-installer-page-content">
@@ -79,9 +79,10 @@
       <oxd-button display-type="secondary" label="Next" type="submit" />
     </oxd-form-actions>
   </oxd-form>
-  <div v-if="hasShowModel">
-    <database-config-dialog @close-model="closeModel"></database-config-dialog>
-  </div>
+  <database-config-dialog
+    v-if="showModal"
+    @close-model="closeModel"
+  ></database-config-dialog>
 </template>
 
 <script>
@@ -97,7 +98,7 @@ export default {
     'database-config-dialog': DatabaseConfigDialog,
   },
   props: {
-    version: {
+    productVersion: {
       type: String,
       required: true,
     },
@@ -105,20 +106,21 @@ export default {
   data() {
     return {
       selected: 'install',
-      hasShowModel: false,
+      showModal: false,
     };
   },
   methods: {
-    showModel() {
-      this.hasShowModel = true;
+    toggleModal() {
+      this.showModal = !this.showModal;
     },
     closeModel(isAccept) {
-      if (!isAccept) {
-        this.hasShowModel = isAccept;
-        return;
+      this.toggleModal();
+      if (isAccept) {
+        navigate('/upgrader/database-config');
       }
-      this.hasShowModel = !isAccept;
-      navigate('/upgrader/database-config');
+      if (this.selected === 'upgrade') {
+        navigate('/installer/installerUI.php');
+      }
     },
   },
 };
