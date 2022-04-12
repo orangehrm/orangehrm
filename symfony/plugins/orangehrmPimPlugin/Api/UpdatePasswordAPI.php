@@ -41,7 +41,7 @@ class UpdatePasswordAPI extends Endpoint implements ResourceEndpoint
     public const PARAMETER_CURRENT_PASSWORD = 'currentPassword';
     public const PARAMETER_NEW_PASSWORD = 'newPassword';
 
-    public const PARAM_RULE_STRING_MAX_LENGTH = 64;
+    public const PARAM_RULE_PASSWORD_MAX_LENGTH = 64;
 
     /**
      * @inheritDoc
@@ -87,7 +87,7 @@ class UpdatePasswordAPI extends Endpoint implements ResourceEndpoint
                 new ParamRule(
                     self::PARAMETER_CURRENT_PASSWORD,
                     new Rule(Rules::STRING_TYPE),
-                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_STRING_MAX_LENGTH]),
+                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_PASSWORD_MAX_LENGTH]),
                     new Rule(Rules::CALLBACK, [
                         function () {
                             $currentPassword = $this->getRequestParams()->getString(
@@ -104,24 +104,8 @@ class UpdatePasswordAPI extends Endpoint implements ResourceEndpoint
                 new ParamRule(
                     self::PARAMETER_NEW_PASSWORD,
                     new Rule(Rules::STRING_TYPE),
-                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_STRING_MAX_LENGTH]),
-                    new Rule(Rules::CALLBACK, [
-                        function () {
-                            $newPassword = $this->getRequestParams()->getString(
-                                RequestParams::PARAM_TYPE_BODY,
-                                self::PARAMETER_NEW_PASSWORD
-                            );
-                            $uppercase = preg_match('@[A-Z]@', $newPassword);
-                            $lowercase = preg_match('@[a-z]@', $newPassword);
-                            $number    = preg_match('@[0-9]@', $newPassword);
-                            $specialCharacter    = preg_match('/^(?=.*[!@#$%^&*-])(?=.*[0-9])(?=.*[A-Z]).{8,20}$/', $newPassword);
-                            if (!$uppercase || !$lowercase || !$number || !$specialCharacter || strlen($newPassword) < 8) {
-                                return false;
-                            } else {
-                                return true;
-                            }
-                        }
-                    ])
+                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_PASSWORD_MAX_LENGTH]),
+                    new Rule(Rules::PASSWORD)
                 ),
             ),
         );
