@@ -20,7 +20,6 @@
 namespace OrangeHRM\Installer\Util\V1;
 
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\DBAL\Schema\AbstractSchemaManager;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
@@ -36,7 +35,6 @@ abstract class AbstractMigration
 
     /**
      * @return AbstractSchemaManager
-     * @throws Exception
      */
     protected function getSchemaManager(): AbstractSchemaManager
     {

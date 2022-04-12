@@ -20,12 +20,9 @@
 namespace OrangeHRM\Installer\Controller\Upgrader\Api;
 
 use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Framework\Http\Session\Session;
-use OrangeHRM\Framework\ServiceContainer;
-use OrangeHRM\Framework\Services;
 use OrangeHRM\Installer\Controller\AbstractInstallerRestController;
 use OrangeHRM\Installer\Controller\Upgrader\Traits\UpgraderUtilityTrait;
-use OrangeHRM\Installer\Util\Constant;
+use OrangeHRM\Installer\Util\StateContainer;
 
 class DatabaseConfigAPI extends AbstractInstallerRestController
 {
@@ -42,13 +39,7 @@ class DatabaseConfigAPI extends AbstractInstallerRestController
         $dbPassword = $request->request->get('dbPassword');
         $dbName = $request->request->get('dbName');
 
-        /** @var Session $session */
-        $session = ServiceContainer::getContainer()->get(Services::SESSION);
-        $session->set(Constant::DB_NAME, $dbName);
-        $session->set(Constant::DB_USER, $dbUser);
-        $session->set(Constant::DB_PASSWORD, $dbPassword);
-        $session->set(Constant::DB_HOST, $dbHost);
-        $session->set(Constant::DB_PORT, $dbPort);
+        StateContainer::getInstance()->storeDbInfo($dbHost, $dbPort, $dbUser, $dbPassword, $dbName);
 
         $connection = $this->checkDatabaseConnection($dbHost, $dbUser, $dbPassword, $dbName, $dbPort);
         $response = $this->getResponse();

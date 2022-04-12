@@ -49,35 +49,38 @@ class AppSetupUtility
 
     public function createDB()
     {
-        // $_SESSION['dbCreateMethod'] == 'existing'
-        // $_SESSION['dbCreateMethod'] == 'new'
+        // TODO:: Develop with installer
     }
 
     public function insertCsrfKey()
     {
+        // TODO:: Develop with installer
     }
 
     public function insertSystemConfiguration()
     {
+        // TODO:: Develop with installer
     }
 
     public function initUniqueIDs()
     {
+        // TODO:: Develop with installer
     }
 
     public function createDBUser()
     {
+        // TODO:: Develop with installer
     }
 
     public function writeConfFile(): void
     {
         /** @var Session $session */
         $session = ServiceContainer::getContainer()->get(Services::SESSION);
-        $dbHost = $session->get(Constant::DB_HOST);
-        $dbPort = $session->get(Constant::DB_PORT);
-        $dbUser = $session->get(Constant::DB_USER);
-        $dbPassword = $session->get(Constant::DB_PASSWORD);
-        $dbName = $session->get(Constant::DB_NAME);
+        $dbHost = $session->get(StateContainer::DB_HOST);
+        $dbPort = $session->get(StateContainer::DB_PORT);
+        $dbUser = $session->get(StateContainer::DB_USER);
+        $dbPassword = $session->get(StateContainer::DB_PASSWORD);
+        $dbName = $session->get(StateContainer::DB_NAME);
 
         $template = file_get_contents(realpath(__DIR__ . '/../config/Conf.tpl.php'));
         $search = ['{{dbHost}}', '{{dbPort}}', '{{dbName}}', '{{dbUser}}', '{{dbPass}}'];
@@ -158,5 +161,14 @@ class AppSetupUtility
             return;
         }
         throw new InvalidArgumentException("Invalid migration class `$migrationClass`");
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getCurrentProductVersionFromDatabase(): ?string
+    {
+        $configHelper = new ConfigHelper();
+        return $configHelper->getConfigValue('instance.version');
     }
 }

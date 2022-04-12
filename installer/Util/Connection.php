@@ -21,9 +21,6 @@ namespace OrangeHRM\Installer\Util;
 
 use Doctrine\DBAL\Connection as DBALConnection;
 use Doctrine\DBAL\DriverManager;
-use OrangeHRM\Framework\Http\Session\Session;
-use OrangeHRM\Framework\ServiceContainer;
-use OrangeHRM\Framework\Services;
 
 class Connection
 {
@@ -34,14 +31,13 @@ class Connection
 
     private function __construct()
     {
-        /** @var Session $session */
-        $session = ServiceContainer::getContainer()->get(Services::SESSION);
+        $dbInfo = StateContainer::getInstance()->getDbInfo();
         $connectionParams = [
-            'dbname' => $session->get(Constant::DB_NAME),
-            'user' => $session->get(Constant::DB_USER),
-            'password' => $session->get(Constant::DB_PASSWORD),
-            'host' => $session->get(Constant::DB_HOST),
-            'port' => $session->get(Constant::DB_PORT),
+            'dbname' => $dbInfo[StateContainer::DB_NAME],
+            'user' => $dbInfo[StateContainer::DB_USER],
+            'password' => $dbInfo[StateContainer::DB_PASSWORD],
+            'host' => $dbInfo[StateContainer::DB_HOST],
+            'port' => $dbInfo[StateContainer::DB_PORT],
             'driver' => 'pdo_mysql',
             'charset' => 'utf8mb4'
         ];

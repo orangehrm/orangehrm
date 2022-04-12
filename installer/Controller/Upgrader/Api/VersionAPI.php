@@ -17,13 +17,19 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Installer\Util;
+namespace OrangeHRM\Installer\Controller\Upgrader\Api;
 
-final class Constant
+use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Installer\Controller\AbstractInstallerRestController;
+use OrangeHRM\Installer\Util\AppSetupUtility;
+
+class VersionAPI extends AbstractInstallerRestController
 {
-    public const DB_NAME = 'dbName';
-    public const DB_USER = 'dbUser';
-    public const DB_PASSWORD = 'dbPass';
-    public const DB_HOST = 'dbHost';
-    public const DB_PORT = 'dbPort';
+    protected function handleGet(Request $request): array
+    {
+        $versions = array_keys(AppSetupUtility::MIGRATIONS_MAP);
+        array_shift($versions);
+        array_pop($versions);
+        return $versions;
+    }
 }
