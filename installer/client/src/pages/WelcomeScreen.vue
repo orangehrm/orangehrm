@@ -23,7 +23,7 @@
     @submit="toggleModal"
   >
     <oxd-text tag="h5" class="orangehrm-installer-page-title">
-      Welcome to OrangeHRM Starter Version {{ productVersion }} Setup Wizard
+      Welcome to OrangeHRM Starter Version {{ productversion }} Setup Wizard
     </oxd-text>
     <br />
     <oxd-text tag="p" class="orangehrm-installer-page-content">
@@ -98,7 +98,7 @@ export default {
     'database-config-dialog': DatabaseConfigDialog,
   },
   props: {
-    productVersion: {
+    productversion: {
       type: String,
       required: true,
     },
