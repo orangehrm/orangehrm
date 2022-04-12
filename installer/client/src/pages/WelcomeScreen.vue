@@ -20,7 +20,7 @@
 <template>
   <oxd-form class="orangehrm-installer-page" @submit="showModel">
     <oxd-text tag="h5" class="orangehrm-installer-page-title">
-      Welcome to OrangeHRM Starter Version 5.0 Setup Wizard
+      Welcome to OrangeHRM Starter Version {{ version }} Setup Wizard
     </oxd-text>
     <br />
     <oxd-text tag="p" class="orangehrm-installer-page-content">
@@ -92,6 +92,12 @@ export default {
     Notice,
     'oxd-radio-input': RadioInput,
     'database-config-dialog': DatabaseConfigDialog,
+  },
+  props: {
+    version: {
+      type: String,
+      required: true,
+    },
   },
   data() {
     return {

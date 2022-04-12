@@ -125,9 +125,12 @@ export default {
   ::v-deep(.oxd-table-row:hover) {
     background-color: transparent;
     cursor: inherit;
+    opacity: 0.8;
   }
-  ::v-deep(.oxd-padding-cell:hover) {
+  ::v-deep(.oxd-table-header .oxd-table-row:hover) {
+    opacity: inherit;
   }
+
   &-divider {
     border-top-color: $oxd-interface-gray-darken-1-color;
     margin: 1rem 0;

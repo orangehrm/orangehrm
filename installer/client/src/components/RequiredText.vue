@@ -1,4 +1,4 @@
-<?php
+<!--
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -16,25 +16,25 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
+ -->
 
-namespace OrangeHRM\Installer\Controller;
+<template>
+  <oxd-text tag="p" class="orangehrm-form-hint"> * Required </oxd-text>
+</template>
 
-use OrangeHRM\Core\Vue\Component;
-use OrangeHRM\Core\Vue\Prop;
-use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Installer\Controller\AbstractInstallerVueController;
+<script>
+export default {
+  name: 'RequiredText',
+};
+</script>
 
-class WelcomeController extends AbstractInstallerVueController
-{
-    /**
-     * @inheritDoc
-     */
-    public function preRender(Request $request): void
-    {
-        $component = new Component('welcome-screen');
-        $component->addProp(
-            new Prop('version', Prop::TYPE_STRING, '5.0')
-        );
-        $this->setComponent($component);
-    }
+<style lang="scss" scoped>
+.orangehrm-form-hint {
+  margin-right: auto;
+  font-weight: 600;
+  font-size: 0.75rem;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
+</style>
