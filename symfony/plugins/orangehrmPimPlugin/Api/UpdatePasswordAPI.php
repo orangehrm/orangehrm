@@ -105,7 +105,7 @@ class UpdatePasswordAPI extends Endpoint implements ResourceEndpoint
                     self::PARAMETER_NEW_PASSWORD,
                     new Rule(Rules::STRING_TYPE),
                     new Rule(Rules::LENGTH, [null, self::PARAM_RULE_PASSWORD_MAX_LENGTH]),
-                    new Rule(Rules::PASSWORD)
+                    new Rule(Rules::PASSWORD, [true])
                 ),
             ),
         );

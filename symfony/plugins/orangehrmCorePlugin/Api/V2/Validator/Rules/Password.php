@@ -25,13 +25,24 @@ class Password extends AbstractRule
 {
     use TextHelperTrait;
 
+    private bool $changePassword;
+
     private const UPPERCASE_REGEX = '/[A-Z]/';
     private const LOWERCASE_REGEX = '/[a-z]/';
     private const NUMBER_REGEX = '/[0-9]/';
     private const SPECIAL_CHAR_REGEX = '/[@#\\\\\/\-!$%^&*()_+|~=`{}\[\]:";\'<>?,.]/';
 
+    public function __construct(?bool $changePassword)
+    {
+        $this->changePassword = $changePassword ?? true;
+    }
+
     public function validate($input): bool
     {
+        if (!$this->changePassword) {
+            return true;
+        }
+
         $uppercaseMatch = preg_match(self::UPPERCASE_REGEX, $input);
         $lowercaseMatch = preg_match(self::LOWERCASE_REGEX, $input);
         $numberMatch = preg_match(self::NUMBER_REGEX, $input);

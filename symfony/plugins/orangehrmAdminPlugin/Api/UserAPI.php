@@ -34,6 +34,7 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Core\Api\V2\Validator\Rules\EntityUniquePropertyOption;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\User;
@@ -178,6 +179,7 @@ class UserAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForCreate(): ParamRuleCollection
     {
         return new ParamRuleCollection(
+            ...$this->getUsernameAndPasswordRule(false),
             ...$this->getCommonBodyValidationRules(),
         );
     }
@@ -188,17 +190,6 @@ class UserAPI extends Endpoint implements CrudEndpoint
     private function getCommonBodyValidationRules(): array
     {
         return [
-            new ParamRule(
-                self::PARAMETER_USERNAME,
-                new Rule(Rules::STRING_TYPE),
-                new Rule(Rules::LENGTH, [self::PARAM_RULE_USERNAME_MIN_LENGTH, self::PARAM_RULE_USERNAME_MAX_LENGTH])
-            ),
-            new ParamRule(
-                self::PARAMETER_PASSWORD,
-                new Rule(Rules::STRING_TYPE),
-                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_PASSWORD_MAX_LENGTH]),
-                new Rule(Rules::PASSWORD)
-            ),
             new ParamRule(
                 self::PARAMETER_USER_ROLE_ID,
                 new Rule(Rules::INT_TYPE)
@@ -211,6 +202,48 @@ class UserAPI extends Endpoint implements CrudEndpoint
                 self::PARAMETER_STATUS,
                 new Rule(Rules::BOOL_TYPE)
             ),
+        ];
+    }
+
+    /**
+     * @param bool $update
+     * @return ParamRule[]
+     */
+    protected function getUsernameAndPasswordRule(bool $update): array
+    {
+        $uniquePropertyParams = [User::class, 'userName'];
+        $passwordConstructor = [true];
+        if ($update) {
+            $entityProperties = new EntityUniquePropertyOption();
+            $entityProperties->setIgnoreValues(
+                ['getId' => $this->getRequestParams()->getInt(
+                    RequestParams::PARAM_TYPE_ATTRIBUTE,
+                    CommonParams::PARAMETER_ID
+                )]
+            );
+            $uniquePropertyParams[] = $entityProperties;
+
+            $passwordConstructor = [
+                $this->getRequestParams()->getBoolean(
+                    RequestParams::PARAM_TYPE_BODY,
+                    self::PARAMETER_CHANGE_PASSWORD
+                )
+            ];
+        }
+
+        return [
+            new ParamRule(
+                self::PARAMETER_USERNAME,
+                new Rule(Rules::STRING_TYPE),
+                new Rule(Rules::LENGTH, [self::PARAM_RULE_USERNAME_MIN_LENGTH, self::PARAM_RULE_USERNAME_MAX_LENGTH]),
+                new Rule(Rules::ENTITY_UNIQUE_PROPERTY, $uniquePropertyParams)
+            ),
+            new ParamRule(
+                self::PARAMETER_PASSWORD,
+                new Rule(Rules::STRING_TYPE),
+                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_PASSWORD_MAX_LENGTH]),
+                new Rule(Rules::PASSWORD, $passwordConstructor)
+            )
         ];
     }
 
@@ -249,6 +282,7 @@ class UserAPI extends Endpoint implements CrudEndpoint
                 self::PARAMETER_CHANGE_PASSWORD,
                 new Rule(Rules::BOOL_TYPE)
             ),
+            ...$this->getUsernameAndPasswordRule(true),
             ...$this->getCommonBodyValidationRules(),
         );
     }
