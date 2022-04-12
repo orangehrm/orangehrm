@@ -38,9 +38,33 @@ Create:
       name: "kavi"
       email: "kavi@ohrm.com"
     data:
-      id: 3
+      id: 5
       name: "kavi"
       email: "kavi@ohrm.com"
+    meta: [ ]
+
+  'Add already exisiting email in the same subscription':
+    userId: 1
+    attributes:
+      emailSubscriptionId: 3
+    query: [ ]
+    body:
+      name: "devi2"
+      email: "devi@ohrm.com"
+    invalidOnly: [ 'email' ]
+
+  'Add already exisiting email in different subscription':
+    userId: 1
+    attributes:
+      emailSubscriptionId: 4
+    query: [ ]
+    body:
+      name: "devi"
+      email: "devi@ohrm.com"
+    data:
+      id: 5
+      name: "devi"
+      email: "devi@ohrm.com"
     meta: [ ]
 
 Update:
@@ -58,6 +82,17 @@ Update:
       name: "rajitha Kumara"
       email: "rajitha@ohrm.com"
     meta: [ ]
+
+  'Edit an existing subscriber with existing email':
+    userId: 1
+    attributes:
+      emailSubscriptionId: 3
+      id: 4
+    query: [ ]
+    body:
+      name: "sharuka"
+      email: "devi@ohrm.com"
+    invalidOnly: [ 'email' ]
 
 Delete:
   'delete an existing subscriber or subscribers by identifier':

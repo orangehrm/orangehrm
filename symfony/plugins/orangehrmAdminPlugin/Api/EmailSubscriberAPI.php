@@ -35,10 +35,13 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Entity\EmailSubscriber;
 
 class EmailSubscriberAPI extends Endpoint implements CrudEndpoint
 {
+    use EntityManagerHelperTrait;
+
     public const PARAMETER_EMAIL_SUBSCRIPTION_ID = 'emailSubscriptionId';
     public const PARAMETER_SUBSCRIBER_NAME = 'name';
     public const PARAMETER_SUBSCRIBER_EMAIL = 'email';
@@ -147,6 +150,7 @@ class EmailSubscriberAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForCreate(): ParamRuleCollection
     {
         return new ParamRuleCollection(
+            $this->getEmailRule(false),
             ...$this->getCommonBodyValidationRules(),
         );
     }
@@ -253,7 +257,42 @@ class EmailSubscriberAPI extends Endpoint implements CrudEndpoint
                 CommonParams::PARAMETER_ID,
                 new Rule(Rules::POSITIVE)
             ),
+            $this->getEmailRule(true),
             ...$this->getCommonBodyValidationRules(),
+        );
+    }
+
+    /**
+     * @param bool $update
+     * @return ParamRule
+     */
+    private function getEmailRule(bool $update): ParamRule
+    {
+        return $this->getValidationDecorator()->requiredParamRule(
+            new ParamRule(
+                self::PARAMETER_SUBSCRIBER_EMAIL,
+                new Rule(Rules::STRING_TYPE),
+                new Rule(Rules::EMAIL),
+                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_STRING_MAX_LENGTH]),
+                new Rule(Rules::CALLBACK, [
+                    function (string $email) use ($update) {
+                        $subscriptionId = $this->getRequestParams()->getInt(
+                            RequestParams::PARAM_TYPE_ATTRIBUTE,
+                            self::PARAMETER_EMAIL_SUBSCRIPTION_ID
+                        );
+                        $id = null;
+                        if ($update) {
+                            $id = $this->getRequestParams()->getInt(
+                                RequestParams::PARAM_TYPE_ATTRIBUTE,
+                                CommonParams::PARAMETER_ID
+                            );
+                        }
+                        return $this->getEmailSubscriberService()
+                            ->getEmailSubscriberDao()
+                            ->isSubscriberEmailUnique($email, $subscriptionId, $id);
+                    }
+                ])
+            ),
         );
     }
 
@@ -273,14 +312,6 @@ class EmailSubscriberAPI extends Endpoint implements CrudEndpoint
                 new ParamRule(
                     self::PARAMETER_SUBSCRIBER_NAME,
                     new Rule(Rules::STRING_TYPE),
-                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_STRING_MAX_LENGTH])
-                ),
-            ),
-            $this->getValidationDecorator()->requiredParamRule(
-                new ParamRule(
-                    self::PARAMETER_SUBSCRIBER_EMAIL,
-                    new Rule(Rules::STRING_TYPE),
-                    new Rule(Rules::EMAIL),
                     new Rule(Rules::LENGTH, [null, self::PARAM_RULE_STRING_MAX_LENGTH])
                 ),
             ),

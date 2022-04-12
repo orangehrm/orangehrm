@@ -34,6 +34,7 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Core\Api\V2\Validator\Rules\EntityUniquePropertyOption;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\User;
@@ -174,6 +175,7 @@ class UserAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForCreate(): ParamRuleCollection
     {
         return new ParamRuleCollection(
+            $this->getUsernameRule(false),
             ...$this->getCommonBodyValidationRules(),
         );
     }
@@ -184,12 +186,35 @@ class UserAPI extends Endpoint implements CrudEndpoint
     private function getCommonBodyValidationRules(): array
     {
         return [
-            new ParamRule(self::PARAMETER_USERNAME),
             new ParamRule(self::PARAMETER_PASSWORD),
             new ParamRule(self::PARAMETER_USER_ROLE_ID),
             new ParamRule(self::PARAMETER_EMPLOYEE_NUMBER),
             new ParamRule(self::PARAMETER_STATUS),
         ];
+    }
+
+    /**
+     * @param bool $update
+     * @return ParamRule
+     */
+    protected function getUsernameRule(bool $update): ParamRule
+    {
+        $uniquePropertyParams = [User::class, 'userName'];
+        if ($update) {
+            $entityProperties = new EntityUniquePropertyOption();
+            $entityProperties->setIgnoreValues(
+                ['getId' => $this->getRequestParams()->getInt(
+                    RequestParams::PARAM_TYPE_ATTRIBUTE,
+                    CommonParams::PARAMETER_ID
+                )]
+            );
+            $uniquePropertyParams[] = $entityProperties;
+        }
+
+        return new ParamRule(
+            self::PARAMETER_USERNAME,
+            new Rule(Rules::ENTITY_UNIQUE_PROPERTY, $uniquePropertyParams)
+        );
     }
 
     /**
@@ -224,6 +249,7 @@ class UserAPI extends Endpoint implements CrudEndpoint
                 new Rule(Rules::POSITIVE)
             ),
             new ParamRule(self::PARAMETER_CHANGE_PASSWORD),
+            $this->getUsernameRule(true),
             ...$this->getCommonBodyValidationRules(),
         );
     }
