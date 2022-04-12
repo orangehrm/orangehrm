@@ -56,6 +56,8 @@ class UserAPI extends Endpoint implements CrudEndpoint
     public const FILTER_EMPLOYEE_NUMBER = 'empNumber';
     public const FILTER_STATUS = 'status';
 
+    public const PARAM_RULE_PASSWORD_MAX_LENGTH = 64;
+
     /**
      * @inheritDoc
      */
@@ -185,7 +187,12 @@ class UserAPI extends Endpoint implements CrudEndpoint
     {
         return [
             new ParamRule(self::PARAMETER_USERNAME),
-            new ParamRule(self::PARAMETER_PASSWORD),
+            new ParamRule(
+                self::PARAMETER_PASSWORD,
+                new Rule(Rules::STRING_TYPE),
+                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_PASSWORD_MAX_LENGTH]),
+                new Rule(Rules::PASSWORD)
+            ),
             new ParamRule(self::PARAMETER_USER_ROLE_ID),
             new ParamRule(self::PARAMETER_EMPLOYEE_NUMBER),
             new ParamRule(self::PARAMETER_STATUS),
