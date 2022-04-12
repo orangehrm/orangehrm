@@ -522,7 +522,7 @@ langStrings:
     value: 'Logout'
     unitId: logout
   -
-    value: 'No Records Found"'
+    value: 'No Records Found'
     unitId: no_records_found
   -
     value: 'Change Password ?'
