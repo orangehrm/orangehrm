@@ -276,29 +276,20 @@ class EmailSubscriberAPI extends Endpoint implements CrudEndpoint
                 new Rule(Rules::LENGTH, [null, self::PARAM_RULE_STRING_MAX_LENGTH]),
                 new Rule(Rules::CALLBACK, [
                     function (string $email) use ($update) {
-                        $qb = $this->createQueryBuilder(EmailSubscriber::class, 'subscriber');
-                        // The email should be unique for a particular notification
                         $subscriptionId = $this->getRequestParams()->getInt(
                             RequestParams::PARAM_TYPE_ATTRIBUTE,
                             self::PARAMETER_EMAIL_SUBSCRIPTION_ID
                         );
-                        $qb->leftJoin('subscriber.emailNotification', 'notification');
-
-                        $qb->andWhere($qb->expr()->eq('notification.id', ':subscriptionId'))
-                            ->setParameter('subscriptionId', $subscriptionId);
-                        $qb->andWhere($qb->expr()->eq('subscriber.email', ':email'))
-                            ->setParameter('email', $email);
-
+                        $id = null;
                         if ($update) {
                             $id = $this->getRequestParams()->getInt(
                                 RequestParams::PARAM_TYPE_ATTRIBUTE,
                                 CommonParams::PARAMETER_ID
                             );
-                            $qb->andWhere($qb->expr()->neq('subscriber.id', ':id'))
-                                ->setParameter('id', $id);
                         }
-                        $emailList = $qb->getQuery()->execute();
-                        return empty($emailList);
+                        return $this->getEmailSubscriberService()
+                            ->getEmailSubscriberDao()
+                            ->isSubscriberEmailUnique($email, $subscriptionId, $id);
                     }
                 ])
             ),
