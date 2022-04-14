@@ -1,0 +1,1560 @@
+translations:
+    - { source: '1M Max, any larger attachments will be ignored', target: 'Hammi duukdeemtuu yoo baay''ate M 1, kana caallaan hin fudhatamu' }
+    - { source: Add, target: Dabali }
+    - { source: 'Add Attachment', target: 'Duukdeemtuu Dabali' }
+    - { source: 'Add Employee', target: 'Hojjetaa/ttuu Dabali' }
+    - { source: 'Add KPI', target: 'Agarsiiftuu Raawwii Daabali' }
+    - { source: 'Add Review', target: 'Madaallii Dabali' }
+    - { source: 'Add Salary Component', target: 'Qabiyyee Miindaa Dabali' }
+    - { source: 'Added By', target: 'Kan Dabale' }
+    - { source: Address, target: Teessoo }
+    - { source: Admin, target: Bulchaa }
+    - { source: Afghan, target: Afgihaanii }
+    - { source: Afghanistan, target: Afgihaanistaan }
+    - { source: 'Afghanistan Afghani', target: 'Afgihaanii Afgihaanistaan' }
+    - { source: 'Age Group', target: 'Garee Umurii' }
+    - { source: Alabama, target: Alabaamaa }
+    - { source: Alaska, target: Alaaskaa }
+    - { source: Albania, target: Albaaniyaa }
+    - { source: Albanian, target: Albaaniyaanii }
+    - { source: 'Albanian Lek', target: 'Lekii Albaaniyaanii' }
+    - { source: Algeria, target: Aljeeriyaa }
+    - { source: Algerian, target: Aljeeriyaanii }
+    - { source: 'Algerian Dinar', target: 'Dinaara Aljeeriyaa' }
+    - { source: All, target: Hunda }
+    - { source: 'Allows numbers and only + - / ( )', target: 'Lakk fi +-/() qofa' }
+    - { source: 'Already exists', target: 'Duraanu jira' }
+    - { source: 'Name Already Exists', target: 'Maqaan kun duraanuu jira' }
+    - { source: American, target: Amerikaanii }
+    - { source: 'American Samoa', target: 'Samoo''aa Amerikaanii' }
+    - { source: Amount, target: Hamma }
+    - { source: Andorra, target: Andoorraa }
+    - { source: Andorran, target: Andoorraanii }
+    - { source: Angola, target: Angoolaa }
+    - { source: Angolan, target: Angoolaanii }
+    - { source: 'Angolan New Kwanza', target: 'Niwu Waanzaa Angoolaanii' }
+    - { source: Anguilla, target: Anguyillaa }
+    - { source: Antarctica, target: Antarkitikaa }
+    - { source: 'Antigua and Barbuda', target: 'Antiguwaa fi Baarbudaa' }
+    - { source: Antiguans, target: Antiguwaanota }
+    - { source: Apply, target: Iyyadhu }
+    - { source: April, target: Eebila }
+    - { source: 'are required', target: 'barbaachisoo dha' }
+    - { source: Argentina, target: Arjentiinaa }
+    - { source: 'Argentina Pesos', target: 'Pesosii Arjentiinaa' }
+    - { source: 'Argentine Peso', target: 'Pesoo Arjentaayinii' }
+    - { source: Argentinean, target: Arjentiiniyaanii }
+    - { source: Arizona, target: Arizoonaa }
+    - { source: Arkansas, target: Arkanasas }
+    - { source: 'Armed Forces Americas (except Canada)', target: 'Armid Foorsiis Ameerikaas(kanaadaan ala)' }
+    - { source: 'Armed Forces Middle East', target: 'Armid Foorsiis Baha gidduu galeessaa' }
+    - { source: 'Armed Forces Pacific', target: 'Armiid Foorsisii Paasifikii' }
+    - { source: Armenia, target: Armeeniyaa }
+    - { source: Armenian, target: Armeeniyaanii }
+    - { source: Aruba, target: Arubaa }
+    - { source: 'Aruban Florin', target: 'Filooriinii Arubaa' }
+    - { source: 'Assign Leave', target: 'Boqonnaa Kenni' }
+    - { source: 'Assigned Salary Components', target: 'Qabiyyeewwan miindaa Kennaman' }
+    - { source: 'Attachment Size Exceeded', target: 'Hammi duukdeemtuu baay''ate' }
+    - { source: Attendance, target: 'To''annaa yeroo' }
+    - { source: 'Attendance Summary', target: 'Walitti qaba To''annaa Yeroo' }
+    - { source: August, target: Hagayya }
+    - { source: Australia, target: Awustiraaliyaa }
+    - { source: Australian, target: Awustraaliyaanii }
+    - { source: 'Australian Dollar', target: 'Doolaara Awustiraaliyaa' }
+    - { source: Austria, target: Awustiriyaa }
+    - { source: Austrian, target: Awustiriyaanii }
+    - { source: Azerbaijan, target: Azerbaayijaan }
+    - { source: Azerbaijani, target: Azerbaayijaanii }
+    - { source: Back, target: 'Duubatti Deebi''i' }
+    - { source: Bahamas, target: Baahaamaasii }
+    - { source: Bahamian, target: Baahaamiyaanii }
+    - { source: 'Bahamian Dollar', target: 'Doolaara Baahaamiyaanii' }
+    - { source: Bahrain, target: Baahireen }
+    - { source: Bahraini, target: Baahireenii }
+    - { source: 'Bahraini Dinar', target: 'Dinaara Baahireenii' }
+    - { source: Bangladesh, target: Baanglaadish }
+    - { source: Bangladeshi, target: Baangilaadhisii }
+    - { source: 'Bangladeshi Taka', target: 'Taakaa Baangilaadiishii' }
+    - { source: Barbadian, target: Barbadiyaan }
+    - { source: Barbados, target: Barbadoos }
+    - { source: 'Barbados Dollar', target: 'Doolaara Barbadoos' }
+    - { source: Barbudans, target: Barbudaansii }
+    - { source: Basic, target: 'Bu''uura' }
+    - { source: Batswana, target: Baatiswaanaa }
+    - { source: Belarus, target: Belaaruus }
+    - { source: Belarusian, target: Belaruusiyaanii }
+    - { source: Belgian, target: Belgiyaanii }
+    - { source: Belgium, target: Baljiyeem }
+    - { source: Belize, target: Belizii }
+    - { source: 'Belize Dollar', target: 'Doolaara Belizii' }
+    - { source: Belizean, target: 'Belizi''aanii' }
+    - { source: Benin, target: Beeniin }
+    - { source: Beninese, target: Beniniisii }
+    - { source: Bermuda, target: Beermudaa }
+    - { source: 'Bermudian Dollar', target: 'Doolaara Beermudaa' }
+    - { source: Bhutan, target: Huutaan }
+    - { source: 'Bhutan Ngultrum', target: 'Gultiramii Hutaanii' }
+    - { source: Bhutanese, target: Hutaaniisii }
+    - { source: Bolivia, target: Booliviyaa }
+    - { source: Bolivian, target: Boliiviyaanota }
+    - { source: 'Bolivian Boliviano', target: 'Boliiviyaanoo Boliiviyaa' }
+    - { source: 'Bosnia and Herzegovina', target: 'Bosinia fi Herzegovinaa' }
+    - { source: Bosnian, target: Bosiiniyaanii }
+    - { source: Botswana, target: Botswaanaa }
+    - { source: 'Botswana Pula', target: 'Pulaa Botswana' }
+    - { source: 'Bouvet Island', target: 'Bouvet Islaandii' }
+    - { source: Brazil, target: Biraaziil }
+    - { source: Brazilian, target: Biraaziliyaanii }
+    - { source: 'Brazilian Real', target: 'Riyaala Braaziliyaanii' }
+    - { source: British, target: Biriiteen }
+    - { source: 'British Indian Ocean Territory', target: 'Qubsuma Biriteen Galaana Indiyaa' }
+    - { source: 'Brunei Darussalam', target: 'Biruuneeyi Daruussaalaam' }
+    - { source: 'Brunei Dollar', target: 'Doolaara Biruuneyi' }
+    - { source: Bruneian, target: Biruuneyaan }
+    - { source: Bulgaria, target: Bulgaariyaa }
+    - { source: Bulgarian, target: Bulgaariyaanii }
+    - { source: 'Bulgarian Lev', target: 'Levii Bulgaariyaa' }
+    - { source: 'Burkina Faso', target: 'Burkinaa Faasoo' }
+    - { source: Burkinabe, target: Burkinabee }
+    - { source: Burmese, target: Burmisii }
+    - { source: Burundi, target: Burundii }
+    - { source: 'Burundi Franc', target: 'Farankaa Burundii' }
+    - { source: Burundian, target: Burundiyaanii }
+    - { source: California, target: Kaliforniyaa }
+    - { source: Cambodia, target: Kamboodiyaa }
+    - { source: Cambodian, target: Kamboodiyaanii }
+    - { source: Cameroon, target: Kaameeruun }
+    - { source: Cameroonian, target: Kaameeruuniyaanii }
+    - { source: Canada, target: Kanaadaa }
+    - { source: Canadian, target: Kanadiyaanii }
+    - { source: 'Canadian Dollar', target: 'Doolaara Kanaadaa' }
+    - { source: Cancel, target: Dhiisi }
+    - { source: Candidates, target: Dorgomtoota }
+    - { source: 'Cape Verde', target: 'Keepi Verdee' }
+    - { source: 'Cape Verde Escudo', target: 'Keepi Verdee Eskudoo' }
+    - { source: 'Cape Verdean', target: 'Keepi Verdiyaanii' }
+    - { source: 'Cayman Islands', target: 'Ayislaandii Kaayimaan' }
+    - { source: 'Cayman Islands Dollar', target: 'Doolaara Ayislaandii Kaayimaan' }
+    - { source: 'Central African', target: 'Afrikaa G/Galeessaa' }
+    - { source: 'Central African Republic', target: 'Ripaabilika Afrikaa G/galeessaa' }
+    - { source: 'CFA Franc BCEAO', target: 'Farankaa BCEAO CFA' }
+    - { source: 'CFP Franc', target: 'Farankaa CFA' }
+    - { source: 'CFA Franc BEAC', target: 'Farankaa BEAC CFA' }
+    - { source: Chad, target: Chaad }
+    - { source: Chadian, target: Chaadiyaanii }
+    - { source: 'Change Password', target: 'Iggita Jijjiiri' }
+    - { source: Checking, target: Mirkaneessuu }
+    - { source: Chile, target: Chiilii }
+    - { source: 'Cote D''Ivoire', target: 'Kooti Divuwaar' }
+    - { source: Chilean, target: Chiiliyaanii }
+    - { source: 'Chilean Peso', target: 'Pesoo Chiilii' }
+    - { source: 'Tongan Pa''anga', target: 'Tongaan Pa''aangaa' }
+    - { source: China, target: Chaayinaa }
+    - { source: Chinese, target: Chaayiniisii }
+    - { source: 'Chinese Yuan Renminbi', target: 'Yu''aan Renminbii Chaayinaa' }
+    - { source: 'Christmas Island', target: 'Ayislaandii Kirismaasii' }
+    - { source: 'Cocos (Keeling) Islands', target: 'Ayislaandii Kokos(Kiilingii)' }
+    - { source: Colombia, target: Kolombiyaa }
+    - { source: Colombian, target: Kolombiyaanii }
+    - { source: 'Colombian Peso', target: 'Pesoo Kolombiyaanii' }
+    - { source: Colorado, target: Koloraadoo }
+    - { source: Comment, target: Yaada }
+    - { source: Comments, target: Yaadawwan }
+    - { source: Comoran, target: Komoraanii }
+    - { source: Comoros, target: Komoroosi }
+    - { source: 'Comoros Franc', target: 'Farankaa Komoroosii' }
+    - { source: Company, target: Waldaa }
+    - { source: Competency, target: 'Sadarkaa Beekumsaa' }
+    - { source: Configuration, target: Qindoomina }
+    - { source: Configure, target: Qindeessi }
+    - { source: Congo, target: Koongoo }
+    - { source: 'Congo, the Democratic Republic of the', target: 'Ripaabilika Dimookiraatawaa Koongoo' }
+    - { source: Congolese, target: Kongoliisii }
+    - { source: Connecticut, target: Konnektikat }
+    - { source: 'Contact Details', target: 'Teessoo ittiin Qunnamamu' }
+    - { source: 'Contract End Date', target: 'Guyyaa Kontraatni itti Xummuramu' }
+    - { source: 'Contract Not Renewed', target: 'Kontraatni hin haaromfamne' }
+    - { source: 'Contract Start Date', target: 'Guyyaa Kontraatni ittii Jalqabe' }
+    - { source: 'Cook Islands', target: 'Ayislaandii Kuuk' }
+    - { source: 'Copy KPI', target: 'ARH Garagalchi' }
+    - { source: 'Costa Rica', target: 'Kostaa Rikaa' }
+    - { source: 'Costa Rican', target: 'Kostaa Rikaanii' }
+    - { source: 'Costa Rican Colon', target: 'Kolonii Kostaa Rikaa' }
+    - { source: Country, target: Biyya }
+    - { source: Croatia, target: Kirooshiyaa }
+    - { source: Croatian, target: Kirooshiyaanii }
+    - { source: 'Croatian Kuna', target: 'Kuunaa Kirooshiyaa' }
+    - { source: Cuba, target: Kuubaa }
+    - { source: Cuban, target: Kuubaanii }
+    - { source: 'Cuban Peso', target: 'Peso Kuubaa' }
+    - { source: Currency, target: Qarshii }
+    - { source: 'Current and Past Employees', target: 'Hojjettoota Durii fi kan ammaa' }
+    - { source: 'Current Employees Only', target: 'Hojjettoota amma jiran qofa' }
+    - { source: 'Current Status', target: 'Haala amma irra jiru' }
+    - { source: 'Custom Fields', target: 'Dirreewwan Addaa' }
+    - { source: Customers, target: Maamiltoota }
+    - { source: Cypriot, target: Saayipirootii }
+    - { source: Cyprus, target: Saayiperuus }
+    - { source: 'Cyprus Pound', target: 'Paawundii Saayiperuus' }
+    - { source: Czech, target: Cheeki }
+    - { source: 'Czech Koruna', target: 'Korunaa Cheeki' }
+    - { source: 'Czech Republic', target: 'Ripaabilikii Cheekii' }
+    - { source: Danish, target: Daanishii }
+    - { source: 'Danish Krona', target: 'Kiroonaa Daaniishi' }
+    - { source: 'Data Import', target: 'Deetaa Galchuu' }
+    - { source: Date, target: Guyyaa }
+    - { source: 'Date Added', target: 'Guyyaan Dabalameera' }
+    - { source: 'Date of Birth', target: 'Guyyaa Dhalootaa' }
+    - { source: Days, target: Guyyoota }
+    - { source: Deceased, target: Boqote/tte }
+    - { source: December, target: Mudde }
+    - { source: 'Define Report', target: 'Gabaasa Ibsi' }
+    - { source: 'Defined Custom Fields', target: 'Dirreewwan Addaa Ibsi' }
+    - { source: Delaware, target: Delaawaaree }
+    - { source: Delete, target: Balleessi }
+    - { source: 'Delete Current', target: 'Kan ammaa Balleessi' }
+    - { source: Denmark, target: Denmaarki }
+    - { source: Dependents, target: Maxxantoota }
+    - { source: Description, target: Ibsa }
+    - { source: Dimensions, target: Safartuu }
+    - { source: Direct, target: Kallattiin }
+    - { source: 'Direct Deposit Account Number', target: 'Lakk Herregaa Qusannoo kallattii' }
+    - { source: 'Direct Deposit Account Type', target: 'Akaakuu Lakk Herregaa Qusannoo Kallattii' }
+    - { source: 'Direct Deposit Amount', target: 'Hamma Kallattiin Qusatamu' }
+    - { source: 'Direct Deposit Details', target: 'Qabiyyee Qusannoo Kallattiin' }
+    - { source: 'Direct Deposit Routing Number', target: 'Lakkoofsa Ajajjuu Qusannoo  Kallattii' }
+    - { source: Disabled, target: 'Deebi''aa' }
+    - { source: Dismissed, target: Dhabamsiifameera }
+    - { source: 'Display Field Groups', target: 'Garee Dirreewwanii Mul''isi' }
+    - { source: 'Display Fields', target: 'Dirreewwan Mul''isi' }
+    - { source: 'District of Columbia', target: 'Kutaa Magaala Kolombiyaa' }
+    - { source: Djibouti, target: Jibuutii }
+    - { source: 'Djibouti Franc', target: 'Farankaa Jibuutii' }
+    - { source: 'Document Type', target: 'Akaakuu Barruu' }
+    - { source: Dominica, target: Doominikaa }
+    - { source: Dominican, target: Doominikaanii }
+    - { source: 'Dominican Peso', target: 'Pesoo Doominikaa' }
+    - { source: 'Dominican Republic', target: 'Ripaabilikii Doominikaa' }
+    - { source: 'Driver License Number', target: 'Lakk Eeyyama Konkolaachisuu' }
+    - { source: 'Driver''s License Number', target: 'Lakk Eeyyama Konkolaachisaa' }
+    - { source: Duration, target: 'Dheerina Yeroo' }
+    - { source: Dutch, target: Daachi }
+    - { source: Duties, target: Raawwii }
+    - { source: 'East Timorese', target: 'Timooriisii bahaa' }
+    - { source: 'Eastern Caribbean Dollars', target: 'Doolaara Baha kariibiyaanii' }
+    - { source: Ecuador, target: Ikuwaadoorii }
+    - { source: 'Ecuador Sucre', target: 'Sukree Ikuwaadoorii' }
+    - { source: Ecuadorean, target: Ikuwaadooriiyaanii }
+    - { source: Edit, target: Gulaali }
+    - { source: 'Edit Attachment', target: 'Dukkdeemtuu Gulaali' }
+    - { source: 'Edit Immigration', target: 'Godaansa Gulaali' }
+    - { source: 'Edit Salary Component', target: 'Qabiyyee Miindaa Gulaali' }
+    - { source: Education, target: Barnoota }
+    - { source: Egypt, target: Gibxii }
+    - { source: Egyptian, target: Gibxii }
+    - { source: 'Egyptian Pound', target: 'Paawundii Gibxii' }
+    - { source: 'El Salvador', target: 'EI Salvaadoorii ' }
+    - { source: 'El Salvador Colon', target: 'Kolonii EI Salvaadoorii' }
+    - { source: Eligible, target: Eeyyamamaadha }
+    - { source: 'Eligible Review Date', target: 'Guyyaa Madaalliif Eyyamamu' }
+    - { source: 'Eligible Status', target: 'Haala Eyyamaa' }
+    - { source: 'Email Notifications', target: 'Yaadachiisa Ergaa e' }
+    - { source: 'Emergency Contacts', target: 'Teessoo Namoota Yeroo Balaa waamamanii' }
+    - { source: Emirian, target: Emiriyaanii }
+    - { source: Employee, target: Hojjettoota }
+    - { source: 'Employee First Name', target: 'Maqaa Duraa' }
+    - { source: 'Employee Id', target: 'Eenyummaa Hojjetaa/ttuu' }
+    - { source: 'Employee Last Name', target: 'Maqaa Akaakayyuu' }
+    - { source: 'Employee List', target: 'Tarreefama Hojjettootaa' }
+    - { source: 'Employee Middle Name', target: 'Maqaa Abaa' }
+    - { source: 'Employee Name', target: 'Maqaa Hojjetaa/ttuu' }
+    - { source: 'Employee Records', target: 'Galmeewwan Hojjettootaa' }
+    - { source: 'Employee Reports', target: 'Gabaasawwan Hojjettootaa' }
+    - { source: 'Employee Timesheets', target: 'Gabatee Yeroo Hojjettootaa' }
+    - { source: 'Employment Status', target: 'Haala Qaxarrii' }
+    - { source: Enabled, target: 'Ka''aa' }
+    - { source: 'End Date', target: 'Guyyaa Xummuraa' }
+    - { source: 'End date should be after start date', target: 'Guyyaan xummuraa guyyaa jalqabaa dursuu qaba' }
+    - { source: 'Equatorial Guinea', target: 'Ikuwaatooriyaal Giinii' }
+    - { source: 'Equatorial Guinean', target: 'Ikuwaatoorial Giinii' }
+    - { source: Eritrea, target: Ertiriyaa }
+    - { source: Eritrean, target: Ertiriyaanii }
+    - { source: ESS, target: HOT }
+    - { source: Estonia, target: Istooniyaa }
+    - { source: Estonian, target: Istooniyaanii }
+    - { source: 'Estonian Krona', target: 'Kiroona Istooniyaa' }
+    - { source: Ethiopia, target: Itiyoophiyaa }
+    - { source: Ethiopian, target: Itiyoophiyaa }
+    - { source: 'Ethiopian Birr', target: 'Qarshi Itiyoophiyaa' }
+    - { source: Euro, target: Yuuroo }
+    - { source: 'Expected format: admin@example.com', target: 'Dhangii  admin@example.com tu eegama' }
+    - { source: 'Expiry Date', target: 'GuyyaaTajaajillii Itti Dhumatu' }
+    - { source: 'Expiry date should be after issued date', target: 'Guyyaan Tajaajilli Itti Dhumatu Guyyaa kenname booda tahuu qaba' }
+    - { source: 'Failed to Save', target: 'Ol kaa''uu hin dandeenye' }
+    - { source: 'Falkland Islands (Malvinas)', target: 'Ayislaandii Fookilandii(Maalvinaasi)' }
+    - { source: 'Falkland Islands Pound', target: 'Paawundii Ayislaandii Fookilandii(Maalvinaasi)' }
+    - { source: 'Faroe Islands', target: ' Ayislandii Faroo''ii' }
+    - { source: February, target: Guraandhala }
+    - { source: 'Federated States of Micronesia', target: 'Mootummaa Federaalawaa  Maaykirooneshiyaa' }
+    - { source: Female, target: Dhalaa }
+    - { source: Field, target: Dirree }
+    - { source: Fields, target: Dirreewwan }
+    - { source: 'Fields marked with an asterisk', target: 'Dirreewwan urjiin mallatteeffaman' }
+    - { source: Fiji, target: Fiijii }
+    - { source: 'Fiji Dollar', target: 'Doolaara fiijii' }
+    - { source: Fijian, target: Fiijiyaanii }
+    - { source: 'File Name', target: 'Maqaa Faayilaa' }
+    - { source: Filipino, target: Filiippinoo }
+    - { source: Finland, target: Fiinilaandi }
+    - { source: Finnish, target: Fiiniish }
+    - { source: First, target: Jalqaba }
+    - { source: 'First Name', target: 'Maqaa Jalqabaa' }
+    - { source: Florida, target: Filooriidaa }
+    - { source: Fluency, target: 'Sadarkaa Dandeettii' }
+    - { source: France, target: Faransaayi }
+    - { source: French, target: Fireenchi }
+    - { source: 'French Guiana', target: 'Guyinaa Faransaay' }
+    - { source: 'French Polynesia', target: 'Fireench Polineeshiyaa' }
+    - { source: 'French Southern Territories', target: 'Qubsuma Kibba Faransaayi' }
+    - { source: Friday, target: Jimaata }
+    - { source: From, target: Irraa }
+    - { source: 'Full Name', target: 'Maqaa Hanga Akaakayyuutti' }
+    - { source: 'Full Time Contract', target: 'Kontiraata Guyyaa Guutuu ' }
+    - { source: 'Full Time Internship', target: 'Leenjii Hojii Irrattii Guyyaa Guutuu' }
+    - { source: 'Full Time Permanent', target: 'Dhaabbataan Guyyaa Guutuu' }
+    - { source: Gabon, target: Gaaboon }
+    - { source: Gabonese, target: Baabooniisi }
+    - { source: Gambia, target: Gaambiyaa }
+    - { source: Gambian, target: Gaambiyaani }
+    - { source: 'Gambian Dalasi', target: 'Daalaasii Gaambiyaa' }
+    - { source: Gender, target: Saala }
+    - { source: 'General Information', target: 'Odeeffannoo Waliigalaa' }
+    - { source: Georgia, target: 'Ji''oorjiyaa' }
+    - { source: Georgian, target: 'Ji''oorjiyaan' }
+    - { source: German, target: Jarman }
+    - { source: Germany, target: Jarmanii }
+    - { source: Ghana, target: Gaanaa }
+    - { source: Ghanaian, target: Gaanaani }
+    - { source: 'Ghanaian Cedi', target: 'Sedii Gaanaa' }
+    - { source: Gibraltar, target: Gibraaltar }
+    - { source: 'Gibraltar Pound', target: 'Paawundii Gibraaltar' }
+    - { source: 'Gold (oz.)', target: Warqee(oz.) }
+    - { source: Good, target: Gaarii }
+    - { source: 'Greater Than', target: 'Ni caala' }
+    - { source: Greece, target: Giriiki }
+    - { source: Greek, target: Giriik }
+    - { source: Greenland, target: Giriinlaandii }
+    - { source: Grenada, target: Giriinaadaa }
+    - { source: Grenadian, target: Girinaadiyaanii }
+    - { source: Guadeloupe, target: Guwaadiloopee }
+    - { source: Guam, target: Guwaam }
+    - { source: Guatemala, target: Guwaatimaalaa }
+    - { source: Guatemalan, target: Guwaatimaalaan }
+    - { source: 'Guatemalan Quetzal', target: 'Quetzaala Guwaatimaalaa' }
+    - { source: Guinea, target: Giinii }
+    - { source: 'Guinea Franc', target: 'Farankaa Giinii' }
+    - { source: Guinea-Bissau, target: Giinii-Bissaawoo }
+    - { source: Guinea-Bissauan, target: Giinii-Bissaawaan }
+    - { source: Guinean, target: Giinii }
+    - { source: Guyana, target: Guyyaanaa }
+    - { source: 'Guyanan Dollar', target: 'Doolaara Guyyaanaa' }
+    - { source: Guyanese, target: Guyyaaniis }
+    - { source: Haiti, target: Hayitii }
+    - { source: Haitian, target: Hayitiyaan }
+    - { source: 'Haitian Gourde', target: 'Gowurdee Hayitii' }
+    - { source: Hawaii, target: Hawaayii }
+    - { source: 'Heard Island and Mcdonald Islands', target: 'Ayislaandii Heerdii fi MaaDonaaldii' }
+    - { source: Help, target: Gargaarsa }
+    - { source: Herzegovinian, target: Herzegoviniyaanii }
+    - { source: 'Hide Details', target: 'Qabiyyee Dhoksi' }
+    - { source: Holidays, target: 'Guyyaa Ayyaanaa' }
+    - { source: 'Holy See (Vatican City State)', target: 'Hoolii Sii (Mootummaa Magaalaa Vaatikaan)' }
+    - { source: 'Home Telephone', target: 'Bilbila Manaa' }
+    - { source: Honduran, target: Honduraanii }
+    - { source: 'Honduran Lempira', target: 'Lempiraa Honduraas' }
+    - { source: Honduras, target: Honduraas }
+    - { source: 'Hong Kong', target: 'Hoongi Koongi' }
+    - { source: 'Hong Kong Dollar', target: 'Doolaara Hoong Koongi' }
+    - { source: Hungarian, target: Hangaariyaan }
+    - { source: 'Hungarian Forint', target: 'Forintii Hangaariyaanii' }
+    - { source: Hungary, target: Hangaarii }
+    - { source: I-Kiribati, target: I-Kiribaatii }
+    - { source: Iceland, target: Ayislaandii }
+    - { source: 'Iceland Krona', target: 'Kiroona Ayislaandii' }
+    - { source: Icelander, target: Ayislandarii }
+    - { source: Id, target: Eenyummaa }
+    - { source: Idaho, target: Idahoo }
+    - { source: Illinois, target: Illinooyis }
+    - { source: 'IMF Special Drawing Right', target: 'Mirga Bakkabuusa Addaa DhMA' }
+    - { source: Immigration, target: Godaansa }
+    - { source: Include, target: 'Itti Dabali' }
+    - { source: 'Include Header', target: 'Durtii Itti Dabali' }
+    - { source: 'Include Past Employees', target: 'Hojjettoota Duraanii Itti Dabali' }
+    - { source: India, target: Indiyaa }
+    - { source: Indian, target: Indiyaan }
+    - { source: 'Indian Rupee', target: 'Rupii Indiyaa' }
+    - { source: Indiana, target: Indiyaana }
+    - { source: Indirect, target: 'Karaa Naannawaan' }
+    - { source: Individual, target: Dhuunfaa }
+    - { source: Indonesia, target: Indooneeshiyaa }
+    - { source: Indonesian, target: Indooneeshiyaanii }
+    - { source: 'Indonesian Rupiah', target: 'Rupiyaah Indooneeshiyaa' }
+    - { source: 'Invalid File Type', target: 'Akaakuun Faayila SirriiMiti' }
+    - { source: Iowa, target: Ayowaa }
+    - { source: 'Iran, Islamic Republic of', target: 'Ripaabilika Islaamawaa Iraan' }
+    - { source: Iranian, target: Iraaniyaan }
+    - { source: 'Iranian Rial', target: 'Riyaala Iraan' }
+    - { source: Iraq, target: Iraaq }
+    - { source: Iraqi, target: Iraaqi }
+    - { source: 'Iraqi Dinar', target: 'Dinaara Iraaqi' }
+    - { source: Ireland, target: Ayirelaandi }
+    - { source: Irish, target: Ayiriishi }
+    - { source: Israel, target: 'Israa''eel' }
+    - { source: Israeli, target: 'Israa''eeli' }
+    - { source: 'Israeli New Shekel', target: 'Niwu shekili Israa''eel' }
+    - { source: 'Issued By', target: 'Kan Kenne' }
+    - { source: 'Issued Date', target: 'Guyyaa Itti Kenname' }
+    - { source: Italian, target: Xaaliyaanii }
+    - { source: Italy, target: Xaaliyaanii }
+    - { source: Ivorian, target: Ayivooriyaanii }
+    - { source: Jamaica, target: Jamaayikaa }
+    - { source: Jamaican, target: Jamaayikaanii }
+    - { source: 'Jamaican Dollar', target: 'Doolaara Jamaayikaa' }
+    - { source: January, target: Amajji }
+    - { source: Japan, target: Jaappaan }
+    - { source: Japanese, target: Jaappaaniisi }
+    - { source: 'Japanese Yen', target: 'Yenii Jaappaan' }
+    - { source: Job, target: Hojii }
+    - { source: 'Job Categories', target: 'Ramaddiiwwan Hojii' }
+    - { source: 'Job Category', target: 'Ramaddii Hojii' }
+    - { source: 'Job Specification', target: 'Ibsa Akaakuu Hojii' }
+    - { source: 'Job Title', target: 'Gita Hojii' }
+    - { source: 'Job Titles', target: 'Gitawwan Hojii' }
+    - { source: 'Joined Date', target: 'Guyyaa Qaxarrii' }
+    - { source: Jordan, target: Jordaan }
+    - { source: Jordanian, target: Jordaanii }
+    - { source: 'Jordanian Dinar', target: 'Dinaara Jordaan' }
+    - { source: July, target: Adoolessa }
+    - { source: June, target: Waxabajji }
+    - { source: 'Kampuchean Riel', target: 'Riyeelii Kamphuucheyaanii' }
+    - { source: Kansas, target: Kaansaas }
+    - { source: Kazakhstan, target: Kaazaakihastan }
+    - { source: 'Kazakhstan Tenge', target: 'Tengii Kaazaakihastan' }
+    - { source: Kazakhstani, target: Kaazaakihastanii }
+    - { source: 'Keep Current', target: 'Kan Amma jiru eegi' }
+    - { source: Kentucky, target: Kentukii }
+    - { source: Kenya, target: Keeniyaa }
+    - { source: Kenyan, target: Keeniyaan }
+    - { source: 'Kenyan Shilling', target: 'Shilingii Keeniyaa' }
+    - { source: Kiribati, target: Kiribaatii }
+    - { source: 'Kittian and Nevisian', target: 'Kittiyaan fi Neviishiyaanii' }
+    - { source: 'Korea, Democratic People''s Republic of', target: 'Ripaabilika Dimookiraatawaa Ummata Koorea' }
+    - { source: 'Korea, Republic of', target: 'Ripaabilika Kooriyaa' }
+    - { source: 'Korean Won', target: 'Wonii Kooriyaa' }
+    - { source: 'KPI List', target: 'Tarreeffama ARH' }
+    - { source: Kuwait, target: Kuwaayit }
+    - { source: Kuwaiti, target: Kuwaayitii }
+    - { source: 'Kuwaiti Dinar', target: 'Dinaara Kuwaayitii' }
+    - { source: Kyrgyz, target: Kyrgyz }
+    - { source: Kyrgyzstan, target: Kyrgyzstanii }
+    - { source: Language, target: Afaan }
+    - { source: Languages, target: Afaanota }
+    - { source: 'Lao Kip', target: 'Kipi La''oo' }
+    - { source: 'Lao People''s Democratic Republic', target: 'Ripaabilika Dimookiraatawaa Uummata La''oo' }
+    - { source: Laotian, target: 'La''ooshiyaanii' }
+    - { source: Last, target: Dhuma }
+    - { source: 'Last Name', target: 'Maqaa Akaakayyuu' }
+    - { source: Latvia, target: Laativiyaa }
+    - { source: Latvian, target: Laativianii }
+    - { source: 'Latvian Lats', target: 'Laatsii Laativiyaa' }
+    - { source: Laid-off, target: 'Gadi Lakkiseera' }
+    - { source: Leave, target: Boqonnaa }
+    - { source: 'Leave Balance (Days)', target: 'Haftee Boqonnaa(Guyyootaan)' }
+    - { source: 'Leave Entitled (Days)', target: 'Hamma Boqonaa Kennamu(Guyyootaan)' }
+    - { source: 'Leave List', target: 'Tarreeffama Boqonnaa' }
+    - { source: 'Leave Period', target: 'Bara Boqonnaa' }
+    - { source: 'Leave Scheduled (Days)', target: 'Boqonnaa Saganteeffame(Guyyootaan)' }
+    - { source: 'Leave Summary', target: 'Waliigala  Boqonnaa' }
+    - { source: 'Leave Taken (Days)', target: 'Boqonnaa Fudhataman(Days)' }
+    - { source: 'Leave Types', target: 'Akaakuuwwan Boqonnaa' }
+    - { source: Lebanese, target: Libaaniis }
+    - { source: 'Lebanese Pound', target: 'Paawundii Libaaniis' }
+    - { source: Lebanon, target: Libaanoon }
+    - { source: Lesotho, target: Leseetoo }
+    - { source: 'Lesotho Loti', target: 'Lootii Leseetoo' }
+    - { source: 'Less Than', target: Gadi }
+    - { source: Level, target: Sadarkaa }
+    - { source: Liberia, target: Laayibeeriyaa }
+    - { source: Liberian, target: Laayiubeeriyaan }
+    - { source: 'Liberian Dollar', target: 'Doolaara Laayibeeriyaa' }
+    - { source: Libyan, target: Liibiyaa }
+    - { source: 'Libyan Arab Jamahiriya', target: 'Liibiyaan Arab Jamahiriyaa' }
+    - { source: 'Libyan Dinar', target: 'Dinaara Liibiyaa' }
+    - { source: License, target: Eeyyama }
+    - { source: 'License Expiry Date', target: 'Guyyaa Eeyyamni Itti Dhumatu' }
+    - { source: 'License Number', target: 'Lakk Eeyyamaa' }
+    - { source: 'License Type', target: 'Akaakuu Eeyyamaa' }
+    - { source: Licenses, target: Eeyyamawwan }
+    - { source: Liechtenstein, target: Leeyiktenisteen }
+    - { source: Liechtensteiner, target: Leeyiktenisteenii }
+    - { source: Lithuania, target: Lituuwaaniyaa }
+    - { source: Lithuanian, target: Lituuwaaniyaanii }
+    - { source: 'Lithuanian Litas', target: 'Liitaas Lituwaniyaa' }
+    - { source: Localization, target: Madaqsuu }
+    - { source: Location, target: Argamsa }
+    - { source: Locations, target: Argamsawwan }
+    - { source: Logout, target: 'Keessaa Bahi' }
+    - { source: Louisiana, target: Lowushiyaanaa }
+    - { source: Luxembourg, target: Lezemboowurg }
+    - { source: Luxembourger, target: Lezemboowurger }
+    - { source: Macao, target: 'Maka''oo' }
+    - { source: 'Macau Pataca', target: 'Paataakaa Maka''oo' }
+    - { source: 'Macedonia, the Former Yugoslav Republic of', target: 'Ripaabilika Yugoslavakiyaa duraanii, Makedooniyaa' }
+    - { source: Macedonian, target: Mekedooniyaan }
+    - { source: Madagascar, target: Madagaaskaar }
+    - { source: Maine, target: Maayiin }
+    - { source: Malagasy, target: Malagaasii }
+    - { source: 'Malagasy Franc', target: 'Farankaa Malagaasii' }
+    - { source: Malawi, target: Maalaawii }
+    - { source: 'Malawi Kwacha', target: 'Waachaa Maalaawii' }
+    - { source: Malawian, target: Maalaawiyaan }
+    - { source: Malaysia, target: Maalaashiyaa }
+    - { source: Malaysian, target: Maalaashiyaan }
+    - { source: 'Malaysian Ringgit', target: 'Ringitii Maalaashiyaa' }
+    - { source: Maldivan, target: Maaldivaan }
+    - { source: 'Maldive Rufiyaa', target: 'Ruufiyaa Maaldivii' }
+    - { source: Maldives, target: Maaldiviis }
+    - { source: Male, target: Dhiira }
+    - { source: Mali, target: Maalii }
+    - { source: Malian, target: Maaliyaan }
+    - { source: Malta, target: Maaltaa }
+    - { source: Maltese, target: Maaltisii }
+    - { source: 'Maltese Lira', target: 'Liiraa Maaltiisii' }
+    - { source: March, target: Bitootessa }
+    - { source: 'Marital Status', target: 'Haala Fuudhaa' }
+    - { source: 'Marshall Islands', target: 'Ayislaandii Maarshaalii' }
+    - { source: Marshallese, target: Maarshaaliisii }
+    - { source: Martinique, target: Maartinkuwii }
+    - { source: Maryland, target: Maariilaandii }
+    - { source: Massachusetts, target: Maassachusseettis }
+    - { source: Mauritania, target: Maawurtaaniyaa }
+    - { source: Mauritanian, target: Maawurtaaniyaanii }
+    - { source: 'Mauritanian Ouguiya', target: 'Ooguyiyaa Mawurtaaniyaa' }
+    - { source: Mauritian, target: Maawurishiyaan }
+    - { source: Mauritius, target: Maawurishiyees }
+    - { source: 'Mauritius Rupee', target: 'Rupii Maawurishiiyees' }
+    - { source: May, target: Caamsaa }
+    - { source: Mayotte, target: Maayoottee }
+    - { source: Membership, target: Miseensummaa }
+    - { source: Memberships, target: Miseensummaawwan }
+    - { source: Mexican, target: Meksikaan }
+    - { source: 'Mexican New Peso', target: 'Niwu Pesoo Meksiikoo' }
+    - { source: 'Mexican Peso', target: 'Pesoo Meksikoo' }
+    - { source: Mexico, target: Meksiikoo }
+    - { source: Michigan, target: Michigaan }
+    - { source: 'Micronesia, Federated States of', target: 'Mootummaa Federaalaa Maaykirooneshiyaa' }
+    - { source: Micronesian, target: Maaykirooneeshiyaan }
+    - { source: Middle, target: Gidduu }
+    - { source: 'Middle Name', target: 'Maqaa Abbaa' }
+    - { source: Minnesota, target: Mineessotaa }
+    - { source: Mississippi, target: Mississippii }
+    - { source: Missouri, target: Missoowurii }
+    - { source: Mobile, target: Mobaayila }
+    - { source: Modules, target: Muraawwan }
+    - { source: 'Moldova, Republic of', target: 'Ripaabilika Moldovaa' }
+    - { source: Moldovan, target: Moldovaan }
+    - { source: Monacan, target: Monaakaan }
+    - { source: Monaco, target: Monaakoo }
+    - { source: Monday, target: Wixata }
+    - { source: Mongolia, target: Mongoliyaa }
+    - { source: Mongolian, target: Mongoliyaanii }
+    - { source: 'Mongolian Tugrik', target: 'Tugriika Mongoliyaa' }
+    - { source: Montana, target: Montaanaa }
+    - { source: Month, target: 'Ji''a' }
+    - { source: Montserrat, target: Montiserrati }
+    - { source: Moroccan, target: Morookkaan }
+    - { source: 'Moroccan Dirham', target: 'Dirhaama Morookoo' }
+    - { source: Morocco, target: Morookoo }
+    - { source: Mosotho, target: Mosotoo }
+    - { source: 'Mother Tongue', target: 'Afaan Dhalootaa' }
+    - { source: Motswana, target: Motswaanaa }
+    - { source: Mozambican, target: Mozaambikaan }
+    - { source: Mozambique, target: Mozaambiikii }
+    - { source: 'Mozambique Metical', target: 'Meetikaala Mozaambikii' }
+    - { source: 'My Leave', target: 'Boqonnaa Koo' }
+    - { source: 'My Records', target: 'Galmeewwan Koo' }
+    - { source: 'My Timesheets', target: 'Gabatee Yeroo Koo' }
+    - { source: Myanmar, target: Yaanmaar }
+    - { source: 'Myanmar Kyat', target: 'Yaatii Yaanmaar' }
+    - { source: Name, target: Maqaa }
+    - { source: 'Name exists', target: 'Maqaan kun jira' }
+    - { source: Namibia, target: Naamiibiyaa }
+    - { source: 'Namibia Dollar', target: 'Doolaara Naamiibiyaa' }
+    - { source: Namibian, target: Naamiibiyaan }
+    - { source: Nationalities, target: Lammiiwwan }
+    - { source: Nationality, target: Lammii }
+    - { source: Nauru, target: Naawuruu }
+    - { source: Nauruan, target: Naawuruuwaan }
+    - { source: Nebraska, target: Nebraaskaa }
+    - { source: Nepal, target: Nepaalii }
+    - { source: Nepalese, target: Nepaaliis }
+    - { source: 'Nepalese Rupee', target: 'Rupii Nepaalii' }
+    - { source: Netherlands, target: Nezarlaandis }
+    - { source: 'Netherlands Antilles', target: 'Nezarlaandis Antillees' }
+    - { source: Nevada, target: Nevaadaa }
+    - { source: 'New Caledonia', target: 'Kaaledooniyaa Haaraa' }
+    - { source: 'New Hampshire', target: "Niwu Hampishiree\r\n        " }
+    - { source: 'New Jersey', target: 'Niwu Jersii' }
+    - { source: 'New Mexico', target: 'Niwu Meksikoo' }
+    - { source: 'New York', target: 'Niwu Yoorki' }
+    - { source: 'New Zaire', target: 'Niwu Zaayer' }
+    - { source: 'New Zealand', target: 'Niwu Ziilaandi' }
+    - { source: 'New Zealand Dollar', target: 'Doolaara Niwu Ziilaandi' }
+    - { source: 'New Zealander', target: 'Niwu Zilaandarii' }
+    - { source: Next, target: 'Kan Itti Aanu' }
+    - { source: Nicaragua, target: Nikaaraaguwaa }
+    - { source: Nicaraguan, target: Nikaaraaguwaan }
+    - { source: 'Nicaraguan Cordoba Oro', target: 'Nikaaraaguwaan Kordoovaa Oroo' }
+    - { source: Niger, target: Nijeer }
+    - { source: Nigeria, target: Naayijeeriyaa }
+    - { source: Nigerian, target: Naayijeeriyaa }
+    - { source: 'Nigerian Naira', target: 'Niiraa Naayijeeriyaa' }
+    - { source: Nigerien, target: Naayijeeriyaa }
+    - { source: Niue, target: 'Niwu''ii' }
+    - { source: 'NL Antillian Guilder', target: 'Guwildarii NL Antiliyaa' }
+    - { source: 'No', target: Miti }
+    - { source: 'No Project Activities', target: 'Raawwiin Pirojektii hin jiran' }
+    - { source: 'No Projects', target: 'Pirojektiin hin jiru' }
+    - { source: 'No Records Found', target: 'Galmeewwan hin jiran' }
+    - { source: 'No records to display', target: 'Galmeewwan argaman hin jiran' }
+    - { source: 'Norfolk Island', target: 'Ayislaandii Norfookii' }
+    - { source: 'North Carolina', target: 'Kaaba Kaaroolinaa ' }
+    - { source: 'North Dakota', target: 'Kaaba Dakootaa' }
+    - { source: 'North Korean', target: 'Kaaba Kooriyaa ' }
+    - { source: 'North Korean Won', target: 'Woonii Kaaba kooriyaa' }
+    - { source: 'Northern Irish', target: 'Kaaba Aayiriish' }
+    - { source: 'Northern Mariana Islands', target: 'Ayislaandii Kaaba Maariyaanaa' }
+    - { source: Norway, target: Noorweyi }
+    - { source: Norwegian, target: Noorweyi }
+    - { source: 'Norwegian Krona', target: 'Kiroona Noorwey' }
+    - { source: 'Not Defined', target: 'Hin Ibsamne' }
+    - { source: Notes, target: Yaada }
+    - { source: November, target: Sadaasa }
+    - { source: Number, target: Lakkoofsa }
+    - { source: October, target: Onkoloolessa }
+    - { source: Ohio, target: 'Ohi''oo' }
+    - { source: Oklahoma, target: Oklaahoomaa }
+    - { source: Oman, target: Omaan }
+    - { source: Omani, target: Omaanii }
+    - { source: 'Omani Rial', target: 'Riyaala Omaanii' }
+    - { source: 'Only Include Approved Timesheets', target: 'Gabateewwan yeroo mirkaneeffaman qofa dabali' }
+    - { source: 'Optional Fields', target: 'Dirrewwan Dabalataa' }
+    - { source: or, target: yookiin }
+    - { source: 'OrangeHRM - Confirmation Required', target: 'OrangeHRM - Mirkaneessi Barbaachisaa dha' }
+    - { source: Oregon, target: Oriigoon }
+    - { source: Organization, target: Dhaabbata }
+    - { source: Other, target: 'Kan biroo' }
+    - { source: 'Other Email', target: 'Ergaa-E Kan Biroo' }
+    - { source: 'Other Id', target: 'Eennyumma Kan Biroo' }
+    - { source: Pakistan, target: Paakistaan }
+    - { source: 'Pakistan Rupee', target: 'Rupii Paakistaan' }
+    - { source: Pakistani, target: Paakistaanii }
+    - { source: Palau, target: Paluwaa }
+    - { source: Palauan, target: Paluwaan }
+    - { source: 'Palestinian Territory, Occupied', target: 'Qubsuma Paakistaan, kan qabame' }
+    - { source: 'Palladium (oz.)', target: Paallaadiyeem(oz.) }
+    - { source: Panama, target: Paanaamaa }
+    - { source: Panamanian, target: Paanaamaaniyaa }
+    - { source: 'Panamanian Balboa', target: 'Balbowaa Paanaamaa' }
+    - { source: 'Papua New Guinea', target: 'Paapuwaa Niwu Giinii' }
+    - { source: 'Papua New Guinea Kina', target: 'Kiinnaa Paapuwaa niwu Giinii' }
+    - { source: 'Papua New Guinean', target: 'Paapuwaa Niwu Giinii' }
+    - { source: Paraguay, target: Paaraaguwaayi }
+    - { source: 'Paraguay Guarani', target: 'Guwaaraanii Paaraaguwaay ' }
+    - { source: Paraguayan, target: Paaraaguwaayi }
+    - { source: 'Part Time Contract', target: 'Kontiraata Yeroo Boqonnaa' }
+    - { source: 'Part Time Internship', target: 'Leenjii Hojiirrattii Yeroo Boqonnaa' }
+    - { source: 'Part Time Permanent', target: 'Dhaabbataan Yeroo Boqonnaa' }
+    - { source: 'Past Employee', target: 'Hojjettoota Duraanii' }
+    - { source: 'Past Employees Only', target: 'Hojjettoota Duraanii Qofa' }
+    - { source: 'Pay Frequency', target: 'Deddebi''insa Kafaltii' }
+    - { source: 'Pay Grade', target: 'Sadarkaa Kafaltii' }
+    - { source: 'Pay Grades', target: 'Sadarkaawwan Kafaltii' }
+    - { source: Pennsylvania, target: Peennisiilvaaniyaa }
+    - { source: Performance, target: Raawii }
+    - { source: Personal, target: 'Nama Dhuunfaa' }
+    - { source: Peru, target: Peeruu }
+    - { source: Peruvian, target: Peeruuviyaanii }
+    - { source: 'Peruvian Nuevo Sol', target: 'Nu''eevoo Soolii Peeruu' }
+    - { source: 'Philippine Peso', target: 'Pesoo Philippiinii' }
+    - { source: Philippines, target: Philiippiinii }
+    - { source: 'Physically Disabled/Compensated', target: 'Qaama Miidhamaa' }
+    - { source: PIM, target: OH }
+    - { source: 'PIM Sample Report', target: 'Gabaasa OH' }
+    - { source: Pitcairn, target: Piitikaayirn }
+    - { source: 'Platinum (oz.)', target: Pilaatiiniyeemii(oz.) }
+    - { source: Poland, target: Poolaand }
+    - { source: Polish, target: Pooliishi }
+    - { source: 'Polish Zloty', target: 'Loottii Pooliishii' }
+    - { source: Poor, target: 'Gad Aanaa' }
+    - { source: Portugal, target: Poorchugaal }
+    - { source: Portuguese, target: Poorchugaalii }
+    - { source: 'Pound Sterling', target: 'Paawundii Steerlingii' }
+    - { source: Previous, target: 'Kan Duraa' }
+    - { source: Program, target: Sagantaa }
+    - { source: 'Project Date Range', target: 'Dheerina Yeroo Pirojektii' }
+    - { source: 'Project Info', target: 'Odeeffannoo Pirojektii' }
+    - { source: 'Project Reports', target: 'Gabaasa Pirojektii' }
+    - { source: Projects, target: Pirojektoota }
+    - { source: 'Puerto Rico', target: 'Pu''eertoo Riikoo' }
+    - { source: 'Punch In/Out', target: 'Tuqii Seeni/Bahi' }
+    - { source: Qatar, target: Qaataar }
+    - { source: Qatari, target: Qaataarii }
+    - { source: 'Qatari Rial', target: 'Riyaala Qaataarii' }
+    - { source: Qualification, target: 'Sadarkaa Barnootaa' }
+    - { source: Range, target: Dheerina }
+    - { source: Reading, target: Dubbisa }
+    - { source: 'Records Per Page', target: 'Galmeewwan Fuula Tokkorratti' }
+    - { source: Recruitment, target: Qaxarrii }
+    - { source: Relationship, target: Hariiroo }
+    - { source: 'Replace Current', target: 'Kan amma jiruun bakka buusi' }
+    - { source: 'Replace file', target: 'Faayila Bakka Buusi' }
+    - { source: 'Report Name', target: 'Maqaa Gabaasaa' }
+    - { source: 'Reporting Method', target: 'Mala Gabaasaa' }
+    - { source: 'Reporting Methods', target: 'Maloota Gabaasaa' }
+    - { source: Reports, target: Gabaasawwan }
+    - { source: Required, target: Barbaachisaadha }
+    - { source: Reset, target: Haqi }
+    - { source: Resigned, target: 'Gadi Lakkiseera/teetti' }
+    - { source: 'Resigned - Company Requested', target: 'Dhaabatni waan Gaafateef Gadi Lakkiseera/teetti' }
+    - { source: 'Resigned - Self Proposed', target: 'Fedhii Dhuunfaan Gadi Lakkiseera/teetti' }
+    - { source: Retired, target: 'Soorama Baheera' }
+    - { source: Reunion, target: Riiyuuniyeenii }
+    - { source: Reviews, target: Madaalliiwwan }
+    - { source: 'Rhode Island', target: 'Ayislaandii Rihoodii' }
+    - { source: Romania, target: Romaaniyaa }
+    - { source: Romanian, target: Romaaniyaan }
+    - { source: 'Romanian Leu', target: 'Le''uu Romaaniyaa' }
+    - { source: 'Routing Number', target: 'Lakkoofsa Ajajjuu' }
+    - { source: Run, target: Fiigsisi }
+    - { source: 'Russia Rubles', target: 'Ruubliisii Raashiyaa' }
+    - { source: Russian, target: Raashiyaa }
+    - { source: 'Russian Federation', target: 'Federeeshinii Raashiyaa' }
+    - { source: 'Russian Rouble', target: 'Roobilii Raashiyaa' }
+    - { source: Rwanda, target: Ruwaandaa }
+    - { source: Rwandan, target: Ruwaandaa }
+    - { source: 'Saint Helena', target: 'Seenti Helenaa' }
+    - { source: 'Saint Kitts and Nevis', target: 'Seenti Kittis fiNevis' }
+    - { source: 'Saint Lucia', target: 'Seenti  Lushiyaa' }
+    - { source: 'Saint Lucian', target: 'Seenti  Lushiyaan' }
+    - { source: 'Saint Pierre and Miquelon', target: 'Seenti  Pi''eerree fi Miku''eloonii' }
+    - { source: 'Saint Vincent and the Grenadines', target: 'Seenti  Viinseentii fi Girinaadinsii' }
+    - { source: Salary, target: Miindaa }
+    - { source: 'Salary Component', target: 'Qabiyyee Miindaa' }
+    - { source: Salvadoran, target: Saalvaadoraan }
+    - { source: Samoa, target: 'Samoo''aa' }
+    - { source: Samoan, target: 'Samoo''aan' }
+    - { source: 'Samoan Tala', target: 'Taalaa Saamo''aa' }
+    - { source: 'San Marinese', target: 'Saan Mariiniisii' }
+    - { source: 'San Marino', target: 'Saan Mariinoo' }
+    - { source: 'Sao Tome and Principe', target: 'Sa''oo Tomee fi Piriinsipee' }
+    - { source: 'Sao Tome/Principe Dobra', target: 'Doobraa Sa''oo Toomee / Piriinsipee' }
+    - { source: 'Sao Tomean', target: 'Sa''oo Toomeen' }
+    - { source: Saturday, target: Sanbata }
+    - { source: Saudi, target: Sawudii }
+    - { source: 'Saudi Arabia', target: 'Sawudii Arabiyaa' }
+    - { source: 'Saudi Arabia Riyal', target: 'Riyaala Sawudii Arabiyaa' }
+    - { source: Save, target: 'Olkaa''i' }
+    - { source: 'Save Comment Only', target: 'Yaada Qofa Olkaa''i' }
+    - { source: Savings, target: Qusannoo }
+    - { source: Score, target: Qabxii }
+    - { source: Scottish, target: Iskootiish }
+    - { source: Search, target: Barbaadi }
+    - { source: Select, target: Filadhu }
+    - { source: 'Select Comparison', target: 'Walbira Qabsiistuu Filadhu' }
+    - { source: 'Select File', target: 'Faayila Filadhu' }
+    - { source: 'Select Records to Delete', target: 'Galmeewwan Balleessuu Barbaadde Filadhu' }
+    - { source: 'Select Salary Grade', target: 'Sadarkaa Miindaa Filadhu' }
+    - { source: 'Selected Criteria', target: 'Ulaagaa Filadhu' }
+    - { source: 'Selection Criteria', target: 'Ulaagaa Filannoo' }
+    - { source: Senegal, target: Senegaal }
+    - { source: Senegalese, target: Senegaalii }
+    - { source: September, target: Fulbaana }
+    - { source: 'Serbia and Montenegro', target: 'Sarbiyaa fi Montenegiroo' }
+    - { source: Serbian, target: Sarbiyaanii }
+    - { source: 'Service Period', target: 'Yeroo Tajaajilaa' }
+    - { source: Seychelles, target: Seeyicheellis }
+    - { source: 'Seychelles Rupee', target: 'Rupii Seeyicheellis' }
+    - { source: Seychellois, target: 'Seeyicheellio''isii' }
+    - { source: 'Should be a number', target: 'Lakkoofsa tahuu qaba' }
+    - { source: 'Should be a positive number', target: 'Lakkoofsa Poosetiivii tahuu qaba' }
+    - { source: 'Should be a valid date in %format% format', target: 'Guyaa Sirrii tahuu qaba dhangii %format% n' }
+    - { source: 'Should be less than %amount%', target: '%amount% gadi tahuu qaba' }
+    - { source: 'Should be less than %amount% characters', target: 'Arfii %amount% gadi tahuu qaba' }
+    - { source: 'Should be within Min/Max values', target: 'Gatii Guddaa/Xinnaa Gidduu tahuu qaba' }
+    - { source: 'Show Direct Deposit Details', target: 'Qabiyyee Qusannaa Kallattii Mul''isi' }
+    - { source: 'Sierra Leone', target: 'Seraa Liyoon' }
+    - { source: 'Sierra Leone Leone', target: 'Liyoonii Seeraa Liyoon' }
+    - { source: 'Sierra Leonean', target: 'Seeraa Liyoonii' }
+    - { source: 'Silver (oz.)', target: Silver(oz.) }
+    - { source: Singapore, target: Singaapoor }
+    - { source: 'Singapore Dollar', target: 'Doolaara Singaapoor' }
+    - { source: Singaporean, target: Singaapoorii }
+    - { source: Size, target: Hammamtaa }
+    - { source: Skill, target: Beekumsa }
+    - { source: Skills, target: Beekumsawwan }
+    - { source: 'Slovak Koruna', target: 'Koruuna Isloovaakiyaa' }
+    - { source: Slovakia, target: Isloovaakiyaa }
+    - { source: Slovakian, target: Isloovaakiyaanii }
+    - { source: Slovenia, target: Islooveeniyaa }
+    - { source: Slovenian, target: Islooveeniyaanii }
+    - { source: 'Solomon Islander', target: 'Ayislandarii Solomoon' }
+    - { source: 'Solomon Islands', target: 'Ayislaandisii Solomoon' }
+    - { source: 'Solomon Islands Dollar', target: 'Doolaara Ayislaandisii Solomoon' }
+    - { source: Somali, target: Somaalii }
+    - { source: 'Somali Shilling', target: 'Shilingii Somaalii' }
+    - { source: Somalia, target: Somaaliyaa }
+    - { source: 'Sort in Ascending Order', target: 'Jalqabaa Gara Dhumaatti Tarreessi' }
+    - { source: 'Sort in Descending Order', target: 'Dhumaa Gara Jalqabaatti Tarreessi' }
+    - { source: 'South Africa', target: 'Afriikaa Kibbaa' }
+    - { source: 'South African', target: 'Afriikaa Kibbaa' }
+    - { source: 'South African Rand', target: 'Raandii Kibba Afrikaa' }
+    - { source: 'South Carolina', target: 'Kibba Karooliinaa' }
+    - { source: 'South Dakota', target: 'Kibba Daakootaa' }
+    - { source: 'South Georgia and the South Sandwich Islands', target: 'Ji''oorjiyaa Kibbaa fi Ayislaandii Saandiwichii Kibbaa' }
+    - { source: 'South Korean', target: 'Kooriyaa Kibbaa' }
+    - { source: Spain, target: Ispeen }
+    - { source: Spanish, target: Ispaaniish }
+    - { source: Speaking, target: Dhubbachuu }
+    - { source: 'Sri Lanka', target: Sirilaankaa }
+    - { source: 'Sri Lanka Rupee', target: 'Rupee Sirilaankaa' }
+    - { source: 'Sri Lankan', target: Sirilaankaa }
+    - { source: 'St. Helena Pound', target: 'Paawundii St. Heleenaa' }
+    - { source: 'Start Date', target: 'Guyyaa Jalqabaa' }
+    - { source: 'Start date should be before end date', target: 'Guyyaan jalqabaa guyyaa xummuraa dursuu qaba' }
+    - { source: State, target: 'Mootummaa Naannoo' }
+    - { source: Status, target: Haala }
+    - { source: Structure, target: Caasaa }
+    - { source: 'Sub Unit', target: 'Kutaa Hojii' }
+    - { source: Subordinates, target: Hojjettoota }
+    - { source: Subscribe, target: Maamiloomi }
+    - { source: 'Subscription Amount', target: 'Hamma Kafaltii Maamiloomuu' }
+    - { source: 'Subscription Commence Date', target: 'Maamiloomuun Guyyaa itti Raawwatu' }
+    - { source: 'Subscription Paid By', target: 'Gatii maamiloomuu Kan Kafale' }
+    - { source: 'Subscription Renewal Date', target: 'Guyyaa Haaroomsa maamilummaa' }
+    - { source: 'Successfully Added', target: 'Sirriitti Dabalameera' }
+    - { source: 'Successfully Deleted', target: 'Sirriitti Balleeffameera' }
+    - { source: 'Successfully Saved', target: 'Sirriitti Olkaawameera' }
+    - { source: 'Successfully Updated', target: 'Sirriitti Haaromfameera' }
+    - { source: 'Successfully Uploaded', target: 'Sirriitti Olfe''ameera' }
+    - { source: Sudan, target: Sudaan }
+    - { source: Sudanese, target: Sadaanii }
+    - { source: 'Sudanese Dinar', target: 'Dinaara Sudaanii' }
+    - { source: 'Sudanese Pound', target: 'Paawundii Sudaanii' }
+    - { source: Sunday, target: Dilbata }
+    - { source: Supervisor, target: Hogganaa }
+    - { source: 'Supervisor Name', target: 'Maqaa Hogganaa' }
+    - { source: Supervisors, target: Hoggantoota }
+    - { source: Suriname, target: Shuriineem }
+    - { source: Surinamer, target: Shuriineemerii }
+    - { source: 'Surinamese Dollar', target: 'Doolaara Shuriineemerii' }
+    - { source: 'Svalbard and Jan Mayen', target: 'Isvaalbaard fi Jaan Maayeen' }
+    - { source: Swazi, target: Iswaazii }
+    - { source: Swaziland, target: Iswaaziilaandi }
+    - { source: 'Swaziland Lilangeni', target: 'Lilaangenii Iswaaziilaandi' }
+    - { source: Sweden, target: Siwiidiin }
+    - { source: Swedish, target: Siwiidinii }
+    - { source: 'Swedish Krona', target: 'Kiroonaa Siwiidin' }
+    - { source: Swiss, target: Iswiiss }
+    - { source: 'Swiss Franc', target: 'Farankaa Iswiss' }
+    - { source: Switzerland, target: Iswiizeerlaandi }
+    - { source: Syrian, target: Siiriyaa }
+    - { source: 'Syrian Arab Republic', target: 'Ripaabilika Araba Siiriyaa' }
+    - { source: 'Syrian Pound', target: 'Paawundii Siiriyaa' }
+    - { source: Taiwan, target: Taayiwaan }
+    - { source: 'Taiwan Dollar', target: 'Doolaara Taayiwaan' }
+    - { source: Taiwanese, target: Taayiwaanii }
+    - { source: Tajik, target: Taajiik }
+    - { source: Tajikistan, target: Taajiikiistaanii }
+    - { source: 'Tanzania, United Republic of', target: 'Ripaabilika Tanzaaniyaa Waliintaanii' }
+    - { source: Tanzanian, target: Tanzaaniyaa }
+    - { source: 'Tanzanian Shilling', target: 'Shillingii Tanzaaniyaa' }
+    - { source: Tennessee, target: Tannassii }
+    - { source: Terminated, target: 'Gadi Dhiiseera' }
+    - { source: 'Termination Reasons', target: 'Sababa Gadhi Dhiiseef' }
+    - { source: Texas, target: Teeksaas }
+    - { source: Thai, target: Taayii }
+    - { source: 'Thai Baht', target: 'Baahitii Taayilaandii' }
+    - { source: Thailand, target: Taayilaandii }
+    - { source: Thursday, target: Kamisa }
+    - { source: Time, target: Yeroo }
+    - { source: Timesheets, target: 'Gabatee Yeroo' }
+    - { source: Timor-Leste, target: Tiimoor-Lestee }
+    - { source: To, target: Itti }
+    - { source: to, target: itti }
+    - { source: 'To date should be after from date', target: 'Guyyaan xumuraa kan jalqabaa booda tahuu qaba' }
+    - { source: Togo, target: Toogoo }
+    - { source: Togolese, target: Toogooliisii }
+    - { source: Tokelau, target: Tokelawuu }
+    - { source: Tonga, target: Tongaa }
+    - { source: Tongan, target: Tongaanii }
+    - { source: 'Trinidad and Tobago', target: 'Tirinidaadii fi Tobaagoo' }
+    - { source: 'Trinidad/Tobago Dollar', target: 'Doolaara Tirinidaadii/ Tobaagoo' }
+    - { source: 'Trinidadian or Tobagonian', target: 'Tirinidaadiiyaanii ykn Tobaagoonianii' }
+    - { source: Tuesday, target: Kibxata }
+    - { source: Tunisia, target: Tuunishiyaa }
+    - { source: Tunisian, target: Tuunishiyaanii }
+    - { source: 'Tunisian Dinar', target: 'Dinaara Tuunishiyaa' }
+    - { source: Turkey, target: Turkii }
+    - { source: Turkish, target: Turkiish }
+    - { source: 'Turkish Lira', target: 'Liiraa Turkiish' }
+    - { source: Turkmenistan, target: Turkimeenistaan }
+    - { source: 'Turks and Caicos Islands', target: 'Turkii fi Kaikoos Ayislaandis' }
+    - { source: Tuvalu, target: Tuvaaluu }
+    - { source: Tuvaluan, target: Tuvaaluwaan }
+    - { source: Type, target: Akaakuu }
+    - { source: 'Type Employee Id', target: 'Eenyummaa Hojjetaa Galchi' }
+    - { source: 'Type for hints', target: 'Gargaarsaaf Barreessi' }
+    - { source: Uganda, target: Ugaandaa }
+    - { source: 'Uganda Shilling', target: 'Shilingii Ugaandaa' }
+    - { source: Ugandan, target: Ugaandaan }
+    - { source: Ukraine, target: Yuukireen }
+    - { source: 'Ukraine Hryvnia', target: 'Riviinaa Yuukireen' }
+    - { source: Ukrainian, target: Yuukireenii }
+    - { source: 'United Arab Emirates', target: 'Yunaayitid Araba Imereetisii' }
+    - { source: 'United Kingdom', target: 'Yunaayitid Kiingdamii' }
+    - { source: 'United States', target: 'Yunaayitid  Isteetii' }
+    - { source: 'United States Dollar', target: 'Doolaara Yunaayitid Isteetii' }
+    - { source: 'United States Minor Outlying Islands', target: 'Ayislaandota Yunaayited Isteeti alatti argaman' }
+    - { source: Uruguay, target: Urugaayi }
+    - { source: Uruguayan, target: Urugaayii }
+    - { source: 'Uruguayan Peso', target: 'Pesoo Urugaayii' }
+    - { source: Users, target: Fayyadamtoota }
+    - { source: Utah, target: Utaah }
+    - { source: 'Utd. Arab Emir. Dirham', target: 'Dirhaama Yunaayited Arab Imereetis' }
+    - { source: Uzbekistan, target: Uzbeekistaan }
+    - { source: Uzbekistani, target: Uzbeekistaanii }
+    - { source: Vacancies, target: 'Iddoo Hojii Duwwaa' }
+    - { source: Vanuatu, target: Vaanuwaatuu }
+    - { source: 'Vanuatu Vatu', target: 'Vaatuu Vaanuwaatuu' }
+    - { source: Venezuela, target: Veenizuweelaa }
+    - { source: Venezuelan, target: Veenizuweelaan }
+    - { source: 'Venezuelan Bolivar', target: 'Boliivara Veeniziweelaa' }
+    - { source: Vermont, target: Vermoont }
+    - { source: 'Viet Nam', target: 'Vii''eet Naam' }
+    - { source: Vietnamese, target: 'Vi''eetinaamisii' }
+    - { source: 'Vietnamese Dong', target: 'Doongii Vi''eeti Naam' }
+    - { source: 'View Details', target: 'Qabiyyee Mul''isi' }
+    - { source: 'Virgin Islands', target: 'Ayislaandii Virjinii' }
+    - { source: 'Virgin Islands, British', target: 'Ayislaandii Virjinii, Biriiteen' }
+    - { source: 'Virgin Islands, U.s.', target: 'Ayislaandii Virjinii, U.S.' }
+    - { source: Virginia, target: Virjiniyaa }
+    - { source: 'Wallis and Futuna', target: 'Waallis fi Futuunaa' }
+    - { source: Washington, target: Waashingteen }
+    - { source: Wednesday, target: Roobii }
+    - { source: Welsh, target: Welshi }
+    - { source: 'West Virginia', target: 'Lixa Verjiniyaa' }
+    - { source: 'Western Sahara', target: 'Lixa Sahaaraa' }
+    - { source: Wisconsin, target: Wiskoonsiin }
+    - { source: 'with new file', target: 'faayila haaraa waliin' }
+    - { source: 'Work Email', target: 'Ergaa-E Hojii' }
+    - { source: 'Work Experience', target: 'Tajaajila Hojii' }
+    - { source: 'Work Shifts', target: 'Waljijjiirraa Hojii' }
+    - { source: 'Work Telephone', target: 'Bilbila Hojii' }
+    - { source: 'Work Week', target: 'Torbaan Hojii' }
+    - { source: Writing, target: Barreessuu }
+    - { source: Wyoming, target: Yoomingi }
+    - { source: Year, target: Bara }
+    - { source: 'Years of Experience', target: 'Waggaa Tajaajilaa' }
+    - { source: Yemen, target: Yemen }
+    - { source: 'Yemeni Riyal', target: 'Riyaala Yemen' }
+    - { source: Yemenite, target: Yemenaayitii }
+    - { source: 'Yes', target: Eeyyee }
+    - { source: 'Yugoslav Dinar', target: 'Dinaara Yugooslaavii' }
+    - { source: 'Yugoslavian Dinar', target: 'Dinaara Yugooslaaviyaa' }
+    - { source: Zambia, target: Zaambiyaa }
+    - { source: Zambian, target: Zaambiyaa }
+    - { source: 'Zambian Kwacha', target: 'Waachaa Zaambiyaa' }
+    - { source: Zimbabwe, target: Zimbaabiwee }
+    - { source: 'Zimbabwe Dollar', target: 'Doolara Zimbaabwee' }
+    - { source: Zimbabwean, target: Zimbaabwee }
+    - { source: 'Passwords do not match', target: 'Iggitni Wal hin fakkaatu' }
+    - { source: Invalid, target: 'Sirrii Miti' }
+    - { source: 'Should be less than %number% digits', target: 'Dijiitii %number% gadi tahuu qaba' }
+    - { source: 'Due date should be after from date', target: 'Guuyaan Raawwaatu Guyyaa jalqabaa booda tahuu qaba' }
+    - { source: Ok, target: Tole }
+    - { source: 'Delete records?', target: 'Galmeewwan Kana Balleessuufii?' }
+    - { source: 'Select an Employee', target: 'Hojjetaa Filadhu' }
+    - { source: 'Delete?', target: 'Balleesitaa?' }
+    - { source: 'Successfully Assigned', target: 'Sirriitti Kennameera' }
+    - { source: 'Should be greater than %amount%', target: '%amount% ol tahuu qaba' }
+    - { source: 'Successfully Submitted', target: 'Sirriitti Ergameera' }
+    - { source: 'Invalid Employee', target: 'Hojjetaa Siirii Miti' }
+    - { source: 'Accepts .docx, .doc, .odt, .pdf, .rtf, .txt up to 1MB', target: '.docx, .doc, .odt, .pdf, .rtf, .txt, fi hanga MB 1 tii fudhata' }
+    - { source: 'Accepts jpg, .png, .gif up to 1MB', target: '.jpg, .png, .gif hanga MB 1 tti fudhata' }
+    - { source: 'Accepts up to 1MB', target: 'Hanga MB 1tti fudhata' }
+    - { source: 'Failed to Save: File Type Not Allowed', target: 'Olkaawuu hin dandeenye, akaakuun faayila kanaa hin fudhatamu' }
+    - { source: 'Failed to Save: File Size Exceeded', target: 'Olkaawuu hin dandeenye, hammi faayila kanaa baay''ateera' }
+    - { source: 'No Employees Available', target: 'Hojjettootni hin jiran' }
+    - { source: 'Should have at least %number% characters', target: 'Yoo Xiqqaate  arfiilee %number% qabaachuu qaba' }
+    - { source: 'Successfully Copied', target: 'Sirriittii Garagalchameera' }
+    - { source: 'LOGIN Panel', target: 'Tarree SEENSAA' }
+    - { source: LOGIN, target: SEENI }
+    - { source: 'Should be greater than first value', target: 'Gatii jalqabaa caaluu qaba' }
+    - { source: 'Joined After', target: 'Guyyaa Kana Booda Kan Qaxaraman' }
+    - { source: 'Joined Before', target: 'Guyyaa Kana Dura Kan Qaxaraman' }
+    - { source: 'Joined in Between', target: 'Guyyaa Kana Gidduutti Kan Qaxaraman' }
+    - { source: 'Successfully Changed', target: 'Sirriitti Jijjiirameera' }
+    - { source: Username, target: 'Maqaa Fayyadamaa' }
+    - { source: Password, target: Iggita }
+    - { source: 'Username cannot be empty', target: 'Maqaan fayyadamaa duwwaa tahuu hin dandahu' }
+    - { source: 'Password cannot be empty', target: 'Iggitni duwwaa tahuu hin dandahu' }
+    - { source: 'Invalid credentials', target: 'Odeeffannoon Fayyadamakee sirrii miti' }
+    - { source: Europe/Belgrade, target: Awurooppaa/Belgiraadii }
+    - { source: Europe/Minsk, target: Awurooppaa/Miniskii }
+    - { source: Asia/Kuwait, target: Eeshiyaa/Kuwaayitii }
+    - { source: Asia/Muscat, target: Eeshiyaa/Muskaatii }
+    - { source: Asia/Yekaterinburg, target: Eeshiyaa/Yikaateeriinbergii }
+    - { source: Asia/Kolkata, target: Eeshiyaa/Kolkaataa }
+    - { source: Asia/Dhaka, target: Eeshiyaa/Dihaakaa }
+    - { source: Asia/Krasnoyarsk, target: Eeshiyaa/Kiraasnooyaariskii }
+    - { source: Asia/Brunei, target: Eeshiyaa/Biruuneyii }
+    - { source: Asia/Seoul, target: 'Eeshiyaa/Si''ool' }
+    - { source: Australia/Darwin, target: Awustraaliyaa/Darwin }
+    - { source: Australia/Canberra, target: Awustraaliyaa/Kanbeerraa }
+    - { source: Asia/Magadan, target: Eeshiyaa/Maagaadaan }
+    - { source: Pacific/Fiji, target: Paasiifiik/Fiijii }
+    - { source: Pacific/Midway, target: Paasifiik/Miidwayii }
+    - { source: Pacific/Honolulu, target: Paasifiik/Honolulu }
+    - { source: America/Anchorage, target: Amerikaa/ }
+    - { source: America/Los_Angeles, target: Amerikaa/Loos_Anjilees }
+    - { source: America/Denver, target: Amerikaa/Deenveer }
+    - { source: America/Tegucigalpa, target: Amerikaa/Teguukiigaalbaa }
+    - { source: America/New_York, target: Amerikaa/Niwu_Yoorkii }
+    - { source: America/Halifax, target: Amerikaa/Haliifaaksii }
+    - { source: America/St_Johns, target: Amerikaa/St_Yohaannis }
+    - { source: America/Argentina/Buenos_Aires, target: Amerikaa/Arjentiinaa/Buyinoos_Eers }
+    - { source: Atlantic/South_Georgia, target: Atilaantiik/Kibba_Jorjiyaa }
+    - { source: Atlantic/Azores, target: Atlaantiik/Azoorees }
+    - { source: Upload, target: 'Olfe''i' }
+    - { source: 'Type in years', target: 'Bara Barreessi' }
+    - { source: Hours, target: 'Sa''aatiiwwan' }
+    - { source: 'Deleted Employee', target: 'Hojjettoota Balleeffaman' }
+    - { source: Total, target: Dimshaasha }
+    - { source: compulsory, target: Barbaachisoo }
+    - { source: 'Termination Date', target: 'Guyyaatti Gadilakkise/te' }
+    - { source: 'Termination Reason', target: 'Sababa Gadilakkiseef' }
+    - { source: 'Activity Name', target: 'Maqaa Raawii ' }
+    - { source: 'Add Education', target: 'Barnoota Dabali' }
+    - { source: 'Add Language', target: 'Afaan dabali' }
+    - { source: 'Add License', target: 'Eeyyama Dabali' }
+    - { source: 'Add Skill', target: 'Beekumsa Dabali' }
+    - { source: 'Address Street 1', target: 'Teessoo 1ffaa' }
+    - { source: 'Address Street 2', target: 'Teessoo 2ffaa' }
+    - { source: City, target: Magaalaa }
+    - { source: 'Confirm Password', target: 'Iggita Mirkaneessi' }
+    - { source: Copy, target: Garagalchi }
+    - { source: 'Copy From', target: 'Kanarraa Garagalchi' }
+    - { source: 'Project Name', target: 'Maqaa Pirojektii' }
+    - { source: Deleted, target: Belleeffameera }
+    - { source: 'Edit Education', target: 'Barnoota Gulaali' }
+    - { source: 'Edit Language', target: 'Afaan Gulaali' }
+    - { source: 'Edit License', target: 'Eeyyama Gulaali' }
+    - { source: 'Edit Skill', target: 'Beekumsa Gulaali' }
+    - { source: State/Province, target: 'Mootummaa Naannoo/Bulchiinsa' }
+    - { source: 'Zip/Postal Code', target: 'Koodii Poostaa' }
+    - { source: Approve, target: Mirkanneesii }
+    - { source: format, target: dhangii }
+    - { source: Scheduled, target: Saganteeffameera }
+    - { source: 'Invalid Date', target: 'Guyyaa sirrii hin taane' }
+    - { source: Note, target: Yaada }
+    - { source: 'Invalid Employee Name', target: 'Maqaan Hojjetaa Sirrii miti ' }
+    - { source: Action, target: Gocha }
+    - { source: 'Active Job Vacancies', target: 'Iddoo Hojii Banaa Si''aawaa' }
+    - { source: added, target: dabalameera }
+    - { source: 'Apply for', target: Iyyadhu }
+    - { source: Attachments, target: Duukdeemtuu }
+    - { source: 'Back to Job List', target: 'Gara Tarreeffama Hojiitti Deebi''i' }
+    - { source: 'Collapse all', target: 'Hunda Walitti Qabi' }
+    - { source: 'Contact No', target: 'Lakk Qunnamtii' }
+    - { source: Download, target: 'Gadi Buusi' }
+    - { source: Email, target: Ergaa-E }
+    - { source: 'Expand all', target: 'Hunda Diriirsi' }
+    - { source: for, target: '''f' }
+    - { source: Keywords, target: Jechabeekamtuu }
+    - { source: 'Performed By', target: 'Kan Raawwate' }
+    - { source: Reject, target: Dhorki }
+    - { source: Rejected, target: 'Kan Dhorkame' }
+    - { source: rejected, target: 'kan dhorkame' }
+    - { source: Remove, target: Dhabamsiisi }
+    - { source: Resume, target: 'Ragaa Barumsaa' }
+    - { source: 'Select Action', target: 'Gocha Filadhu' }
+    - { source: Submit, target: Ergi }
+    - { source: View, target: 'Mul''isi' }
+    - { source: 'Enter comma separated words', target: 'Jechoota koomaan Adda baasii galchi' }
+    - { source: Approved, target: 'Kan Mirkaneeffame' }
+    - { source: Submitted, target: Ergameera }
+    - { source: 'Successfully Undeleted', target: 'Sirriitti Deebiftee Jirta' }
+    - { source: Qualifications, target: 'Sadarkaa Barnootaa' }
+    - { source: 'Add Another', target: Dabali }
+    - { source: Confirm, target: Mirkaneessi }
+    - { source: 'To date should be after From date', target: 'Guyyaan Xummuraa Guyyaa Jalqabaa Booda Tahuu Qaba' }
+    - { source: Activities, target: Dalagaa }
+    - { source: 'Add Currency', target: 'Qarshii Dabali' }
+    - { source: 'Add Customer', target: 'Maamila Dabali' }
+    - { source: 'Add Employment Status', target: 'Haala Qacarrii Dabali' }
+    - { source: 'Add Job Category', target: 'Ramaddii Hojii Dabali' }
+    - { source: 'Add Job Title', target: 'Gita Hojii Dabali' }
+    - { source: 'Add Location', target: 'Bakka Dabali' }
+    - { source: 'Add Membership', target: 'Miseensummaa Dabali' }
+    - { source: 'Add Nationality', target: 'Lammummaa Dabali' }
+    - { source: 'Add Pay Grade', target: 'Sadarkaa Miindaa Dabali' }
+    - { source: 'Add Project', target: 'Pirojektii Dabali' }
+    - { source: 'Add Project Activity', target: 'Dalagaawwan Projektii Dabali' }
+    - { source: 'Add Subscriber', target: 'Maamilummaa Dabali' }
+    - { source: 'Add Unit', target: 'Kutaa Hojii Dabali' }
+    - { source: 'Add User', target: 'Fayyadamaa Dabali' }
+    - { source: 'Add Work Shift', target: 'Waljijjiirraa Hojii Dabali' }
+    - { source: 'Projects under selected customer will also be deleted', target: 'Pirojektiin Maamila kana jala jiru ille ni bada' }
+    - { source: 'Units under selected unit will also be deleted', target: 'Kutaaleen hojii kutaa kana jala jiran illee ni badu' }
+    - { source: 'Assigned Currencies', target: 'Qarshiiwwan kennaman' }
+    - { source: 'Assigned Employees', target: Gabaastota }
+    - { source: 'Available Employees', target: 'Hojjetoota Jiran' }
+    - { source: Better, target: Gaarii }
+    - { source: 'Click on a notification type to add subscribers', target: 'Maamilummaa Dabaluuf, akaakuu hubachiisaa irratti cuqaasi' }
+    - { source: 'Column order should not be changed', target: 'Duraa duubni tarjaalee hin jijjiiramu' }
+    - { source: 'Confirm New Password', target: 'Jecha Darbii Haaraa Mirkaneessi' }
+    - { source: 'Copy Activity', target: 'Dalagaa Garagalchi' }
+    - { source: 'CSV Data Import', target: 'Deetaa Galchuu CSV' }
+    - { source: 'Current Password', target: 'Jecha Darbii Amma Jiru' }
+    - { source: 'Current Password Is Wrong', target: 'Jechi Darbii Amma Jiru Sirrii Miti' }
+    - { source: Customer, target: Maamila }
+    - { source: 'Customer Name', target: 'Maqaa Maamilaa' }
+    - { source: 'Date Format', target: 'Dhangii Guyyaa' }
+    - { source: 'Description is not specified', target: 'Ibsi hin kaawamne' }
+    - { source: Done, target: Hojjetameera }
+    - { source: 'Each import file should be configured for 100 records or less', target: 'Tokkoo tokkon deetaa galchamuu qabuu galmeewwan 100 fi isaa gadiin qindaa''uu qaba' }
+    - { source: 'Edit Currency', target: 'Qarshii Gulaali' }
+    - { source: 'Edit Customer', target: 'Maamila Gulaali' }
+    - { source: 'Edit Employment Status', target: 'Haala Qaxarrii Gulaali' }
+    - { source: 'Edit Job Category', target: 'Ramaddii Hojii Gulaali' }
+    - { source: 'Edit Job Title', target: 'Gita Hojii Gulaali' }
+    - { source: 'Edit Location', target: 'Bakka Gulaali' }
+    - { source: 'Edit Membership', target: 'Miseensummaa Gulaali' }
+    - { source: 'Edit Nationality', target: 'Lammummaa Gulaali' }
+    - { source: 'Edit Pay Grade', target: 'Sadarkaa Miindaa Gulaali' }
+    - { source: 'Edit Project', target: 'Pirojektii Gulaali' }
+    - { source: 'Edit Project Activity', target: 'Dalagaawwan Pirojektii Gulaali' }
+    - { source: 'Edit Subscriber', target: 'Maamilummaa Gulaali' }
+    - { source: 'Edit Unit', target: 'Kutaa Hojii Gulaali' }
+    - { source: 'Edit User', target: 'Fayyadamaa Gulaali' }
+    - { source: 'Edit Work Shift', target: 'Waljijjiirraa Hojii Gulaali' }
+    - { source: 'Successfully Saved. Test Email Sent', target: 'Sirriitti olkaawameera, ergaa-e ergameera' }
+    - { source: 'Successfully Saved. Test Email Not Sent', target: 'Sirriitti olkaawameera, ergaa-e hin ergamne' }
+    - { source: 'Email Notification', target: 'Yaadachiisa Ergaa-e' }
+    - { source: 'Enable Admin module', target: 'Muraa Bulchaa Dandeessisi' }
+    - { source: 'Enable Benefits module', target: 'Muraa Faayidaa Dandeessisi' }
+    - { source: 'Enable Leave module', target: 'Muraa Boqonnaa Dandeessisi' }
+    - { source: 'Enable Performance module', target: 'Muraa Raawwii Dandeessisi' }
+    - { source: 'Enable PIM module', target: 'Muraa Odeeffannoo Dhuunfaa Dandeessisi' }
+    - { source: 'Enable Recruitment module', target: 'Muraa Qaxarrii Dandeessisi' }
+    - { source: 'Enable Time module', target: 'Muraa Yeroo Dandeessisi' }
+    - { source: Fax, target: Faaksii }
+    - { source: 'First Name and Last Name are compulsory', target: 'Maqaan Jalqabaa fi Maqaan Abbaa Dirqama' }
+    - { source: 'Following languages are supported', target: 'Afaanotni armaan gadii irratti ni hojjeta' }
+    - { source: 'Hours Per Day', target: 'Guyyaatti Sa''aatii' }
+    - { source: 'If gender is specified, value should be either', target: 'Saalli adda baafamnaan, gatiin isaa akkana tahuu qaba' }
+    - { source: 'Job Description', target: 'Ibsa Hojii' }
+    - { source: 'Leave Applications', target: 'Iyyata Boqonnaa' }
+    - { source: 'Leave Approvals', target: 'Boqonnaa Mirkaneessuu' }
+    - { source: 'Leave Assignments', target: 'Boqonnaa Kennuu' }
+    - { source: 'Leave Cancellations', target: 'Boqonnaa Haquu' }
+    - { source: 'Leave Rejections', target: 'Boqonnaa Dhorkuu' }
+    - { source: 'Location Name', target: 'Maqaa Bakkaa' }
+    - { source: 'Mail Configuration', target: 'Qindoomina Ergaa' }
+    - { source: 'Mail Sent As', target: 'Ergaan akkanatti ergama' }
+    - { source: 'Maximum Salary', target: 'Miindaa Guddicha' }
+    - { source: Medium, target: G/Galeessa }
+    - { source: 'Minimum Salary', target: 'Miindaa Xiqqicha' }
+    - { source: 'Module Configuration', target: 'Qindoomina Muraawwanii' }
+    - { source: 'New Password', target: 'Jecha Darbii Haaraa' }
+    - { source: 'No activities selected', target: 'Dalagaawwan hin filatamne' }
+    - { source: 'No assigned activities', target: 'Dalagaawwan hin kennamne' }
+    - { source: 'Not Allowed to Delete Customer(s) Which Have Time Logged Against', target: 'Maamila kana balleessuun hin danda''amu' }
+    - { source: 'Not Allowed to Delete Project Activites Which Have Time Logged Against', target: 'Dalagawwan projektii kanaa balleessuun hin danda''amu' }
+    - { source: 'Notification Type', target: 'Akaakuu Yaadachiisaa' }
+    - { source: 'Number of Employees', target: 'Baay''ina Hojjettootaa' }
+    - { source: 'Organization Name', target: 'Maqaa Dhaabbataa' }
+    - { source: 'Path to Sendmail', target: 'Toora ergaa-e' }
+    - { source: 'Performance Review Submissions', target: 'Gamaaggama Raawwii Erguu' }
+    - { source: Phone, target: Bilbila }
+    - { source: Project, target: Pirojektii }
+    - { source: 'Project Admin', target: 'Bulchaa Pirojektii' }
+    - { source: 'Project Admins', target: 'Bulchitoota Pirojektii' }
+    - { source: 'Registration Number', target: 'Lakk Galmee' }
+    - { source: 'Sample CSV file', target: 'Fakkeenya Faayila CSV' }
+    - { source: 'Send Test Email', target: 'Yaalii Ergaa-e Ergi' }
+    - { source: 'Sending Method', target: 'Mala Ittiin Ergamu' }
+    - { source: 'Shift Name', target: 'Maqaa Waljijjiirraa' }
+    - { source: 'SMTP Password', target: 'Jecha Darbii SMTP' }
+    - { source: 'SMTP Port', target: 'Buufata SMTP' }
+    - { source: 'SMTP User', target: 'Fayyadamaa SMTP' }
+    - { source: SSL, target: SSL }
+    - { source: Strong, target: Cimaa }
+    - { source: Strongest, target: Cimicha }
+    - { source: Subscribers, target: Maamilummaa }
+    - { source: 'OrangeHRM - Supported Languages', target: 'Afaanota OrangeHRM''n Fayyadamu' }
+    - { source: 'Supported languages', target: 'Afaanota Fayyadamu' }
+    - { source: 'System Users', target: Fayyadamtoota }
+    - { source: 'Tax ID', target: 'Eenyummaa Kaffalaa Gibiraa' }
+    - { source: 'Test Email Address', target: 'Teessoo Ergaa-e Yaali' }
+    - { source: 'This unit will be added under', target: 'Kutaan hojii kun kutaa kana jalatti dabalama' }
+    - { source: TLS, target: TLS }
+    - { source: 'Unit Id', target: 'Eenyummaa Kutaa' }
+    - { source: 'Use browser language if set', target: 'Yoo jiraate, afaan iyyaafataa fayyadami' }
+    - { source: 'Use SMTP Authentication', target: 'Dhugoomsa SMTP Fayyadami' }
+    - { source: 'User Secure Connection', target: 'Waliindha Nagaqabeessa Fayyadamaa' }
+    - { source: 'User Type', target: 'Akaakuu Fayyadamaa' }
+    - { source: 'Very Weak', target: 'Baay''ee Dadhabaa' }
+    - { source: Weak, target: Dadhabaa }
+    - { source: 'Zip Code', target: 'Lakk Sanduuqa Poostaa' }
+    - { source: 'Failed to Import: File Type Not Allowed', target: 'Galchuu hin dandeenye: Akaakuun faayilaa kanaa hin Eeyyamamu' }
+    - { source: 'Failed to Import: File Size Exceeded', target: 'Galchuu hin dandeenye: Hammamtaan faayila kanaa Baay''ateera' }
+    - { source: 'Failed to Import: No Compatible Records', target: 'Galchuu hin dandeenye: Galmeen deetaa kana waliin deemu hin jiru' }
+    - { source: 'Number of Records Imported', target: 'Baay''ina Galmeewwan seenanii' }
+    - { source: 'Should be higher than Minimum Salary', target: 'Mindaa xiqqichaan ol tahuu qaba' }
+    - { source: 'Level Already Exists', target: 'Gulantaan kun duraanuu jira' }
+    - { source: 'All date fields should be in YYYY-MM-DD format', target: 'Guyyan hundi dhangii BBBB-JJ-GG tahuu qaba' }
+    - { source: 'Multiple import files may be required', target: 'Faayilli Galchuuf oolu baay''achuun ni mala' }
+    - { source: 'Language and font help', target: 'Gargaarsa afaaniifi boca qubeewwanii' }
+    - { source: 'Will take no action', target: 'Tarkaanfii tokkollee hin fudhatu' }
+    - { source: 'Apply Leave', target: 'Boqonnaaf Iyyadhu' }
+    - { source: 'Actions Performed on the Timesheet', target: 'Gabatee yeroo irratti gochawwan raawwataman' }
+    - { source: 'Add Row', target: 'Tarree Dabali' }
+    - { source: 'Add Timesheet', target: 'Gabatee Yeroo Dabali' }
+    - { source: 'Attendance Total Summary Report', target: 'Gabaasa To''annaa Yeroo' }
+    - { source: 'Define Timesheet Period', target: 'Gabatee To''annaa Yeroo Murteessi' }
+    - { source: 'Deleted project activities are not editable', target: 'Raawwiin projektii haqamanii gulaalamuu hin dandahan' }
+    - { source: 'Deleted projects/activities are marked with an asterik', target: 'Raawwiin projektii haqamanii mallatoo urjiin ibsamu' }
+    - { source: 'Edit Timesheet for', target: 'Gabateen Yeroo kan Gulaalameef' }
+    - { source: 'Edit Timesheet for Month', target: 'Baatii Gabateen Yeroo Gulalameef' }
+    - { source: 'Edit Timesheet for Week', target: 'Torbaan Gabateen Yeroo Gulalameef' }
+    - { source: 'Edit timesheet for week starting', target: 'Gabatee yeroo jalqaba torbaniif gulaali' }
+    - { source: 'Employee name', target: 'Maqaa Hojjetaa/ttu' }
+    - { source: 'Employee Report', target: 'Gabaasa Hojjetaa/ttuu' }
+    - { source: 'Should Be Less Than 24 and in HH:MM or Decimal Format', target: '24 gadi tahuu qaba, dhangii SS:DD' }
+    - { source: 'Enter Employee Name', target: 'Maqaa Hojjetaa/ttuu Galchi' }
+    - { source: 'First Day of Week', target: 'Guyyaa Jalqaba Torbanii' }
+    - { source: 'for Month starting on', target: 'Baatiiwwan kana irratti jalqabaniif' }
+    - { source: 'for Week', target: 'kan Torbaan' }
+    - { source: Fri, target: Jim }
+    - { source: hours, target: 'sa''aatii' }
+    - { source: 'Failed to Create: Future Timesheets Not Allowed', target: 'Uumuu hin dandeenye. Gabateen yeroo kan gara fuula duraa hin eeyyamamu' }
+    - { source: Mon, target: Wix }
+    - { source: 'No Accessible Timesheets', target: 'Gabateen yeroo hin jiru' }
+    - { source: 'Not Submitted', target: 'Hin Ergamne' }
+    - { source: 'Proceed with Time Module', target: 'Gabatee Yeroo Waliin Itti Fufi' }
+    - { source: 'Project Activity Details Report', target: 'Gabaasa Raawwii Pirojektii' }
+    - { source: 'Project Report', target: 'Gabaasa Pirojektii' }
+    - { source: 'Remove Rows', target: 'Tarreewwan Balleessi' }
+    - { source: Sat, target: San }
+    - { source: 'Select a Day to Create Timesheet', target: 'Gabatee yeroo uumuuf, guyyaa filadhu' }
+    - { source: 'Select Employee', target: 'Hojjetaa/ttuu Filadhu' }
+    - { source: 'Status:', target: Haala }
+    - { source: Sun, target: Dil }
+    - { source: Thu, target: Kam }
+    - { source: 'Duplicate Records Found', target: 'Galmeewwan Irra deddeebi''aniiru' }
+    - { source: 'Timesheet for', target: 'Gabaasa yeroo kan' }
+    - { source: 'Timesheet Period', target: 'Wayitii Gabaasa Yeroo' }
+    - { source: 'Timesheet period start day has been set', target: 'Guyyaan Jalqabaa gabatee yeroo murtaa''eera' }
+    - { source: 'Timesheet period start day has not been defined. Please contact HR Admin', target: 'Guyyaan Jalqabaa gabatee yeroo murtaa''eera. Maaloo Bulchiinsa humna namaa qunnamaa' }
+    - { source: 'Timesheets Pending Action', target: 'Gabatee yeroo raawwiin hin xummuramne' }
+    - { source: Tue, target: Kib }
+    - { source: Wed, target: Rob }
+    - { source: Week, target: Torban }
+    - { source: 'Select a Project and an Activity', target: 'Pirojektii fi raawwii isaa filadhu' }
+    - { source: 'Select Records to Remove', target: 'Galmeewwan haquu barbaadde filadhu' }
+    - { source: 'Timesheet Already Exists', target: 'Gabateen yeroo kun duraanuu jira' }
+    - { source: 'Timesheet Submitted', target: 'Gabateen Geroo Olkaawameera' }
+    - { source: 'No Timesheets Found', target: 'Gabateen yeroo hin jiru' }
+    - { source: 'Timesheet Approved', target: 'Gabateen Yeroo mirkanaa''eera' }
+    - { source: 'Timesheet Rejected', target: 'Gabateen yeroo haqameera' }
+    - { source: 'No Changes to Delete', target: 'Jijjiiramni Balleeffamu hin jiru' }
+    - { source: 'Total Should Be Less Than 24 Hours', target: 'Walii galli yeroo sa''aa 24 gadi tahuu qaba' }
+    - { source: 'Remaining number of custom fields', target: 'Baay''ina Dirreewwan Maamiloo Hafan' }
+    - { source: 'Account Number', target: 'Lakk Herregaa' }
+    - { source: 'Account Type', target: 'Gosa Herregaa' }
+    - { source: 'Activate Employment', target: 'Haala Qaxxarrii Kakaasi' }
+    - { source: 'Add Custom Field', target: 'Dirree Maamiloo Dabali' }
+    - { source: 'Add Dependent', target: 'Maxxantoota Dabali' }
+    - { source: 'Add Direct Deposit Details', target: 'Qabiyyee Qusannoo Dabali' }
+    - { source: 'Add Emergency Contact', target: 'Nama Yeroo Rakkinaa Waammamu Dabali' }
+    - { source: 'Add Immigration', target: 'Haala Godaansaa Dabali' }
+    - { source: 'Add Membership Details', target: 'Qabiyyee Miseensummaa Dabali' }
+    - { source: 'Add Reporting Method', target: 'Mala Gabaasaa Dabali' }
+    - { source: 'Add Subordinate', target: 'Hojjettoota Dabali' }
+    - { source: 'Add Supervisor', target: 'Hogganaa Dabali' }
+    - { source: 'Add Supervisor/Subordinate', target: 'Hogganaa/Hojjettoota Dabali' }
+    - { source: 'Add Termination Reason', target: 'Sababa Gadilakkiseef Dabali' }
+    - { source: 'Add Work Experience', target: 'Tajaajila Hojii Dabali' }
+    - { source: 'All customs fields are in use', target: 'Dirreewwan Maamiloo Hunda Fayyadamtee Jirta' }
+    - { source: 'Assigned Dependents', target: 'Maxxantoota Jiran' }
+    - { source: 'Assigned Emergency Contacts', target: 'Namoota Yeroo Rakkinaaf Jiran' }
+    - { source: 'Assigned Memberships', target: 'Miseensummaan Jiran' }
+    - { source: 'Assigned Subordinates', target: 'Hojjettotni Jiran' }
+    - { source: 'Assigned Supervisors', target: 'Hoggantootni Jiran' }
+    - { source: 'At least one phone number is required', target: 'Yoo xiqaate lakk bilbilaa tokko dirqama' }
+    - { source: 'Bi Weekly', target: Torbaniin }
+    - { source: child, target: ijoollee }
+    - { source: Child, target: Ijoollee }
+    - { source: 'Configure PIM', target: 'Odeeffannoo Dhuunfaa Qindeessi' }
+    - { source: 'Contract Details', target: 'Qabiyyee Kontiraataa' }
+    - { source: 'Country Specific Information', target: 'Odeeffannoo Biyya Irratti Hundaa''uu' }
+    - { source: 'Create Login Details', target: 'Qabiyyee Seensaa Uumi' }
+    - { source: Custom, target: Maamiloo }
+    - { source: 'Custom Field Name', target: 'Maqaa Dirree Maamiloo' }
+    - { source: 'Date of Expiry', target: 'Dhuma Guyyaa Tajaajilaa' }
+    - { source: 'Direct Deposit', target: 'Kalltiin Qusachuu' }
+    - { source: Document, target: Galmee }
+    - { source: 'Document No', target: 'Lakk Galmee' }
+    - { source: 'Drop Down', target: 'Kan Filatamu' }
+    - { source: 'Edit Custom Field', target: 'Dirree maamiloo Gulaali' }
+    - { source: 'Edit Dependent', target: 'Maxxantoota Gulaali' }
+    - { source: 'Edit Emergency Contact', target: 'nama yeroo rakkina Waamamu Gulaali' }
+    - { source: 'Edit Employment Termination', target: 'Qaxarrii Gadilakkisame Gulaali' }
+    - { source: 'Edit Membership Detail', target: 'Qabiyyee Miseensummaa Gulaali' }
+    - { source: 'Edit Reporting Method', target: 'Mala Gabaasaa Gulaali' }
+    - { source: 'Edit Subordinate', target: 'Hojjettoota Gulaali' }
+    - { source: 'Edit Supervisor', target: 'Hogganaa Gulaali' }
+    - { source: 'Edit Termination Reason', target: 'Sababa Gadilakkiseef Gulaali' }
+    - { source: 'Edit Work Experience', target: 'Tajajila Hojii Gulaali' }
+    - { source: 'Emergency Contact(s)', target: 'Nama(oota) Yeroo Rakkinaa Waamaman' }
+    - { source: 'Employee Information', target: 'Odeffannoo Hojjetaa' }
+    - { source: Employment, target: Qaxarrii }
+    - { source: 'Employment Contract', target: 'Kontiraata Qaxarrii' }
+    - { source: 'Enter a number', target: 'Lakkoofsa Galchi' }
+    - { source: 'Enter allowed options separated by commas', target: 'Filannoowwan koomaan adda baasi' }
+    - { source: 'Ethnic Race', target: Qomoo }
+    - { source: Exemptions, target: 'Kan Dhiifamu' }
+    - { source: 'Federal Income Tax', target: 'Galii Gibira Federaalaa' }
+    - { source: 'Field Name', target: 'Maqaa Dirree' }
+    - { source: 'Field Type', target: 'Akaakuu Dirree' }
+    - { source: 'From date should be before to date', target: 'Guyyaan jalqabaa guyyaa xummuraa dursuu qaba' }
+    - { source: GPA/Score, target: Qabxii }
+    - { source: Hourly, target: 'Sa''aatiin' }
+    - { source: Institute, target: Dhaabbata }
+    - { source: 'Issued date should be before expiration date', target: 'Guyyaan Kenname, Guyyaa tajaajilli dhumatu dura tahuu qaba' }
+    - { source: Major/Specialization, target: 'Sadarkaa Barnootaa' }
+    - { source: Married, target: 'Kan Fuudhe/Kan Heerumte' }
+    - { source: Max, target: 'Inni Guddaan' }
+    - { source: 'Membership Type', target: 'Akaakuu Miseensummaa' }
+    - { source: 'Military Service', target: 'Tajaajila Raayyaa' }
+    - { source: Min, target: 'Inni Xiqqaan' }
+    - { source: Monthly, target: 'Ji''aan' }
+    - { source: 'Monthly on first pay of month.', target: 'Ji''aan Kaffaltii Ji''a Jalqabaarratti' }
+    - { source: N/A, target: 'Hin Jiru' }
+    - { source: 'Nick Name', target: 'Maqaa Masoo' }
+    - { source: 'Non Resident Alien', target: Keessummaa }
+    - { source: 'Not Applicable', target: 'Kanarratti hin hojjetu' }
+    - { source: other, target: 'Kan Biroo' }
+    - { source: Passport, target: Paaspoortii }
+    - { source: 'Personal Details', target: 'Odeeffannoo Dhuunfaa' }
+    - { source: Photograph, target: Suura }
+    - { source: 'Please Specify', target: 'Adda baasi' }
+    - { source: Reason, target: Sababa }
+    - { source: Report-to, target: 'Kan Itti Gabaafamu' }
+    - { source: Screen, target: Argii }
+    - { source: 'Select a Photograph', target: 'Suura Filadhu' }
+    - { source: 'Select Membership', target: 'Miseensummaa Filadhu' }
+    - { source: 'Select Options', target: 'Filannoo Filadhu' }
+    - { source: 'Semi Monthly', target: 'Walakkaa Ji''aa' }
+    - { source: 'Show Deprecated Fields', target: 'Dirreewwan Dhokatan Mul''isi' }
+    - { source: 'Show Nick Name, Smoker and Military Service in Personal Details', target: 'Maqaa Masoo, Araada, fi Tajaajila Raayyaa Mul''isi' }
+    - { source: 'Show SIN field in Personal Details', target: 'Dirree SIN Mul''isi' }
+    - { source: 'Show SSN field in Personal Details', target: 'Dirree SSN Mul''isi' }
+    - { source: 'Show US Tax Exemptions menu', target: 'Baafata Dhiifamoo Gibira US Mul''isi' }
+    - { source: 'SIN Number', target: 'Lakk SIN' }
+    - { source: Single, target: 'Kan hin Fuune/Heerumne' }
+    - { source: Smoker, target: 'Ni Xuuxa' }
+    - { source: 'SSN Number', target: 'Lakk SSN' }
+    - { source: 'State Income Tax', target: 'Galii Gibira Mootummaa' }
+    - { source: Subordinate, target: Hojjettoota }
+    - { source: 'Tax Exemptions', target: 'Dhiifamoo Gibiraa' }
+    - { source: 'Terminate Employment', target: 'Haala Qaxarrii Gadi Lakkisiisi' }
+    - { source: 'Terminated Date', target: 'Guyyaa Gadilakkise/te' }
+    - { source: 'Terminated on', target: 'Guyyaa Gadilakkise/te' }
+    - { source: 'Terminated Reason', target: 'Sababa Gadilakkiseef/teef' }
+    - { source: 'Text or Number', target: 'Arfiiwwan ykn Lakkoofsa' }
+    - { source: 'Unemployment State', target: 'Hin Qaxaramne' }
+    - { source: 'User Name', target: 'Maqaa Fayyadamaa' }
+    - { source: Visa, target: Viizaa }
+    - { source: Weekly, target: Torbaniin }
+    - { source: 'Work experience', target: 'Tajaajila Hojii' }
+    - { source: 'Work State', target: 'Haala Hojii' }
+    - { source: 'Renewal date should be after commence date', target: 'Guyyaan Haaromsaa Guyyaa Guyyaa Raawwatamu Dura tahuu qaba' }
+    - { source: 'Delete photograph?', target: 'Suura Balleessi' }
+    - { source: 'Failed To Save: User Name Exists', target: 'Ol hin kaawamne: Maqaan Fayyadamaa kun duraanuu jira' }
+    - { source: 'Failed To Save: Employee Id Exists', target: 'Ol hin kaawamne: Eenyummaan Hojjetaa  kun duraanuu jira' }
+    - { source: 'Will be deleted from all employees', target: 'Hojjettoota Hundarraa Balleeffama' }
+    - { source: Active, target: 'Ka''aa' }
+    - { source: 'Add another', target: 'Kan Biroo Dabali' }
+    - { source: 'Add Candidate', target: 'Dorgomaa Dabali' }
+    - { source: 'Add Job Vacancy', target: 'Iddoo Hojii Banaa Dabali' }
+    - { source: 'Adding Candidate', target: 'Dorgomaa Dabaluu' }
+    - { source: 'Application Initiated', target: 'Iyyatni Kan Onnatame' }
+    - { source: 'applied for the', target: 'Kan Iyyatameef' }
+    - { source: Archived, target: Kuufameera }
+    - { source: 'Are you sure you want to remove job vacancy of the candidate', target: 'Iddoo Hojii banaa Dorgomtootaa Balleessuu Barbaaddee?' }
+    - { source: 'as failed', target: 'Akka Kufetti' }
+    - { source: 'as passed', target: 'Akka Darbetti' }
+    - { source: 'assigned the job vacancy', target: 'Iddoo Hojii Banaa Kennaman' }
+    - { source: by, target: tiin }
+    - { source: Candidate, target: Dorgomaa }
+    - { source: 'Candidate Name', target: 'Maqaa Dorgomaa' }
+    - { source: 'Candidate''s History', target: 'Seenaa Dorgomaa' }
+    - { source: candidateName, target: maqaaDorgomaa }
+    - { source: 'Cannot assign same interviewer twice', target: 'Qorataa tokko al tokkotti lama ramaduu hin dandeessu' }
+    - { source: 'Cannot assign same vacancy twice', target: 'Iddoo Hojii Banaa Tokko, al-lama ramaduu hin dandeessu' }
+    - { source: 'Click on a candidate to perform actions', target: 'Tarkaanfii fudhachuuf, Dorgomaa irratti cuqaasi' }
+    - { source: Closed, target: Cufameera }
+    - { source: Continue, target: 'Itti Fufi' }
+    - { source: 'Date of Application', target: 'Guyyaa Itti Iyyate' }
+    - { source: 'Should be less than current date', target: 'Har''aan Dura ta''uu qaba' }
+    - { source: 'Decline Offer', target: 'Affeerraa Dhiisi' }
+    - { source: Details, target: 'Bal''inaan' }
+    - { source: 'Edit Candidate', target: 'Dorgomtoota Gulaali' }
+    - { source: 'Edit Interview Details', target: 'Qabiyyee Gaaffif Deebii Gulaali' }
+    - { source: 'Edit Job Vacancy', target: 'Iddoo Hojii Banaa Gulaali' }
+    - { source: 'Editing Candidate', target: 'Dorgomaa Gulaali' }
+    - { source: 'from the', target: Irraa }
+    - { source: Hire, target: Qaxari }
+    - { source: Hired, target: Qaxarameere }
+    - { source: hired, target: qaxarameera }
+    - { source: 'Hiring Manager', target: 'Hogganaan Qaxaru' }
+    - { source: 'Interview Failed', target: 'Gaaffiifi Deebii Kufe' }
+    - { source: 'Interview Passed', target: 'Gaaffiifi Deebii Darbe' }
+    - { source: 'Interview Scheduled', target: 'Gaaffiifi Deebiin Saganteeffameera' }
+    - { source: 'Interview Title', target: 'Mata-Duree Gaaffifi Deebii' }
+    - { source: 'Interviewer Name', target: 'Maqaa Qorataa' }
+    - { source: 'Job Offered', target: 'Hojiif Affeerameera' }
+    - { source: 'Job Vacancy', target: 'Iddoo Hojii banaa' }
+    - { source: Manual, target: Maanuwaalii }
+    - { source: 'Mark Interview Failed', target: 'Akka Gaaffifi Deebi Kufetti Mallattoo agarsiisi' }
+    - { source: 'Mark Interview Passed', target: 'Akka Gaaffifi Deebi Darbetti Mallattoo agarsiisi' }
+    - { source: marked, target: Mallatteeffameera }
+    - { source: 'marked the offer as declined', target: 'Akka Affeerraan isaa dhiifametti mallattoo agarsiisi' }
+    - { source: 'Method of Application', target: 'Akkaata Iyyannoo' }
+    - { source: 'No Actions', target: 'Tarkaanfiin hin Jiru' }
+    - { source: 'No active job vacancies to display', target: 'Iddoon hojii banaa hin jiru' }
+    - { source: 'Number of Positions', target: 'Baay''ina Gita Hojii' }
+    - { source: 'Offer Declined', target: 'Affeerraan Dhiifameera' }
+    - { source: 'Offer Job', target: 'Hojii Affeeri' }
+    - { source: 'offered the job', target: 'Hojiif Affeerameera' }
+    - { source: 'on', target: Irra }
+    - { source: Online, target: Sarararra }
+    - { source: 'Performed Action', target: 'Gocha Raawwatame' }
+    - { source: 'Performed Date', target: 'Guyyaa Raawwatame' }
+    - { source: 'Publish in RSS feed(1) and web page(2)', target: 'RSS fi Fuula Saphaphuu irratti maxxansi' }
+    - { source: removed, target: haqameera }
+    - { source: 'RSS Feed URL', target: 'URL Qabiyyee RSS' }
+    - { source: 'Schedule Interview', target: 'Gaaffiifi Deebii Saganteeffame' }
+    - { source: scheduled, target: Saganteeffameera }
+    - { source: Shortlist, target: Calallii }
+    - { source: Shortlisted, target: Calalameera }
+    - { source: 'Shortlisted for', target: 'Kan Calalameef' }
+    - { source: Vacancy, target: 'Iddoo Hojii Banaa' }
+    - { source: 'Vacancy Name', target: 'Maqaa Iddoo Hojii Banaa' }
+    - { source: 'View Action History', target: 'Ta''iiwwan Seenaa Mul''isi' }
+    - { source: 'View Interview Details', target: 'Qabiyyee Gaaffiifi Deebii Mul''isi' }
+    - { source: 'Web Page URL', target: 'URL Fuula Saphaphuu' }
+    - { source: with, target: waliin }
+    - { source: 'Successfully Scheduled', target: 'Sirriitti Saganteeffameera' }
+    - { source: 'This action will remove previous vacancy', target: 'Gochi kun iddoo hojii banaa duraan ture haqa' }
+    - { source: 'Remove?', target: 'Haquu Barbaaddee?' }
+    - { source: 'Vacancy Apply Form', target: 'Unkaa Bakki Hojii Duwwaa Itti Iyyatamu' }
+    - { source: 'Application Received', target: 'Iyyatni Fudhatameera' }
+    - { source: Uploaded, target: 'Ol Fe''ameera' }
+    - { source: 'A new leave type will be created with same name', target: 'Akaakuun Boqonnaa maqaa walfakkaataan ni uumama' }
+    - { source: Actions, target: Tarkaanfiiwwan }
+    - { source: Assign, target: Kenni }
+    - { source: 'At Least One Day Should Be a Working Day', target: 'Yoo xiqqaate guyyaan tokko guyyaa hojii tahuu qaba' }
+    - { source: Canceled, target: Haqameera }
+    - { source: characters, target: Arfiiwwan(Qubeewwan) }
+    - { source: 'Confirmation Required', target: 'Mirkanneessi Barbaachisa' }
+    - { source: 'Current Leave Period', target: 'Bara Boqonnaa Har''aa' }
+    - { source: 'Date format should be', target: 'Dhangiin guyyaa akkana tahuu qaba' }
+    - { source: 'Define Leave Type', target: 'Akaakuu Boqonnaa Ibsi' }
+    - { source: 'Duration (Hours)', target: 'Turtii(Sa''aatiin)' }
+    - { source: 'Following Year', target: 'Bara Itti Aanu' }
+    - { source: 'For Leap Years', target: 'Bara Dheertuuf' }
+    - { source: 'For Non-Leap Years', target: 'Bara Dheertuu hin taaneef' }
+    - { source: 'From Date', target: 'Guyyaa Jalqabaa' }
+    - { source: 'From Time', target: 'Sa''aatii jalqabaa' }
+    - { source: 'Full Day', target: 'Guyyaa Guutuu' }
+    - { source: 'Go to Detailed View', target: 'Bal''inaan Mul''isi' }
+    - { source: 'Half Day', target: 'Guyyaa Walakkaa' }
+    - { source: Holiday, target: Ayyaana }
+    - { source: 'Leave Balance', target: 'Haftee Boqonnaa' }
+    - { source: 'Leave Comment', target: 'Yaada Boqonnaa' }
+    - { source: 'Leave Entitled', target: 'Boqonnaa Argatu' }
+    - { source: 'Leave Period Does Not Exist', target: 'Barri Boqonnaa Hin Jiru' }
+    - { source: 'Leave Request', target: 'Boqonnaa Gaafachuu' }
+    - { source: 'Leave Scheduled', target: 'Boqonnaa Saganteeffame' }
+    - { source: 'Leave Taken', target: 'Boqonnaa Fudhatame' }
+    - { source: 'Leave Type', target: 'Akaakuu Boqonnaa' }
+    - { source: 'Leave type will be undeleted', target: 'Akkaakuun boqonnaa kun deebi''eera(hin badu)' }
+    - { source: 'My Leave Details', target: 'Boqonnaa kiyya bal''inaan' }
+    - { source: 'My Leave List', target: 'Tarreeffama boqonnaa kiyya' }
+    - { source: 'Name of Holiday', target: 'Maqaa Ayyaanaa' }
+    - { source: 'No Leave Types with Leave Balance', target: 'Akaakuun boqonnaa kun haftee hin qabu' }
+    - { source: 'No of Hours', target: 'Baay''ina Sa''aatii' }
+    - { source: 'Non Working Day', target: 'Guyyaa Hojii Miti' }
+    - { source: 'Non-working Day', target: 'Guyyaa Hojii Miti' }
+    - { source: 'Number of Days', target: 'Bay''ina Guyyootaa' }
+    - { source: 'Pending Approval', target: 'Mirkanneessa Eeggata' }
+    - { source: 'Repeats Annually', target: 'Barabaran Deddeebi''a' }
+    - { source: 'Show Leave with Status', target: 'Boqonnaa Haala waliin Mul''isi' }
+    - { source: Taken, target: Fudhatameera }
+    - { source: 'Overlapping Leave Request Found', target: 'Guyyaa kanarra boqonnaan gaafatame jira' }
+    - { source: 'This is a deleted leave type. Reactivate it?', target: 'Akaakuun boqonnaa kun badeera, ni deebiftaa?' }
+    - { source: 'To Date', target: 'Guyyaa Xummuraa' }
+    - { source: 'To Time', target: 'Sa''aatii Xummuraa' }
+    - { source: 'Total Hours', target: 'Sa''aatii Dimshaashaa' }
+    - { source: 'Total time is greater than the shift length', target: 'Sa''aatiin dimshaashaa garaa garummaa kenname caaleera' }
+    - { source: 'Failed to Submit: No Working Days Selected', target: 'Hin Ergamne: Guyyaan Hojii Hin Filatamne' }
+    - { source: 'Failed to Save: Date Already Assigned', target: 'Ol Hin Kaawamne: Guyyan Kun Duraan Kennameera' }
+    - { source: 'Failed to Assign: Work Shift Length Exceeded', target: 'Hin Kennamne: Dheerinni Yeroo Wal Jijjiirraa Caalameera' }
+    - { source: 'Failed to Submit: Work Shift Length Exceeded', target: 'Hin Ergamne: Dheerinni Yeroo Wal Jijjiirraa Caalameera' }
+    - { source: 'Failed to Submit: Leave Balance Exceeded', target: 'Hin Ergamne: Hafteen Boqonnaa Caalameera' }
+    - { source: 'Should be less than work shift length', target: 'Dheerina Yeroo Wal Jijjiirraatii gadi tahuu qaba' }
+    - { source: 'Leave Period Not Defined', target: 'Barri Boqonnaa hin Ibsamne' }
+    - { source: 'Full Day/Half Day', target: 'Guyyaa Guutuu/Walakkaa' }
+    - { source: 'Leave Request (%date_range%) %name%', target: 'Boqonnaa Gaafachuu' }
+    - { source: 'Failed to Assign', target: 'Kennuu hin Dandeenye' }
+    - { source: 'Failed to Submit', target: 'Erguu hin Dandeenye' }
+    - { source: 'Add Leave Type', target: 'Akaakuu Boqonnaa Dabali' }
+    - { source: 'Edit Leave Type', target: 'Akaakuu Boqonnaa Gulaali' }
+    - { source: 'View Attendance Record', target: 'Galmeewwan to''annaa yeroo mul''isi' }
+    - { source: 'Punch In', target: Seeni }
+    - { source: 'Punch In Note', target: 'Seenuukeef yaada barreessi' }
+    - { source: 'Punch Out', target: Bahi }
+    - { source: 'Punch Out Note', target: 'Bahuukeef yaada barreessi' }
+    - { source: 'No attendance records to display', target: 'Galmeewwan to''annaa yeroo hin jiran' }
+    - { source: 'Punch out Time Should Be Higher Than Punch in Time', target: 'Yeroon bahinsaa yeroo seensaa dursuu qaba' }
+    - { source: 'Overlapping Records Found', target: 'Galmeewwan irradeddeebi''aniiru' }
+    - { source: 'Comment should be less than 250 characters', target: 'Yaadni barreeffamu arfiilee 250 gadi tahuu qaba' }
+    - { source: 'Punch in/out note', target: 'Yaada Seensaa/bahinsaa' }
+    - { source: Timezone, target: 'Argamsa Yeroo' }
+    - { source: 'Last punch in time', target: 'Dhuma irratti yeroo itti seene' }
+    - { source: In, target: Seeni }
+    - { source: Out, target: Bahi }
+    - { source: 'Attendance Configuration', target: 'Qindoomina Gabatee To''annaa yeroo' }
+    - { source: 'Employee can change current time when punching in/out', target: 'Hojjetaan/ttuun Yeroo bahu/seenu yeroo jijjiiruu nu dandaha' }
+    - { source: 'Employee can edit/delete own attendance records', target: 'Hojjetaan/ttuun Galmeewwan to''annaa yeroo dhuunfaa isaa gulaaluu/balleessuu ni dandaha' }
+    - { source: 'Supervisor can add/edit/delete attendance records of subordinates', target: 'Hogganaan Gabatee yeroo hojjettoota isaa gulaaluu/balleessuu ni dandaha' }
+    - { source: 'My Attendance Records', target: 'Galmeewwan To''annaa Yeroo Kiyyaa' }
+    - { source: 'You are not allowed to view this page', target: 'Fuula kana ilaaluun siif hin eeyyamamu' }
+    - { source: 'Add Attendance Records', target: 'Galmeewwan To''annaa yeroo dabali' }
+    - { source: 'Should Be a Valid Date in %format% Format', target: 'Guyyaa isa sirrii tahuu qaba dhangii %format% tiin' }
+    - { source: 'Should Be a Valid Time in %format% Format', target: 'Sa''aatii isa sirrii tahuu qaba dhangii %format% tiin' }

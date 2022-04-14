@@ -1,0 +1,1561 @@
+translations:
+    - { source: '1M Max, any larger attachments will be ignored', target: '1M Max, lampiran yang lebih besar akan diabaikan' }
+    - { source: Add, target: Menambahkan }
+    - { source: 'Add Attachment', target: 'Tambahkan Lampiran' }
+    - { source: 'Add Employee', target: 'Tambahkan Karyawan' }
+    - { source: 'Add KPI', target: 'Tambahkan KPI' }
+    - { source: 'Add Review', target: 'Tambahkan Tinjauan' }
+    - { source: 'Add Salary Component', target: 'Tambahkan Komponen Gaji' }
+    - { source: 'Added By', target: 'Added By' }
+    - { source: Address, target: Alamat }
+    - { source: Admin, target: Admin }
+    - { source: Afghan, target: Afghanistan }
+    - { source: Afghanistan, target: Afganistan }
+    - { source: 'Afghanistan Afghani', target: 'Afghanistan Afghani' }
+    - { source: 'Age Group', target: 'Golongan umur' }
+    - { source: Alabama, target: Alabama }
+    - { source: Alaska, target: Alaska }
+    - { source: Albania, target: Albania }
+    - { source: Albanian, target: 'Orang Albania' }
+    - { source: 'Albanian Lek', target: 'Albania Lek' }
+    - { source: Algeria, target: Aljazair }
+    - { source: Algerian, target: Aljazair }
+    - { source: 'Algerian Dinar', target: 'Dinar Aljazair' }
+    - { source: All, target: Semua }
+    - { source: 'Allows numbers and only + - / ( )', target: 'Nilai yang diijinkan hanya angka dan hanya + - / ()' }
+    - { source: 'Already exists', target: 'Sudah ada' }
+    - { source: 'Name Already Exists', target: 'Nama Sudah Ada' }
+    - { source: American, target: Amerika }
+    - { source: 'American Samoa', target: 'Samoa Amerika' }
+    - { source: Amount, target: Jumlah }
+    - { source: Andorra, target: Andorra }
+    - { source: Andorran, target: Andorra }
+    - { source: Angola, target: Angola }
+    - { source: Angolan, target: Angola }
+    - { source: 'Angolan New Kwanza', target: 'Baru Angola Kwanza' }
+    - { source: Anguilla, target: Anguilla }
+    - { source: Antarctica, target: Antartika }
+    - { source: 'Antigua and Barbuda', target: 'Antigua dan Barbuda' }
+    - { source: Antiguans, target: Antiguans }
+    - { source: Apply, target: Berlaku }
+    - { source: April, target: April }
+    - { source: 'are required', target: diperlukan }
+    - { source: Argentina, target: Argentina }
+    - { source: 'Argentina Pesos', target: 'Argentina Peso' }
+    - { source: 'Argentine Peso', target: 'Peso Argentina' }
+    - { source: Argentinean, target: Argentina }
+    - { source: Arizona, target: Arizona }
+    - { source: Arkansas, target: Arkansas }
+    - { source: 'Armed Forces Americas (except Canada)', target: 'Angkatan Bersenjata Amerika (kecuali Kanada)' }
+    - { source: 'Armed Forces Middle East', target: 'Tentara Timur Tengah' }
+    - { source: 'Armed Forces Pacific', target: 'Angkatan Bersenjata Pasifik' }
+    - { source: Armenia, target: Armenia }
+    - { source: Armenian, target: Armenia }
+    - { source: Aruba, target: Aruba }
+    - { source: 'Aruban Florin', target: 'Aruban Florin' }
+    - { source: 'Assign Leave', target: 'Menetapkan Cuti' }
+    - { source: 'Assigned Salary Components', target: 'Komponen Gaji yang ditetapkan' }
+    - { source: 'Attachment Size Exceeded', target: 'Ukuran Lampiran melampaui batas' }
+    - { source: Attendance, target: Kehadiran }
+    - { source: 'Attendance Summary', target: 'Ringkasan Kehadiran ' }
+    - { source: August, target: Agustus }
+    - { source: Australia, target: Australia }
+    - { source: Australian, target: Australia }
+    - { source: 'Australian Dollar', target: 'Dolar Australia' }
+    - { source: Austria, target: Austria }
+    - { source: Austrian, target: Austria }
+    - { source: Azerbaijan, target: Azerbaijan }
+    - { source: Azerbaijani, target: Azerbaijan }
+    - { source: Back, target: Kembali }
+    - { source: Bahamas, target: Bahama }
+    - { source: Bahamian, target: Bahama }
+    - { source: 'Bahamian Dollar', target: 'Bahamian Dollar' }
+    - { source: Bahrain, target: Bahrain }
+    - { source: Bahraini, target: Bahrain }
+    - { source: 'Bahraini Dinar', target: 'Bahraini Dinar' }
+    - { source: Bangladesh, target: Bangladesh }
+    - { source: Bangladeshi, target: Bangladesh }
+    - { source: 'Bangladeshi Taka', target: 'Bangladesh Taka' }
+    - { source: Barbadian, target: Barbados }
+    - { source: Barbados, target: Barbados }
+    - { source: 'Barbados Dollar', target: 'Barbados Dollar' }
+    - { source: Barbudans, target: Barbudans }
+    - { source: Basic, target: Dasar }
+    - { source: Batswana, target: Batswana }
+    - { source: Belarus, target: Belarus }
+    - { source: Belarusian, target: Belarusia }
+    - { source: Belgian, target: Belgia }
+    - { source: Belgium, target: Belgia }
+    - { source: Belize, target: Belize }
+    - { source: 'Belize Dollar', target: 'Belize Dollar' }
+    - { source: Belizean, target: Belizean }
+    - { source: Benin, target: Benin }
+    - { source: Beninese, target: Beninese }
+    - { source: Bermuda, target: Bermuda }
+    - { source: 'Bermudian Dollar', target: 'Bermudian Dollar' }
+    - { source: Bhutan, target: Bhutan }
+    - { source: 'Bhutan Ngultrum', target: 'Bhutan Ngultrum' }
+    - { source: Bhutanese, target: Bhutan }
+    - { source: Bolivia, target: Bolivia }
+    - { source: Bolivian, target: Bolivia }
+    - { source: 'Bolivian Boliviano', target: 'Boliviano Bolivia' }
+    - { source: 'Bosnia and Herzegovina', target: 'Bosnia dan Herzegovina' }
+    - { source: Bosnian, target: Bosnia }
+    - { source: Botswana, target: Botswana }
+    - { source: 'Botswana Pula', target: 'Botswana Pula' }
+    - { source: 'Bouvet Island', target: 'Bouvet Island' }
+    - { source: Brazil, target: Brazil }
+    - { source: Brazilian, target: Brazil }
+    - { source: 'Brazilian Real', target: 'Real Brazil' }
+    - { source: British, target: Inggris }
+    - { source: 'British Indian Ocean Territory', target: 'British Indian Ocean Territory' }
+    - { source: 'Brunei Darussalam', target: 'Brunei Darussalam' }
+    - { source: 'Brunei Dollar', target: 'Brunei Dollar' }
+    - { source: Bruneian, target: Brunei }
+    - { source: Bulgaria, target: Bulgaria }
+    - { source: Bulgarian, target: Bulgaria }
+    - { source: 'Bulgarian Lev', target: 'Lev Bulgaria' }
+    - { source: 'Burkina Faso', target: 'Burkina Faso' }
+    - { source: Burkinabe, target: Burkinabe }
+    - { source: Burmese, target: Birma }
+    - { source: Burundi, target: Burundi }
+    - { source: 'Burundi Franc', target: 'Burundi Franc' }
+    - { source: Burundian, target: Burundi }
+    - { source: California, target: California }
+    - { source: Cambodia, target: Kamboja }
+    - { source: Cambodian, target: Kamboja }
+    - { source: Cameroon, target: Kamerun }
+    - { source: Cameroonian, target: Kamerun }
+    - { source: Canada, target: Kanada }
+    - { source: Canadian, target: Kanada }
+    - { source: 'Canadian Dollar', target: 'Canadian Dollar' }
+    - { source: Cancel, target: Membatalkan }
+    - { source: Candidates, target: Calon }
+    - { source: 'Cape Verde', target: 'Tanjung Verde' }
+    - { source: 'Cape Verde Escudo', target: 'Cape Verde Escudo' }
+    - { source: 'Cape Verdean', target: 'Cape Verdean' }
+    - { source: 'Cayman Islands', target: 'Cayman Islands' }
+    - { source: 'Cayman Islands Dollar', target: 'Cayman Islands Dollar' }
+    - { source: 'Central African', target: 'Afrika Tengah' }
+    - { source: 'Central African Republic', target: 'Republik Afrika Tengah' }
+    - { source: 'CFA Franc BCEAO', target: 'CFA Franc BCEAO' }
+    - { source: 'CFP Franc', target: 'CFP Franc' }
+    - { source: 'CFA Franc BEAC', target: 'CFA Franc BEAC' }
+    - { source: Chad, target: Chad }
+    - { source: Chadian, target: Chad }
+    - { source: 'Change Password', target: 'Ubah Password' }
+    - { source: Checking, target: Memeriksa }
+    - { source: Chile, target: Chili }
+    - { source: 'Cote D''Ivoire', target: 'Pantai Gading' }
+    - { source: Chilean, target: Chili }
+    - { source: 'Chilean Peso', target: 'Peso Chili' }
+    - { source: 'Tongan Pa''anga', target: 'Tonga Pa''anga' }
+    - { source: China, target: Cina }
+    - { source: Chinese, target: Cina }
+    - { source: 'Chinese Yuan Renminbi', target: 'China Yuan Renminbi' }
+    - { source: 'Christmas Island', target: 'Pulau Christmas' }
+    - { source: 'Cocos (Keeling) Islands', target: 'Cocos (Keeling)' }
+    - { source: Colombia, target: Kolumbia }
+    - { source: Colombian, target: Kolumbia }
+    - { source: 'Colombian Peso', target: 'Peso Kolombia' }
+    - { source: Colorado, target: Colorado }
+    - { source: Comment, target: Komentar }
+    - { source: Comments, target: Komentar }
+    - { source: Comoran, target: Comoran }
+    - { source: Comoros, target: Comoros }
+    - { source: 'Comoros Franc', target: 'Comoros Franc' }
+    - { source: Company, target: Perusahaan }
+    - { source: Competency, target: Kompetensi }
+    - { source: Configuration, target: Konfigurasi }
+    - { source: Configure, target: Mengkonfigurasi }
+    - { source: Congo, target: Kongo }
+    - { source: 'Congo, the Democratic Republic of the', target: 'Kongo, Republik Demokratik' }
+    - { source: Congolese, target: Kongo }
+    - { source: Connecticut, target: Connecticut }
+    - { source: 'Contact Details', target: 'Rincian Kontak' }
+    - { source: 'Contract End Date', target: 'Tanggal Kontrak Berakhir' }
+    - { source: 'Contract Not Renewed', target: 'Kontrak Tidak Diperbarui' }
+    - { source: 'Contract Start Date', target: 'Tanggal Kontrak Dimulai' }
+    - { source: 'Cook Islands', target: 'Kepulauan Cook' }
+    - { source: 'Copy KPI', target: 'Salin KPI' }
+    - { source: 'Costa Rica', target: 'Kosta Rika' }
+    - { source: 'Costa Rican', target: 'Kosta Rika' }
+    - { source: 'Costa Rican Colon', target: 'Costa Rican Colon' }
+    - { source: Country, target: Negara }
+    - { source: Croatia, target: Kroasia }
+    - { source: Croatian, target: Kroasia }
+    - { source: 'Croatian Kuna', target: 'Kuna Kroasia' }
+    - { source: Cuba, target: Kuba }
+    - { source: Cuban, target: Kuba }
+    - { source: 'Cuban Peso', target: 'Kuba Peso' }
+    - { source: Currency, target: 'Mata uang' }
+    - { source: 'Current and Past Employees', target: 'Karyawaan Sekarang Ini dan Sebelumnya' }
+    - { source: 'Current Employees Only', target: 'Karyawan Hanya Sekarang Ini' }
+    - { source: 'Current Status', target: 'Status Sekarang' }
+    - { source: 'Custom Fields', target: 'Field Kustom (Lain-lain)' }
+    - { source: Customers, target: Pelanggan }
+    - { source: Cypriot, target: Siprus }
+    - { source: Cyprus, target: Siprus }
+    - { source: 'Cyprus Pound', target: 'Pound Siprus' }
+    - { source: Czech, target: Ceko }
+    - { source: 'Czech Koruna', target: 'Ceko Czech' }
+    - { source: 'Czech Republic', target: 'Republik Ceko' }
+    - { source: Danish, target: Denmark }
+    - { source: 'Danish Krona', target: 'Denmark Krona' }
+    - { source: 'Data Import', target: 'Impor Data' }
+    - { source: Date, target: Tanggal }
+    - { source: 'Date Added', target: 'Tanggal Ditambahkan' }
+    - { source: 'Date of Birth', target: 'Tanggal lahir' }
+    - { source: Days, target: 'Hari ' }
+    - { source: Deceased, target: Mendiang }
+    - { source: December, target: Desember }
+    - { source: 'Define Report', target: 'Tentukan Laporan' }
+    - { source: 'Defined Custom Fields', target: 'Ditetapkan Kustom Fields' }
+    - { source: Delaware, target: Delaware }
+    - { source: Delete, target: Hapus }
+    - { source: 'Delete Current', target: 'Hapus Saat Ini' }
+    - { source: Denmark, target: Denmark }
+    - { source: Dependents, target: Tanggungan }
+    - { source: Description, target: Deskripsi }
+    - { source: Dimensions, target: Ukuran }
+    - { source: Direct, target: Langsung }
+    - { source: 'Direct Deposit Account Number', target: 'Deposit Langsung Nomor Rekening' }
+    - { source: 'Direct Deposit Account Type', target: 'Deposit Langsung Jenis Akun' }
+    - { source: 'Direct Deposit Amount', target: 'Langsung Jumlah Deposit' }
+    - { source: 'Direct Deposit Details', target: 'Langsung Deposit Rincian' }
+    - { source: 'Direct Deposit Routing Number', target: 'Deposit Direct Routing Nomor' }
+    - { source: Disabled, target: Cacat }
+    - { source: Dismissed, target: Diberhentikan }
+    - { source: 'Display Field Groups', target: 'Tampilkan Grup Lapangan' }
+    - { source: 'Display Fields', target: 'Tampilan Fields' }
+    - { source: 'District of Columbia', target: 'District of Columbia' }
+    - { source: Djibouti, target: Djibouti }
+    - { source: 'Djibouti Franc', target: 'Djibouti Franc' }
+    - { source: 'Document Type', target: 'Dokumen Jenis' }
+    - { source: Dominica, target: Dominica }
+    - { source: Dominican, target: Dominika }
+    - { source: 'Dominican Peso', target: 'Dominican Peso' }
+    - { source: 'Dominican Republic', target: 'Republik Dominika' }
+    - { source: 'Driver License Number', target: 'Sopir Lisensi Nomor' }
+    - { source: 'Driver''s License Number', target: 'Pengemudi Lisensi Nomor' }
+    - { source: Duration, target: Lamanya }
+    - { source: Dutch, target: Belanda }
+    - { source: Duties, target: Tugas }
+    - { source: 'East Timorese', target: 'Timor Timur' }
+    - { source: 'Eastern Caribbean Dollars', target: 'Timur Karibia Dolar' }
+    - { source: Ecuador, target: Ekuador }
+    - { source: 'Ecuador Sucre', target: 'Ekuador Sucre' }
+    - { source: Ecuadorean, target: Ekuador }
+    - { source: Edit, target: Edit }
+    - { source: 'Edit Attachment', target: 'Edit Lampiran' }
+    - { source: 'Edit Immigration', target: 'Sunting Imigrasi' }
+    - { source: 'Edit Salary Component', target: 'Edit Komponen Gaji' }
+    - { source: Education, target: Pendidikan }
+    - { source: Egypt, target: Mesir }
+    - { source: Egyptian, target: Mesir }
+    - { source: 'Egyptian Pound', target: 'Pound Mesir' }
+    - { source: 'El Salvador', target: 'El Salvador' }
+    - { source: 'El Salvador Colon', target: 'El Salvador Colon' }
+    - { source: Eligible, target: Layak }
+    - { source: 'Eligible Review Date', target: 'Layak Tinjauan Tanggal' }
+    - { source: 'Eligible Status', target: 'Layak Status' }
+    - { source: 'Email Notifications', target: 'Email Pemberitahuan' }
+    - { source: 'Emergency Contacts', target: 'Kontak Darurat' }
+    - { source: Emirian, target: Emirian }
+    - { source: Employee, target: Karyawan }
+    - { source: 'Employee First Name', target: 'Karyawan Nama Depan' }
+    - { source: 'Employee Id', target: 'Karyawan Id' }
+    - { source: 'Employee Last Name', target: 'Karyawan Nama Belakang' }
+    - { source: 'Employee List', target: 'Daftar Karyawan' }
+    - { source: 'Employee Middle Name', target: 'Karyawan Tengah Nama' }
+    - { source: 'Employee Name', target: 'Karyawan Nama' }
+    - { source: 'Employee Records', target: 'Karyawan Rekaman' }
+    - { source: 'Employee Reports', target: 'Karyawan Laporan' }
+    - { source: 'Employee Timesheets', target: 'Karyawan Timesheets' }
+    - { source: 'Employment Status', target: 'Status Pekerjaan' }
+    - { source: Enabled, target: Diaktifkan }
+    - { source: 'End Date', target: 'Tanggal Akhir' }
+    - { source: 'End date should be after start date', target: 'Tanggal selesai harus setelah tanggal mulai' }
+    - { source: 'Equatorial Guinea', target: 'Equatorial Guinea' }
+    - { source: 'Equatorial Guinean', target: 'Equatorial Guinea' }
+    - { source: Eritrea, target: Eritrea }
+    - { source: Eritrean, target: Eritrea }
+    - { source: ESS, target: ESS }
+    - { source: Estonia, target: Estonia }
+    - { source: Estonian, target: Estonia }
+    - { source: 'Estonian Krona', target: 'Estonia Krona' }
+    - { source: Ethiopia, target: Etiopia }
+    - { source: Ethiopian, target: Etiopia }
+    - { source: 'Ethiopian Birr', target: 'Birr Ethiopia' }
+    - { source: Euro, target: Euro }
+    - { source: 'Expected format: admin@example.com', target: 'Diharapkan format: admin@example.com' }
+    - { source: 'Expiry Date', target: 'Tanggal Kadaluwarsa' }
+    - { source: 'Expiry date should be after issued date', target: 'Tanggal kadaluwarsa harus setelah tanggal dikeluarkan' }
+    - { source: 'Failed to Save', target: 'Gagal Simpan' }
+    - { source: 'Falkland Islands (Malvinas)', target: 'Kepulauan Falkland (Malvinas)' }
+    - { source: 'Falkland Islands Pound', target: 'Kepulauan Falkland Pound' }
+    - { source: 'Faroe Islands', target: 'Kepulauan Faroe' }
+    - { source: February, target: Februari }
+    - { source: 'Federated States of Micronesia', target: 'Negara Federasi Mikronesia' }
+    - { source: Female, target: Perempuan }
+    - { source: Field, target: Bidang }
+    - { source: Fields, target: Bidang }
+    - { source: 'Fields marked with an asterisk', target: 'Kolom bertanda asterisk' }
+    - { source: Fiji, target: Fiji }
+    - { source: 'Fiji Dollar', target: 'Dollar Fiji' }
+    - { source: Fijian, target: Fiji }
+    - { source: 'File Name', target: 'File Name' }
+    - { source: Filipino, target: Filipina }
+    - { source: Finland, target: Finlandia }
+    - { source: Finnish, target: Finlandia }
+    - { source: First, target: Pertama }
+    - { source: 'First Name', target: 'Nama depan' }
+    - { source: Florida, target: Florida }
+    - { source: Fluency, target: Kelancaran }
+    - { source: France, target: Perancis }
+    - { source: French, target: Perancis }
+    - { source: 'French Guiana', target: 'Guyana Perancis' }
+    - { source: 'French Polynesia', target: 'Polinesia Prancis' }
+    - { source: 'French Southern Territories', target: 'Teritori Selatan Prancis' }
+    - { source: Friday, target: Jumat }
+    - { source: From, target: Dari }
+    - { source: 'Full Name', target: 'Nama Lengkap' }
+    - { source: 'Full Time Contract', target: 'Purna Waktu Kontrak' }
+    - { source: 'Full Time Internship', target: 'Purna Waktu Magang' }
+    - { source: 'Full Time Permanent', target: 'Tetap Purna Waktu' }
+    - { source: Gabon, target: Gabon }
+    - { source: Gabonese, target: Gabon }
+    - { source: Gambia, target: Gambia }
+    - { source: Gambian, target: Gambia }
+    - { source: 'Gambian Dalasi', target: 'Gambia Dalasi' }
+    - { source: Gender, target: 'Jenis kelamin' }
+    - { source: 'General Information', target: 'Informasi Umum' }
+    - { source: Georgia, target: Georgia }
+    - { source: Georgian, target: Georgia }
+    - { source: German, target: Jerman }
+    - { source: Germany, target: Jerman }
+    - { source: Ghana, target: Ghana }
+    - { source: Ghanaian, target: Ghana }
+    - { source: 'Ghanaian Cedi', target: 'Ghanaian Cedi' }
+    - { source: Gibraltar, target: Gibraltar }
+    - { source: 'Gibraltar Pound', target: 'Gibraltar Pound' }
+    - { source: 'Gold (oz.)', target: 'Gold (oz.)' }
+    - { source: Good, target: Baik }
+    - { source: 'Greater Than', target: 'Greater Than' }
+    - { source: Greece, target: Yunani }
+    - { source: Greek, target: Yunani }
+    - { source: Greenland, target: 'Tanah penggembalaan' }
+    - { source: Grenada, target: Grenada }
+    - { source: Grenadian, target: Grenadian }
+    - { source: Guadeloupe, target: Guadeloupe }
+    - { source: Guam, target: Guam }
+    - { source: Guatemala, target: Guatemala }
+    - { source: Guatemalan, target: Guatemala }
+    - { source: 'Guatemalan Quetzal', target: 'Guatemala Quetzal' }
+    - { source: Guinea, target: Guinea }
+    - { source: 'Guinea Franc', target: 'Guinea Franc' }
+    - { source: Guinea-Bissau, target: Guinea-Bissau }
+    - { source: Guinea-Bissauan, target: Guinea-Bissauan }
+    - { source: Guinean, target: Guinea }
+    - { source: Guyana, target: Guyana }
+    - { source: 'Guyanan Dollar', target: 'Guyanan Dolar' }
+    - { source: Guyanese, target: Guyanese }
+    - { source: Haiti, target: Haiti }
+    - { source: Haitian, target: Haiti }
+    - { source: 'Haitian Gourde', target: 'Haiti Gourde' }
+    - { source: Hawaii, target: Hawai }
+    - { source: 'Heard Island and Mcdonald Islands', target: 'Pulau Heard dan Kepulauan McDonald' }
+    - { source: Help, target: Membantu }
+    - { source: Herzegovinian, target: Herzegovinian }
+    - { source: 'Hide Details', target: 'Sembunyikan Rincian' }
+    - { source: Holidays, target: Liburan }
+    - { source: 'Holy See (Vatican City State)', target: 'Kudus See (Vatican City State)' }
+    - { source: 'Home Telephone', target: 'Telepon Rumah' }
+    - { source: Honduran, target: Honduras }
+    - { source: 'Honduran Lempira', target: 'Honduras Lempira' }
+    - { source: Honduras, target: Honduras }
+    - { source: 'Hong Kong', target: 'Hong Kong' }
+    - { source: 'Hong Kong Dollar', target: 'Dolar Hong Kong' }
+    - { source: Hungarian, target: Hongaria }
+    - { source: 'Hungarian Forint', target: 'Forint Hungaria' }
+    - { source: Hungary, target: Hongaria }
+    - { source: I-Kiribati, target: I-Kiribati }
+    - { source: Iceland, target: Islandia }
+    - { source: 'Iceland Krona', target: 'Iceland Krona' }
+    - { source: Icelander, target: 'Orang Islandia' }
+    - { source: Id, target: Id }
+    - { source: Idaho, target: Idaho }
+    - { source: Illinois, target: Illinois }
+    - { source: 'IMF Special Drawing Right', target: 'IMF Hak Khusus Menggambar' }
+    - { source: Immigration, target: Imigrasi }
+    - { source: Include, target: Memasukkan }
+    - { source: 'Include Header', target: 'Sertakan header' }
+    - { source: 'Include Past Employees', target: 'Sertakan Karyawan lalu' }
+    - { source: India, target: India }
+    - { source: Indian, target: India }
+    - { source: 'Indian Rupee', target: 'Rupee India' }
+    - { source: Indiana, target: Indiana }
+    - { source: Indirect, target: 'Tidak langsung' }
+    - { source: Individual, target: Individu }
+    - { source: Indonesia, target: Indonesia }
+    - { source: Indonesian, target: Indonesia }
+    - { source: 'Indonesian Rupiah', target: 'Rupiah Indonesia' }
+    - { source: 'Invalid File Type', target: 'Invalid File Type' }
+    - { source: Iowa, target: Iowa }
+    - { source: 'Iran, Islamic Republic of', target: 'Iran, Islamic Republic of' }
+    - { source: Iranian, target: Iran }
+    - { source: 'Iranian Rial', target: 'Iran Rial' }
+    - { source: Iraq, target: Irak }
+    - { source: Iraqi, target: Irak }
+    - { source: 'Iraqi Dinar', target: 'Dinar Irak' }
+    - { source: Ireland, target: Irlandia }
+    - { source: Irish, target: Irlandia }
+    - { source: Israel, target: Israel }
+    - { source: Israeli, target: Israel }
+    - { source: 'Israeli New Shekel', target: 'Shekel Israel Baru' }
+    - { source: 'Issued By', target: 'Dikeluarkan Oleh' }
+    - { source: 'Issued Date', target: 'Ditempatkan Tanggal' }
+    - { source: Italian, target: Italia }
+    - { source: Italy, target: Italia }
+    - { source: Ivorian, target: 'Pantai Gading' }
+    - { source: Jamaica, target: Jamaika }
+    - { source: Jamaican, target: Jamaika }
+    - { source: 'Jamaican Dollar', target: 'Jamaican Dollar' }
+    - { source: January, target: Januari }
+    - { source: Japan, target: Jepang }
+    - { source: Japanese, target: Jepang }
+    - { source: 'Japanese Yen', target: 'Yen Jepang' }
+    - { source: Job, target: Pekerjaan }
+    - { source: 'Job Categories', target: 'Ayub Kategori' }
+    - { source: 'Job Category', target: 'Ayub Kategori' }
+    - { source: 'Job Specification', target: 'Job Spesifikasi' }
+    - { source: 'Job Title', target: Jabatan }
+    - { source: 'Job Titles', target: 'Job Judul' }
+    - { source: 'Joined Date', target: Tgl }
+    - { source: Jordan, target: Yordania }
+    - { source: Jordanian, target: Yordania }
+    - { source: 'Jordanian Dinar', target: 'Dinar Yordania' }
+    - { source: July, target: Juli }
+    - { source: June, target: Juni }
+    - { source: 'Kampuchean Riel', target: 'Kampuchean Riel' }
+    - { source: Kansas, target: Kansas }
+    - { source: Kazakhstan, target: Kazakhstan }
+    - { source: 'Kazakhstan Tenge', target: 'Tenge Kazakhstan' }
+    - { source: Kazakhstani, target: Kazakhstan }
+    - { source: 'Keep Current', target: 'Terus Lancar' }
+    - { source: Kentucky, target: Kentucky }
+    - { source: Kenya, target: Kenya }
+    - { source: Kenyan, target: Kenya }
+    - { source: 'Kenyan Shilling', target: 'Shilling Kenya' }
+    - { source: Kiribati, target: Kiribati }
+    - { source: 'Kittian and Nevisian', target: 'Kittian dan Nevisian' }
+    - { source: 'Korea, Democratic People''s Republic of', target: 'Korea, Demokratik Rakyat Republik' }
+    - { source: 'Korea, Republic of', target: 'Korea, Republic of' }
+    - { source: 'Korean Won', target: 'Won Korea' }
+    - { source: 'KPI List', target: 'KPI Daftar' }
+    - { source: Kuwait, target: Kuwait }
+    - { source: Kuwaiti, target: Kuwait }
+    - { source: 'Kuwaiti Dinar', target: 'Kuwaiti Dinar' }
+    - { source: Kyrgyz, target: Kirgistan }
+    - { source: Kyrgyzstan, target: Kirgistan }
+    - { source: Language, target: Bahasa }
+    - { source: Languages, target: Bahasa }
+    - { source: 'Lao Kip', target: 'Lao Kip' }
+    - { source: 'Lao People''s Democratic Republic', target: 'Demokratik Rakyat Laos Republik' }
+    - { source: Laotian, target: Laos }
+    - { source: Last, target: Terakhir }
+    - { source: 'Last Name', target: 'Nama keluarga' }
+    - { source: Latvia, target: Latvia }
+    - { source: Latvian, target: Latvia }
+    - { source: 'Latvian Lats', target: 'Latvia Lats' }
+    - { source: Laid-off, target: 'Diletakkan off' }
+    - { source: Leave, target: Meninggalkan }
+    - { source: 'Leave Balance (Days)', target: 'Tinggalkan Saldo (Hari)' }
+    - { source: 'Leave Entitled (Days)', target: 'Tinggalkan Berjudul (Hari)' }
+    - { source: 'Leave List', target: 'Tinggalkan Daftar' }
+    - { source: 'Leave Period', target: 'Tinggalkan Periode' }
+    - { source: 'Leave Scheduled (Days)', target: 'Tinggalkan Dijadwalkan (Hari)' }
+    - { source: 'Leave Summary', target: 'Tinggalkan Ringkasan' }
+    - { source: 'Leave Taken (Days)', target: 'Tinggalkan Diambil (Hari)' }
+    - { source: 'Leave Types', target: 'Tinggalkan Jenis' }
+    - { source: Lebanese, target: Libanon }
+    - { source: 'Lebanese Pound', target: 'Lebanon Pound' }
+    - { source: Lebanon, target: Libanon }
+    - { source: Lesotho, target: Lesotho }
+    - { source: 'Lesotho Loti', target: 'Lesotho Loti' }
+    - { source: 'Less Than', target: 'Kurang Dari' }
+    - { source: Level, target: Tingkat }
+    - { source: Liberia, target: Liberia }
+    - { source: Liberian, target: Liberia }
+    - { source: 'Liberian Dollar', target: 'Liberia Dollar' }
+    - { source: Libyan, target: Libya }
+    - { source: 'Libyan Arab Jamahiriya', target: 'Libya Arab Jamahiriya' }
+    - { source: 'Libyan Dinar', target: 'Dinar Libya' }
+    - { source: License, target: Lisensi }
+    - { source: 'License Expiry Date', target: 'Lisensi Kadaluwarsa Tanggal' }
+    - { source: 'License Number', target: 'Lisensi Nomor' }
+    - { source: 'License Type', target: 'Lisensi Jenis' }
+    - { source: Licenses, target: Lisensi }
+    - { source: Liechtenstein, target: Liechtenstein }
+    - { source: Liechtensteiner, target: Liechtensteiner }
+    - { source: Lithuania, target: Lithuania }
+    - { source: Lithuanian, target: Lithuania }
+    - { source: 'Lithuanian Litas', target: 'Litas Lithuania' }
+    - { source: Localization, target: Lokalisasi }
+    - { source: Location, target: Lokasi }
+    - { source: Locations, target: Lokasi }
+    - { source: Logout, target: Keluar }
+    - { source: Louisiana, target: Louisiana }
+    - { source: Luxembourg, target: Luksemburg }
+    - { source: Luxembourger, target: Luxembourger }
+    - { source: Macao, target: Macao }
+    - { source: 'Macau Pataca', target: 'Makau Pataca' }
+    - { source: 'Macedonia, the Former Yugoslav Republic of', target: 'Makedonia, Yugoslavia Mantan Republik' }
+    - { source: Macedonian, target: Macedonia }
+    - { source: Madagascar, target: Madagaskar }
+    - { source: Maine, target: Maine }
+    - { source: Malagasy, target: Malagasi }
+    - { source: 'Malagasy Franc', target: 'Malagasi Franc' }
+    - { source: Malawi, target: Malawi }
+    - { source: 'Malawi Kwacha', target: 'Malawi Kwacha' }
+    - { source: Malawian, target: Malawi }
+    - { source: Malaysia, target: Malaysia }
+    - { source: Malaysian, target: Malaysia }
+    - { source: 'Malaysian Ringgit', target: 'Ringgit Malaysia' }
+    - { source: Maldivan, target: Maldivan }
+    - { source: 'Maldive Rufiyaa', target: 'Maldive Rufiyaa' }
+    - { source: Maldives, target: Maladewa }
+    - { source: Male, target: Laki-laki }
+    - { source: Mali, target: Mali }
+    - { source: Malian, target: Mali }
+    - { source: Malta, target: Malta }
+    - { source: Maltese, target: Malta }
+    - { source: 'Maltese Lira', target: 'Lira Malta' }
+    - { source: March, target: Maret }
+    - { source: 'Marital Status', target: 'Kedudukan perkawinan' }
+    - { source: 'Marshall Islands', target: 'Kepulauan Marshall' }
+    - { source: Marshallese, target: Marshall }
+    - { source: Martinique, target: Martinique }
+    - { source: Maryland, target: Maryland }
+    - { source: Massachusetts, target: Massachusetts }
+    - { source: Mauritania, target: Mauritania }
+    - { source: Mauritanian, target: Mauritania }
+    - { source: 'Mauritanian Ouguiya', target: 'Mauritania Ouguiya' }
+    - { source: Mauritian, target: Mauritian }
+    - { source: Mauritius, target: Mauritius }
+    - { source: 'Mauritius Rupee', target: 'Mauritius Rupee' }
+    - { source: May, target: Mei }
+    - { source: Mayotte, target: Mayotte }
+    - { source: Membership, target: Keanggotaan }
+    - { source: Memberships, target: Keanggotaan }
+    - { source: Mexican, target: Meksiko }
+    - { source: 'Mexican New Peso', target: 'Meksiko Peso Baru' }
+    - { source: 'Mexican Peso', target: 'Peso Meksiko' }
+    - { source: Mexico, target: Meksiko }
+    - { source: Michigan, target: Michigan }
+    - { source: 'Micronesia, Federated States of', target: 'Mikronesia, Negara Federasi' }
+    - { source: Micronesian, target: Mikronesia }
+    - { source: Middle, target: Tengah }
+    - { source: 'Middle Name', target: 'Nama tengah' }
+    - { source: Minnesota, target: Minnesota }
+    - { source: Mississippi, target: Mississippi }
+    - { source: Missouri, target: Missouri }
+    - { source: Mobile, target: Handphone }
+    - { source: Modules, target: Modul }
+    - { source: 'Moldova, Republic of', target: 'Moldova, Republik' }
+    - { source: Moldovan, target: Moldovan }
+    - { source: Monacan, target: Monacan }
+    - { source: Monaco, target: Monaco }
+    - { source: Monday, target: Senin }
+    - { source: Mongolia, target: Mongolia }
+    - { source: Mongolian, target: Mongolia }
+    - { source: 'Mongolian Tugrik', target: 'Mongolia Tugrik' }
+    - { source: Montana, target: Montana }
+    - { source: Month, target: Bulan }
+    - { source: Montserrat, target: Montserrat }
+    - { source: Moroccan, target: Maroko }
+    - { source: 'Moroccan Dirham', target: 'Dirham Maroko' }
+    - { source: Morocco, target: 'Kulit kambing yg halus' }
+    - { source: Mosotho, target: Mosotho }
+    - { source: 'Mother Tongue', target: 'Bahasa ibu' }
+    - { source: Motswana, target: Motswana }
+    - { source: Mozambican, target: Mozambik }
+    - { source: Mozambique, target: Mozambik }
+    - { source: 'Mozambique Metical', target: 'Mozambik Metical' }
+    - { source: 'My Leave', target: 'Saya Cuti' }
+    - { source: 'My Records', target: 'Saya Arsip' }
+    - { source: 'My Timesheets', target: 'Saya Timesheets' }
+    - { source: Myanmar, target: Myanmar }
+    - { source: 'Myanmar Kyat', target: 'Myanmar Kyat' }
+    - { source: Name, target: Nama }
+    - { source: 'Name exists', target: 'Nama ada' }
+    - { source: Namibia, target: Namibia }
+    - { source: 'Namibia Dollar', target: 'Namibia Dollar' }
+    - { source: Namibian, target: Namibia }
+    - { source: Nationalities, target: Nasionalitas }
+    - { source: Nationality, target: Kebangsaan }
+    - { source: Nauru, target: Nauru }
+    - { source: Nauruan, target: Nauruan }
+    - { source: Nebraska, target: Nebraska }
+    - { source: Nepal, target: Nepal }
+    - { source: Nepalese, target: Nepal }
+    - { source: 'Nepalese Rupee', target: 'Nepal Rupee' }
+    - { source: Netherlands, target: Belanda }
+    - { source: 'Netherlands Antilles', target: 'Antillen Belanda' }
+    - { source: Nevada, target: Nevada }
+    - { source: 'New Caledonia', target: 'Kaledonia Baru' }
+    - { source: 'New Hampshire', target: 'New Hampshire' }
+    - { source: 'New Jersey', target: 'New Jersey' }
+    - { source: 'New Mexico', target: 'New Mexico' }
+    - { source: 'New York', target: 'New York' }
+    - { source: 'New Zaire', target: 'Baru Zaire' }
+    - { source: 'New Zealand', target: 'Selandia Baru' }
+    - { source: 'New Zealand Dollar', target: 'New Zealand Dollar' }
+    - { source: 'New Zealander', target: 'Selandia Baru' }
+    - { source: Next, target: Berikutnya }
+    - { source: Nicaragua, target: Nikaragua }
+    - { source: Nicaraguan, target: Nikaragua }
+    - { source: 'Nicaraguan Cordoba Oro', target: 'Nicaraguan Cordoba Oro' }
+    - { source: Niger, target: Niger }
+    - { source: Nigeria, target: Nigeria }
+    - { source: Nigerian, target: Nigeria }
+    - { source: 'Nigerian Naira', target: 'Nigeria Naira' }
+    - { source: Nigerien, target: Nigerien }
+    - { source: Niue, target: Niue }
+    - { source: 'NL Antillian Guilder', target: 'NL Antillian rupiah Belanda' }
+    - { source: 'No', target: Tidak }
+    - { source: 'No Project Activities', target: 'Tidak ada Kegiatan Proyek' }
+    - { source: 'No Projects', target: 'Tidak ada Proyek' }
+    - { source: 'No Records Found', target: 'Tidak Ditemukan Rekaman' }
+    - { source: 'No records to display', target: 'Tidak ada catatan untuk menampilkan' }
+    - { source: 'Norfolk Island', target: 'Norfolk Island' }
+    - { source: 'North Carolina', target: 'North Carolina' }
+    - { source: 'North Dakota', target: 'North Dakota' }
+    - { source: 'North Korean', target: 'Korea Utara' }
+    - { source: 'North Korean Won', target: 'Korea Utara Won' }
+    - { source: 'Northern Irish', target: 'Irlandia Utara' }
+    - { source: 'Northern Mariana Islands', target: 'Kepulauan Mariana Utara' }
+    - { source: Norway, target: Norwegia }
+    - { source: Norwegian, target: Norwegia }
+    - { source: 'Norwegian Krona', target: 'Norwegia Krona' }
+    - { source: 'Not Defined', target: 'Tidak Ditetapkan' }
+    - { source: Notes, target: Catatan }
+    - { source: November, target: November }
+    - { source: Number, target: Jumlah }
+    - { source: October, target: Oktober }
+    - { source: Ohio, target: Ohio }
+    - { source: Oklahoma, target: Oklahoma }
+    - { source: Oman, target: Oman }
+    - { source: Omani, target: Omani }
+    - { source: 'Omani Rial', target: 'Omani Rial' }
+    - { source: 'Only Include Approved Timesheets', target: 'Hanya Sertakan Timesheets Disetujui' }
+    - { source: 'Optional Fields', target: 'Opsional Fields' }
+    - { source: or, target: atau }
+    - { source: 'OrangeHRM - Confirmation Required', target: 'OrangeHRM - Konfirmasi Diperlukan' }
+    - { source: Oregon, target: Oregon }
+    - { source: Organization, target: Organisasi }
+    - { source: Other, target: Lain }
+    - { source: 'Other Email', target: 'Email Lainnya ' }
+    - { source: 'Other Id', target: 'Lain Id' }
+    - { source: Pakistan, target: Pakistan }
+    - { source: 'Pakistan Rupee', target: 'Pakistan Rupee' }
+    - { source: Pakistani, target: Pakistan }
+    - { source: Palau, target: Palau }
+    - { source: Palauan, target: Palauan }
+    - { source: 'Palestinian Territory, Occupied', target: 'Wilayah Palestina, Diduduki' }
+    - { source: 'Palladium (oz.)', target: 'Palladium (oz.)' }
+    - { source: Panama, target: Panama }
+    - { source: Panamanian, target: Panama }
+    - { source: 'Panamanian Balboa', target: 'Panama Balboa' }
+    - { source: 'Papua New Guinea', target: 'Papua Nugini' }
+    - { source: 'Papua New Guinea Kina', target: 'Papua New Guinea Kina' }
+    - { source: 'Papua New Guinean', target: 'Papua New Guinea' }
+    - { source: Paraguay, target: Paraguay }
+    - { source: 'Paraguay Guarani', target: 'Paraguay Guaran' }
+    - { source: Paraguayan, target: Paraguai }
+    - { source: 'Part Time Contract', target: 'Paruh Waktu Kontrak' }
+    - { source: 'Part Time Internship', target: 'Paruh Waktu Magang' }
+    - { source: 'Part Time Permanent', target: 'Bagian Waktu Permanen' }
+    - { source: 'Past Employee', target: 'Lalu Karyawan' }
+    - { source: 'Past Employees Only', target: 'Lalu Karyawan Hanya' }
+    - { source: 'Pay Frequency', target: 'Bayar Frekuensi' }
+    - { source: 'Pay Grade', target: 'Bayar Kelas' }
+    - { source: 'Pay Grades', target: 'Bayar Kelas' }
+    - { source: Pennsylvania, target: Pennsylvania }
+    - { source: Performance, target: Kinerja }
+    - { source: Personal, target: Pribadi }
+    - { source: Peru, target: Peru }
+    - { source: Peruvian, target: Peru }
+    - { source: 'Peruvian Nuevo Sol', target: 'Nuevo Sol Peruvian' }
+    - { source: 'Philippine Peso', target: 'Peso Filipina' }
+    - { source: Philippines, target: Filipina }
+    - { source: 'Physically Disabled/Compensated', target: 'Secara fisik Dinonaktifkan / Dikompensasi' }
+    - { source: PIM, target: PIM }
+    - { source: 'PIM Sample Report', target: 'PIM Contoh Laporan' }
+    - { source: Pitcairn, target: Pitcairn }
+    - { source: 'Platinum (oz.)', target: 'Platinum (oz.)' }
+    - { source: Poland, target: Polandia }
+    - { source: Polish, target: Polandia }
+    - { source: 'Polish Zloty', target: 'Zloty Polandia Polandia' }
+    - { source: Poor, target: Miskin }
+    - { source: Portugal, target: Portugal }
+    - { source: Portuguese, target: Portugis }
+    - { source: 'Pound Sterling', target: 'Pound Sterling' }
+    - { source: Previous, target: Sebelumnya }
+    - { source: Program, target: Program }
+    - { source: 'Project Date Range', target: 'Proyek Rentang Tanggal' }
+    - { source: 'Project Info', target: 'Proyek Info' }
+    - { source: 'Project Reports', target: 'Proyek Laporan' }
+    - { source: Projects, target: Proyek }
+    - { source: 'Puerto Rico', target: 'Puerto Rico' }
+    - { source: 'Punch In/Out', target: 'Pukulan Masuk / Keluar' }
+    - { source: Qatar, target: Qatar }
+    - { source: Qatari, target: Qatar }
+    - { source: 'Qatari Rial', target: 'Qatari Rial' }
+    - { source: Qualification, target: Kualifikasi }
+    - { source: Range, target: Jarak }
+    - { source: Reading, target: Bacaan }
+    - { source: 'Records Per Page', target: 'Arsip Per Halaman' }
+    - { source: Recruitment, target: Rekrutmen }
+    - { source: Relationship, target: Hubungan }
+    - { source: 'Replace Current', target: 'Ganti Lancar' }
+    - { source: 'Replace file', target: 'Mengganti file' }
+    - { source: 'Report Name', target: 'Laporan Nama' }
+    - { source: 'Reporting Method', target: 'Cara Pelaporan' }
+    - { source: 'Reporting Methods', target: 'Metode Pelaporan' }
+    - { source: Reports, target: Laporan }
+    - { source: Required, target: Wajib }
+    - { source: Reset, target: Reset }
+    - { source: Resigned, target: 'Mengundurkan diri' }
+    - { source: 'Resigned - Company Requested', target: 'Mengundurkan diri - Perusahaan Diminta' }
+    - { source: 'Resigned - Self Proposed', target: 'Mengundurkan diri - Self Usulan' }
+    - { source: Retired, target: Pensiunan }
+    - { source: Reunion, target: Reuni }
+    - { source: Reviews, target: Ulasan }
+    - { source: 'Rhode Island', target: 'Rhode Island' }
+    - { source: Romania, target: Rumania }
+    - { source: Romanian, target: Rumania }
+    - { source: 'Romanian Leu', target: 'Leu Rumania' }
+    - { source: 'Routing Number', target: 'Nomor Routing' }
+    - { source: Run, target: Menjalankan }
+    - { source: 'Russia Rubles', target: 'Rusia rubel' }
+    - { source: Russian, target: Rusia }
+    - { source: 'Russian Federation', target: 'Federasi Rusia' }
+    - { source: 'Russian Rouble', target: 'Rubel Rusia' }
+    - { source: Rwanda, target: Rwanda }
+    - { source: Rwandan, target: Rwanda }
+    - { source: 'Saint Helena', target: 'Saint Helena' }
+    - { source: 'Saint Kitts and Nevis', target: 'Saint Kitts dan Nevis' }
+    - { source: 'Saint Lucia', target: 'Saint Lucia' }
+    - { source: 'Saint Lucian', target: 'Saint Lucian' }
+    - { source: 'Saint Pierre and Miquelon', target: 'Saint Pierre dan Miquelon' }
+    - { source: 'Saint Vincent and the Grenadines', target: 'Saint Vincent dan Grenadines' }
+    - { source: Salary, target: Gaji }
+    - { source: 'Salary Component', target: 'Gaji Komponen' }
+    - { source: Salvadoran, target: Salvador }
+    - { source: Samoa, target: Samoa }
+    - { source: Samoan, target: Samoa }
+    - { source: 'Samoan Tala', target: 'Samoa Tala' }
+    - { source: 'San Marinese', target: 'San Marinese' }
+    - { source: 'San Marino', target: 'San Marino' }
+    - { source: 'Sao Tome and Principe', target: 'Sao Tome dan Principe' }
+    - { source: 'Sao Tome/Principe Dobra', target: 'Sao Tome / Dobra Principe' }
+    - { source: 'Sao Tomean', target: 'Sao Tomean' }
+    - { source: Saturday, target: Sabtu }
+    - { source: Saudi, target: Saudi }
+    - { source: 'Saudi Arabia', target: 'Arab Saudi' }
+    - { source: 'Saudi Arabia Riyal', target: 'Arab Saudi Riyal' }
+    - { source: Save, target: Menyimpan }
+    - { source: 'Save Comment Only', target: 'Simpan Hanya Komentar' }
+    - { source: Savings, target: Tabungan }
+    - { source: Score, target: Skor }
+    - { source: Scottish, target: Skotlandia }
+    - { source: Search, target: Cari }
+    - { source: Select, target: Memilih }
+    - { source: 'Select Comparison', target: 'Pilih Perbandingan' }
+    - { source: 'Select File', target: 'Pilih File' }
+    - { source: 'Select Records to Delete', target: 'Pilih Records untuk Hapus' }
+    - { source: 'Select Salary Grade', target: 'Pilih Kelas Gaji' }
+    - { source: 'Selected Criteria', target: 'Kriteria Terpilih' }
+    - { source: 'Selection Criteria', target: 'Kriteria Seleksi' }
+    - { source: Senegal, target: Senegal }
+    - { source: Senegalese, target: Senegal }
+    - { source: September, target: September }
+    - { source: 'Serbia and Montenegro', target: 'Serbia dan Montenegro' }
+    - { source: Serbian, target: Serbia }
+    - { source: 'Service Period', target: 'Layanan Periode' }
+    - { source: Seychelles, target: Seychelles }
+    - { source: 'Seychelles Rupee', target: 'Seychelles Rupee' }
+    - { source: Seychellois, target: Seychellois }
+    - { source: 'Should be a number', target: 'Harus berupa angka' }
+    - { source: 'Should be a positive number', target: 'Harus angka positif' }
+    - { source: 'Should be a valid date in %format% format', target: 'Harus hari yang valid dalam format %format% ' }
+    - { source: 'Should be less than %amount%', target: 'Harus kurang dari %amount%' }
+    - { source: 'Should be less than %amount% characters', target: 'Harus kurang dari %amount% karakter' }
+    - { source: 'Should be within Min/Max values', target: 'Harus berada dalam jarak Min / Max nilai' }
+    - { source: 'Show Direct Deposit Details', target: 'Tampilkan Rincian Deposit langsung' }
+    - { source: 'Sierra Leone', target: 'Sierra Leone' }
+    - { source: 'Sierra Leone Leone', target: 'Sierra Leone Leone' }
+    - { source: 'Sierra Leonean', target: 'Sierra Leone' }
+    - { source: 'Silver (oz.)', target: 'Silver (oz.)' }
+    - { source: Singapore, target: Singapura }
+    - { source: 'Singapore Dollar', target: 'Dolar Singapura' }
+    - { source: Singaporean, target: Singapura }
+    - { source: Size, target: Ukuran }
+    - { source: Skill, target: Ketrampilan }
+    - { source: Skills, target: Keterampilan }
+    - { source: 'Slovak Koruna', target: 'Koruna Slovakia' }
+    - { source: Slovakia, target: Slowakia }
+    - { source: Slovakian, target: Slovakia }
+    - { source: Slovenia, target: Slovenia }
+    - { source: Slovenian, target: Slovenia }
+    - { source: 'Solomon Islander', target: 'Salomo Kepulauan' }
+    - { source: 'Solomon Islands', target: 'Kepulauan Solomon' }
+    - { source: 'Solomon Islands Dollar', target: 'Solomon Islands Dollar' }
+    - { source: Somali, target: Somalia }
+    - { source: 'Somali Shilling', target: 'Somalia Shilling' }
+    - { source: Somalia, target: Somalia }
+    - { source: 'Sort in Ascending Order', target: 'Urut Ascending Urutan' }
+    - { source: 'Sort in Descending Order', target: 'Urut Descending Order' }
+    - { source: 'South Africa', target: 'Afrika Selatan' }
+    - { source: 'South African', target: 'Afrika Selatan' }
+    - { source: 'South African Rand', target: 'Rand Afrika Selatan' }
+    - { source: 'South Carolina', target: 'Carolina Selatan' }
+    - { source: 'South Dakota', target: 'South Dakota' }
+    - { source: 'South Georgia and the South Sandwich Islands', target: 'Georgia Selatan dan Kepulauan Sandwich Selatan' }
+    - { source: 'South Korean', target: 'Korea Selatan' }
+    - { source: Spain, target: Spanyol }
+    - { source: Spanish, target: Spanyol }
+    - { source: Speaking, target: Berbicara }
+    - { source: 'Sri Lanka', target: 'Sri Lanka' }
+    - { source: 'Sri Lanka Rupee', target: 'Sri Lanka Rupee' }
+    - { source: 'Sri Lankan', target: 'Sri Lanka' }
+    - { source: 'St. Helena Pound', target: 'St Helena Pound' }
+    - { source: 'Start Date', target: 'Tanggal Mulai' }
+    - { source: 'Start date should be before end date', target: 'Tanggal mulai harus sebelum tanggal akhir' }
+    - { source: State, target: Negara }
+    - { source: Status, target: Status }
+    - { source: Structure, target: Struktur }
+    - { source: 'Sub Unit', target: 'Sub Satuan' }
+    - { source: Subordinates, target: Bawahan }
+    - { source: Subscribe, target: Berlangganan }
+    - { source: 'Subscription Amount', target: 'Berlangganan Jumlah' }
+    - { source: 'Subscription Commence Date', target: 'Berlangganan Dimulainya Tanggal' }
+    - { source: 'Subscription Paid By', target: 'Berlangganan Dibayar' }
+    - { source: 'Subscription Renewal Date', target: 'Berlangganan Pembaruan Tanggal' }
+    - { source: 'Successfully Added', target: 'Berhasil Ditambahkan' }
+    - { source: 'Successfully Deleted', target: 'Berhasil Dihapus' }
+    - { source: 'Successfully Saved', target: 'Berhasil Diselamatkan' }
+    - { source: 'Successfully Updated', target: 'Berhasil Diperbarui' }
+    - { source: 'Successfully Uploaded', target: 'Berhasil Uploaded' }
+    - { source: Sudan, target: Sudan }
+    - { source: Sudanese, target: Sudan }
+    - { source: 'Sudanese Dinar', target: 'Sudan Dinar' }
+    - { source: 'Sudanese Pound', target: 'Sudan Pound' }
+    - { source: Sunday, target: Minggu }
+    - { source: Supervisor, target: Pengawas }
+    - { source: 'Supervisor Name', target: 'Pengawas Nama' }
+    - { source: Supervisors, target: Supervisor }
+    - { source: Suriname, target: Suriname }
+    - { source: Surinamer, target: Surinamer }
+    - { source: 'Surinamese Dollar', target: 'Suriname Dolar' }
+    - { source: 'Svalbard and Jan Mayen', target: 'Svalbard dan Jan Mayen' }
+    - { source: Swazi, target: Swazi }
+    - { source: Swaziland, target: Swaziland }
+    - { source: 'Swaziland Lilangeni', target: 'Swaziland Lilangeni' }
+    - { source: Sweden, target: Swedia }
+    - { source: Swedish, target: Swedia }
+    - { source: 'Swedish Krona', target: 'Krona Swedia' }
+    - { source: Swiss, target: Swiss }
+    - { source: 'Swiss Franc', target: 'Swiss Franc' }
+    - { source: Switzerland, target: Swiss }
+    - { source: Syrian, target: Suriah }
+    - { source: 'Syrian Arab Republic', target: 'Syrian Arab Republic' }
+    - { source: 'Syrian Pound', target: 'Syria Pound' }
+    - { source: Taiwan, target: Taiwan }
+    - { source: 'Taiwan Dollar', target: 'Dolar Taiwan' }
+    - { source: Taiwanese, target: Taiwan }
+    - { source: Tajik, target: Tajik }
+    - { source: Tajikistan, target: Tajikistan }
+    - { source: 'Tanzania, United Republic of', target: 'Tanzania, Amerika Republik' }
+    - { source: Tanzanian, target: Tanzania }
+    - { source: 'Tanzanian Shilling', target: 'Tanzanian Shilling' }
+    - { source: Tennessee, target: Tennessee }
+    - { source: Terminated, target: Dihentikan }
+    - { source: 'Termination Reasons', target: 'Pemutusan Alasan' }
+    - { source: Texas, target: Texas }
+    - { source: Thai, target: Thai }
+    - { source: 'Thai Baht', target: 'Thai Baht' }
+    - { source: Thailand, target: Thailand }
+    - { source: Thursday, target: Kamis }
+    - { source: Time, target: Waktu }
+    - { source: Timesheets, target: Timesheets }
+    - { source: Timor-Leste, target: Timor-Leste }
+    - { source: To, target: Untuk }
+    - { source: to, target: untuk }
+    - { source: 'To date should be after from date', target: 'Sampai saat ini harus setelah tanggal dari' }
+    - { source: Togo, target: Togo }
+    - { source: Togolese, target: Togo }
+    - { source: Tokelau, target: Tokelau }
+    - { source: Tonga, target: Tonga }
+    - { source: Tongan, target: Tonga }
+    - { source: 'Trinidad and Tobago', target: 'Trinidad dan Tobago' }
+    - { source: 'Trinidad/Tobago Dollar', target: 'Trinidad / Tobago Dollar' }
+    - { source: 'Trinidadian or Tobagonian', target: 'Trinidad atau Tobagonian' }
+    - { source: Tuesday, target: Selasa }
+    - { source: Tunisia, target: Tunisia }
+    - { source: Tunisian, target: Tunisia }
+    - { source: 'Tunisian Dinar', target: 'Dinar Tunisia' }
+    - { source: Turkey, target: Turki }
+    - { source: Turkish, target: Turki }
+    - { source: 'Turkish Lira', target: 'Turkish Lira' }
+    - { source: Turkmenistan, target: Turkmenistan }
+    - { source: 'Turks and Caicos Islands', target: 'Kepulauan Turks dan Caicos' }
+    - { source: Tuvalu, target: Tuvalu }
+    - { source: Tuvaluan, target: Tuvalu }
+    - { source: Type, target: Jenis }
+    - { source: 'Type Employee Id', target: 'Tipe Karyawan Id' }
+    - { source: 'Type for hints', target: 'Jenis untuk petunjuk' }
+    - { source: Uganda, target: Uganda }
+    - { source: 'Uganda Shilling', target: 'Uganda Shilling' }
+    - { source: Ugandan, target: Uganda }
+    - { source: Ukraine, target: Ukraina }
+    - { source: 'Ukraine Hryvnia', target: 'Hryvnia Ukrania' }
+    - { source: Ukrainian, target: Ukraina }
+    - { source: 'United Arab Emirates', target: 'Uni Emirat Arab' }
+    - { source: 'United Kingdom', target: Inggris }
+    - { source: 'United States', target: 'Amerika Serikat' }
+    - { source: 'United States Dollar', target: 'Dolar Amerika Serikat' }
+    - { source: 'United States Minor Outlying Islands', target: 'Amerika Serikat Minor Outlying Islands' }
+    - { source: Uruguay, target: Uruguay }
+    - { source: Uruguayan, target: Uruguay }
+    - { source: 'Uruguayan Peso', target: 'Uruguay Peso' }
+    - { source: Users, target: Pengguna }
+    - { source: Utah, target: Utah }
+    - { source: 'Utd. Arab Emir. Dirham', target: 'Utd. Arab Emir. Dirham' }
+    - { source: Uzbekistan, target: Uzbekistan }
+    - { source: Uzbekistani, target: Uzbekistani }
+    - { source: Vacancies, target: Lowongan }
+    - { source: Vanuatu, target: Vanuatu }
+    - { source: 'Vanuatu Vatu', target: 'Vanuatu Vatu' }
+    - { source: Venezuela, target: Venezuela }
+    - { source: Venezuelan, target: Venezuela }
+    - { source: 'Venezuelan Bolivar', target: 'Venezuelan Bolivar' }
+    - { source: Vermont, target: Vermont }
+    - { source: 'Viet Nam', target: 'Viet Nam' }
+    - { source: Vietnamese, target: Vietnam }
+    - { source: 'Vietnamese Dong', target: 'Dong Vietnam' }
+    - { source: 'View Details', target: 'Lihat Rincian' }
+    - { source: 'Virgin Islands', target: 'Virgin Islands' }
+    - { source: 'Virgin Islands, British', target: 'Kepulauan Virgin Britania Raya' }
+    - { source: 'Virgin Islands, U.s.', target: 'Kepulauan Virgin AS' }
+    - { source: Virginia, target: Virginia }
+    - { source: 'Wallis and Futuna', target: 'Wallis dan Futuna' }
+    - { source: Washington, target: Washington }
+    - { source: Wednesday, target: Rabu }
+    - { source: Welsh, target: Welsh }
+    - { source: 'West Virginia', target: 'Virginia Barat' }
+    - { source: 'Western Sahara', target: 'Sahara Barat' }
+    - { source: Wisconsin, target: Wisconsin }
+    - { source: 'with new file', target: 'dengan file baru' }
+    - { source: 'Work Email', target: 'Bekerja Email' }
+    - { source: 'Work Experience', target: 'Pengalaman Kerja' }
+    - { source: 'Work Shifts', target: 'Kerja Gilir' }
+    - { source: 'Work Telephone', target: 'Kerja Telepon' }
+    - { source: 'Work Week', target: 'Kerja Minggu' }
+    - { source: Writing, target: Penulisan }
+    - { source: Wyoming, target: Wyoming }
+    - { source: Year, target: Tahun }
+    - { source: 'Years of Experience', target: 'Tahun Pengalaman' }
+    - { source: Yemen, target: Yaman }
+    - { source: 'Yemeni Riyal', target: 'Yaman Riyal' }
+    - { source: Yemenite, target: Yaman }
+    - { source: 'Yes', target: Ya }
+    - { source: 'Yugoslav Dinar', target: 'Dinar Yugoslavia' }
+    - { source: 'Yugoslavian Dinar', target: 'Dinar Yugoslavia' }
+    - { source: Zambia, target: Zambia }
+    - { source: Zambian, target: Zambia }
+    - { source: 'Zambian Kwacha', target: 'Zambian Kwacha' }
+    - { source: Zimbabwe, target: Zimbabwe }
+    - { source: 'Zimbabwe Dollar', target: 'Zimbabwe Dollar' }
+    - { source: Zimbabwean, target: Zimbabwe }
+    - { source: 'Passwords do not match', target: 'Kata sandi tidak cocok' }
+    - { source: Invalid, target: Cacat }
+    - { source: 'Should be less than %number% digits', target: 'Harus kurang dari %number% digits' }
+    - { source: 'Due date should be after from date', target: 'Tanggal jatuh tempo harus setelah tanggal dari' }
+    - { source: Ok, target: Oke }
+    - { source: 'Delete records?', target: 'Menghapus catatan?' }
+    - { source: 'Select an Employee', target: 'Pilih Karyawan' }
+    - { source: 'Delete?', target: 'Hapus?' }
+    - { source: 'Successfully Assigned', target: 'Berhasil Ditugaskan' }
+    - { source: 'Should be greater than %amount%', target: 'Harus lebih dari %amount%' }
+    - { source: 'Successfully Submitted', target: 'Berhasil Dikirim' }
+    - { source: 'Invalid Employee', target: 'Karyawan tidak valid' }
+    - { source: 'Accepts .docx, .doc, .odt, .pdf, .rtf, .txt up to 1MB', target: 'Menerima. Docx, doc,.. Odt,. Pdf,. Rtf, txt atas. Untuk 1MB' }
+    - { source: 'Accepts jpg, .png, .gif up to 1MB', target: 'Menerima jpg, png.. Gif hingga 1MB' }
+    - { source: 'Accepts up to 1MB', target: 'Menerima hingga 1MB' }
+    - { source: 'Failed to Save: File Type Not Allowed', target: 'Gagal Save: Jenis File Tidak Diizinkan' }
+    - { source: 'Failed to Save: File Size Exceeded', target: 'Gagal Save: Ukuran File Exceeded' }
+    - { source: 'No Employees Available', target: 'Tidak Tersedia Karyawan' }
+    - { source: 'Should have at least %number% characters', target: 'Minimal harus %number% karakter' }
+    - { source: 'Successfully Copied', target: 'Berhasil Disalin' }
+    - { source: 'LOGIN Panel', target: 'Masuk Panel' }
+    - { source: LOGIN, target: Masuk }
+    - { source: 'Should be greater than first value', target: 'Harus lebih besar dari nilai pertama' }
+    - { source: 'Joined After', target: 'Bergabung Setelah ' }
+    - { source: 'Joined Before', target: 'Bergabung Sebelum ' }
+    - { source: 'Joined in Between', target: 'Bergabung di antara' }
+    - { source: 'Successfully Changed', target: 'Berhasil Diubah' }
+    - { source: Username, target: 'Nama Pengguna' }
+    - { source: Password, target: 'Kata sandi' }
+    - { source: 'Username cannot be empty', target: 'Nama tidak boleh kosong' }
+    - { source: 'Password cannot be empty', target: 'Kata sandi tidak boleh kosong' }
+    - { source: 'Invalid credentials', target: 'Kredensial tidak valid' }
+    - { source: Europe/Belgrade, target: 'Eropa / Belgrade' }
+    - { source: Europe/Minsk, target: 'Eropa / Minsk' }
+    - { source: Asia/Kuwait, target: 'Asia / Kuwait' }
+    - { source: Asia/Muscat, target: 'Asia / Muscat' }
+    - { source: Asia/Yekaterinburg, target: 'Asia / Yekaterinburg' }
+    - { source: Asia/Kolkata, target: 'Asia / Kolkata' }
+    - { source: Asia/Dhaka, target: 'Asia / Dhaka' }
+    - { source: Asia/Krasnoyarsk, target: 'Asia / Krasnoyarsk' }
+    - { source: Asia/Brunei, target: 'Asia / Brunei' }
+    - { source: Asia/Seoul, target: 'Asia / Seoul' }
+    - { source: Australia/Darwin, target: 'Australia / Darwin' }
+    - { source: Australia/Canberra, target: 'Australia / Canberra' }
+    - { source: Asia/Magadan, target: 'Asia / Magadan' }
+    - { source: Pacific/Fiji, target: 'Pacific / Fiji' }
+    - { source: Pacific/Midway, target: 'Pacific / Midway' }
+    - { source: Pacific/Honolulu, target: 'Pacific / Honolulu' }
+    - { source: America/Anchorage, target: 'America / Anchorage' }
+    - { source: America/Los_Angeles, target: 'America / Los_Angeles' }
+    - { source: America/Denver, target: 'America / Denver' }
+    - { source: America/Tegucigalpa, target: 'America / Tegucigalpa' }
+    - { source: America/New_York, target: 'America / New_York' }
+    - { source: America/Halifax, target: 'America / Halifax' }
+    - { source: America/St_Johns, target: 'America / St_Johns' }
+    - { source: America/Argentina/Buenos_Aires, target: 'America / Argentina / Buenos_Aires' }
+    - { source: Atlantic/South_Georgia, target: 'Atlantic / South_Georgia' }
+    - { source: Atlantic/Azores, target: 'Atlantic / Azores' }
+    - { source: Upload, target: Unggah }
+    - { source: 'Type in years', target: 'Ketik tahun' }
+    - { source: Hours, target: Jam }
+    - { source: 'Deleted Employee', target: 'Data Karyawan yang sudah dihapus' }
+    - { source: Total, target: Total }
+    - { source: compulsory, target: wajib }
+    - { source: 'Termination Date', target: 'Tanggal Pemutusan (PHK)' }
+    - { source: 'Termination Reason', target: 'Alasan Pemutusan (PHK)' }
+    - { source: 'Activity Name', target: 'Nama Kegiatan ' }
+    - { source: 'Add Education', target: 'Tambahkan Pendidikan' }
+    - { source: 'Add Language', target: 'Tambahkan Bahasa' }
+    - { source: 'Add License', target: 'Tambahkan Lisensi' }
+    - { source: 'Add Skill', target: 'Tambahkan Keterampilan' }
+    - { source: 'Address Street 1', target: 'Alamat Jalan 1' }
+    - { source: 'Address Street 2', target: 'Alamat Jalan 2' }
+    - { source: City, target: Kota }
+    - { source: 'Confirm Password', target: 'Konfirmasi Password' }
+    - { source: Copy, target: Salin }
+    - { source: 'Copy From', target: 'Salin Dari' }
+    - { source: 'Project Name', target: 'Nama Proyek' }
+    - { source: Deleted, target: Dihapus }
+    - { source: 'Edit Education', target: 'Sunting Pendidikan' }
+    - { source: 'Edit Language', target: 'Sunting Bahasa' }
+    - { source: 'Edit License', target: 'Sunting Lisensi' }
+    - { source: 'Edit Skill', target: 'Sunting Keterampilan' }
+    - { source: State/Province, target: 'Negara Bagian / Propinsi' }
+    - { source: 'Zip/Postal Code', target: 'Kode Pos' }
+    - { source: Approve, target: Menyetujui }
+    - { source: format, target: format }
+    - { source: Scheduled, target: Dijadwalkan }
+    - { source: 'Invalid Date', target: 'Tanggal tidak valid' }
+    - { source: Note, target: Catatan }
+    - { source: 'Invalid Employee Name', target: 'Nama Karyawan tidak valid ' }
+    - { source: Action, target: Tindakan }
+    - { source: 'Active Job Vacancies', target: 'Lowongan Kerja Yang Aktif' }
+    - { source: added, target: menambahkan }
+    - { source: 'Apply for', target: 'Mendaftar untuk' }
+    - { source: Attachments, target: Lampiran }
+    - { source: 'Back to Job List', target: 'Kembali ke Daftar Pekerjaan' }
+    - { source: 'Collapse all', target: 'Tutup semua' }
+    - { source: 'Contact No', target: 'Nomor Kontak' }
+    - { source: Download, target: Download }
+    - { source: Email, target: Email }
+    - { source: 'Expand all', target: 'Buka semua' }
+    - { source: for, target: untuk }
+    - { source: Keywords, target: 'Kata kunci' }
+    - { source: 'Performed By', target: 'Dilakukan Oleh' }
+    - { source: Reject, target: Menolak }
+    - { source: Rejected, target: Ditolak }
+    - { source: rejected, target: ditolak }
+    - { source: Remove, target: Menghapus }
+    - { source: Resume, target: Resume }
+    - { source: 'Select Action', target: 'Pilih Aksi' }
+    - { source: Submit, target: Kirimkan }
+    - { source: View, target: Melihat }
+    - { source: 'Enter comma separated words', target: 'Masukkan kata-kata yang dipisahkan koma' }
+    - { source: Approved, target: Disetujui }
+    - { source: Submitted, target: Dikirim }
+    - { source: Loading, target: Memuat }
+    - { source: 'My Info', target: Infoku }
+    - { source: 'Successfully Undeleted', target: 'Berhasil Batal Dihapus' }
+    - { source: Qualifications, target: Kualifikasi }
+    - { source: 'Add Another', target: 'Tambahkan lainnya' }
+    - { source: Confirm, target: Konfirmasikan }
+    - { source: 'To date should be after From date', target: 'Sampai saat ini harus setelah Dari tanggal' }
+    - { source: Activities, target: Kegiatan }
+    - { source: 'Add Currency', target: 'Tambahkan Mata Uang' }
+    - { source: 'Add Customer', target: 'Tambahkan Pelanggan' }
+    - { source: 'Add Employment Status', target: 'Tambahkan Status Pekerjaan' }
+    - { source: 'Add Job Category', target: 'Tambah Kategori Pekerjaan' }
+    - { source: 'Add Job Title', target: 'Tambahkan Jabatan' }
+    - { source: 'Add Location', target: 'Tambahkan Lokasi' }
+    - { source: 'Add Membership', target: 'Tambahkan Keanggotaan' }
+    - { source: 'Add Nationality', target: 'Tambahkan Kebangsaan' }
+    - { source: 'Add Pay Grade', target: 'Tambahkan Skala Gaji' }
+    - { source: 'Add Project', target: 'Tambahkan Proyek' }
+    - { source: 'Add Project Activity', target: 'Tambahkan Kegiatan Proyek' }
+    - { source: 'Add Subscriber', target: 'Tambahkan Pelanggan (Subscriber)' }
+    - { source: 'Add Unit', target: 'Tambahkan Unit' }
+    - { source: 'Add User', target: 'Tambah Pengguna' }
+    - { source: 'Add Work Shift', target: 'Tambahkan Shift Kerja' }
+    - { source: 'Projects under selected customer will also be deleted', target: 'Proyek di bawah pelanggan yang dipilih juga akan dihapus' }
+    - { source: 'Units under selected unit will also be deleted', target: 'Unit di bawah unit yang dipilih juga akan dihapus' }
+    - { source: 'Assigned Currencies', target: 'Mata Uang yang dipakai' }
+    - { source: 'Assigned Employees', target: 'Karyawan ditetapkan' }
+    - { source: 'Available Employees', target: 'Karyawan yang tersedia' }
+    - { source: Better, target: 'Lebih baik' }
+    - { source: 'Click on a notification type to add subscribers', target: 'Klik pada jenis pemberitahuan untuk menambah pelanggan (subscriber)' }
+    - { source: 'Column order should not be changed', target: 'Urutan kolom tidak boleh diubah' }
+    - { source: 'Confirm New Password', target: 'Konfirmasi Kata Sandi Baru' }
+    - { source: 'Copy Activity', target: 'Salin Kegiatan' }
+    - { source: 'CSV Data Import', target: 'Impor Data CSV' }
+    - { source: 'Current Password', target: 'Kata Sandi Lama' }
+    - { source: 'Current Password Is Wrong', target: 'Kata Sandi Lama  Salah' }
+    - { source: Customer, target: Pelanggan }
+    - { source: 'Customer Name', target: 'Nama Pelanggan' }
+    - { source: 'Date Format', target: 'Format Tanggal' }
+    - { source: 'Description is not specified', target: 'Deskripsi tidak ditentukan' }
+    - { source: Done, target: Selesai }
+    - { source: 'Each import file should be configured for 100 records or less', target: 'Setiap file impor harus dikonfigurasi untuk 100 catatan atau kurang' }
+    - { source: 'Edit Currency', target: 'Sunting Mata Uang' }
+    - { source: 'Edit Customer', target: 'Sunting Pelanggan' }
+    - { source: 'Edit Employment Status', target: 'Sunting Status Pekerjaan' }
+    - { source: 'Edit Job Category', target: 'Sunting Kategori Pekerjaan' }
+    - { source: 'Edit Job Title', target: 'Sunting Jabatan' }
+    - { source: 'Edit Location', target: 'Sunting Lokasi' }
+    - { source: 'Edit Membership', target: 'Sunting Keanggotaan' }
+    - { source: 'Edit Nationality', target: 'Sunting Kebangsaan' }
+    - { source: 'Edit Pay Grade', target: 'Sunting Skala Gaji' }
+    - { source: 'Edit Project', target: 'Sunting Proyek' }
+    - { source: 'Edit Project Activity', target: 'Sunting Kegiatan Proyek' }
+    - { source: 'Edit Subscriber', target: 'Sunting Pelanggan (Subscriber)' }
+    - { source: 'Edit Unit', target: 'Sunting Unit' }
+    - { source: 'Edit User', target: 'Sunting Pengguna' }
+    - { source: 'Edit Work Shift', target: 'Sunting Shift Kerja' }
+    - { source: 'Successfully Saved. Test Email Sent', target: 'Berhasil tersimpan. Email Uji Terkirim' }
+    - { source: 'Successfully Saved. Test Email Not Sent', target: 'Berhasil tersimpan. Email Uji Tidak Terkirim' }
+    - { source: 'Email Notification', target: 'Email Pemberitahuan' }
+    - { source: 'Enable Admin module', target: 'Aktifkan modul Admin' }
+    - { source: 'Enable Benefits module', target: 'Aktifkan modul Tunjangan' }
+    - { source: 'Enable Leave module', target: 'Aktifkan modul Cuti' }
+    - { source: 'Enable Performance module', target: 'Aktifkan modul Kinerja' }
+    - { source: 'Enable PIM module', target: 'Aktifkan modul PIM' }
+    - { source: 'Enable Recruitment module', target: 'Aktifkan modul Rekrutmen' }
+    - { source: 'Enable Time module', target: 'Aktifkan modul Kehadiran' }
+    - { source: Fax, target: Fax }
+    - { source: 'First Name and Last Name are compulsory', target: 'Nama Depan dan Nama Belakang wajib diisi' }
+    - { source: 'Following languages are supported', target: 'Bahasa yang didukung berikut ini' }
+    - { source: 'Hours Per Day', target: 'Jam Per Hari' }
+    - { source: 'If gender is specified, value should be either', target: 'Jika jenis kelamin yang ditentukan, nilai harus dimasukkan' }
+    - { source: 'Job Description', target: 'Uraian Pekerjaan (Job Description)' }
+    - { source: 'Leave Applications', target: 'Pengambilan Cuti' }
+    - { source: 'Leave Approvals', target: 'Persetujuan Cuti' }
+    - { source: 'Leave Assignments', target: 'Cuti Yang Ditetapkan' }
+    - { source: 'Leave Cancellations', target: 'Pembatalan Cuti' }
+    - { source: 'Leave Rejections', target: 'Cuti Ditolak' }
+    - { source: 'Location Name', target: 'Nama Lokasi' }
+    - { source: 'Mail Configuration', target: 'Konfigurasi e-Mail' }
+    - { source: 'Mail Sent As', target: 'e-Mail dikirim oleh' }
+    - { source: 'Maximum Salary', target: 'Gaji Maksimum ' }
+    - { source: Medium, target: Medium }
+    - { source: 'Minimum Salary', target: 'Gaji Minimum ' }
+    - { source: 'Module Configuration', target: 'Konfigurasi Modul ' }
+    - { source: 'New Password', target: 'Kata Sandi Baru' }
+    - { source: 'No activities selected', target: 'Tidak ada kegiatan yang dipilih' }
+    - { source: 'No assigned activities', target: 'Tidak ada kegiatan yang ditetapkan' }
+    - { source: 'Not Allowed to Delete Customer(s) Which Have Time Logged Against', target: 'Tidak Diizinkan untuk Menghapus Pelanggan (s) Yang Memiliki Waktu Logged berlawanan ' }
+    - { source: 'Not Allowed to Delete Project Activites Which Have Time Logged Against', target: 'Tidak Diizinkan untuk Hapus Aktivitas Proyek Yang Memiliki Logged Waktu berlawanan ' }
+    - { source: 'Notification Type', target: 'Jenis Pemberitahuan ' }
+    - { source: 'Number of Employees', target: 'Jumlah Karyawan' }
+    - { source: 'Organization Name', target: 'Nama Organisasi' }
+    - { source: 'Path to Sendmail', target: 'Path to Sendmail' }
+    - { source: 'Performance Review Submissions', target: 'Pengiriman Tinjauan Kinerja (Performance Review)' }
+    - { source: Phone, target: Telepon }
+    - { source: Project, target: Proyek }
+    - { source: 'Project Admin', target: 'Admin Proyek ' }
+    - { source: 'Project Admins', target: 'Admin Proyek (s)' }
+    - { source: 'Registration Number', target: 'Nomor pendaftaran' }
+    - { source: 'Sample CSV file', target: 'Contoh CSV' }
+    - { source: 'Send Test Email', target: 'Kirim Email Uji' }
+    - { source: 'Sending Method', target: 'Metode Pengiriman' }
+    - { source: 'Shift Name', target: 'Nama Shift ' }
+    - { source: 'SMTP Password', target: 'Kata Sandi SMTP ' }
+    - { source: 'SMTP Port', target: 'SMTP Port' }
+    - { source: 'SMTP User', target: 'SMTP User' }
+    - { source: SSL, target: SSL }
+    - { source: Strong, target: Kuat }
+    - { source: Strongest, target: Terkuat }
+    - { source: Subscribers, target: 'Pelanggan (Subsriciber)' }
+    - { source: 'OrangeHRM - Supported Languages', target: 'Bahasa yang didukung OrangeHRM' }
+    - { source: 'Supported languages', target: 'Bahasa yang didukung' }
+    - { source: 'System Users', target: 'Pengguna Sistem ' }
+    - { source: 'Tax ID', target: 'ID Pajak' }
+    - { source: 'Test Email Address', target: 'Alamat Uji Email' }
+    - { source: 'This unit will be added under', target: 'Unit ini akan ditambahkan di bawah' }
+    - { source: TLS, target: TLS }
+    - { source: 'Unit Id', target: 'ID Unit' }
+    - { source: 'Use browser language if set', target: 'Gunakan bahasa browser jika diatur' }
+    - { source: 'Use SMTP Authentication', target: 'Gunakan Otentikasi SMTP' }
+    - { source: 'User Secure Connection', target: 'Pengguna Koneksi Aman' }
+    - { source: 'User Type', target: 'Jenis Pengguna' }
+    - { source: 'Very Weak', target: 'Sangat Lemah' }
+    - { source: Weak, target: Lemah }
+    - { source: 'Zip Code', target: 'Kode pos' }
+    - { source: 'Failed to Import: File Type Not Allowed', target: 'Gagal mengimpor: Jenis File Tidak Diizinkan' }
+    - { source: 'Failed to Import: File Size Exceeded', target: 'Gagal mengimpor: Ukuran File terlalu besar' }
+    - { source: 'Failed to Import: No Compatible Records', target: 'Gagal mengimpor: Tidak ada Catatan yang Kompatibel' }
+    - { source: 'Number of Records Imported', target: 'Jumlah Catatan Impor' }
+    - { source: 'Should be higher than Minimum Salary', target: 'Harus lebih tinggi dari Gaji Minimum' }
+    - { source: 'Level Already Exists', target: 'Tingkat Sudah Ada' }
+    - { source: 'All date fields should be in YYYY-MM-DD format', target: 'Semua bidang tanggal harus dalam format  YYYY-MM-DD' }
+    - { source: 'Multiple import files may be required', target: 'Beberapa File impor mungkin diperlukan' }
+    - { source: 'Language and font help', target: 'Bahasa dan bantuan huruf' }
+    - { source: 'Will take no action', target: 'Akan mengambil tindakan tidak' }
+    - { source: 'Apply Leave', target: 'Terapkan Tinggalkan' }
+    - { source: 'Actions Performed on the Timesheet', target: 'Tindakan yang Dilakukan pada Laporan Jam Kerja (Timesheet)' }
+    - { source: 'Add Row', target: 'Tambahkan Baris' }
+    - { source: 'Add Timesheet', target: 'Tambahkan Laporan Kartu Absen (Timesheet)' }
+    - { source: 'Attendance Total Summary Report', target: 'Laporan Ringkas Kehadiran Total' }
+    - { source: 'Define Timesheet Period', target: 'Tentukan Periode Kartu Absen (Timesheet)' }
+    - { source: 'Deleted project activities are not editable', target: 'Kegiatan proyek (Project Activity)  yang dihapus tidak dapat disunting' }
+    - { source: 'Deleted projects/activities are marked with an asterik', target: 'Proyek / kegiatan yang sudah dihapus ditandai dengan asterik' }
+    - { source: 'Edit Timesheet for', target: 'Sunting Kartu Absen (Timesheet) untuk' }
+    - { source: 'Edit Timesheet for Month', target: 'Sunting Kartu Absen (Timesheet) untuk Bulan' }
+    - { source: 'Edit Timesheet for Week', target: 'Sunting Kartu Absen (Timesheet) untuk Minggu' }
+    - { source: 'Edit timesheet for week starting', target: 'Sunting Kartu Absen (Timesheet) untuk minggu mulai' }
+    - { source: 'Employee name', target: 'Nama karyawan' }
+    - { source: 'Employee Report', target: 'Laporan Karyawan ' }
+    - { source: 'Should Be Less Than 24 and in HH:MM or Decimal Format', target: 'Harus Kurang dari 24 dan dalam format HH: MM atau Format Desimal' }
+    - { source: 'Enter Employee Name', target: 'Masukkan Nama Karyawan' }
+    - { source: 'First Day of Week', target: 'Pertama Hari dari Minggu' }
+    - { source: 'for Month starting on', target: 'untuk Bulan yang dimulai pada ' }
+    - { source: 'for Week', target: 'untuk Minggu' }
+    - { source: Fri, target: Jumat }
+    - { source: hours, target: jam }
+    - { source: 'Failed to Create: Future Timesheets Not Allowed', target: 'Gagal Membuat: Kartu Absen (Timesheets) Berikutnya Tidak Diizinkan' }
+    - { source: Mon, target: Senin }
+    - { source: 'No Accessible Timesheets', target: 'Kartu Absen (Timesheets) tidak dapat diakses' }
+    - { source: 'Not Submitted', target: 'Tidak Dikirim' }
+    - { source: 'Proceed with Time Module', target: 'Lanjutkan dengan Modul Waktu (Time Module)' }
+    - { source: 'Project Activity Details Report', target: 'Laporan Rincian Kegiatan Proyek ' }
+    - { source: 'Project Report', target: 'Laporan Proyek' }
+    - { source: 'Remove Rows', target: 'Hapus Baris' }
+    - { source: Sat, target: Sabtu }
+    - { source: 'Select a Day to Create Timesheet', target: 'Pilih Hari untuk Membuat Kartu Absen (Timesheet)' }
+    - { source: 'Select Employee', target: 'Pilih Karyawan' }
+    - { source: 'Status:', target: 'Status:' }
+    - { source: Sun, target: Minggu }
+    - { source: Thu, target: Kamis }
+    - { source: 'Duplicate Records Found', target: 'Catatan Ganda Ditemukan' }
+    - { source: 'Timesheet for', target: 'Kartu Absen (Timesheet) untuk' }
+    - { source: 'Timesheet Period', target: 'Periode Kartu Absen (Timesheet)' }
+    - { source: 'Timesheet period start day has been set', target: 'Hari pertama periode Kartu Absen (Timesheet) telah ditetapkan' }
+    - { source: 'Timesheet period start day has not been defined. Please contact HR Admin', target: 'Hari pertama periode Kartu Absen (Timesheet) belum ditetapkan. Hubungi HR Admin' }
+    - { source: 'Timesheets Pending Action', target: 'Kartu Absen (Timesheets) yang Tertunda' }
+    - { source: Tue, target: Selasa }
+    - { source: Wed, target: Rabu }
+    - { source: Week, target: Minggu }
+    - { source: 'Select a Project and an Activity', target: 'Pilih sebuah Proyek dan sebuah Kegiatan' }
+    - { source: 'Select Records to Remove', target: 'Pilih Catatan untuk Dihapus' }
+    - { source: 'Timesheet Already Exists', target: 'Kartu Absen (Timesheet) Sudah Ada' }
+    - { source: 'Timesheet Submitted', target: 'Kartu Absen (Timesheet) Dikirim' }
+    - { source: 'No Timesheets Found', target: 'Tidak ada Kartu Absen (Timesheets) Ditemukan' }
+    - { source: 'Timesheet Approved', target: 'Kartu Absen (Timesheets) Disetujui' }
+    - { source: 'Timesheet Rejected', target: 'Kartu Absen (Timesheets) Ditolak' }
+    - { source: 'No Changes to Delete', target: 'Tidak ada Perubahan yang Dihapus' }
+    - { source: 'Total Should Be Less Than 24 Hours', target: 'Jumlah Harus Kurang Dari 24 Jam' }
+    - { source: 'Remaining number of custom fields', target: 'Sisa jumlah bidang kustom (custom field)' }
+    - { source: 'Account Number', target: 'Nomor Rekening' }
+    - { source: 'Account Type', target: 'Jenis Akun' }
+    - { source: 'Activate Employment', target: 'Aktifkan Pekerjaan' }
+    - { source: 'Add Custom Field', target: 'Tambahkan Bidang Kustom' }
+    - { source: 'Add Dependent', target: 'Tambahkan Tanggungan' }
+    - { source: 'Add Direct Deposit Details', target: 'Tambahkan Rincian Deposit langsung' }
+    - { source: 'Add Emergency Contact', target: 'Tambahkan Kontak Darurat' }
+    - { source: 'Add Immigration', target: 'Tambahkan Imigrasi' }
+    - { source: 'Add Membership Details', target: 'Tambahkan Rincian Keanggotaan' }
+    - { source: 'Add Reporting Method', target: 'Tambahkan Metode Pelaporan' }
+    - { source: 'Add Subordinate', target: 'Tambahkan Bawahan (Subordinate)' }
+    - { source: 'Add Supervisor', target: 'Tambahkan Pengawas (Supervisor)' }
+    - { source: 'Add Supervisor/Subordinate', target: 'Tambahkan Supervisor / Bawahan' }
+    - { source: 'Add Termination Reason', target: 'Tambahkan Alasan Pemutusan' }
+    - { source: 'Add Work Experience', target: 'Tambahkan Pengalaman Kerja' }
+    - { source: 'All customs fields are in use', target: 'Semua bidang kustom sudah digunakan' }
+    - { source: 'Assigned Dependents', target: 'Tanggungan yang digunakan' }
+    - { source: 'Assigned Emergency Contacts', target: 'Kontak Darurat yang digunakan' }
+    - { source: 'Assigned Memberships', target: 'Keanggotaan yang digunakan' }
+    - { source: 'Assigned Subordinates', target: 'Bawahan (Subordinate) yang ditetapkan' }
+    - { source: 'Assigned Supervisors', target: 'Pengawas (Supervisor) yang ditetapkan' }
+    - { source: 'At least one phone number is required', target: 'Setidaknya satu nomor telepon harus diisi' }
+    - { source: 'Bi Weekly', target: 'Dwi mingguan' }
+    - { source: child, target: anak }
+    - { source: Child, target: Anak }
+    - { source: 'Configure PIM', target: 'Konfigurasikan PIM' }
+    - { source: 'Contract Details', target: 'Rincian Kontrak' }
+    - { source: 'Country Specific Information', target: 'Informasi kenegaraan khusus' }
+    - { source: 'Create Login Details', target: 'Buat Rincian Login' }
+    - { source: Custom, target: Kustom }
+    - { source: 'Custom Field Name', target: 'Nama Bidang Kustom (custom field)' }
+    - { source: 'Date of Expiry', target: 'Tanggal Kadaluwarsa' }
+    - { source: 'Direct Deposit', target: 'Deposit Langsung ' }
+    - { source: Document, target: Dokumen }
+    - { source: 'Document No', target: 'No. Dokumen' }
+    - { source: 'Drop Down', target: 'Drop Down' }
+    - { source: 'Edit Custom Field', target: 'Sunting Bidang Kustom' }
+    - { source: 'Edit Dependent', target: 'Sunting Tanggungan' }
+    - { source: 'Edit Emergency Contact', target: 'Sunting Kontak Darurat' }
+    - { source: 'Edit Employment Termination', target: 'Sunting Pemutusan Hubungan Kerja' }
+    - { source: 'Edit Membership Detail', target: 'Sunting Rincian Keanggotaan' }
+    - { source: 'Edit Reporting Method', target: 'Sunting Cara Pelaporan' }
+    - { source: 'Edit Subordinate', target: 'Sunting Bawahan (Subordinate)' }
+    - { source: 'Edit Supervisor', target: 'Sunting Pengawas (Supervisor)' }
+    - { source: 'Edit Termination Reason', target: 'Sunting Alasan Pemutusan Hubungan Kerja' }
+    - { source: 'Edit Work Experience', target: 'Sunting Pengalaman Kerja' }
+    - { source: 'Emergency Contact(s)', target: 'Kontak Darurat (s)' }
+    - { source: 'Employee Information', target: 'Informasi Karyawan' }
+    - { source: Employment, target: Pekerjaan }
+    - { source: 'Employment Contract', target: 'Kontrak Kerja' }
+    - { source: 'Enter a number', target: 'Masukkan nomor' }
+    - { source: 'Enter allowed options separated by commas', target: 'Masukkan pilihan yang diperbolehkan, dipisahkan dengan koma' }
+    - { source: 'Ethnic Race', target: 'Etnis Ras' }
+    - { source: Exemptions, target: Pengecualian }
+    - { source: 'Federal Income Tax', target: 'Pajak Penghasilan' }
+    - { source: 'Field Name', target: 'Nama Field' }
+    - { source: 'Field Type', target: 'Kolom Jenis' }
+    - { source: 'From date should be before to date', target: 'Dari tanggal harus sebelum sampai saat ini' }
+    - { source: GPA/Score, target: 'IPK / Skor' }
+    - { source: Hourly, target: 'Per jam' }
+    - { source: Institute, target: Lembaga }
+    - { source: 'Issued date should be before expiration date', target: 'Tanggal diterbitkan harus sebelum tanggal kedaluwarsa' }
+    - { source: Major/Specialization, target: 'Mayor / Spesialisasi' }
+    - { source: Married, target: Menikah }
+    - { source: Max, target: Max }
+    - { source: 'Membership Type', target: 'Keanggotaan Jenis' }
+    - { source: 'Military Service', target: Milisi }
+    - { source: Min, target: Min }
+    - { source: Monthly, target: Bulanan }
+    - { source: 'Monthly on first pay of month.', target: 'Bulanan pada membayar satu bulan.' }
+    - { source: N/A, target: 'N / A' }
+    - { source: 'Nick Name', target: 'Nick Nama' }
+    - { source: 'Non Resident Alien', target: 'Non Resident Alien' }
+    - { source: 'Not Applicable', target: 'Tidak Berlaku' }
+    - { source: other, target: lain }
+    - { source: Passport, target: Paspor }
+    - { source: 'Personal Details', target: 'Data Pribadi' }
+    - { source: Photograph, target: Foto }
+    - { source: 'Please Specify', target: 'Silahkan Tentukan' }
+    - { source: Reason, target: Alasan }
+    - { source: Report-to, target: '-Untuk' }
+    - { source: Screen, target: Layar }
+    - { source: 'Select a Photograph', target: 'Pilih sebuah Foto' }
+    - { source: 'Select Membership', target: 'Pilih Keanggotaan' }
+    - { source: 'Select Options', target: 'Pilih Pilihan' }
+    - { source: 'Semi Monthly', target: 'Semi Bulanan' }
+    - { source: 'Show Deprecated Fields', target: 'Tampilkan Fields ditinggalkan' }
+    - { source: 'Show Nick Name, Smoker and Military Service in Personal Details', target: 'Tampilkan Nama Nick, Perokok dan Jasa Militer di Data Pribadi' }
+    - { source: 'Show SIN field in Personal Details', target: 'Tampilkan lapangan SIN di Data Pribadi' }
+    - { source: 'Show SSN field in Personal Details', target: 'Tampilkan lapangan SSN di Data Pribadi' }
+    - { source: 'Show US Tax Exemptions menu', target: 'Tampilkan Pajak AS Pengecualian menu' }
+    - { source: 'SIN Number', target: 'Nomor SIN' }
+    - { source: Single, target: Tunggal }
+    - { source: Smoker, target: Perokok }
+    - { source: 'SSN Number', target: 'Nomor SSN' }
+    - { source: 'State Income Tax', target: 'Negara Pajak Penghasilan' }
+    - { source: Subordinate, target: Bawahan }
+    - { source: 'Tax Exemptions', target: 'Pengecualian Pajak' }
+    - { source: 'Terminate Employment', target: 'Hentikan employement' }
+    - { source: 'Terminated Date', target: 'Tanggal Dihentikan' }
+    - { source: 'Terminated on', target: 'Berakhir pada' }
+    - { source: 'Terminated Reason', target: 'Alasan Dihentikan' }
+    - { source: 'Text or Number', target: 'Teks atau Nomor' }
+    - { source: 'Unemployment State', target: 'Pengangguran Negara' }
+    - { source: 'User Name', target: 'User name' }
+    - { source: Visa, target: Visa }
+    - { source: Weekly, target: Mingguan }
+    - { source: 'Work experience', target: 'Pengalaman kerja' }
+    - { source: 'Work State', target: 'Bekerja Negara' }
+    - { source: 'Renewal date should be after commence date', target: 'Tanggal pembaharuan harus setelah dimulai tanggal' }
+    - { source: 'Delete photograph?', target: 'Menghapus foto?' }
+    - { source: 'Failed To Save: User Name Exists', target: 'Gagal Save: User Name Exists' }
+    - { source: 'Failed To Save: Employee Id Exists', target: 'Gagal Save: Id Karyawan Exists' }
+    - { source: 'Will be deleted from all employees', target: 'Akan dihapus dari semua karyawan' }
+    - { source: Active, target: Aktif }
+    - { source: 'Add another', target: 'Tambah jumlah' }
+    - { source: 'Add Candidate', target: 'Tambahkan Calon' }
+    - { source: 'Add Job Vacancy', target: 'Tambahkan Job Vacancy' }
+    - { source: 'Adding Candidate', target: 'Menambahkan Calon' }
+    - { source: 'Application Initiated', target: 'Aplikasi Diprakarsai' }
+    - { source: 'applied for the', target: 'diterapkan untuk' }
+    - { source: Archived, target: Arsip }
+    - { source: 'Are you sure you want to remove job vacancy of the candidate', target: 'Anda yakin ingin menghapus lowongan pekerjaan calon' }
+    - { source: 'as failed', target: 'sebagai gagal' }
+    - { source: 'as passed', target: 'sebagai berlalu' }
+    - { source: 'assigned the job vacancy', target: 'menugaskan lowongan pekerjaan' }
+    - { source: by, target: oleh }
+    - { source: Candidate, target: Calon }
+    - { source: 'Candidate Name', target: 'Calon Nama' }
+    - { source: 'Candidate''s History', target: 'Calon Sejarah' }
+    - { source: candidateName, target: candidateName }
+    - { source: 'Cannot assign same interviewer twice', target: 'Tidak dapat menetapkan pewawancara yang sama dua kali' }
+    - { source: 'Cannot assign same vacancy twice', target: 'Tidak dapat menetapkan kekosongan yang sama dua kali' }
+    - { source: 'Click on a candidate to perform actions', target: 'Klik pada kandidat untuk melakukan tindakan' }
+    - { source: Closed, target: Tutup }
+    - { source: Continue, target: Terus }
+    - { source: 'Date of Application', target: 'Tanggal Aplikasi' }
+    - { source: 'Should be less than current date', target: 'Harus kurang dari tanggal' }
+    - { source: 'Decline Offer', target: 'Tolak Penawaran' }
+    - { source: Details, target: Rincian }
+    - { source: 'Edit Candidate', target: 'Edit Calon' }
+    - { source: 'Edit Interview Details', target: 'Edit Rincian Wawancara' }
+    - { source: 'Edit Job Vacancy', target: 'Edit Job Vacancy' }
+    - { source: 'Editing Candidate', target: 'Mengedit Calon' }
+    - { source: 'from the', target: dari }
+    - { source: Hire, target: Menyewa }
+    - { source: Hired, target: Dipekerjakan }
+    - { source: hired, target: disewa }
+    - { source: 'Hiring Manager', target: 'Mempekerjakan Manajer' }
+    - { source: 'Interview Failed', target: 'Wawancara Gagal' }
+    - { source: 'Interview Passed', target: 'Wawancara Lulus' }
+    - { source: 'Interview Scheduled', target: 'Wawancara Terjadwal' }
+    - { source: 'Interview Title', target: 'Wawancara Judul' }
+    - { source: 'Interviewer Name', target: 'Pewawancara Nama' }
+    - { source: 'Job Offered', target: 'Job Ditawarkan' }
+    - { source: 'Job Vacancy', target: 'Lowongan Kerja' }
+    - { source: Manual, target: Pedoman }
+    - { source: 'Mark Interview Failed', target: 'Wawancara Mark Gagal' }
+    - { source: 'Mark Interview Passed', target: 'Wawancara Mark Lulus' }
+    - { source: marked, target: ditandai }
+    - { source: 'marked the offer as declined', target: 'ditandai tawaran itu sebagai menolak' }
+    - { source: 'Method of Application', target: 'Metode Aplikasi' }
+    - { source: 'No Actions', target: 'Tidak ada Tindakan' }
+    - { source: 'No active job vacancies to display', target: 'Tidak ada lowongan pekerjaan aktif untuk menampilkan' }
+    - { source: 'Number of Positions', target: 'Jumlah Posisi' }
+    - { source: 'Offer Declined', target: 'Penawaran Ditolak' }
+    - { source: 'Offer Job', target: 'Tawarkan Kerja' }
+    - { source: 'offered the job', target: 'offered pekerjaan' }
+    - { source: 'on', target: pada }
+    - { source: Online, target: Online }
+    - { source: 'Performed Action', target: 'Dilakukan Aksi' }
+    - { source: 'Performed Date', target: 'Dilakukan Tanggal' }
+    - { source: 'Publish in RSS feed(1) and web page(2)', target: 'Publikasikan di RSS Feed (1) dan halaman web (2)' }
+    - { source: removed, target: dihapus }
+    - { source: 'RSS Feed URL', target: 'RSS Feed URL' }
+    - { source: 'Schedule Interview', target: 'Jadwal Wawancara' }
+    - { source: scheduled, target: dijadwalkan }
+    - { source: Shortlist, target: 'Daftar singkat' }
+    - { source: Shortlisted, target: Terpilih }
+    - { source: 'Shortlisted for', target: 'Terpilih untuk' }
+    - { source: Vacancy, target: Lowongan }
+    - { source: 'Vacancy Name', target: 'Lowongan Nama' }
+    - { source: 'View Action History', target: 'Lihat Riwayat Aksi' }
+    - { source: 'View Interview Details', target: 'Lihat Rincian Wawancara' }
+    - { source: 'Web Page URL', target: 'Web Page URL' }
+    - { source: with, target: dengan }
+    - { source: 'Successfully Scheduled', target: 'Berhasil Terjadwal' }
+    - { source: 'This action will remove previous vacancy', target: 'Tindakan ini akan menghapus kekosongan sebelumnya' }
+    - { source: 'Remove?', target: 'Hapus?' }
+    - { source: 'Vacancy Apply Form', target: 'Formulir Pengiriman Lamaran Kerja ' }
+    - { source: 'Application Received', target: 'Aplikasi Lamaran Diterima' }
+    - { source: Uploaded, target: Unggah }
+    - { source: 'A new leave type will be created with same name', target: 'Jenis cuti baru akan dibuat dengan nama yang sama' }
+    - { source: Actions, target: Tindakan }
+    - { source: Assign, target: Menetapkan }
+    - { source: 'At Least One Day Should Be a Working Day', target: 'Sedikitnya Satu Hari Harus Hari Kerja' }
+    - { source: Canceled, target: Dibatalkan }
+    - { source: characters, target: karakter }
+    - { source: 'Confirmation Required', target: 'Diperlukan Konfirmasi' }
+    - { source: 'Current Leave Period', target: 'Saat Cuti Periode' }
+    - { source: 'Date format should be', target: 'Format tanggal harus' }
+    - { source: 'Define Leave Type', target: 'Tentukan Tinggalkan Jenis' }
+    - { source: 'Duration (Hours)', target: 'Durasi (Jam)' }
+    - { source: 'Following Year', target: 'Setelah Tahun' }
+    - { source: 'For Leap Years', target: 'Untuk Tahun Leap' }
+    - { source: 'For Non-Leap Years', target: 'Untuk Non-Leap Tahun' }
+    - { source: 'From Date', target: 'Dari Tanggal' }
+    - { source: 'From Time', target: 'Dari Waktu' }
+    - { source: 'Full Day', target: 'Sehari Penuh' }
+    - { source: 'Go to Detailed View', target: 'Go to Detailed View' }
+    - { source: 'Half Day', target: 'Hari Setengah' }
+    - { source: Holiday, target: Liburan }
+    - { source: 'Leave Balance', target: 'Tinggalkan Saldo' }
+    - { source: 'Leave Comment', target: 'Tinggalkan Komentar' }
+    - { source: 'Leave Entitled', target: 'Tinggalkan Berjudul' }
+    - { source: 'Leave Period Does Not Exist', target: 'Tinggalkan Periode Tiada' }
+    - { source: 'Leave Request', target: 'Tinggalkan Permintaan' }
+    - { source: 'Leave Scheduled', target: 'Tinggalkan Terjadwal' }
+    - { source: 'Leave Taken', target: 'Tinggalkan Diambil' }
+    - { source: 'Leave Type', target: 'Tinggalkan Jenis' }
+    - { source: 'Leave type will be undeleted', target: 'Tinggalkan jenis akan terhapus' }
+    - { source: 'My Leave Details', target: 'Saya Cuti Rincian' }
+    - { source: 'My Leave List', target: 'Saya Cuti Daftar' }
+    - { source: 'Name of Holiday', target: 'Nama dari Holiday' }
+    - { source: 'No Leave Types with Leave Balance', target: 'No Jenis Cuti dengan Saldo Cuti' }
+    - { source: 'No of Hours', target: 'Tidak ada dari Jam' }
+    - { source: 'Non Working Day', target: 'Non Hari Kerja' }
+    - { source: 'Non-working Day', target: 'Tidak bekerja Hari' }
+    - { source: 'Number of Days', target: 'Jumlah Hari' }
+    - { source: 'Pending Approval', target: 'Menunggu Persetujuan' }
+    - { source: 'Repeats Annually', target: 'Mengulang Setiap tahun' }
+    - { source: 'Show Leave with Status', target: 'Tampilkan Tinggalkan Status' }
+    - { source: Taken, target: Diambil }
+    - { source: 'Overlapping Leave Request Found', target: 'Permintaan Cuti Tumpang Tindih Ditemukan' }
+    - { source: 'This is a deleted leave type. Reactivate it?', target: 'Ini adalah jenis cuti dihapus. Mengaktifkannya kembali?' }
+    - { source: 'To Date', target: Berkencan }
+    - { source: 'To Time', target: 'Untuk Waktu' }
+    - { source: 'Total Hours', target: 'Jumlah Jam' }
+    - { source: 'Total time is greater than the shift length', target: 'Total waktu yang lebih besar dari panjang pergeseran' }
+    - { source: 'Failed to Submit: No Working Days Selected', target: 'Gagal Kirim: Tidak ada hari kerja Terpilih' }
+    - { source: 'Failed to Save: Date Already Assigned', target: 'Gagal Save: Tanggal Sudah Ditugaskan' }
+    - { source: 'Failed to Assign: Work Shift Length Exceeded', target: 'Gagal Menetapkan: Pekerjaan Panjang Pergeseran Exceeded' }
+    - { source: 'Failed to Submit: Work Shift Length Exceeded', target: 'Gagal Kirim: Pekerjaan Panjang Pergeseran Exceeded' }
+    - { source: 'Failed to Submit: Leave Balance Exceeded', target: 'Gagal Kirim: Tinggalkan Saldo Exceeded' }
+    - { source: 'Should be less than work shift length', target: 'Harus kurang dari panjang kerja shift' }
+    - { source: 'Leave Period Not Defined', target: 'Tinggalkan Periode Tidak Ditetapkan' }
+    - { source: 'Full Day/Half Day', target: 'Sehari Penuh / Setengah Hari' }
+    - { source: 'Failed to Assign', target: 'Gagal Tetapkan' }
+    - { source: 'Failed to Submit', target: 'Gagal Kirim' }
+    - { source: 'Add Leave Type', target: 'Tambahkan Tinggalkan Jenis' }
+    - { source: 'Edit Leave Type', target: 'Edit Tinggalkan Jenis' }
+    - { source: 'View Attendance Record', target: 'Lihat Catatan Kehadiran' }
+    - { source: 'Punch In', target: 'Masuk (Hadir)' }
+    - { source: 'Punch In Note', target: 'Catatan Hadir' }
+    - { source: 'Punch Out', target: 'Keluar (Pulang)' }
+    - { source: 'Punch Out Note', target: 'Catatan Keluar ' }
+    - { source: 'No attendance records to display', target: 'Tidak ada catatan Kehadiran untuk ditampilkan' }
+    - { source: 'Punch out Time Should Be Higher Than Punch in Time', target: 'Jam Keluar harus lebih besar dari jam Masuk' }
+    - { source: 'Overlapping Records Found', target: 'Catatan Tumpang Tindih Ditemukan' }
+    - { source: 'Comment should be less than 250 characters', target: 'Komentar harus kurang dari 250 karakter' }
+    - { source: 'Punch in/out note', target: 'Catatatan Masuk / Keluar' }
+    - { source: Timezone, target: 'Zona Waktu' }
+    - { source: 'Last punch in time', target: 'Jam Keluar Terakhir' }
+    - { source: In, target: Masuk }
+    - { source: Out, target: Keluar }
+    - { source: 'Attendance Configuration', target: 'Konfigurasi Kehadiran ' }
+    - { source: 'Employee can change current time when punching in/out', target: 'Karyawan dapat mengubah waktu / jam pada saat melakukan absensi Masuk / Keluar' }
+    - { source: 'Employee can edit/delete own attendance records', target: 'Karyawan dapat menyunting / menghapus catatan kehadirannya sendiri' }
+    - { source: 'Supervisor can add/edit/delete attendance records of subordinates', target: 'Pengawas (supervisor) dapat menambahkan / menyunting / menghapus catatan kehadiran dari bawahannya' }
+    - { source: 'My Attendance Records', target: 'Rekaman Kehadiran Saya ' }
+    - { source: 'You are not allowed to view this page', target: 'Anda tidak diizinkan untuk melihat halaman ini' }
+    - { source: 'Add Attendance Records', target: 'Tambahkan Catatan Kehadiran' }
+    - { source: 'Should Be a Valid Date in %format% Format', target: 'Harus berupa Tanggal yang Valid dalam format %format% ' }
+    - { source: 'Should Be a Valid Time in %format% Format', target: 'Harus berupa Jam yang Valid dalam format %format% ' }

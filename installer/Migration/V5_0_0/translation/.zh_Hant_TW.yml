@@ -1,0 +1,1848 @@
+translations:
+    - { source: '1M Max, any larger attachments will be ignored', target: 檔案上限1MB，更大的附件將被忽略 }
+    - { source: Add, target: 添加 }
+    - { source: 'Add Attachment', target: 添加附件 }
+    - { source: 'Add Employee', target: 添加員工 }
+    - { source: 'Add KPI', target: 添加KPI }
+    - { source: 'Add Review', target: 添加評論 }
+    - { source: 'Add Salary Component', target: 添加薪資部份 }
+    - { source: 'Added By', target: 由...添加 }
+    - { source: Address, target: 地址 }
+    - { source: Admin, target: 系統管理員 }
+    - { source: Afghan, target: 阿富汗人 }
+    - { source: Afghanistan, target: 阿富汗 }
+    - { source: 'Afghanistan Afghani', target: 阿富汗阿富汗尼 }
+    - { source: 'Age Group', target: 年齡群組 }
+    - { source: Alabama, target: 阿拉巴馬州 }
+    - { source: Alaska, target: 阿拉斯加州 }
+    - { source: Albania, target: 阿爾巴尼亞 }
+    - { source: Albanian, target: 阿爾巴尼亞人 }
+    - { source: 'Albanian Lek', target: 阿爾巴尼亞列克 }
+    - { source: Algeria, target: 阿爾及利亞 }
+    - { source: Algerian, target: 阿爾及利亞人 }
+    - { source: 'Algerian Dinar', target: 阿爾及利亞第納爾 }
+    - { source: All, target: 全部 }
+    - { source: 'Allows numbers and only + - / ( )', target: '只允許數字和+ - /（）' }
+    - { source: 'Already exists', target: 已存在 }
+    - { source: 'Name Already Exists', target: 名稱已存在 }
+    - { source: American, target: 美國人 }
+    - { source: 'American Samoa', target: 美屬薩摩亞 }
+    - { source: Amount, target: 量 }
+    - { source: Andorra, target: 安道​​爾 }
+    - { source: Andorran, target: 安道​​爾人 }
+    - { source: Angola, target: 安哥拉 }
+    - { source: Angolan, target: 安哥拉人 }
+    - { source: 'Angolan New Kwanza', target: 安哥拉新寬扎 }
+    - { source: Anguilla, target: 安圭拉 }
+    - { source: Antarctica, target: 南極洲 }
+    - { source: 'Antigua and Barbuda', target: 安提瓜和巴布達 }
+    - { source: Antiguans, target: 安提瓜人 }
+    - { source: Apply, target: 申請 }
+    - { source: April, target: 四月 }
+    - { source: 'are required', target: 需要 }
+    - { source: Argentina, target: 阿根廷 }
+    - { source: 'Argentina Pesos', target: 阿根廷比索 }
+    - { source: 'Argentine Peso', target: 阿根廷比索 }
+    - { source: Argentinean, target: 阿根廷人 }
+    - { source: Arizona, target: 亞利桑那 }
+    - { source: Arkansas, target: 阿肯色 }
+    - { source: 'Armed Forces Americas (except Canada)', target: 美洲武裝部隊（除了加拿大） }
+    - { source: 'Armed Forces Middle East', target: 中東武裝部隊 }
+    - { source: 'Armed Forces Pacific', target: 太平洋武裝部隊 }
+    - { source: Armenia, target: 亞美尼亞 }
+    - { source: Armenian, target: 亞美尼亞人 }
+    - { source: Aruba, target: 阿魯巴 }
+    - { source: 'Aruban Florin', target: 阿魯巴弗羅林 }
+    - { source: 'Assign Leave', target: 指定休假 }
+    - { source: 'Assigned Salary Components', target: 指定薪資部份 }
+    - { source: 'Attachment Size Exceeded', target: 附件大小超過 }
+    - { source: Attendance, target: 出席率 }
+    - { source: 'Attendance Summary', target: 出席率總結 }
+    - { source: August, target: 八月 }
+    - { source: Australia, target: 澳大利亞 }
+    - { source: Australian, target: 澳大利亞人 }
+    - { source: 'Australian Dollar', target: 澳大利亞元 }
+    - { source: Austria, target: 奧地利 }
+    - { source: Austrian, target: 奧地利人 }
+    - { source: Azerbaijan, target: 阿塞拜疆 }
+    - { source: Azerbaijani, target: 阿塞拜疆人 }
+    - { source: Back, target: 上一頁 }
+    - { source: Bahamas, target: 巴哈馬 }
+    - { source: Bahamian, target: 巴哈馬人 }
+    - { source: 'Bahamian Dollar', target: 巴哈馬元 }
+    - { source: Bahrain, target: 巴林 }
+    - { source: Bahraini, target: 巴林人 }
+    - { source: 'Bahraini Dinar', target: 巴林第納爾 }
+    - { source: Bangladesh, target: 孟加拉國 }
+    - { source: Bangladeshi, target: 孟加拉國人 }
+    - { source: 'Bangladeshi Taka', target: 孟加拉國塔卡 }
+    - { source: Barbadian, target: 巴巴多斯人 }
+    - { source: Barbados, target: 巴巴多斯 }
+    - { source: 'Barbados Dollar', target: 巴巴多斯元 }
+    - { source: Barbudans, target: 巴布達人 }
+    - { source: Basic, target: 基本的 }
+    - { source: Batswana, target: 博茨瓦納人 }
+    - { source: Belarus, target: 白俄羅斯 }
+    - { source: Belarusian, target: 白俄羅斯人 }
+    - { source: Belgian, target: 比利時人 }
+    - { source: Belgium, target: 比利時 }
+    - { source: Belize, target: 伯利茲 }
+    - { source: 'Belize Dollar', target: 伯利茲元 }
+    - { source: Belizean, target: 伯利茲人 }
+    - { source: Benin, target: 貝寧 }
+    - { source: Beninese, target: 貝寧人 }
+    - { source: Bermuda, target: 百慕大 }
+    - { source: 'Bermudian Dollar', target: 百慕大元 }
+    - { source: Bhutan, target: 不丹 }
+    - { source: 'Bhutan Ngultrum', target: 不丹魯姆 }
+    - { source: Bhutanese, target: 不丹人 }
+    - { source: Bolivia, target: 玻利維亞 }
+    - { source: Bolivian, target: 玻利維亞人 }
+    - { source: 'Bolivian Boliviano', target: 玻利維亞玻利維亞諾 }
+    - { source: 'Bosnia and Herzegovina', target: 波斯尼亞和黑塞哥維那 }
+    - { source: Bosnian, target: 波斯尼亞人 }
+    - { source: Botswana, target: 博茨瓦納 }
+    - { source: 'Botswana Pula', target: 博茨瓦納普拉 }
+    - { source: 'Bouvet Island', target: 布維島 }
+    - { source: Brazil, target: 巴西 }
+    - { source: Brazilian, target: 巴西人 }
+    - { source: 'Brazilian Real', target: 巴西雷亞爾 }
+    - { source: British, target: 英國人 }
+    - { source: 'British Indian Ocean Territory', target: 英屬印度洋領地 }
+    - { source: 'Brunei Darussalam', target: 文萊 }
+    - { source: 'Brunei Dollar', target: 文萊元 }
+    - { source: Bruneian, target: 文萊人 }
+    - { source: Bulgaria, target: 保加利亞 }
+    - { source: Bulgarian, target: 保加利亞人 }
+    - { source: 'Bulgarian Lev', target: 保加利亞列弗 }
+    - { source: 'Burkina Faso', target: 布基納法索 }
+    - { source: Burkinabe, target: 布基納人 }
+    - { source: Burmese, target: 緬甸人 }
+    - { source: Burundi, target: 布隆迪 }
+    - { source: 'Burundi Franc', target: 布隆迪法郎 }
+    - { source: Burundian, target: 布隆迪人 }
+    - { source: California, target: 加州 }
+    - { source: Cambodia, target: 柬埔寨 }
+    - { source: Cambodian, target: 柬埔寨人 }
+    - { source: Cameroon, target: 喀麥隆 }
+    - { source: Cameroonian, target: 喀麥隆人 }
+    - { source: Canada, target: 加拿大 }
+    - { source: Canadian, target: 加拿大人 }
+    - { source: 'Canadian Dollar', target: 加拿大元 }
+    - { source: Cancel, target: 取消 }
+    - { source: Candidates, target: 候選人 }
+    - { source: 'Cape Verde', target: 佛得角 }
+    - { source: 'Cape Verde Escudo', target: 佛得角埃斯庫多 }
+    - { source: 'Cape Verdean', target: 佛得角人 }
+    - { source: 'Cayman Islands', target: 開曼群島 }
+    - { source: 'Cayman Islands Dollar', target: 開曼群島元 }
+    - { source: 'Central African', target: 中非人 }
+    - { source: 'Central African Republic', target: 中非共和國 }
+    - { source: 'CFA Franc BCEAO', target: CFA西非法郎 }
+    - { source: 'CFP Franc', target: 太平洋金融共同體法郎 }
+    - { source: 'CFA Franc BEAC', target: 'CFA 中非法郎' }
+    - { source: Chad, target: 乍得 }
+    - { source: Chadian, target: 乍得人 }
+    - { source: 'Change Password', target: 更改密碼 }
+    - { source: Checking, target: 檢查中 }
+    - { source: Chile, target: 智利 }
+    - { source: 'Cote D''Ivoire', target: 科特迪瓦 }
+    - { source: Chilean, target: 智利人 }
+    - { source: 'Chilean Peso', target: 智利比索 }
+    - { source: 'Tongan Pa''anga', target: 湯加潘加 }
+    - { source: China, target: 中國 }
+    - { source: Chinese, target: 中國人 }
+    - { source: 'Chinese Yuan Renminbi', target: 人民幣 }
+    - { source: 'Christmas Island', target: 聖誕島 }
+    - { source: 'Cocos (Keeling) Islands', target: 科科斯群島 }
+    - { source: Colombia, target: 哥倫比亞 }
+    - { source: Colombian, target: 哥倫比亞人 }
+    - { source: 'Colombian Peso', target: 哥倫比亞比索 }
+    - { source: Colorado, target: 美國科羅拉多州 }
+    - { source: Comment, target: 評論 }
+    - { source: Comments, target: 評論 }
+    - { source: Comoran, target: 科摩羅人 }
+    - { source: Comoros, target: 科摩羅 }
+    - { source: 'Comoros Franc', target: 科摩羅法郎 }
+    - { source: Company, target: 公司 }
+    - { source: Competency, target: 能力 }
+    - { source: Configuration, target: 配置 }
+    - { source: Configure, target: 配置 }
+    - { source: Congo, target: 剛果 }
+    - { source: 'Congo, the Democratic Republic of the', target: 剛果民主共和國 }
+    - { source: Congolese, target: 剛果人 }
+    - { source: Connecticut, target: 康涅狄格 }
+    - { source: 'Contact Details', target: 詳細聯繫方式 }
+    - { source: 'Contract End Date', target: 合同結束日期 }
+    - { source: 'Contract Not Renewed', target: 合同未續訂 }
+    - { source: 'Contract Start Date', target: 合同開始日期 }
+    - { source: 'Cook Islands', target: 庫克群島 }
+    - { source: 'Copy KPI', target: 複製KPI }
+    - { source: 'Costa Rica', target: 哥斯達黎加 }
+    - { source: 'Costa Rican', target: 哥斯達黎加人 }
+    - { source: 'Costa Rican Colon', target: 哥斯達黎加科隆 }
+    - { source: Country, target: 國家 }
+    - { source: Croatia, target: 克羅地亞 }
+    - { source: Croatian, target: 克羅地亞人 }
+    - { source: 'Croatian Kuna', target: 克羅地亞庫納 }
+    - { source: Cuba, target: 古巴 }
+    - { source: Cuban, target: 古巴人 }
+    - { source: 'Cuban Peso', target: 古巴比索 }
+    - { source: Currency, target: 貨幣 }
+    - { source: 'Current and Past Employees', target: 當前和過去的員工 }
+    - { source: 'Current Employees Only', target: 只是現有員工 }
+    - { source: 'Current Status', target: 目前狀態 }
+    - { source: 'Custom Fields', target: 自定義區域 }
+    - { source: Customers, target: 客戶 }
+    - { source: Cypriot, target: 塞浦路斯人 }
+    - { source: Cyprus, target: 塞浦路斯 }
+    - { source: 'Cyprus Pound', target: 塞浦路斯鎊 }
+    - { source: Czech, target: 捷克人 }
+    - { source: 'Czech Koruna', target: 捷克克朗 }
+    - { source: 'Czech Republic', target: 捷克共和國 }
+    - { source: Danish, target: 丹麥人 }
+    - { source: 'Danish Krona', target: 丹麥克郎 }
+    - { source: 'Data Import', target: 資料匯入 }
+    - { source: Date, target: 日期 }
+    - { source: 'Date Added', target: 添加日期 }
+    - { source: 'Date of Birth', target: 出生日期 }
+    - { source: Days, target: 天 }
+    - { source: Deceased, target: 死者 }
+    - { source: December, target: 十二月 }
+    - { source: 'Define Report', target: 定義報表 }
+    - { source: 'Defined Custom Fields', target: 自定義區域 }
+    - { source: Delaware, target: 特拉華州 }
+    - { source: Delete, target: 刪除 }
+    - { source: 'Delete Current', target: 刪除目前 }
+    - { source: Denmark, target: 丹麥 }
+    - { source: Dependents, target: 眷屬 }
+    - { source: Description, target: 描述 }
+    - { source: Dimensions, target: 尺寸 }
+    - { source: Direct, target: 直接 }
+    - { source: 'Direct Deposit Account Number', target: 直接存款帳戶號碼 }
+    - { source: 'Direct Deposit Account Type', target: 直接存款帳戶類型 }
+    - { source: 'Direct Deposit Amount', target: 直接存款金額 }
+    - { source: 'Direct Deposit Details', target: 直接存款明細 }
+    - { source: 'Direct Deposit Routing Number', target: 直接存款路由號碼 }
+    - { source: Disabled, target: 停用 }
+    - { source: Dismissed, target: 駁回 }
+    - { source: 'Display Field Groups', target: 顯示區域群組 }
+    - { source: 'Display Fields', target: 顯示區域 }
+    - { source: 'District of Columbia', target: 哥倫比亞特區 }
+    - { source: Djibouti, target: 吉布提 }
+    - { source: 'Djibouti Franc', target: 吉布提法郎 }
+    - { source: 'Document Type', target: 文件類型 }
+    - { source: Dominica, target: 多米尼加 }
+    - { source: Dominican, target: 多米尼加人 }
+    - { source: 'Dominican Peso', target: 多米尼加比索 }
+    - { source: 'Dominican Republic', target: 多米尼加共和國 }
+    - { source: 'Driver License Number', target: 駕照號碼 }
+    - { source: 'Driver''s License Number', target: 'Driver''s許可證號' }
+    - { source: Duration, target: 期間 }
+    - { source: Dutch, target: 荷蘭人 }
+    - { source: Duties, target: 職責 }
+    - { source: 'East Timorese', target: 東帝汶人 }
+    - { source: 'Eastern Caribbean Dollars', target: 東加勒比元 }
+    - { source: Ecuador, target: 厄瓜多爾 }
+    - { source: 'Ecuador Sucre', target: 厄瓜多爾蘇克雷（Sucre） }
+    - { source: Ecuadorean, target: 厄瓜多爾人 }
+    - { source: Edit, target: 編輯 }
+    - { source: 'Edit Attachment', target: 編輯附件 }
+    - { source: 'Edit Immigration', target: 編輯入境事務處 }
+    - { source: 'Edit Salary Component', target: 編輯薪水部份 }
+    - { source: Education, target: 教育 }
+    - { source: Egypt, target: 埃及 }
+    - { source: Egyptian, target: 埃及人 }
+    - { source: 'Egyptian Pound', target: 埃及鎊 }
+    - { source: 'El Salvador', target: 薩爾瓦多 }
+    - { source: 'El Salvador Colon', target: 薩爾瓦多科隆 }
+    - { source: Eligible, target: 合格 }
+    - { source: 'Eligible Review Date', target: 合資格審查日期 }
+    - { source: 'Eligible Status', target: 符合條件的狀態 }
+    - { source: 'Email Notifications', target: 電子郵件通知 }
+    - { source: 'Emergency Contacts', target: 緊急聯絡人 }
+    - { source: Emirian, target: 阿拉伯酋長國人 }
+    - { source: Employee, target: 員工 }
+    - { source: 'Employee First Name', target: 員工名字 }
+    - { source: 'Employee Id', target: 員工編號 }
+    - { source: 'Employee Last Name', target: 員工姓氏 }
+    - { source: 'Employee List', target: 員工列表 }
+    - { source: 'Employee Middle Name', target: 員工中間名 }
+    - { source: 'Employee Name', target: 員工姓名 }
+    - { source: 'Employee Records', target: 員工記錄 }
+    - { source: 'Employee Reports', target: 員工報表 }
+    - { source: 'Employee Timesheets', target: 員工時間表 }
+    - { source: 'Employment Status', target: 雇用狀態 }
+    - { source: Enabled, target: 啟用 }
+    - { source: 'End Date', target: 結束日期 }
+    - { source: 'End date should be after start date', target: 結束日期應晚於開始日期 }
+    - { source: 'Equatorial Guinea', target: 赤道幾內亞 }
+    - { source: 'Equatorial Guinean', target: 赤道幾內亞人 }
+    - { source: Eritrea, target: 厄立特里亞 }
+    - { source: Eritrean, target: 厄立特里亞人 }
+    - { source: ESS, target: ESS }
+    - { source: Estonia, target: 愛沙尼亞 }
+    - { source: Estonian, target: 愛沙尼亞人 }
+    - { source: 'Estonian Krona', target: 愛沙尼亞克朗 }
+    - { source: Ethiopia, target: 埃塞俄比亞 }
+    - { source: Ethiopian, target: 埃塞俄比亞人 }
+    - { source: 'Ethiopian Birr', target: 埃塞俄比亞比爾 }
+    - { source: Euro, target: 歐元 }
+    - { source: 'Expected format: admin@example.com', target: 預期格式：admin@example.com }
+    - { source: 'Expiry Date', target: 到期日 }
+    - { source: 'Expiry date should be after issued date', target: 到期日期應晚於發行日期 }
+    - { source: 'Failed to Save', target: 儲存失敗 }
+    - { source: 'Falkland Islands (Malvinas)', target: 福克蘭群島（馬爾維納斯群島） }
+    - { source: 'Falkland Islands Pound', target: 福克蘭群島鎊 }
+    - { source: 'Faroe Islands', target: 法羅群島 }
+    - { source: February, target: 二月 }
+    - { source: 'Federated States of Micronesia', target: 密克羅尼西亞聯邦 }
+    - { source: Female, target: 女 }
+    - { source: Field, target: 區域 }
+    - { source: Fields, target: 區域 }
+    - { source: 'Fields marked with an asterisk', target: 標有星號的區域 }
+    - { source: Fiji, target: 斐濟 }
+    - { source: 'Fiji Dollar', target: 斐濟元 }
+    - { source: Fijian, target: 斐濟人 }
+    - { source: 'File Name', target: 文件名稱 }
+    - { source: Filipino, target: 菲律賓人 }
+    - { source: Finland, target: 芬蘭 }
+    - { source: Finnish, target: 芬蘭人 }
+    - { source: First, target: 第一 }
+    - { source: 'First Name', target: 名字 }
+    - { source: Florida, target: 佛羅里達 }
+    - { source: Fluency, target: 流利 }
+    - { source: France, target: 法國 }
+    - { source: French, target: 法國人 }
+    - { source: 'French Guiana', target: 法屬圭亞那 }
+    - { source: 'French Polynesia', target: 法屬波利尼西亞 }
+    - { source: 'French Southern Territories', target: 法國南部領土 }
+    - { source: Friday, target: 星期五 }
+    - { source: From, target: 從 }
+    - { source: 'Full Name', target: 全名 }
+    - { source: 'Full Time Contract', target: 全職合約 }
+    - { source: 'Full Time Internship', target: 全職實習 }
+    - { source: 'Full Time Permanent', target: 全職長工 }
+    - { source: Gabon, target: 加蓬 }
+    - { source: Gabonese, target: 加蓬人 }
+    - { source: Gambia, target: 岡比亞 }
+    - { source: Gambian, target: 岡比亞人 }
+    - { source: 'Gambian Dalasi', target: 岡比亞達拉西 }
+    - { source: Gender, target: 性別 }
+    - { source: 'General Information', target: 一般資料 }
+    - { source: Georgia, target: 格魯吉亞 }
+    - { source: Georgian, target: 格魯吉亞人 }
+    - { source: German, target: 德國人 }
+    - { source: Germany, target: 德國 }
+    - { source: Ghana, target: 加納 }
+    - { source: Ghanaian, target: 加納人 }
+    - { source: 'Ghanaian Cedi', target: 加納的塞地 }
+    - { source: Gibraltar, target: 直布羅陀 }
+    - { source: 'Gibraltar Pound', target: 直布羅陀龐德 }
+    - { source: 'Gold (oz.)', target: 黃金（盎司） }
+    - { source: Good, target: 好 }
+    - { source: 'Greater Than', target: 大於 }
+    - { source: Greece, target: 希臘 }
+    - { source: Greek, target: 希臘人 }
+    - { source: Greenland, target: 格陵蘭 }
+    - { source: Grenada, target: 格林納達 }
+    - { source: Grenadian, target: 格林納達人 }
+    - { source: Guadeloupe, target: 瓜德羅普島 }
+    - { source: Guam, target: 關島 }
+    - { source: Guatemala, target: 危地馬拉 }
+    - { source: Guatemalan, target: 危地馬拉人 }
+    - { source: 'Guatemalan Quetzal', target: 危地馬拉格查爾 }
+    - { source: Guinea, target: 幾內亞 }
+    - { source: 'Guinea Franc', target: 幾內亞法郎 }
+    - { source: Guinea-Bissau, target: 幾內亞比紹 }
+    - { source: Guinea-Bissauan, target: 幾內亞比紹人 }
+    - { source: Guinean, target: 幾內亞人 }
+    - { source: Guyana, target: 圭亞那 }
+    - { source: 'Guyanan Dollar', target: 圭亞那元 }
+    - { source: Guyanese, target: 圭亞那人 }
+    - { source: Haiti, target: 海地 }
+    - { source: Haitian, target: 海地人 }
+    - { source: 'Haitian Gourde', target: 海地古德 }
+    - { source: Hawaii, target: 夏威夷 }
+    - { source: 'Heard Island and Mcdonald Islands', target: 赫德島和麥當勞群島 }
+    - { source: Help, target: 幫助 }
+    - { source: Herzegovinian, target: 黑塞哥維人 }
+    - { source: 'Hide Details', target: 隱藏詳細信息 }
+    - { source: Holidays, target: 假期 }
+    - { source: 'Holy See (Vatican City State)', target: 羅馬教廷（梵蒂岡城國） }
+    - { source: 'Home Telephone', target: 家用電話 }
+    - { source: Honduran, target: 洪都拉斯人 }
+    - { source: 'Honduran Lempira', target: 洪都拉斯倫皮拉 }
+    - { source: Honduras, target: 洪都拉斯 }
+    - { source: 'Hong Kong', target: 香港 }
+    - { source: 'Hong Kong Dollar', target: 港元 }
+    - { source: Hungarian, target: 匈牙利人 }
+    - { source: 'Hungarian Forint', target: 匈牙利福林 }
+    - { source: Hungary, target: 匈牙利 }
+    - { source: I-Kiribati, target: 愛-基里巴斯人 }
+    - { source: Iceland, target: 冰島 }
+    - { source: 'Iceland Krona', target: 冰島克朗 }
+    - { source: Icelander, target: 冰島人 }
+    - { source: Id, target: 身分編號 }
+    - { source: Idaho, target: 美國愛達荷州 }
+    - { source: Illinois, target: 伊利諾伊州 }
+    - { source: 'IMF Special Drawing Right', target: 國際貨幣基金組織特別提款權 }
+    - { source: Immigration, target: 入境事務處 }
+    - { source: Include, target: 包含 }
+    - { source: 'Include Header', target: 包含頁首 }
+    - { source: 'Include Past Employees', target: 包括過去的員工 }
+    - { source: India, target: 印度 }
+    - { source: Indian, target: 印度人 }
+    - { source: 'Indian Rupee', target: 印度盧比 }
+    - { source: Indiana, target: 印地安那 }
+    - { source: Indirect, target: 間接 }
+    - { source: Individual, target: 個人 }
+    - { source: Indonesia, target: 印尼 }
+    - { source: Indonesian, target: 印度尼西亞人 }
+    - { source: 'Indonesian Rupiah', target: 印尼盾 }
+    - { source: 'Invalid File Type', target: 無效的文件類型 }
+    - { source: Iowa, target: 愛荷華州 }
+    - { source: 'Iran, Islamic Republic of', target: 伊朗伊斯蘭共和國 }
+    - { source: Iranian, target: 伊朗人 }
+    - { source: 'Iranian Rial', target: 伊朗里亞爾 }
+    - { source: Iraq, target: 伊拉克 }
+    - { source: Iraqi, target: 伊拉克人 }
+    - { source: 'Iraqi Dinar', target: 伊拉克第納爾 }
+    - { source: Ireland, target: 愛爾蘭 }
+    - { source: Irish, target: 愛爾蘭人 }
+    - { source: Israel, target: 以色列 }
+    - { source: Israeli, target: 以色列人 }
+    - { source: 'Israeli New Shekel', target: 以色列新謝克爾 }
+    - { source: 'Issued By', target: 發行者 }
+    - { source: 'Issued Date', target: 發行日期 }
+    - { source: Italian, target: 意大利人 }
+    - { source: Italy, target: 意大利 }
+    - { source: Ivorian, target: 科特迪瓦人 }
+    - { source: Jamaica, target: 牙買加 }
+    - { source: Jamaican, target: 牙買加人 }
+    - { source: 'Jamaican Dollar', target: 牙買加元 }
+    - { source: January, target: 一月 }
+    - { source: Japan, target: 日本 }
+    - { source: Japanese, target: 日本人 }
+    - { source: 'Japanese Yen', target: 日圓 }
+    - { source: Job, target: 工作 }
+    - { source: 'Job Categories', target: 職稱類別 }
+    - { source: 'Job Category', target: 職稱類別 }
+    - { source: 'Job Specification', target: 工作規範 }
+    - { source: 'Job Title', target: 職稱 }
+    - { source: 'Job Titles', target: 職稱 }
+    - { source: 'Joined Date', target: 加入日期 }
+    - { source: Jordan, target: 約旦 }
+    - { source: Jordanian, target: 約旦人 }
+    - { source: 'Jordanian Dinar', target: 約旦第納爾 }
+    - { source: July, target: 七月 }
+    - { source: June, target: 六月 }
+    - { source: 'Kampuchean Riel', target: 柬埔寨瑞爾 }
+    - { source: Kansas, target: 堪薩斯州 }
+    - { source: Kazakhstan, target: 哈薩克斯坦 }
+    - { source: 'Kazakhstan Tenge', target: 哈薩克斯坦堅戈 }
+    - { source: Kazakhstani, target: 哈薩克斯坦人 }
+    - { source: 'Keep Current', target: 保持當前 }
+    - { source: Kentucky, target: 肯塔基州 }
+    - { source: Kenya, target: 肯尼亞 }
+    - { source: Kenyan, target: 肯尼亞人 }
+    - { source: 'Kenyan Shilling', target: 肯尼亞先令 }
+    - { source: Kiribati, target: 基里巴斯 }
+    - { source: 'Kittian and Nevisian', target: 吉滴人和尼維斯人 }
+    - { source: 'Korea, Democratic People''s Republic of', target: 朝鮮人民民主共和國 }
+    - { source: 'Korea, Republic of', target: 韓國 }
+    - { source: 'Korean Won', target: 韓元 }
+    - { source: 'KPI List', target: KPI列表 }
+    - { source: Kuwait, target: 科威特 }
+    - { source: Kuwaiti, target: 科威特人 }
+    - { source: 'Kuwaiti Dinar', target: 科威特第納爾 }
+    - { source: Kyrgyz, target: 吉爾吉斯人 }
+    - { source: Kyrgyzstan, target: 吉爾吉斯斯坦 }
+    - { source: Language, target: 語言 }
+    - { source: Languages, target: 語言 }
+    - { source: 'Lao Kip', target: 寮國基普 }
+    - { source: 'Lao People''s Democratic Republic', target: '寮國, 人民民主共和國' }
+    - { source: Laotian, target: 寮國人 }
+    - { source: Last, target: 最後 }
+    - { source: 'Last Name', target: 姓氏 }
+    - { source: Latvia, target: 拉脫維亞 }
+    - { source: Latvian, target: 拉脫維亞人 }
+    - { source: 'Latvian Lats', target: 拉脫維亞拉特 }
+    - { source: Laid-off, target: 資遣 }
+    - { source: Leave, target: 休假 }
+    - { source: 'Leave Balance (Days)', target: 休假餘額(天) }
+    - { source: 'Leave Entitled (Days)', target: 休假資格(天) }
+    - { source: 'Leave List', target: 休假列表 }
+    - { source: 'Leave Period', target: 休假期間 }
+    - { source: 'Leave Scheduled (Days)', target: 預定休假（天） }
+    - { source: 'Leave Summary', target: 休假總結 }
+    - { source: 'Leave Taken (Days)', target: 已休休假(天) }
+    - { source: 'Leave Types', target: 休假類型 }
+    - { source: Lebanese, target: 黎巴嫩人 }
+    - { source: 'Lebanese Pound', target: 黎巴嫩鎊 }
+    - { source: Lebanon, target: 黎巴嫩 }
+    - { source: Lesotho, target: 萊索托 }
+    - { source: 'Lesotho Loti', target: 萊索托洛蒂 }
+    - { source: 'Less Than', target: 少於 }
+    - { source: Level, target: 層次 }
+    - { source: Liberia, target: 利比里亞 }
+    - { source: Liberian, target: 利比里亞人 }
+    - { source: 'Liberian Dollar', target: 利比里亞元 }
+    - { source: Libyan, target: 利比亞人 }
+    - { source: 'Libyan Arab Jamahiriya', target: 阿拉伯利比亞民眾國 }
+    - { source: 'Libyan Dinar', target: 利比亞第納爾 }
+    - { source: License, target: 許可證 }
+    - { source: 'License Expiry Date', target: 許可證到期日期 }
+    - { source: 'License Number', target: 牌照號碼 }
+    - { source: 'License Type', target: 許可證類型 }
+    - { source: Licenses, target: 許可證 }
+    - { source: Liechtenstein, target: 列支敦士登 }
+    - { source: Liechtensteiner, target: 列支敦士登人 }
+    - { source: Lithuania, target: 立陶宛 }
+    - { source: Lithuanian, target: 立陶宛人 }
+    - { source: 'Lithuanian Litas', target: 立陶宛立特 }
+    - { source: Localization, target: 本土化 }
+    - { source: Location, target: 位置 }
+    - { source: Locations, target: 位置 }
+    - { source: Logout, target: 登出 }
+    - { source: Louisiana, target: 路易斯安那州 }
+    - { source: Luxembourg, target: 盧森堡 }
+    - { source: Luxembourger, target: 盧森堡人 }
+    - { source: Macao, target: 澳門 }
+    - { source: 'Macau Pataca', target: 澳門幣 }
+    - { source: 'Macedonia, the Former Yugoslav Republic of', target: 馬其頓，前南斯拉夫的馬其頓共和國 }
+    - { source: Macedonian, target: 馬其頓人 }
+    - { source: Madagascar, target: 馬達加斯加 }
+    - { source: Maine, target: 緬因州 }
+    - { source: Malagasy, target: 馬爾加什人 }
+    - { source: 'Malagasy Franc', target: 馬爾加什法郎 }
+    - { source: Malawi, target: 馬拉維 }
+    - { source: 'Malawi Kwacha', target: 馬拉維克瓦查 }
+    - { source: Malawian, target: 馬拉維人 }
+    - { source: Malaysia, target: 馬來西亞 }
+    - { source: Malaysian, target: 馬來西亞人 }
+    - { source: 'Malaysian Ringgit', target: 馬來西亞林吉特 }
+    - { source: Maldivan, target: 馬爾代夫人 }
+    - { source: 'Maldive Rufiyaa', target: 馬爾代夫羅非亞 }
+    - { source: Maldives, target: 馬爾代夫 }
+    - { source: Male, target: 男 }
+    - { source: Mali, target: 馬里 }
+    - { source: Malian, target: 馬里人 }
+    - { source: Malta, target: 馬耳他 }
+    - { source: Maltese, target: 馬耳他人 }
+    - { source: 'Maltese Lira', target: 馬耳他里拉 }
+    - { source: March, target: 三月 }
+    - { source: 'Marital Status', target: 婚姻狀況 }
+    - { source: 'Marshall Islands', target: 馬紹爾群島 }
+    - { source: Marshallese, target: 馬紹爾人 }
+    - { source: Martinique, target: 馬提尼克島 }
+    - { source: Maryland, target: 馬里蘭州 }
+    - { source: Massachusetts, target: 美國馬薩諸塞州 }
+    - { source: Mauritania, target: 毛里塔尼亞 }
+    - { source: Mauritanian, target: 毛里塔尼亞人 }
+    - { source: 'Mauritanian Ouguiya', target: 毛里塔尼亞烏吉亞 }
+    - { source: Mauritian, target: 毛里求斯人 }
+    - { source: Mauritius, target: 毛里求斯 }
+    - { source: 'Mauritius Rupee', target: 毛里求斯盧比 }
+    - { source: May, target: 五月 }
+    - { source: Mayotte, target: 馬約特島 }
+    - { source: Membership, target: 會籍 }
+    - { source: Memberships, target: 會員資格 }
+    - { source: Mexican, target: 墨西哥人 }
+    - { source: 'Mexican New Peso', target: 墨西哥新比索 }
+    - { source: 'Mexican Peso', target: 墨西哥比索 }
+    - { source: Mexico, target: 墨西哥 }
+    - { source: Michigan, target: 密歇根州 }
+    - { source: 'Micronesia, Federated States of', target: 密克羅尼西亞聯邦 }
+    - { source: Micronesian, target: 密克羅尼西亞人 }
+    - { source: Middle, target: 中間 }
+    - { source: 'Middle Name', target: 中間名字 }
+    - { source: Minnesota, target: 明尼蘇達州 }
+    - { source: Mississippi, target: 密西西比 }
+    - { source: Missouri, target: 密蘇里州 }
+    - { source: Mobile, target: 手機 }
+    - { source: Modules, target: 模組 }
+    - { source: 'Moldova, Republic of', target: 摩爾多瓦共和國 }
+    - { source: Moldovan, target: 摩爾多瓦人 }
+    - { source: Monacan, target: 摩納哥人 }
+    - { source: Monaco, target: 摩納哥 }
+    - { source: Monday, target: 星期一 }
+    - { source: Mongolia, target: 蒙古 }
+    - { source: Mongolian, target: 蒙古人 }
+    - { source: 'Mongolian Tugrik', target: 蒙古圖格里克 }
+    - { source: Montana, target: 蒙大拿 }
+    - { source: Month, target: 月 }
+    - { source: Montserrat, target: 蒙特塞拉特 }
+    - { source: Moroccan, target: 摩洛哥人 }
+    - { source: 'Moroccan Dirham', target: 摩洛哥迪哈姆 }
+    - { source: Morocco, target: 摩洛哥 }
+    - { source: Mosotho, target: 莱索托人 }
+    - { source: 'Mother Tongue', target: 母語 }
+    - { source: Motswana, target: 博茨瓦纳人 }
+    - { source: Mozambican, target: 莫桑比克人 }
+    - { source: Mozambique, target: 莫桑比克 }
+    - { source: 'Mozambique Metical', target: 莫桑比克梅蒂卡爾 }
+    - { source: 'My Leave', target: 我的休假 }
+    - { source: 'My Records', target: 我的記錄 }
+    - { source: 'My Timesheets', target: 我的時間表 }
+    - { source: Myanmar, target: 緬甸 }
+    - { source: 'Myanmar Kyat', target: 緬甸緬元 }
+    - { source: Name, target: 名字 }
+    - { source: 'Name exists', target: 名字已存在 }
+    - { source: Namibia, target: 納米比亞 }
+    - { source: 'Namibia Dollar', target: 納米比亞元 }
+    - { source: Namibian, target: 納米比亞人 }
+    - { source: Nationalities, target: 國籍 }
+    - { source: Nationality, target: 國籍 }
+    - { source: Nauru, target: 瑙魯 }
+    - { source: Nauruan, target: 瑙魯人 }
+    - { source: Nebraska, target: 內布拉斯加州 }
+    - { source: Nepal, target: 尼泊爾 }
+    - { source: Nepalese, target: 尼泊爾人 }
+    - { source: 'Nepalese Rupee', target: 尼泊爾盧比 }
+    - { source: Netherlands, target: 荷蘭 }
+    - { source: 'Netherlands Antilles', target: 荷屬安的列斯群島 }
+    - { source: Nevada, target: 內華達州 }
+    - { source: 'New Caledonia', target: 新喀裡多尼亞 }
+    - { source: 'New Hampshire', target: 新罕布什爾州 }
+    - { source: 'New Jersey', target: 新澤西州 }
+    - { source: 'New Mexico', target: 新墨西哥 }
+    - { source: 'New York', target: 紐約 }
+    - { source: 'New Zaire', target: 新扎伊爾 }
+    - { source: 'New Zealand', target: 新西蘭 }
+    - { source: 'New Zealand Dollar', target: 新西蘭元 }
+    - { source: 'New Zealander', target: 新西蘭人 }
+    - { source: Next, target: 下一個 }
+    - { source: Nicaragua, target: 尼加拉瓜 }
+    - { source: Nicaraguan, target: 尼加拉瓜人 }
+    - { source: 'Nicaraguan Cordoba Oro', target: 尼加拉瓜科多巴俄洛 }
+    - { source: Niger, target: 尼日爾 }
+    - { source: Nigeria, target: 尼日利亞 }
+    - { source: Nigerian, target: 尼日利亞人 }
+    - { source: 'Nigerian Naira', target: 尼日利亞奈拉 }
+    - { source: Nigerien, target: 尼日爾人 }
+    - { source: Niue, target: 紐埃 }
+    - { source: 'NL Antillian Guilder', target: 國聯安的列斯盾 }
+    - { source: 'No', target: 沒有 }
+    - { source: 'No Project Activities', target: 沒有項目活動 }
+    - { source: 'No Projects', target: 沒有項目 }
+    - { source: 'No Records Found', target: 沒有找到記錄 }
+    - { source: 'No records to display', target: 沒有記錄可顯示 }
+    - { source: 'Norfolk Island', target: 諾福克島 }
+    - { source: 'North Carolina', target: 北卡羅萊納州 }
+    - { source: 'North Dakota', target: 北達科他州 }
+    - { source: 'North Korean', target: 朝鮮人 }
+    - { source: 'North Korean Won', target: 朝鮮圓 }
+    - { source: 'Northern Irish', target: 北愛爾蘭人 }
+    - { source: 'Northern Mariana Islands', target: 北馬里亞納群島 }
+    - { source: Norway, target: 挪威 }
+    - { source: Norwegian, target: 挪威人 }
+    - { source: 'Norwegian Krona', target: 挪威克郎 }
+    - { source: 'Not Defined', target: 未定義 }
+    - { source: Notes, target: 註記 }
+    - { source: November, target: 十一月 }
+    - { source: Number, target: 數目 }
+    - { source: October, target: 十月 }
+    - { source: Ohio, target: 美國俄亥俄州 }
+    - { source: Oklahoma, target: 俄克拉何馬州 }
+    - { source: Oman, target: 阿曼 }
+    - { source: Omani, target: 阿曼人 }
+    - { source: 'Omani Rial', target: 阿曼里亞爾 }
+    - { source: 'Only Include Approved Timesheets', target: 只包括核准時間表 }
+    - { source: 'Optional Fields', target: 可選區域 }
+    - { source: or, target: 或 }
+    - { source: 'OrangeHRM - Confirmation Required', target: 'OrangeHRM - 需確認' }
+    - { source: Oregon, target: 俄勒岡州 }
+    - { source: Organization, target: 組織 }
+    - { source: Other, target: 其他 }
+    - { source: 'Other Email', target: 其他電子郵件 }
+    - { source: 'Other Id', target: 其他身分編號 }
+    - { source: Pakistan, target: 巴基斯坦 }
+    - { source: 'Pakistan Rupee', target: 巴基斯坦盧比 }
+    - { source: Pakistani, target: 巴基斯坦人 }
+    - { source: Palau, target: 帛琉 }
+    - { source: Palauan, target: 帛琉人 }
+    - { source: 'Palestinian Territory, Occupied', target: 被佔巴勒斯坦領土 }
+    - { source: 'Palladium (oz.)', target: 鈀金（盎司） }
+    - { source: Panama, target: 巴拿馬 }
+    - { source: Panamanian, target: 巴拿馬人 }
+    - { source: 'Panamanian Balboa', target: 巴拿馬巴波亞 }
+    - { source: 'Papua New Guinea', target: 巴布亞新幾內亞 }
+    - { source: 'Papua New Guinea Kina', target: 巴布亞新幾內亞基那 }
+    - { source: 'Papua New Guinean', target: 巴布亞新幾內亞人 }
+    - { source: Paraguay, target: 巴拉圭 }
+    - { source: 'Paraguay Guarani', target: 巴拉圭瓜拉尼 }
+    - { source: Paraguayan, target: 巴拉圭人 }
+    - { source: 'Part Time Contract', target: 兼職合約 }
+    - { source: 'Part Time Internship', target: 兼職實習 }
+    - { source: 'Part Time Permanent', target: 永久性兼職 }
+    - { source: 'Past Employee', target: 過去的員工 }
+    - { source: 'Past Employees Only', target: 僅過去的員工 }
+    - { source: 'Pay Frequency', target: 繳納頻率 }
+    - { source: 'Pay Grade', target: 薪資等級 }
+    - { source: 'Pay Grades', target: 薪資等級 }
+    - { source: Pennsylvania, target: 賓夕法尼亞州 }
+    - { source: Performance, target: 表現 }
+    - { source: Personal, target: 個人 }
+    - { source: Peru, target: 秘魯 }
+    - { source: Peruvian, target: 秘魯人 }
+    - { source: 'Peruvian Nuevo Sol', target: 秘魯新索爾 }
+    - { source: 'Philippine Peso', target: 菲律賓比索 }
+    - { source: Philippines, target: 菲律賓 }
+    - { source: 'Physically Disabled/Compensated', target: 傷殘人士/補償 }
+    - { source: PIM, target: 人事管理 }
+    - { source: 'PIM Sample Report', target: 人事報告樣本 }
+    - { source: Pitcairn, target: 皮特凱恩 }
+    - { source: 'Platinum (oz.)', target: 鉑金（盎司） }
+    - { source: Poland, target: 波蘭 }
+    - { source: Polish, target: 波蘭人 }
+    - { source: 'Polish Zloty', target: 波蘭茲羅提 }
+    - { source: Poor, target: 差 }
+    - { source: Portugal, target: 葡萄牙 }
+    - { source: Portuguese, target: 葡萄牙人 }
+    - { source: 'Pound Sterling', target: 英鎊 }
+    - { source: Previous, target: 前 }
+    - { source: Program, target: 程序 }
+    - { source: 'Project Date Range', target: 項目的日期範圍 }
+    - { source: 'Project Info', target: 項目信息 }
+    - { source: 'Project Reports', target: 項目報告 }
+    - { source: Projects, target: 項目 }
+    - { source: 'Puerto Rico', target: 波多黎各 }
+    - { source: 'Punch In/Out', target: 上班打卡進/出 }
+    - { source: Qatar, target: 卡塔爾 }
+    - { source: Qatari, target: 卡塔爾人 }
+    - { source: 'Qatari Rial', target: 卡塔爾里亞爾 }
+    - { source: Qualification, target: 資格 }
+    - { source: Range, target: 範圍 }
+    - { source: Reading, target: 閱讀 }
+    - { source: 'Records Per Page', target: 每頁記錄 }
+    - { source: Recruitment, target: 招聘 }
+    - { source: Relationship, target: 關係 }
+    - { source: 'Replace Current', target: 替換目前的 }
+    - { source: 'Replace file', target: 替換文件 }
+    - { source: 'Report Name', target: 報告名稱 }
+    - { source: 'Reporting Method', target: 報告方法 }
+    - { source: 'Reporting Methods', target: 報告方法 }
+    - { source: Reports, target: 報表 }
+    - { source: Required, target: 需要 }
+    - { source: 'Required field', target: 必填字段 }
+    - { source: Reset, target: 重新設置 }
+    - { source: Resigned, target: 辭任 }
+    - { source: 'Resigned - Company Requested', target: '辭任 - 公司要求' }
+    - { source: 'Resigned - Self Proposed', target: '辭任 - 自擬' }
+    - { source: Retired, target: 退休 }
+    - { source: Reunion, target: 留尼旺島 }
+    - { source: Reviews, target: 評論 }
+    - { source: 'Rhode Island', target: 羅得島 }
+    - { source: Romania, target: 羅馬尼亞 }
+    - { source: Romanian, target: 羅馬尼亞人 }
+    - { source: 'Romanian Leu', target: 羅馬尼亞列伊 }
+    - { source: 'Routing Number', target: 路由號碼 }
+    - { source: Run, target: 運行 }
+    - { source: 'Russia Rubles', target: 俄羅斯盧布 }
+    - { source: Russian, target: 俄國人 }
+    - { source: 'Russian Federation', target: 俄羅斯聯邦 }
+    - { source: 'Russian Rouble', target: 俄羅斯盧布 }
+    - { source: Rwanda, target: 盧旺達 }
+    - { source: Rwandan, target: 盧旺達人 }
+    - { source: 'Saint Helena', target: 聖赫勒拿島 }
+    - { source: 'Saint Kitts and Nevis', target: 聖基茨和尼維斯 }
+    - { source: 'Saint Lucia', target: 聖盧西亞 }
+    - { source: 'Saint Lucian', target: 聖盧西亞人 }
+    - { source: 'Saint Pierre and Miquelon', target: 聖皮埃爾和密克隆 }
+    - { source: 'Saint Vincent and the Grenadines', target: 聖文森特和格林納丁斯 }
+    - { source: Salary, target: 薪水 }
+    - { source: 'Salary Component', target: 薪酬部分 }
+    - { source: Salvadoran, target: 薩爾瓦多人 }
+    - { source: Samoa, target: 薩摩亞 }
+    - { source: Samoan, target: 薩摩亞人 }
+    - { source: 'Samoan Tala', target: 薩摩亞塔拉 }
+    - { source: 'San Marinese', target: 聖馬力諾人 }
+    - { source: 'San Marino', target: 聖馬力諾 }
+    - { source: 'Sao Tome and Principe', target: 聖多美和普林西比 }
+    - { source: 'Sao Tome/Principe Dobra', target: '聖多美/普林西比 多布拉' }
+    - { source: 'Sao Tomean', target: 聖多美人 }
+    - { source: Saturday, target: 星期六 }
+    - { source: Saudi, target: 沙特人 }
+    - { source: 'Saudi Arabia', target: 沙特阿拉伯 }
+    - { source: 'Saudi Arabia Riyal', target: 沙特阿拉伯里亞爾 }
+    - { source: Save, target: 儲存 }
+    - { source: 'Save Comment Only', target: 只儲存註記 }
+    - { source: Savings, target: 儲存中 }
+    - { source: Score, target: 分數 }
+    - { source: Scottish, target: 蘇格蘭人 }
+    - { source: Search, target: 搜索 }
+    - { source: Select, target: 選擇 }
+    - { source: 'Select Comparison', target: 選擇比較 }
+    - { source: 'Select File', target: 選擇文件 }
+    - { source: 'Select Records to Delete', target: 選擇要刪除的記錄 }
+    - { source: 'Select Salary Grade', target: 選擇薪資等級 }
+    - { source: 'Selected Criteria', target: 已選擇的標準 }
+    - { source: 'Selection Criteria', target: 選擇標準 }
+    - { source: Senegal, target: 塞內加爾 }
+    - { source: Senegalese, target: 塞內加爾人 }
+    - { source: September, target: 九月 }
+    - { source: 'Serbia and Montenegro', target: 塞爾維亞和黑山 }
+    - { source: Serbian, target: 塞爾維亞人 }
+    - { source: 'Service Period', target: 服務期 }
+    - { source: Seychelles, target: 塞舌爾 }
+    - { source: 'Seychelles Rupee', target: 塞舌爾盧比 }
+    - { source: Seychellois, target: 塞舌爾人 }
+    - { source: 'Should be a number', target: 應為一個數字 }
+    - { source: 'Should be a positive number', target: 應為一個正數 }
+    - { source: 'Should be a valid date in %format% format', target: '應是 %format% 格式之一個有效日期' }
+    - { source: 'Should be less than %amount%', target: '應該少於 %amount%' }
+    - { source: 'Should be less than %amount% characters', target: '應該少於 %amount%字母' }
+    - { source: 'Should be within Min/Max values', target: 應在最小值/最大值之範圍內 }
+    - { source: 'Show Direct Deposit Details', target: 顯示直接存款詳情 }
+    - { source: 'Sierra Leone', target: 塞拉利昂 }
+    - { source: 'Sierra Leone Leone', target: 塞拉利昂利昂幣 }
+    - { source: 'Sierra Leonean', target: 塞拉利昂人 }
+    - { source: 'Silver (oz.)', target: 白銀（盎司） }
+    - { source: Singapore, target: 新加坡 }
+    - { source: 'Singapore Dollar', target: 新加坡幣 }
+    - { source: Singaporean, target: 新加坡人 }
+    - { source: Size, target: 大小 }
+    - { source: Skill, target: 技能 }
+    - { source: Skills, target: 技能 }
+    - { source: 'Slovak Koruna', target: 斯洛伐克克朗 }
+    - { source: Slovakia, target: 斯洛伐克 }
+    - { source: Slovakian, target: 斯洛伐克人 }
+    - { source: Slovenia, target: 斯洛文尼亞 }
+    - { source: Slovenian, target: 斯洛文尼亞人 }
+    - { source: 'Solomon Islander', target: 索羅門群島人 }
+    - { source: 'Solomon Islands', target: 索羅門群島 }
+    - { source: 'Solomon Islands Dollar', target: 所羅門群島元 }
+    - { source: Somali, target: 索馬里人 }
+    - { source: 'Somali Shilling', target: 索馬里先令 }
+    - { source: Somalia, target: 索馬里 }
+    - { source: 'Sort in Ascending Order', target: 從小到大的順序排列 }
+    - { source: 'Sort in Descending Order', target: 從大到小的順序排列 }
+    - { source: 'South Africa', target: 南非 }
+    - { source: 'South African', target: 南非人 }
+    - { source: 'South African Rand', target: 南非蘭特 }
+    - { source: 'South Carolina', target: 南卡羅來納州 }
+    - { source: 'South Dakota', target: 南達科他州 }
+    - { source: 'South Georgia and the South Sandwich Islands', target: 南喬治亞島和南桑威奇群島 }
+    - { source: 'South Korean', target: 韓國 }
+    - { source: Spain, target: 西班牙 }
+    - { source: Spanish, target: 西班牙人 }
+    - { source: Speaking, target: 發言 }
+    - { source: 'Sri Lanka', target: 斯里蘭卡 }
+    - { source: 'Sri Lanka Rupee', target: 斯里蘭卡盧比 }
+    - { source: 'Sri Lankan', target: 斯里蘭卡人 }
+    - { source: 'St. Helena Pound', target: 聖赫勒拿鎊 }
+    - { source: 'Start Date', target: 開始日期 }
+    - { source: 'Start date should be before end date', target: 開始日期應在結束日期之前 }
+    - { source: State, target: 州 }
+    - { source: Status, target: 狀態 }
+    - { source: Structure, target: 結構 }
+    - { source: 'Sub Unit', target: 小組 }
+    - { source: Subordinates, target: 下屬 }
+    - { source: Subscribe, target: 訂閱 }
+    - { source: 'Subscription Amount', target: 認購金額 }
+    - { source: 'Subscription Commence Date', target: 認購開始日期 }
+    - { source: 'Subscription Paid By', target: 認購支付 }
+    - { source: 'Subscription Renewal Date', target: 續訂日期 }
+    - { source: 'Successfully Added', target: 添加成功 }
+    - { source: 'Successfully Deleted', target: 刪除成功 }
+    - { source: 'Successfully Saved', target: 儲存成功 }
+    - { source: 'Successfully Updated', target: 更新成功 }
+    - { source: 'Successfully Uploaded', target: 上傳成功 }
+    - { source: Sudan, target: 蘇丹 }
+    - { source: Sudanese, target: 蘇丹人 }
+    - { source: 'Sudanese Dinar', target: 蘇丹第納爾 }
+    - { source: 'Sudanese Pound', target: 蘇丹鎊 }
+    - { source: Sunday, target: 星期天 }
+    - { source: Supervisor, target: 主管 }
+    - { source: 'Supervisor Name', target: 主管名稱 }
+    - { source: Supervisors, target: 主管 }
+    - { source: Suriname, target: 蘇里南 }
+    - { source: Surinamer, target: 蘇里南人 }
+    - { source: 'Surinamese Dollar', target: 蘇里南元 }
+    - { source: 'Svalbard and Jan Mayen', target: 斯瓦爾巴群島和揚馬​​延島 }
+    - { source: Swazi, target: 史瓦濟蘭人 }
+    - { source: Swaziland, target: 史瓦濟蘭 }
+    - { source: 'Swaziland Lilangeni', target: 史瓦濟蘭里蘭吉尼 }
+    - { source: Sweden, target: 瑞典 }
+    - { source: Swedish, target: 瑞典人 }
+    - { source: 'Swedish Krona', target: 瑞典克郎 }
+    - { source: Swiss, target: 瑞士人 }
+    - { source: 'Swiss Franc', target: 瑞士法郎 }
+    - { source: Switzerland, target: 瑞士 }
+    - { source: Syrian, target: 敘利亞人 }
+    - { source: 'Syrian Arab Republic', target: 阿拉伯敘利亞共和國 }
+    - { source: 'Syrian Pound', target: 敘利亞鎊 }
+    - { source: Taiwan, target: 台灣 }
+    - { source: 'Taiwan Dollar', target: 新台幣 }
+    - { source: Taiwanese, target: 台灣人 }
+    - { source: Tajik, target: 塔吉克人 }
+    - { source: Tajikistan, target: 塔吉克斯坦 }
+    - { source: 'Tanzania, United Republic of', target: 坦桑尼亞聯合共和國 }
+    - { source: Tanzanian, target: 坦桑尼亞人 }
+    - { source: 'Tanzanian Shilling', target: 坦桑尼亞先令 }
+    - { source: Tennessee, target: 美國田納西州 }
+    - { source: Terminated, target: 離職 }
+    - { source: 'Termination Reasons', target: 離職原因 }
+    - { source: Texas, target: 德克薩斯州 }
+    - { source: Thai, target: 泰國人 }
+    - { source: 'Thai Baht', target: 泰銖 }
+    - { source: Thailand, target: 泰國 }
+    - { source: Thursday, target: 星期四 }
+    - { source: Time, target: 時間 }
+    - { source: Timesheets, target: 時程表 }
+    - { source: Timor-Leste, target: 東帝汶 }
+    - { source: To, target: 至 }
+    - { source: to, target: 至 }
+    - { source: 'To date should be after from date', target: 結束時間應晚於開始時間 }
+    - { source: Togo, target: 多哥 }
+    - { source: Togolese, target: 多哥人 }
+    - { source: Tokelau, target: 托克勞 }
+    - { source: Tonga, target: 湯加 }
+    - { source: Tongan, target: 湯加人 }
+    - { source: 'Trinidad and Tobago', target: 特里尼達和多巴哥 }
+    - { source: 'Trinidad/Tobago Dollar', target: 特立尼達/多巴哥元 }
+    - { source: 'Trinidadian or Tobagonian', target: 特立尼達或多巴哥人 }
+    - { source: Tuesday, target: 星期二 }
+    - { source: Tunisia, target: 突尼斯 }
+    - { source: Tunisian, target: 突尼斯人 }
+    - { source: 'Tunisian Dinar', target: 突尼斯第納爾 }
+    - { source: Turkey, target: 土耳其 }
+    - { source: Turkish, target: 土耳其人 }
+    - { source: 'Turkish Lira', target: 土耳其里拉 }
+    - { source: Turkmenistan, target: 土庫曼斯坦 }
+    - { source: 'Turks and Caicos Islands', target: 特克斯和凱科斯群島 }
+    - { source: Tuvalu, target: 圖瓦盧 }
+    - { source: Tuvaluan, target: 圖瓦盧人 }
+    - { source: Type, target: 輸入 }
+    - { source: 'Type Employee Id', target: 輸入員工編號 }
+    - { source: 'Type for hints', target: 輸入提示 }
+    - { source: Uganda, target: 烏干達 }
+    - { source: 'Uganda Shilling', target: 烏干達先令 }
+    - { source: Ugandan, target: 烏干達人 }
+    - { source: Ukraine, target: 烏克蘭 }
+    - { source: 'Ukraine Hryvnia', target: 烏克蘭赫夫納 }
+    - { source: Ukrainian, target: 烏克蘭人 }
+    - { source: 'United Arab Emirates', target: 阿拉伯聯合大公國 }
+    - { source: 'United Kingdom', target: 英國 }
+    - { source: 'United States', target: 美國 }
+    - { source: 'United States Dollar', target: 美元 }
+    - { source: 'United States Minor Outlying Islands', target: 美國本土外小島嶼 }
+    - { source: Uruguay, target: 烏拉圭 }
+    - { source: Uruguayan, target: 烏拉圭人 }
+    - { source: 'Uruguayan Peso', target: 烏拉圭比索 }
+    - { source: Users, target: 使用者 }
+    - { source: Utah, target: 猶他州 }
+    - { source: 'Utd. Arab Emir. Dirham', target: 阿拉伯聯合大公國迪拉姆 }
+    - { source: Uzbekistan, target: 烏茲別克斯坦 }
+    - { source: Uzbekistani, target: 烏茲別克斯坦人 }
+    - { source: Vacancies, target: 職位空缺 }
+    - { source: Vanuatu, target: 瓦努阿圖 }
+    - { source: 'Vanuatu Vatu', target: 瓦努阿圖瓦圖 }
+    - { source: Venezuela, target: 委內瑞拉 }
+    - { source: Venezuelan, target: 委內瑞拉人 }
+    - { source: 'Venezuelan Bolivar', target: 委內瑞拉玻利瓦爾 }
+    - { source: Vermont, target: 佛蒙特 }
+    - { source: 'Viet Nam', target: 越南 }
+    - { source: Vietnamese, target: 越南人 }
+    - { source: 'Vietnamese Dong', target: 越南盾 }
+    - { source: 'View Details', target: 查看詳細資料 }
+    - { source: 'Virgin Islands', target: 美屬維爾京群島 }
+    - { source: 'Virgin Islands, British', target: 英屬維爾京群島 }
+    - { source: 'Virgin Islands, U.s.', target: 美國維爾京群島 }
+    - { source: Virginia, target: 維吉尼亞州 }
+    - { source: 'Wallis and Futuna', target: 瓦利斯群島和富圖納群島 }
+    - { source: Washington, target: 華盛頓 }
+    - { source: Wednesday, target: 星期三 }
+    - { source: 'Welcome %username%', target: '歡迎 %username%' }
+    - { source: Welsh, target: 威爾士人 }
+    - { source: 'West Virginia', target: 西維吉尼亞州 }
+    - { source: 'Western Sahara', target: 西撒哈拉 }
+    - { source: Wisconsin, target: 威斯康星州 }
+    - { source: 'with new file', target: 使用新的文件 }
+    - { source: 'Work Email', target: 公司電子郵件 }
+    - { source: 'Work Experience', target: 工作經驗 }
+    - { source: 'Work Shifts', target: 工作班別 }
+    - { source: 'Work Telephone', target: 公司電話 }
+    - { source: 'Work Week', target: 工作週 }
+    - { source: Writing, target: 寫作 }
+    - { source: Wyoming, target: 懷俄明州 }
+    - { source: Year, target: 年 }
+    - { source: 'Years of Experience', target: 年資 }
+    - { source: Yemen, target: 也門 }
+    - { source: 'Yemeni Riyal', target: 也門里亞爾 }
+    - { source: Yemenite, target: 也門人 }
+    - { source: 'Yes', target: 是 }
+    - { source: 'Yugoslav Dinar', target: 南斯拉夫第納爾 }
+    - { source: 'Yugoslavian Dinar', target: 南斯拉夫第納爾 }
+    - { source: Zambia, target: 贊比亞 }
+    - { source: Zambian, target: 贊比亞人 }
+    - { source: 'Zambian Kwacha', target: 贊比亞克瓦查 }
+    - { source: Zimbabwe, target: 津巴布韋 }
+    - { source: 'Zimbabwe Dollar', target: 津巴布韋幣 }
+    - { source: Zimbabwean, target: 津巴布韋人 }
+    - { source: 'Passwords do not match', target: 密碼不匹配 }
+    - { source: Invalid, target: 無效 }
+    - { source: 'Should be less than %number% digits', target: 應少於%number%字元 }
+    - { source: 'Due date should be after from date', target: 到期日應晚於起始日期 }
+    - { source: 'Successfully Removed', target: 成功移除 }
+    - { source: Ok, target: 確定 }
+    - { source: 'Delete records?', target: '是否要刪除紀錄?' }
+    - { source: 'Select an Employee', target: 選擇員工 }
+    - { source: 'Delete?', target: '是否要刪除?' }
+    - { source: 'Successfully Assigned', target: 指定成功 }
+    - { source: 'Should be greater than %amount%', target: 應大於%amount% }
+    - { source: 'Successfully Submitted', target: 成功送出 }
+    - { source: 'Invalid Employee', target: 查無此員工 }
+    - { source: 'Accepts .docx, .doc, .odt, .pdf, .rtf, .txt up to 1MB', target: 允許DOCX，DOC，ODT，PDF，RTF，TXT格式，上限1MB }
+    - { source: 'Accepts jpg, .png, .gif up to 1MB', target: 允許JPG，PNG，GIF格式，上限1MB }
+    - { source: 'Accepts up to 1MB', target: 允許檔案上限1MB }
+    - { source: 'Failed to Save: File Type Not Allowed', target: 儲存失敗：不允許的檔案類型 }
+    - { source: 'Failed to Save: File Size Exceeded', target: 儲存失敗：檔案容量過大 }
+    - { source: 'No Employees Available', target: 沒有可查閱的員工 }
+    - { source: 'Should have at least %number% characters', target: 應不少於%number%字元 }
+    - { source: 'Successfully Copied', target: 複製成功 }
+    - { source: 'LOGIN Panel', target: 登入頁面 }
+    - { source: LOGIN, target: 登入 }
+    - { source: 'Should be greater than first value', target: 應大於第一個值 }
+    - { source: 'Joined After', target: 之後加入 }
+    - { source: 'Joined Before', target: 之前加入 }
+    - { source: 'Joined in Between', target: 在中間加入 }
+    - { source: 'Successfully Changed', target: 更改成功 }
+    - { source: Username, target: 使用者名稱 }
+    - { source: Password, target: 密碼 }
+    - { source: 'Username cannot be empty', target: 使用者名稱不能為空白 }
+    - { source: 'Password cannot be empty', target: 密碼不能為空白 }
+    - { source: 'Invalid credentials', target: 無效的憑證 }
+    - { source: Europe/Belgrade, target: 歐洲/貝爾格萊德 }
+    - { source: Europe/Minsk, target: 歐洲/明斯克 }
+    - { source: Asia/Kuwait, target: 亞洲/科威特 }
+    - { source: Asia/Muscat, target: 亞洲/馬斯喀特 }
+    - { source: Asia/Yekaterinburg, target: 亞洲/葉卡捷琳堡 }
+    - { source: Asia/Kolkata, target: 亞洲/加爾各答 }
+    - { source: Asia/Dhaka, target: 亞洲/達卡 }
+    - { source: Asia/Krasnoyarsk, target: 亞洲/克拉斯諾亞爾斯克 }
+    - { source: Asia/Brunei, target: 亞洲/文萊 }
+    - { source: Asia/Seoul, target: 亞洲/首爾 }
+    - { source: Australia/Darwin, target: 澳大利亞/達爾文 }
+    - { source: Australia/Canberra, target: 澳大利亞/堪培拉 }
+    - { source: Asia/Magadan, target: 亞洲/馬加丹 }
+    - { source: Pacific/Fiji, target: 太平洋/斐濟 }
+    - { source: Pacific/Midway, target: 太平洋/中途島 }
+    - { source: Pacific/Honolulu, target: 太平洋/檀香山 }
+    - { source: America/Anchorage, target: 美洲/安克雷奇 }
+    - { source: America/Los_Angeles, target: 美國/洛杉磯 }
+    - { source: America/Denver, target: 美洲/丹佛 }
+    - { source: America/Tegucigalpa, target: 美國/特古西加爾巴 }
+    - { source: America/New_York, target: 美國/紐約 }
+    - { source: America/Halifax, target: 美洲/哈利法克斯 }
+    - { source: America/St_Johns, target: '美國/ 聖約翰斯' }
+    - { source: America/Argentina/Buenos_Aires, target: 美洲/阿根廷/布宜諾斯艾利斯 }
+    - { source: Atlantic/South_Georgia, target: 大西洋/南喬治亞 }
+    - { source: Atlantic/Azores, target: 大西洋/亞速爾群島 }
+    - { source: Upload, target: 上傳 }
+    - { source: 'Type in years', target: 輸入年 }
+    - { source: Hours, target: 小時 }
+    - { source: 'Deleted Employee', target: 已刪除的員工 }
+    - { source: Total, target: 總 }
+    - { source: compulsory, target: 強制 }
+    - { source: 'Termination Date', target: 離職日期 }
+    - { source: 'Termination Reason', target: 離職原因 }
+    - { source: 'Activity Name', target: 活動名稱 }
+    - { source: 'Add Education', target: 添加教育 }
+    - { source: 'Add Language', target: 添加語言 }
+    - { source: 'Add License', target: 添加許可證 }
+    - { source: 'Add Skill', target: 添加技能 }
+    - { source: 'Address Street 1', target: 地址1 }
+    - { source: 'Address Street 2', target: 地址2 }
+    - { source: City, target: 城市 }
+    - { source: 'Confirm Password', target: 確認密碼 }
+    - { source: Copy, target: 複製 }
+    - { source: 'Copy From', target: 複製從 }
+    - { source: 'Project Name', target: 項目名稱 }
+    - { source: Deleted, target: 刪除 }
+    - { source: 'Edit Education', target: 編輯教育 }
+    - { source: 'Edit Language', target: 編輯語言 }
+    - { source: 'Edit License', target: 編輯許可證 }
+    - { source: 'Edit Skill', target: 編輯技能 }
+    - { source: State/Province, target: 州/省 }
+    - { source: 'Zip/Postal Code', target: 郵遞區號 }
+    - { source: Approve, target: 核准 }
+    - { source: format, target: 格式 }
+    - { source: Scheduled, target: 預定 }
+    - { source: 'Invalid Date', target: 無效的日期 }
+    - { source: Note, target: 註記 }
+    - { source: 'Invalid Employee Name', target: 無效的員工名稱 }
+    - { source: Action, target: 動作 }
+    - { source: 'Active Job Vacancies', target: 啟用職缺 }
+    - { source: added, target: 新增的 }
+    - { source: 'Apply for', target: 申請 }
+    - { source: Attachments, target: 附件 }
+    - { source: 'Back to Job List', target: 回到工作列表 }
+    - { source: 'Collapse all', target: 瓦解全部 }
+    - { source: 'Contact No', target: 聯絡電話 }
+    - { source: Download, target: 下載 }
+    - { source: Email, target: 電子郵件 }
+    - { source: 'Expand all', target: 展開全部 }
+    - { source: for, target: 為 }
+    - { source: Keywords, target: 關鍵字 }
+    - { source: 'Performed By', target: 執行者 }
+    - { source: Reject, target: 拒絕 }
+    - { source: Rejected, target: 已拒絕 }
+    - { source: rejected, target: 已拒絕 }
+    - { source: Remove, target: 移除 }
+    - { source: Resume, target: 恢復 }
+    - { source: 'Select Action', target: 選擇操作 }
+    - { source: Submit, target: 送出 }
+    - { source: View, target: 查閱 }
+    - { source: 'Enter comma separated words', target: 輸入以逗號分隔的字 }
+    - { source: Approved, target: 已批准 }
+    - { source: Submitted, target: 送出 }
+    - { source: Loading, target: 載入中 }
+    - { source: 'My Info', target: 我的信息 }
+    - { source: Notifications, target: 通知 }
+    - { source: Documents, target: 文件 }
+    - { source: Manage, target: 管理 }
+    - { source: 'Forgot your password?', target: '忘了密碼?' }
+    - { source: 'Export To CSV', target: '匯出至 CSV' }
+    - { source: 'User Role', target: 用戶角色 }
+    - { source: Processing, target: 加工作業 }
+    - { source: Duration(Hours), target: 時期(小時) }
+    - { source: 'Successfully Undeleted', target: 成功取消刪除 }
+    - { source: 'Credentials Required', target: 所需證書 }
+    - { source: 'Expand for Options', target: 擴展選項 }
+    - { source: 'Hide Options', target: 隱藏選項 }
+    - { source: Qualifications, target: 資格 }
+    - { source: 'Current File', target: 當前文檔 }
+    - { source: 'Replace With', target: 更換為 }
+    - { source: 'Access Denied', target: 被拒訪問 }
+    - { source: 'Add Another', target: 添加另一個 }
+    - { source: 'Start Month', target: 開始之月份 }
+    - { source: Cancelled, target: 已被取消 }
+    - { source: 'Add Leave Entitlement', target: 添加休假權利 }
+    - { source: 'Add to Multiple Employees', target: 加到多個員工 }
+    - { source: Entitlement, target: 權利 }
+    - { source: 'Matches one employee', target: 匹配一個員工 }
+    - { source: 'Matches %count% employees', target: '匹配 %count% 個員工' }
+    - { source: 'No matching employees', target: 無匹配員工 }
+    - { source: Entitlements, target: 權利 }
+    - { source: 'Add Entitlements', target: 添加權利 }
+    - { source: 'Employee Entitlements', target: 雇員權利 }
+    - { source: 'Valid From', target: 有效期自 }
+    - { source: 'Valid To', target: 有效期至 }
+    - { source: 'No employees match the selected filters', target: 無雇員匹配所選的篩選器 }
+    - { source: 'Leave Entitlements and Usage Report', target: 休假權利和使用報表 }
+    - { source: 'My Leave Entitlements and Usage Report', target: 我的休假權利和使用報表 }
+    - { source: 'Matching Employees', target: 匹配員工 }
+    - { source: 'Generate For', target: 創建對象 }
+    - { source: Confirm, target: 確認 }
+    - { source: 'To date should be after From date', target: 結束日期應晚於開始日期 }
+    - { source: 'My Entitlements', target: 我的權利 }
+    - { source: 'Should be a number with upto %count% decimal places', target: '應為有 %count% 小數點位數之數字' }
+    - { source: Author, target: 作者 }
+    - { source: 'View Leave Request Comments', target: 查看休假請求評論 }
+    - { source: 'User Management', target: 用戶管理 }
+    - { source: 'Initial Balance', target: 初始餘額 }
+    - { source: 'Leave Date', target: 休假日期 }
+    - { source: 'Available Balance', target: 可用餘額 }
+    - { source: 'Balance not sufficient', target: 餘額不夠 }
+    - { source: 'Email Configuration', target: 電子郵箱配置 }
+    - { source: 'Email Subscriptions', target: 電子郵箱訂閱 }
+    - { source: 'You do not have permission to view this section', target: 您沒有權限查看此段 }
+    - { source: 'Failed to Delete', target: 刪除失敗 }
+    - { source: 'Validation Failed', target: 驗證失敗 }
+    - { source: About, target: 關於 }
+    - { source: 'Employee Trackers', target: 員工跟踪器 }
+    - { source: 'My Trackers', target: 我的跟踪器 }
+    - { source: 'Export to CSV', target: 匯出至CSV }
+    - { source: 'Performance Trackers', target: 性能追蹤器 }
+    - { source: 'Manage Performance Tracker Log', target: 管理績效跟踪日誌 }
+    - { source: log, target: 日誌 }
+    - { source: status, target: 狀態 }
+    - { source: 'available Reviewers', target: 可用之評審者 }
+    - { source: 'added Reviewers', target: 補充之評審者 }
+    - { source: 'Performance Tracker Log Comment', target: 績效跟踪器日誌評論 }
+    - { source: achievement, target: 成就 }
+    - { source: 'invalid name', target: 無效的名稱 }
+    - { source: 'Performance Tracker', target: 績效跟踪器 }
+    - { source: Achievement, target: 成就 }
+    - { source: Log, target: 日誌 }
+    - { source: Reviewer, target: 評估員 }
+    - { source: 'Added Date', target: 新增日期 }
+    - { source: 'Modified Date', target: 修改日期 }
+    - { source: 'Performance Trackers List', target: 績效跟踪表單 }
+    - { source: Clear, target: 清除 }
+    - { source: 'My Tracker Logs', target: 我的跟踪日誌 }
+    - { source: 'Employee cannot be assigned as his own reviewer', target: 員工不能被指定為他自己的評審者 }
+    - { source: 'My Performance Trackers List', target: 我的績效跟踪表單 }
+    - { source: 'Tracker Name', target: 跟踪器名稱 }
+    - { source: Activities, target: 活動 }
+    - { source: 'Add Currency', target: 添加貨幣 }
+    - { source: 'Add Customer', target: 添加客戶 }
+    - { source: 'Add Employment Status', target: 添加就職狀態 }
+    - { source: 'Add Job Category', target: 添加職務類別 }
+    - { source: 'Add Job Title', target: 添加職稱 }
+    - { source: 'Add Location', target: 添加位置 }
+    - { source: 'Add Membership', target: 添加會籍 }
+    - { source: 'Add Nationality', target: 添加國籍 }
+    - { source: 'Add Pay Grade', target: 添加薪資等級 }
+    - { source: 'Add Project', target: 添加項目 }
+    - { source: 'Add Project Activity', target: 添加項目活動 }
+    - { source: 'Add Subscriber', target: 添加訂閱 }
+    - { source: 'Add Unit', target: 添加單位 }
+    - { source: 'Add User', target: 添加使用者 }
+    - { source: 'Add Work Shift', target: 添加輪班工作 }
+    - { source: 'Projects under selected customer will also be deleted', target: 在選定的客戶項目也將被刪除 }
+    - { source: 'Units under selected unit will also be deleted', target: 根據所選單位的單位也將被刪除 }
+    - { source: 'Assigned Currencies', target: 已分配的貨幣 }
+    - { source: 'Assigned Employees', target: 已被分配的員工 }
+    - { source: 'Available Employees', target: 已啟用的員工 }
+    - { source: Better, target: 更好 }
+    - { source: 'Click on a notification type to add subscribers', target: 點擊通知類型添加用戶 }
+    - { source: 'Column order should not be changed', target: 不應該改變列的順序 }
+    - { source: 'Confirm New Password', target: 確認新密碼 }
+    - { source: 'Copy Activity', target: 複製活動 }
+    - { source: 'CSV Data Import', target: CSV資料匯入 }
+    - { source: 'Current Password', target: 目前的密碼 }
+    - { source: 'Current Password Is Wrong', target: 目前的密碼是錯誤的 }
+    - { source: Customer, target: 客戶 }
+    - { source: 'Customer Name', target: 客戶名稱 }
+    - { source: 'Date Format', target: 日期格式 }
+    - { source: 'Description is not specified', target: 說明未指定 }
+    - { source: Done, target: 完成 }
+    - { source: 'Each import file should be configured for 100 records or less', target: 每次匯入的文件應該少於一百個紀錄 }
+    - { source: 'Edit Currency', target: 編輯貨幣 }
+    - { source: 'Edit Customer', target: 編輯客戶 }
+    - { source: 'Edit Employment Status', target: 編輯在職狀態 }
+    - { source: 'Edit Job Category', target: 編輯職位類別 }
+    - { source: 'Edit Job Title', target: 編輯職位名稱 }
+    - { source: 'Edit Location', target: 編輯位置 }
+    - { source: 'Edit Membership', target: 編輯會員 }
+    - { source: 'Edit Nationality', target: 編輯國籍 }
+    - { source: 'Edit Pay Grade', target: 編輯薪資等級 }
+    - { source: 'Edit Project', target: 編輯項目 }
+    - { source: 'Edit Project Activity', target: 編輯項目活動 }
+    - { source: 'Edit Subscriber', target: 編輯認購者 }
+    - { source: 'Edit Unit', target: 編輯單位 }
+    - { source: 'Edit User', target: 編輯使用者 }
+    - { source: 'Edit Work Shift', target: 編輯輪班工作 }
+    - { source: 'Successfully Saved. Test Email Sent', target: 儲存成功，已發送測試郵件 }
+    - { source: 'Successfully Saved. Test Email Not Sent', target: 儲存成功。不發送測試電子郵件 }
+    - { source: 'Email Notification', target: 電子郵件通知 }
+    - { source: 'Enable Admin module', target: 啟用管理模組 }
+    - { source: 'Enable Benefits module', target: 啟用優勢模組 }
+    - { source: 'Enable Leave module', target: 啟用休假模組 }
+    - { source: 'Enable Performance module', target: 啟用積效模組 }
+    - { source: 'Enable PIM module', target: 啟用PIM模組 }
+    - { source: 'Enable Recruitment module', target: 啟用招聘模組 }
+    - { source: 'Enable Time module', target: 啟用時間模組 }
+    - { source: Fax, target: 傳真 }
+    - { source: 'First Name and Last Name are compulsory', target: 名字與姓是必需的 }
+    - { source: 'Following languages are supported', target: 支援下列語言 }
+    - { source: 'Hours Per Day', target: 小時/天 }
+    - { source: 'If gender is specified, value should be either', target: 若有指定性別，應寫為 }
+    - { source: 'Job Description', target: 職位描述 }
+    - { source: 'Leave Applications', target: 休假申請 }
+    - { source: 'Leave Approvals', target: 休假核准 }
+    - { source: 'Leave Assignments', target: 指定的休假 }
+    - { source: 'Leave Cancellations', target: 取消的休假 }
+    - { source: 'Leave Rejections', target: 拒絕的休假 }
+    - { source: 'Location Name', target: 地點名稱 }
+    - { source: 'Mail Configuration', target: 郵件配置 }
+    - { source: 'Mail Sent As', target: 以郵件發送 }
+    - { source: 'Maximum Salary', target: 最高薪資 }
+    - { source: Medium, target: 中等 }
+    - { source: 'Minimum Salary', target: 最低薪資 }
+    - { source: 'Module Configuration', target: 模組配置 }
+    - { source: 'New Password', target: 新密碼 }
+    - { source: 'No activities selected', target: 沒有被選擇的活動 }
+    - { source: 'No assigned activities', target: 沒有被指定的活動 }
+    - { source: 'Not Allowed to Delete Customer(s) Which Have Time Logged Against', target: 不允許刪除有時間記錄的客戶 }
+    - { source: 'Not Allowed to Delete Project Activites Which Have Time Logged Against', target: 不允許刪除有時間記錄的項目活動 }
+    - { source: 'Notification Type', target: 通知類型 }
+    - { source: 'Number of Employees', target: 員工人數 }
+    - { source: 'Organization Name', target: 組織名稱 }
+    - { source: 'Path to Sendmail', target: 發送郵件的路徑 }
+    - { source: 'Performance Review Submissions', target: 送出績效評估 }
+    - { source: Phone, target: 電話 }
+    - { source: Project, target: 項目 }
+    - { source: 'Project Admin', target: 項目管理 }
+    - { source: 'Project Admins', target: 項目管理員 }
+    - { source: 'Registration Number', target: 註冊編號 }
+    - { source: 'Sample CSV file', target: CSV文件範例 }
+    - { source: 'Send Test Email', target: 發送測試電子郵件 }
+    - { source: 'Sending Method', target: 發送方法 }
+    - { source: 'Shift Name', target: 班別名稱 }
+    - { source: 'SMTP Password', target: SMTP密碼 }
+    - { source: 'SMTP Port', target: 'SMTP 端口' }
+    - { source: 'SMTP User', target: SMTP使用者 }
+    - { source: SSL, target: SSL }
+    - { source: Strong, target: 強 }
+    - { source: Strongest, target: 最強 }
+    - { source: Subscribers, target: 訂閱者 }
+    - { source: 'OrangeHRM - Supported Languages', target: 'OrangeHRM - 支援語言' }
+    - { source: 'Supported languages', target: 支援的語言 }
+    - { source: 'System Users', target: 系統使用者 }
+    - { source: 'Tax ID', target: 稅務識別號 }
+    - { source: 'Test Email Address', target: 測試電子郵件地址 }
+    - { source: 'This unit will be added under', target: 這個單位將被添加在下面 }
+    - { source: TLS, target: TLS }
+    - { source: 'Unit Id', target: 單位識別號 }
+    - { source: 'Use browser language if set', target: 使用設定之瀏覽器語言 }
+    - { source: 'Use SMTP Authentication', target: 使用SMTP認證 }
+    - { source: 'User Type', target: 使用者類型 }
+    - { source: 'Very Weak', target: 非常弱 }
+    - { source: Weak, target: 弱 }
+    - { source: 'Zip Code', target: 郵遞區號 }
+    - { source: 'Failed to Import: File Type Not Allowed', target: 無法匯入：不允許的檔案類型 }
+    - { source: 'Failed to Import: File Size Exceeded', target: 無法匯入：文件大小超過 }
+    - { source: 'Failed to Import: No Compatible Records', target: 無法匯入：沒有兼容的記錄 }
+    - { source: 'Number of Records Imported', target: 匯入的記錄筆數 }
+    - { source: 'Should be higher than Minimum Salary', target: 應該是高於最低薪資標準 }
+    - { source: 'Level Already Exists', target: 層次已經存在 }
+    - { source: 'All date fields should be in YYYY-MM-DD format', target: 所有日期字段應該是YYYY-MM-DD格式 }
+    - { source: 'Multiple import files may be required', target: 可能需要匯入多個文件 }
+    - { source: 'Language and font help', target: 語言和字體的幫助 }
+    - { source: 'Organization Structure', target: 組織架構 }
+    - { source: 'This is a deleted customer. Reactivate again?', target: '此客戶已被刪除.是否再激活?' }
+    - { source: 'Customer will be undeleted', target: 客戶將被取消刪除 }
+    - { source: 'A new customer will be created with same name', target: 將以相同名稱創建新客戶 }
+    - { source: 'Will take no action', target: 將不採取任何行動 }
+    - { source: 'Click on Edit button to enable notifications', target: 點擊編輯按鈕以允許通知 }
+    - { source: 'To enable notifications click on Edit button and select the relevant check-box', target: '要啟用通知, 請點擊編輯按鈕，選擇相應的複選框' }
+    - { source: 'View Pay Grade', target: 查看薪級 }
+    - { source: 'View Job Title', target: 查看職位 }
+    - { source: Dashboard, target: 儀表板 }
+    - { source: 'Quick Launch', target: 快速啟動 }
+    - { source: 'Employee Distribution by Subunit', target: 次單元員工分佈 }
+    - { source: 'Not assigned to Subunits', target: 未分配給次單位 }
+    - { source: 'Pending Leave Requests', target: 待批休假請求 }
+    - { source: 'Apply Leave', target: 申請休假 }
+    - { source: 'My Timesheet', target: 我的時間表 }
+    - { source: 'No Records are Available', target: 沒有可用的紀錄 }
+    - { source: '%months% month(s)', target: '%months%個月' }
+    - { source: 'No Data to Display', target: 沒數據可顯示 }
+    - { source: Legend, target: 說明 }
+    - { source: 'Actions Performed on the Timesheet', target: 時間表上執行的操作 }
+    - { source: 'Add Row', target: 添加行 }
+    - { source: 'Add Timesheet', target: 添加時間表 }
+    - { source: 'Attendance Total Summary Report', target: 出席率總結報告 }
+    - { source: 'Define Timesheet Period', target: 定義時間表期 }
+    - { source: 'Deleted project activities are not editable', target: 已刪除的項目活動是不可編輯的 }
+    - { source: 'Deleted projects/activities are marked with an asterik', target: 刪除的項目/活動都標有一個星符號 }
+    - { source: 'Edit Timesheet for', target: 編輯時間表 }
+    - { source: 'Edit Timesheet for Month', target: 編輯時間表為月份 }
+    - { source: 'Edit Timesheet for Week', target: 編輯時間表為週數 }
+    - { source: 'Edit timesheet for week starting', target: 編輯時間表週開始 }
+    - { source: 'Employee name', target: 員工姓名 }
+    - { source: 'Employee Report', target: 員工報告 }
+    - { source: 'Should Be Less Than 24 and in HH:MM or Decimal Format', target: 應該是小於24，HH：MM或十進制格式 }
+    - { source: 'Enter Employee Name', target: 輸入員工姓名 }
+    - { source: 'First Day of Week', target: 一周的第一天 }
+    - { source: 'for Month starting on', target: 月開始 }
+    - { source: 'for Week', target: 一周 }
+    - { source: Fri, target: 週五 }
+    - { source: hours, target: 小時 }
+    - { source: 'Failed to Create: Future Timesheets Not Allowed', target: 創建失敗：未來的時間表不允許 }
+    - { source: Mon, target: 週一 }
+    - { source: 'No Accessible Timesheets', target: 沒有可訪問的時程表 }
+    - { source: 'Not Submitted', target: 未提交 }
+    - { source: 'Proceed with Time Module', target: 繼續時間模塊 }
+    - { source: 'Project Activity Details Report', target: 項目活動的詳細報告 }
+    - { source: 'Project Report', target: 項目報告 }
+    - { source: 'Remove Rows', target: 清除行 }
+    - { source: Sat, target: 星期六 }
+    - { source: 'Select a Day to Create Timesheet', target: 選擇某一天創建時間表 }
+    - { source: 'Select Employee', target: 選擇員工 }
+    - { source: 'Status:', target: 狀態： }
+    - { source: Sun, target: 星期日 }
+    - { source: Thu, target: 星期四 }
+    - { source: 'Duplicate Records Found', target: 發現重複的記錄 }
+    - { source: 'Timesheet for', target: 時間表為 }
+    - { source: 'Timesheet Period', target: 時間表期 }
+    - { source: 'Timesheet period start day has been set', target: 時間表週期的開始日已設置 }
+    - { source: 'Timesheet period start day has not been defined. Please contact HR Admin', target: 時間表期間開始日尚未定義。請聯繫人力資源管理 }
+    - { source: 'Timesheets Pending Action', target: 時間表的未決操作 }
+    - { source: Tue, target: 星期二 }
+    - { source: Wed, target: 星期三 }
+    - { source: Week, target: 週 }
+    - { source: 'Select a Project and an Activity', target: 選擇一個項目和活動 }
+    - { source: 'Select Records to Remove', target: 選擇要清除的記錄 }
+    - { source: 'Timesheet Already Exists', target: 時間表已經存在 }
+    - { source: 'Timesheet Submitted', target: 時間表已提交 }
+    - { source: 'No Timesheets Found', target: 沒有發現時間表 }
+    - { source: 'Timesheet Approved', target: 時間表已批准 }
+    - { source: 'Timesheet Rejected', target: 時間表被拒絕 }
+    - { source: 'No Changes to Delete', target: 沒有更改刪除 }
+    - { source: 'Total Should Be Less Than 24 Hours', target: 總數應不超過24小時 }
+    - { source: 'Remaining number of custom fields', target: 剩餘的自定義區域數量 }
+    - { source: 'Account Number', target: 帳號 }
+    - { source: 'Account Type', target: 帳戶類型 }
+    - { source: 'Activate Employment', target: 啟用員工 }
+    - { source: 'Add Custom Field', target: 添加自定義區域 }
+    - { source: 'Add Dependent', target: 添加眷属 }
+    - { source: 'Add Direct Deposit Details', target: 添加直接存款細節 }
+    - { source: 'Add Emergency Contact', target: 添加緊急聯絡人 }
+    - { source: 'Add Immigration', target: 添加入境資料 }
+    - { source: 'Add Membership Details', target: 添加會員細節 }
+    - { source: 'Add Reporting Method', target: 添加報告方法 }
+    - { source: 'Add Subordinate', target: 添加下屬 }
+    - { source: 'Add Supervisor', target: 添加主管 }
+    - { source: 'Add Supervisor/Subordinate', target: 添加主管/下屬 }
+    - { source: 'Add Termination Reason', target: 添加離職原因 }
+    - { source: 'Add Work Experience', target: 添加工作經歷 }
+    - { source: 'All customs fields are in use', target: 全部自定義領域都在使用 }
+    - { source: 'Assigned Dependents', target: 指定眷屬 }
+    - { source: 'Assigned Emergency Contacts', target: 指定緊急聯絡人 }
+    - { source: 'Assigned Immigration Records', target: 指定出入境紀錄 }
+    - { source: 'Assigned Memberships', target: 指定成員資格 }
+    - { source: 'Assigned Subordinates', target: 指定下屬 }
+    - { source: 'Assigned Supervisors', target: 指定主管 }
+    - { source: 'At least one phone number is required', target: 最少需輸入一個電話號碼 }
+    - { source: 'Bi Weekly', target: 兩週一次 }
+    - { source: child, target: 孩子 }
+    - { source: Child, target: 孩子 }
+    - { source: 'Configure PIM', target: 配置PIM }
+    - { source: 'Contract Details', target: 合約明細 }
+    - { source: 'Country Specific Information', target: 國家具體資訊 }
+    - { source: 'Create Login Details', target: 創建登錄明細 }
+    - { source: Custom, target: 自定義 }
+    - { source: 'Custom Field Name', target: 自定義區域名稱 }
+    - { source: 'Date of Expiry', target: 到期日 }
+    - { source: 'Direct Deposit', target: 直接存款 }
+    - { source: Document, target: 文件 }
+    - { source: 'Document No', target: 文件編號 }
+    - { source: 'Drop Down', target: 下拉 }
+    - { source: 'Edit Custom Field', target: 編輯自定義區域 }
+    - { source: 'Edit Dependent', target: 編輯眷屬 }
+    - { source: 'Edit Emergency Contact', target: 編輯緊急聯絡人 }
+    - { source: 'Edit Employment Termination', target: 編輯離職員工資料 }
+    - { source: 'Edit Membership Detail', target: 編輯會員詳細資料 }
+    - { source: 'Edit Reporting Method', target: 編輯報告方法 }
+    - { source: 'Edit Subordinate', target: 編輯下屬 }
+    - { source: 'Edit Supervisor', target: 編輯主管 }
+    - { source: 'Edit Termination Reason', target: 編輯離職原因 }
+    - { source: 'Edit Work Experience', target: 編輯工作經驗 }
+    - { source: 'Emergency Contact(s)', target: 緊急聯絡人 }
+    - { source: 'Employee Information', target: 員工資訊 }
+    - { source: Employment, target: 僱用 }
+    - { source: 'Employment Contract', target: 僱用契約 }
+    - { source: 'Enter a number', target: 輸入一個數字 }
+    - { source: 'Enter allowed options separated by commas', target: 輸入以逗號分隔的允許選項 }
+    - { source: 'Ethnic Race', target: 民族種族 }
+    - { source: Exemptions, target: 豁免 }
+    - { source: 'Federal Income Tax', target: 聯邦所得稅 }
+    - { source: 'Field Name', target: 區域名稱 }
+    - { source: 'Field Type', target: 區域類型 }
+    - { source: 'From date should be before to date', target: 開始日期應早於結束日期 }
+    - { source: GPA/Score, target: 'GPA /分數' }
+    - { source: Hourly, target: 每小時 }
+    - { source: Institute, target: 學院 }
+    - { source: 'Issued date should be before expiration date', target: 發行日期應該在截止日期前 }
+    - { source: Major/Specialization, target: 主要/專業 }
+    - { source: Married, target: 已婚 }
+    - { source: Max, target: 最大值 }
+    - { source: 'Membership Type', target: 會員類型 }
+    - { source: 'Military Service', target: 軍役 }
+    - { source: Min, target: 最小值 }
+    - { source: Monthly, target: 每月一次 }
+    - { source: 'Monthly on first pay of month.', target: 每月於第一次發薪日。 }
+    - { source: N/A, target: 不適用 }
+    - { source: 'Nick Name', target: 暱稱 }
+    - { source: 'Non Resident Alien', target: 非居民外國人 }
+    - { source: 'Not Applicable', target: 不適用 }
+    - { source: other, target: 其他 }
+    - { source: Passport, target: 護照 }
+    - { source: 'Personal Details', target: 個人資料 }
+    - { source: Photograph, target: 照片 }
+    - { source: 'Please Specify', target: 請註明 }
+    - { source: Reason, target: 原因 }
+    - { source: Report-to, target: 直屬於 }
+    - { source: Screen, target: 屏幕 }
+    - { source: 'Select a Photograph', target: 選擇照片 }
+    - { source: 'Select Membership', target: 選擇會員 }
+    - { source: 'Select Options', target: 選擇“選項” }
+    - { source: 'Semi Monthly', target: 每半月一次 }
+    - { source: 'Show Deprecated Fields', target: 顯示過時區域 }
+    - { source: 'Show Nick Name, Smoker and Military Service in Personal Details', target: 顯示暱稱，吸煙和軍事服務的個人資料 }
+    - { source: 'Show SIN field in Personal Details', target: 顯示個人資料之SIN區域 }
+    - { source: 'Show SSN field in Personal Details', target: 顯示個人資料之SSN區域 }
+    - { source: 'Show US Tax Exemptions menu', target: 顯示美國免稅菜單 }
+    - { source: 'SIN Number', target: SIN號碼 }
+    - { source: Single, target: 單身 }
+    - { source: Smoker, target: 抽煙者 }
+    - { source: 'SSN Number', target: SSN號碼 }
+    - { source: 'State Income Tax', target: 國家所得稅 }
+    - { source: Subordinate, target: 下屬 }
+    - { source: 'Tax Exemptions', target: 免稅 }
+    - { source: 'Terminate Employment', target: 終止聘用 }
+    - { source: 'Terminated Date', target: 離職日期 }
+    - { source: 'Terminated on', target: 離職於 }
+    - { source: 'Terminated Reason', target: 離職原因 }
+    - { source: 'Text or Number', target: 文字或數字 }
+    - { source: 'Unemployment State', target: 失業狀態 }
+    - { source: 'User Name', target: 使用者名稱 }
+    - { source: Visa, target: 簽證 }
+    - { source: Weekly, target: 每週 }
+    - { source: 'Work experience', target: 工作經驗 }
+    - { source: 'Work State', target: 工作狀態 }
+    - { source: 'Renewal date should be after commence date', target: 更新日期應晚於開始日期 }
+    - { source: 'Delete photograph?', target: 刪除照片？ }
+    - { source: 'Failed To Save: User Name Exists', target: 無法儲存：使用者名稱已存在 }
+    - { source: 'Failed To Save: Employee Id Exists', target: 無法儲存：員工識別號已存在 }
+    - { source: 'Will be deleted from all employees', target: 將從所有員工處刪除 }
+    - { source: 'First (& Middle) Name', target: 名字 }
+    - { source: 'Failed to Delete: At Least One Admin Should Exist', target: '刪除失敗; 至少需有一名管理員存在' }
+    - { source: 'Eligibility Status', target: 資格狀態 }
+    - { source: 'Eligibility Review Date', target: 資格評估日期 }
+    - { source: 'You do not have credentials to access PIM for employee %employee_name%', target: '您沒有憑證存取員工 %employee_name% 之個人資料管理系統(PIM)' }
+    - { source: 'Employee with Employee Number %emp_number% not found!', target: '未找到員工編號為 %emp_number% 之員工!' }
+    - { source: Active, target: 活躍 }
+    - { source: 'Add another', target: 添加另一個 }
+    - { source: 'Add Candidate', target: 添加候選人 }
+    - { source: 'Add Job Vacancy', target: 添加職位空缺 }
+    - { source: 'Adding Candidate', target: 添加候選人 }
+    - { source: 'Application Initiated', target: 申請已啟動 }
+    - { source: 'applied for the', target: 已申請 }
+    - { source: Archived, target: 已存檔 }
+    - { source: 'Are you sure you want to remove job vacancy of the candidate', target: 您確定要刪除候選人的職位空缺嗎 }
+    - { source: 'as failed', target: 失敗 }
+    - { source: 'as passed', target: 通過 }
+    - { source: 'assigned the job vacancy', target: 已分配職位空缺 }
+    - { source: by, target: 通過 }
+    - { source: Candidate, target: 候選人 }
+    - { source: 'Candidate Name', target: 候選人姓名 }
+    - { source: 'Candidate''s History', target: 候選人的歷史 }
+    - { source: candidateName, target: 候選人姓名 }
+    - { source: 'Cannot assign same interviewer twice', target: 相同的面試官不能分配兩次 }
+    - { source: 'Cannot assign same vacancy twice', target: 同樣的空缺不能分配兩次 }
+    - { source: 'Click on a candidate to perform actions', target: 點擊候選人來執行操作 }
+    - { source: Closed, target: 關閉 }
+    - { source: Continue, target: 繼續 }
+    - { source: 'Date of Application', target: 申請日期 }
+    - { source: 'Should be less than current date', target: 應該小於當前日期 }
+    - { source: 'Decline Offer', target: 拒絕工作邀請 }
+    - { source: Details, target: 詳細信息 }
+    - { source: 'Edit Candidate', target: 編輯候選人 }
+    - { source: 'Edit Interview Details', target: 編輯面試詳情 }
+    - { source: 'Edit Job Vacancy', target: 編輯職位空缺 }
+    - { source: 'Editing Candidate', target: 正編輯候選人 }
+    - { source: 'from the', target: 從 }
+    - { source: Hire, target: 聘請 }
+    - { source: Hired, target: 已僱用 }
+    - { source: hired, target: 已僱用 }
+    - { source: 'Hiring Manager', target: 招聘經理 }
+    - { source: 'Interview Failed', target: 面試失敗 }
+    - { source: 'Interview Passed', target: 面試通過 }
+    - { source: 'Interview Scheduled', target: 面試已安排 }
+    - { source: 'Interview Title', target: 面試題目 }
+    - { source: 'Interviewer Name', target: 面試官的名字 }
+    - { source: 'Job Offered', target: 工作邀請已發出 }
+    - { source: 'Job Vacancy', target: 職位空缺 }
+    - { source: Manual, target: 手冊 }
+    - { source: 'Mark Interview Failed', target: 標記面試失敗 }
+    - { source: 'Mark Interview Passed', target: 標記面試合格 }
+    - { source: marked, target: 已標記 }
+    - { source: 'marked the offer as declined', target: 工作邀请已標記為拒絕 }
+    - { source: 'Method of Application', target: 申請方法 }
+    - { source: 'No Actions', target: 没採取任何行動 }
+    - { source: 'No active job vacancies to display', target: 沒有有效的職位空缺可顯示 }
+    - { source: 'Number of Positions', target: 職位數 }
+    - { source: 'Offer Declined', target: 工作邀請受拒 }
+    - { source: 'Offer Job', target: 發出工作邀請 }
+    - { source: 'offered the job', target: 已發出工作邀請 }
+    - { source: 'on', target: 于 }
+    - { source: Online, target: 在線 }
+    - { source: 'Performed Action', target: 已執行的操作 }
+    - { source: 'Performed Date', target: 執行日期 }
+    - { source: 'Publish in RSS feed(1) and web page(2)', target: 發布RSS訂閱（1）和網頁（2） }
+    - { source: removed, target: 刪除 }
+    - { source: 'RSS Feed URL', target: RSS訂閱網址 }
+    - { source: 'Schedule Interview', target: 安排面試 }
+    - { source: scheduled, target: 已安排 }
+    - { source: Shortlist, target: 入圍 }
+    - { source: Shortlisted, target: 已入圍 }
+    - { source: 'Shortlisted for', target: 已入圍 }
+    - { source: Vacancy, target: 職位空缺 }
+    - { source: 'Vacancy Name', target: 職位空缺名稱 }
+    - { source: 'View Action History', target: 查看操作歷史記錄 }
+    - { source: 'View Interview Details', target: 查看面試詳情 }
+    - { source: 'Web Page URL', target: 網頁的網址 }
+    - { source: with, target: 同 }
+    - { source: 'Successfully Scheduled', target: 已安排成功 }
+    - { source: 'This action will remove previous vacancy', target: 此操作將刪除以前的職位空缺 }
+    - { source: 'Remove?', target: 刪除嗎？ }
+    - { source: 'Vacancy Apply Form', target: 職位空缺申請表 }
+    - { source: 'Application Received', target: 已收到申請 }
+    - { source: Uploaded, target: 已上傳 }
+    - { source: 'A new leave type will be created with same name', target: 擁有相同名稱的新休假類型將被建立 }
+    - { source: Actions, target: 動作 }
+    - { source: Assign, target: 指定 }
+    - { source: 'At Least One Day Should Be a Working Day', target: 工作日最少為一天 }
+    - { source: Canceled, target: 已取消 }
+    - { source: characters, target: 字元 }
+    - { source: 'Confirmation Required', target: 需要確認 }
+    - { source: 'Current Leave Period', target: 目前的休假時期 }
+    - { source: 'Date format should be', target: 日期格式應為 }
+    - { source: 'Define Leave Type', target: 定義休假類型 }
+    - { source: 'Duration (Hours)', target: 期間（小時） }
+    - { source: 'Following Year', target: 接下來的一年 }
+    - { source: 'For Leap Years', target: 閏年 }
+    - { source: 'For Non-Leap Years', target: 非閏年 }
+    - { source: 'From Date', target: 開始日期 }
+    - { source: 'From Time', target: 開始時間 }
+    - { source: 'From time should be less than To time', target: 開始時間應早於結束時間 }
+    - { source: 'Full Day', target: 全日 }
+    - { source: 'Go to Detailed View', target: 查看細節 }
+    - { source: 'Half Day', target: 半天 }
+    - { source: Holiday, target: 國定假日 }
+    - { source: 'Leave Balance', target: 休假餘額 }
+    - { source: 'Leave Comment', target: 休假備註 }
+    - { source: 'Leave Entitled', target: 休假資格 }
+    - { source: 'Leave Period Does Not Exist', target: 休假期間不存在 }
+    - { source: 'Leave Request', target: 休假申請 }
+    - { source: 'Leave Scheduled', target: 預定休假時間 }
+    - { source: 'Leave Taken', target: 已休 }
+    - { source: 'Leave Type', target: 休假類型 }
+    - { source: 'Leave type will be undeleted', target: 休假類型將被取消刪除 }
+    - { source: 'My Leave Details', target: 我的休假明細 }
+    - { source: 'My Leave List', target: 我的休假列表 }
+    - { source: 'Name of Holiday', target: 國定假日名稱 }
+    - { source: 'No Leave Types with Leave Balance', target: 休假類型沒有休假餘額 }
+    - { source: 'No of Hours', target: 小時數 }
+    - { source: 'Non Working Day', target: 非工作日 }
+    - { source: 'Non-working Day', target: 非工作日 }
+    - { source: 'Number of Days', target: 天數 }
+    - { source: 'Pending Approval', target: 待批准 }
+    - { source: 'Repeats Annually', target: 每年重複 }
+    - { source: 'Show Leave with Status', target: 顯示休假的狀態 }
+    - { source: Taken, target: 已休 }
+    - { source: 'Overlapping Leave Request Found', target: 重複的休假申請 }
+    - { source: 'This is a deleted leave type. Reactivate it?', target: 這是個已經刪除的休假類型，是否要重新啟用？ }
+    - { source: 'To Date', target: 結束日期 }
+    - { source: 'To Time', target: 結束時間 }
+    - { source: 'Total Hours', target: 總時數 }
+    - { source: 'Total time is greater than the shift length', target: 總時間是大於輪班時間 }
+    - { source: 'Failed to Submit: No Working Days Selected', target: 無法送出：沒有被選擇的工作日 }
+    - { source: 'Failed to Save: Date Already Assigned', target: 無法儲存：日期已經被指定 }
+    - { source: 'Failed to Assign: Work Shift Length Exceeded', target: 無法指定：超過輪班工時 }
+    - { source: 'Failed to Submit: Work Shift Length Exceeded', target: 無法送出：超過輪班工時 }
+    - { source: 'Failed to Submit: Leave Balance Exceeded', target: 提交失敗：超過休假餘額 }
+    - { source: 'Should be less than work shift length', target: 應小於輪班工時 }
+    - { source: 'Leave Period Not Defined', target: 未定義的休假期間 }
+    - { source: 'Full Day/Half Day', target: 全日/半日 }
+    - { source: 'Leave Request (%date_range%) %name%', target: '休假申請(%date_range%) %name%' }
+    - { source: 'Failed to Assign', target: 無法指定 }
+    - { source: 'Failed to Submit', target: 無法送出 }
+    - { source: 'Add Leave Type', target: 添加休假類型 }
+    - { source: 'Edit Leave Type', target: 編輯休假類型 }
+    - { source: 'Entitlement Type', target: 權利類型 }
+    - { source: 'Updating Entitlement', target: 更新權利 }
+    - { source: 'Leave Entitlements (Days)', target: 休假權利(天) }
+    - { source: 'Current Leave Balance (Days)', target: 目前休假餘額(天) }
+    - { source: 'Is entitlement situational', target: 是否條件式權利 }
+    - { source: 'Edit Leave Entitlement', target: 編輯休假權利 }
+    - { source: 'The selected leave entitlement will be applied to the following employees.', target: 以下職員將啟用所選擇休假權利 }
+    - { source: 'Old Entitlement', target: 舊權利 }
+    - { source: 'New Entitlement', target: 新權利 }
+    - { source: 'Used amount exceeds the current amount', target: 使用額超過目前額 }
+    - { source: 'Leave Balance Details', target: 休假餘額詳細 }
+    - { source: Entitled, target: 有資格 }
+    - { source: Used, target: 已使用 }
+    - { source: Balance, target: 餘額 }
+    - { source: 'Duration should be less than work shift length', target: 為期應少於輪班工時 }
+    - { source: 'view details', target: 查看詳細 }
+    - { source: 'As of Date', target: 截至日期 }
+    - { source: 'Overlapping Leave Requests Found', target: 發現重複休假申請 }
+    - { source: 'My Leave Entitlements', target: 我的休假權利 }
+    - { source: 'Leave Comments', target: 休假評論 }
+    - { source: 'Leave Request Comments', target: 休假申請評論 }
+    - { source: 'Bulk Assigning Leave Entitlement to %count% Employees. Please Wait', target: '正批量分配休假權利給 %count%員工. 請等' }
+    - { source: 'Assigning Leave Entitlement. Please Wait', target: 正分配休假權利.請等 }
+    - { source: 'Calculating Leave Balance', target: 正在計算休假餘額 }
+    - { source: 'Calculating Leave Balance, Please Wait', target: '正在計算休假餘額,請等' }
+    - { source: 'Confirm Leave Assignment', target: 確認休假分配 }
+    - { source: 'Employee does not have sufficient leave balance for leave request.', target: 員工沒有足夠休假餘額申請休假 }
+    - { source: 'Click OK to confirm leave assignment.', target: 點擊OK以確認休假分配. }
+    - { source: 'View Leave Type', target: 查看請假類型 }
+    - { source: 'Specify Time', target: 指定時間 }
+    - { source: 'Partial Days', target: 部分天數 }
+    - { source: None, target: 無 }
+    - { source: 'All Days', target: 全部天數 }
+    - { source: 'Start Day Only', target: 僅開始日 }
+    - { source: 'End Day Only', target: 僅結束日 }
+    - { source: 'Start and End Day', target: 開始與結束日 }
+    - { source: Morning, target: 上午 }
+    - { source: Afternoon, target: 下午 }
+    - { source: 'Start Day', target: 開始日 }
+    - { source: 'End Day', target: 結束日 }
+    - { source: 'Manage Reviews', target: 管理評論 }
+    - { source: 'My Reviews', target: 我的評論 }
+    - { source: KPI, target: '關鍵績效指標 (KPI)' }
+    - { source: 'KPI Group', target: '關鍵績效指標 (KPI)組' }
+    - { source: 'Appraisal Header', target: 評價頁首 }
+    - { source: 'Review List', target: 評論列單 }
+    - { source: 'Should be a positive integer', target: 應該是個正整數 }
+    - { source: 'Group Name', target: 組名稱 }
+    - { source: 'Weightage (1 - 100)', target: '權重（1 - 100）' }
+    - { source: Department, target: 部門 }
+    - { source: 'Key Performance Indicator Groups', target: '關鍵績效指標 (KPI)組' }
+    - { source: 'Search Performance Reviews', target: 搜索績效評估 }
+    - { source: ConfigureKPI, target: '設定關鍵績效指標 (KPI)' }
+    - { source: 'My Review List', target: 我的評論列單 }
+    - { source: 'Due Date', target: 截止日期 }
+    - { source: 'Review Period', target: 評估期 }
+    - { source: 'Review Status', target: 評論狀態 }
+    - { source: 'Evaluation Status', target: 評估狀態 }
+    - { source: 'Edit Details', target: 編輯詳細資料 }
+    - { source: 'Search Key Performance Indicators', target: 搜索關鍵績效指標 }
+    - { source: Weightage, target: 權重 }
+    - { source: 'Add KPI Group', target: '新增關鍵績效指標 (KPI)組' }
+    - { source: 'Performance Review', target: 績效評估 }
+    - { source: 'Subordinate Reviewers', target: 下屬審查者 }
+    - { source: 'Peer Reviewers', target: 同儕審查者 }
+    - { source: 'Supervisor Reviewers', target: 上司審查者 }
+    - { source: 'Work Period Start Date', target: 工作期開始日 }
+    - { source: 'Work Period End Date', target: 工作期結束日 }
+    - { source: Activate, target: 啟動 }
+    - { source: 'Add Peer', target: 新增同儕 }
+    - { source: Evaluate, target: 評估 }
+    - { source: 'View Progress', target: 檢視進度 }
+    - { source: 'Key Performance Indicator', target: 關鍵績效指標 }
+    - { source: 'Min Rate', target: 最低速率 }
+    - { source: 'Max Rate', target: 最大速率 }
+    - { source: 'Is Default', target: 是默認 }
+    - { source: 'Review Due Date', target: 評論截止日期 }
+    - { source: 'Administrator Evaluation Form', target: 管理員評估表 }
+    - { source: 'Individual Evaluation Status', target: 個別評估狀態 }
+    - { source: 'Reviewer Type', target: 審查者類型 }
+    - { source: 'Reviewer Name', target: 評估員名稱 }
+    - { source: 'Review Details', target: 評論詳細資料 }
+    - { source: 'Evaluation by Employee', target: 員工評估 }
+    - { source: 'Evaluation by HR Admin', target: 人力資源管理評估 }
+    - { source: 'HR Admin Comments', target: 人力資源管理評論 }
+    - { source: 'Final Rating', target: 最終評級 }
+    - { source: 'Completed Date', target: 完成日期 }
+    - { source: Complete, target: 完成 }
+    - { source: 'Evaluation by Subordinate', target: 下屬評估 }
+    - { source: 'Evaluation by', target: 評估者為 }
+    - { source: 'KPI Info', target: 關鍵績效指標資訊 }
+    - { source: Group, target: 組 }
+    - { source: Rating, target: 評級 }
+    - { source: 'Performance Review Progress', target: 績效評估進展 }
+    - { source: 'Employee Reviewer', target: 員工審查者 }
+    - { source: 'Key Performance Indicators for Job Title', target: 職稱的關鍵績效指標 }
+    - { source: 'Minimum Rating', target: 最低評級 }
+    - { source: 'Maximum Rating', target: 最大評級 }
+    - { source: 'Make Default Scale', target: 設置默認比例 }
+    - { source: Inactive, target: 未啓用 }
+    - { source: Activated, target: 已啟用 }
+    - { source: 'Employee cannot be a reviewer in another category', target: 員工不能在其他類別審查 }
+    - { source: 'Cannot add same person as a reviewer multiple times', target: 不可多次新增同一人為審查員 }
+    - { source: 'Cannot activate review without reviewers', target: 不能在無審查員的情況下啓用審查 }
+    - { source: 'End date should be after Start date', target: 結束日期須在開始日期之後 }
+    - { source: 'Cannot activate review without KPIs', target: 不能在無關鍵績效指標的情況下啓用審查 }
+    - { source: 'Select either job title or department', target: 選擇職位或部門 }
+    - { source: 'Type for hints...', target: 鍵入獲取提示... }
+    - { source: 'Should be a valid number', target: 須是有效數目字 }
+    - { source: 'Evaluation by Supervisors', target: 由主管評估 }
+    - { source: 'Should be greater than %number%', target: '須大於 %number%' }
+    - { source: 'Should be less than %number%', target: '須小於 %number%' }
+    - { source: 'Max rating should be greater than Min rating', target: 最大等級應大於最小等級 }
+    - { source: 'Cannot activate review for employees who doesn''t have Job Title and/or Sub-Division', target: 無法對沒有職位和/或分部之員工啟用審評 }
+    - { source: 'This action cannot be undone.', target: 此操作不可撤消。 }
+    - { source: 'Are you sure you want to continue?', target: 您確定要繼續嗎？ }
+    - { source: 'Peer Evaluation Form', target: 同儕評估表 }
+    - { source: 'In Progress', target: 正在進行中 }
+    - { source: 'OrangeHRM - Information', target: 'OrangeHRM - 資訊' }
+    - { source: 'Employee Evaluation Form', target: 員工評估表 }
+    - { source: Completed, target: 已完成 }
+    - { source: 'Subordinate Evaluation Form', target: 下屬評估表 }
+    - { source: 'Supervisor Evaluation Form', target: 主管評估表 }
+    - { source: 'Evaluation by Supervisor', target: 由主管評估 }
+    - { source: 'Evaluation by Peer', target: 由同儕評估 }
+    - { source: Peer, target: 同儕 }
+    - { source: 'Evaluation by Subordinates', target: 由下屬評估 }
+    - { source: 'Evaluation by Peers', target: 由同儕評估 }
+    - { source: 'Final Comment', target: 最終評價 }
+    - { source: 'View Attendance Record', target: 查看考勤記錄 }
+    - { source: 'Punch In', target: 打卡進 }
+    - { source: 'Punch In Note', target: 打卡進注釋 }
+    - { source: 'Punch Out', target: 打卡出 }
+    - { source: 'Punch Out Note', target: 打卡出注釋 }
+    - { source: 'No attendance records to display', target: 沒有考勤記錄可顯示 }
+    - { source: 'Punch out Time Should Be Higher Than Punch in Time', target: 打卡出的時間應該晚於打卡進的時間 }
+    - { source: 'Overlapping Records Found', target: 發現重疊記錄 }
+    - { source: 'Comment should be less than 250 characters', target: 評論應小於250個字符 }
+    - { source: 'Punch in/out note', target: 打卡進/出注釋 }
+    - { source: Timezone, target: 時區 }
+    - { source: 'Last punch in time', target: 最後打卡進的時間 }
+    - { source: In, target: 進 }
+    - { source: Out, target: 出 }
+    - { source: 'Attendance Configuration', target: 出席配置 }
+    - { source: 'Employee can change current time when punching in/out', target: 打卡進/出時，員工可以改變當前時間 }
+    - { source: 'Employee can edit/delete own attendance records', target: 員工可以編輯/刪除自己的考勤記錄 }
+    - { source: 'Supervisor can add/edit/delete attendance records of subordinates', target: 主管可以添加/編輯/刪除下屬的考勤記錄 }
+    - { source: 'My Attendance Records', target: 我的出勤記錄 }
+    - { source: 'You are not allowed to view this page', target: 你不能查看此頁 }
+    - { source: 'Add Attendance Records', target: 添加考勤記錄 }
+    - { source: 'Should Be a Valid Date in %format% Format', target: 應是%format%格式的有效日期 }
+    - { source: 'Should Be a Valid Time in %format% Format', target: 應是%format%格式的有效時間 }
+    - { source: 'Provider List', target: 提供者清單 }
+    - { source: 'Provider Name', target: 提供者名稱 }
+    - { source: Url, target: 網址 }
+    - { source: 'Redirect Url', target: 重新導向Url }
+    - { source: 'Client Id', target: 用户端識别碼 }
+    - { source: 'Client Secret', target: 用户端秘密 }
+    - { source: 'Developer Key', target: 尺寸 }
+    - { source: 'Alternative Login', target: 替代登入 }
+    - { source: Login, target: 登錄 }
+    - { source: 'Add Provider', target: 新增提供者 }
+    - { source: 'Add OAuth Client', target: '增加 OAuth 客户' }
+    - { source: ID, target: 識別號 }
+    - { source: Secret, target: 秘密 }
+    - { source: 'Redirect URI', target: '重新導引 URI' }
+    - { source: 'For a strong password, please use a hard to guess combination of text with upper and lower case characters, symbols and numbers', target: 請使用難以猜測的大小寫字符文本，符號和數字的組合已組成強密碼， }
+    - { source: 'Your password meets the minimum requirements, but it could be guessable. Try a different password.', target: 您的密碼雖符合最低要求，但可猜測。嘗試使用其他密碼。 }
+    - { source: 'Your password must contain a lower-case letter, an upper-case letter, a digit and a special character. Try a different password.', target: 您的密碼必須包含小寫字母，大寫字母，數字和特殊字符。嘗試使用其他密碼。 }
+    - { source: 'Employee does not exist', target: 不存在此員工 }
+    - { source: 'Work Hours', target: 工时 }
+    - { source: 'Leave Entitlements', target: 休假權利 }
+    - { source: 'Update Status', target: 更新狀態 }
+    - { source: 'Upload Images', target: 上載影像 }
+    - { source: 'Share Video', target: 共用視訊 }
+    - { source: 'UPCOMING ANNIVERSARIES', target: 即將来臨的週年紀念日 }
+    - { source: 'No Upcoming Anniversaries For Next 30 Days', target: 接下來30天沒有周年紀念日 }
+    - { source: 'MOST LIKED POSTS', target: 最多人喜歡的貼文 }
+    - { source: 'MOST COMMENTED POSTS', target: 最多人評論的貼文 }
+    - { source: this, target: 此 }
+    - { source: Post, target: 貼文 }
+    - { source: 'Add your comment', target: 新增您的評論 }
+    - { source: 'People who likes this comment', target: 喜歡此評論的人 }
+    - { source: 'People who like this comment', target: 喜歡此評語的人 }
+    - { source: 'People who like this post', target: 喜歡此貼文的人 }
+    - { source: 'Only ''gif'', ''png'', ''jpg'', ''jpeg'' type images are allowed!', target: '只允許 ''gif''、''png''、 ''jpg''、''jpeg'' 格式影像!' }
+    - { source: 'Only five images are allowed in a single post!', target: 一個貼文只允許五個影像! }
+    - { source: Sorry!, target: 對不起! }
+    - { source: 'People who shared this post', target: 共享此貼文的人 }
+    - { source: 'Paste Video Url', target: 貼上視訊Url }
+    - { source: 'What''s on your mind?', target: '您認爲怎麽樣?' }
+    - { source: 'Say something about these photos', target: 說說您對這些照片的看法 }
+    - { source: 'Do you really want to delete this?', target: '是否確定要删除?' }
+    - { source: 'Successfully Deleted!', target: 已成功删除! }
+    - { source: 'Successfully Saved!', target: 已成功儲存! }
+    - { source: 'Edit your comment', target: 編輯您的評論 }
+    - { source: 'Edit your post', target: 編輯您的貼文 }
+    - { source: 'Successfully Shared', target: 已成功共享! }
+    - { source: 'This url is not a valid url of a video or it is not supported by the system', target: 此網址非有效錄像網址或系統並不支持 }
+    - { source: Buzz, target: 激動 }
+    - { source: Like, target: 喜歡 }
+    - { source: Unlike, target: 不喜歡 }
+    - { source: Expand, target: 擴展 }
+    - { source: 'What''s on your mind', target: 您在想什麽 }
+    - { source: 'This share has been deleted or you do not have permission to perform this action', target: 此分享已被刪除，或您沒有權力執行此操作 }
+    - { source: OrangeBuzz, target: OrangeBuzz }
+    - { source: Share, target: 共用 }
+    - { source: Success, target: 成功 }
+    - { source: 'Read More', target: 讀取細節 }
+    - { source: 'Save Video', target: 儲存視訊 }

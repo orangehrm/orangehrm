@@ -1,0 +1,1549 @@
+translations:
+    - { source: '1M Max, any larger attachments will be ignored', target: '1M Max, всички по-големи прикачени файлове ще бъдат игнорирани' }
+    - { source: Add, target: Добави }
+    - { source: 'Add Attachment', target: 'Добавяне на прикачване' }
+    - { source: 'Add Employee', target: 'Добавяне на служителите' }
+    - { source: 'Add KPI', target: 'Добави KPI' }
+    - { source: 'Add Review', target: 'Добавяне на преглед' }
+    - { source: 'Add Salary Component', target: 'Добави Компонент Заплата' }
+    - { source: 'Added By', target: 'Добавено от' }
+    - { source: Address, target: Адрес }
+    - { source: Admin, target: Admin }
+    - { source: Afghan, target: Афганистанец }
+    - { source: Afghanistan, target: Афганистан }
+    - { source: 'Afghanistan Afghani', target: 'Афганистан афганистанец' }
+    - { source: 'Age Group', target: 'Възрастова група' }
+    - { source: Alabama, target: Алабама }
+    - { source: Alaska, target: Аляска }
+    - { source: Albania, target: Албания }
+    - { source: Albanian, target: Албански }
+    - { source: 'Albanian Lek', target: 'Албански Lek' }
+    - { source: Algeria, target: Алжир }
+    - { source: Algerian, target: Алжирски }
+    - { source: 'Algerian Dinar', target: 'Алжирски динар' }
+    - { source: All, target: Всички }
+    - { source: 'Allows numbers and only + - / ( )', target: 'Позволява номера и само + / ()' }
+    - { source: 'Already exists', target: 'Вече съществува' }
+    - { source: 'Name Already Exists', target: 'Името вече съществува' }
+    - { source: American, target: Американски }
+    - { source: 'American Samoa', target: 'Американска Самоа' }
+    - { source: Amount, target: Размер }
+    - { source: Andorra, target: Андора }
+    - { source: Andorran, target: Андора }
+    - { source: Angola, target: Ангола }
+    - { source: Angolan, target: Анголския }
+    - { source: 'Angolan New Kwanza', target: 'Анголския Ню кванца' }
+    - { source: Anguilla, target: Ангуила }
+    - { source: Antarctica, target: Антарктида }
+    - { source: 'Antigua and Barbuda', target: 'Антигуа и Барбуда' }
+    - { source: Antiguans, target: Antiguans }
+    - { source: Apply, target: Нанесете }
+    - { source: April, target: Април }
+    - { source: 'are required', target: 'са задължителни' }
+    - { source: Argentina, target: Аржентина }
+    - { source: 'Argentina Pesos', target: 'Аржентина песос' }
+    - { source: 'Argentine Peso', target: 'Аржентинско песо' }
+    - { source: Argentinean, target: Аржентинец }
+    - { source: Arizona, target: Аризона }
+    - { source: Arkansas, target: Арканзас }
+    - { source: 'Armed Forces Americas (except Canada)', target: 'Въоръжените сили на Северна и Южна Америка (с изключение на Канада)' }
+    - { source: 'Armed Forces Middle East', target: 'Въоръжените сили на Близкия изток' }
+    - { source: 'Armed Forces Pacific', target: 'Въоръжените сили на Тихия океан' }
+    - { source: Armenia, target: Армения }
+    - { source: Armenian, target: Арменски }
+    - { source: Aruba, target: Аруба }
+    - { source: 'Aruban Florin', target: 'Aruban Флорин' }
+    - { source: 'Assign Leave', target: 'Присвояване Оставете' }
+    - { source: 'Assigned Salary Components', target: 'Емисионни компоненти на заплатите' }
+    - { source: 'Attachment Size Exceeded', target: 'Прикачен файл Размер на товара' }
+    - { source: Attendance, target: Посещаемост }
+    - { source: 'Attendance Summary', target: 'Участие Обобщение' }
+    - { source: August, target: Август }
+    - { source: Australia, target: Австралия }
+    - { source: Australian, target: Австралийски }
+    - { source: 'Australian Dollar', target: 'Австралийски долар' }
+    - { source: Austria, target: Австрия }
+    - { source: Austrian, target: Австрийски }
+    - { source: Azerbaijan, target: Азербайджан }
+    - { source: Azerbaijani, target: Азербайджански }
+    - { source: Back, target: Обратно }
+    - { source: Bahamas, target: Бахамите }
+    - { source: Bahamian, target: Бахамите }
+    - { source: 'Bahamian Dollar', target: 'Бахамски долар' }
+    - { source: Bahrain, target: Бахрейн }
+    - { source: Bahraini, target: Бахрейн }
+    - { source: 'Bahraini Dinar', target: 'Бахрейн динар' }
+    - { source: Bangladesh, target: Бангладеш }
+    - { source: Bangladeshi, target: Бангладеш }
+    - { source: 'Bangladeshi Taka', target: 'Бангладеш Taka' }
+    - { source: Barbadian, target: Barbadian }
+    - { source: Barbados, target: Барбадос }
+    - { source: 'Barbados Dollar', target: 'Барбадос долар' }
+    - { source: Barbudans, target: Barbudans }
+    - { source: Basic, target: Основен }
+    - { source: Batswana, target: Batswana }
+    - { source: Belarus, target: Беларус }
+    - { source: Belarusian, target: Беларус }
+    - { source: Belgian, target: Белгийски }
+    - { source: Belgium, target: Белгия }
+    - { source: Belize, target: Белиз }
+    - { source: 'Belize Dollar', target: 'Белиз долар' }
+    - { source: Belizean, target: Белиз }
+    - { source: Benin, target: Бенин }
+    - { source: Beninese, target: Beninese }
+    - { source: Bermuda, target: Бермудите }
+    - { source: 'Bermudian Dollar', target: 'Bermudian Dollar' }
+    - { source: Bhutan, target: Бутан }
+    - { source: 'Bhutan Ngultrum', target: 'Бутан Ngultrum' }
+    - { source: Bhutanese, target: Бутан }
+    - { source: Bolivia, target: Боливия }
+    - { source: Bolivian, target: Боливийски }
+    - { source: 'Bolivian Boliviano', target: 'Боливийско боливиано' }
+    - { source: 'Bosnia and Herzegovina', target: 'Босна и Херцеговина' }
+    - { source: Bosnian, target: Босненския }
+    - { source: Botswana, target: Ботсуана }
+    - { source: 'Botswana Pula', target: 'Ботсвана Пула' }
+    - { source: 'Bouvet Island', target: 'Остров Буве' }
+    - { source: Brazil, target: Бразилия }
+    - { source: Brazilian, target: Бразилски }
+    - { source: 'Brazilian Real', target: 'Бразилски реал' }
+    - { source: British, target: Британски }
+    - { source: 'British Indian Ocean Territory', target: 'Британска индоокеанска територия' }
+    - { source: 'Brunei Darussalam', target: 'Бруней Даруссалам' }
+    - { source: 'Brunei Dollar', target: 'Бруней долар' }
+    - { source: Bruneian, target: Bruneian }
+    - { source: Bulgaria, target: България }
+    - { source: Bulgarian, target: Български }
+    - { source: 'Bulgarian Lev', target: 'Български лев' }
+    - { source: 'Burkina Faso', target: 'Буркина Фасо' }
+    - { source: Burkinabe, target: Burkinabe }
+    - { source: Burmese, target: Бирмански }
+    - { source: Burundi, target: Бурунди }
+    - { source: 'Burundi Franc', target: 'Бурунди франк' }
+    - { source: Burundian, target: Бурунди }
+    - { source: California, target: Калифорния }
+    - { source: Cambodia, target: Камбоджа }
+    - { source: Cambodian, target: Камбоджа }
+    - { source: Cameroon, target: Камерун }
+    - { source: Cameroonian, target: Камерун }
+    - { source: Canada, target: Канада }
+    - { source: Canadian, target: Канадски }
+    - { source: 'Canadian Dollar', target: 'Канадски долар' }
+    - { source: Cancel, target: Отказ }
+    - { source: Candidates, target: Кандидатите }
+    - { source: 'Cape Verde', target: 'Кабо Верде' }
+    - { source: 'Cape Verde Escudo', target: 'Кабо Верде ескудо' }
+    - { source: 'Cape Verdean', target: 'Кабо Верде' }
+    - { source: 'Cayman Islands', target: 'Кайманови острови' }
+    - { source: 'Cayman Islands Dollar', target: 'Кайманови острови долар' }
+    - { source: 'Central African', target: 'Централна Африка' }
+    - { source: 'Central African Republic', target: 'Централноафриканската република' }
+    - { source: 'CFA Franc BCEAO', target: 'CFA франк BCEAO' }
+    - { source: 'CFP Franc', target: 'ОПР франк' }
+    - { source: 'CFA Franc BEAC', target: 'CFA франк BEAC от английски' }
+    - { source: Chad, target: Чад }
+    - { source: Chadian, target: Чад }
+    - { source: 'Change Password', target: 'Смяна на паролата' }
+    - { source: Checking, target: Проверка }
+    - { source: Chile, target: Чили }
+    - { source: 'Cote D''Ivoire', target: 'На Кот д''Ивоар' }
+    - { source: Chilean, target: Чилийски }
+    - { source: 'Chilean Peso', target: 'Чилийско песо' }
+    - { source: 'Tongan Pa''anga', target: 'Тонга Pa''anga' }
+    - { source: China, target: Китай }
+    - { source: Chinese, target: Китайски }
+    - { source: 'Chinese Yuan Renminbi', target: 'Юан ренминби на Китай' }
+    - { source: 'Christmas Island', target: 'Christmas Island' }
+    - { source: 'Cocos (Keeling) Islands', target: 'Кокосови (Кийлинг) острови' }
+    - { source: Colombia, target: Колумбия }
+    - { source: Colombian, target: Колумбийски }
+    - { source: 'Colombian Peso', target: 'Колумбийско песо' }
+    - { source: Colorado, target: Колорадо }
+    - { source: Comment, target: Коментар }
+    - { source: Comments, target: Коментари }
+    - { source: Comoran, target: Comoran }
+    - { source: Comoros, target: 'Коморските острови' }
+    - { source: 'Comoros Franc', target: 'Коморските острови Franc' }
+    - { source: Company, target: Компания }
+    - { source: Competency, target: Компетентност }
+    - { source: Configuration, target: Конфигурация }
+    - { source: Configure, target: Конфигуриране }
+    - { source: Congo, target: Конго }
+    - { source: 'Congo, the Democratic Republic of the', target: 'Конго, Демократична република' }
+    - { source: Congolese, target: Конгоанска }
+    - { source: Connecticut, target: Кънектикът }
+    - { source: 'Contact Details', target: 'Данни за контакт' }
+    - { source: 'Contract End Date', target: 'Договор Край Дата' }
+    - { source: 'Contract Not Renewed', target: 'Договор няма да бъдат подновявани,' }
+    - { source: 'Contract Start Date', target: 'Дата на Договора' }
+    - { source: 'Cook Islands', target: 'Островите Кук' }
+    - { source: 'Copy KPI', target: 'Копиране на KPI' }
+    - { source: 'Costa Rica', target: 'Коста Рика' }
+    - { source: 'Costa Rican', target: 'Коста Рика' }
+    - { source: 'Costa Rican Colon', target: 'Коста Рика Colon' }
+    - { source: Country, target: Държава }
+    - { source: Croatia, target: Хърватия }
+    - { source: Croatian, target: Хърватски }
+    - { source: 'Croatian Kuna', target: 'Хърватска куна' }
+    - { source: Cuba, target: Куба }
+    - { source: Cuban, target: Кубински }
+    - { source: 'Cuban Peso', target: 'Кубински песо' }
+    - { source: Currency, target: Валута }
+    - { source: 'Current and Past Employees', target: 'Настоящи и бивши служители' }
+    - { source: 'Current Employees Only', target: 'Текущи служители само' }
+    - { source: 'Current Status', target: 'Текущ статус' }
+    - { source: 'Custom Fields', target: 'Потребителски полета' }
+    - { source: Customers, target: Клиентите }
+    - { source: Cypriot, target: Кипърското }
+    - { source: Cyprus, target: Кипър }
+    - { source: 'Cyprus Pound', target: 'Кипър Pound' }
+    - { source: Czech, target: Чешки }
+    - { source: 'Czech Koruna', target: 'Чешката крона' }
+    - { source: 'Czech Republic', target: Чехия }
+    - { source: Danish, target: Датски }
+    - { source: 'Danish Krona', target: 'Датски крони' }
+    - { source: 'Data Import', target: 'Импортиране на данни' }
+    - { source: Date, target: Дата }
+    - { source: 'Date Added', target: 'Дата на добавяне' }
+    - { source: 'Date of Birth', target: 'Дата на раждане' }
+    - { source: Days, target: Дни }
+    - { source: Deceased, target: Починал }
+    - { source: December, target: Декември }
+    - { source: 'Define Report', target: 'Определете доклад' }
+    - { source: 'Defined Custom Fields', target: 'Определени потребителски полета' }
+    - { source: Delaware, target: Делауеър }
+    - { source: Delete, target: Изтриване }
+    - { source: 'Delete Current', target: 'Изтриване на текущото' }
+    - { source: Denmark, target: Дания }
+    - { source: Dependents, target: Зависимите }
+    - { source: Description, target: Описание }
+    - { source: Dimensions, target: Размери }
+    - { source: Direct, target: Директно }
+    - { source: 'Direct Deposit Account Number', target: 'Директен номер на депозит' }
+    - { source: 'Direct Deposit Account Type', target: 'Директен Депозит Тип' }
+    - { source: 'Direct Deposit Amount', target: 'Директен депозит' }
+    - { source: 'Direct Deposit Details', target: 'На данните за директен депозит' }
+    - { source: 'Direct Deposit Routing Number', target: 'Директен депозит идентификационен номер' }
+    - { source: Disabled, target: 'Хора с увреждания' }
+    - { source: Dismissed, target: Уволнен }
+    - { source: 'Display Field Groups', target: 'Покажи на полето на групи' }
+    - { source: 'Display Fields', target: 'Покажат полетата' }
+    - { source: 'District of Columbia', target: 'Окръг Колумбия' }
+    - { source: Djibouti, target: Джибути }
+    - { source: 'Djibouti Franc', target: 'Джибути Franc' }
+    - { source: 'Document Type', target: 'Тип на документа' }
+    - { source: Dominica, target: Доминика }
+    - { source: Dominican, target: Доминиканската }
+    - { source: 'Dominican Peso', target: 'Доминиканската песо' }
+    - { source: 'Dominican Republic', target: 'Доминиканската република' }
+    - { source: 'Driver License Number', target: 'Номер на шофьорска книжка' }
+    - { source: 'Driver''s License Number', target: 'Номер на шофьорска книжка' }
+    - { source: Duration, target: Продължителност }
+    - { source: Dutch, target: Холандски }
+    - { source: Duties, target: Задължения }
+    - { source: 'East Timorese', target: 'Източен Тимор' }
+    - { source: 'Eastern Caribbean Dollars', target: 'Източна Карибите долари' }
+    - { source: Ecuador, target: Еквадор }
+    - { source: 'Ecuador Sucre', target: 'Еквадор Сукре' }
+    - { source: Ecuadorean, target: Еквадорски }
+    - { source: Edit, target: Редактирам }
+    - { source: 'Edit Attachment', target: 'Редактиране на прикачен файл' }
+    - { source: 'Edit Immigration', target: 'Редактиране на имиграцията' }
+    - { source: 'Edit Salary Component', target: 'Редактиране Компонент Заплата' }
+    - { source: Education, target: Образование }
+    - { source: Egypt, target: Египет }
+    - { source: Egyptian, target: Египетски }
+    - { source: 'Egyptian Pound', target: 'Египетска лира' }
+    - { source: 'El Salvador', target: 'Ел Салвадор' }
+    - { source: 'El Salvador Colon', target: 'Ел Салвадор Colon' }
+    - { source: Eligible, target: Допустими }
+    - { source: 'Eligible Review Date', target: 'Разходомери за датата на преразглеждането' }
+    - { source: 'Eligible Status', target: 'Допустими Статус' }
+    - { source: 'Email Notifications', target: 'Известия по имейл' }
+    - { source: 'Emergency Contacts', target: 'Спешни Контакти' }
+    - { source: Emirian, target: Emirian }
+    - { source: Employee, target: 'На служителите' }
+    - { source: 'Employee First Name', target: 'Име на служителите' }
+    - { source: 'Employee Id', target: 'Служител Id' }
+    - { source: 'Employee Last Name', target: 'Фамилия на служителите' }
+    - { source: 'Employee List', target: 'Служител Списък' }
+    - { source: 'Employee Middle Name', target: 'Име на служителите в Близкия' }
+    - { source: 'Employee Name', target: 'Служител Име' }
+    - { source: 'Employee Records', target: 'Наети Records' }
+    - { source: 'Employee Reports', target: 'Наети Доклади' }
+    - { source: 'Employee Timesheets', target: 'Наети работа на' }
+    - { source: 'Employment Status', target: 'Статус в заетостта' }
+    - { source: Enabled, target: Разрешено }
+    - { source: 'End Date', target: 'Крайна дата' }
+    - { source: 'End date should be after start date', target: 'Крайната дата трябва да бъде след началната дата' }
+    - { source: 'Equatorial Guinea', target: 'Екваториална Гвинея' }
+    - { source: 'Equatorial Guinean', target: 'Екваториална Гвинея' }
+    - { source: Eritrea, target: Еритрея }
+    - { source: Eritrean, target: Еритрея }
+    - { source: ESS, target: ЕСС }
+    - { source: Estonia, target: Естония }
+    - { source: Estonian, target: Естонски }
+    - { source: 'Estonian Krona', target: 'Естонската крона' }
+    - { source: Ethiopia, target: Етиопия }
+    - { source: Ethiopian, target: Етиопски }
+    - { source: 'Ethiopian Birr', target: 'Етиопецът Birr' }
+    - { source: Euro, target: Евро }
+    - { source: 'Expected format: admin@example.com', target: 'Очаквано формат: admin@example.com' }
+    - { source: 'Expiry Date', target: 'Срок на валидност' }
+    - { source: 'Expiry date should be after issued date', target: 'Срок на валидност трябва да бъде след издадено дата' }
+    - { source: 'Failed to Save', target: 'Грешка при запазване на' }
+    - { source: 'Falkland Islands (Malvinas)', target: 'Фолклендски острови (Малвински)' }
+    - { source: 'Falkland Islands Pound', target: 'Фолкландските острови, Pound' }
+    - { source: 'Faroe Islands', target: 'Фарьорските острови' }
+    - { source: February, target: Февруари }
+    - { source: 'Federated States of Micronesia', target: 'Федерални щати Микронезия' }
+    - { source: Female, target: Жена }
+    - { source: Field, target: Област }
+    - { source: Fields, target: Полетата }
+    - { source: 'Fields marked with an asterisk', target: 'Полетата отбелязани със звездичка (*)' }
+    - { source: Fiji, target: Фиджи }
+    - { source: 'Fiji Dollar', target: 'Фиджи Dollar' }
+    - { source: Fijian, target: Фиджи }
+    - { source: 'File Name', target: 'Име на файла' }
+    - { source: Filipino, target: Филипински }
+    - { source: Finland, target: Финландия }
+    - { source: Finnish, target: Фински }
+    - { source: First, target: Първи }
+    - { source: 'First Name', target: 'Собствено име' }
+    - { source: Florida, target: Флорида }
+    - { source: Fluency, target: Плавност }
+    - { source: France, target: Франция }
+    - { source: French, target: Френски }
+    - { source: 'French Guiana', target: 'Френска Гвиана' }
+    - { source: 'French Polynesia', target: 'Френска Полинезия' }
+    - { source: 'French Southern Territories', target: 'Френски южни територии' }
+    - { source: Friday, target: Петък }
+    - { source: From, target: От }
+    - { source: 'Full Name', target: 'Пълно име' }
+    - { source: 'Full Time Contract', target: 'Краен резултат договор' }
+    - { source: 'Full Time Internship', target: 'Пълно време Стаж' }
+    - { source: 'Full Time Permanent', target: 'Пълен работен ден Постоянна' }
+    - { source: Gabon, target: Габон }
+    - { source: Gabonese, target: Габон }
+    - { source: Gambia, target: Гамбия }
+    - { source: Gambian, target: Гамбия }
+    - { source: 'Gambian Dalasi', target: 'Гамбия Dalasi' }
+    - { source: Gender, target: Пол }
+    - { source: 'General Information', target: 'Обща информация' }
+    - { source: Georgia, target: Грузия }
+    - { source: Georgian, target: Грузински }
+    - { source: German, target: Немски }
+    - { source: Germany, target: Германия }
+    - { source: Ghana, target: Гана }
+    - { source: Ghanaian, target: Гана }
+    - { source: 'Ghanaian Cedi', target: 'Гана Cedi' }
+    - { source: Gibraltar, target: Гибралтар }
+    - { source: 'Gibraltar Pound', target: 'Гибралтар Pound' }
+    - { source: 'Gold (oz.)', target: 'Злато (oz.)' }
+    - { source: Good, target: Добро }
+    - { source: 'Greater Than', target: 'По-голяма от' }
+    - { source: Greece, target: Гърция }
+    - { source: Greek, target: Гръцки }
+    - { source: Greenland, target: Гренландия }
+    - { source: Grenada, target: Гренада }
+    - { source: Grenadian, target: Grenadian }
+    - { source: Guadeloupe, target: Гваделупа }
+    - { source: Guam, target: Гуам }
+    - { source: Guatemala, target: Гватемала }
+    - { source: Guatemalan, target: Гватемалски }
+    - { source: 'Guatemalan Quetzal', target: 'Гватемала Quetzal' }
+    - { source: Guinea, target: Гвинея }
+    - { source: 'Guinea Franc', target: 'Гвинея франк' }
+    - { source: Guinea-Bissau, target: Гвинея-Бисау }
+    - { source: Guinea-Bissauan, target: 'Гвинея-Bissauan,' }
+    - { source: Guinean, target: Гвинея }
+    - { source: Guyana, target: Гвиана }
+    - { source: 'Guyanan Dollar', target: 'Guyanan Dollar' }
+    - { source: Guyanese, target: Гвиана }
+    - { source: Haiti, target: Хаити }
+    - { source: Haitian, target: Хаитянин }
+    - { source: 'Haitian Gourde', target: 'Хаити Gourde' }
+    - { source: Hawaii, target: Хавай }
+    - { source: 'Heard Island and Mcdonald Islands', target: 'Остров Хърд и острови Макдоналд' }
+    - { source: Help, target: Помощ }
+    - { source: Herzegovinian, target: Херцеговина }
+    - { source: 'Hide Details', target: 'Скриване Детайли' }
+    - { source: Holidays, target: Ваканция }
+    - { source: 'Holy See (Vatican City State)', target: 'Светия престол (Ватикана)' }
+    - { source: 'Home Telephone', target: 'Домашен телефон' }
+    - { source: Honduran, target: Хондураски }
+    - { source: 'Honduran Lempira', target: 'Хондурас Lempira' }
+    - { source: Honduras, target: Хондурас }
+    - { source: 'Hong Kong', target: Хонконг }
+    - { source: 'Hong Kong Dollar', target: 'Хонг Конг долар' }
+    - { source: Hungarian, target: Унгарски }
+    - { source: 'Hungarian Forint', target: 'Унгарския форинт' }
+    - { source: Hungary, target: Унгария }
+    - { source: I-Kiribati, target: I-Кирибати }
+    - { source: Iceland, target: Исландия }
+    - { source: 'Iceland Krona', target: 'Исландия крона' }
+    - { source: Icelander, target: Исландец }
+    - { source: Id, target: Id }
+    - { source: Idaho, target: Айдахо }
+    - { source: Illinois, target: Илинойс }
+    - { source: 'IMF Special Drawing Right', target: 'МВФ Специални права на тираж' }
+    - { source: Immigration, target: Имиграция }
+    - { source: Include, target: Включете }
+    - { source: 'Include Header', target: 'Включи Header' }
+    - { source: 'Include Past Employees', target: 'Включване на бивши служители' }
+    - { source: India, target: Индия }
+    - { source: Indian, target: Индийски }
+    - { source: 'Indian Rupee', target: 'Индийски рупии' }
+    - { source: Indiana, target: Индиана }
+    - { source: Indirect, target: Косвен }
+    - { source: Individual, target: Индивидуален }
+    - { source: Indonesia, target: Индонезия }
+    - { source: Indonesian, target: Индонезийски }
+    - { source: 'Indonesian Rupiah', target: 'Индонезийска рупия' }
+    - { source: 'Invalid File Type', target: 'Invalid File Тип' }
+    - { source: Iowa, target: Айова }
+    - { source: 'Iran, Islamic Republic of', target: 'Ислямска република Иран,' }
+    - { source: Iranian, target: Ирански }
+    - { source: 'Iranian Rial', target: 'Ирански риал' }
+    - { source: Iraq, target: Ирак }
+    - { source: Iraqi, target: Иракски }
+    - { source: 'Iraqi Dinar', target: 'Иракски динара' }
+    - { source: Ireland, target: Ирландия }
+    - { source: Irish, target: Ирландски }
+    - { source: Israel, target: Израел }
+    - { source: Israeli, target: Израелската }
+    - { source: 'Israeli New Shekel', target: 'Израелската Нова шекел' }
+    - { source: 'Issued By', target: 'Издадена от' }
+    - { source: 'Issued Date', target: 'Издаден Дата' }
+    - { source: Italian, target: Италиански }
+    - { source: Italy, target: Италия }
+    - { source: Ivorian, target: 'Кот д''Ивоар' }
+    - { source: Jamaica, target: Ямайка }
+    - { source: Jamaican, target: Ямайски }
+    - { source: 'Jamaican Dollar', target: 'Ямайски долар' }
+    - { source: January, target: Януари }
+    - { source: Japan, target: Япония }
+    - { source: Japanese, target: Японски }
+    - { source: 'Japanese Yen', target: 'Японски йени' }
+    - { source: Job, target: Работа }
+    - { source: 'Job Categories', target: 'Работа Категории' }
+    - { source: 'Job Category', target: 'Job Категория' }
+    - { source: 'Job Specification', target: 'Работа Спецификация' }
+    - { source: 'Job Title', target: Длъжност }
+    - { source: 'Job Titles', target: 'Работа дялове' }
+    - { source: 'Joined Date', target: Дата }
+    - { source: Jordan, target: Йордания }
+    - { source: Jordanian, target: Йордански }
+    - { source: 'Jordanian Dinar', target: 'Йордански динар' }
+    - { source: July, target: Юли }
+    - { source: June, target: Юни }
+    - { source: 'Kampuchean Riel', target: 'Kampuchean Riel' }
+    - { source: Kansas, target: Канзас }
+    - { source: Kazakhstan, target: Казахстан }
+    - { source: 'Kazakhstan Tenge', target: 'Казахстан Tenge' }
+    - { source: Kazakhstani, target: Казахстански }
+    - { source: 'Keep Current', target: 'Запазване на текущия' }
+    - { source: Kentucky, target: Кентъки }
+    - { source: Kenya, target: Кения }
+    - { source: Kenyan, target: Кенийски }
+    - { source: 'Kenyan Shilling', target: 'Кенийски шилинг' }
+    - { source: Kiribati, target: Кирибати }
+    - { source: 'Kittian and Nevisian', target: 'Kittian и Nevisian' }
+    - { source: 'Korea, Democratic People''s Republic of', target: 'Корея, Корейската народнодемократична република' }
+    - { source: 'Korea, Republic of', target: 'Република Корея' }
+    - { source: 'Korean Won', target: 'Корейски Спечелено' }
+    - { source: 'KPI List', target: 'KPI списък' }
+    - { source: Kuwait, target: Кувейт }
+    - { source: Kuwaiti, target: Кувейтски }
+    - { source: 'Kuwaiti Dinar', target: 'Кувейтския динар' }
+    - { source: Kyrgyz, target: Киргизстан }
+    - { source: Kyrgyzstan, target: Киргизстан }
+    - { source: Language, target: Език }
+    - { source: Languages, target: Езици }
+    - { source: 'Lao Kip', target: 'Лао Кип' }
+    - { source: 'Lao People''s Democratic Republic', target: 'Лаоската народна демократична република' }
+    - { source: Laotian, target: Лаоска }
+    - { source: Last, target: Последно }
+    - { source: 'Last Name', target: Фамилия }
+    - { source: Latvia, target: Латвия }
+    - { source: Latvian, target: Латвийски }
+    - { source: 'Latvian Lats', target: 'Латвийският лат' }
+    - { source: Laid-off, target: 'Положени на разстояние' }
+    - { source: Leave, target: Оставете }
+    - { source: 'Leave Balance (Days)', target: 'Оставете Баланс (дни)' }
+    - { source: 'Leave Entitled (Days)', target: 'Оставете Право (дни)' }
+    - { source: 'Leave List', target: 'Оставете Списък' }
+    - { source: 'Leave Period', target: 'Оставете Период' }
+    - { source: 'Leave Scheduled (Days)', target: 'Оставете график (дни)' }
+    - { source: 'Leave Summary', target: 'Оставете Обобщение' }
+    - { source: 'Leave Taken (Days)', target: 'Отпуск (дни)' }
+    - { source: 'Leave Types', target: 'Оставете Видове' }
+    - { source: Lebanese, target: Ливански }
+    - { source: 'Lebanese Pound', target: 'Ливанската лира' }
+    - { source: Lebanon, target: Ливан }
+    - { source: Lesotho, target: Лесото }
+    - { source: 'Lesotho Loti', target: 'Лесото Лоти' }
+    - { source: 'Less Than', target: 'По-малко от' }
+    - { source: Level, target: Ниво }
+    - { source: Liberia, target: Либерия }
+    - { source: Liberian, target: Либерийски }
+    - { source: 'Liberian Dollar', target: 'Либерийски долар' }
+    - { source: Libyan, target: Либийски }
+    - { source: 'Libyan Arab Jamahiriya', target: 'Либийската Арабска Джамахирия' }
+    - { source: 'Libyan Dinar', target: 'Либийския динар' }
+    - { source: License, target: Разрешително }
+    - { source: 'License Expiry Date', target: 'Лиценз срок на годност' }
+    - { source: 'License Number', target: 'Номер на лиценз' }
+    - { source: 'License Type', target: 'Тип лиценз' }
+    - { source: Licenses, target: Лицензи }
+    - { source: Liechtenstein, target: Лихтенщайн }
+    - { source: Liechtensteiner, target: Liechtensteiner }
+    - { source: Lithuania, target: Литва }
+    - { source: Lithuanian, target: Литовски }
+    - { source: 'Lithuanian Litas', target: 'Литовския литас' }
+    - { source: Localization, target: Локализация }
+    - { source: Location, target: Място }
+    - { source: Locations, target: Места }
+    - { source: Logout, target: Изход }
+    - { source: Louisiana, target: Луизиана }
+    - { source: Luxembourg, target: Люксембург }
+    - { source: Luxembourger, target: Luxembourger }
+    - { source: Macao, target: Макао }
+    - { source: 'Macau Pataca', target: 'Макао Pataca' }
+    - { source: 'Macedonia, the Former Yugoslav Republic of', target: 'Македония, Бивша югославска република' }
+    - { source: Macedonian, target: Македонски }
+    - { source: Madagascar, target: Мадагаскар }
+    - { source: Maine, target: Мейн }
+    - { source: Malagasy, target: Мадагаскарски }
+    - { source: 'Malagasy Franc', target: 'Мадагаскарски франк' }
+    - { source: Malawi, target: Малави }
+    - { source: 'Malawi Kwacha', target: 'Малави квача' }
+    - { source: Malawian, target: Малави }
+    - { source: Malaysia, target: Малайзия }
+    - { source: Malaysian, target: Малайзия }
+    - { source: 'Malaysian Ringgit', target: 'Малайзийския рингит' }
+    - { source: Maldivan, target: Maldivan }
+    - { source: 'Maldive Rufiyaa', target: 'Малдивски Rufiyaa' }
+    - { source: Maldives, target: Малдивите }
+    - { source: Male, target: Мъж }
+    - { source: Mali, target: Мали }
+    - { source: Malian, target: Малийска }
+    - { source: Malta, target: Малта }
+    - { source: Maltese, target: Малтийски }
+    - { source: 'Maltese Lira', target: 'Малтийска лира' }
+    - { source: March, target: Март }
+    - { source: 'Marital Status', target: 'Семейно положение' }
+    - { source: 'Marshall Islands', target: 'Маршаловите острови' }
+    - { source: Marshallese, target: Marshallese }
+    - { source: Martinique, target: Мартиника }
+    - { source: Maryland, target: Мериленд }
+    - { source: Massachusetts, target: Масачузетс }
+    - { source: Mauritania, target: Мавритания }
+    - { source: Mauritanian, target: Мавритански }
+    - { source: 'Mauritanian Ouguiya', target: 'Мавритански Ouguiya' }
+    - { source: Mauritian, target: Мавриций }
+    - { source: Mauritius, target: Мавриций }
+    - { source: 'Mauritius Rupee', target: 'Мавриций рупии' }
+    - { source: May, target: Май }
+    - { source: Mayotte, target: Мейот }
+    - { source: Membership, target: Членство }
+    - { source: Memberships, target: Членства }
+    - { source: Mexican, target: Мексикански }
+    - { source: 'Mexican New Peso', target: 'Мексикански Нова песо' }
+    - { source: 'Mexican Peso', target: 'Мексикански песо' }
+    - { source: Mexico, target: Мексико }
+    - { source: Michigan, target: Мичиган }
+    - { source: 'Micronesia, Federated States of', target: 'Микронезия, Федерални щати' }
+    - { source: Micronesian, target: Микронезия }
+    - { source: Middle, target: Среден }
+    - { source: 'Middle Name', target: 'Бащино име' }
+    - { source: Minnesota, target: Минесота }
+    - { source: Mississippi, target: Мисисипи }
+    - { source: Missouri, target: Мисури }
+    - { source: Mobile, target: Mobile }
+    - { source: Modules, target: Модули }
+    - { source: 'Moldova, Republic of', target: 'Молдова, Република' }
+    - { source: Moldovan, target: Молдовският }
+    - { source: Monacan, target: Monacan }
+    - { source: Monaco, target: Монако }
+    - { source: Monday, target: Понеделник }
+    - { source: Mongolia, target: Монголия }
+    - { source: Mongolian, target: Монголски }
+    - { source: 'Mongolian Tugrik', target: 'Монголски Tugrik' }
+    - { source: Montana, target: Монтана }
+    - { source: Month, target: Месец }
+    - { source: Montserrat, target: Монсерат }
+    - { source: Moroccan, target: Марокански }
+    - { source: 'Moroccan Dirham', target: 'Марокански дирхам' }
+    - { source: Morocco, target: Мароко }
+    - { source: Mosotho, target: Mosotho }
+    - { source: 'Mother Tongue', target: 'Майчин език' }
+    - { source: Motswana, target: Motswana }
+    - { source: Mozambican, target: Мозамбик }
+    - { source: Mozambique, target: Мозамбик }
+    - { source: 'Mozambique Metical', target: 'Мозамбик Metical' }
+    - { source: 'My Leave', target: 'Отпуската ми' }
+    - { source: 'My Records', target: 'Моите Records' }
+    - { source: 'My Timesheets', target: 'Моите работа на' }
+    - { source: Myanmar, target: Мианмар }
+    - { source: 'Myanmar Kyat', target: 'Мианмар Kyat' }
+    - { source: Name, target: Име }
+    - { source: 'Name exists', target: 'Име съществува' }
+    - { source: Namibia, target: Намибия }
+    - { source: 'Namibia Dollar', target: 'Намибия долар' }
+    - { source: Namibian, target: Намибия }
+    - { source: Nationalities, target: Националност }
+    - { source: Nationality, target: Националност }
+    - { source: Nauru, target: Науру }
+    - { source: Nauruan, target: Nauruan }
+    - { source: Nebraska, target: Небраска }
+    - { source: Nepal, target: Непал }
+    - { source: Nepalese, target: Непалски }
+    - { source: 'Nepalese Rupee', target: 'Непалски рупии' }
+    - { source: Netherlands, target: Холандия }
+    - { source: 'Netherlands Antilles', target: 'Холандски Антили' }
+    - { source: Nevada, target: Невада }
+    - { source: 'New Caledonia', target: 'Нова Каледония' }
+    - { source: 'New Hampshire', target: 'Ню Хемпшир' }
+    - { source: 'New Jersey', target: 'Ню Джърси' }
+    - { source: 'New Mexico', target: 'Ню Мексико' }
+    - { source: 'New York', target: 'Ню Йорк' }
+    - { source: 'New Zaire', target: 'Нова Заир' }
+    - { source: 'New Zealand', target: 'Нова Зеландия' }
+    - { source: 'New Zealand Dollar', target: 'Новозеландският долар' }
+    - { source: 'New Zealander', target: Новозеландец }
+    - { source: Next, target: До }
+    - { source: Nicaragua, target: Никарагуа }
+    - { source: Nicaraguan, target: Никарагуански }
+    - { source: 'Nicaraguan Cordoba Oro', target: 'Никарагуа Кордоба Oro' }
+    - { source: Niger, target: Нигер }
+    - { source: Nigeria, target: Нигерия }
+    - { source: Nigerian, target: Нигериец }
+    - { source: 'Nigerian Naira', target: 'Нигерийски Naira' }
+    - { source: Nigerien, target: Nigerien }
+    - { source: Niue, target: Ниуе }
+    - { source: 'NL Antillian Guilder', target: 'NL Antillian гулден' }
+    - { source: 'No', target: Не }
+    - { source: 'No Project Activities', target: 'Няма Дейности по проекта' }
+    - { source: 'No Projects', target: 'Няма проекти' }
+    - { source: 'No Records Found', target: 'Няма намерени резултати' }
+    - { source: 'No records to display', target: 'Няма записи за показване' }
+    - { source: 'Norfolk Island', target: Норфолк }
+    - { source: 'North Carolina', target: 'Северна Каролина' }
+    - { source: 'North Dakota', target: 'Северна Дакота' }
+    - { source: 'North Korean', target: 'Северна Корея' }
+    - { source: 'North Korean Won', target: 'Северна Корея Спечелено' }
+    - { source: 'Northern Irish', target: 'Северна Ирландия' }
+    - { source: 'Northern Mariana Islands', target: 'Северни Мариански острови' }
+    - { source: Norway, target: Норвегия }
+    - { source: Norwegian, target: Норвежки }
+    - { source: 'Norwegian Krona', target: 'Норвежки крони' }
+    - { source: 'Not Defined', target: 'Която не е дефинирана' }
+    - { source: Notes, target: Бележки }
+    - { source: November, target: Ноември }
+    - { source: Number, target: Брой }
+    - { source: October, target: Октомври }
+    - { source: Ohio, target: Охайо }
+    - { source: Oklahoma, target: Оклахома }
+    - { source: Oman, target: Оман }
+    - { source: Omani, target: Оман }
+    - { source: 'Omani Rial', target: 'Оман риал' }
+    - { source: 'Only Include Approved Timesheets', target: 'Да включва само Одобрени работа на' }
+    - { source: 'Optional Fields', target: 'Допълнителни полета' }
+    - { source: or, target: или }
+    - { source: Oregon, target: Орегон }
+    - { source: Organization, target: Организация }
+    - { source: Other, target: Друг }
+    - { source: 'Other Email', target: 'Други E-mail' }
+    - { source: 'Other Id', target: 'Други Id' }
+    - { source: Pakistan, target: Пакистан }
+    - { source: 'Pakistan Rupee', target: 'Пакистанска рупия' }
+    - { source: Pakistani, target: Пакистанец }
+    - { source: Palau, target: Палау }
+    - { source: Palauan, target: Palauan }
+    - { source: 'Palestinian Territory, Occupied', target: 'Палестинска Територия, Окупирана' }
+    - { source: 'Palladium (oz.)', target: 'Palladium (oz.)' }
+    - { source: Panama, target: Панама }
+    - { source: Panamanian, target: Панамски }
+    - { source: 'Panamanian Balboa', target: 'Панамски Balboa' }
+    - { source: 'Papua New Guinea', target: 'Папуа Нова Гвинея' }
+    - { source: 'Papua New Guinea Kina', target: 'Папуа Нова Гвинея Кина' }
+    - { source: 'Papua New Guinean', target: 'Папуа - Нова Гвинея' }
+    - { source: Paraguay, target: Парагвай }
+    - { source: 'Paraguay Guarani', target: 'Парагвай гуарани' }
+    - { source: Paraguayan, target: Парагвайски }
+    - { source: 'Part Time Contract', target: 'Договор за непълно работно време' }
+    - { source: 'Part Time Internship', target: 'Стаж Част време' }
+    - { source: 'Part Time Permanent', target: 'Непълен работен ден Постоянна' }
+    - { source: 'Past Employee', target: 'Минало на служителите' }
+    - { source: 'Past Employees Only', target: 'Минали служители само' }
+    - { source: 'Pay Frequency', target: 'Плати Честота' }
+    - { source: 'Pay Grade', target: 'Плати степен' }
+    - { source: 'Pay Grades', target: 'Обърнете клас' }
+    - { source: Pennsylvania, target: Пенсилвания }
+    - { source: Performance, target: Изпълнение }
+    - { source: Personal, target: Личен }
+    - { source: Peru, target: Перу }
+    - { source: Peruvian, target: Перуански }
+    - { source: 'Peruvian Nuevo Sol', target: 'Перуански нуево сол' }
+    - { source: 'Philippine Peso', target: 'Филипинско песо' }
+    - { source: Philippines, target: Филипини }
+    - { source: 'Physically Disabled/Compensated', target: 'Физически увреждания / Компенсирана' }
+    - { source: PIM, target: PIM }
+    - { source: 'PIM Sample Report', target: 'PIM Примерен доклад' }
+    - { source: Pitcairn, target: Питкерн }
+    - { source: 'Platinum (oz.)', target: 'Platinum (oz.)' }
+    - { source: Poland, target: Полша }
+    - { source: Polish, target: Лак }
+    - { source: 'Polish Zloty', target: 'Полската злота' }
+    - { source: Poor, target: Беден }
+    - { source: Portugal, target: Португалия }
+    - { source: Portuguese, target: Португалски }
+    - { source: 'Pound Sterling', target: 'Британска лира' }
+    - { source: Previous, target: Предишен }
+    - { source: Program, target: Програма }
+    - { source: 'Project Date Range', target: 'Обхват на проекта Дата' }
+    - { source: 'Project Info', target: 'Информация за проекта' }
+    - { source: 'Project Reports', target: 'Доклади по проекти на' }
+    - { source: Projects, target: Проекти }
+    - { source: 'Puerto Rico', target: 'Пуерто Рико' }
+    - { source: 'Punch In/Out', target: 'Punch In / Out' }
+    - { source: Qatar, target: Катар }
+    - { source: Qatari, target: Катарският }
+    - { source: 'Qatari Rial', target: 'Катарски риал' }
+    - { source: Qualification, target: Квалификация }
+    - { source: Range, target: Обхват }
+    - { source: Reading, target: Четене }
+    - { source: 'Records Per Page', target: 'Записи на страница' }
+    - { source: Recruitment, target: Набиране }
+    - { source: Relationship, target: Връзка }
+    - { source: 'Replace Current', target: 'Замяна на текущото' }
+    - { source: 'Replace file', target: 'Заменете файла' }
+    - { source: 'Report Name', target: 'Име на отчета' }
+    - { source: 'Reporting Method', target: 'Метод на отчитане' }
+    - { source: 'Reporting Methods', target: 'Методи за докладване' }
+    - { source: Reports, target: Доклади }
+    - { source: Required, target: Задължително }
+    - { source: Reset, target: Проучване }
+    - { source: Resigned, target: 'Подаде оставка' }
+    - { source: 'Resigned - Company Requested', target: 'Подаде оставка - компания поиска' }
+    - { source: 'Resigned - Self Proposed', target: 'Оставка - Self Предложени' }
+    - { source: Retired, target: Пенсиониран }
+    - { source: Reunion, target: Reunion }
+    - { source: Reviews, target: Отзиви }
+    - { source: 'Rhode Island', target: 'Роуд Айлънд' }
+    - { source: Romania, target: Румъния }
+    - { source: Romanian, target: Румънски }
+    - { source: 'Romanian Leu', target: 'Румънска лея' }
+    - { source: 'Routing Number', target: 'Маршрутен номер' }
+    - { source: Run, target: Тичам }
+    - { source: 'Russia Rubles', target: 'Русия рубли' }
+    - { source: Russian, target: Руски }
+    - { source: 'Russian Federation', target: 'Руската федерация' }
+    - { source: 'Russian Rouble', target: 'Руска рубла' }
+    - { source: Rwanda, target: Руанда }
+    - { source: Rwandan, target: Руанда }
+    - { source: 'Saint Helena', target: 'Света Елена' }
+    - { source: 'Saint Kitts and Nevis', target: 'Сейнт Китс и Невис' }
+    - { source: 'Saint Lucia', target: 'Сейнт Лусия' }
+    - { source: 'Saint Lucian', target: 'Свети Lucian' }
+    - { source: 'Saint Pierre and Miquelon', target: 'Сен Пиер и Микелон' }
+    - { source: 'Saint Vincent and the Grenadines', target: 'Сейнт Винсент и Гренадини' }
+    - { source: Salary, target: Заплата }
+    - { source: 'Salary Component', target: 'Заплата Компонент' }
+    - { source: Salvadoran, target: Salvadoran }
+    - { source: Samoa, target: Самоа }
+    - { source: Samoan, target: Самоански }
+    - { source: 'Samoan Tala', target: 'Самоански Tala' }
+    - { source: 'San Marinese', target: 'Сан Marinese' }
+    - { source: 'San Marino', target: 'Сан Марино' }
+    - { source: 'Sao Tome and Principe', target: 'Сао Томе и Принсипи' }
+    - { source: 'Sao Tome/Principe Dobra', target: 'Сао Томе / Principe Добра' }
+    - { source: 'Sao Tomean', target: 'Сао Томе и Принсипи' }
+    - { source: Saturday, target: Събота }
+    - { source: Saudi, target: Саудитска }
+    - { source: 'Saudi Arabia', target: 'Саудитска Арабия' }
+    - { source: 'Saudi Arabia Riyal', target: 'Саудитска Арабия риал' }
+    - { source: Save, target: Запази }
+    - { source: 'Save Comment Only', target: 'Запиши Коментар Само' }
+    - { source: Savings, target: Спестявания }
+    - { source: Score, target: Резултат }
+    - { source: Scottish, target: Шотландски }
+    - { source: Search, target: Търсене }
+    - { source: Select, target: Изберете }
+    - { source: 'Select Comparison', target: 'Изберете Сравнение' }
+    - { source: 'Select File', target: 'Изберете File' }
+    - { source: 'Select Records to Delete', target: 'Изберете Records, за да изтриете' }
+    - { source: 'Select Salary Grade', target: 'Изберете степен Заплата' }
+    - { source: 'Selected Criteria', target: 'Избраните критерии' }
+    - { source: 'Selection Criteria', target: 'Критериите за подбор' }
+    - { source: Senegal, target: Сенегал }
+    - { source: Senegalese, target: Сенегалец }
+    - { source: September, target: Септември }
+    - { source: 'Serbia and Montenegro', target: 'Сърбия и Черна гора' }
+    - { source: Serbian, target: Сръбски }
+    - { source: 'Service Period', target: 'Трудов стаж' }
+    - { source: Seychelles, target: 'Сейшелските острови' }
+    - { source: 'Seychelles Rupee', target: 'Сейшели рупии' }
+    - { source: Seychellois, target: Seychellois }
+    - { source: 'Should be a number', target: 'Трябва да бъде номер' }
+    - { source: 'Should be a positive number', target: 'Трябва да бъде положително число' }
+    - { source: 'Should be within Min/Max values', target: 'Трябва да бъде в рамките на Min / Max стойности' }
+    - { source: 'Show Direct Deposit Details', target: 'Покажи на данните за директен депозит' }
+    - { source: 'Sierra Leone', target: 'Сиера Леоне' }
+    - { source: 'Sierra Leone Leone', target: 'Сиера Леоне Леоне' }
+    - { source: 'Sierra Leonean', target: 'Сиера Leonean' }
+    - { source: 'Silver (oz.)', target: 'Сребро (oz.)' }
+    - { source: Singapore, target: Сингапур }
+    - { source: 'Singapore Dollar', target: 'Сингапурски долар' }
+    - { source: Singaporean, target: Сингапурски }
+    - { source: Size, target: Размер }
+    - { source: Skill, target: Умение }
+    - { source: Skills, target: Умения }
+    - { source: 'Slovak Koruna', target: 'Словашки крони' }
+    - { source: Slovakia, target: Словакия }
+    - { source: Slovakian, target: Словашки }
+    - { source: Slovenia, target: Словения }
+    - { source: Slovenian, target: Словенски }
+    - { source: 'Solomon Islander', target: 'Соломон Islander' }
+    - { source: 'Solomon Islands', target: 'Соломоновите острови' }
+    - { source: 'Solomon Islands Dollar', target: 'Соломоновите острови долар' }
+    - { source: Somali, target: Сомалийски }
+    - { source: 'Somali Shilling', target: 'Сомалия Шилинг' }
+    - { source: Somalia, target: Сомалия }
+    - { source: 'Sort in Ascending Order', target: 'Сортирай във възходящ ред' }
+    - { source: 'Sort in Descending Order', target: 'Сортиране в низходящ ред' }
+    - { source: 'South Africa', target: 'Южна Африка' }
+    - { source: 'South African', target: 'Южна Африка' }
+    - { source: 'South African Rand', target: 'Южноафрикански ранд' }
+    - { source: 'South Carolina', target: 'Южна Каролина' }
+    - { source: 'South Dakota', target: 'Южна Дакота' }
+    - { source: 'South Georgia and the South Sandwich Islands', target: 'Южна Джорджия и Южните Сандвичеви острови' }
+    - { source: 'South Korean', target: 'Южна Корея' }
+    - { source: Spain, target: Испания }
+    - { source: Spanish, target: Испански }
+    - { source: Speaking, target: Говорейки }
+    - { source: 'Sri Lanka', target: 'Шри Ланка' }
+    - { source: 'Sri Lanka Rupee', target: 'Шри Ланка рупии' }
+    - { source: 'Sri Lankan', target: 'Шри Ланка' }
+    - { source: 'St. Helena Pound', target: 'Св. Елена лира' }
+    - { source: 'Start Date', target: 'Начална дата' }
+    - { source: 'Start date should be before end date', target: 'Начална дата трябва да бъде преди крайната дата' }
+    - { source: State, target: Състояние }
+    - { source: Status, target: Статус }
+    - { source: Structure, target: Структура }
+    - { source: 'Sub Unit', target: 'Под звено' }
+    - { source: Subordinates, target: Подчинените }
+    - { source: Subscribe, target: Абонамент }
+    - { source: 'Subscription Amount', target: 'Размер на инвестициите' }
+    - { source: 'Subscription Commence Date', target: 'Абонамент Започва Дата' }
+    - { source: 'Subscription Paid By', target: 'Абонамент Платено от' }
+    - { source: 'Subscription Renewal Date', target: 'Абонамент за подновяване Дата' }
+    - { source: 'Successfully Added', target: 'Добавен успешно' }
+    - { source: 'Successfully Deleted', target: 'Изтрит успешно' }
+    - { source: 'Successfully Saved', target: 'Съхранен успешно' }
+    - { source: 'Successfully Updated', target: 'Успешно променен' }
+    - { source: 'Successfully Uploaded', target: 'Качен успешно' }
+    - { source: Sudan, target: Судан }
+    - { source: Sudanese, target: Судански }
+    - { source: 'Sudanese Dinar', target: 'Судански динар' }
+    - { source: 'Sudanese Pound', target: 'Суданското Pound' }
+    - { source: Sunday, target: Неделя }
+    - { source: Supervisor, target: Ръководител }
+    - { source: 'Supervisor Name', target: 'Надзорен орган по Име' }
+    - { source: Supervisors, target: Надзорници }
+    - { source: Suriname, target: Суринам }
+    - { source: Surinamer, target: Surinamer }
+    - { source: 'Surinamese Dollar', target: 'Surinamese Dollar' }
+    - { source: 'Svalbard and Jan Mayen', target: 'Свалбард и Ян Майен' }
+    - { source: Swazi, target: Swazi }
+    - { source: Swaziland, target: Свазиленд }
+    - { source: 'Swaziland Lilangeni', target: 'Свазиленд Lilangeni' }
+    - { source: Sweden, target: Швеция }
+    - { source: Swedish, target: Шведски }
+    - { source: 'Swedish Krona', target: 'Шведски крони' }
+    - { source: Swiss, target: Швейцарски }
+    - { source: 'Swiss Franc', target: 'Швейцарски франк' }
+    - { source: Switzerland, target: Швейцария }
+    - { source: Syrian, target: Сирийски }
+    - { source: 'Syrian Arab Republic', target: 'Сирийската арабска република' }
+    - { source: 'Syrian Pound', target: 'Сирийски лири' }
+    - { source: Taiwan, target: Тайван }
+    - { source: 'Taiwan Dollar', target: 'Тайван долар' }
+    - { source: Taiwanese, target: Тайванският }
+    - { source: Tajik, target: Таджикски }
+    - { source: Tajikistan, target: Таджикистан }
+    - { source: 'Tanzania, United Republic of', target: 'Обединена република Танзания,' }
+    - { source: Tanzanian, target: Танзания }
+    - { source: 'Tanzanian Shilling', target: 'Танзания Шилинг' }
+    - { source: Tennessee, target: Тенеси }
+    - { source: Terminated, target: Прекратен }
+    - { source: 'Termination Reasons', target: 'Прекратяване Причини' }
+    - { source: Texas, target: Тексас }
+    - { source: Thai, target: Тайландски }
+    - { source: 'Thai Baht', target: 'Тайландски бат' }
+    - { source: Thailand, target: Тайланд }
+    - { source: Thursday, target: Четвъртък }
+    - { source: Time, target: Време }
+    - { source: Timesheets, target: 'Работа на' }
+    - { source: Timor-Leste, target: 'Източен Тимор' }
+    - { source: To, target: За }
+    - { source: to, target: за }
+    - { source: 'To date should be after from date', target: 'Към днешна дата трябва да бъде, след като от датата' }
+    - { source: Togo, target: Того }
+    - { source: Togolese, target: Того }
+    - { source: Tokelau, target: Токелау }
+    - { source: Tonga, target: 'Лека индийска двуколка' }
+    - { source: Tongan, target: Тонга }
+    - { source: 'Trinidad and Tobago', target: 'Тринидад и Тобаго' }
+    - { source: 'Trinidad/Tobago Dollar', target: 'Trinidad / Tobago Dollar' }
+    - { source: 'Trinidadian or Tobagonian', target: 'Trinidadian или Tobagonian' }
+    - { source: Tuesday, target: Вторник }
+    - { source: Tunisia, target: Тунис }
+    - { source: Tunisian, target: Тунизийски }
+    - { source: 'Tunisian Dinar', target: 'Тунизийски динар' }
+    - { source: Turkey, target: Турция }
+    - { source: Turkish, target: Турски }
+    - { source: 'Turkish Lira', target: 'Турска лира' }
+    - { source: Turkmenistan, target: Туркменистан }
+    - { source: 'Turks and Caicos Islands', target: 'Острови Търкс и Кайкос' }
+    - { source: Tuvalu, target: Тувалу }
+    - { source: Tuvaluan, target: Tuvaluan }
+    - { source: Type, target: Тип }
+    - { source: 'Type Employee Id', target: 'Id Вид на служителите' }
+    - { source: 'Type for hints', target: 'Вид на намеци' }
+    - { source: Uganda, target: Уганда }
+    - { source: 'Uganda Shilling', target: 'Уганда Шилинг' }
+    - { source: Ugandan, target: Уганда }
+    - { source: Ukraine, target: Украйна }
+    - { source: 'Ukraine Hryvnia', target: 'Украйна гривня' }
+    - { source: Ukrainian, target: Украински }
+    - { source: 'United Arab Emirates', target: 'Обединените арабски емирства' }
+    - { source: 'United Kingdom', target: 'Обединеното кралство' }
+    - { source: 'United States', target: САЩ }
+    - { source: 'United States Dollar', target: 'САЩ долар' }
+    - { source: 'United States Minor Outlying Islands', target: 'Малки далечни острови на САЩ' }
+    - { source: Uruguay, target: Уругвай }
+    - { source: Uruguayan, target: Уругваец }
+    - { source: 'Uruguayan Peso', target: 'Уругвайски песо' }
+    - { source: Users, target: Потребителите }
+    - { source: Utah, target: Юта }
+    - { source: 'Utd. Arab Emir. Dirham', target: 'UTD. Арабски Емир. Дирхам' }
+    - { source: Uzbekistan, target: Узбекистан }
+    - { source: Uzbekistani, target: Узбекистански }
+    - { source: Vacancies, target: 'Свободни работни места' }
+    - { source: Vanuatu, target: Вануату }
+    - { source: 'Vanuatu Vatu', target: 'Вануату Vatu' }
+    - { source: Venezuela, target: Венецуела }
+    - { source: Venezuelan, target: Венецуелски }
+    - { source: 'Venezuelan Bolivar', target: 'Венецуела Боливар' }
+    - { source: Vermont, target: Върмонт }
+    - { source: 'Viet Nam', target: Виетнам }
+    - { source: Vietnamese, target: Виетнамски }
+    - { source: 'Vietnamese Dong', target: 'Виетнамски донг' }
+    - { source: 'View Details', target: 'Виж Детайли' }
+    - { source: 'Virgin Islands', target: 'Вирджински острови' }
+    - { source: 'Virgin Islands, British', target: 'Британски Вирджински острови' }
+    - { source: 'Virgin Islands, U.s.', target: 'Вирджински острови, САЩ' }
+    - { source: Virginia, target: Вирджиния }
+    - { source: 'Wallis and Futuna', target: 'Уолис и Футуна' }
+    - { source: Washington, target: Вашингтон }
+    - { source: Wednesday, target: Сряда }
+    - { source: Welsh, target: Уелски }
+    - { source: 'West Virginia', target: 'Западна Вирджиния' }
+    - { source: 'Western Sahara', target: 'Западна Сахара' }
+    - { source: Wisconsin, target: Уисконсин }
+    - { source: 'with new file', target: 'с нов файл' }
+    - { source: 'Work Email', target: 'Работен имейл' }
+    - { source: 'Work Experience', target: 'Професионален опит' }
+    - { source: 'Work Shifts', target: 'Работят на смени' }
+    - { source: 'Work Telephone', target: 'Работа телефон' }
+    - { source: 'Work Week', target: 'Работна седмица' }
+    - { source: Writing, target: Писане }
+    - { source: Wyoming, target: Уайоминг }
+    - { source: Year, target: Година }
+    - { source: 'Years of Experience', target: 'Години на опит' }
+    - { source: Yemen, target: Йемен }
+    - { source: 'Yemeni Riyal', target: 'Йеменски риал' }
+    - { source: Yemenite, target: Yemenite }
+    - { source: 'Yes', target: Да }
+    - { source: 'Yugoslav Dinar', target: 'Динара югославска' }
+    - { source: 'Yugoslavian Dinar', target: 'Югославския динар' }
+    - { source: Zambia, target: Замбия }
+    - { source: Zambian, target: Замбия }
+    - { source: 'Zambian Kwacha', target: 'Замбия квача' }
+    - { source: Zimbabwe, target: Зимбабве }
+    - { source: 'Zimbabwe Dollar', target: 'Зимбабве долар' }
+    - { source: Zimbabwean, target: Зимбабве }
+    - { source: 'Passwords do not match', target: 'Паролите не съвпадат' }
+    - { source: Invalid, target: Невалиден }
+    - { source: 'Due date should be after from date', target: 'Поради дата трябва да бъде, след като от датата' }
+    - { source: Ok, target: Добре }
+    - { source: 'Delete records?', target: 'Изтриване на записи?' }
+    - { source: 'Select an Employee', target: 'Изберете служител' }
+    - { source: 'Delete?', target: 'Изтриване?' }
+    - { source: 'Successfully Assigned', target: 'Успешно целеви' }
+    - { source: 'Successfully Submitted', target: 'Успешно Изпратен' }
+    - { source: 'Invalid Employee', target: 'Невалиден на служителите' }
+    - { source: 'Accepts .docx, .doc, .odt, .pdf, .rtf, .txt up to 1MB', target: 'Приема. DOCX, DOC, ODT, PDF, RTF, TXT до 1MB' }
+    - { source: 'Accepts jpg, .png, .gif up to 1MB', target: 'Приема JPG, PNG, GIF до 1MB' }
+    - { source: 'Accepts up to 1MB', target: 'Приема се до 1MB' }
+    - { source: 'Failed to Save: File Type Not Allowed', target: 'Неуспешно за да запазите: Непозволен вид файл' }
+    - { source: 'Failed to Save: File Size Exceeded', target: 'Неуспешно за да запазите: Размер на файла е превишен' }
+    - { source: 'No Employees Available', target: 'Няма Служителите Налични' }
+    - { source: 'Successfully Copied', target: 'Са копирани успешно' }
+    - { source: 'LOGIN Panel', target: 'ВХОД панел' }
+    - { source: LOGIN, target: ВХОД }
+    - { source: 'Should be greater than first value', target: 'Трябва да бъде по-голяма от първата стойност' }
+    - { source: 'Joined After', target: 'Регистриран След' }
+    - { source: 'Joined Before', target: 'Регистриран Преди' }
+    - { source: 'Joined in Between', target: 'Съединени между' }
+    - { source: 'Successfully Changed', target: 'Бяха променени успешно' }
+    - { source: Username, target: 'Потребителско име' }
+    - { source: Password, target: Парола }
+    - { source: 'Username cannot be empty', target: 'Потребителско име не може да бъде празен' }
+    - { source: 'Password cannot be empty', target: 'Паролата не може да бъде празно' }
+    - { source: 'Invalid credentials', target: 'Невалидни пълномощията' }
+    - { source: Europe/Belgrade, target: 'Европа / Белград' }
+    - { source: Europe/Minsk, target: 'Европа / Минск' }
+    - { source: Asia/Kuwait, target: 'Азия / Кувейт' }
+    - { source: Asia/Muscat, target: 'Азия / Мускат' }
+    - { source: Asia/Yekaterinburg, target: 'Азия / Екатеринбург' }
+    - { source: Asia/Kolkata, target: 'Азия / Калкута' }
+    - { source: Asia/Dhaka, target: 'Азия / Дака' }
+    - { source: Asia/Krasnoyarsk, target: 'Азия / Красноярск' }
+    - { source: Asia/Brunei, target: 'Азия / Бруней' }
+    - { source: Asia/Seoul, target: 'Азия / Сеул' }
+    - { source: Australia/Darwin, target: 'Австралия / Дарвин' }
+    - { source: Australia/Canberra, target: 'Австралия / Канбера' }
+    - { source: Asia/Magadan, target: 'Азия / Магадан' }
+    - { source: Pacific/Fiji, target: 'Тихия океан / Фиджи' }
+    - { source: Pacific/Midway, target: 'Pacific / Midway' }
+    - { source: Pacific/Honolulu, target: 'Тихия океан / Хонолулу' }
+    - { source: America/Anchorage, target: 'Америка / Анкоридж' }
+    - { source: America/Los_Angeles, target: 'Америка / Los_Angeles' }
+    - { source: America/Denver, target: 'Америка / Денвър' }
+    - { source: America/Tegucigalpa, target: 'Америка / Тегусигалпа' }
+    - { source: America/New_York, target: 'Америка / New_York,' }
+    - { source: America/Halifax, target: 'Америка / Халифакс' }
+    - { source: America/St_Johns, target: 'Америка / St_Johns,' }
+    - { source: America/Argentina/Buenos_Aires, target: 'Америка / Аржентина / Buenos_Aires' }
+    - { source: Atlantic/South_Georgia, target: 'Атлантическия / South_Georgia' }
+    - { source: Atlantic/Azores, target: 'Атлантическия / Азорските острови' }
+    - { source: Upload, target: Качи }
+    - { source: 'Type in years', target: 'Въведете години' }
+    - { source: Hours, target: Часове }
+    - { source: 'Deleted Employee', target: 'Изтрити служителите' }
+    - { source: Total, target: Общо }
+    - { source: compulsory, target: задължителен }
+    - { source: 'Termination Date', target: 'Прекратяване Дата' }
+    - { source: 'Termination Reason', target: 'Прекратяване Причина' }
+    - { source: 'Activity Name', target: 'Активност Име' }
+    - { source: 'Add Education', target: 'Добави образование' }
+    - { source: 'Add Language', target: 'Добавяне на език' }
+    - { source: 'Add License', target: 'Добави Лиценз' }
+    - { source: 'Add Skill', target: 'Добави умения' }
+    - { source: 'Address Street 1', target: 'Адрес Улица 1' }
+    - { source: 'Address Street 2', target: 'Адрес Street 2' }
+    - { source: City, target: Град }
+    - { source: 'Confirm Password', target: 'Потвърждение на паролата' }
+    - { source: Copy, target: Копирайте }
+    - { source: 'Copy From', target: 'Копиране от' }
+    - { source: 'Project Name', target: 'Наименование на проекта' }
+    - { source: Deleted, target: Изтрити }
+    - { source: 'Edit Education', target: 'Редактиране на образованието' }
+    - { source: 'Edit Language', target: 'Редактиране Език' }
+    - { source: 'Edit License', target: 'Редактиране на лиценз' }
+    - { source: 'Edit Skill', target: 'Редактиране на умения' }
+    - { source: State/Province, target: 'Щат / Провинция' }
+    - { source: 'Zip/Postal Code', target: 'Zip / Postal код' }
+    - { source: Approve, target: Одобряване }
+    - { source: format, target: формат }
+    - { source: Scheduled, target: Планиран }
+    - { source: 'Invalid Date', target: 'Невалидна дата' }
+    - { source: Note, target: Внимание }
+    - { source: 'Invalid Employee Name', target: 'Невалиден служителите Име' }
+    - { source: Action, target: Действие }
+    - { source: 'Active Job Vacancies', target: 'Активните свободни работни места' }
+    - { source: added, target: добавен }
+    - { source: 'Apply for', target: 'Кандидатствайте за' }
+    - { source: Attachments, target: 'Прикачени файлове' }
+    - { source: 'Back to Job List', target: 'Обратно към Job Списък' }
+    - { source: 'Collapse all', target: 'Свиване на всички' }
+    - { source: 'Contact No', target: 'Лично съобщение Contact' }
+    - { source: Download, target: Изтегляне }
+    - { source: Email, target: E-mail }
+    - { source: 'Expand all', target: 'Разгъване на всички' }
+    - { source: for, target: за }
+    - { source: Keywords, target: 'Ключови думи' }
+    - { source: 'Performed By', target: 'Извършва се от' }
+    - { source: Reject, target: Отхвърли }
+    - { source: Rejected, target: Отхвърлено }
+    - { source: rejected, target: отхвърлена }
+    - { source: Remove, target: Премахване }
+    - { source: Resume, target: Резюме }
+    - { source: 'Select Action', target: 'Изберете действие' }
+    - { source: Submit, target: Подайте }
+    - { source: View, target: Преглед }
+    - { source: 'Enter comma separated words', target: 'Въведете разделени със запетая думи' }
+    - { source: Approved, target: Одобрен }
+    - { source: Submitted, target: Изпратен }
+    - { source: 'Successfully Undeleted', target: 'Успешно възстановени' }
+    - { source: Qualifications, target: Квалификационна }
+    - { source: 'Add Another', target: 'Добавяне на друг' }
+    - { source: Confirm, target: Потвърдете }
+    - { source: 'To date should be after From date', target: 'Към днешна дата трябва да бъде след От дата' }
+    - { source: Activities, target: Дейности }
+    - { source: 'Add Currency', target: 'Добави валути' }
+    - { source: 'Add Customer', target: 'Добави клиенти' }
+    - { source: 'Add Employment Status', target: 'Добави трудов статус' }
+    - { source: 'Add Job Category', target: 'Добави Категория работа' }
+    - { source: 'Add Job Title', target: 'Добави длъжност' }
+    - { source: 'Add Location', target: 'Добавяне място' }
+    - { source: 'Add Membership', target: 'Добави членство' }
+    - { source: 'Add Nationality', target: 'Добави националност' }
+    - { source: 'Add Pay Grade', target: 'Добави Плати степен' }
+    - { source: 'Add Project', target: 'Добави проект' }
+    - { source: 'Add Project Activity', target: 'Добави дейност по проекта' }
+    - { source: 'Add Subscriber', target: 'Добавяне на абоната' }
+    - { source: 'Add Unit', target: 'Добави звено' }
+    - { source: 'Add User', target: 'Добави потребител' }
+    - { source: 'Add Work Shift', target: 'Добави работа на смени' }
+    - { source: 'Projects under selected customer will also be deleted', target: 'Проектите по избран клиент също ще бъде изтрита' }
+    - { source: 'Units under selected unit will also be deleted', target: 'Звената по избраните звена също ще бъде изтрита' }
+    - { source: 'Assigned Currencies', target: 'Присвоени Валути' }
+    - { source: 'Assigned Employees', target: 'Присвоени Служителите' }
+    - { source: 'Available Employees', target: 'Налични Служителите' }
+    - { source: Better, target: По-добре }
+    - { source: 'Click on a notification type to add subscribers', target: 'Кликнете върху типа уведомление, за да добавите абонати' }
+    - { source: 'Column order should not be changed', target: 'Колона за да не трябва да се промени' }
+    - { source: 'Confirm New Password', target: 'Потвърдете новата парола' }
+    - { source: 'Copy Activity', target: 'Копие Активност' }
+    - { source: 'CSV Data Import', target: 'CSV за импортиране на данни' }
+    - { source: 'Current Password', target: 'Настояща Парола' }
+    - { source: 'Current Password Is Wrong', target: 'Текущата парола е неправилна' }
+    - { source: Customer, target: Клиент }
+    - { source: 'Customer Name', target: 'Customer Name' }
+    - { source: 'Date Format', target: 'Формат на датата' }
+    - { source: 'Description is not specified', target: 'Описание не е посочен' }
+    - { source: Done, target: Съставено }
+    - { source: 'Each import file should be configured for 100 records or less', target: 'Всеки внос на файла трябва да бъдат конфигурирани за 100 записа или по-малко' }
+    - { source: 'Edit Currency', target: 'Редактиране на валута' }
+    - { source: 'Edit Customer', target: 'Редактиране на клиенти' }
+    - { source: 'Edit Employment Status', target: 'Редактиране трудов статус' }
+    - { source: 'Edit Job Category', target: 'Редактиране Категория работа' }
+    - { source: 'Edit Job Title', target: 'Редактиране длъжност' }
+    - { source: 'Edit Location', target: 'Редактиране на местоположението' }
+    - { source: 'Edit Membership', target: 'Редактиране на членство' }
+    - { source: 'Edit Nationality', target: 'Редактиране на Националност' }
+    - { source: 'Edit Pay Grade', target: 'Редактиране Плати степен' }
+    - { source: 'Edit Project', target: 'Редактиране на проекта' }
+    - { source: 'Edit Project Activity', target: 'Редактиране дейност по проекта' }
+    - { source: 'Edit Subscriber', target: 'Редактиране на абоната' }
+    - { source: 'Edit Unit', target: 'Редактиране на звено' }
+    - { source: 'Edit User', target: 'Редактиране на потребителя' }
+    - { source: 'Edit Work Shift', target: 'Редактиране работа на смени' }
+    - { source: 'Successfully Saved. Test Email Sent', target: 'Съхранен успешно. Тест мейл е изпратено' }
+    - { source: 'Successfully Saved. Test Email Not Sent', target: 'Съхранен успешно. Тест E-mail не се изпраща' }
+    - { source: 'Email Notification', target: 'За уведомяване по имейл' }
+    - { source: 'Enable Admin module', target: 'Активирайте Admin модул' }
+    - { source: 'Enable Benefits module', target: 'Активирайте Ползи модул' }
+    - { source: 'Enable Leave module', target: 'Активирайте Оставете модул' }
+    - { source: 'Enable Performance module', target: 'Включване на модул Изпълнение' }
+    - { source: 'Enable PIM module', target: 'Активирайте PIM модул' }
+    - { source: 'Enable Recruitment module', target: 'Включване на модул Recruitment' }
+    - { source: 'Enable Time module', target: 'Включване на модул Време' }
+    - { source: Fax, target: Факс }
+    - { source: 'First Name and Last Name are compulsory', target: 'Име и фамилия са задължителни' }
+    - { source: 'Following languages are supported', target: 'Поддържат се следните езици' }
+    - { source: 'Hours Per Day', target: 'Часа на ден' }
+    - { source: 'If gender is specified, value should be either', target: 'Ако е определен пол, стойността трябва да е или' }
+    - { source: 'Job Description', target: 'Описание на длъжността' }
+    - { source: 'Leave Applications', target: 'Оставете Приложения' }
+    - { source: 'Leave Approvals', target: 'Оставете Одобрения' }
+    - { source: 'Leave Assignments', target: 'Оставете Задачи' }
+    - { source: 'Leave Cancellations', target: 'Оставете Анулации' }
+    - { source: 'Leave Rejections', target: 'Оставете откази' }
+    - { source: 'Location Name', target: 'ИМЕТО НА МЯСТОТО' }
+    - { source: 'Mail Configuration', target: 'Конфигуриране на пощата' }
+    - { source: 'Mail Sent As', target: 'Съобщение, изпратено като' }
+    - { source: 'Maximum Salary', target: 'Максимална Заплата' }
+    - { source: Medium, target: Среден }
+    - { source: 'Minimum Salary', target: 'Минималната работна заплата' }
+    - { source: 'Module Configuration', target: 'Модул конфигурация' }
+    - { source: 'New Password', target: 'За нова парола' }
+    - { source: 'No activities selected', target: 'Не е избран дейности' }
+    - { source: 'No assigned activities', target: 'Няма възложените дейности' }
+    - { source: 'Not Allowed to Delete Customer(s) Which Have Time Logged Against', target: 'Не е позволено да се Изтриване на клиенти (и), които имат време, включена в' }
+    - { source: 'Not Allowed to Delete Project Activites Which Have Time Logged Against', target: 'Не е позволено да се Изтриване на проектните дейности, които имат време, включена в' }
+    - { source: 'Notification Type', target: 'Уведомление Вид' }
+    - { source: 'Number of Employees', target: 'Брой на заетите лица' }
+    - { source: 'Organization Name', target: 'Име на организацията' }
+    - { source: 'Path to Sendmail', target: 'Път към Sendmail' }
+    - { source: 'Performance Review Submissions', target: 'Представянията за преглед на ефективността на работата' }
+    - { source: Phone, target: Телефон }
+    - { source: Project, target: Проект }
+    - { source: 'Project Admin', target: 'Проект Admin' }
+    - { source: 'Project Admins', target: 'Проект администратори' }
+    - { source: 'Registration Number', target: Номер }
+    - { source: 'Sample CSV file', target: 'Примерен CSV файл' }
+    - { source: 'Send Test Email', target: 'Изпратете съобщение тест' }
+    - { source: 'Sending Method', target: 'Метод на изпращане' }
+    - { source: 'Shift Name', target: 'Преместване Име' }
+    - { source: 'SMTP Password', target: 'SMTP Парола' }
+    - { source: 'SMTP Port', target: 'SMTP Port' }
+    - { source: 'SMTP User', target: 'SMTP Потребител' }
+    - { source: SSL, target: SSL }
+    - { source: Strong, target: Силен }
+    - { source: Strongest, target: Силната }
+    - { source: Subscribers, target: Абонати }
+    - { source: 'Supported languages', target: 'Поддържани езици' }
+    - { source: 'System Users', target: 'Потребители на системата' }
+    - { source: 'Tax ID', target: 'Данъчен номер' }
+    - { source: 'Test Email Address', target: 'Тест E-mail Адрес' }
+    - { source: 'This unit will be added under', target: 'Това звено ще бъде добавена под' }
+    - { source: TLS, target: TLS }
+    - { source: 'Unit Id', target: 'Звеното Id' }
+    - { source: 'Use browser language if set', target: 'Използвайте езика на браузъра, ако е зададено' }
+    - { source: 'Use SMTP Authentication', target: 'Използвайте SMTP Authentication' }
+    - { source: 'User Secure Connection', target: 'Потребителят защитена връзка' }
+    - { source: 'User Type', target: 'Тип на потребителя' }
+    - { source: 'Very Weak', target: 'Много слаб' }
+    - { source: Weak, target: Слаб }
+    - { source: 'Zip Code', target: 'Пощенски код' }
+    - { source: 'Failed to Import: File Type Not Allowed', target: 'Неуспех да импортирате: Непозволен вид файл' }
+    - { source: 'Failed to Import: File Size Exceeded', target: 'Неуспех да импортирате: Размер на файла надвишава' }
+    - { source: 'Failed to Import: No Compatible Records', target: 'Неуспешно за импортиране: Няма Съвместими Records' }
+    - { source: 'Number of Records Imported', target: 'Брой на внесените записи' }
+    - { source: 'Should be higher than Minimum Salary', target: 'Трябва да бъде по-висока от минималната работна заплата' }
+    - { source: 'Level Already Exists', target: 'Равнище вече съществува' }
+    - { source: 'All date fields should be in YYYY-MM-DD format', target: 'Всички полетата за дата трябва да бъде в ГГГГ-ММ-ДД формат' }
+    - { source: 'Multiple import files may be required', target: 'Множество файлове за внос може да се изисква' }
+    - { source: 'Language and font help', target: 'Езика и помощ на шрифта' }
+    - { source: 'Will take no action', target: 'Ще се предприемат никакви действия' }
+    - { source: 'Apply Leave', target: 'Нанесете Оставете' }
+    - { source: 'Actions Performed on the Timesheet', target: 'Действия, извършени на по график' }
+    - { source: 'Add Row', target: 'Добави Row' }
+    - { source: 'Add Timesheet', target: 'Добави график' }
+    - { source: 'Attendance Total Summary Report', target: 'Участие Общо обобщен доклад' }
+    - { source: 'Define Timesheet Period', target: 'Определете график Период' }
+    - { source: 'Deleted project activities are not editable', target: 'Изтрити дейности по проекта не подлежат на редактиране' }
+    - { source: 'Deleted projects/activities are marked with an asterik', target: 'Изтрити проекти / дейности са обозначени с едно звездичка' }
+    - { source: 'Edit Timesheet for', target: 'Редактиране на график за' }
+    - { source: 'Edit Timesheet for Month', target: 'Редактиране на график за месец' }
+    - { source: 'Edit Timesheet for Week', target: 'Редактиране на графици за седмица' }
+    - { source: 'Edit timesheet for week starting', target: 'Редактиране на график за седмицата, започваща' }
+    - { source: 'Employee name', target: 'Служител име' }
+    - { source: 'Employee Report', target: 'Служител доклад' }
+    - { source: 'Should Be Less Than 24 and in HH:MM or Decimal Format', target: 'Трябва да бъде по-малко от 24 и в HH: MM или десетичен формат' }
+    - { source: 'Enter Employee Name', target: 'Въведете Име на служителите' }
+    - { source: 'First Day of Week', target: 'Първи ден от седмицата' }
+    - { source: 'for Month starting on', target: 'за месец, считано' }
+    - { source: 'for Week', target: 'за седмица' }
+    - { source: Fri, target: Пт }
+    - { source: hours, target: часа }
+    - { source: 'Failed to Create: Future Timesheets Not Allowed', target: 'Неуспех да създаде: Бъдещи работа на не са позволени' }
+    - { source: Mon, target: Пн }
+    - { source: 'No Accessible Timesheets', target: 'Няма достъпни за работа на' }
+    - { source: 'Not Submitted', target: 'Не е подадена' }
+    - { source: 'Proceed with Time Module', target: 'Продължете с времето модул' }
+    - { source: 'Project Activity Details Report', target: 'Детайли по проекта доклад за дейността' }
+    - { source: 'Project Report', target: 'Отчет за проекта' }
+    - { source: 'Remove Rows', target: 'Премахване на редове' }
+    - { source: Sat, target: Пет }
+    - { source: 'Select a Day to Create Timesheet', target: 'Изберете ден, за да създадете график' }
+    - { source: 'Select Employee', target: 'Изберете служителите' }
+    - { source: 'Status:', target: 'Състояние:' }
+    - { source: Sun, target: Слънце }
+    - { source: Thu, target: Чт }
+    - { source: 'Duplicate Records Found', target: 'Дублиране на намерените записи' }
+    - { source: 'Timesheet for', target: 'График за' }
+    - { source: 'Timesheet Period', target: 'График Период' }
+    - { source: 'Timesheet period start day has been set', target: 'Е определен график период начало ден' }
+    - { source: 'Timesheet period start day has not been defined. Please contact HR Admin', target: 'График началната дневен срок не е defiend. Моля, свържете се с HR Admin' }
+    - { source: 'Timesheets Pending Action', target: 'Работа на В очакване на действие' }
+    - { source: Tue, target: Вт }
+    - { source: Wed, target: Омъжвам }
+    - { source: Week, target: Седмица }
+    - { source: 'Select a Project and an Activity', target: 'Изберете проект и дейност' }
+    - { source: 'Select Records to Remove', target: 'Изберете Records, за да премахнете' }
+    - { source: 'Timesheet Already Exists', target: 'График Вече съществува' }
+    - { source: 'Timesheet Submitted', target: 'График представи' }
+    - { source: 'No Timesheets Found', target: 'Няма работа на Намерени' }
+    - { source: 'Timesheet Approved', target: 'График Одобрени' }
+    - { source: 'Timesheet Rejected', target: 'График Прекратено' }
+    - { source: 'No Changes to Delete', target: 'Няма промени, за да изтриете' }
+    - { source: 'Total Should Be Less Than 24 Hours', target: 'Общата сума трябва да бъде по-малко от 24 часа' }
+    - { source: 'Remaining number of custom fields', target: 'Оставащия брой потребителски полета' }
+    - { source: 'Account Number', target: 'Номер на сметката' }
+    - { source: 'Account Type', target: 'Тип Сметка' }
+    - { source: 'Activate Employment', target: 'Активирайте Employement' }
+    - { source: 'Add Custom Field', target: 'Добави персонализирано поле' }
+    - { source: 'Add Dependent', target: 'Добави зависимост' }
+    - { source: 'Add Direct Deposit Details', target: 'Добавяне на пряк депозит' }
+    - { source: 'Add Emergency Contact', target: 'Добави свържете с аварийния' }
+    - { source: 'Add Immigration', target: 'Добави имиграцията' }
+    - { source: 'Add Membership Details', target: 'Добави за членство Детайли' }
+    - { source: 'Add Reporting Method', target: 'Добави метод на отчитане' }
+    - { source: 'Add Subordinate', target: 'Добави подчинят' }
+    - { source: 'Add Supervisor', target: 'Добави надзорен орган' }
+    - { source: 'Add Supervisor/Subordinate', target: 'Добавяне на надзорен орган / подчинен' }
+    - { source: 'Add Termination Reason', target: 'Добави Причина Прекратяване' }
+    - { source: 'Add Work Experience', target: 'Добави професионален опит' }
+    - { source: 'All customs fields are in use', target: 'Всички полета са в употреба' }
+    - { source: 'Assigned Dependents', target: 'Присвоени зависимите' }
+    - { source: 'Assigned Emergency Contacts', target: 'Емисионни Контакти Спешни' }
+    - { source: 'Assigned Memberships', target: 'Присвоени Членства' }
+    - { source: 'Assigned Subordinates', target: 'Присвоени подчинените' }
+    - { source: 'Assigned Supervisors', target: 'Присвоени надзорници' }
+    - { source: 'At least one phone number is required', target: 'Най-малко един телефонен номер се изисква' }
+    - { source: 'Bi Weekly', target: 'Би Weekly' }
+    - { source: child, target: дете }
+    - { source: Child, target: Дете }
+    - { source: 'Configure PIM', target: 'Конфигуриране на PIM' }
+    - { source: 'Contract Details', target: 'Договор Детайли' }
+    - { source: 'Country Specific Information', target: 'Специфична за страната информация' }
+    - { source: 'Create Login Details', target: 'Създаване на вход' }
+    - { source: Custom, target: Обичай }
+    - { source: 'Custom Field Name', target: 'Име на персонализирано поле' }
+    - { source: 'Date of Expiry', target: 'Датата на изтичане' }
+    - { source: 'Direct Deposit', target: 'Директен депозит' }
+    - { source: Document, target: Документ }
+    - { source: 'Document No', target: 'Документ №' }
+    - { source: 'Drop Down', target: 'Падащо меню' }
+    - { source: 'Edit Custom Field', target: 'Редактиране на потребителски поле' }
+    - { source: 'Edit Dependent', target: 'Редактиране на зависимост' }
+    - { source: 'Edit Emergency Contact', target: 'Редактирайте се свържете с аварийния' }
+    - { source: 'Edit Employment Termination', target: 'Редактиране Прекратяване Employement' }
+    - { source: 'Edit Membership Detail', target: 'Редактиране Детайли за членство' }
+    - { source: 'Edit Reporting Method', target: 'Редактиране метод на отчитане' }
+    - { source: 'Edit Subordinate', target: 'Редактиране на подчинена' }
+    - { source: 'Edit Supervisor', target: 'Редактиране на надзорен орган' }
+    - { source: 'Edit Termination Reason', target: 'Редактиране Причина Прекратяване' }
+    - { source: 'Edit Work Experience', target: 'Редактиране професионален опит' }
+    - { source: 'Emergency Contact(s)', target: 'Контактите при аварийни случаи (а)' }
+    - { source: 'Employee Information', target: 'Employee Information' }
+    - { source: Employment, target: Работа }
+    - { source: 'Employment Contract', target: 'Трудов договор' }
+    - { source: 'Enter a number', target: 'Въведете номер' }
+    - { source: 'Enter allowed options separated by commas', target: 'Въведете позволените опции, разделени със запетая' }
+    - { source: 'Ethnic Race', target: 'Етническа Race' }
+    - { source: Exemptions, target: Освобождаване }
+    - { source: 'Federal Income Tax', target: 'Федерален данък' }
+    - { source: 'Field Name', target: 'Име на поле' }
+    - { source: 'Field Type', target: 'Тип на полето' }
+    - { source: 'From date should be before to date', target: 'От дата трябва да бъде преди към днешна дата' }
+    - { source: GPA/Score, target: 'GPA / Резултат' }
+    - { source: Hourly, target: 'Всеки час' }
+    - { source: Institute, target: Институт }
+    - { source: 'Issued date should be before expiration date', target: 'Издаден дата трябва да бъде преди изтичане срока на годност' }
+    - { source: Major/Specialization, target: 'Майор / Специализация' }
+    - { source: Married, target: Женен }
+    - { source: Max, target: Max }
+    - { source: 'Membership Type', target: 'Тип членство' }
+    - { source: 'Military Service', target: 'Военна служба' }
+    - { source: Min, target: Мин. }
+    - { source: Monthly, target: Месечен }
+    - { source: 'Monthly on first pay of month.', target: 'Ежемесечно на първо плащаме на месец.' }
+    - { source: N/A, target: 'N / A' }
+    - { source: 'Nick Name', target: 'Ник Име' }
+    - { source: 'Non Resident Alien', target: 'Non Resident Alien' }
+    - { source: 'Not Applicable', target: 'Не е приложимо' }
+    - { source: other, target: друг }
+    - { source: Passport, target: Паспорт }
+    - { source: 'Personal Details', target: 'Лични данни' }
+    - { source: Photograph, target: Снимка }
+    - { source: 'Please Specify', target: 'Моля, посочете' }
+    - { source: Reason, target: Причина }
+    - { source: Report-to, target: 'Доклад за' }
+    - { source: Screen, target: Екран }
+    - { source: 'Select a Photograph', target: 'Изберете снимка' }
+    - { source: 'Select Membership', target: 'Изберете членство' }
+    - { source: 'Select Options', target: 'Изберете Опции' }
+    - { source: 'Semi Monthly', target: 'Полу на месец' }
+    - { source: 'Show Deprecated Fields', target: 'Покажи непрепоръчителен полета' }
+    - { source: 'Show Nick Name, Smoker and Military Service in Personal Details', target: 'Покажи номер, Пушене и военната служба в Лични данни' }
+    - { source: 'Show SIN field in Personal Details', target: 'Покажи област SIN в лични детайли' }
+    - { source: 'Show SSN field in Personal Details', target: 'Покажи област SSN в лични детайли' }
+    - { source: 'Show US Tax Exemptions menu', target: 'Показване на САЩ Данък Освобождаване меню' }
+    - { source: 'SIN Number', target: 'SIN Брой' }
+    - { source: Single, target: Единичен }
+    - { source: Smoker, target: Пушач }
+    - { source: 'SSN Number', target: 'SSN Брой' }
+    - { source: 'State Income Tax', target: 'Данък върху доходите' }
+    - { source: Subordinate, target: Подчинят }
+    - { source: 'Tax Exemptions', target: 'Освобождаване от данъци' }
+    - { source: 'Terminate Employment', target: 'Прекратяване Employement' }
+    - { source: 'Terminated Date', target: 'Прекратен Дата' }
+    - { source: 'Terminated on', target: 'Прекратено на' }
+    - { source: 'Terminated Reason', target: 'Прекратен Причина' }
+    - { source: 'Text or Number', target: 'Текст или брой' }
+    - { source: 'Unemployment State', target: 'Безработицата членка' }
+    - { source: 'User Name', target: 'Потребителско име' }
+    - { source: Visa, target: Виза }
+    - { source: Weekly, target: Седмично }
+    - { source: 'Work experience', target: 'Професионален опит' }
+    - { source: 'Work State', target: 'Работата на държавната' }
+    - { source: 'Renewal date should be after commence date', target: 'Дата за подновяване трябва да бъде след датата за започване на' }
+    - { source: 'Delete photograph?', target: 'Изтриване на снимка?' }
+    - { source: 'Failed To Save: User Name Exists', target: 'Неуспешно за да запазите: Потребителско име съществува' }
+    - { source: 'Failed To Save: Employee Id Exists', target: 'Неуспешно за да запазите: Служител Id съществува' }
+    - { source: 'Will be deleted from all employees', target: 'Ще бъдат изтрити от всички служители' }
+    - { source: Active, target: Активен }
+    - { source: 'Add another', target: 'Добавяне на друг' }
+    - { source: 'Add Candidate', target: 'Добави кандидат' }
+    - { source: 'Add Job Vacancy', target: 'Добави за свободните работни места' }
+    - { source: 'Adding Candidate', target: 'Добавяне на кандидат' }
+    - { source: 'Application Initiated', target: 'Заявление Иницииран' }
+    - { source: 'applied for the', target: 'прилага за' }
+    - { source: Archived, target: Архив }
+    - { source: 'Are you sure you want to remove job vacancy of the candidate', target: 'Сигурни ли сте че искате да премахнете свободно работно място на кандидата' }
+    - { source: 'as failed', target: 'като не успя' }
+    - { source: 'as passed', target: 'като премина' }
+    - { source: 'assigned the job vacancy', target: 'възложено свободно работно място' }
+    - { source: by, target: от }
+    - { source: Candidate, target: Кандидат }
+    - { source: 'Candidate Name', target: 'Името на Кандидата' }
+    - { source: 'Candidate''s History', target: Кандидат-История }
+    - { source: candidateName, target: candidateName }
+    - { source: 'Cannot assign same interviewer twice', target: 'Не може да се определя два пъти една и съща интервюиращия' }
+    - { source: 'Cannot assign same vacancy twice', target: 'Не може да се определя два пъти една и съща свободно работно място' }
+    - { source: 'Click on a candidate to perform actions', target: 'Кликнете върху кандидат за извършване на действия' }
+    - { source: Closed, target: Затворен }
+    - { source: Continue, target: Продължете }
+    - { source: 'Date of Application', target: 'Дата на прилагане' }
+    - { source: 'Should be less than current date', target: 'Трябва да бъде по-малко от текущата дата' }
+    - { source: 'Decline Offer', target: 'Откажете Оферта' }
+    - { source: Details, target: Детайли }
+    - { source: 'Edit Candidate', target: 'Редактиране на кандидат' }
+    - { source: 'Edit Interview Details', target: 'Редактиране на Интервю Детайли' }
+    - { source: 'Edit Job Vacancy', target: 'Редактиране за свободните работни места' }
+    - { source: 'Editing Candidate', target: 'Редактиране на кандидат' }
+    - { source: 'from the', target: от }
+    - { source: Hire, target: Наемане }
+    - { source: Hired, target: Нает }
+    - { source: hired, target: нает }
+    - { source: 'Hiring Manager', target: 'Отдаване под наем мениджър' }
+    - { source: 'Interview Failed', target: 'Интервю Неуспешно' }
+    - { source: 'Interview Passed', target: 'Интервю Приет' }
+    - { source: 'Interview Scheduled', target: 'Интервю Планирана' }
+    - { source: 'Interview Title', target: 'Интервю Заглавие' }
+    - { source: 'Interviewer Name', target: 'Интервюиращ Име' }
+    - { source: 'Job Offered', target: 'Работа предлагам' }
+    - { source: 'Job Vacancy', target: 'Свободните работни места' }
+    - { source: Manual, target: Наръчник }
+    - { source: 'Mark Interview Failed', target: 'Неуспешно Марк Интервю' }
+    - { source: 'Mark Interview Passed', target: 'Марк Интервю Приет' }
+    - { source: marked, target: маркиран }
+    - { source: 'marked the offer as declined', target: 'маркирана оферта, като отказа' }
+    - { source: 'Method of Application', target: 'Метод на приложение' }
+    - { source: 'No Actions', target: 'Няма действия' }
+    - { source: 'No active job vacancies to display', target: 'Няма активни свободни работни места за показване' }
+    - { source: 'Number of Positions', target: 'Брой позиции' }
+    - { source: 'Offer Declined', target: 'Оферта Отхвърлено' }
+    - { source: 'Offer Job', target: 'Предложение за работа' }
+    - { source: 'offered the job', target: 'offred на работа' }
+    - { source: 'on', target: на }
+    - { source: Online, target: Online }
+    - { source: 'Performed Action', target: 'Извършва действие' }
+    - { source: 'Performed Date', target: 'Извършва Дата' }
+    - { source: 'Publish in RSS feed(1) and web page(2)', target: 'Публикува избраните фуражи (1) и уеб страница (2)' }
+    - { source: removed, target: премахнати }
+    - { source: 'RSS Feed URL', target: 'RSS Feed URL' }
+    - { source: 'Schedule Interview', target: 'График Интервю' }
+    - { source: scheduled, target: планиран }
+    - { source: Shortlist, target: 'Кратък списък' }
+    - { source: Shortlisted, target: 'В списъка' }
+    - { source: 'Shortlisted for', target: 'В списъка за' }
+    - { source: Vacancy, target: 'Вакантно място' }
+    - { source: 'Vacancy Name', target: 'Vacancy Име' }
+    - { source: 'View Action History', target: 'Преглед на История за действие' }
+    - { source: 'View Interview Details', target: 'Интервю Детайли' }
+    - { source: 'Web Page URL', target: 'URL адрес на уеб страница' }
+    - { source: with, target: с }
+    - { source: 'Successfully Scheduled', target: 'Успешно Планирана' }
+    - { source: 'This action will remove previous vacancy', target: 'Това действие ще премахне предишната свободно работно място' }
+    - { source: 'Remove?', target: 'Премахване?' }
+    - { source: 'Vacancy Apply Form', target: 'Vacancy Нанесете Форма' }
+    - { source: 'Application Received', target: 'Заявката получена' }
+    - { source: Uploaded, target: Качено }
+    - { source: 'A new leave type will be created with same name', target: 'Нов вид отпуск ще бъде създаден със същото име' }
+    - { source: Actions, target: Мерки }
+    - { source: Assign, target: Присвояване }
+    - { source: 'At Least One Day Should Be a Working Day', target: 'Най-малко един ден трябва да е работен ден' }
+    - { source: Canceled, target: Отменен }
+    - { source: characters, target: символи }
+    - { source: 'Confirmation Required', target: 'Потвърждение Задължително' }
+    - { source: 'Current Leave Period', target: 'Текущ отпуск Период' }
+    - { source: 'Date format should be', target: 'Формата на датата трябва да бъде' }
+    - { source: 'Define Leave Type', target: 'Определете Оставете Вид' }
+    - { source: 'Duration (Hours)', target: 'Продължителност (часове)' }
+    - { source: 'Following Year', target: 'След година' }
+    - { source: 'For Leap Years', target: 'Високосните години' }
+    - { source: 'For Non-Leap Years', target: 'За Non-високосните години' }
+    - { source: 'From Date', target: 'От Дата' }
+    - { source: 'From Time', target: 'От време' }
+    - { source: 'Full Day', target: 'Цял ден' }
+    - { source: 'Go to Detailed View', target: 'Отиди на подробен изглед' }
+    - { source: 'Half Day', target: 'Половин ден' }
+    - { source: Holiday, target: Празник }
+    - { source: 'Leave Balance', target: 'Оставете Баланс' }
+    - { source: 'Leave Comment', target: 'Остави Коментар' }
+    - { source: 'Leave Entitled', target: 'Оставете Право' }
+    - { source: 'Leave Period Does Not Exist', target: 'Оставете период не съществува' }
+    - { source: 'Leave Request', target: 'Оставете Запитване' }
+    - { source: 'Leave Scheduled', target: 'Оставете Планирана' }
+    - { source: 'Leave Taken', target: Отпуск }
+    - { source: 'Leave Type', target: 'Оставете Вид' }
+    - { source: 'Leave type will be undeleted', target: 'Оставете тип ще бъдат възстановени' }
+    - { source: 'My Leave Details', target: 'Отпуската ми' }
+    - { source: 'My Leave List', target: 'Списъка отпуската ми' }
+    - { source: 'Name of Holiday', target: 'Име на почивка' }
+    - { source: 'No Leave Types with Leave Balance', target: 'Няма отпуск Видове с разрешение баланс' }
+    - { source: 'No of Hours', target: 'Не часа' }
+    - { source: 'Non Working Day', target: 'Извънработно ден' }
+    - { source: 'Non-working Day', target: 'Неработен ден' }
+    - { source: 'Number of Days', target: 'Броя на дните' }
+    - { source: 'Pending Approval', target: 'В очакване на одобрение' }
+    - { source: 'Repeats Annually', target: 'Повтаря годишно' }
+    - { source: 'Show Leave with Status', target: 'Покажи Оставете със статут' }
+    - { source: Taken, target: Взети }
+    - { source: 'Overlapping Leave Request Found', target: 'Припокриване отпуск Искане установи' }
+    - { source: 'This is a deleted leave type. Reactivate it?', target: 'Това е изтрит вид отпуск. Възстановете я?' }
+    - { source: 'To Date', target: 'Към днешна дата' }
+    - { source: 'To Time', target: 'Към Час' }
+    - { source: 'Total Hours', target: 'Общо часове' }
+    - { source: 'Total time is greater than the shift length', target: 'Общо време е по-голяма от дължината на прехода' }
+    - { source: 'Failed to Submit: No Working Days Selected', target: 'Не успяха да представят: Няма Работни дни Избрани' }
+    - { source: 'Failed to Save: Date Already Assigned', target: 'Неуспешно за да запазите: Дата разпределените' }
+    - { source: 'Failed to Assign: Work Shift Length Exceeded', target: 'Неуспех да присвоите: Дължина на работната смяна на товара' }
+    - { source: 'Failed to Submit: Work Shift Length Exceeded', target: 'Неуспех да се представят: Дължина на работната смяна на товара' }
+    - { source: 'Failed to Submit: Leave Balance Exceeded', target: 'Неуспех да представят: Оставете баланс надвишава' }
+    - { source: 'Should be less than work shift length', target: 'Трябва да бъде по-малък от дължината на работната смяна' }
+    - { source: 'Leave Period Not Defined', target: 'Оставете Период не е дефинирана' }
+    - { source: 'Full Day/Half Day', target: 'Пълен работен ден / ден половин' }
+    - { source: 'Failed to Assign', target: 'Неуспех да присвоите' }
+    - { source: 'Failed to Submit', target: 'Не е представил' }
+    - { source: 'Add Leave Type', target: 'Добави Оставете Вид' }
+    - { source: 'Edit Leave Type', target: 'Редактиране Оставете Вид' }
+    - { source: 'View Attendance Record', target: 'Виж Запис Присъствие' }
+    - { source: 'Punch In', target: 'Удар в' }
+    - { source: 'Punch In Note', target: 'Punch в бележка' }
+    - { source: 'Punch Out', target: Пробийте }
+    - { source: 'Punch Out Note', target: 'Пробийте Забележка' }
+    - { source: 'No attendance records to display', target: 'Не записва присъствие, за да се покаже' }
+    - { source: 'Punch out Time Should Be Higher Than Punch in Time', target: 'Удар време трябва да бъде по-висока, отколкото Punch във времето' }
+    - { source: 'Overlapping Records Found', target: 'Припокриващи се Records са открити' }
+    - { source: 'Comment should be less than 250 characters', target: 'Коментар трябва да бъде по-малко от 250 символа' }
+    - { source: 'Punch in/out note', target: 'Punch в / извън бележка' }
+    - { source: Timezone, target: 'Часовата зона' }
+    - { source: 'Last punch in time', target: 'Последно удар във времето' }
+    - { source: In, target: В }
+    - { source: Out, target: От }
+    - { source: 'Attendance Configuration', target: 'Участие Конфигурация' }
+    - { source: 'Employee can change current time when punching in/out', target: 'Служител може да се променя текущото време, когато пробиване /' }
+    - { source: 'Employee can edit/delete own attendance records', target: 'Служител може да редактира / изтривате собствените записи посещаемост' }
+    - { source: 'Supervisor can add/edit/delete attendance records of subordinates', target: 'Надзорен орган могат да добавят / редактиране / изтриване на записи на посещаемост на подчинените' }
+    - { source: 'My Attendance Records', target: 'Присъствието ми записи' }
+    - { source: 'You are not allowed to view this page', target: 'Вие нямате право да виждате тази страница' }
+    - { source: 'Add Attendance Records', target: 'Добави седм. Records' }

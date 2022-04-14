@@ -1,0 +1,1554 @@
+translations:
+    - { source: '1M Max, any larger attachments will be ignored', target: '1M Max, los archivos adjuntos más grandes se tendrá en cuenta' }
+    - { source: Add, target: Añadir }
+    - { source: 'Add Attachment', target: 'Agregar archivo adjunto' }
+    - { source: 'Add Employee', target: 'Agregar Empleado' }
+    - { source: 'Add KPI', target: 'Agregar KPI' }
+    - { source: 'Add Review', target: 'Agregar Comentario' }
+    - { source: 'Add Salary Component', target: 'Agregar componente salarial' }
+    - { source: 'Added By', target: 'Añadido por' }
+    - { source: Address, target: Dirección }
+    - { source: Admin, target: Administración }
+    - { source: Afghan, target: Afgano }
+    - { source: Afghanistan, target: Afganistán }
+    - { source: 'Afghanistan Afghani', target: 'Afganistán Afganistán' }
+    - { source: 'Age Group', target: 'Grupo de Edad' }
+    - { source: Alabama, target: Alabama }
+    - { source: Alaska, target: Alaska }
+    - { source: Albania, target: Albania }
+    - { source: Albanian, target: Albanés }
+    - { source: 'Albanian Lek', target: 'Lek albanés' }
+    - { source: Algeria, target: Argelia }
+    - { source: Algerian, target: Argelino }
+    - { source: 'Algerian Dinar', target: 'Dinar argelino' }
+    - { source: All, target: Todo }
+    - { source: 'Allows numbers and only + - / ( )', target: 'Permite números y sólo + - / ()' }
+    - { source: 'Already exists', target: 'Ya existe' }
+    - { source: 'Name Already Exists', target: 'El nombre ya existe' }
+    - { source: American, target: Americano }
+    - { source: 'American Samoa', target: 'Samoa Americana' }
+    - { source: Amount, target: Cantidad }
+    - { source: Andorra, target: Andorra }
+    - { source: Andorran, target: Andorra }
+    - { source: Angola, target: Angola }
+    - { source: Angolan, target: Angola }
+    - { source: 'Angolan New Kwanza', target: 'Angola Nuevo Kwanza' }
+    - { source: Anguilla, target: Anguila }
+    - { source: Antarctica, target: Antártida }
+    - { source: 'Antigua and Barbuda', target: 'Antigua y Barbuda' }
+    - { source: Antiguans, target: 'De Antigua' }
+    - { source: Apply, target: Aplicar }
+    - { source: April, target: Abril }
+    - { source: 'are required', target: 'Se requieren' }
+    - { source: Argentina, target: Argentina }
+    - { source: 'Argentina Pesos', target: 'Argentina Pesos' }
+    - { source: 'Argentine Peso', target: 'Peso argentino' }
+    - { source: Argentinean, target: Argentino }
+    - { source: Arizona, target: Arizona }
+    - { source: Arkansas, target: Arkansas }
+    - { source: 'Armed Forces Americas (except Canada)', target: 'Las Fuerzas Armadas de América (excepto Canadá)' }
+    - { source: 'Armed Forces Middle East', target: 'Las Fuerzas Armadas del Oriente Medio' }
+    - { source: 'Armed Forces Pacific', target: 'De las Fuerzas Armadas del Pacífico' }
+    - { source: Armenia, target: Armenia }
+    - { source: Armenian, target: Armenio }
+    - { source: Aruba, target: Aruba }
+    - { source: 'Aruban Florin', target: 'Aruba Florin' }
+    - { source: 'Assign Leave', target: 'Asignar Agregar' }
+    - { source: 'Assigned Salary Components', target: 'Asignación de componentes salariales' }
+    - { source: 'Attachment Size Exceeded', target: 'Adjunto Tamaño superado' }
+    - { source: Attendance, target: Asistencia }
+    - { source: 'Attendance Summary', target: 'Asistencia Resumen' }
+    - { source: August, target: Agosto }
+    - { source: Australia, target: Australia }
+    - { source: Australian, target: Australiano }
+    - { source: 'Australian Dollar', target: 'Dólar Australiano' }
+    - { source: Austria, target: Austria }
+    - { source: Austrian, target: Austriaco }
+    - { source: Azerbaijan, target: Azerbaiyán }
+    - { source: Azerbaijani, target: Azerbaiyán }
+    - { source: Back, target: Espalda }
+    - { source: Bahamas, target: 'Las Bahamas' }
+    - { source: Bahamian, target: Bahamas }
+    - { source: 'Bahamian Dollar', target: 'Dólar de Bahamas' }
+    - { source: Bahrain, target: Bahrein }
+    - { source: Bahraini, target: Bahrein }
+    - { source: 'Bahraini Dinar', target: 'Dinar de Bahréin' }
+    - { source: Bangladesh, target: Bangladesh }
+    - { source: Bangladeshi, target: Bangladesh }
+    - { source: 'Bangladeshi Taka', target: 'Taka de Bangladesh' }
+    - { source: Barbadian, target: Barbados }
+    - { source: Barbados, target: Barbados }
+    - { source: 'Barbados Dollar', target: 'Dólar de Barbados' }
+    - { source: Barbudans, target: Barbudans }
+    - { source: Basic, target: Básico }
+    - { source: Batswana, target: Botswana }
+    - { source: Belarus, target: Belarús }
+    - { source: Belarusian, target: Belarús }
+    - { source: Belgian, target: Belga }
+    - { source: Belgium, target: Bélgica }
+    - { source: Belize, target: Belice }
+    - { source: 'Belize Dollar', target: 'Dólar de Belice' }
+    - { source: Belizean, target: Belice }
+    - { source: Benin, target: Benin }
+    - { source: Beninese, target: Benin }
+    - { source: Bermuda, target: Bermuda }
+    - { source: 'Bermudian Dollar', target: 'Dólar de Bermudas' }
+    - { source: Bhutan, target: Bután }
+    - { source: 'Bhutan Ngultrum', target: 'Bután Ngultrum' }
+    - { source: Bhutanese, target: Bhután }
+    - { source: Bolivia, target: Bolivia }
+    - { source: Bolivian, target: Boliviano }
+    - { source: 'Bolivian Boliviano', target: Boliviano }
+    - { source: 'Bosnia and Herzegovina', target: 'Bosnia y Herzegovina' }
+    - { source: Bosnian, target: Bosnio }
+    - { source: Botswana, target: Botswana }
+    - { source: 'Botswana Pula', target: 'Botswana Pula' }
+    - { source: 'Bouvet Island', target: 'Isla Bouvet' }
+    - { source: Brazil, target: Brasil }
+    - { source: Brazilian, target: Brasileño }
+    - { source: 'Brazilian Real', target: 'Real brasileño' }
+    - { source: British, target: Británico }
+    - { source: 'British Indian Ocean Territory', target: 'British Indian Ocean Territory' }
+    - { source: 'Brunei Darussalam', target: 'Brunei Darussalam' }
+    - { source: 'Brunei Dollar', target: 'Dólar de Brunei' }
+    - { source: Bruneian, target: Brunei }
+    - { source: Bulgaria, target: Bulgaria }
+    - { source: Bulgarian, target: Búlgaro }
+    - { source: 'Bulgarian Lev', target: 'Lev búlgaro' }
+    - { source: 'Burkina Faso', target: 'Burkina Faso' }
+    - { source: Burkinabe, target: 'Burkina Faso' }
+    - { source: Burmese, target: Birmano }
+    - { source: Burundi, target: Burundi }
+    - { source: 'Burundi Franc', target: 'Franco de Burundi' }
+    - { source: Burundian, target: Burundi }
+    - { source: California, target: California }
+    - { source: Cambodia, target: Camboya }
+    - { source: Cambodian, target: Camboyano }
+    - { source: Cameroon, target: Camerún }
+    - { source: Cameroonian, target: Camerún }
+    - { source: Canada, target: Canadá }
+    - { source: Canadian, target: Canadiense }
+    - { source: 'Canadian Dollar', target: 'Dólar Canadiense' }
+    - { source: Cancel, target: Cancelar }
+    - { source: Candidates, target: 'Los candidatos' }
+    - { source: 'Cape Verde', target: 'Cabo Verde' }
+    - { source: 'Cape Verde Escudo', target: 'Escudo Cabo Verde' }
+    - { source: 'Cape Verdean', target: 'Cabo Verde' }
+    - { source: 'Cayman Islands', target: 'Las Islas Caimán' }
+    - { source: 'Cayman Islands Dollar', target: 'Dólar de las Islas Caimán' }
+    - { source: 'Central African', target: 'África Central' }
+    - { source: 'Central African Republic', target: 'República Centroafricana' }
+    - { source: 'CFA Franc BCEAO', target: 'Franco CFA BCEAO' }
+    - { source: 'CFP Franc', target: 'PPC Franco' }
+    - { source: 'CFA Franc BEAC', target: 'Franco CFA BEAC' }
+    - { source: Chad, target: Chad }
+    - { source: Chadian, target: Chad }
+    - { source: 'Change Password', target: 'Cambiar la contraseña' }
+    - { source: Checking, target: 'De cheques' }
+    - { source: Chile, target: Chile }
+    - { source: 'Cote D''Ivoire', target: 'Costa de Marfil' }
+    - { source: Chilean, target: Chileno }
+    - { source: 'Chilean Peso', target: 'Peso Chileno' }
+    - { source: 'Tongan Pa''anga', target: 'Tonga Pa''anga' }
+    - { source: China, target: China }
+    - { source: Chinese, target: Chino }
+    - { source: 'Chinese Yuan Renminbi', target: 'Yuan chino' }
+    - { source: 'Christmas Island', target: 'Isla de Navidad' }
+    - { source: 'Cocos (Keeling) Islands', target: 'Islas Cocos (Keeling)' }
+    - { source: Colombia, target: Colombia }
+    - { source: Colombian, target: Colombiano }
+    - { source: 'Colombian Peso', target: 'Peso colombiano' }
+    - { source: Colorado, target: Colorado }
+    - { source: Comment, target: Comentario }
+    - { source: Comments, target: Comentarios }
+    - { source: Comoran, target: Comoras }
+    - { source: Comoros, target: 'Las Comoras' }
+    - { source: 'Comoros Franc', target: 'Comoras Franco' }
+    - { source: Company, target: Empresa }
+    - { source: Competency, target: Competencia }
+    - { source: Configuration, target: Configuración }
+    - { source: Configure, target: Configurar }
+    - { source: Congo, target: Congo }
+    - { source: 'Congo, the Democratic Republic of the', target: 'Congo, la República Democrática del' }
+    - { source: Congolese, target: Congo }
+    - { source: Connecticut, target: Connecticut }
+    - { source: 'Contact Details', target: 'Datos de contacto' }
+    - { source: 'Contract End Date', target: 'Fecha de finalización del contrato' }
+    - { source: 'Contract Not Renewed', target: 'Contrato no se renueva' }
+    - { source: 'Contract Start Date', target: 'Fecha de inicio del contrato' }
+    - { source: 'Cook Islands', target: 'Las Islas Cook' }
+    - { source: 'Copy KPI', target: 'Copia de KPI' }
+    - { source: 'Costa Rica', target: 'Costa Rica' }
+    - { source: 'Costa Rican', target: Costarricense }
+    - { source: 'Costa Rican Colon', target: 'Colón costarricense' }
+    - { source: Country, target: País }
+    - { source: Croatia, target: Croacia }
+    - { source: Croatian, target: Croata }
+    - { source: 'Croatian Kuna', target: 'Kuna croata' }
+    - { source: Cuba, target: Cuba }
+    - { source: Cuban, target: Cubano }
+    - { source: 'Cuban Peso', target: 'Peso Cubano' }
+    - { source: Currency, target: Moneda }
+    - { source: 'Current and Past Employees', target: 'Los empleados actuales y anteriores' }
+    - { source: 'Current Employees Only', target: 'Sólo los empleados actuales' }
+    - { source: 'Current Status', target: 'Estado actual' }
+    - { source: 'Custom Fields', target: 'Campos personalizados' }
+    - { source: Customers, target: Clientes }
+    - { source: Cypriot, target: Chipre }
+    - { source: Cyprus, target: Chipre }
+    - { source: 'Cyprus Pound', target: 'Libra chipriota' }
+    - { source: Czech, target: Checo }
+    - { source: 'Czech Koruna', target: 'Corona checa' }
+    - { source: 'Czech Republic', target: 'La República Checa' }
+    - { source: Danish, target: Danés }
+    - { source: 'Danish Krona', target: 'Corona Danesa' }
+    - { source: 'Data Import', target: 'Importación de datos' }
+    - { source: Date, target: Fecha }
+    - { source: 'Date Added', target: 'Fecha Alta' }
+    - { source: 'Date of Birth', target: 'Fecha de Nacimiento' }
+    - { source: Days, target: Días }
+    - { source: Deceased, target: Fallecido }
+    - { source: December, target: Diciembre }
+    - { source: 'Define Report', target: 'Definir Informe' }
+    - { source: 'Defined Custom Fields', target: 'Campos definidos por encargo' }
+    - { source: Delaware, target: Delaware }
+    - { source: Delete, target: Borrar }
+    - { source: 'Delete Current', target: 'Eliminar actual' }
+    - { source: Denmark, target: Dinamarca }
+    - { source: Dependents, target: Dependientes }
+    - { source: Description, target: Descripción }
+    - { source: Dimensions, target: Dimensiones }
+    - { source: Direct, target: Direct }
+    - { source: 'Direct Deposit Account Number', target: 'Depósito Directo Número de Cuenta' }
+    - { source: 'Direct Deposit Account Type', target: 'Depósito Directo Tipo de Cuenta' }
+    - { source: 'Direct Deposit Amount', target: 'Monto del Depósito Directo' }
+    - { source: 'Direct Deposit Details', target: 'Detalles del Depósito Directo' }
+    - { source: 'Direct Deposit Routing Number', target: 'Depósito Directo Número de enrutamiento' }
+    - { source: Disabled, target: Discapacitado }
+    - { source: Dismissed, target: Despedido }
+    - { source: 'Display Field Groups', target: 'Mostrar los grupos de campo' }
+    - { source: 'Display Fields', target: 'Mostrar los campos' }
+    - { source: 'District of Columbia', target: 'Distrito de Columbia' }
+    - { source: Djibouti, target: Yibuti }
+    - { source: 'Djibouti Franc', target: 'Yibuti Franco' }
+    - { source: 'Document Type', target: 'Tipo de documento' }
+    - { source: Dominica, target: Dominica }
+    - { source: Dominican, target: Dominicano }
+    - { source: 'Dominican Peso', target: 'Peso dominicano' }
+    - { source: 'Dominican Republic', target: 'República Dominicana' }
+    - { source: 'Driver License Number', target: 'Número de Licencia' }
+    - { source: 'Driver''s License Number', target: 'Licencia de Conducir' }
+    - { source: Duration, target: Duración }
+    - { source: Dutch, target: Holandés }
+    - { source: Duties, target: Deberes }
+    - { source: 'East Timorese', target: 'Timor Oriental' }
+    - { source: 'Eastern Caribbean Dollars', target: 'Dólares del Caribe Oriental' }
+    - { source: Ecuador, target: Ecuador }
+    - { source: 'Ecuador Sucre', target: 'Ecuador Sucre' }
+    - { source: Ecuadorean, target: Ecuador }
+    - { source: Edit, target: Editar }
+    - { source: 'Edit Attachment', target: 'Editar anexo' }
+    - { source: 'Edit Immigration', target: 'Edición de Inmigración' }
+    - { source: 'Edit Salary Component', target: 'Editar componente de sueldos' }
+    - { source: Education, target: Educación }
+    - { source: Egypt, target: Egipto }
+    - { source: Egyptian, target: Egipcio }
+    - { source: 'Egyptian Pound', target: 'Libra egipcia' }
+    - { source: 'El Salvador', target: 'El Salvador' }
+    - { source: 'El Salvador Colon', target: 'El Salvador Colón' }
+    - { source: Eligible, target: Elegible }
+    - { source: 'Eligible Review Date', target: 'Fecha de revisión Elegible' }
+    - { source: 'Eligible Status', target: 'Estado de derecho' }
+    - { source: 'Email Notifications', target: 'Notificaciones por correo electrónico' }
+    - { source: 'Emergency Contacts', target: 'Contactos de Emergencia' }
+    - { source: Emirian, target: Emirian }
+    - { source: Employee, target: Empleado }
+    - { source: 'Employee First Name', target: 'Nombre del Empleado' }
+    - { source: 'Employee Id', target: 'Identificación del empleado' }
+    - { source: 'Employee Last Name', target: 'Empleado Apellido' }
+    - { source: 'Employee List', target: 'Lista de empleados' }
+    - { source: 'Employee Middle Name', target: 'Nombre del Empleado Medio' }
+    - { source: 'Employee Name', target: 'Nombre del Empleado' }
+    - { source: 'Employee Records', target: 'Los registros de los empleados' }
+    - { source: 'Employee Reports', target: 'Informes de los empleados' }
+    - { source: 'Employee Timesheets', target: 'Los partes de horas de empleados' }
+    - { source: 'Employment Status', target: 'Estado de Empleo' }
+    - { source: Enabled, target: Habilitado }
+    - { source: 'End Date', target: 'Fecha de finalización' }
+    - { source: 'End date should be after start date', target: 'Fecha de finalización debe ser posterior a la fecha de inicio' }
+    - { source: 'Equatorial Guinea', target: 'Guinea Ecuatorial' }
+    - { source: 'Equatorial Guinean', target: 'Guinea Ecuatorial' }
+    - { source: Eritrea, target: Eritrea }
+    - { source: Eritrean, target: Eritrea }
+    - { source: ESS, target: ESS }
+    - { source: Estonia, target: Estonia }
+    - { source: Estonian, target: Estonia }
+    - { source: 'Estonian Krona', target: 'Corona de Estonia' }
+    - { source: Ethiopia, target: Etiopía }
+    - { source: Ethiopian, target: Etíope }
+    - { source: 'Ethiopian Birr', target: 'Birr etíope' }
+    - { source: Euro, target: Euro }
+    - { source: 'Expected format: admin@example.com', target: 'El formato previsto: admin@example.com' }
+    - { source: 'Expiry Date', target: 'Fecha de Expiración' }
+    - { source: 'Expiry date should be after issued date', target: 'Fecha de caducidad debe ser posterior a la fecha de emisión' }
+    - { source: 'Failed to Save', target: 'Error al Guardar' }
+    - { source: 'Falkland Islands (Malvinas)', target: 'Islas Malvinas (Falkland)' }
+    - { source: 'Falkland Islands Pound', target: 'Libra de las Islas Malvinas' }
+    - { source: 'Faroe Islands', target: 'Las Islas Feroe' }
+    - { source: February, target: Febrero }
+    - { source: 'Federated States of Micronesia', target: 'Estados Federados de Micronesia' }
+    - { source: Female, target: Femenino }
+    - { source: Field, target: Campo }
+    - { source: Fields, target: Campos }
+    - { source: 'Fields marked with an asterisk', target: 'Los campos marcados con un asterisco' }
+    - { source: Fiji, target: Fiyi }
+    - { source: 'Fiji Dollar', target: 'Fiyi dólar' }
+    - { source: Fijian, target: Fiyi }
+    - { source: 'File Name', target: 'Nombre de archivo' }
+    - { source: Filipino, target: Filipino }
+    - { source: Finland, target: Finlandia }
+    - { source: Finnish, target: Finlandés }
+    - { source: First, target: Primero }
+    - { source: 'First Name', target: Nombre }
+    - { source: Florida, target: Florida }
+    - { source: Fluency, target: Fluidez }
+    - { source: France, target: Francia }
+    - { source: French, target: Francés }
+    - { source: 'French Guiana', target: 'Francés de Guayana' }
+    - { source: 'French Polynesia', target: 'Polinesia francés' }
+    - { source: 'French Southern Territories', target: 'Territorios Franceses del Sur' }
+    - { source: Friday, target: Viernes }
+    - { source: From, target: De }
+    - { source: 'Full Name', target: 'Nombre completo' }
+    - { source: 'Full Time Contract', target: 'Contrato Tiempo Completo' }
+    - { source: 'Full Time Internship', target: 'Prácticas Tiempo Completo' }
+    - { source: 'Full Time Permanent', target: 'Tiempo completo Permanente' }
+    - { source: Gabon, target: Gabón }
+    - { source: Gabonese, target: Gabón }
+    - { source: Gambia, target: Gambia }
+    - { source: Gambian, target: Gambia }
+    - { source: 'Gambian Dalasi', target: 'Dalasi gambiano' }
+    - { source: Gender, target: Género }
+    - { source: 'General Information', target: 'Información General' }
+    - { source: Georgia, target: Georgia }
+    - { source: Georgian, target: Georgiano }
+    - { source: German, target: Alemán }
+    - { source: Germany, target: Alemania }
+    - { source: Ghana, target: Ghana }
+    - { source: Ghanaian, target: Ghanés }
+    - { source: 'Ghanaian Cedi', target: 'Ghana Cedi' }
+    - { source: Gibraltar, target: Gibraltar }
+    - { source: 'Gibraltar Pound', target: 'Libra de Gibraltar' }
+    - { source: 'Gold (oz.)', target: 'Oro (oz)' }
+    - { source: Good, target: Bueno }
+    - { source: 'Greater Than', target: 'Mayor que' }
+    - { source: Greece, target: Grecia }
+    - { source: Greek, target: Griego }
+    - { source: Greenland, target: Groenlandia }
+    - { source: Grenada, target: Granada }
+    - { source: Grenadian, target: Granada }
+    - { source: Guadeloupe, target: Guadalupe }
+    - { source: Guam, target: Guam }
+    - { source: Guatemala, target: Guatemala }
+    - { source: Guatemalan, target: Guatemalteco }
+    - { source: 'Guatemalan Quetzal', target: 'Quetzal guatemalteco' }
+    - { source: Guinea, target: Guinea }
+    - { source: 'Guinea Franc', target: 'Franco guineano' }
+    - { source: Guinea-Bissau, target: Guinea-Bissau }
+    - { source: Guinea-Bissauan, target: Guinea-Bissauan }
+    - { source: Guinean, target: Guinea }
+    - { source: Guyana, target: Guayana }
+    - { source: 'Guyanan Dollar', target: 'Dólar guyanés' }
+    - { source: Guyanese, target: Guyana }
+    - { source: Haiti, target: Haití }
+    - { source: Haitian, target: Haitiano }
+    - { source: 'Haitian Gourde', target: 'Haití Gourde' }
+    - { source: Hawaii, target: Hawai }
+    - { source: 'Heard Island and Mcdonald Islands', target: 'Islas Heard y McDonald' }
+    - { source: Help, target: Ayuda }
+    - { source: Herzegovinian, target: Herzegovina }
+    - { source: 'Hide Details', target: 'Ocultar detalles' }
+    - { source: Holidays, target: Vacaciones }
+    - { source: 'Holy See (Vatican City State)', target: 'Santa Sede (Ciudad del Vaticano)' }
+    - { source: 'Home Telephone', target: 'Teléfono de la casa' }
+    - { source: Honduran, target: Honduras }
+    - { source: 'Honduran Lempira', target: 'Lempira hondureña' }
+    - { source: Honduras, target: Honduras }
+    - { source: 'Hong Kong', target: 'Hong Kong' }
+    - { source: 'Hong Kong Dollar', target: 'Dólar de Hong Kong' }
+    - { source: Hungarian, target: Húngaro }
+    - { source: 'Hungarian Forint', target: 'Florín húngaro' }
+    - { source: Hungary, target: Hungría }
+    - { source: I-Kiribati, target: I-Kiribati }
+    - { source: Iceland, target: Islandia }
+    - { source: 'Iceland Krona', target: 'Corona islandesa' }
+    - { source: Icelander, target: Islandés }
+    - { source: Id, target: Identificación }
+    - { source: Idaho, target: Idaho }
+    - { source: Illinois, target: Illinois }
+    - { source: 'IMF Special Drawing Right', target: 'Derecho Especial de Giro del FMI' }
+    - { source: Immigration, target: Inmigración }
+    - { source: Include, target: Incluir }
+    - { source: 'Include Header', target: 'Incluir cabecera' }
+    - { source: 'Include Past Employees', target: 'Incluir a los empleados anteriores' }
+    - { source: India, target: India }
+    - { source: Indian, target: Indio }
+    - { source: 'Indian Rupee', target: 'Rupia india' }
+    - { source: Indiana, target: Indiana }
+    - { source: Indirect, target: Indirecto }
+    - { source: Individual, target: Individual }
+    - { source: Indonesia, target: Indonesia }
+    - { source: Indonesian, target: Indonesio }
+    - { source: 'Indonesian Rupiah', target: 'Rupia indonesia' }
+    - { source: 'Invalid File Type', target: 'Tipo de archivo no válido' }
+    - { source: Iowa, target: Iowa }
+    - { source: 'Iran, Islamic Republic of', target: 'Irán, República Islámica del' }
+    - { source: Iranian, target: Iraní }
+    - { source: 'Iranian Rial', target: 'Rial iraní' }
+    - { source: Iraq, target: Irak }
+    - { source: Iraqi, target: Iraquí }
+    - { source: 'Iraqi Dinar', target: 'Dinar iraquí' }
+    - { source: Ireland, target: Irlanda }
+    - { source: Irish, target: Irlandés }
+    - { source: Israel, target: Israel }
+    - { source: Israeli, target: Israelí }
+    - { source: 'Israeli New Shekel', target: 'Nuevo shekel israelí' }
+    - { source: 'Issued By', target: 'Emitido por' }
+    - { source: 'Issued Date', target: 'Fecha de emisión' }
+    - { source: Italian, target: Italiano }
+    - { source: Italy, target: Italia }
+    - { source: Ivorian, target: 'Costa de Marfil' }
+    - { source: Jamaica, target: Jamaica }
+    - { source: Jamaican, target: Jamaicano }
+    - { source: 'Jamaican Dollar', target: 'Dólar Jamaiquino' }
+    - { source: January, target: Enero }
+    - { source: Japan, target: Japón }
+    - { source: Japanese, target: Japonés }
+    - { source: 'Japanese Yen', target: 'Yen Japonés' }
+    - { source: Job, target: Trabajo }
+    - { source: 'Job Categories', target: 'Categorías del Trabajo' }
+    - { source: 'Job Category', target: 'Categoría de trabajo' }
+    - { source: 'Job Specification', target: 'Trabajo específico' }
+    - { source: 'Job Title', target: 'Título del Trabajo' }
+    - { source: 'Job Titles', target: Profesiones }
+    - { source: 'Joined Date', target: 'Fecha de Registro' }
+    - { source: Jordan, target: Jordania }
+    - { source: Jordanian, target: Jordania }
+    - { source: 'Jordanian Dinar', target: 'Dinar jordano' }
+    - { source: July, target: Julio }
+    - { source: June, target: Junio }
+    - { source: 'Kampuchean Riel', target: 'Riel camboyano' }
+    - { source: Kansas, target: Kansas }
+    - { source: Kazakhstan, target: Kazajstán }
+    - { source: 'Kazakhstan Tenge', target: 'Kazajstán Tenge' }
+    - { source: Kazakhstani, target: Kazajo }
+    - { source: 'Keep Current', target: 'Mantenga actual' }
+    - { source: Kentucky, target: Kentucky }
+    - { source: Kenya, target: Kenia }
+    - { source: Kenyan, target: Kenia }
+    - { source: 'Kenyan Shilling', target: 'Chelín keniano' }
+    - { source: Kiribati, target: Kiribati }
+    - { source: 'Kittian and Nevisian', target: 'Kittian y Nevisian' }
+    - { source: 'Korea, Democratic People''s Republic of', target: 'República de Corea, Popular Democrática de' }
+    - { source: 'Korea, Republic of', target: 'Corea del Sur' }
+    - { source: 'Korean Won', target: 'Won de Corea del' }
+    - { source: 'KPI List', target: 'Lista KPI' }
+    - { source: Kuwait, target: Kuwait }
+    - { source: Kuwaiti, target: Kuwait }
+    - { source: 'Kuwaiti Dinar', target: 'Dinar kuwaití' }
+    - { source: Kyrgyz, target: Kirguistán }
+    - { source: Kyrgyzstan, target: Kirguistán }
+    - { source: Language, target: Lengua }
+    - { source: Languages, target: Idiomas }
+    - { source: 'Lao Kip', target: 'Kip de Laos' }
+    - { source: 'Lao People''s Democratic Republic', target: 'Democrática Popular Lao, República' }
+    - { source: Laotian, target: Laos }
+    - { source: Last, target: Pasado }
+    - { source: 'Last Name', target: Apellido }
+    - { source: Latvia, target: Letonia }
+    - { source: Latvian, target: Letón }
+    - { source: 'Latvian Lats', target: 'Lats letones' }
+    - { source: Leave, target: Dejar }
+    - { source: 'Leave Balance (Days)', target: 'Deja Saldo (días)' }
+    - { source: 'Leave Entitled (Days)', target: 'Deja el título (Días)' }
+    - { source: 'Leave List', target: 'Deja la lista de' }
+    - { source: 'Leave Period', target: 'Período de licencia' }
+    - { source: 'Leave Scheduled (Days)', target: 'Deja programadas (días)' }
+    - { source: 'Leave Summary', target: 'Deja Resumen' }
+    - { source: 'Leave Taken (Days)', target: 'Deja la toma (días)' }
+    - { source: 'Leave Types', target: 'Deja los tipos de' }
+    - { source: Lebanese, target: Libanés }
+    - { source: 'Lebanese Pound', target: 'Libra libanesa' }
+    - { source: Lebanon, target: Líbano }
+    - { source: Lesotho, target: Lesoto }
+    - { source: 'Lesotho Loti', target: 'Lesotho Loti' }
+    - { source: 'Less Than', target: 'Menos que' }
+    - { source: Level, target: Nivel }
+    - { source: Liberia, target: Liberia }
+    - { source: Liberian, target: Liberia }
+    - { source: 'Liberian Dollar', target: 'Dólar liberiano' }
+    - { source: Libyan, target: Libio }
+    - { source: 'Libyan Arab Jamahiriya', target: 'Jamahiriya Árabe Libia' }
+    - { source: 'Libyan Dinar', target: 'Dinar libio' }
+    - { source: License, target: Licencia }
+    - { source: 'License Expiry Date', target: 'Fecha de caducidad de licencia' }
+    - { source: 'License Number', target: 'Número de licencia' }
+    - { source: 'License Type', target: 'Tipo de licencia' }
+    - { source: Licenses, target: Licencias }
+    - { source: Liechtenstein, target: Liechtenstein }
+    - { source: Liechtensteiner, target: Liechtensteiner }
+    - { source: Lithuania, target: Lituania }
+    - { source: Lithuanian, target: Lituano }
+    - { source: 'Lithuanian Litas', target: Litas }
+    - { source: Localization, target: Localización }
+    - { source: Location, target: Ubicación }
+    - { source: Locations, target: Ubicaciones }
+    - { source: Logout, target: 'Cerrar sesión' }
+    - { source: Louisiana, target: Luisiana }
+    - { source: Luxembourg, target: Luxemburgo }
+    - { source: Luxembourger, target: Luxemburgués }
+    - { source: Macao, target: Macao }
+    - { source: 'Macau Pataca', target: 'Pataca de Macao' }
+    - { source: 'Macedonia, the Former Yugoslav Republic of', target: 'Macedonia, Antigua República Yugoslava de' }
+    - { source: Macedonian, target: Macedonia }
+    - { source: Madagascar, target: Madagascar }
+    - { source: Maine, target: Maine }
+    - { source: Malagasy, target: Madagascar }
+    - { source: 'Malagasy Franc', target: 'Franco malgache' }
+    - { source: Malawi, target: Malawi }
+    - { source: 'Malawi Kwacha', target: 'Malawi Kwacha' }
+    - { source: Malawian, target: Malawi }
+    - { source: Malaysia, target: Malasia }
+    - { source: Malaysian, target: Malasio }
+    - { source: 'Malaysian Ringgit', target: 'Ringgit de Malasia' }
+    - { source: Maldivan, target: Maldivan }
+    - { source: 'Maldive Rufiyaa', target: 'Maldivas Rufiyaa' }
+    - { source: Maldives, target: Maldivas }
+    - { source: Male, target: Masculino }
+    - { source: Mali, target: Malí }
+    - { source: Malian, target: Malí }
+    - { source: Malta, target: Malta }
+    - { source: Maltese, target: Maltés }
+    - { source: 'Maltese Lira', target: 'Lira maltesa' }
+    - { source: March, target: Marzo }
+    - { source: 'Marital Status', target: 'Estado civil' }
+    - { source: 'Marshall Islands', target: 'Las Islas Marshall' }
+    - { source: Marshallese, target: 'De las Islas Marshall' }
+    - { source: Martinique, target: Martinica }
+    - { source: Maryland, target: Maryland }
+    - { source: Massachusetts, target: Massachusetts }
+    - { source: Mauritania, target: Mauritania }
+    - { source: Mauritanian, target: Mauritano }
+    - { source: 'Mauritanian Ouguiya', target: 'Mauritania Ouguiya' }
+    - { source: Mauritian, target: Mauriciano }
+    - { source: Mauritius, target: Mauricio }
+    - { source: 'Mauritius Rupee', target: 'Mauricio Rupia' }
+    - { source: May, target: Mayo }
+    - { source: Mayotte, target: Mayotte }
+    - { source: Membership, target: Afiliación }
+    - { source: Memberships, target: Membresías }
+    - { source: Mexican, target: Mexicano }
+    - { source: 'Mexican New Peso', target: 'Nuevo Peso Mexicano' }
+    - { source: 'Mexican Peso', target: 'Peso mexicano' }
+    - { source: Mexico, target: México }
+    - { source: Michigan, target: Michigan }
+    - { source: 'Micronesia, Federated States of', target: 'Micronesia, Estados Federados de' }
+    - { source: Micronesian, target: Micronesia }
+    - { source: Middle, target: Medio }
+    - { source: 'Middle Name', target: 'Segundo nombre' }
+    - { source: Minnesota, target: Minnesota }
+    - { source: Mississippi, target: Misisipí }
+    - { source: Missouri, target: Misuri }
+    - { source: Mobile, target: Móvil }
+    - { source: Modules, target: Módulos }
+    - { source: 'Moldova, Republic of', target: 'Moldova, República de' }
+    - { source: Moldovan, target: Moldavo }
+    - { source: Monacan, target: Monacan }
+    - { source: Monaco, target: Mónaco }
+    - { source: Monday, target: Lunes }
+    - { source: Mongolia, target: Mongolia }
+    - { source: Mongolian, target: Mongol }
+    - { source: 'Mongolian Tugrik', target: 'Mongolia Tugrik' }
+    - { source: Montana, target: Montana }
+    - { source: Month, target: Mes }
+    - { source: Montserrat, target: Montserrat }
+    - { source: Moroccan, target: Marroquí }
+    - { source: 'Moroccan Dirham', target: 'Dirham marroquí' }
+    - { source: Morocco, target: Marruecos }
+    - { source: Mosotho, target: Mosotho }
+    - { source: 'Mother Tongue', target: 'Idioma materno' }
+    - { source: Motswana, target: Motswana }
+    - { source: Mozambican, target: Mozambiqueño }
+    - { source: Mozambique, target: Mozambique }
+    - { source: 'Mozambique Metical', target: 'Mozambique Metical' }
+    - { source: 'My Leave', target: 'Mi licencia' }
+    - { source: 'My Records', target: 'Mis registros' }
+    - { source: 'My Timesheets', target: 'Mis partes de horas' }
+    - { source: Myanmar, target: Myanmar }
+    - { source: 'Myanmar Kyat', target: 'Myanmar Kyat' }
+    - { source: Name, target: Nombre }
+    - { source: 'Name exists', target: 'Nombre existe' }
+    - { source: Namibia, target: Namibia }
+    - { source: 'Namibia Dollar', target: 'Dólar de Namibia' }
+    - { source: Namibian, target: Namibio }
+    - { source: Nationalities, target: Nacionalidades }
+    - { source: Nationality, target: Nacionalidad }
+    - { source: Nauru, target: Nauru }
+    - { source: Nauruan, target: Nauru }
+    - { source: Nebraska, target: Nebraska }
+    - { source: Nepal, target: Nepal }
+    - { source: Nepalese, target: Nepalés }
+    - { source: 'Nepalese Rupee', target: 'Nepal Rupia' }
+    - { source: Netherlands, target: 'Países Bajos' }
+    - { source: 'Netherlands Antilles', target: 'Antillas Holandesas' }
+    - { source: Nevada, target: Nevada }
+    - { source: 'New Caledonia', target: 'Nueva Caledonia' }
+    - { source: 'New Hampshire', target: 'New Hampshire' }
+    - { source: 'New Jersey', target: 'Nueva Jersey' }
+    - { source: 'New Mexico', target: 'Nuevo México' }
+    - { source: 'New York', target: 'Nueva York' }
+    - { source: 'New Zaire', target: 'Nueva Zaire' }
+    - { source: 'New Zealand', target: 'Nueva Zelanda' }
+    - { source: 'New Zealand Dollar', target: 'Dólar de Nueva Zelanda' }
+    - { source: 'New Zealander', target: Neozelandés }
+    - { source: Next, target: Próximo }
+    - { source: Nicaragua, target: Nicaragua }
+    - { source: Nicaraguan, target: Nicaragüense }
+    - { source: 'Nicaraguan Cordoba Oro', target: 'Córdoba nicaragüense' }
+    - { source: Niger, target: Níger }
+    - { source: Nigeria, target: Nigeria }
+    - { source: Nigerian, target: Nigeriano }
+    - { source: 'Nigerian Naira', target: 'Nigeria Naira' }
+    - { source: Nigerien, target: Níger }
+    - { source: Niue, target: Niue }
+    - { source: 'NL Antillian Guilder', target: 'NL Florín Antillian' }
+    - { source: 'No', target: 'No' }
+    - { source: 'No Project Activities', target: 'No hay Actividades del proyecto' }
+    - { source: 'No Projects', target: 'No hay proyectos' }
+    - { source: 'No Records Found', target: 'No se encontraron registros' }
+    - { source: 'No records to display', target: 'No hay registros para mostrar' }
+    - { source: 'Norfolk Island', target: 'Norfolk Island' }
+    - { source: 'North Carolina', target: 'Carolina del Norte' }
+    - { source: 'North Dakota', target: 'Dakota del Norte' }
+    - { source: 'North Korean', target: 'Corea del Norte' }
+    - { source: 'North Korean Won', target: 'Won de Corea del Norte' }
+    - { source: 'Northern Irish', target: Norirlandés }
+    - { source: 'Northern Mariana Islands', target: 'Islas Marianas del Norte' }
+    - { source: Norway, target: Noruega }
+    - { source: Norwegian, target: Noruego }
+    - { source: 'Norwegian Krona', target: 'Corona noruega' }
+    - { source: 'Not Defined', target: 'No definido' }
+    - { source: Notes, target: Notas }
+    - { source: November, target: 'De noviembre' }
+    - { source: Number, target: Número }
+    - { source: October, target: Octubre }
+    - { source: Ohio, target: Ohio }
+    - { source: Oklahoma, target: Oklahoma }
+    - { source: Oman, target: Omán }
+    - { source: Omani, target: Omaní }
+    - { source: 'Omani Rial', target: 'Rial omaní' }
+    - { source: 'Only Include Approved Timesheets', target: 'Sólo incluir partes de horas aprobadas' }
+    - { source: 'Optional Fields', target: 'Campos opcionales' }
+    - { source: or, target: o }
+    - { source: 'OrangeHRM - Confirmation Required', target: 'OrangeHRM - se requiere confirmación' }
+    - { source: Oregon, target: Oregón }
+    - { source: Organization, target: Organización }
+    - { source: Other, target: Otro }
+    - { source: 'Other Email', target: 'E-mail Otros' }
+    - { source: 'Other Id', target: ID }
+    - { source: Pakistan, target: Pakistán }
+    - { source: 'Pakistan Rupee', target: 'Rupia paquistaní' }
+    - { source: Pakistani, target: Paquistaní }
+    - { source: Palau, target: Palau }
+    - { source: Palauan, target: Palau }
+    - { source: 'Palestinian Territory, Occupied', target: 'Territorio Palestino Ocupado' }
+    - { source: 'Palladium (oz.)', target: 'Palladium (oz)' }
+    - { source: Panama, target: Panamá }
+    - { source: Panamanian, target: Panameño }
+    - { source: 'Panamanian Balboa', target: 'Balboa Panameño' }
+    - { source: 'Papua New Guinea', target: 'Papua Nueva Guinea' }
+    - { source: 'Papua New Guinea Kina', target: 'Kina Papua Nueva Guinea' }
+    - { source: 'Papua New Guinean', target: 'Papua Nueva Guinea' }
+    - { source: Paraguay, target: Paraguay }
+    - { source: 'Paraguay Guarani', target: 'Paraguay Guarani' }
+    - { source: Paraguayan, target: Paraguayo }
+    - { source: 'Part Time Contract', target: 'Parte contrato a tiempo' }
+    - { source: 'Part Time Internship', target: 'Parte de prácticas Tiempo' }
+    - { source: 'Part Time Permanent', target: 'Parte Permanente Tiempo' }
+    - { source: 'Past Employee', target: 'Empleado Pasado' }
+    - { source: 'Past Employees Only', target: 'Los empleados anteriores sólo' }
+    - { source: 'Pay Frequency', target: 'Frecuencia de pago' }
+    - { source: 'Pay Grade', target: 'El grado de pago' }
+    - { source: 'Pay Grades', target: 'Pagar Grados' }
+    - { source: Pennsylvania, target: Pensilvania }
+    - { source: Performance, target: Rendimiento }
+    - { source: Personal, target: Personal }
+    - { source: Peru, target: Perú }
+    - { source: Peruvian, target: Peruano }
+    - { source: 'Peruvian Nuevo Sol', target: 'Nuevo Sol peruano' }
+    - { source: 'Philippine Peso', target: 'Peso filipino' }
+    - { source: Philippines, target: Filipinas }
+    - { source: 'Physically Disabled/Compensated', target: 'Personas con Discapacidad Física / compensado' }
+    - { source: PIM, target: PIM }
+    - { source: 'PIM Sample Report', target: 'Ejemplo de informe de PIM' }
+    - { source: Pitcairn, target: Pitcairn }
+    - { source: 'Platinum (oz.)', target: 'Platino (oz)' }
+    - { source: Poland, target: Polonia }
+    - { source: Polish, target: Polaco }
+    - { source: 'Polish Zloty', target: 'Zloty polaco' }
+    - { source: Poor, target: Pobre }
+    - { source: Portugal, target: Portugal }
+    - { source: Portuguese, target: Portugués }
+    - { source: 'Pound Sterling', target: 'Libra esterlina' }
+    - { source: Previous, target: Anterior }
+    - { source: Program, target: Programa }
+    - { source: 'Project Date Range', target: 'Proyecto intervalo de fechas' }
+    - { source: 'Project Info', target: 'Información del Proyecto' }
+    - { source: 'Project Reports', target: 'Informes de Proyectos' }
+    - { source: Projects, target: Proyectos }
+    - { source: 'Puerto Rico', target: 'Puerto Rico' }
+    - { source: 'Punch In/Out', target: 'Punch In / Out' }
+    - { source: Qatar, target: Qatar }
+    - { source: Qatari, target: Qatar }
+    - { source: 'Qatari Rial', target: Qatarí }
+    - { source: Qualification, target: Calificación }
+    - { source: Range, target: Serie }
+    - { source: Reading, target: Lectura }
+    - { source: 'Records Per Page', target: 'Registros por página' }
+    - { source: Recruitment, target: Reclutamiento }
+    - { source: Relationship, target: Relación }
+    - { source: 'Replace Current', target: 'Reemplazará a la actual' }
+    - { source: 'Replace file', target: 'Reemplazar el archivo' }
+    - { source: 'Report Name', target: 'Nombre del informe' }
+    - { source: 'Reporting Method', target: 'Método de informes' }
+    - { source: 'Reporting Methods', target: 'Los métodos de notificación' }
+    - { source: Reports, target: Informes }
+    - { source: Required, target: Necesario }
+    - { source: Reset, target: Reajustar }
+    - { source: Resigned, target: Resignado }
+    - { source: 'Resigned - Company Requested', target: 'Resignado - Sociedad solicitó' }
+    - { source: 'Resigned - Self Proposed', target: 'Resignado - Propuesta de Auto' }
+    - { source: Retired, target: Retirado }
+    - { source: Reunion, target: Reunión }
+    - { source: Reviews, target: Comentarios }
+    - { source: 'Rhode Island', target: 'Rhode Island' }
+    - { source: Romania, target: Rumania }
+    - { source: Romanian, target: Rumano }
+    - { source: 'Romanian Leu', target: 'Leu rumano' }
+    - { source: 'Routing Number', target: 'Número de ruta' }
+    - { source: Run, target: Ejecutar }
+    - { source: 'Russia Rubles', target: 'Rusia rublos' }
+    - { source: Russian, target: Ruso }
+    - { source: 'Russian Federation', target: 'Federación de Rusia' }
+    - { source: 'Russian Rouble', target: 'Rublo ruso' }
+    - { source: Rwanda, target: Ruanda }
+    - { source: Rwandan, target: Ruanda }
+    - { source: 'Saint Helena', target: 'Santa Helena' }
+    - { source: 'Saint Kitts and Nevis', target: 'Saint Kitts y Nevis' }
+    - { source: 'Saint Lucia', target: 'Santa Lucía' }
+    - { source: 'Saint Lucian', target: 'Santa Lucía' }
+    - { source: 'Saint Pierre and Miquelon', target: 'San Pedro y Miquelón' }
+    - { source: 'Saint Vincent and the Grenadines', target: 'San Vicente y las Granadinas' }
+    - { source: Salary, target: Sueldo }
+    - { source: 'Salary Component', target: 'Salario de componentes' }
+    - { source: Salvadoran, target: Salvadoreño }
+    - { source: Samoa, target: Samoa }
+    - { source: Samoan, target: Samoa }
+    - { source: 'Samoan Tala', target: 'Tala de Samoa' }
+    - { source: 'San Marinese', target: 'San Marinese' }
+    - { source: 'San Marino', target: 'San Marino' }
+    - { source: 'Sao Tome and Principe', target: 'Santo Tomé y Príncipe' }
+    - { source: 'Sao Tome/Principe Dobra', target: 'Santo Tomé / Príncipe Dobra' }
+    - { source: 'Sao Tomean', target: 'Santo Tomé y Príncipe' }
+    - { source: Saturday, target: Sábado }
+    - { source: Saudi, target: Arabia }
+    - { source: 'Saudi Arabia', target: 'Arabia Saudita' }
+    - { source: 'Saudi Arabia Riyal', target: 'Arabia Saudita Riyal' }
+    - { source: Save, target: Ahorrar }
+    - { source: 'Save Comment Only', target: 'Guardar único comentario' }
+    - { source: Savings, target: Ahorros }
+    - { source: Score, target: Puntuación }
+    - { source: Scottish, target: Escocés }
+    - { source: Search, target: Buscar }
+    - { source: Select, target: Seleccionar }
+    - { source: 'Select Comparison', target: 'Seleccione Comparación' }
+    - { source: 'Select File', target: 'Seleccione Archivo' }
+    - { source: 'Select Records to Delete', target: 'Seleccione Eliminar registros' }
+    - { source: 'Select Salary Grade', target: 'Seleccione Grado de Salario' }
+    - { source: 'Selected Criteria', target: 'Criterios de Selección' }
+    - { source: 'Selection Criteria', target: 'Criterios de selección' }
+    - { source: Senegal, target: Senegal }
+    - { source: Senegalese, target: Senegal }
+    - { source: September, target: Septiembre }
+    - { source: 'Serbia and Montenegro', target: 'Serbia y Montenegro' }
+    - { source: Serbian, target: Serbio }
+    - { source: 'Service Period', target: 'El servicio de las' }
+    - { source: Seychelles, target: Seychelles }
+    - { source: 'Seychelles Rupee', target: 'Rupia de Seychelles' }
+    - { source: Seychellois, target: Seychelles }
+    - { source: 'Should be a number', target: 'Debe ser un número' }
+    - { source: 'Should be a positive number', target: 'En caso de ser un número positivo' }
+    - { source: 'Should be a valid date in %format% format', target: 'En caso de ser una fecha válida en el formato% formato%' }
+    - { source: 'Should be less than %amount%', target: 'En caso de ser menor que%% del importe' }
+    - { source: 'Should be less than %amount% characters', target: 'En caso de ser menor de caracteres% Monto%' }
+    - { source: 'Should be within Min/Max values', target: 'En caso de estar dentro de mín / máx de los valores' }
+    - { source: 'Show Direct Deposit Details', target: 'Mostrar detalles de Depósito Directo' }
+    - { source: 'Sierra Leone', target: 'Sierra Leona' }
+    - { source: 'Sierra Leone Leone', target: 'Sierra Leona Leona' }
+    - { source: 'Sierra Leonean', target: 'Sierra Leona' }
+    - { source: 'Silver (oz.)', target: 'Plata (oz)' }
+    - { source: Singapore, target: Singapur }
+    - { source: 'Singapore Dollar', target: 'Dólar de Singapur' }
+    - { source: Singaporean, target: Singapur }
+    - { source: Size, target: Tamaño }
+    - { source: Skill, target: Habilidad }
+    - { source: Skills, target: Habilidades }
+    - { source: 'Slovak Koruna', target: 'Corona eslovaca' }
+    - { source: Slovakia, target: Eslovaquia }
+    - { source: Slovakian, target: Eslovaquia }
+    - { source: Slovenia, target: Eslovenia }
+    - { source: Slovenian, target: Esloveno }
+    - { source: 'Solomon Islander', target: 'Las Islas Salomón' }
+    - { source: 'Solomon Islands', target: 'Las Islas Salomón' }
+    - { source: 'Solomon Islands Dollar', target: 'Dólar de las Islas Salomón' }
+    - { source: Somali, target: Somalí }
+    - { source: 'Somali Shilling', target: 'Chelín somalí' }
+    - { source: Somalia, target: Somalia }
+    - { source: 'Sort in Ascending Order', target: 'Ordenar en orden ascendente' }
+    - { source: 'Sort in Descending Order', target: 'Ordenar en orden descendente' }
+    - { source: 'South Africa', target: Sudáfrica }
+    - { source: 'South African', target: Sudáfrica }
+    - { source: 'South African Rand', target: 'Rand sudafricano' }
+    - { source: 'South Carolina', target: 'Carolina del Sur' }
+    - { source: 'South Dakota', target: 'Dakota del Sur' }
+    - { source: 'South Georgia and the South Sandwich Islands', target: 'Georgia del Sur e Islas Sandwich del Sur' }
+    - { source: 'South Korean', target: Surcoreano }
+    - { source: Spain, target: España }
+    - { source: Spanish, target: Español }
+    - { source: Speaking, target: Hablando }
+    - { source: 'Sri Lanka', target: 'Sri Lanka' }
+    - { source: 'Sri Lanka Rupee', target: 'Rupia de Sri Lanka' }
+    - { source: 'Sri Lankan', target: 'Sri Lanka' }
+    - { source: 'St. Helena Pound', target: 'Santa Elena Libra' }
+    - { source: 'Start Date', target: 'Fecha de inicio' }
+    - { source: 'Start date should be before end date', target: 'Fecha de inicio debe ser anterior a la fecha de finalización' }
+    - { source: State, target: Estado }
+    - { source: Status, target: Estado }
+    - { source: Structure, target: Estructura }
+    - { source: 'Sub Unit', target: 'Unidad Sub' }
+    - { source: Subordinates, target: 'Los subordinados' }
+    - { source: Subscribe, target: Suscribir }
+    - { source: 'Subscription Amount', target: 'Suscripción Cantidad' }
+    - { source: 'Subscription Commence Date', target: 'Suscripción Comenzar Fecha' }
+    - { source: 'Subscription Paid By', target: 'Suscripción pagado por' }
+    - { source: 'Subscription Renewal Date', target: 'Suscripción Fecha de Renovación' }
+    - { source: 'Successfully Added', target: 'Agregado con éxito' }
+    - { source: 'Successfully Deleted', target: 'Se ha eliminado correctamente' }
+    - { source: 'Successfully Saved', target: 'Guardado correctamente' }
+    - { source: 'Successfully Updated', target: 'Se ha actualizado correctamente' }
+    - { source: 'Successfully Uploaded', target: 'Subido con éxito' }
+    - { source: Sudan, target: Sudán }
+    - { source: Sudanese, target: Sudanés }
+    - { source: 'Sudanese Dinar', target: 'Dinar sudanés' }
+    - { source: 'Sudanese Pound', target: 'Libra sudanesa' }
+    - { source: Sunday, target: Domingo }
+    - { source: Supervisor, target: Supervisor }
+    - { source: 'Supervisor Name', target: 'Nombre de Supervisor' }
+    - { source: Supervisors, target: 'Los supervisores' }
+    - { source: Suriname, target: Suriname }
+    - { source: Surinamer, target: Surinamés }
+    - { source: 'Surinamese Dollar', target: 'Dólar de Suriname' }
+    - { source: 'Svalbard and Jan Mayen', target: 'Svalbard y Jan Mayen' }
+    - { source: Swazi, target: Swazi }
+    - { source: Swaziland, target: Suazilandia }
+    - { source: 'Swaziland Lilangeni', target: 'Suazilandia Lilangeni' }
+    - { source: Sweden, target: Suecia }
+    - { source: Swedish, target: Sueco }
+    - { source: 'Swedish Krona', target: 'Corona Sueca' }
+    - { source: Swiss, target: Swiss }
+    - { source: 'Swiss Franc', target: 'Franco Suizo' }
+    - { source: Switzerland, target: Suiza }
+    - { source: Syrian, target: Siria }
+    - { source: 'Syrian Arab Republic', target: 'República Árabe Siria' }
+    - { source: 'Syrian Pound', target: 'Libra siria' }
+    - { source: Taiwan, target: Taiwan }
+    - { source: 'Taiwan Dollar', target: 'Dólar de Taiwán' }
+    - { source: Taiwanese, target: Taiwanés }
+    - { source: Tajik, target: Tayikistán }
+    - { source: Tajikistan, target: Tayikistán }
+    - { source: 'Tanzania, United Republic of', target: 'Tanzania, República Unida de' }
+    - { source: Tanzanian, target: Tanzania }
+    - { source: 'Tanzanian Shilling', target: 'Chelín tanzano' }
+    - { source: Tennessee, target: Tennessee }
+    - { source: Terminated, target: Finalizado }
+    - { source: 'Termination Reasons', target: 'Razones de terminación' }
+    - { source: Texas, target: Texas }
+    - { source: Thai, target: Tailandés }
+    - { source: 'Thai Baht', target: 'Baht tailandés' }
+    - { source: Thailand, target: Tailandia }
+    - { source: Thursday, target: Jueves }
+    - { source: Time, target: Tiempo }
+    - { source: Timesheets, target: 'Los partes de horas' }
+    - { source: Timor-Leste, target: Timor-Leste }
+    - { source: To, target: A }
+    - { source: to, target: a }
+    - { source: 'To date should be after from date', target: 'Hasta la fecha debe ser posterior a partir de la fecha' }
+    - { source: Togo, target: Togo }
+    - { source: Togolese, target: Togo }
+    - { source: Tokelau, target: Tokelau }
+    - { source: Tonga, target: Tonga }
+    - { source: Tongan, target: Tonga }
+    - { source: 'Trinidad and Tobago', target: 'Trinidad y Tobago' }
+    - { source: 'Trinidad/Tobago Dollar', target: 'Trinidad / Tobago Dólar' }
+    - { source: 'Trinidadian or Tobagonian', target: 'Trinidad de Tobago o' }
+    - { source: Tuesday, target: Martes }
+    - { source: Tunisia, target: Túnez }
+    - { source: Tunisian, target: Tunecino }
+    - { source: 'Tunisian Dinar', target: 'Dinar tunecino' }
+    - { source: Turkey, target: Turquía }
+    - { source: Turkish, target: Turco }
+    - { source: 'Turkish Lira', target: 'Lira turca' }
+    - { source: Turkmenistan, target: Turkmenistán }
+    - { source: 'Turks and Caicos Islands', target: 'Islas Turcas y Caicos' }
+    - { source: Tuvalu, target: Tuvalu }
+    - { source: Tuvaluan, target: Tuvalu }
+    - { source: Type, target: Tipo }
+    - { source: 'Type Employee Id', target: 'Tipo de identificación del empleado' }
+    - { source: 'Type for hints', target: 'Tipo de pistas' }
+    - { source: Uganda, target: Uganda }
+    - { source: 'Uganda Shilling', target: 'Uganda Shilling' }
+    - { source: Ugandan, target: Uganda }
+    - { source: Ukraine, target: Ucrania }
+    - { source: 'Ukraine Hryvnia', target: 'Ucrania Hryvnia' }
+    - { source: Ukrainian, target: Ucranio }
+    - { source: 'United Arab Emirates', target: 'Emiratos Árabes Unidos' }
+    - { source: 'United Kingdom', target: 'Reino Unido' }
+    - { source: 'United States', target: 'Estados Unidos' }
+    - { source: 'United States Dollar', target: 'Dólar estadounidense' }
+    - { source: 'United States Minor Outlying Islands', target: 'Estados Unidos Islas menores alejadas de' }
+    - { source: Uruguay, target: Uruguay }
+    - { source: Uruguayan, target: Uruguayo }
+    - { source: 'Uruguayan Peso', target: 'Peso uruguayo' }
+    - { source: Users, target: Usuarios }
+    - { source: Utah, target: Utah }
+    - { source: 'Utd. Arab Emir. Dirham', target: 'Utd. Emir. Dirham' }
+    - { source: Uzbekistan, target: Uzbekistán }
+    - { source: Uzbekistani, target: Uzbekistán }
+    - { source: Vacancies, target: Vacantes }
+    - { source: Vanuatu, target: Vanuatu }
+    - { source: 'Vanuatu Vatu', target: 'Vanuatu Vatu' }
+    - { source: Venezuela, target: Venezuela }
+    - { source: Venezuelan, target: Venezolano }
+    - { source: 'Venezuelan Bolivar', target: 'Bolívar venezolano' }
+    - { source: Vermont, target: Vermont }
+    - { source: 'Viet Nam', target: 'Viet Nam' }
+    - { source: Vietnamese, target: Vietnamita }
+    - { source: 'Vietnamese Dong', target: 'Dong de Vietnam' }
+    - { source: 'View Details', target: 'Ver detalles' }
+    - { source: 'Virgin Islands', target: 'Islas Vírgenes' }
+    - { source: 'Virgin Islands, British', target: 'Islas Vírgenes Británicas' }
+    - { source: 'Virgin Islands, U.s.', target: 'Islas Vírgenes, EE.UU.' }
+    - { source: Virginia, target: Virginia }
+    - { source: 'Wallis and Futuna', target: 'Wallis y Futuna' }
+    - { source: Washington, target: Washington }
+    - { source: Wednesday, target: Miércoles }
+    - { source: Welsh, target: Galés }
+    - { source: 'West Virginia', target: 'Virginia Occidental' }
+    - { source: 'Western Sahara', target: 'El Sáhara Occidental' }
+    - { source: Wisconsin, target: Wisconsin }
+    - { source: 'with new file', target: 'con el nuevo archivo' }
+    - { source: 'Work Email', target: 'Trabajo E-mail' }
+    - { source: 'Work Experience', target: 'Experiencia laboral' }
+    - { source: 'Work Shifts', target: 'Los turnos de trabajo' }
+    - { source: 'Work Telephone', target: 'Teléfono del trabajo' }
+    - { source: 'Work Week', target: 'Semana laboral' }
+    - { source: Writing, target: Escrito }
+    - { source: Wyoming, target: Wyoming }
+    - { source: Year, target: Año }
+    - { source: 'Years of Experience', target: 'Años de experiencia' }
+    - { source: Yemen, target: Yemen }
+    - { source: 'Yemeni Riyal', target: 'Rial yemení' }
+    - { source: Yemenite, target: Yemenita }
+    - { source: 'Yes', target: Sí }
+    - { source: 'Yugoslav Dinar', target: 'Dinar yugoslavo' }
+    - { source: 'Yugoslavian Dinar', target: 'Dinar yugoslavo' }
+    - { source: Zambia, target: Zambia }
+    - { source: Zambian, target: Zambia }
+    - { source: 'Zambian Kwacha', target: 'Zambia Kwacha' }
+    - { source: Zimbabwe, target: Zimbabue }
+    - { source: 'Zimbabwe Dollar', target: 'Zimbabwe Dólar' }
+    - { source: Zimbabwean, target: Zimbabwe }
+    - { source: 'Passwords do not match', target: 'Las contraseñas no coinciden' }
+    - { source: Invalid, target: Inválido }
+    - { source: 'Should be less than %number% digits', target: 'En caso de ser menor de dígitos% número%' }
+    - { source: 'Due date should be after from date', target: 'La fecha de vencimiento debe ser posterior a partir de la fecha' }
+    - { source: Ok, target: Ok }
+    - { source: 'Delete records?', target: 'Eliminar registros?' }
+    - { source: 'Select an Employee', target: 'Seleccionar a un empleado' }
+    - { source: 'Delete?', target: 'Eliminar?' }
+    - { source: 'Successfully Assigned', target: 'Asignado correctamente' }
+    - { source: 'Should be greater than %amount%', target: 'En caso de ser mayor que%% del importe' }
+    - { source: 'Successfully Submitted', target: 'Enviado con éxito' }
+    - { source: 'Invalid Employee', target: 'Empleado no válido' }
+    - { source: 'Accepts .docx, .doc, .odt, .pdf, .rtf, .txt up to 1MB', target: 'Acepta. Docx,. Doc,. Odt,. Pdf,. Rtf, txt. Hasta 1MB' }
+    - { source: 'Accepts jpg, .png, .gif up to 1MB', target: 'Acepta jpg,. Png,. Gif hasta 1MB' }
+    - { source: 'Accepts up to 1MB', target: 'Acepta hasta 1MB' }
+    - { source: 'Failed to Save: File Type Not Allowed', target: 'Error al Guardar: Tipo de archivo no permitido' }
+    - { source: 'Failed to Save: File Size Exceeded', target: 'Error al Guardar: Tamaño del archivo superó' }
+    - { source: 'No Employees Available', target: 'No hay empleados disponibles' }
+    - { source: 'Should have at least %number% characters', target: 'En caso de tener por lo menos los caracteres% número%' }
+    - { source: 'Successfully Copied', target: 'Copiado con éxito' }
+    - { source: 'LOGIN Panel', target: 'Grupo LOGIN' }
+    - { source: LOGIN, target: LOGIN }
+    - { source: 'Should be greater than first value', target: 'En caso de ser mayor que el primer valor' }
+    - { source: 'Joined After', target: 'Después se unió a' }
+    - { source: 'Joined Before', target: 'Registrado Antes de' }
+    - { source: 'Joined in Between', target: 'Se incorporó en Entre' }
+    - { source: 'Successfully Changed', target: 'Cambiado con éxito' }
+    - { source: Username, target: 'Nombre de usuario' }
+    - { source: Password, target: Contraseña }
+    - { source: 'Username cannot be empty', target: 'Nombre de usuario no puede estar vacío' }
+    - { source: 'Password cannot be empty', target: 'La contraseña no puede estar vacío' }
+    - { source: 'Invalid credentials', target: 'Credenciales no válidas' }
+    - { source: Europe/Belgrade, target: 'Europa / Belgrado' }
+    - { source: Europe/Minsk, target: 'Europa / Minsk' }
+    - { source: Asia/Kuwait, target: 'Asia / Kuwait' }
+    - { source: Asia/Muscat, target: 'Asia / Muscat' }
+    - { source: Asia/Yekaterinburg, target: 'Asia / Yekaterinburg' }
+    - { source: Asia/Kolkata, target: 'Asia / Kolkata' }
+    - { source: Asia/Dhaka, target: 'Asia / Dhaka' }
+    - { source: Asia/Krasnoyarsk, target: 'Asia / Krasnoyarsk' }
+    - { source: Asia/Brunei, target: 'Asia / Brunei' }
+    - { source: Asia/Seoul, target: 'Asia / Seúl' }
+    - { source: Australia/Darwin, target: 'Australia / Darwin' }
+    - { source: Australia/Canberra, target: 'Australia / Canberra' }
+    - { source: Asia/Magadan, target: 'Asia / Magadan' }
+    - { source: Pacific/Fiji, target: 'Del Pacífico / Fiyi' }
+    - { source: Pacific/Midway, target: 'Pacífico / Midway' }
+    - { source: Pacific/Honolulu, target: 'Pacífico / Honolulu' }
+    - { source: America/Anchorage, target: 'América / Anchorage' }
+    - { source: America/Los_Angeles, target: 'America / Los_Angeles' }
+    - { source: America/Denver, target: 'America / Denver' }
+    - { source: America/Tegucigalpa, target: 'Latina / Tegucigalpa' }
+    - { source: America/New_York, target: 'America / New_York' }
+    - { source: America/Halifax, target: 'America / Halifax' }
+    - { source: America/St_Johns, target: 'América / St_Johns' }
+    - { source: America/Argentina/Buenos_Aires, target: 'América / Argentina / Buenos_Aires' }
+    - { source: Atlantic/South_Georgia, target: 'Atlantic / South_Georgia' }
+    - { source: Atlantic/Azores, target: 'Atlantic / Azores' }
+    - { source: Upload, target: Subir }
+    - { source: 'Type in years', target: 'Escriba años' }
+    - { source: Hours, target: Horas }
+    - { source: 'Deleted Employee', target: 'Empleado eliminados' }
+    - { source: Total, target: Total }
+    - { source: compulsory, target: obligatorio }
+    - { source: 'Termination Date', target: 'Fecha de Terminación' }
+    - { source: 'Termination Reason', target: 'Terminación de la Razón' }
+    - { source: 'Activity Name', target: 'Nombre de la actividad' }
+    - { source: 'Add Education', target: 'Añadir Educación' }
+    - { source: 'Add Language', target: 'Agregar idioma' }
+    - { source: 'Add License', target: 'Agregar licencia' }
+    - { source: 'Add Skill', target: 'Añadir Habilidad' }
+    - { source: 'Address Street 1', target: 'Dirección 1' }
+    - { source: 'Address Street 2', target: 'Dirección 2' }
+    - { source: City, target: Ciudad }
+    - { source: 'Confirm Password', target: 'Confirm Password' }
+    - { source: Copy, target: Copiar }
+    - { source: 'Copy From', target: 'Copiar desde' }
+    - { source: 'Project Name', target: 'Nombre del proyecto' }
+    - { source: Deleted, target: Eliminados }
+    - { source: 'Edit Education', target: 'Editar Educación' }
+    - { source: 'Edit Language', target: 'Editar Idioma' }
+    - { source: 'Edit License', target: 'Editar Licencia' }
+    - { source: 'Edit Skill', target: 'Editar Habilidad' }
+    - { source: State/Province, target: 'Estado / Provincia' }
+    - { source: 'Zip/Postal Code', target: 'Zip / Código Postal' }
+    - { source: Approve, target: Aprobar }
+    - { source: format, target: formato }
+    - { source: Scheduled, target: Programado }
+    - { source: 'Invalid Date', target: 'Fecha no válida' }
+    - { source: Note, target: Nota }
+    - { source: 'Invalid Employee Name', target: 'Nombre del empleado no válido' }
+    - { source: Action, target: Acción }
+    - { source: 'Active Job Vacancies', target: 'Las vacantes de empleo activo' }
+    - { source: added, target: añadido }
+    - { source: 'Apply for', target: Solicitar }
+    - { source: Attachments, target: 'Archivos adjuntos' }
+    - { source: 'Back to Job List', target: 'Regreso a la Lista de tareas' }
+    - { source: 'Collapse all', target: 'Contraer todo' }
+    - { source: 'Contact No', target: 'Póngase en contacto con No' }
+    - { source: Download, target: Descargar }
+    - { source: Email, target: E-mail }
+    - { source: 'Expand all', target: 'Expandir todo' }
+    - { source: for, target: para }
+    - { source: Keywords, target: 'Palabras clave' }
+    - { source: 'Performed By', target: 'Interpretada por' }
+    - { source: Reject, target: Rechazar }
+    - { source: Rejected, target: Rechazado }
+    - { source: rejected, target: rechazado }
+    - { source: Remove, target: Quitar }
+    - { source: Resume, target: Reanudar }
+    - { source: 'Select Action', target: 'Seleccione Acción' }
+    - { source: Submit, target: Presentar }
+    - { source: View, target: Ver }
+    - { source: 'Enter comma separated words', target: 'Introduzca las palabras separadas por comas' }
+    - { source: Approved, target: Aprobado }
+    - { source: Submitted, target: Enviado }
+    - { source: 'Successfully Undeleted', target: 'Han recuperado con éxito' }
+    - { source: Qualifications, target: Calificaciones }
+    - { source: 'Add Another', target: 'Añadir otro' }
+    - { source: Confirm, target: Confirmar }
+    - { source: 'To date should be after From date', target: 'Hasta la fecha debe ser posterior a partir de la fecha' }
+    - { source: Activities, target: Actividades }
+    - { source: 'Add Currency', target: 'Añadir divisas' }
+    - { source: 'Add Customer', target: 'Añadir al Cliente' }
+    - { source: 'Add Employment Status', target: 'Añade Estado de Empleo' }
+    - { source: 'Add Job Category', target: 'Agregar Categoría de Trabajo' }
+    - { source: 'Add Job Title', target: 'Añadir Título del Trabajo' }
+    - { source: 'Add Location', target: 'Agregar ubicación' }
+    - { source: 'Add Membership', target: 'Añadir miembros' }
+    - { source: 'Add Nationality', target: 'Añadir Nacionalidad' }
+    - { source: 'Add Pay Grade', target: 'Añadir el grado de pago' }
+    - { source: 'Add Project', target: 'Agregar proyecto' }
+    - { source: 'Add Project Activity', target: 'Añadir Actividad del Proyecto' }
+    - { source: 'Add Subscriber', target: 'Añadir suscriptor' }
+    - { source: 'Add Unit', target: 'Añadir la Unidad' }
+    - { source: 'Add User', target: 'Agregar usuario' }
+    - { source: 'Add Work Shift', target: 'Añadir turno de trabajo' }
+    - { source: 'Projects under selected customer will also be deleted', target: 'Los proyectos de cliente seleccionado también se eliminarán' }
+    - { source: 'Units under selected unit will also be deleted', target: 'Unidades en la unidad seleccionada también se eliminarán' }
+    - { source: 'Assigned Currencies', target: 'Monedas de Asignación' }
+    - { source: 'Assigned Employees', target: 'Los empleados asignados' }
+    - { source: 'Available Employees', target: 'Los empleados disponibles' }
+    - { source: Better, target: Mejor }
+    - { source: 'Click on a notification type to add subscribers', target: 'Haga clic en un tipo de notificación para agregar suscriptores' }
+    - { source: 'Column order should not be changed', target: 'Para la columna no debe ser cambiado' }
+    - { source: 'Confirm New Password', target: 'Confirmar nueva contraseña' }
+    - { source: 'Copy Activity', target: 'Copia Actividad' }
+    - { source: 'CSV Data Import', target: 'CSV de importación de datos' }
+    - { source: 'Current Password', target: 'Contraseña actual' }
+    - { source: 'Current Password Is Wrong', target: 'Contraseña actual es incorrecto' }
+    - { source: Customer, target: Cliente }
+    - { source: 'Customer Name', target: 'Nombre del cliente' }
+    - { source: 'Date Format', target: 'Formato de fecha' }
+    - { source: 'Description is not specified', target: 'Descripción no se especifica' }
+    - { source: Done, target: Hecho }
+    - { source: 'Each import file should be configured for 100 records or less', target: 'Cada archivo de importación debe estar configurado para 100 registros o menos' }
+    - { source: 'Edit Currency', target: 'Edición de divisas' }
+    - { source: 'Edit Customer', target: 'Edición del Cliente' }
+    - { source: 'Edit Employment Status', target: 'Editar Estado de Empleo' }
+    - { source: 'Edit Job Category', target: 'Editar Categoría de Trabajo' }
+    - { source: 'Edit Job Title', target: 'Editar Título del Trabajo' }
+    - { source: 'Edit Location', target: 'Editar ubicación' }
+    - { source: 'Edit Membership', target: 'Editar miembros' }
+    - { source: 'Edit Nationality', target: 'Editar Nacionalidad' }
+    - { source: 'Edit Pay Grade', target: 'Editar el grado de pago' }
+    - { source: 'Edit Project', target: 'Editar Proyecto' }
+    - { source: 'Edit Project Activity', target: 'Editar Actividad del Proyecto' }
+    - { source: 'Edit Subscriber', target: 'Editar suscriptor' }
+    - { source: 'Edit Unit', target: 'Editar Unidad' }
+    - { source: 'Edit User', target: 'Editar usuario' }
+    - { source: 'Edit Work Shift', target: 'Editar turno de trabajo' }
+    - { source: 'Successfully Saved. Test Email Sent', target: 'Guardado correctamente. E-mail de prueba Enviado' }
+    - { source: 'Successfully Saved. Test Email Not Sent', target: 'Guardado correctamente. E-mail de prueba no enviado' }
+    - { source: 'Email Notification', target: 'Notificación por correo electrónico' }
+    - { source: 'Enable Admin module', target: 'Activar el módulo de administración' }
+    - { source: 'Enable Benefits module', target: 'Habilitar el módulo de Beneficios' }
+    - { source: 'Enable Leave module', target: 'Activar el módulo Agregar' }
+    - { source: 'Enable Performance module', target: 'Habilitar el módulo de rendimiento' }
+    - { source: 'Enable PIM module', target: 'Habilitar el módulo de PIM' }
+    - { source: 'Enable Recruitment module', target: 'Habilitar el módulo de Contratación' }
+    - { source: 'Enable Time module', target: 'Habilitar el módulo de Tiempo' }
+    - { source: Fax, target: 'Envíe por fax' }
+    - { source: 'First Name and Last Name are compulsory', target: 'Nombre y Apellidos son obligatorios' }
+    - { source: 'Following languages are supported', target: 'Los siguientes idiomas están soportados' }
+    - { source: 'Hours Per Day', target: 'Horas al día' }
+    - { source: 'If gender is specified, value should be either', target: 'Si el género se especifica, el valor debe ser' }
+    - { source: 'Job Description', target: 'Descripción del puesto' }
+    - { source: 'Leave Applications', target: 'Deja Aplicaciones' }
+    - { source: 'Leave Approvals', target: 'Deja Aprobaciones' }
+    - { source: 'Leave Assignments', target: 'Deja de misiones' }
+    - { source: 'Leave Cancellations', target: 'Deja cancelaciones' }
+    - { source: 'Leave Rejections', target: 'Deja rechazos' }
+    - { source: 'Location Name', target: 'Ubicación Nombre' }
+    - { source: 'Mail Configuration', target: 'Configuración de correo' }
+    - { source: 'Mail Sent As', target: 'Correo enviado como' }
+    - { source: 'Maximum Salary', target: 'Salario máximo' }
+    - { source: Medium, target: Medio }
+    - { source: 'Minimum Salary', target: 'Salario Mínimo' }
+    - { source: 'Module Configuration', target: 'Módulo de Configuración' }
+    - { source: 'New Password', target: 'Nueva contraseña' }
+    - { source: 'No activities selected', target: 'No hay actividades seleccionadas' }
+    - { source: 'No assigned activities', target: 'No hay actividades asignadas' }
+    - { source: 'Not Allowed to Delete Customer(s) Which Have Time Logged Against', target: 'No está permitido eliminar del cliente (s) que ha tiempo registrado contra' }
+    - { source: 'Not Allowed to Delete Project Activites Which Have Time Logged Against', target: 'No está permitido eliminar del proyecto que se Activites tiempo registrado contra' }
+    - { source: 'Notification Type', target: 'Tipo de notificación' }
+    - { source: 'Number of Employees', target: 'Número de empleados' }
+    - { source: 'Organization Name', target: 'Nombre de la Organización' }
+    - { source: 'Path to Sendmail', target: 'Ruta a Sendmail' }
+    - { source: 'Performance Review Submissions', target: 'Propuestas de revisión del desempeño' }
+    - { source: Phone, target: Teléfono }
+    - { source: Project, target: Proyecto }
+    - { source: 'Project Admin', target: 'Proyecto de administración' }
+    - { source: 'Project Admins', target: 'Administradores del proyecto' }
+    - { source: 'Registration Number', target: Matrícula }
+    - { source: 'Sample CSV file', target: 'Ejemplo de archivo CSV' }
+    - { source: 'Send Test Email', target: 'Enviar correo de prueba' }
+    - { source: 'Sending Method', target: 'Envío Método' }
+    - { source: 'Shift Name', target: 'Shift Nombre' }
+    - { source: 'SMTP Password', target: 'Contraseña SMTP' }
+    - { source: 'SMTP Port', target: 'Puerto SMTP' }
+    - { source: 'SMTP User', target: 'SMTP del usuario' }
+    - { source: SSL, target: SSL }
+    - { source: Strong, target: Fuerte }
+    - { source: Strongest, target: 'Más fuerte' }
+    - { source: Subscribers, target: Suscriptores }
+    - { source: 'OrangeHRM - Supported Languages', target: 'OrangeHRM - Idiomas compatibles' }
+    - { source: 'Supported languages', target: 'Idiomas soportados' }
+    - { source: 'System Users', target: 'Usuarios del Sistema' }
+    - { source: 'Tax ID', target: NIF }
+    - { source: 'Test Email Address', target: 'Prueba de dirección de correo electrónico' }
+    - { source: 'This unit will be added under', target: 'Esta unidad se añadió bajo' }
+    - { source: TLS, target: TLS }
+    - { source: 'Unit Id', target: 'Unidad de identificación de' }
+    - { source: 'Use browser language if set', target: 'Usar el idioma del navegador si se establece' }
+    - { source: 'Use SMTP Authentication', target: 'Utilizar autenticación SMTP' }
+    - { source: 'User Secure Connection', target: 'Asegurar la conexión del usuario' }
+    - { source: 'User Type', target: 'Tipo de usuario' }
+    - { source: 'Very Weak', target: 'Muy débil' }
+    - { source: Weak, target: Débil }
+    - { source: 'Zip Code', target: 'Código postal' }
+    - { source: 'Failed to Import: File Type Not Allowed', target: 'No se pudo importar: Tipo de archivo no permitido' }
+    - { source: 'Failed to Import: File Size Exceeded', target: 'No se pudo importar: Tamaño del fichero ha superado el' }
+    - { source: 'Failed to Import: No Compatible Records', target: 'No se pudo importar: No hay registros compatibles' }
+    - { source: 'Number of Records Imported', target: 'Número de registros importados' }
+    - { source: 'Should be higher than Minimum Salary', target: 'En caso de ser superior al Salario Mínimo' }
+    - { source: 'Level Already Exists', target: 'Nivel ya existe' }
+    - { source: 'All date fields should be in YYYY-MM-DD format', target: 'Todos los campos de fecha debe ser en formato AAAA-MM-DD' }
+    - { source: 'Multiple import files may be required', target: 'Varios archivos de importación puede ser necesario' }
+    - { source: 'Language and font help', target: 'El lenguaje y la ayuda de la fuente' }
+    - { source: 'Will take no action', target: 'No tomará ninguna acción' }
+    - { source: 'Apply Leave', target: 'Aplicar Agregar' }
+    - { source: 'Actions Performed on the Timesheet', target: 'Acciones realizadas en la parte de horas' }
+    - { source: 'Add Row', target: 'Añadir fila' }
+    - { source: 'Add Timesheet', target: 'Añadir parte de horas' }
+    - { source: 'Attendance Total Summary Report', target: 'Informe resumido de asistencia total' }
+    - { source: 'Define Timesheet Period', target: 'Definir período del parte de horas' }
+    - { source: 'Deleted project activities are not editable', target: 'Eliminados actividades del proyecto no son editables' }
+    - { source: 'Deleted projects/activities are marked with an asterik', target: 'Proyectos eliminados y actividades están marcados con un asterisco' }
+    - { source: 'Edit Timesheet for', target: 'Editar parte de horas de' }
+    - { source: 'Edit Timesheet for Month', target: 'Editar parte de horas para el Mes de' }
+    - { source: 'Edit Timesheet for Week', target: 'Editar parte de horas para la semana' }
+    - { source: 'Edit timesheet for week starting', target: 'Editar hoja de asistencia para la semana que comienza' }
+    - { source: 'Employee name', target: 'Nombre del empleado' }
+    - { source: 'Employee Report', target: 'Informe del Empleado' }
+    - { source: 'Should Be Less Than 24 and in HH:MM or Decimal Format', target: 'En caso de ser inferior a 24 y en HH: MM o decimal' }
+    - { source: 'Enter Employee Name', target: 'Ingrese el nombre del empleado' }
+    - { source: 'First Day of Week', target: 'Primer día de la Semana' }
+    - { source: 'for Month starting on', target: 'para el mes a partir del' }
+    - { source: 'for Week', target: 'para la semana' }
+    - { source: Fri, target: Vie }
+    - { source: hours, target: horas }
+    - { source: 'Failed to Create: Future Timesheets Not Allowed', target: 'No se ha podido crear: No se admiten futuras partes de horas' }
+    - { source: Mon, target: Lun }
+    - { source: 'No Accessible Timesheets', target: 'No hay partes de horas accesibles' }
+    - { source: 'Not Submitted', target: 'No Enviado' }
+    - { source: 'Proceed with Time Module', target: 'Proceda con el módulo de Tiempo' }
+    - { source: 'Project Activity Details Report', target: 'Detalles del proyecto de actividad Informe' }
+    - { source: 'Project Report', target: 'Informe del proyecto' }
+    - { source: 'Remove Rows', target: 'Quitar filas' }
+    - { source: Sat, target: Sab }
+    - { source: 'Select a Day to Create Timesheet', target: 'Seleccione un día para crear partes de horas' }
+    - { source: 'Select Employee', target: 'Seleccione Empleado' }
+    - { source: 'Status:', target: 'Estado:' }
+    - { source: Sun, target: Sol }
+    - { source: Thu, target: Jue }
+    - { source: 'Duplicate Records Found', target: 'Registros duplicados encontrados' }
+    - { source: 'Timesheet for', target: 'Parte de horas de' }
+    - { source: 'Timesheet Period', target: 'Período de parte de horas' }
+    - { source: 'Timesheet period start day has been set', target: 'Días de parte de horas de inicio del período se ha establecido' }
+    - { source: 'Timesheets Pending Action', target: 'En espera de partes de horas de acción' }
+    - { source: Tue, target: Mar }
+    - { source: Wed, target: Casarse }
+    - { source: Week, target: Semana }
+    - { source: 'Select a Project and an Activity', target: 'Seleccione un proyecto y una actividad' }
+    - { source: 'Select Records to Remove', target: 'Seleccionar registros para quitar' }
+    - { source: 'Timesheet Already Exists', target: 'Parte de horas ya existe' }
+    - { source: 'Timesheet Submitted', target: 'Parte de horas enviado' }
+    - { source: 'No Timesheets Found', target: 'No se han encontrado partes de horas' }
+    - { source: 'Timesheet Approved', target: 'Parte de horas Aprobado' }
+    - { source: 'Timesheet Rejected', target: 'Rechazado parte de horas' }
+    - { source: 'No Changes to Delete', target: 'No hay cambios en Suprimir' }
+    - { source: 'Total Should Be Less Than 24 Hours', target: 'Total debe ser menos de 24 horas' }
+    - { source: 'Remaining number of custom fields', target: 'Número restante de campos personalizados' }
+    - { source: 'Account Number', target: 'Número de cuenta' }
+    - { source: 'Account Type', target: 'Tipo de Cuenta' }
+    - { source: 'Add Custom Field', target: 'Agregar campos personalizados' }
+    - { source: 'Add Dependent', target: 'Agregar dependiente' }
+    - { source: 'Add Direct Deposit Details', target: 'Agregar detalles de Depósito Directo' }
+    - { source: 'Add Emergency Contact', target: 'Añadir Contacto de Emergencia' }
+    - { source: 'Add Immigration', target: 'Añadir Inmigración' }
+    - { source: 'Add Membership Details', target: 'Agregar detalles de su suscripción' }
+    - { source: 'Add Reporting Method', target: 'Agregar método de notificación' }
+    - { source: 'Add Subordinate', target: 'Añadir Subordinar' }
+    - { source: 'Add Supervisor', target: 'Añadir Supervisor' }
+    - { source: 'Add Supervisor/Subordinate', target: 'Añadir Supervisor / Subordinado' }
+    - { source: 'Add Termination Reason', target: 'Añadir motivo de la terminación' }
+    - { source: 'Add Work Experience', target: 'Agregar Experiencia' }
+    - { source: 'All customs fields are in use', target: 'Todas las aduanas están en uso' }
+    - { source: 'Assigned Dependents', target: 'Dependientes de Asignación' }
+    - { source: 'Assigned Emergency Contacts', target: 'Asignación de Contactos de Emergencia' }
+    - { source: 'Assigned Memberships', target: 'Participación en la Asignación de' }
+    - { source: 'Assigned Subordinates', target: 'Los subordinados de Asignación' }
+    - { source: 'Assigned Supervisors', target: 'Los supervisores asignados' }
+    - { source: 'At least one phone number is required', target: 'Por lo menos un número de teléfono es necesario' }
+    - { source: 'Bi Weekly', target: 'Dos veces por semana' }
+    - { source: child, target: niño }
+    - { source: Child, target: Niño }
+    - { source: 'Configure PIM', target: 'Configurar PIM' }
+    - { source: 'Contract Details', target: 'Detalles del Contrato' }
+    - { source: 'Country Specific Information', target: 'Información Específica del País' }
+    - { source: 'Create Login Details', target: 'Crear Datos de Acceso' }
+    - { source: Custom, target: Costumbre }
+    - { source: 'Custom Field Name', target: 'Campo Personalizado' }
+    - { source: 'Date of Expiry', target: 'Fecha de vencimiento' }
+    - { source: 'Direct Deposit', target: 'Depósito Directo' }
+    - { source: Document, target: Documento }
+    - { source: 'Document No', target: 'El documento n º' }
+    - { source: 'Drop Down', target: Desplegable }
+    - { source: 'Edit Custom Field', target: 'Editar campo personalizado' }
+    - { source: 'Edit Dependent', target: 'Editar dependiente' }
+    - { source: 'Edit Emergency Contact', target: 'Editar Contacto de Emergencia' }
+    - { source: 'Edit Membership Detail', target: 'Editar información de miembros' }
+    - { source: 'Edit Reporting Method', target: 'Editar método de notificación' }
+    - { source: 'Edit Subordinate', target: 'Editar subordinado' }
+    - { source: 'Edit Supervisor', target: 'Editar Supervisor' }
+    - { source: 'Edit Termination Reason', target: 'Editar motivo de la terminación' }
+    - { source: 'Edit Work Experience', target: 'Editar Experiencia' }
+    - { source: 'Emergency Contact(s)', target: 'Contacto de Emergencia (s)' }
+    - { source: 'Employee Information', target: 'Información del empleado' }
+    - { source: Employment, target: Empleo }
+    - { source: 'Employment Contract', target: 'Contrato de Trabajo' }
+    - { source: 'Enter a number', target: 'Introduzca un número de' }
+    - { source: 'Enter allowed options separated by commas', target: 'Entre las opciones permitidas separados por comas' }
+    - { source: 'Ethnic Race', target: 'Raza Étnica' }
+    - { source: Exemptions, target: Exenciones }
+    - { source: 'Federal Income Tax', target: 'Impuesto sobre la Renta Federal' }
+    - { source: 'Field Name', target: 'Nombre del campo' }
+    - { source: 'Field Type', target: 'Tipo de campo' }
+    - { source: 'From date should be before to date', target: 'Desde la fecha debe ser anterior a la fecha' }
+    - { source: GPA/Score, target: 'GPA / Puntuación' }
+    - { source: Hourly, target: 'Cada hora' }
+    - { source: Institute, target: Instituto }
+    - { source: 'Issued date should be before expiration date', target: 'Fecha de emisión debe ser antes de la fecha de caducidad' }
+    - { source: Major/Specialization, target: 'Mayor / Especialización' }
+    - { source: Married, target: Casado }
+    - { source: Max, target: Max }
+    - { source: 'Membership Type', target: 'Tipo de Membresía' }
+    - { source: 'Military Service', target: 'Servicio militar' }
+    - { source: Min, target: Min }
+    - { source: Monthly, target: Mensual }
+    - { source: 'Monthly on first pay of month.', target: 'Cada mes en la primera paga del mes.' }
+    - { source: N/A, target: 'N / A' }
+    - { source: 'Nick Name', target: Apodo }
+    - { source: 'Non Resident Alien', target: 'Extranjero Residente no' }
+    - { source: 'Not Applicable', target: 'No se aplica' }
+    - { source: other, target: otro }
+    - { source: Passport, target: Pasaporte }
+    - { source: 'Personal Details', target: 'Datos Personales' }
+    - { source: Photograph, target: Fotografía }
+    - { source: 'Please Specify', target: 'Por favor especifique' }
+    - { source: Reason, target: Razón }
+    - { source: Report-to, target: 'Informe a' }
+    - { source: Screen, target: Pantalla }
+    - { source: 'Select a Photograph', target: 'Seleccione una Fotografía' }
+    - { source: 'Select Membership', target: 'Seleccione Composición' }
+    - { source: 'Select Options', target: 'Seleccione Opciones' }
+    - { source: 'Semi Monthly', target: 'Semi mensual' }
+    - { source: 'Show Deprecated Fields', target: 'Mostrar Los campos ya no se utilizan' }
+    - { source: 'Show Nick Name, Smoker and Military Service in Personal Details', target: 'Mostrar nombre de Nick, fuma y el Servicio Militar en los datos personales' }
+    - { source: 'Show SIN field in Personal Details', target: 'Mostrar campo de la RIS en Datos de Carácter Personal' }
+    - { source: 'Show SSN field in Personal Details', target: 'Mostrar en el campo de número de Seguro Social Datos de Carácter Personal' }
+    - { source: 'Show US Tax Exemptions menu', target: 'Mostrar Tributario de EE.UU. Las exenciones del menú' }
+    - { source: 'SIN Number', target: 'SIN Número' }
+    - { source: Single, target: Solo }
+    - { source: Smoker, target: Fumador }
+    - { source: 'SSN Number', target: 'Número de Seguro Social' }
+    - { source: 'State Income Tax', target: 'Estado Impuesto sobre la Renta' }
+    - { source: Subordinate, target: Subordinar }
+    - { source: 'Tax Exemptions', target: 'Las exenciones de impuestos' }
+    - { source: 'Terminated Date', target: 'Fecha de terminación' }
+    - { source: 'Terminated on', target: 'Terminado el' }
+    - { source: 'Terminated Reason', target: 'Razón Terminado' }
+    - { source: 'Text or Number', target: 'Texto o Número de' }
+    - { source: 'Unemployment State', target: 'Desempleo del Estado de' }
+    - { source: 'User Name', target: 'Nombre de usuario' }
+    - { source: Visa, target: Visado }
+    - { source: Weekly, target: Semanal }
+    - { source: 'Work experience', target: 'La experiencia de trabajo' }
+    - { source: 'Work State', target: 'El trabajo del Estado' }
+    - { source: 'Renewal date should be after commence date', target: 'Fecha de renovación debe ser después de iniciar la fecha' }
+    - { source: 'Delete photograph?', target: 'Borrar la fotografía?' }
+    - { source: 'Failed To Save: User Name Exists', target: 'Error al Guardar: nombre de usuario existe' }
+    - { source: 'Failed To Save: Employee Id Exists', target: 'Error al Guardar: Id empleado existe' }
+    - { source: 'Will be deleted from all employees', target: 'Se eliminará de todos los empleados' }
+    - { source: Active, target: Activo }
+    - { source: 'Add another', target: 'Añade otra' }
+    - { source: 'Add Candidate', target: 'Añadir candidato' }
+    - { source: 'Add Job Vacancy', target: 'Añadir una oferta de trabajo' }
+    - { source: 'Adding Candidate', target: 'Adición de candidato' }
+    - { source: 'Application Initiated', target: 'Iniciada la aplicación' }
+    - { source: 'applied for the', target: 'aplicado para el' }
+    - { source: Archived, target: Archivado }
+    - { source: 'Are you sure you want to remove job vacancy of the candidate', target: '¿Está seguro que desea eliminar puesto de trabajo vacante del candidato' }
+    - { source: 'as failed', target: 'que no' }
+    - { source: 'as passed', target: 'tal como fue aprobado' }
+    - { source: 'assigned the job vacancy', target: 'asignado el puesto de trabajo vacante' }
+    - { source: by, target: por }
+    - { source: Candidate, target: Candidato }
+    - { source: 'Candidate Name', target: 'Nombre del candidato' }
+    - { source: 'Candidate''s History', target: 'El candidato de la Historia' }
+    - { source: candidateName, target: candidateName }
+    - { source: 'Cannot assign same interviewer twice', target: 'No se puede asignar dos veces el mismo entrevistador' }
+    - { source: 'Cannot assign same vacancy twice', target: 'No se puede asignar vacantes dos veces el mismo' }
+    - { source: 'Click on a candidate to perform actions', target: 'Haga clic en un candidato para llevar a cabo acciones' }
+    - { source: Closed, target: Cerrado }
+    - { source: Continue, target: Continuar }
+    - { source: 'Date of Application', target: 'Fecha de la solicitud' }
+    - { source: 'Should be less than current date', target: 'Debe ser inferior a fecha actual' }
+    - { source: 'Decline Offer', target: 'Rechazar una oferta' }
+    - { source: Details, target: Detalles }
+    - { source: 'Edit Candidate', target: 'Editar Candidato' }
+    - { source: 'Edit Interview Details', target: 'Editar detalles de la entrevista' }
+    - { source: 'Edit Job Vacancy', target: 'Editar una oferta de trabajo' }
+    - { source: 'Editing Candidate', target: 'Edición de candidato' }
+    - { source: 'from the', target: desde }
+    - { source: Hire, target: Contratar }
+    - { source: Hired, target: Contratado }
+    - { source: hired, target: contratado }
+    - { source: 'Hiring Manager', target: 'La contratación de gerente' }
+    - { source: 'Interview Failed', target: 'Entrevista Error' }
+    - { source: 'Interview Passed', target: 'Entrevista Pasado' }
+    - { source: 'Interview Scheduled', target: 'Entrevista programada' }
+    - { source: 'Interview Title', target: 'Entrevista Título' }
+    - { source: 'Interviewer Name', target: 'Entrevistador Nombre' }
+    - { source: 'Job Offered', target: 'Oferta de Empleo' }
+    - { source: 'Job Vacancy', target: 'Puesto vacante' }
+    - { source: Manual, target: Manual }
+    - { source: 'Mark Interview Failed', target: 'Entrevista Marcos Error' }
+    - { source: 'Mark Interview Passed', target: 'Entrevista Marcos Pasado' }
+    - { source: marked, target: marcado }
+    - { source: 'marked the offer as declined', target: 'marcó la oferta se redujo en' }
+    - { source: 'Method of Application', target: 'Método de aplicación' }
+    - { source: 'No Actions', target: 'No hay ninguna acción' }
+    - { source: 'No active job vacancies to display', target: 'No hay ofertas de trabajo activas para mostrar' }
+    - { source: 'Number of Positions', target: 'Número de posiciones' }
+    - { source: 'Offer Declined', target: 'Oferta Rehusó' }
+    - { source: 'Offer Job', target: 'Oferta de Empleo' }
+    - { source: 'on', target: en }
+    - { source: Online, target: 'En línea' }
+    - { source: 'Performed Action', target: 'Acción realizada' }
+    - { source: 'Performed Date', target: 'Fecha de realización' }
+    - { source: 'Publish in RSS feed(1) and web page(2)', target: 'Publicar en el RSS feed (1) y página web (2)' }
+    - { source: removed, target: eliminado }
+    - { source: 'RSS Feed URL', target: 'URL del feed RSS' }
+    - { source: 'Schedule Interview', target: 'Programa de entrevistas' }
+    - { source: scheduled, target: programado }
+    - { source: Shortlist, target: Lista }
+    - { source: Shortlisted, target: Finalista }
+    - { source: 'Shortlisted for', target: 'Seleccionado para' }
+    - { source: Vacancy, target: Vacante }
+    - { source: 'Vacancy Name', target: 'Vacante Nombre' }
+    - { source: 'View Action History', target: 'Ver el historial de Acción' }
+    - { source: 'View Interview Details', target: 'Ver Detalles de la entrevista' }
+    - { source: 'Web Page URL', target: 'Dirección de la Página Web' }
+    - { source: with, target: con }
+    - { source: 'Successfully Scheduled', target: 'Programado correctamente' }
+    - { source: 'This action will remove previous vacancy', target: 'Esta acción eliminará vacantes anterior' }
+    - { source: 'Remove?', target: 'Quitar?' }
+    - { source: 'Vacancy Apply Form', target: 'Vacante Aplicar el Formulario' }
+    - { source: 'Application Received', target: 'Recepción de la solicitud' }
+    - { source: Uploaded, target: Subido }
+    - { source: 'A new leave type will be created with same name', target: 'Un tipo de licencia se creará una nueva con el mismo nombre' }
+    - { source: Actions, target: Acciones }
+    - { source: Assign, target: Asignar }
+    - { source: 'At Least One Day Should Be a Working Day', target: 'Al menos un día debe ser un día de trabajo' }
+    - { source: Canceled, target: Cancelado }
+    - { source: characters, target: personajes }
+    - { source: 'Confirmation Required', target: 'Se requiere confirmación de' }
+    - { source: 'Current Leave Period', target: 'Período de licencia actual' }
+    - { source: 'Date format should be', target: 'El formato de fecha debe ser' }
+    - { source: 'Define Leave Type', target: 'Definir Deja Tipo' }
+    - { source: 'Duration (Hours)', target: 'Duración (horas)' }
+    - { source: 'Following Year', target: 'Año Después' }
+    - { source: 'For Leap Years', target: 'Para los años bisiestos' }
+    - { source: 'For Non-Leap Years', target: 'Para los años bisiestos no' }
+    - { source: 'From Date', target: 'Desde la fecha' }
+    - { source: 'From Time', target: 'De Tiempo' }
+    - { source: 'Full Day', target: 'Día completo' }
+    - { source: 'Go to Detailed View', target: 'Ir a la vista detallada' }
+    - { source: 'Half Day', target: 'Medio Día' }
+    - { source: Holiday, target: Fiesta }
+    - { source: 'Leave Balance', target: 'Deja Saldo' }
+    - { source: 'Leave Comment', target: 'Deja un comentario!' }
+    - { source: 'Leave Entitled', target: 'Deja el título' }
+    - { source: 'Leave Period Does Not Exist', target: 'Período de licencia no existe' }
+    - { source: 'Leave Request', target: 'Deja Solicitud' }
+    - { source: 'Leave Scheduled', target: 'Deja programadas' }
+    - { source: 'Leave Taken', target: 'Deja la toma' }
+    - { source: 'Leave Type', target: 'Deja Tipo' }
+    - { source: 'Leave type will be undeleted', target: 'Deja tipo se podría recuperar' }
+    - { source: 'My Leave Details', target: 'Dejar mis datos' }
+    - { source: 'My Leave List', target: 'Mi lista de la licencia' }
+    - { source: 'Name of Holiday', target: 'Nombre de vacaciones' }
+    - { source: 'No Leave Types with Leave Balance', target: 'No hay tipos de licencia con balance de licencia' }
+    - { source: 'No of Hours', target: 'N º de Horas' }
+    - { source: 'Non Working Day', target: 'Día no laborable' }
+    - { source: 'Non-working Day', target: 'Día no laborable' }
+    - { source: 'Number of Days', target: 'Número de días' }
+    - { source: 'Pending Approval', target: 'Pendiente de aprobación' }
+    - { source: 'Repeats Annually', target: 'Periodicidad anual' }
+    - { source: 'Show Leave with Status', target: 'Mostrar Agregar con estado' }
+    - { source: Taken, target: Tomado }
+    - { source: 'Overlapping Leave Request Found', target: 'Solicitud de licencia superposición encontrados' }
+    - { source: 'This is a deleted leave type. Reactivate it?', target: 'Este es un tipo licencia eliminada. Vuelva a ella?' }
+    - { source: 'To Date', target: Conocer }
+    - { source: 'To Time', target: 'Para Tiempo' }
+    - { source: 'Total Hours', target: 'Total de horas' }
+    - { source: 'Total time is greater than the shift length', target: 'El tiempo total es mayor que la longitud de desplazamiento' }
+    - { source: 'Failed to Submit: No Working Days Selected', target: 'Error al enviar: No Días de trabajo seleccionado' }
+    - { source: 'Failed to Save: Date Already Assigned', target: 'Error al Guardar: fecha ya asignada' }
+    - { source: 'Failed to Assign: Work Shift Length Exceeded', target: 'No se pudo asignar: Trabajo Shift ha superado el' }
+    - { source: 'Failed to Submit: Work Shift Length Exceeded', target: 'Error al enviar: Trabajo Shift ha superado el' }
+    - { source: 'Failed to Submit: Leave Balance Exceeded', target: 'Error al enviar: Deja de balance superó los' }
+    - { source: 'Should be less than work shift length', target: 'En caso de ser menor que la longitud de trabajo por turnos' }
+    - { source: 'Leave Period Not Defined', target: 'Deja No hay periodos definidos' }
+    - { source: 'Full Day/Half Day', target: 'Full Day / Día de la mitad' }
+    - { source: 'Leave Request (%date_range%) %name%', target: 'Deja Solicitud (%% date_range)% name%' }
+    - { source: 'Failed to Assign', target: 'No se ha podido asignar' }
+    - { source: 'Failed to Submit', target: 'Error al enviar' }
+    - { source: 'Add Leave Type', target: 'Añadir Deja Tipo' }
+    - { source: 'Edit Leave Type', target: 'Editar Deja Tipo' }
+    - { source: 'View Attendance Record', target: 'Ver Registro de Asistencia' }
+    - { source: 'Punch In', target: 'Punch In' }
+    - { source: 'Punch In Note', target: 'Punch In Nota' }
+    - { source: 'Punch Out', target: 'Punch Out' }
+    - { source: 'Punch Out Note', target: 'Punch Out Nota' }
+    - { source: 'No attendance records to display', target: 'No registros de asistencia para mostrar' }
+    - { source: 'Punch out Time Should Be Higher Than Punch in Time', target: 'Perfore tiempo debe ser mayor de perforación en el tiempo' }
+    - { source: 'Overlapping Records Found', target: 'La superposición de registros encontrados' }
+    - { source: 'Comment should be less than 250 characters', target: 'Comentario debe ser inferior a 250 caracteres' }
+    - { source: 'Punch in/out note', target: 'Punch In / Out nota' }
+    - { source: Timezone, target: 'Zona horaria' }
+    - { source: 'Last punch in time', target: 'Último golpe en el tiempo' }
+    - { source: In, target: En }
+    - { source: Out, target: Fuera }
+    - { source: 'Attendance Configuration', target: 'La asistencia de configuración' }
+    - { source: 'Employee can change current time when punching in/out', target: 'Empleado puede cambiar la hora actual cuando la perforación de entrada / salida' }
+    - { source: 'Employee can edit/delete own attendance records', target: 'Empleado puede editar / borrar los registros propios de asistencia' }
+    - { source: 'Supervisor can add/edit/delete attendance records of subordinates', target: 'Supervisor puede añadir / editar / borrar los registros de asistencia de sus subordinados' }
+    - { source: 'My Attendance Records', target: 'Mis Registros de asistencia' }
+    - { source: 'You are not allowed to view this page', target: 'Usted no está autorizado a ver esta página' }
+    - { source: 'Add Attendance Records', target: 'Añadir registros de asistencia' }
+    - { source: 'Should Be a Valid Date in %format% Format', target: 'En caso de ser una fecha válida en el formato de formato%%' }
+    - { source: 'Should Be a Valid Time in %format% Format', target: 'Debe ser un tiempo válido en el formato de formato%%' }

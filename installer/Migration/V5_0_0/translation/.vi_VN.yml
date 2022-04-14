@@ -1,0 +1,1562 @@
+translations:
+    - { source: '1M Max, any larger attachments will be ignored', target: 'Bất kỳ file đính kèm lớn hơn 1M sẽ bị bỏ qua' }
+    - { source: Add, target: Thêm }
+    - { source: 'Add Attachment', target: 'Thêm tập tin đính kèm' }
+    - { source: 'Add Employee', target: 'Thêm nhân viên' }
+    - { source: 'Add KPI', target: 'Thêm KPI' }
+    - { source: 'Add Review', target: 'Viết nhận xét' }
+    - { source: 'Add Salary Component', target: 'Thêm phần Lương' }
+    - { source: 'Added By', target: 'Được thêm bởi' }
+    - { source: Address, target: 'Địa chỉ' }
+    - { source: Admin, target: 'Quản trị viên' }
+    - { source: Afghan, target: Afghanistan }
+    - { source: Afghanistan, target: Afghanistan }
+    - { source: 'Afghanistan Afghani', target: 'Afghanistan Afghanistan' }
+    - { source: 'Age Group', target: 'Nhóm Tuổi' }
+    - { source: Alabama, target: Alabama }
+    - { source: Alaska, target: Alaska }
+    - { source: Albania, target: Albania }
+    - { source: Albanian, target: 'Tiếng Albania' }
+    - { source: 'Albanian Lek', target: 'Tiếng Albania Lek' }
+    - { source: Algeria, target: Algeria }
+    - { source: Algerian, target: Algeria }
+    - { source: 'Algerian Dinar', target: 'Algerian Dinar' }
+    - { source: All, target: 'Tất cả' }
+    - { source: 'Allows numbers and only + - / ( )', target: 'Chỉ cho phép các con số và các ký tự + / ()' }
+    - { source: 'Already exists', target: 'Đã tồn tại' }
+    - { source: 'Name Already Exists', target: 'Tên đã tồn tại' }
+    - { source: American, target: Mỹ }
+    - { source: 'American Samoa', target: 'Samoa thuộc Mỹ' }
+    - { source: Amount, target: 'Số tiền' }
+    - { source: Andorra, target: Andorra }
+    - { source: Andorran, target: Andorran }
+    - { source: Angola, target: Angola }
+    - { source: Angolan, target: Angola }
+    - { source: 'Angolan New Kwanza', target: 'Angola New Kwanza' }
+    - { source: Anguilla, target: Anguilla }
+    - { source: Antarctica, target: 'Nam Cực' }
+    - { source: 'Antigua and Barbuda', target: 'Antigua và Barbuda' }
+    - { source: Antiguans, target: Antiguans }
+    - { source: Apply, target: 'Áp dụng' }
+    - { source: April, target: 'Tháng Tư' }
+    - { source: 'are required', target: 'được yêu cầu' }
+    - { source: Argentina, target: Argentina }
+    - { source: 'Argentina Pesos', target: 'Argentina Pesos' }
+    - { source: 'Argentine Peso', target: 'Argentina Peso' }
+    - { source: Argentinean, target: Argentina }
+    - { source: Arizona, target: Arizona }
+    - { source: Arkansas, target: Arkansas }
+    - { source: 'Armed Forces Americas (except Canada)', target: 'Lực lượng vũ trang Mỹ (ngoại trừ Canada)' }
+    - { source: 'Armed Forces Middle East', target: 'Lực lượng vũ trang Trung Đông' }
+    - { source: 'Armed Forces Pacific', target: 'Lực lượng vũ trang Thái Bình Dương' }
+    - { source: Armenia, target: Armenia }
+    - { source: Armenian, target: 'Tiếng Armenia' }
+    - { source: Aruba, target: Aruba }
+    - { source: 'Aruban Florin', target: 'Aruban Florin' }
+    - { source: 'Assign Leave', target: 'Chỉ định nghỉ phép' }
+    - { source: 'Assigned Salary Components', target: 'Chỉ định phần Lương' }
+    - { source: 'Attachment Size Exceeded', target: 'Kích thước file đính kèm vượt quá giới hạn cho phép' }
+    - { source: Attendance, target: 'Tham dự' }
+    - { source: 'Attendance Summary', target: 'Tóm tắt Tham gia' }
+    - { source: August, target: 'Tháng tám' }
+    - { source: Australia, target: Úc }
+    - { source: Australian, target: Úc }
+    - { source: 'Australian Dollar', target: 'Dollar Úc' }
+    - { source: Austria, target: Áo }
+    - { source: Austrian, target: Áo }
+    - { source: Azerbaijan, target: Azerbaijan }
+    - { source: Azerbaijani, target: Azerbaijan }
+    - { source: Back, target: 'Quay lại' }
+    - { source: Bahamas, target: Bahamas }
+    - { source: Bahamian, target: Bahamas }
+    - { source: 'Bahamian Dollar', target: 'Bahamas Dollar' }
+    - { source: Bahrain, target: Bahrain }
+    - { source: Bahraini, target: Bahrain }
+    - { source: 'Bahraini Dinar', target: 'Bahraini Dinar' }
+    - { source: Bangladesh, target: Bangladesh }
+    - { source: Bangladeshi, target: Bangladesh }
+    - { source: 'Bangladeshi Taka', target: 'Bangladesh Taka' }
+    - { source: Barbadian, target: Barbadian }
+    - { source: Barbados, target: Barbados }
+    - { source: 'Barbados Dollar', target: 'Barbados Dollar' }
+    - { source: Barbudans, target: Barbudans }
+    - { source: Basic, target: 'Cơ bản' }
+    - { source: Batswana, target: Batswana }
+    - { source: Belarus, target: Belarus }
+    - { source: Belarusian, target: Belarus }
+    - { source: Belgian, target: Bỉ }
+    - { source: Belgium, target: Bỉ }
+    - { source: Belize, target: Belize }
+    - { source: 'Belize Dollar', target: 'Belize Dollar' }
+    - { source: Belizean, target: Belizean }
+    - { source: Benin, target: Benin }
+    - { source: Beninese, target: Beninese }
+    - { source: Bermuda, target: Bermuda }
+    - { source: 'Bermudian Dollar', target: 'Bermudian Dollar' }
+    - { source: Bhutan, target: Bhutan }
+    - { source: 'Bhutan Ngultrum', target: 'Bhutan Ngultrum' }
+    - { source: Bhutanese, target: Bhutan }
+    - { source: Bolivia, target: Bolivia }
+    - { source: Bolivian, target: Bolivia }
+    - { source: 'Bolivian Boliviano', target: 'Boliviano Bôlivia' }
+    - { source: 'Bosnia and Herzegovina', target: 'Bosnia và Herzegovina' }
+    - { source: Bosnian, target: 'Tiếng Bosnia' }
+    - { source: Botswana, target: Botswana }
+    - { source: 'Botswana Pula', target: 'Botswana Pula' }
+    - { source: 'Bouvet Island', target: 'Đảo Bouvet' }
+    - { source: Brazil, target: Brazil }
+    - { source: Brazilian, target: Brazil }
+    - { source: 'Brazilian Real', target: 'Brazil thực' }
+    - { source: British, target: Anh }
+    - { source: 'British Indian Ocean Territory', target: 'Anh Ấn Độ Dương Territory' }
+    - { source: 'Brunei Darussalam', target: 'Bru-nây Đa-ru-sa-lam' }
+    - { source: 'Brunei Dollar', target: 'Brunei Dollar' }
+    - { source: Bruneian, target: Brunei }
+    - { source: Bulgaria, target: Bulgaria }
+    - { source: Bulgarian, target: 'Tiếng Bun-ga-ri' }
+    - { source: 'Bulgarian Lev', target: 'Lép Bungari' }
+    - { source: 'Burkina Faso', target: 'Burkina Faso' }
+    - { source: Burkinabe, target: Burkinabe }
+    - { source: Burmese, target: 'Miến Điện' }
+    - { source: Burundi, target: Burundi }
+    - { source: 'Burundi Franc', target: 'Burundi Franc' }
+    - { source: Burundian, target: Burundi }
+    - { source: California, target: California }
+    - { source: Cambodia, target: Cam-pu-chia }
+    - { source: Cambodian, target: Campuchia }
+    - { source: Cameroon, target: Cameroon }
+    - { source: Cameroonian, target: Cameroon }
+    - { source: Canada, target: Canada }
+    - { source: Canadian, target: Canada }
+    - { source: 'Canadian Dollar', target: 'Đô la Canada' }
+    - { source: Cancel, target: 'Hủy bỏ' }
+    - { source: Candidates, target: 'Ứng cử viên' }
+    - { source: 'Cape Verde', target: 'Cape Verde' }
+    - { source: 'Cape Verde Escudo', target: 'Cape Verde Escudo' }
+    - { source: 'Cape Verdean', target: 'Cape Verdean' }
+    - { source: 'Cayman Islands', target: 'Quần đảo Cayman' }
+    - { source: 'Cayman Islands Dollar', target: 'Quần đảo Cayman Dollar' }
+    - { source: 'Central African', target: 'Trung Phi' }
+    - { source: 'Central African Republic', target: 'Cộng hòa trung phi' }
+    - { source: 'CFA Franc BCEAO', target: 'CFA Franc BCEAO' }
+    - { source: 'CFP Franc', target: 'CFP Franc' }
+    - { source: 'CFA Franc BEAC', target: 'CFA Franc BEAC' }
+    - { source: Chad, target: Chad }
+    - { source: Chadian, target: Chad }
+    - { source: 'Change Password', target: 'Thay đổi mật khẩu' }
+    - { source: Checking, target: 'Kiểm tra' }
+    - { source: Chile, target: Chile }
+    - { source: 'Cote D''Ivoire', target: 'Cote D''Ivoire' }
+    - { source: Chilean, target: Chile }
+    - { source: 'Chilean Peso', target: 'Peso Chilê' }
+    - { source: 'Tongan Pa''anga', target: 'Tonga Pa''anga' }
+    - { source: China, target: 'Trung Quốc' }
+    - { source: Chinese, target: 'Trung Quốc' }
+    - { source: 'Chinese Yuan Renminbi', target: 'Trung Quốc Yuan Renminbi' }
+    - { source: 'Christmas Island', target: 'Đảo Christmas' }
+    - { source: 'Cocos (Keeling) Islands', target: 'Quần đảo Cocos (Keeling) Quần đảo' }
+    - { source: Colombia, target: Colombia }
+    - { source: Colombian, target: Colombia }
+    - { source: 'Colombian Peso', target: 'Colombia Peso' }
+    - { source: Colorado, target: Colorado }
+    - { source: Comment, target: 'Bình luận' }
+    - { source: Comments, target: 'Bình luận' }
+    - { source: Comoran, target: Comoran }
+    - { source: Comoros, target: Comoros }
+    - { source: 'Comoros Franc', target: 'Comoros Franc' }
+    - { source: Company, target: 'Công ty' }
+    - { source: Competency, target: 'Năng lực' }
+    - { source: Configuration, target: 'Cấu hình' }
+    - { source: Configure, target: 'Cấu hình' }
+    - { source: Congo, target: Congo }
+    - { source: 'Congo, the Democratic Republic of the', target: 'Cộng hòa Dân chủ Congo' }
+    - { source: Congolese, target: Congo }
+    - { source: Connecticut, target: Connecticut }
+    - { source: 'Contact Details', target: 'Chi tiết liên lạc' }
+    - { source: 'Contract End Date', target: 'Ngày kết thúc hợp đồng' }
+    - { source: 'Contract Not Renewed', target: 'Hợp đồng không được gia hạn' }
+    - { source: 'Contract Start Date', target: 'Ngày bắt đầu hợp đồng' }
+    - { source: 'Cook Islands', target: 'Quần đảo Cook' }
+    - { source: 'Copy KPI', target: 'Bản sao KPI' }
+    - { source: 'Costa Rica', target: 'Costa Rica' }
+    - { source: 'Costa Rican', target: 'Costa Rica' }
+    - { source: 'Costa Rican Colon', target: 'Costa Rica Colon' }
+    - { source: Country, target: 'Quốc gia' }
+    - { source: Croatia, target: Crô-a-ti-a }
+    - { source: Croatian, target: Croatia }
+    - { source: 'Croatian Kuna', target: 'Croatia Kuna' }
+    - { source: Cuba, target: Cuba }
+    - { source: Cuban, target: Cuba }
+    - { source: 'Cuban Peso', target: 'Cuba Peso' }
+    - { source: Currency, target: 'Tiền tệ' }
+    - { source: 'Current and Past Employees', target: 'Nhân viên hiện tại và nhân viên cũ' }
+    - { source: 'Current Employees Only', target: 'Chỉ Nhân viên hiện tại' }
+    - { source: 'Current Status', target: 'Trạng thái hiện hành' }
+    - { source: 'Custom Fields', target: 'Tuỳ chỉnh Fields' }
+    - { source: Customers, target: 'Khách hàng' }
+    - { source: Cypriot, target: Síp }
+    - { source: Cyprus, target: Cyprus }
+    - { source: 'Cyprus Pound', target: 'Cyprus Pound' }
+    - { source: Czech, target: Séc }
+    - { source: 'Czech Koruna', target: 'Cuaron Séc' }
+    - { source: 'Czech Republic', target: 'Cộng hòa Séc' }
+    - { source: Danish, target: 'Đan Mạch' }
+    - { source: 'Danish Krona', target: 'Đan Mạch Krona' }
+    - { source: 'Data Import', target: 'Nhập dữ liệu' }
+    - { source: Date, target: Ngày }
+    - { source: 'Date Added', target: 'Ngày thêm vào' }
+    - { source: 'Date of Birth', target: 'Ngày sinh' }
+    - { source: Days, target: Ngày }
+    - { source: Deceased, target: 'Đã chết' }
+    - { source: December, target: 'Tháng mười hai' }
+    - { source: 'Define Report', target: 'Xác định Báo cáo' }
+    - { source: 'Defined Custom Fields', target: 'Xác định Tuỳ chỉnh lĩnh vực' }
+    - { source: Delaware, target: Delaware }
+    - { source: Delete, target: Xóa }
+    - { source: 'Delete Current', target: 'Xóa hiện tại' }
+    - { source: Denmark, target: 'Đan Mạch' }
+    - { source: Dependents, target: 'Người phụ thuộc' }
+    - { source: Description, target: 'Mô tả' }
+    - { source: Dimensions, target: 'Kích thước' }
+    - { source: Direct, target: 'Chỉ đạo' }
+    - { source: 'Direct Deposit Account Number', target: 'Số tài khoản gửi tiền trực tiếp' }
+    - { source: 'Direct Deposit Account Type', target: 'Loại tài khoản gửi tiền trực tiếp' }
+    - { source: 'Direct Deposit Amount', target: 'Số tiền gửi trực tiếp' }
+    - { source: 'Direct Deposit Details', target: 'Chi tiết gửi tiền trực tiếp' }
+    - { source: 'Direct Deposit Routing Number', target: 'Số bút toán tiền gửi trực tiếp' }
+    - { source: Disabled, target: 'Vô hiệu hóa' }
+    - { source: Dismissed, target: 'Bác bỏ' }
+    - { source: 'Display Field Groups', target: 'Hiển thị Nhóm Field' }
+    - { source: 'Display Fields', target: 'Hiển thị Fields' }
+    - { source: 'District of Columbia', target: 'District of Columbia' }
+    - { source: Djibouti, target: Djibouti }
+    - { source: 'Djibouti Franc', target: 'Djibouti Franc' }
+    - { source: 'Document Type', target: 'Loại văn bản' }
+    - { source: Dominica, target: Dominica }
+    - { source: Dominican, target: Dominican }
+    - { source: 'Dominican Peso', target: 'Dominican Peso' }
+    - { source: 'Dominican Republic', target: 'Dominican Republic' }
+    - { source: 'Driver License Number', target: 'Giấy phép số Driver' }
+    - { source: 'Driver''s License Number', target: 'Số Giấy phép lái xe' }
+    - { source: Duration, target: 'Thời gian' }
+    - { source: Dutch, target: 'Hà Lan' }
+    - { source: Duties, target: 'Nhiệm vụ' }
+    - { source: 'East Timorese', target: 'Đông Timor' }
+    - { source: 'Eastern Caribbean Dollars', target: 'Đông Caribbean Dollars' }
+    - { source: Ecuador, target: Ecuador }
+    - { source: 'Ecuador Sucre', target: 'Ecuador Sucre' }
+    - { source: Ecuadorean, target: Ecuador }
+    - { source: Edit, target: 'Chỉnh sửa' }
+    - { source: 'Edit Attachment', target: 'Chỉnh sửa tập tin đính kèm' }
+    - { source: 'Edit Immigration', target: 'Chỉnh sửa xuất nhập cảnh' }
+    - { source: 'Edit Salary Component', target: 'Chỉnh sửa phần Lương' }
+    - { source: Education, target: 'Giáo dục' }
+    - { source: Egypt, target: 'Ai Cập' }
+    - { source: Egyptian, target: 'Ai Cập' }
+    - { source: 'Egyptian Pound', target: 'Pao Ai Cập' }
+    - { source: 'El Salvador', target: 'El Salvador' }
+    - { source: 'El Salvador Colon', target: 'El Salvador Colon' }
+    - { source: Eligible, target: 'Đủ điều kiện' }
+    - { source: 'Eligible Review Date', target: 'Ngày hội đủ điều kiện xét' }
+    - { source: 'Eligible Status', target: 'Đủ điều kiện Status' }
+    - { source: 'Email Notifications', target: 'Email Thông báo' }
+    - { source: 'Emergency Contacts', target: 'Khẩn cấp Liên hệ' }
+    - { source: Emirian, target: Emirian }
+    - { source: Employee, target: 'Nhân viên' }
+    - { source: 'Employee First Name', target: 'Nhân viên Tên' }
+    - { source: 'Employee Id', target: 'Nhân viên Id' }
+    - { source: 'Employee Last Name', target: 'Nhân viên Last Name' }
+    - { source: 'Employee List', target: 'Nhân viên Danh sách' }
+    - { source: 'Employee Middle Name', target: 'Tên nhân viên Trung' }
+    - { source: 'Employee Name', target: 'Tên người lao động' }
+    - { source: 'Employee Records', target: 'Nhân viên hồ sơ' }
+    - { source: 'Employee Reports', target: 'Nhân viên báo cáo' }
+    - { source: 'Employee Timesheets', target: 'Nhân viên timesheets' }
+    - { source: 'Employment Status', target: 'Công Việc' }
+    - { source: Enabled, target: Bật }
+    - { source: 'End Date', target: 'Ngày kết thúc' }
+    - { source: 'End date should be after start date', target: 'Ngày kết thúc sau ngày bắt đầu' }
+    - { source: 'Equatorial Guinea', target: 'Equatorial Guinea' }
+    - { source: 'Equatorial Guinean', target: 'Equatorial Guinea' }
+    - { source: Eritrea, target: Eritrea }
+    - { source: Eritrean, target: Eritrea }
+    - { source: ESS, target: ESS }
+    - { source: Estonia, target: E-xtô-ni-a }
+    - { source: Estonian, target: 'Tiếng Estonia' }
+    - { source: 'Estonian Krona', target: 'Tiếng Estonia Krona' }
+    - { source: Ethiopia, target: Ethiopia }
+    - { source: Ethiopian, target: Ethiopia }
+    - { source: 'Ethiopian Birr', target: 'Ethiopian Birr' }
+    - { source: Euro, target: Euro }
+    - { source: 'Expected format: admin@example.com', target: 'Dự kiến ​​định dạng: admin@example.com' }
+    - { source: 'Expiry Date', target: 'Ngày hết hiệu lực' }
+    - { source: 'Expiry date should be after issued date', target: 'Thời hạn sử dụng sau ngày ban hành' }
+    - { source: 'Failed to Save', target: 'Không để tiết kiệm' }
+    - { source: 'Falkland Islands (Malvinas)', target: 'Quần đảo Falkland (Malvinas)' }
+    - { source: 'Falkland Islands Pound', target: 'Quần đảo Falkland Pound' }
+    - { source: 'Faroe Islands', target: 'Quần đảo Faroe' }
+    - { source: February, target: 'Tháng Hai' }
+    - { source: 'Federated States of Micronesia', target: 'Liên bang Micronesia' }
+    - { source: Female, target: Nữ }
+    - { source: Field, target: 'Lĩnh vực' }
+    - { source: Fields, target: 'Các lĩnh vực' }
+    - { source: 'Fields marked with an asterisk', target: 'Các trường có đánh dấu' }
+    - { source: Fiji, target: Fiji }
+    - { source: 'Fiji Dollar', target: 'Fiji Dollar' }
+    - { source: Fijian, target: Fiji }
+    - { source: 'File Name', target: 'File Name' }
+    - { source: Filipino, target: Philippines }
+    - { source: Finland, target: 'Phần Lan' }
+    - { source: Finnish, target: 'Phần Lan' }
+    - { source: First, target: 'Đầu tiên' }
+    - { source: 'First Name', target: Tên }
+    - { source: Florida, target: Florida }
+    - { source: Fluency, target: 'Sử dụng thành thạo' }
+    - { source: France, target: Pháp }
+    - { source: French, target: Pháp }
+    - { source: 'French Guiana', target: 'Guiana thuộc Pháp' }
+    - { source: 'French Polynesia', target: 'Polynesia thuộc Pháp' }
+    - { source: 'French Southern Territories', target: 'Pháp Lãnh thổ Phía Nam' }
+    - { source: Friday, target: 'Thứ Sáu' }
+    - { source: From, target: Từ }
+    - { source: 'Full Name', target: 'Họ và tên' }
+    - { source: 'Full Time Contract', target: 'Toàn thời gian hợp đồng' }
+    - { source: 'Full Time Internship', target: 'Toàn thời gian tập' }
+    - { source: 'Full Time Permanent', target: 'Thời gian cố định đầy đủ' }
+    - { source: Gabon, target: Gabon }
+    - { source: Gabonese, target: Gabonese }
+    - { source: Gambia, target: Gambia }
+    - { source: Gambian, target: Gambia }
+    - { source: 'Gambian Dalasi', target: 'Gambia Dalasi' }
+    - { source: Gender, target: 'Giới Tính' }
+    - { source: 'General Information', target: 'Thông tin chung' }
+    - { source: Georgia, target: Georgia }
+    - { source: Georgian, target: Georgia }
+    - { source: German, target: Đức }
+    - { source: Germany, target: Đức }
+    - { source: Ghana, target: Ghana }
+    - { source: Ghanaian, target: Ghana }
+    - { source: 'Ghanaian Cedi', target: 'Ghana Cedi' }
+    - { source: Gibraltar, target: Gibraltar }
+    - { source: 'Gibraltar Pound', target: 'Gibraltar Pound' }
+    - { source: 'Gold (oz.)', target: 'Vàng (oz.)' }
+    - { source: Good, target: Tốt }
+    - { source: 'Greater Than', target: 'Lớn hơn' }
+    - { source: Greece, target: 'Hy Lạp' }
+    - { source: Greek, target: 'Hy Lạp' }
+    - { source: Greenland, target: Greenland }
+    - { source: Grenada, target: Grenada }
+    - { source: Grenadian, target: Grenadian }
+    - { source: Guadeloupe, target: Guadeloupe }
+    - { source: Guam, target: Guam }
+    - { source: Guatemala, target: Guatemala }
+    - { source: Guatemalan, target: Guatemala }
+    - { source: 'Guatemalan Quetzal', target: 'Guatemala Quetzal' }
+    - { source: Guinea, target: Guinea }
+    - { source: 'Guinea Franc', target: 'Guinea Franc' }
+    - { source: Guinea-Bissau, target: Guinea-Bissau }
+    - { source: Guinea-Bissauan, target: Guinea-Bissauan }
+    - { source: Guinean, target: Guinea }
+    - { source: Guyana, target: Guyana }
+    - { source: 'Guyanan Dollar', target: 'Guyanan Dollar' }
+    - { source: Guyanese, target: Guyana }
+    - { source: Haiti, target: Haiti }
+    - { source: Haitian, target: Haiti }
+    - { source: 'Haitian Gourde', target: 'Haiti giống bầu bí' }
+    - { source: Hawaii, target: Hawaii }
+    - { source: 'Heard Island and Mcdonald Islands', target: 'Đảo Heard và quần đảo McDonald' }
+    - { source: Help, target: 'Trợ giúp' }
+    - { source: Herzegovinian, target: Herzegovinian }
+    - { source: 'Hide Details', target: 'Hide Thông tin chi tiết' }
+    - { source: Holidays, target: 'Ngày lễ' }
+    - { source: 'Holy See (Vatican City State)', target: 'Tòa Thánh (Vatican City State)' }
+    - { source: 'Home Telephone', target: 'Trang chủ Điện thoại' }
+    - { source: Honduran, target: Honduras }
+    - { source: 'Honduran Lempira', target: 'Honduras Lempira' }
+    - { source: Honduras, target: Honduras }
+    - { source: 'Hong Kong', target: 'Hong Kong' }
+    - { source: 'Hong Kong Dollar', target: 'Đô la Hồng Kông' }
+    - { source: Hungarian, target: Hungary }
+    - { source: 'Hungarian Forint', target: 'Phôrin Hungari' }
+    - { source: Hungary, target: Hungary }
+    - { source: I-Kiribati, target: I-Kiribati }
+    - { source: Iceland, target: Iceland }
+    - { source: 'Iceland Krona', target: 'Iceland Krona' }
+    - { source: Icelander, target: 'Dân vùng Iceland' }
+    - { source: Id, target: Id }
+    - { source: Idaho, target: Idaho }
+    - { source: Illinois, target: Illinois }
+    - { source: 'IMF Special Drawing Right', target: 'IMF đặc biệt Quyền rút' }
+    - { source: Immigration, target: 'Nhập cư' }
+    - { source: Include, target: 'Bao gồm' }
+    - { source: 'Include Header', target: 'Bao gồm tiêu đề' }
+    - { source: 'Include Past Employees', target: 'Bao gồm các nhân viên trong quá khứ' }
+    - { source: India, target: 'Ấn Độ' }
+    - { source: Indian, target: 'Ấn Độ' }
+    - { source: 'Indian Rupee', target: 'Rupi Ấn Độ' }
+    - { source: Indiana, target: Indiana }
+    - { source: Indirect, target: 'Gián tiếp' }
+    - { source: Individual, target: 'Cá nhân' }
+    - { source: Indonesia, target: Indonesia }
+    - { source: Indonesian, target: Indonesia }
+    - { source: 'Indonesian Rupiah', target: 'Indonesia Rupiah' }
+    - { source: 'Invalid File Type', target: 'Dạng tập tin không hợp lệ' }
+    - { source: Iowa, target: Iowa }
+    - { source: 'Iran, Islamic Republic of', target: 'Iran, Hồi giáo nước Cộng hòa' }
+    - { source: Iranian, target: Iran }
+    - { source: 'Iranian Rial', target: 'Iran Rial' }
+    - { source: Iraq, target: Iraq }
+    - { source: Iraqi, target: Iraq }
+    - { source: 'Iraqi Dinar', target: 'Iraq Dinar' }
+    - { source: Ireland, target: Ireland }
+    - { source: Irish, target: Ailen }
+    - { source: Israel, target: Israel }
+    - { source: Israeli, target: Israel }
+    - { source: 'Israeli New Shekel', target: 'Israel mới Sêken' }
+    - { source: 'Issued By', target: Do }
+    - { source: 'Issued Date', target: 'Ban hành ngày' }
+    - { source: Italian, target: Ý }
+    - { source: Italy, target: Ý }
+    - { source: Ivorian, target: 'Bờ Biển Ngà' }
+    - { source: Jamaica, target: Jamaica }
+    - { source: Jamaican, target: Jamaica }
+    - { source: 'Jamaican Dollar', target: 'Jamaica Dollar' }
+    - { source: January, target: 'Tháng một' }
+    - { source: Japan, target: 'Nhật Bản' }
+    - { source: Japanese, target: 'Nhật Bản' }
+    - { source: 'Japanese Yen', target: 'Yên Nhật' }
+    - { source: Job, target: 'Công việc' }
+    - { source: 'Job Categories', target: 'Công việc danh mục' }
+    - { source: 'Job Category', target: 'Ngành nghề' }
+    - { source: 'Job Specification', target: 'Công việc kỹ thuật' }
+    - { source: 'Job Title', target: 'Chức vụ' }
+    - { source: 'Job Titles', target: 'Công việc trong tựa đề' }
+    - { source: 'Joined Date', target: 'Ngày tham gia' }
+    - { source: Jordan, target: Jordan }
+    - { source: Jordanian, target: Jordan }
+    - { source: 'Jordanian Dinar', target: 'Jordan Dinar' }
+    - { source: July, target: 'Tháng Bảy' }
+    - { source: June, target: 'Tháng Sáu' }
+    - { source: 'Kampuchean Riel', target: 'Cam Bốt Riel' }
+    - { source: Kansas, target: Kansas }
+    - { source: Kazakhstan, target: Kazakhstan }
+    - { source: 'Kazakhstan Tenge', target: 'Kazakhstan Tenge' }
+    - { source: Kazakhstani, target: Kazakhstan }
+    - { source: 'Keep Current', target: 'Giữ hiện tại' }
+    - { source: Kentucky, target: Kentucky }
+    - { source: Kenya, target: Kenya }
+    - { source: Kenyan, target: Kenya }
+    - { source: 'Kenyan Shilling', target: 'Kenya Shilling' }
+    - { source: Kiribati, target: Kiribati }
+    - { source: 'Kittian and Nevisian', target: 'Kittian và Nevisian' }
+    - { source: 'Korea, Democratic People''s Republic of', target: 'Hàn Quốc, nhân dân Dân chủ Cộng hòa' }
+    - { source: 'Korea, Republic of', target: 'Hàn Quốc, Cộng hòa' }
+    - { source: 'Korean Won', target: 'Hàn Quốc Won' }
+    - { source: 'KPI List', target: 'KPI Danh sách' }
+    - { source: Kuwait, target: Kuwait }
+    - { source: Kuwaiti, target: Kuwait }
+    - { source: 'Kuwaiti Dinar', target: 'Kuwait Dinar' }
+    - { source: Kyrgyz, target: Kyrgyzstan }
+    - { source: Kyrgyzstan, target: Kyrgyzstan }
+    - { source: Language, target: 'Ngôn ngữ' }
+    - { source: Languages, target: 'Ngôn ngữ' }
+    - { source: 'Lao Kip', target: 'Lao Kip' }
+    - { source: 'Lao People''s Democratic Republic', target: 'Cộng hoà Dân chủ dân Lào' }
+    - { source: Laotian, target: Lào }
+    - { source: Last, target: 'Bài mới' }
+    - { source: 'Last Name', target: Họ }
+    - { source: Latvia, target: Latvia }
+    - { source: Latvian, target: Latvian }
+    - { source: 'Latvian Lats', target: 'Latvian mới nhất lúc' }
+    - { source: Laid-off, target: Laid-off }
+    - { source: Leave, target: 'Để lại' }
+    - { source: 'Leave Balance (Days)', target: 'Để cân bằng (Ngày)' }
+    - { source: 'Leave Entitled (Days)', target: 'Để lại tiêu đề (Ngày)' }
+    - { source: 'Leave List', target: 'Để lại Danh sách' }
+    - { source: 'Leave Period', target: 'Để lại thời kỳ' }
+    - { source: 'Leave Scheduled (Days)', target: 'Để lại theo lịch trình (Ngày)' }
+    - { source: 'Leave Summary', target: 'Để Tóm tắt thông tin' }
+    - { source: 'Leave Taken (Days)', target: 'Để lại Taken (Ngày)' }
+    - { source: 'Leave Types', target: 'Để loại' }
+    - { source: Lebanese, target: Lebanon }
+    - { source: 'Lebanese Pound', target: 'Lebanon Bảng Anh' }
+    - { source: Lebanon, target: Lebanon }
+    - { source: Lesotho, target: Lesotho }
+    - { source: 'Lesotho Loti', target: 'Lesotho Loti' }
+    - { source: 'Less Than', target: 'Ít hơn' }
+    - { source: Level, target: Cấp }
+    - { source: Liberia, target: Liberia }
+    - { source: Liberian, target: Liberia }
+    - { source: 'Liberian Dollar', target: 'Liberia Dollar' }
+    - { source: Libyan, target: Libya }
+    - { source: 'Libyan Arab Jamahiriya', target: 'Libyan Arab Jamahiriya' }
+    - { source: 'Libyan Dinar', target: 'Libyan Dinar' }
+    - { source: License, target: 'Giấy phép' }
+    - { source: 'License Expiry Date', target: 'Giấy phép hết hạn ngày' }
+    - { source: 'License Number', target: 'Giấy phép số' }
+    - { source: 'License Type', target: 'Giấy phép Loại' }
+    - { source: Licenses, target: 'Giấy phép' }
+    - { source: Liechtenstein, target: Liechtenstein }
+    - { source: Liechtensteiner, target: Liechtensteiner }
+    - { source: Lithuania, target: Lithuania }
+    - { source: Lithuanian, target: Lithuania }
+    - { source: 'Lithuanian Litas', target: 'Litat Lituani' }
+    - { source: Localization, target: 'Nội địa hóa' }
+    - { source: Location, target: Nơi }
+    - { source: Locations, target: 'Địa điểm' }
+    - { source: Logout, target: 'Đăng xuất' }
+    - { source: Louisiana, target: Louisiana }
+    - { source: Luxembourg, target: Lúc-xăm-bua }
+    - { source: Luxembourger, target: Luxembourger }
+    - { source: Macao, target: Macao }
+    - { source: 'Macau Pataca', target: 'Macau Pataca' }
+    - { source: 'Macedonia, the Former Yugoslav Republic of', target: 'Macedonia, Cộng hòa Nam Tư cũ của' }
+    - { source: Macedonian, target: 'Tiếng Macedonia' }
+    - { source: Madagascar, target: Madagascar }
+    - { source: Maine, target: Maine }
+    - { source: Malagasy, target: Malagasy }
+    - { source: 'Malagasy Franc', target: 'Malagasy Franc' }
+    - { source: Malawi, target: Malawi }
+    - { source: 'Malawi Kwacha', target: 'Malawi Kwacha' }
+    - { source: Malawian, target: Malawi }
+    - { source: Malaysia, target: Malaysia }
+    - { source: Malaysian, target: Malaysia }
+    - { source: 'Malaysian Ringgit', target: 'Malaysia Ringgit' }
+    - { source: Maldivan, target: Maldivan }
+    - { source: 'Maldive Rufiyaa', target: 'Maldive Rufiyaa' }
+    - { source: Maldives, target: Maldives }
+    - { source: Male, target: Nam }
+    - { source: Mali, target: Mali }
+    - { source: Malian, target: Mali }
+    - { source: Malta, target: Malta }
+    - { source: Maltese, target: 'Tiếng Malta' }
+    - { source: 'Maltese Lira', target: 'Tiếng Malta Lira' }
+    - { source: March, target: March }
+    - { source: 'Marital Status', target: 'Tình trạng hôn nhân' }
+    - { source: 'Marshall Islands', target: 'Quần đảo Marshall' }
+    - { source: Marshallese, target: Marshall }
+    - { source: Martinique, target: Martinique }
+    - { source: Maryland, target: Maryland }
+    - { source: Massachusetts, target: Massachusetts }
+    - { source: Mauritania, target: Mauritania }
+    - { source: Mauritanian, target: Mauritanian }
+    - { source: 'Mauritanian Ouguiya', target: 'Mauritanian Ouguiya' }
+    - { source: Mauritian, target: Mauritian }
+    - { source: Mauritius, target: Mauritius }
+    - { source: 'Mauritius Rupee', target: 'Mauritius Rupee' }
+    - { source: May, target: May }
+    - { source: Mayotte, target: Mayotte }
+    - { source: Membership, target: 'Thành viên' }
+    - { source: Memberships, target: 'Thành viên' }
+    - { source: Mexican, target: Mexico }
+    - { source: 'Mexican New Peso', target: 'Mexico New Peso' }
+    - { source: 'Mexican Peso', target: 'Mexico Peso' }
+    - { source: Mexico, target: Mexico }
+    - { source: Michigan, target: Michigan }
+    - { source: 'Micronesia, Federated States of', target: 'Micronesia, Federated States of' }
+    - { source: Micronesian, target: Micronesian }
+    - { source: Middle, target: Trung }
+    - { source: 'Middle Name', target: 'Tên đệm' }
+    - { source: Minnesota, target: Minnesota }
+    - { source: Mississippi, target: Mississippi }
+    - { source: Missouri, target: Missouri }
+    - { source: Mobile, target: 'Điện thoại di động' }
+    - { source: Modules, target: Mô-đun }
+    - { source: 'Moldova, Republic of', target: 'Moldova, Cộng hòa' }
+    - { source: Moldovan, target: Moldova }
+    - { source: Monacan, target: Monacan }
+    - { source: Monaco, target: Monaco }
+    - { source: Monday, target: 'Thứ hai' }
+    - { source: Mongolia, target: 'Mông Cổ' }
+    - { source: Mongolian, target: 'Mông Cổ' }
+    - { source: 'Mongolian Tugrik', target: 'Mông Cổ Tugrik' }
+    - { source: Montana, target: Montana }
+    - { source: Month, target: Tháng }
+    - { source: Montserrat, target: Montserrat }
+    - { source: Moroccan, target: Ma-rốc }
+    - { source: 'Moroccan Dirham', target: 'Ma-rốc Điaham' }
+    - { source: Morocco, target: Ma-rốc }
+    - { source: Mosotho, target: Mosotho }
+    - { source: 'Mother Tongue', target: 'Mẹ Tongue' }
+    - { source: Motswana, target: Motswana }
+    - { source: Mozambican, target: Mozambique }
+    - { source: Mozambique, target: Mozambique }
+    - { source: 'Mozambique Metical', target: 'Mozambique Metical' }
+    - { source: 'My Leave', target: 'Leave My' }
+    - { source: 'My Records', target: 'Hồ sơ của tôi' }
+    - { source: 'My Timesheets', target: 'Timesheets của tôi' }
+    - { source: Myanmar, target: Myanmar }
+    - { source: 'Myanmar Kyat', target: 'Myanmar Kyat' }
+    - { source: Name, target: Tên }
+    - { source: 'Name exists', target: 'Tên tồn tại' }
+    - { source: Namibia, target: Namibia }
+    - { source: 'Namibia Dollar', target: 'Namibia Dollar' }
+    - { source: Namibian, target: Namibia }
+    - { source: Nationalities, target: 'Dân tộc' }
+    - { source: Nationality, target: 'Quốc tịch' }
+    - { source: Nauru, target: Nauru }
+    - { source: Nauruan, target: Nauruan }
+    - { source: Nebraska, target: Nebraska }
+    - { source: Nepal, target: Nepal }
+    - { source: Nepalese, target: Nepal }
+    - { source: 'Nepalese Rupee', target: 'Nepal Rupee' }
+    - { source: Netherlands, target: 'Hà Lan' }
+    - { source: 'Netherlands Antilles', target: 'Antilles Hà Lan' }
+    - { source: Nevada, target: Nevada }
+    - { source: 'New Caledonia', target: 'New Caledonia' }
+    - { source: 'New Hampshire', target: 'New Hampshire' }
+    - { source: 'New Jersey', target: 'New Jersey' }
+    - { source: 'New Mexico', target: 'New Mexico' }
+    - { source: 'New York', target: 'New York' }
+    - { source: 'New Zaire', target: 'New Zaire' }
+    - { source: 'New Zealand', target: 'New Zealand' }
+    - { source: 'New Zealand Dollar', target: 'Đô la New Zealand' }
+    - { source: 'New Zealander', target: 'New Zealand' }
+    - { source: Next, target: 'Tiếp theo' }
+    - { source: Nicaragua, target: Nicaragua }
+    - { source: Nicaraguan, target: Nicaragua }
+    - { source: 'Nicaraguan Cordoba Oro', target: 'Nicaragua Cordoba Oro' }
+    - { source: Niger, target: Niger }
+    - { source: Nigeria, target: Nigeria }
+    - { source: Nigerian, target: Nigeria }
+    - { source: 'Nigerian Naira', target: 'Nigeria naira' }
+    - { source: Nigerien, target: Nigerien }
+    - { source: Niue, target: Niue }
+    - { source: 'NL Antillian Guilder', target: 'NL Antillian tiền tệ ở hòa lan' }
+    - { source: 'No', target: Không }
+    - { source: 'No Project Activities', target: 'Không có dự án hoạt động' }
+    - { source: 'No Projects', target: 'Không có dự án' }
+    - { source: 'No Records Found', target: 'Hồ sơ tìm thấy' }
+    - { source: 'No records to display', target: 'Không có hồ sơ để hiển thị' }
+    - { source: 'Norfolk Island', target: 'Đảo Norfolk' }
+    - { source: 'North Carolina', target: 'North Carolina' }
+    - { source: 'North Dakota', target: 'North Dakota' }
+    - { source: 'North Korean', target: 'Bắc Triều Tiên' }
+    - { source: 'North Korean Won', target: 'Bắc Triều Tiên Won' }
+    - { source: 'Northern Irish', target: 'Bắc Ailen' }
+    - { source: 'Northern Mariana Islands', target: 'Quần đảo Bắc Mariana' }
+    - { source: Norway, target: 'Na Uy' }
+    - { source: Norwegian, target: 'Na Uy' }
+    - { source: 'Norwegian Krona', target: 'Na Uy Krona' }
+    - { source: 'Not Defined', target: 'Không được định nghĩa' }
+    - { source: Notes, target: 'Ghi chú' }
+    - { source: November, target: 'Tháng mười một' }
+    - { source: Number, target: Số }
+    - { source: October, target: 'Tháng Mười' }
+    - { source: Ohio, target: Ohio }
+    - { source: Oklahoma, target: Oklahoma }
+    - { source: Oman, target: Oman }
+    - { source: Omani, target: Omani }
+    - { source: 'Omani Rial', target: 'Omani Rial' }
+    - { source: 'Only Include Approved Timesheets', target: 'Chỉ Bao gồm timesheets được chấp thuận' }
+    - { source: 'Optional Fields', target: 'Tùy chọn Fields' }
+    - { source: or, target: hoặc }
+    - { source: 'OrangeHRM - Confirmation Required', target: 'OrangeHRM - Yêu cầu xác nhận' }
+    - { source: Oregon, target: Oregon }
+    - { source: Organization, target: 'Tổ chức' }
+    - { source: Other, target: Khác }
+    - { source: 'Other Email', target: 'Khác Email' }
+    - { source: 'Other Id', target: 'Khác Id' }
+    - { source: Pakistan, target: Pakistan }
+    - { source: 'Pakistan Rupee', target: 'Rupi Pakistan' }
+    - { source: Pakistani, target: Pakistan }
+    - { source: Palau, target: Palau }
+    - { source: Palauan, target: Palau }
+    - { source: 'Palestinian Territory, Occupied', target: 'Lãnh thổ Palestin, chiếm' }
+    - { source: 'Palladium (oz.)', target: 'Palladium (oz.)' }
+    - { source: Panama, target: Panama }
+    - { source: Panamanian, target: 'Dân Panama' }
+    - { source: 'Panamanian Balboa', target: 'Panama Balboa' }
+    - { source: 'Papua New Guinea', target: 'Papua New Guinea' }
+    - { source: 'Papua New Guinea Kina', target: 'Papua New Guinea Kina' }
+    - { source: 'Papua New Guinean', target: 'Papua New Guinea' }
+    - { source: Paraguay, target: Paraguay }
+    - { source: 'Paraguay Guarani', target: 'Paraguay Guarani' }
+    - { source: Paraguayan, target: 'Người Paraguay' }
+    - { source: 'Part Time Contract', target: 'Bán thời gian hợp đồng' }
+    - { source: 'Part Time Internship', target: 'Bán thời gian Thực tập' }
+    - { source: 'Part Time Permanent', target: 'Bán thời gian chính thức' }
+    - { source: 'Past Employee', target: 'Quá khứ của nhân viên' }
+    - { source: 'Past Employees Only', target: 'Qua nhân viên Chỉ' }
+    - { source: 'Pay Frequency', target: 'Trả Tần số' }
+    - { source: 'Pay Grade', target: 'Trả Lớp' }
+    - { source: 'Pay Grades', target: 'Trả Lớp' }
+    - { source: Pennsylvania, target: Pennsylvania }
+    - { source: Performance, target: 'Hiệu suất' }
+    - { source: Personal, target: Riêng }
+    - { source: Peru, target: Peru }
+    - { source: Peruvian, target: Peru }
+    - { source: 'Peruvian Nuevo Sol', target: 'Peru Nuevo Sol' }
+    - { source: 'Philippine Peso', target: 'Philippine Peso' }
+    - { source: Philippines, target: 'Việt Nam' }
+    - { source: 'Physically Disabled/Compensated', target: 'Khuyết tật về thể chất / bù' }
+    - { source: PIM, target: PIM }
+    - { source: 'PIM Sample Report', target: 'PIM Mẫu Báo cáo' }
+    - { source: Pitcairn, target: Pitcairn }
+    - { source: 'Platinum (oz.)', target: 'Platinum (oz.)' }
+    - { source: Poland, target: 'Ba Lan' }
+    - { source: Polish, target: 'Ba Lan' }
+    - { source: 'Polish Zloty', target: 'Ba Lan zloty' }
+    - { source: Poor, target: 'Người nghèo' }
+    - { source: Portugal, target: 'Bồ Đào Nha' }
+    - { source: Portuguese, target: 'Bồ Đào Nha' }
+    - { source: 'Pound Sterling', target: 'Pound Sterling' }
+    - { source: Previous, target: 'Trang trước' }
+    - { source: Program, target: 'Chương trình' }
+    - { source: 'Project Date Range', target: 'Phạm vi Ngày dự án' }
+    - { source: 'Project Info', target: 'Dự án Thông tin' }
+    - { source: 'Project Reports', target: 'Dự án Báo cáo' }
+    - { source: Projects, target: 'Dự án' }
+    - { source: 'Puerto Rico', target: 'Puerto Rico' }
+    - { source: 'Punch In/Out', target: 'Cú đấm vào / ra' }
+    - { source: Qatar, target: Qatar }
+    - { source: Qatari, target: Qatar }
+    - { source: 'Qatari Rial', target: 'Qatar Rial' }
+    - { source: Qualification, target: 'Trình độ chuyên môn' }
+    - { source: Range, target: 'Phạm vi' }
+    - { source: Reading, target: Đọc }
+    - { source: 'Records Per Page', target: 'Hồ sơ mỗi trang' }
+    - { source: Recruitment, target: 'Tuyển dụng' }
+    - { source: Relationship, target: 'Mối quan hệ' }
+    - { source: 'Replace Current', target: 'Thay thế hiện tại' }
+    - { source: 'Replace file', target: 'Thay thế tập tin' }
+    - { source: 'Report Name', target: 'Tên Báo cáo' }
+    - { source: 'Reporting Method', target: 'Báo cáo Phương pháp' }
+    - { source: 'Reporting Methods', target: 'Báo cáo Phương pháp' }
+    - { source: Reports, target: 'Báo cáo' }
+    - { source: Required, target: 'Yêu cầu' }
+    - { source: Reset, target: 'Thiết lập lại' }
+    - { source: Resigned, target: 'Từ chức' }
+    - { source: 'Resigned - Company Requested', target: 'Từ chức - Công ty được yêu cầu' }
+    - { source: 'Resigned - Self Proposed', target: 'Từ chức - Tự đề xuất' }
+    - { source: Retired, target: 'Nghỉ hưu' }
+    - { source: Reunion, target: Reunion }
+    - { source: Reviews, target: 'Nhận xét' }
+    - { source: 'Rhode Island', target: 'Rhode Island' }
+    - { source: Romania, target: Ru-ma-ni }
+    - { source: Romanian, target: Rumani }
+    - { source: 'Romanian Leu', target: 'Rumani Leu' }
+    - { source: 'Routing Number', target: 'Định tuyến Số' }
+    - { source: Run, target: Chạy }
+    - { source: 'Russia Rubles', target: 'Nga rúp' }
+    - { source: Russian, target: Nga }
+    - { source: 'Russian Federation', target: 'Liên bang Nga' }
+    - { source: 'Russian Rouble', target: 'Rúp Nga' }
+    - { source: Rwanda, target: Rwanda }
+    - { source: Rwandan, target: Rwanda }
+    - { source: 'Saint Helena', target: 'Saint Helena' }
+    - { source: 'Saint Kitts and Nevis', target: 'Saint Kitts và Nevis' }
+    - { source: 'Saint Lucia', target: 'Saint Lucia' }
+    - { source: 'Saint Lucian', target: 'Saint Lucian' }
+    - { source: 'Saint Pierre and Miquelon', target: 'Saint Pierre và Miquelon' }
+    - { source: 'Saint Vincent and the Grenadines', target: 'Saint Vincent và Grenadines' }
+    - { source: Salary, target: 'Mức lương' }
+    - { source: 'Salary Component', target: 'Lương Hợp phần' }
+    - { source: Salvadoran, target: Salvador }
+    - { source: Samoa, target: Samoa }
+    - { source: Samoan, target: Samoa }
+    - { source: 'Samoan Tala', target: 'Samoa Tala' }
+    - { source: 'San Marinese', target: 'San Marinese' }
+    - { source: 'San Marino', target: 'San Marino' }
+    - { source: 'Sao Tome and Principe', target: 'Sao Tome và Principe' }
+    - { source: 'Sao Tome/Principe Dobra', target: 'Sao Tome / Principe Dobra' }
+    - { source: 'Sao Tomean', target: 'Sao Tomean' }
+    - { source: Saturday, target: 'Thứ bảy' }
+    - { source: Saudi, target: Saudi }
+    - { source: 'Saudi Arabia', target: 'Ả-rập Xê-út' }
+    - { source: 'Saudi Arabia Riyal', target: 'Saudi Arabia Rian' }
+    - { source: Save, target: Lưu }
+    - { source: 'Save Comment Only', target: 'Lưu Bình luận Chỉ' }
+    - { source: Savings, target: 'Tiết kiệm' }
+    - { source: Score, target: 'Điểm số' }
+    - { source: Scottish, target: Scotland }
+    - { source: Search, target: 'Tìm kiếm' }
+    - { source: Select, target: Chọn }
+    - { source: 'Select Comparison', target: 'Chọn so sánh' }
+    - { source: 'Select File', target: 'Chọn File' }
+    - { source: 'Select Records to Delete', target: 'Chọn Hồ sơ để Xóa' }
+    - { source: 'Select Salary Grade', target: 'Chọn lớp Lương' }
+    - { source: 'Selected Criteria', target: 'Được lựa chọn tiêu chí' }
+    - { source: 'Selection Criteria', target: 'Tiêu chuẩn tuyển chọn' }
+    - { source: Senegal, target: Senegal }
+    - { source: Senegalese, target: Senegal }
+    - { source: September, target: 'Tháng Chín' }
+    - { source: 'Serbia and Montenegro', target: 'Serbia và Montenegro' }
+    - { source: Serbian, target: Serbia }
+    - { source: 'Service Period', target: 'Dịch vụ Thời gian' }
+    - { source: Seychelles, target: Seychelles }
+    - { source: 'Seychelles Rupee', target: 'Seychelles Rupee' }
+    - { source: Seychellois, target: Seychellois }
+    - { source: 'Should be a number', target: 'Nên có một số' }
+    - { source: 'Should be a positive number', target: 'Phải là một số dương' }
+    - { source: 'Should be a valid date in %format% format', target: 'Phải đúng định dạng %format%' }
+    - { source: 'Should be less than %amount%', target: 'Phải nhỏ hơn %amount%' }
+    - { source: 'Should be less than %amount% characters', target: 'Phải nhỏ hơn %amount% ký tự' }
+    - { source: 'Should be within Min/Max values', target: 'Nên nằm trong các giá trị Min / Max' }
+    - { source: 'Show Direct Deposit Details', target: 'Thông tin chi tiết tiền gửi trực tiếp' }
+    - { source: 'Sierra Leone', target: 'Sierra Leone' }
+    - { source: 'Sierra Leone Leone', target: 'Sierra Leone Leone' }
+    - { source: 'Sierra Leonean', target: 'Sierra Leonean' }
+    - { source: 'Silver (oz.)', target: 'Bạc (oz.)' }
+    - { source: Singapore, target: Singapore }
+    - { source: 'Singapore Dollar', target: 'Singapore Dollar' }
+    - { source: Singaporean, target: Singapore }
+    - { source: Size, target: 'Kích thước' }
+    - { source: Skill, target: 'Kỹ năng' }
+    - { source: Skills, target: 'Kỹ năng' }
+    - { source: 'Slovak Koruna', target: 'Cuaron Xlôvác' }
+    - { source: Slovakia, target: Xlô-va-ki-a }
+    - { source: Slovakian, target: Slovakia }
+    - { source: Slovenia, target: Slovenia }
+    - { source: Slovenian, target: 'Tiếng Slovenia' }
+    - { source: 'Solomon Islander', target: 'Solomon Đảo' }
+    - { source: 'Solomon Islands', target: 'Quần đảo Solomon' }
+    - { source: 'Solomon Islands Dollar', target: 'Solomon Islands Dollar' }
+    - { source: Somali, target: Somali }
+    - { source: 'Somali Shilling', target: 'Somali Shilling' }
+    - { source: Somalia, target: Somalia }
+    - { source: 'Sort in Ascending Order', target: 'Sắp xếp từ lớn đến' }
+    - { source: 'Sort in Descending Order', target: 'Sắp xếp thứ tự giảm dần' }
+    - { source: 'South Africa', target: 'Nam Phi' }
+    - { source: 'South African', target: 'Nam Phi' }
+    - { source: 'South African Rand', target: Ran }
+    - { source: 'South Carolina', target: 'Bang Nam Carolina' }
+    - { source: 'South Dakota', target: 'South Dakota' }
+    - { source: 'South Georgia and the South Sandwich Islands', target: 'Nam Georgia và Nam quần đảo Sandwich' }
+    - { source: 'South Korean', target: 'Hàn Quốc' }
+    - { source: Spain, target: 'Tây Ban Nha' }
+    - { source: Spanish, target: 'Tây Ban Nha' }
+    - { source: Speaking, target: 'Phát biểu' }
+    - { source: 'Sri Lanka', target: 'Sri Lanka' }
+    - { source: 'Sri Lanka Rupee', target: 'Sri Lanka Rupee' }
+    - { source: 'Sri Lankan', target: 'Sri Lanka' }
+    - { source: 'St. Helena Pound', target: 'St Helena Pound' }
+    - { source: 'Start Date', target: 'Ngày bắt đầu' }
+    - { source: 'Start date should be before end date', target: 'Ngày bắt đầu trước ngày kết thúc' }
+    - { source: State, target: 'Nhà nước' }
+    - { source: Status, target: 'Tình trạng' }
+    - { source: Structure, target: 'Cơ cấu tổ chức' }
+    - { source: 'Sub Unit', target: 'Tiểu đơn vị' }
+    - { source: Subordinates, target: 'Nhân viên dưới quyền' }
+    - { source: Subscribe, target: 'Theo dõi' }
+    - { source: 'Subscription Amount', target: 'Thuê bao Số tiền' }
+    - { source: 'Subscription Commence Date', target: 'Thuê bao Bắt ngày' }
+    - { source: 'Subscription Paid By', target: 'Thuê bao trả tiền' }
+    - { source: 'Subscription Renewal Date', target: 'Ngày đăng ký gia hạn' }
+    - { source: 'Successfully Added', target: 'Thành công Added' }
+    - { source: 'Successfully Deleted', target: 'Thành công Đã bị xóa' }
+    - { source: 'Successfully Saved', target: 'Thành công đã lưu' }
+    - { source: 'Successfully Updated', target: 'Thành công Cập nhật' }
+    - { source: 'Successfully Uploaded', target: 'Thành công Uploaded' }
+    - { source: Sudan, target: Sudan }
+    - { source: Sudanese, target: Sudan }
+    - { source: 'Sudanese Dinar', target: 'Sudan Dinar' }
+    - { source: 'Sudanese Pound', target: 'Sudan Pound' }
+    - { source: Sunday, target: 'Chủ Nhật' }
+    - { source: Supervisor, target: 'Giám sát' }
+    - { source: 'Supervisor Name', target: 'Giám sát Name' }
+    - { source: Supervisors, target: 'Giám sát' }
+    - { source: Suriname, target: Suriname }
+    - { source: Surinamer, target: Surinamer }
+    - { source: 'Surinamese Dollar', target: 'Surinamese Dollar' }
+    - { source: 'Svalbard and Jan Mayen', target: 'Svalbard và Jan Mayen' }
+    - { source: Swazi, target: Swazi }
+    - { source: Swaziland, target: Swaziland }
+    - { source: 'Swaziland Lilangeni', target: 'Swaziland Lilangeni' }
+    - { source: Sweden, target: 'Thụy Điển' }
+    - { source: Swedish, target: 'Thụy Điển' }
+    - { source: 'Swedish Krona', target: 'Thụy Điển Krona' }
+    - { source: Swiss, target: 'Thụy Sĩ' }
+    - { source: 'Swiss Franc', target: 'Franc Thụy Sĩ' }
+    - { source: Switzerland, target: 'Thụy Sĩ' }
+    - { source: Syrian, target: Syria }
+    - { source: 'Syrian Arab Republic', target: 'Syrian Arab Republic' }
+    - { source: 'Syrian Pound', target: 'Syria Pound' }
+    - { source: Taiwan, target: 'Đài Loan' }
+    - { source: 'Taiwan Dollar', target: 'Đài Loan Dollar' }
+    - { source: Taiwanese, target: 'Đài Loan' }
+    - { source: Tajik, target: Tajik }
+    - { source: Tajikistan, target: Tajikistan }
+    - { source: 'Tanzania, United Republic of', target: 'Tanzania, Hoa Cộng hòa' }
+    - { source: Tanzanian, target: Tanzania }
+    - { source: 'Tanzanian Shilling', target: 'Tanzania Shilling' }
+    - { source: Tennessee, target: Tennessee }
+    - { source: Terminated, target: 'Kết thúc' }
+    - { source: 'Termination Reasons', target: 'Chấm dứt lý do' }
+    - { source: Texas, target: Texas }
+    - { source: Thai, target: Thái }
+    - { source: 'Thai Baht', target: 'Bạt Thái Lan' }
+    - { source: Thailand, target: 'Thái Lan' }
+    - { source: Thursday, target: 'Thứ năm' }
+    - { source: Time, target: 'Thời gian' }
+    - { source: Timesheets, target: Timesheets }
+    - { source: Timor-Leste, target: Timor-Leste }
+    - { source: To, target: Để }
+    - { source: to, target: để }
+    - { source: 'To date should be after from date', target: 'Cho đến nay sau khi từ ngày' }
+    - { source: Togo, target: Togo }
+    - { source: Togolese, target: Togo }
+    - { source: Tokelau, target: Tokelau }
+    - { source: Tonga, target: 'Xe nhẹ có hai bánh ở ấn độ' }
+    - { source: Tongan, target: Tonga }
+    - { source: 'Trinidad and Tobago', target: 'Trinidad và Tobago' }
+    - { source: 'Trinidad/Tobago Dollar', target: 'Trinidad / Tobago Dollar' }
+    - { source: 'Trinidadian or Tobagonian', target: 'Trinidad hoặc Tobagonian' }
+    - { source: Tuesday, target: 'Thứ ba' }
+    - { source: Tunisia, target: Tunisia }
+    - { source: Tunisian, target: Tunisia }
+    - { source: 'Tunisian Dinar', target: 'Tunisia Dinar' }
+    - { source: Turkey, target: 'Thổ Nhĩ Kỳ' }
+    - { source: Turkish, target: 'Thổ Nhĩ Kỳ' }
+    - { source: 'Turkish Lira', target: 'Lia Thổ Nhĩ Kỳ' }
+    - { source: Turkmenistan, target: Turkmenistan }
+    - { source: 'Turks and Caicos Islands', target: 'Turks và Caicos Islands' }
+    - { source: Tuvalu, target: Tuvalu }
+    - { source: Tuvaluan, target: Tuvaluan }
+    - { source: Type, target: Loại }
+    - { source: 'Type Employee Id', target: 'Loại nhân viên Id' }
+    - { source: 'Type for hints', target: 'Loại cho các gợi ý' }
+    - { source: Uganda, target: Uganda }
+    - { source: 'Uganda Shilling', target: 'Uganda Shilling' }
+    - { source: Ugandan, target: Uganda }
+    - { source: Ukraine, target: Ukraine }
+    - { source: 'Ukraine Hryvnia', target: 'Ukraina Hryvnia' }
+    - { source: Ukrainian, target: Ucraina }
+    - { source: 'United Arab Emirates', target: 'Các Tiểu Vương Quốc Ả Rập Thống Nhất' }
+    - { source: 'United Kingdom', target: 'Vương Quốc Anh' }
+    - { source: 'United States', target: 'Hoa Kỳ' }
+    - { source: 'United States Dollar', target: 'Đô la Mỹ' }
+    - { source: 'United States Minor Outlying Islands', target: 'Hoa Kỳ quần đảo nhỏ xa trung tâm' }
+    - { source: Uruguay, target: Uruguay }
+    - { source: Uruguayan, target: Uruguay }
+    - { source: 'Uruguayan Peso', target: 'Uruguay Peso' }
+    - { source: Users, target: 'Người sử dụng' }
+    - { source: Utah, target: Utah }
+    - { source: 'Utd. Arab Emir. Dirham', target: 'Utd. Arab Emir. Điaham' }
+    - { source: Uzbekistan, target: Uzbekistan }
+    - { source: Uzbekistani, target: Uzbekistan }
+    - { source: Vacancies, target: 'Vị trí cần tuyển' }
+    - { source: Vanuatu, target: Vanuatu }
+    - { source: 'Vanuatu Vatu', target: 'Vanuatu Vatu' }
+    - { source: Venezuela, target: Venezuela }
+    - { source: Venezuelan, target: Venezuela }
+    - { source: 'Venezuelan Bolivar', target: 'Venezuela Bolivar' }
+    - { source: Vermont, target: Vermont }
+    - { source: 'Viet Nam', target: 'Việt Nam' }
+    - { source: Vietnamese, target: Việt }
+    - { source: 'Vietnamese Dong', target: 'Đồng Việt Nam' }
+    - { source: 'View Details', target: 'Xem chi tiết' }
+    - { source: 'Virgin Islands', target: 'Quần đảo Virgin' }
+    - { source: 'Virgin Islands, British', target: 'Quần đảo Virgin, Anh' }
+    - { source: 'Virgin Islands, U.s.', target: 'Quần đảo Virgin, Mỹ' }
+    - { source: Virginia, target: Virginia }
+    - { source: 'Wallis and Futuna', target: 'Wallis và Futuna' }
+    - { source: Washington, target: Washington }
+    - { source: Wednesday, target: 'Thứ tư' }
+    - { source: Welsh, target: 'Tiếng Wales' }
+    - { source: 'West Virginia', target: 'West Virginia' }
+    - { source: 'Western Sahara', target: 'Tây Sahara' }
+    - { source: Wisconsin, target: Wisconsin }
+    - { source: 'with new file', target: 'với tập tin mới' }
+    - { source: 'Work Email', target: 'Làm việc Email' }
+    - { source: 'Work Experience', target: 'Kinh nghiệm làm việc' }
+    - { source: 'Work Shifts', target: 'Công việc dịch chuyển' }
+    - { source: 'Work Telephone', target: 'Công việc Điện thoại' }
+    - { source: 'Work Week', target: 'Work Week' }
+    - { source: Writing, target: Viết }
+    - { source: Wyoming, target: Wyoming }
+    - { source: Year, target: Năm }
+    - { source: 'Years of Experience', target: 'Số năm kinh nghiệm' }
+    - { source: Yemen, target: Yemen }
+    - { source: 'Yemeni Riyal', target: 'Yemen Rian' }
+    - { source: Yemenite, target: Yemenite }
+    - { source: 'Yes', target: Vâng }
+    - { source: 'Yugoslav Dinar', target: 'Nam Tư Dinar' }
+    - { source: 'Yugoslavian Dinar', target: 'Nam Tư Dinar' }
+    - { source: Zambia, target: Zambia }
+    - { source: Zambian, target: Zambia }
+    - { source: 'Zambian Kwacha', target: 'Zambia Kwacha' }
+    - { source: Zimbabwe, target: Zimbabwe }
+    - { source: 'Zimbabwe Dollar', target: 'Zimbabwe Dollar' }
+    - { source: Zimbabwean, target: Zimbabwe }
+    - { source: 'Passwords do not match', target: 'Mật khẩu không khớp' }
+    - { source: Invalid, target: 'Không hợp lệ' }
+    - { source: 'Should be less than %number% digits', target: 'Phải nhỏ hơn %number% chữ số' }
+    - { source: 'Due date should be after from date', target: 'Do ngày nên sau khi từ ngày' }
+    - { source: Ok, target: Ok }
+    - { source: 'Delete records?', target: 'Xóa các bản ghi?' }
+    - { source: 'Select an Employee', target: 'Chọn một nhân viên' }
+    - { source: 'Delete?', target: 'Xóa?' }
+    - { source: 'Successfully Assigned', target: 'Thành công được chỉ định' }
+    - { source: 'Should be greater than %amount%', target: 'Phải lớn hơn %amount%' }
+    - { source: 'Successfully Submitted', target: 'Thành công trình' }
+    - { source: 'Invalid Employee', target: 'Không hợp lệ nhân viên' }
+    - { source: 'Accepts .docx, .doc, .odt, .pdf, .rtf, .txt up to 1MB', target: 'Chấp nhận. Docx, doc,. Odt, pdf, rtf, txt lên đến 1MB' }
+    - { source: 'Accepts jpg, .png, .gif up to 1MB', target: 'Chấp nhận jpg, png,. Gif lên đến 1MB' }
+    - { source: 'Accepts up to 1MB', target: 'Chấp nhận lên đến 1MB' }
+    - { source: 'Failed to Save: File Type Not Allowed', target: 'Không: File Type không được phép' }
+    - { source: 'Failed to Save: File Size Exceeded', target: 'Không: Kích cỡ file vượt quá' }
+    - { source: 'No Employees Available', target: 'Không có sẵn nhân viên' }
+    - { source: 'Should have at least %number% characters', target: 'Phải có ít nhất %number% ký tự' }
+    - { source: 'Successfully Copied', target: 'Thành công sao chép' }
+    - { source: 'LOGIN Panel', target: 'ĐĂNG NHẬP Bảng điều chỉnh' }
+    - { source: LOGIN, target: 'ĐĂNG NHẬP' }
+    - { source: 'Should be greater than first value', target: 'Nên lớn hơn giá trị đầu tiên' }
+    - { source: 'Joined After', target: 'Tham gia Sau khi' }
+    - { source: 'Joined Before', target: 'Tham gia Trước khi' }
+    - { source: 'Joined in Between', target: 'Tham gia ở giữa' }
+    - { source: 'Successfully Changed', target: 'Thành công Thay đổi' }
+    - { source: Username, target: 'Tên đăng nhập' }
+    - { source: Password, target: 'Mật khẩu' }
+    - { source: 'Username cannot be empty', target: 'Tên người dùng không thể để trống' }
+    - { source: 'Password cannot be empty', target: 'Mật khẩu không thể để trống' }
+    - { source: 'Invalid credentials', target: 'Không hợp lệ thông tin' }
+    - { source: Europe/Belgrade, target: 'Châu Âu / Belgrade' }
+    - { source: Europe/Minsk, target: 'Châu Âu / Minsk' }
+    - { source: Asia/Kuwait, target: 'Châu Á / Kuwait' }
+    - { source: Asia/Muscat, target: 'Châu Á / Muscat' }
+    - { source: Asia/Yekaterinburg, target: 'Châu Á / Yekaterinburg' }
+    - { source: Asia/Kolkata, target: 'Châu Á / Kolkata' }
+    - { source: Asia/Dhaka, target: 'Châu Á / Dhaka' }
+    - { source: Asia/Krasnoyarsk, target: 'Châu Á / Krasnoyarsk' }
+    - { source: Asia/Brunei, target: 'Châu Á / Brunei' }
+    - { source: Asia/Seoul, target: 'Châu Á / Seoul' }
+    - { source: Australia/Darwin, target: 'Úc / Darwin' }
+    - { source: Australia/Canberra, target: 'Úc / Canberra' }
+    - { source: Asia/Magadan, target: 'Châu Á / Magadan' }
+    - { source: Pacific/Fiji, target: 'Thái Bình Dương / Fiji' }
+    - { source: Pacific/Midway, target: 'Thái Bình Dương / Midway' }
+    - { source: Pacific/Honolulu, target: 'Thái Bình Dương / Honolulu' }
+    - { source: America/Anchorage, target: 'Mỹ / Anchorage' }
+    - { source: America/Los_Angeles, target: 'Mỹ / Los_Angeles' }
+    - { source: America/Denver, target: 'Mỹ / Denver' }
+    - { source: America/Tegucigalpa, target: 'Mỹ / Tegucigalpa' }
+    - { source: America/New_York, target: 'Mỹ / New_York' }
+    - { source: America/Halifax, target: 'Mỹ / Halifax' }
+    - { source: America/St_Johns, target: 'Mỹ / St_Johns,' }
+    - { source: America/Argentina/Buenos_Aires, target: 'Mỹ / Argentina / Buenos_Aires' }
+    - { source: Atlantic/South_Georgia, target: 'Đại Tây Dương / South_Georgia' }
+    - { source: Atlantic/Azores, target: 'Đại Tây Dương / Azores' }
+    - { source: Upload, target: 'Tải lên' }
+    - { source: 'Type in years', target: 'Loại trong những năm' }
+    - { source: Hours, target: Giờ }
+    - { source: 'Deleted Employee', target: 'Xóa nhân viên' }
+    - { source: Total, target: 'Tổng số' }
+    - { source: compulsory, target: 'bắt buộc' }
+    - { source: 'Termination Date', target: 'Chấm dứt ngày' }
+    - { source: 'Termination Reason', target: 'Chấm dứt Lý do' }
+    - { source: 'Activity Name', target: 'Hoạt động Name' }
+    - { source: 'Add Education', target: 'Thêm Giáo dục' }
+    - { source: 'Add Language', target: 'Thêm Ngôn ngữ' }
+    - { source: 'Add License', target: 'Thêm Giấy phép' }
+    - { source: 'Add Skill', target: 'Thêm kỹ năng' }
+    - { source: 'Address Street 1', target: 'Địa chỉ đường phố 1' }
+    - { source: 'Address Street 2', target: 'Địa chỉ Đường số 2' }
+    - { source: City, target: 'Thành phố' }
+    - { source: 'Confirm Password', target: 'Xác nhận mật khẩu' }
+    - { source: Copy, target: 'Sao chép' }
+    - { source: 'Copy From', target: 'Copy From' }
+    - { source: 'Project Name', target: 'Tên dự án' }
+    - { source: Deleted, target: 'Đã bị xóa' }
+    - { source: 'Edit Education', target: 'Sửa Giáo dục' }
+    - { source: 'Edit Language', target: 'Chỉnh sửa ngôn ngữ' }
+    - { source: 'Edit License', target: 'Chỉnh sửa Giấy phép' }
+    - { source: 'Edit Skill', target: 'Chỉnh sửa kỹ năng' }
+    - { source: State/Province, target: 'Tiểu bang / Tỉnh' }
+    - { source: 'Zip/Postal Code', target: 'Zip / Postal Code' }
+    - { source: Approve, target: 'Phê duyệt' }
+    - { source: format, target: 'định dạng' }
+    - { source: Scheduled, target: 'Theo lịch trình' }
+    - { source: 'Invalid Date', target: 'Không hợp lệ ngày' }
+    - { source: Note, target: Ghi }
+    - { source: 'Invalid Employee Name', target: 'Tên người lao động không hợp lệ' }
+    - { source: Action, target: 'Hành động' }
+    - { source: 'Active Job Vacancies', target: 'Thành công việc các vị trí cần tuyển' }
+    - { source: added, target: thêm }
+    - { source: 'Apply for', target: 'Áp dụng cho' }
+    - { source: Attachments, target: 'File đính kèm' }
+    - { source: 'Back to Job List', target: 'Sao lưu để Danh sách công việc' }
+    - { source: 'Collapse all', target: 'Thu gọn tất cả' }
+    - { source: 'Contact No', target: 'Liên hệ Không có' }
+    - { source: Download, target: 'Tải về' }
+    - { source: Email, target: Email }
+    - { source: 'Expand all', target: 'Mở rộng tất cả' }
+    - { source: for, target: cho }
+    - { source: Keywords, target: 'Từ khóa' }
+    - { source: 'Performed By', target: 'Thực hiện By' }
+    - { source: Reject, target: 'Từ chối' }
+    - { source: Rejected, target: 'Bị từ chối' }
+    - { source: rejected, target: 'từ chối' }
+    - { source: Remove, target: 'Hủy bỏ' }
+    - { source: Resume, target: 'Tiếp tục' }
+    - { source: 'Select Action', target: 'Chọn hành động' }
+    - { source: Submit, target: Gửi }
+    - { source: View, target: Xem }
+    - { source: 'Enter comma separated words', target: 'Nhập từ dấu phẩy tách' }
+    - { source: Approved, target: 'Phê duyệt' }
+    - { source: Submitted, target: Gửi }
+    - { source: Loading, target: Loading }
+    - { source: 'My Info', target: 'Thông tin của tôi' }
+    - { source: 'Successfully Undeleted', target: 'Thành công xóa được' }
+    - { source: Qualifications, target: 'Trình độ chuyên môn' }
+    - { source: 'Add Another', target: 'Thêm khác' }
+    - { source: Confirm, target: 'Xác nhận' }
+    - { source: 'To date should be after From date', target: 'Cho đến nay nên được sau khi Từ ngày' }
+    - { source: Activities, target: 'Hoạt động' }
+    - { source: 'Add Currency', target: 'Thêm tiền tệ' }
+    - { source: 'Add Customer', target: 'Thêm khách hàng' }
+    - { source: 'Add Employment Status', target: 'Thêm tình trạng việc làm' }
+    - { source: 'Add Job Category', target: 'Thêm Ngành nghề' }
+    - { source: 'Add Job Title', target: 'Thêm tiêu đề công việc' }
+    - { source: 'Add Location', target: 'Thêm Địa điểm' }
+    - { source: 'Add Membership', target: 'Thêm thành viên' }
+    - { source: 'Add Nationality', target: 'Thêm Quốc tịch' }
+    - { source: 'Add Pay Grade', target: 'Trả hạng' }
+    - { source: 'Add Project', target: 'Thêm dự án' }
+    - { source: 'Add Project Activity', target: 'Thêm Hoạt động dự án' }
+    - { source: 'Add Subscriber', target: 'Thêm đăng ký' }
+    - { source: 'Add Unit', target: 'Thêm Đơn vị' }
+    - { source: 'Add User', target: 'Thêm người dùng' }
+    - { source: 'Add Work Shift', target: 'Thêm ca làm việc' }
+    - { source: 'Projects under selected customer will also be deleted', target: 'Dự án theo khách hàng lựa chọn cũng sẽ bị xóa' }
+    - { source: 'Units under selected unit will also be deleted', target: 'Các đơn vị thuộc đơn vị được lựa chọn cũng sẽ bị xóa' }
+    - { source: 'Assigned Currencies', target: 'Giao Tiền tệ' }
+    - { source: 'Assigned Employees', target: 'Phân công nhân viên' }
+    - { source: 'Available Employees', target: 'Có sẵn nhân viên' }
+    - { source: Better, target: Hơn }
+    - { source: 'Click on a notification type to add subscribers', target: 'Nhấp vào một loại thông báo thêm thuê bao' }
+    - { source: 'Column order should not be changed', target: 'Không nên thay đổi thứ tự cột' }
+    - { source: 'Confirm New Password', target: 'Xác nhận mật khẩu mới' }
+    - { source: 'Copy Activity', target: 'Bản sao cuối' }
+    - { source: 'CSV Data Import', target: 'Xuất Khẩu dữ liệu CSV' }
+    - { source: 'Current Password', target: 'Mật khẩu hiện tại' }
+    - { source: 'Current Password Is Wrong', target: 'Mật khẩu hiện tại là sai' }
+    - { source: Customer, target: 'Khách hàng' }
+    - { source: 'Customer Name', target: 'Tên khách hàng' }
+    - { source: 'Date Format', target: 'Ngày Định dạng' }
+    - { source: 'Description is not specified', target: 'Mô tả không được chỉ định' }
+    - { source: Done, target: 'Thực hiện' }
+    - { source: 'Each import file should be configured for 100 records or less', target: 'Mỗi tập tin nhập khẩu phải được cấu hình cho 100 hồ sơ hoặc ít hơn' }
+    - { source: 'Edit Currency', target: 'Chỉnh sửa tệ' }
+    - { source: 'Edit Customer', target: 'Chỉnh sửa khách hàng' }
+    - { source: 'Edit Employment Status', target: 'Chỉnh sửa tình trạng việc làm' }
+    - { source: 'Edit Job Category', target: 'Chỉnh sửa Ngành nghề' }
+    - { source: 'Edit Job Title', target: 'Chỉnh sửa tiêu đề công việc' }
+    - { source: 'Edit Location', target: 'Chỉnh sửa Địa điểm' }
+    - { source: 'Edit Membership', target: 'Chỉnh sửa thành viên' }
+    - { source: 'Edit Nationality', target: 'Chỉnh sửa Quốc tịch' }
+    - { source: 'Edit Pay Grade', target: 'Chỉnh sửa Trả Lớp' }
+    - { source: 'Edit Project', target: 'Chỉnh sửa dự án' }
+    - { source: 'Edit Project Activity', target: 'Chỉnh sửa cuối dự án' }
+    - { source: 'Edit Subscriber', target: 'Chỉnh sửa thuê bao' }
+    - { source: 'Edit Unit', target: 'Chỉnh sửa Đơn vị' }
+    - { source: 'Edit User', target: 'Chỉnh sửa tài' }
+    - { source: 'Edit Work Shift', target: 'Chỉnh sửa phím Shift làm việc' }
+    - { source: 'Successfully Saved. Test Email Sent', target: 'Lưu thành công. Kiểm tra email đã gửi' }
+    - { source: 'Successfully Saved. Test Email Not Sent', target: 'Lưu thành công. Kiểm tra Email Không Gửi' }
+    - { source: 'Email Notification', target: 'Thông báo bằng email' }
+    - { source: 'Enable Admin module', target: 'Kích hoạt tính năng mô-đun quản trị' }
+    - { source: 'Enable Benefits module', target: 'Kích hoạt tính năng mô-đun tiện ích' }
+    - { source: 'Enable Leave module', target: 'Kích hoạt tính năng mô-đun nghỉ phép' }
+    - { source: 'Enable Performance module', target: 'Kích hoạt tính năng mô-đun Hiệu suất' }
+    - { source: 'Enable PIM module', target: 'Kích hoạt tính năng PIM mô-đun' }
+    - { source: 'Enable Recruitment module', target: 'Kích hoạt tính năng mô-đun Tuyển dụng' }
+    - { source: 'Enable Time module', target: 'Kích hoạt tính năng mô-đun Thời gian' }
+    - { source: Fax, target: Fax }
+    - { source: 'First Name and Last Name are compulsory', target: 'Họ và Tên là bắt buộc' }
+    - { source: 'Following languages are supported', target: 'Ngôn ngữ sau đây được hỗ trợ' }
+    - { source: 'Hours Per Day', target: 'Giờ mỗi ngày' }
+    - { source: 'If gender is specified, value should be either', target: 'Nếu giới được quy định cụ thể, giá trị sẽ là một trong hai' }
+    - { source: 'Job Description', target: 'Mô tả công việc' }
+    - { source: 'Leave Applications', target: 'Đơn nghỉ phép' }
+    - { source: 'Leave Approvals', target: 'Chấp nhận nghỉ phép' }
+    - { source: 'Leave Assignments', target: 'Chỉ định nghỉ phép' }
+    - { source: 'Leave Cancellations', target: 'Huỷ bỏ nghỉ phép' }
+    - { source: 'Leave Rejections', target: 'Từ chối nghỉ phép' }
+    - { source: 'Location Name', target: 'Tên vị trí' }
+    - { source: 'Mail Configuration', target: 'Cấu hình thư' }
+    - { source: 'Mail Sent As', target: 'Mail được gửi đi bởi' }
+    - { source: 'Maximum Salary', target: 'Mức lương tối đa' }
+    - { source: Medium, target: 'Trung bình' }
+    - { source: 'Minimum Salary', target: 'Tối thiểu Mức lương' }
+    - { source: 'Module Configuration', target: 'Mô-đun cấu hình' }
+    - { source: 'New Password', target: 'Mật khẩu mới' }
+    - { source: 'No activities selected', target: 'Không có hoạt động được lựa chọn' }
+    - { source: 'No assigned activities', target: 'Không có chỉ định hoạt động' }
+    - { source: 'Not Allowed to Delete Customer(s) Which Have Time Logged Against', target: 'Không cho phép để xóa khách hàng (s) có thời gian Logged chống' }
+    - { source: 'Not Allowed to Delete Project Activites Which Have Time Logged Against', target: 'Không được phép Xóa HOẠT ĐỘNG Dự án nào có thời gian Logged chống' }
+    - { source: 'Notification Type', target: 'Loại thông báo' }
+    - { source: 'Number of Employees', target: 'Số lượng nhân viên' }
+    - { source: 'Organization Name', target: 'Tên tổ chức' }
+    - { source: 'Path to Sendmail', target: 'Đường dẫn đến Sendmail' }
+    - { source: 'Performance Review Submissions', target: 'Hiệu suất đánh giá những phản hồi và những đề nghị, gợi ý' }
+    - { source: Phone, target: 'Điện thoại' }
+    - { source: Project, target: 'Dự án' }
+    - { source: 'Project Admin', target: 'Dự án Quản trị viên' }
+    - { source: 'Project Admins', target: 'Dự án quản trị' }
+    - { source: 'Registration Number', target: 'Số đăng ký' }
+    - { source: 'Sample CSV file', target: 'File CSV mẫu' }
+    - { source: 'Send Test Email', target: 'Gửi Email Kiểm tra' }
+    - { source: 'Sending Method', target: 'Phương thức gửi' }
+    - { source: 'Shift Name', target: 'Thay đổi Tên' }
+    - { source: 'SMTP Password', target: 'Mật khẩu SMTP' }
+    - { source: 'SMTP Port', target: 'Cổng SMTP' }
+    - { source: 'SMTP User', target: 'User SMTP' }
+    - { source: SSL, target: SSL }
+    - { source: Strong, target: 'Mạnh mẽ' }
+    - { source: Strongest, target: Strongest }
+    - { source: Subscribers, target: 'Đăng ký' }
+    - { source: 'OrangeHRM - Supported Languages', target: 'OrangeHRM - Ngôn ngữ hỗ trợ' }
+    - { source: 'Supported languages', target: 'Ngôn ngữ hỗ trợ' }
+    - { source: 'System Users', target: 'Danh sách người dùng hệ thống' }
+    - { source: 'Tax ID', target: 'ID thuế' }
+    - { source: 'Test Email Address', target: 'Kiểm tra địa chỉ Email' }
+    - { source: 'This unit will be added under', target: 'Đơn vị này sẽ được thêm vào dưới' }
+    - { source: TLS, target: TLS }
+    - { source: 'Unit Id', target: 'Đơn vị Id' }
+    - { source: 'Use browser language if set', target: 'Sử dụng ngôn ngữ trình duyệt nếu đặt' }
+    - { source: 'Use SMTP Authentication', target: 'Sử dụng xác thực SMTP' }
+    - { source: 'User Secure Connection', target: 'Người sử dụng an toàn kết nối' }
+    - { source: 'User Type', target: 'Loại Người sử dụng' }
+    - { source: 'Very Weak', target: 'Rất yếu' }
+    - { source: Weak, target: Yếu }
+    - { source: 'Zip Code', target: 'Zip Code' }
+    - { source: 'Failed to Import: File Type Not Allowed', target: 'Import không thành công: File Type không được phép' }
+    - { source: 'Failed to Import: File Size Exceeded', target: 'Import không thành công: Kích cỡ file vượt quá' }
+    - { source: 'Failed to Import: No Compatible Records', target: 'Import không thành công: Không có hồ sơ tương thích' }
+    - { source: 'Number of Records Imported', target: 'Số lượng hồ sơ nhập khẩu' }
+    - { source: 'Should be higher than Minimum Salary', target: 'Nên được cao hơn lương tối thiểu' }
+    - { source: 'Level Already Exists', target: 'Cấp đã tồn tại' }
+    - { source: 'All date fields should be in YYYY-MM-DD format', target: 'Tất cả các trường ngày phải ở trong định dạng YYYY-MM-DD' }
+    - { source: 'Multiple import files may be required', target: 'Nhiều tác phẩm nhập khẩu có thể được yêu cầu' }
+    - { source: 'Language and font help', target: 'Trợ giúp Ngôn ngữ và font' }
+    - { source: 'Will take no action', target: 'Sẽ không có hành động' }
+    - { source: 'Apply Leave', target: 'Áp dụng lại' }
+    - { source: 'Actions Performed on the Timesheet', target: 'Hành động đã thực hiện trên bảng chấm công' }
+    - { source: 'Add Row', target: 'Thêm dòng' }
+    - { source: 'Add Timesheet', target: 'Thêm bảng chấm công' }
+    - { source: 'Attendance Total Summary Report', target: 'Báo cáo tóm tắt tổng số tham dự' }
+    - { source: 'Define Timesheet Period', target: 'Định nghĩa Thời gian bảng chấm công' }
+    - { source: 'Deleted project activities are not editable', target: 'Hoạt động của dự án đã xóa không thể chỉnh sửa' }
+    - { source: 'Deleted projects/activities are marked with an asterik', target: 'Xóa các dự án / hoạt động được đánh dấu bằng 1 asterik' }
+    - { source: 'Edit Timesheet for', target: 'Chỉnh sửa bảng chấm công cho' }
+    - { source: 'Edit Timesheet for Month', target: 'Chỉnh sửa bảng chấm công cho tháng' }
+    - { source: 'Edit Timesheet for Week', target: 'Chỉnh sửa bảng chấm công cho tuần' }
+    - { source: 'Edit timesheet for week starting', target: 'Chỉnh sửa bảng chấm công cho tuần lễ bắt đầu' }
+    - { source: 'Employee name', target: 'Tên nhân viên' }
+    - { source: 'Employee Report', target: 'Nhân viên báo cáo' }
+    - { source: 'Should Be Less Than 24 and in HH:MM or Decimal Format', target: 'Nên là ít hơn 24 và HH: MM hoặc Định dạng số thập phân' }
+    - { source: 'Enter Employee Name', target: 'Nhập Tên nhân viên' }
+    - { source: 'First Day of Week', target: 'Ngày đầu tiên của Tuần' }
+    - { source: 'for Month starting on', target: 'Tháng bắt đầu từ ngày' }
+    - { source: 'for Week', target: Tuần }
+    - { source: Fri, target: 'Thứ 6' }
+    - { source: hours, target: giờ }
+    - { source: 'Failed to Create: Future Timesheets Not Allowed', target: 'Tạo không thành công: bảng chấm công trong tương lai không được phép' }
+    - { source: Mon, target: 'Thứ 2' }
+    - { source: 'No Accessible Timesheets', target: 'Không thể truy xuất bảng chấm công' }
+    - { source: 'Not Submitted', target: 'Không Gửi' }
+    - { source: 'Proceed with Time Module', target: 'Tiếp tục với Mô-đun Thời gian' }
+    - { source: 'Project Activity Details Report', target: 'Thông tin chi tiết Hoạt động dự án Báo cáo' }
+    - { source: 'Project Report', target: 'Báo cáo dự án' }
+    - { source: 'Remove Rows', target: 'Hủy bỏ dòng' }
+    - { source: Sat, target: 'Thứ 7' }
+    - { source: 'Select a Day to Create Timesheet', target: 'Chọn một ngày để tạo bảng chấm công' }
+    - { source: 'Select Employee', target: 'Chọn nhân viên' }
+    - { source: 'Status:', target: 'Tình trạng:' }
+    - { source: Sun, target: CN }
+    - { source: Thu, target: 'Thứ 5' }
+    - { source: 'Duplicate Records Found', target: 'Trùng lặp hồ sơ tìm thấy' }
+    - { source: 'Timesheet for', target: 'Bảng chấm công cho' }
+    - { source: 'Timesheet Period', target: 'Thời gian bảng chấm công' }
+    - { source: 'Timesheet period start day has been set', target: 'Ngày bắt đầu bảng chấm công đã được thiết lập' }
+    - { source: 'Timesheet period start day has not been defined. Please contact HR Admin', target: 'Ngày bắt đầu bảng chấm công chưa được định nghĩa. Vui lòng liên hệ với HR' }
+    - { source: 'Timesheets Pending Action', target: 'Timesheets chờ hành động' }
+    - { source: Tue, target: 'Thứ 3' }
+    - { source: Wed, target: 'Thứ 4' }
+    - { source: Week, target: Tuần }
+    - { source: 'Select a Project and an Activity', target: 'Chọn một dự án và hoạt động' }
+    - { source: 'Select Records to Remove', target: 'Chọn Hồ Sơ để Hủy bỏ' }
+    - { source: 'Timesheet Already Exists', target: 'Bảng chấm công đã tồn tại' }
+    - { source: 'Timesheet Submitted', target: 'Gửi bảng chấm công' }
+    - { source: 'No Timesheets Found', target: 'Không tìm thấy bảng chấm công nào' }
+    - { source: 'Timesheet Approved', target: 'Bảng chấm công được chấp thuận' }
+    - { source: 'Timesheet Rejected', target: 'Bảng chấm công bị từ chối' }
+    - { source: 'No Changes to Delete', target: 'Không có thay đổi để Xóa' }
+    - { source: 'Total Should Be Less Than 24 Hours', target: 'Tổng số nên là ít hơn 24 giờ' }
+    - { source: 'Remaining number of custom fields', target: 'Số còn lại của lĩnh vực tùy chỉnh' }
+    - { source: 'Account Number', target: 'Số tài khoản' }
+    - { source: 'Account Type', target: 'Loại tài khoản' }
+    - { source: 'Activate Employment', target: 'Nhân viên hoạt động' }
+    - { source: 'Add Custom Field', target: 'Thêm trường tuỳ chỉnh' }
+    - { source: 'Add Dependent', target: 'Thêm phụ thuộc' }
+    - { source: 'Add Direct Deposit Details', target: 'Thêm Chi tiết tiền gửi trực tiếp' }
+    - { source: 'Add Emergency Contact', target: 'Thêm tin liên lạc khẩn cấp' }
+    - { source: 'Add Immigration', target: 'Thêm Di Trú' }
+    - { source: 'Add Membership Details', target: 'Thêm Chi tiết thành viên' }
+    - { source: 'Add Reporting Method', target: 'Thêm Phương pháp báo cáo' }
+    - { source: 'Add Subordinate', target: 'Thêm cấp dưới' }
+    - { source: 'Add Supervisor', target: 'Thêm Giám sát' }
+    - { source: 'Add Supervisor/Subordinate', target: 'Thêm Giám sát / cấp dưới' }
+    - { source: 'Add Termination Reason', target: 'Thêm Lý do Chấm dứt' }
+    - { source: 'Add Work Experience', target: 'Thêm kinh nghiệm làm việc' }
+    - { source: 'All customs fields are in use', target: 'Tất cả các lĩnh vực hải quan đang được sử dụng' }
+    - { source: 'Assigned Dependents', target: 'Phân công người phụ thuộc' }
+    - { source: 'Assigned Emergency Contacts', target: 'Được giao khẩn cấp Liên hệ' }
+    - { source: 'Assigned Memberships', target: 'Phân công thành viên' }
+    - { source: 'Assigned Subordinates', target: 'Phân công nhân viên dưới quyền' }
+    - { source: 'Assigned Supervisors', target: 'Được giao giám sát' }
+    - { source: 'At least one phone number is required', target: 'Ít nhất một số điện thoại được yêu cầu' }
+    - { source: 'Bi Weekly', target: 'Bi tuần' }
+    - { source: child, target: 'trẻ em' }
+    - { source: Child, target: 'Trẻ em' }
+    - { source: 'Configure PIM', target: 'Cấu hình PIM' }
+    - { source: 'Contract Details', target: 'Hợp đồng Thông tin chi tiết' }
+    - { source: 'Country Specific Information', target: 'Quốc gia cụ thể thông tin' }
+    - { source: 'Create Login Details', target: 'Tạo chi tiết đăng nhập' }
+    - { source: Custom, target: 'Tuỳ chỉnh' }
+    - { source: 'Custom Field Name', target: 'Tên Trường Tuỳ chỉnh' }
+    - { source: 'Date of Expiry', target: 'Ngày của hết hạn' }
+    - { source: 'Direct Deposit', target: 'Direct Deposit' }
+    - { source: Document, target: 'Tài liệu' }
+    - { source: 'Document No', target: 'Tài liệu Không có' }
+    - { source: 'Drop Down', target: 'Drop Down' }
+    - { source: 'Edit Custom Field', target: 'Chỉnh sửa trường Tuỳ chỉnh' }
+    - { source: 'Edit Dependent', target: 'Chỉnh sửa phụ thuộc' }
+    - { source: 'Edit Emergency Contact', target: 'Chỉnh sửa liên lạc khẩn cấp' }
+    - { source: 'Edit Employment Termination', target: 'Chỉnh sửa thôi việc nhân viên' }
+    - { source: 'Edit Membership Detail', target: 'Chỉnh sửa chi tiết thành viên' }
+    - { source: 'Edit Reporting Method', target: 'Chỉnh sửa Phương pháp báo cáo' }
+    - { source: 'Edit Subordinate', target: 'Chỉnh sửa cấp dưới' }
+    - { source: 'Edit Supervisor', target: 'Chỉnh sửa Giám sát' }
+    - { source: 'Edit Termination Reason', target: 'Chỉnh sửa Lý do Chấm dứt' }
+    - { source: 'Edit Work Experience', target: 'Chỉnh sửa Kinh nghiệm làm việc' }
+    - { source: 'Emergency Contact(s)', target: 'Liên Lạc Khẩn Cấp (s)' }
+    - { source: 'Employee Information', target: 'Nhân viên thông tin' }
+    - { source: Employment, target: 'Việc làm' }
+    - { source: 'Employment Contract', target: 'Việc làm hợp đồng' }
+    - { source: 'Enter a number', target: 'Nhập số' }
+    - { source: 'Enter allowed options separated by commas', target: 'Nhập tùy chọn cho phép phân cách bằng dấu phẩy' }
+    - { source: 'Ethnic Race', target: 'Dân tộc Race' }
+    - { source: Exemptions, target: 'Miễn giảm' }
+    - { source: 'Federal Income Tax', target: 'Thuế thu nhập liên bang' }
+    - { source: 'Field Name', target: 'Trường Name' }
+    - { source: 'Field Type', target: 'Trường Type' }
+    - { source: 'From date should be before to date', target: 'Từ ngày nên được trước khi cho đến nay' }
+    - { source: GPA/Score, target: 'Điểm trung bình / điểm' }
+    - { source: Hourly, target: 'Hàng giờ' }
+    - { source: Institute, target: Viện }
+    - { source: 'Issued date should be before expiration date', target: 'Ngày cấp trước ngày hết hạn' }
+    - { source: Major/Specialization, target: 'Chính / Chuyên ngành' }
+    - { source: Married, target: 'Kết hôn' }
+    - { source: Max, target: Max }
+    - { source: 'Membership Type', target: 'Thành viên Loại' }
+    - { source: 'Military Service', target: 'Vụ quân sự' }
+    - { source: Min, target: Min }
+    - { source: Monthly, target: 'Hàng tháng' }
+    - { source: 'Monthly on first pay of month.', target: 'Tháng lương đầu tiên của tháng.' }
+    - { source: N/A, target: 'N / A' }
+    - { source: 'Nick Name', target: 'Nick Name' }
+    - { source: 'Non Resident Alien', target: 'Không cư trú' }
+    - { source: 'Not Applicable', target: 'Không áp dụng' }
+    - { source: other, target: khác }
+    - { source: Passport, target: 'Hộ chiếu' }
+    - { source: 'Personal Details', target: 'Thông tin cá nhân' }
+    - { source: Photograph, target: Ảnh }
+    - { source: 'Please Specify', target: 'Hãy xác định' }
+    - { source: Reason, target: 'Lý do' }
+    - { source: Report-to, target: 'Báo cáo đến' }
+    - { source: Screen, target: 'Màn hình' }
+    - { source: 'Select a Photograph', target: 'Chọn một bức ảnh' }
+    - { source: 'Select Membership', target: 'Chọn thành viên' }
+    - { source: 'Select Options', target: 'Chọn Tùy chọn' }
+    - { source: 'Semi Monthly', target: 'Bán hàng tháng' }
+    - { source: 'Show Deprecated Fields', target: 'Các trường phản đối' }
+    - { source: 'Show Nick Name, Smoker and Military Service in Personal Details', target: 'Hiển thị Nick Name, Hút Thuốc và vụ quân sự trong Thông tin cá nhân' }
+    - { source: 'Show SIN field in Personal Details', target: 'Hiển thị trường SIN Thông tin cá nhân' }
+    - { source: 'Show SSN field in Personal Details', target: 'Hiển thị trường SSN Thông tin cá nhân' }
+    - { source: 'Show US Tax Exemptions menu', target: 'Hiển thị Mỹ đơn miễn giảm thuế' }
+    - { source: 'SIN Number', target: 'SIN Số' }
+    - { source: Single, target: 'Độc thân' }
+    - { source: Smoker, target: 'Hút Thuốc' }
+    - { source: 'SSN Number', target: 'SSN Số' }
+    - { source: 'State Income Tax', target: 'Thuế thu nhập nhà nước' }
+    - { source: Subordinate, target: 'Cấp dưới' }
+    - { source: 'Tax Exemptions', target: 'Thuế miễn giảm' }
+    - { source: 'Terminate Employment', target: 'Thôi việc nhân viên' }
+    - { source: 'Terminated Date', target: 'Kết thúc ngày' }
+    - { source: 'Terminated on', target: 'Kết thúc vào' }
+    - { source: 'Terminated Reason', target: 'Kết thúc Lý do' }
+    - { source: 'Text or Number', target: 'Văn bản hoặc số' }
+    - { source: 'Unemployment State', target: 'Tỷ lệ thất nghiệp Nhà nước' }
+    - { source: 'User Name', target: 'User Name' }
+    - { source: Visa, target: Visa }
+    - { source: Weekly, target: 'Hàng tuần' }
+    - { source: 'Work experience', target: 'Kinh nghiệm làm việc' }
+    - { source: 'Work State', target: 'Làm việc nhà nước' }
+    - { source: 'Renewal date should be after commence date', target: 'Ngày gia hạn nên sau khi bắt đầu ngày' }
+    - { source: 'Delete photograph?', target: 'Xóa bức ảnh?' }
+    - { source: 'Failed To Save: User Name Exists', target: 'Không: người sử dụng Name Tồn tại' }
+    - { source: 'Failed To Save: Employee Id Exists', target: 'Không: nhân viên Id Tồn tại' }
+    - { source: 'Will be deleted from all employees', target: 'Sẽ bị xóa từ tất cả các nhân viên' }
+    - { source: Active, target: 'Hoạt động' }
+    - { source: 'Add another', target: 'Thêm một' }
+    - { source: 'Add Candidate', target: 'Thêm ứng cử viên' }
+    - { source: 'Add Job Vacancy', target: 'Thêm tin tuyển dụng việc làm' }
+    - { source: 'Adding Candidate', target: 'Thêm ứng cử viên' }
+    - { source: 'Application Initiated', target: 'Ứng dụng khởi động' }
+    - { source: 'applied for the', target: 'áp dụng cho' }
+    - { source: Archived, target: 'Lưu trữ' }
+    - { source: 'Are you sure you want to remove job vacancy of the candidate', target: 'Bạn có chắc bạn muốn loại bỏ vị trí tuyển dụng việc làm của ứng cử viên' }
+    - { source: 'as failed', target: 'là thất bại' }
+    - { source: 'as passed', target: 'đã được thông qua' }
+    - { source: 'assigned the job vacancy', target: 'được giao vị trí tuyển dụng việc làm' }
+    - { source: by, target: bởi }
+    - { source: Candidate, target: 'Ứng cử viên' }
+    - { source: 'Candidate Name', target: 'Tên Ưng Viên' }
+    - { source: 'Candidate''s History', target: 'Lịch sử của ứng viên' }
+    - { source: candidateName, target: candidateName }
+    - { source: 'Cannot assign same interviewer twice', target: 'Không thể chỉ định người phỏng vấn cùng một hai lần' }
+    - { source: 'Cannot assign same vacancy twice', target: 'Không thể chỉ định vị trí tuyển dụng cùng một hai lần' }
+    - { source: 'Click on a candidate to perform actions', target: 'Nhấp chuột vào một ứng cử viên để thực hiện hành động' }
+    - { source: Closed, target: 'Đóng cửa' }
+    - { source: Continue, target: 'Tiếp tục' }
+    - { source: 'Date of Application', target: 'Ngày áp dụng' }
+    - { source: 'Should be less than current date', target: 'Nên được ít hơn so với ngày hiện tại' }
+    - { source: 'Decline Offer', target: 'Từ chối Cung cấp' }
+    - { source: Details, target: 'Thông tin chi tiết' }
+    - { source: 'Edit Candidate', target: 'Chỉnh sửa Candidate' }
+    - { source: 'Edit Interview Details', target: 'Chỉnh sửa Chi tiết Phỏng vấn' }
+    - { source: 'Edit Job Vacancy', target: 'Chỉnh sửa tin tuyển dụng việc làm' }
+    - { source: 'Editing Candidate', target: 'Chỉnh sửa Candidate' }
+    - { source: 'from the', target: từ }
+    - { source: Hire, target: Thuê }
+    - { source: Hired, target: 'Cho thuê' }
+    - { source: hired, target: 'cho thuê' }
+    - { source: 'Hiring Manager', target: 'Thuê quản lý' }
+    - { source: 'Interview Failed', target: 'Cuộc phỏng vấn không thành công' }
+    - { source: 'Interview Passed', target: 'Phỏng vấn Passed' }
+    - { source: 'Interview Scheduled', target: 'Phỏng vấn theo lịch trình' }
+    - { source: 'Interview Title', target: 'Phỏng vấn Tiêu đề' }
+    - { source: 'Interviewer Name', target: 'Phỏng vấn Name' }
+    - { source: 'Job Offered', target: 'Công việc Cung cấp' }
+    - { source: 'Job Vacancy', target: 'Việc làm trống' }
+    - { source: Manual, target: 'Hướng dẫn sử dụng' }
+    - { source: 'Mark Interview Failed', target: 'Đánh dấu phỏng vấn không thành công' }
+    - { source: 'Mark Interview Passed', target: 'Đánh dấu phỏng vấn trôi qua' }
+    - { source: marked, target: 'đánh dấu' }
+    - { source: 'marked the offer as declined', target: 'đánh dấu sự đề nghị là từ chối' }
+    - { source: 'Method of Application', target: 'Phương pháp áp dụng' }
+    - { source: 'No Actions', target: 'Không có Actions' }
+    - { source: 'No active job vacancies to display', target: 'Không có công việc của vị trí tuyển dụng hoạt động để hiển thị' }
+    - { source: 'Number of Positions', target: 'Số lượng Chứng khoán' }
+    - { source: 'Offer Declined', target: 'Tên sản phẩm bị từ chối' }
+    - { source: 'Offer Job', target: 'Cung cấp việc làm' }
+    - { source: 'offered the job', target: 'cung cấp công việc' }
+    - { source: 'on', target: trên }
+    - { source: Online, target: 'Trực tuyến' }
+    - { source: 'Performed Action', target: 'Thực hiện hành động' }
+    - { source: 'Performed Date', target: 'Thực hiện ngày' }
+    - { source: 'Publish in RSS feed(1) and web page(2)', target: 'Xuất bản trong RSS feed (1) và trang web (2)' }
+    - { source: removed, target: 'loại bỏ' }
+    - { source: 'RSS Feed URL', target: 'RSS nguồn cấp dữ liệu URL' }
+    - { source: 'Schedule Interview', target: 'Lịch trình phỏng vấn' }
+    - { source: scheduled, target: 'dự kiến' }
+    - { source: Shortlist, target: 'Yêu cầu thông tin' }
+    - { source: Shortlisted, target: 'Lọt vào danh sách' }
+    - { source: 'Shortlisted for', target: 'Lọt vào danh sách cho' }
+    - { source: Vacancy, target: 'Vị trí tuyển dụng' }
+    - { source: 'Vacancy Name', target: 'Vị trí tuyển dụng Tên' }
+    - { source: 'View Action History', target: 'Lịch sử hành động' }
+    - { source: 'View Interview Details', target: 'Thông tin chi tiết Phỏng vấn' }
+    - { source: 'Web Page URL', target: 'URL Trang Web' }
+    - { source: with, target: với }
+    - { source: 'Successfully Scheduled', target: 'Thành công theo lịch trình' }
+    - { source: 'This action will remove previous vacancy', target: 'Hành động này sẽ loại bỏ các vị trí tuyển dụng trước đây' }
+    - { source: 'Remove?', target: 'Hủy bỏ?' }
+    - { source: 'Vacancy Apply Form', target: 'Form tuyển dụng' }
+    - { source: 'Application Received', target: 'Nhận đơn' }
+    - { source: Uploaded, target: 'Tải lên' }
+    - { source: 'A new leave type will be created with same name', target: 'Một loại nghỉ phép mới sẽ được tạo ra với cùng tên' }
+    - { source: Actions, target: 'Hoạt động' }
+    - { source: Assign, target: 'Chỉ định' }
+    - { source: 'At Least One Day Should Be a Working Day', target: 'Ít nhất một ngày nên là một ngày làm việc' }
+    - { source: Canceled, target: 'Bị hủy bỏ' }
+    - { source: characters, target: 'nhân vật' }
+    - { source: 'Confirmation Required', target: 'Xác nhận yêu cầu' }
+    - { source: 'Current Leave Period', target: 'Leave Thời gian hiện tại' }
+    - { source: 'Date format should be', target: 'Định dạng ngày nên được' }
+    - { source: 'Define Leave Type', target: 'Xác định lại Loại' }
+    - { source: 'Duration (Hours)', target: 'Thời gian (giờ)' }
+    - { source: 'Following Year', target: 'Sau năm' }
+    - { source: 'For Leap Years', target: 'Năm nhuận' }
+    - { source: 'For Non-Leap Years', target: 'Không Leap Years' }
+    - { source: 'From Date', target: 'Từ ngày' }
+    - { source: 'From Time', target: 'Từ Time' }
+    - { source: 'Full Day', target: 'Full Day' }
+    - { source: 'Go to Detailed View', target: 'Xem chi tiết' }
+    - { source: 'Half Day', target: 'Nửa ngày' }
+    - { source: Holiday, target: 'Kỳ nghỉ' }
+    - { source: 'Leave Balance', target: 'Để cân bằng' }
+    - { source: 'Leave Comment', target: 'Bình luận' }
+    - { source: 'Leave Entitled', target: 'Để lại tiêu đề' }
+    - { source: 'Leave Period Does Not Exist', target: 'Để lại Thời gian không không tồn tại' }
+    - { source: 'Leave Request', target: 'Để lại yêu cầu' }
+    - { source: 'Leave Scheduled', target: 'Để lại theo lịch trình' }
+    - { source: 'Leave Taken', target: 'Để lại Taken' }
+    - { source: 'Leave Type', target: 'Để Loại' }
+    - { source: 'Leave type will be undeleted', target: 'Loại để lại sẽ được bỏ xoá' }
+    - { source: 'My Leave Details', target: 'Chi tiết của tôi Leave' }
+    - { source: 'My Leave List', target: 'Danh sách của tôi Leave' }
+    - { source: 'Name of Holiday', target: 'Tên của khách sạn Holiday' }
+    - { source: 'No Leave Types with Leave Balance', target: 'Không có loại Leave Balance Leave' }
+    - { source: 'No of Hours', target: 'Không có giờ' }
+    - { source: 'Non Working Day', target: 'Không làm việc ngày' }
+    - { source: 'Non-working Day', target: '-Ngày làm việc' }
+    - { source: 'Number of Days', target: 'Số ngày' }
+    - { source: 'Pending Approval', target: 'Trong khi chờ phê duyệt' }
+    - { source: 'Repeats Annually', target: 'Lặp đi lặp lại hàng năm' }
+    - { source: 'Show Leave with Status', target: 'Hiện Để lại với trạng thái' }
+    - { source: Taken, target: 'Thực hiện' }
+    - { source: 'Overlapping Leave Request Found', target: 'Chồng chéo Leave Yêu cầu được tìm thấy' }
+    - { source: 'This is a deleted leave type. Reactivate it?', target: 'Đây là một loại nghỉ phép đã bị xóa. Kích hoạt lại nó?' }
+    - { source: 'To Date', target: 'Đến ngày' }
+    - { source: 'To Time', target: Giờ }
+    - { source: 'Total Hours', target: 'Tổng số giờ' }
+    - { source: 'Total time is greater than the shift length', target: 'Tổng số thời gian là lớn hơn chiều dài thay đổi' }
+    - { source: 'Failed to Submit: No Working Days Selected', target: 'Không để gửi: Không có ngày làm việc lựa chọn' }
+    - { source: 'Failed to Save: Date Already Assigned', target: 'Không: ngày đã được chỉ định' }
+    - { source: 'Failed to Assign: Work Shift Length Exceeded', target: 'Không Chỉ định: Chiều dài làm việc ca vượt quá' }
+    - { source: 'Failed to Submit: Work Shift Length Exceeded', target: 'Không để gửi: Chiều dài làm việc ca vượt quá' }
+    - { source: 'Failed to Submit: Leave Balance Exceeded', target: 'Không để gửi: Để cân bằng vượt quá' }
+    - { source: 'Should be less than work shift length', target: 'Nên được ít hơn chiều dài ca làm việc' }
+    - { source: 'Leave Period Not Defined', target: 'Để lại Không Xác định Thời gian' }
+    - { source: 'Full Day/Half Day', target: 'Day / Ngày Một nửa' }
+    - { source: 'Leave Request (%date_range%) %name%', target: 'Đơn nghỉ phép (%date_range%)' }
+    - { source: 'Failed to Assign', target: 'Không chỉ định' }
+    - { source: 'Failed to Submit', target: 'Không để gửi' }
+    - { source: 'Add Leave Type', target: 'Để Loại' }
+    - { source: 'Edit Leave Type', target: 'Chỉnh sửa lại Loại' }
+    - { source: 'View Attendance Record', target: 'Xem thông tin tham dự' }
+    - { source: 'Punch In', target: 'Cú đấm Trong' }
+    - { source: 'Punch In Note', target: 'Cú đấm Trong chú giải' }
+    - { source: 'Punch Out', target: 'Đấm Out' }
+    - { source: 'Punch Out Note', target: 'Đấm Out Lưu ý' }
+    - { source: 'No attendance records to display', target: 'Không có thông tin tham dự để hiển thị' }
+    - { source: 'Punch out Time Should Be Higher Than Punch in Time', target: 'Đấm ra thời gian nên là cao hơn cú đấm trong thời gian' }
+    - { source: 'Overlapping Records Found', target: 'Ghi chồng lên nhau được tìm thấy' }
+    - { source: 'Comment should be less than 250 characters', target: 'Bình luận nên được ít hơn 250 ký tự' }
+    - { source: 'Punch in/out note', target: 'Đấm vào / ra lưu ý' }
+    - { source: Timezone, target: 'Múi giờ' }
+    - { source: 'Last punch in time', target: 'Cú đấm cuối cùng trong thời gian' }
+    - { source: In, target: Trong }
+    - { source: Out, target: Out }
+    - { source: 'Attendance Configuration', target: 'Cấu hình tham dự' }
+    - { source: 'Employee can change current time when punching in/out', target: 'Nhân viên có thể thay đổi thời gian hiện tại khi đấm vào / ra' }
+    - { source: 'Employee can edit/delete own attendance records', target: 'Nhân viên có thể chỉnh sửa / xóa hồ sơ tham dự của' }
+    - { source: 'Supervisor can add/edit/delete attendance records of subordinates', target: 'Giám sát có thể thêm / sửa / xóa các bản ghi sự tham gia của cấp dưới' }
+    - { source: 'My Attendance Records', target: 'Hồ sơ tham dự của tôi' }
+    - { source: 'You are not allowed to view this page', target: 'Bạn không được phép xem trang này' }
+    - { source: 'Add Attendance Records', target: 'Thêm Hồ sơ tham dự' }
+    - { source: 'Should Be a Valid Date in %format% Format', target: 'Ngày hợp lệ phải có định dạng %format%' }
+    - { source: 'Should Be a Valid Time in %format% Format', target: 'Thời gian hợp lệ phải có định dạng %format%' }

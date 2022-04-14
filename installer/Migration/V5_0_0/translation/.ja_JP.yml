@@ -1,0 +1,1550 @@
+translations:
+    - { source: '1M Max, any larger attachments will be ignored', target: 1Mマックスは、任意の大きな添付ファイルは無視されます。 }
+    - { source: Add, target: 加える }
+    - { source: 'Add Attachment', target: 添付ファイルを追加します。 }
+    - { source: 'Add Employee', target: 従業員を追加します。 }
+    - { source: 'Add KPI', target: KPIを追加します。 }
+    - { source: 'Add Review', target: レビューを追加 }
+    - { source: 'Add Salary Component', target: 給与コンポーネントを追加する }
+    - { source: 'Added By', target: によって追加された }
+    - { source: Address, target: アドレス }
+    - { source: Admin, target: 管理 }
+    - { source: Afghan, target: アフガニスタンの }
+    - { source: Afghanistan, target: アフガニスタン }
+    - { source: 'Afghanistan Afghani', target: アフガニスタンアフガニスタン }
+    - { source: 'Age Group', target: 年齢層 }
+    - { source: Alabama, target: アラバマ州 }
+    - { source: Alaska, target: アラスカ州 }
+    - { source: Albania, target: アルバニア }
+    - { source: Albanian, target: アルバニア語 }
+    - { source: 'Albanian Lek', target: アルバニア·レク }
+    - { source: Algeria, target: アルジェリア }
+    - { source: Algerian, target: アルジェリアの }
+    - { source: 'Algerian Dinar', target: アルジェリアディナール }
+    - { source: All, target: すべて }
+    - { source: 'Allows numbers and only + - / ( )', target: '数字を可能とし、唯一の+ - /（）' }
+    - { source: 'Already exists', target: すでに存在している }
+    - { source: 'Name Already Exists', target: 名は既に存在します }
+    - { source: American, target: アメリカン }
+    - { source: 'American Samoa', target: 米サモア }
+    - { source: Amount, target: 量 }
+    - { source: Andorra, target: アンドラ }
+    - { source: Andorran, target: アンドラ }
+    - { source: Angola, target: アンゴラ }
+    - { source: Angolan, target: アンゴラ人 }
+    - { source: 'Angolan New Kwanza', target: アンゴラ新クワンザ }
+    - { source: Anguilla, target: アングィラ }
+    - { source: Antarctica, target: 南極 }
+    - { source: 'Antigua and Barbuda', target: アンチグアバーブーダ }
+    - { source: Antiguans, target: 適用される }
+    - { source: Apply, target: 適用される }
+    - { source: April, target: 4月 }
+    - { source: 'are required', target: 必要とされる }
+    - { source: Argentina, target: アルゼンチン }
+    - { source: 'Argentina Pesos', target: アルゼンチン·ペソ }
+    - { source: 'Argentine Peso', target: アルゼンチンペソ }
+    - { source: Argentinean, target: アルゼンチン }
+    - { source: Arizona, target: アリゾナ州 }
+    - { source: Arkansas, target: アーカンソー州 }
+    - { source: 'Armed Forces Americas (except Canada)', target: 国軍アメリカ大陸（カナダを除く） }
+    - { source: 'Armed Forces Middle East', target: 国軍中東 }
+    - { source: 'Armed Forces Pacific', target: 国軍太平洋 }
+    - { source: Armenia, target: アルメニア }
+    - { source: Armenian, target: アルメニア人 }
+    - { source: Aruba, target: アルバ }
+    - { source: 'Aruban Florin', target: Arubanフローリン }
+    - { source: 'Assign Leave', target: コメント割り当てる }
+    - { source: 'Assigned Salary Components', target: 割り当てられた給与のコンポーネント }
+    - { source: 'Attachment Size Exceeded', target: 添付ファイルのサイズを超過 }
+    - { source: Attendance, target: 出席者 }
+    - { source: 'Attendance Summary', target: 出席者の概要 }
+    - { source: August, target: 8月 }
+    - { source: Australia, target: オーストラリア }
+    - { source: Australian, target: オーストラリア人 }
+    - { source: 'Australian Dollar', target: 豪ドル }
+    - { source: Austria, target: オーストリア }
+    - { source: Austrian, target: オーストリアの }
+    - { source: Azerbaijan, target: アゼルバイジャン }
+    - { source: Azerbaijani, target: アゼルバイジャン語 }
+    - { source: Back, target: バック }
+    - { source: Bahamas, target: バハマ }
+    - { source: Bahamian, target: バハマ }
+    - { source: 'Bahamian Dollar', target: バハマドル }
+    - { source: Bahrain, target: バーレーン }
+    - { source: Bahraini, target: バーレーンの }
+    - { source: 'Bahraini Dinar', target: バーレーンディナール }
+    - { source: Bangladesh, target: バングラデシュ }
+    - { source: Bangladeshi, target: バングラデシュ }
+    - { source: 'Bangladeshi Taka', target: バングラデシュタカ }
+    - { source: Barbadian, target: バルバドス }
+    - { source: Barbados, target: バルバドス }
+    - { source: 'Barbados Dollar', target: バルバドスドル }
+    - { source: Barbudans, target: バルバドスドル }
+    - { source: Basic, target: 基本的な }
+    - { source: Batswana, target: ベラルーシ }
+    - { source: Belarus, target: ベラルーシ }
+    - { source: Belarusian, target: ベラルーシ語 }
+    - { source: Belgian, target: ベルギーの }
+    - { source: Belgium, target: ベルギー }
+    - { source: Belize, target: ベリーズ }
+    - { source: 'Belize Dollar', target: ベリーズドル }
+    - { source: Belizean, target: ベリーズの }
+    - { source: Benin, target: ベナン }
+    - { source: Beninese, target: ベニンの }
+    - { source: Bermuda, target: バミューダ }
+    - { source: 'Bermudian Dollar', target: バミューダドル }
+    - { source: Bhutan, target: ブータン }
+    - { source: 'Bhutan Ngultrum', target: ブータン·ニュルタム }
+    - { source: Bhutanese, target: ブータン人 }
+    - { source: Bolivia, target: ボリビア }
+    - { source: Bolivian, target: ボリビア }
+    - { source: 'Bolivian Boliviano', target: ボリビアーノ }
+    - { source: 'Bosnia and Herzegovina', target: ボスニア·ヘルツェゴビナ }
+    - { source: Bosnian, target: ボスニア語 }
+    - { source: Botswana, target: ボツワナ }
+    - { source: 'Botswana Pula', target: ボツワナ·プラ }
+    - { source: 'Bouvet Island', target: ブーベ島 }
+    - { source: Brazil, target: ブラジル }
+    - { source: Brazilian, target: ブラジル人 }
+    - { source: 'Brazilian Real', target: ブラジルレアル }
+    - { source: British, target: 英国の }
+    - { source: 'British Indian Ocean Territory', target: イギリス領インド洋地域 }
+    - { source: 'Brunei Darussalam', target: ブルネイ·ダルサラーム国 }
+    - { source: 'Brunei Dollar', target: ブルネイドル }
+    - { source: Bruneian, target: ブルネイ人 }
+    - { source: Bulgaria, target: ブルガリア }
+    - { source: Bulgarian, target: ブルガリア語 }
+    - { source: 'Bulgarian Lev', target: ブルガリアレフ }
+    - { source: 'Burkina Faso', target: ブルキナファソ }
+    - { source: Burkinabe, target: ビルマ語 }
+    - { source: Burmese, target: ビルマ語 }
+    - { source: Burundi, target: ブルンジ }
+    - { source: 'Burundi Franc', target: ブルンジフラン }
+    - { source: Burundian, target: ブルンジ }
+    - { source: California, target: カリフォルニア州 }
+    - { source: Cambodia, target: カンボジア }
+    - { source: Cambodian, target: カンボジアの }
+    - { source: Cameroon, target: カメルーン }
+    - { source: Cameroonian, target: カメルーンの }
+    - { source: Canada, target: カナダ }
+    - { source: Canadian, target: カナダの }
+    - { source: 'Canadian Dollar', target: カナダドル }
+    - { source: Cancel, target: キャンセル }
+    - { source: Candidates, target: 候補 }
+    - { source: 'Cape Verde', target: カーボベルデ }
+    - { source: 'Cape Verde Escudo', target: カーボベルデ·エスクード }
+    - { source: 'Cape Verdean', target: カーボベルデ }
+    - { source: 'Cayman Islands', target: ケイマン諸島 }
+    - { source: 'Cayman Islands Dollar', target: ケイマン諸島ドル }
+    - { source: 'Central African', target: 中央アフリカ }
+    - { source: 'Central African Republic', target: 中央アフリカ共和国 }
+    - { source: 'CFA Franc BCEAO', target: CFAフランBCEAO }
+    - { source: 'CFP Franc', target: CFPフラン }
+    - { source: 'CFA Franc BEAC', target: CFAフランBEAC }
+    - { source: Chad, target: チャド }
+    - { source: Chadian, target: チャドの }
+    - { source: 'Change Password', target: パスワードを変更する }
+    - { source: Checking, target: 点検 }
+    - { source: Chile, target: チリ }
+    - { source: Chilean, target: チリの }
+    - { source: 'Chilean Peso', target: チリペソ }
+    - { source: China, target: 中国 }
+    - { source: Chinese, target: 中華料理 }
+    - { source: 'Chinese Yuan Renminbi', target: 中国人民元 }
+    - { source: 'Christmas Island', target: クリスマス島 }
+    - { source: 'Cocos (Keeling) Islands', target: ココス（キーリング）諸島 }
+    - { source: Colombia, target: コロンビア }
+    - { source: Colombian, target: コロンビアの }
+    - { source: 'Colombian Peso', target: コロンビアペソ }
+    - { source: Colorado, target: コロラド州 }
+    - { source: Comment, target: コメント }
+    - { source: Comments, target: コメント }
+    - { source: Comoran, target: コモロ }
+    - { source: Comoros, target: コモロ }
+    - { source: 'Comoros Franc', target: コモロ·フラン }
+    - { source: Company, target: 会社 }
+    - { source: Competency, target: コンピテンシー }
+    - { source: Configuration, target: 設定 }
+    - { source: Configure, target: 設定する }
+    - { source: Congo, target: コンゴ }
+    - { source: 'Congo, the Democratic Republic of the', target: コンゴ民主共和国 }
+    - { source: Congolese, target: コンゴ人 }
+    - { source: Connecticut, target: コネチカット }
+    - { source: 'Contact Details', target: 連絡先の詳細 }
+    - { source: 'Contract End Date', target: 契約終了日 }
+    - { source: 'Contract Not Renewed', target: 契約更新しない }
+    - { source: 'Contract Start Date', target: 契約開始日 }
+    - { source: 'Cook Islands', target: クック諸島 }
+    - { source: 'Copy KPI', target: コピーKPI }
+    - { source: 'Costa Rica', target: コスタリカ }
+    - { source: 'Costa Rican', target: コスタリカの }
+    - { source: 'Costa Rican Colon', target: コスタリカコロン }
+    - { source: Country, target: 国 }
+    - { source: Croatia, target: クロアチア }
+    - { source: Croatian, target: クロアチア語 }
+    - { source: 'Croatian Kuna', target: クロアチア·クーナ }
+    - { source: Cuba, target: キューバ }
+    - { source: Cuban, target: キューバの }
+    - { source: 'Cuban Peso', target: キューバペソ }
+    - { source: Currency, target: 通貨 }
+    - { source: 'Current and Past Employees', target: 現在と過去の従業員 }
+    - { source: 'Current Employees Only', target: 現在の従業員のみ }
+    - { source: 'Current Status', target: 現在の状態 }
+    - { source: 'Custom Fields', target: カスタムフィールド }
+    - { source: Customers, target: お客さま }
+    - { source: Cypriot, target: キプロス島の }
+    - { source: Cyprus, target: キプロス }
+    - { source: 'Cyprus Pound', target: キプロスポンド }
+    - { source: Czech, target: チェコ語 }
+    - { source: 'Czech Koruna', target: チェココルナ }
+    - { source: 'Czech Republic', target: チェコ共和国 }
+    - { source: Danish, target: デンマーク語 }
+    - { source: 'Danish Krona', target: デンマーククローナ }
+    - { source: 'Data Import', target: データのインポート }
+    - { source: Date, target: 日付 }
+    - { source: 'Date Added', target: 追加された日付 }
+    - { source: 'Date of Birth', target: 誕生日 }
+    - { source: Days, target: 日 }
+    - { source: Deceased, target: 故人 }
+    - { source: December, target: 12月 }
+    - { source: 'Define Report', target: レポートを定義します。 }
+    - { source: 'Defined Custom Fields', target: 定義されたカスタムフィールド }
+    - { source: Delaware, target: デラウェア州 }
+    - { source: Delete, target: 削除する }
+    - { source: 'Delete Current', target: 現在の削除 }
+    - { source: Denmark, target: デンマーク }
+    - { source: Dependents, target: 扶養家族 }
+    - { source: Description, target: 説明 }
+    - { source: Dimensions, target: 大きさ }
+    - { source: Direct, target: ダイレクト }
+    - { source: 'Direct Deposit Account Number', target: 直接預金口座番号 }
+    - { source: 'Direct Deposit Account Type', target: 直接預金口座の種類 }
+    - { source: 'Direct Deposit Amount', target: ダイレクト預金額 }
+    - { source: 'Direct Deposit Details', target: ダイレクト入金の詳細 }
+    - { source: 'Direct Deposit Routing Number', target: ダイレクト預金ルーティング番号 }
+    - { source: Disabled, target: 無効にする }
+    - { source: Dismissed, target: 解雇 }
+    - { source: 'Display Field Groups', target: フィールドグループの表示 }
+    - { source: 'Display Fields', target: フィールドを表示 }
+    - { source: 'District of Columbia', target: コロンビア特別区 }
+    - { source: Djibouti, target: ジブチ }
+    - { source: 'Djibouti Franc', target: ジブチ·フラン }
+    - { source: 'Document Type', target: ドキュメントの種類 }
+    - { source: Dominica, target: ドミニカ国 }
+    - { source: Dominican, target: ドミニカ共和国の }
+    - { source: 'Dominican Peso', target: ドミニカペソ }
+    - { source: 'Dominican Republic', target: ドミニカ共和国 }
+    - { source: 'Driver License Number', target: 運転免許証番号 }
+    - { source: 'Driver''s License Number', target: 運転免許証番号 }
+    - { source: Duration, target: 持続 }
+    - { source: Dutch, target: オランダ語 }
+    - { source: Duties, target: 職務 }
+    - { source: 'East Timorese', target: 東ティモール人 }
+    - { source: 'Eastern Caribbean Dollars', target: 東のカリブドル }
+    - { source: Ecuador, target: エクアドル }
+    - { source: 'Ecuador Sucre', target: エクアドルスクレ }
+    - { source: Ecuadorean, target: エクアドル }
+    - { source: Edit, target: 編集 }
+    - { source: 'Edit Immigration', target: 編集移民 }
+    - { source: 'Edit Salary Component', target: 給与コンポーネントを編集する }
+    - { source: Education, target: 教育 }
+    - { source: Egypt, target: エジプト }
+    - { source: Egyptian, target: エジプト人 }
+    - { source: 'Egyptian Pound', target: エジプトポンド }
+    - { source: 'El Salvador', target: エルサルバドル }
+    - { source: 'El Salvador Colon', target: エルサルバドル·コロン }
+    - { source: Eligible, target: 適格 }
+    - { source: 'Eligible Review Date', target: 適格レビュー日 }
+    - { source: 'Eligible Status', target: 対象のステータス }
+    - { source: 'Email Notifications', target: 電子メール通知 }
+    - { source: 'Emergency Contacts', target: 緊急連絡先 }
+    - { source: Emirian, target: Emirian }
+    - { source: Employee, target: 従業員 }
+    - { source: 'Employee First Name', target: 従業員ファーストネーム }
+    - { source: 'Employee Id', target: 従業員ID }
+    - { source: 'Employee Last Name', target: 従業員の姓 }
+    - { source: 'Employee List', target: 従業員のリスト }
+    - { source: 'Employee Middle Name', target: 従業員のミドルネーム }
+    - { source: 'Employee Name', target: 従業員名 }
+    - { source: 'Employee Records', target: 従業員レコード }
+    - { source: 'Employee Reports', target: 従業員レポート }
+    - { source: 'Employee Timesheets', target: 従業員のタイムシート }
+    - { source: 'Employment Status', target: 雇用状況 }
+    - { source: Enabled, target: 使用可能 }
+    - { source: 'End Date', target: 終了日 }
+    - { source: 'End date should be after start date', target: 終了日は開始日の後でなければなりません }
+    - { source: 'Equatorial Guinea', target: 赤道ギニア }
+    - { source: 'Equatorial Guinean', target: 赤道ギニア }
+    - { source: Eritrea, target: エリトリア }
+    - { source: Eritrean, target: エリトリア }
+    - { source: ESS, target: ESS }
+    - { source: Estonia, target: エストニア }
+    - { source: Estonian, target: エストニア語 }
+    - { source: 'Estonian Krona', target: エストニア語クローナ }
+    - { source: Ethiopia, target: エチオピア }
+    - { source: Ethiopian, target: エチオピアの }
+    - { source: 'Ethiopian Birr', target: エチオピア }
+    - { source: Euro, target: ユーロ }
+    - { source: 'Expected format: admin@example.com', target: 予想される形式：admin@example.com }
+    - { source: 'Expiry Date', target: 有効期限 }
+    - { source: 'Expiry date should be after issued date', target: 有効期限は、発行された日付より後でなければなりません }
+    - { source: 'Failed to Save', target: 保存に失敗しました。 }
+    - { source: 'Falkland Islands (Malvinas)', target: フォークランド諸島（マルビナス） }
+    - { source: 'Falkland Islands Pound', target: フォークランド諸島ポンド }
+    - { source: 'Faroe Islands', target: フェロー諸島 }
+    - { source: February, target: 2月 }
+    - { source: 'Federated States of Micronesia', target: ミクロネシア連邦 }
+    - { source: Female, target: 女性 }
+    - { source: Field, target: フィールド }
+    - { source: Fields, target: フィールズ }
+    - { source: 'Fields marked with an asterisk', target: アスタリクで印がついている欄 }
+    - { source: Fiji, target: フィジー }
+    - { source: 'Fiji Dollar', target: フィジードル }
+    - { source: Fijian, target: フィジーの }
+    - { source: 'File Name', target: ファイル名 }
+    - { source: Filipino, target: フィリピン人 }
+    - { source: Finland, target: フィンランド }
+    - { source: Finnish, target: フィンランド語 }
+    - { source: First, target: 最初の }
+    - { source: 'First Name', target: ファーストネーム }
+    - { source: Florida, target: フロリダ州 }
+    - { source: Fluency, target: 流ちょうさ }
+    - { source: France, target: フランス }
+    - { source: French, target: フランス語 }
+    - { source: 'French Guiana', target: 仏領ギアナ }
+    - { source: 'French Polynesia', target: フランス領ポリネシア }
+    - { source: 'French Southern Territories', target: フランス南部領 }
+    - { source: Friday, target: 金曜日 }
+    - { source: From, target: から }
+    - { source: 'Full Name', target: フルネーム }
+    - { source: 'Full Time Contract', target: フルタイムの契約 }
+    - { source: 'Full Time Internship', target: フルタイムのインターンシップ }
+    - { source: 'Full Time Permanent', target: 永久的なフルタイム }
+    - { source: Gabon, target: ガボン }
+    - { source: Gabonese, target: ガボンの }
+    - { source: Gambia, target: ガンビア }
+    - { source: Gambian, target: ガンビア }
+    - { source: 'Gambian Dalasi', target: ガンビアダラシ }
+    - { source: Gender, target: 性別 }
+    - { source: 'General Information', target: 一般的な情報 }
+    - { source: Georgia, target: ジョージア州 }
+    - { source: Georgian, target: ジョージアン }
+    - { source: German, target: ドイツ語 }
+    - { source: Germany, target: ドイツ }
+    - { source: Ghana, target: ガーナ }
+    - { source: Ghanaian, target: ガーナ人 }
+    - { source: 'Ghanaian Cedi', target: ガーナセディ }
+    - { source: Gibraltar, target: ジブラルタル }
+    - { source: 'Gibraltar Pound', target: ジブラルタルポンド }
+    - { source: 'Gold (oz.)', target: ゴールド（オンス） }
+    - { source: Good, target: 良い }
+    - { source: 'Greater Than', target: よりも大きい }
+    - { source: Greece, target: ギリシャ }
+    - { source: Greek, target: ギリシャ語 }
+    - { source: Greenland, target: グリーンランド }
+    - { source: Grenada, target: グレナダ }
+    - { source: Grenadian, target: グレナダの }
+    - { source: Guadeloupe, target: グアドループ島 }
+    - { source: Guam, target: グアム島 }
+    - { source: Guatemala, target: グアテマラ }
+    - { source: Guatemalan, target: グアテマラの }
+    - { source: 'Guatemalan Quetzal', target: グアテマラケツァール }
+    - { source: Guinea, target: ギニー }
+    - { source: 'Guinea Franc', target: ギニア·フラン }
+    - { source: Guinea-Bissau, target: ギニアビサウ }
+    - { source: Guinea-Bissauan, target: ギニア·Bissauan }
+    - { source: Guinean, target: ギニアの }
+    - { source: Guyana, target: ガイアナ }
+    - { source: 'Guyanan Dollar', target: ガイアナドル }
+    - { source: Guyanese, target: ガイアナ }
+    - { source: Haiti, target: ハイチ }
+    - { source: Haitian, target: ハイチ人 }
+    - { source: 'Haitian Gourde', target: ハイチグールド }
+    - { source: Hawaii, target: ハワイ }
+    - { source: 'Heard Island and Mcdonald Islands', target: ハード島とマクドナルド諸島 }
+    - { source: Help, target: 助け }
+    - { source: Herzegovinian, target: 詳細を隠す }
+    - { source: 'Hide Details', target: 詳細を隠す }
+    - { source: Holidays, target: 休日 }
+    - { source: 'Holy See (Vatican City State)', target: ローマ法王庁（バチカン市国） }
+    - { source: 'Home Telephone', target: 家庭用電話 }
+    - { source: Honduran, target: ホンジュラスの }
+    - { source: 'Honduran Lempira', target: ホンジュラスレンピラ }
+    - { source: Honduras, target: ホンジュラス }
+    - { source: 'Hong Kong', target: 香港 }
+    - { source: 'Hong Kong Dollar', target: 香港ドル }
+    - { source: Hungarian, target: ハンガリー語 }
+    - { source: 'Hungarian Forint', target: ハンガリーフォリント }
+    - { source: Hungary, target: ハンガリー }
+    - { source: I-Kiribati, target: I-キリバス }
+    - { source: Iceland, target: アイスランド }
+    - { source: 'Iceland Krona', target: アイスランドクローナ }
+    - { source: Icelander, target: アイスランド }
+    - { source: Id, target: イド }
+    - { source: Idaho, target: アイダホ州 }
+    - { source: Illinois, target: イリノイ州 }
+    - { source: 'IMF Special Drawing Right', target: 国際通貨基金（IMF）特別引出権 }
+    - { source: Immigration, target: 移民 }
+    - { source: Include, target: 含まれる }
+    - { source: 'Include Header', target: ヘッダを含む }
+    - { source: 'Include Past Employees', target: 過去の従業員を含む }
+    - { source: India, target: インド }
+    - { source: Indian, target: インディアン }
+    - { source: 'Indian Rupee', target: インドルピー }
+    - { source: Indiana, target: インディアナ州 }
+    - { source: Indirect, target: 間接的な }
+    - { source: Individual, target: 個々の }
+    - { source: Indonesia, target: インドネシア }
+    - { source: Indonesian, target: インドネシア語 }
+    - { source: 'Indonesian Rupiah', target: インドネシアルピア }
+    - { source: 'Invalid File Type', target: 無効なファイルの種類 }
+    - { source: Iowa, target: アイオワ州 }
+    - { source: 'Iran, Islamic Republic of', target: イラン·イスラム共和国 }
+    - { source: Iranian, target: イランの }
+    - { source: 'Iranian Rial', target: イランリアル }
+    - { source: Iraq, target: イラク }
+    - { source: Iraqi, target: イラクの }
+    - { source: 'Iraqi Dinar', target: イラクディナール }
+    - { source: Ireland, target: アイルランド }
+    - { source: Irish, target: アイリッシュ }
+    - { source: Israel, target: イスラエル }
+    - { source: Israeli, target: イスラエルの }
+    - { source: 'Israeli New Shekel', target: イスラエルの新しいシケル }
+    - { source: 'Issued By', target: によって発行された }
+    - { source: 'Issued Date', target: 発行日 }
+    - { source: Italian, target: イタリア語 }
+    - { source: Italy, target: イタリア }
+    - { source: Ivorian, target: コー​​トジボワールの }
+    - { source: Jamaica, target: ジャマイカ }
+    - { source: Jamaican, target: ジャマイカ }
+    - { source: 'Jamaican Dollar', target: ジャマイカドル }
+    - { source: January, target: 1月 }
+    - { source: Japan, target: 日本 }
+    - { source: Japanese, target: 日本の }
+    - { source: 'Japanese Yen', target: 日本円 }
+    - { source: Job, target: 仕事 }
+    - { source: 'Job Categories', target: 仕事のカテゴリ }
+    - { source: 'Job Category', target: 職種 }
+    - { source: 'Job Specification', target: 仕事の仕様 }
+    - { source: 'Job Title', target: 職名 }
+    - { source: 'Job Titles', target: 仕事のタイトル }
+    - { source: 'Joined Date', target: 入社日 }
+    - { source: Jordan, target: ヨルダン }
+    - { source: Jordanian, target: ヨルダンの }
+    - { source: 'Jordanian Dinar', target: ヨルダンディナール }
+    - { source: July, target: 7月 }
+    - { source: June, target: 6月 }
+    - { source: 'Kampuchean Riel', target: カンボジアのリエル }
+    - { source: Kansas, target: カンザス州 }
+    - { source: Kazakhstan, target: カザフスタン }
+    - { source: 'Kazakhstan Tenge', target: カザフスタンテンゲ }
+    - { source: Kazakhstani, target: カザフスタン }
+    - { source: 'Keep Current', target: 最新の状態に保つ }
+    - { source: Kentucky, target: ケンタッキー州 }
+    - { source: Kenya, target: ケニア }
+    - { source: Kenyan, target: ケニアの }
+    - { source: 'Kenyan Shilling', target: ケニアシリング }
+    - { source: Kiribati, target: キリバス }
+    - { source: 'Kittian and Nevisian', target: キリバス }
+    - { source: 'Korea, Democratic People''s Republic of', target: 韓国民主人民共和国 }
+    - { source: 'Korea, Republic of', target: 韓国、共和国の }
+    - { source: 'Korean Won', target: 韓国ウォン }
+    - { source: 'KPI List', target: KPIリスト }
+    - { source: Kuwait, target: クウェート }
+    - { source: Kuwaiti, target: クウェート }
+    - { source: 'Kuwaiti Dinar', target: クウェートディナール }
+    - { source: Kyrgyz, target: キルギス }
+    - { source: Kyrgyzstan, target: キルギスタン }
+    - { source: Language, target: 言語 }
+    - { source: Languages, target: 言語 }
+    - { source: 'Lao Kip', target: ラオス·キップ }
+    - { source: 'Lao People''s Democratic Republic', target: ラオス人民民主共和国 }
+    - { source: Laotian, target: ラオス人 }
+    - { source: Last, target: 最後に }
+    - { source: 'Last Name', target: 姓 }
+    - { source: Latvia, target: ラトビア }
+    - { source: Latvian, target: ラトビアの }
+    - { source: 'Latvian Lats', target: ラトビア }
+    - { source: Leave, target: 残す }
+    - { source: 'Leave Balance (Days)', target: （日）のバランスを残す }
+    - { source: 'Leave Entitled (Days)', target: （日）と題されたまま }
+    - { source: 'Leave List', target: リストを残す }
+    - { source: 'Leave Period', target: 期間を残す }
+    - { source: 'Leave Scheduled (Days)', target: （日）スケジュールされたままに }
+    - { source: 'Leave Summary', target: 要約を残す }
+    - { source: 'Leave Taken (Days)', target: （日）撮影のままに }
+    - { source: 'Leave Types', target: 型を残す }
+    - { source: Lebanese, target: レバノン人 }
+    - { source: 'Lebanese Pound', target: レバノンポンド }
+    - { source: Lebanon, target: レバノン }
+    - { source: Lesotho, target: レソト }
+    - { source: 'Lesotho Loti', target: レソトロティ }
+    - { source: 'Less Than', target: 以下 }
+    - { source: Level, target: レベル }
+    - { source: Liberia, target: リベリア }
+    - { source: Liberian, target: リベリアの }
+    - { source: 'Liberian Dollar', target: リベリア·ドル }
+    - { source: Libyan, target: リビアの }
+    - { source: 'Libyan Arab Jamahiriya', target: リビア }
+    - { source: 'Libyan Dinar', target: リビアディナール }
+    - { source: License, target: ライセンス }
+    - { source: 'License Expiry Date', target: ライセンス有効期限 }
+    - { source: 'License Number', target: 免許証番号 }
+    - { source: 'License Type', target: ライセンスの種類 }
+    - { source: Licenses, target: ライセンス }
+    - { source: Liechtenstein, target: リヒテンシュタイン }
+    - { source: Liechtensteiner, target: Liechtensteine​​r }
+    - { source: Lithuania, target: リトアニア }
+    - { source: Lithuanian, target: リトアニア語 }
+    - { source: 'Lithuanian Litas', target: リトアニアリタス }
+    - { source: Localization, target: ローカライゼーション }
+    - { source: Location, target: 場所 }
+    - { source: Locations, target: 場所 }
+    - { source: Logout, target: ログアウト }
+    - { source: Louisiana, target: ルイジアナ州 }
+    - { source: Luxembourg, target: ルクセンブルク }
+    - { source: Luxembourger, target: ルクセンブルク }
+    - { source: Macao, target: マカオ }
+    - { source: 'Macau Pataca', target: マカオ·パタカ }
+    - { source: 'Macedonia, the Former Yugoslav Republic of', target: マケドニア旧ユーゴスラビア共和国 }
+    - { source: Macedonian, target: マケドニア語 }
+    - { source: Madagascar, target: マダガスカル }
+    - { source: Maine, target: メイン }
+    - { source: Malagasy, target: マダガスカルの }
+    - { source: 'Malagasy Franc', target: マダガスカルフラン }
+    - { source: Malawi, target: マラウイ }
+    - { source: 'Malawi Kwacha', target: マラウイクワチャ }
+    - { source: Malawian, target: マラウイの }
+    - { source: Malaysia, target: マレーシア }
+    - { source: Malaysian, target: マレーシアの }
+    - { source: 'Malaysian Ringgit', target: マレーシアリンギット }
+    - { source: Maldivan, target: マレーシアリンギット }
+    - { source: 'Maldive Rufiyaa', target: モルジブモルジブ }
+    - { source: Maldives, target: モルディブ }
+    - { source: Male, target: 男性 }
+    - { source: Mali, target: 庭師 }
+    - { source: Malian, target: マリ }
+    - { source: Malta, target: マルタ }
+    - { source: Maltese, target: マルタ語 }
+    - { source: 'Maltese Lira', target: マルタのリラ }
+    - { source: March, target: 3月 }
+    - { source: 'Marital Status', target: 配偶者の有無 }
+    - { source: 'Marshall Islands', target: マーシャル諸島共和国 }
+    - { source: Marshallese, target: マーシャル }
+    - { source: Martinique, target: マルティニーク島 }
+    - { source: Maryland, target: メリーランド州 }
+    - { source: Massachusetts, target: マサチューセッツ州 }
+    - { source: Mauritania, target: モーリタニア }
+    - { source: Mauritanian, target: モーリタニアの }
+    - { source: 'Mauritanian Ouguiya', target: モーリタニアOuguiya }
+    - { source: Mauritian, target: モーリシャスの }
+    - { source: Mauritius, target: モーリシャス }
+    - { source: 'Mauritius Rupee', target: モーリシャスルピー }
+    - { source: May, target: 5月 }
+    - { source: Mayotte, target: マヨット島 }
+    - { source: Membership, target: メンバーシップ }
+    - { source: Memberships, target: メンバーシップ }
+    - { source: Mexican, target: メキシコ人 }
+    - { source: 'Mexican New Peso', target: メキシコペソ }
+    - { source: 'Mexican Peso', target: メキシコペソ }
+    - { source: Mexico, target: メキシコ }
+    - { source: Michigan, target: ミシガン州 }
+    - { source: 'Micronesia, Federated States of', target: ミクロネシア連邦 }
+    - { source: Micronesian, target: ミクロネシアの }
+    - { source: Middle, target: 真ん中 }
+    - { source: 'Middle Name', target: ミドルネーム }
+    - { source: Minnesota, target: ミネソタ州 }
+    - { source: Mississippi, target: ミシシッピ州 }
+    - { source: Missouri, target: ミズーリ州 }
+    - { source: Mobile, target: 携帯電話 }
+    - { source: Modules, target: モジュール }
+    - { source: 'Moldova, Republic of', target: モルドバ共和国の }
+    - { source: Moldovan, target: モルドバ人 }
+    - { source: Monacan, target: モルドバ人 }
+    - { source: Monaco, target: モナコ }
+    - { source: Monday, target: 月曜日 }
+    - { source: Mongolia, target: モンゴル国 }
+    - { source: Mongolian, target: モンゴル語 }
+    - { source: 'Mongolian Tugrik', target: モンゴルのTugrik }
+    - { source: Montana, target: モンタナ州 }
+    - { source: Month, target: 月 }
+    - { source: Montserrat, target: モントセラト }
+    - { source: Moroccan, target: モロッコ }
+    - { source: 'Moroccan Dirham', target: モロッコディルハム }
+    - { source: Morocco, target: モロッコ }
+    - { source: Mosotho, target: Mosotho }
+    - { source: 'Mother Tongue', target: 母国語 }
+    - { source: Motswana, target: Motswana }
+    - { source: Mozambican, target: モザンビークの }
+    - { source: Mozambique, target: モザンビーク }
+    - { source: 'Mozambique Metical', target: モザンビークモザンビーク }
+    - { source: 'My Leave', target: 私の休暇 }
+    - { source: 'My Records', target: 私の記録 }
+    - { source: 'My Timesheets', target: 自分のタイムシート }
+    - { source: Myanmar, target: ビルマ }
+    - { source: 'Myanmar Kyat', target: ミャンマーチャット }
+    - { source: Name, target: 名 }
+    - { source: 'Name exists', target: 名前が存在する }
+    - { source: Namibia, target: ナミビア }
+    - { source: 'Namibia Dollar', target: ナミビア·ドル }
+    - { source: Namibian, target: ナミビア }
+    - { source: Nationalities, target: 国籍 }
+    - { source: Nationality, target: 国籍 }
+    - { source: Nauru, target: ナウル }
+    - { source: Nauruan, target: Nauruan }
+    - { source: Nebraska, target: ネブラスカ州 }
+    - { source: Nepal, target: ネパール }
+    - { source: Nepalese, target: ネパール人 }
+    - { source: 'Nepalese Rupee', target: ネパールルピー }
+    - { source: Netherlands, target: オランダ }
+    - { source: 'Netherlands Antilles', target: オランダ領アンティル諸島 }
+    - { source: Nevada, target: ネバダ州 }
+    - { source: 'New Caledonia', target: ニューカレドニア }
+    - { source: 'New Hampshire', target: ニューハンプシャー州 }
+    - { source: 'New Jersey', target: ニュージャージー州 }
+    - { source: 'New Mexico', target: ニューメキシコ州 }
+    - { source: 'New York', target: ニューヨーク州 }
+    - { source: 'New Zaire', target: 新ザイール }
+    - { source: 'New Zealand', target: ニュージーランド }
+    - { source: 'New Zealand Dollar', target: ニュージーランドドル }
+    - { source: 'New Zealander', target: ニュージーランド }
+    - { source: Next, target: 次の }
+    - { source: Nicaragua, target: ニカラグア }
+    - { source: Nicaraguan, target: ニカラグア人 }
+    - { source: 'Nicaraguan Cordoba Oro', target: ニカラグアコルドバオロ }
+    - { source: Niger, target: ニジェール }
+    - { source: Nigeria, target: ナイジェリア }
+    - { source: Nigerian, target: ナイジェリアの }
+    - { source: 'Nigerian Naira', target: ナイジェリア·ナイラ }
+    - { source: Nigerien, target: ニジェール人 }
+    - { source: Niue, target: ニウエ }
+    - { source: 'NL Antillian Guilder', target: NL領アンティルギルダー }
+    - { source: 'No', target: なし }
+    - { source: 'No Project Activities', target: ないプロジェクト活動なし }
+    - { source: 'No Projects', target: いいえプロジェクトません }
+    - { source: 'No Records Found', target: 関連する情報はありません }
+    - { source: 'No records to display', target: 表示するレコードはありません }
+    - { source: 'Norfolk Island', target: ノーフォーク島 }
+    - { source: 'North Carolina', target: ノースカロライナ州 }
+    - { source: 'North Dakota', target: ノースダコタ州 }
+    - { source: 'North Korean', target: 北朝鮮の }
+    - { source: 'North Korean Won', target: 北朝鮮ウォン }
+    - { source: 'Northern Irish', target: 北アイルランドの }
+    - { source: 'Northern Mariana Islands', target: 北マリアナ諸島連邦 }
+    - { source: Norway, target: ノルウェー }
+    - { source: Norwegian, target: ノルウェーの }
+    - { source: 'Norwegian Krona', target: ノルウェークローナ }
+    - { source: 'Not Defined', target: 定義されていない }
+    - { source: Notes, target: 注釈 }
+    - { source: November, target: 11月 }
+    - { source: Number, target: 数 }
+    - { source: October, target: 10月 }
+    - { source: Ohio, target: オハイオ州 }
+    - { source: Oklahoma, target: オクラホマ州 }
+    - { source: Oman, target: オマーン }
+    - { source: Omani, target: オマーンの }
+    - { source: 'Omani Rial', target: オマーンリアル }
+    - { source: 'Only Include Approved Timesheets', target: 唯一の承認されたタイムシートを含める }
+    - { source: 'Optional Fields', target: オプションフィールド }
+    - { source: or, target: または }
+    - { source: 'OrangeHRM - Confirmation Required', target: 'OrangeHRM - 確認が必要' }
+    - { source: Oregon, target: オレゴン州 }
+    - { source: Organization, target: 組織 }
+    - { source: Other, target: その他 }
+    - { source: 'Other Email', target: 他の電子メール }
+    - { source: 'Other Id', target: 他のID }
+    - { source: Pakistan, target: パキスタン }
+    - { source: 'Pakistan Rupee', target: パキスタンルピー }
+    - { source: Pakistani, target: パキスタンの }
+    - { source: Palau, target: パラオ }
+    - { source: Palauan, target: パラオ }
+    - { source: 'Palestinian Territory, Occupied', target: パレスチナ自治区、 }
+    - { source: 'Palladium (oz.)', target: パラジウム（オンス） }
+    - { source: Panama, target: パナマ }
+    - { source: Panamanian, target: パナマの }
+    - { source: 'Panamanian Balboa', target: パナマバルボア }
+    - { source: 'Papua New Guinea', target: パプアニューギニア }
+    - { source: 'Papua New Guinea Kina', target: パプアニューギニア·キナ }
+    - { source: 'Papua New Guinean', target: パプアニューギニア }
+    - { source: Paraguay, target: パラグアイ }
+    - { source: 'Paraguay Guarani', target: パラグアイグアラニ }
+    - { source: Paraguayan, target: パラグアイの }
+    - { source: 'Part Time Contract', target: パートタイム契約 }
+    - { source: 'Part Time Internship', target: パートタイムのインターンシップ }
+    - { source: 'Part Time Permanent', target: 永久的なパートタイム }
+    - { source: 'Past Employee', target: 過去の従業員 }
+    - { source: 'Past Employees Only', target: 過去の従業員のみ }
+    - { source: 'Pay Frequency', target: 周波数を支払う }
+    - { source: 'Pay Grade', target: グレードを支払う }
+    - { source: 'Pay Grades', target: グレードを支払う }
+    - { source: Pennsylvania, target: ペンシルベニア州 }
+    - { source: Performance, target: パフォーマンス }
+    - { source: Personal, target: 個人的な }
+    - { source: Peru, target: ペルー }
+    - { source: Peruvian, target: ペルーの }
+    - { source: 'Peruvian Nuevo Sol', target: ペルー·ヌエボ·ソル }
+    - { source: 'Philippine Peso', target: フィリピンペソ }
+    - { source: Philippines, target: フィリピン }
+    - { source: 'Physically Disabled/Compensated', target: 物理的に無効/補償 }
+    - { source: PIM, target: 補償 }
+    - { source: 'PIM Sample Report', target: サンサンプル·レポート }
+    - { source: Pitcairn, target: ピトケアン }
+    - { source: 'Platinum (oz.)', target: 白金（オンス） }
+    - { source: Poland, target: ポーランド }
+    - { source: Polish, target: ポーランド語 }
+    - { source: 'Polish Zloty', target: ポーランドズロチ }
+    - { source: Poor, target: 貧しい }
+    - { source: Portugal, target: ポルトガル }
+    - { source: Portuguese, target: ポルトガル語 }
+    - { source: 'Pound Sterling', target: ポンド }
+    - { source: Previous, target: 前 }
+    - { source: Program, target: プログラム }
+    - { source: 'Project Date Range', target: プロジェクトの日付範囲 }
+    - { source: 'Project Info', target: プロジェクト情報 }
+    - { source: 'Project Reports', target: プロジェクトレポート }
+    - { source: Projects, target: プロジェクト }
+    - { source: 'Puerto Rico', target: プエルトリコ }
+    - { source: 'Punch In/Out', target: パンチイン/アウト }
+    - { source: Qatar, target: カタール }
+    - { source: Qatari, target: カタールの }
+    - { source: 'Qatari Rial', target: カタールリアル }
+    - { source: Qualification, target: 資格 }
+    - { source: Range, target: 範囲 }
+    - { source: Reading, target: 読書 }
+    - { source: 'Records Per Page', target: ページあたりのレコード }
+    - { source: Recruitment, target: 募集 }
+    - { source: Relationship, target: 関係 }
+    - { source: 'Replace Current', target: 現在の設定と置き換える }
+    - { source: 'Replace file', target: ファイルを置き換える }
+    - { source: 'Report Name', target: レポート名 }
+    - { source: 'Reporting Method', target: 法を報告する }
+    - { source: 'Reporting Methods', target: 報告方法 }
+    - { source: Reports, target: レポート }
+    - { source: Required, target: 必須 }
+    - { source: Reset, target: リセット }
+    - { source: Resigned, target: あきらめた }
+    - { source: 'Resigned - Company Requested', target: '辞任 - 当社は、要求された' }
+    - { source: 'Resigned - Self Proposed', target: '辞任 - 自己の候補' }
+    - { source: Retired, target: 引退した }
+    - { source: Reunion, target: 再会 }
+    - { source: Reviews, target: レビュー }
+    - { source: 'Rhode Island', target: ロードアイランド州 }
+    - { source: Romania, target: ルーマニア }
+    - { source: Romanian, target: ルーマニア語 }
+    - { source: 'Romanian Leu', target: ルーマニア·レイ }
+    - { source: 'Routing Number', target: ルーティング番号 }
+    - { source: Run, target: 実行 }
+    - { source: 'Russia Rubles', target: ロシアルーブル }
+    - { source: Russian, target: ロシア }
+    - { source: 'Russian Federation', target: ロシア連邦 }
+    - { source: 'Russian Rouble', target: ロシア·ルーブル }
+    - { source: Rwanda, target: ルワンダ }
+    - { source: Rwandan, target: ルワンダの }
+    - { source: 'Saint Helena', target: セント·ヘレナ島 }
+    - { source: 'Saint Kitts and Nevis', target: セントクリストファーネイビス }
+    - { source: 'Saint Lucia', target: セントルシア }
+    - { source: 'Saint Lucian', target: 聖ルシアン }
+    - { source: 'Saint Pierre and Miquelon', target: サンピエール島·ミクロン島 }
+    - { source: 'Saint Vincent and the Grenadines', target: セントビンセントおよびグレナディーン諸島 }
+    - { source: Salary, target: 給与 }
+    - { source: 'Salary Component', target: 給与のコンポーネント }
+    - { source: Salvadoran, target: エルサルバドル }
+    - { source: Samoa, target: サモア }
+    - { source: Samoan, target: サモア語 }
+    - { source: 'Samoan Tala', target: サモア·タラ }
+    - { source: 'San Marinese', target: サンMarinese }
+    - { source: 'San Marino', target: サンマリノ }
+    - { source: 'Sao Tome and Principe', target: サントメプリンシペ }
+    - { source: 'Sao Tome/Principe Dobra', target: サントメ·プリンシペ/プリンチペドブラ }
+    - { source: 'Sao Tomean', target: サンパウロTomean }
+    - { source: Saturday, target: 土曜日 }
+    - { source: Saudi, target: サウジ }
+    - { source: 'Saudi Arabia', target: サウジアラビア }
+    - { source: 'Saudi Arabia Riyal', target: サウジアラビアリヤル }
+    - { source: Save, target: 保存 }
+    - { source: 'Save Comment Only', target: コメントだけを保存 }
+    - { source: Savings, target: 貯蓄 }
+    - { source: Score, target: スコア }
+    - { source: Scottish, target: スコットランドの }
+    - { source: Search, target: 検索 }
+    - { source: Select, target: 選択する }
+    - { source: 'Select Comparison', target: 比較を選択します。 }
+    - { source: 'Select File', target: ファイルを選択します。 }
+    - { source: 'Select Records to Delete', target: 削除するレコードを選択します。 }
+    - { source: 'Select Salary Grade', target: 給与グレードを選択します。 }
+    - { source: 'Selected Criteria', target: 選択した条件 }
+    - { source: 'Selection Criteria', target: 選択基準 }
+    - { source: Senegal, target: セネガル }
+    - { source: Senegalese, target: セネガル }
+    - { source: September, target: 9月 }
+    - { source: 'Serbia and Montenegro', target: セルビア·モンテネグロ }
+    - { source: Serbian, target: セルビア語 }
+    - { source: 'Service Period', target: サービス時間 }
+    - { source: Seychelles, target: セーシェル }
+    - { source: 'Seychelles Rupee', target: セーシェル·ルピー }
+    - { source: Seychellois, target: セーシェル }
+    - { source: 'Should be a number', target: 数でなければなりません }
+    - { source: 'Should be a positive number', target: 正の数でなければなりません }
+    - { source: 'Should be a valid date in %format% format', target: '%format%の形式で有効な日付でなければなりません' }
+    - { source: 'Should be less than %amount%', target: '%amount%未満でなければなりません' }
+    - { source: 'Should be less than %amount% characters', target: '%amount%文字未満でなければなりません' }
+    - { source: 'Should be within Min/Max values', target: 最小/最大値の範囲内でなければなりません }
+    - { source: 'Show Direct Deposit Details', target: ダイレクト入金の詳細を表示する }
+    - { source: 'Sierra Leone', target: シエラレオネ }
+    - { source: 'Sierra Leone Leone', target: シエラレオネ }
+    - { source: 'Sierra Leonean', target: シエラレオネ }
+    - { source: 'Silver (oz.)', target: 銀（オンス） }
+    - { source: Singapore, target: シンガポール }
+    - { source: 'Singapore Dollar', target: シンガポールドル }
+    - { source: Singaporean, target: シンガポール人 }
+    - { source: Size, target: サイズ }
+    - { source: Skill, target: スキル }
+    - { source: Skills, target: スキル }
+    - { source: 'Slovak Koruna', target: スロバキアコルナ }
+    - { source: Slovakia, target: スロバキア }
+    - { source: Slovakian, target: スロバキア }
+    - { source: Slovenia, target: スロベニア }
+    - { source: Slovenian, target: スロベニア語 }
+    - { source: 'Solomon Islander', target: ソロモン諸島 }
+    - { source: 'Solomon Islands', target: ソロモン諸島 }
+    - { source: 'Solomon Islands Dollar', target: ソロモン諸島ドル }
+    - { source: Somali, target: ソマリ }
+    - { source: 'Somali Shilling', target: ソマリアシリング }
+    - { source: Somalia, target: ソマリア }
+    - { source: 'Sort in Ascending Order', target: 昇順で並べ替え }
+    - { source: 'Sort in Descending Order', target: 降順に並べ替え }
+    - { source: 'South Africa', target: 南アフリカ }
+    - { source: 'South African', target: 南アフリカ }
+    - { source: 'South African Rand', target: 南アフリカランド }
+    - { source: 'South Carolina', target: サウスカロライナ州 }
+    - { source: 'South Dakota', target: サウスダコタ州 }
+    - { source: 'South Georgia and the South Sandwich Islands', target: サウスジョージア·サウスサンドウィッチ諸島 }
+    - { source: 'South Korean', target: 韓国の }
+    - { source: Spain, target: スペイン }
+    - { source: Spanish, target: スペイン語 }
+    - { source: Speaking, target: 話す }
+    - { source: 'Sri Lanka', target: スリランカ }
+    - { source: 'Sri Lanka Rupee', target: スリランカルピー }
+    - { source: 'Sri Lankan', target: スリランカの }
+    - { source: 'St. Helena Pound', target: セントヘレナ·ポンド }
+    - { source: 'Start Date', target: 開始日 }
+    - { source: 'Start date should be before end date', target: 開始日が終了日より前の日付でなければなりません }
+    - { source: State, target: 状態 }
+    - { source: Status, target: ステータス }
+    - { source: Structure, target: 構造 }
+    - { source: 'Sub Unit', target: サブユニット }
+    - { source: Subordinates, target: 部下 }
+    - { source: Subscribe, target: 購読する }
+    - { source: 'Subscription Amount', target: サブスクリプションの量 }
+    - { source: 'Subscription Commence Date', target: サブスクリプションには、日付の開始について }
+    - { source: 'Subscription Paid By', target: で有料サブスクリプション }
+    - { source: 'Subscription Renewal Date', target: サブスクリプションの更新日 }
+    - { source: 'Successfully Added', target: 正常に追加 }
+    - { source: 'Successfully Deleted', target: 正常に削除されました }
+    - { source: 'Successfully Saved', target: 正常に保存され }
+    - { source: 'Successfully Updated', target: 正常に更新されました }
+    - { source: 'Successfully Uploaded', target: 正常にアップロード }
+    - { source: Sudan, target: スーダン }
+    - { source: Sudanese, target: スーダンの }
+    - { source: 'Sudanese Dinar', target: スーダンディナール }
+    - { source: 'Sudanese Pound', target: スーダン·ポンド }
+    - { source: Sunday, target: 日曜日 }
+    - { source: Supervisor, target: スーパーバイザー }
+    - { source: 'Supervisor Name', target: スーパーバイザ名 }
+    - { source: Supervisors, target: 監督 }
+    - { source: Suriname, target: スリナム }
+    - { source: Surinamer, target: Surinamer }
+    - { source: 'Surinamese Dollar', target: スリナムドル }
+    - { source: 'Svalbard and Jan Mayen', target: スバールバル諸島ヤンマイエン島 }
+    - { source: Swazi, target: スワジ語 }
+    - { source: Swaziland, target: スワジランド }
+    - { source: 'Swaziland Lilangeni', target: スワジランドLilangeni }
+    - { source: Sweden, target: スウェーデン }
+    - { source: Swedish, target: スウェーデン語 }
+    - { source: 'Swedish Krona', target: スウェーデンクローナ }
+    - { source: Swiss, target: スイス }
+    - { source: 'Swiss Franc', target: スイスフラン }
+    - { source: Switzerland, target: スイス }
+    - { source: Syrian, target: シリアの }
+    - { source: 'Syrian Arab Republic', target: シリアアラブ共和国 }
+    - { source: 'Syrian Pound', target: シリアポンド }
+    - { source: Taiwan, target: 台湾 }
+    - { source: 'Taiwan Dollar', target: 台湾ドル }
+    - { source: Taiwanese, target: 台湾の }
+    - { source: Tajik, target: タジク人 }
+    - { source: Tajikistan, target: タジキスタン }
+    - { source: 'Tanzania, United Republic of', target: タンザニア連合共和国 }
+    - { source: Tanzanian, target: タンザニアの }
+    - { source: 'Tanzanian Shilling', target: タンザニアシリング }
+    - { source: Tennessee, target: テネシー州 }
+    - { source: Terminated, target: 終了する }
+    - { source: 'Termination Reasons', target: 終了の理由 }
+    - { source: Texas, target: テキサス州 }
+    - { source: Thai, target: タイ語 }
+    - { source: 'Thai Baht', target: タイバーツ }
+    - { source: Thailand, target: タイ }
+    - { source: Thursday, target: 木曜日 }
+    - { source: Time, target: 時間 }
+    - { source: Timesheets, target: タイムシート }
+    - { source: Timor-Leste, target: 東ティモール }
+    - { source: To, target: へ }
+    - { source: to, target: へ }
+    - { source: 'To date should be after from date', target: 日付、日付からした後でなければなりません }
+    - { source: Togo, target: トーゴ }
+    - { source: Togolese, target: トーゴ }
+    - { source: Tokelau, target: トケラウ諸島 }
+    - { source: Tonga, target: トンガ }
+    - { source: Tongan, target: トンガ語 }
+    - { source: 'Trinidad and Tobago', target: トリニダード·トバゴ }
+    - { source: 'Trinidad/Tobago Dollar', target: トリニダード/トバゴドル }
+    - { source: 'Trinidadian or Tobagonian', target: トリニダードまたはトリニダードまたは }
+    - { source: Tuesday, target: 火曜日 }
+    - { source: Tunisia, target: チュニジア }
+    - { source: Tunisian, target: チュニジアの }
+    - { source: 'Tunisian Dinar', target: チュニジアディナール }
+    - { source: Turkey, target: トルコ }
+    - { source: Turkish, target: トルコ語 }
+    - { source: 'Turkish Lira', target: トルコリラ }
+    - { source: Turkmenistan, target: トルクメニスタン }
+    - { source: 'Turks and Caicos Islands', target: タークスカイコス諸島 }
+    - { source: Tuvalu, target: ツバル }
+    - { source: Tuvaluan, target: ツバルの }
+    - { source: Type, target: タイプ }
+    - { source: 'Type Employee Id', target: 型の従業員ID }
+    - { source: 'Type for hints', target: ヒントの種類 }
+    - { source: Uganda, target: ウガンダ }
+    - { source: 'Uganda Shilling', target: ウガンダシリング }
+    - { source: Ugandan, target: ウガンダの }
+    - { source: Ukraine, target: ウクライナ }
+    - { source: 'Ukraine Hryvnia', target: ウクライナグリブナ }
+    - { source: Ukrainian, target: ウクライナ語 }
+    - { source: 'United Arab Emirates', target: アラブ首長国連邦 }
+    - { source: 'United Kingdom', target: イギリス }
+    - { source: 'United States', target: 米国 }
+    - { source: 'United States Dollar', target: 米ドル }
+    - { source: 'United States Minor Outlying Islands', target: アメリカ合衆国外諸島 }
+    - { source: Uruguay, target: ウルグアイ }
+    - { source: Uruguayan, target: ウルグアイ }
+    - { source: 'Uruguayan Peso', target: ウルグアイペソ }
+    - { source: Users, target: ユーザー }
+    - { source: Utah, target: ユタ州 }
+    - { source: 'Utd. Arab Emir. Dirham', target: ユナイテッド。アラブのエミール。ディルハム }
+    - { source: Uzbekistan, target: ウズベキスタン }
+    - { source: Uzbekistani, target: ウズベキスタン }
+    - { source: Vacancies, target: 欠員 }
+    - { source: Vanuatu, target: バヌアツ }
+    - { source: 'Vanuatu Vatu', target: バヌアツ·バツ }
+    - { source: Venezuela, target: ベネズエラ }
+    - { source: Venezuelan, target: ベネズエラの }
+    - { source: 'Venezuelan Bolivar', target: ベネズエラボリバル }
+    - { source: Vermont, target: バーモント州 }
+    - { source: 'Viet Nam', target: ベトナム }
+    - { source: Vietnamese, target: ベトナムの }
+    - { source: 'Vietnamese Dong', target: ベトナムドン }
+    - { source: 'View Details', target: 詳細を見る }
+    - { source: 'Virgin Islands', target: バージン諸島 }
+    - { source: 'Virgin Islands, British', target: イギリス領バージン諸島 }
+    - { source: 'Virgin Islands, U.s.', target: 米領バージン諸島 }
+    - { source: Virginia, target: バージニア州 }
+    - { source: 'Wallis and Futuna', target: ウォリス·フトゥーナ }
+    - { source: Washington, target: ワシントン }
+    - { source: Wednesday, target: 水曜日 }
+    - { source: Welsh, target: ウェールズ語 }
+    - { source: 'West Virginia', target: ウェストバージニア州 }
+    - { source: 'Western Sahara', target: 西サハラ }
+    - { source: Wisconsin, target: ウィスコンシン州 }
+    - { source: 'with new file', target: 新しいファイルで }
+    - { source: 'Work Email', target: 勤務先のメールアドレス }
+    - { source: 'Work Experience', target: 実務経験 }
+    - { source: 'Work Shifts', target: 仕事のシフト }
+    - { source: 'Work Telephone', target: 仕事の電話 }
+    - { source: 'Work Week', target: 週間労働時間 }
+    - { source: Writing, target: 書き込み }
+    - { source: Wyoming, target: ワイオミング州 }
+    - { source: Year, target: 年 }
+    - { source: 'Years of Experience', target: 長年の経験 }
+    - { source: Yemen, target: イエメン }
+    - { source: 'Yemeni Riyal', target: イエメン·リヤル }
+    - { source: Yemenite, target: イエメン }
+    - { source: 'Yes', target: はい }
+    - { source: 'Yugoslav Dinar', target: ユーゴスラビアディナール }
+    - { source: 'Yugoslavian Dinar', target: ユーゴスラビアディナール }
+    - { source: Zambia, target: ザンビア }
+    - { source: Zambian, target: ザンビアの }
+    - { source: 'Zambian Kwacha', target: ザンビアクワチャ }
+    - { source: Zimbabwe, target: ジンバブエ }
+    - { source: 'Zimbabwe Dollar', target: ジンバブエドル }
+    - { source: Zimbabwean, target: ジンバブエの }
+    - { source: 'Passwords do not match', target: パスワードが一致しません }
+    - { source: Invalid, target: 無効 }
+    - { source: 'Should be less than %number% digits', target: '%number%桁数未満でなければなりません' }
+    - { source: 'Due date should be after from date', target: 期日は、日付からした後でなければなりません }
+    - { source: Ok, target: 良い }
+    - { source: 'Delete records?', target: レコードを削除しますか？ }
+    - { source: 'Select an Employee', target: 従業員を選択します。 }
+    - { source: 'Delete?', target: 削除しますか？ }
+    - { source: 'Successfully Assigned', target: 正常に割り当てられ }
+    - { source: 'Should be greater than %amount%', target: '%amount%以上でなければなりません' }
+    - { source: 'Successfully Submitted', target: 正常に送信され }
+    - { source: 'Invalid Employee', target: 無効な従業員 }
+    - { source: 'Accepts .docx, .doc, .odt, .pdf, .rtf, .txt up to 1MB', target: 受け入れます。DOCX、DOC、。ODT、PDFファイル、。rtfファイル、。txtの最大1MBまで }
+    - { source: 'Accepts jpg, .png, .gif up to 1MB', target: JPG、PNG、GIFは最大1MBまで受け付ける }
+    - { source: 'Accepts up to 1MB', target: 最大1MBまで受け付ける }
+    - { source: 'Failed to Save: File Type Not Allowed', target: 保存に失敗しました：許可されていないファイル·タイプ }
+    - { source: 'Failed to Save: File Size Exceeded', target: 保存に失敗しました：ファイルサイズの超過 }
+    - { source: 'No Employees Available', target: 利用可能な従業員ません }
+    - { source: 'Should have at least %number% characters', target: 少なくとも%number%文字が必要です }
+    - { source: 'Successfully Copied', target: 正常にコピーされ }
+    - { source: 'LOGIN Panel', target: ログインパネル }
+    - { source: LOGIN, target: ログイン }
+    - { source: 'Should be greater than first value', target: 最初の値よりも大きくなければなりません }
+    - { source: 'Joined After', target: 後に参加 }
+    - { source: 'Joined Before', target: 前に入社 }
+    - { source: 'Joined in Between', target: 間に加わった }
+    - { source: 'Successfully Changed', target: 正常に変更 }
+    - { source: Username, target: ユーザ名 }
+    - { source: Password, target: パスワード }
+    - { source: 'Username cannot be empty', target: ユーザー名は空にすることはできません }
+    - { source: 'Password cannot be empty', target: パスワードを空にすることはできません }
+    - { source: 'Invalid credentials', target: 無効な資格情報 }
+    - { source: Europe/Belgrade, target: ヨーロッパ/ベオグラード }
+    - { source: Europe/Minsk, target: ヨーロッパ/ミンスク }
+    - { source: Asia/Kuwait, target: アジア/クウェート }
+    - { source: Asia/Muscat, target: アジア/マスカット }
+    - { source: Asia/Yekaterinburg, target: アジア/エカテリンブルグ }
+    - { source: Asia/Kolkata, target: アジア/コルカタ }
+    - { source: Asia/Dhaka, target: アジア/ダッカ }
+    - { source: Asia/Krasnoyarsk, target: アジア/クラスノヤルスク }
+    - { source: Asia/Brunei, target: アジア/ブルネイ }
+    - { source: Asia/Seoul, target: アジア/ソウル }
+    - { source: Australia/Darwin, target: オーストラリア/ダーウィン }
+    - { source: Australia/Canberra, target: オーストラリア/キャンベラ }
+    - { source: Asia/Magadan, target: アジア/マガダン }
+    - { source: Pacific/Fiji, target: パシフィック/フィジー }
+    - { source: Pacific/Midway, target: 太平洋/ミッドウェイ }
+    - { source: Pacific/Honolulu, target: 太平洋/ホノルル }
+    - { source: America/Anchorage, target: アメリカ/アンカレッジ }
+    - { source: America/Los_Angeles, target: 'アメリカ/ ロサンゼルス' }
+    - { source: America/Denver, target: アメリカ/デンバー }
+    - { source: America/Tegucigalpa, target: アメリカ/テグシガルパ }
+    - { source: America/New_York, target: アメリカ/ニューヨーク州 }
+    - { source: America/Halifax, target: アメリカ/ハリファックス }
+    - { source: America/St_Johns, target: 'アメリカ/ セントジョンズ' }
+    - { source: America/Argentina/Buenos_Aires, target: 'アメリカ/アルゼンチン/ ブエノスアイレス' }
+    - { source: Atlantic/South_Georgia, target: '大西洋/ サウスジョージア島' }
+    - { source: Atlantic/Azores, target: 大西洋/アゾレス諸島 }
+    - { source: Upload, target: アップロード }
+    - { source: 'Type in years', target: 年を入力します }
+    - { source: Hours, target: 時間 }
+    - { source: 'Deleted Employee', target: 削除された従業員 }
+    - { source: Total, target: 合計 }
+    - { source: compulsory, target: 強制的な }
+    - { source: 'Termination Date', target: 終了日 }
+    - { source: 'Termination Reason', target: 退職理由 }
+    - { source: 'Activity Name', target: アクティビティ名 }
+    - { source: 'Add Education', target: 教育を追加します。 }
+    - { source: 'Add Language', target: 言語を追加します。 }
+    - { source: 'Add License', target: ライセンスを追加します。 }
+    - { source: 'Add Skill', target: スキルを追加します。 }
+    - { source: 'Address Street 1', target: アドレス·ストリート1 }
+    - { source: 'Address Street 2', target: 住所ストリート2 }
+    - { source: City, target: シティ }
+    - { source: 'Confirm Password', target: パスワードの確認 }
+    - { source: Copy, target: コピー }
+    - { source: 'Copy From', target: コピー元 }
+    - { source: 'Project Name', target: プロジェクト名 }
+    - { source: Deleted, target: 削除された }
+    - { source: 'Edit Education', target: 編集教育 }
+    - { source: 'Edit Language', target: 編集言語 }
+    - { source: 'Edit License', target: ライセンスを編集します。 }
+    - { source: 'Edit Skill', target: スキルを編集します。 }
+    - { source: State/Province, target: 州/地方 }
+    - { source: 'Zip/Postal Code', target: 郵便番号/郵便番号 }
+    - { source: Approve, target: 承認する }
+    - { source: format, target: フォーマット }
+    - { source: Scheduled, target: 予定の }
+    - { source: 'Invalid Date', target: 無効な日付 }
+    - { source: Note, target: 注意 }
+    - { source: 'Invalid Employee Name', target: 無効な従業員名 }
+    - { source: Action, target: アクション }
+    - { source: 'Active Job Vacancies', target: アクティブ求人情報 }
+    - { source: added, target: 追加された }
+    - { source: 'Apply for', target: 申し込む }
+    - { source: Attachments, target: 添付ファイル }
+    - { source: 'Back to Job List', target: 求人一覧へ戻る }
+    - { source: 'Collapse all', target: すべて折りたたむ }
+    - { source: 'Contact No', target: 連絡先番号 }
+    - { source: Download, target: ダウンロード }
+    - { source: Email, target: メール }
+    - { source: 'Expand all', target: すべてを展開 }
+    - { source: for, target: のために }
+    - { source: Keywords, target: キーワード }
+    - { source: 'Performed By', target: によって実行される }
+    - { source: Reject, target: 拒否する }
+    - { source: Rejected, target: 拒否され }
+    - { source: rejected, target: 拒否され }
+    - { source: Remove, target: 削除する }
+    - { source: Resume, target: 再開する }
+    - { source: 'Select Action', target: アクションを選択します。 }
+    - { source: Submit, target: 提出する }
+    - { source: View, target: 表示 }
+    - { source: 'Enter comma separated words', target: カンマで区切られた単語を入力して下さい }
+    - { source: Approved, target: 承認された }
+    - { source: Submitted, target: 投稿 }
+    - { source: 'Successfully Undeleted', target: 成功した復元しました }
+    - { source: Qualifications, target: 資格 }
+    - { source: 'Add Another', target: もう一つを追加します。 }
+    - { source: Confirm, target: 確認する }
+    - { source: 'To date should be after From date', target: 日付に日付FROMの後でなければなりません }
+    - { source: Activities, target: 活動 }
+    - { source: 'Add Currency', target: 通貨を追加します。 }
+    - { source: 'Add Customer', target: 顧客を追加する }
+    - { source: 'Add Employment Status', target: 就業を追加します。 }
+    - { source: 'Add Job Category', target: ジョブカテゴリを追加 }
+    - { source: 'Add Job Title', target: ジョブ·タイトルを追加します。 }
+    - { source: 'Add Location', target: 場所を追加します。 }
+    - { source: 'Add Membership', target: メンバーシップを追加します。 }
+    - { source: 'Add Nationality', target: 国籍を追加します。 }
+    - { source: 'Add Pay Grade', target: グレードペイ追加 }
+    - { source: 'Add Project', target: プロジェクトの追加 }
+    - { source: 'Add Project Activity', target: プロジェクト活動の追加 }
+    - { source: 'Add Subscriber', target: サブスクライバの追加 }
+    - { source: 'Add Unit', target: ユニットを追加します。 }
+    - { source: 'Add User', target: ユーザーを追加する }
+    - { source: 'Add Work Shift', target: 作業シフトを追加します。 }
+    - { source: 'Projects under selected customer will also be deleted', target: 選択した顧客中のプロジェクトも削除されます }
+    - { source: 'Units under selected unit will also be deleted', target: 選択したユニットの下の単位も削除されます。 }
+    - { source: 'Assigned Currencies', target: 割り当てられた通貨 }
+    - { source: 'Assigned Employees', target: 割り当てられた従業員 }
+    - { source: 'Available Employees', target: 利用できる従業員 }
+    - { source: Better, target: 優れた }
+    - { source: 'Click on a notification type to add subscribers', target: サブスクライバを追加する通知タイプをクリックしてください }
+    - { source: 'Column order should not be changed', target: 列の順序を変更する必要はありません }
+    - { source: 'Confirm New Password', target: 新しいパスワードの確認 }
+    - { source: 'Copy Activity', target: コピーアクティビティ }
+    - { source: 'CSV Data Import', target: CSVデータのインポート }
+    - { source: 'Current Password', target: 現在のパスワード }
+    - { source: 'Current Password Is Wrong', target: 現在のパスワードが間違っている }
+    - { source: Customer, target: 顧客 }
+    - { source: 'Customer Name', target: 顧客の名前 }
+    - { source: 'Date Format', target: 日付フォーマット }
+    - { source: 'Description is not specified', target: 説明が指定されていません }
+    - { source: Done, target: 行われ }
+    - { source: 'Each import file should be configured for 100 records or less', target: 各インポートファイルは、100レコード以下に構成する必要があり }
+    - { source: 'Edit Currency', target: 通貨を編集する }
+    - { source: 'Edit Customer', target: お客様を編集 }
+    - { source: 'Edit Employment Status', target: 雇用状況の編集 }
+    - { source: 'Edit Job Category', target: ジョブカテゴリを編集 }
+    - { source: 'Edit Job Title', target: ジョブ·タイトルを編集 }
+    - { source: 'Edit Location', target: 場所を編集します。 }
+    - { source: 'Edit Membership', target: メンバーシップの編集 }
+    - { source: 'Edit Nationality', target: 国籍を編集します。 }
+    - { source: 'Edit Pay Grade', target: グレードペイ·編集 }
+    - { source: 'Edit Project', target: プロジェクトを編集します。 }
+    - { source: 'Edit Project Activity', target: プロジェクト活動を編集します。 }
+    - { source: 'Edit Subscriber', target: サブスクライバの編集 }
+    - { source: 'Edit Unit', target: ユニットを編集 }
+    - { source: 'Edit User', target: ユーザーの編集 }
+    - { source: 'Edit Work Shift', target: 作業シフトを編集する }
+    - { source: 'Successfully Saved. Test Email Sent', target: 保存に成功しました。テストメールを送信しました }
+    - { source: 'Successfully Saved. Test Email Not Sent', target: 保存に成功しました。テストメール送信されない }
+    - { source: 'Email Notification', target: 電子メール通知 }
+    - { source: 'Enable Admin module', target: 管理モジュールを有効にする }
+    - { source: 'Enable Benefits module', target: 利点モジュールを有効にする }
+    - { source: 'Enable Leave module', target: モジュールを残す可能にする }
+    - { source: 'Enable Performance module', target: パフォーマンスモジュールを有効にする }
+    - { source: 'Enable PIM module', target: ピムモジュールを有効にする }
+    - { source: 'Enable Recruitment module', target: リクルートモジュールを有効にする }
+    - { source: 'Enable Time module', target: 時間モジュールを有効にする }
+    - { source: Fax, target: ファックス }
+    - { source: 'First Name and Last Name are compulsory', target: ファーストネームとラストネームは必ず記入しなければなら }
+    - { source: 'Following languages are supported', target: 次の言語がサポートされています。 }
+    - { source: 'Hours Per Day', target: 日あたりの時間 }
+    - { source: 'If gender is specified, value should be either', target: 性別が指定されている場合、値は次のいずれかでなければなりません }
+    - { source: 'Job Description', target: 仕事内容 }
+    - { source: 'Leave Applications', target: アプリケーションを残す }
+    - { source: 'Leave Approvals', target: 承認を残す }
+    - { source: 'Leave Assignments', target: 割り当てを残す }
+    - { source: 'Leave Cancellations', target: キャンセルを残す }
+    - { source: 'Leave Rejections', target: 拒絶を残す }
+    - { source: 'Location Name', target: 場所の名前 }
+    - { source: 'Mail Configuration', target: メールの設定 }
+    - { source: 'Mail Sent As', target: として送られたメール }
+    - { source: 'Maximum Salary', target: 最大給与 }
+    - { source: Medium, target: 培地 }
+    - { source: 'Minimum Salary', target: 最低給与 }
+    - { source: 'Module Configuration', target: モジュール構成 }
+    - { source: 'New Password', target: 新しいパスワード }
+    - { source: 'No activities selected', target: ない活動が選択されていません }
+    - { source: 'No assigned activities', target: が割り当てられて活動しない }
+    - { source: 'Not Allowed to Delete Customer(s) Which Have Time Logged Against', target: に対して時間を記録した顧客（s）を削除することはできません }
+    - { source: 'Not Allowed to Delete Project Activites Which Have Time Logged Against', target: に対して記録時間は、プロジェクトのactivitesを削除することはできません }
+    - { source: 'Notification Type', target: 通知タイプ }
+    - { source: 'Number of Employees', target: 就業者数 }
+    - { source: 'Organization Name', target: 組織名 }
+    - { source: 'Path to Sendmail', target: sendmailのパス }
+    - { source: 'Performance Review Submissions', target: パフォーマンス·レビューの提出 }
+    - { source: Phone, target: 電話 }
+    - { source: Project, target: プロジェクト }
+    - { source: 'Project Admin', target: プロジェクト管理 }
+    - { source: 'Project Admins', target: プロジェクト管理者 }
+    - { source: 'Registration Number', target: 登録番号 }
+    - { source: 'Sample CSV file', target: サンプルCSVファイル }
+    - { source: 'Send Test Email', target: テストメールを送信 }
+    - { source: 'Sending Method', target: メソッドを送信 }
+    - { source: 'Shift Name', target: シフト名 }
+    - { source: 'SMTP Password', target: SMTPパスワード }
+    - { source: 'SMTP Port', target: SMTPポート }
+    - { source: 'SMTP User', target: SMTPユーザー }
+    - { source: SSL, target: SSL }
+    - { source: Strong, target: 強い }
+    - { source: Strongest, target: 最強 }
+    - { source: Subscribers, target: 加入者 }
+    - { source: 'OrangeHRM - Supported Languages', target: 'OrangeHRM - サポートされる言語' }
+    - { source: 'Supported languages', target: サポートされる言語 }
+    - { source: 'System Users', target: システムのユーザー }
+    - { source: 'Tax ID', target: 税のID }
+    - { source: 'Test Email Address', target: テスト電子メールアドレス }
+    - { source: 'This unit will be added under', target: このユニットは、下に追加されます。 }
+    - { source: TLS, target: TLS }
+    - { source: 'Unit Id', target: ユニットID }
+    - { source: 'Use browser language if set', target: ブラウザの言語を使用して設定されている場合 }
+    - { source: 'Use SMTP Authentication', target: SMTP認証を使用する }
+    - { source: 'User Secure Connection', target: ユーザーはセキュアな接続 }
+    - { source: 'User Type', target: ユーザータイプ }
+    - { source: 'Very Weak', target: 非常に弱い }
+    - { source: Weak, target: 弱い }
+    - { source: 'Zip Code', target: 郵便番号 }
+    - { source: 'Failed to Import: File Type Not Allowed', target: インポートに失敗しました：ファイルタイプは許可されていません }
+    - { source: 'Failed to Import: File Size Exceeded', target: インポートに失敗しました：ファイルサイズ超過 }
+    - { source: 'Failed to Import: No Compatible Records', target: インポートに失敗しました：なし対応記録 }
+    - { source: 'Number of Records Imported', target: インポートされたレコードの数 }
+    - { source: 'Should be higher than Minimum Salary', target: 最低給与よりも高くなければなりません }
+    - { source: 'Level Already Exists', target: レベルがすでに存在する }
+    - { source: 'Multiple import files may be required', target: 複数のインポートファイルが必要になることがあります }
+    - { source: 'Language and font help', target: 言語とフォントのヘルプ }
+    - { source: 'Will take no action', target: 行動を全く取らないでしょう }
+    - { source: 'Apply Leave', target: コメントは適用さ }
+    - { source: 'Actions Performed on the Timesheet', target: タイムシート上で実行されるアクション }
+    - { source: 'Add Row', target: 行を追加します。 }
+    - { source: 'Add Timesheet', target: タイムシートを追加します。 }
+    - { source: 'Attendance Total Summary Report', target: 出席者の合計サマリー·レポート }
+    - { source: 'Define Timesheet Period', target: タイムシート期間を定義します。 }
+    - { source: 'Deleted project activities are not editable', target: 削除されたプロジェクト活動は編集できません }
+    - { source: 'Deleted projects/activities are marked with an asterik', target: 削除されたプロジェクト/活動がasterikが付いています }
+    - { source: 'Edit Timesheet for', target: のためにタイムシートを編集します。 }
+    - { source: 'Edit Timesheet for Month', target: 今月のタイムシートを編集します。 }
+    - { source: 'Edit Timesheet for Week', target: 週のタイムシートを編集します。 }
+    - { source: 'Edit timesheet for week starting', target: 始まる週のタイムシートを編集します。 }
+    - { source: 'Employee name', target: 従業員の名前 }
+    - { source: 'Employee Report', target: 従業員レポート }
+    - { source: 'Should Be Less Than 24 and in HH:MM or Decimal Format', target: 'または10進数形式：24未満で、HH:MMでなければなりません' }
+    - { source: 'Enter Employee Name', target: 従業員の名前を入力する }
+    - { source: 'First Day of Week', target: 週の最初の曜日 }
+    - { source: 'for Month starting on', target: ヶ月に開始するための }
+    - { source: 'for Week', target: ウィーク }
+    - { source: Fri, target: 金 }
+    - { source: hours, target: 時間 }
+    - { source: 'Failed to Create: Future Timesheets Not Allowed', target: 許可されていません今後のタイムシート：作成に失敗しました。 }
+    - { source: Mon, target: モン }
+    - { source: 'No Accessible Timesheets', target: ないアクセスタイムシートません }
+    - { source: 'Not Submitted', target: 提出していない }
+    - { source: 'Proceed with Time Module', target: 時間モジュールに進みます }
+    - { source: 'Project Activity Details Report', target: プロジェクト活動の詳細報告 }
+    - { source: 'Project Report', target: プロジェクト報告 }
+    - { source: 'Remove Rows', target: 行を削除 }
+    - { source: Sat, target: 土 }
+    - { source: 'Select a Day to Create Timesheet', target: タイムシートを作成する日を選択します。 }
+    - { source: 'Select Employee', target: 従業員を選択します。 }
+    - { source: 'Status:', target: ステータス： }
+    - { source: Sun, target: 太陽 }
+    - { source: Thu, target: 木 }
+    - { source: 'Duplicate Records Found', target: 見つかったレコードを複製する }
+    - { source: 'Timesheet for', target: のタイムシート }
+    - { source: 'Timesheet Period', target: タイムシート期間 }
+    - { source: 'Timesheet period start day has been set', target: タイムシート期間の開始日が設定されています }
+    - { source: 'Timesheets Pending Action', target: タイムシートは、アクションを保留 }
+    - { source: Tue, target: 火曜 }
+    - { source: Wed, target: 結婚 }
+    - { source: Week, target: 週 }
+    - { source: 'Select a Project and an Activity', target: プロジェクトとアクティビティを選択します。 }
+    - { source: 'Select Records to Remove', target: 削除するレコードを選択します。 }
+    - { source: 'Timesheet Already Exists', target: タイムシートが既に存在 }
+    - { source: 'Timesheet Submitted', target: タイムシート提出 }
+    - { source: 'No Timesheets Found', target: ないタイムシートが見つかりません }
+    - { source: 'Timesheet Approved', target: タイムシートが承認されました }
+    - { source: 'Timesheet Rejected', target: タイムシートが拒否されました }
+    - { source: 'No Changes to Delete', target: 変更はありません削除する }
+    - { source: 'Total Should Be Less Than 24 Hours', target: 合計が24時間未満である必要があります }
+    - { source: 'Remaining number of custom fields', target: カスタムフィールドの残りの数 }
+    - { source: 'Account Number', target: 口座番号 }
+    - { source: 'Account Type', target: 口座の種類 }
+    - { source: 'Add Custom Field', target: カスタムフィールドを追加 }
+    - { source: 'Add Dependent', target: 依存を追加します。 }
+    - { source: 'Add Direct Deposit Details', target: ダイレクト入金の詳細を追加します。 }
+    - { source: 'Add Emergency Contact', target: 緊急連絡先を追加します。 }
+    - { source: 'Add Immigration', target: 移民を追加します。 }
+    - { source: 'Add Membership Details', target: メンバーシップの詳細を追加します。 }
+    - { source: 'Add Reporting Method', target: 報告方法を追加します。 }
+    - { source: 'Add Subordinate', target: 部下に追加 }
+    - { source: 'Add Supervisor', target: スーパーバイザーを追加します。 }
+    - { source: 'Add Supervisor/Subordinate', target: スーパバイザ/下位を追加します。 }
+    - { source: 'Add Termination Reason', target: 終了の理由を追加します。 }
+    - { source: 'Add Work Experience', target: 職務経験を追加する }
+    - { source: 'All customs fields are in use', target: すべての税関フィールドが使用されている }
+    - { source: 'Assigned Dependents', target: 割り当てられた扶養 }
+    - { source: 'Assigned Emergency Contacts', target: 割り当てられた緊急連絡先 }
+    - { source: 'Assigned Memberships', target: 割り当てられたメンバーシップ }
+    - { source: 'Assigned Subordinates', target: 割り当てられた部下 }
+    - { source: 'Assigned Supervisors', target: 割り当てられた監督 }
+    - { source: 'At least one phone number is required', target: 少なくとも1つの電話番号は必須です }
+    - { source: 'Bi Weekly', target: 双方向毎週 }
+    - { source: child, target: 子 }
+    - { source: Child, target: 子 }
+    - { source: 'Configure PIM', target: PIMを設定する }
+    - { source: 'Contract Details', target: 契約の詳細 }
+    - { source: 'Country Specific Information', target: 国固有の情報 }
+    - { source: 'Create Login Details', target: ログイン情報を作成します。 }
+    - { source: Custom, target: カスタム }
+    - { source: 'Custom Field Name', target: カスタムフィールド名 }
+    - { source: 'Date of Expiry', target: 有効期限の日付 }
+    - { source: 'Direct Deposit', target: ダイレクト預金 }
+    - { source: Document, target: ドキュメント }
+    - { source: 'Document No', target: ドキュメント番号 }
+    - { source: 'Drop Down', target: ドロップダウン }
+    - { source: 'Edit Custom Field', target: カスタムフィールドを編集します。 }
+    - { source: 'Edit Dependent', target: 依存編集 }
+    - { source: 'Edit Emergency Contact', target: 緊急連絡先を編集します。 }
+    - { source: 'Edit Membership Detail', target: メンバーシップの詳細を編集します。 }
+    - { source: 'Edit Reporting Method', target: 報告方法を編集します。 }
+    - { source: 'Edit Subordinate', target: 下位編集 }
+    - { source: 'Edit Supervisor', target: 編集スーパーバイザー }
+    - { source: 'Edit Termination Reason', target: 終了の理由を編集します。 }
+    - { source: 'Edit Work Experience', target: 仕事の経験を編集 }
+    - { source: 'Emergency Contact(s)', target: 緊急連絡先（S） }
+    - { source: 'Employee Information', target: 従業員情報 }
+    - { source: Employment, target: 雇用 }
+    - { source: 'Employment Contract', target: 雇用契約 }
+    - { source: 'Enter a number', target: 番号を入力 }
+    - { source: 'Enter allowed options separated by commas', target: コンマで区切られた使用可能なオプションを入力します。 }
+    - { source: 'Ethnic Race', target: エスニックレース }
+    - { source: Exemptions, target: 免除 }
+    - { source: 'Federal Income Tax', target: 連邦所得税 }
+    - { source: 'Field Name', target: フィールド名 }
+    - { source: 'Field Type', target: フィールドタイプ }
+    - { source: 'From date should be before to date', target: 日付から日付までの前になければなりません }
+    - { source: GPA/Score, target: 'GPA /スコア' }
+    - { source: Hourly, target: 毎時 }
+    - { source: Institute, target: 機関 }
+    - { source: 'Issued date should be before expiration date', target: 発行日は有効期限が切れる前になければなりません }
+    - { source: Major/Specialization, target: メジャー/専門 }
+    - { source: Married, target: 結婚した }
+    - { source: Max, target: マックス }
+    - { source: 'Membership Type', target: 会員の種類 }
+    - { source: 'Military Service', target: 兵役 }
+    - { source: Min, target: ミン }
+    - { source: Monthly, target: 毎月 }
+    - { source: 'Monthly on first pay of month.', target: 月の最初の給料で毎月。 }
+    - { source: N/A, target: 'N / A' }
+    - { source: 'Nick Name', target: ニックの名前 }
+    - { source: 'Non Resident Alien', target: 非居住外国人 }
+    - { source: 'Not Applicable', target: 適用されない }
+    - { source: other, target: その他 }
+    - { source: Passport, target: パスポート }
+    - { source: 'Personal Details', target: 個人的な詳細 }
+    - { source: Photograph, target: 写真 }
+    - { source: 'Please Specify', target: 指定してください。 }
+    - { source: Reason, target: 理由 }
+    - { source: Report-to, target: レポートへ }
+    - { source: Screen, target: 画面 }
+    - { source: 'Select a Photograph', target: 写真を選択します。 }
+    - { source: 'Select Membership', target: メンバーシップを選択します。 }
+    - { source: 'Select Options', target: '[オプション]を選択します' }
+    - { source: 'Semi Monthly', target: 半月間 }
+    - { source: 'Show Deprecated Fields', target: 廃止されたフィールドを表示 }
+    - { source: 'Show Nick Name, Smoker and Military Service in Personal Details', target: 個人情報のニック·ネーム、喫煙と兵役を表示する }
+    - { source: 'Show SIN field in Personal Details', target: 個人情報のSINフィールドを表示 }
+    - { source: 'Show SSN field in Personal Details', target: 個人情報のSSNフィールドを表示 }
+    - { source: 'Show US Tax Exemptions menu', target: 米国の免税メニューを表示する }
+    - { source: 'SIN Number', target: SIN番号 }
+    - { source: Single, target: シングル }
+    - { source: Smoker, target: 喫煙者 }
+    - { source: 'SSN Number', target: SSN番号 }
+    - { source: 'State Income Tax', target: 州所得税 }
+    - { source: Subordinate, target: 下位 }
+    - { source: 'Tax Exemptions', target: 税金の免除 }
+    - { source: 'Terminated Date', target: 終了日 }
+    - { source: 'Terminated on', target: で終了 }
+    - { source: 'Terminated Reason', target: 停止した理由 }
+    - { source: 'Text or Number', target: テキストまたは番号 }
+    - { source: 'Unemployment State', target: 失業の状態 }
+    - { source: 'User Name', target: ユーザ名 }
+    - { source: Visa, target: ビザ }
+    - { source: Weekly, target: 毎週 }
+    - { source: 'Work experience', target: 実務経験 }
+    - { source: 'Work State', target: 作業状態 }
+    - { source: 'Renewal date should be after commence date', target: 更新日は、日付を開始した後でなければなりません }
+    - { source: 'Delete photograph?', target: 写真を削除しますか？ }
+    - { source: 'Failed To Save: User Name Exists', target: 保存に失敗しました：ユーザー名が存在 }
+    - { source: 'Failed To Save: Employee Id Exists', target: 従業員IDは存在します。保存に失敗しました }
+    - { source: 'Will be deleted from all employees', target: すべての従業員から削除されます。 }
+    - { source: Active, target: アクティブ }
+    - { source: 'Add another', target: 別のを追加します。 }
+    - { source: 'Add Candidate', target: 候補を追加します。 }
+    - { source: 'Add Job Vacancy', target: 求人を追加します。 }
+    - { source: 'Adding Candidate', target: 候補を追加する }
+    - { source: 'Application Initiated', target: アプリケーション開始 }
+    - { source: 'applied for the', target: に適用 }
+    - { source: Archived, target: アーカイブ }
+    - { source: 'Are you sure you want to remove job vacancy of the candidate', target: あなたが候補者の求人を削除してもよろしいです }
+    - { source: 'as failed', target: として失敗した }
+    - { source: 'as passed', target: として渡された }
+    - { source: 'assigned the job vacancy', target: 求人を割り当て }
+    - { source: by, target: によって }
+    - { source: Candidate, target: 候補者 }
+    - { source: 'Candidate Name', target: 候補者名 }
+    - { source: 'Candidate''s History', target: 候補者の履歴 }
+    - { source: candidateName, target: 候補者名 }
+    - { source: 'Cannot assign same interviewer twice', target: 二回同じインタビュアーを割り当てることはできません }
+    - { source: 'Cannot assign same vacancy twice', target: 二回同じ空を割り当てることはできません }
+    - { source: 'Click on a candidate to perform actions', target: アクションを実行するために候補者をクリックしてください }
+    - { source: Closed, target: 閉じた }
+    - { source: Continue, target: 続ける }
+    - { source: 'Date of Application', target: 出願日 }
+    - { source: 'Should be less than current date', target: 現在の日付未満でなければなりません }
+    - { source: 'Decline Offer', target: 申し出を断る }
+    - { source: Details, target: 細部 }
+    - { source: 'Edit Candidate', target: 候補を編集します。 }
+    - { source: 'Edit Interview Details', target: インタビューの詳細を編集 }
+    - { source: 'Edit Job Vacancy', target: 求人の編集 }
+    - { source: 'Editing Candidate', target: 候補を編集 }
+    - { source: 'from the', target: から }
+    - { source: Hire, target: 雇う }
+    - { source: Hired, target: 雇われ }
+    - { source: hired, target: 雇われ }
+    - { source: 'Hiring Manager', target: マネージャーを雇う }
+    - { source: 'Interview Failed', target: 面接に失敗しました }
+    - { source: 'Interview Passed', target: インタビューでは、渡された }
+    - { source: 'Interview Scheduled', target: インタビューのスケジュール }
+    - { source: 'Interview Title', target: インタビューのタイトル }
+    - { source: 'Interviewer Name', target: インタビュアーの名前 }
+    - { source: 'Job Offered', target: ジョブが提供され }
+    - { source: 'Job Vacancy', target: 求人 }
+    - { source: Manual, target: マニュアル }
+    - { source: 'Mark Interview Failed', target: マークのインタビューに失敗しました }
+    - { source: 'Mark Interview Passed', target: マークのインタビューでは、渡された }
+    - { source: marked, target: マーク }
+    - { source: 'marked the offer as declined', target: 減少したとして、申し出をマーク }
+    - { source: 'Method of Application', target: 適用法 }
+    - { source: 'No Actions', target: いいえアクションはありません }
+    - { source: 'No active job vacancies to display', target: 表示するアクティブな求人情報なし }
+    - { source: 'Number of Positions', target: ポジション数 }
+    - { source: 'Offer Declined', target: オファーは拒否 }
+    - { source: 'Offer Job', target: 仕事を提供 }
+    - { source: 'on', target: 上の }
+    - { source: Online, target: オンライン }
+    - { source: 'Performed Action', target: 実行されるアクション }
+    - { source: 'Performed Date', target: 実行日 }
+    - { source: 'Publish in RSS feed(1) and web page(2)', target: RSSフィード（1）Webページ（2）で公開する }
+    - { source: removed, target: 削除 }
+    - { source: 'RSS Feed URL', target: RSSフィードのURL }
+    - { source: 'Schedule Interview', target: インタビューのスケジュールを設定 }
+    - { source: scheduled, target: 予定の }
+    - { source: Shortlist, target: 候補 }
+    - { source: Shortlisted, target: 最終選考 }
+    - { source: 'Shortlisted for', target: のための選考 }
+    - { source: Vacancy, target: 欠員 }
+    - { source: 'Vacancy Name', target: 空の名前 }
+    - { source: 'View Action History', target: アクション履歴を表示 }
+    - { source: 'View Interview Details', target: インタビューの詳細を見る }
+    - { source: 'Web Page URL', target: WebページのURL }
+    - { source: with, target: と }
+    - { source: 'Successfully Scheduled', target: 正常にスケジュールさ }
+    - { source: 'This action will remove previous vacancy', target: このアクションは、以前の欠員を削除します }
+    - { source: 'Remove?', target: 削除しますか？ }
+    - { source: 'Vacancy Apply Form', target: 欠員は、フォームを適用します。 }
+    - { source: 'Application Received', target: アプリケーションは受け取った }
+    - { source: Uploaded, target: アップロード }
+    - { source: 'A new leave type will be created with same name', target: 新しい休暇の種類が同じ名前で作成されます。 }
+    - { source: Actions, target: アクション }
+    - { source: Assign, target: 割り当てる }
+    - { source: 'At Least One Day Should Be a Working Day', target: 少なくとも一日は営業日である必要があります。 }
+    - { source: Canceled, target: キャンセル }
+    - { source: characters, target: 文字 }
+    - { source: 'Confirmation Required', target: 確認が必要 }
+    - { source: 'Current Leave Period', target: 現在の休業期間 }
+    - { source: 'Date format should be', target: 日付の形式はでなければなりません }
+    - { source: 'Define Leave Type', target: タイプを残す定義 }
+    - { source: 'Duration (Hours)', target: 期間（時間） }
+    - { source: 'Following Year', target: 次の年 }
+    - { source: 'For Leap Years', target: うるう年の }
+    - { source: 'For Non-Leap Years', target: 非うるう年の }
+    - { source: 'From Date', target: 日から }
+    - { source: 'From Time', target: 時間から }
+    - { source: 'Full Day', target: 丸一日 }
+    - { source: 'Go to Detailed View', target: 詳細ビューに移動します }
+    - { source: 'Half Day', target: 半日 }
+    - { source: Holiday, target: 休日 }
+    - { source: 'Leave Balance', target: バランスを残す }
+    - { source: 'Leave Comment', target: コメントを残しましょう！ }
+    - { source: 'Leave Entitled', target: と題されたまま }
+    - { source: 'Leave Period Does Not Exist', target: 期間が存在しないままに }
+    - { source: 'Leave Request', target: リクエストを残す }
+    - { source: 'Leave Scheduled', target: スケジュールされたままに }
+    - { source: 'Leave Taken', target: 撮影したままに }
+    - { source: 'Leave Type', target: タイプを残す }
+    - { source: 'Leave type will be undeleted', target: 残すタイプは、未削除されます。 }
+    - { source: 'My Leave Details', target: 私の休暇の詳細 }
+    - { source: 'My Leave List', target: 私の脱退リスト }
+    - { source: 'Name of Holiday', target: ホテルの名前 }
+    - { source: 'No Leave Types with Leave Balance', target: 脱退バランスとの休暇タイプません }
+    - { source: 'No of Hours', target: 時間のない }
+    - { source: 'Non Working Day', target: 非就業日 }
+    - { source: 'Non-working Day', target: 非稼働日 }
+    - { source: 'Number of Days', target: 日数 }
+    - { source: 'Pending Approval', target: 承認待ちの }
+    - { source: 'Repeats Annually', target: 毎年繰り返される }
+    - { source: 'Show Leave with Status', target: ステータスにコメントを表示 }
+    - { source: Taken, target: 撮影した }
+    - { source: 'Overlapping Leave Request Found', target: 重複脱退要求が見つかりました }
+    - { source: 'This is a deleted leave type. Reactivate it?', target: これは削除された休暇の種類です。それを再度アクティブに？ }
+    - { source: 'To Date', target: これまでに }
+    - { source: 'To Time', target: 時間に }
+    - { source: 'Total Hours', target: 総実労働時間 }
+    - { source: 'Total time is greater than the shift length', target: 合計時間は、シフトの長さより大きい }
+    - { source: 'Failed to Submit: No Working Days Selected', target: 送信に失敗しました：なし営業日選択されていません }
+    - { source: 'Failed to Save: Date Already Assigned', target: 既に割り当てられた日付：保存に失敗しました。 }
+    - { source: 'Failed to Assign: Work Shift Length Exceeded', target: 作業シフトの長さを超えて：割り当てに失敗しました。 }
+    - { source: 'Failed to Submit: Work Shift Length Exceeded', target: 作業シフトの長さを超えて：送信に失敗しました。 }
+    - { source: 'Failed to Submit: Leave Balance Exceeded', target: バランスが超過コメント：送信に失敗しました。 }
+    - { source: 'Should be less than work shift length', target: 作業シフトの長さ未満でなければなりません }
+    - { source: 'Leave Period Not Defined', target: 期間定義されていないを残す }
+    - { source: 'Full Day/Half Day', target: 一日/半日 }
+    - { source: 'Leave Request (%date_range%) %name%', target: 要求（%date_range%）を%name%を残す }
+    - { source: 'Failed to Assign', target: 割り当てに失敗しました。 }
+    - { source: 'Failed to Submit', target: 送信に失敗しました。 }
+    - { source: 'Add Leave Type', target: タイプを残すに追加 }
+    - { source: 'Edit Leave Type', target: タイプを残す編集 }
+    - { source: 'View Attendance Record', target: 出席記録を見る }
+    - { source: 'Punch In', target: パンチイン }
+    - { source: 'Punch In Note', target: ノートでパンチ }
+    - { source: 'Punch Out', target: 打ち抜く }
+    - { source: 'Punch Out Note', target: （注）パンチアウト }
+    - { source: 'No attendance records to display', target: いいえ出席は表示するレコードません }
+    - { source: 'Punch out Time Should Be Higher Than Punch in Time', target: パンチアウトの時間は、時間的にパンチより大きくなければなりません }
+    - { source: 'Overlapping Records Found', target: 重複レコードが見つかりました }
+    - { source: 'Comment should be less than 250 characters', target: コメントは250文字未満でなければなりません }
+    - { source: 'Punch in/out note', target: メモイン/アウトパンチ }
+    - { source: Timezone, target: タイムゾーン }
+    - { source: 'Last punch in time', target: 時間の最後のパンチ }
+    - { source: In, target: で }
+    - { source: Out, target: アウト }
+    - { source: 'Attendance Configuration', target: 出席者の構成 }
+    - { source: 'Employee can change current time when punching in/out', target: イン/アウトパンチ時従業員は、現在の時刻を変更することができます }
+    - { source: 'Employee can edit/delete own attendance records', target: 従業員は、自分の出席レコードを編集/削除できます。 }
+    - { source: 'Supervisor can add/edit/delete attendance records of subordinates', target: スーパーバイザーを追加/編集/部下の出席の記録を削除することができます }
+    - { source: 'My Attendance Records', target: 私の出席記録 }
+    - { source: 'You are not allowed to view this page', target: このページを表示するには許可されていません }
+    - { source: 'Add Attendance Records', target: 出席記録を追加します。 }
+    - { source: 'Should Be a Valid Date in %format% Format', target: '%format%の形式で有効な日付でなければなりません' }
+    - { source: 'Should Be a Valid Time in %format% Format', target: '%format%の形式で有効な時間でなければなりません' }

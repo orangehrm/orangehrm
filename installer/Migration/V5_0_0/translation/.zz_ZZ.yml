@@ -1,0 +1,2057 @@
+translations:
+    - { source: '1M Max, any larger attachments will be ignored', target: 'FR_1M Max, any larger attachments will be ignored' }
+    - { source: Add, target: FR_Add }
+    - { source: 'Add Attachment', target: 'FR_Add Attachment' }
+    - { source: 'Add Employee', target: 'FR_Add Employee' }
+    - { source: 'Add KPI', target: 'FR_Add KPI' }
+    - { source: 'Add Review', target: 'FR_Add Review' }
+    - { source: 'Add Salary Component', target: 'FR_Add Salary Component' }
+    - { source: 'Added By', target: 'FR_Added By' }
+    - { source: Address, target: FR_Address }
+    - { source: Admin, target: FR_Admin }
+    - { source: Afghan, target: FR_Afghan }
+    - { source: Afghanistan, target: FR_Afghanistan }
+    - { source: 'Afghanistan Afghani', target: 'FR_Afghanistan Afghani' }
+    - { source: 'Age Group', target: 'FR_Age Group' }
+    - { source: Alabama, target: FR_Alabama }
+    - { source: Alaska, target: FR_Alaska }
+    - { source: Albania, target: FR_Albania }
+    - { source: Albanian, target: FR_Albanian }
+    - { source: 'Albanian Lek', target: 'FR_Albanian Lek' }
+    - { source: Algeria, target: FR_Algeria }
+    - { source: Algerian, target: FR_Algerian }
+    - { source: 'Algerian Dinar', target: 'FR_Algerian Dinar' }
+    - { source: All, target: FR_All }
+    - { source: 'Allows numbers and only + - / ( )', target: 'FR_Allows numbers and only + - / ( )' }
+    - { source: 'Already exists', target: 'FR_Already exists' }
+    - { source: 'Name Already Exists', target: 'FR_Name Already Exists' }
+    - { source: American, target: FR_American }
+    - { source: 'American Samoa', target: 'FR_American Samoa' }
+    - { source: Amount, target: FR_Amount }
+    - { source: Andorra, target: FR_Andorra }
+    - { source: Andorran, target: FR_Andorran }
+    - { source: Angola, target: FR_Angola }
+    - { source: Angolan, target: FR_Angolan }
+    - { source: 'Angolan New Kwanza', target: 'FR_Angolan New Kwanza' }
+    - { source: Anguilla, target: FR_Anguilla }
+    - { source: Antarctica, target: FR_Antarctica }
+    - { source: 'Antigua and Barbuda', target: 'FR_Antigua and Barbuda' }
+    - { source: Antiguans, target: FR_Antiguans }
+    - { source: Apply, target: FR_Apply }
+    - { source: April, target: FR_April }
+    - { source: 'are required', target: 'FR_are required' }
+    - { source: Argentina, target: FR_Argentina }
+    - { source: 'Argentina Pesos', target: 'FR_Argentina Pesos' }
+    - { source: 'Argentine Peso', target: 'FR_Argentine Peso' }
+    - { source: Argentinean, target: FR_Argentinean }
+    - { source: Arizona, target: FR_Arizona }
+    - { source: Arkansas, target: FR_Arkansas }
+    - { source: 'Armed Forces Americas (except Canada)', target: 'FR_Armed Forces Americas (except Canada)' }
+    - { source: 'Armed Forces Middle East', target: 'FR_Armed Forces Middle East' }
+    - { source: 'Armed Forces Pacific', target: 'FR_Armed Forces Pacific' }
+    - { source: Armenia, target: FR_Armenia }
+    - { source: Armenian, target: FR_Armenian }
+    - { source: Aruba, target: FR_Aruba }
+    - { source: 'Aruban Florin', target: 'FR_Aruban Florin' }
+    - { source: 'Assign Leave', target: 'FR_Assign Leave' }
+    - { source: 'Assigned Salary Components', target: 'FR_Assigned Salary Components' }
+    - { source: 'Attachment Size Exceeded', target: 'FR_Attachment Size Exceeded' }
+    - { source: Attendance, target: FR_Attendance }
+    - { source: 'Attendance Summary', target: 'FR_Attendance Summary' }
+    - { source: August, target: FR_August }
+    - { source: Australia, target: FR_Australia }
+    - { source: Australian, target: FR_Australian }
+    - { source: 'Australian Dollar', target: 'FR_Australian Dollar' }
+    - { source: Austria, target: FR_Austria }
+    - { source: Austrian, target: FR_Austrian }
+    - { source: Azerbaijan, target: FR_Azerbaijan }
+    - { source: Azerbaijani, target: FR_Azerbaijani }
+    - { source: Back, target: FR_Back }
+    - { source: Bahamas, target: FR_Bahamas }
+    - { source: Bahamian, target: FR_Bahamian }
+    - { source: 'Bahamian Dollar', target: 'FR_Bahamian Dollar' }
+    - { source: Bahrain, target: FR_Bahrain }
+    - { source: Bahraini, target: FR_Bahraini }
+    - { source: 'Bahraini Dinar', target: 'FR_Bahraini Dinar' }
+    - { source: Bangladesh, target: FR_Bangladesh }
+    - { source: Bangladeshi, target: FR_Bangladeshi }
+    - { source: 'Bangladeshi Taka', target: 'FR_Bangladeshi Taka' }
+    - { source: Barbadian, target: FR_Barbadian }
+    - { source: Barbados, target: FR_Barbados }
+    - { source: 'Barbados Dollar', target: 'FR_Barbados Dollar' }
+    - { source: Barbudans, target: FR_Barbudans }
+    - { source: Basic, target: FR_Basic }
+    - { source: Batswana, target: FR_Batswana }
+    - { source: Belarus, target: FR_Belarus }
+    - { source: Belarusian, target: FR_Belarusian }
+    - { source: Belgian, target: FR_Belgian }
+    - { source: Belgium, target: FR_Belgium }
+    - { source: Belize, target: FR_Belize }
+    - { source: 'Belize Dollar', target: 'FR_Belize Dollar' }
+    - { source: Belizean, target: FR_Belizean }
+    - { source: Benin, target: FR_Benin }
+    - { source: Beninese, target: FR_Beninese }
+    - { source: Bermuda, target: FR_Bermuda }
+    - { source: 'Bermudian Dollar', target: 'FR_Bermudian Dollar' }
+    - { source: Bhutan, target: FR_Bhutan }
+    - { source: 'Bhutan Ngultrum', target: 'FR_Bhutan Ngultrum' }
+    - { source: Bhutanese, target: FR_Bhutanese }
+    - { source: Bolivia, target: FR_Bolivia }
+    - { source: Bolivian, target: FR_Bolivian }
+    - { source: 'Bolivian Boliviano', target: 'FR_Bolivian Boliviano' }
+    - { source: 'Bosnia and Herzegovina', target: 'FR_Bosnia and Herzegovina' }
+    - { source: Bosnian, target: FR_Bosnian }
+    - { source: Botswana, target: FR_Botswana }
+    - { source: 'Botswana Pula', target: 'FR_Botswana Pula' }
+    - { source: 'Bouvet Island', target: 'FR_Bouvet Island' }
+    - { source: Brazil, target: FR_Brazil }
+    - { source: Brazilian, target: FR_Brazilian }
+    - { source: 'Brazilian Real', target: 'FR_Brazilian Real' }
+    - { source: British, target: FR_British }
+    - { source: 'British Indian Ocean Territory', target: 'FR_British Indian Ocean Territory' }
+    - { source: 'Brunei Darussalam', target: 'FR_Brunei Darussalam' }
+    - { source: 'Brunei Dollar', target: 'FR_Brunei Dollar' }
+    - { source: Bruneian, target: FR_Bruneian }
+    - { source: Bulgaria, target: FR_Bulgaria }
+    - { source: Bulgarian, target: FR_Bulgarian }
+    - { source: 'Bulgarian Lev', target: 'FR_Bulgarian Lev' }
+    - { source: 'Burkina Faso', target: 'FR_Burkina Faso' }
+    - { source: Burkinabe, target: FR_Burkinabe }
+    - { source: Burmese, target: FR_Burmese }
+    - { source: Burundi, target: FR_Burundi }
+    - { source: 'Burundi Franc', target: 'FR_Burundi Franc' }
+    - { source: Burundian, target: FR_Burundian }
+    - { source: California, target: FR_California }
+    - { source: Cambodia, target: FR_Cambodia }
+    - { source: Cambodian, target: FR_Cambodian }
+    - { source: Cameroon, target: FR_Cameroon }
+    - { source: Cameroonian, target: FR_Cameroonian }
+    - { source: Canada, target: FR_Canada }
+    - { source: Canadian, target: FR_Canadian }
+    - { source: 'Canadian Dollar', target: 'FR_Canadian Dollar' }
+    - { source: Cancel, target: FR_Cancel }
+    - { source: Candidates, target: FR_Candidates }
+    - { source: 'Cape Verde', target: 'FR_Cape Verde' }
+    - { source: 'Cape Verde Escudo', target: 'FR_Cape Verde Escudo' }
+    - { source: 'Cape Verdean', target: 'FR_Cape Verdean' }
+    - { source: 'Cayman Islands', target: 'FR_Cayman Islands' }
+    - { source: 'Cayman Islands Dollar', target: 'FR_Cayman Islands Dollar' }
+    - { source: 'Central African', target: 'FR_Central African' }
+    - { source: 'Central African Republic', target: 'FR_Central African Republic' }
+    - { source: 'CFA Franc BCEAO', target: 'FR_CFA Franc BCEAO' }
+    - { source: 'CFP Franc', target: 'FR_CFP Franc' }
+    - { source: 'CFA Franc BEAC', target: 'FR_CFA Franc BEAC' }
+    - { source: Chad, target: FR_Chad }
+    - { source: Chadian, target: FR_Chadian }
+    - { source: 'Change Password', target: 'FR_Change Password' }
+    - { source: Checking, target: FR_Checking }
+    - { source: Chile, target: FR_Chile }
+    - { source: 'Cote D''Ivoire', target: 'FR_Cote D''Ivoire' }
+    - { source: Chilean, target: FR_Chilean }
+    - { source: 'Chilean Peso', target: 'FR_Chilean Peso' }
+    - { source: 'Tongan Pa''anga', target: 'FR_Tongan Pa''anga' }
+    - { source: China, target: FR_China }
+    - { source: Chinese, target: FR_Chinese }
+    - { source: 'Chinese Yuan Renminbi', target: 'FR_Chinese Yuan Renminbi' }
+    - { source: 'Christmas Island', target: 'FR_Christmas Island' }
+    - { source: 'Cocos (Keeling) Islands', target: 'FR_Cocos (Keeling) Islands' }
+    - { source: Colombia, target: FR_Colombia }
+    - { source: Colombian, target: FR_Colombian }
+    - { source: 'Colombian Peso', target: 'FR_Colombian Peso' }
+    - { source: Colorado, target: FR_Colorado }
+    - { source: Comment, target: FR_Comment }
+    - { source: Comments, target: FR_Comments }
+    - { source: Comoran, target: FR_Comoran }
+    - { source: Comoros, target: FR_Comoros }
+    - { source: 'Comoros Franc', target: 'FR_Comoros Franc' }
+    - { source: Company, target: FR_Company }
+    - { source: Competency, target: FR_Competency }
+    - { source: Configuration, target: FR_Configuration }
+    - { source: Configure, target: FR_Configure }
+    - { source: Congo, target: FR_Congo }
+    - { source: 'Congo, the Democratic Republic of the', target: 'FR_Congo, the Democratic Republic of the' }
+    - { source: Congolese, target: FR_Congolese }
+    - { source: Connecticut, target: FR_Connecticut }
+    - { source: 'Contact Details', target: 'FR_Contact Details' }
+    - { source: 'Contract End Date', target: 'FR_Contract End Date' }
+    - { source: 'Contract Not Renewed', target: 'FR_Contract Not Renewed' }
+    - { source: 'Contract Start Date', target: 'FR_Contract Start Date' }
+    - { source: 'Cook Islands', target: 'FR_Cook Islands' }
+    - { source: 'Copy KPI', target: 'FR_Copy KPI' }
+    - { source: 'Costa Rica', target: 'FR_Costa Rica' }
+    - { source: 'Costa Rican', target: 'FR_Costa Rican' }
+    - { source: 'Costa Rican Colon', target: 'FR_Costa Rican Colon' }
+    - { source: Country, target: FR_Country }
+    - { source: Croatia, target: FR_Croatia }
+    - { source: Croatian, target: FR_Croatian }
+    - { source: 'Croatian Kuna', target: 'FR_Croatian Kuna' }
+    - { source: Cuba, target: FR_Cuba }
+    - { source: Cuban, target: FR_Cuban }
+    - { source: 'Cuban Peso', target: 'FR_Cuban Peso' }
+    - { source: Currency, target: FR_Currency }
+    - { source: 'Current and Past Employees', target: 'FR_Current and Past Employees' }
+    - { source: 'Current Employees Only', target: 'FR_Current Employees Only' }
+    - { source: 'Current Status', target: 'FR_Current Status' }
+    - { source: 'Custom Fields', target: 'FR_Custom Fields' }
+    - { source: Customers, target: FR_Customers }
+    - { source: Cypriot, target: FR_Cypriot }
+    - { source: Cyprus, target: FR_Cyprus }
+    - { source: 'Cyprus Pound', target: 'FR_Cyprus Pound' }
+    - { source: Czech, target: FR_Czech }
+    - { source: 'Czech Koruna', target: 'FR_Czech Koruna' }
+    - { source: 'Czech Republic', target: 'FR_Czech Republic' }
+    - { source: Danish, target: FR_Danish }
+    - { source: 'Danish Krona', target: 'FR_Danish Krona' }
+    - { source: 'Data Import', target: 'FR_Data Import' }
+    - { source: Date, target: FR_Date }
+    - { source: 'Date Added', target: 'FR_Date Added' }
+    - { source: 'Date of Birth', target: 'FR_Date of Birth' }
+    - { source: Days, target: FR_Days }
+    - { source: Deceased, target: FR_Deceased }
+    - { source: December, target: FR_December }
+    - { source: 'Define Report', target: 'FR_Define Report' }
+    - { source: 'Defined Custom Fields', target: 'FR_Defined Custom Fields' }
+    - { source: Delaware, target: FR_Delaware }
+    - { source: Delete, target: FR_Delete }
+    - { source: 'Delete Current', target: 'FR_Delete Current' }
+    - { source: Denmark, target: FR_Denmark }
+    - { source: Dependents, target: FR_Dependents }
+    - { source: Description, target: FR_Description }
+    - { source: Dimensions, target: FR_Dimensions }
+    - { source: Direct, target: FR_Direct }
+    - { source: 'Direct Deposit Account Number', target: 'FR_Direct Deposit Account Number' }
+    - { source: 'Direct Deposit Account Type', target: 'FR_Direct Deposit Account Type' }
+    - { source: 'Direct Deposit Amount', target: 'FR_Direct Deposit Amount' }
+    - { source: 'Direct Deposit Details', target: 'FR_Direct Deposit Details' }
+    - { source: 'Direct Deposit Routing Number', target: 'FR_Direct Deposit Routing Number' }
+    - { source: Disabled, target: FR_Disabled }
+    - { source: Dismissed, target: FR_Dismissed }
+    - { source: 'Display Field Groups', target: 'FR_Display Field Groups' }
+    - { source: 'Display Fields', target: 'FR_Display Fields' }
+    - { source: 'District of Columbia', target: 'FR_District of Columbia' }
+    - { source: Djibouti, target: FR_Djibouti }
+    - { source: 'Djibouti Franc', target: 'FR_Djibouti Franc' }
+    - { source: 'Document Type', target: 'FR_Document Type' }
+    - { source: Dominica, target: FR_Dominica }
+    - { source: Dominican, target: FR_Dominican }
+    - { source: 'Dominican Peso', target: 'FR_Dominican Peso' }
+    - { source: 'Dominican Republic', target: 'FR_Dominican Republic' }
+    - { source: 'Driver License Number', target: 'FR_Driver License Number' }
+    - { source: 'Driver''s License Number', target: 'FR_Driver''s License Number' }
+    - { source: Duration, target: FR_Duration }
+    - { source: Dutch, target: FR_Dutch }
+    - { source: Duties, target: FR_Duties }
+    - { source: 'East Timorese', target: 'FR_East Timorese' }
+    - { source: 'Eastern Caribbean Dollars', target: 'FR_Eastern Caribbean Dollars' }
+    - { source: Ecuador, target: FR_Ecuador }
+    - { source: 'Ecuador Sucre', target: 'FR_Ecuador Sucre' }
+    - { source: Ecuadorean, target: FR_Ecuadorean }
+    - { source: Edit, target: FR_Edit }
+    - { source: 'Edit Attachment', target: 'FR_Edit Attachment' }
+    - { source: 'Edit Immigration', target: 'FR_Edit Immigration' }
+    - { source: 'Edit Salary Component', target: 'FR_Edit Salary Component' }
+    - { source: Education, target: FR_Education }
+    - { source: Egypt, target: FR_Egypt }
+    - { source: Egyptian, target: FR_Egyptian }
+    - { source: 'Egyptian Pound', target: 'FR_Egyptian Pound' }
+    - { source: 'El Salvador', target: 'FR_El Salvador' }
+    - { source: 'El Salvador Colon', target: 'FR_El Salvador Colon' }
+    - { source: Eligible, target: FR_Eligible }
+    - { source: 'Eligible Review Date', target: 'FR_Eligible Review Date' }
+    - { source: 'Eligible Status', target: 'FR_Eligible Status' }
+    - { source: 'Email Notifications', target: 'FR_Email Notifications' }
+    - { source: 'Emergency Contacts', target: 'FR_Emergency Contacts' }
+    - { source: Emirian, target: FR_Emirian }
+    - { source: Employee, target: FR_Employee }
+    - { source: 'Employee First Name', target: 'FR_Employee First Name' }
+    - { source: 'Employee Id', target: 'FR_Employee Id' }
+    - { source: 'Employee Last Name', target: 'FR_Employee Last Name' }
+    - { source: 'Employee List', target: 'FR_Employee List' }
+    - { source: 'Employee Middle Name', target: 'FR_Employee Middle Name' }
+    - { source: 'Employee Name', target: 'FR_Employee Name' }
+    - { source: 'Employee Records', target: 'FR_Employee Records' }
+    - { source: 'Employee Reports', target: 'FR_Employee Reports' }
+    - { source: 'Employee Timesheets', target: 'FR_Employee Timesheets' }
+    - { source: 'Employment Status', target: 'FR_Employment Status' }
+    - { source: Enabled, target: FR_Enabled }
+    - { source: 'End Date', target: 'FR_End Date' }
+    - { source: 'End date should be after start date', target: 'FR_End date should be after start date' }
+    - { source: 'Equatorial Guinea', target: 'FR_Equatorial Guinea' }
+    - { source: 'Equatorial Guinean', target: 'FR_Equatorial Guinean' }
+    - { source: Eritrea, target: FR_Eritrea }
+    - { source: Eritrean, target: FR_Eritrean }
+    - { source: ESS, target: FR_ESS }
+    - { source: Estonia, target: FR_Estonia }
+    - { source: Estonian, target: FR_Estonian }
+    - { source: 'Estonian Krona', target: 'FR_Estonian Krona' }
+    - { source: Ethiopia, target: FR_Ethiopia }
+    - { source: Ethiopian, target: FR_Ethiopian }
+    - { source: 'Ethiopian Birr', target: 'FR_Ethiopian Birr' }
+    - { source: Euro, target: FR_Euro }
+    - { source: 'Expected format: admin@example.com', target: 'FR_Expected format: admin@example.com' }
+    - { source: 'Expiry Date', target: 'FR_Expiry Date' }
+    - { source: 'Expiry date should be after issued date', target: 'FR_Expiry date should be after issued date' }
+    - { source: 'Failed to Save', target: 'FR_Failed to Save' }
+    - { source: 'Falkland Islands (Malvinas)', target: 'FR_Falkland Islands (Malvinas)' }
+    - { source: 'Falkland Islands Pound', target: 'FR_Falkland Islands Pound' }
+    - { source: 'Faroe Islands', target: 'FR_Faroe Islands' }
+    - { source: February, target: FR_February }
+    - { source: 'Federated States of Micronesia', target: 'FR_Federated States of Micronesia' }
+    - { source: Female, target: FR_Female }
+    - { source: Field, target: FR_Field }
+    - { source: Fields, target: FR_Fields }
+    - { source: 'Fields marked with an asterisk', target: 'FR_Fields marked with an asterisk' }
+    - { source: Fiji, target: FR_Fiji }
+    - { source: 'Fiji Dollar', target: 'FR_Fiji Dollar' }
+    - { source: Fijian, target: FR_Fijian }
+    - { source: 'File Name', target: 'FR_File Name' }
+    - { source: Filipino, target: FR_Filipino }
+    - { source: Finland, target: FR_Finland }
+    - { source: Finnish, target: FR_Finnish }
+    - { source: First, target: FR_First }
+    - { source: 'First Name', target: 'FR_First Name' }
+    - { source: Florida, target: FR_Florida }
+    - { source: Fluency, target: FR_Fluency }
+    - { source: France, target: FR_France }
+    - { source: French, target: FR_French }
+    - { source: 'French Guiana', target: 'FR_French Guiana' }
+    - { source: 'French Polynesia', target: 'FR_French Polynesia' }
+    - { source: 'French Southern Territories', target: 'FR_French Southern Territories' }
+    - { source: Friday, target: FR_Friday }
+    - { source: From, target: FR_From }
+    - { source: 'Full Name', target: 'FR_Full Name' }
+    - { source: 'Full Time Contract', target: 'FR_Full Time Contract' }
+    - { source: 'Full Time Internship', target: 'FR_Full Time Internship' }
+    - { source: 'Full Time Permanent', target: 'FR_Full Time Permanent' }
+    - { source: Gabon, target: FR_Gabon }
+    - { source: Gabonese, target: FR_Gabonese }
+    - { source: Gambia, target: FR_Gambia }
+    - { source: Gambian, target: FR_Gambian }
+    - { source: 'Gambian Dalasi', target: 'FR_Gambian Dalasi' }
+    - { source: Gender, target: FR_Gender }
+    - { source: 'General Information', target: 'FR_General Information' }
+    - { source: Georgia, target: FR_Georgia }
+    - { source: Georgian, target: FR_Georgian }
+    - { source: German, target: FR_German }
+    - { source: Germany, target: FR_Germany }
+    - { source: Ghana, target: FR_Ghana }
+    - { source: Ghanaian, target: FR_Ghanaian }
+    - { source: 'Ghanaian Cedi', target: 'FR_Ghanaian Cedi' }
+    - { source: Gibraltar, target: FR_Gibraltar }
+    - { source: 'Gibraltar Pound', target: 'FR_Gibraltar Pound' }
+    - { source: 'Gold (oz.)', target: 'FR_Gold (oz.)' }
+    - { source: Good, target: FR_Good }
+    - { source: 'Greater Than', target: 'FR_Greater Than' }
+    - { source: Greece, target: FR_Greece }
+    - { source: Greek, target: FR_Greek }
+    - { source: Greenland, target: FR_Greenland }
+    - { source: Grenada, target: FR_Grenada }
+    - { source: Grenadian, target: FR_Grenadian }
+    - { source: Guadeloupe, target: FR_Guadeloupe }
+    - { source: Guam, target: FR_Guam }
+    - { source: Guatemala, target: FR_Guatemala }
+    - { source: Guatemalan, target: FR_Guatemalan }
+    - { source: 'Guatemalan Quetzal', target: 'FR_Guatemalan Quetzal' }
+    - { source: Guinea, target: FR_Guinea }
+    - { source: 'Guinea Franc', target: 'FR_Guinea Franc' }
+    - { source: Guinea-Bissau, target: FR_Guinea-Bissau }
+    - { source: Guinea-Bissauan, target: FR_Guinea-Bissauan }
+    - { source: Guinean, target: FR_Guinean }
+    - { source: Guyana, target: FR_Guyana }
+    - { source: 'Guyanan Dollar', target: 'FR_Guyanan Dollar' }
+    - { source: Guyanese, target: FR_Guyanese }
+    - { source: Haiti, target: FR_Haiti }
+    - { source: Haitian, target: FR_Haitian }
+    - { source: 'Haitian Gourde', target: 'FR_Haitian Gourde' }
+    - { source: Hawaii, target: FR_Hawaii }
+    - { source: 'Heard Island and Mcdonald Islands', target: 'FR_Heard Island and Mcdonald Islands' }
+    - { source: Help, target: FR_Help }
+    - { source: Herzegovinian, target: FR_Herzegovinian }
+    - { source: 'Hide Details', target: 'FR_Hide Details' }
+    - { source: Holidays, target: FR_Holidays }
+    - { source: 'Holy See (Vatican City State)', target: 'FR_Holy See (Vatican City State)' }
+    - { source: 'Home Telephone', target: 'FR_Home Telephone' }
+    - { source: Honduran, target: FR_Honduran }
+    - { source: 'Honduran Lempira', target: 'FR_Honduran Lempira' }
+    - { source: Honduras, target: FR_Honduras }
+    - { source: 'Hong Kong', target: 'FR_Hong Kong' }
+    - { source: 'Hong Kong Dollar', target: 'FR_Hong Kong Dollar' }
+    - { source: Hungarian, target: FR_Hungarian }
+    - { source: 'Hungarian Forint', target: 'FR_Hungarian Forint' }
+    - { source: Hungary, target: FR_Hungary }
+    - { source: I-Kiribati, target: FR_I-Kiribati }
+    - { source: Iceland, target: FR_Iceland }
+    - { source: 'Iceland Krona', target: 'FR_Iceland Krona' }
+    - { source: Icelander, target: FR_Icelander }
+    - { source: Id, target: FR_Id }
+    - { source: Idaho, target: FR_Idaho }
+    - { source: Illinois, target: FR_Illinois }
+    - { source: 'IMF Special Drawing Right', target: 'FR_IMF Special Drawing Right' }
+    - { source: Immigration, target: FR_Immigration }
+    - { source: Include, target: FR_Include }
+    - { source: 'Include Header', target: 'FR_Include Header' }
+    - { source: 'Include Past Employees', target: 'FR_Include Past Employees' }
+    - { source: India, target: FR_India }
+    - { source: Indian, target: FR_Indian }
+    - { source: 'Indian Rupee', target: 'FR_Indian Rupee' }
+    - { source: Indiana, target: FR_Indiana }
+    - { source: Indirect, target: FR_Indirect }
+    - { source: Individual, target: FR_Individual }
+    - { source: Indonesia, target: FR_Indonesia }
+    - { source: Indonesian, target: FR_Indonesian }
+    - { source: 'Indonesian Rupiah', target: 'FR_Indonesian Rupiah' }
+    - { source: 'Invalid File Type', target: 'FR_Invalid File Type' }
+    - { source: Iowa, target: FR_Iowa }
+    - { source: 'Iran, Islamic Republic of', target: 'FR_Iran, Islamic Republic of' }
+    - { source: Iranian, target: FR_Iranian }
+    - { source: 'Iranian Rial', target: 'FR_Iranian Rial' }
+    - { source: Iraq, target: FR_Iraq }
+    - { source: Iraqi, target: FR_Iraqi }
+    - { source: 'Iraqi Dinar', target: 'FR_Iraqi Dinar' }
+    - { source: Ireland, target: FR_Ireland }
+    - { source: Irish, target: FR_Irish }
+    - { source: Israel, target: FR_Israel }
+    - { source: Israeli, target: FR_Israeli }
+    - { source: 'Israeli New Shekel', target: 'FR_Israeli New Shekel' }
+    - { source: 'Issued By', target: 'FR_Issued By' }
+    - { source: 'Issued Date', target: 'FR_Issued Date' }
+    - { source: Italian, target: FR_Italian }
+    - { source: Italy, target: FR_Italy }
+    - { source: Ivorian, target: FR_Ivorian }
+    - { source: Jamaica, target: FR_Jamaica }
+    - { source: Jamaican, target: FR_Jamaican }
+    - { source: 'Jamaican Dollar', target: 'FR_Jamaican Dollar' }
+    - { source: January, target: FR_January }
+    - { source: Japan, target: FR_Japan }
+    - { source: Japanese, target: FR_Japanese }
+    - { source: 'Japanese Yen', target: 'FR_Japanese Yen' }
+    - { source: Job, target: FR_Job }
+    - { source: 'Job Categories', target: 'FR_Job Categories' }
+    - { source: 'Job Category', target: 'FR_Job Category' }
+    - { source: 'Job Specification', target: 'FR_Job Specification' }
+    - { source: 'Job Title', target: 'FR_Job Title' }
+    - { source: 'Job Titles', target: 'FR_Job Titles' }
+    - { source: 'Joined Date', target: 'FR_Joined Date' }
+    - { source: Jordan, target: FR_Jordan }
+    - { source: Jordanian, target: FR_Jordanian }
+    - { source: 'Jordanian Dinar', target: 'FR_Jordanian Dinar' }
+    - { source: July, target: FR_July }
+    - { source: June, target: FR_June }
+    - { source: 'Kampuchean Riel', target: 'FR_Kampuchean Riel' }
+    - { source: Kansas, target: FR_Kansas }
+    - { source: Kazakhstan, target: FR_Kazakhstan }
+    - { source: 'Kazakhstan Tenge', target: 'FR_Kazakhstan Tenge' }
+    - { source: Kazakhstani, target: FR_Kazakhstani }
+    - { source: 'Keep Current', target: 'FR_Keep Current' }
+    - { source: Kentucky, target: FR_Kentucky }
+    - { source: Kenya, target: FR_Kenya }
+    - { source: Kenyan, target: FR_Kenyan }
+    - { source: 'Kenyan Shilling', target: 'FR_Kenyan Shilling' }
+    - { source: Kiribati, target: FR_Kiribati }
+    - { source: 'Kittian and Nevisian', target: 'FR_Kittian and Nevisian' }
+    - { source: 'Korea, Democratic People''s Republic of', target: 'FR_Korea, Democratic People''s Republic of' }
+    - { source: 'Korea, Republic of', target: 'FR_Korea, Republic of' }
+    - { source: 'Korean Won', target: 'FR_Korean Won' }
+    - { source: 'KPI List', target: 'FR_KPI List' }
+    - { source: Kuwait, target: FR_Kuwait }
+    - { source: Kuwaiti, target: FR_Kuwaiti }
+    - { source: 'Kuwaiti Dinar', target: 'FR_Kuwaiti Dinar' }
+    - { source: Kyrgyz, target: FR_Kyrgyz }
+    - { source: Kyrgyzstan, target: FR_Kyrgyzstan }
+    - { source: Language, target: FR_Language }
+    - { source: Languages, target: FR_Languages }
+    - { source: 'Lao Kip', target: 'FR_Lao Kip' }
+    - { source: 'Lao People''s Democratic Republic', target: 'FR_Lao People''s Democratic Republic' }
+    - { source: Laotian, target: FR_Laotian }
+    - { source: Last, target: FR_Last }
+    - { source: 'Last Name', target: 'FR_Last Name' }
+    - { source: Latvia, target: FR_Latvia }
+    - { source: Latvian, target: FR_Latvian }
+    - { source: 'Latvian Lats', target: 'FR_Latvian Lats' }
+    - { source: Laid-off, target: FR_Laid-off }
+    - { source: Leave, target: FR_Leave }
+    - { source: 'Leave Balance (Days)', target: 'FR_Leave Balance (Days)' }
+    - { source: 'Leave Entitled (Days)', target: 'FR_Leave Entitled (Days)' }
+    - { source: 'Leave List', target: 'FR_Leave List' }
+    - { source: 'Leave Period', target: 'FR_Leave Period' }
+    - { source: 'Leave Scheduled (Days)', target: 'FR_Leave Scheduled (Days)' }
+    - { source: 'Leave Summary', target: 'FR_Leave Summary' }
+    - { source: 'Leave Taken (Days)', target: 'FR_Leave Taken (Days)' }
+    - { source: 'Leave Types', target: 'FR_Leave Types' }
+    - { source: Lebanese, target: FR_Lebanese }
+    - { source: 'Lebanese Pound', target: 'FR_Lebanese Pound' }
+    - { source: Lebanon, target: FR_Lebanon }
+    - { source: Lesotho, target: FR_Lesotho }
+    - { source: 'Lesotho Loti', target: 'FR_Lesotho Loti' }
+    - { source: 'Less Than', target: 'FR_Less Than' }
+    - { source: Level, target: FR_Level }
+    - { source: Liberia, target: FR_Liberia }
+    - { source: Liberian, target: FR_Liberian }
+    - { source: 'Liberian Dollar', target: 'FR_Liberian Dollar' }
+    - { source: Libyan, target: FR_Libyan }
+    - { source: 'Libyan Arab Jamahiriya', target: 'FR_Libyan Arab Jamahiriya' }
+    - { source: 'Libyan Dinar', target: 'FR_Libyan Dinar' }
+    - { source: License, target: FR_License }
+    - { source: 'License Expiry Date', target: 'FR_License Expiry Date' }
+    - { source: 'License Number', target: 'FR_License Number' }
+    - { source: 'License Type', target: 'FR_License Type' }
+    - { source: Licenses, target: FR_Licenses }
+    - { source: Liechtenstein, target: FR_Liechtenstein }
+    - { source: Liechtensteiner, target: FR_Liechtensteiner }
+    - { source: Lithuania, target: FR_Lithuania }
+    - { source: Lithuanian, target: FR_Lithuanian }
+    - { source: 'Lithuanian Litas', target: 'FR_Lithuanian Litas' }
+    - { source: Localization, target: FR_Localization }
+    - { source: Location, target: FR_Location }
+    - { source: Locations, target: FR_Locations }
+    - { source: Logout, target: FR_Logout }
+    - { source: Louisiana, target: FR_Louisiana }
+    - { source: Luxembourg, target: FR_Luxembourg }
+    - { source: Luxembourger, target: FR_Luxembourger }
+    - { source: Macao, target: FR_Macao }
+    - { source: 'Macau Pataca', target: 'FR_Macau Pataca' }
+    - { source: 'Macedonia, the Former Yugoslav Republic of', target: 'FR_Macedonia, the Former Yugoslav Republic of' }
+    - { source: Macedonian, target: FR_Macedonian }
+    - { source: Madagascar, target: FR_Madagascar }
+    - { source: Maine, target: FR_Maine }
+    - { source: Malagasy, target: FR_Malagasy }
+    - { source: 'Malagasy Franc', target: 'FR_Malagasy Franc' }
+    - { source: Malawi, target: FR_Malawi }
+    - { source: 'Malawi Kwacha', target: 'FR_Malawi Kwacha' }
+    - { source: Malawian, target: FR_Malawian }
+    - { source: Malaysia, target: FR_Malaysia }
+    - { source: Malaysian, target: FR_Malaysian }
+    - { source: 'Malaysian Ringgit', target: 'FR_Malaysian Ringgit' }
+    - { source: Maldivan, target: FR_Maldivan }
+    - { source: 'Maldive Rufiyaa', target: 'FR_Maldive Rufiyaa' }
+    - { source: Maldives, target: FR_Maldives }
+    - { source: Male, target: FR_Male }
+    - { source: Mali, target: FR_Mali }
+    - { source: Malian, target: FR_Malian }
+    - { source: Malta, target: FR_Malta }
+    - { source: Maltese, target: FR_Maltese }
+    - { source: 'Maltese Lira', target: 'FR_Maltese Lira' }
+    - { source: March, target: FR_March }
+    - { source: 'Marital Status', target: 'FR_Marital Status' }
+    - { source: 'Marshall Islands', target: 'FR_Marshall Islands' }
+    - { source: Marshallese, target: FR_Marshallese }
+    - { source: Martinique, target: FR_Martinique }
+    - { source: Maryland, target: FR_Maryland }
+    - { source: Massachusetts, target: FR_Massachusetts }
+    - { source: Mauritania, target: FR_Mauritania }
+    - { source: Mauritanian, target: FR_Mauritanian }
+    - { source: 'Mauritanian Ouguiya', target: 'FR_Mauritanian Ouguiya' }
+    - { source: Mauritian, target: FR_Mauritian }
+    - { source: Mauritius, target: FR_Mauritius }
+    - { source: 'Mauritius Rupee', target: 'FR_Mauritius Rupee' }
+    - { source: May, target: FR_May }
+    - { source: Mayotte, target: FR_Mayotte }
+    - { source: Membership, target: FR_Membership }
+    - { source: Memberships, target: FR_Memberships }
+    - { source: Mexican, target: FR_Mexican }
+    - { source: 'Mexican New Peso', target: 'FR_Mexican New Peso' }
+    - { source: 'Mexican Peso', target: 'FR_Mexican Peso' }
+    - { source: Mexico, target: FR_Mexico }
+    - { source: Michigan, target: FR_Michigan }
+    - { source: 'Micronesia, Federated States of', target: 'FR_Micronesia, Federated States of' }
+    - { source: Micronesian, target: FR_Micronesian }
+    - { source: Middle, target: FR_Middle }
+    - { source: 'Middle Name', target: 'FR_Middle Name' }
+    - { source: Minnesota, target: FR_Minnesota }
+    - { source: Mississippi, target: FR_Mississippi }
+    - { source: Missouri, target: FR_Missouri }
+    - { source: Mobile, target: FR_Mobile }
+    - { source: Modules, target: FR_Modules }
+    - { source: 'Moldova, Republic of', target: 'FR_Moldova, Republic of' }
+    - { source: Moldovan, target: FR_Moldovan }
+    - { source: Monacan, target: FR_Monacan }
+    - { source: Monaco, target: FR_Monaco }
+    - { source: Monday, target: FR_Monday }
+    - { source: Mongolia, target: FR_Mongolia }
+    - { source: Mongolian, target: FR_Mongolian }
+    - { source: 'Mongolian Tugrik', target: 'FR_Mongolian Tugrik' }
+    - { source: Montana, target: FR_Montana }
+    - { source: Month, target: FR_Month }
+    - { source: Montserrat, target: FR_Montserrat }
+    - { source: Moroccan, target: FR_Moroccan }
+    - { source: 'Moroccan Dirham', target: 'FR_Moroccan Dirham' }
+    - { source: Morocco, target: FR_Morocco }
+    - { source: Mosotho, target: FR_Mosotho }
+    - { source: 'Mother Tongue', target: 'FR_Mother Tongue' }
+    - { source: Motswana, target: FR_Motswana }
+    - { source: Mozambican, target: FR_Mozambican }
+    - { source: Mozambique, target: FR_Mozambique }
+    - { source: 'Mozambique Metical', target: 'FR_Mozambique Metical' }
+    - { source: 'My Leave', target: 'FR_My Leave' }
+    - { source: 'My Records', target: 'FR_My Records' }
+    - { source: 'My Timesheets', target: 'FR_My Timesheets' }
+    - { source: Myanmar, target: FR_Myanmar }
+    - { source: 'Myanmar Kyat', target: 'FR_Myanmar Kyat' }
+    - { source: Name, target: FR_Name }
+    - { source: 'Name exists', target: 'FR_Name exists' }
+    - { source: Namibia, target: FR_Namibia }
+    - { source: 'Namibia Dollar', target: 'FR_Namibia Dollar' }
+    - { source: Namibian, target: FR_Namibian }
+    - { source: Nationalities, target: FR_Nationalities }
+    - { source: Nationality, target: FR_Nationality }
+    - { source: Nauru, target: FR_Nauru }
+    - { source: Nauruan, target: FR_Nauruan }
+    - { source: Nebraska, target: FR_Nebraska }
+    - { source: Nepal, target: FR_Nepal }
+    - { source: Nepalese, target: FR_Nepalese }
+    - { source: 'Nepalese Rupee', target: 'FR_Nepalese Rupee' }
+    - { source: Netherlands, target: FR_Netherlands }
+    - { source: 'Netherlands Antilles', target: 'FR_Netherlands Antilles' }
+    - { source: Nevada, target: FR_Nevada }
+    - { source: 'New Caledonia', target: 'FR_New Caledonia' }
+    - { source: 'New Hampshire', target: 'FR_New Hampshire' }
+    - { source: 'New Jersey', target: 'FR_New Jersey' }
+    - { source: 'New Mexico', target: 'FR_New Mexico' }
+    - { source: 'New York', target: 'FR_New York' }
+    - { source: 'New Zaire', target: 'FR_New Zaire' }
+    - { source: 'New Zealand', target: 'FR_New Zealand' }
+    - { source: 'New Zealand Dollar', target: 'FR_New Zealand Dollar' }
+    - { source: 'New Zealander', target: 'FR_New Zealander' }
+    - { source: Next, target: FR_Next }
+    - { source: Nicaragua, target: FR_Nicaragua }
+    - { source: Nicaraguan, target: FR_Nicaraguan }
+    - { source: 'Nicaraguan Cordoba Oro', target: 'FR_Nicaraguan Cordoba Oro' }
+    - { source: Niger, target: FR_Niger }
+    - { source: Nigeria, target: FR_Nigeria }
+    - { source: Nigerian, target: FR_Nigerian }
+    - { source: 'Nigerian Naira', target: 'FR_Nigerian Naira' }
+    - { source: Nigerien, target: FR_Nigerien }
+    - { source: Niue, target: FR_Niue }
+    - { source: 'NL Antillian Guilder', target: 'FR_NL Antillian Guilder' }
+    - { source: 'No', target: FR_No }
+    - { source: 'No Project Activities', target: 'FR_No Project Activities' }
+    - { source: 'No Projects', target: 'FR_No Projects' }
+    - { source: 'No Records Found', target: 'FR_No Records Found' }
+    - { source: 'No records to display', target: 'FR_No records to display' }
+    - { source: 'Norfolk Island', target: 'FR_Norfolk Island' }
+    - { source: 'North Carolina', target: 'FR_North Carolina' }
+    - { source: 'North Dakota', target: 'FR_North Dakota' }
+    - { source: 'North Korean', target: 'FR_North Korean' }
+    - { source: 'North Korean Won', target: 'FR_North Korean Won' }
+    - { source: 'Northern Irish', target: 'FR_Northern Irish' }
+    - { source: 'Northern Mariana Islands', target: 'FR_Northern Mariana Islands' }
+    - { source: Norway, target: FR_Norway }
+    - { source: Norwegian, target: FR_Norwegian }
+    - { source: 'Norwegian Krona', target: 'FR_Norwegian Krona' }
+    - { source: 'Not Defined', target: 'FR_Not Defined' }
+    - { source: Notes, target: FR_Notes }
+    - { source: November, target: FR_November }
+    - { source: Number, target: FR_Number }
+    - { source: October, target: FR_October }
+    - { source: Ohio, target: FR_Ohio }
+    - { source: Oklahoma, target: FR_Oklahoma }
+    - { source: Oman, target: FR_Oman }
+    - { source: Omani, target: FR_Omani }
+    - { source: 'Omani Rial', target: 'FR_Omani Rial' }
+    - { source: 'Only Include Approved Timesheets', target: 'FR_Only Include Approved Timesheets' }
+    - { source: 'Optional Fields', target: 'FR_Optional Fields' }
+    - { source: or, target: FR_or }
+    - { source: 'OrangeHRM - Confirmation Required', target: 'FR_OrangeHRM - Confirmation Required' }
+    - { source: Oregon, target: FR_Oregon }
+    - { source: Organization, target: FR_Organization }
+    - { source: Other, target: FR_Other }
+    - { source: 'Other Email', target: 'FR_Other Email' }
+    - { source: 'Other Id', target: 'FR_Other Id' }
+    - { source: Pakistan, target: FR_Pakistan }
+    - { source: 'Pakistan Rupee', target: 'FR_Pakistan Rupee' }
+    - { source: Pakistani, target: FR_Pakistani }
+    - { source: Palau, target: FR_Palau }
+    - { source: Palauan, target: FR_Palauan }
+    - { source: 'Palestinian Territory, Occupied', target: 'FR_Palestinian Territory, Occupied' }
+    - { source: 'Palladium (oz.)', target: 'FR_Palladium (oz.)' }
+    - { source: Panama, target: FR_Panama }
+    - { source: Panamanian, target: FR_Panamanian }
+    - { source: 'Panamanian Balboa', target: 'FR_Panamanian Balboa' }
+    - { source: 'Papua New Guinea', target: 'FR_Papua New Guinea' }
+    - { source: 'Papua New Guinea Kina', target: 'FR_Papua New Guinea Kina' }
+    - { source: 'Papua New Guinean', target: 'FR_Papua New Guinean' }
+    - { source: Paraguay, target: FR_Paraguay }
+    - { source: 'Paraguay Guarani', target: 'FR_Paraguay Guarani' }
+    - { source: Paraguayan, target: FR_Paraguayan }
+    - { source: 'Part Time Contract', target: 'FR_Part Time Contract' }
+    - { source: 'Part Time Internship', target: 'FR_Part Time Internship' }
+    - { source: 'Part Time Permanent', target: 'FR_Part Time Permanent' }
+    - { source: 'Past Employee', target: 'FR_Past Employee' }
+    - { source: 'Past Employees Only', target: 'FR_Past Employees Only' }
+    - { source: 'Pay Frequency', target: 'FR_Pay Frequency' }
+    - { source: 'Pay Grade', target: 'FR_Pay Grade' }
+    - { source: 'Pay Grades', target: 'FR_Pay Grades' }
+    - { source: Pennsylvania, target: FR_Pennsylvania }
+    - { source: Performance, target: FR_Performance }
+    - { source: Personal, target: FR_Personal }
+    - { source: Peru, target: FR_Peru }
+    - { source: Peruvian, target: FR_Peruvian }
+    - { source: 'Peruvian Nuevo Sol', target: 'FR_Peruvian Nuevo Sol' }
+    - { source: 'Philippine Peso', target: 'FR_Philippine Peso' }
+    - { source: Philippines, target: FR_Philippines }
+    - { source: 'Physically Disabled/Compensated', target: 'FR_Physically Disabled/Compensated' }
+    - { source: PIM, target: FR_PIM }
+    - { source: 'PIM Sample Report', target: 'FR_PIM Sample Report' }
+    - { source: Pitcairn, target: FR_Pitcairn }
+    - { source: 'Platinum (oz.)', target: 'FR_Platinum (oz.)' }
+    - { source: Poland, target: FR_Poland }
+    - { source: Polish, target: FR_Polish }
+    - { source: 'Polish Zloty', target: 'FR_Polish Zloty' }
+    - { source: Poor, target: FR_Poor }
+    - { source: Portugal, target: FR_Portugal }
+    - { source: Portuguese, target: FR_Portuguese }
+    - { source: 'Pound Sterling', target: 'FR_Pound Sterling' }
+    - { source: Previous, target: FR_Previous }
+    - { source: Program, target: FR_Program }
+    - { source: 'Project Date Range', target: 'FR_Project Date Range' }
+    - { source: 'Project Info', target: 'FR_Project Info' }
+    - { source: 'Project Reports', target: 'FR_Project Reports' }
+    - { source: Projects, target: FR_Projects }
+    - { source: 'Puerto Rico', target: 'FR_Puerto Rico' }
+    - { source: 'Punch In/Out', target: 'FR_Punch In/Out' }
+    - { source: Qatar, target: FR_Qatar }
+    - { source: Qatari, target: FR_Qatari }
+    - { source: 'Qatari Rial', target: 'FR_Qatari Rial' }
+    - { source: Qualification, target: FR_Qualification }
+    - { source: Range, target: FR_Range }
+    - { source: Reading, target: FR_Reading }
+    - { source: 'Records Per Page', target: 'FR_Records Per Page' }
+    - { source: Recruitment, target: FR_Recruitment }
+    - { source: Relationship, target: FR_Relationship }
+    - { source: 'Replace Current', target: 'FR_Replace Current' }
+    - { source: 'Replace file', target: 'FR_Replace file' }
+    - { source: 'Report Name', target: 'FR_Report Name' }
+    - { source: 'Reporting Method', target: 'FR_Reporting Method' }
+    - { source: 'Reporting Methods', target: 'FR_Reporting Methods' }
+    - { source: Reports, target: FR_Reports }
+    - { source: Required, target: FR_Required }
+    - { source: 'Required field', target: 'FR_Required field' }
+    - { source: Reset, target: FR_Reset }
+    - { source: Resigned, target: FR_Resigned }
+    - { source: 'Resigned - Company Requested', target: 'FR_Resigned - Company Requested' }
+    - { source: 'Resigned - Self Proposed', target: 'FR_Resigned - Self Proposed' }
+    - { source: Retired, target: FR_Retired }
+    - { source: Reunion, target: FR_Reunion }
+    - { source: Reviews, target: FR_Reviews }
+    - { source: 'Rhode Island', target: 'FR_Rhode Island' }
+    - { source: Romania, target: FR_Romania }
+    - { source: Romanian, target: FR_Romanian }
+    - { source: 'Romanian Leu', target: 'FR_Romanian Leu' }
+    - { source: 'Routing Number', target: 'FR_Routing Number' }
+    - { source: Run, target: FR_Run }
+    - { source: 'Russia Rubles', target: 'FR_Russia Rubles' }
+    - { source: Russian, target: FR_Russian }
+    - { source: 'Russian Federation', target: 'FR_Russian Federation' }
+    - { source: 'Russian Rouble', target: 'FR_Russian Rouble' }
+    - { source: Rwanda, target: FR_Rwanda }
+    - { source: Rwandan, target: FR_Rwandan }
+    - { source: 'Saint Helena', target: 'FR_Saint Helena' }
+    - { source: 'Saint Kitts and Nevis', target: 'FR_Saint Kitts and Nevis' }
+    - { source: 'Saint Lucia', target: 'FR_Saint Lucia' }
+    - { source: 'Saint Lucian', target: 'FR_Saint Lucian' }
+    - { source: 'Saint Pierre and Miquelon', target: 'FR_Saint Pierre and Miquelon' }
+    - { source: 'Saint Vincent and the Grenadines', target: 'FR_Saint Vincent and the Grenadines' }
+    - { source: Salary, target: FR_Salary }
+    - { source: 'Salary Component', target: 'FR_Salary Component' }
+    - { source: Salvadoran, target: FR_Salvadoran }
+    - { source: Samoa, target: FR_Samoa }
+    - { source: Samoan, target: FR_Samoan }
+    - { source: 'Samoan Tala', target: 'FR_Samoan Tala' }
+    - { source: 'San Marinese', target: 'FR_San Marinese' }
+    - { source: 'San Marino', target: 'FR_San Marino' }
+    - { source: 'Sao Tome and Principe', target: 'FR_Sao Tome and Principe' }
+    - { source: 'Sao Tome/Principe Dobra', target: 'FR_Sao Tome/Principe Dobra' }
+    - { source: 'Sao Tomean', target: 'FR_Sao Tomean' }
+    - { source: Saturday, target: FR_Saturday }
+    - { source: Saudi, target: FR_Saudi }
+    - { source: 'Saudi Arabia', target: 'FR_Saudi Arabia' }
+    - { source: 'Saudi Arabia Riyal', target: 'FR_Saudi Arabia Riyal' }
+    - { source: Save, target: FR_Save }
+    - { source: 'Save Comment Only', target: 'FR_Save Comment Only' }
+    - { source: Savings, target: FR_Savings }
+    - { source: Score, target: FR_Score }
+    - { source: Scottish, target: FR_Scottish }
+    - { source: Search, target: FR_Search }
+    - { source: Select, target: FR_Select }
+    - { source: 'Select Comparison', target: 'FR_Select Comparison' }
+    - { source: 'Select File', target: 'FR_Select File' }
+    - { source: 'Select Records to Delete', target: 'FR_Select Records to Delete' }
+    - { source: 'Select Salary Grade', target: 'FR_Select Salary Grade' }
+    - { source: 'Selected Criteria', target: 'FR_Selected Criteria' }
+    - { source: 'Selection Criteria', target: 'FR_Selection Criteria' }
+    - { source: Senegal, target: FR_Senegal }
+    - { source: Senegalese, target: FR_Senegalese }
+    - { source: September, target: FR_September }
+    - { source: 'Serbia and Montenegro', target: 'FR_Serbia and Montenegro' }
+    - { source: Serbian, target: FR_Serbian }
+    - { source: 'Service Period', target: 'FR_Service Period' }
+    - { source: Seychelles, target: FR_Seychelles }
+    - { source: 'Seychelles Rupee', target: 'FR_Seychelles Rupee' }
+    - { source: Seychellois, target: FR_Seychellois }
+    - { source: 'Should be a number', target: 'FR_Should be a number' }
+    - { source: 'Should be a positive number', target: 'FR_Should be a positive number' }
+    - { source: 'Should be a valid date in %format% format', target: 'FR_Should be a valid date in %format% format' }
+    - { source: 'Should be less than %amount%', target: 'FR_Should be less than %amount%' }
+    - { source: 'Should be less than %amount% characters', target: 'FR_Should be less than %amount% characters' }
+    - { source: 'Should be within Min/Max values', target: 'FR_Should be within Min/Max values' }
+    - { source: 'Show Direct Deposit Details', target: 'FR_Show Direct Deposit Details' }
+    - { source: 'Sierra Leone', target: 'FR_Sierra Leone' }
+    - { source: 'Sierra Leone Leone', target: 'FR_Sierra Leone Leone' }
+    - { source: 'Sierra Leonean', target: 'FR_Sierra Leonean' }
+    - { source: 'Silver (oz.)', target: 'FR_Silver (oz.)' }
+    - { source: Singapore, target: FR_Singapore }
+    - { source: 'Singapore Dollar', target: 'FR_Singapore Dollar' }
+    - { source: Singaporean, target: FR_Singaporean }
+    - { source: Size, target: FR_Size }
+    - { source: Skill, target: FR_Skill }
+    - { source: Skills, target: FR_Skills }
+    - { source: 'Slovak Koruna', target: 'FR_Slovak Koruna' }
+    - { source: Slovakia, target: FR_Slovakia }
+    - { source: Slovakian, target: FR_Slovakian }
+    - { source: Slovenia, target: FR_Slovenia }
+    - { source: Slovenian, target: FR_Slovenian }
+    - { source: 'Solomon Islander', target: 'FR_Solomon Islander' }
+    - { source: 'Solomon Islands', target: 'FR_Solomon Islands' }
+    - { source: 'Solomon Islands Dollar', target: 'FR_Solomon Islands Dollar' }
+    - { source: Somali, target: FR_Somali }
+    - { source: 'Somali Shilling', target: 'FR_Somali Shilling' }
+    - { source: Somalia, target: FR_Somalia }
+    - { source: 'Sort in Ascending Order', target: 'FR_Sort in Ascending Order' }
+    - { source: 'Sort in Descending Order', target: 'FR_Sort in Descending Order' }
+    - { source: 'South Africa', target: 'FR_South Africa' }
+    - { source: 'South African', target: 'FR_South African' }
+    - { source: 'South African Rand', target: 'FR_South African Rand' }
+    - { source: 'South Carolina', target: 'FR_South Carolina' }
+    - { source: 'South Dakota', target: 'FR_South Dakota' }
+    - { source: 'South Georgia and the South Sandwich Islands', target: 'FR_South Georgia and the South Sandwich Islands' }
+    - { source: 'South Korean', target: 'FR_South Korean' }
+    - { source: Spain, target: FR_Spain }
+    - { source: Spanish, target: FR_Spanish }
+    - { source: Speaking, target: FR_Speaking }
+    - { source: 'Sri Lanka', target: 'FR_Sri Lanka' }
+    - { source: 'Sri Lanka Rupee', target: 'FR_Sri Lanka Rupee' }
+    - { source: 'Sri Lankan', target: 'FR_Sri Lankan' }
+    - { source: 'St. Helena Pound', target: 'FR_St. Helena Pound' }
+    - { source: 'Start Date', target: 'FR_Start Date' }
+    - { source: 'Start date should be before end date', target: 'FR_Start date should be before end date' }
+    - { source: State, target: FR_State }
+    - { source: Status, target: FR_Status }
+    - { source: Structure, target: FR_Structure }
+    - { source: 'Sub Unit', target: 'FR_Sub Unit' }
+    - { source: Subordinates, target: FR_Subordinates }
+    - { source: Subscribe, target: FR_Subscribe }
+    - { source: 'Subscription Amount', target: 'FR_Subscription Amount' }
+    - { source: 'Subscription Commence Date', target: 'FR_Subscription Commence Date' }
+    - { source: 'Subscription Paid By', target: 'FR_Subscription Paid By' }
+    - { source: 'Subscription Renewal Date', target: 'FR_Subscription Renewal Date' }
+    - { source: 'Successfully Added', target: 'FR_Successfully Added' }
+    - { source: 'Successfully Deleted', target: 'FR_Successfully Deleted' }
+    - { source: 'Successfully Saved', target: 'FR_Successfully Saved' }
+    - { source: 'Successfully Updated', target: 'FR_Successfully Updated' }
+    - { source: 'Successfully Uploaded', target: 'FR_Successfully Uploaded' }
+    - { source: Sudan, target: FR_Sudan }
+    - { source: Sudanese, target: FR_Sudanese }
+    - { source: 'Sudanese Dinar', target: 'FR_Sudanese Dinar' }
+    - { source: 'Sudanese Pound', target: 'FR_Sudanese Pound' }
+    - { source: Sunday, target: FR_Sunday }
+    - { source: Supervisor, target: FR_Supervisor }
+    - { source: 'Supervisor Name', target: 'FR_Supervisor Name' }
+    - { source: Supervisors, target: FR_Supervisors }
+    - { source: Suriname, target: FR_Suriname }
+    - { source: Surinamer, target: FR_Surinamer }
+    - { source: 'Surinamese Dollar', target: 'FR_Surinamese Dollar' }
+    - { source: 'Svalbard and Jan Mayen', target: 'FR_Svalbard and Jan Mayen' }
+    - { source: Swazi, target: FR_Swazi }
+    - { source: Swaziland, target: FR_Swaziland }
+    - { source: 'Swaziland Lilangeni', target: 'FR_Swaziland Lilangeni' }
+    - { source: Sweden, target: FR_Sweden }
+    - { source: Swedish, target: FR_Swedish }
+    - { source: 'Swedish Krona', target: 'FR_Swedish Krona' }
+    - { source: Swiss, target: FR_Swiss }
+    - { source: 'Swiss Franc', target: 'FR_Swiss Franc' }
+    - { source: Switzerland, target: FR_Switzerland }
+    - { source: Syrian, target: FR_Syrian }
+    - { source: 'Syrian Arab Republic', target: 'FR_Syrian Arab Republic' }
+    - { source: 'Syrian Pound', target: 'FR_Syrian Pound' }
+    - { source: Taiwan, target: FR_Taiwan }
+    - { source: 'Taiwan Dollar', target: 'FR_Taiwan Dollar' }
+    - { source: Taiwanese, target: FR_Taiwanese }
+    - { source: Tajik, target: FR_Tajik }
+    - { source: Tajikistan, target: FR_Tajikistan }
+    - { source: 'Tanzania, United Republic of', target: 'FR_Tanzania, United Republic of' }
+    - { source: Tanzanian, target: FR_Tanzanian }
+    - { source: 'Tanzanian Shilling', target: 'FR_Tanzanian Shilling' }
+    - { source: Tennessee, target: FR_Tennessee }
+    - { source: Terminated, target: FR_Terminated }
+    - { source: 'Termination Reasons', target: 'FR_Termination Reasons' }
+    - { source: Texas, target: FR_Texas }
+    - { source: Thai, target: FR_Thai }
+    - { source: 'Thai Baht', target: 'FR_Thai Baht' }
+    - { source: Thailand, target: FR_Thailand }
+    - { source: Thursday, target: FR_Thursday }
+    - { source: Time, target: FR_Time }
+    - { source: Timesheets, target: FR_Timesheets }
+    - { source: Timor-Leste, target: FR_Timor-Leste }
+    - { source: To, target: FR_To }
+    - { source: to, target: FR_to }
+    - { source: 'To date should be after from date', target: 'FR_To date should be after from date' }
+    - { source: Togo, target: FR_Togo }
+    - { source: Togolese, target: FR_Togolese }
+    - { source: Tokelau, target: FR_Tokelau }
+    - { source: Tonga, target: FR_Tonga }
+    - { source: Tongan, target: FR_Tongan }
+    - { source: 'Trinidad and Tobago', target: 'FR_Trinidad and Tobago' }
+    - { source: 'Trinidad/Tobago Dollar', target: 'FR_Trinidad/Tobago Dollar' }
+    - { source: 'Trinidadian or Tobagonian', target: 'FR_Trinidadian or Tobagonian' }
+    - { source: Tuesday, target: FR_Tuesday }
+    - { source: Tunisia, target: FR_Tunisia }
+    - { source: Tunisian, target: FR_Tunisian }
+    - { source: 'Tunisian Dinar', target: 'FR_Tunisian Dinar' }
+    - { source: Turkey, target: FR_Turkey }
+    - { source: Turkish, target: FR_Turkish }
+    - { source: 'Turkish Lira', target: 'FR_Turkish Lira' }
+    - { source: Turkmenistan, target: FR_Turkmenistan }
+    - { source: 'Turks and Caicos Islands', target: 'FR_Turks and Caicos Islands' }
+    - { source: Tuvalu, target: FR_Tuvalu }
+    - { source: Tuvaluan, target: FR_Tuvaluan }
+    - { source: Type, target: FR_Type }
+    - { source: 'Type Employee Id', target: 'FR_Type Employee Id' }
+    - { source: 'Type for hints', target: 'FR_Type for hints' }
+    - { source: Uganda, target: FR_Uganda }
+    - { source: 'Uganda Shilling', target: 'FR_Uganda Shilling' }
+    - { source: Ugandan, target: FR_Ugandan }
+    - { source: Ukraine, target: FR_Ukraine }
+    - { source: 'Ukraine Hryvnia', target: 'FR_Ukraine Hryvnia' }
+    - { source: Ukrainian, target: FR_Ukrainian }
+    - { source: 'United Arab Emirates', target: 'FR_United Arab Emirates' }
+    - { source: 'United Kingdom', target: 'FR_United Kingdom' }
+    - { source: 'United States', target: 'FR_United States' }
+    - { source: 'United States Dollar', target: 'FR_United States Dollar' }
+    - { source: 'United States Minor Outlying Islands', target: 'FR_United States Minor Outlying Islands' }
+    - { source: Uruguay, target: FR_Uruguay }
+    - { source: Uruguayan, target: FR_Uruguayan }
+    - { source: 'Uruguayan Peso', target: 'FR_Uruguayan Peso' }
+    - { source: Users, target: FR_Users }
+    - { source: Utah, target: FR_Utah }
+    - { source: 'Utd. Arab Emir. Dirham', target: 'FR_Utd. Arab Emir. Dirham' }
+    - { source: Uzbekistan, target: FR_Uzbekistan }
+    - { source: Uzbekistani, target: FR_Uzbekistani }
+    - { source: Vacancies, target: FR_Vacancies }
+    - { source: Vanuatu, target: FR_Vanuatu }
+    - { source: 'Vanuatu Vatu', target: 'FR_Vanuatu Vatu' }
+    - { source: Venezuela, target: FR_Venezuela }
+    - { source: Venezuelan, target: FR_Venezuelan }
+    - { source: 'Venezuelan Bolivar', target: 'FR_Venezuelan Bolivar' }
+    - { source: Vermont, target: FR_Vermont }
+    - { source: 'Viet Nam', target: 'FR_Viet Nam' }
+    - { source: Vietnamese, target: FR_Vietnamese }
+    - { source: 'Vietnamese Dong', target: 'FR_Vietnamese Dong' }
+    - { source: 'View Details', target: 'FR_View Details' }
+    - { source: 'Virgin Islands', target: 'FR_Virgin Islands' }
+    - { source: 'Virgin Islands, British', target: 'FR_Virgin Islands, British' }
+    - { source: 'Virgin Islands, U.s.', target: 'FR_Virgin Islands, U.s.' }
+    - { source: Virginia, target: FR_Virginia }
+    - { source: 'Wallis and Futuna', target: 'FR_Wallis and Futuna' }
+    - { source: Washington, target: FR_Washington }
+    - { source: Wednesday, target: FR_Wednesday }
+    - { source: 'Welcome %username%', target: 'FR_Welcome %username%' }
+    - { source: Welsh, target: FR_Welsh }
+    - { source: 'West Virginia', target: 'FR_West Virginia' }
+    - { source: 'Western Sahara', target: 'FR_Western Sahara' }
+    - { source: Wisconsin, target: FR_Wisconsin }
+    - { source: 'with new file', target: 'FR_with new file' }
+    - { source: 'Work Email', target: 'FR_Work Email' }
+    - { source: 'Work Experience', target: 'FR_Work Experience' }
+    - { source: 'Work Shifts', target: 'FR_Work Shifts' }
+    - { source: 'Work Telephone', target: 'FR_Work Telephone' }
+    - { source: 'Work Week', target: 'FR_Work Week' }
+    - { source: Writing, target: FR_Writing }
+    - { source: Wyoming, target: FR_Wyoming }
+    - { source: Year, target: FR_Year }
+    - { source: 'Years of Experience', target: 'FR_Years of Experience' }
+    - { source: Yemen, target: FR_Yemen }
+    - { source: 'Yemeni Riyal', target: 'FR_Yemeni Riyal' }
+    - { source: Yemenite, target: FR_Yemenite }
+    - { source: 'Yes', target: FR_Yes }
+    - { source: 'Yugoslav Dinar', target: 'FR_Yugoslav Dinar' }
+    - { source: 'Yugoslavian Dinar', target: 'FR_Yugoslavian Dinar' }
+    - { source: Zambia, target: FR_Zambia }
+    - { source: Zambian, target: FR_Zambian }
+    - { source: 'Zambian Kwacha', target: 'FR_Zambian Kwacha' }
+    - { source: Zimbabwe, target: FR_Zimbabwe }
+    - { source: 'Zimbabwe Dollar', target: 'FR_Zimbabwe Dollar' }
+    - { source: Zimbabwean, target: FR_Zimbabwean }
+    - { source: 'Passwords do not match', target: 'FR_Passwords do not match' }
+    - { source: Invalid, target: FR_Invalid }
+    - { source: 'Should be less than %number% digits', target: 'FR_Should be less than %number% digits' }
+    - { source: 'Due date should be after from date', target: 'FR_Due date should be after from date' }
+    - { source: 'Successfully Removed', target: 'FR_Successfully Removed' }
+    - { source: Ok, target: FR_Ok }
+    - { source: 'Delete records?', target: 'FR_Delete records?' }
+    - { source: 'Select an Employee', target: 'FR_Select an Employee' }
+    - { source: 'Delete?', target: 'FR_Delete?' }
+    - { source: 'Successfully Assigned', target: 'FR_Successfully Assigned' }
+    - { source: 'Should be greater than %amount%', target: 'FR_Should be greater than %amount%' }
+    - { source: 'Successfully Submitted', target: 'FR_Successfully Submitted' }
+    - { source: 'Invalid Employee', target: 'FR_Invalid Employee' }
+    - { source: 'Accepts .docx, .doc, .odt, .pdf, .rtf, .txt up to 1MB', target: 'FR_Accepts .docx, .doc, .odt, .pdf, .rtf, .txt up to 1MB' }
+    - { source: 'Accepts jpg, .png, .gif up to 1MB', target: 'FR_Accepts jpg, .png, .gif up to 1MB' }
+    - { source: 'Accepts up to 1MB', target: 'FR_Accepts up to 1MB' }
+    - { source: 'Failed to Save: File Type Not Allowed', target: 'FR_Failed to Save: File Type Not Allowed' }
+    - { source: 'Failed to Save: File Size Exceeded', target: 'FR_Failed to Save: File Size Exceeded' }
+    - { source: 'No Employees Available', target: 'FR_No Employees Available' }
+    - { source: 'Should have at least %number% characters', target: 'FR_Should have at least %number% characters' }
+    - { source: 'Successfully Copied', target: 'FR_Successfully Copied' }
+    - { source: 'LOGIN Panel', target: 'FR_LOGIN Panel' }
+    - { source: LOGIN, target: FR_LOGIN }
+    - { source: 'Should be greater than first value', target: 'FR_Should be greater than first value' }
+    - { source: 'Joined After', target: 'FR_Joined After' }
+    - { source: 'Joined Before', target: 'FR_Joined Before' }
+    - { source: 'Joined in Between', target: 'FR_Joined in Between' }
+    - { source: 'Successfully Changed', target: 'FR_Successfully Changed' }
+    - { source: Username, target: FR_Username }
+    - { source: Password, target: FR_Password }
+    - { source: 'Username cannot be empty', target: 'FR_Username cannot be empty' }
+    - { source: 'Password cannot be empty', target: 'FR_Password cannot be empty' }
+    - { source: 'Invalid credentials', target: 'FR_Invalid credentials' }
+    - { source: Europe/Belgrade, target: FR_Europe/Belgrade }
+    - { source: Europe/Minsk, target: FR_Europe/Minsk }
+    - { source: Asia/Kuwait, target: FR_Asia/Kuwait }
+    - { source: Asia/Muscat, target: FR_Asia/Muscat }
+    - { source: Asia/Yekaterinburg, target: FR_Asia/Yekaterinburg }
+    - { source: Asia/Kolkata, target: FR_Asia/Kolkata }
+    - { source: Asia/Dhaka, target: FR_Asia/Dhaka }
+    - { source: Asia/Krasnoyarsk, target: FR_Asia/Krasnoyarsk }
+    - { source: Asia/Brunei, target: FR_Asia/Brunei }
+    - { source: Asia/Seoul, target: FR_Asia/Seoul }
+    - { source: Australia/Darwin, target: FR_Australia/Darwin }
+    - { source: Australia/Canberra, target: FR_Australia/Canberra }
+    - { source: Asia/Magadan, target: FR_Asia/Magadan }
+    - { source: Pacific/Fiji, target: FR_Pacific/Fiji }
+    - { source: Pacific/Midway, target: FR_Pacific/Midway }
+    - { source: Pacific/Honolulu, target: FR_Pacific/Honolulu }
+    - { source: America/Anchorage, target: FR_America/Anchorage }
+    - { source: America/Los_Angeles, target: FR_America/Los_Angeles }
+    - { source: America/Denver, target: FR_America/Denver }
+    - { source: America/Tegucigalpa, target: FR_America/Tegucigalpa }
+    - { source: America/New_York, target: FR_America/New_York }
+    - { source: America/Halifax, target: FR_America/Halifax }
+    - { source: America/St_Johns, target: FR_America/St_Johns }
+    - { source: America/Argentina/Buenos_Aires, target: FR_America/Argentina/Buenos_Aires }
+    - { source: Atlantic/South_Georgia, target: FR_Atlantic/South_Georgia }
+    - { source: Atlantic/Azores, target: FR_Atlantic/Azores }
+    - { source: Upload, target: FR_Upload }
+    - { source: 'Type in years', target: 'FR_Type in years' }
+    - { source: Hours, target: FR_Hours }
+    - { source: 'Deleted Employee', target: 'FR_Deleted Employee' }
+    - { source: Total, target: FR_Total }
+    - { source: compulsory, target: FR_compulsory }
+    - { source: 'Termination Date', target: 'FR_Termination Date' }
+    - { source: 'Termination Reason', target: 'FR_Termination Reason' }
+    - { source: 'Activity Name', target: 'FR_Activity Name' }
+    - { source: 'Add Education', target: 'FR_Add Education' }
+    - { source: 'Add Language', target: 'FR_Add Language' }
+    - { source: 'Add License', target: 'FR_Add License' }
+    - { source: 'Add Skill', target: 'FR_Add Skill' }
+    - { source: 'Address Street 1', target: 'FR_Address Street 1' }
+    - { source: 'Address Street 2', target: 'FR_Address Street 2' }
+    - { source: City, target: FR_City }
+    - { source: 'Confirm Password', target: 'FR_Confirm Password' }
+    - { source: Copy, target: FR_Copy }
+    - { source: 'Copy From', target: 'FR_Copy From' }
+    - { source: 'Project Name', target: 'FR_Project Name' }
+    - { source: Deleted, target: FR_Deleted }
+    - { source: 'Edit Education', target: 'FR_Edit Education' }
+    - { source: 'Edit Language', target: 'FR_Edit Language' }
+    - { source: 'Edit License', target: 'FR_Edit License' }
+    - { source: 'Edit Skill', target: 'FR_Edit Skill' }
+    - { source: State/Province, target: FR_State/Province }
+    - { source: 'Zip/Postal Code', target: 'FR_Zip/Postal Code' }
+    - { source: Approve, target: FR_Approve }
+    - { source: format, target: FR_format }
+    - { source: Scheduled, target: FR_Scheduled }
+    - { source: 'Invalid Date', target: 'FR_Invalid Date' }
+    - { source: Note, target: FR_Note }
+    - { source: 'Invalid Employee Name', target: 'FR_Invalid Employee Name' }
+    - { source: Action, target: FR_Action }
+    - { source: 'Active Job Vacancies', target: 'FR_Active Job Vacancies' }
+    - { source: added, target: FR_added }
+    - { source: 'Apply for', target: 'FR_Apply for' }
+    - { source: Attachments, target: FR_Attachments }
+    - { source: 'Back to Job List', target: 'FR_Back to Job List' }
+    - { source: 'Collapse all', target: 'FR_Collapse all' }
+    - { source: 'Contact No', target: 'FR_Contact No' }
+    - { source: Download, target: FR_Download }
+    - { source: Email, target: FR_Email }
+    - { source: 'Expand all', target: 'FR_Expand all' }
+    - { source: for, target: FR_for }
+    - { source: Keywords, target: FR_Keywords }
+    - { source: 'Performed By', target: 'FR_Performed By' }
+    - { source: Reject, target: FR_Reject }
+    - { source: Rejected, target: FR_Rejected }
+    - { source: rejected, target: FR_rejected }
+    - { source: Remove, target: FR_Remove }
+    - { source: Resume, target: FR_Resume }
+    - { source: 'Select Action', target: 'FR_Select Action' }
+    - { source: Submit, target: FR_Submit }
+    - { source: View, target: FR_View }
+    - { source: 'Enter comma separated words', target: 'FR_Enter comma separated words' }
+    - { source: Approved, target: FR_Approved }
+    - { source: Submitted, target: FR_Submitted }
+    - { source: Loading, target: FR_Loading }
+    - { source: 'My Info', target: 'FR_My Info' }
+    - { source: Notifications, target: FR_Notifications }
+    - { source: Documents, target: FR_Documents }
+    - { source: Manage, target: FR_Manage }
+    - { source: 'Forgot your password?', target: 'FR_Forgot your password?' }
+    - { source: 'Export To CSV', target: 'FR_Export To CSV' }
+    - { source: 'User Role', target: 'FR_User Role' }
+    - { source: Processing, target: FR_Processing }
+    - { source: Duration(Hours), target: FR_Duration(Hours) }
+    - { source: 'Successfully Undeleted', target: 'FR_Successfully Undeleted' }
+    - { source: 'Credentials Required', target: 'FR_Credentials Required' }
+    - { source: 'Expand for Options', target: 'FR_Expand for Options' }
+    - { source: 'Hide Options', target: 'FR_Hide Options' }
+    - { source: Qualifications, target: FR_Qualifications }
+    - { source: 'Current File', target: 'FR_Current File' }
+    - { source: 'Replace With', target: 'FR_Replace With' }
+    - { source: 'Access Denied', target: 'FR_Access Denied' }
+    - { source: 'Add Another', target: 'FR_Add Another' }
+    - { source: 'Start Month', target: 'FR_Start Month' }
+    - { source: Cancelled, target: FR_Cancelled }
+    - { source: 'Add Leave Entitlement', target: 'FR_Add Leave Entitlement' }
+    - { source: 'Add to Multiple Employees', target: 'FR_Add to Multiple Employees' }
+    - { source: Entitlement, target: FR_Entitlement }
+    - { source: 'Matches one employee', target: 'FR_Matches one employee' }
+    - { source: 'Matches %count% employees', target: 'FR_Matches %count% employees' }
+    - { source: 'No matching employees', target: 'FR_No matching employees' }
+    - { source: Entitlements, target: FR_Entitlements }
+    - { source: 'Add Entitlements', target: 'FR_Add Entitlements' }
+    - { source: 'Employee Entitlements', target: 'FR_Employee Entitlements' }
+    - { source: 'Valid From', target: 'FR_Valid From' }
+    - { source: 'Valid To', target: 'FR_Valid To' }
+    - { source: 'No employees match the selected filters', target: 'FR_No employees match the selected filters' }
+    - { source: 'Leave Entitlements and Usage Report', target: 'FR_Leave Entitlements and Usage Report' }
+    - { source: 'My Leave Entitlements and Usage Report', target: 'FR_My Leave Entitlements and Usage Report' }
+    - { source: 'Matching Employees', target: 'FR_Matching Employees' }
+    - { source: 'Generate For', target: 'FR_Generate For' }
+    - { source: Confirm, target: FR_Confirm }
+    - { source: 'To date should be after From date', target: 'FR_To date should be after From date' }
+    - { source: 'My Entitlements', target: 'FR_My Entitlements' }
+    - { source: 'Should be a number with upto %count% decimal places', target: 'FR_Should be a number with upto %count% decimal places' }
+    - { source: Author, target: FR_Author }
+    - { source: 'View Leave Request Comments', target: 'FR_View Leave Request Comments' }
+    - { source: 'User Management', target: 'FR_User Management' }
+    - { source: 'Initial Balance', target: 'FR_Initial Balance' }
+    - { source: 'Leave Date', target: 'FR_Leave Date' }
+    - { source: 'Available Balance', target: 'FR_Available Balance' }
+    - { source: 'Balance not sufficient', target: 'FR_Balance not sufficient' }
+    - { source: 'Email Configuration', target: 'FR_Email Configuration' }
+    - { source: 'Email Subscriptions', target: 'FR_Email Subscriptions' }
+    - { source: 'You do not have permission to view this section', target: 'FR_You do not have permission to view this section' }
+    - { source: 'Failed to Delete', target: 'FR_Failed to Delete' }
+    - { source: 'Validation Failed', target: 'FR_Validation Failed' }
+    - { source: 'Csrf token validation failed', target: 'FR_Csrf token validation failed' }
+    - { source: About, target: FR_About }
+    - { source: Trackers, target: FR_Trackers }
+    - { source: 'Employee Trackers', target: 'FR_Employee Trackers' }
+    - { source: 'My Trackers', target: 'FR_My Trackers' }
+    - { source: 'Export to CSV', target: 'FR_Export to CSV' }
+    - { source: 'Performance Trackers', target: 'FR_Performance Trackers' }
+    - { source: 'Manage Performance Tracker Log', target: 'FR_manage Performance Tracker Log' }
+    - { source: log, target: FR_log }
+    - { source: status, target: FR_status }
+    - { source: 'available Reviewers', target: 'FR_available Reviewers' }
+    - { source: 'added Reviewers', target: 'FR_added Reviewers' }
+    - { source: 'Add Performance Tracker', target: 'FR_Add Performance Tracker' }
+    - { source: 'Performance Tracker Log Comment', target: 'FR_Performance Tracker Log Comment' }
+    - { source: achievement, target: FR_achievement }
+    - { source: 'invalid name', target: 'FR_invalid name' }
+    - { source: 'Performance Tracker', target: 'FR_Performance Tracker' }
+    - { source: Achievement, target: FR_Achievement }
+    - { source: Log, target: FR_Log }
+    - { source: Reviewer, target: FR_Reviewer }
+    - { source: 'Added Date', target: 'FR_Added Date' }
+    - { source: 'Modified Date', target: 'FR_Modified Date' }
+    - { source: 'Performance Trackers List', target: 'FR_Performance Trackers List' }
+    - { source: ' - Tracker Log ', target: ' - FR_Tracker Log ' }
+    - { source: Clear, target: FR_Clear }
+    - { source: 'My Tracker Logs', target: 'FR_My Tracker Logs' }
+    - { source: 'Employee cannot be assigned as his own reviewer', target: 'FR_Employee cannot be assigned as his own reviewer' }
+    - { source: 'My Performance Trackers List', target: 'FR_My Performance Trackers List' }
+    - { source: Tracker, target: FR_Tracker }
+    - { source: 'Tracker Name', target: 'FR_Tracker Name' }
+    - { source: Activities, target: FR_Activities }
+    - { source: 'Add Currency', target: 'FR_Add Currency' }
+    - { source: 'Add Customer', target: 'FR_Add Customer' }
+    - { source: 'Add Employment Status', target: 'FR_Add Employment Status' }
+    - { source: 'Add Job Category', target: 'FR_Add Job Category' }
+    - { source: 'Add Job Title', target: 'FR_Add Job Title' }
+    - { source: 'Add Location', target: 'FR_Add Location' }
+    - { source: 'Add Membership', target: 'FR_Add Membership' }
+    - { source: 'Add Nationality', target: 'FR_Add Nationality' }
+    - { source: 'Add Pay Grade', target: 'FR_Add Pay Grade' }
+    - { source: 'Add Project', target: 'FR_Add Project' }
+    - { source: 'Add Project Activity', target: 'FR_Add Project Activity' }
+    - { source: 'Add Subscriber', target: 'FR_Add Subscriber' }
+    - { source: 'Add Unit', target: 'FR_Add Unit' }
+    - { source: 'Add User', target: 'FR_Add User' }
+    - { source: 'Add Work Shift', target: 'FR_Add Work Shift' }
+    - { source: 'Projects under selected customer will also be deleted', target: 'FR_Projects under selected customer will also be deleted' }
+    - { source: 'Units under selected unit will also be deleted', target: 'FR_Units under selected unit will also be deleted' }
+    - { source: 'Assigned Currencies', target: 'FR_Assigned Currencies' }
+    - { source: 'Assigned Employees', target: 'FR_Assigned Employees' }
+    - { source: 'Available Employees', target: 'FR_Available Employees' }
+    - { source: Better, target: FR_Better }
+    - { source: 'Click on a notification type to add subscribers', target: 'FR_Click on a notification type to add subscribers' }
+    - { source: 'Column order should not be changed', target: 'FR_Column order should not be changed' }
+    - { source: 'Confirm New Password', target: 'FR_Confirm New Password' }
+    - { source: 'Copy Activity', target: 'FR_Copy Activity' }
+    - { source: 'CSV Data Import', target: 'FR_CSV Data Import' }
+    - { source: 'Current Password', target: 'FR_Current Password' }
+    - { source: 'Current Password Is Wrong', target: 'FR_Current Password Is Wrong' }
+    - { source: Customer, target: FR_Customer }
+    - { source: 'Customer Name', target: 'FR_Customer Name' }
+    - { source: 'Date Format', target: 'FR_Date Format' }
+    - { source: 'Description is not specified', target: 'FR_Description is not specified' }
+    - { source: Done, target: FR_Done }
+    - { source: 'Each import file should be configured for 100 records or less', target: 'FR_Each import file should be configured for 100 records or less' }
+    - { source: 'Edit Currency', target: 'FR_Edit Currency' }
+    - { source: 'Edit Customer', target: 'FR_Edit Customer' }
+    - { source: 'Edit Employment Status', target: 'FR_Edit Employment Status' }
+    - { source: 'Edit Job Category', target: 'FR_Edit Job Category' }
+    - { source: 'Edit Job Title', target: 'FR_Edit Job Title' }
+    - { source: 'Edit Location', target: 'FR_Edit Location' }
+    - { source: 'Edit Membership', target: 'FR_Edit Membership' }
+    - { source: 'Edit Nationality', target: 'FR_Edit Nationality' }
+    - { source: 'Edit Pay Grade', target: 'FR_Edit Pay Grade' }
+    - { source: 'Edit Project', target: 'FR_Edit Project' }
+    - { source: 'Edit Project Activity', target: 'FR_Edit Project Activity' }
+    - { source: 'Edit Subscriber', target: 'FR_Edit Subscriber' }
+    - { source: 'Edit Unit', target: 'FR_Edit Unit' }
+    - { source: 'Edit User', target: 'FR_Edit User' }
+    - { source: 'Edit Work Shift', target: 'FR_Edit Work Shift' }
+    - { source: 'Successfully Saved. Test Email Sent', target: 'FR_Successfully Saved. Test Email Sent' }
+    - { source: 'Successfully Saved. Test Email Not Sent', target: 'FR_Successfully Saved. Test Email Not Sent' }
+    - { source: 'Email Notification', target: 'FR_Email Notification' }
+    - { source: 'Enable Admin module', target: 'FR_Enable Admin module' }
+    - { source: 'Enable Benefits module', target: 'FR_Enable Benefits module' }
+    - { source: 'Enable Leave module', target: 'FR_Enable Leave module' }
+    - { source: 'Enable Performance module', target: 'FR_Enable Performance module' }
+    - { source: 'Enable PIM module', target: 'FR_Enable PIM module' }
+    - { source: 'Enable Recruitment module', target: 'FR_Enable Recruitment module' }
+    - { source: 'Enable Time module', target: 'FR_Enable Time module' }
+    - { source: Fax, target: FR_Fax }
+    - { source: 'First Name and Last Name are compulsory', target: 'FR_First Name and Last Name are compulsory' }
+    - { source: 'Following languages are supported', target: 'FR_Following languages are supported' }
+    - { source: 'Hours Per Day', target: 'FR_Hours Per Day' }
+    - { source: 'If gender is specified, value should be either', target: 'FR_If gender is specified, value should be either' }
+    - { source: 'Job Description', target: 'FR_Job Description' }
+    - { source: 'Leave Applications', target: 'FR_Leave Applications' }
+    - { source: 'Leave Approvals', target: 'FR_Leave Approvals' }
+    - { source: 'Leave Assignments', target: 'FR_Leave Assignments' }
+    - { source: 'Leave Cancellations', target: 'FR_Leave Cancellations' }
+    - { source: 'Leave Rejections', target: 'FR_Leave Rejections' }
+    - { source: 'Location Name', target: 'FR_Location Name' }
+    - { source: 'Mail Configuration', target: 'FR_Mail Configuration' }
+    - { source: 'Mail Sent As', target: 'FR_Mail Sent As' }
+    - { source: 'Maximum Salary', target: 'FR_Maximum Salary' }
+    - { source: Medium, target: FR_Medium }
+    - { source: 'Minimum Salary', target: 'FR_Minimum Salary' }
+    - { source: 'Module Configuration', target: 'FR_Module Configuration' }
+    - { source: 'New Password', target: 'FR_New Password' }
+    - { source: 'No activities selected', target: 'FR_No activities selected' }
+    - { source: 'No assigned activities', target: 'FR_No assigned activities' }
+    - { source: 'Not Allowed to Delete Customer(s) Which Have Time Logged Against', target: 'FR_Not Allowed to Delete Customer(s) Which Have Time Logged Against' }
+    - { source: 'Not Allowed to Delete Project Activites Which Have Time Logged Against', target: 'FR_Not Allowed to Delete Project Activites Which Have Time Logged Against' }
+    - { source: 'Notification Type', target: 'FR_Notification Type' }
+    - { source: 'Number of Employees', target: 'FR_Number of Employees' }
+    - { source: 'Organization Name', target: 'FR_Organization Name' }
+    - { source: 'Path to Sendmail', target: 'FR_Path to Sendmail' }
+    - { source: 'Performance Review Submissions', target: 'FR_Performance Review Submissions' }
+    - { source: Phone, target: FR_Phone }
+    - { source: Project, target: FR_Project }
+    - { source: 'Project Admin', target: 'FR_Project Admin' }
+    - { source: 'Project Admins', target: 'FR_Project Admins' }
+    - { source: 'Registration Number', target: 'FR_Registration Number' }
+    - { source: 'Sample CSV file', target: 'FR_Sample CSV file' }
+    - { source: 'Send Test Email', target: 'FR_Send Test Email' }
+    - { source: 'Sending Method', target: 'FR_Sending Method' }
+    - { source: 'Shift Name', target: 'FR_Shift Name' }
+    - { source: 'SMTP Password', target: 'FR_SMTP Password' }
+    - { source: 'SMTP Port', target: 'FR_SMTP Port' }
+    - { source: 'SMTP User', target: 'FR_SMTP User' }
+    - { source: SSL, target: FR_SSL }
+    - { source: Strong, target: FR_Strong }
+    - { source: Strongest, target: FR_Strongest }
+    - { source: Subscribers, target: FR_Subscribers }
+    - { source: 'OrangeHRM - Supported Languages', target: 'FR_OrangeHRM - Supported Languages' }
+    - { source: 'Supported languages', target: 'FR_Supported languages' }
+    - { source: 'System Users', target: 'FR_System Users' }
+    - { source: 'Tax ID', target: 'FR_Tax ID' }
+    - { source: 'Test Email Address', target: 'FR_Test Email Address' }
+    - { source: 'This unit will be added under', target: 'FR_This unit will be added under' }
+    - { source: TLS, target: FR_TLS }
+    - { source: 'Unit Id', target: 'FR_Unit Id' }
+    - { source: 'Use browser language if set', target: 'FR_Use browser language if set' }
+    - { source: 'Use SMTP Authentication', target: 'FR_Use SMTP Authentication' }
+    - { source: 'User Secure Connection', target: 'FR_User Secure Connection' }
+    - { source: 'User Type', target: 'FR_User Type' }
+    - { source: 'Very Weak', target: 'FR_Very Weak' }
+    - { source: Weak, target: FR_Weak }
+    - { source: 'Zip Code', target: 'FR_Zip Code' }
+    - { source: 'Failed to Import: File Type Not Allowed', target: 'FR_Failed to Import: File Type Not Allowed' }
+    - { source: 'Failed to Import: File Size Exceeded', target: 'FR_Failed to Import: File Size Exceeded' }
+    - { source: 'Failed to Import: No Compatible Records', target: 'FR_Failed to Import: No Compatible Records' }
+    - { source: 'Number of Records Imported', target: 'FR_Number of Records Imported' }
+    - { source: 'Should be higher than Minimum Salary', target: 'FR_Should be higher than Minimum Salary' }
+    - { source: 'Level Already Exists', target: 'FR_Level Already Exists' }
+    - { source: 'All date fields should be in YYYY-MM-DD format', target: 'FR_All date fields should be in YYYY-MM-DD format' }
+    - { source: 'Multiple import files may be required', target: 'FR_Multiple import files may be required' }
+    - { source: 'Language and font help', target: 'FR_Language and font help' }
+    - { source: 'Organization Structure', target: 'FR_Organization Structure' }
+    - { source: 'This is a deleted customer. Reactivate again?', target: 'FR_This is a deleted customer. Reactivate again?' }
+    - { source: 'Customer will be undeleted', target: 'FR_Customer will be undeleted' }
+    - { source: 'A new customer will be created with same name', target: 'FR_A new customer will be created with same name' }
+    - { source: 'Will take no action', target: 'FR_Will take no action' }
+    - { source: 'Click on Edit button to enable notifications', target: 'FR_Click on Edit button to enable notifications' }
+    - { source: 'To enable notifications click on Edit button and select the relevant check-box', target: 'FR_To enable notifications click on Edit button and select the relevant check-box' }
+    - { source: 'View Pay Grade', target: 'FR_View Pay Grade' }
+    - { source: 'View Job Title', target: 'FR_View Job Title' }
+    - { source: Dashboard, target: FR_Dashboard }
+    - { source: 'Quick Launch', target: 'FR_Quick Launch' }
+    - { source: 'Employee Distribution by Subunit', target: 'FR_Employee Distribution by Subunit' }
+    - { source: 'Not assigned to Subunits', target: 'FR_Not assigned to Subunits' }
+    - { source: 'Pending Leave Requests', target: 'FR_Pending Leave Requests' }
+    - { source: 'Apply Leave', target: 'FR_Apply Leave' }
+    - { source: 'My Timesheet', target: 'FR_My Timesheet' }
+    - { source: 'No Records are Available', target: 'FR_No Records are Available' }
+    - { source: '%months% month(s)', target: 'FR_%months% month(s)' }
+    - { source: 'Total : ', target: 'FR_Total : ' }
+    - { source: 'No Data to Display', target: 'FR_No Data to Display' }
+    - { source: Legend, target: FR_Legend }
+    - { source: 'Actions Performed on the Timesheet', target: 'FR_Actions Performed on the Timesheet' }
+    - { source: 'Add Row', target: 'FR_Add Row' }
+    - { source: 'Add Timesheet', target: 'FR_Add Timesheet' }
+    - { source: 'Attendance Total Summary Report', target: 'FR_Attendance Total Summary Report' }
+    - { source: 'Define Timesheet Period', target: 'FR_Define Timesheet Period' }
+    - { source: 'Deleted project activities are not editable', target: 'FR_Deleted project activities are not editable' }
+    - { source: 'Deleted projects/activities are marked with an asterik', target: 'FR_Deleted projects/activities are marked with an asterik' }
+    - { source: 'Edit Timesheet for', target: 'FR_Edit Timesheet for' }
+    - { source: 'Edit Timesheet for Month', target: 'FR_Edit Timesheet for Month' }
+    - { source: 'Edit Timesheet for Week', target: 'FR_Edit Timesheet for Week' }
+    - { source: 'Edit timesheet for week starting', target: 'FR_Edit timesheet for week starting' }
+    - { source: 'Employee name', target: 'FR_Employee name' }
+    - { source: 'Employee Report', target: 'FR_Employee Report' }
+    - { source: 'Should Be Less Than 24 and in HH:MM or Decimal Format', target: 'FR_Should Be Less Than 24 and in HH:MM or Decimal Format' }
+    - { source: 'Enter Employee Name', target: 'FR_Enter Employee Name' }
+    - { source: 'First Day of Week', target: 'FR_First Day of Week' }
+    - { source: 'for Month starting on', target: 'FR_for Month starting on' }
+    - { source: 'for Week', target: 'FR_for Week' }
+    - { source: Fri, target: FR_Fri }
+    - { source: hours, target: FR_hours }
+    - { source: 'Failed to Create: Future Timesheets Not Allowed', target: 'FR_Failed to Create: Future Timesheets Not Allowed' }
+    - { source: Mon, target: FR_Mon }
+    - { source: 'No Accessible Timesheets', target: 'FR_No Accessible Timesheets' }
+    - { source: 'Not Submitted', target: 'FR_Not Submitted' }
+    - { source: 'Proceed with Time Module', target: 'FR_Proceed with Time Module' }
+    - { source: 'Project Activity Details Report', target: 'FR_Project Activity Details Report' }
+    - { source: 'Project Report', target: 'FR_Project Report' }
+    - { source: 'Remove Rows', target: 'FR_Remove Rows' }
+    - { source: Sat, target: FR_Sat }
+    - { source: 'Select a Day to Create Timesheet', target: 'FR_Select a Day to Create Timesheet' }
+    - { source: 'Select Employee', target: 'FR_Select Employee' }
+    - { source: 'Status:', target: 'FR_Status:' }
+    - { source: Sun, target: FR_Sun }
+    - { source: Thu, target: FR_Thu }
+    - { source: 'Duplicate Records Found', target: 'FR_Duplicate Records Found' }
+    - { source: 'Timesheet for', target: 'FR_Timesheet for' }
+    - { source: 'Timesheet Period', target: 'FR_Timesheet Period' }
+    - { source: 'Timesheet period start day has been set', target: 'FR_Timesheet period start day has been set' }
+    - { source: 'Timesheet period start day has not been defined. Please contact HR Admin', target: 'FR_Timesheet period start day has not been defined. Please contact HR Admin' }
+    - { source: 'Timesheets Pending Action', target: 'FR_Timesheets Pending Action' }
+    - { source: Tue, target: FR_Tue }
+    - { source: Wed, target: FR_Wed }
+    - { source: Week, target: FR_Week }
+    - { source: 'Select a Project and an Activity', target: 'FR_Select a Project and an Activity' }
+    - { source: 'Select Records to Remove', target: 'FR_Select Records to Remove' }
+    - { source: 'Timesheet Already Exists', target: 'FR_Timesheet Already Exists' }
+    - { source: 'Timesheet Submitted', target: 'FR_Timesheet Submitted' }
+    - { source: 'No Timesheets Found', target: 'FR_No Timesheets Found' }
+    - { source: 'Timesheet Approved', target: 'FR_Timesheet Approved' }
+    - { source: 'Timesheet Rejected', target: 'FR_Timesheet Rejected' }
+    - { source: 'No Changes to Delete', target: 'FR_No Changes to Delete' }
+    - { source: 'Total Should Be Less Than 24 Hours', target: 'FR_Total Should Be Less Than 24 Hours' }
+    - { source: 'Remaining number of custom fields', target: 'FR_Remaining number of custom fields' }
+    - { source: 'Account Number', target: 'FR_Account Number' }
+    - { source: 'Account Type', target: 'FR_Account Type' }
+    - { source: 'Activate Employment', target: 'FR_Activate Employment' }
+    - { source: 'Add Custom Field', target: 'FR_Add Custom Field' }
+    - { source: 'Add Dependent', target: 'FR_Add Dependent' }
+    - { source: 'Add Direct Deposit Details', target: 'FR_Add Direct Deposit Details' }
+    - { source: 'Add Emergency Contact', target: 'FR_Add Emergency Contact' }
+    - { source: 'Add Immigration', target: 'FR_Add Immigration' }
+    - { source: 'Add Membership Details', target: 'FR_Add Membership Details' }
+    - { source: 'Add Reporting Method', target: 'FR_Add Reporting Method' }
+    - { source: 'Add Subordinate', target: 'FR_Add Subordinate' }
+    - { source: 'Add Supervisor', target: 'FR_Add Supervisor' }
+    - { source: 'Add Supervisor/Subordinate', target: 'FR_Add Supervisor/Subordinate' }
+    - { source: 'Add Termination Reason', target: 'FR_Add Termination Reason' }
+    - { source: 'Add Work Experience', target: 'FR_Add Work Experience' }
+    - { source: 'All customs fields are in use', target: 'FR_All customs fields are in use' }
+    - { source: 'Assigned Dependents', target: 'FR_Assigned Dependents' }
+    - { source: 'Assigned Emergency Contacts', target: 'FR_Assigned Emergency Contacts' }
+    - { source: 'Assigned Immigration Records', target: 'FR_Assigned Immigration Records' }
+    - { source: 'Assigned Memberships', target: 'FR_Assigned Memberships' }
+    - { source: 'Assigned Subordinates', target: 'FR_Assigned Subordinates' }
+    - { source: 'Assigned Supervisors', target: 'FR_Assigned Supervisors' }
+    - { source: 'At least one phone number is required', target: 'FR_At least one phone number is required' }
+    - { source: 'Bi Weekly', target: 'FR_Bi Weekly' }
+    - { source: child, target: FR_child }
+    - { source: Child, target: FR_Child }
+    - { source: 'Configure PIM', target: 'FR_Configure PIM' }
+    - { source: 'Contract Details', target: 'FR_Contract Details' }
+    - { source: 'Country Specific Information', target: 'FR_Country Specific Information' }
+    - { source: 'Create Login Details', target: 'FR_Create Login Details' }
+    - { source: Custom, target: FR_Custom }
+    - { source: 'Custom Field Name', target: 'FR_Custom Field Name' }
+    - { source: 'Date of Expiry', target: 'FR_Date of Expiry' }
+    - { source: 'Direct Deposit', target: 'FR_Direct Deposit' }
+    - { source: Document, target: FR_Document }
+    - { source: 'Document No', target: 'FR_Document No' }
+    - { source: 'Drop Down', target: 'FR_Drop Down' }
+    - { source: 'Edit Custom Field', target: 'FR_Edit Custom Field' }
+    - { source: 'Edit Dependent', target: 'FR_Edit Dependent' }
+    - { source: 'Edit Emergency Contact', target: 'FR_Edit Emergency Contact' }
+    - { source: 'Edit Employment Termination', target: 'FR_Edit Employment Termination' }
+    - { source: 'Edit Membership Detail', target: 'FR_Edit Membership Detail' }
+    - { source: 'Edit Reporting Method', target: 'FR_Edit Reporting Method' }
+    - { source: 'Edit Subordinate', target: 'FR_Edit Subordinate' }
+    - { source: 'Edit Supervisor', target: 'FR_Edit Supervisor' }
+    - { source: 'Edit Termination Reason', target: 'FR_Edit Termination Reason' }
+    - { source: 'Edit Work Experience', target: 'FR_Edit Work Experience' }
+    - { source: 'Emergency Contact(s)', target: 'FR_Emergency Contact(s)' }
+    - { source: 'Employee Information', target: 'FR_Employee Information' }
+    - { source: Employment, target: FR_Employment }
+    - { source: 'Employment Contract', target: 'FR_Employment Contract' }
+    - { source: 'Enter a number', target: 'FR_Enter a number' }
+    - { source: 'Enter allowed options separated by commas', target: 'FR_Enter allowed options separated by commas' }
+    - { source: 'Ethnic Race', target: 'FR_Ethnic Race' }
+    - { source: Exemptions, target: FR_Exemptions }
+    - { source: 'Federal Income Tax', target: 'FR_Federal Income Tax' }
+    - { source: 'Field Name', target: 'FR_Field Name' }
+    - { source: 'Field Type', target: 'FR_Field Type' }
+    - { source: 'From date should be before to date', target: 'FR_From date should be before to date' }
+    - { source: GPA/Score, target: FR_GPA/Score }
+    - { source: Hourly, target: FR_Hourly }
+    - { source: Institute, target: FR_Institute }
+    - { source: 'Issued date should be before expiration date', target: 'FR_Issued date should be before expiration date' }
+    - { source: Major/Specialization, target: FR_Major/Specialization }
+    - { source: Married, target: FR_Married }
+    - { source: Max, target: FR_Max }
+    - { source: 'Membership Type', target: 'FR_Membership Type' }
+    - { source: 'Military Service', target: 'FR_Military Service' }
+    - { source: Min, target: FR_Min }
+    - { source: Monthly, target: FR_Monthly }
+    - { source: 'Monthly on first pay of month.', target: 'FR_Monthly on first pay of month.' }
+    - { source: N/A, target: FR_N/A }
+    - { source: 'Nick Name', target: 'FR_Nick Name' }
+    - { source: 'Non Resident Alien', target: 'FR_Non Resident Alien' }
+    - { source: 'Not Applicable', target: 'FR_Not Applicable' }
+    - { source: other, target: FR_other }
+    - { source: Passport, target: FR_Passport }
+    - { source: 'Personal Details', target: 'FR_Personal Details' }
+    - { source: Photograph, target: FR_Photograph }
+    - { source: 'Please Specify', target: 'FR_Please Specify' }
+    - { source: Reason, target: FR_Reason }
+    - { source: Report-to, target: FR_Report-to }
+    - { source: Screen, target: FR_Screen }
+    - { source: 'Select a Photograph', target: 'FR_Select a Photograph' }
+    - { source: 'Select Membership', target: 'FR_Select Membership' }
+    - { source: 'Select Options', target: 'FR_Select Options' }
+    - { source: 'Semi Monthly', target: 'FR_Semi Monthly' }
+    - { source: 'Show Deprecated Fields', target: 'FR_Show Deprecated Fields' }
+    - { source: 'Show Nick Name, Smoker and Military Service in Personal Details', target: 'FR_Show Nick Name, Smoker and Military Service in Personal Details' }
+    - { source: 'Show SIN field in Personal Details', target: 'FR_Show SIN field in Personal Details' }
+    - { source: 'Show SSN field in Personal Details', target: 'FR_Show SSN field in Personal Details' }
+    - { source: 'Show US Tax Exemptions menu', target: 'FR_Show US Tax Exemptions menu' }
+    - { source: 'SIN Number', target: 'FR_SIN Number' }
+    - { source: Single, target: FR_Single }
+    - { source: Smoker, target: FR_Smoker }
+    - { source: 'SSN Number', target: 'FR_SSN Number' }
+    - { source: 'State Income Tax', target: 'FR_State Income Tax' }
+    - { source: Subordinate, target: FR_Subordinate }
+    - { source: 'Tax Exemptions', target: 'FR_Tax Exemptions' }
+    - { source: 'Terminate Employment', target: 'FR_Terminate Employment' }
+    - { source: 'Terminated Date', target: 'FR_Terminated Date' }
+    - { source: 'Terminated on', target: 'FR_Terminated on' }
+    - { source: 'Terminated Reason', target: 'FR_Terminated Reason' }
+    - { source: 'Text or Number', target: 'FR_Text or Number' }
+    - { source: 'Unemployment State', target: 'FR_Unemployment State' }
+    - { source: 'User Name', target: 'FR_User Name' }
+    - { source: Visa, target: FR_Visa }
+    - { source: Weekly, target: FR_Weekly }
+    - { source: 'Work experience', target: 'FR_Work experience' }
+    - { source: 'Work State', target: 'FR_Work State' }
+    - { source: 'Renewal date should be after commence date', target: 'FR_Renewal date should be after commence date' }
+    - { source: 'Delete photograph?', target: 'FR_Delete photograph?' }
+    - { source: 'Failed To Save: User Name Exists', target: 'FR_Failed To Save: User Name Exists' }
+    - { source: 'Failed To Save: Employee Id Exists', target: 'FR_Failed To Save: Employee Id Exists' }
+    - { source: 'Will be deleted from all employees', target: 'FR_Will be deleted from all employees' }
+    - { source: 'First (& Middle) Name', target: 'FR_First (& Middle) Name' }
+    - { source: 'Failed to Delete: At Least One Admin Should Exist', target: 'FR_Failed to Delete: At Least One Admin Should Exist' }
+    - { source: 'Eligibility Status', target: 'FR_Eligibility Status' }
+    - { source: 'Eligibility Review Date', target: 'FR_Eligibility Review Date' }
+    - { source: 'You do not have credentials to access PIM for employee %employee_name%', target: 'FR_You do not have credentials to access PIM for employee %employee_name%' }
+    - { source: 'Employee with Employee Number %emp_number% not found!', target: 'FR_Employee with Employee Number %emp_number% not found!' }
+    - { source: Active, target: FR_Active }
+    - { source: 'Add another', target: 'FR_Add another' }
+    - { source: 'Add Candidate', target: 'FR_Add Candidate' }
+    - { source: 'Add Job Vacancy', target: 'FR_Add Job Vacancy' }
+    - { source: 'Adding Candidate', target: 'FR_Adding Candidate' }
+    - { source: 'Application Initiated', target: 'FR_Application Initiated' }
+    - { source: 'applied for the', target: 'FR_applied for the' }
+    - { source: Archived, target: FR_Archived }
+    - { source: 'Are you sure you want to remove job vacancy of the candidate', target: 'FR_Are you sure you want to remove job vacancy of the candidate' }
+    - { source: 'as failed', target: 'FR_as failed' }
+    - { source: 'as passed', target: 'FR_as passed' }
+    - { source: 'assigned the job vacancy', target: 'FR_assigned the job vacancy' }
+    - { source: by, target: FR_by }
+    - { source: Candidate, target: FR_Candidate }
+    - { source: 'Candidate Name', target: 'FR_Candidate Name' }
+    - { source: 'Candidate''s History', target: 'FR_Candidate''s History' }
+    - { source: candidateName, target: FR_candidateName }
+    - { source: 'Cannot assign same interviewer twice', target: 'FR_Cannot assign same interviewer twice' }
+    - { source: 'Cannot assign same vacancy twice', target: 'FR_Cannot assign same vacancy twice' }
+    - { source: 'Click on a candidate to perform actions', target: 'FR_Click on a candidate to perform actions' }
+    - { source: Closed, target: FR_Closed }
+    - { source: Continue, target: FR_Continue }
+    - { source: 'Date of Application', target: 'FR_Date of Application' }
+    - { source: 'Should be less than current date', target: 'FR_Should be less than current date' }
+    - { source: 'Decline Offer', target: 'FR_Decline Offer' }
+    - { source: Details, target: FR_Details }
+    - { source: 'Edit Candidate', target: 'FR_Edit Candidate' }
+    - { source: 'Edit Interview Details', target: 'FR_Edit Interview Details' }
+    - { source: 'Edit Job Vacancy', target: 'FR_Edit Job Vacancy' }
+    - { source: 'Editing Candidate', target: 'FR_Editing Candidate' }
+    - { source: 'from the', target: 'FR_from the' }
+    - { source: Hire, target: FR_Hire }
+    - { source: Hired, target: FR_Hired }
+    - { source: hired, target: FR_hired }
+    - { source: 'Hiring Manager', target: 'FR_Hiring Manager' }
+    - { source: 'Interview Failed', target: 'FR_Interview Failed' }
+    - { source: 'Interview Passed', target: 'FR_Interview Passed' }
+    - { source: 'Interview Scheduled', target: 'FR_Interview Scheduled' }
+    - { source: 'Interview Title', target: 'FR_Interview Title' }
+    - { source: 'Interviewer Name', target: 'FR_Interviewer Name' }
+    - { source: 'Job Offered', target: 'FR_Job Offered' }
+    - { source: 'Job Vacancy', target: 'FR_Job Vacancy' }
+    - { source: Manual, target: FR_Manual }
+    - { source: 'Mark Interview Failed', target: 'FR_Mark Interview Failed' }
+    - { source: 'Mark Interview Passed', target: 'FR_Mark Interview Passed' }
+    - { source: marked, target: FR_marked }
+    - { source: 'marked the offer as declined', target: 'FR_marked the offer as declined' }
+    - { source: 'Method of Application', target: 'FR_Method of Application' }
+    - { source: 'No Actions', target: 'FR_No Actions' }
+    - { source: 'No active job vacancies to display', target: 'FR_No active job vacancies to display' }
+    - { source: 'Number of Positions', target: 'FR_Number of Positions' }
+    - { source: 'Offer Declined', target: 'FR_Offer Declined' }
+    - { source: 'Offer Job', target: 'FR_Offer Job' }
+    - { source: 'offered the job', target: 'FR_offered the job' }
+    - { source: 'on', target: FR_on }
+    - { source: Online, target: FR_Online }
+    - { source: 'Performed Action', target: 'FR_Performed Action' }
+    - { source: 'Performed Date', target: 'FR_Performed Date' }
+    - { source: 'Publish in RSS feed(1) and web page(2)', target: 'FR_Publish in RSS feed(1) and web page(2)' }
+    - { source: removed, target: FR_removed }
+    - { source: 'RSS Feed URL', target: 'FR_RSS Feed URL' }
+    - { source: 'Schedule Interview', target: 'FR_Schedule Interview' }
+    - { source: scheduled, target: FR_scheduled }
+    - { source: Shortlist, target: FR_Shortlist }
+    - { source: Shortlisted, target: FR_Shortlisted }
+    - { source: 'Shortlisted for', target: 'FR_Shortlisted for' }
+    - { source: Vacancy, target: FR_Vacancy }
+    - { source: 'Vacancy Name', target: 'FR_Vacancy Name' }
+    - { source: 'View Action History', target: 'FR_View Action History' }
+    - { source: 'View Interview Details', target: 'FR_View Interview Details' }
+    - { source: 'Web Page URL', target: 'FR_Web Page URL' }
+    - { source: with, target: FR_with }
+    - { source: 'Successfully Scheduled', target: 'FR_Successfully Scheduled' }
+    - { source: 'This action will remove previous vacancy', target: 'FR_This action will remove previous vacancy' }
+    - { source: 'Remove?', target: 'FR_Remove?' }
+    - { source: 'Vacancy Apply Form', target: 'FR_Vacancy Apply Form' }
+    - { source: 'Application Received', target: 'FR_Application Received' }
+    - { source: Uploaded, target: FR_Uploaded }
+    - { source: 'A new leave type will be created with same name', target: 'FR_A new leave type will be created with same name' }
+    - { source: Actions, target: FR_Actions }
+    - { source: Assign, target: FR_Assign }
+    - { source: 'At Least One Day Should Be a Working Day', target: 'FR_At Least One Day Should Be a Working Day' }
+    - { source: Canceled, target: FR_Canceled }
+    - { source: characters, target: FR_characters }
+    - { source: 'Confirmation Required', target: 'FR_Confirmation Required' }
+    - { source: 'Current Leave Period', target: 'FR_Current Leave Period' }
+    - { source: 'Date format should be', target: 'FR_Date format should be' }
+    - { source: 'Define Leave Type', target: 'FR_Define Leave Type' }
+    - { source: 'Duration (Hours)', target: 'FR_Duration (Hours)' }
+    - { source: 'Following Year', target: 'FR_Following Year' }
+    - { source: 'For Leap Years', target: 'FR_For Leap Years' }
+    - { source: 'For Non-Leap Years', target: 'FR_For Non-Leap Years' }
+    - { source: 'From Date', target: 'FR_From Date' }
+    - { source: 'From Time', target: 'FR_From Time' }
+    - { source: 'From time should be less than To time', target: 'FR_From time should be less than To time' }
+    - { source: 'Full Day', target: 'FR_Full Day' }
+    - { source: 'Go to Detailed View', target: 'FR_Go to Detailed View' }
+    - { source: 'Half Day', target: 'FR_Half Day' }
+    - { source: Holiday, target: FR_Holiday }
+    - { source: 'Leave Balance', target: 'FR_Leave Balance' }
+    - { source: 'Leave Comment', target: 'FR_Leave Comment' }
+    - { source: 'Leave Entitled', target: 'FR_Leave Entitled' }
+    - { source: 'Leave Period Does Not Exist', target: 'FR_Leave Period Does Not Exist' }
+    - { source: 'Leave Request', target: 'FR_Leave Request' }
+    - { source: 'Leave Scheduled', target: 'FR_Leave Scheduled' }
+    - { source: 'Leave Taken', target: 'FR_Leave Taken' }
+    - { source: 'Leave Type', target: 'FR_Leave Type' }
+    - { source: 'Leave type will be undeleted', target: 'FR_Leave type will be undeleted' }
+    - { source: 'My Leave Details', target: 'FR_My Leave Details' }
+    - { source: 'My Leave List', target: 'FR_My Leave List' }
+    - { source: 'Name of Holiday', target: 'FR_Name of Holiday' }
+    - { source: 'No Leave Types with Leave Balance', target: 'FR_No Leave Types with Leave Balance' }
+    - { source: 'No of Hours', target: 'FR_No of Hours' }
+    - { source: 'Non Working Day', target: 'FR_Non Working Day' }
+    - { source: 'Non-working Day', target: 'FR_Non-working Day' }
+    - { source: 'Number of Days', target: 'FR_Number of Days' }
+    - { source: 'Pending Approval', target: 'FR_Pending Approval' }
+    - { source: 'Repeats Annually', target: 'FR_Repeats Annually' }
+    - { source: 'Show Leave with Status', target: 'FR_Show Leave with Status' }
+    - { source: Taken, target: FR_Taken }
+    - { source: 'Overlapping Leave Request Found', target: 'FR_Overlapping Leave Request Found' }
+    - { source: 'This is a deleted leave type. Reactivate it?', target: 'FR_This is a deleted leave type. Reactivate it?' }
+    - { source: 'To Date', target: 'FR_To Date' }
+    - { source: 'To Time', target: 'FR_To Time' }
+    - { source: 'Total Hours', target: 'FR_Total Hours' }
+    - { source: 'Total time is greater than the shift length', target: 'FR_Total time is greater than the shift length' }
+    - { source: 'Failed to Submit: No Working Days Selected', target: 'FR_Failed to Submit: No Working Days Selected' }
+    - { source: 'Failed to Save: Date Already Assigned', target: 'FR_Failed to Save: Date Already Assigned' }
+    - { source: 'Failed to Assign: Work Shift Length Exceeded', target: 'FR_Failed to Assign: Work Shift Length Exceeded' }
+    - { source: 'Failed to Submit: Work Shift Length Exceeded', target: 'FR_Failed to Submit: Work Shift Length Exceeded' }
+    - { source: 'Failed to Submit: Leave Balance Exceeded', target: 'FR_Failed to Submit: Leave Balance Exceeded' }
+    - { source: 'Should be less than work shift length', target: 'FR_Should be less than work shift length' }
+    - { source: 'Leave Period Not Defined', target: 'FR_Leave Period Not Defined' }
+    - { source: 'Full Day/Half Day', target: 'FR_Full Day/Half Day' }
+    - { source: 'Leave Request (%date_range%) %name%', target: 'FR_Leave Request (%date_range%) %name%' }
+    - { source: 'Failed to Assign', target: 'FR_Failed to Assign' }
+    - { source: 'Failed to Submit', target: 'FR_Failed to Submit' }
+    - { source: 'Add Leave Type', target: 'FR_Add Leave Type' }
+    - { source: 'Edit Leave Type', target: 'FR_Edit Leave Type' }
+    - { source: 'Entitlement Type', target: 'FR_Entitlement Type' }
+    - { source: 'Updating Entitlement', target: 'FR_Updating Entitlement' }
+    - { source: 'Leave Entitlements (Days)', target: 'FR_Leave Entitlements (Days)' }
+    - { source: 'Current Leave Balance (Days)', target: 'FR_Current Leave Balance (Days)' }
+    - { source: 'Is entitlement situational', target: 'FR_Is entitlement situational' }
+    - { source: 'Edit Leave Entitlement', target: 'FR_Edit Leave Entitlement' }
+    - { source: 'The selected leave entitlement will be applied to the following employees.', target: 'FR_The selected leave entitlement will be applied to the following employees.' }
+    - { source: 'Old Entitlement', target: 'FR_Old Entitlement' }
+    - { source: 'New Entitlement', target: 'FR_New Entitlement' }
+    - { source: 'Used amount exceeds the current amount', target: 'FR_Used amount exceeds the current amount' }
+    - { source: 'Leave Balance Details', target: 'FR_Leave Balance Details' }
+    - { source: Entitled, target: FR_Entitled }
+    - { source: Used, target: FR_Used }
+    - { source: Balance, target: FR_Balance }
+    - { source: 'Duration should be less than work shift length', target: 'FR_Duration should be less than work shift length' }
+    - { source: 'view details', target: 'FR_view details' }
+    - { source: 'As of Date', target: 'FR_As of Date' }
+    - { source: 'Overlapping Leave Requests Found', target: 'FR_Overlapping Leave Requests Found' }
+    - { source: 'My Leave Entitlements', target: 'FR_My Leave Entitlements' }
+    - { source: 'Leave Comments', target: 'FR_Leave Comments' }
+    - { source: 'Leave Request Comments', target: 'FR_Leave Request Comments' }
+    - { source: 'Bulk Assigning Leave Entitlement to %count% Employees. Please Wait', target: 'FR_Bulk Assigning Leave Entitlement to %count% Employees. Please Wait' }
+    - { source: 'Assigning Leave Entitlement. Please Wait', target: 'FR_Assigning Leave Entitlement. Please Wait' }
+    - { source: 'Calculating Leave Balance', target: 'FR_Calculating Leave Balance' }
+    - { source: 'Calculating Leave Balance, Please Wait', target: 'FR_Calculating Leave Balance, Please Wait' }
+    - { source: 'Confirm Leave Assignment', target: 'FR_Confirm Leave Assignment' }
+    - { source: 'Employee does not have sufficient leave balance for leave request.', target: 'FR_Employee does not have sufficient leave balance for leave request.' }
+    - { source: 'Click OK to confirm leave assignment.', target: 'FR_Click OK to confirm leave assignment.' }
+    - { source: 'View Leave Type', target: 'FR_View Leave Type' }
+    - { source: 'Specify Time', target: 'FR_Specify Time' }
+    - { source: 'Partial Days', target: 'FR_Partial Days' }
+    - { source: None, target: FR_None }
+    - { source: 'All Days', target: 'FR_All Days' }
+    - { source: 'Start Day Only', target: 'FR_Start Day Only' }
+    - { source: 'End Day Only', target: 'FR_End Day Only' }
+    - { source: 'Start and End Day', target: 'FR_Start and End Day' }
+    - { source: Morning, target: FR_Morning }
+    - { source: Afternoon, target: FR_Afternoon }
+    - { source: 'Start Day', target: 'FR_Start Day' }
+    - { source: 'End Day', target: 'FR_End Day' }
+    - { source: KPIs, target: FR_KPIs }
+    - { source: 'Manage Reviews', target: 'FR_Manage Reviews' }
+    - { source: 'My Reviews', target: 'FR_My Reviews' }
+    - { source: KPI, target: FR_KPI }
+    - { source: 'KPI Group', target: 'FR_KPI Group' }
+    - { source: 'Appraisal Header', target: 'FR_Appraisal Header' }
+    - { source: 'Review List', target: 'FR_Review List' }
+    - { source: 'Should be a positive integer', target: 'FR_Should be a positive integer' }
+    - { source: 'Group Name', target: 'FR_Group Name' }
+    - { source: 'Weightage (1 - 100)', target: 'FR_Weightage (1 - 100)' }
+    - { source: Department, target: FR_Department }
+    - { source: 'Key Performance Indicator Groups', target: 'FR_Key Performance Indicator Groups' }
+    - { source: 'Search Performance Reviews', target: 'FR_Search Performance Reviews' }
+    - { source: ConfigureKPI, target: FR_ConfigureKPI }
+    - { source: 'My Review List', target: 'FR_My Review List' }
+    - { source: 'Due Date', target: 'FR_Due Date' }
+    - { source: 'Review Period', target: 'FR_Review Period' }
+    - { source: 'Review Status', target: 'FR_Review Status' }
+    - { source: 'Evaluation Status', target: 'FR_Evaluation Status' }
+    - { source: 'Edit Details', target: 'FR_Edit Details' }
+    - { source: 'Search Key Performance Indicators', target: 'FR_Search Key Performance Indicators' }
+    - { source: Weightage, target: FR_Weightage }
+    - { source: 'Add KPI Group', target: 'FR_Add KPI Group' }
+    - { source: 'Performance Review', target: 'FR_Performance Review' }
+    - { source: 'Subordinate Reviewers', target: 'FR_Subordinate Reviewers' }
+    - { source: 'Peer Reviewers', target: 'FR_Peer Reviewers' }
+    - { source: 'Supervisor Reviewers', target: 'FR_Supervisor Reviewers' }
+    - { source: 'Work Period Start Date', target: 'FR_Work Period Start Date' }
+    - { source: 'Work Period End Date', target: 'FR_Work Period End Date' }
+    - { source: Activate, target: FR_Activate }
+    - { source: 'Add Peer', target: 'FR_Add Peer' }
+    - { source: Evaluate, target: FR_Evaluate }
+    - { source: 'View Progress', target: 'FR_View Progress' }
+    - { source: 'Key Performance Indicator', target: 'FR_Key Performance Indicator' }
+    - { source: 'Min Rate', target: 'FR_Min Rate' }
+    - { source: 'Max Rate', target: 'FR_Max Rate' }
+    - { source: 'Is Default', target: 'FR_Is Default' }
+    - { source: 'Period ', target: 'FR_Period ' }
+    - { source: 'Review Due Date', target: 'FR_Review Due Date' }
+    - { source: 'Administrator Evaluation Form', target: 'FR_Administrator Evaluation Form' }
+    - { source: 'Individual Evaluation Status', target: 'FR_Individual Evaluation Status' }
+    - { source: 'Reviewer Type', target: 'FR_Reviewer Type' }
+    - { source: 'Reviewer Name', target: 'FR_Reviewer Name' }
+    - { source: 'Review Details', target: 'FR_Review Details' }
+    - { source: 'Evaluation by Employee', target: 'FR_Evaluation by Employee' }
+    - { source: 'Evaluation by HR Admin', target: 'FR_Evaluation by HR Admin' }
+    - { source: 'HR Admin Comments', target: 'FR_HR Admin Comments' }
+    - { source: 'Final Rating', target: 'FR_Final Rating' }
+    - { source: 'Completed Date', target: 'FR_Completed Date' }
+    - { source: Complete, target: FR_Complete }
+    - { source: 'Evaluation by Subordinate', target: 'FR_Evaluation by Subordinate' }
+    - { source: 'Evaluation by', target: 'FR_Evaluation by' }
+    - { source: 'KPI Info', target: 'FR_KPI Info' }
+    - { source: Group, target: FR_Group }
+    - { source: Rating, target: FR_Rating }
+    - { source: 'Performance Review Progress', target: 'FR_Performance Review Progress' }
+    - { source: 'Employee Reviewer', target: 'FR_Employee Reviewer' }
+    - { source: 'Key Performance Indicators for Job Title', target: 'FR_Key Performance Indicators for Job Title' }
+    - { source: 'Minimum Rating', target: 'FR_Minimum Rating' }
+    - { source: 'Maximum Rating', target: 'FR_Maximum Rating' }
+    - { source: 'Make Default Scale', target: 'FR_Make Default Scale' }
+    - { source: Inactive, target: FR_Inactive }
+    - { source: Activated, target: FR_Activated }
+    - { source: 'Employee cannot be a reviewer in another category', target: 'FR_Employee cannot be a reviewer in another category' }
+    - { source: 'Cannot add same person as a reviewer multiple times', target: 'FR_Cannot add same person as a reviewer multiple times' }
+    - { source: 'Cannot activate review without reviewers', target: 'FR_Cannot activate review without reviewers' }
+    - { source: 'End date should be after Start date', target: 'FR_End date should be after Start date' }
+    - { source: 'Cannot activate review without KPIs', target: 'FR_Cannot activate review without KPIs' }
+    - { source: 'Select either job title or department', target: 'FR_Select either job title or department' }
+    - { source: 'Type for hints...', target: 'FR_Type for hints...' }
+    - { source: 'Selected groups will  be deleted', target: 'FR_Selected groups will  be deleted' }
+    - { source: 'Should be a valid number', target: 'FR_Should be a valid number' }
+    - { source: 'Evaluation by Supervisors', target: 'FR_Evaluation by Supervisors' }
+    - { source: 'Should be greater than %number%', target: 'FR_Should be greater than %number%' }
+    - { source: 'Should be less than %number%', target: 'FR_Should be less than %number%' }
+    - { source: 'Rating should be less than or equal to %number%', target: 'FR_Rating should be less than or equal to %number%' }
+    - { source: 'Max rating should be greater than Min rating', target: 'FR_Max rating should be greater than Min rating' }
+    - { source: 'Overall Rating : ', target: 'FR_Overall Rating : ' }
+    - { source: 'Cannot activate review for employees who doesn''t have Job Title and/or Sub-Division', target: 'FR_Cannot activate review for employees who doesn''t have Job Title and/or Sub-Division' }
+    - { source: 'The review will be made read-only after completion.', target: 'FR_The review will be made read-only after completion.' }
+    - { source: 'This action cannot be undone.', target: 'FR_This action cannot be undone.' }
+    - { source: 'Are you sure you want to continue?', target: 'FR_Are you sure you want to continue?' }
+    - { source: 'Peer Evaluation Form', target: 'FR_Peer Evaluation Form' }
+    - { source: 'Rating should be less than or equal to ', target: 'FR_Rating should be less than or equal to ' }
+    - { source: 'Rating should be greater than or equal to ', target: 'FR_Rating should be greater than or equal to ' }
+    - { source: 'In Progress', target: 'FR_In Progress' }
+    - { source: 'OrangeHRM - Information', target: 'FR_OrangeHRM - Information' }
+    - { source: 'Employee Evaluation Form', target: 'FR_Employee Evaluation Form' }
+    - { source: Completed, target: FR_Completed }
+    - { source: 'Should be a positive value', target: 'FR_Should be a positive value' }
+    - { source: 'Subordinate Evaluation Form', target: 'FR_Subordinate Evaluation Form' }
+    - { source: 'Supervisor Evaluation Form', target: 'FR_Supervisor Evaluation Form' }
+    - { source: 'Evaluation by Supervisor', target: 'FR_Evaluation by Supervisor' }
+    - { source: 'Evaluation by Peer', target: 'FR_Evaluation by Peer' }
+    - { source: Peer, target: FR_Peer }
+    - { source: 'Evaluation by Subordinates', target: 'FR_Evaluation by Subordinates' }
+    - { source: 'Evaluation by Peers', target: 'FR_Evaluation by Peers' }
+    - { source: 'Supervisor Reviewer', target: 'FR_Supervisor Reviewer' }
+    - { source: 'General Comment : ', target: 'FR_General Comment : ' }
+    - { source: 'Final Comment', target: 'FR_Final Comment' }
+    - { source: Finalization, target: FR_Finalization }
+    - { source: 'Invalid Supervisor', target: 'FR_Invalid Supervisor' }
+    - { source: 'View Attendance Record', target: 'FR_View Attendance Record' }
+    - { source: 'Punch In', target: 'FR_Punch In' }
+    - { source: 'Punch In Note', target: 'FR_Punch In Note' }
+    - { source: 'Punch Out', target: 'FR_Punch Out' }
+    - { source: 'Punch Out Note', target: 'FR_Punch Out Note' }
+    - { source: 'No attendance records to display', target: 'FR_No attendance records to display' }
+    - { source: 'Punch out Time Should Be Higher Than Punch in Time', target: 'FR_Punch out Time Should Be Higher Than Punch in Time' }
+    - { source: 'Overlapping Records Found', target: 'FR_Overlapping Records Found' }
+    - { source: 'Comment should be less than 250 characters', target: 'FR_Comment should be less than 250 characters' }
+    - { source: 'Punch in/out note', target: 'FR_Punch in/out note' }
+    - { source: Timezone, target: FR_Timezone }
+    - { source: 'Last punch in time', target: 'FR_Last punch in time' }
+    - { source: In, target: FR_In }
+    - { source: Out, target: FR_Out }
+    - { source: 'Attendance Configuration', target: 'FR_Attendance Configuration' }
+    - { source: 'Employee can change current time when punching in/out', target: 'FR_Employee can change current time when punching in/out' }
+    - { source: 'Employee can edit/delete own attendance records', target: 'FR_Employee can edit/delete own attendance records' }
+    - { source: 'Supervisor can add/edit/delete attendance records of subordinates', target: 'FR_Supervisor can add/edit/delete attendance records of subordinates' }
+    - { source: 'My Attendance Records', target: 'FR_My Attendance Records' }
+    - { source: 'You are not allowed to view this page', target: 'FR_You are not allowed to view this page' }
+    - { source: 'Add Attendance Records', target: 'FR_Add Attendance Records' }
+    - { source: 'Should Be a Valid Date in %format% Format', target: 'FR_Should Be a Valid Date in %format% Format' }
+    - { source: 'Should Be a Valid Time in %format% Format', target: 'FR_Should Be a Valid Time in %format% Format' }
+    - { source: 'Social Media Authentication', target: 'FR_Social Media Authentication' }
+    - { source: 'Provider List', target: 'FR_Provider List' }
+    - { source: 'Provider Name', target: 'FR_Provider Name' }
+    - { source: Url, target: FR_Url }
+    - { source: OpenId, target: FR_OpenId }
+    - { source: Google, target: FR_Google }
+    - { source: 'Redirect Url', target: 'FR_Redirect Url' }
+    - { source: 'Client Id', target: 'FR_Client Id' }
+    - { source: 'Client Secret', target: 'FR_Client Secret' }
+    - { source: 'Developer Key', target: 'FR_Developer Key' }
+    - { source: 'Alternative Login', target: 'FR_Alternative Login' }
+    - { source: Login, target: FR_Login }
+    - { source: 'Add Provider', target: 'FR_Add Provider' }
+    - { source: 'Enable Directory module', target: 'FR_Enable Directory module' }
+    - { source: 'Please Add the Organization name', target: 'FR_Please Add the Organization name' }
+    - { source: 'Add Organization Name', target: 'FR_Add Organization Name' }
+    - { source: 'User Account Not found', target: 'FR_User Account Not found' }
+    - { source: 'API Documentation', target: 'FR_API Documentation' }
+    - { source: 'PHP Sample App', target: 'FR_PHP Sample App' }
+    - { source: 'Add OAuth Client', target: 'FR_Add OAuth Client' }
+    - { source: ID, target: FR_ID }
+    - { source: Secret, target: FR_Secret }
+    - { source: 'Redirect URI', target: 'FR_Redirect URI' }
+    - { source: 'Register OAuth Client', target: 'FR_Register OAuth Client' }
+    - { source: 'Given Client ID Is Already In The Database', target: 'FR_Given Client ID Is Already In The Database' }
+    - { source: 'OAuth Client Saved Successfully', target: 'FR_OAuth Client Saved Successfully' }
+    - { source: 'OAuth Client List', target: 'FR_OAuth Client List' }
+    - { source: 'The password is too weak.', target: 'FR_The password is too weak.' }
+    - { source: 'For a strong password, please use a hard to guess combination of text with upper and lower case characters, symbols and numbers', target: 'FR_For a strong password, please use a hard to guess combination of text with upper and lower case characters, symbols and numbers' }
+    - { source: 'Your password meets the minimum requirements, but it could be guessable. Try a different password.', target: 'FR_Your password meets the minimum requirements, but it could be guessable. Try a different password.' }
+    - { source: 'Your password must contain a lower-case letter, an upper-case letter, a digit and a special character. Try a different password.', target: 'FR_Your password must contain a lower-case letter, an upper-case letter, a digit and a special character. Try a different password.' }
+    - { source: 'Should not be more than 10000', target: 'FR_Should not be more than 10000' }
+    - { source: 'Employee does not exist', target: 'FR_Employee does not exist' }
+    - { source: 'Work Hours', target: 'FR_Work Hours' }
+    - { source: 'Leave Entitlements', target: 'FR_Leave Entitlements' }
+    - { source: Maintenance, target: FR_Maintenance }
+    - { source: 'Purge Employee Records', target: 'FR_Purge Employee Records' }
+    - { source: 'Purge Records', target: 'FR_Purge Records' }
+    - { source: 'Access Records', target: 'FR_Access Records' }
+    - { source: 'Verify Password', target: 'FR_Verify Password' }
+    - { source: Verify, target: FR_Verify }
+    - { source: 'Select Terminated Employee', target: 'FR_Select Terminated Employee' }
+    - { source: 'Purge Candidate Records', target: 'FR_Purge Candidate Records' }
+    - { source: 'Select Vacancy', target: 'FR_Select Vacancy' }
+    - { source: 'Download Personal Data', target: 'FR_Download Personal Data' }
+    - { source: 'Selected Employee', target: 'FR_Selected Employee' }
+    - { source: Purge, target: FR_Purge }
+    - { source: 'Purge Employee', target: 'FR_Purge Employee' }
+    - { source: 'You are about to purge the employee permanently. Are you sure you want to continue? This operation cannot be undone.', target: 'FR_You are about to purge the employee permanently. Are you sure you want to continue? This operation cannot be undone.' }
+    - { source: 'Download Employee Records?', target: 'FR_Download Employee Records?' }
+    - { source: 'Selected Candidates', target: 'FR_Selected Candidates' }
+    - { source: 'Date Of Applicant', target: 'FR_Date Of Applicant' }
+    - { source: 'You are about to purge selected candidates permanently. Are you sure you want to continue? This operation cannot be undone.', target: 'FR_You are about to purge selected candidates permanently. Are you sure you want to continue? This operation cannot be undone.' }
+    - { source: 'Access Data', target: 'FR_Access Data' }
+    - { source: 'Please enter your username to identify your account to reset your password.', target: 'FR_Please enter your username to identify your account to reset your password.' }
+    - { source: 'OrangeHRM Username', target: 'FR_OrangeHRM Username' }
+    - { source: 'Expected format: admin@example.com.', target: 'FR_Expected format: admin@example.com.' }
+    - { source: 'The username is invalid.', target: 'FR_The username is invalid.' }
+    - { source: 'Forgot Your Password?', target: 'FR_Forgot Your Password?' }
+    - { source: 'User account is not associated with an employee', target: 'FR_User account is not associated with an employee' }
+    - { source: 'Please contact HR admin in order to reset the password', target: 'FR_Please contact HR admin in order to reset the password' }
+    - { source: 'Work email is not set. Please contact HR admin in order to reset the password', target: 'FR_Work email is not set. Please contact HR admin in order to reset the password' }
+    - { source: 'Password reset email could not be sent', target: 'FR_Password reset email could not be sent' }
+    - { source: 'There is a password reset request already in the system.', target: 'FR_There is a password reset request already in the system.' }
+    - { source: 'Could not find a user with given details', target: 'FR_Could not find a user with given details' }
+    - { source: 'Reset Your Password?', target: 'FR_Reset Your Password?' }
+    - { source: 'If you are sure that this is your account, please click Reset Password. We will send you an email to reset password.', target: 'FR_If you are sure that this is your account, please click Reset Password. We will send you an email to reset password.' }
+    - { source: 'Username or email should be listed:', target: 'FR_Username or email should be listed:' }
+    - { source: 'Reset Password', target: 'FR_Reset Password' }
+    - { source: 'Enter A New Password', target: 'FR_Enter A New Password' }
+    - { source: 'Instruction Sent !', target: 'FR_Instruction Sent !' }
+    - { source: 'Instructions for resetting your password have been sent to ', target: 'FR_Instructions for resetting your password have been sent to ' }
+    - { source: 'Successfully reset your password', target: 'FR_Successfully reset your password' }
+    - { source: 'Go to Login Page', target: 'FR_Go to Login Page' }
+    - { source: 'This link is expired, Please request again', target: 'FR_This link is expired, Please request again' }
+    - { source: 'OrangeHRM - Prerequisites Verification', target: 'FR_OrangeHRM - Prerequisites Verification' }
+    - { source: 'Successfully Renewed license.', target: 'FR_Successfully Renewed license.' }
+    - { source: 'Renew Failed.', target: 'FR_Renew Failed.' }
+    - { source: 'Successfully Subscribed', target: 'FR_Successfully Subscribed' }
+    - { source: 'By subscribing you agree to receive periodic email updates from OrangeHRM.', target: 'FR_By subscribing you agree to receive periodic email updates from OrangeHRM.' }
+    - { source: 'User has authentication!', target: 'FR_User has authentication!' }
+    - { source: 'Invalid Credentials : You Have No OpenID Account in OrangeHRM Try Login with OrangeHRM Credentials', target: 'FR_Invalid Credentials : You Have No OpenID Account in OrangeHRM Try Login with OrangeHRM Credentials' }
+    - { source: 'Employee is terminated', target: 'FR_Employee is terminated' }
+    - { source: 'Employee not assigned', target: 'FR_Employee not assigned' }
+    - { source: 'Account disabled', target: 'FR_Account disabled' }
+    - { source: Marketplace, target: FR_Marketplace }
+    - { source: 'OrangeHRM Addons', target: 'FR_OrangeHRM Addons' }
+    - { source: Installed, target: FR_Installed }
+    - { source: Uninstall, target: FR_Uninstall }
+    - { source: Update, target: FR_Update }
+    - { source: Install, target: FR_Install }
+    - { source: 'Request Renew', target: 'FR_Request Renew' }
+    - { source: Renew, target: FR_Renew }
+    - { source: Requested, target: FR_Requested }
+    - { source: 'Renew Requested', target: 'FR_Renew Requested' }
+    - { source: Request, target: FR_Request }
+    - { source: 'Are you sure you want to install this application and it''s dependencies?', target: 'FR_Are you sure you want to install this application and it''s dependencies?' }
+    - { source: 'Request an add-on', target: 'FR_Request an add-on' }
+    - { source: 'You are requesting to buy this add-on.', target: 'FR_You are requesting to buy this add-on.' }
+    - { source: 'Please confirm your contact details. Your details will be forwarded to OrangeHRM sales representative.', target: 'FR_Please confirm your contact details. Your details will be forwarded to OrangeHRM sales representative.' }
+    - { source: 'Contact Number', target: 'FR_Contact Number' }
+    - { source: year, target: FR_year }
+    - { source: month, target: FR_month }
+    - { source: week, target: FR_week }
+    - { source: day, target: FR_day }
+    - { source: hour, target: FR_hour }
+    - { source: minute, target: FR_minute }
+    - { source: second, target: FR_second }
+    - { source: years, target: FR_years }
+    - { source: months, target: FR_months }
+    - { source: weeks, target: FR_weeks }
+    - { source: days, target: FR_days }
+    - { source: minutes, target: FR_minutes }
+    - { source: seconds, target: FR_seconds }
+    - { source: ago, target: FR_ago }
+    - { source: 'Just now', target: 'FR_Just now' }
+    - { source: 'Clear all notifications', target: 'FR_Clear all notifications' }
+    - { source: 'shared a post.', target: 'FR_shared a post.' }
+    - { source: 'commented on your post.', target: 'FR_commented on your post.' }
+    - { source: 'liked to a post you shared.', target: 'FR_liked to a post you shared.' }
+    - { source: 'liked to your comment.', target: 'FR_liked to your comment.' }
+    - { source: 'shared your post.', target: 'FR_shared your post.' }
+    - { source: 'No new notifications', target: 'FR_No new notifications' }
+    - { source: 'Failed to clear notifications', target: 'FR_Failed to clear notifications' }
+    - { source: 'Update Status', target: 'FR_Update Status' }
+    - { source: 'Upload Images', target: 'FR_Upload Images' }
+    - { source: 'Share Video', target: 'FR_Share Video' }
+    - { source: 'UPCOMING ANNIVERSARIES', target: 'FR_UPCOMING ANNIVERSARIES' }
+    - { source: 'No Upcoming Anniversaries For Next 30 Days', target: 'FR_No Upcoming Anniversaries For Next 30 Days' }
+    - { source: 'MOST LIKED POSTS', target: 'FR_MOST LIKED POSTS' }
+    - { source: 'MOST COMMENTED POSTS', target: 'FR_MOST COMMENTED POSTS' }
+    - { source: this, target: FR_this }
+    - { source: Post, target: FR_Post }
+    - { source: 'Add your comment', target: 'FR_Add your comment' }
+    - { source: 'People who likes this comment', target: 'FR_People who likes this comment' }
+    - { source: 'People who like this comment', target: 'FR_People who like this comment' }
+    - { source: 'People who like this post', target: 'FR_People who like this post' }
+    - { source: 'Only ''gif'', ''png'', ''jpg'', ''jpeg'' type images are allowed!', target: 'FR_Only ''gif'', ''png'', ''jpg'', ''jpeg'' type images are allowed!' }
+    - { source: 'Only five images are allowed in a single post!', target: 'FR_Only five images are allowed in a single post!' }
+    - { source: Sorry!, target: FR_Sorry! }
+    - { source: 'People who shared this post', target: 'FR_People who shared this post' }
+    - { source: 'Paste Video Url', target: 'FR_Paste Video Url' }
+    - { source: 'What''s on your mind?', target: 'FR_What''s on your mind?' }
+    - { source: 'Say something about these photos', target: 'FR_Say something about these photos' }
+    - { source: 'Do you really want to delete this?', target: 'FR_Do you really want to delete this?' }
+    - { source: 'Successfully Deleted!', target: 'FR_Successfully Deleted!' }
+    - { source: 'Successfully Saved!', target: 'FR_Successfully Saved!' }
+    - { source: 'Edit your comment', target: 'FR_Edit your comment' }
+    - { source: 'Edit your post', target: 'FR_Edit your post' }
+    - { source: 'Successfully Shared', target: 'FR_Successfully Shared' }
+    - { source: 'This url is not a valid url of a video or it is not supported by the system', target: 'FR_This url is not a valid url of a video or it is not supported by the system' }
+    - { source: Buzz, target: FR_Buzz }
+    - { source: Like, target: FR_Like }
+    - { source: Unlike, target: FR_Unlike }
+    - { source: Expand, target: FR_Expand }
+    - { source: 'What''s on your mind', target: 'FR_What''s on your mind' }
+    - { source: 'This share has been deleted or you do not have permission to perform this action', target: 'FR_This share has been deleted or you do not have permission to perform this action' }
+    - { source: OrangeBuzz, target: FR_OrangeBuzz }
+    - { source: Share, target: FR_Share }
+    - { source: Success, target: FR_Success }
+    - { source: 'Read More', target: 'FR_Read More' }
+    - { source: 'Save Video', target: 'FR_Save Video' }
+    - { source: 'Buzz is accessible for the user who is assigned with an employee.', target: 'FR_Buzz is accessible for the user who is assigned with an employee.' }
+    - { source: 'File write permission required to `symfony/web` directory.', target: 'FR_File write permission required to `symfony/web` directory.' }
+    - { source: 'Enable Mobile', target: 'FR_Enable Mobile' }
+    - { source: 'OrangeHRM Open Source Mobile App - How to Download the Application', target: 'FR_OrangeHRM Open Source Mobile App - How to Download the Application' }
+    - { source: 'OrangeHRM Open Source mobile application allows you to apply leave, assign leave and approve leave via a mobile device. This application is available for download on both iOS and Android platforms.', target: 'FR_OrangeHRM Open Source mobile application allows you to apply leave, assign leave and approve leave via a mobile device. This application is available for download on both iOS and Android platforms.' }
+    - { source: 'Step 01:', target: 'FR_Step 01:' }
+    - { source: 'Step 02:', target: 'FR_Step 02:' }
+    - { source: 'Step 03:', target: 'FR_Step 03:' }
+    - { source: 'Download and install the application from the App Store or Play Store.', target: 'FR_Download and install the application from the App Store or Play Store.' }
+    - { source: 'To install and get started.', target: 'FR_To install and get started.' }
+    - { source: 'The following links direct you to find the app in the Play Store / App Store.', target: 'FR_The following links direct you to find the app in the Play Store / App Store.' }
+    - { source: 'You may alternatively scan for the following QR code from your mobile phone camera to find and download the application.', target: 'FR_You may alternatively scan for the following QR code from your mobile phone camera to find and download the application.' }
+    - { source: 'Ensure the OrangeHRM username and password credentials are entered correctly, and click LOGIN. You will be granted access to the system after successful validation of your username and password credentials.', target: 'FR_Ensure the OrangeHRM username and password credentials are entered correctly, and click LOGIN. You will be granted access to the system after successful validation of your username and password credentials.' }
+    - { source: 'Once the installation is complete, open the application and follow the steps outlined below to access your OrangeHRM system.', target: 'FR_Once the installation is complete, open the application and follow the steps outlined below to access your OrangeHRM system.' }
+    - { source: 'OrangeHRM Open Source Mobile App - How to Configure URL and Login', target: 'FR_OrangeHRM Open Source Mobile App - How to Configure URL and Login' }
+    - { source: 'Upon opening the application, you will be required to configure the OrangeHRM instance that you wish to access via your mobile device.', target: 'FR_Upon opening the application, you will be required to configure the OrangeHRM instance that you wish to access via your mobile device.' }
+    - { source: 'Enter the OrangeHRM instance URL.', target: 'FR_Enter the OrangeHRM instance URL.' }
+    - { source: 'Your Instance URL is:', target: 'FR_Your Instance URL is:' }
+    - { source: 'OrangeHRM Opensource mobile app does not support your instance. Please contact your system administrator for more information.', target: 'FR_OrangeHRM Opensource mobile app does not support your instance. Please contact your system administrator for more information.' }
+    - { source: 'Click Continue', target: 'FR_Click Continue' }
+    - { source: 'Once the URL is entered successfully, it will redirect to a page where the login information is requested.', target: 'FR_Once the URL is entered successfully, it will redirect to a page where the login information is requested.' }
+    - { source: 'Directly below the login fields, the URL of the system you are connecting to will be displayed so that you can verify the URL specified is accurate. ', target: 'FR_Directly below the login fields, the URL of the system you are connecting to will be displayed so that you can verify the URL specified is accurate. ' }
+    - { source: 'Help & Support', target: 'FR_Help & Support' }
+    - { source: Directory, target: FR_Directory }
+    - { source: 'Search Listing', target: 'FR_Search Listing' }
+    - { source: 'Search Directory', target: 'FR_Search Directory' }
+    - { source: 'Craft Workers', target: 'FR_Craft Workers' }
+    - { source: 'Laborers and Helpers', target: 'FR_Laborers and Helpers' }
+    - { source: 'Office and Clerical Workers', target: 'FR_Office and Clerical Workers' }
+    - { source: 'Officials and Managers', target: 'FR_Officials and Managers' }
+    - { source: Operatives, target: FR_Operatives }
+    - { source: Professionals, target: FR_Professionals }
+    - { source: 'Sales Workers', target: 'FR_Sales Workers' }
+    - { source: 'Service Workers', target: 'FR_Service Workers' }
+    - { source: Technicians, target: FR_Technicians }
+    - { source: Sendmail, target: FR_Sendmail }
+    - { source: SMTP, target: FR_SMTP }
+    - { source: 'Mal Formatted URL', target: 'FR_Mal Formatted URL' }
+    - { source: 'Recommended dimensions: 200px X 200px', target: 'FR_Recommended dimensions: 200px X 200px' }
+    - { source: 'Enable Maintenance module', target: 'FR_Enable Maintenance module' }
+    - { source: 'No leave types defined', target: 'FR_No leave types defined' }
+    - { source: Required., target: FR_Required. }
+    - { source: 'Leave Pending Approval (Days)', target: 'FR_Leave Pending Approval (Days)' }
+    - { source: 'Existing Entitlement value %oldvalue% will be updated to %newvalue%', target: 'FR_Existing Entitlement value %oldvalue% will be updated to %newvalue%' }
+    - { source: 'Time (Hours)', target: 'FR_Time (Hours)' }
+    - { source: 'Consent to keep data', target: 'FR_Consent to keep data' }
+    - { source: 'Incorrect Password', target: 'FR_Incorrect Password' }
+    - { source: 'Users who seek access to their data, or who seek to correct, amend, or delete the given information should direct their requests to Data@orangehrm.com with the subject "Purge Records (Instance Identifier : %instanceid%)".', target: 'FR_Users who seek access to their data, or who seek to correct, amend, or delete the given information should direct their requests to Data@orangehrm.com with the subject "Purge Records (Instance Identifier : %instanceid%)".' }
+    - { source: 'Language Packages', target: 'FR_Language Packages' }
+    - { source: Translate, target: FR_Translate }
+    - { source: 'Add Language Package', target: 'FR_Add Language Package' }
+    - { source: 'Users will require translate texts manually after creating the language package.', target: 'FR_Users will require translate texts manually after creating the language package.' }
+    - { source: 'Translate Language Package', target: 'FR_Translate Language Package' }
+    - { source: 'Language Package', target: 'FR_Language Package' }
+    - { source: 'Source Language', target: 'FR_Source Language' }
+    - { source: Module, target: FR_Module }
+    - { source: 'Source Text', target: 'FR_Source Text' }
+    - { source: 'Translated Text', target: 'FR_Translated Text' }
+    - { source: Show, target: FR_Show }
+    - { source: Translated, target: FR_Translated }
+    - { source: 'Not Translated', target: 'FR_Not Translated' }
+    - { source: General, target: FR_General }
+    - { source: 'Source Note', target: 'FR_Source Note' }
+    - { source: Export, target: FR_Export }
+    - { source: 'Failed to Export', target: 'FR_Failed to Export' }
+    - { source: Support, target: FR_Support }
+    - { source: 'Getting Started with OrangeHRM', target: 'FR_Getting Started with OrangeHRM' }
+    - { source: 'Learning how to use a new application can be challenging. At OrangeHRM, we are committed to providing you with the necessary knowledge and skills required to fully utilize the application thereby allowing you to quickly and efficiently manage your HR processes.', target: 'FR_Learning how to use a new application can be challenging. At OrangeHRM, we are committed to providing you with the necessary knowledge and skills required to fully utilize the application thereby allowing you to quickly and efficiently manage your HR processes.' }
+    - { source: 'The following information repositories are available to help you understand the application:', target: 'FR_The following information repositories are available to help you understand the application:' }
+    - { source: 'Help Portal', target: 'FR_Help Portal' }
+    - { source: 'OrangeHRM Open Source Help portal contains helpful articles and tutorial videos allowing you to quickly master the application. Should you wish to know how to apply for leave or how to submit a timesheet? Simply search in our help portal and the relevant articles relating to your search will appear.', target: 'FR_OrangeHRM Open Source Help portal contains helpful articles and tutorial videos allowing you to quickly master the application. Should you wish to know how to apply for leave or how to submit a timesheet? Simply search in our help portal and the relevant articles relating to your search will appear.' }
+    - { source: 'Free Demo', target: 'FR_Free Demo' }
+    - { source: 'If you require direct help in navigating the system, you can schedule a demo free of charge and our team will personally get in touch with you to help  you understand how the application works.', target: 'FR_If you require direct help in navigating the system, you can schedule a demo free of charge and our team will personally get in touch with you to help  you understand how the application works.' }
+    - { source: 'Free Cloud Hosting', target: 'FR_Free Cloud Hosting' }
+    - { source: 'Additionally, OrangeHRM can host your Opensource system on our Cloud servers. If you are interested, you may subscribe to free cloud hosting of your instance to ensure that your employee information stays secure and is readily available at all times.', target: 'FR_Additionally, OrangeHRM can host your Opensource system on our Cloud servers. If you are interested, you may subscribe to free cloud hosting of your instance to ensure that your employee information stays secure and is readily available at all times.' }
+    - { source: 'Customer Support', target: 'FR_Customer Support' }
+    - { source: 'Should you experience any issues, please do not hesitate to contact us on', target: 'FR_Should you experience any issues, please do not hesitate to contact us on' }
+    - { source: 'We will be delighted to help', target: 'FR_We will be delighted to help' }
+    - { source: 'Mobile Application', target: 'FR_Mobile Application' }
+    - { source: 'We would also like to remind you to check out our mobile app which supports  Android and iOS and enables you to manage your HR needs quickly and securely via your mobile device.', target: 'FR_We would also like to remind you to check out our mobile app which supports  Android and iOS and enables you to manage your HR needs quickly and securely via your mobile device.' }
+    - { source: 'Subscribe For Free Hosting', target: 'FR_Subscribe For Free Hosting' }
+    - { source: 'System Url', target: 'FR_System Url' }
+    - { source: 'Company Name', target: 'FR_Company Name' }
+    - { source: 'No. of Employees', target: 'FR_No. of Employees' }
+    - { source: 'Contact Person Name', target: 'FR_Contact Person Name' }
