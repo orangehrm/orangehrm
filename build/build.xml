@@ -44,28 +44,20 @@
     <mkdir dir="${reports.dir}"/>
     <mkdir dir="${test.reports.dir}"/>
     <mkdir dir="${test.coverage.dir}"/>
-    <mkdir dir="${test.coverage.dir}/symfony"/>
+    <mkdir dir="${test.coverage.dir}/src"/>
     <mkdir dir="${test.coverage.dir}/lib"/>
     <mkdir dir="${apidocs.dir}"/>
     <touch file="release-revision-${git.revision}.txt"/>
   </target>
 
-  <target name="composer">
-    <exec command="composer install" dir="${project.dir}/symfony/lib" checkreturn="false"/>
-    <exec command="composer dump-autoload -o" dir="${project.dir}/symfony/lib" checkreturn="false"/>
-  </target>
-
   <target name="deps.5x">
-    <exec command="composer install" dir="${project.dir}/symfony/lib" checkreturn="false" passthru="true"/>
-    <exec command="composer dump-autoload -o" dir="${project.dir}/symfony/lib" checkreturn="false" passthru="true"/>
-
-    <exec command="composer install" dir="${project.dir}/symfony" checkreturn="false" passthru="true"/>
-    <exec command="composer dump-autoload -o" dir="${project.dir}/symfony" checkreturn="false" passthru="true"/>
-    <exec command="yarn install" dir="${project.dir}/symfony/client" checkreturn="false" passthru="true"/>
+    <exec command="composer install" dir="${project.dir}/src" checkreturn="false" passthru="true"/>
+    <exec command="composer dump-autoload -o" dir="${project.dir}/src" checkreturn="false" passthru="true"/>
+    <exec command="yarn install" dir="${project.dir}/src/client" checkreturn="false" passthru="true"/>
   </target>
 
   <target name="build.client">
-    <exec command="yarn build" dir="${project.dir}/symfony/client" checkreturn="false" passthru="true"/>
+    <exec command="yarn build" dir="${project.dir}/src/client" checkreturn="false" passthru="true"/>
   </target>
 
   <target name="build" depends="prepare,clean">
@@ -87,39 +79,39 @@
         <exclude name="lib/confs/Conf.php"/>
         <exclude name="lib/confs/cryptokeys/key.ohrm"/>
         <exclude name="orangehrm-quick-start-guide.html"/>
-        <exclude name="symfony/test/**"/>
+        <exclude name="src/test/**"/>
 
-        <exclude name="symfony/plugins/orangehrmAdminPlugin/lib/**"/>
-        <exclude name="symfony/plugins/orangehrmAuthenticationPlugin/lib/**"/>
-        <exclude name="symfony/plugins/orangehrmCoreOAuthPlugin/lib/**"/>
-        <exclude name="symfony/plugins/orangehrmCorePlugin/lib/**"/>
-        <exclude name="symfony/plugins/orangehrmPimPlugin/lib/**"/>
+        <exclude name="src/plugins/orangehrmAdminPlugin/lib/**"/>
+        <exclude name="src/plugins/orangehrmAuthenticationPlugin/lib/**"/>
+        <exclude name="src/plugins/orangehrmCoreOAuthPlugin/lib/**"/>
+        <exclude name="src/plugins/orangehrmCorePlugin/lib/**"/>
+        <exclude name="src/plugins/orangehrmPimPlugin/lib/**"/>
 
-        <exclude name="symfony/plugins/orangehrmAttendancePlugin/lib"/>
-        <exclude name="symfony/plugins/orangehrmBuzzPlugin/lib"/>
-        <exclude name="symfony/plugins/orangehrmCoreWebServicePlugin/**"/>
-        <exclude name="symfony/plugins/orangehrmCorporateBrandingPlugin/**"/>
-        <exclude name="symfony/plugins/orangehrmCorporateDirectoryPlugin/lib"/>
-        <exclude name="symfony/plugins/orangehrmDashboardPlugin/lib"/>
-        <exclude name="symfony/plugins/orangehrmMaintenancePlugin/lib"/>
-        <exclude name="symfony/plugins/orangehrmMarketPlacePlugin/lib"/>
-        <exclude name="symfony/plugins/orangehrmOpenidAuthenticationPlugin/**"/>
-        <exclude name="symfony/plugins/orangehrmPerformancePlugin/lib"/>
-        <exclude name="symfony/plugins/orangehrmPerformanceTrackerPlugin/**"/>
-        <exclude name="symfony/plugins/orangehrmRecruitmentPlugin/lib"/>
-        <exclude name="symfony/plugins/orangehrmRESTPlugin/**"/>
+        <exclude name="src/plugins/orangehrmAttendancePlugin/lib"/>
+        <exclude name="src/plugins/orangehrmBuzzPlugin/lib"/>
+        <exclude name="src/plugins/orangehrmCoreWebServicePlugin/**"/>
+        <exclude name="src/plugins/orangehrmCorporateBrandingPlugin/**"/>
+        <exclude name="src/plugins/orangehrmCorporateDirectoryPlugin/lib"/>
+        <exclude name="src/plugins/orangehrmDashboardPlugin/lib"/>
+        <exclude name="src/plugins/orangehrmMaintenancePlugin/lib"/>
+        <exclude name="src/plugins/orangehrmMarketPlacePlugin/lib"/>
+        <exclude name="src/plugins/orangehrmOpenidAuthenticationPlugin/**"/>
+        <exclude name="src/plugins/orangehrmPerformancePlugin/lib"/>
+        <exclude name="src/plugins/orangehrmPerformanceTrackerPlugin/**"/>
+        <exclude name="src/plugins/orangehrmRecruitmentPlugin/lib"/>
+        <exclude name="src/plugins/orangehrmRESTPlugin/**"/>
 
         <!-- 5.x related -->
-        <exclude name="symfony/client/node_modules/**"/>
-        <exclude name="symfony/client/.yarn/cache/**"/>
+        <exclude name="src/client/node_modules/**"/>
+        <exclude name="src/client/.yarn/cache/**"/>
       </fileset>
     </copy>
 
     <!-- done this way to avoid some quirks in phing behavior -->
-    <delete includeemptydirs="true" failonerror="false" dir="${package.dir}/symfony/log"/>
-    <delete includeemptydirs="true" failonerror="false" dir="${package.dir}/symfony/cache"/>
-    <mkdir dir="${package.dir}/symfony/cache"/>
-    <mkdir dir="${package.dir}/symfony/log"/>
+    <delete includeemptydirs="true" failonerror="false" dir="${package.dir}/src/log"/>
+    <delete includeemptydirs="true" failonerror="false" dir="${package.dir}/src/cache"/>
+    <mkdir dir="${package.dir}/src/cache"/>
+    <mkdir dir="${package.dir}/src/log"/>
 
     <delete includeemptydirs="true" failonerror="false" dir="${package.dir}/upgrader/log"/>
     <delete includeemptydirs="true" failonerror="false" dir="${package.dir}/upgrader/cache"/>
@@ -157,57 +149,6 @@
     </tar>
   </target>
 
-  <target name="dist.major">
-    <phingcall target="dist"/>
-    <phingcall target="dist.bin.win"/>
-  </target>
-
-  <target name="dist.bin.win">
-    <echo message="Preparing to build the Windows installer..."/>
-    <echo message="Copying XAMPP files..."/>
-    <copy todir="${dist.dir}/installer-tmp/SOURCE/xampp">
-      <fileset dir="${xampp.dir}">
-        <include name="**"/>
-      </fileset>
-    </copy>
-    <echo message="Copying the package..."/>
-    <copy todir="${dist.dir}/installer-tmp/SOURCE/${package.name}">
-      <fileset dir="${package.dir}">
-        <include name="**"/>
-      </fileset>
-    </copy>
-    <echo message="Copying altered XAMPP files..."/>
-    <copy todir="${dist.dir}/installer-tmp/">
-      <fileset dir="${project.dir}/devTools/installer">
-        <include name="**"/>
-      </fileset>
-    </copy>
-    <echo message="Creating the installer..."/>
-    <exec command="makensis ${dist.dir}/installer-tmp/SPEC/main.nsi" checkreturn="true"/>
-  </target>
-
-  <target name="symfony.clear.cache">
-    <exec command="php7.3 symfony cc" dir="${project.dir}/symfony"/>
-  </target>
-  <target name="symfony.publish.assets">
-    <exec command="php7.3 symfony orangehrm:publish-assets" dir="${project.dir}/symfony"/>
-  </target>
-
-  <target name="dist.win" depends="build">
-    <phingcall target="dist.bin.win"/>
-  </target>
-
-  <target name="dist.bin.linux">
-    <echo message="Preparing to build the rpm..."/>
-    <echo message="Copying spec file..."/>
-    <copy todir="${dist.dir}/rpm-tmp/">
-      <fileset dir="${project.dir}/devTools/rpm/">
-        <include name="**"/>
-      </fileset>
-    </copy>
-    <echo message="Creating the directories..."/>
-  </target>
-
   <fileset dir="./" id="deleteFiles">
     <include name="release-revision-*.txt"/>
   </fileset>
@@ -219,116 +160,5 @@
     <delete>
       <fileset refid="deleteFiles"/>
     </delete>
-  </target>
-
-  <!-- Target run by continuous integration server -->
-  <target name="build-ci" depends="clean, coverage-symfony">
-  </target>
-
-  <target name="test" depends="test-lib,test-symfony">
-  </target>
-
-  <!-- Unit Tests for old classes -->
-  <target name="test-lib" depends="prepare">
-    <exec command="phpunit ${project.dir}/lib/AllTests.php"
-          checkreturn="true" dir="${project.basedir}" passthru="true"/>
-    <phingcall target="fix-ids"/>
-  </target>
-
-  <!-- Unit Tests for symfony classes -->
-  <target name="test-symfony" depends="prepare">
-    <exec command="phpunit symfony/test/AllTests.php"
-          checkreturn="true" dir="${project.dir}" passthru="true"/>
-    <phingcall target="fix-ids"/>
-  </target>
-
-
-  <!-- Coverage task that uses phpunit's built in coverage feature -->
-  <target name="coverage" depends="coverage-lib, coverage-symfony">
-  </target>
-
-  <!-- Test coverage for old classes -->
-  <target name="coverage-lib" depends="prepare">
-    <exec command="phpunit --coverage-html ${test.coverage.dir}/lib ${project.dir}/lib/AllTests.php"
-          checkreturn="true" dir="${project.basedir}" passthru="true"/>
-    <phingcall target="fix-ids"/>
-  </target>
-
-  <!-- Test coverage for symfony classes -->
-  <target name="coverage-symfony" depends="prepare">
-    <exec command="phpunit --configuration ${project.basedir}/phpunit.xml --log-junit ${test.reports.dir}/junit.xml --coverage-clover ${test.coverage.dir}/symfony/clover.xml --coverage-html ${test.coverage.dir}/symfony symfony/test/AllTests.php"
-          checkreturn="true" dir="${project.dir}" passthru="true"/>
-    <phingcall target="fix-ids"/>
-  </target>
-
-  <!-- Copies the default language files to the en directory -->
-  <target name="en.lang">
-    <copy todir="${project.dir}/language/en" overwrite="true">
-      <mapper type="regexp" from="^(.*)_default_(.*)$" to="\1_en_\2"/>
-      <fileset dir="${project.dir}/language/default/">
-        <include name="*.php"/>
-      </fileset>
-    </copy>
-  </target>
-
-  <!-- Copies the en language files to the default directory -->
-  <target name="default.lang">
-    <copy todir="${project.dir}/language/default" overwrite="true">
-      <mapper type="regexp" from="^(.*)_en_(.*)$" to="\1_default_\2"/>
-      <fileset dir="${project.dir}/language/en/">
-        <include name="*.php"/>
-      </fileset>
-    </copy>
-  </target>
-
-  <target name="phpdoc" depends="prepare">
-    <exec command="phpdoc" checkreturn="true" dir="${project.basedir}" passthru="true"/>
-  </target>
-
-  <target name="phpdoc-old" depends="prepare">
-    <phpdoc2 title="OrangeHRM API Documentation" destdir="${apidocs.dir}"
-             template="responsive">
-      <fileset dir="${project.dir}/symfony/plugins/orangehrmPimPlugin/lib/service">
-        <include name="EmployeeService.php"/>
-        <include name="CustomFieldsService.php"/>
-        <include name="ReportingMethodService.php"/>
-        <include name="TerminationReasonService.php"/>
-      </fileset>
-      <fileset dir="${project.dir}/symfony/lib/model/doctrine/orangehrmPimPlugin">
-        <include name="Employee.class.php"/>
-      </fileset>
-      <fileset dir="${project.dir}/symfony/lib/model/doctrine/orangehrmPimPlugin/base">
-        <include name="BaseEmployee.class.php"/>
-      </fileset>
-      <fileset dir="${project.dir}/symfony/plugins/orangehrmPimPlugin/lib/model/doctrine">
-        <include name="PluginEmployee.class.php"/>
-      </fileset>
-    </phpdoc2>
-  </target>
-
-  <target name="lint" depends="prepare">
-    <phplint>
-      <fileset dir="${project.dir}/lib">
-        <include name="**/*.php"/>
-      </fileset>
-      <fileset dir="${project.dir}/templates">
-        <include name="**/*.php"/>
-      </fileset>
-    </phplint>
-  </target>
-
-
-  <target name="fix-ids" depends="prepare">
-    <exec command="php fix-ids.php" checkreturn="true" dir="${project.basedir}" passthru="true"/>
-  </target>
-
-  <target name="verify-constraints" depends="prepare">
-    <exec command="phpunit --filter testAllConstraintsSet ConstraintHandlerTest ${project.dir}/lib/AllTests.php"
-          checkreturn="true" dir="${project.basedir}" passthru="true"/>
-  </target>
-
-  <target name="reset-install">
-    <exec command="php devTools/general/reset-installation.php" passthru="true" dir="${project.dir}"
-    />
   </target>
 </project>

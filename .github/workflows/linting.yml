@@ -9,17 +9,17 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Install node dependencies
-        run: cd symfony/client && yarn install
+        run: cd src/client && yarn install
 
       - name: Lint client code
-        run: cd symfony/client && yarn lint
+        run: cd src/client && yarn lint
 
       - name: Lint Cypress tests
-        run: cd symfony/test/functional && yarn install && yarn lint
+        run: cd src/test/functional && yarn install && yarn lint
 
       - name: Install dependencies
         run: |
-          php7.4 -f /usr/bin/composer install -d symfony
+          php7.4 -f /usr/bin/composer install -d src
           php7.4 -f /usr/bin/composer install -d devTools/core
 
       - name: Check PHP Coding Standards

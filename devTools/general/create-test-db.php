@@ -20,7 +20,7 @@
 
 $rootPath = dirname(__FILE__) . "/../../";
 $confPath = $rootPath . "lib/confs/Conf.php";
-$pathToAutoload = realpath(__DIR__ . '/../../symfony/vendor/autoload.php');
+$pathToAutoload = realpath(__DIR__ . '/../../src/vendor/autoload.php');
 
 require_once $confPath;
 require_once $pathToAutoload;

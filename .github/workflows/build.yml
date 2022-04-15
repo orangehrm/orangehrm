@@ -12,7 +12,7 @@ jobs:
 
       - name: Validate composer.json and composer.lock
         run: |
-          cd symfony
+          cd src
           composer validate --strict
 
       - name: Parse Git short hash
@@ -20,7 +20,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          cd symfony
+          cd src
           php7.4 -f /usr/bin/composer install --no-dev
           php7.4 -f /usr/bin/composer dump-autoload --optimize --no-dev --classmap-authoritative
           cd client
@@ -35,7 +35,7 @@ jobs:
 
       - name: Run build
         run: |
-          cd symfony/client
+          cd src/client
           yarn build
           cd ../..
           cd build

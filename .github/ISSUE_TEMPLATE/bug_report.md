@@ -30,11 +30,11 @@ Please describe what you expected to happen.
 Provide error logs depending on the issue.
 
 If issue related to installation:
-- symfony/log/installer.log
+- src/log/installer.log
 - logInsatall.log
 
 If issue related to any other
-- symfony/log/orangehrm.log 
+- src/log/orangehrm.log 
 
 **Screenshots**
 If applicable, add screenshots to help explain your problem.

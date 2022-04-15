@@ -19,7 +19,7 @@
  */
 
 require_once ROOT_PATH.'/installer/utils/UniqueIDGenerator.php';
-require_once ROOT_PATH.'/symfony/plugins/orangehrmCorePlugin/Utility/PasswordHash.php';
+require_once ROOT_PATH.'/src/plugins/orangehrmCorePlugin/Utility/PasswordHash.php';
 require_once ROOT_PATH.'/installer/SystemConfiguration.php';
 require_once ROOT_PATH.'/installer/Messages.php';
 
@@ -32,7 +32,7 @@ class ApplicationSetupUtility {
      * @return string
      */
     public static function getErrorLogPath() {
-        return realpath(__DIR__ . '/../symfony/log') . DIRECTORY_SEPARATOR.  'installer.log';
+        return realpath(__DIR__ . '/../src/log') . DIRECTORY_SEPARATOR.  'installer.log';
     }
 
     public static function createDB() {
@@ -300,7 +300,7 @@ public static function writeLog() {
 
 	$Content .= "OrangeHRM Installation Log\n\n";
 
-	$filename = 'symfony/log/installer.log';
+	$filename = 'src/log/installer.log';
 	$handle = fopen($filename, 'w');
 	fwrite($handle, $Content);
 	fclose($handle);

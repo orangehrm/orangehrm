@@ -1,9 +1,9 @@
 # Depends on;
-# symfony/test/phpunit/fixtures/Country.yaml
-# symfony/test/phpunit/fixtures/Nationality.yaml
-# symfony/test/phpunit/fixtures/ReportGroup.yaml
-# symfony/test/phpunit/fixtures/FilterField.yaml
-# symfony/test/phpunit/fixtures/DisplayField.yaml
+# src/test/phpunit/fixtures/Country.yaml
+# src/test/phpunit/fixtures/Nationality.yaml
+# src/test/phpunit/fixtures/ReportGroup.yaml
+# src/test/phpunit/fixtures/FilterField.yaml
+# src/test/phpunit/fixtures/DisplayField.yaml
 
 Report:
   - { report_id: 5, name: 'PIM Sample Report', report_group_id: 3, use_filter_field: 1, type: 'PIM_DEFINED' }

@@ -18,7 +18,7 @@
  *
  */
 
-include_once(realpath(dirname(__FILE__)) . '/../symfony/plugins/orangehrmCorePlugin/Utility/PasswordHash.php');
+include_once(realpath(dirname(__FILE__)) . '/../src/plugins/orangehrmCorePlugin/Utility/PasswordHash.php');
 
 class SystemConfiguration
 {
