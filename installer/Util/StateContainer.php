@@ -30,6 +30,7 @@ class StateContainer
     public const DB_NAME = 'dbName';
     public const DB_HOST = 'dbHost';
     public const DB_PASSWORD = 'dbPass';
+    public const IS_SET_DB_INFO = 'isSetDbInfo';
 
     /**
      * @var null|self
@@ -123,6 +124,7 @@ class StateContainer
         $this->getSession()->set(self::DB_PASSWORD, $dbPassword);
         $this->getSession()->set(self::DB_HOST, $dbHost);
         $this->getSession()->set(self::DB_PORT, $dbPort);
+        $this->getSession()->set(self::IS_SET_DB_INFO, true);
     }
 
     /***
@@ -137,5 +139,26 @@ class StateContainer
             self::DB_HOST => $this->getSession()->get(self::DB_HOST),
             self::DB_PORT => $this->getSession()->get(self::DB_PORT),
         ];
+    }
+
+    /**
+     * Clear stored DB configs
+     */
+    public function clearDbInfo(): void
+    {
+        $this->getSession()->remove(self::DB_NAME);
+        $this->getSession()->remove(self::DB_USER);
+        $this->getSession()->remove(self::DB_PASSWORD);
+        $this->getSession()->remove(self::DB_HOST);
+        $this->getSession()->remove(self::DB_PORT);
+        $this->getSession()->set(self::IS_SET_DB_INFO, false);
+    }
+
+    /**
+     * @return bool
+     */
+    public function isSetDbInfo(): bool
+    {
+        return $this->getSession()->get(self::IS_SET_DB_INFO, false);
     }
 }
