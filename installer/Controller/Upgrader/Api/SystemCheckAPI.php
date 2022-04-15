@@ -70,15 +70,15 @@ class SystemCheckAPI extends AbstractInstallerRestController
                             'value' => $systemConfig->isWritableLibLogs()
                         ],
                         [
-                            'label' => 'Write Permissions for “symfony/configs”',
+                            'label' => 'Write Permissions for “src/config”',
                             'value' => $systemConfig->isWritableSymfonyConfig()
                         ],
                         [
-                            'label' => 'Write Permissions for “symfony/cache”',
+                            'label' => 'Write Permissions for “src/cache”',
                             'value' => $systemConfig->isWritableSymfonyCache()
                         ],
                         [
-                            'label' => 'Write Permissions for “symfony/log”',
+                            'label' => 'Write Permissions for “src/log”',
                             'value' => $systemConfig->isWritableSymfonyLog()
                         ],
                     ]
