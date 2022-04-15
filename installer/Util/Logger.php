@@ -19,39 +19,16 @@
 
 namespace OrangeHRM\Installer\Util;
 
-use Doctrine\DBAL\Connection as DBALConnection;
-use Doctrine\DBAL\DriverManager;
+use OrangeHRM\Framework\ServiceContainer;
+use OrangeHRM\Framework\Services;
 
-class Connection
+class Logger
 {
     /**
-     * @var DBALConnection|null
+     * @return \OrangeHRM\Framework\Logger\Logger
      */
-    private static ?DBALConnection $connection = null;
-
-    private function __construct()
+    public static function getLogger(): \OrangeHRM\Framework\Logger\Logger
     {
-        $dbInfo = StateContainer::getInstance()->getDbInfo();
-        $connectionParams = [
-            'dbname' => $dbInfo[StateContainer::DB_NAME],
-            'user' => $dbInfo[StateContainer::DB_USER],
-            'password' => $dbInfo[StateContainer::DB_PASSWORD],
-            'host' => $dbInfo[StateContainer::DB_HOST],
-            'port' => $dbInfo[StateContainer::DB_PORT],
-            'driver' => 'pdo_mysql',
-            'charset' => 'utf8mb4'
-        ];
-        self::$connection = DriverManager::getConnection($connectionParams);
-    }
-
-    /**
-     * @return DBALConnection
-     */
-    public static function getConnection(): DBALConnection
-    {
-        if (is_null(self::$connection)) {
-            new self();
-        }
-        return self::$connection;
+        return ServiceContainer::getContainer()->get(Services::LOGGER);
     }
 }

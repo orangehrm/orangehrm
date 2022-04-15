@@ -21,3 +21,23 @@ api_upgrader_database_config:
   path: /upgrader/api/database-config
   controller: OrangeHRM\Installer\Controller\Upgrader\Api\DatabaseConfigAPI::handle
   methods: [ POST ]
+
+api_upgrader_migration:
+  path: /upgrader/api/migration
+  controller: OrangeHRM\Installer\Controller\Upgrader\Api\MigrationAPI::handle
+  methods: [ GET, POST ]
+
+api_upgrader_write_config:
+  path: /upgrader/api/config-file
+  controller: OrangeHRM\Installer\Controller\Upgrader\Api\ConfigFileAPI::handle
+  methods: [ POST ]
+
+api_upgrader_versions:
+  path: /upgrader/api/versions
+  controller: OrangeHRM\Installer\Controller\Upgrader\Api\VersionAPI::handle
+  methods: [ GET ]
+
+api_upgrader_current_version:
+  path: /upgrader/api/current-version
+  controller: OrangeHRM\Installer\Controller\Upgrader\Api\CurrentVersionAPI::handle
+  methods: [ GET ]
