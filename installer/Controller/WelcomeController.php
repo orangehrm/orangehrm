@@ -19,9 +19,11 @@
 
 namespace OrangeHRM\Installer\Controller;
 
+use OrangeHRM\Config\Config;
+use OrangeHRM\Core\Helper\VueControllerHelper;
 use OrangeHRM\Core\Vue\Component;
+use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Installer\Controller\AbstractInstallerVueController;
 
 class WelcomeController extends AbstractInstallerVueController
 {
@@ -31,6 +33,10 @@ class WelcomeController extends AbstractInstallerVueController
     public function preRender(Request $request): void
     {
         $component = new Component('welcome-screen');
+        $component->addProp(
+            new Prop(VueControllerHelper::PRODUCT_VERSION, Prop::TYPE_STRING, Config::PRODUCT_VERSION)
+        );
         $this->setComponent($component);
     }
 }
+

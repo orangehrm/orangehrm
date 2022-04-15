@@ -31,7 +31,6 @@ import InputGroup from '@ohrm/oxd/core/components/InputField/InputGroup.vue';
 import TableFilter from '@ohrm/oxd/core/components/TableFilter/TableFilter.vue';
 import Grid from '@ohrm/oxd/core/components/Grid/Grid.vue';
 import GridItem from '@ohrm/oxd/core/components/Grid/GridItem.vue';
-
 import SubmitButton from '@ohrm/components/buttons/SubmitButton.vue';
 import TableHeader from '@ohrm/components/table/TableHeader.vue';
 import RequiredText from '@ohrm/components/labels/RequiredText.vue';

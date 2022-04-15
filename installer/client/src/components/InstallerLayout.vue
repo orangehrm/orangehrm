@@ -37,7 +37,7 @@
 
 <script>
 export default {
-  name: "InstallerLayout",
+  name: 'InstallerLayout',
   data() {
     return {
       brandingSrc: `${window.appGlobal.baseUrl}/../images/ohrm_branding.png`,
