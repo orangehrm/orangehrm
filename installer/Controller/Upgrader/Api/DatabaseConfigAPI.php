@@ -20,9 +20,13 @@
 namespace OrangeHRM\Installer\Controller\Upgrader\Api;
 
 use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Framework\Http\Session\Session;
+use OrangeHRM\Framework\ServiceContainer;
+use OrangeHRM\Framework\Services;
 use OrangeHRM\Installer\Controller\AbstractInstallerRestController;
 use OrangeHRM\Installer\Controller\Upgrader\Traits\UpgraderUtilityTrait;
 use OrangeHRM\Installer\Util\StateContainer;
+use OrangeHRM\Installer\Util\Constant;
 
 class DatabaseConfigAPI extends AbstractInstallerRestController
 {
@@ -41,7 +45,7 @@ class DatabaseConfigAPI extends AbstractInstallerRestController
 
         StateContainer::getInstance()->storeDbInfo($dbHost, $dbPort, $dbUser, $dbPassword, $dbName);
 
-        $connection = $this->checkDatabaseConnection($dbHost, $dbUser, $dbPassword, $dbName, $dbPort);
+        $connection = $this->checkDatabaseConnection();
         $response = $this->getResponse();
         if (!$connection) {
             $response->setStatusCode(400);
@@ -62,11 +66,34 @@ class DatabaseConfigAPI extends AbstractInstallerRestController
             ];
         } else {
             return [
-                'dbHost' => $dbHost,
-                'dbPort' => $dbPort,
-                'dbUser' => $dbUser,
-                'dbName' => $dbName,
+                'data' => [
+                    'dbHost' => $dbHost,
+                    'dbPort' => $dbPort,
+                    'dbUser' => $dbUser,
+                    'dbName' => $dbName,
+                ],
+                'meta' => []
             ];
         }
+    }
+
+    /**
+     * @inheritDoc
+     */
+    protected function handleGet(Request $request): array
+    {
+        /** @var Session $session */
+        $session = ServiceContainer::getContainer()->get(Services::SESSION);
+
+        return [
+            'data' => [
+                'dbHost' => $session->get(Constant::DB_HOST),
+                'dbPort' => $session->get(Constant::DB_PORT),
+                'dbName' => $session->get(Constant::DB_NAME),
+                'dbUser' => $session->get(Constant::DB_USER)
+            ],
+            'meta' => []
+
+        ];
     }
 }

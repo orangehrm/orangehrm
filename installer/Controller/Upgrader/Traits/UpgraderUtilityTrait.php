@@ -19,47 +19,34 @@
 
 namespace OrangeHRM\Installer\Controller\Upgrader\Traits;
 
-use mysqli;
+use Exception;
+use OrangeHRM\Installer\Util\Connection;
 
 trait UpgraderUtilityTrait
 {
-    private $dbConnection = null;
 
-    /***
-     * @param string $host
-     * @param string $username
-     * @param string $password
-     * @param string $dbname
-     * @param int|null $port
+    /**
      * @return bool
      */
-    public function checkDatabaseConnection(
-        string $host,
-        string $username,
-        string $password,
-        string $dbname,
-        ?int $port
-    ): bool {
-        $this->dbConnection = @new mysqli($host, $username, $password, $dbname, $port);
-        return !$this->dbConnection->connect_error;
+    public function checkDatabaseConnection(): bool
+    {
+        try {
+            $connection = Connection::getConnection();
+            $connection->connect();
+            return true;
+        } catch (Exception $exception) {
+            return false;
+        }
     }
 
     /**
      * @return bool
+     * @throws \Doctrine\DBAL\Exception
      */
     public function checkDatabaseStatus(): bool
     {
-        $query = "SHOW TABLES LIKE 'ohrm_upgrade_status'";
-        $result = $this->executeSql($query);
-        return $result->num_rows > 0;
-    }
-
-    /**
-     * @param string $query
-     * @return mixed
-     */
-    private function executeSql(string $query)
-    {
-        return $this->dbConnection->query($query);
+        $connection = Connection::getConnection();
+        $result = $connection->executeQuery("SHOW TABLES LIKE 'ohrm_upgrade_status'");
+        return $result->rowCount() > 0;
     }
 }
