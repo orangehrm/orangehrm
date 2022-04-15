@@ -40,9 +40,9 @@
     </div>
     <div class="orangehrm-upgrade-process-progress">
       <oxd-progress :progress="progress" type="success" />
-      <oxd-text class="orangehrm-upgrade-process-text"
-        >Please Wait installation in Progress</oxd-text
-      >
+      <oxd-text class="orangehrm-upgrade-process-text">
+        Please Wait installation in Progress
+      </oxd-text>
     </div>
   </div>
 </template>
@@ -117,6 +117,9 @@ export default {
   &-list {
     padding-top: 4rem;
   }
+  &-progress {
+    width: 70%;
+  }
   &-text {
     display: flex;
     justify-content: center;
@@ -136,7 +139,7 @@ export default {
     padding-top: 0;
     color: $oxd-primary-one-color;
   }
-  .orangehrm-upgrade-process-item {
+  &-item {
     display: flex;
     align-items: center;
     justify-content: space-between;

@@ -140,7 +140,7 @@ export default {
   ::v-deep(.oxd-checkbox-wrapper label) {
     font-weight: bold;
   }
-  ::v-deep(.oxd-checkbox-input){
+  ::v-deep(.oxd-checkbox-input) {
     @include oxd-respond-to('md') {
       width: 2rem;
     }
