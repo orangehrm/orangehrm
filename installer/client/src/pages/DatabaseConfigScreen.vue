@@ -47,17 +47,17 @@
       <oxd-grid :cols="3" class="orangehrm-full-width-grid">
         <oxd-grid-item>
           <oxd-input-field
-            v-model="database.hostName"
+            v-model="database.dbHost"
             label="Database Host Name"
-            :rules="rules.hostName"
+            :rules="rules.dbHost"
             required
           />
         </oxd-grid-item>
         <oxd-grid-item class="orangehrm-database-info-port-grid">
           <oxd-input-field
-            v-model="database.hostPort"
+            v-model="database.dbPort"
             label="Database Host Port"
-            :rules="rules.hostPort"
+            :rules="rules.dbPort"
           />
         </oxd-grid-item>
       </oxd-grid>
@@ -66,9 +66,9 @@
       <oxd-grid :cols="3" class="orangehrm-full-width-grid">
         <oxd-grid-item>
           <oxd-input-field
-            v-model="database.databaseName"
+            v-model="database.dbName"
             label="Database Name"
-            :rules="rules.databaseName"
+            :rules="rules.dbName"
             required
           />
         </oxd-grid-item>
@@ -78,15 +78,15 @@
       <oxd-grid :cols="3" class="orangehrm-full-width-grid">
         <oxd-grid-item>
           <oxd-input-field
-            v-model="database.userName"
+            v-model="database.dbUser"
             label="Database Username"
-            :rules="rules.userName"
+            :rules="rules.dbUser"
             required
           />
         </oxd-grid-item>
         <oxd-grid-item>
           <oxd-input-field
-            v-model="database.userPassword"
+            v-model="database.dbPassword"
             label="Database User Password"
             type="password"
           />
@@ -138,7 +138,7 @@ export default {
   },
   setup() {
     const http = new APIService(
-      'https://8fdc0dda-8987-4f6f-9014-cb8c49a3a717.mock.pstmn.io',
+      'https://884b404a-f4d0-4908-9eb5-ef0c8afec15c.mock.pstmn.io',
       '/upgrader/config',
     );
     return {
@@ -148,18 +148,18 @@ export default {
   data() {
     return {
       rules: {
-        hostName: [required],
-        hostPort: [required, validRange(5, 0, 65535)],
-        databaseName: [required],
-        userName: [required],
+        dbHost: [required],
+        dbPort: [required, validRange(5, 0, 65535)],
+        dbName: [required],
+        dbUser: [required],
       },
       isLoading: false,
       database: {
-        hostName: '',
-        hostPort: '',
-        databaseName: '',
-        userName: '',
-        userPassword: '',
+        dbHost: '',
+        dbPort: '',
+        dbName: '',
+        dbUser: '',
+        dbPassword: '',
       },
       errorMessage: '',
     };
@@ -174,10 +174,9 @@ export default {
   methods: {
     onSubmit() {
       this.errorMessage = '';
-      const {hostName, hostPort, databaseName, userName, userPassword} =
-        this.database;
+      const {dbHost, dbPort, dbName, dbUser, dbPassword} = this.database;
       this.http
-        .create({hostName, hostPort, databaseName, userName, userPassword})
+        .create({dbHost, dbPort, dbName, dbUser, dbPassword})
         .then(() => {
           navigate('/upgrader/system-check');
         })

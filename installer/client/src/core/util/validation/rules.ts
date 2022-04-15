@@ -52,8 +52,8 @@ export const shouldNotExceedCharLength = function (charLength: number) {
 
 export const validRange = function (
   charLength: number,
-  rangeFrom: number | null,
-  rangeTo: number | null,
+  rangeFrom: number,
+  rangeTo: number,
 ) {
   return function (value: string): boolean | string {
     return (
