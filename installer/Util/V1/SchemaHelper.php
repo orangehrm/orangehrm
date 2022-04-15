@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Installer\Util\V1;
 
+use Doctrine\DBAL\Driver\Connection;
 use Doctrine\DBAL\Schema\AbstractSchemaManager;
 use Doctrine\DBAL\Schema\Column;
 use Doctrine\DBAL\Schema\ColumnDiff;
@@ -26,10 +27,13 @@ use Doctrine\DBAL\Schema\ForeignKeyConstraint;
 use Doctrine\DBAL\Schema\TableDiff;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Types\Types;
+use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Installer\Util\V1\Dto\Table;
 
 class SchemaHelper
 {
+    use EntityManagerHelperTrait;
+
     private AbstractSchemaManager $schemaManager;
 
     /**
@@ -38,6 +42,14 @@ class SchemaHelper
     public function __construct(AbstractSchemaManager $schemaManager)
     {
         $this->schemaManager = $schemaManager;
+    }
+
+    /**
+     * @return Connection|null
+     */
+    private function getConnection(): ?Connection
+    {
+        return $this->getEntityManager()->getConnection()->getWrappedConnection();
     }
 
     /**
@@ -178,5 +190,38 @@ class SchemaHelper
     {
         $table = $this->getSchemaManager()->listTableDetails($tableName);
         $this->getSchemaManager()->dropIndex($table->getPrimaryKey(), $table);
+    }
+
+    /**
+     * @return Connection
+     */
+    private function _getDbConnection(): Connection
+    {
+        return $this->getEntityManager()->getConnection()->getWrappedConnection();
+    }
+
+    /**
+     * @return void
+     */
+    public function _disableConstraints(): void
+    {
+        $pdo = $this->_getDbConnection();
+        $pdo->exec('SET FOREIGN_KEY_CHECKS=0;');
+    }
+
+    /**
+     * @return void
+     */
+    public function _enableConstraints(): void
+    {
+        $pdo = $this->_getDbConnection();
+        $pdo->exec('SET FOREIGN_KEY_CHECKS=1;');
+    }
+
+    public function execSql(array $sql)
+    {
+        foreach ((array)$sql as $query) {
+            $this->getConnection()->exec($query);
+        }
     }
 }

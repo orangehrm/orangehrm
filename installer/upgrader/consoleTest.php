@@ -26,7 +26,7 @@ require_once realpath(__DIR__ . '/../../symfony/vendor/autoload.php');
 ServiceContainer::getContainer()->register(Services::DOCTRINE)
     ->setFactory([Doctrine::class, 'getEntityManager']);
 
-//
+
 //$migration = new \OrangeHRM\Installer\Migration\V4_0\Migration();
 //$migration->up();
 
