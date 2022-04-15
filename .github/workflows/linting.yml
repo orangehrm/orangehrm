@@ -14,6 +14,12 @@ jobs:
       - name: Lint client code
         run: cd src/client && yarn lint
 
+      - name: Lint installer client code
+        run: |
+          cd installer/client
+          yarn install
+          yarn lint
+
       - name: Lint Cypress tests
         run: cd src/test/functional && yarn install && yarn lint
 
@@ -24,6 +30,19 @@ jobs:
 
       - name: Check PHP Coding Standards
         run: php devTools/core/console.php php-cs-fix --php php7.4
+
+      - name: Check files changed
+        id: git-status
+        run: |
+          git status --porcelain
+          echo "::set-output name=status::$(git status --porcelain)"
+
+      - name: Fail if files changed
+        if: ${{ steps.git-status.outputs.status }}
+        uses: actions/github-script@v3
+        with:
+          script: |
+            core.setFailed('Files changed with lint fix')
 
       - name: Creating diff
         if: ${{ failure() }}

@@ -25,6 +25,8 @@ jobs:
           php7.4 -f /usr/bin/composer dump-autoload --optimize --no-dev --classmap-authoritative
           cd client
           yarn install
+          cd ../../installer/client
+          yarn install
 
       - name: Dump build file
         run: |
@@ -37,8 +39,9 @@ jobs:
         run: |
           cd src/client
           yarn build
-          cd ../..
-          cd build
+          cd ../../installer/client
+          yarn install
+          cd ../../build
           wget https://www.phing.info/get/phing-latest.phar
           php phing-latest.phar dist
 
