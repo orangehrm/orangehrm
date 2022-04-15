@@ -111,7 +111,7 @@ export default {
 
   beforeMount() {
     this.isLoading = true;
-    this.http.request({method: 'get'}).then((res) => {
+    this.http.getAll().then((res) => {
       this.isLoading = false;
       this.items = res.data;
     });
