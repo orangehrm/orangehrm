@@ -58,4 +58,30 @@ class ConfigHelper
             ->fetchOne();
         return $result === false ? $default : $result;
     }
+
+    /**
+     * @param string $name
+     * @param string|null $value
+     */
+    public function setConfigValue(string $name, ?string $value): void
+    {
+        $table = $this->getSchemaManager()->listTableDetails('hs_hr_config');
+        $keyFieldsColumnName = $table->hasColumn('name') ? 'name' : '`key`';
+
+        $value = $this->getConfigValue($name);
+        if (is_null($value)) {
+            $qb = $this->getConnection()->createQueryBuilder()
+                ->insert('hs_hr_config')
+                ->values(["$keyFieldsColumnName" => ':configName', 'value' => ':value']);
+        } else {
+            $qb = $this->getConnection()->createQueryBuilder()
+                ->update('hs_hr_config', 'config')
+                ->set('config.value', ':value')
+                ->andWhere("config.$keyFieldsColumnName = :configName");
+        }
+
+        $qb->setParameter('value', $value)
+            ->setParameter('configName', $name)
+            ->executeQuery();
+    }
 }

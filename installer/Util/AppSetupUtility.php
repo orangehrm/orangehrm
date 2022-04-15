@@ -19,10 +19,8 @@
 
 namespace OrangeHRM\Installer\Util;
 
+use Exception;
 use InvalidArgumentException;
-use OrangeHRM\Framework\Http\Session\Session;
-use OrangeHRM\Framework\ServiceContainer;
-use OrangeHRM\Framework\Services;
 use OrangeHRM\Installer\Migration\V4_3_3\Migration;
 use OrangeHRM\Installer\Util\V1\AbstractMigration;
 
@@ -47,9 +45,38 @@ class AppSetupUtility
         ],
     ];
 
-    public function createDB()
+    private ?ConfigHelper $configHelper = null;
+
+    /**
+     * @return ConfigHelper
+     */
+    protected function getConfigHelper(): ConfigHelper
     {
-        // TODO:: Develop with installer
+        if (!$this->configHelper instanceof ConfigHelper) {
+            $this->configHelper = new ConfigHelper();
+        }
+        return $this->configHelper;
+    }
+
+    /**
+     * @param string $dbName
+     */
+    public function createNewDatabase(string $dbName)
+    {
+        try {
+            Connection::getConnection()->createSchemaManager()->createDatabase($dbName);
+        } catch (Exception $e) {
+            Logger::getLogger()->error($e->getMessage());
+            Logger::getLogger()->error($e->getTraceAsString());
+        }
+    }
+
+    /**
+     * @return bool
+     */
+    public function isExistingDatabaseEmpty(): bool
+    {
+        return !(Connection::getConnection()->createSchemaManager()->listTables() > 0);
     }
 
     public function insertCsrfKey()
@@ -74,17 +101,16 @@ class AppSetupUtility
 
     public function writeConfFile(): void
     {
-        /** @var Session $session */
-        $session = ServiceContainer::getContainer()->get(Services::SESSION);
-        $dbHost = $session->get(StateContainer::DB_HOST);
-        $dbPort = $session->get(StateContainer::DB_PORT);
-        $dbUser = $session->get(StateContainer::DB_USER);
-        $dbPassword = $session->get(StateContainer::DB_PASSWORD);
-        $dbName = $session->get(StateContainer::DB_NAME);
-
         $template = file_get_contents(realpath(__DIR__ . '/../config/Conf.tpl.php'));
         $search = ['{{dbHost}}', '{{dbPort}}', '{{dbName}}', '{{dbUser}}', '{{dbPass}}'];
-        $replace = [$dbHost, $dbPort, $dbName, $dbUser, $dbPassword];
+        $dbInfo = StateContainer::getInstance()->getDbInfo();
+        $replace = [
+            $dbInfo[StateContainer::DB_HOST],
+            $dbInfo[StateContainer::DB_PORT],
+            $dbInfo[StateContainer::DB_NAME],
+            $dbInfo[StateContainer::DB_USER],
+            $dbInfo[StateContainer::DB_PASSWORD]
+        ];
 
         file_put_contents(
             realpath(__DIR__ . '/../../lib/confs') . DIRECTORY_SEPARATOR . 'Conf.php',
@@ -158,6 +184,7 @@ class AppSetupUtility
         $migration = new $migrationClass();
         if ($migration instanceof AbstractMigration) {
             $migration->up();
+            $this->getConfigHelper()->setConfigValue('instance.version', $migration->getVersion());
             return;
         }
         throw new InvalidArgumentException("Invalid migration class `$migrationClass`");
@@ -168,7 +195,6 @@ class AppSetupUtility
      */
     public function getCurrentProductVersionFromDatabase(): ?string
     {
-        $configHelper = new ConfigHelper();
-        return $configHelper->getConfigValue('instance.version');
+        return $this->getConfigHelper()->getConfigValue('instance.version');
     }
 }

@@ -87,12 +87,11 @@ class HttpKernel extends BaseHttpKernel
 
     protected function configureLogger(): void
     {
-        // TODO:: check logger file
-        $logger = new Logger('orangehrm');
+        $logger = new Logger('installer');
         $logger->pushHandler(
             new StreamHandler(
-                Config::get(Config::LOG_DIR) . DIRECTORY_SEPARATOR . 'orangehrm.log',
-                $this->isDebug() ? Logger::DEBUG : Logger::WARNING
+                Config::get(Config::LOG_DIR) . DIRECTORY_SEPARATOR . 'installer.log',
+                $this->isDebug() ? Logger::DEBUG : Logger::INFO
             )
         );
         ServiceContainer::getContainer()->set(Services::LOGGER, $logger);
