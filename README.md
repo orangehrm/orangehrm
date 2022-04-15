@@ -13,7 +13,7 @@ OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WAR
 ## Getting started
 
 - Install OrangeHRM using the web installer
-  https://github.com/orangehrm/orangehrm/wiki/Getting-started
+  https://github.com/orangehrm/orangehrm/wiki/Installation-Guide-(Web)
 
 - For further information on how to use the product please refer the Free User Guide available on http://orangehrm.com/
 
