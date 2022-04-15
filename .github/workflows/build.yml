@@ -12,7 +12,7 @@ jobs:
 
       - name: Validate composer.json and composer.lock
         run: |
-          cd symfony
+          cd src
           composer validate --strict
 
       - name: Parse Git short hash
@@ -20,10 +20,12 @@ jobs:
 
       - name: Install dependencies
         run: |
-          cd symfony
+          cd src
           php7.4 -f /usr/bin/composer install --no-dev
           php7.4 -f /usr/bin/composer dump-autoload --optimize --no-dev --classmap-authoritative
           cd client
+          yarn install
+          cd ../../installer/client
           yarn install
 
       - name: Dump build file
@@ -35,10 +37,11 @@ jobs:
 
       - name: Run build
         run: |
-          cd symfony/client
+          cd src/client
           yarn build
-          cd ../..
-          cd build
+          cd ../../installer/client
+          yarn build
+          cd ../../build
           wget https://www.phing.info/get/phing-latest.phar
           php phing-latest.phar dist
 

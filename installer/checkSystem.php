@@ -244,11 +244,11 @@ function sysCheckPassed() {
             </strong></td>
           </tr>
           <tr>
-            <td class="tdComponent">Write Permissions for "symfony/config"</td>
+            <td class="tdComponent">Write Permissions for "src/config"</td>
 
             <td align="right" class="tdValues"><strong>
             <?php
-               if(is_writable(ROOT_PATH . '/symfony/config')) {
+               if(is_writable(ROOT_PATH . '/src/config')) {
                   echo "<b><font color='green'>OK</font></b>";
 				} else {
                   echo "<b><font color='red'>Not Writeable</font>";
@@ -259,11 +259,11 @@ function sysCheckPassed() {
             </strong></td>
           </tr>
           <tr>
-            <td class="tdComponent">Write Permissions for "symfony/cache"</td>
+            <td class="tdComponent">Write Permissions for "src/cache"</td>
 
             <td align="right" class="tdValues"><strong>
             <?php
-               if(is_writable(ROOT_PATH . '/symfony/cache')) {
+               if(is_writable(ROOT_PATH . '/src/cache')) {
                   echo "<b><font color='green'>OK</font></b>";
 				} else {
                   echo "<b><font color='red'>Not Writeable</font>";
@@ -274,11 +274,11 @@ function sysCheckPassed() {
             </strong></td>
           </tr>
           <tr>
-            <td class="tdComponent">Write Permissions for "symfony/log"</td>
+            <td class="tdComponent">Write Permissions for "src/log"</td>
 
             <td align="right" class="tdValues"><strong>
             <?php
-               if(is_writable(ROOT_PATH . '/symfony/log')) {
+               if(is_writable(ROOT_PATH . '/src/log')) {
                   echo "<b><font color='green'>OK</font></b>";
 				} else {
                   echo "<b><font color='red'>Not Writeable</font>";

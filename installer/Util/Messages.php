@@ -39,14 +39,14 @@ class Messages
     public const WRITABLE_LIB_CONFS_OK_MESSAGE = "Write Permissions for lib/confs/ - Writeable";
     public const WRITABLE_LIB_CONFS_FAIL_MESSAGE = "Write Permissions for lib/confs/ - Not Writeable";
 
-    public const WritableSymfonyConfig_OK_MESSAGE = "Write Permissions for - symfony/config - Ok";
-    public const WritableSymfonyConfig_FAIL_MESSAGE = "Write Permissions for - symfony/config - not writeable";
+    public const WritableSymfonyConfig_OK_MESSAGE = "Write Permissions for - src/config - Ok";
+    public const WritableSymfonyConfig_FAIL_MESSAGE = "Write Permissions for - src/config - not writeable";
 
-    public const WritableSymfonyCache_OK_MESSAGE = "Write Permissions for symfony/cache - Writeable";
-    public const WritableSymfonyCache_FAIL_MESSAGE = "Write Permissions for symfony/cache - Not Writeable";
+    public const WritableSymfonyCache_OK_MESSAGE = "Write Permissions for src/cache - Writeable";
+    public const WritableSymfonyCache_FAIL_MESSAGE = "Write Permissions for src/cache - Not Writeable";
 
-    public const WritableSymfonyLog_OK_MESSAGE = "Write Permissions for symfony/log - Writeable";
-    public const WritableSymfonyLog_FAIL_MESSAGE = "Write Permissions for symfony/log - Not Writeable";
+    public const WritableSymfonyLog_OK_MESSAGE = "Write Permissions for src/log - Writeable";
+    public const WritableSymfonyLog_FAIL_MESSAGE = "Write Permissions for src/log - Not Writeable";
 
     public const MaximumSessionIdle_OK_MESSAGE = "Maximum Session Idle Time before Timeout - Good";
     public const MaximumSessionIdle_SHORT_MESSAGE = "Maximum Session Idle Time before Timeout - Short";

@@ -75,25 +75,25 @@ jobs:
         run: |
           cd html
           git rev-parse HEAD
-          cd symfony/client && yarn install
-          docker exec os_dev_php80 bash -c 'cd symfony && composer install'
+          cd src/client && yarn install
+          docker exec os_dev_php80 bash -c 'cd src && composer install'
 
       - name: Install OrangeHRM
         run: |
-          docker exec os_dev_php80 bash -c 'cd symfony/client && yarn build'
+          docker exec os_dev_php80 bash -c 'cd src/client && yarn build'
           docker exec os_dev_php80 bash -c 'sed -i 's/127.0.0.1/mysql55/g' installer/config.ini'
           docker exec os_dev_php80 bash -c 'sed -i 's/Ohrm@1423/Admin@123/g' installer/config.ini'
           docker exec os_dev_php80 bash -c 'sed -i 's/1234/root/g' installer/config.ini'
           docker exec os_dev_php80 bash -c 'sed -i 's/ABCD/Samantha/g' installer/config.ini'
           docker exec os_dev_php80 bash -c 'sed -i 's/XYZ/Jayasinghe/g' installer/config.ini'
-          docker exec os_dev_php80 bash -c 'chmod -R 777 symfony/log'
-          docker exec os_dev_php80 bash -c 'chmod -R 777 symfony/config'
+          docker exec os_dev_php80 bash -c 'chmod -R 777 src/log'
+          docker exec os_dev_php80 bash -c 'chmod -R 777 src/config'
           docker exec os_dev_php80 bash -c 'php installer/cli_install.php 0'
 
       - name: Run tests
         run: |
-          docker exec os_dev_php80 bash -c 'php symfony/test/functional/tools/prepare.php'
-          cd html/symfony/test/functional
+          docker exec os_dev_php80 bash -c 'php src/test/functional/tools/prepare.php'
+          cd html/src/test/functional
           sed -i 's~http://php80/orangehrm/web/index.php~http://php80/web/index.php~g' cypress.json
           sed -i 's~false~true~g' cypress.json
           sed -i 's~6000~10000~g' cypress.json
@@ -105,4 +105,4 @@ jobs:
         if: ${{ always() }}
         with:
           name: videos-${{ github.sha }}
-          path: html/symfony/test/functional/cypress/videos
+          path: html/src/test/functional/cypress/videos

@@ -195,7 +195,7 @@ function IsWritableLibConfs() {
            }
 //06-function
 function IsWritableSymfonyConfig(){
-               if(is_writable(ROOT_PATH . '/symfony/config')) {
+               if(is_writable(ROOT_PATH . '/src/config')) {
                   $this->getMessages()->displayMessage(Messages::WritableSymfonyConfig_OK_MESSAGE);
 				} else {
                   $this->getMessages()->displayMessage(Messages::WritableSymfonyConfig_FAIL_MESSAGE);
@@ -204,7 +204,7 @@ function IsWritableSymfonyConfig(){
          }
 //07-function
 function IsWritableSymfonyCache(){
-               if(is_writable(ROOT_PATH . '/symfony/cache')) {
+               if(is_writable(ROOT_PATH . '/src/cache')) {
 		  $this->getMessages()->displayMessage(Messages::WritableSymfonyCache_OK_MESSAGE);
 				} else {
 		  $this->getMessages()->displayMessage(Messages::WritableSymfonyCache_FAIL_MESSAGE);
@@ -213,7 +213,7 @@ function IsWritableSymfonyCache(){
            }
 //08-function
  function IsWritableSymfonyLog(){
-               if(is_writable(ROOT_PATH . '/symfony/log')) {
+               if(is_writable(ROOT_PATH . '/src/log')) {
 		  $this->getMessages()->displayMessage(Messages::WritableSymfonyLog_OK_MESSAGE);
 		  }
 	       else{
@@ -488,5 +488,3 @@ function dbConfigurationCheck()
         return $conn;
     }
 }
-
-

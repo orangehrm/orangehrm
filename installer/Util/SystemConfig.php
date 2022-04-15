@@ -278,12 +278,12 @@ class SystemConfig
     }
 
     /**
-     * Write Permissions for “symfony/configs” Check
+     * Write Permissions for “src/configs” Check
      * @return array
      */
     public function isWritableSymfonyConfig(): array
     {
-        if ($this->checkWritePermission(realpath(__DIR__ . '/../../symfony/config'))) {
+        if ($this->checkWritePermission(realpath(__DIR__ . '/../../src/config'))) {
             return [
                 'message' => Messages::WritableSymfonyConfig_OK_MESSAGE,
                 'status' => self::PASSED
@@ -298,7 +298,7 @@ class SystemConfig
     }
 
     /**
-     * Write Permissions for “symfony/cache” Check
+     * Write Permissions for “src/cache” Check
      * @return array
      */
     public function isWritableSymfonyCache(): array
@@ -318,7 +318,7 @@ class SystemConfig
     }
 
     /**
-     * Write Permissions for “symfony/log” Check
+     * Write Permissions for “src/log” Check
      * @return array
      */
     public function isWritableSymfonyLog(): array
