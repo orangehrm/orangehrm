@@ -140,6 +140,12 @@ export default {
   ::v-deep(.oxd-checkbox-wrapper label) {
     font-weight: bold;
   }
+  ::v-deep(.oxd-checkbox-input){
+    @include oxd-respond-to('md') {
+      width: 2rem;
+    }
+    width: 1.5rem;
+  }
   &-divider {
     border-top-color: $oxd-interface-gray-darken-1-color;
     margin: 1rem 0;

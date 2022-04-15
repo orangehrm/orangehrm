@@ -59,8 +59,8 @@ export default {
   },
   setup() {
     const http = new APIService(
-      'https://8fdc0dda-8987-4f6f-9014-cb8c49a3a717.mock.pstmn.io',
-      'upgrader/database-changes',
+      'https://884b404a-f4d0-4908-9eb5-ef0c8afec15c.mock.pstmn.io',
+      'upgrader/upgrade',
     );
     return {
       http,
@@ -94,7 +94,7 @@ export default {
   methods: {
     getConfigFiles() {
       this.isFileCreated = false;
-      this.http.get(2).then(() => {
+      this.http.get(1).then(() => {
         this.progress = 100;
         this.isFileCreated = true;
       });
