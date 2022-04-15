@@ -20,13 +20,10 @@
 namespace OrangeHRM\Installer\Controller\Upgrader\Api;
 
 use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Framework\Http\Session\Session;
-use OrangeHRM\Framework\ServiceContainer;
-use OrangeHRM\Framework\Services;
+use OrangeHRM\Framework\Http\Response;
 use OrangeHRM\Installer\Controller\AbstractInstallerRestController;
 use OrangeHRM\Installer\Controller\Upgrader\Traits\UpgraderUtilityTrait;
 use OrangeHRM\Installer\Util\StateContainer;
-use OrangeHRM\Installer\Util\Constant;
 
 class DatabaseConfigAPI extends AbstractInstallerRestController
 {
@@ -48,7 +45,7 @@ class DatabaseConfigAPI extends AbstractInstallerRestController
         $connection = $this->checkDatabaseConnection();
         $response = $this->getResponse();
         if (!$connection) {
-            $response->setStatusCode(400);
+            $response->setStatusCode(Response::HTTP_BAD_REQUEST);
             return
                 [
                     'error' => [
@@ -57,7 +54,7 @@ class DatabaseConfigAPI extends AbstractInstallerRestController
                     ]
                 ];
         } elseif ($this->checkDatabaseStatus()) {
-            $response->setStatusCode(400);
+            $response->setStatusCode(Response::HTTP_BAD_REQUEST);
             return [
                 'error' => [
                     'status' => $response->getStatusCode(),
@@ -82,15 +79,13 @@ class DatabaseConfigAPI extends AbstractInstallerRestController
      */
     protected function handleGet(Request $request): array
     {
-        /** @var Session $session */
-        $session = ServiceContainer::getContainer()->get(Services::SESSION);
-
+        $dbInfo = StateContainer::getInstance()->getDbInfo();
         return [
             'data' => [
-                'dbHost' => $session->get(Constant::DB_HOST),
-                'dbPort' => $session->get(Constant::DB_PORT),
-                'dbName' => $session->get(Constant::DB_NAME),
-                'dbUser' => $session->get(Constant::DB_USER)
+                'dbHost' => $dbInfo[StateContainer::DB_HOST],
+                'dbPort' => $dbInfo[StateContainer::DB_PORT],
+                'dbName' => $dbInfo[StateContainer::DB_NAME],
+                'dbUser' => $dbInfo[StateContainer::DB_USER],
             ],
             'meta' => []
 
