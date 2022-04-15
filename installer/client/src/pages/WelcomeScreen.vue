@@ -114,13 +114,14 @@ export default {
       this.showModal = !this.showModal;
     },
     closeModel(isAccept) {
-      this.toggleModal();
-      if (this.selected === 'upgrade' && isAccept) {
-        navigate('/installer/installerUI.php');
-        return;
-      }
-      if (isAccept) {
+      if (!isAccept) return this.toggleModal();
+      if (this.selected === 'upgrade') {
         navigate('/upgrader/database-config');
+      } else {
+        window.location.href = window.location.pathname.replace(
+          '/index.php/installer/welcome',
+          '/installerUI.php',
+        );
       }
     },
   },

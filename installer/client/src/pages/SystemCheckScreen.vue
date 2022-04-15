@@ -96,29 +96,13 @@ export default {
     },
   },
   beforeMount() {
-    this.isLoading = true;
-    this.http
-      .request({method: 'get'})
-      .then(({data}) => {
-        this.items = data.data;
-        this.isInterrupted = data.meta.isInterrupted;
-        this.isLoading = false;
-      })
-      .catch(() => {
-        this.isLoading = false;
-      });
+    this.fetchData();
   },
   methods: {
-    navigateUrl() {
-      navigate('/upgrader/database-config');
-    },
-    goToScreen() {
-      navigate('/upgrader/current-version');
-    },
-    reCheck() {
+    fetchData() {
       this.isLoading = true;
       this.http
-        .request({method: 'get'})
+        .getAll()
         .then(({data}) => {
           this.items = data.data;
           this.isInterrupted = data.meta.isInterrupted;
@@ -127,6 +111,15 @@ export default {
         .catch(() => {
           this.isLoading = false;
         });
+    },
+    navigateUrl() {
+      navigate('/upgrader/database-config');
+    },
+    goToScreen() {
+      navigate('/upgrader/current-version');
+    },
+    reCheck() {
+      this.fetchData();
     },
   },
 };

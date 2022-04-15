@@ -101,6 +101,7 @@
       to continue
     </oxd-text>
     <oxd-text
+      v-if="errorMessage"
       class="orangehrm-database-info-content --error orangehrm-upgrader-container-content"
     >
       {{ errorMessage }}
@@ -143,7 +144,7 @@ export default {
   setup() {
     const http = new APIService(
       'https://8fdc0dda-8987-4f6f-9014-cb8c49a3a717.mock.pstmn.io',
-      '/upgrader/getConfig',
+      '/upgrader/config',
     );
     return {
       http,
@@ -171,31 +172,23 @@ export default {
   },
   beforeMount() {
     this.isLoading = true;
-    this.http
-      .request({
-        method: 'get',
-      })
-      .then((res) => {
-        this.database = res.data;
-        this.isLoading = false;
-      })
-      .catch((err) => {
-        this.errorMessage = err.response.data.error;
-        this.isLoading = false;
-      });
+    this.http.getAll().then((res) => {
+      this.database = res.data;
+      this.isLoading = false;
+    });
   },
   methods: {
     onSubmit() {
-      this.http.apiSection = '/upgrader/databasesConfig';
+      this.errorMessage = '';
       const {hostName, hostPort, databaseName, userName, userPassword} =
         this.database;
       this.http
-        .request({
-          method: 'post',
-          data: {hostName, hostPort, databaseName, userName, userPassword},
-        })
+        .create({hostName, hostPort, databaseName, userName, userPassword})
         .then(() => {
           navigate('/upgrader/system-check');
+        })
+        .catch((err) => {
+          this.errorMessage = err.response.data.error;
         });
     },
     navigateUrl() {
