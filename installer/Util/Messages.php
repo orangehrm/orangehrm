@@ -21,8 +21,6 @@ namespace OrangeHRM\Installer\Util;
 
 class Messages
 {
-    public const DB_CONFIG_SUCCESS = "Basic configuration successful";
-    public const SUPER_USER_NEED = "Need super user credential. (sudo).";
     public const SEPERATOR = "----------------------------------";
 
     public const PHP_OK_MESSAGE = "PHP Version - Ok";
@@ -38,8 +36,8 @@ class Messages
 
     public const WEB_SERVER_OK_MESSAGE = "OK";
 
-    public const WritableLibConfs_OK_MESSAGE = "Write Permissions for lib/confs/ - Writeable";
-    public const WritableLibConfs_FAIL_MESSAGE = "Write Permissions for lib/confs/ - Not Writeable";
+    public const WRITABLE_LIB_CONFS_OK_MESSAGE = "Write Permissions for lib/confs/ - Writeable";
+    public const WRITABLE_LIB_CONFS_FAIL_MESSAGE = "Write Permissions for lib/confs/ - Not Writeable";
 
     public const WritableSymfonyConfig_OK_MESSAGE = "Write Permissions for - symfony/config - Ok";
     public const WritableSymfonyConfig_FAIL_MESSAGE = "Write Permissions for - symfony/config - not writeable";
@@ -60,24 +58,6 @@ class Messages
     public const GgExtensionEnable_OK_MESSAGE = "PHP gd extension - Enabled";
     public const GgExtensionEnable_FAIL_MESSAGE = "PHP gd extension - Not enabled";
 
-    public const PHPExifEnable_OK_MESSAGE = "PHP exif extension - Enabled";
-    public const PHPExifEnable_FAIL_MESSAGE = "PHP exif extension - Not enabled";
-
-    public const PHPAPCEnable_OK_MESSAGE = "PHP APC - Enabled";
-    public const PHPAPCEnable_FAIL_MESSAGE = "PHP APC - Not Available. This may affect system performance.";
-
-    public const ApacheExpiresModule_OK_MESSAGE = "Apache expired modules - Enabled";
-    public const ApacheExpiresModule_DISABLE_MESSAGE = "Apache expired modules - Disabled. This may affect system performance";
-    public const ApacheExpiresModule_UNABLE_MESSAGE = "Apache expired modules - Unable to determine";
-
-    public const ApacheHeadersModule_UNABLE_MESSAGE = "Apache mod_headers module - Unable to determine";
-    public const ApacheHeadersModule_ENABLE_MESSAGE = "Apache mod_headers module - Enabled";
-    public const ApacheHeadersModule_DISABLE_MESSAGE = "Apache mod_headers module - Disabled. This may affect system performance";
-
-    public const EnableRewriteMod_DISABLE_MESSAGE = "Apache mod_rewrite module - Disabled";
-    public const EnableRewriteMod_OK_MESSAGE = "Apache mod_rewrite module - Enabled";
-    public const EnableRewriteMod_UNABLE_MESSAGE = "Apache mod_rewrite module - Unable to determine";
-
     public const MySQLEventStatus_FAIL_MESSAGE = "MySQL Event Scheduler status - Cannot connect to the database";
     public const MySQLEventStatus_DISABLE_MESSAGE = "MySQL Event Scheduler status - Disabled. This is required for automatic leave status changes of Leave module";
     public const MySQLEventStatus_OK_MESSAGE = "MySQL Event Scheduler status - Enabled";
@@ -91,25 +71,7 @@ class Messages
     public const ZIP_Status_DISABLE_MESSAGE = "ZIP status - Disabled. SimpleXML, libxml and xml PHP libraries are required";
     public const ZIP_Status_OK_MESSAGE = "ZIP status - Enabled";
 
-    public const INTERUPT_MESSAGE = "Above error found. Please correct it to continue";
-    public const DB_WRONG_INFO = "Please check Database name, port , Privileged user name and password";
-
     public const PHP_MIN_VERSION = '5.3.0';
     public const MYSQL_MIN_VERSION = '4.1.0';
 
-    public const MYSQL_ERR_DEFAULT_MESSAGE = "Unable to connect to MySQL server. Please check MySQL server is running and given database information are correct.";
-    public const MYSQL_ERR_DB_NOT_EMPTY = "Database `%s` is not empty. Please use another empty database or cleanup the given database.";
-    public const MYSQL_ERR_DATABASE_EXIST = "Database `%s` already exists. Please use another database name.";
-    public const MYSQL_ERR_DB_NOT_EXIST = "Database `%s` not exists. Please check database name and try again.";
-    public const MYSQL_ERR_DB_USER_EXIST = "Database User `%s` already exists. Please use another username for 'OrangeHRM Database User'.";
-    public const MYSQL_ERR_DB_ACCESS_DENIED = "Access denied for user `%s` to database `%s`. Please give all privileges to the user for the particular database.";
-    public const MYSQL_ERR_ACCESS_DENIED = "Access denied for 'Privileged Database User'. Please check 'Privileged Database Username' and 'Privileged Database User Password' Correct.";
-    public const MYSQL_ERR_MESSAGE = "\n\nMySQL Error Code: %s\nMessage: %s";
-    public const MYSQL_ERR_CONN_ERROR = "The MySQL server isn't running on `%s:%s`. It seems like you are using an incorrect TCP/IP port number or incorrect Unix socket file name. Please check whether MySQL server configuration as well as firewall and port blocking services are enabled.";
-    public const MYSQL_ERR_CONN_HOST_ERROR = "Can't connect to MySQL server on `%s`. It seems like the network connection has been refused. Please check whether your MySQL server is running and has an active network connection. Also, check your specified port configured on the server.";
-    public const MYSQL_ERR_UNKNOWN_PROTOCOL = "Database connection is trying to go through a wrong protocol. Please use TCP/IP protocol.";
-    public const MYSQL_ERR_CLEANUP_CONN_FAILED = "Cleanup installation is failing due to database connection error.";
-    public const MYSQL_ERR_CANT_CREATE_DB = "Unable to create database.";
-    public const MYSQL_ERR_CANT_CONNECT_TO_DB = "Can't connect to `%s` database.";
-    public const MYSQL_ERR_EXTENSION_NOT_ENABLED = "Please enable %s in PHP modules to continue with the installation.";
 }

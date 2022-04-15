@@ -100,7 +100,7 @@ class SystemCheckAPI extends AbstractInstallerRestController
                         ],
                         [
                             'label' => 'Web Server allows .htacess files',
-                            'value' => []
+                            'value' => $systemConfig->getAllocatedMemoryStatus()
                         ],
                         [
                             'label' => 'cURL Status',

@@ -20,7 +20,9 @@
 namespace OrangeHRM\Installer\Util;
 
 use Exception;
+use OrangeHRM\Config\Config;
 use OrangeHRM\Installer\Controller\Upgrader\Traits\UpgraderUtilityTrait;
+use PDO;
 use Symfony\Component\Filesystem\Filesystem;
 
 class SystemConfig
@@ -128,8 +130,8 @@ class SystemConfig
     {
         if ($this->checkConnection()) {
             $connection = $this->getConnection();
-            $result = $connection->executeQuery("SELECT VERSION()")->fetchAssociative();
-            $mysqlServerVersion = $result['VERSION()'];
+            $result = $connection->executeQuery("SELECT VERSION() AS version")->fetchAssociative();
+            $mysqlServerVersion = $result['version'];
             if (version_compare($mysqlServerVersion, "5.1.6") >= 0) {
                 return [
                     'message' => Messages::MYSQL_SERVER_OK_MESSAGE . " ($mysqlServerVersion)",
@@ -244,13 +246,13 @@ class SystemConfig
     {
         if ($this->checkWritePermission(realpath(__DIR__ . '/../../lib/confs'))) {
             return [
-                'message' => Messages::WritableLibConfs_OK_MESSAGE,
+                'message' => Messages::WRITABLE_LIB_CONFS_OK_MESSAGE,
                 'status' => self::PASSED
             ];
         } else {
             $this->interruptContinue = true;
             return [
-                'message' => Messages::WritableLibConfs_FAIL_MESSAGE,
+                'message' => Messages::WRITABLE_LIB_CONFS_FAIL_MESSAGE,
                 'status' => self::BLOCKER
             ];
         }
@@ -264,13 +266,13 @@ class SystemConfig
     {
         if ($this->checkWritePermission(realpath(__DIR__ . '/../../lib/logs'))) {
             return [
-                'message' => Messages::WritableLibConfs_OK_MESSAGE,
+                'message' => Messages::WRITABLE_LIB_CONFS_OK_MESSAGE,
                 'status' => self::PASSED
             ];
         } else {
             $this->interruptContinue = true;
             return [
-                'message' => Messages::WritableLibConfs_FAIL_MESSAGE,
+                'message' => Messages::WRITABLE_LIB_CONFS_FAIL_MESSAGE,
                 'status' => self::BLOCKER
             ];
         }
@@ -302,7 +304,7 @@ class SystemConfig
      */
     public function isWritableSymfonyCache(): array
     {
-        if ($this->checkWritePermission(realpath(__DIR__ . '/../../symfony/cache'))) {
+        if ($this->checkWritePermission(Config::get(Config::CACHE_DIR))) {
             return [
                 'message' => Messages::WritableSymfonyCache_OK_MESSAGE,
                 'status' => self::PASSED
@@ -322,7 +324,7 @@ class SystemConfig
      */
     public function isWritableSymfonyLog(): array
     {
-        if ($this->checkWritePermission(realpath(__DIR__ . '/../../symfony/log'))) {
+        if ($this->checkWritePermission(Config::get(Config::LOG_DIR))) {
             return [
                 'message' => Messages::WritableSymfonyLog_OK_MESSAGE,
                 'status' => self::PASSED
