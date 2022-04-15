@@ -26,6 +26,7 @@ use OrangeHRM\Core\Api\V2\CollectionEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
+use OrangeHRM\Core\Api\V2\Exception\BadRequestException;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
@@ -33,10 +34,15 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Core\Exception\CSVUploadFailedException;
+use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
+use OrangeHRM\ORM\Exception\TransactionException;
 use OrangeHRM\Pim\Service\PimCsvDataImportService;
 
 class EmployeeCSVImportAPI extends Endpoint implements CollectionEndpoint
 {
+    use EntityManagerHelperTrait;
+
     public const PARAMETER_ATTACHMENT = 'attachment';
 
     public const PARAM_RULE_IMPORT_FILE_FORMAT = ["text/csv", 'text/comma-separated-values', "application/csv", "application/vnd.ms-excel"];
@@ -85,7 +91,19 @@ class EmployeeCSVImportAPI extends Endpoint implements CollectionEndpoint
             RequestParams::PARAM_TYPE_BODY,
             self::PARAMETER_ATTACHMENT
         );
-        $result = $this->getPimCsvDataImportService()->import($attachment->getContent());
+
+        $this->beginTransaction();
+        try {
+            $result = $this->getPimCsvDataImportService()->import($attachment->getContent());
+            $this->commitTransaction();
+        } catch (CSVUploadFailedException $e) {
+            $this->rollBackTransaction();
+            throw new BadRequestException($e->getMessage());
+        } catch (Exception $e) {
+            $this->rollBackTransaction();
+            throw new TransactionException($e);
+        }
+
         return new EndpointResourceResult(
             ArrayModel::class,
             [],

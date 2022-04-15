@@ -17,18 +17,22 @@
  * Boston, MA  02110-1301, USA
  */
 
-use OrangeHRM\Framework\ServiceContainer;
-use OrangeHRM\Framework\Services;
-use OrangeHRM\ORM\Doctrine;
-use OrangeHRM\Tools\Migrations\V5\TranslationTestTool;
+namespace OrangeHRM\Installer\Controller\Upgrader\Api;
 
-require_once realpath(__DIR__ . '/../../symfony/vendor/autoload.php');
+use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Installer\Controller\AbstractInstallerRestController;
+use OrangeHRM\Installer\Util\AppSetupUtility;
 
-ServiceContainer::getContainer()->register(Services::DOCTRINE)
-    ->setFactory([Doctrine::class, 'getEntityManager']);
-
-$translateTest = new TranslationTestTool();
-$modules = ['admin','general','pim','leave','time','attendance','maintenance','help','auth'];
-foreach ($modules as $module){
-    $translateTest->up($module);
+class CurrentVersionAPI extends AbstractInstallerRestController
+{
+    /**
+     * @inheritDoc
+     */
+    protected function handleGet(Request $request): array
+    {
+        $appSetupUtility = new AppSetupUtility();
+        return [
+            'version' => $appSetupUtility->getCurrentProductVersionFromDatabase(),
+        ];
+    }
 }

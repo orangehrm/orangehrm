@@ -17,18 +17,18 @@
  * Boston, MA  02110-1301, USA
  */
 
+namespace OrangeHRM\Installer\Util;
+
 use OrangeHRM\Framework\ServiceContainer;
 use OrangeHRM\Framework\Services;
-use OrangeHRM\ORM\Doctrine;
-use OrangeHRM\Tools\Migrations\V5\TranslationTestTool;
 
-require_once realpath(__DIR__ . '/../../symfony/vendor/autoload.php');
-
-ServiceContainer::getContainer()->register(Services::DOCTRINE)
-    ->setFactory([Doctrine::class, 'getEntityManager']);
-
-$translateTest = new TranslationTestTool();
-$modules = ['admin','general','pim','leave','time','attendance','maintenance','help','auth'];
-foreach ($modules as $module){
-    $translateTest->up($module);
+class Logger
+{
+    /**
+     * @return \OrangeHRM\Framework\Logger\Logger
+     */
+    public static function getLogger(): \OrangeHRM\Framework\Logger\Logger
+    {
+        return ServiceContainer::getContainer()->get(Services::LOGGER);
+    }
 }

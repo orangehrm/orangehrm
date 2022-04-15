@@ -24,6 +24,7 @@ use OrangeHRM\Core\Traits\ControllerTrait;
 use OrangeHRM\Framework\Http\RedirectResponse;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\Http\Response;
+use OrangeHRM\Installer\Util\Logger;
 
 abstract class AbstractInstallerController
 {
@@ -77,6 +78,7 @@ abstract class AbstractInstallerController
     public function handle(Request $request)
     {
         // TODO:: check system installed
+        Logger::getLogger()->info($request->getSchemeAndHttpHost() . $request->getBaseUrl() . $request->getPathInfo());
         return $this->execute($request);
     }
 

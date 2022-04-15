@@ -46,6 +46,7 @@
               :label="$t('general.replace_with')"
               :button-label="$t('general.browse')"
               :rules="rules.attachment"
+              :placeholder="$t('general.no_file_selected')"
             />
             <oxd-text class="orangehrm-input-hint" tag="p">
               {{ $t('general.accepts_up_to_1mb') }}

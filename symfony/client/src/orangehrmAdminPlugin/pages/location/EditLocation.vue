@@ -21,7 +21,9 @@
 <template>
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
-      <oxd-text class="orangehrm-main-title" tag="h6">{{ $t('admin.edit_location') }}</oxd-text>
+      <oxd-text class="orangehrm-main-title" tag="h6">
+        {{ $t('admin.edit_location') }}
+      </oxd-text>
 
       <oxd-divider />
 
