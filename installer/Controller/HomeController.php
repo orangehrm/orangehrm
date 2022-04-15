@@ -33,3 +33,4 @@ class HomeController extends AbstractInstallerController
         return $this->redirect('/installer/welcome');
     }
 }
+

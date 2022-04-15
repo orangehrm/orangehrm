@@ -39,3 +39,4 @@ class WelcomeController extends AbstractInstallerVueController
         $this->setComponent($component);
     }
 }
+
