@@ -25,6 +25,9 @@ use OrangeHRM\Installer\Util\AppSetupUtility;
 
 class CurrentVersionAPI extends AbstractInstallerRestController
 {
+    /**
+     * @inheritDoc
+     */
     protected function handleGet(Request $request): array
     {
         $appSetupUtility = new AppSetupUtility();

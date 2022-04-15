@@ -27,6 +27,9 @@ use OrangeHRM\ORM\Doctrine;
 
 class ConfigFileAPI extends AbstractInstallerRestController
 {
+    /**
+     * @inheritDoc
+     */
     protected function handlePost(Request $request): array
     {
         $appSetupUtility = new AppSetupUtility();

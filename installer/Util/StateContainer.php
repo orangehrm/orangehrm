@@ -30,6 +30,7 @@ class StateContainer
     public const DB_NAME = 'dbName';
     public const DB_HOST = 'dbHost';
     public const DB_PASSWORD = 'dbPass';
+
     /**
      * @var null|self
      */

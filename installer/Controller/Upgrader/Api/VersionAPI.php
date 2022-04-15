@@ -25,6 +25,9 @@ use OrangeHRM\Installer\Util\AppSetupUtility;
 
 class VersionAPI extends AbstractInstallerRestController
 {
+    /**
+     * @inheritDoc
+     */
     protected function handleGet(Request $request): array
     {
         $versions = array_keys(AppSetupUtility::MIGRATIONS_MAP);
