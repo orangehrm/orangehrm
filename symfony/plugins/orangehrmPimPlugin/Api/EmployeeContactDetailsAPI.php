@@ -59,9 +59,9 @@ class EmployeeContactDetailsAPI extends Endpoint implements CrudEndpoint
     public const PARAM_RULE_PROVINCE_MAX_LENGTH = 100;
     public const PARAM_RULE_ZIP_CODE_MAX_LENGTH = 20;
     public const PARAM_RULE_COUNTRY_MAX_LENGTH = 100;
-    public const PARAM_RULE_HOME_TELEPHONE_MAX_LENGTH = 50;
-    public const PARAM_RULE_WORK_TELEPHONE_MAX_LENGTH = 50;
-    public const PARAM_RULE_MOBILE_MAX_LENGTH = 50;
+    public const PARAM_RULE_HOME_TELEPHONE_MAX_LENGTH = 25;
+    public const PARAM_RULE_WORK_TELEPHONE_MAX_LENGTH = 25;
+    public const PARAM_RULE_MOBILE_MAX_LENGTH = 25;
     public const PARAM_RULE_WORK_EMAIL_MAX_LENGTH = 50;
     public const PARAM_RULE_OTHER_EMAIL_MAX_LENGTH = 50;
 

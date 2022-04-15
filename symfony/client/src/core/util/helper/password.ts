@@ -36,7 +36,9 @@ export function checkPassword(password: string): string | boolean {
       return translate('auth.your_password_should_not_contain_spaces');
     }
     if (pwdLevel.reduce((acc, curr) => acc + curr, 0) < 4) {
-      return translate('auth.must_contain_lower_case_upper_case_digit_character_message');
+      return translate(
+        'auth.must_contain_lower_case_upper_case_digit_character_message',
+      );
     } else {
       return true;
     }

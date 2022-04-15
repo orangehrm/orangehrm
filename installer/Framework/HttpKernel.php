@@ -27,6 +27,8 @@ use OrangeHRM\Framework\Event\EventDispatcher;
 use OrangeHRM\Framework\Http\ControllerResolver;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\Http\RequestStack;
+use OrangeHRM\Framework\Http\Session\NativeSessionStorage;
+use OrangeHRM\Framework\Http\Session\Session;
 use OrangeHRM\Framework\Logger\Logger;
 use OrangeHRM\Framework\Routing\RequestContext;
 use OrangeHRM\Framework\Routing\UrlMatcher;
@@ -34,6 +36,7 @@ use OrangeHRM\Framework\ServiceContainer;
 use OrangeHRM\Framework\Services;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Storage\Handler\NativeFileSessionHandler;
 use Symfony\Component\HttpKernel\Controller\ArgumentResolver;
 use Symfony\Component\HttpKernel\EventListener\RouterListener;
 use Symfony\Component\HttpKernel\HttpKernel as BaseHttpKernel;
@@ -84,12 +87,11 @@ class HttpKernel extends BaseHttpKernel
 
     protected function configureLogger(): void
     {
-        // TODO:: check logger file
-        $logger = new Logger('orangehrm');
+        $logger = new Logger('installer');
         $logger->pushHandler(
             new StreamHandler(
-                Config::get(Config::LOG_DIR) . DIRECTORY_SEPARATOR . 'orangehrm.log',
-                $this->isDebug() ? Logger::DEBUG : Logger::WARNING
+                Config::get(Config::LOG_DIR) . DIRECTORY_SEPARATOR . 'installer.log',
+                $this->isDebug() ? Logger::DEBUG : Logger::INFO
             )
         );
         ServiceContainer::getContainer()->set(Services::LOGGER, $logger);
@@ -155,6 +157,29 @@ class HttpKernel extends BaseHttpKernel
 
     /**
      * @param Request $request
+     * @return void
+     */
+    protected function configureSession(Request $request): void
+    {
+        $isSecure = $request->isSecure();
+        $path = $request->getBasePath();
+        $options = [
+            'name' => $isSecure ? 'orangehrm' : '_orangehrm',
+            'cookie_secure' => $isSecure,
+            'cookie_httponly' => true,
+            'cookie_path' => $path,
+            'cookie_samesite' => 'Strict',
+        ];
+        $sessionStorage = new NativeSessionStorage($options, new NativeFileSessionHandler());
+        $session = new Session($sessionStorage);
+        $session->start();
+
+        ServiceContainer::getContainer()->set(Services::SESSION_STORAGE, $sessionStorage);
+        ServiceContainer::getContainer()->set(Services::SESSION, $session);
+    }
+
+    /**
+     * @param Request $request
      * @param int $type
      * @param bool $catch
      * @return Response
@@ -165,6 +190,7 @@ class HttpKernel extends BaseHttpKernel
         bool $catch = true
     ): Response {
         $this->configureRouter($request);
+        $this->configureSession($request);
 
         return parent::handle($request, $type, $catch);
     }

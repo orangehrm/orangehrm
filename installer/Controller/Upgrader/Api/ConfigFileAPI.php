@@ -19,28 +19,23 @@
 
 namespace OrangeHRM\Installer\Controller\Upgrader\Api;
 
+use Doctrine\DBAL\Connection;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Installer\Controller\AbstractInstallerRestController;
+use OrangeHRM\Installer\Util\AppSetupUtility;
+use OrangeHRM\ORM\Doctrine;
 
-class DatabaseConfigApi extends AbstractInstallerRestController
+class ConfigFileAPI extends AbstractInstallerRestController
 {
     /**
      * @inheritDoc
      */
     protected function handlePost(Request $request): array
     {
-        $dbHost = $request->request->get('dbHost');
-        $dbPort = $request->request->get('dbPort');
-        $dbUser = $request->request->get('dbUser');
-        $dbPassword = $request->request->get('dbPassword');
-        $dbName = $request->request->get('dbName');
-
+        $appSetupUtility = new AppSetupUtility();
+        $appSetupUtility->writeConfFile();
         return [
-            'dbHost' => $dbHost,
-            'dbPort' => $dbPort,
-            'dbUser' => $dbUser,
-            'dbPassword' => $dbPassword,
-            'dbName' => $dbName,
+            'success' => Doctrine::getEntityManager()->getConnection() instanceof Connection,
         ];
     }
 }

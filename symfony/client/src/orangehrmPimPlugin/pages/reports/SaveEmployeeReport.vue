@@ -230,8 +230,16 @@ export default {
         includeEmployees: [required],
       },
       includeOpts: [
-        {id: 1, key: 'onlyCurrent', label: this.$t('general.current_employees_only')},
-        {id: 2, key: 'currentAndPast', label: this.$t('general.current_and_past_employees')},
+        {
+          id: 1,
+          key: 'onlyCurrent',
+          label: this.$t('general.current_employees_only'),
+        },
+        {
+          id: 2,
+          key: 'currentAndPast',
+          label: this.$t('general.current_and_past_employees'),
+        },
         {id: 3, key: 'onlyPast', label: this.$t('general.past_employees_only')},
       ],
     };

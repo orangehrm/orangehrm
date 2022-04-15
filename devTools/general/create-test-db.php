@@ -27,10 +27,11 @@ require_once $pathToAutoload;
 
 $c = new Conf();
 
-$testDb = 'test_' . $c->dbname;
-$dbUser = $c->dbuser;
-$dbHost = $c->dbhost;
-$dbPort = $c->dbport;
+$testDb = 'test_' . $c->getDbName();
+$dbUser = $c->getDbUser();
+$dbHost = $c->getDbHost();
+$dbPort = $c->getDbPort();
+$dbName = $c->getDbName();
 
 $tempFile = tempnam(sys_get_temp_dir(), 'ohrmtestdb');
 
@@ -47,7 +48,7 @@ $createdbStatement = "DROP DATABASE IF EXISTS `{$testDb}`; CREATE DATABASE `{$te
 
 file_put_contents($tempFile, $createdbStatement);
 
-$cmd = "mysqldump -h {$dbHost} --port={$dbPort} -u root -p{$mysqlRootPwd} --add-drop-table --routines --skip-triggers {$c->dbname} >> {$tempFile}";
+$cmd = "mysqldump -h {$dbHost} --port={$dbPort} -u root -p{$mysqlRootPwd} --add-drop-table --routines --skip-triggers {$dbName} >> {$tempFile}";
 
 $output = '';
 $returnStatus = '';

@@ -67,9 +67,14 @@ class Doctrine
         //TODO
         require_once $pathToConf;
         $conf = new Conf();
+        $dbUser = $conf->getDbUser();
+        $dbPass = $conf->getDbPass();
+        $dbHost = $conf->getDbHost();
+        $dbPort = $conf->getDbPort();
+        $dbName = $conf->getDbName();
         $conn = [
             'driver' => 'pdo_mysql',
-            'url' => "mysql://{$conf->dbuser}:{$conf->dbpass}@{$conf->dbhost}:{$conf->dbport}/{$conf->dbname}",
+            'url' => "mysql://$dbUser:$dbPass@$dbHost:$dbPort/$dbName",
             'charset' => 'utf8mb4'
         ];
 

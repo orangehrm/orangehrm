@@ -197,6 +197,14 @@ class Migration extends AbstractMigration
     }
 
     /**
+     * @inheritDoc
+     */
+    public function getVersion(): string
+    {
+        return '5.0';
+    }
+
+    /**
      * Enable all menu items under `Time` if timesheet start date defined, disable menu items if not
      */
     private function configureTimeMenuItemsIfTimesheetStartDateDefined(): void

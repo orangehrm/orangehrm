@@ -48,6 +48,7 @@ final class Rules
     public const TIMEZONE_NAME = OHRMRules\TimezoneName::class;
     public const EMAIL = OHRMRules\Email::class;
     public const PHONE = OHRMRules\Phone::class;
+    public const PASSWORD = OHRMRules\Password::class;
 
     public const ALNUM = RespectRules\Alnum::class;
     public const ALPHA = RespectRules\Alpha::class;

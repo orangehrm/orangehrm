@@ -1,0 +1,20 @@
+buzz_link:
+  description: 'buzz link permition'
+  allowed:
+    read: true
+    create: true
+    update: true
+    delete: false
+  permissions:
+    - { role: ESS, permission: { read: true, create: true, update: true, delete: false, self: false } }
+    - { role: Supervisor, permission: { read: true, create: true, update: true, delete: false, self: false } }
+
+buzz_link_admin:
+  description: 'buzz link permition for admin'
+  allowed:
+    read: true
+    create: true
+    update: true
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: false, self: false } }

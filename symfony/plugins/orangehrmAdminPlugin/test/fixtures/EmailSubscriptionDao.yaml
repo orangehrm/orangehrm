@@ -33,3 +33,5 @@ EmailNotification:
 EmailSubscriber:
   - { "id": 1, "notification_id": 1, "name": 'rajitha',"email": 'rajitha@ohrm.com' }
   - { "id": 2, "notification_id": 5, "name": 'chamara',"email": 'chamara@ohrm.com' }
+  - { "id": 3, "notification_id": 3, "name": 'devi',"email": 'devi@ohrm.com' }
+  - { "id": 4, "notification_id": 3, "name": 'sharuka',"email": 'sharuka@ohrm.com' }
