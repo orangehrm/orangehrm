@@ -21,7 +21,7 @@
       ></oxd-classic-table>
       <oxd-check-box
         v-model="selected"
-        option-label="I'm want to continue upgrading the orangeHRM system to version 5.0 and i'm aware that any data gathered in incompatible modules/add-ons will be inaccessible"
+        option-label="I want to continue upgrading the OrangeHRM system to version 5.0 and I am aware that by doing so, any data gathered in incompatible modules/add-ons will be inaccessible."
       ></oxd-check-box>
       <oxd-divider class="orangehrm-database-config-dialog-divider" />
       <oxd-form-actions class="orangehrm-database-config-dialog-action">
@@ -67,24 +67,24 @@ export default {
       ],
       items: [
         {
-          module: '-Recuriment Module',
+          module: '-Recruitment Module',
           addon: '-Corporate Branding',
           other: '-Dashboard',
         },
         {
           module: '-Performance Module',
           addon: '-LDAP',
-          other: '-MarketPlace',
+          other: '-Marketplace',
         },
         {
           module: '-Buzz',
           addon: '-Claim',
-          other: 'Custom Language packages',
+          other: 'Custom Language Packages',
         },
         {
           module: '-Directory',
           addon: '-toggl',
-          other: '',
+          other: '-Encrypted Data',
         },
       ],
     };

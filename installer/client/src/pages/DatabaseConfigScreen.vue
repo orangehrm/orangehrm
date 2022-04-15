@@ -37,9 +37,9 @@
       class="orangehrm-database-info-note orangehrm-upgrader-container-notice"
     >
       <oxd-text tag="p" class="orangehrm-current-version-content">
-        Make sure it's copy of the database of your current OrangeHRm
-        installation and not the original database.it's highly discouraged to
-        use the original database for upgrading since it won't be recoverable if
+        Make sure it's a copy of the database of your current OrangeHRM
+        installation and not the original database. It's highly discouraged to
+        use the original database for upgrading since it wont be recoverable if
         an error occurred during the upgrade.
       </oxd-text>
     </Notice>
