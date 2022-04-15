@@ -22,7 +22,6 @@ namespace OrangeHRM\Installer\Util;
 use Exception;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Installer\Controller\Upgrader\Traits\UpgraderUtilityTrait;
-use PDO;
 use Symfony\Component\Filesystem\Filesystem;
 
 class SystemConfig

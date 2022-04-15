@@ -73,5 +73,4 @@ class Messages
 
     public const PHP_MIN_VERSION = '5.3.0';
     public const MYSQL_MIN_VERSION = '4.1.0';
-
 }
