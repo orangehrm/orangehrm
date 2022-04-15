@@ -19,19 +19,19 @@
 
 namespace OrangeHRM\Installer\Controller\Upgrader\Traits;
 
+use Doctrine\DBAL\Schema\AbstractSchemaManager;
 use Exception;
 use OrangeHRM\Installer\Util\Connection;
 
 trait UpgraderUtilityTrait
 {
-
     /**
      * @return bool
      */
     public function checkDatabaseConnection(): bool
     {
         try {
-            $connection = Connection::getConnection();
+            $connection = $this->getConnection();
             $connection->connect();
             return true;
         } catch (Exception $exception) {
@@ -45,8 +45,24 @@ trait UpgraderUtilityTrait
      */
     public function checkDatabaseStatus(): bool
     {
-        $connection = Connection::getConnection();
-        $result = $connection->executeQuery("SHOW TABLES LIKE 'ohrm_upgrade_status'");
-        return $result->rowCount() > 0;
+        $connection = $this->getConnection();
+        return $connection->createSchemaManager()->tablesExist(['ohrm_upgrade_status']);
+    }
+
+    /**
+     * @return \Doctrine\DBAL\Connection
+     */
+    public function getConnection(): \Doctrine\DBAL\Connection
+    {
+        return Connection::getConnection();
+    }
+
+    /**
+     * @return AbstractSchemaManager
+     * @throws \Doctrine\DBAL\Exception
+     */
+    public function getSchemaManager(): AbstractSchemaManager
+    {
+        return $this->getConnection()->createSchemaManager();
     }
 }
