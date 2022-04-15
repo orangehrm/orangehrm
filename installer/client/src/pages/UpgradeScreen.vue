@@ -17,14 +17,23 @@
       <oxd-form-row>
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
           <oxd-grid-item class="orangehrm-upgrade-process-item">
-            <oxd-text tag="h6">Applying Database Changes</oxd-text>
-            <oxd-icon name="check-circle-fill"></oxd-icon>
+            <oxd-text :class="getDatabaseClass" tag="h6"
+              >Applying Database Changes</oxd-text
+            >
+            <oxd-icon
+              v-if="isDatabaseChanges"
+              name="check-circle-fill"
+            ></oxd-icon>
+            <oxd-icon v-else name="circle"></oxd-icon>
           </oxd-grid-item>
         </oxd-grid>
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
           <oxd-grid-item class="orangehrm-upgrade-process-item">
-            <oxd-text tag="h6">Creating Configuration files</oxd-text>
-            <oxd-icon name="circle"></oxd-icon>
+            <oxd-text tag="h6" :class="getConfigClass"
+              >Creating Configuration files</oxd-text
+            >
+            <oxd-icon v-if="isFileCreated" name="check-circle-fill"></oxd-icon>
+            <oxd-icon v-else name="circle"></oxd-icon>
           </oxd-grid-item>
         </oxd-grid>
       </oxd-form-row>
@@ -64,12 +73,40 @@ export default {
       isFileCreated: false,
     };
   },
+  computed: {
+    getDatabaseClass() {
+      if (this.isDatabaseChanges) {
+        return 'orangehrm-upgrade-process-text--bold';
+      }
+      return 'orangehrm-upgrade-process-text--normal';
+    },
+    getConfigClass() {
+      if (this.isFileCreated) {
+        return 'orangehrm-upgrade-process-text--bold';
+      }
+      return 'orangehrm-upgrade-process-text--normal';
+    },
+  },
   beforeMount() {
-    this.isDatabaseChanges = false;
-    this.http.request({method: 'get'}).then(() => {
-      this.progress = 49;
-      this.isDatabaseChanges = true;
-    });
+    this.getDatabaseChanges();
+  },
+
+  methods: {
+    getConfigFiles() {
+      this.isFileCreated = false;
+      this.http.get(2).then(() => {
+        this.progress = 100;
+        this.isFileCreated = true;
+      });
+    },
+    getDatabaseChanges() {
+      this.isDatabaseChanges = false;
+      this.http.get(1).then(() => {
+        this.progress = 49;
+        this.isDatabaseChanges = true;
+        this.getConfigFiles();
+      });
+    },
   },
 };
 </script>
@@ -84,6 +121,12 @@ export default {
     display: flex;
     justify-content: center;
     padding-top: 0.75rem;
+    &--bold {
+      font-weight: 700;
+    }
+    &--normal {
+      font-weight: 500;
+    }
   }
   &-progress {
     padding-top: 10rem;

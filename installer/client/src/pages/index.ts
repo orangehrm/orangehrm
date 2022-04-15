@@ -21,10 +21,12 @@ import DatabaseConfigScreen from '@/pages/DatabaseConfigScreen.vue';
 import SystemCheckScreen from '@/pages/SystemCheckScreen.vue';
 import CurrentVersionScreen from '@/pages/CurrentVersionScreen.vue';
 import UpgraderCompleteScreen from '@/pages/UpgraderCompleteScreen.vue';
+import UpgradeScreen from '@/pages/UpgradeScreen.vue';
 export default {
   'welcome-screen': WelcomeScreen,
   'database-config-screen': DatabaseConfigScreen,
   'system-check-screen': SystemCheckScreen,
   'current-version-screen': CurrentVersionScreen,
   'upgrader-complete-screen': UpgraderCompleteScreen,
+  'upgrade-process-screen': UpgradeScreen,
 };
