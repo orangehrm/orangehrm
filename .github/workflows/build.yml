@@ -40,7 +40,7 @@ jobs:
           cd src/client
           yarn build
           cd ../../installer/client
-          yarn install
+          yarn build
           cd ../../build
           wget https://www.phing.info/get/phing-latest.phar
           php phing-latest.phar dist
