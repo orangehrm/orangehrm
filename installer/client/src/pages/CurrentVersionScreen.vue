@@ -51,14 +51,6 @@
       </oxd-grid>
     </oxd-form-row>
 
-    <Notice title="Notice" class="orangehrm-upgrader-container-notice">
-      <oxd-text tag="p">
-        If you have enabled data encrypted in your current version, you need to
-        copy the file 'lib/confs/key.ohrm' from your current installation to
-        corresponding location in the new version
-      </oxd-text>
-    </Notice>
-
     <oxd-text
       tag="p"
       class="orangehrm-current-version-content orangehrm-upgrader-container-content"
@@ -77,16 +69,12 @@
 </template>
 
 <script>
-import Notice from '@/components/Notice.vue';
 import {APIService} from '@/core/util/services/api.service';
 import {required} from '@/core/util/validation/rules';
 import {navigate} from '@/core/util/helper/navigation.ts';
 
 export default {
   name: 'CurrentVersionScreen',
-  components: {
-    Notice,
-  },
   setup() {
     const http = new APIService(
       'https://8fdc0dda-8987-4f6f-9014-cb8c49a3a717.mock.pstmn.io',

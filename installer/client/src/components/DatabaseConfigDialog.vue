@@ -9,10 +9,9 @@
         tag="p"
         class="orangehrm-database-config-dialog-content orangehrm-database-config--title"
       >
-        It appears that you are currently using modules or add-on which are not
-        supported by OrangeHRM Starter version 5.0. you may continue to upgrade
-        your system to version 5.0, but please keep in mind that any data used
-        in these modules will be in accessible.
+        Following modules or add-on are not supported by OrangeHRM Starter
+        version 5.0. You may continue to upgrade your system to version 5.0, but
+        please note that any data used in these modules will be inaccessible.
       </oxd-text>
       <oxd-classic-table
         :headers="headers"

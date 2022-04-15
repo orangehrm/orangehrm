@@ -39,7 +39,7 @@
       <oxd-text tag="p" class="orangehrm-current-version-content">
         Make sure it's a copy of the database of your current OrangeHRM
         installation and not the original database. It's highly discouraged to
-        use the original database for upgrading since it wont be recoverable if
+        use the original database for upgrading since it won't be recoverable if
         an error occurred during the upgrade.
       </oxd-text>
     </Notice>
@@ -88,7 +88,6 @@
           <oxd-input-field
             v-model="database.userPassword"
             label="Database User Password"
-            :rules="rules.userPassword"
             type="password"
           />
         </oxd-grid-item>
@@ -128,11 +127,7 @@
 </template>
 
 <script>
-import {
-  digitsOnly,
-  required,
-  shouldNotExceedCharLength,
-} from '@/core/util/validation/rules';
+import {required, validRange} from '@/core/util/validation/rules';
 import {APIService} from '@/core/util/services/api.service';
 import {navigate} from '@/core/util/helper/navigation.ts';
 import Notice from '@/components/Notice.vue';
@@ -153,11 +148,10 @@ export default {
   data() {
     return {
       rules: {
-        hostName: [required, shouldNotExceedCharLength(100)],
-        hostPort: [required, digitsOnly],
+        hostName: [required],
+        hostPort: [required, validRange(5, 0, 65535)],
         databaseName: [required],
         userName: [required],
-        userPassword: [required, shouldNotExceedCharLength(64)],
       },
       isLoading: false,
       database: {
@@ -210,8 +204,6 @@ export default {
   &-content {
     &.--error {
       color: $oxd-feedback-danger-color;
-      background-color: $oxd-alert-bg-color-error;
-      border-radius: $oxd-border-radius;
       padding: 1rem;
     }
   }

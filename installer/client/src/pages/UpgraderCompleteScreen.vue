@@ -10,8 +10,7 @@
       class="orangehrm-upgrader-complete-content orangehrm-upgrader-container-content"
     >
       You have sucessfully upgraded to OrangeHRM Starter version 5.0. Make sure
-      you go through following steps before you go through following steps
-      before start using the system.
+      you go through the following steps before start using the system.
     </oxd-text>
 
     <div class="orangehrm-upgrader-complete-row">
@@ -22,9 +21,9 @@
           <b>Upgrading/log/notes.log</b> in your OrangeHRM root folder.
         </li>
         <li>
-          After going through the manual steps mentioned in the notes if there
-          are any, do a full round of data verification to see whether data from
-          previous version has been imported properly.
+          After going through the manual steps mentioned in the notes (if there
+          are any), do a full round of data verification to see whether data
+          from previous version has been imported properly.
         </li>
       </ul>
     </div>

@@ -50,6 +50,22 @@ export const shouldNotExceedCharLength = function (charLength: number) {
   };
 };
 
+export const validRange = function (
+  charLength: number,
+  rangeFrom: number | null,
+  rangeTo: number | null,
+) {
+  return function (value: string): boolean | string {
+    return (
+      !value ||
+      (/^\d+$/.test(value) &&
+        !Number.isNaN(parseFloat(value)) &&
+        new String(value).length <= charLength) ||
+      `Enter a valid port number:${rangeFrom}-${rangeTo}`
+    );
+  };
+};
+
 export const digitsOnly = function (value: string): boolean | string {
   return (
     value == '' ||

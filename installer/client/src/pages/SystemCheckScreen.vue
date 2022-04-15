@@ -28,9 +28,9 @@
       </oxd-text>
       <oxd-text
         class="orangehrm-system-check-content orangehrm-upgrader-container-content"
-        >In order for your orangeHRM installation to function properly,please
-        ensure that all the system check items listed below are green.if any are
-        red please take the necessary steps to fix them.</oxd-text
+        >In order for your OrangeHRM installation to function properly, please
+        ensure that all of the system check items listed below are green. If any
+        are red, please take the necessary steps to fix them.</oxd-text
       >
       <div v-if="items">
         <flex-table
