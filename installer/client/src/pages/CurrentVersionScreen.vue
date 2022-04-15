@@ -29,10 +29,10 @@
     <oxd-text
       class="orangehrm-current-version-content orangehrm-upgrader-container-content"
     >
-      Select your current OrangeHRM version here.You can't find the version at
-      the bottom of OrangeHRM login page.OrangeHRM upgrader only supports
-      versions listed in the dropdown selecting a different version would lead
-      to an upgrader failure and a database corruption.
+      Select your current OrangeHRM version here. You can find the version at
+      the bottom of the OrangeHRM login page. OrangeHRM Upgrader only supports
+      versions listed in the dropdown. Selecting a different version would lead
+      to an upgrade failure and a database corruption.
     </oxd-text>
 
     <oxd-form-row class="orangehrm-current-version-row">
