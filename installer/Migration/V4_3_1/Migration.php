@@ -17,8 +17,9 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Installer\Migration\V4_7_0;
+namespace OrangeHRM\Installer\Migration\V4_3_1;
 
+use Doctrine\DBAL\Types\Types;
 use OrangeHRM\Installer\Util\V1\AbstractMigration;
 
 class Migration extends AbstractMigration
@@ -28,7 +29,16 @@ class Migration extends AbstractMigration
      */
     public function up(): void
     {
-        // no db chnages for this version
+        if ($this->getSchemaManager()->tablesExist('ohrm_reset_password')) {
+            $this->getSchemaManager()->dropTable('ohrm_reset_password');
+        }
+        $this->getSchemaHelper()->createTable('ohrm_reset_password')
+            ->addColumn('id', Types::BIGINT, ['Unsigned' => true, 'Autoincrement' => true])
+            ->addColumn('reset_email', Types::STRING, ['Length' => 60, 'Notnull' => true])
+            ->addColumn('reset_request_date', Types::DATETIMETZ_MUTABLE, ['Notnull' => true])
+            ->addColumn('reset_code', Types::STRING, ['Length' => 200, 'Notnull' => true])
+            ->setPrimaryKey(['id'])
+            ->create();
     }
 
     /**
@@ -36,6 +46,6 @@ class Migration extends AbstractMigration
      */
     public function getVersion(): string
     {
-        return '4.7';
+        return '4.3.1';
     }
 }

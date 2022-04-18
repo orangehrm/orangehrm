@@ -73,7 +73,7 @@ class Migration extends AbstractMigration
                     Types::TEXT,
                     ['Notnull' => true, 'CustomSchemaOptions' => ['collation' => 'utf8mb4_bin']]
                 )
-                ->addColumn('note', Types::TEXT)
+                ->addColumn('note', Types::TEXT, ['Notnull' => false])
                 ->addColumn('version', Types::STRING, ['Length' => 20, 'Default' => null, 'Notnull' => false])
                 ->setPrimaryKey(['id'])
                 ->create();
@@ -165,7 +165,6 @@ class Migration extends AbstractMigration
      */
     private function readlanguageYaml(string $filepath): array
     {
-        $apiPermissions = [];
         $yaml = Yaml::parseFile($filepath);
         $array = array_shift($yaml);
         return $array;

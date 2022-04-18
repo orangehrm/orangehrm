@@ -21,13 +21,22 @@ namespace OrangeHRM\Installer\Util;
 
 use Exception;
 use InvalidArgumentException;
-use OrangeHRM\Installer\Migration\V4_3_3\Migration;
+use OrangeHRM\Installer\Migration\V4_0\Migration;
 use OrangeHRM\Installer\Util\V1\AbstractMigration;
 
 class AppSetupUtility
 {
     public const MIGRATIONS_MAP = [
-        '4.3.3' => Migration::class, // From previous version to `4.3.3`
+        '4.0' => Migration::class, // From previous version to `4.0`
+        '4.1' => \OrangeHRM\Installer\Migration\V4_1\Migration::class,
+        '4.1.1' => \OrangeHRM\Installer\Migration\V4_1_1\Migration::class,
+        '4.1.2' => \OrangeHRM\Installer\Migration\V4_1_2\Migration::class,
+        '4.2' => \OrangeHRM\Installer\Migration\V4_2\Migration::class,
+        '4.2.0.1' => \OrangeHRM\Installer\Migration\V4_2_0_1\Migration::class,
+        '4.3' => \OrangeHRM\Installer\Migration\V4_3\Migration::class,
+        '4.3.1' => \OrangeHRM\Installer\Migration\V4_3_1\Migration::class,
+        '4.3.2' => \OrangeHRM\Installer\Migration\V4_3_2\Migration::class,
+        '4.3.3' => \OrangeHRM\Installer\Migration\V4_3_3\Migration::class,
         '4.3.4' => \OrangeHRM\Installer\Migration\V4_3_4\Migration::class,
         '4.3.5' => \OrangeHRM\Installer\Migration\V4_3_5\Migration::class,
         '4.4' => \OrangeHRM\Installer\Migration\V4_4_0\Migration::class,

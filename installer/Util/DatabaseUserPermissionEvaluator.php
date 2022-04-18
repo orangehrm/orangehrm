@@ -51,7 +51,7 @@ class DatabaseUserPermissionEvaluator
     protected function getSchemaHelper(): SchemaHelper
     {
         if (!$this->schemaHelper instanceof SchemaHelper) {
-            $this->schemaHelper = new SchemaHelper($this->getConnection()->createSchemaManager());
+            $this->schemaHelper = new SchemaHelper($this->getConnection());
         }
         return $this->schemaHelper;
     }
