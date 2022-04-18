@@ -23,7 +23,7 @@
     <div id="app">
         <installer-layout
             :steps="{{ steps | json_encode() }}"
-            :currentStep="{{ currentStep }}"
+            :current-step="{{ currentStep }}"
         >
             <{{ componentName }}
             {% for prop in componentProps %}
