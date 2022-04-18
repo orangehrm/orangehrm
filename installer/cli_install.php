@@ -173,10 +173,6 @@ else if (is_file(ROOT_PATH . '/lib/confs/Conf.php')) {
 
 			deleteFile(ROOT_PATH . '/lib/confs/cryptokeys/key.ohrm');
 			deleteFile(ROOT_PATH . '/lib/confs/Conf.php');
-			$file = ROOT_PATH . '/symfony/config/databases.yml';
-			if(is_file($file)){
-				shell_exec("sudo rm  ". $file);
-			}
 		} else {
 			$messages->displayMessage("Please wait...");
 			$messages->displayMessage("Installation successfully completed...");

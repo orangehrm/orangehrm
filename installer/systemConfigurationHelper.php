@@ -32,7 +32,7 @@ class systemConfigurationHelper
     public function __construct()
     {
         $file = realpath(dirname(__FILE__)).DIRECTORY_SEPARATOR.'..'.
-                DIRECTORY_SEPARATOR. 'symfony'.DIRECTORY_SEPARATOR.'plugins'.
+                DIRECTORY_SEPARATOR. 'src'.DIRECTORY_SEPARATOR.'plugins'.
                 DIRECTORY_SEPARATOR.'orangehrmAdminPlugin'.DIRECTORY_SEPARATOR.'config'.
                 DIRECTORY_SEPARATOR.'supported_languages.yml';
         $this->languages = Yaml::parseFile($file);

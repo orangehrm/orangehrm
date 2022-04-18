@@ -18,20 +18,23 @@
  */
  -->
 <template>
-  <oxd-form class="orangehrm-installer-page">
+  <oxd-form
+    class="orangehrm-installer-page orangehrm-upgrader-container"
+    @submit="toggleModal"
+  >
     <oxd-text tag="h5" class="orangehrm-installer-page-title">
-      Welcome to OrangeHRM Stater Version 5.0 Setup Wizard
+      Welcome to OrangeHRM Starter Version {{ productversion }} Setup Wizard
     </oxd-text>
     <br />
     <oxd-text tag="p" class="orangehrm-installer-page-content">
-      This setup wizard guide through the steps necessary to install/upgrade
-      OrangeHRM Starter components and their dependencies.
+      This setup wizard will guide through the steps necessary to install/
+      upgrade OrangeHRM Starter components and their dependencies.
     </oxd-text>
     <br />
     <oxd-text tag="p" class="orangehrm-installer-page-content">
       Select an installation type;
     </oxd-text>
-
+    <br />
     <oxd-form-row class="orangehrm-installer-page-row">
       <oxd-radio-input
         v-model="selected"
@@ -52,14 +55,19 @@
       />
       <oxd-text tag="p" class="orangehrm-installer-page-content --label">
         Choose this option if you are already using a prior version of OrangeHRM
-        Starter (version 2.6.5 to 4.8) and would like to upgrade to
+        Starter (version 4.0 onwards) and would like to upgrade to
         <b>version 5.0</b>
       </oxd-text>
     </oxd-form-row>
 
     <Notice title="important">
       <oxd-text tag="p" class="orangehrm-installer-page-content">
-        Test
+        OrangeHRM Starter 5.0 only supports Admin, PIM, Leave, Time and
+        Attendance, and Maintenance modules. If you are already utilising other
+        modules or Add-ons and are thinking about upgrading, we recommend
+        waiting for version 5.1. You can, however, continue with the update
+        while ignoring the unsupported modules and add-ons, but please note that
+        data will be inaccessible.
       </oxd-text>
     </Notice>
     <br />
@@ -71,22 +79,51 @@
       <oxd-button display-type="secondary" label="Next" type="submit" />
     </oxd-form-actions>
   </oxd-form>
+  <database-config-dialog
+    v-if="showModal"
+    @close-model="closeModel"
+  ></database-config-dialog>
 </template>
 
 <script>
-import Notice from "@/components/Notice.vue";
-import RadioInput from "@ohrm/oxd/core/components/Input/RadioInput";
-
+import Notice from '@/components/Notice.vue';
+import RadioInput from '@ohrm/oxd/core/components/Input/RadioInput';
+import DatabaseConfigDialog from '@/components/DatabaseConfigDialog.vue';
+import {navigate} from '@/core/util/helper/navigation.ts';
 export default {
-  name: "WelcomeScreen",
+  name: 'WelcomeScreen',
   components: {
     Notice,
-    "oxd-radio-input": RadioInput,
+    'oxd-radio-input': RadioInput,
+    'database-config-dialog': DatabaseConfigDialog,
+  },
+  props: {
+    productversion: {
+      type: String,
+      required: true,
+    },
   },
   data() {
     return {
-      selected: "install",
+      selected: 'install',
+      showModal: false,
     };
+  },
+  methods: {
+    toggleModal() {
+      this.showModal = !this.showModal;
+    },
+    closeModel(isAccept) {
+      if (!isAccept) return this.toggleModal();
+      if (this.selected === 'upgrade') {
+        navigate('/upgrader/database-config');
+      } else {
+        window.location.href = window.location.pathname.replace(
+          '/index.php/installer/welcome',
+          '/installerUI.php',
+        );
+      }
+    },
   },
 };
 </script>

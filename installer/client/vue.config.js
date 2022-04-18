@@ -1,6 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const DumpBuildTimestampPlugin = require("./scripts/plugins/DumpBuildTimestampPlugin");
-const { defineConfig } = require("@vue/cli-service");
+const DumpBuildTimestampPlugin = require('./scripts/plugins/DumpBuildTimestampPlugin');
+const {defineConfig} = require('@vue/cli-service');
 
 module.exports = defineConfig({
   css: {
@@ -15,17 +15,17 @@ module.exports = defineConfig({
   configureWebpack: {
     resolve: {
       alias: {
-        assets: "@ohrm/oxd/assets",
+        assets: '@ohrm/oxd/assets',
       },
     },
     plugins: [new DumpBuildTimestampPlugin()],
   },
   chainWebpack: (config) => {
-    config.plugins.delete("html");
-    config.plugins.delete("preload");
-    config.plugins.delete("prefetch");
+    config.plugins.delete('html');
+    config.plugins.delete('preload');
+    config.plugins.delete('prefetch');
   },
-  publicPath: ".",
+  publicPath: '.',
   filenameHashing: false,
   runtimeCompiler: true,
 });

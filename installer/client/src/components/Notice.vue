@@ -27,13 +27,13 @@
 </template>
 
 <script>
-import Sheet from "@ohrm/oxd/core/components/Sheet/Sheet";
-import Text from "@ohrm/oxd/core/components/Text/Text";
+import Sheet from '@ohrm/oxd/core/components/Sheet/Sheet';
+import Text from '@ohrm/oxd/core/components/Text/Text';
 
 export default {
   components: {
-    "oxd-sheet": Sheet,
-    "oxd-text": Text,
+    'oxd-sheet': Sheet,
+    'oxd-text': Text,
   },
   props: {
     title: {

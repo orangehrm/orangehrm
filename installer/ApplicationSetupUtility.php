@@ -19,7 +19,7 @@
  */
 
 require_once ROOT_PATH.'/installer/utils/UniqueIDGenerator.php';
-require_once ROOT_PATH.'/symfony/plugins/orangehrmCorePlugin/Utility/PasswordHash.php';
+require_once ROOT_PATH.'/src/plugins/orangehrmCorePlugin/Utility/PasswordHash.php';
 require_once ROOT_PATH.'/installer/SystemConfiguration.php';
 require_once ROOT_PATH.'/installer/Messages.php';
 
@@ -32,7 +32,7 @@ class ApplicationSetupUtility {
      * @return string
      */
     public static function getErrorLogPath() {
-        return realpath(__DIR__ . '/../symfony/log') . DIRECTORY_SEPARATOR.  'installer.log';
+        return realpath(__DIR__ . '/../src/log') . DIRECTORY_SEPARATOR.  'installer.log';
     }
 
     public static function createDB() {
@@ -239,27 +239,6 @@ USRSQL;
 
 }
 
-public static function createUser() {
-
-	self::connectDB();
-
-	if(!@mysqli_select_db(self::$conn, $_SESSION['dbInfo']['dbName'])) {
-		$_SESSION['error'] = 'Unable to access OrangeHRM Database!';
-		return;
-	}
-
-    $passwordHasher = new OrangeHRM\Core\Utility\PasswordHash();
-    $hash = $passwordHasher->hash($_SESSION['defUser']['AdminPassword']);
-
-	$query = "INSERT INTO `ohrm_user` ( `user_name`, `user_password`,`user_role_id`) VALUES ('" .$_SESSION['defUser']['AdminUserName']. "','".$hash."','1')";
-
-	if(!mysqli_query(self::$conn, $query)) {
-		$_SESSION['error'] = 'Unable to Create OrangeHRM Admin User Account';
-		return;
-	}
-
-}
-
 public static function writeConfFile() {
 
 	$dbHost = $_SESSION['dbInfo']['dbHostName'];
@@ -274,48 +253,14 @@ public static function writeConfFile() {
 		$dbOHRMPassword = $_SESSION['dbInfo']['dbPassword'];
 	}
 
-    if (@include_once ROOT_PATH."/lib/confs/sysConf.php") {
-        $conf = new sysConf();
-        $ohrmVersion = $conf->getVersion();
-    }
+    $template = file_get_contents(realpath(__DIR__ . '/config/Conf.tpl.php'));
+    $search = ['{{dbHost}}', '{{dbPort}}', '{{dbName}}', '{{dbUser}}', '{{dbPass}}'];
+    $replace = [$dbHost, $dbHostPort, $dbName, $dbOHRMUser, $dbOHRMPassword];
 
-    $confContent = <<< CONFCONT
-<?php
-class Conf {
-
-	var \$smtphost;
-	var \$dbhost;
-	var \$dbport;
-	var \$dbname;
-	var \$dbuser;
-	var \$version;
-
-	function __construct() {
-
-		\$this->dbhost	= '$dbHost';
-		\$this->dbport 	= '$dbHostPort';
-		if(defined('ENVIRONMENT') && ENVIRONMENT == 'test'){
-		\$this->dbname    = 'test_$dbName';		
-		}else {
-		\$this->dbname    = '$dbName';
-		}
-		\$this->dbuser    = '$dbOHRMUser';
-		\$this->dbpass	= '$dbOHRMPassword';
-		\$this->version = '$ohrmVersion';
-
-		\$this->emailConfiguration = dirname(__FILE__).'/mailConf.php';
-		\$this->errorLog =  realpath(dirname(__FILE__).'/../logs/').'/';
-	}
-}
-?>
-CONFCONT;
-
-	$filename = ROOT_PATH . '/lib/confs/Conf.php';
-	$handle = fopen($filename, 'w');
-	fwrite($handle, $confContent);
-
-    fclose($handle);
-
+    file_put_contents(
+        realpath(__DIR__ . '/../lib/confs') . DIRECTORY_SEPARATOR . 'Conf.php',
+        str_replace($search, $replace, $template)
+    );
 }
 
 public static function runMigrations()
@@ -355,7 +300,7 @@ public static function writeLog() {
 
 	$Content .= "OrangeHRM Installation Log\n\n";
 
-	$filename = 'symfony/log/installer.log';
+	$filename = 'src/log/installer.log';
 	$handle = fopen($filename, 'w');
 	fwrite($handle, $Content);
 	fclose($handle);
@@ -419,7 +364,6 @@ public static function install() {
 
 		case 1	:	error_log (date("r")." Fill Data Phase 1 - Starting\n",3, self::getErrorLogPath());
 					self::fillData();
-                                        self::createMysqlProcedures();
 					error_log (date("r")." Fill Data Phase 1 - Done\n",3, self::getErrorLogPath());
 					if (!isset($_SESSION['error'])) {
 						$_SESSION['INSTALLING'] = 2;
@@ -432,7 +376,6 @@ public static function install() {
 
 		case 2	:	error_log (date("r")." Fill Data Phase 2 - Starting\n",3, self::getErrorLogPath());
 					self::fillData(2);
-					self::createMysqlEvents();
 					self::insertCsrfKey();
 					self::insertSystemConfiguration();
 					error_log (date("r")." Fill Data Phase 2 - Done\n",3, self::getErrorLogPath());
@@ -487,60 +430,4 @@ public static function install() {
 	}
   }
 }
-
-    public static function createMysqlEvents() {
-
-        self::connectDB();
-
-        $eventTime = date('Y-m-d') . " 00:00:00";
-        $query = "CREATE EVENT leave_taken_status_change
-                    ON SCHEDULE EVERY 1 HOUR STARTS '$eventTime'
-                    DO
-                      BEGIN
-                        UPDATE hs_hr_leave SET leave_status = 3 WHERE leave_status = 2 AND leave_date < DATE(NOW());
-                      END";
-
-        if (!mysqli_query(self::$conn, $query)) {
-            error_log (date("r")." MySQL Event Error:".mysqli_error(self::$conn)."\n",3, self::getErrorLogPath());
-            return false;
-        }
-
-        return true;
-
-    }
-
-    public static function createMysqlProcedures(){
-        self::connectDB();
-
-        $sql = array();
-        $sql[] = "DROP FUNCTION IF EXISTS dashboard_get_subunit_parent_id;";
-
-        $sql[] = "CREATE FUNCTION  dashboard_get_subunit_parent_id
-                (
-                  id INT
-                )
-                RETURNS INT
-                DETERMINISTIC
-                READS SQL DATA
-                BEGIN
-                SELECT (SELECT t2.id 
-                               FROM ohrm_subunit t2 
-                               WHERE t2.lft < t1.lft AND t2.rgt > t1.rgt    
-                               ORDER BY t2.rgt-t1.rgt ASC LIMIT 1) INTO @parent
-                FROM ohrm_subunit t1 WHERE t1.id = id;
-
-                RETURN @parent;
-
-                END;";
-
-        foreach($sql as $query){
-            if (!mysqli_query(self::$conn, $query)) {
-                error_log (date("r")." MySQL Procedure Error:".mysqli_error(self::$conn)."\n",3, self::getErrorLogPath());
-                return false;
-            }
-        }
-
-        return true;
-    }
-
 }

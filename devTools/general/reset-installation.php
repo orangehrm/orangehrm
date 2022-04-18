@@ -49,7 +49,7 @@ class InstallCleaner {
             require_once $confPhpFile;
 
             $c = new Conf();
-            $this->dropDatabase($c->dbhost, $c->dbport, $c->dbname, $c->dbuser, $c->dbpass);
+            $this->dropDatabase($c->getDbHost(), $c->getDbPort(), $c->getDbName(), $c->getDbUser(), $c->getDbPass());
             
             $this->displayMessage("Removing files created at installation time:");
             $this->removeFile($confPhpFile);
@@ -66,4 +66,3 @@ class InstallCleaner {
 
 $installCleaner = new InstallCleaner(dirname(__FILE__) . "/../../");
 $installCleaner->resetInstall();
-

@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@ohrm/oxd": "1.0.5-alpha.3",
+    "axios": "^0.26.1",
     "core-js": "^3.8.3",
     "vue": "^3.2.13"
   },

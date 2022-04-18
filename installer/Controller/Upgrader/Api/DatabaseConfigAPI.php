@@ -20,8 +20,10 @@
 namespace OrangeHRM\Installer\Controller\Upgrader\Api;
 
 use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Framework\Http\Response;
 use OrangeHRM\Installer\Controller\AbstractInstallerRestController;
 use OrangeHRM\Installer\Controller\Upgrader\Traits\UpgraderUtilityTrait;
+use OrangeHRM\Installer\Util\StateContainer;
 
 class DatabaseConfigAPI extends AbstractInstallerRestController
 {
@@ -38,10 +40,12 @@ class DatabaseConfigAPI extends AbstractInstallerRestController
         $dbPassword = $request->request->get('dbPassword');
         $dbName = $request->request->get('dbName');
 
-        $connection = $this->checkDatabaseConnection($dbHost, $dbUser, $dbPassword, $dbName, $dbPort);
+        StateContainer::getInstance()->storeDbInfo($dbHost, $dbPort, $dbUser, $dbPassword, $dbName);
+
+        $connection = $this->checkDatabaseConnection();
         $response = $this->getResponse();
         if (!$connection) {
-            $response->setStatusCode(400);
+            $response->setStatusCode(Response::HTTP_BAD_REQUEST);
             return
                 [
                     'error' => [
@@ -50,7 +54,7 @@ class DatabaseConfigAPI extends AbstractInstallerRestController
                     ]
                 ];
         } elseif ($this->checkDatabaseStatus()) {
-            $response->setStatusCode(400);
+            $response->setStatusCode(Response::HTTP_BAD_REQUEST);
             return [
                 'error' => [
                     'status' => $response->getStatusCode(),
@@ -59,11 +63,32 @@ class DatabaseConfigAPI extends AbstractInstallerRestController
             ];
         } else {
             return [
-                'dbHost' => $dbHost,
-                'dbPort' => $dbPort,
-                'dbUser' => $dbUser,
-                'dbName' => $dbName,
+                'data' => [
+                    'dbHost' => $dbHost,
+                    'dbPort' => $dbPort,
+                    'dbUser' => $dbUser,
+                    'dbName' => $dbName,
+                ],
+                'meta' => []
             ];
         }
+    }
+
+    /**
+     * @inheritDoc
+     */
+    protected function handleGet(Request $request): array
+    {
+        $dbInfo = StateContainer::getInstance()->getDbInfo();
+        return [
+            'data' => [
+                'dbHost' => $dbInfo[StateContainer::DB_HOST],
+                'dbPort' => $dbInfo[StateContainer::DB_PORT],
+                'dbName' => $dbInfo[StateContainer::DB_NAME],
+                'dbUser' => $dbInfo[StateContainer::DB_USER],
+            ],
+            'meta' => []
+
+        ];
     }
 }
