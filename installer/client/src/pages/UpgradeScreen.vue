@@ -36,9 +36,9 @@
       <oxd-form-row>
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
           <oxd-grid-item class="orangehrm-upgrade-process-item">
-            <oxd-text :class="getDatabaseClass" tag="h6"
-              >Applying Database Changes</oxd-text
-            >
+            <oxd-text :class="getDatabaseClass" tag="h6">
+              Applying Database Changes
+            </oxd-text>
             <oxd-icon
               v-if="isDatabaseChanges"
               name="check-circle-fill"
@@ -48,9 +48,9 @@
         </oxd-grid>
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
           <oxd-grid-item class="orangehrm-upgrade-process-item">
-            <oxd-text tag="h6" :class="getConfigClass"
-              >Creating Configuration files</oxd-text
-            >
+            <oxd-text tag="h6" :class="getConfigClass">
+              Creating Configuration files
+            </oxd-text>
             <oxd-icon v-if="isFileCreated" name="check-circle-fill"></oxd-icon>
             <oxd-icon v-else name="circle"></oxd-icon>
           </oxd-grid-item>

@@ -22,7 +22,7 @@ namespace OrangeHRM\Installer\Controller;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Framework\Http\Request;
 
-class UpgraderProcessController extends AbstractInstallerVueController
+class UpgraderController extends AbstractInstallerVueController
 {
     /**
      * @inheritDoc

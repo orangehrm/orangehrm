@@ -30,7 +30,7 @@ upgrader_complete:
 
 upgrader_process:
   path: /upgrader/process
-  controller: OrangeHRM\Installer\Controller\UpgraderProcessController::handle
+  controller: OrangeHRM\Installer\Controller\UpgraderController::handle
   methods: [ GET ]
 
 ##########################
