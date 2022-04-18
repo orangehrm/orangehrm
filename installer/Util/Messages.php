@@ -21,56 +21,42 @@ namespace OrangeHRM\Installer\Util;
 
 class Messages
 {
-    public const SEPERATOR = "----------------------------------";
-
     public const PHP_OK_MESSAGE = "PHP Version - Ok";
-    public const PHP_FAIL_MESSAGE = "PHP Version - PHP 5.3.0 or higher is required";
 
     public const MYSQL_CLIENT_OK_MESSAGE = "MySQL Client - Ok";
     public const MYSQL_CLIENT_RECOMMEND_MESSAGE = "MySQL Client - ver 4.1.x or later recommended";
     public const MYSQL_CLIENT_FAIL_MESSAGE = "MySQL Client - MySQL support not available in PHP settings";
 
     public const MYSQL_SERVER_OK_MESSAGE = "MySQL Server - Ok";
-    public const MYSQL_SERVER_RECOMMEND_MESSAGE = "MySQL Server - ver 5.1.6 or later recommended";
     public const MYSQL_SERVER_FAIL_MESSAGE = "MySQL Server - Not Available";
 
     public const WEB_SERVER_OK_MESSAGE = "OK";
 
-    public const WRITABLE_LIB_CONFS_OK_MESSAGE = "Write Permissions for lib/confs/ - Writeable";
-    public const WRITABLE_LIB_CONFS_FAIL_MESSAGE = "Write Permissions for lib/confs/ - Not Writeable";
+    public const WRITABLE_LIB_CONF_OK_MESSAGE = "Write Permissions for lib/confs/ - Writeable";
+    public const WRITABLE_LIB_CONF_FAIL_MESSAGE = "Write Permissions for lib/confs/ - Not Writeable";
 
-    public const WritableSymfonyConfig_OK_MESSAGE = "Write Permissions for - src/config - Ok";
-    public const WritableSymfonyConfig_FAIL_MESSAGE = "Write Permissions for - src/config - not writeable";
+    public const WRITEABLE_SYMFONY_CONFIG_OK_MESSAGE = "Write Permissions for - src/config - Writeable";
+    public const WRITEABLE_SYMFONY_CONFIG_FAIL_MESSAGE = "Write Permissions for - src/config - Not Writeable";
 
-    public const WritableSymfonyCache_OK_MESSAGE = "Write Permissions for src/cache - Writeable";
-    public const WritableSymfonyCache_FAIL_MESSAGE = "Write Permissions for src/cache - Not Writeable";
+    public const WRITEABLE_SYMFONY_CACHE_OK_MESSAGE = "Write Permissions for src/cache - Writeable";
+    public const WRITEABLE_SYMFONY_CACHE_FAIL_MESSAGE = "Write Permissions for src/cache - Not Writeable";
 
-    public const WritableSymfonyLog_OK_MESSAGE = "Write Permissions for src/log - Writeable";
-    public const WritableSymfonyLog_FAIL_MESSAGE = "Write Permissions for src/log - Not Writeable";
+    public const WRITEABLE_SYMFONY_LOG_OK_MESSAGE = "Write Permissions for src/log - Writeable";
+    public const WRITEABLE_SYMFONY_LOG_FAIL_MESSAGE = "Write Permissions for src/log - Not Writeable";
 
-    public const MaximumSessionIdle_OK_MESSAGE = "Maximum Session Idle Time before Timeout - Good";
-    public const MaximumSessionIdle_SHORT_MESSAGE = "Maximum Session Idle Time before Timeout - Short";
-    public const MaximumSessionIdle_TOO_SHORT_MESSAGE = "Maximum Session Idle Time before Timeout - Too short";
+    public const MAXIMUM_SESSION_IDLE_OK_MESSAGE = "Maximum Session Idle Time before Timeout - Good";
+    public const MAXIMUM_SESSION_IDLE_SHORT_MESSAGE = "Maximum Session Idle Time before Timeout - Short";
+    public const MAXIMUM_SESSION_IDLE_TOO_SHORT_MESSAGE = "Maximum Session Idle Time before Timeout - Too Short";
 
-    public const RegisterGlobalsOff_OK_MESSAGE = "Ok";
-    public const RegisterGlobalsOff_FAIL_MESSAGE = "On. Should be off";
+    public const REGISTER_GLOBALS_OFF_OK_MESSAGE = "Ok";
+    public const REGISTER_GLOBALS_OFF_FAIL_MESSAGE = "On. Should be off";
 
-    public const GgExtensionEnable_OK_MESSAGE = "PHP gd extension - Enabled";
-    public const GgExtensionEnable_FAIL_MESSAGE = "PHP gd extension - Not enabled";
-
-    public const MySQLEventStatus_FAIL_MESSAGE = "MySQL Event Scheduler status - Cannot connect to the database";
-    public const MySQLEventStatus_DISABLE_MESSAGE = "MySQL Event Scheduler status - Disabled. This is required for automatic leave status changes of Leave module";
-    public const MySQLEventStatus_OK_MESSAGE = "MySQL Event Scheduler status - Enabled";
-
-    public const CURLStatus_DISABLE_MESSAGE = "cURL status - Disabled. This is required to run OrangeHRM";
-    public const CURLStatus_OK_MESSAGE = "cURL status - Enabled";
+    public const CURL_STATUS_DISABLE_MESSAGE = "cURL status - Disabled. This is required to run OrangeHRM";
+    public const CURL_STATUS_OK_MESSAGE = "cURL status - Enabled";
 
     public const SimpleXMLStatus_DISABLE_MESSAGE = "SimpleXML status - Disabled. SimpleXML, libxml and xml PHP libraries are required";
-    public const SimpleXMLStatus_OK_MESSAGE = "SimpleXML status - Enabled";
+    public const SIMPLE_XML_STATUS_OK_MESSAGE = "SimpleXML status - Enabled";
 
-    public const ZIP_Status_DISABLE_MESSAGE = "ZIP status - Disabled. SimpleXML, libxml and xml PHP libraries are required";
-    public const ZIP_Status_OK_MESSAGE = "ZIP status - Enabled";
-
-    public const PHP_MIN_VERSION = '5.3.0';
-    public const MYSQL_MIN_VERSION = '4.1.0';
+    public const ZIP_STATUS_DISABLE_MESSAGE = "ZIP status - Disabled. SimpleXML, libxml and xml PHP libraries are required";
+    public const ZIP_STATUS_OK_MESSAGE = "ZIP status - Enabled";
 }
