@@ -19,6 +19,8 @@
 
 namespace OrangeHRM\Installer\Migration\V4_1_1;
 
+use Doctrine\DBAL\Schema\Index;
+use Doctrine\DBAL\Types\Types;
 use OrangeHRM\Installer\Util\V1\AbstractMigration;
 
 class Migration extends AbstractMigration
@@ -33,8 +35,19 @@ class Migration extends AbstractMigration
 
         $this->getSchemaHelper()->dropPrimaryKey('hs_hr_emp_member_detail');
 
-        $sql = ['ALTER TABLE `hs_hr_emp_member_detail` ADD `id` int(6) NOT NULL PRIMARY KEY AUTO_INCREMENT;'];
-        $this->getSchemaHelper()->execSql($sql);
+        $this->getSchemaHelper()->addColumn('hs_hr_emp_member_detail', 'id', Types::INTEGER, ['Length' => 6, 'Notnull' => true, 'Default' => null]);
+
+        $primaryKey = new Index(
+            null,
+            ['id'],
+            true,
+            true
+        );
+        $this->getSchemaHelper()->getSchemaManager()->createIndex($primaryKey, 'hs_hr_emp_member_detail');
+
+        $this->getSchemaHelper()->changeColumn('hs_hr_emp_member_detail', 'id', [
+            'Notnull' => true, 'Default' => null, 'Autoincrement' => true
+        ]);
     }
 
     /**

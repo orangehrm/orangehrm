@@ -30,7 +30,7 @@ ServiceContainer::getContainer()->register(Services::DOCTRINE)
 //$migration = new \OrangeHRM\Installer\Migration\V4_0\Migration();
 //$migration->up();
 
-/*$migration = new \OrangeHRM\Installer\Migration\V4_1\Migration();
+$migration = new \OrangeHRM\Installer\Migration\V4_1\Migration();
 $migration->up();
 
 $migration = new \OrangeHRM\Installer\Migration\V4_1_1\Migration();
@@ -46,9 +46,9 @@ $migration = new \OrangeHRM\Installer\Migration\V4_2_0_1\Migration();
 $migration->up();
 
 $migration = new \OrangeHRM\Installer\Migration\V4_3\Migration();
-$migration->up();*/
+$migration->up();
 
-/*$migration = new \OrangeHRM\Installer\Migration\V4_3_1\Migration();
+$migration = new \OrangeHRM\Installer\Migration\V4_3_1\Migration();
 $migration->up();
 
 $migration = new \OrangeHRM\Installer\Migration\V4_3_2\Migration();
@@ -56,7 +56,7 @@ $migration->up();
 
 
 $migration = new \OrangeHRM\Installer\Migration\V4_3_3\Migration();
-$migration->up();*/
+$migration->up();
 
 $migration = new \OrangeHRM\Installer\Migration\V4_3_4\Migration();
 $migration->up();
