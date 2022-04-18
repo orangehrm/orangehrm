@@ -28,7 +28,7 @@ class Migration extends AbstractMigration
      */
     public function up(): void
     {
-        $this->getSchemaHelper()->_disableConstraints();
+        $this->getSchemaHelper()->disableConstraints();
 
         $sql = [
             0 => 'ALTER TABLE `hs_hr_employee` MODIFY `emp_number` int(7) not null AUTO_INCREMENT;',
@@ -41,7 +41,7 @@ class Migration extends AbstractMigration
             7 => 'ALTER TABLE `ohrm_job_vacancy` MODIFY `id` int(13) not null auto_increment;',
         ];
         $this->getSchemaHelper()->execSql($sql);
-        $this->getSchemaHelper()->_enableConstraints();
+        $this->getSchemaHelper()->enableConstraints();
     }
 
     /**

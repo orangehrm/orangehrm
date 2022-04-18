@@ -195,7 +195,7 @@ class SchemaHelper
     /**
      * @return Connection
      */
-    private function _getDbConnection(): Connection
+    private function getDbConnection(): Connection
     {
         return $this->getEntityManager()->getConnection()->getWrappedConnection();
     }
@@ -203,24 +203,28 @@ class SchemaHelper
     /**
      * @return void
      */
-    public function _disableConstraints(): void
+    public function disableConstraints(): void
     {
-        $pdo = $this->_getDbConnection();
+        $pdo = $this->getDbConnection();
         $pdo->exec('SET FOREIGN_KEY_CHECKS=0;');
     }
 
     /**
      * @return void
      */
-    public function _enableConstraints(): void
+    public function enableConstraints(): void
     {
-        $pdo = $this->_getDbConnection();
+        $pdo = $this->getDbConnection();
         $pdo->exec('SET FOREIGN_KEY_CHECKS=1;');
     }
 
-    public function execSql(array $sql)
+    /**
+     * @param array $queries
+     * @return void
+     */
+    public function execSql(array $queries): void
     {
-        foreach ((array)$sql as $query) {
+        foreach ($queries as $query) {
             $this->getConnection()->exec($query);
         }
     }

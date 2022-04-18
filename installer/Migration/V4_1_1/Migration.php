@@ -33,9 +33,7 @@ class Migration extends AbstractMigration
 
         $this->getSchemaHelper()->dropPrimaryKey('hs_hr_emp_member_detail');
 
-        $sql = [
-            0 => 'ALTER TABLE `hs_hr_emp_member_detail` ADD `id` int(6) NOT NULL PRIMARY KEY AUTO_INCREMENT;',
-        ];
+        $sql = ['ALTER TABLE `hs_hr_emp_member_detail` ADD `id` int(6) NOT NULL PRIMARY KEY AUTO_INCREMENT;'];
         $this->getSchemaHelper()->execSql($sql);
     }
 

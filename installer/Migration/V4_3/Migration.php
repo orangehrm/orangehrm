@@ -57,14 +57,7 @@ class Migration extends AbstractMigration
 
         $this->getDataGroupHelper()->insertDataGroupPermissions(__DIR__ . '/permission/data_group.yaml');
 
-        $dataGroupId = $this->createQueryBuilder()
-            ->select('data_group.id')
-            ->from('ohrm_data_group', 'data_group')
-            ->where('name = :name')
-            ->setParameter('name', 'Marketplace')
-            ->executeQuery()
-            ->fetchOne();
-
+        $dataGroupId = $this->getDataGroupHelper()->getDataGroupIdByName('Marketplace');
         $homeScreenId = $this->createQueryBuilder()
             ->select('screen.id')
             ->from('ohrm_screen', 'screen')
@@ -88,7 +81,7 @@ class Migration extends AbstractMigration
             ->executeQuery();
 
 
-        if (!$this->getSchemaHelper()->getSchemaManager()->tablesExist('ohrm_marketplace_addon')) {
+        if (!$this->getSchemaManager()->tablesExist('ohrm_marketplace_addon')) {
             $this->getSchemaHelper()->createTable('ohrm_marketplace_addon')
                 ->addColumn('addon_id', Types::INTEGER, ['Length' => 11, 'Autoincrement' => true])
                 ->addColumn('title', Types::STRING, ['Length' => 100])

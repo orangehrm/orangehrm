@@ -111,7 +111,7 @@ class Migration extends AbstractMigration
             $this->getScreenId('purgeEmployee'),
             $purgeRecordsMenuId,
             3,
-            100,
+            200,
             null,
             1
         );
@@ -125,18 +125,6 @@ class Migration extends AbstractMigration
             null,
             1
         );
-
-
-        $this->insertMenuItems(
-            'Candidate Records',
-            null,
-            $maintainenceMenuId,
-            3,
-            200,
-            null,
-            1
-        );
-        //stopped at line 36 in SchemaIncrementTask68
     }
 
     /**

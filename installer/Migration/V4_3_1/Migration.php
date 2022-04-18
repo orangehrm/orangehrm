@@ -29,7 +29,7 @@ class Migration extends AbstractMigration
      */
     public function up(): void
     {
-        if ($this->getSchemaHelper()->getSchemaManager()->tablesExist('ohrm_reset_password')) {
+        if ($this->getSchemaManager()->tablesExist('ohrm_reset_password')) {
             $this->getSchemaManager()->dropTable('ohrm_reset_password');
         }
         $this->getSchemaHelper()->createTable('ohrm_reset_password')
