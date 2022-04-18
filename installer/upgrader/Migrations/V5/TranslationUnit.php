@@ -17,9 +17,9 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Installer\Util\V1\Dto;
+namespace OrangeHRM\Installer\upgrader\Migrations\V5;
 
-class TransUnit
+class TranslationUnit
 {
     /**
      * @var string|null
@@ -32,14 +32,21 @@ class TransUnit
     private ?string $unitId;
 
     /**
+     * @var string|null
+     */
+    private ?string $source;
+
+    /**
      * @param string|null $target
      * @param string|null $unitId
      */
-    public function __construct(?string $target, ?string $unitId)
+    public function __construct(?string $target, ?string $unitId, ?string $source)
     {
         $this->target = $target;
         $this->unitId = $unitId;
+        $this->source = $source;
     }
+
 
     /**
      * @return string|null
@@ -55,6 +62,22 @@ class TransUnit
     public function setUnitId(?string $unitId): void
     {
         $this->unitId = $unitId;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getSource(): ?string
+    {
+        return $this->source;
+    }
+
+    /**
+     * @param string|null $source
+     */
+    public function setSource(?string $source): void
+    {
+        $this->source = $source;
     }
 
     /**

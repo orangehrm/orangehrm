@@ -21,7 +21,6 @@ namespace OrangeHRM\Installer\upgrader\Migrations\V5;
 
 use Doctrine\DBAL\Query\QueryBuilder;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
-use OrangeHRM\Installer\Util\V1\Dto\TransUnit;
 use Symfony\Component\Yaml\Yaml;
 
 class TranslationGenerateTool
@@ -47,12 +46,12 @@ class TranslationGenerateTool
         $xml = simplexml_load_file($filepath);
         $transArray = ['translations' => []];
         foreach ($xml->file->body->children() as $string) {
-            $translation = new TransUnit($string->source, $string->target);
+            $translation = new TranslationUnit($string->target, null, $string->source);
             if (!empty($translation->getTarget())) {
-                $transArray['translations'][] = [
-                    'source' => $translation->getSource(),
-                    'target' => $translation->getTarget()
-                ];
+                $translationUnit = $this->getTranslation($translation);
+                if (!is_null($translationUnit)) {
+                    $transArray['translations'][] = $translationUnit;
+                }
             }
         }
         $this->createYml($transArray, $language);
@@ -61,8 +60,9 @@ class TranslationGenerateTool
     private function createYml(array $translationArray, string $language): void
     {
         $yaml = Yaml::dump($translationArray, 2, 4);
-        $filename = 'installer/Migration/V5_0_0/translation/.' . $language . '.yml';
+        $filename = 'installer/Migration/V5_0_0/translation/' . $language . '.yaml';
         file_put_contents($filename, $yaml);
+        var_dump($language . 'file created');
     }
 
     /**
@@ -71,6 +71,27 @@ class TranslationGenerateTool
     protected function createQueryBuilder(): QueryBuilder
     {
         return $this->getEntityManager()->getConnection()->createQueryBuilder();
+    }
+
+    /**
+     * @param TranslationUnit $transUnit
+     * @return array|null
+     */
+    private function getTranslation(TranslationUnit $transUnit): ?array
+    {
+        $groups = ['admin', 'general', 'pim', 'leave', 'time', 'attendance', 'maintenance', 'help', 'auth'];
+        $langStrings = [];
+        foreach ($groups as $group) {
+            $filepath2 = 'installer/Migration/V5_0_0/lang-string/' . $group . '.yaml';
+            $yml2 = Yaml::parseFile($filepath2);
+            $langStrings = array_shift($yml2);
+            foreach ($langStrings as $langString) {
+                if ($transUnit->getSource() === $langString['value']) {
+                    return $translation = ['target' => $transUnit->getTarget(), 'unitId' => $langString['unitId'], 'group' => $group];
+                }
+            }
+        }
+        return null;
     }
 
 }

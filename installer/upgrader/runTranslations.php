@@ -19,16 +19,16 @@
 
 use OrangeHRM\Framework\ServiceContainer;
 use OrangeHRM\Framework\Services;
+use OrangeHRM\Installer\Migration\V5_0_0\TranslationHelper;
 use OrangeHRM\ORM\Doctrine;
-use OrangeHRM\Tools\Migrations\V5\TranslationTool;
 
 require_once realpath(__DIR__ . '/../../symfony/vendor/autoload.php');
 
 ServiceContainer::getContainer()->register(Services::DOCTRINE)
     ->setFactory([Doctrine::class, 'getEntityManager']);
 
-$translate = new TranslationTool();
-$modules = ['admin','general','pim','leave','time','attendance','maintenance','help','auth'];
-foreach ($modules as $module){
-    $translate->up($module);
+$translate = new TranslationHelper();
+$langCodes = ['bg_BG', 'da_DK', 'de', 'en_US', 'es', 'es_AR', 'es_BZ', 'es_CR', 'es_ES', 'fr', 'fr_FR', 'id_ID', 'ja_JP', 'nl', 'om_ET', 'th_TH', 'vi_VN', 'zh_Hans_CN', 'zh_Hant_TW', 'zz_ZZ'];
+foreach ($langCodes as $langCode) {
+    $translate->addTranslations($langCode);
 }

@@ -19,12 +19,11 @@
 
 namespace OrangeHRM\Tools\Migrations\V5;
 
-use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Query\QueryBuilder;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Installer\Migration\V5_0_0\LangStringHelper;
-use OrangeHRM\Installer\Util\V1\Dto\TransUnit;
+use OrangeHRM\Installer\upgrader\Migrations\V5\TranslationUnit;
 use Symfony\Component\Yaml\Yaml;
 
 class TranslationTestTool
@@ -56,19 +55,19 @@ class TranslationTestTool
         $yml2 = Yaml::parseFile($filepath2);
         $langStrings = array_shift($yml2);
         foreach ($langStrings as $langString) {
-            $sourceObj = new TransUnit($langString['value'], 'tr_' . $langString['value']);
+            $sourceObj = new TranslationUnit('tr_' . $langString['value'], null, $langString['value'],);
             $this->saveTranslationRecord($groupName, $sourceObj, $language);
         }
     }
 
     /**
      * @param string $groupName
-     * @param TransUnit $source
+     * @param TranslationUnit $source
      * @param string $language
      * @return void
      * @throws Exception
      */
-    private function saveTranslationRecord(string $groupName, TransUnit $source, string $language): void
+    private function saveTranslationRecord(string $groupName, TranslationUnit $source, string $language): void
     {
         $groupId = $this->getLangStringHelper()->getGroupId($groupName);
         // TODO:: check below codes
