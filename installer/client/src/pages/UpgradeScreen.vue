@@ -69,7 +69,7 @@
 <script>
 import Icon from '@ohrm/oxd/core/components/Icon/Icon.vue';
 import {APIService} from '@/core/util/services/api.service';
-import ProgressBar from '@ohrm/oxd/core/components/Progressbar/Progressbar';
+import ProgressBar from '@ohrm/oxd/core/components/Progressbar/Progressbar.vue';
 export default {
   name: 'UpgradeScreen',
   components: {
