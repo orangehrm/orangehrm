@@ -42,14 +42,9 @@ class TranslationHelper
         $groupId = $this->getLangStringHelper()->getGroupId($groupName);
         $langStringId = $this->getLangStringHelper()->getLangStringIdByUnitIdAndGroup($source->getUnitId(), $groupId);
         if ($langStringId == null) {
-            var_dump(
-                $source->getUnitId(),
-                $groupName
-            );
-            return;
-            /*throw new Exception(
+            throw new Exception(
                 'Cannot add a translation to a non existent lang string: ' .$source->getUnitId()
-            );*/
+            );
         }
         $langId = $this->getLanguageId($language);
         $existTranslation = $this->getTranslationRecord($langStringId, $langId);

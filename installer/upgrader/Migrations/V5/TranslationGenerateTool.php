@@ -62,7 +62,6 @@ class TranslationGenerateTool
         $yaml = Yaml::dump($translationArray, 2, 4);
         $filename = 'installer/Migration/V5_0_0/translation/' . $language . '.yaml';
         file_put_contents($filename, $yaml);
-        var_dump($language . 'file created');
     }
 
     /**
