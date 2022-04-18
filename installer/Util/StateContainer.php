@@ -22,6 +22,7 @@ namespace OrangeHRM\Installer\Util;
 use OrangeHRM\Framework\Http\Session\Session;
 use OrangeHRM\Framework\ServiceContainer;
 use OrangeHRM\Framework\Services;
+use OrangeHRM\Installer\Controller\AbstractInstallerVueController;
 
 class StateContainer
 {
@@ -31,6 +32,8 @@ class StateContainer
     public const DB_HOST = 'dbHost';
     public const DB_PASSWORD = 'dbPass';
     public const IS_SET_DB_INFO = 'isSetDbInfo';
+    public const CURRENT_SCREEN = 'currentScreen';
+    public const IS_UPGRADER = 'isUpgrader';
 
     /**
      * @var null|self
@@ -160,5 +163,34 @@ class StateContainer
     public function isSetDbInfo(): bool
     {
         return $this->getSession()->get(self::IS_SET_DB_INFO, false);
+    }
+
+    /**
+     * @param string $screen
+     * @param bool $isUpgrader
+     */
+    public function setCurrentScreen(string $screen, bool $isUpgrader = false): void
+    {
+        $this->getSession()->set(self::CURRENT_SCREEN, $screen);
+        $this->getSession()->set(self::IS_UPGRADER, $isUpgrader);
+        if ($screen === AbstractInstallerVueController::WELCOME_SCREEN) {
+            $this->getSession()->set(self::IS_UPGRADER, null);
+        }
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getCurrentScreen(): ?string
+    {
+        return $this->getSession()->get(self::CURRENT_SCREEN);
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function isUpgrader(): ?bool
+    {
+        return $this->getSession()->get(self::IS_UPGRADER);
     }
 }

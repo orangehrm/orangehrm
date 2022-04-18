@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Installer\Controller\Upgrader;
+namespace OrangeHRM\Installer\Controller\Installer;
 
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Framework\Http\Request;
@@ -30,6 +30,7 @@ class DatabaseConfigController extends AbstractInstallerVueController
      */
     public function preRender(Request $request): void
     {
+        // TODO:: develop component for installer DB info
         $component = new Component('database-config');
         $this->setComponent($component);
     }
