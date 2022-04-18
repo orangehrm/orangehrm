@@ -73,8 +73,8 @@ export default {
   },
   setup() {
     const http = new APIService(
-      'https://884b404a-f4d0-4908-9eb5-ef0c8afec15c.mock.pstmn.io',
-      'upgrader/systemChecks',
+      window.appGlobal.baseUrl,
+      'upgrader/api/system-check',
     );
     return {
       http,

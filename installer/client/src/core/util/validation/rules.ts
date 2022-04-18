@@ -60,7 +60,9 @@ export const validRange = function (
       !value ||
       (/^\d+$/.test(value) &&
         !Number.isNaN(parseFloat(value)) &&
-        new String(value).length <= charLength) ||
+        String(value).length <= charLength &&
+        parseInt(value) >= rangeFrom &&
+        parseInt(value) <= rangeTo) ||
       `Enter a valid port number:${rangeFrom}-${rangeTo}`
     );
   };

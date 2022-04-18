@@ -138,8 +138,8 @@ export default {
   },
   setup() {
     const http = new APIService(
-      'https://884b404a-f4d0-4908-9eb5-ef0c8afec15c.mock.pstmn.io',
-      '/upgrader/config',
+      window.appGlobal.baseUrl,
+      '/upgrader/api/database-config',
     );
     return {
       http,
@@ -155,25 +155,27 @@ export default {
       },
       isLoading: false,
       database: {
-        dbHost: '',
-        dbPort: '',
-        dbName: '',
-        dbUser: '',
-        dbPassword: '',
+        dbHost: null,
+        dbPort: null,
+        dbName: null,
+        dbUser: null,
+        dbPassword: null,
       },
       errorMessage: '',
     };
   },
   beforeMount() {
     this.isLoading = true;
-    this.http.getAll().then((res) => {
-      this.database = res.data;
+    this.http.getAll().then(({data: {data}}) => {
+      this.database = data;
+      this.database.dbPassword = null;
       this.isLoading = false;
     });
   },
   methods: {
     onSubmit() {
       this.errorMessage = '';
+      this.isLoading = true;
       const {dbHost, dbPort, dbName, dbUser, dbPassword} = this.database;
       this.http
         .create({dbHost, dbPort, dbName, dbUser, dbPassword})
@@ -181,7 +183,9 @@ export default {
           navigate('/upgrader/system-check');
         })
         .catch((err) => {
-          this.errorMessage = err.response.data.error;
+          this.isLoading = false;
+          this.errorMessage =
+            err.response.data.error?.message || err.response.data.error;
         });
     },
     navigateUrl() {

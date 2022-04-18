@@ -21,6 +21,7 @@
   <oxd-form
     class="orangehrm-current-version orangehrm-upgrader-container"
     :loading="isLoading"
+    @submitValid="onSubmit"
   >
     <oxd-text tag="h5" class="orangehrm-current-version-title">
       Current Version Details
@@ -108,6 +109,9 @@ export default {
     navigateUrl() {
       navigate('/upgrader/system-check');
     },
+    onSubmit(){
+      navigate('/upgrader/process');
+    }
   },
 };
 </script>
