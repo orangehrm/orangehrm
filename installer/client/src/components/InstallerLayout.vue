@@ -47,12 +47,12 @@
 </template>
 
 <script>
-import InstallerSteps from "@/components/InstallerSteps.vue";
+import InstallerSteps from '@/components/InstallerSteps.vue';
 
 export default {
-  name: "InstallerLayout",
+  name: 'InstallerLayout',
   components: {
-    "installer-steps": InstallerSteps,
+    'installer-steps': InstallerSteps,
   },
   props: {
     steps: {
