@@ -22,7 +22,7 @@ use OrangeHRM\Framework\Services;
 use OrangeHRM\ORM\Doctrine;
 use OrangeHRM\Tools\Migrations\Version20220221;
 
-require_once realpath(__DIR__ . '/../../symfony/vendor/autoload.php');
+require_once realpath(__DIR__ . '/../../src/vendor/autoload.php');
 
 ServiceContainer::getContainer()->register(Services::DOCTRINE)
     ->setFactory([Doctrine::class, 'getEntityManager']);

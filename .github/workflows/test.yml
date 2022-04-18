@@ -23,7 +23,7 @@ jobs:
 
       - name: Validate composer.json and composer.lock
         run: |
-          cd symfony
+          cd src
           composer validate --strict
 
       - name: Parse Git short hash
@@ -31,7 +31,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          cd symfony
+          cd src
           php7.4 -f /usr/bin/composer install
           php7.4 -f /usr/bin/composer dump-autoload -o
           cd client
@@ -44,19 +44,19 @@ jobs:
 
       - name: Run Jest
         run: |
-          cd symfony/client
+          cd src/client
           yarn test:unit --coverage
 
       - name: Run test
         run: |
-          XDEBUG_MODE=coverage ./symfony/vendor/bin/phpunit --coverage-html coverage -d memory_limit=1G
+          XDEBUG_MODE=coverage ./src/vendor/bin/phpunit --coverage-html coverage -d memory_limit=1G
           tar cf - coverage/ | xz -z - > coverage.tar.xz
 
       - name: Upload jest coverage
         uses: actions/upload-artifact@v2
         with:
           name: jest-coverage
-          path: symfony/client/coverage
+          path: src/client/coverage
 
       - name: Upload phpunit coverage
         uses: actions/upload-artifact@v2
@@ -75,20 +75,20 @@ jobs:
 
       - name: Validate composer.json and composer.lock
         run: |
-          cd symfony
+          cd src
           php7.4 -f /usr/bin/composer validate --strict
           php8.0 -f /usr/bin/composer validate --strict
           php8.1 -f /usr/bin/composer validate --strict
 
       - name: Install depandancies on PHP 7.4
         run: |
-          cd symfony
+          cd src
           php7.4 -f /usr/bin/composer install
           php7.4 -f /usr/bin/composer dump-autoload -o
 
       - name: Install depandancies on PHP 8.0
         run: |
-          cd symfony
+          cd src
           rm -rf vendor
           php8.0 -f /usr/bin/composer install
           php8.0 -f /usr/bin/composer dump-autoload -o
