@@ -218,15 +218,4 @@ class SchemaHelper
         $pdo = $this->getWrappedConnection();
         $pdo->exec('SET FOREIGN_KEY_CHECKS=1;');
     }
-
-    /**
-     * @param array $queries
-     * @return void
-     */
-    public function execSql(array $queries): void
-    {
-        foreach ($queries as $query) {
-            $this->getConnection()->exec($query);
-        }
-    }
 }
