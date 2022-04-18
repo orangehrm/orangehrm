@@ -19,7 +19,7 @@
 
 namespace OrangeHRM\Installer\Util\V1;
 
-use Doctrine\DBAL\Driver\Connection;
+use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Schema\AbstractSchemaManager;
 use Doctrine\DBAL\Schema\Column;
 use Doctrine\DBAL\Schema\ColumnDiff;
@@ -27,29 +27,30 @@ use Doctrine\DBAL\Schema\ForeignKeyConstraint;
 use Doctrine\DBAL\Schema\TableDiff;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Types\Types;
-use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Installer\Util\V1\Dto\Table;
 
 class SchemaHelper
 {
-    use EntityManagerHelperTrait;
-
     private AbstractSchemaManager $schemaManager;
 
+    private Connection $connection;
+
+
     /**
-     * @param AbstractSchemaManager $schemaManager
+     * @param Connection $connection
      */
-    public function __construct(AbstractSchemaManager $schemaManager)
+    public function __construct(Connection $connection)
     {
-        $this->schemaManager = $schemaManager;
+        $this->connection = $connection;
+        $this->schemaManager = $connection->createSchemaManager();
     }
 
     /**
-     * @return Connection|null
+     * @return Connection
      */
-    private function getConnection(): ?Connection
+    protected function getConnection(): Connection
     {
-        return $this->getEntityManager()->getConnection()->getWrappedConnection();
+        return $this->connection;
     }
 
     /**
@@ -193,11 +194,11 @@ class SchemaHelper
     }
 
     /**
-     * @return Connection
+     * @return \Doctrine\DBAL\Driver\Connection
      */
-    private function getDbConnection(): Connection
+    private function getWrappedConnection(): \Doctrine\DBAL\Driver\Connection
     {
-        return $this->getEntityManager()->getConnection()->getWrappedConnection();
+        return $this->getConnection()->getWrappedConnection();
     }
 
     /**
@@ -205,7 +206,7 @@ class SchemaHelper
      */
     public function disableConstraints(): void
     {
-        $pdo = $this->getDbConnection();
+        $pdo = $this->getWrappedConnection();
         $pdo->exec('SET FOREIGN_KEY_CHECKS=0;');
     }
 
@@ -214,7 +215,7 @@ class SchemaHelper
      */
     public function enableConstraints(): void
     {
-        $pdo = $this->getDbConnection();
+        $pdo = $this->getWrappedConnection();
         $pdo->exec('SET FOREIGN_KEY_CHECKS=1;');
     }
 
