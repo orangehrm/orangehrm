@@ -37,7 +37,7 @@ function welcomeSubmit() {
 		<p>This installer creates the OrangeHRM database tables and sets the
         configuration files that you need to start.</p>
                 <p>
-                    If you already use OrangeHRM, consider <a href="./index.php/upgrader/database-config">upgrading</a>.
+                    If you already use OrangeHRM, consider <a href="./index.php/welcome">upgrading</a>.
                 </p>              
                 
         <p>

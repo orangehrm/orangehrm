@@ -30,7 +30,7 @@ class HomeController extends AbstractInstallerController
      */
     protected function execute(Request $request): RedirectResponse
     {
-        return $this->redirect('/installer/welcome');
+        return $this->redirect('/welcome');
     }
 }
 

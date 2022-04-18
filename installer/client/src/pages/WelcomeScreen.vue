@@ -119,7 +119,7 @@ export default {
         navigate('/upgrader/database-config');
       } else {
         window.location.href = window.location.pathname.replace(
-          '/index.php/installer/welcome',
+          '/index.php/welcome',
           '/installerUI.php',
         );
       }
