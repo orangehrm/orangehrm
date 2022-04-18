@@ -21,6 +21,7 @@
   <oxd-form
     class="orangehrm-current-version orangehrm-upgrader-container"
     :loading="isLoading"
+    @submit-valid="onSubmit"
   >
     <oxd-text tag="h5" class="orangehrm-current-version-title">
       Current Version Details
@@ -72,12 +73,11 @@
 import {APIService} from '@/core/util/services/api.service';
 import {required} from '@/core/util/validation/rules';
 import {navigate} from '@/core/util/helper/navigation.ts';
-
 export default {
   name: 'CurrentVersionScreen',
   setup() {
     const http = new APIService(
-      'https://8fdc0dda-8987-4f6f-9014-cb8c49a3a717.mock.pstmn.io',
+      'https://884b404a-f4d0-4908-9eb5-ef0c8afec15c.mock.pstmn.io',
       'upgrader/current-version',
     );
     return {
@@ -96,7 +96,6 @@ export default {
       items: [],
     };
   },
-
   beforeMount() {
     this.isLoading = true;
     this.http.getAll().then((res) => {
@@ -107,6 +106,9 @@ export default {
   methods: {
     navigateUrl() {
       navigate('/upgrader/system-check');
+    },
+    onSubmit() {
+      navigate('/upgrader/process');
     },
   },
 };

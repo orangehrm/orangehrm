@@ -28,6 +28,11 @@ upgrader_complete:
   controller: OrangeHRM\Installer\Controller\UpgraderCompleteController::handle
   methods: [ GET ]
 
+upgrader_process:
+  path: /upgrader/process
+  controller: OrangeHRM\Installer\Controller\UpgraderController::handle
+  methods: [ GET ]
+
 ##########################
 #        APIs
 ##########################

@@ -1,3 +1,22 @@
+<!--
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ */
+ -->
 <template>
   <div class="orangehrm-upgrade-process orangehrm-upgrader-container">
     <oxd-text
@@ -17,23 +36,32 @@
       <oxd-form-row>
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
           <oxd-grid-item class="orangehrm-upgrade-process-item">
-            <oxd-text tag="h6">Applying Database Changes</oxd-text>
-            <oxd-icon name="check-circle-fill"></oxd-icon>
+            <oxd-text :class="getDatabaseClass" tag="h6">
+              Applying Database Changes
+            </oxd-text>
+            <oxd-icon
+              v-if="isDatabaseChanges"
+              name="check-circle-fill"
+            ></oxd-icon>
+            <oxd-icon v-else name="circle"></oxd-icon>
           </oxd-grid-item>
         </oxd-grid>
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
           <oxd-grid-item class="orangehrm-upgrade-process-item">
-            <oxd-text tag="h6">Creating Configuration files</oxd-text>
-            <oxd-icon name="circle"></oxd-icon>
+            <oxd-text tag="h6" :class="getConfigClass">
+              Creating Configuration files
+            </oxd-text>
+            <oxd-icon v-if="isFileCreated" name="check-circle-fill"></oxd-icon>
+            <oxd-icon v-else name="circle"></oxd-icon>
           </oxd-grid-item>
         </oxd-grid>
       </oxd-form-row>
     </div>
     <div class="orangehrm-upgrade-process-progress">
       <oxd-progress :progress="progress" type="success" />
-      <oxd-text class="orangehrm-upgrade-process-text"
-        >Please Wait installation in Progress</oxd-text
-      >
+      <oxd-text class="orangehrm-upgrade-process-text">
+        Please Wait installation in Progress
+      </oxd-text>
     </div>
   </div>
 </template>
@@ -41,7 +69,7 @@
 <script>
 import Icon from '@ohrm/oxd/core/components/Icon/Icon.vue';
 import {APIService} from '@/core/util/services/api.service';
-import ProgressBar from '@ohrm/oxd/core/components/Progressbar/Progressbar';
+import ProgressBar from '@ohrm/oxd/core/components/Progressbar/Progressbar.vue';
 export default {
   name: 'UpgradeScreen',
   components: {
@@ -50,8 +78,8 @@ export default {
   },
   setup() {
     const http = new APIService(
-      'https://8fdc0dda-8987-4f6f-9014-cb8c49a3a717.mock.pstmn.io',
-      'upgrader/database-changes',
+      'https://884b404a-f4d0-4908-9eb5-ef0c8afec15c.mock.pstmn.io',
+      'upgrader/upgrade',
     );
     return {
       http,
@@ -64,12 +92,39 @@ export default {
       isFileCreated: false,
     };
   },
+  computed: {
+    getDatabaseClass() {
+      if (this.isDatabaseChanges) {
+        return 'orangehrm-upgrade-process-text--bold';
+      }
+      return 'orangehrm-upgrade-process-text--normal';
+    },
+    getConfigClass() {
+      if (this.isFileCreated) {
+        return 'orangehrm-upgrade-process-text--bold';
+      }
+      return 'orangehrm-upgrade-process-text--normal';
+    },
+  },
   beforeMount() {
-    this.isDatabaseChanges = false;
-    this.http.request({method: 'get'}).then(() => {
-      this.progress = 49;
-      this.isDatabaseChanges = true;
-    });
+    this.getDatabaseChanges();
+  },
+  methods: {
+    getConfigFiles() {
+      this.isFileCreated = false;
+      this.http.get(1).then(() => {
+        this.progress = 100;
+        this.isFileCreated = true;
+      });
+    },
+    getDatabaseChanges() {
+      this.isDatabaseChanges = false;
+      this.http.get(1).then(() => {
+        this.progress = 49;
+        this.isDatabaseChanges = true;
+        this.getConfigFiles();
+      });
+    },
   },
 };
 </script>
@@ -80,10 +135,19 @@ export default {
   &-list {
     padding-top: 4rem;
   }
+  &-progress {
+    width: 70%;
+  }
   &-text {
     display: flex;
     justify-content: center;
     padding-top: 0.75rem;
+    &--bold {
+      font-weight: 700;
+    }
+    &--normal {
+      font-weight: 500;
+    }
   }
   &-progress {
     padding-top: 10rem;
@@ -93,7 +157,7 @@ export default {
     padding-top: 0;
     color: $oxd-primary-one-color;
   }
-  .orangehrm-upgrade-process-item {
+  &-item {
     display: flex;
     align-items: center;
     justify-content: space-between;
