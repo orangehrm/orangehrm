@@ -17,18 +17,24 @@
  * Boston, MA  02110-1301, USA
  */
  -->
+
 <template>
-  <oxd-form>
-    <oxd-form-row>
-      <oxd-grid :cols="2">
-        <oxd-grid-item>
-          <oxd-input-field label="Database Host" />
-        </oxd-grid-item>
-      </oxd-grid>
-    </oxd-form-row>
-  </oxd-form>
+  <oxd-text tag="p" class="orangehrm-form-hint"> * Required </oxd-text>
 </template>
 
 <script>
-export default {};
+export default {
+  name: 'RequiredText',
+};
 </script>
+
+<style lang="scss" scoped>
+.orangehrm-form-hint {
+  margin-right: auto;
+  font-weight: 600;
+  font-size: 0.75rem;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+</style>

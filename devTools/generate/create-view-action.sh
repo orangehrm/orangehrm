@@ -39,8 +39,8 @@ SAVE_ACTION='save'${ACTION_NAME}
 ACTION_CONTROLLER_NAME=${ACTION_NAME}
 ACTION_FOLDER="$(tr [A-Z] [a-z] <<< "${ACTION_NAME}")"
 ACTION_CONTROLLER_COMPONENT=${ACTION_FOLDER}'-list'
-BE_PLUGIN_FOLDER=../../symfony/plugins/$PLUGIN_NAME
-FE_PLUGIN_FOLDER=../../symfony/client/src/$PLUGIN_NAME
+BE_PLUGIN_FOLDER=../../src/plugins/$PLUGIN_NAME
+FE_PLUGIN_FOLDER=../../src/client/src/$PLUGIN_NAME
 VIEW_VUE_FILE=${FE_PLUGIN_FOLDER}/pages/${ACTION_FOLDER}/${ACTION_NAME}.vue
 ################################################################################
 # copy vue files                                                                       #
@@ -76,5 +76,3 @@ sed -i "s/{ACTION_CONTROLLER_COMPONENT}/${ACTION_CONTROLLER_COMPONENT}/g" ${CONT
 sed -i "s/{PLUGIN_NAME_SPACE}/${ACTION_NAME}/g" ${CONTROLLER_FILE}
 
 echo "Generated ${CONTROLLER_FILE} File"
-
-

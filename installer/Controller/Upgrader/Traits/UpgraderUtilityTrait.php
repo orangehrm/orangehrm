@@ -19,47 +19,50 @@
 
 namespace OrangeHRM\Installer\Controller\Upgrader\Traits;
 
-use mysqli;
+use Doctrine\DBAL\Schema\AbstractSchemaManager;
+use Exception;
+use OrangeHRM\Installer\Util\Connection;
 
 trait UpgraderUtilityTrait
 {
-    private $dbConnection = null;
-
-    /***
-     * @param string $host
-     * @param string $username
-     * @param string $password
-     * @param string $dbname
-     * @param int|null $port
+    /**
      * @return bool
      */
-    public function checkDatabaseConnection(
-        string $host,
-        string $username,
-        string $password,
-        string $dbname,
-        ?int $port
-    ): bool {
-        $this->dbConnection = @new mysqli($host, $username, $password, $dbname, $port);
-        return !$this->dbConnection->connect_error;
+    public function checkDatabaseConnection(): bool
+    {
+        try {
+            $connection = $this->getConnection();
+            $connection->connect();
+            return true;
+        } catch (Exception $exception) {
+            return false;
+        }
     }
 
     /**
      * @return bool
+     * @throws \Doctrine\DBAL\Exception
      */
     public function checkDatabaseStatus(): bool
     {
-        $query = "SHOW TABLES LIKE 'ohrm_upgrade_status'";
-        $result = $this->executeSql($query);
-        return $result->num_rows > 0;
+        $connection = $this->getConnection();
+        return $connection->createSchemaManager()->tablesExist(['ohrm_upgrade_status']);
     }
 
     /**
-     * @param string $query
-     * @return mixed
+     * @return \Doctrine\DBAL\Connection
      */
-    private function executeSql(string $query)
+    public function getConnection(): \Doctrine\DBAL\Connection
     {
-        return $this->dbConnection->query($query);
+        return Connection::getConnection();
+    }
+
+    /**
+     * @return AbstractSchemaManager
+     * @throws \Doctrine\DBAL\Exception
+     */
+    public function getSchemaManager(): AbstractSchemaManager
+    {
+        return $this->getConnection()->createSchemaManager();
     }
 }

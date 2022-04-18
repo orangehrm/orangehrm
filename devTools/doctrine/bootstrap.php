@@ -20,7 +20,7 @@
 use OrangeHRM\ORM\Doctrine;
 use OrangeHRM\ORM\Exception\ConfigNotFoundException;
 
-require_once realpath(__DIR__ . '/../../symfony/vendor/autoload.php');
+require_once realpath(__DIR__ . '/../../src/vendor/autoload.php');
 
 $errorMessage = "
 Can't connect to the database.

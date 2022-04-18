@@ -32,7 +32,7 @@ class ConfigHelper
     private function getPathConfigs(): array
     {
         $pathToProjectBase = realpath(__DIR__ . '/../../../');
-        $pathToSrcDir = realpath($pathToProjectBase . '/symfony/');
+        $pathToSrcDir = realpath($pathToProjectBase . '/src/');
         return [
             Config::BASE_DIR => $pathToProjectBase,
             Config::SRC_DIR => $pathToSrcDir,

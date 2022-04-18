@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-require_once realpath(__DIR__ . '/../symfony/vendor/autoload.php');
+require_once realpath(__DIR__ . '/../src/vendor/autoload.php');
 
 require_once realpath(__DIR__ . '/utils/installUtil.php');
 require_once realpath(__DIR__ . '/environmentCheck/SystemValidator.php');

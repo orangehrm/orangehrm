@@ -1,5 +1,5 @@
 # Depends on;
-# symfony/test/phpunit/fixtures/MenuItem.yaml
+# src/test/phpunit/fixtures/MenuItem.yaml
 
 Config:
   - { name: 'authorize_user_role_manager_class', value: 'BasicUserRoleManager' }

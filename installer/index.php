@@ -23,7 +23,7 @@ use Symfony\Component\ErrorHandler\Debug;
 
 // TODO:: check PHP version before further processing
 
-require realpath(__DIR__ . '/../symfony/vendor/autoload.php');
+require realpath(__DIR__ . '/../src/vendor/autoload.php');
 
 $env = 'prod';
 $debug = 'prod' !== $env;

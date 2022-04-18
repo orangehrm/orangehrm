@@ -17,14 +17,14 @@
  * Boston, MA  02110-1301, USA
  */
 
-$pathToAutoload = realpath(__DIR__ . '/../../symfony/vendor/autoload.php');
+$pathToAutoload = realpath(__DIR__ . '/../../src/vendor/autoload.php');
 $pathToDevAutoload = realpath(__DIR__ . '/vendor/autoload.php');
 
 $errorMessage = "
 Cannot find all composer dependencies.
 Run below command and try again;\n
 $ cd %s
-$ composer install -d symfony
+$ composer install -d src
 $ composer install -d devTools/core\n
 ";
 

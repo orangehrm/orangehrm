@@ -10,7 +10,22 @@ installer_welcome:
 
 upgrader_database_config:
   path: /upgrader/database-config
-  controller: OrangeHRM\Installer\Controller\Upgrader\DatabaseConfigController::handle
+  controller: OrangeHRM\Installer\Controller\DatabaseConfigurationController::handle
+  methods: [ GET ]
+
+upgrader_system_check:
+  path: /upgrader/system-check
+  controller: OrangeHRM\Installer\Controller\SystemCheckController::handle
+  methods: [ GET ]
+
+upgrader_current_version:
+  path: /upgrader/current-version
+  controller: OrangeHRM\Installer\Controller\CurrentVersionDetailsController::handle
+  methods: [ GET ]
+
+upgrader_complete:
+  path: /upgrader/complete
+  controller: OrangeHRM\Installer\Controller\UpgraderCompleteController::handle
   methods: [ GET ]
 
 ##########################
@@ -20,7 +35,7 @@ upgrader_database_config:
 api_upgrader_database_config:
   path: /upgrader/api/database-config
   controller: OrangeHRM\Installer\Controller\Upgrader\Api\DatabaseConfigAPI::handle
-  methods: [ POST ]
+  methods: [ GET, POST ]
 
 api_upgrader_migration:
   path: /upgrader/api/migration
@@ -40,4 +55,9 @@ api_upgrader_versions:
 api_upgrader_current_version:
   path: /upgrader/api/current-version
   controller: OrangeHRM\Installer\Controller\Upgrader\Api\CurrentVersionAPI::handle
+  methods: [ GET ]
+
+api_system_check:
+  path: /upgrader/api/system-check
+  controller: OrangeHRM\Installer\Controller\Upgrader\Api\SystemCheckAPI::handle
   methods: [ GET ]
