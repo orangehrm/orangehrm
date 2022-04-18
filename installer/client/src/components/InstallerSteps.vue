@@ -18,41 +18,40 @@
  */
  -->
 <template>
-  <div class="orangehrm-installer">
-    <div class="orangehrm-installer-sidebar">
-      <installer-steps
-        :steps="steps"
-        :current-step="currentStep"
-      ></installer-steps>
-      <div class="orangehrm-installer-footer">
-        <oxd-text
-          v-show="currentStep === 0"
-          tag="a"
-          href="#"
-          class="orangehrm-installer-guide"
-        >
-          Installation Guide
-        </oxd-text>
-        <br />
-        <slot name="footer"></slot>
-      </div>
-    </div>
-    <div class="orangehrm-installer-header">
-      <img :src="brandingSrc" width="280" alt="orangehrm-branding" />
-    </div>
-    <div class="orangehrm-installer-content">
-      <slot></slot>
-    </div>
-  </div>
+  <ul class="orangehrm-installer-steps">
+    <li
+      v-for="(step, index) in steps"
+      :key="step"
+      :class="{
+        'orangehrm-installer-steps-item': true,
+        '--active': currentStep === index,
+      }"
+    >
+      <oxd-text
+        tag="span"
+        :class="{
+          'orangehrm-installer-steps-count': true,
+          '--success': currentStep > index,
+        }"
+      >
+        <template v-if="currentStep <= index">{{ index + 1 }}</template>
+        <oxd-icon v-else class="orangehrm-installer-steps-icon" name="check" />
+      </oxd-text>
+
+      <oxd-text tag="span" class="orangehrm-installer-steps-name">
+        {{ step }}
+      </oxd-text>
+    </li>
+  </ul>
 </template>
 
 <script>
-import InstallerSteps from '@/components/InstallerSteps.vue';
+import Icon from '@ohrm/oxd/core/components/Icon/Icon.vue';
 
 export default {
-  name: 'InstallerLayout',
+  name: 'InstallerSteps',
   components: {
-    'installer-steps': InstallerSteps,
+    'oxd-icon': Icon,
   },
   props: {
     steps: {
@@ -64,12 +63,7 @@ export default {
       default: 0,
     },
   },
-  data() {
-    return {
-      brandingSrc: `${window.appGlobal.baseUrl}/../images/ohrm_branding.png`,
-    };
-  },
 };
 </script>
 
-<style src="./installer-layout.scss" lang="scss" scoped></style>
+<style src="./installer-steps.scss" lang="scss" scoped></style>

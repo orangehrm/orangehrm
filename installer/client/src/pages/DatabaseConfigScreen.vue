@@ -189,7 +189,7 @@ export default {
         });
     },
     navigateUrl() {
-      navigate('/installer/welcome');
+      navigate('/welcome');
     },
   },
 };

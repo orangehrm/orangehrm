@@ -276,5 +276,5 @@ if (isset($_SESSION['UNISTALL'])) {
     include(ROOT_PATH . '/installer/cleanUp.php');
 }
 
-header('Location: ./installer/installerUI.php');
+header('Location: ./installer/index.php/welcome');
 

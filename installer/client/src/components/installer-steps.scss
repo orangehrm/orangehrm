@@ -14,45 +14,47 @@
 // if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 // Boston, MA  02110-1301, USA
 
-.orangehrm-installer {
-  height: inherit;
-  display: grid;
-  grid-template:
-    "sidebar header"
-    "sidebar content" / minmax(25%, 240px) auto;
-  grid-template-rows: 120px 1fr;
-  &-header {
-    grid-area: header;
-    margin-left: auto;
-    padding: 1rem 2rem;
-    box-sizing: border-box;
+.orangehrm-installer-steps {
+  padding: 0;
+  list-style: none;
+  margin-top: 120px;
+  &-item {
+    display: flex;
+    margin-bottom: 1rem;
+    align-items: baseline;
   }
-  &-sidebar {
-    position: relative;
-    grid-area: sidebar;
-    padding: 0 2rem;
-    box-sizing: border-box;
-    background: linear-gradient(180deg, #fa9e2e 0%, #e55422 90%);
-    // background: linear-gradient(
-    //   180deg,
-    //   $oxd-primary-gradient-start-color 0%,
-    //   $oxd-primary-gradient-end-color 90%
-    // );
-  }
-  &-content {
-    grid-area: content;
-    box-sizing: border-box;
-    padding-left: 2rem;
-    padding-right: 4rem;
-  }
-  &-footer {
-    bottom: 0;
-    position: absolute;
-  }
-  &-guide {
+  &-count,
+  &-name {
     font-size: 16px;
-    font-weight: 600;
     color: $oxd-white-color;
-    text-decoration: none;
+    font-weight: 600;
+  }
+  &-count {
+    display: block;
+    width: 1.4rem;
+    height: 1.4rem;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 1.4rem;
+    border: 2px solid $oxd-white-color;
+    box-shadow: 0px 4px 10px rgb(0 0 0 / 15%);
+    &.--success {
+      border-color: $oxd-feedback-success-color;
+      background-color: $oxd-feedback-success-color;
+    }
+  }
+  &-name {
+    margin-left: 1rem;
+    text-shadow: 0px 4px 8px rgb(0 0 0 / 18%);
+  }
+  &-icon {
+    color: $oxd-white-color;
+  }
+  &-item.--active > &-count {
+    color: $oxd-primary-gradient-start-color;
+    background-color: $oxd-white-color;
+  }
+  &-item.--active > &-name {
+    font-weight: 700;
   }
 }

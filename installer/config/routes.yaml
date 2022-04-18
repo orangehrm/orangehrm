@@ -4,7 +4,7 @@ installer_home:
   methods: [ GET ]
 
 installer_welcome:
-  path: /installer/welcome
+  path: /welcome
   controller: OrangeHRM\Installer\Controller\WelcomeController::handle
   methods: [ GET ]
 
