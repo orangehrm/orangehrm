@@ -165,7 +165,6 @@ class Migration extends AbstractMigration
      */
     private function readlanguageYaml(string $filepath): array
     {
-        $apiPermissions = [];
         $yaml = Yaml::parseFile($filepath);
         $array = array_shift($yaml);
         return $array;
