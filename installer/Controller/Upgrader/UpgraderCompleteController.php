@@ -17,19 +17,22 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Installer\Controller;
+namespace OrangeHRM\Installer\Controller\Upgrader;
 
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Installer\Controller\AbstractInstallerVueController;
+use OrangeHRM\Installer\Util\StateContainer;
 
-class DatabaseConfigurationController extends AbstractInstallerVueController
+class UpgraderCompleteController extends AbstractInstallerVueController
 {
     /**
      * @inheritDoc
      */
     public function preRender(Request $request): void
     {
-        $component = new Component('database-config-screen');
+        $component = new Component('upgrader-complete-screen');
         $this->setComponent($component);
+        StateContainer::getInstance()->setCurrentScreen(self::UPGRADER_COMPLETE_SCREEN, true);
     }
 }

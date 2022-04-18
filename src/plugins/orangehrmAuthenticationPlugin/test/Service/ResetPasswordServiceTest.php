@@ -137,6 +137,7 @@ class ResetPasswordServiceTest extends KernelTestCase
 
     public function testSendPasswordResetCodeEmail(): void
     {
+        $this->markTestSkipped('Should mock sending mails');
         $urlGenerator = $this->getMockBuilder(UrlGenerator::class)
             ->onlyMethods(['generate'])
             ->disableOriginalConstructor()
@@ -150,6 +151,7 @@ class ResetPasswordServiceTest extends KernelTestCase
             [Services::URL_GENERATOR => $urlGenerator, Services::CONFIG_SERVICE => new ConfigService()]
         );
         $employee = $this->getEntityManager()->getRepository(Employee::class)->findOneBy(['empNumber' => '1']);
+        // TODO:: mock send mail
         $isSend = $this->resetPasswordService->sendPasswordResetCodeEmail(
             $employee,
             'YWRtaW4jU0VQQVJBVE9SI6kK4PL4sB8AtJa2y5WNP-Y',
@@ -179,6 +181,7 @@ class ResetPasswordServiceTest extends KernelTestCase
 
     public function testLogPasswordResetRequest(): void
     {
+        $this->markTestSkipped('Should mock sending mails');
         $urlGenerator = $this->getMockBuilder(UrlGenerator::class)
             ->onlyMethods(['generate'])
             ->disableOriginalConstructor()
@@ -196,6 +199,7 @@ class ResetPasswordServiceTest extends KernelTestCase
             ]
         );
         $user = $this->getEntityManager()->getRepository(User::class)->findOneBy(['id' => '3']);
+        // TODO:: mock send mail
         $isSave = $this->resetPasswordService->logPasswordResetRequest($user);
         $this->assertEquals(true, $isSave);
     }

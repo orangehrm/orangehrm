@@ -22,7 +22,6 @@
         "symfony/event-dispatcher": "~5.4.0",
         "respect/validation": "~2.2",
         "symfony/monolog-bundle": "~3.7.1",
-        "bshaffer/oauth2-server-php": "~1.11",
         "doctrine/orm": "~2.10.1",
         "symfony/yaml": "~5.4.0",
         "twig/twig": "~3.3.4",
@@ -33,7 +32,8 @@
         "symfony/security-csrf": "~5.4.0",
         "guzzlehttp/guzzle": "~7.4",
         "symfony/translation": "~5.4",
-        "symfony/polyfill-intl-messageformatter": "^1.24"
+        "symfony/polyfill-intl-messageformatter": "^1.24",
+        "symfony/process": "^5.4"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.5",

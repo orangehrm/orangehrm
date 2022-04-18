@@ -17,10 +17,12 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Installer\Controller;
+namespace OrangeHRM\Installer\Controller\Upgrader;
 
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Installer\Controller\AbstractInstallerVueController;
+use OrangeHRM\Installer\Util\StateContainer;
 
 class UpgraderController extends AbstractInstallerVueController
 {
@@ -31,7 +33,6 @@ class UpgraderController extends AbstractInstallerVueController
     {
         $component = new Component('upgrade-process-screen');
         $this->setComponent($component);
+        StateContainer::getInstance()->setCurrentScreen(self::UPGRADE_SCREEN, true);
     }
 }
-
-

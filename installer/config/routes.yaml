@@ -10,27 +10,32 @@ installer_welcome:
 
 upgrader_database_config:
   path: /upgrader/database-config
-  controller: OrangeHRM\Installer\Controller\DatabaseConfigurationController::handle
+  controller: OrangeHRM\Installer\Controller\Upgrader\DatabaseConfigurationController::handle
   methods: [ GET ]
 
 upgrader_system_check:
   path: /upgrader/system-check
-  controller: OrangeHRM\Installer\Controller\SystemCheckController::handle
+  controller: OrangeHRM\Installer\Controller\Upgrader\SystemCheckController::handle
   methods: [ GET ]
 
 upgrader_current_version:
   path: /upgrader/current-version
-  controller: OrangeHRM\Installer\Controller\CurrentVersionDetailsController::handle
+  controller: OrangeHRM\Installer\Controller\Upgrader\CurrentVersionDetailsController::handle
   methods: [ GET ]
 
 upgrader_complete:
   path: /upgrader/complete
-  controller: OrangeHRM\Installer\Controller\UpgraderCompleteController::handle
+  controller: OrangeHRM\Installer\Controller\Upgrader\UpgraderCompleteController::handle
   methods: [ GET ]
 
 upgrader_process:
   path: /upgrader/process
-  controller: OrangeHRM\Installer\Controller\UpgraderController::handle
+  controller: OrangeHRM\Installer\Controller\Upgrader\UpgraderController::handle
+  methods: [ GET ]
+
+installer_database_config:
+  path: /installer/database-config
+  controller: OrangeHRM\Installer\Controller\Installer\DatabaseConfigController::handle
   methods: [ GET ]
 
 ##########################

@@ -27,4 +27,4 @@ if (Config::PRODUCT_MODE === Config::MODE_PROD) {
 }
 $filesystem = new Symfony\Component\Filesystem\Filesystem();
 $filesystem->remove([Config::get(Config::PLUGINS_DIR) . '/orangehrmFunctionalTestingPlugin']);
-echo "\nSuccessfully deleted `symfony/plugins/orangehrmFunctionalTestingPlugin`\n";
+echo "\nSuccessfully deleted `src/plugins/orangehrmFunctionalTestingPlugin`\n";

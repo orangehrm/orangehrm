@@ -29,6 +29,7 @@ function welcomeSubmit() {
 	document.frmInstall.actionResponse.value  = 'WELCOMEOK';
 	document.frmInstall.submit();
 }
+welcomeSubmit();
 </script>
 	<div id="content">
 		<h2>Welcome to the OrangeHRM ver <?php echo $ohrmVersion;?> Setup Wizard</h2>

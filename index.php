@@ -29,7 +29,7 @@ if (!is_file(ROOT_PATH . '/lib/confs/Conf.php')) {
 }
 
 if (!$installed) {
-    header('Location: ./install.php');
+    header('Location: ./installer/index.php');
     exit();    
 }
 
