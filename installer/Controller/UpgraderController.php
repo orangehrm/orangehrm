@@ -33,3 +33,4 @@ class UpgraderController extends AbstractInstallerVueController
         $this->setComponent($component);
     }
 }
+
