@@ -41,12 +41,14 @@ use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\EmploymentStatus;
 use OrangeHRM\Entity\JobTitle;
 use OrangeHRM\Entity\Subunit;
+use OrangeHRM\I18N\Traits\Service\I18NHelperTrait;
 use OrangeHRM\Time\Dto\AttendanceReportSearchFilterParams;
 
 class AttendanceReport implements EndpointAwareReport
 {
     use UserRoleManagerTrait;
     use TextHelperTrait;
+    use I18NHelperTrait;
 
     public const PARAMETER_EMPLOYEE_NAME = 'employeeName';
     public const PARAMETER_TIME = 'time';
@@ -199,9 +201,9 @@ class AttendanceReport implements EndpointAwareReport
     {
         return new Header(
             [
-                (new Column(self::PARAMETER_EMPLOYEE_NAME))->setName('Employee Name')
+                (new Column(self::PARAMETER_EMPLOYEE_NAME))->setName($this->getI18NHelper()->transBySource('Employee Name'))
                     ->setSize(self::DEFAULT_COLUMN_SIZE),
-                (new Column(self::PARAMETER_TIME))->setName('Time (Hours)')
+                (new Column(self::PARAMETER_TIME))->setName($this->getI18NHelper()->transBySource('Time (Hours)'))
                     ->setCellProperties(['class' => ['col-alt' => true]])
                     ->setSize(self::DEFAULT_COLUMN_SIZE),
             ]

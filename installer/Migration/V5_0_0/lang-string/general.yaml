@@ -480,10 +480,10 @@ langStrings:
     value: 'Reject'
     unitId: reject
   -
-    value: '{count,plural, =0{No Records Found} one{1 Record Found} other{# Records Found}}'
+    value: '{count,plural, =0{No Records Found} one{(1) Record Found} other{ (#) Records Found}}'
     unitId: n_records_found
   -
-    value: '{count,plural, =0{No Records Selected} one{1 Record Selected} other{# Records Selected}}'
+    value: '{count,plural, =0{No Records Selected} one{(1) Record Selected} other{(#) Records Selected}}'
     unitId: n_records_selected
   -
     value: 'Password'
