@@ -34,3 +34,4 @@ class UpgraderController extends AbstractInstallerVueController
     }
 }
 
+
