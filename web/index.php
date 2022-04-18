@@ -4,7 +4,7 @@ use OrangeHRM\Framework\Framework;
 use OrangeHRM\Framework\Http\Request;
 use Symfony\Component\ErrorHandler\Debug;
 
-require realpath(__DIR__ . '/../symfony/vendor/autoload.php');
+require realpath(__DIR__ . '/../src/vendor/autoload.php');
 
 $env = $_SERVER['APP_ENV'] ?? $_ENV['APP_ENV'] ?? $_SERVER['APP_ENV'] = $_ENV['APP_ENV'] = 'prod';
 $debug = (bool)($_SERVER['APP_DEBUG'] ?? $_ENV['APP_DEBUG'] ?? $_SERVER['APP_DEBUG'] = $_ENV['APP_DEBUG'] = ('prod' !== $env));

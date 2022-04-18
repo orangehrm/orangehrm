@@ -12,8 +12,8 @@ fi
 ################################################################################
 PLUGIN_NAME=$1
 API_NAME=$2
-BE_PLUGIN_FOLDER=../../symfony/plugins/$PLUGIN_NAME
-FE_PLUGIN_FOLDER=../../symfony/client/src/$PLUGIN_NAME
+BE_PLUGIN_FOLDER=../../src/plugins/$PLUGIN_NAME
+FE_PLUGIN_FOLDER=../../src/client/src/$PLUGIN_NAME
 API_CLASS_NAME=$API_NAME
 API_NAMESPACE=$API_NAME
 ENTITY_CLASS=$API_NAME

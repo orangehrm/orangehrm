@@ -33,8 +33,8 @@ fi
 # Create the plugin folders                                                                        #
 ################################################################################
 PLUGIN_NAME=$1
-FE_PLUGIN_FOLDER=../../symfony/client/src/$PLUGIN_NAME
-BE_PLUGIN_FOLDER=../../symfony/plugins/$PLUGIN_NAME
+FE_PLUGIN_FOLDER=../../src/client/src/$PLUGIN_NAME
+BE_PLUGIN_FOLDER=../../src/plugins/$PLUGIN_NAME
 
 mkdir -p ${BE_PLUGIN_FOLDER}/{Api,config,Controller,entity,test,modules,Service}
 mkdir -p ${FE_PLUGIN_FOLDER}/{pages,}

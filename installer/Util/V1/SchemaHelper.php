@@ -166,7 +166,7 @@ class SchemaHelper
     {
         $table = new Table($name);
 
-        // Only applicable for `symfony/vendor/doctrine/dbal/src/Platforms/MySQLPlatform.php`
+        // Only applicable for `src/vendor/doctrine/dbal/src/Platforms/MySQLPlatform.php`
         $table->addOption('charset', $charset);
         $table->addOption('collate', $collate ?? $charset . '_unicode_ci');
         $table->addOption('engine', 'InnoDB');
