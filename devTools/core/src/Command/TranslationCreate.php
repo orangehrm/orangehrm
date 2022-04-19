@@ -34,13 +34,6 @@ class TranslationCreate extends Command
 
     private TranslationHelper $translationHelper;
 
-    /**
-     * @inheritDoc
-     */
-    protected function configure(): void
-    {
-        // ...
-    }
 
     /**
      * @inheritDoc
