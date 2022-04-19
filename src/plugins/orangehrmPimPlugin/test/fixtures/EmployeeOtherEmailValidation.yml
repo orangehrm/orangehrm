@@ -1,0 +1,12 @@
+Employee:
+  0: { empNumber: 1, firstName: 'Devi', lastName: 'DS', middleName: 'RN', employeeId: 'E001', emp_work_email: 'devi@admin.com', emp_oth_email: 'devi@other.com' }
+  1: { empNumber: 2, firstName: 'Sharuka', lastName: 'Perera', middleName: 'N',employeeId: 'E002', emp_work_email: 'sharuka@xample.com', emp_oth_email: 'sharuka@other.com' }
+  2: { empNumber: 3, firstName: 'Baskaran', lastName: 'Ajiharan', employeeId: 'E004' }
+
+UserRole:
+  - { id: 1, name: Admin, display_name: Admin, is_assignable: 1, is_predefined: 1 }
+  - { id: 2, name: ESS, display_name: ESS, is_assignable: 1, is_predefined: 1 }
+  - { id: 3, name: Supervisor, display_name: Supervisor, is_assignable: 0, is_predefined: 1 }
+
+User:
+  - { "id": 1, "user_role_id": 1, "emp_number": 3, "user_name": "admin","user_password": "427b690239f45962c78e251f0f724d7f","deleted": "0","status": "1","date_modified": "2022-04-19 12:51:00","modified_user_id": "1" }

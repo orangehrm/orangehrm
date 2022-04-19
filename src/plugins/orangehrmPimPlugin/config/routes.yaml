@@ -498,6 +498,16 @@ apiv2_pim_validate_employee_email:
   requirements:
     empNumber: '\d+'
 
+apiv2_pim_validate_employee_other_email:
+  path: /api/v2/pim/employees/{empNumber}/contact-details/validation/other-emails
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _key: otherEmail
+    _api: OrangeHRM\Pim\Api\ValidationEmployeeOtherEmailAPI
+  requirements:
+    empNumber: '\d+'
+
 ##########################
 #        Files
 ##########################

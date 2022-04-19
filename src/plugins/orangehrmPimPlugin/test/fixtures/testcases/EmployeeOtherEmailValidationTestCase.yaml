@@ -1,0 +1,52 @@
+GetOne:
+  'with a non existent email address':
+    userId: 1
+    services:
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    attributes:
+      empNumber: 1
+    body: [ ]
+    query:
+      otherEmail: 'ajiharan@admin.com'
+    data:
+      valid: true
+    meta: [ ]
+
+  'with an existing other email address':
+    userId: 1
+    services:
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    attributes:
+      empNumber: 1
+    body: [ ]
+    query:
+      otherEmail: 'sharuka@other.com'
+    data:
+      valid: false
+    meta: [ ]
+
+  'with non existent other email for employee without current email':
+    userId: 1
+    services:
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    attributes:
+      empNumber: 3
+    body: [ ]
+    query:
+      otherEmail: 'ajiharan@other.com'
+    data:
+      valid: true
+    meta: [ ]
+
+  'with existing work email':
+    userId: 1
+    services:
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    attributes:
+      empNumber: 1
+    body: [ ]
+    query:
+      otherEmail: 'devi@admin.com'
+    data:
+      valid: false
+    meta: [ ]
