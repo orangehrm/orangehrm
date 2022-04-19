@@ -21,7 +21,10 @@
     </noscript>
 
     <div id="app">
-        <installer-layout>
+        <installer-layout
+            :steps="{{ steps | json_encode() }}"
+            :current-step="{{ currentStep }}"
+        >
             <{{ componentName }}
             {% for prop in componentProps %}
                 :{{ prop.getName() }}="{{ prop.getValue() }}"

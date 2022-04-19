@@ -1,0 +1,7 @@
+'Marcket Place Home Page':
+  module: marketPlace
+  url: ohrmAddons
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false } }
+    - { role: ESS, permission: { read: true, create: false, update: false, delete: false } }
+    - { role: Supervisor, permission: { read: true, create: false, update: false, delete: false } }

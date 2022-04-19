@@ -1,0 +1,11 @@
+Marketplace:
+  description: 'Install or Uninstall addons- Tasks'
+  allowed:
+    read: true
+    create: true
+    update: false
+    delete: true
+  permissions:
+    - { role: Admin, permission: { read: true, create: true, update: false, delete: true, self: false } }
+    - { role: ESS, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: Supervisor, permission: { read: true, create: false, update: false, delete: false, self: false } }

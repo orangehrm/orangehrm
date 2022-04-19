@@ -22,6 +22,7 @@ namespace OrangeHRM\Installer\Util;
 use OrangeHRM\Framework\Http\Session\Session;
 use OrangeHRM\Framework\ServiceContainer;
 use OrangeHRM\Framework\Services;
+use OrangeHRM\Installer\Controller\AbstractInstallerVueController;
 
 class StateContainer
 {
@@ -30,6 +31,9 @@ class StateContainer
     public const DB_NAME = 'dbName';
     public const DB_HOST = 'dbHost';
     public const DB_PASSWORD = 'dbPass';
+    public const IS_SET_DB_INFO = 'isSetDbInfo';
+    public const CURRENT_SCREEN = 'currentScreen';
+    public const IS_UPGRADER = 'isUpgrader';
 
     /**
      * @var null|self
@@ -123,6 +127,7 @@ class StateContainer
         $this->getSession()->set(self::DB_PASSWORD, $dbPassword);
         $this->getSession()->set(self::DB_HOST, $dbHost);
         $this->getSession()->set(self::DB_PORT, $dbPort);
+        $this->getSession()->set(self::IS_SET_DB_INFO, true);
     }
 
     /***
@@ -137,5 +142,55 @@ class StateContainer
             self::DB_HOST => $this->getSession()->get(self::DB_HOST),
             self::DB_PORT => $this->getSession()->get(self::DB_PORT),
         ];
+    }
+
+    /**
+     * Clear stored DB configs
+     */
+    public function clearDbInfo(): void
+    {
+        $this->getSession()->remove(self::DB_NAME);
+        $this->getSession()->remove(self::DB_USER);
+        $this->getSession()->remove(self::DB_PASSWORD);
+        $this->getSession()->remove(self::DB_HOST);
+        $this->getSession()->remove(self::DB_PORT);
+        $this->getSession()->set(self::IS_SET_DB_INFO, false);
+    }
+
+    /**
+     * @return bool
+     */
+    public function isSetDbInfo(): bool
+    {
+        return $this->getSession()->get(self::IS_SET_DB_INFO, false);
+    }
+
+    /**
+     * @param string $screen
+     * @param bool $isUpgrader
+     */
+    public function setCurrentScreen(string $screen, bool $isUpgrader = false): void
+    {
+        $this->getSession()->set(self::CURRENT_SCREEN, $screen);
+        $this->getSession()->set(self::IS_UPGRADER, $isUpgrader);
+        if ($screen === AbstractInstallerVueController::WELCOME_SCREEN) {
+            $this->getSession()->set(self::IS_UPGRADER, null);
+        }
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getCurrentScreen(): ?string
+    {
+        return $this->getSession()->get(self::CURRENT_SCREEN);
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function isUpgrader(): ?bool
+    {
+        return $this->getSession()->get(self::IS_UPGRADER);
     }
 }

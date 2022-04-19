@@ -17,19 +17,25 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Installer\Controller;
+namespace OrangeHRM\Installer\Migration\V4_2_0_1;
 
-use OrangeHRM\Core\Vue\Component;
-use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Installer\Util\V1\AbstractMigration;
 
-class SystemCheckController extends AbstractInstallerVueController
+class Migration extends AbstractMigration
 {
     /**
      * @inheritDoc
      */
-    public function preRender(Request $request): void
+    public function up(): void
     {
-        $component = new Component('system-check-screen');
-        $this->setComponent($component);
+        // no db changes in this version
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getVersion(): string
+    {
+        return '4.2.0.1';
     }
 }

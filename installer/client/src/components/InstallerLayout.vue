@@ -57,11 +57,11 @@ export default {
   props: {
     steps: {
       type: Array,
-      default: () => [],
+      required: true,
     },
     currentStep: {
       type: Number,
-      default: 0,
+      required: true,
     },
   },
   data() {

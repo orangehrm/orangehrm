@@ -17,38 +17,22 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Installer\Controller\Upgrader\Api;
+namespace OrangeHRM\Installer\Controller\Upgrader;
 
-use Doctrine\DBAL\Connection;
+use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Framework\Http\Response;
-use OrangeHRM\Installer\Controller\AbstractInstallerRestController;
-use OrangeHRM\Installer\Util\AppSetupUtility;
+use OrangeHRM\Installer\Controller\AbstractInstallerVueController;
 use OrangeHRM\Installer\Util\StateContainer;
-use OrangeHRM\ORM\Doctrine;
 
-class ConfigFileAPI extends AbstractInstallerRestController
+class UpgraderController extends AbstractInstallerVueController
 {
     /**
      * @inheritDoc
      */
-    protected function handlePost(Request $request): array
+    public function preRender(Request $request): void
     {
-        if (!StateContainer::getInstance()->isSetDbInfo()) {
-            $this->getResponse()->setStatusCode(Response::HTTP_CONFLICT);
-            return
-                [
-                    'error' => [
-                        'status' => $this->getResponse()->getStatusCode(),
-                        'message' => 'Database info not yet stored'
-                    ]
-                ];
-        }
-
-        $appSetupUtility = new AppSetupUtility();
-        $appSetupUtility->writeConfFile();
-        return [
-            'success' => Doctrine::getEntityManager()->getConnection() instanceof Connection,
-        ];
+        $component = new Component('upgrade-process-screen');
+        $this->setComponent($component);
+        StateContainer::getInstance()->setCurrentScreen(self::UPGRADE_SCREEN, true);
     }
 }

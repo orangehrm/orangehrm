@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Installer\Util\V1;
 
+use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Schema\AbstractSchemaManager;
 use Doctrine\DBAL\Schema\Column;
 use Doctrine\DBAL\Schema\ColumnDiff;
@@ -32,20 +33,35 @@ class SchemaHelper
 {
     private AbstractSchemaManager $schemaManager;
 
+    private Connection $connection;
+
+
     /**
-     * @param AbstractSchemaManager $schemaManager
+     * @param Connection $connection
      */
-    public function __construct(AbstractSchemaManager $schemaManager)
+    public function __construct(Connection $connection)
     {
-        $this->schemaManager = $schemaManager;
+        $this->connection = $connection;
+        $this->schemaManager = $connection->createSchemaManager();
     }
 
     /**
-     * @return AbstractSchemaManager
+     * @return Connection
      */
-    public function getSchemaManager(): AbstractSchemaManager
+    protected function getConnection(): Connection
     {
-        return $this->schemaManager;
+        return $this->connection;
+    }
+
+    /**
+     * @param string $tableName
+     * @param string $columnName
+     */
+    public function dropColumn(string $tableName, string $columnName): void
+    {
+        $column = $this->getTableColumn($tableName, $columnName);
+        $diff = new TableDiff($tableName, [], [], [$column]);
+        $this->getSchemaManager()->alterTable($diff);
     }
 
     /**
@@ -59,14 +75,11 @@ class SchemaHelper
     }
 
     /**
-     * @param string $tableName
-     * @param string $columnName
+     * @return AbstractSchemaManager
      */
-    public function dropColumn(string $tableName, string $columnName): void
+    public function getSchemaManager(): AbstractSchemaManager
     {
-        $column = $this->getTableColumn($tableName, $columnName);
-        $diff = new TableDiff($tableName, [], [], [$column]);
-        $this->getSchemaManager()->alterTable($diff);
+        return $this->schemaManager;
     }
 
     /**
@@ -168,5 +181,41 @@ class SchemaHelper
     public function tableExists(array $table): bool
     {
         return $this->getSchemaManager()->tablesExist($table);
+    }
+
+    /**
+     * @param string $tableName
+     * @return void
+     */
+    public function dropPrimaryKey(string $tableName): void
+    {
+        $table = $this->getSchemaManager()->listTableDetails($tableName);
+        $this->getSchemaManager()->dropIndex($table->getPrimaryKey(), $table);
+    }
+
+    /**
+     * @return \Doctrine\DBAL\Driver\Connection
+     */
+    private function getWrappedConnection(): \Doctrine\DBAL\Driver\Connection
+    {
+        return $this->getConnection()->getWrappedConnection();
+    }
+
+    /**
+     * @return void
+     */
+    public function disableConstraints(): void
+    {
+        $pdo = $this->getWrappedConnection();
+        $pdo->exec('SET FOREIGN_KEY_CHECKS=0;');
+    }
+
+    /**
+     * @return void
+     */
+    public function enableConstraints(): void
+    {
+        $pdo = $this->getWrappedConnection();
+        $pdo->exec('SET FOREIGN_KEY_CHECKS=1;');
     }
 }

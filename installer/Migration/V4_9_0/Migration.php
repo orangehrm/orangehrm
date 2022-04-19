@@ -69,9 +69,10 @@ class Migration extends AbstractMigration
             $this->getSchemaHelper()->createTable('ohrm_registration_event_queue')
                 ->addColumn('id', Types::INTEGER, ['Autoincrement' => true])
                 ->addColumn('event_type', Types::INTEGER, ['Notnull' => true])
-                ->addColumn('published', Types::SMALLINT, ['Unsigned'=> true,'NotNull' => true,'Default' => 0])
-                ->addColumn('event_time', Types::DATETIME_MUTABLE, ['Default'=> null,'Notnull' => true])
-                ->addColumn('publish_time', Types::DATETIME_MUTABLE, ['Default'=> null,'Notnull' => true])
+                ->addColumn('published', Types::SMALLINT, ['Unsigned' => true, 'NotNull' => true, 'Default' => 0])
+                ->addColumn('event_time', Types::DATETIME_MUTABLE, ['Default' => null, 'Notnull' => false])
+                ->addColumn('publish_time', Types::DATETIME_MUTABLE, ['Default' => null, 'Notnull' => false])
+                ->addColumn('data', Types::TEXT, ['Default' => null, 'Notnull' => false])
                 ->setPrimaryKey(['id'])
                 ->create();
         }
@@ -155,22 +156,6 @@ class Migration extends AbstractMigration
             ->setParameter('themeId', $themeId)
             ->setParameter('themeName', $themeName)
             ->setParameter('variables', $variables)
-            ->executeQuery();
-    }
-
-    /**
-     * @param string $value
-     * @param string $key
-     * @return void
-     */
-    private function updateConfig(string $value, string $key): void
-    {
-        $this->createQueryBuilder()
-            ->update('hs_hr_config', 'config')
-            ->set('config.value', ':value')
-            ->setParameter('value', $value)
-            ->andWhere('config.key = :key')
-            ->setParameter('key', $key)
             ->executeQuery();
     }
 }
