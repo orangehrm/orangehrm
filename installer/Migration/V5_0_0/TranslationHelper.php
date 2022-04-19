@@ -17,47 +17,34 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Tools\Migrations\V5;
+namespace OrangeHRM\Installer\Migration\V5_0_0;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Query\QueryBuilder;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
-use OrangeHRM\Installer\Migration\V5_0_0\LangStringHelper;
 use OrangeHRM\Installer\Util\V1\Dto\TransUnit;
 use Symfony\Component\Yaml\Yaml;
 
-class TranslationTestTool
+class TranslationHelper
 {
     use EntityManagerHelperTrait;
 
     protected ?LangStringHelper $langStringHelper = null;
 
     /**
-     * @param string $groupName
-     * @return void
-     * @throws Exception
-     */
-    public function up(string $groupName)
-    {
-        $langCode = 'bg_BG';   //the test language will replace Bulgarian
-        $this->addTranslations($langCode, $groupName);
-    }
-
-    /**
      * @param string $language
      * @param string $groupName
      * @return void
-     * @throws Exception
      */
-    private function addTranslations(string $language, string $groupName): void
+    public function addTranslations(string $language): void
     {
-        $filepath2 = 'installer/Migration/V5_0_0/lang-string/' . $groupName . '.yaml';
-        $yml2 = Yaml::parseFile($filepath2);
-        $langStrings = array_shift($yml2);
-        foreach ($langStrings as $langString) {
-            $sourceObj = new TransUnit($langString['value'], 'tr_' . $langString['value']);
-            $this->saveTranslationRecord($groupName, $sourceObj, $language);
+        $filepath = 'installer/Migration/V5_0_0/translation/' . $language . '.yaml';
+        $yml = Yaml::parseFile($filepath);
+        $translations = array_shift($yml);
+        foreach ($translations as $translation) {
+            $sourceObj = new TransUnit($translation['target'], $translation['unitId']);
+            $this->saveTranslationRecord($translation['group'], $sourceObj, $language);
         }
     }
 
@@ -66,16 +53,14 @@ class TranslationTestTool
      * @param TransUnit $source
      * @param string $language
      * @return void
-     * @throws Exception
      */
     private function saveTranslationRecord(string $groupName, TransUnit $source, string $language): void
     {
         $groupId = $this->getLangStringHelper()->getGroupId($groupName);
-        // TODO:: check below codes
-        $langStringId = $this->getLangStringHelper()->getLangStringIdByValueAndGroup($source->getSource(), $groupId);
+        $langStringId = $this->getLangStringHelper()->getLangStringIdByUnitIdAndGroup($source->getUnitId(), $groupId);
         if ($langStringId == null) {
             throw new Exception(
-                'Cannot add a translation to a non existent lang string: ' . $source->getSource()
+                'Cannot add a translation to a non existent lang string: ' .$source->getUnitId()
             );
         }
         $langId = $this->getLanguageId($language);
@@ -86,25 +71,36 @@ class TranslationTestTool
             $insetQuery = $this->createQueryBuilder();
             $insetQuery->insert('ohrm_i18n_translate')
                 ->values(
-                    ['lang_string_id' => ':langStringId',
+                    [
+                        'lang_string_id' => ':langStringId',
                         'language_id' => ':langId',
                         'value' => ':target',
-                    ])
+                    ]
+                )
                 ->setParameter('langStringId', $langStringId)
                 ->setParameter('langId', $langId)
-                ->setParameter('target', $source->getTarget())->executeQuery();
+                ->setParameter('target', $source->getTarget())
+                ->executeQuery();
         }
     }
 
     /**
-     * @return LangStringHelper|null
+     * @return LangStringHelper
      */
-    public function getLangStringHelper(): ?LangStringHelper
+    private function getLangStringHelper(): LangStringHelper
     {
         if (is_null($this->langStringHelper)) {
-            $this->langStringHelper = new LangStringHelper($this->getEntityManager()->getConnection());
+            $this->langStringHelper = new LangStringHelper($this->getConnection());
         }
         return $this->langStringHelper;
+    }
+
+    /**
+     * @return Connection
+     */
+    protected function getConnection(): Connection
+    {
+        return $this->getEntityManager()->getConnection();
     }
 
     /**
@@ -147,5 +143,4 @@ class TranslationTestTool
             ->setParameter('langStringId', $langStringId);
         return $searchQuery->executeQuery()->fetchOne();
     }
-
 }

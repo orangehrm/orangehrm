@@ -30,6 +30,8 @@ class Migration extends AbstractMigration
 {
     protected ?LangStringHelper $langStringHelper = null;
 
+    protected ?TranslationHelper $translationHelper = null;
+
     /**
      * @inheritDoc
      */
@@ -194,6 +196,11 @@ class Migration extends AbstractMigration
             $this->getLangStringHelper()->deleteNonCustomizedLangStrings($group);
             $this->getLangStringHelper()->insertOrUpdateLangStrings($group);
         }
+
+        $langCodes = ['bg_BG', 'da_DK', 'de', 'en_US', 'es', 'es_AR', 'es_BZ', 'es_CR', 'es_ES', 'fr', 'fr_FR', 'id_ID', 'ja_JP', 'nl', 'om_ET', 'th_TH', 'vi_VN', 'zh_Hans_CN', 'zh_Hant_TW'];
+        foreach ($langCodes as $langCode) {
+            $this->getTranslationHelper()->addTranslations($langCode);
+        }
     }
 
     /**
@@ -354,5 +361,16 @@ class Migration extends AbstractMigration
             $this->langStringHelper = new LangStringHelper($this->getConnection());
         }
         return $this->langStringHelper;
+    }
+
+    /**
+     * @return TranslationHelper
+     */
+    public function getTranslationHelper(): TranslationHelper
+    {
+        if (is_null($this->translationHelper)) {
+            $this->translationHelper = new TranslationHelper();
+        }
+        return $this->translationHelper;
     }
 }
