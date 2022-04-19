@@ -21,8 +21,10 @@ namespace OrangeHRM\Installer\Controller\Upgrader\Api;
 
 use Doctrine\DBAL\Connection;
 use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Framework\Http\Response;
 use OrangeHRM\Installer\Controller\AbstractInstallerRestController;
 use OrangeHRM\Installer\Util\AppSetupUtility;
+use OrangeHRM\Installer\Util\StateContainer;
 use OrangeHRM\ORM\Doctrine;
 
 class ConfigFileAPI extends AbstractInstallerRestController
@@ -32,6 +34,17 @@ class ConfigFileAPI extends AbstractInstallerRestController
      */
     protected function handlePost(Request $request): array
     {
+        if (!StateContainer::getInstance()->isSetDbInfo()) {
+            $this->getResponse()->setStatusCode(Response::HTTP_CONFLICT);
+            return
+                [
+                    'error' => [
+                        'status' => $this->getResponse()->getStatusCode(),
+                        'message' => 'Database info not yet stored'
+                    ]
+                ];
+        }
+
         $appSetupUtility = new AppSetupUtility();
         $appSetupUtility->writeConfFile();
         return [

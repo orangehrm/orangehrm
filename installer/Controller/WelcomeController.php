@@ -24,6 +24,7 @@ use OrangeHRM\Core\Helper\VueControllerHelper;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Installer\Util\StateContainer;
 
 class WelcomeController extends AbstractInstallerVueController
 {
@@ -37,6 +38,6 @@ class WelcomeController extends AbstractInstallerVueController
             new Prop(VueControllerHelper::PRODUCT_VERSION, Prop::TYPE_STRING, Config::PRODUCT_VERSION)
         );
         $this->setComponent($component);
+        StateContainer::getInstance()->setCurrentScreen(self::WELCOME_SCREEN);
     }
 }
-

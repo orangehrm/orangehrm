@@ -60,12 +60,10 @@
     </div>
   </oxd-form>
 </template>
-
 <script>
 import {APIService} from '@/core/util/services/api.service';
 import FlexTable from '@/components/FlexTable.vue';
 import {navigate} from '@/core/util/helper/navigation.ts';
-
 export default {
   name: 'SystemCheckScreen',
   components: {
@@ -73,8 +71,8 @@ export default {
   },
   setup() {
     const http = new APIService(
-      'https://8fdc0dda-8987-4f6f-9014-cb8c49a3a717.mock.pstmn.io',
-      'upgrader/systemChecks',
+      window.appGlobal.baseUrl,
+      'upgrader/api/system-check',
     );
     return {
       http,
@@ -124,7 +122,6 @@ export default {
   },
 };
 </script>
-
 <style src="./installer-page.scss" lang="scss" scoped></style>
 <style scoped lang="scss">
 .orangehrm-system-check {

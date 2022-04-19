@@ -20,9 +20,20 @@
 <template>
   <div class="orangehrm-installer">
     <div class="orangehrm-installer-sidebar">
-      <div class="orangehrm-installer-steps"></div>
-      <div class="orangehrm-installer-guide"></div>
+      <installer-steps
+        :steps="steps"
+        :current-step="currentStep"
+      ></installer-steps>
       <div class="orangehrm-installer-footer">
+        <oxd-text
+          v-show="currentStep === 0"
+          tag="a"
+          href="#"
+          class="orangehrm-installer-guide"
+        >
+          Installation Guide
+        </oxd-text>
+        <br />
         <slot name="footer"></slot>
       </div>
     </div>
@@ -36,8 +47,23 @@
 </template>
 
 <script>
+import InstallerSteps from '@/components/InstallerSteps.vue';
+
 export default {
   name: 'InstallerLayout',
+  components: {
+    'installer-steps': InstallerSteps,
+  },
+  props: {
+    steps: {
+      type: Array,
+      required: true,
+    },
+    currentStep: {
+      type: Number,
+      required: true,
+    },
+  },
   data() {
     return {
       brandingSrc: `${window.appGlobal.baseUrl}/../images/ohrm_branding.png`,

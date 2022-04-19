@@ -11,7 +11,7 @@ This is the main advantage of cypress over selenium.
 
 ```
      {
-        "baseUrl": "http://php80/orangehrm/symfony/web/index.php",
+        "baseUrl": "http://php80/orangehrm/web/index.php",
      }
 ```
 
