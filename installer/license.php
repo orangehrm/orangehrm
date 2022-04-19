@@ -19,7 +19,7 @@
  */
 
 
-$license_file_name = ROOT_PATH . "/license/LICENSE.TXT";
+$license_file_name = ROOT_PATH . "/LICENSE";
 $fh = fopen( $license_file_name, 'r' ) or die( "License file not found!" );
 $license_file = fread( $fh, filesize( $license_file_name ) );
 fclose( $fh );
