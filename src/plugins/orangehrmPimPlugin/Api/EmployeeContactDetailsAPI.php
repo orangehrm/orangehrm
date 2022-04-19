@@ -304,6 +304,10 @@ class EmployeeContactDetailsAPI extends Endpoint implements CrudEndpoint
             self::PARAMETER_OTHER_EMAIL
         );
 
+        if (!empty($workEmail) && !empty($otherEmail) && $workEmail === $otherEmail) {
+            throw $this->getBadRequestException('Work Email and Other Email Cannot Be The Same');
+        }
+
         $employee = $this->getEmployeeService()->getEmployeeByEmpNumber($empNumber);
         $this->throwRecordNotFoundExceptionIfNotExist($employee, Employee::class);
 

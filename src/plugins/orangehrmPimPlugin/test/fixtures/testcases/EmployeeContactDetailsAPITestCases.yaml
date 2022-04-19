@@ -159,15 +159,6 @@ Update:
     body:
       workEmail: 'devi@test.com'
       otherEmail: 'devi@test.com'
-    data:
-      street1: ''
-      street2: ''
-      city: ''
-      province: ''
-      zipCode: ''
-      countryCode: ''
-      homeTelephone: ''
-      workTelephone: ''
-      mobile: ''
-      workEmail: 'devi@test.com'
-      otherEmail: 'devi@test.com'
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\BadRequestException'
+      message: 'Work Email and Other Email Cannot Be The Same'
