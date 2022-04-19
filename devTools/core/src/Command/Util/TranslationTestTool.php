@@ -54,7 +54,7 @@ class TranslationTestTool
         $yml2 = Yaml::parseFile($filepath2);
         $langStrings = array_shift($yml2);
         foreach ($langStrings as $langString) {
-            $sourceObj = new TranslationUnit('tr_' . $langString['value'], null, $langString['value'],);
+            $sourceObj = new TranslationUnit('tr_' . $langString['value'], null, $langString['value'], );
             $this->saveTranslationRecord($groupName, $sourceObj, $language);
         }
     }
