@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Installer\upgrader\Migrations\V5;
+namespace OrangeHRM\DevTools\Command\Util;
 
 class TranslationUnit
 {

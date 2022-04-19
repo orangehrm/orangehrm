@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Installer\upgrader\Migrations\V5;
+namespace OrangeHRM\DevTools\Command\Util;
 
 use Doctrine\DBAL\Query\QueryBuilder;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
@@ -27,13 +27,10 @@ class TranslationGenerateTool
 {
     use EntityManagerHelperTrait;
 
-    public function generateTranslations()
+    public function generateTranslations(string $langCode)
     {
-        $langCodes = ['bg_BG', 'da_DK', 'de', 'en_US', 'es', 'es_AR', 'es_BZ', 'es_CR', 'es_ES', 'fr', 'fr_FR', 'id_ID', 'ja_JP', 'nl', 'om_ET', 'th_TH', 'vi_VN', 'zh_Hans_CN', 'zh_Hant_TW', 'zz_ZZ'];  //add the xml files inside installer/upgrader/Migrations/V5/translations/messages folder
-        foreach ($langCodes as $langCode) {
-            $filename = 'installer/upgrader/Migrations/V5/translations/messages.' . $langCode . '.xml';
-            $this->readTranslations($filename, $langCode);
-        }
+        $filename = 'devTools/core/src/Command/Util/translation/messages.' . $langCode . '.xml';
+        $this->readTranslations($filename, $langCode);
     }
 
     /**
@@ -92,5 +89,4 @@ class TranslationGenerateTool
         }
         return null;
     }
-
 }

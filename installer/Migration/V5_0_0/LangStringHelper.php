@@ -227,7 +227,6 @@ class LangStringHelper
         if (false != $result = $q->executeQuery()->fetchOne()) {
             return $result;
         }
-        var_dump($langStringUnitId, $groupId);
         return null;
     }
 

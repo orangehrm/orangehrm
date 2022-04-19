@@ -17,13 +17,12 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Tools\Migrations\V5;
+namespace OrangeHRM\DevTools\Command\Util;
 
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Query\QueryBuilder;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Installer\Migration\V5_0_0\LangStringHelper;
-use OrangeHRM\Installer\upgrader\Migrations\V5\TranslationUnit;
 use Symfony\Component\Yaml\Yaml;
 
 class TranslationTestTool
@@ -37,7 +36,7 @@ class TranslationTestTool
      * @return void
      * @throws Exception
      */
-    public function up(string $groupName)
+    public function execute(string $groupName)
     {
         $langCode = 'bg_BG';   //the test language will replace Bulgarian
         $this->addTranslations($langCode, $groupName);
@@ -88,7 +87,8 @@ class TranslationTestTool
                     ['lang_string_id' => ':langStringId',
                         'language_id' => ':langId',
                         'value' => ':target',
-                    ])
+                    ]
+                )
                 ->setParameter('langStringId', $langStringId)
                 ->setParameter('langId', $langId)
                 ->setParameter('target', $source->getTarget())->executeQuery();
@@ -146,5 +146,4 @@ class TranslationTestTool
             ->setParameter('langStringId', $langStringId);
         return $searchQuery->executeQuery()->fetchOne();
     }
-
 }
