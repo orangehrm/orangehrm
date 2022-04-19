@@ -19,19 +19,6 @@
 
 namespace OrangeHRM\Installer\Controller\Installer\Api;
 
-use OrangeHRM\Config\Config;
-use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Installer\Controller\AbstractInstallerRestController;
-
-class LicenseFileAPI extends AbstractInstallerRestController
+class ConfigFileAPI extends \OrangeHRM\Installer\Controller\Upgrader\Api\ConfigFileAPI
 {
-    /**
-     * @inheritDoc
-     */
-    protected function handleGet(Request $request): array
-    {
-        return [
-            'data' => file_get_contents(Config::get(Config::BASE_DIR) . DIRECTORY_SEPARATOR . 'LICENSE')
-        ];
-    }
 }

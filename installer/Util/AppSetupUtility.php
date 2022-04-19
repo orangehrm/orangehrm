@@ -54,6 +54,9 @@ class AppSetupUtility
         ],
     ];
 
+    public const INSTALLATION_DB_TYPE_NEW = 'new';
+    public const INSTALLATION_DB_TYPE_EXISTING = 'existing';
+
     private ?ConfigHelper $configHelper = null;
 
     /**
@@ -73,7 +76,7 @@ class AppSetupUtility
     public function createNewDatabase(string $dbName)
     {
         try {
-            Connection::getConnection()->createSchemaManager()->createDatabase($dbName);
+            DatabaseServerConnection::getConnection()->createSchemaManager()->createDatabase($dbName);
         } catch (Exception $e) {
             Logger::getLogger()->error($e->getMessage());
             Logger::getLogger()->error($e->getTraceAsString());
@@ -81,11 +84,86 @@ class AppSetupUtility
     }
 
     /**
+     * Trying to connect database server without selecting a database
+     * @return bool
+     */
+    public function connectToDatabaseServer(): bool
+    {
+        try {
+            DatabaseServerConnection::getConnection()->connect();
+            return true;
+        } catch (Exception $e) {
+            Logger::getLogger()->error($e->getMessage());
+            Logger::getLogger()->error($e->getTraceAsString());
+            return false;
+        }
+    }
+
+    /**
+     * @param string $dbName
+     * @return bool
+     */
+    public function isDatabaseExist(string $dbName): bool
+    {
+        try {
+            return !in_array(
+                $dbName,
+                DatabaseServerConnection::getConnection()->createSchemaManager()->listDatabases()
+            );
+        } catch (Exception $e) {
+            Logger::getLogger()->error($e->getMessage());
+            Logger::getLogger()->error($e->getTraceAsString());
+            return false;
+        }
+    }
+
+    /**
+     * Trying to connect existing database
+     * @return bool
+     */
+    public function connectToDatabase(): bool
+    {
+        try {
+            Connection::getConnection()->connect();
+            return true;
+        } catch (Exception $e) {
+            Logger::getLogger()->error($e->getMessage());
+            Logger::getLogger()->error($e->getTraceAsString());
+            return false;
+        }
+    }
+
+    /**
+     * Connect existing database & check is empty
      * @return bool
      */
     public function isExistingDatabaseEmpty(): bool
     {
         return !(Connection::getConnection()->createSchemaManager()->listTables() > 0);
+    }
+
+    /**
+     * Create database at the installation
+     */
+    public function createDatabase(): void
+    {
+        if (StateContainer::getInstance()->getDbType() === AppSetupUtility::INSTALLATION_DB_TYPE_NEW) {
+            $dbName = StateContainer::getInstance()->getDbInfo()[StateContainer::DB_NAME];
+            if ($this->isDatabaseExist($dbName)) {
+                throw new InvalidArgumentException("Cannot create database `$dbName`, already exist");
+            }
+            $this->createNewDatabase($dbName);
+            return;
+        } elseif (StateContainer::getInstance()->getDbType() === AppSetupUtility::INSTALLATION_DB_TYPE_EXISTING) {
+            if (!$this->isExistingDatabaseEmpty()) {
+                $dbName = StateContainer::getInstance()->getDbInfo()[StateContainer::DB_NAME];
+                throw new InvalidArgumentException("Database `$dbName`, not empty");
+            }
+            return;
+        }
+        throw new InvalidArgumentException(
+            'Invalid installation database type ' . StateContainer::getInstance()->getDbType()
+        );
     }
 
     public function insertCsrfKey()

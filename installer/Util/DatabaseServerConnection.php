@@ -17,21 +17,40 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Installer\Controller\Installer\Api;
+namespace OrangeHRM\Installer\Util;
 
-use OrangeHRM\Config\Config;
-use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Installer\Controller\AbstractInstallerRestController;
+use Doctrine\DBAL\Connection as DBALConnection;
+use Doctrine\DBAL\DriverManager;
 
-class LicenseFileAPI extends AbstractInstallerRestController
+class DatabaseServerConnection
 {
     /**
-     * @inheritDoc
+     * @var DBALConnection|null
      */
-    protected function handleGet(Request $request): array
+    private static ?DBALConnection $connection = null;
+
+    private function __construct()
     {
-        return [
-            'data' => file_get_contents(Config::get(Config::BASE_DIR) . DIRECTORY_SEPARATOR . 'LICENSE')
+        $dbInfo = StateContainer::getInstance()->getDbInfo();
+        $connectionParams = [
+            'user' => $dbInfo[StateContainer::DB_USER],
+            'password' => $dbInfo[StateContainer::DB_PASSWORD],
+            'host' => $dbInfo[StateContainer::DB_HOST],
+            'port' => $dbInfo[StateContainer::DB_PORT],
+            'driver' => 'pdo_mysql',
+            'charset' => 'utf8mb4'
         ];
+        self::$connection = DriverManager::getConnection($connectionParams);
+    }
+
+    /**
+     * @return DBALConnection
+     */
+    public static function getConnection(): DBALConnection
+    {
+        if (is_null(self::$connection)) {
+            new self();
+        }
+        return self::$connection;
     }
 }

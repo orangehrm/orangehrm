@@ -19,11 +19,11 @@
 
 namespace OrangeHRM\Installer\Controller\Installer\Api;
 
-use OrangeHRM\Config\Config;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Installer\Controller\AbstractInstallerRestController;
+use OrangeHRM\Installer\Util\InstanceCreationHelper;
 
-class LicenseFileAPI extends AbstractInstallerRestController
+class CountryAPI extends AbstractInstallerRestController
 {
     /**
      * @inheritDoc
@@ -31,7 +31,7 @@ class LicenseFileAPI extends AbstractInstallerRestController
     protected function handleGet(Request $request): array
     {
         return [
-            'data' => file_get_contents(Config::get(Config::BASE_DIR) . DIRECTORY_SEPARATOR . 'LICENSE')
+            'data' => InstanceCreationHelper::COUNTRIES,
         ];
     }
 }
