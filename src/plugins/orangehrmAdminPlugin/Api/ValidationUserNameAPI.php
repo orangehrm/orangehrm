@@ -40,7 +40,8 @@ class ValidationUserNameAPI extends Endpoint implements ResourceEndpoint
     public const PARAMETER_USER_Id = 'userId';
     public const PARAMETER_IS_CHANGEABLE_USERNAME = 'valid';
 
-    public const PARAM_RULE_USER_NAME_MAX_LENGTH = 40;
+    //TODO reduce to 40 once OXD issue fixed
+    public const PARAM_RULE_USER_NAME_MAX_LENGTH = 50;
 
     /**
      * @inheritDoc

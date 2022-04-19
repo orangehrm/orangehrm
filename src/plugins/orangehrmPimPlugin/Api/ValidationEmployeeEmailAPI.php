@@ -40,7 +40,8 @@ class ValidationEmployeeEmailAPI extends Endpoint implements ResourceEndpoint
     public const PARAMETER_WORK_EMAIL = 'workEmail';
     public const PARAMETER_IS_CHANGEABLE_WORK_EMAIL = 'valid';
 
-    public const PARAM_RULE_WORK_EMAIL_MAX_LENGTH = 50;
+    //TODO reduce to 50 once OXD issue fixed
+    public const PARAM_RULE_WORK_EMAIL_MAX_LENGTH = 60;
 
     /**
      * @inheritDoc
