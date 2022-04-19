@@ -447,31 +447,35 @@ class EmployeeDao extends BaseDao
     }
 
     /**
-     **this function for validating (update on validation) the work email availability. ( true -> email already exist, false - email is not exist )
-     * @param string $workEmail
-     * @param string $currentWorkEmail
+     **this function for validating (update on validation) the work email availability. ( false -> email already exist, true - email is not exist )
+     * @param string $email
+     * @param string|null $currentEmail
      * @return bool
      */
-    public function isWorkEmailAvailableByCurrentEmail(string $workEmail, string $currentWorkEmail): bool
+    public function isEmailAvailable(string $email, ?string $currentEmail): bool
     {
+        // we need to skip the current email on checking, otherwise count always return 1 (if current work email is not null)
+        // if the current email is set and input email equals current email, return true to skip validation
+        if (isset($currentEmail) && $email === $currentEmail) {
+            return true;
+        }
+
         $q = $this->createQueryBuilder(Employee::class, 'employee');
-        $q->andWhere('employee.workEmail = :workEmail');
-        $q->andWhere('employee.workEmail != :currentWorkEmail'); // we need to skip the current email on checking, otherwise count always return 1 (if current work email is not null)
-        $q->setParameter('workEmail', $workEmail);
-        $q->setParameter('currentWorkEmail', $currentWorkEmail);
-        return $this->getPaginator($q)->count() > 0;
+        $q->andWhere('employee.workEmail = :email OR employee.otherEmail = :email');
+        $q->setParameter('email', $email);
+        return $this->getPaginator($q)->count() === 0;
     }
 
-    /**
-     **this function for validating the work email availability (current email is null). ( true -> email already exist, false - email is not exist )
-     * @param string $workEmail
-     * @return bool
-     */
-    public function isWorkEmailAvailable(string $workEmail): bool
-    {
-        $q = $this->createQueryBuilder(Employee::class, 'employee');
-        $q->andWhere('employee.workEmail = :workEmail');
-        $q->setParameter('workEmail', $workEmail);
-        return $this->getPaginator($q)->count() > 0;
-    }
+//    /**
+//     **this function for validating the work email availability (current email is null). ( true -> email already exist, false - email is not exist )
+//     * @param string $email
+//     * @return bool
+//     */
+//    public function isEmailAvailable(string $email): bool
+//    {
+//        $q = $this->createQueryBuilder(Employee::class, 'employee');
+//        $q->andWhere('employee.workEmail = :email OR employee.otherEmail = :email');
+//        $q->setParameter('email', $email);
+//        return $this->getPaginator($q)->count() > 0;
+//    }
 }

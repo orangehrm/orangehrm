@@ -22,7 +22,7 @@ Employee:
       "emp_birthday": '1975-10-15',
       "emp_work_telephone": '112-898-7612', "eeo_cat_code" : 1, "job_title_code" : 1, "work_station" : 1}
 
-  1: { empNumber: 2, emp_gender: 1, emp_firstname: 'nihan', emp_lastname: 'singh', emp_middle_name: 'T', emp_nick_name: 'sd', employee_id: 'E002', emp_work_email: 'kayla1@xample.com', emp_oth_email: 'kayla2@xample.com',"nation_code": '1',
+  1: { empNumber: 2, emp_gender: 1, emp_firstname: 'nihan', emp_lastname: 'singh', emp_middle_name: 'T', emp_nick_name: 'sd', employee_id: 'E002', emp_work_email: 'nihan@xample.com', emp_oth_email: 'nihan2@xample.com',"nation_code": '1',
        "emp_birthday": '1975-10-15',
        "emp_work_telephone": '112-898-7612', "eeo_cat_code": 1, "job_title_code": 1, "work_station": 1}
 

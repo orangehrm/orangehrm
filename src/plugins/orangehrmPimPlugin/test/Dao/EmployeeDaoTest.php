@@ -337,15 +337,31 @@ class EmployeeDaoTest extends KernelTestCase
                                   ['workEmail' => '', 'otherEmail' => '']], $emailList);
     }
 
-    public function testIsWorkEmailAvailableByCurrentEmail(): void
+    public function testIsWorkEmailIsAvailable(): void
     {
-        $status = !$this->employeeDao->isWorkEmailAvailableByCurrentEmail('kayla0001@xample.com', 'kayla@xample.com');
+        $status = $this->employeeDao->isEmailAvailable('kayla0001@xample.com', 'kayla@xample.com');
+        $this->assertEquals(true, $status);
+
+        //with existing work email
+        $status = $this->employeeDao->isEmailAvailable('kayla@xample.com', 'nihan@xample.com');
+        $this->assertEquals(false, $status);
+
+        //with existing other email
+        $status = $this->employeeDao->isEmailAvailable('kayla2@xample.com', 'nihan2@xample.com');
+        $this->assertEquals(false, $status);
+
+        //with same email
+        $status = $this->employeeDao->isEmailAvailable('ashley@xample.com', 'ashley@xample.com');
+        $this->assertEquals(true, $status);
+
+        //with null email
+        $status = $this->employeeDao->isEmailAvailable('devi@admin.com', null);
         $this->assertEquals(true, $status);
     }
 
-    public function testIsWorkEmailAvailable(): void
-    {
-        $status = $this->employeeDao->isWorkEmailAvailable('renukshan@xample.com');
-        $this->assertTrue($status);
-    }
+//    public function testIsWorkEmailAvailable(): void
+//    {
+//        $status = $this->employeeDao->isEmailAvailable('renukshan@xample.com');
+//        $this->assertTrue($status);
+//    }
 }

@@ -37,3 +37,16 @@ GetOne:
     data:
       valid: true
     meta: [ ]
+
+  'get flag by employee work email (existing other email)':
+    userId: 1
+    services:
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    attributes:
+      empNumber: 1
+    body: [ ]
+    query:
+      workEmail: 'kayla@other.com'
+    data:
+      valid: false
+    meta: [ ]

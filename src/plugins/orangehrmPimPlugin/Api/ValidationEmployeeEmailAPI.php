@@ -57,17 +57,12 @@ class ValidationEmployeeEmailAPI extends Endpoint implements ResourceEndpoint
         );
         $employee = $this->getEmployeeService()->getEmployeeDao()->getEmployeeByEmpNumber($empNumber);
         $this->throwRecordNotFoundExceptionIfNotExist($employee, Employee::class);
-        $employeeCurrentWorkEmail = $employee->getWorkEmail();
-        if ($employeeCurrentWorkEmail) {
-            $isChangeableWorkEmail = !$this->getEmployeeService()
-                ->getEmployeeDao()
-                ->isWorkEmailAvailableByCurrentEmail(
-                    $workEmail,
-                    $employeeCurrentWorkEmail
-                );
-        } else {
-            $isChangeableWorkEmail = !$this->getEmployeeService()->getEmployeeDao()->isWorkEmailAvailable($workEmail);
-        }
+        $isChangeableWorkEmail = $this->getEmployeeService()
+            ->getEmployeeDao()
+            ->isEmailAvailable(
+                $workEmail,
+                $employee->getWorkEmail()
+            );
         return new EndpointResourceResult(
             ArrayModel::class,
             [
