@@ -46,14 +46,14 @@ class SystemConfig
     private bool $interruptContinue = false;
     private ?Filesystem $filesystem = null;
     private ?UpgraderConfigUtility $upgraderConfigUtility = null;
-    private $systemRequirements;
+    private array $systemRequirements = [];
 
     public function __construct()
     {
         $this->filesystem = new Filesystem();
         $this->upgraderConfigUtility = new UpgraderConfigUtility();
-        $this->systemRequirements = Yaml::parse(
-            file_get_contents(realpath(__DIR__ . '/../environmentCheck/system_requirements.yml'))
+        $this->systemRequirements = Yaml::parseFile(
+            realpath(__DIR__ . '/../environmentCheck/system_requirements.yml')
         );
     }
 
@@ -306,13 +306,13 @@ class SystemConfig
     {
         if ($this->checkWritePermission(realpath(__DIR__ . '/../../src/config'))) {
             return [
-                'message' => Messages::WRITEABLE_SYMFONY_CONFIG_OK_MESSAGE,
+                'message' => Messages::WRITEABLE_SRC_CONFIG_OK_MESSAGE,
                 'status' => self::PASSED
             ];
         } else {
             $this->interruptContinue = true;
             return [
-                'message' => Messages::WRITEABLE_SYMFONY_CONFIG_FAIL_MESSAGE,
+                'message' => Messages::WRITEABLE_SRC_CONFIG_FAIL_MESSAGE,
                 'status' => self::BLOCKER
             ];
         }
@@ -326,13 +326,13 @@ class SystemConfig
     {
         if ($this->checkWritePermission(Config::get(Config::CACHE_DIR))) {
             return [
-                'message' => Messages::WRITEABLE_SYMFONY_CACHE_OK_MESSAGE,
+                'message' => Messages::WRITEABLE_SRC_CACHE_OK_MESSAGE,
                 'status' => self::PASSED
             ];
         } else {
             $this->interruptContinue = true;
             return [
-                'message' => Messages::WRITEABLE_SYMFONY_CACHE_FAIL_MESSAGE,
+                'message' => Messages::WRITEABLE_SRC_CACHE_FAIL_MESSAGE,
                 'status' => self::BLOCKER
             ];
         }
@@ -346,13 +346,13 @@ class SystemConfig
     {
         if ($this->checkWritePermission(Config::get(Config::LOG_DIR))) {
             return [
-                'message' => Messages::WRITEABLE_SYMFONY_LOG_OK_MESSAGE,
+                'message' => Messages::WRITEABLE_SRC_LOG_OK_MESSAGE,
                 'status' => self::PASSED
             ];
         } else {
             $this->interruptContinue = true;
             return [
-                'message' => Messages::WRITEABLE_SYMFONY_LOG_FAIL_MESSAGE,
+                'message' => Messages::WRITEABLE_SRC_LOG_FAIL_MESSAGE,
                 'status' => self::BLOCKER
             ];
         }
@@ -486,7 +486,7 @@ class SystemConfig
         } else {
             $this->interruptContinue = true;
             return [
-                'message' => Messages::SimpleXMLStatus_DISABLE_MESSAGE,
+                'message' => Messages::SIMPLE_XML_STATUS_DISABLE_MESSAGE,
                 'status' => self::BLOCKER
             ];
         }

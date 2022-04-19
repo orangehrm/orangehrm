@@ -35,14 +35,14 @@ class Messages
     public const WRITABLE_LIB_CONF_OK_MESSAGE = "Write Permissions for lib/confs/ - Writeable";
     public const WRITABLE_LIB_CONF_FAIL_MESSAGE = "Write Permissions for lib/confs/ - Not Writeable";
 
-    public const WRITEABLE_SYMFONY_CONFIG_OK_MESSAGE = "Write Permissions for - src/config - Writeable";
-    public const WRITEABLE_SYMFONY_CONFIG_FAIL_MESSAGE = "Write Permissions for - src/config - Not Writeable";
+    public const WRITEABLE_SRC_CONFIG_OK_MESSAGE = "Write Permissions for - src/config - Writeable";
+    public const WRITEABLE_SRC_CONFIG_FAIL_MESSAGE = "Write Permissions for - src/config - Not Writeable";
 
-    public const WRITEABLE_SYMFONY_CACHE_OK_MESSAGE = "Write Permissions for src/cache - Writeable";
-    public const WRITEABLE_SYMFONY_CACHE_FAIL_MESSAGE = "Write Permissions for src/cache - Not Writeable";
+    public const WRITEABLE_SRC_CACHE_OK_MESSAGE = "Write Permissions for src/cache - Writeable";
+    public const WRITEABLE_SRC_CACHE_FAIL_MESSAGE = "Write Permissions for src/cache - Not Writeable";
 
-    public const WRITEABLE_SYMFONY_LOG_OK_MESSAGE = "Write Permissions for src/log - Writeable";
-    public const WRITEABLE_SYMFONY_LOG_FAIL_MESSAGE = "Write Permissions for src/log - Not Writeable";
+    public const WRITEABLE_SRC_LOG_OK_MESSAGE = "Write Permissions for src/log - Writeable";
+    public const WRITEABLE_SRC_LOG_FAIL_MESSAGE = "Write Permissions for src/log - Not Writeable";
 
     public const MAXIMUM_SESSION_IDLE_OK_MESSAGE = "Maximum Session Idle Time before Timeout - Good";
     public const MAXIMUM_SESSION_IDLE_SHORT_MESSAGE = "Maximum Session Idle Time before Timeout - Short";
@@ -54,7 +54,7 @@ class Messages
     public const CURL_STATUS_DISABLE_MESSAGE = "cURL status - Disabled. This is required to run OrangeHRM";
     public const CURL_STATUS_OK_MESSAGE = "cURL status - Enabled";
 
-    public const SimpleXMLStatus_DISABLE_MESSAGE = "SimpleXML status - Disabled. SimpleXML, libxml and xml PHP libraries are required";
+    public const SIMPLE_XML_STATUS_DISABLE_MESSAGE = "SimpleXML status - Disabled. SimpleXML, libxml and xml PHP libraries are required";
     public const SIMPLE_XML_STATUS_OK_MESSAGE = "SimpleXML status - Enabled";
 
     public const ZIP_STATUS_DISABLE_MESSAGE = "ZIP status - Disabled. SimpleXML, libxml and xml PHP libraries are required";
