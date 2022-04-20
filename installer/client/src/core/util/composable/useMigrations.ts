@@ -60,36 +60,24 @@ export default function useMigrations(http: APIService) {
     currentVersion: string | null,
   ) {
     let index = versions.findIndex((_version) => _version === currentVersion);
-    if (index === -1) {
-      return null;
+    if (index === -1) return null;
+    while (versions[index + 1]) {
+      yield versions[index + 1];
+      index++;
     }
-    yield {
-      fromVersion: versions[index],
-      toVersion: versions[index + 1],
-    };
-    index++;
   }
 
-  const runAllMigrations = () => {
+  const runAllMigrations = async () => {
     let versions = [];
     let currentVersion = null;
     const getVersions = Promise.all([getVersionList(), getCurrentVersion()]);
-    return new Promise<Promise<boolean>>((resolve, reject) => {
-      getVersions.then((responses) => {
-        const [versionResponse, currentVersionResponse] = responses;
-        versions = [...versionResponse.data];
-        currentVersion =
-          currentVersionResponse.data !== null
-            ? currentVersionResponse.data.version
-            : null;
-        if (currentVersion === null) reject('version not detected');
-        for (const v of versionGenerator(versions, currentVersion)) {
-          migrateToVersion(v.fromVersion, v.toVersion)
-            .then((resolve) => console.log(resolve))
-            .catch((error) => reject(error));
-        }
-      });
-    });
+    const [versionResponse, currentVersionResponse] = await getVersions;
+    versions = [...versionResponse.data];
+    currentVersion = currentVersionResponse.data?.version;
+    if (!currentVersion) throw new Error('version not detected');
+    for (const nextVersion of versionGenerator(versions, currentVersion)) {
+      await migrateToVersion(null, nextVersion);
+    }
   };
 
   return {
