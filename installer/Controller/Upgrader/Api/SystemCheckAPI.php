@@ -95,11 +95,7 @@ class SystemCheckAPI extends AbstractInstallerRestController
                             'value' => $systemConfig->isRegisterGlobalsOff()
                         ],
                         [
-                            'label' => 'Memory Allocated for php script',
-                            'value' => $systemConfig->getAllocatedMemoryStatus()
-                        ],
-                        [
-                            'label' => 'Web Server allows .htacess files',
+                            'label' => 'Memory Allocated for PHP script',
                             'value' => $systemConfig->getAllocatedMemoryStatus()
                         ],
                         [

@@ -180,9 +180,6 @@ langStrings:
     value: 'File type not allowed'
     unitId: file_type_not_allowed
   -
-    value: 'Expected format: admin@example.com'
-    unitId: expected_format_not_matched
-  -
     value: 'Employment Status'
     unitId: employment_status
   -
@@ -708,7 +705,7 @@ langStrings:
     value: 'Performed By'
     unitId: performed_by
   -
-    value: 'Performed By'
+    value: 'Add Another'
     unitId: add_another
   -
     value: 'View'
@@ -777,7 +774,7 @@ langStrings:
     value: 'Replace Current'
     unitId: replace_current
   -
-    value: 'Replace Current'
+    value: 'Module Forbidden'
     unitId: module_forbidden
   -
     value: "The page you're trying to access has restricted access"
@@ -845,6 +842,9 @@ langStrings:
   -
     value: 'Successfully deleted'
     unitId: successfully_deleted
+  -
+    value: 'Total'
+    unitId: total
   -
     value: 'Searching....'
     unitId: searching

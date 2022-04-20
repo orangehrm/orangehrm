@@ -21,13 +21,11 @@ namespace OrangeHRM\Installer\Util;
 
 use Exception;
 use OrangeHRM\Config\Config;
-use OrangeHRM\Installer\Controller\Upgrader\Traits\UpgraderUtilityTrait;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Yaml\Yaml;
 
 class SystemConfig
 {
-    use UpgraderUtilityTrait;
-
     public const PASSED = 1;
     public const ACCEPTABLE = 2;
     public const BLOCKER = 3;
@@ -38,7 +36,6 @@ class SystemConfig
     public const STATE_DEFAULT = 'DEFAULT';
     public const STATE_YES = 'YES';
     public const STATE_NO = 'NO';
-    public const STATE_ON = 'ON';
 
     public const INSTALL_UTIL_MEMORY_NO_LIMIT = 0;
     public const INSTALL_UTIL_MEMORY_UNLIMITED = 1;
@@ -48,10 +45,16 @@ class SystemConfig
 
     private bool $interruptContinue = false;
     private ?Filesystem $filesystem = null;
+    private ?UpgraderConfigUtility $upgraderConfigUtility = null;
+    private array $systemRequirements = [];
 
     public function __construct()
     {
         $this->filesystem = new Filesystem();
+        $this->upgraderConfigUtility = new UpgraderConfigUtility();
+        $this->systemRequirements = Yaml::parseFile(
+            realpath(__DIR__ . '/../environmentCheck/system_requirements.yml')
+        );
     }
 
     /**
@@ -72,16 +75,31 @@ class SystemConfig
      */
     public function isPHPVersionCompatible(): array
     {
-        if (version_compare(PHP_VERSION, Messages::PHP_MIN_VERSION) < 0) {
-            $this->interruptContinue = true;
+        $currentPHPVersion = phpversion();
+        $allowedPHPConfigs = $this->systemRequirements['phpversion'];
+        if ($this->isWithinRange(
+            $currentPHPVersion,
+            $allowedPHPConfigs['excludeRange'],
+            $allowedPHPConfigs['min'],
+            $allowedPHPConfigs['max']
+        )) {
             return [
-                'message' => Messages::PHP_FAIL_MESSAGE . " Installed version is " . PHP_VERSION,
-                'status' => self::BLOCKER
+                'message' => Messages::PHP_OK_MESSAGE . " (ver " . $currentPHPVersion . ")",
+                'status' => self::PASSED
             ];
         } else {
+            $this->interruptContinue = true;
+            $message = $this->getErrorMessage(
+                'PHP',
+                phpversion(),
+                $allowedPHPConfigs['excludeRange'],
+                $allowedPHPConfigs['min'],
+                $allowedPHPConfigs['max']
+            );
+
             return [
-                'message' => Messages::PHP_OK_MESSAGE . " (ver " . PHP_VERSION . ")",
-                'status' => self::PASSED
+                'message' => $message,
+                'status' => self::BLOCKER
             ];
         }
     }
@@ -99,7 +117,7 @@ class SystemConfig
             preg_match($versionPattern, $mysqlClient, $matches);
             $mysql_client_version = $matches[0];
 
-            if (version_compare($mysql_client_version, Messages::MYSQL_MIN_VERSION) < 0) {
+            if (version_compare($mysql_client_version, $this->systemRequirements['mysqlversion']['min']) < 0) {
                 return [
                     'message' => Messages::MYSQL_CLIENT_RECOMMEND_MESSAGE . "(reported ver " . $mysqlClient . ")",
                     'status' => self::ACCEPTABLE
@@ -127,18 +145,21 @@ class SystemConfig
      */
     public function isMySqlServerCompatible(): array
     {
-        if ($this->checkConnection()) {
-            $connection = $this->getConnection();
+        if ($this->upgraderConfigUtility->checkDatabaseConnection()) {
+            $connection = $this->upgraderConfigUtility->getConnection();
             $result = $connection->executeQuery("SELECT VERSION() AS version")->fetchAssociative();
-            $mysqlServerVersion = $result['version'];
-            if (version_compare($mysqlServerVersion, "5.1.6") >= 0) {
+            $serverVersion = $result['version'];
+            strpos($serverVersion, 'MariaDB') === false
+                ? $allowedConfigs = $this->systemRequirements['mysqlversion'] :
+                $allowedConfigs = $this->systemRequirements['mariadbversion'];
+            if (version_compare($serverVersion, $allowedConfigs['min']) >= 0) {
                 return [
-                    'message' => Messages::MYSQL_SERVER_OK_MESSAGE . " ($mysqlServerVersion)",
+                    'message' => Messages::MYSQL_SERVER_OK_MESSAGE . " ($serverVersion)",
                     'status' => self::PASSED
                 ];
             } else {
                 return [
-                    'message' => Messages::MYSQL_SERVER_RECOMMEND_MESSAGE . " (reported ver " . $mysqlServerVersion . ")",
+                    'message' => "MySQL Server - ver ${allowedConfigs['min']} or later recommended. (reported ver $serverVersion)",
                     'status' => self::ACCEPTABLE
                 ];
             }
@@ -158,8 +179,8 @@ class SystemConfig
      */
     public function isInnoDBSupport()
     {
-        if ($this->checkConnection()) {
-            $connection = $this->getConnection();
+        if ($this->upgraderConfigUtility->checkDatabaseConnection()) {
+            $connection = $this->upgraderConfigUtility->getConnection();
             $mysqlServer = $connection->executeQuery("SHOW ENGINES");
             $engines = $mysqlServer->fetchAllAssociative();
             $innoDBEngine = array_values(
@@ -216,7 +237,7 @@ class SystemConfig
      */
     public function isWebServerCompatible(): array
     {
-        $supportedWebServers = ['Apache', 'nginx', 'IIS'];
+        $supportedWebServers = $this->systemRequirements['webserver'];
         $currentWebServer = $_SERVER['SERVER_SOFTWARE'];
         foreach ($supportedWebServers as $supportedWebServer) {
             if (strpos($currentWebServer, $supportedWebServer) !== false) {
@@ -245,13 +266,13 @@ class SystemConfig
     {
         if ($this->checkWritePermission(realpath(__DIR__ . '/../../lib/confs'))) {
             return [
-                'message' => Messages::WRITABLE_LIB_CONFS_OK_MESSAGE,
+                'message' => Messages::WRITABLE_LIB_CONF_OK_MESSAGE,
                 'status' => self::PASSED
             ];
         } else {
             $this->interruptContinue = true;
             return [
-                'message' => Messages::WRITABLE_LIB_CONFS_FAIL_MESSAGE,
+                'message' => Messages::WRITABLE_LIB_CONF_FAIL_MESSAGE,
                 'status' => self::BLOCKER
             ];
         }
@@ -265,13 +286,13 @@ class SystemConfig
     {
         if ($this->checkWritePermission(realpath(__DIR__ . '/../../lib/logs'))) {
             return [
-                'message' => Messages::WRITABLE_LIB_CONFS_OK_MESSAGE,
+                'message' => Messages::WRITABLE_LIB_CONF_OK_MESSAGE,
                 'status' => self::PASSED
             ];
         } else {
             $this->interruptContinue = true;
             return [
-                'message' => Messages::WRITABLE_LIB_CONFS_FAIL_MESSAGE,
+                'message' => Messages::WRITABLE_LIB_CONF_FAIL_MESSAGE,
                 'status' => self::BLOCKER
             ];
         }
@@ -285,13 +306,13 @@ class SystemConfig
     {
         if ($this->checkWritePermission(realpath(__DIR__ . '/../../src/config'))) {
             return [
-                'message' => Messages::WritableSymfonyConfig_OK_MESSAGE,
+                'message' => Messages::WRITEABLE_SRC_CONFIG_OK_MESSAGE,
                 'status' => self::PASSED
             ];
         } else {
             $this->interruptContinue = true;
             return [
-                'message' => Messages::WritableSymfonyConfig_FAIL_MESSAGE,
+                'message' => Messages::WRITEABLE_SRC_CONFIG_FAIL_MESSAGE,
                 'status' => self::BLOCKER
             ];
         }
@@ -305,13 +326,13 @@ class SystemConfig
     {
         if ($this->checkWritePermission(Config::get(Config::CACHE_DIR))) {
             return [
-                'message' => Messages::WritableSymfonyCache_OK_MESSAGE,
+                'message' => Messages::WRITEABLE_SRC_CACHE_OK_MESSAGE,
                 'status' => self::PASSED
             ];
         } else {
             $this->interruptContinue = true;
             return [
-                'message' => Messages::WritableSymfonyCache_FAIL_MESSAGE,
+                'message' => Messages::WRITEABLE_SRC_CACHE_FAIL_MESSAGE,
                 'status' => self::BLOCKER
             ];
         }
@@ -325,13 +346,13 @@ class SystemConfig
     {
         if ($this->checkWritePermission(Config::get(Config::LOG_DIR))) {
             return [
-                'message' => Messages::WritableSymfonyLog_OK_MESSAGE,
+                'message' => Messages::WRITEABLE_SRC_LOG_OK_MESSAGE,
                 'status' => self::PASSED
             ];
         } else {
             $this->interruptContinue = true;
             return [
-                'message' => Messages::WritableSymfonyLog_FAIL_MESSAGE,
+                'message' => Messages::WRITEABLE_SRC_LOG_FAIL_MESSAGE,
                 'status' => self::BLOCKER
             ];
         }
@@ -351,18 +372,18 @@ class SystemConfig
         $timeSpan = "($gcMaxLifeTimeMinutes minutes and $gcMaxLifeTimeSeconds seconds)";
         if ($gcMaxLifeTimeMinutes > 15) {
             return [
-                'message' => Messages::MaximumSessionIdle_OK_MESSAGE . $timeSpan,
+                'message' => Messages::MAXIMUM_SESSION_IDLE_OK_MESSAGE . $timeSpan,
                 'status' => self::PASSED
             ];
         } elseif ($gcMaxLifeTimeMinutes > 2) {
             return [
-                'message' => Messages::MaximumSessionIdle_SHORT_MESSAGE . $timeSpan,
+                'message' => Messages::MAXIMUM_SESSION_IDLE_SHORT_MESSAGE . $timeSpan,
                 'status' => self::ACCEPTABLE
             ];
         } else {
             $this->interruptContinue = true;
             return [
-                'message' => Messages::MaximumSessionIdle_TOO_SHORT_MESSAGE . $timeSpan,
+                'message' => Messages::MAXIMUM_SESSION_IDLE_TOO_SHORT_MESSAGE . $timeSpan,
                 'status' => self::BLOCKER
             ];
         }
@@ -378,12 +399,12 @@ class SystemConfig
         if ($registerGlobalsValue) {
             $this->interruptContinue = true;
             return [
-                'message' => Messages::RegisterGlobalsOff_FAIL_MESSAGE,
+                'message' => Messages::REGISTER_GLOBALS_OFF_FAIL_MESSAGE,
                 'status' => self::BLOCKER
             ];
         } else {
             return [
-                'message' => Messages::RegisterGlobalsOff_OK_MESSAGE,
+                'message' => Messages::REGISTER_GLOBALS_OFF_OK_MESSAGE,
                 'status' => self::PASSED
             ];
         }
@@ -432,57 +453,6 @@ class SystemConfig
     }
 
     /**
-     * @return array
-     */
-    public function IsGgExtensionEnable(): array
-    {
-        if (extension_loaded('gd') && function_exists('gd_info')) {
-            return [
-                'message' => Messages::GgExtensionEnable_OK_MESSAGE,
-                'status' => self::PASSED
-            ];
-        } else {
-            $this->interruptContinue = true;
-            return [
-                'message' => Messages::GgExtensionEnable_FAIL_MESSAGE,
-                'status' => self::PASSED
-            ];
-        }
-    }
-
-    /**
-     * MySQL Event Scheduler Status Check
-     * This is not useful in opensource 5X
-     * @return array
-     * @throws \Doctrine\DBAL\Exception
-     */
-    public function mySqlEventSchedulerStatus(): array
-    {
-        if ($this->checkConnection()) {
-            $connection = $this->getConnection();
-            $result = $connection->executeQuery("SHOW VARIABLES LIKE 'EVENT_SCHEDULER'");
-            $eventScheduler = $result->fetchAssociative();
-            if ($eventScheduler['Value'] === self::STATE_ON) {
-                return [
-                    'message' => Messages::MySQLEventStatus_OK_MESSAGE,
-                    'status' => self::PASSED
-                ];
-            } else {
-                return [
-                    'message' => Messages::MySQLEventStatus_DISABLE_MESSAGE,
-                    'status' => self::ACCEPTABLE
-                ];
-            }
-        } else {
-            $this->interruptContinue = true;
-            return [
-                'message' => Messages::MySQLEventStatus_FAIL_MESSAGE,
-                'status' => self::BLOCKER
-            ];
-        }
-    }
-
-    /**
      * cURL Status Check
      * @return array
      */
@@ -490,13 +460,13 @@ class SystemConfig
     {
         if (extension_loaded('curl')) {
             return [
-                'message' => Messages::CURLStatus_OK_MESSAGE,
+                'message' => Messages::CURL_STATUS_OK_MESSAGE,
                 'status' => self::PASSED
             ];
         } else {
             $this->interruptContinue = true;
             return [
-                'message' => Messages::CURLStatus_DISABLE_MESSAGE,
+                'message' => Messages::CURL_STATUS_DISABLE_MESSAGE,
                 'status' => self::BLOCKER
             ];
         }
@@ -510,13 +480,13 @@ class SystemConfig
     {
         if (extension_loaded('SimpleXML') && extension_loaded('libxml') && extension_loaded('xml')) {
             return [
-                'message' => Messages::SimpleXMLStatus_OK_MESSAGE,
+                'message' => Messages::SIMPLE_XML_STATUS_OK_MESSAGE,
                 'status' => self::PASSED
             ];
         } else {
             $this->interruptContinue = true;
             return [
-                'message' => Messages::SimpleXMLStatus_DISABLE_MESSAGE,
+                'message' => Messages::SIMPLE_XML_STATUS_DISABLE_MESSAGE,
                 'status' => self::BLOCKER
             ];
         }
@@ -530,13 +500,13 @@ class SystemConfig
     {
         if (extension_loaded('zip')) {
             return [
-                'message' => Messages::ZIP_Status_OK_MESSAGE,
+                'message' => Messages::ZIP_STATUS_OK_MESSAGE,
                 'status' => self::PASSED
             ];
         } else {
             $this->interruptContinue = true;
             return [
-                'message' => Messages::ZIP_Status_DISABLE_MESSAGE,
+                'message' => Messages::ZIP_STATUS_DISABLE_MESSAGE,
                 'status' => self::BLOCKER
             ];
         }
@@ -545,17 +515,23 @@ class SystemConfig
     /**
      * @return bool
      */
-    private function checkConnection(): bool
+    public function checkPDOExtensionEnabled(): bool
     {
-        try {
-            $connection = $this->getConnection();
-            if ($connection->isConnected()) {
-                $connection->connect();
-            }
+        if (extension_loaded('pdo')) {
             return true;
-        } catch (Exception $e) {
-            return false;
         }
+        return false;
+    }
+
+    /**
+     * @return bool
+     */
+    public function checkPDOMySqlExtensionEnabled(): bool
+    {
+        if (extension_loaded('pdo_mysql')) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -569,6 +545,8 @@ class SystemConfig
             $this->filesystem->remove($path . '/_temp.txt');
             return true;
         } catch (Exception $e) {
+            Logger::getLogger()->error($e->getMessage());
+            Logger::getLogger()->error($e->getTraceAsString());
             return false;
         }
     }
@@ -618,5 +596,71 @@ class SystemConfig
             $value = $value * 1024;
         }
         return $value;
+    }
+
+    /**
+     * @param string $currentVersion
+     * @param array $excludeRange
+     * @param string $min
+     * @param string $max
+     * @return bool
+     */
+    private function isWithinRange(string $currentVersion, array $excludeRange, string $min, string $max): bool
+    {
+        $points = max(substr_count($max, '.'), substr_count($min, '.'));
+        $pattern = '/^(\d+)';
+        for ($i = 0; $i < $points; $i++) {
+            $pattern = $pattern . '\.(\d+)';
+        }
+        $pattern = $pattern . '/';
+        preg_match($pattern, $currentVersion, $matches);
+        $trimmedValue = $matches[0];
+
+        if (!(version_compare($trimmedValue, $min) >= 0 && version_compare($max, $trimmedValue) >= 0)) {
+            return false;
+        }
+        if ($this->isExcluded($currentVersion, $excludeRange)) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * @param string $component
+     * @param string $currentVersion
+     * @param array $excludeRange
+     * @param string $min
+     * @param string $max
+     * @return string
+     */
+    private function getErrorMessage(
+        string $component,
+        string $currentVersion,
+        array $excludeRange,
+        string $min,
+        string $max
+    ): string {
+        $message = '';
+
+        if ($this->isExcluded($currentVersion, $excludeRange)) {
+            $message = $message . $component . " Version " . $currentVersion . " is not supported";
+        } else {
+            $message = $component . " Version should be higher than " . $min . " and lower than " . $max;
+        }
+
+        return $message . ". Installed version is " . $currentVersion;
+    }
+
+    /**
+     * @param string $currentVersion
+     * @param array $excludedRange
+     * @return bool
+     */
+    private function isExcluded(string $currentVersion, array $excludedRange = []): bool
+    {
+        if (in_array($currentVersion, $excludedRange)) {
+            return true;
+        }
+        return false;
     }
 }
