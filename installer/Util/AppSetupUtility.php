@@ -193,7 +193,7 @@ class AppSetupUtility
         $migration = new $migrationClass();
         if ($migration instanceof AbstractMigration) {
             $migration->up();
-            $this->getConfigHelper()->setConfigValue('instance.version', $migration->getVersion());
+            // $this->getConfigHelper()->setConfigValue('instance.version', $migration->getVersion());
             return;
         }
         throw new InvalidArgumentException("Invalid migration class `$migrationClass`");

@@ -31,7 +31,7 @@ class VersionAPI extends AbstractInstallerRestController
     protected function handleGet(Request $request): array
     {
         $versions = array_keys(AppSetupUtility::MIGRATIONS_MAP);
-        array_shift($versions);
+        // array_shift($versions);
         array_pop($versions);
         return $versions;
     }
