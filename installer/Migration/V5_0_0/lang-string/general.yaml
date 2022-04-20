@@ -708,7 +708,7 @@ langStrings:
     value: 'Performed By'
     unitId: performed_by
   -
-    value: 'Performed By'
+    value: 'Add another'
     unitId: add_another
   -
     value: 'View'
@@ -860,3 +860,6 @@ langStrings:
   -
     value: '-- Select --'
     unitId: select
+  -
+    value: 'Total'
+    unitId: total

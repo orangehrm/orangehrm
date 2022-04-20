@@ -160,10 +160,12 @@ class ProjectReport implements EndpointAwareReport
     {
         return new Header(
             [
-                (new Column(self::PARAMETER_ACTIVITY_NAME))->setName($this->getI18NHelper()->transBySource('Activity Name'))
+                (new Column(self::PARAMETER_ACTIVITY_NAME))
+                    ->setName($this->getI18NHelper()->transBySource('Activity Name'))
                     ->setCellProperties(['class' => ['cell-action' => true]])
                     ->setSize(self::DEFAULT_COLUMN_SIZE),
-                (new Column(self::PARAMETER_TIME))->setName($this->getI18NHelper()->transBySource('Time (Hours)'))
+                (new Column(self::PARAMETER_TIME))
+                    ->setName($this->getI18NHelper()->transBySource('Time (Hours)'))
                     ->setCellProperties(['class' => ['col-alt' => true]])
                     ->setSize(self::DEFAULT_COLUMN_SIZE),
             ]
