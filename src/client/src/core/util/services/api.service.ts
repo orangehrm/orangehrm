@@ -99,6 +99,30 @@ export class APIService {
     });
   }
 
+  // Temporary function to prevent Invalid Parameter toast messages from showing
+  ignoreInvalidParamError(error: AxiosError): boolean {
+    const ignoreApiStartsWith = [
+      'api/v2/leave/leave-balance/leave-type',
+      'api/v2/admin/validation/user-name',
+      'api/v2/time/validation/customer-name',
+      'api/v2/time/validation/project-name',
+    ];
+
+    const ignoreApiEndsWith = [
+      'contact-details/validation/work-emails',
+      'contact-details/validation/other-emails',
+    ];
+
+    if (error.response?.status === 422) {
+      const url = error.response.config.url;
+      return (
+        ignoreApiStartsWith.some(api => url?.startsWith(api)) ||
+        ignoreApiEndsWith.some(api => url?.endsWith(api))
+      );
+    }
+    return false;
+  }
+
   /**
    * ComponentInternalInstance is given to access $toast api.
    * will fail silently if $toast is not installed/NA
@@ -111,6 +135,10 @@ export class APIService {
       (error: AxiosError): Promise<AxiosError> => {
         if (error.response?.status === 401) {
           reloadPage();
+          return Promise.reject();
+        }
+
+        if (this.ignoreInvalidParamError(error)) {
           return Promise.reject();
         }
 
