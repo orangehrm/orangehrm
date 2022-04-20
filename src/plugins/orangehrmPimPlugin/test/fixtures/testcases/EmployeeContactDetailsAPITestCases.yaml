@@ -1,0 +1,164 @@
+GetOne:
+  'get valid employee':
+    userId: 1
+    services:
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    attributes:
+      empNumber: 1
+    data:
+      street1: 'Lane 1'
+      street2: 'Lane 2'
+      city: 'Colombo'
+      province: ''
+      zipCode: '12345'
+      countryCode: 'LK'
+      homeTelephone: '12345'
+      workTelephone: '12345'
+      mobile: '12345'
+      workEmail: 'devi@admin.com'
+      otherEmail: 'devi@other.com'
+
+  'with invalid empNumber':
+    userId: 1
+    services:
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    attributes:
+      empNumber: -1
+    invalidOnly: [ 'empNumber' ]
+
+Update:
+  'with empty body':
+    userId: 1
+    services:
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    attributes:
+      empNumber: 1
+    body: [ ]
+    data:
+      street1: ''
+      street2: ''
+      city: ''
+      province: ''
+      zipCode: ''
+      countryCode: ''
+      homeTelephone: ''
+      workTelephone: ''
+      mobile: ''
+      workEmail: ''
+      otherEmail: ''
+
+  'with home telephone longer than 25 characters':
+    userId: 1
+    services:
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    attributes:
+      empNumber: 1
+    body:
+      homeTelephone: 12345678901234567890123456
+    invalidOnly: [ 'homeTelephone' ]
+
+  'with all telephone numbers longer than 25 characters':
+    userId: 1
+    services:
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    attributes:
+      empNumber: 1
+    body:
+      homeTelephone: 12345678901234567890123456
+      workTelephone: 12345678901234567890123456
+      mobile: 12345678901234567890123456
+    invalidOnly: [ 'homeTelephone', 'workTelephone', 'mobile' ]
+
+  'with invalid telephone number':
+    userId: 1
+    services:
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    attributes:
+      empNumber: 1
+    body:
+      homeTelephone: 'telephone'
+    invalidOnly: [ 'homeTelephone' ]
+
+  'with badly formatted email':
+    userId: 1
+    services:
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    attributes:
+      empNumber: 1
+    body:
+      workEmail: 'devi'
+    invalidOnly: [ 'workEmail' ]
+
+  'with existing work email':
+    userId: 1
+    services:
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    attributes:
+      empNumber: 1
+    body:
+      workEmail: 'sharuka@admin.com'
+    invalidOnly: [ 'workEmail' ]
+
+  'with existing other email':
+    userId: 1
+    services:
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    attributes:
+      empNumber: 1
+    body:
+      otherEmail: 'sharuka@other.com'
+    invalidOnly: [ 'otherEmail' ]
+
+  'with existing work email for other email':
+    userId: 1
+    services:
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    attributes:
+      empNumber: 1
+    body:
+      otherEmail: 'sharuka@other.com'
+    invalidOnly: [ 'otherEmail' ]
+
+  'with existing other email for work email':
+    userId: 1
+    services:
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    attributes:
+      empNumber: 1
+    body:
+      workEmail: 'sharuka@admin.com'
+    invalidOnly: [ 'workEmail' ]
+
+  'with employee other email for work email':
+    userId: 1
+    services:
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    attributes:
+      empNumber: 1
+    body:
+      workEmail: 'devi@other.com'
+    invalidOnly: [ 'workEmail' ]
+
+  'with email longer than 50 chars':
+    userId: 1
+    services:
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    attributes:
+      empNumber: 1
+    body:
+      workEmail: 'ABCDEFGHI@ABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFG.COM'
+      otherEmail: 'ABCDEFGHI@ABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFG.COM'
+    invalidOnly: [ 'workEmail', 'otherEmail' ]
+
+  'with same email for work and other':
+    userId: 1
+    services:
+      pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
+    attributes:
+      empNumber: 1
+    body:
+      workEmail: 'devi@test.com'
+      otherEmail: 'devi@test.com'
+    exception:
+      class: '\OrangeHRM\Core\Api\V2\Exception\BadRequestException'
+      message: 'Work Email and Other Email Cannot Be The Same'

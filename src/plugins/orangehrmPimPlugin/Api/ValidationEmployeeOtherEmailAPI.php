@@ -17,9 +17,9 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Admin\Api;
+namespace OrangeHRM\Pim\Api;
 
-use OrangeHRM\Admin\Traits\Service\UserServiceTrait;
+use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
@@ -30,37 +30,44 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
-use OrangeHRM\Entity\User;
+use OrangeHRM\Entity\Employee;
+use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
 
-class ValidationUserNameAPI extends Endpoint implements ResourceEndpoint
+class ValidationEmployeeOtherEmailAPI extends Endpoint implements ResourceEndpoint
 {
-    use UserServiceTrait;
+    use EmployeeServiceTrait;
 
-    public const PARAMETER_USER_NAME = 'userName';
-    public const PARAMETER_USER_Id = 'userId';
-    public const PARAMETER_IS_CHANGEABLE_USERNAME = 'valid';
+    public const PARAMETER_OTHER_EMAIL = 'otherEmail';
+    public const PARAMETER_IS_CHANGEABLE_OTHER_EMAIL = 'valid';
 
-    //TODO reduce to 40 once OXD issue fixed
-    public const PARAM_RULE_USER_NAME_MAX_LENGTH = 50;
+    //TODO reduce to 50 once OXD issue fixed
+    public const PARAM_RULE_OTHER_EMAIL_MAX_LENGTH = 60;
 
     /**
      * @inheritDoc
      */
     public function getOne(): EndpointResult
     {
-        $userName = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_QUERY, self::PARAMETER_USER_NAME);
-        $userId = $this->getRequestParams()->getIntOrNull(RequestParams::PARAM_TYPE_QUERY, self::PARAMETER_USER_Id);
-        if (!is_null($userId)) {
-            $user = $this->getUserService()->getSystemUserDao()->getSystemUser($userId);
-            $this->throwRecordNotFoundExceptionIfNotExist($user, User::class);
-        }
-        $isChangeableUserName = !$this->getUserService()
-            ->getSystemUserDao()
-            ->isUserNameExistByUserName($userName, $userId);
+        $empNumber = $this->getRequestParams()->getInt(
+            RequestParams::PARAM_TYPE_ATTRIBUTE,
+            CommonParams::PARAMETER_EMP_NUMBER
+        );
+        $workEmail = $this->getRequestParams()->getString(
+            RequestParams::PARAM_TYPE_QUERY,
+            self::PARAMETER_OTHER_EMAIL
+        );
+        $employee = $this->getEmployeeService()->getEmployeeDao()->getEmployeeByEmpNumber($empNumber);
+        $this->throwRecordNotFoundExceptionIfNotExist($employee, Employee::class);
+        $isChangeableWorkEmail = $this->getEmployeeService()
+            ->getEmployeeDao()
+            ->isEmailAvailable(
+                $workEmail,
+                $employee->getOtherEmail()
+            );
         return new EndpointResourceResult(
             ArrayModel::class,
             [
-                self::PARAMETER_IS_CHANGEABLE_USERNAME => $isChangeableUserName,
+                self::PARAMETER_IS_CHANGEABLE_OTHER_EMAIL => $isChangeableWorkEmail,
             ]
         );
     }
@@ -72,16 +79,11 @@ class ValidationUserNameAPI extends Endpoint implements ResourceEndpoint
     {
         return new ParamRuleCollection(
             new ParamRule(
-                self::PARAMETER_USER_NAME,
+                self::PARAMETER_OTHER_EMAIL,
                 new Rule(Rules::STRING_TYPE),
-                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_USER_NAME_MAX_LENGTH]),
+                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_OTHER_EMAIL_MAX_LENGTH]),
             ),
-            $this->getValidationDecorator()->notRequiredParamRule(
-                new ParamRule(
-                    self::PARAMETER_USER_Id,
-                    new Rule(Rules::POSITIVE),
-                )
-            )
+            new ParamRule(CommonParams::PARAMETER_EMP_NUMBER),
         );
     }
 

@@ -40,7 +40,8 @@ class ValidationCustomerNameAPI extends Endpoint implements ResourceEndpoint
     public const PARAMETER_CUSTOMER_Id = 'customerId';
     public const PARAMETER_IS_CHANGEABLE_CUSTOMER_NAME = 'valid';
 
-    public const PARAM_RULE_CUSTOMER_NAME_MAX_LENGTH = 50;
+    //TODO reduce to 50 once OXD issue fixed
+    public const PARAM_RULE_CUSTOMER_NAME_MAX_LENGTH = 60;
 
     /**
      * @inheritDoc

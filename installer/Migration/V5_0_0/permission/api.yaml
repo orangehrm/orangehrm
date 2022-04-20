@@ -473,3 +473,20 @@ apiv2_admin_localization:
     delete: false
   permissions:
     - { role: Admin, permission: { read: true, create: false, update: true, delete: false, self: false } }
+
+##########################
+#        PIM
+##########################
+
+apiv2_pim_validation_other_email:
+  description: 'API-v2 PIM - Other Email Validation'
+  api: OrangeHRM\Pim\Api\ValidationEmployeeOtherEmailAPI
+  module: pim
+  allowed:
+    read: true
+    create: false
+    update: false
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: true } }
+    - { role: ESS, permission: { read: true, create: false, update: false, delete: false, self: true } }

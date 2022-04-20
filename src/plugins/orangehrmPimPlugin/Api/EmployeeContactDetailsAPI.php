@@ -228,7 +228,8 @@ class EmployeeContactDetailsAPI extends Endpoint implements CrudEndpoint
                     self::PARAMETER_WORK_EMAIL,
                     new Rule(Rules::STRING_TYPE),
                     new Rule(Rules::EMAIL),
-                    new Rule(Rules::ENTITY_UNIQUE_PROPERTY, [Employee::class, 'workEmail', $this->getEntityPropertiesForWorkEmail()]),
+                    new Rule(Rules::ENTITY_UNIQUE_PROPERTY, [Employee::class, 'workEmail', $this->getEntityPropertiesForEmailRule()]),
+                    new Rule(Rules::ENTITY_UNIQUE_PROPERTY, [Employee::class, 'otherEmail']),
                     new Rule(Rules::LENGTH, [null, self::PARAM_RULE_WORK_EMAIL_MAX_LENGTH]),
                 ),
                 true
@@ -238,6 +239,8 @@ class EmployeeContactDetailsAPI extends Endpoint implements CrudEndpoint
                     self::PARAMETER_OTHER_EMAIL,
                     new Rule(Rules::STRING_TYPE),
                     new Rule(Rules::EMAIL),
+                    new Rule(Rules::ENTITY_UNIQUE_PROPERTY, [Employee::class, 'otherEmail', $this->getEntityPropertiesForEmailRule()]),
+                    new Rule(Rules::ENTITY_UNIQUE_PROPERTY, [Employee::class, 'workEmail']),
                     new Rule(Rules::LENGTH, [null, self::PARAM_RULE_OTHER_EMAIL_MAX_LENGTH]),
                 ),
                 true
@@ -248,7 +251,7 @@ class EmployeeContactDetailsAPI extends Endpoint implements CrudEndpoint
     /**
      * @return EntityUniquePropertyOption
      */
-    private function getEntityPropertiesForWorkEmail(): EntityUniquePropertyOption
+    private function getEntityPropertiesForEmailRule(): EntityUniquePropertyOption
     {
         $entityProperties = new EntityUniquePropertyOption();
         $entityProperties->setIgnoreValues(
@@ -300,6 +303,10 @@ class EmployeeContactDetailsAPI extends Endpoint implements CrudEndpoint
             RequestParams::PARAM_TYPE_BODY,
             self::PARAMETER_OTHER_EMAIL
         );
+
+        if (!empty($workEmail) && !empty($otherEmail) && $workEmail === $otherEmail) {
+            throw $this->getBadRequestException('Work Email and Other Email Cannot Be The Same');
+        }
 
         $employee = $this->getEmployeeService()->getEmployeeByEmpNumber($empNumber);
         $this->throwRecordNotFoundExceptionIfNotExist($employee, Employee::class);

@@ -40,7 +40,8 @@ class ValidationEmployeeEmailAPI extends Endpoint implements ResourceEndpoint
     public const PARAMETER_WORK_EMAIL = 'workEmail';
     public const PARAMETER_IS_CHANGEABLE_WORK_EMAIL = 'valid';
 
-    public const PARAM_RULE_WORK_EMAIL_MAX_LENGTH = 50;
+    //TODO reduce to 50 once OXD issue fixed
+    public const PARAM_RULE_WORK_EMAIL_MAX_LENGTH = 60;
 
     /**
      * @inheritDoc
@@ -57,17 +58,12 @@ class ValidationEmployeeEmailAPI extends Endpoint implements ResourceEndpoint
         );
         $employee = $this->getEmployeeService()->getEmployeeDao()->getEmployeeByEmpNumber($empNumber);
         $this->throwRecordNotFoundExceptionIfNotExist($employee, Employee::class);
-        $employeeCurrentWorkEmail = $employee->getWorkEmail();
-        if ($employeeCurrentWorkEmail) {
-            $isChangeableWorkEmail = !$this->getEmployeeService()
-                ->getEmployeeDao()
-                ->isWorkEmailAvailableByCurrentEmail(
-                    $workEmail,
-                    $employeeCurrentWorkEmail
-                );
-        } else {
-            $isChangeableWorkEmail = !$this->getEmployeeService()->getEmployeeDao()->isWorkEmailAvailable($workEmail);
-        }
+        $isChangeableWorkEmail = $this->getEmployeeService()
+            ->getEmployeeDao()
+            ->isEmailAvailable(
+                $workEmail,
+                $employee->getWorkEmail()
+            );
         return new EndpointResourceResult(
             ArrayModel::class,
             [
