@@ -17,7 +17,7 @@ GetOne:
     data:
       "headers": [
         {
-          "name": "general.employee",
+          "name": "Employee",
           "prop": "employeeName",
           "size": 150,
           "pin": "colPinStart",

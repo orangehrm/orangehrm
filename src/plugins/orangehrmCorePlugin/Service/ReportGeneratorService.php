@@ -46,12 +46,14 @@ use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\Report;
 use OrangeHRM\Entity\SelectedFilterField;
 use OrangeHRM\Entity\SummaryDisplayField;
+use OrangeHRM\I18N\Traits\Service\I18NHelperTrait;
 use OrangeHRM\ORM\Exception\TransactionException;
 use OrangeHRM\ORM\QueryBuilderWrapper;
 
 class ReportGeneratorService
 {
     use EntityManagerHelperTrait;
+    use I18NHelperTrait;
 
     public const SELECTED_FILTER_FIELD_TYPE_RUNTIME = 'Runtime';
     public const SELECTED_FILTER_FIELD_TYPE_PREDEFINED = 'Predefined';
@@ -120,7 +122,7 @@ class ReportGeneratorService
 
         foreach ($displayFields as $displayField) {
             $column = new Column($displayField->getFieldAlias());
-            $column->setName($displayField->getLabel());
+            $column->setName($this->getI18NHelper()->transBySource($displayField->getLabel()));
             $column->setSize($displayField->getWidth());
             if ($displayField->isValueList()) {
                 $column->addCellProperties(['type' => 'list']);
@@ -141,7 +143,7 @@ class ReportGeneratorService
                         $groupName = null;
                     }
                     $headerGroup = new StackedColumn([$column]);
-                    $headerGroup->setName($groupName);
+                    $headerGroup->setName($this->getI18NHelper()->transBySource($groupName));
                     $headerGroups[$displayField->getDisplayFieldGroup()->getId()] = $headerGroup;
                 } else {
                     $headerGroups[$displayField->getDisplayFieldGroup()->getId()]->addChild($column);
