@@ -112,8 +112,7 @@ class ResetPasswordService
             ) . '/orangehrmAuthenticationPlugin/config/data' . '/' . $templateFile
         );
 
-        $body = str_replace($placeholders, $replacements, $body);
-        return $body;
+        return nl2br(str_replace($placeholders, $replacements, $body));
     }
 
     /**
@@ -191,7 +190,9 @@ class ResetPasswordService
             [$this->getEmailService()->getEmailConfig()->getSentAs() => 'OrangeHRM']
         );
         $this->getEmailService()->setMessageSubject('OrangeHRM Password Reset');
-        $this->getEmailService()->setMessageBody($this->generatePasswordResetEmailBody($receiver, $resetCode, $userName));
+        $this->getEmailService()->setMessageBody(
+            $this->generatePasswordResetEmailBody($receiver, $resetCode, $userName)
+        );
         return $this->getEmailService()->sendEmail();
     }
 
