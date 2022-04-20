@@ -30,11 +30,22 @@
     <br />
     <installer-tasks :tasks="tasks"></installer-tasks>
     <br />
-    <oxd-text tag="h5" class="orangehrm-installer-page-content--progress">
+    <oxd-text
+      tag="h5"
+      :class="{
+        'orangehrm-installer-page-content': true,
+        '--progress': true,
+        '--error': taskFailed,
+      }"
+    >
       {{ progressText }}
     </oxd-text>
     <br />
-    <oxd-progress :progress="progress" type="secondary" :show-label="false" />
+    <oxd-progress
+      :progress="progress"
+      :type="progressType"
+      :show-label="false"
+    />
     <br />
 
     <oxd-form-actions
@@ -51,13 +62,14 @@
 </template>
 
 <script>
-import {ref} from 'vue';
+import {onBeforeMount, ref} from 'vue';
 import {APIService} from '@/core/util/services/api.service';
 import InstallerTasks from '@/components/InstallerTasks.vue';
 import ProgressBar from '@ohrm/oxd/core/components/Progressbar/Progressbar.vue';
 import useBeforeUnload from '@/core/util/composable/useBeforeUnload';
 import useMigrations from '@/core/util/composable/useMigrations';
 import {navigate} from '@/core/util/helper/navigation.ts';
+import useProgress from '@/core/util/composable/useProgress';
 
 export default {
   name: 'UpgradeScreen',
@@ -66,7 +78,7 @@ export default {
     'installer-tasks': InstallerTasks,
   },
   setup() {
-    const progress = ref(0);
+    const {progress, start, stop, end} = useProgress();
     const tasks = ref([
       {name: 'Applying database changes', state: 1},
       {name: 'Creating configuration files', state: 0},
@@ -75,22 +87,28 @@ export default {
 
     const http = new APIService(window.appGlobal.baseUrl, '');
     const {runAllMigrations} = useMigrations(http);
-    runAllMigrations()
-      .then(() => {
-        tasks.value[0].state = 2;
-        return http.request({
-          method: 'POST',
-          url: 'upgrader/api/config-file',
+
+    onBeforeMount(() => {
+      start();
+      runAllMigrations()
+        .then(() => {
+          tasks.value[0].state = 2;
+          tasks.value[1].state = 1;
+          return http.request({
+            method: 'POST',
+            url: 'upgrader/api/config-file',
+          });
+        })
+        .then(() => {
+          tasks.value[1].state = 2;
+          end();
+        })
+        .catch(() => {
+          const currentTask = tasks.value.findIndex((task) => task.state === 1);
+          tasks.value[currentTask].state = 3;
+          stop();
         });
-      })
-      .then(() => {
-        tasks.value[1].state = 2;
-        progress.value = 100;
-      })
-      .catch(() => {
-        const currentTask = tasks.value.findIndex((task) => task.state === 1);
-        tasks.value[currentTask].state = 3;
-      });
+    });
 
     return {
       tasks,
@@ -99,7 +117,7 @@ export default {
   },
   computed: {
     progressText() {
-      return `${this.progress}%`;
+      return `${Math.floor(this.progress)}%`;
     },
     taskFailed() {
       return this.tasks.findIndex((task) => task.state === 3) > -1;
@@ -108,6 +126,9 @@ export default {
       return !this.taskFailed
         ? 'Please Wait. Upgrading in Progress'
         : 'One or more tasks has failed, Please restore database and try again.';
+    },
+    progressType() {
+      return !this.taskFailed ? 'secondary' : 'error';
     },
   },
   methods: {
@@ -124,10 +145,13 @@ export default {
   &--center {
     text-align: center;
   }
-  &--progress {
+  &.--progress {
     text-align: center;
     font-weight: 700;
     color: $oxd-secondary-four-color;
+  }
+  &.--error {
+    color: $oxd-feedback-danger-color;
   }
 }
 </style>
