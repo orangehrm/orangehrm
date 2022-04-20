@@ -122,7 +122,7 @@ abstract class KernelTestCase extends TestCase
             ->onlyMethods(['transBySource'])
             ->getMock();
         $i18nHelper->method('transBySource')
-            ->willReturnCallback(fn($string) => $string);
+            ->willReturnCallback(fn ($string) => $string);
         if (isset($this->options[self::OPTIONS_WITH_HELPER_SERVICES]) && $this->options[self::OPTIONS_WITH_HELPER_SERVICES]) {
             $this->getContainer()->set(Services::DATETIME_HELPER_SERVICE, $dateTimeHelper);
             $this->getContainer()->set(Services::TEXT_HELPER_SERVICE, new TextHelperService());

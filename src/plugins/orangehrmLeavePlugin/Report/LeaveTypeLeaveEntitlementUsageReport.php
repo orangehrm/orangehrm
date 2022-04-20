@@ -72,7 +72,7 @@ class LeaveTypeLeaveEntitlementUsageReport implements EndpointAwareReport
         return new Header(
             [
                 (new Column(self::PARAMETER_EMPLOYEE_NAME))
-                    ->setName($this->getI18NHelper()->trans('general.employee'))
+                    ->setName($this->getI18NHelper()->transBySource('Employee'))
                     ->setPin(Column::PIN_COL_START)
                     ->setSize(self::DEFAULT_COLUMN_SIZE),
                 (new Column(self::PARAMETER_ENTITLEMENT_DAYS))
