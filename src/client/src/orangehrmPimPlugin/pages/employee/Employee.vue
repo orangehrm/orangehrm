@@ -85,7 +85,10 @@
     </oxd-table-filter>
     <br />
     <div class="orangehrm-paper-container">
-      <div v-if="$can.create('employee_lists')" class="orangehrm-header-container">
+      <div
+        v-if="$can.create('employee_lists')"
+        class="orangehrm-header-container"
+      >
         <oxd-button
           :label="$t('general.add')"
           icon-name="plus"
@@ -105,7 +108,7 @@
           v-model:order="sortDefinition"
           :headers="headers"
           :items="items?.data"
-          :selectable="true"
+          :selectable="$can.delete('employee_lists')"
           :clickable="false"
           :loading="isLoading"
           class="orangehrm-employee-list"
@@ -302,13 +305,15 @@ export default {
           style: {flex: 1},
           cellType: 'oxd-table-cell-actions',
           cellConfig: {
-            delete: {
-              onClick: this.onClickDelete,
-              component: 'oxd-icon-button',
-              props: {
-                name: 'trash',
+            ...(this.$can.delete('employee_lists') && {
+              delete: {
+                onClick: this.onClickDelete,
+                component: 'oxd-icon-button',
+                props: {
+                  name: 'trash',
+                },
               },
-            },
+            }),
             edit: {
               onClick: this.onClickEdit,
               props: {

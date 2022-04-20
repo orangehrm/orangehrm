@@ -24,10 +24,10 @@ use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Pim\Controller\Traits\PermissionTrait;
 
-
 class EmployeeController extends AbstractVueController
 {
     use PermissionTrait;
+
     /**
      * @inheritDoc
      */
