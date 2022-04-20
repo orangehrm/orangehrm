@@ -86,7 +86,7 @@
     <br />
     <div class="orangehrm-paper-container">
       <div
-        v-if="$can.create('employee_lists')"
+        v-if="$can.create('employee_list')"
         class="orangehrm-header-container"
       >
         <oxd-button
@@ -108,7 +108,7 @@
           v-model:order="sortDefinition"
           :headers="headers"
           :items="items?.data"
-          :selectable="$can.delete('employee_lists')"
+          :selectable="$can.delete('employee_list')"
           :clickable="false"
           :loading="isLoading"
           class="orangehrm-employee-list"
@@ -326,7 +326,7 @@ export default {
           style: {flex: 1},
           cellType: 'oxd-table-cell-actions',
           cellConfig: {
-            ...(this.$can.delete('employee_lists') && {
+            ...(this.$can.delete('employee_list') && {
               delete: {
                 onClick: this.onClickDelete,
                 component: 'oxd-icon-button',
