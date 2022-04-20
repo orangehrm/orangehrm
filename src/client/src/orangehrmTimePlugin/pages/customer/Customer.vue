@@ -149,7 +149,11 @@ export default {
           sortField: 'customer.name',
           style: {flex: 2},
         },
-        {name: 'description', title: this.$t('general.description'), style: {flex: 4}},
+        {
+          name: 'description',
+          title: this.$t('general.description'),
+          style: {flex: 4},
+        },
         {
           name: 'actions',
           title: this.$t('general.actions'),

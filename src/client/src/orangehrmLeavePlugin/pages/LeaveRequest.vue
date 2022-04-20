@@ -194,11 +194,27 @@ export default {
     return {
       headers: [
         {name: 'date', title: this.$t('general.date'), style: {flex: 1}},
-        {name: 'leaveType', title: this.$t('leave.leave_type'), style: {flex: 1}},
-        {name: 'leaveBalance', title: this.$t('leave.leave_balance_days'), style: {flex: 1}},
-        {name: 'duration', title: this.$t('leave.duration_hours'), style: {flex: 1}},
+        {
+          name: 'leaveType',
+          title: this.$t('leave.leave_type'),
+          style: {flex: 1},
+        },
+        {
+          name: 'leaveBalance',
+          title: this.$t('leave.leave_balance_days'),
+          style: {flex: 1},
+        },
+        {
+          name: 'duration',
+          title: this.$t('leave.duration_hours'),
+          style: {flex: 1},
+        },
         {name: 'status', title: this.$t('general.status'), style: {flex: 1}},
-        {name: 'comment', title: this.$t('general.comments'), style: {flex: '10%'}},
+        {
+          name: 'comment',
+          title: this.$t('general.comments'),
+          style: {flex: '10%'},
+        },
         {
           name: 'action',
           slot: 'footer',
