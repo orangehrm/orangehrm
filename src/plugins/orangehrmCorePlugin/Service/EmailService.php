@@ -39,6 +39,7 @@ use OrangeHRM\Core\Utility\MailTransport;
 use OrangeHRM\Entity\EmailConfiguration;
 use OrangeHRM\Entity\EmailTemplate;
 use OrangeHRM\Framework\Event\Event;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 
 class EmailService
 {
@@ -427,10 +428,12 @@ class EmailService
                 $this->logResult('Failure', $logMessage);
 
                 return false;
+            } catch (TransportExceptionInterface $e) {
+                $this->getLogger()->error('Invalid Email verification');
+                return false;
             }
         } else {
             $this->logResult('Failure', 'Email configuration is not set.');
-
             return false;
         }
     }
