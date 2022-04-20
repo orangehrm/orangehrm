@@ -465,17 +465,4 @@ class EmployeeDao extends BaseDao
         $q->setParameter('email', $email);
         return $this->getPaginator($q)->count() === 0;
     }
-
-//    /**
-//     **this function for validating the work email availability (current email is null). ( true -> email already exist, false - email is not exist )
-//     * @param string $email
-//     * @return bool
-//     */
-//    public function isEmailAvailable(string $email): bool
-//    {
-//        $q = $this->createQueryBuilder(Employee::class, 'employee');
-//        $q->andWhere('employee.workEmail = :email OR employee.otherEmail = :email');
-//        $q->setParameter('email', $email);
-//        return $this->getPaginator($q)->count() > 0;
-//    }
 }
