@@ -31,7 +31,7 @@ trait PermissionTrait
     /**
      * @param array $dataGroups
      */
-    protected function setPermissions(array $dataGroups)
+    protected function setPermissions(array $dataGroups): void
     {
         $permissions = $this->getUserRoleManagerHelper()
             ->geEntityIndependentDataGroupPermissionCollection($dataGroups);
