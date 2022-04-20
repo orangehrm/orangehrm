@@ -140,7 +140,7 @@ export default {
       isLoading: false,
       database: {
         dbHost: null,
-        dbPort: 3306,
+        dbPort: null,
         dbName: null,
         dbUser: null,
         dbPassword: null,
@@ -153,6 +153,9 @@ export default {
     this.http.getAll().then((response) => {
       const {data} = response.data;
       this.database = {...data, dbPassword: null};
+      if (!this.database.dbPort) {
+        this.database.dbPort = 3306;
+      }
       this.isLoading = false;
     });
   },
