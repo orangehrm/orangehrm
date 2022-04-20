@@ -38,4 +38,4 @@ employee_lists:
     delete: true
   permissions:
     - { role: Admin, permission: { read: true, create: true, update: true, delete: true, self: false } }
-    - { role: ESS, permission: { read: true, create: false, update: false, delete: false, self: false } }
+    - { role: ESS, permission: { read: true, create: false, update: true, delete: false, self: false } }
