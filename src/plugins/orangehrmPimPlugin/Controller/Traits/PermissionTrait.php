@@ -17,24 +17,32 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Pim\Controller;
+namespace OrangeHRM\Pim\Controller\Traits;
 
+use LogicException;
 use OrangeHRM\Core\Controller\AbstractVueController;
-use OrangeHRM\Core\Vue\Component;
-use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Pim\Controller\Traits\PermissionTrait;
+use OrangeHRM\Core\Helper\VueControllerHelper;
+use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 
-
-class EmployeeController extends AbstractVueController
+trait PermissionTrait
 {
-    use PermissionTrait;
+    use UserRoleManagerTrait;
+
     /**
-     * @inheritDoc
+     * @param array $dataGroups
      */
-    public function preRender(Request $request): void
+    protected function setPermissions(array $dataGroups)
     {
-        $component = new Component('employee-list');
-        $this->setComponent($component);
-        $this->setPermissions(['employee_lists']);
+        $permissions = $this->getUserRoleManagerHelper()
+            ->geEntityIndependentDataGroupPermissionCollection($dataGroups);
+        if (!$this instanceof AbstractVueController) {
+            throw new LogicException(
+                PermissionTrait::class . ' should use in instanceof' . AbstractVueController::class
+            );
+        }
+        $this->getContext()->set(
+            VueControllerHelper::PERMISSIONS,
+            $permissions->toArray()
+        );
     }
 }

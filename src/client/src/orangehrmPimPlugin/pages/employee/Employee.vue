@@ -85,7 +85,7 @@
     </oxd-table-filter>
     <br />
     <div class="orangehrm-paper-container">
-      <div class="orangehrm-header-container">
+      <div v-if="$can.create('employee_lists')" class="orangehrm-header-container">
         <oxd-button
           :label="$t('general.add')"
           icon-name="plus"
