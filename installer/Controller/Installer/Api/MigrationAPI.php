@@ -19,28 +19,16 @@
 
 namespace OrangeHRM\Installer\Controller\Installer\Api;
 
-use OrangeHRM\Authentication\Dto\UserCredential;
 use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Installer\Util\StateContainer;
+use OrangeHRM\Installer\Util\AppSetupUtility;
 
-class ConfigFileAPI extends \OrangeHRM\Installer\Controller\Upgrader\Api\ConfigFileAPI
+class MigrationAPI extends \OrangeHRM\Installer\Controller\Upgrader\Api\MigrationAPI
 {
     /**
      * @inheritDoc
      */
-    protected function handlePost(Request $request): array
+    protected function handleGet(Request $request): array
     {
-        if (StateContainer::getInstance()->isSetDbInfo()) {
-            $dbInfo = StateContainer::getInstance()->getDbInfo();
-            $dbUser = $dbInfo[StateContainer::ORANGEHRM_DB_USER] ?? $dbInfo[StateContainer::DB_USER];
-            $dbPassword = $dbInfo[StateContainer::ORANGEHRM_DB_PASSWORD] ?? $dbInfo[StateContainer::DB_PASSWORD];
-            StateContainer::getInstance()->storeDbInfo(
-                $dbInfo[StateContainer::DB_HOST],
-                $dbInfo[StateContainer::DB_PORT],
-                new UserCredential($dbUser, $dbPassword),
-                $dbInfo[StateContainer::DB_NAME]
-            );
-        }
-        return parent::handlePost($request);
+        return array_keys(AppSetupUtility::MIGRATIONS_MAP);
     }
 }

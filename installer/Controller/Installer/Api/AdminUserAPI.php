@@ -60,7 +60,7 @@ class AdminUserAPI extends AbstractInstallerRestController
         );
         return [
             'firstName' => $firstName,
-            'lastname' => $lastName,
+            'lastName' => $lastName,
             'email' => $email,
             'username' => $username,
             'contact' => $contact,
@@ -91,7 +91,7 @@ class AdminUserAPI extends AbstractInstallerRestController
         return [
             'data' => [
                 'firstName' => $adminUserData[StateContainer::ADMIN_FIRST_NAME],
-                'lastname' => $adminUserData[StateContainer::ADMIN_LAST_NAME],
+                'lastName' => $adminUserData[StateContainer::ADMIN_LAST_NAME],
                 'email' => $adminUserData[StateContainer::ADMIN_EMAIL],
                 'username' => $adminUserData[StateContainer::ADMIN_USERNAME],
                 'contact' => $adminUserData[StateContainer::ADMIN_CONTACT],

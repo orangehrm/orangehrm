@@ -96,11 +96,6 @@ api_installer_system_check:
   controller: OrangeHRM\Installer\Controller\Installer\Api\SystemCheckAPI::handle
   methods: [ GET ]
 
-api_installer_write_config:
-  path: /installer/api/config-file
-  controller: OrangeHRM\Installer\Controller\Installer\Api\ConfigFileAPI::handle
-  methods: [ POST ]
-
 api_installer_license:
   path: /installer/api/license
   controller: OrangeHRM\Installer\Controller\Installer\Api\LicenseFileAPI::handle
@@ -133,5 +128,25 @@ api_installer_admin_user:
 
 api_installer_database:
   path: /installer/api/installation/database
-  controller: OrangeHRM\Installer\Controller\Installer\Api\InstallationDatabase::handle
+  controller: OrangeHRM\Installer\Controller\Installer\Api\InstallationDatabaseAPI::handle
+  methods: [ POST ]
+
+api_installer_migration:
+  path: /installer/api/installation/migration
+  controller: OrangeHRM\Installer\Controller\Installer\Api\MigrationAPI::handle
+  methods: [ GET, POST ]
+
+api_installer_instance_creation:
+  path: /installer/api/installation/instance
+  controller: OrangeHRM\Installer\Controller\Installer\Api\InstallationInstanceAPI::handle
+  methods: [ POST ]
+
+api_installer_database_user:
+  path: /installer/api/installation/database-user
+  controller: OrangeHRM\Installer\Controller\Installer\Api\InstallationDatabaseUserAPI::handle
+  methods: [ POST ]
+
+api_installer_write_config:
+  path: /installer/api/installation/config-file
+  controller: OrangeHRM\Installer\Controller\Installer\Api\ConfigFileAPI::handle
   methods: [ POST ]

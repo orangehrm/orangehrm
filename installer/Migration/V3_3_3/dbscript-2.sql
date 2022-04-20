@@ -238,7 +238,7 @@ INSERT INTO `hs_hr_country`(`cou_code`, `name`, `cou_name`, `iso3`, `numcode`) V
     ('ZM', 'ZAMBIA', 'Zambia', 'ZMB', 894),
     ('ZW', 'ZIMBABWE', 'Zimbabwe', 'ZWE', 716);
 
-
+  
 INSERT INTO `hs_hr_currency_type`(`code`, `currency_id`, `currency_name`) VALUES (3, 'AED', 'Utd. Arab Emir. Dirham'),
     (4, 'AFN', 'Afghanistan Afghani'),
     (5, 'ALL', 'Albanian Lek'),
@@ -398,7 +398,7 @@ INSERT INTO `hs_hr_currency_type`(`code`, `currency_id`, `currency_name`) VALUES
     (169, 'ZRN', 'New Zaire'),
     (170, 'ZWD', 'Zimbabwe Dollar'),
     (173, 'SAR', 'Saudi Arabia Riyal');
-
+  
 
 INSERT INTO `hs_hr_province`(`id`, `province_name`, `province_code`, `cou_code`) VALUES (1, 'Alaska', 'AK', 'US'),
     (2, 'Alabama', 'AL', 'US'),
@@ -512,8 +512,7 @@ INSERT INTO `hs_hr_config`(`key`, `value`) VALUES ('ldap_server', ''),
     ('leave.include_pending_leave_in_balance', 1),
     ('admin.default_workshift_start_time', '09:00'),
     ('admin.default_workshift_end_time', '17:00'),
-    ('report.mysql_group_concat_max_len', 2048),
-    ('email_config.sendmail_path', '/usr/sbin/sendmail -bs');
+    ('report.mysql_group_concat_max_len', 2048);
 
 INSERT INTO `ohrm_emp_reporting_method`(`reporting_method_id`, `reporting_method_name`) VALUES(1, 'Direct'),
       (2, 'Indirect');
@@ -544,7 +543,7 @@ INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES
     (0, 'ohrm_job_candidate_history', 'id'),
     (0, 'ohrm_job_interview', 'id');
 
-INSERT INTO `ohrm_workflow_state_machine`(`id`, `workflow`,`state`,`role`,`action`,`resulting_state`, `roles_to_notify`, `priority`)
+INSERT INTO `ohrm_workflow_state_machine`(`id`, `workflow`,`state`,`role`,`action`,`resulting_state`, `roles_to_notify`, `priority`)  
                             VALUES ('1','0','INITIAL','SYSTEM','7','NOT SUBMITTED', '', 0),
                                    ('2','0','SUBMITTED','ADMIN','2','APPROVED', '', 0),
                                    ('3','0','SUBMITTED','ADMIN','3','REJECTED', '', 0),
@@ -651,96 +650,96 @@ INSERT INTO `ohrm_workflow_state_machine`(`id`, `workflow`,`state`,`role`,`actio
                                     (105, '4', 'LEAVE TYPE DELETED SCHEDULED', 'SUPERVISOR', 'CANCEL', 'CANCELLED', 'ess,subscriber', 0),
                                     (106, '4', 'LEAVE TYPE DELETED TAKEN', 'ADMIN', 'CANCEL', 'CANCELLED', 'ess,subscriber', 0);
 
-
-INSERT INTO `ohrm_report_group` (`report_group_id`, `name`, `core_sql`) VALUES
+                                    
+INSERT INTO `ohrm_report_group` (`report_group_id`, `name`, `core_sql`) VALUES 
    (1,'timesheet', 'SELECT selectCondition FROM ohrm_project_activity LEFT JOIN (SELECT * FROM ohrm_timesheet_item WHERE whereCondition1) AS ohrm_timesheet_item  ON (ohrm_timesheet_item.activity_id = ohrm_project_activity.activity_id) LEFT JOIN ohrm_project ON (ohrm_project.project_id = ohrm_project_activity.project_id) LEFT JOIN hs_hr_employee ON (hs_hr_employee.emp_number = ohrm_timesheet_item.employee_id) LEFT JOIN ohrm_timesheet ON (ohrm_timesheet.timesheet_id = ohrm_timesheet_item.timesheet_id) LEFT JOIN ohrm_customer ON (ohrm_customer.customer_id = ohrm_project.customer_id) WHERE whereCondition2 groupByClause ORDER BY ohrm_customer.name, ohrm_project.name, ohrm_project_activity.name, hs_hr_employee.emp_lastname, hs_hr_employee.emp_firstname'),
    (2,'attendance', 'SELECT selectCondition FROM hs_hr_employee LEFT JOIN (SELECT * FROM ohrm_attendance_record WHERE ( ( ohrm_attendance_record.punch_in_user_time BETWEEN "#@fromDate@,@1970-01-01@#" AND #@"toDate"@,@CURDATE()@# ) AND ( ohrm_attendance_record.punch_out_user_time BETWEEN "#@fromDate@,@1970-01-01@#" AND #@"toDate"@,@CURDATE()@# ) ) ) AS ohrm_attendance_record ON (hs_hr_employee.emp_number = ohrm_attendance_record.employee_id) WHERE hs_hr_employee.emp_number = #@employeeId@,@hs_hr_employee.emp_number AND (hs_hr_employee.termination_id is null) @# AND (hs_hr_employee.job_title_code = #@"jobTitle")@,@hs_hr_employee.job_title_code OR hs_hr_employee.job_title_code is null)@# AND (hs_hr_employee.work_station IN (#@subUnit)@,@SELECT id FROM ohrm_subunit) OR hs_hr_employee.work_station is null@#) AND (hs_hr_employee.emp_status = #@"employeeStatus")@,@hs_hr_employee.emp_status OR hs_hr_employee.emp_status is null)@# groupByClause ORDER BY hs_hr_employee.emp_lastname, hs_hr_employee.emp_firstname'),
-   (3,'pim', 'SELECT selectCondition FROM hs_hr_employee
-                    LEFT JOIN hs_hr_emp_emergency_contacts ON
-                        (hs_hr_employee.emp_number = hs_hr_emp_emergency_contacts.emp_number)
-                    LEFT JOIN ohrm_subunit ON
-                        (hs_hr_employee.work_station = ohrm_subunit.id)
-                    LEFT JOIN ohrm_employment_status ON
-                        (hs_hr_employee.emp_status = ohrm_employment_status.id)
+   (3,'pim', 'SELECT selectCondition FROM hs_hr_employee 
+                    LEFT JOIN hs_hr_emp_emergency_contacts ON 
+                        (hs_hr_employee.emp_number = hs_hr_emp_emergency_contacts.emp_number) 
+                    LEFT JOIN ohrm_subunit ON 
+                        (hs_hr_employee.work_station = ohrm_subunit.id) 
+                    LEFT JOIN ohrm_employment_status ON 
+                        (hs_hr_employee.emp_status = ohrm_employment_status.id) 
                     LEFT JOIN ohrm_job_title ON
                         (hs_hr_employee.job_title_code = ohrm_job_title.id)
-                    LEFT JOIN ohrm_job_category ON
-                        (hs_hr_employee.eeo_cat_code = ohrm_job_category.id)
+                    LEFT JOIN ohrm_job_category ON 
+                        (hs_hr_employee.eeo_cat_code = ohrm_job_category.id) 
                     LEFT JOIN ohrm_nationality ON
                         (hs_hr_employee.nation_code = ohrm_nationality.id)
-                    LEFT JOIN hs_hr_emp_dependents ON
+                    LEFT JOIN hs_hr_emp_dependents ON 
                         (hs_hr_employee.emp_number = hs_hr_emp_dependents.emp_number)
                     LEFT JOIN hs_hr_emp_locations AS emp_location ON
                         (hs_hr_employee.emp_number = emp_location.emp_number)
                     LEFT JOIN ohrm_location ON
                         (emp_location.location_id = ohrm_location.id)
-                    LEFT JOIN hs_hr_emp_contract_extend ON
-                        (hs_hr_employee.emp_number = hs_hr_emp_contract_extend.emp_number)
-                    LEFT JOIN hs_hr_emp_basicsalary ON
-                        (hs_hr_employee.emp_number = hs_hr_emp_basicsalary.emp_number)
-                    LEFT JOIN ohrm_pay_grade ON
-                        (hs_hr_emp_basicsalary.sal_grd_code = ohrm_pay_grade.id)
-                    LEFT JOIN hs_hr_currency_type ON
-                        (hs_hr_emp_basicsalary.currency_id = hs_hr_currency_type.currency_id)
-                    LEFT JOIN hs_hr_payperiod ON
-                        (hs_hr_emp_basicsalary.payperiod_code = hs_hr_payperiod.payperiod_code)
-                    LEFT JOIN hs_hr_emp_passport ON
-                        (hs_hr_employee.emp_number = hs_hr_emp_passport.emp_number)
-                    LEFT JOIN hs_hr_emp_reportto AS subordinate_list ON
-                        (hs_hr_employee.emp_number = subordinate_list.erep_sup_emp_number)
+                    LEFT JOIN hs_hr_emp_contract_extend ON 
+                        (hs_hr_employee.emp_number = hs_hr_emp_contract_extend.emp_number) 
+                    LEFT JOIN hs_hr_emp_basicsalary ON 
+                        (hs_hr_employee.emp_number = hs_hr_emp_basicsalary.emp_number) 
+                    LEFT JOIN ohrm_pay_grade ON 
+                        (hs_hr_emp_basicsalary.sal_grd_code = ohrm_pay_grade.id) 
+                    LEFT JOIN hs_hr_currency_type ON 
+                        (hs_hr_emp_basicsalary.currency_id = hs_hr_currency_type.currency_id) 
+                    LEFT JOIN hs_hr_payperiod ON 
+                        (hs_hr_emp_basicsalary.payperiod_code = hs_hr_payperiod.payperiod_code) 
+                    LEFT JOIN hs_hr_emp_passport ON 
+                        (hs_hr_employee.emp_number = hs_hr_emp_passport.emp_number) 
+                    LEFT JOIN hs_hr_emp_reportto AS subordinate_list ON 
+                        (hs_hr_employee.emp_number = subordinate_list.erep_sup_emp_number) 
                     LEFT JOIN hs_hr_employee AS subordinate ON
                         (subordinate.emp_number = subordinate_list.erep_sub_emp_number)
-                    LEFT JOIN ohrm_emp_reporting_method AS subordinate_reporting_method ON
-                        (subordinate_list.erep_reporting_mode = subordinate_reporting_method.reporting_method_id)
-                    LEFT JOIN hs_hr_emp_work_experience ON
-                        (hs_hr_employee.emp_number = hs_hr_emp_work_experience.emp_number)
-                    LEFT JOIN ohrm_emp_education ON
-                        (hs_hr_employee.emp_number = ohrm_emp_education.emp_number)
-                    LEFT JOIN ohrm_education ON
-                        (ohrm_emp_education.education_id = ohrm_education.id)
-                    LEFT JOIN hs_hr_emp_skill ON
-                        (hs_hr_employee.emp_number = hs_hr_emp_skill.emp_number)
-                    LEFT JOIN ohrm_skill ON
-                        (hs_hr_emp_skill.skill_id = ohrm_skill.id)
-                    LEFT JOIN hs_hr_emp_language ON
-                        (hs_hr_employee.emp_number = hs_hr_emp_language.emp_number)
-                    LEFT JOIN ohrm_language ON
-                        (hs_hr_emp_language.lang_id = ohrm_language.id)
-                    LEFT JOIN ohrm_emp_license ON
-                        (hs_hr_employee.emp_number = ohrm_emp_license.emp_number)
-                    LEFT JOIN ohrm_license ON
-                        (ohrm_emp_license.license_id = ohrm_license.id)
-                    LEFT JOIN hs_hr_emp_member_detail ON
-                        (hs_hr_employee.emp_number = hs_hr_emp_member_detail.emp_number)
+                    LEFT JOIN ohrm_emp_reporting_method AS subordinate_reporting_method ON 
+                        (subordinate_list.erep_reporting_mode = subordinate_reporting_method.reporting_method_id) 
+                    LEFT JOIN hs_hr_emp_work_experience ON 
+                        (hs_hr_employee.emp_number = hs_hr_emp_work_experience.emp_number) 
+                    LEFT JOIN ohrm_emp_education ON 
+                        (hs_hr_employee.emp_number = ohrm_emp_education.emp_number) 
+                    LEFT JOIN ohrm_education ON 
+                        (ohrm_emp_education.education_id = ohrm_education.id) 
+                    LEFT JOIN hs_hr_emp_skill ON 
+                        (hs_hr_employee.emp_number = hs_hr_emp_skill.emp_number) 
+                    LEFT JOIN ohrm_skill ON 
+                        (hs_hr_emp_skill.skill_id = ohrm_skill.id) 
+                    LEFT JOIN hs_hr_emp_language ON 
+                        (hs_hr_employee.emp_number = hs_hr_emp_language.emp_number) 
+                    LEFT JOIN ohrm_language ON 
+                        (hs_hr_emp_language.lang_id = ohrm_language.id) 
+                    LEFT JOIN ohrm_emp_license ON 
+                        (hs_hr_employee.emp_number = ohrm_emp_license.emp_number) 
+                    LEFT JOIN ohrm_license ON 
+                        (ohrm_emp_license.license_id = ohrm_license.id) 
+                    LEFT JOIN hs_hr_emp_member_detail ON 
+                        (hs_hr_employee.emp_number = hs_hr_emp_member_detail.emp_number) 
                     LEFT JOIN ohrm_membership ON
                         (hs_hr_emp_member_detail.membship_code = ohrm_membership.id)
-                    LEFT JOIN hs_hr_country ON
-                        (hs_hr_employee.coun_code = hs_hr_country.cou_code)
-                    LEFT JOIN hs_hr_emp_directdebit ON
-                        (hs_hr_emp_basicsalary.id = hs_hr_emp_directdebit.salary_id)
-                    LEFT JOIN hs_hr_emp_reportto AS supervisor_list ON
-                        (hs_hr_employee.emp_number = supervisor_list.erep_sub_emp_number)
+                    LEFT JOIN hs_hr_country ON 
+                        (hs_hr_employee.coun_code = hs_hr_country.cou_code) 
+                    LEFT JOIN hs_hr_emp_directdebit ON 
+                        (hs_hr_emp_basicsalary.id = hs_hr_emp_directdebit.salary_id) 
+                    LEFT JOIN hs_hr_emp_reportto AS supervisor_list ON 
+                        (hs_hr_employee.emp_number = supervisor_list.erep_sub_emp_number) 
                     LEFT JOIN hs_hr_employee AS supervisor ON
                         (supervisor.emp_number = supervisor_list.erep_sup_emp_number)
-                    LEFT JOIN ohrm_emp_reporting_method AS supervisor_reporting_method ON
-                        (supervisor_list.erep_reporting_mode = supervisor_reporting_method.reporting_method_id)
+                    LEFT JOIN ohrm_emp_reporting_method AS supervisor_reporting_method ON 
+                        (supervisor_list.erep_reporting_mode = supervisor_reporting_method.reporting_method_id) 
                     LEFT JOIN ohrm_emp_termination ON
                         (hs_hr_employee.termination_id = ohrm_emp_termination.id)
                     LEFT JOIN ohrm_emp_termination_reason ON
                         (ohrm_emp_termination.reason_id = ohrm_emp_termination_reason.id)
                 WHERE hs_hr_employee.emp_number in (
                     SELECT hs_hr_employee.emp_number FROM hs_hr_employee
-                        LEFT JOIN hs_hr_emp_basicsalary ON
-                            (hs_hr_employee.emp_number = hs_hr_emp_basicsalary.emp_number)
-                        LEFT JOIN ohrm_emp_education ON
-                            (hs_hr_employee.emp_number = ohrm_emp_education.emp_number)
-                        LEFT JOIN hs_hr_emp_skill ON
-                            (hs_hr_employee.emp_number = hs_hr_emp_skill.emp_number)
-                        LEFT JOIN hs_hr_emp_language ON
-                            (hs_hr_employee.emp_number = hs_hr_emp_language.emp_number)
+                        LEFT JOIN hs_hr_emp_basicsalary ON 
+                            (hs_hr_employee.emp_number = hs_hr_emp_basicsalary.emp_number) 
+                        LEFT JOIN ohrm_emp_education ON 
+                            (hs_hr_employee.emp_number = ohrm_emp_education.emp_number) 
+                        LEFT JOIN hs_hr_emp_skill ON 
+                            (hs_hr_employee.emp_number = hs_hr_emp_skill.emp_number) 
+                        LEFT JOIN hs_hr_emp_language ON 
+                            (hs_hr_employee.emp_number = hs_hr_emp_language.emp_number) 
                     WHERE whereCondition1
                 )
-                GROUP BY
+                GROUP BY 
                      hs_hr_employee.emp_number,
                      hs_hr_employee.emp_lastname,
                      hs_hr_employee.emp_firstname,
@@ -772,7 +771,7 @@ INSERT INTO `ohrm_report` (`report_id`, `name`, `report_group_id`, `use_filter_f
     (4, 'Attendance Total Summary Report', 2, 0, null),
     (5, 'PIM Sample Report', 3, 1, 'PIM_DEFINED');
 
-INSERT INTO `ohrm_filter_field` (`filter_field_id`, `report_group_id`, `name`, `where_clause_part`, `filter_field_widget`, `condition_no`, `required`) VALUES
+INSERT INTO `ohrm_filter_field` (`filter_field_id`, `report_group_id`, `name`, `where_clause_part`, `filter_field_widget`, `condition_no`, `required`) VALUES 
     (1, 1, 'project_name', 'ohrm_project.project_id', 'ohrmWidgetProjectList', 2, 'true'),
     (2, 1, 'activity_show_deleted', 'ohrm_project_activity.is_deleted', 'ohrmWidgetInputCheckbox', 2, 'false'),
     (3, 1, 'project_date_range', 'date', 'ohrmWidgetDateRange', 1, 'false'),
@@ -927,8 +926,8 @@ INSERT INTO `ohrm_display_field` (`display_field_id`, `report_group_id`, `name`,
     (119, 3, 'ohrm_emp_license.license_no', 'License Number', 'getLicenseNo',  'false', null, null, 'label', '<xml><getter>getLicenseNo</getter></xml>', 200, '0', null, true, 14, '---', false, false),
     (120, 3, 'ohrm_emp_termination.note', 'Termination Note', 'getNote',  'false', null, null, 'label', '<xml><getter>getNote</getter></xml>', 100, '0', null, true, 6, '---', false, false);
 
-
-INSERT INTO `ohrm_group_field` (`group_field_id`, `name`, `group_by_clause`, `group_field_widget`) VALUES
+    
+INSERT INTO `ohrm_group_field` (`group_field_id`, `name`, `group_by_clause`, `group_field_widget`) VALUES 
     (1, 'activity id', 'GROUP BY ohrm_project_activity.activity_id', null),
     (2, 'employee number', 'GROUP BY hs_hr_employee.emp_number', null);
 
@@ -947,7 +946,7 @@ INSERT INTO `ohrm_selected_filter_field` (`report_id`, `filter_field_id`, `filte
     (3, 7, 3, null, null, null, 'Runtime'),
     (5, 22, 1, null, null, 'IS NULL', 'Predefined');
 
-INSERT INTO `ohrm_selected_display_field` (`id`, `display_field_id`, `report_id`) VALUES
+INSERT INTO `ohrm_selected_display_field` (`id`, `display_field_id`, `report_id`) VALUES 
     (2, 2, 1),
     (4, 8, 2),
     (5, 9, 5),
@@ -1032,7 +1031,7 @@ INSERT INTO `ohrm_selected_display_field` (`id`, `display_field_id`, `report_id`
     (91, 95, 5),
     (93, 97, 5);
 
-
+    
 INSERT INTO `ohrm_selected_display_field_group`(`id`, `report_id`, `display_field_group_id`) VALUES
     (1, 5, 1),
     (2, 5, 2),
@@ -2032,7 +2031,7 @@ INSERT INTO `ohrm_job_category` (`name`) VALUES ('Officials and Managers'),
                                                 ('Service Workers'),
                                                 ('Laborers and Helpers');
 
-INSERT INTO ohrm_email(`id`, `name`) VALUES
+INSERT INTO ohrm_email(`id`, `name`) VALUES 
     (1, 'leave.apply'),
     (2, 'leave.assign'),
     (3, 'leave.approve'),
@@ -2040,7 +2039,7 @@ INSERT INTO ohrm_email(`id`, `name`) VALUES
     (5, 'leave.reject'),
     (6, 'leave.change');
 
-INSERT INTO ohrm_email_template(`id`, `email_id`, `locale`, `performer_role`, `recipient_role`,`body`, `subject`) VALUES
+INSERT INTO ohrm_email_template(`id`, `email_id`, `locale`, `performer_role`, `recipient_role`,`body`, `subject`) VALUES 
     (1, 1, 'en_US', NULL, 'supervisor', 'orangehrmLeavePlugin/modules/leave/templates/mail/en_US/apply/leaveApplicationBody.txt', 'orangehrmLeavePlugin/modules/leave/templates/mail/en_US/apply/leaveApplicationSubject.txt'),
     (2, 1, 'en_US', NULL, 'subscriber', 'orangehrmLeavePlugin/modules/leave/templates/mail/en_US/apply/leaveApplicationSubscriberBody.txt', 'orangehrmLeavePlugin/modules/leave/templates/mail/en_US/apply/leaveApplicationSubject.txt'),
     (3, 3, 'en_US', NULL, 'ess', 'orangehrmLeavePlugin/modules/leave/templates/mail/en_US/approve/leaveApprovalBody.txt', 'orangehrmLeavePlugin/modules/leave/templates/mail/en_US/approve/leaveApprovalSubject.txt'),
@@ -2057,7 +2056,7 @@ INSERT INTO ohrm_email_template(`id`, `email_id`, `locale`, `performer_role`, `r
     (14, 6, 'en_US', NULL, 'ess', 'orangehrmLeavePlugin/modules/leave/templates/mail/en_US/change/leaveChangeBody.txt', 'orangehrmLeavePlugin/modules/leave/templates/mail/en_US/change/leaveChangeSubject.txt'),
     (15, 6, 'en_US', NULL, 'subscriber', 'orangehrmLeavePlugin/modules/leave/templates/mail/en_US/change/leaveChangeSubscriberBody.txt', 'orangehrmLeavePlugin/modules/leave/templates/mail/en_US/change/leaveChangeSubscriberSubject.txt');
 
-INSERT INTO  ohrm_email_processor(`id`, `email_id`, `class_name`) VALUES
+INSERT INTO  ohrm_email_processor(`id`, `email_id`, `class_name`) VALUES 
     (1, 1, 'LeaveEmailProcessor'),
     (2, 2, 'LeaveEmailProcessor'),
     (3, 3, 'LeaveEmailProcessor'),
@@ -2082,9 +2081,9 @@ INSERT INTO ohrm_advanced_report (id, name, definition) VALUES
 	<input_field type="text" name="fromDate" label="From"></input_field>
         <input_field type="text" name="toDate" label="To"></input_field>
         <input_field type="text" name="asOfDate" label="AsOf"></input_field>
-</filter_fields>
+</filter_fields> 
 
-<sub_report type="sql" name="mainTable">
+<sub_report type="sql" name="mainTable">       
     <query>FROM ohrm_leave_type WHERE (deleted = 0) OR (SELECT count(l.id) FROM ohrm_leave l WHERE l.status = 3 AND l.leave_type_id = ohrm_leave_type.id) > 0 ORDER BY ohrm_leave_type.id</query>
     <id_field>leaveTypeId</id_field>
     <display_groups>
@@ -2095,54 +2094,54 @@ INSERT INTO ohrm_advanced_report (id, name, definition) VALUES
                     <field_name>ohrm_leave_type.id</field_name>
                     <field_alias>leaveTypeId</field_alias>
                     <display_name>Leave Type ID</display_name>
-                    <width>1</width>
-                </field>
+                    <width>1</width>	
+                </field>   
                 <field display="false">
                     <field_name>ohrm_leave_type.exclude_in_reports_if_no_entitlement</field_name>
                     <field_alias>exclude_if_no_entitlement</field_alias>
                     <display_name>Exclude</display_name>
-                    <width>1</width>
-                </field>
+                    <width>1</width>	
+                </field>  
                 <field display="false">
                     <field_name>ohrm_leave_type.deleted</field_name>
                     <field_alias>leave_type_deleted</field_alias>
                     <display_name>Leave Type Deleted</display_name>
-                    <width>1</width>
-                </field>
+                    <width>1</width>	
+                </field>  
                 <field display="true">
                     <field_name>ohrm_leave_type.name</field_name>
                     <field_alias>leaveType</field_alias>
                     <display_name>Leave Type</display_name>
-                    <width>160</width>
-                </field>s
+                    <width>160</width>	
+                </field>s                                                                                                     
             </fields>
         </display_group>
-    </display_groups>
+    </display_groups> 
 </sub_report>
 
 <sub_report type="sql" name="entitlementsTotal">
                     <query>
 
 FROM (
-SELECT ohrm_leave_entitlement.id as id,
+SELECT ohrm_leave_entitlement.id as id, 
        ohrm_leave_entitlement.leave_type_id as leave_type_id,
        ohrm_leave_entitlement.no_of_days as no_of_days,
        sum(IF(ohrm_leave.status = 2, ohrm_leave_leave_entitlement.length_days, 0)) AS scheduled,
        sum(IF(ohrm_leave.status = 3, ohrm_leave_leave_entitlement.length_days, 0)) AS taken
-
+       
 FROM ohrm_leave_entitlement LEFT JOIN ohrm_leave_leave_entitlement ON
     ohrm_leave_entitlement.id = ohrm_leave_leave_entitlement.entitlement_id
-    LEFT JOIN ohrm_leave ON ohrm_leave.id = ohrm_leave_leave_entitlement.leave_id AND
+    LEFT JOIN ohrm_leave ON ohrm_leave.id = ohrm_leave_leave_entitlement.leave_id AND 
     ( $X{&gt;,ohrm_leave.date,toDate} OR $X{&lt;,ohrm_leave.date,fromDate} )
 
-WHERE ohrm_leave_entitlement.deleted=0 AND $X{=,ohrm_leave_entitlement.emp_number,empNumber} AND
+WHERE ohrm_leave_entitlement.deleted=0 AND $X{=,ohrm_leave_entitlement.emp_number,empNumber} AND 
     $X{IN,ohrm_leave_entitlement.leave_type_id,leaveTypeId} AND
     (
       ( $X{&lt;=,ohrm_leave_entitlement.from_date,fromDate} AND $X{&gt;=,ohrm_leave_entitlement.to_date,fromDate} ) OR
-      ( $X{&lt;=,ohrm_leave_entitlement.from_date,toDate} AND $X{&gt;=,ohrm_leave_entitlement.to_date,toDate} ) OR
-      ( $X{&gt;=,ohrm_leave_entitlement.from_date,fromDate} AND $X{&lt;=,ohrm_leave_entitlement.to_date,toDate} )
+      ( $X{&lt;=,ohrm_leave_entitlement.from_date,toDate} AND $X{&gt;=,ohrm_leave_entitlement.to_date,toDate} ) OR 
+      ( $X{&gt;=,ohrm_leave_entitlement.from_date,fromDate} AND $X{&lt;=,ohrm_leave_entitlement.to_date,toDate} ) 
     )
-
+    
 GROUP BY ohrm_leave_entitlement.id
 ) AS A
 
@@ -2160,7 +2159,7 @@ ORDER BY A.leave_type_id
                         <field_alias>leaveTypeId</field_alias>
                         <display_name>Leave Type ID</display_name>
                         <width>1</width>
-                    </field>
+                    </field>                                
                     <field display="true">
                         <field_name>sum(A.no_of_days) - sum(A.scheduled) - sum(A.taken)</field_name>
                         <field_alias>entitlement_total</field_alias>
@@ -2168,7 +2167,7 @@ ORDER BY A.leave_type_id
                         <width>120</width>
                         <align>right</align>
                         <link>leave/viewLeaveEntitlements?empNumber=$P{empNumber}&amp;fromDate=$P{fromDate}&amp;toDate=$P{toDate}&amp;leaveTypeId=$P{leaveTypeId}&amp;stddate=1</link>
-                    </field>
+                    </field>                                
                 </fields>
             </display_group>
     </display_groups>
@@ -2176,7 +2175,7 @@ ORDER BY A.leave_type_id
 
 <sub_report type="sql" name="pendingQuery">
 <query>
-FROM ohrm_leave_type LEFT JOIN
+FROM ohrm_leave_type LEFT JOIN 
 ohrm_leave ON ohrm_leave_type.id = ohrm_leave.leave_type_id AND
 $X{=,ohrm_leave.emp_number,empNumber} AND
 ohrm_leave.status = 1 AND
@@ -2198,7 +2197,7 @@ ORDER BY ohrm_leave_type.id
                         <field_alias>leaveTypeId</field_alias>
                         <display_name>Leave Type ID</display_name>
                         <width>1</width>
-                    </field>
+                    </field>                                
                     <field display="true">
                         <field_name>sum(length_days)</field_name>
                         <field_alias>pending</field_alias>
@@ -2206,7 +2205,7 @@ ORDER BY ohrm_leave_type.id
                         <width>120</width>
                         <align>right</align>
                         <link>leave/viewLeaveList?empNumber=$P{empNumber}&amp;fromDate=$P{fromDate}&amp;toDate=$P{toDate}&amp;leaveTypeId=$P{leaveTypeId}&amp;status=1&amp;stddate=1</link>
-                    </field>
+                    </field>                                
                 </fields>
             </display_group>
     </display_groups>
@@ -2214,7 +2213,7 @@ ORDER BY ohrm_leave_type.id
 
 <sub_report type="sql" name="scheduledQuery">
 <query>
-FROM ohrm_leave_type LEFT JOIN
+FROM ohrm_leave_type LEFT JOIN 
 ohrm_leave ON ohrm_leave_type.id = ohrm_leave.leave_type_id AND
 $X{=,ohrm_leave.emp_number,empNumber} AND
 ohrm_leave.status = 2 AND
@@ -2236,7 +2235,7 @@ ORDER BY ohrm_leave_type.id
                         <field_alias>leaveTypeId</field_alias>
                         <display_name>Leave Type ID</display_name>
                         <width>1</width>
-                    </field>
+                    </field>                                
                     <field display="true">
                         <field_name>sum(length_days)</field_name>
                         <field_alias>scheduled</field_alias>
@@ -2244,7 +2243,7 @@ ORDER BY ohrm_leave_type.id
                         <width>120</width>
                         <align>right</align>
                         <link>leave/viewLeaveList?empNumber=$P{empNumber}&amp;fromDate=$P{fromDate}&amp;toDate=$P{toDate}&amp;leaveTypeId=$P{leaveTypeId}&amp;status=2&amp;stddate=1</link>
-                    </field>
+                    </field>                                
                 </fields>
             </display_group>
     </display_groups>
@@ -2269,7 +2268,7 @@ ORDER BY ohrm_leave.leave_type_id
                         <field_alias>leaveTypeId</field_alias>
                         <display_name>Leave Type ID</display_name>
                         <width>1</width>
-                    </field>
+                    </field>                                
                     <field display="true">
                         <field_name>sum(length_days)</field_name>
                         <field_alias>taken</field_alias>
@@ -2277,13 +2276,13 @@ ORDER BY ohrm_leave.leave_type_id
                         <width>120</width>
                         <align>right</align>
                         <link>leave/viewLeaveList?empNumber=$P{empNumber}&amp;fromDate=$P{fromDate}&amp;toDate=$P{toDate}&amp;leaveTypeId=$P{leaveTypeId}&amp;status=3&amp;stddate=1</link>
-                    </field>
+                    </field>                                
                 </fields>
             </display_group>
     </display_groups>
     </sub_report>
 
-<sub_report type="sql" name="unused">
+<sub_report type="sql" name="unused">       
     <query>FROM ohrm_leave_type WHERE deleted = 0 AND $X{IN,ohrm_leave_type.id,leaveTypeId} ORDER BY ohrm_leave_type.id</query>
     <id_field>leaveTypeId</id_field>
     <display_groups>
@@ -2294,32 +2293,32 @@ ORDER BY ohrm_leave.leave_type_id
                     <field_name>ohrm_leave_type.id</field_name>
                     <field_alias>leaveTypeId</field_alias>
                     <display_name>Leave Type ID</display_name>
-                    <width>1</width>
-                </field>
+                    <width>1</width>	
+                </field>   
                 <field display="true">
                     <field_name>ohrm_leave_type.name</field_name>
                     <field_alias>unused</field_alias>
                     <display_name>Leave Balance (Days)</display_name>
-                    <width>160</width>
+                    <width>160</width>	
                     <align>right</align>
-                </field>
+                </field>                                                                                                     
             </fields>
         </display_group>
-    </display_groups>
+    </display_groups> 
 </sub_report>
 
 
-    <join>
-        <join_by sub_report="mainTable" id="leaveTypeId"></join_by>
-        <join_by sub_report="entitlementsTotal" id="leaveTypeId"></join_by>
-        <join_by sub_report="pendingQuery" id="leaveTypeId"></join_by>
-        <join_by sub_report="scheduledQuery" id="leaveTypeId"></join_by>
-        <join_by sub_report="takenQuery" id="leaveTypeId"></join_by>
-        <join_by sub_report="unused" id="leaveTypeId"></join_by>
+    <join>             
+        <join_by sub_report="mainTable" id="leaveTypeId"></join_by>              
+        <join_by sub_report="entitlementsTotal" id="leaveTypeId"></join_by> 
+        <join_by sub_report="pendingQuery" id="leaveTypeId"></join_by>  
+        <join_by sub_report="scheduledQuery" id="leaveTypeId"></join_by>  
+        <join_by sub_report="takenQuery" id="leaveTypeId"></join_by>  
+        <join_by sub_report="unused" id="leaveTypeId"></join_by>  
 
     </join>
-    <page_limit>100</page_limit>
-</report>');
+    <page_limit>100</page_limit>        
+</report>'); 
 
 INSERT INTO ohrm_advanced_report (id, name, definition) VALUES
 (2, 'Leave Entitlements and Usage Report', '
@@ -2340,12 +2339,12 @@ INSERT INTO ohrm_advanced_report (id, name, definition) VALUES
         <input_field type="text" name="location" label="Location"></input_field>
         <input_field type="text" name="sub_unit" label="Sub Unit"></input_field>
         <input_field type="text" name="terminated" label="Terminated"></input_field>
-</filter_fields>
+</filter_fields> 
 
-<sub_report type="sql" name="mainTable">
-    <query>FROM hs_hr_employee
+<sub_report type="sql" name="mainTable">       
+    <query>FROM hs_hr_employee 
     LEFT JOIN hs_hr_emp_locations ON hs_hr_employee.emp_number = hs_hr_emp_locations.emp_number
-    WHERE $X{IN,hs_hr_employee.emp_number,emp_numbers}
+    WHERE $X{IN,hs_hr_employee.emp_number,emp_numbers} 
     AND $X{=,hs_hr_employee.job_title_code,job_title}
     AND $X{IN,hs_hr_employee.work_station,sub_unit}
     AND $X{IN,hs_hr_emp_locations.location_id,location}
@@ -2360,48 +2359,48 @@ INSERT INTO ohrm_advanced_report (id, name, definition) VALUES
                     <field_name>hs_hr_employee.emp_number</field_name>
                     <field_alias>empNumber</field_alias>
                     <display_name>Employee Number</display_name>
-                    <width>1</width>
-                </field>
+                    <width>1</width>	
+                </field>                
                 <field display="false">
                     <field_name>hs_hr_employee.termination_id</field_name>
                     <field_alias>termination_id</field_alias>
                     <display_name>Termination ID</display_name>
-                    <width>1</width>
-                </field>
+                    <width>1</width>	
+                </field>   
                 <field display="true">
                     <field_name>CONCAT(hs_hr_employee.emp_firstname, \' \', hs_hr_employee.emp_lastname)</field_name>
                     <field_alias>employeeName</field_alias>
                     <display_name>Employee</display_name>
                     <width>150</width>
-                </field>
+                </field>                                                                                               
             </fields>
         </display_group>
-    </display_groups>
+    </display_groups> 
 </sub_report>
 
 <sub_report type="sql" name="entitlementsTotal">
                     <query>
 
 FROM (
-SELECT ohrm_leave_entitlement.id as id,
+SELECT ohrm_leave_entitlement.id as id, 
        ohrm_leave_entitlement.emp_number as emp_number,
        ohrm_leave_entitlement.no_of_days as no_of_days,
        sum(IF(ohrm_leave.status = 2, ohrm_leave_leave_entitlement.length_days, 0)) AS scheduled,
        sum(IF(ohrm_leave.status = 3, ohrm_leave_leave_entitlement.length_days, 0)) AS taken
-
+       
 FROM ohrm_leave_entitlement LEFT JOIN ohrm_leave_leave_entitlement ON
     ohrm_leave_entitlement.id = ohrm_leave_leave_entitlement.entitlement_id
-    LEFT JOIN ohrm_leave ON ohrm_leave.id = ohrm_leave_leave_entitlement.leave_id AND
+    LEFT JOIN ohrm_leave ON ohrm_leave.id = ohrm_leave_leave_entitlement.leave_id AND 
     ( $X{&gt;,ohrm_leave.date,toDate} OR $X{&lt;,ohrm_leave.date,fromDate} )
 
 WHERE ohrm_leave_entitlement.deleted=0 AND $X{=,ohrm_leave_entitlement.leave_type_id,leaveType}
     AND $X{IN,ohrm_leave_entitlement.emp_number,empNumber} AND
     (
       ( $X{&lt;=,ohrm_leave_entitlement.from_date,fromDate} AND $X{&gt;=,ohrm_leave_entitlement.to_date,fromDate} ) OR
-      ( $X{&lt;=,ohrm_leave_entitlement.from_date,toDate} AND $X{&gt;=,ohrm_leave_entitlement.to_date,toDate} ) OR
-      ( $X{&gt;=,ohrm_leave_entitlement.from_date,fromDate} AND $X{&lt;=,ohrm_leave_entitlement.to_date,toDate} )
+      ( $X{&lt;=,ohrm_leave_entitlement.from_date,toDate} AND $X{&gt;=,ohrm_leave_entitlement.to_date,toDate} ) OR 
+      ( $X{&gt;=,ohrm_leave_entitlement.from_date,fromDate} AND $X{&lt;=,ohrm_leave_entitlement.to_date,toDate} ) 
     )
-
+    
 GROUP BY ohrm_leave_entitlement.id
 ) AS A
 
@@ -2419,7 +2418,7 @@ ORDER BY A.emp_number
                         <field_alias>empNumber</field_alias>
                         <display_name>Emp Number</display_name>
                         <width>1</width>
-                    </field>
+                    </field>                                
                     <field display="true">
                         <field_name>sum(A.no_of_days) - sum(A.scheduled) - sum(A.taken)</field_name>
                         <field_alias>entitlement_total</field_alias>
@@ -2427,7 +2426,7 @@ ORDER BY A.emp_number
                         <width>120</width>
                         <align>right</align>
                         <link>leave/viewLeaveEntitlements?empNumber=$P{empNumber}&amp;fromDate=$P{fromDate}&amp;toDate=$P{toDate}&amp;leaveTypeId=$P{leaveTypeId}&amp;stddate=1</link>
-                    </field>
+                    </field>                                
                 </fields>
             </display_group>
     </display_groups>
@@ -2452,7 +2451,7 @@ ORDER BY ohrm_leave.emp_number
                         <field_alias>empNumber</field_alias>
                         <display_name>Emp Number</display_name>
                         <width>1</width>
-                    </field>
+                    </field>                                
                     <field display="true">
                         <field_name>sum(length_days)</field_name>
                         <field_alias>pending</field_alias>
@@ -2460,7 +2459,7 @@ ORDER BY ohrm_leave.emp_number
                         <width>121</width>
                         <align>right</align>
                         <link>leave/viewLeaveList?empNumber=$P{empNumber}&amp;fromDate=$P{fromDate}&amp;toDate=$P{toDate}&amp;leaveTypeId=$P{leaveTypeId}&amp;status=1&amp;stddate=1</link>
-                    </field>
+                    </field>                                
                 </fields>
             </display_group>
     </display_groups>
@@ -2486,7 +2485,7 @@ ORDER BY ohrm_leave.emp_number
                         <field_alias>empNumber</field_alias>
                         <display_name>Emp Number</display_name>
                         <width>1</width>
-                    </field>
+                    </field>                                
                     <field display="true">
                         <field_name>sum(length_days)</field_name>
                         <field_alias>scheduled</field_alias>
@@ -2494,7 +2493,7 @@ ORDER BY ohrm_leave.emp_number
                         <width>121</width>
                         <align>right</align>
                         <link>leave/viewLeaveList?empNumber=$P{empNumber}&amp;fromDate=$P{fromDate}&amp;toDate=$P{toDate}&amp;leaveTypeId=$P{leaveTypeId}&amp;status=2&amp;stddate=1</link>
-                    </field>
+                    </field>                                
                 </fields>
             </display_group>
     </display_groups>
@@ -2519,7 +2518,7 @@ ORDER BY ohrm_leave.emp_number
                         <field_alias>empNumber</field_alias>
                         <display_name>Emp Number</display_name>
                         <width>1</width>
-                    </field>
+                    </field>                                
                     <field display="true">
                         <field_name>sum(length_days)</field_name>
                         <field_alias>taken</field_alias>
@@ -2527,47 +2526,47 @@ ORDER BY ohrm_leave.emp_number
                         <width>120</width>
                         <align>right</align>
                         <link>leave/viewLeaveList?empNumber=$P{empNumber}&amp;fromDate=$P{fromDate}&amp;toDate=$P{toDate}&amp;leaveTypeId=$P{leaveTypeId}&amp;status=3&amp;stddate=1</link>
-                    </field>
+                    </field>                                
                 </fields>
             </display_group>
     </display_groups>
 </sub_report>
-<sub_report type="sql" name="unused">
+<sub_report type="sql" name="unused">       
     <query>FROM hs_hr_employee WHERE $X{IN,hs_hr_employee.emp_number,empNumber} ORDER BY hs_hr_employee.emp_number</query>
     <id_field>empNumber</id_field>
     <display_groups>
         <display_group name="unused" type="one" display="true">
             <group_header></group_header>
-            <fields>
+            <fields>    
                 <field display="false">
                     <field_name>hs_hr_employee.emp_number</field_name>
                     <field_alias>empNumber</field_alias>
                     <display_name>Employee Number</display_name>
-                    <width>1</width>
-                </field>
+                    <width>1</width>	
+                </field>                
                 <field display="true">
                     <field_name>hs_hr_employee.emp_firstname</field_name>
                     <field_alias>unused</field_alias>
                     <display_name>Leave Balance (Days)</display_name>
                     <width>150</width>
                     <align>right</align>
-                </field>
-
+                </field> 
+                                                                                               
             </fields>
         </display_group>
-    </display_groups>
+    </display_groups> 
 </sub_report>
-    <join>
-        <join_by sub_report="mainTable" id="empNumber"></join_by>
-        <join_by sub_report="entitlementsTotal" id="empNumber"></join_by>
+    <join>             
+        <join_by sub_report="mainTable" id="empNumber"></join_by>            
+        <join_by sub_report="entitlementsTotal" id="empNumber"></join_by> 
         <join_by sub_report="pendingQuery" id="empNumber"></join_by>
         <join_by sub_report="scheduledQuery" id="empNumber"></join_by>
-        <join_by sub_report="takenQuery" id="empNumber"></join_by>
-        <join_by sub_report="unused" id="empNumber"></join_by>
+        <join_by sub_report="takenQuery" id="empNumber"></join_by> 
+        <join_by sub_report="unused" id="empNumber"></join_by>  
     </join>
-    <page_limit>20</page_limit>
-</report>');
-
+    <page_limit>20</page_limit>       
+</report>'); 
+ 
 
 INSERT INTO `ohrm_leave_status` (`status`,`name`) VALUES
 (-1, 'REJECTED'),
@@ -2578,11 +2577,11 @@ INSERT INTO `ohrm_leave_status` (`status`,`name`) VALUES
 (4, 'WEEKEND'),
 (5, 'HOLIDAY');
 
-INSERT INTO ohrm_home_page (`user_role_id`, `action`, `enable_class`, `priority`) VALUES
+INSERT INTO ohrm_home_page (`user_role_id`, `action`, `enable_class`, `priority`) VALUES 
 (1, 'pim/viewEmployeeList', NULL, 10),
 (2, 'pim/viewMyDetails', NULL, 0);
 
-INSERT INTO ohrm_module_default_page (`module_id`, `user_role_id`, `action`, `enable_class`, `priority`) VALUES
+INSERT INTO ohrm_module_default_page (`module_id`, `user_role_id`, `action`, `enable_class`, `priority`) VALUES 
 (2, 1, 'admin/viewSystemUsers', NULL, 20),
 (3, 1, 'pim/viewEmployeeList', NULL, 20),
 (3, 3, 'pim/viewEmployeeList', NULL, 10),
@@ -2594,13 +2593,13 @@ INSERT INTO ohrm_module_default_page (`module_id`, `user_role_id`, `action`, `en
 (4, 2, 'leave/showLeavePeriodNotDefinedWarning', 'LeavePeriodDefinedHomePageEnabler', 90),
 (5, 1, 'time/viewEmployeeTimesheet', NULL, 20),
 (5, 2, 'time/viewMyTimesheet', NULL, 0),
-(5, 1, 'time/defineTimesheetPeriod', 'TimesheetPeriodDefinedHomePageEnabler', 200),
+(5, 1, 'time/defineTimesheetPeriod', 'TimesheetPeriodDefinedHomePageEnabler', 100),
 (5, 2, 'time/timesheetPeriodNotDefined', 'TimesheetPeriodDefinedHomePageEnabler', 100),
 (7, 1, 'recruitment/viewCandidates', NULL, 20),
 (7, 5, 'recruitment/viewCandidates', NULL, 10),
 (7, 6, 'recruitment/viewCandidates', NULL, 5);
 
-INSERT INTO `hs_hr_config`(`key`,`value`) VALUES
+INSERT INTO `hs_hr_config`(`key`,`value`) VALUES 
 ('beacon.activation_acceptance_status','off'),
 ('beacon.company_name',''),
 ('beacon.activiation_status','off'),
@@ -2614,7 +2613,7 @@ INSERT INTO `hs_hr_config`(`key`,`value`) VALUES
 
 INSERT INTO `ohrm_module` (`name`,`status`) VALUES
 ('communication',1);
-INSERT INTO `ohrm_datapoint_type`(`id`,`name`,`action_class`)  VALUES
+INSERT INTO `ohrm_datapoint_type`(`id`,`name`,`action_class`)  VALUES 
 (1,'config','configDatapointProcessor'),
 (2,'count','countDatapointProcessor'),
 (3, 'session', 'sessionDatapointProcessor'),
@@ -2646,66 +2645,66 @@ INSERT INTO `ohrm_reviewer_group` (`id`, `name`,`piority`) VALUES
 (1, 'Supervisor',1),
 (2, 'Employee',2);
 
-SET @admin_role_id := (SELECT `id` FROM ohrm_user_role WHERE `name` = 'Admin');
+SET @admin_role_id := (SELECT `id` FROM ohrm_user_role WHERE `name` = 'Admin');  
 SET @ess_role_id := (SELECT `id` FROM ohrm_user_role WHERE `name` = 'ESS');
 SET @supervisor_role_id := (SELECT `id` FROM ohrm_user_role WHERE `name` = 'Supervisor');
 
-INSERT INTO `ohrm_module` (`name`, `status`) VALUES ('performance', 1);
+INSERT INTO `ohrm_module` (`name`, `status`) VALUES ('performance', 1);  
 
 SET @module_id := (SELECT LAST_INSERT_ID());
 
-INSERT INTO ohrm_screen (`name`, `module_id`, `action_url`) VALUES
-('Save KPI', @module_id, 'saveKpi');
-SET @save_kpi_screen_id := (SELECT LAST_INSERT_ID());
+INSERT INTO ohrm_screen (`name`, `module_id`, `action_url`) VALUES  
+('Save KPI', @module_id, 'saveKpi');  
+SET @save_kpi_screen_id := (SELECT LAST_INSERT_ID());   
 
-INSERT INTO ohrm_screen (`name`, `module_id`, `action_url`) VALUES
-('Saearch KPI', @module_id, 'searchKpi');
+INSERT INTO ohrm_screen (`name`, `module_id`, `action_url`) VALUES  
+('Saearch KPI', @module_id, 'searchKpi');  
 SET @search_kpi_screen_id := (SELECT LAST_INSERT_ID());
 
-INSERT INTO ohrm_screen (`name`, `module_id`, `action_url`) VALUES
-('My Reviews', @module_id, 'myPerformanceReview');
-SET @my_reviews_screen_id := (SELECT LAST_INSERT_ID());
+INSERT INTO ohrm_screen (`name`, `module_id`, `action_url`) VALUES  
+('My Reviews', @module_id, 'myPerformanceReview');  
+SET @my_reviews_screen_id := (SELECT LAST_INSERT_ID());  
 
-INSERT INTO ohrm_screen (`name`, `module_id`, `action_url`) VALUES
-('Add Review', @module_id, 'saveReview');
+INSERT INTO ohrm_screen (`name`, `module_id`, `action_url`) VALUES  
+('Add Review', @module_id, 'saveReview');  
 SET @add_review_screen_id := (SELECT LAST_INSERT_ID());
 
-INSERT INTO ohrm_screen (`name`, `module_id`, `action_url`) VALUES
-('Review Evaluate', @module_id, 'reviewEvaluate');
+INSERT INTO ohrm_screen (`name`, `module_id`, `action_url`) VALUES  
+('Review Evaluate', @module_id, 'reviewEvaluate');  
 SET @review_evaluate_screen_id := (SELECT LAST_INSERT_ID());
 
-INSERT INTO ohrm_screen (`name`, `module_id`, `action_url`) VALUES
-('Review Evaluate By Admin', @module_id, 'reviewEvaluateByAdmin');
+INSERT INTO ohrm_screen (`name`, `module_id`, `action_url`) VALUES  
+('Review Evaluate By Admin', @module_id, 'reviewEvaluateByAdmin');  
 SET @review_evaluate_admin_screen_id := (SELECT LAST_INSERT_ID());
 
-INSERT INTO ohrm_screen (`name`, `module_id`, `action_url`) VALUES
-('Search Evaluate Performance', @module_id, 'searchEvaluatePerformancReview');
+INSERT INTO ohrm_screen (`name`, `module_id`, `action_url`) VALUES  
+('Search Evaluate Performance', @module_id, 'searchEvaluatePerformancReview');  
 SET @search_evaluate_performance_screen_id := (SELECT LAST_INSERT_ID());
 
-INSERT INTO ohrm_screen (`name`, `module_id`, `action_url`) VALUES
-('Search Performance Review', @module_id, 'searchPerformancReview');
+INSERT INTO ohrm_screen (`name`, `module_id`, `action_url`) VALUES  
+('Search Performance Review', @module_id, 'searchPerformancReview');  
 SET @search_performance_review_screen_id := (SELECT LAST_INSERT_ID());
 
-INSERT INTO ohrm_menu_item (`menu_title`, `screen_id`, `parent_id`, `level`, `order_hint`, `url_extras`, `status`) VALUES
+INSERT INTO ohrm_menu_item (`menu_title`, `screen_id`, `parent_id`, `level`, `order_hint`, `url_extras`, `status`) VALUES  
 ('Performance', NULL, NULL, 1, 700, '', 1);
-SET @performance_menu_id := (SELECT `id` FROM ohrm_menu_item WHERE `menu_title` = 'Performance' AND `level` = 1);
+SET @performance_menu_id := (SELECT `id` FROM ohrm_menu_item WHERE `menu_title` = 'Performance' AND `level` = 1); 
 
-INSERT INTO ohrm_menu_item (`menu_title`, `screen_id`, `parent_id`, `level`, `order_hint`, `url_extras`, `status`) VALUES
+INSERT INTO ohrm_menu_item (`menu_title`, `screen_id`, `parent_id`, `level`, `order_hint`, `url_extras`, `status`) VALUES  
 ('Configure', NULL, @performance_menu_id, 2, 100, '', 1);
 SET @ConfigureKPI_screen_id := (SELECT LAST_INSERT_ID());
 
-INSERT INTO ohrm_menu_item (`menu_title`, `screen_id`, `parent_id`, `level`, `order_hint`, `url_extras`, `status`) VALUES
+INSERT INTO ohrm_menu_item (`menu_title`, `screen_id`, `parent_id`, `level`, `order_hint`, `url_extras`, `status`) VALUES  
 ('Manage Reviews', NULL, @performance_menu_id, 2, 200, '', 1);
 SET @Manage_Reviews_screen_id := (SELECT LAST_INSERT_ID());
 
 
-INSERT INTO ohrm_menu_item (`menu_title`, `screen_id`, `parent_id`, `level`, `order_hint`, `url_extras`, `status`) VALUES
+INSERT INTO ohrm_menu_item (`menu_title`, `screen_id`, `parent_id`, `level`, `order_hint`, `url_extras`, `status`) VALUES  
 ('KPIs', @search_kpi_screen_id, @ConfigureKPI_screen_id, 3, 100, '', 1),
 ('Manage Reviews', @search_performance_review_screen_id, @Manage_Reviews_screen_id, 3, 100, '', 1),
 ('My Reviews', @my_reviews_screen_id, @Manage_Reviews_screen_id, 3, 200, '', 1),
 ('Review List', @search_evaluate_performance_screen_id, @Manage_Reviews_screen_id, 3, 300, '', 1);
-
-INSERT INTO ohrm_user_role_screen (user_role_id, screen_id, can_read, can_create, can_update, can_delete) VALUES
+      
+INSERT INTO ohrm_user_role_screen (user_role_id, screen_id, can_read, can_create, can_update, can_delete) VALUES  
 (@admin_role_id, @save_kpi_screen_id, 1, 1, 1, 0),
 (@admin_role_id, @search_kpi_screen_id, 1, 1, 1, 1),
 (@admin_role_id, @add_review_screen_id, 1, 1, 1, 0),
@@ -2769,28 +2768,28 @@ INSERT INTO ohrm_user_role_screen (user_role_id, screen_id, can_read, can_create
 (@ess_user_role, @employee_tracker_logs_screen_id, 1, 0, 0, 0);
 
 -- Install CorporateDirectory --
-INSERT INTO `ohrm_module` (`name`, `status`) VALUES ('directory', 1);
+INSERT INTO `ohrm_module` (`name`, `status`) VALUES ('directory', 1);  
 
-SET @module_id := (SELECT LAST_INSERT_ID());
-
-INSERT INTO ohrm_screen (`name`, `module_id`, `action_url`) VALUES
-('Directory', @module_id, 'viewDirectory');
+SET @module_id := (SELECT LAST_INSERT_ID());  
+  
+INSERT INTO ohrm_screen (`name`, `module_id`, `action_url`) VALUES  
+('Directory', @module_id, 'viewDirectory'); 
 
 SET @directory_configuration_screen_id := (SELECT LAST_INSERT_ID());
+  
+INSERT INTO ohrm_menu_item (`menu_title`, `screen_id`, `parent_id`, `level`, `order_hint`, `url_extras`, `status`) VALUES  
+('Directory', @directory_configuration_screen_id, null, 1, 1000, '/reset/1', 1);  
+  
+SET @admin_role_id := (SELECT `id` FROM ohrm_user_role WHERE `name` = 'Admin'); 
 
-INSERT INTO ohrm_menu_item (`menu_title`, `screen_id`, `parent_id`, `level`, `order_hint`, `url_extras`, `status`) VALUES
-('Directory', @directory_configuration_screen_id, null, 1, 1000, '/reset/1', 1);
+SET @ess_role_id := (SELECT `id` FROM ohrm_user_role WHERE `name` = 'ESS'); 
 
-SET @admin_role_id := (SELECT `id` FROM ohrm_user_role WHERE `name` = 'Admin');
-
-SET @ess_role_id := (SELECT `id` FROM ohrm_user_role WHERE `name` = 'ESS');
-
-INSERT INTO ohrm_user_role_screen (user_role_id, screen_id, can_read, can_create, can_update, can_delete) VALUES
+INSERT INTO ohrm_user_role_screen (user_role_id, screen_id, can_read, can_create, can_update, can_delete) VALUES  
 (@admin_role_id, @directory_configuration_screen_id, 1, 1, 1, 1),
-(@ess_role_id, @directory_configuration_screen_id, 1, 1, 1, 1);
+(@ess_role_id, @directory_configuration_screen_id, 1, 1, 1, 1);  
 
 
--- install open id
+-- install open id 
 
 INSERT INTO `hs_hr_config` (`key` ,`value`) VALUES ('domain.name',  'localhost');
 
@@ -2801,743 +2800,11 @@ SET @admin_menu_id := (SELECT `id` FROM ohrm_menu_item WHERE `menu_title` = 'Adm
 SET @configuration_id := (SELECT `id` FROM ohrm_menu_item WHERE `menu_title` = 'Configuration' AND `level` = 2 AND parent_id = @admin_menu_id);
 SET @max_order := (SELECT MAX(`order_hint`) FROM ohrm_menu_item WHERE parent_id = @configuration_id);
 
-INSERT INTO ohrm_menu_item ( `menu_title`, `screen_id`, `parent_id`, `level`, `order_hint`, `url_extras`, `status`) VALUES
+INSERT INTO ohrm_menu_item ( `menu_title`, `screen_id`, `parent_id`, `level`, `order_hint`, `url_extras`, `status`) VALUES 
 ('Social Media Authentication', @opnid_screen_id, @configuration_id, 3, @max_order+100, NULL, 1);
 
-INSERT INTO ohrm_user_role_screen (user_role_id, screen_id, can_read, can_create, can_update, can_delete) VALUES
+INSERT INTO ohrm_user_role_screen (user_role_id, screen_id, can_read, can_create, can_update, can_delete) VALUES  
 (1, @opnid_screen_id, 1, 1, 1, 0);
 
-INSERT INTO hs_hr_config (`key`, `value`) VALUES
+INSERT INTO hs_hr_config (`key`, `value`) VALUES  
 ('openId.provider.added', 'on');
-
-
-INSERT INTO ohrm_screen ( `name`, `module_id`, `action_url`) VALUES ( 'Register OAuth Client', 2, 'registerOAuthClient');
-SET @oauth_client_screen_id := (SELECT LAST_INSERT_ID());
-
-SET @admin_menu_id := (SELECT `id` FROM ohrm_menu_item WHERE `menu_title` = 'Admin' AND `level` = 1);
-SET @configuration_id := (SELECT `id` FROM ohrm_menu_item WHERE `menu_title` = 'Configuration' AND `level` = 2 AND parent_id = @admin_menu_id);
-SET @max_order := (SELECT MAX(`order_hint`) FROM ohrm_menu_item WHERE parent_id = @configuration_id);
-
-INSERT INTO ohrm_menu_item ( `menu_title`, `screen_id`, `parent_id`, `level`, `order_hint`, `url_extras`, `status`) VALUES
-('Register OAuth Client', @oauth_client_screen_id, @configuration_id, 3, @max_order+100, NULL, 1);
-
-INSERT INTO ohrm_user_role_screen (user_role_id, screen_id, can_read, can_create, can_update, can_delete) VALUES
-(1, @oauth_client_screen_id, 1, 1, 1, 0);
-
-INSERT INTO hs_hr_config (`key`, `value`) VALUES
-('open_source_integrations','<xml>
-<integrations>
-</integrations>
-</xml>
-');
-
-INSERT INTO `hs_hr_config` (`key`, `value`) VALUES
-('authentication.status', 'Enable'),
-('authentication.enforce_password_strength', 'on'),
-('authentication.default_required_password_strength', 'medium');
-
--- Maintenance module Sql querise.
-INSERT INTO ohrm_module (name, status) VALUES
-('maintenance', '1');
-set @module_id := (SELECT id FROM ohrm_module WHERE name = 'maintenance');
-set @admin_role_id := (SELECT id FROM ohrm_user_role WHERE name = 'Admin');
-
-INSERT INTO ohrm_screen (name, module_id, action_url) VALUES
-('Purge Employee Records', @module_id , 'purgeEmployee'),
-('Purge Candidate Records', @module_id , 'purgeCandidateData'),
-('Access Employee Records', @module_id , 'accessEmployeeData');
-
-set @purge_employee_screen_id := (SELECT id FROM ohrm_screen WHERE action_url = 'purgeEmployee');
-set @purge_candidate_screen_id := (SELECT id FROM ohrm_screen WHERE action_url = 'purgeCandidateData');
-set @access_employee_records_screen_id := (SELECT id FROM ohrm_screen WHERE action_url = 'accessEmployeeData');
-
-INSERT INTO ohrm_menu_item (menu_title, screen_id, parent_id, level, order_hint, url_extras, status) VALUES
-('Maintenance', @purge_employee_screen_id , NULL, '1', '1200', NULL, '1');
-
-set @parent_menu_id := (SELECT id FROM ohrm_menu_item WHERE menu_title = 'Maintenance');
-
-INSERT INTO ohrm_menu_item (menu_title, screen_id, parent_id, level, order_hint, url_extras, status) VALUES
-('Purge Records', NULL , @parent_menu_id, 2, '100', null, 1),
-('Access Records', @access_employee_records_screen_id, @parent_menu_id, 2, '200', null, 1);
-
-set @parent_menu_id_level_2:= (SELECT id FROM ohrm_menu_item WHERE menu_title = 'Purge Records');
-INSERT INTO ohrm_menu_item (menu_title, screen_id, parent_id, level, order_hint, url_extras, status) VALUES
-('Employee Records', @purge_employee_screen_id, @parent_menu_id_level_2, 3, '100', null, 1),
-('Candidate Records', @purge_candidate_screen_id, @parent_menu_id_level_2, 3, '200', null, 1);
-
-INSERT INTO ohrm_user_role_screen (user_role_id,screen_id, can_read) VALUES
-(@admin_role_id, @purge_employee_screen_id, 1),
-(@admin_role_id, @purge_candidate_screen_id, 1),
-(@admin_role_id, @access_employee_records_screen_id, 1);
-
-INSERT INTO ohrm_user_role_screen (user_role_id,screen_id, can_read, can_create, can_update, can_delete) VALUES
-(@admin_role_id, @access_employee_records_screen_id, 1,1,1,1);
-
-INSERT INTO ohrm_data_group (name, description, can_read, can_create, can_update, can_delete) VALUES
-  ('GDPR Employee', 'Employee Records purge or Extract- Tasks', 1, 1, 1, 1);
-
-SET @data_group_id := (SELECT id FROM ohrm_data_group WHERE name = 'GDPR Employee');
-
-INSERT INTO ohrm_data_group_screen (data_group_id, screen_id, permission) VALUES
-  (@data_group_id, @purge_employee_screen_id, 1),
-  (@data_group_id, @access_employee_records_screen_id, 1);
-
-INSERT INTO ohrm_user_role_data_group (user_role_id, data_group_id, can_read, can_create, can_update, can_delete, self) VALUES
-  (@admin_role_id, @data_group_id, 1, 1, 1, 1, 1);
-
--- Add module to `ohrm_module` table
-INSERT INTO ohrm_module (name, status) VALUES
-('marketPlace', '1');
-set @module_id := (SELECT id FROM ohrm_module WHERE name = 'marketPlace');
-
--- Add screens to `ohrm_screen` table
-INSERT INTO ohrm_screen (name, module_id, action_url) VALUES
-('Marcket Place Home Page', @module_id , 'ohrmAddons');
-
-set @MP_home_screen_id := (SELECT id FROM ohrm_screen WHERE action_url = 'ohrmAddons');
-set @admin_role_id := (SELECT id FROM ohrm_user_role WHERE name = 'Admin');
-set @ESS_role_id := (SELECT id FROM ohrm_user_role WHERE name = 'ESS');
-set @Supervisor_role_id := (SELECT id FROM ohrm_user_role WHERE name = 'Supervisor');
-
--- Task adding permissions
-INSERT INTO ohrm_user_role_screen (user_role_id,screen_id, can_read, can_create, can_update, can_delete) VALUES
-(@admin_role_id, @MP_home_screen_id, 1,0,0,0),
-(@ESS_role_id, @MP_home_screen_id, 1,0,0,0),
-(@Supervisor_role_id, @MP_home_screen_id, 1,0,0,0);
-
-INSERT INTO `hs_hr_config` (`key`, `value`) VALUES
-('base_url', 'https://marketplace.orangehrm.com');
-
--- Add data group permissions
-INSERT INTO ohrm_data_group (name, description, can_read, can_create, can_update, can_delete) VALUES
-('Marketplace', 'Install or Uninstall addons- Tasks', 1, 1, 0, 1);
-
-SET @data_group_id := (SELECT id FROM ohrm_data_group WHERE name = 'Marketplace');
-
-INSERT INTO ohrm_data_group_screen (data_group_id, screen_id, permission) VALUES
-(@data_group_id, @MP_home_screen_id, 1);
-
--- Add default data group permission
-INSERT INTO ohrm_user_role_data_group (user_role_id, data_group_id, can_read, can_create, can_update, can_delete, self) VALUES
-(@admin_role_id, @data_group_id, 1, 1, 0, 1, 0),
-(@ESS_role_id, @data_group_id, 1, 0, 0, 0, 0),
-(@Supervisor_role_id, @data_group_id, 1, 0, 0, 0, 0);
-
--- Buzz plugin
-INSERT INTO `hs_hr_config`(`key`, `value`) VALUES ('buzz_refresh_time','60000'),
-        ('buzz_share_count','10'),
-        ('buzz_initial_comments','2'),
-        ('buzz_viewmore_comment','5'),
-        ('buzz_like_count','5'),
-        ('buzz_time_format','h:i a'),
-        ('buzz_most_like_posts','5'),
-        ('buzz_post_text_lenth','500'),
-        ('buzz_post_text_lines','5'),
-        ('buzz_cookie_valid_time','5000'),
-        ('buzz_most_like_shares','5'),
-        ('buzz_image_max_dimension', '1024');
---
--- Inserting News feed Module to The Database
---
-INSERT INTO `ohrm_module`( `name`, `status`) VALUES ('buzz','1');
-
-set @admin_role_id := (SELECT id FROM ohrm_user_role WHERE name = 'Admin');
-set @ESS_role_id := (SELECT id FROM ohrm_user_role WHERE name = 'ESS');
-set @Supervisor_role_id := (SELECT id FROM ohrm_user_role WHERE name = 'Supervisor');
-
-INSERT INTO `ohrm_data_group` (`name`, `description`, `can_read`, `can_create`, `can_update`, `can_delete`) VALUES
-('buzz_link', 'buzz link permition ', 1, 1, 1, 0);
-
-SET @buzz_link_data_group_id := (SELECT id FROM `ohrm_data_group` WHERE `name` = 'buzz_link');
-
-INSERT INTO `ohrm_user_role_data_group` (`user_role_id`, `data_group_id`, `can_read`, `can_create`, `can_update`, `can_delete`, `self`) VALUES
-(@ESS_role_id, @buzz_link_data_group_id, 1, 1, 1, 0, 0),
-(@Supervisor_role_id, @buzz_link_data_group_id, 1, 1, 1, 0, 0);
-
-INSERT INTO `ohrm_data_group` (`name`, `description`, `can_read`, `can_create`, `can_update`, `can_delete`) VALUES
-('buzz_link_admin', 'buzz link permition for admin', 1, 1, 1, 0);
-
-SET @buzz_link_admin_data_group_id := (SELECT id FROM `ohrm_data_group` WHERE `name` = 'buzz_link_admin');
-
-INSERT INTO `ohrm_user_role_data_group` (`user_role_id`, `data_group_id`, `can_read`, `can_create`, `can_update`, `can_delete`, `self`) VALUES
-(@admin_role_id, @buzz_link_admin_data_group_id, 1, 1, 1, 0, 0);
-
-INSERT INTO `hs_hr_config`(`key`, `value`) VALUES ('buzz_comment_text_lenth','250');
-
--- Add Buzz As A menu Item
-SET @buzz_module_id = (SELECT `id` FROM `ohrm_module` WHERE `name`='buzz');
-INSERT INTO `ohrm_screen`(`name`, `module_id`, `action_url`) VALUES ('Buzz',@buzz_module_id,'viewBuzz');
-SET @screen_id=(SELECT `id` FROM `ohrm_screen` WHERE `name`='Buzz');
-INSERT INTO `ohrm_menu_item`(`menu_title`, `screen_id`, `parent_id`, `level`, `order_hint`, `status`) VALUES ('Buzz', @screen_id, NULL, '1', '1500', 1);
-
-INSERT INTO `ohrm_user_role_screen`(`user_role_id`, `screen_id`, `can_read`, `can_create`, `can_update`, `can_delete`) VALUES (@admin_role_id,@screen_id,1,1,1,1);
-INSERT INTO `ohrm_user_role_screen`(`user_role_id`, `screen_id`, `can_read`, `can_create`, `can_update`, `can_delete`) VALUES (@ESS_role_id,@screen_id,1,1,1,1);
-INSERT INTO `ohrm_user_role_screen`(`user_role_id`, `screen_id`, `can_read`, `can_create`, `can_update`, `can_delete`) VALUES (@Supervisor_role_id,@screen_id,1,1,1,1);
-
--- i.e. -4 weeks, -2 days, -1 day, -1 month
--- https://www.php.net/manual/en/datetime.formats.relative.php
-INSERT INTO `hs_hr_config`(`key`, `value`) VALUES ('buzz_max_notification_period','-1 week');
-
-INSERT INTO `ohrm_oauth_scope` (`scope`, `is_default`) VALUES ('admin', '0'), ('user', '0');
-INSERT IGNORE INTO `ohrm_oauth_client`(`client_id`, `client_secret`, `redirect_uri`, `grant_types`, `scope`) VALUES
-('orangehrm_mobile_app','','','password refresh_token','user');
-
-SET @admin_role_id := (SELECT `id` FROM ohrm_user_role WHERE `name` = 'Admin');
-
-SET @admin_module_id = (SELECT `id` FROM `ohrm_module` WHERE `name`='admin');
-
-INSERT INTO ohrm_screen (`name`, `module_id`, `action_url`) VALUES
-('Language Packages', @admin_module_id, 'languagePackage'),
-('Language Customization', @admin_module_id, 'languageCustomization'),
-('Save Language Customization', @admin_module_id, 'saveLanguageCustomization'),
-('Export Language Package', @admin_module_id, 'exportLanguagePackage');
-
-SET @language_packages_screen_id=(SELECT `id` FROM `ohrm_screen` WHERE `name`='Language Packages');
-SET @language_customization_screen_id=(SELECT `id` FROM `ohrm_screen` WHERE `name`='Language Customization');
-SET @save_language_customization_screen_id=(SELECT `id` FROM `ohrm_screen` WHERE `name`='Save Language Customization');
-SET @export_language_package_screen_id=(SELECT `id` FROM `ohrm_screen` WHERE `name`='Export Language Package');
-
-SET @admin_menu_id := (SELECT `id` FROM ohrm_menu_item WHERE `menu_title` = 'Admin' AND `level` = 1);
-SET @configuration_menu_id := (SELECT id FROM ohrm_menu_item where menu_title = 'Configuration' AND `parent_id` = @admin_menu_id);
-
-INSERT INTO ohrm_menu_item (`menu_title`, `screen_id`, `parent_id`, `level`, `order_hint`, `url_extras`, `status`) VALUES
-('Language Packages', @language_packages_screen_id, @configuration_menu_id, 3, 350, '', 1);
-
-INSERT INTO ohrm_user_role_screen (user_role_id, screen_id, can_read, can_create, can_update, can_delete) VALUES
-(@admin_role_id, @language_packages_screen_id, 1, 1, 1, 0),
-(@admin_role_id, @language_customization_screen_id, 1, 1, 1, 0),
-(@admin_role_id, @save_language_customization_screen_id, 1, 1, 1, 0),
-(@admin_role_id, @export_language_package_screen_id, 1, 1, 1, 0);
-
-
-INSERT INTO `ohrm_i18n_language` (`name`, `code`, `added`) VALUES
-('Chinese (Simplified, China) - 中文（简体，中国）', 'zh_Hans_CN', 1),
-('Chinese (Traditional, Taiwan) - 中文（繁體，台灣）', 'zh_Hant_TW', 1),
-('Dutch - Nederlands', 'nl', 1),
-('English (United States)', 'en_US', 1),
-('French - Français', 'fr', 1),
-('German - Deutsch', 'de', 1),
-('Spanish - Español', 'es', 1),
-('Spanish (Costa Rica) - Español (Costa Rica)', 'es_CR', 1);
-
-INSERT INTO `ohrm_i18n_language` (`name`, `code`, `enabled`) VALUES
-('test - TEST', 'zz_ZZ', 0);
-
-INSERT INTO `ohrm_i18n_language` (`name`, `code`) VALUES
-('Afrikaans (Namibia) - Afrikaans (Namibië)', 'af_NA'),
-('Afrikaans (South Africa) - Afrikaans (Suid-Afrika)', 'af_ZA'),
-('Aghem (Cameroon)', 'agq_CM'),
-('Akan (Ghana)', 'ak_GH'),
-('Albanian (Albania) - Albanian (Albania)', 'sq_AL'),
-('Albanian (Macedonia) - Albanian (Macedonia)', 'sq_MK'),
-('Amharic (Ethiopia) - Amharic (Ethiopia)', 'am_ET'),
-('Arabic (Algeria) - العربية (الجزائر)', 'ar_DZ'),
-('Arabic (Bahrain) - العربية (البحرين)', 'ar_BH'),
-('Arabic (Chad) - العربية (تشاد)', 'ar_TD'),
-('Arabic (Comoros) - العربية (جزر القمر)', 'ar_KM'),
-('Arabic (Djibouti) - العربية (جيبوتي)', 'ar_DJ'),
-('Arabic (Egypt) - العربية (مصر)', 'ar_EG'),
-('Arabic (Eritrea) - العربية (إريتريا)', 'ar_ER'),
-('Arabic (Iraq) - العربية (العراق)', 'ar_IQ'),
-('Arabic (Israel) - العربية (إسرائيل)', 'ar_IL'),
-('Arabic (Jordan) - العربية (الأردن)', 'ar_JO'),
-('Arabic (Kuwait) - العربية (الكويت)', 'ar_KW'),
-('Arabic (Lebanon) - العربية (لبنان)', 'ar_LB'),
-('Arabic (Libya) - العربية (ليبيا)', 'ar_LY'),
-('Arabic (Mauritania) - العربية (موريتانيا)', 'ar_MR'),
-('Arabic (Morocco) - العربية (المغرب)', 'ar_MA'),
-('Arabic (Oman) - العربية (عمان)', 'ar_OM'),
-('Arabic (Palestinian Territories) - العربية (الأراضي الفلسطينية)', 'ar_PS'),
-('Arabic (Qatar) - العربية (قطر)', 'ar_QA'),
-('Arabic (Saudi Arabia) - العربية (المملكة العربية السعودية)', 'ar_SA'),
-('Arabic (Somalia) - العربية (الصومال)', 'ar_SO'),
-('Arabic (South Sudan) - العربية (جنوب السودان)', 'ar_SS'),
-('Arabic (Sudan) - العربية (السودان)', 'ar_SD'),
-('Arabic (Syria) - العربية (سوريا)', 'ar_SY'),
-('Arabic (Tunisia) - العربية (تونس)', 'ar_TN'),
-('Arabic (United Arab Emirates) - العربية (الإمارات العربية المتحدة)', 'ar_AE'),
-('Arabic (Western Sahara) - العربية (الصحراء الغربية)', 'ar_EH'),
-('Arabic (Yemen) - العربية (اليمن)', 'ar_YE'),
-('Armenian (Armenia) - Հայերեն (Հայաստան)', 'hy_AM'),
-('Assamese (India)', 'as_IN'),
-('Asturian (Spain)', 'ast_ES'),
-('Asu (Tanzania)', 'asa_TZ'),
-('Azerbaijani (Cyrillic, Azerbaijan) - Azərbaycan (kiril, Azərbaycan)', 'az_Cyrl_AZ'),
-('Azerbaijani (Latin, Azerbaijan) - Azərbaycan (Latın, Azərbaycan)', 'az_Latn_AZ'),
-('Bafia (Cameroon)', 'ksf_CM'),
-('Bambara (Mali)', 'bm_ML'),
-('Bangla (Bangladesh) - বাংলা (বাংলাদেশ)', 'bn_BD'),
-('Bangla (India) - বাংলা (ভারত)', 'bn_IN'),
-('Basaa (Cameroon)', 'bas_CM'),
-('Basque (Spain) - Basque (Espainia)', 'eu_ES'),
-('Belarusian (Belarus) - Беларуская (Беларусь)', 'be_BY'),
-('Bemba (Zambia)', 'bem_ZM'),
-('Bena (Tanzania)', 'bez_TZ'),
-('Bodo (India)', 'brx_IN'),
-('Bosnian (Cyrillic, Bosnia & Herzegovina) - Bosanski (ćirilica, Bosna i Hercegovina)', 'bs_Cyrl_BA'),
-('Bosnian (Latin, Bosnia & Herzegovina) - Bosanski (latinica, Bosna i Hercegovina)', 'bs_Latn_BA'),
-('Breton (France)', 'br_FR'),
-('Bulgarian (Bulgaria) - Български (България)', 'bg_BG'),
-('Burmese (Myanmar [Burma]) - မြန်မာ (မြန်မာ [မြန်မာနိုင်ငံ])', 'my_MM'),
-('Cantonese (Simplified, China) - 广东话（简体中文）', 'yue_Hans_CN'),
-('Cantonese (Traditional, Hong Kong SAR China) - 粵語（繁體中文，中國香港特別行政區）', 'yue_Hant_HK'),
-('Catalan (Andorra) - Català (Andorra)', 'ca_AD'),
-('Catalan (France) - Català (França)', 'ca_FR'),
-('Catalan (Italy) - Català (Itàlia)', 'ca_IT'),
-('Catalan (Spain) - Català (Espanya)', 'ca_ES'),
-('Central Atlas Tamazight (Morocco)', 'tzm_MA'),
-('Central Kurdish (Iran)', 'ckb_IR'),
-('Central Kurdish (Iraq)', 'ckb_IQ'),
-('Chakma (Bangladesh)', 'ccp_BD'),
-('Chakma (India)', 'ccp_IN'),
-('Chechen (Russia)', 'ce_RU'),
-('Cherokee (United States)', 'chr_US'),
-('Chiga (Uganda)', 'cgg_UG'),
-('Chinese (Simplified, Hong Kong SAR China) - 中文（简体，中国香港特别行政区）', 'zh_Hans_HK'),
-('Chinese (Simplified, Macau SAR China) - 中文（简体，中国澳门特别行政区）', 'zh_Hans_MO'),
-('Chinese (Simplified, Singapore) - 中文（简体，新加坡）', 'zh_Hans_SG'),
-('Chinese (Traditional, Hong Kong SAR China) - 中文（繁體字，中國香港特別行政區）', 'zh_Hant_HK'),
-('Chinese (Traditional, Macau SAR China) - 中文（繁體字，中國澳門特別行政區）', 'zh_Hant_MO'),
-('Colognian (Germany)', 'ksh_DE'),
-('Cornish (United Kingdom)', 'kw_GB'),
-('Croatian (Bosnia & Herzegovina) - Hrvatska (Bosna i Hercegovina)', 'hr_BA'),
-('Croatian (Croatia) - Hrvatski (Hrvatska)', 'hr_HR'),
-('Czech (Czechia) - Český (Česko)', 'cs_CZ'),
-('Danish (Denmark) - Dansk (Danmark)', 'da_DK'),
-('Danish (Greenland) - Dansk (Grønland)', 'da_GL'),
-('Duala (Cameroon)', 'dua_CM'),
-('Dutch (Aruba) - Nederlands (Aruba)', 'nl_AW'),
-('Dutch (Belgium) - Nederlands (België)', 'nl_BE'),
-('Dutch (Caribbean Netherlands) - Nederlands (Caribisch Nederland)', 'nl_BQ'),
-('Dutch (Curaçao) - Nederlands (Curaçao)', 'nl_CW'),
-('Dutch (Netherlands) - Nederlands (Nederland)', 'nl_NL'),
-('Dutch (Sint Maarten) - Nederlands (Sint Maarten)', 'nl_SX'),
-('Dutch (Suriname) - Nederlands (Suriname)', 'nl_SR'),
-('Dzongkha (Bhutan)', 'dz_BT'),
-('Embu (Kenya)', 'ebu_KE'),
-('English (American Samoa)', 'en_AS'),
-('English (Anguilla)', 'en_AI'),
-('English (Antigua & Barbuda)', 'en_AG'),
-('English (Australia)', 'en_AU'),
-('English (Austria)', 'en_AT'),
-('English (Bahamas)', 'en_BS'),
-('English (Barbados)', 'en_BB'),
-('English (Belgium)', 'en_BE'),
-('English (Belize)', 'en_BZ'),
-('English (Bermuda)', 'en_BM'),
-('English (Botswana)', 'en_BW'),
-('English (British Indian Ocean Territory)', 'en_IO'),
-('English (British Virgin Islands)', 'en_VG'),
-('English (Burundi)', 'en_BI'),
-('English (Cameroon)', 'en_CM'),
-('English (Canada)', 'en_CA'),
-('English (Cayman Islands)', 'en_KY'),
-('English (Christmas Island)', 'en_CX'),
-('English (Cocos [Keeling] Islands)', 'en_CC'),
-('English (Cook Islands)', 'en_CK'),
-('English (Cyprus)', 'en_CY'),
-('English (Denmark)', 'en_DK'),
-('English (Dominica)', 'en_DM'),
-('English (Eritrea)', 'en_ER'),
-('English (Falkland Islands)', 'en_FK'),
-('English (Fiji)', 'en_FJ'),
-('English (Finland)', 'en_FI'),
-('English (Gambia)', 'en_GM'),
-('English (Germany)', 'en_DE'),
-('English (Ghana)', 'en_GH'),
-('English (Gibraltar)', 'en_GI'),
-('English (Grenada)', 'en_GD'),
-('English (Guam)', 'en_GU'),
-('English (Guernsey)', 'en_GG'),
-('English (Guyana)', 'en_GY'),
-('English (Hong Kong SAR China)', 'en_HK'),
-('English (India)', 'en_IN'),
-('English (Ireland)', 'en_IE'),
-('English (Isle of Man)', 'en_IM'),
-('English (Israel)', 'en_IL'),
-('English (Jamaica)', 'en_JM'),
-('English (Jersey)', 'en_JE'),
-('English (Kenya)', 'en_KE'),
-('English (Kiribati)', 'en_KI'),
-('English (Lesotho)', 'en_LS'),
-('English (Liberia)', 'en_LR'),
-('English (Macau SAR China)', 'en_MO'),
-('English (Madagascar)', 'en_MG'),
-('English (Malawi)', 'en_MW'),
-('English (Malaysia)', 'en_MY'),
-('English (Malta)', 'en_MT'),
-('English (Marshall Islands)', 'en_MH'),
-('English (Mauritius)', 'en_MU'),
-('English (Micronesia)', 'en_FM'),
-('English (Montserrat)', 'en_MS'),
-('English (Namibia)', 'en_NA'),
-('English (Nauru)', 'en_NR'),
-('English (Netherlands)', 'en_NL'),
-('English (New Zealand)', 'en_NZ'),
-('English (Nigeria)', 'en_NG'),
-('English (Niue)', 'en_NU'),
-('English (Norfolk Island)', 'en_NF'),
-('English (Northern Mariana Islands)', 'en_MP'),
-('English (Pakistan)', 'en_PK'),
-('English (Palau)', 'en_PW'),
-('English (Papua New Guinea)', 'en_PG'),
-('English (Philippines)', 'en_PH'),
-('English (Pitcairn Islands)', 'en_PN'),
-('English (Puerto Rico)', 'en_PR'),
-('English (Rwanda)', 'en_RW'),
-('English (Samoa)', 'en_WS'),
-('English (Seychelles)', 'en_SC'),
-('English (Sierra Leone)', 'en_SL'),
-('English (Singapore)', 'en_SG'),
-('English (Sint Maarten)', 'en_SX'),
-('English (Slovenia)', 'en_SI'),
-('English (Solomon Islands)', 'en_SB'),
-('English (South Africa)', 'en_ZA'),
-('English (South Sudan)', 'en_SS'),
-('English (St. Helena)', 'en_SH'),
-('English (St. Kitts & Nevis)', 'en_KN'),
-('English (St. Lucia)', 'en_LC'),
-('English (St. Vincent & Grenadines)', 'en_VC'),
-('English (Sudan)', 'en_SD'),
-('English (Swaziland)', 'en_SZ'),
-('English (Sweden)', 'en_SE'),
-('English (Switzerland)', 'en_CH'),
-('English (Tanzania)', 'en_TZ'),
-('English (Tokelau)', 'en_TK'),
-('English (Tonga)', 'en_TO'),
-('English (Trinidad & Tobago)', 'en_TT'),
-('English (Turks & Caicos Islands)', 'en_TC'),
-('English (Tuvalu)', 'en_TV'),
-('English (U.S. Outlying Islands)', 'en_UM'),
-('English (U.S. Virgin Islands)', 'en_VI'),
-('English (Uganda)', 'en_UG'),
-('English (United Kingdom)', 'en_GB'),
-('English (United States, Computer)', 'en_US_POSIX'),
-('English (Vanuatu)', 'en_VU'),
-('English (Zambia)', 'en_ZM'),
-('English (Zimbabwe)', 'en_ZW'),
-('Estonian (Estonia) - Eesti (Eesti)', 'et_EE'),
-('Ewe (Ghana)', 'ee_GH'),
-('Ewe (Togo)', 'ee_TG'),
-('Ewondo (Cameroon)', 'ewo_CM'),
-('Faroese (Denmark)', 'fo_DK'),
-('Faroese (Faroe Islands)', 'fo_FO'),
-('Filipino (Philippines) - Filipino (Pilipinas)', 'fil_PH'),
-('Finnish (Finland) - Suomi (Suomi)', 'fi_FI'),
-('French (Algeria) - Français (Algérie)', 'fr_DZ'),
-('French (Belgium) - Français (Belgique)', 'fr_BE'),
-('French (Benin) - Français (Bénin)', 'fr_BJ'),
-('French (Burkina Faso) - Français (Burkina Faso)', 'fr_BF'),
-('French (Burundi) - Français (Burundi)', 'fr_BI'),
-('French (Cameroon) - Français (Cameroun)', 'fr_CM'),
-('French (Canada) - Français (Canada)', 'fr_CA'),
-('French (Central African Republic) - Français (République centrafricaine)', 'fr_CF'),
-('French (Chad) - Français (Tchad)', 'fr_TD'),
-('French (Comoros) - Français (Comores)', 'fr_KM'),
-('French (Congo - Brazzaville) (fr-CG) - Français (Congo-Brazzaville) (fr-CG)', 'fr_CG'),
-('French (Congo - Kinshasa) - Français (Congo-Kinshasa)', 'fr_CD'),
-("French (Côte d’Ivoire) - Français (Côte d'Ivoire)", 'fr_CI'),
-('French (Djibouti) - Français (Djibouti)', 'fr_DJ'),
-('French (Equatorial Guinea) - Français (Guinée équatoriale)', 'fr_GQ'),
-('French (France) - France francaise)', 'fr_FR'),
-('French (French Guiana) - Français (Guyane française)', 'fr_GF'),
-('French (French Polynesia) - Français (Polynésie française)', 'fr_PF'),
-('French (Gabon) - Français (Gabon)', 'fr_GA'),
-('French (Guadeloupe) - Français (Guadeloupe)', 'fr_GP'),
-('French (Guinea) - Français (Guinée)', 'fr_GN'),
-('French (Haiti) - Français (Haïti)', 'fr_HT'),
-('French (Luxembourg) - Français (Luxembourg)', 'fr_LU'),
-('French (Madagascar) - Français (Madagascar)', 'fr_MG'),
-('French (Mali) - Français (Mali)', 'fr_ML'),
-('French (Martinique) - Français (Martinique)', 'fr_MQ'),
-('French (Mauritania) - Français (Mauritanie)', 'fr_MR'),
-('French (Mauritius) - Français (Maurice)', 'fr_MU'),
-('French (Mayotte) - Français (Mayotte)', 'fr_YT'),
-('French (Monaco) - Français (Monaco)', 'fr_MC'),
-('French (Morocco) - Français (Maroc)', 'fr_MA'),
-('French (New Caledonia) - Français (Nouvelle-Calédonie)', 'fr_NC'),
-('French (Niger) - Français (Niger)', 'fr_NE'),
-('French (Réunion) - Français (Réunion)', 'fr_RE'),
-('French (Rwanda) - Français (Rwanda)', 'fr_RW'),
-('French (Senegal) - Français (Sénégal)', 'fr_SN'),
-('French (Seychelles) - Français (Seychelles)', 'fr_SC'),
-('French (St. Barthélemy) - Français (Saint-Barthélemy)', 'fr_BL'),
-('French (St. Martin) - Français (Saint-Martin)', 'fr_MF'),
-('French (St. Pierre & Miquelon) - Français (Saint-Pierre-et-Miquelon)', 'fr_PM'),
-('French (Switzerland) - Français (Suisse)', 'fr_CH'),
-('French (Syria) - Français (Syrie)', 'fr_SY'),
-('French (Togo) - Français (Togo)', 'fr_TG'),
-('French (Tunisia) - Français (Tunisie)', 'fr_TN'),
-('French (Vanuatu) - Français (Vanuatu)', 'fr_VU'),
-('French (Wallis & Futuna) - Français (Wallis et Futuna)', 'fr_WF'),
-('Friulian (Italy)', 'fur_IT'),
-('Fulah (Cameroon)', 'ff_CM'),
-('Fulah (Guinea)', 'ff_GN'),
-('Fulah (Mauritania)', 'ff_MR'),
-('Fulah (Senegal)', 'ff_SN'),
-('Galician (Spain) - Galicia (España)', 'gl_ES'),
-('Ganda (Uganda)', 'lg_UG'),
-('Georgian (Georgia) - Georgian (Georgia)', 'ka_GE'),
-('German (Austria) - Deutsch (Österreich)', 'de_AT'),
-('German (Belgium) - Deutsch (Belgien)', 'de_BE'),
-('German (Germany) - Deutsches Deutschland)', 'de_DE'),
-('German (Italy) - Deutsch (Italien)', 'de_IT'),
-('German (Liechtenstein) - Deutsch (Liechtenstein)', 'de_LI'),
-('German (Luxembourg) - Deutsch (Luxemburg)', 'de_LU'),
-('German (Switzerland) - Deutsch (Schweiz)', 'de_CH'),
-('Greek (Cyprus) - Ελληνικά (Κύπρος)', 'el_CY'),
-('Greek (Greece) - Ελληνικά (Ελλάδα)', 'el_GR'),
-('Gujarati (India) - ગુજરાતી (ભારત)', 'gu_IN'),
-('Gusii (Kenya)', 'guz_KE'),
-('Hausa (Ghana) - Hausa (Ghana)', 'ha_GH'),
-('Hausa (Niger) - Hausa (Nijar)', 'ha_NE'),
-('Hausa (Nigeria) - Hausa (Nigeria)', 'ha_NG'),
-('Hawaiian (United States) - Hawaiian (United States)', 'haw_US'),
-('Hebrew (Israel) - עברית (ישראל)', 'he_IL'),
-('Hindi (India) - हिंदी भारत)', 'hi_IN'),
-('Hungarian (Hungary) - Magyar (Magyarország)', 'hu_HU'),
-('Icelandic (Iceland) - Icelandic (Iceland)', 'is_IS'),
-('Igbo (Nigeria) - Igbo (Nigeria)', 'ig_NG'),
-('Inari Sami (Finland)', 'smn_FI'),
-('Indonesian (Indonesia) - Indonesia (Indonesia)', 'id_ID'),
-('Irish (Ireland) - Gaeilge (Éire)', 'ga_IE'),
-('Italian (Italy) - Italiano (Italia)', 'it_IT'),
-('Italian (San Marino) - Italiano (San Marino)', 'it_SM'),
-('Italian (Switzerland) - Italiano (Svizzera)', 'it_CH'),
-('Italian (Vatican City) - Italiano (Città del Vaticano)', 'it_VA'),
-('Japanese (Japan) - 日本語（日本）', 'ja_JP'),
-('Jola-Fonyi (Senegal)', 'dyo_SN'),
-('Kabuverdianu (Cape Verde)', 'kea_CV'),
-('Kabyle (Algeria)', 'kab_DZ'),
-('Kako (Cameroon)', 'kkj_CM'),
-('Kalaallisut (Greenland)', 'kl_GL'),
-('Kalenjin (Kenya)', 'kln_KE'),
-('Kamba (Kenya)', 'kam_KE'),
-('Kannada (India) - ಕನ್ನಡ (ಭಾರತ)', 'kn_IN'),
-('Kashmiri (India)', 'ks_IN'),
-('Kazakh (Kazakhstan) - Қазақ (Қазақстан)', 'kk_KZ'),
-('Khmer (Cambodia) - ខ្មែរ (កម្ពុជា)', 'km_KH'),
-('Kikuyu (Kenya)', 'ki_KE'),
-('Kinyarwanda (Rwanda) - Kinyarwanda (Rwanda)', 'rw_RW'),
-('Konkani (India)', 'kok_IN'),
-('Korean (North Korea) - 한국어 (북한)', 'ko_KP'),
-('Korean (South Korea) - 한국어 (한국)', 'ko_KR'),
-('Koyra Chiini (Mali)', 'khq_ML'),
-('Koyraboro Senni (Mali)', 'ses_ML'),
-('Kwasio (Cameroon)', 'nmg_CM'),
-('Kyrgyz (Kyrgyzstan) - Kyrgyz (Kyrgyzstan)', 'ky_KG'),
-('Lakota (United States)', 'lkt_US'),
-('Langi (Tanzania)', 'lag_TZ'),
-('Lao (Laos) - ລາວ (ລາວ)', 'lo_LA'),
-('Latvian (Latvia) - Latviešu (Latvija)', 'lv_LV'),
-('Lingala (Angola)', 'ln_AO'),
-('Lingala (Central African Republic)', 'ln_CF'),
-('Lingala (Congo - Brazzaville)', 'ln_CG'),
-('Lingala (Congo - Kinshasa)', 'ln_CD'),
-('Lithuanian (Lithuania) - Lietuvių (Lietuva)', 'lt_LT'),
-('Low German (Germany)', 'nds_DE'),
-('Low German (Netherlands)', 'nds_NL'),
-('Lower Sorbian (Germany)', 'dsb_DE'),
-('Luba-Katanga (Congo - Kinshasa)', 'lu_CD'),
-('Luo (Kenya)', 'luo_KE'),
-('Luxembourgish (Luxembourg) - Lëtzebuergesch (Lëtzebuerg)', 'lb_LU'),
-('Luyia (Kenya)', 'luy_KE'),
-('Macedonian (Macedonia) - Македонски (Macedonia)', 'mk_MK'),
-('Machame (Tanzania)', 'jmc_TZ'),
-('Makhuwa-Meetto (Mozambique)', 'mgh_MZ'),
-('Makonde (Tanzania)', 'kde_TZ'),
-('Malagasy (Madagascar) - Malagasy (Madagascar)', 'mg_MG'),
-('Malay (Brunei) - Melayu (Brunei)', 'ms_BN'),
-('Malay (Malaysia) - Melayu (Malaysia)', 'ms_MY'),
-('Malay (Singapore) - Melayu (Singapura)', 'ms_SG'),
-('Malayalam (India) - മലയാളം (ഇന്ത്യ)', 'ml_IN'),
-('Maltese (Malta) - Malti (Malta)', 'mt_MT'),
-('Manx (Isle of Man)', 'gv_IM'),
-('Marathi (India) - मराठी (भारत)', 'mr_IN'),
-('Masai (Kenya)', 'mas_KE'),
-('Masai (Tanzania)', 'mas_TZ'),
-('Mazanderani (Iran)', 'mzn_IR'),
-('Meru (Kenya)', 'mer_KE'),
-('Metaʼ (Cameroon)', 'mgo_CM'),
-('Mongolian (Mongolia) - Монгол улсын (Монгол)', 'mn_MN'),
-('Morisyen (Mauritius)', 'mfe_MU'),
-('Mundang (Cameroon)', 'mua_CM'),
-('Nama (Namibia)', 'naq_NA'),
-('Nepali (India) - नेपाली (भारत)', 'ne_IN'),
-('Nepali (Nepal) - नेपाली (नेपाल)', 'ne_NP'),
-('Ngiemboon (Cameroon)', 'nnh_CM'),
-('Ngomba (Cameroon)', 'jgo_CM'),
-('North Ndebele (Zimbabwe)', 'nd_ZW'),
-('Northern Luri (Iran)', 'lrc_IR'),
-('Northern Luri (Iraq)', 'lrc_IQ'),
-('Northern Sami (Finland)', 'se_FI'),
-('Northern Sami (Norway)', 'se_NO'),
-('Northern Sami (Sweden)', 'se_SE'),
-('Norwegian Bokmål (Norway) - Norsk bokmål (Norge)', 'nb_NO'),
-('Norwegian Bokmål (Svalbard & Jan Mayen) - Norsk bokmål (Svalbard og Jan Mayen)', 'nb_SJ'),
-('Norwegian Nynorsk (Norway)', 'nn_NO'),
-('Nuer (South Sudan)', 'nus_SS'),
-('Nyankole (Uganda)', 'nyn_UG'),
-('Odia (India) - ଓଡ଼ିଆ (ଭାରତ)', 'or_IN'),
-('Oromo (Ethiopia)', 'om_ET'),
-('Oromo (Kenya)', 'om_KE'),
-('Ossetic (Georgia)', 'os_GE'),
-('Ossetic (Russia)', 'os_RU'),
-('Pashto (Afghanistan) - پښتو (افغانستان)', 'ps_AF'),
-('Persian (Afghanistan) - فارسی (افغانستان)', 'fa_AF'),
-('Persian (Iran) - فارسی (ایران)', 'fa_IR'),
-('Polish (Poland) - Polski (Polska)', 'pl_PL'),
-('Portuguese (Angola) - Português (Angola)', 'pt_AO'),
-('Portuguese (Brazil) - Português (Brasil)', 'pt_BR'),
-('Portuguese (Cape Verde) - Português (Cabo Verde)', 'pt_CV'),
-('Portuguese (Equatorial Guinea) - Português (Guiné Equatorial)', 'pt_GQ'),
-('Portuguese (Guinea-Bissau) - Português (Guiné-Bissau)', 'pt_GW'),
-('Portuguese (Luxembourg) - Português (Luxemburgo)', 'pt_LU'),
-('Portuguese (Macau SAR China) - Português (Macau SAR China)', 'pt_MO'),
-('Portuguese (Mozambique) - Português (Moçambique)', 'pt_MZ'),
-('Portuguese (Portugal) - Português (Portugal)', 'pt_PT'),
-('Portuguese (São Tomé & Príncipe) - Português (São Tomé e Príncipe)', 'pt_ST'),
-('Portuguese (Switzerland) - Português (Suíça)', 'pt_CH'),
-('Portuguese (Timor-Leste) - Português (Timor-Leste)', 'pt_TL'),
-('Punjabi (Arabic, Pakistan) - ਪੰਜਾਬੀ (ਅਰਬੀ, ਪਾਕਿਸਤਾਨ)', 'pa_Arab_PK'),
-('Punjabi (Gurmukhi, India) - ਪੰਜਾਬੀ (ਗੁਰਮੁਖੀ, ਭਾਰਤ)', 'pa_Guru_IN'),
-('Quechua (Bolivia)', 'qu_BO'),
-('Quechua (Ecuador)', 'qu_EC'),
-('Quechua (Peru)', 'qu_PE'),
-('Romanian (Moldova) - Română (Moldova)', 'ro_MD'),
-('Romanian (Romania) - Română (România)', 'ro_RO'),
-('Romansh (Switzerland)', 'rm_CH'),
-('Rombo (Tanzania)', 'rof_TZ'),
-('Rundi (Burundi)', 'rn_BI'),
-('Russian (Belarus) - России (Беларусь)', 'ru_BY'),
-('Russian (Kazakhstan) - России (Казахстан)', 'ru_KZ'),
-('Russian (Kyrgyzstan) - России (Кыргызстан)', 'ru_KG'),
-('Russian (Moldova) - России (Молдова)', 'ru_MD'),
-('Russian (Russia) - России (Россия)', 'ru_RU'),
-('Russian (Ukraine) - России (Украина)', 'ru_UA'),
-('Rwa (Tanzania)', 'rwk_TZ'),
-('Sakha (Russia)', 'sah_RU'),
-('Samburu (Kenya)', 'saq_KE'),
-('Sango (Central African Republic)', 'sg_CF'),
-('Sangu (Tanzania)', 'sbp_TZ'),
-('Scottish Gaelic (United Kingdom) - Gàidhlig na h-Alba (An Rìoghachd Aonaichte)', 'gd_GB'),
-('Sena (Mozambique)', 'seh_MZ'),
-('Serbian (Cyrillic, Bosnia & Herzegovina) - Српски језик (Ћирилица, Босна и Херцеговина)', 'sr_Cyrl_BA'),
-('Serbian (Cyrillic, Montenegro) - Српски језик (Ћирилица, Црна Гора)', 'sr_Cyrl_ME'),
-('Serbian (Cyrillic, Serbia) - Српски језик (Ћирилица, Србија)', 'sr_Cyrl_RS'),
-('Serbian (Latin, Bosnia & Herzegovina) - Српски (Ћирилица, Босна и Херцеговина)', 'sr_Latn_BA'),
-('Serbian (Latin, Montenegro) - Српски (латински, Црна Гора)', 'sr_Latn_ME'),
-('Serbian (Latin, Serbia) - Српски (латински, Србија)', 'sr_Latn_RS'),
-('Shambala (Tanzania)', 'ksb_TZ'),
-('Shona (Zimbabwe) - Shona (Zimbabwe)', 'sn_ZW'),
-('Sichuan Yi (China)', 'ii_CN'),
-('Sinhala (Sri Lanka) - සිංහල (ශ්‍රී ලංකාව)', 'si_LK'),
-('Slovak (Slovakia) - Slovenskú (Slovensko)', 'sk_SK'),
-('Slovenian (Slovenia) - Slovensko (Slovenija)', 'sl_SI'),
-('Soga (Uganda)', 'xog_UG'),
-('Somali (Djibouti) - Soomaali (Jabuuti)', 'so_DJ'),
-('Somali (Ethiopia) - Soomaali (Itoobiya)', 'so_ET'),
-('Somali (Kenya) - Soomaali (Kenya)', 'so_KE'),
-('Somali (Somalia) - Soomaali (Soomaaliya)', 'so_SO'),
-('Spanish (Argentina) - Español (Argentina)', 'es_AR'),
-('Spanish (Belize) - Español (Belice)', 'es_BZ'),
-('Spanish (Bolivia) - Español (Bolivia)', 'es_BO'),
-('Spanish (Brazil) - Español (Brasil)', 'es_BR'),
-('Spanish (Chile) - Español (Chile)', 'es_CL'),
-('Spanish (Colombia) - Español (Colombia)', 'es_CO'),
-('Spanish (Cuba) - Español (Cuba)', 'es_CU'),
-('Spanish (Dominican Republic) - Española (República Dominicana)', 'es_DO'),
-('Spanish (Ecuador) - Español (Ecuador)', 'es_EC'),
-('Spanish (El Salvador) - Español (El Salvador)', 'es_SV'),
-('Spanish (Equatorial Guinea) - Español (Guinea Ecuatorial)', 'es_GQ'),
-('Spanish (Guatemala) - Español (Guatemala)', 'es_GT'),
-('Spanish (Honduras) - Español (Honduras)', 'es_HN'),
-('Spanish (Mexico) - Español (México)', 'es_MX'),
-('Spanish (Nicaragua) - Español (Nicaragua)', 'es_NI'),
-('Spanish (Panama) - Español (Panamá)', 'es_PA'),
-('Spanish (Paraguay) - Español (Paraguay)', 'es_PY'),
-('Spanish (Peru) - Español (Perú)', 'es_PE'),
-('Spanish (Philippines) - Español (Filipinas)', 'es_PH'),
-('Spanish (Puerto Rico) - Español (Puerto Rico)', 'es_PR'),
-('Spanish (Spain) - Español (España)', 'es_ES'),
-('Spanish (United States) - Español (Estados Unidos)', 'es_US'),
-('Spanish (Uruguay) - Español (Uruguay)', 'es_UY'),
-('Spanish (Venezuela) - Español (Venezuela)', 'es_VE'),
-('Standard Moroccan Tamazight (Morocco)', 'zgh_MA'),
-('Swahili (Congo - Kinshasa) - Kiswahili (Congo - Kinshasa)', 'sw_CD'),
-('Swahili (Kenya) - Kiswahili (Kenya)', 'sw_KE'),
-('Swahili (Tanzania) - Kiswahili (Tanzania)', 'sw_TZ'),
-('Swahili (Uganda) - Kiswahili (Uganda)', 'sw_UG'),
-('Swedish (Åland Islands) - Svenska (Åland)', 'sv_AX'),
-('Swedish (Finland) - Svenska (Finland)', 'sv_FI'),
-('Swedish (Sweden) - Svenska (Sverige)', 'sv_SE'),
-('Swiss German (France)', 'gsw_FR'),
-('Swiss German (Liechtenstein)', 'gsw_LI'),
-('Swiss German (Switzerland)', 'gsw_CH'),
-('Tachelhit (Latin, Morocco)', 'shi_Latn_MA'),
-('Tachelhit (Tifinagh, Morocco)', 'shi_Tfng_MA'),
-('Taita (Kenya)', 'dav_KE'),
-('Tajik (Tajikistan) - Тоҷикистон (Тоҷикистон)', 'tg_TJ'),
-('Tamil (India) - தமிழ் (இந்தியா)', 'ta_IN'),
-('Tamil (Malaysia) - தமிழ் (மலேஷியா)', 'ta_MY'),
-('Tamil (Singapore) - தமிழ் (சிங்கப்பூர்)', 'ta_SG'),
-('Tamil (Sri Lanka) - தமிழ் (இலங்கை)', 'ta_LK'),
-('Tasawaq (Niger)', 'twq_NE'),
-('Tatar (Russia) - Татар (Россия)', 'tt_RU'),
-('Telugu (India) - తెలుగు (భారతదేశం)', 'te_IN'),
-('Teso (Kenya)', 'teo_KE'),
-('Teso (Uganda)', 'teo_UG'),
-('Thai (Thailand) - ไทย (ไทยแลนด์)', 'th_TH'),
-('Tibetan (China)', 'bo_CN'),
-('Tibetan (India)', 'bo_IN'),
-('Tigrinya (Eritrea)', 'ti_ER'),
-('Tigrinya (Ethiopia)', 'ti_ET'),
-('Tongan (Tonga)', 'to_TO'),
-('Turkish (Cyprus) - Türk (Kıbrıs)', 'tr_CY'),
-('Turkish (Turkey) - Türk (Türkiye)', 'tr_TR'),
-('Ukrainian (Ukraine) - Український (Україна)', 'uk_UA'),
-('Upper Sorbian (Germany)', 'hsb_DE'),
-('Urdu (India) - اردو (بھارت)', 'ur_IN'),
-('Urdu (Pakistan) - اردو (پاکستان)', 'ur_PK'),
-('Uyghur (China) - ئۇيغۇر (جۇڭگو)', 'ug_CN'),
-("Uzbek (Arabic, Afghanistan) - O'zbekiston (arab, Afg'oniston)", 'uz_Arab_AF'),
-("Uzbek (Cyrillic, Uzbekistan) - O'zbek (kirill, O'zbekiston)", 'uz_Cyrl_UZ'),
-("Uzbek (Latin, Uzbekistan) - O'zbek (Lotin, O'zbekiston)", 'uz_Latn_UZ'),
-('Vai (Latin, Liberia)', 'vai_Latn_LR'),
-('Vai (Vai, Liberia)', 'vai_Vaii_LR'),
-('Vietnamese (Vietnam) - Việt (Việt Nam)', 'vi_VN'),
-('Vunjo (Tanzania)', 'vun_TZ'),
-('Walser (Switzerland)', 'wae_CH'),
-('Welsh (United Kingdom) - Cymraeg (Welsh)', 'cy_GB'),
-('Western Frisian (Netherlands) - Western Frysk (Nederland)', 'fy_NL'),
-('Wolof (Senegal)', 'wo_SN'),
-('Yangben (Cameroon)', 'yav_CM'),
-('Yoruba (Benin) - Yorùbá (Benin)', 'yo_BJ'),
-('Yoruba (Nigeria) - Yorùbá (Nigeria)', 'yo_NG'),
-('Zarma (Niger)', 'dje_NE'),
-('Zulu (South Africa) - Zulu (South Africa)', 'zu_ZA');
-
-INSERT INTO `ohrm_i18n_group` (`name`, `title`) VALUES
-('general', 'General'),
-('admin', 'Admin'),
-('pim', 'PIM'),
-('leave', 'Leave'),
-('time', 'Time'),
-('recruitment', 'Recruitment'),
-('performance', 'Performance'),
-('dashboard', 'Dashboard'),
-('directory', 'Directory'),
-('maintenance', 'Maintenance'),
-('buzz', 'Buzz'),
-('marketplace', 'Marketplace'),
-('mobile', 'Mobile');
-
--- ------------------------------
---        OrangeHRM 5.0-beta
--- ------------------------------
-
-INSERT INTO `ohrm_registration_event_queue` (`event_type`,`published`,`event_time`) VALUES (0, 0, now());
-
--- ------------------------------
---        OrangeHRM 5.0
--- ------------------------------
