@@ -141,6 +141,11 @@ class ResetPasswordService
             return null;
         }
 
+        if (!$user->getStatus()) {
+            $this->getLogger()->error('user Account was disabled');
+            return null;
+        }
+
         if (empty($associatedEmployee->getWorkEmail())) {
             $this->getLogger()->error(
                 'Work email is not set. Please contact HR admin in order to reset the password'
