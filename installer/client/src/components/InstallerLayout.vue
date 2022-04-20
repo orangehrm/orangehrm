@@ -25,14 +25,13 @@
         :current-step="currentStep"
       ></installer-steps>
       <div class="orangehrm-installer-footer">
-        <oxd-text
+        <a
           v-show="currentStep === 0"
-          tag="a"
           href="#"
           class="orangehrm-installer-guide"
         >
           Installation Guide
-        </oxd-text>
+        </a>
         <br />
         <slot name="footer"></slot>
       </div>

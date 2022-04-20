@@ -19,52 +19,47 @@
  -->
 <template>
   <oxd-form
-    class="orangehrm-current-version orangehrm-upgrader-container"
+    class="orangehrm-installer-page"
     :loading="isLoading"
     @submit-valid="onSubmit"
   >
-    <oxd-text tag="h5" class="orangehrm-current-version-title">
+    <oxd-text tag="h5" class="orangehrm-installer-page-title">
       Current Version Details
     </oxd-text>
-
-    <oxd-text
-      class="orangehrm-current-version-content orangehrm-upgrader-container-content"
-    >
+    <br />
+    <oxd-text class="orangehrm-installer-page-content">
       Select your current OrangeHRM version here. You can find the version at
       the bottom of the OrangeHRM login page. OrangeHRM Upgrader only supports
       versions listed in the dropdown. Selecting a different version would lead
       to an upgrade failure and a database corruption.
     </oxd-text>
+    <br />
 
-    <oxd-form-row class="orangehrm-current-version-row">
+    <oxd-form-row>
       <oxd-grid :cols="3" class="orangehrm-full-width-grid">
         <oxd-grid-item>
-          <oxd-input-field
-            v-model="config.version"
-            type="select"
-            label="Current OrangeHRM Version"
-            :options="items"
-            :show-empty-selector="false"
+          <version-dropdown
+            v-model="version"
             :rules="rules.version"
             required
-          ></oxd-input-field>
+          ></version-dropdown>
         </oxd-grid-item>
       </oxd-grid>
     </oxd-form-row>
 
-    <oxd-text
-      tag="p"
-      class="orangehrm-current-version-content orangehrm-upgrader-container-content"
-    >
+    <oxd-text tag="p" class="orangehrm-installer-page-content">
       Click <b>Next</b> to commence upgrading your instance
     </oxd-text>
 
-    <oxd-form-actions
-      class="orangehrm-current-version-action orangehrm-upgrader-container-action"
-    >
+    <oxd-form-actions class="orangehrm-installer-page-action">
       <required-text />
       <oxd-button display-type="ghost" label="Back" @click="navigateUrl" />
-      <oxd-button display-type="secondary" label="Next" type="submit" />
+      <oxd-button
+        class="orangehrm-left-space"
+        display-type="secondary"
+        label="Next"
+        type="submit"
+      />
     </oxd-form-actions>
   </oxd-form>
 </template>
@@ -73,12 +68,17 @@
 import {APIService} from '@/core/util/services/api.service';
 import {required} from '@/core/util/validation/rules';
 import {navigate} from '@/core/util/helper/navigation.ts';
+import VersionDropdown from '@/components/VersionDropdown.vue';
+
 export default {
   name: 'CurrentVersionScreen',
+  components: {
+    'version-dropdown': VersionDropdown,
+  },
   setup() {
     const http = new APIService(
-      'https://884b404a-f4d0-4908-9eb5-ef0c8afec15c.mock.pstmn.io',
-      'upgrader/current-version',
+      window.appGlobal.baseUrl,
+      'upgrader/api/current-version',
     );
     return {
       http,
@@ -87,20 +87,18 @@ export default {
   data() {
     return {
       isLoading: false,
-      config: {
-        version: '',
-      },
+      version: null,
       rules: {
         version: [required],
       },
-      items: [],
     };
   },
   beforeMount() {
     this.isLoading = true;
-    this.http.getAll().then((res) => {
+    this.http.getAll().then((response) => {
+      const {version} = response.data;
+      this.version = version;
       this.isLoading = false;
-      this.items = res.data;
     });
   },
   methods: {
@@ -114,20 +112,3 @@ export default {
 };
 </script>
 <style src="./installer-page.scss" lang="scss" scoped></style>
-<style lang="scss" scoped>
-.orangehrm-current-version {
-  &-action {
-    button {
-      margin-left: 0.5rem;
-    }
-  }
-  &-title {
-    color: $oxd-primary-one-color;
-    padding: 0 0.75rem 0.75rem 0.75rem;
-  }
-  ::v-deep(.oxd-grid-3) {
-    width: 100%;
-    margin: 0;
-  }
-}
-</style>

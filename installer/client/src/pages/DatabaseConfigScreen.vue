@@ -19,105 +19,89 @@
  -->
 <template>
   <oxd-form
-    class="orangehrm-database-info orangehrm-upgrader-container"
+    class="orangehrm-installer-page"
     :loading="isLoading"
     @submit-valid="onSubmit"
   >
-    <oxd-text tag="h5" class="orangehrm-database-info-title">
+    <oxd-text tag="h5" class="orangehrm-installer-page-title">
       Database Information
     </oxd-text>
-    <oxd-text
-      class="orangehrm-database-info-content orangehrm-upgrader-container-content"
-    >
+    <br />
+    <oxd-text tag="p" class="orangehrm-installer-page-content">
       Please provide the database information of the database you are going to
       upgrade.
     </oxd-text>
-    <Notice
-      title="important"
-      class="orangehrm-database-info-note orangehrm-upgrader-container-notice"
-    >
-      <oxd-text tag="p" class="orangehrm-current-version-content">
+    <br />
+    <Notice title="important" class="orangehrm-installer-page-notice">
+      <oxd-text tag="p" class="orangehrm-installer-page-content">
         Make sure it's a copy of the database of your current OrangeHRM
         installation and not the original database. It's highly discouraged to
         use the original database for upgrading since it won't be recoverable if
         an error occurred during the upgrade.
       </oxd-text>
     </Notice>
-    <oxd-form-row>
-      <oxd-grid :cols="3" class="orangehrm-full-width-grid">
-        <oxd-grid-item>
-          <oxd-input-field
-            v-model="database.dbHost"
-            label="Database Host Name"
-            :rules="rules.dbHost"
-            required
-          />
-        </oxd-grid-item>
-        <oxd-grid-item class="orangehrm-database-info-port-grid">
-          <oxd-input-field
-            v-model="database.dbPort"
-            label="Database Host Port"
-            :rules="rules.dbPort"
-          />
-        </oxd-grid-item>
-      </oxd-grid>
-    </oxd-form-row>
-    <oxd-form-row>
-      <oxd-grid :cols="3" class="orangehrm-full-width-grid">
-        <oxd-grid-item>
-          <oxd-input-field
-            v-model="database.dbName"
-            label="Database Name"
-            :rules="rules.dbName"
-            required
-          />
-        </oxd-grid-item>
-      </oxd-grid>
-    </oxd-form-row>
-    <oxd-form-row>
-      <oxd-grid :cols="3" class="orangehrm-full-width-grid">
-        <oxd-grid-item>
-          <oxd-input-field
-            v-model="database.dbUser"
-            label="Database Username"
-            :rules="rules.dbUser"
-            required
-          />
-        </oxd-grid-item>
-        <oxd-grid-item>
-          <oxd-input-field
-            v-model="database.dbPassword"
-            label="Database User Password"
-            type="password"
-          />
-        </oxd-grid-item>
-      </oxd-grid>
-    </oxd-form-row>
-    <oxd-text
-      class="orangehrm-database-info-content orangehrm-upgrader-container-content"
-    >
-      Click <b>Next</b>
-      to continue
+    <br />
+    <oxd-grid :cols="3" class="orangehrm-full-width-grid">
+      <oxd-grid-item>
+        <oxd-input-field
+          v-model="database.dbHost"
+          label="Database Host Name"
+          :rules="rules.dbHost"
+          required
+        />
+      </oxd-grid-item>
+      <oxd-grid-item class="orangehrm-database-info-port">
+        <oxd-input-field
+          v-model="database.dbPort"
+          label="Database Host Port"
+          :rules="rules.dbPort"
+        />
+      </oxd-grid-item>
+      <oxd-grid-item class="--offset-row-2">
+        <oxd-input-field
+          v-model="database.dbName"
+          label="Database Name"
+          :rules="rules.dbName"
+          required
+        />
+      </oxd-grid-item>
+      <oxd-grid-item class="--offset-row-3">
+        <oxd-input-field
+          v-model="database.dbUser"
+          label="Database Username"
+          :rules="rules.dbUser"
+          required
+        />
+      </oxd-grid-item>
+      <oxd-grid-item class="--offset-row-3">
+        <oxd-input-field
+          v-model="database.dbPassword"
+          label="Database User Password"
+          type="password"
+        />
+      </oxd-grid-item>
+    </oxd-grid>
+    <oxd-text class="orangehrm-installer-page-content">
+      Click <b>Next</b> to continue
     </oxd-text>
+    <br />
     <oxd-text
-      v-if="errorMessage"
-      class="orangehrm-database-info-content --error orangehrm-upgrader-container-content"
+      v-show="errorMessage"
+      class="orangehrm-installer-page-content orangehrm-database-info-error"
     >
-      {{ errorMessage }}
+      <b>{{ errorMessage }}</b>
     </oxd-text>
-    <oxd-form-actions
-      class="orangehrm-database-info-action orangehrm-upgrader-container-action"
-    >
+
+    <oxd-form-actions class="orangehrm-installer-page-action">
       <required-text />
       <oxd-button
-        class="orangehrm-database-info-button"
         display-type="ghost"
         label="Back"
         type="button"
         @click="navigateUrl"
       />
       <oxd-button
-        class="orangehrm-database-info-button"
+        class="orangehrm-left-space"
         display-type="secondary"
         label="Next"
         type="submit"
@@ -156,7 +140,7 @@ export default {
       isLoading: false,
       database: {
         dbHost: null,
-        dbPort: null,
+        dbPort: 3306,
         dbName: null,
         dbUser: null,
         dbPassword: null,
@@ -166,26 +150,25 @@ export default {
   },
   beforeMount() {
     this.isLoading = true;
-    this.http.getAll().then(({data: {data}}) => {
-      this.database = data;
-      this.database.dbPassword = null;
+    this.http.getAll().then((response) => {
+      const {data} = response.data;
+      this.database = {...data, dbPassword: null};
       this.isLoading = false;
     });
   },
   methods: {
     onSubmit() {
-      this.errorMessage = '';
       this.isLoading = true;
-      const {dbHost, dbPort, dbName, dbUser, dbPassword} = this.database;
+      this.errorMessage = '';
       this.http
-        .create({dbHost, dbPort, dbName, dbUser, dbPassword})
+        .create({...this.database})
         .then(() => {
           navigate('/upgrader/system-check');
         })
-        .catch((err) => {
+        .catch(({response}) => {
+          const {error} = response.data;
+          this.errorMessage = error?.message ?? error;
           this.isLoading = false;
-          this.errorMessage =
-            err.response.data.error?.message || err.response.data.error;
         });
     },
     navigateUrl() {
@@ -196,32 +179,10 @@ export default {
 </script>
 <style src="./installer-page.scss" lang="scss" scoped></style>
 <style lang="scss" scoped>
-.orangehrm-database-info {
-  &-port {
-    &-grid {
-      ::v-deep(.oxd-input) {
-        width: 50%;
-      }
-    }
-  }
-  &-content {
-    &.--error {
-      color: $oxd-feedback-danger-color;
-      padding: 1rem;
-    }
-  }
-  &-title {
-    color: $oxd-primary-one-color;
-    padding: 0 0.75rem 0.75rem 0.75rem;
-  }
-  ::v-deep(.oxd-grid-3) {
-    width: 100%;
-    margin: 0 !important;
-  }
-  &-action {
-    button {
-      margin-left: 0.5rem;
-    }
-  }
+.orangehrm-database-info-port {
+  width: 50%;
+}
+.orangehrm-database-info-error {
+  color: $oxd-feedback-danger-color;
 }
 </style>

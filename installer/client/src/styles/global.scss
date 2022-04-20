@@ -36,3 +36,17 @@ body {
     text-decoration: none;
   }
 }
+
+.orangehrm-left-space {
+  margin-left: 10px;
+}
+
+.orangehrm-divider {
+  margin: 0.5rem 0;
+  border-color: $oxd-interface-gray-lighten-2-color;
+}
+
+.orangehrm-full-width-grid {
+  margin: 0 -10px;
+  width: 100%;
+}

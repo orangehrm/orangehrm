@@ -63,7 +63,7 @@ export const validRange = function (
         String(value).length <= charLength &&
         parseInt(value) >= rangeFrom &&
         parseInt(value) <= rangeTo) ||
-      `Enter a valid port number:${rangeFrom}-${rangeTo}`
+      `Enter a valid port number: ${rangeFrom}-${rangeTo}`
     );
   };
 };

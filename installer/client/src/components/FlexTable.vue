@@ -47,12 +47,13 @@ export default {
 
 <style scoped lang="scss">
 .orangehrm-flex-table {
-  padding: 0.75rem;
+  margin-bottom: 0.75rem;
   &-title {
     font-weight: 700;
     font-size: 16px;
   }
   &-value {
+    font-weight: 700;
     &.--success {
       color: $oxd-feedback-success-color;
     }
