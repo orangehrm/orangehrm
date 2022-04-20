@@ -24,8 +24,8 @@
     </oxd-text>
     <br />
     <oxd-text tag="p" class="orangehrm-installer-page-content">
-      This may take some time. Please do not close the window of the progress
-      become 100%
+      This may take some time. Please do not close the window till progress
+      becomes 100%
     </oxd-text>
     <br />
     <installer-tasks :tasks="tasks"></installer-tasks>
@@ -43,9 +43,13 @@
 </template>
 
 <script>
+import {ref} from 'vue';
 import {APIService} from '@/core/util/services/api.service';
 import InstallerTasks from '@/components/InstallerTasks.vue';
 import ProgressBar from '@ohrm/oxd/core/components/Progressbar/Progressbar.vue';
+import useBeforeUnload from '@/core/util/composable/useBeforeUnload';
+import useMigrations from '@/core/util/composable/useMigrations';
+
 export default {
   name: 'UpgradeScreen',
   components: {
@@ -53,17 +57,18 @@ export default {
     'installer-tasks': InstallerTasks,
   },
   setup() {
-    const http = new APIService(
-      'https://884b404a-f4d0-4908-9eb5-ef0c8afec15c.mock.pstmn.io',
-      'upgrader/upgrade',
+    const progress = ref(0);
+    useBeforeUnload(progress);
+    const {runAllMigrations} = useMigrations(
+      new APIService(window.appGlobal.baseUrl, ''),
     );
+    runAllMigrations().then((r) => console.log(r));
     return {
-      http,
+      progress,
     };
   },
   data() {
     return {
-      progress: 0,
       tasks: [
         {name: 'Applying database changes', state: 1},
         {name: 'Creating configuration files', state: 0},

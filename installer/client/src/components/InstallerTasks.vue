@@ -29,6 +29,7 @@
         :class="{
           'orangehrm-installer-task-item-name': true,
           '--active': task.state === 1,
+          '--error': task.state === 3,
         }"
       >
         {{ task.name }}
@@ -41,8 +42,14 @@
         >
           <oxd-icon name="check" />
         </div>
-        <div v-else class="orangehrm-installer-task-icon --pending">
+        <div
+          v-else-if="task.state === 3"
+          class="orangehrm-installer-task-icon --error"
+        >
           <oxd-icon name="exclamation" />
+        </div>
+        <div v-else class="orangehrm-installer-task-icon --pending">
+          <oxd-icon name="dash" />
         </div>
       </div>
     </div>
@@ -83,6 +90,10 @@ export default {
     &.--active {
       font-weight: 700;
     }
+    &.--error {
+      font-weight: 700;
+      color: $oxd-feedback-danger-color;
+    }
   }
   &-icon {
     width: 20px;
@@ -96,6 +107,9 @@ export default {
     }
     &.--pending {
       background-color: $oxd-interface-gray-darken-1-color;
+    }
+    &.--error {
+      background-color: $oxd-feedback-danger-color;
     }
   }
 }

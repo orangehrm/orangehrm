@@ -53,7 +53,7 @@
 
     <oxd-form-actions class="orangehrm-installer-page-action">
       <required-text />
-      <oxd-button display-type="ghost" label="Back" @click="navigateUrl" />
+      <oxd-button display-type="ghost" label="Back" @click="onClickBack" />
       <oxd-button
         class="orangehrm-left-space"
         display-type="secondary"
@@ -97,16 +97,26 @@ export default {
     this.isLoading = true;
     this.http.getAll().then((response) => {
       const {version} = response.data;
-      this.version = version;
+      this.version = {
+        id: version,
+        label: version,
+      };
       this.isLoading = false;
     });
   },
   methods: {
-    navigateUrl() {
+    onClickBack() {
       navigate('/upgrader/system-check');
     },
     onSubmit() {
-      navigate('/upgrader/process');
+      this.isLoading = true;
+      this.http
+        .create({
+          currentVersion: this.version?.id,
+        })
+        .then(() => {
+          navigate('/upgrader/process');
+        });
     },
   },
 };
