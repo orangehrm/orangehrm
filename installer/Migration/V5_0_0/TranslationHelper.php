@@ -22,24 +22,37 @@ namespace OrangeHRM\Installer\Migration\V5_0_0;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Query\QueryBuilder;
-use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Installer\Util\V1\Dto\TransUnit;
 use Symfony\Component\Yaml\Yaml;
 
 class TranslationHelper
 {
-    use EntityManagerHelperTrait;
-
     protected ?LangStringHelper $langStringHelper = null;
+    private Connection $connection;
+
+    /**
+     * @param Connection $connection
+     */
+    public function __construct(Connection $connection)
+    {
+        $this->connection = $connection;
+    }
+
+    /**
+     * @return Connection
+     */
+    protected function getConnection(): Connection
+    {
+        return $this->connection;
+    }
 
     /**
      * @param string $language
-     * @param string $groupName
      * @return void
      */
     public function addTranslations(string $language): void
     {
-        $filepath = 'installer/Migration/V5_0_0/translation/' . $language . '.yaml';
+        $filepath = __DIR__ . '/translation/' . $language . '.yaml';
         $yml = Yaml::parseFile($filepath);
         $translations = array_shift($yml);
         foreach ($translations as $translation) {
@@ -60,7 +73,7 @@ class TranslationHelper
         $langStringId = $this->getLangStringHelper()->getLangStringIdByUnitIdAndGroup($source->getUnitId(), $groupId);
         if ($langStringId == null) {
             throw new Exception(
-                'Cannot add a translation to a non existent lang string: ' .$source->getUnitId()
+                'Cannot add a translation to a non existent lang string: ' . $source->getUnitId()
             );
         }
         $langId = $this->getLanguageId($language);
@@ -96,14 +109,6 @@ class TranslationHelper
     }
 
     /**
-     * @return Connection
-     */
-    protected function getConnection(): Connection
-    {
-        return $this->getEntityManager()->getConnection();
-    }
-
-    /**
      * @param string $langCode
      * @return int
      * @throws Exception
@@ -123,7 +128,7 @@ class TranslationHelper
      */
     protected function createQueryBuilder(): QueryBuilder
     {
-        return $this->getEntityManager()->getConnection()->createQueryBuilder();
+        return $this->getConnection()->createQueryBuilder();
     }
 
     /**

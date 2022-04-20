@@ -30,7 +30,10 @@ class HomeController extends AbstractInstallerController
      */
     protected function execute(Request $request): RedirectResponse
     {
+        if (realpath(__DIR__ . '/../../lib/confs/Conf.php') !== false) {
+            $url = $request->getSchemeAndHttpHost() . $request->getBaseUrl();
+            return new RedirectResponse(str_replace('/installer/index.php', '', $url));
+        }
         return $this->redirect('/welcome');
     }
 }
-

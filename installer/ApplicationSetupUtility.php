@@ -18,6 +18,13 @@
  *
  */
 
+use OrangeHRM\Framework\Http\Session\NativeSessionStorage;
+use OrangeHRM\Framework\Http\Session\Session;
+use OrangeHRM\Framework\ServiceContainer;
+use OrangeHRM\Framework\Services;
+use OrangeHRM\Installer\Util\StateContainer;
+use Symfony\Component\HttpFoundation\Session\Storage\Handler\NativeFileSessionHandler;
+
 require_once ROOT_PATH.'/installer/utils/UniqueIDGenerator.php';
 require_once ROOT_PATH.'/src/plugins/orangehrmCorePlugin/Utility/PasswordHash.php';
 require_once ROOT_PATH.'/installer/SystemConfiguration.php';
@@ -265,8 +272,18 @@ public static function writeConfFile() {
 
 public static function runMigrations()
 {
-    \OrangeHRM\Framework\ServiceContainer::getContainer()->register(\OrangeHRM\Framework\Services::DOCTRINE)
+    ServiceContainer::getContainer()->register(\OrangeHRM\Framework\Services::DOCTRINE)
         ->setFactory([\OrangeHRM\ORM\Doctrine::class, 'getEntityManager']);
+    $sessionStorage = new NativeSessionStorage([], new NativeFileSessionHandler());
+    $session = new Session($sessionStorage);
+
+    ServiceContainer::getContainer()->set(Services::SESSION_STORAGE, $sessionStorage);
+    ServiceContainer::getContainer()->set(Services::SESSION, $session);
+    $session->set(StateContainer::DB_NAME, $_SESSION['dbName']);
+    $session->set(StateContainer::DB_HOST, $_SESSION['dbHostName']);
+    $session->set(StateContainer::DB_PORT, $_SESSION['dbHostPort']);
+    $session->set(StateContainer::DB_USER, $_SESSION['dbUserName']);
+    $session->set(StateContainer::DB_PASSWORD, $_SESSION['dbPassword']);
 
     try {
         $migration = new \OrangeHRM\Installer\Migration\V5_0_0_beta\Migration();

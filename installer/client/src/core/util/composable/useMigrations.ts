@@ -20,10 +20,13 @@ import {APIService} from '@/core/util/services/api.service';
 import {AxiosResponse} from 'axios';
 
 export default function useMigrations(http: APIService) {
-  const getVersionList = (): Promise<AxiosResponse<string[]>> => {
+  const getVersionList = (
+    excludeLatest = true,
+  ): Promise<AxiosResponse<string[]>> => {
     return http.request({
       method: 'GET',
       url: 'upgrader/api/versions',
+      params: {excludeLatest},
     });
   };
 
@@ -70,7 +73,10 @@ export default function useMigrations(http: APIService) {
   const runAllMigrations = async () => {
     let versions = [];
     let currentVersion = null;
-    const getVersions = Promise.all([getVersionList(), getCurrentVersion()]);
+    const getVersions = Promise.all([
+      getVersionList(false),
+      getCurrentVersion(),
+    ]);
     const [versionResponse, currentVersionResponse] = await getVersions;
     versions = [...versionResponse.data];
     currentVersion = currentVersionResponse.data?.version;

@@ -32,7 +32,10 @@ class VersionAPI extends AbstractInstallerRestController
     {
         $versions = array_keys(AppSetupUtility::MIGRATIONS_MAP);
         // array_shift($versions);
-        array_pop($versions);
+        $excludeLatest = $request->query->getBoolean('excludeLatest', true);
+        if ($excludeLatest) {
+            array_pop($versions);
+        }
         return $versions;
     }
 }
