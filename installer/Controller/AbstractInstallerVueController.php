@@ -27,6 +27,7 @@ use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Framework\Http\RedirectResponse;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\Http\Response;
+use OrangeHRM\Installer\Util\StateContainer;
 use Twig\Environment;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
@@ -35,6 +36,28 @@ use Twig\Loader\FilesystemLoader;
 
 abstract class AbstractInstallerVueController extends AbstractInstallerController
 {
+    public const WELCOME_SCREEN = "Welcome";
+    public const DB_INFO_SCREEN = "Database Information";
+    public const SYSTEM_CHECK_SCREEN = "System Check";
+    public const VERSION_DETAILS_SCREEN = "Version Details";
+    public const UPGRADE_SCREEN = "Upgrade";
+    public const UPGRADER_COMPLETE_SCREEN = "Completion";
+
+    public const INSTALLER_SCREENS = [
+        self::WELCOME_SCREEN,
+        self::DB_INFO_SCREEN,
+        self::SYSTEM_CHECK_SCREEN,
+    ];
+
+    public const UPGRADER_SCREENS = [
+        self::WELCOME_SCREEN,
+        self::DB_INFO_SCREEN,
+        self::SYSTEM_CHECK_SCREEN,
+        self::VERSION_DETAILS_SCREEN,
+        self::UPGRADE_SCREEN,
+        self::UPGRADER_COMPLETE_SCREEN,
+    ];
+
     /**
      * @var Environment|null
      */
@@ -183,6 +206,8 @@ abstract class AbstractInstallerVueController extends AbstractInstallerControlle
             VueControllerHelper::COPYRIGHT_YEAR => date('Y'),
             VueControllerHelper::PRODUCT_VERSION => Config::PRODUCT_VERSION,
             VueControllerHelper::PRODUCT_NAME => Config::PRODUCT_NAME,
+            'steps' => $this->getSteps(),
+            'currentStep' => $this->getCurrentStep(),
         ];
     }
 
@@ -196,5 +221,32 @@ abstract class AbstractInstallerVueController extends AbstractInstallerControlle
             return (new DateTime())->getTimestamp();
         }
         return file_get_contents($pathToBuildFile);
+    }
+
+    /**
+     * @return string[]
+     */
+    protected function getSteps(): array
+    {
+        if (is_null(StateContainer::getInstance()->isUpgrader())) {
+            return [self::WELCOME_SCREEN];
+        } elseif (StateContainer::getInstance()->isUpgrader()) {
+            return self::UPGRADER_SCREENS;
+        } else {
+            return self::INSTALLER_SCREENS;
+        }
+    }
+
+    /**
+     * @return int
+     */
+    protected function getCurrentStep(): int
+    {
+        $currentScreen = StateContainer::getInstance()->getCurrentScreen();
+        $screens = self::INSTALLER_SCREENS;
+        if (StateContainer::getInstance()->isUpgrader()) {
+            $screens = self::UPGRADER_SCREENS;
+        }
+        return array_flip($screens)[$currentScreen] ?? 0;
     }
 }

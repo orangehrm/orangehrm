@@ -17,20 +17,35 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Installer\Controller;
+namespace OrangeHRM\Installer\Migration\V4_3_1;
 
-use OrangeHRM\Core\Vue\Component;
-use OrangeHRM\Framework\Http\Request;
+use Doctrine\DBAL\Types\Types;
+use OrangeHRM\Installer\Util\V1\AbstractMigration;
 
-class UpgraderCompleteController extends AbstractInstallerVueController
+class Migration extends AbstractMigration
 {
     /**
      * @inheritDoc
      */
-    public function preRender(Request $request): void
+    public function up(): void
     {
-        $component = new Component('upgrader-complete-screen');
-        $this->setComponent($component);
+        if ($this->getSchemaManager()->tablesExist('ohrm_reset_password')) {
+            $this->getSchemaManager()->dropTable('ohrm_reset_password');
+        }
+        $this->getSchemaHelper()->createTable('ohrm_reset_password')
+            ->addColumn('id', Types::BIGINT, ['Unsigned' => true, 'Autoincrement' => true])
+            ->addColumn('reset_email', Types::STRING, ['Length' => 60, 'Notnull' => true])
+            ->addColumn('reset_request_date', Types::DATETIMETZ_MUTABLE, ['Notnull' => true])
+            ->addColumn('reset_code', Types::STRING, ['Length' => 200, 'Notnull' => true])
+            ->setPrimaryKey(['id'])
+            ->create();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getVersion(): string
+    {
+        return '4.3.1';
     }
 }
-

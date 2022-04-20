@@ -38,8 +38,8 @@ $filesystem->symlink(
     Config::get(Config::PLUGINS_DIR) . '/orangehrmFunctionalTestingPlugin',
     true
 );
-echo "\nSuccessfully copied `symfony/test/functional/tools/plugins/orangehrmFunctionalTestingPlugin` " .
-    "to symfony/plugins/orangehrmFunctionalTestingPlugin\n";
+echo "\nSuccessfully copied `src/test/functional/tools/plugins/orangehrmFunctionalTestingPlugin` " .
+    "to src/plugins/orangehrmFunctionalTestingPlugin\n";
 
 $loader = new ClassLoader();
 $loader->addPsr4('OrangeHRM\\FunctionalTesting\\', [realpath(__DIR__ . '/plugins/orangehrmFunctionalTestingPlugin')]);

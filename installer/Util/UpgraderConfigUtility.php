@@ -17,13 +17,12 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Installer\Controller\Upgrader\Traits;
+namespace OrangeHRM\Installer\Util;
 
 use Doctrine\DBAL\Schema\AbstractSchemaManager;
 use Exception;
-use OrangeHRM\Installer\Util\Connection;
 
-trait UpgraderUtilityTrait
+class UpgraderConfigUtility
 {
     /**
      * @return bool
@@ -46,7 +45,7 @@ trait UpgraderUtilityTrait
     public function checkDatabaseStatus(): bool
     {
         $connection = $this->getConnection();
-        return $connection->createSchemaManager()->tablesExist(['ohrm_upgrade_status']);
+        return $this->getSchemaManager()->tablesExist(['ohrm_upgrade_status']);
     }
 
     /**
@@ -61,7 +60,7 @@ trait UpgraderUtilityTrait
      * @return AbstractSchemaManager
      * @throws \Doctrine\DBAL\Exception
      */
-    public function getSchemaManager(): AbstractSchemaManager
+    private function getSchemaManager(): AbstractSchemaManager
     {
         return $this->getConnection()->createSchemaManager();
     }

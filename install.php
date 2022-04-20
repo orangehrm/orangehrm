@@ -277,4 +277,3 @@ if (isset($_SESSION['UNISTALL'])) {
 }
 
 header('Location: ./installer/installerUI.php');
-

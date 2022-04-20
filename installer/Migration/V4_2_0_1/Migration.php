@@ -17,18 +17,25 @@
  * Boston, MA  02110-1301, USA
  */
 
-use OrangeHRM\Framework\ServiceContainer;
-use OrangeHRM\Framework\Services;
-use OrangeHRM\ORM\Doctrine;
-use OrangeHRM\Tools\Migrations\V5\TranslationTool;
+namespace OrangeHRM\Installer\Migration\V4_2_0_1;
 
-require_once realpath(__DIR__ . '/../../src/vendor/autoload.php');
+use OrangeHRM\Installer\Util\V1\AbstractMigration;
 
-ServiceContainer::getContainer()->register(Services::DOCTRINE)
-    ->setFactory([Doctrine::class, 'getEntityManager']);
+class Migration extends AbstractMigration
+{
+    /**
+     * @inheritDoc
+     */
+    public function up(): void
+    {
+        // no db changes in this version
+    }
 
-$translate = new TranslationTool();
-$modules = ['admin','general','pim','leave','time','attendance','maintenance','help','auth'];
-foreach ($modules as $module){
-    $translate->up($module);
+    /**
+     * @inheritDoc
+     */
+    public function getVersion(): string
+    {
+        return '4.2.0.1';
+    }
 }

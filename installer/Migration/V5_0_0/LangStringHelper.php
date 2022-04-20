@@ -73,7 +73,7 @@ class LangStringHelper
     {
         $groupId = $this->getGroupId($groupName);
         $langArray = [];
-        $filepath = 'installer/upgrader/Migrations/V5/' . $groupName . 'LangString.yaml';
+        $filepath = 'installer/Migration/V5_0_0/lang-string' . $groupName . '.yaml';
         $yml = Yaml::parseFile($filepath);
         $langStrings = array_shift($yml);
         foreach ($langStrings as $langString) {
@@ -204,6 +204,26 @@ class LangStringHelper
             ->andWhere('langString.group_id = :module')
             ->setParameter('source', $langStringValue)
             ->setParameter('module', $groupId);
+        if (false != $result = $q->executeQuery()->fetchOne()) {
+            return $result;
+        }
+        return null;
+    }
+
+    /**
+     * @param string $langStringValue
+     * @param int $groupId
+     * @return int|null
+     */
+    public function getLangStringIdByUnitIdAndGroup(string $langStringUnitId, int $groupId): ?int
+    {
+        $q = $this->createQueryBuilder()
+            ->select('langString.id')
+            ->from('ohrm_i18n_lang_string', 'langString')
+            ->where('langString.unit_id = :unitId')
+            ->andWhere('langString.group_id = :group')
+            ->setParameter('unitId', $langStringUnitId)
+            ->setParameter('group', $groupId);
         if (false != $result = $q->executeQuery()->fetchOne()) {
             return $result;
         }

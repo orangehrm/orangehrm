@@ -22,13 +22,12 @@ namespace OrangeHRM\Installer\Controller\Upgrader\Api;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\Http\Response;
 use OrangeHRM\Installer\Controller\AbstractInstallerRestController;
-use OrangeHRM\Installer\Controller\Upgrader\Traits\UpgraderUtilityTrait;
 use OrangeHRM\Installer\Util\StateContainer;
+use OrangeHRM\Installer\Util\SystemConfig;
+use OrangeHRM\Installer\Util\UpgraderConfigUtility;
 
 class DatabaseConfigAPI extends AbstractInstallerRestController
 {
-    use UpgraderUtilityTrait;
-
     /**
      * @inheritDoc
      */
@@ -42,8 +41,34 @@ class DatabaseConfigAPI extends AbstractInstallerRestController
 
         StateContainer::getInstance()->storeDbInfo($dbHost, $dbPort, $dbUser, $dbPassword, $dbName);
 
-        $connection = $this->checkDatabaseConnection();
         $response = $this->getResponse();
+
+        $systemConfig = new SystemConfig();
+        $upgraderConfigUtility = new UpgraderConfigUtility();
+
+        if (!$systemConfig->checkPDOExtensionEnabled()) {
+            $response->setStatusCode(Response::HTTP_BAD_REQUEST);
+            return
+                [
+                    'error' => [
+                        'status' => $response->getStatusCode(),
+                        'message' => 'Please Enable PDO Extension To Proceed'
+                    ]
+                ];
+        }
+
+        if (!$systemConfig->checkPDOMySqlExtensionEnabled()) {
+            $response->setStatusCode(Response::HTTP_BAD_REQUEST);
+            return
+                [
+                    'error' => [
+                        'status' => $response->getStatusCode(),
+                        'message' => 'Please Enable PDO-MYSQL Extension To Proceed'
+                    ]
+                ];
+        }
+
+        $connection = $upgraderConfigUtility->checkDatabaseConnection();
         if (!$connection) {
             $response->setStatusCode(Response::HTTP_BAD_REQUEST);
             return
@@ -53,7 +78,7 @@ class DatabaseConfigAPI extends AbstractInstallerRestController
                         'message' => 'Failed to Connect: Check Database Details'
                     ]
                 ];
-        } elseif ($this->checkDatabaseStatus()) {
+        } elseif ($upgraderConfigUtility->checkDatabaseStatus()) {
             $response->setStatusCode(Response::HTTP_BAD_REQUEST);
             return [
                 'error' => [

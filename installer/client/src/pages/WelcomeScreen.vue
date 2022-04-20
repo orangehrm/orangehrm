@@ -56,7 +56,7 @@
       <oxd-text tag="p" class="orangehrm-installer-page-content --label">
         Choose this option if you are already using a prior version of OrangeHRM
         Starter (version 4.0 onwards) and would like to upgrade to
-        <b>version 5.0</b>
+        <b>version {{ productversion }}</b>
       </oxd-text>
     </oxd-form-row>
 
@@ -119,7 +119,7 @@ export default {
         navigate('/upgrader/database-config');
       } else {
         window.location.href = window.location.pathname.replace(
-          '/index.php/installer/welcome',
+          '/index.php/welcome',
           '/installerUI.php',
         );
       }

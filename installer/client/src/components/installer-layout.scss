@@ -49,4 +49,10 @@
     bottom: 0;
     position: absolute;
   }
+  &-guide {
+    font-size: 16px;
+    font-weight: 600;
+    color: $oxd-white-color;
+    text-decoration: none;
+  }
 }

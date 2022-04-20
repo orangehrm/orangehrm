@@ -17,8 +17,10 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Installer\Migration\V4_1_0;
+namespace OrangeHRM\Installer\Migration\V4_1_1;
 
+use Doctrine\DBAL\Schema\Index;
+use Doctrine\DBAL\Types\Types;
 use OrangeHRM\Installer\Util\V1\AbstractMigration;
 
 class Migration extends AbstractMigration
@@ -28,7 +30,24 @@ class Migration extends AbstractMigration
      */
     public function up(): void
     {
-        // TODO: Implement up() method in next ticket.
+        $this->getSchemaHelper()->dropForeignKeys('hs_hr_emp_member_detail', ['hs_hr_emp_member_detail_ibfk_1']);
+        $this->getSchemaHelper()->dropForeignKeys('hs_hr_emp_member_detail', ['hs_hr_emp_member_detail_ibfk_2']);
+
+        $this->getSchemaHelper()->dropPrimaryKey('hs_hr_emp_member_detail');
+
+        $this->getSchemaHelper()->addColumn('hs_hr_emp_member_detail', 'id', Types::INTEGER, ['Length' => 6, 'Notnull' => true, 'Default' => null]);
+
+        $primaryKey = new Index(
+            null,
+            ['id'],
+            true,
+            true
+        );
+        $this->getSchemaHelper()->getSchemaManager()->createIndex($primaryKey, 'hs_hr_emp_member_detail');
+
+        $this->getSchemaHelper()->changeColumn('hs_hr_emp_member_detail', 'id', [
+            'Notnull' => true, 'Default' => null, 'Autoincrement' => true
+        ]);
     }
 
     /**
@@ -36,6 +55,6 @@ class Migration extends AbstractMigration
      */
     public function getVersion(): string
     {
-        return '4.1';
+        return '4.1.1';
     }
 }

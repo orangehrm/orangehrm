@@ -17,15 +17,22 @@
  * Boston, MA  02110-1301, USA
  */
 
-use OrangeHRM\Framework\ServiceContainer;
-use OrangeHRM\Framework\Services;
-use OrangeHRM\ORM\Doctrine;
-use OrangeHRM\Tools\Migrations\Version20220221;
+namespace OrangeHRM\Installer\Controller\Upgrader;
 
-require_once realpath(__DIR__ . '/../../src/vendor/autoload.php');
+use OrangeHRM\Core\Vue\Component;
+use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Installer\Controller\AbstractInstallerVueController;
+use OrangeHRM\Installer\Util\StateContainer;
 
-ServiceContainer::getContainer()->register(Services::DOCTRINE)
-    ->setFactory([Doctrine::class, 'getEntityManager']);
-
-$migration2 = new Version20220221();
-$migration2->up();
+class UpgraderController extends AbstractInstallerVueController
+{
+    /**
+     * @inheritDoc
+     */
+    public function preRender(Request $request): void
+    {
+        $component = new Component('upgrade-process-screen');
+        $this->setComponent($component);
+        StateContainer::getInstance()->setCurrentScreen(self::UPGRADE_SCREEN, true);
+    }
+}

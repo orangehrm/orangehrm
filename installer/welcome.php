@@ -29,6 +29,7 @@ function welcomeSubmit() {
 	document.frmInstall.actionResponse.value  = 'WELCOMEOK';
 	document.frmInstall.submit();
 }
+welcomeSubmit();
 </script>
 	<div id="content">
 		<h2>Welcome to the OrangeHRM ver <?php echo $ohrmVersion;?> Setup Wizard</h2>
@@ -37,7 +38,7 @@ function welcomeSubmit() {
 		<p>This installer creates the OrangeHRM database tables and sets the
         configuration files that you need to start.</p>
                 <p>
-                    If you already use OrangeHRM, consider <a href="./index.php/upgrader/database-config">upgrading</a>.
+                    If you already use OrangeHRM, consider <a href="./index.php/welcome">upgrading</a>.
                 </p>              
                 
         <p>

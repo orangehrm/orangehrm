@@ -1,0 +1,60 @@
+// OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+// all the essential functionalities required for any enterprise.
+// Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+//
+// OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+// the GNU General Public License as published by the Free Software Foundation; either
+// version 2 of the License, or (at your option) any later version.
+//
+// OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+// without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License along with this program;
+// if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+// Boston, MA  02110-1301, USA
+
+.orangehrm-installer-steps {
+  padding: 0;
+  list-style: none;
+  margin-top: 120px;
+  &-item {
+    display: flex;
+    margin-bottom: 1rem;
+    align-items: baseline;
+  }
+  &-count,
+  &-name {
+    font-size: 16px;
+    color: $oxd-white-color;
+    font-weight: 600;
+  }
+  &-count {
+    display: block;
+    width: 1.4rem;
+    height: 1.4rem;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 1.4rem;
+    border: 2px solid $oxd-white-color;
+    box-shadow: 0px 4px 10px rgb(0 0 0 / 15%);
+    &.--success {
+      border-color: $oxd-feedback-success-color;
+      background-color: $oxd-feedback-success-color;
+    }
+  }
+  &-name {
+    margin-left: 1rem;
+    text-shadow: 0px 4px 8px rgb(0 0 0 / 18%);
+  }
+  &-icon {
+    color: $oxd-white-color;
+  }
+  &-item.--active > &-count {
+    color: $oxd-primary-gradient-start-color;
+    background-color: $oxd-white-color;
+  }
+  &-item.--active > &-name {
+    font-weight: 700;
+  }
+}

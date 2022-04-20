@@ -22,39 +22,39 @@ namespace OrangeHRM\Installer\Util\V1\Dto;
 class TransUnit
 {
     /**
-     * @var string
-     */
-    private string $source;
-
-    /**
      * @var string|null
      */
     private ?string $target;
 
     /**
-     * @param string $source
-     * @param string $target
+     * @var string|null
      */
-    public function __construct(string $source, ?string $target =null)
+    private ?string $unitId;
+
+    /**
+     * @param string|null $target
+     * @param string|null $unitId
+     */
+    public function __construct(?string $target, ?string $unitId)
     {
-        $this->source = $source;
         $this->target = $target;
+        $this->unitId = $unitId;
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getSource(): string
+    public function getUnitId(): ?string
     {
-        return $this->source;
+        return $this->unitId;
     }
 
     /**
-     * @param string $source
+     * @param string|null $unitId
      */
-    public function setSource(string $source): void
+    public function setUnitId(?string $unitId): void
     {
-        $this->source = $source;
+        $this->unitId = $unitId;
     }
 
     /**
