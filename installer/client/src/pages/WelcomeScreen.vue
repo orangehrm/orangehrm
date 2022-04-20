@@ -18,10 +18,7 @@
  */
  -->
 <template>
-  <oxd-form
-    class="orangehrm-installer-page orangehrm-upgrader-container"
-    @submit="toggleModal"
-  >
+  <oxd-form class="orangehrm-installer-page" @submit="toggleModal">
     <oxd-text tag="h5" class="orangehrm-installer-page-title">
       Welcome to OrangeHRM Starter Version {{ productversion }} Setup Wizard
     </oxd-text>
@@ -64,10 +61,10 @@
       <oxd-text tag="p" class="orangehrm-installer-page-content">
         OrangeHRM Starter 5.0 only supports Admin, PIM, Leave, Time and
         Attendance, and Maintenance modules. If you are already utilising other
-        modules or Add-ons and are thinking about upgrading, we recommend
-        waiting for version 5.1. You can, however, continue with the update
-        while ignoring the unsupported modules and add-ons, but please note that
-        data will be inaccessible.
+        modules, Add-ons or the mobile app and are thinking about upgrading, we
+        recommend waiting for version 5.1. You can, however, continue with the
+        update while ignoring the unsupported modules and add-ons, but please
+        note that data will be inaccessible.
       </oxd-text>
     </Notice>
     <br />
@@ -118,10 +115,7 @@ export default {
       if (this.selected === 'upgrade') {
         navigate('/upgrader/database-config');
       } else {
-        window.location.href = window.location.pathname.replace(
-          '/index.php/welcome',
-          '/installerUI.php',
-        );
+        navigate('/../installerUI.php');
       }
     },
   },

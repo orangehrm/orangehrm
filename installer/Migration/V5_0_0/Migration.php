@@ -369,7 +369,7 @@ class Migration extends AbstractMigration
     public function getTranslationHelper(): TranslationHelper
     {
         if (is_null($this->translationHelper)) {
-            $this->translationHelper = new TranslationHelper();
+            $this->translationHelper = new TranslationHelper($this->getConnection());
         }
         return $this->translationHelper;
     }

@@ -15,6 +15,7 @@
 // Boston, MA  02110-1301, USA
 
 .orangehrm-installer-page {
+  font-size: $oxd-input-control-font-size;
   &-title {
     font-weight: 700;
     color: $oxd-primary-one-color;
@@ -30,21 +31,6 @@
     padding-bottom: 1rem;
   }
   &-action {
-    padding-top: 2rem;
-  }
-}
-
-.orangehrm-upgrader-container{
-  height: 100%;
-  font-size: $oxd-input-control-font-size;
-  &-notice{
-    margin: 1rem 0;
-    margin-left: 0.5rem;
-  }
-  &-content{
-    padding: 0.75rem;
-  }
-  &-action {
-    padding: 0.75rem;
+    padding: 1rem 0;
   }
 }

@@ -1,4 +1,4 @@
-<?php
+<!--
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -16,26 +16,39 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
+ -->
+<template>
+  <oxd-input-field
+    type="select"
+    label="Current OrangeHRM Version"
+    :options="options"
+  />
+</template>
 
-namespace OrangeHRM\Installer\Controller\Upgrader\Api;
-
-use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Installer\Controller\AbstractInstallerRestController;
-use OrangeHRM\Installer\Util\AppSetupUtility;
-
-class VersionAPI extends AbstractInstallerRestController
-{
-    /**
-     * @inheritDoc
-     */
-    protected function handleGet(Request $request): array
-    {
-        $versions = array_keys(AppSetupUtility::MIGRATIONS_MAP);
-        // array_shift($versions);
-        $excludeLatest = $request->query->getBoolean('excludeLatest', true);
-        if ($excludeLatest) {
-            array_pop($versions);
-        }
-        return $versions;
-    }
-}
+<script>
+import {ref, onBeforeMount} from 'vue';
+import {APIService} from '@/core/util/services/api.service';
+export default {
+  name: 'VersionDropdown',
+  setup() {
+    const options = ref([]);
+    const http = new APIService(
+      window.appGlobal.baseUrl,
+      'upgrader/api/versions',
+    );
+    onBeforeMount(() => {
+      http.getAll().then(({data}) => {
+        options.value = data.map((item) => {
+          return {
+            id: item,
+            label: item,
+          };
+        });
+      });
+    });
+    return {
+      options,
+    };
+  },
+};
+</script>

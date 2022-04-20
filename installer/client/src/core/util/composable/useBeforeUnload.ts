@@ -1,4 +1,3 @@
-<?php
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -17,25 +16,31 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Installer\Controller\Upgrader\Api;
+import {onMounted, onUnmounted, Ref} from 'vue';
 
-use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Installer\Controller\AbstractInstallerRestController;
-use OrangeHRM\Installer\Util\AppSetupUtility;
-
-class VersionAPI extends AbstractInstallerRestController
-{
-    /**
-     * @inheritDoc
-     */
-    protected function handleGet(Request $request): array
-    {
-        $versions = array_keys(AppSetupUtility::MIGRATIONS_MAP);
-        // array_shift($versions);
-        $excludeLatest = $request->query->getBoolean('excludeLatest', true);
-        if ($excludeLatest) {
-            array_pop($versions);
-        }
-        return $versions;
+export default function useBeforeUnload(progress: Ref<number>) {
+  let registed = false;
+  const triggerUnload = (event: Event) => {
+    if (progress.value < 100) {
+      event.preventDefault();
+      event.returnValue = true;
+      return event;
     }
+  };
+
+  const registerUnloadEvent = () => {
+    !registed && window.addEventListener('beforeunload', triggerUnload);
+    registed = true;
+  };
+
+  onMounted(() => {
+    window.addEventListener('mousemove', registerUnloadEvent);
+  });
+
+  onUnmounted(() => {
+    window.removeEventListener('mousemove', registerUnloadEvent);
+    window.removeEventListener('beforeunload', triggerUnload);
+  });
+
+  return {triggerUnload};
 }

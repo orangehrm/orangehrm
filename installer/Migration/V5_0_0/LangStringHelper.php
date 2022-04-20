@@ -23,7 +23,6 @@ use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Query\QueryBuilder;
 use OrangeHRM\Installer\Util\V1\Dto\LangString;
 use OrangeHRM\Installer\Util\V1\LanguageHelper;
-use Symfony\Component\Yaml\Yaml;
 
 class LangStringHelper
 {
@@ -63,29 +62,6 @@ class LangStringHelper
             $this->languageHelper = new LanguageHelper($this->getConnection());
         }
         return $this->languageHelper;
-    }
-
-    /**
-     * @param string $groupName
-     * @return LangString[]
-     */
-    public function getLangStringArray(string $groupName): array
-    {
-        $groupId = $this->getGroupId($groupName);
-        $langArray = [];
-        $filepath = 'installer/Migration/V5_0_0/lang-string' . $groupName . '.yaml';
-        $yml = Yaml::parseFile($filepath);
-        $langStrings = array_shift($yml);
-        foreach ($langStrings as $langString) {
-            $langArray[] = new LangString(
-                $langString['unitId'],
-                $groupId,
-                $langString['value'],
-                null,
-                $langString['note'] ?? null
-            );
-        }
-        return $langArray;
     }
 
     /**

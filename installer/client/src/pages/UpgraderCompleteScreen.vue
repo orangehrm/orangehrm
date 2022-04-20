@@ -1,71 +1,62 @@
 <template>
-  <div class="orangehrm-upgrader-complete orangehrm-upgrader-container">
-    <oxd-text
-      tag="h5"
-      class="orangehrm-upgrader-complete-title orangehrm-upgrader-container-content"
-    >
+  <div class="orangehrm-installer-page">
+    <oxd-text tag="h5" class="orangehrm-installer-page-title">
       Upgrade Complete
     </oxd-text>
-    <oxd-text
-      class="orangehrm-upgrader-complete-content orangehrm-upgrader-container-content"
-    >
+    <br />
+    <oxd-text tag="p" class="orangehrm-installer-page-content">
       You have sucessfully upgraded to OrangeHRM Starter version 5.0. Make sure
       you go through the following steps before start using the system.
     </oxd-text>
 
-    <div class="orangehrm-upgrader-complete-row">
-      <ul class="orangehrm-upgrader-complete-lists">
-        <li>
+    <ul class="orangehrm-upgrader-complete">
+      <li>
+        <oxd-text tag="span" class="orangehrm-installer-page-content">
           If note were displayed under <b>Version Info,</b> make sure you
           understand them throughly, You can find the notes at
           <b>Upgrading/log/notes.log</b> in your OrangeHRM root folder.
-        </li>
-        <li>
+        </oxd-text>
+      </li>
+      <li>
+        <oxd-text tag="span" class="orangehrm-installer-page-content">
           After going through the manual steps mentioned in the notes (if there
           are any), do a full round of data verification to see whether data
           from previous version has been imported properly.
-        </li>
-      </ul>
-    </div>
+        </oxd-text>
+      </li>
+    </ul>
 
-    <oxd-form-actions
-      class="orangehrm-upgrader-complete-action orangehrm-upgrader-container-action"
-    >
-      <oxd-button
-        display-type="secondary"
-        label="Launch OrangeHRM"
-        type="submit"
-      />
-    </oxd-form-actions>
+    <oxd-button
+      class="orangehrm-upgrader-complete-button"
+      display-type="secondary"
+      label="Launch OrangeHRM"
+      @click="launch"
+    />
   </div>
 </template>
 
 <script>
+import {navigate} from '@/core/util/helper/navigation.ts';
 export default {
   name: 'UpgraderCompleteScreen',
+  methods: {
+    launch() {
+      navigate('/');
+    },
+  },
 };
 </script>
 
 <style src="./installer-page.scss" lang="scss" scoped></style>
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .orangehrm-upgrader-complete {
-  &-title {
-    padding-top: 0;
-    color: $oxd-primary-one-color;
+  padding: 0 1rem;
+  color: $oxd-interface-gray-darken-1-color;
+  li {
+    padding-bottom: 0.75rem;
   }
-  &-lists {
-    padding: 0 1.5rem;
-    color: $oxd-interface-gray-darken-1-color;
-    li {
-      padding-bottom: 0.75rem;
-    }
-  }
-  &-action {
-    padding-right: 0;
-    justify-content: flex-start;
-    button {
-      margin-right: 0.5rem;
-    }
-  }
+}
+.orangehrm-upgrader-complete-button {
+  margin-right: auto;
 }
 </style>
