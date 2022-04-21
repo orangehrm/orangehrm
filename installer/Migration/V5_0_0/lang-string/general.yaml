@@ -860,3 +860,6 @@ langStrings:
   -
     value: 'Total'
     unitId: total
+  -
+    value: 'Unexpected Error!'
+    unitId: unexpected_error
