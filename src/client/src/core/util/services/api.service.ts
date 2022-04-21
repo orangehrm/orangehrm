@@ -135,10 +135,7 @@ export class APIService {
         const $toast = vm?.appContext.config.globalProperties.$toast;
         if ($toast) {
           const message = error.response?.data?.error?.message;
-          $toast.error({
-            title: 'Error',
-            message: message ?? 'Unexpected Error!',
-          });
+          $toast.unexpectedError(message);
         }
         return Promise.reject(error);
       },

@@ -27,7 +27,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class AddTestTranslationCommand extends Command
 {
     protected static $defaultName = 'add-test-translations';
-    protected static $defaultDescription = 'Creates the translaltion yml files using the xml files.';
+    protected static $defaultDescription = 'Creates the translaltion tr strings for all defined langstrings.';
 
     private TranslationTestTool $translationTestTool;
 

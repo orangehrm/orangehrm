@@ -22,15 +22,16 @@ namespace OrangeHRM\Tests\Core\Service;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Service\ReportGeneratorService;
+use OrangeHRM\I18N\Service\I18NHelper;
 use OrangeHRM\Pim\Dto\PimReportSearchFilterParams;
-use OrangeHRM\Tests\Util\TestCase;
+use OrangeHRM\Tests\Util\KernelTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 
 /**
  * @group Core
  * @group Service
  */
-class ReportGeneratorServiceTest extends TestCase
+class ReportGeneratorServiceTest extends KernelTestCase
 {
     /**
      * @var ReportGeneratorService|null
@@ -58,7 +59,17 @@ class ReportGeneratorServiceTest extends TestCase
 
     public function testGetHeaderDefinitionByReportId(): void
     {
-        $header = $this->reportGeneratorService->getHeaderDefinitionByReportId(5);
+        $i18nHelper = $this->getMockBuilder(I18NHelper::class)
+            ->onlyMethods(['transBySource'])
+            ->getMock();
+        $i18nHelper->method('transBySource')
+            ->willReturnCallback(fn ($string) => $string);
+        $reportGeneratorService = $this->getMockBuilder(ReportGeneratorService::class)
+            ->onlyMethods(['getI18NHelper'])
+            ->getMock();
+        $reportGeneratorService->method('getI18NHelper')
+            ->will($this->returnValue($i18nHelper));
+        $header = $reportGeneratorService->getHeaderDefinitionByReportId(5);
         $this->assertEquals(
             [
                 [
@@ -115,7 +126,6 @@ class ReportGeneratorServiceTest extends TestCase
         $filterParams = new PimReportSearchFilterParams();
         $filterParams->setReportId(5);
         $reportData = $this->reportGeneratorService->getNormalizedReportData($filterParams);
-
         $this->assertEquals(
             [
                 [

@@ -102,6 +102,7 @@ import {
 import ReportsTable from '@/core/components/table/ReportsTable';
 import SwitchInput from '@ohrm/oxd/core/components/Input/SwitchInput';
 import ProjectAutocomplete from '@/orangehrmTimePlugin/components/ProjectAutocomplete.vue';
+import {translate as translatorFactory} from '@/core/plugins/i18n/translate';
 
 const defaultFilters = {
   project: null,
@@ -148,13 +149,15 @@ export default {
       ...(props.project && {project: props.project}),
     });
 
+    const translate = translatorFactory();
+
     const rules = {
       project: [required],
       fromDate: [
         validDateFormat(),
         startDateShouldBeBeforeEndDate(
           () => filters.value.toDate,
-          'From date should be before to date',
+          translate('general.from_date_should_be_before_to_date'),
           {allowSameDate: true},
         ),
       ],
@@ -162,7 +165,7 @@ export default {
         validDateFormat(),
         endDateShouldBeAfterStartDate(
           () => filters.value.fromDate,
-          'To date should be after from date',
+          translate('general.to_date_should_be_after_from_date'),
           {allowSameDate: true},
         ),
       ],

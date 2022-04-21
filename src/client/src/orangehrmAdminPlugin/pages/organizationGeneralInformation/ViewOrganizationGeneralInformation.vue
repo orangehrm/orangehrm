@@ -121,7 +121,7 @@
             <oxd-grid-item>
               <oxd-input-field
                 v-model="organization.street2"
-                :label="$t('general.city')"
+                :label="$t('general.address_street_2')"
                 :rules="rules.street2"
                 :disabled="!editable"
               />

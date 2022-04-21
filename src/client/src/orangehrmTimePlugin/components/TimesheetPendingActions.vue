@@ -114,7 +114,7 @@ export default {
         },
         {
           name: 'period',
-          title: this.$t('general.timesheet_period'),
+          title: this.$t('time.timesheet_period'),
           style: {flex: '40%'},
         },
         {

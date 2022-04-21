@@ -193,16 +193,32 @@ export default {
   data() {
     return {
       headers: [
-        {name: 'date', title: 'Date', style: {flex: 1}},
-        {name: 'leaveType', title: 'Leave Type', style: {flex: 1}},
-        {name: 'leaveBalance', title: 'Leave Balance (Days)', style: {flex: 1}},
-        {name: 'duration', title: 'Duration (Hours)', style: {flex: 1}},
-        {name: 'status', title: 'Status', style: {flex: 1}},
-        {name: 'comment', title: 'Comments', style: {flex: '10%'}},
+        {name: 'date', title: this.$t('general.date'), style: {flex: 1}},
+        {
+          name: 'leaveType',
+          title: this.$t('leave.leave_type'),
+          style: {flex: 1},
+        },
+        {
+          name: 'leaveBalance',
+          title: this.$t('leave.leave_balance_days'),
+          style: {flex: 1},
+        },
+        {
+          name: 'duration',
+          title: this.$t('leave.duration_hours'),
+          style: {flex: 1},
+        },
+        {name: 'status', title: this.$t('general.status'), style: {flex: 1}},
+        {
+          name: 'comment',
+          title: this.$t('general.comments'),
+          style: {flex: '10%'},
+        },
         {
           name: 'action',
           slot: 'footer',
-          title: 'Actions',
+          title: this.$t('general.actions'),
           cellType: 'oxd-table-cell-actions',
           cellRenderer: this.cellRenderer,
           style: {flex: '20%'},

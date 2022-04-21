@@ -56,6 +56,7 @@ export interface ToasterAPI {
   deleteSuccess: () => Promise<string>;
   cannotDelete: () => Promise<string>;
   noRecordsFound: () => Promise<string>;
+  unexpectedError: (errorMessage: string | null) => Promise<string>;
 }
 
 const state: ToasterState = reactive({
@@ -231,6 +232,12 @@ export default {
         message: translate('general.no_records_found'),
       });
 
+    const unexpectedError = (errorMessage: string | null) =>
+      error({
+        title: translate('general.error'),
+        message: errorMessage ?? translate('general.unexpected_error'),
+      });
+
     state.class = options.class ? options.class : 'oxd-toast-container--toast';
     state.transition = options.animation ? options.animation : 'oxd-toast-list';
     state.position = options.position ? options.position : 'bottom';
@@ -254,6 +261,7 @@ export default {
       deleteSuccess,
       cannotDelete,
       noRecordsFound,
+      unexpectedError,
     };
     app.config.globalProperties.$toast = toasterAPI;
   },

@@ -31,7 +31,7 @@
           </oxd-text>
           <oxd-divider />
           <card-note
-            :note-text="$t('general.set_new_password')"
+            :note-text="$t('auth.set_new_password')"
             class="orangehrm-forgot-password-card-note"
           />
           <input name="_token" :value="token" type="hidden" />
