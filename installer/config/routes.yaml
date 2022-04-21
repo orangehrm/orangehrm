@@ -65,7 +65,7 @@ api_upgrader_versions:
 api_upgrader_current_version:
   path: /upgrader/api/current-version
   controller: OrangeHRM\Installer\Controller\Upgrader\Api\CurrentVersionAPI::handle
-  methods: [ GET ]
+  methods: [ GET, POST ]
 
 api_system_check:
   path: /upgrader/api/system-check

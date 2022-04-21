@@ -124,6 +124,9 @@ export default {
       window.appGlobal.baseUrl,
       '/api/v2/leave/leave-entitlements',
     );
+    http.setIgnorePath(
+      'api/v2/leave/leave-entitlements/[0-9]+/validation/entitlements',
+    );
     return {
       http,
     };

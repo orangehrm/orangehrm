@@ -22,13 +22,9 @@ namespace OrangeHRM\Installer\Util\V1;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\DBAL\Schema\AbstractSchemaManager;
-use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 
 abstract class AbstractMigration
 {
-    // TODO:: remove
-    use EntityManagerHelperTrait;
-
     private ?SchemaHelper $schemaHelper = null;
     private ?DataGroupHelper $dataGroupHelper = null;
     private ?LanguageHelper $languageHelper = null;
@@ -46,9 +42,7 @@ abstract class AbstractMigration
      */
     protected function getConnection(): Connection
     {
-        // TODO
-        return $this->getEntityManager()->getConnection();
-        // return \OrangeHRM\Installer\Util\Connection::getConnection();
+        return \OrangeHRM\Installer\Util\Connection::getConnection();
     }
 
     /**

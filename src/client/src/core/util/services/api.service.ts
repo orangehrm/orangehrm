@@ -29,6 +29,7 @@ export class APIService {
   private _http: AxiosInstance;
   private _baseUrl: string;
   private _apiSection: string;
+  private _ignoreInvalidParamRegex: RegExp | undefined;
 
   constructor(baseUrl: string, path: string) {
     this._baseUrl = baseUrl;
@@ -37,6 +38,10 @@ export class APIService {
       baseURL: this._baseUrl,
     });
     this.setupResponseInterceptors(getCurrentInstance());
+  }
+
+  setIgnorePath(ignorePath: string) {
+    this._ignoreInvalidParamRegex = new RegExp(ignorePath);
   }
 
   getAll(params?: object): Promise<AxiosResponse> {
@@ -99,6 +104,15 @@ export class APIService {
     });
   }
 
+  // Function to prevent Invalid Parameter toast messages from showing
+  ignoreInvalidParamError(error: AxiosError): boolean {
+    if (this._ignoreInvalidParamRegex && error.response?.status === 422) {
+      const url: string = error.response.config.url ?? '';
+      return this._ignoreInvalidParamRegex.test(url);
+    }
+    return false;
+  }
+
   /**
    * ComponentInternalInstance is given to access $toast api.
    * will fail silently if $toast is not installed/NA
@@ -111,6 +125,10 @@ export class APIService {
       (error: AxiosError): Promise<AxiosError> => {
         if (error.response?.status === 401) {
           reloadPage();
+          return Promise.reject();
+        }
+
+        if (this.ignoreInvalidParamError(error)) {
           return Promise.reject();
         }
 

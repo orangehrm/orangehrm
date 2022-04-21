@@ -18,8 +18,8 @@
   height: inherit;
   display: grid;
   grid-template:
-    "sidebar header"
-    "sidebar content" / minmax(25%, 240px) auto;
+    'sidebar header'
+    'sidebar content' / minmax(25%, 240px) auto;
   grid-template-rows: 120px 1fr;
   &-header {
     grid-area: header;
@@ -33,17 +33,12 @@
     padding: 0 2rem;
     box-sizing: border-box;
     background: linear-gradient(180deg, #fa9e2e 0%, #e55422 90%);
-    // background: linear-gradient(
-    //   180deg,
-    //   $oxd-primary-gradient-start-color 0%,
-    //   $oxd-primary-gradient-end-color 90%
-    // );
   }
   &-content {
     grid-area: content;
     box-sizing: border-box;
     padding-left: 2rem;
-    padding-right: 4rem;
+    padding-right: 2rem;
   }
   &-footer {
     bottom: 0;
@@ -54,5 +49,9 @@
     font-weight: 600;
     color: $oxd-white-color;
     text-decoration: none;
+    &-icon {
+      color: inherit;
+      vertical-align: middle;
+    }
   }
 }

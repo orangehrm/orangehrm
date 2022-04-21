@@ -33,14 +33,14 @@ use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
 
-class ValidationEmployeeEmailAPI extends Endpoint implements ResourceEndpoint
+class ValidationEmployeeOtherEmailAPI extends Endpoint implements ResourceEndpoint
 {
     use EmployeeServiceTrait;
 
-    public const PARAMETER_WORK_EMAIL = 'workEmail';
-    public const PARAMETER_IS_CHANGEABLE_WORK_EMAIL = 'valid';
+    public const PARAMETER_OTHER_EMAIL = 'otherEmail';
+    public const PARAMETER_IS_CHANGEABLE_OTHER_EMAIL = 'valid';
 
-    public const PARAM_RULE_WORK_EMAIL_MAX_LENGTH = 50;
+    public const PARAM_RULE_OTHER_EMAIL_MAX_LENGTH = 50;
 
     /**
      * @inheritDoc
@@ -53,7 +53,7 @@ class ValidationEmployeeEmailAPI extends Endpoint implements ResourceEndpoint
         );
         $workEmail = $this->getRequestParams()->getString(
             RequestParams::PARAM_TYPE_QUERY,
-            self::PARAMETER_WORK_EMAIL
+            self::PARAMETER_OTHER_EMAIL
         );
         $employee = $this->getEmployeeService()->getEmployeeDao()->getEmployeeByEmpNumber($empNumber);
         $this->throwRecordNotFoundExceptionIfNotExist($employee, Employee::class);
@@ -61,12 +61,12 @@ class ValidationEmployeeEmailAPI extends Endpoint implements ResourceEndpoint
             ->getEmployeeDao()
             ->isEmailAvailable(
                 $workEmail,
-                $employee->getWorkEmail()
+                $employee->getOtherEmail()
             );
         return new EndpointResourceResult(
             ArrayModel::class,
             [
-                self::PARAMETER_IS_CHANGEABLE_WORK_EMAIL => $isChangeableWorkEmail,
+                self::PARAMETER_IS_CHANGEABLE_OTHER_EMAIL => $isChangeableWorkEmail,
             ]
         );
     }
@@ -78,9 +78,9 @@ class ValidationEmployeeEmailAPI extends Endpoint implements ResourceEndpoint
     {
         return new ParamRuleCollection(
             new ParamRule(
-                self::PARAMETER_WORK_EMAIL,
+                self::PARAMETER_OTHER_EMAIL,
                 new Rule(Rules::STRING_TYPE),
-                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_WORK_EMAIL_MAX_LENGTH]),
+                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_OTHER_EMAIL_MAX_LENGTH]),
             ),
             new ParamRule(CommonParams::PARAMETER_EMP_NUMBER),
         );

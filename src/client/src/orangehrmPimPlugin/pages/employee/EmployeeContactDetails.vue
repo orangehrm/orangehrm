@@ -186,7 +186,9 @@ export default {
       window.appGlobal.baseUrl,
       `api/v2/pim/employee/${props.empNumber}/contact-details`,
     );
-
+    http.setIgnorePath(
+      'api/v2/pim/employees/[0-9]+/contact-details/validation/(work-emails|other-emails)',
+    );
     return {
       http,
     };
@@ -210,7 +212,11 @@ export default {
           validEmailFormat,
           promiseDebounce(this.validateWorkEmail, 500),
         ],
-        otherEmail: [shouldNotExceedCharLength(50), validEmailFormat],
+        otherEmail: [
+          shouldNotExceedCharLength(50),
+          validEmailFormat,
+          promiseDebounce(this.validateOtherEmail, 500),
+        ],
       },
     };
   },
@@ -256,6 +262,29 @@ export default {
               url: `api/v2/pim/employees/${this.empNumber}/contact-details/validation/work-emails`,
               params: {
                 workEmail: this.contact.workEmail,
+              },
+            })
+            .then(response => {
+              const {data} = response.data;
+              return data.valid === true
+                ? resolve(true)
+                : resolve(this.$t('general.already_exists'));
+            });
+        } else {
+          resolve(true);
+        }
+      });
+    },
+
+    validateOtherEmail(contact) {
+      return new Promise(resolve => {
+        if (contact) {
+          this.http
+            .request({
+              method: 'GET',
+              url: `api/v2/pim/employees/${this.empNumber}/contact-details/validation/other-emails`,
+              params: {
+                otherEmail: this.contact.otherEmail,
               },
             })
             .then(response => {

@@ -32,6 +32,14 @@ class CurrentVersionAPI extends AbstractInstallerRestController
      */
     protected function handleGet(Request $request): array
     {
+        $currentVersion = StateContainer::getInstance()->getCurrentVersion();
+        if (!is_null($currentVersion)) {
+            return [
+                'version' => $currentVersion,
+                'fromDatabase' => false,
+            ];
+        }
+
         if (!StateContainer::getInstance()->isSetDbInfo()) {
             $this->getResponse()->setStatusCode(Response::HTTP_CONFLICT);
             return
@@ -46,6 +54,19 @@ class CurrentVersionAPI extends AbstractInstallerRestController
         $appSetupUtility = new AppSetupUtility();
         return [
             'version' => $appSetupUtility->getCurrentProductVersionFromDatabase(),
+            'fromDatabase' => true,
+        ];
+    }
+
+    /**
+     * @inheritDoc
+     */
+    protected function handlePost(Request $request): array
+    {
+        $currentVersion = $request->request->get('currentVersion');
+        StateContainer::getInstance()->setCurrentVersion($currentVersion);
+        return [
+            'version' => $currentVersion,
         ];
     }
 }

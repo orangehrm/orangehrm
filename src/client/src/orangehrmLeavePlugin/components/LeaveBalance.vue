@@ -81,6 +81,7 @@ export default {
       window.appGlobal.baseUrl,
       'api/v2/leave/leave-balance/leave-type',
     );
+    http.setIgnorePath('api/v2/leave/leave-balance/leave-type');
     const {validateLeaveBalance} = useLeaveValidators(http);
 
     const leaveBalance = computed(() => {

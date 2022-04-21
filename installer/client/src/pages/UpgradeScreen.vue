@@ -18,112 +18,122 @@
  */
  -->
 <template>
-  <div class="orangehrm-upgrade-process orangehrm-upgrader-container">
-    <oxd-text
-      tag="h5"
-      class="orangehrm-upgrade-process-title orangehrm-upgrader-container-content"
-    >
+  <div class="orangehrm-installer-page">
+    <oxd-text tag="h5" class="orangehrm-installer-page-title">
       Upgrading OrangeHRM
     </oxd-text>
-    <oxd-text
-      class="orangehrm-upgrade-process-content orangehrm-upgrader-container-content"
-    >
-      This may take some time. Please do not close the window of the progress
-      become 100%
+    <br />
+    <oxd-text tag="p" class="orangehrm-installer-page-content">
+      This may take some time. Please do not close the window till progress
+      becomes 100%
     </oxd-text>
+    <br />
+    <installer-tasks :tasks="tasks"></installer-tasks>
+    <br />
+    <oxd-text
+      tag="h5"
+      :class="{
+        'orangehrm-installer-page-content': true,
+        '--progress': true,
+        '--error': taskFailed,
+      }"
+    >
+      {{ progressText }}
+    </oxd-text>
+    <br />
+    <oxd-progress
+      :progress="progress"
+      :type="progressType"
+      :show-label="false"
+    />
+    <br />
 
-    <div class="orangehrm-upgrade-process-list">
-      <oxd-form-row>
-        <oxd-grid :cols="3" class="orangehrm-full-width-grid">
-          <oxd-grid-item class="orangehrm-upgrade-process-item">
-            <oxd-text :class="getDatabaseClass" tag="h6">
-              Applying Database Changes
-            </oxd-text>
-            <oxd-icon
-              v-if="isDatabaseChanges"
-              name="check-circle-fill"
-            ></oxd-icon>
-            <oxd-icon v-else name="circle"></oxd-icon>
-          </oxd-grid-item>
-        </oxd-grid>
-        <oxd-grid :cols="3" class="orangehrm-full-width-grid">
-          <oxd-grid-item class="orangehrm-upgrade-process-item">
-            <oxd-text tag="h6" :class="getConfigClass">
-              Creating Configuration files
-            </oxd-text>
-            <oxd-icon v-if="isFileCreated" name="check-circle-fill"></oxd-icon>
-            <oxd-icon v-else name="circle"></oxd-icon>
-          </oxd-grid-item>
-        </oxd-grid>
-      </oxd-form-row>
-    </div>
-    <div class="orangehrm-upgrade-process-progress">
-      <oxd-progress :progress="progress" type="success" />
-      <oxd-text class="orangehrm-upgrade-process-text">
-        Please Wait installation in Progress
-      </oxd-text>
-    </div>
+    <oxd-form-actions
+      v-if="progress === 100"
+      class="orangehrm-installer-page-action"
+    >
+      <oxd-button display-type="secondary" label="Next" @click="onClickNext" />
+    </oxd-form-actions>
+
+    <oxd-text v-else tag="p" class="orangehrm-installer-page-content--center">
+      {{ progressNotice }}
+    </oxd-text>
   </div>
 </template>
 
 <script>
-import Icon from '@ohrm/oxd/core/components/Icon/Icon.vue';
+import {onBeforeMount, ref} from 'vue';
 import {APIService} from '@/core/util/services/api.service';
+import InstallerTasks from '@/components/InstallerTasks.vue';
 import ProgressBar from '@ohrm/oxd/core/components/Progressbar/Progressbar.vue';
+import useBeforeUnload from '@/core/util/composable/useBeforeUnload';
+import useMigrations from '@/core/util/composable/useMigrations';
+import {navigate} from '@/core/util/helper/navigation.ts';
+import useProgress from '@/core/util/composable/useProgress';
+
 export default {
   name: 'UpgradeScreen',
   components: {
-    'oxd-icon': Icon,
     'oxd-progress': ProgressBar,
+    'installer-tasks': InstallerTasks,
   },
   setup() {
-    const http = new APIService(
-      'https://884b404a-f4d0-4908-9eb5-ef0c8afec15c.mock.pstmn.io',
-      'upgrader/upgrade',
-    );
+    const {progress, start, stop, end} = useProgress();
+    const tasks = ref([
+      {name: 'Applying database changes', state: 1},
+      {name: 'Creating configuration files', state: 0},
+    ]);
+    useBeforeUnload(progress);
+
+    const http = new APIService(window.appGlobal.baseUrl, '');
+    const {runAllMigrations} = useMigrations(http);
+
+    onBeforeMount(() => {
+      start();
+      runAllMigrations()
+        .then(() => {
+          tasks.value[0].state = 2;
+          tasks.value[1].state = 1;
+          return http.request({
+            method: 'POST',
+            url: 'upgrader/api/config-file',
+          });
+        })
+        .then(() => {
+          tasks.value[1].state = 2;
+          end();
+        })
+        .catch(() => {
+          const currentTask = tasks.value.findIndex((task) => task.state === 1);
+          tasks.value[currentTask].state = 3;
+          stop();
+        });
+    });
+
     return {
-      http,
-    };
-  },
-  data() {
-    return {
-      progress: 0,
-      isDatabaseChanges: false,
-      isFileCreated: false,
+      tasks,
+      progress,
     };
   },
   computed: {
-    getDatabaseClass() {
-      if (this.isDatabaseChanges) {
-        return 'orangehrm-upgrade-process-text--bold';
-      }
-      return 'orangehrm-upgrade-process-text--normal';
+    progressText() {
+      return `${Math.floor(this.progress)}%`;
     },
-    getConfigClass() {
-      if (this.isFileCreated) {
-        return 'orangehrm-upgrade-process-text--bold';
-      }
-      return 'orangehrm-upgrade-process-text--normal';
+    taskFailed() {
+      return this.tasks.findIndex((task) => task.state === 3) > -1;
     },
-  },
-  beforeMount() {
-    this.getDatabaseChanges();
+    progressNotice() {
+      return !this.taskFailed
+        ? 'Please Wait. Upgrading in Progress'
+        : 'One or more tasks has failed, Please restore database and try again.';
+    },
+    progressType() {
+      return !this.taskFailed ? 'secondary' : 'error';
+    },
   },
   methods: {
-    getConfigFiles() {
-      this.isFileCreated = false;
-      this.http.get(1).then(() => {
-        this.progress = 100;
-        this.isFileCreated = true;
-      });
-    },
-    getDatabaseChanges() {
-      this.isDatabaseChanges = false;
-      this.http.get(1).then(() => {
-        this.progress = 49;
-        this.isDatabaseChanges = true;
-        this.getConfigFiles();
-      });
+    onClickNext() {
+      navigate('/upgrader/complete');
     },
   },
 };
@@ -131,44 +141,17 @@ export default {
 
 <style src="./installer-page.scss" lang="scss" scoped></style>
 <style scoped lang="scss">
-.orangehrm-upgrade-process {
-  &-list {
-    padding-top: 4rem;
+.orangehrm-installer-page-content {
+  &--center {
+    text-align: center;
   }
-  &-progress {
-    width: 70%;
+  &.--progress {
+    text-align: center;
+    font-weight: 700;
+    color: $oxd-secondary-four-color;
   }
-  &-text {
-    display: flex;
-    justify-content: center;
-    padding-top: 0.75rem;
-    &--bold {
-      font-weight: 700;
-    }
-    &--normal {
-      font-weight: 500;
-    }
-  }
-  &-progress {
-    padding-top: 10rem;
-    padding-left: 0.5rem;
-  }
-  &-title {
-    padding-top: 0;
-    color: $oxd-primary-one-color;
-  }
-  &-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  ::v-deep(.oxd-grid-3) {
-    width: 100%;
-    margin: 0 !important;
-  }
-  ::v-deep(.oxd-icon) {
-    color: $oxd-feedback-success-color;
-    font-size: 18px;
+  &.--error {
+    color: $oxd-feedback-danger-color;
   }
 }
 </style>

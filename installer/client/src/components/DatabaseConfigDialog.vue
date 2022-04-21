@@ -1,10 +1,14 @@
 <template>
-  <oxd-dialog>
+  <oxd-dialog
+    class="orangehrm-consent-dialog"
+    :style="{width: '90%', maxWidth: '600px'}"
+    @update:show="cancelInstallation"
+  >
     <oxd-form class="orangehrm-database-config-dialog" @submit="submitInfo">
       <oxd-text tag="h6" class="orangehrm-database-config-dialog-title">
         Warning
       </oxd-text>
-      <oxd-divider class="orangehrm-database-config-dialog-divider" />
+      <oxd-divider class="orangehrm-divider" />
       <oxd-text
         tag="p"
         class="orangehrm-database-config-dialog-content orangehrm-database-config--title"
@@ -19,23 +23,22 @@
         class="orangehrm-database-config-dialog-table"
       ></oxd-classic-table>
       <oxd-check-box
-        v-model="selected"
+        v-model="checked"
         option-label="I want to continue upgrading the OrangeHRM system to version 5.0 and I am aware that by doing so, any data gathered in incompatible modules/add-ons will be inaccessible."
       ></oxd-check-box>
-      <oxd-divider class="orangehrm-database-config-dialog-divider" />
+      <oxd-divider class="orangehrm-divider" />
       <oxd-form-actions class="orangehrm-database-config-dialog-action">
         <oxd-button
-          class="orangehrm-database-config-dialog-button"
           display-type="ghost"
           label="Cancel"
           type="button"
           @click="cancelInstallation"
         />
         <oxd-button
-          class="orangehrm-database-config-dialog-button"
+          class="orangehrm-left-space"
           display-type="secondary"
           label="Continue"
-          :disabled="!selected"
+          :disabled="!checked"
           type="submit"
         />
       </oxd-form-actions>
@@ -52,13 +55,13 @@ export default {
   name: 'DatabaseConfigDialog',
   components: {
     'oxd-dialog': DialogWithClose,
-    'oxd-classic-table': ClassicTableStory,
     'oxd-check-box': CheckBoxInput,
+    'oxd-classic-table': ClassicTableStory,
   },
   emits: ['closeModel'],
   data() {
     return {
-      selected: false,
+      checked: false,
       headers: [
         {title: 'Modules', name: 'module'},
         {title: 'Add-ons', name: 'addon'},
@@ -78,11 +81,11 @@ export default {
         {
           module: '-Buzz',
           addon: '-Claim',
-          other: 'Custom Language Packages',
+          other: '-Custom Language Packages',
         },
         {
           module: '-Directory',
-          addon: '-toggl',
+          addon: '-Toggl',
           other: '-Encrypted Data',
         },
       ],
@@ -90,7 +93,7 @@ export default {
   },
   methods: {
     submitInfo() {
-      this.$emit('closeModel', this.selected);
+      this.$emit('closeModel', this.checked);
     },
     cancelInstallation() {
       this.$emit('closeModel', false);
@@ -100,17 +103,26 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import '@ohrm/oxd/styles/_mixins.scss';
-::v-deep(.oxd-dialog-container-default) {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-::v-deep(.oxd-dialog-sheet) {
-  @include oxd-respond-to('md') {
-    width: 55%;
+::v-deep(.oxd-table) {
+  th,
+  td {
+    padding: 0.1rem 0;
   }
-  max-width: 80%;
+  tr,
+  tr:hover {
+    border: unset;
+    cursor: unset;
+    color: unset;
+    background-color: unset;
+  }
+}
+::v-deep(.oxd-checkbox-wrapper) {
+  span {
+    flex-shrink: 0;
+  }
+  label {
+    font-weight: bold;
+  }
 }
 .orangehrm-database-config-dialog {
   font-size: $oxd-input-control-font-size;
@@ -122,36 +134,6 @@ export default {
   }
   &-table {
     margin-bottom: 2em;
-  }
-  ::v-deep(.oxd-padding-cell) {
-    padding: 0.1rem 0;
-  }
-  ::v-deep(.oxd-table-row) {
-    border-top: 0px;
-  }
-  ::v-deep(.oxd-table-row:hover) {
-    background-color: transparent;
-    cursor: inherit;
-    opacity: 0.8;
-  }
-  ::v-deep(.oxd-table-header .oxd-table-row:hover) {
-    opacity: inherit;
-  }
-  ::v-deep(.oxd-checkbox-wrapper label) {
-    font-weight: bold;
-  }
-  ::v-deep(.oxd-checkbox-input) {
-    @include oxd-respond-to('md') {
-      width: 2rem;
-    }
-    width: 1.5rem;
-  }
-  &-divider {
-    border-top-color: $oxd-interface-gray-darken-1-color;
-    margin: 1rem 0;
-  }
-  &-button {
-    margin-left: 0.5rem;
   }
 }
 </style>

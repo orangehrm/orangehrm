@@ -32,6 +32,9 @@ class StateContainer
     public const DB_HOST = 'dbHost';
     public const DB_PASSWORD = 'dbPass';
     public const IS_SET_DB_INFO = 'isSetDbInfo';
+
+    public const CURRENT_VERSION = 'currentVersion';
+
     public const CURRENT_SCREEN = 'currentScreen';
     public const IS_UPGRADER = 'isUpgrader';
 
@@ -192,5 +195,21 @@ class StateContainer
     public function isUpgrader(): ?bool
     {
         return $this->getSession()->get(self::IS_UPGRADER);
+    }
+
+    /**
+     * @param string $currentVersion
+     */
+    public function setCurrentVersion(string $currentVersion): void
+    {
+        $this->getSession()->set(self::CURRENT_VERSION, $currentVersion);
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getCurrentVersion(): ?string
+    {
+        return $this->getSession()->get(self::CURRENT_VERSION);
     }
 }

@@ -25,14 +25,19 @@
         :current-step="currentStep"
       ></installer-steps>
       <div class="orangehrm-installer-footer">
-        <oxd-text
+        <a
           v-show="currentStep === 0"
-          tag="a"
-          href="#"
+          href="../guide"
+          target="_blank"
           class="orangehrm-installer-guide"
         >
+          <oxd-icon
+            type="svg"
+            name="guide"
+            class="orangehrm-installer-guide-icon"
+          />
           Installation Guide
-        </oxd-text>
+        </a>
         <br />
         <slot name="footer"></slot>
       </div>
@@ -48,11 +53,13 @@
 
 <script>
 import InstallerSteps from '@/components/InstallerSteps.vue';
+import Icon from '@ohrm/oxd/core/components/Icon/Icon.vue';
 
 export default {
   name: 'InstallerLayout',
   components: {
     'installer-steps': InstallerSteps,
+    'oxd-icon': Icon,
   },
   props: {
     steps: {
