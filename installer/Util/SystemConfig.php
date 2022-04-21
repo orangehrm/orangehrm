@@ -759,7 +759,7 @@ class SystemConfig
             ],
             'server' => $this->getWebServerDetails(),
             'ohrm' => [
-                'version' => '5.0-beta'
+                'version' => Config::PRODUCT_VERSION
             ]
         ];
     }
