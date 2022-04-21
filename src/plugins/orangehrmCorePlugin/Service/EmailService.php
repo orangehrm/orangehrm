@@ -39,7 +39,6 @@ use OrangeHRM\Core\Utility\MailTransport;
 use OrangeHRM\Entity\EmailConfiguration;
 use OrangeHRM\Entity\EmailTemplate;
 use OrangeHRM\Framework\Event\Event;
-use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 
 class EmailService
 {
@@ -249,9 +248,9 @@ class EmailService
         $this->setSendmailPath($this->getConfigService()->getSendmailPath());
 
         if ($emailConfig instanceof EmailConfiguration && in_array(
-            $this->getEmailConfig()->getMailType(),
-            [MailTransport::SCHEME_SENDMAIL, MailTransport::SCHEME_SMTP, MailTransport::SCHEME_SECURE_SMTP]
-        )) {
+                $this->getEmailConfig()->getMailType(),
+                [MailTransport::SCHEME_SENDMAIL, MailTransport::SCHEME_SMTP, MailTransport::SCHEME_SECURE_SMTP]
+            )) {
             $this->setConfigSet(true);
         }
     }
@@ -427,9 +426,6 @@ class EmailService
 
                 $this->logResult('Failure', $logMessage);
 
-                return false;
-            } catch (TransportExceptionInterface $e) {
-                $this->getLogger()->error('Invalid Email verification');
                 return false;
             }
         } else {
