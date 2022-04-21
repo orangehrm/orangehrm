@@ -21,19 +21,13 @@ namespace OrangeHRM\Installer\Util\Services;
 
 use Exception;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Installer\Util\Logger;
-use OrangeHRM\Installer\Util\SystemConfig;
 
 class DataRegistrationService
 {
     private ?Client $apiClient = null;
-    private ?SystemConfig $systemConfig = null;
-
-    public function __construct()
-    {
-        $this->systemConfig = new SystemConfig();
-    }
 
     /**
      * @return Client
@@ -47,47 +41,13 @@ class DataRegistrationService
     }
 
     /**
-     * @param string $userName
-     * @param string $email
-     * @param string $telephone
-     * @param string $adminFirstName
-     * @param string $adminLastName
-     * @param string $timezone
-     * @param string $language
-     * @param string $country
-     * @param string $organizationName
-     * @param string $type
-     * @param string $instanceIdentifier
+     * @param array $body
      * @return bool
+     * @throws GuzzleException
      */
-    public function sendInitialRegistrationData(
-        string $userName,
-        string $email,
-        string $telephone,
-        string $adminFirstName,
-        string $adminLastName,
-        string $timezone,
-        string $language,
-        string $country,
-        string $organizationName,
-        string $type,
-        string $instanceIdentifier
-    ): bool {
+    public function sendInitialRegistrationData(array $body): bool
+    {
         $headers = ['Accept' => 'application/json'];
-        $body = [
-            'username' => $userName,
-            'email' => $email,
-            'telephone' => $telephone,
-            'admin_first_name' => $adminFirstName,
-            'admin_last_name' => $adminLastName,
-            'timezone' => $timezone,
-            'language' => $language,
-            'country' => $country,
-            'organization_name' => $organizationName,
-            'type' => $type,
-            'instance_identifier' => $instanceIdentifier,
-            'system_details' => json_encode($this->systemConfig->getSystemDetails())
-        ];
 
         try {
             $this->getHttpClient()->post(

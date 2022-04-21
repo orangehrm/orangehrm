@@ -22,8 +22,8 @@ namespace OrangeHRM\Installer\Util;
 use DateTime;
 use Exception;
 use OrangeHRM\Config\Config;
-use OrangeHRM\Installer\Util\Services\DataRegistrationService;
-use OrangeHRM\Installer\Util\SystemConfigs\SystemConfigurations;
+use OrangeHRM\Installer\Util\Service\DataRegistrationService;
+use OrangeHRM\Installer\Util\SystemConfig\SystemConfiguration;
 
 class DataRegistrationUtility
 {
@@ -35,13 +35,16 @@ class DataRegistrationUtility
 
     public const IS_INITIAL_REG_DATA_SENT = 'isInitialRegDataSent';
 
-    private SystemConfigurations $systemConfigurations;
+    private SystemConfiguration $systemConfiguration;
     private DataRegistrationService $dataRegistrationService;
+    private SystemConfig $systemConfig;
+    private array $initialRegistrationDataBody = [];
 
     public function __construct()
     {
-        $this->systemConfigurations = new SystemConfigurations();
+        $this->systemConfiguration = new SystemConfiguration();
         $this->dataRegistrationService = new DataRegistrationService();
+        $this->systemConfig = new SystemConfig();
     }
 
     /**
@@ -49,20 +52,19 @@ class DataRegistrationUtility
      * @throws \Doctrine\DBAL\Exception
      * @throws Exception
      */
-    public function getInitialRegistrationData(): array
+    private function getInitialRegistrationData(): array
     {
-        $organizationName = $this->systemConfigurations->getOrganizationName();
-        $country = $this->systemConfigurations->getCountry();
-        $language = $this->systemConfigurations->getLanguage();
-        $adminFirstName = $this->systemConfigurations->getAdminFirstName();
-        $adminLastName = $this->systemConfigurations->getAdminLastName();
-        $adminEmail = $this->systemConfigurations->getAdminEmail();
-        $adminContactNumber = $this->systemConfigurations->getAdminContactNumber();
-        $adminUserName = $this->systemConfigurations->getAdminUserName();
+        $organizationName = $this->systemConfiguration->getOrganizationName();
+        $country = $this->systemConfiguration->getCountry();
+        $language = $this->systemConfiguration->getLanguage();
+        $adminFirstName = $this->systemConfiguration->getAdminFirstName();
+        $adminLastName = $this->systemConfiguration->getAdminLastName();
+        $adminEmail = $this->systemConfiguration->getAdminEmail();
+        $adminContactNumber = $this->systemConfiguration->getAdminContactNumber();
+        $adminUserName = $this->systemConfiguration->getAdminUserName();
         $dateTime = new DateTime();
         $currentTimestamp = $dateTime->getTimestamp();
 
-        $this->systemConfigurations->updateInitialRegistrationEventQueue(4, 1);
         $instanceIdentifier = $this->setInstanceIdentifier(
             $adminFirstName,
             $adminLastName,
@@ -93,6 +95,48 @@ class DataRegistrationUtility
     }
 
     /**
+     * @param string $type
+     * @throws \Doctrine\DBAL\Exception
+     */
+    public function setInitialRegistrationDataBody(string $type): void
+    {
+        list(
+            $organizationName,
+            $country,
+            $language,
+            $adminFirstName,
+            $adminLastName,
+            $adminEmail,
+            $adminContactNumber,
+            $adminUserName,
+            $instanceIdentifier
+            ) = $this->getInitialRegistrationData();
+
+        $this->initialRegistrationDataBody = [
+            'username' => $adminUserName,
+            'email' => $adminEmail,
+            'telephone' => $adminContactNumber,
+            'admin_first_name' => $adminFirstName,
+            'admin_last_name' => $adminLastName,
+            'timezone' => SystemConfiguration::NOT_CAPTURED,
+            'language' => $language,
+            'country' => $country,
+            'organization_name' => $organizationName,
+            'type' => $type,
+            'instance_identifier' => $instanceIdentifier,
+            'system_details' => json_encode($this->systemConfig->getSystemDetails())
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function getInitialRegistrationDataBody(): array
+    {
+        return $this->initialRegistrationDataBody;
+    }
+
+    /**
      * @param string $adminFirstName
      * @param string $adminLastName
      * @param string $organizationName
@@ -110,8 +154,8 @@ class DataRegistrationUtility
         string $country,
         int $currentTimestamp
     ): string {
-        if (is_null($this->systemConfigurations->getInstanceIdentifier())) {
-            $this->systemConfigurations->setInstanceIdentifier(
+        if (is_null($this->systemConfiguration->getInstanceIdentifier())) {
+            $this->systemConfiguration->setInstanceIdentifier(
                 $organizationName,
                 $organizationEmail,
                 $adminFirstName,
@@ -122,7 +166,7 @@ class DataRegistrationUtility
                 $currentTimestamp
             );
         }
-        return $this->systemConfigurations->getInstanceIdentifier();
+        return $this->systemConfiguration->getInstanceIdentifier();
     }
 
     /**
@@ -143,8 +187,8 @@ class DataRegistrationUtility
         string $country,
         int $currentTimestamp
     ): string {
-        if (is_null($this->systemConfigurations->getInstanceIdentifierChecksum())) {
-            $this->systemConfigurations->setInstanceIdentifierChecksum(
+        if (is_null($this->systemConfiguration->getInstanceIdentifierChecksum())) {
+            $this->systemConfiguration->setInstanceIdentifierChecksum(
                 $organizationName,
                 $organizationEmail,
                 $adminFirstName,
@@ -155,45 +199,24 @@ class DataRegistrationUtility
                 $currentTimestamp
             );
         }
-        return $this->systemConfigurations->getInstanceIdentifierChecksum();
+        return $this->systemConfiguration->getInstanceIdentifierChecksum();
     }
 
-    public function sendRegistrationDataOnFailure()
+    public function sendRegistrationDataOnFailure(string $type)
     {
-        $this->systemConfigurations->setInitialRegistrationEventQueue(
-            self::REGISTRATION_TYPE_UPGRADER_STARTED,
+        $this->systemConfiguration->setInitialRegistrationEventQueue(
+            $type,
             self::NOT_PUBLISHED
         );
-        list(
-            $organizationName,
-            $country,
-            $language,
-            $adminFirstName,
-            $adminLastName,
-            $adminEmail,
-            $adminContactNumber,
-            $adminUserName,
-            $instanceIdentifier
-            ) = $this->getInitialRegistrationData();
-
-        $result = $this->dataRegistrationService->sendInitialRegistrationData(
-            $adminUserName,
-            $adminEmail,
-            $adminContactNumber,
-            $adminFirstName,
-            $adminLastName,
-            SystemConfigurations::NOT_CAPTURED,
-            $language,
-            $country,
-            $organizationName,
-            self::REGISTRATION_TYPE_UPGRADER_STARTED,
-            $instanceIdentifier
-        );
+        $this->setInitialRegistrationDataBody($type);
+        $initialRegistrationDataBody = $this->getInitialRegistrationDataBody();
+        $result = $this->dataRegistrationService->sendInitialRegistrationData($initialRegistrationDataBody);
 
         if ($result) {
-            $this->systemConfigurations->updateInitialRegistrationEventQueue(
-                self::REGISTRATION_TYPE_UPGRADER_STARTED,
-                self::PUBLISHED
+            $this->systemConfiguration->updateInitialRegistrationEventQueue(
+                $type,
+                self::PUBLISHED,
+                json_encode($initialRegistrationDataBody)
             );
             StateContainer::getInstance()->removeAttribute(
                 DataRegistrationUtility::IS_INITIAL_REG_DATA_SENT

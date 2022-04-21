@@ -22,17 +22,17 @@ namespace OrangeHRM\Installer\Controller\Upgrader\Api;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Installer\Controller\AbstractInstallerRestController;
 use OrangeHRM\Installer\Util\DataRegistrationUtility;
-use OrangeHRM\Installer\Util\Services\DataRegistrationService;
-use OrangeHRM\Installer\Util\SystemConfigs\SystemConfigurations;
+use OrangeHRM\Installer\Util\Service\DataRegistrationService;
+use OrangeHRM\Installer\Util\SystemConfig\SystemConfiguration;
 
-class RegisterDataOnSuccessAPI extends AbstractInstallerRestController
+class SuccessDataRegistrationAPI extends AbstractInstallerRestController
 {
-    private SystemConfigurations $systemConfigurations;
+    private SystemConfiguration $systemConfiguration;
     private DataRegistrationService $dataRegistrationService;
 
     public function __construct()
     {
-        $this->systemConfigurations = new SystemConfigurations();
+        $this->systemConfiguration = new SystemConfiguration();
         $this->dataRegistrationService = new DataRegistrationService();
     }
 
@@ -42,7 +42,7 @@ class RegisterDataOnSuccessAPI extends AbstractInstallerRestController
     protected function handlePost(Request $request): array
     {
         $result = $this->dataRegistrationService->sendSuccessRegistrationData(
-            $this->systemConfigurations->getInstanceIdentifier(),
+            $this->systemConfiguration->getInstanceIdentifier(),
             DataRegistrationUtility::REGISTRATION_TYPE_UPGRADER_SUCCESS
         );
         $response = $this->getResponse();

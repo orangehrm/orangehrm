@@ -22,21 +22,21 @@ namespace OrangeHRM\Installer\Controller\Upgrader\Api;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Installer\Controller\AbstractInstallerRestController;
 use OrangeHRM\Installer\Util\DataRegistrationUtility;
-use OrangeHRM\Installer\Util\Services\DataRegistrationService;
+use OrangeHRM\Installer\Util\Service\DataRegistrationService;
 use OrangeHRM\Installer\Util\StateContainer;
-use OrangeHRM\Installer\Util\SystemConfigs\SystemConfigurations;
+use OrangeHRM\Installer\Util\SystemConfig\SystemConfiguration;
 
-class RegisterDataOnStartAPI extends AbstractInstallerRestController
+class InitialDataRegistrationAPI extends AbstractInstallerRestController
 {
     private DataRegistrationService $dataRegistrationService;
     private DataRegistrationUtility $dataRegistrationUtility;
-    private SystemConfigurations $systemConfiguration;
+    private SystemConfiguration $systemConfiguration;
 
     public function __construct()
     {
         $this->dataRegistrationService = new DataRegistrationService();
         $this->dataRegistrationUtility = new DataRegistrationUtility();
-        $this->systemConfiguration = new SystemConfigurations();
+        $this->systemConfiguration = new SystemConfiguration();
     }
 
     /**
@@ -44,31 +44,9 @@ class RegisterDataOnStartAPI extends AbstractInstallerRestController
      */
     protected function handlePost(Request $request): array
     {
-        list (
-            $organizationName,
-            $country,
-            $language,
-            $adminFirstName,
-            $adminLastName,
-            $adminEmail,
-            $adminContactNumber,
-            $adminUserName,
-            $instanceIdentifier
-            ) = $this->dataRegistrationUtility->getInitialRegistrationData();
-
-        $result = $this->dataRegistrationService->sendInitialRegistrationData(
-            $adminUserName,
-            $adminEmail,
-            $adminContactNumber,
-            $adminFirstName,
-            $adminLastName,
-            SystemConfigurations::NOT_CAPTURED,
-            $language,
-            $country,
-            $organizationName,
-            DataRegistrationUtility::REGISTRATION_TYPE_UPGRADER_STARTED,
-            $instanceIdentifier
-        );
+        $this->dataRegistrationUtility->setInitialRegistrationDataBody(DataRegistrationUtility::REGISTRATION_TYPE_UPGRADER_STARTED);
+        $initialRegistrationDataBody = $this->dataRegistrationUtility->getInitialRegistrationDataBody();
+        $result = $this->dataRegistrationService->sendInitialRegistrationData($initialRegistrationDataBody);
 
         if (!$result) {
             StateContainer::getInstance()->setAttribute(
@@ -78,7 +56,8 @@ class RegisterDataOnStartAPI extends AbstractInstallerRestController
         } else {
             $this->systemConfiguration->setInitialRegistrationEventQueue(
                 DataRegistrationUtility::REGISTRATION_TYPE_UPGRADER_STARTED,
-                DataRegistrationUtility::PUBLISHED
+                DataRegistrationUtility::PUBLISHED,
+                json_encode($initialRegistrationDataBody)
             );
         }
 
