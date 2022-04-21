@@ -7,7 +7,6 @@ GetOne:
       admin.user_service: \OrangeHRM\Admin\Service\UserService
       pim.employee_service: \OrangeHRM\Pim\Service\EmployeeService
       core.authorization.user_role_manager_helper: \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
-      i18n.i18n_service: \OrangeHRM\I18N\Service\I18NService
       i18n.i18n_helper: \OrangeHRM\I18N\Service\I18NHelper
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]

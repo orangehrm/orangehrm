@@ -60,7 +60,7 @@ langStrings:
     value: 'You can follow that link and select a new password.'
     unitId: follow_link_to_select_password
   -
-    value: 'If the email does not receive, please contact your OrangeHRM Administrator.'
+    value: 'If the email does not arrive, please contact your OrangeHRM Administrator.'
     unitId: email_not_receive_note
   -
     value: 'Forgot Your Password'
