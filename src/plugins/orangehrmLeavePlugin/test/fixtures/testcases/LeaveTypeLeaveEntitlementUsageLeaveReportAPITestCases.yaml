@@ -10,7 +10,6 @@ GetOne:
       i18n.i18n_helper: \OrangeHRM\I18N\Service\I18NHelper
     factories:
       core.authorization.user_role_manager: [ '\OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory', 'getNewUserRoleManager' ]
-      core.cache: [ '\OrangeHRM\Tests\Util\Mock\MockCacheService', 'getCache' ]
     query:
       name: 'leave_type_leave_entitlements_and_usage'
     data:
