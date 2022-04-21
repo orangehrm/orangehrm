@@ -40,8 +40,7 @@ class ValidateProjectNameAPI extends Endpoint implements ResourceEndpoint
     public const PARAMETER_PROJECT_NAME = 'projectName';
     public const PARAMETER_IS_CHANGEABLE = 'valid';
 
-    //TODO reduce to 50 once OXD issue fixed
-    public const PARAM_RULE_PROJECT_NAME_MAX_LENGTH = 60;
+    public const PARAM_RULE_PROJECT_NAME_MAX_LENGTH = 50;
 
     /**
      * @inheritDoc

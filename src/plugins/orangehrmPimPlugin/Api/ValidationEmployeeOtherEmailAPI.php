@@ -40,8 +40,7 @@ class ValidationEmployeeOtherEmailAPI extends Endpoint implements ResourceEndpoi
     public const PARAMETER_OTHER_EMAIL = 'otherEmail';
     public const PARAMETER_IS_CHANGEABLE_OTHER_EMAIL = 'valid';
 
-    //TODO reduce to 50 once OXD issue fixed
-    public const PARAM_RULE_OTHER_EMAIL_MAX_LENGTH = 60;
+    public const PARAM_RULE_OTHER_EMAIL_MAX_LENGTH = 50;
 
     /**
      * @inheritDoc
