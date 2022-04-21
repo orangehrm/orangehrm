@@ -186,7 +186,9 @@ export default {
       window.appGlobal.baseUrl,
       `api/v2/pim/employee/${props.empNumber}/contact-details`,
     );
-    http.setIgnorePath('/contact-details/validation/');
+    http.setIgnorePath(
+      'api/v2/pim/employees/[0-9]+/contact-details/validation/(work-emails|other-emails)',
+    );
     return {
       http,
     };
