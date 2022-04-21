@@ -156,6 +156,7 @@ export default {
       window.appGlobal.baseUrl,
       'api/v2/time/projects',
     );
+    http.setIgnorePath('api/v2/time/validation/project-name');
     return {
       http,
     };

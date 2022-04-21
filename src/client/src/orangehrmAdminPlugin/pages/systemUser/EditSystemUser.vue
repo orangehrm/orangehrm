@@ -141,6 +141,7 @@ export default {
 
   setup() {
     const http = new APIService(window.appGlobal.baseUrl, 'api/v2/admin/users');
+    http.setIgnorePath('api/v2/admin/validation/user-name');
     return {
       http,
     };
