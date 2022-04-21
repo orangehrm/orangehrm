@@ -143,7 +143,10 @@ class ReportGeneratorService
                         $groupName = null;
                     }
                     $headerGroup = new StackedColumn([$column]);
-                    $headerGroup->setName($this->getI18NHelper()->transBySource($groupName));
+                    if ($groupName != null) {
+                        $headerGroup->setName($this->getI18NHelper()->transBySource($groupName));
+                    }
+                    $headerGroup->setName($groupName);
                     $headerGroups[$displayField->getDisplayFieldGroup()->getId()] = $headerGroup;
                 } else {
                     $headerGroups[$displayField->getDisplayFieldGroup()->getId()]->addChild($column);
