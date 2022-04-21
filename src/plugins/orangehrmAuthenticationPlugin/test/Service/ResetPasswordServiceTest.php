@@ -131,6 +131,12 @@ class ResetPasswordServiceTest extends KernelTestCase
         $user = $this->resetPasswordService->searchForUserRecord('yashika');
         $this->assertEquals(null, $user);
 
+        $user = $this->resetPasswordService->searchForUserRecord('user');
+        $this->assertEquals(null, $user);
+
+        $user = $this->resetPasswordService->searchForUserRecord('user1');
+        $this->assertEquals(null, $user);
+
         $user = $this->resetPasswordService->searchForUserRecord('Renukshan');
         $this->assertInstanceOf(User::class, $user);
     }
@@ -180,6 +186,26 @@ class ResetPasswordServiceTest extends KernelTestCase
 
     public function testLogPasswordResetRequest(): void
     {
+        $urlGenerator = $this->getMockBuilder(UrlGenerator::class)
+            ->onlyMethods(['generate'])
+            ->disableOriginalConstructor()
+            ->getMock();
+        $urlGenerator->expects($this->once())
+            ->method('generate')
+            ->willReturn(
+                'http://localhost/orangeHrm/orangehrm/web/index.php/auth/resetPassword/resetCode/YWRtaW4jU0VQQVJBVE9SI6kK4PL4sB8AtJa2y5WNP-Y'
+            );
+        $this->createKernelWithMockServices(
+            [
+                Services::URL_GENERATOR => $urlGenerator,
+                Services::CONFIG_SERVICE => new ConfigService(),
+                Services::DATETIME_HELPER_SERVICE => new DateTimeHelperService(),
+            ]
+        );
+        $user = $this->getEntityManager()->getRepository(User::class)->findOneBy(['id' => '3']);
+        $isSave = $this->resetPasswordService->logPasswordResetRequest($user);
+        $this->assertEquals(false, $isSave);
+
         $user = $this->getEntityManager()->getRepository(User::class)->findOneBy(['id' => '3']);
         $service = $this->getMockBuilder(ResetPasswordService::class)
             ->disableOriginalConstructor()
@@ -208,6 +234,9 @@ class ResetPasswordServiceTest extends KernelTestCase
         $this->assertEquals(null, $user);
 
         $user = $this->resetPasswordService->validateUrl('YWRtaW4jU0VQQVJBVE9SI-xpEY5IF4lNPp8bfWQzz2Q');
+        $this->assertEquals(null, $user);
+
+        $user = $this->resetPasswordService->validateUrl('YWRtaWsdsd4jU0VQQVJBsdsdsdVE9SI-xpEY5IF4lNPp8bfWQzz2Q');
         $this->assertEquals(null, $user);
     }
 
