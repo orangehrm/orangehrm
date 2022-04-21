@@ -512,3 +512,6 @@ langStrings:
   -
     value: 'Terminated on'
     unitId: terminated_on
+  -
+    value: 'Work Email and Other Email cannot be the same'
+    unitId: work_email_and_other_email_cannot_be_the_same

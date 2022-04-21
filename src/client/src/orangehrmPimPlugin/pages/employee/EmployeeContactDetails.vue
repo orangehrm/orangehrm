@@ -210,11 +210,13 @@ export default {
         workEmail: [
           shouldNotExceedCharLength(50),
           validEmailFormat,
+          this.validateEmailDifferent(() => this.contact?.otherEmail),
           promiseDebounce(this.validateWorkEmail, 500),
         ],
         otherEmail: [
           shouldNotExceedCharLength(50),
           validEmailFormat,
+          this.validateEmailDifferent(() => this.contact?.workEmail),
           promiseDebounce(this.validateOtherEmail, 500),
         ],
       },
@@ -297,6 +299,19 @@ export default {
           resolve(true);
         }
       });
+    },
+
+    validateEmailDifferent(email) {
+      return v => {
+        const resolvedEmail = email();
+        if (resolvedEmail === null || resolvedEmail === '') {
+          return true;
+        }
+        return (
+          v !== resolvedEmail ||
+          this.$t('pim.work_email_and_other_email_cannot_be_the_same')
+        );
+      };
     },
 
     updateModel(response) {
