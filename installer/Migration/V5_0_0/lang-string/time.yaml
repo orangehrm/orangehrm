@@ -173,3 +173,6 @@ langStrings:
   -
     value: 'Time (Hours)'
     unitId: time_hours
+  -
+    value: 'Timesheet Submitted'
+    unitId: timesheet_submitted

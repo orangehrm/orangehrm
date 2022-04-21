@@ -124,6 +124,7 @@ import SwitchInput from '@ohrm/oxd/core/components/Input/SwitchInput';
 import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
 import ActivityDropdown from '@/orangehrmTimePlugin/components/ActivityDropdown.vue';
 import ProjectAutocomplete from '@/orangehrmTimePlugin/components/ProjectAutocomplete.vue';
+import {translate as translatorFactory} from '@/core/plugins/i18n/translate';
 
 const defaultFilters = {
   employee: null,
@@ -145,6 +146,7 @@ export default {
 
   setup() {
     const filters = ref({...defaultFilters});
+    const translate = translatorFactory();
 
     const rules = {
       employee: [required],
@@ -152,7 +154,7 @@ export default {
         validDateFormat(),
         startDateShouldBeBeforeEndDate(
           () => filters.value.toDate,
-          'From date should be before to date',
+          translate('general.from_date_should_be_before_to_date'),
           {allowSameDate: true},
         ),
       ],
@@ -160,7 +162,7 @@ export default {
         validDateFormat(),
         endDateShouldBeAfterStartDate(
           () => filters.value.fromDate,
-          'To date should be after from date',
+          translate('general.to_date_should_be_after_from_date'),
           {allowSameDate: true},
         ),
       ],

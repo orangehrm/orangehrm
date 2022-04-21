@@ -384,9 +384,6 @@ langStrings:
     value: 'From date should be before to date'
     unitId: from_date_should_be_before_to_date
   -
-    value: 'To date should be after from date'
-    unitId: to_date_should_be_after_from_date
-  -
     value: 'Should be less than upper bound'
     unitId: should_be_less_than_upper_bound
   -

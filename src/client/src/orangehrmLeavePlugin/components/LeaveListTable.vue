@@ -81,6 +81,7 @@ import useLeaveActions from '@/orangehrmLeavePlugin/util/composable/useLeaveActi
 import LeaveCommentsModal from '@/orangehrmLeavePlugin/components/LeaveCommentsModal';
 import LeaveBulkActionModal from '@/orangehrmLeavePlugin/components/LeaveBulkActionModal';
 import LeaveListTableHeader from '@/orangehrmLeavePlugin/components/LeaveListTableHeader';
+import {translate as translatorFactory} from '@/core/plugins/i18n/translate';
 
 const leavelistNormalizer = data => {
   return data.map(item => {
@@ -214,6 +215,7 @@ export default {
       }),
     });
     const checkedItems = ref([]);
+    const translate = translatorFactory();
 
     const rules = {
       fromDate: [required],
@@ -222,7 +224,7 @@ export default {
         validDateFormat(),
         endDateShouldBeAfterStartDate(
           () => filters.value.fromDate,
-          'To date should be after From date',
+          translate('general.to_date_should_be_after_from_date'),
           {allowSameDate: true},
         ),
       ],
