@@ -27,7 +27,6 @@ use OrangeHRM\Installer\Util\SystemConfig;
 
 class DataRegistrationService
 {
-
     private ?Client $apiClient = null;
     private ?SystemConfig $systemConfig = null;
 
@@ -91,7 +90,9 @@ class DataRegistrationService
         ];
 
         try {
-            $this->getHttpClient()->post('/', [
+            $this->getHttpClient()->post(
+                '/',
+                [
                     'form_params' => $body,
                     'headers' => $headers
                 ]
@@ -136,7 +137,9 @@ class DataRegistrationService
         ];
 
         try {
-            $this->getHttpClient()->post('/', [
+            $this->getHttpClient()->post(
+                '/',
+                [
                     'form_params' => $body,
                     'headers' => $headers
                 ]
