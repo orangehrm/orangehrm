@@ -202,6 +202,18 @@ class SystemConfigurations
     }
 
     /**
+     * @return int
+     * @throws Exception
+     */
+    public function getEmployeeCount(): int
+    {
+        $qb = $this->getConnection()->createQueryBuilder();
+        return $qb->select('COUNT(employee.emp_number) as employeeCount')
+            ->from('hs_hr_employee', 'employee')
+            ->fetchOne();
+    }
+
+    /**
      * @param string $organizationName
      * @param string $email
      * @param string $adminFirstName

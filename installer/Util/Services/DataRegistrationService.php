@@ -92,10 +92,10 @@ class DataRegistrationService
 
         try {
             $this->getHttpClient()->post('/', [
-                'form_params' => $body,
-                'headers' => $headers
-            ]
-        );
+                    'form_params' => $body,
+                    'headers' => $headers
+                ]
+            );
             return true;
         } catch (Exception $exception) {
             Logger::getLogger()->error($exception->getMessage());
@@ -104,9 +104,49 @@ class DataRegistrationService
         }
     }
 
-        if ($response->getStatusCode() === Response::HTTP_OK) {
+    public function sendDataWhenRegistrationSuccess(
+        string $userName,
+        string $email,
+        string $telephone,
+        string $adminFirstName,
+        string $adminLastName,
+        string $timezone,
+        string $language,
+        string $country,
+        string $organizationName,
+        string $instanceIdentifier,
+        string $type,
+        string $employeeCount
+    ): bool {
+        //TODO: finalize what data need to be sent
+        $headers = ['Accept' => 'application/json'];
+        $body = [
+            'username' => $userName,
+            'userEmail' => $email,
+            'telephone' => $telephone,
+            'admin_first_name' => $adminFirstName,
+            'admin_last_name' => $adminLastName,
+            'timezone' => $timezone,
+            'language' => $language,
+            'country' => $country,
+            'organization_name' => $organizationName,
+            'instance_identifier' => $instanceIdentifier,
+            'type' => $type,
+            'employee_count' => $employeeCount
+        ];
+
+        try {
+            $this->getHttpClient()->post('/', [
+                    'form_params' => $body,
+                    'headers' => $headers
+                ]
+            );
             return true;
+        } catch (Exception $exception) {
+            dump($exception);
+            Logger::getLogger()->error($exception->getMessage());
+            Logger::getLogger()->error($exception->getTraceAsString());
+            return false;
         }
-        return false;
     }
 }
