@@ -104,7 +104,7 @@ export class APIService {
     });
   }
 
-  // Temporary function to prevent Invalid Parameter toast messages from showing
+  // Function to prevent Invalid Parameter toast messages from showing
   ignoreInvalidParamError(error: AxiosError): boolean {
     if (this._ignoreInvalidParamRegex && error.response?.status === 422) {
       const url: string = error.response.config.url ?? '';
