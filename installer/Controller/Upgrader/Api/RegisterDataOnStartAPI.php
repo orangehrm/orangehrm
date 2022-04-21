@@ -19,24 +19,24 @@
 
 namespace OrangeHRM\Installer\Controller\Upgrader\Api;
 
-use Doctrine\DBAL\Exception;
-use OrangeHRM\Config\Config;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Installer\Controller\AbstractInstallerRestController;
+use OrangeHRM\Installer\Util\DataRegistrationUtility;
 use OrangeHRM\Installer\Util\Services\DataRegistrationService;
+use OrangeHRM\Installer\Util\StateContainer;
 use OrangeHRM\Installer\Util\SystemConfigs\SystemConfigurations;
 
 class RegisterDataOnStartAPI extends AbstractInstallerRestController
 {
-    public const REGISTRATION_TYPE_UPGRADER_STARTED = 4;
-
-    private SystemConfigurations $systemConfigurations;
     private DataRegistrationService $dataRegistrationService;
+    private DataRegistrationUtility $dataRegistrationUtility;
+    private SystemConfigurations $systemConfiguration;
 
     public function __construct()
     {
-        $this->systemConfigurations = new SystemConfigurations();
         $this->dataRegistrationService = new DataRegistrationService();
+        $this->dataRegistrationUtility = new DataRegistrationUtility();
+        $this->systemConfiguration = new SystemConfigurations();
     }
 
     /**
@@ -44,46 +44,43 @@ class RegisterDataOnStartAPI extends AbstractInstallerRestController
      */
     protected function handlePost(Request $request): array
     {
-        $organizationName = $this->systemConfigurations->getOrganizationName();
-        $country = $this->systemConfigurations->getCountry();
-        $language = $this->systemConfigurations->getLanguage();
-        $adminFirstName = $this->systemConfigurations->getAdminFirstName();
-        $adminLastName = $this->systemConfigurations->getAdminLastName();
-        $adminEmail = $this->systemConfigurations->getAdminEmail();
-        $adminContactNumber = $this->systemConfigurations->getAdminContactNumber();
-        $adminUserName = $this->systemConfigurations->getAdminUserName();
-        $timezone = SystemConfigurations::NOT_CAPTURED;
-        $randomNumber = mt_rand(1, 100);
-        $type = self::REGISTRATION_TYPE_UPGRADER_STARTED;
-
-        $instanceIdentifier = $this->setInstanceIdentifier(
+        list (
+            $organizationName,
+            $country,
+            $language,
             $adminFirstName,
             $adminLastName,
-            $organizationName,
             $adminEmail,
-            $country
-        );
-        $this->setInstanceIdentifierChecksum(
-            $adminFirstName,
-            $adminLastName,
-            $organizationName,
-            $adminEmail,
-            $country
-        );
+            $adminContactNumber,
+            $adminUserName,
+            $instanceIdentifier
+            ) = $this->dataRegistrationUtility->getInitialRegistrationData();
 
-        $result = $this->dataRegistrationService->sendDataWhenRegistrationStarted(
+        $result = $this->dataRegistrationService->sendInitialRegistrationData(
             $adminUserName,
             $adminEmail,
             $adminContactNumber,
             $adminFirstName,
             $adminLastName,
-            $timezone,
+            SystemConfigurations::NOT_CAPTURED,
             $language,
             $country,
             $organizationName,
-            $type,
+            DataRegistrationUtility::REGISTRATION_TYPE_UPGRADER_STARTED,
             $instanceIdentifier
         );
+
+        if (!$result) {
+            StateContainer::getInstance()->setAttribute(
+                DataRegistrationUtility::IS_INITIAL_REG_DATA_SENT,
+                false
+            );
+        } else {
+            $this->systemConfiguration->setInitialRegistrationEventQueue(
+                DataRegistrationUtility::REGISTRATION_TYPE_UPGRADER_STARTED,
+                DataRegistrationUtility::PUBLISHED
+            );
+        }
 
         $response = $this->getResponse();
         $message = $result ? 'Registration Data Sent Successfully!' : 'Failed To Send Registration Data';
@@ -94,63 +91,4 @@ class RegisterDataOnStartAPI extends AbstractInstallerRestController
         ];
     }
 
-    /**
-     * @param string $adminFirstName
-     * @param string $adminLastName
-     * @param string $organizationName
-     * @param string $organizationEmail
-     * @param string $country
-     * @return string
-     * @throws Exception
-     */
-    protected function setInstanceIdentifier(
-        string $adminFirstName,
-        string $adminLastName,
-        string $organizationName,
-        string $organizationEmail,
-        string $country
-    ): string {
-        if (is_null($this->systemConfigurations->getInstanceIdentifier())) {
-            $this->systemConfigurations->setInstanceIdentifier(
-                $organizationName,
-                $organizationEmail,
-                $adminFirstName,
-                $adminLastName,
-                $_SERVER['HTTP_HOST'],
-                $country,
-                Config::PRODUCT_VERSION
-            );
-        }
-        return $this->systemConfigurations->getInstanceIdentifier();
-    }
-
-    /**
-     * @param string $adminFirstName
-     * @param string $adminLastName
-     * @param string $organizationName
-     * @param string $organizationEmail
-     * @param string $country
-     * @return string
-     * @throws Exception
-     */
-    protected function setInstanceIdentifierChecksum(
-        string $adminFirstName,
-        string $adminLastName,
-        string $organizationName,
-        string $organizationEmail,
-        string $country
-    ): string {
-        if (is_null($this->systemConfigurations->getInstanceIdentifierChecksum())) {
-            $this->systemConfigurations->setInstanceIdentifierChecksum(
-                $organizationName,
-                $organizationEmail,
-                $adminFirstName,
-                $adminLastName,
-                $_SERVER['HTTP_HOST'],
-                $country,
-                Config::PRODUCT_VERSION
-            );
-        }
-        return $this->systemConfigurations->getInstanceIdentifierChecksum();
-    }
 }

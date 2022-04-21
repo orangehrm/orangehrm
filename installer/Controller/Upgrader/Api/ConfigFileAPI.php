@@ -24,11 +24,20 @@ use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\Http\Response;
 use OrangeHRM\Installer\Controller\AbstractInstallerRestController;
 use OrangeHRM\Installer\Util\AppSetupUtility;
+use OrangeHRM\Installer\Util\DataRegistrationUtility;
 use OrangeHRM\Installer\Util\StateContainer;
 use OrangeHRM\ORM\Doctrine;
 
 class ConfigFileAPI extends AbstractInstallerRestController
 {
+    private DataRegistrationUtility $dataRegistrationUtility;
+
+    public function __construct()
+    {
+        $this->dataRegistrationUtility = new DataRegistrationUtility();
+    }
+
+
     /**
      * @inheritDoc
      */
@@ -47,6 +56,11 @@ class ConfigFileAPI extends AbstractInstallerRestController
 
         $appSetupUtility = new AppSetupUtility();
         $appSetupUtility->writeConfFile();
+
+        if (StateContainer::getInstance()->hasAttribute(DataRegistrationUtility::IS_INITIAL_REG_DATA_SENT)) {
+            $this->dataRegistrationUtility->sendRegistrationDataOnFailure();
+        }
+
         return [
             'success' => Doctrine::getEntityManager()->getConnection() instanceof Connection,
         ];

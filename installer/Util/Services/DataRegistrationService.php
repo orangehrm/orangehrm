@@ -60,7 +60,7 @@ class DataRegistrationService
      * @param string $instanceIdentifier
      * @return bool
      */
-    public function sendDataWhenRegistrationStarted(
+    public function sendInitialRegistrationData(
         string $userName,
         string $email,
         string $telephone,
@@ -105,35 +105,14 @@ class DataRegistrationService
         }
     }
 
-    public function sendDataWhenRegistrationSuccess(
-        string $userName,
-        string $email,
-        string $telephone,
-        string $adminFirstName,
-        string $adminLastName,
-        string $timezone,
-        string $language,
-        string $country,
-        string $organizationName,
+    public function sendSuccessRegistrationData(
         string $instanceIdentifier,
-        string $type,
-        string $employeeCount
+        string $type
     ): bool {
-        //TODO: finalize what data need to be sent
         $headers = ['Accept' => 'application/json'];
         $body = [
-            'username' => $userName,
-            'userEmail' => $email,
-            'telephone' => $telephone,
-            'admin_first_name' => $adminFirstName,
-            'admin_last_name' => $adminLastName,
-            'timezone' => $timezone,
-            'language' => $language,
-            'country' => $country,
-            'organization_name' => $organizationName,
             'instance_identifier' => $instanceIdentifier,
-            'type' => $type,
-            'employee_count' => $employeeCount
+            'type' => $type
         ];
 
         try {
@@ -146,7 +125,6 @@ class DataRegistrationService
             );
             return true;
         } catch (Exception $exception) {
-            dump($exception);
             Logger::getLogger()->error($exception->getMessage());
             Logger::getLogger()->error($exception->getTraceAsString());
             return false;

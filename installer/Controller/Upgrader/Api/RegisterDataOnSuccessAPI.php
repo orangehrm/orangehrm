@@ -21,13 +21,12 @@ namespace OrangeHRM\Installer\Controller\Upgrader\Api;
 
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Installer\Controller\AbstractInstallerRestController;
+use OrangeHRM\Installer\Util\DataRegistrationUtility;
 use OrangeHRM\Installer\Util\Services\DataRegistrationService;
 use OrangeHRM\Installer\Util\SystemConfigs\SystemConfigurations;
 
 class RegisterDataOnSuccessAPI extends AbstractInstallerRestController
 {
-    public const REGISTRATION_TYPE_UPGRADER_SUCCESS = 3;
-
     private SystemConfigurations $systemConfigurations;
     private DataRegistrationService $dataRegistrationService;
 
@@ -42,35 +41,10 @@ class RegisterDataOnSuccessAPI extends AbstractInstallerRestController
      */
     protected function handlePost(Request $request): array
     {
-        //TODO: finalize what data need to be sent
-        $organizationName = $this->systemConfigurations->getOrganizationName();
-        $country = $this->systemConfigurations->getCountry();
-        $language = $this->systemConfigurations->getLanguage();
-        $adminFirstName = $this->systemConfigurations->getAdminFirstName();
-        $adminLastName = $this->systemConfigurations->getAdminLastName();
-        $adminEmail = $this->systemConfigurations->getAdminEmail();
-        $adminContactNumber = $this->systemConfigurations->getAdminContactNumber();
-        $adminUserName = $this->systemConfigurations->getAdminUserName();
-        $timezone = SystemConfigurations::NOT_CAPTURED;
-        $type = self::REGISTRATION_TYPE_UPGRADER_SUCCESS;
-        $instanceIdentifier = $this->systemConfigurations->getInstanceIdentifier();
-        $employeeCount = $this->systemConfigurations->getEmployeeCount();
-
-        $result = $this->dataRegistrationService->sendDataWhenRegistrationSuccess(
-            $adminUserName,
-            $adminEmail,
-            $adminContactNumber,
-            $adminFirstName,
-            $adminLastName,
-            $timezone,
-            $language,
-            $country,
-            $organizationName,
-            $instanceIdentifier,
-            $type,
-            $employeeCount
+        $result = $this->dataRegistrationService->sendSuccessRegistrationData(
+            $this->systemConfigurations->getInstanceIdentifier(),
+            DataRegistrationUtility::REGISTRATION_TYPE_UPGRADER_SUCCESS
         );
-
         $response = $this->getResponse();
         $message = $result ? 'Registration Data Sent Successfully!' : 'Failed To Send Registration Data';
 

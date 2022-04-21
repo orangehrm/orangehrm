@@ -81,5 +81,3 @@ api_upgrader_sucess_registration:
   path: /upgrader/api/send-data/upgrader-success
   controller: OrangeHRM\Installer\Controller\Upgrader\Api\RegisterDataOnSuccessAPI::handle
   methods: [ POST ]
-
-

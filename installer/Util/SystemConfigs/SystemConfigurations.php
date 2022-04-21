@@ -19,7 +19,9 @@
 
 namespace OrangeHRM\Installer\Util\SystemConfigs;
 
+use DateTime;
 use Doctrine\DBAL\Exception;
+use OrangeHRM\Installer\Util\ConfigHelper;
 use OrangeHRM\Installer\Util\Connection;
 
 class SystemConfigurations
@@ -28,6 +30,13 @@ class SystemConfigurations
 
     public const INSTANCE_IDENTIFIER = "instance.identifier";
     public const INSTANCE_IDENTIFIER_CHECKSUM = "instance.identifier_checksum";
+
+    private ?ConfigHelper $configHelper = null;
+
+    public function __construct()
+    {
+        $this->configHelper = new ConfigHelper();
+    }
 
     /**
      * @return \Doctrine\DBAL\Connection
@@ -65,17 +74,13 @@ class SystemConfigurations
 
     /**
      * @return string
-     * @throws Exception
      */
     public function getLanguage(): string
     {
-        $qb = $this->getConnection()->createQueryBuilder();
-        $defaultLanguage = $qb->select('config.value')
-            ->from('hs_hr_config', 'config')
-            ->where('config.name = :name')
-            ->setParameter('name', 'admin.localization.default_language')
-            ->fetchOne();
-        return $defaultLanguage ?: self::NOT_CAPTURED;
+        return $this->configHelper->getConfigValue(
+            'admin.localization.default_language',
+            self::NOT_CAPTURED
+        );
     }
 
     /**
@@ -151,32 +156,18 @@ class SystemConfigurations
 
     /**
      * @return string|null
-     * @throws Exception
      */
     public function getInstanceIdentifier(): ?string
     {
-        $qb = $this->getConnection()->createQueryBuilder();
-        $result = $qb->select('config.value')
-            ->from('hs_hr_config', 'config')
-            ->where('config.name = :name')
-            ->setParameter('name', self::INSTANCE_IDENTIFIER)
-            ->fetchOne();
-        return $result ?: null;
+        return $this->configHelper->getConfigValue(self::INSTANCE_IDENTIFIER);
     }
 
     /**
      * @return string|null
-     * @throws Exception
      */
     public function getInstanceIdentifierChecksum(): ?string
     {
-        $qb = $this->getConnection()->createQueryBuilder();
-        $result = $qb->select('config.value')
-            ->from('hs_hr_config', 'config')
-            ->where('config.name = :name')
-            ->setParameter('name', self::INSTANCE_IDENTIFIER_CHECKSUM)
-            ->fetchOne();
-        return $result ?: null;
+        return $this->configHelper->getConfigValue(self::INSTANCE_IDENTIFIER_CHECKSUM);
     }
 
     /**
@@ -230,7 +221,8 @@ class SystemConfigurations
         string $adminLastName,
         string $host,
         string $country,
-        string $ohrmVersion
+        string $ohrmVersion,
+        int $currentTimestamp
     ): void {
         $instanceIdentifier = $this->createInstanceIdentifier(
             $organizationName,
@@ -239,7 +231,8 @@ class SystemConfigurations
             $adminLastName,
             $host,
             $country,
-            $ohrmVersion
+            $ohrmVersion,
+            $currentTimestamp,
         );
         $qb = $this->getConnection()->createQueryBuilder();
         $qb->insert('hs_hr_config')
@@ -258,6 +251,7 @@ class SystemConfigurations
      * @param string $host
      * @param string $country
      * @param string $ohrmVersion
+     * @param int $currentTimestamp
      * @throws Exception
      */
     public function setInstanceIdentifierChecksum(
@@ -267,7 +261,8 @@ class SystemConfigurations
         string $adminLastName,
         string $host,
         string $country,
-        string $ohrmVersion
+        string $ohrmVersion,
+        int $currentTimestamp
     ): void {
         $instanceIdentifierChecksum = $this->createInstanceIdentifierChecksum(
             $organizationName,
@@ -276,7 +271,8 @@ class SystemConfigurations
             $adminLastName,
             $host,
             $country,
-            $ohrmVersion
+            $ohrmVersion,
+            $currentTimestamp
         );
         $qb = $this->getConnection()->createQueryBuilder();
         $qb->insert('hs_hr_config')
@@ -295,6 +291,7 @@ class SystemConfigurations
      * @param string|null $host
      * @param string|null $country
      * @param string $ohrmVersion
+     * @param int $currentTimestamp
      * @return string
      */
     private function createInstanceIdentifier(
@@ -304,7 +301,8 @@ class SystemConfigurations
         string $adminLastName,
         ?string $host,
         ?string $country,
-        string $ohrmVersion
+        string $ohrmVersion,
+        int $currentTimestamp
     ): string {
         $host = !is_null($host) ?: '';
         $country = !is_null($country) ?: '';
@@ -316,7 +314,8 @@ class SystemConfigurations
             '_' . $adminLastName .
             '_' . $host .
             '_' . $country .
-            '_' . $ohrmVersion
+            '_' . $ohrmVersion .
+            '_' . $currentTimestamp
         );
     }
 
@@ -337,7 +336,8 @@ class SystemConfigurations
         string $adminLastName,
         ?string $host,
         ?string $country,
-        string $ohrmVersion
+        string $ohrmVersion,
+        int $currentTimestamp
     ): string {
         $host = !is_null($host) ?: '';
         $country = !is_null($country) ?: '';
@@ -349,9 +349,66 @@ class SystemConfigurations
             'adminLastName' => $adminLastName,
             'host' => $host,
             'country' => $country,
-            'ohrmVersion' => $ohrmVersion
+            'ohrmVersion' => $ohrmVersion,
+            'currentTimestamp' => $currentTimestamp
         ];
 
         return base64_encode(serialize($parameters));
+    }
+
+    /**
+     * @param int $eventType
+     * @param int $published
+     * @param string|null $data
+     * @return void
+     */
+    public function setInitialRegistrationEventQueue(int $eventType, int $published, string $data = null)
+    {
+        $dateTime = new DateTime();
+        $eventTime = $dateTime->format('Y-m-d H:i:s');
+
+        $qb = $this->getConnection()->createQueryBuilder();
+        $qb->insert('ohrm_registration_event_queue')
+            ->setValue('event_type', ':eventType')
+            ->setParameter('eventType', $eventType)
+            ->setValue('published', ':published')
+            ->setParameter('published', $published)
+            ->setValue('event_time', ':eventTime')
+            ->setParameter('eventTime', $eventTime);
+        if ($published !== 0) {
+            $qb->setValue('publish_time', ':publishTime')
+                ->setParameter('publishTime', $eventTime);
+        }
+        if (!is_null($data)) {
+            dump('inside this');
+            $qb->setValue('data', ':data')
+                ->setParameter('data', $data);
+        }
+        $qb->executeQuery();
+    }
+
+    public function updateInitialRegistrationEventQueue(int $eventType, int $published)
+    {
+        $qb = $this->getConnection()->createQueryBuilder();
+        $eventQueueId = $qb->select('eventQueue.id')
+            ->from('ohrm_registration_event_queue', 'eventQueue')
+            ->where('eventQueue.event_type  = :eventType')
+            ->setParameter('eventType', $eventType)
+            ->orderBy('eventQueue.id', 'DESC')
+            ->setMaxResults(1)
+            ->fetchOne();
+
+        $dateTime = new DateTime();
+        $publishTime = $dateTime->format('Y-m-d H:i:s');
+
+        $qb = $this->getConnection()->createQueryBuilder();
+        $qb->update('ohrm_registration_event_queue', 'eventQueue')
+            ->set('eventQueue.published', ':published')
+            ->setParameter('published', $published)
+            ->set('eventQueue.publish_time', ':publishTime')
+            ->setParameter('publishTime', $publishTime)
+            ->andWhere('eventQueue.id  = :eventQueueId')
+            ->setParameter('eventQueueId', $eventQueueId)
+            ->executeQuery();
     }
 }
