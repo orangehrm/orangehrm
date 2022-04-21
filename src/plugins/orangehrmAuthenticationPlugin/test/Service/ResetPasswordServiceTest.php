@@ -189,8 +189,17 @@ class ResetPasswordServiceTest extends KernelTestCase
             ->method('logPasswordResetRequest')
             ->with($user)
             ->willReturn(true);
-
         $this->assertEquals(true, $service->logPasswordResetRequest($user));
+
+        $service = $this->getMockBuilder(ResetPasswordService::class)
+            ->disableOriginalConstructor()
+            ->onlyMethods(['logPasswordResetRequest'])
+            ->getMock();
+        $service->expects($this->once())
+            ->method('logPasswordResetRequest')
+            ->with($user)
+            ->willReturn(false);
+        $this->assertEquals(false, $service->logPasswordResetRequest($user));
     }
 
     public function testValidateUrl(): void
