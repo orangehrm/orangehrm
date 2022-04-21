@@ -22,8 +22,11 @@ namespace Api;
 use OrangeHRM\Admin\Api\ModulesAPI;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Service\ModuleService;
+use OrangeHRM\Entity\User;
+use OrangeHRM\Framework\Services;
 use OrangeHRM\OAuth\Service\OAuthService;
 use OrangeHRM\Tests\Util\EndpointTestCase;
+use OrangeHRM\Tests\Util\Mock\MockAuthUser;
 use OrangeHRM\Tests\Util\TestDataService;
 use Symfony\Component\Yaml\Yaml;
 
@@ -121,6 +124,27 @@ class ModulesAPITest extends EndpointTestCase
             $this->expectException($exception['class']);
             $this->expectExceptionMessage($exception['message']);
         }
+
+        $authUser = $this->getMockBuilder(MockAuthUser::class)
+            ->onlyMethods(['getUserId', 'getEmpNumber', 'removeAttribute', 'getAttribute'])
+            ->disableOriginalConstructor()
+            ->getMock();
+        $authUser->method('getUserId')
+            ->willReturn(1);
+        $authUser->method('removeAttribute')
+            ->willReturnCallback(function (string $key) {
+            });
+        $authUser->method('getAttribute')
+            ->willReturnCallback(fn(string $key, $default) => $default);
+        $authUser->method('getEmpNumber')
+            ->willReturn(
+                $this->getEntityReference(
+                    User::class,
+                    1
+                )->getEmployee()->getEmpNumber()
+            );
+
+        $this->createKernelWithMockServices([Services::AUTH_USER => $authUser]);
 
         $this->modulesApi = new ModulesAPI($this->getRequest([], $params, []));
         $modules = $this->modulesApi->update();
