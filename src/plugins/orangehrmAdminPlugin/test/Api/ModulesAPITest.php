@@ -135,7 +135,7 @@ class ModulesAPITest extends EndpointTestCase
             ->willReturnCallback(function (string $key) {
             });
         $authUser->method('getAttribute')
-            ->willReturnCallback(fn(string $key, $default) => $default);
+            ->willReturnCallback(fn (string $key, $default) => $default);
         $authUser->method('getEmpNumber')
             ->willReturn(
                 $this->getEntityReference(
