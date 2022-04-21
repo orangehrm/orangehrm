@@ -109,7 +109,7 @@
           :headers="headers"
           :items="items?.data"
           :selectable="$can.delete('employee_list')"
-          :clickable="false"
+          :clickable="true"
           :loading="isLoading"
           class="orangehrm-employee-list"
           row-decorator="oxd-table-decorator-card"
