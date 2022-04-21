@@ -92,6 +92,16 @@ class MenuService
         return $this->getMenuDao()->enableModuleMenuItems($moduleName, $menuTitles);
     }
 
+    public function invalidateCachedMenuItems(): void
+    {
+        $this->getAuthUser()->removeAttribute(self::CORE_MENU_SIDE_PANEL_CACHE_KEY);
+        foreach ($this->getAuthUser()->getAttribute(self::CORE_MENU_TOP_RIBBON_KEYS_CACHE_KEY, []) as $topRibbonKey) {
+            $cacheKey = $this->generateCacheKeyForTopMenuItem($topRibbonKey);
+            $this->getAuthUser()->removeAttribute($cacheKey);
+        }
+        $this->getAuthUser()->removeAttribute(self::CORE_MENU_TOP_RIBBON_KEYS_CACHE_KEY);
+    }
+
     /**
      * @return DetailedMenuItem[]
      */
