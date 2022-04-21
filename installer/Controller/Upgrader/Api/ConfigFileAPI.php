@@ -58,7 +58,9 @@ class ConfigFileAPI extends AbstractInstallerRestController
         $appSetupUtility->writeConfFile();
 
         if (StateContainer::getInstance()->hasAttribute(DataRegistrationUtility::IS_INITIAL_REG_DATA_SENT)) {
-            $this->dataRegistrationUtility->sendRegistrationDataOnFailure();
+            $this->dataRegistrationUtility->sendRegistrationDataOnFailure(
+                DataRegistrationUtility::REGISTRATION_TYPE_UPGRADER_STARTED
+            );
         }
 
         return [
