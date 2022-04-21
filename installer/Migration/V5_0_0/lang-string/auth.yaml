@@ -65,3 +65,18 @@ langStrings:
   -
     value: 'Forgot Your Password'
     unitId: forgot_password
+  -
+    value: 'Invalid credentials'
+    unitId: invalid_credentials
+  -
+    value: 'CSRF token validation failed'
+    unitId: csrf_token_validation_failed
+  -
+    value: 'Account disabled'
+    unitId: account_disabled
+  -
+    value: 'Employee is terminated'
+    unitId: employee_is_terminated
+  -
+    value: 'Employee not assigned'
+    unitId: employee_is_assigned
