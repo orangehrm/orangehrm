@@ -17,14 +17,14 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Installer\Util\SystemConfigs;
+namespace OrangeHRM\Installer\Util\SystemConfig;
 
 use DateTime;
 use Doctrine\DBAL\Exception;
 use OrangeHRM\Installer\Util\ConfigHelper;
 use OrangeHRM\Installer\Util\Connection;
 
-class SystemConfigurations
+class SystemConfiguration
 {
     public const NOT_CAPTURED = 'Not Captured';
 

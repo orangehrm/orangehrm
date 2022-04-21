@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Installer\Util\Services;
+namespace OrangeHRM\Installer\Util\Service;
 
 use Exception;
 use GuzzleHttp\Client;

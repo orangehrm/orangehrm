@@ -20,6 +20,7 @@
 namespace OrangeHRM\Installer\Util;
 
 use Exception;
+use mysqli;
 use OrangeHRM\Config\Config;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Yaml\Yaml;
@@ -725,7 +726,20 @@ class SystemConfig
      */
     public function getMySqlHostInfo(): string
     {
-        return 'Localhost via UNIX socket';
+        $dbInfo = StateContainer::getInstance()->getDbInfo();
+        $mysqli = new mysqli(
+            $dbInfo[StateContainer::DB_HOST],
+            $dbInfo[StateContainer::DB_USER],
+            $dbInfo[StateContainer::DB_PASSWORD],
+            $dbInfo[StateContainer::DB_NAME]
+        );
+        if (mysqli_connect_errno()) {
+            printf("Connect failed: %s\n", mysqli_connect_error());
+            exit();
+        }
+        $hostInfo = $mysqli->host_info;
+        $mysqli->close();
+        return $hostInfo;
     }
 
     /**
