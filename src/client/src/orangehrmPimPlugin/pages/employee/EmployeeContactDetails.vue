@@ -210,13 +210,11 @@ export default {
         workEmail: [
           shouldNotExceedCharLength(50),
           validEmailFormat,
-          this.validateEmailDifferent(() => this.contact?.otherEmail),
           promiseDebounce(this.validateWorkEmail, 500),
         ],
         otherEmail: [
           shouldNotExceedCharLength(50),
           validEmailFormat,
-          this.validateEmailDifferent(() => this.contact?.workEmail),
           promiseDebounce(this.validateOtherEmail, 500),
         ],
       },
@@ -258,6 +256,8 @@ export default {
     validateWorkEmail(contact) {
       return new Promise(resolve => {
         if (contact) {
+          const sameAsOtherEmail =
+            this.contact.workEmail === this.contact.otherEmail;
           this.http
             .request({
               method: 'GET',
@@ -268,9 +268,16 @@ export default {
             })
             .then(response => {
               const {data} = response.data;
-              return data.valid === true
-                ? resolve(true)
-                : resolve(this.$t('general.already_exists'));
+              if (data.valid === true) {
+                return sameAsOtherEmail
+                  ? resolve(
+                      this.$t(
+                        'pim.work_email_and_other_email_cannot_be_the_same',
+                      ),
+                    )
+                  : resolve(true);
+              }
+              return resolve(this.$t('general.already_exists'));
             });
         } else {
           resolve(true);
@@ -281,6 +288,8 @@ export default {
     validateOtherEmail(contact) {
       return new Promise(resolve => {
         if (contact) {
+          const sameAsWorkEmail =
+            this.contact.otherEmail === this.contact.workEmail;
           this.http
             .request({
               method: 'GET',
@@ -291,9 +300,16 @@ export default {
             })
             .then(response => {
               const {data} = response.data;
-              return data.valid === true
-                ? resolve(true)
-                : resolve(this.$t('general.already_exists'));
+              if (data.valid === true) {
+                return sameAsWorkEmail
+                  ? resolve(
+                      this.$t(
+                        'pim.work_email_and_other_email_cannot_be_the_same',
+                      ),
+                    )
+                  : resolve(true);
+              }
+              return resolve(this.$t('general.already_exists'));
             });
         } else {
           resolve(true);
