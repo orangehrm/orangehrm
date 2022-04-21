@@ -31,6 +31,8 @@ class SystemConfig
     public const BLOCKER = 3;
 
     public const ENGINE_INNODB = 'InnoDB';
+    public const MARIADB = 'MariaDB';
+    public const MYSQL = 'MySql';
 
     public const STATE_DISABLED = 'DISABLED';
     public const STATE_DEFAULT = 'DEFAULT';
@@ -152,14 +154,26 @@ class SystemConfig
             strpos($serverVersion, 'MariaDB') === false
                 ? $allowedConfigs = $this->systemRequirements['mysqlversion'] :
                 $allowedConfigs = $this->systemRequirements['mariadbversion'];
-            if (version_compare($serverVersion, $allowedConfigs['min']) >= 0) {
+            if ($this->isWithinRange(
+                $serverVersion,
+                $allowedConfigs['excludeRange'],
+                $allowedConfigs['min'],
+                $allowedConfigs['max']
+            )) {
                 return [
                     'message' => Messages::MYSQL_SERVER_OK_MESSAGE . " ($serverVersion)",
                     'status' => self::PASSED
                 ];
             } else {
+                $message = $this->getErrorMessage(
+                    strpos($serverVersion, 'MariaDB') === false ? self::MYSQL : self::MARIADB,
+                    $serverVersion,
+                    $allowedConfigs['excludeRange'],
+                    $allowedConfigs['min'],
+                    $allowedConfigs['max']
+                );
                 return [
-                    'message' => "MySQL Server - ver ${allowedConfigs['min']} or later recommended. (reported ver $serverVersion)",
+                    'message' => $message,
                     'status' => self::ACCEPTABLE
                 ];
             }
@@ -662,5 +676,91 @@ class SystemConfig
             return true;
         }
         return false;
+    }
+
+    /**
+     * Return PHP version
+     * @return string
+     */
+    public function getPhpVersion(): string
+    {
+        return phpversion();
+    }
+
+    /**
+     * Return web server details
+     * @return string
+     */
+    public function getWebServerDetails(): string
+    {
+        return $_SERVER['SERVER_SOFTWARE'];
+    }
+
+    /**
+     * Return MySql client version
+     * @return string
+     */
+    public function getMysqlClientVersion(): string
+    {
+        $mysqlClient = mysqli_get_client_info();
+        $versionPattern = '/[0-9]+\.[0-9]+\.[0-9]+/';
+        preg_match($versionPattern, $mysqlClient, $matches);
+        return $matches[0];
+    }
+
+    /**
+     * Return MySql server version
+     * @return string
+     * @throws \Doctrine\DBAL\Exception
+     */
+    public function getMysqlServerVersion(): string
+    {
+        $connection = $this->upgraderConfigUtility->getConnection();
+        $result = $connection->executeQuery("SELECT VERSION() AS version")->fetchAssociative();
+        return $result['version'];
+    }
+
+    /**
+     * @return string
+     */
+    public function getMySqlHostInfo(): string
+    {
+        return 'Localhost via UNIX socket';
+    }
+
+    /**
+     * Return running operating system details
+     * @return array
+     */
+    public function getOSDetails(): array
+    {
+        return [
+            "os" => php_uname('s'),
+            "release_name" => php_uname('r'),
+            "version_info" => php_uname('v'),
+        ];
+    }
+
+    /**
+     * @return array
+     * @throws \Doctrine\DBAL\Exception
+     */
+    public function getSystemDetails(): array
+    {
+        return [
+            'os' => $this->getOSDetails(),
+            'php' => [
+                'version' => $this->getPhpVersion()
+            ],
+            'mysql' => [
+                'client_version' => $this->getMysqlClientVersion(),
+                'server_version' => $this->getMysqlServerVersion(),
+                'conn_type' => $this->getMySqlHostInfo()
+            ],
+            'server' => $this->getWebServerDetails(),
+            'ohrm' => [
+                'version' => '5.0-beta'
+            ]
+        ];
     }
 }
