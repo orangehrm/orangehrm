@@ -29,6 +29,7 @@ export class APIService {
   private _http: AxiosInstance;
   private _baseUrl: string;
   private _apiSection: string;
+  private _ignoreInvalidParamRegex: RegExp | undefined;
 
   constructor(baseUrl: string, path: string) {
     this._baseUrl = baseUrl;
@@ -37,6 +38,10 @@ export class APIService {
       baseURL: this._baseUrl,
     });
     this.setupResponseInterceptors(getCurrentInstance());
+  }
+
+  setIgnorePath(ignorePath: string) {
+    this._ignoreInvalidParamRegex = new RegExp(ignorePath);
   }
 
   getAll(params?: object): Promise<AxiosResponse> {
@@ -101,24 +106,9 @@ export class APIService {
 
   // Temporary function to prevent Invalid Parameter toast messages from showing
   ignoreInvalidParamError(error: AxiosError): boolean {
-    const ignoreApiStartsWith = [
-      'api/v2/leave/leave-balance/leave-type',
-      'api/v2/admin/validation/user-name',
-      'api/v2/time/validation/customer-name',
-      'api/v2/time/validation/project-name',
-    ];
-
-    const ignoreApiEndsWith = [
-      'contact-details/validation/work-emails',
-      'contact-details/validation/other-emails',
-    ];
-
-    if (error.response?.status === 422) {
-      const url = error.response.config.url;
-      return (
-        ignoreApiStartsWith.some(api => url?.startsWith(api)) ||
-        ignoreApiEndsWith.some(api => url?.endsWith(api))
-      );
+    if (this._ignoreInvalidParamRegex && error.response?.status === 422) {
+      const url: string = error.response.config.url ?? '';
+      return this._ignoreInvalidParamRegex.test(url);
     }
     return false;
   }
