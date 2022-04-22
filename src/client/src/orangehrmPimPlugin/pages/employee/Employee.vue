@@ -196,11 +196,9 @@ export default {
 
   setup() {
     const filters = ref({...defaultFilters});
-
     const {sortDefinition, sortField, sortOrder, onSort} = useSort({
       sortDefinition: defaultSortOrder,
     });
-
     const serializedFilters = computed(() => {
       return {
         model: 'detailed',
@@ -353,8 +351,20 @@ export default {
       navigate('/pim/addEmployee');
     },
     onClickEdit($event) {
+      //TODO[temporary fix]
       const id = $event.id ? $event.id : $event.item?.id;
-      navigate('/pim/viewPersonalDetails/empNumber/{id}', {id});
+      const tableBody = document.querySelector('.oxd-table-body');
+      tableBody.onclick = function(e) {
+        if (
+          !(
+            (e.target.classList.contains('oxd-checkbox-input-icon') &&
+              e.target.closest('.oxd-table-cell')) ||
+            e.target?.type === 'checkbox'
+          )
+        ) {
+          navigate('/pim/viewPersonalDetails/empNumber/{id}', {id});
+        }
+      };
     },
     onClickDeleteSelected() {
       const ids = this.checkedItems.map(index => {
