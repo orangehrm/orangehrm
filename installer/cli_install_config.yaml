@@ -10,8 +10,8 @@ database:
   isExistingDatabase: n # y/n
 
 organization:
-  name: TestCompany
-  country: UK
+  name: OrangeHRM
+  country: US
 
 admin:
   adminUserName: Admin

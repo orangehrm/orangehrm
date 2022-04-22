@@ -281,13 +281,17 @@ class AppSetupUtility
         if (StateContainer::getInstance()->getDbType() === AppSetupUtility::INSTALLATION_DB_TYPE_NEW) {
             $dbInfo = StateContainer::getInstance()->getDbInfo();
             $dbName = $dbInfo[StateContainer::DB_NAME];
-            $dbUser = $dbInfo[StateContainer::ORANGEHRM_DB_USER];
-            $dbPassword = $dbInfo[StateContainer::ORANGEHRM_DB_PASSWORD];
+            $dbUser = $dbInfo[StateContainer::DB_USER];
+            $ohrmDbUser = $dbInfo[StateContainer::ORANGEHRM_DB_USER];
+            if ($dbUser === $ohrmDbUser) {
+                return;
+            }
+            $ohrmDbPassword = $dbInfo[StateContainer::ORANGEHRM_DB_PASSWORD];
             Connection::getConnection()->executeStatement(
-                $this->getUserCreationQuery($dbName, $dbUser, $dbPassword, 'localhost')
+                $this->getUserCreationQuery($dbName, $ohrmDbUser, $ohrmDbPassword, 'localhost')
             );
             Connection::getConnection()->executeStatement(
-                $this->getUserCreationQuery($dbName, $dbUser, $dbPassword, '%')
+                $this->getUserCreationQuery($dbName, $ohrmDbUser, $ohrmDbPassword, '%')
             );
         }
     }

@@ -40,6 +40,10 @@ if ($pathToAutoload === false) {
 
 require_once $pathToAutoload;
 
+if (Config::isInstalled()) {
+    die("This system already installed.\n");
+}
+
 $kernel = new HttpKernel('prod', false);
 $request = new Request();
 $kernel->handleRequest($request);
@@ -115,7 +119,7 @@ StateContainer::getInstance()->storeAdminUserData(
 $appSetupUtility = new AppSetupUtility();
 echo "Database creation\n";
 $appSetupUtility->createDatabase();
-echo " Applying database changes\n";
+echo "Applying database changes\n";
 $appSetupUtility->runMigrations('3.3.3', Config::PRODUCT_VERSION);
 echo "Instance creation & Admin user creation\n";
 $appSetupUtility->insertSystemConfiguration();
