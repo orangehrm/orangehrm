@@ -158,7 +158,7 @@ apiv2_admin_organization:
 
 apiv2_admin_paygrade_currency:
   description: 'API-v2 Admin - Pay Grade Currencies'
-  api: OrangeHRM\Admin\Api\PayGradeAllowedCurrencyAPI
+  api: OrangeHRM\Admin\Api\PayGradeCurrencyAPI
   module: admin
   allowed:
     read: true
@@ -167,6 +167,18 @@ apiv2_admin_paygrade_currency:
     delete: true
   permissions:
     - { role: Admin, permission: { read: true, create: true, update: true, delete: true, self: false } }
+
+apiv2_admin_paygrade_allowed_currency:
+  description: 'API-v2 Admin - Pay Grade Allowed Currencies'
+  api: OrangeHRM\Admin\Api\PayGradeAllowedCurrencyAPI
+  module: admin
+  allowed:
+    read: true
+    create: false
+    update: false
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false, self: false } }
 
 apiv2_admin_skill:
   description: 'API-v2 Admin - Skills'

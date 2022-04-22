@@ -6,6 +6,9 @@
 <Files installerUI.php>
     Allow from all
 </Files>
+<Files index.php>
+    Allow from all
+</Files>
 
 
 ## Apache 2.4
