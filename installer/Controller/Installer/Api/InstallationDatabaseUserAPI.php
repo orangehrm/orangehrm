@@ -19,9 +19,7 @@
 
 namespace OrangeHRM\Installer\Controller\Installer\Api;
 
-use InvalidArgumentException;
 use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Framework\Http\Response;
 use OrangeHRM\Installer\Controller\AbstractInstallerRestController;
 use OrangeHRM\Installer\Util\AppSetupUtility;
 

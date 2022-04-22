@@ -40,6 +40,8 @@ use OrangeHRM\DevTools\Command\AddRolePermissionCommand;
 use OrangeHRM\DevTools\Command\AddTestTranslationCommand;
 use OrangeHRM\DevTools\Command\EventDispatcherDebugCommand;
 use OrangeHRM\DevTools\Command\PHPFixCodingStandards;
+use OrangeHRM\DevTools\Command\ReInstall;
+use OrangeHRM\DevTools\Command\ResetInstallation;
 use OrangeHRM\DevTools\Command\TranslationCreate;
 use OrangeHRM\Framework\ServiceContainer;
 use OrangeHRM\Framework\Services;
@@ -54,6 +56,8 @@ $application->add(new PHPFixCodingStandards());
 $application->add(new EventDispatcherDebugCommand());
 $application->add(new TranslationCreate());
 $application->add(new AddTestTranslationCommand());
+$application->add(new ResetInstallation());
+$application->add(new ReInstall());
 
 ServiceContainer::getContainer()->register(Services::DOCTRINE)
     ->setFactory([Doctrine::class, 'getEntityManager']);
