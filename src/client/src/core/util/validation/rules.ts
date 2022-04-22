@@ -99,6 +99,16 @@ export const digitsOnly = function(value: string): boolean | string {
   );
 };
 
+export const digitsWithDecimalPointOnly = function(
+  value: string,
+): boolean | string {
+  return (
+    value == '' ||
+    (/^\d*\.?\d*$/.test(value) && !Number.isNaN(parseFloat(value))) ||
+    translate('general.should_be_a_number')
+  );
+};
+
 /**
  * Check whether date1 is before date2
  * @param {string} date1
