@@ -238,6 +238,9 @@ class ResetPasswordServiceTest extends KernelTestCase
 
         $user = $this->resetPasswordService->validateUrl('YWRtaWsdsd4jU0VQQVJBsdsdsdVE9SI-xpEY5IF4lNPp8bfWQzz2Q');
         $this->assertEquals(null, $user);
+
+        $user = $this->resetPasswordService->validateUrl('QWRtaW4jU0VQQVJBVE9SI02O9C_ScxCx_t5U1tKybS0');
+        $this->assertEquals(null, $user);
     }
 
     public function testValidateUser(): void
