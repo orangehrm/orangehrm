@@ -28,6 +28,7 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Core\Service\MenuService;
 use OrangeHRM\Core\Service\ModuleService;
 use OrangeHRM\Entity\OAuthClient;
 use OrangeHRM\OAuth\Service\OAuthService;
@@ -51,6 +52,10 @@ class ModulesAPI extends Endpoint implements CrudEndpoint
      * @var OAuthService|null
      */
     protected ?OAuthService $oAuthService = null;
+    /**
+     * @var MenuService|null
+     */
+    protected ?MenuService $menuService = null;
 
     /**
      * @var array
@@ -108,6 +113,17 @@ class ModulesAPI extends Endpoint implements CrudEndpoint
     public function setOAuthService(OAuthService $oAuthService): void
     {
         $this->oAuthService = $oAuthService;
+    }
+
+    /**
+     * @return MenuService
+     */
+    public function getMenuService(): MenuService
+    {
+        if (is_null($this->menuService)) {
+            $this->menuService = new MenuService();
+        }
+        return $this->menuService;
     }
 
     /**
@@ -194,6 +210,7 @@ class ModulesAPI extends Endpoint implements CrudEndpoint
         }
         $this->getModuleService()->updateModuleStatus($modules);
         $this->updateMobileStatus($modules[self::PARAMETER_MOBILE]);
+        $this->getMenuService()->invalidateCachedMenuItems();
 
         return new EndpointResourceResult(ArrayModel::class, $this->getConfigurableModulesArray());
     }

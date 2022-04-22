@@ -342,7 +342,7 @@ export default {
           const testEmailStatus = response.data.meta?.testEmailStatus;
           if (testEmailStatus === 1 && this.sendTestMailEditable) {
             this.$toast.success({
-              title: this.$t('buzz.success'),
+              title: this.$t('general.success'),
               message: this.$t('admin.test_email_sent'),
             });
           } else if (testEmailStatus === 0 && this.sendTestMailEditable) {

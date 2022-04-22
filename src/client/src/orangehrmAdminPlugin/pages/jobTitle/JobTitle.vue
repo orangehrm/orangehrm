@@ -148,7 +148,7 @@ export default {
         },
         {
           name: 'description',
-          title: this.$t('general.job_description'),
+          title: this.$t('admin.job_description'),
           style: {flex: 4},
         },
         {

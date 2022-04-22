@@ -103,7 +103,7 @@ import {
   validDateFormat,
   endDateShouldBeAfterStartDate,
   maxCurrency,
-  digitsOnly,
+  digitsOnlyWithDecimalPoint,
 } from '@ohrm/core/util/validation/rules';
 import {yearRange} from '@ohrm/core/util/helper/year-range';
 
@@ -158,7 +158,7 @@ export default {
             this.$t('pim.renewal_date_should_be_after_the_commencing_date'),
           ),
         ],
-        subscriptionFee: [digitsOnly(), maxCurrency(1000000000)],
+        subscriptionFee: [digitsOnlyWithDecimalPoint, maxCurrency(1000000000)],
       },
     };
   },

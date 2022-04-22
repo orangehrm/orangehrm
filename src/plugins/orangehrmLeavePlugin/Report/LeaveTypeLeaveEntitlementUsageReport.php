@@ -71,22 +71,28 @@ class LeaveTypeLeaveEntitlementUsageReport implements EndpointAwareReport
     {
         return new Header(
             [
-                (new Column(self::PARAMETER_EMPLOYEE_NAME))->setName($this->getI18NHelper()->trans('general.employee'))
+                (new Column(self::PARAMETER_EMPLOYEE_NAME))
+                    ->setName($this->getI18NHelper()->transBySource('Employee'))
                     ->setPin(Column::PIN_COL_START)
                     ->setSize(self::DEFAULT_COLUMN_SIZE),
-                (new Column(self::PARAMETER_ENTITLEMENT_DAYS))->setName('Leave Entitlements (Days)')
+                (new Column(self::PARAMETER_ENTITLEMENT_DAYS))
+                    ->setName($this->getI18NHelper()->transBySource('Leave Entitlements (Days)'))
                     ->setCellProperties(['class' => ['col-alt' => true, 'cell-action' => true]])
                     ->setSize(self::DEFAULT_COLUMN_SIZE),
-                (new Column(self::PARAMETER_PENDING_APPROVAL_DAYS))->setName('Leave Pending Approval (Days)')
+                (new Column(self::PARAMETER_PENDING_APPROVAL_DAYS))
+                    ->setName($this->getI18NHelper()->transBySource('Leave Pending Approval (Days)'))
                     ->setCellProperties(['class' => ['cell-action' => true]])
                     ->setSize(self::DEFAULT_COLUMN_SIZE),
-                (new Column(self::PARAMETER_SCHEDULED_DAYS))->setName('Leave Scheduled (Days)')
+                (new Column(self::PARAMETER_SCHEDULED_DAYS))
+                    ->setName($this->getI18NHelper()->transBySource('Leave Scheduled (Days)'))
                     ->setCellProperties(['class' => ['cell-action' => true]])
                     ->setSize(self::DEFAULT_COLUMN_SIZE),
-                (new Column(self::PARAMETER_TAKEN_DAYS))->setName('Leave Taken (Days)')
+                (new Column(self::PARAMETER_TAKEN_DAYS))
+                    ->setName($this->getI18NHelper()->transBySource('Leave Taken (Days)'))
                     ->setCellProperties(['class' => ['cell-action' => true]])
                     ->setSize(self::DEFAULT_COLUMN_SIZE),
-                (new Column(self::PARAMETER_BALANCE_DAYS))->setName('Leave Balance (Days)')
+                (new Column(self::PARAMETER_BALANCE_DAYS))
+                    ->setName($this->getI18NHelper()->transBySource('Leave Balance (Days)'))
                     ->setCellProperties(['class' => ['col-alt' => true]])
                     ->setSize(self::DEFAULT_COLUMN_SIZE),
             ]

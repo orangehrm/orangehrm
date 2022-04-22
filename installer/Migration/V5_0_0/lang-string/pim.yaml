@@ -174,7 +174,7 @@ langStrings:
     value: 'Other Id'
     unitId: other_id
   -
-    value: "Driver's License Number"
+    value: "Driver License Number"
     unitId: driver_license_number
   -
     value: 'License Expiry Date'
@@ -506,3 +506,12 @@ langStrings:
   -
     value: 'Age Group'
     unitId: age_group
+  -
+    value: 'Employee Termination / Activiation'
+    unitId: employee_termination_activation
+  -
+    value: 'Terminated on'
+    unitId: terminated_on
+  -
+    value: 'Work Email and Other Email cannot be the same'
+    unitId: work_email_and_other_email_cannot_be_the_same

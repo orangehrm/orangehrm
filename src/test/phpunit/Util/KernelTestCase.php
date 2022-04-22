@@ -28,6 +28,7 @@ use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Framework\Framework;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\Services;
+use OrangeHRM\I18N\Service\I18NHelper;
 use OrangeHRM\ORM\Doctrine;
 use OrangeHRM\Time\Service\ProjectService;
 
@@ -117,11 +118,17 @@ abstract class KernelTestCase extends TestCase
             ->willReturnCallback(function () {
                 throw new LogicException('Please mock ' . DateTimeHelperService::class . '::getNow');
             });
+        $i18nHelper = $this->getMockBuilder(I18NHelper::class)
+            ->onlyMethods(['transBySource'])
+            ->getMock();
+        $i18nHelper->method('transBySource')
+            ->willReturnCallback(fn ($string) => $string);
         if (isset($this->options[self::OPTIONS_WITH_HELPER_SERVICES]) && $this->options[self::OPTIONS_WITH_HELPER_SERVICES]) {
             $this->getContainer()->set(Services::DATETIME_HELPER_SERVICE, $dateTimeHelper);
             $this->getContainer()->set(Services::TEXT_HELPER_SERVICE, new TextHelperService());
             $this->getContainer()->set(Services::NUMBER_HELPER_SERVICE, new NumberHelperService());
             $this->getContainer()->set(Services::CLASS_HELPER, new ClassHelper());
+            $this->getContainer()->set(Services::I18N_HELPER, $i18nHelper);
         }
     }
 

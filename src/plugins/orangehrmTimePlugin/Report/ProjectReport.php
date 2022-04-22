@@ -37,12 +37,14 @@ use OrangeHRM\Core\Report\ReportData;
 use OrangeHRM\Core\Traits\Service\TextHelperTrait;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\Project;
+use OrangeHRM\I18N\Traits\Service\I18NHelperTrait;
 use OrangeHRM\Time\Dto\ProjectReportSearchFilterParams;
 
 class ProjectReport implements EndpointAwareReport
 {
     use UserRoleManagerTrait;
     use TextHelperTrait;
+    use I18NHelperTrait;
 
     public const PARAMETER_ACTIVITY_NAME = 'activityName';
     public const PARAMETER_ACTIVITY_ID = 'activityId';
@@ -158,10 +160,12 @@ class ProjectReport implements EndpointAwareReport
     {
         return new Header(
             [
-                (new Column(self::PARAMETER_ACTIVITY_NAME))->setName('Activity Name')
+                (new Column(self::PARAMETER_ACTIVITY_NAME))
+                    ->setName($this->getI18NHelper()->transBySource('Activity Name'))
                     ->setCellProperties(['class' => ['cell-action' => true]])
                     ->setSize(self::DEFAULT_COLUMN_SIZE),
-                (new Column(self::PARAMETER_TIME))->setName('Time (Hours)')
+                (new Column(self::PARAMETER_TIME))
+                    ->setName($this->getI18NHelper()->transBySource('Time (Hours)'))
                     ->setCellProperties(['class' => ['col-alt' => true]])
                     ->setSize(self::DEFAULT_COLUMN_SIZE),
             ]

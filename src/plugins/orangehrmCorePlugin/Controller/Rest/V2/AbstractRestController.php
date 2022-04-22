@@ -34,10 +34,12 @@ use OrangeHRM\Core\Controller\AbstractController;
 use OrangeHRM\Core\Traits\LoggerTrait;
 use OrangeHRM\Framework\Http\Request as HttpRequest;
 use OrangeHRM\Framework\Http\Response as HttpResponse;
+use OrangeHRM\I18N\Traits\Service\I18NHelperTrait;
 
 abstract class AbstractRestController extends AbstractController
 {
     use LoggerTrait;
+    use I18NHelperTrait;
 
     protected ?ParamRuleCollection $getValidationRule = null;
     protected ?ParamRuleCollection $postValidationRule = null;
@@ -179,7 +181,7 @@ abstract class AbstractRestController extends AbstractController
                     [
                         'error' => [
                             'status' => '422',
-                            'message' => $e->getMessage(),
+                            'message' => $this->getI18NHelper()->transBySource($e->getMessage()),
                             'data' => $e->getNormalizedErrorBag()
                         ]
                     ]
@@ -202,7 +204,7 @@ abstract class AbstractRestController extends AbstractController
 
             $response->setContent(
                 Response::formatError(
-                    ['error' => ['status' => '400', 'message' => $e->getMessage()]]
+                    ['error' => ['status' => '400', 'message' => $this->getI18NHelper()->transBySource($e->getMessage())]]
                 )
             );
             $response->setStatusCode(400);

@@ -25,9 +25,9 @@
     :allowed-file-types="allowedFileTypes"
   >
     <div class="orangehrm-horizontal-padding orangehrm-vertical-padding">
-      <oxd-text tag="h6" class="orangehrm-main-title">{{
-        $t('pim.job_details')
-      }}</oxd-text>
+      <oxd-text tag="h6" class="orangehrm-main-title">
+        {{ $t('pim.job_details') }}
+      </oxd-text>
       <oxd-divider />
       <oxd-form :loading="isLoading" @submitValid="onSave">
         <oxd-form-row>
@@ -165,7 +165,7 @@
         class="--termination-button"
         @click="onClickTerminate"
       >
-        Employee Termination / Activiation
+        {{ $t('pim.employee_termination_activation') }}
       </profile-action-header>
       <oxd-text
         v-if="termination && termination.id"
@@ -173,7 +173,7 @@
         class="orangehrm-terminate-date"
         @click="openTerminateModal"
       >
-        Terminated on: {{ termination.date }}
+        {{ $t('pim.terminated_on') }}: {{ termination.date }}
       </oxd-text>
     </div>
     <terminate-modal
