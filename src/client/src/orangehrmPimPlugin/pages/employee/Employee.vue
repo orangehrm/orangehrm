@@ -113,6 +113,7 @@
           :loading="isLoading"
           class="orangehrm-employee-list"
           row-decorator="oxd-table-decorator-card"
+          @click="onClickEdit"
         />
       </div>
       <div class="orangehrm-bottom-container">
