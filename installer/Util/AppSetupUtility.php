@@ -23,6 +23,7 @@ use DateTime;
 use Doctrine\DBAL\Types\Types;
 use Exception;
 use InvalidArgumentException;
+use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Utility\PasswordHash;
 use OrangeHRM\Installer\Migration\V3_3_3\Migration;
 use OrangeHRM\Installer\Util\V1\AbstractMigration;
@@ -110,7 +111,7 @@ class AppSetupUtility
     public function isDatabaseExist(string $dbName): bool
     {
         try {
-            return !in_array(
+            return in_array(
                 $dbName,
                 DatabaseServerConnection::getConnection()->createSchemaManager()->listDatabases()
             );
@@ -319,7 +320,7 @@ class AppSetupUtility
         ];
 
         file_put_contents(
-            realpath(__DIR__ . '/../../lib/confs') . DIRECTORY_SEPARATOR . 'Conf.php',
+            Config::get(Config::CONF_FILE_PATH),
             str_replace($search, $replace, $template)
         );
     }
@@ -390,7 +391,7 @@ class AppSetupUtility
         $migration = new $migrationClass();
         if ($migration instanceof AbstractMigration) {
             $migration->up();
-            // $this->getConfigHelper()->setConfigValue('instance.version', $migration->getVersion());
+            $this->getConfigHelper()->setConfigValue('instance.version', $migration->getVersion());
             return;
         }
         throw new InvalidArgumentException("Invalid migration class `$migrationClass`");

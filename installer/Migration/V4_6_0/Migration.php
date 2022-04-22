@@ -91,7 +91,7 @@ class Migration extends AbstractMigration
                 ->addColumn(
                     'modified_at',
                     Types::DATETIMETZ_MUTABLE,
-                    ['Notnull' => false, 'Default' => 'CURRENT_TIMESTAMP']
+                    ['Notnull' => false]
                 )
                 ->setPrimaryKey(['id'])
                 ->create();

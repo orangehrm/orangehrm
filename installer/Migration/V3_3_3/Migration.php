@@ -37,6 +37,9 @@ class Migration extends AbstractMigration
         $script = file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . $fileName);
         $dbScriptStatements = preg_split('/;\s*$/m', $script);
         foreach ($dbScriptStatements as $statement) {
+            if (empty(trim($statement))) {
+                continue;
+            }
             $this->getConnection()->executeStatement($statement);
         }
     }
