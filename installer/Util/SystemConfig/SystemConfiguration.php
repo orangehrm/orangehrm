@@ -357,7 +357,6 @@ class SystemConfiguration
      * @param int $eventType
      * @param int $published
      * @param string|null $data
-     * @return void
      */
     public function setInitialRegistrationEventQueue(int $eventType, int $published, string $data = null)
     {
@@ -387,7 +386,6 @@ class SystemConfiguration
      * @param int $eventType
      * @param int $published
      * @param string|null $data
-     * @return void
      * @throws Exception
      */
     public function updateInitialRegistrationEventQueue(int $eventType, int $published, string $data = null)

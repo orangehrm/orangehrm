@@ -20,8 +20,8 @@
 namespace OrangeHRM\Installer\Util;
 
 use Exception;
-use mysqli;
 use OrangeHRM\Config\Config;
+use PDO;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Yaml\Yaml;
 
@@ -110,19 +110,18 @@ class SystemConfig
     /**
      * MYSQL Client Check
      * @return array
+     * @throws \Doctrine\DBAL\Exception
      */
     public function isMySqlClientCompatible(): array
     {
-        if (function_exists('mysqli_get_client_info')) {
-            $mysqlClient = mysqli_get_client_info();
+        $mysqlClientVersion = $this->getMysqlClientVersion();
+        if (!empty($mysqlClientVersion)) {
             $versionPattern = '/[0-9]+\.[0-9]+\.[0-9]+/';
-
-            preg_match($versionPattern, $mysqlClient, $matches);
-            $mysql_client_version = $matches[0];
-
-            if (version_compare($mysql_client_version, $this->systemRequirements['mysqlversion']['min']) < 0) {
+            preg_match($versionPattern, $mysqlClientVersion, $matches);
+            $mysqlClientVersion = $matches[0];
+            if (version_compare($mysqlClientVersion, $this->systemRequirements['mysqlversion']['min']) > 0) {
                 return [
-                    'message' => Messages::MYSQL_CLIENT_RECOMMEND_MESSAGE . "(reported ver " . $mysqlClient . ")",
+                    'message' => Messages::MYSQL_CLIENT_RECOMMEND_MESSAGE . "(reported ver " . $mysqlClientVersion . ")",
                     'status' => self::ACCEPTABLE
                 ];
             } else {
@@ -135,11 +134,10 @@ class SystemConfig
             $this->interruptContinue = true;
             return [
                 'message' => Messages::MYSQL_CLIENT_FAIL_MESSAGE,
-                'status' => 3
+                'status' => self::BLOCKER
             ];
         }
     }
-
 
     /**
      * MYSQL Server Check
@@ -148,10 +146,8 @@ class SystemConfig
      */
     public function isMySqlServerCompatible(): array
     {
-        if ($this->upgraderConfigUtility->checkDatabaseConnection()) {
-            $connection = $this->upgraderConfigUtility->getConnection();
-            $result = $connection->executeQuery("SELECT VERSION() AS version")->fetchAssociative();
-            $serverVersion = $result['version'];
+        if ($this->getPDOConnection()) {
+            $serverVersion = $this->getMysqlServerVersion();
             strpos($serverVersion, 'MariaDB') === false
                 ? $allowedConfigs = $this->systemRequirements['mysqlversion'] :
                 $allowedConfigs = $this->systemRequirements['mariadbversion'];
@@ -700,13 +696,11 @@ class SystemConfig
     /**
      * Return MySql client version
      * @return string
+     * @throws \Doctrine\DBAL\Exception
      */
     public function getMysqlClientVersion(): string
     {
-        $mysqlClient = mysqli_get_client_info();
-        $versionPattern = '/[0-9]+\.[0-9]+\.[0-9]+/';
-        preg_match($versionPattern, $mysqlClient, $matches);
-        return $matches[0];
+        return $this->getPDOConnection()->getAttribute(PDO::ATTR_CLIENT_VERSION) ?: '';
     }
 
     /**
@@ -716,30 +710,17 @@ class SystemConfig
      */
     public function getMysqlServerVersion(): string
     {
-        $connection = $this->upgraderConfigUtility->getConnection();
-        $result = $connection->executeQuery("SELECT VERSION() AS version")->fetchAssociative();
-        return $result['version'];
+        return $this->getPDOConnection()->getAttribute(PDO::ATTR_SERVER_VERSION) ?: '';
     }
 
     /**
+     * Return MySql host info
      * @return string
+     * @throws \Doctrine\DBAL\Exception
      */
     public function getMySqlHostInfo(): string
     {
-        $dbInfo = StateContainer::getInstance()->getDbInfo();
-        $mysqli = new mysqli(
-            $dbInfo[StateContainer::DB_HOST],
-            $dbInfo[StateContainer::DB_USER],
-            $dbInfo[StateContainer::DB_PASSWORD],
-            $dbInfo[StateContainer::DB_NAME]
-        );
-        if (mysqli_connect_errno()) {
-            printf("Connect failed: %s\n", mysqli_connect_error());
-            exit();
-        }
-        $hostInfo = $mysqli->host_info;
-        $mysqli->close();
-        return $hostInfo;
+        return $this->getPDOConnection()->getAttribute(PDO::ATTR_CONNECTION_STATUS) ?: '';
     }
 
     /**
@@ -753,6 +734,19 @@ class SystemConfig
             "release_name" => php_uname('r'),
             "version_info" => php_uname('v'),
         ];
+    }
+
+    /**
+     * @return PDO|null
+     * @throws \Doctrine\DBAL\Exception
+     */
+    private function getPDOConnection(): ?PDO
+    {
+        $conn = Connection::getConnection()->getWrappedConnection();
+        if ($conn instanceof \Doctrine\DBAL\Driver\PDO\Connection) {
+            return $conn->getWrappedConnection();
+        }
+        return null;
     }
 
     /**

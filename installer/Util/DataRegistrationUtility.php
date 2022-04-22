@@ -21,6 +21,7 @@ namespace OrangeHRM\Installer\Util;
 
 use DateTime;
 use Exception;
+use GuzzleHttp\Exception\GuzzleException;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Installer\Util\Service\DataRegistrationService;
 use OrangeHRM\Installer\Util\SystemConfig\SystemConfiguration;
@@ -202,6 +203,11 @@ class DataRegistrationUtility
         return $this->systemConfiguration->getInstanceIdentifierChecksum();
     }
 
+    /**
+     * @param string $type
+     * @throws \Doctrine\DBAL\Exception
+     * @throws GuzzleException
+     */
     public function sendRegistrationDataOnFailure(string $type)
     {
         $this->systemConfiguration->setInitialRegistrationEventQueue(
