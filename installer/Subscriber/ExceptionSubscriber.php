@@ -44,7 +44,6 @@ class ExceptionSubscriber implements EventSubscriberInterface
      */
     public function onExceptionEvent(ExceptionEvent $event)
     {
-        //new \Symfony\Component\HttpKernel\EventListener\ErrorListener()
         $exception = $event->getThrowable();
         $response = $event->hasResponse() ? $event->getResponse() : new Response();
 

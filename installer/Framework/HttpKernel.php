@@ -199,7 +199,7 @@ class HttpKernel extends BaseHttpKernel
         ServiceContainer::getContainer()->set(Services::SESSION, $session);
     }
 
-    protected function configureSubscriber(): void
+    protected function configureSubscribers(): void
     {
         /** @var EventDispatcher $dispatcher */
         $dispatcher = ServiceContainer::getContainer()->get(Services::EVENT_DISPATCHER);
@@ -217,7 +217,7 @@ class HttpKernel extends BaseHttpKernel
         int $type = HttpKernelInterface::MAIN_REQUEST,
         bool $catch = true
     ): Response {
-        $this->configureSubscriber();
+        $this->configureSubscribers();
         $this->configureRouter($request);
         $this->configureSession($request);
 
