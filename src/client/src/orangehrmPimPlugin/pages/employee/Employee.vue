@@ -104,6 +104,7 @@
       ></table-header>
       <div class="orangehrm-container">
         <oxd-card-table
+          ref="cardTable"
           v-model:selected="checkedItems"
           v-model:order="sortDefinition"
           :headers="headers"
@@ -353,7 +354,9 @@ export default {
     onClickEdit($event) {
       //TODO[temporary fix]
       const id = $event.id ? $event.id : $event.item?.id;
-      const tableBody = document.querySelector('.oxd-table-body');
+      const tableBody = this.$refs.cardTable.$el.querySelector(
+        '.oxd-table-body',
+      );
       tableBody.onclick = function(e) {
         if (
           !(
