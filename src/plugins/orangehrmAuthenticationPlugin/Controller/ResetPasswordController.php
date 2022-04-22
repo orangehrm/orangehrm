@@ -54,7 +54,8 @@ class ResetPasswordController extends AbstractController implements PublicContro
     public function handle(Request $request): RedirectResponse
     {
         $csrfTokenManager = new CsrfTokenManager();
-        $token = $request->get('_token');
+        $token = $request->request->get('_token');
+
         if (!$csrfTokenManager->isValid('reset-password', $token)) {
             throw AuthenticationException::invalidCsrfToken();
         }
