@@ -110,7 +110,7 @@ class ResetPasswordService
         $body = file_get_contents(
             Config::get(
                 Config::PLUGINS_DIR
-            ) . '/orangehrmAuthenticationPlugin/config/data' . '/' . $templateFile
+            ) . '/orangehrmAuthenticationPlugin/config/data/' . $templateFile
         );
 
         return nl2br(str_replace($placeholders, $replacements, $body));
@@ -143,7 +143,7 @@ class ResetPasswordService
         }
 
         if (!$user->getStatus()) {
-            $this->getLogger()->error('user Account was disabled');
+            $this->getLogger()->error('Account disabled');
             return null;
         }
 
