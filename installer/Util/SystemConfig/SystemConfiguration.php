@@ -21,6 +21,7 @@ namespace OrangeHRM\Installer\Util\SystemConfig;
 
 use DateTime;
 use Doctrine\DBAL\Exception;
+use Doctrine\DBAL\Types\Types;
 use OrangeHRM\Installer\Util\ConfigHelper;
 use OrangeHRM\Installer\Util\Connection;
 
@@ -32,6 +33,7 @@ class SystemConfiguration
     public const INSTANCE_IDENTIFIER_CHECKSUM = "instance.identifier_checksum";
 
     private ?ConfigHelper $configHelper = null;
+    private ?int $adminEmpNumber = null;
 
     public function __construct()
     {
@@ -90,11 +92,13 @@ class SystemConfiguration
     public function getAdminFirstName(): string
     {
         $qb = $this->getConnection()->createQueryBuilder();
-        return $qb->select('employee.emp_firstname AS firstName')
+        $result = $qb->select('employee.emp_firstname AS firstName')
             ->from('hs_hr_employee', 'employee')
             ->where('employee.emp_number = :empNumber')
             ->setParameter('empNumber', $this->getAdminEmployeeNumber())
             ->fetchOne();
+
+        return $result ?: 'Admin';
     }
 
     /**
@@ -175,37 +179,20 @@ class SystemConfiguration
     }
 
     /**
-     * @return string
+     * @return int|null
      * @throws Exception
      */
-    private function getAdminEmployeeNumber(): string
+    private function getAdminEmployeeNumber(): ?int
     {
-        $qb = $this->getConnection()->createQueryBuilder();
-        $adminRoleId = $qb->select('role.id')
-            ->from('ohrm_user_role', 'role')
-            ->where('role.name = :name')
-            ->setParameter('name', 'Admin')
-            ->setMaxResults(1)
-            ->fetchOne();
-
-        $qb = $this->getConnection()->createQueryBuilder();
-        return $qb->select('user.emp_number AS empNumber')
-            ->from('ohrm_user', 'user')
-            ->where('user.user_role_id = :roleId')
-            ->setParameter('roleId', $adminRoleId)
-            ->fetchOne();
-    }
-
-    /**
-     * @return int
-     * @throws Exception
-     */
-    public function getEmployeeCount(): int
-    {
-        $qb = $this->getConnection()->createQueryBuilder();
-        return $qb->select('COUNT(employee.emp_number) as employeeCount')
-            ->from('hs_hr_employee', 'employee')
-            ->fetchOne();
+        if (is_null($this->adminEmpNumber)) {
+            $qb = $this->getConnection()->createQueryBuilder();
+            $qb->select('user.emp_number')
+                ->from('ohrm_user', 'user');
+            $this->adminEmpNumber = $qb->andWhere($qb->expr()->isNull('user.created_by'))
+                ->setMaxResults(1)
+                ->fetchOne();
+        }
+        return $this->adminEmpNumber;
     }
 
     /**
@@ -301,8 +288,8 @@ class SystemConfiguration
         string $ohrmVersion,
         int $currentTimestamp
     ): string {
-        $host = !is_null($host) ?: '';
-        $country = !is_null($country) ?: '';
+        $host = !is_null($host) ? $host : '';
+        $country = !is_null($country) ? $country : '';
 
         return base64_encode(
             $organizationName .
@@ -336,8 +323,8 @@ class SystemConfiguration
         string $ohrmVersion,
         int $currentTimestamp
     ): string {
-        $host = !is_null($host) ?: '';
-        $country = !is_null($country) ?: '';
+        $host = !is_null($host) ? $host : '';
+        $country = !is_null($country) ? $country : '';
 
         $parameters = [
             'organizationName' => $organizationName,
@@ -360,8 +347,7 @@ class SystemConfiguration
      */
     public function setInitialRegistrationEventQueue(int $eventType, int $published, string $data = null)
     {
-        $dateTime = new DateTime();
-        $eventTime = $dateTime->format('Y-m-d H:i:s');
+        $eventTime = new DateTime();
 
         $qb = $this->getConnection()->createQueryBuilder();
         $qb->insert('ohrm_registration_event_queue')
@@ -370,10 +356,10 @@ class SystemConfiguration
             ->setValue('published', ':published')
             ->setParameter('published', $published)
             ->setValue('event_time', ':eventTime')
-            ->setParameter('eventTime', $eventTime);
+            ->setParameter('eventTime', $eventTime, Types::DATETIME_MUTABLE);
         if ($published !== 0) {
             $qb->setValue('publish_time', ':publishTime')
-                ->setParameter('publishTime', $eventTime);
+                ->setParameter('publishTime', $eventTime, Types::DATETIME_MUTABLE);
         }
         if (!is_null($data)) {
             $qb->setValue('data', ':data')
@@ -399,15 +385,12 @@ class SystemConfiguration
             ->setMaxResults(1)
             ->fetchOne();
 
-        $dateTime = new DateTime();
-        $publishTime = $dateTime->format('Y-m-d H:i:s');
-
         $qb = $this->getConnection()->createQueryBuilder();
         $qb->update('ohrm_registration_event_queue', 'eventQueue')
             ->set('eventQueue.published', ':published')
             ->setParameter('published', $published)
             ->set('eventQueue.publish_time', ':publishTime')
-            ->setParameter('publishTime', $publishTime);
+            ->setParameter('publishTime', new DateTime(), Types::DATETIME_MUTABLE);
         if (!is_null($data)) {
             $qb->set('data', ':data')
                 ->setParameter('data', $data);
