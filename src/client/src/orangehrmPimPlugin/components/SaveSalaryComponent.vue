@@ -168,7 +168,7 @@
 <script>
 import SwitchInput from '@ohrm/oxd/core/components/Input/SwitchInput';
 import {
-  digitsWithDecimalPointOnly,
+  digitsOnlyWithDecimalPoint,
   maxCurrency,
   required,
   shouldNotExceedCharLength,
@@ -234,7 +234,7 @@ export default {
         name: [required, shouldNotExceedCharLength(100)],
         salaryAmount: [
           required,
-          digitsWithDecimalPointOnly,
+          digitsOnlyWithDecimalPoint,
           maxCurrency(1000000000),
         ],
         comment: [shouldNotExceedCharLength(250)],
@@ -245,11 +245,11 @@ export default {
         directDepositRoutingNumber: [
           required,
           shouldNotExceedCharLength(9),
-          digitsWithDecimalPointOnly,
+          digitsOnlyWithDecimalPoint,
         ],
         directDepositAmount: [
           required,
-          digitsWithDecimalPointOnly,
+          digitsOnlyWithDecimalPoint,
           maxCurrency(1000000000),
         ],
       },

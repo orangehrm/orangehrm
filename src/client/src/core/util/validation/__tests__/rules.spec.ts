@@ -27,7 +27,7 @@ import {
   startTimeShouldBeBeforeEndTime,
   minValueShouldBeLowerThanMaxValue,
   digitsOnly,
-  digitsWithDecimalPointOnly,
+  digitsOnlyWithDecimalPoint,
 } from '../rules';
 
 jest.mock('@/core/plugins/i18n/translate', () => {
@@ -546,34 +546,34 @@ describe('core/util/validation/rules::digitsOnly', () => {
   });
 });
 
-describe('core/util/validation/rules::digitsWithDecimalPointOnly', () => {
-  test('digitsWithDecimalPointOnly:: with empty string', () => {
-    const result = digitsWithDecimalPointOnly('');
+describe('core/util/validation/rules::digitsOnlyWithDecimalPoint', () => {
+  test('digitsOnlyWithDecimalPoint:: with empty string', () => {
+    const result = digitsOnlyWithDecimalPoint('');
     expect(result).toStrictEqual(true);
   });
 
-  test('digitsWithDecimalPointOnly:: with letters', () => {
-    const result = digitsWithDecimalPointOnly('abcdefg');
+  test('digitsOnlyWithDecimalPoint:: with letters', () => {
+    const result = digitsOnlyWithDecimalPoint('abcdefg');
     expect(result).toEqual('Should be a number');
   });
 
-  test('digitsWithDecimalPointOnly:: with letters and numbers', () => {
-    const result = digitsWithDecimalPointOnly('123abc');
+  test('digitsOnlyWithDecimalPoint:: with letters and numbers', () => {
+    const result = digitsOnlyWithDecimalPoint('123abc');
     expect(result).toEqual('Should be a number');
   });
 
-  test('digitsWithDecimalPointOnly:: with letters and numbers and decimal point', () => {
-    const result = digitsWithDecimalPointOnly('123.abc');
+  test('digitsOnlyWithDecimalPoint:: with letters and numbers and decimal point', () => {
+    const result = digitsOnlyWithDecimalPoint('123.abc');
     expect(result).toEqual('Should be a number');
   });
 
-  test('digitsWithDecimalPointOnly:: with decimal number', () => {
-    const result = digitsWithDecimalPointOnly('10.5');
+  test('digitsOnlyWithDecimalPoint:: with decimal number', () => {
+    const result = digitsOnlyWithDecimalPoint('10.5');
     expect(result).toStrictEqual(true);
   });
 
-  test('digitsWithDecimalPointOnly:: with whole number', () => {
-    const result = digitsWithDecimalPointOnly('10');
+  test('digitsOnlyWithDecimalPoint:: with whole number', () => {
+    const result = digitsOnlyWithDecimalPoint('10');
     expect(result).toStrictEqual(true);
   });
 });

@@ -99,7 +99,7 @@ export const digitsOnly = function(value: string): boolean | string {
   );
 };
 
-export const digitsWithDecimalPointOnly = function(
+export const digitsOnlyWithDecimalPoint = function(
   value: string,
 ): boolean | string {
   return (
