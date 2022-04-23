@@ -69,5 +69,4 @@ class InitialDataRegistrationAPI extends AbstractInstallerRestController
             'message' => $message
         ];
     }
-
 }

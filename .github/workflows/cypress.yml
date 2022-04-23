@@ -81,14 +81,13 @@ jobs:
       - name: Install OrangeHRM
         run: |
           docker exec os_dev_php80 bash -c 'cd src/client && yarn build'
-          docker exec os_dev_php80 bash -c 'sed -i 's/127.0.0.1/mysql55/g' installer/config.ini'
-          docker exec os_dev_php80 bash -c 'sed -i 's/Ohrm@1423/Admin@123/g' installer/config.ini'
-          docker exec os_dev_php80 bash -c 'sed -i 's/1234/root/g' installer/config.ini'
-          docker exec os_dev_php80 bash -c 'sed -i 's/ABCD/Samantha/g' installer/config.ini'
-          docker exec os_dev_php80 bash -c 'sed -i 's/XYZ/Jayasinghe/g' installer/config.ini'
+          docker exec os_dev_php80 bash -c "sed -i 's/hostName: 127.0.0.1/hostName: mysql55/g' installer/cli_install_config.yaml"
+          docker exec os_dev_php80 bash -c "sed -i 's/adminPassword: Ohrm@1423/adminPassword: Admin@123/g' installer/cli_install_config.yaml"
+          docker exec os_dev_php80 bash -c "sed -i 's/adminEmployeeFirstName: OrangeHRM/adminEmployeeFirstName: Samantha/g' installer/cli_install_config.yaml"
+          docker exec os_dev_php80 bash -c "sed -i 's/adminEmployeeLastName: Admin/adminEmployeeLastName: Jayasinghe/g' installer/cli_install_config.yaml"
           docker exec os_dev_php80 bash -c 'chmod -R 777 src/log'
           docker exec os_dev_php80 bash -c 'chmod -R 777 src/config'
-          docker exec os_dev_php80 bash -c 'php installer/cli_install.php 0'
+          docker exec os_dev_php80 bash -c 'php installer/cli_install.php'
 
       - name: Run tests
         run: |

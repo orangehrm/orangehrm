@@ -1,0 +1,25 @@
+database:
+  hostName: 127.0.0.1
+  hostPort: 3306
+  databaseName: orangehrm_mysql
+  privilegedDatabaseUser: root
+  privilegedDatabasePassword: root
+  useSameDbUserForOrangeHRM: y # y/n, if this field `n` fill `orangehrmDatabaseUser` and `orangehrmDatabasePassword`
+  orangehrmDatabaseUser: ~
+  orangehrmDatabasePassword: ~
+  isExistingDatabase: n # y/n
+
+organization:
+  name: OrangeHRM
+  country: US
+
+admin:
+  adminUserName: Admin
+  adminPassword: Ohrm@1423
+  adminEmployeeFirstName: OrangeHRM
+  adminEmployeeLastName: Admin
+  workEmail: admin@example.com
+  contactNumber: ~
+
+license:
+  agree: y # y/n

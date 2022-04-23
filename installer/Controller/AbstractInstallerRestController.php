@@ -69,12 +69,26 @@ abstract class AbstractInstallerRestController extends AbstractInstallerControll
                     throw new NotImplementedException();
             }
         } catch (NotImplementedException $e) {
-            $response->setContent(json_encode(['error' => $e->getMessage()]));
             $response->setStatusCode(Response::HTTP_NOT_IMPLEMENTED);
+            $response->setContent(
+                json_encode([
+                    'error' => [
+                        'status' => $response->getStatusCode(),
+                        'message' => $e->getMessage(),
+                    ]
+                ])
+            );
             return $response;
         } catch (Throwable $e) {
-            $response->setContent(json_encode(['error' => 'Unexpected Error']));
             $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
+            $response->setContent(
+                json_encode([
+                    'error' => [
+                        'status' => $response->getStatusCode(),
+                        'message' => 'Unexpected Error',
+                    ]
+                ])
+            );
             Logger::getLogger()->error($e->getMessage());
             Logger::getLogger()->error($e->getTraceAsString());
             return $response;

@@ -17,21 +17,18 @@
  * Boston, MA  02110-1301, USA
  */
 
-/* For logging PHP errors */
-include_once('lib/confs/log_settings.php');
+namespace OrangeHRM\Installer\Controller\Installer\Api;
 
-$installed = true;
+use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Installer\Util\AppSetupUtility;
 
-define('ROOT_PATH', dirname(__FILE__));
-
-if (!is_file(ROOT_PATH . '/lib/confs/Conf.php')) {
-    $installed = false;
+class MigrationAPI extends \OrangeHRM\Installer\Controller\Upgrader\Api\MigrationAPI
+{
+    /**
+     * @inheritDoc
+     */
+    protected function handleGet(Request $request): array
+    {
+        return array_keys(AppSetupUtility::MIGRATIONS_MAP);
+    }
 }
-
-if (!$installed) {
-    header('Location: ./installer/index.php');
-    exit();
-}
-
-header("Location: ./web/index.php/auth/login");
-exit();

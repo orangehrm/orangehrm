@@ -37,7 +37,7 @@ class Migration extends AbstractMigration
                 ->addColumn('employee_number', Types::INTEGER, ['Length' => 7])
                 ->addColumn('text', Types::TEXT)
                 ->addColumn('post_time', Types::DATETIME_MUTABLE, ['Notnull' => true])
-                ->addColumn('updated_at', Types::DATETIMETZ_MUTABLE, ['Default' => 'CURRENT_TIMESTAMP', 'CustomSchemaOptions' => ['onUpdate' => 'CURRENT_TIMESTAMP']])
+                ->addColumn('updated_at', Types::DATETIMETZ_MUTABLE, ['CustomSchemaOptions' => ['onUpdate' => 'CURRENT_TIMESTAMP']])
                 ->setPrimaryKey(['id'])
                 ->create();
         }
@@ -61,7 +61,7 @@ class Migration extends AbstractMigration
                 ->addColumn('share_time', Types::DATETIME_MUTABLE, ['Notnull' => true])
                 ->addColumn('type', Types::SMALLINT, ['Default' => null, 'Notnull' => false])
                 ->addColumn('text', Types::TEXT)
-                ->addColumn('updated_at', Types::DATETIMETZ_MUTABLE, ['Default' => 'CURRENT_TIMESTAMP', 'CustomSchemaOptions' => ['onUpdate' => 'CURRENT_TIMESTAMP']])
+                ->addColumn('updated_at', Types::DATETIMETZ_MUTABLE, ['CustomSchemaOptions' => ['onUpdate' => 'CURRENT_TIMESTAMP']])
                 ->setPrimaryKey(['id'])
                 ->create();
         }
@@ -102,7 +102,7 @@ class Migration extends AbstractMigration
                 ->addColumn('number_of_unlikes', Types::INTEGER, ['Length' => 6, 'Default' => null, 'Notnull' => false])
                 ->addColumn('comment_text', Types::TEXT)
                 ->addColumn('comment_time', Types::DATETIME_MUTABLE, ['Notnull' => true])
-                ->addColumn('updated_at', Types::DATETIMETZ_MUTABLE, ['Default' => 'CURRENT_TIMESTAMP', 'CustomSchemaOptions' => ['onUpdate' => 'CURRENT_TIMESTAMP']])
+                ->addColumn('updated_at', Types::DATETIMETZ_MUTABLE, ['CustomSchemaOptions' => ['onUpdate' => 'CURRENT_TIMESTAMP']])
                 ->setPrimaryKey(['id'])
                 ->create();
         }

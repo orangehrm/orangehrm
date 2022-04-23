@@ -19,15 +19,20 @@
 
 namespace OrangeHRM\Installer\Util;
 
+use DateTime;
+use Doctrine\DBAL\Types\Types;
 use Exception;
 use InvalidArgumentException;
-use OrangeHRM\Installer\Migration\V4_0\Migration;
+use OrangeHRM\Config\Config;
+use OrangeHRM\Core\Utility\PasswordHash;
+use OrangeHRM\Installer\Migration\V3_3_3\Migration;
 use OrangeHRM\Installer\Util\V1\AbstractMigration;
 
 class AppSetupUtility
 {
     public const MIGRATIONS_MAP = [
-        '4.0' => Migration::class, // From previous version to `4.0`
+        '3.3.3' => Migration::class, // From beginning to `3.3.3`
+        '4.0' => \OrangeHRM\Installer\Migration\V4_0\Migration::class,
         '4.1' => \OrangeHRM\Installer\Migration\V4_1\Migration::class,
         '4.1.1' => \OrangeHRM\Installer\Migration\V4_1_1\Migration::class,
         '4.1.2' => \OrangeHRM\Installer\Migration\V4_1_2\Migration::class,
@@ -54,6 +59,9 @@ class AppSetupUtility
         ],
     ];
 
+    public const INSTALLATION_DB_TYPE_NEW = 'new';
+    public const INSTALLATION_DB_TYPE_EXISTING = 'existing';
+
     private ?ConfigHelper $configHelper = null;
 
     /**
@@ -73,7 +81,7 @@ class AppSetupUtility
     public function createNewDatabase(string $dbName)
     {
         try {
-            Connection::getConnection()->createSchemaManager()->createDatabase($dbName);
+            DatabaseServerConnection::getConnection()->createSchemaManager()->createDatabase($dbName);
         } catch (Exception $e) {
             Logger::getLogger()->error($e->getMessage());
             Logger::getLogger()->error($e->getTraceAsString());
@@ -81,6 +89,57 @@ class AppSetupUtility
     }
 
     /**
+     * Trying to connect database server without selecting a database
+     * @return bool
+     */
+    public function connectToDatabaseServer(): bool
+    {
+        try {
+            DatabaseServerConnection::getConnection()->connect();
+            return true;
+        } catch (Exception $e) {
+            Logger::getLogger()->error($e->getMessage());
+            Logger::getLogger()->error($e->getTraceAsString());
+            return false;
+        }
+    }
+
+    /**
+     * @param string $dbName
+     * @return bool
+     */
+    public function isDatabaseExist(string $dbName): bool
+    {
+        try {
+            return in_array(
+                $dbName,
+                DatabaseServerConnection::getConnection()->createSchemaManager()->listDatabases()
+            );
+        } catch (Exception $e) {
+            Logger::getLogger()->error($e->getMessage());
+            Logger::getLogger()->error($e->getTraceAsString());
+            return false;
+        }
+    }
+
+    /**
+     * Trying to connect existing database
+     * @return bool
+     */
+    public function connectToDatabase(): bool
+    {
+        try {
+            Connection::getConnection()->connect();
+            return true;
+        } catch (Exception $e) {
+            Logger::getLogger()->error($e->getMessage());
+            Logger::getLogger()->error($e->getTraceAsString());
+            return false;
+        }
+    }
+
+    /**
+     * Connect existing database & check is empty
      * @return bool
      */
     public function isExistingDatabaseEmpty(): bool
@@ -88,14 +147,128 @@ class AppSetupUtility
         return !(Connection::getConnection()->createSchemaManager()->listTables() > 0);
     }
 
+    /**
+     * Create database at the installation
+     */
+    public function createDatabase(): void
+    {
+        if (StateContainer::getInstance()->getDbType() === AppSetupUtility::INSTALLATION_DB_TYPE_NEW) {
+            $dbName = StateContainer::getInstance()->getDbInfo()[StateContainer::DB_NAME];
+            if ($this->isDatabaseExist($dbName)) {
+                throw new InvalidArgumentException("Cannot create database `$dbName`, already exist");
+            }
+            $this->createNewDatabase($dbName);
+            return;
+        } elseif (StateContainer::getInstance()->getDbType() === AppSetupUtility::INSTALLATION_DB_TYPE_EXISTING) {
+            if (!$this->isExistingDatabaseEmpty()) {
+                $dbName = StateContainer::getInstance()->getDbInfo()[StateContainer::DB_NAME];
+                throw new InvalidArgumentException("Database `$dbName`, not empty");
+            }
+            return;
+        }
+        throw new InvalidArgumentException(
+            'Invalid installation database type ' . StateContainer::getInstance()->getDbType()
+        );
+    }
+
     public function insertCsrfKey()
     {
         // TODO:: Develop with installer
     }
 
-    public function insertSystemConfiguration()
+    public function insertSystemConfiguration(): void
     {
-        // TODO:: Develop with installer
+        $this->insertOrganizationInfo();
+        $this->setDefaultLanguage();
+        $this->insertAdminEmployee();
+        $this->insertAdminUser();
+    }
+
+    protected function insertOrganizationInfo(): void
+    {
+        $instanceData = StateContainer::getInstance()->getInstanceData();
+        Connection::getConnection()->createQueryBuilder()
+            ->insert('ohrm_organization_gen_info')
+            ->values([
+                'name' => ':name',
+                'country' => ':countryCode',
+            ])
+            ->setParameter('name', $instanceData[StateContainer::INSTANCE_ORG_NAME])
+            ->setParameter('countryCode', $instanceData[StateContainer::INSTANCE_COUNTRY_CODE])
+            ->executeQuery();
+    }
+
+    protected function setDefaultLanguage(): void
+    {
+        $instanceData = StateContainer::getInstance()->getInstanceData();
+        $this->getConfigHelper()->setConfigValue(
+            'admin.localization.default_language',
+            $instanceData[StateContainer::INSTANCE_LANG_CODE] ?? 'en_US'
+        );
+    }
+
+    /**
+     * @param string $employeeId
+     */
+    protected function insertAdminEmployee(string $employeeId = '0001'): void
+    {
+        $adminUserData = StateContainer::getInstance()->getAdminUserData();
+        Connection::getConnection()->createQueryBuilder()
+            ->insert('hs_hr_employee')
+            ->values([
+                'employee_id' => ':employeeId',
+                'emp_lastname' => ':lastName',
+                'emp_firstname' => ':firstName',
+                'emp_work_email' => ':workEmail',
+                'emp_work_telephone' => ':contact',
+            ])
+            ->setParameter('employeeId', $employeeId)
+            ->setParameter('firstName', $adminUserData[StateContainer::ADMIN_FIRST_NAME])
+            ->setParameter('lastName', $adminUserData[StateContainer::ADMIN_LAST_NAME])
+            ->setParameter('workEmail', $adminUserData[StateContainer::ADMIN_EMAIL])
+            ->setParameter('contact', $adminUserData[StateContainer::ADMIN_CONTACT])
+            ->executeQuery();
+    }
+
+    /**
+     * @param string $employeeId
+     */
+    protected function insertAdminUser(string $employeeId = '0001'): void
+    {
+        $empNumber = Connection::getConnection()->createQueryBuilder()
+            ->select('employee.emp_number')
+            ->from('hs_hr_employee', 'employee')
+            ->where('employee.employee_id = :employeeId')
+            ->setParameter('employeeId', $employeeId)
+            ->setMaxResults(1)
+            ->fetchOne();
+
+        $adminUserRoleId = Connection::getConnection()->createQueryBuilder()
+            ->select('userRole.id')
+            ->from('ohrm_user_role', 'userRole')
+            ->where('userRole.name = :userRoleName')
+            ->setParameter('userRoleName', 'Admin')
+            ->setMaxResults(1)
+            ->fetchOne();
+
+        $adminUserData = StateContainer::getInstance()->getAdminUserData();
+        $passwordHasher = new PasswordHash();
+        $hashedPassword = $passwordHasher->hash($adminUserData[StateContainer::ADMIN_PASSWORD]);
+        Connection::getConnection()->createQueryBuilder()
+            ->insert('ohrm_user')
+            ->values([
+                'user_role_id' => ':userRoleId',
+                'emp_number' => ':empNumber',
+                'user_name' => ':username',
+                'user_password' => ':hashedPassword',
+                'date_entered' => ':created',
+            ])
+            ->setParameter('userRoleId', $adminUserRoleId)
+            ->setParameter('empNumber', $empNumber)
+            ->setParameter('username', $adminUserData[StateContainer::ADMIN_USERNAME])
+            ->setParameter('hashedPassword', $hashedPassword)
+            ->setParameter('created', new DateTime(), Types::DATETIME_MUTABLE)
+            ->executeQuery();
     }
 
     public function initUniqueIDs()
@@ -103,9 +276,38 @@ class AppSetupUtility
         // TODO:: Develop with installer
     }
 
-    public function createDBUser()
+    public function createDBUser(): void
     {
-        // TODO:: Develop with installer
+        if (StateContainer::getInstance()->getDbType() === AppSetupUtility::INSTALLATION_DB_TYPE_NEW) {
+            $dbInfo = StateContainer::getInstance()->getDbInfo();
+            $dbName = $dbInfo[StateContainer::DB_NAME];
+            $dbUser = $dbInfo[StateContainer::DB_USER];
+            $ohrmDbUser = $dbInfo[StateContainer::ORANGEHRM_DB_USER];
+            if ($dbUser === $ohrmDbUser) {
+                return;
+            }
+            $ohrmDbPassword = $dbInfo[StateContainer::ORANGEHRM_DB_PASSWORD];
+            Connection::getConnection()->executeStatement(
+                $this->getUserCreationQuery($dbName, $ohrmDbUser, $ohrmDbPassword, 'localhost')
+            );
+            Connection::getConnection()->executeStatement(
+                $this->getUserCreationQuery($dbName, $ohrmDbUser, $ohrmDbPassword, '%')
+            );
+        }
+    }
+
+    protected function getUserCreationQuery(
+        string $dbName,
+        string $ohrmDbUser,
+        ?string $ohrmDbPassword,
+        string $grantHost
+    ) {
+        $conn = Connection::getConnection();
+        $dbName = $conn->quote($dbName);
+        $ohrmDbUser = $conn->quote($ohrmDbUser);
+        $queryIdentifiedBy = empty($ohrmDbPassword) ? '' : "IDENTIFIED BY " . $conn->quote($ohrmDbPassword);
+        return "GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, ALTER, DROP, INDEX, CREATE ROUTINE, ALTER ROUTINE, CREATE TEMPORARY TABLES, CREATE VIEW, EXECUTE" .
+            "ON $dbName.* TO '$ohrmDbUser'@'$grantHost' $queryIdentifiedBy;";
     }
 
     public function writeConfFile(): void
@@ -122,7 +324,7 @@ class AppSetupUtility
         ];
 
         file_put_contents(
-            realpath(__DIR__ . '/../../lib/confs') . DIRECTORY_SEPARATOR . 'Conf.php',
+            Config::get(Config::CONF_FILE_PATH),
             str_replace($search, $replace, $template)
         );
     }
@@ -193,7 +395,7 @@ class AppSetupUtility
         $migration = new $migrationClass();
         if ($migration instanceof AbstractMigration) {
             $migration->up();
-            // $this->getConfigHelper()->setConfigValue('instance.version', $migration->getVersion());
+            $this->getConfigHelper()->setConfigValue('instance.version', $migration->getVersion());
             return;
         }
         throw new InvalidArgumentException("Invalid migration class `$migrationClass`");

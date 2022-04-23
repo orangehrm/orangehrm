@@ -17,21 +17,38 @@
  * Boston, MA  02110-1301, USA
  */
 
-/* For logging PHP errors */
-include_once('lib/confs/log_settings.php');
+namespace OrangeHRM\Installer\Migration\V3_3_3;
 
-$installed = true;
+use OrangeHRM\Installer\Util\V1\AbstractMigration;
 
-define('ROOT_PATH', dirname(__FILE__));
+class Migration extends AbstractMigration
+{
+    public function up(): void
+    {
+        $this->execQueries('dbscript-1.sql');
+        $this->execQueries('dbscript-2.sql');
+    }
 
-if (!is_file(ROOT_PATH . '/lib/confs/Conf.php')) {
-    $installed = false;
+    /**
+     * @param $fileName
+     */
+    private function execQueries($fileName): void
+    {
+        $script = file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . $fileName);
+        $dbScriptStatements = preg_split('/;\s*$/m', $script);
+        foreach ($dbScriptStatements as $statement) {
+            if (empty(trim($statement))) {
+                continue;
+            }
+            $this->getConnection()->executeStatement($statement);
+        }
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getVersion(): string
+    {
+        return '3.3.3';
+    }
 }
-
-if (!$installed) {
-    header('Location: ./installer/index.php');
-    exit();
-}
-
-header("Location: ./web/index.php/auth/login");
-exit();

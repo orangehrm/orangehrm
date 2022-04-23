@@ -31,6 +31,7 @@ class Config
     public const DOCTRINE_PROXY_DIR = 'ohrm_doctrine_proxy_dir';
     public const APP_TEMPLATE_DIR = 'ohrm_app_template_dir';
     public const TEST_DIR = 'ohrm_test_dir';
+    public const CONF_FILE_PATH = 'ohrm_conf_file_path';
     public const I18N_ENABLED = 'ohrm_i18n_enabled';
 
     public const MODE_DEV = 'dev';
@@ -117,5 +118,13 @@ class Config
     public static function clear(): void
     {
         self::$configs = [];
+    }
+
+    /**
+     * @return bool
+     */
+    public static function isInstalled(): bool
+    {
+        return realpath(self::get(self::CONF_FILE_PATH)) !== false;
     }
 }

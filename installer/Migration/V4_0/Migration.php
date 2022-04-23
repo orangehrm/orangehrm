@@ -62,6 +62,18 @@ class Migration extends AbstractMigration
             ->setParameter('parentId1', $adminId)
             ->executeQuery()
             ->fetchOne();
+
+        $this->createQueryBuilder()
+            ->insert('ohrm_screen')
+            ->values([
+                'name' => ':name',
+                'module_id' => ':moduleId',
+                'action_url' => ':url',
+            ])
+            ->setParameter('name', 'Register OAuth Client')
+            ->setParameter('moduleId', $this->getDataGroupHelper()->getModuleIdByName('admin'))
+            ->setParameter('url', 'registerOAuthClient')
+            ->executeQuery();
         $clientScreenId = $this->getConnection()->createQueryBuilder()
             ->select('screen.id')
             ->from('ohrm_screen', 'screen')
