@@ -24,7 +24,7 @@ class Messages
     public const PHP_OK_MESSAGE = "PHP Version - Ok";
 
     public const MYSQL_CLIENT_OK_MESSAGE = "MySQL Client - Ok";
-    public const MYSQL_CLIENT_RECOMMEND_MESSAGE = "MySQL Client - ver 4.1.x or later recommended";
+    public const MYSQL_CLIENT_RECOMMEND_MESSAGE = "MySQL Client - ver 5.5.x or later recommended";
     public const MYSQL_CLIENT_FAIL_MESSAGE = "MySQL Client - MySQL support not available in PHP settings";
 
     public const MYSQL_SERVER_OK_MESSAGE = "MySQL Server - Ok";

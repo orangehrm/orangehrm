@@ -71,3 +71,13 @@ api_system_check:
   path: /upgrader/api/system-check
   controller: OrangeHRM\Installer\Controller\Upgrader\Api\SystemCheckAPI::handle
   methods: [ GET ]
+
+api_upgrader_start_registration:
+  path: /upgrader/api/send-data/upgrader-start
+  controller: OrangeHRM\Installer\Controller\Upgrader\Api\InitialDataRegistrationAPI::handle
+  methods: [ POST ]
+
+api_upgrader_sucess_registration:
+  path: /upgrader/api/send-data/upgrader-success
+  controller: OrangeHRM\Installer\Controller\Upgrader\Api\SuccessDataRegistrationAPI::handle
+  methods: [ POST ]

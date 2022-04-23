@@ -19,52 +19,38 @@
 
 namespace OrangeHRM\Installer\Controller\Upgrader\Api;
 
-use Doctrine\DBAL\Connection;
 use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Framework\Http\Response;
 use OrangeHRM\Installer\Controller\AbstractInstallerRestController;
-use OrangeHRM\Installer\Util\AppSetupUtility;
 use OrangeHRM\Installer\Util\DataRegistrationUtility;
-use OrangeHRM\Installer\Util\StateContainer;
-use OrangeHRM\ORM\Doctrine;
+use OrangeHRM\Installer\Util\Service\DataRegistrationService;
+use OrangeHRM\Installer\Util\SystemConfig\SystemConfiguration;
 
-class ConfigFileAPI extends AbstractInstallerRestController
+class SuccessDataRegistrationAPI extends AbstractInstallerRestController
 {
-    private DataRegistrationUtility $dataRegistrationUtility;
+    private SystemConfiguration $systemConfiguration;
+    private DataRegistrationService $dataRegistrationService;
 
     public function __construct()
     {
-        $this->dataRegistrationUtility = new DataRegistrationUtility();
+        $this->systemConfiguration = new SystemConfiguration();
+        $this->dataRegistrationService = new DataRegistrationService();
     }
-
 
     /**
      * @inheritDoc
      */
     protected function handlePost(Request $request): array
     {
-        if (!StateContainer::getInstance()->isSetDbInfo()) {
-            $this->getResponse()->setStatusCode(Response::HTTP_CONFLICT);
-            return
-                [
-                    'error' => [
-                        'status' => $this->getResponse()->getStatusCode(),
-                        'message' => 'Database info not yet stored'
-                    ]
-                ];
-        }
-
-        $appSetupUtility = new AppSetupUtility();
-        $appSetupUtility->writeConfFile();
-
-        if (StateContainer::getInstance()->hasAttribute(DataRegistrationUtility::IS_INITIAL_REG_DATA_SENT)) {
-            $this->dataRegistrationUtility->sendRegistrationDataOnFailure(
-                DataRegistrationUtility::REGISTRATION_TYPE_UPGRADER_STARTED
-            );
-        }
+        $result = $this->dataRegistrationService->sendSuccessRegistrationData(
+            $this->systemConfiguration->getInstanceIdentifier(),
+            DataRegistrationUtility::REGISTRATION_TYPE_UPGRADER_SUCCESS
+        );
+        $response = $this->getResponse();
+        $message = $result ? 'Registration Data Sent Successfully!' : 'Failed To Send Registration Data';
 
         return [
-            'success' => Doctrine::getEntityManager()->getConnection() instanceof Connection,
+            'status' => $response->getStatusCode(),
+            'message' => $message
         ];
     }
 }
