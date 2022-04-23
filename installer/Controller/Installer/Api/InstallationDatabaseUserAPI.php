@@ -17,21 +17,21 @@
  * Boston, MA  02110-1301, USA
  */
 
-/* For logging PHP errors */
-include_once('lib/confs/log_settings.php');
+namespace OrangeHRM\Installer\Controller\Installer\Api;
 
-$installed = true;
+use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Installer\Controller\AbstractInstallerRestController;
+use OrangeHRM\Installer\Util\AppSetupUtility;
 
-define('ROOT_PATH', dirname(__FILE__));
-
-if (!is_file(ROOT_PATH . '/lib/confs/Conf.php')) {
-    $installed = false;
+class InstallationDatabaseUserAPI extends AbstractInstallerRestController
+{
+    /**
+     * @inheritDoc
+     */
+    protected function handlePost(Request $request): array
+    {
+        $appSetupUtility = new AppSetupUtility();
+        $appSetupUtility->createDBUser();
+        return [];
+    }
 }
-
-if (!$installed) {
-    header('Location: ./installer/index.php');
-    exit();
-}
-
-header("Location: ./web/index.php/auth/login");
-exit();

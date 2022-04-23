@@ -96,7 +96,7 @@ class Migration extends AbstractMigration
                 ->addColumn('action', Types::STRING, ['Length' => 255, 'Notnull' => false, 'Default' => null])
                 ->addColumn('path', Types::STRING, ['Notnull' => false, 'Default' => null])
                 ->addColumn('parameters', Types::SMALLINT, ['Length' => 255, 'Notnull' => false, 'Default' => null])
-                ->addColumn('created_at', Types::DATETIMETZ_MUTABLE, ['Notnull' => false, 'Default' => 'CURRENT_TIMESTAMP'])
+                ->addColumn('created_at', Types::DATETIMETZ_MUTABLE, ['Notnull' => false])
                 ->setPrimaryKey(['id'])
                 ->create();
         }

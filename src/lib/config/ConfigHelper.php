@@ -45,6 +45,7 @@ class ConfigHelper
             Config::CACHE_DIR => realpath($pathToSrcDir . '/cache'),
             Config::DOCTRINE_PROXY_DIR => realpath($pathToSrcDir . '/config/proxy'),
             Config::TEST_DIR => realpath($pathToSrcDir . '/test'),
+            Config::CONF_FILE_PATH => realpath($pathToProjectBase . '/lib/confs') . DIRECTORY_SEPARATOR . 'Conf.php',
         ];
     }
 
@@ -76,7 +77,7 @@ class ConfigHelper
         }
 
         return [
-            'ohrm_plugins' => $plugins,
+            Config::PLUGINS => $plugins,
             'ohrm_plugin_paths' => $pluginAbsPaths,
             'ohrm_plugin_configs' => $pluginConfigs,
         ];

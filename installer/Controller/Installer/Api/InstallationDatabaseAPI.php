@@ -17,21 +17,33 @@
  * Boston, MA  02110-1301, USA
  */
 
-/* For logging PHP errors */
-include_once('lib/confs/log_settings.php');
+namespace OrangeHRM\Installer\Controller\Installer\Api;
 
-$installed = true;
+use InvalidArgumentException;
+use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Framework\Http\Response;
+use OrangeHRM\Installer\Controller\AbstractInstallerRestController;
+use OrangeHRM\Installer\Util\AppSetupUtility;
 
-define('ROOT_PATH', dirname(__FILE__));
-
-if (!is_file(ROOT_PATH . '/lib/confs/Conf.php')) {
-    $installed = false;
+class InstallationDatabaseAPI extends AbstractInstallerRestController
+{
+    /**
+     * @inheritDoc
+     */
+    protected function handlePost(Request $request): array
+    {
+        $appSetupUtility = new AppSetupUtility();
+        try {
+            $appSetupUtility->createDatabase();
+        } catch (InvalidArgumentException $e) {
+            $this->getResponse()->setStatusCode(Response::HTTP_BAD_REQUEST);
+            return [
+                'error' => [
+                    'status' => $this->getResponse()->getStatusCode(),
+                    'message' => $e->getMessage()
+                ]
+            ];
+        }
+        return [];
+    }
 }
-
-if (!$installed) {
-    header('Location: ./installer/index.php');
-    exit();
-}
-
-header("Location: ./web/index.php/auth/login");
-exit();

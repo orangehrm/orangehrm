@@ -17,21 +17,21 @@
  * Boston, MA  02110-1301, USA
  */
 
-/* For logging PHP errors */
-include_once('lib/confs/log_settings.php');
+namespace OrangeHRM\Installer\Controller\Installer\Api;
 
-$installed = true;
+use OrangeHRM\Config\Config;
+use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Installer\Controller\AbstractInstallerRestController;
 
-define('ROOT_PATH', dirname(__FILE__));
-
-if (!is_file(ROOT_PATH . '/lib/confs/Conf.php')) {
-    $installed = false;
+class LicenseFileAPI extends AbstractInstallerRestController
+{
+    /**
+     * @inheritDoc
+     */
+    protected function handleGet(Request $request): array
+    {
+        return [
+            'data' => file_get_contents(Config::get(Config::BASE_DIR) . DIRECTORY_SEPARATOR . 'LICENSE')
+        ];
+    }
 }
-
-if (!$installed) {
-    header('Location: ./installer/index.php');
-    exit();
-}
-
-header("Location: ./web/index.php/auth/login");
-exit();

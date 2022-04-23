@@ -38,9 +38,9 @@ installer_database_config:
   controller: OrangeHRM\Installer\Controller\Installer\DatabaseConfigController::handle
   methods: [ GET ]
 
-##########################
-#        APIs
-##########################
+#####################################
+#        APIs - Upgrader
+#####################################
 
 api_upgrader_database_config:
   path: /upgrader/api/database-config
@@ -67,7 +67,7 @@ api_upgrader_current_version:
   controller: OrangeHRM\Installer\Controller\Upgrader\Api\CurrentVersionAPI::handle
   methods: [ GET, POST ]
 
-api_system_check:
+api_upgrader_system_check:
   path: /upgrader/api/system-check
   controller: OrangeHRM\Installer\Controller\Upgrader\Api\SystemCheckAPI::handle
   methods: [ GET ]
@@ -80,4 +80,73 @@ api_upgrader_start_registration:
 api_upgrader_sucess_registration:
   path: /upgrader/api/send-data/upgrader-success
   controller: OrangeHRM\Installer\Controller\Upgrader\Api\SuccessDataRegistrationAPI::handle
+  methods: [ POST ]
+
+#####################################
+#        APIs - Installer
+#####################################
+
+api_installer_database_config:
+  path: /installer/api/database-config
+  controller: OrangeHRM\Installer\Controller\Installer\Api\DatabaseConfigAPI::handle
+  methods: [ GET, POST ]
+
+api_installer_system_check:
+  path: /installer/api/system-check
+  controller: OrangeHRM\Installer\Controller\Installer\Api\SystemCheckAPI::handle
+  methods: [ GET ]
+
+api_installer_license:
+  path: /installer/api/license
+  controller: OrangeHRM\Installer\Controller\Installer\Api\LicenseFileAPI::handle
+  methods: [ GET ]
+
+api_installer_countries:
+  path: /installer/api/countries
+  controller: OrangeHRM\Installer\Controller\Installer\Api\CountryAPI::handle
+  methods: [ GET ]
+
+api_installer_languages:
+  path: /installer/api/languages
+  controller: OrangeHRM\Installer\Controller\Installer\Api\LanguageAPI::handle
+  methods: [ GET ]
+
+api_installer_timezones:
+  path: /installer/api/timezones
+  controller: OrangeHRM\Installer\Controller\Installer\Api\TimezoneAPI::handle
+  methods: [ GET ]
+
+api_installer_instance:
+  path: /installer/api/instance
+  controller: OrangeHRM\Installer\Controller\Installer\Api\InstanceAPI::handle
+  methods: [ GET, POST ]
+
+api_installer_admin_user:
+  path: /installer/api/admin-user
+  controller: OrangeHRM\Installer\Controller\Installer\Api\AdminUserAPI::handle
+  methods: [ GET, POST ]
+
+api_installer_database:
+  path: /installer/api/installation/database
+  controller: OrangeHRM\Installer\Controller\Installer\Api\InstallationDatabaseAPI::handle
+  methods: [ POST ]
+
+api_installer_migration:
+  path: /installer/api/installation/migration
+  controller: OrangeHRM\Installer\Controller\Installer\Api\MigrationAPI::handle
+  methods: [ GET, POST ]
+
+api_installer_instance_creation:
+  path: /installer/api/installation/instance
+  controller: OrangeHRM\Installer\Controller\Installer\Api\InstallationInstanceAPI::handle
+  methods: [ POST ]
+
+api_installer_database_user:
+  path: /installer/api/installation/database-user
+  controller: OrangeHRM\Installer\Controller\Installer\Api\InstallationDatabaseUserAPI::handle
+  methods: [ POST ]
+
+api_installer_write_config:
+  path: /installer/api/installation/config-file
+  controller: OrangeHRM\Installer\Controller\Installer\Api\ConfigFileAPI::handle
   methods: [ POST ]

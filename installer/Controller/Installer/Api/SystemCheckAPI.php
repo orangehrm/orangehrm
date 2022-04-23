@@ -17,21 +17,8 @@
  * Boston, MA  02110-1301, USA
  */
 
-/* For logging PHP errors */
-include_once('lib/confs/log_settings.php');
+namespace OrangeHRM\Installer\Controller\Installer\Api;
 
-$installed = true;
-
-define('ROOT_PATH', dirname(__FILE__));
-
-if (!is_file(ROOT_PATH . '/lib/confs/Conf.php')) {
-    $installed = false;
+class SystemCheckAPI extends \OrangeHRM\Installer\Controller\Upgrader\Api\SystemCheckAPI
+{
 }
-
-if (!$installed) {
-    header('Location: ./installer/index.php');
-    exit();
-}
-
-header("Location: ./web/index.php/auth/login");
-exit();
