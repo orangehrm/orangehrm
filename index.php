@@ -30,7 +30,7 @@ if (!is_file(ROOT_PATH . '/lib/confs/Conf.php')) {
 
 if (!$installed) {
     header('Location: ./installer/index.php');
-    exit();    
+    exit();
 }
 
 header("Location: ./web/index.php/auth/login");

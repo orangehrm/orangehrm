@@ -149,6 +149,54 @@ class Migration extends AbstractMigration
         $this->insertLanguages($languages);
         $groups = $this->readlanguageYaml(__DIR__ . '/language/groups.yaml');
         $this->insertGroups($groups);
+
+        $adminMenuId = $this->createQueryBuilder()
+            ->select('menu_item.id')
+            ->from('ohrm_menu_item', 'menu_item')
+            ->where('menu_item.menu_title = :menuTitle')
+            ->setParameter('menuTitle', 'Admin')
+            ->andWhere('level = :level')
+            ->setParameter('level', 1)
+            ->executeQuery()
+            ->fetchOne();
+        $adminConfigurationMenuId = $this->createQueryBuilder()
+            ->select('menu_item.id')
+            ->from('ohrm_menu_item', 'menu_item')
+            ->where('menu_item.menu_title = :menuTitle')
+            ->setParameter('menuTitle', 'Configuration')
+            ->andWhere('level = :level')
+            ->setParameter('level', 2)
+            ->andWhere('parent_id = :parentId')
+            ->setParameter('parentId', $adminMenuId)
+            ->executeQuery()
+            ->fetchOne();
+        $this->createQueryBuilder()
+            ->insert('ohrm_menu_item')
+            ->values(
+                [
+                    'menu_title' => ':menuTitle',
+                    'screen_id' => ':screenId',
+                    'parent_id' => ':parentId',
+                    'level' => ':level',
+                    'order_hint' => ':orderHint',
+                    'url_extras' => ':urlExtras',
+                    'status' => 'status'
+                ]
+            )
+            ->setParameter('menuTitle', 'Language Packages')
+            ->setParameter(
+                'screenId',
+                $this->getDataGroupHelper()->getScreenIdByModuleAndUrl(
+                    $this->getDataGroupHelper()->getModuleIdByName('admin'),
+                    'languagePackage'
+                )
+            )
+            ->setParameter('parentId', $adminConfigurationMenuId)
+            ->setParameter('level', 3)
+            ->setParameter('orderHint', 350)
+            ->setParameter('urlExtras', null)
+            ->setParameter('status', 1)
+            ->executeQuery();
     }
 
     /**

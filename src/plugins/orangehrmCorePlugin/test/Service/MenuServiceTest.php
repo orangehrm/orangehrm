@@ -289,6 +289,12 @@ class MenuServiceTest extends KernelTestCase
                 'children' => [],
             ],
             [
+                'id' => 103,
+                'name' => 'Corporate Branding',
+                'url' => '/admin/addTheme',
+                'children' => []
+            ],
+            [
                 'id' => 23,
                 'name' => 'Configuration',
                 'url' => '#',

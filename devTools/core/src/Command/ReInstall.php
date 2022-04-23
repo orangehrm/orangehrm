@@ -28,6 +28,7 @@ use OrangeHRM\Entity\User;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Installer\Framework\HttpKernel;
 use OrangeHRM\Installer\Util\AppSetupUtility;
+use OrangeHRM\Installer\Util\Connection;
 use OrangeHRM\Installer\Util\StateContainer;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -113,9 +114,12 @@ class ReInstall extends Command
         $appSetupUtility->insertSystemConfiguration();
 
         /** @var User $user */
-        $user = $this->getRepository(User::class)->findOneBy(['createdBy' => null]);
-        $user->setUserPassword($adminHashedPassword);
-        $this->persist($user);
+        $qb = Connection::getConnection()->createQueryBuilder()
+            ->update('ohrm_user', 'user')
+            ->set('user.user_password', ':hashedPassword')
+            ->setParameter('hashedPassword', $adminHashedPassword);
+        $qb->where($qb->expr()->isNull('user.created_by'))
+            ->executeQuery();
 
         $io->success('Done');
         return Command::SUCCESS;
