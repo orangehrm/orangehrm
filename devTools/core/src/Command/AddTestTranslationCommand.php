@@ -41,6 +41,7 @@ class AddTestTranslationCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        $this->translationTestTool->setTestLanguage('zz_ZZZ');
         $modules = ['admin', 'general', 'pim', 'leave', 'time', 'attendance', 'maintenance', 'help', 'auth'];
         foreach ($modules as $module) {
             $this->translationTestTool->execute($module);
