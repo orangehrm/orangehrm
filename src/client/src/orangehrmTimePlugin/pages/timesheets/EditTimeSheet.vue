@@ -204,6 +204,10 @@ export default {
         .then(() => {
           return saveSuccess();
         })
+        .catch(() => {
+          // Catch invalid parameter error when submitting without any time
+          return saveSuccess();
+        })
         .then(() => {
           onClickCancel();
         });
