@@ -269,6 +269,7 @@ export default {
               params: {
                 projectId: this.projectId,
                 projectName: this.project.name.trim(),
+                customerId: this.project.customer?.id,
               },
             })
             .then(response => {

@@ -29,12 +29,13 @@ use OrangeHRM\Installer\Util\SystemConfig\SystemConfiguration;
 class DataRegistrationUtility
 {
     public const REGISTRATION_TYPE_UPGRADER_STARTED = 4;
-    public const REGISTRATION_TYPE_UPGRADER_SUCCESS = 3;
+    public const REGISTRATION_TYPE_SUCCESS = 3;
 
     public const NOT_PUBLISHED = 0;
     public const PUBLISHED = 1;
 
     public const IS_INITIAL_REG_DATA_SENT = 'isInitialRegDataSent';
+    public const INITIAL_REGISTRATION_DATA_BODY = 'initialRegistrationDataBody';
 
     private SystemConfiguration $systemConfiguration;
     private DataRegistrationService $dataRegistrationService;
@@ -138,6 +139,16 @@ class DataRegistrationUtility
     }
 
     /**
+     * @return array
+     */
+    public function getSuccessRegistrationDataBody(): array
+    {
+        return[
+            'instance_identifier' => $this->systemConfiguration->getInstanceIdentifier(),
+            'type' => self::REGISTRATION_TYPE_SUCCESS
+        ];
+    }
+    /**
      * @param string $adminFirstName
      * @param string $adminLastName
      * @param string $organizationName
@@ -210,22 +221,43 @@ class DataRegistrationUtility
      */
     public function sendRegistrationDataOnFailure(string $type)
     {
-        $this->systemConfiguration->setInitialRegistrationEventQueue(
+        $this->systemConfiguration->setRegistrationEventQueue(
             $type,
             self::NOT_PUBLISHED
         );
         $this->setInitialRegistrationDataBody($type);
         $initialRegistrationDataBody = $this->getInitialRegistrationDataBody();
-        $result = $this->dataRegistrationService->sendInitialRegistrationData($initialRegistrationDataBody);
+        $result = $this->dataRegistrationService->sendRegistrationData($initialRegistrationDataBody);
 
         if ($result) {
-            $this->systemConfiguration->updateInitialRegistrationEventQueue(
+            $this->systemConfiguration->updateRegistrationEventQueue(
                 $type,
                 self::PUBLISHED,
                 json_encode($initialRegistrationDataBody)
             );
             StateContainer::getInstance()->removeAttribute(
                 DataRegistrationUtility::IS_INITIAL_REG_DATA_SENT
+            );
+        }
+    }
+
+    /**
+     * @throws GuzzleException
+     * @throws \Doctrine\DBAL\Exception
+     */
+    public function sendRegistrationDataOnSuccess(): void
+    {
+        $this->systemConfiguration->setRegistrationEventQueue(
+            self::REGISTRATION_TYPE_SUCCESS,
+            self::NOT_PUBLISHED
+        );
+        $successRegistrationDataBody = $this->getSuccessRegistrationDataBody();
+        $result = $this->dataRegistrationService->sendRegistrationData($successRegistrationDataBody);
+        if ($result) {
+            $this->systemConfiguration->updateRegistrationEventQueue(
+                self::REGISTRATION_TYPE_SUCCESS,
+                self::PUBLISHED,
+                json_encode($successRegistrationDataBody)
             );
         }
     }

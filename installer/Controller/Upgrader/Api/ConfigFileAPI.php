@@ -26,15 +26,18 @@ use OrangeHRM\Installer\Controller\AbstractInstallerRestController;
 use OrangeHRM\Installer\Util\AppSetupUtility;
 use OrangeHRM\Installer\Util\DataRegistrationUtility;
 use OrangeHRM\Installer\Util\StateContainer;
+use OrangeHRM\Installer\Util\SystemConfig\SystemConfiguration;
 use OrangeHRM\ORM\Doctrine;
 
 class ConfigFileAPI extends AbstractInstallerRestController
 {
     private DataRegistrationUtility $dataRegistrationUtility;
+    private SystemConfiguration $systemConfiguration;
 
     public function __construct()
     {
         $this->dataRegistrationUtility = new DataRegistrationUtility();
+        $this->systemConfiguration = new SystemConfiguration();
     }
 
 
@@ -57,11 +60,23 @@ class ConfigFileAPI extends AbstractInstallerRestController
         $appSetupUtility = new AppSetupUtility();
         $appSetupUtility->writeConfFile();
 
-        if (StateContainer::getInstance()->hasAttribute(DataRegistrationUtility::IS_INITIAL_REG_DATA_SENT)) {
+        if (StateContainer::getInstance()->hasAttribute(DataRegistrationUtility::INITIAL_REGISTRATION_DATA_BODY)) {
+            $this->systemConfiguration->setRegistrationEventQueue(
+                DataRegistrationUtility::REGISTRATION_TYPE_UPGRADER_STARTED,
+                DataRegistrationUtility::PUBLISHED,
+                json_encode(
+                    StateContainer::getInstance()->getAttribute(DataRegistrationUtility::INITIAL_REGISTRATION_DATA_BODY)
+                )
+            );
+            StateContainer::getInstance()->removeAttribute(DataRegistrationUtility::INITIAL_REGISTRATION_DATA_BODY);
+        } elseif (StateContainer::getInstance()->hasAttribute(DataRegistrationUtility::IS_INITIAL_REG_DATA_SENT)) {
             $this->dataRegistrationUtility->sendRegistrationDataOnFailure(
                 DataRegistrationUtility::REGISTRATION_TYPE_UPGRADER_STARTED
             );
         }
+        //else initial registration data successfully sent at the beginning.
+
+        $this->dataRegistrationUtility->sendRegistrationDataOnSuccess();
 
         return [
             'success' => Doctrine::getEntityManager()->getConnection() instanceof Connection,

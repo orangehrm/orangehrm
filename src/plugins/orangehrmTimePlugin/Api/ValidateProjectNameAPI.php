@@ -38,6 +38,7 @@ class ValidateProjectNameAPI extends Endpoint implements ResourceEndpoint
 
     public const PARAMETER_PROJECT_ID = 'projectId';
     public const PARAMETER_PROJECT_NAME = 'projectName';
+    public const PARAMETER_CUSTOMER_ID = 'customerId';
     public const PARAMETER_IS_CHANGEABLE = 'valid';
 
     public const PARAM_RULE_PROJECT_NAME_MAX_LENGTH = 50;
@@ -55,13 +56,17 @@ class ValidateProjectNameAPI extends Endpoint implements ResourceEndpoint
             RequestParams::PARAM_TYPE_QUERY,
             self::PARAMETER_PROJECT_ID
         );
+        $customerId = $this->getRequestParams()->getInt(
+            RequestParams::PARAM_TYPE_QUERY,
+            self::PARAMETER_CUSTOMER_ID
+        );
         if (!is_null($projectId)) {
             $project = $this->getProjectService()->getProjectDao()->getProjectById($projectId);
             $this->throwRecordNotFoundExceptionIfNotExist($project, Project::class);
         }
         $isChangeableProjectName = $this->getProjectService()
             ->getProjectDao()
-            ->isProjectNameTaken($projectName, $projectId);
+            ->isProjectNameTaken($projectName, $customerId, $projectId);
         return new EndpointResourceResult(
             ArrayModel::class,
             [
@@ -86,7 +91,13 @@ class ValidateProjectNameAPI extends Endpoint implements ResourceEndpoint
                     self::PARAMETER_PROJECT_ID,
                     new Rule(Rules::POSITIVE),
                 )
-            )
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_CUSTOMER_ID,
+                    new Rule(Rules::POSITIVE),
+                )
+            ),
         );
     }
 

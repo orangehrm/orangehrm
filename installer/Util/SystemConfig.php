@@ -119,7 +119,7 @@ class SystemConfig
             $versionPattern = '/[0-9]+\.[0-9]+\.[0-9]+/';
             preg_match($versionPattern, $mysqlClientVersion, $matches);
             $mysqlClientVersion = $matches[0];
-            if (version_compare($mysqlClientVersion, $this->systemRequirements['mysqlversion']['min']) > 0) {
+            if (version_compare($mysqlClientVersion, $this->systemRequirements['mysqlversion']['min']) < 0) {
                 return [
                     'message' => Messages::MYSQL_CLIENT_RECOMMEND_MESSAGE . "(reported ver " . $mysqlClientVersion . ")",
                     'status' => self::ACCEPTABLE
