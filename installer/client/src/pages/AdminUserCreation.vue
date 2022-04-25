@@ -134,8 +134,8 @@ export default {
         email: null,
         contact: null,
         username: null,
-        password: null,
-        confirmPassword: null,
+        password: '',
+        confirmPassword: '',
       },
       rules: {
         firstName: [required, shouldNotExceedCharLength(30)],
@@ -187,9 +187,18 @@ export default {
   methods: {
     onSubmit() {
       this.isLoading = true;
-      this.http.create({...this.adminUser}).then(() => {
-        // TODO navigate to confirmation page
-      });
+      this.http
+        .create({
+          firstName: this.adminUser.firstName,
+          lastName: this.adminUser.lastName,
+          email: this.adminUser.email,
+          contact: this.adminUser.contact,
+          username: this.adminUser.username,
+          password: this.adminUser.password,
+        })
+        .then(() => {
+          // TODO navigate to confirmation page
+        });
     },
     navigateUrl() {
       // TODO navigate to instance creation page
