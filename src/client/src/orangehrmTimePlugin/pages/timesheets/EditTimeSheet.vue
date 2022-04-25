@@ -101,6 +101,8 @@ export default {
       `/api/v2/time/timesheets`,
     );
 
+    http.setIgnorePath('api/v2/time/timesheets/[0-9]+/entries');
+
     let timesheetModal = [];
 
     const {saveSuccess} = useToast();
@@ -200,6 +202,10 @@ export default {
       };
       updateTimesheetEntries(props.timesheetId, payload, !props.myTimesheet)
         .then(() => {
+          return saveSuccess();
+        })
+        .catch(() => {
+          // Catch invalid parameter error when submitting without any time
           return saveSuccess();
         })
         .then(() => {

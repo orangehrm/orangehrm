@@ -118,7 +118,7 @@
               v-model:fromTime="leave.duration.fromTime"
               v-model:toTime="leave.duration.toTime"
               :partial="true"
-              :label="$t('general.start_day')"
+              :label="$t('leave.start_day')"
               :work-shift="workShift"
             ></leave-duration-input>
             <leave-duration-input
@@ -127,7 +127,7 @@
               v-model:fromTime="leave.endDuration.fromTime"
               v-model:toTime="leave.endDuration.toTime"
               :partial="true"
-              :label="$t('general.end_day')"
+              :label="$t('leave.end_day')"
               :work-shift="workShift"
             ></leave-duration-input>
           </oxd-grid>
