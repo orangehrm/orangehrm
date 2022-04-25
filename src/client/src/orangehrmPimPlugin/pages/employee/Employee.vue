@@ -352,22 +352,8 @@ export default {
       navigate('/pim/addEmployee');
     },
     onClickEdit($event) {
-      //TODO[temporary fix]
       const id = $event.id ? $event.id : $event.item?.id;
-      const tableBody = this.$refs.cardTable.$el.querySelector(
-        '.oxd-table-body',
-      );
-      tableBody.onclick = function(e) {
-        if (
-          !(
-            (e.target.classList.contains('oxd-checkbox-input-icon') &&
-              e.target.closest('.oxd-table-cell')) ||
-            e.target?.type === 'checkbox'
-          )
-        ) {
-          navigate('/pim/viewPersonalDetails/empNumber/{id}', {id});
-        }
-      };
+      navigate('/pim/viewPersonalDetails/empNumber/{id}', {id});
     },
     onClickDeleteSelected() {
       const ids = this.checkedItems.map(index => {
