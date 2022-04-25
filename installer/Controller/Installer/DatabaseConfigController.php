@@ -22,6 +22,7 @@ namespace OrangeHRM\Installer\Controller\Installer;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Installer\Controller\AbstractInstallerVueController;
+use OrangeHRM\Installer\Util\StateContainer;
 
 class DatabaseConfigController extends AbstractInstallerVueController
 {
@@ -30,8 +31,8 @@ class DatabaseConfigController extends AbstractInstallerVueController
      */
     public function preRender(Request $request): void
     {
-        // TODO:: develop component for installer DB info
-        $component = new Component('database-config');
+        $component = new Component('database-config-screen');
         $this->setComponent($component);
+        StateContainer::getInstance()->setCurrentScreen(self::INSTALLER_DB_CONFIG_SCREEN, false);
     }
 }
