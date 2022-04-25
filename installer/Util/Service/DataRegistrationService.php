@@ -45,7 +45,7 @@ class DataRegistrationService
      * @return bool
      * @throws GuzzleException
      */
-    public function sendInitialRegistrationData(array $body): bool
+    public function sendRegistrationData(array $body): bool
     {
         $headers = ['Accept' => 'application/json'];
 
@@ -63,19 +63,5 @@ class DataRegistrationService
             Logger::getLogger()->error($exception->getTraceAsString());
             return false;
         }
-    }
-
-    /**
-     * @throws GuzzleException
-     */
-    public function sendSuccessRegistrationData(
-        string $instanceIdentifier,
-        string $type
-    ): bool {
-        $body = [
-            'instance_identifier' => $instanceIdentifier,
-            'type' => $type
-        ];
-        return $this->sendInitialRegistrationData($body);
     }
 }

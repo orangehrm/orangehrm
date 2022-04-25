@@ -76,10 +76,7 @@ export default {
     'version-dropdown': VersionDropdown,
   },
   setup() {
-    const http = new APIService(
-      window.appGlobal.baseUrl,
-      'upgrader/api/current-version',
-    );
+    const http = new APIService(window.appGlobal.baseUrl, '');
     return {
       http,
     };
@@ -95,14 +92,19 @@ export default {
   },
   beforeMount() {
     this.isLoading = true;
-    this.http.getAll().then((response) => {
-      const {version} = response.data;
-      this.version = {
-        id: version,
-        label: version,
-      };
-      this.isLoading = false;
-    });
+    this.http
+      .request({
+        method: 'GET',
+        url: '/upgrader/api/current-version',
+      })
+      .then((response) => {
+        const {version} = response.data;
+        this.version = {
+          id: version,
+          label: version,
+        };
+        this.isLoading = false;
+      });
   },
   methods: {
     onClickBack() {
@@ -111,8 +113,18 @@ export default {
     onSubmit() {
       this.isLoading = true;
       this.http
-        .create({
-          currentVersion: this.version?.id,
+        .request({
+          method: 'POST',
+          url: '/upgrader/api/current-version',
+          data: {
+            currentVersion: this.version?.id,
+          },
+        })
+        .then(() => {
+          return this.http.request({
+            method: 'POST',
+            url: '/upgrader/api/send-data/upgrader-start',
+          });
         })
         .then(() => {
           navigate('/upgrader/process');

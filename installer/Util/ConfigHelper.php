@@ -56,7 +56,7 @@ class ConfigHelper
             ->setParameter('configName', $name)
             ->setMaxResults(1)
             ->fetchOne();
-        return $result === false ? $default : $result;
+        return empty($result) ? $default : $result;
     }
 
     /**
