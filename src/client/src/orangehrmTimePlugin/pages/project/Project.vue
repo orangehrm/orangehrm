@@ -239,7 +239,7 @@ export default {
       const headerActions = {
         name: 'actions',
         slot: 'action',
-        title: 'Actions',
+        title: this.$t('general.actions'),
         style: {flex: 1},
         cellType: 'oxd-table-cell-actions',
         cellConfig: {},

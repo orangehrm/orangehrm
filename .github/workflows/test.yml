@@ -39,7 +39,7 @@ jobs:
 
       - name: Install OrangeHRM
         run: |
-          php7.4 installer/cli_install.php 0
+          php7.4 installer/cli_install.php
           php7.4 devTools/general/create-test-db.php root
 
       - name: Run Jest
@@ -63,6 +63,15 @@ jobs:
         with:
           name: coverage
           path: coverage.tar.xz
+
+      - name: Install dev tools dependencies
+        run: |
+          php7.4 -f /usr/bin/composer install -d devTools/core
+
+      - name: Check dev tool commands
+        run: |
+          php devTools/core/console.php i:reinstall
+          php devTools/core/console.php i:reset
 
   composer_v1_check:
     runs-on: ubuntu-20.04

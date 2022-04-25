@@ -32,10 +32,13 @@ use OrangeHRM\Core\Report\Header\Header;
 use OrangeHRM\Core\Report\Header\HeaderDefinition;
 use OrangeHRM\Core\Report\ReportData;
 use OrangeHRM\Entity\ProjectActivity;
+use OrangeHRM\I18N\Traits\Service\I18NHelperTrait;
 use OrangeHRM\Time\Dto\ProjectActivityDetailedReportSearchFilterParams;
 
 class ProjectActivityReport extends ProjectReport
 {
+    use I18NHelperTrait;
+
     public const PARAMETER_EMPLOYEE_NAME = 'employeeName';
 
     public const FILTER_PARAMETER_PROJECT_ACTIVITY_ID = 'activityId';
@@ -111,9 +114,11 @@ class ProjectActivityReport extends ProjectReport
     {
         return new Header(
             [
-                (new Column(self::PARAMETER_EMPLOYEE_NAME))->setName('Employee Name')
+                (new Column(self::PARAMETER_EMPLOYEE_NAME))
+                    ->setName($this->getI18NHelper()->transBySource('Employee Name'))
                     ->setSize(ProjectReport::DEFAULT_COLUMN_SIZE),
-                (new Column(ProjectReport::PARAMETER_TIME))->setName('Time (Hours)')
+                (new Column(ProjectReport::PARAMETER_TIME))
+                    ->setName($this->getI18NHelper()->transBySource('Time (Hours)'))
                     ->setCellProperties(['class' => ['col-alt' => true]])
                     ->setSize(ProjectReport::DEFAULT_COLUMN_SIZE),
             ]

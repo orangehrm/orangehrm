@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Installer\Controller\Upgrader\Api;
 
+use OrangeHRM\Authentication\Dto\UserCredential;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\Http\Response;
 use OrangeHRM\Installer\Controller\AbstractInstallerRestController;
@@ -39,7 +40,7 @@ class DatabaseConfigAPI extends AbstractInstallerRestController
         $dbPassword = $request->request->get('dbPassword');
         $dbName = $request->request->get('dbName');
 
-        StateContainer::getInstance()->storeDbInfo($dbHost, $dbPort, $dbUser, $dbPassword, $dbName);
+        StateContainer::getInstance()->storeDbInfo($dbHost, $dbPort, new UserCredential($dbUser, $dbPassword), $dbName);
 
         $response = $this->getResponse();
 

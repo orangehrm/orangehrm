@@ -209,6 +209,30 @@ class Migration extends AbstractMigration
             ->setParameter('description', null)
             ->setParameter('emptyString', "")
             ->executeQuery();
+
+        $oAuthClientScreenId = $this->getDataGroupHelper()->getScreenIdByModuleAndUrl(
+            $this->getDataGroupHelper()->getModuleIdByName('admin'),
+            'registerOAuthClient'
+        );
+        $this->getConnection()->createQueryBuilder()
+            ->insert('ohrm_user_role_screen')
+            ->values(
+                [
+                    'screen_id' => ':screenId',
+                    'user_role_id' => ':userRoleId',
+                    'can_read' => ':read',
+                    'can_create' => ':create',
+                    'can_update' => ':update',
+                    'can_delete' => ':delete',
+                ]
+            )
+            ->setParameter('screenId', $oAuthClientScreenId)
+            ->setParameter('userRoleId', $this->getDataGroupHelper()->getUserRoleIdByName('Admin'))
+            ->setParameter('read', true, ParameterType::BOOLEAN)
+            ->setParameter('create', true, ParameterType::BOOLEAN)
+            ->setParameter('update', true, ParameterType::BOOLEAN)
+            ->setParameter('delete', true, ParameterType::BOOLEAN)
+            ->executeQuery();
     }
 
     /**

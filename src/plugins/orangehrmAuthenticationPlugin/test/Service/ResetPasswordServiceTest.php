@@ -131,13 +131,18 @@ class ResetPasswordServiceTest extends KernelTestCase
         $user = $this->resetPasswordService->searchForUserRecord('yashika');
         $this->assertEquals(null, $user);
 
+        $user = $this->resetPasswordService->searchForUserRecord('user');
+        $this->assertEquals(null, $user);
+
+        $user = $this->resetPasswordService->searchForUserRecord('user1');
+        $this->assertEquals(null, $user);
+
         $user = $this->resetPasswordService->searchForUserRecord('Renukshan');
         $this->assertInstanceOf(User::class, $user);
     }
 
     public function testSendPasswordResetCodeEmail(): void
     {
-        $this->markTestSkipped('Should mock sending mails');
         $urlGenerator = $this->getMockBuilder(UrlGenerator::class)
             ->onlyMethods(['generate'])
             ->disableOriginalConstructor()
@@ -151,13 +156,13 @@ class ResetPasswordServiceTest extends KernelTestCase
             [Services::URL_GENERATOR => $urlGenerator, Services::CONFIG_SERVICE => new ConfigService()]
         );
         $employee = $this->getEntityManager()->getRepository(Employee::class)->findOneBy(['empNumber' => '1']);
-        // TODO:: mock send mail
+
         $isSend = $this->resetPasswordService->sendPasswordResetCodeEmail(
             $employee,
             'YWRtaW4jU0VQQVJBVE9SI6kK4PL4sB8AtJa2y5WNP-Y',
             'testUser'
         );
-        $this->assertEquals(true, $isSend);
+        $this->assertEquals(false, $isSend);
     }
 
     public function testGeneratePasswordResetCode(): void
@@ -181,7 +186,6 @@ class ResetPasswordServiceTest extends KernelTestCase
 
     public function testLogPasswordResetRequest(): void
     {
-        $this->markTestSkipped('Should mock sending mails');
         $urlGenerator = $this->getMockBuilder(UrlGenerator::class)
             ->onlyMethods(['generate'])
             ->disableOriginalConstructor()
@@ -199,9 +203,29 @@ class ResetPasswordServiceTest extends KernelTestCase
             ]
         );
         $user = $this->getEntityManager()->getRepository(User::class)->findOneBy(['id' => '3']);
-        // TODO:: mock send mail
         $isSave = $this->resetPasswordService->logPasswordResetRequest($user);
-        $this->assertEquals(true, $isSave);
+        $this->assertEquals(false, $isSave);
+
+        $user = $this->getEntityManager()->getRepository(User::class)->findOneBy(['id' => '3']);
+        $service = $this->getMockBuilder(ResetPasswordService::class)
+            ->disableOriginalConstructor()
+            ->onlyMethods(['logPasswordResetRequest'])
+            ->getMock();
+        $service->expects($this->once())
+            ->method('logPasswordResetRequest')
+            ->with($user)
+            ->willReturn(true);
+        $this->assertEquals(true, $service->logPasswordResetRequest($user));
+
+        $service = $this->getMockBuilder(ResetPasswordService::class)
+            ->disableOriginalConstructor()
+            ->onlyMethods(['logPasswordResetRequest'])
+            ->getMock();
+        $service->expects($this->once())
+            ->method('logPasswordResetRequest')
+            ->with($user)
+            ->willReturn(false);
+        $this->assertEquals(false, $service->logPasswordResetRequest($user));
     }
 
     public function testValidateUrl(): void
@@ -210,6 +234,12 @@ class ResetPasswordServiceTest extends KernelTestCase
         $this->assertEquals(null, $user);
 
         $user = $this->resetPasswordService->validateUrl('YWRtaW4jU0VQQVJBVE9SI-xpEY5IF4lNPp8bfWQzz2Q');
+        $this->assertEquals(null, $user);
+
+        $user = $this->resetPasswordService->validateUrl('YWRtaWsdsd4jU0VQQVJBsdsdsdVE9SI-xpEY5IF4lNPp8bfWQzz2Q');
+        $this->assertEquals(null, $user);
+
+        $user = $this->resetPasswordService->validateUrl('QWRtaW4jU0VQQVJBVE9SI02O9C_ScxCx_t5U1tKybS0');
         $this->assertEquals(null, $user);
     }
 

@@ -281,9 +281,6 @@ langStrings:
     unitId: leave_requests_action
     note: 'Action might either be Approve, Reject or Cancel of a single/number of leave requests'
   -
-    value: 'Leave Type'
-    unitId: leave_type
-  -
     value: '{action, select, APPROVE {Approve Leave} REJECT {Reject Leave} other {Cancel Leave}}'
     unitId: leave_action
   -
@@ -307,3 +304,24 @@ langStrings:
   -
     value: 'Cancelled'
     unitId: cancelled
+  -
+    value: 'Leave Entitlements (Days)'
+    unitId: leave_entitlements_days
+  -
+    value: 'Leave Pending Approval (Days)'
+    unitId: leave_pending_aproval_days
+  -
+    value: 'Leave Scheduled (Days)'
+    unitId: leave_scheduled_days
+  -
+    value: 'Leave Taken (Days)'
+    unitId: leave_taken_days
+  -
+    value: 'Leave Balance (Days)'
+    unitId: leave_balance_days
+  -
+    value: 'Leave requested for'
+    unitId: requested_for
+  -
+    value: 'Duration (Hours)'
+    unitId: duration_hours

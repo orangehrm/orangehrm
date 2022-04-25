@@ -3,7 +3,7 @@
 <FilesMatch "(\.(php))$">
     Deny from all
 </FilesMatch>
-<Files installerUI.php>
+<Files index.php>
     Allow from all
 </Files>
 
@@ -13,6 +13,6 @@
 #<FilesMatch "(\.(php))$">
 #    Require all denied
 #</FilesMatch>
-#<Files installerUI.php>
+#<Files index.php>
 #    Require all granted
 #</Files>

@@ -430,7 +430,6 @@ class EmailService
             }
         } else {
             $this->logResult('Failure', 'Email configuration is not set.');
-
             return false;
         }
     }

@@ -36,6 +36,7 @@ use OrangeHRM\Entity\ResetPasswordRequest;
 use OrangeHRM\Entity\User;
 use OrangeHRM\Framework\Routing\UrlGenerator;
 use OrangeHRM\Framework\Services;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 
 class ResetPasswordService
 {
@@ -109,11 +110,10 @@ class ResetPasswordService
         $body = file_get_contents(
             Config::get(
                 Config::PLUGINS_DIR
-            ) . '/orangehrmAuthenticationPlugin/config/data' . '/' . $templateFile
+            ) . '/orangehrmAuthenticationPlugin/config/data/' . $templateFile
         );
 
-        $body = str_replace($placeholders, $replacements, $body);
-        return $body;
+        return nl2br(str_replace($placeholders, $replacements, $body));
     }
 
     /**
@@ -126,11 +126,11 @@ class ResetPasswordService
         $userFilterParams->setUsername($username);
         $users = $this->getUserService()->searchSystemUsers($userFilterParams);
 
-        $user = $users[0];
-        if (!$user instanceof User) {
+        if (empty($users)) {
+            $this->getLogger()->error('There are no user account for the current username');
             return null;
         }
-
+        $user = $users[0];
         $associatedEmployee = $user->getEmployee();
         if (!$associatedEmployee instanceof Employee) {
             $this->getLogger()->error('User account is not associated with an employee');
@@ -139,6 +139,11 @@ class ResetPasswordService
 
         if ($associatedEmployee->getEmployeeTerminationRecord() instanceof EmployeeTerminationRecord) {
             $this->getLogger()->error('Please contact HR admin in order to reset the password');
+            return null;
+        }
+
+        if (!$user->getStatus()) {
+            $this->getLogger()->error('Account disabled');
             return null;
         }
 
@@ -186,13 +191,20 @@ class ResetPasswordService
      */
     public function sendPasswordResetCodeEmail(Employee $receiver, string $resetCode, string $userName): bool
     {
-        $this->getEmailService()->setMessageTo([$receiver->getWorkEmail()]);
-        $this->getEmailService()->setMessageFrom(
-            [$this->getEmailService()->getEmailConfig()->getSentAs() => 'OrangeHRM']
-        );
-        $this->getEmailService()->setMessageSubject('OrangeHRM Password Reset');
-        $this->getEmailService()->setMessageBody($this->generatePasswordResetEmailBody($receiver, $resetCode, $userName));
-        return $this->getEmailService()->sendEmail();
+        try {
+            $this->getEmailService()->setMessageTo([$receiver->getWorkEmail()]);
+            $this->getEmailService()->setMessageFrom(
+                [$this->getEmailService()->getEmailConfig()->getSentAs() => 'OrangeHRM']
+            );
+            $this->getEmailService()->setMessageSubject('OrangeHRM Password Reset');
+            $this->getEmailService()->setMessageBody(
+                $this->generatePasswordResetEmailBody($receiver, $resetCode, $userName)
+            );
+            return $this->getEmailService()->sendEmail();
+        } catch (TransportExceptionInterface $e) {
+            $this->getLogger()->error('Invalid Email configuration');
+            return false;
+        }
     }
 
     /**

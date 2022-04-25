@@ -21,6 +21,7 @@ namespace OrangeHRM\Installer\Util;
 
 use Exception;
 use OrangeHRM\Config\Config;
+use PDO;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Yaml\Yaml;
 
@@ -31,6 +32,8 @@ class SystemConfig
     public const BLOCKER = 3;
 
     public const ENGINE_INNODB = 'InnoDB';
+    public const MARIADB = 'MariaDB';
+    public const MYSQL = 'MySql';
 
     public const STATE_DISABLED = 'DISABLED';
     public const STATE_DEFAULT = 'DEFAULT';
@@ -107,19 +110,18 @@ class SystemConfig
     /**
      * MYSQL Client Check
      * @return array
+     * @throws \Doctrine\DBAL\Exception
      */
     public function isMySqlClientCompatible(): array
     {
-        if (function_exists('mysqli_get_client_info')) {
-            $mysqlClient = mysqli_get_client_info();
+        $mysqlClientVersion = $this->getMysqlClientVersion();
+        if (!empty($mysqlClientVersion)) {
             $versionPattern = '/[0-9]+\.[0-9]+\.[0-9]+/';
-
-            preg_match($versionPattern, $mysqlClient, $matches);
-            $mysql_client_version = $matches[0];
-
-            if (version_compare($mysql_client_version, $this->systemRequirements['mysqlversion']['min']) < 0) {
+            preg_match($versionPattern, $mysqlClientVersion, $matches);
+            $mysqlClientVersion = $matches[0];
+            if (version_compare($mysqlClientVersion, $this->systemRequirements['mysqlversion']['min']) > 0) {
                 return [
-                    'message' => Messages::MYSQL_CLIENT_RECOMMEND_MESSAGE . "(reported ver " . $mysqlClient . ")",
+                    'message' => Messages::MYSQL_CLIENT_RECOMMEND_MESSAGE . "(reported ver " . $mysqlClientVersion . ")",
                     'status' => self::ACCEPTABLE
                 ];
             } else {
@@ -132,11 +134,10 @@ class SystemConfig
             $this->interruptContinue = true;
             return [
                 'message' => Messages::MYSQL_CLIENT_FAIL_MESSAGE,
-                'status' => 3
+                'status' => self::BLOCKER
             ];
         }
     }
-
 
     /**
      * MYSQL Server Check
@@ -145,21 +146,31 @@ class SystemConfig
      */
     public function isMySqlServerCompatible(): array
     {
-        if ($this->upgraderConfigUtility->checkDatabaseConnection()) {
-            $connection = $this->upgraderConfigUtility->getConnection();
-            $result = $connection->executeQuery("SELECT VERSION() AS version")->fetchAssociative();
-            $serverVersion = $result['version'];
+        if ($this->getPDOConnection()) {
+            $serverVersion = $this->getMysqlServerVersion();
             strpos($serverVersion, 'MariaDB') === false
                 ? $allowedConfigs = $this->systemRequirements['mysqlversion'] :
                 $allowedConfigs = $this->systemRequirements['mariadbversion'];
-            if (version_compare($serverVersion, $allowedConfigs['min']) >= 0) {
+            if ($this->isWithinRange(
+                $serverVersion,
+                $allowedConfigs['excludeRange'],
+                $allowedConfigs['min'],
+                $allowedConfigs['max']
+            )) {
                 return [
                     'message' => Messages::MYSQL_SERVER_OK_MESSAGE . " ($serverVersion)",
                     'status' => self::PASSED
                 ];
             } else {
+                $message = $this->getErrorMessage(
+                    strpos($serverVersion, 'MariaDB') === false ? self::MYSQL : self::MARIADB,
+                    $serverVersion,
+                    $allowedConfigs['excludeRange'],
+                    $allowedConfigs['min'],
+                    $allowedConfigs['max']
+                );
                 return [
-                    'message' => "MySQL Server - ver ${allowedConfigs['min']} or later recommended. (reported ver $serverVersion)",
+                    'message' => $message,
                     'status' => self::ACCEPTABLE
                 ];
             }
@@ -662,5 +673,102 @@ class SystemConfig
             return true;
         }
         return false;
+    }
+
+    /**
+     * Return PHP version
+     * @return string
+     */
+    public function getPhpVersion(): string
+    {
+        return phpversion();
+    }
+
+    /**
+     * Return web server details
+     * @return string
+     */
+    public function getWebServerDetails(): string
+    {
+        return $_SERVER['SERVER_SOFTWARE'];
+    }
+
+    /**
+     * Return MySql client version
+     * @return string
+     * @throws \Doctrine\DBAL\Exception
+     */
+    public function getMysqlClientVersion(): string
+    {
+        return $this->getPDOConnection()->getAttribute(PDO::ATTR_CLIENT_VERSION) ?: '';
+    }
+
+    /**
+     * Return MySql server version
+     * @return string
+     * @throws \Doctrine\DBAL\Exception
+     */
+    public function getMysqlServerVersion(): string
+    {
+        return $this->getPDOConnection()->getAttribute(PDO::ATTR_SERVER_VERSION) ?: '';
+    }
+
+    /**
+     * Return MySql host info
+     * @return string
+     * @throws \Doctrine\DBAL\Exception
+     */
+    public function getMySqlHostInfo(): string
+    {
+        return $this->getPDOConnection()->getAttribute(PDO::ATTR_CONNECTION_STATUS) ?: '';
+    }
+
+    /**
+     * Return running operating system details
+     * @return array
+     */
+    public function getOSDetails(): array
+    {
+        return [
+            "os" => php_uname('s'),
+            "release_name" => php_uname('r'),
+            "version_info" => php_uname('v'),
+        ];
+    }
+
+    /**
+     * @return PDO|null
+     * @throws \Doctrine\DBAL\Exception
+     */
+    private function getPDOConnection(): ?PDO
+    {
+        $conn = Connection::getConnection()->getWrappedConnection();
+        if ($conn instanceof \Doctrine\DBAL\Driver\PDO\Connection) {
+            return $conn->getWrappedConnection();
+        }
+        return null;
+    }
+
+    /**
+     * @return array
+     * @throws \Doctrine\DBAL\Exception
+     */
+    public function getSystemDetails(): array
+    {
+        return [
+            'os' => $this->getOSDetails(),
+            'php' => [
+                'version' => $this->getPhpVersion()
+            ],
+            'mysql' => [
+                'client_version' => $this->getMysqlClientVersion(),
+                'server_version' => $this->getMysqlServerVersion(),
+                'conn_type' => $this->getMySqlHostInfo()
+            ],
+            'server' => $this->getWebServerDetails(),
+            'ohrm' => [
+                'version' => Config::PRODUCT_VERSION
+            ]
+        ];
     }
 }

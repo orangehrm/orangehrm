@@ -20,9 +20,7 @@
 namespace OrangeHRM\Installer\Framework;
 
 use Exception;
-use Monolog\Handler\StreamHandler;
 use OrangeHRM\Config\Config;
-use OrangeHRM\Core\Subscriber\LoggerSubscriber;
 use OrangeHRM\Framework\Event\EventDispatcher;
 use OrangeHRM\Framework\Http\ControllerResolver;
 use OrangeHRM\Framework\Http\Request;
@@ -34,7 +32,11 @@ use OrangeHRM\Framework\Routing\RequestContext;
 use OrangeHRM\Framework\Routing\UrlMatcher;
 use OrangeHRM\Framework\ServiceContainer;
 use OrangeHRM\Framework\Services;
+use OrangeHRM\Installer\Subscriber\ExceptionSubscriber;
+use OrangeHRM\Installer\Subscriber\LoggerSubscriber;
 use Symfony\Component\Config\FileLocator;
+use Symfony\Component\Filesystem\Exception\IOException;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Storage\Handler\NativeFileSessionHandler;
 use Symfony\Component\HttpKernel\Controller\ArgumentResolver;
@@ -55,6 +57,14 @@ class HttpKernel extends BaseHttpKernel
      * @var null|bool
      */
     protected ?bool $debug = null;
+    /**
+     * @var string
+     */
+    private string $logFilePath;
+    /**
+     * @var bool
+     */
+    private ?bool $isLogFileWritable = null;
 
     public function __construct(string $environment, bool $debug)
     {
@@ -88,17 +98,34 @@ class HttpKernel extends BaseHttpKernel
     protected function configureLogger(): void
     {
         $logger = new Logger('installer');
-        $logger->pushHandler(
-            new StreamHandler(
-                Config::get(Config::LOG_DIR) . DIRECTORY_SEPARATOR . 'installer.log',
-                $this->isDebug() ? Logger::DEBUG : Logger::INFO
-            )
-        );
+        $this->logFilePath = Config::get(Config::LOG_DIR) . DIRECTORY_SEPARATOR . 'installer.log';
+        $logLevel = $this->isDebug()
+            ? Logger::DEBUG
+            : ($this->isLogFileWritable() ? Logger::INFO : Logger::WARNING);
+
+        $logger->pushHandler(new StreamHandler($this->logFilePath, $logLevel));
         ServiceContainer::getContainer()->set(Services::LOGGER, $logger);
 
         /** @var EventDispatcher $dispatcher */
         $dispatcher = ServiceContainer::getContainer()->get(Services::EVENT_DISPATCHER);
         $dispatcher->addSubscriber(new LoggerSubscriber());
+    }
+
+    /**
+     * @return bool
+     */
+    public function isLogFileWritable(): bool
+    {
+        if (is_null($this->isLogFileWritable)) {
+            try {
+                $filesystem = new Filesystem();
+                $filesystem->appendToFile($this->logFilePath, '');
+                $this->isLogFileWritable = true;
+            } catch (IOException $e) {
+                $this->isLogFileWritable = false;
+            }
+        }
+        return $this->isLogFileWritable;
     }
 
     /**
@@ -130,12 +157,6 @@ class HttpKernel extends BaseHttpKernel
         $dispatcher->addListener(KernelEvents::REQUEST, [$routerListener, 'onKernelRequest'], 99500);
         $dispatcher->addListener(KernelEvents::FINISH_REQUEST, [$routerListener, 'onKernelFinishRequest']);
         $dispatcher->addListener(KernelEvents::EXCEPTION, [$routerListener, 'onKernelException'], -64);
-
-        // $urlGenerator = new UrlGenerator($routes, $context, $logger);
-        // ServiceContainer::getContainer()->set(Services::URL_GENERATOR, $urlGenerator);
-
-        // $urlHelper = new UrlHelper($requestStack, $context);
-        // ServiceContainer::getContainer()->set(Services::URL_HELPER, $urlHelper);
     }
 
     /**
@@ -178,6 +199,13 @@ class HttpKernel extends BaseHttpKernel
         ServiceContainer::getContainer()->set(Services::SESSION, $session);
     }
 
+    protected function configureSubscribers(): void
+    {
+        /** @var EventDispatcher $dispatcher */
+        $dispatcher = ServiceContainer::getContainer()->get(Services::EVENT_DISPATCHER);
+        $dispatcher->addSubscriber(new ExceptionSubscriber());
+    }
+
     /**
      * @param Request $request
      * @param int $type
@@ -189,6 +217,7 @@ class HttpKernel extends BaseHttpKernel
         int $type = HttpKernelInterface::MAIN_REQUEST,
         bool $catch = true
     ): Response {
+        $this->configureSubscribers();
         $this->configureRouter($request);
         $this->configureSession($request);
 

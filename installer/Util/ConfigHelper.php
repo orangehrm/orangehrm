@@ -68,8 +68,8 @@ class ConfigHelper
         $table = $this->getSchemaManager()->listTableDetails('hs_hr_config');
         $keyFieldsColumnName = $table->hasColumn('name') ? 'name' : '`key`';
 
-        $value = $this->getConfigValue($name);
-        if (is_null($value)) {
+        $currentValue = $this->getConfigValue($name);
+        if (is_null($currentValue)) {
             $qb = $this->getConnection()->createQueryBuilder()
                 ->insert('hs_hr_config')
                 ->values(["$keyFieldsColumnName" => ':configName', 'value' => ':value']);

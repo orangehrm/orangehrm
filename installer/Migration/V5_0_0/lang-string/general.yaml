@@ -384,9 +384,6 @@ langStrings:
     value: 'From date should be before to date'
     unitId: from_date_should_be_before_to_date
   -
-    value: 'To date should be after from date'
-    unitId: to_date_should_be_after_from_date
-  -
     value: 'Should be less than upper bound'
     unitId: should_be_less_than_upper_bound
   -
@@ -477,10 +474,10 @@ langStrings:
     value: 'Reject'
     unitId: reject
   -
-    value: '{count,plural, =0{No Records Found} one{1 Record Found} other{# Records Found}}'
+    value: '{count,plural, =0{No Records Found} one{(1) Record Found} other{ (#) Records Found}}'
     unitId: n_records_found
   -
-    value: '{count,plural, =0{No Records Selected} one{1 Record Selected} other{# Records Selected}}'
+    value: '{count,plural, =0{No Records Selected} one{(1) Record Selected} other{(#) Records Selected}}'
     unitId: n_records_selected
   -
     value: 'Password'
@@ -705,7 +702,7 @@ langStrings:
     value: 'Performed By'
     unitId: performed_by
   -
-    value: 'Add Another'
+    value: 'Add another'
     unitId: add_another
   -
     value: 'View'
@@ -860,3 +857,9 @@ langStrings:
   -
     value: '-- Select --'
     unitId: select
+  -
+    value: 'Total'
+    unitId: total
+  -
+    value: 'Unexpected Error!'
+    unitId: unexpected_error

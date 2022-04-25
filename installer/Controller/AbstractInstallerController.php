@@ -20,11 +20,11 @@
 namespace OrangeHRM\Installer\Controller;
 
 use InvalidArgumentException;
+use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Traits\ControllerTrait;
 use OrangeHRM\Framework\Http\RedirectResponse;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\Http\Response;
-use OrangeHRM\Installer\Util\Logger;
 
 abstract class AbstractInstallerController
 {
@@ -77,8 +77,10 @@ abstract class AbstractInstallerController
      */
     public function handle(Request $request)
     {
-        // TODO:: check system installed
-        Logger::getLogger()->info($request->getSchemeAndHttpHost() . $request->getBaseUrl() . $request->getPathInfo());
+        if (Config::isInstalled()) {
+            $url = $request->getSchemeAndHttpHost() . $request->getBaseUrl();
+            return new RedirectResponse(str_replace('/installer/index.php', '', $url));
+        }
         return $this->execute($request);
     }
 

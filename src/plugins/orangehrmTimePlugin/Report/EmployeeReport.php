@@ -37,11 +37,13 @@ use OrangeHRM\Core\Report\Header\Header;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\Project;
 use OrangeHRM\Entity\ProjectActivity;
+use OrangeHRM\I18N\Traits\Service\I18NHelperTrait;
 use OrangeHRM\Time\Dto\EmployeeReportsSearchFilterParams;
 
 class EmployeeReport implements EndpointAwareReport
 {
     use UserRoleManagerTrait;
+    use I18NHelperTrait;
 
     public const PARAMETER_PROJECT_NAME = 'projectName';
     public const PARAMETER_ACTIVITY_NAME = 'activityName';
@@ -201,12 +203,12 @@ class EmployeeReport implements EndpointAwareReport
     {
         return new Header(
             [
-                (new Column(self::PARAMETER_PROJECT_NAME))->setName('Project Name')
+                (new Column(self::PARAMETER_PROJECT_NAME))->setName($this->getI18NHelper()->transBySource('Project Name'))
                     ->setSize(self::DEFAULT_COLUMN_SIZE),
-                (new Column(self::PARAMETER_ACTIVITY_NAME))->setName('Activity Name')
+                (new Column(self::PARAMETER_ACTIVITY_NAME))->setName($this->getI18NHelper()->transBySource('Activity Name'))
                     ->setCellProperties(['class' => ['col-alt' => true]])
                     ->setSize(self::DEFAULT_COLUMN_SIZE),
-                (new Column(self::PARAMETER_DURATION))->setName('Time (Hours)')
+                (new Column(self::PARAMETER_DURATION))->setName($this->getI18NHelper()->transBySource('Time (Hours)'))
                     ->setSize(self::DEFAULT_COLUMN_SIZE)
             ]
         );

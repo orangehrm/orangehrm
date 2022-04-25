@@ -142,7 +142,7 @@ export default {
         validDateFormat(),
         startDateShouldBeBeforeEndDate(
           () => filters.value.toDate,
-          'From date should be before to date',
+          this.$t('attendance.from_date_should_be_before_to_date'),
           {allowSameDate: true},
         ),
       ],
@@ -150,7 +150,7 @@ export default {
         validDateFormat(),
         endDateShouldBeAfterStartDate(
           () => filters.value.fromDate,
-          'To date should be after from date',
+          this.$t('attendance.to_date_should_be_after_from_date'),
           {allowSameDate: true},
         ),
       ],
