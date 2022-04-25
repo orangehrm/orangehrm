@@ -233,6 +233,24 @@ class Migration extends AbstractMigration
             ->setParameter('update', true, ParameterType::BOOLEAN)
             ->setParameter('delete', true, ParameterType::BOOLEAN)
             ->executeQuery();
+
+        $q = $this->getConnection()->createQueryBuilder();
+        $q->select('customFields.extra_data')
+            ->from('hs_hr_custom_fields ', 'customFields')
+            ->where('customFields.type = :type')
+            ->setParameter('type', 1);
+        $results = $q->executeQuery()
+            ->fetchAllAssociative();
+        $extrasData = array_column($results, 'extra_data');
+        foreach ($extrasData as $extraData) {
+            $this->createQueryBuilder()
+                ->update('hs_hr_custom_fields ', 'customFields')
+                ->set('customFields.extra_data', ':newExtraData')
+                ->where('customFields.extra_data = :extraData')
+                ->setParameter('newExtraData', str_replace(', ', ',', $extraData))
+                ->setParameter('extraData', $extraData)
+                ->executeQuery();
+        }
     }
 
     /**
