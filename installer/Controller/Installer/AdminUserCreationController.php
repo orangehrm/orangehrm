@@ -1,3 +1,4 @@
+<?php
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -16,22 +17,20 @@
  * Boston, MA  02110-1301, USA
  */
 
-import WelcomeScreen from '@/pages/WelcomeScreen.vue';
-import DatabaseInfoScreen from '@/pages/DatabaseInfoScreen.vue';
-import SystemCheckScreen from '@/pages/SystemCheckScreen.vue';
-import CurrentVersionScreen from '@/pages/CurrentVersionScreen.vue';
-import UpgraderCompleteScreen from '@/pages/UpgraderCompleteScreen.vue';
-import UpgradeScreen from '@/pages/UpgradeScreen.vue';
-import DatabaseConfigScreen from '@/pages/DatabaseConfigScreen.vue';
-import AdminUserCreation from '@/pages/AdminUserCreation.vue';
+namespace OrangeHRM\Installer\Controller\Installer;
 
-export default {
-  'welcome-screen': WelcomeScreen,
-  'database-info-screen': DatabaseInfoScreen,
-  'system-check-screen': SystemCheckScreen,
-  'current-version-screen': CurrentVersionScreen,
-  'upgrader-complete-screen': UpgraderCompleteScreen,
-  'upgrade-process-screen': UpgradeScreen,
-  'database-config-screen': DatabaseConfigScreen,
-  'admin-user-creation': AdminUserCreation,
-};
+use OrangeHRM\Core\Vue\Component;
+use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Installer\Controller\AbstractInstallerVueController;
+
+class AdminUserCreationController extends AbstractInstallerVueController
+{
+    /**
+     * @inheritDoc
+     */
+    public function preRender(Request $request): void
+    {
+        $component = new Component('admin-user-creation');
+        $this->setComponent($component);
+    }
+}

@@ -43,6 +43,11 @@ installer_system_check:
   controller: OrangeHRM\Installer\Controller\Installer\SystemCheckController::handle
   methods: [ GET ]
 
+installer_admin_user_creation:
+  path: /installer/admin-user-creation
+  controller: OrangeHRM\Installer\Controller\Installer\AdminUserCreationController::handle
+  methods: [ GET ]
+
 #####################################
 #        APIs - Upgrader
 #####################################

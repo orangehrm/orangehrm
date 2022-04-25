@@ -1,0 +1,206 @@
+<!--
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ */
+ -->
+<template>
+  <oxd-form
+    class="orangehrm-installer-page"
+    :loading="isLoading"
+    @submit-valid="onSubmit"
+  >
+    <oxd-text tag="h5" class="orangehrm-installer-page-title">
+      Admin User Creation
+    </oxd-text>
+    <br />
+    <oxd-text tag="p" class="orangehrm-installer-page-content">
+      Select the name, email address, username and password to create the admin
+      user for your OrangeHRM Instance
+    </oxd-text>
+    <br />
+    <oxd-grid :cols="4" class="orangehrm-full-width-grid">
+      <oxd-grid-item class="--span-column-2">
+        <oxd-input-group label="Employee Name" :classes="classes">
+          <oxd-input-field
+            v-model="adminUser.firstName"
+            :rules="rules.firstName"
+          />
+          <oxd-input-field
+            v-model="adminUser.lastName"
+            :rules="rules.lastName"
+          />
+        </oxd-input-group>
+      </oxd-grid-item>
+      <oxd-grid-item class="--offset-row-2 --span-column-2">
+        <oxd-input-field
+          v-model="adminUser.email"
+          :rules="rules.email"
+          label="Email"
+          required
+        />
+      </oxd-grid-item>
+      <oxd-grid-item class="--offset-row-2">
+        <oxd-input-field
+          v-model="adminUser.contact"
+          :rules="rules.contact"
+          label="Contact Number"
+        />
+      </oxd-grid-item>
+      <oxd-grid-item class="--offset-row-3">
+        <oxd-input-field
+          v-model="adminUser.username"
+          label="Admin Username"
+          :rules="rules.username"
+          required
+        />
+      </oxd-grid-item>
+      <oxd-grid-item class="--offset-row-4">
+        <oxd-input-field
+          v-model="adminUser.password"
+          type="password"
+          label="Password"
+          :rules="rules.password"
+          required
+        />
+      </oxd-grid-item>
+      <oxd-grid-item class="--offset-row-4">
+        <oxd-input-field
+          v-model="adminUser.confirmPassword"
+          type="password"
+          label="Confirm Password"
+          :rules="rules.passwordConfirm"
+          required
+        />
+      </oxd-grid-item>
+    </oxd-grid>
+
+    <oxd-form-actions class="orangehrm-installer-page-action">
+      <required-text />
+      <oxd-button
+        display-type="ghost"
+        label="Back"
+        type="button"
+        @click="navigateUrl"
+      />
+      <oxd-button
+        class="orangehrm-left-space"
+        display-type="secondary"
+        label="Next"
+        type="submit"
+      />
+    </oxd-form-actions>
+  </oxd-form>
+</template>
+
+<script>
+import {
+  required,
+  shouldNotExceedCharLength,
+} from '@/core/util/validation/rules';
+import {checkPassword} from '@/core/util/helper/password';
+import {APIService} from '@/core/util/services/api.service';
+
+export default {
+  name: 'AdminUserCreation',
+  setup() {
+    const http = new APIService(
+      window.appGlobal.baseUrl,
+      '/installer/api/admin-user',
+    );
+    return {
+      http,
+    };
+  },
+  data() {
+    return {
+      isLoading: false,
+      adminUser: {
+        firstName: null,
+        lastName: null,
+        email: null,
+        contact: null,
+        username: null,
+        password: null,
+        confirmPassword: null,
+      },
+      rules: {
+        firstName: [required, shouldNotExceedCharLength(30)],
+        lastName: [required, shouldNotExceedCharLength(30)],
+        email: [
+          required,
+          (v) =>
+            !v ||
+            /^[a-zA-Z0-9.!#$%&'*+\\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$/.test(
+              v,
+            ) ||
+            'Expected format: admin@example.com',
+        ],
+        contact: [
+          shouldNotExceedCharLength(25),
+          (v) =>
+            !v ||
+            /^[0-9+\-/() ]+$/.test(v) ||
+            'Allows numbers and only + - / ( )',
+        ],
+        username: [
+          required,
+          shouldNotExceedCharLength(40),
+          (v) =>
+            !v || String(v).length >= 5 || 'Should be at least 5 characters',
+        ],
+        password: [required, shouldNotExceedCharLength(64), checkPassword],
+        passwordConfirm: [
+          required,
+          shouldNotExceedCharLength(64),
+          (v) =>
+            (!!v && v === this.adminUser.password) || 'Passwords do not match',
+        ],
+      },
+    };
+  },
+  computed: {
+    classes() {
+      return {
+        label: {
+          'oxd-input-field-required': true,
+        },
+        wrapper: {
+          '--name-grouped-field': true,
+        },
+      };
+    },
+  },
+  methods: {
+    onSubmit() {
+      this.isLoading = true;
+      this.http.create({...this.adminUser}).then(() => {
+        // TODO navigate to confirmation page
+      });
+    },
+    navigateUrl() {
+      // TODO navigate to instance creation page
+    },
+  },
+};
+</script>
+
+<style src="./installer-page.scss" lang="scss" scoped></style>
+<style lang="scss" scoped>
+::v-deep(.--name-grouped-field) {
+  display: flex;
+}
+</style>
