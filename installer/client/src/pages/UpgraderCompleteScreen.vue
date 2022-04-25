@@ -5,7 +5,7 @@
     </oxd-text>
     <br />
     <oxd-text tag="p" class="orangehrm-installer-page-content">
-      You have sucessfully upgraded to OrangeHRM Starter version 5.0. Make sure
+      You have successfully upgraded to OrangeHRM Starter version 5.0. Make sure
       you go through the following steps before start using the system.
     </oxd-text>
 
@@ -14,7 +14,7 @@
         <oxd-text tag="span" class="orangehrm-installer-page-content">
           If notes were displayed under <b>Version Info,</b> make sure you
           understand them thoroughly, You can find the notes at
-          <b>upgrader/log/notes.log</b> in your OrangeHRM root folder.
+          <b>src/log/installer.log</b> in your OrangeHRM root folder.
         </oxd-text>
       </li>
       <li>
