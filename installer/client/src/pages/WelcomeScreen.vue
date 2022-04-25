@@ -109,7 +109,6 @@ export default {
   methods: {
     toggleModal() {
       if (this.selected === 'install') {
-        navigate('/../installerUI.php');
         return;
       }
       this.showModal = !this.showModal;
@@ -118,8 +117,6 @@ export default {
       if (!isAccept) return this.toggleModal();
       if (this.selected === 'upgrade') {
         navigate('/upgrader/database-config');
-      } else {
-        navigate('/../installerUI.php');
       }
     },
   },
