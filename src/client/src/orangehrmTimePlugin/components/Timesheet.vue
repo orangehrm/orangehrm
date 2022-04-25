@@ -292,7 +292,7 @@ export default {
       rules: {
         project: [v => v !== null || this.$t('time.select_a_project')],
         activity: [
-          v => v !== null || this.$t('time.duplicate_record'),
+          v => v !== null || this.$t('time.select_an_activity'),
           v =>
             this.records.filter(record => record.activity?.id === v?.id)
               .length < 2 || this.$t('time.duplicate_record'),
