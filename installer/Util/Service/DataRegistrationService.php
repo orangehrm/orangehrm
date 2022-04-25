@@ -35,7 +35,7 @@ class DataRegistrationService
     private function getHttpClient(): Client
     {
         if (!isset($this->apiClient)) {
-            $this->apiClient = new Client(['base_uri' => Config::REGISTRATION_URL]);
+            $this->apiClient = new Client(['base_uri' => Config::REGISTRATION_BETA_URL]);
         }
         return $this->apiClient;
     }
@@ -49,15 +49,15 @@ class DataRegistrationService
     {
         try {
             if (Config::PRODUCT_MODE === Config::MODE_PROD) {
-        $headers = ['Accept' => 'application/json'];
-            $this->getHttpClient()->post(
-                '/',
-                [
-                    'form_params' => $body,
-                    'headers' => $headers
-                ]
-            );
-            return true;
+                $headers = ['Accept' => 'application/json'];
+                $this->getHttpClient()->post(
+                    '/',
+                    [
+                        'form_params' => $body,
+                        'headers' => $headers
+                    ]
+                );
+                return true;
             }
             return false;
         } catch (Exception $exception) {
