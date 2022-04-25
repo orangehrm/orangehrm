@@ -118,7 +118,7 @@ class ProjectDaoTest extends KernelTestCase
 
     public function testIsProjectNameTaken(): void
     {
-        $result = $this->projectDao->isProjectNameTaken('Project_03_updated',1);
+        $result = $this->projectDao->isProjectNameTaken('Project_03_updated', 1);
         $this->assertTrue($result);
     }
 
