@@ -201,6 +201,14 @@ class Migration extends AbstractMigration
         foreach ($langCodes as $langCode) {
             $this->getTranslationHelper()->addTranslations($langCode);
         }
+
+        $this->createQueryBuilder()
+            ->update('ohrm_project ', 'project')
+            ->set('project.description', ':description')
+            ->where('project.description = :emptyString')
+            ->setParameter('description', null)
+            ->setParameter('emptyString', "")
+            ->executeQuery();
     }
 
     /**

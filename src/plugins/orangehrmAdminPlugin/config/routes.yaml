@@ -558,3 +558,8 @@ admin_register_oauth_client: # remove this
   path: /admin/registerOAuthClient
   controller: OrangeHRM\Core\Controller\Common\ModuleUnderDevelopmentController::handle
   methods: [ GET ]
+
+admin_corporate_branding: # remove this
+  path: /admin/addTheme
+  controller: OrangeHRM\Core\Controller\Common\ModuleUnderDevelopmentController::handle
+  methods: [ GET ]
