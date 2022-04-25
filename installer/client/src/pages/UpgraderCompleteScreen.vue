@@ -12,9 +12,9 @@
     <ul class="orangehrm-upgrader-complete">
       <li>
         <oxd-text tag="span" class="orangehrm-installer-page-content">
-          If note were displayed under <b>Version Info,</b> make sure you
-          understand them throughly, You can find the notes at
-          <b>Upgrading/log/notes.log</b> in your OrangeHRM root folder.
+          If notes were displayed under <b>Version Info,</b> make sure you
+          understand them thoroughly, You can find the notes at
+          <b>upgrader/log/notes.log</b> in your OrangeHRM root folder.
         </oxd-text>
       </li>
       <li>

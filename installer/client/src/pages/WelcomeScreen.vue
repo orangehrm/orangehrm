@@ -108,6 +108,10 @@ export default {
   },
   methods: {
     toggleModal() {
+      if (this.selected === 'install') {
+        navigate('/../installerUI.php');
+        return;
+      }
       this.showModal = !this.showModal;
     },
     closeModel(isAccept) {
