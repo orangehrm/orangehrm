@@ -85,7 +85,10 @@
     </oxd-table-filter>
     <br />
     <div class="orangehrm-paper-container">
-      <div class="orangehrm-header-container">
+      <div
+        v-if="$can.create('employee_list')"
+        class="orangehrm-header-container"
+      >
         <oxd-button
           :label="$t('general.add')"
           icon-name="plus"
@@ -101,11 +104,12 @@
       ></table-header>
       <div class="orangehrm-container">
         <oxd-card-table
+          ref="cardTable"
           v-model:selected="checkedItems"
           v-model:order="sortDefinition"
           :headers="headers"
           :items="items?.data"
-          :selectable="true"
+          :selectable="$can.delete('employee_list')"
           :clickable="true"
           :loading="isLoading"
           class="orangehrm-employee-list"
@@ -193,11 +197,9 @@ export default {
 
   setup() {
     const filters = ref({...defaultFilters});
-
     const {sortDefinition, sortField, sortOrder, onSort} = useSort({
       sortDefinition: defaultSortOrder,
     });
-
     const serializedFilters = computed(() => {
       return {
         model: 'detailed',
@@ -249,10 +251,31 @@ export default {
       sortDefinition,
     };
   },
-
   data() {
     return {
-      headers: [
+      includeOpts: [
+        {
+          id: 1,
+          param: 'onlyCurrent',
+          label: this.$t('general.current_employees_only'),
+        },
+        {
+          id: 2,
+          param: 'currentAndPast',
+          label: this.$t('general.current_and_past_employees'),
+        },
+        {
+          id: 3,
+          param: 'onlyPast',
+          label: this.$t('general.past_employees_only'),
+        },
+      ],
+      checkedItems: [],
+    };
+  },
+  computed: {
+    headers() {
+      return [
         {
           name: 'employeeId',
           slot: 'title',
@@ -303,13 +326,15 @@ export default {
           style: {flex: 1},
           cellType: 'oxd-table-cell-actions',
           cellConfig: {
-            delete: {
-              onClick: this.onClickDelete,
-              component: 'oxd-icon-button',
-              props: {
-                name: 'trash',
+            ...(this.$can.delete('employee_list') && {
+              delete: {
+                onClick: this.onClickDelete,
+                component: 'oxd-icon-button',
+                props: {
+                  name: 'trash',
+                },
               },
-            },
+            }),
             edit: {
               onClick: this.onClickEdit,
               props: {
@@ -318,26 +343,8 @@ export default {
             },
           },
         },
-      ],
-      includeOpts: [
-        {
-          id: 1,
-          param: 'onlyCurrent',
-          label: this.$t('general.current_employees_only'),
-        },
-        {
-          id: 2,
-          param: 'currentAndPast',
-          label: this.$t('general.current_and_past_employees'),
-        },
-        {
-          id: 3,
-          param: 'onlyPast',
-          label: this.$t('general.past_employees_only'),
-        },
-      ],
-      checkedItems: [],
-    };
+      ];
+    },
   },
 
   methods: {
