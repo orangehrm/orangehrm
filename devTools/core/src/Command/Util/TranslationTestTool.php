@@ -38,7 +38,7 @@ class TranslationTestTool
      */
     public function execute(string $groupName)
     {
-        $langCode = 'zz_ZZZ';   //the test language will be added as zz_ZZ
+        $langCode = 'zz_ZZ';   //the test language will be added as zz_ZZ
         $this->addTranslations($langCode, $groupName);
         //setting the default language to tr
         $q = $this->createQueryBuilder();
