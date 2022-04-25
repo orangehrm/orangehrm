@@ -145,13 +145,15 @@ class ProjectDao extends BaseDao
      * @param int|null $projectId
      * @return bool
      */
-    public function isProjectNameTaken(string $projectName, ?int $projectId = null): bool
+    public function isProjectNameTaken(string $projectName, int $customerId, ?int $projectId = null): bool
     {
         $q = $this->createQueryBuilder(Project::class, 'project');
         $q->andWhere('project.name = :projectName');
         $q->setParameter('projectName', $projectName);
         $q->andWhere('project.deleted = :deleted');
         $q->setParameter('deleted', false);
+        $q->andWhere('project.customer = :customerId');
+        $q->setParameter('customerId', $customerId);
         if (!is_null($projectId)) {
             $q->andWhere('project.id != :projectId');
             $q->setParameter('projectId', $projectId);
@@ -349,7 +351,8 @@ class ProjectDao extends BaseDao
                 ->setParameter('toDate', $projectReportSearchFilterParams->getToDate());
         }
 
-        if ($projectReportSearchFilterParams->getIncludeApproveTimesheet() === ProjectReportSearchFilterParams::INCLUDE_TIMESHEET_ONLY_APPROVED) {
+        if ($projectReportSearchFilterParams->getIncludeApproveTimesheet(
+            ) === ProjectReportSearchFilterParams::INCLUDE_TIMESHEET_ONLY_APPROVED) {
             $q->andWhere('timesheet.state = :state');
             $q->setParameter('state', ProjectReportSearchFilterParams::TIMESHEET_STATE_APPROVED);
         }
