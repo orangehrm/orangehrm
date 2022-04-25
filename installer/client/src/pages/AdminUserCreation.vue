@@ -110,6 +110,9 @@
 import {
   required,
   shouldNotExceedCharLength,
+  shouldNotLessThanCharLength,
+  validEmailFormat,
+  validPhoneNumberFormat,
 } from '@/core/util/validation/rules';
 import {checkPassword} from '@/core/util/helper/password';
 import {APIService} from '@/core/util/services/api.service';
@@ -140,27 +143,12 @@ export default {
       rules: {
         firstName: [required, shouldNotExceedCharLength(30)],
         lastName: [required, shouldNotExceedCharLength(30)],
-        email: [
-          required,
-          (v) =>
-            !v ||
-            /^[a-zA-Z0-9.!#$%&'*+\\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$/.test(
-              v,
-            ) ||
-            'Expected format: admin@example.com',
-        ],
-        contact: [
-          shouldNotExceedCharLength(25),
-          (v) =>
-            !v ||
-            /^[0-9+\-/() ]+$/.test(v) ||
-            'Allows numbers and only + - / ( )',
-        ],
+        email: [required, validEmailFormat],
+        contact: [shouldNotExceedCharLength(25), validPhoneNumberFormat],
         username: [
           required,
           shouldNotExceedCharLength(40),
-          (v) =>
-            !v || String(v).length >= 5 || 'Should be at least 5 characters',
+          shouldNotLessThanCharLength(5),
         ],
         password: [required, shouldNotExceedCharLength(64), checkPassword],
         passwordConfirm: [
