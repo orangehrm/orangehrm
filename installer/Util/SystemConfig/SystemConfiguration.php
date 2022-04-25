@@ -90,10 +90,8 @@ class SystemConfiguration
      */
     public function getLanguage(): string
     {
-        return $this->configHelper->getConfigValue(
-            'admin.localization.default_language',
-            self::DEFAULT_LANGUAGE
-        );
+        $result = $this->configHelper->getConfigValue('admin.localization.default_language');
+        return empty($result) ? self::DEFAULT_LANGUAGE : $result;
     }
 
     /**

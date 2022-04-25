@@ -7,6 +7,7 @@ GetOne:
     body: [ ]
     query:
       projectName: 'project_03'
+      customerId: 1
     data:
       valid: false
     meta: [ ]
@@ -19,6 +20,7 @@ GetOne:
     body: [ ]
     query:
       projectName: 'Airbus A380'
+      customerId: 1
       projectId: 1
     data:
       valid: true
