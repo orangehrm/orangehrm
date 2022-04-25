@@ -47,9 +47,9 @@ class DataRegistrationService
      */
     public function sendRegistrationData(array $body): bool
     {
-        $headers = ['Accept' => 'application/json'];
-
         try {
+            if (Config::PRODUCT_MODE === Config::MODE_PROD) {
+        $headers = ['Accept' => 'application/json'];
             $this->getHttpClient()->post(
                 '/',
                 [
@@ -58,6 +58,8 @@ class DataRegistrationService
                 ]
             );
             return true;
+            }
+            return false;
         } catch (Exception $exception) {
             Logger::getLogger()->error($exception->getMessage());
             Logger::getLogger()->error($exception->getTraceAsString());
