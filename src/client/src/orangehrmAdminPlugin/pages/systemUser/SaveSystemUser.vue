@@ -162,7 +162,7 @@ export default {
         .create({
           username: this.user.username.trim(),
           password: this.user.password,
-          status: this.user.status && this.user.status.label === 'Enabled',
+          status: this.user.status && this.user.status.label === this.$t('general.enabled'),
           userRoleId: this.user.role?.id,
           empNumber: this.user.employee?.id,
         })
