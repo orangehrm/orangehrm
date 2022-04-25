@@ -38,6 +38,11 @@ installer_database_config:
   controller: OrangeHRM\Installer\Controller\Installer\DatabaseConfigController::handle
   methods: [ GET ]
 
+installer_system_check:
+  path: /installer/system-check
+  controller: OrangeHRM\Installer\Controller\Installer\SystemCheckController::handle
+  methods: [ GET ]
+
 #####################################
 #        APIs - Upgrader
 #####################################

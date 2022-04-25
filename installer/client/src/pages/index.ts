@@ -17,17 +17,19 @@
  */
 
 import WelcomeScreen from '@/pages/WelcomeScreen.vue';
-import DatabaseConfigScreen from '@/pages/DatabaseConfigScreen.vue';
+import DatabaseInfoScreen from '@/pages/DatabaseInfoScreen.vue';
 import SystemCheckScreen from '@/pages/SystemCheckScreen.vue';
 import CurrentVersionScreen from '@/pages/CurrentVersionScreen.vue';
 import UpgraderCompleteScreen from '@/pages/UpgraderCompleteScreen.vue';
 import UpgradeScreen from '@/pages/UpgradeScreen.vue';
+import DatabaseConfigScreen from '@/pages/DatabaseConfigScreen.vue';
 
 export default {
   'welcome-screen': WelcomeScreen,
-  'database-config-screen': DatabaseConfigScreen,
+  'database-info-screen': DatabaseInfoScreen,
   'system-check-screen': SystemCheckScreen,
   'current-version-screen': CurrentVersionScreen,
   'upgrader-complete-screen': UpgraderCompleteScreen,
   'upgrade-process-screen': UpgradeScreen,
+  'database-config-screen': DatabaseConfigScreen,
 };

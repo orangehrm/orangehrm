@@ -42,10 +42,13 @@ abstract class AbstractInstallerVueController extends AbstractInstallerControlle
     public const VERSION_DETAILS_SCREEN = "Version Details";
     public const UPGRADE_SCREEN = "Upgrade";
     public const UPGRADER_COMPLETE_SCREEN = "Completion";
+    public const INSTALLER_LICENCE_ACCEPTANCE = "License Acceptance";
+    public const INSTALLER_DB_CONFIG_SCREEN = "Database Configuration";
 
     public const INSTALLER_SCREENS = [
         self::WELCOME_SCREEN,
-        self::DB_INFO_SCREEN,
+        self::INSTALLER_LICENCE_ACCEPTANCE,
+        self::INSTALLER_DB_CONFIG_SCREEN,
         self::SYSTEM_CHECK_SCREEN,
     ];
 

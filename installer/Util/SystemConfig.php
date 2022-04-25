@@ -742,7 +742,7 @@ class SystemConfig
      */
     private function getPDOConnection(): ?PDO
     {
-        $conn = Connection::getConnection()->getWrappedConnection();
+        $conn = DatabaseServerConnection::getConnection()->getWrappedConnection();
         if ($conn instanceof \Doctrine\DBAL\Driver\PDO\Connection) {
             return $conn->getWrappedConnection();
         }
