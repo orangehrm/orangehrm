@@ -20,16 +20,7 @@
 <template>
   <div class="orangehrm-installer-page">
     <oxd-text tag="h5" class="orangehrm-installer-page-title">
-      Upgrading OrangeHRM
-    </oxd-text>
-    <br />
-    <oxd-text
-      v-if="!taskFailed"
-      tag="p"
-      class="orangehrm-installer-page-content"
-    >
-      This may take some time. Please do not close the window till progress
-      becomes 100%
+      Installation
     </oxd-text>
     <br />
     <installer-tasks :tasks="tasks"></installer-tasks>
@@ -51,17 +42,28 @@
       :show-label="false"
     />
     <br />
-
-    <oxd-form-actions
-      v-if="progress === 100"
-      class="orangehrm-installer-page-action"
+    <oxd-text
+      v-show="progress < 100"
+      tag="p"
+      class="orangehrm-installer-page-content--center"
     >
-      <oxd-button display-type="secondary" label="Next" @click="onClickNext" />
-    </oxd-form-actions>
-
-    <oxd-text v-else tag="p" class="orangehrm-installer-page-content--center">
       {{ progressNotice }}
     </oxd-text>
+
+    <oxd-form-actions class="orangehrm-installer-page-action">
+      <oxd-button
+        v-show="progress === 100"
+        label="Next"
+        display-type="secondary"
+        @click="onClickNext"
+      />
+      <oxd-button
+        v-show="taskFailed"
+        label="Clean up Install"
+        display-type="secondary"
+        @click="onClickCleanup"
+      />
+    </oxd-form-actions>
   </div>
 </template>
 
@@ -71,12 +73,12 @@ import {APIService} from '@/core/util/services/api.service';
 import InstallerTasks from '@/components/InstallerTasks.vue';
 import ProgressBar from '@ohrm/oxd/core/components/Progressbar/Progressbar.vue';
 import useBeforeUnload from '@/core/util/composable/useBeforeUnload';
-import useUpgrader from '@/core/util/composable/useUpgrader';
+import useInstaller from '@/core/util/composable/useInstaller';
 import {navigate} from '@/core/util/helper/navigation.ts';
 import useProgress from '@/core/util/composable/useProgress';
 
 export default {
-  name: 'UpgradeScreen',
+  name: 'InstallScreen',
   components: {
     'oxd-progress': ProgressBar,
     'installer-tasks': InstallerTasks,
@@ -85,13 +87,32 @@ export default {
     const {progress, start, stop, end} = useProgress();
     useBeforeUnload(progress);
 
-    const {runAllMigrations, createConfigFiles} = useUpgrader(
-      new APIService(window.appGlobal.baseUrl, ''),
-    );
+    const {
+      runCleanup,
+      runMigrations,
+      createInstance,
+      createDatabase,
+      createConfigFiles,
+      createDatabaseUser,
+    } = useInstaller(new APIService(window.appGlobal.baseUrl, ''));
+
     const tasks = ref([
-      {name: 'Applying database changes', state: 1, task: runAllMigrations},
-      {name: 'Creating configuration files', state: 0, task: createConfigFiles},
+      {name: 'Database Creation', state: 1, task: createDatabase},
+      {name: 'Create Database Tables', state: 0, task: runMigrations},
+      {
+        name: 'Fill default data into the database',
+        state: 0,
+        task: createInstance,
+      },
+      {name: 'Create Default User', state: 0, task: createDatabaseUser},
+      {name: 'Write Configuration file', state: 0, task: createConfigFiles},
     ]);
+
+    const onClickCleanup = () => {
+      runCleanup().then(() => {
+        navigate('/installer/confirmation');
+      });
+    };
 
     onBeforeMount(async () => {
       start();
@@ -113,6 +134,7 @@ export default {
     return {
       tasks,
       progress,
+      onClickCleanup,
     };
   },
   computed: {
@@ -124,8 +146,8 @@ export default {
     },
     progressNotice() {
       return !this.taskFailed
-        ? 'Please Wait. Upgrading in Progress'
-        : 'One or more tasks has failed, Please restore database and try again.';
+        ? 'Please Wait. Installation in Progress'
+        : 'One or more tasks has failed, Please clean up installtion and try again.';
     },
     progressType() {
       return !this.taskFailed ? 'secondary' : 'error';
@@ -133,7 +155,7 @@ export default {
   },
   methods: {
     onClickNext() {
-      navigate('/upgrader/complete');
+      navigate('/installer/complete');
     },
   },
 };

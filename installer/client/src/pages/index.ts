@@ -28,6 +28,7 @@ import LicenceAcceptanceScreen from '@/pages/LicenceAcceptanceScreen.vue';
 import InstanceCreationScreen from '@/pages/InstanceCreationScreen.vue';
 import ConfirmationScreen from '@/pages/ConfirmationScreen.vue';
 import InstallerCompleteScreen from '@/pages/InstallerCompleteScreen.vue';
+import InstallScreen from '@/pages/InstallScreen.vue';
 
 export default {
   'welcome-screen': WelcomeScreen,
@@ -42,4 +43,5 @@ export default {
   'instance-creation-screen': InstanceCreationScreen,
   'confirmation-screen': ConfirmationScreen,
   'installer-complete-screen': InstallerCompleteScreen,
+  'install-process-screen': InstallScreen,
 };

@@ -16,7 +16,11 @@
   - Boston, MA  02110-1301, USA
   -->
 <template>
-  <oxd-form class="orangehrm-installer-page" :loading="isLoading">
+  <oxd-form
+    class="orangehrm-installer-page"
+    :loading="isLoading"
+    @submit-valid="onSubmit"
+  >
     <oxd-text tag="h5" class="orangehrm-installer-page-title">
       Confirmation
     </oxd-text>
