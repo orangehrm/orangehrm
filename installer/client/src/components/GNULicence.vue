@@ -23,7 +23,7 @@
     value='GNU GENERAL PUBLIC LICENSE
 Version 2, June 1991
 
-Copyright (C) 1989, 1991 Free Software Foundation, Inc.  
+Copyright &copy; 1989, 1991 Free Software Foundation, Inc.  
 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 
 Everyone is permitted to copy and distribute verbatim copies
@@ -109,7 +109,7 @@ If you develop a new program, and you want it to be of the greatest possible use
 To do so, attach the following notices to the program. It is safest to attach them to the start of each source file to most effectively convey the exclusion of warranty; and each file should have at least the "copyright" line and a pointer to where the full notice is found.
 
 one line to give the program&apos;s name and an idea of what it does.
-Copyright (C) yyyy  name of author
+Copyright &copy; yyyy  name of author
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -128,7 +128,7 @@ Also add information on how to contact you by electronic and paper mail.
 
 If the program is interactive, make it output a short notice like this when it starts in an interactive mode:
 
-Gnomovision version 69, Copyright (C) year name of author
+Gnomovision version 69, Copyright &copy; year name of author
 Gnomovision comes with ABSOLUTELY NO WARRANTY; for details
 type `show w&apos;.  This is free software, and you are welcome
 to redistribute it under certain conditions; type `show c&apos; 

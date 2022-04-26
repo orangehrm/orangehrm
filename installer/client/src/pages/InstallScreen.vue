@@ -147,7 +147,7 @@ export default {
     progressNotice() {
       return !this.taskFailed
         ? 'Please Wait. Installation in Progress'
-        : 'One or more tasks has failed, Please clean up installtion and try again.';
+        : 'One or more tasks has failed, Please clean up installation and try again.';
     },
     progressType() {
       return !this.taskFailed ? 'secondary' : 'error';

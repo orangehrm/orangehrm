@@ -132,30 +132,29 @@ export default {
         const {data} = response.data;
         data.sort((a, b) => (a.label > b.label ? 1 : -1));
         this.countryList = data;
-      });
-    this.http
-      .request({
-        method: 'GET',
-        url: 'installer/api/languages',
+        return this.http.request({
+          method: 'GET',
+          url: 'installer/api/languages',
+        });
       })
       .then((response) => {
         const {data} = response.data;
         this.languageList = data;
-      });
-    this.http
-      .request({
-        method: 'GET',
-        url: 'installer/api/timezones',
+        return this.http.request({
+          method: 'GET',
+          url: 'installer/api/timezones',
+        });
       })
       .then((response) => {
         const {data} = response.data;
         this.timezoneList = data;
+        return this.http.getAll();
+      })
+      .then((response) => {
+        const {data} = response.data;
+        this.instance = {...this.instance, ...data};
+        this.isLoading = false;
       });
-    this.http.getAll().then((response) => {
-      const {data} = response.data;
-      this.instance = {...this.instance, ...data};
-    });
-    this.isLoading = false;
   },
   methods: {
     onSubmit() {
