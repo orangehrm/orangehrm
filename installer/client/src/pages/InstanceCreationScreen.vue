@@ -171,7 +171,7 @@ export default {
         });
     },
     navigateUrl() {
-      navigate('/upgrader/system-check');
+      navigate('/installer/system-check');
     },
   },
 };

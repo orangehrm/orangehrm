@@ -26,6 +26,7 @@ import DatabaseConfigScreen from '@/pages/DatabaseConfigScreen.vue';
 import AdminUserCreationScreen from '@/pages/AdminUserCreationScreen.vue';
 import LicenceAcceptanceScreen from '@/pages/LicenceAcceptanceScreen.vue';
 import InstanceCreationScreen from '@/pages/InstanceCreationScreen.vue';
+import ConfirmationScreen from '@/pages/ConfirmationScreen.vue';
 
 export default {
   'welcome-screen': WelcomeScreen,
@@ -38,4 +39,5 @@ export default {
   'admin-user-creation-screen': AdminUserCreationScreen,
   'licence-acceptance-screen': LicenceAcceptanceScreen,
   'instance-creation-screen': InstanceCreationScreen,
+  'confirmation-screen': ConfirmationScreen,
 };

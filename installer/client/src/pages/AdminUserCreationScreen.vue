@@ -187,7 +187,7 @@ export default {
           password: this.adminUser.password,
         })
         .then(() => {
-          // TODO navigate to confirmation page
+          navigate('/installer/confirmation');
         });
     },
     navigateUrl() {
