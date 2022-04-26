@@ -256,8 +256,8 @@ class Migration extends AbstractMigration
             ->set('employee.emp_firstname ', ':firstName')
             ->set('employee.emp_lastname ', ':lastName')
             ->andWhere($q->expr()->isNotNull('employee.purged_at'))
-            ->setParameter('firstName', 'purged')
-            ->setParameter('lastName', 'employee')
+            ->setParameter('firstName', 'Purged')
+            ->setParameter('lastName', 'Employee')
             ->executeQuery();
     }
 
