@@ -94,7 +94,7 @@
               <oxd-grid :cols="2" class="orangehrm-full-width-grid">
                 <oxd-grid-item>
                   <oxd-text type="subtitle-2">
-                    {{ $t('time.punch_out') }}
+                    {{ $t('attendance.punch_out') }}
                   </oxd-text>
                 </oxd-grid-item>
 

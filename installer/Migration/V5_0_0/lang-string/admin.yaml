@@ -90,9 +90,6 @@ langStrings:
     value: 'Edit Employment Status'
     unitId: edit_employment_status
   -
-    value: 'Employment Status'
-    unitId: employment_status
-  -
     value: 'Add Employment Status'
     unitId: add_employment_status
   -
@@ -188,9 +185,6 @@ langStrings:
   -
     value: 'Add User'
     unitId: add_user
-  -
-    value: 'Reset'
-    unitId: reset
   -
     value: 'Edit Work Shift'
     unitId: edit_work_shift

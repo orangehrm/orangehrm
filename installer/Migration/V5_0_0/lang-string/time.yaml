@@ -147,9 +147,6 @@ langStrings:
     value: 'Edit Timesheet for'
     unitId: edit_timesheet_for
   -
-    value: 'Punch Out'
-    unitId: punch_out
-  -
     value: 'Add Project'
     unitId: add_project
   -

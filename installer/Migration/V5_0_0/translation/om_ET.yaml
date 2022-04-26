@@ -454,3 +454,10 @@ translations:
     - { target: 'Galmeewwan To''annaa Yeroo Kiyyaa', unitId: my_attendance_records, group: attendance }
     - { target: 'Sirriitti Balleeffameera', unitId: successfully_deleted, group: general }
     - { target: 'Yeroon bahinsaa yeroo seensaa dursuu qaba', unitId: punch_out_time_should_be_later_than_punch_in_time, group: time }
+    - { target: 'Maqaa Fayyadamaa', unitId: username, group: auth }
+    - { target: Iggita, unitId: password, group: auth }
+    - { target: Galmeewwan hin jiran, unitId: no_records_found, group: general }
+    - { target: Gabateen Geroo Olkaawameera, unitId: timesheet_submitted, group: time }
+    - { target: Maqaa Abbaa, unitId: middle_name, group: general }
+    - { target: Maqaa Jalqabaa, unitId: first_name, group: general }
+    - { target: Maqaa Akaakayyuu, unitId: last_name, group: general }

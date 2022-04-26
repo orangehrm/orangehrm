@@ -455,3 +455,10 @@ translations:
     - { target: บันทึกเวลาการทำงานของฉัน, unitId: my_attendance_records, group: attendance }
     - { target: 'ลบเรียบร้อยแล้ว', unitId: successfully_deleted, group: general }
     - { target: 'เวลาของการตอกบัตรออกควรควรจะสูงกว่าเวลาของการตอกบัตรเข้า', unitId: punch_out_time_should_be_later_than_punch_in_time, group: time }
+    - { target: ชื่อผู้ใช้, unitId: username, group: auth }
+    - { target: รหัสผ่าน, unitId: password, group: auth }
+    - { target: ไม่พบการบันทึก, unitId: no_records_found, group: general }
+    - { target: ส่ง Timesheet แล้ว, unitId: timesheet_submitted, group: time }
+    - { target: ชื่อกลาง, unitId: middle_name, group: general }
+    - { target: ชื่อแรก, unitId: first_name, group: general }
+    - { target: นามสกุล, unitId: last_name, group: general }

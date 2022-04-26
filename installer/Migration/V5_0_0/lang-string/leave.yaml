@@ -316,6 +316,3 @@ langStrings:
   -
     value: 'Leave requested for'
     unitId: requested_for
-  -
-    value: 'Duration (Hours)'
-    unitId: duration_hours

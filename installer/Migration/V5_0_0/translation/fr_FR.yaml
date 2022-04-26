@@ -456,3 +456,10 @@ translations:
     - { target: Répertoire, unitId: directory, group: general }
     - { target: 'Supprimé avec succès', unitId: successfully_deleted, group: general }
     - { target: 'Pointage sortie doit être supérieur à pointage arrivée en temps', unitId: punch_out_time_should_be_later_than_punch_in_time, group: time }
+    - { target: 'Nom d''utilisateur', unitId: username, group: auth }
+    - { target: 'Mot de passe', unitId: password, group: auth }
+    - { target: 'Aucun résultat', unitId: no_records_found, group: general }
+    - { target: Feuille de présence soumise, unitId: timesheet_submitted, group: time }
+    - { target: Nom du milieu, unitId: middle_name, group: general }
+    - { target: Prénom, unitId: first_name, group: general }
+    - { target: Nom de famille, unitId: last_name, group: general }

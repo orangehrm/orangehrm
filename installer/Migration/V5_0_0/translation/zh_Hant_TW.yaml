@@ -519,3 +519,10 @@ translations:
     - { target: 已成功删除, unitId: successfully_deleted, group: general }
     - { target: 打卡出的時間應該晚於打卡進的時間, unitId: punch_out_time_should_be_later_than_punch_in_time, group: time }
     - { target: 忘了密碼, unitId: forgot_password, group: auth }
+    - { target: 使用者名稱, unitId: username, group: auth }
+    - { target: 密碼, unitId: password, group: auth }
+    - { target: 沒有找到記錄, unitId: no_records_found, group: general }
+    - { target: 時間表已提交, unitId: timesheet_submitted, group: time }
+    - { target: 中間名字, unitId: middle_name, group: general }
+    - { target: 名字, unitId: first_name, group: general }
+    - { target: 姓氏, unitId: last_name, group: general }

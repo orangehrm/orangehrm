@@ -454,4 +454,10 @@ translations:
     - { target: 'Присъствието ми записи', unitId: my_attendance_records, group: attendance }
     - { target: 'Добавен успешно', unitId: successfully_deleted, group: general }
     - { target: 'Удар време трябва да бъде по-висока, отколкото Punch във времето', unitId: punch_out_time_should_be_later_than_punch_in_time, group: time }
- 
+    - { target: 'Потребителско име', unitId: username, group: auth }
+    - { target: Парола, unitId: password, group: auth }
+    - { target: Няма намерени резултати, unitId: no_records_found, group: general }
+    - { target: График представи, unitId: timesheet_submitted, group: time }
+    - { target: Бащино име, unitId: middle_name, group: general }
+    - { target: Собствено име, unitId: first_name, group: general }
+    - { target: Фамилия, unitId: last_name, group: general }

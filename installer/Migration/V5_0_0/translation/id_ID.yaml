@@ -455,3 +455,10 @@ translations:
     - { target: 'Rekaman Kehadiran Saya ', unitId: my_attendance_records, group: attendance }
     - { target: 'Berhasil Dihapus', unitId: successfully_deleted, group: general }
     - { target: 'Jam Keluar harus lebih besar dari jam Masuk', unitId: punch_out_time_should_be_later_than_punch_in_time, group: time }
+    - { target: 'Nama Pengguna', unitId: username, group: auth }
+    - { target: 'Kata sandi', unitId: password, group: auth }
+    - { target: 'Tidak Ditemukan Rekaman', unitId: no_records_found, group: general }
+    - { target: 'Kartu Absen (Timesheet) Dikirim', unitId: timesheet_submitted, group: time }
+    - { target: Nama tengah, unitId: middle_name, group: general }
+    - { target: Nama depan, unitId: first_name, group: general }
+    - { target: Nama keluarga, unitId: last_name, group: general }

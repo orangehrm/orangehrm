@@ -455,3 +455,10 @@ translations:
     - { target: 'Hồ sơ tham dự của tôi', unitId: my_attendance_records, group: attendance }
     - { target: 'Thành công Đã bị xóa', unitId: successfully_deleted, group: general }
     - { target: 'Đấm ra thời gian nên là cao hơn cú đấm trong thời gian', unitId: punch_out_time_should_be_later_than_punch_in_time, group: time }
+    - { target: 'Tên đăng nhập', unitId: username, group: auth }
+    - { target: 'Mật khẩu', unitId: password, group: auth }
+    - { target: 'Hồ sơ tìm thấy', unitId: no_records_found, group: general }
+    - { target: 'Gửi bảng chấm công', unitId: timesheet_submitted, group: time }
+    - { target: 'Tên đệm', unitId: middle_name, group: general }
+    - { target: 'Tên', unitId: first_name, group: general }
+    - { target: 'Họ', unitId: last_name, group: general }

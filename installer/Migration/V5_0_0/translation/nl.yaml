@@ -516,3 +516,10 @@ translations:
     - { target: Verwijderen geslaagd, unitId: successfully_deleted, group: general }
     - { target: 'Afmeldtijd moet later zijn dan de aanmeldtijd', unitId: punch_out_time_should_be_later_than_punch_in_time, group: time }
     - { target: 'Wachtwoord vergeten', unitId: forgot_password, group: auth }
+    - { target: Gebruikersnaam, unitId: username, group: auth }
+    - { target: Wachtwoord, unitId: password, group: auth }
+    - { target: Geen gegevens gevonden, unitId: no_records_found, group: general }
+    - { target: Urenlijst ingediend, unitId: timesheet_submitted, group: time }
+    - { target: Tussenvoegsel, unitId: middle_name, group: general }
+    - { target: Voornaam, unitId: first_name, group: general }
+    - { target: Achternaam, unitId: last_name, group: general }

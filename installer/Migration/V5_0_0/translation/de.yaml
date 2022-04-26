@@ -518,3 +518,10 @@ translations:
     - { target: 'Gelöscht', unitId: successfully_deleted, group: general }
     - { target: 'Die Ausstempelzeit sollte nach der Einstempelzeit liegen', unitId: punch_out_time_should_be_later_than_punch_in_time, group: time }
     - { target: 'Haben Sie ihr Passwort vergessen', unitId: forgot_password, group: auth }
+    - { target: Benutzername, unitId: username, group: auth }
+    - { target: Passwort, unitId: password, group: auth }
+    - { target: Keine Aufzeichnung vorhanden, unitId: no_records_found, group: general }
+    - { target: Zeiterfassung abgesendet, unitId: timesheet_submitted, group: time }
+    - { target: Zweiter Vorname, unitId: middle_name, group: general }
+    - { target: Vorname, unitId: first_name, group: general }
+    - { target: Nachname, unitId: last_name, group: general }

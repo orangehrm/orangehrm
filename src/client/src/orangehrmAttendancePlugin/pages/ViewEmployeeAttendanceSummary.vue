@@ -178,7 +178,7 @@ export default {
         },
         {
           name: 'duration',
-          title: this.$t('attendance.total_hours'),
+          title: this.$t('time.total_duration'),
           style: {flex: '40%'},
         },
         {

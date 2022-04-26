@@ -46,10 +46,11 @@
           <oxd-grid :cols="2" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <oxd-input-field
-                v-model="configuration.dateFormat"
                 :label="$t('admin.date_format')"
                 type="select"
                 :show-empty-selector="false"
+                :disabled="true"
+                :placeholder="$t('general.date_format')"
                 :options="dateFormatList"
               />
             </oxd-grid-item>

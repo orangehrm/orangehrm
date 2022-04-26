@@ -38,7 +38,7 @@ class TranslationTestTool
      */
     public function execute(string $groupName)
     {
-        $langCode = 'bg_BG';   //the test language will replace Bulgarian
+        $langCode = 'zz_ZZ';   //the test language will replace Bulgarian
         $this->addTranslations($langCode, $groupName);
     }
 
@@ -70,7 +70,7 @@ class TranslationTestTool
     {
         $groupId = $this->getLangStringHelper()->getGroupId($groupName);
         // TODO:: check below codes
-        $langStringId = $this->getLangStringHelper()->getLangStringIdByValueAndGroup($source->getSource(), $groupId);
+        $langStringId = $this->getLangStringHelper()->getLangStringIdByValueAndGroup($source->getSource());
         if ($langStringId == null) {
             throw new Exception(
                 'Cannot add a translation to a non existent lang string: ' . $source->getSource()

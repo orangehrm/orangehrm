@@ -228,7 +228,7 @@ langStrings:
     value: 'Browse'
     unitId: browse
   -
-    value: 'Accepts up to 1MB'
+    value: 'Accepts upto 1 MB'
     unitId: accepts_up_to_1mb
   -
     value: 'Upload'
@@ -729,12 +729,6 @@ langStrings:
     value: 'Other Email'
     unitId: other_email
   -
-    value: 'Administrator Access'
-    unitId: admin_access
-  -
-    value: 'You have requested to access a critical Administrator function in OrangeHRM and are required to validate your credentials below'
-    unitId: admin_access_note
-  -
     value: 'Company Name'
     unitId: company_name
   -
@@ -785,9 +779,6 @@ langStrings:
   -
     value: 'Bad Request'
     unitId: bad_request
-  -
-    value: 'Accepts upto 1 MB'
-    unitId: file_upload_notice
   -
     value: 'Personal Details'
     unitId: personal_details
@@ -857,3 +848,6 @@ langStrings:
   -
     value: 'Unexpected Error!'
     unitId: unexpected_error
+  -
+    value: 'Delete Selected'
+    unitId: delete_selected
