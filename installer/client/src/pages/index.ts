@@ -25,6 +25,7 @@ import UpgradeScreen from '@/pages/UpgradeScreen.vue';
 import DatabaseConfigScreen from '@/pages/DatabaseConfigScreen.vue';
 import AdminUserCreationScreen from '@/pages/AdminUserCreationScreen.vue';
 import LicenceAcceptanceScreen from '@/pages/LicenceAcceptanceScreen.vue';
+import InstanceCreationScreen from '@/pages/InstanceCreationScreen.vue';
 
 export default {
   'welcome-screen': WelcomeScreen,
@@ -36,4 +37,5 @@ export default {
   'database-config-screen': DatabaseConfigScreen,
   'admin-user-creation-screen': AdminUserCreationScreen,
   'licence-acceptance-screen': LicenceAcceptanceScreen,
+  'instance-creation-screen': InstanceCreationScreen,
 };

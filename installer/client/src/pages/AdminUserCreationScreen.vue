@@ -121,6 +121,7 @@ import {
 } from '@/core/util/validation/rules';
 import {checkPassword} from '@/core/util/helper/password';
 import {APIService} from '@/core/util/services/api.service';
+import {navigate} from '@/core/util/helper/navigation';
 
 export default {
   name: 'AdminUserCreation',
@@ -190,7 +191,7 @@ export default {
         });
     },
     navigateUrl() {
-      // TODO navigate to instance creation page
+      navigate('/installer/instance-creation');
     },
   },
 };
