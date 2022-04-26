@@ -36,5 +36,4 @@ class Messages
     public const CURL_STATUS_DISABLE_MESSAGE = "cURL status - Disabled. This is required to run OrangeHRM";
     public const SIMPLE_XML_STATUS_DISABLE_MESSAGE = "SimpleXML status - Disabled. SimpleXML, libxml and xml PHP libraries are required";
     public const ZIP_STATUS_DISABLE_MESSAGE = "ZIP status - Disabled. SimpleXML, libxml and xml PHP libraries are required";
-
 }
