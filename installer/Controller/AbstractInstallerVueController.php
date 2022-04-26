@@ -37,24 +37,34 @@ use Twig\Loader\FilesystemLoader;
 abstract class AbstractInstallerVueController extends AbstractInstallerController
 {
     public const WELCOME_SCREEN = "Welcome";
-    public const DB_INFO_SCREEN = "Database Information";
+    public const DATABASE_INFO_SCREEN = "Database Information";
     public const SYSTEM_CHECK_SCREEN = "System Check";
     public const VERSION_DETAILS_SCREEN = "Version Details";
     public const UPGRADE_SCREEN = "Upgrade";
     public const UPGRADER_COMPLETE_SCREEN = "Completion";
-    public const INSTALLER_LICENCE_ACCEPTANCE = "License Acceptance";
-    public const INSTALLER_DB_CONFIG_SCREEN = "Database Configuration";
+    public const LICENCE_ACCEPTANCE_SCREEN = "License Acceptance";
+    public const DATABASE_CONFIG_SCREEN = "Database Configuration";
+    public const INSTANCE_CREATION_SCREEN = "Instance Creation";
+    public const ADMIN_USER_CREATION_SCREEN = "Admin User Creation";
+    public const CONFIRMATION_SCREEN = "Confirmation";
+    public const INSTALLATION_SCREEN = "Installation";
+    public const INSTALLATION_COMPLETE_SCREEN = "Installation Complete";
 
     public const INSTALLER_SCREENS = [
         self::WELCOME_SCREEN,
-        self::INSTALLER_LICENCE_ACCEPTANCE,
-        self::INSTALLER_DB_CONFIG_SCREEN,
+        self::LICENCE_ACCEPTANCE_SCREEN,
+        self::DATABASE_CONFIG_SCREEN,
         self::SYSTEM_CHECK_SCREEN,
+        self::INSTANCE_CREATION_SCREEN,
+        self::ADMIN_USER_CREATION_SCREEN,
+        self::CONFIRMATION_SCREEN,
+        self::INSTALLATION_SCREEN,
+        self::INSTALLATION_COMPLETE_SCREEN
     ];
 
     public const UPGRADER_SCREENS = [
         self::WELCOME_SCREEN,
-        self::DB_INFO_SCREEN,
+        self::DATABASE_INFO_SCREEN,
         self::SYSTEM_CHECK_SCREEN,
         self::VERSION_DETAILS_SCREEN,
         self::UPGRADE_SCREEN,

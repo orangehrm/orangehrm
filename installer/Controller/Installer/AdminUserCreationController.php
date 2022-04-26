@@ -22,6 +22,7 @@ namespace OrangeHRM\Installer\Controller\Installer;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Installer\Controller\AbstractInstallerVueController;
+use OrangeHRM\Installer\Util\StateContainer;
 
 class AdminUserCreationController extends AbstractInstallerVueController
 {
@@ -32,5 +33,6 @@ class AdminUserCreationController extends AbstractInstallerVueController
     {
         $component = new Component('admin-user-creation');
         $this->setComponent($component);
+        StateContainer::getInstance()->setCurrentScreen(self::ADMIN_USER_CREATION_SCREEN);
     }
 }
