@@ -171,7 +171,8 @@ class TranslationTestTool
             $insetQuery = $this->createQueryBuilder();
             $insetQuery->insert('ohrm_i18n_language')
                 ->values(
-                    ['name' => ':name',
+                    [
+                        'name' => ':name',
                         'code' => ':code',
                         'enabled ' => ':enabled',
                         'added' => ':added'

@@ -25,6 +25,7 @@ use Doctrine\DBAL\Schema\ForeignKeyConstraint;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Types\Types;
 use OrangeHRM\Installer\Util\V1\AbstractMigration;
+use OrangeHRM\Installer\Util\V1\Dto\CustomField;
 
 class Migration extends AbstractMigration
 {
@@ -235,20 +236,20 @@ class Migration extends AbstractMigration
             ->executeQuery();
 
         $q = $this->getConnection()->createQueryBuilder();
-        $q->select('customFields.extra_data')
+        $q->select('customFields.extra_data', 'customFields.field_num')
             ->from('hs_hr_custom_fields ', 'customFields')
             ->where('customFields.type = :type')
             ->setParameter('type', 1);
         $results = $q->executeQuery()
             ->fetchAllAssociative();
-        $extrasData = array_column($results, 'extra_data');
-        foreach ($extrasData as $extraData) {
+        foreach ($results as $result) {
+            $customField = CustomField::createFromArray($result);
             $this->createQueryBuilder()
                 ->update('hs_hr_custom_fields ', 'customFields')
                 ->set('customFields.extra_data', ':newExtraData')
-                ->where('customFields.extra_data = :extraData')
-                ->setParameter('newExtraData', str_replace(', ', ',', $extraData))
-                ->setParameter('extraData', $extraData)
+                ->where('customFields.field_num = :fieldNum')
+                ->setParameter('newExtraData', str_replace(', ', ',', $customField->getExtraData()))
+                ->setParameter('fieldNum', $customField->getFieldNum())
                 ->executeQuery();
         }
     }
