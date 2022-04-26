@@ -73,7 +73,7 @@ export default {
   },
   data() {
     return {
-      brandingSrc: `${window.appGlobal.baseUrl}/../images/ohrm_branding.png`,
+      brandingSrc: `${window.appGlobal.baseUrl}/../../web/images/ohrm_branding.png`,
     };
   },
 };

@@ -80,7 +80,7 @@ class DatabaseConfigAPI extends AbstractInstallerRestController
                         'message' => 'Failed to Connect: Check Database Details'
                     ]
                 ];
-            } elseif (!$appSetupUtility->isDatabaseExist($dbName)) {
+            } elseif ($appSetupUtility->isDatabaseExist($dbName)) {
                 $this->getResponse()->setStatusCode(Response::HTTP_BAD_REQUEST);
                 return [
                     'error' => [
@@ -154,6 +154,7 @@ class DatabaseConfigAPI extends AbstractInstallerRestController
                 'dbPort' => $dbInfo[StateContainer::DB_PORT],
                 'dbName' => $dbInfo[StateContainer::DB_NAME],
                 'dbUser' => $dbInfo[StateContainer::DB_USER],
+                'dbType' => StateContainer::getInstance()->getDbType(),
                 'useSameDbUserForOrangeHRM' => $useSameDbUserForOrangeHRM,
                 'ohrmDbUser' => $dbInfo[StateContainer::ORANGEHRM_DB_USER] ?? null,
             ],

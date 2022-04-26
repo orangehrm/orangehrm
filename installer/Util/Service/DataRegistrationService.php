@@ -35,7 +35,7 @@ class DataRegistrationService
     private function getHttpClient(): Client
     {
         if (!isset($this->apiClient)) {
-            $this->apiClient = new Client(['base_uri' => Config::REGISTRATION_URL]);
+            $this->apiClient = new Client(['base_uri' => Config::REGISTRATION_BETA_URL]);
         }
         return $this->apiClient;
     }
@@ -45,37 +45,25 @@ class DataRegistrationService
      * @return bool
      * @throws GuzzleException
      */
-    public function sendInitialRegistrationData(array $body): bool
+    public function sendRegistrationData(array $body): bool
     {
-        $headers = ['Accept' => 'application/json'];
-
         try {
-            $this->getHttpClient()->post(
-                '/',
-                [
-                    'form_params' => $body,
-                    'headers' => $headers
-                ]
-            );
-            return true;
+            if (Config::PRODUCT_MODE === Config::MODE_PROD) {
+                $headers = ['Accept' => 'application/json'];
+                $this->getHttpClient()->post(
+                    '/',
+                    [
+                        'form_params' => $body,
+                        'headers' => $headers
+                    ]
+                );
+                return true;
+            }
+            return false;
         } catch (Exception $exception) {
             Logger::getLogger()->error($exception->getMessage());
             Logger::getLogger()->error($exception->getTraceAsString());
             return false;
         }
-    }
-
-    /**
-     * @throws GuzzleException
-     */
-    public function sendSuccessRegistrationData(
-        string $instanceIdentifier,
-        string $type
-    ): bool {
-        $body = [
-            'instance_identifier' => $instanceIdentifier,
-            'type' => $type
-        ];
-        return $this->sendInitialRegistrationData($body);
     }
 }
