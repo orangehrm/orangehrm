@@ -287,26 +287,6 @@ class SystemConfig
     }
 
     /**
-     * Write Permissions for “lib/logs” Check
-     * @return array
-     */
-    public function isWritableLibLogs(): array
-    {
-        if ($this->checkWritePermission(realpath(__DIR__ . '/../../lib/logs'))) {
-            return [
-                'message' => Messages::WRITABLE_LIB_CONF_OK_MESSAGE,
-                'status' => self::PASSED
-            ];
-        } else {
-            $this->interruptContinue = true;
-            return [
-                'message' => Messages::WRITABLE_LIB_CONF_FAIL_MESSAGE,
-                'status' => self::BLOCKER
-            ];
-        }
-    }
-
-    /**
      * Write Permissions for “src/configs” Check
      * @return array
      */
