@@ -87,7 +87,7 @@ class SystemConfig
             $allowedPHPConfigs['max']
         )) {
             return [
-                'message' => Messages::PHP_OK_MESSAGE . " (ver " . $currentPHPVersion . ")",
+                'message' => Messages::OK_MESSAGE . " (Version " . $currentPHPVersion . ")",
                 'status' => self::PASSED
             ];
         } else {
@@ -126,7 +126,7 @@ class SystemConfig
                 ];
             } else {
                 return [
-                    'message' => Messages::MYSQL_CLIENT_OK_MESSAGE,
+                    'message' => Messages::OK_MESSAGE . " (Version mysqlnd" . $mysqlClientVersion . ")",
                     'status' => self::PASSED
                 ];
             }
@@ -158,7 +158,7 @@ class SystemConfig
                 $allowedConfigs['max']
             )) {
                 return [
-                    'message' => Messages::MYSQL_SERVER_OK_MESSAGE . " ($serverVersion)",
+                    'message' => Messages::OK_MESSAGE . " (Version $serverVersion)",
                     'status' => self::PASSED
                 ];
             } else {
@@ -211,7 +211,7 @@ class SystemConfig
                     ];
                 } elseif ($innoDBEngine['Support'] === self::STATE_DEFAULT) {
                     return [
-                        'message' => "MySQL InnoDB Support - Default",
+                        'message' => "Default",
                         'status' => self::PASSED
                     ];
                 } elseif ($innoDBEngine['Support'] === self::STATE_YES) {
@@ -253,7 +253,7 @@ class SystemConfig
         foreach ($supportedWebServers as $supportedWebServer) {
             if (strpos($currentWebServer, $supportedWebServer) !== false) {
                 return [
-                    'message' => Messages::WEB_SERVER_OK_MESSAGE . "(ver ${currentWebServer})",
+                    'message' => Messages::OK_MESSAGE . " (Version ${currentWebServer})",
                     'status' => self::PASSED
                 ];
             }
@@ -277,13 +277,13 @@ class SystemConfig
     {
         if ($this->checkWritePermission(realpath(__DIR__ . '/../../lib/confs'))) {
             return [
-                'message' => Messages::WRITABLE_LIB_CONF_OK_MESSAGE,
+                'message' => Messages::WRITEABLE,
                 'status' => self::PASSED
             ];
         } else {
             $this->interruptContinue = true;
             return [
-                'message' => Messages::WRITABLE_LIB_CONF_FAIL_MESSAGE,
+                'message' => Messages::NON_WRITEABLE,
                 'status' => self::BLOCKER
             ];
         }
@@ -297,13 +297,13 @@ class SystemConfig
     {
         if ($this->checkWritePermission(realpath(__DIR__ . '/../../lib/logs'))) {
             return [
-                'message' => Messages::WRITABLE_LIB_CONF_OK_MESSAGE,
+                'message' => Messages::WRITEABLE,
                 'status' => self::PASSED
             ];
         } else {
             $this->interruptContinue = true;
             return [
-                'message' => Messages::WRITABLE_LIB_CONF_FAIL_MESSAGE,
+                'message' => Messages::NON_WRITEABLE,
                 'status' => self::BLOCKER
             ];
         }
@@ -317,13 +317,13 @@ class SystemConfig
     {
         if ($this->checkWritePermission(realpath(__DIR__ . '/../../src/config'))) {
             return [
-                'message' => Messages::WRITEABLE_SRC_CONFIG_OK_MESSAGE,
+                'message' => Messages::WRITEABLE,
                 'status' => self::PASSED
             ];
         } else {
             $this->interruptContinue = true;
             return [
-                'message' => Messages::WRITEABLE_SRC_CONFIG_FAIL_MESSAGE,
+                'message' => Messages::NON_WRITEABLE,
                 'status' => self::BLOCKER
             ];
         }
@@ -337,13 +337,13 @@ class SystemConfig
     {
         if ($this->checkWritePermission(Config::get(Config::CACHE_DIR))) {
             return [
-                'message' => Messages::WRITEABLE_SRC_CACHE_OK_MESSAGE,
+                'message' => Messages::WRITEABLE,
                 'status' => self::PASSED
             ];
         } else {
             $this->interruptContinue = true;
             return [
-                'message' => Messages::WRITEABLE_SRC_CACHE_FAIL_MESSAGE,
+                'message' => Messages::NON_WRITEABLE,
                 'status' => self::BLOCKER
             ];
         }
@@ -357,13 +357,13 @@ class SystemConfig
     {
         if ($this->checkWritePermission(Config::get(Config::LOG_DIR))) {
             return [
-                'message' => Messages::WRITEABLE_SRC_LOG_OK_MESSAGE,
+                'message' => Messages::WRITEABLE,
                 'status' => self::PASSED
             ];
         } else {
             $this->interruptContinue = true;
             return [
-                'message' => Messages::WRITEABLE_SRC_LOG_FAIL_MESSAGE,
+                'message' => Messages::NON_WRITEABLE,
                 'status' => self::BLOCKER
             ];
         }
@@ -383,7 +383,7 @@ class SystemConfig
         $timeSpan = "($gcMaxLifeTimeMinutes minutes and $gcMaxLifeTimeSeconds seconds)";
         if ($gcMaxLifeTimeMinutes > 15) {
             return [
-                'message' => Messages::MAXIMUM_SESSION_IDLE_OK_MESSAGE . $timeSpan,
+                'message' => self::getExtensionsOkMessage(),
                 'status' => self::PASSED
             ];
         } elseif ($gcMaxLifeTimeMinutes > 2) {
@@ -415,7 +415,7 @@ class SystemConfig
             ];
         } else {
             return [
-                'message' => Messages::REGISTER_GLOBALS_OFF_OK_MESSAGE,
+                'message' => self::getExtensionsOkMessage(),
                 'status' => self::PASSED
             ];
         }
@@ -430,35 +430,17 @@ class SystemConfig
         $hardLimit = 9;
         $softLimit = 16;
         $maxMemory = null;
-        $message = '';
+        $message = self::getExtensionsOkMessage();
         $status = self::PASSED;
 
         $result = $this->checkPhpMemory($hardLimit, $softLimit, $maxMemory);
-        switch ($result) {
-            case self::INSTALL_UTIL_MEMORY_NO_LIMIT:
-                $message = "OK (No Limit)";
-                break;
-
-            case self::INSTALL_UTIL_MEMORY_UNLIMITED:
-                $message = "OK (Unlimited)";
-                break;
-
-            case self::INSTALL_UTIL_MEMORY_HARD_LIMIT_FAIL:
-                $this->interruptContinue = true;
-                $message = "Warning at least ${hardLimit}M required (${maxMemory} available, Recommended ${softLimit}M)";
-                $status = self::BLOCKER;
-                break;
-
-            case self::INSTALL_UTIL_MEMORY_SOFT_LIMIT_FAIL:
-                $message = "OK (Recommended ${softLimit}M)";
-                break;
-
-            case self::INSTALL_UTIL_MEMORY_OK:
-                $message = "OK";
-                break;
+        if ($result === self::INSTALL_UTIL_MEMORY_HARD_LIMIT_FAIL) {
+            $this->interruptContinue = true;
+            $message = "Memory allocated for PHP script - Warning at least ${hardLimit}M required (${maxMemory} available, Recommended ${softLimit}M)";
+            $status = self::BLOCKER;
         }
         return [
-            'message' => "Memory allocated for PHP script - ${message}",
+            'message' => $message,
             'status' => $status
         ];
     }
@@ -471,7 +453,7 @@ class SystemConfig
     {
         if (extension_loaded('curl')) {
             return [
-                'message' => Messages::CURL_STATUS_OK_MESSAGE,
+                'message' => self::getExtensionsOkMessage(),
                 'status' => self::PASSED
             ];
         } else {
@@ -491,7 +473,7 @@ class SystemConfig
     {
         if (extension_loaded('SimpleXML') && extension_loaded('libxml') && extension_loaded('xml')) {
             return [
-                'message' => Messages::SIMPLE_XML_STATUS_OK_MESSAGE,
+                'message' => self::getExtensionsOkMessage(),
                 'status' => self::PASSED
             ];
         } else {
@@ -511,7 +493,7 @@ class SystemConfig
     {
         if (extension_loaded('zip')) {
             return [
-                'message' => Messages::ZIP_STATUS_OK_MESSAGE,
+                'message' => self::getExtensionsOkMessage(),
                 'status' => self::PASSED
             ];
         } else {
@@ -770,5 +752,10 @@ class SystemConfig
                 'version' => Config::PRODUCT_VERSION
             ]
         ];
+    }
+
+    public function getExtensionsOkMessage(): string
+    {
+        return Messages::OK_MESSAGE . " (Version " . $this->getPhpVersion() . ")";
     }
 }
