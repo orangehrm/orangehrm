@@ -38,8 +38,16 @@ class TranslationTestTool
      */
     public function execute(string $groupName)
     {
-        $langCode = 'zz_ZZ';   //the test language will replace Bulgarian
+        $langCode = 'zz_ZZ';   //the test language will be added as zz_ZZ
         $this->addTranslations($langCode, $groupName);
+        //setting the default language to tr
+        $q = $this->createQueryBuilder();
+        $q->update('hs_hr_config')
+            ->set('value', ':code')
+            ->andWhere('name = :name')
+            ->setParameter('code', $langCode)
+            ->setParameter('name', 'admin.localization.default_language')
+            ->executeQuery();
     }
 
     /**
@@ -69,8 +77,7 @@ class TranslationTestTool
     private function saveTranslationRecord(string $groupName, TranslationUnit $source, string $language): void
     {
         $groupId = $this->getLangStringHelper()->getGroupId($groupName);
-        // TODO:: check below codes
-        $langStringId = $this->getLangStringHelper()->getLangStringIdByValueAndGroup($source->getSource());
+        $langStringId = $this->getLangStringHelper()->getLangStringIdByValueAndGroup($source->getSource(), $groupId);
         if ($langStringId == null) {
             throw new Exception(
                 'Cannot add a translation to a non existent lang string: ' . $source->getSource()
@@ -145,5 +152,37 @@ class TranslationTestTool
             ->setParameter('langCode', $langId)
             ->setParameter('langStringId', $langStringId);
         return $searchQuery->executeQuery()->fetchOne();
+    }
+
+    /**\
+     * @param string $langCode
+     * @return void
+     */
+    public function setTestLanguage(string $langCode): void
+    {
+        $q = $this->createQueryBuilder();
+        $q->select('language.code')
+            ->from('ohrm_i18n_language', 'language')
+            ->where('language.code = :code')
+            ->setParameter('code', $langCode);
+        $result = $q->executeQuery()->fetchOne();
+
+        if (is_null($result)) {
+            $insetQuery = $this->createQueryBuilder();
+            $insetQuery->insert('ohrm_i18n_language')
+                ->values(
+                    [
+                        'name' => ':name',
+                        'code' => ':code',
+                        'enabled ' => ':enabled',
+                        'added' => ':added'
+                    ]
+                )
+                ->setParameter('name', 'Test Language (TR)')
+                ->setParameter('code', $langCode)
+                ->setParameter('enabled', 1)
+                ->setParameter('added', 0)
+                ->executeQuery();
+        }
     }
 }

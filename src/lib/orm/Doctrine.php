@@ -60,8 +60,8 @@ class Doctrine
         $config->addCustomStringFunction('TIME_DIFF', 'OrangeHRM\ORM\TimeDiff');
 
         $pathToConf = realpath(Config::get(Config::CONF_FILE_PATH));
-        if (!$pathToConf) {
-            throw new ConfigNotFoundException();
+        if ($pathToConf === false) {
+            throw new ConfigNotFoundException('Application not installed');
         }
 
         //TODO

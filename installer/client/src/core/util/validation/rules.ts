@@ -75,3 +75,36 @@ export const digitsOnly = function (value: string): boolean | string {
     'Should be a number'
   );
 };
+
+export const validEmailFormat = function (value: string): boolean | string {
+  return (
+    !value ||
+    /^[a-zA-Z0-9.!#$%&'*+\\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$/.test(
+      value,
+    ) ||
+    'Expected format: admin@example.com'
+  );
+};
+
+export const validPhoneNumberFormat = function (
+  value: string,
+): boolean | string {
+  return (
+    !value ||
+    /^[0-9+\-/() ]+$/.test(value) ||
+    'Allows numbers and only + - / ( )'
+  );
+};
+
+/**
+ * @param {number} charLength
+ */
+export const shouldNotLessThanCharLength = function (charLength: number) {
+  return function (value: string): boolean | string {
+    return (
+      !value ||
+      String(value).length >= charLength ||
+      `Should be at least ${charLength} characters`
+    );
+  };
+};

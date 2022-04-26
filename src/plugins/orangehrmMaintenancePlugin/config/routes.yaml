@@ -23,3 +23,8 @@ purge_employee:
   path: /maintenance/purgeEmployee
   controller: OrangeHRM\Maintenance\Controller\PurgeEmployeeController::handle
   methods: [GET]
+
+maintainence_candidate_records:
+  path: /maintenance/purgeCandidateData
+  controller: OrangeHRM\Core\Controller\Common\ModuleUnderDevelopmentController::handle
+  methods: [ GET ]

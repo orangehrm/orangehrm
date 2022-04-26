@@ -379,9 +379,16 @@ export default {
     this.http
       .request({method: 'GET', url: 'api/v2/leave/leave-periods'})
       .then(response => {
-        const {data} = response.data;
-        this.filters.fromDate = this.filters.fromDate ?? data[0]?.startDate;
-        this.filters.toDate = this.filters.toDate ?? data[0]?.endDate;
+        const {data, meta} = response.data;
+        if (meta.leavePeriodDefined) {
+          this.filters.fromDate =
+            this.filters.fromDate ?? meta?.currentLeavePeriod.startDate;
+          this.filters.toDate =
+            this.filters.toDate ?? meta?.currentLeavePeriod.endDate;
+        } else {
+          this.filters.fromDate = this.filters.fromDate ?? data[0]?.startDate;
+          this.filters.toDate = this.filters.toDate ?? data[0]?.endDate;
+        }
       })
       .finally(() => {
         this.isLoading = false;

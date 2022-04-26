@@ -22,12 +22,14 @@ namespace OrangeHRM\Installer\Util\V1;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\DBAL\Schema\AbstractSchemaManager;
+use OrangeHRM\Installer\Util\ConfigHelper;
 
 abstract class AbstractMigration
 {
     private ?SchemaHelper $schemaHelper = null;
     private ?DataGroupHelper $dataGroupHelper = null;
     private ?LanguageHelper $languageHelper = null;
+    private ?ConfigHelper $configHelper = null;
 
     /**
      * @return AbstractSchemaManager
@@ -84,6 +86,17 @@ abstract class AbstractMigration
             $this->languageHelper = new LanguageHelper($this->getConnection());
         }
         return $this->languageHelper;
+    }
+
+    /**
+     * @return ConfigHelper
+     */
+    protected function getConfigHelper(): ConfigHelper
+    {
+        if (!$this->configHelper instanceof ConfigHelper) {
+            $this->configHelper = new ConfigHelper($this->getConnection());
+        }
+        return $this->configHelper;
     }
 
     /**

@@ -23,6 +23,7 @@ import CurrentVersionScreen from '@/pages/CurrentVersionScreen.vue';
 import UpgraderCompleteScreen from '@/pages/UpgraderCompleteScreen.vue';
 import UpgradeScreen from '@/pages/UpgradeScreen.vue';
 import DatabaseConfigScreen from '@/pages/DatabaseConfigScreen.vue';
+import AdminUserCreation from '@/pages/AdminUserCreation.vue';
 
 export default {
   'welcome-screen': WelcomeScreen,
@@ -32,4 +33,5 @@ export default {
   'upgrader-complete-screen': UpgraderCompleteScreen,
   'upgrade-process-screen': UpgradeScreen,
   'database-config-screen': DatabaseConfigScreen,
+  'admin-user-creation': AdminUserCreation,
 };

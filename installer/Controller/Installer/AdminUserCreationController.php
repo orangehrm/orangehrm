@@ -17,30 +17,20 @@
  * Boston, MA  02110-1301, USA
  */
 
-use OrangeHRM\Config\Config;
-use OrangeHRM\Framework\Framework;
-use OrangeHRM\Framework\Http\RedirectResponse;
+namespace OrangeHRM\Installer\Controller\Installer;
+
+use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Framework\Http\Request;
-use Symfony\Component\ErrorHandler\Debug;
+use OrangeHRM\Installer\Controller\AbstractInstallerVueController;
 
-require realpath(__DIR__ . '/../src/vendor/autoload.php');
-
-$env = $_SERVER['APP_ENV'] ?? $_ENV['APP_ENV'] ?? $_SERVER['APP_ENV'] = $_ENV['APP_ENV'] = 'prod';
-$debug = (bool)($_SERVER['APP_DEBUG'] ?? $_ENV['APP_DEBUG'] ?? $_SERVER['APP_DEBUG'] = $_ENV['APP_DEBUG'] = ('prod' !== $env));
-
-if ($debug) {
-    umask(0000);
-    Debug::enable();
+class AdminUserCreationController extends AbstractInstallerVueController
+{
+    /**
+     * @inheritDoc
+     */
+    public function preRender(Request $request): void
+    {
+        $component = new Component('admin-user-creation');
+        $this->setComponent($component);
+    }
 }
-
-$kernel = new Framework($env, $debug);
-$request = Request::createFromGlobals();
-
-if (Config::isInstalled()) {
-    $response = $kernel->handleRequest($request);
-} else {
-    $response = new RedirectResponse('./../');
-}
-
-$response->send();
-$kernel->terminate($request, $response);
