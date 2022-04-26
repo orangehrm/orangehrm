@@ -21,6 +21,7 @@ namespace OrangeHRM\Installer\Util;
 
 use Doctrine\DBAL\Connection as DBALConnection;
 use Doctrine\DBAL\DriverManager;
+use Doctrine\DBAL\Types\Types;
 
 class Connection
 {
@@ -42,6 +43,7 @@ class Connection
             'charset' => 'utf8mb4'
         ];
         self::$connection = DriverManager::getConnection($connectionParams);
+        self::$connection->getDatabasePlatform()->registerDoctrineTypeMapping('enum', Types::STRING);
     }
 
     /**

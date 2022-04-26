@@ -44,20 +44,27 @@ class InitialDataRegistrationAPI extends AbstractInstallerRestController
      */
     protected function handlePost(Request $request): array
     {
-        $this->dataRegistrationUtility->setInitialRegistrationDataBody(DataRegistrationUtility::REGISTRATION_TYPE_UPGRADER_STARTED);
+        $this->dataRegistrationUtility->setInitialRegistrationDataBody(
+            DataRegistrationUtility::REGISTRATION_TYPE_UPGRADER_STARTED
+        );
         $initialRegistrationDataBody = $this->dataRegistrationUtility->getInitialRegistrationDataBody();
-        $result = $this->dataRegistrationService->sendInitialRegistrationData($initialRegistrationDataBody);
+        $result = $this->dataRegistrationService->sendRegistrationData($initialRegistrationDataBody);
 
         if (!$result) {
             StateContainer::getInstance()->setAttribute(
                 DataRegistrationUtility::IS_INITIAL_REG_DATA_SENT,
                 false
             );
-        } else {
-            $this->systemConfiguration->setInitialRegistrationEventQueue(
+        } elseif ($this->systemConfiguration->isRegistrationEventQueueAvailable()) {
+            $this->systemConfiguration->setRegistrationEventQueue(
                 DataRegistrationUtility::REGISTRATION_TYPE_UPGRADER_STARTED,
                 DataRegistrationUtility::PUBLISHED,
                 json_encode($initialRegistrationDataBody)
+            );
+        } else {
+            StateContainer::getInstance()->setAttribute(
+                DataRegistrationUtility::INITIAL_REGISTRATION_DATA_BODY,
+                $initialRegistrationDataBody
             );
         }
 

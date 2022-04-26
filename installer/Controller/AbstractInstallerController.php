@@ -77,7 +77,8 @@ abstract class AbstractInstallerController
      */
     public function handle(Request $request)
     {
-        if (Config::isInstalled()) {
+        $ignoredPaths = ['/upgrader/complete', '/installer/complete'];
+        if (Config::isInstalled() && !in_array($request->getPathInfo(), $ignoredPaths)) {
             $url = $request->getSchemeAndHttpHost() . $request->getBaseUrl();
             return new RedirectResponse(str_replace('/installer/index.php', '', $url));
         }

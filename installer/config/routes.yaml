@@ -38,6 +38,11 @@ installer_database_config:
   controller: OrangeHRM\Installer\Controller\Installer\DatabaseConfigController::handle
   methods: [ GET ]
 
+installer_system_check:
+  path: /installer/system-check
+  controller: OrangeHRM\Installer\Controller\Installer\SystemCheckController::handle
+  methods: [ GET ]
+
 #####################################
 #        APIs - Upgrader
 #####################################
@@ -75,11 +80,6 @@ api_upgrader_system_check:
 api_upgrader_start_registration:
   path: /upgrader/api/send-data/upgrader-start
   controller: OrangeHRM\Installer\Controller\Upgrader\Api\InitialDataRegistrationAPI::handle
-  methods: [ POST ]
-
-api_upgrader_sucess_registration:
-  path: /upgrader/api/send-data/upgrader-success
-  controller: OrangeHRM\Installer\Controller\Upgrader\Api\SuccessDataRegistrationAPI::handle
   methods: [ POST ]
 
 #####################################

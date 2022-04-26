@@ -17,22 +17,22 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Installer\Controller\Upgrader;
+namespace OrangeHRM\Installer\Controller\Installer;
 
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Installer\Controller\AbstractInstallerVueController;
 use OrangeHRM\Installer\Util\StateContainer;
 
-class DatabaseConfigurationController extends AbstractInstallerVueController
+class SystemCheckController extends AbstractInstallerVueController
 {
     /**
      * @inheritDoc
      */
     public function preRender(Request $request): void
     {
-        $component = new Component('database-info-screen');
+        $component = new Component('system-check-screen');
         $this->setComponent($component);
-        StateContainer::getInstance()->setCurrentScreen(self::DB_INFO_SCREEN, true);
+        StateContainer::getInstance()->setCurrentScreen(self::SYSTEM_CHECK_SCREEN, true);
     }
 }

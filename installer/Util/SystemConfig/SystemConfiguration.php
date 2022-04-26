@@ -21,6 +21,7 @@ namespace OrangeHRM\Installer\Util\SystemConfig;
 
 use DateTime;
 use Doctrine\DBAL\Exception;
+use Doctrine\DBAL\Schema\AbstractSchemaManager;
 use Doctrine\DBAL\Types\Types;
 use OrangeHRM\Installer\Util\ConfigHelper;
 use OrangeHRM\Installer\Util\Connection;
@@ -28,6 +29,7 @@ use OrangeHRM\Installer\Util\Connection;
 class SystemConfiguration
 {
     public const NOT_CAPTURED = 'Not Captured';
+    public const DEFAULT_LANGUAGE = 'en_US';
 
     public const INSTANCE_IDENTIFIER = "instance.identifier";
     public const INSTANCE_IDENTIFIER_CHECKSUM = "instance.identifier_checksum";
@@ -46,6 +48,15 @@ class SystemConfiguration
     private function getConnection(): \Doctrine\DBAL\Connection
     {
         return Connection::getConnection();
+    }
+
+    /**
+     * @return AbstractSchemaManager
+     * @throws Exception
+     */
+    private function getSchemaManager(): AbstractSchemaManager
+    {
+        return $this->getConnection()->createSchemaManager();
     }
 
     /**
@@ -79,10 +90,8 @@ class SystemConfiguration
      */
     public function getLanguage(): string
     {
-        return $this->configHelper->getConfigValue(
-            'admin.localization.default_language',
-            self::NOT_CAPTURED
-        );
+        $result = $this->configHelper->getConfigValue('admin.localization.default_language');
+        return empty($result) ? self::DEFAULT_LANGUAGE : $result;
     }
 
     /**
@@ -341,11 +350,20 @@ class SystemConfiguration
     }
 
     /**
+     * @return bool
+     * @throws Exception
+     */
+    public function isRegistrationEventQueueAvailable(): bool
+    {
+        return $this->getSchemaManager()->tablesExist(['ohrm_registration_event_queue']);
+    }
+
+    /**
      * @param int $eventType
      * @param int $published
      * @param string|null $data
      */
-    public function setInitialRegistrationEventQueue(int $eventType, int $published, string $data = null)
+    public function setRegistrationEventQueue(int $eventType, int $published, string $data = null)
     {
         $eventTime = new DateTime();
 
@@ -374,7 +392,7 @@ class SystemConfiguration
      * @param string|null $data
      * @throws Exception
      */
-    public function updateInitialRegistrationEventQueue(int $eventType, int $published, string $data = null)
+    public function updateRegistrationEventQueue(int $eventType, int $published, string $data = null)
     {
         $qb = $this->getConnection()->createQueryBuilder();
         $eventQueueId = $qb->select('eventQueue.id')

@@ -24,32 +24,24 @@
     @submit-valid="onSubmit"
   >
     <oxd-text tag="h5" class="orangehrm-installer-page-title">
-      Database Configuration
+      Database Information
     </oxd-text>
     <br />
     <oxd-text tag="p" class="orangehrm-installer-page-content">
-      Please enter your database configuration information below. If you are
-      unsure of what to fill in, we suggest that you use the default values.
+      Please provide the database information of the database you are going to
+      upgrade.
     </oxd-text>
     <br />
-    <oxd-text tag="p" class="orangehrm-installer-page-content">
-      Select Database to Use
-    </oxd-text>
-    <oxd-form-row class="orangehrm-database-info-row">
-      <oxd-radio-input
-        v-model="database.dbType"
-        value="new"
-        option-label="New Database"
-      />
-      <oxd-radio-input
-        v-model="database.dbType"
-        value="existing"
-        option-label="Existing Empty Database"
-      />
-    </oxd-form-row>
+    <Notice title="important" class="orangehrm-installer-page-notice">
+      <oxd-text tag="p" class="orangehrm-installer-page-content">
+        Make sure it's a copy of the database of your current OrangeHRM
+        installation and not the original database. It's highly discouraged to
+        use the original database for upgrading since it won't be recoverable if
+        an error occurred during the upgrade.
+      </oxd-text>
+    </Notice>
     <br />
-
-    <oxd-grid :cols="4" class="orangehrm-full-width-grid">
+    <oxd-grid :cols="3" class="orangehrm-full-width-grid">
       <oxd-grid-item>
         <oxd-input-field
           v-model="database.dbHost"
@@ -74,46 +66,18 @@
           required
         />
       </oxd-grid-item>
-      <template v-if="isNewDB">
-        <oxd-grid-item class="--offset-row-2 orangehrm-database-info-check">
-          <oxd-input-field
-            v-model="database.useSameDbUserForOrangeHRM"
-            label="&nbsp;"
-            type="checkbox"
-            option-label="Use the same Database User for OrangeHRM"
-          />
-        </oxd-grid-item>
-        <oxd-grid-item class="--offset-row-3">
-          <oxd-input-field
-            v-model="database.dbUser"
-            label="Privileged Database Username"
-            :rules="rules.dbUser"
-            required
-          />
-        </oxd-grid-item>
-        <oxd-grid-item class="--offset-row-3">
-          <oxd-input-field
-            v-model="database.dbPassword"
-            label="Privileged Database User Password"
-            type="password"
-          />
-        </oxd-grid-item>
-      </template>
       <oxd-grid-item class="--offset-row-3">
         <oxd-input-field
-          :key="disableOHRMDBfield"
-          v-model="database.ohrmDbUser"
-          label="OrangeHRM Database Username"
-          :rules="rules.ohrmDbUser"
-          :disabled="disableOHRMDBfield"
-          :required="!disableOHRMDBfield"
+          v-model="database.dbUser"
+          label="Database Username"
+          :rules="rules.dbUser"
+          required
         />
       </oxd-grid-item>
       <oxd-grid-item class="--offset-row-3">
         <oxd-input-field
-          v-model="database.ohrmDbPassword"
-          :disabled="disableOHRMDBfield"
-          label="OrangeHRM Database User Password"
+          v-model="database.dbPassword"
+          label="Database User Password"
           type="password"
         />
       </oxd-grid-item>
@@ -151,17 +115,16 @@
 import {required, validRange} from '@/core/util/validation/rules';
 import {APIService} from '@/core/util/services/api.service';
 import {navigate} from '@/core/util/helper/navigation.ts';
-import RadioInput from '@ohrm/oxd/core/components/Input/RadioInput';
-
+import Notice from '@/components/Notice.vue';
 export default {
   name: 'DatabaseConfigScreen',
   components: {
-    'oxd-radio-input': RadioInput,
+    Notice,
   },
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      '/installer/api/database-config',
+      '/upgrader/api/database-config',
     );
     return {
       http,
@@ -174,40 +137,23 @@ export default {
         dbPort: [required, validRange(5, 0, 65535)],
         dbName: [required],
         dbUser: [required],
-        ohrmDbUser: [(value) => this.disableOHRMDBfield || required(value)],
       },
       isLoading: false,
       database: {
-        dbType: null,
         dbHost: null,
         dbPort: null,
-        dbUser: null,
         dbName: null,
+        dbUser: null,
         dbPassword: null,
-        ohrmDbUser: null,
-        ohrmDbPassword: null,
-        useSameDbUserForOrangeHRM: true,
       },
       errorMessage: '',
     };
-  },
-  computed: {
-    isNewDB() {
-      return this.database.dbType === 'new';
-    },
-    disableOHRMDBfield() {
-      if (!this.isNewDB) return false;
-      return this.database.useSameDbUserForOrangeHRM;
-    },
   },
   beforeMount() {
     this.isLoading = true;
     this.http.getAll().then((response) => {
       const {data} = response.data;
-      this.database = {...data, dbPassword: null, ohrmDbPassword: null};
-      if (!this.database.dbType) {
-        this.database.dbType = 'new';
-      }
+      this.database = {...data, dbPassword: null};
       if (!this.database.dbPort) {
         this.database.dbPort = 3306;
       }
@@ -218,20 +164,10 @@ export default {
     onSubmit() {
       this.isLoading = true;
       this.errorMessage = '';
-      const payload = {...this.database};
       this.http
-        .create({
-          ...payload,
-          ...(payload.dbType === 'existing' && {
-            dbUser: payload.ohrmDbUser,
-            dbPassword: payload.ohrmDbPassword,
-            ohrmDbUser: undefined,
-            ohrmDbPassword: undefined,
-            useSameDbUserForOrangeHRM: undefined,
-          }),
-        })
+        .create({...this.database})
         .then(() => {
-          navigate('/installer/system-check');
+          navigate('/upgrader/system-check');
         })
         .catch(({response}) => {
           const {error} = response.data;
@@ -247,22 +183,6 @@ export default {
 </script>
 <style src="./installer-page.scss" lang="scss" scoped></style>
 <style lang="scss" scoped>
-::v-deep(.oxd-checkbox-wrapper span) {
-  flex-shrink: 0;
-}
-::v-deep(.oxd-radio-wrapper label) {
-  margin-left: -0.5rem;
-  margin-right: 1rem;
-}
-.orangehrm-database-info-row {
-  margin-top: 5px;
-  flex-direction: row;
-}
-.orangehrm-database-info-check {
-  display: flex;
-  align-items: center;
-  grid-column: 3 / full;
-}
 .orangehrm-database-info-port {
   width: 50%;
 }
