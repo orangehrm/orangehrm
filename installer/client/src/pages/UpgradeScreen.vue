@@ -71,7 +71,7 @@ import {APIService} from '@/core/util/services/api.service';
 import InstallerTasks from '@/components/InstallerTasks.vue';
 import ProgressBar from '@ohrm/oxd/core/components/Progressbar/Progressbar.vue';
 import useBeforeUnload from '@/core/util/composable/useBeforeUnload';
-import useMigrations from '@/core/util/composable/useMigrations';
+import useUpgrader from '@/core/util/composable/useUpgrader';
 import {navigate} from '@/core/util/helper/navigation.ts';
 import useProgress from '@/core/util/composable/useProgress';
 
@@ -83,35 +83,31 @@ export default {
   },
   setup() {
     const {progress, start, stop, end} = useProgress();
-    const tasks = ref([
-      {name: 'Applying database changes', state: 1},
-      {name: 'Creating configuration files', state: 0},
-    ]);
     useBeforeUnload(progress);
 
-    const http = new APIService(window.appGlobal.baseUrl, '');
-    const {runAllMigrations} = useMigrations(http);
+    const {runAllMigrations, createConfigFiles} = useUpgrader(
+      new APIService(window.appGlobal.baseUrl, ''),
+    );
+    const tasks = ref([
+      {name: 'Applying database changes', state: 1, task: runAllMigrations},
+      {name: 'Creating configuration files', state: 0, task: createConfigFiles},
+    ]);
 
-    onBeforeMount(() => {
+    onBeforeMount(async () => {
       start();
-      runAllMigrations()
-        .then(() => {
-          tasks.value[0].state = 2;
-          tasks.value[1].state = 1;
-          return http.request({
-            method: 'POST',
-            url: 'upgrader/api/config-file',
-          });
-        })
-        .then(() => {
-          tasks.value[1].state = 2;
-          end();
-        })
-        .catch(() => {
-          const currentTask = tasks.value.findIndex((task) => task.state === 1);
-          tasks.value[currentTask].state = 3;
+      for (let index = 0; index < tasks.value.length; index++) {
+        try {
+          await tasks.value[index].task();
+          tasks.value[index].state = 2;
+        } catch (error) {
+          // eslint-disable-next-line no-console
+          console.error(error);
+          tasks.value[index].state = 3;
           stop();
-        });
+          break;
+        }
+        if (index === length) end();
+      }
     });
 
     return {

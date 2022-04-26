@@ -58,6 +58,11 @@ installer_licence_acceptance:
   controller: OrangeHRM\Installer\Controller\Installer\LicenceAcceptanceController::handle
   methods: [ GET ]
 
+installer_process:
+  path: /installer/process
+  controller: OrangeHRM\Installer\Controller\Installer\InstallerController::handle
+  methods: [ GET ]
+
 #####################################
 #        APIs - Upgrader
 #####################################
