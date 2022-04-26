@@ -165,6 +165,14 @@ export default {
       },
     };
   },
+  beforeMount() {
+    this.isLoading = true;
+    this.http.getAll().then((response) => {
+      const {data} = response.data;
+      this.adminUser = {...this.adminUser, ...data};
+    });
+    this.isLoading = false;
+  },
   methods: {
     onSubmit() {
       this.isLoading = true;
