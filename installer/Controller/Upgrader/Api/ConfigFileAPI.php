@@ -20,6 +20,8 @@
 namespace OrangeHRM\Installer\Controller\Upgrader\Api;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Exception;
+use GuzzleHttp\Exception\GuzzleException;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\Http\Response;
 use OrangeHRM\Installer\Controller\AbstractInstallerRestController;
@@ -67,7 +69,11 @@ class ConfigFileAPI extends AbstractInstallerRestController
         ];
     }
 
-    protected function sendRegistrationData()
+    /**
+     * @throws Exception
+     * @throws GuzzleException
+     */
+    protected function sendRegistrationData(): void
     {
         $registrationType = $this->getRegistrationType();
         if (StateContainer::getInstance()->hasAttribute(DataRegistrationUtility::INITIAL_REGISTRATION_DATA_BODY)) {
