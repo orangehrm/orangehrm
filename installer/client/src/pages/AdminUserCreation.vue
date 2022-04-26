@@ -44,12 +44,14 @@
               <oxd-input-field
                 v-model="adminUser.firstName"
                 :rules="rules.firstName"
+                placeholder="First Name"
               />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
                 v-model="adminUser.lastName"
                 :rules="rules.lastName"
+                placeholder="Last Name"
               />
             </oxd-grid-item>
           </oxd-grid>
