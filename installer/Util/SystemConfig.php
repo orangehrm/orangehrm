@@ -126,7 +126,7 @@ class SystemConfig
                 ];
             } else {
                 return [
-                    'message' => Messages::OK_MESSAGE . " (Version mysqlnd" . $mysqlClientVersion . ")",
+                    'message' => Messages::OK_MESSAGE . " (Version mysqlnd " . $mysqlClientVersion . ")",
                     'status' => self::PASSED
                 ];
             }
