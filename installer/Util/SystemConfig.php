@@ -47,13 +47,11 @@ class SystemConfig
 
     private bool $interruptContinue = false;
     private ?Filesystem $filesystem = null;
-    private ?UpgraderConfigUtility $upgraderConfigUtility = null;
     private array $systemRequirements = [];
 
     public function __construct()
     {
         $this->filesystem = new Filesystem();
-        $this->upgraderConfigUtility = new UpgraderConfigUtility();
         $this->systemRequirements = require realpath(__DIR__ . '/../config/system_requirements.php');
     }
 
@@ -188,10 +186,9 @@ class SystemConfig
      */
     public function isInnoDBSupport()
     {
-        if ($this->upgraderConfigUtility->checkDatabaseConnection()) {
-            $connection = $this->upgraderConfigUtility->getConnection();
-            $mysqlServer = $connection->executeQuery("SHOW ENGINES");
-            $engines = $mysqlServer->fetchAllAssociative();
+        if ($this->getPDOConnection()) {
+            $connection = $this->getPDOConnection();
+            $engines = $connection->query("SHOW ENGINES")->fetchAll(PDO::FETCH_ASSOC);
             $innoDBEngine = array_values(
                 array_filter($engines, function ($engine) {
                     return $engine['Engine'] === self::ENGINE_INNODB;
