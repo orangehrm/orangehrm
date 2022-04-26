@@ -454,3 +454,4 @@ translations:
     - { target: 'Присъствието ми записи', unitId: my_attendance_records, group: attendance }
     - { target: 'Добавен успешно', unitId: successfully_deleted, group: general }
     - { target: 'Удар време трябва да бъде по-висока, отколкото Punch във времето', unitId: punch_out_time_should_be_later_than_punch_in_time, group: time }
+ 

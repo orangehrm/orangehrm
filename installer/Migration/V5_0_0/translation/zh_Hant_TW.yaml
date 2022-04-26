@@ -518,3 +518,4 @@ translations:
     - { target: 成功, unitId: success, group: general }
     - { target: 已成功删除, unitId: successfully_deleted, group: general }
     - { target: 打卡出的時間應該晚於打卡進的時間, unitId: punch_out_time_should_be_later_than_punch_in_time, group: time }
+    - { target: 忘了密碼, unitId: forgot_password, group: auth }

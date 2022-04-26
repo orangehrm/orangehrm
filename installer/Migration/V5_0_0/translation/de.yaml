@@ -517,3 +517,4 @@ translations:
     - { target: Erfolg, unitId: success, group: general }
     - { target: 'Gelöscht', unitId: successfully_deleted, group: general }
     - { target: 'Die Ausstempelzeit sollte nach der Einstempelzeit liegen', unitId: punch_out_time_should_be_later_than_punch_in_time, group: time }
+    - { target: 'Haben Sie ihr Passwort vergessen', unitId: forgot_password, group: auth }

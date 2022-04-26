@@ -515,3 +515,4 @@ translations:
     - { target: Verlofrechten, unitId: leave_entitlements, group: leave }
     - { target: Verwijderen geslaagd, unitId: successfully_deleted, group: general }
     - { target: 'Afmeldtijd moet later zijn dan de aanmeldtijd', unitId: punch_out_time_should_be_later_than_punch_in_time, group: time }
+    - { target: 'Wachtwoord vergeten', unitId: forgot_password, group: auth }
