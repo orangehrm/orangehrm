@@ -1,7 +1,7 @@
 database:
-  hostName: 127.0.0.1
+  hostName: mariadb104
   hostPort: 3306
-  databaseName: orangehrm_mysql
+  databaseName: orangehrm_mysql_
   privilegedDatabaseUser: root
   privilegedDatabasePassword: root
   useSameDbUserForOrangeHRM: y # y/n, if this field `n` fill `orangehrmDatabaseUser` and `orangehrmDatabasePassword`
@@ -15,10 +15,10 @@ organization:
 
 admin:
   adminUserName: Admin
-  adminPassword: Ohrm@1423
+  adminPassword: Admin1243%
   adminEmployeeFirstName: OrangeHRM
   adminEmployeeLastName: Admin
-  workEmail: admin@example.com
+  workEmail: example.com
   contactNumber: ~
 
 license:
