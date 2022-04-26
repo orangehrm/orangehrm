@@ -33,16 +33,26 @@
     </oxd-text>
     <br />
     <oxd-grid :cols="4" class="orangehrm-full-width-grid">
-      <oxd-grid-item class="--span-column-2">
-        <oxd-input-group label="Employee Name" :classes="classes">
-          <oxd-input-field
-            v-model="adminUser.firstName"
-            :rules="rules.firstName"
-          />
-          <oxd-input-field
-            v-model="adminUser.lastName"
-            :rules="rules.lastName"
-          />
+      <oxd-grid-item class="--span-column-2 admin-user-creation-grid-item">
+        <oxd-input-group
+          label="Employee Name"
+          :classes="classes"
+          class="admin-user-creation-input-group"
+        >
+          <oxd-grid :cols="2" class="orangehrm-full-width-grid">
+            <oxd-grid-item>
+              <oxd-input-field
+                v-model="adminUser.firstName"
+                :rules="rules.firstName"
+              />
+            </oxd-grid-item>
+            <oxd-grid-item>
+              <oxd-input-field
+                v-model="adminUser.lastName"
+                :rules="rules.lastName"
+              />
+            </oxd-grid-item>
+          </oxd-grid>
         </oxd-input-group>
       </oxd-grid-item>
       <oxd-grid-item class="--offset-row-2 --span-column-2">
@@ -166,9 +176,6 @@ export default {
         label: {
           'oxd-input-field-required': true,
         },
-        wrapper: {
-          '--name-grouped-field': true,
-        },
       };
     },
   },
@@ -197,7 +204,15 @@ export default {
 
 <style src="./installer-page.scss" lang="scss" scoped></style>
 <style lang="scss" scoped>
-::v-deep(.--name-grouped-field) {
-  display: flex;
+@import '@ohrm/oxd/styles/_mixins.scss';
+.admin-user-creation-input-group {
+  ::v-deep(.oxd-input-group__label-wrapper) {
+    margin-bottom: 0;
+  }
+}
+
+.admin-user-creation-grid-item {
+  width: 100%;
+  padding: 0.5rem 0.5rem;
 }
 </style>
