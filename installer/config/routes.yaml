@@ -155,3 +155,8 @@ api_installer_write_config:
   path: /installer/api/installation/config-file
   controller: OrangeHRM\Installer\Controller\Installer\Api\ConfigFileAPI::handle
   methods: [ POST ]
+
+api_installer_clean_up_install:
+  path: /installer/api/clean-up-install
+  controller: OrangeHRM\Installer\Controller\Installer\Api\CleanUpInstallAPI::handle
+  methods: [ POST ]

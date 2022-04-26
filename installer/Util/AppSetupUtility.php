@@ -408,4 +408,13 @@ class AppSetupUtility
     {
         return $this->getConfigHelper()->getConfigValue('instance.version');
     }
+
+    public function cleanUpInstallOnFailure(): void
+    {
+        Connection::getConnection()->executeStatement('SET FOREIGN_KEY_CHECKS=0;');
+        foreach (Connection::getConnection()->createSchemaManager()->listTableNames() as $table) {
+            Connection::getConnection()->createSchemaManager()->dropTable($table);
+        }
+        Connection::getConnection()->executeStatement('SET FOREIGN_KEY_CHECKS=1;');
+    }
 }
