@@ -25,7 +25,6 @@ use Doctrine\DBAL\Schema\ForeignKeyConstraint;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Types\Types;
 use OrangeHRM\Installer\Util\V1\AbstractMigration;
-use OrangeHRM\Installer\Util\V1\Dto\CustomField;
 
 class Migration extends AbstractMigration
 {
@@ -235,7 +234,7 @@ class Migration extends AbstractMigration
             ->setParameter('delete', true, ParameterType::BOOLEAN)
             ->executeQuery();
 
-        $q = $this->getConnection()->createQueryBuilder();
+        $q = $this->createQueryBuilder();
         $q->select('customFields.extra_data', 'customFields.field_num')
             ->from('hs_hr_custom_fields ', 'customFields')
             ->where('customFields.type = :type')
@@ -243,15 +242,23 @@ class Migration extends AbstractMigration
         $results = $q->executeQuery()
             ->fetchAllAssociative();
         foreach ($results as $result) {
-            $customField = CustomField::createFromArray($result);
             $this->createQueryBuilder()
                 ->update('hs_hr_custom_fields ', 'customFields')
                 ->set('customFields.extra_data', ':newExtraData')
                 ->where('customFields.field_num = :fieldNum')
-                ->setParameter('newExtraData', str_replace(', ', ',', $customField->getExtraData()))
-                ->setParameter('fieldNum', $customField->getFieldNum())
+                ->setParameter('newExtraData', str_replace(', ', ',', $result['extra_data']))
+                ->setParameter('fieldNum', $result['field_num'])
                 ->executeQuery();
         }
+
+        $q = $this->createQueryBuilder();
+        $q->update('hs_hr_employee ', 'employee')
+            ->set('employee.emp_firstname ', ':firstName')
+            ->set('employee.emp_lastname ', ':lastName')
+            ->andWhere($q->expr()->isNotNull('employee.purged_at'))
+            ->setParameter('firstName', 'purged')
+            ->setParameter('lastName', 'employee')
+            ->executeQuery();
     }
 
     /**
