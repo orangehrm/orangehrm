@@ -240,7 +240,7 @@ export default {
         });
     },
     navigateUrl() {
-      navigate('/welcome');
+      navigate('/installer/licence-acceptance');
     },
   },
 };

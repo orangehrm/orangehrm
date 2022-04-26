@@ -48,6 +48,11 @@ installer_admin_user_creation:
   controller: OrangeHRM\Installer\Controller\Installer\AdminUserCreationController::handle
   methods: [ GET ]
 
+installer_licence_acceptance:
+  path: /installer/licence-acceptance
+  controller: OrangeHRM\Installer\Controller\Installer\LicenceAcceptanceController::handle
+  methods: [ GET ]
+
 #####################################
 #        APIs - Upgrader
 #####################################
