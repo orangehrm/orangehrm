@@ -170,3 +170,8 @@ api_installer_start_registration:
   path: /installer/api/send-data/installer-start
   controller: OrangeHRM\Installer\Controller\Installer\Api\InstallerDataRegistrationAPI::handle
   methods: [ POST ]
+
+api_installer_clean_up_install:
+  path: /installer/api/clean-up-install
+  controller: OrangeHRM\Installer\Controller\Installer\Api\CleanUpInstallAPI::handle
+  methods: [ POST ]
